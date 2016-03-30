@@ -3,15 +3,15 @@
 
   angular
     .module('nested')
-    .controller('MainController', MainController);
+    .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
+  function LoginController($timeout, webDevTec, toastr) {
     var vm = this;
 
     vm.awesomeThings = [];
     vm.classAnimation = '';
-    vm.creationDate = 1459346086844;
+    vm.creationDate = 1459280115613;
     vm.showToastr = showToastr;
 
     activate();

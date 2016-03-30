@@ -1,13 +1,15 @@
-<md-toolbar layout="row" layout-align="center center">
+<nav class="navbar navbar-static-top navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#/">
+        <span class="glyphicon glyphicon-home"></span> Nested
+      </a>
+    </div>
 
-  <md-button href="https://github.com/Swiip/generator-gulp-angular">Gulp Angular</md-button>
-
-  <section flex layout="row" layout-align="left center">
-    <md-button href="#" class="md-raised">Home</md-button>
-    <md-button href="#" class="md-raised">About</md-button>
-    <md-button href="#" class="md-raised">Contact</md-button>
-  </section>
-
-  <md-button class="acme-navbar-text">Application was created {{ vm.relativeDate }}.</md-button>
-
-</md-toolbar>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+      <ul class="nav navbar-nav">
+        <li><a ng-href="#/login">Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
