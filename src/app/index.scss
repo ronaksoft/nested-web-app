@@ -12,6 +12,9 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // bower:scss
 // endbower
 
+$color-base: #f3fdf7;
+$color-sense-wire: #14D769;
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -25,6 +28,100 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   img.pull-right {
     width: 50px;
   }
+}
+
+body {
+  background-color: $color-base;
+  font-family:  "Open Sans", sans-serif;
+
+}
+
+body, html, div[ui-view] {
+  height: 100%;
+}
+
+*:focus { outline: none; }
+
+
+.panel {
+  background-color: white;
+  margin:auto;
+  border-radius: 7px;
+  border: 1px solid #ced9d3;
+  //padding: 25px 15px 25px 15px;
+  box-shadow: 1px 1px 1px 1px #ced9d3;
+
+}
+
+.nst-green {
+  color: $color-sense-wire;
+}
+
+.panel a {
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.panel h1 {
+  font-size: 22px;
+}
+
+.rightHead {
+  text-align: right;
+  color: #c7c7c7;
+  font-size: 12px;
+  font-variant: normal;
+  font-weight: normal;
+  //width:250px;
+}
+
+.pHead .h1 {
+  width:400px;
+}
+
+.btn {
+  background-color :#14D769;
+  color:white;
+}
+
+input[type='checkbox'] {
+  /* 	margin-right: 3px; */
+  vertical-align: middle;
+  opacity: 0;
+  height: 16px;
+  width: 17px;
+  position: absolute;
+  top: 0;
+  left:0;
+  z-index: 999;
+
+}
+
+input[type='checkbox'] + label{
+  background:url('../assets/images/UncheckedSquare.png') ;
+  vertical-align: middle;
+  height: 16px;
+  width: 17px;
+  padding: 0 0 0 0px;
+  position: absolute;
+  top: 0;
+  left: 4;
+
+}
+
+input[type='checkbox']:checked + label{
+  background:url('../assets/images/CheckedSquare.png') ;
+  height: 16px;
+  width: 17px;
+  padding: 0 0 0 0px;
+
+}
+
+.nested-cc {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /**
