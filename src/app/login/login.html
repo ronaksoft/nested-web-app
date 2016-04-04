@@ -1,32 +1,43 @@
-<div class="container">
-  <div class="row vertical-offset-100">
-    <div class="col-md-4 col-md-offset-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Sign In</h3>
+<div class="nst-vc">
+  <div class="panel">
+    <div class="panel-heading">
+      <div class="row nst-vc">
+        <div class=" col-lg-7">
+          <p>Sign in</p>
         </div>
-        <div class="panel-body">
-          <form accept-charset="UTF-8" role="form"
-                ng-controller="LoginController" ng-submit="login(credentials)">
-            <fieldset>
-              <div class="form-group">
-                <input class="form-control" placeholder="Username" name="username" type="text"
-                       ng-model="credentials.username">
-              </div>
-              <div class="form-group">
-                <input class="form-control" placeholder="Password" name="password" type="password" value=""
-                       ng-model="credentials.password">
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input name="remember" type="checkbox" value="Remember Me"> Remember Me
-                </label>
-              </div>
-              <input class="btn btn-lg btn-success btn-block" type="submit" value="Sign In">
-            </fieldset>
-          </form>
-        </div>
+        <p class=" col-lg-6">or <a class="nst-green" href="#/signup">Create an account</a></p>
       </div>
+    </div>
+    <div id="panel-signin" class="panel-body">
+      <form accept-charset="UTF-8" role="form"
+            ng-controller="LoginController" ng-submit="login(credentials)">
+        <fieldset>
+          <div class="form-group">
+            <input class="form-control" placeholder="username" name="username" type="text"
+                   ng-model="credentials.username">
+          </div>
+          <div class="form-group has-feedback">
+            <input type="password" class="form-control" placeholder="password"/>
+            <i class="nst-ico-eye-slash form-control-feedback"></i>
+            <!--<img class="form-control-feedback " src="../assets/images/password.png">-->
+          </div>
+          <div class="form-group">
+            <input class="btn btn-lg  btn-block" type="submit" value="Sign In">
+          </div>
+          <div class="checkboxHlder">
+            <div class="row nst-vc">
+              <div class="chkHolder col-md-5">
+                <div class="checkboxWrapper">
+                  <input type='checkbox' name='stay_login' value='stay_login'/>
+                  <label></label>
+                </div>
+                <span class="checkboxSpan ">stay sign in</span>
+              </div>
+              <a class="nst-green col-md-7" href="#/forgot-password">Forgot Password ?</a>
+            </div>
+          </div>
+        </fieldset>
+      </form>
     </div>
   </div>
 </div>

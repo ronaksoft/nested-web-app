@@ -14,6 +14,12 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 
 $color-base: #f3fdf7;
 $color-sense-wire: #14D769;
+$color-force-wire : #ff6463;
+$font-small: 12px;
+$font-medium : 14px;
+$font-large: 16px;
+$font-open-sanse-reg : "Open sans";
+
 
 .browsehappy {
   margin: 0.2em 0;
@@ -40,30 +46,61 @@ body, html, div[ui-view] {
   height: 100%;
 }
 
+.nst-green {
+  color: $color-sense-wire;
+}
+.nst-hc {
+  display: flex;
+  justify-content: center;
+
+}
+
+.nst-vc {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 *:focus { outline: none; }
 
+input[type="text"], input[type="password"] {
+  height: 40px;
+}
 
 .panel {
   background-color: white;
   margin:auto;
   border-radius: 7px;
   border: 1px solid #ced9d3;
-  //padding: 25px 15px 25px 15px;
+  padding: 25px 15px 25px 15px;
   box-shadow: 1px 1px 1px 1px #ced9d3;
 
+
+}
+.panel-heading p:nth-child(2) {
+  font-size: $font-small;
+  text-align: right;
+  color: #c7c7c7;
+  font-size: 12px;
+  font-variant: normal;
+  font-weight: normal;
 }
 
-.nst-green {
-  color: $color-sense-wire;
-}
+
 
 .panel a {
   text-decoration: none;
   font-size: 12px;
+
 }
 
-.panel h1 {
+.panel p{
   font-size: 22px;
+
+}
+.rightHead p {
+  font-size: 12px;
+
 }
 
 .rightHead {
@@ -72,16 +109,18 @@ body, html, div[ui-view] {
   font-size: 12px;
   font-variant: normal;
   font-weight: normal;
-  //width:250px;
-}
 
-.pHead .h1 {
-  width:400px;
 }
 
 .btn {
   background-color :#14D769;
   color:white;
+  height: 40px;
+  border: 1px solid #00B45A;
+  border-radius: 6px;
+  outline:none;
+  font-size: $font-small;
+
 }
 
 input[type='checkbox'] {
@@ -97,8 +136,8 @@ input[type='checkbox'] {
 
 }
 
-input[type='checkbox'] + label{
-  background:url('../assets/images/UncheckedSquare.png') ;
+input[type='checkbox'] + label {
+  background:url('../assets/icons/UncheckedSquare.png') ;
   vertical-align: middle;
   height: 16px;
   width: 17px;
@@ -106,24 +145,42 @@ input[type='checkbox'] + label{
   position: absolute;
   top: 0;
   left: 4;
-
 }
 
-input[type='checkbox']:checked + label{
-  background:url('../assets/images/CheckedSquare.png') ;
+input[type='checkbox']:checked + label {
+  background:url('../assets/icons/CheckedSquare.png') ;
   height: 16px;
   width: 17px;
   padding: 0 0 0 0px;
+}
+
+.nst-ico-eye {
+  background: url("../assets/icons/eye.png") ;
+}
+
+.nst-ico-eye-slash {
+  background: url("../assets/icons/eye-slash.png") ;
+}
+
+
+.checkboxWrapper {
+  position: relative;
+}
+
+#panel-signin {
+  width:350px;
+  height:288px;
 
 }
 
-.nested-cc {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+.chkHolder span {
+  margin-left: 20px;
+  text-align: left;
 
+}
+.chkHolder a{
+  text-align: right;
+}
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically
