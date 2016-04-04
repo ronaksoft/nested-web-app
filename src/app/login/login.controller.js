@@ -6,34 +6,21 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($timeout, webDevTec, toastr) {
-    var vm = this;
+  function LoginController($scope, $rootScope, AUTH_EVENTS, AuthService) {
+    $scope.credentials = {
+      username: '',
+      password: ''
+    };
 
-    vm.awesomeThings = [];
-    vm.classAnimation = '';
-    vm.creationDate = 1459280115613;
-    vm.showToastr = showToastr;
-
-    activate();
-
-    function activate() {
-      getWebDevTec();
-      $timeout(function() {
-        vm.classAnimation = 'rubberBand';
-      }, 4000);
-    }
-
-    function showToastr() {
-      toastr.info('Fork <a href="https://github.com/Swiip/generator-gulp-angular" target="_blank"><b>generator-gulp-angular</b></a>');
-      vm.classAnimation = '';
-    }
-
-    function getWebDevTec() {
-      vm.awesomeThings = webDevTec.getTec();
-
-      angular.forEach(vm.awesomeThings, function(awesomeThing) {
-        awesomeThing.rank = Math.random();
-      });
-    }
+    $scope.login = function (credentials) {
+      AuthService.login(credentials).then(
+        function () {
+          // $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+        },
+        function () {
+          $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+        }
+      );
+    };
   }
 })();
