@@ -34,6 +34,7 @@ $color-wind: #a6b9af;
 $color-storm: #869d91;
 $color-hurricane: #476152;
 
+
 $font-size-small: 12px;
 $font-size-medium: 14px;
 $font-size-large: 16px;
@@ -41,6 +42,8 @@ $font-size-xlarge: 22px;
 
 $font-family-eng-reg: "Open sans";
 $font-family-eng-bold: "Open sans";
+
+
 $font-family-per-reg: "Open sans";
 $font-family-per-bold: "Open sans";
 
@@ -104,9 +107,14 @@ input[type="checkbox"] + label {
   padding: 0 0 0 17px;
 }
 
-input[type=checkbox]:checked + label {
+input[type="checkbox"]:checked + label {
   background-position-y: -16px;
 }
+
+//@font-face {
+//  font-family: ?;
+//  src: url(???);
+//}
 
 /**
   *********************************
@@ -128,6 +136,10 @@ input[type=checkbox]:checked + label {
 }
 
 .form-control:focus {
+  border: 2px solid $color-solid;
+  box-shadow: none;
+}
+.btn:focus {
   border: 2px solid $color-solid;
   box-shadow: none;
 }
@@ -161,7 +173,15 @@ input[type=checkbox]:checked + label {
   color: white;
   height: 40px;
   border-radius: 6px;
-  outline: none;
+  outline-color: none;
+}
+
+label {
+  font-weight: normal;
+}
+
+.form-control-feedback {
+  top: 4px;
 }
 
 /**
@@ -169,6 +189,22 @@ input[type=checkbox]:checked + label {
   *     Nested Classes            *
   *********************************
  */
+.nst-font-small {
+  font-size: $font-size-small;
+}
+.nst-font-medium {
+  font-size: $font-size-medium;
+}
+.nst-font-large {
+  font-size: $font-size-large;
+}
+
+.nst-font-xlarge {
+  font-size: $font-size-xlarge;
+}
+
+
+
 
 /**
   *********************************
@@ -268,8 +304,8 @@ input[type=checkbox]:checked + label {
  */
 
 #panel-signin {
-  width: 345px;
-  height: 350px;
+  width: 354px;
+  height: 336px;
 }
 
 /**
@@ -295,15 +331,12 @@ input[type=checkbox]:checked + label {
   padding: 10px 15px;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
-
-}
-.chkHolder a{
-  text-align: right;
 }
 
 .rightLink {
   text-align: right;
 }
+
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
  *  all your sass files automatically
