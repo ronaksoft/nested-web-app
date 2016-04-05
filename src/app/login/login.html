@@ -1,11 +1,9 @@
 <div class="nst-vc">
   <div class="panel">
     <div class="panel-heading">
-      <div class="row nst-vc">
-        <div class=" col-lg-7">
-          <p>Sign in</p>
-        </div>
-        <p class=" col-lg-6">or <a class="nst-green" href="#/signup">Create an account</a></p>
+      <div class="row nst-vb">
+        <p class="col-lg-6">Sign in</p>
+        <p class="col-lg-6 text-right nst-mood-calm">or <a class="nst-mood-cheerful" href="#/signup">Create an account</a></p>
       </div>
     </div>
     <div id="panel-signin" class="panel-body">
@@ -13,28 +11,26 @@
             ng-controller="LoginController" ng-submit="login(credentials)">
         <fieldset>
           <div class="form-group">
-            <input class="form-control" placeholder="username" name="username" type="text"
-                   ng-model="credentials.username">
+            <input type="text" class="form-control" placeholder="username" name="username"
+                   ng-model="credentials.username"/>
           </div>
+
           <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="password"/>
+            <input type="password" class="form-control" placeholder="password" name="password"
+                   ng-model="credentials.password"/>
             <i class="nst-ico-eye-slash form-control-feedback"></i>
-            <!--<img class="form-control-feedback " src="../assets/images/password.png">-->
           </div>
+
           <div class="form-group">
-            <input class="btn btn-lg  btn-block" type="submit" value="Sign In">
+            <input class="btn btn-lg btn-block" type="submit" value="Sign in">
           </div>
-          <div class="checkboxHlder">
-            <div class="row nst-vc">
-              <div class="chkHolder col-md-5">
-                <div class="checkboxWrapper">
-                  <input type='checkbox' name='stay_login' value='stay_login'/>
-                  <label></label>
-                </div>
-                <span class="checkboxSpan ">stay sign in</span>
-              </div>
-              <a class="nst-green col-md-7" href="#/forgot-password">Forgot Password ?</a>
+
+          <div class="form-group">
+            <div class="col-lg-6 text-left">
+              <input type="checkbox" id="remember" name="remember" value="remember"/>
+              <label for="remember">Stay signed in</label>
             </div>
+            <a class="col-lg-6 text-right nst-mood-cheerful" href="#/forgot-password">Forgot Password?</a>
           </div>
         </fieldset>
       </form>

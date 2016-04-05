@@ -12,14 +12,35 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // bower:scss
 // endbower
 
-$color-base: #f3fdf7;
-$color-sense-wire: #14D769;
-$color-force-wire : #ff6463;
-$font-small: 12px;
-$font-medium : 14px;
-$font-large: 16px;
-$font-open-sanse-reg : "Open sans";
+/**
+  *********************************
+  *     Variables                 *
+  *********************************
+ */
 
+$color-solid: #000;
+$color-sense: #14d769;
+$color-sense-wire: #00b45a;
+$color-sense-5: #f3fdf7;
+$color-sense-50: #83d8ad;
+$color-solid-30: #b2b2b2;
+$color-solid-60: #666666;
+$color-force: #ff8264;
+$color-force-wire: #ff6463;
+$color-calm: #f0f5f2;
+$color-breeze: #ced9d3;
+$color-wind: #a6b9af;
+$color-storm: #869d91;
+$color-hurricane: #476152;
+
+$font-size-small: 12px;
+$font-size-medium: 14px;
+$font-size-large: 16px;
+
+$font-family-eng-reg: "Open sans";
+$font-family-eng-bold: "Open sans";
+$font-family-per-reg: "Open sans";
+$font-family-per-bold: "Open sans";
 
 .browsehappy {
   margin: 0.2em 0;
@@ -36,142 +57,226 @@ $font-open-sanse-reg : "Open sans";
   }
 }
 
+/**
+  *********************************
+  *     General Hacks             *
+  *********************************
+ */
+
 body {
-  background-color: $color-base;
+  background-color: $color-sense-5;
   font-family:  "Open Sans", sans-serif;
-
 }
 
-body, html, div[ui-view] {
+body,
+html,
+*[ui-view] {
   height: 100%;
 }
 
-.nst-green {
-  color: $color-sense-wire;
-}
-.nst-hc {
-  display: flex;
-  justify-content: center;
-
+*:focus {
+  outline: none;
 }
 
-.nst-vc {
-  display: flex;
-  align-items: center;
-  height: 100%;
-}
-
-*:focus { outline: none; }
-
-input[type="text"], input[type="password"] {
+input[type="text"],
+input[type="password"] {
   height: 40px;
 }
 
+input,
+button,
+select,
+textarea {
+  border: 1px solid $color-breeze;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label {
+  background: url('../assets/icons/unchecked-square.png') no-repeat;
+  display: inline-block;
+  min-height: 16px;
+  min-width: 17px;
+  padding: 0 0 0 17px;
+}
+
+input[type=checkbox]:checked + label {
+  background: url('../assets/icons/checked-square.png') no-repeat;
+}
+
+/**
+  *********************************
+  *     Bootstrap Overrides       *
+  *********************************
+ */
+
 .panel {
   background-color: white;
-  margin:auto;
+  margin: auto;
   border-radius: 7px;
-  border: 1px solid #ced9d3;
+  border: 1px solid $color-breeze;
   padding: 25px 15px 25px 15px;
-  box-shadow: 1px 1px 1px 1px #ced9d3;
-
-
-}
-.panel-heading p:nth-child(2) {
-  font-size: $font-small;
-  text-align: right;
-  color: #c7c7c7;
-  font-size: 12px;
-  font-variant: normal;
-  font-weight: normal;
+  box-shadow: 1px 1px 1px 1px $color-breeze;
 }
 
+.form-control {
+  border: 1px solid $color-breeze;
+}
 
+.form-control:focus {
+  border: 2px solid $color-solid;
+  box-shadow: none;
+}
+
+.form-control::-webkit-input-placeholder {
+  color: $color-wind;
+}
+
+.form-control:-moz-placeholder {
+  color: $color-wind;
+}
+
+.form-control::-moz-placeholder {
+  color: $color-wind;
+}
+
+.form-control:-ms-input-placeholder {
+  color: $color-wind;
+}
 
 .panel a {
   text-decoration: none;
   font-size: 12px;
-
-}
-
-.panel p{
-  font-size: 22px;
-
-}
-.rightHead p {
-  font-size: 12px;
-
-}
-
-.rightHead {
-  text-align: right;
-  color: #c7c7c7;
-  font-size: 12px;
-  font-variant: normal;
-  font-weight: normal;
-
 }
 
 .btn {
-  background-color :#14D769;
-  color:white;
+  background-color: $color-sense;
+  font-size: $font-size-small;
+  font-weight: bold;
+  border: 1px solid $color-sense-wire;
+  color: white;
   height: 40px;
-  border: 1px solid #00B45A;
   border-radius: 6px;
-  outline:none;
-  font-size: $font-small;
-
+  outline: none;
 }
 
-input[type='checkbox'] {
-  /* 	margin-right: 3px; */
-  vertical-align: middle;
-  opacity: 0;
-  height: 16px;
-  width: 17px;
-  position: absolute;
-  top: 0;
-  left:0;
-  z-index: 999;
+/**
+  *********************************
+  *     Nested Classes            *
+  *********************************
+ */
 
+/**
+  *********************************
+  *     Nested Classes - Colors   *
+  *********************************
+ */
+
+.nst-mood-simple {
+  color: $color-solid-60;
 }
 
-input[type='checkbox'] + label {
-  background:url('../assets/icons/UncheckedSquare.png') ;
-  vertical-align: middle;
-  height: 16px;
-  width: 17px;
-  padding: 0 0 0 0px;
-  position: absolute;
-  top: 0;
-  left: 4;
+.nst-mood-calm {
+  color: $color-storm;
 }
 
-input[type='checkbox']:checked + label {
-  background:url('../assets/icons/CheckedSquare.png') ;
-  height: 16px;
-  width: 17px;
-  padding: 0 0 0 0px;
+.nst-mood-cheerful {
+  color: $color-sense-wire;
 }
+
+.nst-mood-lively {
+  color: $color-force-wire;
+}
+
+/**
+  *********************************
+  *     Nested Classes - Layouts  *
+  *********************************
+ */
+
+.nst-hs {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nst-hc {
+  display: flex;
+  justify-content: center;
+}
+
+.nst-he {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nst-vs {
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.nst-vc {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nst-vb {
+  height: 100%;
+  display: flex;
+  align-items: baseline;
+}
+
+.nst-ve {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+/**
+  *********************************
+  *     Nested Classes - Icons    *
+  *********************************
+ */
 
 .nst-ico-eye {
-  background: url("../assets/icons/eye.png") ;
+  background: url("../assets/icons/eye.png");
 }
 
 .nst-ico-eye-slash {
-  background: url("../assets/icons/eye-slash.png") ;
+  background: url("../assets/icons/eye-slash.png");
 }
 
+/**
+  *****************************************
+  *     Nested Classes - Page Specific    *
+  *****************************************
+ */
 
-.checkboxWrapper {
-  position: relative;
-}
+/**
+  *************************************************
+  *     Nested Classes - Page Specific - Login    *
+  *************************************************
+ */
 
 #panel-signin {
-  width:350px;
-  height:288px;
-
+  width: 350px;
+  height: 288px;
 }
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Reset Password    *
+  **********************************************************
+ */
+
+/**
+  *********************************
+  *     Unknown                   *
+  *********************************
+ */
 
 .chkHolder span {
   margin-left: 20px;
