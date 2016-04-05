@@ -95,15 +95,15 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"] + label {
-  background: url('../assets/icons/unchecked-square.png') no-repeat;
   display: inline-block;
-  min-height: 16px;
+  background: url('../assets/icons/controls.png') no-repeat;
+  height: 16px;
   min-width: 17px;
   padding: 0 0 0 17px;
 }
 
 input[type=checkbox]:checked + label {
-  background: url('../assets/icons/checked-square.png') no-repeat;
+  background-position-y: -16px;
 }
 
 /**
@@ -241,12 +241,16 @@ input[type=checkbox]:checked + label {
   *********************************
  */
 
+.nst-ico-eye, .nst-ico-eye-slash {
+  background: url("../assets/icons/form.png") no-repeat;
+  height: 32px;
+}
+
 .nst-ico-eye {
-  background: url("../assets/icons/eye.png");
+  background-position: 0 -64px;
 }
 
 .nst-ico-eye-slash {
-  background: url("../assets/icons/eye-slash.png");
 }
 
 /**
