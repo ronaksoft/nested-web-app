@@ -34,7 +34,6 @@ $color-wind: #a6b9af;
 $color-storm: #869d91;
 $color-hurricane: #476152;
 
-
 $font-size-small: 12px;
 $font-size-medium: 14px;
 $font-size-large: 16px;
@@ -42,8 +41,6 @@ $font-size-xlarge: 22px;
 
 $font-family-eng-reg: "Open sans";
 $font-family-eng-bold: "Open sans";
-
-
 $font-family-per-reg: "Open sans";
 $font-family-per-bold: "Open sans";
 
@@ -108,7 +105,7 @@ input[type="checkbox"] + label {
 }
 
 input[type="checkbox"]:checked + label {
-  background-position-y: -16px;
+  background-position: 0 -16px;
 }
 
 //@font-face {
@@ -135,10 +132,7 @@ input[type="checkbox"]:checked + label {
   border: 1px solid $color-breeze;
 }
 
-.form-control:focus {
-  border: 2px solid $color-solid;
-  box-shadow: none;
-}
+.form-control:focus,
 .btn:focus {
   border: 2px solid $color-solid;
   box-shadow: none;
@@ -189,6 +183,13 @@ label {
   *     Nested Classes            *
   *********************************
  */
+
+/**
+  *************************************
+  *     Nested Classes - Typography   *
+  *************************************
+ */
+
 .nst-font-small {
   font-size: $font-size-small;
 }
@@ -202,9 +203,6 @@ label {
 .nst-font-xlarge {
   font-size: $font-size-xlarge;
 }
-
-
-
 
 /**
   *********************************
