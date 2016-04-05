@@ -12,6 +12,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // bower:scss
 // endbower
 
+
 /**
   *********************************
   *     Variables                 *
@@ -36,6 +37,7 @@ $color-hurricane: #476152;
 $font-size-small: 12px;
 $font-size-medium: 14px;
 $font-size-large: 16px;
+$font-size-xlarge: 22px;
 
 $font-family-eng-reg: "Open sans";
 $font-family-eng-bold: "Open sans";
@@ -148,7 +150,7 @@ input[type=checkbox]:checked + label {
 
 .panel a {
   text-decoration: none;
-  font-size: 12px;
+  font-size: $font-size-small;
 }
 
 .btn {
@@ -266,8 +268,8 @@ input[type=checkbox]:checked + label {
  */
 
 #panel-signin {
-  width: 350px;
-  height: 288px;
+  width: 345px;
+  height: 350px;
 }
 
 /**
@@ -276,6 +278,11 @@ input[type=checkbox]:checked + label {
   **********************************************************
  */
 
+#panel-reset {
+  width: 350px;
+  height: 345px;
+}
+
 /**
   *********************************
   *     Unknown                   *
@@ -283,11 +290,18 @@ input[type=checkbox]:checked + label {
  */
 
 .chkHolder span {
-  margin-left: 20px;
+  margin-left: 3px;
   text-align: left;
+  padding: 10px 15px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
 
 }
 .chkHolder a{
+  text-align: right;
+}
+
+.rightLink {
   text-align: right;
 }
 /**
