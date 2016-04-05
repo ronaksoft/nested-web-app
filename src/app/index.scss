@@ -18,6 +18,7 @@ $color-force-wire : #ff6463;
 $font-small: 12px;
 $font-medium : 14px;
 $font-large: 16px;
+$font-xlarge :22px;
 $font-open-sanse-reg : "Open sans";
 
 
@@ -63,6 +64,10 @@ body, html, div[ui-view] {
 
 *:focus { outline: none; }
 
+p {
+  font-size: $font-small;
+}
+
 input[type="text"], input[type="password"] {
   height: 40px;
 }
@@ -81,7 +86,7 @@ input[type="text"], input[type="password"] {
   font-size: $font-small;
   text-align: right;
   color: #c7c7c7;
-  font-size: 12px;
+  font-size: $font-small;
   font-variant: normal;
   font-weight: normal;
 }
@@ -90,12 +95,12 @@ input[type="text"], input[type="password"] {
 
 .panel a {
   text-decoration: none;
-  font-size: 12px;
+  font-size: $font-small;
 
 }
 
 .panel p{
-  font-size: 22px;
+  font-size: $font-xlarge;
 
 }
 .rightHead p {
@@ -168,17 +173,28 @@ input[type='checkbox']:checked + label {
 }
 
 #panel-signin {
-  width:350px;
-  height:288px;
+  width: 345px;
+  height: 350px;
 
+}
+#panel-reset {
+  width: 350px;
+  height: 345px;
 }
 
 .chkHolder span {
-  margin-left: 20px;
+  margin-left: 3px;
   text-align: left;
+  padding: 10px 15px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
 
 }
 .chkHolder a{
+  text-align: right;
+}
+
+.rightLink {
   text-align: right;
 }
 /**
