@@ -273,6 +273,19 @@ label {
   align-items: flex-end;
 }
 
+.no-gutter [class*="col-"] {
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
+
+.no-gutter [class*="col-"]:first-child {
+  padding-left: 15px;
+}
+
+.no-gutter [class*="col-"]:last-child {
+  padding-right: 15px;
+}
+
 /**
   *********************************
   *     Nested Classes - Icons    *
