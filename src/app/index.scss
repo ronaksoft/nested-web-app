@@ -114,6 +114,9 @@ input[type="checkbox"] + label {
 input[type="checkbox"]:checked + label {
   background-position: 0 -16px;
 }
+a {
+  text-decoration: none;
+}
 
 /**
   *********************************
@@ -336,6 +339,47 @@ label {
 }
 .msg-panel {
   height: 100px;
+}
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Navigation bar    *
+  **********************************************************
+ */
+.navbar-header a {
+  color: $color-wind;
+  text-decoration: none;
+  padding: 15px 25px;
+}
+.navbar-button a {
+  color: $color-solid;
+  text-decoration: none;
+
+}
+.navbar-header #ul-border :hover {
+  border-top: 4px solid black;
+  color: black;
+}
+.navbar-default {
+  background-color: white;  //it must change to sass!!
+  height:100px;
+  border-color: $color-sense;
+}
+#header {
+  border-bottom: 1px solid $color-wind;
+  width: 100%;
+}
+
+#logo img {
+  height:48px;
+  width:48px;
+}
+#logotype img {
+  height: 32px;
+}
+nav .btn {
+  height: 30px;
+  width: 128px;
 }
 
 /**
