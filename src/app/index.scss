@@ -67,7 +67,7 @@ $font-family-per-bold: "Open sans";
 
 body {
   background-color: $color-sense-5;
-  font-family:  "Open Sans", sans-serif;
+  font-family: OpenSans;
 }
 
 body,
@@ -79,7 +79,9 @@ html,
 *:focus {
   outline: none;
 }
-
+a:hover {
+  color:#00b45a;
+}
 input[type="text"],
 input[type="password"] {
   height: 40px;
@@ -107,11 +109,6 @@ input[type="checkbox"] + label {
 input[type="checkbox"]:checked + label {
   background-position: 0 -16px;
 }
-
-//@font-face {
-//  font-family: ?;
-//  src: url(???);
-//}
 
 /**
   *********************************
@@ -161,13 +158,13 @@ input[type="checkbox"]:checked + label {
 
 .btn {
   background-color: $color-sense;
-  font-size: $font-size-small;
+  font-size: $font-size-medium;
   font-weight: bold;
   border: 1px solid $color-sense-wire;
   color: white;
   height: 40px;
   border-radius: 6px;
-  outline-color: none;
+
 }
 
 label {
@@ -189,6 +186,19 @@ label {
   *     Nested Classes - Typography   *
   *************************************
  */
+@font-face {
+  font-family: OpenSans-Regular;
+  src: url("../assets/fonts/OpenSans-Regular.woff");
+}
+@font-face {
+  font-family: OpenSans-Bold;
+  src: url("../assets/fonts/OpenSans-Bold.woff");
+}
+@font-face {
+  font-family: OpenSans-Semibold;
+  src: url("../assets/fonts/OpenSans-Semibold.woff");
+}
+
 
 .nst-font-small {
   font-size: $font-size-small;
@@ -283,6 +293,9 @@ label {
 .no-gutter [class*="col-"]:last-child {
   padding-right: 15px;
 }
+.nst-margin-auto {
+  margin: auto;
+}
 
 /**
   *********************************
@@ -329,6 +342,9 @@ label {
   width: 350px;
   height: 345px;
 }
+.msg-panel {
+  height: 130px;
+}
 
 /**
   *********************************
@@ -347,6 +363,8 @@ label {
 .rightLink {
   text-align: right;
 }
+
+
 
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
