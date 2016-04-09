@@ -12,6 +12,11 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // bower:scss
 // endbower
 
+@import "mixin.scss";
+
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular");
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900);
 
 /**
   *********************************
@@ -39,10 +44,10 @@ $font-size-medium: 14px;
 $font-size-large: 16px;
 $font-size-xlarge: 22px;
 
-$font-family-eng-reg: "Open sans";
-$font-family-eng-bold: "Open sans";
-$font-family-per-reg: "Open sans";
-$font-family-per-bold: "Open sans";
+$font-family-eng-reg: "OpenSans";
+$font-family-eng-bold: "OpenSans";
+$font-family-per-reg: "OpenSans";
+$font-family-per-bold: "OpenSans";
 
 .browsehappy {
   margin: 0.2em 0;
@@ -67,7 +72,7 @@ $font-family-per-bold: "Open sans";
 
 body {
   background-color: $color-sense-5;
-  font-family: OpenSans;
+  font-family: $font-family-eng-reg;
 }
 
 body,
@@ -186,19 +191,6 @@ label {
   *     Nested Classes - Typography   *
   *************************************
  */
-@font-face {
-  font-family: OpenSans-Regular;
-  src: url("../assets/fonts/OpenSans-Regular.woff");
-}
-@font-face {
-  font-family: OpenSans-Bold;
-  src: url("../assets/fonts/OpenSans-Bold.woff");
-}
-@font-face {
-  font-family: OpenSans-Semibold;
-  src: url("../assets/fonts/OpenSans-Semibold.woff");
-}
-
 
 .nst-font-small {
   font-size: $font-size-small;
@@ -343,7 +335,7 @@ label {
   height: 345px;
 }
 .msg-panel {
-  height: 130px;
+  height: 100px;
 }
 
 /**
