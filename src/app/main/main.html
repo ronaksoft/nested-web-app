@@ -1,17 +1,14 @@
 <div class="container">
-
-  <div>
-    <acme-navbar creation-date="main.creationDate"></acme-navbar>
-  </div>
-
   <div class="jumbotron text-center">
-    <h1>'Allo, 'Allo!</h1>
+    <h1>NESTED</h1>
     <p class="lead">
-      <img src="assets/images/yeoman.png" alt="I'm Yeoman"><br>
-      Always a pleasure scaffolding your apps.
+      <div class="row">
+        <img src="assets/images/nested-logo.png" alt="Nested">
+        <img src="assets/images/nested-logotype.png" alt="Nested">
+      </div>
     </p>
     <p class="animated infinite" ng-class="main.classAnimation">
-      <button type="button" class="btn btn-lg btn-success" ng-click="main.showToastr()">Splendid Toastr</button>
+      <a type="button" class="btn btn-lg btn-success" href="#/signin">Sign In</a>
     </p>
     <p>
       With ♥ thanks to the contributions of<acme-malarkey extra-values="['Yeoman', 'Gulp', 'Angular']"></acme-malarkey>
