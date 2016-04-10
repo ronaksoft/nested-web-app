@@ -3,17 +3,17 @@
 
   angular
     .module('nested')
-    .directive('nestedNavbar', nestedNavbar);
+    .directive('nestedSidebar', nestedSidebar);
 
   /** @ngInject */
-  function nestedNavbar() {
+  function nestedSidebar() {
     var directive = {
       restrict: 'E',
-      templateUrl: 'app/components/navbar/navbar.html',
+      templateUrl: 'app/components/sidebar/sidebar.html',
       scope: {
           creationDate: '='
       },
-      controller: NavbarController,
+      controller: SidebarController,
       controllerAs: 'vm',
       bindToController: true
     };
@@ -21,7 +21,7 @@
     return directive;
 
     /** @ngInject */
-    function NavbarController(moment) {
+    function SidebarController(moment) {
       var vm = this;
 
       // "vm.creation" is avaible by directive option "bindToController: true"
