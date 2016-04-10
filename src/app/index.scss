@@ -69,7 +69,9 @@ $font-family-per-bold: "OpenSans";
   *     General Hacks             *
   *********************************
  */
-
+a {
+  text-decoration: none;
+}
 body {
   background-color: $color-sense-5;
   font-family: $font-family-eng-reg;
@@ -114,8 +116,16 @@ input[type="checkbox"] + label {
 input[type="checkbox"]:checked + label {
   background-position: 0 -16px;
 }
-a {
-  text-decoration: none;
+
+#viewswitch input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/viewswitch.png') no-repeat;
+  height: 15px;
+  min-width: 48px;
+  padding: 0 0 0 17px;
+}
+#viewswitch input[type="checkbox"]:checked + label {
+  background-position: 0 -15px;
 }
 
 input[type="radio"] {
@@ -204,6 +214,7 @@ input[type="radio"]:checked + label{
   color: white;
   height: 40px;
   border-radius: 6px;
+  line-height: 1.33333;
 }
 
 label {
@@ -418,21 +429,34 @@ label {
   color: $color-wind;
   text-decoration: none;
   padding: 15px 25px;
+  margin-top: 20px;
 }
+
 .navbar-button a {
   color: $color-solid;
   text-decoration: none;
-
+  padding: 10px;
 }
+
 .navbar-header #ul-border :hover {
   border-top: 4px solid black;
   color: black;
 }
+
+.navbar-button #ul-border-button li:hover {
+  border-top: 4px solid $color-sense;
+}
+
+.navbar-button #ul-border-button li:active {
+  color:red;
+}
+
 .navbar-default {
   background-color: white;  //it must change to sass!!
   height:100px;
   border-color: $color-sense;
 }
+
 #header {
   border-bottom: 1px solid $color-wind;
   width: 100%;
@@ -442,13 +466,25 @@ label {
   height:48px;
   width:48px;
 }
+
 #logotype img {
   height: 32px;
 }
+
 nav .btn {
   height: 30px;
   width: 128px;
 }
+
+.search .form-control {
+  width:144px;
+}
+
+.search .input {
+  height:10px;
+  width:50px;
+}
+
 
 /**
   *********************************
