@@ -1,27 +1,27 @@
  <div class="nst-vc ng-scope">
-  <div class="panel">
+  <div  class="panel" id="panel-register">
     <div class="panel-heading">
-      <div class="row nst-vb">
-        <h2>Create an account</h2>
-        <p class="text-right">or <a href="#" class="nst-mood-cheerful">Sign in</a></p>
+      <div class="row nst-vb nst-marginbtm no-gutter2">
+        <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">create an account</p>
+        <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#src/app/login/login.html" class="nst-mood-cheerful">Sign in</a></p>
+      </div>
     </div>
-
-    <div class="">
+    <div class="nst-marginbtm">
       <p>Choose Your Username</p>
     </div>
-    <div class="">
-      <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="username" type="text">
+    <div class="nst-marginbtm">
+      <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="username" type="text" placeholder="@nested.com">
     </div>
-    <div class="">
+    <div class="nst-marginbtm">
       Set New PassWord
     </div>
-    <div class="">
+    <div class="nst-marginbtm">
       <div class="form-group has-feedback">
           <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" placeholder="password" name="password" ng-model="credentials.password" type="password">
           <i class="nst-ico-eye-slash form-control-feedback"></i>
       </div>
     </div>
-    <div class="row no-gutter">
+    <div class="row no-gutter nst-marginbtm">
           <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
             first name
             <input class="form-control ng-pristine ng-untouched ng-valid" name="firstname"  type="text">
@@ -31,52 +31,50 @@
             <input class="form-control ng-pristine ng-untouched ng-valid" name="lastname" type="text">
           </div>
     </div>
-    <div>
+    <div class="nst-marginbtm">
       <p>Set An Email For Recovery</p>
       <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="recoveryemail" type="text">
     </div>
-
+    <div class="form-group"
       <div>
        Gender
      </div>
-      <div class="row">
-      <div class="col-md-6">
-        <input type="radio" name="sex" value="female">
+    <div class="nst-marginbtm">
+      <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
+        <input type="radio" name="sex" value="sex">
         <label></label> Female
       </div>
-      <div class="col-md-6">
-        <input type="radio" name="sex" value="male">
+      <div class="col-md-8 col-sm-8 col-xs-8 col-lg-8">
+        <input type="radio" name="sex" value="sex">
         <label></label> Male
       </div>
     </div>
-     <div class="mb">
+     <div class="nst-marginbtm">
       <p>Mobile Phone</p>
       <input name="mobileNumber" type="number" class="form-control ng-pristine ng-untouched ng-valid">
     </div>
-    <div class="mb">
-      <div>
+    <div class="nst-marginbtm">
         <p>Birthday</p>
-      </div>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <select Value="month">
-          <option value="January">January</option>
-          <option value="February">February</option>
-          <option value="March">March</option>
-          <option value="April">April</option>
-          <option value="May">May</option>
-          <option value="June">June</option>
-          <option value="July">July</option>
-          <option value="August">August</option>
-          <option value="September">September</option>
-          <option value="October">October</option>
-          <option value="November">November</option>
-          <option value="December">December</option>
+    <div class="row no-gutter nst-marginbtm">
+      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <select value="month of birth" class="select-birthday form-control ng-pristine ng-untouched ng-valid">
+          <option><a href="#">January</a></option>
+          <option>February</option>
+          <option>March</option>
+          <option>April</option>
+          <option>May</option>
+          <option>June</option>
+          <option>July</option>
+          <option>August</option>
+          <option>September</option>
+          <option>October</option>
+          <option>November</option>
+          <option>December</option>
         </select>
       </div>
-      <div class="col-md-2">
-        <select value="date of birth">
+      <div class="col-md-2 col-lg-2 col-sm-2 col-xs-2">
+        <select value="date of birth" class="select-birthday form-control ng-pristine ng-untouched ng-valid">
           <option vlaue="1">1</option>
           <option vlaue="2">2</option>
           <option vlaue="3">3</option>
@@ -109,8 +107,8 @@
           <option vlaue="30">30</option>
         </select>
       </div>
-      <div class="col-md-4">
-        <select value="year of birth">
+      <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+        <select value="year of birth" class="select-birthday form-control ng-pristine ng-untouched ng-valid">
           <option vlaue="1964">1964</option>
           <option vlaue="1965">1965</option>
           <option vlaue="1966">1966</option>
@@ -166,11 +164,11 @@
         </select>
       </div>
     </div>
-      <div class="section10">
+      <div class="nst-marginbtm">
         <input id="remember" name="remember" value="remember" type="checkbox">
         <label for="remember">
-          I Agree To The nested<a href="#" class="nst-mood-cheerful">Terms Of Service</a> and <a href="#" class="nst-mood-cheerful">Privacy Policy</a>.
         </label>
+        <p class="nst-font-small">I Agree To The nested<a href="#" class="nst-mood-cheerful">Terms Of Service</a> and <a href="#" class="nst-mood-cheerful">Privacy Policy</a>.</p>
       </div>
       <div>
         <input type="submit" value="Create An Account" class="btn btn-lg btn-block"></input>

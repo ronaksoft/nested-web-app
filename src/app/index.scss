@@ -118,6 +118,38 @@ a {
   text-decoration: none;
 }
 
+input[type="radio"] {
+  opacity:0;
+  height: 16px;
+  width: 16px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+input[type="radio"] + label{
+  background: url('../assets/icons/controls.png') no-repeat;
+  height: 16px;
+  width: 16px;
+  background-position: 0px -48px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+input[type="radio"]:checked + label{
+  background: url('../assets/icons/controls.png') no-repeat;
+  background-position: 0px -64px;
+  height: 16px;
+  width: 17px;
+}
+//@font-face {
+//  font-family: ?;
+//  src: url(???);
+//}
+
 /**
   *********************************
   *     Bootstrap Overrides       *
@@ -172,7 +204,6 @@ a {
   color: white;
   height: 40px;
   border-radius: 6px;
-
 }
 
 label {
@@ -291,6 +322,18 @@ label {
 .nst-margin-auto {
   margin: auto;
 }
+.no-gutter2 [class*="col-"] {
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
+
+.no-gutter2 [class*="col-"]:first-child {
+  padding-left: 0px;
+}
+
+.no-gutter2 [class*="col-"]:last-child {
+  padding-right: 0px;
+}
 
 /**
   *********************************
@@ -316,6 +359,31 @@ label {
   *****************************************
  */
 
+
+/**
+  ****************************************************
+  *     Nested Classes - Page Specific - register    *
+  ****************************************************
+ */
+#panel-register{
+  width:352px;
+  padding:20px 15px 20px 15px;
+  padding: 20px 15px 20px 15px;
+}
+.select-birthday{
+  background-color: #eaffea;
+  width:100%;
+  height:38px;
+}
+.select-birthday option:hover{
+  background-color: #ccffe6;
+}
+.nst-marginbtm{
+  margin-bottom: 15px;
+}
+.nst-font-10{
+  font-size:10px;
+}
 /**
   *************************************************
   *     Nested Classes - Page Specific - Login    *
@@ -399,8 +467,6 @@ nav .btn {
 .rightLink {
   text-align: right;
 }
-
-
 
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
