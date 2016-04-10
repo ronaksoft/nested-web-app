@@ -20,6 +20,11 @@
         controller: 'LoginController',
         controllerAs: 'login'
       })
+      .state('signout', {
+        url: '/signout',
+        controller: 'LogoutController',
+        controllerAs: 'logout'
+      })
       .state('signup', {
         url: '/signup',
         templateUrl: 'app/register/register.html',

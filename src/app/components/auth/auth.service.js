@@ -11,45 +11,69 @@
       notAuthenticated: 'auth-not-authenticated',
       notAuthorized: 'auth-not-authorized'
     })
-    .factory('AuthService', ['$cookieStore', 'WsService', NestedAuth]);
+    .factory('AuthService', NestedAuth);
 
   /** @ngInject */
-  function NestedAuth($cookieStore, WsService) {
-    var authService = {};
+  function NestedAuth($cookies, $window, WsService) {
+    var authService = {
+      user: null,
+      remember: false
+    };
 
-    authService.login = function (credentials) {
-      WsService.stream.onMessage(
-        function (ws) {
-          var response = JSON.parse(ws.data);
-          switch (response.type) {
-            case 'r':
-              switch (response.data.status) {
-                case 'ok':
-                  break;
+    var cLogin = function (data) {
+      if (this.remember) {
+        $cookies.put('nsk', data._sk.$oid);
+        $cookies.put('nss', data._ss);
+      }
 
-                case 'err':
-                  break;
-              }
-              break;
-          }
-        }
-      );
+      // TODO: Pass to user service
+      this.user = data.info;
+      this.user.role = 1;
+      $window.sessionStorage.setItem('nst', this.user);
 
-      return WsService.stream.send(JSON.stringify({
-        type: 'q',
-        _reqid: "REQ" + (new Date()).getTime(),
-        data: {
-          _appid: 'APP_WEB_237400002374',
-          _as: '030c8a3c14bcef61d6adab5cac34cede',
-          cmd: 'login',
-          uid: credentials.username,
-          pass: credentials.password
-        }
-      }));
+      return data;
+    }.bind(authService);
+
+    authService.login = function (credentials, remember) {
+      this.remember = remember;
+      this.logout();
+
+      return WsService.request('login', {
+        uid: credentials.username,
+        pass: credentials.password
+      }).then(cLogin);
+    };
+
+    authService.logout = function () {
+      var unauthorize = function () {
+        this.user = null;
+        delete $window.sessionStorage.removeItem('nst');
+
+        $cookies.remove('nss');
+        $cookies.remove('nsk');
+      }.bind(this);
+
+      unauthorize();
+      return Promise.resolve();
+
+      return WsService.request('logout').then(unauthorize);
     };
 
     authService.isAuthenticated = function () {
-      return !!Session.userId;
+      if (null !== this.user) {
+        return Promise.resolve();
+      } else if ($window.sessionStorage.getItem('nst')) {
+        return Promise.resolve();
+      } else if (!!$cookies.get('nsk') && !!$cookies.get('nss')) {
+        this.remember = true;
+
+        return WsService.request('auth', {
+          _sk: $cookies.get('nsk'),
+          _ss: $cookies.get('nss')
+        }).then(cLogin);
+      } else {
+        return Promise.reject();
+      }
     };
 
     // Access Control
@@ -58,7 +82,7 @@
         authorizedRoles = [authorizedRoles];
       }
 
-      return (authService.isAuthenticated() && authorizedRoles.indexOf(Session.userRole) !== -1);
+      return (authService.isAuthenticated() && authorizedRoles.indexOf(this.user.role) !== -1);
     };
 
     return authService;
