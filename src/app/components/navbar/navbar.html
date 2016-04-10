@@ -1,15 +1,38 @@
-<nav class="navbar navbar-static-top navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#/">
-        <span class="glyphicon glyphicon-home"></span> Nested
-      </a>
-    </div>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-      <ul class="nav navbar-nav">
-        <li><a ng-href="#/signin">Login</a></li>
+<div class="nst-vc">
+  <nav class="navbar navbar-default navbar-fixed-top" id="navigation-bar">
+    <ul class="row">
+      <div class="navbar-header" id="header" >
+        <ul class="list-inline col-xs-3 text-center">
+          <li id="logo"><img src="../assets/images/nested-logo.png" </li>
+          <li id="logotype"><img src="./assets/images/nested-logotype.png" </li>
+        </ul>
+        <ul class="list-inline col-xs-6" id="ul-border">
+          <li><a href="#"> Events </a></li>
+          <li><a href="#"> Places </a></li>
+          <li><a href="#">Calender </a></li>
+        </ul>
+        <ul class="list-inline col-xs-3">
+          <li class="text-left "><p class="nst-mood-cheerful"> Profile Name</p></li>
+          <li class="text-left">
+            <img class="img-circle" src="../assets/images/yeoman.png" height="32" width="32">
+          </li>
+        </ul>
+      </div>
+      <div class="row navbar-button">
+        <ul class=" col-xs-3 text-center">
+          <button class="btn text-center"><a href="#">Compose</a></button>
+        </ul>
+      <ul class="list-inline col-xs-6">
+          <li><a href="#">All</a></li>
+          <li><a href="#">Inbox</a></li>
+          <li><a href="#">Comments</a></li>
+          <li><a href="#">Member Acts</a></li>
+          <li><a href="#">Place Acts</a></li>
+        </ul>
+        <ul class="col-xs-3">
+        <button></button>
+        <input name="search" type="name" placeholder="Search"></input>
       </ul>
-    </div>
-  </div>
-</nav>
+  </nav>
+</div>
