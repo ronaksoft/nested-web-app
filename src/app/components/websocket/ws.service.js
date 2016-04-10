@@ -5,7 +5,8 @@
     .module('nested')
     .constant('MESSAGE_TYPE', {
       quest: 'q',
-      response: 'r'
+      response: 'r',
+      event: 'tl_event'
     })
     .constant('RESPONSE_STATUS', {
       success: 'ok',
@@ -36,22 +37,26 @@
     this.stream = $websocket('wss://ws001.ws.nested.me:443');
 
     this.dispatcher = function (ws) {
-      var response = angular.fromJson(ws.data);
-      var reqId = response._reqid;
+      var data = angular.fromJson(ws.data);
+      var reqId = data._reqid;
 
-      $log.debug(response);
+      $log.debug(data);
       if (this.requests.hasOwnProperty(reqId)) {
-        switch (response.type) {
+        switch (data.type) {
           case MESSAGE_TYPE.response:
-            switch (response.data.status) {
+            switch (data.data.status) {
               case RESPONSE_STATUS.success:
-                this.requests[reqId].resolve(response.data);
+                this.requests[reqId].resolve(data.data);
                 break;
 
               case RESPONSE_STATUS.error:
-                this.requests[reqId].reject(response.data);
+                this.requests[reqId].reject(data.data);
                 break;
             }
+            break;
+
+          case MESSAGE_TYPE.event:
+            // TODO: Iterate on Event Listeners
             break;
         }
       }
@@ -64,7 +69,7 @@
       var reqId = "REQ" + (new Date()).getTime();
       var appId = 'APP_WEB_237400002374';
       var appSecret = '030c8a3c14bcef61d6adab5cac34cede';
-      
+
       var payload = angular.extend(null == data ? {} : data, {
         _appid: appId,
         _as: appSecret,

@@ -6,7 +6,7 @@
 
     beforeEach(module('nested'));
     beforeEach(inject(function(_$controller_) {
-      vm = _$controller_('EventsController');
+      vm = _$controller_('PlacesController');
     }));
   });
 })();

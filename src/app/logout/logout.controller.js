@@ -11,7 +11,7 @@
       function () {
         $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
         $rootScope.$apply(function () {
-          $location.path('/');
+          $location.path('/').replace();
         });
       }
     );
