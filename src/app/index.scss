@@ -35,6 +35,7 @@ $color-force: #ff8264;
 $color-force-wire: #ff6463;
 $color-calm: #f0f5f2;
 $color-breeze: #ced9d3;
+$color-breeze-50: #e8ece9;
 $color-wind: #a6b9af;
 $color-storm: #869d91;
 $color-hurricane: #476152;
@@ -485,6 +486,19 @@ nav .btn {
   width:50px;
 }
 
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Sidebar    *
+  **********************************************************
+ */
+.sidebar {
+  background-color: $color-storm;
+  border-radius: 7px;
+  border: 1px solid $color-breeze;
+  padding: 25px 15px 25px 15px;
+  height: 700px;
+
+}
 
 /**
   *********************************
