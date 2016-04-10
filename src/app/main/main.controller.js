@@ -6,8 +6,14 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, webDevTec, toastr) {
+  function MainController($timeout, webDevTec, toastr, $location, AuthService) {
     var vm = this;
+
+    AuthService.isAuthenticated().then(
+      function () {
+        $location.path('/events');
+      }
+    );
 
     vm.awesomeThings = [];
     vm.classAnimation = '';

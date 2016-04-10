@@ -12,6 +12,11 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // bower:scss
 // endbower
 
+@import "mixin.scss";
+
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular");
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900);
 
 /**
   *********************************
@@ -39,10 +44,10 @@ $font-size-medium: 14px;
 $font-size-large: 16px;
 $font-size-xlarge: 22px;
 
-$font-family-eng-reg: "Open sans";
-$font-family-eng-bold: "Open sans";
-$font-family-per-reg: "Open sans";
-$font-family-per-bold: "Open sans";
+$font-family-eng-reg: "OpenSans";
+$font-family-eng-bold: "OpenSans";
+$font-family-per-reg: "OpenSans";
+$font-family-per-bold: "OpenSans";
 
 .browsehappy {
   margin: 0.2em 0;
@@ -67,7 +72,7 @@ $font-family-per-bold: "Open sans";
 
 body {
   background-color: $color-sense-5;
-  font-family:  "Open Sans", sans-serif;
+  font-family: $font-family-eng-reg;
 }
 
 body,
@@ -79,7 +84,9 @@ html,
 *:focus {
   outline: none;
 }
-
+a:hover {
+  color:#00b45a;
+}
 input[type="text"],
 input[type="password"] {
   height: 40px;
@@ -106,6 +113,9 @@ input[type="checkbox"] + label {
 
 input[type="checkbox"]:checked + label {
   background-position: 0 -16px;
+}
+a {
+  text-decoration: none;
 }
 
 input[type="radio"] {
@@ -151,7 +161,7 @@ input[type="radio"]:checked + label{
   margin: auto;
   border-radius: 7px;
   border: 1px solid $color-breeze;
-  //padding: 25px 15px 25px 15px;
+  padding: 25px 15px 25px 15px;
   box-shadow: 1px 1px 1px 1px $color-breeze;
 }
 
@@ -188,13 +198,12 @@ input[type="radio"]:checked + label{
 
 .btn {
   background-color: $color-sense;
-  font-size: $font-size-small;
+  font-size: $font-size-medium;
   font-weight: bold;
   border: 1px solid $color-sense-wire;
   color: white;
   height: 40px;
   border-radius: 6px;
-  outline-color: none;
 }
 
 label {
@@ -310,6 +319,9 @@ label {
 .no-gutter [class*="col-"]:last-child {
   padding-right: 15px;
 }
+.nst-margin-auto {
+  margin: auto;
+}
 .no-gutter2 [class*="col-"] {
   padding-left: 2.5px;
   padding-right: 2.5px;
@@ -378,8 +390,6 @@ label {
   *************************************************
  */
 
-
-
 #panel-signin {
   width: 354px;
   height: 336px;
@@ -394,6 +404,50 @@ label {
 #panel-reset {
   width: 350px;
   height: 345px;
+}
+.msg-panel {
+  height: 100px;
+}
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Navigation bar    *
+  **********************************************************
+ */
+.navbar-header a {
+  color: $color-wind;
+  text-decoration: none;
+  padding: 15px 25px;
+}
+.navbar-button a {
+  color: $color-solid;
+  text-decoration: none;
+
+}
+.navbar-header #ul-border :hover {
+  border-top: 4px solid black;
+  color: black;
+}
+.navbar-default {
+  background-color: white;  //it must change to sass!!
+  height:100px;
+  border-color: $color-sense;
+}
+#header {
+  border-bottom: 1px solid $color-wind;
+  width: 100%;
+}
+
+#logo img {
+  height:48px;
+  width:48px;
+}
+#logotype img {
+  height: 32px;
+}
+nav .btn {
+  height: 30px;
+  width: 128px;
 }
 
 /**

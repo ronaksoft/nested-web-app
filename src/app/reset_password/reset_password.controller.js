@@ -3,15 +3,17 @@
 
   angular
     .module('nested')
-    .controller('ResetPasswordController', ['$scope', ResetPasswordController]);
+    .controller('ResetPasswordController', ResetPasswordController);
 
   /** @ngInject */
-  function ResetPasswordController($scope) {
-    $scope.msg = {
+  function ResetPasswordController() {
+    var vm = this;
+
+    vm.msg = {
       text: "Enter your username"
     };
 
-    $scope.btn = {
+    vm.btn = {
       text: "Check"
     };
   }
