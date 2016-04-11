@@ -21,8 +21,9 @@
     };
 
     var cLogin = function (data) {
+      $cookies.put('nsk', data._sk.$oid);
+
       if (this.remember) {
-        $cookies.put('nsk', data._sk.$oid);
         $cookies.put('nss', data._ss);
       }
 
@@ -84,6 +85,10 @@
       }
 
       return (authService.isAuthenticated() && authorizedRoles.indexOf(this.user.role) !== -1);
+    };
+
+    authService.getSessionKey = function () {
+      return $cookies.get('nsk');
     };
 
     authService.isAuthenticated();
