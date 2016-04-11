@@ -21,11 +21,13 @@
     return directive;
 
     /** @ngInject */
-    function NavbarController(moment) {
+    function NavbarController(AuthService, md5) {
       var vm = this;
 
-      // "vm.creation" is avaible by directive option "bindToController: true"
-      vm.relativeDate = moment(vm.creationDate).fromNow();
+      vm.user = {
+        fullname: AuthService.user.fname + ' ' + AuthService.user.lname,
+        avatar: 'http://www.gravatar.com/avatar/' + md5.createHash(AuthService.user.email) + '?s=32'
+      };
     }
   }
 

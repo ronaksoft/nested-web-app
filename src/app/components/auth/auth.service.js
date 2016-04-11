@@ -29,7 +29,7 @@
       // TODO: Pass to user service
       this.user = data.info;
       this.user.role = 1;
-      $window.sessionStorage.setItem('nst', this.user);
+      $window.sessionStorage.setItem('nst', angular.toJson(this.user));
 
       return data;
     }.bind(authService);
@@ -63,6 +63,7 @@
       if (null !== this.user) {
         return Promise.resolve();
       } else if ($window.sessionStorage.getItem('nst')) {
+        this.user = angular.fromJson($window.sessionStorage.getItem('nst'));
         return Promise.resolve();
       } else if (!!$cookies.get('nsk') && !!$cookies.get('nss')) {
         this.remember = true;
@@ -84,6 +85,8 @@
 
       return (authService.isAuthenticated() && authorizedRoles.indexOf(this.user.role) !== -1);
     };
+
+    authService.isAuthenticated();
 
     return authService;
   }

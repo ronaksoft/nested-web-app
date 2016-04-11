@@ -12,7 +12,7 @@
     AuthService.isAuthenticated().catch(
       function () {
         $location.search({
-          back: window.location.href
+          back: $location.$$absUrl
         });
         $location.path('/signin');
       }

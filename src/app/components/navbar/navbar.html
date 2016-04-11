@@ -12,12 +12,13 @@
           <li><a href="#">Calender</a></li>
         </ul>
         <ul class="list-inline col-xs-3">
-          <li class="text-left "><p class="nst-mood-cheerful">Profile Name</p></li>
-          <li class="text-left "><a class="nst-mood-cheerful" href="#/signout">Sign Out [Tmp]</a></li>
+          <li class="text-left "><p class="nst-mood-cheerful">{{vm.user.fullname}}</p></li>
 
           <li class="text-left">
-            <img class="img-circle" src="../assets/images/yeoman.png" height="32" width="32">
+            <img class="img-circle" src="{{vm.user.avatar}}" height="32" width="32">
           </li>
+
+          <li class="text-left "><a class="nst-mood-cheerful" href="#/signout">Sign Out [Tmp]</a></li>
         </ul>
       </div>
     </ul>
