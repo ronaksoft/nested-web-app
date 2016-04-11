@@ -87,6 +87,10 @@
       return (authService.isAuthenticated() && authorizedRoles.indexOf(this.user.role) !== -1);
     };
 
+    authService.getSessionKey = function () {
+      return $cookies.get('nsk');
+    };
+
     authService.isAuthenticated();
 
     return authService;
