@@ -21,8 +21,9 @@
     };
 
     var cLogin = function (data) {
+      $cookies.put('nsk', data._sk.$oid);
+
       if (this.remember) {
-        $cookies.put('nsk', data._sk.$oid);
         $cookies.put('nss', data._ss);
       }
 
