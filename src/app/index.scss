@@ -377,15 +377,36 @@ label {
   *     Nested Classes - Component Specific - Navigation Bar    *
   ***************************************************************
  */
+.nested-logo {
+  height:64px;
+  width:208px;
+}
+.nav > li > a {
+  position: relative;
+  display: block;
+   padding: 22px 16px 22px 16px;
+}
+.nav > ul a {
+  padding : 22px 16px 22px 16px;
+}
 
 #header .navbar-center a {
   color: $color-wind;
   text-decoration: none;
-  padding: 15px 25px;
-  // margin-top: 20px;
+  font-size: $font-size-large;
+}
+
+.navbar-center {
+  padding-left:16px;
 }
 #header a:hover {
   color:$color-solid;
+  font-size: 38px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 600;
+  line-height: 1;
+  padding-top: 18px;
 }
 
 #nav-bottom a {
@@ -399,9 +420,12 @@ label {
   padding: 10px;
 }
 
-#ul-border li:hover {
+#ul-border a:hover {
   border-top: 4px solid black;
-  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1;
+  padding-top: 18px;
 }
 
 #nav-bottom #ul-border-button li:hover {
@@ -411,6 +435,8 @@ label {
 
 .navbar-default {
   background-color: white;  //it must change to sass!!
+  padding:0px;
+  margin:0px;
 
 }
 
@@ -436,19 +462,9 @@ label {
   width:50px;
 }
 
-
-#logo img {
-  height:48px;
-  width:48px;
-}
-
-#logotype img {
-  height: 32px;
-}
-
 //testttt:
 body #nav-body {
-  margin-top: 50px;
+  margin-top: 64px;
 }
 
 .divide-nav{
@@ -463,6 +479,38 @@ body #nav-body {
 .navbar-collapse{
   padding-left:0;
 }
+#navbar-left-top {
+  padding: 16px 40px 16px 40px;
+  width:208px;
+  height:64px;
+}
+#navbar-right-top img {
+  margin-left:0px;
+  margin-right:64px;
+  margin-top:16px;
+
+}
+#navbar-right-top p {
+  margin-left:32px;
+  margin-right:8px;
+  margin-top:24px;
+
+}
+#navbar-right-top {
+
+}
+
+.list-inline > li  {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+.menu-links-top {
+  font-size: $font-size-large;
+}
+#ul-border{
+
+}
+
 /**
   *********************************************************
   *     Nested Classes - Component Specific - Side Bar    *
