@@ -21,12 +21,12 @@
     return directive;
 
     /** @ngInject */
-    function NavbarController(AuthService, md5) {
+    function NavbarController(AuthService, StoreService) {
       var vm = this;
 
       vm.user = {
         fullname: AuthService.user.fname + ' ' + AuthService.user.lname,
-        avatar: 'http://www.gravatar.com/avatar/' + md5.createHash(AuthService.user.email) + '?s=32'
+        avatar: StoreService.toUrl(AuthService.user.picture.x32)
       };
     }
   }
