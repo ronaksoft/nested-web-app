@@ -375,56 +375,54 @@ label {
   ***************************************************************
  */
 
-.navbar-header a {
+#header .navbar-center a {
   color: $color-wind;
   text-decoration: none;
   padding: 15px 25px;
   // margin-top: 20px;
 }
+#header a:hover {
+  color:$color-solid;
+}
 
-.navbar-button a {
+#nav-bottom a {
   color: $color-solid;
   text-decoration: none;
   padding: 10px;
 }
+#nav-bottomm a:hover {
+  color: $color-sense;
+  text-decoration: none;
+  padding: 10px;
+}
 
-.navbar-header #ul-border :hover {
+#ul-border li:hover {
   border-top: 4px solid black;
   color: black;
 }
 
-.navbar-button #ul-border-button li:hover {
-  border-top: 4px solid $color-sense;
-}
+#nav-bottom #ul-border-button li:hover {
+  border-bottom: 4px solid $color-sense;
 
-.navbar-button #ul-border-button li:active {
-  color:red;
 }
 
 .navbar-default {
   background-color: white;  //it must change to sass!!
-  height:100px;
-  border-color: $color-sense;
+
 }
 
 #header {
-  border-bottom: 1px solid $color-wind;
-  width: 100%;
+  //border-bottom: 1px solid $color-breeze-50;
 }
+#nav-bottom {
+  border-bottom: 1px solid $color-sense;
 
-#logo img {
-  height:48px;
-  width:48px;
 }
-
-#logotype img {
-  height: 32px;
-}
-
-nav .btn {
-  height: 30px;
-  width: 128px;
-}
+//
+//nav .btn {
+//  height: 30px;
+//  width: 128px;
+//}
 
 .search .form-control {
   width:144px;
@@ -435,6 +433,33 @@ nav .btn {
   width:50px;
 }
 
+
+#logo img {
+  height:48px;
+  width:48px;
+}
+
+#logotype img {
+  height: 32px;
+}
+
+//testttt:
+body #nav-body {
+  margin-top: 50px;
+}
+
+.divide-nav{
+  height: 50px;
+  background-color: #428bca;
+}
+
+.navbar-form {
+  padding-left: 0;
+}
+
+.navbar-collapse{
+  padding-left:0;
+}
 /**
   *********************************************************
   *     Nested Classes - Component Specific - Side Bar    *
