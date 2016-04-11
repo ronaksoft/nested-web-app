@@ -70,11 +70,9 @@ $font-family-per-bold: "OpenSans";
   *     General Hacks             *
   *********************************
  */
-
 a {
   text-decoration: none;
 }
-
 body {
   background-color: $color-sense-5;
   font-family: $font-family-eng-reg;
@@ -364,22 +362,71 @@ label {
 }
 
 /**
-  **********************************************
-  *     Nested Classes - Component Specific    *
-  **********************************************
+  *****************************************
+  *     Nested Classes - Page Specific    *
+  *****************************************
  */
+
 
 /**
-  ***************************************************************
-  *     Nested Classes - Component Specific - Navigation Bar    *
-  ***************************************************************
+  ****************************************************
+  *     Nested Classes - Page Specific - register    *
+  ****************************************************
+ */
+#panel-register{
+  width:352px;
+  padding:20px 15px 20px 15px;
+  padding: 20px 15px 20px 15px;
+}
+.select-birthday{
+  background-color: #eaffea;
+  width:100%;
+  height:38px;
+}
+.select-birthday option:hover{
+  background-color: #ccffe6;
+}
+.nst-marginbtm{
+  margin-bottom: 15px;
+}
+.nst-font-10{
+  font-size:10px;
+}
+/**
+  *************************************************
+  *     Nested Classes - Page Specific - Login    *
+  *************************************************
  */
 
+#panel-signin {
+  width: 354px;
+  height: 336px;
+}
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Reset Password    *
+  **********************************************************
+ */
+
+#panel-reset {
+  width: 350px;
+  height: 345px;
+}
+.msg-panel {
+  height: 100px;
+}
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Navigation bar    *
+  **********************************************************
+ */
 .navbar-header a {
   color: $color-wind;
   text-decoration: none;
   padding: 15px 25px;
-  // margin-top: 20px;
+  margin-top: 20px;
 }
 
 .navbar-button a {
@@ -436,76 +483,26 @@ nav .btn {
 }
 
 /**
-  *********************************************************
-  *     Nested Classes - Component Specific - Side Bar    *
-  *********************************************************
- */
-
-/**
-  *****************************************
-  *     Nested Classes - Page Specific    *
-  *****************************************
- */
-
-
-/**
-  ****************************************************
-  *     Nested Classes - Page Specific - register    *
-  ****************************************************
- */
-#panel-register{
-  width:352px;
-  padding: 20px 15px 20px 15px;
-}
-.select-birthday{
-  background-color: #eaffea;
-  width:100%;
-  height:38px;
-}
-.select-birthday option:hover{
-  background-color: #ccffe6;
-}
-.nst-marginbtm{
-  margin-bottom: 15px;
-}
-.nst-font-10{
-  font-size:10px;
-}
-/**
-  *************************************************
-  *     Nested Classes - Page Specific - Login    *
-  *************************************************
- */
-
-#panel-signin {
-  width: 354px;
-  height: 336px;
-}
-
-/**
-  **********************************************************
-  *     Nested Classes - Page Specific - Reset Password    *
-  **********************************************************
- */
-
-#panel-reset {
-  width: 350px;
-  height: 345px;
-}
-.msg-panel {
-  height: 100px;
-}
-
-/**
   **********************************************************
   *     Nested Classes - Page Specific - Sidebar    *
   **********************************************************
  */
-
 .sidebar {
+  margin-top: 55px;
   background-color: $color-breeze-50;
-  padding: 25px 15px 25px 15px;
-  height: 100%;
+  border-radius: 7px;
+  border: 1px solid $color-breeze;
+  padding: 20px 15px 20px 15px;
+  min-height: 1px;
+  height: 885px;
+}
+.grandplace{
+  background-color: $color-breeze;
+  display: block;
+  text-decoration: no-underline;
+}
+.grandplace:hover{
+  background-color: $color-breeze-50;
 }
 
 /**
