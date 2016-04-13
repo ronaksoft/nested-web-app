@@ -1,104 +1,119 @@
-<div id="nav-body">
-<nav class="navbar navbar-default navbar-fixed-top" id="navigation-bar"
-  <div class="navbar-header container" id="header">
-    <ul class="list-inline nav navbar-nav navbar-left" id="navbar-left-top">
-      <li id="logo"><img src="../assets/images/nested-logo.png"</li>
-      <li id="logotype"><img src="./assets/images/nested-logotype.png"</li>
-    </ul>
-    <ul class="list-inline nav navbar-nav navbar-center menu-links-top" id="ul-border">
-      <li><a href="#/events">Events</a></li>
-      <li ><a href="#/places">Places</a></li>
-      <li><a href="#Calender">Calendar</a></li>
-    </ul>
-    <ul class=" list-inline nav navbar-nav navbar-right" id="navbar-right-top">
-      <li class="text-left "><p class="nst-mood-cheerful">{{vm.user.fullname}}</p></li>
-      <li class="text-left">
-        <img class="img-circle" src="{{vm.user.avatar}}" height="32" width="32">
-      </li>
-      <!--<li class="text-left "><a class="nst-mood-cheerful" href="#/signout">Sign Out [Tmp]</a></li>-->
-    </ul>
+
+
+
+<div class="nst-nav">
+  <div class="_dt ">
+    <div class='_dtr'>
+      <div class="_dtc">
+        <div id="Header" class="_dt _fw">
+          <div class="_dtr">
+            <div id='Logo' class='_dtc'>
+              <img id='Pic' src="../assets/images/nested-logo.png"/>
+              <img id='Type' src="../assets/images/nested-logotype.png"/>
+            </div>
+            <div id='PrimaryPageSelector' class='_dtc'>
+              <ul>
+                <li class="selected">
+                  <a href="#/events">Events</a>
+                </li>
+                <li>
+                  <a href="#/events">Places</a>
+                </li>
+                <li>
+                  <a href="#/events">Calendar</a>
+                </li>
+              </ul>
+            </div>
+            <div class='_dtc'>
+              <ul class="list-inline">
+                <li><p class="nst-mood-cheerful">{{vm.user.fullname}}</p></li>
+                <li><img class="img-circle" src="{{vm.user.avatar}}" height="32" width="32"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="_dtr">
+          <div class="_dtc">
+            <div id="SubNav" class="_dt _fw _fh">
+              <div class="_dtr">
+                <div id="Compose" class="_dtc">
+                  <a>Compose</a>
+                </div>
+                <div id="SecondaryPageSelector" class="_dtc">
+                  <ul>
+                    <li class="selected">
+                      <a href="#/events">All</a>
+                    </li>
+                    <li class="">
+                      <a href="#/events">Inbox</a>
+                    </li>
+                    <li class="">
+                      <a href="#/events">Comments</a>
+                    </li>
+                    <li class="">
+                      <a href="#/events">Member Acts</a>
+                    </li>
+                    <li class="">
+                      <a href="#/events">Place Acts</a>
+                    </li>
+                  </ul>
+                </div>
+                <div id="ViewSelector" class="_dtc">
+                <!--<div id="ExpandView" class="on"></div>-->
+                <!--<div id="CollapseView" class="off"></div>-->
+                  <span class="text-right" id="viewswitch"> 
+                  <input type="checkbox" id="remember" name="remember" value="remember"  data-ng-model="login.remember"/> 
+                  <label for="remember"></label> 
+                  </span>
+                </div>
+                <div id="Search" class="_dtc"><input placeholder="Search">
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</nav>
 
-
-<nav class="navbar navbar-default navbar-lower" id="nav-bottom" role="navigation">
-  <div class="row navbar-bottom container">
-    <ul class="list-inline nav navbar-nav navbar-leftt" id="navbar-left-top">
-      <button class="btn btn-lg btn-success form-group">Compose</button>
-    </ul>
-
-    <ul class="list-inline  nav navbar-nav navbar-center menu-links-top" id="ul-border-button">
-      <li><a href="#">All</a></li>
-      <li><a href="#">Inbox</a></li>
-      <li><a href="#">Comments</a></li>
-      <li><a href="#">Member Acts</a></li>
-      <li><a href="#">Place Acts</a></li>
-    </ul>
-      <ul class="list-inline nav navbar-nav navbar-right" id="navbar-right-top">
-        <li class="text-right" id="viewswitch">
-          <input type="checkbox" id="remember" name="remember" value="remember"
-                 data-ng-model="login.remember"/>
-          <label for="remember"></label>
-        </li>
-        <li class="text-right search"><input class="form-control " name="search" type="name" placeholder="Search"></input></li>
-      </ul>
-
-
-
-</nav>
-</div>
-
-
-<!--<nav class="navbar navbar-default navbar-fixed-top" role="navigation">-->
-<!--<div class="container">-->
-<!--<div class="navbar-header">-->
-<!--<ul class="list-inline">-->
-<!--<li id="logo"><img src="../assets/images/nested-logo.png"</li>-->
-<!--<li id="logotype"><img src="./assets/images/nested-logotype.png"</li>-->
-<!--</ul>-->
-
-<!--</div>-->
-<!--<div class=""">-->
-<!--<ul class="list-inline nav navbar-nav" id="ul-border">-->
-<!--<li><a href="#/events">Events</a></li>-->
-<!--<li><a href="#/places">Places</a></li>-->
-<!--<li><a href="#">Calender</a></li>-->
-<!--</ul>-->
-<!--</div>-->
-<!--</div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
-<!--</nav>-->
-
-
-<!--<nav class="navbar navbar-default navbar-lower" role="navigation">-->
-<!--<div class="container">-->
-<!--<div class="collapse navbar-collapse collapse-buttons">-->
-<!--<form class="navbar-form navbar-left" role="search">-->
-<!--<button class="btn btn-success">Button</button>-->
-<!--</form>-->
-
-<!--<ul class="list-inline " id="ul-border-button">-->
-<!--<li><a href="#">All</a></li>-->
-<!--<li><a href="#">Inbox</a></li>-->
-<!--<li><a href="#">Comments</a></li>-->
-<!--<li><a href="#">Member Acts</a></li>-->
-<!--<li><a href="#">Place Acts</a></li>-->
-<!--</ul>-->
-
-<!--<ul class="list-inline  search">-->
-<!--<li id="viewswitch">-->
-<!--<input type="checkbox" id="remember" name="remember" value="remember"-->
-<!--data-ng-model="login.remember"/>-->
-<!--<label for="remember"></label>-->
-<!--</li>-->
-<!--<li><input class="form-control" name="search" type="name" placeholder="Search"></input></li>-->
-<!--</ul>-->
-
-
-<!--</div>-->
-<!--</div>-->
-<!--</nav>-->
-<!--<div class="container">-->
-<!--<div class="row">-->
-<!--<div class="filler"></div>-->
-<!--</div>-->
-<!--</div>-->
+          <!--<div class='_dtr'>-->
+          <!--<div id='Logo' class='_dtc'>-->
+          <!--<button class="btn btn-lg btn-success form-group" id="nst-compose-button">Compose</button>-->
+          <!--</div>-->
+          <!--<div id='SecondPageSelector' class='_dtc'>-->
+          <!--<ul>-->
+          <!--<li class="selected">-->
+          <!--<a href="#/events">All</a>-->
+          <!--</li>-->
+          <!--<li class="">-->
+          <!--<a href="#/events">Inbox</a>-->
+          <!--</li>-->
+          <!--<li class="">-->
+          <!--<a href="#/events">Comments</a>-->
+          <!--</li>-->
+          <!--<li class="">-->
+          <!--<a href="#/events">Member Acts</a>-->
+          <!--</li>-->
+          <!--<li class="">-->
+          <!--<a href="#/events">Place Acts</a>-->
+          <!--</li>-->
+          <!--</ul>-->
+          <!--</div>-->
+          <!--<div id='Account' class='_dtc list-inline _vam'>-->
+          <!--<div class="_dtr ">-->
+          <!--<div class="_dtc _vam">-->
+          <!--<li class="text-right" id="viewswitch"> -->
+          <!--<input type="checkbox" id="remember" name="remember" value="remember"  data-ng-model="login.remember"/> -->
+          <!--<label for="remember"></label> -->
+          <!--</li>-->
+          <!--</div>-->
+          <!--<div class="_dtc _vam">-->
+          <!--<li class="search"><input class="form-control " name="search" type="name" placeholder="Search"></input></li>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--</div>-->

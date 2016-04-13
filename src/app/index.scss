@@ -12,43 +12,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // bower:scss
 // endbower
 
-@import "mixin.scss";
-
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular");
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900);
-
-/**
-  *********************************
-  *     Variables                 *
-  *********************************
- */
-
-$color-solid: #000;
-$color-sense: #14d769;
-$color-sense-wire: #00b45a;
-$color-sense-5: #f3fdf7;
-$color-sense-50: #83d8ad;
-$color-solid-30: #b2b2b2;
-$color-solid-60: #666666;
-$color-force: #ff8264;
-$color-force-wire: #ff6463;
-$color-calm: #f0f5f2;
-$color-breeze: #ced9d3;
-$color-breeze-50: #e8ece9;
-$color-wind: #a6b9af;
-$color-storm: #869d91;
-$color-hurricane: #476152;
-
-$font-size-small: 12px;
-$font-size-medium: 14px;
-$font-size-large: 16px;
-$font-size-xlarge: 22px;
-
-$font-family-eng-reg: "OpenSans";
-$font-family-eng-bold: "OpenSans";
-$font-family-per-reg: "OpenSans";
-$font-family-per-bold: "OpenSans";
+@import "nested.scss";
 
 .browsehappy {
   margin: 0.2em 0;
@@ -344,9 +308,6 @@ label {
 .no-gutter2 [class*="col-"]:last-child {
   padding-right: 0px;
 }
-#nested-sidebar-container {
-  margin-top: 100px;
-}
 
 /**
   *********************************
@@ -440,9 +401,7 @@ label {
 
 }
 
-#header {
-  //border-bottom: 1px solid $color-breeze-50;
-}
+
 #nav-bottom {
   border-bottom: 1px solid $color-sense;
 
@@ -479,23 +438,27 @@ body #nav-body {
 .navbar-collapse{
   padding-left:0;
 }
+
 #navbar-left-top {
   padding: 16px 40px 16px 40px;
   width:208px;
   height:64px;
 }
+
 #navbar-right-top img {
   margin-left:0px;
   margin-right:64px;
   margin-top:16px;
 
 }
+
 #navbar-right-top p {
   margin-left:32px;
   margin-right:8px;
   margin-top:24px;
 
 }
+
 #navbar-right-top {
 
 }
@@ -504,25 +467,75 @@ body #nav-body {
   padding-right: 0px;
   padding-left: 0px;
 }
+
 .menu-links-top {
   font-size: $font-size-large;
 }
-#ul-border{
 
+#ul-border li{
+ height:25px;
 }
 
+.nst-nav {
+  background-color: white;
+
+}
+#nst-compose-button {
+  height:32px;
+  width:128px;
+  vertical-align: middle;
+  font-weight: normal;
+}
+#nst-compose-button:hover {
+  background-color: $color-sense;
+}
+
+#nested-Places-li {
+  width: 120px;
+}
+#PrimaryPageSelector li {
+  width: 7em;
+  text-align: center;
+}
 /**
   *********************************************************
   *     Nested Classes - Component Specific - Side Bar    *
   *********************************************************
  */
+#nested-sidebar-container {
+  //margin-top: 1px;
+}
 
 /**
   *****************************************
-  *     Nested Classes - Page Specific    *
+  *     Nested Classes - Page Specific  Content  *
   *****************************************
  */
 
+ #content {
+  background-color: $color-sense;
+}
+ .nst-event-name {
+     width: 128px;
+     vertical-align: top;
+     font-size: small;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     word-break: keep-all;
+     white-space: nowrap;
+ }
+.nst-green-tag {
+  display: inline-block;
+  background-color: #89EBB4;
+  border-radius: 10px;
+  margin: 1px;
+  padding: 1px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+  max-width: 100px;
+}
 
 /**
   ****************************************************
@@ -580,9 +593,36 @@ body #nav-body {
 
 .sidebar {
   background-color: $color-breeze-50;
-  padding: 25px 15px 25px 15px;
+  //padding: 25px 15px 25px 15px;
   height: 100%;
+  width: 275px;
 }
+.nested-sidebar {
+  background-color: $color-breeze-50;
+  height: 100%;
+  width:208px;
+
+}
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Content  *
+  **********************************************************
+ */
+
+.nst-content {
+  background-color:white;
+  width:100%;
+}
+.nst-event-pic {
+  width: 16px;
+  height: 16px;
+  background-image: url('../assets/icons/eventicon.png');
+  background-position: 0 -2px;
+  background-repeat: no-repeat;
+}
+
+
 
 /**
   *********************************
