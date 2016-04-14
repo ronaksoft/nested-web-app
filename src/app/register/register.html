@@ -35,23 +35,24 @@
       <p>Set An Email For Recovery</p>
       <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="recoveryemail" type="text">
     </div>
-    <div class="form-group"
-      <div>
+    <div id="gender">
+      <div class="nst-marginbtm">
        Gender
-     </div>
-    <div class="nst-marginbtm">
-      <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4">
-        <input type="radio" name="sex" value="sex">
-        <label></label> Female
       </div>
-      <div class="col-md-8 col-sm-8 col-xs-8 col-lg-8">
+      <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4 nst-marginbtm">
         <input type="radio" name="sex" value="sex">
-        <label></label> Male
+        <label> Female</label>
+      </div>
+      <div class="col-md-8 col-sm-8 col-xs-8 col-lg-8 nst-marginbtm">
+        <input type="radio" name="sex" value="sex">
+        <label> Male</label>
       </div>
     </div>
-     <div class="nst-marginbtm">
-      <p>Mobile Phone</p>
-      <input name="mobileNumber" type="number" class="form-control ng-pristine ng-untouched ng-valid">
+    <div class="nst-marginbtm" id="mobile-number">
+      <div>Mobile Phone</div>
+      <div>
+        <input name="mobileNumber" type="number" class="form-control ng-pristine ng-untouched ng-valid">
+      </div>
     </div>
     <div class="nst-marginbtm">
         <p>Birthday</p>
@@ -164,11 +165,11 @@
         </select>
       </div>
     </div>
-      <div class="nst-marginbtm">
+      <div class="nst-marginbtm" id="agree">
         <input id="remember" name="remember" value="remember" type="checkbox">
         <label for="remember">
+          I Agree To The nested<a href="#" class="nst-mood-cheerful" id="agree"> Terms Of Service</a> and <a href="#" class="nst-mood-cheerful" id="agree"> Privacy Policy</a>.
         </label>
-        <p class="nst-font-small">I Agree To The nested<a href="#" class="nst-mood-cheerful">Terms Of Service</a> and <a href="#" class="nst-mood-cheerful">Privacy Policy</a>.</p>
       </div>
       <div>
         <input type="submit" value="Create An Account" class="btn btn-lg btn-block"></input>
