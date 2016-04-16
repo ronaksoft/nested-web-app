@@ -271,7 +271,7 @@ a.post {
 
 
 @media (min-width: 1000px) {
-    #Logo { width: 206px; text-align: center; }
+    #Logo { width: 250px; text-align: center; }
     #Logo #Pic { width: 48px; height: 48px;}
     #Logo #Type { height: 32px; }
 }
@@ -284,6 +284,7 @@ a.post {
 #PrimaryPageSelector {
   width: 575px;
 }
+
 
 #nav-margin-ul {
   margin-left: 75%;
@@ -303,6 +304,8 @@ a.post {
     font-size: medium;
     padding: 15px 25px;
     border-top: 5px solid white;
+    width: 7em;
+    text-align: center;
 }
 #PrimaryPageSelector li:hover {
     border-top: 5px solid black ;
@@ -420,7 +423,7 @@ a.post {
   height: 38px;
   width: 154px;
 }
-#SubNav #Compose { width: 206px; text-align: center; }
+#SubNav #Compose { width: 250px; text-align: center; }
 
 #SubNav #Compose a {
   background-color: #14D769;

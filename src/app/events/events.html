@@ -9,38 +9,29 @@
         <div class="nst-content _dtc _pr _fhw">
           <div class="_fhw">
             <table id="EventList" class="_fhw">
-
-
-
+              <!--Time of activity -->
               <tr class='comment-add'>
                 <td class='ico'>
                   <strong>Today</strong>
-
                 </td>
                 <td class='sender'>
-
                   <p>Wednesday 24 Feb</p>
-
                 </td>
                 <td class='msg'>
-
                 </td>
                 <td class='places'></td>
                 <td class='time'></td>
               </tr>
 
-
               <!--Comment Add-->
 
               <tr class='comment-add'>
                 <td class='ico'>
-
                   <div class='ei-comment-add'></div>
                 </td>
                 <td class='sender'>
                   <!--<img src="../assets/images/yeoman.png" height="24" width="24"/>-->
                   <div class='account-initials'>
-
                   </div>
                   <span>Pouyan</span>
                 </td>
@@ -55,10 +46,7 @@
                 <td class='time'>Time</td>
               </tr>
 
-
-
-            <!--member invite-->
-
+              <!--member invite-->
 
               <tr class='member-invite'>
                 <td class='ico'>
@@ -93,9 +81,7 @@
                 <td class='time'></td>
               </tr>
 
-
-            <!--post added -->
-
+              <!--post added -->
 
               <tr class='post-add' post_id='" + e.post_id.$oid + "'>
                 <td class='ico'>
@@ -151,150 +137,58 @@
               </tr>
 
 
-
               <!--add place-->
 
               <tr class='place-add'>
-              <td class='ico'>
-                <div class='account-initials'>
-                </div>
+                <td class='ico'>
+                  <div class='account-initials'>
+                  </div>
                 </td>
-              <td class='sender'>
-                <!--<img src='" + actor_pic_url + "'/>-->
-                <div class='account-initials'>
-                </div><span>Ehsan</span>
+                <td class='sender'>
+                  <!--<img src='" + actor_pic_url + "'/>-->
+                  <div class='account-initials'>
+                  </div>
+                  <span>Ehsan</span>
                 </td>
-              <td class='msg'><span>created <span>
-            <a href='#filter/place/" + e.place_id + "' class='place'>Place name</a>
-            </td>
-              <td class='places'></td>
-              <td class='time'>Time</td>
+                <td class='msg'><span>created <span>
+                  <a href='#filter/place/" + e.place_id + "' class='place'>Place name</a>
+                </td>
+                <td class='places'></td>
+                <td class='time'>Time</td>
               </tr>
 
-
-            <!--add null full height  tr-->
+              <tr class='comment-add'>
+                <td class='ico'>
+                  <div class='ei-comment-add'></div>
+                </td>
+                <td class='sender'>
+                  <!--<img src="../assets/images/yeoman.png" height="24" width="24"/>-->
+                  <div class='account-initials'>
+                  </div>
+                  <span>Pouyan</span>
+                </td>
+                <td class='msg'>
+                  <div class='comment-subject'>
+                    <span>commented on </span>
+                    <a class='post' href='#view/post/" + e.post_id.$oid + "'>Subject</a>
+                  </div>
+                  <div class='body'>
+                    <div class="att-item media">
+                      <span class="filename">E2-Recording-Sound-1460135992.m4a</span>
+                    </div>
+                  </div>
+                </td>
+                <td class='places'></td>
+                <td class='time'>Time</td>
+              </tr>
+              <!--add null full height  tr-->
             </table>
             <!--<div class="_tac">-->
-              <!--<a id="LoadMoreEvent" before="">Load More ..</a>-->
+            <!--<a id="LoadMoreEvent" before="">Load More ..</a>-->
             <!--</div>-->
-          <!--</div>-->
+            <!--</div>-->
+          </div>
         </div>
-
-
-        <!--<div class="nst-content _dtc">-->
-        <!--<p><strong>Today</strong> Wednesday24 feb</p>-->
-        <!--<div class="_dtr">-->
-        <!--<div class="_dtc">-->
-        <!--<div class="nst-event-pic">-->
-        <!--<img>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--<img class="img-circle" src="../assets/images/yeoman.png" height="24" width="24">-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--Medium Daily Digest-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-
-        <!--<p>Get Medium for iOS or Android RECOMMENDED BY MEDIUM STAFF We’re Falling Behind on Family Planning: Five Ways To Get Us Back On Track Four years ago, I stood with an</p>-->
-        <!--<hr>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--<div class="nst-green-tag ">Subscribes</div>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--13:13-->
-
-        <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="_dtr">-->
-        <!--<div class="_dtc">-->
-        <!--<div class="nst-event-pic">-->
-        <!--<img>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--<img class="img-circle" src="../assets/images/yeoman.png" height="24" width="24">-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--Medium Daily Digest-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-
-
-        <!--<td class="msg">-->
-        <!--<div class="subject">Timeline</div>-->
-        <!--<div class="body">This is only my opinion</div>-->
-        <!--<div class="attachments">-->
-        <!--<ul class="attachments-bar non-image">-->
-        <!--<li>-->
-        <!--<div class="att-item media"><span class="filename">E2-Recording-Sound-1460135992.m4a</span></div>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--</td>-->
-
-
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--<button>Subscribe</button>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--13:13-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="_dtr">-->
-        <!--<div class="_dtc">-->
-        <!--<div class="nst-event-pic">-->
-        <!--<img>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--<img class="img-circle" src="../assets/images/yeoman.png" height="24" width="24">-->
-        <!--</div>-->
-        <!--<div class="_dtc nst-event-name">-->
-        <!--Medium Daily Digest-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-
-        <!--<p>Get Medium for iOS or Android RECOMMENDED BY MEDIUM STAFF We’re Falling Behind on Family Planning: Five Ways To Get Us Back On Track Four years ago, I stood with an</p>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--<button>Subscribe</button>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--13:13-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="_dtr">-->
-        <!--<div class="_dtc">-->
-        <!--<div class="nst-event-pic">-->
-        <!--<img>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--<img class="img-circle" src="../assets/images/yeoman.png" height="24" width="24">-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--Medium Daily Digest-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-
-        <!--<p>Get Medium for iOS or Android RECOMMENDED BY MEDIUM STAFF We’re Falling Behind on Family Planning: Five Ways To Get Us Back On Track Four years ago, I stood with an</p>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--<button>Subscribe</button>-->
-        <!--</div>-->
-        <!--<div class="_dtc">-->
-        <!--13:13-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
       </div>
     </div>
   </div>
-</div>
