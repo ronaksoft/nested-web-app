@@ -24,10 +24,16 @@
     function NavbarController(AuthService, StoreService) {
       var vm = this;
 
-      vm.user = {
-        fullname: AuthService.user.fname + ' ' + AuthService.user.lname,
-        avatar: StoreService.toUrl(AuthService.user.picture.x32)
-      };
+      if (AuthService.isAuthenticated()) {
+        vm.user = {
+          fullname: AuthService.user.fname + ' ' + AuthService.user.lname,
+          avatar: '/assets/images/nested-logo.png'
+        };
+
+        StoreService.toUrl(AuthService.user.picture.x32).then(function (url) {
+          vm.user.avatar = url;
+        });
+      }
     }
   }
 

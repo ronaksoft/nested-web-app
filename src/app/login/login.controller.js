@@ -9,6 +9,8 @@
   function LoginController(AuthService, AUTH_EVENTS, $rootScope, $location) {
     var vm = this;
 
+    AuthService.isAuthenticated(function () { $location.path('/').replace() });
+
     vm.username = '';
     vm.password = '';
     vm.remember = false;
@@ -34,7 +36,7 @@
             }
           });
         },
-        function () {
+        function (data) {
           $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
         }
       );

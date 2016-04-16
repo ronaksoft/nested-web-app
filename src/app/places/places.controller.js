@@ -9,13 +9,11 @@
   function PlacesController($location, AuthService) {
     var vm = this;
 
-    AuthService.isAuthenticated().catch(
-      function () {
-        $location.search({
-          back: $location.$$absUrl
-        });
-        $location.path('/signin');
-      }
-    );
+    if (!AuthService.isAuthenticated()) {
+      $location.search({
+        back: $location.$$absUrl
+      });
+      $location.path('/signin').replace();
+    }
   }
 })();

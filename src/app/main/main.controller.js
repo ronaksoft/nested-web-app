@@ -8,12 +8,8 @@
   /** @ngInject */
   function MainController($timeout, webDevTec, toastr, $location, AuthService) {
     var vm = this;
-
-    AuthService.isAuthenticated().then(
-      function () {
-        $location.path('/events');
-      }
-    );
+    
+    AuthService.isAuthenticated(function () { $location.path('/events').replace() });
 
     vm.awesomeThings = [];
     vm.classAnimation = '';

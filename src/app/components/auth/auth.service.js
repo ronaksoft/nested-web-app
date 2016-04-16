@@ -14,86 +14,146 @@
     .factory('AuthService', NestedAuth);
 
   /** @ngInject */
-  function NestedAuth($cookies, $window, WsService) {
-    var authService = {
-      user: null,
-      remember: false
-    };
+  function NestedAuth($cookies, $window, WS_EVENTS, WsService, $log) {
+    function AuthService() {
+      this.user = null;
+      this.remember = false;
+      this.listeners = {};
 
-    var cLogin = function (data) {
-      $cookies.put('nsk', data._sk.$oid);
-
-      if (this.remember) {
-        $cookies.put('nss', data._ss);
+      if ($window.sessionStorage.getItem('nsu')) {
+        this.user = angular.fromJson($window.sessionStorage.getItem('nsu'));
       }
 
-      // TODO: Pass to user service
-      this.user = data.info;
-      this.user.role = 1;
-      $window.sessionStorage.setItem('nst', angular.toJson(this.user));
+      WsService.addEventListener(WS_EVENTS.UNINITIALIZE, this.unauthorize);
+      WsService.registerAuthorizeFn(function () {
+        if (!!$cookies.get('nsk') && !!$cookies.get('nss')) {
+          return WsService.request('auth', {
+            _sk: $cookies.get('nsk'),
+            _ss: $cookies.get('nss')
+          }).then(this.authorize.bind(this), this.unauthorize.bind(this));
+        }
 
-      return data;
-    }.bind(authService);
+        return Promise.reject();
+      }.bind(this));
+    }
 
-    authService.login = function (credentials, remember) {
-      this.remember = remember;
-      this.logout();
+    AuthService.prototype = {
+      authorize: function (data) {
+        $log.debug('Authorization');
 
-      return WsService.request('login', {
-        uid: credentials.username,
-        pass: credentials.password
-      }).then(cLogin);
-    };
+        // TODO: Remember Me Implementation
+        $cookies.put('nsk', data._sk.$oid);
+        $cookies.put('nss', data._ss);
 
-    authService.logout = function () {
-      var unauthorize = function () {
+        // TODO: Pass to user service
+        this.user = data.info;
+        this.user.role = 1;
+        $window.sessionStorage.setItem('nsu', angular.toJson(this.user));
+
+        return data;
+      },
+
+      unauthorize: function () {
+        $log.debug('Unauthorization');
         this.user = null;
-        delete $window.sessionStorage.removeItem('nst');
+
+        // delete $window.sessionStorage.removeItem('nsu');
+        window.sessionStorage.clear();
 
         $cookies.remove('nss');
         $cookies.remove('nsk');
-      }.bind(this);
+      },
 
-      unauthorize();
-      return Promise.resolve();
+      login: function (credentials, remember) {
+        this.remember = remember;
+        this.logout();
 
-      return WsService.request('logout').then(unauthorize);
-    };
+        return WsService.request('login', {
+          uid: credentials.username,
+          pass: credentials.password
+        }).then(this.authorize.bind(this));
+      },
 
-    authService.isAuthenticated = function () {
-      if (null !== this.user) {
+      logout: function () {
+        this.unauthorize();
         return Promise.resolve();
-      } else if ($window.sessionStorage.getItem('nst')) {
-        this.user = angular.fromJson($window.sessionStorage.getItem('nst'));
-        return Promise.resolve();
-      } else if (!!$cookies.get('nsk') && !!$cookies.get('nss')) {
-        this.remember = true;
 
-        return WsService.request('auth', {
-          _sk: $cookies.get('nsk'),
-          _ss: $cookies.get('nss')
-        }).then(cLogin);
-      } else {
-        return Promise.reject();
+        return WsService.request('logout').then(this.unauthorize);
+      },
+
+      isAuthenticated: function (callback) {
+        var isAuth = null != this.user;
+
+        if (angular.isFunction(callback)) {
+          if (isAuth) {
+            callback(new CustomEvent(WS_EVENTS.AUTHORIZE));
+          } else {
+            WsService.addEventListener(WS_EVENTS.AUTHORIZE, callback);
+          }
+        }
+
+        return isAuth;
+      },
+
+      // Access Control
+      isAuthorized: function (authorizedRoles) {
+        if (!angular.isArray(authorizedRoles)) {
+          authorizedRoles = [authorizedRoles];
+        }
+
+        return (this.isAuthenticated() && authorizedRoles.indexOf(this.user.role) !== -1);
+      },
+
+      getSessionKey: function () {
+        return $cookies.get('nsk');
+      },
+
+      addEventListener: function (type, callback, oneTime) {
+        if (!(type in this.listeners)) {
+          this.listeners[type] = [];
+        }
+
+        this.listeners[type].push({
+          flush: oneTime || false,
+          fn: callback
+        });
+      },
+
+      removeEventListener: function (type, callback) {
+        if (!(type in this.listeners)) {
+          return;
+        }
+
+        var stack = this.listeners[type];
+        for (var i = 0, l = stack.length; i < l; i++) {
+          if (stack[i].fn === callback) {
+            stack.splice(i, 1);
+
+            return this.removeEventListener(type, callback);
+          }
+        }
+      },
+
+      dispatchEvent: function (event) {
+        if (!(event.type in this.listeners)) {
+          return;
+        }
+
+        var stack = this.listeners[event.type];
+        // event.target = this;
+        var flushTank = [];
+        for (var i = 0, l = stack.length; i < l; i++) {
+          stack[i].fn.call(this, event);
+          stack[i].flush && flushTank.push(stack[i]);
+        }
+
+        for (var key in flushTank) {
+          this.removeEventListener(event.type, flushTank[key].fn);
+        }
       }
     };
 
-    // Access Control
-    authService.isAuthorized = function (authorizedRoles) {
-      if (!angular.isArray(authorizedRoles)) {
-        authorizedRoles = [authorizedRoles];
-      }
-
-      return (authService.isAuthenticated() && authorizedRoles.indexOf(this.user.role) !== -1);
-    };
-
-    authService.getSessionKey = function () {
-      return $cookies.get('nsk');
-    };
-
-    authService.isAuthenticated();
-
-    return authService;
+    return new AuthService();
   }
 
 })();
