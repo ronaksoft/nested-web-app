@@ -51,6 +51,7 @@ $font-family-per-bold: "OpenSans";
     box-sizing: inherit;
     vertical-align: inherit;
 }
+
 body {
     position: absolute;
     top: 0px;
@@ -291,7 +292,7 @@ a.post {
 
 #PrimaryPageSelector ul {
   display: inline-block;
-  color: red;
+
 }
 #PrimaryPageSelector li {
     cursor: pointer;
@@ -317,7 +318,9 @@ a.post {
   color: black;
   font-weight: bold;
 }
-
+#SecondaryPageSelector {
+  width:758.5px;
+}
 
 #SecondPageSelector ul { display: inline-block;}
 #SecondPageSelector li {
@@ -327,10 +330,14 @@ a.post {
   font-size: medium;
   padding: 15px 25px;
   border-bottom: 5px solid white;
-  color:red;
 }
-#SecondPageSelector li:hover {
+#SecondaryPageSelector a {
+  color: $color-solid;
+  text-decoration: none;
+}
+#SecondPageSelector a:hover {
   border-bottom: 5px solid $color-sense ;
+  color: $color-sense;
 
 
 }
@@ -402,7 +409,7 @@ a.post {
 
 @media (max-width: 999px) {
   #SubNav #Compose { }
-  #SubNav #Search {}
+  #SubNav #Search {width: 50px;}
   #MyPlaces { }
   #EventList td.places { }
   #PostView .main-body .right-column { }
@@ -496,7 +503,11 @@ a.post {
 }
 #SubNav #ViewSelector #CollapseView.on { background-position: 27px; }
 #SubNav #ViewSelector #CollapseView.off {}
-#SubNav #Search { width: 100px; }
+#SubNav #Search {
+  width: 146px;
+  height: 26px;
+
+}
 
 #MyPlaces { width: 275px; background-color: #E7ECE9; vertical-align: top;}
 #MyPlaces ul {
@@ -697,17 +708,11 @@ a.post {
 
 
 
-
-
-
-
-
 /**
   *********************************************************
   *     Nested Classes -  compose  *
   *********************************************************
  */
-
 
 
 
