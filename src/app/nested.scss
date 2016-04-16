@@ -61,27 +61,19 @@ body {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+  min-width: 1000px;
 }
 div, ul, ol {
     margin: 0px;
     padding: 0px;
 }
-//
-//a {
-//    text-decoration: none;
-//    font-size: inherit;
-//    font-weight: inherit;
-//    display: inline-block;
-//
-//}
+
 input[type='text'], input[type='password'] {
     outline: none ;
     border: 1px solid gray ;
     border-radius: 5px;
     padding: 3px;
 }
-
-
 
 ._fl {float: left ;}
 ._fr {float: right;}
@@ -279,7 +271,7 @@ a.post {
 
 
 @media (min-width: 1000px) {
-    #Logo { width: 275px; text-align: center; }
+    #Logo { width: 206px; text-align: center; }
     #Logo #Pic { width: 48px; height: 48px;}
     #Logo #Type { height: 32px; }
 }
@@ -288,11 +280,21 @@ a.post {
     #Logo { }
 }
 
-#Header { height: 64px; position: relative; border-bottom: 1px solid $color-breeze; }
+#Header { height: 76px; position: relative; border-bottom: 1px solid $color-calm; }
+#PrimaryPageSelector {
+  width: 575px;
+}
+
+#nav-margin-ul {
+  margin-left: 75%;
+}
 
 #PrimaryPageSelector ul {
   display: inline-block;
-
+}
+.nav-profile {
+  padding: 10px 0 2px 0;
+  font-weight: 600;
 }
 #PrimaryPageSelector li {
     cursor: pointer;
@@ -319,10 +321,20 @@ a.post {
   font-weight: bold;
 }
 #SecondaryPageSelector {
-  width:758.5px;
+
 }
 
-#SecondPageSelector ul { display: inline-block;}
+#SecondPageSelector ul {
+  //display: inline-block;
+  //padding-left: 15px;
+  //width: 1000px;
+
+}
+.nav-width-ul {
+  display: inline-block;
+  padding-left: 15px;
+  width: 1000px;
+}
 #SecondPageSelector li {
   cursor: pointer;
   position: relative;
@@ -392,24 +404,37 @@ a.post {
  */
 
 
-
 @media (min-width: 1000px) {
-  #SubNav #Compose { width: 275px; text-align: center; }
-  #SubNav #Compose a {
-    background-color: #14D769;
-    border: 1px solid #00B45A;
-    padding: 5px 20px;
-    color: white;
-    display: inline-block;
-    border-radius: 5px;
-    font-size: medium;
-    margin: 2px;
-  }
-}
 
+  }
+
+#SubNav #Compose a {
+  background-color: #14D769;
+  border: 1px solid #00B45A;
+  padding: 5px 20px;
+  color: white;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: $font-size-small;
+  margin: 2px;
+  height: 38px;
+  width: 154px;
+}
+#SubNav #Compose { width: 206px; text-align: center; }
+
+#SubNav #Compose a {
+  background-color: #14D769;
+  border: 1px solid #00B45A;
+  padding: 5px 20px;
+  color: white;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: $font-size-small;
+  margin: 2px;
+  height: 30px;
+  width: 128px;
+}
 @media (max-width: 999px) {
-  #SubNav #Compose { }
-  #SubNav #Search {width: 50px;}
   #MyPlaces { }
   #EventList td.places { }
   #PostView .main-body .right-column { }
@@ -474,17 +499,22 @@ a.post {
   margin: 0px;
   border-bottom: 3px solid white ;
   box-sizing: border-box;
-  height: 38px;
+  height: 48px;
 }
 #SubNav #SecondaryPageSelector li.selected {
   border-bottom: 3px solid #00B45A ; ;
   color: #00B45A;
   font-weight: bold;
+
 }
 #SubNav #SecondaryPageSelector li:hover {
   color: #00B45A;
 }
-#SubNav #ViewSelector { width: 100px; }
+#SubNav #ViewSelector {
+  width: 48 px;
+  padding: 4px;
+
+}
 #SubNav #ViewSelector #ExpandView {
   background-image: url('/res/ico/viewswitch_expand.png');
   width: 27px;
@@ -505,7 +535,8 @@ a.post {
 #SubNav #ViewSelector #CollapseView.off {}
 #SubNav #Search {
   width: 146px;
-  height: 26px;
+  height: 30px;
+  border-radius: 7px;
 
 }
 
@@ -724,7 +755,7 @@ a.post {
 
 #SubNav { height: 32px; border-bottom: 1px solid #00B45A; }
 #ComposeBtns {
-  width: 800px;
+  width: px;
   text-align: right;
 }
 #ComposeBtns a {
@@ -798,6 +829,7 @@ a.post {
   background-image: url('/res/ico/attachment_icon_m.png');
   background-size: contain;
 }
+
 
 
 div.att-item {

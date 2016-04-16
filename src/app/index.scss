@@ -342,75 +342,16 @@ label {
   height:64px;
   width:208px;
 }
+
 .nav > li > a {
   position: relative;
   display: block;
    padding: 22px 16px 22px 16px;
 }
+
 .nav > ul a {
   padding : 22px 16px 22px 16px;
 }
-
-#header .navbar-center a {
-  color: $color-wind;
-  text-decoration: none;
-  font-size: $font-size-large;
-}
-
-.navbar-center {
-  padding-left:16px;
-}
-#header a:hover {
-  color:$color-solid;
-  font-size: 38px;
-  font-style: normal;
-  font-variant: normal;
-  font-weight: 600;
-  line-height: 1;
-  padding-top: 18px;
-}
-
-#nav-bottom a {
-  color: $color-solid;
-  text-decoration: none;
-  padding: 10px;
-}
-#nav-bottomm a:hover {
-  color: $color-sense;
-  text-decoration: none;
-  padding: 10px;
-}
-
-#ul-border a:hover {
-  border-top: 4px solid black;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 1;
-  padding-top: 18px;
-}
-
-#nav-bottom #ul-border-button li:hover {
-  border-bottom: 4px solid $color-sense;
-
-}
-
-.navbar-default {
-  background-color: white;  //it must change to sass!!
-  padding:0px;
-  margin:0px;
-
-}
-
-
-#nav-bottom {
-  border-bottom: 1px solid $color-sense;
-
-}
-//
-//nav .btn {
-//  height: 30px;
-//  width: 128px;
-//}
 
 .Search .form-control {
   width:144px;
@@ -420,7 +361,6 @@ label {
   height:10px;
   width:50px;
 }
-
 //testttt:
 body #nav-body {
   margin-top: 64px;
@@ -439,34 +379,10 @@ body #nav-body {
   padding-left:0;
 }
 
-#navbar-left-top {
-  padding: 16px 40px 16px 40px;
-  width:208px;
-  height:64px;
-}
-
-#navbar-right-top img {
-  margin-left:0px;
-  margin-right:64px;
-  margin-top:16px;
-
-}
-
-#navbar-right-top p {
-  margin-left:32px;
-  margin-right:8px;
-  margin-top:24px;
-
-}
-
-#navbar-right-top {
-
-}
-
-.list-inline > li  {
-  padding-right: 0px;
-  padding-left: 0px;
-}
+//.list-inline > li  {
+//  padding-right: 0px;
+//  padding-left: 0px;
+//}
 
 .menu-links-top {
   font-size: $font-size-large;
@@ -497,15 +413,27 @@ body #nav-body {
   width: 7em;
   text-align: center;
 }
+input #nav-search {
+  height: 30px;
+  width: 146px;
+  border-radius: 6px;
 
+}
+#n-search {
+  width: 146px;
+  height: 30px;
+  border-radius: 6px;
+
+}
+.nav-search-padding {
+
+}
 /**
   *********************************************************
   *     Nested Classes - Component Specific - Side Bar    *
   *********************************************************
  */
-#nested-sidebar-container {
-  //margin-top: 1px;
-}
+
 
 /**
   *****************************************

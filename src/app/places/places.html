@@ -2,8 +2,64 @@
   <div>
     <nested-navbar></nested-navbar>
   </div>
+  <div class="_dt _fw _fh">
+    <div class="_dtr">
+      <div class="_dtc">
+        <div id="SubNav" class="_dt _fw">
+          <nav class='_dtr'>
+            <div id="Compose" class='_dtc'>
+              <a href="/p/compose">Compose</a>
+            </div>
+            <div id="SecondaryPageSelector" class='_dtc'>
+              <ul>
+                <li class='selected' _nfilter='all'><a href='#filter/place/all'>All</a></li>
+                <li _nfilter='creator'><a href='#filter/place/creator'>I'm Creator</a></li>
+                <li _nfilter='key_holder'><a href='#filter/place/key_holder'>I'm Insider</a></li>
+                <li _nfilter='known_guest'><a href='#filter/place/known_guest'>I'm Member</a></li>
+              </ul>
+            </div>
+            <div id="Buttons" class='_dtc'>
 
-  Places
+            </div>
+            <div id="Search" class='_dtc'></div>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="_dtr _fh">
+      <div class="_dtc">
+        <div class="_dt _fh _fw _bggray">
+          <ul id="AllPlaces">
+
+             <table><tr>
+            <td class='logo'><img src='" + thumb_url + "' alt='logo'/></td>
+            <td class='name'> <div class='_dtr'>
+              <div class='_dtc'> <img src='" + mt_ico + "'/></div>
+              <div class='_dtc'><h5>name</h5><p>id</p></div>
+              </div></td>
+            <td class='members'>
+              <img src='" + pic_url + "'/>
+              <div class='account-initials'>
+                </div>
+              </td>
+            <td class='properties'>
+              <img src='/res/ico/icon_place_write_" + (p.privacy.locked ? "off" : "on") + ".png'/>
+              <img src='/res/ico/icon_place_read_" + (p.privacy.visible ? "on" : "off") + ".png'/>
+              <img src='/res/ico/icon_place_email_" + (p.privacy.email ? "on" : "off") + ".png'/>
+              </td>
+            </tr>
+             </table>
+
+
+
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 
 
