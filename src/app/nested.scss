@@ -31,6 +31,7 @@ $color-wind: #a6b9af;
 $color-storm: #869d91;
 $color-hurricane: #476152;
 
+$font-size-xsmall: 11px;
 $font-size-small: 12px;
 $font-size-medium: 14px;
 $font-size-large: 16px;
@@ -280,15 +281,15 @@ a.post {
     #Logo { }
 }
 
-#Header { height: 76px; position: relative; border-bottom: 1px solid $color-calm; }
+#Header { height: 64px; position: relative; border-bottom: 1px solid $color-calm; }
 #PrimaryPageSelector {
   width: 575px;
 }
-
-
-#nav-margin-ul {
-  margin-left: 75%;
-}
+//
+//
+//#nav-margin-ul {
+//  margin-left: 75%;
+//}
 
 #PrimaryPageSelector ul {
   display: inline-block;
@@ -335,8 +336,8 @@ a.post {
 }
 .nav-width-ul {
   display: inline-block;
-  padding-left: 15px;
-  width: 1000px;
+  margin-top: 0;
+  //width: 1000px;
 }
 #SecondPageSelector li {
   cursor: pointer;
@@ -354,7 +355,6 @@ a.post {
   border-bottom: 5px solid $color-sense ;
   color: $color-sense;
 
-
 }
 #SecondPageSelector li.selected {}
 #SecondPageSelector a {
@@ -362,7 +362,6 @@ a.post {
   width: 100%;
   text-decoration: none;
   display: block;
-  color: black;
 }
 #SecondPageSelector a:hover {
   color: $color-sense;
@@ -451,6 +450,7 @@ a.post {
   background-image: url('../assets/icons/eventicon.png');
   background-position: center center;
   background-repeat: no-repeat;
+
 }
 .ei-mail-unread {
   width: 16px;
@@ -458,6 +458,7 @@ a.post {
   background-image: url('../assets/icons/eventicon.png');
   background-position: 0 0r;
   background-repeat: no-repeat;
+
 }
 .ei-member-join {
   width: 16px;
@@ -465,6 +466,7 @@ a.post {
   background-image: url('../assets/icons/eventicon.png');
   background-position: 0 -96px;
   background-repeat: no-repeat;
+
 }
 .ei-member-leave {
   width: 16px;
@@ -472,6 +474,7 @@ a.post {
   background-image: url('../assets/icons/eventicon.png');
   background-position: center center;
   background-repeat: no-repeat;
+
 }
 .ei-comment-add {
   width: 16px;
@@ -479,6 +482,8 @@ a.post {
   background-image:url('../assets/icons/eventicon.png');
   background-position: 0 -48px;
   background-repeat: no-repeat;
+
+
 }
 .ei-member-invite {
   width: 16px;
@@ -492,7 +497,7 @@ a.post {
 
 #SubNav { height: 32px; border-bottom: 1px solid $color-sense-5; }
 
-#SubNav #SecondaryPageSelector { width: 100%;}
+#SubNav #SecondaryPageSelector { width: 575px;}
 #SubNav #SecondaryPageSelector ul {}
 #SubNav #SecondaryPageSelector li {
   color: black;
@@ -502,7 +507,7 @@ a.post {
   margin: 0px;
   border-bottom: 3px solid white ;
   box-sizing: border-box;
-  height: 48px;
+  height: 40px;
 }
 #SubNav #SecondaryPageSelector li.selected {
   border-bottom: 3px solid #00B45A ; ;
@@ -599,12 +604,30 @@ a.post {
   background-color: #89EBB4 ;
   border-radius: 10px;
   margin: 1px;
-  padding: 1px 5px;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: keep-all;
   white-space: nowrap;
   max-width: 100px;
+  fontt-size: $font-size-xsmall;
+  border-color: #89ebb4;
+  border-width: 1px;
+  border-style: solid;
+
+}
+
+
+#EventList td.places >.more-tag {
+  border-color: #000000;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #000000;
+  border-radius: 7px;
+  color: white;
+  font-size: $font-size-xsmall;
+  width: 28px;
+  height: 14px;
+  text-align: center;
 }
 #EventList td.time {
   width: 50px;
