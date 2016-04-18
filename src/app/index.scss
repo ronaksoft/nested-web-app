@@ -402,6 +402,7 @@ input #nav-search {
   width: 146px;
   height: 30px;
   border-radius: 6px;
+  text-align: right;
 }
 
 /**
@@ -546,63 +547,67 @@ input #nav-search {
 
 
 
-#place-logo input[type="checkbox"] + label {
-  display: inline-block;
-  background: url('../assets/icons/roleicon_24.png') no-repeat;
-  height: 15px;
-  min-width: 48px;
-  padding: 0 0 0 17px;
+.role-icon {
+  background: url('../assets/icons/roleicon_16.png') no-repeat;
+  // background-size: 16px 400%;
+  width: 16px;
+  height: 16px;
+
 }
-#place-logo {
-  vertical-align: bottom;
-}
-#nst-pencil input[type="checkbox"] + label {
-  display: inline-block;
+
+.nst-pencil {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
-  height: 25px;
-  min-width: 25px;
-  padding: 0 0 0 17px;
+  height: 24px;
+  min-width: 24px;
+
 }
-#nst-atsign input[type="checkbox"] + label {
-  display: inline-block;
+.nst-atsign  {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
-  height: 25px;
-  min-width: 25px;
-  padding: 0 0 0 17px;
-  background-position: 0 -50px;
+  height: 24px;
+  min-width: 24px;
+  background-position: 0px -48px;
+
 }
-#nst-eye input[type="checkbox"] + label {
-  display: inline-block;
+.nst-eye {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
-  height: 25px;
-  min-width: 25px;
-  padding: 0 0 0 17px;
-  background-position: 0 -25px;
+  height: 24px;
+  min-width: 24px;
+  background-position: 0px -24px;
+
 }
-#nst-search input[type="checkbox"] + label {
-  display: inline-block;
+.nst-search  {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
-  height: 25px;
-  min-width: 25px;
-  padding: 0 0 0 17px;
-  background-position: 0 -75px;
+  height: 24px;
+  min-width: 24px;
+  background-position: 0px -72px;
+
 }
-#nst-more-badge input[type="checkbox"] + label  {
-  display: inline-block;
+.nst-more-badge  {
   background: url('../assets/icons/more_32.png') no-repeat;
-  height: 25px;
-  min-width: 25px;
-  padding: 0 0 0 17px;
-  background-position: 0 0px;
+  height: 32px;
+  width: 32px;
+
 }
 #nst-arrow {
-  display: inline-block;
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
-  min-width: 25px;
+  width: 15px;
   padding: 0 0 0 5px;
   background-position: center center;
+
   }
+.arrow {
+  width:15px;
+}
+
+.nst-more {
+  width: 32px;
+}
+
+#empty-space {
+  width: 16px;
+  height: 16px;
+}
 /**
   *********************************
   *     Unknown                   *
