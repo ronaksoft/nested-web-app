@@ -40,7 +40,7 @@
       }
 
       return new Promise(function (resolve) {
-        resolve(this.stores[sid].url);
+        resolve.call(this, this.stores[sid].url);
       }.bind(this));
     };
 

@@ -23,12 +23,15 @@
       MESSAGE: '__message',
       INITIALIZE: '__initialize',
       AUTHORIZE: '__authorize',
-      UNINITIALIZE: '__uninitialize'
+      MANUAL_AUTH: '__mauthorize',
+      UNINITIALIZE: '__uninitialize',
+      ERROR: '__error'
     })
+    .constant('AUTH_COMMANDS', ['login', 'auth'])
     .factory('WsRequest', NestedWsRequest)
     .service('WsService', NestedWsService);
 
-  function NestedWsRequest(WS_RESPONSE_STATUS, WS_EVENTS, $log) {
+  function NestedWsRequest(WS_RESPONSE_STATUS, WS_EVENTS, AUTH_COMMANDS, $log) {
     function Request(service, data, timeout) {
       this.service = service;
       this.data = data;
@@ -38,6 +41,18 @@
       this.timeout_id = -1;
 
       this.send = function () {
+        if (this.timeout > 0) {
+          this.timeout_id = setTimeout(
+            function () {
+              this.reject({
+                status: WS_RESPONSE_STATUS.ERROR,
+                err_code: 5
+              });
+            }.bind(this),
+            this.timeout
+          );
+        }
+
         $log.debug('Sending:', this.data);
         this.service.stream.send(angular.toJson(this.data));
       }.bind(this);
@@ -51,20 +66,8 @@
           this.reject = reject;
         }
 
-        if (this.timeout > 0) {
-          this.timeout_id = setTimeout(
-            function () {
-              this.reject({
-                status: WS_RESPONSE_STATUS.ERROR,
-                err_code: 5
-              });
-            }.bind(this),
-            this.timeout
-          );
-        }
-
         $log.debug('Gonna Send:', this.data);
-        if (this.service.isAuthorized() || ['login', 'auth'].indexOf(this.data.data.cmd) > -1) {
+        if (this.service.isAuthorized() || AUTH_COMMANDS.indexOf(this.data.data.cmd) > -1) {
           if (this.service.isInitialized()) {
             this.send();
           } else {
@@ -81,12 +84,11 @@
   }
 
   /** @ngInject */
-  function NestedWsService($websocket, WS_MESSAGE_TYPE, WS_RESPONSE_STATUS, WS_EVENTS, WS_MESSAGES, APP, WsRequest, $log) {
+  function NestedWsService($websocket, WS_MESSAGE_TYPE, WS_RESPONSE_STATUS, WS_EVENTS, WS_MESSAGES, APP, AUTH_COMMANDS, WsRequest, $log) {
     function WsService(appId, appSecret, url) {
       // TODO: Make these configurable
       this.appId = appId;
       this.appSecret = appSecret;
-      this.authFn = function () { return Promise.resolve(); };
 
       this.initialized = false;
       this.authorized = false;
@@ -143,6 +145,10 @@
               switch (data.data.status) {
                 case WS_RESPONSE_STATUS.SUCCESS:
                   this.requests[reqId].resolve(data.data);
+
+                  if (AUTH_COMMANDS.indexOf(this.requests[reqId].data.data.cmd) > -1) {
+                    this.dispatchEvent(new CustomEvent(WS_EVENTS.MANUAL_AUTH, { detail: this.requests[reqId].data }));
+                  }
                   break;
 
                 case WS_RESPONSE_STATUS.ERROR:
@@ -158,6 +164,7 @@
         $log.debug('WebSocket Closed:', event, this);
 
         $log.debug('WebSocket Uninitialized');
+        this.authorized = false;
         this.initialized = false;
         this.dispatchEvent(new CustomEvent(WS_EVENTS.UNINITIALIZE));
 
@@ -166,6 +173,7 @@
 
       this.stream.onError(function (event) {
         $log.debug('WebSocket Error:', event, this);
+        this.dispatchEvent(new CustomEvent(WS_EVENTS.ERROR));
       });
 
       this.addEventListener(WS_EVENTS.MESSAGE, function (event) {
@@ -178,16 +186,11 @@
         }
       }.bind(this));
 
-      this.addEventListener(WS_EVENTS.INITIALIZE, function (event) {
-        var authorize = function () {
-          this.authorized = true;
-          this.dispatchEvent(new CustomEvent(WS_EVENTS.AUTHORIZE));
-        }.bind(this);
-
-        if (angular.isFunction(this.authFn)) {
-          this.authFn.call(this).then(authorize);
-        }
-      }.bind(this));
+      this.addEventListener(WS_EVENTS.MANUAL_AUTH, function (event) {
+        $log.debug('Dispatching Auth Event', event.detail);
+        this.authorized = true;
+        this.dispatchEvent(new CustomEvent(WS_EVENTS.AUTHORIZE));
+      });
     }
 
     WsService.prototype = {
@@ -238,15 +241,6 @@
 
       isInitialized: function () {
         return this.initialized;
-      },
-
-      /**
-       * Registers a function which is called on web-socket initialization
-       *
-       * @param promiseFn Function which should return promise. If promise resolves then socket will be authorized
-       */
-      registerAuthorizeFn: function (promiseFn) {
-        this.authFn = promiseFn;
       },
 
       isAuthorized: function () {
