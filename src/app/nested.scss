@@ -605,7 +605,7 @@ a.post {
   margin: 1px;
   overflow: hidden;
   text-overflow: ellipsis;
-  word-break: keep-all;
+  //word-break: keep-all;
   white-space: nowrap;
   max-width: 100px;
   fontt-size: 11px;
@@ -913,21 +913,21 @@ div.att-item.zip {
 
 
 
-//
-//@media (min-width: 1000px) {
-//  #AllPlaces { width: 800px; }
-//}
-//@media (max-width: 999px) {
-//  #SubNav #Compose { display: none; }
-//  #AllPlaces { width: 100%; }
-//  #AllPlaces li > table td.properties { display: none; }
-//  #AllPlaces ul { margin-left: 5px;}
-//  #AllPlaces li > table td.members { display: none; }
-//}
+
+@media (min-width: 1000px) {
+  #AllPlaces { width: 800px; }
+}
+@media (max-width: 999px) {
+  #SubNav #Compose { display: none; }
+  #AllPlaces { width: 100%; }
+  #AllPlaces li > table td.properties { display: none; }
+  #AllPlaces ul { margin-left: 5px;}
+  #AllPlaces li > table td.members { display: none; }
+}
 
 
 #SubNav { height: 32px; border-bottom: 1px solid #00B45A; }
-#SubNav #Compose { width: 300px; text-align: center; }
+#SubNav #Compose { text-align: center; }
 #SubNav #Compose a {
   background-color: #14D769;
   border: 1px solid #00B45A;
@@ -969,7 +969,7 @@ div.att-item.zip {
 }
 #AllPlaces li {
   background-color: white;
-  border-bottom: 1px solid #8CEAB5;
+  border-bottom: 1px solid $color-calm;
 }
 #AllPlaces li:hover {
   background-color: #E7FBF0;
@@ -1020,5 +1020,5 @@ div.att-item.zip {
   border-radius: 16px;
 }
 #AllPlaces li > table td.properties {
-  width: 120px;
+  width: 220px;
 }

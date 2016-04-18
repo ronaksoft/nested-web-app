@@ -579,8 +579,30 @@ input #nav-search {
   padding: 0 0 0 17px;
   background-position: 0 -25px;
 }
-
-
+#nst-search input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 25px;
+  min-width: 25px;
+  padding: 0 0 0 17px;
+  background-position: 0 -75px;
+}
+#nst-more-badge input[type="checkbox"] + label  {
+  display: inline-block;
+  background: url('../assets/icons/more_32.png') no-repeat;
+  height: 25px;
+  min-width: 25px;
+  padding: 0 0 0 17px;
+  background-position: 0 0px;
+}
+#nst-arrow {
+  display: inline-block;
+  background: url('../assets/icons/arrow_16.png') no-repeat;
+  height: 25px;
+  min-width: 25px;
+  padding: 0 0 0 5px;
+  background-position: center center;
+  }
 /**
   *********************************
   *     Unknown                   *
