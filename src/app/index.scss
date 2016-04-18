@@ -55,6 +55,7 @@ html,
 }
 a:hover {
   color:#00b45a;
+  text-decoration: none;
 }
 input[type="text"],
 input[type="password"] {
@@ -91,9 +92,14 @@ input[type="checkbox"]:checked + label {
   min-width: 48px;
   padding: 0 0 0 17px;
 }
+
+
+
 #viewswitch input[type="checkbox"]:checked + label {
   background-position: 0 -15px;
 }
+
+
 
 input[type="radio"] {
   opacity:0;
@@ -324,9 +330,6 @@ label {
   background-position: 0 -64px;
 }
 
-.nst-ico-eye-slash {
-}
-
 /**
   **********************************************
   *     Nested Classes - Component Specific    *
@@ -340,7 +343,7 @@ label {
  */
 .nested-logo {
   height:64px;
-  width:208px;
+  width:20px;
 }
 
 .nav > li > a {
@@ -366,36 +369,19 @@ body #nav-body {
   margin-top: 64px;
 }
 
-.divide-nav{
-  height: 50px;
-  background-color: #428bca;
-}
-
-.navbar-form {
-  padding-left: 0;
-}
-
-.navbar-collapse{
-  padding-left:0;
-}
-
-//.list-inline > li  {
-//  padding-right: 0px;
-//  padding-left: 0px;
-//}
-
 .menu-links-top {
   font-size: $font-size-large;
 }
 
-#ul-border li{
- height:25px;
-}
-
 .nst-nav {
   background-color: white;
+  //position: fixed;
+  //top: 0;
+  //left: 0;
+  //z-index: 9999;
 
 }
+
 #nst-compose-button {
   height:32px;
   width:128px;
@@ -406,28 +392,18 @@ body #nav-body {
   background-color: $color-sense;
 }
 
-#nested-Places-li {
-  width: 120px;
-}
-#PrimaryPageSelector li {
-  width: 7em;
-  text-align: center;
-}
 input #nav-search {
   height: 30px;
   width: 146px;
   border-radius: 6px;
-
 }
+
 #n-search {
   width: 146px;
   height: 30px;
   border-radius: 6px;
-
 }
-.nav-search-padding {
 
-}
 /**
   *********************************************************
   *     Nested Classes - Component Specific - Side Bar    *
@@ -436,23 +412,23 @@ input #nav-search {
 
 
 /**
-  *****************************************
+  ********************************************************
   *     Nested Classes - Page Specific  Content  *
-  *****************************************
+  ********************************************************
  */
 
  #content {
   background-color: $color-sense;
 }
- .nst-event-name {
-     width: 128px;
-     vertical-align: top;
-     font-size: small;
-     overflow: hidden;
-     text-overflow: ellipsis;
-     word-break: keep-all;
-     white-space: nowrap;
- }
+.nst-event-name {
+  width: 128px;
+  vertical-align: top;
+  font-size: small;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+}
 .nst-green-tag {
   display: inline-block;
   background-color: #89EBB4;
@@ -529,13 +505,22 @@ input #nav-search {
 .nested-sidebar {
   background-color: $color-breeze-50;
   height: 100%;
-  width:208px;
+}
+.sidebar-container {
+  width:250px;
+}
 
+.nst-sidebar-header {
+  display: inline-block;
+  background-color: whitesmoke;
+  margin: 1px;
+  padding: 30px 5px 30px 5px;
+  width:250px;
 }
 
 /**
   **********************************************************
-  *     Nested Classes - Page Specific - Content  *
+  *     Nested Classes - Page Specific - Events  *
   **********************************************************
  */
 
@@ -543,6 +528,7 @@ input #nav-search {
   background-color:white;
   width:100%;
 }
+
 .nst-event-pic {
   width: 16px;
   height: 16px;
@@ -551,6 +537,48 @@ input #nav-search {
   background-repeat: no-repeat;
 }
 
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Places *
+  **********************************************************
+ */
+
+
+
+#place-logo input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  height: 15px;
+  min-width: 48px;
+  padding: 0 0 0 17px;
+}
+#place-logo {
+  vertical-align: bottom;
+}
+#nst-pencil input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 25px;
+  min-width: 25px;
+  padding: 0 0 0 17px;
+}
+#nst-atsign input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 25px;
+  min-width: 25px;
+  padding: 0 0 0 17px;
+  background-position: 0 -50px;
+}
+#nst-eye input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 25px;
+  min-width: 25px;
+  padding: 0 0 0 17px;
+  background-position: 0 -25px;
+}
 
 
 /**
