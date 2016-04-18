@@ -93,9 +93,13 @@ input[type="checkbox"]:checked + label {
   padding: 0 0 0 17px;
 }
 
+
+
 #viewswitch input[type="checkbox"]:checked + label {
   background-position: 0 -15px;
 }
+
+
 
 input[type="radio"] {
   opacity:0;
@@ -516,7 +520,7 @@ input #nav-search {
 
 /**
   **********************************************************
-  *     Nested Classes - Page Specific - Content  *
+  *     Nested Classes - Page Specific - Events  *
   **********************************************************
  */
 
@@ -531,6 +535,49 @@ input #nav-search {
   background-image: url('../assets/icons/eventicon.png');
   background-position: 0 -2px;
   background-repeat: no-repeat;
+}
+
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Places *
+  **********************************************************
+ */
+
+
+
+#place-logo input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  height: 15px;
+  min-width: 48px;
+  padding: 0 0 0 17px;
+}
+#place-logo {
+  vertical-align: bottom;
+}
+#nst-pencil input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 25px;
+  min-width: 25px;
+  padding: 0 0 0 17px;
+}
+#nst-atsign input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 25px;
+  min-width: 25px;
+  padding: 0 0 0 17px;
+  background-position: 0 -50px;
+}
+#nst-eye input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 25px;
+  min-width: 25px;
+  padding: 0 0 0 17px;
+  background-position: 0 -25px;
 }
 
 

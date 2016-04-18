@@ -286,7 +286,6 @@ a.post {
   width: 575px;
 }
 //
-//
 //#nav-margin-ul {
 //  margin-left: 75%;
 //}
@@ -609,7 +608,7 @@ a.post {
   word-break: keep-all;
   white-space: nowrap;
   max-width: 100px;
-  fontt-size: $font-size-xsmall;
+  fontt-size: 11px;
   border-color: #89ebb4;
   border-width: 1px;
   border-style: solid;
@@ -624,7 +623,7 @@ a.post {
   background-color: #000000;
   border-radius: 7px;
   color: white;
-  font-size: $font-size-xsmall;
+  font-size: 11px;
   width: 28px;
   height: 14px;
   text-align: center;
@@ -694,8 +693,8 @@ a.post {
   max-height: 120px;
 }
 #PostView #SenderIco {
-  width: 32px;
-  height: 32px;
+  width: 16px;
+  height: 16px;
   display: inline-block;
 }
 #PostView #SenderIco img { border-radius: 16px; }
@@ -901,4 +900,125 @@ div.att-item.zip {
 }
 .att-item.inprogress {
   opacity: 0.3 ;
+}
+
+
+
+
+/**
+  *********************************************************
+  *     Nested Classes -  compose  *
+  *********************************************************
+ */
+
+
+
+//
+//@media (min-width: 1000px) {
+//  #AllPlaces { width: 800px; }
+//}
+//@media (max-width: 999px) {
+//  #SubNav #Compose { display: none; }
+//  #AllPlaces { width: 100%; }
+//  #AllPlaces li > table td.properties { display: none; }
+//  #AllPlaces ul { margin-left: 5px;}
+//  #AllPlaces li > table td.members { display: none; }
+//}
+
+
+#SubNav { height: 32px; border-bottom: 1px solid #00B45A; }
+#SubNav #Compose { width: 300px; text-align: center; }
+#SubNav #Compose a {
+  background-color: #14D769;
+  border: 1px solid #00B45A;
+  padding: 5px 20px;
+  color: white;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: medium;
+  margin: 2px;
+}
+#SubNav #SecondaryPageSelector { width: 100%;}
+#SubNav #SecondaryPageSelector ul {}
+#SubNav #SecondaryPageSelector li {
+  color: #787878;
+  cursor: default;
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0px;
+  border-bottom: 3px solid white ;
+  box-sizing: border-box;
+  height: 38px;
+}
+#SubNav #SecondaryPageSelector li.selected {
+  border-bottom: 3px solid #00B45A ; ;
+  color: #00B45A;
+  font-weight: bold;
+}
+#SubNav #SecondaryPageSelector li:hover {
+  color: #00B45A;
+}
+#SubNav #Buttons { width: 100px; }
+#SubNav #Search { width: 100px; }
+
+
+
+#AllPlaces {
+  list-style: none;
+  margin: 0px auto;
+}
+#AllPlaces li {
+  background-color: white;
+  border-bottom: 1px solid #8CEAB5;
+}
+#AllPlaces li:hover {
+  background-color: #E7FBF0;
+}
+#AllPlaces ul {
+  list-style: none;
+  margin-left: 25px;
+}
+#AllPlaces li > table {
+  width: 100%;
+}
+#AllPlaces li > table td.logo {
+  width: 48px;
+  padding: 5px;
+}
+#AllPlaces li > table td.logo > img {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+}
+#AllPlaces li > table td.name {
+  min-width: 400px;
+  vertical-align: top;
+}
+#AllPlaces li > table td.name img {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+#AllPlaces li > table td.name h5 {
+  margin: 1px 5px;
+  font-weight: normal;
+  font-size: small;
+}
+#AllPlaces li > table td.name p {
+  margin: 5px;
+  color: #787878;
+  font-size: x-small;
+}
+#AllPlaces li > table td.members {
+  width: 200px;
+  text-align: left;
+}
+#AllPlaces li > table td.members img{
+  width: 32px;
+  height: 32px;
+  margin: 1px;
+  border-radius: 16px;
+}
+#AllPlaces li > table td.properties {
+  width: 120px;
 }
