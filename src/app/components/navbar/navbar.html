@@ -1,4 +1,4 @@
-<div class="nst-nav">
+<div class="nst-nav" ng-controller="NavBarController as vm">
   <div class="_dt ">
     <div class='_dtr'>
       <div class="_dtc">
@@ -23,8 +23,8 @@
             </div>
             <div class='_dtc'>
               <ul id="nav-margin-ul" class="list-inline">
-                <li><p class="nst-mood-cheerful nav-profile">{{vm.user.fullname}}</p></li>
-                <li><img class="img-circle" src="{{vm.user.avatar}}" height="32" width="32"></li>
+                <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
+                <li><img class="img-circle" ng-src="{{user.avatar}}" height="32" width="32"></li>
               </ul>
             </div>
           </div>
