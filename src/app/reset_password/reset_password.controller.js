@@ -6,8 +6,10 @@
     .controller('ResetPasswordController', ResetPasswordController);
 
   /** @ngInject */
-  function ResetPasswordController() {
+  function ResetPasswordController(AuthService, $location) {
     var vm = this;
+
+    AuthService.isAuthenticated(function () { $location.path('/').replace() });
 
     vm.msg = {
       text: "Enter your username"

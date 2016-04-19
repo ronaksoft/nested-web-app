@@ -6,16 +6,24 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, AuthService) {
+  function EventsController($location, WsService, AuthService) {
     var vm = this;
 
-    AuthService.isAuthenticated().catch(
-      function () {
-        $location.search({
-          back: window.location.href
-        });
-        $location.path('/signin');
-      }
-    );
+    if (!AuthService.isAuthenticated()) {
+      $location.search({
+        back: $location.$$absUrl
+      });
+      $location.path('/signin').replace();
+    }
+
+    WsService.request('timeline/get_events', {
+      skip: 0,
+      limit: 1,
+      after: 10
+    }).then(function (data) {
+
+    }).catch(function (data) {
+      console.log(data);
+    });
   }
 })();

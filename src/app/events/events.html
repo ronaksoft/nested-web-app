@@ -1,6 +1,197 @@
 <div>
   <nested-navbar></nested-navbar>
-</div>
-<div class="nst-fh">
-  <nested-sidebar></nested-sidebar>
-</div>
+
+  <div id="" class="_fh">
+    <div class="_dt _fh">
+      <div class="_dtr">
+        <nested-sidebar></nested-sidebar>
+
+        <div class="nst-content _dtc _pr _fhw">
+          <div class="_fhw">
+            <table id="EventList" class="_fhw">
+              <!--Time of activity -->
+
+              <!--<tr class='comment-add'>-->
+                <!--<td class='ico'>-->
+                  <!--<strong>Today</strong>-->
+                <!--</td>-->
+                <!--<td class='sender'>-->
+                  <!--<p>Wednesday 24 Feb</p>-->
+                <!--</td>-->
+                <!--<td class='msg'>-->
+                <!--</td>-->
+                <!--<td class='places'></td>-->
+                <!--<td class='time'></td>-->
+              <!--</tr>-->
+
+              <!--Comment Add-->
+
+              <tr class='comment-add'>
+                <td class='ico'>
+                  <div class='ei-comment-add'></div>
+                </td>
+                <td class='sender'>
+                  <!--<img src="../assets/images/yeoman.png" height="24" width="24"/>-->
+                  <div class='account-initials'>
+                  </div>
+                  <span>Pouyan</span>
+                </td>
+                <td class='msg'>
+                  <div class='comment-subject'>
+                    <span>commented on </span>
+                    <a class='post' href='#view/post/" + e.post_id.$oid + "'>Subject</a>
+                  </div>
+                  <div class='body'>Commet Body</div>
+                </td>
+                <td class='places'></td>
+                <td class='time'>Time</td>
+              </tr>
+
+              <!--member invite-->
+
+              <tr class='member-invite'>
+                <td class='ico'>
+                  <div class='ei-member-invite'></div>
+                </td>
+                <td class='sender'>
+                  <!--<img src='" + actor_pic_url + "'/>-->
+                  <div class='account-initials'>
+                  </div>
+                  <span>Pouyan</span>
+                </td>
+                <td class='msg'><span>invited </span><a class='account'> kayvan</a>
+                  <span> to </span><a class='place' href='#filter/place/" + e.place_id + "'>some place</a></td>
+                <td class='places'></td>
+                <td class='time'>Time</td>
+              </tr>
+
+              <!--member joined -->
+
+              <tr class='member-join'>
+                <td class='ico'>
+                  <div class='ei-member-join'></div>
+                </td>
+                <td class='sender'>
+                  <!--<img src='" + actor_pic_url + "'/>-->
+                  <div class='account-initials'>
+                  </div>
+                  <span>Zahra</span>
+                </td>
+                <td class='msg'><span>joined place </span><a class='place' href='#filter/place/" + e.place_id + "'></a></td>
+                <td class='places'></td>
+                <td class='time'></td>
+              </tr>
+
+              <!--post added -->
+
+              <tr class='post-add' post_id='" + e.post_id.$oid + "'>
+                <td class='ico'>
+                  <div class='ei-mail-unread'></div>
+                </td>
+                <td class='sender'>
+                  <!--<img src='" + actor_pic_url + "'/>-->
+                  <div class='account-initials'>
+                  </div>
+                  <span>Sale</span>
+                </td>
+                <td class='msg'>
+                  <div class='subject'>We’re Falling Behind on Family Planning</div>
+                  <div class='body'>Get Medium for iOS or Android RECOMMENDED BY MEDIUM STAFF We’re Falling Behind on Family Planning: Five Ways To Get Us Back On Track Four years ago, I stood
+                    with
+                    an
+                  </div>
+                  <div class='attachments'>
+                    <ul class='attachments-bar image'>
+                      <ul class='attachments-bar non-image'>
+                        <li>
+                          <div class='att-item pdf'>
+                            <span class='filename'>attached file name</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div class='att-item doc'>
+                            <span class='filename'>attached file name</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div class='att-item file'>
+                            <span class='filename'>attached file name</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div class='att-item media'>
+                            <span class='filename'>attached file name</span>
+                          </div>
+                        </li>
+                        <li>
+                          <div class='att-item file'>
+                            <span class='filename'>attached file name</span>
+                          </div>
+                        </li>
+                      </ul>
+                  </div>
+                </td>
+                <td class='places'>
+                  <div>post place name</div>
+                  <div class="more-tag">+1</div>
+                </td>
+                <td class='time'>Time</td>
+              </tr>
+
+
+              <!--add place-->
+
+              <tr class='place-add'>
+                <td class='ico'>
+
+                  <img src="../assets/images/yeoman.png" height="16" width="16">
+                  </div>
+                </td>
+                <td class='sender'>
+                  <!--<img src='" + actor_pic_url + "'/>-->
+                  <div class='account-initials'>
+                  </div>
+                  <span>Ehsan</span>
+                </td>
+                <td class='msg'><span>created <span>
+                  <a href='#filter/place/" + e.place_id + "' class='place'>Place name</a>
+                </td>
+                <td class='places'></td>
+                <td class='time'>Time</td>
+              </tr>
+
+              <tr class='comment-add'>
+                <td class='ico'>
+                  <div class='ei-comment-add'></div>
+                </td>
+                <td class='sender'>
+                  <!--<img src="../assets/images/yeoman.png" height="24" width="24"/>-->
+                  <div class='account-initials'>
+                  </div>
+                  <span>Pouyan</span>
+                </td>
+                <td class='msg'>
+                  <div class='comment-subject'>
+                    <span>commented on </span>
+                    <a class='post' href='#view/post/" + e.post_id.$oid + "'>Subject</a>
+                  </div>
+                  <div class='body'>
+                    <div class="att-item media">
+                      <span class="filename">E2-Recording-Sound-1460135992.m4a</span>
+                    </div>
+                  </div>
+                </td>
+                <td class='places'></td>
+                <td class='time'>Time</td>
+              </tr>
+              <!--add null full height  tr-->
+            </table>
+            <!--<div class="_tac">-->
+            <!--<a id="LoadMoreEvent" before="">Load More ..</a>-->
+            <!--</div>-->
+            <!--</div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

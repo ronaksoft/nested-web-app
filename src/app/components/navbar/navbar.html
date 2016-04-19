@@ -1,59 +1,111 @@
-<div class="nst-vc">
-  <nav class="navbar navbar-default navbar-fixed-top" id="navigation-bar">
-    <ul>
-      <div class="navbar-header nst-vc" id="header">
-        <ul class="list-inline col-xs-3">
-          <li id="logo"><img src="../assets/images/nested-logo.png"</li>
-          <li id="logotype"><img src="./assets/images/nested-logotype.png"</li>
-        </ul>
-        <ul class="list-inline col-xs-6" id="ul-border">
-          <li><a href="#/events">Events</a></li>
-          <li><a href="#/places">Places</a></li>
-          <li><a href="#">Calender</a></li>
-        </ul>
-        <ul class="list-inline col-xs-3">
-          <li class="text-left "><p class="nst-mood-cheerful">{{vm.user.fullname}}</p></li>
+<div class="nst-nav" ng-controller="NavBarController as vm">
+  <div class="_dt ">
+    <div class='_dtr'>
+      <div class="_dtc">
+        <div id="Header" class="_dt _fw">
+          <div class="_dtr">
 
-          <li class="text-left">
-            <img class="img-circle" src="{{vm.user.avatar}}" height="32" width="32">
-          </li>
+            <div id='Logo' class='_dtc'>
+              <a href="#/nested"><img id='Pic' src="../assets/images/nested-logo-32.png"/></a>
+              <a href="#/nested"><img id='Type' src="../assets/images/nested-logotype-32.png"/></a>
+            </div>
 
-          <li class="text-left "><a class="nst-mood-cheerful" href="#/signout">Sign Out [Tmp]</a></li>
-        </ul>
+            <div id='PrimaryPageSelector' class='_dtc'>
+              <ul>
+                <li class="selected">
+                  <a href="#/events">Events</a>
+                </li>
+                <li>
+                  <a href="#/places">Places</a>
+                </li>
+                <li>
+                  <a href="#/calendar">Calendar</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class='_dtc'>
+              <ul  class="list-inline text-right">
+                <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
+                <li><img class="img-circle" src="{{user.avatar}}" height="32" width="32"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="_dtr">
+          <div class="_dtc">
+            <div id="SubNav" class="_dt _fw _fh">
+              <div class="_dtr">
+                <div id="Compose" class="_dtc ">
+                  <a>Compose</a>
+                </div>
+                <div class="_dtc">
+                  <div class="_dt">
+                    <div class="_dtr">
+                      <div class="_dtc" id="SecondaryPageSelector">
+                        <ul class="nav-width-ul">
+                          <li class="selected">
+                            <a href="#/events">All</a>
+                          </li>
+                          <li class="">
+                            <a href="#/events">Inbox</a>
+                          </li>
+                          <li class="">
+                            <a href="#/events">Comments</a>
+                          </li>
+                          <li class="">
+                            <a href="#/events">Member Acts</a>
+                          </li>
+                          <li class="">
+                            <a href="#/events">Place Acts</a>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div id="ViewSelector" class="_dtc">
+                        <!--<div id="ExpandView" class="on"></div>-->
+                        <!--<div id="CollapseView" class="off"></div>-->
+                        <ul id="" class="list-inline">
+                          <li>
+                               <span class="text-right" id="viewswitch"> 
+                                <input type="checkbox" id="remember" name="remember" value="remember"  data-ng-model="login.remember"/> 
+                                <label for="remember"></label> 
+                                </span>
+                          </li>
+                          <li><input id="n-search" placeholder="Search"></li>
+                        </ul>
+
+                      </div>
+
+
+                      <!--<div class="_dtc nav-search-padding">-->
+                      <!--<div class="_dt">-->
+                      <!--<div class="_dtr">-->
+                      <!--<div id="ViewSelector" class="_dtc">-->
+                      <!--&lt;!&ndash;<div id="ExpandView" class="on"></div>&ndash;&gt;-->
+                      <!--&lt;!&ndash;<div id="CollapseView" class="off"></div>&ndash;&gt;-->
+                      <!--<span class="text-right" id="viewswitch"> -->
+                      <!--<input type="checkbox" id="remember" name="remember" value="remember"  data-ng-model="login.remember"/> -->
+                      <!--<label for="remember"></label> -->
+                      <!--</span>-->
+                      <!--</div>-->
+                      <!--<div class="_dtc">-->
+                      <!--<input id="n-search" placeholder="Search">-->
+                      <!--</div>-->
+                      <!--</div>-->
+                      <!--</div>-->
+                      <!--</div>-->
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </ul>
-    <div class="row navbar-button">
-      <ul class=" col-xs-3">
-        <button class="btn btn-lg btn-success form-group">Compose</button>
-      </ul>
-      <div class="">
-        <ul class="list-inline col-xs-6 " id="ul-border-button">
-          <li><a href="#">All</a></li>
-          <li><a href="#">Inbox</a></li>
-          <li><a href="#">Comments</a></li>
-          <li><a href="#">Member Acts</a></li>
-          <li><a href="#">Place Acts</a></li>
-        </ul>
-      </div>
-      <ul class="list-inline col-xs-2 nst-vc search">
-        <li id="viewswitch">
-          <input type="checkbox" id="remember" name="remember" value="remember"
-                 data-ng-model="login.remember"/>
-          <label for="remember"></label>
-        </li>
-        <li><input class="form-control" name="search" type="name" placeholder="Search"></input></li>
-      </ul>
-  </nav>
-</div>
-
-
-
-<div class="row">
-  <div class="container">
-    <div class="col-xs-2">
-      sotoon   dfododiofdifodfidoif
-    </div>
-    <div class="col-xs-10">
     </div>
   </div>
 </div>
+
