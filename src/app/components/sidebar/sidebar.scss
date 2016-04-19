@@ -1,3 +1,76 @@
-.nested-navbar-text {
-  color: white;
+/**
+  ********************************************************
+  *     Nested Classes - Component Specific - Sidebar  *
+  ********************************************************
+ */
+
+.sidebar {
+  background-color: #e7ece9;
+  border: 1px solid $color-breeze-50;
+  width: 208px;
+  height: 100%;
+  font-family : $font-family-eng-reg;
+}
+.sidebar a {
+  color : black;
+  text-decoration: none;
+  display: inline-block;
+}
+.grandplace a {
+  width : 149px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ced9d3;
+}
+.all-messages{
+  color: $color-sense-wire;
+  padding-top: 20px;
+  margin-bottom: 35px;
+  width: 100%;
+  text-align: center;
+}
+.grandplace{
+  padding-left: 16px;
+  font-size: $font-size-large;
+  display: block;
+  height: 50px;
+}
+
+.subplace{
+  padding-left: 16px;
+  font-size: $font-size-medium;
+  display: block;
+  height: 40px;
+  width: 100%;
+}
+
+.grandplace img {
+  margin-top: 6px;
+  margin-right: 5px;
+  height: 36px;
+  width: 36px;
+}
+.subplace img {
+  margin-top: 6px;
+  margin-right: 5px;
+  height: 24px;
+  width: 24px;
+}
+.sidebar ul {
+  padding-left: 0px;
+  list-style-type: none;
+}
+.active ul{
+  padding-left: 16px;
+}
+#arrow {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 2px;
+}
+.active:hover{
+  background-color: #f3f6f4;
+}
+.haschild {
+  padding-left: 2px;
 }
