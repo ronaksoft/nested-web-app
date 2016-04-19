@@ -547,12 +547,24 @@ input #nav-search {
 
 
 
-.role-icon {
+.role-icon-crown {
   background: url('../assets/icons/roleicon_16.png') no-repeat;
   // background-size: 16px 400%;
   width: 16px;
   height: 16px;
+}
 
+.role-icon-green {
+  background: url('../assets/icons/roleicon_16.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -16px;
+}
+.role-icon-gray {
+  background: url('../assets/icons/roleicon_16.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -32px;
 }
 
 .nst-pencil {
@@ -596,6 +608,14 @@ input #nav-search {
   background-position: center center;
 
   }
+#nst-arrow-rotated {
+  background: url('../assets/icons/arrow_16.png') no-repeat;
+  height: 25px;
+  width: 15px;
+  padding: 0 0 0 5px;
+  background-position: center center;
+  transform: rotate(180deg);
+}
 .arrow {
   width:15px;
 }
@@ -607,6 +627,21 @@ input #nav-search {
 #empty-space {
   width: 16px;
   height: 16px;
+}
+.nst-more-members {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    border: solid 1px $color-storm;
+    float: right;
+    line-height: 31px;
+    text-align: center;
+    font-size: small;
+    font-weight: normal;
+    color: $color-storm;
+
+
+
 }
 /**
   *********************************

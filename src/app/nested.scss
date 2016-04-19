@@ -140,7 +140,7 @@ input[type='text'], input[type='password'] {
     width: 32px;
     height: 32px;
     border-radius: 16px;
-    float: right;
+    float: left;
     line-height: 31px;
     text-align: center;
     font-size: small;
@@ -148,6 +148,18 @@ input[type='text'], input[type='password'] {
     color: white;
     background-color: #c0c0c0 ;
 
+}
+.account-initials-right {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  float: right;
+  line-height: 31px;
+  text-align: center;
+  font-size: small;
+  font-weight: normal;
+  color: white;
+  background-color: #c0c0c0 ;
 }
 
 ul.attachments-bar {
@@ -511,8 +523,7 @@ a.post {
 #SubNav #SecondaryPageSelector li:hover {
   color: #00B45A;
 }
-#SubNav #ViewSelector {
-
+#SubNav #ViewSelector  ul{
 }
 #SubNav #ViewSelector #ExpandView {
   background-image: url('/res/ico/viewswitch_expand.png');
