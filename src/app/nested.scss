@@ -567,6 +567,16 @@ a.post {
   vertical-align: middle;
 
 }
+#MyPlaces li span {
+
+  padding:10px;
+}
+#MyPlaces li .place-cell {
+  width:200px;
+  border-bottom: 1px solid $color-breeze;
+}
+
+
 #MyPlaces li img { margin: 1px 3px;}
 #MyPlaces li a {
   font-size: medium;

@@ -26,7 +26,7 @@
 
             <div class='_dtc'>
               <ul  class="list-inline text-right">
-                <li><p class="nst-mood-cheerful nav-profile">{{vm.user.fullname}}</p></li>
+                <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
                 <li><img class="img-circle" src="{{user.avatar}}" height="32" width="32"></li>
               </ul>
             </div>
@@ -71,14 +71,13 @@
                     <!--<div id="CollapseView" class="off"></div>-->
                     <ul id="" class="list-inline text-right">
                       <li>
-                               <span class="text-right" id="viewswitch"> 
-                                <input type="checkbox" id="remember" name="remember" value="remember"  data-ng-model="login.remember"/> 
-                                <label for="remember"></label> 
-                                </span>
+                        <span class="text-right" id="viewswitch"> 
+                          <input type="checkbox" id="remember" name="remember" value="remember"  data-ng-model="login.remember"/> 
+                          <label for="remember"></label> 
+                        </span>
                       </li>
                       <li><input id="n-search" placeholder="Search"></li>
                     </ul>
-
                   </div>
 
               </div>

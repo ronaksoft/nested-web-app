@@ -629,15 +629,14 @@ input #nav-search {
   height: 16px;
 }
 .nst-more-members {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 10px;
-    border: solid 1px $color-storm;
+    border: solid 1px $color-calm;
     float: right;
-    line-height: 31px;
+    line-height: 30px;
     text-align: center;
-    font-size: small;
-    font-weight: normal;
+    font-size: $font-size-small;
     color: $color-storm;
 
 
