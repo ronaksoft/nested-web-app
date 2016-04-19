@@ -34,11 +34,9 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   *     General Hacks             *
   *********************************
  */
-
 a {
   text-decoration: none;
 }
-
 body {
   background-color: $color-sense-5;
   font-family: $font-family-eng-reg;
@@ -120,6 +118,7 @@ input[type="radio"] + label{
   top: 0;
   left: 0;
   z-index: 1;
+  padding-left: 22px;
 }
 
 input[type="radio"]:checked + label{
@@ -248,6 +247,9 @@ label {
   *********************************
  */
 
+.nst-fh {
+  height :100%;
+}
 .nst-hs {
   display: flex;
   justify-content: flex-start;

@@ -627,7 +627,9 @@ a.post {
   border-style: solid;
 
 }
-
+#EventList tr #time-of-event {
+  width:400px;
+}
 
 #EventList td.places >.more-tag {
   border-color: #000000;

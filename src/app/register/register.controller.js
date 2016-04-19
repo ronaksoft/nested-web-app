@@ -12,3 +12,4 @@
     AuthService.isAuthenticated(function () { $location.path('/').replace() });
   }
 })();
+
