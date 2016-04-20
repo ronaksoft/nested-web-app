@@ -31,6 +31,8 @@ $color-wind: #a6b9af;
 $color-storm: #869d91;
 $color-hurricane: #476152;
 
+
+
 $font-size-xsmall: 11px;
 $font-size-small: 12px;
 $font-size-medium: 14px;
@@ -148,6 +150,9 @@ input[type='text'], input[type='password'] {
     color: white;
     background-color: #c0c0c0 ;
 
+}
+.place-members {
+  margin-right:5px;
 }
 .account-initials-right {
   width: 32px;
@@ -488,8 +493,8 @@ a.post {
   background-position: 0 -48px;
   background-repeat: no-repeat;
 
-
 }
+
 .ei-member-invite {
   width: 16px;
   height: 16px;
@@ -664,13 +669,14 @@ a.post {
 }
 #LoadMoreEvent:hover { font-weight: bold;}
 #PostView {
-  display: none;
+  //display: none;
   position: fixed;
   top: 0px;
   left: 0px;
   bottom: 0px;
   right: 0px;
   z-index: 100;
+  overflow: auto;
 }
 #PostView > div { table-layout: fixed; }
 #PostView .top-space { height: 10%; }
@@ -678,16 +684,20 @@ a.post {
 #PostView .left-space { width: 10%; }
 #PostView .right-space { width: 10%; }
 #PostView .main-body {
-  border: 1px solid black;
-  border-radius: 10px;
+  border: 1px solid $color-breeze;
+  border-radius: 8px;
   background-color: white ;
-  padding: 10px;
+  padding: 0px;
+  min-width: 840px;
+  min-height: 640px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
 #PostView .main-body .left-column {}
 #PostView .main-body .right-column { width: 300px;}
 #PostView #PostHeader {
-  border-bottom: 1px solid #00B45A ;
-  padding: 2px;
+  border-bottom: 1px solid $color-breeze ;
+  padding: 0px;
+  height: 100px;
 }
 #PostView #PostTime {
   top: 0px;
@@ -698,15 +708,15 @@ a.post {
 }
 #PostView #PostTime .date {margin: 1px; color: gray; font-weight: bold;}
 #PostView #PostTime .time {margin: 1px 10px; font-size: medium;}
-#PostView #PostSubject {
-  margin: 3px 3px 15px 3px;
-  font-size: medium;
-  font-weight: bold;
-  word-break: break-all;
-  white-space: normal;
-  overflow: auto;
-  max-height: 120px;
-}
+//#PostView #PostSubject {
+//  margin: 3px 3px 15px 3px;
+//  font-size: medium;
+//  font-weight: bold;
+//  word-break: break-all;
+//  white-space: normal;
+//  overflow: auto;
+//  max-height: 120px;
+//}
 #PostView #SenderIco {
   width: 16px;
   height: 16px;
@@ -750,7 +760,13 @@ a.post {
 }
 #PostView #Content { vertical-align: top; overflow: auto;}
 #PostView #PostBody { border: none; }
-#PostView #Comments { padding: 5px; border-left: 1px solid gray; padding: 5px; }
+#PostView #Comments {
+  //padding: 5px;
+  border-left: 1px solid gray;
+  padding: 5px;
+  width: 320px;
+  background-color: $color-storm;
+}
 #PostView #NewComment { padding: 5px; }
 #PostView #NewComment .account-ico { float: left;}
 #PostView #NewComment input[type='text'] {
@@ -945,7 +961,7 @@ div.att-item.zip {
   #AllPlaces li > table td.members { display: none; }
 }
 .properties {
-  width: 96px;
+  width: 126px;
 }
 
 #SubNav { height: 32px; border-bottom: 1px solid $color-sense; }
