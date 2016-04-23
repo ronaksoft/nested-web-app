@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function (WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
+    .factory('NestedPost', function (WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, $log) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -44,11 +44,11 @@
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
           } else if (data.hasOwnProperty('_id')) {
-            console.log("Post Data:", data);
+            $log.debug("Post Data:", data);
 
             this.id = data._id.$oid;
-            this.sender = new NestedUser(data.sender._id);
-            this.replyTo = data.replyTo ? (this.full ? new Post(data.replyTo) : data.replyTo) : null;
+            this.sender = new NestedUser(this.full ? data.sender._id : data.sender);
+            this.replyTo = data.replyTo ? new Post(this.full ? data.replyTo : { id: data.replyTo }) : null;
             this.subject = data.subject;
             this.contentType = data.content_type;
             this.body = data.body;
@@ -57,12 +57,12 @@
             this.updated = new Date(data['last-update'] * 1e3);
             this.counters = data.counters;
             this.monitored = data.monitored;
-            this.forwarded = data.forwarded ? (this.full ? new Post(data.forwarded) : data.forwarded) : null;
+            this.forwarded = data.forwarded ? new Post(this.full ? data.forwarded : { id: data.forwarded }) : null;
             this.spam = data.spam;
 
             this.places = [];
             for (var k in data.post_places) {
-              this.places[k] = new NestedPlace(data.post_places[k]._id);
+              this.places[k] = new NestedPlace(this.full ? data.post_places[k]._id : { id: data.post_places[k]._id, name: data.post_places[k].name });
             }
 
             this.attachments = [];

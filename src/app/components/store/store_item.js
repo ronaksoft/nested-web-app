@@ -11,7 +11,7 @@
       this.uid = uid;
       this.url = null;
 
-      StoreService.toUrl(uid).then(function (url) {
+      uid && StoreService.toUrl(uid).then(function (url) {
         this.url = url;
       }.bind(this));
     }

@@ -42,7 +42,8 @@
             this.phone = data.phone;
             this.name = {
               fname: data.fname,
-              lname: data.lname
+              lname: data.lname,
+              initials: data.fname.charAt(0).toUpperCase() + data.lname.charAt(0).toUpperCase()
             };
             this.fullname = this.name.fname + ' ' + this.name.lname;
             this.picture = {
