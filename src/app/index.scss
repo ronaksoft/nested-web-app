@@ -745,6 +745,57 @@ input #nav-search {
 .msg-post-view {
   padding-left: 40px;
 }
+.input-msg input {
+  width:270px;
+  width: 270px;
+  height: 30px;
+  float: right;
+  border: 1px solid $color-breeze !important;
+  padding-right: 8px;
+}
+
+.doc-attachment {
+  width: 72px;
+  height: 96px;
+  background-image: url('../assets/icons/attachment_card_96x72.png');
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+
+}
+
+.media-attachment {
+  width: 72px;
+  height: 96px;
+  background-image: url('../assets/icons/attachment_card_96x72.png');
+  background-position: 0 -96px;
+  background-repeat: no-repeat;
+
+}
+
+.pdf-attachment {
+  width: 72px;
+  height: 96px;
+  background-image: url('../assets/icons/attachment_card_96x72.png');
+  background-position: 0 -192px;
+  background-repeat: no-repeat;
+
+}
+.file-attachment {
+  width: 72px;
+  height: 96px;
+  background-image: url('../assets/icons/attachment_card_96x72.png');
+  background-position: 0 -288px;
+  background-repeat: no-repeat;
+}
+
+.zip-attachment {
+  width: 72px;
+  height: 96px;
+  background-image: url('../assets/icons/attachment_card_96x72.png');
+  background-position: 0 -384px;
+  background-repeat: no-repeat;
+
+}
 
 /**
   *********************************
