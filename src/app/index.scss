@@ -717,7 +717,7 @@ input #nav-search {
 
 }
 .normal-badge {
-  background-color: $color-sense-50;
+  background-color: $color-badge;
   border-radius: 15px;
   color: $color-solid;
   font-size: 13px;
@@ -767,12 +767,17 @@ input #nav-search {
   padding-left: 40px;
 }
 .input-msg input {
-  width:270px;
-  width: 270px;
-  height: 30px;
   float: right;
   border: 1px solid $color-breeze !important;
   padding-right: 8px;
+  height: 32px;
+  margin-bottom: 5px;
+  margin-right: 8px;
+  margin-left: 8px;
+  width: 85%;
+}
+.input-msg {
+  height: 42px;
 }
 
 .doc-attachment {

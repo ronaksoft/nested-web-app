@@ -1,0 +1,40 @@
+<tr class="post-add" data-post-id="{{event.post.id}}">
+  <td class="ico">
+    <div class="ei-mail-unread"></div>
+  </td>
+  <td class="sender">
+    <img src="{{event.post.sender.picture.x32.url}}"/>
+    <div class="account-initials"></div>
+    <span dta-ng-bind="event.post.sender.fullname"></span>
+  </td>
+  <td class="msg">
+    <div class="subject" data-ng-bind="event.post.subject"></div>
+    <div class="body" data-ng-bind="event.post.body"></div>
+    <div class="attachments">
+      <ul class="attachments-bar image">
+        <ul class="attachments-bar">
+          <li>
+            <div class="doc-attachment"></div>
+          </li>
+          <li>
+            <div class="media-attachment"></div>
+          </li>
+          <li>
+            <div class="file-attachment"></div>
+          </li>
+          <li>
+            <div class="zip-attachment"></div>
+          </li>
+          <li>
+            <div class="pdf-attachment"></div>
+          </li>
+        </ul>
+      </ul>
+    </div>
+  </td>
+  <td class="places">
+    <div class="_dtc" data-ng-bind="event.post.places[0].name"></div>
+    <div class="more-tag _dtc" ng-if="event.post.places.length > 1">+{{event.post.places.length - 1}}</div>
+  </td>
+  <td class="time">Time</td>
+</tr>
