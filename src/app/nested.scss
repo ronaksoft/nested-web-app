@@ -149,8 +149,12 @@ input[type='text'], input[type='password'] {
     font-weight: normal;
     color: white;
     background-color: #c0c0c0 ;
+    vertical-align: top;
 
 }
+
+
+
 .place-members {
   margin-right:5px;
 }
@@ -762,10 +766,9 @@ a.post {
 #PostView #PostBody { border: none; }
 #PostView #Comments {
   //padding: 5px;
-  border-left: 1px solid gray;
   padding: 5px;
   width: 320px;
-  background-color: $color-storm;
+  background-color: $color-calm;
 }
 #PostView #NewComment { padding: 5px; }
 #PostView #NewComment .account-ico { float: left;}

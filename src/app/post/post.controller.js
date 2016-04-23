@@ -6,7 +6,7 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function EventsController($location, WsService, AuthService) {
+  function PostController($location, WsService, AuthService) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {

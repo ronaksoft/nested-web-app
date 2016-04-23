@@ -52,7 +52,7 @@ html,
   outline: none;
 }
 a:hover {
-  color:#00b45a;
+  color: #00b45a;
   text-decoration: none;
 }
 input[type="text"],
@@ -658,6 +658,10 @@ input #nav-search {
   height: 60px;
 
 }
+.post-nav img {
+  padding-right:20px;
+  padding-left: 20px;
+}
 .post-nav-left {
   float: left;
   height: 60px;
@@ -681,7 +685,7 @@ input #nav-search {
 }
 .post-nav-right {
   float: right;
-  width: 200px;
+  width: 240px;
   padding-left: 16px;
   padding-top: 18px;
 
@@ -731,6 +735,17 @@ input #nav-search {
   padding-left: 24px;
 
 }
+.time-post-view {
+  width: 80px;
+  font-size: $font-size-small;
+}
+.profile-post-view {
+  width: 40px;
+}
+.msg-post-view {
+  padding-left: 40px;
+}
+
 /**
   *********************************
   *     Unknown                   *

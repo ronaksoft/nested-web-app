@@ -49,12 +49,12 @@
         controller: 'EventsController',
         controllerAs: 'events'
       })
-  .state('post', {
-      url: '/post',
-      templateUrl: 'app/events/post.html',
-      controller: 'PostController',
-      controllerAs: 'Post'
-    });
+      .state('post', {
+        url: '/post',
+        templateUrl: 'app/post/post.html',
+        controller: 'PostController',
+        controllerAs: 'post'
+      });
 
     $urlRouterProvider.otherwise('/');
   }
