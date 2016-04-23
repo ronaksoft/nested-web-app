@@ -150,8 +150,21 @@ input[type='text'], input[type='password'] {
     color: white;
     background-color: #c0c0c0 ;
     vertical-align: top;
-
 }
+.account-initials-24 {
+  width: 24px;
+  height: 24px;
+  border-radius: 16px;
+  float: left;
+  line-height: 23px;
+  text-align: center;
+  font-size: small;
+  font-weight: normal;
+  color: white;
+  background-color: #c0c0c0 ;
+  vertical-align: top;
+}
+
 
 
 
@@ -220,26 +233,7 @@ ul.attachments-bar.image .att-item > span.filename {
 ul.attachments-bar.image .att-item.inprogress {
     opacity: 0.3 ;
 }
-ul.attachments-bar.image .att-item.doc {
-    background-image: url('/res/ico/attachmentcard_96.png');
-    background-position: 0px;
-}
-ul.attachments-bar.image .att-item.file {
-    background-image: url('/res/ico/attachmentcard_96.png');
-    background-position: -216px;
-}
-ul.attachments-bar.image .att-item.media {
-    background-image: url('/res/ico/attachmentcard_96.png');
-    background-position: -72px;
-}
-ul.attachments-bar.image .att-item.pdf {
-    background-image: url('/res/ico/attachmentcard_96.png');
-    background-position: -144px;
-}
-ul.attachments-bar.image .att-item.zip {
-    background-image: url('/res/ico/attachmentcard_96.png');
-    background-position: -288px;
-}
+
 ul.attachments-bar.non-image {
     max-height: 150px;
 }
@@ -772,15 +766,7 @@ a.post {
 }
 #PostView #NewComment { padding: 5px; }
 #PostView #NewComment .account-ico { float: left;}
-#PostView #NewComment input[type='text'] {
-  padding: 5px;
-  margin: 3px;
-  border: 1px solid gray ;
-  outline: none ;
-  border-radius: 4px;
-  width: 230px;
 
-}
 #PostView #NewComment #CommentSendBtn  {
   background-color: #00B45A;
   border: none ;
