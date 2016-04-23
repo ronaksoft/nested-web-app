@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, WsService, AuthService) {
+  function EventsController($location, WsService, AuthService, NestedEvent, $scope) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -16,14 +16,24 @@
       $location.path('/signin').replace();
     }
 
+    vm.events = [];
+
     WsService.request('timeline/get_events', {
       skip: 0,
-      limit: 1,
-      after: 10
+      limit: 50,
+      after: 10,
+      detail: 'full'
     }).then(function (data) {
+      for (var key in data.events) {
+        var eventData = data.events[key];
+        var event = new NestedEvent(eventData);
+
+        console.log("Event: ", event);
+        $scope.events.events.push(event);
+      }
 
     }).catch(function (data) {
-      console.log(data);
+
     });
   }
 })();

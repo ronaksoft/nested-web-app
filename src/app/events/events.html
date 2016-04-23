@@ -10,6 +10,9 @@
           <div class="_fhw">
 
             <table id="EventList" class="_fhw">
+              <tr ng-repeat="event in vm.events" ng-include="event.view.tpl">
+              </tr>
+
               <!--Time of activity -->
               <!--<tr>-->
                 <!--<td>-->

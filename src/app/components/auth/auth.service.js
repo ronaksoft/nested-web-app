@@ -89,7 +89,9 @@
 
       logout: function () {
         this.unauthorize();
-        return Promise.resolve();
+        return new Promise(function (res, rej) {
+          res.call(this);
+        }.bind(this));
 
         return WsService.request('logout').then(this.unauthorize);
       },
