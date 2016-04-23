@@ -53,6 +53,9 @@
           );
         }
 
+        this.data.data['_sk'] = this.data.data['_sk'] || this.service.getSessionKey();
+        this.data.data['_ss'] = this.data.data['_ss'] || this.service.getSessionSecret();
+
         $log.debug('Sending:', this.data);
         this.service.stream.send(angular.toJson(this.data));
       }.bind(this);
@@ -89,6 +92,8 @@
       // TODO: Make these configurable
       this.appId = appId;
       this.appSecret = appSecret;
+      this.sesKey = '';
+      this.sesSecret = '';
 
       this.initialized = false;
       this.authorized = false;
@@ -129,7 +134,6 @@
       // Response Router
       this.stream.onMessage(function(ws) {
         var data = angular.fromJson(ws.data);
-
         $log.debug(data);
 
         var reqId = data.hasOwnProperty('_reqid') ? data._reqid : 'invalid';
@@ -147,7 +151,12 @@
                   this.requests[reqId].resolve(data.data);
 
                   if (AUTH_COMMANDS.indexOf(this.requests[reqId].data.data.cmd) > -1) {
-                    this.dispatchEvent(new CustomEvent(WS_EVENTS.MANUAL_AUTH, { detail: this.requests[reqId].data }));
+                    this.dispatchEvent(new CustomEvent(WS_EVENTS.MANUAL_AUTH, {
+                      detail: {
+                        response: data,
+                        request: this.requests[reqId].data
+                      }
+                    }));
                   }
                   break;
 
@@ -174,7 +183,7 @@
       this.stream.onError(function (event) {
         $log.debug('WebSocket Error:', event, this);
         this.dispatchEvent(new CustomEvent(WS_EVENTS.ERROR));
-      });
+      }.bind(this));
 
       this.addEventListener(WS_EVENTS.MESSAGE, function (event) {
         switch (event.detail) {
@@ -189,6 +198,8 @@
       this.addEventListener(WS_EVENTS.MANUAL_AUTH, function (event) {
         $log.debug('Dispatching Auth Event', event.detail);
         this.authorized = true;
+        this.sesSecret = event.detail.response.data._ss;
+        this.sesKey = event.detail.response.data._sk.$oid;
         this.dispatchEvent(new CustomEvent(WS_EVENTS.AUTHORIZE));
       });
     }
@@ -198,8 +209,6 @@
         var reqId = this.genRequestId(action, data, timeout);
 
         var payload = angular.extend(null == data ? {} : data, {
-          _appid: this.appId,
-          _as: this.appSecret,
           cmd: action
         });
 
@@ -245,6 +254,14 @@
 
       isAuthorized: function () {
         return this.authorized;
+      },
+
+      getSessionKey: function () {
+        return this.sesKey;
+      },
+
+      getSessionSecret: function () {
+        return this.sesSecret;
       },
 
       addEventListener: function (type, callback, oneTime) {
