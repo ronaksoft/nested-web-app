@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedUser', function (WsService, NestedUserRepoService) {
+    .factory('NestedUser', function (WsService, NestedUserRepoService, StoreItem) {
       function User(data) {
         this.username = null;
         this.email = null;
@@ -35,17 +35,24 @@
             this.load(data);
           } else if (data.hasOwnProperty('username')) {
             angular.extend(this, data);
-          } else if (data.hasOwnProperty('status')) {
-            this.username = data.info._id;
-            this.email = data.info.email;
-            this.email_verified = data.info.email_verified;
-            this.phone = data.info.phone;
+          } else if (data.hasOwnProperty('_id')) {
+            this.username = data._id;
+            this.email = data.email;
+            this.email_verified = data.email_verified;
+            this.phone = data.phone;
             this.name = {
-              fname: data.info.fname,
-              lname: data.info.lname
+              fname: data.fname,
+              lname: data.lname
             };
             this.fullname = this.name.fname + ' ' + this.name.lname;
-            this.picture = data.info.picture;
+            this.picture = {
+              org: new StoreItem(data.picture.org),
+              x32: new StoreItem(data.picture.x32),
+              x64: new StoreItem(data.picture.x64),
+              x128: new StoreItem(data.picture.x128)
+            };
+          } else if (data.hasOwnProperty('status')) {
+            this.setData(data.info);
           }
         },
 

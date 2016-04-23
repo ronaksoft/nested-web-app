@@ -48,10 +48,11 @@
       }
 
       var templates = {};
+      templates[EVENT_ACTIONS.MEMBER_INVITE] = 'app/components/nested/event/member/invite.html';
       templates[EVENT_ACTIONS.POST_ADD] = 'app/components/nested/event/post/add.html';
+      templates[EVENT_ACTIONS.COMMENT_ADD] = 'app/components/nested/event/comment/add.html';
 
       Event.prototype = {
-
         setData: function(data) {
           console.log("Raw Event Data: ", data);
 

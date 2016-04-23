@@ -32,6 +32,7 @@
         $scope.events.events.push(event);
       }
 
+      console.log('Scope: ', $scope.events.events);
     }).catch(function (data) {
 
     });

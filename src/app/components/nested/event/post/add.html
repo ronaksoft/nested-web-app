@@ -1,55 +1,40 @@
-<tr class='post-add' post_id='" + e.post_id.$oid + "'>
-  <td class='ico'>
-    <div class='ei-mail-unread'></div>
+<tr class="post-add" data-post-id="{{event.post.id}}">
+  <td class="ico">
+    <div class="ei-mail-unread"></div>
   </td>
-  <td class='sender'>
-    <!--<img src='" + actor_pic_url + "'/>-->
-    <div class='account-initials'>
-    </div>
-    <span>Sale</span>
+  <td class="sender">
+    <img src="{{event.post.sender.picture.x32.url}}"/>
+    <div class="account-initials"></div>
+    <span dta-ng-bind="event.post.sender.fullname"></span>
   </td>
-  <td class='msg'>
-    <div class='subject'>We’re Falling Behind on Family Planning</div>
-    <div class='body'>Get Medium for iOS or Android RECOMMENDED BY MEDIUM STAFF We’re Falling Behind on Family Planning:
-      Five Ways To Get Us Back On Track Four years ago, I stood
-      with
-      an
-    </div>
-    <div class='attachments'>
-      <ul class='attachments-bar image'>
-        <ul class='attachments-bar non-image'>
+  <td class="msg">
+    <div class="subject" data-ng-bind="event.post.subject"></div>
+    <div class="body" data-ng-bind="event.post.body"></div>
+    <div class="attachments">
+      <ul class="attachments-bar image">
+        <ul class="attachments-bar">
           <li>
-            <div class='att-item pdf'>
-              <span class='filename'>attached file name</span>
-            </div>
+            <div class="doc-attachment"></div>
           </li>
           <li>
-            <div class='att-item doc'>
-              <span class='filename'>attached file name</span>
-            </div>
+            <div class="media-attachment"></div>
           </li>
           <li>
-            <div class='att-item file'>
-              <span class='filename'>attached file name</span>
-            </div>
+            <div class="file-attachment"></div>
           </li>
           <li>
-            <div class='att-item media'>
-              <span class='filename'>attached file name</span>
-            </div>
+            <div class="zip-attachment"></div>
           </li>
           <li>
-            <div class='att-item file'>
-              <span class='filename'>attached file name</span>
-            </div>
+            <div class="pdf-attachment"></div>
           </li>
         </ul>
       </ul>
     </div>
   </td>
-  <td class='places'>
-    <div>post place name</div>
-    <div class="more-tag">+1</div>
+  <td class="places">
+    <div class="_dtc" data-ng-bind="event.post.places[0].name"></div>
+    <div class="more-tag _dtc" ng-if="event.post.places.length > 1">+{{event.post.places.length - 1}}</div>
   </td>
-  <td class='time'>Time</td>
+  <td class="time">Time</td>
 </tr>

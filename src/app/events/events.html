@@ -8,10 +8,8 @@
 
         <div class="nst-content _dtc _pr _fhw">
           <div class="_fhw">
-
             <table id="EventList" class="_fhw">
-              <tr ng-repeat="event in vm.events" ng-include="event.view.tpl">
-              </tr>
+              <tbody data-ng-repeat="event in events.events" data-ng-include="event.view.tpl" data-ng-model="event"></tbody>
 
               <!--Time of activity -->
               <!--<tr>-->
@@ -19,46 +17,6 @@
                   <!--<p>Today Wednesday 24 Feb</p>-->
                 <!--</td>-->
               <!--</tr>-->
-              <!--Comment Add-->
-
-              <tr class='comment-add'>
-                <td class='ico'>
-                  <div class='ei-comment-add'></div>
-                </td>
-                <td class='sender'>
-                  <!--<img src="../assets/images/yeoman.png" height="24" width="24"/>-->
-                  <div class='account-initials'>
-                  </div>
-                  <span>Pouyan</span>
-                </td>
-                <td class='msg'>
-                  <div class='comment-subject'>
-                    <span>commented on </span>
-                    <a class='post' href='#view/post/" + e.post_id.$oid + "'>Subject</a>
-                  </div>
-                  <div class='body'>Commet Body</div>
-                </td>
-                <td class='places'></td>
-                <td class='time'>Time</td>
-              </tr>
-
-              <!--member invite-->
-
-              <tr class='member-invite'>
-                <td class='ico'>
-                  <div class='ei-member-invite'></div>
-                </td>
-                <td class='sender'>
-                  <!--<img src='" + actor_pic_url + "'/>-->
-                  <div class='account-initials'>
-                  </div>
-                  <span>Pouyan</span>
-                </td>
-                <td class='msg'><span>invited </span><a class='account'> kayvan</a>
-                  <span> to </span><a class='place' href='#filter/place/" + e.place_id + "'>some place</a></td>
-                <td class='places'></td>
-                <td class='time'>Time</td>
-              </tr>
 
               <!--member joined -->
 
@@ -76,53 +34,6 @@
                 <td class='places'></td>
                 <td class='time'></td>
               </tr>
-
-              <!--post added -->
-
-              <tr class='post-add' post_id='" + e.post_id.$oid + "'>
-                <td class='ico'>
-                  <div class='ei-mail-unread'></div>
-                </td>
-                <td class='sender'>
-                  <!--<img src='" + actor_pic_url + "'/>-->
-                  <div class='account-initials'>
-                  </div>
-                  <span>Sale</span>
-                </td>
-                <td class='msg'>
-                  <div class='subject'>We’re Falling Behind on Family Planning</div>
-                  <div class='body'>Get Medium for iOS or Android RECOMMENDED BY MEDIUM STAFF We’re Falling Behind on Family Planning: Five Ways To Get Us Back On Track Four years ago, I stood
-                    with
-                    an
-                  </div>
-                  <div class='attachments'>
-                    <ul class='attachments-bar image'>
-                      <ul class='attachments-bar'>
-                        <li>
-                          <div class="doc-attachment"></div>
-                        </li>
-                        <li>
-                          <div class="media-attachment"></div>
-                        </li>
-                        <li>
-                          <div class="file-attachment"></div>
-                        </li>
-                        <li>
-                          <div class="zip-attachment"></div>
-                        </li>
-                        <li>
-                          <div class="pdf-attachment"></div>
-                        </li>
-                      </ul>
-                  </div>
-                </td>
-                <td class='places '>
-                  <div class="_dtc">post place name</div>
-                  <div class="more-tag _dtc">+1</div>
-                </td>
-                <td class='time'>Time</td>
-              </tr>
-
 
               <!--add place-->
 
