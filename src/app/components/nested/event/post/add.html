@@ -37,5 +37,5 @@
     <div class="_dtc" data-ng-bind="event.post.places[0].name"></div>
     <div class="more-tag _dtc" ng-if="event.post.places.length > 1">+{{event.post.places.length - 1}}</div>
   </td>
-  <td class="time">Time</td>
+  <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
 </tr>
