@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, WsService, AuthService, NestedEvent, $scope) {
+  function EventsController($location, WsService, AuthService, NestedEvent, $scope, $log) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -28,11 +28,9 @@
         var eventData = data.events[key];
         var event = new NestedEvent(eventData);
 
-        console.log("Event: ", event);
+        $log.debug("Event: ", event.type, event);
         $scope.events.events.push(event);
       }
-
-      console.log('Scope: ', $scope.events.events);
     }).catch(function (data) {
 
     });

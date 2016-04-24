@@ -12,6 +12,7 @@
               <tbody data-ng-repeat="event in events.events" data-ng-include="event.view.tpl" data-ng-model="event"></tbody>
 
               <!--Time of activity -->
+
               <!--<tr>-->
                 <!--<td>-->
                   <!--<p>Today Wednesday 24 Feb</p>-->
@@ -19,115 +20,71 @@
               <!--</tr>-->
 
 
-              <!--invite -->
-              <tr class='comment-add'>
-                <td class='ico'>
-                  <div class='ei-invite'></div>
-                </td>
-                <td class='sender'>
-                  <div class='account-initials'>
-                  </div>
-                  <span>Hady</span>
-                </td>
-                <td class='msg'>
-                  <div class='comment-subject'>
-                    <span class="nst-mood-storm">invited you to </span>
-                    <a class='post' href='#view/post/" + e.post_id.$oid + "'>Social Media</a>
-                  </div>
-                </td>
-                <td class='places'>
-                  <button class="decline">Decline</button>
-                  <button class="accept">Accept</button>
-                </td>
-                <td class='time'>Time</td>
-              </tr>
+
+              <!--&lt;!&ndash;invite &ndash;&gt;-->
+              <!--<tr class='comment-add'>-->
+                <!--<td class='ico'>-->
+                  <!--<div class='ei-invite'></div>-->
+                <!--</td>-->
+                <!--<td class='sender'>-->
+                  <!--<div class='account-initials'>-->
+                  <!--</div>-->
+                  <!--<span>Hady</span>-->
+                <!--</td>-->
+                <!--<td class='msg'>-->
+                  <!--<div class='comment-subject'>-->
+                    <!--<span class="nst-mood-storm">invited you to </span>-->
+                    <!--<a class='post' href='#view/post/" + e.post_id.$oid + "'>Social Media</a>-->
+                  <!--</div>-->
+                <!--</td>-->
+                <!--<td class='places'>-->
+                  <!--<button class="decline">Decline</button>-->
+                  <!--<button class="accept">Accept</button>-->
+                <!--</td>-->
+                <!--<td class='time'>Time</td>-->
+              <!--</tr>-->
 
 
-              <!--member joined -->
+              <!--&lt;!&ndash;member joined &ndash;&gt;-->
 
-              <tr class='member-join'>
-                <td class='ico'>
-                  <div class='ei-member-join'></div>
-                </td>
-                <td class='sender'>
-                  <!--<img src='" + actor_pic_url + "'/>-->
-                  <div class='account-initials'>
-                  </div>
-                  <span>Zahra</span>
-                </td>
-                <td class='msg'><span>joined place </span><a class='place' href='#filter/place/" + e.place_id + "'></a></td>
-                <td class='places'></td>
-                <td class='time'></td>
-              </tr>
+              <!--<tr class='member-join'>-->
+                <!--<td class='ico'>-->
+                  <!--<div class='ei-member-join'></div>-->
+                <!--</td>-->
+                <!--<td class='sender'>-->
+                  <!--&lt;!&ndash;<img src='" + actor_pic_url + "'/>&ndash;&gt;-->
+                  <!--<div class='account-initials'>-->
+                  <!--</div>-->
+                  <!--<span>Zahra</span>-->
+                <!--</td>-->
+                <!--<td class='msg'><span>joined place </span><a class='place' href='#filter/place/" + e.place_id + "'></a></td>-->
+                <!--<td class='places'></td>-->
+                <!--<td class='time'></td>-->
+              <!--</tr>-->
 
-              <!--add place-->
+              <!--&lt;!&ndash;add place&ndash;&gt;-->
 
-              <tr class='place-add'>
-                <td class='ico'>
+              <!--<tr class='place-add'>-->
+                <!--<td class='ico'>-->
 
-                  <img src="../assets/images/yeoman.png" height="16" width="16">
-                  </div>
-                </td>
-                <td class='sender'>
-                  <!--<img src='" + actor_pic_url + "'/>-->
-                  <div class='account-initials'>
-                  </div>
-                  <span>Ehsan</span>
-                </td>
-                <td class='msg'><span>created <span>
-                  <a href='#filter/place/" + e.place_id + "' class='place'>Place name</a>
-                </td>
-                <td class='places'></td>
-                <td class='time'>Time</td>
-              </tr>
-
-              <tr class='comment-add'>
-                <td class='ico'>
-                  <div class='ei-comment-add'></div>
-                </td>
-                <td class='sender'>
-                  <!--<img src="../assets/images/yeoman.png" height="24" width="24"/>-->
-                  <div class='account-initials'>
-                  </div>
-                  <span>Pouyan</span>
-                </td>
-                <td class='msg'>
-                  <div class='comment-subject'>
-                    <span>commented on </span>
-                    <a class='post' href='#view/post/" + e.post_id.$oid + "'>Subject</a>
-                  </div>
-                  <div class='body'>
-                    <div class="att-item media">
-                      <span class="filename">E2-Recording-Sound-1460135992.m4a</span>
-                    </div>
-                  </div>
-                </td>
-                <td class='places'></td>
-                <td class='time'>Time</td>
-              </tr>
-
-          <!--member remove -->
-
-          <tr class='member-remove'>
-            <td class='ico'>
-              <div class='ei-member-leave'></div>
-            </td>
-            <td class='sender'>
-              <div class='account-initials'>
-              </div>
-              <span>Kayvan</span>
-            </td>
-            <td class='msg'><span>Remove</span><span><strong>zahra </strong></span>from <a class='place' href='#filter/place/" + e.place_id + "'>Place name</a></td>
-            <td class='places'></td>
-            <td class='time'></td>
-          </tr>
+                  <!--<img src="../assets/images/yeoman.png" height="16" width="16">-->
+                  <!--</div>-->
+                <!--</td>-->
+                <!--<td class='sender'>-->
+                  <!--&lt;!&ndash;<img src='" + actor_pic_url + "'/>&ndash;&gt;-->
+                  <!--<div class='account-initials'>-->
+                  <!--</div>-->
+                  <!--<span>Ehsan</span>-->
+                <!--</td>-->
+                <!--<td class='msg'><span>created <span>-->
+                  <!--<a href='#filter/place/" + e.place_id + "' class='place'>Place name</a>-->
+                <!--</td>-->
+                <!--<td class='places'></td>-->
+                <!--<td class='time'>Time</td>-->
+              <!--</tr>-->
 
 
-
-
-
-
-          <!--add null full height  tr-->
+              <!--add null full height  tr-->
             </table>
             <!--<div class="_tac">-->
             <!--<a id="LoadMoreEvent" before="">Load More ..</a>-->

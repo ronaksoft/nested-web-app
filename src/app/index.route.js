@@ -54,6 +54,12 @@
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
         controllerAs: 'post'
+      })
+      .state('place', {
+        url: '/place',
+        templateUrl: 'app/places/option/place_option.html',
+        controller: 'PlaceOptionController',
+        controllerAs: 'place_option'
       });
 
     $urlRouterProvider.otherwise('/');

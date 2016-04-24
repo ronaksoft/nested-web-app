@@ -3,19 +3,19 @@
 
   angular
     .module('nested')
-    .factory('NestedPlace', function (NestedPlaceRepoService, NestedUser) {
+    .factory('NestedPlace', function (NestedPlaceRepoService, NestedUser, StoreItem, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
-        
+
         this.id = null;
         this.name = null;
         this.description = null;
-        this.parent = parent || null; // <NestedPlace>
+        this.parent = parent ? (parent instanceof Place ? parent : { id: parent }) : null; // <NestedPlace>
         this.grandParent = null; // <NestedPlace>
         this.children = []; // [<NestedPlace>]
         this.activeMembers = []; // [<NestedUser>]
         this.picture = {
-          org: null,
+          org: null, // <StoreItem>
           x32: null,
           x64: null,
           x128: null
@@ -36,32 +36,33 @@
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
           } else if (data.hasOwnProperty('_id')) {
-            console.log("Place Data:", data);
+            $log.debug("Place Data:", data);
 
             this.id = data._id;
-            this.parent = parent || this.parent || (data.parent_id ? (this.full ? new Place(data.parent_id) : data.parent_id) : null);
-            this.grandParent = data.grand_parent_id ? (this.id === data.grand_parent_id ? this : (this.full ? new Place(data.grand_parent_id) : data.grand_parent_id)) : null;
+            this.parent = parent || (this.parent instanceof Place ? this.parent : (data.parent_id ? new Place(this.full ? data.parent_id : { id: data.parent_id }) : null));
+            this.grandParent = data.grand_parent_id ? (this.id === data.grand_parent_id ? this : new Place(this.full ? data.grand_parent_id : { id: data.grand_parent_id })) : null;
             this.name = data.name;
             this.description = data.description;
-            this.picture = data.picture;
+            this.picture = {
+              org: new StoreItem(data.picture.org),
+              x32: new StoreItem(data.picture.x32),
+              x64: new StoreItem(data.picture.x64),
+              x128: new StoreItem(data.picture.x128)
+            };
             this.privacy = data.privacy;
             this.access = data.access;
             this.role = data.role;
 
             this.children = [];
             if (angular.isArray(data.childs)) {
-              if (this.full) {
-                for (var k in data.childs) {
-                  this.children[k] = new Place(data.childs[k]._id, this);
-                }
-              } else {
-                this.children = data.childs;
+              for (var k in data.childs) {
+                this.children[k] = new Place(this.full ? data.childs[k]._id : data.childs[k], this);
               }
             }
 
             this.active_members = [];
             for (var k in data.active_members) {
-              this.active_members[k] = new NestedUser(data.active_members[k]._id);
+              this.active_members[k] = new NestedUser(this.full ? data.active_members[k]._id : data.active_members[k]);
             }
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.info);
