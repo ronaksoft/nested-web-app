@@ -16,5 +16,5 @@
     <div class="body" data-ng-bind="event.comment.body"></div>
   </td>
   <td class="places"></td>
-  <td class="time" data-ng-bind="event.comment.date"></td>
+  <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
 </tr>

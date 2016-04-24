@@ -4,8 +4,11 @@
   </div>
   <div class="_dtr _fh">
     <div class="_dtc">
+      <div data-ng-bind="places.places"></div>
       <div class="_dt _fh _fw _bggray">
         <ul id="AllPlaces">
+          <li data-ng-repeat="place in places.places" data-ng-include="places.tpl" data-ng-model="place"></li>
+
           <li>
             <table>
               <tr>
@@ -40,8 +43,8 @@
                 </td>
                 <td class='members'>
                   <!--<img src='" + pic_url + "'/>-->
-                  <div class="account-initials-right">
-                  </div>
+
+                  <div class="account-initials-right place-members"></div>
                 </td>
                 <td class='properties'>
                   <div class="nst-pencil _fr"></div>
@@ -58,13 +61,9 @@
           <li>
             <table>
               <tr>
+                ***collaps this list***
                 <td class="arrow">
-                  <label id="nst-arrow-rotated" data-toggle="collapse" data-target="#demo"></label>
-                  <div id="demo" class="collapse in">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
+                  <label id="nst-arrow-rotated" data-toggle="collapse" data-target="#clps"></label>
 
                 </td>
                 <td class='logo'>
@@ -92,10 +91,12 @@
                   </div>
                 </td>
                 <td class='members'>
-                  <!--<img src='" + pic_url + "'/>-->
                   <div class='nst-more-members'>+18</div>
+                  <!--<img src='" + pic_url + "'/>-->
                   <div class='account-initials-right place-members'></div>
+                  <!--<img src='" + pic_url + "'/>-->
                   <div class='account-initials-right place-members'></div>
+                  <!--<img src='" + pic_url + "'/>-->
                   <div class='account-initials-right place-members'></div>
 
                 </td>
@@ -112,7 +113,7 @@
             </table>
           </li>
 
-          <ul> <!--second level-->
+          <ul id="clps" class="collapse in""> <!--second level-->
             <li>
               <table>
                 <tr>

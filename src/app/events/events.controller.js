@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, WsService, AuthService, NestedEvent, $scope, $log) {
+  function EventsController($location, AuthService, WsService, NestedEvent, $scope, $log) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -20,7 +20,7 @@
 
     WsService.request('timeline/get_events', {
       skip: 0,
-      limit: 50,
+      limit: 150,
       after: 10,
       detail: 'full'
     }).then(function (data) {

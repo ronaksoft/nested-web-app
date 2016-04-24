@@ -13,5 +13,5 @@
     <a class="place" href="#" data-ng-bind="event.place.name"></a>
   </td>
   <td class="places"></td>
-  <td class="time"></td>
+  <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
 </tr>
