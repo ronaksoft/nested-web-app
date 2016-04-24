@@ -16,10 +16,10 @@
       $location.path('/signin').replace();
     }
 
-    vm.place = null;
+    this.place = null;
     var query = $location.search();
     if (query.hasOwnProperty('id')) {
-      vm.place = new NestedPlace(query.id);
+      this.place = new NestedPlace(query.id);
     } else {
       $location.path('/places').replace();
     }

@@ -834,6 +834,46 @@ input #nav-search {
 }
 
 /**
+  **********************************************************
+  *     Nested Classes - Page Specific - Place-option *
+  **********************************************************
+ */
+
+#place-option-body {
+  height: 100%;
+  width: 800px;
+  background-color: white;
+  margin: 0px auto;
+}
+
+.room-name {
+  height: 152px;
+  border-bottom: 1px solid $color-breeze;
+}
+.nst-accesses {
+  height: 175px;
+  border-bottom: 1px solid $color-breeze;
+
+}
+.nst-teammates {
+  height: 240px;
+  border-bottom: 1px solid $color-breeze;
+
+}
+.nst-members {
+  height: 500px;
+
+}
+
+.room-name span {
+
+}
+.room-name h5 {
+  padding-top: 45px;
+}
+
+
+/**
   *********************************
   *     Unknown                   *
   *********************************
