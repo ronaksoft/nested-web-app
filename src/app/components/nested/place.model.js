@@ -15,7 +15,7 @@
         this.children = []; // [<NestedPlace>]
         this.activeMembers = []; // [<NestedUser>]
         this.picture = {
-          org: null,
+          org: null, // <StoreItem>
           x32: null,
           x64: null,
           x128: null
