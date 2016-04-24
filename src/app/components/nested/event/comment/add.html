@@ -1,0 +1,20 @@
+<tr class="comment-add">
+  <td class="ico">
+    <div class="ei-comment-add"></div>
+  </td>
+  <td class="sender">
+    <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
+    <div initials class="account-initials" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+
+    <span data-ng-bind="event.actor.fullname"></span>
+  </td>
+  <td class="msg">
+    <div class="comment-subject">
+      <span>commented on </span>
+      <a class="post" href="#" data-ng-bind="event.post.subject"></a>
+    </div>
+    <div class="body" data-ng-bind="event.comment.body"></div>
+  </td>
+  <td class="places"></td>
+  <td class="time" data-ng-bind="event.comment.date"></td>
+</tr>

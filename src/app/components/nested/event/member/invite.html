@@ -1,0 +1,18 @@
+<tr class="member-invite">
+  <td class="ico">
+    <div class="ei-member-invite"></div>
+  </td>
+  <td class="sender">
+    <img data-ng-if="event.member.picture.org.uid" src="{{event.member.picture.x32.url}}"/>
+    <div initials class="account-initials" data-ng-if="!event.member.picture.org.uid" data-ng-bind="event.member.name.initials"></div>
+
+    <span data-ng-bind="event.member.fullname"></span>
+  </td>
+  <td class="msg">
+    <span>invited </span>
+    <a class="account" href="#" data-ng-bind="event.actor.fullname"></a>
+    <span> to </span>
+    <a class="place" href="#" data-ng-bind="event.place.name"></a></td>
+  <td class="places"></td>
+  <td class="time">Time</td>
+</tr>
