@@ -24,8 +24,7 @@
 .all-messages{
   color: $color-sense-wire;
   padding-top: 20px;
-  margin-bottom: 35px;
-  width: 100%;
+  margin-bottom: 30px;
   text-align: center;
 }
 .grandplace{
@@ -59,16 +58,28 @@
   padding-left: 0px;
   list-style-type: none;
 }
+.active a{
+  border: none;
+}
 .active ul{
   padding-left: 16px;
 }
-#arrow {
+#arrow-down {
+  margin-left: -14px;
   display: inline-block;
   width: 12px;
   height: 12px;
   margin-right: 2px;
 }
-.active:hover{
+#arrow-up {
+  transform: rotate(180deg);
+  margin-left: -14px;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 2px;
+}
+.active{
   background-color: #f3f6f4;
 }
 .haschild {

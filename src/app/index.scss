@@ -64,7 +64,7 @@ input,
 button,
 select,
 textarea {
-  border: 1px solid $color-breeze;
+  border: 1px solid $color-calm;
 }
 
 input[type="checkbox"] {
@@ -77,6 +77,8 @@ input[type="checkbox"] + label {
   height: 16px;
   min-width: 17px;
   padding: 0 0 0 17px;
+  font-size: $font-size-small;
+  color: $color-solid;
 }
 
 input[type="checkbox"]:checked + label {
@@ -406,7 +408,7 @@ input #nav-search {
   width: 146px;
   height: 30px;
   border-radius: 6px;
-  text-align: right;
+
 }
 
 /**
@@ -539,6 +541,35 @@ input #nav-search {
   height: 16px;
   background-image: url('../assets/icons/eventicon.png');
   background-position: 0 -2px;
+  background-repeat: no-repeat;
+}
+.decline {
+  background-color: white;
+  border-color: $color-calm;
+  border-radius: 5px;
+  padding: 0px;
+  color: $color-storm;
+  display: inline-block;
+  font-size: $font-size-small;
+  height: 22px;
+  width: 80px;
+}
+.accept {
+  background-color: $color-sense;
+  border-color: $color-calm;
+  border-radius: 5px;
+  padding: 0px;
+  color: white;
+  display: inline-block;
+  font-size: $font-size-small;
+  height: 22px;
+  width: 80px;
+}
+.headlineicon {
+  width: 16px;
+  height: 16px;
+  background-image: url('../assets/icons/headlineicon_16.png');
+  background-position: 0 0px;
   background-repeat: no-repeat;
 }
 
@@ -696,7 +727,7 @@ input #nav-search {
 
 }
 .normal-badge {
-  background-color: $color-sense-50;
+  background-color: $color-badge;
   border-radius: 15px;
   color: $color-solid;
   font-size: 13px;
@@ -746,12 +777,17 @@ input #nav-search {
   padding-left: 40px;
 }
 .input-msg input {
-  width:270px;
-  width: 270px;
-  height: 30px;
   float: right;
   border: 1px solid $color-breeze !important;
   padding-right: 8px;
+  height: 32px;
+  margin-bottom: 5px;
+  margin-right: 8px;
+  margin-left: 8px;
+  width: 85%;
+}
+.input-msg {
+  height: 42px;
 }
 
 .doc-attachment {
