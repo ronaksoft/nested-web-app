@@ -41,7 +41,8 @@
 
         this.view = {
           class: null,
-          tpl: null
+          tpl: null,
+          dateFormat: null
         };
 
         if (data) {
@@ -77,7 +78,19 @@
             lname: data.actor_lname,
             picture: data.actor_picture
           });
+
           this.date = new Date(data.date * 1e3);
+          var now = new Date(Date.now());
+          if (now.getFullYear() === this.date.getFullYear()) {
+            if (now.getMonth() === this.date.getMonth()) {
+              this.view.dateFormat = 'H:m';
+            } else {
+              this.view.dateFormat = 'EEE d';
+            }
+          } else {
+            this.view.dateFormat = 'd MMM';
+          }
+
           this.view.tpl = templates.hasOwnProperty(this.type) ? templates[this.type] : null;
 
           if (data.hasOwnProperty('post_id')) {
