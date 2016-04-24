@@ -12,7 +12,8 @@
         this.phone = null;
         this.name = {
           fname: null,
-          lname: null
+          lname: null,
+          initials: null
         };
         this.fullname = null;
         this.picture = {

@@ -664,17 +664,17 @@ input #nav-search {
   height: 16px;
 }
 .nst-more-members {
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    border: solid 1px $color-calm;
-    float: right;
-    line-height: 30px;
-    text-align: center;
-    font-size: $font-size-small;
-    color: $color-storm;
-    margin-left: 5px;
-    margin-right: 5px;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  border: solid 1px $color-calm;
+  float: right;
+  line-height: 28px;
+  text-align: center;
+  font-size: $font-size-small;
+  color: $color-storm;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 /**

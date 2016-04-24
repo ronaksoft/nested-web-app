@@ -85,7 +85,7 @@
             if (angular.isArray(data.childs)) {
               this.counters.children = this.counters.children > -1 ? this.counters.children : data.childs.length;
               for (var k in data.childs) {
-                this.children[k] = new Place(true ? data.childs[k]._id : data.childs[k], this);
+                this.children[k] = new Place(this.full ? data.childs[k]._id : data.childs[k], this);
               }
             }
 
