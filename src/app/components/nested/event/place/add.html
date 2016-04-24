@@ -14,5 +14,5 @@
     <a href='#filter/place/" + e.place_id + "' class='place'>Place name</a>
   </td>
   <td class='places'></td>
-  <td class='time'>Time</td>
+  <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
 </tr>
