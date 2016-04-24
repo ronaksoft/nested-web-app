@@ -64,7 +64,7 @@ input,
 button,
 select,
 textarea {
-  border: 1px solid $color-breeze;
+  border: 1px solid $color-calm;
 }
 
 input[type="checkbox"] {
@@ -77,6 +77,8 @@ input[type="checkbox"] + label {
   height: 16px;
   min-width: 17px;
   padding: 0 0 0 17px;
+  font-size: $font-size-small;
+  color: $color-solid;
 }
 
 input[type="checkbox"]:checked + label {
@@ -564,14 +566,14 @@ input #nav-search {
   width: 80px;
 }
 .headlineicon {
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   background-image: url('../assets/icons/headlineicon_16.png');
   background-position: 0 0px;
   background-repeat: no-repeat;
 }
 
-}
+
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Places *
