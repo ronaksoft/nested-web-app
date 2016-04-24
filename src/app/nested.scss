@@ -1009,7 +1009,7 @@ div.att-item.zip {
 #AllPlaces li {
   background-color: white;
   border-bottom: 1px solid $color-calm;
-  height: 64px;
+  min-height: 64px;
 }
 #AllPlaces li:hover {
   background-color: #E7FBF0;

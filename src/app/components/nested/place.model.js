@@ -20,6 +20,15 @@
           x64: null,
           x128: null
         };
+        this.counters = {
+          creators: -1,
+          keyHolders: -1,
+          knownGuests: -1,
+          allMembers: -1,
+          childs: -1,
+          posts: -1,
+          size: -1
+        };
         this.privacy = null; // <NestedPrivacy>
         this.access = null; // <NestedAccess>
         this.role = null; // TODO: ?
@@ -51,18 +60,38 @@
             };
             this.privacy = data.privacy;
             this.access = data.access;
-            this.role = data.role;
+            this.role = data.member_type || data.role;
+
+            this.counters = {
+              creators: -1,
+              keyHolders: -1,
+              knownGuests: -1,
+              allMembers: -1,
+              children: -1,
+              posts: -1,
+              size: -1
+            };
+            if (data.counters && angular.isObject(data.counters)) {
+              this.counters.creators = data.counters.creators;
+              this.counters.keyHolders = data.counters.key_holders;
+              this.counters.knownGuests = data.counters.known_guests;
+              this.counters.children = data.counters.childs;
+              this.counters.posts = data.counters.posts;
+              this.counters.size = data.counters.size;
+            }
+            this.counters.allMembers = this.counters.knownGuests + this.counters.keyHolders + this.counters.creators;
 
             this.children = [];
             if (angular.isArray(data.childs)) {
+              this.counters.children = this.counters.children > -1 ? this.counters.children : data.childs.length;
               for (var k in data.childs) {
-                this.children[k] = new Place(this.full ? data.childs[k]._id : data.childs[k], this);
+                this.children[k] = new Place(true ? data.childs[k]._id : data.childs[k], this);
               }
             }
 
-            this.active_members = [];
+            this.activeMembers = [];
             for (var k in data.active_members) {
-              this.active_members[k] = new NestedUser(this.full ? data.active_members[k]._id : data.active_members[k]);
+              this.activeMembers[k] = new NestedUser(this.full ? data.active_members[k]._id : data.active_members[k]);
             }
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.info);
