@@ -50,6 +50,6 @@
   </tr>
 </table>
 
-<ul>
+<ul data-ng-if="place.children.length > 0">
   <li data-ng-repeat="place in place.children" data-ng-include="places.tpl" data-ng-model="place"></li>
 </ul>

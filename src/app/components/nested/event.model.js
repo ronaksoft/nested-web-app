@@ -69,7 +69,7 @@
       Event.prototype = {
         setData: function(data) {
           $log.debug("Raw Event Data: ", data.action, data);
-
+          
           this.id = data._id.$oid;
           this.type = data.action;
           this.actor = new NestedUser({

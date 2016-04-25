@@ -27,8 +27,7 @@
       for (var key in data.events) {
         var eventData = data.events[key];
         var event = new NestedEvent(eventData);
-
-        $log.debug("Event: ", event.type, event);
+        
         $scope.events.events.push(event);
       }
     }).catch(function (data) {
