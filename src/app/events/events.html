@@ -8,44 +8,83 @@
 
         <div class="nst-content _dtc _pr _fhw">
           <div class="_fhw">
+
+            <!--<div class="daily-time">-->
+              <!--<div class="_dt">-->
+                <!--<div class="_dtr">-->
+                  <!--<p>today 24 march saturday</p>-->
+                  <!--<div class="_dtc">-->
+
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
             <table id="EventList" class="_fhw">
               <tbody data-ng-repeat="event in events.events" data-ng-include="event.view.tpl" data-ng-model="event"></tbody>
 
-              <!--Time of activity -->
-
-              <!--<tr>-->
-                <!--<td>-->
-                  <!--<p>Today Wednesday 24 Feb</p>-->
-                <!--</td>-->
-              <!--</tr>-->
-
-              <!--add place-->
-
-              <!--<tr class='place-add'>-->
-                <!--<td class='ico'>-->
-
-                  <!--<img src="../assets/images/yeoman.png" height="16" width="16">-->
-                  <!--</div>-->
-                <!--</td>-->
-                <!--<td class='sender'>-->
-                  <!--&lt;!&ndash;<img src='" + actor_pic_url + "'/>&ndash;&gt;-->
-                  <!--<div class='account-initials'>-->
-                  <!--</div>-->
-                  <!--<span>Ehsan</span>-->
-                <!--</td>-->
-                <!--<td class='msg'><span>created <span>-->
-                  <!--<a href='#filter/place/" + e.place_id + "' class='place'>Place name</a>-->
-                <!--</td>-->
-                <!--<td class='places'></td>-->
-                <!--<td class='time'>Time</td>-->
-              <!--</tr>-->
-
-              <!--add null full height  tr-->
             </table>
+
+
+
+
+          <!--times-->
+
+            <tr id="time-today">
+              <td class="ico">
+
+              </td>
+              <td class="sender">
+                <p class="nst-mood-simple"><b>Today</b> Wednesday 24 Feb</p>
+              </td>
+              <td class="msg">
+              </td>
+              <td class="places"></td>
+              <td class="time""></td>
+            </tr>
+
+            <tr id="time-today">
+              <td class="ico">
+              </td>
+              <td class="sender">
+                <p class="nst-mood-simple">Tuesday 24 Feb</p>
+              </td>
+              <td class="msg">
+              </td>
+              <td class="places"></td>
+              <td class="time""></td>
+            </tr>
+
+            <tr id="time-today">
+              <td class="ico">
+              </td>
+              <td class="sender">
+                <p class="nst-mood-simple">January</p>
+              </td>
+              <td class="msg">
+              </td>
+              <td class="places"></td>
+              <td class="time""></td>
+            </tr>
+
+            <tr id="time-today">
+              <td class="ico">
+              </td>
+              <td class="sender">
+                <p class="nst-mood-simple">2015</p>
+              </td>
+              <td class="msg">
+              </td>
+              <td class="places"></td>
+              <td class="time""></td>
+            </tr>
+
+
+
             <!--<div class="_tac">-->
             <!--<a id="LoadMoreEvent" before="">Load More ..</a>-->
             <!--</div>-->
-            <!--</div>-->
+
+            </div>
           </div>
         </div>
       </div>

@@ -34,38 +34,9 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   *     General Hacks             *
   *********************************
  */
-a {
-  text-decoration: none;
-}
-body {
-  background-color: $color-sense-5;
-  font-family: $font-family-eng-reg;
-}
 
-body,
-html,
-*[ui-view] {
-  height: 100%;
-}
 
-*:focus {
-  outline: none;
-}
-a:hover {
-  color: #00b45a;
-  text-decoration: none;
-}
-input[type="text"],
-input[type="password"] {
-  height: 40px;
-}
-
-input,
-button,
-select,
-textarea {
-  border: 1px solid $color-calm;
-}
+ //****input Styles****
 
 input[type="checkbox"] {
   display: none;
@@ -94,11 +65,9 @@ input[type="checkbox"]:checked + label {
 }
 
 
-
 #viewswitch input[type="checkbox"]:checked + label {
   background-position: 0 -15px;
 }
-
 
 
 input[type="radio"] {
@@ -129,6 +98,84 @@ input[type="radio"]:checked + label{
   height: 16px;
   width: 17px;
 }
+
+ //****account initials****
+
+.account-initials { margin-right: 8px;}
+
+.account-initials {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  float: left;
+  line-height: 31px;
+  text-align: center;
+  font-size: small;
+  font-weight: normal;
+  color: white;
+  background-color: #c0c0c0 ;
+  vertical-align: top;
+}
+
+.account-initials-24 {
+  width: 24px;
+  height: 24px;
+  border-radius: 16px;
+  float: left;
+  line-height: 23px;
+  text-align: center;
+  font-size: small;
+  font-weight: normal;
+  color: white;
+  background-color: #c0c0c0 ;
+  vertical-align: top;
+}
+
+.account-initials-48 {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  float: left;
+  line-height: 23px;
+  text-align: center;
+  font-size: small;
+  font-weight: normal;
+  color: white;
+  background-color: #c0c0c0 ;
+  vertical-align: top;
+}
+
+.account-initials-64 {
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  float: left;
+  line-height: 23px;
+  text-align: center;
+  font-size: small;
+  font-weight: normal;
+  color: white;
+  background-color: #c0c0c0 ;
+  margin-top: 32px;
+  margin-right: 5px;
+  margin-left: 12px;
+
+}
+.account-initials-right {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  float: right;
+  line-height: 31px;
+  text-align: center;
+  font-size: small;
+  font-weight: normal;
+  color: white;
+  background-color: #c0c0c0 ;
+}
+
+
+
 
 /**
   *********************************
@@ -194,12 +241,6 @@ label {
 .form-control-feedback {
   top: 4px;
 }
-
-/**
-  *********************************
-  *     Nested Classes            *
-  *********************************
- */
 
 /**
   *************************************
@@ -347,9 +388,107 @@ label {
   *     Nested Classes - Component Specific - Navigation Bar    *
   ***************************************************************
  */
+
 .nested-logo {
   height:64px;
   width:20px;
+}
+#Header {
+  //height: 64px;
+  position: relative;
+  border-bottom: 1px solid $color-calm;
+}
+
+#PrimaryPageSelector {
+  width: 575px;
+}
+
+#PrimaryPageSelector ul {
+  display: inline-block;
+}
+
+#PrimaryPageSelector li {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  font-size: medium;
+  padding: 15px 25px;
+  border-top: 5px solid white;
+  width: 7em;
+  text-align: center;
+}
+#PrimaryPageSelector li:hover {
+  border-top: 5px solid black ;
+  color: black ;
+}
+#PrimaryPageSelector li.selected {
+  color: black;
+  font-weight: bold;
+  border-top: 5px solid black;
+
+}
+#PrimaryPageSelector a {
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: $color-storm;
+  display: block;
+}
+#PrimaryPageSelector a:hover {
+  color: black;
+  font-weight: bold;
+}
+
+
+#SecondaryPageSelector ul {
+  display: inline-block;
+}
+
+#SecondaryPageSelector li {
+  padding: 9px 15px;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  font-size: $font-size-small;
+  margin-left: 15px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  border-bottom: 5px solid white;
+
+}
+
+#SecondaryPageSelector li:hover {
+  border-bottom: 3px solid $color-sense ;
+  color: $color-sense ;
+}
+#SecondaryPageSelector li.selected {
+  color: red;
+  border-bottom: 3px solid $color-sense;
+
+}
+#SecondaryPageSelector a {
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: $color-solid;
+  display: block;
+}
+#SecondaryPageSelector a:hover {
+  color: $color-sense;
+  font-weight: bold;
+
+}
+
+
+.nav-profile {
+  padding: 10px 0 2px 0;
+  font-weight: 600;
+}
+.nav-width-ul {
+  display: inline-block;
+  margin-top: 0;
+  //width: 1000px;
 }
 
 .nav > li > a {
@@ -410,6 +549,10 @@ input #nav-search {
   border-radius: 6px;
 
 }
+
+#SubNav #Buttons { width: 100px; }
+#SubNav #Search { width: 100px; }
+
 
 /**
   *********************************************************
@@ -574,13 +717,137 @@ input #nav-search {
 }
 
 
+#time-today {
+  margin-left: 10px;
+  margin-top: 15px;
+  width:100%
+
+}
+#time-today:hover {
+  background-color: white!important;
+
+}
+#time-today .msg,.time,{
+  border-bottom: none !important;
+}
+#time-today .places {
+  border-bottom: none !important;
+}
+.daily-time {
+  background-color: whitesmoke;
+  width: 150px;
+}
+.daily-time p {
+  margin-left: 10px;
+  margin-top: 15px;
+
+}
+
+
+#EventList .tr:hover { cursor: default; background-color: #E7FBF0;}
+#EventList .td { padding: 5px; }
+#EventList .td.ico { width: 16px; vertical-align: top; }
+#EventList .td.ico img { border-radius: 16px; }
+#EventList .td.sender {
+  width: 200px;
+  vertical-align: top;
+  font-size: small;
+  overflow: hidden ;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+#EventList {table-layout: fixed;}
+#EventList tr:hover { cursor: default; background-color: #E7FBF0;}
+#EventList td { padding: 5px; }
+#EventList td.ico { width: 16px; vertical-align: top; }
+#EventList td.ico img { border-radius: 16px; }
+#EventList td.sender {
+  width: 200px;
+  vertical-align: top;
+  font-size: small;
+  overflow: hidden ;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+#EventList td.sender img { margin-left: 2px; margin-right: 4px; border-radius: 16px; }
+#EventList td.sender span { line-height: 32px;}
+#EventList td.msg { width: auto; border-bottom: 1px solid #ced9d3; vertical-align: top;}
+#EventList td.msg .subject { font-weight: bold; line-height: 24px; word-break: break-all; overflow: hidden;}
+#EventList td.msg .body { color: gray; word-break: break-all; overflow: hidden; }
+#EventList td.places { width: 220px; vertical-align: top; border-bottom: 1px solid #ced9d3; }
+#EventList td.places > div {
+  display: inline-block;
+  background-color: $color-badge;
+  border-radius: 10px;
+  margin: 1px;
+  padding: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100px;
+  font-size: $font-size-xsmall;
+  border: 1px solid $color-badge;
+
+}
+#EventList tr #time-of-event {
+  width:400px;
+}
+
+#EventList td.places >.more-tag {
+  border-color: #000000;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #000000;
+  border-radius: 7px;
+  color: white;
+  font-size: 11px;
+  width: 28px;
+  height: 14px;
+  text-align: center;
+}
+#EventList td.time {
+  width: 50px;
+  border-bottom: 1px solid #ced9d3;
+  vertical-align: bottom;
+  color: #c0c0c0 ;
+}
+#EventList.collapse td.msg .body { display: none; }
+#EventList.collapse td.msg .attachments { display: none; }
+
+#LoadMoreEvent {
+  //background-color: #00B45A ;
+  color: #00B45A;
+  border-bottom: 1px solid #00B45A;
+  //border-radius: 5px;
+  padding: 5px 10px;
+  margin: 20px auto;
+  cursor: pointer;
+  text-align: center;
+}
+#LoadMoreEvent:hover { font-weight: bold;}
+#PostView {
+  //display: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  z-index: 100;
+  overflow: auto;
+}
+
+
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Places *
   **********************************************************
  */
 
-
+.place-members {
+  margin-right: 5px;
+}
 
 .role-icon-crown {
   background: url('../assets/icons/roleicon_16.png') no-repeat;
@@ -641,6 +908,7 @@ input #nav-search {
   width: 15px;
   padding: 0 0 0 5px;
   background-position: center center;
+  cursor: pointer;
 
   }
 #nst-arrow-rotated {
@@ -650,6 +918,7 @@ input #nav-search {
   padding: 0 0 0 5px;
   background-position: center center;
   transform: rotate(180deg);
+  cursor: pointer;
 }
 .arrow {
   width:15px;
@@ -682,6 +951,9 @@ input #nav-search {
   *     Nested Classes - Page Specific - Post-view *
   **********************************************************
  */
+
+
+
 
 .post-nav {
   display: inline-block;
@@ -833,6 +1105,124 @@ input #nav-search {
 
 }
 
+#PostView > div { table-layout: fixed; }
+#PostView .top-space { height: 10%; }
+#PostView .bottom-space { height: 10%; }
+#PostView .left-space { width: 10%; }
+#PostView .right-space { width: 10%; }
+#PostView .main-body {
+  border: 1px solid $color-breeze;
+  border-radius: 8px;
+  background-color: white ;
+  padding: 0px;
+  min-width: 840px;
+  min-height: 640px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+}
+#PostView .main-body .left-column {}
+#PostView .main-body .right-column { width: 300px;}
+#PostView #PostHeader {
+  border-bottom: 1px solid $color-breeze ;
+  padding: 0px;
+  height: 100px;
+}
+#PostView #PostTime {
+  top: 0px;
+  right: 0px;
+  text-align: right;
+  vertical-align: top;
+  line-height: 32px;
+}
+#PostView #PostTime .date {margin: 1px; color: gray; font-weight: bold;}
+#PostView #PostTime .time {margin: 1px 10px; font-size: medium;}
+//#PostView #PostSubject {
+//  margin: 3px 3px 15px 3px;
+//  font-size: medium;
+//  font-weight: bold;
+//  word-break: break-all;
+//  white-space: normal;
+//  overflow: auto;
+//  max-height: 120px;
+//}
+#PostView #SenderIco {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+}
+#PostView #SenderIco img { border-radius: 16px; }
+#PostView #SenderName {
+  display: inline-block ;
+}
+#PostView #Targets { margin: 5px 1px; }
+#PostView #Targets div {
+  display: inline-block;
+  background-color: #00B45A ;
+  border-radius: 10px;
+  margin: 1px;
+  padding: 1px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+  max-width: 300px;
+}
+#PostView #Toolbar {
+  bottom: 0px;
+  right: 0px;
+}
+#PostView #Toolbar ul {
+  list-style: none;
+  float: right;
+}
+#PostView #Toolbar li {
+  display: inline-block;
+  margin: 2px 15px;
+}
+#PostView #Toolbar li img {
+  float: right;
+}
+#PostView #Toolbar li span {
+  line-height: 24px;
+  color: gray ;
+}
+#PostView #Content { vertical-align: top; overflow: auto;}
+#PostView #PostBody { border: none; }
+#PostView #Comments {
+  //padding: 5px;
+  padding: 5px;
+  width: 320px;
+  background-color: rgb(247,250,249);;
+}
+#PostView #NewComment { padding: 5px; }
+#PostView #NewComment .account-ico { float: left;}
+
+#PostView #NewComment #CommentSendBtn  {
+  background-color: #00B45A;
+  border: none ;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: white ;
+}
+#PostView #CommentList .sender-ico {
+  float: left;
+}
+#PostView #CommentList .sender-ico img {
+  border-radius: 16px;
+  margin-right: 3px;
+}
+#PostView #CommentList .sender {
+  color: #00B45A;
+  font-weight: bold;
+}
+#PostView #CommentList .comment-txt {
+  overflow: hidden;
+  line-height: 24px;
+  vertical-align: baseline;
+}
+#PostView #CommentList .comment { clear: both; padding: 5px;}
+#PostView #CommentList .comment:hover { background-color: #E7FBF0;}
+
+
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Place-option *
@@ -853,7 +1243,10 @@ input #nav-search {
 .nst-accesses {
   height: 175px;
   border-bottom: 1px solid $color-breeze;
+}
 
+.nst-accesses .nst-eye {
+  margin-left: 7px;
 }
 .nst-teammates {
   height: 240px;
@@ -866,11 +1259,112 @@ input #nav-search {
 }
 
 .room-name span {
+  padding-top: 50px;
+  margin-left: -70px;
+  font-size: $font-size-large;
 
 }
 .room-name h5 {
   padding-top: 45px;
 }
+.switch-option {
+  background-color: $color-sense;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 0px;
+  border: 2px solid $color-sense;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 0px;
+  width: 60px;
+  height: 20px;
+  text-align: center;
+  color: white;
+  font-size: $font-size-large;
+  line-height: 16px;
+
+}
+
+.switch-option-right {
+  background-color: white;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 8px;
+  border: 2px solid $color-sense;
+  width: 60px;
+  height: 20px;
+  margin-left: -4px;
+  color: $color-solid;
+  font-size: $font-size-large;
+  text-align: center;
+  line-height: 16px;
+
+}
+.properties {
+  width: 126px;
+}
+
+#AllPlaces {
+  list-style: none;
+  margin: 0px auto;
+}
+
+#AllPlaces li {
+  background-color: white;
+  border-bottom: 1px solid $color-calm;
+  min-height: 64px;
+}
+#AllPlaces li:hover {
+  background-color: #E7FBF0;
+}
+#AllPlaces ul {
+  list-style: none;
+  margin-left: 25px;
+}
+#AllPlaces li > table {
+  width: 100%;
+  height: 64px;
+}
+#AllPlaces li > table td.logo {
+  width: 48px;
+}
+#AllPlaces li > table td.logo > img {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+}
+#AllPlaces li > table td.name {
+  min-width: 200px;
+  //vertical-align: middle;
+  margin-top: 15px;
+
+}
+#AllPlaces li > table td.name img {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+#AllPlaces li > table td.name h5 {
+  margin: 1px 5px;
+  font-weight: normal;
+  font-size: small;
+}
+#AllPlaces li > table td.name p {
+  margin: 5px;
+  color: #787878;
+  font-size: x-small;
+}
+#AllPlaces li > table td.members {
+  width: 168px;
+  text-align: right;
+}
+#AllPlaces li > table td.members img{
+  height: auto;
+  width: 32px;
+  height: 32px;
+  margin: 1px;
+
+}
+
 
 
 /**
@@ -890,6 +1384,13 @@ input #nav-search {
 .rightLink {
   text-align: right;
 }
+
+
+#chat-profile {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
 
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject
