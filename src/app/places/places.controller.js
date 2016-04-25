@@ -16,12 +16,7 @@
       $location.path('/signin').replace();
     }
 
-    vm.places = [
-      new NestedPlace('ronak'),
-      new NestedPlace('ronak.nested'),
-      new NestedPlace('ronak.nested.dev'),
-      new NestedPlace('ronak.nested.dev.android')
-    ];
+    vm.places = [];
     vm.tpl = 'app/components/nested/place/row.html';
 
     WsService.request('account/get_my_places', {}).then(function (data) {

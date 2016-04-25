@@ -10,9 +10,7 @@
     var directive = {
       restrict: 'E',
       templateUrl: 'app/components/sidebar/sidebar.html',
-      scope: {
-          creationDate: '='
-      },
+      scope: {},
       controller: SidebarController,
       controllerAs: 'vm',
       bindToController: true
@@ -21,11 +19,19 @@
     return directive;
 
     /** @ngInject */
-    function SidebarController(moment) {
+    function SidebarController(WsService, NestedPlace, $scope) {
       var vm = this;
 
-      // "vm.creation" is avaible by directive option "bindToController: true"
-      vm.relativeDate = moment(vm.creationDate).fromNow();
+      vm.places = [];
+      vm.tpl = 'app/components/nested/place/row.html';
+
+      WsService.request('account/get_my_places', {}).then(function (data) {
+        for (var k in data.places) {
+          $scope.vm.places.push(new NestedPlace(data.places[k]));
+        }
+      }).catch(function (reason) {
+
+      });
     }
   }
 

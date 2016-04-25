@@ -1,9 +1,13 @@
 <div class="sidebar">
-  <div class="all-messages">
-    All Messages
-  </div>
+  <div class="all-messages">All Messages</div>
   <div>
     <ul>
+      <li data-ng-repeat="place in vm.places" class="grandplace">
+        <img data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
+        <div data-ng-if="!place.picture.org.uid" class="account-initials-32" data-ng-bind="place.name | initials:2"></div>
+        <a href="#" data-ng-bind="place.name"></a>
+      </li>
+
       <li class="grandplace">
         <img src="../assets/images/yeoman.png"><a href="#">Grand place</a>
       </li>
@@ -65,5 +69,5 @@
         <img src="../assets/images/yeoman.png"><a href="#">Grandplace</a>
       </li>
     </ul>
-
   </div>
+</div>

@@ -3,15 +3,17 @@
     <td class="arrow">
       <label id="nst-arrow-rotated"></label>
     </td>
-    <td class='logo'>
-      <img src="{{place.picture.x64.url}}">
+    <td class="logo">
+      <img data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
+      <div data-ng-if="!place.picture.org.uid" class="account-initials-48" data-ng-bind="place.name | initials:2"></div>
     </td>
-    <td class='name'>
+    <td class="name">
       <div class="_dt">
         <div class="_dtr">
-          <div class="_dtc">
-            <div class="role-icon-green"> 
-            </div>
+          <div class="_dtc" data-ng-switch="place.role">
+            <div data-ng-switch-when="creator" class="role-icon-crown"></div>
+            <div data-ng-switch-when="key_holder" class="role-icon-green"></div>
+            <div data-ng-switch-default class="role-icon-gray"></div>
           </div>
           <div class="_dtc">
             <h5 data-ng-bind="place.name"></h5>
@@ -27,14 +29,16 @@
         </div>
       </div>
     </td>
-    <td class='members'>
-      <div data-ng-if="place.counters.allMembers > 3" class='nst-more-members' data-ng-bind="'+' + (place.counters.allMembers - 3)"></div>
+    <td class="members">
+      <div data-ng-if="place.counters.allMembers > 3" class="nst-more-members" data-ng-bind="'+' + (place.counters.allMembers - 3)"></div>
+      <div data-ng-if="place.counters.allMembers < 4" class="nst-more-members"></div>
+
       <span data-ng-repeat="member in place.activeMembers | limitTo:3">
         <img data-ng-if="member.picture.org.uid" src="{{member.picture.x32.url}}"/>
         <div data-ng-if="!member.picture.org.uid" class="account-initials-right place-members" data-ng-bind="member.name.initials"></div>
       </span>
     </td>
-    <td class='properties'>
+    <td class="properties">
       <div class="nst-pencil _fr"></div>
       <div class="nst-atsign _fr"></div>
       <div class="nst-eye _fr"></div>
