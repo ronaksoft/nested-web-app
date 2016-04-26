@@ -10,16 +10,13 @@
   width: 208px;
   height: 100%;
   font-family : $font-family-eng-reg;
+  white-space: nowrap;
+  padding-right: 2px;
 }
 .sidebar a {
   color : black;
   text-decoration: none;
-  display: inline-block;
-}
-.grandplace a {
-  width : 149px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #ced9d3;
+  display: inline;
 }
 .all-messages{
   color: $color-sense-wire;
@@ -28,27 +25,34 @@
   text-align: center;
 }
 .grandplace{
-  padding-left: 16px;
-  font-size: $font-size-large;
-  display: block;
-  height: 50px;
-}
-
-.subplace{
+  overflow: hidden;
+  text-overflow: ellipsis;
   padding-left: 16px;
   font-size: $font-size-medium;
-  display: block;
-  height: 40px;
+  min-height: 50px;
+  margin-left: -12px;
+}
+
+
+.subplace{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 16px;
+  font-size: $font-size-small;
+  min-height: 40px;
   width: 100%;
 }
 
-.grandplace img {
+.gp-img {
+  border-radius: 50%;
   margin-top: 6px;
-  margin-right: 5px;
+  margin-right: 4px;
   height: 36px;
   width: 36px;
+
 }
-.subplace img {
+.sp-img {
+  border-radius: 50%;
   margin-top: 6px;
   margin-right: 5px;
   height: 24px;
@@ -58,30 +62,23 @@
   padding-left: 0px;
   list-style-type: none;
 }
+.active{
+  background-color: #f3f6f4;
+}
 .active a{
   border: none;
 }
 .active ul{
   padding-left: 16px;
 }
-#arrow-down {
-  margin-left: -14px;
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-right: 2px;
-}
-#arrow-up {
+.arrow-up {
   transform: rotate(180deg);
-  margin-left: -14px;
-  display: inline-block;
+}
+.arrow-down {
   width: 12px;
   height: 12px;
-  margin-right: 2px;
-}
-.active{
-  background-color: #f3f6f4;
+  display: inline;
 }
 .haschild {
-  padding-left: 2px;
+  margin-left: 16px;
 }

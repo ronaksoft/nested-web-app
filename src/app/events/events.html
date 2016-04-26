@@ -1,12 +1,13 @@
-<div>
+<div class="_fh">
   <nested-navbar></nested-navbar>
 
   <div id="" class="_fh">
     <div class="_dt _fh">
       <div class="_dtr">
-        <nested-sidebar></nested-sidebar>
-
-        <div class="nst-content _dtc _pr _fhw">
+        <div class="_dtc _fh">
+          <nested-sidebar></nested-sidebar>
+        </div>
+          <div class="nst-content _dtc _pr _fhw">
           <div class="_fhw">
             <table id="EventList" class="_fhw">
               <tbody data-ng-repeat="event in events.events" data-ng-include="event.view.tpl" data-ng-model="event"></tbody>
