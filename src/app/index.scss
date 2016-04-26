@@ -425,33 +425,30 @@ label {
   position: relative;
   display: inline-block;
   font-size: medium;
-  padding: 15px 25px;
   border-top: 5px solid white;
   width: 7em;
   text-align: center;
 }
-#PrimaryPageSelector li:hover {
-  border-top: 5px solid black ;
-  color: black ;
-}
+
+#PrimaryPageSelector li:hover,
 #PrimaryPageSelector li.selected {
+  border-top: 5px solid black;
+}
+
+#PrimaryPageSelector li.selected a,
+#PrimaryPageSelector li:hover a {
   color: black;
   font-weight: bold;
-  border-top: 5px solid black;
-
 }
+
 #PrimaryPageSelector a {
+  display: inline-block;
   height: 100%;
   width: 100%;
+  padding: 15px 25px;
   text-decoration: none;
   color: $color-storm;
-  display: block;
 }
-#PrimaryPageSelector a:hover {
-  color: black;
-  font-weight: bold;
-}
-
 
 #SecondaryPageSelector ul {
   display: inline-block;

@@ -3,17 +3,16 @@
   <div>
     <ul>
       <li data-ng-repeat="place in vm.places" class="grandplace">
-        <img src="../assets/icons/arrow_16.png" ng-class="collapsed ? 'arrow-up' : 'arrow-down'" ng-model="collapsed" ng-click="collapsed =! collapsed" class="arrow-side">
-        <img class="gp-img" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
-        <div data-ng-if="!place.picture.org.uid" class="account-initials" data-ng-bind="place.name | initials:2" class="no-pic"></div>
+        <img data-ng-if="place.children.length > 0"  class="arrow-side" data-ng-class="collapsed ? 'arrow-up' : 'arrow-down'" data-ng-model="collapsed" data-ng-click="collapsed =! collapsed" src="../assets/icons/arrow_16.png"/>
+
+        <img data-ng-if="place.picture.org.uid" class="gp-img" src="{{place.picture.x32.url}}"/>
+        <div data-ng-if="!place.picture.org.uid" class="account-initials-32" data-ng-bind="place.name | initials:2"></div>
         <a href="#" data-ng-bind="place.name"></a>
 
         <ul ng-show="collapsed" data-ng-if="place.children.length > 0">
           <li class="subplace" data-ng-repeat="subplace in place.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'"></li>
         </ul>
       </li>
-
-
     </ul>
   </div>
 </div>
