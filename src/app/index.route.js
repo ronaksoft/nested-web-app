@@ -43,6 +43,12 @@
         controller: 'PlacesController',
         controllerAs: 'places'
       })
+      .state('create-place', {
+        url: '/create-place',
+        templateUrl: 'app/create_place/create_place.html',
+        controller: 'CreatePlaceController',
+        controllerAs: 'create_place'
+      })
       .state('events', {
         url: '/events',
         templateUrl: 'app/events/events.html',

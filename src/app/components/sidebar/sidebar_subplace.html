@@ -1,0 +1,8 @@
+<img src="../assets/icons/arrow_16.png" ng-class="collapsed ? 'arrow-up' : 'arrow-down'" ng-model="collapsed" ng-click="collapsed =! collapsed">
+<img class="sp-img" data-ng-if="subplace.picture.org.uid" src="{{subplace.picture.x32.url}}"/>
+<div data-ng-if="!subplace.picture.org.uid" class="account-initials" data-ng-bind="subplace.name | initials:2"></div>
+<a href="#" data-ng-bind="subplace.name"></a>
+
+<ul ng-show="collapsed" data-ng-if="subplace.children.length > 0">
+  <li class="subplace" data-ng-repeat="subplace in subplace.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'"></li>
+</ul>
