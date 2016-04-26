@@ -64,6 +64,7 @@
             for (var k in data.post_places) {
               this.places[k] = new NestedPlace(this.full ? data.post_places[k]._id : { id: data.post_places[k]._id, name: data.post_places[k].name });
             }
+            console.log('Post Places:', this.places);
 
             this.attachments = [];
             for (var k in data.post_attachments) {
@@ -80,11 +81,7 @@
         },
 
         load: function(id) {
-          WsService.request('post/get', {
-            post_id: id
-          }).then(function (data) {
-            this.setData(data);
-          }.bind(this));
+          WsService.request('post/get', { post_id: id }).then(this.setData.bind(this));
         },
 
         delete: function() {

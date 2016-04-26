@@ -11,10 +11,14 @@
   <td class="msg">
     <div class="comment-subject">
       <span>commented on </span>
-      <a class="post" href="#" data-ng-bind="event.post.subject"></a>
+      <a class="post" href="#" data-ng-bind-html="event.post.subject | emoji"></a>
     </div>
-    <div class="body" data-ng-bind="event.comment.body"></div>
+    <div class="body" data-ng-bind-html="event.comment.body | emoji"></div>
   </td>
-  <td class="places"></td>
+  <td class="places">
+    <div class="_dtc" data-ng-bind="event.place.name"></div>
+    <div class="more-tag _dtc" ng-if="event.places.length > 1">+{{event.places.length - 1}}</div>
+    <div class="more-tag _dtc">+1</div>
+  </td>
   <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
 </tr>
