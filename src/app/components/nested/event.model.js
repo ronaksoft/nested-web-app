@@ -5,11 +5,11 @@
     .module('nested')
     .constant('EVENT_ACTIONS', {
       MEMBER_ADD: 1,
-      MEMBER_REMOVE: 2, //--
-      MEMBER_INVITE: 4, //--
-      MEMBER_JOIN: 8, //--
+      MEMBER_REMOVE: 2, //-- Done
+      MEMBER_INVITE: 4, //-- Done
+      MEMBER_JOIN: 8, //-- Done
 
-      PLACE_ADD: 16, //--
+      PLACE_ADD: 16, //-- Done
       PLACE_REMOVE: 32,
       PLACE_PRIVACY: 64,
       PLACE_PICTURE: 128, //--
@@ -18,7 +18,7 @@
       POST_REMOVE: 512, //--
       POST_UPDATE: 1024,
 
-      COMMENT_ADD: 2048, //--
+      COMMENT_ADD: 2048, //-- Done
       COMMENT_REMOVE: 3840, //--
 
       ACCOUNT_REGISTER: 4096,
@@ -34,6 +34,7 @@
 
         this.post = null;
         this.place = null;
+        this.places = [];
         this.comment = null;
 
         this.member = null;
@@ -104,7 +105,7 @@
               },
               subject: data.post_subject,
               body: data.post_body,
-              places: data.post_places,
+              post_places: data.post_places, // TODO: Please be `places`
               'time-stamp': data.date
             });
           }
@@ -121,7 +122,27 @@
 
           if (data.hasOwnProperty('place_id')) {
             // TODO: Handle Multiple Places
-            this.place = new NestedPlace(angular.isArray(data.place_id) ? data.place_id[0] : data.place_id);
+            if (angular.isArray(data.place_id)) {
+              this.places = [];
+              for (var k in data.place_id) {
+                this.places.push(new NestedPlace(data.place_id[k]));
+              }
+            }
+
+            var parent = data.parent_id ? new NestedPlace(
+              data.parent_name ? {
+                _id: data.parent_id,
+                name: data.parent_name
+              } : data.parent_id
+            ) : undefined;
+
+            this.place = new NestedPlace(angular.isArray(data.place_id) ? data.place_id[0] : {
+              _id: data.place_id,
+              name: data.place_name,
+              picture: data.place_picture
+            }, parent);
+
+            this.type == EVENT_ACTIONS.PLACE_ADD && console.log('Event Place:', this.place);
           }
 
           if (data.hasOwnProperty('member_type')) {

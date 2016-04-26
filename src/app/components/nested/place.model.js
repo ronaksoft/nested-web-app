@@ -15,10 +15,10 @@
         this.children = []; // [<NestedPlace>]
         this.activeMembers = []; // [<NestedUser>]
         this.picture = {
-          org: null, // <StoreItem>
-          x32: null,
-          x64: null,
-          x128: null
+          org: new StoreItem(), // <StoreItem>
+          x32: new StoreItem(),
+          x64: new StoreItem(),
+          x128: new StoreItem()
         };
         this.counters = {
           creators: -1,
@@ -52,15 +52,16 @@
             this.grandParent = data.grand_parent_id ? (this.id === data.grand_parent_id ? this : new Place(this.full ? data.grand_parent_id : { id: data.grand_parent_id })) : null;
             this.name = data.name;
             this.description = data.description;
-            this.picture = {
-              org: new StoreItem(data.picture.org),
-              x32: new StoreItem(data.picture.x32),
-              x64: new StoreItem(data.picture.x64),
-              x128: new StoreItem(data.picture.x128)
-            };
             this.privacy = data.privacy;
             this.access = data.access;
             this.role = data.member_type || data.role;
+
+            if (data.picture && angular.isObject(data.picture)) {
+              this.picture.org = new StoreItem(data.picture.org);
+              this.picture.x32 = new StoreItem(data.picture.x32);
+              this.picture.x64 = new StoreItem(data.picture.x64);
+              this.picture.x128 = new StoreItem(data.picture.x128);
+            }
 
             this.counters = {
               creators: -1,

@@ -1,17 +1,17 @@
 <tr class='place-add'>
   <td class='ico'>
-
-    <img src="../assets/images/yeoman.png" height="16" width="16">
+    <img data-ng-if="event.place.picture.org.uid" src="{{event.place.picture.x32.url}}" height="16" width="16"/>
+    <div initials class="account-initials-16" data-ng-if="!event.place.picture.org.uid" data-ng-bind="event.place.name | initials"></div>
   </td>
   <td class='sender'>
-    <!--<img src='" + actor_pic_url + "'/>-->
-    <div class='account-initials'>
-    </div>
-    <span>Ehsan</span>
+    <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
+    <div initials class="account-initials" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+
+    <span data-ng-bind="event.actor.fullname"></span>
   </td>
   <td class='msg'>
-    <span>created </span>
-    <a href='#filter/place/" + e.place_id + "' class='place'>Place name</a>
+    <span>created <a class="place" href="#" data-ng-bind="event.place.name"></a></span>
+    <span data-ng-if="event.place.parent"> room in <a class="place" href="#" data-ng-bind="event.place.parent.name"></a></span>
   </td>
   <td class='places'></td>
   <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>

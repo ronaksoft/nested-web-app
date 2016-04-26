@@ -1,7 +1,3 @@
-/*
-    Created on : Jan 2, 2016, 12:22:25 AM
-    Author     : EHSAN
-*/
 
 @import "mixin.scss";
 
@@ -31,7 +27,6 @@ $color-wind: #a6b9af;
 $color-storm: #869d91;
 $color-hurricane: #476152;
 $color-badge: #89EBB4;
-
 
 
 $font-size-xsmall: 11px;
@@ -65,7 +60,7 @@ body {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-  min-width: 1000px;
+    min-width: 1000px;
 }
 div, ul, ol {
     margin: 0px;
@@ -77,6 +72,42 @@ input[type='text'], input[type='password'] {
     border: 1px solid $color-storm;
     border-radius: 5px;
     padding: 3px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #00b45a;
+  text-decoration: none;
+}
+
+body {
+  background-color: $color-sense-5;
+  font-family: $font-family-eng-reg;
+}
+
+body,
+html,
+*[ui-view] {
+  height: 100%;
+}
+
+*:focus {
+  outline: none;
+}
+
+input[type="text"],
+input[type="password"] {
+  height: 40px;
+}
+
+input,
+button,
+select,
+textarea {
+  border: 1px solid $color-calm;
 }
 
 ._fl {float: left ;}
@@ -129,91 +160,64 @@ input[type='text'], input[type='password'] {
     height: 16px;
     border-radius: 8px;
 }
+
 .m-ico {
     width: 32px;
     height: 32px;
     border-radius: 16px;
 }
+
 .l-ico {
     width: 48px;
     height: 48px;
     border-radius: 24px;
 }
-.account-initials {
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    float: left;
-    line-height: 31px;
-    text-align: center;
-    font-size: small;
-    font-weight: normal;
-    color: white;
-    background-color: #c0c0c0 ;
-    vertical-align: top;
-}
-.account-initials-24 {
-  width: 24px;
-  height: 24px;
-  border-radius: 16px;
-  float: left;
-  line-height: 23px;
-  text-align: center;
-  font-size: small;
-  font-weight: normal;
-  color: white;
-  background-color: #c0c0c0 ;
-  vertical-align: top;
-}
-#chat-profile {
-  margin-left: 5px;
-  margin-top: 5px;
+
+a.place {
+  color: $color-sense;
+  font-weight: bold;
 }
 
-
-
-.place-members {
-  margin-right:5px;
+a.account {
+  color: $color-sense;
 }
-.account-initials-right {
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  float: right;
-  line-height: 31px;
-  text-align: center;
-  font-size: small;
-  font-weight: normal;
-  color: white;
-  background-color: #c0c0c0 ;
+
+a.post {
+  color: $color-sense;
 }
+
+//****General ul Csss***
 
 ul.attachments-bar {
     list-style: none;
     padding: 5px;
     overflow: auto ;
 }
+
 ul.attachments-bar li {
     display: inline-block;
     cursor: pointer;
     margin: 1px;
 }
+
 ul.attachments-bar.image {
     list-style: none;
     padding: 5px;
     overflow: auto ;
     white-space: nowrap;
     word-break: keep-all;
-
 }
+
 ul.attachments-bar.image li {
     padding: 0px;
 }
+
 ul.attachments-bar.image img {
     border: 1px solid lightgray;
     margin: 3px;
     height: 96px;
 }
+
 ul.attachments-bar.image .att-item {
     width: 72px;
     height: 96px;
@@ -222,6 +226,7 @@ ul.attachments-bar.image .att-item {
     position: relative;
     float: left;
 }
+
 ul.attachments-bar.image .att-item > span.filename {
     position: absolute;
     top: 40px;
@@ -234,6 +239,7 @@ ul.attachments-bar.image .att-item > span.filename {
     color: gray;
     overflow: hidden;
 }
+
 ul.attachments-bar.image .att-item.inprogress {
     opacity: 0.3 ;
 }
@@ -241,6 +247,7 @@ ul.attachments-bar.image .att-item.inprogress {
 ul.attachments-bar.non-image {
     max-height: 150px;
 }
+
 ul.attachments-bar.non-image li {
     background-color: #E6E6E6;
     border-radius: 5px;
@@ -250,136 +257,38 @@ ul.attachments-bar.non-image li {
     line-height: 24px;
     vertical-align: baseline;
 }
+
 ul.attachments-bar.non-image .att-item {
     background-repeat: no-repeat;
     background-position: left center;
     display: inline-block;
 }
+
 ul.attachments-bar.non-image .att-item > span.filename {
     line-height: 10px;
     margin: 2px 2px 2px 28px;
     padding: 0px;
     font-size: x-small;
 }
+
 ul.attachments-bar.non-image .att-item.doc{
-    background-image: url('/res/ico/attachmenticon_doc_s.png');
+    background-image: url('');
 }
+
 ul.attachments-bar.non-image .att-item.file {
-    background-image: url('/res/ico/attachmenticon_file_s.png');
+    background-image: url('');
 }
+
 ul.attachments-bar.non-image .att-item.pdf{
-    background-image: url('/res/ico/attachmenticon_pdf_s.png');
+    background-image: url('');
 }
+
 ul.attachments-bar.non-image .att-item.zip {
-    background-image: url('/res/ico/attachmenticon_zip_s.png');
+    background-image: url('');
 }
 
 ul.attachments-bar.non-image .att-item.media {
-    background-image: url('/res/ico/attachmenticon_file_s.png');
-}
-
-a.place {
-    color: #00B45A;
-    font-weight: bold;
-}
-a.account {
-    color: #00B45A;
-}
-a.post {
-    color: #00B45A;
-}
-
-
-@media (min-width: 1000px) {
-    #Logo { width: 250px; text-align: center; }
-    #Logo #Pic { width: 48px; height: 48px;}
-    #Logo #Type { height: 32px; }
-}
-
-@media (max-width: 999px) {
-    #Logo { }
-}
-
-#Header { height: 64px; position: relative; border-bottom: 1px solid $color-calm; }
-#PrimaryPageSelector {
-  width: 575px;
-}
-//
-//#nav-margin-ul {
-//  margin-left: 75%;
-//}
-
-#PrimaryPageSelector ul {
-  display: inline-block;
-}
-.nav-profile {
-  padding: 10px 0 2px 0;
-  font-weight: 600;
-}
-#PrimaryPageSelector li {
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    font-size: medium;
-    padding: 15px 25px;
-    border-top: 5px solid white;
-    width: 7em;
-    text-align: center;
-}
-#PrimaryPageSelector li:hover {
-    border-top: 5px solid black ;
-    color: black ;
-}
-#PrimaryPageSelector li.selected {
-  color: black;
-  font-weight: bold;
-  border-top: 5px solid black;
-
-}
-#PrimaryPageSelector a {
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
-    color: $color-storm;
-    display: block;
-}
-#PrimaryPageSelector a:hover {
-  color: black;
-  font-weight: bold;
-}
-#SecondaryPageSelector a:hover {
-  color: $color-sense;
-  cursor: pointer;
-  position: relative;
-  display: inline-block;
-  border-bottom: 5px solid $color-sense ;
-}
-
-#SecondaryPageSelector a {
-  color: $color-solid;
-  text-decoration: none;
-}
-
-#SecondPageSelector ul {
-  //display: inline-block;
-  //padding-left: 15px;
-  //width: 1000px;
-
-}
-.nav-width-ul {
-  display: inline-block;
-  margin-top: 0;
-  //width: 1000px;
-}
-
-#SecondaryPageSelector li.selected {
-  color:red;
-}
-#SecondaryPageSelector a {
-  height: 100%;
-  width: 100%;
-  text-decoration: none;
-  display: block;
+    background-image: url('');
 }
 
 #Account {
@@ -410,32 +319,19 @@ a.post {
     z-index: 100;
 }
 
-
-
 /**
   *********************************************************
   *     Nested Classes -Events *
   *********************************************************
  */
 
-
-@media (min-width: 1000px) {
-
-  }
-
-#SubNav #Compose a {
-  background-color: #14D769;
-  border: 1px solid #00B45A;
-  padding: 5px 20px;
-  color: white;
-  display: inline-block;
-  border-radius: 5px;
-  font-size: $font-size-small;
-  margin: 2px;
-  height: 38px;
-  width: 154px;
+#SubNav #Compose {
+  width: 250px;
+  text-align: center;
 }
-#SubNav #Compose { width: 250px; text-align: center; }
+#SubNav { height: 32px;
+  border-bottom: 1px solid $color-sense;
+}
 
 #SubNav #Compose a {
   background-color: #14D769;
@@ -445,16 +341,10 @@ a.post {
   display: inline-block;
   border-radius: 5px;
   font-size: $font-size-small;
+  font-weight: 900;
   margin: 2px;
   height: 30px;
   width: 128px;
-}
-@media (max-width: 999px) {
-  #MyPlaces { }
-  #EventList td.places { }
-  #PostView .main-body .right-column { }
-  #PostView #Toolbar {  }
-  #PostView #Comments { }
 }
 
 .ei-mail-read {
@@ -464,8 +354,8 @@ a.post {
   background-position: center center;
   background-repeat: no-repeat;
   margin-top: 8px;
-
 }
+
 .ei-mail-unread {
   width: 16px;
   height: 16px;
@@ -474,6 +364,7 @@ a.post {
   background-repeat: no-repeat;
   margin-top: 8px;
 }
+
 .ei-member-join {
   width: 16px;
   height: 16px;
@@ -481,8 +372,8 @@ a.post {
   background-position: 0 -96px;
   background-repeat: no-repeat;
   margin-top: 8px;
-
 }
+
 .ei-member-leave {
   width: 16px;
   height: 16px;
@@ -490,8 +381,8 @@ a.post {
   background-position: center -80px;
   background-repeat: no-repeat;
   margin-top: 8px;
-
 }
+
 .ei-comment-add {
   width: 16px;
   height: 16px;
@@ -499,8 +390,8 @@ a.post {
   background-position: 0 -48px;
   background-repeat: no-repeat;
   margin-top: 8px;
-
 }
+
 .ei-invite {
   width: 16px;
   height: 16px;
@@ -508,7 +399,6 @@ a.post {
   background-position: 0 -112px;
   background-repeat: no-repeat;
   margin-top: 8px;
-
 }
 
 .ei-member-invite {
@@ -519,33 +409,7 @@ a.post {
   background-repeat: no-repeat;
   margin-top: 8px;
 }
-.account-initials { margin-right: 8px;}
 
-#SubNav { height: 32px; border-bottom: 1px solid $color-sense-5; }
-
-#SubNav #SecondaryPageSelector { width: 575px;}
-#SubNav #SecondaryPageSelector ul {}
-#SubNav #SecondaryPageSelector li {
-  color: black;
-  cursor: default;
-  display: inline-block;
-  padding: 5px 10px;
-  margin: 0px;
-  border-bottom: 3px solid white ;
-  box-sizing: border-box;
-  height: 40px;
-}
-#SubNav #SecondaryPageSelector li.selected {
-  border-bottom: 3px solid #00B45A ; ;
-  color: #00B45A;
-  font-weight: bold;
-
-}
-#SubNav #SecondaryPageSelector li:hover {
-  color: #00B45A;
-}
-#SubNav #ViewSelector  ul{
-}
 #SubNav #ViewSelector #ExpandView {
   background-image: url('/res/ico/viewswitch_expand.png');
   width: 27px;
@@ -553,6 +417,7 @@ a.post {
   display: inline;
   cursor: pointer ;
 }
+
 #SubNav #ViewSelector #ExpandView.on { background-position: 27px; }
 #SubNav #ViewSelector #ExpandView.off { }
 #SubNav #ViewSelector #CollapseView {
@@ -562,15 +427,14 @@ a.post {
   display: inline-block;
   cursor: pointer ;
 }
+
 #SubNav #ViewSelector #CollapseView.on { background-position: 27px; }
 #SubNav #ViewSelector #CollapseView.off {}
 #SubNav #Search {
   width: 146px;
   height: 30px;
   border-radius: 7px;
-
 }
-
 #MyPlaces { width: 275px; background-color: #E7ECE9; vertical-align: top;}
 #MyPlaces ul {
   list-style: none;
@@ -586,7 +450,6 @@ a.post {
   padding-left: 10px;
   line-height: 46px;
   vertical-align: middle;
-
 }
 #MyPlaces li span {
 
@@ -597,207 +460,20 @@ a.post {
   border-bottom: 1px solid $color-breeze;
 }
 
-
 #MyPlaces li img { margin: 1px 3px;}
 #MyPlaces li a {
   font-size: medium;
   display: block;
 }
+
 #MyPlaces li:hover { background-color: #F0F0F0; }
 #MyPlaces li a:hover {
   font-weight: bold;
-
 }
+
 #MyPlaces li a span { line-height: 32px; }
 #MyPlaces li.selected { background-color: #E7ECE9; }
 #MyPlaces > ul > li { border-bottom: 1px solid #c0c0c0; border: none;}
-
-#EventList {table-layout: fixed;}
-#EventList tr:hover { cursor: default; background-color: #E7FBF0;}
-#EventList td { padding: 5px; }
-#EventList td.ico { width: 16px; vertical-align: top; }
-#EventList td.ico img { border-radius: 16px; }
-#EventList td.sender {
-  width: 200px;
-  vertical-align: top;
-  font-size: small;
-  overflow: hidden ;
-  text-overflow: ellipsis;
-  word-break: keep-all;
-  white-space: nowrap;
-}
-#EventList td.sender img { margin-left: 2px; margin-right: 4px; border-radius: 16px; }
-#EventList td.sender span { line-height: 32px;}
-#EventList td.msg { width: auto; border-bottom: 1px solid #ced9d3; vertical-align: top;}
-#EventList td.msg .subject { font-weight: bold; line-height: 24px; word-break: break-all; overflow: hidden;}
-#EventList td.msg .body { color: gray; word-break: break-all; overflow: hidden; }
-#EventList td.places { width: 220px; vertical-align: top; border-bottom: 1px solid #ced9d3; }
-#EventList td.places > div {
-  display: inline-block;
-  background-color: $color-badge;
-  border-radius: 10px;
-  margin: 1px;
-  padding: 2px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100px;
-  font-size: $font-size-xsmall;
-  border: 1px solid $color-badge;
-
-}
-#EventList tr #time-of-event {
-  width:400px;
-}
-
-#EventList td.places >.more-tag {
-  border-color: #000000;
-  border-width: 1px;
-  border-style: solid;
-  background-color: #000000;
-  border-radius: 7px;
-  color: white;
-  font-size: 11px;
-  width: 28px;
-  height: 14px;
-  text-align: center;
-}
-#EventList td.time {
-  width: 50px;
-  border-bottom: 1px solid #ced9d3;
-  vertical-align: bottom;
-  color: #c0c0c0 ;
-}
-#EventList.collapse td.msg .body { display: none; }
-#EventList.collapse td.msg .attachments { display: none; }
-
-#LoadMoreEvent {
-  //background-color: #00B45A ;
-  color: #00B45A;
-  border-bottom: 1px solid #00B45A;
-  //border-radius: 5px;
-  padding: 5px 10px;
-  margin: 20px auto;
-  cursor: pointer;
-  text-align: center;
-}
-#LoadMoreEvent:hover { font-weight: bold;}
-#PostView {
-  //display: none;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
-  z-index: 100;
-  overflow: auto;
-}
-#PostView > div { table-layout: fixed; }
-#PostView .top-space { height: 10%; }
-#PostView .bottom-space { height: 10%; }
-#PostView .left-space { width: 10%; }
-#PostView .right-space { width: 10%; }
-#PostView .main-body {
-  border: 1px solid $color-breeze;
-  border-radius: 8px;
-  background-color: white ;
-  padding: 0px;
-  min-width: 840px;
-  min-height: 640px;
-  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
-}
-#PostView .main-body .left-column {}
-#PostView .main-body .right-column { width: 300px;}
-#PostView #PostHeader {
-  border-bottom: 1px solid $color-breeze ;
-  padding: 0px;
-  height: 100px;
-}
-#PostView #PostTime {
-  top: 0px;
-  right: 0px;
-  text-align: right;
-  vertical-align: top;
-  line-height: 32px;
-}
-#PostView #PostTime .date {margin: 1px; color: gray; font-weight: bold;}
-#PostView #PostTime .time {margin: 1px 10px; font-size: medium;}
-//#PostView #PostSubject {
-//  margin: 3px 3px 15px 3px;
-//  font-size: medium;
-//  font-weight: bold;
-//  word-break: break-all;
-//  white-space: normal;
-//  overflow: auto;
-//  max-height: 120px;
-//}
-#PostView #SenderIco {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-}
-#PostView #SenderIco img { border-radius: 16px; }
-#PostView #SenderName {
-  display: inline-block ;
-}
-#PostView #Targets { margin: 5px 1px; }
-#PostView #Targets div {
-  display: inline-block;
-  background-color: #00B45A ;
-  border-radius: 10px;
-  margin: 1px;
-  padding: 1px 5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: keep-all;
-  white-space: nowrap;
-  max-width: 300px;
-}
-#PostView #Toolbar {
-  bottom: 0px;
-  right: 0px;
-}
-#PostView #Toolbar ul {
-  list-style: none;
-  float: right;
-}
-#PostView #Toolbar li {
-  display: inline-block;
-  margin: 2px 15px;
-}
-#PostView #Toolbar li img {
-  float: right;
-}
-#PostView #Toolbar li span {
-  line-height: 24px;
-  color: gray ;
-}
-#PostView #Content { vertical-align: top; overflow: auto;}
-#PostView #PostBody { border: none; }
-#PostView #Comments {
-  //padding: 5px;
-  padding: 5px;
-  width: 320px;
-  background-color: $color-calm;
-}
-#PostView #NewComment { padding: 5px; }
-#PostView #NewComment .account-ico { float: left;}
-
-#PostView #NewComment #CommentSendBtn  {
-  background-color: #00B45A;
-  border: none ;
-  border-radius: 5px;
-  padding: 5px 10px;
-  color: white ;
-}
-#PostView #CommentList .sender-ico { float: left; }
-#PostView #CommentList .sender-ico img { border-radius: 16px; margin-right: 3px; }
-#PostView #CommentList .sender { color: #00B45A; font-weight: bold; }
-#PostView #CommentList .comment-txt { overflow: hidden; line-height: 24px; vertical-align: baseline;}
-#PostView #CommentList .comment { clear: both; padding: 5px;}
-#PostView #CommentList .comment:hover { background-color: #E7FBF0;}
-
-
 
 
 /**
@@ -806,19 +482,6 @@ a.post {
   *********************************************************
  */
 
-
-
-
-/*
-    Created on : Jan 25, 2016, 11:44:19 PM
-    Author     : EHSAN
-*/
-
-#SubNav { height: 32px; border-bottom: 1px solid #00B45A; }
-#ComposeBtns {
-  width: px;
-  text-align: right;
-}
 #ComposeBtns a {
   text-align: right;
   background-color: #14D769;
@@ -839,17 +502,21 @@ a.post {
   padding: 5px;
   vertical-align: top ;
 }
+
 #ComposeContainer input[type='text'] {
   outline: none;
   padding: 10px;
 }
+
 #ComposeContainer .seprator {
   border-bottom: 1px solid #c0c0c0 ;
   vertical-align: middle;
 }
+
 #ComposeContainer .seprator > div {
   display: inline-block;
 }
+
 #ComposeContainer #Subject {
   display: block ;
   height: 64px;
@@ -857,11 +524,13 @@ a.post {
   font-size: medium;
   border: none;
 }
+
 #ComposeContainer #To {
   height: 32px;
   border: none;
   min-width: 250px;
 }
+
 #ComposeContainer .place {
   display: inline-block;
   background-color: #B8F3D2;
@@ -869,6 +538,7 @@ a.post {
   padding: 3px;
   margin: 1px;
 }
+
 #ComposeContainer textarea {
   width: 100%;
   max-width: 100%;
@@ -878,11 +548,13 @@ a.post {
   outline: none;
   padding: 10px;
 }
+
 #ComposeContainer #Toolbar {display: block;}
 #ComposeContainer #Toolbar .btn {
   padding: 4px;
   cursor: pointer;
 }
+
 #ComposeContainer #Toolbar #Attachment {
   margin: 5px;
   width: 24px;
@@ -891,8 +563,6 @@ a.post {
   background-size: contain;
 }
 
-
-
 div.att-item {
   width: 72px;
   height: 96px;
@@ -900,26 +570,6 @@ div.att-item {
   vertical-align: middle;
   position: relative;
   float: left;
-}
-div.att-item.doc {
-  background-image: url('/res/ico/attachmentcard_96.png');
-  background-position: 0px;
-}
-div.att-item.media {
-  background-image: url('/res/ico/attachmentcard_96.png');
-  background-position: -72px;
-}
-div.att-item.pdf {
-  background-image: url('/res/ico/attachmentcard_96.png');
-  background-position: -144px;
-}
-div.att-item.file {
-  background-image: url('/res/ico/attachmentcard_96.png');
-  background-position: -216px;
-}
-div.att-item.zip {
-  background-image: url('/res/ico/attachmentcard_96.png');
-  background-position: -288px;
 }
 
 .att-item > span.filename {
@@ -938,126 +588,34 @@ div.att-item.zip {
   opacity: 0.3 ;
 }
 
-
-
-
 /**
   *********************************************************
-  *     Nested Classes -  compose  *
+  *     Nested Classes -   * Media
   *********************************************************
  */
-
-
-
 
 @media (min-width: 1000px) {
   #AllPlaces { width: 800px; }
 }
 @media (max-width: 999px) {
-  #SubNav #Compose {  }
-  #AllPlaces {  }
 
   #AllPlaces li > table td.properties {
     display: none;
-
-
   }
   #AllPlaces ul { margin-left: 5px;}
   #AllPlaces li > table td.members { display: none; }
 }
-.properties {
-  width: 126px;
+
+@media (min-width: 1000px) {
+  #Logo { width: 250px; text-align: center; }
+  #Logo #Pic { width: 48px; height: 48px;}
+  #Logo #Type { height: 32px; }
 }
 
-#SubNav { height: 32px; border-bottom: 1px solid $color-sense; }
-#SubNav #Compose { text-align: center; }
-#SubNav #Compose a {
-  background-color: $color-sense;
-  border: 1px solid $color-sense;
-  padding: 5px 20px;
-  color: white;
-  display: inline-block;
-  border-radius: 5px;
-  font-size: medium;
-  margin: 2px;
-}
-#SubNav #SecondaryPageSelector { width: 575px;}
-#SubNav #SecondaryPageSelector ul {}
-#SubNav #SecondaryPageSelector li {
-  color: #787878;
-  cursor: default;
-  display: inline-block;
-  padding: 5px 10px;
-  margin: 0px;
-  border-bottom: 3px solid white ;
-  box-sizing: border-box;
-  height: 38px;
-}
-#SubNav #SecondaryPageSelector li.selected {
-  border-bottom: 3px solid $color-sense ;
-  color: $color-sense;
-  font-weight: bold;
-}
-
-#SubNav #Buttons { width: 100px; }
-#SubNav #Search { width: 100px; }
-
-#AllPlaces {
-  list-style: none;
-  margin: 0px auto;
-}
-#AllPlaces li {
-  background-color: white;
-  border-bottom: 1px solid $color-calm;
-  min-height: 64px;
-}
-#AllPlaces li:hover {
-  background-color: #E7FBF0;
-}
-#AllPlaces ul {
-  list-style: none;
-  margin-left: 25px;
-}
-#AllPlaces li > table {
-  width: 100%;
-  height: 64px;
-}
-#AllPlaces li > table td.logo {
-  width: 48px;
-}
-#AllPlaces li > table td.logo > img {
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-}
-#AllPlaces li > table td.name {
-  min-width: 200px;
-  //vertical-align: middle;
-  margin-top: 15px;
-
-}
-#AllPlaces li > table td.name img {
-  width: 24px;
-  height: 24px;
-  vertical-align: middle;
-}
-#AllPlaces li > table td.name h5 {
-  margin: 1px 5px;
-  font-weight: normal;
-  font-size: small;
-}
-#AllPlaces li > table td.name p {
-  margin: 5px;
-  color: #787878;
-  font-size: x-small;
-}
-#AllPlaces li > table td.members {
-  width: 168px;
-  text-align: right;
-}
-#AllPlaces li > table td.members img{
-  width: 32px;
-  height: 32px;
-  margin: 1px;
-  border-radius: 16px;
+@media (max-width: 999px) {
+  #MyPlaces { }
+  #EventList td.places { }
+  #PostView .main-body .right-column { }
+  #PostView #Toolbar {  }
+  #PostView #Comments { }
 }

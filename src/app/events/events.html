@@ -9,23 +9,84 @@
         </div>
           <div class="nst-content _dtc _pr _fhw">
           <div class="_fhw">
+
+            <!--<div class="daily-time">-->
+              <!--<div class="_dt">-->
+                <!--<div class="_dtr">-->
+                  <!--<p>today 24 march saturday</p>-->
+                  <!--<div class="_dtc">-->
+
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
             <table id="EventList" class="_fhw">
+              <!--times-->
+
+              <tr id="time-today">
+                <td class="ico">
+
+                </td>
+                <td class="sender">
+                  <p class="nst-mood-simple"><b>Today</b> Wednesday 24 Feb</p>
+                </td>
+                <td class="msg">
+                </td>
+                <td class="places"></td>
+                <td class="time""></td>
+              </tr>
+
+              <tr id="time-today">
+                <td class="ico">
+                </td>
+                <td class="sender">
+                  <p class="nst-mood-simple">Tuesday 24 Feb</p>
+                </td>
+                <td class="msg">
+                </td>
+                <td class="places"></td>
+                <td class="time""></td>
+              </tr>
+
+              <tr id="time-today">
+                <td class="ico">
+                </td>
+                <td class="sender">
+                  <p class="nst-mood-simple">January</p>
+                </td>
+                <td class="msg">
+                </td>
+                <td class="places"></td>
+                <td class="time""></td>
+              </tr>
+
+              <tr id="time-today">
+                <td class="ico">
+                </td>
+                <td class="sender">
+                  <p class="nst-mood-simple">2015</p>
+                </td>
+                <td class="msg">
+                </td>
+                <td class="places"></td>
+                <td class="time""></td>
+              </tr>
+
               <tbody data-ng-repeat="event in events.events" data-ng-include="event.view.tpl" data-ng-model="event"></tbody>
 
-              <!--Time of activity -->
-
-              <!--<tr>-->
-                <!--<td>-->
-                  <!--<p>Today Wednesday 24 Feb</p>-->
-                <!--</td>-->
-              <!--</tr>-->
-
-              <!--add null full height  tr-->
             </table>
+
+
+
+
+
+
+
             <!--<div class="_tac">-->
             <!--<a id="LoadMoreEvent" before="">Load More ..</a>-->
             <!--</div>-->
-            <!--</div>-->
+
+            </div>
           </div>
         </div>
       </div>
