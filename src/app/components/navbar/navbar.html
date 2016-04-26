@@ -46,19 +46,19 @@
                       <div class="_dtc" id="SecondaryPageSelector">
                         <ul class="nav-width-ul">
                           <li class="selected">
-                            <a href="#/events">All</a>
+                            <a href="#/all">All</a>
                           </li>
-                          <li class="">
-                            <a href="#/events">Inbox</a>
+                          <li ng-class="inbox ? 'selected' : null">
+                            <a href="#/inbox">Inbox</a>
                           </li>
-                          <li class="">
-                            <a href="#/events">Comments</a>
+                          <li ng-class="comments ? 'selected' : null">
+                            <a href="#/comments">Comments</a>
                           </li>
-                          <li class="">
-                            <a href="#/events">Member Acts</a>
+                          <li ng-class="member-acts ? 'selected' : null">
+                            <a href="#/member-acts">Member Acts</a>
                           </li>
-                          <li class="">
-                            <a href="#/events">Place Acts</a>
+                          <li ng-class="place-acts? 'selected' : null">
+                            <a href="#/place-acts">Place Acts</a>
                           </li>
                         </ul>
                       </div>

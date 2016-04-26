@@ -5,20 +5,56 @@
   <div class="_dtr _fh">
     <div class="_dtc">
       <div class="_dt _fh _fw _bggray">
-        <ul id="AllPlaces">
-          <li>
+        <div id="place-option-body">
+          <!--<p data-ng-bind="place_option.place.name"></p>-->
+          <!--<p data-ng-bind="place_option.name">name is:</p>-->
+          <div class="room-name">
+            <div class="account-initials-64 room-pic "></div>
+            <h5>Room Name</h5>
+            <h6 class="nst-mood-storm">RoomID@nested.me</h6>
+            <h6 class="nst-mood-storm">Place Discribtion Max 256 Character...</h6>
+            <span>Options For Me</span>
+          </div>
 
-            <!--<p data-ng-bind="place_option.place.name"></p>-->
-            <!--<p data-ng-bind="place_option.name">name is:</p>-->
-              first li
+          <div class="nst-options">
+            <ul class="list-inline ">
+              <li class="nst-eye "></li>
+              <li>Show in Digest</li>
+              <div class="_di switch-panel">
+                <li class="switch-option _dib">On</li>
+                <li class="switch-option-right _dib">Off</li>
+              </div>
 
-          </li>
-          <li>second</li>
+
+            </ul>
+
+            <ul class="list-inline">
+              <li class="nst-pencil"></li>
+              <li>Notifications </li>
+            </ul>
 
 
 
 
-        </ul>
+
+            <h5>Place Privacy</h5>
+
+          </div>
+
+
+          <div class="nst-teammates">
+            <div initials class="account-initials" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+            <div class="account-initials"></div>
+          </div>
+
+
+          <div class="nst-members">
+            <div initials class="account-initials" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+            <div class="account-initials"></div>
+          </div>
+
+
+        </div>
 
       </div>
     </div>
