@@ -729,27 +729,28 @@ input #nav-search {
   background-repeat: no-repeat;
 }
 
-
-#time-today {
+.event-group-time {
   margin-left: 10px;
   margin-top: 15px;
   width:100%
-
 }
-#time-today:hover {
-  background-color: white!important;
 
+.event-group-time:hover {
+  background-color: white !important;
 }
-#time-today .msg .time {
+
+.event-group-time .msg,
+.event-group-time .time,
+.event-group-time .places,
+.event-group-time .sender {
   border-bottom: none !important;
 }
-#time-today .places {
-  border-bottom: none !important;
-}
+
 .daily-time {
   background-color: whitesmoke;
   width: 150px;
 }
+
 .daily-time p {
   margin-left: 10px;
   margin-top: 15px;

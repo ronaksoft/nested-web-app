@@ -8,78 +8,24 @@
 
         <div class="nst-content _dtc _pr _fhw">
           <div class="_fhw">
-
-            <!--<div class="daily-time">-->
-              <!--<div class="_dt">-->
-                <!--<div class="_dtr">-->
-                  <!--<p>today 24 march saturday</p>-->
-                  <!--<div class="_dtc">-->
-
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
             <table id="EventList" class="_fhw">
-              <!--times-->
+              <tbody data-ng-repeat="eventGroup in events.eventGroups">
+                <tr class="event-group-time">
+                  <td class="ico"></td>
+                  <td class="sender">
+                    <p class="nst-mood-simple">
+                      <span data-ng-if="eventGroup.type == 'daily' && eventGroup.date.getDate() == events.today.getDate()"><strong>Today</strong> </span>
+                      <span data-ng-bind="eventGroup.date | date:eventGroup.titleFormat"></span>
+                    </p>
+                  </td>
+                  <td class="msg"></td>
+                  <td class="places"></td>
+                  <td class="time"></td>
+                </tr>
 
-              <tr id="time-today">
-                <td class="ico">
-
-                </td>
-                <td class="sender">
-                  <p class="nst-mood-simple"><b>Today</b> Wednesday 24 Feb</p>
-                </td>
-                <td class="msg">
-                </td>
-                <td class="places"></td>
-                <td class="time""></td>
-              </tr>
-
-              <tr id="time-today">
-                <td class="ico">
-                </td>
-                <td class="sender">
-                  <p class="nst-mood-simple">Tuesday 24 Feb</p>
-                </td>
-                <td class="msg">
-                </td>
-                <td class="places"></td>
-                <td class="time""></td>
-              </tr>
-
-              <tr id="time-today">
-                <td class="ico">
-                </td>
-                <td class="sender">
-                  <p class="nst-mood-simple">January</p>
-                </td>
-                <td class="msg">
-                </td>
-                <td class="places"></td>
-                <td class="time""></td>
-              </tr>
-
-              <tr id="time-today">
-                <td class="ico">
-                </td>
-                <td class="sender">
-                  <p class="nst-mood-simple">2015</p>
-                </td>
-                <td class="msg">
-                </td>
-                <td class="places"></td>
-                <td class="time""></td>
-              </tr>
-
-              <tbody data-ng-repeat="event in events.events" data-ng-include="event.view.tpl" data-ng-model="event"></tbody>
-
+                <tr data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event"></tr>
+              </tbody>
             </table>
-
-
-
-
-
-
 
             <!--<div class="_tac">-->
             <!--<a id="LoadMoreEvent" before="">Load More ..</a>-->

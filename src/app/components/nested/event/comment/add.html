@@ -1,23 +1,21 @@
-<tr class="comment-add">
-  <td class="ico">
-    <div class="ei-comment-add"></div>
-  </td>
-  <td class="sender">
-    <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
-    <div initials class="account-initials" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+<td class="ico">
+  <div class="ei-comment-add"></div>
+</td>
+<td class="sender">
+  <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
+  <div initials class="account-initials" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
 
-    <span data-ng-bind="event.actor.fullname"></span>
-  </td>
-  <td class="msg">
-    <div class="comment-subject">
-      <span>commented on </span>
-      <a class="post" href="#" data-ng-bind-html="event.post.subject | emoji"></a>
-    </div>
-    <div class="body" data-ng-bind-html="event.comment.body | emoji"></div>
-  </td>
-  <td class="places">
-    <div class="_dtc" data-ng-bind="event.place.name"></div>
-    <div class="more-tag _dtc" ng-if="event.places.length > 1">+{{event.places.length - 1}}</div>
-  </td>
-  <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
-</tr>
+  <span data-ng-bind="event.actor.fullname"></span>
+</td>
+<td class="msg">
+  <div class="comment-subject">
+    <span>commented on </span>
+    <a class="post" href="#" data-ng-bind-html="event.post.subject | emoji"></a>
+  </div>
+  <div class="body" data-ng-bind-html="event.comment.body | emoji"></div>
+</td>
+<td class="places">
+  <div class="_dtc" data-ng-bind="event.place.name"></div>
+  <div class="more-tag _dtc" ng-if="event.places.length > 1">+{{event.places.length - 1}}</div>
+</td>
+<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>

@@ -1,18 +1,16 @@
-<tr class="member-invite">
-  <td class="ico">
-    <div class="ei-member-invite"></div>
-  </td>
-  <td class="sender">
-    <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
-    <div initials class="account-initials" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+<td class="ico">
+  <div class="ei-member-invite"></div>
+</td>
+<td class="sender">
+  <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
+  <div initials class="account-initials" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
 
-    <span data-ng-bind="event.actor.fullname"></span>
-  </td>
-  <td class="msg">
-    <span>invited </span>
-    <a class="account" href="#" data-ng-bind="event.member.fullname"></a>
-    <span> to </span>
-    <a class="place" href="#" data-ng-bind="event.place.name"></a></td>
-  <td class="places"></td>
-  <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
-</tr>
+  <span data-ng-bind="event.actor.fullname"></span>
+</td>
+<td class="msg">
+  <span>invited </span>
+  <a class="account" href="#" data-ng-bind="event.member.fullname"></a>
+  <span> to </span>
+  <a class="place" href="#" data-ng-bind="event.place.name"></a></td>
+<td class="places"></td>
+<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
