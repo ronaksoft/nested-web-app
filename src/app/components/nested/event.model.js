@@ -54,18 +54,18 @@
       }
 
       var templates = {};
-      templates[EVENT_ACTIONS.MEMBER_ADD] = 'app/components/nested/event/member/add.html';
-      templates[EVENT_ACTIONS.MEMBER_REMOVE] = 'app/components/nested/event/member/remove.html';
-      templates[EVENT_ACTIONS.MEMBER_INVITE] = 'app/components/nested/event/member/invite.html';
-      templates[EVENT_ACTIONS.MEMBER_JOIN] = 'app/components/nested/event/member/join.html';
+      templates[EVENT_ACTIONS.MEMBER_ADD] = { path: 'app/components/nested/event/member/add.html' };
+      templates[EVENT_ACTIONS.MEMBER_REMOVE] = { path: 'app/components/nested/event/member/remove.html' };
+      templates[EVENT_ACTIONS.MEMBER_INVITE] = { path: 'app/components/nested/event/member/invite.html' };
+      templates[EVENT_ACTIONS.MEMBER_JOIN] = { path: 'app/components/nested/event/member/join.html' };
 
-      templates[EVENT_ACTIONS.PLACE_ADD] = 'app/components/nested/event/place/add.html';
-      templates[EVENT_ACTIONS.PLACE_REMOVE] = 'app/components/nested/event/place/remove.html';
-      templates[EVENT_ACTIONS.PLACE_PICTURE] = 'app/components/nested/event/place/picture.html';
+      templates[EVENT_ACTIONS.PLACE_ADD] = { path: 'app/components/nested/event/place/add.html' };
+      templates[EVENT_ACTIONS.PLACE_REMOVE] = { path: 'app/components/nested/event/place/remove.html' };
+      templates[EVENT_ACTIONS.PLACE_PICTURE] = { path: 'app/components/nested/event/place/picture.html' };
 
-      templates[EVENT_ACTIONS.POST_ADD] = 'app/components/nested/event/post/add.html';
+      templates[EVENT_ACTIONS.POST_ADD] = { path: 'app/components/nested/event/post/add.html' };
 
-      templates[EVENT_ACTIONS.COMMENT_ADD] = 'app/components/nested/event/comment/add.html';
+      templates[EVENT_ACTIONS.COMMENT_ADD] = { path: 'app/components/nested/event/comment/add.html' };
 
       Event.prototype = {
         setData: function(data) {

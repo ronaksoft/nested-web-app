@@ -3,70 +3,15 @@
   <div>
     <ul>
       <li data-ng-repeat="place in vm.places" class="grandplace">
-        <img data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
+        <img data-ng-if="place.children.length > 0"  class="arrow-side" data-ng-class="collapsed ? 'arrow-up' : 'arrow-down'" data-ng-model="collapsed" data-ng-click="collapsed =! collapsed" src="../assets/icons/arrow_16.png"/>
+
+        <img data-ng-if="place.picture.org.uid" class="gp-img" src="{{place.picture.x32.url}}"/>
         <div data-ng-if="!place.picture.org.uid" class="account-initials-32" data-ng-bind="place.name | initials:2"></div>
         <a href="#" data-ng-bind="place.name"></a>
-      </li>
 
-      <li class="grandplace">
-        <img src="../assets/images/yeoman.png"><a href="#">Grand place</a>
-      </li>
-      <li class="grandplace">
-        <img src="../assets/images/yeoman.png"><a href="#">Grand place</a>
-      </li>
-      <li class="grandplace active">
-        <img src="../assets/icons/arrow_16.png" id="arrow-up"><img src="../assets/images/yeoman.png"><a href="#">Grand place</a>
-      </li>
-      <li class="active">
-        <ul>
-          <li class="subplace">
-            <img src="../assets/icons/arrow_16.png" id="arrow-down"><img src="../assets/images/nested-logo-32.png"><a href="#">subplace A</a>
-          </li>
-          <li class="subplace">
-            <img src="../assets/icons/arrow_16.png" id="arrow-up"><a href="#"><img src="../assets/images/nested-logo-32.png">subplace B</a>
-          </li>
-          <li>
-            <ul>
-              <li class="subplace">
-                <img src="../assets/icons/arrow_16.png" id="arrow-down"><img src="../assets/images/nested-logo-32.png"><a href="#">subplace B1</a>
-              </li>
-              <li class="subplace">
-                <img src="../assets/icons/arrow_16.png" id="arrow-up"><img src="../assets/images/nested-logo-32.png"><a href="#">subplace B2</a>
-              </li>
-              <li>
-                <ul>
-                  <li class="subplace">
-                    <a href="#"><img src="../assets/images/nested-logo-32.png">ubplace B2A</a>
-                  </li>
-                  <li class="subplace">
-                    <a href="#"><img src="../assets/images/nested-logo-32.png">subplace B2B</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="subplace">
-                <img src="../assets/icons/arrow_16.png" id="arrow-down"><a href="#"><img src="../assets/images/nested-logo-32.png">subplace B3</a>
-              </li>
-              <li class="subplace">
-                <a href="#"><img src="../assets/images/nested-logo-32.png">subplace B4</a>
-              </li>
-            </ul>
-          </li>
-          <li class="subplace">
-            <a href="#"><img src="../assets/images/nested-logo-32.png">subplace C</a>
-          </li>
-          <li class="subplace">
-            <img src="../assets/icons/arrow_16.png" id="arrow-down"><a href="#"><img src="../assets/images/nested-logo-32.png">subplace D</a>
-          </li>
+        <ul ng-show="collapsed" data-ng-if="place.children.length > 0">
+          <li class="subplace" data-ng-repeat="subplace in place.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'"></li>
         </ul>
-      </li>
-      <li class="grandplace">
-        <img src="../assets/images/yeoman.png"><a href="#">Grandplace</a>
-      </li>
-      <li class="grandplace">
-        <img src="../assets/icons/arrow_16.png" id="arrow-down"><img src="../assets/images/yeoman.png"><a href="#">Grandplace</a>
-      </li>
-      <li class="grandplace">
-        <img src="../assets/images/yeoman.png"><a href="#">Grandplace</a>
       </li>
     </ul>
   </div>

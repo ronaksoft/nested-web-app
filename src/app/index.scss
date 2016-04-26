@@ -99,7 +99,9 @@ input[type="radio"]:checked + label{
   width: 17px;
 }
 
- //****account initials****
+/*************************
+ *    Account Initials
+ *************************/
 
 
 * [class *= "account-initials-"] {
@@ -125,7 +127,7 @@ input[type="radio"]:checked + label{
 .account-initials-right {
   width: 32px;
   height: 32px;
-  border-radius: 16px;
+  border-radius: 50%;
   float: right;
   line-height: 31px;
   text-align: center;
@@ -134,9 +136,6 @@ input[type="radio"]:checked + label{
   color: white;
   background-color: $color-solid-30 ;
 }
-
-
-
 
 /**
   *********************************
@@ -367,43 +366,41 @@ label {
 #PrimaryPageSelector ul {
   display: inline-block;
 }
+#SecondaryPageSelector ul {
+  display: inline-block;
+}
 
 #PrimaryPageSelector li {
   cursor: pointer;
   position: relative;
   display: inline-block;
   font-size: medium;
-  padding: 15px 25px;
   border-top: 5px solid white;
   width: 7em;
   text-align: center;
 }
-#PrimaryPageSelector li:hover {
-  border-top: 5px solid black ;
-  color: black ;
-}
-#PrimaryPageSelector li.selected {
-  color: black;
-  font-weight: bold;
-  border-top: 5px solid black;
 
+#PrimaryPageSelector li:hover,
+#PrimaryPageSelector li.selected {
+  border-top: 5px solid black;
 }
+
+#PrimaryPageSelector li.selected a,
+#PrimaryPageSelector li:hover a {
+  color: $color-solid;
+  font-weight: bold;
+}
+
 #PrimaryPageSelector a {
+  display: inline-block;
   height: 100%;
   width: 100%;
+  padding: 15px 25px;
   text-decoration: none;
   color: $color-storm;
-  display: block;
-}
-#PrimaryPageSelector a:hover {
-  color: black;
-  font-weight: bold;
 }
 
 
-#SecondaryPageSelector ul {
-  display: inline-block;
-}
 
 #SecondaryPageSelector li {
   padding: 9px 15px;
@@ -419,13 +416,16 @@ label {
 
 }
 
-#SecondaryPageSelector li:hover {
+#SecondaryPageSelector li:hover,
+#SecondaryPageSelector li.selected {
   border-bottom: 3px solid $color-sense ;
   color: $color-sense ;
 }
-#SecondaryPageSelector li.selected {
-  color: red;
-  border-bottom: 3px solid $color-sense;
+
+#SecondaryPageSelector li.selected a,
+#SecondaryPageSelector li.hover a
+{
+  color: $color-sense;
 
 }
 #SecondaryPageSelector a {
@@ -437,10 +437,7 @@ label {
 }
 #SecondaryPageSelector a:hover {
   color: $color-sense;
-  font-weight: bold;
-
 }
-
 
 .nav-profile {
   padding: 10px 0 2px 0;
@@ -607,28 +604,6 @@ input #nav-search {
   **********************************************************
  */
 
-.sidebar {
-  background-color: $color-breeze-50;
-  //padding: 25px 15px 25px 15px;
-  height: 100%;
-  width: 275px;
-}
-.nested-sidebar {
-  background-color: $color-breeze-50;
-  height: 100%;
-}
-.sidebar-container {
-  width:250px;
-}
-
-.nst-sidebar-header {
-  display: inline-block;
-  background-color: whitesmoke;
-  margin: 1px;
-  padding: 30px 5px 30px 5px;
-  width:250px;
-}
-
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Events  *
@@ -677,27 +652,28 @@ input #nav-search {
   background-repeat: no-repeat;
 }
 
-
-#time-today {
+.event-group-time {
   margin-left: 10px;
   margin-top: 15px;
   width:100%
 }
 
-#time-today:hover {
-  background-color: white!important;
+.event-group-time:hover {
+  background-color: white !important;
+}
 
-}
-#time-today .msg,.time,{
+.event-group-time .msg,
+.event-group-time .time,
+.event-group-time .places,
+.event-group-time .sender {
   border-bottom: none !important;
 }
-#time-today .places {
-  border-bottom: none !important;
-}
+
 .daily-time {
   background-color: whitesmoke;
   width: 150px;
 }
+
 .daily-time p {
   margin-left: 10px;
   margin-top: 15px;
@@ -927,6 +903,18 @@ input #nav-search {
   height: 30px;
   border-radius: 15px;
   border: solid 1px $color-calm;
+  float: right;
+  line-height: 28px;
+  text-align: center;
+  font-size: $font-size-small;
+  color: $color-storm;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.nst-no-more-members {
+  min-width: 30px;
+  height: 30px;
   float: right;
   line-height: 28px;
   text-align: center;
@@ -1269,13 +1257,9 @@ input #nav-search {
 .room-name h5 {
   padding-top: 45px;
 }
-
 .switch-panel {
+  padding-left: 530px;
   padding-top: 6px;
-}
-.room-pic {
-  margin-left: 12px;
-  margin-top: 32px;
 }
 .switch-option {
   background-color: $color-sense;

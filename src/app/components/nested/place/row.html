@@ -31,10 +31,10 @@
     </td>
     <td class="members">
       <div data-ng-if="place.counters.allMembers > 3" class="nst-more-members" data-ng-bind="'+' + (place.counters.allMembers - 3)"></div>
-      <div data-ng-if="place.counters.allMembers < 4" class="nst-more-members"></div>
+      <div data-ng-if="place.counters.allMembers < 4" class="nst-no-more-members"></div>
 
       <span data-ng-repeat="member in place.activeMembers | limitTo:3">
-        <img data-ng-if="member.picture.org.uid" src="{{member.picture.x32.url}}"/>
+        <img data-ng-if="member.picture.org.uid" class="account-initials-right" src="{{member.picture.x32.url}}"/>
         <div data-ng-if="!member.picture.org.uid" class="account-initials-right place-members" data-ng-bind="member.name.initials"></div>
       </span>
     </td>

@@ -1,45 +1,41 @@
-<tr class="post-add" data-post-id="{{event.post.id}}">
-  <td class="ico">
-    <div class="ei-mail-unread"></div>
-  </td>
-  <td class="sender">
-    <img data-ng-if="event.post.sender.picture.org.uid" src="{{event.post.sender.picture.x32.url}}"/>
-    <div initials class="account-initials" data-ng-if="!event.post.sender.picture.org.uid" data-ng-bind="event.post.sender.name.initials"></div>
+<td class="ico">
+  <div class="ei-mail-unread"></div>
+</td>
+<td class="sender">
+  <img data-ng-if="event.post.sender.picture.org.uid" src="{{event.post.sender.picture.x32.url}}"/>
+  <div initials class="account-initials" data-ng-if="!event.post.sender.picture.org.uid" data-ng-bind="event.post.sender.name.initials"></div>
 
-    <span data-ng-bind="event.post.sender.fullname"></span>
-  </td>
-
-  <td class="msg">
-    <div class="subject" data-ng-bind-html="event.post.subject | emoji"></div>
-    <div class="body" data-ng-bind-html="event.post.body | emoji"></div>
-    <div class="attachments">
-      <ul class="attachments-bar image">
-
-        <div class="headlineicon "></div>
-        <h5>attachment test</h5>
-        <ul class="attachments-bar">
-          <li>
-            <div class="doc-attachment"></div>
-          </li>
-          <li>
-            <div class="media-attachment"></div>
-          </li>
-          <li>
-            <div class="file-attachment"></div>
-          </li>
-          <li>
-            <div class="zip-attachment"></div>
-          </li>
-          <li>
-            <div class="pdf-attachment"></div>
-          </li>
-        </ul>
+  <span data-ng-bind="event.post.sender.fullname"></span>
+</td>
+<td class="msg">
+  <div class="subject" data-ng-bind-html="event.post.subject | emoji"></div>
+  <div class="body" data-ng-bind-html="event.post.body | emoji"></div>
+  <div class="attachments">
+    <ul class="attachments-bar image">
+      <div class="headlineicon"></div>
+      <h5>attachment test</h5>
+      <ul class="attachments-bar">
+        <li>
+          <div class="doc-attachment"></div>
+        </li>
+        <li>
+          <div class="media-attachment"></div>
+        </li>
+        <li>
+          <div class="file-attachment"></div>
+        </li>
+        <li>
+          <div class="zip-attachment"></div>
+        </li>
+        <li>
+          <div class="pdf-attachment"></div>
+        </li>
       </ul>
-    </div>
-  </td>
-  <td class="places">
-    <div class="_dtc" data-ng-bind="event.post.places[0].name"></div>
-    <div class="more-tag _dtc" ng-if="event.post.places.length > 1">+{{event.post.places.length - 1}}</div>
-  </td>
-  <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
-</tr>
+    </ul>
+  </div>
+</td>
+<td class="places">
+  <div class="_dtc" data-ng-bind="event.post.places[0].name"></div>
+  <div class="more-tag _dtc" ng-if="event.post.places.length > 1">+{{event.post.places.length - 1}}</div>
+</td>
+<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
