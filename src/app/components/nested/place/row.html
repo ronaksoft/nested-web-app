@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td class="arrow">
-      <label id="nst-arrow-rotated" data-ng-class="colp ? 'arrow-up' : 'arrow-down'" data-ng-model="colp" data-ng-init="colp = false" data-ng-click="colp =! colp"></label>
+      <label data-ng-model="colp" data-ng-show="place.children.length > 0" id="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false" data-ng-click="colp =! colp"></label>
     </td>
     <td class="logo">
       <img data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>

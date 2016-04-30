@@ -61,12 +61,19 @@
         controller: 'PostController',
         controllerAs: 'post'
       })
+      .state('compose', {
+        url: '/compose',
+        templateUrl: 'app/compose/compose.html',
+        controller: 'ComposeController',
+        controllerAs: 'compose'
+      })
       .state('place', {
         url: '/place/:placeId',
         templateUrl: 'app/places/option/place_option.html',
         controller: 'PlaceOptionController',
         controllerAs: 'place_option'
       });
+
 
     $urlRouterProvider.otherwise('/');
   }
