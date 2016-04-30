@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedUser', function (WsService, NestedUserRepoService, StoreItem) {
+    .factory('NestedUser', function (WsService, NestedUserRepoService, StoreItem, $rootScope) {
       function User(data) {
         this.username = null;
         this.email = null;
@@ -17,10 +17,10 @@
         };
         this.fullname = null;
         this.picture = {
-          org: null,
-          x32: null,
-          x64: null,
-          x128: null
+          org: new StoreItem(), // <StoreItem>
+          x32: new StoreItem(),
+          x64: new StoreItem(),
+          x128: new StoreItem()
         };
 
         if (data) {
@@ -36,6 +36,8 @@
             this.load(data);
           } else if (data.hasOwnProperty('username')) {
             angular.extend(this, data);
+
+            this.change();
           } else if (data.hasOwnProperty('_id')) {
             this.username = data._id;
             this.email = data.email;
@@ -53,8 +55,16 @@
               x64: new StoreItem(data.picture.x64),
               x128: new StoreItem(data.picture.x128)
             };
+
+            this.change();
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.info);
+          }
+        },
+
+        change: function () {
+          if(!$rootScope.$$phase) {
+            $rootScope.$digest()
           }
         },
 

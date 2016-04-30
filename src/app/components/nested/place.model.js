@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedPlace', function (NestedPlaceRepoService, NestedUser, StoreItem, $log) {
+    .factory('NestedPlace', function (NestedPlaceRepoService, NestedUser, StoreItem, $rootScope, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
 
@@ -44,6 +44,8 @@
             this.load(data);
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
+
+            this.change();
           } else if (data.hasOwnProperty('_id')) {
             $log.debug("Place Data:", data);
 
@@ -94,13 +96,25 @@
             for (var k in data.active_members) {
               this.activeMembers[k] = new NestedUser(this.full ? data.active_members[k]._id : data.active_members[k]);
             }
+
+            this.change();
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.info);
+          }
+
+          return this;
+        },
+
+        change: function () {
+          if(!$rootScope.$$phase) {
+            $rootScope.$digest()
           }
         },
 
         load: function(id) {
-          NestedPlaceRepoService.get(id || this.id).then(this.setData.bind(this));
+          this.id = id || this.id;
+
+          return NestedPlaceRepoService.get(this.id).then(this.setData.bind(this));
         },
 
         getParent: function (full) {

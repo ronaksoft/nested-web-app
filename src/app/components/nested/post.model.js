@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function (WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, $log) {
+    .factory('NestedPost', function (WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, $rootScope, $log) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -43,6 +43,8 @@
             this.load(data);
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
+
+            this.change();
           } else if (data.hasOwnProperty('_id')) {
             $log.debug("Post Data:", data);
 
@@ -75,8 +77,16 @@
             for (var k in data.recipients) {
               this.recipients[k] = new NestedRecipient(data.recipients[k]._id);
             }
+
+            this.change();
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.post);
+          }
+        },
+
+        change: function () {
+          if(!$rootScope.$$phase) {
+            $rootScope.$digest()
           }
         },
 

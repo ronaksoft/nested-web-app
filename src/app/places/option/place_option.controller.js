@@ -6,7 +6,7 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, AuthService, NestedPlace, $scope) {
+  function PlaceOptionController($location, AuthService, NestedPlace, $scope, $stateParams) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -16,10 +16,8 @@
       $location.path('/signin').replace();
     }
 
-    this.place = null;
-    var query = $location.search();
-    if (query.hasOwnProperty('id')) {
-      this.place = new NestedPlace(query.id);
+    if ($stateParams.hasOwnProperty('placeId')) {
+      $scope.place = new NestedPlace($stateParams.placeId);
     } else {
       $location.path('/places').replace();
     }

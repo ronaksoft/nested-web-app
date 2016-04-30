@@ -62,7 +62,7 @@
         controllerAs: 'post'
       })
       .state('place', {
-        url: '/place',
+        url: '/place/:placeId',
         templateUrl: 'app/places/option/place_option.html',
         controller: 'PlaceOptionController',
         controllerAs: 'place_option'

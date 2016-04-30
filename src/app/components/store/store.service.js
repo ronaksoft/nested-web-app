@@ -6,20 +6,20 @@
     .factory('StoreService', NestedStore);
 
   /** @ngInject */
-  function NestedStore($window, WsService, AuthService) {
+  function NestedStore($window, WsService) {
     var storeService = {
       stores: {}
     };
 
     var stores = $window.sessionStorage.getItem('stores');
     if (stores) {
-      // storeService.stores = angular.fromJson(stores);
+      storeService.stores = angular.fromJson(stores);
     }
 
     storeService.toUrl = function (uid) {
       var sid = uid.substr(0, 7);
       return this.getStoreUrl(sid).then(function (url) {
-        return url + '/download/' + AuthService.getSessionKey() + '/' + uid;
+        return url + '/download/' + WsService.getSessionKey() + '/' + uid;
       });
     };
 

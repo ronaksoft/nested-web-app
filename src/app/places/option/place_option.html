@@ -6,12 +6,13 @@
     <div class="_dtc">
       <div class="_dt _fh _fw _bggray">
         <div id="place-option-body">
-          <!--<p data-ng-bind="place_option.place.name"></p>-->
           <div class="room-name">
-            <div class="account-initials-64 room-pic "></div>
-            <h5>Room Name</h5>
-            <h6 class="nst-mood-storm">RoomID@nested.me</h6>
-            <h6 class="nst-mood-storm">Place Discribtion Max 256 Character...</h6>
+            <img data-ng-if="place.picture.org.uid" class="account-initials-64 room-pic" src="{{place.picture.x64.url}}"/>
+            <div data-ng-if="!place.picture.org.uid" class="account-initials-64 room-pic">{{place.name | initials:2}}</div>
+
+            <h5>{{place.name}}</h5>
+            <h6 class="nst-mood-storm">{{place.id + '@nested.me'}}</h6>
+            <h6 class="nst-mood-storm">{{place.description}}</h6>
             <span>Options For Me</span>
           </div>
 
