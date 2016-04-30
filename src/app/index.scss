@@ -796,6 +796,8 @@ input #nav-search {
   background: url('../assets/icons/roleicon_16-2.png') no-repeat;
   width: 16px;
   height: 16px;
+  background-position: 0 0px;
+
 }
 .role-icon-key {
   background: url('../assets/icons/roleicon_16-2.png') no-repeat;
@@ -923,8 +925,8 @@ input #nav-search {
 }
 
 #empty-space {
-  width: 16px;
-  height: 16px;
+  max-width: 16px;
+  max-height: 16px;
 }
 .nst-more-members {
   min-width: 30px;
@@ -1373,6 +1375,7 @@ input #nav-search {
   padding-right: 20px;
 }
 
+
 .room-name span {
   font-size: $font-size-small;
 
@@ -1507,9 +1510,32 @@ input #nav-search {
   padding: 10px;
 }
 
+#compose-body {
+  height: 100%;
+  width: 800px;
+  background-color: white;
+  margin: 0px auto;
 }
 
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - compose *
+  **********************************************************
+ */
 
+.compose-input {
+  width: 100%;
+  height: 60px;
+  border: none;
+  padding-left: 8px;
+}
+.address-input {
+  width: 100%;
+  height: 60px;
+  border: none;
+  padding-left: 8px;
+
+}
 
 /**
   *********************************
