@@ -24,11 +24,21 @@
 
               <div class=" _di">
                 <div class="_di switch-panel _fr">
-                  <li class="switch-option _dib">On</li>
-                  <li class="switch-option-right _dib">Off</li>
+                  <li class="switch-option _dib"  data-ng-model="colp"
+                      data-ng-class="colp ? 'switch-option' : 'switch-option-off'" data-ng-click="colp =! colp" >On</li>
+                  <li class="switch-option-right _dib " data-ng-model="colp"
+                      data-ng-class="colp ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="colp =! colp">Off</li>
                 </div>
               </div>
             </div>
+
+
+
+
+
+
+
+
 
             <div class="list-inline">
               <div class="_dib option-hld">
@@ -116,8 +126,8 @@
                     </div>
                     <div class="_dtc">
                       <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-crown-new"></div>
+                        <div class="_dtc">
+                          <div class="role-icon-crown-new role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -147,43 +157,43 @@
                     </div>
                     <div class="_dtc">
                       <div class="_dtr">
+                        <div class="_dtc ">
+                          <div class="role-icon-key role-icon"></div>
+                        </div>
+                        <div class="_dtc teammate-name">
+                          EhsaNMousa
+                        </div>
+                      </div>
+                      <div class="_dtr">
+                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
+
+                        </div>
+                        <div class="_dtc nst-mood-storm">
+                          @ehsannm
+                        </div>
+                      </div>
+                    </div>
+                    <div class="_dtc">
+                      <div class="nst-more-badge"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="_dt">
+              <div class="_dtr">
+                <div class="_dtc"> <!--dtc left-->
+                  <div class="_dtr teammates-panel">
+                    <div class="_dtc">
+                      <div class="account-initials-48"></div>
+                    </div>
+                    <div class="_dtc">
+                      <div class="_dtr">
                         <div class="_dtc">
-                          <div class="role-icon-key"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
-                      </div>
-                      <div class="_dtr">
-                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
-                      </div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-
-            <div class="_dt">
-              <div class="_dtr">
-                <div class="_dtc"> <!--dtc left-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-avatar"></div>
+                          <div class="role-icon-avatar role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -211,8 +221,8 @@
                     </div>
                     <div class="_dtc">
                       <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-avatar-wait"></div>
+                        <div class="_dtc">
+                          <div class="role-icon-avatar-wait role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -245,7 +255,7 @@
                     <div class="_dtc">
                       <div class="_dtr">
                         <div class="_dtc ">
-                          <div class="role-icon-key-wait"></div>
+                          <div class="role-icon-key-wait role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -274,7 +284,7 @@
                     <div class="_dtc">
                       <div class="_dtr">
                         <div class="_dtc ">
-                          <div class="role-icon-crown-new"></div>
+                          <div class="role-icon-crown-new role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -319,7 +329,7 @@
                     <div class="_dtc">
                       <div class="_dtr">
                         <div class="_dtc">
-                          <div class="role-icon-crown-new"></div>
+                          <div class="role-icon-crown-new role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -348,7 +358,7 @@
                     <div class="_dtc">
                       <div class="_dtr">
                         <div class="_dtc ">
-                          <div class="role-icon-key"></div>
+                          <div class="role-icon-key role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -381,7 +391,7 @@
                     <div class="_dtc">
                       <div class="_dtr">
                         <div class="_dtc ">
-                          <div class="role-icon-avatar"></div>
+                          <div class="role-icon-avatar role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -410,7 +420,7 @@
                     <div class="_dtc">
                       <div class="_dtr">
                         <div class="_dtc ">
-                          <div class="role-icon-avatar-wait"></div>
+                          <div class="role-icon-avatar-wait role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -443,7 +453,7 @@
                     <div class="_dtc">
                       <div class="_dtr">
                         <div class="_dtc ">
-                          <div class="role-icon-key-wait"></div>
+                          <div class="role-icon-key-wait role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -472,7 +482,7 @@
                     <div class="_dtc">
                       <div class="_dtr">
                         <div class="_dtc">
-                          <div class="role-icon-crown-new"></div>
+                          <div class="role-icon-crown-new role-icon"></div>
                         </div>
                         <div class="_dtc teammate-name">
                           EhsaNMousa
@@ -497,6 +507,16 @@
 
 
 
+            <div class="popup-panel">
+              <ul class="list-unstyled">
+                <li class="menuicon-remove _dib"></li>
+                <li class="_dib">Remove</li>
+              </ul>
+              <ul>
+                <li class="_dib menuicon-create"></li>
+                <li class="_dib">Make insider</li>
+              </ul>
+            </div>
 
 
           </div> <!--/place-option-members-->
