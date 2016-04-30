@@ -23,7 +23,6 @@
       for (var k in data.places) {
         $scope.places.places.push(new NestedPlace(data.places[k]));
       }
-      $log.debug('Places:', $scope.places);
     }).catch(function (reason) {
 
     });
