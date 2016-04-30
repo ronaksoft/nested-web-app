@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .directive('initialsNavbar', function nestedNavbar() {
+    .directive('initials', function () {
       return {
         restrict: 'A'
       };

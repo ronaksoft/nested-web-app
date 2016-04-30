@@ -64,10 +64,10 @@
         },
 
         load: function(id) {
-          id = id || this.id;
+          this.id = id || this.id;
 
           WsService.request('attachment/get_info', {
-            attachment_id: id
+            attachment_id: this.id
           }).then(function (data) {
             this.setData(data);
           }.bind(this));
