@@ -3,10 +3,10 @@
 
   angular
     .module('nested')
-    .controller('PlacesController', PlacesController);
+    .controller('PlacesController', composeController);
 
   /** @ngInject */
-  function PlacesController($location, AuthService, WsService, NestedPlace, $scope, $log) {
+  function composeController($location, AuthService, WsService, NestedPlace, $scope, $log) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -16,7 +16,7 @@
       $location.path('/signin').replace();
     }
 
-    vm.places = [];
+    vm.compose = [];
     vm.tpl = 'app/components/nested/place/row.html';
 
     WsService.request('account/get_my_places', {}).then(function (data) {
