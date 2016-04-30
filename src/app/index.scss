@@ -116,7 +116,7 @@ input[type="radio"]:checked + label{
     float: left;
     line-height: #{$i * 8 - 1}px;
     text-align: center;
-    font-size: $font-size-small; //should be changed
+    font-size: $font-size-small; // #{$i/2}px
     font-weight: normal;
     color: white;
     background-color: $color-solid-30;
@@ -789,9 +789,39 @@ input #nav-search {
 
 .role-icon-crown {
   background: url('../assets/icons/roleicon_16.png') no-repeat;
-  // background-size: 16px 400%;
   width: 16px;
   height: 16px;
+}
+.role-icon-crown-new {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 0px;
+
+}
+.role-icon-key {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -16px;
+}
+.role-icon-avatar {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -32px;
+}
+.role-icon-key-wait {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -48px;
+}
+.role-icon-avatar-wait {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -64px;
 }
 
 .role-icon-green {
@@ -895,8 +925,8 @@ input #nav-search {
 }
 
 #empty-space {
-  width: 16px;
-  height: 16px;
+  max-width: 16px;
+  max-height: 16px;
 }
 .nst-more-members {
   min-width: 30px;
@@ -1207,95 +1237,6 @@ input #nav-search {
   **********************************************************
  */
 
-.ico-margin {
-  margin-left: 15px;
-}
-#place-option-body {
-  height: 100%;
-  width: 800px;
-  background-color: white;
-  margin: 0px auto;
-}
-
-.room-name {
-  height: 152px;
-  border-bottom: 1px solid $color-breeze;
-}
-.room-name span {
-  padding-left: 5px;
-}
-
-.nst-options {
-  height: 110px;
-  border-bottom: 1px solid $color-breeze;
-}
-.nst-options span {
-  padding-top: 60px;
-  padding-left: 5px;
-}
-
-.nst-options .nst-eye {
-  margin-left: 7px;
-}
-.nst-place-privacy {
-  height: 172px;
-  border-bottom: 1px solid $color-breeze;
-}
-.nst-teammates {
-  height: 240px;
-  border-bottom: 1px solid $color-breeze;
-
-}
-.nst-members {
-  height: 500px;
-}
-
-.room-name span {
-  font-size: $font-size-small;
-
-}
-.room-name h5 {
-  padding-top: 45px;
-}
-.switch-panel {
-  padding-left: 530px;
-  padding-top: 6px;
-}
-.switch-option {
-  background-color: $color-sense;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 0px;
-  border: 2px solid $color-sense;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 0px;
-  width: 60px;
-  height: 20px;
-  text-align: center;
-  color: white;
-  font-size: $font-size-large;
-  line-height: 16px;
-
-}
-
-.switch-option-right {
-  background-color: white;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 8px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 8px;
-  border: 2px solid $color-sense;
-  width: 60px;
-  height: 20px;
-  margin-left: -4px;
-  color: $color-solid;
-  font-size: $font-size-large;
-  text-align: center;
-  line-height: 16px;
-
-}
-.properties {
-  width: 126px;
-}
 
 #AllPlaces {
   list-style: none;
@@ -1328,7 +1269,6 @@ input #nav-search {
 }
 #AllPlaces li > table td.name {
   min-width: 200px;
-  //vertical-align: middle;
   margin-top: 15px;
 
 }
@@ -1359,7 +1299,243 @@ input #nav-search {
 
 }
 
+.ico-margin {
+  margin-left: 15px;
+}
 
+#place-option-body {
+  height: 100%;
+  width: 800px;
+  background-color: white;
+  margin: 0px auto;
+}
+
+.room-name {
+  height: 152px;
+  border-bottom: 1px solid $color-breeze;
+}
+
+.room-name span {
+  padding-left: 5px;
+}
+
+.room-pic {
+  margin-left: 12px;
+  margin-top: 30px;
+}
+
+.nst-options {
+  height: 110px;
+  border-bottom: 1px solid $color-breeze;
+}
+
+.nst-options span {
+  padding-top: 60px;
+  padding-left: 5px;
+}
+
+.nst-options .nst-eye {
+  margin-left: 7px;
+}
+
+.nst-place-privacy {
+  height: 172px;
+  border-bottom: 1px solid $color-breeze;
+}
+
+.nst-place-privacy span {
+  padding-top: 65px;
+  padding-left: 10px;
+}
+.nst-teammates {
+  height: 240px;
+  border-bottom: 1px solid $color-breeze;
+}
+.nst-teammates >._dtr {
+  width: 800px;
+}
+.place-option-members> ._dt {
+  width: 800px;
+}
+
+.teammate-name {
+  width: 200px;
+}
+
+.place-option-members {
+  height:400px;
+}
+.teammates-panel .nst-more-badge {
+  margin-left: 58px;
+}
+.teammates-panel .account-initials-48 {
+  margin: 6px 6px 6px 12px;
+}
+.teammates-panel .role-icon-crown-new {
+  padding-right: 20px;
+}
+
+
+.room-name span {
+  font-size: $font-size-small;
+
+}
+.room-name h5 {
+  padding-top: 45px;
+}
+.option-hld {
+  width: 400px;
+  //border: 1px solid red;
+}
+.switch-panel {
+  padding-right: 10px;
+}
+.add-panel {
+  margin-top: 38px;
+}
+.add-panel >div {
+  margin-top: -9px;
+}
+
+
+#switch-option input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/viewswitch.png') no-repeat;
+  height: 15px;
+  min-width: 48px;
+  padding: 0 0 0 17px;
+}
+#switch-option input[type="checkbox"]:checked + label {
+  background-position: 0 -15px;
+}
+
+
+.switch-option {
+  background-color: $color-sense;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 0px;
+  border: 2px solid $color-sense;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 0px;
+  width: 60px;
+  height: 14px;
+  text-align: center;
+  color: white;
+  font-size: $font-size-small;
+  line-height: 10px;
+
+}
+
+.switch-option-right {
+  background-color: white;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 8px;
+  border: 2px solid $color-sense;
+  width: 60px;
+  height: 14px;
+  margin-left: -4px;
+  color: $color-solid;
+  font-size: $font-size-small;
+  text-align: center;
+  line-height: 10px;
+
+}
+.switch-option-off {
+  background-color: white;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 0px;
+  border: 2px solid $color-sense;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 0px;
+  width: 60px;
+  height: 14px;
+  text-align: center;
+  color: $color-solid;
+  font-size: $font-size-small;
+  line-height: 10px;
+
+}
+.switch-option-right-off {
+  background-color: $color-sense;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 8px;
+  border: 2px solid $color-sense;
+  width: 60px;
+  height: 14px;
+  margin-left: -4px;
+  color: white;
+  font-size: $font-size-small;
+  text-align: center;
+  line-height: 10px;
+
+}
+
+.properties {
+  width: 126px;
+}
+
+.add-teammate {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/actionbuttons_place_24.png');
+  background-position: 0 -96px;
+  background-repeat: no-repeat;
+}
+
+.menuicon-remove {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/menuicon_24.png');
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+
+}
+.menuicon-create {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/menuicon_24.png');
+  background-position: 0 -24px;
+  background-repeat: no-repeat;
+
+}
+
+.popup-panel {
+  background-color: $color-sense-5;
+  width: 144px;
+  border: 1px solid $color-sense;
+  padding: 10px;
+}
+
+#compose-body {
+  height: 100%;
+  width: 800px;
+  background-color: white;
+  margin: 0px auto;
+}
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - compose *
+  **********************************************************
+ */
+
+.compose-input {
+  width: 100%;
+  height: 60px;
+  border: none;
+  padding-left: 8px;
+}
+.address-input {
+  width: 100%;
+  height: 60px;
+  border: none;
+  padding-left: 8px;
+
+}
 
 /**
   *********************************
