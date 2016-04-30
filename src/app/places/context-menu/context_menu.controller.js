@@ -3,10 +3,10 @@
 
   angular
     .module('nested')
-    .controller('PlaceOptionController', PlaceOptionController);
+    .controller('ContextMenuController', ContextMenuController);
 
   /** @ngInject */
-  function PlaceOptionController($location, AuthService, NestedPlace, $scope) {
+  function ContextMenuController($location, AuthService, NestedPlace, $scope) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
