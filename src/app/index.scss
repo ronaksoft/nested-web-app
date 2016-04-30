@@ -870,6 +870,11 @@ input #nav-search {
   width: 32px;
 
 }
+
+._dtc .nst-more-badge {
+  width: 48px;
+  height: 32px;
+}
 .nst-shown {
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
@@ -1359,20 +1364,22 @@ input #nav-search {
 }
 
 .teammate-name {
-  width: 200px;
+  min-width: 270px;
 }
 
 .place-option-members {
   height:400px;
 }
-.teammates-panel .nst-more-badge {
-  margin-left: 58px;
-}
+//.teammates-panel .nst-more-badge {
+//  margin-left: 58px;
+//}
 .teammates-panel .account-initials-48 {
-  margin: 6px 6px 6px 12px;
+  margin: 6px 0px 6px 12px;
 }
-.teammates-panel .role-icon-crown-new {
-  padding-right: 20px;
+
+.role-icon {
+  margin-right: 3px;
+  margin-left: 3px
 }
 
 
