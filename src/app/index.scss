@@ -720,7 +720,7 @@ input #nav-search {
 #EventList td.msg .subject { font-weight: bold; line-height: 24px; word-break: break-all; overflow: hidden;}
 #EventList td.msg .body { color: gray; word-break: break-all; overflow: hidden; }
 #EventList td.places { width: 220px; vertical-align: top; border-bottom: 1px solid #ced9d3; }
-#EventList td.places > div {
+#EventList td.places > * {
   display: inline-block;
   background-color: $color-badge;
   border-radius: 10px;
