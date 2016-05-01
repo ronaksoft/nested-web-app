@@ -12,7 +12,7 @@
     <span>commented on </span>
     <a class="post" href="#/post/{{event.post.id}}" data-ng-bind-html="event.post.subject | emoji"></a>
   </div>
-  <div data-ng-show="extended_view" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
+  <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
 </td>
 <td class="places">
   <a href="#/events/{{event.post.places[0].id}}" class="_dtc" data-ng-bind="event.post.places[0].name"></a>
