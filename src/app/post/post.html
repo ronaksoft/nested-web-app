@@ -1,39 +1,32 @@
-<div id="DarkScreen"></div>
 <div id="PostView">
   <div class="_dt _fw _fh">
-
-    <div class="_dtr top-space spacer">
-      <div class="_dtc left-space"></div>
-      <div class="_dtc"></div>
-      <div class="_dtc right-space"></div>
-    </div>
-
     <div class="_dtr">
-      <div class="_dtc spacer"></div>
       <div class="_dtc">
         <div class="_dt _fh _fw main-body">
           <div class="_dtr">
-
             <div class='_dtc'>
               <div id='PostHeader' class='_dt _fw _pr'>
                 <div class="post-nav">
                   <div class="post-nav-left">
-                    <p> New Designs Post with Attachments</p>
+                    <p data-ng-bind="thePost.subject"></p>
                   </div>
                   <div class="date post-nav-right">
-                    <div class="date _fl nst-mood-storm">7 November</div>
+                    <div class="date _fl nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
                     <div class="_fr"><img src="../assets/icons/close_16.png"></div>
-                    <div class="time _fr nst-mood-storm">2013 13:13</div>
+                    <div class="time _fr nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'yyyy hh:mm'">2013 13:13</div>
                   </div>
                 </div>
                 <div class="post-nav-botm">
                   <div class="post-nav-left-bottom ">
                     <div class="account-initials _di"></div>
-                    <div class="nst-mood-cheerful _di"><p class="_di">Sale Naghavi</p></div>
+                    <div class="nst-mood-cheerful _di">
+                      <img data-ng-if="thePost.sender.picture.org.uid" class="account-initials-24" src="{{thePost.sender.picture.x32.url}}"/>
+                      <div data-ng-if="!thePost.sender.picture.org.uid" class="account-initials-24" data-ng-bind="thePost.sender.name.initials"></div>
+
+                      <p class="_di" data-ng-bind="thePost.sender.fullname"></p>
+                    </div>
                     <div class="badges _di">
-                      <div class="_di normal-badge ">Archive</div>
-                      <div class="_di normal-badge">Personal</div>
-                      <div class="_di normal-badge">Subscribtions</div>
+                      <a class="_di normal-badge" data-ng-repeat="place in thePost.places" href="#/place/{{place.id}}" data-ng-bind="place.name"></a>
                     </div>
                   </div>
 
@@ -41,14 +34,11 @@
                   <div class="post-nav-right-bottom">
                     <div class="_dt panel-action _fr">
                       <div class="_dtr">
-
                         <div class="_dtc nst-mood-storm">Delete</div>
                         <div class="_dtc delete-icon"></div>
 
-
                         <div class="_dtc nst-mood-storm">Forward</div>
                         <div class="_dtc forward-icon"></div>
-
 
                         <div class="_dtc nst-mood-storm">Reply</div>
                         <div class="_dtc Reply-icon"></div>
@@ -67,9 +57,9 @@
                   <div class="_dt _fh _fw">
                     <div class="_dtr">
                       <div id="Attachments">
-
-                          <ul class='attachments-bar image'>
-                            <ul class='attachments-bar '>
+                        <ul class='attachments-bar image'>
+                          <li>
+                            <ul class="attachments-bar">
                               <li>
                                 <div class="doc-attachment"></div>
                               </li>
@@ -86,6 +76,8 @@
                                 <div class="zip-attachment"></div>
                               </li>
                             </ul>
+                          </li>
+                        </ul>
                       </div>
                     </div>
                     <div class="_dtr _fh">
@@ -101,28 +93,26 @@
                         <div class="_dt _fw ">
                           <div class="_dtr">
                             <div class="_dtc profile-post-view">
-                              <div class="account-initials-24"></div>
+                              <img data-ng-if="thePost.sender.picture.org.uid" class="account-initials-24" src="{{thePost.sender.picture.x32.url}}"/>
+                              <div data-ng-if="!thePost.sender.picture.org.uid" class="account-initials-24" data-ng-bind="thePost.sender.name.initials"></div>
                             </div>
                             <div class="_dtc">
-                              <h5 class="nst-mood-cheerful">Sale Naghavi</h5>
+                              <h5 class="nst-mood-cheerful" data-ng-bind="thePost.sender.fullname"></h5>
                             </div>
-                            <div class="_dtc time-post-view nst-mood-storm ">
-                              14 MAR 2014
-                            </div>
+                            <div class="_dtc time-post-view nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'dd MMM yyyy'"></div>
                           </div>
                         </div>
-                        <div class="msg-post-view ">
-                          this is first message in post view.this message is just written to indicate how the view is.
-                          this is first message in post view.this message is just written to indicate how
-                          the view is.
-                          <p class="nst-mood-storm nst-font-small ">delete</p>
+                        <div class="msg-post-view" data-ng-bind="thePost.body">
+                          <p class="nst-mood-storm nst-font-small">delete</p>
                         </div>
                       </div>
                     </div>
                     <div class="_dtr">
                       <div class="_dtc">
                         <div class="input-msg">
-                          <div class="account-initials-24" id="chat-profile"></div>
+                          <img data-ng-if="user.picture.org.uid" class="account-initials-24" src="{{user.picture.x32.url}}"/>
+                          <div data-ng-if="!user.picture.org.uid" class="account-initials-24" data-ng-bind="user.name.initials"></div>
+
                           <input type="text" name="comment_txt" placeholder="write your comment..."/>
                         </div>
                       </div>
@@ -139,14 +129,6 @@
           </div>
         </div>
       </div>
-      <div class="_dtc spacer"></div>
-    </div>
-    <div class="_dtr bottom-space spacer">
-      <div class="_dtc"></div>
-      <div class="_dtc"></div>
-      <div class="_dtc"></div>
     </div>
   </div>
 </div>
-
-

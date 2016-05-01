@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, AuthService, WsService, NestedEvent, NestedPlace, $scope, $stateParams, $log) {
+  function EventsController($location, AuthService, WsService, NestedEvent, NestedPlace, $scope, $stateParams, $uibModal, $log) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -69,6 +69,23 @@
     if (vm.place.id) {
       parameters['place_id'] = vm.place.id;
     }
+
+    $scope.postView = function (post, url) {
+      var modal = $uibModal.open({
+        animation: true,
+        templateUrl: 'app/post/post.html',
+        controller: 'PostController',
+        size: 'lg'
+      });
+
+      modal.opened.then(function () {
+        $scope.thePost = post;
+      });
+
+      modal.closed.then(function () {
+        delete $scope.thePost;
+      });
+    };
 
     WsService.request('timeline/get_events', parameters).then(function (data) {
       var now = $scope.events.today;

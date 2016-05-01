@@ -6,7 +6,7 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($location, WsService, AuthService) {
+  function PostController($location, AuthService, $scope, NestedPost, $stateParams) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -16,14 +16,14 @@
       $location.path('/signin').replace();
     }
 
-    WsService.request('timeline/get_events', {
-      skip: 0,
-      limit: 1,
-      after: 10
-    }).then(function (data) {
+    if (!$scope.thePost) {
+      if (!$stateParams.postId) {
+        $location.path('/').replace();
+      }
 
-    }).catch(function (data) {
-      console.log(data);
-    });
+      $scope.thePost = new NestedPost($stateParams.postId);
+    }
+
+    $scope.user = AuthService.user;
   }
 })();
