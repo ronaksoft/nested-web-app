@@ -4,7 +4,7 @@
       <label data-ng-model="colp" data-ng-show="place.children.length > 0" id="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false" data-ng-click="colp =! colp"></label>
     </td>
     <td class="logo">
-      <img data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
+      <img class="account-initials-48" data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
       <div data-ng-if="!place.picture.org.uid" class="account-initials-48" data-ng-bind="place.name | initials:2"></div>
     </td>
     <td class="name">
@@ -22,7 +22,7 @@
       </div>
       <div class="_dtr">
         <div class="_dtc">
-          <label id="empty-space"></label>
+          <label class="empty-space"></label>
         </div>
         <div class="_dtc">
           <p data-ng-bind="place.id + '@nested.me'"></p>
