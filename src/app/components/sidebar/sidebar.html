@@ -1,9 +1,8 @@
 <div class="sidebar">
   <div class="all-messages">All Messages</div>
-  <div>
     <ul>
       <li data-ng-repeat="place in vm.places" class="grandplace">
-        <img data-ng-show="place.children.length > 0" class="arrow-side" data-ng-model="colp" data-ng-class="colp ? 'arrow-up' : 'arrow-down'" data-ng-click="colp =! colp" src="../assets/icons/arrow_16.png"/>
+        <img data-ng-show="place.children.length > 0" class="arrow-down has-child" data-ng-model="colp" data-ng-class="colp ? 'arrow-up' : 'arrow-down'" data-ng-click="colp =! colp" src="../assets/icons/arrow_16.png"/>
 
         <a href="#/events/{{place.id}}">
           <img data-ng-if="place.picture.org.uid" class="gp-img" src="{{place.picture.x32.url}}"/>
@@ -12,9 +11,8 @@
         </a>
 
         <ul data-ng-if="place.children.length > 0" data-ng-show="colp">
-          <li class="subplace" data-ng-repeat="subplace in place.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="subplace"></li>
+          <li data-ng-repeat="subplace in place.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="subplace" class="subplace"></li>
         </ul>
       </li>
     </ul>
-  </div>
 </div>

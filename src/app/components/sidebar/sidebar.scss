@@ -12,6 +12,11 @@
   font-family : $font-family-eng-reg;
   white-space: nowrap;
   padding-right: 2px;
+  padding-left: 2px;
+  overflow: hidden;
+}
+.sidebar ul {
+  list-style-type: none;
 }
 .sidebar a {
   color : black;
@@ -27,57 +32,48 @@
 .grandplace{
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 16px;
   font-size: $font-size-medium;
   min-height: 50px;
-  margin-left: -12px;
+  padding-left: 14px;
 }
 
 .subplace{
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 16px;
   font-size: $font-size-small;
   min-height: 40px;
   width: 100%;
+  padding-left: 16px;
 }
-
 .gp-img {
   border-radius: 50%;
   margin-top: 6px;
   margin-right: 4px;
   height: 36px;
   width: 36px;
-
+  border: 1px solid black;
 }
 .sp-img {
   border-radius: 50%;
   margin-top: 6px;
-  margin-right: 5px;
   height: 24px;
   width: 24px;
+  border: 1px solid black;
 }
-.sidebar ul {
-  padding-left: 0px;
-  list-style-type: none;
-}
+
 .active{
   background-color: #f3f6f4;
-}
-.active a{
   border: none;
-}
-.active ul{
-  padding-left: 16px;
 }
 .arrow-up {
   transform: rotate(180deg);
+  display: inline;
 }
 .arrow-down {
   width: 12px;
   height: 12px;
   display: inline;
 }
-.haschild {
-  margin-left: 16px;
+.has-child{
+  padding-left: -14px;
 }

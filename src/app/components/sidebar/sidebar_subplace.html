@@ -1,6 +1,5 @@
-<div class="nst-place-collapse">
-  <img data-ng-show="subplace.children.length > 0" src="../assets/icons/arrow_16.png" data-ng-model="colp" data-ng-init="colp = false" data-ng-class="colp ? 'arrow-up' : 'arrow-down'" data-ng-click="colp =! colp"/>
-</div>
+
+  <img data-ng-show="subplace.children.length > 0" src="../assets/icons/arrow_16.png" data-ng-model="colp" data-ng-init="colp = false" data-ng-class="colp ? 'arrow-up' : 'arrow-down'" data-ng-click="colp =! colp" class="arrow-down has-child"/>
 
 <a href="#">
   <img class="sp-img" data-ng-if="subplace.picture.org.uid" src="{{subplace.picture.x32.url}}"/>
@@ -8,6 +7,6 @@
   <span data-ng-bind="subplace.name"></span>
 </a>
 
-<ul data-ng-show="colp" data-ng-if="subplace.children.length > 0">
-  <li class="subplace" data-ng-repeat="subplace in subplace.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="subplace"></li>
+<ul data-ng-show="colp" data-ng-if="subplace.children.length > 0" class="subplace">
+  <li data-ng-repeat="subplace in subplace.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="subplace"></li>
 </ul>

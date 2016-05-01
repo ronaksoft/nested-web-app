@@ -1,33 +1,31 @@
-<div class="panel">
-  <div class="head _dt">
-    <div class="_dtr">
-      <div class="_dtc">
-        /
-      </div>
-      <div class="_dtc">
-        <img src="../assets/icons/arrow_16.png" class="arrow-right">
-      </div>
-      <div class="_dtc">
-        <a herf="#">Ronak Holding</a>
-      </div>
-      <div class="_dtc">
-        <img src="../assets/icons/arrow_16.png" class="arrow-right">
-      </div>
-      <div class="_dtc">
-        <a herf="#">Nested Projects</a>
-      </div>
-      <div class="_dtc">
-        <img src="../assets/icons/arrow_16.png" class="arrow-right">
-      </div>
-      <div class="bold _dtc">
-        <a herf="#">Development Team</a>
-      </div>
-      <div class="_dtc green">
-        <a herf="#">Change Location</a>
-      </div>
-    </div>
-  </div>
-  <div  class="_fw">
+<div class="panel-create-place">
+  <ul class="list-inline head">
+    <li>
+      <a href="#">/</a>
+    </li>
+    <li>
+      <img src="../assets/icons/arrow_16.png" class="arrow-right">
+    </li>
+    <li>
+      <a herf="#">Ronak Holding</a>
+    </li>
+    <li>
+      <img src="../assets/icons/arrow_16.png" class="arrow-right">
+    </li>
+    <li>
+      <a herf="#">Nested Projects</a>
+    </li>
+    <li>
+      <img src="../assets/icons/arrow_16.png" class="arrow-right">
+    </li>
+    <li>
+      <a herf="#">Development Team</a>
+    </li>
+    <li class="_fr">
+      <a herf="#" class="nst-mood-cheerful">Change Location</a>
+    </li>
+  </ul>
+  <div class="_fw">
     <div class="_ma upload-photo">
       <img src="../assets/images/uploadphoto_16.png">
     </div>
@@ -40,9 +38,82 @@
       <div>
         <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="place id" type="text">
       </div>
-      <div class="notice _fw">
+      <div class="notice">
         Place ID cant be change later.be carefull!
       </div>
+    </div>
+    <div id="place-privacy">Place Privacy</div>
+    <div>
+      <ul class="list-inline">
+        <li class=" _dib nst-lock"></li>
+        <li class="_dib">Lock</li>
+        <li class="switch-option-right _dib _fr" data-ng-model="colp"
+            data-ng-class="colp ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="colp =! colp">Off
+        </li>
+        <li class="switch-option _dib _fr" data-ng-model="colp"
+            data-ng-class="colp ? 'switch-option' : 'switch-option-off'" data-ng-click="colp =! colp">On
+        </li>
+      </ul>
+    </div>
+    <div class="notice">
+      Parent members Can't view Inside The Place. <a href="" class="nst-mood-cheerful">Learn more</a>
+    </div>
+    <div>
+      <ul class="list-inline">
+        <li class=" _dib nst-print"></li>
+        <li class="_dib">Receptive</li>
+        <li class="switch-option-right _dib _fr" data-ng-model="colp1"
+            data-ng-class="colp1 ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="colp1 =! colp1">Off
+        </li>
+        <li class="switch-option _dib _fr" data-ng-model="colp1"
+            data-ng-class="colp1 ? 'switch-option' : 'switch-option-off'" data-ng-click="colp1 =! colp1">On
+        </li>
+      </ul>
+    </div>
+    <div class="notice">
+      Oly members Can Write Posts. <a href="" class="nst-mood-cheerful">Learn more</a>
+    </div>
+    <div>
+      <ul class="list-inline">
+        <li class=" _dib nst-atsign"></li>
+        <li class="_dib">Email</li>
+        <li class="switch-option-right _dib _fr" data-ng-model="colp2"
+            data-ng-class="colp2 ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="colp2 =! colp2">Off
+        </li>
+        <li class="switch-option _dib _fr" data-ng-model="colp2"
+            data-ng-class="colp2 ? 'switch-option' : 'switch-option-off'" data-ng-click="colp2 =! colp2">On
+        </li>
+      </ul>
+    </div>
+    <div class="notice">
+      Disable until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a>
+    </div>
+    <div>
+      <ul class="list-inline">
+        <li class=" _dib nst-search"></li>
+        <li class="_dib">Search</li>
+        <li class="switch-option-right _dib _fr" data-ng-model="colp3"
+            data-ng-class="colp3 ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="colp3 =! colp3">Off
+        </li>
+        <li class="switch-option _dib _fr" data-ng-model="colp3"
+            data-ng-class="colp3 ? 'switch-option' : 'switch-option-off'" data-ng-click="colp3 =! colp3">On
+        </li>
+      </ul>
+    </div>
+    <div class="notice">
+      Disable until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a>
+    </div>
+    <div>
+      Place Name
+    </div>
+    <div>
+      <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="place id" type="text">
+    </div>
+    <div class="notice">
+      Short name help you to identify quickly your places.
+    </div>
+    <div>
+      <input type="submit" value="Create Place" class="btn btn-lg btn-block">
     </div>
   </div>
 </div>
