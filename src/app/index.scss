@@ -1568,6 +1568,7 @@ input #nav-search {
   border-radius: 6px;
   line-height: 15px;
   font-size: $font-size-small;
+  margin-right: -35px;
 }
 
 .nst-attach-area {
@@ -1600,7 +1601,6 @@ input #nav-search {
   border: none;
   width: 100%;
   padding-left: 8px;
-
 }
 
 .nst-compose-message p {
