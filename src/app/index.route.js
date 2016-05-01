@@ -37,11 +37,47 @@
         controller: 'ResetPasswordController',
         controllerAs: 'reset_password'
       })
+      .state('events', {
+        url: '/events',
+        params: {
+          filter: '!$all'
+        },
+        templateUrl: 'app/events/events.html',
+        controller: 'EventsController',
+        controllerAs: 'events'
+      })
+      .state('events-filtered', {
+        url: '/events/:filter',
+        params: {
+          filter: '!$all'
+        },
+        templateUrl: 'app/events/events.html',
+        controller: 'EventsController',
+        controllerAs: 'events'
+      })
       .state('places', {
         url: '/places',
+        params: {
+          filter: '!$all'
+        },
         templateUrl: 'app/places/places.html',
         controller: 'PlacesController',
         controllerAs: 'places'
+      })
+      .state('places-filtered', {
+        url: '/places/:filter',
+        params: {
+          filter: '!$all'
+        },
+        templateUrl: 'app/places/places.html',
+        controller: 'PlacesController',
+        controllerAs: 'places'
+      })
+      .state('place', {
+        url: '/place/:placeId',
+        templateUrl: 'app/places/option/place_option.html',
+        controller: 'PlaceOptionController',
+        controllerAs: 'place_option'
       })
       .state('create-place', {
         url: '/create-place',
@@ -49,29 +85,17 @@
         controller: 'CreatePlaceController',
         controllerAs: 'create_place'
       })
-      .state('events', {
-        url: '/events',
-        templateUrl: 'app/events/events.html',
-        controller: 'EventsController',
-        controllerAs: 'events'
-      })
       .state('post', {
-        url: '/post',
+        url: '/post/:postId',
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
         controllerAs: 'post'
       })
-      .state('compose', {
-        url: '/compose',
+      .state('new', {
+        url: '/new',
         templateUrl: 'app/compose/compose.html',
         controller: 'ComposeController',
         controllerAs: 'compose'
-      })
-      .state('place', {
-        url: '/place/:placeId',
-        templateUrl: 'app/places/option/place_option.html',
-        controller: 'PlaceOptionController',
-        controllerAs: 'place_option'
       });
 
 

@@ -403,7 +403,6 @@ label {
 
 
 #SecondaryPageSelector li {
-  padding: 9px 15px;
   cursor: pointer;
   position: relative;
   display: inline-block;
@@ -429,6 +428,7 @@ label {
 
 }
 #SecondaryPageSelector a {
+  padding: 9px 15px;
   height: 100%;
   width: 100%;
   text-decoration: none;

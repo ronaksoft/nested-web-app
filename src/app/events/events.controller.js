@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, AuthService, WsService, NestedEvent, $scope, $log) {
+  function EventsController($location, AuthService, WsService, NestedEvent, $scope, $stateParams, $log) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -23,13 +23,41 @@
       yearly: 'yyyy'
     };
     vm.today = new Date(Date.now());
+    vm.filter = $stateParams.filter;
+    vm.filters = {
+      '!$all': {
+        filter: 'all',
+        name: 'All'
+      },
+      '!$inbox': {
+        filter: 'inbox',
+        name: 'Inbox'
+      },
+      '!$comments': {
+        filter: 'comments',
+        name: 'Comments'
+      },
+      '!$members': {
+        filter: 'members',
+        name: 'Member Acts'
+      },
+      '!$place': {
+        filter: 'places',
+        name: 'Place Acts'
+      }
+    };
 
-    WsService.request('timeline/get_events', {
+    var parameters = {
       skip: 0,
-      limit: 150,
-      after: 10,
+      limit: 10,
+      after: 0,
       detail: 'full'
-    }).then(function (data) {
+    };
+    if (vm.filters.hasOwnProperty(vm.filter)) {
+      parameters['filter'] = vm.filters[vm.filter].filter;
+    }
+
+    WsService.request('timeline/get_events', parameters).then(function (data) {
       var now = $scope.events.today;
 
       for (var key in data.events) {

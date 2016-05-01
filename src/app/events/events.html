@@ -7,24 +7,26 @@
         <div class="_dtc _fh">
           <nested-sidebar></nested-sidebar>
         </div>
-          <div class="nst-content _dtc _pr _fhw">
+        <div class="nst-content _dtc _pr _fhw">
           <div class="_fhw">
             <table id="EventList" class="_fhw">
               <tbody data-ng-repeat="eventGroup in events.eventGroups">
-                <tr class="event-group-time">
-                  <td class="ico"></td>
-                  <td class="sender">
-                    <p class="nst-mood-simple">
-                      <span data-ng-if="eventGroup.type == 'daily' && eventGroup.date.getDate() == events.today.getDate()"><strong>Today</strong> </span>
-                      <span data-ng-bind="eventGroup.date | date:eventGroup.titleFormat"></span>
-                    </p>
-                  </td>
-                  <td class="msg"></td>
-                  <td class="places"></td>
-                  <td class="time"></td>
-                </tr>
+              <tr class="event-group-time">
+                <td class="ico"></td>
+                <td class="sender">
+                  <p class="nst-mood-simple">
+                    <span
+                      data-ng-if="eventGroup.type == 'daily' && eventGroup.date.getDate() == events.today.getDate()"><strong>Today</strong> </span>
+                    <span data-ng-bind="eventGroup.date | date:eventGroup.titleFormat"></span>
+                  </p>
+                </td>
+                <td class="msg"></td>
+                <td class="places"></td>
+                <td class="time"></td>
+              </tr>
 
-                <tr data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event"></tr>
+              <tr data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path"
+                  data-ng-model="event"></tr>
               </tbody>
             </table>
 
@@ -32,9 +34,9 @@
             <!--<a id="LoadMoreEvent" before="">Load More ..</a>-->
             <!--</div>-->
 
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
