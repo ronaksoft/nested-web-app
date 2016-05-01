@@ -935,9 +935,9 @@ input #nav-search {
   width: 32px;
 }
 
-#empty-space {
-  max-width: 16px;
-  max-height: 16px;
+.empty-space {
+  width: 16px;
+  height: 16px;
 }
 .nst-more-members {
   min-width: 30px;
@@ -1260,8 +1260,11 @@ input #nav-search {
   min-height: 64px;
 }
 #AllPlaces li:hover {
-  background-color: #E7FBF0;
+  background-color: $color-sense-5;
 }
+//#AllPlaces tr:hover {
+//  background-color: $color-sense-5;
+//}
 #AllPlaces ul {
   list-style: none;
   margin-left: 25px;

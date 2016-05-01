@@ -100,3 +100,14 @@
 .sidebar ._dtr:hover {
   background-color: $color-calm;
 }
+
+.sidebar-padding {
+  padding-left: 8px;
+}
+.sidebar-hover:hover{
+  background-color: red;
+}
+
+.sidebar li:hover {
+  background-color: $color-calm;
+}

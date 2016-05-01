@@ -13,9 +13,9 @@
 <!--</ul>-->
 
 <div class="_dt">
-  <div class="_dtr">
+  <div class="_dtr ">
     <div class="_dtc">
-      <div class="arrow-sidebar"><label data-ng-model="colp" data-ng-show="place.children.length > 0" id="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false" data-ng-click="colp =! colp"></label></div>
+      <div class="arrow-sidebar "><label data-ng-model="colp" data-ng-show="place.children.length > 0" id="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false" data-ng-click="colp =! colp"></label></div>
     </div>
     <div class="_dtc sidebar-image">
       <img class="account-initials-32" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
@@ -30,5 +30,5 @@
 </div>
 
 <ul data-ng-if="place.children.length > 0" data-ng-show="colp">
-  <li data-ng-repeat="place in place.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
+  <li  class="sidebar-padding" data-ng-repeat="place in place.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
 </ul>
