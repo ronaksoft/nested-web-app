@@ -406,7 +406,6 @@ label {
 
 
 #SecondaryPageSelector li {
-  padding: 9px 15px;
   cursor: pointer;
   position: relative;
   display: inline-block;
@@ -432,6 +431,7 @@ label {
 
 }
 #SecondaryPageSelector a {
+  padding: 9px 15px;
   height: 100%;
   width: 100%;
   text-decoration: none;
@@ -698,7 +698,7 @@ input #nav-search {
   white-space: nowrap;
 }
 #EventList {table-layout: fixed;}
-#EventList tr:hover { cursor: default; background-color: #E7FBF0;} //color should change
+#EventList tr:hover { cursor: default; background-color: #E7FBF0;} // TODO: color should change
 #EventList td { padding: 5px; }
 #EventList td.ico { width: 16px; vertical-align: top; }
 #EventList td.ico img { border-radius: 16px; }
@@ -722,12 +722,8 @@ input #nav-search {
 #EventList td.msg .subject { font-weight: bold; line-height: 24px; word-break: break-all; overflow: hidden;}
 #EventList td.msg .body { color: gray; word-break: break-all; overflow: hidden; }
 #EventList td.places { width: 220px; vertical-align: top; border-bottom: 1px solid #ced9d3; }
-
-#EventList tr #time-of-event {
-  width: 400px;
-}
-
-#EventList td.places >div {
+#EventList tr #time-of-event { width: 400px; }
+#EventList td.places > * {
   display: inline-block;
   background-color: $color-badge;
   border-radius: 10px;
@@ -1310,7 +1306,7 @@ input #nav-search {
   vertical-align: baseline;
 }
 #PostView #CommentList .comment { clear: both; padding: 5px;}
-#PostView #CommentList .comment:hover { background-color: #E7FBF0;} //the color should change
+#PostView #CommentList .comment:hover { background-color: #E7FBF0;} // TODO: the color should change
 
 
 /**

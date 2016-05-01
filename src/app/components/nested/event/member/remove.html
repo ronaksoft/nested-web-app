@@ -3,10 +3,12 @@
 </td>
 <td class="sender">
   <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
-  <div initials class="account-initials" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+  <div class="account-initials-32" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
 
   <span data-ng-bind="event.actor.fullname"></span>
 </td>
-<td class="msg"><span class="nst-mood-simple">Removed <strong data-ng-bind="event.member.fullname"></strong> from <a class='place' href="#" data-ng-bind="event.place.name"></a></span></td>
+<td class="msg">
+  <span class="nst-mood-simple">Removed <strong data-ng-bind="event.member.fullname"></strong> from <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a></span>
+</td>
 <td class="places"></td>
 <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
