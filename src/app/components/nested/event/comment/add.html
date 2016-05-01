@@ -15,7 +15,7 @@
   <div data-ng-show="extended_view" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
 </td>
 <td class="places">
-  <a href="#/events/{{event.place.id}}" class="_dtc" data-ng-bind="event.place.name"></a>
-  <div class="more-tag _dtc" ng-if="event.places.length > 1">+{{event.places.length - 1}}</div>
+  <a href="#/events/{{event.post.places[0].id}}" class="_dtc" data-ng-bind="event.post.places[0].name"></a>
+  <div class="more-tag _dtc" ng-if="event.post.places.length > 1">+{{event.post.places.length - 1}}</div>
 </td>
 <td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
