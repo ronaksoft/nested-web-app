@@ -9,20 +9,29 @@
   border: 1px solid $color-breeze-50;
   width: 208px;
   height: 100%;
-  font-family : $font-family-eng-reg;
-  white-space: nowrap;
-  padding-right: 2px;
+  font-size: 12px;
+  //white-space: nowrap;
+
 }
 .sidebar a {
-  color : black;
+  color : $color-solid;
   text-decoration: none;
   display: inline;
+
 }
+.sidebar-border {
+  border-bottom: 1px solid $color-breeze;
+  width: 100%;
+}
+
 .all-messages{
   color: $color-sense-wire;
   padding-top: 20px;
   margin-bottom: 30px;
   text-align: center;
+}
+.all-messages:hover {
+  background-color: $color-calm;
 }
 .grandplace{
   overflow: hidden;
@@ -80,4 +89,14 @@
 }
 .haschild {
   margin-left: 16px;
+}
+.arrow-sidebar{
+  width: 15px;
+}
+.sidebar ._dtr {
+  height: 50px;
+
+}
+.sidebar ._dtr:hover {
+  background-color: $color-calm;
 }

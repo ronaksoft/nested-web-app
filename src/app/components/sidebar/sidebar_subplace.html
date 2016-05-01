@@ -1,13 +1,34 @@
-<div class="nst-place-collapse">
-  <img data-ng-show="subplace.children.length > 0" src="../assets/icons/arrow_16.png" data-ng-model="colp" data-ng-init="colp = false" data-ng-class="colp ? 'arrow-up' : 'arrow-down'" data-ng-class="colp ? 'arrow-up' : 'arrow-down'" data-ng-click="colp =! colp"/>
+<!--<div class="nst-place-collapse">-->
+  <!--<img data-ng-show="subplace.children.length > 0" src="../assets/icons/arrow_16.png" data-ng-model="colp" data-ng-init="colp = false" data-ng-class="colp ? 'arrow-up' : 'arrow-down'" data-ng-class="colp ? 'arrow-up' : 'arrow-down'" data-ng-click="colp =! colp"/>-->
+<!--</div>-->
+
+<!--<a href="#/events/{{subplace.id}}">-->
+  <!--<img class="sp-img" data-ng-if="subplace.picture.org.uid" src="{{subplace.picture.x32.url}}"/>-->
+  <!--<div data-ng-if="!subplace.picture.org.uid" class="account-initials-24" data-ng-bind="subplace.name | initials:2"></div>-->
+  <!--<span data-ng-bind="subplace.name"></span>-->
+<!--</a>-->
+
+<!--<ul data-ng-show="colp" data-ng-if="subplace.children.length > 0">-->
+  <!--<li class="subplace" data-ng-repeat="subplace in subplace.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="subplace"></li>-->
+<!--</ul>-->
+
+<div class="_dt">
+  <div class="_dtr">
+    <div class="_dtc">
+      <div class="arrow-sidebar"><label data-ng-model="colp" data-ng-show="place.children.length > 0" id="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false" data-ng-click="colp =! colp"></label></div>
+    </div>
+    <div class="_dtc sidebar-image">
+      <img class="account-initials-32" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
+      <div class="account-initials-32" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
+    </div>
+    <div class="_dtc sidebar-border">
+      <a href="#/events/{{place.id}}">
+        <span data-ng-bind="place.name"></span>
+      </a>
+    </div>
+  </div>
 </div>
 
-<a href="#/events/{{subplace.id}}">
-  <img class="sp-img" data-ng-if="subplace.picture.org.uid" src="{{subplace.picture.x32.url}}"/>
-  <div data-ng-if="!subplace.picture.org.uid" class="account-initials-24" data-ng-bind="subplace.name | initials:2"></div>
-  <span data-ng-bind="subplace.name"></span>
-</a>
-
-<ul data-ng-show="colp" data-ng-if="subplace.children.length > 0">
-  <li class="subplace" data-ng-repeat="subplace in subplace.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="subplace"></li>
+<ul data-ng-if="place.children.length > 0" data-ng-show="colp">
+  <li data-ng-repeat="place in place.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
 </ul>
