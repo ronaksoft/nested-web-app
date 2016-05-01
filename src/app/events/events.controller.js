@@ -51,10 +51,13 @@
       skip: 0,
       limit: 10,
       after: 0,
-      detail: 'full'
+      details: 'full'
     };
+
     if (vm.filters.hasOwnProperty(vm.filter)) {
       parameters['filter'] = vm.filters[vm.filter].filter;
+    } else {
+      parameters['place_id'] = vm.filter;
     }
 
     WsService.request('timeline/get_events', parameters).then(function (data) {
