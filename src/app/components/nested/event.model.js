@@ -84,7 +84,7 @@
           var now = new Date(Date.now());
           if (now.getFullYear() === this.date.getFullYear()) {
             if (now.getMonth() === this.date.getMonth()) {
-              this.view.dateFormat = 'H:m';
+              this.view.dateFormat = 'H:mm';
             } else {
               this.view.dateFormat = 'EEE d';
             }

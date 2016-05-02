@@ -18,4 +18,4 @@
   <a href="#/events/{{event.post.places[0].id}}" class="_dtc" data-ng-bind="event.post.places[0].name"></a>
   <div data-ng-if="event.post.places.length > 1" class="more-tag _dtc" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom" data-popover-append-to-body="true">+{{event.post.places.length - 1}}</div>
 </td>
-<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat" data-uib-tooltip="{{event.date.getTime() | date:'yyyy d MMM h:m'}}" data-tooltip-placement="left"></td>
+<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat" data-uib-tooltip="{{event.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-placement="left"></td>

@@ -13,4 +13,4 @@
   <span data-ng-if="event.place.parent"> room in <a class="place" href="#" data-ng-bind="event.place.parent.name"></a></span>
 </td>
 <td class='places'></td>
-<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat" uib-tooltip="{{event.date.getTime() | date:'yyyy d MMM h:m'}}" data-tooltip-placement="left"></td>
+<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat" data-uib-tooltip="{{event.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-placement="left"></td>
