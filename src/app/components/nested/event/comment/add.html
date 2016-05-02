@@ -9,8 +9,8 @@
 </td>
 <td class="msg">
   <div class="comment-subject">
-    <span>commented on </span>
-    <a class="post" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)" data-ng-bind-html="event.post.subject | emoji"></a>
+    <span class="nst-mood-simple">commented on </span>
+    <a class=" nst-mood-solid post post" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)" data-ng-bind-html="event.post.subject | emoji"></a>
   </div>
   <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
 </td>

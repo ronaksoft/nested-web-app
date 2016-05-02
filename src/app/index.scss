@@ -131,7 +131,7 @@ input[type="radio"]:checked + label{
   float: right;
   line-height: 31px;
   text-align: center;
-  font-size: small;
+  font-size: $font-size-small;
   font-weight: normal;
   color: white;
   background-color: $color-solid-30 ;
@@ -246,6 +246,9 @@ label {
 .nst-mood-breez {
   color: $color-breeze;
 }
+.nst-mood-solid {
+  color: $color-solid
+}
 /**
   *********************************
   *     Nested Classes - Layouts  *
@@ -342,6 +345,7 @@ label {
   *     Nested Classes - Component Specific    *
   **********************************************
  */
+
 
 /**
   ***************************************************************
@@ -505,6 +509,7 @@ input #nav-search {
   width: 146px;
   height: 30px;
   border-radius: 6px;
+  padding-left: 8px;
 
 }
 
@@ -531,7 +536,7 @@ input #nav-search {
 .nst-event-name {
   width: 128px;
   vertical-align: top;
-  font-size: small;
+  font-size: $font-size-small;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: keep-all;
@@ -611,7 +616,7 @@ input #nav-search {
  */
 
 .nst-content {
-  background-color:white;
+  background-color: $color-white;
   width:100%;
 }
 
@@ -623,7 +628,7 @@ input #nav-search {
   background-repeat: no-repeat;
 }
 .decline {
-  background-color: white;
+  background-color: $color-white;
   border-color: $color-calm;
   border-radius: 5px;
   padding: 0px;
@@ -638,7 +643,7 @@ input #nav-search {
   border-color: $color-calm;
   border-radius: 5px;
   padding: 0px;
-  color: white;
+  color: $color-white;
   display: inline-block;
   font-size: $font-size-small;
   height: 22px;
@@ -665,7 +670,7 @@ input #nav-search {
 }
 
 .event-group-time:hover {
-  background-color: white !important;
+  background-color: $color-white !important;
 }
 
 .event-group-time .msg,
@@ -675,11 +680,6 @@ input #nav-search {
   border-bottom: none !important;
 }
 
-.daily-time {
-  background-color: whitesmoke;
-  width: 150px;
-}
-
 .daily-time p {
   margin-left: 10px;
   margin-top: 15px;
@@ -687,7 +687,6 @@ input #nav-search {
 }
 
 
-#EventList .tr:hover { cursor: default; background-color: #E7FBF0;}
 #EventList .td { padding: 5px; }
 #EventList .td.ico { width: 16px; vertical-align: top; }
 #EventList .td.ico img { border-radius: 16px; }
@@ -701,12 +700,12 @@ input #nav-search {
   white-space: nowrap;
 }
 #EventList {table-layout: fixed;}
-#EventList tr:hover { cursor: default; background-color: #E7FBF0;}
+#EventList tr:hover { background-color: #E7FBF0;} // TODO: color should change
 #EventList td { padding: 5px; }
 #EventList td.ico { width: 16px; vertical-align: top; }
 #EventList td.ico img { border-radius: 16px; }
 #EventList td.sender {
-  width: 200px;
+  width: 166px;
   vertical-align: top;
   font-size: small;
   overflow: hidden ;
@@ -716,61 +715,52 @@ input #nav-search {
 }
 #EventList td.sender img { margin-left: 2px; margin-right: 4px; border-radius: 16px; }
 #EventList td.sender span { line-height: 32px;}
-#EventList td.msg { width: auto; border-bottom: 1px solid #ced9d3; vertical-align: top;}
+#EventList td.msg {
+  width: auto;
+  border-bottom: 1px solid #ced9d3;
+  vertical-align: top;
+  padding-top: 12px;
+}
 #EventList td.msg .subject { font-weight: bold; line-height: 24px; word-break: break-all; overflow: hidden;}
 #EventList td.msg .body { color: gray; word-break: break-all; overflow: hidden; }
 #EventList td.places { width: 220px; vertical-align: top; border-bottom: 1px solid #ced9d3; }
+#EventList tr #time-of-event { width: 400px; }
 #EventList td.places > * {
   display: inline-block;
   background-color: $color-badge;
   border-radius: 10px;
   margin: 1px;
-  padding: 2px;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 100px;
   font-size: $font-size-xsmall;
   border: 1px solid $color-badge;
+  padding: 1px 10px 1px 10px ;
+  color: $color-solid;
 
-}
-#EventList tr #time-of-event {
-  width:400px;
 }
 
 #EventList td.places >.more-tag {
-  border-color: #000000;
+  border-color: $color-solid;
   border-width: 1px;
   border-style: solid;
-  background-color: #000000;
+  background-color: $color-solid;
   border-radius: 7px;
-  color: white;
-  font-size: 11px;
+  color: $color-white;
+  font-size: $font-size-xsmall;
   width: 28px;
   height: 14px;
   text-align: center;
-  line-height: 7px;
+  line-height: 10px;
 }
 #EventList td.time {
-  width: 50px;
-  border-bottom: 1px solid #ced9d3;
+  width: 100px;
+  border-bottom: 1px solid $color-breeze;
   vertical-align: bottom;
-  color: #c0c0c0 ;
+  color: $color-solid-60 ;
 }
 #EventList.collapse td.msg .body { display: none; }
 #EventList.collapse td.msg .attachments { display: none; }
 
-#LoadMoreEvent {
-  //background-color: #00B45A ;
-  color: #00B45A;
-  border-bottom: 1px solid #00B45A;
-  //border-radius: 5px;
-  padding: 5px 10px;
-  margin: 20px auto;
-  cursor: pointer;
-  text-align: center;
-}
-#LoadMoreEvent:hover { font-weight: bold;}
 #PostView {
   top: 0px;
   left: 0px;
@@ -778,13 +768,79 @@ input #nav-search {
   right: 0px;
   overflow: auto;
 }
-
+.msg .headlineicon {
+  margin-top: 2px;
+}
 
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Places *
   **********************************************************
  */
+
+#place-bg {
+  background-color: $color-breeze-50;
+}
+#AllPlaces {
+  list-style: none;
+  margin: 0px auto;
+}
+
+#AllPlaces li {
+  border-bottom: 1px solid $color-calm;
+  min-height: 64px;
+}
+#AllPlaces tr {
+ background-color: $color-white;
+}
+
+#AllPlaces ul {
+  list-style: none;
+  margin-left: 25px;
+}
+#AllPlaces li > table {
+  width: 100%;
+  height: 64px;
+}
+#AllPlaces li > table td.logo {
+  width: 48px;
+}
+#AllPlaces li > table td.logo > img {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+}
+#AllPlaces li > table td.name {
+  min-width: 200px;
+  margin-top: 15px;
+
+}
+#AllPlaces li > table td.name img {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+#AllPlaces li > table td.name h5 {
+  margin: 1px 5px;
+  font-weight: normal;
+  font-size: small;
+}
+#AllPlaces li > table td.name p {
+  margin: 5px;
+  //color: #787878;
+  font-size: x-small;
+}
+#AllPlaces li > table td.members {
+  width: 168px;
+  text-align: right;
+}
+#AllPlaces li > table td.members img{
+  height: auto;
+  width: 32px;
+  height: 32px;
+  margin: 1px;
+
+}
 
 .place-members {
   margin-right: 5px;
@@ -795,6 +851,7 @@ input #nav-search {
   width: 16px;
   height: 16px;
 }
+
 .role-icon-crown-new {
   background: url('../assets/icons/roleicon_16-2.png') no-repeat;
   width: 16px;
@@ -802,24 +859,28 @@ input #nav-search {
   background-position: 0 0px;
 
 }
+
 .role-icon-key {
   background: url('../assets/icons/roleicon_16-2.png') no-repeat;
   width: 16px;
   height: 16px;
   background-position: 0 -16px;
 }
+
 .role-icon-avatar {
   background: url('../assets/icons/roleicon_16-2.png') no-repeat;
   width: 16px;
   height: 16px;
   background-position: 0 -32px;
 }
+
 .role-icon-key-wait {
   background: url('../assets/icons/roleicon_16-2.png') no-repeat;
   width: 16px;
   height: 16px;
   background-position: 0 -48px;
 }
+
 .role-icon-avatar-wait {
   background: url('../assets/icons/roleicon_16-2.png') no-repeat;
   width: 16px;
@@ -833,6 +894,7 @@ input #nav-search {
   height: 16px;
   background-position: 0 -16px;
 }
+
 .role-icon-gray {
   background: url('../assets/icons/roleicon_16.png') no-repeat;
   width: 16px;
@@ -844,15 +906,15 @@ input #nav-search {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
   height: 24px;
   min-width: 24px;
-
 }
+
 .nst-atsign  {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
   height: 24px;
   min-width: 24px;
   background-position: 0px -48px;
-
 }
+
 .nst-eye {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
   height: 24px;
@@ -860,24 +922,25 @@ input #nav-search {
   background-position: 0px -24px;
 
 }
+
 .nst-search  {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
   height: 24px;
   min-width: 24px;
   background-position: 0px -72px;
-
 }
+
 .nst-more-badge  {
   background: url('../assets/icons/more_32.png') no-repeat;
   height: 32px;
   width: 32px;
-
 }
 
 ._dtc .nst-more-badge {
   width: 48px;
   height: 32px;
 }
+
 .nst-shown {
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
@@ -885,6 +948,7 @@ input #nav-search {
   background-position:  0px -96px;
 
 }
+
 .nst-notif {
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
@@ -892,6 +956,7 @@ input #nav-search {
   background-position:  0px -120px;
 
 }
+
 .nst-lock {
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
@@ -899,6 +964,7 @@ input #nav-search {
   background-position:  0px -24px;
 
 }
+
 .nst-print {
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
@@ -906,6 +972,7 @@ input #nav-search {
   background-position:  0px 0px;
 
 }
+
 #nst-arrow {
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
@@ -913,8 +980,8 @@ input #nav-search {
   padding: 0 0 0 5px;
   background-position: center center;
   cursor: pointer;
+}
 
-  }
 #nst-arrow-rotated {
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
@@ -925,6 +992,7 @@ input #nav-search {
   cursor: pointer;
 }
 
+
 .nst-menu-arrow {
   background: url('../assets/icons/menu_arrow_16.png') no-repeat;
   height: 12px;
@@ -934,7 +1002,7 @@ input #nav-search {
 }
 
 .arrow {
-  width:15px;
+  width: 15px;
 }
 
 .nst-more {
@@ -945,6 +1013,7 @@ input #nav-search {
   width: 16px;
   height: 16px;
 }
+
 .nst-more-members {
   min-width: 30px;
   height: 30px;
@@ -976,8 +1045,6 @@ input #nav-search {
   *     Nested Classes - Page Specific - Post-view *
   **********************************************************
  */
-
-
 
 
 .post-nav {
@@ -1138,7 +1205,7 @@ input #nav-search {
 #PostView .main-body {
   border: 1px solid $color-breeze;
   border-radius: 8px;
-  background-color: white ;
+  background-color: $color-white ;
   padding: 0px;
   min-width: 840px;
   min-height: 640px;
@@ -1159,16 +1226,7 @@ input #nav-search {
   line-height: 32px;
 }
 #PostView #PostTime .date {margin: 1px; color: gray; font-weight: bold;}
-#PostView #PostTime .time {margin: 1px 10px; font-size: medium;}
-//#PostView #PostSubject {
-//  margin: 3px 3px 15px 3px;
-//  font-size: medium;
-//  font-weight: bold;
-//  word-break: break-all;
-//  white-space: normal;
-//  overflow: auto;
-//  max-height: 120px;
-//}
+#PostView #PostTime .time {margin: 1px 10px; font-size: $font-size-small;}
 #PostView #SenderIco {
   width: 16px;
   height: 16px;
@@ -1181,7 +1239,7 @@ input #nav-search {
 #PostView #Targets { margin: 5px 1px; }
 #PostView #Targets div {
   display: inline-block;
-  background-color: #00B45A ;
+  background-color: $color-sense-wire ;
   border-radius: 10px;
   margin: 1px;
   padding: 1px 5px;
@@ -1213,10 +1271,9 @@ input #nav-search {
 #PostView #Content { vertical-align: top; overflow: auto;}
 #PostView #PostBody { border: none; }
 #PostView #Comments {
-  //padding: 5px;
   padding: 5px;
   width: 320px;
-  background-color: rgb(247,250,249);;
+  background-color: rgb(247,250,249);
 }
 #PostView #NewComment { padding: 5px; }
 #PostView #NewComment .account-ico { float: left;}
@@ -1226,7 +1283,7 @@ input #nav-search {
   border: none ;
   border-radius: 5px;
   padding: 5px 10px;
-  color: white ;
+  color: $color-white ;
 }
 #PostView #CommentList .sender-ico {
   float: left;
@@ -1244,8 +1301,9 @@ input #nav-search {
   line-height: 24px;
   vertical-align: baseline;
 }
+
 #PostView #CommentList .comment { clear: both; padding: 5px;}
-#PostView #CommentList .comment:hover { background-color: #E7FBF0;}
+#PostView #CommentList .comment:hover { background-color: #E7FBF0;} // TODO: the color should change
 
 
 /**
@@ -1255,69 +1313,6 @@ input #nav-search {
  */
 
 
-#AllPlaces {
-  list-style: none;
-  margin: 0px auto;
-}
-
-#AllPlaces li {
-  background-color: white;
-  border-bottom: 1px solid $color-calm;
-  min-height: 64px;
-}
-#AllPlaces li:hover {
-  background-color: $color-sense-5;
-}
-//#AllPlaces tr:hover {
-//  background-color: $color-sense-5;
-//}
-#AllPlaces ul {
-  list-style: none;
-  margin-left: 25px;
-}
-#AllPlaces li > table {
-  width: 100%;
-  height: 64px;
-}
-#AllPlaces li > table td.logo {
-  width: 48px;
-}
-#AllPlaces li > table td.logo > img {
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-}
-#AllPlaces li > table td.name {
-  min-width: 200px;
-  margin-top: 15px;
-
-}
-#AllPlaces li > table td.name img {
-  width: 24px;
-  height: 24px;
-  vertical-align: middle;
-}
-#AllPlaces li > table td.name h5 {
-  margin: 1px 5px;
-  font-weight: normal;
-  font-size: small;
-}
-#AllPlaces li > table td.name p {
-  margin: 5px;
-  color: #787878;
-  font-size: x-small;
-}
-#AllPlaces li > table td.members {
-  width: 168px;
-  text-align: right;
-}
-#AllPlaces li > table td.members img{
-  height: auto;
-  width: 32px;
-  height: 32px;
-  margin: 1px;
-
-}
 
 .ico-margin {
   margin-left: 15px;
@@ -1326,17 +1321,19 @@ input #nav-search {
 #place-option-body {
   height: 100%;
   width: 800px;
-  background-color: white;
+  background-color: $color-white;
   margin: 0px auto;
 }
 
 .room-name {
   height: 152px;
-  border-bottom: 1px solid $color-breeze;
+  margin-top: -10px;
 }
 
 .room-name span {
   padding-left: 5px;
+  padding-top: 18px;
+  font-size: $font-size-small;
 }
 
 .room-pic {
@@ -1350,7 +1347,7 @@ input #nav-search {
 }
 
 .nst-options span {
-  padding-top: 60px;
+  padding-top: 70px;
   padding-left: 5px;
 }
 
@@ -1397,17 +1394,11 @@ input #nav-search {
   margin-left: 3px
 }
 
-
-.room-name span {
-  font-size: $font-size-small;
-
-}
 .room-name h5 {
   padding-top: 45px;
 }
 .option-hld {
   width: 400px;
-  //border: 1px solid red;
 }
 .switch-panel {
   padding-right: 10px;
@@ -1442,14 +1433,14 @@ input #nav-search {
   width: 60px;
   height: 14px;
   text-align: center;
-  color: white;
+  color: $color-white;
   font-size: $font-size-small;
   line-height: 10px;
 
 }
 
 .switch-option-right {
-  background-color: white;
+  background-color: $color-white;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 8px;
   border-top-left-radius: 0px;
@@ -1465,7 +1456,7 @@ input #nav-search {
 
 }
 .switch-option-off {
-  background-color: white;
+  background-color: $color-white;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 0px;
   border: 2px solid $color-sense;
@@ -1489,7 +1480,7 @@ input #nav-search {
   width: 60px;
   height: 14px;
   margin-left: -4px;
-  color: white;
+  color: $color-white;
   font-size: $font-size-small;
   text-align: center;
   line-height: 10px;
@@ -1500,7 +1491,7 @@ input #nav-search {
   width: 126px;
 }
 
-.add-teammate {
+.add-icon {
   width: 24px;
   height: 24px;
   background-image: url('../assets/icons/actionbuttons_place_24.png');
@@ -1535,7 +1526,7 @@ input #nav-search {
 #compose-body {
   height: 100%;
   width: 800px;
-  background-color: white;
+  background-color: $color-white;
   margin: 0px auto;
 }
 

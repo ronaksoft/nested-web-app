@@ -28,6 +28,8 @@ $color-storm: #869d91;
 $color-hurricane: #476152;
 $color-badge: #89EBB4;
 $color-fillbox :#f0f5f2;
+$color-white : #FFFFFF;
+
 
 
 $font-size-xsmall: 11px;
@@ -77,10 +79,11 @@ input[type='text'], input[type='password'] {
 
 a {
   text-decoration: none;
+  //color: $color-sense;
 }
 
 a:hover {
-  color: #00b45a;
+  color: $color-sense;
   text-decoration: none;
 }
 
@@ -152,7 +155,7 @@ textarea {
 ._vabt { vertical-align: bottom;}
 
 ._cgray {color: #E7ECE9;}
-._bggray {background-color: #f7fa};
+._bggray {background-color: #E7ECE9};
 ._modal {z-index: 101}
 
 

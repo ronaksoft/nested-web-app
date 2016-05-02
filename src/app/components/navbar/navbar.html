@@ -41,7 +41,7 @@
           <div class="_dtc">
             <div id="SubNav" class="_dt _fw _fh">
               <div class="_dtr">
-                <div id="Compose" class="_dtc ">
+                <div data-ng-if="events || places" id="Compose" class="_dtc ">
                   <a href="#/new">Compose</a>
                 </div>
                 <div class="_dtc">
@@ -54,9 +54,19 @@
                           </li>
                         </ul>
 
-                        <ul class="nav-width-ul" data-ng-if="places">
-                          <li data-ng-repeat="(key, filter) in places.filters" class="{{key == places.filter ? 'selected' : null}}">
+                        <ul class="nav-width-ul " data-ng-if="places">
+                          <li data-ng-repeat="(key, filter) in places.filters" >
                             <a href="#/places/{{key}}">{{filter.name}}</a>
+                          </li>
+                        </ul>
+
+                        <ul class="nav-width-ul" data-ng-if="place_option">
+                          <li>
+                            <a><button class="button-back">Back</button></a>
+                          </li>
+
+                          <li data-ng-repeat="(key, action) in place_option.actions">
+                            <a ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
                           </li>
                         </ul>
                       </div>
@@ -64,17 +74,17 @@
                   </div>
                 </div>
 
-                  <div id="ViewSelector" class="_dtc">
-                    <ul id="" class="list-inline text-right">
-                      <li>
-                        <span class="text-right" id="viewswitch">
-                          <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="navbar.extended"/>
-                          <label for="ext_switch"></label>
-                        </span>
-                      </li>
-                      <li><input id="n-search" placeholder="Search"></li>
-                    </ul>
-                  </div>
+                <div data-ng-if="events" id="ViewSelector" class="_dtc">
+                  <ul id="" class="list-inline text-right">
+                    <li>
+                      <span class="text-right" id="viewswitch">
+                        <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="navbar.extended"/>
+                        <label for="ext_switch"></label>
+                      </span>
+                    </li>
+                    <li><input id="n-search" placeholder="Search"></li>
+                  </ul>
+                </div>
 
               </div>
             </div>
