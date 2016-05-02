@@ -13,7 +13,7 @@
                   <div class="date post-nav-right">
                     <div class="date _fl nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
                     <div class="_fr"><img src="../assets/icons/close_16.png"></div>
-                    <div class="time _fr nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'yyyy hh:mm'">2013 13:13</div>
+                    <div class="time _fr nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'yyyy hh:mm'"></div>
                   </div>
                 </div>
                 <div class="post-nav-botm">
@@ -81,28 +81,29 @@
                       </div>
                     </div>
                     <div class="_dtr _fh">
-                      <iframe id='PostBody' class="_fh _fw" sandbox="" src="about:blank"></iframe>
+                      <div id="PostBody" class="_fh _fw">
+                        <div class="msg-post-view" data-ng-bind-html="thePost.body | emoji"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div id="Comments" class="_dtc _vat">
                   <div class="_dt _fh _fw">
-                    <div class="_dtr _fh ">
-                      <div id="NewComment" class="_dtc _vat">
-                        <!--<div class="account-ico">gyg</div>-->
-                        <div class="_dt _fw ">
+                    <div class="_dtr" data-ng-repeat="comment in thePost.comments">
+                      <div class="NewComment _dtc _vat">
+                        <div class="_dt _fw">
                           <div class="_dtr">
                             <div class="_dtc profile-post-view">
-                              <img data-ng-if="thePost.sender.picture.org.uid" class="account-initials-24" src="{{thePost.sender.picture.x32.url}}"/>
-                              <div data-ng-if="!thePost.sender.picture.org.uid" class="account-initials-24" data-ng-bind="thePost.sender.name.initials"></div>
+                              <img data-ng-if="comment.sender.picture.org.uid" class="account-initials-24" src="{{comment.sender.picture.x32.url}}"/>
+                              <div data-ng-if="!comment.sender.picture.org.uid" class="account-initials-24" data-ng-bind="comment.sender.name.initials"></div>
                             </div>
                             <div class="_dtc">
-                              <h5 class="nst-mood-cheerful" data-ng-bind="thePost.sender.fullname"></h5>
+                              <h5 class="nst-mood-cheerful" data-ng-bind="comment.sender.fullname"></h5>
                             </div>
-                            <div class="_dtc time-post-view nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'dd MMM yyyy'"></div>
+                            <div class="_dtc time-post-view nst-mood-storm" data-ng-bind="comment.date.getTime() | date:'dd MMM yyyy'"></div>
                           </div>
                         </div>
-                        <div class="msg-post-view" data-ng-bind="thePost.body">
+                        <div class="msg-post-view" data-ng-bind-html="comment.body | emoji">
                           <p class="nst-mood-storm nst-font-small">delete</p>
                         </div>
                       </div>

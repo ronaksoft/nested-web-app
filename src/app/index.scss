@@ -1218,10 +1218,10 @@ input #nav-search {
   width: 320px;
   background-color: rgb(247,250,249);;
 }
-#PostView #NewComment { padding: 5px; }
-#PostView #NewComment .account-ico { float: left;}
+#PostView .NewComment { padding: 5px; }
+#PostView .NewComment .account-ico { float: left;}
 
-#PostView #NewComment #CommentSendBtn  {
+#PostView .NewComment #CommentSendBtn  {
   background-color: $color-sense;
   border: none ;
   border-radius: 5px;

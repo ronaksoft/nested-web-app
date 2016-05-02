@@ -22,6 +22,7 @@
       }
 
       $scope.thePost = new NestedPost($stateParams.postId);
+      $scope.thePost.loadComments();
     }
 
     $scope.user = AuthService.user;
