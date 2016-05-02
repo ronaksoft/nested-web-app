@@ -34,63 +34,63 @@
 .all-messages:hover {
   background-color: $color-calm;
 }
-.grandplace{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 16px;
-  font-size: $font-size-medium;
-  min-height: 50px;
-  margin-left: -12px;
-}
+//.grandplace{
+//  overflow: hidden;
+//  text-overflow: ellipsis;
+//  padding-left: 16px;
+//  font-size: $font-size-medium;
+//  min-height: 50px;
+//  margin-left: -12px;
+//}
 
-.subplace{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 16px;
-  font-size: $font-size-small;
-  min-height: 40px;
-  width: 100%;
-}
+//.subplace{
+//  overflow: hidden;
+//  text-overflow: ellipsis;
+//  padding-left: 16px;
+//  font-size: $font-size-small;
+//  min-height: 40px;
+//  width: 100%;
+//}
 
-.gp-img {
-  border-radius: 50%;
-  margin-top: 6px;
-  margin-right: 4px;
-  height: 36px;
-  width: 36px;
-
-}
-.sp-img {
-  border-radius: 50%;
-  margin-top: 6px;
-  margin-right: 5px;
-  height: 24px;
-  width: 24px;
-}
+//.gp-img {
+//  border-radius: 50%;
+//  margin-top: 6px;
+//  margin-right: 4px;
+//  height: 36px;
+//  width: 36px;
+//
+//}
+//.sp-img {
+//  border-radius: 50%;
+//  margin-top: 6px;
+//  margin-right: 5px;
+//  height: 24px;
+//  width: 24px;
+//}
 .sidebar ul {
   padding-left: 0px;
   list-style-type: none;
 }
-.active{
-  background-color: #f3f6f4;
-}
-.active a{
-  border: none;
-}
-.active ul{
-  padding-left: 16px;
-}
-.arrow-up {
-  transform: rotate(180deg);
-}
-.arrow-down {
-  width: 12px;
-  height: 12px;
-  display: inline;
-}
-.haschild {
-  margin-left: 16px;
-}
+//.active{
+//  background-color: #f3f6f4;
+//}
+//.active a{
+//  border: none;
+//}
+//.active ul{
+//  padding-left: 16px;
+//}
+//.arrow-up {
+//  transform: rotate(180deg);
+//}
+//.arrow-down {
+//  width: 12px;
+//  height: 12px;
+//  display: inline;
+//}
+//.haschild {
+//  margin-left: 16px;
+//}
 .arrow-sidebar{
   width: 15px;
 }
@@ -105,9 +105,7 @@
 .sidebar-padding {
   padding-left: 8px;
 }
-.sidebar-hover:hover{
-  background-color: red;
-}
+
 
 .sidebar li:hover {
   background-color: $color-calm;

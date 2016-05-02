@@ -346,6 +346,7 @@ label {
   **********************************************
  */
 
+
 /**
   ***************************************************************
   *     Nested Classes - Component Specific - Navigation Bar    *
@@ -508,6 +509,7 @@ input #nav-search {
   width: 146px;
   height: 30px;
   border-radius: 6px;
+  padding-left: 8px;
 
 }
 
@@ -684,7 +686,7 @@ input #nav-search {
 
 }
 
-#EventList .tr:hover { cursor: default; background-color: #E7FBF0;}
+
 #EventList .td { padding: 5px; }
 #EventList .td.ico { width: 16px; vertical-align: top; }
 #EventList .td.ico img { border-radius: 16px; }
@@ -698,12 +700,12 @@ input #nav-search {
   white-space: nowrap;
 }
 #EventList {table-layout: fixed;}
-#EventList tr:hover { cursor: default; background-color: #E7FBF0;} // TODO: color should change
+#EventList tr:hover { background-color: #E7FBF0;} // TODO: color should change
 #EventList td { padding: 5px; }
 #EventList td.ico { width: 16px; vertical-align: top; }
 #EventList td.ico img { border-radius: 16px; }
 #EventList td.sender {
-  max-width: 166px;
+  width: 166px;
   vertical-align: top;
   font-size: small;
   overflow: hidden ;
@@ -751,7 +753,7 @@ input #nav-search {
   line-height: 10px;
 }
 #EventList td.time {
-  min-width: 50px;
+  width: 100px;
   border-bottom: 1px solid $color-breeze;
   vertical-align: bottom;
   color: $color-solid-60 ;
@@ -759,17 +761,6 @@ input #nav-search {
 #EventList.collapse td.msg .body { display: none; }
 #EventList.collapse td.msg .attachments { display: none; }
 
-//#LoadMoreEvent {
-//  //background-color: #00B45A ;
-//  color: #00B45A;
-//  border-bottom: 1px solid #00B45A;
-//  //border-radius: 5px;
-//  padding: 5px 10px;
-//  margin: 20px auto;
-//  cursor: pointer;
-//  text-align: center;
-//}
-#LoadMoreEvent:hover { font-weight: bold;}
 #PostView {
   top: 0px;
   left: 0px;
@@ -1310,6 +1301,7 @@ input #nav-search {
   line-height: 24px;
   vertical-align: baseline;
 }
+
 #PostView #CommentList .comment { clear: both; padding: 5px;}
 #PostView #CommentList .comment:hover { background-color: #E7FBF0;} // TODO: the color should change
 
