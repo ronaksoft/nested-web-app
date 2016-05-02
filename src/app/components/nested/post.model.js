@@ -67,7 +67,6 @@
             for (var k in data.post_places) {
               this.places[k] = new NestedPlace(this.full ? data.post_places[k]._id : { id: data.post_places[k]._id, name: data.post_places[k].name });
             }
-            console.log('Post Places:', this.places);
 
             this.attachments = [];
             for (var k in data.post_attachments) {
