@@ -702,7 +702,11 @@ input #nav-search {
 #EventList {table-layout: fixed;}
 #EventList tr:hover { background-color: #E7FBF0;} // TODO: color should change
 #EventList td { padding: 5px; }
-#EventList td.ico { width: 16px; vertical-align: top; }
+#EventList td.ico {
+  padding-left: 8px;
+  width: 32px;
+  vertical-align: top;
+}
 #EventList td.ico img { border-radius: 16px; }
 #EventList td.sender {
   width: 166px;
@@ -755,7 +759,7 @@ input #nav-search {
 #EventList td.time {
   width: 100px;
   border-bottom: 1px solid $color-breeze;
-  vertical-align: bottom;
+  vertical-align: top;
   color: $color-solid-60 ;
 }
 #EventList.collapse td.msg .body { display: none; }

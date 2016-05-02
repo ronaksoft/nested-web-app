@@ -13,4 +13,4 @@
   <span> to </span>
   <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a></td>
 <td class="places"></td>
-<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat" data-uib-tooltip="{{event.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-placement="left"></td>
+<td class="time" data-ng-include="'app/components/nested/event/common/date.html'"></td>

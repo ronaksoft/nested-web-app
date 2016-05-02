@@ -72,14 +72,17 @@
 
     $scope.postView = function (post, url) {
       var modal = $uibModal.open({
-        animation: true,
+        animation: false,
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
-        size: 'lg'
+        size: 'lg',
+        scope: $scope
       });
 
+      $scope.thePost = post;
+      $scope.thePost.loadComments();
+
       modal.opened.then(function () {
-        $scope.thePost = post;
       });
 
       modal.closed.then(function () {
