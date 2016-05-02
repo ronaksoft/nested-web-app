@@ -26,11 +26,6 @@
         this.user.setData(angular.fromJson($window.sessionStorage.getItem('nsu')));
       }
 
-      $log.debug('User:', this.user);
-      $log.debug('Session Key:', $cookies.get('nsk'));
-      $log.debug('Session Secret:', $cookies.get('nss'));
-      $log.debug('Cookie:', document.cookie);
-
       if (WsService.isInitialized()) {
         this.reauth();
       }

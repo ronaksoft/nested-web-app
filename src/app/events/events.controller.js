@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, AuthService, WsService, NestedEvent, $scope, $stateParams, $log) {
+  function EventsController($location, AuthService, WsService, NestedEvent, NestedPlace, $scope, $stateParams, $uibModal, $log) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -23,7 +23,7 @@
       yearly: 'yyyy'
     };
     vm.today = new Date(Date.now());
-    vm.filter = $stateParams.filter;
+
     vm.filters = {
       '!$all': {
         filter: 'all',
@@ -47,18 +47,45 @@
       }
     };
 
+    if (vm.filters.hasOwnProperty($stateParams.placeId)) {
+      $stateParams.filter = $stateParams.placeId;
+      $stateParams.placeId = null;
+    }
+
+    vm.place = new NestedPlace($stateParams.placeId ? { id: $stateParams.placeId } : undefined);
+    vm.filter = $stateParams.filter;
+
     var parameters = {
       skip: 0,
-      limit: 10,
+      limit: 25,
       after: 0,
       details: 'full'
     };
 
     if (vm.filters.hasOwnProperty(vm.filter)) {
       parameters['filter'] = vm.filters[vm.filter].filter;
-    } else {
-      parameters['place_id'] = vm.filter;
     }
+
+    if (vm.place.id) {
+      parameters['place_id'] = vm.place.id;
+    }
+
+    $scope.postView = function (post, url) {
+      var modal = $uibModal.open({
+        animation: true,
+        templateUrl: 'app/post/post.html',
+        controller: 'PostController',
+        size: 'lg'
+      });
+
+      modal.opened.then(function () {
+        $scope.thePost = post;
+      });
+
+      modal.closed.then(function () {
+        delete $scope.thePost;
+      });
+    };
 
     WsService.request('timeline/get_events', parameters).then(function (data) {
       var now = $scope.events.today;

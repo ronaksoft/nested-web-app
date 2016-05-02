@@ -40,15 +40,27 @@
       .state('events', {
         url: '/events',
         params: {
+          placeId: null,
           filter: '!$all'
         },
         templateUrl: 'app/events/events.html',
         controller: 'EventsController',
         controllerAs: 'events'
       })
-      .state('events-filtered', {
-        url: '/events/:filter',
+      .state('events-filtered-1d', {
+        url: '/events/:placeId',
         params: {
+          placeId: null,
+          filter: '!$all'
+        },
+        templateUrl: 'app/events/events.html',
+        controller: 'EventsController',
+        controllerAs: 'events'
+      })
+      .state('events-filtered-2d', {
+        url: '/events/:placeId/:filter',
+        params: {
+          placeId: null,
           filter: '!$all'
         },
         templateUrl: 'app/events/events.html',
