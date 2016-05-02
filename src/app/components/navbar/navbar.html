@@ -26,6 +26,7 @@
 
             <div class='_dtc'>
               <ul  class="list-inline text-right">
+                <li><span uib-popover-template="'app/components/navbar/menu.html'" popover-placement="bottom" class="nst-menu-arrow _dib"></span></li>
                 <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
                 <li>
                   <img data-ng-if="user.picture.org.uid" class="img-circle" src="{{user.picture.x32.url}}" height="32" width="32"/>
