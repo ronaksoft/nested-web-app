@@ -94,7 +94,7 @@
       },
 
       isAuthenticated: function (callback) {
-        var isAuth = null != this.user.username || WsService.isAuthorized();
+        var isAuth = null != this.user.username || $cookies.get('nsk') || WsService.isAuthorized();
 
         if (angular.isFunction(callback)) {
           if (isAuth) {
