@@ -12,4 +12,4 @@
   <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a>
 </td>
 <td class="places"></td>
-<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat"></td>
+<td class="time" data-ng-bind="event.date.getTime() | date:event.view.dateFormat" uib-tooltip="{{event.date.getTime() | date:'yyyy d MMM h:m'}}" data-tooltip-placement="left"></td>
