@@ -1272,47 +1272,69 @@ input #nav-search {
   margin-left: 4px;
 }
 
-.doc-attachment {
+*[class*="-attachment"] {
   width: 72px;
   height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
-  background-position: 0 0px;
-  background-repeat: no-repeat;
+  background: url('../assets/icons/attachment_card_96x72.png') no-repeat;
+  padding: 15px 10px 20px 10px;
+  white-space: normal;
+  overflow: hidden;
+  border-bottom: 20px solid rgba(255, 255, 255, 0);
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  /* for set '...' in absolute position */
+  position: relative;
+  /* fix problem when last visible word doesn't adjoin right side  */
+  text-align: justify;
+  /* place for '...' */
+  margin-right: -1em;
+}
+
+*[class*="-attachment"]:before {
+  /* points in the end */
+  content: '...';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of block */
+  right: 10px;
+  bottom: 0.5ex;
+}
+
+*[class*="-attachment"]:after {
+  /* points in the end */
+  content: '';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of text */
+  right: 10px;
+  /* set width and height */
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  /* bg color = bg color under block */
+  background: white;
+}
+
+.doc-attachment {
+  background-position: 0 0;
 
 }
 
 .media-attachment {
-  width: 72px;
-  height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
   background-position: 0 -96px;
-  background-repeat: no-repeat;
 
 }
 
 .pdf-attachment {
-  width: 72px;
-  height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
   background-position: 0 -192px;
-  background-repeat: no-repeat;
 
 }
 .file-attachment {
-  width: 72px;
-  height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
   background-position: 0 -288px;
-  background-repeat: no-repeat;
 }
 
 .zip-attachment {
-  width: 72px;
-  height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
   background-position: 0 -384px;
-  background-repeat: no-repeat;
-
 }
 
 #PostView > div { table-layout: fixed; }
