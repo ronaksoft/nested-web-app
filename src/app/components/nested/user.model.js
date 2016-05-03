@@ -69,7 +69,9 @@
         },
 
         load: function(username) {
-          NestedUserRepoService.get(username || this.username).then(this.setData.bind(this));
+          this.username = username || this.username;
+          
+          NestedUserRepoService.get(this.username).then(this.setData.bind(this));
         },
 
         delete: function() {

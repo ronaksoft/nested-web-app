@@ -16,6 +16,7 @@
         this.date = null;
         this.updated = null;
         this.attachments = []; // [<NestedAttachment>]
+        this.attachmentPreview = false;
         this.comments = []; // [<NestedComment>]
         this.places = []; // [<NestedPlace>]
         this.recipients = []; // [<NestedRecipients>]
@@ -69,8 +70,10 @@
             }
 
             this.attachments = [];
+            this.attachmentPreview = false;
             for (var k in data.post_attachments) {
               this.attachments[k] = new NestedAttachment(data.post_attachments[k], this);
+              this.attachmentPreview = this.attachmentPreview || !!this.attachments[k].thumbs.x128.uid;
             }
 
             this.recipients = []; // TODO: ?
