@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td class="arrow">
-      <label data-ng-model="colp" data-ng-show="place.children.length > 0" id="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false" data-ng-click="colp =! colp"></label>
+      <label data-ng-model="colp" data-ng-show="place.children.length > 0" class="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false" data-ng-click="colp =! colp"></label>
     </td>
     <td class="logo">
       <img class="account-initials-48" data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
@@ -50,6 +50,8 @@
   </tr>
 </table>
 
+
 <ul data-ng-if="place.children.length > 0" data-ng-show="colp">
   <li data-ng-repeat="place in place.children" data-ng-include="places.tpl" data-ng-model="place"></li>
 </ul>
+
