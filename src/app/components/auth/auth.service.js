@@ -11,25 +11,25 @@
       notAuthenticated: 'auth-not-authenticated',
       notAuthorized: 'auth-not-authorized'
     })
-    .factory('AuthService', NestedAuth);
+    .service('AuthService', NestedAuthService);
 
   /** @ngInject */
-  function NestedAuth($cookies, $window, WS_EVENTS, WsService, $log) {
+  function NestedAuthService($cookies, $window, WS_EVENTS, WsService, NestedUser, $log) {
     function AuthService() {
-      this.user = null;
+      this.user = new NestedUser();
       this.lastSessionKey = null;
       this.lastSessionSecret = null;
       this.remember = false;
       this.listeners = {};
 
       if ($window.sessionStorage.getItem('nsu')) {
-        this.user = angular.fromJson($window.sessionStorage.getItem('nsu'));
+        this.user.setData(angular.fromJson($window.sessionStorage.getItem('nsu')));
       }
 
-      $log.debug('User: ', this.user);
-      $log.debug('Session Key: ', $cookies.get('nsk'));
-      $log.debug('Session Secret: ', $cookies.get('nss'));
-      $log.debug('Cookie: ', document.cookie);
+      $log.debug('User:', this.user);
+      $log.debug('Session Key:', $cookies.get('nsk'));
+      $log.debug('Session Secret:', $cookies.get('nss'));
+      $log.debug('Cookie:', document.cookie);
 
       if (WsService.isInitialized()) {
         this.reauth();
@@ -50,7 +50,7 @@
         $cookies.put('nss', this.lastSessionSecret);
 
         // TODO: Pass to user service
-        this.user = data.info;
+        this.user.setData(data.info);
         this.user.role = 1;
         $window.sessionStorage.setItem('nsu', angular.toJson(this.user));
 
@@ -69,12 +69,14 @@
 
       unauthorize: function (reason) {
         $log.debug('Unauthorization', reason);
-        this.user = null;
+        this.user.username = null;
 
         window.sessionStorage.clear();
-
+        this.lastSessionKey = null;
+        this.lastSessionSecret = null;
         $cookies.remove('nss');
         $cookies.remove('nsk');
+        WsService.unauthorize();
       },
 
       login: function (credentials, remember) {
@@ -97,7 +99,7 @@
       },
 
       isAuthenticated: function (callback) {
-        var isAuth = null != this.user || WsService.isAuthorized();
+        var isAuth = null != this.user.username || WsService.isAuthorized();
 
         if (angular.isFunction(callback)) {
           if (isAuth) {
@@ -117,10 +119,6 @@
         }
 
         return (this.isAuthenticated() && authorizedRoles.indexOf(this.user.role) !== -1);
-      },
-
-      getSessionKey: function () {
-        return $cookies.get('nsk');
       },
 
       addEventListener: function (type, callback, oneTime) {

@@ -27,7 +27,10 @@
             <div class='_dtc'>
               <ul  class="list-inline text-right">
                 <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
-                <li><img class="img-circle" src="{{user.avatar}}" height="32" width="32"></li>
+                <li>
+                  <img data-ng-if="user.picture.org.uid" class="img-circle" src="{{user.picture.x32.url}}" height="32" width="32"/>
+                  <div data-ng-if="!user.picture.org.uid" class="account-initials-32" data-ng-bind="user.name.initials"></div>
+                </li>
               </ul>
             </div>
           </div>
@@ -38,7 +41,7 @@
             <div id="SubNav" class="_dt _fw _fh">
               <div class="_dtr">
                 <div id="Compose" class="_dtc ">
-                  <a>Compose</a>
+                  <a href="#/compose">Compose</a>
                 </div>
                 <div class="_dtc">
                   <div class="_dt">

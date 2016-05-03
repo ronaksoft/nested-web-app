@@ -7,7 +7,7 @@
 
   angular
     .module('nested')
-    .factory('NestedComment', function (WsService, NestedUser, NestedPlace, NestedPost, $log) {
+    .factory('NestedComment', function (WsService, NestedUser, NestedPlace, NestedPost, $rootScope, $log) {
       function Comment(post, data, full) {
         this.full = full || false;
 
@@ -30,6 +30,8 @@
             this.load(data);
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
+
+            this.change();
           } else if (data.hasOwnProperty('_id')) {
             $log.debug("Comment Data:", data);
 
@@ -39,8 +41,16 @@
             this.sender = new NestedUser(data.sender_id);
             this.body = data.text;
             this.date = new Date(data.time * 1e3);
+
+            this.change();
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.comment);
+          }
+        },
+
+        change: function () {
+          if(!$rootScope.$$phase) {
+            $rootScope.$digest()
           }
         },
 
