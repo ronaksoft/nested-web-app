@@ -137,6 +137,7 @@ input[type="radio"]:checked + label{
   background-color: $color-solid-30 ;
 }
 
+
 /**
   *********************************
   *     Bootstrap Overrides       *
@@ -201,6 +202,8 @@ label {
 .form-control-feedback {
   top: 4px;
 }
+
+
 
 /**
   *************************************
@@ -517,6 +520,55 @@ input #nav-search {
 #SubNav #Search { width: 100px; }
 
 
+.button-back {
+  width: 46px;
+  height: 22px;
+  background-color: $color-white;
+  border: 1px solid $color-breeze;
+  border-radius: 5px;
+  color: $color-storm;
+}
+.add-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -96px;
+  background-repeat: no-repeat;
+}
+
+.option-delete-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+}
+
+.option-leave-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -24px;
+  background-repeat: no-repeat;
+}
+
+.option-rename-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -72px;
+  background-repeat: no-repeat;
+}
+
+.option-add-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position:0 -48px;
+  background-repeat: no-repeat;
+}
+
+
 /**
   *********************************************************
   *     Nested Classes - Component Specific - Side Bar    *
@@ -770,12 +822,67 @@ input #nav-search {
   left: 0px;
   bottom: 0px;
   right: 0px;
-  overflow: auto;
+  //overflow: auto;
+  //min-height: 10%;
 }
 .msg .headlineicon {
   margin-top: 2px;
 }
 
+#load-more-events {
+  cursor : pointer;
+}
+
+.attachment-badge-bar {
+  height: 18px;
+  background-color: $color-breeze-50;
+  border-radius: 5px;
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 8px;
+  overflow: hidden;
+}
+
+.attachment-badge-doc {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 0px;
+  margin-top: 4px;
+}
+
+.attachment-badge-img {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -10px;
+  margin-top: 4px;
+
+}
+
+.attachment-badge-pdf {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -20px;
+  margin-top: 4px;
+}
+
+.attachment-badge-file {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -30px;
+  margin-top: 4px;
+}
+
+.attachment-badge-zip {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -40px;
+  margin-top: 4px;
+}
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Places *
@@ -977,7 +1084,7 @@ input #nav-search {
 
 }
 
-#nst-arrow {
+.nst-arrow {
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
   width: 15px;
@@ -986,7 +1093,7 @@ input #nav-search {
   cursor: pointer;
 }
 
-#nst-arrow-rotated {
+.nst-arrow-rotated {
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
   width: 15px;
@@ -1152,10 +1259,14 @@ input #nav-search {
   margin-bottom: 5px;
   margin-right: 8px;
   margin-left: 8px;
-  width: 85%;
+  width: 258px;
 }
 .input-msg {
   height: 42px;
+}
+.input-msg img {
+  margin-top: 6px;
+  margin-left: 4px;
 }
 
 .doc-attachment {
@@ -1273,11 +1384,16 @@ input #nav-search {
   color: gray ;
 }
 #PostView #Content { vertical-align: top; overflow: auto;}
-#PostView #PostBody { border: none; }
+#PostView #PostBody {
+  border: none;
+  overflow: hidden;
+
+}
 #PostView #Comments {
   padding: 5px;
   width: 320px;
   background-color: rgb(247,250,249);
+  overflow: scroll;
 }
 #PostView .NewComment { padding: 5px; }
 #PostView .NewComment .account-ico { float: left;}
@@ -1610,6 +1726,8 @@ input #nav-search {
 .nst-compose-message p {
   padding: 10px;
 }
+
+
 
 /**
   *********************************
