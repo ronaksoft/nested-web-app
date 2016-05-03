@@ -776,6 +776,10 @@ input #nav-search {
   margin-top: 2px;
 }
 
+#load-more-events {
+  cursor : pointer;
+}
+
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Places *
@@ -977,7 +981,7 @@ input #nav-search {
 
 }
 
-#nst-arrow {
+.nst-arrow {
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
   width: 15px;
@@ -986,7 +990,7 @@ input #nav-search {
   cursor: pointer;
 }
 
-#nst-arrow-rotated {
+.nst-arrow-rotated {
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
   width: 15px;
@@ -1152,7 +1156,7 @@ input #nav-search {
   margin-bottom: 5px;
   margin-right: 8px;
   margin-left: 8px;
-  width: 85%;
+  width: 258px;
 }
 .input-msg {
   height: 42px;
