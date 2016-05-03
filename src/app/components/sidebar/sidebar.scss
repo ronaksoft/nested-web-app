@@ -5,7 +5,7 @@
  */
 
 .sidebar {
-  background-color: #e7ece9;
+  background-color: $color-breeze-50;
   border: 1px solid $color-breeze-50;
   width: 208px;
   height: 100%;
@@ -27,70 +27,19 @@
 .all-messages {
   color: $color-sense-wire;
   padding-top: 20px;
-  margin-bottom: 30px;
   text-align: center;
+  height: 50px;
 }
 
 .all-messages:hover {
   background-color: $color-calm;
 }
-//.grandplace{
-//  overflow: hidden;
-//  text-overflow: ellipsis;
-//  padding-left: 16px;
-//  font-size: $font-size-medium;
-//  min-height: 50px;
-//  margin-left: -12px;
-//}
 
-//.subplace{
-//  overflow: hidden;
-//  text-overflow: ellipsis;
-//  padding-left: 16px;
-//  font-size: $font-size-small;
-//  min-height: 40px;
-//  width: 100%;
-//}
-
-//.gp-img {
-//  border-radius: 50%;
-//  margin-top: 6px;
-//  margin-right: 4px;
-//  height: 36px;
-//  width: 36px;
-//
-//}
-//.sp-img {
-//  border-radius: 50%;
-//  margin-top: 6px;
-//  margin-right: 5px;
-//  height: 24px;
-//  width: 24px;
-//}
 .sidebar ul {
   padding-left: 0px;
   list-style-type: none;
 }
-//.active{
-//  background-color: #f3f6f4;
-//}
-//.active a{
-//  border: none;
-//}
-//.active ul{
-//  padding-left: 16px;
-//}
-//.arrow-up {
-//  transform: rotate(180deg);
-//}
-//.arrow-down {
-//  width: 12px;
-//  height: 12px;
-//  display: inline;
-//}
-//.haschild {
-//  margin-left: 16px;
-//}
+
 .arrow-sidebar{
   width: 15px;
 }

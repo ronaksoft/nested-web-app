@@ -137,6 +137,7 @@ input[type="radio"]:checked + label{
   background-color: $color-solid-30 ;
 }
 
+
 /**
   *********************************
   *     Bootstrap Overrides       *
@@ -201,6 +202,8 @@ label {
 .form-control-feedback {
   top: 4px;
 }
+
+
 
 /**
   *************************************
@@ -819,7 +822,8 @@ input #nav-search {
   left: 0px;
   bottom: 0px;
   right: 0px;
-  overflow: auto;
+  //overflow: auto;
+  //min-height: 10%;
 }
 .msg .headlineicon {
   margin-top: 2px;
@@ -829,6 +833,56 @@ input #nav-search {
   cursor : pointer;
 }
 
+.attachment-badge-bar {
+  height: 18px;
+  background-color: $color-breeze-50;
+  border-radius: 5px;
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 8px;
+  overflow: hidden;
+}
+
+.attachment-badge-doc {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 0px;
+  margin-top: 4px;
+}
+
+.attachment-badge-img {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -10px;
+  margin-top: 4px;
+
+}
+
+.attachment-badge-pdf {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -20px;
+  margin-top: 4px;
+}
+
+.attachment-badge-file {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -30px;
+  margin-top: 4px;
+}
+
+.attachment-badge-zip {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -40px;
+  margin-top: 4px;
+}
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Places *
@@ -1210,6 +1264,10 @@ input #nav-search {
 .input-msg {
   height: 42px;
 }
+.input-msg img {
+  margin-top: 6px;
+  margin-left: 4px;
+}
 
 .doc-attachment {
   width: 72px;
@@ -1326,11 +1384,16 @@ input #nav-search {
   color: gray ;
 }
 #PostView #Content { vertical-align: top; overflow: auto;}
-#PostView #PostBody { border: none; }
+#PostView #PostBody {
+  border: none;
+  overflow: hidden;
+
+}
 #PostView #Comments {
   padding: 5px;
   width: 320px;
   background-color: rgb(247,250,249);
+  overflow: scroll;
 }
 #PostView .NewComment { padding: 5px; }
 #PostView .NewComment .account-ico { float: left;}
@@ -1663,6 +1726,8 @@ input #nav-search {
 .nst-compose-message p {
   padding: 10px;
 }
+
+
 
 /**
   *********************************
