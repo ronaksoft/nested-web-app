@@ -45,6 +45,9 @@
 }
 .sidebar ._dtr {
   height: 50px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: keep-all;
 
 }
 .sidebar ._dtr:hover {
