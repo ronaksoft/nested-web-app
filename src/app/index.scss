@@ -517,6 +517,55 @@ input #nav-search {
 #SubNav #Search { width: 100px; }
 
 
+.button-back {
+  width: 46px;
+  height: 22px;
+  background-color: $color-white;
+  border: 1px solid $color-breeze;
+  border-radius: 5px;
+  color: $color-storm;
+}
+.add-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -96px;
+  background-repeat: no-repeat;
+}
+
+.option-delete-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+}
+
+.option-leave-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -24px;
+  background-repeat: no-repeat;
+}
+
+.option-rename-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -72px;
+  background-repeat: no-repeat;
+}
+
+.option-add-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position:0 -48px;
+  background-repeat: no-repeat;
+}
+
+
 /**
   *********************************************************
   *     Nested Classes - Component Specific - Side Bar    *
