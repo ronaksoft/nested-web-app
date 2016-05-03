@@ -38,7 +38,12 @@
             this.id = data._id.$oid;
             this.attach = data.attach;
             this.post = post || (this.post instanceof NestedPost ? this.post : (data.post_id ? new NestedPost(this.full ? data.post_id : { id: data.post_id }) : null));
-            this.sender = new NestedUser(data.sender_id);
+            this.sender = new NestedUser({
+              _id: data.sender_id,
+              fname: data.sender_fname,
+              lname: data.sender_lname,
+              picture: data.sender_picture
+            });
             this.body = data.text;
             this.date = new Date(data.time * 1e3);
 

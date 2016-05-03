@@ -84,7 +84,7 @@
           var now = new Date(Date.now());
           if (now.getFullYear() === this.date.getFullYear()) {
             if (now.getMonth() === this.date.getMonth()) {
-              this.view.dateFormat = 'H:m';
+              this.view.dateFormat = 'H:mm';
             } else {
               this.view.dateFormat = 'EEE d';
             }
@@ -115,6 +115,9 @@
               _id: data.comment_id,
               attach: null,
               sender_id: data.actor,
+              sender_fname: data.actor_fname,
+              sender_lname: data.actor_lname,
+              sender_picture: data.actor_picture,
               text: data.comment_body,
               time: data.date
             });
@@ -141,8 +144,6 @@
               name: data.place_name,
               picture: data.place_picture
             }, parent);
-
-            this.type == EVENT_ACTIONS.PLACE_ADD && console.log('Event Place:', this.place);
           }
 
           if (data.hasOwnProperty('member_type')) {

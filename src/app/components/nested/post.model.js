@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function (WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, $rootScope, $log) {
+    .factory('NestedPost', function (WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, $injector, $rootScope, $log) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -15,9 +15,10 @@
         this.replyTo = null;
         this.date = null;
         this.updated = null;
-        this.attachments = []; // <NestedAttachment>
-        this.places = []; // <NestedPlace>
-        this.recipients = []; // <NestedRecipients>
+        this.attachments = []; // [<NestedAttachment>]
+        this.comments = []; // [<NestedComment>]
+        this.places = []; // [<NestedPlace>]
+        this.recipients = []; // [<NestedRecipients>]
         this.spam = 0;
         this.monitored = false;
         this.internal = false;
@@ -66,7 +67,6 @@
             for (var k in data.post_places) {
               this.places[k] = new NestedPlace(this.full ? data.post_places[k]._id : { id: data.post_places[k]._id, name: data.post_places[k].name });
             }
-            console.log('Post Places:', this.places);
 
             this.attachments = [];
             for (var k in data.post_attachments) {
@@ -78,10 +78,37 @@
               this.recipients[k] = new NestedRecipient(data.recipients[k]._id);
             }
 
+            if (this.full) {
+              this.loadComments();
+            }
+
             this.change();
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.post);
           }
+        },
+
+        loadComments: function (reload) {
+          if (this.comments.length > 0 && !reload) {
+            return $q(function (resolve) {
+              resolve(this.comments);
+            }.bind(this));
+          }
+
+          return WsService.request('post/get_comments', {
+            post_id: this.id
+          }).then(function (data) {
+            var NestedComment = $injector.get('NestedComment');
+
+            this.comments = [];
+            for (var k in data.comments) {
+              this.comments.push(new NestedComment(this, data.comments[k]));
+            }
+
+            this.change();
+
+            return this.comments;
+          }.bind(this));
         },
 
         change: function () {
@@ -91,7 +118,9 @@
         },
 
         load: function(id) {
-          WsService.request('post/get', { post_id: id }).then(this.setData.bind(this));
+          this.id = id || this.id;
+
+          WsService.request('post/get', { post_id: this.id }).then(this.setData.bind(this));
         },
 
         delete: function() {

@@ -1,4 +1,4 @@
-<div class="nst-nav" ng-controller="NavBarController as vm">
+<div class="nst-nav" data-ng-controller="NavBarController as vm">
   <div class="_dt ">
     <div class='_dtr'>
       <div class="_dtc">
@@ -6,8 +6,8 @@
           <div class="_dtr">
 
             <div id='Logo' class='_dtc'>
-              <a href="#/nested"><img id='Pic' src="../assets/images/nested-logo-32.png"/></a>
-              <a href="#/nested"><img id='Type' src="../assets/images/nested-logotype-32.png"/></a>
+              <a href="#/"><img id='Pic' src="../assets/images/nested-logo-32.png"/></a>
+              <a href="#/"><img id='Type' src="../assets/images/nested-logotype-32.png"/></a>
             </div>
 
             <div id='PrimaryPageSelector' class='_dtc'>
@@ -26,6 +26,7 @@
 
             <div class='_dtc'>
               <ul  class="list-inline text-right">
+                <li><span uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="bottom" class="nst-menu-arrow _dib"></span></li>
                 <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
                 <li>
                   <img data-ng-if="user.picture.org.uid" class="img-circle" src="{{user.picture.x32.url}}" height="32" width="32"/>
@@ -40,28 +41,32 @@
           <div class="_dtc">
             <div id="SubNav" class="_dt _fw _fh">
               <div class="_dtr">
-                <div id="Compose" class="_dtc ">
-                  <a href="#/compose">Compose</a>
+                <div data-ng-if="events || places" id="Compose" class="_dtc ">
+                  <a href="#/new">Compose</a>
                 </div>
                 <div class="_dtc">
                   <div class="_dt">
                     <div class="_dtr">
                       <div class="_dtc" id="SecondaryPageSelector">
-                        <ul class="nav-width-ul">
-                          <li class="selected">
-                            <a href="#/all">All</a>
+                        <ul class="nav-width-ul" data-ng-if="events">
+                          <li data-ng-repeat="(key, filter) in events.filters" class="{{key == events.filter ? 'selected' : null}}">
+                            <a href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
                           </li>
-                          <li ng-class="inbox ? 'selected' : null">
-                            <a href="#/inbox">Inbox</a>
+                        </ul>
+
+                        <ul class="nav-width-ul " data-ng-if="places">
+                          <li data-ng-repeat="(key, filter) in places.filters" >
+                            <a href="#/places/{{key}}">{{filter.name}}</a>
                           </li>
-                          <li ng-class="comments ? 'selected' : null">
-                            <a href="#/comments">Comments</a>
+                        </ul>
+
+                        <ul class="nav-width-ul" data-ng-if="place_option">
+                          <li>
+                            <a><button class="button-back">Back</button></a>
                           </li>
-                          <li ng-class="member-acts ? 'selected' : null">
-                            <a href="#/member-acts">Member Acts</a>
-                          </li>
-                          <li ng-class="place-acts? 'selected' : null">
-                            <a href="#/place-acts">Place Acts</a>
+
+                          <li data-ng-repeat="(key, action) in place_option.actions">
+                            <a ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
                           </li>
                         </ul>
                       </div>
@@ -69,17 +74,17 @@
                   </div>
                 </div>
 
-                  <div id="ViewSelector" class="_dtc">
-                    <ul id="" class="list-inline text-right">
-                      <li>
-                        <span class="text-right" id="viewswitch"> 
-                          <input type="checkbox" id="remember" name="remember" value="remember"  data-ng-model="login.remember"/> 
-                          <label for="remember"></label> 
-                        </span>
-                      </li>
-                      <li><input id="n-search" placeholder="Search"></li>
-                    </ul>
-                  </div>
+                <div data-ng-if="events" id="ViewSelector" class="_dtc">
+                  <ul id="" class="list-inline text-right">
+                    <li>
+                      <span class="text-right" id="viewswitch">
+                        <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="navbar.extended"/>
+                        <label for="ext_switch"></label>
+                      </span>
+                    </li>
+                    <li><input id="n-search" placeholder="Search"></li>
+                  </ul>
+                </div>
 
               </div>
             </div>

@@ -21,5 +21,24 @@
     } else {
       $location.path('/places').replace();
     }
+
+    vm.actions = {
+      'delete': {
+        name: 'Delete',
+        fn: function () {}
+      },
+      'leave': {
+        name: 'Leave',
+        fn: function () {}
+      },
+      'rename': {
+        name: 'Rename',
+        fn: function () {}
+      },
+      'add': {
+        name: 'Add a Subplace',
+        fn: function () {}
+      }
+    }
   }
 })();

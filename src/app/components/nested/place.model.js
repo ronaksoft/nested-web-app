@@ -3,17 +3,25 @@
 
   angular
     .module('nested')
-    .factory('NestedPlace', function (NestedPlaceRepoService, NestedUser, StoreItem, $rootScope, $log) {
+    .factory('NestedPlace', function (NestedPlaceRepoService, WsService, NestedUser, StoreItem, $rootScope, $q, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
 
         this.id = null;
         this.name = null;
         this.description = null;
+
         this.parent = parent ? (parent instanceof Place ? parent : { id: parent }) : null; // <NestedPlace>
         this.grandParent = null; // <NestedPlace>
         this.children = []; // [<NestedPlace>]
+
         this.activeMembers = []; // [<NestedUser>]
+        this.members = {
+          creators: [], // [<NestedUser>]
+          keyHolders: [], // [<NestedUser>]
+          knownGuests: [] // [<NestedUser>]
+        };
+
         this.picture = {
           org: new StoreItem(), // <StoreItem>
           x32: new StoreItem(),
@@ -29,7 +37,13 @@
           posts: -1,
           size: -1
         };
-        this.privacy = null; // <NestedPrivacy>
+        this.privacy = {
+          broadcast: false,
+          email: false,
+          locked: false,
+          receptive: false,
+          search: false
+        }; // <NestedPrivacy>
         this.access = null; // <NestedAccess>
         this.role = null; // TODO: ?
 
@@ -54,9 +68,16 @@
             this.grandParent = data.grand_parent_id ? (this.id === data.grand_parent_id ? this : new Place(this.full ? data.grand_parent_id : { id: data.grand_parent_id })) : null;
             this.name = data.name;
             this.description = data.description;
-            this.privacy = data.privacy;
             this.access = data.access;
             this.role = data.member_type || data.role;
+
+            if (data.privacy && angular.isObject(data.privacy)) {
+              this.privacy.broadcast = data.privacy.broadcast;
+              this.privacy.email = data.privacy.email;
+              this.privacy.locked = data.privacy.locked;
+              this.privacy.receptive = data.privacy.receptive;
+              this.privacy.search = data.privacy.search;
+            }
 
             if (data.picture && angular.isObject(data.picture)) {
               this.picture.org = new StoreItem(data.picture.org);
@@ -97,6 +118,8 @@
               this.activeMembers[k] = new NestedUser(this.full ? data.active_members[k]._id : data.active_members[k]);
             }
 
+            this.full && this.loadAllMembers();
+
             this.change();
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.info);
@@ -127,6 +150,111 @@
           this.grandParent = this.grandParent ? (this.grandParent instanceof Place ? this.grandParent : new Place(this.grandParent, null, full)) : null;
 
           return this.grandParent;
+        },
+
+        loadCreators: function (reload) {
+          if (this.members.creators.length > 0 && !reload) {
+            return $q(function (resolve) {
+              resolve(this.members.creators);
+            }.bind(this));
+          }
+
+          return WsService.request('place/get_creators', {
+            place_id: this.id
+          }).then(function (data) {
+            this.members.creators = [];
+            for (var k in data.creators) {
+              this.members.creators.push(new NestedUser(data.creators[k]));
+            }
+
+            this.change();
+
+            return this.members.creators;
+          }.bind(this));
+        },
+
+        loadKeyHolders: function (reload) {
+          if (this.members.keyHolders.length > 0 && !reload) {
+            return $q(function (resolve) {
+              resolve(this.members.keyHolders);
+            }.bind(this));
+          }
+
+          return WsService.request('place/get_key_holders', {
+            place_id: this.id
+          }).then(function (data) {
+            this.members.keyHolders = [];
+            for (var k in data.key_holders) {
+              this.members.keyHolders.push(new NestedUser(data.key_holders[k]));
+            }
+
+            this.change();
+
+            return this.members.keyHolders;
+          }.bind(this));
+        },
+
+        loadKnownGuests: function (reload) {
+          if (this.members.knownGuests.length > 0 && !reload) {
+            return $q(function (resolve) {
+              resolve(this.members.knownGuests);
+            }.bind(this));
+          }
+
+          return WsService.request('place/get_known_guests', {
+            place_id: this.id
+          }).then(function (data) {
+            this.members.knownGuests = [];
+            for (var k in data.known_guests) {
+              this.members.knownGuests.push(new NestedUser(data.known_guests[k]));
+            }
+
+            this.change();
+
+            return this.members.knownGuests;
+          }.bind(this));
+        },
+
+        loadAllMembers: function (reload) {
+          if (this.members.creators.length + this.members.keyHolders.length + this.members.knownGuests.length > 0 && !reload) {
+            return $q(function (resolve) {
+              resolve(this.members);
+            }.bind(this));
+          }
+
+          return WsService.request('place/get_members', {
+            place_id: this.id
+          }).then(function (data) {
+            this.members = {
+              creators: [],
+              keyHolders: [],
+              knownGuests: []
+            };
+
+            for (var k in data.creators) {
+              this.members.creators.push(new NestedUser(data.creators[k]));
+            }
+
+            for (var k in data.key_holders) {
+              this.members.keyHolders.push(new NestedUser(data.key_holders[k]));
+            }
+
+            for (var k in data.known_guests) {
+              this.members.knownGuests.push(new NestedUser(data.known_guests[k]));
+            }
+
+            this.change();
+
+            return this.members;
+          }.bind(this));
+        },
+
+        togglePrivacy: function (key) {
+          if (this.privacy.hasOwnProperty(key)) {
+            this.privacy[key] = !this.privacy[key];
+
+            // TODO: Request Update
+          }
         },
 
         delete: function() {

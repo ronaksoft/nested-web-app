@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, AuthService, WsService, NestedEvent, $scope, $log) {
+  function EventsController($location, AuthService, WsService, NestedEvent, NestedPlace, $scope, $stateParams, $uibModal, $log) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -24,12 +24,73 @@
     };
     vm.today = new Date(Date.now());
 
-    WsService.request('timeline/get_events', {
+    vm.filters = {
+      '!$all': {
+        filter: 'all',
+        name: 'All'
+      },
+      '!$inbox': {
+        filter: 'inbox',
+        name: 'Inbox'
+      },
+      '!$comments': {
+        filter: 'comments',
+        name: 'Comments'
+      },
+      '!$members': {
+        filter: 'members',
+        name: 'Member Acts'
+      },
+      '!$place': {
+        filter: 'places',
+        name: 'Place Acts'
+      }
+    };
+
+    if (vm.filters.hasOwnProperty($stateParams.placeId)) {
+      $stateParams.filter = $stateParams.placeId;
+      $stateParams.placeId = null;
+    }
+
+    vm.place = new NestedPlace($stateParams.placeId ? { id: $stateParams.placeId } : undefined);
+    vm.filter = $stateParams.filter;
+
+    var parameters = {
       skip: 0,
-      limit: 150,
-      after: 10,
-      detail: 'full'
-    }).then(function (data) {
+      limit: 25,
+      after: 0,
+      details: 'full'
+    };
+
+    if (vm.filters.hasOwnProperty(vm.filter)) {
+      parameters['filter'] = vm.filters[vm.filter].filter;
+    }
+
+    if (vm.place.id) {
+      parameters['place_id'] = vm.place.id;
+    }
+
+    $scope.postView = function (post, url) {
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/post/post.html',
+        controller: 'PostController',
+        size: 'lg',
+        scope: $scope
+      });
+
+      $scope.thePost = post;
+      $scope.thePost.loadComments();
+
+      modal.opened.then(function () {
+      });
+
+      modal.closed.then(function () {
+        delete $scope.thePost;
+      });
+    };
+
+    WsService.request('timeline/get_events', parameters).then(function (data) {
       var now = $scope.events.today;
 
       for (var key in data.events) {

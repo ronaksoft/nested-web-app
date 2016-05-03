@@ -26,11 +26,6 @@
         this.user.setData(angular.fromJson($window.sessionStorage.getItem('nsu')));
       }
 
-      $log.debug('User:', this.user);
-      $log.debug('Session Key:', $cookies.get('nsk'));
-      $log.debug('Session Secret:', $cookies.get('nss'));
-      $log.debug('Cookie:', document.cookie);
-
       if (WsService.isInitialized()) {
         this.reauth();
       }
@@ -99,7 +94,7 @@
       },
 
       isAuthenticated: function (callback) {
-        var isAuth = null != this.user.username || WsService.isAuthorized();
+        var isAuth = null != this.user.username || $cookies.get('nsk') || WsService.isAuthorized();
 
         if (angular.isFunction(callback)) {
           if (isAuth) {
