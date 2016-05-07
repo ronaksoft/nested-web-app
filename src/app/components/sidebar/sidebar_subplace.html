@@ -1,13 +1,17 @@
- <span class="e2-arrow _dib">
-    <label data-ng-model="colp" data-ng-show="place.children.length > 0" class="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false" data-ng-click="colp =! colp"></label>
-  </span>
-  <span>
+<span class="e2-arrow _dib">
+    <label data-ng-model="colp" data-ng-show="place.children.length > 0"
+           class="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = (events.placeAncestors.splice(0, place.id.split('.').length).join('.') == place.id)"
+           data-ng-click="colp =! colp"></label>
+</span>
+<span>
     <img class="account-picture" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
     <span class="account-initial" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></span>
-  </span>
-  <span class="place-name"><a href="#/events/{{place.id}}"><span data-ng-bind="place.name"></span></a></span>
-  <div class="e2-border"></div>
+</span>
+<span class="place-name"><a href="/events/{{place.id}}"><span data-ng-bind="place.name"></span></a></span>
+<div class="e2-border"></div>
+<div>{{events.placeAncestors}}</div>
 
 <ul data-ng-if="place.children.length > 0" data-ng-show="colp">
-  <li class="sidebar-padding _tofe" data-ng-repeat="place in place.children" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
+  <li class="sidebar-padding _tofe" data-ng-repeat="place in place.children"
+      data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
 </ul>

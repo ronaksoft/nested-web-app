@@ -1,10 +1,10 @@
 <div class="sidebar">
   <div class="all-messages">
-    <a class=" {{!(events.place.id || events.filter) ? 'selected' : null}}" href="#/events">All Messages</a>
+    <a class=" {{!(events.place.id || events.filter) ? 'selected' : null}}" href="/events">All Messages</a>
   </div>
   <div>
     <ul>
-      <li class="_tofe" data-ng-repeat="place in vm.places" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
+      <li class="_tofe" data-ng-repeat="place in sidebar.places" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
     </ul>
   </div>
 </div>
