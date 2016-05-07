@@ -58,6 +58,10 @@
                           <li data-ng-repeat="(key, filter) in places.filters" >
                             <a href="#/places/{{key}}">{{filter.name}}</a>
                           </li>
+
+                          <li>
+                            <a href="#/create-place">Add Place<span class="option-add-icon _dib"></span></a>
+                          </li>
                         </ul>
 
                         <ul class="nav-width-ul" data-ng-if="place_option">
@@ -67,6 +71,12 @@
 
                           <li data-ng-repeat="(key, action) in place_option.actions">
                             <a ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
+                          </li>
+                        </ul>
+
+                        <ul class="nav-width-ul" data-ng-if="create_place">
+                          <li>
+                            <a><button class="button-back">Discard</button></a>
                           </li>
                         </ul>
                       </div>
@@ -91,7 +101,5 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 </div>
 

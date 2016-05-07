@@ -18,7 +18,9 @@
     <div class="nst-marginbtm">
       <div class="form-group has-feedback">
           <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" placeholder="password" name="password" ng-model="credentials.password" type="password">
-          <i class="nst-ico-eye-slash form-control-feedback"></i>
+          <i class="nst-ico-eye-slash form-control-feedback" data-ng-model="colp"
+             data-ng-class="colp ? 'nst-ico-eye-slash' : 'nst-ico-eye'"
+             data-ng-click="colp =! colp"></i>
       </div>
     </div>
     <div class="row no-gutter nst-marginbtm">
@@ -172,7 +174,7 @@
         </label>
       </div>
       <div>
-        <input type="submit" value="Create An Account" class="btn btn-lg btn-block"></input>
+        <input type="submit" value="Create An Account" class="btn btn-lg btn-block">
       </div>
   </div>
 </div>

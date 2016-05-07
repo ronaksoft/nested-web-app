@@ -359,7 +359,6 @@ label {
 }
 #Header {
   //height: 64px;
-  position: relative;
   border-bottom: 1px solid $color-calm;
 }
 
@@ -376,7 +375,6 @@ label {
 
 #PrimaryPageSelector li {
   cursor: pointer;
-  position: relative;
   display: inline-block;
   font-size: medium;
   border-top: 5px solid white;
@@ -408,13 +406,10 @@ label {
 
 #SecondaryPageSelector li {
   cursor: pointer;
-  position: relative;
   display: inline-block;
   font-size: $font-size-small;
   margin-left: 15px;
   text-align: center;
-  cursor: pointer;
-  position: relative;
   border-bottom: 5px solid white;
 
 }
@@ -454,9 +449,8 @@ label {
 }
 
 .nav > li > a {
-  position: relative;
   display: block;
-   padding: 22px 16px 22px 16px;
+  padding: 22px 16px 22px 16px;
 }
 
 .nav > ul a {
@@ -471,22 +465,16 @@ label {
   height:10px;
   width:50px;
 }
-//testttt:
-body #nav-body {
-  margin-top: 64px;
-}
-
 .menu-links-top {
   font-size: $font-size-large;
 }
 
 .nst-nav {
   background-color: white;
-  //position: fixed;
-  //top: 0;
-  //left: 0;
-  //z-index: 9999;
-
+//  position: fixed;
+//  top: 0;
+//  left: 0;
+//  z-index: 999;
 }
 
 #nst-compose-button {
@@ -784,6 +772,7 @@ input #nav-search {
 
 #place-bg {
   background-color: $color-breeze-50;
+
 }
 #AllPlaces {
   list-style: none;
@@ -839,11 +828,9 @@ input #nav-search {
   text-align: right;
 }
 #AllPlaces li > table td.members img{
-  height: auto;
   width: 32px;
   height: 32px;
   margin: 1px;
-
 }
 
 .place-members {
