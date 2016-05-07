@@ -16,6 +16,7 @@
                     <div class="time _fr nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'yyyy hh:mm'"></div>
                   </div>
                 </div>
+
                 <div class="post-nav-botm">
                   <div class="post-nav-left-bottom ">
                     <div class="account-initials _di"></div>
@@ -26,7 +27,7 @@
                       <p class="_di" data-ng-bind="thePost.sender.fullname"></p>
                     </div>
                     <div class="badges _di">
-                      <a class="_di normal-badge" data-ng-repeat="place in thePost.places" href="#/place/{{place.id}}" data-ng-bind="place.name"></a>
+                      <div class="nst-nowrap-badge"><a class="_di normal-badge" data-ng-repeat="place in thePost.places" href="#/place/{{place.id}}" data-ng-bind="place.name"></a></div>
                     </div>
                   </div>
 
