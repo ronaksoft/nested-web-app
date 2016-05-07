@@ -27,8 +27,8 @@
               </tbody>
             </table>
 
-            <div class="text-center">
-              <a id="load-more-events" class="nst-mood-cheerful">Load More...</a>
+            <div class="text-center" data-ng-if="events.moreEvents">
+              <a href="/events/!$load" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
             </div>
           </div>
         </div>
