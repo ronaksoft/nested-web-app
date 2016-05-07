@@ -17,10 +17,8 @@
     </div>
     <div class="nst-marginbtm">
       <div class="form-group has-feedback">
-          <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" placeholder="password" name="password" ng-model="credentials.password" type="password">
-          <i class="nst-ico-eye-slash form-control-feedback" data-ng-model="colp"
-             data-ng-class="colp ? 'nst-ico-eye-slash' : 'nst-ico-eye'"
-             data-ng-click="colp =! colp"></i>
+        <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" placeholder="password" name="password" ng-model="show" type="password">
+        <i class="nst-ico-eye-slash form-control-feedback" data-ng-model="show" type="{{show ? 'text' : 'password'}}" data-ng-class="show ? 'nst-ico-eye-slash' : 'nst-ico-eye'" data-ng-click="show =! show"></i>
       </div>
     </div>
     <div class="row no-gutter nst-marginbtm">
@@ -178,3 +176,4 @@
       </div>
   </div>
 </div>
+
