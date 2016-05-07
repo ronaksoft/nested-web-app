@@ -87,7 +87,7 @@
       $scope.lastUrl = $location.path();
 
       modal.opened.then(function () {
-        $location.update_path(url, true);
+        // $location.update_path(url, true);
       });
 
       modal.closed.then(function () {
