@@ -3,9 +3,12 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function (WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, $injector, $rootScope, $log) {
+    .factory('NestedPost', function (WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, $injector, $rootScope, $q, $log) {
       function Post(data, full) {
         this.full = full || false;
+
+        this.commentLimit = 10;
+        this.moreComments = false;
 
         this.id = null;
         this.subject = null;
@@ -60,6 +63,7 @@
             this.date = new Date(data['time-stamp'] * 1e3);
             this.updated = new Date(data['last-update'] * 1e3);
             this.counters = data.counters;
+            this.moreComments = data.counters ? data.counters.comments > 0 : true;
             this.monitored = data.monitored;
             this.forwarded = data.forwarded ? new Post(this.full ? data.forwarded : { id: data.forwarded }) : null;
             this.spam = data.spam;
@@ -92,22 +96,24 @@
         },
 
         loadComments: function (reload) {
-          if (this.comments.length > 0 && !reload) {
+          if (this.comments.length > 0 && !reload  && !this.moreComments) {
             return $q(function (resolve) {
               resolve(this.comments);
             }.bind(this));
           }
 
           return WsService.request('post/get_comments', {
+            skip: this.comments.length,
+            limit: this.commentLimit,
             post_id: this.id
           }).then(function (data) {
             var NestedComment = $injector.get('NestedComment');
 
-            this.comments = [];
             for (var k in data.comments) {
               this.comments.push(new NestedComment(this, data.comments[k]));
             }
 
+            this.moreComments = !(data.comments.length < this.commentLimit);
             this.change();
 
             return this.comments;
