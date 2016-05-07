@@ -9,24 +9,28 @@
   border: 1px solid $color-breeze-50;
   width: 208px;
   height: 100%;
-  font-size: 12px;
+  font-size: 14px;
+  padding-top: 100px;
   //white-space: nowrap;
-
+  //overflow: hidden;
+  //text-overflow: ellipsis;
 }
-.sidebar a {
+
+.sidebar ul a {
   color : $color-solid;
   text-decoration: none;
   display: inline;
 
 }
+
 .sidebar-border {
   border-bottom: 1px solid $color-breeze;
   width: 100%;
 }
 
-.all-messages {
+.sidebar .all-messages {
   color: $color-sense-wire;
-  padding-top: 20px;
+  padding-top: 14px;
   text-align: center;
   height: 50px;
 }
@@ -40,16 +44,20 @@
   list-style-type: none;
 }
 
+.sidebar span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .arrow-sidebar{
   width: 15px;
 }
+
 .sidebar ._dtr {
   height: 50px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  word-break: keep-all;
-
 }
+
 .sidebar ._dtr:hover {
   background-color: $color-calm;
 }
@@ -58,7 +66,7 @@
   padding-left: 8px;
 }
 
-
 .sidebar li:hover {
   background-color: $color-calm;
 }
+
