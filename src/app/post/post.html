@@ -8,7 +8,7 @@
               <div id='PostHeader' class='_dt _fw _pr'>
                 <div class="post-nav">
                   <div class="post-nav-left">
-                    <p data-ng-bind="thePost.subject"></p>
+                    <p data-ng-bind-html="thePost.subject | emoji"></p>
                   </div>
                   <div class="date post-nav-right">
                     <div class="date _fl nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
@@ -83,7 +83,7 @@
                 </div>
 
                 <div id="Comments" class="_dtc _vat">
-                  <div style="height: 400px; overflow: auto; padding-bottom: 50px;">
+                  <div style="height: 400px; overflow: auto; margin-bottom: 50px;">
                     <div data-ng-if="thePost.moreComments" class="_fw text-center">
                       <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="thePost.loadComments()">Load More...</a>
                     </div>
@@ -106,15 +106,15 @@
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div style="position: fixed; bottom: 0;">
-                      <div class="_dt">
-                        <div class="input-msg _dtr">
-                          <img data-ng-if="user.picture.org.uid" class="account-initials-24 _dtc" src="{{user.picture.x32.url}}"/>
-                          <div data-ng-if="!user.picture.org.uid" class="account-initials-24 _dtc" data-ng-bind="user.name.initials"></div>
+                  <div style="position: fixed; bottom: 0;">
+                    <div class="_dt">
+                      <div class="input-msg _dtr">
+                        <img data-ng-if="user.picture.org.uid" class="account-initials-24 _dtc" src="{{user.picture.x32.url}}"/>
+                        <div data-ng-if="!user.picture.org.uid" class="account-initials-24 _dtc" data-ng-bind="user.name.initials"></div>
 
-                          <input class="_dtc" type="text" name="comment_txt" placeholder="write your comment..."/>
-                        </div>
+                        <input class="_dtc" type="text" name="comment_txt" placeholder="write your comment..."/>
                       </div>
                     </div>
                   </div>
