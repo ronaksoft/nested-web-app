@@ -137,6 +137,7 @@ input[type="radio"]:checked + label{
   background-color: $color-solid-30 ;
 }
 
+
 /**
   *********************************
   *     Bootstrap Overrides       *
@@ -201,6 +202,8 @@ label {
 .form-control-feedback {
   top: 4px;
 }
+
+
 
 /**
   *************************************
@@ -505,6 +508,55 @@ input #nav-search {
 #SubNav #Search { width: 100px; }
 
 
+.button-back {
+  width: 46px;
+  height: 22px;
+  background-color: $color-white;
+  border: 1px solid $color-breeze;
+  border-radius: 5px;
+  color: $color-storm;
+}
+.add-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -96px;
+  background-repeat: no-repeat;
+}
+
+.option-delete-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+}
+
+.option-leave-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -24px;
+  background-repeat: no-repeat;
+}
+
+.option-rename-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -72px;
+  background-repeat: no-repeat;
+}
+
+.option-add-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position:0 -48px;
+  background-repeat: no-repeat;
+}
+
+
 /**
   *********************************************************
   *     Nested Classes - Component Specific - Side Bar    *
@@ -758,12 +810,67 @@ input #nav-search {
   left: 0px;
   bottom: 0px;
   right: 0px;
-  overflow: auto;
+  //overflow: auto;
+  //min-height: 10%;
 }
 .msg .headlineicon {
   margin-top: 2px;
 }
 
+#load-more-events {
+  cursor : pointer;
+}
+
+.attachment-badge-bar {
+  height: 18px;
+  background-color: $color-breeze-50;
+  border-radius: 5px;
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 8px;
+  overflow: hidden;
+}
+
+.attachment-badge-doc {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 0px;
+  margin-top: 4px;
+}
+
+.attachment-badge-img {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -10px;
+  margin-top: 4px;
+
+}
+
+.attachment-badge-pdf {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -20px;
+  margin-top: 4px;
+}
+
+.attachment-badge-file {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -30px;
+  margin-top: 4px;
+}
+
+.attachment-badge-zip {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -40px;
+  margin-top: 4px;
+}
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Places *
@@ -964,7 +1071,7 @@ input #nav-search {
 
 }
 
-#nst-arrow {
+.nst-arrow {
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
   width: 15px;
@@ -973,7 +1080,7 @@ input #nav-search {
   cursor: pointer;
 }
 
-#nst-arrow-rotated {
+.nst-arrow-rotated {
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
   width: 15px;
@@ -1139,53 +1246,79 @@ input #nav-search {
   margin-bottom: 5px;
   margin-right: 8px;
   margin-left: 8px;
-  width: 85%;
+  width: 258px;
 }
 .input-msg {
   height: 42px;
 }
+.input-msg img {
+  margin-top: 6px;
+  margin-left: 4px;
+}
 
-.doc-attachment {
+*[class*="-attachment"] {
   width: 72px;
   height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
-  background-position: 0 0px;
-  background-repeat: no-repeat;
+  background: url('../assets/icons/attachment_card_96x72.png') no-repeat;
+  padding: 15px 10px 20px 10px;
+  white-space: normal;
+  overflow: hidden;
+  border-bottom: 20px solid rgba(255, 255, 255, 0);
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  /* for set '...' in absolute position */
+  position: relative;
+  /* fix problem when last visible word doesn't adjoin right side  */
+  text-align: justify;
+  /* place for '...' */
+  margin-right: -1em;
+}
+
+*[class*="-attachment"]:before {
+  /* points in the end */
+  content: '...';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of block */
+  right: 10px;
+  bottom: 0.5ex;
+}
+
+*[class*="-attachment"]:after {
+  /* points in the end */
+  content: '';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of text */
+  right: 10px;
+  /* set width and height */
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  /* bg color = bg color under block */
+  background: white;
+}
+
+.doc-attachment {
+  background-position: 0 0;
 
 }
 
 .media-attachment {
-  width: 72px;
-  height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
   background-position: 0 -96px;
-  background-repeat: no-repeat;
 
 }
 
 .pdf-attachment {
-  width: 72px;
-  height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
   background-position: 0 -192px;
-  background-repeat: no-repeat;
 
 }
 .file-attachment {
-  width: 72px;
-  height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
   background-position: 0 -288px;
-  background-repeat: no-repeat;
 }
 
 .zip-attachment {
-  width: 72px;
-  height: 96px;
-  background-image: url('../assets/icons/attachment_card_96x72.png');
   background-position: 0 -384px;
-  background-repeat: no-repeat;
-
 }
 
 #PostView > div { table-layout: fixed; }
@@ -1260,11 +1393,16 @@ input #nav-search {
   color: gray ;
 }
 #PostView #Content { vertical-align: top; overflow: auto;}
-#PostView #PostBody { border: none; }
+#PostView #PostBody {
+  border: none;
+  overflow: hidden;
+
+}
 #PostView #Comments {
   padding: 5px;
   width: 320px;
   background-color: rgb(247,250,249);
+  overflow: scroll;
 }
 #PostView .NewComment { padding: 5px; }
 #PostView .NewComment .account-ico { float: left;}
@@ -1597,6 +1735,8 @@ input #nav-search {
 .nst-compose-message p {
   padding: 10px;
 }
+
+
 
 /**
   *********************************

@@ -7,11 +7,12 @@
 
   /** @ngInject */
   function StoreItem(StoreService) {
-    function Item(uid) {
+    function Item(uid, token) {
       this.uid = uid;
+      this.token = token;
       this.url = null;
 
-      uid && StoreService.toUrl(uid).then(function (url) {
+      uid && StoreService.toUrl(this.uid, this.token).then(function (url) {
         this.url = url;
       }.bind(this));
     }

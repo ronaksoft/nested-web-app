@@ -105,6 +105,7 @@
               },
               subject: data.post_subject,
               body: data.post_body,
+              post_attachments: data.post_attachments || [], // TODO: Please be `attachments`
               post_places: data.post_places, // TODO: Please be `places`
               'time-stamp': data.date
             });

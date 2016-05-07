@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedAttachment', function (WsService, NestedPlace, NestedUser) {
+    .factory('NestedAttachment', function (WsService, NestedPlace, NestedUser, StoreItem, StoreService, $q, $rootScope) {
       function Attachment(data, post, full) {
         this.full = full || false;
 
@@ -19,11 +19,11 @@
         this.owners = []; // [<Place>]
         this.uploader = null; // <User>
         this.thumbs = {
-          x32: null,
-          x64: null,
-          x128: null
+          x32: new StoreItem(),
+          x64: new StoreItem(),
+          x128: new StoreItem()
         };
-        this.url = null;
+        this.download = null; // StoreItem
 
         if (data) {
           this.setData(data);
@@ -38,28 +38,62 @@
             angular.extend(this, data);
           } else if (data.hasOwnProperty('_id')) {
             this.id = data._id;
+            this.download = null;
+
             this.downloads = data.downloads;
             this.filename = data.filename;
             this.mimeType = data.mimetype;
             this.size = data.size;
             this.status = data.status;
             this.storeId = data.store_id;
-            this.thumbs = data.thumbs;
             this.uploadTime = new Date(data.upload_time * 1e3);
-            this.uploader = new NestedUser(data.uploader);
+            this.uploader = new NestedUser({ username: data.uploader });
+            this.thumbs = {
+              x32: new StoreItem(data.thumbs.x32),
+              x64: new StoreItem(data.thumbs.x64),
+              x128: new StoreItem(data.thumbs.x128)
+            };
 
             this.owners = [];
             if (angular.isArray(data.owners)) {
-              if (this.full) {
-                for (var k in data.owners) {
-                  this.owners[k] = new NestedPlace(data.owners[k]);
-                }
-              } else {
-                this.owners = data.owners;
+              for (var k in data.owners) {
+                this.owners[k] = new NestedPlace(this.full ? data.owners[k] : { id: data.owners[k] });
               }
             }
+
+            if (this.full) {
+              this.getDownloadUrl();
+            }
+
+            this.change();
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.info)
+          }
+        },
+
+        getDownloadUrl: function () {
+          if (this.download) {
+            return $q(function (resolve) {
+              resolve(this.download);
+            }.bind(this));
+          }
+
+          return WsService.request('store/get_download_token', {
+            post_id: this.post && this.post.id,
+            universal_id: this.id
+          }).then(function (data) {
+            console.log('Download Token:', data);
+
+            this.download = new StoreItem(this.id, data);
+            this.change();
+
+            return this.download;
+          }.bind(this));
+        },
+
+        change: function () {
+          if(!$rootScope.$$phase) {
+            $rootScope.$digest()
           }
         },
 

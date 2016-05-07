@@ -12,22 +12,14 @@
   <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.post.body | emoji"></div>
   <div data-ng-show="navbar.extended" class="attachments">
     <ul class="attachments-bar image">
-
       <ul class="attachments-bar">
-        <li>
-          <div class="doc-attachment"></div>
-        </li>
-        <li>
-          <div class="media-attachment"></div>
-        </li>
-        <li>
-          <div class="file-attachment"></div>
-        </li>
-        <li>
-          <div class="zip-attachment"></div>
-        </li>
-        <li>
-          <div class="pdf-attachment"></div>
+        <li data-ng-repeat="(key, attachment) in event.post.attachments">
+          <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
+          <div data-ng-if="!attachment.thumbs.x128.uid && event.post.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
+          <div data-ng-if="!(attachment.thumbs.x128.uid || event.post.attachmentPreview)" class="attachment-badge-bar">
+            <div class="_dib attachment-badge-{{'img'}}"></div>
+            <span class="_dib">{{attachment.filename}}</span>
+          </div>
         </li>
       </ul>
     </ul>

@@ -68,8 +68,7 @@
         if (angular.isFunction(reject)) {
           this.reject = reject;
         }
-
-        $log.debug('Gonna Send:', this.data);
+        
         if (this.service.isAuthorized() || AUTH_COMMANDS.indexOf(this.data.data.cmd) > -1) {
           if (this.service.isInitialized()) {
             this.send();
@@ -171,7 +170,7 @@
 
       this.stream.onClose(function(event) {
         $log.debug('WebSocket Closed:', event, this);
-        
+
         this.authorized = false;
         this.initialized = false;
         this.dispatchEvent(new CustomEvent(WS_EVENTS.UNINITIALIZE));
@@ -254,11 +253,11 @@
       isAuthorized: function () {
         return this.authorized;
       },
-      
+
       unauthorize: function () {
         this.stream.close();
       },
-      
+
       getSessionKey: function () {
         return this.sesKey;
       },
