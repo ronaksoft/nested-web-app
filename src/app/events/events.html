@@ -4,7 +4,7 @@
     <div class="_dt _fh">
       <div class="_dtr">
         <div class="_dtc _fh">
-          <nested-sidebar></nested-sidebar>
+          <nested-sidebar data-ng-model="sidebar"></nested-sidebar>
         </div>
         <div class="nst-content _dtc _pr _fw">
           <div class="_fhw _fw">
@@ -28,7 +28,7 @@
             </table>
 
             <div class="text-center" data-ng-if="events.moreEvents">
-              <a href="/events/!$load" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
+              <a href="#/events/!$load" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
             </div>
           </div>
         </div>

@@ -9,8 +9,8 @@
   <span data-ng-bind="event.actor.fullname"></span>
 </td>
 <td class='msg'>
-  <span>created <a class="place" href="#" data-ng-bind="event.place.name"></a></span>
-  <span data-ng-if="event.place.parent"> room in <a class="place" href="#" data-ng-bind="event.place.parent.name"></a></span>
+  <span>created <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a></span>
+  <span data-ng-if="event.place.parent"> room in <a class="place" href="#/events/{{event.place.parent.id}}" data-ng-bind="event.place.parent.name"></a></span>
 </td>
 <td class='places'></td>
 <td class="time" data-ng-include="'app/components/nested/event/common/date.html'"></td>

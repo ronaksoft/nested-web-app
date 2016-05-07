@@ -8,7 +8,7 @@
   <span data-ng-bind="event.post.sender.fullname"></span>
 </td>
 <td class="msg">
-  <a class="subject" href="/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)" data-ng-bind-html="event.post.subject | emoji"></a>
+  <a class="subject" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)" data-ng-bind-html="event.post.subject | emoji"></a>
   <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.post.body | emoji"></div>
   <div data-ng-show="navbar.extended" class="attachments">
     <ul class="attachments-bar image">
@@ -28,7 +28,7 @@
   </div>
 </td>
 <td class="places">
-  <a href="/events/{{event.post.places[0].id}}" class="_dtc" data-ng-bind="event.post.places[0].name"></a>
+  <a href="#/events/{{event.post.places[0].id}}" class="_dtc" data-ng-bind="event.post.places[0].name"></a>
   <div data-ng-if="event.post.places.length > 1" class="more-tag _dtc" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom">+{{event.post.places.length - 1}}</div>
 </td>
 <td class="time" data-ng-include="'app/components/nested/event/common/date.html'"></td>

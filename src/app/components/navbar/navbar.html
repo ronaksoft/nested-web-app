@@ -1,4 +1,4 @@
-<div class="nst-nav" data-ng-controller="NavBarController as vm">
+<div class="nst-nav">
   <div class="_dt ">
     <div class='_dtr'>
       <div class="_dtc">
@@ -6,20 +6,20 @@
           <div class="_dtr">
 
             <div id='Logo' class='_dtc'>
-              <a href="/"><img id="Pic" src="../assets/images/nested-logo-32.png"/></a>
-              <a href="/"><img id="Type" src="../assets/images/nested-logotype-32.png"/></a>
+              <a href="#/"><img id="Pic" src="../assets/images/nested-logo-32.png"/></a>
+              <a href="#/"><img id="Type" src="../assets/images/nested-logotype-32.png"/></a>
             </div>
 
             <div id='PrimaryPageSelector' class='_dtc'>
               <ul>
                 <li ng-class="events ? 'selected' : null">
-                  <a href="/events">Events</a>
+                  <a href="#/events">Events</a>
                 </li>
                 <li ng-class="places ? 'selected' : null">
-                  <a href="/places">Places</a>
+                  <a href="#/places">Places</a>
                 </li>
                 <li ng-class="calendar ? 'selected' : null">
-                  <a href="/calendar">Calendar</a>
+                  <a href="#/calendar">Calendar</a>
                 </li>
               </ul>
             </div>
@@ -43,7 +43,7 @@
             <div id="SubNav" class="_dt _fw _fh">
               <div class="_dtr">
                 <div data-ng-if="events || places" id="Compose" class="_dtc ">
-                  <a href="/new">Compose</a>
+                  <a href="#/new">Compose</a>
                 </div>
                 <div class="_dtc">
                   <div class="_dt">
@@ -51,13 +51,13 @@
                       <div class="_dtc" id="SecondaryPageSelector">
                         <ul class="nav-width-ul" data-ng-if="events">
                           <li data-ng-repeat="(key, filter) in events.filters" class="{{key == events.filter ? 'selected' : null}}">
-                            <a href="/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
+                            <a href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
                           </li>
                         </ul>
 
                         <ul class="nav-width-ul " data-ng-if="places">
                           <li data-ng-repeat="(key, filter) in places.filters" >
-                            <a href="/places/{{key}}">{{filter.name}}</a>
+                            <a href="#/places/{{key}}">{{filter.name}}</a>
                           </li>
                         </ul>
 
