@@ -83,6 +83,7 @@
       $scope.thePost.loadComments();
 
       modal.opened.then(function () {
+        $scope.thePost.load();
       });
 
       modal.closed.then(function () {
