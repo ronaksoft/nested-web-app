@@ -15,12 +15,14 @@
       <li>
         <ul class="attachments-bar">
           <li data-ng-repeat="(key, attachment) in event.post.attachments">
-            <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
-            <div data-ng-if="!attachment.thumbs.x128.uid && event.post.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
-            <div data-ng-if="!(attachment.thumbs.x128.uid || event.post.attachmentPreview)" class="attachment-badge-bar">
-              <div class="_dib attachment-badge-{{'img'}}"></div>
-              <span class="_dib">{{attachment.filename}}</span>
-            </div>
+            <a href="{{attachment.download.url}}" ng-click="$event.preventDefault(); attachment.getDownloadUrl().then(attachmentView);">
+              <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
+              <div data-ng-if="!attachment.thumbs.x128.uid && event.post.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
+              <div data-ng-if="!(attachment.thumbs.x128.uid || event.post.attachmentPreview)" class="attachment-badge-bar">
+                <div class="_dib attachment-badge-{{attachment.mimetype.split('/')[0]}}"></div>
+                <span class="_dib">{{attachment.filename}}</span>
+              </div>
+            </a>
           </li>
         </ul>
       </li>
