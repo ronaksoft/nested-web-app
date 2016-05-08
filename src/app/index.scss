@@ -98,15 +98,6 @@ input[type="radio"]:checked + label{
   height: 16px;
   width: 17px;
 }
-.normal-badge {
-  background-color: $color-badge;
-  border-radius: 15px;
-  color: $color-solid;
-  font-size: 13px;
-  padding: 2px 8px 2px 8px;
-  margin: 4px;
-  white-space: nowrap;
-}
 
 /*************************
  *    Account Initials
@@ -795,26 +786,29 @@ input #nav-search {
 #EventList td.msg .body { color: gray; word-break: break-all; overflow: hidden; }
 #EventList td.places { width: 220px; vertical-align: top; border-bottom: 1px solid #ced9d3; }
 #EventList tr #time-of-event { width: 400px; }
-//#EventList td.places > * {
-//  display: inline-block;
-//  background-color: $color-badge;
-//  border-radius: 10px;
-//  margin: 1px;
-//  text-overflow: ellipsis;
-//  white-space: nowrap;
-//  font-size: $font-size-xsmall;
-//  border: 1px solid $color-badge;
-//  padding: 1px 10px 1px 10px ;
-//  color: $color-solid;
-//
-//}
+#EventList td.places > * {
+  display: inline-block;
+  background-color: $color-badge;
+  border-radius: 10px;
+  margin: 1px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: $font-size-xsmall;
+  border: 1px solid $color-badge;
+  padding: 1px 10px 1px 10px ;
+  color: $color-solid;
+
+}
 
 #EventList td.places >.more-tag {
+  border-color: $color-solid;
+  border-width: 1px;
+  border-style: solid;
   background-color: $color-solid;
-  border-radius: 9px;
+  border-radius: 7px;
   color: $color-white;
   font-size: $font-size-xsmall;
-  width: 25px;
+  width: 28px;
   height: 14px;
   text-align: center;
   line-height: 10px;
@@ -1216,7 +1210,15 @@ input #nav-search {
   float: right;
 
 }
-
+.normal-badge {
+  background-color: $color-badge;
+  border-radius: 15px;
+  color: $color-solid;
+  font-size: 13px;
+  padding: 2px 8px 2px 8px;
+  margin: 4px;
+  white-space: nowrap;
+}
 .normal-badge:hover {
   color: $color-solid;
 }
@@ -1361,10 +1363,6 @@ input #nav-search {
   border: 1px solid $color-breeze;
   border-radius: 8px;
   background-color: $color-white ;
-  //padding: 0px;
-  //min-width: 840px;
-  ////min-height: 640px;
-  //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   padding: 0;
   // height: 640px;
   box-shadow: 0 0 16px 0 rgba(71, 97, 82, 0.15);

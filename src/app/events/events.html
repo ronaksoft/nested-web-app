@@ -7,7 +7,7 @@
           <nested-sidebar data-ng-model="sidebar"></nested-sidebar>
         </div>
         <div class="nst-content _dtc _pr _fw">
-          <div class="_fhw _fw">
+          <div class="_fhw _fw" on-scroll="events.scroll(event)">
             <table id="EventList" class="_fw">
               <tbody data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
               <tr class="event-group-time">
@@ -28,7 +28,7 @@
             </table>
 
             <div class="text-center" data-ng-if="events.moreEvents">
-              <a href="#/events/!$load" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
+              <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
             </div>
           </div>
         </div>
