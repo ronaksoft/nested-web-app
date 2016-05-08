@@ -11,7 +11,7 @@
     $logProvider.debugEnabled(true);
 
     // Omit # from routes
-    $locationProvider.html5Mode(true);
+    // $locationProvider.html5Mode(true);
 
     // Set options third-party lib
     toastrConfig.allowHtml = true;
