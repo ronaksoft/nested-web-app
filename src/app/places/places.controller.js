@@ -17,7 +17,6 @@
     }
 
     vm.places = [];
-    vm.tpl = 'app/components/nested/place/row.html';
 
     vm.filter = $stateParams.filter;
     vm.filters = {
