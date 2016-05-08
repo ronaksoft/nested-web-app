@@ -1311,7 +1311,7 @@ input #nav-search {
   /* fix problem when last visible word doesn't adjoin right side  */
   text-align: justify;
   /* place for '...' */
-  margin-right: -1em;
+  //margin-right: -1em;
 }
 
 *[class*="-attachment"]:before {

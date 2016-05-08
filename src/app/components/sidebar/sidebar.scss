@@ -69,8 +69,13 @@
 .sidebar li {
   line-height: 50px;
 }
-.sidebar li:hover {
+.sidebar li:hover,
+.sidebar .selected {
   background-color: $color-calm;
+}
+
+.sidebar .active {
+  font-weight: bold;
 }
 
 .sidebar-border {
@@ -86,7 +91,7 @@
 
 .sidebar li {
   line-height: 50px;
-  //vertical-align: middle;
+  vertical-align: middle;
   position: relative;
 }
 
