@@ -15,7 +15,7 @@
   <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
 </td>
 <td class="places">
-  <a href="#/events/{{event.post.places[0].id}}" class="_dtc" data-ng-bind="event.post.places[0].name"></a>
+  <a href="#/events/{{event.post.places[0].id}}" class="_dtc normal-badge" data-ng-bind="event.post.places[0].name"></a>
   <div data-ng-if="event.post.places.length > 1" class="more-tag _dtc" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom" data-popover-append-to-body="true">+{{event.post.places.length - 1}}</div>
 </td>
 <td class="time" data-ng-include="'app/components/nested/event/common/date.html'"></td>
