@@ -913,6 +913,12 @@ input #nav-search {
 
 }
 
+.places-holder {
+  background-color: $color-sense-wire;
+  min-height: 1000px;
+}
+
+
 #AllPlaces li {
   border-bottom: 1px solid $color-calm;
   min-height: 64px;
