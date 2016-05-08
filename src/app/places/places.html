@@ -1,14 +1,10 @@
 <div>
-  <div>
-    <nested-navbar></nested-navbar>
-  </div>
-  <div class="_dtr _fh" id="place-bg">
-    <div class="_dtc">
-      <div class="_dt _fh _fw _bggray">
-        <ul id="AllPlaces">
-          <li data-ng-repeat="place in places.places" data-ng-include="places.tpl" data-ng-model="place"></li>
-        </ul>
-      </div>
+  <nested-navbar></nested-navbar>
+  <div id="container" class="_fhw _bggray">
+    <div id="AllPlaces" class="_fh">
+      <ul>
+        <li data-ng-repeat="place in places.places" data-ng-include="places.tpl" data-ng-model="place"></li>
+      </ul>
     </div>
   </div>
 </div>

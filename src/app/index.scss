@@ -208,8 +208,6 @@ label {
   top: 4px;
 }
 
-
-
 /**
   *************************************
   *     Nested Classes - Typography   *
@@ -257,6 +255,17 @@ label {
 .nst-mood-solid {
   color: $color-solid
 }
+
+/**
+  *********************************
+  *     Nested Common Panels      *
+  *********************************
+ */
+
+#container {
+  margin-top: 100px;
+}
+
 /**
   *********************************
   *     Nested Classes - Layouts  *
@@ -741,9 +750,7 @@ input #nav-search {
 
 }
 
-#EventList {
-  margin-top: 100px;
-}
+#EventList {}
 #EventList .td { padding: 5px; }
 #EventList .td.ico { width: 16px; vertical-align: top; }
 #EventList .td.ico img { border-radius: 16px; }
@@ -906,18 +913,17 @@ input #nav-search {
 #place-bg {
   background-color: $color-breeze-50;
 }
-#AllPlaces {
-  list-style: none;
-  margin: 100px auto;
-  background: $color-white;
-
-}
 
 .places-holder {
   background-color: $color-sense-wire;
   min-height: 1000px;
 }
 
+#AllPlaces {
+  margin: 0 auto;
+  padding: 10px;
+  background: $color-white;
+}
 
 #AllPlaces li {
   border-bottom: 1px solid $color-calm;
@@ -972,7 +978,6 @@ input #nav-search {
   width: 32px;
   height: 32px;
   margin: 1px;
-
 }
 
 .place-members {
