@@ -12,12 +12,17 @@
       this.token = token;
       this.url = null;
 
-      uid && StoreService.toUrl(this.uid, this.token).then(function (url) {
-        this.url = url;
-      }.bind(this));
+      uid && this.getUrl();
     }
 
     Item.prototype = {
+      getUrl: function () {
+        return StoreService.toUrl(this.uid, this.token).then(function (url) {
+          this.url = url;
+          
+          return this.url;
+        }.bind(this));
+      }
     };
 
     return Item;

@@ -74,7 +74,7 @@
         getDownloadUrl: function () {
           if (this.download) {
             return $q(function (resolve) {
-              resolve(this.download);
+              resolve(this);
             }.bind(this));
           }
 
@@ -82,12 +82,10 @@
             post_id: this.post && this.post.id,
             universal_id: this.id
           }).then(function (data) {
-            console.log('Download Token:', data);
-
-            this.download = new StoreItem(this.id, data);
-            this.change();
-
-            return this.download;
+            this.download = new StoreItem(this.id, data.token);
+            this.download.getUrl().then(this.change);
+            
+            return this;
           }.bind(this));
         },
 
