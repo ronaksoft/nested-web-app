@@ -815,6 +815,11 @@ input #nav-search {
   padding-right: 8px;
   vertical-align: initial;
   margin-left: 2px;
+  cursor: pointer;
+}
+
+.more-tag:hover {
+   color: $color-white;
 }
 #EventList td.time {
   width: 100px;
