@@ -15,10 +15,9 @@
                    data-ng-model="login.username"/>
           </div>
 
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="password" name="password"
-                   data-ng-model="login.password"/>
-            <i class="nst-ico-eye-slash form-control-feedback"></i>
+          <div class="form-group has-feedback" data-ng-model="show">
+            <input class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="login.password" placeholder="password" name="password" data-ng-init="show = false" type="{{show ? 'text' : 'password'}}"/>
+            <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
           </div>
 
           <div class="form-group">

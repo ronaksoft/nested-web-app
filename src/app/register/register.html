@@ -7,18 +7,19 @@
       </div>
     </div>
     <div class="nst-marginbtm">
-      <p>Choose Your Username</p>
+      Choose Your Username
     </div>
-    <div class="nst-marginbtm">
-      <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="username" type="text" placeholder="@nested.com">
+    <div class="nst-marginbtm has-feedback">
+      <input aria-invalid="false" class="form-control" name="username" type="text" maxlength="29">
+      <div class="form-control-feedback-register">@nested.com</div>
     </div>
     <div class="nst-marginbtm">
       Set New PassWord
     </div>
     <div class="nst-marginbtm">
-      <div class="form-group has-feedback">
-        <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" placeholder="password" name="password" ng-model="show" type="password">
-        <i class="nst-ico-eye-slash form-control-feedback" data-ng-model="show" type="{{show ? 'text' : 'password'}}" data-ng-class="show ? 'nst-ico-eye-slash' : 'nst-ico-eye'" data-ng-click="show =! show"></i>
+      <div class="form-group has-feedback" data-ng-model="show">
+        <input class="form-control ng-pristine ng-untouched ng-valid" placeholder="password" name="password" data-ng-init="show = false" type="{{show ? 'text' : 'password'}}"/>
+        <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
       </div>
     </div>
     <div class="row no-gutter nst-marginbtm">
@@ -28,7 +29,7 @@
           </div>
           <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
             last name
-            <input class="form-control ng-pristine ng-untouched ng-valid" name="lastname" type="text">
+            <input class="form-control ng-pristine ng-untouched ng-valid" name="lastname" type="text"/>
           </div>
     </div>
     <div class="nst-marginbtm">
@@ -51,7 +52,7 @@
     <div class="nst-marginbtm" id="mobile-number">
       <div>Mobile Phone</div>
       <div>
-        <input name="mobileNumber" type="number" class="form-control ng-pristine ng-untouched ng-valid">
+        <input name="mobileNumber" type="tel" class="form-control ng-pristine ng-untouched ng-valid">
       </div>
     </div>
     <div class="nst-marginbtm">
@@ -165,12 +166,15 @@
         </select>
       </div>
     </div>
-      <div class="nst-marginbtm" id="agree">
-        <input id="remember" name="remember" value="remember" type="checkbox">
-        <label for="remember">
-          I Agree To The nested<a href="#" class="nst-mood-cheerful" id="agree"> Terms Of Service</a> and <a href="#" class="nst-mood-cheerful" id="agree"> Privacy Policy</a>.
-        </label>
-      </div>
+      <ul class="nst-marginbtm list-inline agreement">
+        <li class="_fl">
+          <input id="remember" name="remember" value="remember" type="checkbox">
+          <label for="remember"></label>
+        </li>
+        <li class="_fl">
+          I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of Service</a> and <a href="#" class="nst-mood-cheerful"> Privacy Policy</a>.
+        </li>
+      </ul>
       <div>
         <input type="submit" value="Create An Account" class="btn btn-lg btn-block">
       </div>

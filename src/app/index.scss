@@ -148,7 +148,6 @@ input[type="radio"]:checked + label{
   margin-top: 150px;
 }
 
-
 .panel {
   background-color: white;
   margin: auto;
@@ -182,6 +181,10 @@ input[type="radio"]:checked + label{
 
 .form-control:-ms-input-placeholder {
   color: $color-wind;
+}
+
+.form-control-feedback {
+  pointer-events: auto;
 }
 
 .panel a {
@@ -417,10 +420,7 @@ label {
 
 
 #SecondaryPageSelector li {
-<<<<<<< HEAD
   cursor: pointer;
-=======
->>>>>>> 8cf603e45516453c40610d1b4f5315f21ce8162f
   display: inline-block;
   font-size: $font-size-small;
   margin-left: 15px;
@@ -480,28 +480,17 @@ label {
   height:10px;
   width:50px;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> 8cf603e45516453c40610d1b4f5315f21ce8162f
 .menu-links-top {
   font-size: $font-size-large;
 }
 
 .nst-nav {
   background-color: white;
-<<<<<<< HEAD
 //  position: fixed;
 //  top: 0;
 //  left: 0;
 //  z-index: 999;
-=======
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-
->>>>>>> 8cf603e45516453c40610d1b4f5315f21ce8162f
 }
 
 #nst-compose-button {
