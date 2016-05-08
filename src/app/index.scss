@@ -786,7 +786,7 @@ input #nav-search {
 #EventList td.msg .body { color: gray; word-break: break-all; overflow: hidden; }
 #EventList td.places { width: 220px; vertical-align: top; border-bottom: 1px solid #ced9d3; }
 #EventList tr #time-of-event { width: 400px; }
-#EventList td.places > * {
+#EventList td.places  .places {
   display: inline-block;
   background-color: $color-badge;
   border-radius: 10px;
@@ -800,18 +800,21 @@ input #nav-search {
 
 }
 
-#EventList td.places >.more-tag {
+.more-tag {
   border-color: $color-solid;
   border-width: 1px;
   border-style: solid;
   background-color: $color-solid;
-  border-radius: 7px;
+  border-radius: 10px;
   color: $color-white;
   font-size: $font-size-xsmall;
-  width: 28px;
   height: 14px;
   text-align: center;
   line-height: 10px;
+  padding-left: 8px;
+  padding-right: 8px;
+  vertical-align: initial;
+  margin-left: 2px;
 }
 #EventList td.time {
   width: 100px;
@@ -901,9 +904,8 @@ input #nav-search {
 #AllPlaces {
   list-style: none;
   margin: 100px auto;
-  padding-bottom: 100%;
   background: $color-white;
-  margin: 100px auto 0px;
+
 }
 
 #AllPlaces li {
