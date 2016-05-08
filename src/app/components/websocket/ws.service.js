@@ -68,7 +68,7 @@
         if (angular.isFunction(reject)) {
           this.reject = reject;
         }
-        
+
         if (this.service.isAuthorized() || AUTH_COMMANDS.indexOf(this.data.data.cmd) > -1) {
           if (this.service.isInitialized()) {
             this.send();
@@ -106,6 +106,12 @@
 
       // Orphan Router
       this.stream.onMessage(function(ws) {
+        if (!ws.data) {
+          $log.debug('Empty Orphan Message:', ws);
+
+          return;
+        }
+
         var data = angular.fromJson(ws.data);
 
         switch (data.type) {
@@ -132,6 +138,12 @@
 
       // Response Router
       this.stream.onMessage(function(ws) {
+        if (!ws.data) {
+          $log.debug('Empty Will Be Routed Message:', ws);
+
+          return;
+        }
+
         var data = angular.fromJson(ws.data);
         $log.debug(data);
 

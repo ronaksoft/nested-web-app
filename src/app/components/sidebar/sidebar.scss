@@ -11,7 +11,6 @@
   height: 100%;
   font-size: 14px;
   padding-top: 100px;
-  min-height: 100%;
   //white-space: nowrap;
   //overflow: hidden;
   //text-overflow: ellipsis;
@@ -45,14 +44,15 @@
   list-style-type: none;
 }
 
-.sidebar span {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
+//.sidebar span {
+//  text-overflow: ellipsis;
+//  overflow: hidden;
+//  white-space: nowrap;
+//}
 
 .arrow-sidebar{
   width: 15px;
+
 }
 
 .sidebar ._dtr {
@@ -66,8 +66,62 @@
 .sidebar-padding {
   padding-left: 8px;
 }
-
+.sidebar li {
+  line-height: 50px;
+}
 .sidebar li:hover {
   background-color: $color-calm;
 }
 
+.sidebar-border {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+  width: 166px;
+  vertical-align: top;
+  font-size: small;
+}
+
+
+.sidebar li {
+  line-height: 50px;
+  vertical-align: middle;
+  position: relative;
+}
+
+.sidebar > div > ul > li > .e2-border {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 50px;
+  border-bottom: 1px solid black;
+}
+.sidebar li .item-holder {
+  overflow: hidden;
+  border-bottom: 1px solid black;
+}
+.sidebar .e2-arrow {
+  width: 18px;
+
+}
+.sidebar .account-initial {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: gray;
+  line-height: 32px;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+
+}
+.sidebar .account-picture {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+.sidebar .place-name {
+  //height: 100%;
+}
