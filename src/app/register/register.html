@@ -36,23 +36,27 @@
       <p>Set An Email For Recovery</p>
       <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="recoveryemail" type="text">
     </div>
-    <div id="gender">
-      <div class="nst-marginbtm">
-       Gender
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-4 col-lg-4 nst-marginbtm">
+    <div class="nst-marginbtm">
+      Gender
+    </div>
+    <ul class="list-inline nst-marginbtm">
+      <li class="col-md-4 col-sm-4 col-xs-4 col-lg-4 nst-marginbtm">
         <input type="radio" name="sex" value="sex">
         <label> Female</label>
-      </div>
-      <div class="col-md-8 col-sm-8 col-xs-8 col-lg-8 nst-marginbtm">
+      </li>
+      <li class="col-md-4 col-sm-4 col-xs-4 col-lg-4 nst-marginbtm">
         <input type="radio" name="sex" value="sex">
         <label> Male</label>
-      </div>
-    </div>
-    <div class="nst-marginbtm" id="mobile-number">
+      </li>
+      <li class="col-md-4 col-sm-4 col-xs-4 col-lg-4 nst-marginbtm">
+        <input type="radio" name="sex" value="sex">
+        <label> other</label>
+      </li>
+    </ul>
+    <div class="nst-marginbtm mobile-number">
       <div>Mobile Phone</div>
-      <div>
-        <input name="mobileNumber" type="tel" class="form-control ng-pristine ng-untouched ng-valid">
+      <div class="_fw">
+        <input name="mobileNumber" type="tel" international-phone-number class="_fw form-control ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
       </div>
     </div>
     <div class="nst-marginbtm">

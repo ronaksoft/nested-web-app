@@ -20,7 +20,8 @@
     "angular": "~1.4.2",
     "angular-websocket": "~1.0.14",
     "angular-md5": "~0.1.10",
-    "emojione": "^2.1.4"
+    "emojione": "^2.1.4",
+    "international-phone-number": "^0.0.16"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.2"

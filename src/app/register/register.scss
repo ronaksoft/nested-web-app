@@ -13,6 +13,16 @@
   width: 100%;
   height: 38px;
 }
+.intl-tel-input {
+  width: 100%;
+}
+.intl-tel-input input {
+  height: 40px;
+  outline: none;
+  border: 1px solid #869d91;
+  border-radius: 5px;
+  padding: 3px;
+}
 .form-control-feedback-register {
   color: $color-wind;
   position: absolute;
@@ -31,7 +41,7 @@
 .nst-marginbtm{
   margin-bottom: 15px;
 }
-#mobile-number{
+.mobile-number{
   margin-top: 60px;
 }
 .agreement {
