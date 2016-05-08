@@ -12,7 +12,10 @@
   function nestedNavbar() {
     return {
       restrict: 'E',
-      templateUrl: 'app/components/navbar/navbar.html'
+      templateUrl: 'app/components/navbar/navbar.html',
+      controller: 'NavBarController',
+      controllerAs: 'navbarCtrl',
+      bindToController: true
     };
   }
 
