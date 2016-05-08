@@ -57,7 +57,7 @@
         var ss = $cookies.get('nss') || this.lastSessionSecret;
 
         if (ss && sk) {
-          return WsService.request('auth', { _sk: sk, _ss: ss})
+          return WsService.request('session/recall', { _sk: sk, _ss: ss})
             .then(this.authorize.bind(this), this.unauthorize.bind(this));
         }
       },
@@ -78,7 +78,7 @@
         this.remember = remember;
         this.logout();
 
-        return WsService.request('login', {
+        return WsService.request('session/register', {
           uid: credentials.username,
           pass: credentials.password
         }).then(this.authorize.bind(this));
