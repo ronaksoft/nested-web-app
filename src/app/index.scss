@@ -113,7 +113,7 @@ input[type="radio"]:checked + label{
     width: #{$i * 8}px;
     height: #{$i * 8}px;
     border-radius: 50%;
-    float: left;
+    //float: left;
     line-height: #{$i * 8 - 1}px;
     text-align: center;
     font-size: $font-size-small; // #{$i/2}px
@@ -128,7 +128,7 @@ input[type="radio"]:checked + label{
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  float: right;
+  //float: right;
   line-height: 31px;
   text-align: center;
   font-size: $font-size-small;
@@ -273,6 +273,13 @@ label {
 
 #container {
   margin-top: 100px;
+
+}
+
+#container-places {
+  padding: 0px 208px;
+  width: 100%;
+  height: 100%;
 }
 
 /**
@@ -938,15 +945,11 @@ input #nav-search {
   background-color: $color-breeze-50;
 }
 
-.places-holder {
-  background-color: $color-sense-wire;
-  min-height: 1000px;
-}
-
 #AllPlaces {
   margin: 0 auto;
   padding: 10px;
   background: $color-white;
+  min-width: 700px;
 }
 
 #AllPlaces li {
@@ -966,6 +969,7 @@ input #nav-search {
 #AllPlaces li > table {
   width: 100%;
   height: 64px;
+  vertical-align: middle;
 }
 
 #AllPlaces li > table td.logo {
@@ -976,6 +980,7 @@ input #nav-search {
   width: 48px;
   height: 48px;
   border-radius: 24px;
+  vertical-align: middle;
 }
 
 #AllPlaces li > table td.name {
@@ -997,9 +1002,10 @@ input #nav-search {
 }
 
 #AllPlaces li > table td.name p {
-  margin: 5px;
+  margin-left: 5px;
   //color: #787878;
   font-size: x-small;
+
 }
 
 #AllPlaces li > table td.members {
@@ -1008,9 +1014,7 @@ input #nav-search {
 }
 
 #AllPlaces li > table td.members img{
-  height: auto;
   width: 32px;
-  height: 32px;
   margin: 1px;
 }
 
@@ -1018,10 +1022,11 @@ input #nav-search {
   margin-right: 5px;
 }
 
+
 .role-icon-crown {
-  background: url('../assets/icons/roleicon_16.png') no-repeat;
-  width: 16px;
-  height: 16px;
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
 }
 
 .role-icon-crown-new {
@@ -1061,17 +1066,17 @@ input #nav-search {
 }
 
 .role-icon-green {
-  background: url('../assets/icons/roleicon_16.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -16px;
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
+  background-position: 0 -24px;
 }
 
 .role-icon-gray {
-  background: url('../assets/icons/roleicon_16.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -32px;
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
+  background-position: 0 -48px;
 }
 
 .nst-pencil {
@@ -1176,14 +1181,18 @@ input #nav-search {
 .arrow {
   width: 15px;
 }
+.arrow-places {
+  width: 15px;
+  vertical-align: middle;
+}
 
 .nst-more {
   width: 32px;
 }
 
 .empty-space {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
 }
 
 .nst-more-members {
@@ -1771,18 +1780,20 @@ input #nav-search {
 }
 
 
-.popup-panel {
+#menu.popup-panel {
   background-color: $color-sense-5;
   max-width: 238px;
   border: 1px solid $color-sense;
   padding: 10px;
 }
-//#menu.pupup-panel {
-//  background-color: $color-sense-5;
-//  max-width: 238px;
-//  border: 1px solid $color-sense;
-//  padding: 10px;
-//}
+
+
+#popup-plc-options {
+  background-color: $color-sense-5;
+  width: 168px;
+  border: 1px solid $color-sense;
+  padding: 10px;
+}
 
 #compose-body {
   height: 100%;

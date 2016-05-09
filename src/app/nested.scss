@@ -77,6 +77,10 @@ a:hover {
   text-decoration: none;
 }
 
+a:visited {
+  color: $color-sense;
+}
+
 body {
   background-color: $color-sense-5;
   font-family: $font-family-eng-reg;
@@ -598,15 +602,15 @@ div.att-item {
  */
 
 @media (min-width: 1000px) {
-  #AllPlaces { width: 800px; }
+  #AllPlaces { width: 100%; }
 }
 @media (max-width: 999px) {
 
   #AllPlaces li > table td.properties {
-    display: none;
+
   }
   #AllPlaces ul { margin-left: 5px;}
-  #AllPlaces li > table td.members { display: none; }
+  #AllPlaces li > table td.members {  }
 }
 
 @media (min-width: 1000px) {
