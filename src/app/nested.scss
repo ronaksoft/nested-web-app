@@ -60,11 +60,12 @@ div, ul, ol {
     padding: 0px;
 }
 
-input[type='text'], input[type='password'] {
+input[type='text'], input[type='password'], input[type='tel'] {
     outline: none ;
-    border: 1px solid $color-storm;
-    border-radius: 5px;
+    border: 1px solid $color-breeze;
+    border-radius: 4px;
     padding: 3px;
+    box-shadow: none;
 }
 
 a {
