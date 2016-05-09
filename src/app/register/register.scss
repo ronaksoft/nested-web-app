@@ -6,10 +6,10 @@
 
 #panel-register{
   width: 352px;
-  padding: 20px 15px 20px 15px;
+  padding: 25px 15px 25px 15px;
+  font-size: $font-size-xsmall;
 }
 .select-birthday{
-  background-color: #eaffea;
   width: 100%;
   height: 38px;
 }
@@ -19,12 +19,9 @@
 .intl-tel-input input {
   height: 40px;
   outline: none;
-  border: 1px solid #869d91;
-  border-radius: 5px;
-  padding: 3px;
 }
 .form-control-feedback-register {
-  color: $color-wind;
+  color: $color-solid-30;
   position: absolute;
   top: 0;
   right: 0;
@@ -34,9 +31,7 @@
   line-height: 34px;
   text-align: center;
   pointer-events: none;
-}
-.select-birthday option:hover{
-  background-color: #ccffe6;
+  font-size: $font-size-medium;
 }
 .nst-marginbtm{
   margin-bottom: 15px;
