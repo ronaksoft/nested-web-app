@@ -4,7 +4,6 @@
 
   angular
     .module('nested')
-    .constant('malarkey', malarkey)
     .constant('moment', moment);
 
 })();
