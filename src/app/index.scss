@@ -960,7 +960,7 @@ input #nav-search {
 
 #AllPlaces ul {
   list-style: none;
-  margin-left: 25px;
+  //margin-left: 25px;
 }
 
 #AllPlaces li > table {
@@ -1295,7 +1295,7 @@ input #nav-search {
 .nst-nowrap-badge {
   width: 400px;
   margin-left: 150px;
-  margin-top: -20px;
+  margin-top: -26px;
   overflow: auto;
 }
 
@@ -1773,10 +1773,16 @@ input #nav-search {
 
 .popup-panel {
   background-color: $color-sense-5;
-  max-width: 200px;
+  max-width: 238px;
   border: 1px solid $color-sense;
   padding: 10px;
 }
+//#menu.pupup-panel {
+//  background-color: $color-sense-5;
+//  max-width: 238px;
+//  border: 1px solid $color-sense;
+//  padding: 10px;
+//}
 
 #compose-body {
   height: 100%;
