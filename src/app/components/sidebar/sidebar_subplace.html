@@ -11,6 +11,8 @@
 <div class="e2-border"></div>
 
 <ul data-ng-if="place.children.length > 0" data-ng-show="colp">
-  <li class="sidebar-padding _tofe" data-ng-repeat="place in place.children"
+  <li data-ng-repeat="place in place.children"
+      data-ng-init="its_mine = events.placeAncestors.slice(0, place.id.split('.').length).join('.') == place.id; its_me = events.placeAncestors.join('.') == place.id"
+      class="sidebar-padding _tofe {{its_mine ? 'selected' : undefined}} {{its_me ? 'active' : undefined}}"
       data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
 </ul>

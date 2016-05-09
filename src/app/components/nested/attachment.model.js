@@ -48,11 +48,13 @@
             this.storeId = data.store_id;
             this.uploadTime = new Date(data.upload_time * 1e3);
             this.uploader = new NestedUser({ username: data.uploader });
-            this.thumbs = {
-              x32: new StoreItem(data.thumbs.x32),
-              x64: new StoreItem(data.thumbs.x64),
-              x128: new StoreItem(data.thumbs.x128)
-            };
+            if (data.thumbs) {
+              this.thumbs = {
+                x32: new StoreItem(data.thumbs.x32),
+                x64: new StoreItem(data.thumbs.x64),
+                x128: new StoreItem(data.thumbs.x128)
+              };
+            }
 
             this.owners = [];
             if (angular.isArray(data.owners)) {
@@ -74,7 +76,7 @@
         getDownloadUrl: function () {
           if (this.download) {
             return $q(function (resolve) {
-              resolve(this.download);
+              resolve(this);
             }.bind(this));
           }
 
@@ -82,12 +84,10 @@
             post_id: this.post && this.post.id,
             universal_id: this.id
           }).then(function (data) {
-            console.log('Download Token:', data);
+            this.download = new StoreItem(this.id, data.token);
+            this.download.getUrl().then(this.change);
 
-            this.download = new StoreItem(this.id, data);
-            this.change();
-
-            return this.download;
+            return this;
           }.bind(this));
         },
 

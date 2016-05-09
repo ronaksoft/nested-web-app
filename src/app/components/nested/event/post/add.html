@@ -15,12 +15,14 @@
       <li>
         <ul class="attachments-bar">
           <li data-ng-repeat="(key, attachment) in event.post.attachments">
-            <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
-            <div data-ng-if="!attachment.thumbs.x128.uid && event.post.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
-            <div data-ng-if="!(attachment.thumbs.x128.uid || event.post.attachmentPreview)" class="attachment-badge-bar">
-              <div class="_dib attachment-badge-{{'img'}}"></div>
-              <span class="_dib">{{attachment.filename}}</span>
-            </div>
+            <a href="{{attachment.download.url}}" ng-click="$event.preventDefault(); attachment.getDownloadUrl().then(attachmentView);">
+              <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
+              <div data-ng-if="!attachment.thumbs.x128.uid && event.post.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
+              <div data-ng-if="!(attachment.thumbs.x128.uid || event.post.attachmentPreview)" class="attachment-badge-bar">
+                <div class="_dib attachment-badge-{{attachment.mimeType.split('/')[0]}}"></div>
+                <span class="_dib">{{attachment.filename}}</span>
+              </div>
+            </a>
           </li>
         </ul>
       </li>
@@ -28,7 +30,9 @@
   </div>
 </td>
 <td class="places">
-  <a href="#/events/{{event.post.places[0].id}}" class="_dtc" data-ng-bind="event.post.places[0].name"></a>
-  <div data-ng-if="event.post.places.length > 1" class="more-tag _dtc" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom">+{{event.post.places.length - 1}}</div>
+  <a href="#/events/{{event.post.places[0].id}}" class="normal-badge _dtc" data-ng-bind="event.post.places[0].name"></a>
+  <div data-ng-if="event.post.places.length > 1" class=" _dtc" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom">
+    <a class="more-tag">+{{event.post.places.length - 1}}</a>
+  </div>
 </td>
 <td class="time" data-ng-include="'app/components/nested/event/common/date.html'"></td>

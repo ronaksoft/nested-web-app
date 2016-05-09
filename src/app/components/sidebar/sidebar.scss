@@ -10,7 +10,6 @@
   width: 208px;
   height: 100%;
   font-size: 14px;
-  padding-top: 100px;
   //white-space: nowrap;
   //overflow: hidden;
   //text-overflow: ellipsis;
@@ -69,8 +68,13 @@
 .sidebar li {
   line-height: 50px;
 }
-.sidebar li:hover {
+.sidebar li:hover,
+.sidebar .selected {
   background-color: $color-calm;
+}
+
+.sidebar .active {
+  font-weight: bold;
 }
 
 .sidebar-border {
@@ -96,7 +100,7 @@
   bottom: 0px;
   right: 0px;
   left: 50px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid $color-breeze;
 }
 .sidebar li .item-holder {
   overflow: hidden;
@@ -110,7 +114,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: gray;
+  background-color: $color-solid-30;
   line-height: 32px;
   vertical-align: middle;
   text-align: center;

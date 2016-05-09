@@ -5,7 +5,7 @@
     </td>
     <td class="logo">
       <img class="account-initials-48" data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
-      <div data-ng-if="!place.picture.org.uid" class="account-initials-48" data-ng-bind="place.name | initials:2"></div>
+      <div class="account-initials-48" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
     </td>
     <td class="name">
       <div class="_dt">
@@ -49,7 +49,6 @@
     </td>
   </tr>
 </table>
-
 
 <ul data-ng-if="place.children.length > 0" data-ng-show="colp">
   <li data-ng-repeat="place in place.children" data-ng-include="places.tpl" data-ng-model="place"></li>

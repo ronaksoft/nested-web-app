@@ -12,6 +12,7 @@
 
     // Omit # from routes
     // $locationProvider.html5Mode(true);
+    $locationProvider.hashPrefix('');
 
     // International Phone Directive
     ipnConfig.defaultCountry = 'ir';

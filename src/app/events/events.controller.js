@@ -72,32 +72,6 @@
       vm.parameters['place_id'] = vm.place.id;
     }
 
-    $scope.postView = function (post, url) {
-      var modal = $uibModal.open({
-        animation: false,
-        templateUrl: 'app/post/post.html',
-        controller: 'PostController',
-        size: 'lg',
-        scope: $scope
-      });
-
-      $scope.thePost = post;
-      $scope.thePost.load();
-      $scope.thePost.loadComments();
-      $scope.lastUrl = $location.path();
-
-      modal.opened.then(function () {
-        // $location.update_path(url, true);
-      });
-
-      modal.closed.then(function () {
-        // $location.update_path($scope.lastUrl, true);
-
-        delete $scope.lastUrl;
-        delete $scope.thePost;
-      });
-    };
-
     vm.load = function () {
       WsService.request('timeline/get_events', vm.parameters).then(function (data) {
         var now = $scope.events.today;
@@ -139,6 +113,66 @@
       });
     };
 
+    vm.scroll = function (event) {
+      var element = event.currentTarget;
+      if (element.scrollTop + element.clientHeight === element.scrollHeight && this.moreEvents) {
+        this.load();
+      }
+    };
+
     vm.load();
+
+    $scope.postView = function (post, url) {
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/post/post.html',
+        controller: 'PostController',
+        size: 'lg',
+        scope: $scope
+      });
+
+      $scope.thePost = post;
+      $scope.thePost.load();
+      $scope.thePost.loadComments();
+      $scope.lastUrl = $location.path();
+
+      modal.opened.then(function () {
+        // $location.update_path(url, true);
+      });
+
+      modal.closed.then(function () {
+        // $location.update_path($scope.lastUrl, true);
+
+        delete $scope.lastUrl;
+        delete $scope.thePost;
+      });
+    };
+
+    $scope.attachmentView = function (attachment) {
+      $scope.attachment = attachment;
+
+      attachment.download.getUrl().then(function (url) {
+        $scope.lastUrl = $location.path();
+
+        var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/post/attachment.html',
+          controller: 'AttachmentController',
+          size: 'lg',
+          scope: $scope
+        });
+
+        modal.opened.then(function () {
+          // $location.update_path(attachment.download.url, true);
+        });
+
+        modal.closed.then(function () {
+          // $location.update_path(attachment.download.lastUrl, true);
+
+          delete $scope.lastUrl;
+          delete $scope.attachment;
+        });
+      });
+    };
   }
 })();

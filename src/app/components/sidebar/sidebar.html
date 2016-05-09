@@ -1,10 +1,13 @@
 <div class="sidebar">
-  <div class="all-messages">
-    <a class="{{!(events.place.id || events.filter) ? 'selected' : null}}" href="#/events">All Messages</a>
+  <div class="all-messages {{!events.place.id && events.filter == '!$all' ? 'selected' : null}}">
+    <a class="{{!events.place.id && events.filter == '!$all' ? 'active' : null}}" href="#/events">All Messages</a>
   </div>
   <div>
     <ul>
-      <li class="_tofe" data-ng-repeat="place in sidebarCtrl.places" data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
+      <li data-ng-repeat="place in sidebarCtrl.places"
+          data-ng-init="its_mine = events.placeAncestors.slice(0, place.id.split('.').length).join('.') == place.id; its_me = events.placeAncestors.join('.') == place.id"
+          class="_tofe {{its_mine ? 'selected' : undefined}} {{its_me ? 'active' : undefined}}"
+          data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
     </ul>
   </div>
 </div>

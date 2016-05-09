@@ -27,7 +27,7 @@
       UNINITIALIZE: '__uninitialize',
       ERROR: '__error'
     })
-    .constant('AUTH_COMMANDS', ['login', 'auth'])
+    .constant('AUTH_COMMANDS', ['session/register', 'session/recall'])
     .factory('WsRequest', NestedWsRequest)
     .service('WsService', NestedWsService);
 

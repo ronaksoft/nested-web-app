@@ -16,10 +16,10 @@
       storeService.stores = angular.fromJson(stores);
     }
 
-    storeService.toUrl = function (uid) {
+    storeService.toUrl = function (uid, token) {
       var sid = uid.substr(0, 7);
       return this.getStoreUrl(sid).then(function (url) {
-        return url + '/download/' + WsService.getSessionKey() + '/' + uid;
+        return url + '/download/' + WsService.getSessionKey() + '/' + uid + (token ? ('/' + token) : '');
       });
     };
 
