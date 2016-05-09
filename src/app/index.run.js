@@ -6,9 +6,11 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($log) {
-
-    $log.debug('runBlock end');
+  function runBlock($rootScope, $interval) {
+    $rootScope.now = new Date();
+    $interval(function () {
+      $rootScope.now.setTime(Date.now());
+    }, 1000);
   }
 
 })();

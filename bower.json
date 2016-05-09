@@ -20,7 +20,13 @@
     "moment": "~2.13.0",
     "animate.css": "~3.5.1",
     "emojione": "^2.1.4",
-    "angular-jwplayer-updated": "^1.1.8"
+    "angular-pdf-viewer": "^0.2.9",
+    "videogular": "^1.4.3",
+    "videogular-themes-default": "^1.4.3",
+    "videogular-controls": "^1.4.3",
+    "videogular-buffering": "^1.4.3",
+    "videogular-poster": "^1.4.3",
+    "angular-truncate": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"
