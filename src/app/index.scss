@@ -145,7 +145,7 @@ input[type="radio"]:checked + label{
  */
 
 .modal-dialog .modal-content {
-  margin-top: 150px;
+  //margin-top: 150px;
 }
 
 
@@ -497,10 +497,10 @@ label {
 
 .nst-nav {
   background-color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
+  //position: fixed;
+  //top: 0;
+  //left: 0;
+  //z-index: 9999;
 
 }
 
@@ -812,17 +812,18 @@ input #nav-search {
   border-width: 1px;
   border-style: solid;
   background-color: $color-solid;
-  border-radius: 10px;
   color: $color-white;
   font-size: $font-size-xsmall;
   height: 14px;
   text-align: center;
   line-height: 10px;
-  padding-left: 8px;
-  padding-right: 8px;
   vertical-align: initial;
-  margin-left: 2px;
   cursor: pointer;
+  border-radius: 15px;
+  //font-size: 13px;
+  padding: 2px 8px 2px 8px;
+  margin: 4px;
+  white-space: nowrap;
 }
 
 .more-tag:hover {
