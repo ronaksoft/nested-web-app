@@ -1,19 +1,23 @@
 <div data-ng-init="mimeSpl = attachment.mimeType.split('/')" data-ng-switch="mimeSpl[0]">
-  <h1 class="nst-hc">{{attachment.filename}}</h1>
-  <h4 class="nst-hc">{{attachment.mimeType}}</h4>
+  <h1 class="_fw _tac">{{attachment.filename}}</h1>
+  <h4 class="_fw _tac">{{attachment.mimeType}}</h4>
 
   <img data-ng-switch-when="image" src="{{attachment.download.url}}" height="100%" width="100%"/>
 
-  <audio data-ng-switch-when="audio" preload="none" controls>
+  <audio class="_fw" data-ng-switch-when="audio" preload="none" controls>
     <source src="{{attachment.download.url}}" type="{{attachment.mimeType}}">
     <p>Your browser does not support the audio element.</p>
   </audio>
 
-  <jwplayer data-ng-switch-when="video" setup="{{jwOptions}}"></jwplayer>
+  <videogular class="_fw" data-ng-switch-when="video" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
+    <vg-media vg-src="vg"></vg-media>
+  </videogular>
 
-  <div data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
-    <iframe data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+  <div class="_fw" data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
+    <pdf-viewer data-ng-switch="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
+
+    <iframe class="_fw" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
   </div>
 
-  <iframe data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+  <iframe class="_fw" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
 </div>
