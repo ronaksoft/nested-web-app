@@ -1,5 +1,44 @@
-<ul class="list-unstyled">
-  <li><a href="#/profile">Account</a></li>
-  <li><hr/></li>
-  <li><a href="#/signout">Sign out</a></li>
-</ul>
+<div class="popup-panel">
+
+  <div class="_dtr">
+    <div class="_dtc">
+      <img data-ng-if="user.picture.org.uid" class="account-initials-48" src="{{user.picture.x32.url}}"/>
+      <div data-ng-if="!user.picture.org.uid" class="account-initials-48">{{user.name | initials:2}}</div>
+    </div>
+    <div class="_dtc">
+      <div class="_dtr">
+        <div class="_dtc teammate-name">
+          {{user.fullname}}
+        </div>
+      </div>
+      <div class="_dtr">
+        <div class="_dtc nst-mood-storm">
+          {{user.email}}
+        </div>
+      </div>
+    </div>
+    <div class="_dtc">
+      <a href=""><div class="nst-more-badge" uib-tooltip="Tooltip" id="active-test"></div></a>
+    </div>
+  </div>
+
+
+  <ul class="list-unstyled">
+    <a class="nst-mood-solid" href="#/profile">
+      <li class="profile-menu-setting _dib"></li>
+      <li class="_dib nst-mood-solid">Settings</li>
+    </a>
+  </ul>
+  <ul>
+    <a class="nst-mood-solid" href="#/profile">
+      <li class="_dib profile-menu-upgrade"></li>
+      <li class="_dib nst-mood-solid">Upgrade</li>
+    </a>
+  </ul>
+  <ul>
+    <a class="nst-mood-solid" href="#/signout">
+      <li class="_dib profile-menu-signout"></li>
+      <li class="_dib ">sign out</li>
+    </a>
+  </ul>
+</div>

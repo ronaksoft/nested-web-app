@@ -299,26 +299,26 @@ ul.attachments-bar.non-image .att-item.media {
   font-size: medium;
   padding: 15px 25px;
 }
-#DarkScreen {
-    display: none;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    background-color: whitesmoke;
-    opacity: 0.7;
-    z-index: 100;
-}
-#TransparentCanvas {
-    display: none;
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    z-index: 100;
-}
+//#DarkScreen {
+//    display: none;
+//    position: fixed;
+//    top: 0px;
+//    left: 0px;
+//    bottom: 0px;
+//    right: 0px;
+//    background-color: whitesmoke;
+//    opacity: 0.7;
+//    z-index: 100;
+//}
+//#TransparentCanvas {
+//    display: none;
+//    position: fixed;
+//    top: 0px;
+//    left: 0px;
+//    bottom: 0px;
+//    right: 0px;
+//    z-index: 100;
+//}
 
 /**
   *********************************************************
@@ -330,6 +330,7 @@ ul.attachments-bar.non-image .att-item.media {
   width: 250px;
   text-align: center;
 }
+
 #SubNav { height: 32px;
   border-bottom: 1px solid $color-sense;
 }
@@ -585,6 +586,7 @@ div.att-item {
   color: gray;
   overflow: hidden;
 }
+
 .att-item.inprogress {
   opacity: 0.3 ;
 }
