@@ -12,6 +12,7 @@
 
     // Omit # from routes
     // $locationProvider.html5Mode(true);
+    $locationProvider.hashPrefix('');
 
     // Set options third-party lib
     toastrConfig.allowHtml = true;

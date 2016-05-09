@@ -19,7 +19,7 @@
               <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
               <div data-ng-if="!attachment.thumbs.x128.uid && event.post.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
               <div data-ng-if="!(attachment.thumbs.x128.uid || event.post.attachmentPreview)" class="attachment-badge-bar">
-                <div class="_dib attachment-badge-{{attachment.mimetype.split('/')[0]}}"></div>
+                <div class="_dib attachment-badge-{{attachment.mimeType.split('/')[0]}}"></div>
                 <span class="_dib">{{attachment.filename}}</span>
               </div>
             </a>
