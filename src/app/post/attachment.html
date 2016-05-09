@@ -1,8 +1,19 @@
-<div data-ng-switch="attachment.mimeType.split('/')[0]">
+<div data-ng-init="mimeSpl = attachment.mimeType.split('/')" data-ng-switch="mimeSpl[0]">
+  <h1 class="nst-hc">{{attachment.filename}}</h1>
+  <h4 class="nst-hc">{{attachment.mimeType}}</h4>
+
   <img data-ng-switch-when="image" src="{{attachment.download.url}}" height="100%" width="100%"/>
+
   <audio data-ng-switch-when="audio" preload="none" controls>
     <source src="{{attachment.download.url}}" type="{{attachment.mimeType}}">
     <p>Your browser does not support the audio element.</p>
   </audio>
+
+  <jwplayer data-ng-switch-when="video" setup="{{jwOptions}}"></jwplayer>
+
+  <div data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
+    <iframe data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+  </div>
+
   <iframe data-ng-switch-default src="{{attachment.download.url}}"></iframe>
 </div>

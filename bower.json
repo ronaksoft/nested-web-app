@@ -19,7 +19,8 @@
     "angular-md5": "~0.1.10",
     "moment": "~2.13.0",
     "animate.css": "~3.5.1",
-    "emojione": "^2.1.4"
+    "emojione": "^2.1.4",
+    "angular-jwplayer-updated": "^1.1.8"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"

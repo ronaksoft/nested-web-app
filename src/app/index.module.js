@@ -14,6 +14,7 @@
       'ngMd5',
       'ui.router',
       'ui.bootstrap',
-      'toastr'
+      'toastr',
+      'angular-jwplayer'
     ]);
 })();
