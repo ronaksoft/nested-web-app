@@ -51,6 +51,6 @@
 </table>
 
 <ul data-ng-if="place.children.length > 0" data-ng-show="colp">
-  <li data-ng-repeat="place in place.children" data-ng-include="places.tpl" data-ng-model="place"></li>
+  <li data-ng-repeat="place in place.children" data-ng-include="'app/places/place_row.html'" data-ng-model="place"></li>
 </ul>
 
