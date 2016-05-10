@@ -830,6 +830,7 @@ input #nav-search {
   height: 24px;
   background-image: url('../assets/icons/actionbuttons_compose_24.png');
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .event-group-time {
@@ -2050,6 +2051,10 @@ input #nav-search {
 
 .nst-attach .headlineicon-green {
   margin: 12px;
+}
+
+.nst-attach input[type='file'] {
+  display: none;
 }
 
 .nst-attach-bar {
