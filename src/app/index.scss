@@ -35,8 +35,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
   *********************************
  */
 
-
- //****input Styles****
+//****input Styles****
 
 input[type="checkbox"] {
   display: none;
@@ -64,14 +63,12 @@ input[type="checkbox"]:checked + label {
   padding: 0 0 0 17px;
 }
 
-
 #viewswitch input[type="checkbox"]:checked + label {
   background-position: 0 -15px;
 }
 
-
 input[type="radio"] {
-  opacity:0;
+  opacity: 0;
   height: 16px;
   width: 16px;
   position: absolute;
@@ -80,7 +77,7 @@ input[type="radio"] {
   z-index: 2;
 }
 
-input[type="radio"] + label{
+input[type="radio"] + label {
   background: url('../assets/icons/controls.png') no-repeat;
   height: 16px;
   width: 16px;
@@ -92,7 +89,7 @@ input[type="radio"] + label{
   padding-left: 22px;
 }
 
-input[type="radio"]:checked + label{
+input[type="radio"]:checked + label {
   background: url('../assets/icons/controls.png') no-repeat;
   background-position: 0px -64px;
   height: 16px;
@@ -102,7 +99,6 @@ input[type="radio"]:checked + label{
 /*************************
  *    Account Initials
  *************************/
-
 
 * [class *= "account-initials-"] {
   margin-right: 8px;
@@ -134,9 +130,8 @@ input[type="radio"]:checked + label{
   font-size: $font-size-small;
   font-weight: normal;
   color: white;
-  background-color: $color-solid-30 ;
+  background-color: $color-solid-30;
 }
-
 
 /**
   *********************************
@@ -152,7 +147,7 @@ input[type="radio"]:checked + label{
   border-radius: 0;
 }
 
-.popover-content{
+.popover-content {
   //padding: 0px;
   //margin: 0px;
   white-space: nowrap;
@@ -253,9 +248,11 @@ label {
 .nst-font-small {
   font-size: $font-size-small;
 }
+
 .nst-font-medium {
   font-size: $font-size-medium;
 }
+
 .nst-font-large {
   font-size: $font-size-large;
 }
@@ -293,9 +290,11 @@ label {
 .nst-mood-lively {
   color: $color-force-wire;
 }
+
 .nst-mood-breez {
   color: $color-breeze;
 }
+
 .nst-mood-solid {
   color: $color-solid
 }
@@ -324,8 +323,9 @@ label {
  */
 
 .nst-fh {
-  height :100%;
+  height: 100%;
 }
+
 .nst-hs {
   display: flex;
   justify-content: flex-start;
@@ -377,9 +377,11 @@ label {
 .no-gutter [class*="col-"]:last-child {
   padding-right: 15px;
 }
+
 .nst-margin-auto {
   margin: auto;
 }
+
 .no-gutter2 [class*="col-"] {
   padding-left: 2.5px;
   padding-right: 2.5px;
@@ -414,7 +416,6 @@ label {
   **********************************************
  */
 
-
 /**
   ***************************************************************
   *     Nested Classes - Component Specific - Navigation Bar    *
@@ -439,6 +440,7 @@ label {
 #PrimaryPageSelector ul {
   display: inline-block;
 }
+
 #SecondaryPageSelector ul {
   display: inline-block;
 }
@@ -484,14 +486,15 @@ label {
   text-align: center;
   cursor: pointer;
   position: relative;
-  border-bottom: 5px solid white;
+  border-bottom: 5px solid $color-white;
+  height: 40px;
 
 }
 
 #SecondaryPageSelector li:hover,
 #SecondaryPageSelector li.selected {
-  border-bottom: 3px solid $color-sense ;
-  color: $color-sense ;
+  border-bottom: 4px solid $color-sense;
+  color: $color-sense;
 }
 
 #SecondaryPageSelector li.selected a,
@@ -544,11 +547,11 @@ label {
 .nav > li > a {
   position: relative;
   display: block;
-   padding: 22px 16px 22px 16px;
+  padding: 22px 16px 22px 16px;
 }
 
 .nav > ul a {
-  padding : 22px 16px 22px 16px;
+  padding: 22px 16px 22px 16px;
 }
 
 .Search .form-control {
@@ -597,9 +600,13 @@ input #nav-search {
 
 }
 
-#SubNav #Buttons { width: 100px; }
-#SubNav #Search { width: 100px; }
+#SubNav #Buttons {
+  width: 100px;
+}
 
+#SubNav #Search {
+  width: 100px;
+}
 
 .button-back {
   width: 46px;
@@ -680,16 +687,16 @@ input #nav-search {
   *********************************************************
  */
 
-
 /**
   ********************************************************
   *     Nested Classes - Page Specific  Content  *
   ********************************************************
  */
 
- #content {
+#content {
   background-color: $color-sense;
 }
+
 .nst-event-name {
   width: 128px;
   vertical-align: top;
@@ -718,24 +725,29 @@ input #nav-search {
   *     Nested Classes - Page Specific - register    *
   ****************************************************
  */
-#panel-register{
+#panel-register {
   width: 352px;
   padding: 20px 15px 20px 15px;
 }
-.select-birthday{
+
+.select-birthday {
   background-color: #eaffea;
   width: 100%;
   height: 38px;
 }
-.select-birthday option:hover{
+
+.select-birthday option:hover {
   background-color: #ccffe6;
 }
-.nst-marginbtm{
+
+.nst-marginbtm {
   margin-bottom: 15px;
 }
-.nst-font-10{
+
+.nst-font-10 {
   font-size: 10px;
 }
+
 /**
   *************************************************
   *     Nested Classes - Page Specific - Login    *
@@ -757,6 +769,7 @@ input #nav-search {
   width: 350px;
   height: 345px;
 }
+
 .msg-panel {
   height: 100px;
 }
@@ -769,7 +782,7 @@ input #nav-search {
 
 .nst-content {
   background-color: $color-white;
-  width:100%;
+  width: 100%;
 }
 
 .nst-event-pic {
@@ -842,50 +855,106 @@ input #nav-search {
 
 }
 
-#EventList {}
-#EventList .td { padding: 5px; }
-#EventList .td.ico { width: 16px; vertical-align: top; }
-#EventList .td.ico img { border-radius: 16px; }
+#EventList {
+}
+
+#EventList .td {
+  padding: 5px;
+}
+
+#EventList .td.ico {
+  width: 16px;
+  vertical-align: top;
+}
+
+#EventList .td.ico img {
+  border-radius: 16px;
+}
+
 #EventList .td.sender {
   width: 200px;
   vertical-align: top;
   font-size: small;
-  overflow: hidden ;
+  overflow: hidden;
   text-overflow: ellipsis;
   word-break: keep-all;
   white-space: nowrap;
 }
-#EventList {table-layout: fixed;}
-#EventList tr:hover { background-color: #E7FBF0;} // TODO: color should change
-#EventList td { padding: 5px; }
+
+#EventList {
+  table-layout: fixed;
+}
+
+#EventList tr:hover {
+  background-color: #E7FBF0;
+}
+
+// TODO: color should change
+#EventList td {
+  padding: 5px;
+}
+
 #EventList td.ico {
   padding-left: 8px;
   width: 32px;
   vertical-align: top;
 }
-#EventList td.ico img { border-radius: 16px; }
+
+#EventList td.ico img {
+  border-radius: 16px;
+}
+
 #EventList td.sender {
   width: 166px;
   vertical-align: top;
   font-size: small;
-  overflow: hidden ;
+  overflow: hidden;
   text-overflow: ellipsis;
   word-break: keep-all;
   white-space: nowrap;
 }
-#EventList td.sender img { margin-left: 2px; margin-right: 4px; border-radius: 16px; }
-#EventList td.sender span { line-height: 32px;}
+
+#EventList td.sender img {
+  margin-left: 2px;
+  margin-right: 4px;
+  border-radius: 16px;
+}
+
+#EventList td.sender span {
+  line-height: 32px;
+}
+
 #EventList td.msg {
   width: auto;
   border-bottom: 1px solid #ced9d3;
   vertical-align: top;
   padding-top: 12px;
 }
-#EventList td.msg .subject { font-weight: bold; line-height: 24px; word-break: break-all; overflow: hidden;}
-#EventList td.msg .body { color: gray; word-break: break-all; overflow: hidden; }
-#EventList td.places { width: 220px; vertical-align: top; border-bottom: 1px solid #ced9d3; }
-#EventList tr #time-of-event { width: 400px; }
-#EventList td.places  .places {
+
+#EventList td.msg .subject {
+  font-weight: bold;
+  line-height: 24px;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+#EventList td.msg .body {
+  color: gray;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+#EventList td.places {
+  width: 220px;
+  vertical-align: top;
+  border-bottom: 1px solid #ced9d3;
+}
+
+#EventList tr #time-of-event {
+  width: 400px;
+}
+
+#EventList td.places .places {
   display: inline-block;
   background-color: $color-badge;
   border-radius: 10px;
@@ -894,7 +963,7 @@ input #nav-search {
   white-space: nowrap;
   font-size: $font-size-xsmall;
   border: 1px solid $color-badge;
-  padding: 1px 10px 1px 10px ;
+  padding: 1px 10px 1px 10px;
   color: $color-solid;
 }
 
@@ -916,25 +985,30 @@ input #nav-search {
 }
 
 .more-tag:hover {
-   color: $color-white;
+  color: $color-white;
 }
 
 #EventList td.time {
   width: 100px;
   border-bottom: 1px solid $color-breeze;
   vertical-align: top;
-  color: $color-solid-60 ;
+  color: $color-solid-60;
 }
 
-#EventList.collapse td.msg .body { display: none; }
-#EventList.collapse td.msg .attachments { display: none; }
+#EventList.collapse td.msg .body {
+  display: none;
+}
+
+#EventList.collapse td.msg .attachments {
+  display: none;
+}
 
 .msg .headlineicon {
   margin-top: 2px;
 }
 
 #load-more-events {
-  cursor : pointer;
+  cursor: pointer;
 }
 
 .attachment-badge-bar {
@@ -1019,7 +1093,7 @@ input #nav-search {
 }
 
 #AllPlaces tr {
- background-color: $color-white;
+  background-color: $color-white;
 }
 
 #AllPlaces ul {
@@ -1074,7 +1148,7 @@ input #nav-search {
   text-align: right;
 }
 
-#AllPlaces li > table td.members img{
+#AllPlaces li > table td.members img {
   width: 32px;
   margin: 1px;
 }
@@ -1082,7 +1156,6 @@ input #nav-search {
 .place-members {
   margin-right: 5px;
 }
-
 
 .role-icon-crown {
   background: url('../assets/icons/roleicon_24.png') no-repeat;
@@ -1146,7 +1219,7 @@ input #nav-search {
   min-width: 24px;
 }
 
-.nst-atsign  {
+.nst-atsign {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
   height: 24px;
   min-width: 24px;
@@ -1161,14 +1234,14 @@ input #nav-search {
 
 }
 
-.nst-search  {
+.nst-search {
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
   height: 24px;
   min-width: 24px;
   background-position: 0px -72px;
 }
 
-.nst-more-badge  {
+.nst-more-badge {
   background: url('../assets/icons/more_32.png') no-repeat;
   height: 32px;
   width: 32px;
@@ -1183,7 +1256,7 @@ input #nav-search {
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
   width: 24px;
-  background-position:  0px -96px;
+  background-position: 0px -96px;
 
 }
 
@@ -1191,7 +1264,7 @@ input #nav-search {
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
   width: 24px;
-  background-position:  0px -120px;
+  background-position: 0px -120px;
 
 }
 
@@ -1199,7 +1272,7 @@ input #nav-search {
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
   width: 24px;
-  background-position:  0px -24px;
+  background-position: 0px -24px;
 
 }
 
@@ -1207,7 +1280,7 @@ input #nav-search {
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
   width: 24px;
-  background-position:  0px 0px;
+  background-position: 0px 0px;
 
 }
 
@@ -1230,7 +1303,6 @@ input #nav-search {
   cursor: pointer;
 }
 
-
 .nst-menu-arrow {
   background: url('../assets/icons/menu_arrow_16.png') no-repeat;
   height: 12px;
@@ -1242,6 +1314,7 @@ input #nav-search {
 .arrow {
   width: 15px;
 }
+
 .arrow-places {
   width: 15px;
   vertical-align: middle;
@@ -1288,7 +1361,6 @@ input #nav-search {
   **********************************************************
  */
 
-
 .post-nav {
   display: inline-block;
   width: 100%;
@@ -1306,9 +1378,10 @@ input #nav-search {
 }
 
 .post-nav img {
-  padding-right:20px;
+  padding-right: 20px;
   padding-left: 20px;
 }
+
 .post-nav-left {
   float: left;
   height: 60px;
@@ -1316,9 +1389,11 @@ input #nav-search {
   padding-left: 16px;
   padding-top: 18px;
 }
+
 .post-nav-left p {
   font-size: $font-size-xlarge;
 }
+
 .post-nav-left-bottom {
   float: left;
   min-height: 40px;
@@ -1330,6 +1405,7 @@ input #nav-search {
 .post-nav-left-bottom p {
   //padding-top: 8px;
 }
+
 .post-nav-right {
   float: right;
   width: 240px;
@@ -1362,6 +1438,7 @@ input #nav-search {
   padding-top: 8px;
 
 }
+
 .nst-nowrap-badge {
   width: 400px;
   margin-left: 150px;
@@ -1407,6 +1484,7 @@ input #nav-search {
 .profile-post-view {
   width: 40px;
 }
+
 .msg-post-view {
   padding-left: 40px;
 }
@@ -1494,28 +1572,49 @@ input #nav-search {
   background-position: 0 -384px;
 }
 
-#PostView > div { table-layout: fixed; }
-#PostView .top-space { height: 10%; }
-#PostView .bottom-space { height: 10%; }
-#PostView .left-space { width: 10%; }
-#PostView .right-space { width: 10%; }
+#PostView > div {
+  table-layout: fixed;
+}
+
+#PostView .top-space {
+  height: 10%;
+}
+
+#PostView .bottom-space {
+  height: 10%;
+}
+
+#PostView .left-space {
+  width: 10%;
+}
+
+#PostView .right-space {
+  width: 10%;
+}
+
 #PostView .main-body {
   border: 1px solid $color-breeze;
   border-radius: 8px;
-  background-color: $color-white ;
+  background-color: $color-white;
   padding: 0;
   // height: 640px;
   box-shadow: 0 0 16px 0 rgba(71, 97, 82, 0.15);
 }
-#PostView .main-body .left-column {}
-#PostView .main-body .right-column { width: 300px;}
+
+#PostView .main-body .left-column {
+}
+
+#PostView .main-body .right-column {
+  width: 300px;
+}
+
 #PostView #PostHeader {
-  border-bottom: 1px solid $color-breeze ;
+  border-bottom: 1px solid $color-breeze;
   padding: 0px;
   height: 100px;
 }
 
-#PostHeader .badges{
+#PostHeader .badges {
   margin-right: 5px;
 
 }
@@ -1528,23 +1627,38 @@ input #nav-search {
   line-height: 32px;
 }
 
-#PostView #PostTime .date {margin: 1px; color: gray; font-weight: bold;}
-#PostView #PostTime .time {margin: 1px 10px; font-size: $font-size-small;}
+#PostView #PostTime .date {
+  margin: 1px;
+  color: gray;
+  font-weight: bold;
+}
+
+#PostView #PostTime .time {
+  margin: 1px 10px;
+  font-size: $font-size-small;
+}
+
 #PostView #SenderIco {
   width: 16px;
   height: 16px;
   display: inline-block;
 }
 
-#PostView #SenderIco img { border-radius: 16px; }
-#PostView #SenderName {
-  display: inline-block ;
+#PostView #SenderIco img {
+  border-radius: 16px;
 }
 
-#PostView #Targets { margin: 5px 1px; }
+#PostView #SenderName {
+  display: inline-block;
+}
+
+#PostView #Targets {
+  margin: 5px 1px;
+}
+
 #PostView #Targets div {
   display: inline-block;
-  background-color: $color-sense-wire ;
+  background-color: $color-sense-wire;
   border-radius: 10px;
   margin: 1px;
   padding: 1px 5px;
@@ -1576,7 +1690,7 @@ input #nav-search {
 
 #PostView #Toolbar li span {
   line-height: 24px;
-  color: gray ;
+  color: gray;
 }
 
 #PostView #Content {
@@ -1592,18 +1706,23 @@ input #nav-search {
 #PostView #Comments {
   padding: 5px;
   width: 320px;
-  background-color: rgb(247,250,249);
+  background-color: rgb(247, 250, 249);
 }
 
-#PostView .NewComment { padding: 5px; }
-#PostView .NewComment .account-ico { float: left;}
+#PostView .NewComment {
+  padding: 5px;
+}
 
-#PostView .NewComment #CommentSendBtn  {
+#PostView .NewComment .account-ico {
+  float: left;
+}
+
+#PostView .NewComment #CommentSendBtn {
   background-color: $color-sense;
-  border: none ;
+  border: none;
   border-radius: 5px;
   padding: 5px 10px;
-  color: $color-white ;
+  color: $color-white;
 }
 
 #PostView #CommentList .sender-ico {
@@ -1626,18 +1745,22 @@ input #nav-search {
   vertical-align: baseline;
 }
 
-#PostView #CommentList .comment { clear: both; padding: 5px;}
+#PostView #CommentList .comment {
+  clear: both;
+  padding: 5px;
+}
 
-#PostView #CommentList .comment:hover { background-color: #E7FBF0;} // TODO: the color should change
+#PostView #CommentList .comment:hover {
+  background-color: #E7FBF0;
+}
 
+// TODO: the color should change
 
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Place-option *
   **********************************************************
  */
-
-
 
 .ico-margin {
   margin-left: 15px;
@@ -1649,6 +1772,7 @@ input #nav-search {
   width: 100%;
   height: 100%;
 }
+
 #place-option-body hr {
   width: 98%;
   margin: auto;
@@ -1659,6 +1783,7 @@ input #nav-search {
   background-color: $color-white;
   height: 100%;
 }
+
 .room-name {
   height: 152px;
   //margin-top: -10px;
@@ -1685,6 +1810,7 @@ input #nav-search {
 
 .nst-place-privacy {
   height: 172px;
+  background-color: $color-white;
 }
 
 .nst-place-privacy span {
@@ -1697,11 +1823,11 @@ input #nav-search {
   background-color: $color-white;
 }
 
-.nst-teammates >._dtr {
+.nst-teammates > ._dtr {
   width: 800px;
 }
 
-.place-option-members> ._dt {
+.place-option-members > ._dt {
   width: 800px;
 }
 
@@ -1710,7 +1836,7 @@ input #nav-search {
 }
 
 .place-option-members {
-  height:400px;
+  height: 400px;
   background-color: $color-white;
 }
 
@@ -1740,7 +1866,7 @@ input #nav-search {
   margin-top: 38px;
 }
 
-.add-panel >div {
+.add-panel > div {
   margin-top: -9px;
 }
 
@@ -1846,12 +1972,10 @@ input #nav-search {
   background-repeat: no-repeat;
 }
 
-
 #menu.popup-panel {
   max-width: 238px;
   padding: 10px;
 }
-
 
 #popup-plc-options {
   background-color: $color-sense-5;
@@ -1860,13 +1984,11 @@ input #nav-search {
   padding: 10px;
 }
 
-
 /**
   **********************************************************
   *     Nested Classes - Page Specific - compose *
   **********************************************************
  */
-
 
 #compose-body {
   //background-color: $color-white;
@@ -1876,6 +1998,7 @@ input #nav-search {
   height: 100%;
 
 }
+
 .compose-hld {
   background-color: $color-white;
   height: 100%;
@@ -1900,7 +2023,7 @@ input #nav-search {
   padding-left: 8px;
 }
 
-#compose-body hr{
+#compose-body hr {
   width: 98%;
   margin: auto;
 }
@@ -1925,7 +2048,7 @@ input #nav-search {
   height: 112px;
 }
 
-.nst-attach .headlineicon-green{
+.nst-attach .headlineicon-green {
   margin: 12px;
 }
 
@@ -1952,7 +2075,35 @@ input #nav-search {
   padding: 10px;
 }
 
+/**
+  *********************************
+  *    Add teammate modal
+  *********************************
+ */
 
+.nst-modal-add-teammate {
+  background-color: $color-breeze-50;
+  border-radius: 6px;
+  margin: 15px 0px;
+  padding: 5px;
+}
+
+.modal-add {
+  padding: 15px;
+}
+
+.modal-add h5 {
+  font-size: $font-size-xlarge;
+}
+
+.modal-add hr {
+
+}
+
+.modal-add input {
+  border: none;
+  padding: 5px 0px;
+}
 
 /**
   *********************************
@@ -1972,12 +2123,10 @@ input #nav-search {
   text-align: right;
 }
 
-
 #chat-profile {
   margin-left: 5px;
   margin-top: 5px;
 }
-
 
 /**
  *  Do not remove the comments below. It's the markers used by gulp-inject to inject

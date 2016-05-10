@@ -67,20 +67,23 @@
                         </ul>
 
                         <ul class="nav-width-ul " data-ng-if="places">
-                          <li data-ng-repeat="(key, filter) in places.filters" >
-                            <a class="places-ancher" href="#/places/{{key}}">{{filter.name}}</a>
+                          <li data-ng-repeat="(key, filter) in places.filters" class="{{key== places.filter ? 'selected' : null}}" >
+                           <div>
+                             <a class="places-ancher" href="#/places/{{key}}">{{filter.name}}</a>
+                           </div>
                           </li>
                           <li class="_fr">
-                            <a  class="places-ancher nst-mood-storm ">Add a Place<div class="option-add-icon-plc _dib"></div></a>
+                            <a  class="places-ancher nst-mood-storm " >Add a Place<div class="option-add-icon-plc _dib"></div></a>
+
                           </li>
                         </ul>
 
                         <ul class="nav-width-ul margin-ul-placeotion" data-ng-if="place_option">
-                          <li>
+                          <li class="button-navbar">
                             <a class="place-option-ancher" href="javascript:void(0);" class="button-back" onclick="window.history.back();">Back</a>
                           </li>
                           <li data-ng-repeat="(key, action) in place_option.actions">
-                            <a class="place-option-ancher" ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
+                            <a class="place-option-ancher" ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib" ></span></a>
                           </li>
                         </ul>
                       </div>
