@@ -228,6 +228,14 @@ label {
   font-size: $font-size-xlarge;
 }
 
+.nst-error-msg {
+  border-radius: 6px;
+  padding: 5px;
+  font-size: $font-size-small;
+  color: $color-force-wire;
+  background-color: $color-force-10;
+}
+
 /**
   *********************************
   *     Nested Classes - Colors   *

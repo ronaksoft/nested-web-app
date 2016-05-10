@@ -12,6 +12,10 @@
       RESPONSE: 'r',
       EVENT: 'tl_event'
     })
+    .constant('WS_ERROR', {
+      ACCESS_DENIED: 1,
+      INVALID: 3
+    })
     .constant('WS_RESPONSE_STATUS', {
       SUCCESS: 'ok',
       ERROR: 'err'
@@ -130,7 +134,7 @@
 
           case WS_MESSAGE_TYPE.EVENT:
             if (data.data.hasOwnProperty('name')) {
-              this.dispatchEvent(new CustomEvent(data.data.name));
+              this.dispatchEvent(new CustomEvent(data.data.name, { detail: data.data }));
             }
             break;
         }

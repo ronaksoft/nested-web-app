@@ -7,8 +7,7 @@
       </div>
     </div>
     <div  class="panel-body">
-      <form accept-charset="UTF-8" role="form"
-            data-ng-controller="LoginController as login" data-ng-submit="login.auth()">
+      <form accept-charset="UTF-8" role="form" data-ng-submit="login.auth()">
         <fieldset>
           <div class="form-group">
             <input type="text" class="form-control" placeholder="username" name="username"
@@ -22,7 +21,7 @@
           </div>
 
           <div class="form-group">
-            <input class="btn btn-lg btn-block" type="submit" value="Sign in">
+            <input data-ng-disabled="login.progress" class="btn btn-lg btn-block" type="submit" value="Sign in">
           </div>
 
           <div class="form-group row">
@@ -35,6 +34,8 @@
           </div>
         </fieldset>
       </form>
+
+      <div data-ng-if="login.message.fill" class="{{login.message.class}}" data-ng-bind="login.message.text"></div>
     </div>
   </div>
 </div>
