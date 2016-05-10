@@ -2,526 +2,527 @@
   <div>
     <nested-navbar></nested-navbar>
   </div>
-  <div class="_dtr _fh">
-    <div class="_dtc">
-      <div class="_dt _fh _fw _bggray">
-        <div id="place-option-body">
-          <div class="room-name">
-            <img data-ng-if="place.picture.org.uid" class="account-initials-64 room-pic" src="{{place.picture.x64.url}}"/>
-            <div data-ng-if="!place.picture.org.uid" class="account-initials-64 room-pic">{{place.name | initials:2}}</div>
 
-            <h5>{{place.name}}</h5>
-            <h6 class="nst-mood-storm">{{place.id + '@nested.me'}}</h6>
-            <h6 class="nst-mood-storm">{{place.description}}</h6>
+  <div id="container" class=" _fhw _bggray">
+    <div id="place-option-body">
+      <div id="place-option-hld">
+
+        <div class="room-name">
+          <img data-ng-if="place.picture.org.uid" class="account-initials-64 room-pic" src="{{place.picture.x64.url}}"/>
+          <div data-ng-if="!place.picture.org.uid" class="account-initials-64 room-pic">{{place.name | initials:2}}</div>
+
+          <h5>{{place.name}}</h5>
+          <h6 class="nst-mood-storm">{{place.id + '@nested.me'}}</h6>
+          <h6 class="nst-mood-storm">{{place.description}}</h6>
+        </div>
+
+        <div class="nst-options">
+          <span class="ico-margin">Options For Me</span>
+          <hr>
+          <div class="list-inline ">
+            <div class="_dib option-hld">
+              <li class=" _dib nst-shown ico-margin"></li>
+              <li class="_dib">Show in Digest</li>
+            </div>
+
+            <div class=" _di">
+              <div class="_di switch-panel _fr">
+                <li class="switch-option _dib" data-ng-model="colp"
+                    data-ng-class="colp ? 'switch-option' : 'switch-option-off'" data-ng-click="colp =! colp">On
+                </li>
+                <li class="switch-option-right _dib " data-ng-model="colp"
+                    data-ng-class="colp ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="colp =! colp">Off
+                </li>
+              </div>
+            </div>
           </div>
 
-          <div class="nst-options">
-            <span class="ico-margin">Options For Me</span>
-            <hr>
-            <div class="list-inline ">
-              <div class="_dib option-hld">
-                <li class=" _dib nst-shown ico-margin"></li>
-                <li class="_dib">Show in Digest</li>
-              </div>
 
-              <div class=" _di">
-                <div class="_di switch-panel _fr">
-                  <li class="switch-option _dib"  data-ng-model="colp"
-                      data-ng-class="colp ? 'switch-option' : 'switch-option-off'" data-ng-click="colp =! colp" >On</li>
-                  <li class="switch-option-right _dib " data-ng-model="colp"
-                      data-ng-class="colp ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="colp =! colp">Off</li>
-                </div>
-              </div>
+          <div class="list-inline">
+            <div class="_dib option-hld">
+              <li class=" _dib nst-notif ico-margin"></li>
+              <li class="_dib">Notifications</li>
             </div>
-
-
-            <div class="list-inline">
-              <div class="_dib option-hld">
-                <li class=" _dib nst-notif ico-margin"></li>
-                <li class="_dib">Notifications</li>
-              </div>
-              <div class=" _di">
-                <div class="_di switch-panel _fr">
-                  <li class="switch-option _dib">On</li>
-                  <li class="switch-option-right _dib">Off</li>
-                </div>
-              </div>
-            </div>
-          </div> <!--/nst-option-->
-
-          <div class="nst-place-privacy">
-            <span class="ico-margin">Place Privacy</span>
-            <hr>
-            <div class="list-inline ">
-              <div class="_dib option-hld">
-                <li class="_dib nst-lock ico-margin"></li>
-                <li class="_dib">Lock</li>
-              </div>
-              <div class=" _di">
-                <div class="_di switch-panel _fr">
-                  <li class="switch-option _dib">On</li>
-                  <li class="switch-option-right _dib">Off</li>
-                </div>
-              </div>
-            </div>
-
-            <div class="list-inline">
-              <div class="_dib option-hld">
-                <li class="_dib nst-print ico-margin"></li>
-                <li class="_dib">Receptive</li>
-              </div>
-              <div class=" _di">
-                <div class="_di switch-panel _fr">
-                  <li class="switch-option _dib">On</li>
-                  <li class="switch-option-right _dib">Off</li>
-                </div>
-              </div>
-            </div>
-
-            <div class="list-inline">
-              <div class="_dib option-hld">
-                <li class="_dib nst-search ico-margin"></li>
-                <li class="_dib">Search</li>
-              </div>
+            <div class=" _di">
               <div class="_di switch-panel _fr">
                 <li class="switch-option _dib">On</li>
                 <li class="switch-option-right _dib">Off</li>
               </div>
             </div>
+          </div>
+        </div> <!--/nst-option-->
 
-            <div class="list-inline">
-              <div class="_dib option-hld">
-                <li class="_dib nst-atsign ico-margin"></li>
-                <li class="_dib">Email</li>
-              </div>
-              <div class="_di switch-panel _fr">
-                <li class="switch-option-off _dib">On</li>
-                <li class="switch-option-right-off _dib">Off</li>
-              </div>
-            </div>
-
+        <div class="nst-place-privacy">
+          <span class="ico-margin">Place Privacy</span>
+          <hr>
+          <div class="list-inline ">
             <div class="_dib option-hld">
-
+              <li class="_dib nst-lock ico-margin"></li>
+              <li class="_dib">Lock</li>
             </div>
-
-            <div class="_di add-panel _fr">
-              <p class="nst-mood-simple _dib ">Add Teammate</p>
-              <div class="add-icon _dib"></div>
+            <div class=" _di">
+              <div class="_di switch-panel _fr">
+                <li class="switch-option _dib">On</li>
+                <li class="switch-option-right _dib">Off</li>
+              </div>
             </div>
-          </div> <!--/place-privacy-->
+          </div>
+
+          <div class="list-inline">
+            <div class="_dib option-hld">
+              <li class="_dib nst-print ico-margin"></li>
+              <li class="_dib">Receptive</li>
+            </div>
+            <div class=" _di">
+              <div class="_di switch-panel _fr">
+                <li class="switch-option _dib">On</li>
+                <li class="switch-option-right _dib">Off</li>
+              </div>
+            </div>
+          </div>
+
+          <div class="list-inline">
+            <div class="_dib option-hld">
+              <li class="_dib nst-search ico-margin"></li>
+              <li class="_dib">Search</li>
+            </div>
+            <div class="_di switch-panel _fr">
+              <li class="switch-option _dib">On</li>
+              <li class="switch-option-right _dib">Off</li>
+            </div>
+          </div>
+
+          <div class="list-inline">
+            <div class="_dib option-hld">
+              <li class="_dib nst-atsign ico-margin"></li>
+              <li class="_dib">Email</li>
+            </div>
+            <div class="_di switch-panel _fr">
+              <li class="switch-option-off _dib">On</li>
+              <li class="switch-option-right-off _dib">Off</li>
+            </div>
+          </div>
+
+          <div class="_dib option-hld">
+
+          </div>
+
+          <div class="_di add-panel _fr">
+            <p class="nst-mood-simple _dib ">Add Teammate</p>
+            <div class="add-icon _dib"></div>
+          </div>
+        </div> <!--/place-privacy-->
 
 
-          <div class="nst-teammates">
-            <span class="ico-margin">Teammates</span>
-            <hr>
-            <div class="_dt">
-              <div class="_dtr">
-                <div class="_dtc"> <!--dtc left-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc">
-                          <div class="role-icon-crown-new role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+        <div class="nst-teammates">
+          <span class="ico-margin">Teammates</span>
+          <hr>
+          <div class="_dt">
+            <div class="_dtr">
+              <div class="_dtc"> <!--dtc left-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc">
+                        <div class="role-icon-crown-new role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <a href=""><div class="nst-more-badge" uib-tooltip="Tooltip" id="active-test"></div></a>
+                    <div class="_dtr">
+                      <div class="_dtc empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
                   </div>
+                  <div class="_dtc">
+                    <a href="">
+                      <div class="nst-more-badge" uib-tooltip="Tooltip" id="active-test"></div>
+                    </a>
+                  </div>
                 </div>
+              </div>
 
 
-
-                <div class="_dtc"> <!--dtc right-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-key role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+              <div class="_dtc"> <!--dtc right-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc ">
+                        <div class="role-icon-key role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
 
-
-            <div class="_dt">
-              <div class="_dtr">
-                <div class="_dtc"> <!--dtc left-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc">
-                          <div class="role-icon-avatar role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+          <div class="_dt">
+            <div class="_dtr">
+              <div class="_dtc"> <!--dtc left-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc">
+                        <div class="role-icon-avatar role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
                   </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
+                  </div>
                 </div>
+              </div>
 
-                <div class="_dtc"> <!--dtc right-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc">
-                          <div class="role-icon-avatar-wait role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+              <div class="_dtc"> <!--dtc right-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc">
+                        <div class="role-icon-avatar-wait role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="_dt">
-              <div class="_dtr">
-                <div class="_dtc"> <!--dtc left-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-key-wait role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+          <div class="_dt">
+            <div class="_dtr">
+              <div class="_dtc"> <!--dtc left-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc ">
+                        <div class="role-icon-key-wait role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
                   </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
+                  </div>
                 </div>
+              </div>
 
-                <div class="_dtc"> <!--dtc right-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-crown-new role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+              <div class="_dtc"> <!--dtc right-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc ">
+                        <div class="role-icon-crown-new role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
             <span class="_dib option-hld">
 
             </span>
 
-            <div class="_dib  _fr">
-              <p class="nst-mood-storm _dib ">Invite members</p>
-              <div class="add-icon _dib"></div>
-            </div>
+          <div class="_dib  _fr">
+            <p class="nst-mood-storm _dib ">Invite members</p>
+            <div class="add-icon _dib"></div>
+          </div>
 
-          </div><!--/nst-teammates-->
+        </div><!--/nst-teammates-->
 
-          <div class="place-option-members">
-            <span class="ico-margin">Members</span>
-            <hr>
-            <div class="_dt ">
-              <div class="_dtr">
-                <div class="_dtc"> <!--dtc left-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc">
-                          <div class="role-icon-crown-new role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+        <div class="place-option-members">
+          <span class="ico-margin">Members</span>
+          <hr>
+          <div class="_dt ">
+            <div class="_dtr">
+              <div class="_dtc"> <!--dtc left-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc">
+                        <div class="role-icon-crown-new role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
                   </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
+                  </div>
                 </div>
+              </div>
 
-                <div class="_dtc"> <!--dtc right-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-key role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+              <div class="_dtc"> <!--dtc right-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc ">
+                        <div class="role-icon-key role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc" id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc ">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc" id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
+                  </div>
+                  <div class="_dtc ">
+                    <div class="nst-more-badge"></div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="_dt">
-              <div class="_dtr">
-                <div class="_dtc"> <!--dtc left-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc ">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-avatar role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+          <div class="_dt">
+            <div class="_dtr">
+              <div class="_dtc"> <!--dtc left-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc ">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc ">
+                        <div class="role-icon-avatar role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
                   </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
+                  </div>
                 </div>
+              </div>
 
-                <div class="_dtc"> <!--dtc right-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-avatar-wait role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+              <div class="_dtc"> <!--dtc right-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc ">
+                        <div class="role-icon-avatar-wait role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc " id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="_dt ">
-              <div class="_dtr">
-                <div class="_dtc"> <!--dtc left-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc ">
-                          <div class="role-icon-key-wait role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+          <div class="_dt ">
+            <div class="_dtr">
+              <div class="_dtc"> <!--dtc left-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc ">
+                        <div class="role-icon-key-wait role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc" id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc" id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
                   </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
+                  </div>
                 </div>
+              </div>
 
-                <div class="_dtc"> <!--dtc right-->
-                  <div class="_dtr teammates-panel">
-                    <div class="_dtc">
-                      <div class="account-initials-48"></div>
-                    </div>
-                    <div class="_dtc">
-                      <div class="_dtr">
-                        <div class="_dtc">
-                          <div class="role-icon-crown-new role-icon"></div>
-                        </div>
-                        <div class="_dtc teammate-name">
-                          EhsaNMousa
-                        </div>
+              <div class="_dtc"> <!--dtc right-->
+                <div class="_dtr teammates-panel">
+                  <div class="_dtc">
+                    <div class="account-initials-48"></div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="_dtr">
+                      <div class="_dtc">
+                        <div class="role-icon-crown-new role-icon"></div>
                       </div>
-                      <div class="_dtr">
-                        <div class="_dtc" id="empty-space"> <!-- id should be changed to class-->
-
-                        </div>
-                        <div class="_dtc nst-mood-storm">
-                          @ehsannm
-                        </div>
+                      <div class="_dtc teammate-name">
+                        EhsaNMousa
                       </div>
                     </div>
-                    <div class="_dtc">
-                      <div class="nst-more-badge"></div>
+                    <div class="_dtr">
+                      <div class="_dtc" id="empty-space"> <!-- id should be changed to class-->
+
+                      </div>
+                      <div class="_dtc nst-mood-storm">
+                        @ehsannm
+                      </div>
                     </div>
+                  </div>
+                  <div class="_dtc">
+                    <div class="nst-more-badge"></div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
 
+          <div class="popup-panel" id="popup-plc-options">
+            <ul class="list-unstyled">
+              <li class="menuicon-remove _dib"></li>
+              <li class="_dib">Remove</li>
+            </ul>
+            <ul>
+              <li class="_dib menuicon-create"></li>
+              <li class="_dib">Make insider</li>
+            </ul>
+          </div>
+        </div> <!-- /place-option-members-->
 
-            <div class="popup-panel" id="popup-plc-options">
-              <ul class="list-unstyled">
-                <li class="menuicon-remove _dib"></li>
-                <li class="_dib">Remove</li>
-              </ul>
-              <ul>
-                <li class="_dib menuicon-create"></li>
-                <li class="_dib">Make insider</li>
-              </ul>
-            </div>
-
-
-          </div> <!--/place-option-members-->
-        </div>
       </div>
     </div>
+  </div>
 
 
 

@@ -148,14 +148,41 @@ input[type="radio"]:checked + label{
   //margin-top: 150px;
 }
 
+.popover {
+  border-radius: 0;
+}
+
 .popover-content{
-  padding: 0px;
-  margin: 0px;
+  //padding: 0px;
+  //margin: 0px;
   white-space: nowrap;
   word-break: keep-all;
   overflow: hidden;
   text-overflow: ellipsis;
+}
 
+.popover-white + .popover {
+  background: $color-white;
+}
+
+.popover-green + .popover {
+  background: $color-sense-5;
+  border-color: $color-sense-50;
+}
+
+.popover-green + .popover.bottom > .arrow {
+  border-bottom-color: $color-sense-wire;
+}
+
+.popover.bottom > .arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 11px 11px;
+  border-color: transparent transparent $color-solid transparent;
+  line-height: 0;
+  _border-color: #000000 #000000 $color-solid #000000;
+  _filter: progid:DXImageTransform.Microsoft.Chroma(color='#000000');
 }
 
 .panel {
@@ -464,8 +491,26 @@ label {
   color: $color-sense;
 }
 
-#SecondaryPageSelector a {
+#SecondaryPageSelector #events-ancher {
   padding: 9px 15px;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: $color-solid;
+  display: block;
+}
+
+#SecondaryPageSelector .places-ancher {
+  padding: 5px 15px;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: $color-solid;
+  display: block;
+}
+
+#SecondaryPageSelector .place-option-ancher {
+  padding: 5px 15px;
   height: 100%;
   width: 100%;
   text-decoration: none;
@@ -940,6 +985,14 @@ input #nav-search {
   *     Nested Classes - Page Specific - Places *
   **********************************************************
  */
+
+.option-add-icon-plc {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -48px;
+  background-repeat: no-repeat;
+}
 
 #place-bg {
   background-color: $color-breeze-50;
@@ -1583,19 +1636,25 @@ input #nav-search {
 }
 
 #place-option-body {
+  //margin: auto;
+  padding: 0px 208px;
+  width: 100%;
   height: 100%;
-  width: 800px;
-  background-color: $color-white;
-  margin: auto;
 }
 #place-option-body hr {
   width: 98%;
   margin: auto;
 
 }
+
+#place-option-hld {
+  background-color: $color-white;
+  height: 100%;
+}
 .room-name {
   height: 152px;
-  margin-top: -10px;
+  //margin-top: -10px;
+  background-color: white;
 }
 
 .room-pic {
@@ -1607,10 +1666,10 @@ input #nav-search {
   height: 110px;
 }
 
-//.nst-options span {
-//  padding-top: 70px;
-//  padding-left: 5px;
-//}
+.nst-options span {
+  padding-top: 70px;
+  padding-left: 5px;
+}
 
 .nst-options .nst-eye {
   margin-left: 7px;
@@ -1620,13 +1679,14 @@ input #nav-search {
   height: 172px;
 }
 
-//.nst-place-privacy span {
-//  padding-top: 65px;
-//  padding-left: 10px;
-//}
+.nst-place-privacy span {
+  padding-top: 65px;
+  padding-left: 10px;
+}
 
 .nst-teammates {
   height: 240px;
+  background-color: $color-white;
 }
 
 .nst-teammates >._dtr {
@@ -1643,6 +1703,7 @@ input #nav-search {
 
 .place-option-members {
   height:400px;
+  background-color: $color-white;
 }
 
 .teammates-panel .account-initials-48 {
@@ -1655,7 +1716,7 @@ input #nav-search {
 }
 
 .room-name h5 {
-  padding-top: 45px;
+  //padding-top: 45px;
 }
 
 .option-hld {
@@ -1779,9 +1840,7 @@ input #nav-search {
 
 
 #menu.popup-panel {
-  background-color: $color-sense-5;
   max-width: 238px;
-  border: 1px solid $color-sense;
   padding: 10px;
 }
 
@@ -1793,19 +1852,26 @@ input #nav-search {
   padding: 10px;
 }
 
-#compose-body {
-  height: 100%;
-  width: 800px;
-  background-color: $color-white;
-  margin: 0px auto;
-
-}
 
 /**
   **********************************************************
   *     Nested Classes - Page Specific - compose *
   **********************************************************
  */
+
+
+#compose-body {
+  //background-color: $color-white;
+  //margin: 0px auto;
+  padding: 0px 208px;
+  width: 100%;
+  height: 100%;
+
+}
+.compose-hld {
+  background-color: $color-white;
+  height: 100%;
+}
 
 .compose-input {
   width: 100%;
@@ -1864,7 +1930,7 @@ input #nav-search {
 }
 
 .nst-compose-message {
-  height: 500px;
+
 }
 
 .compose-message-input {

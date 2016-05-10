@@ -92,8 +92,8 @@
                         <div class="_dt _fw">
                           <div class="_dtr">
                             <div class="_dtc profile-post-view">
-                              <img data-ng-if="comment.sender.picture.org.uid" class="account-initials-24" src="{{comment.sender.picture.x32.url}}"/>
-                              <div data-ng-if="!comment.sender.picture.org.uid" class="account-initials-24" data-ng-bind="comment.sender.name.initials"></div>
+                              <img data-ng-if="comment.sender.picture.org.uid" class="_fl account-initials-24" src="{{comment.sender.picture.x32.url}}"/>
+                              <div data-ng-if="!comment.sender.picture.org.uid" class="_fl account-initials-24" data-ng-bind="comment.sender.name.initials"></div>
                             </div>
                             <div class="_dtc">
                               <h5 class="nst-mood-cheerful" data-ng-bind="comment.sender.fullname"></h5>
@@ -110,8 +110,8 @@
                   <div style="position: fixed; bottom: 0;">
                     <div class="_dt">
                       <div class="input-msg _dtr">
-                        <img data-ng-if="user.picture.org.uid" class="account-initials-24 _dtc" src="{{user.picture.x32.url}}"/>
-                        <div data-ng-if="!user.picture.org.uid" class="account-initials-24 _dtc" data-ng-bind="user.name.initials"></div>
+                        <img data-ng-if="user.picture.org.uid" class="_fl account-initials-24 _dtc" src="{{user.picture.x32.url}}"/>
+                        <div data-ng-if="!user.picture.org.uid" class="_fl account-initials-24 _dtc" data-ng-bind="user.name.initials"></div>
 
                         <input class="_dtc" type="text" name="comment_txt" ng-keyup="commentKeyUp($event)" placeholder="write your comment..."/>
                       </div>
