@@ -9,7 +9,7 @@
 </td>
 <td class="msg">
   <a class="subject" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)" data-ng-bind-html="event.post.subject | emoji"></a>
-  <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.post.body | emoji"></div>
+  <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.post.body | emoji | characters:255"></div>
   <div data-ng-show="navbar.extended" class="attachments">
     <ul class="attachments-bar image">
       <li>

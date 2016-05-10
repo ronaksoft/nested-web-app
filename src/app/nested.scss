@@ -77,8 +77,12 @@ a:hover {
   text-decoration: none;
 }
 
-a:visited {
+*a:visited {
   color: $color-sense;
+}
+
+a.normal-badge {
+  color: $color-solid;
 }
 
 body {

@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, AuthService, WsService, NestedEvent, NestedPlace, $scope, $stateParams, $uibModal) {
+  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, NestedEvent, NestedPlace) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -74,7 +74,7 @@
 
     vm.load = function () {
       WsService.request('timeline/get_events', vm.parameters).then(function (data) {
-        var now = $scope.events.today;
+        var now = $rootScope.now;
         $scope.events.moreEvents = !(data.events.length < $scope.events.parameters.limit);
         $scope.events.parameters.skip += data.events.length;
 
@@ -133,7 +133,6 @@
 
       $scope.thePost = post;
       $scope.thePost.load();
-      $scope.thePost.loadComments();
       $scope.lastUrl = $location.path();
 
       modal.opened.then(function () {

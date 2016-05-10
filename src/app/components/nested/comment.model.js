@@ -60,23 +60,27 @@
         },
 
         load: function(id, postId) {
-          WsService.request('post/get_comment', {
+          return WsService.request('post/get_comment', {
             post_id: postId || this.post.id,
             comment_id: id || this.id
           }).then(this.setData.bind(this));
         },
 
         delete: function() {
-          return WsService.request('post/remove_comment', {
-            comment_id: this.id
-          });
+          if (Date.now() - this.date.getTime() < 20 * 60 * 1e3) {
+            return WsService.request('post/remove_comment', {
+              post_id: this.post.id,
+              comment_id: this.id
+            }).then(function (data) {
+              this.post.deleteComment(this);
+            }.bind(this));
+          }
         },
 
         update: function() {
-          // TODO: Check if API Exists and is correct
-          return WsService.request('post/update_comment', {
-            comment_id: this.id
-          });
+          if (this.id) {
+            // TODO: Check API
+          }
         }
       };
 
