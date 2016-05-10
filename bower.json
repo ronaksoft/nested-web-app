@@ -19,8 +19,15 @@
     "angular-md5": "~0.1.10",
     "moment": "~2.13.0",
     "animate.css": "~3.5.1",
+    "international-phone-number": "^0.0.16",
     "emojione": "^2.1.4",
-    "international-phone-number": "^0.0.16"
+    "angular-pdf-viewer": "^0.2.9",
+    "videogular": "^1.4.3",
+    "videogular-themes-default": "^1.4.3",
+    "videogular-controls": "^1.4.3",
+    "videogular-buffering": "^1.4.3",
+    "videogular-poster": "^1.4.3",
+    "angular-truncate": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"

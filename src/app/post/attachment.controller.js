@@ -17,10 +17,7 @@
     }
 
     if ($scope.attachment) {
-      $scope.jwOptions = {
-        file: $scope.attachment.download.url,
-        image: $scope.attachment.thumbs.x128.url
-      };
+      
     }
   }
 })();

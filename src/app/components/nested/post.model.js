@@ -7,7 +7,7 @@
       function Post(data, full) {
         this.full = full || false;
 
-        this.commentLimit = 10;
+        this.commentLimit = 3;
         this.moreComments = false;
 
         this.id = null;
@@ -28,11 +28,11 @@
         this.internal = false;
         this.forwarded = null;
         this.counters = {
-          attaches: 0,
-          comments: 0,
-          replied: 0,
-          forwarded: 0,
-          size: 0
+          attaches: -1,
+          comments: -1,
+          replied: -1,
+          forwarded: -1,
+          size: -1
         };
 
         if (data) {
@@ -62,8 +62,8 @@
             this.internal = data.internal;
             this.date = new Date(data['time-stamp'] * 1e3);
             this.updated = new Date(data['last-update'] * 1e3);
-            this.counters = data.counters;
-            this.moreComments = data.counters ? data.counters.comments > 0 : true;
+            this.counters = data.counters || this.counters;
+            this.moreComments = this.counters.comments > -1 ? this.counters.comments > this.comments.length : true;
             this.monitored = data.monitored;
             this.forwarded = data.forwarded ? new Post(this.full ? data.forwarded : { id: data.forwarded }) : null;
             this.spam = data.spam;
@@ -86,6 +86,7 @@
             }
 
             if (this.full) {
+              this.commentLimit = this.counters.comments || 100 * this.commentLimit;
               this.loadComments();
             }
 
@@ -114,10 +115,38 @@
             }
 
             this.moreComments = !(data.comments.length < this.commentLimit);
+            if (!this.moreComments) {
+              this.counters.comments = this.comments.length;
+            }
+
             this.change();
 
             return this.comments;
           }.bind(this));
+        },
+
+        addComment: function (text) {
+          return WsService.request('post/add_comment', {
+            post_id: this.id,
+            txt: text
+          }).then(function (data) {
+            var NestedComment = $injector.get('NestedComment');
+
+            var comment = new NestedComment(this, data.comment_id.$oid);
+            this.comments.unshift(comment);
+            this.counters.comments > -1 && this.counters.comments++;
+
+            return comment;
+          }.bind(this));
+        },
+
+        deleteComment: function (comment) {
+          for (var k in this.comments) {
+            if (comment.id == this.comments[k].id) {
+              this.comments = this.comments.slice(0, k).concat(this.comments.slice(k + 1));
+              break;
+            }
+          }
         },
 
         change: function () {
