@@ -6,7 +6,7 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($location, AuthService, WsService, NestedPlace, $scope, $log) {
+  function ComposeController($location, AuthService, WsService, NestedPost, NestedPlace, $scope) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -15,5 +15,10 @@
       });
       $location.path('/signin').replace();
     }
+
+    $scope.post = new NestedPost();
+
+    $scope.sendPost = function () {
+    };
   }
 })();

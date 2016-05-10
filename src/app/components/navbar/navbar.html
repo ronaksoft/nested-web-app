@@ -26,7 +26,7 @@
 
             <div class='_dtc'>
               <ul  class="list-inline text-right">
-                <li><span uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="bottom" class="nst-menu-arrow _dib"></span></li>
+                <li><span uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="bottom-right" class="nst-menu-arrow _dib popover-green"></span></li>
                 <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
                 <li>
                   <img data-ng-if="user.picture.org.uid" class="img-circle" src="{{user.picture.x32.url}}" height="32" width="32"/>
@@ -49,15 +49,29 @@
                   <div class="_dt">
                     <div class="_dtr">
                       <div class="_dtc" id="SecondaryPageSelector">
+
+                        <ul class="nav-width-ul" data-ng-if="compose">
+                          <li>
+                            <a href="javascript:void(0);" class="button-back" onclick="window.history.back();">Discard</a>
+                          </li>
+
+                          <li>
+                            <a href="javascript:void(0);" class="btn-success" ng-click="sendPost()">Send</a>
+                          </li>
+                        </ul>
+
                         <ul class="nav-width-ul" data-ng-if="events">
                           <li data-ng-repeat="(key, filter) in events.filters" class="{{key == events.filter ? 'selected' : null}}">
-                            <a href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
+                            <a id="events-ancher" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
                           </li>
                         </ul>
 
                         <ul class="nav-width-ul " data-ng-if="places">
                           <li data-ng-repeat="(key, filter) in places.filters" >
-                            <a href="#/places/{{key}}">{{filter.name}}</a>
+                            <a class="places-ancher" href="#/places/{{key}}">{{filter.name}}</a>
+                          </li>
+                          <li class="_fr">
+                            <a  class="places-ancher nst-mood-storm ">Add a Place<div class="option-add-icon-plc _dib"></div></a>
                           </li>
 
                           <li>
@@ -67,11 +81,10 @@
 
                         <ul class="nav-width-ul margin-ul-placeotion" data-ng-if="place_option">
                           <li>
-                            <a><button class="button-back">Back</button></a>
+                            <a class="place-option-ancher" href="javascript:void(0);" class="button-back" onclick="window.history.back();">Back</a>
                           </li>
-
                           <li data-ng-repeat="(key, action) in place_option.actions">
-                            <a ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
+                            <a class="place-option-ancher" ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
                           </li>
                         </ul>
 
