@@ -3,34 +3,46 @@
     <nested-navbar></nested-navbar>
   </div>
 
-      <div id="container" class="_fhw _bggray">
-        <div id="compose-body">
-          <div class="compose-hld">
-            <input class="compose-input" name="subject" placeholder="Add a Subject...">
-            <hr>
-            <span>To:</span><input class="address-input" name="address" placeholder="type place name or email address">
-            <hr>
-            <section class="nst-attach">
-              <div class="nst-attach-area _dib">
-                <div class="doc-attachment _dib"></div>
-                <div class="media-attachment _dib"></div>
-                <div class="doc-attachment _dib"></div>
-                <div class="media-attachment _dib"></div>
-              </div>
-              <div class="headlineicon-green _dib _fr"></div>
-              <div class="nst-attach-upload _fr">18 mb/100 mb Uploaded</div>
-            </section>
-            <hr>
+  <div id="container" class="_fhw _bggray">
+    <div id="compose-body">
+      <div class="compose-hld">
+        <section>
+          <input class="compose-input" name="subject" placeholder="Add a Subject..." data-ng-model="compose.post.subject"/>
+        </section>
+        <hr/>
 
-            <div class="nst-attach-bar"></div>
+        <section>
+          <span>To:</span>
+          <ui-select multiple class="address-input _dib" tagging="recipientMaker" data-ng-model="compose.recipients">
+            <ui-select-match placeholder="Type place name or email address...">
+              <span data-ng-bind="$select.selected.name"></span>
+            </ui-select-match>
+            <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
+                               repeat="place in (compose.places | filter: $select.search) track by place.id">
+              <img class="account-picture" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
+              <span class="account-initial" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></span>
+              <span data-ng-bind-html="place.name | highlight: $select.search"></span>
+              <small>({{place.id}})</small>
+            </ui-select-choices>
+          </ui-select>
+        </section>
+        <hr/>
 
-            <section class="nst-compose-message">
-            <input class="compose-message-input" placeholder="Enter your message...">
-            </section>
+        <section class="nst-attach">
+          <div class="nst-attach-area _dib">
+            <div class="doc-attachment _dib"></div>
+            <div class="media-attachment _dib"></div>
           </div>
+          <div class="headlineicon-green _dib _fr"></div>
+          <div class="nst-attach-upload _fr">18 mb/100 mb Uploaded</div>
+        </section>
+        <hr/>
 
-
-        </div>
+        <section class="nst-compose-message">
+          <div text-angular class="compose-message-input" data-ng-model="compose.post.body"></div>
+        </section>
       </div>
-
+    </div>
+  </div>
+</div>
 

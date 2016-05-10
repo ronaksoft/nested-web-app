@@ -3,7 +3,26 @@
 
   angular
     .module('nested')
-    .factory('NestedPlace', function (NestedPlaceRepoService, WsService, NestedUser, StoreItem, $rootScope, $q, $log) {
+    .constant('PLACE_ACCESS', {
+      READ: 'RD',
+      WRITE: 'WR',
+      READ_POST: 'RD',
+      WRITE_POST: 'WR',
+      REMOVE_POST: 'D',
+      CONTROL: 'C',
+      ADD_MEMBERS: 'AM',
+      REMOVE_MEMBERS: 'RM',
+      SEE_MEMBERS: 'SM',
+      REMOVE_PLACE: 'RP',
+      ADD_PLACE: 'AP',
+      GUEST: 'G'
+    })
+    .constant('MEMBER_TYPE', {
+      KEY_HOLDER: 'key_holder',
+      KNOWN_GUEST: 'known_guest',
+      CREATOR: 'creator'
+    })
+    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, WsService, NestedUser, PLACE_ACCESS, StoreItem, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
 
