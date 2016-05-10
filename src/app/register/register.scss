@@ -11,7 +11,19 @@
 }
 .select-birthday{
   width: 100%;
-  height: 38px;
+  height: 40px;
+}
+.select-year {
+  width : 144px;
+  margin-right: 4px;
+  box-shadow: none;
+}
+.select-day {
+  width : 84px;
+  margin-right: 4px;
+}
+.select-month {
+  width : 84px;
 }
 .intl-tel-input {
   width: 100%;

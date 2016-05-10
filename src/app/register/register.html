@@ -1,185 +1,83 @@
- <div class="nst-ve ng-scope _fh">
-  <div  class="panel" id="panel-register">
-    <div class="nst-vb no-gutter2 nst-marginbtm-8">
-      <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">create an account</p>
-      <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or  <a href="#src/app/login/login.html" class="nst-mood-cheerful">Sign in</a></p>
-    </div>
-    <div class="nst-marginbtm-8">
-      Choose Your Username
-    </div>
-    <div class="nst-marginbtm-16 has-feedback">
-      <input aria-invalid="false" class="form-control" name="username" type="text" maxlength="29">
-      <div class="form-control-feedback-register">@nested.com</div>
-    </div>
-    <div class="nst-marginbtm-8">
-      Set New PassWord
-    </div>
-    <div class="nst-marginbtm-16">
-      <div class="form-group has-feedback" data-ng-model="show">
-        <input class="form-control ng-pristine ng-untouched ng-valid" name="password" data-ng-init="show = true" type="{{show ? 'text' : 'password'}}"/>
-        <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
+<div class="_fhw">
+  <div class="nst-vc ng-scope _fh">
+    <div  class="panel" id="panel-register">
+      <div class="nst-vb no-gutter2 nst-marginbtm-8">
+        <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">Create an account</p>
+        <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or  <a href="#src/app/login/login.html" class="nst-mood-cheerful">Sign in</a></p>
       </div>
-    </div>
-    <div class="row no-gutter">
-          <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
-            <div class="nst-marginbtm-8">first name</div>
-            <input class="form-control ng-pristine ng-untouched ng-valid" name="firstname"  type="text">
-          </div>
-          <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6 nst-marginbtm-16">
-            <div class="nst-marginbtm-8">last name</div>
-            <input class="form-control ng-pristine ng-untouched ng-valid" name="lastname" type="text"/>
-          </div>
-    </div>
-    <div class="nst-marginbtm-24">
-      <div class="nst-marginbtm-8">Set An Email For Recovery</div>
-      <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="recoveryemail" type="text">
-    </div>
-    <div class="nst-marginbtm-16">
-      Gender
-    </div>
-    <ul class="list-inline nst-marginbtm-24">
-      <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-        <input type="radio" name="sex" value="sex">
-        <label> Female</label>
-      </li>
-      <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-        <input type="radio" name="sex" value="sex">
-        <label> Male</label>
-      </li>
-      <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-        <input type="radio" name="sex" value="sex">
-        <label> Other</label>
-      </li>
-    </ul>
-    <div class="nst-marginbtm-16 mobile-number">
-      <div class="nst-marginbtm-8">Mobile Phone</div>
-      <div class="_fw">
-        <input name="mobileNumber" type="tel" international-phone-number class="_fw form-control ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
+      <div class="nst-marginbtm-8">
+        Choose your username
       </div>
-    </div>
-    <div class="nst-marginbtm-8">
-        Birthday
-    </div>
-    <div class="row no-gutter nst-marginbtm-16">
-      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-        <select value="month of birth" class="select-birthday form-control ng-pristine ng-untouched ng-valid">
-          <option><a href="#">January</a></option>
-          <option>February</option>
-          <option>March</option>
-          <option>April</option>
-          <option>May</option>
-          <option>June</option>
-          <option>July</option>
-          <option>August</option>
-          <option>September</option>
-          <option>October</option>
-          <option>November</option>
-          <option>December</option>
-        </select>
+      <div class="nst-marginbtm-16 has-feedback">
+        <input aria-invalid="false" class="form-control" name="username" type="text" maxlength="29">
+        <div class="form-control-feedback-register">@nested.com</div>
       </div>
-      <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-        <select value="date of birth" class="select-birthday form-control ng-pristine ng-untouched ng-valid">
-          <option vlaue="1">1</option>
-          <option vlaue="2">2</option>
-          <option vlaue="3">3</option>
-          <option vlaue="4">4</option>
-          <option vlaue="5">5</option>
-          <option vlaue="6">6</option>
-          <option vlaue="7">7</option>
-          <option vlaue="8">8</option>
-          <option vlaue="9">9</option>
-          <option vlaue="10">10</option>
-          <option vlaue="11">11</option>
-          <option vlaue="12">12</option>
-          <option vlaue="13">13</option>
-          <option vlaue="14">14</option>
-          <option vlaue="15">15</option>
-          <option vlaue="16">16</option>
-          <option vlaue="17">17</option>
-          <option vlaue="18">18</option>
-          <option vlaue="19">19</option>
-          <option vlaue="20">20</option>
-          <option vlaue="21">21</option>
-          <option vlaue="22">22</option>
-          <option vlaue="23">23</option>
-          <option vlaue="24">24</option>
-          <option vlaue="25">25</option>
-          <option vlaue="26">26</option>
-          <option vlaue="27">27</option>
-          <option vlaue="28">28</option>
-          <option vlaue="29">29</option>
-          <option vlaue="30">30</option>
-        </select>
+      <div class="nst-marginbtm-8">
+        Set new password
       </div>
-      <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-        <select value="year of birth" class="select-birthday form-control ng-pristine ng-untouched ng-valid">
-          <option vlaue="1964">1964</option>
-          <option vlaue="1965">1965</option>
-          <option vlaue="1966">1966</option>
-          <option vlaue="1967">1967</option>
-          <option vlaue="1968">1968</option>
-          <option vlaue="1969">1969</option>
-          <option vlaue="1970">1970</option>
-          <option vlaue="1971">1971</option>
-          <option vlaue="1972">1972</option>
-          <option vlaue="1973">1973</option>
-          <option vlaue="1974">1974</option>
-          <option vlaue="1975">1975</option>
-          <option vlaue="1976">1976</option>
-          <option vlaue="1977">1977</option>
-          <option vlaue="1978">1978</option>
-          <option vlaue="1979">1979</option>
-          <option vlaue="1980">1980</option>
-          <option vlaue="1981">1981</option>
-          <option vlaue="1982">1982</option>
-          <option vlaue="1983">1983</option>
-          <option vlaue="1984">1984</option>
-          <option vlaue="1985">1985</option>
-          <option vlaue="1986">1986</option>
-          <option vlaue="1987">1987</option>
-          <option vlaue="1988">1988</option>
-          <option vlaue="1989">1989</option>
-          <option vlaue="1990">1990</option>
-          <option vlaue="1991">1991</option>
-          <option vlaue="1992">1992</option>
-          <option vlaue="1993">1993</option>
-          <option vlaue="1994">1994</option>
-          <option vlaue="1995">1995</option>
-          <option vlaue="1996">1996</option>
-          <option vlaue="1997">1997</option>
-          <option vlaue="1998">1998</option>
-          <option vlaue="1999">1999</option>
-          <option vlaue="2000">2000</option>
-          <option vlaue="2001">2001</option>
-          <option vlaue="2002">2002</option>
-          <option vlaue="2003">2003</option>
-          <option vlaue="2004">2004</option>
-          <option vlaue="2005">2005</option>
-          <option vlaue="2006">2006</option>
-          <option vlaue="2007">2007</option>
-          <option vlaue="2008">2008</option>
-          <option vlaue="2009">2009</option>
-          <option vlaue="2010">2010</option>
-          <option vlaue="2011">2011</option>
-          <option vlaue="2012">2012</option>
-          <option vlaue="2013">2013</option>
-          <option vlaue="2014">2014</option>
-          <option vlaue="2015">2015</option>
-        </select>
+      <div class="nst-marginbtm-16">
+        <div class="form-group has-feedback" data-ng-model="show">
+          <input class="form-control ng-pristine ng-untouched ng-valid" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}"/>
+          <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
+        </div>
       </div>
-    </div>
-      <ul class="list-inline agreement">
-        <li class="_fl">
-          <input id="remember" name="remember" value="remember" type="checkbox">
-          <label for="remember"></label>
+      <div class="row no-gutter">
+            <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
+              <div class="nst-marginbtm-8">First name</div>
+              <input class="form-control ng-pristine ng-untouched ng-valid" name="firstname"  type="text">
+            </div>
+            <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6 nst-marginbtm-16">
+              <div class="nst-marginbtm-8">Last name</div>
+              <input class="form-control ng-pristine ng-untouched ng-valid" name="lastname" type="text"/>
+            </div>
+      </div>
+      <div class="nst-marginbtm-24">
+        <div class="nst-marginbtm-8">Set an Email for Recovery</div>
+        <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="recoveryemail" type="text">
+      </div>
+      <div class="nst-marginbtm-16">
+        Gender
+      </div>
+      <ul class="list-inline">
+        <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+          <input type="radio" name="sex" value="sex">
+          <label> Female</label>
         </li>
-        <li class="_fl">
-          I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of Service</a> and <a href="#" class="nst-mood-cheerful"> Privacy Policy</a>.
+        <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+          <input type="radio" name="sex" value="sex">
+          <label> Male</label>
+        </li>
+        <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+          <input type="radio" name="sex" value="sex">
+          <label> Other</label>
         </li>
       </ul>
-    <div>
-      <input type="submit" value="Create An Account" class="btn btn-lg btn-block">
+      <div class="nst-marginbtm-16 mobile-number">
+        <div class="nst-marginbtm-8">Mobile Phone</div>
+        <div class="_fw">
+          <input name="mobileNumber" type="tel" international-phone-number class="_fw form-control ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
+        </div>
+      </div>
+      <div class="nst-marginbtm-8">
+          Birthday
+      </div>
+      <div class="nst-marginbtm-16">
+        <input rsmdatedropdowns ng-model="birth"/>
+      </div>
+      <div class="_dt nst-marginbtm-48">
+        <div class="_dtr agreement">
+          <div class="_dtc">
+            <input id="remember" name="remember" value="remember" type="checkbox">
+            <label for="remember"></label>
+          </div>
+          <div class="_dtc">
+            I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of Service</a> and <a href="#" class="nst-mood-cheerful"> Privacy Policy</a>.
+          </div>
+        </div>
+      </div>
+      <div>
+        <input type="submit" value="Create An Account" class="btn btn-lg btn-block">
+      </div>
     </div>
   </div>
 </div>
-
