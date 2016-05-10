@@ -95,12 +95,13 @@
 }
 
 .sidebar > div > ul > li > .e2-border {
-  position: absolute;
+  //position: absolute;
   top: 0px;
   bottom: 0px;
   right: 0px;
   left: 50px;
   border-bottom: 1px solid $color-breeze;
+  cursor: pointer;
 }
 .sidebar li .item-holder {
   overflow: hidden;

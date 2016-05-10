@@ -6,6 +6,7 @@
       'ngAnimate',
       'ngCookies',
       'ngTouch',
+      'ui.select',
       'ngSanitize',
       'ngMessages',
       'ngAria',

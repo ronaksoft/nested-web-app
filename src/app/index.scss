@@ -113,7 +113,7 @@ input[type="radio"]:checked + label{
     width: #{$i * 8}px;
     height: #{$i * 8}px;
     border-radius: 50%;
-    float: left;
+    //float: left;
     line-height: #{$i * 8 - 1}px;
     text-align: center;
     font-size: $font-size-small; // #{$i/2}px
@@ -128,7 +128,7 @@ input[type="radio"]:checked + label{
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  float: right;
+  //float: right;
   line-height: 31px;
   text-align: center;
   font-size: $font-size-small;
@@ -145,9 +145,45 @@ input[type="radio"]:checked + label{
  */
 
 .modal-dialog .modal-content {
-  margin-top: 150px;
+  //margin-top: 150px;
 }
 
+.popover {
+  border-radius: 0;
+}
+
+.popover-content{
+  //padding: 0px;
+  //margin: 0px;
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popover-white + .popover {
+  background: $color-white;
+}
+
+.popover-green + .popover {
+  background: $color-sense-5;
+  border-color: $color-sense-50;
+}
+
+.popover-green + .popover.bottom > .arrow {
+  border-bottom-color: $color-sense-wire;
+}
+
+.popover.bottom > .arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 11px 11px;
+  border-color: transparent transparent $color-solid transparent;
+  line-height: 0;
+  _border-color: #000000 #000000 $color-solid #000000;
+  _filter: progid:DXImageTransform.Microsoft.Chroma(color='#000000');
+}
 
 .panel {
   background-color: white;
@@ -272,6 +308,13 @@ label {
 
 #container {
   margin-top: 100px;
+
+}
+
+#container-places {
+  padding: 0px 208px;
+  width: 100%;
+  height: 100%;
 }
 
 /**
@@ -379,9 +422,10 @@ label {
  */
 
 .nested-logo {
-  height:64px;
-  width:20px;
+  height: 64px;
+  width: 20px;
 }
+
 #Header {
   //height: 64px;
   position: relative;
@@ -433,8 +477,6 @@ label {
   color: $color-storm;
 }
 
-
-
 #SecondaryPageSelector li {
   display: inline-block;
   font-size: $font-size-small;
@@ -453,12 +495,11 @@ label {
 }
 
 #SecondaryPageSelector li.selected a,
-#SecondaryPageSelector li.hover a
-{
+#SecondaryPageSelector li.hover a {
   color: $color-sense;
-
 }
-#SecondaryPageSelector a {
+
+#SecondaryPageSelector #events-ancher {
   padding: 9px 15px;
   height: 100%;
   width: 100%;
@@ -466,6 +507,25 @@ label {
   color: $color-solid;
   display: block;
 }
+
+#SecondaryPageSelector .places-ancher {
+  padding: 5px 15px;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: $color-solid;
+  display: block;
+}
+
+#SecondaryPageSelector .place-option-ancher {
+  padding: 5px 15px;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: $color-solid;
+  display: block;
+}
+
 #SecondaryPageSelector a:hover {
   color: $color-sense;
 }
@@ -474,6 +534,7 @@ label {
   padding: 10px 0 2px 0;
   font-weight: 600;
 }
+
 .nav-width-ul {
   display: inline-block;
   margin-top: 0;
@@ -491,12 +552,12 @@ label {
 }
 
 .Search .form-control {
-  width:144px;
+  width: 144px;
 }
 
 .Search .input {
-  height:10px;
-  width:50px;
+  height: 10px;
+  width: 50px;
 }
 
 .menu-links-top {
@@ -505,11 +566,10 @@ label {
 
 .nst-nav {
   background-color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-
+  //position: fixed;
+  //top: 0;
+  //left: 0;
+  //z-index: 9999;
 }
 
 #nst-compose-button {
@@ -518,6 +578,7 @@ label {
   vertical-align: middle;
   font-weight: normal;
 }
+
 #nst-compose-button:hover {
   background-color: $color-sense;
 }
@@ -548,6 +609,7 @@ input #nav-search {
   border-radius: 5px;
   color: $color-storm;
 }
+
 .add-icon {
   width: 24px;
   height: 24px;
@@ -584,10 +646,33 @@ input #nav-search {
   width: 24px;
   height: 24px;
   background-image: url("../assets/icons/actionbuttons_place_24.png");
-  background-position:0 -48px;
+  background-position: 0 -48px;
   background-repeat: no-repeat;
 }
 
+/**
+  ***************************************************************
+  *     Nested Classes - Component Specific - menu    *
+  ***************************************************************
+ */
+
+[class*="profile-menu-"] {
+  background: url('../assets/icons/profilemenu_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.profile-menu-setting {
+  background-position: 0 0px;
+}
+
+.profile-menu-upgrade {
+  background-position: 0 -24px;
+}
+
+.profile-menu-signout {
+  background-position: 0 -48px;
+}
 
 /**
   *********************************************************
@@ -614,6 +699,7 @@ input #nav-search {
   word-break: keep-all;
   white-space: nowrap;
 }
+
 .nst-green-tag {
   display: inline-block;
   background-color: #89EBB4;
@@ -633,13 +719,13 @@ input #nav-search {
   ****************************************************
  */
 #panel-register{
-  width:352px;
+  width: 352px;
   padding: 20px 15px 20px 15px;
 }
 .select-birthday{
   background-color: #eaffea;
-  width:100%;
-  height:38px;
+  width: 100%;
+  height: 38px;
 }
 .select-birthday option:hover{
   background-color: #ccffe6;
@@ -648,7 +734,7 @@ input #nav-search {
   margin-bottom: 15px;
 }
 .nst-font-10{
-  font-size:10px;
+  font-size: 10px;
 }
 /**
   *************************************************
@@ -677,12 +763,6 @@ input #nav-search {
 
 /**
   **********************************************************
-  *     Nested Classes - Page Specific - Sidebar    *
-  **********************************************************
- */
-
-/**
-  **********************************************************
   *     Nested Classes - Page Specific - Events  *
   **********************************************************
  */
@@ -699,6 +779,7 @@ input #nav-search {
   background-position: 0 -2px;
   background-repeat: no-repeat;
 }
+
 .decline {
   background-color: $color-white;
   border-color: $color-calm;
@@ -710,6 +791,7 @@ input #nav-search {
   height: 22px;
   width: 80px;
 }
+
 .accept {
   background-color: $color-sense;
   border-color: $color-calm;
@@ -721,6 +803,7 @@ input #nav-search {
   height: 22px;
   width: 80px;
 }
+
 .headlineicon {
   width: 16px;
   height: 16px;
@@ -728,6 +811,7 @@ input #nav-search {
   background-position: 0 0px;
   background-repeat: no-repeat;
 }
+
 .headlineicon-green {
   width: 24px;
   height: 24px;
@@ -738,7 +822,7 @@ input #nav-search {
 .event-group-time {
   margin-left: 10px;
   margin-top: 15px;
-  width:100%
+  width: 100%
 }
 
 .event-group-time:hover {
@@ -812,48 +896,39 @@ input #nav-search {
   border: 1px solid $color-badge;
   padding: 1px 10px 1px 10px ;
   color: $color-solid;
-
 }
 
 .more-tag {
-  border-color: $color-solid;
-  border-width: 1px;
-  border-style: solid;
+  //border: 1px solid $color-solid;
   background-color: $color-solid;
-  border-radius: 10px;
   color: $color-white;
-  font-size: $font-size-xsmall;
+  font-size: $font-size-small;
   height: 14px;
   text-align: center;
   line-height: 10px;
-  padding-left: 8px;
-  padding-right: 8px;
   vertical-align: initial;
-  margin-left: 2px;
   cursor: pointer;
+  border-radius: 15px;
+  //font-size: 13px;
+  padding: 2px 8px 2px 8px;
+  margin: 4px;
+  white-space: nowrap;
 }
 
 .more-tag:hover {
    color: $color-white;
 }
+
 #EventList td.time {
   width: 100px;
   border-bottom: 1px solid $color-breeze;
   vertical-align: top;
   color: $color-solid-60 ;
 }
+
 #EventList.collapse td.msg .body { display: none; }
 #EventList.collapse td.msg .attachments { display: none; }
 
-#PostView {
-  //top: 0;
-  //top: 0;
-  //left: 0;
-  //bottom: 0;
-  //right: 0;
-
-  overflow: hidden;
-}
 .msg .headlineicon {
   margin-top: 2px;
 }
@@ -912,79 +987,95 @@ input #nav-search {
   background-position: 0 -40px;
   margin-top: 4px;
 }
+
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Places *
   **********************************************************
  */
 
-#place-bg {
-  background-color: $color-breeze-50;
+.option-add-icon-plc {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -48px;
+  background-repeat: no-repeat;
 }
 
-.places-holder {
-  background-color: $color-sense-wire;
-  min-height: 1000px;
+#place-bg {
+  background-color: $color-breeze-50;
 }
 
 #AllPlaces {
   margin: 0 auto;
   padding: 10px;
   background: $color-white;
+  min-width: 700px;
 }
 
 #AllPlaces li {
   border-bottom: 1px solid $color-calm;
   min-height: 64px;
 }
+
 #AllPlaces tr {
  background-color: $color-white;
 }
 
 #AllPlaces ul {
   list-style: none;
-  margin-left: 25px;
+  //margin-left: 25px;
 }
+
 #AllPlaces li > table {
   width: 100%;
   height: 64px;
+  vertical-align: middle;
 }
+
 #AllPlaces li > table td.logo {
   width: 48px;
 }
+
 #AllPlaces li > table td.logo > img {
   width: 48px;
   height: 48px;
   border-radius: 24px;
+  vertical-align: middle;
 }
+
 #AllPlaces li > table td.name {
   min-width: 200px;
   margin-top: 15px;
 
 }
+
 #AllPlaces li > table td.name img {
   width: 24px;
   height: 24px;
   vertical-align: middle;
 }
+
 #AllPlaces li > table td.name h5 {
   margin: 1px 5px;
   font-weight: normal;
   font-size: small;
 }
+
 #AllPlaces li > table td.name p {
-  margin: 5px;
+  margin-left: 5px;
   //color: #787878;
   font-size: x-small;
+
 }
+
 #AllPlaces li > table td.members {
   width: 168px;
   text-align: right;
 }
+
 #AllPlaces li > table td.members img{
-  height: auto;
   width: 32px;
-  height: 32px;
   margin: 1px;
 }
 
@@ -992,10 +1083,11 @@ input #nav-search {
   margin-right: 5px;
 }
 
+
 .role-icon-crown {
-  background: url('../assets/icons/roleicon_16.png') no-repeat;
-  width: 16px;
-  height: 16px;
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
 }
 
 .role-icon-crown-new {
@@ -1035,17 +1127,17 @@ input #nav-search {
 }
 
 .role-icon-green {
-  background: url('../assets/icons/roleicon_16.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -16px;
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
+  background-position: 0 -24px;
 }
 
 .role-icon-gray {
-  background: url('../assets/icons/roleicon_16.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -32px;
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
+  background-position: 0 -48px;
 }
 
 .nst-pencil {
@@ -1150,14 +1242,18 @@ input #nav-search {
 .arrow {
   width: 15px;
 }
+.arrow-places {
+  width: 15px;
+  vertical-align: middle;
+}
 
 .nst-more {
   width: 32px;
 }
 
 .empty-space {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
 }
 
 .nst-more-members {
@@ -1199,6 +1295,16 @@ input #nav-search {
   height: 60px;
 
 }
+
+#PostView {
+  //top: 0;
+  //top: 0;
+  //left: 0;
+  //bottom: 0;
+  //right: 0;
+  overflow: hidden;
+}
+
 .post-nav img {
   padding-right:20px;
   padding-left: 20px;
@@ -1231,11 +1337,12 @@ input #nav-search {
   padding-top: 18px;
 
 }
+
 .post-nav-right-bottom {
   width: 320px;
   float: right;
-
 }
+
 .normal-badge {
   background-color: $color-badge;
   border-radius: 15px;
@@ -1245,6 +1352,7 @@ input #nav-search {
   margin: 4px;
   white-space: nowrap;
 }
+
 .normal-badge:hover {
   color: $color-solid;
 }
@@ -1257,7 +1365,7 @@ input #nav-search {
 .nst-nowrap-badge {
   width: 400px;
   margin-left: 150px;
-  margin-top: -20px;
+  margin-top: -26px;
   overflow: auto;
 }
 
@@ -1268,6 +1376,7 @@ input #nav-search {
   background-position: 0 -48px;
   background-repeat: no-repeat;
 }
+
 .forward-icon {
   width: 24px;
   height: 24px;
@@ -1275,6 +1384,7 @@ input #nav-search {
   background-position: 0 -24px;
   background-repeat: no-repeat;
 }
+
 .Reply-icon {
   width: 24px;
   height: 24px;
@@ -1282,21 +1392,25 @@ input #nav-search {
   background-position: 0 0px;
   background-repeat: no-repeat;
 }
+
 .panel-action ._dtc {
   padding-right: 8px;
   padding-left: 24px;
 
 }
+
 .time-post-view {
   width: 80px;
   font-size: $font-size-small;
 }
+
 .profile-post-view {
   width: 40px;
 }
 .msg-post-view {
   padding-left: 40px;
 }
+
 .input-msg input {
   float: right;
   border: 1px solid $color-breeze !important;
@@ -1307,9 +1421,11 @@ input #nav-search {
   margin-left: 8px;
   width: 258px;
 }
+
 .input-msg {
   height: 42px;
 }
+
 .input-msg img {
   margin-top: 6px;
   margin-left: 4px;
@@ -1528,19 +1644,25 @@ input #nav-search {
 }
 
 #place-option-body {
+  //margin: auto;
+  padding: 0px 208px;
+  width: 100%;
   height: 100%;
-  width: 800px;
-  background-color: $color-white;
-  margin: 100px auto;
 }
 #place-option-body hr {
   width: 98%;
   margin: auto;
 
 }
+
+#place-option-hld {
+  background-color: $color-white;
+  height: 100%;
+}
 .room-name {
   height: 152px;
-  margin-top: -10px;
+  //margin-top: -10px;
+  background-color: white;
 }
 
 .room-pic {
@@ -1552,10 +1674,10 @@ input #nav-search {
   height: 110px;
 }
 
-//.nst-options span {
-//  padding-top: 70px;
-//  padding-left: 5px;
-//}
+.nst-options span {
+  padding-top: 70px;
+  padding-left: 5px;
+}
 
 .nst-options .nst-eye {
   margin-left: 7px;
@@ -1565,13 +1687,14 @@ input #nav-search {
   height: 172px;
 }
 
-//.nst-place-privacy span {
-//  padding-top: 65px;
-//  padding-left: 10px;
-//}
+.nst-place-privacy span {
+  padding-top: 65px;
+  padding-left: 10px;
+}
 
 .nst-teammates {
   height: 240px;
+  background-color: $color-white;
 }
 
 .nst-teammates >._dtr {
@@ -1588,6 +1711,7 @@ input #nav-search {
 
 .place-option-members {
   height:400px;
+  background-color: $color-white;
 }
 
 .teammates-panel .account-initials-48 {
@@ -1600,7 +1724,7 @@ input #nav-search {
 }
 
 .room-name h5 {
-  padding-top: 45px;
+  //padding-top: 45px;
 }
 
 .option-hld {
@@ -1723,26 +1847,39 @@ input #nav-search {
 }
 
 
-.popup-panel {
+#menu.popup-panel {
+  max-width: 238px;
+  padding: 10px;
+}
+
+
+#popup-plc-options {
   background-color: $color-sense-5;
-  width: 144px;
+  width: 168px;
   border: 1px solid $color-sense;
   padding: 10px;
 }
 
-#compose-body {
-  height: 100%;
-  width: 800px;
-  background-color: $color-white;
-  margin: 0px auto;
-  margin-top: 91px;
-}
 
 /**
   **********************************************************
   *     Nested Classes - Page Specific - compose *
   **********************************************************
  */
+
+
+#compose-body {
+  //background-color: $color-white;
+  //margin: 0px auto;
+  padding: 0px 208px;
+  width: 100%;
+  height: 100%;
+
+}
+.compose-hld {
+  background-color: $color-white;
+  height: 100%;
+}
 
 .compose-input {
   width: 100%;
@@ -1801,7 +1938,7 @@ input #nav-search {
 }
 
 .nst-compose-message {
-  height: 500px;
+
 }
 
 .compose-message-input {
