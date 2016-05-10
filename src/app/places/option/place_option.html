@@ -9,7 +9,8 @@
 
         <div class="room-name">
           <img data-ng-if="place.picture.org.uid" class="account-initials-64 room-pic" src="{{place.picture.x64.url}}"/>
-          <div data-ng-if="!place.picture.org.uid" class="account-initials-64 room-pic">{{place.name | initials:2}}</div>
+          <div data-ng-if="!place.picture.org.uid" class="account-initials-64 room-pic">{{place.name | initials:2}}
+          </div>
 
           <h5>{{place.name}}</h5>
           <h6 class="nst-mood-storm">{{place.id + '@nested.me'}}</h6>
@@ -26,12 +27,12 @@
             </div>
 
             <div class=" _di">
-              <div class="_di switch-panel _fr">
-                <li class="switch-option _dib" data-ng-model="colp"
-                    data-ng-class="colp ? 'switch-option' : 'switch-option-off'" data-ng-click="colp =! colp">On
+              <div class="_di switch-panel _fr" data-ng-model="sw">
+                <li class="switch-option _dib"
+                    data-ng-class="sw ? 'switch-option' : 'switch-option-off'" data-ng-click="sw =! sw">On
                 </li>
-                <li class="switch-option-right _dib " data-ng-model="colp"
-                    data-ng-class="colp ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="colp =! colp">Off
+                <li class="switch-option-right _dib"
+                    data-ng-class="sw ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="sw =! sw">Off
                 </li>
               </div>
             </div>
@@ -44,9 +45,14 @@
               <li class="_dib">Notifications</li>
             </div>
             <div class=" _di">
-              <div class="_di switch-panel _fr">
-                <li class="switch-option _dib">On</li>
-                <li class="switch-option-right _dib">Off</li>
+              <div class="_di switch-panel _fr" data-ng-model="sw2">
+                <li class="switch-option _dib"
+                    data-ng-class="sw2 ? 'switch-option' : 'switch-option-off'" data-ng-click="sw2 =! sw2">On
+                </li>
+                <li class="switch-option-right _dib"
+                    data-ng-class="sw2 ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="sw2 =! sw2">
+                  Off
+                </li>
               </div>
             </div>
           </div>
@@ -62,8 +68,14 @@
             </div>
             <div class=" _di">
               <div class="_di switch-panel _fr">
-                <li class="switch-option _dib">On</li>
-                <li class="switch-option-right _dib">Off</li>
+                <li class="switch-option _dib"
+                    data-ng-class="place.privacy.locked ? 'switch-option' : 'switch-option-off'"
+                    data-ng-click="place.togglePrivacy('locked')">On
+                </li>
+                <li class="switch-option-right _dib"
+                    data-ng-class="place.privacy.locked ? 'switch-option-right' : 'switch-option-right-off'"
+                    data-ng-click="place.togglePrivacy('locked')">Off
+                </li>
               </div>
             </div>
           </div>
@@ -75,8 +87,14 @@
             </div>
             <div class=" _di">
               <div class="_di switch-panel _fr">
-                <li class="switch-option _dib">On</li>
-                <li class="switch-option-right _dib">Off</li>
+                <li class="switch-option _dib"
+                    data-ng-class="place.privacy.receptive ? 'switch-option' : 'switch-option-off'"
+                    data-ng-click="place.togglePrivacy('receptive')">On
+                </li>
+                <li class="switch-option-right _dib"
+                    data-ng-class="place.privacy.receptive ? 'switch-option-right' : 'switch-option-right-off'"
+                    data-ng-click="place.togglePrivacy('receptive')">Off
+                </li>
               </div>
             </div>
           </div>
@@ -87,8 +105,14 @@
               <li class="_dib">Search</li>
             </div>
             <div class="_di switch-panel _fr">
-              <li class="switch-option _dib">On</li>
-              <li class="switch-option-right _dib">Off</li>
+              <li class="switch-option _dib"
+                  data-ng-class="place.privacy.search ? 'switch-option' : 'switch-option-off'"
+                  data-ng-click="place.togglePrivacy('search')">On
+              </li>
+              <li class="switch-option-right _dib"
+                  data-ng-class="place.privacy.search ? 'switch-option-right' : 'switch-option-right-off'"
+                  data-ng-click="place.togglePrivacy('search')">Off
+              </li>
             </div>
           </div>
 
@@ -98,14 +122,17 @@
               <li class="_dib">Email</li>
             </div>
             <div class="_di switch-panel _fr">
-              <li class="switch-option-off _dib">On</li>
-              <li class="switch-option-right-off _dib">Off</li>
+              <li class="switch-option _dib"
+                  data-ng-class="place.privacy.email ? 'switch-option' : 'switch-option-off'"
+                  data-ng-click="place.togglePrivacy('email')">On
+              </li>
+              <li class="switch-option-right _dib"
+                  data-ng-class="place.privacy.email ? 'switch-option-right' : 'switch-option-right-off'"
+                  data-ng-click="place.togglePrivacy('email')">Off
+              </li>
             </div>
           </div>
 
-          <div class="_dib option-hld">
-
-          </div>
 
           <div class="_di add-panel _fr">
             <p class="nst-mood-simple _dib ">Add Teammate</p>
@@ -307,9 +334,6 @@
             </div>
           </div>
 
-            <span class="_dib option-hld">
-
-            </span>
 
           <div class="_dib  _fr">
             <p class="nst-mood-storm _dib ">Invite members</p>
@@ -523,6 +547,4 @@
       </div>
     </div>
   </div>
-
-
-
+</div>

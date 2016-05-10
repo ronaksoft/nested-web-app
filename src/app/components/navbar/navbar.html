@@ -50,6 +50,16 @@
                     <div class="_dtr">
                       <div class="_dtc" id="SecondaryPageSelector">
 
+                        <ul class="nav-width-ul" data-ng-if="compose">
+                          <li>
+                            <a href="javascript:void(0);" class="button-back" onclick="window.history.back();">Discard</a>
+                          </li>
+
+                          <li>
+                            <a href="javascript:void(0);" class="btn-success" ng-click="sendPost()">Send</a>
+                          </li>
+                        </ul>
+
                         <ul class="nav-width-ul" data-ng-if="events">
                           <li data-ng-repeat="(key, filter) in events.filters" class="{{key == events.filter ? 'selected' : null}}">
                             <a id="events-ancher" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
@@ -70,7 +80,7 @@
 
                         <ul class="nav-width-ul margin-ul-placeotion" data-ng-if="place_option">
                           <li class="button-navbar">
-                            <a class="place-option-ancher"><button class="button-back">Back</button></a>
+                            <a class="place-option-ancher" href="javascript:void(0);" class="button-back" onclick="window.history.back();">Back</a>
                           </li>
                           <li data-ng-repeat="(key, action) in place_option.actions">
                             <a class="place-option-ancher" ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib" ></span></a>
