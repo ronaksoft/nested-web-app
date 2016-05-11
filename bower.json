@@ -29,7 +29,6 @@
     "videogular-poster": "^1.4.3",
     "angular-truncate": "*",
     "angular-date-dropdowns": "https://github.com/kayvannm/angular-date-dropdowns.git#v0.2.0",
-    "angular-truncate": "*",
     "ui-select": "angular-ui-select#^0.16.1"
   },
   "devDependencies": {
