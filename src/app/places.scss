@@ -1,0 +1,296 @@
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Places *
+  **********************************************************
+ */
+
+.option-add-icon-plc {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-position: 0 -48px;
+  background-repeat: no-repeat;
+}
+
+#place-bg {
+  background-color: $color-breeze-50;
+}
+
+#AllPlaces {
+  margin: 0 auto;
+  padding: 10px;
+  background: $color-white;
+  min-width: 700px;
+}
+
+#AllPlaces li {
+  border-bottom: 1px solid $color-calm;
+  min-height: 64px;
+}
+#AllPlaces tr:hover {
+background-color: $color-sense-5;
+  cursor: pointer;
+}
+
+#AllPlaces tr {
+  background-color: $color-white;
+}
+
+#AllPlaces ul {
+  list-style: none;
+  //margin-left: 25px;
+}
+
+#AllPlaces li > table {
+  width: 100%;
+  height: 64px;
+  vertical-align: middle;
+}
+
+#AllPlaces li > table td.logo {
+  width: 48px;
+}
+
+#AllPlaces li > table td.logo > img {
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  vertical-align: middle;
+}
+
+#AllPlaces li > table td.name {
+  min-width: 200px;
+  margin-top: 15px;
+
+}
+
+#AllPlaces li > table td.name img {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+#AllPlaces li > table td.name h5 {
+  margin: 1px 5px;
+  font-weight: normal;
+  font-size: small;
+}
+
+#AllPlaces li > table td.name p {
+  margin-left: 5px;
+  //color: #787878;
+  font-size: x-small;
+
+}
+
+#AllPlaces li > table td.members {
+  width: 168px;
+  text-align: right;
+}
+
+#AllPlaces li > table td.members img {
+  width: 32px;
+  margin: 1px;
+}
+
+.place-members {
+  margin-right: 5px;
+}
+
+.role-icon-crown {
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.role-icon-crown-new {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 0px;
+
+}
+
+.role-icon-key {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -16px;
+}
+
+.role-icon-avatar {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -32px;
+}
+
+.role-icon-key-wait {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -48px;
+}
+
+.role-icon-avatar-wait {
+  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
+  width: 16px;
+  height: 16px;
+  background-position: 0 -64px;
+}
+
+.role-icon-green {
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
+  background-position: 0 -24px;
+}
+
+.role-icon-gray {
+  background: url('../assets/icons/roleicon_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
+  background-position: 0 -48px;
+}
+
+.nst-pencil {
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 24px;
+  min-width: 24px;
+}
+
+.nst-atsign {
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 24px;
+  min-width: 24px;
+  background-position: 0px -48px;
+}
+
+.nst-eye {
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 24px;
+  min-width: 24px;
+  background-position: 0px -24px;
+
+}
+
+.nst-search {
+  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  height: 24px;
+  min-width: 24px;
+  background-position: 0px -72px;
+}
+
+.nst-more-badge {
+  background: url('../assets/icons/more_32.png') no-repeat;
+  height: 32px;
+  width: 32px;
+}
+
+._dtc .nst-more-badge {
+  width: 48px;
+  height: 32px;
+}
+
+.nst-shown {
+  background: url('../assets/icons/placeicon_24_default.png') no-repeat;
+  height: 24px;
+  width: 24px;
+  background-position: 0px -96px;
+
+}
+
+.nst-notif {
+  background: url('../assets/icons/placeicon_24_default.png') no-repeat;
+  height: 24px;
+  width: 24px;
+  background-position: 0px -120px;
+
+}
+
+.nst-lock {
+  background: url('../assets/icons/placeicon_24_default.png') no-repeat;
+  height: 24px;
+  width: 24px;
+  background-position: 0px -24px;
+
+}
+
+.nst-print {
+  background: url('../assets/icons/placeicon_24_default.png') no-repeat;
+  height: 24px;
+  width: 24px;
+  background-position: 0px 0px;
+
+}
+
+.nst-arrow {
+  background: url('../assets/icons/arrow_16.png') no-repeat;
+  height: 25px;
+  width: 15px;
+  padding: 0 0 0 5px;
+  background-position: center center;
+  cursor: pointer;
+}
+
+.nst-arrow-rotated {
+  background: url('../assets/icons/arrow_16.png') no-repeat;
+  height: 25px;
+  width: 15px;
+  padding: 0 0 0 5px;
+  background-position: center center;
+  transform: rotate(180deg);
+  cursor: pointer;
+}
+
+.nst-menu-arrow {
+  background: url('../assets/icons/menu_arrow_16.png') no-repeat;
+  height: 12px;
+  width: 12px;
+  background-position: center center;
+  cursor: pointer;
+}
+
+.arrow {
+  width: 15px;
+}
+
+.arrow-places {
+  width: 15px;
+  vertical-align: middle;
+}
+
+.nst-more {
+  width: 32px;
+}
+
+.empty-space {
+  width: 24px;
+  height: 24px;
+}
+
+.nst-more-members {
+  min-width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  border: solid 1px $color-calm;
+  float: right;
+  line-height: 28px;
+  text-align: center;
+  font-size: $font-size-small;
+  color: $color-storm;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.nst-no-more-members {
+  min-width: 30px;
+  height: 30px;
+  float: right;
+  line-height: 28px;
+  text-align: center;
+  font-size: $font-size-small;
+  color: $color-storm;
+  margin-left: 5px;
+  margin-right: 5px;
+}

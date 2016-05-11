@@ -1,0 +1,93 @@
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Compose *
+  **********************************************************
+ */
+
+#compose-body {
+  //background-color: $color-white;
+  //margin: 0px auto;
+  padding: 0px 208px;
+  width: 100%;
+  height: 100%;
+}
+
+.compose-hld {
+  background-color: $color-white;
+  height: 100%;
+}
+
+.compose-input {
+  width: 100%;
+  height: 60px;
+  border: none;
+  padding-left: 8px;
+  font-size: $font-size-xlarge;
+}
+
+.address-input {
+  width: 90%;
+  height: 40px;
+  border: none;
+  padding-left: 8px;
+}
+
+#compose-body span {
+  padding-left: 8px;
+}
+
+#compose-body hr {
+  width: 98%;
+  margin: auto;
+}
+
+.nst-attach-upload {
+  height: 16px;
+  max-width: 200px;
+  background-color: $color-fillbox;
+  margin-top: 88px;
+  border-radius: 6px;
+  line-height: 15px;
+  font-size: $font-size-small;
+  margin-right: -35px;
+}
+
+.nst-attach-area {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.nst-attach {
+  height: 112px;
+}
+
+.nst-attach .headlineicon-green {
+  margin: 12px;
+}
+
+.nst-attach input[type='file'] {
+  display: none;
+}
+
+.nst-attach-bar {
+  width: 94%;
+  height: 24px;
+  background-color: $color-fillbox;
+  margin-left: 10px;
+  margin-top: 8px;
+}
+
+.nst-compose-message {
+
+}
+
+.compose-message-input {
+  height: 100px;
+  border: none;
+  width: 100%;
+  padding-left: 8px;
+}
+
+.nst-compose-message p {
+  padding: 10px;
+}
