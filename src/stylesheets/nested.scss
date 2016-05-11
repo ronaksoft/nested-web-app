@@ -1,11 +1,10 @@
-
 @import "mixin.scss";
 
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular");
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900);
-@include font-face(YekanBakh,"../assets/fonts/OpenSans/YekanBakhRegular");
-
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", null, null, ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/OpenSans/YekanBakh-Regular", null, null, eot woff2);
+@include font-face(YekanBakh,"../assets/fonts/OpenSans/YekanBakh-Bold", bold, null, eot woff2);
 
 /**
   *********************************
@@ -32,9 +31,6 @@ $color-hurricane: #476152;
 $color-badge: #89EBB4;
 $color-fillbox :#f0f5f2;
 $color-white : #FFFFFF;
-
-
-
 
 $font-size-xsmall: 11px;
 $font-size-small: 12px;

@@ -4,6 +4,8 @@
  */
 $navbar-inverse-link-color: #5AADBB;
 $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+$fa-font-path: "../../bower_components/font-awesome/fonts/";
+
 
 /**
  *  Do not remove the comments below. It's the markers used by wiredep to inject
@@ -12,7 +14,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass/assets/fonts/bootstrap/"
 // bower:scss
 // endbower
 
-@import "nested.scss";
+@import "../stylesheets/nested.scss";
 
 .browsehappy {
   margin: 0.2em 0;
