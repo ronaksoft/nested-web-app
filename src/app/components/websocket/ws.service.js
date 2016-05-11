@@ -17,8 +17,12 @@
       INVALID: 3
     })
     .constant('WS_RESPONSE_STATUS', {
+      UNDEFINED: 'not defined',
       SUCCESS: 'ok',
-      ERROR: 'err'
+      ERROR: 'err',
+      FATAL_ERROR: 'fatal error',
+      WARNING: 'warning',
+      NOTICE: 'notice'
     })
     .constant('WS_MESSAGES', {
       INITIALIZE: 'hi'

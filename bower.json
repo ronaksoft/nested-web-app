@@ -28,6 +28,9 @@
     "videogular-buffering": "^1.4.3",
     "videogular-poster": "^1.4.3",
     "angular-truncate": "*",
+    "angular-web-notification": "^0.0.69",
+    "platanus-angular-push": "^0.1.1",
+    "textAngular": "^1.5.1"
     "angular-date-dropdowns": "https://github.com/kayvannm/angular-date-dropdowns.git#v0.2.0",
     "ui-select": "angular-ui-select#^0.16.1"
   },

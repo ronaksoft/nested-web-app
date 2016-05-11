@@ -168,10 +168,23 @@
         },
 
         update: function() {
-          // TODO: Check if API Exists and is correct
-          return WsService.request('post/update', {
-            post_id: this.id
-          });
+          if (this.id) {
+            // TODO: Check if API Exists and is correct
+            return WsService.request('post/update', {
+              post_id: this.id
+            });
+          } else {
+            var params = {
+              targets: (this.places.map(function (place) { return place.id; }).concat(this.recipients.map(function (recp) { return recp.id; }))).join(','),
+              reply_to: this.replyTo ? this.replyTo.id : undefined,
+              forwarded_from: this.forwarded ? this.forwarded.id : undefined,
+              subject: this.subject,
+              body: this.body,
+              attaches: (this.attachments.map(function (attachment) { return attachment.download.uid; })).join(',')
+            };
+
+            return WsService.request('post/add', params);
+          }
         }
       };
 
