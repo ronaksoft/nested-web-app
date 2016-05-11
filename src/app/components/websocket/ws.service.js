@@ -251,12 +251,12 @@
           this.data = data;
           this.locked = false;
 
-          console.log(this, Date.now());
+          $log.debug(this, Date.now());
         }.bind(channel));
 
         var start = Date.now();
         while (channel.locked && (Date.now() - start) < (10 * timeout));
-        console.log(channel, Date.now());
+        $log.debug(channel, Date.now());
 
         return channel.data;
       },
