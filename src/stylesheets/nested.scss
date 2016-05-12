@@ -1,9 +1,10 @@
-
 @import "mixin.scss";
 
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular");
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", null, null, ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/OpenSans/YekanBakh-Regular", null, null, eot woff2);
+@include font-face(YekanBakh,"../assets/fonts/OpenSans/YekanBakh-Bold", bold, null, eot woff2);
 
 /**
   *********************************
@@ -31,9 +32,6 @@ $color-badge: #89EBB4;
 $color-fillbox :#f0f5f2;
 $color-white : #FFFFFF;
 
-
-
-
 $font-size-xsmall: 11px;
 $font-size-small: 12px;
 $font-size-medium: 14px;
@@ -42,8 +40,8 @@ $font-size-xlarge: 22px;
 
 $font-family-eng-reg: "OpenSans";
 $font-family-eng-bold: "OpenSans";
-$font-family-per-reg: "OpenSans";
-$font-family-per-bold: "OpenSans";
+$font-family-per-reg: "YekanBakh";
+$font-family-per-bold: "YekanBakh";
 
 /**
   ******************************
@@ -54,6 +52,7 @@ $font-family-per-bold: "OpenSans";
 * {
     box-sizing: inherit;
     vertical-align: inherit;
+
 }
 
 div, ul, ol {
@@ -126,7 +125,7 @@ textarea {
 ._fr {float: right;}
 ._cf {clear: both;}
 ._fw { width: 100%; }
-._fh { height: 100%; }
+._fh { height: 100vh; }
 ._fhw {
     position: absolute ;
     top: 0px;

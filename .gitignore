@@ -6,3 +6,4 @@ coverage/
 .tmp/
 dist/
 *.iml
+npm-debug.log

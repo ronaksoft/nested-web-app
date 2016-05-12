@@ -1,0 +1,319 @@
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Events  *
+  **********************************************************
+ */
+
+.nst-content {
+  background-color: $color-white;
+  width: 100%;
+}
+
+.nst-event-pic {
+  width: 16px;
+  height: 16px;
+  background-image: url('../assets/icons/eventicon.png');
+  background-position: 0 -2px;
+  background-repeat: no-repeat;
+}
+
+.decline {
+  background-color: $color-white;
+  border-color: $color-calm;
+  border-radius: 5px;
+  padding: 0px;
+  color: $color-storm;
+  display: inline-block;
+  font-size: $font-size-small;
+  height: 22px;
+  width: 80px;
+}
+
+.accept {
+  background-color: $color-sense;
+  border-color: $color-calm;
+  border-radius: 5px;
+  padding: 0px;
+  color: $color-white;
+  display: inline-block;
+  font-size: $font-size-small;
+  height: 22px;
+  width: 80px;
+}
+
+.headlineicon {
+  width: 16px;
+  height: 16px;
+  background-image: url('../assets/icons/headlineicon_16.png');
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+}
+
+.headlineicon-green {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/actionbuttons_compose_24.png');
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.event-group-time {
+  margin-left: 10px;
+  margin-top: 15px;
+  width: 100%
+}
+
+.event-group-time:hover {
+  background-color: $color-white !important;
+}
+
+.event-group-time .msg,
+.event-group-time .time,
+.event-group-time .places,
+.event-group-time .sender {
+  border-bottom: none !important;
+}
+
+.daily-time p {
+  margin-left: 10px;
+  margin-top: 15px;
+
+}
+
+#EventList {
+}
+
+#EventList .td {
+  padding: 5px;
+}
+
+#EventList .td.ico {
+  width: 16px;
+  vertical-align: top;
+}
+
+#EventList .td.ico img {
+  border-radius: 16px;
+}
+
+#EventList .td.sender {
+  width: 200px;
+  vertical-align: top;
+  font-size: small;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+#EventList {
+  table-layout: fixed;
+}
+
+#EventList tr:hover {
+  background-color: #E7FBF0;
+}
+
+// TODO: color should change
+#EventList td {
+  padding: 5px;
+}
+
+#EventList td.ico {
+  padding-left: 8px;
+  width: 32px;
+  vertical-align: top;
+}
+
+#EventList td.ico img {
+  border-radius: 16px;
+}
+
+#EventList td.sender {
+  width: 166px;
+  vertical-align: top;
+  font-size: small;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+#EventList td.sender img {
+  margin-left: 2px;
+  margin-right: 4px;
+  border-radius: 16px;
+}
+
+#EventList td.sender span {
+  line-height: 32px;
+}
+
+#EventList td.msg {
+  width: auto;
+  border-bottom: 1px solid #ced9d3;
+  vertical-align: top;
+  padding-top: 12px;
+}
+
+#EventList td.msg .subject {
+  font-weight: bold;
+  line-height: 24px;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+#EventList td.msg .body {
+  color: gray;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+#EventList td.places {
+  width: 220px;
+  vertical-align: top;
+  border-bottom: 1px solid #ced9d3;
+}
+
+#EventList tr #time-of-event {
+  width: 400px;
+}
+
+#EventList td.places .places {
+  display: inline-block;
+  background-color: $color-badge;
+  border-radius: 10px;
+  margin: 1px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: $font-size-xsmall;
+  border: 1px solid $color-badge;
+  padding: 1px 10px 1px 10px;
+  color: $color-solid;
+}
+
+.more-tag {
+  //border: 1px solid $color-solid;
+  background-color: $color-solid;
+  color: $color-white;
+  font-size: $font-size-small;
+  height: 14px;
+  text-align: center;
+  line-height: 10px;
+  vertical-align: initial;
+  cursor: pointer;
+  border-radius: 15px;
+  //font-size: 13px;
+  padding: 2px 8px 2px 8px;
+  margin: 4px;
+  white-space: nowrap;
+}
+
+.more-tag:hover {
+  color: $color-white;
+}
+
+#EventList td.time {
+  width: 100px;
+  border-bottom: 1px solid $color-breeze;
+  vertical-align: top;
+  color: $color-solid-60;
+}
+
+#EventList.collapse td.msg .body {
+  display: none;
+}
+
+#EventList.collapse td.msg .attachments {
+  display: none;
+}
+
+.msg .headlineicon {
+  margin-top: 2px;
+}
+
+#load-more-events {
+  cursor: pointer;
+}
+
+.attachment-badge-bar {
+  height: 18px;
+  background-color: $color-breeze-50;
+  border-radius: 5px;
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 8px;
+  overflow: hidden;
+}
+
+[class*="attachment-"]{}
+
+
+.attachment-badge-doc {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 0px;
+  margin-top: 4px;
+}
+
+.attachment-badge-img {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -10px;
+  margin-top: 4px;
+
+}
+
+.attachment-badge-pdf {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -20px;
+  margin-top: 4px;
+}
+
+.attachment-badge-file {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -30px;
+  margin-top: 4px;
+}
+
+.attachment-badge-zip {
+  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+  width: 24px;
+  height: 10px;
+  background-position: 0 -40px;
+  margin-top: 4px;
+}
+
+#content {
+  background-color: $color-sense;
+}
+
+.nst-event-name {
+  width: 128px;
+  vertical-align: top;
+  font-size: $font-size-small;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+.nst-green-tag {
+  display: inline-block;
+  background-color: #89EBB4;
+  border-radius: 10px;
+  margin: 1px;
+  padding: 1px 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+  max-width: 100px;
+}

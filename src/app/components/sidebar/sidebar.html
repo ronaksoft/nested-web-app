@@ -7,7 +7,9 @@
       <li data-ng-repeat="place in sidebarCtrl.places"
           data-ng-init="its_mine = events.placeAncestors.slice(0, place.id.split('.').length).join('.') == place.id; its_me = events.placeAncestors.join('.') == place.id"
           class="_tofe {{its_mine ? 'selected' : undefined}}"
-          data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place"></li>
+          data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place">
+
+      </li>
     </ul>
   </div>
 </div>
