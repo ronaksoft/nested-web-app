@@ -74,7 +74,6 @@ a {
 }
 
 a:hover {
-  color: $color-sense;
   text-decoration: none;
 }
 
@@ -968,6 +967,11 @@ label {
   padding-right: 10px;
   padding-left: 10px;
   max-height: 14px;
+
+}
+#PostView .normal-badge {
+  margin-top: 9px;
+  line-height:12px;
 }
 
 .normal-badge:hover {
@@ -975,8 +979,7 @@ label {
 }
 
 .badges {
-  margin-left: 24px;
-  padding-top: 8px;
+
 
 }
 
