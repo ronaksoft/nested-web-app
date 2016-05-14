@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .service('NestedPlaceRepoService', function (WsService) {
+    .service('NestedPlaceRepoService', function ($q, WsService) {
       function PlaceRepoService(repo) {
         this.repo = repo || {};
       }
@@ -18,7 +18,7 @@
             if (this.repo[id] instanceof Promise) {
               return this.repo[id];
             } else {
-              return new Promise(function (res, rej) {
+              return $q(function (res) {
                 res.call(this, this.repo[id]);
               }.bind(this));
             }
