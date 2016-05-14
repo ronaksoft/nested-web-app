@@ -30,7 +30,7 @@
         this.reauth();
       }
 
-      WsService.addEventListener(WS_EVENTS.ERROR, this.unauthorize);
+      WsService.addEventListener(WS_EVENTS.ERROR, this.unauthorize.bind(this));
       WsService.addEventListener(WS_EVENTS.INITIALIZE, this.reauth.bind(this));
     }
 
@@ -90,7 +90,7 @@
           res.call(this);
         }.bind(this));
 
-        return WsService.request('logout').then(this.unauthorize);
+        return WsService.request('logout').then(this.unauthorize.bind(this));
       },
 
       isAuthenticated: function (callback) {
