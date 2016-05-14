@@ -12,19 +12,25 @@
         <hr/>
 
         <section>
-          <span>To:</span>
-          <ui-select multiple class="address-input _dib" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
-            <ui-select-match placeholder="Type place name or email address...">
-              <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
-            </ui-select-match>
-            <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
-                               repeat="place in (compose.places | filter: $select.search) track by place.id">
-              <img class="account-picture" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
-              <span class="account-initial" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></span>
-              <span data-ng-bind-html="place.name | highlight: $select.search"></span>
-              <small>({{place.id}})</small>
-            </ui-select-choices>
-          </ui-select>
+          <div class="row">
+            <div class="col-xs-1">
+              <span class="_dib">To:</span>
+            </div>
+            <div class="col-xs-11 _fl">
+              <ui-select multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
+                <ui-select-match placeholder="Type place name or email address...">
+                  <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
+                </ui-select-match>
+                <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
+                                   repeat="place in (compose.places | filter: $select.search) track by place.id">
+                  <img class="account-picture" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
+                  <span class="account-initial" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></span>
+                  <span data-ng-bind-html="place.name | highlight: $select.search"></span>
+                  <small>({{place.id}})</small>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
         </section>
         <hr/>
 
@@ -51,10 +57,9 @@
         <hr/>
 
         <section class="nst-compose-message">
-          <div text-angular class="compose-message-input" data-ng-model="compose.post.body"></div>
+          <div text-angular  data-ng-model="compose.post.body"></div>
         </section>
       </div>
     </div>
   </div>
 </div>
-
