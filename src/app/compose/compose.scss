@@ -1,4 +1,157 @@
 /**
+  *********************************************************
+  *     Nested Classes -  compose  *
+  *********************************************************
+ */
+
+#ComposeBtns a {
+  text-align: right;
+  background-color: #14D769;
+  border: 1px solid #00B45A;
+  border-radius: 5px;
+  padding: 5px 20px;
+  color: white;
+  display: inline-block;
+  font-size: medium;
+  margin: 2px;
+  cursor: pointer;
+}
+
+#ComposeContainer {
+  width: 800px;
+  background-color: white;
+  padding: 5px;
+  vertical-align: top ;
+}
+
+#ComposeContainer input[type='text'] {
+  outline: none;
+  padding: 10px;
+}
+
+#ComposeContainer .seprator {
+  border-bottom: 1px solid #c0c0c0 ;
+  vertical-align: middle;
+}
+
+#ComposeContainer .seprator > div {
+  display: inline-block;
+}
+
+#ComposeContainer #Subject {
+  display: block ;
+  height: 64px;
+  width: 100%;
+  font-size: medium;
+  border: none;
+}
+
+#ComposeContainer #To {
+  height: 32px;
+  border: none;
+  min-width: 250px;
+}
+
+#ComposeContainer .place {
+  display: inline-block;
+  background-color: #B8F3D2;
+  border-radius: 6px;
+  padding: 3px;
+  margin: 1px;
+}
+
+#ComposeContainer textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 400px;
+  border: none;
+  outline: none;
+  padding: 10px;
+}
+
+#ComposeContainer #Toolbar {display: block;}
+#ComposeContainer #Toolbar .btn {
+  padding: 4px;
+  cursor: pointer;
+}
+
+#ComposeContainer #Toolbar #Attachment {
+  margin: 5px;
+  width: 24px;
+  height: 24px;
+  background-image: url('/res/ico/attachment_icon_m.png');
+  background-size: contain;
+}
+
+div.att-item {
+  width: 72px;
+  height: 96px;
+  margin: 5px;
+  vertical-align: middle;
+  position: relative;
+  float: left;
+}
+
+.att-item > span.filename {
+  position: absolute;
+  top: 40px;
+  left: 2px;
+  right: 2px;
+  word-break: keep-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 10px;
+  color: gray;
+  overflow: hidden;
+}
+
+.att-item.inprogress {
+  opacity: 0.3 ;
+}
+
+/**
+  **********************************************************
+  *    Text Angular Overrides
+  **********************************************************
+ */
+
+.ui-select-multiple.ui-select-bootstrap {
+  width: 100%;
+  border: none;
+}
+
+.btn-toolbar > .btn-group {
+  padding: 5px;
+}
+
+.nst-compose-message  .btn {
+  background-color: $color-white;
+  color: $color-solid;
+  border: 1px solid $color-storm;
+}
+
+.ta-scroll-window.form-control {
+  height :100%;
+  border: none;
+  padding: 5px;
+}
+
+.ta-root.focussed > .ta-scroll-window.form-control {
+  box-shadow: none;
+  border: none;
+  height: 100%;
+
+}
+
+.btn-default.active {
+  background-color: $color-sense;
+  text-shadow: none;
+  box-shadow: none;
+
+}
+
+/**
   **********************************************************
   *     Nested Classes - Page Specific - Compose *
   **********************************************************
@@ -90,4 +243,36 @@
 
 .nst-compose-message p {
   padding: 10px;
+}
+
+.btn-send-compose{
+  width: 48px;
+  height: 22px;
+  background-color: #14D769;
+  border: 1px solid #00B45A;
+  padding-top: 2px;
+  color: white;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: $font-size-small;
+  font-weight: 900;
+  margin-top: 8px;
+
+
+
+}
+
+.btn-back-compose {
+  border: 1px solid $color-breeze;
+  color: $color-storm;
+  width: 64px;
+  height: 22px;
+  padding-top: 2px;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: $font-size-small;
+  margin-top: 8px;
+
+
+
 }
