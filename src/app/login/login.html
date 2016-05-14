@@ -1,41 +1,41 @@
-<div class="nst-vc">
-  <div id="panel-signin" class="panel">
-    <div class="panel-heading">
-      <div class="row nst-vb">
-        <p class="col-xs-4 nst-font-xlarge">Sign in</p>
-        <p class="col-xs-8 text-right nst-mood-calm nst-font-small">or <a class="nst-mood-cheerful" href="#/signup">Create an account</a></p>
+<div class="_fhw">
+  <div class="nst-vc">
+    <div id="panel-signin" class="panel">
+      <div class="panel-heading">
+        <div class="row nst-vb">
+          <p class="col-xs-4 nst-font-xlarge">Sign in</p>
+          <p class="col-xs-8 text-right nst-mood-calm nst-font-small">or <a class="nst-mood-cheerful" href="#/signup">Create an account</a></p>
+        </div>
       </div>
-    </div>
-    <div  class="panel-body">
-      <form accept-charset="UTF-8" role="form" data-ng-submit="login.auth()">
-        <fieldset>
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="username" name="username"
-                   data-ng-model="login.username"/>
-          </div>
-
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="password" name="password"
-                   data-ng-model="login.password"/>
-            <i class="nst-ico-eye-slash form-control-feedback"></i>
-          </div>
-
-          <div class="form-group">
-            <input data-ng-disabled="login.progress" class="btn btn-lg btn-block" type="submit" value="Sign in">
-          </div>
-
-          <div class="form-group row">
-            <div class="col-xs-6 text-left">
-              <input type="checkbox" id="remember" name="remember" value="remember"
-                     data-ng-model="login.remember"/>
-              <label for="remember">Stay signed in</label>
+      <div  class="panel-body">
+        <form accept-charset="UTF-8" role="form"
+              data-ng-controller="LoginController as login" data-ng-submit="login.auth()">
+          <fieldset>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="username" name="username"
+                     data-ng-model="login.username"/>
             </div>
-            <a class="col-xs-6 text-right nst-mood-cheerful" href="#/forgot-password">Forgot Password?</a>
-          </div>
-        </fieldset>
-      </form>
 
-      <div data-ng-if="login.message.fill" class="{{login.message.class}}" data-ng-bind="login.message.text"></div>
+            <div class="form-group has-feedback" data-ng-model="show">
+              <input class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="login.password" placeholder="password" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}"/>
+              <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
+            </div>
+
+            <div class="form-group">
+              <input class="btn btn-lg btn-block" type="submit" value="Sign in">
+            </div>
+
+            <div class="form-group row">
+              <div class="col-xs-6 text-left">
+                <input type="checkbox" id="remember" name="remember" value="remember"
+                       data-ng-model="login.remember"/>
+                <label for="remember">Stay sign in</label>
+              </div>
+              <a class="col-xs-6 text-right nst-mood-cheerful" href="#/forgot-password">Forgot Password?</a>
+            </div>
+          </fieldset>
+        </form>
+      </div>
     </div>
   </div>
 </div>

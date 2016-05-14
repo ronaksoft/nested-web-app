@@ -20,9 +20,13 @@
       'ui.router',
       'ui.bootstrap',
       'toastr',
+      'internationalPhoneNumber',
+      'toastr',
       'pdf',
       'com.2fdevs.videogular',
       'com.2fdevs.videogular.plugins.controls',
+      'com.2fdevs.videogular.plugins.poster',
+      'rorymadden.date-dropdowns',
       'com.2fdevs.videogular.plugins.poster',
       'textAngular'
     ]);
