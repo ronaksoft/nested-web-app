@@ -73,8 +73,7 @@
                            </div>
                           </li>
                           <li class="_fr">
-                            <a  class="places-ancher nst-mood-storm " >Add a Place<div class="option-add-icon-plc _dib"></div></a>
-
+                            <a href="#/create-place" class="places-ancher nst-mood-storm " >Add a Place<div class="option-add-icon-plc _dib"></div></a>
                           </li>
                         </ul>
 
@@ -84,6 +83,12 @@
                           </li>
                           <li data-ng-repeat="(key, action) in place_option.actions">
                             <a class="place-option-ancher" ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib" ></span></a>
+                          </li>
+                        </ul>
+
+                        <ul class="nav-width-ul" data-ng-if="create_place">
+                          <li>
+                            <a><button class="button-back">Discard</button></a>
                           </li>
                         </ul>
                       </div>
@@ -108,7 +113,5 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
 </div>
 
