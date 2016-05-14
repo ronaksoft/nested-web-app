@@ -3,24 +3,11 @@
 
   angular
     .module('nested')
-    .factory('NestedRecipient', function (WsService) {
+    .factory('NestedRecipient', function ($q, $rootScope, WsService) {
       function Recipient(data) {
-        this.username = null;
         this.email = null;
-        this.email_verified = false;
-        this.registered = false;
-        this.phone = null;
-        this.name = {
-          fname: null,
-          lname: null
-        };
-        this.fullname = null;
-        this.picture = {
-          org: null,
-          x32: null,
-          x64: null,
-          x128: null
-        };
+        this.id = null;
+        this.name = null;
 
         if (data) {
           this.setData(data);
@@ -35,42 +22,42 @@
             this.load(data);
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
+
+            this.change();
+          } else if (data.hasOwnProperty('_id')) {
+            this.id = data._id;
+            this.email = this.id;
+            this.name = data.name || this.id;
+
+            this.change();
           } else if (data.hasOwnProperty('status')) {
-            this.username = data.info._id;
-            this.email = data.info.email;
-            this.email_verified = data.info.email_verified;
-            this.phone = data.info.phone;
-            this.name = {
-              fname: data.info.fname,
-              lname: data.info.lname
-            };
-            this.fullname = this.name.fname + ' ' + this.name.lname;
-            this.picture = data.info.picture;
+            this.setData(data.info);
+          }
+
+          return this;
+        },
+
+        change: function () {
+          if(!$rootScope.$$phase) {
+            $rootScope.$digest()
           }
         },
 
-        load: function(username) {
-          username = username || this.username;
+        load: function(email) {
+          this.email = email || this.email;
 
-          WsService.request('recipient/get', {
-            account_id: username
-          }).then(function (data) {
-            this.setData(data);
-          }.bind(this));
+          return $q(function (resolve) { resolve({ _id: this.email }); }.bind(this)).then(this.setData.bind(this));
         },
 
-        delete: function() {
-          return WsService.request('recipient/remove', {
-            post_id: this.id
-          });
-        },
+        delete: function() {},
 
-        update: function() {
-          // TODO: Check if API Exists and is correct
-          return WsService.request('recipient/update', {
-            post_id: this.id
-          });
-        }
+        update: function() {}
+      };
+
+      Recipient.EMAIL_REGEXP = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+
+      Recipient.isValidEmail = function (text) {
+        return this.EMAIL_REGEXP.test(text);
       };
 
       return Recipient;
