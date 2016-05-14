@@ -13,9 +13,9 @@
 
         <section>
           <span>To:</span>
-          <ui-select multiple class="address-input _dib" tagging="recipientMaker" data-ng-model="compose.recipients">
+          <ui-select multiple class="address-input _dib" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
             <ui-select-match placeholder="Type place name or email address...">
-              <span data-ng-bind="$select.selected.name"></span>
+              <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
             </ui-select-match>
             <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
                                repeat="place in (compose.places | filter: $select.search) track by place.id">
@@ -30,8 +30,8 @@
 
         <section class="nst-attach">
           <div class="nst-attach-area _dib">
-            <div data-ng-repeat="attachment in compose.post.attachments" class="doc-attachment _dib">
-              <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
+            <div data-ng-repeat="attachment in compose.post.attachments" class="_dib">
+              <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}" width="128" height="128"/>
               <div data-ng-if="!attachment.thumbs.x128.uid && compose.post.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
               <div data-ng-if="!(attachment.thumbs.x128.uid || compose.post.attachmentPreview)" class="attachment-badge-bar">
                 <div class="_dib attachment-badge-{{attachment.mimeType.split('/')[0]}}"></div>
@@ -44,9 +44,9 @@
               <div class="headlineicon-green"></div>
             </label>
 
-            <input id="attach" type="file"/>
+            <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event)"/>
           </div>
-          <div class="nst-attach-upload _fr">18 mb/100 mb Uploaded</div>
+          <div data-ng-if="upload_size.total > 0" class="nst-attach-upload _fr">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>
         </section>
         <hr/>
 
