@@ -9,7 +9,7 @@
         <div class="room-name">
           <div class="_di">
             <img data-ng-if="place.picture.org.uid" class="account-initials-64 room-pic" src="{{place.picture.x64.url}}"/>
-            <div data-ng-if="!place.picture.org.uid" class="account-initials-64 room-pic">{{place.name | initials:2}}</div>
+            <div data-ng-if="!place.picture.org.uid" class="account-initials-64 _dib room-pic">{{place.name | initials:2}}</div>
           </div>
 
           <div class="_dib room-pic">
@@ -23,10 +23,10 @@
           <span class="title-option">Options For Me</span>
           <hr>
           <div class="list-inline ">
-            <div class="_dib option-hld">
-              <li class=" _dib nst-shown ico-margin"></li>
-              <li class="_dib">Show in Digest</li>
-            </div>
+            <ul class="_dib option-hld list-inline">
+              <li class=" nst-shown ico-margin"></li>
+              <li class="">Show in Digest</li>
+            </ul>
 
             <div class=" _di">
               <div class="_di switch-panel _fr" data-ng-model="sw">
@@ -146,30 +146,28 @@
           <hr>
           <div class="_dt">
             <div class="_dtr">
-              <div class="_dtc" data-ng-repeat="member in place.members.creators.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'creator'"></div>
-              <div class="_dtc" data-ng-repeat="member in place.members.keyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'key_holder'"></div>
-              <div class="_dtc" data-ng-repeat="member in place.members.pendingKeyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_key_holder'"></div>
+              <div class="_dtc col-xs-6" data-ng-repeat="member in place.members.creators.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'creator'"></div>
+              <div class="_dtc col-xs-6" data-ng-repeat="member in place.members.keyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'key_holder'"></div>
+              <div class="_dtc col-xs-6" data-ng-repeat="member in place.members.pendingKeyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_key_holder'"></div>
             </div>
           </div>
 
-          <div class="_dib  _fr">
-            <p class="nst-mood-storm _dib ">Invite members</p>
-            <div class="add-icon _dib"></div>
-          </div>
         </div><!--/nst-teammates-->
 
         <div class="place-option-members">
           <span class="ico-margin">Members</span>
           <div class="_dib  _fr">
-            <span class="nst-mood-storm _di ">Invite members</span>
+            <span class="nst-mood-storm _dib">Invite members</span>
             <div class="add-icon _dib"></div>
           </div>
 
           <hr>
-          <div class="_dt ">
+
+          <div class="_dt">
             <div class="_dtr">
-              <div class="_dtc" data-ng-repeat="member in place.members.knownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'known_guest'"></div>
-              <div class="_dtc" data-ng-repeat="member in place.members.pendingKnownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_known_guest'"></div>
+              <div class="_dtc col-xs-6" data-ng-repeat="member in place.members.knownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'known_guest'"></div>
+              <div class="_dtc col-xs-6" data-ng-repeat="member in place.members.pendingKnownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_known_guest'">
+              </div>
             </div>
           </div>
 
@@ -183,9 +181,12 @@
               <li class="_dib">Make insider</li>
             </ul>
           </div>
+
         </div> <!-- /place-option-members-->
 
       </div>
     </div>
   </div>
 </div>
+
+
