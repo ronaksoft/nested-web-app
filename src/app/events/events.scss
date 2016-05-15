@@ -83,7 +83,7 @@
 #EventList .evrow:hover {
   background-color: #E7FBF0;
 }
-#EventList .evrow:hover  .time{
+#EventList .evrow:hover .time{
   background-color: #E7FBF0;
 }
 // TODO: color should change
@@ -103,7 +103,8 @@
 .evrow {
   position: relative;
   display: flex;
-  margin: 5px;
+  margin: 5px 0; // Horizontal Margin makes horizontal scrollbar appear!
+  padding: 0 5px;
   min-width: 782px;
   width: 100%;
 }
