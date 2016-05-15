@@ -55,10 +55,10 @@
                               <a href="javascript:void(0);" class="btn-back-compose" onclick="window.history.back();">Discard</a>
                             </li>
 
-                            <li>
-                              <a href="javascript:void(0);" class="_fr btn-send-compose" ng-click="sendPost()">Send</a>
-                            </li>
-                          </ul>
+                          <li>
+                            <a href="javascript:void(0);" class="_fr btn-send-compose" ng-click="compose.sendPost()">Send</a>
+                          </li>
+                        </ul>
 
                           <ul class="nav-width-ul" data-ng-if="events">
                             <li data-ng-repeat="(key, filter) in events.filters" class=" li-hover {{key == events.filter ? 'selected' : null}}">
@@ -66,18 +66,16 @@
                             </li>
                           </ul>
 
-                          <ul class="nav-width-ul " data-ng-if="places">
-                            <li data-ng-repeat="(key, filter) in places.filters" class=" li-hover {{key== places.filter ? 'selected' : null}}">
-                              <div>
-                                <a class="places-anchor" href="#/places/{{key}}">{{filter.name}}</a>
-                              </div>
-                            </li>
-                            <li class="_fr">
-                              <a href="#/create-place" class="places-anchor nst-mood-storm ">Add a Place
-                                <div class="option-add-icon-plc _dib"></div>
-                              </a>
-                            </li>
-                          </ul>
+                        <ul class="nav-width-ul " data-ng-if="places">
+                          <li data-ng-repeat="(key, filter) in places.filters" class="li-hover {{key== places.filter ? 'selected' : null}}" >
+                           <div>
+                             <a class="places-anchor" href="#/places/{{key}}">{{filter.name}}</a>
+                           </div>
+                          </li>
+                          <li class="_fr">
+                            <a href="#/create-place" class="places-anchor nst-mood-storm">Add a Place<div class="option-add-icon-plc _dib"></div></a>
+                          </li>
+                        </ul>
 
                           <ul class="nav-width-ul margin-ul-placeotion" data-ng-if="place_option">
                             <li class="button-navbar">
@@ -88,15 +86,15 @@
                             </li>
                           </ul>
 
-                          <ul class="nav-width-ul" data-ng-if="create_place">
-                            <li>
-                              <a class="button-back">Discard</a>
-                            </li>
-                          </ul>
-                        </div>
+                        <ul class="nav-width-ul" data-ng-if="create_place">
+                          <li>
+                            <a href="javascript:void(0);" class="button-back" onclick="window.history.back();">Discard</a>
+                          </li>
+                        </ul>
                       </div>
                     </div>
                   </div>
+                </div>
 
                   <div data-ng-if="events" id="ViewSelector" class="_dtc">
                     <ul id="" class="list-inline text-right">

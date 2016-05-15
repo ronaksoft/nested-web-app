@@ -226,7 +226,7 @@
       request: function (action, data, timeout) {
         var reqId = this.genRequestId(action, data, timeout);
 
-        var payload = angular.extend(null == data ? {} : data, {
+        var payload = angular.extend(data || {}, {
           cmd: action
         });
 

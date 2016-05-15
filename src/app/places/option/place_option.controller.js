@@ -18,6 +18,7 @@
 
     if ($stateParams.hasOwnProperty('placeId')) {
       $scope.place = new NestedPlace($stateParams.placeId);
+      $scope.place.loadAllMembers();
     } else {
       $location.path('/places').replace();
     }

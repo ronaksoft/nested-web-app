@@ -148,7 +148,15 @@
             }
           }
         },
-
+        
+        addAttachment: function (attachment) {
+          attachment = attachment instanceof NestedAttachment ? attachment : new NestedAttachment(attachment, this);
+          attachment.post = this;
+          this.attachments.push(attachment);
+          
+          this.attachmentPreview = this.attachmentPreview || !!attachment.thumbs.x128.uid;
+        },
+        
         change: function () {
           if(!$rootScope.$$phase) {
             $rootScope.$digest()
@@ -176,11 +184,12 @@
           } else {
             var params = {
               targets: (this.places.map(function (place) { return place.id; }).concat(this.recipients.map(function (recp) { return recp.id; }))).join(','),
+              content_type: this.contentType,
               reply_to: this.replyTo ? this.replyTo.id : undefined,
               forwarded_from: this.forwarded ? this.forwarded.id : undefined,
               subject: this.subject,
               body: this.body,
-              attaches: (this.attachments.map(function (attachment) { return attachment.download.uid; })).join(',')
+              attaches: (this.attachments.map(function (attachment) { return attachment.id; })).join(',')
             };
 
             return WsService.request('post/add', params);

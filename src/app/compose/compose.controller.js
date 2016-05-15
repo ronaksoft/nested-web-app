@@ -6,7 +6,7 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($location, $scope, toastr, AuthService, WsService, NestedPost, NestedPlace) {
+  function ComposeController($location, $scope, $log, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -15,6 +15,11 @@
       });
       $location.path('/signin').replace();
     }
+
+    $scope.upload_size = {
+      uploaded: 0,
+      total: 0
+    };
 
     vm.places = [];
     vm.recipients = [];
@@ -29,16 +34,66 @@
 
     vm.post = new NestedPost();
 
-    $scope.recipientMaker = function (text) {
-      // TODO: Move it
-      var emailRegexp = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-
-      // TODO: Create NestedRecipient
-      return emailRegexp.test(text) ? { id: text, name: text } : null;
+    vm.recipientMaker = function (text) {
+      return NestedRecipient.isValidEmail(text) ? new NestedRecipient(text) : null;
     };
 
-    $scope.sendPost = function () {
+    vm.attach = function (event) {
+      var element = event.currentTarget;
+
+      var counter = 0;
+      for (var i = 0; i < element.files.length; i++) {
+        var file = element.files[i];
+        counter++;
+        $scope.upload_size.total += file.size;
+
+        StoreService.upload(file).then(function (response) {
+          var isImage = this.type.split('/')[0] == 'image';
+          var attachment = new NestedAttachment({
+            _id: response.universal_id,
+            filename: this.name,
+            mimetype: this.type,
+            upload_time: this.lastModified,
+            size: this.size
+          });
+
+          if (isImage) {
+            var stItem = new StoreItem();
+            stItem.uid = attachment.id;
+            attachment.thumbs = {
+              x32: stItem,
+              x64: stItem,
+              x128: stItem
+            };
+
+            var reader = new FileReader();
+            reader.onload = function (event) {
+              var uri = event.target.result;
+              this.thumbs.x32.url = uri;
+              this.thumbs.x64.url = uri;
+              this.thumbs.x128.url = uri;
+
+            }.bind(attachment);
+
+            reader.readAsDataURL(this);
+          }
+
+          $scope.compose.post.addAttachment(attachment);
+          $scope.upload_size.uploaded += this.size;
+
+          if (0 == --counter) {
+            $scope.upload_size.total = 0;
+            $scope.upload_size.uploaded = 0;
+          }
+        }.bind(file)).catch(function (reason) {
+          $log.debug('Attach Failed', reason);
+        });
+      }
+    };
+
+    vm.sendPost = function () {
       var post = $scope.compose.post;
+      post.contentType = 'text/html';
       for (var k in $scope.compose.recipients) {
         if ($scope.compose.recipients[k] instanceof NestedPlace) {
           post.places.push($scope.compose.recipients[k]);

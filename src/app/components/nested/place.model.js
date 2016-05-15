@@ -22,7 +22,7 @@
       KNOWN_GUEST: 'known_guest',
       CREATOR: 'creator'
     })
-    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, WsService, NestedUser, PLACE_ACCESS, StoreItem, $log) {
+    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, WsService, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
 
@@ -36,9 +36,31 @@
 
         this.activeMembers = []; // [<NestedUser>]
         this.members = {
-          creators: [], // [<NestedUser>]
-          keyHolders: [], // [<NestedUser>]
-          knownGuests: [] // [<NestedUser>]
+          creators: {
+            loaded: false,
+            count: -1,
+            users: [] // [<NestedUser>]
+          },
+          keyHolders: {
+            loaded: false,
+            count: -1,
+            users: [] // [<NestedUser>]
+          },
+          pendingKeyHolders: {
+            loaded: false,
+            count: -1,
+            users: [] // [<NestedUser>]
+          },
+          knownGuests: {
+            loaded: false,
+            count: -1,
+            users: [] // [<NestedUser>]
+          },
+          pendingKnownGuests: {
+            loaded: false,
+            count: -1,
+            users: [] // [<NestedUser>]
+          }
         };
 
         this.picture = {
@@ -116,8 +138,14 @@
             };
             if (data.counters && angular.isObject(data.counters)) {
               this.counters.creators = data.counters.creators;
+              this.members.creators.count = this.counters.creators;
+
               this.counters.keyHolders = data.counters.key_holders;
+              this.members.keyHolders.count = this.counters.keyHolders;
+
               this.counters.knownGuests = data.counters.known_guests;
+              this.members.knownGuests.count = this.counters.knownGuests;
+
               this.counters.children = data.counters.childs;
               this.counters.posts = data.counters.posts;
               this.counters.size = data.counters.size;
@@ -172,7 +200,7 @@
         },
 
         loadCreators: function (reload) {
-          if (this.members.creators.length > 0 && !reload) {
+          if (this.members.creators.loaded && !reload) {
             return $q(function (resolve) {
               resolve(this.members.creators);
             }.bind(this));
@@ -181,19 +209,21 @@
           return WsService.request('place/get_creators', {
             place_id: this.id
           }).then(function (data) {
-            this.members.creators = [];
+            this.members.creators.users = [];
+            this.members.creators.count = data.creators.length;
             for (var k in data.creators) {
-              this.members.creators.push(new NestedUser(data.creators[k]));
+              this.members.creators.users.push(new NestedUser(data.creators[k]));
             }
 
+            this.members.creators.loaded = true;
             this.change();
 
-            return this.members.creators;
+            return this.loadCreators();
           }.bind(this));
         },
 
         loadKeyHolders: function (reload) {
-          if (this.members.keyHolders.length > 0 && !reload) {
+          if (this.members.keyHolders.loaded && !reload) {
             return $q(function (resolve) {
               resolve(this.members.keyHolders);
             }.bind(this));
@@ -202,19 +232,45 @@
           return WsService.request('place/get_key_holders', {
             place_id: this.id
           }).then(function (data) {
-            this.members.keyHolders = [];
+            this.members.keyHolders.users = [];
+            this.members.keyHolders.count = data.key_holders.length;
             for (var k in data.key_holders) {
-              this.members.keyHolders.push(new NestedUser(data.key_holders[k]));
+              this.members.keyHolders.users.push(new NestedUser(data.key_holders[k]));
             }
 
+            this.members.keyHolders.loaded = true;
             this.change();
 
-            return this.members.keyHolders;
+            return this.loadKeyHolders();
+          }.bind(this));
+        },
+
+        loadPendingKeyHolders: function (reload) {
+          if (this.members.pendingKeyHolders.loaded && !reload) {
+            return $q(function (resolve) {
+              resolve(this.members.pendingKeyHolders);
+            }.bind(this));
+          }
+
+          return WsService.request('place/get_pending_invitations', {
+            place_id: this.id,
+            member_type: MEMBER_TYPE.KEY_HOLDER
+          }).then(function (data) {
+            this.members.pendingKeyHolders.users = [];
+            this.members.pendingKeyHolders.count = 0;
+            for (var k in data.invitations) {
+              this.members.pendingKeyHolders.users.push(new NestedUser(data.invitations[k]));
+            }
+
+            this.members.pendingKeyHolders.loaded = true;
+            this.change();
+
+            return this.loadPendingKeyHolders();
           }.bind(this));
         },
 
         loadKnownGuests: function (reload) {
-          if (this.members.knownGuests.length > 0 && !reload) {
+          if (this.members.knownGuests.loaded && !reload) {
             return $q(function (resolve) {
               resolve(this.members.knownGuests);
             }.bind(this));
@@ -223,19 +279,45 @@
           return WsService.request('place/get_known_guests', {
             place_id: this.id
           }).then(function (data) {
-            this.members.knownGuests = [];
+            this.members.knownGuests.users = [];
+            this.members.knownGuests.count = data.known_guests.length;
             for (var k in data.known_guests) {
-              this.members.knownGuests.push(new NestedUser(data.known_guests[k]));
+              this.members.knownGuests.users.push(new NestedUser(data.known_guests[k]));
             }
 
+            this.members.knownGuests.loaded = true;
             this.change();
 
-            return this.members.knownGuests;
+            return this.loadKnownGuests();
+          }.bind(this));
+        },
+
+        loadPendingKnownGuests: function (reload) {
+          if (this.members.pendingKnownGuests.loaded && !reload) {
+            return $q(function (resolve) {
+              resolve(this.members.pendingKnownGuests);
+            }.bind(this));
+          }
+
+          return WsService.request('place/get_pending_invitations', {
+            place_id: this.id,
+            member_type: MEMBER_TYPE.KNOWN_GUEST
+          }).then(function (data) {
+            this.members.pendingKnownGuests.users = [];
+            this.members.pendingKnownGuests.count = 0;
+            for (var k in data.invitations) {
+              this.members.pendingKnownGuests.users.push(new NestedUser(data.invitations[k]));
+            }
+
+            this.members.pendingKnownGuests.loaded = true;
+            this.change();
+
+            return this.loadPendingKnownGuests();
           }.bind(this));
         },
 
         loadAllMembers: function (reload) {
-          if (this.members.creators.length + this.members.keyHolders.length + this.members.knownGuests.length > 0 && !reload) {
+          if (this.members.creators.loaded && this.members.keyHolders.loaded && this.members.knownGuests.loaded && !reload) {
             return $q(function (resolve) {
               resolve(this.members);
             }.bind(this));
@@ -244,27 +326,36 @@
           return WsService.request('place/get_members', {
             place_id: this.id
           }).then(function (data) {
-            this.members = {
-              creators: [],
-              keyHolders: [],
-              knownGuests: []
-            };
-
+            this.members.creators.users = [];
+            this.members.creators.count = data.creators.length;
+            this.counters.creators = this.members.creators.count;
             for (var k in data.creators) {
-              this.members.creators.push(new NestedUser(data.creators[k]));
+              this.members.creators.users.push(new NestedUser(data.creators[k]));
             }
+            this.members.creators.loaded = true;
 
+            this.members.keyHolders.users = [];
+            this.members.keyHolders.count = data.key_holders.length;
+            this.counters.keyHolders = this.members.keyHolders.count;
             for (var k in data.key_holders) {
-              this.members.keyHolders.push(new NestedUser(data.key_holders[k]));
+              this.members.keyHolders.users.push(new NestedUser(data.key_holders[k]));
             }
+            this.members.keyHolders.loaded = true;
 
+            this.members.knownGuests.users = [];
+            this.members.knownGuests.count = data.known_guests.length;
+            this.counters.knownGuests = this.members.knownGuests.count;
             for (var k in data.known_guests) {
-              this.members.knownGuests.push(new NestedUser(data.known_guests[k]));
+              this.members.knownGuests.users.push(new NestedUser(data.known_guests[k]));
             }
+            this.members.knownGuests.loaded = true;
 
+            this.counters.allMembers = this.counters.knownGuests + this.counters.keyHolders + this.counters.creators;
             this.change();
+            this.loadPendingKeyHolders();
+            this.loadPendingKnownGuests();
 
-            return this.members;
+            return this.loadAllMembers();
           }.bind(this));
         },
 
