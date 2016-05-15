@@ -58,6 +58,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(htmlFilter)
     .pipe($.htmlmin({
       collapseWhitespace: true,
+      // Options for html-minify
       empty: true,
       spare: true,
       quotes: true,
