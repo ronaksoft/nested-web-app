@@ -1,0 +1,16 @@
+<ul data-ng-show="thePost.attachments.length > 0" class="attachments-bar image">
+  <li>
+    <ul class="attachments-bar">
+      <li data-ng-repeat="(key, attachment) in thePost.attachments">
+        <a href="{{unattachable ? '' : attachment.download.url}}" ng-click="$event.preventDefault(); unattachable && attachment.getDownloadUrl().then(attachmentView);">
+          <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
+          <div data-ng-if="!attachment.thumbs.x128.uid && thePost.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
+          <div data-ng-if="!(attachment.thumbs.x128.uid || thePost.attachmentPreview)" class="attachment-badge-bar">
+            <div class="_dib attachment-badge-{{attachment.mimeType.split('/')[0]}}"></div>
+            <span class="_dib">{{attachment.filename}}</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>

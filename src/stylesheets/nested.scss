@@ -805,7 +805,7 @@ label {
   width: 128px;
 }
 
-[class|="ei-"] {
+[class*="ei-"] {
   width: 16px;
   height: 16px;
   background-image: url('../assets/icons/eventicon.png');
@@ -893,6 +893,7 @@ label {
 }
 #MyPlaces li span {
   padding: 10px;
+
 }
 #MyPlaces li .place-cell {
   width:200px;
