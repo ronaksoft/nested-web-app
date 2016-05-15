@@ -184,20 +184,15 @@ textarea {
 //    border-radius: 24px;
 //}
 
-a.place {
-  color: $color-sense;
-  font-weight: bold;
-}
-
-a.account {
-  color: $color-sense;
-}
-
+a.place,
+a.account,
 a.post {
   color: $color-sense;
 }
 
-
+a.place {
+  font-weight: bold;
+}
 
 /**
   ******************************
