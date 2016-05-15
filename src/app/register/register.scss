@@ -85,6 +85,7 @@
   pointer-events: auto;
   font-size: $font-size-medium;
 }
+
 .form-control-register {
   text-align: center;
   width: 100%;
@@ -95,24 +96,21 @@
   border: 1px solid $color-breeze;
   border-radius: 4px;
 }
-.nst-marginbtm-8{
-  margin-bottom: 8px;
+
+@for $i from 1 through 6 {
+  .nst-marginbtm-#{$i * 8} {
+    margin-bottom: #{$i * 8}px;
+  }
 }
-.nst-marginbtm-16{
-  margin-bottom: 16px;
-}
-.nst-marginbtm-24{
-  margin-bottom: 24px;
-}
-.nst-marginbtm-48{
-  margin-bottom: 48px;
-}
+
 .mobile-number{
   margin-top: 60px;
 }
+
 .agreement-text {
   padding-left: 2px;
 }
+
 #panel-register .agreement-text a {
   font-size: 10px;
 }

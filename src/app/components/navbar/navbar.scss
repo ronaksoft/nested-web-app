@@ -78,18 +78,18 @@
 
 }
 
-#SecondaryPageSelector li:hover,
-#SecondaryPageSelector li.selected {
+#SecondaryPageSelector li.li-hover:hover,
+#SecondaryPageSelector li.li-hover.selected {
   border-bottom: 4px solid $color-sense;
   color: $color-sense;
 }
 
-#SecondaryPageSelector li.selected a,
-#SecondaryPageSelector li.hover a {
+#SecondaryPageSelector li.li-hover.selected a,
+#SecondaryPageSelector li.li-hover.hover a {
   color: $color-sense;
 }
 
-#SecondaryPageSelector #events-ancher {
+#SecondaryPageSelector #events-anchor {
   padding: 9px 15px;
   height: 100%;
   width: 100%;
@@ -98,7 +98,7 @@
   display: block;
 }
 
-#SecondaryPageSelector .places-ancher {
+#SecondaryPageSelector .places-anchor {
   padding: 5px 15px;
   height: 100%;
   width: 100%;
@@ -107,7 +107,7 @@
   display: block;
 }
 
-#SecondaryPageSelector .place-option-ancher {
+#SecondaryPageSelector .place-option-anchor {
   padding: 5px 15px;
   height: 100%;
   width: 100%;
@@ -117,7 +117,7 @@
 }
 
 #SecondaryPageSelector a:hover {
-  color: $color-sense;
+
 }
 
 .nav-profile {
