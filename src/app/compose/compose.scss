@@ -210,8 +210,8 @@ div.att-item {
   margin-top: 10px;
 }
 
-.nst-attach {
-  height: 112px;
+.nst-attach img {
+  vertical-align: inherit;
 }
 
 .nst-attach .headlineicon-green {
@@ -224,7 +224,6 @@ div.att-item {
 
 .nst-attach-bar {
   width: 94%;
-  height: 24px;
   background-color: $color-fillbox;
   margin-left: 10px;
   margin-top: 8px;
@@ -273,6 +272,9 @@ div.att-item {
   font-size: $font-size-small;
   margin-top: 8px;
 
+}
 
-
+#img-attach {
+  height: 96px;
+  margin-top: -96px;
 }

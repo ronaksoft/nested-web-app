@@ -1,5 +1,5 @@
 <div id="PostView">
-  <div class=" _fw _fh">
+  <div class=" _fw _fvh">
         <div class="_dt _fh _fw main-body">
           <div class="_dtr">
             <div class='_dtc'>
@@ -55,23 +55,9 @@
                 <div id="Content" class="_dtc _pr">
                   <div class="_dt _fh _fw">
                     <div class="_dtr">
-                      <div id="Attachments">
-                        <ul class="attachments-bar image">
-                          <li>
-                            <ul class="attachments-bar">
-                              <li data-ng-repeat="(key, attachment) in thePost.attachments">
-                                <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
-                                <div data-ng-if="!attachment.thumbs.x128.uid && thePost.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
-                                <div data-ng-if="!(attachment.thumbs.x128.uid || thePost.attachmentPreview)" class="attachment-badge-bar">
-                                  <div class="_dib attachment-badge-{{'img'}}"></div>
-                                  <span class="_dib">{{attachment.filename}}</span>
-                                </div>
-                              </li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </div>
+                      <div data-ng-show="navbar.extended" class="attachments" data-ng-include="'app/components/nested/shared/attachments.html'" data-ng-init="thePost = thePost"></div>
                     </div>
+
                     <div class="_dtr _fh">
                       <div id="PostBody" class="_fh _fw">
                         <div class="msg-post-view" data-ng-bind-html="thePost.body | emoji"></div>

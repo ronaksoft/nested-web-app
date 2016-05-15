@@ -151,31 +151,31 @@
   /* place for '...' */
   //margin-right: -1em;
 }
-
-*[class*="-attachment"]:before {
-  /* points in the end */
-  content: '...';
-  /* absolute position */
-  position: absolute;
-  /* set position to right bottom corner of block */
-  right: 10px;
-  bottom: 0.5ex;
-}
-
-*[class*="-attachment"]:after {
-  /* points in the end */
-  content: '';
-  /* absolute position */
-  position: absolute;
-  /* set position to right bottom corner of text */
-  right: 10px;
-  /* set width and height */
-  width: 1em;
-  height: 1em;
-  margin-top: 0.2em;
-  /* bg color = bg color under block */
-  background: white;
-}
+//
+//*[class*="-attachment"]:before {
+//  /* points in the end */
+//  content: '...';
+//  /* absolute position */
+//  position: absolute;
+//  /* set position to right bottom corner of block */
+//  right: 10px;
+//  bottom: 0.5ex;
+//}
+//
+//*[class*="-attachment"]:after {
+//  /* points in the end */
+//  content: '';
+//  /* absolute position */
+//  position: absolute;
+//  /* set position to right bottom corner of text */
+//  right: 10px;
+//  /* set width and height */
+//  width: 1em;
+//  height: 1em;
+//  margin-top: 0.2em;
+//  /* bg color = bg color under block */
+//  background: white;
+//}
 
 .doc-attachment {
   background-position: 0 0;
