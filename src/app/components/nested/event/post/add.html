@@ -2,12 +2,7 @@
   <div class="ico">
     <div class="ei-mail-unread"></div>
   </div>
-  <div class="sender">
-    <img data-ng-if="event.post.sender.picture.org.uid" src="{{event.post.sender.picture.x32.url}}"/>
-    <div class=" _fl account-initials-32" data-ng-if="!event.post.sender.picture.org.uid" data-ng-bind="event.post.sender.name.initials"></div>
-
-    <span data-ng-bind="event.post.sender.fullname"></span>
-  </div>
+  <div class="sender" data-ng-include="'app/components/nested/event/common/actor.html'" data-ng-init="actor = event.post.sender"></div>
 </div>
 <div class="actcon">
   <div class="msg">
