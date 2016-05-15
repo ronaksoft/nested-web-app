@@ -1,6 +1,7 @@
+<div class="row">
 <div class="_dtr teammates-panel">
   <div class="_dtc">
-    <img data-ng-if="member.picture.org.uid" src="{{member.picture.x32.url}}"/>
+    <img class="account-initials-48" data-ng-if="member.picture.org.uid" src="{{member.picture.x32.url}}"/>
     <div class="account-initials-48" data-ng-if="!member.picture.org.uid" data-ng-bind="member.name.initials"></div>
   </div>
   <div class="_dtc">
@@ -25,4 +26,6 @@
       <div class="nst-more-badge" uib-tooltip="Tooltip" id="active-test"></div>
     </a>
   </div>
+</div>
+
 </div>

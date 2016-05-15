@@ -9,7 +9,6 @@
 }
 
 #place-option-body {
-  //margin: auto;
   padding: 0px 208px;
   width: 100%;
   height: 100%;
@@ -27,8 +26,7 @@
 }
 
 .room-name {
-  height: 152px;
-  //margin-top: -10px;
+  min-height: 152px;
   background-color: white;
 }
 
@@ -36,38 +34,33 @@
   margin-left: 12px;
   margin-top: 30px;
 }
-
+//---------------------------------
 .nst-options {
   height: 110px;
 }
-
-
 
 .nst-options .nst-eye {
   margin-left: 7px;
 }
 
 .nst-place-privacy {
-  height: 172px;
   background-color: $color-white;
 }
 
 .nst-teammates {
-  height: 240px;
   background-color: $color-white;
-
 }
 
 .nst-teammates > ._dtr {
-  width: 800px;
+  //width: 800px;
 }
 
 .place-option-members > ._dt {
-  width: 800px;
+  //width: 800px;
 }
 
 .teammate-name {
-  min-width: 270px;
+  width: 270px;
 }
 
 .place-option-members {
