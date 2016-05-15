@@ -1,23 +1,27 @@
-<td class="ico">
-  <div class="ei-comment-add"></div>
-</td>
-<td class="sender">
-  <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
-  <div class="_fl account-initials-32" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+<div class="actdes">
+  <div class="ico">
+    <div class="ei-comment-add"></div>
+  </div>
+  <div class="sender">
+    <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
+    <div class="_fl account-initials-32" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
 
-  <span data-ng-bind="event.actor.fullname"></span>
-</td>
-<td class="msg">
-  <div class="comment-subject">
-    <span class="nst-mood-simple">commented on </span>
-    <a class=" nst-mood-solid post post" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)" data-ng-bind-html="event.post.subject | emoji"></a>
+    <span data-ng-bind="event.actor.fullname"></span>
   </div>
-  <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
-</td>
-<td class="places">
-  <a href="#/events/{{event.post.places[0].id}}" class="normal-badge _dtc" data-ng-bind="event.post.places[0].name"></a>
-  <div data-ng-if="event.post.places.length > 1" class=" _dtc popover-white" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom-right">
-    <a class="more-tag">+{{event.post.places.length - 1}}</a>
+</div>
+<div class="actcon">
+  <div class="msg">
+    <div class="comment-subject">
+      <span class="nst-mood-simple">commented on </span>
+      <a class=" nst-mood-solid post post" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)" data-ng-bind-html="event.post.subject | emoji"></a>
+    </div>
+    <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
   </div>
-</td>
-<td class="time" data-ng-include="'app/components/nested/event/common/date.html'"></td>
+  <div class="places">
+    <div data-ng-if="event.post.places.length > 1" class=" _dtc popover-white" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom-right">
+      <a class="more-tag">+{{event.post.places.length - 1}}</a>
+    </div>
+    <a href="#/events/{{event.post.places[0].id}}" class="normal-badge _dtc" data-ng-bind="event.post.places[0].name"></a>
+  </div>
+  <div class="time" data-ng-include="'app/components/nested/event/common/date.html'"></div>
+</div>

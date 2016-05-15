@@ -1,16 +1,20 @@
-<td class='ico'>
-  <img data-ng-if="event.place.picture.org.uid" src="{{event.place.picture.x32.url}}" height="16" width="16"/>
-  <div initials class="account-initials-16" data-ng-if="!event.place.picture.org.uid" data-ng-bind="event.place.name | initials"></div>
-</td>
-<td class='sender'>
-  <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
-  <div class=" _fl account-initials-32" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+<div class="actdes">
+  <div class='ico'>
+    <img data-ng-if="event.place.picture.org.uid" src="{{event.place.picture.x32.url}}" height="16" width="16"/>
+    <div initials class="account-initials-32" data-ng-if="!event.place.picture.org.uid" data-ng-bind="event.place.name | initials"></div>
+  </div>
+  <div class='sender'>
+    <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
+    <div class=" _fl account-initials-32" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
 
-  <span data-ng-bind="event.actor.fullname"></span>
-</td>
-<td class='msg'>
-  <span>created <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a></span>
-  <span data-ng-if="event.place.parent"> room in <a class="place" href="#/events/{{event.place.parent.id}}" data-ng-bind="event.place.parent.name"></a></span>
-</td>
-<td class='places'></td>
-<td class="time" data-ng-include="'app/components/nested/event/common/date.html'"></td>
+    <span data-ng-bind="event.actor.fullname"></span>
+  </div>
+</div>
+<div class="actcon">
+  <div class='msg'>
+    <span>created <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a></span>
+    <span data-ng-if="event.place.parent"> room in <a class="place" href="#/events/{{event.place.parent.id}}" data-ng-bind="event.place.parent.name"></a></span>
+  </div>
+  <div class='places'></div>
+  <div class="time" data-ng-include="'app/components/nested/event/common/date.html'"></div>
+</div>

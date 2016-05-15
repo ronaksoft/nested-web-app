@@ -1,15 +1,19 @@
-<td class="ico">
-  <div class="ei-member-join"></div>
-</td>
-<td class="sender">
-  <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
-  <div class="_fl account-initials-32" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
+<div class="actdes">
+  <div class="ico">
+    <div class="ei-member-join"></div>
+  </div>
+  <div class="sender">
+    <img data-ng-if="event.actor.picture.org.uid" src="{{event.actor.picture.x32.url}}"/>
+    <div class="_fl account-initials-32" data-ng-if="!event.actor.picture.org.uid" data-ng-bind="event.actor.name.initials"></div>
 
-  <span data-ng-bind="event.actor.fullname"></span>
-</td>
-<td class="msg">
-  <span class="nst-mood-simple">joined to </span>
-  <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a>
-</td>
-<td class="places"></td>
-<td class="time" data-ng-include="'app/components/nested/event/common/date.html'"></td>
+    <span data-ng-bind="event.actor.fullname"></span>
+  </div>
+</div>
+<div class="actcon">
+  <div class="msg">
+    <span class="nst-mood-simple">joined to </span>
+    <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a>
+  </div>
+  <div class="places"></div>
+  <div class="time col-lg-1" data-ng-include="'app/components/nested/event/common/date.html'"></div>
+</div>
