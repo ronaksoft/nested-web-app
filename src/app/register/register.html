@@ -3,13 +3,13 @@
     <div  class="panel" id="panel-register">
       <div class="nst-vb no-gutter2 nst-marginbtm-16">
         <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">Create an account</p>
-        <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or  <a href="#src/app/login/login.html" class="nst-mood-cheerful">Sign in</a></p>
+        <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or  <a href="#/signin" class="nst-mood-cheerful">Sign in</a></p>
       </div>
       <div class="nst-marginbtm-8">
         Choose your username
       </div>
       <div class="nst-marginbtm-16 has-feedback">
-        <input aria-invalid="false" class="form-control" name="username" type="text" maxlength="29">
+        <input aria-invalid="false" class="form-control" name="username" type="text" maxlength="29"/>
         <div class="form-control-feedback-register">@nested.com</div>
       </div>
       <div class="nst-marginbtm-8">
@@ -24,7 +24,7 @@
       <div class="row no-gutter">
             <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6">
               <div class="nst-marginbtm-8">First name</div>
-              <input class="form-control ng-pristine ng-untouched ng-valid" name="firstname"  type="text">
+              <input class="form-control ng-pristine ng-untouched ng-valid" name="firstname"  type="text"/>
             </div>
             <div class="col-md-6 col-xs-6 col-lg-6 col-sm-6 nst-marginbtm-16">
               <div class="nst-marginbtm-8">Last name</div>
@@ -33,46 +33,40 @@
       </div>
       <div class="nst-marginbtm-24">
         <div class="nst-marginbtm-8">Set an Email for Recovery</div>
-        <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="recoveryemail" type="text">
+        <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="recoveryemail" type="text"/>
       </div>
-      <div class="nst-marginbtm-16">
-        Gender
-      </div>
+      <div class="nst-marginbtm-16">Gender</div>
       <ul class="list-inline">
         <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-          <input type="radio" name="sex" value="sex">
-          <label> Female</label>
+          <input type="radio" name="gender" value="female"/>
+          <label>Female</label>
         </li>
         <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-          <input type="radio" name="sex" value="sex">
-          <label> Male</label>
+          <input type="radio" name="gender" value="male"/>
+          <label>Male</label>
         </li>
         <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-          <input type="radio" name="sex" value="sex">
-          <label> Other</label>
+          <input type="radio" name="gender" value="other"/>
+          <label>Other</label>
         </li>
       </ul>
       <div class="nst-marginbtm-16 mobile-number">
         <div class="nst-marginbtm-8">Mobile Phone</div>
         <div class="_fw">
-          <input name="mobileNumber" international-phone-number class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="phone">
+          <input name="mobileNumber" international-phone-number class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
         </div>
       </div>
-      <div class="nst-marginbtm-8">
-          Birthday
-      </div>
+      <div class="nst-marginbtm-8">Birthday</div>
       <div class="nst-marginbtm-16">
         <input class="select-birthday" rsmdatedropdowns ng-model="birth"/>
       </div>
       <div class="_dt nst-marginbtm-48">
         <div class="_dtr">
           <div class="_dtc">
-            <input id="remember" name="remember" value="remember" type="checkbox">
+            <input id="remember" name="remember" value="remember" type="checkbox"/>
             <label for="remember"></label>
           </div>
-          <div class="_dtc agreement-text">
-            I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of Service</a> and <a href="#" class="nst-mood-cheerful"> Privacy Policy</a>.
-          </div>
+          <div class="_dtc agreement-text">I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of Service</a> and <a href="#" class="nst-mood-cheerful"> Privacy Policy</a>.</div>
         </div>
       </div>
       <div>
