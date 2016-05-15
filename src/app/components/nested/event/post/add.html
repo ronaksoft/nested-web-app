@@ -12,6 +12,7 @@
   <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.post.body | emoji | characters:255"></div>
   <div data-ng-show="navbar.extended" class="attachments">
     <ul class="attachments-bar image">
+
       <li>
         <ul class="attachments-bar">
           <li data-ng-repeat="(key, attachment) in event.post.attachments">
@@ -26,6 +27,7 @@
           </li>
         </ul>
       </li>
+
     </ul>
   </div>
 </td>

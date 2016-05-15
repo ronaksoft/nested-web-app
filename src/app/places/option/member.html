@@ -1,31 +1,30 @@
 <div class="row">
-<div class="_dtr teammates-panel">
-  <div class="_dtc">
-    <img class="account-initials-48" data-ng-if="member.picture.org.uid" src="{{member.picture.x32.url}}"/>
-    <div class="account-initials-48" data-ng-if="!member.picture.org.uid" data-ng-bind="member.name.initials"></div>
-  </div>
-  <div class="_dtc">
-    <div class="_dtr">
-      <div class="_dtc" data-ng-switch="role">
-        <div data-ng-switch-when="creator" class="role-icon-crown-new role-icon"></div>
-        <div data-ng-switch-when="key_holder" class="role-icon-key role-icon"></div>
-        <div data-ng-switch-when="pending_key_holder" class="role-icon-key-wait role-icon"></div>
-        <div data-ng-switch-when="pending_known_guest" class="role-icon-avatar-wait role-icon"></div>
-        <div data-ng-switch-default class="role-icon-avatar role-icon"></div>
+  <div class="_dtr teammates-panel">
+    <div class="_dtc">
+      <img class="account-initials-48" data-ng-if="member.picture.org.uid" src="{{member.picture.x32.url}}"/>
+      <div class="account-initials-48" data-ng-if="!member.picture.org.uid" data-ng-bind="member.name.initials"></div>
+    </div>
+    <div class="_dtc">
+      <div class="_dtr">
+        <div class="_dtc" data-ng-switch="role">
+          <div data-ng-switch-when="creator" class="role-icon-crown-new role-icon"></div>
+          <div data-ng-switch-when="key_holder" class="role-icon-key role-icon"></div>
+          <div data-ng-switch-when="pending_key_holder" class="role-icon-key-wait role-icon"></div>
+          <div data-ng-switch-when="pending_known_guest" class="role-icon-avatar-wait role-icon"></div>
+          <div data-ng-switch-default class="role-icon-avatar role-icon"></div>
+        </div>
+        <div class="_dtc teammate-name">{{member.fullname}}</div>
       </div>
-      <div class="_dtc teammate-name">{{member.fullname}}</div>
+      <div class="_dtr">
+        <!--TODO: id should be changed to class-->
+        <div class="_dtc empty-space"></div>
+        <div class="_dtc nst-mood-storm">{{member.username}}</div>
+      </div>
     </div>
-    <div class="_dtr">
-      <!--TODO: id should be changed to class-->
-      <div class="_dtc empty-space"></div>
-      <div class="_dtc nst-mood-storm">{{member.username}}</div>
+    <div class="_dtc">
+      <a href="">
+        <div class="nst-more-badge" uib-tooltip="Tooltip" id="active-test"></div>
+      </a>
     </div>
   </div>
-  <div class="_dtc">
-    <a href="">
-      <div class="nst-more-badge" uib-tooltip="Tooltip" id="active-test"></div>
-    </a>
-  </div>
-</div>
-
 </div>

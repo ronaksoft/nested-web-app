@@ -34,17 +34,17 @@
         </section>
         <hr/>
 
-        <section class="nst-attach">
-          <div class="nst-attach-area _dib">
-            <div data-ng-repeat="attachment in compose.post.attachments" class="_dib">
+        <section class="">
+          <ul class="attachments-bar">
+            <li data-ng-repeat="attachment in compose.post.attachments">
               <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}" width="128" height="128"/>
               <div data-ng-if="!attachment.thumbs.x128.uid && compose.post.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>
               <div data-ng-if="!(attachment.thumbs.x128.uid || compose.post.attachmentPreview)" class="attachment-badge-bar">
                 <div class="_dib attachment-badge-{{attachment.mimeType.split('/')[0]}}"></div>
                 <span class="_dib">{{attachment.filename}}</span>
               </div>
-            </div>
-          </div>
+            </li>
+          </ul>
           <div class="_dib _fr">
             <label for="attach">
               <div class="headlineicon-green"></div>
@@ -54,6 +54,22 @@
           </div>
           <div data-ng-if="upload_size.total > 0" class="nst-attach-upload _fr">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>
         </section>
+
+
+
+        <!--<ul class="attachments-bar">-->
+          <!--<li data-ng-repeat="(key, attachment) in event.post.attachments">-->
+            <!--<a href="{{attachment.download.url}}" ng-click="$event.preventDefault(); attachment.getDownloadUrl().then(attachmentView);">-->
+              <!--<img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>-->
+              <!--<div data-ng-if="!attachment.thumbs.x128.uid && event.post.attachmentPreview" class="{{'doc'}}-attachment">{{attachment.filename}}</div>-->
+              <!--<div data-ng-if="!(attachment.thumbs.x128.uid || event.post.attachmentPreview)" class="attachment-badge-bar">-->
+                <!--<div class="_dib attachment-badge-{{attachment.mimeType.split('/')[0]}}"></div>-->
+                <!--<span class="_dib">{{attachment.filename}}</span>-->
+              <!--</div>-->
+            <!--</a>-->
+          <!--</li>-->
+        <!--</ul>-->
+
         <hr/>
 
         <section class="nst-compose-message">
