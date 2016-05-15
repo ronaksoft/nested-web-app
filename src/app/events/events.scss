@@ -59,7 +59,6 @@
 }
 
 .event-group-time {
-  margin-left: 10px;
   margin-top: 15px;
   width: 100%
 }
@@ -81,57 +80,51 @@
 
 }
 
-#EventList {
-}
-
-#EventList .td {
-  padding: 5px;
-}
-
-#EventList .td.ico {
-  width: 16px;
-  vertical-align: top;
-}
-
-#EventList .td.ico img {
-  border-radius: 16px;
-}
-
-#EventList .td.sender {
-  width: 200px;
-  vertical-align: top;
-  font-size: small;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: keep-all;
-  white-space: nowrap;
-}
-
-#EventList {
-  table-layout: fixed;
-}
-
-#EventList tr:hover {
+#EventList .evrow:hover {
   background-color: #E7FBF0;
 }
-
-// TODO: color should change
-#EventList td {
-  padding: 5px;
+#EventList .evrow:hover  .time{
+  background-color: #E7FBF0;
 }
+// TODO: color should change
 
-#EventList td.ico {
+#EventList .ico {
+  display: block;
+  float: left;
+  width: 40px;
   padding-left: 8px;
-  width: 32px;
   vertical-align: top;
 }
 
-#EventList td.ico img {
-  border-radius: 16px;
+#EventList .ico img {
+  border-radius: 0;
 }
 
-#EventList td.sender {
-  width: 166px;
+.evrow {
+  position: relative;
+  display: flex;
+  margin: 5px;
+  min-width: 782px;
+  width: 100%;
+}
+.actcon {
+  border-bottom: 1px solid #ced9d3;
+  padding: 5px;
+  min-width:562px;
+  width: 100%;
+  float: left
+}
+.actdes {
+  min-width: 220px;
+  float: left;
+  position: relative;
+}
+
+
+#EventList .sender {
+  float: left;
+  display: block;
+  width: 180px;
   vertical-align: top;
   font-size: small;
   overflow: hidden;
@@ -140,58 +133,56 @@
   white-space: nowrap;
 }
 
-#EventList td.sender img {
+#EventList .sender img {
   margin-left: 2px;
   margin-right: 4px;
   border-radius: 16px;
 }
 
-#EventList td.sender span {
+#EventList .sender span {
   line-height: 32px;
 }
 
-#EventList td.msg {
-  width: auto;
-  border-bottom: 1px solid #ced9d3;
-  vertical-align: top;
-  padding-top: 12px;
+#EventList .msg {
+  float: left;
+  display: block;
+  max-width: 100%;
+  min-width: 550px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
 }
 
-#EventList td.msg .subject {
+#EventList .msg .subject {
   font-weight: bold;
   line-height: 24px;
   word-break: break-all;
   overflow: hidden;
 }
 
-#EventList td.msg .body {
+#EventList .msg .body {
   color: gray;
   word-break: break-all;
   overflow: hidden;
 }
 
-#EventList td.places {
-  width: 220px;
+#EventList .places {
+  float: left;
+  position: absolute;
+  display: inline-block;
+  right: 80px;
+  width: 140px;
+  min-width: 45px;
+  min-height: 1px;
   vertical-align: top;
-  border-bottom: 1px solid #ced9d3;
+  direction: rtl;
+  font-size: $font-size-xsmall;
 }
 
-#EventList tr #time-of-event {
+#EventList #time-of-event {
   width: 400px;
 }
-
-//#EventList td.places .places {
-//  display: inline-block;
-//  background-color: $color-badge;
-//  border-radius: 7px;
-//  margin: 1px;
-//  text-overflow: ellipsis;
-//  white-space: nowrap;
-//  font-size: $font-size-xsmall;
-//  border: 1px solid $color-badge;
-//  padding: 1px 10px 1px 10px;
-//  color: $color-solid;
-//}
 
 .more-tag {
   //border: 1px solid $color-solid;
@@ -214,18 +205,23 @@
   color: $color-white;
 }
 
-#EventList td.time {
-  width: 100px;
-  border-bottom: 1px solid $color-breeze;
+#EventList .time {
+  float: left;
+  width: 80px;
+  position: absolute;
+  display: block;
+  right: 0;
   vertical-align: top;
+  text-align: center;
   color: $color-solid-60;
+  background-color: white;
 }
 
-#EventList.collapse td.msg .body {
+#EventList.collapse .msg .body {
   display: none;
 }
 
-#EventList.collapse td.msg .attachments {
+#EventList.collapse .msg .attachments {
   display: none;
 }
 

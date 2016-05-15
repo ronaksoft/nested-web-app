@@ -13,8 +13,13 @@
       EVENT: 'tl_event'
     })
     .constant('WS_ERROR', {
+      UNKNOWN: 0,
       ACCESS_DENIED: 1,
-      INVALID: 3
+      UNAVAILABLE: 2,
+      INVALID: 3,
+      INCOMPLETE: 4,
+      DUPLICATE: 5,
+      LIMIT_REACHED: 6
     })
     .constant('WS_RESPONSE_STATUS', {
       UNDEFINED: 'not defined',
@@ -94,7 +99,7 @@
   }
 
   /** @ngInject */
-  function NestedWsService($websocket, WS_MESSAGE_TYPE, WS_RESPONSE_STATUS, WS_EVENTS, WS_MESSAGES, APP, AUTH_COMMANDS, WsRequest, $log) {
+  function NestedWsService($websocket, $q, WS_MESSAGE_TYPE, WS_RESPONSE_STATUS, WS_EVENTS, WS_MESSAGES, APP, AUTH_COMMANDS, WsRequest, $log) {
     function WsService(appId, appSecret, url) {
       // TODO: Make these configurable
       this.appId = appId;
@@ -238,7 +243,7 @@
 
         this.requests[reqId] = new WsRequest(this, rawData, !angular.isNumber(timeout) || timeout < 0 ? 5000 : timeout);
 
-        return new Promise(this.requests[reqId].promise);
+        return $q(this.requests[reqId].promise);
       },
 
       sync: function (action, data, timeout) {

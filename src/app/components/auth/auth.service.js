@@ -14,7 +14,7 @@
     .service('AuthService', NestedAuthService);
 
   /** @ngInject */
-  function NestedAuthService($cookies, $window, WS_EVENTS, WsService, NestedUser, $log) {
+  function NestedAuthService($cookies, $window, $q, WS_EVENTS, WsService, NestedUser, $log) {
     function AuthService() {
       this.user = new NestedUser();
       this.lastSessionKey = null;
@@ -86,7 +86,7 @@
 
       logout: function () {
         this.unauthorize();
-        return new Promise(function (res, rej) {
+        return $q(function (res, rej) {
           res.call(this);
         }.bind(this));
 
