@@ -121,6 +121,7 @@
         }
 
         var data = angular.fromJson(ws.data);
+        $log.debug('Message:', data);
 
         switch (data.type) {
           case WS_MESSAGE_TYPE.RESPONSE:
@@ -153,7 +154,6 @@
         }
 
         var data = angular.fromJson(ws.data);
-        $log.debug(data);
 
         var reqId = data.hasOwnProperty('_reqid') ? data._reqid : 'invalid';
 
@@ -275,7 +275,7 @@
       },
 
       unauthorize: function () {
-        this.stream.close();
+        this.authorized && this.stream.close();
       },
 
       getSessionKey: function () {
