@@ -148,15 +148,15 @@
             }
           }
         },
-        
+
         addAttachment: function (attachment) {
           attachment = attachment instanceof NestedAttachment ? attachment : new NestedAttachment(attachment, this);
           attachment.post = this;
           this.attachments.push(attachment);
-          
+
           this.attachmentPreview = this.attachmentPreview || !!attachment.thumbs.x128.uid;
         },
-        
+
         change: function () {
           if(!$rootScope.$$phase) {
             $rootScope.$digest()
@@ -192,7 +192,13 @@
               attaches: (this.attachments.map(function (attachment) { return attachment.id; })).join(',')
             };
 
-            return WsService.request('post/add', params);
+            return WsService.request('post/add', params).then(function (data) {
+              this.id = data.post_id.$oid;
+
+              return $q(function (res) {
+                res(this);
+              })
+            }.bind(this));
           }
         }
       };
