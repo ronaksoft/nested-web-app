@@ -29,8 +29,8 @@ $color-wind: #a6b9af;
 $color-storm: #869d91;
 $color-hurricane: #476152;
 $color-badge: #89EBB4;
-$color-fillbox :#f0f5f2;
-$color-white : #FFFFFF;
+$color-fillbox: #f0f5f2;
+$color-white: #FFFFFF;
 
 $font-size-xsmall: 11px;
 $font-size-small: 12px;
@@ -56,8 +56,8 @@ $font-family-per-bold: "YekanBakh";
 }
 
 div, ul, ol {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 input[type='text'], input[type='password'], input[type='tel'] {
@@ -87,14 +87,14 @@ a.normal-badge {
 
 body {
   background-color: $color-sense-5;
-  font-family: $font-family-eng-reg;
+  font-family: $font-family-per-reg, $font-family-eng-reg;
   position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
-  margin: 0px;
-  padding: 0px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
   min-width: 1000px;
 }
@@ -948,9 +948,10 @@ label {
 
 #MyPlaces li a span { line-height: 32px; }
 #MyPlaces li.selected { background-color: #E7ECE9; }
-#MyPlaces > ul > li { border-bottom: 1px solid #c0c0c0; border: none;}
-
-
+#MyPlaces > ul > li {
+  border: none;
+  border-bottom: 1px solid #c0c0c0;
+}
 
 /**
   *********************************************************
@@ -979,8 +980,6 @@ label {
 }
 
 .badges {
-
-
 }
 
 /**
@@ -993,12 +992,9 @@ label {
   #AllPlaces { width: 100%; }
 }
 @media (max-width: 999px) {
-
-  #AllPlaces li > table td.properties {
-
-  }
-  #AllPlaces ul { margin-left: 5px;}
-  #AllPlaces li > table td.members {  }
+  #AllPlaces li > table td.properties {}
+  #AllPlaces ul { margin-left: 5px; }
+  #AllPlaces li > table td.members {}
 }
 
 @media (min-width: 1000px) {
