@@ -82,9 +82,6 @@ a:hover {
   color: $color-sense;
 }
 
-a.normal-badge {
-  color: $color-solid;
-}
 
 body {
   background-color: $color-sense-5;
@@ -426,6 +423,7 @@ input[type="radio"]:checked + label {
 
 .modal-dialog .modal-content {
   //margin-top: 150px;
+  height: 640px;
 }
 
 .popover {
@@ -919,7 +917,15 @@ label {
   *********************************************************
  */
 
-.normal-badge {
+a.normal-badge {
+  color: $color-solid;
+}
+
+//[class$="-badge"] {
+//}
+
+.small-badge {
+  height: 14px;
   background-color: $color-badge;
   border-radius: 6px;
   color: $color-solid;
@@ -927,17 +933,34 @@ label {
   white-space: nowrap;
   padding-right: 10px;
   padding-left: 10px;
-  max-height: 14px;
+  line-height: 13px;
+}
+.normal-badge {
+  background-color: $color-badge;
+  border-radius: 9px;
+  color: $color-solid;
+  font-size: 12px;
+  white-space: nowrap;
+  padding-right: 8px;
+  padding-left: 8px;
+  height: 20px;
+  line-height: 22px;
 
 }
+
+.nst-nowrap-badge .normal-badge {
+  margin:2px;
+}
 #PostView .normal-badge {
-  margin-top: 9px;
-  line-height:12px;
+  //margin-top: 9px;
+  //line-height:12px;
 }
 
 .normal-badge:hover {
   color: $color-solid;
 }
+
+
 
 /**
   *********************************************************
