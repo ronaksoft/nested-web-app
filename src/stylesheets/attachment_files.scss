@@ -1,0 +1,63 @@
+[class*="att-exp-"] {
+  width: 72px;
+  height: 96px;
+  background: url('../assets/icons/attachment_card_96x72.png') no-repeat;
+}
+
+// File
+[class*="att-exp-application-"] {
+  background-position: 0 -288px;
+}
+
+// Media
+[class*="att-exp-video-"],
+[class*="att-exp-audio-"],
+.att-exp-application-vnd.rn-realmedia {
+  background-position: 0 -96px;
+}
+
+// Document
+[class*="att-exp-text-"],
+.att-exp-application-vnd.openxmlformats-officedocument.wordprocessingml.document,
+.att-exp-application-msword,
+.att-exp-application-vnd.oasis.opendocument.text,
+.att-exp-application-vnd.oasis.opendocument.text-template,
+.att-exp-application-x-latex,
+.att-exp-application-rtf
+{
+  background-position: 0 0;
+}
+
+// Zip
+.att-exp-application-zip,
+.att-exp-application-x-rar-compressed,
+.att-exp-application-vnd.android.package-archive,
+.att-exp-application-java-archive,
+.att-exp-application-java-serialized-object,
+.att-exp-application-javascript,
+.att-exp-application-x-shockwave-flash,
+.att-exp-application-x-mspublisher,
+.att-exp-application-x-msdownload,
+
+{
+  background-position: 0 -384px;
+}
+
+
+// PDF
+.att-exp-application-pdf {
+  background-position: 0 -192px;
+}
+
+
+
+
+[class*="att-exp-image-"] {
+}
+
+[class*="att-badge-"] {
+  color: $color-white;
+  border-radius: 5px;
+  padding: 3px;
+  background-color: $color-solid;
+}

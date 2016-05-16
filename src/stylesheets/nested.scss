@@ -78,10 +78,10 @@ a:hover {
   text-decoration: none;
 }
 
-*a:visited {
-  color: $color-sense;
-}
-
+//*a:visited {
+//  color: $color-sense;
+//}
+//
 
 body {
   background-color: $color-sense-5;
@@ -932,6 +932,7 @@ a.normal-badge {
   padding-right: 10px;
   padding-left: 10px;
   line-height: 13px;
+  padding-top: 3px;
 }
 .normal-badge {
   background-color: $color-badge;
@@ -942,12 +943,10 @@ a.normal-badge {
   padding-right: 8px;
   padding-left: 8px;
   height: 20px;
-  line-height: 22px;
-
 }
 
 .nst-nowrap-badge .normal-badge {
-  margin:2px;
+  margin: 2px;
 }
 #PostView .normal-badge {
   //margin-top: 9px;
