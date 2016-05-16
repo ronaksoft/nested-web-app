@@ -193,16 +193,15 @@
   //border: 1px solid $color-solid;
   background-color: $color-solid;
   color: $color-white;
-  font-size: $font-size-small;
-  height: 14px;
+  font-size: $font-size-xsmall;
+  height: 12px;
   text-align: center;
-  line-height: 10px;
+  line-height: 12px;
   vertical-align: initial;
   cursor: pointer;
-  border-radius: 15px;
-  //font-size: 13px;
-  padding: 2px 8px 2px 8px;
-  margin: 4px;
+  border-radius: 7px;
+  padding: 2px 4px 2px 4px;
+  margin-left: 4px;
   white-space: nowrap;
 }
 

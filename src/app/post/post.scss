@@ -63,12 +63,11 @@
 }
 
 
-
 .nst-nowrap-badge {
   width: 400px;
   margin-left: 150px;
   margin-top: -26px;
-  overflow: auto;
+  overflow: visible;
 }
 
 .delete-icon {
@@ -240,7 +239,8 @@
 }
 
 #PostHeader .badges {
-  margin-right: 5px;
+  //margin-right: 5px;
+
 
 }
 
@@ -377,4 +377,21 @@
 
 #PostView #CommentList .comment:hover {
   background-color: #E7FBF0;
+}
+
+.comment-input{
+  position: fixed;
+  bottom: 0;
+}
+
+.comment-msg {
+  border-bottom: 50px solid rgba(0, 0, 0, 0);
+  overflow-y: auto;
+}
+#Comments {
+  height: 1px;
+}
+
+.actor-name {
+  width: 100px;
 }
