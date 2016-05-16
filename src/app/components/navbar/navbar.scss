@@ -37,7 +37,6 @@
 }
 
 #PrimaryPageSelector li {
-  cursor: pointer;
   position: relative;
   display: inline-block;
   font-size: medium;
@@ -71,16 +70,14 @@
   font-size: $font-size-small;
   margin-left: 15px;
   text-align: center;
-  cursor: pointer;
   position: relative;
   border-bottom: 5px solid $color-white;
   height: 40px;
-
 }
 
 #SecondaryPageSelector li.li-hover:hover,
 #SecondaryPageSelector li.li-hover.selected {
-  border-bottom: 4px solid $color-sense;
+  border-bottom: 5px solid $color-sense;
   color: $color-sense;
 }
 
@@ -89,7 +86,9 @@
   color: $color-sense;
 }
 
-#SecondaryPageSelector #events-anchor {
+#SecondaryPageSelector .events-anchor,
+#SecondaryPageSelector .places-anchor,
+#SecondaryPageSelector .place-option-anchor {
   padding: 9px 15px;
   height: 100%;
   width: 100%;
@@ -98,26 +97,7 @@
   display: block;
 }
 
-#SecondaryPageSelector .places-anchor {
-  padding: 5px 15px;
-  height: 100%;
-  width: 100%;
-  text-decoration: none;
-  color: $color-solid;
-  display: block;
-}
-
-#SecondaryPageSelector .place-option-anchor {
-  padding: 5px 15px;
-  height: 100%;
-  width: 100%;
-  text-decoration: none;
-  color: $color-solid;
-  display: block;
-}
-
 #SecondaryPageSelector a:hover {
-
 }
 
 .nav-profile {
@@ -134,7 +114,7 @@
 .nav-width-ul-compose {
   display: inline-block;
   margin-top: 0;
-  padding: 0px 208px;
+  padding: 0 208px;
   width: 100%;
 }
 

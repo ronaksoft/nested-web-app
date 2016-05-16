@@ -62,29 +62,27 @@
 
                           <ul class="nav-width-ul" data-ng-if="events">
                             <li data-ng-repeat="(key, filter) in events.filters" class=" li-hover {{key == events.filter ? 'selected' : null}}">
-                              <a id="events-anchor" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
+                              <a class="events-anchor" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
                             </li>
                           </ul>
 
                         <ul class="nav-width-ul " data-ng-if="places">
                           <li data-ng-repeat="(key, filter) in places.filters" class="li-hover {{key== places.filter ? 'selected' : null}}" >
-                           <div>
-                             <a class="places-anchor" href="#/places/{{key}}">{{filter.name}}</a>
-                           </div>
+                            <a class="places-anchor" href="#/places/{{key}}">{{filter.name}}</a>
                           </li>
                           <li class="_fr">
                             <a href="#/create-place" class="places-anchor nst-mood-storm">Add a Place<div class="option-add-icon-plc _dib"></div></a>
                           </li>
                         </ul>
 
-                          <ul class="nav-width-ul margin-ul-placeotion" data-ng-if="place_option">
-                            <li class="button-navbar">
-                              <a class=" btn-back-place-option" href="javascript:void(0);" onclick="window.history.back();">Back</a>
-                            </li>
-                            <li data-ng-repeat="(key, action) in place_option.actions">
-                              <a class="place-option-anchor" ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
-                            </li>
-                          </ul>
+                        <ul class="nav-width-ul margin-ul-placeotion" data-ng-if="place_option">
+                          <li class="button-navbar">
+                            <a class="btn-back-place-option" href="javascript:void(0);" onclick="window.history.back();">Back</a>
+                          </li>
+                          <li data-ng-repeat="(key, action) in place_option.actions">
+                            <a class="place-option-anchor" ng-click="action.fn">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
+                          </li>
+                        </ul>
 
                         <ul class="nav-width-ul" data-ng-if="create_place">
                           <li>
