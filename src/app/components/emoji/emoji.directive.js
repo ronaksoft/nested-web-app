@@ -12,7 +12,6 @@
         },
         link: function (scope, element) {
           element.html(emoji(scope.emoji || element.html()));
-          $compile(element.contents())(scope.$parent);
         }
       };
     });
