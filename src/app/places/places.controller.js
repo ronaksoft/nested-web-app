@@ -6,7 +6,7 @@
     .controller('PlacesController', PlacesController);
 
   /** @ngInject */
-  function PlacesController($location, AuthService, WsService, NestedPlace, $scope, $stateParams, $log) {
+  function PlacesController($location, $stateParams, $scope, AuthService, WsService, NestedPlace, MEMBER_TYPE) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -25,15 +25,15 @@
         name: 'All'
       },
       '!$creator': {
-        filter: 'creator',
+        filter: MEMBER_TYPE.CREATOR,
         name: 'Creator'
       },
       '!$insider': {
-        filter: 'insider',
+        filter: MEMBER_TYPE.KEY_HOLDER,
         name: 'Insider'
       },
       '!$member': {
-        filter: 'member',
+        filter: MEMBER_TYPE.KNOWN_GUEST,
         name: 'Member'
       },
       '!$browse': {
@@ -51,6 +51,10 @@
 
     WsService.request('account/get_my_places', parameters).then(function (data) {
       for (var k in data.places) {
+        if (parameters.filter && !data.places[k].member_type) {
+          data.places[k]['member_type'] = parameters.filter;
+        }
+
         $scope.places.places.push(new NestedPlace(data.places[k]));
       }
     }).catch(function (reason) {

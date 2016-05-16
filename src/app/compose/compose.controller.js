@@ -102,8 +102,9 @@
         }
       }
 
-      post.update().then(function (data) {
+      post.update().then(function (post) {
         toastr.success('Your message has been successfully sent.', 'Message Sent');
+        $location.path('/events');
       }).catch(function (data) {
         toastr.error('Error occurred during sending message.', 'Message Not Sent!');
       });
