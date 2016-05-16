@@ -6,7 +6,7 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($location, $scope, $stateParams, $interval, AuthService, NestedPost, NestedComment) {
+  function PostController($location, $scope, $stateParams, AuthService, NestedPost) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -27,7 +27,8 @@
     $scope.thePost.comments.length > 0 || $scope.thePost.loadComments();
 
     $scope.commentKeyUp = function (event) {
-      if (13 === event.keyCode) {
+      var noSend = event.shiftKey || event.ctrlKey;
+      if (13 === event.keyCode && !noSend) {
         $scope.thePost.addComment(event.currentTarget.value).then(function (comment) {
           event.currentTarget.value = '';
         });

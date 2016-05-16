@@ -32,7 +32,8 @@
     "platanus-angular-push": "^0.1.1",
     "textAngular": "^1.5.1",
     "angular-date-dropdowns": "https://github.com/kayvannm/angular-date-dropdowns.git#v0.2.0",
-    "ui-select": "angular-ui-select#^0.16.1"
+    "ui-select": "angular-ui-select#^0.16.1",
+    "angular-marked": "^1.2.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"

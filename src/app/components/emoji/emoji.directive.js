@@ -3,12 +3,15 @@
 
   angular
     .module('nested')
-    .directive('emoji', function (emoji) {
+    .directive('emoji', function ($compile, emoji) {
       return {
-        restrict: 'EA',
+        restrict: 'AE',
         replace: true,
-        link: function (scope, elem) {
-          emoji(elem);
+        scope: {
+          emoji: '='
+        },
+        link: function (scope, element) {
+          element.html(emoji(scope.emoji || element.html()));
         }
       };
     });

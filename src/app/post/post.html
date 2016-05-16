@@ -84,7 +84,9 @@
                             <div class="_dtc time-post-view nst-mood-storm" data-ng-bind="comment.date.getTime() | date:'dd MMM yyyy'" data-uib-tooltip="{{comment.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto left"></div>
                           </div>
                         </div>
-                        <div class="msg-post-view" data-ng-bind-html="comment.body | emoji"></div>
+                        <div class="msg-post-view" emoji>
+                          <span marked="comment.body"></span>
+                        </div>
                         <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small" ng-click="comment.delete()">delete</a>
                       </div>
                     </div>
