@@ -57,7 +57,8 @@
 
 [class*="att-badge-"] {
   color: $color-white;
-  border-radius: 5px;
-  padding: 3px;
   background-color: $color-solid;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: $font-size-small;
 }
