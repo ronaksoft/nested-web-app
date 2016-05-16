@@ -518,6 +518,7 @@ label {
 
 .form-control-feedback {
   top: 4px;
+  pointer-events: auto;
 }
 
 /**
@@ -546,11 +547,8 @@ label {
 }
 
 .nst-error-msg {
-  border-radius: 6px;
-  padding: 5px;
   font-size: $font-size-small;
   color: $color-force-wire;
-  background-color: $color-force-10;
 }
 
 /**
