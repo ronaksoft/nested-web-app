@@ -451,18 +451,17 @@ input[type="radio"]:checked + label {
 .popover-green + .popover.bottom > .arrow {
   border-bottom-color: $color-sense-wire;
 }
-
-.popover.bottom > .arrow {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 0 0 11px 11px;
-  border-color: transparent transparent $color-solid transparent;
-  line-height: 0;
-  _border-color: #000000 #000000 $color-solid #000000;
-  _filter: progid:DXImageTransform.Microsoft.Chroma(color='#000000');
+.popover-green + .popover.bottom > .arrow:after {
+  border-bottom-color: $color-sense-5;
 }
 
+.popover.bottom > .arrow {
+  border-bottom-color: #ccc;
+}
+.popover.bottom > .arrow:after {
+  border-bottom-color: #fff;
+  left: 0;
+}
 .panel {
   background-color: white;
   margin: auto;
