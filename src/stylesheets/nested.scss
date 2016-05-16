@@ -776,30 +776,6 @@ label {
   *********************************************************
  */
 
-#SubNav #Compose {
-  width: 250px;
-  text-align: center;
-}
-
-#SubNav {
-  height: 32px;
-  border-bottom: 1px solid $color-sense;
-}
-
-#SubNav #Compose a {
-  background-color: #14D769;
-  border: 1px solid #00B45A;
-  padding: 5px 20px;
-  color: white;
-  display: inline-block;
-  border-radius: 5px;
-  font-size: $font-size-small;
-  font-weight: 900;
-  margin-left: -32px;
-  height: 30px;
-  width: 128px;
-}
-
 [class*="ei-"] {
   width: 16px;
   height: 16px;
@@ -845,7 +821,7 @@ label {
   margin-top: 8px;
 }
 
-#SubNav #ViewSelector #ExpandView {
+.subnav #ViewSelector #ExpandView {
   background-image: url('/res/ico/viewswitch_expand.png');
   width: 27px;
   height: 10px;
@@ -853,9 +829,9 @@ label {
   cursor: pointer ;
 }
 
-#SubNav #ViewSelector #ExpandView.on { background-position: 27px; }
-#SubNav #ViewSelector #ExpandView.off { }
-#SubNav #ViewSelector #CollapseView {
+.subnav #ViewSelector #ExpandView.on { background-position: 27px; }
+.subnav #ViewSelector #ExpandView.off { }
+.subnav #ViewSelector #CollapseView {
   background-image: url('/res/ico/viewswitch_collapse.png');
   width: 27px;
   height: 10px;
@@ -863,9 +839,9 @@ label {
   cursor: pointer ;
 }
 
-#SubNav #ViewSelector #CollapseView.on { background-position: 27px; }
-#SubNav #ViewSelector #CollapseView.off {}
-#SubNav #Search {
+.subnav #ViewSelector #CollapseView.on { background-position: 27px; }
+.subnav #ViewSelector #CollapseView.off {}
+.subnav #Search {
   width: 146px;
   height: 30px;
   border-radius: 7px;
