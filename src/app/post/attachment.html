@@ -1,8 +1,10 @@
 <div data-ng-init="mimeSpl = attachment.mimeType.split('/')" data-ng-switch="mimeSpl[0]">
-  <h1 class="_fw _tac">{{attachment.filename}}</h1>
+  <h2 class="_fw _tac">{{attachment.filename}}</h2>
   <h4 class="_fw _tac">{{attachment.mimeType}}</h4>
 
-  <img data-ng-switch-when="image" src="{{attachment.download.url}}" height="100%" width="100%"/>
+  <div class="_fh _pa _tac" style="top:0px">
+    <img class="_fh _pa _tac" data-ng-switch-when="image" src="{{attachment.download.url}}" height="100%" width=" "/>
+  </div>
 
   <audio class="_fw" data-ng-switch-when="audio" preload="none" controls>
     <source src="{{attachment.download.url}}" type="{{attachment.mimeType}}">
