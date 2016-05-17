@@ -160,7 +160,7 @@
           animation: false,
           templateUrl: 'app/post/attachment.html',
           controller: 'AttachmentController',
-          size: 'xlg',
+          size: 'mlg',
           windowClass: 'modal-attachment',
           scope: $scope
         });

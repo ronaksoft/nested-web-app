@@ -383,11 +383,14 @@ input[type="radio"]:checked + label {
  */
 
 .modal {
-  padding: 50px 0;
+  padding: 64px 0;
+}
+
+.modal-attachment {
+  padding: 128px 0;
 }
 
 .modal-dialog {
-  margin: 0 100px;
   height: 100%;
 }
 
@@ -395,8 +398,17 @@ input[type="radio"]:checked + label {
   height: 100%;
 }
 
-.modal-xlg {
+.modal-xlg,
+.modal-mlg {
   width: auto;
+}
+
+.modal-xlg {
+  margin: 0 64px;
+}
+
+.modal-mlg {
+  margin: 0 128px;
 }
 
 .popover {
