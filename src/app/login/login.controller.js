@@ -6,10 +6,12 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($location, $rootScope, $scope, $timeout, AuthService, AUTH_EVENTS, WS_ERROR) {
+  function LoginController($window, $location, $rootScope, $scope, $q, $timeout, AuthService, AUTH_EVENTS, WS_ERROR) {
     var vm = this;
 
-    AuthService.isAuthenticated(function () { $location.path('/').replace() });
+    if (AuthService.isAuthenticated()) {
+      $location.path('/').replace();
+    }
 
     vm.username = '';
     vm.password = '';
@@ -34,13 +36,16 @@
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         var query = $location.search();
 
-        if (query.hasOwnProperty('back')) {
-          $location.path(query.back).replace();
+        var back = query.back || '/';
+        if (query.back) {
           delete query.back;
           $location.search(query);
-        } else {
-          $location.path('/').replace();
         }
+
+        return $q(function (res) {
+          res();
+          $location.path(back).replace();
+        });
       }).catch(function (data) {
         $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
         $scope.login.username = $scope.login.password = '';

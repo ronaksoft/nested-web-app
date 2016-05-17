@@ -6,12 +6,11 @@
     .controller('LogoutController', LogoutController);
 
   /** @ngInject */
-  function LogoutController(AuthService, AUTH_EVENTS, $rootScope, $location) {
+  function LogoutController($location, $rootScope, AuthService, AUTH_EVENTS) {
     AuthService.logout().then(function () {
       $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
-      $rootScope.$apply(function () {
-        $location.path('/').replace();
-      });
+      $location.path('/').replace();
+      console.log('Logged out successfully.');
     });
   }
 })();
