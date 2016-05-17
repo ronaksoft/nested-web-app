@@ -127,7 +127,7 @@
         animation: false,
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
-        size: 'lg',
+        size: 'xlg',
         scope: $scope
       });
 
@@ -157,7 +157,8 @@
           animation: false,
           templateUrl: 'app/post/attachment.html',
           controller: 'AttachmentController',
-          size: 'lg',
+          size: 'xlg',
+          windowClass: 'modal-attachment',
           scope: $scope
         });
 

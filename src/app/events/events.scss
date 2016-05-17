@@ -5,6 +5,12 @@
   **********************************************************
  */
 
+#EventList .msg a {
+  color: $color-sense
+}
+#EventList.msg a:visited {
+  color: $color-sense;
+}
 .nst-content {
   background-color: $color-white;
   width: 100%;
