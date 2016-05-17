@@ -10,9 +10,7 @@
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
-      $location.search({
-        back: $location.$$absUrl
-      });
+      $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
   }

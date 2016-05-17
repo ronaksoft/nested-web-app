@@ -6,13 +6,11 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, NestedEvent, NestedPlace) {
+  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, NestedEvent, NestedPlace) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
-      $location.search({
-        back: $location.$$absUrl
-      });
+      $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
 
@@ -120,6 +118,11 @@
       }
     };
 
+    // TODO: Handle it
+    WsService.addEventListener(WS_EVENTS.MESSAGE, function (event) {
+      console.log('New Event', event.detail);
+    });
+
     vm.load();
 
     $scope.postView = function (post, url) {
@@ -127,7 +130,7 @@
         animation: false,
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
-        size: 'lg',
+        size: 'xlg',
         scope: $scope
       });
 
@@ -157,7 +160,8 @@
           animation: false,
           templateUrl: 'app/post/attachment.html',
           controller: 'AttachmentController',
-          size: 'lg',
+          size: 'xlg',
+          windowClass: 'modal-attachment',
           scope: $scope
         });
 

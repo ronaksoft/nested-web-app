@@ -1,0 +1,130 @@
+[class*="att-exp-"] {
+  width: 72px;
+  height: 96px;
+  background: url('../assets/icons/attachment_card_96x72.png') no-repeat;
+}
+
+// File
+[class*="att-exp-application-"],
+.att-exp-application-vnd.android.package-archive{
+  background-position: 0 -288px;
+}
+
+// Media
+[class*="att-exp-video-"],
+[class*="att-exp-audio-"],
+.att-exp-application-vnd.rn-realmedia {
+  background-position: 0 -96px;
+}
+
+// Document
+[class*="att-exp-text-"],
+.att-exp-application-vnd.openxmlformats-officedocument.wordprocessingml.document,
+.att-exp-application-msword,
+.att-exp-application-vnd.oasis.opendocument.text,
+.att-exp-application-vnd.oasis.opendocument.text-template,
+.att-exp-application-x-latex,
+.att-exp-application-rtf
+{
+  background-position: 0 0;
+}
+
+// Zip
+.att-exp-application-zip,
+.att-exp-application-x-rar-compressed,
+.att-exp-application-vnd.android.package-archive,
+.att-exp-application-java-archive,
+.att-exp-application-java-serialized-object,
+.att-exp-application-javascript,
+.att-exp-application-x-shockwave-flash,
+.att-exp-application-x-mspublisher,
+.att-exp-application-x-msdownload,
+
+
+{
+  background-position: 0 -384px;
+}
+
+
+// PDF
+.att-exp-application-pdf {
+  background-position: 0 -192px;
+}
+
+
+[class*="att-exp-image-"] {
+}
+
+/*
+  **************************************************
+  *    attachment badges  *
+  **************************************************
+ */
+
+[class*="att-badge-"] {
+  color: $color-white;
+  background-color: $color-solid;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: $font-size-small;
+
+}
+
+.attachment-badge-bar {
+  height: 18px;
+  background-color: $color-breeze-50;
+  color: $color-solid;
+  border-radius: 5px;
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 8px;
+  width: 128px;
+}
+
+// File
+[class*="att-badge-application-"],
+.att-badge-application-vnd.android.package-archive
+{
+  background-color: orangered;
+}
+
+// Media
+[class*="att-badge-video-"],
+[class*="att-badge-audio-"],
+.att-badge-application-vnd.rn-realmedia {
+  background-color: pink;
+}
+
+// Document
+[class*="att-badge-text-"],
+.att-badge-application-vnd.openxmlformats-officedocument.wordprocessingml.document,
+.att-badge-application-msword,
+.att-badge-application-vnd.oasis.opendocument.text,
+.att-badge-application-vnd.oasis.opendocument.text-template,
+.att-badge-application-x-latex,
+.att-badge-application-rtf
+{
+ background-color: #00b3ee;
+}
+
+// Zip
+.att-badge-application-zip,
+.att-badge-application-x-rar-compressed,
+.att-badge-application-vnd.android.package-archive,
+.att-badge-application-java-archive,
+.att-badge-application-java-serialized-object,
+.att-badge-application-javascript,
+.att-badge-application-x-shockwave-flash,
+.att-badge-application-x-mspublisher,
+.att-badge-application-x-msdownload,
+
+{
+  background-color: #4a0263;
+}
+
+// PDF
+.att-badge-application-pdf {
+  background-color: fuchsia;
+}
+
+

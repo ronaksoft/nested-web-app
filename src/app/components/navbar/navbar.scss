@@ -61,7 +61,7 @@
 .composen a {
   background-color: #14D769;
   border: 1px solid #00B45A;
-  padding: 5px 20px;
+  line-height: 30px ;
   color: white;
   display: inline-block;
   border-radius: 5px;
@@ -179,6 +179,9 @@
   display: block;
 }
 
+.subnavitems .events-anchor a:hover {
+  color: $color-sense;
+}
 
 .nav-profile {
   padding: 10px 0 2px 0;
@@ -206,7 +209,6 @@
 .nav > ul a {
   padding: 22px 16px 22px 16px;
 }
-
 
 
 .menu-links-top {
@@ -237,9 +239,16 @@
   font-weight: normal;
 }
 
-#nst-compose-button:hover {
-  background-color: $color-sense;
-}
+//#nst-compose-button {
+//  height: 32px;
+//  width: 128px;
+//  vertical-align: middle;
+//  font-weight: normal;
+//}
+
+//#nst-compose-button:hover {
+//  background-color: $color-sense;
+//}
 
 input #nav-search {
   height: 30px;
@@ -254,8 +263,6 @@ input #nav-search {
   padding-left: 8px;
 
 }
-
-
 
 .button-back {
   width: 46px;

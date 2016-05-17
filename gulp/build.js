@@ -44,6 +44,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(jsFilter) // Begin - Javascript Files
     .pipe($.sourcemaps.init())
     .pipe($.ngAnnotate())
+    .pipe($.replace('.debugEnabled(true)', '.debugEnabled(false)'))
     .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', conf.errorHandler('Uglify'))
     // TODO: The Obfuscator
     .pipe($.sourcemaps.write('maps'))

@@ -8,7 +8,7 @@
   <div class="msg">
     <a class="subject" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)" data-ng-bind-html="event.post.subject | emoji"></a>
     <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.post.body | emoji | characters:255"></div>
-    <div data-ng-show="navbar.extended" class="attachments" data-ng-include="'app/components/nested/shared/attachments.html'" data-ng-init="thePost = event.post"></div>
+    <div data-ng-show="navbar.extended" class="attachments" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = event.post"></div>
   </div>
   <div class="places">
     <div data-ng-if="event.post.places.length > 1" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom" class="">

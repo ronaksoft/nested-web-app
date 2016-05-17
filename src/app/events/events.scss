@@ -4,11 +4,15 @@
   *     Nested Classes - Page Specific - Events  *
   **********************************************************
  */
-#container-events {
-  max-width: 1920px;
-  min-width: 990px;
-  margin: auto;
-  height: 100%;
+
+#EventList .msg a {
+  color: $color-sense
+}
+#EventList.msg a:visited {
+  color: $color-sense;
+}
+.nst-content {
+  background-color: $color-white;
   width: 100%;
 }
 
@@ -254,49 +258,45 @@
   overflow: hidden;
 }
 
-[class*="attachment-"]{}
-
-
-.attachment-badge-doc {
-  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-  width: 24px;
-  height: 10px;
-  background-position: 0 0px;
-  margin-top: 4px;
-}
-
-.attachment-badge-img {
-  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-  width: 24px;
-  height: 10px;
-  background-position: 0 -10px;
-  margin-top: 4px;
-
-}
-
-.attachment-badge-pdf {
-  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-  width: 24px;
-  height: 10px;
-  background-position: 0 -20px;
-  margin-top: 4px;
-}
-
-.attachment-badge-file {
-  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-  width: 24px;
-  height: 10px;
-  background-position: 0 -30px;
-  margin-top: 4px;
-}
-
-.attachment-badge-zip {
-  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-  width: 24px;
-  height: 10px;
-  background-position: 0 -40px;
-  margin-top: 4px;
-}
+//
+//.attachment-badge-doc {
+//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+//  background-position: 0 0px;
+//  margin-top: 4px;
+//}
+//
+//.attachment-badge-img {
+//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+//  width: 24px;
+//  height: 10px;
+//  background-position: 0 -10px;
+//  margin-top: 4px;
+//
+//}
+//
+//.attachment-badge-pdf {
+//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+//  width: 24px;
+//  height: 10px;
+//  background-position: 0 -20px;
+//  margin-top: 4px;
+//}
+//
+//.attachment-badge-file {
+//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+//  width: 24px;
+//  height: 10px;
+//  background-position: 0 -30px;
+//  margin-top: 4px;
+//}
+//
+//.attachment-badge-zip {
+//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
+//  width: 24px;
+//  height: 10px;
+//  background-position: 0 -40px;
+//  margin-top: 4px;
+//}
 
 #content {
   background-color: $color-sense;

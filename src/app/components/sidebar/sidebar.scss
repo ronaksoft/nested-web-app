@@ -33,6 +33,12 @@
   text-align: center;
   height: 50px;
 }
+.sidebar .all-messages a {
+  color: $color-sense;
+}
+.sidebar .all-messages a:visited {
+  color: $color-sense;
+}
 
 .all-messages:hover {
   background-color: $color-calm;

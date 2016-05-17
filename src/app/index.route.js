@@ -110,7 +110,6 @@
         controllerAs: 'compose'
       });
 
-
     $urlRouterProvider.otherwise('/');
   }
 

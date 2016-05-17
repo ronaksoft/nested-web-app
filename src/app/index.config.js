@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider, toastrConfig, ipnConfig) {
+  function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider) {
     // Enable log
     $logProvider.debugEnabled(true);
 
@@ -17,6 +17,16 @@
     // International Phone Directive
     ipnConfig.defaultCountry = 'ir';
     ipnConfig.preferredCountries = ['ir', 'pl'];
+
+    // Markdown Configs
+    markedProvider.setOptions({
+      sanitize: true
+    });
+    markedProvider.setRenderer({
+      heading: function (text, level) {
+        return '<strong>' + text + '</strong>';
+      }
+    });
 
     // Set options third-party lib
     toastrConfig.allowHtml = true;

@@ -4,27 +4,24 @@
   angular
     .module('nested')
     .constant('AUTH_EVENTS', {
-      loginSuccess: 'auth-login-success',
-      loginFailed: 'auth-login-failed',
-      logoutSuccess: 'auth-logout-success',
-      sessionTimeout: 'auth-session-timeout',
-      notAuthenticated: 'auth-not-authenticated',
-      notAuthorized: 'auth-not-authorized'
+      AUTHENTICATE: 'authenticated',
+      AUTHENTICATE_FAIL: 'authentication-failed',
+      UNAUTHENTICATE: 'unauthenticated',
+
+      SESSION_TIMEOUT: 'auth-session-timeout',
+      NOT_AUTHENTICATED: 'auth-not-authenticated',
+      NOT_AUTHORIZED: 'auth-not-authorized'
     })
     .service('AuthService', NestedAuthService);
 
   /** @ngInject */
-  function NestedAuthService($cookies, $window, $q, WS_EVENTS, WsService, NestedUser, $log) {
-    function AuthService() {
-      this.user = new NestedUser();
+  function NestedAuthService($cookies, $window, $q, WsService, WS_EVENTS, AUTH_EVENTS, NestedUser, $log) {
+    function AuthService(user) {
+      this.user = new NestedUser(user);
       this.lastSessionKey = null;
       this.lastSessionSecret = null;
       this.remember = false;
       this.listeners = {};
-
-      if ($window.sessionStorage.getItem('nsu')) {
-        this.user.setData(angular.fromJson($window.sessionStorage.getItem('nsu')));
-      }
 
       if (WsService.isInitialized()) {
         this.reauth();
@@ -47,9 +44,12 @@
         // TODO: Pass to user service
         this.user.setData(data.info);
         this.user.role = 1;
-        $window.sessionStorage.setItem('nsu', angular.toJson(this.user));
 
-        return data;
+        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHENTICATE, { detail: { user: this.user } }));
+
+        return $q(function (res) {
+          res(data);
+        });
       },
 
       reauth: function () {
@@ -57,63 +57,64 @@
         var ss = $cookies.get('nss') || this.lastSessionSecret;
 
         if (ss && sk) {
-          return WsService.request('session/recall', { _sk: sk, _ss: ss})
-            .then(this.authorize.bind(this), this.unauthorize.bind(this));
+          return WsService.request(
+            'session/recall',
+            { _sk: sk, _ss: ss}
+          ).then(
+            this.authorize.bind(this)
+          ).catch(
+            this.unauthorize.bind(this)
+          );
         }
+
+        this.isAuthenticated() && this.unauthorize('Re-Authentication Failed');
+
+        return $q(function (res, rej) {
+          rej();
+        });
       },
 
       unauthorize: function (reason) {
         $log.debug('Unauthorization', reason);
         this.user.username = null;
 
-        window.sessionStorage.clear();
         this.lastSessionKey = null;
         this.lastSessionSecret = null;
         $cookies.remove('nss');
         $cookies.remove('nsk');
+
         WsService.unauthorize();
+
+        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.UNAUTHENTICATE, { detail: { reason: reason } }));
+
+        return $q(function (res) {
+          res(reason);
+        });
       },
 
       login: function (credentials, remember) {
         this.remember = remember;
-        this.logout();
+        this.logout('Pre Login');
 
-        return WsService.request('session/register', {
-          uid: credentials.username,
-          pass: credentials.password
-        }).then(this.authorize.bind(this));
+        return WsService.request(
+          'session/register',
+          {
+            uid: credentials.username,
+            pass: credentials.password
+          }
+        ).then(
+          this.authorize.bind(this)
+        );
       },
 
-      logout: function () {
-        this.unauthorize();
-        return $q(function (res, rej) {
-          res.call(this);
-        }.bind(this));
+      logout: function (reason) {
+        return this.unauthorize(reason || 'User Logout');
 
         return WsService.request('logout').then(this.unauthorize.bind(this));
       },
 
-      isAuthenticated: function (callback) {
-        var isAuth = null != this.user.username || $cookies.get('nsk') || WsService.isAuthorized();
-
-        if (angular.isFunction(callback)) {
-          if (isAuth) {
-            callback(new CustomEvent(WS_EVENTS.AUTHORIZE));
-          } else {
-            WsService.addEventListener(WS_EVENTS.AUTHORIZE, callback);
-          }
-        }
-
-        return isAuth;
-      },
-
-      // Access Control
-      isAuthorized: function (authorizedRoles) {
-        if (!angular.isArray(authorizedRoles)) {
-          authorizedRoles = [authorizedRoles];
-        }
-
-        return (this.isAuthenticated() && authorizedRoles.indexOf(this.user.role) !== -1);
+      isAuthenticated: function () {
+        return this.user.username || $cookies.get('nsk');
       },
 
       addEventListener: function (type, callback, oneTime) {
@@ -161,7 +162,17 @@
       }
     };
 
-    return new AuthService();
+    // Cache Implementation
+    var user = $window.sessionStorage.getItem('nsu');
+    var service = new AuthService(user ? angular.fromJson(user) : undefined);
+    service.addEventListener(AUTH_EVENTS.AUTHENTICATE, function (event) {
+      $window.sessionStorage.setItem('nsu', angular.toJson(event.detail.user));
+    });
+    service.addEventListener(AUTH_EVENTS.UNAUTHENTICATE, function () {
+      $window.sessionStorage.clear();
+    });
+
+    return service;
   }
 
 })();

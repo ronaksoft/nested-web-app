@@ -7,44 +7,6 @@
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
 
 /**
-  *********************************
-  *     Variables                 *
-  *********************************
- */
-
-$color-solid: #000;
-$color-sense: #14d769;
-$color-sense-wire: #00b45a;
-$color-sense-5: #f3fdf7;
-$color-sense-50: #83d8ad;
-$color-solid-30: #b2b2b2;
-$color-solid-60: #666666;
-$color-force: #ff6464;
-$color-force-10: #ffefef;
-$color-force-wire: #ff0014;
-$color-calm: #f0f5f2;
-$color-breeze: #ced9d3;
-$color-breeze-50: #e8ece9;
-$color-wind: #a6b9af;
-$color-storm: #869d91;
-$color-hurricane: #476152;
-$color-badge: #89EBB4;
-$color-fillbox: #f0f5f2;
-$color-white: #FFFFFF;
-
-$font-size-xsmall: 11px;
-$font-size-small: 12px;
-$font-size-medium: 14px;
-$font-size-large: 16px;
-$font-size-xlarge: 22px;
-
-$font-family-eng-reg: "OpenSans";
-$font-family-eng-bold: "OpenSans";
-$font-family-per-reg: "YekanBakh";
-$font-family-per-bold: "YekanBakh";
-
-
-/**
   ******************************
   *     Layout                 *
   ******************************
@@ -53,7 +15,6 @@ $font-family-per-bold: "YekanBakh";
 * {
     box-sizing: inherit;
     vertical-align: inherit;
-
 }
 
 div, ul, ol {
@@ -71,17 +32,17 @@ input[type='text'], input[type='password'], input[type='tel'] {
 
 a {
   text-decoration: none;
-  color: $color-sense;
+  //color: $color-sense;
 }
 
 a:hover {
   text-decoration: none;
 }
 
-*a:visited {
-  color: $color-sense;
-}
-
+//*a:visited {
+//  color: $color-sense;
+//}
+//
 
 body {
   background-color: $color-white;
@@ -422,9 +383,21 @@ input[type="radio"]:checked + label {
   *********************************
  */
 
+.modal {
+  padding: 50px 0;
+}
+
+.modal-dialog {
+  margin: 0 100px;
+  height: 100%;
+}
+
 .modal-dialog .modal-content {
-  //margin-top: 150px;
-  height: 640px;
+  height: 100%;
+}
+
+.modal-xlg {
+  width: auto;
 }
 
 .popover {
@@ -940,6 +913,7 @@ a.normal-badge {
   padding-right: 10px;
   padding-left: 10px;
   line-height: 13px;
+  padding-top: 3px;
 }
 .normal-badge {
   background-color: $color-badge;
@@ -950,12 +924,11 @@ a.normal-badge {
   padding-right: 8px;
   padding-left: 8px;
   height: 20px;
-  line-height: 22px;
-
+  padding-top: 3px;
 }
 
 .nst-nowrap-badge .normal-badge {
-  margin:2px;
+  margin: 2px;
 }
 #PostView .normal-badge {
   //margin-top: 9px;

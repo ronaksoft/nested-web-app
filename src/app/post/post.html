@@ -10,7 +10,7 @@
                   </div>
                   <div class="date post-nav-right">
                     <div class="date _fl nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
-                    <div class="_fr"><img src="../assets/icons/close_16.png"></div>
+                    <div class="_fr" ng-click="$close(result)"><img src="../assets/icons/close_16.png"></div>
                     <div class="time _fr nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'yyyy hh:mm'"></div>
                   </div>
                 </div>
@@ -54,7 +54,7 @@
                 <div id="Content" class="_dtc _pr">
                   <div class="_dt _fh _fw">
                     <div class="_dtr">
-                      <div data-ng-show="navbar.extended" class="attachments" data-ng-include="'app/components/nested/shared/attachments.html'" data-ng-init="thePost = thePost"></div>
+                      <div data-ng-show="navbar.extended" class="attachments" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = thePost"></div>
                     </div>
 
                     <div class="_dtr _fh">
@@ -84,7 +84,9 @@
                             <div class="_dtc time-post-view nst-mood-storm" data-ng-bind="comment.date.getTime() | date:'dd MMM yyyy'" data-uib-tooltip="{{comment.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto left"></div>
                           </div>
                         </div>
-                        <div class="msg-post-view" data-ng-bind-html="comment.body | emoji"></div>
+                        <div class="msg-post-view" emoji>
+                          <span marked="comment.body"></span>
+                        </div>
                         <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small" ng-click="comment.delete()">delete</a>
                       </div>
                     </div>
