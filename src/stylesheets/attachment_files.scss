@@ -2,11 +2,13 @@
   width: 72px;
   height: 96px;
   background: url('../assets/icons/attachment_card_96x72.png') no-repeat;
+  overflow: hidden;
+  color: black;
 }
 
 // File
 [class*="att-exp-application-"],
-.att-exp-application-vnd.android.package-archive{
+.att-exp-application-vnd.android.package-archive {
   background-position: 0 -288px;
 }
 
@@ -24,8 +26,7 @@
 .att-exp-application-vnd.oasis.opendocument.text,
 .att-exp-application-vnd.oasis.opendocument.text-template,
 .att-exp-application-x-latex,
-.att-exp-application-rtf
-{
+.att-exp-application-rtf {
   background-position: 0 0;
 }
 
@@ -38,10 +39,7 @@
 .att-exp-application-javascript,
 .att-exp-application-x-shockwave-flash,
 .att-exp-application-x-mspublisher,
-.att-exp-application-x-msdownload,
-
-
-{
+.att-exp-application-x-msdownload {
   background-position: 0 -384px;
 }
 
@@ -65,7 +63,6 @@
   color: $color-white;
   background-color: $color-solid;
   border-radius: 4px;
-  padding: 4px;
   font-size: $font-size-small;
 
 }
@@ -78,13 +75,13 @@
   display: inline-block;
   padding-left: 5px;
   padding-right: 8px;
+  overflow: hidden;
   width: 128px;
 }
 
 // File
 [class*="att-badge-application-"],
-.att-badge-application-vnd.android.package-archive
-{
+.att-badge-application-vnd.android.package-archive {
   background-color: orangered;
 }
 
@@ -93,6 +90,12 @@
 [class*="att-badge-audio-"],
 .att-badge-application-vnd.rn-realmedia {
   background-color: pink;
+  height: 10px;
+  vertical-align: middle;
+  font-size: 10px;
+  padding: 0 2px 2px 2px;
+
+
 }
 
 // Document
@@ -102,9 +105,13 @@
 .att-badge-application-vnd.oasis.opendocument.text,
 .att-badge-application-vnd.oasis.opendocument.text-template,
 .att-badge-application-x-latex,
-.att-badge-application-rtf
-{
+.att-badge-application-rtf {
  background-color: #00b3ee;
+  height: 10px;
+  vertical-align: middle;
+  font-size: 10px;
+  padding: 0 2px 2px 2px;
+
 }
 
 // Zip
@@ -116,15 +123,22 @@
 .att-badge-application-javascript,
 .att-badge-application-x-shockwave-flash,
 .att-badge-application-x-mspublisher,
-.att-badge-application-x-msdownload,
-
-{
+.att-badge-application-x-msdownload {
   background-color: #4a0263;
+  height: 10px;
+  vertical-align: middle;
+  font-size: 10px;
+  padding: 0 2px 2px 2px;
+
 }
 
 // PDF
 .att-badge-application-pdf {
   background-color: fuchsia;
+  height: 10px;
+  vertical-align: middle;
+  font-size: 10px;
+  padding: 0 2px 2px 2px;
 }
 
 

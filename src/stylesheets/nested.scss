@@ -505,6 +505,14 @@ label {
   top: 4px;
   pointer-events: auto;
 }
+.ui-select-match-item{
+  @extend .normal-badge;
+  border: none;
+}
+.ui-select-match-item:hover {
+  @extend .normal-badge;
+}
+
 
 /**
   *************************************
@@ -895,6 +903,7 @@ a.normal-badge {
   line-height: 13px;
   padding-top: 3px;
 }
+
 .normal-badge {
   background-color: $color-badge;
   border-radius: 9px;
