@@ -7,7 +7,7 @@
       function Post(data, full) {
         this.full = full || false;
 
-        this.commentLimit = 3;
+        this.commentLimit = 30;
         this.moreComments = false;
 
         this.id = null;

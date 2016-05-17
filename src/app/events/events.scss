@@ -4,9 +4,11 @@
   *     Nested Classes - Page Specific - Events  *
   **********************************************************
  */
-
-.nst-content {
-  background-color: $color-white;
+#container-events {
+  max-width: 1920px;
+  min-width: 990px;
+  margin: auto;
+  height: 100%;
   width: 100%;
 }
 
@@ -81,6 +83,9 @@
 }
 
 // TODO: color should change
+#EventList {
+  width: 100%;
+}
 
 #EventList .ico {
   display: block;
@@ -116,7 +121,8 @@
   padding: 10px 5px;
   min-width:562px;
   width: 100%;
-  float: left
+  float: left;
+  display: inline-flex;
 }
 
 .actdes {
@@ -149,17 +155,22 @@
 }
 
 #EventList .msg {
-  float: left;
-  display: block;
-  max-width: 100%;
-  min-width: 550px;
+  width: 100%;
+  min-width: 250px;
   overflow: hidden;
   text-overflow: ellipsis;
-  word-break: keep-all;
-  white-space: nowrap;
+}
+#EventList .msg:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  flex-direction: column;
 }
 
 #EventList .msg .subject {
+  display: flex;
   font-weight: bold;
   line-height: 24px;
   word-break: break-all;
@@ -167,17 +178,17 @@
 }
 
 #EventList .msg .body {
+  display: flex;
   color: gray;
-  word-break: break-all;
+  white-space: nowrap;
   overflow: hidden;
 }
 
 #EventList .places {
   float: left;
-  position: absolute;
-  display: inline-flex;
-  right: 80px;
-  width: 140px;
+  display: flex;
+  margin-left: 10px;
+  max-width: 140px;
   min-width: 45px;
   min-height: 1px;
   vertical-align: top;
@@ -193,16 +204,15 @@
   //border: 1px solid $color-solid;
   background-color: $color-solid;
   color: $color-white;
-  font-size: $font-size-small;
-  height: 14px;
+  font-size: $font-size-xsmall;
+  height: 12px;
   text-align: center;
-  line-height: 10px;
+  line-height: 12px;
   vertical-align: initial;
   cursor: pointer;
-  border-radius: 15px;
-  //font-size: 13px;
-  padding: 2px 8px 2px 8px;
-  margin: 4px;
+  border-radius: 7px;
+  padding: 2px 4px 2px 4px;
+  margin-left: 4px;
   white-space: nowrap;
 }
 
@@ -213,13 +223,9 @@
 #EventList .time {
   float: left;
   width: 80px;
-  position: absolute;
-  display: block;
-  right: 0;
-  vertical-align: top;
-  text-align: center;
+  display: flex;
+  justify-content: center;
   color: $color-solid-60;
-  background-color: white;
 }
 
 #EventList.collapse .msg .body {

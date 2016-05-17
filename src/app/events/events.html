@@ -1,32 +1,29 @@
 <div>
   <nested-navbar data-ng-model="navbar" data-ng-init="navbar.extended = true"></nested-navbar>
-  <div id="container" class="_fhw">
-    <div class="_dt _fh">
-      <div class="_dtr">
-        <div class="_dtc _fh _vat">
-          <nested-sidebar data-ng-model="sidebar"></nested-sidebar>
-        </div>
-        <div class="nst-content _dtc _pr _fw">
-          <div class="_fhw _fw" on-scroll="events.scroll(event)">
-            <div class="eventsody" id="EventList" class="_fw">
-              <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
-                <div class="event-group-time col-lg-12">
-                  <div class="sender">
-                    <p class="nst-mood-simple" data-ng-init="today = eventGroup.type == 'daily' && eventGroup.date.getDate() == now.getDate()">
-                      <span data-ng-if="today"><strong class="nst-mood-solid">Today</strong> <span data-ng-bind="now | date:'EEEE d MMM'"></span></span>
-                      <span data-ng-if="!today" data-ng-bind="eventGroup.date | date:eventGroup.titleFormat"></span>
-                    </p>
-                  </div>
-                </div>
-                <div class="evrow" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event"></div>
+  <div id="container">
+    <div class="leftside _bggray">
+      <nested-sidebar data-ng-model="sidebar"></nested-sidebar>
+    </div>
+    <div class="nst-content" on-scroll="events.scroll(event)">
+      <div class="_fw" >
+        <div class="eventsody" id="EventList" class="_fw">
+          <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
+            <div class="event-group-time col-lg-12">
+              <div class="sender">
+                <p class="nst-mood-simple" data-ng-init="today = eventGroup.type == 'daily' && eventGroup.date.getDate() == now.getDate()">
+                  <span data-ng-if="today"><strong class="nst-mood-solid">Today</strong> <span data-ng-bind="now | date:'EEEE d MMM'"></span></span>
+                  <span data-ng-if="!today" data-ng-bind="eventGroup.date | date:eventGroup.titleFormat"></span>
+                </p>
               </div>
             </div>
-            <div class="text-center col-lg-12" data-ng-if="events.moreEvents">
-              <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
-            </div>
+            <div class="evrow" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event"></div>
           </div>
+        </div>
+        <div class="text-center col-lg-12" data-ng-if="events.moreEvents">
+          <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
         </div>
       </div>
     </div>
+
   </div>
 </div>

@@ -16,9 +16,17 @@
   background-color: $color-breeze-50;
 }
 
+#container-places {
+  max-width: 1920px;
+  min-width: 990px;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+
 #AllPlaces {
   margin: 0 auto;
-  min-width: 700px;
+  min-width: 574px;
   display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
   display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flexbox; /* TWEENER - IE 10 */
@@ -46,7 +54,7 @@ background-color: $color-sense-5;
 #AllPlaces ul {
   position: relative;
   list-style: none;
-  margin-left: 25px;
+  padding-left: 25px;
 }
 
 #AllPlaces li > table {
@@ -313,7 +321,7 @@ background-color: $color-sense-5;
 .restplace {
   background-color: white;
   position: relative;
-  min-height: 50px;
+  min-height: 1px;
   top:0;
   bottom: 0;
   margin-left:25px;
