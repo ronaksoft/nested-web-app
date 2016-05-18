@@ -210,18 +210,34 @@
   padding: 10px;
 }
 
-.btn-back-place-option {
+//.btn-back-place-option {
+//  border: 1px solid $color-breeze;
+//  color: $color-storm;
+//  width: 50px;
+//  height: 22px;
+//  display: inline-block;
+//  border-radius: 5px;
+//  font-size: $font-size-medium;
+//  margin-top: 8px;
+//
+//}
+
+.title-option {
+  padding-left: 5px;
+}
+
+.nst-nav-btn-breeze {
   border: 1px solid $color-breeze;
   color: $color-storm;
-  width: 50px;
   height: 22px;
   display: inline-block;
   border-radius: 5px;
   font-size: $font-size-medium;
   margin-top: 8px;
-
 }
-
-.title-option {
-  padding-left: 5px;
+.nst-nav-btn-breeze:hover {
+  color: $color-storm;
+}
+.back-btn{
+  width: 50px
 }
