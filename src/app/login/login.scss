@@ -12,7 +12,9 @@
   color: $color-white;
 }
 
-
+.login-anchor:hover {
+    color: $color-sense-wire;
+  }
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Reset Password    *
@@ -22,6 +24,15 @@
 #panel-reset {
   width: 350px;
   height: 345px;
+}
+
+#panel-reset .btn:hover {
+  color:$color-white;
+
+}
+
+.panel-heading a:hover {
+  color: $color-sense-wire;
 }
 
 .msg-panel {
