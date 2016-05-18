@@ -3,11 +3,17 @@
 
   <div class="_tac">
     <div class="post-title _pa _tac">
-    <h2 class=" _fw _tac ">{{attachment.filename}}</h2>
-    <h4 class=" _fw _tac ">{{attachment.mimeType}}</h4>
+
     </div>
     <div class="_fh _pa _tac image-preview">
-      <img class="_fh _pa _tac" data-ng-switch-when="image" src="{{attachment.download.url}}" height="100%" width=" "/>
+      <img class="_fh _pa _tac" data-ng-switch-when="image" src="{{attachment.download.url}}" height="100%" style="bottom:68px; top:0;"/>
+    </div>
+    <div class="_fw _pa " style="height:68px; background-color: white; bottom:0;">
+      <ul class="list-inline ">
+      <li><h4 class="_tal ">{{attachment.filename}}</h4></li>
+      <li><p class="_tal">{{attachment.mimeType}}</p></li>
+      </ul>
+
     </div>
   </div>
 

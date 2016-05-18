@@ -5,8 +5,8 @@
   <div class="sender" data-ng-include="'app/components/nested/event/common/actor.html'" data-ng-init="actor = event.post.sender"></div>
 </div>
 <div class="actcon">
-  <div class="msg">
-    <a class="subject" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)" data-ng-bind-html="event.post.subject | emoji"></a>
+  <div class="msg" data-ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id)"  >
+    <a class="subject" href="#/post/{{event.post.id}}" data-ng-bind-html="event.post.subject | emoji"></a>
     <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.post.body | emoji | characters:255"></div>
     <div data-ng-show="navbar.extended" class="attachments" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = event.post"></div>
   </div>
