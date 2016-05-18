@@ -607,12 +607,12 @@ label {
 .leftside {
   display: flex;
   height: 100%;
-  width: 208px;
+  min-width: 208px;
 }
 .rightside {
   display: flex;
   height: 100%;
-  width: 208px;
+  min-width: 208px;
 }
 .nst-content {
   display: flex;

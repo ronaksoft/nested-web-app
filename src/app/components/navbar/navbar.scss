@@ -74,17 +74,20 @@
 
 .compose {
   align-items: center;
-  width: 208px;
+  min-width: 208px;
   text-align: center;
-  padding-left: 13px;
 }
 
 .composen {
   margin: auto;
+  padding-left: 13px;
 }
 .subnavitems {
   width: 100%;
-  min-width: 574px;
+  min-width: 500px;
+}
+.subnavitems ul {
+  display: inline-block;
 }
 .search{
   min-width: 214px;
@@ -112,11 +115,6 @@
 #PrimaryPageSelector ul {
   display: inline-block;
 }
-
-.subnavitems ul {
-  display: inline-block;
-}
-
 
 #PrimaryPageSelector li {
   position: relative;
@@ -150,7 +148,7 @@
 .subnavitems li {
   display: inline-block;
   font-size: $font-size-small;
-  margin-left: 15px;
+  margin-right: 15px;
   text-align: center;
   position: relative;
   border-bottom: 5px solid $color-white;

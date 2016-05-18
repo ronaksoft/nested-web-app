@@ -53,6 +53,10 @@ background-color: $color-sense-5;
 #AllPlaces ul {
   position: relative;
   list-style: none;
+}
+#AllPlaces ul ul {
+  position: relative;
+  list-style: none;
   padding-left: 25px;
 }
 
@@ -325,7 +329,6 @@ background-color: $color-sense-5;
   min-height: 1px;
   top:0;
   bottom: 0;
-  margin-left:25px;
   -webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
   -moz-box-flex: 1; /* OLD - Firefox 19- */
   -webkit-flex: 1; /* Chrome */
