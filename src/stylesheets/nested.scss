@@ -385,11 +385,14 @@ input[type="radio"]:checked + label {
  */
 
 .modal {
-  padding: 50px 0;
+  padding: 64px 0;
+}
+
+.modal-attachment {
+  padding: 128px 0;
 }
 
 .modal-dialog {
-  margin: 0 100px;
   height: 100%;
 }
 
@@ -397,8 +400,17 @@ input[type="radio"]:checked + label {
   height: 100%;
 }
 
-.modal-xlg {
+.modal-xlg,
+.modal-mlg {
   width: auto;
+}
+
+.modal-xlg {
+  margin: 0 64px;
+}
+
+.modal-mlg {
+  margin: 0 128px;
 }
 
 .popover {
@@ -494,6 +506,14 @@ label {
   top: 4px;
   pointer-events: auto;
 }
+.ui-select-match-item{
+  @extend .normal-badge;
+  border: none;
+}
+.ui-select-match-item:hover {
+  @extend .normal-badge;
+}
+
 
 /**
   *************************************
@@ -920,6 +940,7 @@ a.normal-badge {
   line-height: 13px;
   padding-top: 3px;
 }
+
 .normal-badge {
   background-color: $color-badge;
   border-radius: 9px;
