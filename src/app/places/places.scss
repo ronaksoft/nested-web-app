@@ -40,7 +40,6 @@
 
 #AllPlaces li {
   border-bottom: 1px solid $color-calm;
-  min-height: 64px;
 }
 #AllPlaces tr:hover {
 background-color: $color-sense-5;
@@ -73,8 +72,10 @@ background-color: $color-sense-5;
   border-radius: 24px;
   vertical-align: middle;
 }
-
-#AllPlaces ul >li > ul > li > table td.logo > img {
+#AllPlaces li li table {
+  max-height: 48px
+}
+#AllPlaces li li > table td.logo > img {
   width: 32px;
   height: 32px;
   border-radius: 24px;

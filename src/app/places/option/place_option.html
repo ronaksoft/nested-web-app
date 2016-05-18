@@ -3,7 +3,7 @@
     <nested-navbar></nested-navbar>
   </div>
 
-  <div id="container">
+  <div id="container" class="_bggray">
     <div class="nst-content">
       <div id="place-option-body">
         <div id="place-option-hld">
@@ -19,151 +19,131 @@
               <h6 class="nst-mood-storm">{{place.description}}</h6>
             </div>
           </div> <!--/Room name-->
-
-          <div class="nst-options col-xs-12 col-lg-6">
-            <span class="title-option">Options For Me</span>
-            <hr>
-            <div class="list-inline ">
-              <ul class="_dib option-hld list-inline">
-                <li class=" nst-shown ico-margin"></li>
-                <li class="">Show in Digest</li>
-              </ul>
-
-              <div class=" _di">
-                <div class="_di switch-panel _fr" data-ng-model="sw">
-                  <li class="switch-option _dib"
-                      data-ng-class="sw ? 'switch-option' : 'switch-option-off'" data-ng-click="sw =! sw">On
-                  </li>
-                  <li class="switch-option-right _dib"
-                      data-ng-class="sw ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="sw =! sw">Off
-                  </li>
+          <div class="options">
+            <div class="nst-options col-xs-12 col-lg-6">
+              <h5 class="tittle-option">Options For Me</h5>
+              <hr>
+              <div class="list-inline">
+                  <div class="_dib"><i class="nst-notif ico-pos"></i></div>
+                  <div class="_dib"><h6>Notifictions</h6></div>
+                  <div class="_dib _fr">
+                    <div class="_df switch-panel " data-ng-model="sw">
+                      <li class="switch-option _dib"
+                          data-ng-class="sw ? 'switch-option' : 'switch-option-off'" data-ng-click="sw =! sw">On
+                      </li>
+                      <li class="switch-option-right _dib"
+                          data-ng-class="sw ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="sw =! sw">Off
+                      </li>
+                    </div>
+                  </div>
+              </div>
+              <div class="list-inline">
+                <div class="_dib"><i class="nst-shown ico-pos"></i></div>
+                <div class="_dib"><h6>Show in Digest</h6></div>
+                <div class="_dib _fr">
+                  <div class="_df switch-panel " data-ng-model="sd">
+                    <li class="switch-option _dib"
+                        data-ng-class="sd ? 'switch-option' : 'switch-option-off'" data-ng-click="sd =! sd">On
+                    </li>
+                    <li class="switch-option-right _dib"
+                        data-ng-class="sd ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="sd =! sd">Off
+                    </li>
+                  </div>
                 </div>
               </div>
-            </div>
+            </div> <!--/nst-option-->
 
-
-            <div class="list-inline ">
-              <ul class="_dib option-hld list-inline">
-                <li class=" nst-shown ico-margin"></li>
-                <li class="">Show in Digest</li>
-              </ul>
-
-              <div class=" _di">
-                <div class="_di switch-panel _fr" data-ng-model="sd">
-                  <label class="onclass _dib"
-                      data-ng-class="sw ? 'switch-option' : 'switch-option-off'" data-ng-click="sd =! sd">On
-                  </label>
-                  <label class="offclass _dib"
-                      data-ng-class="sw ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="sd =! sd">Off
-                  </label>
-                  <input type="checkbox">
+            <div class="nst-place-privacy col-xs-12 col-lg-6">
+              <h5 class="tittle-option">Place Privacy</h5>
+              <hr>
+              <div class="list-inline">
+                <div class="_dib"><i class="nst-lock ico-pos"></i></div>
+                <div class="_dib"><h6>Lock</h6></div>
+                <div class="_dib _fr">
+                  <div class="_df switch-panel " data-ng-model="sw">
+                    <li class="switch-option _dib"
+                        data-ng-class="place.privacy.locked ? 'switch-option' : 'switch-option-off'"
+                        data-ng-click="place.togglePrivacy('locked')">On
+                    </li>
+                    <li class="switch-option-right _dib"
+                        data-ng-class="place.privacy.locked ? 'switch-option-right' : 'switch-option-right-off'"
+                        data-ng-click="place.togglePrivacy('locked')">Off
+                    </li>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div> <!--/nst-option-->
-
-          <div class="nst-place-privacy col-xs-12 col-lg-6">
-            <span class="title-option">Place Privacy</span>
-            <hr>
-            <div class="list-inline ">
-              <div class="_dib option-hld">
-                <li class="_dib nst-lock ico-margin"></li>
-                <li class="_dib">Lock</li>
-              </div>
-              <div class=" _di">
-                <div class="_di switch-panel _fr">
-                  <li class="switch-option _dib"
-                      data-ng-class="place.privacy.locked ? 'switch-option' : 'switch-option-off'"
-                      data-ng-click="place.togglePrivacy('locked')">On
-                  </li>
-                  <li class="switch-option-right _dib"
-                      data-ng-class="place.privacy.locked ? 'switch-option-right' : 'switch-option-right-off'"
-                      data-ng-click="place.togglePrivacy('locked')">Off
-                  </li>
+              <div class="list-inline">
+                <div class="_dib"><i class="nst-print ico-pos"></i></div>
+                <div class="_dib"><h6>Receptive</h6></div>
+                <div class="_dib _fr">
+                  <div class="_df switch-panel " data-ng-model="sw">
+                    <li class="switch-option _dib"
+                        data-ng-class="place.privacy.receptive ? 'switch-option' : 'switch-option-off'"
+                        data-ng-click="place.togglePrivacy('receptive')">On
+                    </li>
+                    <li class="switch-option-right _dib"
+                        data-ng-class="place.privacy.receptive ? 'switch-option-right' : 'switch-option-right-off'"
+                        data-ng-click="place.togglePrivacy('receptive')">Off
+                    </li>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div class="list-inline">
-              <div class="_dib option-hld">
-                <li class="_dib nst-print ico-margin"></li>
-                <li class="_dib">Receptive</li>
-              </div>
-              <div class=" _di">
-                <div class="_di switch-panel _fr">
-                  <li class="switch-option _dib"
-                      data-ng-class="place.privacy.receptive ? 'switch-option' : 'switch-option-off'"
-                      data-ng-click="place.togglePrivacy('receptive')">On
-                  </li>
-                  <li class="switch-option-right _dib"
-                      data-ng-class="place.privacy.receptive ? 'switch-option-right' : 'switch-option-right-off'"
-                      data-ng-click="place.togglePrivacy('receptive')">Off
-                  </li>
+              <div class="list-inline">
+                <div class="_dib"><i class="nst-search ico-pos"></i></div>
+                <div class="_dib"><h6>Search</h6></div>
+                <div class="_dib _fr">
+                  <div class="_df switch-panel " data-ng-model="sw">
+                    <li class="switch-option _dib"
+                        data-ng-class="place.privacy.search ? 'switch-option' : 'switch-option-off'"
+                        data-ng-click="place.togglePrivacy('search')">On
+                    </li>
+                    <li class="switch-option-right _dib"
+                        data-ng-class="place.privacy.search ? 'switch-option-right' : 'switch-option-right-off'"
+                        data-ng-click="place.togglePrivacy('search')">Off
+                    </li>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div class="list-inline">
-              <div class="_dib option-hld">
-                <li class="_dib nst-search ico-margin"></li>
-                <li class="_dib">Search</li>
+              <div class="list-inline">
+                <div class="_dib"><i class="nst-atsign ico-pos"></i></div>
+                <div class="_dib"><h6>Email</h6></div>
+                <div class="_dib _fr">
+                  <div class="_df switch-panel " data-ng-model="sw">
+                    <li class="switch-option _dib"
+                        data-ng-class="place.privacy.email ? 'switch-option' : 'switch-option-off'"
+                        data-ng-click="place.togglePrivacy('email')">On
+                    </li>
+                    <li class="switch-option-right _dib"
+                        data-ng-class="place.privacy.email ? 'switch-option-right' : 'switch-option-right-off'"
+                        data-ng-click="place.togglePrivacy('email')">Off
+                    </li>
+                  </div>
+                </div>
               </div>
-              <div class="_di switch-panel _fr">
-                <li class="switch-option _dib"
-                    data-ng-class="place.privacy.search ? 'switch-option' : 'switch-option-off'"
-                    data-ng-click="place.togglePrivacy('search')">On
-                </li>
-                <li class="switch-option-right _dib"
-                    data-ng-class="place.privacy.search ? 'switch-option-right' : 'switch-option-right-off'"
-                    data-ng-click="place.togglePrivacy('search')">Off
-                </li>
-              </div>
-            </div>
+            </div> <!-- /nst-place-privacy-->
+          </div>
 
-            <div class="list-inline">
-              <div class="_dib option-hld">
-                <li class="_dib nst-atsign ico-margin"></li>
-                <li class="_dib">Email</li>
-              </div>
-              <div class="_di switch-panel _fr">
-                <li class="switch-option _dib"
-                    data-ng-class="place.privacy.email ? 'switch-option' : 'switch-option-off'"
-                    data-ng-click="place.togglePrivacy('email')">On
-                </li>
-                <li class="switch-option-right _dib"
-                    data-ng-class="place.privacy.email ? 'switch-option-right' : 'switch-option-right-off'"
-                    data-ng-click="place.togglePrivacy('email')">Off
-                </li>
-              </div>
-            </div>
-          </div> <!-- /nst-place-privacy-->
-
-
-          <div class="nst-teammates col-xs-12">
-            <span class="title-option">Teammates</span>
-            <div class="_dib  _fr">
+          <div class="nst-teammates _dib">
+            <h5 class="tittle-option _di">Teammates</h5>
+            <div class="_di  _fr">
               <span class="nst-mood-simple _dib ">Add Teammate</span>
               <div class="add-icon _dib"></div>
             </div>
             <hr>
-
-            <div class="col-xs-6 col-lg-4" data-ng-repeat="member in place.members.creators.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'creator'"></div>
-            <div class="col-xs-6 col-lg-4" data-ng-repeat="member in place.members.keyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'key_holder'"></div>
-            <div class="col-xs-6 col-lg-4" data-ng-repeat="member in place.members.pendingKeyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_key_holder'"></div>
-
-
+            <div class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.creators.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'creator'"></div>
+            <div class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.keyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'key_holder'"></div>
+            <div class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.pendingKeyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_key_holder'"></div>
           </div><!--/nst-teammates-->
 
-          <div class="place-option-members col-xs-12">
-            <span class="ico-margin">Members</span>
-            <div class="_dib  _fr">
+          <div class="place-option-members _dib">
+            <h5 class="title-option _di">Members</h5>
+            <div class="_di _fr">
               <span class="nst-mood-simple _dib">Invite members</span>
               <div class="add-icon _dib"></div>
             </div>
-
             <hr>
-            <div class="col-xs-6" data-ng-repeat="member in place.members.knownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'known_guest'"></div>
-            <div class="col-xs-6" data-ng-repeat="member in place.members.pendingKnownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_known_guest'">
+            <div class="col-xs-6 col-lg-4" data-ng-repeat="member in place.members.knownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'known_guest'"></div>
+            <div class="col-xs-6 col-lg-4" data-ng-repeat="member in place.members.pendingKnownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_known_guest'">
             </div>
 
           </div> <!-- /place-option-members-->
