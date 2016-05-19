@@ -247,7 +247,9 @@
 #load-more-events {
   cursor: pointer;
 }
-
+.eventplace {
+  text-align: center
+}
 .attachment-badge-bar {
   height: 18px;
   background-color: $color-breeze-50;

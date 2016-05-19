@@ -74,24 +74,34 @@
 .mainsign {
   position: fixed;
   right: 25%;
-  top: 15px;
-  width: 200px;
+  top: 18px;
+  width: 150px;
   text-align: center;
+  font-weight: 900;
+  font-size: 24px;
+  margin-top: 15px;
+  min-height: 30px;
+  background-color: #14D769;
+  border-radius: 10px;
+  border-bottom: 3px;
+  border-bottom-color: #2b542c;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-style: inset;
 }
 .mainsign:hover {
-  border: solid #14D769;
+  border-bottom: 5px;
 }
 .mainsign a{
-  font-size: 25px;
+  font-size: 22px;
+  text-decoration: none;
   font-family: 'corporative_sans_altblack';
-  color: white!important;
-}
-.mainsign:hover a {
-  color: #14D769!important;
+  color: white;
 }
 footer {
   position: relative;
-  min-height: 150px;
+  min-height: 200px;
   text-align: left;
   width: 100%;
   background-color: #476152;
@@ -103,7 +113,7 @@ footer {
 }
 
 .footup{
-  top: -80px;
+  top: -60px;
   height: 20px;
 }
 
@@ -112,9 +122,13 @@ footer {
 }
 .footup p {
   color: #fff;
+  font-weight: 400;
   font-size: 20px;
-  margin-top: 85px;
+  margin-top: 70px;
   margin-left: -88px;
+}
+.footup p b {
+  font-weight: 900;
 }
 
 .footbud {
