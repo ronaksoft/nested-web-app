@@ -45,8 +45,8 @@
 }
 
 .composen a {
-  background-color: #14D769;
-  border: 1px solid #00B45A;
+  background-color: $color-sense;
+  border: 1px solid $color-sense-wire;
   line-height: 30px ;
   color: white;
   display: inline-block;
@@ -141,12 +141,12 @@
 .subnavitems li.li-hover:hover,
 .subnavitems li.li-hover.selected {
   border-bottom: 5px solid $color-sense;
-  color: $color-sense;
+  color: $color-sense-wire;
 }
 
 .subnavitems li.li-hover.selected a,
 .subnavitems li.li-hover.hover a {
-  color: $color-sense;
+  color: $color-sense-wire;
 }
 
 .subnavitems .events-anchor,
@@ -161,7 +161,7 @@
 }
 
 .subnavitems .events-anchor a:hover {
-  color: $color-sense;
+  color: $color-sense-wire;
 }
 
 .nav-profile {

@@ -230,10 +230,13 @@
   border: 1px solid $color-breeze;
   color: $color-storm;
   height: 22px;
+  line-height: 22px;
   display: inline-block;
   border-radius: 5px;
   font-size: $font-size-medium;
   margin-top: 8px;
+  vertical-align: middle;
+  cursor: pointer;
 }
 .nst-nav-btn-breeze:hover {
   color: $color-storm;

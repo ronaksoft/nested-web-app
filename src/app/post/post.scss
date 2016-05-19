@@ -161,7 +161,7 @@
   background-color: $color-white;
   padding: 0;
   // height: 640px;
-  box-shadow: 0 0 16px 0 rgba(71, 97, 82, 0.15);
+  //box-shadow: 0 0 16px 0 rgba(71, 97, 82, 0.15);
 }
 
 #PostView .main-body .left-column {
@@ -271,6 +271,7 @@
   padding: 5px;
   width: 320px;
   background-color: rgb(247, 250, 249);
+  border-radius: 6px;
 }
 
 #PostView .NewComment {
@@ -339,6 +340,6 @@
   top:0;
 }
 
-.post-title {
-  z-index: 1;
+.transparent-bg {
+  background-color: chartreuse;
 }
