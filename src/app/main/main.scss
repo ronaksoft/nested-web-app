@@ -29,7 +29,7 @@
 }
 .main h1 {
   font-size: 48px;
-  font-family: 'corporative_sans_altblack';
+  font-family: corporativeblack;
   font-weight: 900;
 }
 .mainp {
@@ -46,7 +46,7 @@
   min-height: 36px;
   color: #869D91;
   text-align: center;
-  font-family: 'corporative_sans_altregular';
+  font-family: corporativeregular;
   font-size: 20px;
   font-weight: 100;
   padding: 6px 6px 6px 10px;
@@ -96,7 +96,7 @@
 .mainsign a{
   font-size: 22px;
   text-decoration: none;
-  font-family: 'corporative_sans_altblack';
+  font-family: corporativeblack;
   color: white;
 }
 footer {
@@ -137,7 +137,7 @@ footer {
 }
 .footbud h4{
   font-weight: 800;
-  font-family: 'corporative_sans_altblack';
+  font-family: corporativeblack;
 }
 
 @media (min-width:990px){
@@ -175,28 +175,4 @@ footer {
   right: 7px;
   color: white;
   width: 300px;
-}
-@font-face {
-  font-family: 'corporative_sans_altblack';
-  src: url('../assets/fonts/corporativesansalt/corporativesansalt-black-webfont.eot');
-  src: url('../assets/fonts/corporativesansalt/corporativesansalt-black-webfont.eot?#iefix') format('embedded-opentype'),
-  url('../assets/fonts/corporativesansalt/corporativesansalt-black-webfont.woff2') format('woff2'),
-  url('../assets/fonts/corporativesansalt/corporativesansalt-black-webfont.woff') format('woff'),
-  url('../assets/fonts/corporativesansalt/corporativesansalt-black-webfont.ttf') format('truetype'),
-  url('../assets/fonts/corporativesansalt/corporativesansalt-black-webfont.svg#corporative_sans_altblack') format('svg');
-  font-weight: normal;
-  font-style: normal;
-
-}
-@font-face {
-  font-family: 'corporative_sans_altregular';
-  src: url('../assets/fonts/corporativesansalt/corporativesansalt-regular-webfont.eot');
-  src: url('../assets/fonts/corporativesansalt/corporativesansalt-regular-webfont.eot?#iefix') format('embedded-opentype'),
-  url('../assets/fonts/corporativesansalt/corporativesansalt-regular-webfont.woff2') format('woff2'),
-  url('../assets/fonts/corporativesansalt/corporativesansalt-regular-webfont.woff') format('woff'),
-  url('../assets/fonts/corporativesansalt/corporativesansalt-regular-webfont.ttf') format('truetype'),
-  url('../assets/fonts/corporativesansalt/corporativesansalt-regular-webfont.svg#corporative_sans_altregular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-
 }

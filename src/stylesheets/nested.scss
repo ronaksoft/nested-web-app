@@ -5,6 +5,8 @@
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, eot woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
+@include font-face(corporativeblack,"../assets/fonts/corporativesansalt/corporativesansalt-black");
+@include font-face(corporativeregular,"../assets/fonts/corporativesansalt/corporativesansalt-regular");
 
 /**
   ******************************
