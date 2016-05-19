@@ -4,6 +4,14 @@
   *     Nested Classes - Page Specific - Events  *
   **********************************************************
  */
+.eventsody {
+ min-height: 97%;
+}
+.morerow {
+  display: table-cell;
+  vertical-align: bottom;
+  min-height: 15px;
+}
 
 #EventList .msg a {
   color: $color-sense

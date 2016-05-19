@@ -45,7 +45,7 @@ a:hover {
 //
 
 body {
-  background-color: $color-white;
+  background-color: $color-bg;
   font-family: $font-family-per-reg, $font-family-eng-reg;
   position: absolute;
   top: 0;
@@ -621,6 +621,7 @@ label {
   overflow-y: scroll;
 }
 .maincontainer {
+  background-color: $color-white;
   border-right: 1px solid $color-calm;
   border-left: 1px solid $color-calm;
   max-width: 1920px;
