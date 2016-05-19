@@ -1,10 +1,13 @@
 <ul data-ng-show="thePost.attachments.length > 0" class="attachments-bar image">
   <li>
     <ul class="attachments-bar">
+      <span ></span>
       <li data-ng-repeat="(key, attachment) in thePost.attachments" data-ng-init="attached = 'attached' == attachment.status">
         <a href="{{attached ? attachment.download.url : ''}}" ng-click="$event.preventDefault(); attached && attachment.getDownloadUrl().then(attachmentView);">
           <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
-          <div data-ng-if="!attachment.thumbs.x128.uid && thePost.attachmentPreview" class="att-exp-{{attachment.mimeType.replace('/', '-')}}">{{attachment.filename}}</div>
+          <div data-ng-if="!attachment.thumbs.x128.uid && thePost.attachmentPreview" class="att-exp-{{attachment.mimeType.replace('/', '-')}}">
+            <span class="nst-attachment-name nst-mood-storm">{{attachment.filename}}</span>
+          </div>
           <div data-ng-if="!(attachment.thumbs.x128.uid || thePost.attachmentPreview)" class="attachment-badge-bar">
             <div class="_dib att-badge-{{attachment.mimeType.replace('/', '-')}}">{{ext = rexExt.exec(attachment.filename)[1]; ext ? ext.toUpperCase() : '???'}}</div>
             <span class="_dib">{{attachment.filename}}</span>
