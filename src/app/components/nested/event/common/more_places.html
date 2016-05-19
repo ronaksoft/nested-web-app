@@ -1,5 +1,5 @@
 <div>
-  <ul class="list-unstyled">
+  <ul class="list-unstyled text-center">
     <li data-ng-repeat="place in event.post.places | limitTo:(event.post.places.length - 1):1">
       <a href="#/events/{{place.id}}" data-ng-bind="place.name"></a>
     </li>
