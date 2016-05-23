@@ -7,7 +7,27 @@
     <div class="nst-content" on-scroll="events.scroll(event)">
       <div class="_fw">
         <div class="eventsody" id="EventList" class="_fw">
+          <div class="_fl title-bar _vam _df _fw">
+            <div class="logo-bar">
+              <img class="account-initials-32" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
+              <div class="account-initials-32" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
+            </div>
+            <div class="name _tofe title-bar-holder">
+              <h5>nameeeeeeeee</h5>
+              <p class="nst-mood-storm" data-ng-bind="place.id + '@nested.me'"></p>
+            </div>
+            <div class="nst-mood-storm" style="width:110px;margin-top:30px;">34 members</div>
+            <div class="margin-top-20">
+              <div class="nst-more">
+                <a href="#/place/{{place.id}}">
+                  <div class="nst-more-badge"></div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <hr class="title-bar-hr">
           <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
+
             <div class="event-group-time col-lg-12">
               <div class="sender">
                 <p class="nst-mood-simple" data-ng-init="today = eventGroup.type == 'daily' && eventGroup.date.getDate() == now.getDate()">
