@@ -19,8 +19,22 @@
   position: relative;
   border-bottom: 1px solid $color-calm;
 }
-
+.firstnav {
+  display: flex;
+  align-items: center;
+}
+#Logo { width: 250px; text-align: center; }
+#Logo #Pic {
+  width: 32px;
+  height: 32px;
+}
+#Logo #Type { height: 32px; }
+.SecondaryPageSelector {
+  height: 41px;
+  border-bottom: 1px solid $color-sense;
+}
 .subnav {
+  width: 100%;
   height: 41px;
   border-bottom: 1px solid $color-sense;
   display: inline-flex;
@@ -60,15 +74,20 @@
 
 .compose {
   align-items: center;
-  width: 245px;
+  min-width: 208px;
   text-align: center;
 }
 
 .composen {
   margin: auto;
+  padding-left: 13px;
 }
 .subnavitems {
   width: 100%;
+  min-width: 500px;
+}
+.subnavitems ul {
+  display: inline-block;
 }
 .search{
   min-width: 214px;
@@ -87,17 +106,15 @@
   height: 40px;
 }
 #PrimaryPageSelector {
-  width: 575px;
+  width: 100%;
+}
+.signin {
+  width: 300px;
 }
 
 #PrimaryPageSelector ul {
   display: inline-block;
 }
-
-.subnavitems ul {
-  display: inline-block;
-}
-
 
 #PrimaryPageSelector li {
   position: relative;
@@ -131,7 +148,7 @@
 .subnavitems li {
   display: inline-block;
   font-size: $font-size-small;
-  margin-left: 15px;
+  margin-right: 15px;
   text-align: center;
   position: relative;
   border-bottom: 5px solid $color-white;
@@ -198,6 +215,26 @@
 
 .nst-nav {
   background-color: white;
+  position: fixed;
+  max-width: 1917px;
+  min-width: 990px;
+  margin: auto;
+  //top: 0;
+  //left: 0;
+  z-index: 2;
+}
+.nst-nav-container {
+  max-width: 1920px;
+  min-width: 990px;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+#nst-compose-button {
+  height: 32px;
+  width: 128px;
+  vertical-align: middle;
+  font-weight: normal;
 }
 
 //#nst-compose-button {

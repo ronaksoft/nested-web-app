@@ -16,9 +16,17 @@
   background-color: $color-breeze-50;
 }
 
+#container-places {
+  max-width: 1920px;
+  min-width: 990px;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+
 #AllPlaces {
   margin: 0 auto;
-  min-width: 700px;
+  min-width: 574px;
   display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
   display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
   display: -ms-flexbox; /* TWEENER - IE 10 */
@@ -32,7 +40,6 @@
 
 #AllPlaces li {
   border-bottom: 1px solid $color-calm;
-  min-height: 64px;
 }
 #AllPlaces tr:hover {
 background-color: $color-sense-5;
@@ -46,7 +53,11 @@ background-color: $color-sense-5;
 #AllPlaces ul {
   position: relative;
   list-style: none;
-  margin-left: 25px;
+}
+#AllPlaces ul ul {
+  position: relative;
+  list-style: none;
+  padding-left: 25px;
 }
 
 #AllPlaces li > table {
@@ -65,8 +76,10 @@ background-color: $color-sense-5;
   border-radius: 24px;
   vertical-align: middle;
 }
-
-#AllPlaces ul >li > ul > li > table td.logo > img {
+#AllPlaces li li table {
+  max-height: 48px
+}
+#AllPlaces li li > table td.logo > img {
   width: 32px;
   height: 32px;
   border-radius: 24px;
@@ -313,10 +326,9 @@ background-color: $color-sense-5;
 .restplace {
   background-color: white;
   position: relative;
-  min-height: 50px;
+  min-height: 1px;
   top:0;
   bottom: 0;
-  margin-left:25px;
   -webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
   -moz-box-flex: 1; /* OLD - Firefox 19- */
   -webkit-flex: 1; /* Chrome */

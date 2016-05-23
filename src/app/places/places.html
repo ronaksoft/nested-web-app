@@ -1,7 +1,8 @@
 <div>
   <nested-navbar></nested-navbar>
-  <div id="container"  class="_fhw _bggray">
-    <div id="container-places">
+  <div id="container" class="_bggray">
+    <div class="leftside"></div>
+    <div class="nst-content">
       <div id="AllPlaces" class="_fh">
         <ul >
           <li data-ng-repeat="place in places.places" data-ng-include="'app/places/place_row.html'" data-ng-model="place"></li>
@@ -9,5 +10,6 @@
         <div class="restplace"></div>
       </div>
     </div>
+    <div class="rightside"></div>
   </div>
 </div>

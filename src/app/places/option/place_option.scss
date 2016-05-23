@@ -4,8 +4,10 @@
   **********************************************************
  */
 
-.ico-margin {
-  margin-left: 15px;
+.ico-pos {
+  display: flex;
+  position: relative;
+  top:7px;
 }
 
 #place-option-body {
@@ -34,30 +36,37 @@
   margin-top: 30px;
 }
 //---------------------------------
-.nst-options {
-  height: 110px;
+.options {
+  height: auto;
+}
+.nst-options div,.nst-place-privacy div {
+  height: 45px;
+}
+.tittle-option {
+  padding-left: 5px;
 }
 
 .nst-options .nst-eye {
   margin-left: 7px;
 }
 
-.nst-place-privacy {
+.nst-place-privacy,.nst-teammates,.nst-options,.place-option-members {
   background-color: $color-white;
+  padding: 10px 15px;
+}
+.nst-teammates,.options,.place-option-members {
+  width: 100%;
 }
 
-.nst-teammates {
-  background-color: $color-white;
-}
-
-.nst-teammates > ._dtr {
-  //width: 800px;
+.user {
+  height: 70px;
 }
 
 .place-option-members > ._dt {
   //width: 800px;
 }
-
+.nst-teammates {
+}
 .teammate-name {
   width: 270px;
 }
@@ -70,6 +79,38 @@
   margin: 6px 0px 6px 12px;
 }
 
+.teammates-panel {
+  display: inline-flex;
+  height: 50px;
+}
+.teammates-panel:after {
+  /* Prevent wrapper from shrinking height,
+  see http://www.positioniseverything.net/easyclearing.html */
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  flex-direction: row;
+}
+#place-option-hld .nst-mood-simple {
+  position: relative;
+  top: -8px;
+}
+.poti {
+  width: 80px;
+}
+.potn {
+  padding-top: 10px;
+  width: 100%;
+  min-width:150px;
+}
+
+.potm {
+  width: 20px;
+  align-items: center;
+  right: 0;
+}
 .role-icon {
   margin-right: 3px;
   margin-left: 3px
@@ -86,6 +127,7 @@
 
 .switch-panel {
   padding-right: 10px;
+  align-items: center;
 }
 
 .add-panel {
@@ -222,10 +264,6 @@
 //
 //}
 
-.title-option {
-  padding-left: 5px;
-}
-
 .nst-nav-btn-breeze {
   border: 1px solid $color-breeze;
   color: $color-storm;
@@ -238,6 +276,7 @@
   vertical-align: middle;
   cursor: pointer;
 }
+
 .nst-nav-btn-breeze:hover {
   color: $color-storm;
 }

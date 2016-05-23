@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="120" height="120" viewBox="0 0 120 120">
+  <defs>
+    <radialGradient id="410adfdb-bdb6-4bfb-860e-f715362b8fb3" cx="60" cy="74.93" r="59.94" gradientTransform="translate(120 131.12) rotate(180) scale(1 0.75)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0f0f0"/>
+      <stop offset="0.13" stop-color="#f0f0f0" stop-opacity="0.82"/>
+      <stop offset="0.37" stop-color="#f0f0f0" stop-opacity="0.53"/>
+      <stop offset="0.58" stop-color="#f0f0f0" stop-opacity="0.3"/>
+      <stop offset="0.77" stop-color="#f0f0f0" stop-opacity="0.14"/>
+      <stop offset="0.91" stop-color="#f0f0f0" stop-opacity="0.04"/>
+      <stop offset="1" stop-color="#f0f0f0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <title>Nested Logo White</title>
+  <g style="isolation: isolate">
+    <g id="728b104f-e140-4ee0-ba64-93ea99856a3f" data-name="Layer 1">
+      <g id="de3ef6af-0289-45a1-ae31-cc64c9224446" data-name="&lt;Group&gt;">
+        <g id="0f54686c-5237-4dcc-9d70-131068251d07" data-name="&lt;Group&gt;">
+          <g id="8af6811a-710d-4a14-916d-b99aa02b73a1" data-name="&lt;Group&gt;">
+            <path id="0238cdbe-aa32-4d61-84e3-c24cb8a1a00d" data-name="&lt;Compound Path&gt;" d="M60,11.55l45,26a10,10,0,0,1,5,8.66V74.64a30.08,30.08,0,0,1-15,26,70,70,0,0,1-70,0,30.08,30.08,0,0,1-15-26V46.19a10,10,0,0,1,5-8.66l45-26M60,0L10,28.87A20,20,0,0,0,0,46.19V74.64a40,40,0,0,0,20,34.64h0a80,80,0,0,0,80,0h0a40,40,0,0,0,20-34.64V46.19a20,20,0,0,0-10-17.32L60,0h0Z" style="fill: #fff"/>
+          </g>
+          <g id="a60c7e8f-cefb-4319-9147-c6f20b97eed3" data-name="&lt;Group&gt;">
+            <path id="2faa2721-33a4-4783-a02a-9438088c1b95" data-name="&lt;Path&gt;" d="M60,120a80,80,0,0,1-40-10.72A40,40,0,0,1,0,74.64V46.19a19.91,19.91,0,0,1,.73-5.35L60,75.06l59.27-34.22a19.91,19.91,0,0,1,.73,5.35V74.64a40,40,0,0,1-20,34.64A80,80,0,0,1,60,120Z" style="fill: #fff"/>
+          </g>
+          <path id="521e0a0d-d540-42c6-aa21-8877a426e5d1" data-name="&lt;Path&gt;" d="M60,75.06l59.27-34.22a19.91,19.91,0,0,1,.73,5.35V74.64a40,40,0,0,1-20,34.64A80,80,0,0,1,60,120" style="mix-blend-mode: multiply;fill: url(#410adfdb-bdb6-4bfb-860e-f715362b8fb3)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
