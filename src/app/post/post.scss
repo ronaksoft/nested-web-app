@@ -10,7 +10,6 @@
   height: 60px;
 
 }
-
 #PostView {
   //top: 0;
   //top: 0;
@@ -58,15 +57,15 @@
 }
 
 .post-nav-right-bottom {
-  width: 320px;
+  width: 400px;
   float: right;
 }
 
 
 .nst-nowrap-badge {
   width: 400px;
-  margin-left: 150px;
-  margin-top: -26px;
+  margin-left: 200px;
+  margin-top: -24px;
   overflow: visible;
 }
 
@@ -99,7 +98,9 @@
   padding-left: 24px;
 
 }
-
+.panel-action li {
+  margin-left: 25px;
+}
 .time-post-view {
   width: 80px;
   font-size: $font-size-small;
@@ -114,16 +115,20 @@
   padding-right: 10px;
   padding-top: 20px;
 }
+.cmt-post-view {
+  padding-left: 40px;
+  padding-right: 5px;
+}
 
-.input-msg input {
-  float: right;
+.input-msg textarea {
+  float: left;
   border: 1px solid $color-breeze !important;
   padding-right: 8px;
   height: 32px;
   margin-bottom: 5px;
-  margin-right: 8px;
-  margin-left: 8px;
-  width: 258px;
+  width: 265px;
+  height: 60px;
+  resize: none;
 }
 
 .input-msg {
@@ -195,6 +200,10 @@
   margin: 1px;
   color: gray;
   font-weight: bold;
+}
+.date {
+  position: relative;
+  top:-1px;
 }
 
 #PostView #PostTime .time {
@@ -321,11 +330,15 @@
 
 .comment-input{
   position: fixed;
-  bottom: 0;
+  bottom: 10px;
+  height: auto;
 }
-
+.comment-input span {
+  position: relative;
+  top: 4px;
+}
 .comment-msg {
-  border-bottom: 50px solid rgba(0, 0, 0, 0);
+  border-bottom: 52px solid rgba(0, 0, 0, 0);
   overflow-y: auto;
 }
 #Comments {
@@ -333,30 +346,39 @@
 }
 
 .actor-name {
-  width: 100px;
+  width: 200px;
+  padding-top: 4px;
 }
 
 .image-preview {
-  top: 0;
   background-color: $color-breeze;
   border-radius: 6px;
-  padding: 10px 0;
+  padding: 10px 0 68px 0;
   //overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  //margin-bottom: 58px;
 }
-
+.image-preview > img {
+  height: 100%;
+  object-fit: contain;
+}
 .nst-preview-pic-mode {
-  height: 550px;
-  bottom: 68px;
-  top: 0;
+  //position: relative;
+  //bottom: 68px;
+  //top: 0;
 
 }
 
 .nst-preview-footer {
+  position: fixed;
   height: 68px;
   background-color: white;
   bottom: 0;
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
+  line-height: 1px;
+  padding-left: 10px;
 }
 
 .padding-l-16 {
@@ -375,4 +397,18 @@
 .nst-preview-footer .nst-nav-btn-breeze {
   margin-top: 16px;
   margin-right: 16px;
+}
+
+.comment-input-det{
+  width: 10px;
+}
+.comment-input-det button{
+  margin-left:8px;
+  margin-bottom: 7px;
+
+}
+
+.closebut{
+  position: relative;
+  top:-5px;
 }
