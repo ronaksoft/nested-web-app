@@ -14,10 +14,10 @@
 
         <section>
           <div class="row">
-            <div class="col-xs-1">
+            <div class="_dib">
               <span class="_dib">To:</span>
             </div>
-            <div class="col-xs-11 _fl">
+            <div class="_dib input-select-match">
               <ui-select multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
                 <ui-select-match placeholder="Type place name or email address...">
                   <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
@@ -52,6 +52,7 @@
         <hr/>
 
         <section class="nst-compose-message">
+          <text-angular ta-toolbar="[['h1','h2','h3','p'],['bold','italics'] ,['ul','ol'],['justifyLeft','justifyCenter','justifyRight'] ]" data-ng-model="compose.post.body"></text-angular>
           <div text-angular  data-ng-model="compose.post.body"></div>
         </section>
       </div>
