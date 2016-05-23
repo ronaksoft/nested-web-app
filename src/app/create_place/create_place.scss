@@ -10,7 +10,7 @@
 
 
 .panel-create-place {
-  padding-top: 18px;
+  padding-top: 118px;
   background-color: white;
   width: 574px;
   margin: auto;
@@ -29,7 +29,6 @@
 }
 .inner-panel .list-inline {
   margin-left: 5px;
-  margin-bottom: 10px;
 }
 .head ._fr a {
   color: $color-sense-wire;
@@ -38,7 +37,6 @@
   margin-top: -10px;
 }
 .title-create-place{
-  margin-bottom: 12px;
 }
 .arrow-right {
   transform: rotate(270deg);
@@ -60,16 +58,17 @@
   width: 384px;
 }
 #place-privacy{
-  margin-bottom: 17px;
+  margin-bottom: 16px;
 }
-.notice {
+.notice-bar {
   font-size: $font-size-xsmall;
   color: #61776a;
   background-color: $color-calm;
-  margin-top: 4px;
   margin-bottom: 30px;
+  height: 24px;
   border-radius: 5px;
   padding-left: 8px;
+  padding-top: 5px;
   width: 100%;
 }
 .cp-switch-option {

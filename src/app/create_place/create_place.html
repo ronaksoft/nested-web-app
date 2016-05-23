@@ -1,6 +1,6 @@
   <nested-navbar></nested-navbar>
-  <div class="_fh">
-        <div class="panel-create-place _fh">
+  <div class="_fh _ma">
+        <div class="panel-create-place _fh _ma">
           <ul class="list-inline head">
             <li>
               <a href="#">/</a>
@@ -34,15 +34,15 @@
           </div>
           <div class="inner-panel _ma">
             <div class="place-id">
-              <div class="title-create-place">
+              <div>
                 Place ID
               </div>
               <div>
                 <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="place id"
                        type="text">
               </div>
-              <div class="notice">
-                Place ID cant be change later.be carefull!
+              <div class="notice-bar">
+                Place ID cant be change later.be careful!
               </div>
             </div>
             <div id="place-privacy">Place Privacy</div>
@@ -50,75 +50,75 @@
               <ul class="list-inline">
                 <li class=" nst-lock"></li>
                 <li class="cp-text-leveling">Lock</li>
-                <li class="cp-switch-option-right  _fr" data-ng-model="colp"
-                    data-ng-class="colp ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
-                    data-ng-click="colp =! colp">Off
+                <li class="cp-switch-option-right  _fr" data-ng-model="lock-btn"
+                    data-ng-class="lock-btn ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
+                    data-ng-click="lock-btn =! lock-btn">Off
                 </li>
-                <li class="switch-option  _fr" data-ng-model="colp"
-                    data-ng-class="colp ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="colp =! colp">On
+                <li class="cp-switch-option  _fr" data-ng-model="lock-btn"
+                    data-ng-class="lock-btn ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="lock-btn =! lock-btn">On
                 </li>
               </ul>
             </div>
-            <div class="notice">
+            <div class="notice-bar">
               Parent members Can't view Inside The Place. <a href="" class="nst-mood-cheerful">Learn more</a>
             </div>
             <div>
               <ul class="list-inline">
                 <li class="nst-print"></li>
                 <li class="cp-text-leveling">Receptive</li>
-                <li class="cp-switch-option-right _fr" data-ng-model="colp1"
-                    data-ng-class="colp1 ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
-                    data-ng-click="colp1 =! colp1">Off
+                <li class="cp-switch-option-right _fr" data-ng-model="Receptive-btn"
+                    data-ng-class="Receptive-btn ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
+                    data-ng-click="Receptive-btn =! Receptive-btn">Off
                 </li>
-                <li class="cp-switch-option _fr" data-ng-model="colp1"
-                    data-ng-class="colp1 ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="colp1 =! colp1">On
+                <li class="cp-switch-option _fr" data-ng-model="Receptive-btn"
+                    data-ng-class="Receptive-btn ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="Receptive-btn =! Receptive-btn">On
                 </li>
               </ul>
             </div>
-            <div class="notice">
+            <div class="notice-bar">
               Oly members Can Write Posts. <a href="" class="nst-mood-cheerful">Learn more</a>
             </div>
             <div>
               <ul class="list-inline">
                 <li class="  nst-atsign"></li>
                 <li class="cp-text-leveling">Email</li>
-                <li class="cp-switch-option-right  _fr" data-ng-model="colp2"
-                    data-ng-class="colp2 ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
-                    data-ng-click="colp2 =! colp2">Off
+                <li class="cp-switch-option-right  _fr" data-ng-model="email-btn"
+                    data-ng-class="email-btn ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
+                    data-ng-click="email-btn =! email-btn">Off
                 </li>
-                <li class="cp-switch-option  _fr" data-ng-model="colp2"
-                    data-ng-class="colp2 ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="colp2 =! colp2">On
+                <li class="cp-switch-option  _fr" data-ng-model="email-btn"
+                    data-ng-class="email-btn ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="email-btn =! email-btn">On
                 </li>
               </ul>
             </div>
-            <div class="notice">
+            <div class="notice-bar">
               Disable until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a>
             </div>
             <div>
               <ul class="list-inline">
                 <li class="  nst-search"></li>
                 <li class="cp-text-leveling">Search</li>
-                <li class="cp-switch-option-right  _fr" data-ng-model="colp3"
-                    data-ng-class="colp3 ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
-                    data-ng-click="colp3 =! colp3">Off
+                <li class="cp-switch-option-right  _fr" data-ng-model="search-btn"
+                    data-ng-class="search-btn ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
+                    data-ng-click="search-btn =! search-btn">Off
                 </li>
-                <li class="cp-switch-option  _fr" data-ng-model="colp3"
-                    data-ng-class="colp3 ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="colp3 =! colp3">On
+                <li class="cp-switch-option  _fr" data-ng-model="search-btn"
+                    data-ng-class="search-btn ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="search-btn =! search-btn">On
                 </li>
               </ul>
             </div>
-            <div class="notice">
+            <div class="notice-bar">
               Disable until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a>
             </div>
             <div>
-              <div class="title-create-place">
+              <div>
                 Place Name
               </div>
-              <div>
+              <div class="nst-marginbtm-0.5">
                 <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="place id"
                        type="text"/>
               </div>
-              <div class="notice">
+              <div class="notice-bar">
                 Short name help you to identify quickly your places.
               </div>
             </div>
