@@ -531,7 +531,10 @@ label {
 .ui-select-match-item:hover {
   @extend .normal-badge;
 }
-
+//select match in compose page
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+  padding-top: 4px;
+}
 
 /**
   *************************************
