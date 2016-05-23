@@ -10,7 +10,7 @@
   background: url("../assets/images/mainbg.jpg") ;
   background-size:cover;
   background-position:center center;
-  background-attachment:fixed;
+  background-attachment: scroll;
   height: 100vh;
   min-height: 900px;
   color: #14D769;
@@ -71,33 +71,22 @@
 #mainsubmit:hover{
   border-bottom: 0;
 }
-.mainsign {
-  position: fixed;
-  right: 25%;
-  top: 18px;
-  width: 150px;
-  text-align: center;
-  font-weight: 900;
-  font-size: 24px;
-  margin-top: 15px;
-  min-height: 30px;
-  background-color: #14D769;
-  border-radius: 10px;
-  border-bottom: 3px;
-  border-bottom-color: #2b542c;
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  border-style: inset;
+.mainlogin {
+  margin-top: 80px;
+  width: 800px;
 }
-.mainsign:hover {
-  border-bottom: 5px;
+.line {
+  width: 300px;
+  height: 5px;
 }
-.mainsign a{
-  font-size: 22px;
-  text-decoration: none;
-  font-family: corporativeblack;
-  color: white;
+.mainlogintop span{
+  margin : 0 20px;
+}
+.mainloginbod {
+  margin-top: 20px;
+}
+.loginweb{
+  margin : 0 150px;
 }
 footer {
   position: relative;
@@ -113,7 +102,7 @@ footer {
 }
 
 .footup{
-  top: -60px;
+  top: -48px;
   height: 20px;
 }
 
@@ -133,7 +122,7 @@ footer {
 
 .footbud {
   width: 450px;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 .footbud h4{
   font-weight: 800;
@@ -176,3 +165,4 @@ footer {
   color: white;
   width: 300px;
 }
+

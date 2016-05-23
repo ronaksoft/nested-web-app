@@ -23,7 +23,10 @@
   display: flex;
   align-items: center;
 }
-#Logo { width: 250px; text-align: center; }
+#Logo {
+  min-width: 208px;
+  text-align: center;
+}
 #Logo #Pic {
   width: 32px;
   height: 32px;
@@ -74,13 +77,13 @@
 
 .compose {
   align-items: center;
+  justify-content: center;
   min-width: 208px;
   text-align: center;
 }
 
 .composen {
-  margin: auto;
-  padding-left: 13px;
+  padding-left: 35px;
 }
 .subnavitems {
   width: 100%;
@@ -109,7 +112,8 @@
   width: 100%;
 }
 .signin {
-  width: 300px;
+  width: 500px;
+  overflow: hidden;
 }
 
 #PrimaryPageSelector ul {
@@ -122,7 +126,6 @@
   font-size: medium;
   border-top: 5px solid white;
   width: 7em;
-  text-align: center;
 }
 
 #PrimaryPageSelector li:hover,

@@ -3,12 +3,11 @@
   height: 96px;
   background: url('../assets/icons/attachment_card.svg') no-repeat;
   color: black;
-  overflow: hidden;
-  word-break: break-all;
-  word-wrap: unset;
-  white-space: initial;
-  text-overflow: ellipsis;
-  line-height: 0.01mm;
+  //overflow: hidden;
+  //word-break: break-all;
+  //word-wrap: unset;
+  //white-space: initial;
+  //text-overflow: ellipsis;
 }
 
 // File
@@ -148,13 +147,17 @@
 
 
 
-.nst-attachment-name {
-  padding-top: 60px;
-  margin-left: 6px;
+.attachments-bar p {
   font-size: $font-size-xsmall;
-
+  position: relative;
+  top:25px;
+  left: 4px;
+  text-align: center;
+  overflow: hidden;
+  line-height: 1em;
+  width: 65px;
+  height: 65px;
 }
-
 .nst-attachment-mimetype {
 
 }

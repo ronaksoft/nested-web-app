@@ -8,18 +8,18 @@
     <div class="nst-content">
       <div class="compose-hld">
         <section>
-          <input class="compose-input" name="subject" placeholder="Add a Subject..." data-ng-model="compose.post.subject"/>
+          <input class="compose-input" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
         </section>
         <hr/>
 
         <section>
-          <div class="row">
-            <div class="col-xs-1">
+          <div class="_difc _fw">
+            <div class="_df">
               <span class="_dib">To:</span>
             </div>
-            <div class="col-xs-11 _fl">
+            <div class="_df _fw">
               <ui-select multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
-                <ui-select-match placeholder="Type place name or email address...">
+                <ui-select-match placeholder="Type place name or email address..." >
                   <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
                 </ui-select-match>
                 <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
@@ -35,11 +35,11 @@
         </section>
         <hr/>
 
-        <section class="nst-attach">
-          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post " class="popover-green" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom-center"></div>
+        <section class="nst-attach _difc _fw">
+          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post " class="popover-green _df _fw" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom-center"></div>
 
 
-          <div class="_dib _fr">
+          <div class="attach _df">
             <label for="attach">
               <div class="headlineicon-green"></div>
             </label>
@@ -58,3 +58,4 @@
     </div>
   </div>
 </div>
+

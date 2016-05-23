@@ -6,7 +6,7 @@
         <a href="{{attached ? attachment.download.url : ''}}" ng-click="$event.preventDefault(); attached && attachment.getDownloadUrl().then(attachmentView);">
           <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
           <div data-ng-if="!attachment.thumbs.x128.uid && thePost.attachmentPreview" class="att-exp-{{attachment.mimeType.replace('/', '-')}}">
-            <span class="nst-attachment-name nst-mood-storm">{{attachment.filename}}</span>
+            <p class="nst-attachment-name nst-mood-storm">{{attachment.filename}}</p>
           </div>
           <div data-ng-if="!(attachment.thumbs.x128.uid || thePost.attachmentPreview)" class="attachment-badge-bar">
             <div class="_dib att-badge-{{attachment.mimeType.replace('/', '-')}}">{{ext = rexExt.exec(attachment.filename)[1]; ext ? ext.toUpperCase() : '???'}}</div>

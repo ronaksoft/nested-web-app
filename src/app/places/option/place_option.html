@@ -23,31 +23,23 @@
             <div class="nst-options col-xs-12 col-lg-6">
               <h5 class="tittle-option">Options For Me</h5>
               <hr>
-              <div class="list-inline">
-                  <div class="_dib"><i class="nst-notif ico-pos"></i></div>
-                  <div class="_dib"><h6>Notifictions</h6></div>
-                  <div class="_dib _fr">
-                    <div class="_df switch-panel " data-ng-model="sw">
-                      <li class="switch-option _dib"
-                          data-ng-class="sw ? 'switch-option' : 'switch-option-off'" data-ng-click="sw =! sw">On
-                      </li>
-                      <li class="switch-option-right _dib"
-                          data-ng-class="sw ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="sw =! sw">Off
-                      </li>
-                    </div>
-                  </div>
+              <div class="_difc _fw">
+                <div class="_df"><i class="nst-notif _df"></i></div>
+                <div class="_df _fw"><h6>Notifictions</h6></div>
+                <div class="_df switch">
+                  <input type="checkbox" id="not" class="inpsw" name="not" data-ng-model="sw">
+                  <label class="on active" for="not"><div class="labtxt _fw">ON</div></label>
+                  <label class="noton" for="not"><div class="labtxt _fw">OFF</div></label>
+                </div>
               </div>
-              <div class="list-inline">
-                <div class="_dib"><i class="nst-shown ico-pos"></i></div>
-                <div class="_dib"><h6>Show in Digest</h6></div>
-                <div class="_dib _fr">
-                  <div class="_df switch-panel " data-ng-model="sd">
-                    <li class="switch-option _dib"
-                        data-ng-class="sd ? 'switch-option' : 'switch-option-off'" data-ng-click="sd =! sd">On
-                    </li>
-                    <li class="switch-option-right _dib"
-                        data-ng-class="sd ? 'switch-option-right' : 'switch-option-right-off'" data-ng-click="sd =! sd">Off
-                    </li>
+              <div class="_difc _fw">
+                <div class="_df"><i class="nst-shown _df"></i></div>
+                <div class="_df _fw"><h6>Show in Digest</h6></div>
+                <div class="_df">
+                  <div class="switch disabled">
+                    <input type="checkbox" id="sho" class="inpsw" name="not" data-ng-model="sd">
+                    <label class="on active" for="sho"><div class="labtxt _fw">ON</div></label>
+                    <label class="noton" for="sho"><div class="labtxt _fw">OFF</div></label>
                   </div>
                 </div>
               </div>
@@ -56,68 +48,40 @@
             <div class="nst-place-privacy col-xs-12 col-lg-6">
               <h5 class="tittle-option">Place Privacy</h5>
               <hr>
-              <div class="list-inline">
-                <div class="_dib"><i class="nst-lock ico-pos"></i></div>
-                <div class="_dib"><h6>Lock</h6></div>
-                <div class="_dib _fr">
-                  <div class="_df switch-panel " data-ng-model="sw">
-                    <li class="switch-option _dib"
-                        data-ng-class="place.privacy.locked ? 'switch-option' : 'switch-option-off'"
-                        data-ng-click="place.togglePrivacy('locked')">On
-                    </li>
-                    <li class="switch-option-right _dib"
-                        data-ng-class="place.privacy.locked ? 'switch-option-right' : 'switch-option-right-off'"
-                        data-ng-click="place.togglePrivacy('locked')">Off
-                    </li>
-                  </div>
+              <div class="_difc _fw">
+                <div class="_df"><i class="nst-lock _df"></i></div>
+                <div class="_df _fw"><h6>Lock</h6></div>
+                <div class="_df switch">
+                  <input type="checkbox" id="luck" class="inpsw" name="not" data-ng-model="place.privacy.locked">
+                  <label class="on active" for="luck"><div class="labtxt _fw">ON</div></label>
+                  <label class="noton" for="luck"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
-              <div class="list-inline">
-                <div class="_dib"><i class="nst-print ico-pos"></i></div>
-                <div class="_dib"><h6>Receptive</h6></div>
-                <div class="_dib _fr">
-                  <div class="_df switch-panel " data-ng-model="sw">
-                    <li class="switch-option _dib"
-                        data-ng-class="place.privacy.receptive ? 'switch-option' : 'switch-option-off'"
-                        data-ng-click="place.togglePrivacy('receptive')">On
-                    </li>
-                    <li class="switch-option-right _dib"
-                        data-ng-class="place.privacy.receptive ? 'switch-option-right' : 'switch-option-right-off'"
-                        data-ng-click="place.togglePrivacy('receptive')">Off
-                    </li>
-                  </div>
+              <div class="_difc _fw">
+                <div class="_df"><i class="nst-print _df"></i></div>
+                <div class="_df _fw"><h6>Receptive</h6></div>
+                <div class="_df switch">
+                  <input type="checkbox" id="rec" class="inpsw" name="not" data-ng-model="place.privacy.receptive">
+                  <label class="on active" for="rec"><div class="labtxt _fw">ON</div></label>
+                  <label class="noton" for="rec"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
-              <div class="list-inline">
-                <div class="_dib"><i class="nst-search ico-pos"></i></div>
-                <div class="_dib"><h6>Search</h6></div>
-                <div class="_dib _fr">
-                  <div class="_df switch-panel " data-ng-model="sw">
-                    <li class="switch-option _dib"
-                        data-ng-class="place.privacy.search ? 'switch-option' : 'switch-option-off'"
-                        data-ng-click="place.togglePrivacy('search')">On
-                    </li>
-                    <li class="switch-option-right _dib"
-                        data-ng-class="place.privacy.search ? 'switch-option-right' : 'switch-option-right-off'"
-                        data-ng-click="place.togglePrivacy('search')">Off
-                    </li>
-                  </div>
+              <div class="_difc _fw">
+                <div class="_df"><i class="nst-search _df"></i></div>
+                <div class="_df _fw"><h6>Search</h6></div>
+                <div class="_df switch">
+                  <input type="checkbox" id="sea" class="inpsw" name="not" data-ng-model="place.privacy.search">
+                  <label class="on active" for="sea"><div class="labtxt _fw">ON</div></label>
+                  <label class="noton" for="sea"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
-              <div class="list-inline">
-                <div class="_dib"><i class="nst-atsign ico-pos"></i></div>
-                <div class="_dib"><h6>Email</h6></div>
-                <div class="_dib _fr">
-                  <div class="_df switch-panel " data-ng-model="sw">
-                    <li class="switch-option _dib"
-                        data-ng-class="place.privacy.email ? 'switch-option' : 'switch-option-off'"
-                        data-ng-click="place.togglePrivacy('email')">On
-                    </li>
-                    <li class="switch-option-right _dib"
-                        data-ng-class="place.privacy.email ? 'switch-option-right' : 'switch-option-right-off'"
-                        data-ng-click="place.togglePrivacy('email')">Off
-                    </li>
-                  </div>
+              <div class="_difc _fw">
+                <div class="_df"><i class="nst-atsign _df"></i></div>
+                <div class="_df _fw"><h6>Email</h6></div>
+                <div class="_df switch">
+                  <input type="checkbox" id="ema" class="inpsw" name="not" data-ng-model="place.privacy.email">
+                  <label class="on active" for="ema"><div class="labtxt _fw">ON</div></label>
+                  <label class="noton" for="ema"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
             </div> <!-- /nst-place-privacy-->
