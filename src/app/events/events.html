@@ -5,7 +5,7 @@
       <nested-sidebar data-ng-model="sidebar"></nested-sidebar>
     </div>
     <div class="nst-content" on-scroll="events.scroll(event)">
-      <div class="_fw _fh">
+      <div class="_fw">
         <div class="eventsody" id="EventList" class="_fw">
           <div class="_fl title-bar _vam _df _fw">
             <div class="logo-bar">
@@ -39,10 +39,11 @@
             <div class="evrow" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event"></div>
           </div>
         </div>
-        <div class="morerow text-center col-lg-12" data-ng-if="events.moreEvents">
+        <div class=" text-center col-lg-12" data-ng-if="events.moreEvents">
           <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
         </div>
       </div>
     </div>
+
   </div>
 </div>

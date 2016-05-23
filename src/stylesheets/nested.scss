@@ -99,6 +99,8 @@ textarea {
 ._db { display: block; }
 ._df { display: flex }
 ._dib { display: inline-block;}
+._dif { display: inline-flex;}
+._difc { display: inline-flex;align-items: center}
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
 ._dtr { display: table-row; }
@@ -157,6 +159,16 @@ a.place {
   font-weight: bold;
 }
 
+.defcur {
+  cursor: default;
+}
+.nacur {
+  cursor: not-allowed;
+  color: black;
+}
+.nacur:hover {
+  color: black;
+}
 /**
   ******************************
   *  General ul Css
@@ -178,9 +190,9 @@ ul.attachments-bar li {
 ul.attachments-bar.image {
     list-style: none;
     padding: 5px;
-    overflow: auto ;
-    white-space: nowrap;
-    word-break: keep-all;
+    //overflow: auto ;
+    //white-space: nowrap;
+    //word-break: keep-all;
 }
 
 ul.attachments-bar.image li {
@@ -284,10 +296,32 @@ ul.attachments-bar.non-image .att-item > span.filename {
 
 //****input Styles****
 
-
+.switch {
+  min-width: 128px;
+  display: inline-flex;
+}
+.switch label{
+  width: 50%;
+  height: 24px;
+  font-size: 12px;
+  cursor: pointer;
+  display: table;
+  vertical-align: middle;
+  text-align: center;
+}
+.labtxt{
+  text-align: center;
+  padding-top: 5px;
+}
+.disabled .active {
+  background-color: $color-breeze;
+  color: white;
+  border: none;
+}
 
 input[type="checkbox"] {
   display: none;
+  max-width: 1px;
 }
 
 input[type="checkbox"] + label {
@@ -302,6 +336,78 @@ input[type="checkbox"] + label {
 
 input[type="checkbox"]:checked + label {
   background-position: 0 -16px;
+}
+
+/**
+ *   Switch Checkboxes
+ */
+
+// On: Value = 0;
+input[type="checkbox"].inpsw + label {
+  box-sizing: border-box;
+  height: auto;
+  padding: 0 0;
+  border-width:1px;
+  border-right-width: 0px;
+  border-color: $color-breeze;
+  border-style:solid;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  background: none;
+  color : $color-wind;
+}
+
+// Off: Value = 0;
+input[type="checkbox"].inpsw + label + label {
+  background-color: $color-sense-wire;
+  color: $color-white;
+  box-sizing: border-box;
+  border: none;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+// On: Value = 1;
+input[type="checkbox"].inpsw:checked + label  {
+  background-color: $color-sense-wire;
+  color: $color-white;
+  border: none;
+}
+
+// Off: Value = 1;
+input[type="checkbox"].inpsw:checked + label + label  {
+  box-sizing: border-box;
+  border-width:1px;
+  border-left-width: 0px;
+  border-color: $color-breeze;
+  border-style:solid;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  background: none;
+  color : $color-wind;
+}
+
+// On: Value = 0; Disabled
+input[type="checkbox"].inpsw:disabled + label  {
+  color: $color-breeze;
+}
+
+// Off: Value = 0; Disabled
+input[type="checkbox"].inpsw:disabled + label + label  {
+  background-color: $color-breeze;
+  color : $color-wind;
+}
+
+// On: Value = 1; Disabled
+input[type="checkbox"].inpsw[disabled]:checked + label  {
+  background-color: $color-breeze;
+  color: $color-wind;
+}
+
+// Off: Value = 1; Disabled
+input[type="checkbox"].inpsw[disabled]:checked + label + label  {
+  color: $color-breeze;
+  background-color: $color-white;
 }
 
 #viewswitch input[type="checkbox"] + label {
@@ -393,6 +499,12 @@ input[type="radio"]:checked + label {
   *********************************
  */
 
+a {
+  color: $color-sense-wire;
+}
+a:hover {
+  color: inherit;
+}
 .modal {
   padding: 80px 0;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
@@ -956,16 +1068,16 @@ a.normal-badge {
 //}
 
 .small-badge {
-  height: 14px;
   background-color: $color-badge;
   border-radius: 6px;
   color: $color-solid;
   font-size: 12px;
   white-space: nowrap;
-  padding-right: 10px;
-  padding-left: 10px;
+  padding: 5px 10px 3px 10px;
   line-height: 13px;
-  padding-top: 3px;
+}
+.place:hover {
+  color : black;
 }
 
 .normal-badge {

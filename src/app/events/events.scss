@@ -130,6 +130,7 @@
 }
 
 .actdes {
+  cursor: default;
   min-width: 220px;
   float: left;
   position: relative;
@@ -178,7 +179,8 @@
   font-weight: bold;
   line-height: 24px;
   word-break: break-all;
-  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis
 }
 
 #EventList .msg .body {
@@ -205,19 +207,17 @@
 }
 
 .more-tag {
-  //border: 1px solid $color-solid;
   background-color: $color-solid;
   color: $color-white;
   font-size: $font-size-xsmall;
-  height: 12px;
   text-align: center;
-  line-height: 12px;
   vertical-align: initial;
   cursor: pointer;
   border-radius: 7px;
-  padding: 2px 4px 2px 4px;
   margin-left: 4px;
   white-space: nowrap;
+  padding: 5px 5px 3px 5px;
+  line-height: 13px;
 }
 
 .more-tag:hover {
@@ -226,7 +226,7 @@
 
 #EventList .time {
   float: left;
-  width: 80px;
+  width: 90px;
   display: flex;
   justify-content: center;
   color: $color-solid-60;
@@ -247,9 +247,7 @@
 #load-more-events {
   cursor: pointer;
 }
-.eventplace {
-  text-align: center
-}
+
 .attachment-badge-bar {
   height: 18px;
   background-color: $color-breeze-50;
