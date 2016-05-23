@@ -1072,7 +1072,7 @@ a.normal-badge {
 //}
 
 .small-badge {
-  background-color: $color-badge;
+  background-color: #a0e8b8;
   border-radius: 6px;
   color: $color-solid;
   font-size: 12px;
@@ -1131,4 +1131,9 @@ a.normal-badge {
   #PostView .main-body .right-column {}
   #PostView #Toolbar {}
   #PostView #Comments {}
+}
+
+.pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

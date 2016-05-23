@@ -71,7 +71,7 @@
 }
 
 .sidebar-padding {
-  padding-left: 8px;
+  //padding-left: 8px;
 }
 .sidebar li {
   line-height: 50px;
@@ -116,6 +116,9 @@
     height: 24px;
     border-radius: 50%;
 }
+.sidebar li li {
+  padding-left: 8px;
+}
 .sidebar li .item-holder {
   overflow: hidden;
   border-bottom: 1px solid black;
@@ -140,6 +143,11 @@
   height: 32px;
   border-radius: 50%;
 }
-.sidebar .place-name {
-  //height: 100%;
+
+.sideico {
+  padding-right: 2px;
+}
+.sideside {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
