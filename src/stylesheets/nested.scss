@@ -313,14 +313,13 @@ ul.attachments-bar.non-image .att-item > span.filename {
   text-align: center;
   padding-top: 5px;
 }
-.disabled .active {
-  background-color: $color-breeze;
-  color: white;
-  border: none;
+
+input[type='file'],
+input[type="checkbox"] {
+  display: none;
 }
 
 input[type="checkbox"] {
-  display: none;
   max-width: 1px;
 }
 

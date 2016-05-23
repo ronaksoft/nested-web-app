@@ -27,6 +27,7 @@
         this.full = full || false;
 
         this.id = null;
+        this.local_id = null;
         this.name = null;
         this.description = null;
 
@@ -105,8 +106,9 @@
             $log.debug("Place Data:", data);
 
             this.id = data._id;
-            this.parent = parent || (this.parent instanceof Place ? this.parent : (data.parent_id ? new Place(this.full ? data.parent_id : { id: data.parent_id }) : null));
-            this.grandParent = data.grand_parent_id ? (this.id === data.grand_parent_id ? this : new Place(this.full ? data.grand_parent_id : { id: data.grand_parent_id })) : null;
+            this.parent = parent || (this.parent instanceof Place ? this.parent : (data.parent_id ? new Place(this.full ? data.parent_id : { id: data.parent_id }, undefined, this.full) : null));
+            this.updateLocalId();
+            this.grandParent = data.grand_parent_id ? (this.id === data.grand_parent_id ? this : new Place(this.full ? data.grand_parent_id : { id: data.grand_parent_id }, undefined, this.full)) : null;
             this.name = data.name;
             this.description = data.description;
             this.access = data.access;
@@ -156,7 +158,7 @@
             if (angular.isArray(data.childs)) {
               this.counters.children = this.counters.children > -1 ? this.counters.children : data.childs.length;
               for (var k in data.childs) {
-                this.children[k] = new Place(this.full ? data.childs[k]._id : data.childs[k], this);
+                this.children[k] = new Place(this.full ? data.childs[k]._id : data.childs[k], this, this.full);
               }
             }
 
@@ -175,6 +177,10 @@
           return this;
         },
 
+        updateLocalId: function () {
+          this.local_id = this.id.split('.').pop();
+        },
+
         change: function () {
           if(!$rootScope.$$phase) {
             $rootScope.$digest()
@@ -183,6 +189,7 @@
 
         load: function(id) {
           this.id = id || this.id;
+          this.updateLocalId();
 
           return NestedPlaceRepoService.get(this.id).then(this.setData.bind(this));
         },
@@ -374,10 +381,33 @@
         },
 
         update: function() {
-          // TODO: Check if API Exists and is correct
-          return WsService.request('place/update', {
-            post_id: this.id
-          });
+          if (this.id) {
+            // TODO: Check if API Exists and is correct
+            return WsService.request('place/update', {
+              post_id: this.id
+            });
+          } else if (this.local_id) {
+            var params = {
+              parent_id: this.parent.id,
+              place_id: this.local_id,
+              place_name: this.name,
+              place_desc: this.description,
+              place_pic: this.picture.org.uid
+            };
+
+            return WsService.request('place/add', params).then(function (data) {
+              this.id = data.place_id.$oid;
+              this.updateLocalId();
+
+              return $q(function (res) {
+                res(this);
+              });
+            }.bind(this));
+          } else {
+            return $q(function (res, rej) {
+              rej(this);
+            });
+          }
         }
       };
 

@@ -6,20 +6,20 @@
     </div>
     <div class="nst-content" on-scroll="events.scroll(event)">
       <div class="_fw">
-        <div class="eventsody" id="EventList" class="_fw">
-          <div class="_fl title-bar _vam _df _fw">
+        <div class="_fw eventsody" id="EventList">
+          <div data-ng-if="events.place.id" class="_fl title-bar _vam _df _fw">
             <div class="logo-bar">
-              <img class="account-initials-32" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
-              <div class="account-initials-32" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
+              <img class="account-initials-32" data-ng-if="events.place.picture.org.uid" src="{{events.place.picture.x32.url}}"/>
+              <div class="account-initials-32" data-ng-if="!events.place.picture.org.uid" data-ng-bind="events.place.name | initials:2"></div>
             </div>
             <div class="name _tofe title-bar-holder">
-              <h5>nameeeeeeeee</h5>
-              <p class="nst-mood-storm" data-ng-bind="place.id + '@nested.me'"></p>
+              <h5>{{events.place.name}}</h5>
+              <p class="nst-mood-storm" data-ng-bind="events.place.id + '@nested.me'"></p>
             </div>
-            <div class="nst-mood-storm" style="width:110px;margin-top:30px;">34 members</div>
+            <div class="nst-mood-storm" style="width:110px;margin-top:30px;">{{events.place.counters.allMembers}} members</div>
             <div class="margin-top-20">
               <div class="nst-more">
-                <a href="#/place/{{place.id}}">
+                <a href="#/place/{{events.place.id}}">
                   <div class="nst-more-badge"></div>
                 </a>
               </div>

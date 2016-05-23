@@ -51,7 +51,7 @@
       $stateParams.placeId = null;
     }
 
-    vm.place = new NestedPlace($stateParams.placeId ? { id: $stateParams.placeId } : undefined);
+    vm.place = new NestedPlace($stateParams.placeId ? $stateParams.placeId : undefined);
     vm.placeAncestors = $stateParams.placeId ? $stateParams.placeId.split('.') : undefined;
     vm.filter = $stateParams.filter;
 

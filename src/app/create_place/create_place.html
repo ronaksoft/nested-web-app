@@ -1,131 +1,88 @@
   <nested-navbar></nested-navbar>
   <div class="_fh _ma">
-        <div class="panel-create-place _fh _ma">
-          <ul class="list-inline head">
-            <li>
-              <a href="#">/</a>
-            </li>
-            <li>
-              <img src="../assets/icons/arrow_16.png" class="arrow-right">
-            </li>
-            <li>
-              <a herf="#">Ronak Holding</a>
-            </li>
-            <li>
-              <img src="../assets/icons/arrow_16.png" class="arrow-right">
-            </li>
-            <li>
-              <a herf="#">Nested Projects</a>
-            </li>
-            <li>
-              <img src="../assets/icons/arrow_16.png" class="arrow-right">
-            </li>
-            <li>
-              <a herf="#">Development Team</a>
-            </li>
-            <li class="_fr">
-              <a herf="#" class="nst-mood-cheerful">Change Location</a>
-            </li>
-          </ul>
-          <div class="_fw">
-            <div class="_ma upload-photo">
-              <img src="../assets/images/uploadphoto_16.png">
-            </div>
+    <div class="panel-create-place _fh _ma">
+      <ul class="list-inline head">
+        <li>
+          <span>/</span>
+        </li>
+        <li data-ng-repeat="pid in place.parent.id.split('.')">
+          <img src="../assets/icons/arrow_16.png" class="arrow-right"/>
+          <span>{{pid}}</span>
+        </li>
+      </ul>
+      <div class="_fw">
+        <div class="_ma upload-photo">
+          <label for="logo"><img src="{{place.picture.org.url ? place.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
+          <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().create_place.imgToUri(event)"/>
+        </div>
+      </div>
+      <div class="inner-panel _ma">
+        <div class="place-id">
+          <div>Place ID</div>
+          <div>
+            <input type="text" name="place_id" class="form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="place.local_id"/>
           </div>
-          <div class="inner-panel _ma">
-            <div class="place-id">
-              <div>
-                Place ID
-              </div>
-              <div>
-                <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="place id"
-                       type="text">
-              </div>
-              <div class="notice-bar">
-                Place ID cant be change later.be careful!
-              </div>
-            </div>
-            <div id="place-privacy">Place Privacy</div>
-            <div>
-              <ul class="list-inline">
-                <li class=" nst-lock"></li>
-                <li class="cp-text-leveling">Lock</li>
-                <li class="cp-switch-option-right  _fr" data-ng-model="lock-btn"
-                    data-ng-class="lock-btn ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
-                    data-ng-click="lock-btn =! lock-btn">Off
-                </li>
-                <li class="cp-switch-option  _fr" data-ng-model="lock-btn"
-                    data-ng-class="lock-btn ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="lock-btn =! lock-btn">On
-                </li>
-              </ul>
-            </div>
-            <div class="notice-bar">
-              Parent members Can't view Inside The Place. <a href="" class="nst-mood-cheerful">Learn more</a>
-            </div>
-            <div>
-              <ul class="list-inline">
-                <li class="nst-print"></li>
-                <li class="cp-text-leveling">Receptive</li>
-                <li class="cp-switch-option-right _fr" data-ng-model="Receptive-btn"
-                    data-ng-class="Receptive-btn ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
-                    data-ng-click="Receptive-btn =! Receptive-btn">Off
-                </li>
-                <li class="cp-switch-option _fr" data-ng-model="Receptive-btn"
-                    data-ng-class="Receptive-btn ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="Receptive-btn =! Receptive-btn">On
-                </li>
-              </ul>
-            </div>
-            <div class="notice-bar">
-              Oly members Can Write Posts. <a href="" class="nst-mood-cheerful">Learn more</a>
-            </div>
-            <div>
-              <ul class="list-inline">
-                <li class="  nst-atsign"></li>
-                <li class="cp-text-leveling">Email</li>
-                <li class="cp-switch-option-right  _fr" data-ng-model="email-btn"
-                    data-ng-class="email-btn ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
-                    data-ng-click="email-btn =! email-btn">Off
-                </li>
-                <li class="cp-switch-option  _fr" data-ng-model="email-btn"
-                    data-ng-class="email-btn ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="email-btn =! email-btn">On
-                </li>
-              </ul>
-            </div>
-            <div class="notice-bar">
-              Disable until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a>
-            </div>
-            <div>
-              <ul class="list-inline">
-                <li class="  nst-search"></li>
-                <li class="cp-text-leveling">Search</li>
-                <li class="cp-switch-option-right  _fr" data-ng-model="search-btn"
-                    data-ng-class="search-btn ? 'cp-switch-option-right' : 'cp-switch-option-right-off'"
-                    data-ng-click="search-btn =! search-btn">Off
-                </li>
-                <li class="cp-switch-option  _fr" data-ng-model="search-btn"
-                    data-ng-class="search-btn ? 'cp-switch-option' : 'cp-switch-option-off'" data-ng-click="search-btn =! search-btn">On
-                </li>
-              </ul>
-            </div>
-            <div class="notice-bar">
-              Disable until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a>
-            </div>
-            <div>
-              <div>
-                Place Name
-              </div>
-              <div class="nst-marginbtm-0.5">
-                <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="place id"
-                       type="text"/>
-              </div>
-              <div class="notice-bar">
-                Short name help you to identify quickly your places.
-              </div>
-            </div>
-            <div>
-              <input type="submit" value="Create Place" class="btn btn-lg btn-block"/>
-            </div>
+          <div class="notice-bar">Place ID can't be changed later; Be careful!</div>
+        </div>
+        <div class="place-desc">
+          <div>Place Description</div>
+          <div>
+            <input type="text" name="place_desc" class="form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="place.description"/>
+          </div>
+          <div class="notice-bar">Place Description</div>
+        </div>
+        <div id="place-privacy">Place Privacy</div>
+        <div class="_difc _fw">
+          <div class="_df"><label for="sw-locked"><i class="nst-lock _df"></i></label></div>
+          <div class="_df _fw"><label for="sw-locked"><h6>Lock</h6></label></div>
+          <div class="_df switch">
+            <input type="checkbox" id="sw-locked" class="inpsw" name="not" data-ng-model="place.privacy.locked">
+            <label for="sw-locked" data-ng-click="place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
+            <label for="sw-locked" data-ng-click="!place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
           </div>
         </div>
+        <div class="notice-bar">Parent members Can't view Inside The Place. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+        <div class="_difc _fw">
+          <div class="_df"><label for="sw-receptive"><i class="nst-print _df"></i></label></div>
+          <div class="_df _fw"><label for="sw-receptive"><h6>Receptive</h6></label></div>
+          <div class="_df switch">
+            <input type="checkbox" id="sw-receptive" class="inpsw" name="not" data-ng-model="place.privacy.receptive">
+            <label for="sw-receptive" data-ng-click="place.privacy.receptive && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
+            <label for="sw-receptive" data-ng-click="!place.privacy.receptive && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
+          </div>
+        </div>
+        <div class="notice-bar">Only members Can Write Posts. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+        <div class="_difc _fw">
+          <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
+          <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
+          <div class="_df switch">
+            <input type="checkbox" id="sw-email" class="inpsw" name="not" data-ng-model="place.privacy.email" data-ng-disabled="!place.privacy.receptive">
+            <label for="sw-email" data-ng-click="place.privacy.email && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
+            <label for="sw-email" data-ng-click="!place.privacy.email && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
+          </div>
+        </div>
+        <div class="notice-bar">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+        <div class="_difc _fw">
+          <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
+          <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
+          <div class="_df switch">
+            <input type="checkbox" id="sw-search" class="inpsw" name="not" data-ng-model="place.privacy.search" data-ng-disabled="!place.privacy.receptive">
+            <label for="sw-search" data-ng-click="place.privacy.search && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
+            <label for="sw-search" data-ng-click="!place.privacy.search && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
+          </div>
+        </div>
+        <div class="notice-bar">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+        <div>
+          <div>Place Name</div>
+          <div class="nst-marginbtm-0.5">
+            <input type="text" name="place_name" aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="place.name"/>
+          </div>
+          <div class="notice-bar">Short name helps you to quickly identify your places.</div>
+        </div>
+        <div>
+          <button class="btn btn-lg btn-block" data-ng-click="create_place.create()">Create Place</button>
+        </div>
+      </div>
+    </div>
   </div>
 

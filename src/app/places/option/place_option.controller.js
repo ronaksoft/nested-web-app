@@ -6,7 +6,7 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, AuthService, NestedPlace, $scope, $stateParams) {
+  function PlaceOptionController($location, $scope, $stateParams, AuthService, NestedPlace) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -36,7 +36,7 @@
       },
       'add': {
         name: 'Add a Subplace',
-        fn: function () {}
+        url: '#/create_place/' + $scope.place.id
       }
     }
   }
