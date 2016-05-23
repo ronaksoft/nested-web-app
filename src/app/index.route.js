@@ -92,7 +92,19 @@
         controllerAs: 'place_option'
       })
       .state('create-place', {
-        url: '/create-place',
+        url: '/create_place',
+        params: {
+          placeId: null
+        },
+        templateUrl: 'app/create_place/create_place.html',
+        controller: 'CreatePlaceController',
+        controllerAs: 'create_place'
+      })
+      .state('create-subplace', {
+        url: '/create_place/:placeId',
+        params: {
+          placeId: null
+        },
         templateUrl: 'app/create_place/create_place.html',
         controller: 'CreatePlaceController',
         controllerAs: 'create_place'
@@ -120,6 +132,12 @@
         templateUrl: 'app/compose/compose.html',
         controller: 'ComposeController',
         controllerAs: 'compose'
+      })
+      .state('profile', {
+        url: '/profile',
+        templateUrl: 'app/account/profile/profile.html',
+        controller: 'AccountProfileController',
+        controllerAs: 'account_profile'
       });
 
     $urlRouterProvider.otherwise('/');
