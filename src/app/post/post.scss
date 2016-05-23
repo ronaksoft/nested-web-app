@@ -340,6 +340,8 @@
   top: 0;
   background-color: $color-breeze;
   border-radius: 6px;
+  padding: 10px 0;
+  //overflow: hidden;
 }
 
 .nst-preview-pic-mode {
@@ -369,4 +371,8 @@
 
 .file-preview {
   height: 550px;
+}
+.nst-preview-footer .nst-nav-btn-breeze {
+  margin-top: 16px;
+  margin-right: 16px;
 }
