@@ -1,35 +1,43 @@
 <div data-ng-init="mimeSpl = attachment.mimeType.split('/')" data-ng-switch="mimeSpl[0]">
 
+  <div class=" _fhw">
+    <div class="_pa image-box-preview">
+      <div class="_tac image-preview">
+        <!--image/*-->
+        <img data-ng-switch-when="image" class="_tac nst-preview-pic-mode" src="{{attachment.download.url}}"/>
 
-  <div class="_tac transparent-bg">
-    <div class="_fh _pa _tac image-preview">
-      <img class="_fh _pa _tac" data-ng-switch-when="image" src="{{attachment.download.url}}" height="100%" style="bottom:68px; top:0;"/>
-    </div>
-    <div class="_fw _pa " style="height:68px; background-color: white; bottom:0;">
-      <ul class="list-inline list-unstyled _pr">
-        <li class="_fl"><h4 class="_tal ">{{attachment.filename}}</h4></li>
-        <li class=" _fl"><h6 class="_tal">{{attachment.mimeType}}</h6></li>
-        <li class="_fr"></li>
-        <li class="_fr"></li>
-        <li class="_fr nst-nav-btn-breeze"><a>Download</a></li>
-      </ul>
+        <!--audio/*-->
+        <audio class="_fw" style="margin-top:250px" data-ng-switch-when="audio" preload="none" controls>
+          <source src="{{attachment.download.url}}" type="{{attachment.mimeType}}">
+          <p>Your browser does not support the audio element.</p>
+        </audio>
+
+        <!--video/*-->
+        <videogular class="_fw" data-ng-switch-when="video" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
+          <vg-media vg-src="vg"></vg-media>
+        </videogular>
+
+        <!--application/*-->
+        <div class="_fw att-exp-application-pdf" style="width:128px, height:174px" data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
+          <!--application/pdf-->
+          <pdf-viewer data-ng-switch="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
+
+          <!--application/*-->
+          <iframe class="_fw" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+        </div>
+
+        <!--*/*-->
+        <iframe class="_fw" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+      </div>
+      <div class="_fw  nst-preview-footer">
+        <ul class="list-inline list-unstyled _pr">
+          <li><h4 class="_tal padding-l-16">{{attachment.filename}}</h4></li>
+          <li class="_fr"></li>
+          <li class="_fr"></li>
+          <li class="_fr nst-nav-btn-breeze"><a>Download</a></li>
+        </ul>
+        <h6 class="padding-l-16 _tal nst-mood-storm">12 Megabyte</h6>
+      </div>
     </div>
   </div>
-
-  <audio class="_fw" data-ng-switch-when="audio" preload="none" controls>
-    <source src="{{attachment.download.url}}" type="{{attachment.mimeType}}">
-    <p>Your browser does not support the audio element.</p>
-  </audio>
-
-  <videogular class="_fw" data-ng-switch-when="video" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
-    <vg-media vg-src="vg"></vg-media>
-  </videogular>
-
-  <div class="_fw" data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
-    <pdf-viewer data-ng-switch="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
-
-    <iframe class="_fw" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
-  </div>
-
-  <iframe class="_fw" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
 </div>
