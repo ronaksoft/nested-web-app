@@ -105,6 +105,18 @@
       })
       .state('new', {
         url: '/new',
+        params: {
+          relation: null
+        },
+        templateUrl: 'app/compose/compose.html',
+        controller: 'ComposeController',
+        controllerAs: 'compose'
+      })
+      .state('new-related', {
+        url: '/new/:relation',
+        params: {
+          relation: null
+        },
         templateUrl: 'app/compose/compose.html',
         controller: 'ComposeController',
         controllerAs: 'compose'
