@@ -99,6 +99,8 @@ textarea {
 ._db { display: block; }
 ._df { display: flex }
 ._dib { display: inline-block;}
+._dif { display: inline-flex;}
+._difc { display: inline-flex;align-items: center}
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
 ._dtr { display: table-row; }
@@ -157,6 +159,16 @@ a.place {
   font-weight: bold;
 }
 
+.defcur {
+  cursor: default;
+}
+.nacur {
+  cursor: not-allowed;
+  color: black;
+}
+.nacur:hover {
+  color: black;
+}
 /**
   ******************************
   *  General ul Css
@@ -178,9 +190,9 @@ ul.attachments-bar li {
 ul.attachments-bar.image {
     list-style: none;
     padding: 5px;
-    overflow: auto ;
-    white-space: nowrap;
-    word-break: keep-all;
+    //overflow: auto ;
+    //white-space: nowrap;
+    //word-break: keep-all;
 }
 
 ul.attachments-bar.image li {
@@ -284,10 +296,32 @@ ul.attachments-bar.non-image .att-item > span.filename {
 
 //****input Styles****
 
-
+.switch {
+  min-width: 128px;
+  display: inline-flex;
+}
+.switch label{
+  width: 50%;
+  height: 24px;
+  font-size: 12px;
+  cursor: pointer;
+  display: table;
+  vertical-align: middle;
+  text-align: center;
+}
+.labtxt{
+  text-align: center;
+  padding-top: 5px;
+}
+.disabled .active {
+  background-color: $color-breeze;
+  color: white;
+  border: none;
+}
 
 input[type="checkbox"] {
   display: none;
+  max-width: 1px;
 }
 
 input[type="checkbox"] + label {
@@ -302,6 +336,78 @@ input[type="checkbox"] + label {
 
 input[type="checkbox"]:checked + label {
   background-position: 0 -16px;
+}
+
+/**
+ *   Switch Checkboxes
+ */
+
+// On: Value = 0;
+input[type="checkbox"].inpsw + label {
+  box-sizing: border-box;
+  height: auto;
+  padding: 0 0;
+  border-width:1px;
+  border-right-width: 0px;
+  border-color: $color-breeze;
+  border-style:solid;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  background: none;
+  color : $color-wind;
+}
+
+// Off: Value = 0;
+input[type="checkbox"].inpsw + label + label {
+  background-color: $color-sense-wire;
+  color: $color-white;
+  box-sizing: border-box;
+  border: none;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+// On: Value = 1;
+input[type="checkbox"].inpsw:checked + label  {
+  background-color: $color-sense-wire;
+  color: $color-white;
+  border: none;
+}
+
+// Off: Value = 1;
+input[type="checkbox"].inpsw:checked + label + label  {
+  box-sizing: border-box;
+  border-width:1px;
+  border-left-width: 0px;
+  border-color: $color-breeze;
+  border-style:solid;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  background: none;
+  color : $color-wind;
+}
+
+// On: Value = 0; Disabled
+input[type="checkbox"].inpsw:disabled + label  {
+  color: $color-breeze;
+}
+
+// Off: Value = 0; Disabled
+input[type="checkbox"].inpsw:disabled + label + label  {
+  background-color: $color-breeze;
+  color : $color-wind;
+}
+
+// On: Value = 1; Disabled
+input[type="checkbox"].inpsw[disabled]:checked + label  {
+  background-color: $color-breeze;
+  color: $color-wind;
+}
+
+// Off: Value = 1; Disabled
+input[type="checkbox"].inpsw[disabled]:checked + label + label  {
+  color: $color-breeze;
+  background-color: $color-white;
 }
 
 #viewswitch input[type="checkbox"] + label {
@@ -346,6 +452,7 @@ input[type="radio"]:checked + label {
   height: 16px;
   width: 17px;
 }
+
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -355,659 +462,674 @@ select {
 
 
 
-  /*************************
-   *    Account Initials
-   *************************/
+/*************************
+ *    Account Initials
+ *************************/
 
-  * [class *= "account-initials-"] {
-    margin-right: 8px;
-  }
+* [class *= "account-initials-"] {
+  margin-right: 8px;
+}
 
-  @for $i from 1 through 32 {
-    .account-initials-#{$i * 8} {
-      width: #{$i * 8}px;
-      height: #{$i * 8}px;
-      border-radius: 50%;
-      line-height: #{$i * 8 - 1}px;
-      text-align: center;
-      font-size: $font-size-small; // #{$i/2}px
-      font-weight: normal;
-      color: white;
-      background-color: $color-solid-30;
-      vertical-align: top;
-    }
-  }
-
-  .account-initials-right {
-    width: 32px;
-    height: 32px;
+@for $i from 1 through 32 {
+  .account-initials-#{$i * 8} {
+    width: #{$i * 8}px;
+    height: #{$i * 8}px;
     border-radius: 50%;
-    line-height: 31px;
+    line-height: #{$i * 8 - 1}px;
     text-align: center;
-    font-size: $font-size-small;
+    font-size: $font-size-small; // #{$i/2}px
     font-weight: normal;
     color: white;
     background-color: $color-solid-30;
-  }
-
-  /**
-    *********************************
-    *     Bootstrap Overrides       *
-    *********************************
-   */
-
-  .modal {
-    padding: 80px 0;
-    //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
-  }
-  .modal-content {
-    background-color: $color-breeze;
-    border: none;
-    box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
-  }
-  .modal-attachment {
-    padding: 128px 0;
-  }
-
-  .modal-dialog {
-    height: 100%;
-  }
-  .modal.in .modal-dialog{
-    border-radius: 6px;
-
-
-  }
-  .modal-dialog .modal-content {
-    height: 100%;
-  }
-
-  .modal-xlg,
-  .modal-mlg {
-    width: auto;
-  }
-
-  .modal-xlg {
-    margin: 0 64px;
-  }
-
-  .modal-mlg {
-    margin: 0 128px;
-  }
-
-  .popover {
-    border-radius: 0;
-  }
-
-  .popover-content {
-    white-space: nowrap;
-    word-break: keep-all;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .popover-white + .popover {
-    background: $color-white;
-  }
-
-  .popover-green + .popover {
-    background: $color-sense-5;
-    border-color: $color-sense-50;
-  }
-
-  .popover-green + .popover.bottom > .arrow {
-    border-bottom-color: $color-sense-wire;
-  }
-  .popover-green + .popover.bottom > .arrow:after {
-    border-bottom-color: $color-sense-5;
-  }
-
-  .popover.bottom > .arrow {
-    border-bottom-color: #ccc;
-  }
-  .popover.bottom > .arrow:after {
-    border-bottom-color: #fff;
-    left: 0;
-  }
-  .panel {
-    background-color: white;
-    margin: auto;
-    border-radius: 8px;
-    border: 1px solid $color-breeze;
-    padding: 25px 15px 25px 15px;
-    box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
-  }
-
-  .form-control {
-    border: 1px solid $color-breeze;
-  }
-
-  .form-control:focus,
-  .btn:focus {
-    border: 2px solid $color-solid;
-    box-shadow: none;
-  }
-
-  .form-control::-webkit-input-placeholder {
-    color: $color-wind;
-  }
-
-  .form-control:-moz-placeholder {
-    color: $color-wind;
-  }
-
-  .form-control::-moz-placeholder {
-    color: $color-wind;
-  }
-
-  .form-control:-ms-input-placeholder {
-    color: $color-wind;
-  }
-
-  .panel a {
-    text-decoration: none;
-    font-size: $font-size-small;
-  }
-
-  .btn {
-    background-color: $color-sense;
-    font-size: $font-size-medium;
-    font-weight: bold;
-    border: 1px solid $color-sense-wire;
-    color: white;
-    height: 40px;
-    border-radius: 6px;
-    line-height: 1.33333;
-  }
-
-  label {
-    font-weight: normal;
-  }
-
-  .form-control-feedback {
-    top: 4px;
-    pointer-events: auto;
-  }
-  .ui-select-match-item{
-    @extend .normal-badge;
-    border: none;
-  }
-  .ui-select-match-item:hover {
-    @extend .normal-badge;
-  }
-
-
-  /**
-    *************************************
-    *     Nested Classes - Typography   *
-    *************************************
-   */
-
-  .nst-fotn-xsmall {
-    font-size: $font-size-xsmall;
-  }
-  .nst-font-small {
-    font-size: $font-size-small;
-  }
-
-  .nst-font-medium {
-    font-size: $font-size-medium;
-  }
-
-  .nst-font-large {
-    font-size: $font-size-large;
-  }
-
-  .nst-font-xlarge {
-    font-size: $font-size-xlarge;
-  }
-
-  .nst-error-msg {
-    font-size: $font-size-small;
-    color: $color-force-wire;
-  }
-
-  /**
-    *********************************
-    *     Nested Classes - Colors   *
-    *********************************
-   */
-
-  .nst-mood-simple {
-    color: $color-solid-60;
-  }
-
-  .nst-mood-storm {
-    color: $color-storm;
-  }
-
-  .nst-mood-cheerful {
-    color: $color-sense-wire;
-  }
-
-  .nst-mood-lively {
-    color: $color-force-wire;
-  }
-
-  .nst-mood-breez {
-    color: $color-breeze;
-  }
-
-  .nst-mood-solid {
-    color: $color-solid
-  }
-
-  /**
-    *********************************
-    *     Nested Common Panels      *
-    *********************************
-   */
-
-  #container {
-    padding-top: 100px;
-    display: inline-flex;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-  }
-  #container:after {
-
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-    flex-direction: row;
-  }
-  .leftside {
-    display: flex;
-    height: 100%;
-    min-width: 208px;
-  }
-  .rightside {
-    display: flex;
-    height: 100%;
-    min-width: 208px;
-  }
-  .nst-content {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-  }
-  .maincontainer {
-    background-color: $color-white;
-    border-right: 1px solid $color-calm;
-    border-left: 1px solid $color-calm;
-    max-width: 1920px;
-    min-width: 990px;
-    margin: auto;
-    height: 100%;
-    width: 100%;
-  }
-
-  /**
-    *********************************
-    *     Nested Classes - Layouts  *
-    *********************************
-   */
-
-  .nst-fh {
-    height: 100%;
-  }
-
-  .nst-hs {
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  .nst-hc {
-    display: flex;
-    justify-content: center;
-  }
-
-  .nst-he {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .nst-vs {
-    height: 100%;
-    display: flex;
-    align-items: flex-start;
-  }
-
-  .nst-vc {
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-
-  .nst-vb {
-    height: 100%;
-    display: flex;
-    align-items: baseline;
-  }
-
-  .nst-ve {
-    height: 100%;
-    display: flex;
-    align-items: flex-end;
-  }
-
-  .no-gutter [class*="col-"] {
-    padding-left: 2.5px;
-    padding-right: 2.5px;
-  }
-
-  .no-gutter [class*="col-"]:first-child {
-    padding-left: 15px;
-  }
-
-  .no-gutter [class*="col-"]:last-child {
-    padding-right: 15px;
-  }
-
-  .nst-margin-auto {
-    margin: auto;
-  }
-
-  .no-gutter2 [class*="col-"] {
-    padding-left: 2.5px;
-    padding-right: 2.5px;
-  }
-
-  .no-gutter2 [class*="col-"]:first-child {
-    padding-left: 0px;
-  }
-
-  .no-gutter2 [class*="col-"]:last-child {
-    padding-right: 0px;
-  }
-
-  /**
-    *******************************************************
-    *     Nested Classes - Icons    *
-    *******************************************************
-   */
-
-  .nst-ico-eye, .nst-ico-eye-slash {
-    background: url("../assets/icons/form.png") no-repeat;
-    height: 32px;
-  }
-
-  .nst-ico-eye {
-    background-position: 0 -64px;
-  }
-
-  /**
-    ***************************************************************
-    *     Nested Classes - Component Specific - menu    *
-    ***************************************************************
-   */
-
-  [class*="profile-menu-"] {
-    background: url('../assets/icons/profilemenu_24.png') no-repeat;
-    width: 24px;
-    height: 24px;
-  }
-
-  .profile-menu-setting {
-    background-position: 0 0px;
-  }
-
-  .profile-menu-upgrade {
-    background-position: 0 -24px;
-  }
-
-  .profile-menu-signout {
-    background-position: 0 -48px;
-  }
-
-  /**
-    *********************************
-    *    Add teammate modal
-    *********************************
-   */
-
-  .nst-modal-add-teammate {
-    background-color: $color-breeze-50;
-    border-radius: 6px;
-    margin: 15px 0px;
-    padding: 5px;
-  }
-
-  .modal-add {
-    padding: 15px;
-  }
-
-  .modal-add h5 {
-    font-size: $font-size-xlarge;
-  }
-
-  .modal-add input {
-    border: none;
-    padding: 5px 0px;
-  }
-
-  /**
-    *********************************
-    *     Unknown                   *
-    *********************************
-   */
-
-  .chkHolder span {
-    margin-left: 3px;
-    text-align: left;
-    padding: 10px 15px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-  }
-
-  .rightLink {
-    text-align: right;
-  }
-
-  #chat-profile {
-    margin-left: 5px;
-    margin-top: 5px;
-  }
-
-
-  /**
-    *********************************************************
-    *     Nested Classes -Events *
-    *********************************************************
-   */
-
-  [class*="ei-"] {
-    width: 16px;
-    height: 16px;
-    background-image: url('../assets/icons/eventicon.png');
-    margin-top: 8px;
-  }
-
-  .ei-mail-read {
-    background-position: center center;
-    background-repeat: no-repeat;
-  }
-
-  .ei-mail-unread {
-    background-position: 0 0;
-    background-repeat: no-repeat;
-  }
-
-  .ei-member-join {
-    background-position: 0 -96px;
-    background-repeat: no-repeat;
-  }
-
-  .ei-member-leave {
-    background-position: center -80px;
-    background-repeat: no-repeat;
-  }
-
-  .ei-comment-add {
-    background-position: 0 -48px;
-    background-repeat: no-repeat;
-    margin-top: 8px;
-  }
-
-  .ei-invite {
-    background-position: 0 -112px;
-    background-repeat: no-repeat;
-    margin-top: 8px;
-  }
-
-  .ei-member-invite {
-    background-position: 0 -64px;
-    background-repeat: no-repeat;
-    margin-top: 8px;
-  }
-
-  .placeactsico {
-    margin-top: 8px;
-    border-radius: 50%;
-  }
-  .subnav #ViewSelector #ExpandView {
-    background-image: url('/res/ico/viewswitch_expand.png');
-    width: 27px;
-    height: 10px;
-    display: inline;
-    cursor: pointer ;
-  }
-
-  .subnav #ViewSelector #ExpandView.on { background-position: 27px; }
-  .subnav #ViewSelector #ExpandView.off { }
-  .subnav #ViewSelector #CollapseView {
-    background-image: url('/res/ico/viewswitch_collapse.png');
-    width: 27px;
-    height: 10px;
-    display: inline-block;
-    cursor: pointer ;
-  }
-
-  .subnav #ViewSelector #CollapseView.on { background-position: 27px; }
-  .subnav #ViewSelector #CollapseView.off {}
-  .subnav #Search {
-    width: 146px;
-    height: 30px;
-    border-radius: 7px;
-  }
-  #MyPlaces { width: 275px; background-color: #E7ECE9; vertical-align: top;}
-  #MyPlaces ul {
-    list-style: none;
-    display: inline;
-  }
-  #MyPlaces li#AllPlaces { color: #00B45A; font-weight: bold; background-color: #FAFBFB; text-align: center;}
-  #MyPlaces li {
-    display: block;
-    overflow: hidden ;
-    text-overflow: ellipsis ;
-    word-break: keep-all;
-    white-space: nowrap;
-    padding-left: 10px;
-    line-height: 46px;
-    vertical-align: middle;
-  }
-  #MyPlaces li span {
-    padding: 10px;
-
-  }
-  #MyPlaces li .place-cell {
-    width:200px;
-    border-bottom: 1px solid $color-breeze;
-  }
-
-  #MyPlaces li img { margin: 1px 3px;}
-  #MyPlaces li a {
-    font-size: medium;
-    display: block;
-  }
-
-  #MyPlaces li:hover { background-color: #F0F0F0; }
-  #MyPlaces li a:hover {
-    font-weight: bold;
-  }
-
-  #MyPlaces li a span { line-height: 32px; }
-  #MyPlaces li.selected { background-color: #E7ECE9; }
-  #MyPlaces > ul > li {
-    border: none;
-    border-bottom: 1px solid #c0c0c0;
-  }
-
-  /**
-    *********************************************************
-    *     Nested Classes -   * Badges
-    *********************************************************
-   */
-
-  a.normal-badge {
-    color: $color-solid;
-  }
-
-  //[class$="-badge"] {
-  //}
-
-  .small-badge {
-    height: 14px;
-    background-color: $color-badge;
-    border-radius: 6px;
-    color: $color-solid;
-    font-size: 12px;
-    white-space: nowrap;
-    padding-right: 10px;
-    padding-left: 10px;
-    line-height: 13px;
-    padding-top: 3px;
-  }
-
-  .normal-badge {
-    background-color: $color-badge;
-    border-radius: 9px;
-    color: $color-solid;
-    font-size: 12px;
-    white-space: nowrap;
-    padding-right: 8px;
-    padding-left: 8px;
-    height: 20px;
-    padding-top: 3px;
-  }
-
-  .nst-nowrap-badge .normal-badge {
-    margin: 2px;
-  }
-  #PostView .normal-badge {
-    //margin-top: 9px;
-    //line-height:12px;
-  }
-
-  .normal-badge:hover {
-    color: $color-solid;
-  }
-
-
-
-  /**
-    *********************************************************
-    *     Nested Classes -   * Media
-    *********************************************************
-   */
-
-  @media (min-width: 1000px) {
-    #AllPlaces { width: 100%; }
-  }
-  @media (max-width: 999px) {
-
-    #AllPlaces li > table td.properties {}
-    #AllPlaces li > table td.members {}
-  }
-
-  @media (max-width: 999px) {
-    #MyPlaces {}
-    #EventList td.places {}
-    #PostView .main-body .right-column {}
-    #PostView #Toolbar {}
-    #PostView #Comments {}
-  }
-
+    vertical-align: top;
+  }
+}
+
+.account-initials-right {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  line-height: 31px;
+  text-align: center;
+  font-size: $font-size-small;
+  font-weight: normal;
+  color: white;
+  background-color: $color-solid-30;
+}
+
+/**
+  *********************************
+  *     Bootstrap Overrides       *
+  *********************************
+ */
+
+a {
+  color: $color-sense-wire;
+}
+a:hover {
+  color: inherit;
+}
+.modal {
+  padding: 80px 0;
+  //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+}
+.modal-content {
+  background-color: $color-breeze;
+  border: none;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+}
+.modal-attachment {
+  padding: 128px 0;
+}
+
+.modal-dialog {
+  height: 100%;
+}
+.modal.in .modal-dialog{
+  border-radius: 6px;
+
+
+}
+.modal-dialog .modal-content {
+  height: 100%;
+}
+
+.modal-xlg,
+.modal-mlg {
+  width: auto;
+}
+
+.modal-xlg {
+  margin: 0 64px;
+}
+
+.modal-mlg {
+  margin: 0 128px;
+}
+
+.popover {
+  border-radius: 0;
+}
+
+.popover-content {
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.popover-white + .popover {
+  background: $color-white;
+}
+
+.popover-green + .popover {
+  background: $color-sense-5;
+  border-color: $color-sense-50;
+}
+
+.popover-green + .popover.bottom > .arrow {
+  border-bottom-color: $color-sense-wire;
+}
+.popover-green + .popover.bottom > .arrow:after {
+  border-bottom-color: $color-sense-5;
+}
+
+.popover.bottom > .arrow {
+  border-bottom-color: #ccc;
+}
+.popover.bottom > .arrow:after {
+  border-bottom-color: #fff;
+  left: 0;
+}
+.panel {
+  background-color: white;
+  margin: auto;
+  border-radius: 8px;
+  border: 1px solid $color-breeze;
+  padding: 25px 15px 25px 15px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+}
+
+.form-control {
+  border: 1px solid $color-breeze;
+}
+
+.form-control:focus,
+.btn:focus {
+  border: 2px solid $color-solid;
+  box-shadow: none;
+}
+
+.form-control::-webkit-input-placeholder {
+  color: $color-wind;
+}
+
+.form-control:-moz-placeholder {
+  color: $color-wind;
+}
+
+.form-control::-moz-placeholder {
+  color: $color-wind;
+}
+
+.form-control:-ms-input-placeholder {
+  color: $color-wind;
+}
+
+.panel a {
+  text-decoration: none;
+  font-size: $font-size-small;
+}
+
+.btn {
+  background-color: $color-sense;
+  font-size: $font-size-medium;
+  font-weight: bold;
+  border: 1px solid $color-sense-wire;
+  color: white;
+  height: 40px;
+  border-radius: 6px;
+  line-height: 1.33333;
+}
+
+label {
+  font-weight: normal;
+}
+
+.form-control-feedback {
+  top: 4px;
+  pointer-events: auto;
+}
+.ui-select-match-item{
+  @extend .normal-badge;
+  border: none;
+}
+.ui-select-match-item:hover {
+  @extend .normal-badge;
+}
+//select match in compose page
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
+  padding-top: 4px;
+}
+.videogular vg-media video {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 550px;
+}
+
+/**
+  *************************************
+  *     Nested Classes - Typography   *
+  *************************************
+ */
+
+.nst-fotn-xsmall {
+  font-size: $font-size-xsmall;
+}
+.nst-font-small {
+  font-size: $font-size-small;
+}
+
+.nst-font-medium {
+  font-size: $font-size-medium;
+}
+
+.nst-font-large {
+  font-size: $font-size-large;
+}
+
+.nst-font-xlarge {
+  font-size: $font-size-xlarge;
+}
+
+.nst-error-msg {
+  font-size: $font-size-small;
+  color: $color-force-wire;
+}
+
+/**
+  *********************************
+  *     Nested Classes - Colors   *
+  *********************************
+ */
+
+.nst-mood-simple {
+  color: $color-solid-60;
+}
+
+.nst-mood-storm {
+  color: $color-storm;
+}
+
+.nst-mood-cheerful {
+  color: $color-sense-wire;
+}
+
+.nst-mood-lively {
+  color: $color-force-wire;
+}
+
+.nst-mood-breez {
+  color: $color-breeze;
+}
+
+.nst-mood-solid {
+  color: $color-solid
+}
+
+/**
+  *********************************
+  *     Nested Common Panels      *
+  *********************************
+ */
+
+#container {
+  padding-top: 100px;
+  display: inline-flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+#container:after {
+
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  flex-direction: row;
+}
+.leftside {
+  display: flex;
+  height: 100%;
+  min-width: 208px;
+}
+.rightside {
+  display: flex;
+  height: 100%;
+  min-width: 208px;
+}
+.nst-content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+.maincontainer {
+  background-color: $color-white;
+  border-right: 1px solid $color-calm;
+  border-left: 1px solid $color-calm;
+  max-width: 1920px;
+  min-width: 990px;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+}
+
+/**
+  *********************************
+  *     Nested Classes - Layouts  *
+  *********************************
+ */
+
+.nst-fh {
+  height: 100%;
+}
+
+.nst-hs {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nst-hc {
+  display: flex;
+  justify-content: center;
+}
+
+.nst-he {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nst-vs {
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.nst-vc {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nst-vb {
+  height: 100%;
+  display: flex;
+  align-items: baseline;
+}
+
+.nst-ve {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.no-gutter [class*="col-"] {
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
+
+.no-gutter [class*="col-"]:first-child {
+  padding-left: 15px;
+}
+
+.no-gutter [class*="col-"]:last-child {
+  padding-right: 15px;
+}
+
+.nst-margin-auto {
+  margin: auto;
+}
+
+.no-gutter2 [class*="col-"] {
+  padding-left: 2.5px;
+  padding-right: 2.5px;
+}
+
+.no-gutter2 [class*="col-"]:first-child {
+  padding-left: 0px;
+}
+
+.no-gutter2 [class*="col-"]:last-child {
+  padding-right: 0px;
+}
+
+/**
+  *******************************************************
+  *     Nested Classes - Icons    *
+  *******************************************************
+ */
+
+.nst-ico-eye, .nst-ico-eye-slash {
+  background: url("../assets/icons/form.png") no-repeat;
+  height: 32px;
+}
+
+.nst-ico-eye {
+  background-position: 0 -64px;
+}
+
+/**
+  ***************************************************************
+  *     Nested Classes - Component Specific - menu    *
+  ***************************************************************
+ */
+
+[class*="profile-menu-"] {
+  background: url('../assets/icons/profilemenu_24.png') no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.profile-menu-setting {
+  background-position: 0 0px;
+}
+
+.profile-menu-upgrade {
+  background-position: 0 -24px;
+}
+
+.profile-menu-signout {
+  background-position: 0 -48px;
+}
+
+/**
+  *********************************
+  *    Add teammate modal
+  *********************************
+ */
+
+.nst-modal-add-teammate {
+  background-color: $color-breeze-50;
+  border-radius: 6px;
+  margin: 15px 0px;
+  padding: 5px;
+}
+
+.modal-add {
+  padding: 15px;
+}
+
+.modal-add h5 {
+  font-size: $font-size-xlarge;
+}
+
+.modal-add input {
+  border: none;
+  padding: 5px 0px;
+}
+
+/**
+  *********************************
+  *     Unknown                   *
+  *********************************
+ */
+
+.chkHolder span {
+  margin-left: 3px;
+  text-align: left;
+  padding: 10px 15px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.rightLink {
+  text-align: right;
+}
+
+#chat-profile {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+
+/**
+  *********************************************************
+  *     Nested Classes -Events *
+  *********************************************************
+ */
+
+[class*="ei-"] {
+  width: 16px;
+  height: 16px;
+  background-image: url('../assets/icons/eventicon.png');
+  margin-top: 8px;
+}
+
+.ei-mail-read {
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.ei-mail-unread {
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
+
+.ei-member-join {
+  background-position: 0 -96px;
+  background-repeat: no-repeat;
+}
+
+.ei-member-leave {
+  background-position: center -80px;
+  background-repeat: no-repeat;
+}
+
+.ei-comment-add {
+  background-position: 0 -48px;
+  background-repeat: no-repeat;
+  margin-top: 8px;
+}
+
+.ei-invite {
+  background-position: 0 -112px;
+  background-repeat: no-repeat;
+  margin-top: 8px;
+}
+
+.ei-member-invite {
+  background-position: 0 -64px;
+  background-repeat: no-repeat;
+  margin-top: 8px;
+}
+
+.placeactsico {
+  margin-top: 8px;
+  border-radius: 50%;
+}
+.subnav #ViewSelector #ExpandView {
+  background-image: url('/res/ico/viewswitch_expand.png');
+  width: 27px;
+  height: 10px;
+  display: inline;
+  cursor: pointer ;
+}
+
+.subnav #ViewSelector #ExpandView.on { background-position: 27px; }
+.subnav #ViewSelector #ExpandView.off { }
+.subnav #ViewSelector #CollapseView {
+  background-image: url('/res/ico/viewswitch_collapse.png');
+  width: 27px;
+  height: 10px;
+  display: inline-block;
+  cursor: pointer ;
+}
+
+.subnav #ViewSelector #CollapseView.on { background-position: 27px; }
+.subnav #ViewSelector #CollapseView.off {}
+.subnav #Search {
+  width: 146px;
+  height: 30px;
+  border-radius: 7px;
+}
+#MyPlaces { width: 275px; background-color: #E7ECE9; vertical-align: top;}
+#MyPlaces ul {
+  list-style: none;
+  display: inline;
+}
+#MyPlaces li#AllPlaces { color: #00B45A; font-weight: bold; background-color: #FAFBFB; text-align: center;}
+#MyPlaces li {
+  display: block;
+  overflow: hidden ;
+  text-overflow: ellipsis ;
+  word-break: keep-all;
+  white-space: nowrap;
+  padding-left: 10px;
+  line-height: 46px;
+  vertical-align: middle;
+}
+#MyPlaces li span {
+  padding: 10px;
+
+}
+#MyPlaces li .place-cell {
+  width:200px;
+  border-bottom: 1px solid $color-breeze;
+}
+
+#MyPlaces li img { margin: 1px 3px;}
+#MyPlaces li a {
+  font-size: medium;
+  display: block;
+}
+
+#MyPlaces li:hover { background-color: #F0F0F0; }
+#MyPlaces li a:hover {
+  font-weight: bold;
+}
+
+#MyPlaces li a span { line-height: 32px; }
+#MyPlaces li.selected { background-color: #E7ECE9; }
+#MyPlaces > ul > li {
+  border: none;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+/**
+  *********************************************************
+  *     Nested Classes -   * Badges
+  *********************************************************
+ */
+
+a.normal-badge {
+  color: $color-solid;
+}
+
+//[class$="-badge"] {
+//}
+
+.small-badge {
+  background-color: $color-badge;
+  border-radius: 6px;
+  color: $color-solid;
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 5px 10px 3px 10px;
+  line-height: 13px;
+}
+.place:hover {
+  color : black;
+}
+
+.normal-badge {
+  background-color: $color-badge;
+  border-radius: 9px;
+  color: $color-solid;
+  font-size: 12px;
+  white-space: nowrap;
+  padding-right: 8px;
+  padding-left: 8px;
+  height: 20px;
+  padding-top: 3px;
+}
+
+.nst-nowrap-badge .normal-badge {
+  margin: 2px;
+}
+#PostView .normal-badge {
+  //margin-top: 9px;
+  //line-height:12px;
+}
+
+.normal-badge:hover {
+  color: $color-solid;
+}
+
+
+
+/**
+  *********************************************************
+  *     Nested Classes -   * Media
+  *********************************************************
+ */
+
+@media (min-width: 1000px) {
+  #AllPlaces { width: 100%; }
+}
+@media (max-width: 999px) {
+
+  #AllPlaces li > table td.properties {}
+  #AllPlaces li > table td.members {}
+}
+
+@media (max-width: 999px) {
+  #MyPlaces {}
+  #EventList td.places {}
+  #PostView .main-body .right-column {}
+  #PostView #Toolbar {}
+  #PostView #Comments {}
+}
