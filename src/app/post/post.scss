@@ -337,9 +337,35 @@
 }
 
 .image-preview {
-  top:0;
+  top: 0;
+  background-color: $color-breeze;
+  border-radius: 6px;
 }
 
-.transparent-bg {
-  background-color: chartreuse;
+.nst-preview-pic-mode {
+  height: 100%;
+  bottom: 68px;
+  top: 0;
+}
+
+.nst-preview-footer {
+  height: 68px;
+  background-color: white;
+  bottom: 0;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.padding-l-16 {
+  padding-left: 16px;
+}
+
+.image-box-preview {
+  left: 0px;
+  right: 0px;
+  border-radius: 6px;
+}
+
+.file-preview {
+  height: 550px;
 }
