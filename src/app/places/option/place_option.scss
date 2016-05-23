@@ -4,12 +4,6 @@
   **********************************************************
  */
 
-.ico-pos {
-  display: flex;
-  position: relative;
-  top:7px;
-}
-
 #place-option-body {
   padding: 0px 208px;
   width: 100%;
@@ -39,7 +33,7 @@
 .options {
   height: auto;
 }
-.nst-options div,.nst-place-privacy div {
+.nst-options > div,.nst-place-privacy > div {
   height: 45px;
 }
 .tittle-option {

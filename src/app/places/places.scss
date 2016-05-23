@@ -300,8 +300,6 @@ background-color: $color-sense-5;
 .nst-more-members {
   min-width: 30px;
   height: 30px;
-  border-radius: 15px;
-  border: solid 1px $color-calm;
   float: right;
   line-height: 28px;
   text-align: center;
@@ -326,7 +324,7 @@ background-color: $color-sense-5;
 .restplace {
   background-color: white;
   position: relative;
-  min-height: 1px;
+  min-height: 200px;
   top:0;
   bottom: 0;
   -webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
