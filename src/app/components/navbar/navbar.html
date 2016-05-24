@@ -36,9 +36,11 @@
         <div class='SecondaryPageSelector _fw'>
           <div class="subnav">
             <div class="compose">
-              <button data-ng-if="events || places" class="composen">
-                <a href="#/new">Compose</a>
-              </button>
+              <form action="#/new">
+                <button data-ng-if="events || places" class="composen" >
+                  <a href="">Compose</a>
+                </button>
+              </form>
             </div>
             <div class="subnavitems">
               <ul class="nav-width-ul-compose" data-ng-if="compose">
