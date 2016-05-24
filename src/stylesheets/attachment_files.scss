@@ -145,9 +145,13 @@ ul.attachments-bar li {
 [class*="att-exp-image-"] {
 }
 
-.att-exp-application-pdf-xl {
-  background-position: 0 -192px;
-  background-size: 174px,128px;
+.test-at {
+  //height: 100%;
+  //min-height: 100%;
+  background: url('../assets/icons/attachment_card.svg') no-repeat;
+ background-position: 8px 0px;
+  background-size:  cover;
+  border:1px solid red;
   left: 0px;
   right: 0px;
   top: 10%;
