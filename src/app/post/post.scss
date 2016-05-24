@@ -371,7 +371,7 @@
 }
 
 .nst-preview-footer {
-  position: fixed;
+  position: absolute;
   height: 68px;
   background-color: white;
   bottom: 0;
@@ -411,4 +411,17 @@
 .closebut{
   position: relative;
   top:-5px;
+}
+.btn-send-comment{
+  width: 48px;
+  height: 24px;
+  background-color: $color-sense;
+  border: 1px solid #00B45A;
+  padding-top: 2px;
+  color: white;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  line-height: 22px;
 }

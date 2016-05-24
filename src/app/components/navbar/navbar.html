@@ -21,9 +21,9 @@
               </ul>
             </div>
 
-            <div class='signin'>
+            <div class='signin popover-green' uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="bottom-right" >
               <ul class="list-inline text-right">
-                <li><span uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="bottom-right" class="nst-menu-arrow _dib popover-green"></span></li>
+                <li><span class="nst-menu-arrow _dib"></span></li>
                 <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
                 <li>
                   <img data-ng-if="user.picture.org.uid" class="img-circle" src="{{user.picture.x32.url}}" height="32" width="32"/>
@@ -78,7 +78,7 @@
 
               <ul class="nav-width-ul" data-ng-if="create_place">
                 <li>
-                  <a href="javascript:void(0);" class="button-back" onclick="window.history.back();">Discard</a>
+                  <a href="javascript:void(0);" class="btn-back-compose" onclick="window.history.back();">Discard</a>
                 </li>
               </ul>
             </div>
