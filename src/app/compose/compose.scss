@@ -129,7 +129,7 @@ div.att-item {
 .nst-compose-message .btn {
   background-color: $color-white;
   color: $color-solid;
-  border: 1px solid $color-storm;
+  border: 0px solid $color-storm;
 }
 
 .ta-scroll-window.form-control {
@@ -196,13 +196,10 @@ div.att-item {
 
 .nst-attach-upload {
   height: 16px;
-  max-width: 200px;
   background-color: $color-fillbox;
-  margin-top: 88px;
   border-radius: 6px;
   line-height: 15px;
   font-size: $font-size-small;
-  margin-right: -35px;
 }
 
 .nst-attach-area {
@@ -285,4 +282,7 @@ div.att-item {
 }
 .sto {
   padding: 0 6px;
+}
+.btn-group{
+  //width: 100%;
 }

@@ -4,6 +4,7 @@
   angular
     .module('nested')
     .controller('ComposeController', ComposeController);
+    
 
   /** @ngInject */
   function ComposeController($location, $scope, $log, $stateParams, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
