@@ -1,4 +1,4 @@
-<ul data-ng-show="thePost.attachments.length > 0">
+<ul data-ng-show="thePost.attachments.length > 0" class="attachments-container">
   <li>
     <ul class="attachments-bar">
       <li data-ng-repeat="(key, attachment) in thePost.attachments" data-ng-init="attached = 'attached' == attachment.status; ext = rexExt.exec(attachment.filename)[1]">
