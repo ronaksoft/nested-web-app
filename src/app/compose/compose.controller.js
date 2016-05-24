@@ -4,7 +4,7 @@
   angular
     .module('nested')
     .controller('ComposeController', ComposeController);
-    
+
 
   /** @ngInject */
   function ComposeController($location, $scope, $log, $stateParams, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
@@ -32,7 +32,6 @@
     };
 
     vm.post = new NestedPost();
-
     if ($stateParams.relation && $stateParams.relation.contains(':')) {
       var relation = $stateParams.relation.split(':');
       switch (relation.shift()) {
@@ -66,9 +65,10 @@
     vm.recipientMaker = function (text) {
       return NestedRecipient.isValidEmail(text) ? new NestedRecipient(text) : null;
     };
-
+    $scope.attachshow = false;
     vm.attach = function (event) {
       var element = event.currentTarget;
+      $scope.attachshow = true ;
 
       var counter = 0;
       for (var i = 0; i < element.files.length; i++) {

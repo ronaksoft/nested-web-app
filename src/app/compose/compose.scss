@@ -127,11 +127,14 @@ div.att-item {
 }
 
 .nst-compose-message .btn {
-  background-color: $color-white;
-  color: $color-solid;
+  background-color: $color-calm;
+  color: $color-sense;
   border: 0px solid $color-storm;
 }
-
+.nst-compose-message .btn.active {
+  background-color: $color-breeze;
+  color: $color-sense-wire;
+}
 .ta-scroll-window.form-control {
   height :100%;
   border: none;
@@ -260,13 +263,14 @@ div.att-item {
   border: 1px solid $color-breeze;
   color: $color-storm;
   width: 64px;
-  height: 22px;
+  height: 24px;
   padding-top: 2px;
   display: inline-block;
   border-radius: 5px;
-  font-size: $font-size-small;
   margin-top: 8px;
   line-height: 22px;
+  font-size: $font-size-medium;
+  font-weight: 600;
 }
 .btn-back-compose:hover {
   color: $color-storm;
