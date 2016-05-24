@@ -155,19 +155,19 @@ ul.attachments-bar li {
 [class*="att-exp-image-"] {
 }
 
-.test-at {
-  //height: 100%;
-  //min-height: 100%;
+.large-viewe-attach {
+  height: 175px;
+  width:126px;
   background: url('../assets/icons/attachment_card.svg') no-repeat;
-  background-position: 8px 0px;
+  background-position: 0px -337px;
   background-size:  cover;
-  border:1px solid red;
-  left: 0px;
-  right: 0px;
-  top: 10%;
-  margin-left: auto;
-  margin-right: auto;
+
 }
+.test-at image {
+  height: 175px;
+  width: 126px;
+}
+
 
 /*
   **************************************************
@@ -237,8 +237,6 @@ ul.attachments-bar li {
 .att-badge-application-pdf {
   background-color: #FA0032;
 }
-
-
 
 .attachments-bar p {
   font-size: $font-size-xsmall;
