@@ -1,7 +1,7 @@
 <div>
   <ul class="list-unstyled text-center">
     <li data-ng-repeat="place in event.post.places | limitTo:(event.post.places.length - 1):1">
-      <a href="#/events/{{place.id}}" data-ng-bind="place.name"></a>
+      <a class="nst-mood-simple" href="#/events/{{place.id}}" data-ng-bind="place.name"></a>
     </li>
   </ul>
 </div>

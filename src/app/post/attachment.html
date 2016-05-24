@@ -24,16 +24,16 @@
           <pdf-viewer data-ng-switch="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
 
           <!--application/*-->
-          <iframe class="_fw" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+          <iframe class="_fw  large-viewe-attach" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
         </div>
 
         <!--*/*-->
-        <iframe class="_fw " data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+        <iframe class="_fw large-viewe-attach" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
       </div>
       <div class="_fw _dif nst-preview-footer">
         <div class=" _fw"><h4 class="">{{attachment.filename}}</h4><br>
           <h6 class="nst-mood-storm">12 Megabyte</h6></div>
-        <div class="_df nst-nav-btn-breeze"><a>Download</a></div>
+        <div class="_df nst-nav-btn-breeze"><a class="nst-mood-breez">Download</a></div>
 
       </div>
     </div>
