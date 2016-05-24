@@ -182,11 +182,11 @@
   color: $color-solid;
   display: block;
 }
-
-.subnavitems .events-anchor a:hover {
+.subnavitems .events-anchor:hover,
+.subnavitems .places-anchor:hover,
+.subnavitems .place-option-anchor:hover {
   color: $color-sense-wire;
 }
-
 .nav-profile {
   padding: 10px 0 2px 0;
   font-weight: 600;
