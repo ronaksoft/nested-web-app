@@ -7,6 +7,16 @@ ul.attachments-bar {
   padding: 5px;
 }
 
+.msg .attachments-bar,
+#Content .attachments-bar {
+  display: inline-flex;
+}
+
+.msg .attachments-container,
+#Content .attachments-container {
+  overflow-x: auto;
+}
+
 ul.attachments-bar li {
   display: inline-block;
   vertical-align: middle;
