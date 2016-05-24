@@ -1,1 +1,88 @@
-<div>Welcome {{user.fullname}}</div>
+<nested-navbar></nested-navbar>
+<div id="container" class="_bggray">
+
+  <div class="nst-content">
+    <div class="panel-create-place _bgwhite _ma _fh">
+
+      <div class="_fw upload-photo-container-setting">
+        <div class="_ma upload-photo">
+          <label for="logo"><img
+            src="{{place.picture.org.url ? place.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
+          <input id="logo" type="file" name="logo" accept="image/*"
+                 onchange="angular.element(this).scope().create_place.imgToUri(event)"/>
+          <div class="_ma">{{user.fullname}}</div>
+          <div class="_ma">{{user.username}}</div>
+        </div>
+
+        <div class="add-photo-hover"></div>
+        <div class="remove-photo-hover"></div>
+      </div>
+      <div class="inner-panel _ma">
+        <ul class="list-inline">
+          <li class="nst-marginbtm-8">First Name</li>
+          <li class="verified-li _fr">Verified</li>
+          <li class="not-verified-li _fr">Not Verified</li>
+        </ul>
+        <div>
+          <input type="text" name="place_id" class=" nst-marginbtm-8 form-control ng-pristine ng-untouched ng-valid"
+                 aria-invalid="false" data-ng-model="place.local_id"/>
+        </div>
+        <ul class="list-inline">
+          <li class="nst-marginbtm-8">Last Name</li>
+          <li class="verified-li _fr">Verified</li>
+          <li class="not-verified-li _fr">Not Verified</li>
+        </ul>
+        <div>
+          <input type="text" name="place_id" class=" nst-marginbtm-8 form-control ng-pristine ng-untouched ng-valid"
+                 aria-invalid="false" data-ng-model="place.local_id"/>
+        </div>
+        <ul class="list-inline">
+          <li class="nst-marginbtm-8">Recovery Mail</li>
+          <li class="verified-li _fr">Verified</li>
+          <li class="not-verified-li _fr">Not Verified</li>
+        </ul>
+        <div>
+          <input type="text" name="place_id" class=" nst-marginbtm-8 form-control ng-pristine ng-untouched ng-valid"
+                 aria-invalid="false" data-ng-model="place.local_id"/>
+        </div>
+          <div class="nst-marginbtm-4">Mobile Phone</div>
+          <div class="_fw nst-marginbtm-8">
+            <input name="mobileNumber" international-phone-number
+                   class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
+          </div>
+        <div class="nst-marginbtm-4">Gender</div>
+        <div class="nst-marginbtm-48">
+          <ul class="list-inline">
+            <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+              <input type="radio" name="gender" value="female"/>
+              <label>Female</label>
+            </li>
+            <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+              <input type="radio" name="gender" value="male"/>
+              <label>Male</label>
+            </li>
+            <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+              <input type="radio" name="gender" value="other"/>
+              <label>Other</label>
+            </li>
+          </ul>
+        </div>
+        <div class="nst-marginbtm-8">Birthday</div>
+        <div class="nst-marginbtm-16">
+          <input class="select-birthday" rsmdatedropdowns ng-model="birth"/>
+        </div>
+        <div class="_difc _fw">
+          <div class="_df _fw"><label for="browser-notification"><h6>Browser Notification</h6></label></div>
+          <div class="_df switch">
+            <input type="checkbox" id="browser-notification" class="inpsw" name="not" data-ng-model="place.privacy.locked">
+            <label for="browser-notification" data-ng-click="place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
+            <label for="browser-notification" data-ng-click="!place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-lg btn-block" data-ng-click="create_place.create()">Save & Exit</button>
+      </div>
+    </div>
+  </div>
+</div>
