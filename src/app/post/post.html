@@ -100,9 +100,7 @@
                       </div>
                     </div>
                     <div class="cmt-post-view" emoji>
-                      <span marked="comment.body"></span>
-                      <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
-                         ng-click="comment.delete()">delete</a>
+                      <p marked="comment.body"></p>
                     </div>
                     <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
                        ng-click="comment.delete()">delete</a>
