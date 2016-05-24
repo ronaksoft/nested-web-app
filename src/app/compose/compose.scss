@@ -242,15 +242,17 @@ div.att-item {
 
 .btn-send-compose{
   width: 48px;
-  height: 22px;
+  height: 24px;
   background-color: $color-sense;
   border: 1px solid #00B45A;
   padding-top: 2px;
   color: white;
   display: inline-block;
   border-radius: 5px;
-  font-size: $font-size-small;
-  font-weight: 900;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 8px;
   line-height: 22px;
 }
 .btn-send-compose:hover {
