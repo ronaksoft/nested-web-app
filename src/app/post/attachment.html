@@ -1,13 +1,13 @@
 <div data-ng-init="mimeSpl = attachment.mimeType.split('/')" data-ng-switch="mimeSpl[0]">
 
-  <div class=" _fhw">
+  <div>
     <div class="_pa image-box-preview _fh">
       <div class="image-preview _df _fh">
         <!--image/*-->
         <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}"/>
 
         <!--audio/*-->
-        <audio class="_fw" style="margin-top:250px" data-ng-switch-when="audio" preload="none" controls>
+        <audio class="_fw" data-ng-switch-when="audio" preload="none" controls>
           <source src="{{attachment.download.url}}" type="{{attachment.mimeType}}">
           <p>Your browser does not support the audio element.</p>
         </audio>
@@ -18,7 +18,7 @@
         </videogular>
 
         <!--application/*-->
-        <div class="_fw att-exp-application-pdf" style="width:128px; height:174px" data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
+        <div class="_fw att-exp-application-pdf-xl" style="width:128px; height:174px" data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
           <!--application/pdf-->
           <pdf-viewer data-ng-switch="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
 
