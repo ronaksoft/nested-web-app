@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function (WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, $injector, $rootScope, $q, $log) {
+    .factory('NestedPost', function ($rootScope, $q, $injector, $log, WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -45,7 +45,7 @@
 
         setData: function(data) {
           if (angular.isString(data)) {
-            this.load(data);
+            return this.load(data);
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
 
@@ -94,6 +94,10 @@
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.post);
           }
+          
+          return $q(function (res) {
+            res(this);
+          }.bind(this));
         },
 
         loadComments: function (reload) {
@@ -166,7 +170,7 @@
         load: function(id) {
           this.id = id || this.id;
 
-          WsService.request('post/get', { post_id: this.id }).then(this.setData.bind(this));
+          return WsService.request('post/get', { post_id: this.id }).then(this.setData.bind(this));
         },
 
         delete: function() {
