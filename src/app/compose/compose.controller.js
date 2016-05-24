@@ -6,7 +6,7 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+  function ComposeController($location, $scope, $log, $stateParams, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -31,6 +31,36 @@
     };
 
     vm.post = new NestedPost();
+
+    if ($stateParams.relation && $stateParams.relation.contains(':')) {
+      var relation = $stateParams.relation.split(':');
+      switch (relation.shift()) {
+        case 'fw':
+          vm.post.forwarded = new NestedPost();
+          vm.post.forwarded.load(relation.join('')).then(function (post) {
+            $scope.compose.post.subject = 'FW: ' + post.subject;
+            $scope.compose.post.body = post.body;
+            $scope.compose.post.attachments = post.attachments;
+          });
+          break;
+
+        case 'ra':
+          vm.post.replyTo = new NestedPost();
+          vm.post.replyTo.load(relation.join('')).then(function (post) {
+            $scope.compose.post.subject = 'RE: ' + post.subject;
+            $scope.compose.post.places = post.places;
+          });
+          break;
+
+        case 'rs':
+          vm.post.replyTo = new NestedPost();
+          vm.post.replyTo.load(relation.join('')).then(function (post) {
+            $scope.compose.post.subject = 'RE: ' + post.subject;
+            $scope.compose.post.places.push(new NestedPlace(post.sender.username));
+          });
+          break;
+      }
+    }
 
     vm.recipientMaker = function (text) {
       return NestedRecipient.isValidEmail(text) ? new NestedRecipient(text) : null;
