@@ -13,6 +13,16 @@ ul.attachments-bar li {
   margin: 1px;
 }
 
+.msg .attachments-bar,
+#Content .attachments-bar {
+  display: inline-flex;
+}
+
+.msg .attachments-container,
+#Content .attachments-container {
+  overflow-x: auto;
+}
+
 //ul.attachments-bar.image {
 //  list-style: none;
 //  padding: 5px;
@@ -149,7 +159,7 @@ ul.attachments-bar li {
   //height: 100%;
   //min-height: 100%;
   background: url('../assets/icons/attachment_card.svg') no-repeat;
- background-position: 8px 0px;
+  background-position: 8px 0px;
   background-size:  cover;
   border:1px solid red;
   left: 0px;
