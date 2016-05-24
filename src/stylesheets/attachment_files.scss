@@ -7,6 +7,12 @@ ul.attachments-bar {
   padding: 5px;
 }
 
+ul.attachments-bar li {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 1px;
+}
+
 .msg .attachments-bar,
 #Content .attachments-bar {
   display: inline-flex;
@@ -15,12 +21,6 @@ ul.attachments-bar {
 .msg .attachments-container,
 #Content .attachments-container {
   overflow-x: auto;
-}
-
-ul.attachments-bar li {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 1px;
 }
 
 //ul.attachments-bar.image {
@@ -155,14 +155,18 @@ ul.attachments-bar li {
 [class*="att-exp-image-"] {
 }
 
-.att-exp-application-pdf-xl {
-  background-position: 0 -192px;
-  left: 0;
-  right: 0;
+.test-at {
+  //height: 100%;
+  //min-height: 100%;
+  background: url('../assets/icons/attachment_card.svg') no-repeat;
+  background-position: 8px 0px;
+  background-size:  cover;
+  border:1px solid red;
+  left: 0px;
+  right: 0px;
   top: 10%;
   margin-left: auto;
   margin-right: auto;
-  max-width: 100px;
 }
 
 /*
@@ -234,6 +238,8 @@ ul.attachments-bar li {
   background-color: #FA0032;
 }
 
+
+
 .attachments-bar p {
   font-size: $font-size-xsmall;
   position: relative;
@@ -247,4 +253,5 @@ ul.attachments-bar li {
 }
 
 .nst-attachment-mimetype {
+
 }

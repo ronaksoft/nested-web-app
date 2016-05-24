@@ -399,9 +399,6 @@ select {
   *********************************
  */
 
-a {
-  color: $color-sense-wire;
-}
 a:hover {
   color: inherit;
 }
@@ -546,6 +543,10 @@ label {
 //select match in compose page
 .ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
   padding-top: 4px;
+  color: $color-solid;
+}
+.ui-select-multiple.ui-select-bootstrap .ui-select-match .close:hover {
+  color: $color-solid;
 }
 .videogular vg-media video {
   width: 100%;

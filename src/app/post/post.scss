@@ -362,11 +362,13 @@
 .image-preview > img {
   height: 100%;
   object-fit: contain;
+  padding-bottom: 10px;
 }
 .nst-preview-pic-mode {
   //position: relative;
   //bottom: 68px;
   //top: 0;
+
 
 }
 
