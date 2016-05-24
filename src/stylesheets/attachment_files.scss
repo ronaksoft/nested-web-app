@@ -1,3 +1,87 @@
+/**
+ *  Holders
+ */
+
+ul.attachments-bar {
+  list-style: none;
+  padding: 5px;
+}
+
+ul.attachments-bar li {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 1px;
+}
+
+//ul.attachments-bar.image {
+//  list-style: none;
+//  padding: 5px;
+//  //overflow: auto ;
+//  //white-space: nowrap;
+//  //word-break: keep-all;
+//}
+//
+//ul.attachments-bar.image li {
+//  padding: 0;
+//}
+//
+//ul.attachments-bar.image .att-item {
+//  width: 72px;
+//  height: 96px;
+//  margin: 5px;
+//  vertical-align: middle;
+//  position: relative;
+//  float: left;
+//}
+//
+//ul.attachments-bar.image .att-item > span.filename {
+//  position: absolute;
+//  top: 40px;
+//  left: 2px;
+//  right: 2px;
+//  word-break: keep-all;
+//  white-space: nowrap;
+//  text-overflow: ellipsis;
+//  padding: 10px;
+//  color: gray;
+//  overflow: hidden;
+//}
+//
+//ul.attachments-bar.image .att-item.inprogress {
+//  opacity: 0.3 ;
+//}
+//
+//ul.attachments-bar.non-image {
+//  max-height: 150px;
+//}
+//
+//ul.attachments-bar.non-image li {
+//  background-color: #E6E6E6;
+//  border-radius: 5px;
+//  min-width: 150px;
+//  display: inline-block;
+//  margin: 1px;
+//  line-height: 24px;
+//  vertical-align: baseline;
+//}
+//
+//ul.attachments-bar.non-image .att-item {
+//  background-repeat: no-repeat;
+//  background-position: left center;
+//  display: inline-block;
+//}
+//
+//ul.attachments-bar.non-image .att-item > span.filename {
+//  line-height: 10px;
+//  margin: 2px 2px 2px 28px;
+//  padding: 0px;
+//  font-size: x-small;
+//}
+
+/**
+ *  Expanded Attachments
+ */
+
 [class*="att-exp-"] {
   width: 72px;
   height: 96px;
@@ -53,20 +137,23 @@
   background-position: 0 -192px;
 }
 
+.attachments-bar img {
+  border: 1px solid lightgray;
+  height: 96px;
+}
 
 [class*="att-exp-image-"] {
 }
 
 .att-exp-application-pdf-xl {
   background-position: 0 -192px;
-  left: 0px;
-  right: 0px;
+  left: 0;
+  right: 0;
   top: 10%;
   margin-left: auto;
   margin-right: auto;
   max-width: 100px;
 }
-
 
 /*
   **************************************************
@@ -74,52 +161,38 @@
   **************************************************
  */
 
-[class*="att-badge-"] {
-  color: $color-white;
-  background-color: coral;
-  border-radius: 4px;
-  font-size: $font-size-small;
-  height: 10px;
-  vertical-align: middle;
-  padding: 2 2px 2px 2px;
-  width: 35px;
-  text-align: center;
-
-}
-
 .attachment-badge-bar {
-  height: 18px;
   background-color: $color-breeze-50;
   color: $color-solid;
-  border-radius: 5px;
-  display: inline-block;
-  padding-left: 5px;
-  padding-right: 20px;
-  overflow: hidden;
-  min-width: 128px;
-  max-width: 200px;
+  border-radius: 6px;
   margin-left: 5px;
-
-
+  padding: 0;
+  height: 20px;
 }
 
-// File
-[class*="att-badge-application-"],
-.att-badge-application-vnd.android.package-archive {
-  background-color: orangered;
+[class*="att-badge-"] {
+  color: $color-white;
+  background-color: $color-storm;
+  font-size: $font-size-xxsmall;
+  line-height: 20px;
+  border-radius: 6px 0 0 6px;
+  padding: 0.5ex 6px;
+  text-align: center;
+}
+
+.attachment-badge-bar span {
+  font-size: $font-size-medium;
+  line-height: 20px;
+  padding: 0.5ex 5px;
+  min-width: 64px;
+  max-width: 256px;
 }
 
 // Media
 [class*="att-badge-video-"],
 [class*="att-badge-audio-"],
 .att-badge-application-vnd.rn-realmedia {
-  background-color: gray;
-  height: 10px;
-  vertical-align: middle;
-  font-size: 10px;
-  padding: 0 2px 2px 2px;
-
-
+  background-color: #3CC882;
 }
 
 // Document
@@ -130,12 +203,7 @@
 .att-badge-application-vnd.oasis.opendocument.text-template,
 .att-badge-application-x-latex,
 .att-badge-application-rtf {
- background-color: #00b3ee;
-  height: 10px;
-  vertical-align: middle;
-  font-size: 10px;
-  padding: 0 2px 2px 2px;
-
+ background-color: #148CF0;
 }
 
 // Zip
@@ -148,29 +216,18 @@
 .att-badge-application-x-shockwave-flash,
 .att-badge-application-x-mspublisher,
 .att-badge-application-x-msdownload {
-  background-color: #4a0263;
-  height: 10px;
-  vertical-align: middle;
-  font-size: 10px;
-  padding: 0 2px 2px 2px;
-
+  background-color: #5A28BE;
 }
 
 // PDF
 .att-badge-application-pdf {
-  background-color: $color-force-wire;
-  height: 10px;
-  vertical-align: middle;
-  font-size: 10px;
-  padding: 0 2px 2px 2px;
+  background-color: #FA0032;
 }
-
-
 
 .attachments-bar p {
   font-size: $font-size-xsmall;
   position: relative;
-  top:25px;
+  top: 25px;
   left: 4px;
   text-align: center;
   overflow: hidden;
@@ -178,6 +235,6 @@
   width: 65px;
   height: 65px;
 }
-.nst-attachment-mimetype {
 
+.nst-attachment-mimetype {
 }
