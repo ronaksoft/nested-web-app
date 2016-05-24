@@ -1,8 +1,7 @@
 <table>
-  <tr data-ng-click="colp =! colp">
+  <tr data-ng-click="">
     <td class="arrow-places">
-      <label data-ng-model="colp" data-ng-show="place.children.length > 0" class="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false">
-      </label>
+      <label data-ng-click="colp =! colp" data-ng-model="colp" data-ng-show="place.children.length > 0" class="{{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false"></label>
     </td>
     <td class="logo">
       <img class="account-initials-48" data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
@@ -31,7 +30,7 @@
       </div>
     </td>
     <td class="members">
-      <div data-ng-if="place.counters.allMembers > 0" class="nst-more-members" data-ng-bind="place.counters.allMembers"></div>
+      <div data-ng-if="place.counters.allMembers > 0" class="nst-more-members" data-ng-bind="place.counters.allMembers + ' Member' + (place.counters.allMembers > 1 ? 's' : '')"></div>
       <div data-ng-if="place.counters.allMembers == 0" class="nst-no-more-members"></div>
     </td>
     <td class="properties">
