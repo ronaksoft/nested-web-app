@@ -82,10 +82,12 @@
 
         setPicture: function(uid) {
           return WsService.request('account/set_picture', {
-            member_id: this.id,
             universal_id: uid
           }).then(function () {
-            this.picture = new StoreItem(uid);
+            this.picture.org = new StoreItem(uid);
+            this.picture.x32 = this.picture.org;
+            this.picture.x64 = this.picture.org;
+            this.picture.x128 = this.picture.org;
 
             return $q(function (res) {
               res(this.picture);

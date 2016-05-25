@@ -2,27 +2,27 @@
 <div id="container" class="_bggray">
 
   <div class="nst-content">
-    <div class="panel-profile-setting _bgwhite _ma _fh">
+    <div class="panel-profile-setting _bgwhite _ma">
 
       <div class="_fw upload-photo-container">
         <div class="_ma upload-photo">
-          <label for="logo"><img src="{{place.picture.org.url ? place.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
-          <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().create_place.imgToUri(event)"/>
+          <label for="logo"><img src="{{user.picture.org.url ? user.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
+          <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().account_profile.imgToUri(event)"/>
         </div>
         <label for="logo" class="add-photo-hover"></label>
-        <div data-ng-if="place.picture.org.url" class="remove-photo-hover" data-ng-click="create_place.removeImg()"></div>
+        <div data-ng-if="user.picture.org.url" class="remove-photo-hover" data-ng-click="account_profile.removeImg()"></div>
       </div>
       <div class="inner-panel _ma">
         <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{user.username}}</div>
         <div class="nst-marginbtm-4">First Name</div>
         <div>
           <input type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
-                 aria-invalid="false" data-ng-model="place.local_id"/>
+                 aria-invalid="false" data-ng-model="user.name.fname"/>
         </div>
         <div class="nst-marginbtm-4">Last Name</div>
         <div>
           <input type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
-                 aria-invalid="false" data-ng-model="place.local_id"/>
+                 aria-invalid="false" data-ng-model="user.name.lname"/>
         </div>
         <div >
           <div class="nst-marginbtm-4">Recovery Mail</div>
@@ -30,12 +30,12 @@
         </div>
         <div>
           <input type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
-                 aria-invalid="false" data-ng-model="place.local_id"/>
+                 aria-invalid="false" data-ng-model="user.email"/>
         </div>
           <div class="nst-marginbtm-4">Mobile Phone</div>
           <div class="_fw nst-marginbtm-24">
             <input name="mobileNumber" international-phone-number
-                   class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
+                   class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="user.phone"/>
           </div>
         <div class="nst-marginbtm-12">Gender</div>
         <div class="nst-marginbtm-64">
@@ -60,7 +60,7 @@
         </div>
 
         <div>
-          <button class="btn btn-lg btn-block" data-ng-click="create_place.create()">Save & Exit</button>
+          <button class="btn btn-lg btn-block" data-ng-click="account_profile.update()">Save & Exit</button>
         </div>
       </div>
 
