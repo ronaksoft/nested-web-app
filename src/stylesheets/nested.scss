@@ -406,17 +406,20 @@ a {
 a:hover {
   color: inherit;
 }
+
 .modal {
   min-width: 900px;
   min-height: 600px;
   padding: 4% 0;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
+
 .modal-content {
   background-color: rgba(0, 0, 0, 0);
   border: none;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
+
 .modal-attachment {
   //padding: 128px 0;
 }
@@ -426,7 +429,6 @@ a:hover {
 }
 .modal.in .modal-dialog{
   border-radius: 6px;
-
 
 }
 .modal-dialog .modal-content {
@@ -445,9 +447,19 @@ a:hover {
 .modal-mlg {
   margin: 0 128px;
 }
-
+/*
+ ************** Popovers ************
+*/
 .popover {
   border-radius: 0;
+}
+.navbar-popover {
+  margin-left: 20px;
+  margin-top: -6px;
+}
+
+.popover .arrow {
+  display: none;
 }
 
 .popover-content {
@@ -469,6 +481,7 @@ a:hover {
 .popover-green + .popover.bottom > .arrow {
   border-bottom-color: $color-sense-wire;
 }
+
 .popover-green + .popover.bottom > .arrow:after {
   border-bottom-color: $color-sense-5;
 }
@@ -476,10 +489,12 @@ a:hover {
 .popover.bottom > .arrow {
   border-bottom-color: #ccc;
 }
+
 .popover.bottom > .arrow:after {
   border-bottom-color: #fff;
   left: 0;
 }
+
 .panel {
   background-color: white;
   margin: auto;
@@ -539,21 +554,26 @@ label {
   top: 4px;
   pointer-events: auto;
 }
+
 .ui-select-match-item{
   @extend .normal-badge;
   border: none;
 }
+
 .ui-select-match-item:hover {
   @extend .normal-badge;
 }
+
 //select match in compose page
 .ui-select-multiple.ui-select-bootstrap .ui-select-match .close {
   padding-top: 4px;
   color: $color-solid;
 }
+
 .ui-select-multiple.ui-select-bootstrap .ui-select-match .close:hover {
   color: $color-solid;
 }
+
 .videogular vg-media video {
   width: 100%;
   height: 100%;
@@ -1037,7 +1057,3 @@ a.normal-badge {
   #PostView #Comments {}
 }
 
-.pre {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
