@@ -77,6 +77,9 @@
             case WS_ERROR.DUPLICATE:
               break;
 
+            case WS_ERROR.LIMIT_REACHED:
+              break;
+
             default:
               break;
           }

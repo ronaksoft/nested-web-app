@@ -113,9 +113,9 @@
                   <div class="input-msg _dtr">
                     <img data-ng-if="user.picture.org.uid" class="_fl account-initials-24 _dtc" src="{{user.picture.x32.url}}"/>
                     <div data-ng-if="!user.picture.org.uid" class="_fl account-initials-24 _dtc" data-ng-bind="user.name.initials"></div>
-                    <textarea class="_dtc _fw" cols="32" maxlength="250" ng-keyup="commentKeyUp($event)" placeholder="write your comment..."/></textarea>
+                    <textarea class="_dtc _fw" cols="32" maxlength="250" ng-keyup="commentKeyUp($event)" placeholder="write your comment..." data-ng-model="nextComment"/></textarea>
                     <button class="btn-send-comment _fr" data-ng-click="commentKeyUp($event)">Send</button>
-                    <span class="nst-mood-simple _fr">22</span>
+                    <span data-ng-show="250 - nextComment.length < 20" class="nst-mood-simple _fr">{{250 - nextComment.length}}</span>
                   </div>
                 </div>
               </div>
