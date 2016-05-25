@@ -129,22 +129,34 @@
           }.bind(this));
         },
 
-        addComment: function (text) {
-          return WsService.request('post/add_comment', {
-            post_id: this.id,
-            txt: text
-          }).then(function (data) {
-            var NestedComment = $injector.get('NestedComment');
+        addComment: function (comment) {
+          var NestedComment = $injector.get('NestedComment');
 
-            var comment = new NestedComment(this);
-
-            return comment.load(data.comment_id.$oid).then(function (comment) {
+          if (comment instanceof NestedComment) {
+            if (0 == this.comments.filter(function (v) { return v.id == comment.id }).length) {
               this.comments.unshift(comment);
               this.counters.comments > -1 && this.counters.comments++;
 
-              return $q(function (res, rej) {
+              return $q(function (res) {
                 res(comment);
-              })
+              });
+            } else {
+              return $q(function (res, rej) {
+                rej(comment);
+              });
+            }
+          }
+
+          return WsService.request('post/add_comment', {
+            post_id: this.id,
+            txt: comment
+          }).then(function (data) {
+            return (new NestedComment(this)).load(data.comment_id.$oid).then(function (loadedComment) {
+              this.addComment(loadedComment).catch(function () {});
+
+              return $q(function (res) {
+                res(loadedComment);
+              });
             }.bind(this));
           }.bind(this));
         },

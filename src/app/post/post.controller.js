@@ -43,10 +43,10 @@
         case EVENT_ACTIONS.COMMENT_REMOVE:
 
           if ($scope.thePost.id == tlEvent.detail.timeline_data.post_id.$oid) {
-            var comment = new NestedComment($scope.thePost);
-            
-            comment.load(tlEvent.detail.timeline_data.comment_id.$oid).then(function () {
-              $scope.thePost.comments.push(comment);
+            var commentId = tlEvent.detail.timeline_data.comment_id.$oid;
+
+            (new NestedComment($scope.thePost)).load(commentId).then(function (comment) {
+              $scope.thePost.addComment(comment).catch(function () {});
             });
           }
 
