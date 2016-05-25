@@ -51,7 +51,9 @@
         var reader = new FileReader();
         reader.onload = function (event) {
           $scope.place.picture.org.url = event.target.result;
-          $scope.place.picture.x64.url = event.target.result;
+          $scope.place.picture.x32.url = $scope.place.picture.org.url;
+          $scope.place.picture.x64.url = $scope.place.picture.org.url;
+          $scope.place.picture.x128.url = $scope.place.picture.org.url;
 
           return StoreService.upload($scope.logo, UPLOAD_TYPE.PLACE_PICTURE).then(function (response) {
             $scope.place.picture.org.uid = response.universal_id;
