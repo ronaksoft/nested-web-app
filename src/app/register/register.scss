@@ -11,7 +11,7 @@
   font-size: $font-size-xsmall;
   font-family: $font-family-eng-reg;
 }
-.tooltip-inner {
+#panel-register .tooltip-inner {
   width: 240px;
   height: 96px;
   border-radius: 4px;
@@ -19,11 +19,13 @@
   padding-left: 16px;
   padding-top: 16px;
   font-size: $font-size-xsmall;
+  position: relative;
+  top:2.99px;
 }
-.tooltip-arrow {
+#panel-register .tooltip-arrow {
  transform: scale(2);
 }
-.tooltip-inner , .tooltip-arrow {
+#panel-register .tooltip-inner , .tooltip-arrow {
   opacity: 0.8;
   margin-top: -5px;
 }
