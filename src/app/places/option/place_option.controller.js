@@ -57,9 +57,7 @@
             $scope.place.picture.org.uid = response.universal_id;
             $scope.logo = null;
 
-            return $scope.place.update({
-              picture: response.universal_id
-            });
+            return $scope.place.setPicture(response.universal_id);
           });
         };
 
@@ -69,10 +67,8 @@
 
     vm.updatePrivacy = function (event) {
       var element = event.currentTarget;
-      var data = {
-        privacy: {}
-      };
-      data.privacy[element.name] = 'on' == element.value;
+      var data = {};
+      data['privacy.' + element.name] = element.checked;
 
       return $scope.place.update(data);
     };

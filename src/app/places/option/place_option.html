@@ -15,9 +15,9 @@
             <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().place_option.imgToUri(event)"/>
 
             <div class="_dib room-pic">
-              <h5 editable-text="place.name" onbeforesave="place_option.updatePlace('name', $data)">{{place.name || 'empty'}}</h5>
+              <h5 editable-text="place.name" onbeforesave="place_option.updatePlace('place_name', $data)">{{place.name || 'empty'}}</h5>
               <h6 class="nst-mood-storm">{{place.id + '@nested.me'}}</h6>
-              <h6 class="nst-mood-storm" editable-text="place.description" onbeforesave="place_option.updatePlace('description', $data)">{{place.description || 'empty'}}</h6>
+              <h6 class="nst-mood-storm" editable-text="place.description" onbeforesave="place_option.updatePlace('place_desc', $data)">{{place.description || 'empty'}}</h6>
             </div>
           </div> <!--/Room name-->
           <div class="options">
