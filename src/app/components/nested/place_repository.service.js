@@ -32,6 +32,12 @@
 
             return this.repo[id];
           }
+        },
+
+        push: function (place) {
+          this.repo[place.id] = place;
+
+          return this.repo[place.id];
         }
       };
 

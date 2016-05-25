@@ -97,7 +97,7 @@
       Place.prototype = {
         setData: function(data, parent) {
           if (angular.isString(data)) {
-            this.load(data);
+            return this.load(data);
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
 
@@ -174,7 +174,9 @@
             this.setData(data.info);
           }
 
-          return this;
+          return $q(function (res) {
+            res(this);
+          });
         },
 
         updateLocalId: function () {
@@ -419,6 +421,7 @@
             this.picture.x32 = this.picture.org;
             this.picture.x64 = this.picture.org;
             this.picture.x128 = this.picture.org;
+            NestedPlaceRepoService.push(this);
 
             return $q(function (res) {
               res(this.picture);
@@ -428,7 +431,6 @@
 
         update: function(data) {
           if (this.id) {
-            // TODO: Check if API is correct
             data = data || {
                 place_name: this.name,
                 place_desc: this.description,
@@ -440,7 +442,13 @@
               };
             data['place_id'] = this.id;
 
-            return WsService.request('place/update', data);
+            return WsService.request('place/update', data).then(function () {
+              NestedPlaceRepoService.push(this);
+
+              return $q(function (res) {
+                res(this);
+              }.bind(this));
+            }.bind(this));
           } else if (this.local_id) {
             var params = {
               parent_id: this.parent.id,
@@ -453,6 +461,7 @@
             return WsService.request('place/add', params).then(function (data) {
               this.id = data.place._id;
               this.updateLocalId();
+              NestedPlaceRepoService.push(this);
 
               return $q(function (res) {
                 res(this);
