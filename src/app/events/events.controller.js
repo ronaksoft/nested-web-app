@@ -125,7 +125,7 @@
 
     vm.load();
 
-    $scope.postView = function (post, url) {
+    $scope.postView = function (post, url, event) {
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/post/post.html',
@@ -148,9 +148,11 @@
         delete $scope.lastUrl;
         delete $scope.thePost;
       });
+
+      event.stopPropagation();
     };
 
-    $scope.attachmentView = function (attachment) {
+    $scope.attachmentView = function (attachment, event) {
       $scope.attachment = attachment;
 
       attachment.download.getUrl().then(function (url) {
@@ -176,6 +178,8 @@
           delete $scope.attachment;
         });
       });
+
+      event.stopPropagation();
     };
   }
 })();

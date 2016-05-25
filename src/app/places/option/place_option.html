@@ -15,9 +15,9 @@
             <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().place_option.imgToUri(event)"/>
 
             <div class="_dib room-pic">
-              <h5 editable-text="place.name" onbeforesave="place_option.updatePlace('name', $data)">{{place.name || 'empty'}}</h5>
+              <h5 editable-text="place.name" onbeforesave="place_option.updatePlace('place_name', $data)">{{place.name || 'empty'}}</h5>
               <h6 class="nst-mood-storm">{{place.id + '@nested.me'}}</h6>
-              <h6 class="nst-mood-storm" editable-text="place.description" onbeforesave="place_option.updatePlace('description', $data)">{{place.description || 'empty'}}</h6>
+              <h6 class="nst-mood-storm" editable-text="place.description" onbeforesave="place_option.updatePlace('place_desc', $data)">{{place.description || 'empty'}}</h6>
             </div>
           </div> <!--/Room name-->
           <div class="options">
@@ -91,7 +91,7 @@
           <div class="nst-teammates _dib">
             <h5 class="tittle-option _di">Teammates</h5>
             <div class="_di  _fr">
-              <span class="nst-mood-simple _dib ">Add Teammate</span>
+              <span class="nst-mood-simple _dib" data-ng-click="place_option.showAddModal('teammate')">Add Teammate</span>
               <div class="add-icon _dib"></div>
             </div>
             <hr>
@@ -103,7 +103,7 @@
           <div class="place-option-members _dib">
             <h5 class="title-option _di">Members</h5>
             <div class="_di _fr">
-              <span class="nst-mood-simple _dib">Invite members</span>
+              <span class="nst-mood-simple _dib" data-ng-click="place_option.showAddModal('member')">Invite members</span>
               <div class="add-icon _dib"></div>
             </div>
             <hr>

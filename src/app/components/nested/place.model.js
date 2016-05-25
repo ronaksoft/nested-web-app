@@ -206,6 +206,28 @@
           return this.grandParent;
         },
 
+        addMember: function (role, user, invite) {
+          var type = ((invite ? 'pending_' : '') + role).split('_').map(function (v, k) { return k == 0 ? v : (v[0].toUpperCase() + v.substr(1)); }).join('') + 's';
+          if (this.members[type]) {
+            return WsService.request('place/invite_member', {
+              place_id: this.id,
+              member_id: user.username,
+              role: role
+            }).then(function () {
+              this.members[type].users.push(user);
+              this.members[type].count++;
+
+              return $q(function (res) {
+                res();
+              });
+            }.bind(this));
+          }
+
+          return $q(function (res, rej) {
+            rej();
+          });
+        },
+
         loadCreators: function (reload) {
           if (this.members.creators.loaded && !reload) {
             return $q(function (resolve) {
@@ -266,7 +288,7 @@
             this.members.pendingKeyHolders.users = [];
             this.members.pendingKeyHolders.count = 0;
             for (var k in data.invitations) {
-              this.members.pendingKeyHolders.users.push(new NestedUser(data.invitations[k]));
+              this.members.pendingKeyHolders.users.push(new NestedUser(data.invitations[k].invitee));
             }
 
             this.members.pendingKeyHolders.loaded = true;
@@ -313,7 +335,7 @@
             this.members.pendingKnownGuests.users = [];
             this.members.pendingKnownGuests.count = 0;
             for (var k in data.invitations) {
-              this.members.pendingKnownGuests.users.push(new NestedUser(data.invitations[k]));
+              this.members.pendingKnownGuests.users.push(new NestedUser(data.invitations[k].invitee));
             }
 
             this.members.pendingKnownGuests.loaded = true;
@@ -370,23 +392,48 @@
           if (this.privacy.hasOwnProperty(key)) {
             this.privacy[key] = !this.privacy[key];
 
-            // TODO: Request Update
+            var data = {
+              privacy: {}
+            };
+            data.privacy[key] = this.privacy[key];
+            return this.update(data);
           }
+
+          return $q(function (res, rej) {
+            rej();
+          });
         },
 
         delete: function() {
           return WsService.request('place/remove', {
-            post_id: this.id
+            place_id: this.id
           });
+        },
+
+        setPicture: function(uid) {
+          return WsService.request('place/set_picture', {
+            place_id: this.id,
+            universal_id: uid
+          }).then(function () {
+            this.picture = new StoreItem(uid);
+
+            return $q(function (res) {
+              res(this.picture);
+            }.bind(this));
+          }.bind(this));
         },
 
         update: function(data) {
           if (this.id) {
-            // TODO: Check if API Exists and is correct
+            // TODO: Check if API is correct
             data = data || {
-                name: this.name,
-                description: this.description,
-                picture: this.picture.org.uid
+                place_name: this.name,
+                place_desc: this.description,
+                'privacy.broadcast': this.privacy.broadcast,
+                'privacy.email': this.privacy.email,
+                'privacy.locked': this.privacy.locked,
+                'privacy.receptive': this.privacy.receptive,
+                'privacy.search': this.privacy.search
               };
             data['place_id'] = this.id;
 

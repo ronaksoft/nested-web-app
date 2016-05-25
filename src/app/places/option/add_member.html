@@ -1,0 +1,30 @@
+<div id="add-view">
+  <div class="_dt _fw _fh">
+    <div class="_dtr">
+      <div class="_dtc modal-add">
+        <h5 class="_di" data-ng-if="add_teammate">Add a Teammate</h5>
+        <h5 class="_di" data-ng-if="add_member">Invite a Member</h5>
+        <div class="_fr"><img src="../assets/icons/close_16.png"></div>
+        <hr/>
+
+        <ui-select multiple class="nst-mood-simple" data-ng-model="place_add_member.selectedUsers">
+          <ui-select-match placeholder="Invite people to your team">
+            <span>{{$item.fullname}} &lt;{{$item.username}}&gt;</span>
+          </ui-select-match>
+          <ui-select-choices refresh="place_add_member.search($select.search)" refresh-delay="0"
+                             repeat="user in (place_add_member.users | filter: $select.search) track by user.username">
+            <img class="account-picture" data-ng-if="user.picture.org.uid" src="{{user.picture.x32.url}}"/>
+            <span class="account-initial" data-ng-if="!user.picture.org.uid" data-ng-bind="user.name.initials"></span>
+            <span data-ng-bind-html="user.fullname | highlight: $select.search"></span>
+            <small>({{user.username}})</small>
+          </ui-select-choices>
+        </ui-select>
+        <div data-ng-if="add_teammate" class="nst-modal-add-teammate">
+          <hr/>
+          <p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place, <a class="nst-mood-cheerful">invite them as a member</a>.</p>
+        </div>
+        <button class="_fr btn-send-compose" data-ng-click="place_add_member.add()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>

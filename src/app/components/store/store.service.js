@@ -5,8 +5,8 @@
     .module('nested')
     .constant('UPLOAD_TYPE', {
       FILE: 'upload/file',
-      PLACE_PICTURE: 'upload/file',
-      PROFILE_PICTURE: 'upload/file'
+      PLACE_PICTURE: 'upload/place_pic',
+      PROFILE_PICTURE: 'upload/profile_pic'
     })
     .factory('StoreService', NestedStore);
 

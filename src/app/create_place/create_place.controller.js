@@ -49,7 +49,7 @@
 
         return $scope.place.update().then(function (place) {
           console.log('Everything is ok', arguments);
-          $location.path('/place/' + place.id);
+          $location.path('/place/' + place.id).replace();
         }).catch(function (error) {
           switch (error.err_code) {
             case WS_ERROR.ACCESS_DENIED:
