@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedUser', function (WsService, NestedUserRepoService, StoreItem, $rootScope) {
+    .factory('NestedUser', function ($q, WsService, NestedUserRepoService, StoreItem, $rootScope) {
       function User(data) {
         this.username = null;
         this.email = null;
@@ -70,7 +70,7 @@
 
         load: function(username) {
           this.username = username || this.username;
-          
+
           NestedUserRepoService.get(this.username).then(this.setData.bind(this));
         },
 
@@ -78,6 +78,19 @@
           return WsService.request('post/remove', {
             post_id: this.id
           });
+        },
+
+        setPicture: function(uid) {
+          return WsService.request('account/set_picture', {
+            member_id: this.id,
+            universal_id: uid
+          }).then(function () {
+            this.picture = new StoreItem(uid);
+
+            return $q(function (res) {
+              res(this.picture);
+            }.bind(this));
+          }.bind(this));
         },
 
         update: function() {

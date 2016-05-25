@@ -6,10 +6,10 @@
 
       <div class="_fw upload-photo-container-setting">
         <div class="_ma upload-photo">
-          <label for="logo"><img
-            src="{{place.picture.org.url ? place.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
-          <input id="logo" type="file" name="logo" accept="image/*"
-                 onchange="angular.element(this).scope().create_place.imgToUri(event)"/>
+          <label for="logo">
+            <img src="{{user.picture.org.url ? user.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/>
+          </label>
+          <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().account_profile.imgToUri(event)"/>
           <div class="_ma">{{user.fullname}}</div>
           <div class="_ma">{{user.username}}</div>
         </div>
@@ -20,35 +20,30 @@
       <div class="inner-panel _ma">
         <ul class="list-inline">
           <li class="nst-marginbtm-8">First Name</li>
-          <li class="verified-li _fr">Verified</li>
-          <li class="not-verified-li _fr">Not Verified</li>
         </ul>
         <div>
           <input type="text" name="place_id" class=" nst-marginbtm-8 form-control ng-pristine ng-untouched ng-valid"
-                 aria-invalid="false" data-ng-model="place.local_id"/>
+                 aria-invalid="false" data-ng-model="user.name.fname"/>
         </div>
         <ul class="list-inline">
           <li class="nst-marginbtm-8">Last Name</li>
-          <li class="verified-li _fr">Verified</li>
-          <li class="not-verified-li _fr">Not Verified</li>
         </ul>
         <div>
           <input type="text" name="place_id" class=" nst-marginbtm-8 form-control ng-pristine ng-untouched ng-valid"
-                 aria-invalid="false" data-ng-model="place.local_id"/>
+                 aria-invalid="false" data-ng-model="user.name.lname"/>
         </div>
         <ul class="list-inline">
           <li class="nst-marginbtm-8">Recovery Mail</li>
-          <li class="verified-li _fr">Verified</li>
-          <li class="not-verified-li _fr">Not Verified</li>
+          <li data-ng-if="user.email.verified" class="verified-li _fr">Verified</li>
+          <li data-ng-if="!user.email.verified" class="not-verified-li _fr">Not Verified</li>
         </ul>
         <div>
           <input type="text" name="place_id" class=" nst-marginbtm-8 form-control ng-pristine ng-untouched ng-valid"
-                 aria-invalid="false" data-ng-model="place.local_id"/>
+                 aria-invalid="false" data-ng-model="user.email"/>
         </div>
           <div class="nst-marginbtm-4">Mobile Phone</div>
           <div class="_fw nst-marginbtm-8">
-            <input name="mobileNumber" international-phone-number
-                   class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
+            <input name="mobileNumber" international-phone-number class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="user.phone"/>
           </div>
         <div class="nst-marginbtm-4">Gender</div>
         <div class="nst-marginbtm-48">
