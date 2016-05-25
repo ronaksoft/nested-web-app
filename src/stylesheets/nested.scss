@@ -18,7 +18,9 @@
     box-sizing: inherit;
     vertical-align: inherit;
 }
-
+a,a:focus{
+  outline-width:0;
+}
 div, ul, ol {
     margin: 0;
     padding: 0;
