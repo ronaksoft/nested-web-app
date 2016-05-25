@@ -410,13 +410,30 @@
           });
         },
 
+        setPicture: function(uid) {
+          return WsService.request('place/set_picture', {
+            place_id: this.id,
+            universal_id: uid
+          }).then(function () {
+            this.picture = new StoreItem(uid);
+
+            return $q(function (res) {
+              res(this.picture);
+            }.bind(this));
+          }.bind(this));
+        },
+
         update: function(data) {
           if (this.id) {
             // TODO: Check if API is correct
             data = data || {
-                name: this.name,
-                description: this.description,
-                picture: this.picture.org.uid
+                place_name: this.name,
+                place_desc: this.description,
+                'privacy.broadcast': this.privacy.broadcast,
+                'privacy.email': this.privacy.email,
+                'privacy.locked': this.privacy.locked,
+                'privacy.receptive': this.privacy.receptive,
+                'privacy.search': this.privacy.search
               };
             data['place_id'] = this.id;
 
