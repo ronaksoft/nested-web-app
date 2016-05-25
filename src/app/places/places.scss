@@ -284,7 +284,7 @@ background-color: $color-sense-5;
 }
 
 .arrow-places {
-  width: 15px;
+  width: 25px;
   vertical-align: middle;
 }
 
@@ -332,4 +332,17 @@ background-color: $color-sense-5;
   -webkit-flex: 1; /* Chrome */
   -ms-flex: 1; /* IE 10 */
   flex: 1; /* NEW, */
+}
+
+.margin-l-5 {
+  margin-left: 5px;
+}
+
+.arrow-holder-places {
+  height: 64px;
+}
+
+.label-position-places {
+  margin-left: 5px;
+  margin-top: 20px;
 }
