@@ -17,8 +17,8 @@
             <label for="logo"><img src="{{place.picture.org.url ? place.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
             <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().create_place.imgToUri(event)"/>
           </div>
-          <div class="add-photo-hover"></div>
-          <div class="remove-photo-hover"></div>
+          <label for="logo" class="add-photo-hover"></label>
+          <div data-ng-if="place.picture.org.url" class="remove-photo-hover" data-ng-click="create_place.removeImg()"></div>
         </div>
         <div class="inner-panel _ma">
           <div class="place-id">

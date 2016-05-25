@@ -6,7 +6,7 @@
     .controller('CreatePlaceController', CreatePlaceController);
 
   /** @ngInject */
-  function CreatePlaceController($location, $scope, $stateParams, $q, AuthService, StoreService, UPLOAD_TYPE, StoreItem, NestedPlace) {
+  function CreatePlaceController($location, $scope, $stateParams, $q, WS_ERROR, AuthService, StoreService, UPLOAD_TYPE, StoreItem, NestedPlace) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -33,14 +33,53 @@
       }
     };
 
+    vm.removeImg = function () {
+      $scope.place.picture.org.url = null;
+      $scope.place.picture.org.uid = null;
+    };
+
     vm.create = function () {
       var p = $scope.logo ? StoreService.upload($scope.logo, UPLOAD_TYPE.PLACE_PICTURE) : $q(function (res) { res(); });
 
       p.then(function (response) {
-        $scope.place.picture.org = new StoreItem(response ? response.universal_id : undefined);
+        if (!$scope.place.picture.org.uid) {
+          $scope.place.picture.org.uid = response ? response.universal_id : undefined;
+          $scope.logo = null;
+        }
+
         return $scope.place.update().then(function (place) {
-          console.log('Everything is ok');
+          console.log('Everything is ok', arguments);
           $location.path('/place/' + place.id);
+        }).catch(function (error) {
+          switch (error.err_code) {
+            case WS_ERROR.ACCESS_DENIED:
+              break;
+
+            case WS_ERROR.INVALID:
+              // TODO: Enable error message tooltips on view
+              for (var k in error.items) {
+                switch (error.items[k]) {
+                  case 'place_id':
+                    $scope.place.id = null;
+                    break;
+
+                  case 'place_name':
+                    $scope.place.name = null;
+                    break;
+
+                  case 'place_desc':
+                    $scope.place.description = null;
+                    break;
+                }
+              }
+              break;
+
+            case WS_ERROR.DUPLICATE:
+              break;
+
+            default:
+              break;
+          }
         });
       });
     };

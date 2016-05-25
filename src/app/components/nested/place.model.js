@@ -396,16 +396,20 @@
             };
 
             return WsService.request('place/add', params).then(function (data) {
-              this.id = data.place_id.$oid;
+              this.id = data.place._id;
               this.updateLocalId();
 
               return $q(function (res) {
                 res(this);
-              });
+              }.bind(this));
             }.bind(this));
           } else {
             return $q(function (res, rej) {
-              rej(this);
+              rej({
+                err_code: -1,
+                items: [],
+                status: 'err'
+              });
             });
           }
         }
