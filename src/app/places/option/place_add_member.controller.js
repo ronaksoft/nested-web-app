@@ -32,12 +32,12 @@
 
         switch ($scope.role) {
           case 'teammate':
-            $scope.place.addMember('key_holder', user);
+            $scope.place.addMember('key_holder', user, true);
             break;
 
           case 'member':
           default:
-            $scope.place.addMember('known_guest', user);
+            $scope.place.addMember('known_guest', user, true);
             break;
         }
       }

@@ -206,12 +206,26 @@
           return this.grandParent;
         },
 
-        addMember: function (role, user) {
-          var type = role.split('_').map(function (v, k) { return k == 0 ? v : (v[0].toUpperCase() + v.substr(1)); }).join('') + 's';
+        addMember: function (role, user, invite) {
+          var type = ((invite ? 'pending_' : '') + role).split('_').map(function (v, k) { return k == 0 ? v : (v[0].toUpperCase() + v.substr(1)); }).join('') + 's';
           if (this.members[type]) {
-            this.members[type].users.push(user);
-            this.members[type].count++;
+            return WsService.request('place/invite_member', {
+              place_id: this.id,
+              member_id: user.username,
+              role: role
+            }).then(function () {
+              this.members[type].users.push(user);
+              this.members[type].count++;
+
+              return $q(function (res) {
+                res();
+              });
+            }.bind(this));
           }
+
+          return $q(function (res, rej) {
+            rej();
+          });
         },
 
         loadCreators: function (reload) {
@@ -274,7 +288,7 @@
             this.members.pendingKeyHolders.users = [];
             this.members.pendingKeyHolders.count = 0;
             for (var k in data.invitations) {
-              this.members.pendingKeyHolders.users.push(new NestedUser(data.invitations[k]));
+              this.members.pendingKeyHolders.users.push(new NestedUser(data.invitations[k].invitee));
             }
 
             this.members.pendingKeyHolders.loaded = true;
@@ -321,7 +335,7 @@
             this.members.pendingKnownGuests.users = [];
             this.members.pendingKnownGuests.count = 0;
             for (var k in data.invitations) {
-              this.members.pendingKnownGuests.users.push(new NestedUser(data.invitations[k]));
+              this.members.pendingKnownGuests.users.push(new NestedUser(data.invitations[k].invitee));
             }
 
             this.members.pendingKnownGuests.loaded = true;
