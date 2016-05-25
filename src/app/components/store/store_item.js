@@ -18,7 +18,7 @@
     Item.prototype = {
       getUrl: function () {
         return StoreService.toUrl(this.uid, this.token).then(function (url) {
-          this.url = $sce.trustAsResourceUrl(url);
+          this.url = $sce.trustAsResourceUrl(url).toString();
 
           return $q(function (res) {
             res(this.url);

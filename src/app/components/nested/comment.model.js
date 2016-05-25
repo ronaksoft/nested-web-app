@@ -7,7 +7,7 @@
 
   angular
     .module('nested')
-    .factory('NestedComment', function (WsService, NestedUser, NestedPlace, NestedPost, $rootScope, $log) {
+    .factory('NestedComment', function ($rootScope, $q, $log, WsService, NestedUser, NestedPlace, NestedPost) {
       function Comment(post, data, full) {
         this.full = full || false;
 
@@ -51,6 +51,10 @@
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.comment);
           }
+
+          return $q(function (res) {
+            res(this);
+          }.bind(this));
         },
 
         change: function () {
@@ -71,7 +75,7 @@
             return WsService.request('post/remove_comment', {
               post_id: this.post.id,
               comment_id: this.id
-            }).then(function (data) {
+            }).then(function () {
               this.post.deleteComment(this);
             }.bind(this));
           }

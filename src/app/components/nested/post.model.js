@@ -82,7 +82,7 @@
 
             this.recipients = []; // TODO: ?
             for (var k in data.recipients) {
-              this.recipients[k] = new NestedRecipient(data.recipients[k]._id);
+              this.recipients[k] = new NestedRecipient(data.recipients[k]);
             }
 
             if (this.full) {
@@ -94,7 +94,7 @@
           } else if (data.hasOwnProperty('status')) {
             this.setData(data.post);
           }
-          
+
           return $q(function (res) {
             res(this);
           }.bind(this));
@@ -136,20 +136,30 @@
           }).then(function (data) {
             var NestedComment = $injector.get('NestedComment');
 
-            var comment = new NestedComment(this, data.comment_id.$oid);
-            this.comments.unshift(comment);
-            this.counters.comments > -1 && this.counters.comments++;
+            var comment = new NestedComment(this);
+            
+            return comment.load(data.comment_id.$oid).then(function (comment) {
+              this.comments.unshift(comment);
+              this.counters.comments > -1 && this.counters.comments++;
 
-            return comment;
+              return $q(function (res, rej) {
+                res(comment);
+              })
+            }.bind(this));
           }.bind(this));
         },
 
         deleteComment: function (comment) {
+          var bound = undefined;
           for (var k in this.comments) {
             if (comment.id == this.comments[k].id) {
-              this.comments = this.comments.slice(0, k).concat(this.comments.slice(k + 1));
+              bound = Number(k);
               break;
             }
+          }
+
+          if (undefined != bound) {
+            this.comments = this.comments.slice(0, bound).concat(this.comments.slice(bound + 1));
           }
         },
 
