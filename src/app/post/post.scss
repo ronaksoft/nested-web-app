@@ -352,7 +352,7 @@
 }
 
 .image-preview {
-  background-color: $color-breeze;
+  background-color: rgba(240, 245, 242,0.7);
   border-radius: 6px;
   padding: 10px 0 68px 0;
   //overflow: hidden;
@@ -402,20 +402,21 @@
 .nst-preview-footer .nst-nav-btn-breeze {
   margin-top: 16px;
   margin-right: 16px;
+  padding: 2px 6px 0px 6px;
 }
 
 .comment-input-det{
   width: 10px;
 }
 .comment-input-det button{
-  margin-left:8px;
+  margin-left: 8px;
   margin-bottom: 7px;
 
 }
 
 .closebut{
   position: relative;
-  top:-5px;
+  top: -5px;
 }
 .btn-send-comment{
   width: 48px;
@@ -433,4 +434,9 @@
 }
 .input-msg .nst-mood-simple {
   margin-right: 10px;
+}
+
+.filename-p {
+  padding-top: 22px;
+  padding-bottom: 10px;
 }

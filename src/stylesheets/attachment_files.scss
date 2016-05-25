@@ -156,17 +156,26 @@ ul.attachments-bar li {
 }
 
 .large-viewe-attach {
-  height: 175px;
-  width:126px;
+  height: 192px;
+  width: 144px;
   background: url('../assets/icons/attachment_card.svg') no-repeat;
-  background-position: 0px -337px;
+  background-position: 0px -384px;
   background-size:  cover;
+}
 
+.large-view-attach-zip {
+  height: 192px;
+  width: 144px;
+  background: url('../assets/icons/attachment_card.svg') no-repeat;
+  background-position: 0px -768px;
+  background-size:  cover;
 }
+
 .test-at image {
-  height: 175px;
-  width: 126px;
+  height: 192px;
+  width: 144px;
 }
+
 
 
 /*
@@ -243,7 +252,7 @@ ul.attachments-bar li {
 .attachments-bar p {
   font-size: $font-size-xsmall;
   position: relative;
-  top: 40px;
+  top: 25px;
   left: 4px;
   text-align: center;
   overflow: hidden;
