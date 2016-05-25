@@ -7,8 +7,8 @@
     <div class="leftside"></div>
     <div class="nst-content">
       <div class="compose-hld _fw">
-        <section>
-          <input class="compose-input" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
+        <section class="_difc _fw">
+          <input class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
         </section>
         <hr/>
 
@@ -35,22 +35,22 @@
         </section>
         <hr/>
 
-        <section class="nst-attach _difc _fw" data-ng-show="attachshow">
+        <div class="nst-attach _dif _fw" data-ng-show="attachshow">
           <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post "
-               class="popover-green _df _fw" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="bottom-left"></div>
+               class="popover-green _df _fw attachlist" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="bottom-left"></div>
           <div class="attach _df">
             <!--<label for="attach">-->
               <!--<div class="headlineicon-green"></div>-->
             <!--</label>-->
             <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event)"/>
           </div>
-          <div data-ng-if="upload_size.total > 0" class="nst-attach-upload col-lg-12 _tac">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>
-          <hr/>
-        </section>
+          <div class="nst-attach-con _fh"><div data-ng-if="upload_size.total > 0" class="nst-attach-upload">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div></div>
+        </div>
+        <hr data-ng-show="attachshow" />
 
 
         <section class="nst-compose-message">
-          <div text-angular ta-toolbar="[['bold','italics','underline','strikeThrough','h1','h2','h3','p','ul','ol','clear','justifyLeft','justifyCenter','justifyRight','justifyFull','indent','outdent'] ]" data-ng-model="compose.post.body"></div>
+          <div text-angular ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'] ]" data-ng-model="compose.post.body"></div>
           <!--<div text-angular  data-ng-model="compose.post.body"></div>-->
         </section>
       </div>

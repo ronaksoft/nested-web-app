@@ -127,12 +127,12 @@ div.att-item {
 }
 
 .nst-compose-message .btn {
-  background-color: $color-calm;
-  color: $color-sense;
+  background-color: $color-white;
+  color: $color-solid;
   border: 0px solid $color-storm;
 }
 .nst-compose-message .btn.active {
-  background-color: $color-breeze;
+  background-color: $color-white;
   color: $color-sense-wire;
 }
 .ta-scroll-window.form-control {
@@ -175,7 +175,7 @@ div.att-item {
 }
 
 .compose-input {
-  width: 100%;
+  margin-top: 20px;
   height: 60px;
   border: none;
   padding-left: 8px;
@@ -198,13 +198,23 @@ div.att-item {
 }
 
 .nst-attach-upload {
-  height: 16px;
+  text-align: center;
+  min-width: 150px;
+  padding: 3px 10px;
   background-color: $color-fillbox;
   border-radius: 6px;
   line-height: 15px;
   font-size: $font-size-small;
 }
+.nst-attach-con{
+  position: relative;
+  top:-20px;
+  display: block;
+  justify-content: flex-end;
+}
+.attachlist {
 
+}
 .nst-attach-area {
   margin-left: 10px;
   margin-top: 10px;
