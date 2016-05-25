@@ -1,8 +1,8 @@
   <nested-navbar></nested-navbar>
   <div id="container" class="_bggray">
-    <div class="leftside"></div>
-    <div class="nst-content _bgwhite _fw">
-    <div class="panel-create-place _fw">
+
+    <div class="nst-content">
+    <div class="panel-create-place _bgwhite _ma _fh">
       <ul class="list-inline head">
         <li>
           <span>/</span>
@@ -12,24 +12,26 @@
           <span>{{pid}}</span>
         </li>
       </ul>
-      <div class="_fw">
+      <div class="_fw upload-photo-container">
         <div class="_ma upload-photo">
           <label for="logo"><img src="{{place.picture.org.url ? place.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
           <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().create_place.imgToUri(event)"/>
         </div>
+        <div class="add-photo-hover"></div>
+        <div class="remove-photo-hover"></div>
       </div>
       <div class="inner-panel _ma">
         <div class="place-id">
           <div>Place ID</div>
           <div>
-            <input type="text" name="place_id" class="form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="place.local_id"/>
+            <input type="text" name="place_id" class=" nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="place.local_id"/>
           </div>
           <div class="notice-bar">Place ID can't be changed later; Be careful!</div>
         </div>
         <div class="place-desc">
           <div>Place Description</div>
           <div>
-            <input type="text" name="place_desc" class="form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="place.description"/>
+            <input type="text" name="place_desc" class="nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="place.description"/>
           </div>
           <div class="notice-bar">Place Description</div>
         </div>
@@ -76,7 +78,7 @@
         <div class="notice-bar">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
         <div>
           <div>Place Name</div>
-          <div class="nst-marginbtm-0.5">
+          <div class="nst-marginbtm-4">
             <input type="text" name="place_name" aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="place.name"/>
           </div>
           <div class="notice-bar">Short name helps you to quickly identify your places.</div>
@@ -87,6 +89,5 @@
       </div>
     </div>
     </div>
-    <div class="rightside"></div>
   </div>
 
