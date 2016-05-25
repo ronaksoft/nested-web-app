@@ -125,8 +125,7 @@
         this.load();
       }
     };
-
-    // TODO: Handle it
+    
     WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
       var event = new NestedEvent(tlEvent.detail.timeline_data);
       $scope.events.pushEvent(event, true);

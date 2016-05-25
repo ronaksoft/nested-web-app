@@ -27,7 +27,7 @@
       Comment.prototype = {
         setData: function(data, post) {
           if (angular.isString(data)) {
-            this.load(data);
+            return this.load(data);
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
 

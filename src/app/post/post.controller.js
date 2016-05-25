@@ -6,7 +6,7 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($location, $scope, $stateParams, AuthService, NestedPost) {
+  function PostController($location, $scope, $stateParams, AuthService, EVENT_ACTIONS, WS_EVENTS, WsService, NestedPost, NestedComment) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -36,5 +36,22 @@
     };
 
     $scope.user = AuthService.user;
+
+    WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
+      switch (tlEvent.detail.timeline_data.action) {
+        case EVENT_ACTIONS.COMMENT_ADD:
+        case EVENT_ACTIONS.COMMENT_REMOVE:
+
+          if ($scope.thePost.id == tlEvent.detail.timeline_data.post_id.$oid) {
+            var comment = new NestedComment($scope.thePost);
+            
+            comment.load(tlEvent.detail.timeline_data.comment_id.$oid).then(function () {
+              $scope.thePost.comments.push(comment);
+            });
+          }
+
+          break;
+      }
+    });
   }
 })();
