@@ -15,24 +15,41 @@
         <!--video/*-->
         <videogular class="_fw" data-ng-switch-when="video" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
           <vg-media vg-src="vg"></vg-media>
+
+          <vg-controls vg-autohide="true" vg-autohide-time="3000">
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            </vg-scrub-bar>
+            <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+            <vg-time-display>{{ totalTime | date:'mm:ss':'+0000' }}</vg-time-display>
+            <vg-volume>
+              <vg-mute-button></vg-mute-button>
+              <vg-volume-bar></vg-volume-bar>
+            </vg-volume>
+            <vg-playback-button></vg-playback-button>
+            <vg-fullscreen-button></vg-fullscreen-button>
+          </vg-controls>
         </videogular>
 
         <!--application/*-->
-        <div class=" test-at" style="width:200px, height:200px" data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
+        <div class="large-viewe-attach" data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
+          <div class="_vabt _tac _fw _dib">{{ext}}</div>
           <!--application/pdf-->
           <pdf-viewer data-ng-switch="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
 
           <!--application/*-->
-          <iframe class="_fw" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+          <iframe class="_fw  large-viewe-attach" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
         </div>
 
         <!--*/*-->
-        <iframe class="_fw" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+          <iframe class="att-exp-" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
       </div>
       <div class="_fw _dif nst-preview-footer">
         <div class=" _fw"><h4 class="">{{attachment.filename}}</h4><br>
           <h6 class="nst-mood-storm">12 Megabyte</h6></div>
-        <div class="_df nst-nav-btn-breeze"><a>Download</a></div>
+        <div class="_df nst-nav-btn-breeze"><a class="nst-mood-storm">Download</a></div>
 
       </div>
     </div>

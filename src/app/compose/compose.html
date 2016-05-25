@@ -35,11 +35,14 @@
         </section>
         <hr/>
 
-        <section class="nst-attach col-lg-12" data-ng-show="attachshow">
-          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post " class="popover-green col-lg-12" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom-center"></div>
-          <!--<label for='attach'><div class='headlineicon-green'></div></label>-->
+        <section class="nst-attach _difc _fw">
+          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post "
+               class="popover-green _df _fw" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="bottom-left"></div>
           <div class="attach _df">
-            <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event) "/>
+            <label for="attach">
+              <div class="headlineicon-green"></div>
+            </label>
+            <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event)"/>
           </div>
           <div data-ng-if="upload_size.total > 0" class="nst-attach-upload col-lg-12 _tac">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>
           <hr/>
