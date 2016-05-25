@@ -39,6 +39,7 @@
       p.then(function (response) {
         $scope.place.picture.org = new StoreItem(response ? response.universal_id : undefined);
         return $scope.place.update().then(function (place) {
+          console.log('Everything is ok');
           $location.path('/place/' + place.id);
         });
       });
