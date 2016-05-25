@@ -206,6 +206,14 @@
           return this.grandParent;
         },
 
+        addMember: function (role, user) {
+          var type = role.split('_').map(function (v, k) { return k == 0 ? v : (v[0].toUpperCase() + v.substr(1)); }).join('') + 's';
+          if (this.members[type]) {
+            this.members[type].users.push(user);
+            this.members[type].count++;
+          }
+        },
+
         loadCreators: function (reload) {
           if (this.members.creators.loaded && !reload) {
             return $q(function (resolve) {
@@ -370,19 +378,27 @@
           if (this.privacy.hasOwnProperty(key)) {
             this.privacy[key] = !this.privacy[key];
 
-            // TODO: Request Update
+            var data = {
+              privacy: {}
+            };
+            data.privacy[key] = this.privacy[key];
+            return this.update(data);
           }
+
+          return $q(function (res, rej) {
+            rej();
+          });
         },
 
         delete: function() {
           return WsService.request('place/remove', {
-            post_id: this.id
+            place_id: this.id
           });
         },
 
         update: function(data) {
           if (this.id) {
-            // TODO: Check if API Exists and is correct
+            // TODO: Check if API is correct
             data = data || {
                 name: this.name,
                 description: this.description,

@@ -6,7 +6,7 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, $scope, $stateParams, AuthService, NestedPlace) {
+  function PlaceOptionController($location, $scope, $stateParams, $uibModal, AuthService, NestedPlace) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -32,10 +32,10 @@
         name: 'Leave',
         fn: function () {}
       },
-      'rename': {
-        name: 'Rename',
-        fn: function () {}
-      },
+      // 'rename': {
+      //   name: 'Rename',
+      //   fn: function () {}
+      // },
       'add': {
         name: 'Add a Subplace',
         url: '#/create_place/' + $scope.place.id
@@ -72,6 +72,28 @@
       data[name] = value;
 
       return $scope.place.update(data);
-    }
+    };
+
+    vm.showAddModal = function (role) {
+      $scope.role = role;
+      $scope['add_' + role] = true;
+
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/places/option/add_member.html',
+        controller: 'PlaceAddMemberController',
+        controllerAs: 'place_add_member',
+        size: 'sm',
+        scope: $scope
+      });
+
+      $scope.closeModal = modal.close;
+
+      modal.closed.then(function () {
+        delete $scope['add_' + role];
+        delete $scope.role;
+        delete $scope.closeModal;
+      });
+    };
   }
 })();
