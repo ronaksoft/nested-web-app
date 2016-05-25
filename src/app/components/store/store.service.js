@@ -115,7 +115,6 @@
         }
 
         return this.defaultStore.getUploadToken().then(function (token) {
-          console.log('File', file);
           var formData = new FormData();
           formData.append('cmd', type);
           formData.append('_sk', WsService.getSessionKey());

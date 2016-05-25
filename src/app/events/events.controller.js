@@ -58,7 +58,6 @@
     vm.parameters = {
       skip: 0,
       limit: 25,
-      after: 0,
       details: 'full'
     };
 
@@ -70,9 +69,42 @@
       vm.parameters['place_id'] = vm.place.id;
     }
 
+    vm.pushEvent = function (event, appendFirst) {
+      var now = $rootScope.now;
+
+      var gkey = null,
+        gtype = null;
+      if (now.getFullYear() === event.date.getFullYear()) {
+        if (now.getMonth() === event.date.getMonth()) {
+          gtype = 'daily';
+          gkey = gtype + '-' + event.date.getDay();
+        } else {
+          gtype = 'monthly';
+          gkey = gtype + '-' + event.date.getMonth();
+        }
+      } else {
+        gtype = 'yearly';
+        gkey = gtype + '-' + event.date.getFullYear();
+      }
+
+      if (!$scope.events.eventGroups.hasOwnProperty(gkey)) {
+        $scope.events.eventGroups[gkey] = {
+          titleFormat: $scope.events.gformats[gtype],
+          type: gtype,
+          date: event.date,
+          set: []
+        };
+      }
+
+      if (appendFirst) {
+        $scope.events.eventGroups[gkey].set.unshift(event);
+      } else {
+        $scope.events.eventGroups[gkey].set.push(event);
+      }
+    };
+
     vm.load = function () {
       WsService.request('timeline/get_events', vm.parameters).then(function (data) {
-        var now = $rootScope.now;
         $scope.events.moreEvents = !(data.events.length < $scope.events.parameters.limit);
         $scope.events.parameters.skip += data.events.length;
 
@@ -80,31 +112,7 @@
           var eventData = data.events[key];
           var event = new NestedEvent(eventData);
 
-          var gkey = null,
-            gtype = null;
-          if (now.getFullYear() === event.date.getFullYear()) {
-            if (now.getMonth() === event.date.getMonth()) {
-              gtype = 'daily';
-              gkey = gtype + '-' + event.date.getDay();
-            } else {
-              gtype = 'monthly';
-              gkey = gtype + '-' + event.date.getMonth();
-            }
-          } else {
-            gtype = 'yearly';
-            gkey = gtype + '-' + event.date.getFullYear();
-          }
-
-          if (!$scope.events.eventGroups.hasOwnProperty(gkey)) {
-            $scope.events.eventGroups[gkey] = {
-              titleFormat: $scope.events.gformats[gtype],
-              type: gtype,
-              date: event.date,
-              set: []
-            };
-          }
-
-          $scope.events.eventGroups[gkey].set.push(event);
+          $scope.events.pushEvent(event);
         }
       }).catch(function (data) {
 
@@ -119,8 +127,9 @@
     };
 
     // TODO: Handle it
-    WsService.addEventListener(WS_EVENTS.MESSAGE, function (event) {
-      console.log('New Event', event.detail);
+    WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
+      var event = new NestedEvent(tlEvent.detail.timeline_data);
+      $scope.events.pushEvent(event, true);
     });
 
     vm.load();

@@ -6,7 +6,7 @@
     .constant('ATTACHMENT_STATUS', {
       ATTACHED: 'attached'
     })
-    .factory('NestedAttachment', function ($rootScope, $q, WsService, NestedPlace, NestedUser, StoreItem, StoreService) {
+    .factory('NestedAttachment', function ($rootScope, $q, $log, WsService, NestedPlace, NestedUser, StoreItem) {
       function Attachment(data, post, full) {
         this.full = full || false;
 
@@ -40,7 +40,7 @@
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
           } else if (data.hasOwnProperty('_id')) {
-            console.log('Attachment Data:', data);
+            $log.debug('Attachment Data:', data);
             this.id = data._id;
             this.download = null;
 

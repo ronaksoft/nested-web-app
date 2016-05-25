@@ -48,7 +48,6 @@
         }
 
         return $scope.place.update().then(function (place) {
-          console.log('Everything is ok', arguments);
           $location.path('/place/' + place.id).replace();
         }).catch(function (error) {
           switch (error.err_code) {

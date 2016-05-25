@@ -10,7 +10,10 @@
     .constant('WS_MESSAGE_TYPE', {
       QUEST: 'q',
       RESPONSE: 'r',
-      EVENT: 'tl_event'
+      PUSH: 'p'
+    })
+    .constant('WS_PUSH_TYPE', {
+      TIMELINE_EVENT: 'tl_event'
     })
     .constant('WS_ERROR', {
       UNKNOWN: 0,
@@ -38,7 +41,9 @@
       AUTHORIZE: '__authorize',
       MANUAL_AUTH: '__mauthorize',
       UNINITIALIZE: '__uninitialize',
-      ERROR: '__error'
+      ERROR: '__error',
+      
+      TIMELINE: '__timeline'
     })
     .constant('AUTH_COMMANDS', ['session/register', 'session/recall'])
     .factory('WsRequest', NestedWsRequest)
@@ -99,7 +104,7 @@
   }
 
   /** @ngInject */
-  function NestedWsService($websocket, $q, WS_MESSAGE_TYPE, WS_RESPONSE_STATUS, WS_EVENTS, WS_MESSAGES, APP, AUTH_COMMANDS, WsRequest, $log) {
+  function NestedWsService($websocket, $q, WS_MESSAGE_TYPE, WS_PUSH_TYPE, WS_RESPONSE_STATUS, WS_EVENTS, WS_MESSAGES, APP, AUTH_COMMANDS, WsRequest, $log) {
     function WsService(appId, appSecret, url) {
       // TODO: Make these configurable
       this.appId = appId;
@@ -142,9 +147,11 @@
             }
             break;
 
-          case WS_MESSAGE_TYPE.EVENT:
-            if (data.data.hasOwnProperty('name')) {
-              this.dispatchEvent(new CustomEvent(data.data.name, { detail: data.data }));
+          case WS_MESSAGE_TYPE.PUSH:
+            switch (data.data.type) {
+              case WS_PUSH_TYPE.TIMELINE_EVENT:
+                this.dispatchEvent(new CustomEvent(WS_EVENTS.TIMELINE, { detail: data.data }));
+                break;
             }
             break;
         }

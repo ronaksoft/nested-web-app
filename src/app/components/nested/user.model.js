@@ -44,17 +44,22 @@
             this.email_verified = data.email_verified;
             this.phone = data.phone;
             this.name = {
-              fname: data.fname,
-              lname: data.lname,
-              initials: data.fname.charAt(0).toUpperCase() + data.lname.charAt(0).toUpperCase()
+              fname: data.fname || '',
+              lname: data.lname || '',
+              initials: ''
             };
+
+            this.name.initials = this.name.fname.charAt(0).toUpperCase() + this.name.lname.charAt(0).toUpperCase();
             this.fullname = this.name.fname + ' ' + this.name.lname;
-            this.picture = {
-              org: new StoreItem(data.picture.org),
-              x32: new StoreItem(data.picture.x32),
-              x64: new StoreItem(data.picture.x64),
-              x128: new StoreItem(data.picture.x128)
-            };
+
+            if (data.picture) {
+              this.picture = {
+                org: new StoreItem(data.picture.org),
+                x32: new StoreItem(data.picture.x32),
+                x64: new StoreItem(data.picture.x64),
+                x128: new StoreItem(data.picture.x128)
+              };
+            }
 
             this.change();
           } else if (data.hasOwnProperty('status')) {

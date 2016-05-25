@@ -73,12 +73,21 @@
 
           this.id = data._id.$oid;
           this.type = data.action;
-          this.actor = new NestedUser({
+          var q = {};
+
+          q = {
             _id: data.actor,
             fname: data.actor_fname,
             lname: data.actor_lname,
             picture: data.actor_picture
-          });
+          };
+          for (var k in q) {
+            if (!q[k]) {
+              q = q._id;
+              break;
+            }
+          }
+          this.actor = new NestedUser(q);
 
           this.date = new Date(data.date * 1e3);
           var now = new Date(Date.now());
@@ -95,33 +104,44 @@
           this.view.tpl = templates.hasOwnProperty(this.type) ? templates[this.type] : null;
 
           if (data.hasOwnProperty('post_id')) {
-            this.post = new NestedPost({
+            q = {
               _id: data.post_id,
-              sender: {
-                _id: data.actor,
-                fname: data.actor_fname,
-                lname: data.actor_lname,
-                picture: data.actor_picture
-              },
+              sender: this.actor,
               subject: data.post_subject,
               body: data.post_body,
               post_attachments: data.post_attachments || [], // TODO: Please be `attachments`
               post_places: data.post_places, // TODO: Please be `places`
-              'time-stamp': data.date
-            });
+              'time-stamp': data.date // TODO: Please be `time`
+            };
+            for (var k in q) {
+              if (!q[k]) {
+                q = q._id.$oid;
+                break;
+              }
+            }
+
+            this.post = new NestedPost(q);
           }
 
           if (data.hasOwnProperty('comment_id')) {
-            this.comment = new NestedComment(this.post, {
+            q = {
               _id: data.comment_id,
-              attach: null,
-              sender_id: data.actor,
-              sender_fname: data.actor_fname,
-              sender_lname: data.actor_lname,
-              sender_picture: data.actor_picture,
+              attach: true,
+              sender_id: this.actor.id,
+              sender_fname: this.actor.name.fname,
+              sender_lname: this.actor.name.lname,
+              sender_picture: this.actor.picture,
               text: data.comment_body,
               time: data.date
-            });
+            };
+            for (var k in q) {
+              if (!q[k]) {
+                q = q._id.$oid;
+                break;
+              }
+            }
+
+            this.comment = new NestedComment(this.post, q);
           }
 
           if (data.hasOwnProperty('place_id')) {

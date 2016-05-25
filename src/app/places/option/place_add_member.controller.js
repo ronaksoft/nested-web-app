@@ -28,7 +28,6 @@
     vm.add = function () {
       for (var k in $scope.place_add_member.selectedUsers) {
         var user = $scope.place_add_member.selectedUsers[k];
-        console.log(user);
 
         switch ($scope.role) {
           case 'teammate':

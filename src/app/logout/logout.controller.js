@@ -10,7 +10,6 @@
     AuthService.logout().then(function () {
       $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
       $location.path('/').replace();
-      console.log('Logged out successfully.');
     });
   }
 })();

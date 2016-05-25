@@ -54,7 +54,7 @@
             $log.debug("Post Data:", data);
 
             this.id = data._id.$oid;
-            this.sender = new NestedUser(this.full ? data.sender._id : data.sender);
+            this.sender = (data.sender instanceof NestedUser) ? data.sender : new NestedUser(this.full ? (data.sender.id || data.sender._id) : data.sender);
             this.replyTo = data.replyTo ? new Post(this.full ? data.replyTo : { id: data.replyTo }) : null;
             this.subject = data.subject;
             this.contentType = data.content_type;
@@ -137,7 +137,7 @@
             var NestedComment = $injector.get('NestedComment');
 
             var comment = new NestedComment(this);
-            
+
             return comment.load(data.comment_id.$oid).then(function (comment) {
               this.comments.unshift(comment);
               this.counters.comments > -1 && this.counters.comments++;
