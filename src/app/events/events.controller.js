@@ -178,8 +178,6 @@
           delete $scope.attachment;
         });
       });
-
-      event.stopPropagation();
     };
   }
 })();

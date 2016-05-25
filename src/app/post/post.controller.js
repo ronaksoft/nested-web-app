@@ -30,6 +30,8 @@
         $scope.thePost.addComment(event.currentTarget.value).then(function (comment) {
           event.currentTarget.value = '';
         });
+
+        return false;
       }
     };
 

@@ -99,8 +99,8 @@
                              data-uib-tooltip="{{comment.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto left"></div>
                       </div>
                     </div>
-                    <div class="cmt-post-view" emoji>
-                      <p marked="comment.body"></p>
+                    <div class="cmt-post-view">
+                      <emoji><p marked="comment.body"></p></emoji>
                     </div>
                     <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
                        ng-click="comment.delete()">delete</a>
