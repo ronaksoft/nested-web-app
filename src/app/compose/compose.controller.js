@@ -41,6 +41,7 @@
             $scope.compose.post.subject = 'FW: ' + post.subject;
             $scope.compose.post.body = post.body;
             $scope.compose.post.attachments = post.attachments;
+            $scope.attachshow = $scope.compose.post.attachments.length > 0;
           });
           break;
 
