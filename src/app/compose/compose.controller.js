@@ -50,6 +50,7 @@
           vm.post.replyTo.load(relation.join('')).then(function (post) {
             $scope.compose.post.subject = 'RE: ' + post.subject;
             $scope.compose.post.places = post.places;
+            $scope.compose.recipients = post.places.concat(post.recipients);
           });
           break;
 
@@ -58,6 +59,7 @@
           vm.post.replyTo.load(relation.join('')).then(function (post) {
             $scope.compose.post.subject = 'RE: ' + post.subject;
             $scope.compose.post.places.push(new NestedPlace(post.sender.username));
+            $scope.compose.recipients = $scope.compose.post.places;
           });
           break;
       }
