@@ -33,7 +33,7 @@
             </div>
           </div>
         </section>
-        <hr/>
+        <hr data-ng-show="attachshow" />
 
         <div class="nst-attach _dif _fw" data-ng-show="attachshow">
           <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post "
@@ -46,7 +46,7 @@
           </div>
           <div class="nst-attach-con _fh"><div data-ng-if="upload_size.total > 0" class="nst-attach-upload">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div></div>
         </div>
-        <hr data-ng-show="attachshow" />
+        <hr class="nomargin"/>
 
 
         <section class="nst-compose-message">
