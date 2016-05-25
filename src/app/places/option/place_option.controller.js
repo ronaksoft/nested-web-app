@@ -6,7 +6,7 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, $scope, $stateParams, $uibModal, AuthService, NestedPlace) {
+  function PlaceOptionController($location, $scope, $stateParams, $uibModal, StoreService, UPLOAD_TYPE, AuthService, NestedPlace) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -51,6 +51,15 @@
         var reader = new FileReader();
         reader.onload = function (event) {
           $scope.place.picture.org.url = event.target.result;
+
+          return StoreService.upload($scope.logo, UPLOAD_TYPE.PLACE_PICTURE).then(function (response) {
+            $scope.place.picture.org.uid = response.universal_id;
+            $scope.logo = null;
+
+            return $scope.place.update({
+              picture: response.universal_id
+            });
+          });
         };
 
         reader.readAsDataURL($scope.logo);
