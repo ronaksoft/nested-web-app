@@ -1,11 +1,10 @@
-.verified-li {
-  color : $color-sense;
-  display: none;
-}
-.not-verified-li {
-  color : $color-force;
-  display: none;
-}
 .upload-photo-container-setting {
-  height: 150px;
+  height: 125px;
+}
+.panel-profile-setting {
+  padding: 50px 8px 8px 8px;
+  width: 574px;
+  text-decoration: none;
+  border: 1px $color-breeze;
+
 }

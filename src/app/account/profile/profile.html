@@ -2,56 +2,43 @@
 <div id="container" class="_bggray">
 
   <div class="nst-content">
-    <div class="panel-create-place _bgwhite _ma _fh">
+    <div class="panel-profile-setting _bgwhite _ma _fh">
 
-      <div class="_fw upload-photo-container-setting">
+      <div class="_fw upload-photo-container">
         <div class="_ma upload-photo">
-          <label for="logo"><img
-            src="{{place.picture.org.url ? place.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
-          <input id="logo" type="file" name="logo" accept="image/*"
-                 onchange="angular.element(this).scope().create_place.imgToUri(event)"/>
-          <div class="_ma">{{user.fullname}}</div>
-          <div class="_ma">{{user.username}}</div>
+          <label for="logo"><img src="{{place.picture.org.url ? place.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
+          <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().create_place.imgToUri(event)"/>
         </div>
-
-        <div class="add-photo-hover"></div>
-        <div class="remove-photo-hover"></div>
+        <label for="logo" class="add-photo-hover"></label>
+        <div data-ng-if="place.picture.org.url" class="remove-photo-hover" data-ng-click="create_place.removeImg()"></div>
       </div>
       <div class="inner-panel _ma">
-        <ul class="list-inline">
-          <li class="nst-marginbtm-8">First Name</li>
-          <li class="verified-li _fr">Verified</li>
-          <li class="not-verified-li _fr">Not Verified</li>
-        </ul>
+        <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{user.username}}</div>
+        <div class="nst-marginbtm-4">First Name</div>
         <div>
-          <input type="text" name="place_id" class=" nst-marginbtm-8 form-control ng-pristine ng-untouched ng-valid"
+          <input type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
                  aria-invalid="false" data-ng-model="place.local_id"/>
         </div>
-        <ul class="list-inline">
-          <li class="nst-marginbtm-8">Last Name</li>
-          <li class="verified-li _fr">Verified</li>
-          <li class="not-verified-li _fr">Not Verified</li>
-        </ul>
+        <div class="nst-marginbtm-4">Last Name</div>
         <div>
-          <input type="text" name="place_id" class=" nst-marginbtm-8 form-control ng-pristine ng-untouched ng-valid"
+          <input type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
                  aria-invalid="false" data-ng-model="place.local_id"/>
         </div>
-        <ul class="list-inline">
-          <li class="nst-marginbtm-8">Recovery Mail</li>
-          <li class="verified-li _fr">Verified</li>
-          <li class="not-verified-li _fr">Not Verified</li>
-        </ul>
+        <div >
+          <div class="nst-marginbtm-4">Recovery Mail</div>
+          <div class="verified-li"></div>
+        </div>
         <div>
-          <input type="text" name="place_id" class=" nst-marginbtm-8 form-control ng-pristine ng-untouched ng-valid"
+          <input type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
                  aria-invalid="false" data-ng-model="place.local_id"/>
         </div>
           <div class="nst-marginbtm-4">Mobile Phone</div>
-          <div class="_fw nst-marginbtm-8">
+          <div class="_fw nst-marginbtm-24">
             <input name="mobileNumber" international-phone-number
                    class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
           </div>
-        <div class="nst-marginbtm-4">Gender</div>
-        <div class="nst-marginbtm-48">
+        <div class="nst-marginbtm-12">Gender</div>
+        <div class="nst-marginbtm-64">
           <ul class="list-inline">
             <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
               <input type="radio" name="gender" value="female"/>
@@ -67,22 +54,16 @@
             </li>
           </ul>
         </div>
-        <div class="nst-marginbtm-8">Birthday</div>
-        <div class="nst-marginbtm-16">
+        <div class="nst-marginbtm-4">Birthday</div>
+        <div class="nst-marginbtm-36">
           <input class="select-birthday" rsmdatedropdowns ng-model="birth"/>
         </div>
-        <div class="_difc _fw">
-          <div class="_df _fw"><label for="browser-notification"><h6>Browser Notification</h6></label></div>
-          <div class="_df switch">
-            <input type="checkbox" id="browser-notification" class="inpsw" name="not" data-ng-model="place.privacy.locked">
-            <label for="browser-notification" data-ng-click="place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
-            <label for="browser-notification" data-ng-click="!place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
-          </div>
+
+        <div>
+          <button class="btn btn-lg btn-block" data-ng-click="create_place.create()">Save & Exit</button>
         </div>
       </div>
-      <div>
-        <button class="btn btn-lg btn-block" data-ng-click="create_place.create()">Save & Exit</button>
-      </div>
+
     </div>
   </div>
 </div>
