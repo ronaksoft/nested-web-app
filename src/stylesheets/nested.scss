@@ -17,14 +17,17 @@
 * {
     box-sizing: inherit;
     vertical-align: inherit;
-    outline: 0;
 }
 
 div, ul, ol {
     margin: 0;
     padding: 0;
 }
-
+select {
+  color: #000;
+  color: rgba(0,0,0,0);
+  text-shadow: 0 0 0 #000;
+}
 input[type='text'], input[type='password'], input[type='tel'] {
     outline: none ;
     border: 1px solid $color-breeze;
@@ -35,8 +38,6 @@ input[type='text'], input[type='password'], input[type='tel'] {
 
 a {
   text-decoration: none;
-  //color: $color-sense;
-  outline: 0;
 }
 
 a:hover {
