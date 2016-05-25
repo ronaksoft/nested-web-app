@@ -123,12 +123,13 @@
 .input-msg textarea {
   float: left;
   border: 1px solid $color-breeze !important;
-  padding-right: 8px;
   height: 32px;
   margin-bottom: 5px;
   width: 265px;
   height: 60px;
   resize: none;
+  border-radius: 6px;
+  padding: 6px;
 }
 
 .input-msg {
@@ -391,6 +392,8 @@
   left: 0px;
   right: 0px;
   border-radius: 6px;
+  min-height: 240px;
+  min-width: 240px;
 }
 
 .file-preview {
