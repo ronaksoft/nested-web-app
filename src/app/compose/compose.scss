@@ -224,13 +224,11 @@ div.att-item {
 }
 .ta-root .ta-scroll-window .ng-empty p::before {
   content:'Your message Goes here ...';
-  color: $color-breeze;
+  color: $color-solid-30;
 
 }
 .ta-root.focussed .ta-scroll-window .ng-empty p::before {
   content:'';
-  color: $color-breeze;
-
 }
 .ta-root.focussed .ta-scroll-window .ng-valid::before {
   content:'';
