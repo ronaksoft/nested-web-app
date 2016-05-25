@@ -28,6 +28,7 @@
       'com.2fdevs.videogular.plugins.poster',
       'com.2fdevs.videogular.plugins.poster',
       'textAngular',
-      'hc.marked'
+      'hc.marked',
+      'xeditable'
     ]);
 })();

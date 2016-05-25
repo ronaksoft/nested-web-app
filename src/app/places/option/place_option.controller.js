@@ -21,6 +21,8 @@
       $location.path('/places').replace();
     }
 
+    $scope.logo = null;
+
     vm.actions = {
       'delete': {
         name: 'Delete',
@@ -38,6 +40,38 @@
         name: 'Add a Subplace',
         url: '#/create_place/' + $scope.place.id
       }
+    };
+
+    vm.imgToUri = function (event) {
+      var element = event.currentTarget;
+
+      for (var i = 0; i < element.files.length; i++) {
+        $scope.logo = element.files[i];
+
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          $scope.place.picture.org.url = event.target.result;
+        };
+
+        reader.readAsDataURL($scope.logo);
+      }
+    };
+
+    vm.updatePrivacy = function (event) {
+      var element = event.currentTarget;
+      var data = {
+        privacy: {}
+      };
+      data.privacy[element.name] = 'on' == element.value;
+
+      return $scope.place.update(data);
+    };
+
+    vm.updatePlace = function (name, value) {
+      var data = {};
+      data[name] = value;
+
+      return $scope.place.update(data);
     }
   }
 })();

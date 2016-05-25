@@ -380,12 +380,17 @@
           });
         },
 
-        update: function() {
+        update: function(data) {
           if (this.id) {
             // TODO: Check if API Exists and is correct
-            return WsService.request('place/update', {
-              post_id: this.id
-            });
+            data = data || {
+                name: this.name,
+                description: this.description,
+                picture: this.picture.org.uid
+              };
+            data['place_id'] = this.id;
+
+            return WsService.request('place/update', data);
           } else if (this.local_id) {
             var params = {
               parent_id: this.parent.id,
