@@ -44,14 +44,14 @@
             </label>
             <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event)"/>
           </div>
-          <div data-ng-if="upload_size.total > 0" class="nst-attach-upload _fr">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>
+          <div data-ng-if="upload_size.total > 0" class="nst-attach-upload col-lg-12 _tac">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>
+          <hr/>
         </section>
 
-        <hr/>
 
         <section class="nst-compose-message">
-          <!--<text-angular ta-toolbar="[['h1','h2','h3','p'],['bold','italics'] ,['ul','ol'],['justifyLeft','justifyCenter','justifyRight'] ]" data-ng-model="compose.post.body"></text-angular>-->
-          <div text-angular  data-ng-model="compose.post.body"></div>
+          <div text-angular ta-toolbar="[['bold','italics','underline','strikeThrough','h1','h2','h3','p','ul','ol','clear','justifyLeft','justifyCenter','justifyRight','justifyFull','indent','outdent'] ]" data-ng-model="compose.post.body"></div>
+          <!--<div text-angular  data-ng-model="compose.post.body"></div>-->
         </section>
       </div>
     </div>

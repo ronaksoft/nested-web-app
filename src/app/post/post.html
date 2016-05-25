@@ -100,7 +100,7 @@
                       </div>
                     </div>
                     <div class="cmt-post-view" emoji>
-                      <span marked="comment.body"></span>
+                      <p marked="comment.body"></p>
                     </div>
                     <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
                        ng-click="comment.delete()">delete</a>
@@ -113,11 +113,9 @@
                   <div class="input-msg _dtr">
                     <img data-ng-if="user.picture.org.uid" class="_fl account-initials-24 _dtc" src="{{user.picture.x32.url}}"/>
                     <div data-ng-if="!user.picture.org.uid" class="_fl account-initials-24 _dtc" data-ng-bind="user.name.initials"></div>
-                    <textarea class="_dtc" cols="32" maxlength="250" ng-keyup="commentKeyUp($event)" placeholder="write your comment..."/></textarea>
-                  </div>
-                  <div class="_dtr _fr">
-                  <span class="nst-mood-simple">22</span>
-                  <button class="btn-send-comment">Send</button>
+                    <textarea class="_dtc _fw" cols="32" maxlength="250" ng-keyup="commentKeyUp($event)" placeholder="write your comment..."/></textarea>
+                    <button class="btn-send-comment _fr" data-ng-click="commentKeyUp($event)">Send</button>
+                    <span class="nst-mood-simple _fr">22</span>
                   </div>
                 </div>
               </div>
