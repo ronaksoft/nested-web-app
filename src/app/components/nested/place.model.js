@@ -176,7 +176,7 @@
 
           return $q(function (res) {
             res(this);
-          });
+          }.bind(this));
         },
 
         updateLocalId: function () {
@@ -194,6 +194,16 @@
           this.updateLocalId();
 
           return NestedPlaceRepoService.get(this.id).then(this.setData.bind(this));
+        },
+
+        haveAccess: function (access) {
+          if (!angular.isArray(access)) {
+            access = (access.contains(',')) ? access.split(',') : [access];
+          }
+
+          var have = this.access.filter(function (v) { return access.indexOf(v) > -1; });
+
+          return access.length == have.length;
         },
 
         getParent: function (full) {
@@ -407,8 +417,10 @@
         },
 
         delete: function() {
-          return WsService.request('place/remove', {
+          return this.haveAccess(PLACE_ACCESS.REMOVE_PLACE) ? WsService.request('place/remove', {
             place_id: this.id
+          }) : $q(function (res, rej) {
+            rej();
           });
         },
 

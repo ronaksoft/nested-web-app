@@ -6,7 +6,7 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, $scope, $stateParams, $uibModal, StoreService, UPLOAD_TYPE, AuthService, NestedPlace) {
+  function PlaceOptionController($location, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, AuthService, NestedPlace, PLACE_ACCESS) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -14,33 +14,44 @@
       $location.path('/signin').replace();
     }
 
+    $scope.logo = null;
+    $scope.place = new NestedPlace();
+
+    vm.actions = {
+      'leave': {
+        name: 'Leave',
+        fn: function () {}
+      }
+    };
+
     if ($stateParams.hasOwnProperty('placeId')) {
-      $scope.place = new NestedPlace($stateParams.placeId);
+      $scope.place.load($stateParams.placeId).then(function (place) {
+        if (place.haveAccess(PLACE_ACCESS.REMOVE_PLACE)) {
+          $scope.place_option.actions['delete'] = {
+            name: 'Delete',
+            fn: function () {
+              return $scope.place.delete().then(function () {
+                return $q(function (res) {
+                  res($scope.place.id);
+
+                  $location.path('/places').replace();
+                });
+              });
+            }
+          };
+        }
+
+        if (place.haveAccess(PLACE_ACCESS.ADD_PLACE)) {
+          $scope.place_option.actions['add'] = {
+            name: 'Add a Subplace',
+            url: '#/create_place/' + place.id
+          };
+        }
+      });
       $scope.place.loadAllMembers();
     } else {
       $location.path('/places').replace();
     }
-
-    $scope.logo = null;
-
-    vm.actions = {
-      'delete': {
-        name: 'Delete',
-        fn: function () {}
-      },
-      'leave': {
-        name: 'Leave',
-        fn: function () {}
-      },
-      // 'rename': {
-      //   name: 'Rename',
-      //   fn: function () {}
-      // },
-      'add': {
-        name: 'Add a Subplace',
-        url: '#/create_place/' + $scope.place.id
-      }
-    };
 
     vm.imgToUri = function (event) {
       var element = event.currentTarget;
