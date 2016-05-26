@@ -1,8 +1,13 @@
 <ul class="list-unstyled">
   <li class="menuicon-remove _dib"></li>
-  <li class="_dib">Remove</li>
+  <li class="_dib nst-mood-simple">Remove</li>
 </ul>
 <ul>
-  <li class="_dib menuicon-create"></li>
-  <li class="_dib">Make insider</li>
+  <div data-ng-switch="role">
+    <li data-ng-switch-when="key_holder" class="_dib menuicon-create"></li>
+    <li data-ng-switch-when="creator" class="_dib menuicon-create-transform"></li>
+
+    <li data-ng-switch-when="key_holder" class="_dib nst-mood-simple">Promote</li>
+    <li data-ng-switch-when="creator" class="_dib nst-mood-simple">Demote</li>
+  </div>
 </ul>
