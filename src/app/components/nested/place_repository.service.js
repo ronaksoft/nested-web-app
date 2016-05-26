@@ -28,6 +28,10 @@
               this.repo[id] = data;
 
               return this.repo[id];
+            }.bind(this)).catch(function () {
+              this.repo[id] = { _id: id };
+
+              return this.repo[id];
             }.bind(this));
 
             return this.repo[id];
