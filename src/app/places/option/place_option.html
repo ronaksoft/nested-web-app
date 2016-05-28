@@ -28,9 +28,9 @@
                 <div class="_df"><label for="sw-notification"><i class="nst-notif _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-notification"><h6>Notifictions</h6></label></div>
                 <div class="_df switch">
-                  <input type="checkbox" id="sw-notification" class="inpsw" name="broadcast" data-ng-model="place.privacy.broadcast" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
-                  <label class="on active" for="sw-notification" data-ng-click="place.privacy.broadcast && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
-                  <label class="noton" for="sw-notification" data-ng-click="!place.privacy.broadcast && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
+                  <input type="checkbox" id="sw-notification" class="inpsw" name="notification" data-ng-model="place.privacy.notification" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
+                  <label class="on active" for="sw-notification" data-ng-click="notification && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
+                  <label class="noton" for="sw-notification" data-ng-click="!notification && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
               <div class="_difc _fw">
@@ -53,7 +53,7 @@
                 <div class="_df"><label for="sw-locked"><i class="nst-lock _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-locked"><h6>Lock</h6></label></div>
                 <div class="_df switch">
-                  <input type="checkbox" id="sw-locked" class="inpsw" name="locked" data-ng-model="place.privacy.locked" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
+                  <input type="checkbox" id="sw-locked" data-ng-disabled="!place.haveAccess('C')" class="inpsw" name="locked" data-ng-model="place.privacy.locked" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
                   <label for="sw-locked" data-ng-click="place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
                   <label for="sw-locked" data-ng-click="!place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>

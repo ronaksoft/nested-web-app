@@ -196,6 +196,11 @@
           return NestedPlaceRepoService.get(this.id).then(this.setData.bind(this));
         },
 
+        /**
+         *
+         * @param access
+         * @returns {boolean} Whether if current user have access(es) on place or not
+           */
         haveAccess: function (access) {
           if (!angular.isArray(access)) {
             access = (access.contains(',')) ? access.split(',') : [access];
