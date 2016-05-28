@@ -226,12 +226,17 @@
   background-repeat: no-repeat;
 }
 
-.menuicon-create {
+
+[class*="menuicon-create"] {
   width: 24px;
   height: 24px;
   background-image: url('../assets/icons/menuicon_24.png');
   background-position: 0 -24px;
   background-repeat: no-repeat;
+}
+
+.menuicon-create-transform {
+  transform: rotate(180deg);
 }
 
 #menu.popup-panel {
