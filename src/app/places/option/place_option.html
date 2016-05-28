@@ -15,9 +15,12 @@
             <input id="logo" data-ng-disabled="!place.haveAccess('C')" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().place_option.imgToUri(event)"/>
 
             <div class="_dib room-pic">
-              <h5  editable-text="place.name" onbeforesave="place_option.updatePlace('place_name', $data)">{{place.name || 'empty'}}</h5>
+              <h5 data-ng-if="place.haveAccess('C')" editable-text="place.name" onbeforesave="place_option.updatePlace('place_name', $data)">{{place.name || 'empty'}}</h5>
+              <h5 data-ng-if="!place.haveAccess('C')">{{place.name || 'empty'}}</h5>
+
               <h6 class="nst-mood-storm">{{place.id + '@nested.me'}}</h6>
-              <h6 class="nst-mood-storm" editable-text="place.description" onbeforesave="place_option.updatePlace('place_desc', $data)">{{place.description || 'empty'}}</h6>
+              <h6 data-ng-if="place.haveAccess('C')" class="nst-mood-storm" editable-text="place.description" onbeforesave="place_option.updatePlace('place_desc', $data)">{{place.description || 'empty'}}</h6>
+              <h6 data-ng-if="!place.haveAccess('C')">{{place.description || 'empty'}}</h6>
             </div>
           </div> <!--/Room name-->
           <div class="options">
@@ -64,7 +67,7 @@
               <div class="_difc _fw">
                 <div class="_df"><label for="sw-receptive"><i class="nst-print _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-receptive"><h6>Receptive</h6></label></div>
-                <div class="_df switch" ng-disabled="true">
+                <div class="_df switch">
                   <input type="checkbox" data-ng-disabled="!place.haveAccess('C')" id="sw-receptive" class="inpsw" name="receptive" data-ng-model="place.privacy.receptive" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
                   <label for="sw-receptive" data-ng-click="!place.privacy.receptive && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
                   <label for="sw-receptive" data-ng-click="!place.privacy.receptive && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
@@ -75,7 +78,7 @@
                 <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
                 <div class="_df switch">
-                  <input type="checkbox" data-ng-disabled="!place.privacy.receptive" id="sw-search" class="inpsw" name="search" data-ng-model="place.privacy.search" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
+                  <input type="checkbox" data-ng-disabled="!place.privacy.receptive || !place.haveAccess('C') " id="sw-search" class="inpsw" name="search" data-ng-model="place.privacy.search" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
                   <label for="sw-search" data-ng-click="place.privacy.search && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
                   <label for="sw-search" data-ng-click="!place.privacy.search && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
@@ -85,7 +88,7 @@
                 <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
                 <div class="_df switch">
-                  <input type="checkbox" data-ng-disabled="!place.privacy.receptive" id="sw-email" class="inpsw" name="email" data-ng-model="place.privacy.email" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
+                  <input type="checkbox" data-ng-disabled="!place.privacy.receptive || !place.haveAccess('C')" id="sw-email" class="inpsw" name="email" data-ng-model="place.privacy.email" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
                   <label for="sw-email" data-ng-click="place.privacy.email && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
                   <label for="sw-email" data-ng-click="!place.privacy.email && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
@@ -97,13 +100,13 @@
           <div class="nst-teammates _dib">
             <h5 class="tittle-option _di">Teammates</h5>
             <div class="_di  _fr">
-              <span class="nst-mood-simple _dib" data-ng-click="place_option.showAddModal('teammate')">Add Teammate</span>
+              <span data-ng-if="place.haveAccess('AM')  class="nst-mood-simple _dib" data-ng-click="place_option.showAddModal('teammate')">Add Teammate</span>
               <div class="add-icon _dib"></div>
             </div>
             <hr>
-            <div class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.creators.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'creator'"></div>
-            <div class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.keyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'key_holder'"></div>
-            <div class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.pendingKeyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_key_holder'"></div>
+            <div data-ng-if="place.haveAccess('SM')" class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.creators.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'creator'"></div>
+            <div data-ng-if="place.haveAccess('SM')" class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.keyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'key_holder'"></div>
+            <div data-ng-if="place.haveAccess('SM')" class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.pendingKeyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_key_holder'"></div>
           </div><!--/nst-teammates-->
 
           <div class="place-option-members _dib">
@@ -113,10 +116,9 @@
               <div class="add-icon _dib"></div>
             </div>
             <hr>
-            <div class="col-xs-6 col-lg-4" data-ng-repeat="member in place.members.knownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'known_guest'"></div>
-            <div class="col-xs-6 col-lg-4" data-ng-repeat="member in place.members.pendingKnownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_known_guest'">
+            <div data-ng-if="place.haveAccess('SM')" class="col-xs-6 col-lg-4" data-ng-repeat="member in place.members.knownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'known_guest'"></div>
+            <div data-ng-if="place.haveAccess('SM')" class="col-xs-6 col-lg-4" data-ng-repeat="member in place.members.pendingKnownGuests.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_known_guest'">
             </div>
-
           </div> <!-- /place-option-members-->
 
         </div>
