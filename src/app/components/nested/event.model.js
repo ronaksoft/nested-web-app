@@ -54,18 +54,18 @@
       }
 
       var templates = {};
-      templates[EVENT_ACTIONS.MEMBER_ADD] = { path: 'app/components/nested/event/member/add.html' };
-      templates[EVENT_ACTIONS.MEMBER_REMOVE] = { path: 'app/components/nested/event/member/remove.html' };
-      templates[EVENT_ACTIONS.MEMBER_INVITE] = { path: 'app/components/nested/event/member/invite.html' };
-      templates[EVENT_ACTIONS.MEMBER_JOIN] = { path: 'app/components/nested/event/member/join.html' };
+      templates[EVENT_ACTIONS.MEMBER_ADD] = { path: 'app/events/partials/event/member/add.html' };
+      templates[EVENT_ACTIONS.MEMBER_REMOVE] = { path: 'app/events/partials/event/member/remove.html' };
+      templates[EVENT_ACTIONS.MEMBER_INVITE] = { path: 'app/events/partials/event/member/invite.html' };
+      templates[EVENT_ACTIONS.MEMBER_JOIN] = { path: 'app/events/partials/event/member/join.html' };
 
-      templates[EVENT_ACTIONS.PLACE_ADD] = { path: 'app/components/nested/event/place/add.html' };
-      templates[EVENT_ACTIONS.PLACE_REMOVE] = { path: 'app/components/nested/event/place/remove.html' };
-      templates[EVENT_ACTIONS.PLACE_PICTURE] = { path: 'app/components/nested/event/place/picture.html' };
+      templates[EVENT_ACTIONS.PLACE_ADD] = { path: 'app/events/partials/event/place/add.html' };
+      templates[EVENT_ACTIONS.PLACE_REMOVE] = { path: 'app/events/partials/event/place/remove.html' };
+      templates[EVENT_ACTIONS.PLACE_PICTURE] = { path: 'app/events/partials/event/place/picture.html' };
 
-      templates[EVENT_ACTIONS.POST_ADD] = { path: 'app/components/nested/event/post/add.html' };
+      templates[EVENT_ACTIONS.POST_ADD] = { path: 'app/events/partials/event/post/add.html' };
 
-      templates[EVENT_ACTIONS.COMMENT_ADD] = { path: 'app/components/nested/event/comment/add.html' };
+      templates[EVENT_ACTIONS.COMMENT_ADD] = { path: 'app/events/partials/event/comment/add.html' };
 
       Event.prototype = {
         setData: function(data) {

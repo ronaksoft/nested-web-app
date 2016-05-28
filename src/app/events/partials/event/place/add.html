@@ -3,7 +3,7 @@
     <img data-ng-if="event.place.picture.org.uid" src="{{event.place.picture.x32.url}}" height="16" width="16" class="placeactsico"/>
     <div initials class="placeactsico account-initials-16" data-ng-if="!event.place.picture.org.uid" data-ng-bind="event.place.name | initials:2"></div>
   </div>
-  <div class="sender" data-ng-include="'app/components/nested/event/common/actor.html'" data-ng-init="actor = event.actor"></div>
+  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = event.actor"></div>
 </div>
 <div class="actcon">
   <div class='msg'>
@@ -11,5 +11,5 @@
     <span data-ng-if="event.place.parent"> room in <a class="place" href="#/events/{{event.place.parent.id}}" data-ng-bind="event.place.parent.name"></a></span>
   </div>
   <div class='places'></div>
-  <div class="time" data-ng-include="'app/components/nested/event/common/date.html'"></div>
+  <div class="time" data-ng-include="'app/events/partials/event/common/date.html'"></div>
 </div>

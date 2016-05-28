@@ -1,0 +1,20 @@
+<div class="actdes">
+  <div class="ico">
+    <div class="ei-invite"></div>
+  </div>
+  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = event.actor"></div>
+</div>
+<div class="actcon">
+  <div class="msg">
+    <div class="subject">
+      <span class="nst-mood-simple">Invited you to&nbsp;</span>
+      <a class="nst-mood-solid post post" href="#/events/{{event.place.id}}" data-ng-bind-html="event.place.name"></a>
+    </div>
+    <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
+  </div>
+  <div class="places">
+    <button class="btn-send-compose" data-ng-click="acceptplacereq($event)">Accept</button>
+    <button class="btn-back-compose" data-ng-click="declineplacereq($event)">Decline</button>
+  </div>
+  <div class="time" data-ng-include="'app/events/partials/event/common/date.html'"></div>
+</div>
