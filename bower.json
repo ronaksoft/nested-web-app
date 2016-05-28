@@ -31,7 +31,7 @@
     "angular-web-notification": "^0.0.69",
     "platanus-angular-push": "^0.1.1",
     "textAngular": "^1.5.1",
-    "angular-date-dropdowns": "https://github.com/kayvannm/angular-date-dropdowns.git#v0.2.0",
+    "angular-date-dropdowns": "https://github.com/kayvannm/angular-date-dropdowns.git#v0.2.1",
     "ui-select": "angular-ui-select#^0.16.1",
     "angular-marked": "^1.2.0",
     "angular-xeditable": "^0.1.12"
