@@ -7,7 +7,7 @@
 .sidebar {
   background-color: $color-breeze-50;
   border: 1px solid $color-breeze-50;
-  width: 208px;
+  width: 100%;
   font-size: 14px;
   overflow-y: auto;
   //white-space: nowrap;
@@ -21,7 +21,9 @@
   display: inline;
   position: relative;
   top: 5px;
-
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sidebar-border {
@@ -125,7 +127,10 @@
 }
 .sidebar .e2-arrow {
   width: 18px;
-
+}
+.place-name {
+  height: 50px;
+  width: calc(100% - 63px);
 }
 .sidebar .account-initial {
   width: 32px;
@@ -146,17 +151,12 @@
 
 .sideico {
   padding-right: 2px;
-
-}
-.sideside {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 45px;
+  justify-content: center;
 }
 
 .arrow-holder-nav {
   height: 50px;
 }
 
-.place-name {
-  height: 50px;
-}
+
