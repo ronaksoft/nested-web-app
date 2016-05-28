@@ -86,7 +86,7 @@
           receptive: false,
           search: false
         }; // <NestedPrivacy>
-        this.access = null; // <NestedAccess>
+        this.access = [];
         this.role = null; // TODO: ?
 
         if (data) {
@@ -205,8 +205,8 @@
           if (!angular.isArray(access)) {
             access = (access.contains(',')) ? access.split(',') : [access];
           }
-
-          var have = this.access.filter(function (v) { return access.indexOf(v) > -1; });
+          
+          var have = this.access.filter(function (v) { return access.indexOf(v.trim()) > -1; });
 
           return access.length == have.length;
         },
