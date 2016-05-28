@@ -282,3 +282,34 @@
 .back-btn{
   width: 50px
 }
++.editable-input.editable-has-buttons {
+  height: 28px;
+  border-color: $color-sense;
+}
++.editable-buttons button{
+  width: 48px;
+  height: 28px;
+  background-color: $color-sense;
+  border: 1px solid #00B45A;
+  color: white;
+  display: inline-flex;
+  justify-content: center;
+  border-radius: 5px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  line-height: 22px;
+}
+
++.editable-buttons button:last-of-type{
+  border: 1px solid $color-breeze;
+  color: $color-storm;
+  width: 64px;
+  height: 28px;
+  border-radius: 5px;
+  line-height: 22px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  display: inline-flex;
+  justify-content: center;
+  background-color: $color-white;
+}
