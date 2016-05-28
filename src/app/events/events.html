@@ -1,7 +1,7 @@
 <div>
   <nested-navbar data-ng-model="navbar" data-ng-init="navbar.extended = true"></nested-navbar>
   <div id="container">
-    <div class="leftside _bggray" resizable r-directions="['right']" r-flex="true">
+    <div class="leftside _bggray" resizable data-r-directions="['right']" data-r-flex="true">
       <nested-sidebar data-ng-model="sidebar" class="_fw"></nested-sidebar>
     </div>
     <div class="nst-content" on-scroll="events.scroll(event)">
