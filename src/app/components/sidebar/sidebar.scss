@@ -127,10 +127,12 @@
 }
 .sidebar .e2-arrow {
   width: 18px;
+  margin-right: 2px;
 }
 .place-name {
   height: 50px;
-  width: calc(100% - 63px);
+  width: calc(100% - 65px);
+  overflow: hidden;
 }
 .sidebar .account-initial {
   width: 32px;
