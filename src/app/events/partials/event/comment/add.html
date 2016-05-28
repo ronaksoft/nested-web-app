@@ -2,7 +2,7 @@
   <div class="ico">
     <div class="ei-comment-add"></div>
   </div>
-  <div class="sender" data-ng-include="'app/components/nested/event/common/actor.html'" data-ng-init="actor = event.actor"></div>
+  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = event.actor"></div>
 </div>
 <div class="actcon">
   <div class="msg" data-ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)">
@@ -13,10 +13,10 @@
     <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
   </div>
   <div class="places">
-    <div data-ng-if="event.post.places.length > 1" class="_dtc popover-white" data-uib-popover-template="'app/components/nested/event/common/more_places.html'" data-popover-placement="auto bottom-right" popover-trigger="outsideClick">
+    <div data-ng-if="event.post.places.length > 1" class="_dtc popover-white" data-uib-popover-template="'app/events/partials/event/common/more_places.html'" data-popover-placement="auto bottom-right" popover-trigger="outsideClick">
       <a class="more-tag _dt">{{event.post.places.length - 1}}+</a>
     </div>
     <a href="#/events/{{event.post.places[0].id}}" class="small-badge _dt" data-ng-bind="event.post.places[0].name"></a>
   </div>
-  <div class="time" data-ng-include="'app/components/nested/event/common/date.html'"></div>
+  <div class="time" data-ng-include="'app/events/partials/event/common/date.html'"></div>
 </div>
