@@ -42,7 +42,6 @@
 }
 #AllPlaces tr:hover {
 background-color: $color-sense-5;
-  cursor: pointer;
 }
 
 #AllPlaces tr {
@@ -344,4 +343,8 @@ background-color: $color-sense-5;
 .label-position-places {
   margin-left: 5px;
   margin-top: 20px;
+}
+
+.name a {
+  color: $color-solid;
 }

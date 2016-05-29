@@ -185,15 +185,13 @@
 }
 
 #EventList .places {
-  float: left;
   display: flex;
+  max-width: 100%;
   margin-left: 3px;
-  max-width: 140px;
-  width:auto;
-  min-height: 1px;
-  vertical-align: top;
+  height: 24px;
   direction: rtl;
   font-size: $font-size-xsmall;
+  justify-content: flex-start;
 }
 #EventList .time {
   float: left;
@@ -209,18 +207,20 @@
 
 .more-tag {
   background-color: $color-solid;
-  color: $color-white;
-  font-size: $font-size-xsmall;
   text-align: center;
-  vertical-align: initial;
+  left:5px;
   cursor: pointer;
   border-radius: 40px;
-  margin-left: 4px;
+  white-space: nowrap;
+  line-height: 13px;
+}
+.more-tag a{
+  color: $color-white;
+  font-size: $font-size-xsmall;
   white-space: nowrap;
   padding: 6px 8px 2px 8px;
   line-height: 13px;
 }
-
 .more-tag:hover {
   color: $color-white;
 }

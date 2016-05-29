@@ -1,35 +1,39 @@
 <table>
-  <tr data-ng-click="">
+  <tr>
     <td class="arrow-places">
       <div class="arrow-holder-places" data-ng-click="colp =! colp" data-ng-model="colp" data-ng-show="place.children.length > 0">
       <label class="label-position-places {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false"></label>
       </div>
     </td>
     <td class="logo">
-      <img class="account-initials-48" data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
-      <div class="account-initials-48" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
+      <a href="#/place/{{place.id}}">
+        <img class="account-initials-48" data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
+        <div class="account-initials-48" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
+      </a>
     </td>
     <td class="name _tofe">
-      <div class="_dt">
+      <a href="#/place/{{place.id}}">
+        <div class="_dt">
+          <div class="_dtr">
+            <div class="_dtc" data-ng-switch="place.role">
+              <div data-ng-switch-when="creator" class="role-icon-crown"></div>
+              <div data-ng-switch-when="key_holder" class="role-icon-green"></div>
+              <div data-ng-switch-default class="role-icon-gray"></div>
+            </div>
+            <div class="_dtc">
+              <h5 data-ng-bind="place.name"></h5>
+            </div>
+          </div>
+        </div>
         <div class="_dtr">
-          <div class="_dtc" data-ng-switch="place.role">
-            <div data-ng-switch-when="creator" class="role-icon-crown"></div>
-            <div data-ng-switch-when="key_holder" class="role-icon-green"></div>
-            <div data-ng-switch-default class="role-icon-gray"></div>
+          <div class="_dtc">
+            <label class="empty-space"></label>
           </div>
           <div class="_dtc">
-            <h5 data-ng-bind="place.name"></h5>
+            <p class="nst-mood-storm" data-ng-bind="place.id + '@nested.me'"></p>
           </div>
         </div>
-      </div>
-      <div class="_dtr">
-        <div class="_dtc">
-          <label class="empty-space"></label>
-        </div>
-        <div class="_dtc">
-          <p class="nst-mood-storm" data-ng-bind="place.id + '@nested.me'"></p>
-        </div>
-      </div>
+      </a>
     </td>
     <td class="members">
       <div data-ng-if="place.counters.allMembers > 0" class="nst-more-members" data-ng-bind="place.counters.allMembers + ' Member' + (place.counters.allMembers > 1 ? 's' : '')"></div>
@@ -42,7 +46,7 @@
       <div class="nst-search _fr"></div>
     </td>
     <td class="nst-more">
-        <div class="nst-more-badge popover-green"  data-popover-placement="bottom-right" id="active-test" uib-popover-template="'app/places/context_menu/contex_menu_places.html'" popover-trigger="outsideClick"></div>
+        <div class="nst-more-badge popover-green"  data-popover-placement="bottom-right auto" id="active-test" uib-popover-template="'app/places/context_menu/contex_menu_places.html'" popover-trigger="outsideClick"></div>
     </td>
   </tr>
 </table>

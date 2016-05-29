@@ -1016,10 +1016,12 @@ a.normal-badge {
 .small-badge {
   background-color: #a0e8b8;
   border-radius: 40px;
+}
+.small-badge a{
+  margin: 7px 12px 3px 12px;
   color: $color-solid;
   font-size: 12px;
   white-space: nowrap;
-  padding: 5px 12px 3px 12px;
   line-height: 13px;
 }
 .place:hover {
