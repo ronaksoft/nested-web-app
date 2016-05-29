@@ -2,7 +2,7 @@
   <div class="ico">
     <div class="ei-member-invite"></div>
   </div>
-  <div class="sender" data-ng-include="'app/components/nested/event/common/actor.html'" data-ng-init="actor = event.actor"></div>
+  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = event.actor"></div>
 </div>
 <div class="actcon">
   <div class="msg">
@@ -11,5 +11,5 @@
     <span> to </span>
     <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a></div>
   <div class="places"></div>
-  <div class="time" data-ng-include="'app/components/nested/event/common/date.html'"></div>
+  <div class="time" data-ng-include="'app/events/partials/event/common/date.html'"></div>
 </div>

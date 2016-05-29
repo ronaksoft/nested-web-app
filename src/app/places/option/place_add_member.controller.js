@@ -6,7 +6,7 @@
     .controller('PlaceAddMemberController', PlaceAddMemberController);
 
   /** @ngInject */
-  function PlaceAddMemberController($location, $scope, WsService, AuthService, NestedUser) {
+  function PlaceAddMemberController($location, $scope, WsService, AuthService, NestedUser, MEMBER_TYPE) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -17,7 +17,11 @@
     vm.selectedUsers = [];
 
     vm.search = function (query) {
-      WsService.request('account/search', { keyword: query }).then(function (data) {
+      WsService.request('account/search', {
+        keyword: query,
+        place_id: $scope.place.id,
+        role: 'teammate' == $scope.role ? MEMBER_TYPE.KEY_HOLDER : MEMBER_TYPE.KNOWN_GUEST
+      }).then(function (data) {
         $scope.place_add_member.users = [];
         for (var k in data.accounts) {
           $scope.place_add_member.users.push(new NestedUser(data.accounts[k]));

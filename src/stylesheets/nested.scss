@@ -446,11 +446,11 @@ a:hover {
 }
 
 .modal-xlg {
-  margin: 0 64px;
+  margin: 0 1%;
 }
 
 .modal-mlg {
-  margin: 0 128px;
+  margin: 0 3%;
 }
 /*
  ************** Popovers ************
@@ -672,6 +672,7 @@ label {
   display: flex;
   height: 100%;
   min-width: 208px;
+  max-width: 416px;
 }
 .rightside {
   display: flex;
