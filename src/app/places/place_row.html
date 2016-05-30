@@ -1,56 +1,45 @@
-<table>
-  <tr>
-    <td class="arrow-places">
-      <div class="arrow-holder-places" data-ng-click="colp =! colp" data-ng-model="colp" data-ng-show="place.children.length > 0">
-      <label class="label-position-places {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false"></label>
+<div class="_difc _fw placerow">
+  <div class="_df placearrow">
+    <div class="arrow-holder-places" data-ng-click="colp =! colp" data-ng-model="colp" data-ng-show="place.children.length > 0">
+    <label class="label-position-places {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false"></label>
+    </div>
+  </div>
+  <div class="logo _df">
+    <a href="#/place/{{place.id}}">
+      <img class="account-initials-48" data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
+      <div class="account-initials-48" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
+    </a>
+  </div>
+  <div class="name _df _fw">
+    <a href="#/place/{{place.id}}">
+      <div class="_difh">
+        <div class="_df ico" data-ng-switch="place.role">
+          <div data-ng-switch-when="creator" class="role-icon-crown"></div>
+          <div data-ng-switch-when="key_holder" class="role-icon-green"></div>
+          <div data-ng-switch-default class="role-icon-gray"></div>
+        </div>
+        <div class="_difv _fw">
+          <h5 class="_df" data-ng-bind="place.name"></h5>
+          <p class="nst-mood-storm _df" data-ng-bind="place.id + '@nested.me'"></p>
+        </div>
       </div>
-    </td>
-    <td class="logo">
-      <a href="#/place/{{place.id}}">
-        <img class="account-initials-48" data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
-        <div class="account-initials-48" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
-      </a>
-    </td>
-    <td class="name _tofe">
-      <a href="#/place/{{place.id}}">
-        <div class="_dt">
-          <div class="_dtr">
-            <div class="_dtc" data-ng-switch="place.role">
-              <div data-ng-switch-when="creator" class="role-icon-crown"></div>
-              <div data-ng-switch-when="key_holder" class="role-icon-green"></div>
-              <div data-ng-switch-default class="role-icon-gray"></div>
-            </div>
-            <div class="_dtc">
-              <h5 data-ng-bind="place.name"></h5>
-            </div>
-          </div>
-        </div>
-        <div class="_dtr">
-          <div class="_dtc">
-            <label class="empty-space"></label>
-          </div>
-          <div class="_dtc">
-            <p class="nst-mood-storm" data-ng-bind="place.id + '@nested.me'"></p>
-          </div>
-        </div>
-      </a>
-    </td>
-    <td class="members">
-      <div data-ng-if="place.counters.allMembers > 0" class="nst-more-members" data-ng-bind="place.counters.allMembers + ' Member' + (place.counters.allMembers > 1 ? 's' : '')"></div>
-      <div data-ng-if="place.counters.allMembers == 0" class="nst-no-more-members"></div>
-    </td>
-    <td class="properties">
-      <div class="nst-pencil _fr"></div>
-      <div class="nst-atsign _fr"></div>
-      <div class="nst-eye _fr"></div>
-      <div class="nst-search _fr"></div>
-    </td>
-    <td class="nst-more">
-        <div class="nst-more-badge popover-green"  data-popover-placement="bottom-right auto" id="active-test" uib-popover-template="'app/places/context_menu/contex_menu_places.html'" popover-trigger="outsideClick"></div>
-    </td>
-  </tr>
-</table>
-
+    </a>
+  </div>
+  <div class="members _df">
+    <div data-ng-if="place.counters.allMembers > 0" class="nst-more-members" data-ng-bind="place.counters.allMembers + ' Member' + (place.counters.allMembers > 1 ? 's' : '')"></div>
+    <div data-ng-if="place.counters.allMembers == 0" class="nst-no-more-members"></div>
+  </div>
+  <div class="properties _df">
+    <div class="nst-pencil _fr"></div>
+    <div class="nst-atsign _fr"></div>
+    <div class="nst-eye _fr"></div>
+    <div class="nst-search _fr"></div>
+  </div>
+  <div class="nst-more _df">
+      <div class="nst-more-badge popover-green"  data-popover-placement="bottom-right auto" id="active-test" uib-popover-template="'app/places/context_menu/contex_menu_places.html'" popover-trigger="outsideClick"></div>
+  </div>
+</div>
+<hr class="lineee">
 <ul data-ng-if="place.children.length > 0" data-ng-show="colp">
   <li data-ng-repeat="place in place.children" data-ng-include="'app/places/place_row.html'" data-ng-model="place"></li>
 </ul>

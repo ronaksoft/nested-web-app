@@ -106,6 +106,8 @@ textarea {
 ._df { display: flex }
 ._dib { display: inline-block;}
 ._dif { display: inline-flex;}
+._difv { display: inline-flex;flex-direction: column}
+._difh { display: inline-flex;flex-direction: row}
 ._difc { display: inline-flex;align-items: center}
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }

@@ -24,47 +24,48 @@
   width: 100%;
 }
 
+#AllPlaces ul {
+
+}
 #AllPlaces {
   min-width: 574px;
-  display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
-  display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
-  display: -ms-flexbox; /* TWEENER - IE 10 */
-  display: -webkit-flex; /* NEW - Chrome */
-  display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
-  -ms-flex-direction: column;
-  -moz-flex-direction: column;
-  -webkit-flex-direction: column;
+  overflow-y: scroll;
+  display: inline-flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+.placearrow{
+  width: 40px;
 }
 
 #AllPlaces li {
   border-bottom: 1px solid $color-calm;
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
 }
-#AllPlaces tr:hover {
+#AllPlaces div {
+}
+#AllPlaces div:hover {
 background-color: $color-sense-5;
 }
-
-#AllPlaces tr {
+#AllPlaces > div:hover:last-child {
   background-color: $color-white;
 }
 
 #AllPlaces ul {
-  position: relative;
+  flex-direction: column;
   list-style: none;
+  flex:1 0 auto;
 }
 #AllPlaces ul ul {
-  position: relative;
   list-style: none;
   padding-left: 25px;
 }
 
-#AllPlaces li > table {
-  width: 100%;
-  height: 64px;
-  vertical-align: middle;
-}
 
-#AllPlaces li > table td.logo {
+
+#AllPlaces .logo {
   width: 48px;
 }
 
@@ -109,7 +110,7 @@ background-color: $color-sense-5;
 
 }
 
-#AllPlaces li > table td.members {
+#AllPlaces .members {
   width: 168px;
   text-align: right;
 }
@@ -287,7 +288,8 @@ background-color: $color-sense-5;
 }
 
 .nst-more {
-  width: 32px;
+  width: 70px;
+  justify-content: flex-start;
 }
 
 .empty-space {
@@ -321,17 +323,11 @@ background-color: $color-sense-5;
 
 .restplace {
   background-color: white;
-  position: relative;
-  min-height: 200px;
-  top:0;
-  bottom: 0;
-  -webkit-box-flex: 1; /* OLD - iOS 6-, Safari 3.1-6 */
-  -moz-box-flex: 1; /* OLD - Firefox 19- */
-  -webkit-flex: 1; /* Chrome */
-  -ms-flex: 1; /* IE 10 */
-  flex: 1; /* NEW, */
+  min-height: 500px;
 }
-
+.restplace:hover {
+  background-color: white;
+}
 .margin-l-5 {
   margin-left: 5px;
 }
@@ -347,4 +343,19 @@ background-color: $color-sense-5;
 
 .name a {
   color: $color-solid;
+}
+.placerow {
+  flex-direction: row;
+  background-color: $color-white;
+  position: relative;
+}
+.properties {
+  width: 200px;
+}
+.ico {
+  min-width: 30px;
+  padding-top: 4px;
+}
+.lineee{
+  margin: 0;
 }
