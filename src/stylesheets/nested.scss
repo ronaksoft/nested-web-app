@@ -404,6 +404,14 @@ select {
   *********************************
  */
 
+.badge {
+  background-color: $color-solid;
+  margin-left: 6px;
+  margin-top: 2px;
+}
+.badge:hover {
+  background-color: $color-solid;
+}
 a {
   color: $color-sense-wire;
 }

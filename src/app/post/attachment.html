@@ -11,7 +11,6 @@
           <source src="{{attachment.download.url}}" type="{{attachment.mimeType}}">
           <p>Your browser does not support the audio element.</p>
         </audio>
-
         <!--video/*-->
         <videogular class="_fw" data-ng-switch-when="video" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
           <vg-media vg-src="vg"></vg-media>
