@@ -42,7 +42,7 @@
       MANUAL_AUTH: '__mauthorize',
       UNINITIALIZE: '__uninitialize',
       ERROR: '__error',
-      
+
       TIMELINE: '__timeline'
     })
     .constant('AUTH_COMMANDS', ['session/register', 'session/recall'])
@@ -192,6 +192,7 @@
                   break;
 
                 case WS_RESPONSE_STATUS.ERROR:
+                  $log.debug('Error:', data.data.err_code, 'Sent:', this.requests[reqId].data, 'Received:', data);
                   this.requests[reqId].reject(data.data);
                   break;
               }
