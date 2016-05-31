@@ -1,7 +1,5 @@
 <div class="_difc _fw">
     <span class="_df sideico ">
-        <!--<img class="account-picture" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>-->
-        <!--<span class="account-initial" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></span>-->
       <img initials="place.name" data-src="{{place.picture.x32.url}}" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
     </span>
     <span class="_df _fw place-name {{its_me ? 'active' : undefined}}"><a href="#/events/{{place.id}}" data-ng-bind="place.name"></a></span>

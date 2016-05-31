@@ -6,14 +6,23 @@
     .directive('initials', function () {
       return {
         scope: {
-          initials: '='
+          initials: '=',
+          url: '='
         },
         link: function (scope, element) {
           scope.$watch('initials', function (val) {
             element.initial({
-              name: val,
-              seed: 15
+              name: val
             });
+          });
+
+          scope.$watch('url', function (newVal, oldVal, scope) {
+            if (newVal) {
+              element.initial({
+                name: scope.initials,
+                src: newVal
+              });
+            }
           });
         }
       };

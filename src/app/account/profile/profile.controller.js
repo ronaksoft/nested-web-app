@@ -38,5 +38,9 @@
         reader.readAsDataURL($scope.logo);
       }
     };
+
+    vm.removeImg = function () {
+      $scope.user.setPicture();
+    };
   }
 })();
