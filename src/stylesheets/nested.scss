@@ -108,7 +108,7 @@ textarea {
 ._dib { display: inline-block;}
 ._dif { display: inline-flex;}
 ._difv { display: inline-flex;flex-direction: column}
-._difh { display: inline-flex;flex-direction: row}
+._difh { display: inline-flex;}
 ._difc { display: inline-flex;align-items: center}
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
@@ -423,9 +423,19 @@ a:hover {
   min-width: 900px;
   min-height: 600px;
   padding: 80px 0;
+  display: flex!important;
+  justify-content: center;
+  align-items: center;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
-
+#add-view {
+  border: 1px solid #ced9d3;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  padding: 10px;
+  width: 800px;
+  height: auto;
+}
 .modal-content {
   background-color: rgba(0, 0, 0, 0);
   border: none;
@@ -458,6 +468,12 @@ a:hover {
 
 .modal-mlg {
   margin: 0 80px;
+  width: 100%;
+}
+.modal-sm {
+  width: auto!important;
+  height: auto!important;
+  vertical-align: middle;
 }
 /*
  ************** Popovers ************
@@ -847,10 +863,22 @@ label {
   padding: 5px;
 }
 
-.modal-add {
-  padding: 15px;
+.modal-add > div > img {
+  //padding: 15px;
 }
-
+.suggests > .user > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-right: 8px;
+}
+.suggests {
+  height: 200px;
+  overflow: hidden;
+}
+.suggests .user{
+  width: 30%;
+}
 .modal-add h5 {
   font-size: $font-size-xlarge;
 }
