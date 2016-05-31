@@ -36,7 +36,7 @@
             </div>
             <div class="_df _fw input-select-match">
               <ui-select multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
-                <ui-select-match placeholder="Type place name or email address..." >
+                <ui-select-match placeholder="Type place name or email address...">
                   <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
                 </ui-select-match>
                 <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"

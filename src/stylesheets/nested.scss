@@ -36,6 +36,7 @@ input[type='text'], input[type='password'], input[type='tel'] {
     border-radius: 4px;
     padding: 3px;
     box-shadow: none;
+  padding-left: 10px;
 }
 
 a {
@@ -518,7 +519,6 @@ a:hover {
 .form-control {
   border: 1px solid $color-breeze;
 }
-
 .form-control:focus,
 .btn:focus {
   border: 2px solid $color-solid;
@@ -618,6 +618,7 @@ label {
 }
 
 .nst-error-msg {
+  margin-top: 16px;
   font-size: $font-size-small;
   color: $color-force-wire;
 }

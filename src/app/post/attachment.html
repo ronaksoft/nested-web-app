@@ -50,7 +50,7 @@
       <div class="_fw _dif nst-preview-footer">
         <div class="_fw">
           <p class="nst-font-large filename-p">{{attachment.filename}}</p><br>
-          <p class="nst-font-small nst-mood-storm">12 Megabyte</p>
+          <p class="nst-font-small nst-mood-storm">{{attachment.size | bytes:0}}</p>
         </div>
         <div class="_fw">
           <div class="_fr nst-nav-btn-breeze"><a href="{{attachment.download.url}}" class="nst-mood-storm">Download</a></div>

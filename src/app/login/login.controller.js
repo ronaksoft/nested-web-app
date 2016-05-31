@@ -56,7 +56,7 @@
 
         switch (data.err_code) {
           case WS_ERROR.INVALID:
-            $scope.login.message.text = 'Invalid `Username` or `Password`';
+            $scope.login.message.text = 'Invalid Username or Password';
             break;
 
           default:

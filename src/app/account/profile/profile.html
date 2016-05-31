@@ -16,11 +16,14 @@
 
       <div class="_fw upload-photo-container">
         <div class="_ma upload-photo">
-          <label for="logo"><img src="{{user.picture.org.url ? user.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
-          <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().account_profile.imgToUri(event)"/>
+          <label for="logo"><img
+            src="{{user.picture.org.url ? user.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
+          <input id="logo" type="file" name="logo" accept="image/*"
+                 onchange="angular.element(this).scope().account_profile.imgToUri(event)"/>
         </div>
         <label for="logo" class="add-photo-hover"></label>
-        <div data-ng-if="user.picture.org.url" class="remove-photo-hover" data-ng-click="account_profile.removeImg()"></div>
+        <div data-ng-if="user.picture.org.url" class="remove-photo-hover"
+             data-ng-click="account_profile.removeImg()"></div>
       </div>
       <div class="inner-panel _ma">
         <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{user.username}}</div>
@@ -34,7 +37,7 @@
           <input type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
                  aria-invalid="false" data-ng-model="user.name.lname"/>
         </div>
-        <div >
+        <div>
           <div class="nst-marginbtm-4">Recovery Mail</div>
           <div class="verified-li"></div>
         </div>
@@ -42,11 +45,11 @@
           <input type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
                  aria-invalid="false" data-ng-model="user.email"/>
         </div>
-          <div class="nst-marginbtm-4">Mobile Phone</div>
-          <div class="_fw nst-marginbtm-24">
-            <input name="mobileNumber" international-phone-number
-                   class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="user.phone"/>
-          </div>
+        <div class="nst-marginbtm-4">Mobile Phone</div>
+        <div class="_fw nst-marginbtm-24">
+          <input name="mobileNumber" international-phone-number
+                 class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="user.phone"/>
+        </div>
         <div class="nst-marginbtm-12">Gender</div>
         <div class="nst-marginbtm-64">
           <ul class="list-inline">
