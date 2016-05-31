@@ -182,6 +182,13 @@
 
           this.attachmentPreview = this.attachmentPreview || !!attachment.thumbs.x128.uid;
         },
+        removeAttachment: function (attachment) {
+          var itemIndex = this.attachments.indexOf(attachment);
+          if(itemIndex !== -1)
+          {
+            this.attachments.splice(itemIndex, 1);
+          }
+        },
 
         change: function () {
           if(!$rootScope.$$phase) {

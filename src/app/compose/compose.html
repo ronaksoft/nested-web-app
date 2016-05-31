@@ -36,15 +36,17 @@
         <hr data-ng-show="attachshow" />
 
         <div class="nst-attach _dif _fw" data-ng-show="attachshow">
-          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post "
-               class="popover-green _df _fw attachlist" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="bottom-left"></div>
+          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post"></div>
           <div class="attach _df">
             <!--<label for="attach">-->
               <!--<div class="headlineicon-green"></div>-->
             <!--</label>-->
             <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event)"/>
           </div>
-          <div class="nst-attach-con _fh"><div data-ng-if="upload_size.total > 0" class="nst-attach-upload">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div></div>
+          <div class="nst-attach-con _fh">
+            <!-- <div data-ng-if="upload_size.total > 0" class="nst-attach-upload">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div> -->
+            <div data-ng-if="upload_size.total > 0" class="nst-attach-upload">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>
+          </div>
         </div>
         <hr class="nomargin"/>
 
@@ -58,4 +60,3 @@
     <div class="rightside"></div>
   </div>
 </div>
-

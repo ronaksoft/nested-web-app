@@ -141,7 +141,9 @@
         toastr.error('Error occurred during sending message.', 'Message Not Sent!');
       });
     };
+
+    vm.removeAttachment = function (attachment) {
+      
+    };
   }
 })();
-
-
