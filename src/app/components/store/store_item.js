@@ -8,11 +8,15 @@
   /** @ngInject */
   function StoreItem($sce, $q, StoreService) {
     function Item(uid, token) {
-      this.uid = uid;
-      this.token = token;
-      this.url = null;
+      if (uid instanceof Item) {
+        angular.extend(this, uid);
+      } else {
+        this.uid = uid;
+        this.token = token;
+        this.url = null;
+      }
 
-      uid && this.getUrl();
+      this.uid && this.getUrl();
     }
 
     Item.prototype = {
