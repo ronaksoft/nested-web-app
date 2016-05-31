@@ -162,7 +162,7 @@
 
             this.activeMembers = [];
             for (var k in data.active_members) {
-              this.activeMembers[k] = new NestedUser(this.full ? data.active_members[k]._id : data.active_members[k]);
+              this.activeMembers[k] = new NestedUser(this.full ? data.active_members[k] : { username: data.active_members[k] });
             }
 
             this.full && this.loadAllMembers();
