@@ -4,7 +4,22 @@
   </div>
 
   <div id="container" class="_bggray">
+    <div class="side">
+      <div class="compose _bgwhite _df _fw">
+      </div>
+    </div>
     <div class="nst-content">
+      <div class="subnavitems _bgwhite _difc">
+      <ul class="nav-width-ul-compose">
+        <li class="button-navbar">
+          <a class="nst-nav-btn-breeze back-btn" href="javascript:void(0);" onclick="window.history.back();">Back</a>
+        </li>
+      </ul>
+      <li data-ng-repeat="(key, action) in place_option.actions" class="_difc"  style="width: 150px" data-ng-switch="!!action.url">
+        <a data-ng-switch-when="true" href="{{action.url}}" class="place-option-anchor _difc" ng-click="action.fn()">{{action.name}}<span class="option-{{key}}-icon _df"></span></a>
+        <a data-ng-switch-when="false" href="javascript:void(0);" class="place-option-anchor _difc" ng-click="action.fn()">{{action.name}}<span class="option-{{key}}-icon _df"></span></a>
+      </li>
+      </div>
       <div id="place-option-body">
         <div id="place-option-hld">
           <div class="room-name">
@@ -39,12 +54,10 @@
               <div class="_difc _fw">
                 <div class="_df"><label for="sw-digest"><i class="nst-shown _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-digest"><h6>Show in Digest</h6></label></div>
-                <div class="_df">
-                  <div class="switch disabled">
+                <div class="_df switch">
                     <input type="checkbox" id="sw-digest" class="inpsw" name="digest" data-ng-model="digest" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
                     <label class="on active" for="sw-digest" data-ng-click="digest && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
                     <label class="noton" for="sw-digest" data-ng-click="!digest && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
-                  </div>
                 </div>
               </div>
             </div> <!--/nst-option-->
@@ -98,8 +111,8 @@
 
           <div class="nst-teammates _dib">
             <h5 class="tittle-option _di">Teammates</h5>
-            <div class="_di  _fr">
-              <span data-ng-if="place.haveAccess('AM')  class="nst-mood-simple _dib" data-ng-click="place_option.showAddModal('teammate')">Add Teammate</span>
+            <div data-ng-if="place.haveAccess('AM')" class="_di  _fr">
+              <span class="nst-mood-simple _dib" data-ng-click="place_option.showAddModal('teammate')">Add Teammate</span>
               <div class="add-icon _dib"></div>
             </div>
             <hr>
@@ -122,6 +135,10 @@
           </div> <!-- /place-option-members-->
 
         </div>
+      </div>
+    </div>
+    <div class="side">
+      <div class="compose _bgwhite _df _fw">
       </div>
     </div>
   </div>

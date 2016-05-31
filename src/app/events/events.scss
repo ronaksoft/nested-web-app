@@ -5,7 +5,10 @@
   **********************************************************
  */
 .eventsody {
- min-height: 97%;
+ height: 100%;
+}
+.moreevent {
+  height: 50px;
 }
 .morerow {
   display: table-cell;
@@ -15,6 +18,10 @@
 
 #EventList .msg a {
   color: $color-sense-wire;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #EventList.msg a:visited {
   color: $color-sense-wire;
@@ -93,6 +100,7 @@
 // TODO: color should change
 #EventList {
   width: 100%;
+  height: auto
 }
 
 #EventList .ico {
@@ -123,7 +131,7 @@
 .actcon {
   border-bottom: 1px solid #ced9d3;
   padding: 10px 5px;
-  min-width:562px;
+  min-width:500px;
   width: 100%;
   float: left;
   display: inline-flex;
@@ -131,7 +139,7 @@
 
 .actdes {
   cursor: default;
-  min-width: 220px;
+  min-width: 215px;
   float: left;
   position: relative;
 }
@@ -139,7 +147,7 @@
 #EventList .sender {
   float: left;
   display: block;
-  width: 180px;
+  width: calc(100% - 40px);
   vertical-align: top;
   margin-top: 5px;
   font-size: small;
@@ -161,16 +169,7 @@
 
 #EventList .msg {
   width: 100%;
-  min-width: 250px;
   overflow: hidden;
-  text-overflow: ellipsis;
-}
-#EventList .msg:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
   flex-direction: column;
 }
 
@@ -178,58 +177,52 @@
   display: flex;
   font-weight: bold;
   line-height: 24px;
-  word-break: break-all;
-  white-space: nowrap;
-  text-overflow: ellipsis
 }
 
 #EventList .msg .body {
   display: flex;
   color: gray;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 #EventList .places {
-  float: left;
   display: flex;
-  margin-left: 10px;
-  max-width: 140px;
-  min-width: 45px;
-  min-height: 1px;
-  vertical-align: top;
+  max-width: 100%;
+  margin-left: 3px;
+  height: 24px;
   direction: rtl;
   font-size: $font-size-xsmall;
+  justify-content: flex-start;
 }
-
+#EventList .time {
+  float: left;
+  min-width: 60px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  color: $color-solid-60;
+}
 #EventList #time-of-event {
   width: 400px;
 }
 
 .more-tag {
   background-color: $color-solid;
-  color: $color-white;
-  font-size: $font-size-xsmall;
   text-align: center;
-  vertical-align: initial;
+  left:5px;
   cursor: pointer;
   border-radius: 40px;
-  margin-left: 4px;
+  white-space: nowrap;
+  line-height: 13px;
+}
+.more-tag a{
+  color: $color-white;
+  font-size: $font-size-xsmall;
   white-space: nowrap;
   padding: 6px 8px 2px 8px;
   line-height: 13px;
 }
-
 .more-tag:hover {
   color: $color-white;
-}
-
-#EventList .time {
-  float: left;
-  width: 90px;
-  display: flex;
-  justify-content: center;
-  color: $color-solid-60;
 }
 
 #EventList.collapse .msg .body {
@@ -395,4 +388,14 @@ $spacing: 14px;
   right: 0;
   top: 0;
   margin-right: -6px;
+}
+
+.members-status-nav {
+  width: 110px;
+  margin-top: 28px;
+  margin-right: -25px;
+}
+.title-att {
+  margin-top: 100%;
+  font-weight: 500;
 }
