@@ -51,8 +51,6 @@
 
             this.change();
           } else if (data.hasOwnProperty('_id')) {
-            $log.debug("Post Data:", data);
-
             this.id = data._id.$oid;
             this.sender = (data.sender instanceof NestedUser) ? data.sender : new NestedUser(this.full ? (data.sender.id || data.sender._id) : data.sender);
             this.replyTo = data.replyTo ? new Post(this.full ? data.replyTo : { id: data.replyTo }) : null;

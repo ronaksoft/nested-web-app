@@ -14,7 +14,7 @@
       PLACE_PRIVACY: 64,
       PLACE_PICTURE: 128, //--
 
-      POST_ADD: 256, //--
+      POST_ADD: 256, //-- Done
       POST_REMOVE: 512, //--
       POST_UPDATE: 1024,
 
@@ -69,8 +69,6 @@
 
       Event.prototype = {
         setData: function(data) {
-          $log.debug("Raw Event Data: ", data.action, data);
-
           this.id = data._id.$oid;
           this.type = data.action;
           var q = {};

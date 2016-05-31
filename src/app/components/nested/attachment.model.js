@@ -40,7 +40,6 @@
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
           } else if (data.hasOwnProperty('_id')) {
-            $log.debug('Attachment Data:', data);
             this.id = data._id;
             this.download = null;
 

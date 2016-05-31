@@ -103,8 +103,6 @@
 
             this.change();
           } else if (data.hasOwnProperty('_id')) {
-            $log.debug("Place Data:", data);
-
             this.id = data._id;
             this.parent = parent || (this.parent instanceof Place ? this.parent : (data.parent_id ? new Place(this.full ? data.parent_id : { id: data.parent_id }, undefined, this.full) : null));
             this.updateLocalId();
@@ -205,7 +203,7 @@
           if (!angular.isArray(access)) {
             access = (access.contains(',')) ? access.split(',') : [access];
           }
-          
+
           var have = this.access.filter(function (v) { return access.indexOf(v.trim()) > -1; });
 
           return access.length == have.length;
@@ -472,17 +470,16 @@
               place_id: this.local_id,
               place_name: this.name,
               place_desc: this.description,
-              place_pic: this.picture.org.uid
+              place_pic: this.picture.org.uid,
+              'privacy.broadcast': this.privacy.broadcast,
+              'privacy.locked': this.privacy.locked,
+              'privacy.receptive': this.privacy.receptive,
+              'privacy.email': this.privacy.email,
+              'privacy.search': this.privacy.search
             };
 
             return WsService.request('place/add', params).then(function (data) {
-              this.id = data.place._id;
-              this.updateLocalId();
-              NestedPlaceRepoService.push(this);
-
-              return $q(function (res) {
-                res(this);
-              }.bind(this));
+              return this.load(data.place._id);
             }.bind(this));
           } else {
             return $q(function (res, rej) {
