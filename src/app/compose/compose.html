@@ -61,7 +61,14 @@
             <!--</label>-->
             <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event)"/>
           </div>
-          <div class="nst-attach-con _fh"><div data-ng-if="upload_size.total > 0" class="nst-attach-upload">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div></div>
+          <div class="nst-attach-con _fh">
+            <!--<div data-ng-if="upload_size.total > 0" class="nst-attach-upload">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>-->
+            <div class="progress">
+              <div class="progress-bar progress-bar-success progress-bar-striped  active " role="progressbar" aria-valuenow="{{(upload_size.uploaded / upload_size.total) * 100}}" aria-valuemin="0" aria-valuemax="100" style="width: {{(upload_size.uploaded / upload_size.total) * 100}}%">
+               <div data-ng-if="upload_size.total > 0" class="" >{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded </div>
+              </div>
+            </div>
+          </div>
         </div>
         <hr class="nomargin"/>
 
@@ -78,4 +85,6 @@
     </div>
   </div>
 </div>
+
+
 

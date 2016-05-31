@@ -380,7 +380,7 @@ select {
     border-radius: 50%;
     line-height: #{$i * 8 - 1}px;
     text-align: center;
-    font-size: $font-size-small; // #{$i/2}px
+    font-size: #{$i * 3}px;
     font-weight: normal;
     color: white;
     background-color: $color-solid-30;
@@ -405,6 +405,10 @@ select {
   *     Bootstrap Overrides       *
   *********************************
  */
+
+.account-picture {
+  border-radius: 50%;
+}
 
 a {
   color: $color-sense-wire;
