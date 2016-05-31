@@ -4,8 +4,25 @@
   </div>
 
   <div id="container" class="_bggray">
-    <div class="leftside"></div>
+    <div class="side">
+      <div class="compose _bgwhite _df _fw">
+      </div>
+    </div>
     <div class="nst-content">
+      <div class="subnavitems _bgwhite _difc">
+        <ul class="nav-width-ul-compose">
+          <li class="_df _fw">
+            <a href="javascript:void(0);" class="btn-back-compose" onclick="window.history.back();">Discard</a>
+          </li>
+          <li class="_df">
+            <a href="javascript:void(0);" class="_fr btn-back-compose"><label for='attach'>Attach</label></a>
+          </li>
+          <li class="_df">
+            <a href="javascript:void(0);" class="_fr btn-send-compose" ng-click="compose.sendPost()">Send</a>
+          </li>
+        </ul>
+
+      </div>
       <div class="compose-hld _fw">
         <section class="_difc _fw">
           <input class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
@@ -37,7 +54,7 @@
 
         <div class="nst-attach _dif _fw" data-ng-show="attachshow">
           <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post "
-               class="popover-green _df _fw attachlist" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="bottom-left"></div>
+               class="popover-green _df _fw attachlist" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="bottom-left auto"></div>
           <div class="attach _df">
             <!--<label for="attach">-->
               <!--<div class="headlineicon-green"></div>-->
@@ -55,7 +72,10 @@
         </section>
       </div>
     </div>
-    <div class="rightside"></div>
+    <div class="side">
+      <div class="compose _bgwhite _df _fw">
+      </div>
+    </div>
   </div>
 </div>
 
