@@ -10,11 +10,11 @@
     <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.post.body | emoji | characters:255"></div>
     <div data-ng-show="navbar.extended" class="attachments" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = event.post"></div>
   </div>
-  <div class="places">
-    <div data-ng-if="event.post.places.length > 1" data-uib-popover-template="'app/events/partials/event/common/more_places.html'" data-popover-placement="auto bottom-right" popover-trigger="outsideClick" class="_dtc popover-white">
-      <a class="badge">{{event.post.places.length - 1}}+</a>
+  <div class="places _dif">
+    <div data-ng-if="event.post.places.length > 1" data-uib-popover-template="'app/events/partials/event/common/more_places.html'" data-popover-placement="auto bottom-right" popover-trigger="outsideClick" class="_df _pr more-tag popover-white">
+      <a>{{event.post.places.length - 1}}+</a>
     </div>
-    <a href="#/events/{{event.post.places[0].id}}" class="small-badge _dt" data-ng-bind="event.post.places[0].name"></a>
+    <div class="small-badge _df _pr"><a href="#/events/{{event.post.places[0].id}}" data-ng-bind="event.post.places[0].name"></a></div>
   </div>
   <div class="time" data-ng-include="'app/events/partials/event/common/date.html'"></div>
 </div>
