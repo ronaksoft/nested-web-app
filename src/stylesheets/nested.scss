@@ -406,14 +406,10 @@ select {
   *********************************
  */
 
-.badge {
-  background-color: $color-solid;
-  margin-left: 6px;
-  margin-top: 2px;
+.account-picture {
+  border-radius: 50%;
 }
-.badge:hover {
-  background-color: $color-solid;
-}
+
 a {
   color: $color-sense-wire;
 }
