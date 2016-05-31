@@ -1,7 +1,7 @@
 <div class="_difc _fw placerow">
   <div class="_df placearrow">
     <div class="arrow-holder-places" data-ng-click="colp =! colp" data-ng-model="colp" data-ng-show="place.children.length > 0">
-    <label class="label-position-places {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false"></label>
+      <label class="label-position-places {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}" data-ng-init="colp = false"></label>
     </div>
   </div>
   <div class="logo _df">
@@ -10,8 +10,8 @@
       <div class="account-initials-48" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
     </a>
   </div>
-  <div class="name _df _fw">
-    <div class="_fw" data-ng-click="go($location.path.replace('#/place/{{place.id}}'))">
+  <a class="name _df _fw" href="#/place/{{place.id}}">
+    <div class="name _df _fw">
       <div class="_difh">
         <div class="_df ico" data-ng-switch="place.role">
           <div data-ng-switch-when="creator" class="role-icon-crown"></div>
@@ -23,8 +23,8 @@
           <p class="nst-mood-storm _df" data-ng-bind="place.id + '@nested.me'"></p>
         </div>
       </div>
-    </a>
-  </div>
+    </div>
+  </a>
   <div class="members _df">
     <div data-ng-if="place.counters.allMembers > 0" class="nst-more-members" data-ng-bind="place.counters.allMembers + ' Member' + (place.counters.allMembers > 1 ? 's' : '')"></div>
     <div data-ng-if="place.counters.allMembers == 0" class="nst-no-more-members"></div>
@@ -36,7 +36,8 @@
     <div class="nst-search _fr"></div>
   </div>
   <div class="nst-more _df">
-      <div class="nst-more-badge popover-green"  data-popover-placement="bottom-right auto" id="active-test" uib-popover-template="'app/places/context_menu/contex_menu_places.html'" popover-trigger="outsideClick"></div>
+    <div class="nst-more-badge popover-green" data-popover-placement="bottom-right auto" id="active-test" uib-popover-template="'app/places/context_menu/contex_menu_places.html'"
+         popover-trigger="outsideClick"></div>
   </div>
 </div>
 <hr class="lineee">
