@@ -19,20 +19,15 @@
   overflow: hidden;
 }
 
-.post-nav img {
-  padding-right: 20px;
-  padding-left: 20px;
-}
-
 .post-nav-left {
-  float: left;
-  height: 60px;
   min-width: 500px;
   padding-left: 16px;
   padding-top: 18px;
+  overflow: auto;
 }
 
 .post-nav-left p {
+  width: 100%;
   font-size: $font-size-xlarge;
 }
 
@@ -49,23 +44,24 @@
 }
 
 .post-nav-right {
-  float: right;
-  width: 240px;
-  padding-left: 43px;
+  width: 340px;
   padding-top: 18px;
-
 }
-
+.post-nav-right > div{
+  display: flex;
+  width: 33.3%;
+  justify-content: flex-end;
+}
+.post-nav-right > div > img{
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+}
 .post-nav-right-bottom {
-  width: 400px;
-  float: right;
+  min-width: 305px;
 }
-
 
 .nst-nowrap-badge {
-  width: 400px;
-  margin-left: 200px;
-  margin-top: -24px;
   overflow: visible;
 }
 
@@ -93,16 +89,16 @@
   background-repeat: no-repeat;
 }
 
-.panel-action ._dtc {
-  padding-right: 8px;
-  padding-left: 24px;
-
-}
 .panel-action li {
-  margin-left: 25px;
+  width: 100px;
+  margin: auto;
 }
+.panel-action li span:last-child {
+  vertical-align: bottom;
+}
+
 .time-post-view {
-  width: 80px;
+  width: 110px;
   font-size: $font-size-small;
 }
 
@@ -116,27 +112,21 @@
   padding-top: 20px;
 }
 .cmt-post-view {
-  padding-left: 40px;
   padding-right: 5px;
 }
 
-.input-msg textarea {
+.comment-input textarea {
   float: left;
   border: 1px solid $color-breeze !important;
   padding: 6px;
   padding-right: 8px;
   margin-bottom: 5px;
-  width: 270px;
   height: 60px;
   resize: none;
   border-radius: 6px;
 }
 
-.input-msg {
-  height: 86px;
-}
-
-.input-msg img {
+.comment-input img {
   margin-top: 6px;
   margin-left: 4px;
 }
@@ -161,7 +151,7 @@
   width: 10%;
 }
 
-#PostView .main-body {
+#PostView {
   border: 1px solid $color-breeze;
   border-radius: 8px;
   background-color: $color-white;
@@ -181,12 +171,6 @@
   border-bottom: 1px solid $color-breeze;
   padding: 0px;
   height: 100px;
-}
-
-#PostHeader .badges {
-  //margin-right: 5px;
-
-
 }
 
 #PostView #PostTime {
@@ -286,8 +270,12 @@
 
 #PostView .NewComment {
   padding: 5px;
+  flex:1 0 auto;
 }
-
+.NewComment h5 {
+  text-overflow: ellipsis;
+  margin: 0;
+}
 #PostView .NewComment .account-ico {
   float: left;
 }
@@ -330,27 +318,32 @@
 }
 
 .comment-input{
-  position: fixed;
-  bottom: 10px;
-  height: auto;
+  max-height: 120px;
+  margin: 10px 0;
 }
 .comment-input span {
   position: relative;
   top: 4px;
 }
 .comment-msg {
-  border-bottom: 96px solid rgba(0, 0, 0, 0);
   overflow-y: auto;
-}
-#Comments {
-  height: 1px;
+  justify-content: space-between;
+  flex: 1;
 }
 
 .actor-name {
   width: 200px;
   padding-top: 4px;
-}
+  overflow: hidden;
+  white-space: nowrap;
 
+}
+.actor-name span{
+  text-overflow: ellipsis;
+}
+.badges {
+  padding-left: 25px;
+}
 .image-preview {
   background-color: rgba(240, 245, 242,0.7);
   border-radius: 6px;
@@ -395,6 +388,7 @@
   border-radius: 6px;
   min-height: 240px;
   min-width: 240px;
+
 }
 
 .file-preview {
@@ -419,6 +413,10 @@
   position: relative;
   top: -5px;
 }
+.sendcomment {
+  justify-content: flex-end;
+}
+
 .btn-send-comment{
   width: 48px;
   height: 24px;
@@ -433,7 +431,7 @@
   line-height: 22px;
   margin-right: 15px;
 }
-.input-msg .nst-mood-simple {
+.comment-input .nst-mood-simple {
   margin-right: 10px;
 }
 

@@ -1,124 +1,108 @@
-<div id="PostView" class="_fh">
-  <div class=" _fw _fh">
-    <div class="_dt _fh _fw main-body">
-      <div class="_dtr">
-        <div class='_dtc'>
-          <div id='PostHeader' class='_dt _fw _pr'>
-            <div class="post-nav">
-              <div class="post-nav-left">
-                <p data-ng-bind-html="thePost.subject | emoji"></p>
-              </div>
-              <div class="date post-nav-right">
-                <div class="date _fl nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
-                <div class="_fr closebut" ng-click="$close(result)"><img src="../assets/icons/close_16.png"></div>
-                <div class="time _fr nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'yyyy hh:mm'"></div>
-              </div>
-            </div>
-
-            <div class="post-nav-botm">
-              <div class="post-nav-left-bottom ">
-                <div class="account-initials _di"></div>
-                <div class="nst-mood-cheerful _di">
-                  <img data-ng-if="thePost.sender.picture.org.uid" class="_fl account-initials-24" src="{{thePost.sender.picture.x32.url}}"/>
-                  <div data-ng-if="!thePost.sender.picture.org.uid" class="_fl account-initials-24" data-ng-bind="thePost.sender.name.initials"></div>
-                  <span class="actor-name _tofe _dib" data-ng-bind="thePost.sender.fullname"></span>
-                </div>
-                <div class="badges _di">
-                  <div class="nst-nowrap-badge"><a class="_di _fl normal-badge" data-ng-repeat="place in thePost.places" href="#/events/{{place.id}}" data-ng-bind="place.name"></a></div>
-                </div>
-              </div>
-
-              <div class="post-nav-right-bottom">
-                <div class="_dt panel-action _fr">
-                  <ul class="list-inline">
-
-                    <li>
-                      <a href="#/delete/{{thePost.id}}">
-                        <span class="nst-mood-storm _dib">Delete</span>
-                        <span class="delete-icon _dib"></span>
-                      </a>
-                    </li>
-
-                    <li>
-                        <a href="#/new/fw:{{thePost.id}}">
-                        <span class="nst-mood-storm _dib">Forward</span>
-                        <span class="forward-icon _dib"></span>
-                      </a>
-                    </li>
-
-                    <li>
-                      <div class="popover-green" uib-popover-template="'app/post/reply.html'" data-popover-placement="bottom-right auto" popover-trigger="outsideClick">
-                        <span class="nst-mood-storm _dib">Reply</span>
-                        <span class="Reply-icon _dib"></span>
-                      </div>
-                    </li>
-
-                  </ul>
-                </div>
-              </div>
-
-            </div>
-          </div>
+<div id="PostView" class="_difv _fw _fh">
+  <div class="_difv _fw" id="PostHeader">
+    <div class="_difh _fw">
+      <div class="post-nav-left _df _fw">
+        <p data-ng-bind-html="thePost.subject | emoji"></p>
+      </div>
+      <div class="post-nav-right _difh">
+        <div class="date  nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
+        <div class="time nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'yyyy hh:mm'"></div>
+        <div class="closebut" ng-click="$close(result)"><img src="../assets/icons/close_16.png"></div>
+      </div>
+    </div>
+    <div class="_difh">
+      <div class="post-nav-left-bottom _difh _fw">
+        <img data-ng-if="thePost.sender.picture.org.uid" class="account-initials-24 _df" src="{{thePost.sender.picture.x32.url}}"/>
+        <div data-ng-if="!thePost.sender.picture.org.uid" class="account-initials-24 _df" data-ng-bind="thePost.sender.name.initials"></div>
+        <span class="actor-name _df" data-ng-bind="thePost.sender.fullname"></span>
+        <div class="badges _df _fw">
+          <div class="nst-nowrap-badge"><a class="_di _fl normal-badge" data-ng-repeat="place in thePost.places" href="#/events/{{place.id}}" data-ng-bind="place.name"></a></div>
         </div>
       </div>
 
-      <div class="_dtr _fh">
-        <div class="_dt _fw _fh">
-          <div class="_dtr">
-            <div id="Content" class="_dtc _pr">
-              <div class="_dt _fh _fw">
-                <div class="_dtr">
-                  <div data-ng-show="navbar.extended" class="attachments" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = thePost"></div>
-                </div>
+      <div class="post-nav-right-bottom _difh">
+        <div class="panel-action _fw">
+          <ul class="list-inline">
 
-                <div class="_dtr _fh">
-                  <div id="PostBody" class="_fh _fw">
-                    <div class="msg-post-view {{thePost.contentType == 'text/plain' ? 'pre' : ''}}" data-ng-bind-html="thePost.body | emoji"></div>
-                  </div>
-                </div>
+            <li>
+              <a href="#/delete/{{thePost.id}}">
+                <span class="nst-mood-storm _dib">Delete</span>
+                <span class="delete-icon _dib"></span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#/new/fw:{{thePost.id}}">
+                <span class="nst-mood-storm _dib">Forward</span>
+                <span class="forward-icon _dib"></span>
+              </a>
+            </li>
+
+            <li>
+              <div class="popover-green" uib-popover-template="'app/post/reply.html'" data-popover-placement="bottom-right auto" popover-trigger="outsideClick">
+                <span class="nst-mood-storm _dib">Reply</span>
+                <span class="Reply-icon _dib"></span>
               </div>
-            </div>
+            </li>
 
-            <div id="Comments" class="_dtc _vat">
-              <div class="_fh comment-msg">
-                <div data-ng-if="thePost.moreComments" class="_fw text-center">
-                  <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="thePost.loadComments()">Load More...</a>
-                </div>
-                <div data-ng-repeat="comment in thePost.comments | orderBy : 'date.getTime()'">
-                  <div class="NewComment _vat">
-                    <div class="_dt _fw">
-                      <div class="_dtr">
-                        <div class="_dtc profile-post-view">
-                          <img data-ng-if="comment.sender.picture.org.uid" class="_fl account-initials-24" src="{{comment.sender.picture.x32.url}}"/>
-                          <div data-ng-if="!comment.sender.picture.org.uid" class="_fl account-initials-24" data-ng-bind="comment.sender.name.initials"></div>
-                        </div>
-                        <div class="_dtc">
-                          <h5 class="nst-mood-cheerful" data-ng-bind="comment.sender.fullname"></h5>
-                        </div>
-                        <div class="_dtc time-post-view nst-mood-storm" data-ng-bind="comment.date.getTime() | date:'dd MMM yyyy'"
-                             data-uib-tooltip="{{comment.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto left"></div>
-                      </div>
-                    </div>
-                    <div class="cmt-post-view">
-                      <emoji><p marked="comment.body"></p></emoji>
-                    </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="_difh _fh">
+    <div id="Content" class="_df _fw">
+      <div class="_difv _fh _fw">
+        <div class="_df _fw">
+          <div data-ng-show="navbar.extended" class="attachments" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = thePost"></div>
+        </div>
+
+        <div class="_df _fh">
+          <div id="PostBody" class="_fh _fw">
+            <div class="msg-post-view {{thePost.contentType == 'text/plain' ? 'pre' : ''}}" data-ng-bind-html="thePost.body | emoji"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="Comments" class="_df _vat">
+      <div class="_difv">
+        <div class="_difv comment-msg _fh">
+          <div data-ng-if="thePost.moreComments" class="_fw text-center">
+            <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="thePost.loadComments()">Load More...</a>
+          </div>
+          <div data-ng-repeat="comment in thePost.comments | orderBy : 'date.getTime()'" class="_difh NewComment">
+            <div class="_df profile-post-view">
+              <img data-ng-if="comment.sender.picture.org.uid" class="_fl account-initials-24" src="{{comment.sender.picture.x32.url}}"/>
+              <div data-ng-if="!comment.sender.picture.org.uid" class="_fl account-initials-24" data-ng-bind="comment.sender.name.initials"></div>
+            </div>
+            <div class="_difv _fw">
+              <div class="_difh">
+                <h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.fullname"></h5>
+                <div class="_df time-post-view nst-mood-storm" data-ng-bind="comment.date.getTime() | date:'dd MMM yyyy'"
+                     data-uib-tooltip="{{comment.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto left"></div>
+              </div>
+              <div class="_df _fw cmt-post-view">
+                <emoji>
+                  <span marked="comment.body">
                     <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
                        ng-click="comment.delete()">delete</a>
-                  </div>
-                </div>
+                  </span>
+                </emoji>
               </div>
-
-              <div class="comment-input">
-                <div class="_dt">
-                  <div class="input-msg _dtr">
-                    <img data-ng-if="user.picture.org.uid" class="_fl account-initials-24 _dtc" src="{{user.picture.x32.url}}"/>
-                    <div data-ng-if="!user.picture.org.uid" class="_fl account-initials-24 _dtc" data-ng-bind="user.name.initials"></div>
-                    <textarea class="_dtc _fw" cols="32" maxlength="250" ng-keyup="commentKeyUp($event)" placeholder="write your comment..." data-ng-model="nextComment"/></textarea>
-                    <button class="btn-send-comment _fr" data-ng-click="commentKeyUp($event)">Send</button>
-                    <span data-ng-show="250 - nextComment.length < 20" class="nst-mood-simple _fr">{{250 - nextComment.length}}</span>
-                  </div>
-                </div>
-              </div>
+            </div>
+          </div>
+        </div>
+        <div class="comment-input _difh">
+          <div class="_df">
+            <img data-ng-if="user.picture.org.uid" class="_fl account-initials-24 _dtc" src="{{user.picture.x32.url}}"/>
+            <div data-ng-if="!user.picture.org.uid" class="_fl account-initials-24 _dtc" data-ng-bind="user.name.initials"></div>
+          </div>
+          <div class="_difv _fw">
+            <textarea class="_df _fw" cols="32" maxlength="250" ng-keyup="commentKeyUp($event)" placeholder="write your comment..." data-ng-model="nextComment"/></textarea>
+            <div class="_difh sendcomment">
+              <span data-ng-show="250 - nextComment.length < 20" class="nst-mood-simple _df">{{250 - nextComment.length}}</span>
+              <button class="btn-send-comment df" data-ng-click="commentKeyUp($event)">Send</button>
             </div>
           </div>
         </div>
