@@ -14,7 +14,7 @@
       PLACE_PRIVACY: 64,
       PLACE_PICTURE: 128, //--
 
-      POST_ADD: 256, //--
+      POST_ADD: 256, //-- Done
       POST_REMOVE: 512, //--
       POST_UPDATE: 1024,
 
@@ -69,8 +69,6 @@
 
       Event.prototype = {
         setData: function(data) {
-          $log.debug("Raw Event Data: ", data.action, data);
-
           this.id = data._id.$oid;
           this.type = data.action;
           var q = {};
@@ -108,13 +106,14 @@
               _id: data.post_id,
               sender: this.actor,
               subject: data.post_subject,
-              body: data.post_body,
-              post_attachments: data.post_attachments || [], // TODO: Please be `attachments`
+              body: data.post_body || (EVENT_ACTIONS.POST_ADD == this.type ? data.post_body : ''),
+              post_attachments: data.post_attachments || [],
               post_places: data.post_places, // TODO: Please be `places`
               'time-stamp': data.date // TODO: Please be `time`
             };
             for (var k in q) {
-              if (!q[k]) {
+              if (undefined == q[k]) {
+                $log.debug('Requesting To Get Post Because', '`' + k + '`', 'was undefined:', data);
                 q = q._id.$oid;
                 break;
               }
@@ -127,7 +126,7 @@
             q = {
               _id: data.comment_id,
               attach: true,
-              sender_id: this.actor.id,
+              sender_id: this.actor.username,
               sender_fname: this.actor.name.fname,
               sender_lname: this.actor.name.lname,
               sender_picture: this.actor.picture,
@@ -135,7 +134,8 @@
               time: data.date
             };
             for (var k in q) {
-              if (!q[k]) {
+              if (undefined == q[k]) {
+                $log.debug('Requesting To Get Comment Because', '`' + k + '`', 'was undefined:', data);
                 q = q._id.$oid;
                 break;
               }

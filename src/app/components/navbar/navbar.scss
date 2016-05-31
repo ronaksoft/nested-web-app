@@ -78,24 +78,24 @@
 }
 
 .compose {
+  justify-content:center;
   align-items: center;
-  justify-content: center;
   min-width: 208px;
   text-align: center;
+  border-bottom: 1px solid #14d769;
 }
 
 .composen a:hover{
   color: $color-white;
 }
 .subnavitems {
-  width: 100%;
-  min-width: 500px;
+  border-bottom: 1px solid #14d769;
 }
 .subnavitems ul {
-  display: inline-block;
+  display: inline-flex;
 }
 .search{
-  min-width: 214px;
+  min-width: 250px;
 }
 .search .form-control {
   width: 144px;
@@ -105,10 +105,15 @@
   height: 10px;
   width: 50px;
 }
-.compose,.subnavitems,.search {
+.compose,.subnavitems{
   display: flex;
+  z-index: 1;
+  position: relative;
+  right: 0;
+  left:0;
+  top:0;
   align-items: center;
-  height: 40px;
+  min-height: 42px;
 }
 #PrimaryPageSelector {
   width: 100%;
@@ -152,7 +157,7 @@
 }
 
 .subnavitems li {
-  display: inline-block;
+  display: flex;
   font-size: $font-size-small;
   margin-right: 15px;
   text-align: center;
@@ -180,7 +185,6 @@
   width: 100%;
   text-decoration: none;
   color: $color-solid;
-  display: block;
 }
 .subnavitems .events-anchor:hover,
 .subnavitems .places-anchor:hover,
@@ -188,14 +192,14 @@
   color: $color-sense-wire;
 }
 .nav-profile {
-  padding: 10px 0 2px 0;
+  padding: 20px 0px 2px 0;
   font-weight: 600;
 }
 
 .nav-width-ul {
   display: inline-block;
   margin-top: 0;
-  width: 100%;
+  width: calc(100% - 250px);
 
 }
 .nav-width-ul-compose {
@@ -261,7 +265,7 @@ input #nav-search {
 }
 
 #n-search {
-  width: 146px;
+  width: 175px;
   height: 30px;
   border-radius: 6px;
   padding-left: 8px;
@@ -319,4 +323,8 @@ input #nav-search {
 .cp-nav-width-discard {
   margin: auto;
   width: 574px;
+}
+.viewswitch{
+  margin-right: 16px;
+  margin-top: 6px;
 }

@@ -33,8 +33,6 @@
 
             this.change();
           } else if (data.hasOwnProperty('_id')) {
-            $log.debug("Comment Data:", data);
-
             this.id = data._id.$oid;
             this.attach = data.attach;
             this.post = post || (this.post instanceof NestedPost ? this.post : (data.post_id ? new NestedPost(this.full ? data.post_id : { id: data.post_id }) : null));

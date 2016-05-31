@@ -36,6 +36,7 @@ input[type='text'], input[type='password'], input[type='tel'] {
     border-radius: 4px;
     padding: 3px;
     box-shadow: none;
+  padding-left: 10px;
 }
 
 a {
@@ -106,6 +107,8 @@ textarea {
 ._df { display: flex }
 ._dib { display: inline-block;}
 ._dif { display: inline-flex;}
+._difv { display: inline-flex;flex-direction: column}
+._difh { display: inline-flex;flex-direction: row}
 ._difc { display: inline-flex;align-items: center}
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
@@ -378,7 +381,7 @@ select {
     border-radius: 50%;
     line-height: #{$i * 8 - 1}px;
     text-align: center;
-    font-size: $font-size-small; // #{$i/2}px
+    font-size: #{$i * 3}px;
     font-weight: normal;
     color: white;
     background-color: $color-solid-30;
@@ -404,6 +407,10 @@ select {
   *********************************
  */
 
+.account-picture {
+  border-radius: 50%;
+}
+
 a {
   color: $color-sense-wire;
 }
@@ -415,7 +422,7 @@ a:hover {
 .modal {
   min-width: 900px;
   min-height: 600px;
-  padding: 4% 0;
+  padding: 80px 0;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
 
@@ -450,7 +457,7 @@ a:hover {
 }
 
 .modal-mlg {
-  margin: 0 3%;
+  margin: 0 80px;
 }
 /*
  ************** Popovers ************
@@ -512,7 +519,6 @@ a:hover {
 .form-control {
   border: 1px solid $color-breeze;
 }
-
 .form-control:focus,
 .btn:focus {
   border: 2px solid $color-solid;
@@ -612,6 +618,7 @@ label {
 }
 
 .nst-error-msg {
+  margin-top: 16px;
   font-size: $font-size-small;
   color: $color-force-wire;
 }
@@ -653,7 +660,7 @@ label {
  */
 
 #container {
-  padding-top: 100px;
+  padding-top: 58px;
   display: inline-flex;
   width: 100%;
   height: 100vh;
@@ -668,10 +675,12 @@ label {
   visibility: hidden;
   flex-direction: row;
 }
-.leftside {
+.side {
   display: flex;
+  flex-direction: column;
   height: 100%;
   min-width: 208px;
+  width: 208px;
   max-width: 416px;
 }
 .rightside {
@@ -681,9 +690,19 @@ label {
 }
 .nst-content {
   display: flex;
+  min-width: 715px;
+  flex-direction: column;
   width: 100%;
   height: 100%;
+
+}
+.nst-content-body {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: calc(100% - 50px);
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 .maincontainer {
   background-color: $color-white;
@@ -1004,10 +1023,12 @@ a.normal-badge {
 .small-badge {
   background-color: #a0e8b8;
   border-radius: 40px;
+}
+.small-badge a{
+  margin: 7px 12px 3px 12px;
   color: $color-solid;
   font-size: 12px;
   white-space: nowrap;
-  padding: 5px 12px 3px 12px;
   line-height: 13px;
 }
 .place:hover {

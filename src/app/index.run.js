@@ -8,7 +8,7 @@
   /** @ngInject */
   function runBlock($rootScope, $interval) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
-    
+
     $rootScope.now = new Date();
     $interval(function () {
       $rootScope.now.setTime(Date.now());

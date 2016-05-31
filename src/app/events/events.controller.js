@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, NestedEvent, NestedPlace) {
+  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -115,6 +115,13 @@
           $scope.events.pushEvent(event);
         }
       }).catch(function (data) {
+        switch (data.err_code) {
+          case WS_ERROR.UNAVAILABLE:
+          case WS_ERROR.INVALID:
+          case WS_ERROR.ACCESS_DENIED:
+            $location.path('/').replace();
+            break;
+        }
 
       });
     };
