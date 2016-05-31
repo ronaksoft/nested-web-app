@@ -19,20 +19,21 @@
             <small>({{user.username}})</small>
           </ui-select-choices>
         </ui-select>
-        <button class="btn-send-compose _df" data-ng-click="place_add_member.add()">Send</button>
+        <button class="btn-send-compose _df" data-ng-if="!add_teammate" data-ng-click="place_add_member.add()">Invite</button>
+        <button class="btn-send-compose _df" data-ng-if="add_teammate" data-ng-click="place_add_member.add()">Add</button>
       </div>
     <div class="_difh _fw">
       <div class="_fw suggests">
       <div class="user _difh" data-ng-repeat="user in (place_add_member.users | filter: $select.search) track by user.username" refresh="place_add_member.search($select.search)" refresh-delay="0"><img class="account-picture" data-ng-if="user.picture.org.uid" src="{{user.picture.x32.url}}"/>
-        <img class="account-initials-32 _df" data-ng-if="member.picture.org.uid" src="{{member.picture.x32.url}}"/>
-        <div class="account-initials-32 _df" data-ng-if="!user.picture.org.uid" data-ng-bind="user.name.initials"></div>
+        <img class="account-initials-40 _df" data-ng-if="member.picture.org.uid" src="{{member.picture.x32.url}}"/>
+        <div class="account-initials-40 _df" data-ng-if="!user.picture.org.uid" data-ng-bind="user.name.initials"></div>
         <div class="_difv">
           <span class="_df _fw" data-ng-bind-html="user.fullname | highlight: $select.search"></span>
           <small class="_df">({{user.username}})</small></div>
         </div>
       </div>
     </div>
-      <div data-ng-if="add_member" class="nst-modal-add-teammate _df _fw">
+      <div data-ng-if="add_teammate" class="nst-modal-add-teammate _df _fw">
           <p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place, <a class="nst-mood-cheerful">invite them as a member</a>.</p>
       </div>
   </div>
