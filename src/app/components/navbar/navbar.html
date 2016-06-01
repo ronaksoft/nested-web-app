@@ -21,19 +21,18 @@
               </ul>
             </div>
 
-            <div class='signin popover-green' uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="bottom-right" popover-trigger="outsideClick">
+            <div class='signin popover-green' uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="bottom-left auto" popover-trigger="outsideClick">
               <ul class="list-inline text-right">
                 <li><span class="nst-menu-arrow _dib"></span></li>
                 <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
                 <li>
-                  <img data-ng-if="user.picture.org.uid" class="img-circle" src="{{user.picture.x32.url}}" height="32" width="32"/>
-                  <div data-ng-if="!user.picture.org.uid" class="account-initials-32" data-ng-bind="user.name.initials"></div>
+                  <img initials="user.fullname" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <div class='SecondaryPageSelector _fw'>
+        <!--<div class='SecondaryPageSelector _fw'>
           <div class="subnav">
             <div class="compose">
               <form action="#/new">
@@ -87,7 +86,7 @@
                   </div>
                 </div>
               </div>
-              <div class="_fw" data-ng-if="profile">
+              <div class="_fw" data-ng-if="account_profile">
                 <div class="cp-nav-width-discard">
                   <div>
                     <a href="javascript:void(0);" class="btn-back-compose" onclick="window.history.back();">Discard</a>
@@ -107,7 +106,7 @@
               </ul>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>

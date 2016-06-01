@@ -11,7 +11,6 @@
           <source src="{{attachment.download.url}}" type="{{attachment.mimeType}}">
           <p>Your browser does not support the audio element.</p>
         </audio>
-
         <!--video/*-->
         <videogular class="_fw" data-ng-switch-when="video" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
           <vg-media vg-src="vg"></vg-media>
@@ -35,12 +34,14 @@
 
         <!--application/*-->
         <div class="large-viewe-attach" data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
-          <div class="_vabt _tac _fw _dib">{{ext}}</div>
+
+          <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge">PDF</div>
           <!--application/pdf-->
           <pdf-viewer data-ng-switch="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
 
           <!--application/*-->
           <iframe class="_fw  large-viewe-attach" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+          <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge">FILE</div>
         </div>
 
         <!--*/*-->
@@ -49,10 +50,12 @@
       <div class="_fw _dif nst-preview-footer">
         <div class="_fw">
           <p class="nst-font-large filename-p">{{attachment.filename}}</p><br>
-          <p class="nst-font-small nst-mood-storm">12 Megabyte</p>
+          <p class="nst-font-small nst-mood-storm">{{attachment.size | bytes:0}}</p>
         </div>
-        <div class="_df nst-nav-btn-breeze"><a href="{{attachment.download.url}}" class="nst-mood-storm">Download</a></div>
-
+        <div class="_fw">
+          <div class="_fr nst-nav-btn-breeze"><a href="{{attachment.download.url}}" class="nst-mood-storm">Download</a></div>
+          <div  class="_fr nst-nav-btn-breeze"><a href="" class="nst-mood-storm">Open in Browser</a></div>
+        </div>
       </div>
     </div>
   </div>

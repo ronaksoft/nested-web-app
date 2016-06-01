@@ -28,8 +28,6 @@
 
             this.change();
           } else if (data.hasOwnProperty('_id')) {
-            $log.debug("Store Data:", data);
-
             this.id = data._id;
             this.name = data.name;
             this.url = data.url;
@@ -56,7 +54,7 @@
 
           return WsService.request('store/get_store_info', { store_id: this.id }).then(this.setData.bind(this));
         },
-        
+
         getUploadToken: function () {
           return WsService.request('store/get_upload_token').then(function (data) {
             return $q(function (res) {
@@ -64,10 +62,10 @@
             });
           });
         },
-        
+
         getDownloadUrl: function (uid, token) {
           var url = this.url + '/download/' + WsService.getSessionKey() + '/' + uid + (token ? ('/' + token) : '');
-          
+
           return $q(function (res) {
             res(url);
           });
