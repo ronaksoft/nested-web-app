@@ -411,6 +411,9 @@ select {
   border-radius: 50%;
 }
 
+iframe {
+  border: none;
+}
 a {
   color: $color-sense-wire;
 }
