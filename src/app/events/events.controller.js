@@ -13,16 +13,21 @@
     vm.collapse = function () {
       if(vm.extended == true){
         $cookieStore.put('collapseStatus', false);
-        vm.extended = $cookieStore.get('collapseStatus');
-        console.log("set false")
+        vm.extended = $cookieStore.get('collapseStatus')
       }
       else{
         $cookieStore.put('collapseStatus', true);
-        vm.extended = $cookieStore.get('collapseStatus');
-        console.log("set true")
+        vm.extended = $cookieStore.get('collapseStatus')
       }
     };
-    
+
+
+    $(".side").width($cookieStore.get('sideWidth'));
+    $('#container').mouseup(function () {
+      var width = $('.side').width();
+      $cookieStore.put('sideWidth', width);
+    });
+
 
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });

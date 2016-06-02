@@ -700,8 +700,19 @@ label {
   flex-direction: column;
   height: 100%;
   min-width: 208px;
-  width: 208px;
   max-width: 416px;
+  clear: both;
+  flex: none;
+}
+.side:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+.side:before {
+  content: "";
+  clear: both;
+  display: block;
 }
 .rightside {
   display: flex;
