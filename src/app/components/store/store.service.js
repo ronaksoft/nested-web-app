@@ -7,11 +7,10 @@
       FILE: 'upload/file',
       PLACE_PICTURE: 'upload/place_pic',
       PROFILE_PICTURE: 'upload/profile_pic'
-    })
-    .factory('StoreService', NestedStore);
+    }).factory('StoreService', NestedStore);
 
   /** @ngInject */
-  function NestedStore($window, $rootScope, $q, $http, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore) {
+  function NestedStore($window, $rootScope, $q, $http, $sce, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore) {
     function StoreService(stores) {
       this.stores = {};
       this.defaultStore = new NestedStore();
@@ -141,7 +140,116 @@
             });
           });
         }.bind(this));
-      }
+      },
+
+      upload2 : function (file, type) {
+        type = type || UPLOAD_TYPE.FILE;
+
+        var q = {
+          'file': file instanceof File,
+          'type': (Object.keys(UPLOAD_TYPE).map(function(k) { return UPLOAD_TYPE[k]; })).indexOf(type) > -1
+        };
+        var items = [];
+        for (var k in q) {
+          q[k] || items.push(k);
+        }
+
+        if (items.length > 0) {
+          return $q(function (res, rej) {
+            rej({
+              err_code: WS_ERROR.INVALID,
+              items: items
+            });
+          });
+        }
+
+        var createCORSRequest = function(method, url) {
+          var xhr = new XMLHttpRequest();
+          // xhr.withCredentials = true;
+          if ("withCredentials" in xhr) {
+
+            // Check if the XMLHttpRequest object has a "withCredentials" property.
+            // "withCredentials" only exists on XMLHTTPRequest2 objects.
+            xhr.open(method, url, true);
+
+          } else if (typeof XDomainRequest != "undefined") {
+
+            // Otherwise, check if XDomainRequest.
+            // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+            xhr = new XDomainRequest();
+            // xhr.withCredentials = true;
+            xhr.open(method, url);
+
+          } else {
+
+            // Otherwise, CORS is not supported by the browser.
+            xhr = null;
+
+          }
+
+          xhr && xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+
+          return xhr;
+        }
+
+        return this.defaultStore.getUploadToken().then(function (token) {
+
+          var that = this;
+
+          var formData = new FormData();
+          var xhr = createCORSRequest('POST', that.defaultStore.url);
+
+          formData.append('cmd', type);
+          formData.append('_sk', WsService.getSessionKey());
+          formData.append('token', token);
+          formData.append('fn', 'attachment');
+          formData.append('attachment', file);
+          // formData.append('contenttype', 'idocs:document');
+
+          // xhr.withCredentials = true;
+
+          function Control(xhr) {
+            this.xhr = xhr;
+          }
+
+          Control.prototype = {
+            start: function () {
+              return $q(function(resolve, reject) {
+                this.xhr.upload.onload = function(e) {
+                  switch (e.data.status) {
+                    case WS_RESPONSE_STATUS.SUCCESS:
+                    console.log(e);
+                    //TODO : make sure the return type is correct
+                      resolve(e.data.data);
+                      break;
+                    default:
+                    //TODO : make sure the return type is correct
+                      reject(e.data.data);
+                      break;
+                  }
+                };
+
+                this.xhr.send(formData);
+              }.bind(this));
+            },
+            addListerner: function(listerner) {
+              xhr.upload.onprogress = function(e) {
+                // check wether someone is listening
+                if (angular.isFunction(listerner) && e.lengthComputable) {
+                  var progressPercentage = Math.round(e.loaded / e.total * 100);
+                  listerner(progressPercentage);
+                }
+              };
+
+              return this;
+            }
+          };
+
+          return new Control(xhr);
+        }.bind(this));
+
+      },
+
     };
 
     var stores = $window.sessionStorage.getItem('stores');

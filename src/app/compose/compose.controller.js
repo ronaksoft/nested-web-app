@@ -79,47 +79,59 @@
         counter++;
         $scope.upload_size.total += file.size;
 
-        StoreService.upload(file).then(function (response) {
-          var isImage = this.type.split('/')[0] == 'image';
-          var attachment = new NestedAttachment({
-            _id: response.universal_id,
-            filename: this.name,
-            mimetype: this.type,
-            upload_time: this.lastModified,
-            size: this.size
+        StoreService.upload(file);
+        StoreService.upload2(file).then(function (control) {
+
+          control.addListerner(function (progress) {
+
+            console.log(progress);
+
+          }).start().then(function (response) {
+            var isImage = this.type.split('/')[0] == 'image';
+            var attachment = new NestedAttachment({
+              _id: response.universal_id,
+              filename: this.name,
+              mimetype: this.type,
+              upload_time: this.lastModified,
+              size: this.size
+            });
+
+            if (isImage) {
+              var stItem = new StoreItem();
+              stItem.uid = attachment.id;
+              attachment.thumbs = {
+                x32: stItem,
+                x64: stItem,
+                x128: stItem
+              };
+
+              var reader = new FileReader();
+              reader.onload = function (event) {
+                var uri = event.target.result;
+                this.thumbs.x32.url = uri;
+                this.thumbs.x64.url = uri;
+                this.thumbs.x128.url = uri;
+
+              }.bind(attachment);
+
+              reader.readAsDataURL(this);
+            }
+
+            $scope.compose.post.addAttachment(attachment);
+            $scope.upload_size.uploaded += this.size;
+
+            if (0 == --counter) {
+              $scope.upload_size.total = 0;
+              $scope.upload_size.uploaded = 0;
+            }
+          }.bind(file)).catch(function (reason) {
+            $log.debug('Attach Failed', reason);
           });
 
-          if (isImage) {
-            var stItem = new StoreItem();
-            stItem.uid = attachment.id;
-            attachment.thumbs = {
-              x32: stItem,
-              x64: stItem,
-              x128: stItem
-            };
-
-            var reader = new FileReader();
-            reader.onload = function (event) {
-              var uri = event.target.result;
-              this.thumbs.x32.url = uri;
-              this.thumbs.x64.url = uri;
-              this.thumbs.x128.url = uri;
-
-            }.bind(attachment);
-
-            reader.readAsDataURL(this);
-          }
-
-          $scope.compose.post.addAttachment(attachment);
-          $scope.upload_size.uploaded += this.size;
-
-          if (0 == --counter) {
-            $scope.upload_size.total = 0;
-            $scope.upload_size.uploaded = 0;
-          }
         }.bind(file)).catch(function (reason) {
           $log.debug('Attach Failed', reason);
         });
+
       }
     };
 
@@ -142,8 +154,5 @@
       });
     };
 
-    vm.removeAttachment = function (attachment) {
-      
-    };
   }
 })();
