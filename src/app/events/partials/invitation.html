@@ -10,7 +10,7 @@
       <span class="nst-mood-simple">Invited you to&nbsp;</span>
       <a class="nst-mood-solid post post" href="#/events/{{event.place.id}}" data-ng-bind-html="event.place.name"></a>
     </div>
-    <div data-ng-show="navbar.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
+    <div data-ng-show="events.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
   </div>
   <div class="places">
     <button class="btn-send-compose" data-ng-click="acceptplacereq($event)">Accept</button>

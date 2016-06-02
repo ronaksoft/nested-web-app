@@ -6,8 +6,23 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace) {
+  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, $cookieStore) {
     var vm = this;
+
+    vm.extended = $cookieStore.get('collapseStatus');
+    vm.collapse = function () {
+      if(vm.extended == true){
+        $cookieStore.put('collapseStatus', false);
+        vm.extended = $cookieStore.get('collapseStatus');
+        console.log("set false")
+      }
+      else{
+        $cookieStore.put('collapseStatus', true);
+        vm.extended = $cookieStore.get('collapseStatus');
+        console.log("set true")
+      }
+    };
+    
 
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });

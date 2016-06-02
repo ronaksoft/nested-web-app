@@ -3,10 +3,9 @@
       <div class="_difh modal-add">
         <h5 class="_df _fw" data-ng-if="add_teammate">Add a Teammate</h5>
         <h5 class="_df _fw" data-ng-if="add_member">Invite a Member</h5>
-        <div class="_df"><img src="../assets/icons/close_16.png" class="_fh"></div>
-        <hr/>
+        <div class="_df" ng-click="$close(result)"><img src="../assets/icons/close_16.png" class="_fh"></div>
       </div>
-      <div class="_difh _fw">
+      <div class="_difh _fw modal-add">
         <ui-select multiple class="nst-mood-simple _fw _df" data-ng-model="place_add_member.selectedUsers">
           <ui-select-match placeholder="Invite people to your team" class=" _fw">
             <span>{{$item.fullname}} &lt;{{$item.username}}&gt;</span>
@@ -24,12 +23,12 @@
       </div>
     <div class="_difh _fw">
       <div class="_fw suggests">
-      <div class="user _difh" data-ng-repeat="user in (place_add_member.users | filter: $select.search) track by user.username" refresh="place_add_member.search($select.search)" refresh-delay="0"><img class="account-picture" data-ng-if="user.picture.org.uid" src="{{user.picture.x32.url}}"/>
+        <div class="user _difh" data-ng-repeat="user in (place_add_member.users | filter: $select.search) track by user.username" refresh="place_add_member.search($select.search)" refresh-delay="0"><img class="account-picture" data-ng-if="user.picture.org.uid" src="{{user.picture.x32.url}}"/>
         <img class="account-initials-40 _df" data-ng-if="member.picture.org.uid" src="{{member.picture.x32.url}}"/>
         <div class="account-initials-40 _df" data-ng-if="!user.picture.org.uid" data-ng-bind="user.name.initials"></div>
         <div class="_difv">
           <span class="_df _fw" data-ng-bind-html="user.fullname | highlight: $select.search"></span>
-          <small class="_df">({{user.username}})</small></div>
+          <small class="_df">@{{user.username}}</small></div>
         </div>
       </div>
     </div>

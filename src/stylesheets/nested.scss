@@ -372,6 +372,7 @@ select {
 
 * [class *= "account-initials-"] {
   margin-right: 8px;
+  justify-content: center;
 }
 
 @for $i from 1 through 32 {
@@ -866,8 +867,9 @@ label {
   padding: 5px;
 }
 
-.modal-add > div > img {
-  //padding: 15px;
+.modal-add {
+  border-bottom: 1px solid $color-calm;
+  margin: 10px 0;
 }
 .suggests > .user > img {
   width: 40px;
@@ -876,11 +878,13 @@ label {
   margin-right: 8px;
 }
 .suggests {
-  height: 200px;
+  height: 170px;
   overflow: hidden;
 }
 .suggests .user{
-  width: 30%;
+  height: 50px;
+  width: 33.3%;
+  margin-top: 5px;
 }
 .modal-add h5 {
   font-size: $font-size-xlarge;
