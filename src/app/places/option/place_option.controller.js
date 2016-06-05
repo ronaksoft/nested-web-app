@@ -106,6 +106,7 @@
         scope: $scope
       });
 
+
       $scope.closeModal = modal.close;
 
       modal.closed.then(function () {
@@ -114,5 +115,22 @@
         delete $scope.closeModal;
       });
     };
+    vm.showLuckModal = function () {
+
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/places/option/warning.html',
+        size: 'sm',
+        scope: $scope
+      });
+
+
+      $scope.closeModal = modal.close;
+
+      modal.closed.then(function () {
+        delete $scope.closeModal;
+      });
+    };
+
   }
 })();

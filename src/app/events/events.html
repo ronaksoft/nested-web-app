@@ -1,7 +1,7 @@
 <div>
-  <nested-navbar data-ng-model="navbar" data-ng-init="navbar.extended = true"></nested-navbar>
+  <nested-navbar data-ng-model="navbar"></nested-navbar>
   <div id="container">
-    <div class="side _bggray _fw" resizable data-r-directions="['right']" data-r-flex="true">
+    <div class="side _bggray _fw" resizable data-r-directions="['right']" data-r-flex="true" ng-style="{'width': $store.sidebarWidth}" ng-mouseleave="events.sidebarWidthFunc($event)">
       <div class="compose _bgwhite _df _fw">
         <form action="#/new">
           <button data-ng-if="events || places" class="composen" >
@@ -9,7 +9,7 @@
           </button>
         </form>
       </div>
-      <nested-sidebar data-ng-model="sidebar" class="_fw _df"></nested-sidebar>
+      <nested-sidebar data-ng-model="sidebar" class="_fw _df nested-sidebar"></nested-sidebar>
     </div>
     <div class="nst-content">
       <div class="subnavitems _bgwhite _df">
@@ -19,23 +19,16 @@
             <a class="events-anchor" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
           </li>
         </ul>
-
         <div class="search _difc" id="ViewSelector">
             <div class="_df">
-                  <span class="text-right viewswitch" id="viewswitch">
-                    <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="navbar.extended"/>
+                  <span class="text-right viewswitch" id="viewswitch" ng-click="events.collapse()">
+                    <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="events.extended"/>
                     <label for="ext_switch"></label>
                   </span>
             </div>
             <div class="_df"><input id="n-search" placeholder="Search"></div>
         </div>
       </div>
-
-
-
-
-
-
 
       <!------>
       <div class="_fw nst-content-body" on-scroll="events.scroll(event)">

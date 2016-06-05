@@ -67,6 +67,7 @@ background-color: $color-sense-5;
 
 #AllPlaces .logo {
   width: 48px;
+  flex: none
 }
 
 #AllPlaces li > table td.logo > img {
@@ -355,6 +356,7 @@ background-color: $color-sense-5;
 .ico {
   min-width: 30px;
   padding-top: 4px;
+  justify-content: center;
 }
 .lineee{
   margin: 0;

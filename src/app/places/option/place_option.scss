@@ -312,3 +312,23 @@
   justify-content: center;
   background-color: $color-white;
 }
+.modal-add img {
+  width: 24px;
+  height: 24px;
+}
+.wngbot {
+  height: 100px;
+  align-items: center;
+}
+.wngbot .switch{
+  width: 200px;
+}
+.wngbot .switch .noton{
+  font-size: $font-size-h6;
+  font-weight: 900;
+}
+.wngbot .switch .on{
+  font-size: $font-size-h6;
+  font-weight: 500;
+
+}
