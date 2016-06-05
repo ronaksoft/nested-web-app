@@ -7,7 +7,7 @@
 <div class="actcon">
   <div class="msg" data-ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)">
     <a class="subject" href="#/post/{{event.post.id}}" data-ng-bind-html="event.post.subject | emoji"></a>
-    <div data-ng-show="events.extended" class="body" data-ng-bind-html="event.post.body | emoji | characters:255"></div>
+    <div data-ng-show="events.extended" class="body" data-ng-bind-html="event.post.body | preview | characters:255 | emoji"></div>
     <div data-ng-show="events.extended" class="attachments" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = event.post"></div>
   </div>
   <div class="places _dif">
