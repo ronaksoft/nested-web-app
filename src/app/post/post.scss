@@ -270,7 +270,7 @@
 
 #PostView .NewComment {
   padding: 5px;
-  flex:1 0 auto;
+  flex-shrink: 0;
 }
 .NewComment h5 {
   text-overflow: ellipsis;
@@ -320,6 +320,7 @@
 .comment-input{
   max-height: 120px;
   margin: 10px 0;
+  flex: 1;
 }
 .comment-input span {
   position: relative;
@@ -327,10 +328,11 @@
 }
 .comment-msg {
   overflow-y: auto;
+  overflow-x: hidden;
   justify-content: space-between;
   flex: 1;
-  max-height: calc(100% - 180px);
-  min-height: calc(100% - 200px);
+  max-height: calc(100% - 140px);
+  min-height: calc(100% - 150px);
 }
 
 .actor-name {
@@ -453,4 +455,7 @@
 .account-initials-24 {
   min-width: 24px;
   min-height: 24px;
+}
+.comment-msg div:last-child {
+  flex-grow: 1!important;
 }
