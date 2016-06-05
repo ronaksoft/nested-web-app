@@ -651,6 +651,7 @@ label {
 
 .nst-mood-simple {
   color: $color-solid-60;
+  flex:none
 }
 
 .nst-mood-storm {
@@ -1069,6 +1070,7 @@ a.normal-badge {
 .small-badge {
   background-color: #a0e8b8;
   border-radius: 40px;
+  flex: none;
 }
 .small-badge a{
   margin: 7px 12px 3px 12px;
@@ -1091,6 +1093,7 @@ a.normal-badge {
   padding-left: 8px;
   height: 20px;
   padding-top: 3px;
+  flex: none;
 }
 
 .nst-nowrap-badge .normal-badge {
