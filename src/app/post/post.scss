@@ -320,6 +320,7 @@
 .comment-input{
   max-height: 120px;
   margin: 10px 0;
+  flex: 1;
 }
 .comment-input span {
   position: relative;
@@ -327,10 +328,11 @@
 }
 .comment-msg {
   overflow-y: auto;
+  overflow-x: hidden;
   justify-content: space-between;
   flex: 1;
-  max-height: calc(100% - 180px);
-  min-height: calc(100% - 200px);
+  max-height: calc(100% - 140px);
+  min-height: calc(100% - 150px);
 }
 
 .actor-name {
