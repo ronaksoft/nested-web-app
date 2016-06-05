@@ -14,7 +14,7 @@
       <div class="post-nav-left-bottom _difh _fw">
         <!--<img data-ng-if="thePost.sender.picture.org.uid" class="account-initials-24 _df" src="{{thePost.sender.picture.x32.url}}"/>-->
         <!--<div data-ng-if="!thePost.sender.picture.org.uid" class="account-initials-24 _df" data-ng-bind="thePost.sender.name.initials"></div>-->
-        <img initials="thePost.sender.picture" data-src="{{thePost.sender.picture.x32.url}}" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
+        <img initials="thePost.sender.fullname" data-src="{{thePost.sender.picture.x32.url}}" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
         <span class="actor-name _df" data-ng-bind="thePost.sender.fullname"></span>
         <div class="badges _df _fw">
           <div class="nst-nowrap-badge"><a class="_di _fl normal-badge" data-ng-repeat="place in thePost.places" href="#/events/{{place.id}}" data-ng-bind="place.name"></a></div>
@@ -74,8 +74,9 @@
           </div>
           <div data-ng-repeat="comment in thePost.comments | orderBy : 'date.getTime()'" class="_difh NewComment">
             <div class="_df profile-post-view">
-              <img data-ng-if="comment.sender.picture.org.uid" class="_fl account-initials-24" src="{{comment.sender.picture.x32.url}}"/>
-              <div data-ng-if="!comment.sender.picture.org.uid" class="_fl account-initials-24" data-ng-bind="comment.sender.name.initials"></div>
+              <!--<img data-ng-if="comment.sender.picture.org.uid" class="_fl account-initials-24" src="{{comment.sender.picture.x32.url}}"/>-->
+              <!--<div data-ng-if="!comment.sender.picture.org.uid" class="_fl account-initials-24" data-ng-bind="comment.sender.name.initials"></div>-->
+              <img initials="comment.sender.fullname" data-src="{{comment.sender.picture.x32.url}}" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
             </div>
             <div class="_difv _fw">
               <div class="_difh">
