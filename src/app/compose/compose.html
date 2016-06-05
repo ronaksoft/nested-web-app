@@ -73,7 +73,14 @@
         <hr class="nomargin"/>
 
         <section class="nst-compose-message">
-          <div text-angular ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]" data-ng-model="compose.post.body"></div>
+          <div text-angular ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]" data-ng-model="compose.post.body">
+
+            <!--<form name="testForm" unsaved-warning-form>-->
+              <!--<input  placeholder="hi"/>-->
+            <!--</form>-->
+            <!--<div page-change="chageMe($event, $toState, $toParams, $fromState, $fromParams,$cancel">-->
+<!--<input page-change-element  type="text"  ng-model="hey" placeholder="enterhere"/></div>-->
+          <!--</div>-->
           <!--<div text-angular  data-ng-model="compose.post.body"></div>-->
         </section>
       </div>
@@ -85,6 +92,9 @@
   </div>
 </div>
 
+
+
+<script src="bower_components/angular-unsavedChanges/dist/unsavedChanges.js"></script>
 <!--<script>-->
 
 

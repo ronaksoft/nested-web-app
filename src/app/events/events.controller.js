@@ -196,3 +196,10 @@
     };
   }
 })();
+
+//
+// var app = angular.module('nested');
+//
+// app.filter('sanitize', function($sanitize) {
+//   return $sanitize;
+// });
