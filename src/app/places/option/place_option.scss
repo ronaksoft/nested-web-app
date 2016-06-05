@@ -32,7 +32,7 @@
 .options {
   height: auto;
 }
-.nst-options > div,.nst-place-privacy > div {
+.optionrow {
   height: 45px;
 }
 .tittle-option {
@@ -331,4 +331,13 @@
   font-size: $font-size-h6;
   font-weight: 500;
 
+}
+.nst-description {
+  background-color: $color-breeze-50;
+  border-radius: 6px;
+  margin: 10px 0px;
+  padding: 5px;
+}
+.nst-description p {
+  margin: 0
 }

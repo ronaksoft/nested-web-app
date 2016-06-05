@@ -42,7 +42,7 @@
             <div class="nst-options col-xs-12 col-lg-6">
               <h5 class="tittle-option">Options For Me</h5>
               <hr>
-              <div class="_difc _fw">
+              <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-notification"><i class="nst-notif _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-notification"><h6>Notifictions</h6></label></div>
                 <div class="_df switch">
@@ -51,7 +51,10 @@
                   <label class="noton" for="sw-notification" data-ng-click="!notification && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
-              <div class="_difc _fw">
+              <div class="nst-description _df _fw">
+                <p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place, <a class="nst-mood-cheerful">invite them as a member</a>.</p>
+              </div>
+              <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-digest"><i class="nst-shown _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-digest"><h6>Show in Digest</h6></label></div>
                 <div class="_df switch">
@@ -66,7 +69,7 @@
               <h5 class="tittle-option">Place Privacy</h5>
               <hr>
 
-              <div class="_difc _fw">
+              <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-locked"><i class="nst-lock _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-locked"><h6>Lock</h6></label></div>
 
@@ -76,8 +79,11 @@
                   <label for="sw-locked" data-ng-click="!place.privacy.locked && $event.preventDefault();place_option.showLuckModal()"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
+              <div class="nst-description _df _fw">
+                <p>Parent members Can't view Inside The Place.<a class="nst-mood-cheerful">Learn more</a></p>
+              </div>
 
-              <div class="_difc _fw">
+              <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-receptive"><i class="nst-print _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-receptive"><h6>Receptive</h6></label></div>
                 <div class="_df switch">
@@ -86,8 +92,11 @@
                   <label for="sw-receptive" data-ng-click="!place.privacy.receptive && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
+              <div class="nst-description _df _fw">
+                <p>Only members Can Write Posts. <a class="nst-mood-cheerful">Learn more</a>.</p>
+              </div>
 
-              <div class="_difc _fw">
+              <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
                 <div class="_df switch">
@@ -96,8 +105,11 @@
                   <label for="sw-search" data-ng-click="!place.privacy.search && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
+              <div class="nst-description _df _fw">
+                <p>Disabled until "Receptive" off <a class="nst-mood-cheerful">Learn more</a>.</p>
+              </div>
 
-              <div class="_difc _fw">
+              <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
                 <div class="_df switch">
@@ -105,6 +117,9 @@
                   <label for="sw-email" data-ng-click="place.privacy.email && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
                   <label for="sw-email" data-ng-click="!place.privacy.email && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
+              </div>
+              <div class="nst-description _df _fw">
+                <p>Disabled until "Receptive" off. <a class="nst-mood-cheerful">Learn more</a>.</p>
               </div>
             </div> <!-- /nst-place-privacy-->
           </div>
