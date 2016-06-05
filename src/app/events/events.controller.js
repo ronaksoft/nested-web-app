@@ -21,15 +21,9 @@
     };
 
     $scope.$store = $localStorage;
-    vm.sidebarWidthFunc = function (event) {
-      $localStorage.sidebarWidth = angular.element(event.currentTarget).width();
-    };
-
-    /*$(".side").width($cookieStore.get('sideWidth'));
-    $('#container').mouseup(function () {
-      var width = $('.side').width();
-      $cookieStore.put('sideWidth', width);
-    });*/
+    $scope.$on('angular-resizable.resizeEnd', function (event, info) {
+      $localStorage.sidebarWidth = info.width;
+    });
 
 
     if (!AuthService.isAuthenticated()) {
