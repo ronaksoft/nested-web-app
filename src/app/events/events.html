@@ -1,7 +1,7 @@
 <div>
   <nested-navbar data-ng-model="navbar"></nested-navbar>
   <div id="container">
-    <div class="side _bggray _fw" resizable data-r-directions="['right']" data-r-flex="true">
+    <div class="side _bggray _fw" resizable data-r-directions="['right']" data-r-flex="true" ng-style="{'width': $store.sidebarWidth}" ng-mouseleave="events.sidebarWidthFunc($event)">
       <div class="compose _bgwhite _df _fw">
         <form action="#/new">
           <button data-ng-if="events || places" class="composen" >

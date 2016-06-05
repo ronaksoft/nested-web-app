@@ -31,6 +31,6 @@
       'textAngular',
       'hc.marked',
       'xeditable',
-      'ngCookies'
+      'ngStorage'
     ]);
 })();

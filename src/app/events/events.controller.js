@@ -6,27 +6,30 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, $cookieStore) {
+  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, $localStorage) {
     var vm = this;
-
-    vm.extended = $cookieStore.get('collapseStatus');
+    vm.extended = $localStorage.extended;
     vm.collapse = function () {
       if(vm.extended == true){
-        $cookieStore.put('collapseStatus', false);
-        vm.extended = $cookieStore.get('collapseStatus')
+        $localStorage.extended = false;
+        vm.extended = $localStorage.extended;
       }
       else{
-        $cookieStore.put('collapseStatus', true);
-        vm.extended = $cookieStore.get('collapseStatus')
+        $localStorage.extended = true;
+        vm.extended = $localStorage.extended;
       }
     };
 
+    $scope.$store = $localStorage;
+    vm.sidebarWidthFunc = function (event) {
+      $localStorage.sidebarWidth = angular.element(event.currentTarget).width();
+    };
 
-    $(".side").width($cookieStore.get('sideWidth'));
+    /*$(".side").width($cookieStore.get('sideWidth'));
     $('#container').mouseup(function () {
       var width = $('.side').width();
       $cookieStore.put('sideWidth', width);
-    });
+    });*/
 
 
     if (!AuthService.isAuthenticated()) {
