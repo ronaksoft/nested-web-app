@@ -261,14 +261,24 @@ background-color: $color-sense-5;
   cursor: pointer;
 }
 
-.nst-arrow-rotated {
+[class*=nst-arrow-]{
   background: url('../assets/icons/arrow_16.png') no-repeat;
   height: 25px;
   width: 15px;
+  cursor: pointer;
   padding: 0 0 0 5px;
+}
+.nst-arrow-rotated {
   background-position: center center;
   transform: rotate(180deg);
-  cursor: pointer;
+}
+
+.nst-arrow-rotated-90 {
+  transform: rotate(90deg);
+}
+
+.nst-arrow-rotated-270 {
+  transform: rotate(270deg);
 }
 
 .nst-menu-arrow {

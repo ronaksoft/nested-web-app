@@ -32,8 +32,9 @@
 .options {
   height: auto;
 }
-.nst-options > div,.nst-place-privacy > div {
+.optionrow {
   height: 45px;
+  margin-top: 20px;
 }
 .tittle-option {
   padding-left: 5px;
@@ -45,7 +46,7 @@
 
 .nst-place-privacy,.nst-teammates,.nst-options,.place-option-members {
   background-color: $color-white;
-  padding: 10px 15px;
+  padding: 10px 35px;
 }
 .nst-teammates,.options,.place-option-members {
   width: 100%;
@@ -331,4 +332,19 @@
   font-size: $font-size-h6;
   font-weight: 500;
 
+}
+.nst-description {
+  background-color: $color-breeze-50;
+  border-radius: 6px;
+  margin: 0 0 15px 0;
+  padding: 5px;
+  top: -5px;
+  position: relative
+}
+.nst-description p {
+  margin: 0;
+  font-size: $font-size-small;
+}
+.optionrow div:first-child {
+  min-width: 24px;
 }

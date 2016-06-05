@@ -21,7 +21,7 @@
         </ul>
         <div class="search _difc" id="ViewSelector">
             <div class="_df">
-                  <span class="text-right viewswitch" id="viewswitch" ng-click="events.collapse()">
+                  <span class="text-right viewswitch" id="viewswitch" ng-click="events.collapse()" data-uib-tooltip="you can collapse or expand the activity body !" data-tooltip-append-to-body="false" data-tooltip-placement="left-top">
                     <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="events.extended"/>
                     <label for="ext_switch"></label>
                   </span>
@@ -36,7 +36,7 @@
           <div data-ng-if="invitation" class="_fl title-bar _vam _df _fw">
             <div class="evrow" data-ng-repeat="invite in invites" data-ng-include="app/events/partials/invitation.html"></div>
           </div>
-          <hr class="title-bar-hr">
+          <hr data-ng-if="invitation" class="title-bar-hr">
           <div data-ng-if="events.place.id" class="_fl title-bar _vam _df _fw">
             <div class="logo-bar">
               <img class="account-initials-32" data-ng-if="events.place.picture.org.uid" src="{{events.place.picture.x32.url}}"/>
@@ -55,9 +55,10 @@
               </div>
             </div>
           </div>
-          <hr class="title-bar-hr">
-          <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
 
+          <hr data-ng-if="events.place.id" class="title-bar-hr">
+
+          <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
             <div class="event-group-time col-lg-12">
               <div class="sender">
                 <p class="nst-mood-simple" data-ng-init="today = eventGroup.type == 'daily' && eventGroup.date.getDate() == now.getDate()">
