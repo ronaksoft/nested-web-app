@@ -264,6 +264,7 @@
 #PostView #Comments {
   padding: 5px;
   width: 320px;
+  flex:none;
   background-color: rgb(247, 250, 249);
   border-radius: 6px;
 }
@@ -332,7 +333,7 @@
   justify-content: space-between;
   flex: 1;
   max-height: calc(100% - 140px);
-  min-height: calc(100% - 150px);
+  min-height: calc(100% - 170px);
 }
 
 .actor-name {
