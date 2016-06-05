@@ -72,8 +72,8 @@
 
                 <div class="_df switch">
                   <input type="checkbox" id="sw-locked" data-ng-disabled="!place.haveAccess('C')" class="inpsw" name="locked" data-ng-model="place.privacy.locked" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
-                  <label for="sw-locked" data-ng-click="place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
-                  <label for="sw-locked" data-ng-click="!place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
+                  <label for="sw-locked" data-ng-click="place.privacy.locked && $event.preventDefault()"><div class="labtxt _fw">ON</div></label>
+                  <label for="sw-locked" data-ng-click="!place.privacy.locked && $event.preventDefault();place_option.showLuckModal()"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
 

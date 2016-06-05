@@ -329,6 +329,8 @@
   overflow-y: auto;
   justify-content: space-between;
   flex: 1;
+  max-height: calc(100% - 180px);
+  min-height: calc(100% - 200px);
 }
 
 .actor-name {
@@ -417,6 +419,7 @@
 .closebut{
   position: relative;
   top: -5px;
+  height: 24px;
 }
 .sendcomment {
   justify-content: flex-end;
@@ -443,4 +446,11 @@
 .filename-p {
   padding-top: 22px;
   padding-bottom: 10px;
+}
+.audioplayer{
+  height: 50px;
+}
+.account-initials-24 {
+  min-width: 24px;
+  min-height: 24px;
 }

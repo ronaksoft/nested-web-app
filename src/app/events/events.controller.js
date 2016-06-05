@@ -6,8 +6,31 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace) {
+  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, $localStorage) {
     var vm = this;
+    vm.extended = $localStorage.extended;
+    vm.collapse = function () {
+      if(vm.extended == true){
+        $localStorage.extended = false;
+        vm.extended = $localStorage.extended;
+      }
+      else{
+        $localStorage.extended = true;
+        vm.extended = $localStorage.extended;
+      }
+    };
+
+    $scope.$store = $localStorage;
+    vm.sidebarWidthFunc = function (event) {
+      $localStorage.sidebarWidth = angular.element(event.currentTarget).width();
+    };
+
+    /*$(".side").width($cookieStore.get('sideWidth'));
+    $('#container').mouseup(function () {
+      var width = $('.side').width();
+      $cookieStore.put('sideWidth', width);
+    });*/
+
 
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });

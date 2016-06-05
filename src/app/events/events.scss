@@ -100,7 +100,8 @@
 // TODO: color should change
 #EventList {
   width: 100%;
-  height: auto
+  height: auto;
+  flex: none;
 }
 
 #EventList .ico {
@@ -216,6 +217,7 @@
   border-radius: 40px;
   white-space: nowrap;
   line-height: 13px;
+  flex:none;
 }
 .more-tag a{
   color: $color-white;
