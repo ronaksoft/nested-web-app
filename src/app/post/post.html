@@ -2,7 +2,7 @@
   <div class="_difv _fw" id="PostHeader">
     <div class="_difh _fw">
       <div class="post-nav-left _df _fw">
-        <p data-ng-bind-html="thePost.subject | emoji"></p>
+        <p class="_fw" data-ng-bind-html="thePost.subject | emoji"></p>
       </div>
       <div class="post-nav-right _difh">
         <div class="date  nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
@@ -87,9 +87,9 @@
               <div class="_df _fw cmt-post-view">
                 <emoji>
                   <span marked="comment.body">
-                    <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
-                       ng-click="comment.delete()">delete</a>
                   </span>
+                  <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
+                            ng-click="comment.delete()">delete</a>
                 </emoji>
               </div>
             </div>
