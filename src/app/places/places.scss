@@ -63,8 +63,6 @@ background-color: $color-sense-5;
   padding-left: 25px;
 }
 
-
-
 #AllPlaces .logo {
   width: 48px;
   flex: none
@@ -108,7 +106,6 @@ background-color: $color-sense-5;
   margin-left: 5px;
   //color: #787878;
   font-size: x-small;
-
 }
 
 #AllPlaces .members {
@@ -181,31 +178,40 @@ background-color: $color-sense-5;
   background-position: 0 -48px;
 }
 
-.nst-pencil {
+
+[class*=nst-deactive-ico-]{
   background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
   height: 24px;
   min-width: 24px;
 }
 
-.nst-atsign {
-  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
-  height: 24px;
-  min-width: 24px;
+.nst-deactive-ico-atsign {
   background-position: 0px -48px;
 }
 
-.nst-eye {
-  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
-  height: 24px;
-  min-width: 24px;
+.nst-deactive-ico-eye {
   background-position: 0px -24px;
-
 }
 
-.nst-search {
-  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+.nst-deactive-ico-search {
+  background-position: 0px -72px;
+}
+
+[class*=nst-active-ico-]{
+  background: url('../assets/icons/placeicon_24.png') no-repeat;
   height: 24px;
   min-width: 24px;
+}
+
+.nst-active-ico-atsign {
+  background-position: 0px -48px;
+}
+
+.nst-active-ico-eye {
+  background-position: 0px -24px;
+}
+
+.nst-active-ico-search {
   background-position: 0px -72px;
 }
 
@@ -220,36 +226,33 @@ background-color: $color-sense-5;
   height: 32px;
 }
 
-.nst-shown {
+[class*=nst-place-icon-]{
   background: url('../assets/icons/placeicon_24_default.png') no-repeat;
   height: 24px;
   width: 24px;
+}
+
+.nst-place-icon-shown {
   background-position: 0px -96px;
-
 }
 
-.nst-notif {
-  background: url('../assets/icons/placeicon_24_default.png') no-repeat;
-  height: 24px;
-  width: 24px;
+.nst-place-icon-notif {
   background-position: 0px -120px;
-
 }
 
-.nst-lock {
-  background: url('../assets/icons/placeicon_24_default.png') no-repeat;
-  height: 24px;
-  width: 24px;
+.nst-place-icon-lock {
   background-position: 0px -24px;
-
 }
 
-.nst-print {
-  background: url('../assets/icons/placeicon_24_default.png') no-repeat;
-  height: 24px;
-  width: 24px;
+.nst-place-icon-print {
   background-position: 0px 0px;
 
+}
+.nst-place-icon-search{
+  background-position: 0px -72px;
+}
+.nst-place-icon-email{
+  background-position: 0px -48px;
 }
 
 .nst-arrow {

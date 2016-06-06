@@ -36,7 +36,7 @@ input[type='text'], input[type='password'], input[type='tel'] {
     border-radius: 4px;
     padding: 3px;
     box-shadow: none;
-  padding-left: 10px;
+    padding-left: 10px;
 }
 
 a {
@@ -46,11 +46,16 @@ a {
 a:hover {
   text-decoration: none;
 }
-
+.a-hover:hover {
+  color: $color-sense;
+}
 //*a:visited {
 //  color: $color-sense;
 //}
 //
+.input-disabled{
+  pointer-events: none;
+}
 
 body {
   background-color: $color-bg;
