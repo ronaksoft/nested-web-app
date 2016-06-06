@@ -184,6 +184,7 @@ a.place {
 .nacur:hover {
   color: black;
 }
+
 /**
   ******************************
   *  General ul Css
@@ -488,6 +489,8 @@ a:hover {
 /*
  ************** Popovers ************
 */
+
+
 .popover {
   border-radius: 0;
 }
@@ -505,6 +508,16 @@ a:hover {
   word-break: keep-all;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+#menu.popover-content {
+ padding: 0;
+}
+
+#menu.popup-panel {
+  max-width: 238px;
+  margin: 0;
+  padding: 0;
 }
 
 .popover-white + .popover {
