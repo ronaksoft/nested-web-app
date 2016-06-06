@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -11,7 +11,7 @@
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
-      $location.search({ back: $location.path() });
+      $location.search({back: $location.path()});
       $location.path('/signin').replace();
     }
 
@@ -23,7 +23,7 @@
     vm.places = [];
     vm.recipients = [];
     vm.search = function (query) {
-      WsService.request('place/search', { keyword: query }).then(function (data) {
+      WsService.request('place/search', {keyword: query}).then(function (data) {
         $scope.compose.places = [];
         for (var k in data.places) {
           $scope.compose.places.push(new NestedPlace(data.places[k]));
@@ -71,7 +71,7 @@
     $scope.attachshow = false;
     vm.attach = function (event) {
       var element = event.currentTarget;
-      $scope.attachshow = true ;
+      $scope.attachshow = true;
 
       var counter = 0;
       for (var i = 0; i < element.files.length; i++) {
@@ -144,4 +144,13 @@
   }
 })();
 
-
+// $scope.chageMe = function ($event, $toState, $toParams, $fromState, $fromParams,$cancel) {
+//
+//   var r = confirm("Press a button");
+//   if (r == true) {
+//     $cancel.$destroy();
+//     $state.go($toState.name)
+//   } else {
+//     alert("Are you sure?")
+//   }
+// }

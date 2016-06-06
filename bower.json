@@ -5,7 +5,7 @@
     "jquery": "~2.1.4",
     "bootstrap-sass": "~3.3.5",
     "angular": "~1.5.6",
-    "angular-animate": "~1.5.6",
+    "angular-animate": "^1.5.6",
     "angular-cookies": "~1.5.6",
     "angular-touch": "~1.5.6",
     "angular-sanitize": "~1.5.6",
@@ -36,7 +36,8 @@
     "angular-marked": "^1.2.0",
     "angular-xeditable": "^0.1.12",
     "angular-resizable": "^1.2.0",
-    "initial.js": "https://github.com/pouyanh/initial.js.git#v0.3.0",
+    "angular-unsaved-changes": "^0.0.7",
+    "initial.js": "https://github.com/pouyanh/initial.js.git#v0.4.0",
     "ngstorage": "^0.3.10"
   },
   "devDependencies": {
@@ -67,8 +68,6 @@
   },
   "resolutions": {
     "jquery": "~2.1.4",
-    "angular": "~1.5.6",
-    "angular-touch": "~1.5.6",
-    "angular-animate": "~1.5.6"
+    "angular": "~1.5.6"
   }
 }

@@ -399,10 +399,15 @@
 .file-preview {
   height: 550px;
 }
-.nst-preview-footer .nst-nav-btn-breeze {
+.nst-preview-footer .nst-nav-btn-breeze,.nst-arrow-rotated-90{
   margin-top: 16px;
   margin-right: 16px;
   padding: 2px 6px 0px 6px;
+}
+.nst-arrow-rotated-270 {
+  margin-top: 13.2px;
+  margin-right: 8px;
+  padding: 22px 6px 0px 6px;
 }
 
 .comment-input-det{
