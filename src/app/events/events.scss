@@ -182,7 +182,9 @@
   font-weight: bold;
   line-height: 24px;
 }
-
+.post {
+  color: $color-solid!important;
+}
 #EventList .msg .body {
   display: flex;
   color: gray;
