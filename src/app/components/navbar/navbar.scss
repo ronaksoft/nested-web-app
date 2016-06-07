@@ -164,8 +164,11 @@
   position: relative;
   border-bottom: 5px solid $color-white;
   height: 40px;
-}
 
+}
+.subnavitems li:last-child {
+  flex: none;
+}
 .subnavitems li.li-hover:hover,
 .subnavitems li.li-hover.selected {
   border-bottom: 5px solid $color-sense;
