@@ -29,6 +29,26 @@
             <div class="_df"><input id="n-search" placeholder="Search"></div>
         </div>
       </div>
+      <div data-ng-if="events.place.id" class="_fl title-bar _vam _difh _fw">
+        <div class="logo-bar _df">
+          <img class="account-initials-48" data-ng-if="events.place.picture.org.uid" src="{{events.place.picture.x48.url}}"/>
+          <div class="account-initials-48" data-ng-if="!events.place.picture.org.uid" data-ng-bind="events.place.name | initials:2"></div>
+        </div>
+        <div class="name title-bar-holder _difv">
+          <a class="_df _fh"><strong>{{events.place.name}}</strong></a>
+          <span class="nst-mood-storm _df" data-ng-bind="events.place.id + '@nested.me'"></span>
+        </div>
+        <div class="nst-mood-storm members-status-nav _df">{{events.place.counters.allMembers}} members</div>
+        <div class="margin-top-20">
+          <div class="nst-more">
+            <a href="#/place/{{events.place.id}}">
+              <div class="nst-more-badge"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <hr data-ng-if="events.place.id" class="title-bar-hr _fw">
 
       <!------>
       <div class="_fw nst-content-body" on-scroll="events.scroll(event)">
@@ -37,26 +57,6 @@
             <div class="evrow" data-ng-repeat="invite in invites" data-ng-include="app/events/partials/invitation.html"></div>
           </div>
           <hr data-ng-if="invitation" class="title-bar-hr">
-          <div data-ng-if="events.place.id" class="_fl title-bar _vam _df _fw">
-            <div class="logo-bar">
-              <img class="account-initials-32" data-ng-if="events.place.picture.org.uid" src="{{events.place.picture.x32.url}}"/>
-              <div class="account-initials-32" data-ng-if="!events.place.picture.org.uid" data-ng-bind="events.place.name | initials:2"></div>
-            </div>
-            <div class="name _tofe title-bar-holder">
-              <h5>{{events.place.name}}</h5>
-              <p class="nst-mood-storm" data-ng-bind="events.place.id + '@nested.me'"></p>
-            </div>
-            <div class="nst-mood-storm members-status-nav">{{events.place.counters.allMembers}} members</div>
-            <div class="margin-top-20">
-              <div class="nst-more">
-                <a href="#/place/{{events.place.id}}">
-                  <div class="nst-more-badge"></div>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <hr data-ng-if="events.place.id" class="title-bar-hr">
 
           <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
             <div class="event-group-time col-lg-12">
