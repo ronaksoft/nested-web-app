@@ -173,7 +173,10 @@
   overflow: hidden;
   flex-direction: column;
 }
-
+.subject .nst-mood-simple {
+  font-size: $font-size-small;
+  font-weight: 400;
+}
 #EventList .msg .subject {
   display: flex;
   font-weight: bold;
@@ -193,10 +196,11 @@
   flex:none;
   max-width: 100%;
   margin-left: 3px;
-  height: 24px;
+  height: 16px;
   direction: rtl;
   font-size: $font-size-xsmall;
   justify-content: flex-start;
+  align-items: center;
 }
 #EventList .time {
   float: left;
@@ -224,7 +228,7 @@
   color: $color-white;
   font-size: $font-size-xsmall;
   white-space: nowrap;
-  padding: 6px 8px 2px 8px;
+  padding: 2px 8px;
   line-height: 13px;
 }
 .more-tag:hover {

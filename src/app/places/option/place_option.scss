@@ -316,6 +316,9 @@
   width: 24px;
   height: 24px;
 }
+.modal-add-input {
+  width: calc(100% - 50px)!important;
+}
 .wngbot {
   height: 100px;
   align-items: center;
