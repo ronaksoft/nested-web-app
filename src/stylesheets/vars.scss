@@ -2,7 +2,7 @@
   *********************************
   *     Variables                 *
   *********************************
- */
+*/
 
 $color-solid: #000;
 $color-sense: #14d769;
@@ -36,3 +36,13 @@ $font-family-eng-reg: "OpenSans";
 $font-family-eng-bold: "OpenSans";
 $font-family-per-reg: "YekanBakh";
 $font-family-per-bold: "YekanBakh";
+
+/**
+  *********************************
+  *     Keyframes                 *
+  *********************************
+*/
+@keyframes appearence {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
