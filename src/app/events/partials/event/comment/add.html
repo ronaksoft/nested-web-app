@@ -8,7 +8,7 @@
   <div class="msg" data-ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)">
     <div class="subject">
       <span class="nst-mood-simple">commented on&nbsp;</span>
-      <a class="nst-mood-solid post post" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)" data-ng-bind-html="event.post.subject | emoji"></a>
+      <a class="nst-mood-solid post" href="#/post/{{event.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)" data-ng-bind-html="event.post.subject | emoji"></a>
     </div>
     <div data-ng-show="events.extended" class="body" data-ng-bind-html="event.comment.body | emoji"></div>
   </div>

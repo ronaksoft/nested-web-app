@@ -364,6 +364,7 @@ select {
 * [class *= "account-initials-"] {
   margin-right: 8px;
   justify-content: center;
+  border: 1px $color-solid-30 solid;
 }
 
 @for $i from 1 through 32 {
@@ -485,6 +486,7 @@ a:hover {
 
 .popover {
   border-radius: 0;
+  z-index: 1000;
 }
  #popover-badge.popover{
    border-radius: 6px;
@@ -1089,16 +1091,17 @@ a.normal-badge {
 //}
 
 .small-badge {
-  background-color: #a0e8b8;
+  background-color: $color-badge;
   border-radius: 40px;
   flex: none;
+  align-items: center;
+
 }
 .small-badge a{
-  margin: 7px 12px 3px 12px;
   color: $color-solid;
-  font-size: 12px;
+  margin: 0 8px;
+  font-size: 11px;
   white-space: nowrap;
-  line-height: 13px;
 }
 .place:hover {
   color : black;
@@ -1110,15 +1113,24 @@ a.normal-badge {
   color: $color-solid;
   font-size: 12px;
   white-space: nowrap;
-  padding-right: 8px;
-  padding-left: 8px;
+  padding: 0 8px;
   height: 20px;
-  padding-top: 3px;
   flex: none;
 }
 
-.nst-nowrap-badge .normal-badge {
-  margin: 2px;
+.large-badge {
+  background-color: $color-badge;
+  border-radius: 16px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  margin: 0 5px;
+}
+.large-badge a{
+  color: $color-solid;
+  margin: 2px 12px;
+  font-size: 13px;
+  white-space: nowrap;
 }
 #PostView .normal-badge {
   //margin-top: 9px;

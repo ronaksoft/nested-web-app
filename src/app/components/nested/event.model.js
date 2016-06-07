@@ -104,7 +104,7 @@
           if (data.hasOwnProperty('post_id')) {
             q = {
               _id: data.post_id,
-              sender: this.actor,
+              sender: (EVENT_ACTIONS.POST_ADD == this.type ? this.actor : ''),
               subject: data.post_subject,
               body: data.post_body || (EVENT_ACTIONS.POST_ADD == this.type ? data.post_body : ''),
               post_attachments: data.post_attachments || [],

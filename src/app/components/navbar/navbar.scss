@@ -158,14 +158,18 @@
 
 .subnavitems li {
   display: flex;
-  font-size: $font-size-small;
+  font-size: $font-size-medium;
+  font-weight: 500;
   margin-right: 15px;
   text-align: center;
   position: relative;
   border-bottom: 5px solid $color-white;
   height: 40px;
-}
 
+}
+.subnavitems li:last-child {
+  flex: none;
+}
 .subnavitems li.li-hover:hover,
 .subnavitems li.li-hover.selected {
   border-bottom: 5px solid $color-sense;
