@@ -10,7 +10,7 @@
     }).factory('StoreService', NestedStore);
 
   /** @ngInject */
-  function NestedStore($window, $rootScope, $q, $http, $sce, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore) {
+  function NestedStore($window, $rootScope, $q, $http, $sce, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore, Upload) {
     function StoreService(stores) {
       this.stores = {};
       this.defaultStore = new NestedStore();
@@ -92,7 +92,7 @@
         }
       },
 
-      upload: function (file, type) {
+      upload: function (file, type, id, onUploadStart) {
         type = type || UPLOAD_TYPE.FILE;
 
         var q = {
@@ -120,9 +120,20 @@
           formData.append('token', token);
           formData.append('fn', 'attachment');
           formData.append('attachment', file);
+          formData.append('_reqid', id || null);
 
-          return $http.post(this.defaultStore.url, formData, {
-            headers: {'Content-Type': undefined}
+          var canceler = $q.defer();
+
+          onUploadStart(canceler);
+
+          return $http({
+            method: 'POST',
+            url: this.defaultStore.url,
+            data: formData,
+            headers: {
+              'Content-Type': undefined
+            },
+            timeout: canceler.promise,
           }).then(function (response) {
             var data = response.data.data;
 
@@ -131,7 +142,6 @@
                 case WS_RESPONSE_STATUS.SUCCESS:
                   res(data);
                   break;
-
                 default:
                   rej(data);
                   break;
@@ -139,6 +149,9 @@
               }
             });
           });
+
+
+
         }.bind(this));
       },
 
@@ -163,33 +176,118 @@
           });
         }
 
-        var createCORSRequest = function(method, url) {
-          var xhr = new XMLHttpRequest();
-          // xhr.withCredentials = true;
-          if ("withCredentials" in xhr) {
+        return this.defaultStore.getUploadToken().then(function (token) {
 
-            // Check if the XMLHttpRequest object has a "withCredentials" property.
-            // "withCredentials" only exists on XMLHTTPRequest2 objects.
-            xhr.open(method, url, true);
+          var that = this;
 
-          } else if (typeof XDomainRequest != "undefined") {
+          var formData = new FormData();
 
-            // Otherwise, check if XDomainRequest.
-            // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-            xhr = new XDomainRequest();
-            // xhr.withCredentials = true;
-            xhr.open(method, url);
+          formData.append('cmd', type);
+          formData.append('_sk', WsService.getSessionKey());
+          formData.append('token', token);
+          formData.append('fn', 'attachment');
+          formData.append('attachment', file);
 
-          } else {
-
-            // Otherwise, CORS is not supported by the browser.
-            xhr = null;
-
+          function Control() {
           }
 
-          xhr && xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
+          $.ajax({
+            url: that.defaultStore.url,  //Server script to process data
+            type: 'POST',
+            xhr: function() {  // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if(myXhr.upload){ // Check if upload property exists
+                    myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+                }
+                return myXhr;
+            },
+            //Ajax events
+            beforeSend: function () {
 
-          return xhr;
+            },
+            success: function () {
+              console.log('ajax upload completed.');
+            },
+            error: function () {
+              console.log('error occured');
+            },
+            // Form data
+            data: formData,
+            //Options to tell jQuery not to process data or worry about content-type.
+            cache: false,
+            crossDomain: true,
+            contentType: undefined,
+            processData: false,
+            xhrFields: {
+              withCredentials: true
+            },
+            headers: {
+              Accept : 'application/json, text/plain, */*',
+            },
+        });
+        function progressHandlingFunction(e){
+          if(e.lengthComputable){
+            console.log(e.loaded);
+          }
+        }
+
+          // Control.prototype = {
+          //   start: function () {
+          //     return $q(function(resolve, reject) {
+          //       this.xhr.upload.onload = function(e) {
+          //         switch (e.data.status) {
+          //           case WS_RESPONSE_STATUS.SUCCESS:
+          //           console.log(e);
+          //           //TODO : make sure the return type is correct
+          //             resolve(e.data.data);
+          //             break;
+          //           default:
+          //           //TODO : make sure the return type is correct
+          //             reject(e.data.data);
+          //             break;
+          //         }
+          //       };
+          //
+          //       this.xhr.send(formData);
+          //     }.bind(this));
+          //   },
+          //   addListerner: function(listerner) {
+          //     xhr.upload.onprogress = function(e) {
+          //       // check wether someone is listening
+          //       if (angular.isFunction(listerner) && e.lengthComputable) {
+          //         var progressPercentage = Math.round(e.loaded / e.total * 100);
+          //         listerner(progressPercentage);
+          //       }
+          //     };
+          //
+          //     return this;
+          //   }
+          // };
+
+          return new Control();
+        }.bind(this));
+
+      },
+
+      upload3 : function (file, type) {
+        type = type || UPLOAD_TYPE.FILE;
+
+        var q = {
+          'file': file instanceof File,
+          'type': (Object.keys(UPLOAD_TYPE).map(function(k) { return UPLOAD_TYPE[k]; })).indexOf(type) > -1
+        };
+        var items = [];
+        for (var k in q) {
+          q[k] || items.push(k);
+        }
+
+        if (items.length > 0) {
+          return $q(function (res, rej) {
+            rej({
+              err_code: WS_ERROR.INVALID,
+              items: items
+            });
+          });
         }
 
         return this.defaultStore.getUploadToken().then(function (token) {
@@ -197,55 +295,79 @@
           var that = this;
 
           var formData = new FormData();
-          var xhr = createCORSRequest('POST', that.defaultStore.url);
 
           formData.append('cmd', type);
           formData.append('_sk', WsService.getSessionKey());
           formData.append('token', token);
           formData.append('fn', 'attachment');
           formData.append('attachment', file);
-          // formData.append('contenttype', 'idocs:document');
 
-          // xhr.withCredentials = true;
+          function Control() {
 
-          function Control(xhr) {
-            this.xhr = xhr;
           }
 
-          Control.prototype = {
-            start: function () {
-              return $q(function(resolve, reject) {
-                this.xhr.upload.onload = function(e) {
-                  switch (e.data.status) {
-                    case WS_RESPONSE_STATUS.SUCCESS:
-                    console.log(e);
-                    //TODO : make sure the return type is correct
-                      resolve(e.data.data);
-                      break;
-                    default:
-                    //TODO : make sure the return type is correct
-                      reject(e.data.data);
-                      break;
-                  }
-                };
-
-                this.xhr.send(formData);
-              }.bind(this));
-            },
-            addListerner: function(listerner) {
-              xhr.upload.onprogress = function(e) {
-                // check wether someone is listening
-                if (angular.isFunction(listerner) && e.lengthComputable) {
-                  var progressPercentage = Math.round(e.loaded / e.total * 100);
-                  listerner(progressPercentage);
-                }
-              };
-
-              return this;
+          Upload.upload({
+            url: that.defaultStore.url,
+            data: {
+              attachment: file,
+              cmd: type,
+              _sk: WsService.getSessionKey(),
+              token: token,
+              fn: 'attachment',
             }
-          };
+        }).then(function (resp) {
+          console.log('yoohoo');
+            // console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+        }, function (resp) {
+          console.log('sucks');
+            // console.log('Error status: ' + resp.status);
+        }, function (evt) {
+          console.log('in progress');
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            // console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+        });
 
-          return new Control(xhr);
+        //   $.ajax({
+        //     url: that.defaultStore.url,  //Server script to process data
+        //     type: 'POST',
+        //     xhr: function() {  // Custom XMLHttpRequest
+        //         var myXhr = $.ajaxSettings.xhr();
+        //         if(myXhr.upload){ // Check if upload property exists
+        //             myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+        //         }
+        //         return myXhr;
+        //     },
+        //     //Ajax events
+        //     beforeSend: function () {
+        //
+        //     },
+        //     success: function () {
+        //       console.log('ajax upload completed.');
+        //     },
+        //     error: function () {
+        //       console.log('error occured');
+        //     },
+        //     // Form data
+        //     data: formData,
+        //     //Options to tell jQuery not to process data or worry about content-type.
+        //     cache: false,
+        //     crossDomain: true,
+        //     contentType: undefined,
+        //     processData: false,
+        //     xhrFields: {
+        //       withCredentials: true
+        //     },
+        //     headers: {
+        //       Accept : 'application/json, text/plain, */*',
+        //     },
+        // });
+        // function progressHandlingFunction(e){
+        //   if(e.lengthComputable){
+        //     console.log(e.loaded);
+        //   }
+        // }
+
+          return new Control();
         }.bind(this));
 
       },

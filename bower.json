@@ -36,7 +36,9 @@
     "angular-marked": "^1.2.0",
     "angular-xeditable": "^0.1.12",
     "angular-resizable": "^1.2.0",
-    "initial.js": "https://github.com/zahrajoulaei/initial.js.git#v0.2.0"
+    "initial.js": "https://github.com/zahrajoulaei/initial.js.git#v0.2.0",
+    "ng-file-upload": "^12.0.4",
+    "lodash": "^4.13.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"

@@ -30,6 +30,7 @@
       'com.2fdevs.videogular.plugins.poster',
       'textAngular',
       'hc.marked',
-      'xeditable'
+      'xeditable',
+      'ngFileUpload'
     ]);
 })();
