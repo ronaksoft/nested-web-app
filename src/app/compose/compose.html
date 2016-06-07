@@ -22,6 +22,12 @@
           </li>
         </ul>
 
+        <!--<form name="testForm" unsaved-warning-form>-->
+        <!--<input unsaved-warning-form name="test" type="unsaved-warning-clear" ng-model="test"/>-->
+        <!--<button type="submit">submit</button>-->
+        <!--<button type="reset" unsaved-warning-clear>reset</button>-->
+        <!--</form>-->
+
       </div>
       <div class="compose-hld _fw">
         <section class="_difc _fw">
@@ -41,31 +47,32 @@
                 </ui-select-match>
                 <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
                                    repeat="place in (compose.places | filter: $select.search) track by place.id">
-                  <img class="account-picture" data-ng-if="place.picture.org.uid" src="{{place.picture.x32.url}}"/>
-                  <span class="account-initial" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></span>
-                  <span data-ng-bind-html="place.name | highlight: $select.search"></span>
-                  <small>({{place.id}})</small>
+                  <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+                  <span  class="_vabt" data-ng-bind-html="place.name | highlight: $select.search"></span>
+                  </br>
+                  <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
                 </ui-select-choices>
               </ui-select>
             </div>
           </div>
         </section>
-        <hr data-ng-show="attachshow" />
+        <hr data-ng-show="attachshow"/>
 
         <div class="nst-attach _dif _fw" data-ng-show="attachshow">
           <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post "
                class="popover-green _df _fw attachlist" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="bottom-left auto"></div>
           <div class="attach _df">
             <!--<label for="attach">-->
-              <!--<div class="headlineicon-green"></div>-->
+            <!--<div class="headlineicon-green"></div>-->
             <!--</label>-->
             <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event)"/>
           </div>
           <div class="nst-attach-con _fh">
             <!--<div data-ng-if="upload_size.total > 0" class="nst-attach-upload">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>-->
             <div class="progress">
-              <div class="progress-bar progress-bar-success progress-bar-striped  active " role="progressbar" aria-valuenow="{{(upload_size.uploaded / upload_size.total) * 100}}" aria-valuemin="0" aria-valuemax="100" style="width: {{(upload_size.uploaded / upload_size.total) * 100}}%">
-               <div data-ng-if="upload_size.total > 0" class="" >{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded </div>
+              <div class="progress-bar progress-bar-success progress-bar-striped  active " role="progressbar" aria-valuenow="{{(upload_size.uploaded / upload_size.total) * 100}}" aria-valuemin="0"
+                   aria-valuemax="100" style="width: {{(upload_size.uploaded / upload_size.total) * 100}}%">
+                <div data-ng-if="upload_size.total > 0" class="">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>
               </div>
             </div>
           </div>
@@ -73,16 +80,10 @@
         <hr class="nomargin"/>
 
         <section class="nst-compose-message">
-          <div text-angular ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]" data-ng-model="compose.post.body">
-
-            <!--<form name="testForm" unsaved-warning-form>-->
-              <!--<input  placeholder="hi"/>-->
-            <!--</form>-->
-            <!--<div page-change="chageMe($event, $toState, $toParams, $fromState, $fromParams,$cancel">-->
-            <!--<input page-change-element  type="text"  ng-model="hey" placeholder="enterhere"/></div>-->
-          <!--</div>-->
-
-          <!--<div text-angular  data-ng-model="compose.post.body"></div>-->
+          <div text-angular
+               ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
+               data-ng-model="compose.post.body">
+            <!--<div text-angular  data-ng-model="compose.post.body"></div>-->
         </section>
       </div>
     </div>
@@ -94,35 +95,36 @@
 </div>
 
 
+<!--<script src="bower_components/angular-unsavedChanges/dist/unsavedChanges.js">-->
+<!--</script>-->
 <!--<script>-->
 
+<!--function changeHashOnLoad() {-->
 
-  <!--function changeHashOnLoad() {-->
+<!--window.location.href += '#';-->
 
-    <!--window.location.href += '#';-->
+<!--setTimeout('changeHashAgain()', '50');-->
 
-    <!--setTimeout('changeHashAgain()', '50');-->
+<!--}-->
 
-  <!--}-->
+<!--function changeHashAgain() {-->
 
-  <!--function changeHashAgain() {-->
+<!--window.location.href += '1';-->
 
-    <!--window.location.href += '1';-->
+<!--}-->
 
-  <!--}-->
+<!--var storedHash = window.location.hash;-->
 
-  <!--var storedHash = window.location.hash;-->
+<!--window.setInterval(function () {-->
 
-  <!--window.setInterval(function () {-->
+<!--if (window.location.hash != storedHash) {-->
 
-    <!--if (window.location.hash != storedHash) {-->
+<!--window.location.hash = storedHash;-->
 
-      <!--window.location.hash = storedHash;-->
+<!--}-->
 
-    <!--}-->
+<!--}, 50);-->
 
-  <!--}, 50);-->
-
-  <!--window.onload = changeHashOnLoad;-->
+<!--window.onload = changeHashOnLoad;-->
 
 <!--</script>-->
