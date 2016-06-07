@@ -10,7 +10,7 @@
     }).factory('StoreService', NestedStore);
 
   /** @ngInject */
-  function NestedStore($window, $rootScope, $q, $http, $sce, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore, Upload) {
+  function NestedStore($window, $rootScope, $q, $http, $sce, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore) {
     function StoreService(stores) {
       this.stores = {};
       this.defaultStore = new NestedStore();
@@ -269,108 +269,108 @@
 
       },
 
-      upload3 : function (file, type) {
-        type = type || UPLOAD_TYPE.FILE;
-
-        var q = {
-          'file': file instanceof File,
-          'type': (Object.keys(UPLOAD_TYPE).map(function(k) { return UPLOAD_TYPE[k]; })).indexOf(type) > -1
-        };
-        var items = [];
-        for (var k in q) {
-          q[k] || items.push(k);
-        }
-
-        if (items.length > 0) {
-          return $q(function (res, rej) {
-            rej({
-              err_code: WS_ERROR.INVALID,
-              items: items
-            });
-          });
-        }
-
-        return this.defaultStore.getUploadToken().then(function (token) {
-
-          var that = this;
-
-          var formData = new FormData();
-
-          formData.append('cmd', type);
-          formData.append('_sk', WsService.getSessionKey());
-          formData.append('token', token);
-          formData.append('fn', 'attachment');
-          formData.append('attachment', file);
-
-          function Control() {
-
-          }
-
-          Upload.upload({
-            url: that.defaultStore.url,
-            data: {
-              attachment: file,
-              cmd: type,
-              _sk: WsService.getSessionKey(),
-              token: token,
-              fn: 'attachment',
-            }
-        }).then(function (resp) {
-          console.log('yoohoo');
-            // console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-        }, function (resp) {
-          console.log('sucks');
-            // console.log('Error status: ' + resp.status);
-        }, function (evt) {
-          console.log('in progress');
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            // console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-        });
-
-        //   $.ajax({
-        //     url: that.defaultStore.url,  //Server script to process data
-        //     type: 'POST',
-        //     xhr: function() {  // Custom XMLHttpRequest
-        //         var myXhr = $.ajaxSettings.xhr();
-        //         if(myXhr.upload){ // Check if upload property exists
-        //             myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
-        //         }
-        //         return myXhr;
-        //     },
-        //     //Ajax events
-        //     beforeSend: function () {
-        //
-        //     },
-        //     success: function () {
-        //       console.log('ajax upload completed.');
-        //     },
-        //     error: function () {
-        //       console.log('error occured');
-        //     },
-        //     // Form data
-        //     data: formData,
-        //     //Options to tell jQuery not to process data or worry about content-type.
-        //     cache: false,
-        //     crossDomain: true,
-        //     contentType: undefined,
-        //     processData: false,
-        //     xhrFields: {
-        //       withCredentials: true
-        //     },
-        //     headers: {
-        //       Accept : 'application/json, text/plain, */*',
-        //     },
-        // });
-        // function progressHandlingFunction(e){
-        //   if(e.lengthComputable){
-        //     console.log(e.loaded);
-        //   }
-        // }
-
-          return new Control();
-        }.bind(this));
-
-      },
+      // upload3 : function (file, type) {
+      //   type = type || UPLOAD_TYPE.FILE;
+      //
+      //   var q = {
+      //     'file': file instanceof File,
+      //     'type': (Object.keys(UPLOAD_TYPE).map(function(k) { return UPLOAD_TYPE[k]; })).indexOf(type) > -1
+      //   };
+      //   var items = [];
+      //   for (var k in q) {
+      //     q[k] || items.push(k);
+      //   }
+      //
+      //   if (items.length > 0) {
+      //     return $q(function (res, rej) {
+      //       rej({
+      //         err_code: WS_ERROR.INVALID,
+      //         items: items
+      //       });
+      //     });
+      //   }
+      //
+      //   return this.defaultStore.getUploadToken().then(function (token) {
+      //
+      //     var that = this;
+      //
+      //     var formData = new FormData();
+      //
+      //     formData.append('cmd', type);
+      //     formData.append('_sk', WsService.getSessionKey());
+      //     formData.append('token', token);
+      //     formData.append('fn', 'attachment');
+      //     formData.append('attachment', file);
+      //
+      //     function Control() {
+      //
+      //     }
+      //
+      //     Upload.upload({
+      //       url: that.defaultStore.url,
+      //       data: {
+      //         attachment: file,
+      //         cmd: type,
+      //         _sk: WsService.getSessionKey(),
+      //         token: token,
+      //         fn: 'attachment',
+      //       }
+      //   }).then(function (resp) {
+      //     console.log('yoohoo');
+      //       // console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+      //   }, function (resp) {
+      //     console.log('sucks');
+      //       // console.log('Error status: ' + resp.status);
+      //   }, function (evt) {
+      //     console.log('in progress');
+      //       var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+      //       // console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+      //   });
+      //
+      //   //   $.ajax({
+      //   //     url: that.defaultStore.url,  //Server script to process data
+      //   //     type: 'POST',
+      //   //     xhr: function() {  // Custom XMLHttpRequest
+      //   //         var myXhr = $.ajaxSettings.xhr();
+      //   //         if(myXhr.upload){ // Check if upload property exists
+      //   //             myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+      //   //         }
+      //   //         return myXhr;
+      //   //     },
+      //   //     //Ajax events
+      //   //     beforeSend: function () {
+      //   //
+      //   //     },
+      //   //     success: function () {
+      //   //       console.log('ajax upload completed.');
+      //   //     },
+      //   //     error: function () {
+      //   //       console.log('error occured');
+      //   //     },
+      //   //     // Form data
+      //   //     data: formData,
+      //   //     //Options to tell jQuery not to process data or worry about content-type.
+      //   //     cache: false,
+      //   //     crossDomain: true,
+      //   //     contentType: undefined,
+      //   //     processData: false,
+      //   //     xhrFields: {
+      //   //       withCredentials: true
+      //   //     },
+      //   //     headers: {
+      //   //       Accept : 'application/json, text/plain, */*',
+      //   //     },
+      //   // });
+      //   // function progressHandlingFunction(e){
+      //   //   if(e.lengthComputable){
+      //   //     console.log(e.loaded);
+      //   //   }
+      //   // }
+      //
+      //     return new Control();
+      //   }.bind(this));
+      //
+      // },
 
     };
 

@@ -2,7 +2,7 @@
 
   <div class="_dtr">
     <div class="_dtc">
-      <img data-ng-if="user.picture.org.uid" class="account-initials-48" src="{{user.picture.x32.url}}"/>
+      <img data-ng-if="user.picture.org.uid" class="account-initials-48" src="{{user.picture.x64.url}}"/>
       <div data-ng-if="!user.picture.org.uid" class="account-initials-48">{{user.name.initials}}</div>
     </div>
     <div class="_dtc">
@@ -19,19 +19,19 @@
   <ul class="list-unstyled">
     <a class="nst-mood-solid" href="#/profile">
       <li class="profile-menu-setting _dib"></li>
-      <li class="_dib nst-mood-solid">Settings</li>
+      <li class="_dib nst-mood-solid a-hover">Settings</li>
     </a>
   </ul>
   <ul>
     <a class="nst-mood-solid" href="#/profile">
       <li class="_dib profile-menu-upgrade"></li>
-      <li class="_dib nst-mood-solid">Upgrade</li>
+      <li class="_dib nst-mood-solid a-hover">Upgrade</li>
     </a>
   </ul>
   <ul>
     <a class="nst-mood-solid" href="#/signout">
       <li class="_dib profile-menu-signout"></li>
-      <li class="_dib ">sign out</li>
+      <li class="_dib a-hover">sign out</li>
     </a>
   </ul>
 </div>

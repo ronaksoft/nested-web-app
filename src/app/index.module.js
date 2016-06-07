@@ -31,6 +31,7 @@
       'textAngular',
       'hc.marked',
       'xeditable',
-      'ngFileUpload'
+      'ngStorage',
+      'angular-unsaved-changes'
     ]);
 })();

@@ -30,10 +30,12 @@
     <div data-ng-if="place.counters.allMembers == 0" class="nst-no-more-members"></div>
   </div>
   <div class="properties _df">
-    <div class="nst-pencil _fr"></div>
-    <div class="nst-atsign _fr"></div>
-    <div class="nst-eye _fr"></div>
-    <div class="nst-search _fr"></div>
+
+    <div class="nst-{{place.privacy.receptive ? '' : 'de'}}active-ico-pencil _fr"></div>
+    <div class="nst-{{place.privacy.email ? '' : 'de'}}active-ico-atsign _fr"></div>
+    <div class="nst-{{place.privacy.notidentical ? '' : 'de'}}active-ico-eye _fr"></div>
+    <div class="nst-{{place.privacy.search ? '' : 'de'}}active-ico-search _fr"></div>
+
   </div>
   <div class="nst-more _df">
     <div class="nst-more-badge popover-green" data-popover-placement="bottom-right auto" id="active-test" uib-popover-template="'app/places/context_menu/contex_menu_places.html'"

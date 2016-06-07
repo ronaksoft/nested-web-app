@@ -36,7 +36,7 @@ input[type='text'], input[type='password'], input[type='tel'] {
     border-radius: 4px;
     padding: 3px;
     box-shadow: none;
-  padding-left: 10px;
+    padding-left: 10px;
 }
 
 a {
@@ -46,11 +46,16 @@ a {
 a:hover {
   text-decoration: none;
 }
-
+.a-hover:hover {
+  color: $color-sense;
+}
 //*a:visited {
 //  color: $color-sense;
 //}
 //
+.input-disabled{
+  pointer-events: none;
+}
 
 body {
   background-color: $color-bg;
@@ -108,8 +113,9 @@ textarea {
 ._dib { display: inline-block;}
 ._dif { display: inline-flex;}
 ._difv { display: inline-flex;flex-direction: column}
-._difh { display: inline-flex;flex-direction: row}
+._difh { display: inline-flex;}
 ._difc { display: inline-flex;align-items: center}
+._jcc { justify-content: center}
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
 ._dtr { display: table-row; }
@@ -372,6 +378,8 @@ select {
 
 * [class *= "account-initials-"] {
   margin-right: 8px;
+  justify-content: center;
+  border: 1px $color-solid-30 solid;
 }
 
 @for $i from 1 through 32 {
@@ -411,6 +419,9 @@ select {
   border-radius: 50%;
 }
 
+iframe {
+  border: none;
+}
 a {
   color: $color-sense-wire;
 }
@@ -423,9 +434,19 @@ a:hover {
   min-width: 900px;
   min-height: 600px;
   padding: 80px 0;
+  display: flex!important;
+  justify-content: center;
+  align-items: center;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
-
+#add-view {
+  border: 1px solid #ced9d3;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  padding: 10px;
+  width: 800px;
+  height: auto;
+}
 .modal-content {
   background-color: rgba(0, 0, 0, 0);
   border: none;
@@ -458,12 +479,19 @@ a:hover {
 
 .modal-mlg {
   margin: 0 80px;
+  width: 100%;
+}
+.modal-sm {
+  width: auto!important;
+  height: auto!important;
+  vertical-align: middle;
 }
 /*
  ************** Popovers ************
 */
 .popover {
   border-radius: 0;
+  z-index: 1000;
 }
 .navbar-popover {
   margin-left: 20px;
@@ -631,6 +659,7 @@ label {
 
 .nst-mood-simple {
   color: $color-solid-60;
+  flex:none
 }
 
 .nst-mood-storm {
@@ -680,8 +709,19 @@ label {
   flex-direction: column;
   height: 100%;
   min-width: 208px;
-  width: 208px;
   max-width: 416px;
+  clear: both;
+  flex: none;
+}
+.side:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+.side:before {
+  content: "";
+  clear: both;
+  display: block;
 }
 .rightside {
   display: flex;
@@ -848,9 +888,24 @@ label {
 }
 
 .modal-add {
-  padding: 15px;
+  border-bottom: 1px solid $color-calm;
+  margin: 10px 0;
 }
-
+.suggests > .user > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-right: 8px;
+}
+.suggests {
+  height: 170px;
+  overflow: hidden;
+}
+.suggests .user{
+  height: 50px;
+  width: 33.3%;
+  margin-top: 5px;
+}
 .modal-add h5 {
   font-size: $font-size-xlarge;
 }
@@ -1021,15 +1076,17 @@ a.normal-badge {
 //}
 
 .small-badge {
-  background-color: #a0e8b8;
+  background-color: $color-badge;
   border-radius: 40px;
+  flex: none;
+  align-items: center;
+
 }
 .small-badge a{
-  margin: 7px 12px 3px 12px;
   color: $color-solid;
-  font-size: 12px;
+  margin: 0 8px;
+  font-size: 11px;
   white-space: nowrap;
-  line-height: 13px;
 }
 .place:hover {
   color : black;
@@ -1041,14 +1098,24 @@ a.normal-badge {
   color: $color-solid;
   font-size: 12px;
   white-space: nowrap;
-  padding-right: 8px;
-  padding-left: 8px;
+  padding: 0 8px;
   height: 20px;
-  padding-top: 3px;
+  flex: none;
 }
 
-.nst-nowrap-badge .normal-badge {
-  margin: 2px;
+.large-badge {
+  background-color: $color-badge;
+  border-radius: 16px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  margin: 0 5px;
+}
+.large-badge a{
+  color: $color-solid;
+  margin: 2px 12px;
+  font-size: 13px;
+  white-space: nowrap;
 }
 #PostView .normal-badge {
   //margin-top: 9px;
@@ -1083,4 +1150,3 @@ a.normal-badge {
   #PostView #Toolbar {}
   #PostView #Comments {}
 }
-

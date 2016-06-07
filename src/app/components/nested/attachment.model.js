@@ -37,9 +37,11 @@
       Attachment.prototype = {
         setData: function(data, post) {
           if (angular.isString(data)) {
-            this.load(data);
+            return this.load(data);
           } else if (data.hasOwnProperty('id')) {
             angular.extend(this, data);
+
+            this.change();
           } else if (data.hasOwnProperty('_id')) {
             this.id = data._id;
             this.download = null;
@@ -73,8 +75,12 @@
 
             this.change();
           } else if (data.hasOwnProperty('status')) {
-            this.setData(data.info)
+            this.setData(data.info);
           }
+
+          return $q(function (res) {
+            res(this);
+          }.bind(this));
         },
 
         getDownloadUrl: function () {
@@ -130,11 +136,7 @@
         load: function(id) {
           this.id = id || this.id;
 
-          WsService.request('attachment/get_info', {
-            attachment_id: this.id
-          }).then(function (data) {
-            this.setData(data);
-          }.bind(this));
+          return WsService.request('attachment/get_info', { attachment_id: this.id }).then(this.setData.bind(this));
         },
 
         delete: function() {

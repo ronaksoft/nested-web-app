@@ -14,6 +14,9 @@
       $location.path('/signin').replace();
     }
 
+    vm.setlockoff = function () {
+      console.log("ali")
+    }
     $scope.logo = null;
     $scope.place = new NestedPlace();
 
@@ -106,6 +109,7 @@
         scope: $scope
       });
 
+
       $scope.closeModal = modal.close;
 
       modal.closed.then(function () {
@@ -114,5 +118,26 @@
         delete $scope.closeModal;
       });
     };
+    vm.showLuckModal = function () {
+
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/places/option/warning.html',
+        controller: 'PlaceAddMemberController',
+        controllerAs: 'place_add_member',
+        size: 'sm',
+        scope: $scope
+      });
+
+
+      $scope.closeModal = modal.close;
+
+      modal.closed.then(function () {
+        delete $scope['add_' + role];
+        delete $scope.role;
+        delete $scope.closeModal;
+      });
+    };
+
   }
 })();

@@ -100,7 +100,8 @@
 // TODO: color should change
 #EventList {
   width: 100%;
-  height: auto
+  height: auto;
+  flex: none;
 }
 
 #EventList .ico {
@@ -131,7 +132,7 @@
 .actcon {
   border-bottom: 1px solid #ced9d3;
   padding: 10px 5px;
-  min-width:500px;
+  min-width:400px;
   width: 100%;
   float: left;
   display: inline-flex;
@@ -172,26 +173,37 @@
   overflow: hidden;
   flex-direction: column;
 }
-
+.subject .nst-mood-simple {
+  font-size: $font-size-small;
+  font-weight: 400;
+}
 #EventList .msg .subject {
   display: flex;
   font-weight: bold;
   line-height: 24px;
 }
-
+.post {
+  color: $color-solid!important;
+  font-weight: 400;
+}
 #EventList .msg .body {
   display: flex;
   color: gray;
 }
+#EventList .msg .nst-mood-simple {
+  white-space: nowrap
+}
 
 #EventList .places {
   display: flex;
+  flex:none;
   max-width: 100%;
   margin-left: 3px;
-  height: 24px;
+  height: 16px;
   direction: rtl;
   font-size: $font-size-xsmall;
   justify-content: flex-start;
+  align-items: center;
 }
 #EventList .time {
   float: left;
@@ -213,12 +225,13 @@
   border-radius: 40px;
   white-space: nowrap;
   line-height: 13px;
+  flex:none;
 }
 .more-tag a{
   color: $color-white;
   font-size: $font-size-xsmall;
   white-space: nowrap;
-  padding: 6px 8px 2px 8px;
+  padding: 2px 8px;
   line-height: 13px;
 }
 .more-tag:hover {
@@ -242,7 +255,6 @@
 }
 
 .attachment-badge-bar {
-  height: 18px;
   background-color: $color-breeze-50;
   border-radius: 5px;
   display: inline-block;
