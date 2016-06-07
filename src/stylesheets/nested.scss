@@ -490,6 +490,7 @@ a:hover {
 */
 .popover {
   border-radius: 0;
+  z-index: 1000;
 }
 .navbar-popover {
   margin-left: 20px;

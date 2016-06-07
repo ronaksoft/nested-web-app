@@ -7,6 +7,8 @@
 #place-option-body {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
+
 }
 
 #place-option-body hr {
@@ -206,9 +208,6 @@
   line-height: 10px;
 }
 
-.properties {
-  width: 126px;
-}
 
 .add-icon {
   width: 24px;
