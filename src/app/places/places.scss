@@ -364,7 +364,8 @@ background-color: $color-sense-5;
   position: relative;
 }
 .properties {
-  width: 200px;
+  width: 100px;
+  flex:none;
 }
 .ico {
   min-width: 30px;

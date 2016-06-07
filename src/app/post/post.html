@@ -2,7 +2,7 @@
   <div class="_difv _fw" id="PostHeader">
     <div class="_difh _fw">
       <div class="post-nav-left _df _fw">
-        <p data-ng-bind-html="thePost.subject | emoji"></p>
+        <p class="_fw" data-ng-bind-html="thePost.subject | emoji"></p>
       </div>
       <div class="post-nav-right _difh">
         <div class="date  nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
@@ -15,7 +15,7 @@
         <img initials="thePost.sender.fullname" data-url="thePost.sender.picture.x32.url" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
         <span class="actor-name _df" data-ng-bind="thePost.sender.fullname"></span>
         <div class="badges _df _fw">
-          <div class="nst-nowrap-badge"><a class="_di _fl normal-badge" data-ng-repeat="place in thePost.places" href="#/events/{{place.id}}" data-ng-bind="place.name"></a></div>
+          <div class="large-badge" data-ng-repeat="place in thePost.places"><a class="_di _fl" href="#/events/{{place.id}}" data-ng-bind="place.name"></a></div>
         </div>
       </div>
 
@@ -83,10 +83,10 @@
               <div class="_df _fw cmt-post-view">
                 <emoji>
                   <span marked="comment.body">
-                    <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
-                       ng-click="comment.delete()">delete</a>
                   </span>
                 </emoji>
+                <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
+                   ng-click="comment.delete()">&nbsp;&nbsp;delete</a>
               </div>
             </div>
           </div>
