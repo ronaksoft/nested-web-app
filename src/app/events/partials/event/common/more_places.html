@@ -1,7 +1,25 @@
-<div>
-  <ul class="list-unstyled text-center">
-    <li data-ng-repeat="place in event.post.places | limitTo:(event.post.places.length - 1):1">
-      <a class="nst-mood-simple" href="#/events/{{place.id}}" data-ng-bind="place.name"></a>
-    </li>
-  </ul>
+<!--<div>-->
+  <!--<ul class="list-unstyled text-center">-->
+    <!--<li data-ng-repeat="place in event.post.places | limitTo:(event.post.places.length - 1):1">-->
+      <!--<a class="nst-mood-simple" href="#/events/{{place.id}}" data-ng-bind="place.name"></a>-->
+    <!--</li>-->
+  <!--</ul>-->
+<!--</div>-->
+
+<div  data-ng-repeat="place in event.post.places | limitTo:(event.post.places.length - 1):1"  class="_dtr" id="popup-badge">
+  <div class="_dtc">
+    <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+  </div>
+  <div class="_dtc">
+    <div class="_dtr">
+      <ul class="list-unstyled text-center">
+        <li>
+         <a href="#/events/{{place.id}}" class="_dtc teammate-name nst-mood-simple">{{place.name}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="_dtr">
+      <div class="_dtc nst-mood-storm nst-font-10">{{place.id}}</div>
+    </div>
+  </div>
 </div>

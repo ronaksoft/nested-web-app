@@ -145,24 +145,8 @@ textarea {
 
 ._modal {z-index: 101}
 
-//
-//.s-ico {
-//    width: 16px;
-//    height: 16px;
-//    border-radius: 8px;
-//}
-//
-//.m-ico {
-//    width: 32px;
-//    height: 32px;
-//    border-radius: 16px;
-//}
-//
-//.l-ico {
-//    width: 48px;
-//    height: 48px;
-//    border-radius: 24px;
-//}
+._rtl {direction: rtl}
+._ltr{direction: ltr}
 
 a.place,
 a.account,
@@ -184,6 +168,7 @@ a.place {
 .nacur:hover {
   color: black;
 }
+
 /**
   ******************************
   *  General ul Css
@@ -414,7 +399,15 @@ select {
   *     Bootstrap Overrides       *
   *********************************
  */
+#input-compose-to a {
+  border-bottom: 1px solid $color-calm;
+  height: 56px;
+  padding: 12px;
+}
+.ui-select-bootstrap .ui-select-choices-row.active > a{
+  background-color: $color-sense-50;
 
+}
 .account-picture {
   border-radius: 50%;
 }
@@ -489,10 +482,17 @@ a:hover {
 /*
  ************** Popovers ************
 */
+
+
 .popover {
   border-radius: 0;
   z-index: 1000;
 }
+ #popover-badge.popover{
+   border-radius: 6px;
+   bow-shadow: unset;
+}
+
 .navbar-popover {
   margin-left: 20px;
   margin-top: -6px;
@@ -509,8 +509,20 @@ a:hover {
   text-overflow: ellipsis;
 }
 
+#menu.popover-content {
+ padding: 0;
+}
+
+#menu.popup-panel {
+  max-width: 238px;
+  margin: 0;
+  padding: 0;
+}
+
 .popover-white + .popover {
   background: $color-white;
+  border-radius: 6px;
+  box-shadow: unset;
 }
 
 .popover-green + .popover {
@@ -592,6 +604,9 @@ label {
 .form-control-feedback {
   top: 4px;
   pointer-events: auto;
+}
+a .ui-select-choises-row-inner {
+  border-bottom: 1px solid $color-breeze;
 }
 
 .ui-select-match-item{
