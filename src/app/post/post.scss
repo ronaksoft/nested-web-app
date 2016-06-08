@@ -50,6 +50,7 @@
 .post-nav-right {
   width: 340px;
   padding-top: 18px;
+  width: 180px;
 }
 .post-nav-right > div{
   display: flex;
@@ -63,6 +64,20 @@
 }
 .post-nav-right-bottom {
   min-width: 305px;
+}
+
+[class*="action-button-post-"]{
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/actionbuttons_post.svg');
+}
+
+.action-button-post-delete {
+  background-position: 0 -48px;
+}
+
+.action-button-post-forward {
+  background-position: 0 -24px;
 }
 
 .delete-icon {
@@ -340,7 +355,7 @@
 }
 
 .actor-name {
-  width: 200px;
+  max-width: 200px;
   padding-top: 4px;
   overflow: hidden;
   white-space: nowrap;
@@ -402,7 +417,8 @@
 .file-preview {
   height: 550px;
 }
-.nst-preview-footer .nst-nav-btn-breeze,.nst-arrow-rotated-270,.nst-arrow-rotated-90{
+.nst-preview-footer .nst-nav-btn-breeze,
+.nst-arrow-rotated-270,.nst-arrow-rotated-90{
   height: 30px;
   flex: none;
 }
@@ -474,4 +490,8 @@
 }
 .comment-msg div:last-child {
   flex-grow: 1!important;
+}
+
+.time-width {
+  width: 50px;
 }

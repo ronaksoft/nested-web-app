@@ -4,16 +4,21 @@
       <div class="post-nav-left _df _fw">
         <p class="_fw" data-ng-bind-html="thePost.subject | emoji"></p>
       </div>
-      <div class="post-nav-right _difh">
-        <div class="date  nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
-        <div class="time nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'yyyy hh:mm'"></div>
-        <div class="closebut" ng-click="$close(result)"><img src="../assets/icons/close_16.png"></div>
+      <div class="post-nav-right _difh nst-font-small">
+        <div class="date nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'d MMMM'"></div>
+        <div class="time nst-mood-storm" data-ng-bind="thePost.date.getTime() | date:'yyyy'"></div>
+        &nbsp
+       <strong class="time nst-mood-storm n" data-ng-bind="thePost.date.getTime() | date:'hh:mm'"></strong>
+
+
+        <div class="closebut" ng-click="$close(result)"><img src="../assets/icons/close.svg"></div>
       </div>
     </div>
     <div class="_difh">
       <div class="post-nav-left-bottom _difh _fw">
         <img initials="thePost.sender.fullname" data-url="thePost.sender.picture.x32.url" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
         <span class="actor-name _df" data-ng-bind="thePost.sender.fullname"></span>
+        <span class="margin-l-5 nst-mood-simple">to</span>
         <div class="badges _df _fw">
           <div class="large-badge" data-ng-repeat="place in thePost.places"><a class="_di _fl" href="#/events/{{place.id}}" data-ng-bind="place.name"></a></div>
         </div>
@@ -25,22 +30,22 @@
 
             <li>
               <a href="#/delete/{{thePost.id}}">
-                <span class="nst-mood-storm _dib">Delete</span>
-                <span class="delete-icon _dib"></span>
+                <span class="nst-mood-solid _dib">Delete</span>
+                <span class="action-button-post-delete _dib"></span>
               </a>
             </li>
 
             <li>
               <a href="#/new/fw:{{thePost.id}}">
-                <span class="nst-mood-storm _dib">Forward</span>
-                <span class="forward-icon _dib"></span>
+                <span class="nst-mood-solid _dib">Forward</span>
+                <span class="action-button-post-forward  _dib"></span>
               </a>
             </li>
 
             <li>
-              <div class="popover-green" uib-popover-template="'app/post/reply.html'" data-popover-placement="bottom-right auto" popover-trigger="outsideClick">
-                <span class="nst-mood-storm _dib">Reply</span>
-                <span class="Reply-icon _dib"></span>
+              <div class="popover-green cursor-pointer" uib-popover-template="'app/post/reply.html'" data-popover-placement="bottom-right auto" popover-trigger="outsideClick">
+                <span class="nst-mood-solid _dib">Reply</span>
+                <span class="action-button-post- _dib"></span>
               </div>
             </li>
 
