@@ -180,18 +180,6 @@
 
           this.attachmentPreview = this.attachmentPreview || !!attachment.thumbs.x128.uid;
         },
-        updateAttachment: function (attachment) {
-          var itemIndex = _.findIndex(this.attachments, function (item) {
-            if (item._id) {
-              return item._id === attachment._id;
-            }
-            else {
-              return item.upload_time === attachment.upload_time;
-            }
-          });
-          this.attachments.splice(itemIndex, 1);
-          this.attachments.push(attachment);
-        },
         removeAttachment: function (attachment) {
           var itemIndex = this.attachments.indexOf(attachment);
           if(itemIndex !== -1)

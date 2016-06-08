@@ -129,7 +129,8 @@
           if (this.canceler) {
             console.log(this.canceler);
             this.canceler.resolve();
-            this.setStatus('aborted');
+            this.status = status;
+            this.change();
           }
         },
 
