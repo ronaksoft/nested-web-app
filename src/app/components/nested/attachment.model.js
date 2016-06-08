@@ -6,6 +6,7 @@
     .constant('ATTACHMENT_STATUS', {
       UPLOADING: 'uploading',
       ATTACHED: 'attached',
+      ABORTED: 'aborted'
     })
     .factory('NestedAttachment', function ($rootScope, $q, $log, WsService, NestedPlace, NestedUser, StoreItem) {
       function Attachment(data, post, full) {
@@ -128,8 +129,7 @@
           if (this.canceler) {
             console.log(this.canceler);
             this.canceler.resolve();
-            this.status = 'aborted';
-            this.change();
+            this.setStatus('aborted');
           }
         },
 

@@ -93,7 +93,7 @@
           mimetype: file.type,
           upload_time: file.lastModified,
           size: file.size,
-          status : 'uploading',
+          status : 'uploading'
         });
 
         if (isImage) {
