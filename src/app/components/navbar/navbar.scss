@@ -167,8 +167,13 @@
   height: 40px;
 
 }
+.subnavitems li a{
+  white-space: nowrap;
+
+}
 .subnavitems li:last-child {
   flex: none;
+  margin: 0;
 }
 .subnavitems li.li-hover:hover,
 .subnavitems li.li-hover.selected {
@@ -189,6 +194,11 @@
   width: 100%;
   text-decoration: none;
   color: $color-solid;
+  white-space: nowrap;
+}
+
+.subnavitems .place-option-anchor:first-child {
+  padding-right: 5px;
 }
 .subnavitems .events-anchor:hover,
 .subnavitems .places-anchor:hover,

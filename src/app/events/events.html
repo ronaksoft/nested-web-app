@@ -35,14 +35,14 @@
           <div class="account-initials-48" data-ng-if="!events.place.picture.org.uid" data-ng-bind="events.place.name | initials:2"></div>
         </div>
         <div class="name title-bar-holder _difv">
-          <a class="_df _fh"><strong>{{events.place.name}}</strong></a>
-          <span class="nst-mood-storm _df" data-ng-bind="events.place.id + '@nested.me'"></span>
+          <a class="_df _fh"><b>{{events.place.name}}</b></a>
+          <span class="nst-mood-storm _df _fh" data-ng-bind="events.place.id + '@nested.me'"></span>
         </div>
         <div class="nst-mood-storm members-status-nav _df">{{events.place.counters.allMembers}} members</div>
         <div class="margin-top-20">
           <div class="nst-more">
             <a href="#/place/{{events.place.id}}">
-              <div class="nst-more-badge"></div>
+              <div class="nst-option-badge"></div>
             </a>
           </div>
         </div>
