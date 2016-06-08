@@ -33,13 +33,13 @@
           $scope.place_option.actions['delete'] = {
             name: 'Delete',
             fn: function () {
-              return $scope.place.delete().then(function () {
-                return $q(function (res) {
-                  res($scope.place.id);
-
-                  $location.path('/places').replace();
-                });
-              });
+              vm.showLockModal().then(function () {
+                $scope.closeMyPopup = function () {
+                  $modalInstance.close();
+                };
+                $scope.place.delete();
+                return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
+              })
             }
           };
         }
@@ -118,7 +118,7 @@
         delete $scope.closeModal;
       });
     };
-    vm.showLuckModal = function () {
+    vm.showLockModal = function () {
 
       var modal = $uibModal.open({
         animation: false,
@@ -137,6 +137,7 @@
         delete $scope.role;
         delete $scope.closeModal;
       });
+      return modal.result;
     };
 
   }
