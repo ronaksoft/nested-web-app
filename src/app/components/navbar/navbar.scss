@@ -110,8 +110,8 @@
   z-index: 1;
   position: relative;
   right: 0;
-  left:0;
-  top:0;
+  left: 0;
+  top: 0;
   align-items: center;
   min-height: 42px;
 }
@@ -331,4 +331,10 @@ input #nav-search {
 .viewswitch{
   margin-right: 16px;
   margin-top: 6px;
+}
+.line-height-32 {
+  line-height: 32px;
+}
+.margin-top-10 {
+  margin-top: 10px;
 }
