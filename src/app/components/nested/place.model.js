@@ -201,7 +201,7 @@
            */
         haveAccess: function (access) {
           if (!angular.isArray(access)) {
-            access = (access.contains(',')) ? access.split(',') : [access];
+            access = (access.indexOf(',') > -1) ? access.split(',') : [access];
           }
 
           var have = this.access.filter(function (v) { return access.indexOf(v.trim()) > -1; });

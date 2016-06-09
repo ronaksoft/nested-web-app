@@ -2,36 +2,35 @@
 
   <div class="_dtr">
     <div class="_dtc">
-      <img data-ng-if="user.picture.org.uid" class="account-initials-48" src="{{user.picture.x32.url}}"/>
-      <div data-ng-if="!user.picture.org.uid" class="account-initials-48">{{user.name.initials}}</div>
+      <img initials="user.fullname" data-src="{{user.picture.x32.url}}" data-width="32" data-height="32" data-radius="16" class="account-initials-40" data-word-count="2" data-font-size="16"/>
     </div>
     <div class="_dtc">
       <div class="_dtr">
-        <div class="_dtc teammate-name">{{user.fullname}}</div>
+        <div class="_dtc teammate-name nst-mood-cheerful">{{user.fullname}}</div>
       </div>
       <div class="_dtr">
-        <div class="_dtc nst-mood-storm">{{user.email}}</div>
+        <div class="_dtc nst-mood-storm nst-font-10">{{user.email}}</div>
       </div>
     </div>
   </div>
 
-
-  <ul class="list-unstyled">
-    <a class="nst-mood-solid" href="#/profile">
-      <li class="profile-menu-setting _dib"></li>
-      <li class="_dib nst-mood-solid">Settings</li>
-    </a>
-  </ul>
-  <ul>
-    <a class="nst-mood-solid" href="#/profile">
-      <li class="_dib profile-menu-upgrade"></li>
-      <li class="_dib nst-mood-solid">Upgrade</li>
-    </a>
-  </ul>
-  <ul>
-    <a class="nst-mood-solid" href="#/signout">
-      <li class="_dib profile-menu-signout"></li>
-      <li class="_dib ">sign out</li>
-    </a>
-  </ul>
-</div>
+  <div class="line-height-32 margin-top-10">
+    <ul class="list-unstyled">
+      <a class="nst-mood-solid" href="#/profile">
+        <li class="profile-menu-edit-profile _dib"></li>
+        <li class="_dib nst-mood-solid a-hover">Edit My profile</li>
+      </a>
+    </ul>
+    <ul class="">
+      <a class="nst-mood-solid" href="#/profile">
+        <li class="_dib profile-menusetting"></li>
+        <li class="_dib nst-mood-solid a-hover">Settings</li>
+      </a>
+    </ul>
+    <ul>
+      <a class="nst-mood-solid" href="#/signout">
+        <li class="_dib profile-menu-signout"></li>
+        <li class="_dib a-hover">Sign out</li>
+      </a>
+    </ul>
+  </div>

@@ -5,7 +5,7 @@
     .module('nested')
     .controller('SidebarController', function (WsService, NestedPlace, $scope) {
       var vm = this;
-
+    
       vm.places = [];
       vm.tpl = 'app/components/nested/place/row.html';
 

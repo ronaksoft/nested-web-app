@@ -7,11 +7,22 @@
         <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}"/>
 
         <!--audio/*-->
-        <audio class="_fw" data-ng-switch-when="audio" preload="none" controls>
-          <source src="{{attachment.download.url}}" type="{{attachment.mimeType}}">
-          <p>Your browser does not support the audio element.</p>
-        </audio>
-        <!--video/*-->
+        <videogular class="_hf audioplayer" data-ng-switch-when="audio" data-ng-init="ad = [{}]; ad[0]['src'] = attachment.download.url; ad[0]['type'] = attachment.mimeType;">
+          <vg-media vg-src="ad"></vg-media>
+
+          <vg-controls>
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            </vg-scrub-bar>
+            <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+            <vg-volume>
+              <vg-mute-button></vg-mute-button>
+            </vg-volume>
+          </vg-controls>
+        </videogular>
+
         <videogular class="_fw" data-ng-switch-when="video" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
           <vg-media vg-src="vg"></vg-media>
 
@@ -41,7 +52,7 @@
 
           <!--application/*-->
           <iframe class="_fw  large-viewe-attach" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
-          <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge">FILE</div>
+          <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge"></div>
         </div>
 
         <!--*/*-->
@@ -53,8 +64,14 @@
           <p class="nst-font-small nst-mood-storm">{{attachment.size | bytes:0}}</p>
         </div>
         <div class="_fw">
-          <div class="_fr nst-nav-btn-breeze"><a href="{{attachment.download.url}}" class="nst-mood-storm">Download</a></div>
-          <div  class="_fr nst-nav-btn-breeze"><a href="" class="nst-mood-storm">Open in Browser</a></div>
+          <div dir="rtl" class="_difh _fw" style="align-items: center;height: 68px">
+            <div class="_df nst-arrow-rotated-270"></div>
+            <div class="_df nst-arrow-rotated-90"></div>
+
+            <div class="_df nst-nav-btn-breeze"><a href="{{attachment.download.url}}" class="nst-mood-storm">Download</a></div>
+            <div class="_df nst-nav-btn-breeze"><a href="" class="nst-mood-storm">Open in Browser</a></div>
+          </div>
+
         </div>
       </div>
     </div>
