@@ -2,7 +2,7 @@
   <div class="_difv _fw">
       <div class="_difh modal-add">
         <h5 class="_df _fw" style="justify-content: center">Warning</h5>
-        <div class="_df" ng-click="$close(result)"><img src="../assets/icons/close_16.png" class="_fh"></div>
+        <div class="_df" ng-click="cancel()"><img src="../assets/icons/close_16.png" class="_fh"></div>
       </div>
     <div class="_difv _fw">
       <div class="_fw _df _jcc">
@@ -10,8 +10,8 @@
       </div>
       <div class="_difh _jcc wngbot">
         <div class="switch" data-ng-init="lockmodal = false">
-          <button class="btn-send-compose" ng-click="$close(result)">YES</button>
-          <button class="btn-back-compose" g-click="$close()">CANCEL</button>
+          <button class="btn-back-compose" style="background-color: white" ng-click="ok()">YES</button>
+          <button class="btn-send-compose" ng-click="cancel()">CANCEL</button>
         </div>
       </div>
 

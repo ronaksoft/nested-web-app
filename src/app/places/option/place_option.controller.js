@@ -14,9 +14,6 @@
       $location.path('/signin').replace();
     }
 
-    vm.setlockoff = function () {
-      console.log("ali")
-    }
     $scope.logo = null;
     $scope.place = new NestedPlace();
 
@@ -33,13 +30,7 @@
           $scope.place_option.actions['delete'] = {
             name: 'Delete',
             fn: function () {
-              vm.showLockModal().then(function () {
-                $scope.closeMyPopup = function () {
-                  $modalInstance.close();
-                };
-                $scope.place.delete();
-                return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
-              })
+              vm.showLockModal()
             }
           };
         }
@@ -123,21 +114,24 @@
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/places/option/warning.html',
-        controller: 'PlaceAddMemberController',
-        controllerAs: 'place_add_member',
+        controller: 'WarnModalController',
         size: 'sm',
         scope: $scope
-      });
+      })
+      .result.then(
+          function () {
+            $scope.place.delete();
+            return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
+          },
+          function () {
+            console.log("canceled")
+          }
+        );
 
-
-      $scope.closeModal = modal.close;
-
+      
       modal.closed.then(function () {
-        delete $scope['add_' + role];
-        delete $scope.role;
         delete $scope.closeModal;
       });
-      return modal.result;
     };
 
   }

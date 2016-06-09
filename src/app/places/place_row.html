@@ -7,7 +7,7 @@
   <div class="logo _df">
     <a href="#/place/{{place.id}}">
       <img class="account-initials-48" data-ng-if="place.picture.org.uid" src="{{place.picture.x64.url}}"/>
-      <div class="account-initials-48" data-ng-if="!place.picture.org.uid" data-ng-bind="place.name | initials:2"></div>
+      <img class="account-initials-48" data-ng-if="!place.picture.org.uid" src="../assets/images/nested-logo-white.svg"></img>
     </a>
   </div>
   <a class="name _df _fw" href="#/place/{{place.id}}">
@@ -38,7 +38,7 @@
 
   </div>
   <div class="nst-more _df no-animation">
-    <a href="#/place/{{events.place.id}}">
+    <a href="#/place/{{place.id}}">
       <div data-uib-tooltip="Place option" data-tooltip-append-to-body="false" data-tooltip-placement="left-center" class="nst-option-badge"></div>
     </a>
     <a href="#/events/{{place.id}}">
