@@ -1,7 +1,7 @@
 <div id="add-view">
   <div class="_difv _fw">
       <div class="_difh modal-add">
-        <h5 class="_df _fw" style="justify-content: center">Warning</h5>
+        <h5 class="_df _fw">Warning</h5>
         <div class="_df" ng-click="cancel()"><img src="../assets/icons/close_16.png" class="_fh"></div>
       </div>
     <div class="_difv _fw">
@@ -10,13 +10,13 @@
       </div>
       <div class="_difh _jcc wngbot">
         <div class="switch" data-ng-init="lockmodal = false">
-          <button class="btn-back-compose" style="background-color: white" ng-click="ok()">YES</button>
-          <button class="btn-send-compose" ng-click="cancel()">CANCEL</button>
+          <div class="btn-white" ng-click="cancel()"><a>CANCEL</a></div>
+          <div class="btn-green" ng-click="ok()"><a>YES' I want to change</a></div>
         </div>
       </div>
 
     </div>
-      <div class="nst-modal-add-teammate _df _fw _jcc">
+      <div class="nst-modal-footer _df _fw _jcc">
           <p>Read our <a class="nst-mood-cheerful">Privacy Policy</a> for more details.</p>
       </div>
   </div>

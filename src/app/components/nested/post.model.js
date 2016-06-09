@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function ($rootScope, $q, $injector, $log, WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
+    .factory('NestedPost', function ($rootScope, $q, $injector, $log, WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, $timeout) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -99,6 +99,12 @@
         },
 
         loadComments: function (reload) {
+
+          $timeout(function() {
+            $('#comment-scroll').animate({
+              scrollTop: $('#comment-scroll').prop("scrollHeight")}, 2000);
+          }, 1);
+
           if (this.comments.length > 0 && !reload  && !this.moreComments) {
             return $q(function (resolve) {
               resolve(this.comments);

@@ -30,7 +30,7 @@
           $scope.place_option.actions['delete'] = {
             name: 'Delete',
             fn: function () {
-              vm.showLockModal()
+              vm.showDeleteModal()
             }
           };
         }
@@ -120,6 +120,25 @@
       })
       .result.then(
           function () {
+            console.log("confirmed")
+          },
+          function () {
+            console.log("canceled")
+          }
+        );
+
+    };
+    vm.showDeleteModal = function () {
+
+      var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/places/option/Delete.html',
+          controller: 'WarnModalController',
+          size: 'sm',
+          scope: $scope
+        })
+        .result.then(
+          function () {
             $scope.place.delete();
             return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
           },
@@ -128,10 +147,6 @@
           }
         );
 
-      
-      modal.closed.then(function () {
-        delete $scope.closeModal;
-      });
     };
 
   }

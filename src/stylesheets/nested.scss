@@ -183,7 +183,51 @@ a.place {
   padding: 15px 25px;
 }
 
-
+.btn-green{
+  background-color: $color-sense;
+  border: 1px solid #00B45A;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+.btn-green a{
+  margin: 3px 6px;
+  color: white;
+  white-space: nowrap;
+}
+.btn-green:hover a{
+  color: white;
+}
+.btn-red{
+  background-color: $color-force;
+  border: 1px solid #ff0014;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+.btn-red a{
+  margin: 3px 6px;
+  color: white;
+  white-space: nowrap;
+}
+.btn-red:hover a{
+  color: white;
+}
+.btn-white{
+  border: 1px solid $color-breeze;
+  background-color: $color-white;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+.btn-white a{
+  margin: 3px 6px;
+  color: $color-storm;
+  white-space: nowrap;
+}
+.btn-white:hover a{
+  color: $color-storm;
+}
+.large-font {
+  font-size: $font-size-large;
+}
 /**
   *********************************
   *     General Hacks             *
@@ -895,10 +939,10 @@ a .ui-select-choises-row-inner {
   *********************************
  */
 
-.nst-modal-add-teammate {
+.nst-modal-footer {
   background-color: $color-breeze-50;
   border-radius: 6px;
-  margin: 15px 0px;
+  margin-top: 15px;
   padding: 5px;
 }
 
