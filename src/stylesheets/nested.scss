@@ -517,6 +517,7 @@ a:hover {
 .modal-mlg {
   margin: 0 80px;
   width: 100%;
+  max-width: calc(100% - 160px);
 }
 .modal-sm {
   width: auto!important;
