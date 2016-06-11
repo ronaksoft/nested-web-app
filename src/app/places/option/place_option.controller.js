@@ -145,7 +145,7 @@
       var modal = $uibModal.open({
           animation: false,
           templateUrl: 'app/places/option/delete.html',
-          controller: 'WarnModalController',
+          controller: 'WarningController',
           size: 'sm',
           scope: $scope
         })
