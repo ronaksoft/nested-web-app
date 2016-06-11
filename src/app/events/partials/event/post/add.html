@@ -7,6 +7,7 @@
 <div class="actcon">
   <div class="msg" data-ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)">
     <div class="subject">
+        <span class="headlineicon _vam margin-top-5 _tac _dib"></span> <!-------ng if----- -->
       <a class="nst-mood-solid post" href="#/post/{{event.post.id}}" data-ng-bind-html="event.post.subject || '<i>No Subject</i>' | emoji"></a>
     </div>
     <div data-ng-show="events.extended" class="body" data-ng-bind-html="(event.post.body | preview | characters:255 | emoji) || '<i>Empty Message</i>'"></div>

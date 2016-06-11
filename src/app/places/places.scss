@@ -7,7 +7,7 @@
 .option-add-icon-plc {
   width: 24px;
   height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-image: url("../assets/icons/actionbuttons_place.svg");
   background-position: 0 -48px;
   background-repeat: no-repeat;
 }
@@ -24,9 +24,6 @@
   width: 100%;
 }
 
-#AllPlaces ul {
-
-}
 #AllPlaces {
   min-width: 574px;
   overflow-y: scroll;
@@ -122,60 +119,46 @@ background-color: $color-sense-5;
   margin-right: 5px;
 }
 
-.role-icon-crown {
-  background: url('../assets/icons/roleicon_24.png') no-repeat;
+[class*=role-icon-]  {
+  background: url('../assets/icons/roleicon.svg') no-repeat;
   width: 24px;
   height: 24px;
-}
-
-.role-icon-crown-new {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 0px;
-
-}
-
-.role-icon-key {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -16px;
-}
-
-.role-icon-avatar {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -32px;
-}
-
-.role-icon-key-wait {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -48px;
-}
-
-.role-icon-avatar-wait {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -64px;
 }
 
 .role-icon-green {
-  background: url('../assets/icons/roleicon_24.png') no-repeat;
-  width: 24px;
-  height: 24px;
   background-position: 0 -24px;
 }
-
 .role-icon-gray {
-  background: url('../assets/icons/roleicon_24.png') no-repeat;
-  width: 24px;
-  height: 24px;
   background-position: 0 -48px;
+}
+.role-icon-key-wait{
+  background-position: 0 -72px;
+}
+.role-icon-avatar-wait{
+  background-position: 0 -96px;
+}
+
+
+[class*=role-icons-]  {
+  background: url('../assets/icons/roleicons.svg') no-repeat;
+  width: 16px;
+  height: 16px;
+}
+
+.role-icons-key {
+  background-position: 0 -16px;
+}
+
+.role-icons-avatar {
+  background-position: 0 -32px;
+}
+
+.role-icons-key-wait {
+  background-position: 0 -48px;
+}
+
+.role-icons-avatar-wait {
+  background-position: 0 -64px;
 }
 
 
@@ -216,7 +199,8 @@ background-color: $color-sense-5;
 }
 
 .nst-more-badge {
-  background: url('../assets/icons/more_32.png') no-repeat;
+  background: url('../assets/icons/actionbuttons_post.svg') no-repeat;
+  background-position: 0 -72px;
   height: 32px;
   width: 32px;
 }
@@ -227,7 +211,7 @@ background-color: $color-sense-5;
 }
 
 [class*=nst-place-icon-]{
-  background: url('../assets/icons/placeicon_24_default.png') no-repeat;
+  background: url('../assets/icons/placeicon.svg') no-repeat;
   height: 24px;
   width: 24px;
 }
@@ -256,7 +240,7 @@ background-color: $color-sense-5;
 }
 
 .nst-arrow {
-  background: url('../assets/icons/arrow_16.png') no-repeat;
+  background: url('../assets/icons/arrow.svg') no-repeat;
   height: 25px;
   width: 15px;
   padding: 0 0 0 5px;
@@ -265,7 +249,7 @@ background-color: $color-sense-5;
 }
 
 [class*=nst-arrow-]{
-  background: url('../assets/icons/arrow_16.png') no-repeat;
+  background: url('../assets/icons/arrow.svg') no-repeat;
   height: 25px;
   width: 15px;
   cursor: pointer;
@@ -341,9 +325,6 @@ background-color: $color-sense-5;
 }
 .restplace:hover {
   background-color: white;
-}
-.margin-l-5 {
-  margin-left: 5px;
 }
 
 .arrow-holder-places {
