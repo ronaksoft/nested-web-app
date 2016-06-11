@@ -31,10 +31,19 @@
   flex-direction: column;
   justify-content: space-between;
 }
-.placearrow{
+.placearrow {
   width: 40px;
 }
+#AllPlaces li div div:only-of-type{
+  animation: appearence .4s ease-in;
+}
+#AllPlaces li div div:nth-child(2){
+  animation: appearence .2s ease-in;
+}
+#AllPlaces li div div:nth-child(2) img,#AllPlaces li div div:nth-child(2) div{
 
+  animation: grow-full .1s ease-in;
+}
 #AllPlaces li {
   border-bottom: 1px solid $color-calm;
   display: inline-flex;
@@ -59,10 +68,15 @@ background-color: $color-sense-5;
   list-style: none;
   padding-left: 25px;
 }
+#AllPlaces ul ul li{
+  animation: appearence .1s ease-in;
+}
 
 #AllPlaces .logo {
   width: 48px;
-  flex: none
+  flex: none;
+  justify-content: center;
+  align-items: center;
 }
 
 #AllPlaces li > table td.logo > img {
@@ -199,12 +213,24 @@ background-color: $color-sense-5;
 }
 
 .nst-more-badge {
-  background: url('../assets/icons/actionbuttons_post.svg') no-repeat;
-  background-position: 0 -72px;
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
   height: 32px;
   width: 32px;
 }
-
+.nst-option-badge {
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
+  background-position: 0 -32px;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
+.nst-act-badge {
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
+  background-position: 0 -64px;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
 ._dtc .nst-more-badge {
   width: 48px;
   height: 32px;
@@ -286,10 +312,16 @@ background-color: $color-sense-5;
 }
 
 .nst-more {
-  width: 70px;
-  justify-content: flex-start;
+  width: 80px;
+  flex: none;
+  justify-content: center;
 }
-
+.no-animation {
+  animation: none!important;
+}
+.no-animation *{
+  animation: none!important;
+}
 .empty-space {
   width: 24px;
   height: 24px;
