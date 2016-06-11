@@ -413,7 +413,13 @@ select {
 #input-compose-to a {
   border-bottom: 1px solid $color-calm;
   height: 56px;
-  padding: 12px;
+}
+
+.ui-select-bootstrap .ui-select-choices-row > a{
+  padding: 5px;
+}
+#input-compose-to img {
+vertical-align: middle;
 }
 .ui-select-bootstrap .ui-select-choices-row.active > a{
   background-color: $color-sense-50;
