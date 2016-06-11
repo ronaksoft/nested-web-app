@@ -88,8 +88,8 @@
     };
 
 
-    $scope.checkplace = function (PlaceName) {
-      if (PlaceName == $scope.place.name){
+    $scope.checkplace = function (PlaceId) {
+      if (PlaceId == $scope.place.id){
         $scope.deleteValidated = true;
       }else {
         $scope.deleteValidated = false;
@@ -118,24 +118,26 @@
         delete $scope.closeModal;
       });
     };
-    vm.showLockModal = function () {
+    vm.showLockModal = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
 
-      var modal = $uibModal.open({
+      $uibModal.open({
         animation: false,
         templateUrl: 'app/places/option/warning.html',
-        controller: 'WarnModalController',
+        controller: 'WarningController',
         size: 'sm',
         scope: $scope
-      })
-      .result.then(
-          function () {
-            console.log("confirmed")
-          },
-          function () {
-            console.log("canceled")
-          }
-        );
+      }).result.then(function () {
+        var data = {};
+        data['privacy.locked'] = $scope.place.privacy.locked;
 
+        return $scope.place.update(data);
+      }).catch(function () {
+        $scope.place.privacy.locked = !$scope.place.privacy.locked;
+      });
+
+      return false;
     };
     vm.showDeleteModal = function () {
 
@@ -158,6 +160,25 @@
           },
           function () {
             console.log("canceled")
+          }
+        );
+
+    };
+    vm.removeUserModal = function () {
+
+      var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/places/context_menu/remove.html',
+          controller: 'WarningController',
+          size: 'sm',
+          scope: $scope
+        })
+        .result.then(
+          function () {
+            // remove user
+          },
+          function () {
+            // Cancel
           }
         );
 

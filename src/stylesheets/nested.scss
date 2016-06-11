@@ -188,11 +188,21 @@ a.place {
   border: 1px solid #00B45A;
   border-radius: 5px;
   margin: 0 5px;
+  width: 128px;
+  flex: none;
+}
+.btn-green:hover {
+  background-color: $color-sense-wire;
+}
+.btn-green:focus {
+  background-color: $color-sense;
 }
 .btn-green a{
-  margin: 3px 6px;
-  color: white;
+  margin: 4px 0;
+  color: $color-white;
   white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
 }
 .btn-green:hover a{
   color: white;
@@ -200,33 +210,61 @@ a.place {
 .btn-red{
   background-color: $color-force;
   border: 1px solid #ff0014;
-  border-radius: 5px;
+  border-radius: 3px;
   margin: 0 5px;
+  width: 128px;
+  flex: none;
+}
+.btn-red:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+}
+.btn-red:hover:enabled{
+  background-color: $color-force-wire;
+}
+.btn-red:focus{
+  background-color: $color-force;
 }
 .btn-red a{
-  margin: 3px 6px;
-  color: white;
+  margin: 4px 0;
+  color: $color-white;
   white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
 }
 .btn-red:hover a{
   color: white;
+  white-space: nowrap;
 }
 .btn-white{
   border: 1px solid $color-breeze;
   background-color: $color-white;
-  border-radius: 5px;
+  border-radius: 3px;
   margin: 0 5px;
+  width: 128px;
+  flex: none;
+}
+.btn-white:hover{
+  background-color: $color-calm;
+}
+.btn-white:focus{
+  background-color: $color-breeze;
 }
 .btn-white a{
-  margin: 3px 6px;
+  margin: 4px 0;
   color: $color-storm;
   white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
 }
 .btn-white:hover a{
   color: $color-storm;
 }
 .large-font {
   font-size: $font-size-large;
+}
+.force {
+  color: $color-force-wire;
 }
 /**
   *********************************
@@ -493,6 +531,9 @@ a:hover {
   align-items: center;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
+.modal-buttons {
+  justify-content: flex-end;
+}
 #add-view {
   border: 1px solid #ced9d3;
   border-radius: 8px;
@@ -501,12 +542,36 @@ a:hover {
   width: 800px;
   height: auto;
 }
+#delete-view {
+  border: 1px solid #ced9d3;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  padding: 15px;
+  width: 510px;
+  height: auto;
+}
 .modal-content {
   background-color: rgba(0, 0, 0, 0);
   border: none;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
-
+.modal-detail {
+  margin: 20px 0;
+  font-size: 16px;
+}
+.modal-detail a{
+  font-weight: bold;
+  color: black;
+}
+.modal-detail .small{
+  font-weight: 100;
+  font-size: 12px;
+}
+.modal-detail input{
+  min-height: 40px;
+  margin-bottom: 10px;
+  margin-top: 6px;
+}
 .modal-attachment {
   //padding: 128px 0;
 }
@@ -540,6 +605,12 @@ a:hover {
   width: auto!important;
   height: auto!important;
   vertical-align: middle;
+}
+.modal-head {
+  margin: 10px 0;
+}
+.modal-head p {
+  font-size: 22px;
 }
 /*
  ************** Popovers ************

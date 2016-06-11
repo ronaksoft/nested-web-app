@@ -147,10 +147,6 @@
   flex: none;
 }
 
-#PostView > div {
-  table-layout: fixed;
-}
-
 #PostView .top-space {
   height: 10%;
 }
@@ -189,6 +185,9 @@
   padding: 0px;
   min-height: 100px;
   flex: none;
+}
+#PostView #PostBody {
+  //padding-bottom: 100px;
 }
 
 #PostView #PostTime {
@@ -337,9 +336,14 @@
 }
 
 .comment-input{
+  position: fixed;
+  bottom: 0;
   max-height: 90px;
+  min-height: 89px;
+  width: 312px;
   margin: 10px 0;
-  flex: 1;
+  right: 4px;
+  //flex: 1;
 }
 .comment-input span {
   position: relative;
@@ -349,9 +353,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   justify-content: space-between;
-  flex: 1;
-  max-height: calc(100% - 100px);
-  min-height: calc(100% - 130px);
+  //flex: 1;
+  margin-bottom: 110px;
 }
 
 .actor-name {

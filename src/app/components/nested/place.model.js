@@ -99,7 +99,7 @@
           if (angular.isString(data)) {
             return this.load(data);
           } else if (data.hasOwnProperty('id')) {
-            angular.extend(this, data);
+            angular.merge(this, data);
 
             this.change();
           } else if (data.hasOwnProperty('_id')) {
@@ -458,11 +458,47 @@
             data['place_id'] = this.id;
 
             return WsService.request('place/update', data).then(function () {
-              NestedPlaceRepoService.push(this);
+              var placeData = {
+                id: this.id
+              };
 
-              return $q(function (res) {
-                res(this);
-              }.bind(this));
+              var keys = {
+                'place_name': 'name',
+                'place_desc': 'description',
+                'privacy.broadcast': 'privacy.broadcast',
+                'privacy.email': 'privacy.email',
+                'privacy.locked': 'privacy.locked',
+                'privacy.receptive': 'privacy.receptive',
+                'privacy.search': 'privacy.search'
+              };
+
+              for (var k in keys) {
+                if (undefined !== data[k]) {
+                  var path = keys[k].split('.');
+                  var pKey = '-';
+                  var object = {};
+                  object[pKey] = placeData;
+
+                  for (var index in path) {
+                    object = object[pKey];
+                    pKey = path[index];
+
+                    if (!object[pKey]) {
+                      object[pKey] = {};
+                    }
+                  }
+
+                  object[pKey] = data[k];
+                }
+              }
+
+              return this.setData(placeData).then(function (place) {
+                NestedPlaceRepoService.push(place);
+
+                return $q(function (res) {
+                  res(this);
+                }.bind(place));
+              });
             }.bind(this));
           } else if (this.local_id) {
             var params = {
