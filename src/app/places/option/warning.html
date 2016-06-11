@@ -1,7 +1,8 @@
 <div id="delete-view">
   <div class="_difv _fw">
     <div class="_difh modal-head">
-      <p class="_df _fw">Make Place "Accessible"?</p>
+      <p data-ng-show="!place.privacy.locked" class="_df _fw">Make Place "Accessible"?</p>
+      <p data-ng-show="place.privacy.locked" class="_df _fw">Make Place "Locked"?</p>
       <div class="_df" ng-click="cancel()"><img src="../assets/icons/close.svg" class="_fh"></div>
     </div>
     <div class="_difv _fw">
