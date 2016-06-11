@@ -90,11 +90,9 @@
 
     $scope.checkplace = function (PlaceName) {
       if (PlaceName == $scope.place.name){
-        console.log("yes");
-        $scope.deletevalidated = true;
+        $scope.deleteValidated = true;
       }else {
-        console.log("not correct");
-        $scope.deletevalidated = false;
+        $scope.deleteValidated = false;
       }
     };
 
@@ -141,7 +139,7 @@
     };
     vm.showDeleteModal = function () {
 
-      $scope.deletevalidated = false;
+      $scope.deleteValidated = false;
       $scope.nextStep = false;
 
       var modal = $uibModal.open({
@@ -153,7 +151,7 @@
         })
         .result.then(
           function () {
-            if($scope.deletevalidated == true){
+            if($scope.deleteValidated == true){
               $scope.place.delete();
               return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
             }
