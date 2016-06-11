@@ -25,7 +25,10 @@
       $scope.thePost = new NestedPost($stateParams.postId);
     }
 
-    $scope.thePost.comments.length > 0 || $scope.thePost.loadComments();
+    $scope.thePost.comments.length > 0 || $scope.thePost.loadComments().then(function () {
+      $scope.scrolling = true;
+      console.log("cm load",$scope.scrolling)
+    });
 
     $scope.commentKeyUp = function (event) {
       var noSend = event.shiftKey || event.ctrlKey;

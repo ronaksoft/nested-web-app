@@ -8,15 +8,15 @@
       <div ng-if="!nextStep" class="_fw _df _jcc">
         Are you sure ?! Read our <a class="nst-mood-cheerful"> Privacy Policy </a> for more details.
       </div>
-      <div ng-if="nextStep" class="_fw _df _jcc">
-        Enter your place name
-        <input id="input-search" name="mysearch" ng-model="PlaceName" ng-keyup="checkplace(PlaceName)" placeholder="Place Name">
+      <div ng-if="nextStep" class="_fw _difv _jcc">
+        <p class="df">Enter your place name</p>
+        <input class="_df input-place" name="PlaceName" ng-model="PlaceName" ng-keyup="checkplace(PlaceName)" placeholder="Place Name" focus-me>
         </input>
       </div>
       <div class="_difh _jcc wngbot">
         <div class="switch" data-ng-init="lockmodal = false">
           <div class="btn-white" ng-click="cancel()"><a class="large-font">Cancel</a></div>
-          <div ng-hide="nextStep" class="btn-green" ng-click="nextStep =! nextStep"><a class="large-font">Next Step</a></div>
+          <div ng-hide="nextStep" class="btn-green" ng-click="nextStep =! nextStep; focusInput=true"><a class="large-font">Next Step</a></div>
           <div data-ng-if="deletevalidated" class="btn-red" ng-click="ok()"><a class="large-font">DELETE</a></div>
         </div>
       </div>

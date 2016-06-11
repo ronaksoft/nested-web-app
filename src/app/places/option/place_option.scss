@@ -345,3 +345,27 @@
 .optionrow div:first-child {
   min-width: 24px;
 }
+
+.input-place:focus
+{
+  position:relative;
+  box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.input-place:before, #input-place:after
+{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  box-shadow:0 0 20px rgba(0,0,0,0.8);
+  top:50%;
+  bottom:0;
+  left:10px;
+  right:10px;
+  border-radius:100px / 10px;
+}
+.input-place:after
+{
+  transform: rotate(8deg);
+  right: 10px;
+  left: auto;
+}
