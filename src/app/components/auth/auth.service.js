@@ -27,8 +27,8 @@
         this.reauth();
       }
 
-      WsService.addEventListener(WS_EVENTS.ERROR, this.unauthorize.bind(this));
       WsService.addEventListener(WS_EVENTS.INITIALIZE, this.reauth.bind(this));
+      WsService.addEventListener(WS_EVENTS.UNINITIALIZE, this.unauthorize.bind(this));
     }
 
     AuthService.prototype = {
@@ -57,10 +57,10 @@
         var ss = $cookies.get('nss') || this.lastSessionSecret;
 
         if (ss && sk) {
-          return WsService.request(
-            'session/recall',
-            { _sk: sk, _ss: ss}
-          ).then(
+          return WsService.request('session/recall', {
+            _sk: sk,
+            _ss: ss
+          }).then(
             this.authorize.bind(this)
           ).catch(
             this.unauthorize.bind(this)
@@ -78,8 +78,6 @@
         $log.debug('Unauthorization', reason);
         this.user.username = null;
 
-        this.lastSessionKey = null;
-        this.lastSessionSecret = null;
         $cookies.remove('nss');
         $cookies.remove('nsk');
 
@@ -96,15 +94,10 @@
         this.remember = remember;
         this.logout('Pre Login');
 
-        return WsService.request(
-          'session/register',
-          {
-            uid: credentials.username,
-            pass: credentials.password
-          }
-        ).then(
-          this.authorize.bind(this)
-        );
+        return WsService.request('session/register', {
+          uid: credentials.username,
+          pass: credentials.password
+        }).then(this.authorize.bind(this));
       },
 
       logout: function (reason) {
