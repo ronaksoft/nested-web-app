@@ -8,7 +8,10 @@
   /** @ngInject */
   function PostController($location, $scope, $stateParams, AuthService, EVENT_ACTIONS, WS_EVENTS, WsService, NestedPost, NestedComment) {
     var vm = this;
-
+    /*$scope.$on('load',function () {
+      $('.commend-msg').animate({
+        scrollTop: $('.commend-msg')[0].scrollHeight}, 2000);
+    });*/
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
@@ -22,7 +25,9 @@
       $scope.thePost = new NestedPost($stateParams.postId);
     }
 
-    $scope.thePost.comments.length > 0 || $scope.thePost.loadComments();
+    $scope.thePost.comments.length > 0 || $scope.thePost.loadComments().then(function () {
+      $scope.scrolling = true;
+    });
 
     $scope.commentKeyUp = function (event) {
       var noSend = event.shiftKey || event.ctrlKey;

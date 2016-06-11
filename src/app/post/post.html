@@ -54,11 +54,11 @@
       </div>
     </div>
   </div>
-  <div class="_difh _fh">
+  <div class="_difh _fh" id="PostBody">
     <div id="Content" class="_df _fw">
       <div class="_difv _fh _fw">
         <div class="_df _fw">
-          <div class="attachments" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = thePost"></div>
+          <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = thePost"></div>
         </div>
 
         <div class="_df _fh">
@@ -69,43 +69,41 @@
       </div>
     </div>
 
-    <div id="Comments" class="_df _vat">
-      <div class="_difv">
-        <div class="_difv comment-msg">
-          <div data-ng-if="thePost.moreComments" class="_fw text-center">
-            <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="thePost.loadComments()">Load More...</a>
+    <div id="Comments" class="_difv _vat">
+      <div class="_difv comment-msg" scroll-me="{{scrolling}}">
+        <div data-ng-if="thePost.moreComments" class="_fw text-center">
+          <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="thePost.loadComments()">Load More...</a>
+        </div>
+        <div data-ng-repeat="comment in thePost.comments | orderBy : 'date.getTime()'" class="_difh NewComment">
+          <div class="_df profile-post-view">
+            <img initials="comment.sender.fullname" data-url="comment.sender.picture.x32.url" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
           </div>
-          <div data-ng-repeat="comment in thePost.comments | orderBy : 'date.getTime()'" class="_difh NewComment">
-            <div class="_df profile-post-view">
-              <img initials="comment.sender.fullname" data-url="comment.sender.picture.x32.url" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
+          <div class="_difv _fw">
+            <div class="_difh">
+              <h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.fullname"></h5>
+              <div class="_df time-post-view nst-mood-storm" data-ng-bind="comment.date.getTime() | date:'dd MMM yyyy'"
+                   data-uib-tooltip="{{comment.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto left"></div>
             </div>
-            <div class="_difv _fw">
-              <div class="_difh">
-                <h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.fullname"></h5>
-                <div class="_df time-post-view nst-mood-storm" data-ng-bind="comment.date.getTime() | date:'dd MMM yyyy'"
-                     data-uib-tooltip="{{comment.date.getTime() | date:'yyyy d MMM H:mm'}}" data-tooltip-append-to-body="true" data-tooltip-placement="auto left"></div>
-              </div>
-              <div class="_df _fw cmt-post-view">
-                <emoji>
-                  <span marked="comment.body">
-                  </span>
-                </emoji>
-                <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
-                   ng-click="comment.delete()">&nbsp;&nbsp;delete</a>
-              </div>
+            <div class="_df _fw cmt-post-view">
+              <emoji>
+                <span marked="comment.body">
+                </span>
+              </emoji>
+              <a href="javascript:void(0);" data-ng-if="comment.sender.username == user.username && (now - comment.date < 20 * 60 * 1e3)" class="nst-mood-storm nst-font-small"
+                 ng-click="comment.delete()">&nbsp;&nbsp;delete</a>
             </div>
           </div>
         </div>
-        <div class="comment-input _difh">
-          <div class="_df">
-            <img initials="user.fullname" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
-          </div>
-          <div class="_difv _fw">
-            <textarea class="_df _fw" cols="32" maxlength="250" ng-keyup="commentKeyUp($event)" placeholder="write your comment..." data-ng-model="nextComment"/></textarea>
-            <div class="_difh sendcomment">
-              <span data-ng-show="250 - nextComment.length < 20" class="nst-mood-simple _df">{{250 - nextComment.length}}</span>
-              <button class="btn-send-comment df" data-ng-click="commentKeyUp($event)">Send</button>
-            </div>
+      </div>
+      <div class="comment-input _difh">
+        <div class="_df">
+          <img initials="user.fullname" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+        </div>
+        <div class="_difv _fw">
+          <textarea class="_df _fw" cols="32" maxlength="250" ng-keyup="commentKeyUp($event)" placeholder="write your comment..." data-ng-model="nextComment"/></textarea>
+          <div class="_difh sendcomment">
+            <span data-ng-show="250 - nextComment.length < 20" class="nst-mood-simple _df">{{250 - nextComment.length}}</span>
+            <button class="btn-send-comment df" data-ng-click="commentKeyUp($event)">Send</button>
           </div>
         </div>
       </div>
