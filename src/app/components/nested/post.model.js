@@ -100,10 +100,10 @@
 
         loadComments: function (reload) {
 
-          $timeout(function() {
+          /*$timeout(function() {
             $('#comment-scroll').animate({
               scrollTop: $('#comment-scroll').prop("scrollHeight")}, 2000);
-          }, 1);
+          }, 1);*/
 
           if (this.comments.length > 0 && !reload  && !this.moreComments) {
             return $q(function (resolve) {

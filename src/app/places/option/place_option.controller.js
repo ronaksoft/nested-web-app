@@ -87,6 +87,17 @@
       return $scope.place.update(data);
     };
 
+
+    $scope.checkplace = function (PlaceName) {
+      if (PlaceName == $scope.place.name){
+        console.log("yes");
+        $scope.deletevalidated = true;
+      }else {
+        console.log("not correct");
+        $scope.deletevalidated = false;
+      }
+    };
+
     vm.showAddModal = function (role) {
       $scope.role = role;
       $scope['add_' + role] = true;
@@ -130,6 +141,9 @@
     };
     vm.showDeleteModal = function () {
 
+      $scope.deletevalidated = false;
+      $scope.nextStep = false;
+
       var modal = $uibModal.open({
           animation: false,
           templateUrl: 'app/places/option/Delete.html',
@@ -139,8 +153,10 @@
         })
         .result.then(
           function () {
-            $scope.place.delete();
-            return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
+            if($scope.deletevalidated == true){
+              $scope.place.delete();
+              return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
+            }
           },
           function () {
             console.log("canceled")
