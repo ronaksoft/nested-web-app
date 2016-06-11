@@ -351,7 +351,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
 
 #viewswitch input[type="checkbox"] + label {
   display: inline-block;
-  background: url('../assets/icons/viewswitch.png') no-repeat;
+  background: url('../assets/icons/viewswitch.svg') no-repeat;
   height: 15px;
   min-width: 48px;
   padding: 0 0 0 17px;
@@ -374,7 +374,7 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label {
-  background: url('../assets/icons/controls.png') no-repeat;
+  background: url('../assets/icons/controls.svg') no-repeat;
   height: 16px;
   width: 16px;
   background-position: 0px -48px;
@@ -386,7 +386,7 @@ input[type="radio"] + label {
 }
 
 input[type="radio"]:checked + label {
-  background: url('../assets/icons/controls.png') no-repeat;
+  background: url('../assets/icons/controls.svg') no-repeat;
   background-position: 0px -64px;
   height: 16px;
   width: 17px;
@@ -398,8 +398,19 @@ select {
   appearance: none;
 }
 
-
-
+//*****margins*******
+.margin-top-5 {
+  margin-top: 5px;
+}
+.margin-l-50 {
+  margin-left: 50px;
+}
+.margin-top-10 {
+  margin-top: 10px;
+}
+.margin-l-5 {
+  margin-left: 5px;
+}
 
 /*************************
  *    Account Initials
@@ -446,7 +457,13 @@ select {
 #input-compose-to a {
   border-bottom: 1px solid $color-calm;
   height: 56px;
-  padding: 12px;
+}
+
+.ui-select-bootstrap .ui-select-choices-row > a{
+  padding: 5px;
+}
+#input-compose-to img {
+vertical-align: middle;
 }
 .ui-select-bootstrap .ui-select-choices-row.active > a{
   background-color: $color-sense-50;
@@ -534,15 +551,25 @@ a:hover {
   z-index: 1000;
 }
  #popover-badge.popover{
-   border-radius: 6px;
+   border-radius: 206px;
    bow-shadow: unset;
 }
+ #popover-badge .popover-content{
+ padding:0;
+ }
+
+ #popover-badge .popover-content:hover {
+   background-color: $color-sense-50;
+ }
 
 .navbar-popover {
   margin-left: 20px;
   margin-top: -6px;
+  direction: ltr;
 }
-
+.places .popover {
+  direction: ltr;
+}
 .popover .arrow {
   display: none;
 }
@@ -552,6 +579,7 @@ a:hover {
   word-break: keep-all;
   overflow: hidden;
   text-overflow: ellipsis;
+
 }
 
 #menu.popover-content {
@@ -566,12 +594,14 @@ a:hover {
 
 .popover-white + .popover {
   background: $color-white;
-  border-radius: 6px;
-  box-shadow: unset;
+  border-radius: 6px 0px 6px 6px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
 
 .popover-green + .popover {
   background: $color-sense-5;
+  border-radius: 6px 0px 6px 6px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-sense-50;
 }
 
@@ -902,7 +932,7 @@ a .ui-select-choises-row-inner {
  */
 
 .nst-ico-eye, .nst-ico-eye-slash {
-  background: url("../assets/icons/form.png") no-repeat;
+  background: url("../assets/icons/inputform.svg") no-repeat;
   height: 32px;
 }
 
@@ -917,21 +947,24 @@ a .ui-select-choises-row-inner {
  */
 
 [class*="profile-menu-"] {
-  background: url('../assets/icons/profilemenu_24.png') no-repeat;
+  background: url('../assets/icons/menuicon.svg') no-repeat;
   width: 24px;
   height: 24px;
 }
 
-.profile-menu-setting {
-  background-position: 0 0px;
+.profile-menusetting {
+  background: url('../assets/icons/placebuttons.svg') no-repeat;
+  width: 24px;
+  height: 24px;
+  background-position: 0 -35px;
 }
 
-.profile-menu-upgrade {
-  background-position: 0 -24px;
+.profile-menu-edit-profile {
+  background-position: 0 -120px;
 }
 
 .profile-menu-signout {
-  background-position: 0 -48px;
+  background-position: 0 -72px;
 }
 
 /**
@@ -1008,7 +1041,7 @@ a .ui-select-choises-row-inner {
 [class*="ei-"] {
   width: 16px;
   height: 16px;
-  background-image: url('../assets/icons/eventicon.png');
+  background-image: url('../assets/icons/eventicon.svg');
   margin-top: 8px;
 }
 

@@ -1,10 +1,4 @@
-<!--<div>-->
-  <!--<ul class="list-unstyled text-center">-->
-    <!--<li data-ng-repeat="place in event.post.places | limitTo:(event.post.places.length - 1):1">-->
-      <!--<a class="nst-mood-simple" href="#/events/{{place.id}}" data-ng-bind="place.name"></a>-->
-    <!--</li>-->
-  <!--</ul>-->
-<!--</div>-->
+
 
 <div  data-ng-repeat="place in event.post.places | limitTo:(event.post.places.length - 1):1"  class="_dtr" id="popup-badge">
   <div class="_dtc">
@@ -14,12 +8,13 @@
     <div class="_dtr">
       <ul class="list-unstyled text-center">
         <li>
-         <a href="#/events/{{place.id}}" class="_dtc teammate-name nst-mood-simple">{{place.name}}</a>
+         <a href="#/events/{{place.id}}" class="_dtc teammate-name nst-mood-solid text-left">{{place.name}}</a>
         </li>
       </ul>
     </div>
     <div class="_dtr">
-      <div class="_dtc nst-mood-storm nst-font-10">{{place.id}}</div>
+      <div class="_dtc nst-mood-storm nst-font-small">{{place.id}}</div>
     </div>
   </div>
 </div>
+
