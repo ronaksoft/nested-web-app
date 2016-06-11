@@ -27,7 +27,6 @@
 
     $scope.thePost.comments.length > 0 || $scope.thePost.loadComments().then(function () {
       $scope.scrolling = true;
-      console.log("cm load",$scope.scrolling)
     });
 
     $scope.commentKeyUp = function (event) {
