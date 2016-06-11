@@ -307,7 +307,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
 
 #viewswitch input[type="checkbox"] + label {
   display: inline-block;
-  background: url('../assets/icons/viewswitch.png') no-repeat;
+  background: url('../assets/icons/viewswitch.svg') no-repeat;
   height: 15px;
   min-width: 48px;
   padding: 0 0 0 17px;
@@ -330,7 +330,7 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label {
-  background: url('../assets/icons/controls.png') no-repeat;
+  background: url('../assets/icons/controls.svg') no-repeat;
   height: 16px;
   width: 16px;
   background-position: 0px -48px;
@@ -342,7 +342,7 @@ input[type="radio"] + label {
 }
 
 input[type="radio"]:checked + label {
-  background: url('../assets/icons/controls.png') no-repeat;
+  background: url('../assets/icons/controls.svg') no-repeat;
   background-position: 0px -64px;
   height: 16px;
   width: 17px;
@@ -881,7 +881,7 @@ a .ui-select-choises-row-inner {
  */
 
 .nst-ico-eye, .nst-ico-eye-slash {
-  background: url("../assets/icons/form.png") no-repeat;
+  background: url("../assets/icons/inputform.svg") no-repeat;
   height: 32px;
 }
 
