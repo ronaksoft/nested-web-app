@@ -49,13 +49,16 @@
 
         <!--application/*-->
         <div data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
-
           <!--PDF-->
-          <!--<div data-ng-switch-when="pdf" class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge">PDF</div>-->
-          <pdf-viewer data-ng-switch-when="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
+          <div data-ng-switch-when="pdf" data-ng-controller="AttachmentPdfController">
+            <div class="att-exp-application-pdf-large">
+            <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-large">PDF</div>
+            <!--<ng-pdf template-url="app/post/partials/attachment/pdf_viewer.html" url="attachment.download.url"></ng-pdf>-->
+            </div>
+          </div>
 
           <!--Archive-->
-          <div data-ng-switch-when="zip" class="att-exp-application-zip">
+          <div data-ng-switch-when="zip" class="att-exp-application-zip-large">
             <div class="_tac _fw _dibp title-att color-zip nst-font-large">ZIP</div>
           </div>
 
@@ -65,7 +68,10 @@
           </div>
 
           <!--Document-->
-          <div data-ng-switch-when="rtf"></div>
+          <div data-ng-switch-when="rtf" class="att-exp-text-">
+            <div class="_tac _fw _dibp title-att color-zip nst-font-large">DOC</div>
+          </div>
+
           <div data-ng-switch-when="msword"></div>
           <div data-ng-switch-when="vnd.openxmlformats-officedocument.wordprocessingml.document"></div>
 
