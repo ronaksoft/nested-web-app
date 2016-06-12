@@ -166,6 +166,7 @@
         animation: false,
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
+        controllerAs: 'post',
         size: 'mlg',
         scope: $scope
       });

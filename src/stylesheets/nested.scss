@@ -537,6 +537,8 @@ a:hover {
 }
 .modal-buttons {
   justify-content: flex-end;
+  height: 32px;
+  font-weight:400;
 }
 #add-view {
   border: 1px solid #ced9d3;
@@ -611,10 +613,11 @@ a:hover {
   vertical-align: middle;
 }
 .modal-head {
-  margin: 10px 0;
+  //margin: 10px 0;
 }
 .modal-head p {
   font-size: 22px;
+  font-weight: 500;
 }
 /*
  ************** Popovers ************
