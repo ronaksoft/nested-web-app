@@ -8,10 +8,7 @@
   /** @ngInject */
   function PostController($location, $scope, $stateParams, AuthService, EVENT_ACTIONS, WS_EVENTS, WsService, NestedPost, NestedComment) {
     var vm = this;
-    /*$scope.$on('load',function () {
-      $('.commend-msg').animate({
-        scrollTop: $('.commend-msg')[0].scrollHeight}, 2000);
-    });*/
+    
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();

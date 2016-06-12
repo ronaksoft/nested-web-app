@@ -177,7 +177,7 @@ background-color: $color-sense-5;
 
 
 [class*=nst-deactive-ico-]{
-  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  background: url('../assets/icons/placeicon.svg') no-repeat;
   height: 24px;
   min-width: 24px;
 }
@@ -186,7 +186,7 @@ background-color: $color-sense-5;
   background-position: 0px -48px;
 }
 
-.nst-deactive-ico-eye {
+.nst-deactive-ico-lock {
   background-position: 0px -24px;
 }
 

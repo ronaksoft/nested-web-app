@@ -3,15 +3,17 @@
 
   angular
     .module('nested')
-    .directive('scrollMe', function($timeout) {
+    .directive('scrollMe', function($timeout, $animate) {
       return {
         scope: { trigger: '@scrollMe' },
         link: function(scope, element) {
           scope.$watch('trigger', function(value) {
               if (value === "true"){
-                $timeout(function() {
-                  element[0].scrollTop = element[0].scrollHeight;
-                },1000);
+                $animate.on('enter',
+                  $timeout(function() {
+                    element[0].scrollTop = element[0].scrollHeight;
+                  },200)
+                );
               }
           });
         }
