@@ -359,10 +359,10 @@
 
 .actor-name {
   max-width: 200px;
-  padding-top: 4px;
   overflow: hidden;
   white-space: nowrap;
   flex: none;
+  font-weight: bold;
 }
 .actor-name span{
   text-overflow: ellipsis;
