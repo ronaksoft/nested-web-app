@@ -10,18 +10,15 @@
   function ComposeController($location, $scope, $log, $stateParams, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
-    $scope.checkfilling = function () {
-      if(vm.recipients.length < 1){
-        $scope.sendStatus = true;
-      }else {
-        $scope.sendStatus = false;
-      }
-    };
-
     if (!AuthService.isAuthenticated()) {
       $location.search({back: $location.path()});
       $location.path('/signin').replace();
     }
+    
+    $scope.sendStatus = false;
+    $scope.checkfilling = function () {
+      $scope.sendStatus = !(vm.recipients.length > 0);
+    };
 
     $scope.upload_size = {
       uploaded: 0,
