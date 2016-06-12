@@ -286,6 +286,10 @@ div.att-item {
   margin: 8px 0;
   line-height: 22px;
 }
+.btn-send-compose:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+}
 .btn-send-compose:hover {
   color: white;
 }
