@@ -9,11 +9,10 @@
         link: function(scope, element) {
           scope.$watch('trigger', function(value) {
               if (value === "true"){
-                $animate.on('enter',
-                  $timeout(function() {
-                    element[0].scrollTop = element[0].scrollHeight;
-                  },200)
-                );
+                //$animate.on('enter');
+                $timeout(function() {
+                  element[0].scrollTop = element[0].scrollHeight;
+                },400)
               }
           });
         }
