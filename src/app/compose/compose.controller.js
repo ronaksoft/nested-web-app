@@ -143,7 +143,6 @@
     };
   }
 })();
-
 // $scope.chageMe = function ($event, $toState, $toParams, $fromState, $fromParams,$cancel) {
 //
 //   var r = confirm("Press a button");

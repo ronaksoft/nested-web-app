@@ -48,7 +48,7 @@
                 <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
                                    repeat="place in (compose.places | filter: $select.search) track by place.id">
                   <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
-                  <span  class="_vabt" data-ng-bind-html="place.name | highlight: $select.search"></span>
+                  <span  class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
                   </br>
                   <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
                 </ui-select-choices>
@@ -95,7 +95,9 @@
 </div>
 
 
-<!--<script src="bower_components/angular-unsavedChanges/dist/unsavedChanges.js">-->
+<!--<script src="../bower_components/angular-unsavedChanges/dist/unsavedChanges.js">-->
+  <!--unsavedWarningsConfigProvider.routeEvent = '$stateChangeStart';-->
+  <!--unsavedWarningsConfigProvider.navigateMessage = "are you sure....?";-->
 <!--</script>-->
 <!--<script>-->
 

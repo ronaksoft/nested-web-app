@@ -51,12 +51,18 @@
         <div data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
 
           <!--PDF-->
-          <div data-ng-switch-when="pdf" class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge">PDF</div>
-          <!--<pdf-viewer data-ng-switch-when="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>-->
+          <!--<div data-ng-switch-when="pdf" class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge">PDF</div>-->
+          <pdf-viewer data-ng-switch-when="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
 
           <!--Archive-->
-          <div data-ng-switch-when="zip"></div>
-          <div data-ng-switch-when="x-rar-compressed"></div>
+          <div data-ng-switch-when="zip" class="att-exp-application-zip">
+            <div class="_tac _fw _dibp title-att color-zip nst-font-large">ZIP</div>
+          </div>
+
+
+          <div data-ng-switch-when="x-rar-compressed" class="att-exp-application-x-rar-compressed">
+            <div class="_tac _fw _dibp title-att color-zip nst-font-large">RAR</div>
+          </div>
 
           <!--Document-->
           <div data-ng-switch-when="rtf"></div>
@@ -64,7 +70,7 @@
           <div data-ng-switch-when="vnd.openxmlformats-officedocument.wordprocessingml.document"></div>
 
           <!--Other-->
-          <iframe data-ng-switch-default class="_fw  large-viewe-attach" src="{{attachment.download.url}}"></iframe>
+          <iframe data-ng-switch-default class="_fw" src="{{attachment.download.url}}"></iframe>
           <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge"></div>
         </div>
 
