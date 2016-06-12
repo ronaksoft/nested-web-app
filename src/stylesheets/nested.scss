@@ -191,11 +191,15 @@ a.place {
   width: 128px;
   flex: none;
 }
-.btn-green:hover {
+.btn-green:hover:enabled {
   background-color: $color-sense-wire;
 }
 .btn-green:focus {
   background-color: $color-sense;
+}
+.btn-green:disabled{
+  opacity: .5;
+  cursor: not-allowed;
 }
 .btn-green a{
   margin: 4px 0;

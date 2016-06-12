@@ -10,7 +10,7 @@
     </div>
     <div class="nst-content">
       <div class="subnavitems _bgwhite _difc">
-        <ul class="nav-width-ul-compose">
+        <ul class="nav-width-ul-compose" data-ng-init="sendStatus = false;">
           <li class="_df _fw">
             <a href="javascript:void(0);" class="btn-back-compose" onclick="window.history.back();">Discard</a>
           </li>
@@ -18,7 +18,7 @@
             <a href="javascript:void(0);" class="_fr btn-back-compose"><label for='attach'>Attach</label></a>
           </li>
           <li class="_df">
-            <a href="javascript:void(0);" class="_fr btn-send-compose" ng-click="compose.sendPost()">Send</a>
+            <button href="javascript:void(0);" class="_fr btn-green" ng-click="compose.sendPost()" data-ng-disabled="sendStatus" value="">Send</button>
           </li>
         </ul>
 
