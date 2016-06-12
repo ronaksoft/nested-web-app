@@ -12,10 +12,13 @@
       NOT_AUTHENTICATED: 'auth-not-authenticated',
       NOT_AUTHORIZED: 'auth-not-authorized'
     })
+    .constant('UNAUTH_REASON', {
+      LOGOUT: 'logout'
+    })
     .service('AuthService', NestedAuthService);
 
   /** @ngInject */
-  function NestedAuthService($cookies, $window, $q, WsService, WS_EVENTS, AUTH_EVENTS, NestedUser, $log) {
+  function NestedAuthService($cookies, $window, $q, WsService, WS_EVENTS, UNAUTH_REASON, AUTH_EVENTS, NestedUser, $log) {
     function AuthService(user) {
       this.user = new NestedUser(user);
       this.lastSessionKey = null;
@@ -28,18 +31,28 @@
       }
 
       WsService.addEventListener(WS_EVENTS.INITIALIZE, this.reauth.bind(this));
-      WsService.addEventListener(WS_EVENTS.UNINITIALIZE, this.unauthorize.bind(this));
+      WsService.addEventListener(WS_EVENTS.UNINITIALIZE, function () {
+        if (this.isAuthenticated()) {
+          this.unauthorize();
+        }
+      }.bind(this));
     }
 
     AuthService.prototype = {
       authorize: function (data) {
         $log.debug('Authorization', data);
 
-        // TODO: Remember Me Implementation
+        var options = {};
+        if (this.remember) {
+          var expires = new Date();
+          expires.setFullYear(expires.getFullYear() + 1);
+          options['expires'] = expires;
+        }
+
         this.lastSessionKey = data._sk.$oid;
         this.lastSessionSecret = data._ss;
-        $cookies.put('nsk', this.lastSessionKey);
-        $cookies.put('nss', this.lastSessionSecret);
+        $cookies.put('nsk', this.lastSessionKey, options);
+        $cookies.put('nss', this.lastSessionSecret, options);
 
         // TODO: Pass to user service
         this.user.setData(data.info);
@@ -57,6 +70,8 @@
         var ss = $cookies.get('nss') || this.lastSessionSecret;
 
         if (ss && sk) {
+          // TODO: Check if `remember me` was checked
+
           return WsService.request('session/recall', {
             _sk: sk,
             _ss: ss
@@ -76,8 +91,8 @@
 
       unauthorize: function (reason) {
         $log.debug('Unauthorization', reason);
-        this.user.username = null;
 
+        this.user.username = null;
         $cookies.remove('nss');
         $cookies.remove('nsk');
 
@@ -92,7 +107,6 @@
 
       login: function (credentials, remember) {
         this.remember = remember;
-        this.logout('Pre Login');
 
         return WsService.request('session/register', {
           uid: credentials.username,
@@ -101,7 +115,10 @@
       },
 
       logout: function (reason) {
-        return this.unauthorize(reason || 'User Logout');
+        this.lastSessionKey = null;
+        this.lastSessionSecret = null;
+
+        return this.unauthorize(reason || UNAUTH_REASON.LOGOUT);
 
         return WsService.request('logout').then(this.unauthorize.bind(this));
       },
