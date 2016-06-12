@@ -13,20 +13,19 @@
     </div>
     <div class="nst-content">
       <div class="subnavitems _bgwhite _df">
-
         <ul class="nav-width-ul">
           <li data-ng-repeat="(key, filter) in events.filters" class=" li-hover {{key == events.filter ? 'selected' : null}}">
             <a class="events-anchor" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
           </li>
         </ul>
         <div class="search _difc" id="ViewSelector">
-            <div class="_df">
-                  <span class="text-right viewswitch" id="viewswitch" ng-click="events.collapse()" data-uib-tooltip="you can collapse or expand the activity body !" data-tooltip-append-to-body="false" data-tooltip-placement="left-top">
-                    <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="events.extended"/>
-                    <label for="ext_switch"></label>
-                  </span>
-            </div>
-            <div class="_df"><input id="n-search" placeholder="Search"></div>
+          <div class="_df">
+              <span class="text-right viewswitch" id="viewswitch" ng-click="events.collapse()" data-uib-tooltip="you can collapse or expand the activity body !" data-tooltip-append-to-body="false" data-tooltip-placement="left-top">
+                <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="events.extended"/>
+                <label for="ext_switch"></label>
+              </span>
+          </div>
+          <div class="_df"><input id="n-search" placeholder="Search"></div>
         </div>
       </div>
       <div data-ng-if="events.place.id" class="_fl title-bar _vam _difh _fw">

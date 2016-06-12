@@ -22,7 +22,7 @@
     Item.prototype = {
       getUrl: function () {
         return StoreService.toUrl(this.uid, this.token).then(function (url) {
-          this.url = $sce.trustAsResourceUrl(url).toString();
+          this.url = $sce.trustAsResourceUrl(url);
 
           return $q(function (res) {
             res(this.url);
@@ -33,5 +33,4 @@
 
     return Item;
   }
-
 })();

@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, $localStorage) {
+  function EventsController($location, $scope, $q, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, $localStorage) {
     var vm = this;
     vm.extended = $localStorage.extended;
     vm.collapse = function () {
@@ -188,11 +188,10 @@
       event.stopPropagation();
     };
 
-    $scope.attachmentView = function (attachment, event) {
-      $scope.attachment = attachment;
-
-      attachment.download.getUrl().then(function (url) {
+    $scope.attachmentView = function (attachment) {
+      return attachment.getDownloadUrl().then(function (attachment) {
         $scope.lastUrl = $location.path();
+        $scope.attachment = attachment;
 
         var modal = $uibModal.open({
           animation: false,
@@ -213,6 +212,10 @@
           delete $scope.lastUrl;
           delete $scope.attachment;
         });
+
+        return $q(function (res) {
+          res($scope.attachment);
+        })
       });
     };
   }
