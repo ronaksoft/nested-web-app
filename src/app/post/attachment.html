@@ -7,7 +7,7 @@
         <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}"/>
 
         <!--audio/*-->
-        <videogular class="_hf audioplayer" data-ng-switch-when="audio" data-ng-init="ad = [{}]; ad[0]['src'] = attachment.download.url; ad[0]['type'] = attachment.mimeType;">
+        <videogular data-ng-switch-when="audio" class="_hf audioplayer" data-ng-init="ad = [{}]; ad[0]['src'] = attachment.download.url; ad[0]['type'] = attachment.mimeType;">
           <vg-media vg-src="ad"></vg-media>
 
           <vg-controls>
@@ -23,7 +23,8 @@
           </vg-controls>
         </videogular>
 
-        <videogular class="_fw" data-ng-switch-when="video" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
+        <!--video/*-->
+        <videogular data-ng-switch-when="video" class="_fw" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
           <vg-media vg-src="vg"></vg-media>
 
           <vg-controls vg-autohide="true" vg-autohide-time="3000">
@@ -43,15 +44,27 @@
           </vg-controls>
         </videogular>
 
+        <!--text/*-->
+        <div data-ng-switch-when="text"></div>
+
         <!--application/*-->
-        <div class="large-viewe-attach" data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
+        <div data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
 
-          <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge">PDF</div>
-          <!--application/pdf-->
-          <pdf-viewer data-ng-switch="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>
+          <!--PDF-->
+          <div data-ng-switch-when="pdf" class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge">PDF</div>
+          <!--<pdf-viewer data-ng-switch-when="pdf" url="attachment.download.url" scale="1" show-toolbar="true"></pdf-viewer>-->
 
-          <!--application/*-->
-          <iframe class="_fw  large-viewe-attach" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+          <!--Archive-->
+          <div data-ng-switch-when="zip"></div>
+          <div data-ng-switch-when="x-rar-compressed"></div>
+
+          <!--Document-->
+          <div data-ng-switch-when="rtf"></div>
+          <div data-ng-switch-when="msword"></div>
+          <div data-ng-switch-when="vnd.openxmlformats-officedocument.wordprocessingml.document"></div>
+
+          <!--Other-->
+          <iframe data-ng-switch-default class="_fw  large-viewe-attach" src="{{attachment.download.url}}"></iframe>
           <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge"></div>
         </div>
 
@@ -64,9 +77,9 @@
           <p class="nst-font-small nst-mood-storm">{{attachment.size | bytes:0}}</p>
         </div>
         <div class="_fw">
-          <div dir="rtl" class="_difh _fw" style="align-items: center;height: 68px">
-            <div class="_df nst-arrow-rotated-270"></div>
-            <div class="_df nst-arrow-rotated-90"></div>
+          <div dir="rtl" class="_difh _fw" style="align-items: center;height: 68px" data-ng-init="index = attachment.post.attachments.indexOf(attachment)">
+            <div data-ng-if="attachment.post.attachments.length > 1" data-ng-click="attachment.post.attachments[index - 1] && attachment.post.attachments[index - 1].getDownloadUrl().then(attachmentView);" class="_df nst-arrow-rotated-270"></div>
+            <div data-ng-if="attachment.post.attachments.length > 1" data-ng-click="attachment.post.attachments[index + 1] && attachment.post.attachments[index + 1].getDownloadUrl().then(attachmentView);" class="_df nst-arrow-rotated-90"></div>
 
             <div class="_df nst-nav-btn-breeze"><a href="{{attachment.download.url}}" class="nst-mood-storm">Download</a></div>
             <div class="_df nst-nav-btn-breeze"><a href="" class="nst-mood-storm">Open in Browser</a></div>

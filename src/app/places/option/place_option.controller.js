@@ -14,9 +14,6 @@
       $location.path('/signin').replace();
     }
 
-    vm.setlockoff = function () {
-      console.log("ali")
-    }
     $scope.logo = null;
     $scope.place = new NestedPlace();
 
@@ -33,13 +30,7 @@
           $scope.place_option.actions['delete'] = {
             name: 'Delete',
             fn: function () {
-              return $scope.place.delete().then(function () {
-                return $q(function (res) {
-                  res($scope.place.id);
-
-                  $location.path('/places').replace();
-                });
-              });
+              vm.showDeleteModal()
             }
           };
         }
@@ -96,6 +87,15 @@
       return $scope.place.update(data);
     };
 
+
+    $scope.checkplace = function (PlaceId) {
+      if (PlaceId == $scope.place.id){
+        $scope.deleteValidated = true;
+      }else {
+        $scope.deleteValidated = false;
+      }
+    };
+
     vm.showAddModal = function (role) {
       $scope.role = role;
       $scope['add_' + role] = true;
@@ -118,25 +118,70 @@
         delete $scope.closeModal;
       });
     };
-    vm.showLuckModal = function () {
+    vm.showLockModal = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
 
-      var modal = $uibModal.open({
+      $uibModal.open({
         animation: false,
         templateUrl: 'app/places/option/warning.html',
-        controller: 'PlaceAddMemberController',
-        controllerAs: 'place_add_member',
+        controller: 'WarningController',
         size: 'sm',
         scope: $scope
+      }).result.then(function () {
+        var data = {};
+        data['privacy.locked'] = $scope.place.privacy.locked;
+
+        return $scope.place.update(data);
+      }).catch(function () {
+        $scope.place.privacy.locked = !$scope.place.privacy.locked;
       });
 
+      return false;
+    };
+    vm.showDeleteModal = function () {
 
-      $scope.closeModal = modal.close;
+      $scope.deleteValidated = false;
+      $scope.nextStep = false;
 
-      modal.closed.then(function () {
-        delete $scope['add_' + role];
-        delete $scope.role;
-        delete $scope.closeModal;
-      });
+      var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/places/option/delete.html',
+          controller: 'WarningController',
+          size: 'sm',
+          scope: $scope
+        })
+        .result.then(
+          function () {
+            if($scope.deleteValidated == true){
+              $scope.place.delete();
+              return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
+            }
+          },
+          function () {
+            console.log("canceled")
+          }
+        );
+
+    };
+    vm.removeUserModal = function () {
+
+      var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/places/context_menu/remove.html',
+          controller: 'WarningController',
+          size: 'sm',
+          scope: $scope
+        })
+        .result.then(
+          function () {
+            // remove user
+          },
+          function () {
+            // Cancel
+          }
+        );
+
     };
 
   }

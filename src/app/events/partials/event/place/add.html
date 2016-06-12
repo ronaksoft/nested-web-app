@@ -7,9 +7,11 @@
 </div>
 <div class="actcon">
   <div class='msg'>
-    <span class="nst-mood-simple">created <a class="place" href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a></span>
-    <span data-ng-if="event.place.parent"> nest in <a class="place" href="#/events/{{event.place.parent.id}}" data-ng-bind="event.place.parent.name"></a></span>
+    <div class="subject">
+      <span class="nst-mood-simple">created&nbsp;</span><a href="#/events/{{event.place.id}}" data-ng-bind="event.place.name"></a>
+      <span data-ng-if="event.place.parent"><span class="nst-mood-simple">&nbsp;nested in&nbsp;</span><a href="#/events/{{event.place.parent.id}}" data-ng-bind="event.place.parent.name"></a></span>
+    </div>
   </div>
   <div class='places'></div>
-  <div class="time" data-ng-include="'app/events/partials/event/common/date.html'"></div>
+  <div class="time no-animation" data-ng-include="'app/events/partials/event/common/date.html'"></div>
 </div>

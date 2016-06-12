@@ -1,16 +1,15 @@
 <div id="delete-view">
   <div class="_difv _fw">
     <div class="_difh modal-head">
-      <p data-ng-show="!place.privacy.locked" class="_df _fw">Make Place "Accessible"?</p>
-      <p data-ng-show="place.privacy.locked" class="_df _fw">Make Place "Locked"?</p>
+      <p class="_df _fw">Remove UserName from "Ronak Software Group Development"?</p>
       <div class="_df" ng-click="cancel()"><img src="../assets/icons/close.svg" class="_fh"></div>
     </div>
     <div class="_difv _fw">
-      <p class="_df nst-mood-storm modal-detail">You are about to change your privacy access public view this place, Are you still want to change ?!</p>
+      <p class="_df nst-mood-storm modal-detail">Are you sure remove "USER" from Ronak Software Group Development?</p>
       <div class="_difh _jcc">
         <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
           <div class="btn-white _jcc _df" ng-click="cancel()"><a class="_df">Cancel</a></div>
-          <button class="btn-green _jcc _df" ng-click="ok()"><a class="_df">Yes</a></button>
+          <button class="btn-red _jcc _df" ng-click="ok()"><a class="_df">Remove</a></button>
         </div>
       </div>
     </div>

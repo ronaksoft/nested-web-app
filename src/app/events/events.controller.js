@@ -155,6 +155,10 @@
       $scope.events.pushEvent(event, true);
     });
 
+    WsService.addEventListener(WS_EVENTS.AUTHORIZE, function (event) {
+      // TODO: Get timeline events after last event
+    });
+
     vm.load();
 
     $scope.postView = function (post, url, event) {
