@@ -149,12 +149,8 @@
         $scope.sendStatus = false;
       }).catch(function (data) {
         switch (data.err_code) {
-          case WS_ERROR.INVALID:
-            toastr.error('Invalid message ...', 'Message Not Sent!');
-            break;
-
           case WS_ERROR.ACCESS_DENIED:
-            toastr.error('you dont have enogh access ...', 'Message Not Sent!');
+            toastr.error('You do not have enough access', 'Message Not Sent!');
             break;
 
           default:
