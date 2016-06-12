@@ -71,7 +71,7 @@
     </div>
 
     <div id="Comments" class="_difv _vat">
-      <div class="_difv comment-msg" scroll-me="{{scrolling}}">
+      <div class="_difv comment-msg" onscroll="angular.element(this).scope().post.checkScroll(event)" scroll-me="scrolling">
         <div data-ng-if="thePost.moreComments" class="_fw text-center">
           <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="thePost.loadComments()">Load More...</a>
         </div>

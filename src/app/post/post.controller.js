@@ -6,12 +6,9 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($location, $scope, $stateParams, AuthService, EVENT_ACTIONS, WS_EVENTS, WsService, NestedPost, NestedComment) {
+  function PostController($location, $scope, $stateParams, $q, AuthService, EVENT_ACTIONS, WS_EVENTS, WsService, NestedPost, NestedComment) {
     var vm = this;
-    /*$scope.$on('load',function () {
-      $('.commend-msg').animate({
-        scrollTop: $('.commend-msg')[0].scrollHeight}, 2000);
-    });*/
+
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
@@ -29,11 +26,19 @@
       $scope.scrolling = true;
     });
 
+    $scope.unscrolled = true;
+    vm.checkScroll = function (event) {
+      var element = event.target;
+
+      $scope.unscrolled = element.scrollTop === (element.scrollHeight - element.offsetHeight);
+    };
+
     $scope.commentKeyUp = function (event) {
       var noSend = event.shiftKey || event.ctrlKey;
       if (13 === event.keyCode && !noSend) {
         $scope.thePost.addComment(event.currentTarget.value).then(function (comment) {
           event.currentTarget.value = '';
+          $scope.scrolling = $scope.unscrolled && true;
         });
 
         return false;
@@ -51,7 +56,13 @@
             var commentId = tlEvent.detail.timeline_data.comment_id.$oid;
 
             (new NestedComment($scope.thePost)).load(commentId).then(function (comment) {
-              $scope.thePost.addComment(comment).catch(function () {});
+              $scope.thePost.addComment(comment).then(function () {
+                $scope.scrolling = $scope.unscrolled && true;
+
+                return $q(function (res) {
+                  res();
+                });
+              }).catch(function () {});
             });
           }
 

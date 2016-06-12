@@ -5,14 +5,15 @@
     .module('nested')
     .directive('scrollMe', function($timeout) {
       return {
-        scope: { trigger: '@scrollMe' },
-        link: function(scope, element) {
-          scope.$watch('trigger', function(value) {
-              if (value === "true"){
-                $timeout(function() {
-                  element[0].scrollTop = element[0].scrollHeight;
-                },1000);
-              }
+        scope: { scrollMe: '=' },
+        link: function(scope, element, attrs) {
+          scope.$watch('scrollMe', function(value) {
+            if (value) {
+              $timeout(function() {
+                scope.scrollMe = false;
+                angular.element(element[0]).animate({scrollTop: element[0].scrollHeight}, '500', 'swing');
+              },300)
+            }
           });
         }
       };

@@ -191,11 +191,15 @@ a.place {
   width: 128px;
   flex: none;
 }
-.btn-green:hover {
+.btn-green:hover:enabled {
   background-color: $color-sense-wire;
 }
 .btn-green:focus {
   background-color: $color-sense;
+}
+.btn-green:disabled{
+  opacity: .5;
+  cursor: not-allowed;
 }
 .btn-green a{
   margin: 4px 0;
@@ -533,6 +537,8 @@ a:hover {
 }
 .modal-buttons {
   justify-content: flex-end;
+  height: 32px;
+  font-weight:400;
 }
 #add-view {
   border: 1px solid #ced9d3;
@@ -607,10 +613,11 @@ a:hover {
   vertical-align: middle;
 }
 .modal-head {
-  margin: 10px 0;
+  //margin: 10px 0;
 }
 .modal-head p {
   font-size: 22px;
+  font-weight: 500;
 }
 /*
  ************** Popovers ************
@@ -895,7 +902,6 @@ a .ui-select-choises-row-inner {
   flex-direction: column;
   width: 100%;
   height: 100%;
-
 }
 .nst-content-body {
   display: flex;
