@@ -69,8 +69,6 @@
             return WsService.request('account/update_invitation', {
               invite_id: this.id,
               state: accept ? 'accepted' : 'ignored'
-            }).then(function () {
-              //To do add place to page and push msgs
             });
           }
 
