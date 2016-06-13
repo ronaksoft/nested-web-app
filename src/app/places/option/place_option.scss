@@ -295,10 +295,7 @@
   justify-content: center;
   background-color: $color-white;
 }
-.modal-add img {
-  width: 24px;
-  height: 24px;
-}
+
 .modal-add-input {
   width: calc(100% - 50px)!important;
 }
@@ -332,4 +329,8 @@
 }
 .optionrow div:first-child {
   min-width: 24px;
+}
+.dropdown-menu {
+border: none;
+box-shadow: none;
 }
