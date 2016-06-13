@@ -14,8 +14,31 @@
       $location.path('/signin').replace();
     }
 
-    if ($scope.attachment) {
+    vm.getIndex = function () {
+      $scope.index = $scope.attachment.post.attachments.map(function (att) {
+        return att.id;
+      }).indexOf($scope.attachment.id);
 
+      return $scope.index;
+    };
+
+    $scope.nextAtt = function () {
+      if($scope.index < $scope.attachment.post.attachments.length - 1){
+        $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
+      }
+
+      return $scope.attachment.getDownloadUrl();
+    };
+    $scope.prvAtt = function () {
+      if($scope.index > 0) {
+        $scope.attachment = $scope.attachment.post.attachments[--$scope.index];
+      }
+
+      return $scope.attachment.getDownloadUrl();
+    };
+
+    if ($scope.attachment) {
+      vm.getIndex();
     }
   }
 })();

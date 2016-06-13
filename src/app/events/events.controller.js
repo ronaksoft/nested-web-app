@@ -212,6 +212,7 @@
           animation: false,
           templateUrl: 'app/post/attachment.html',
           controller: 'AttachmentController',
+          controllerAs: 'attachmentCtrl',
           size: 'mlg',
           windowClass: 'modal-attachment',
           scope: $scope
