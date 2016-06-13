@@ -3,10 +3,10 @@
       <div class="_difh modal-add">
         <h5 class="_df _fw" data-ng-if="add_teammate">Add a Teammate</h5>
         <h5 class="_df _fw" data-ng-if="add_member">Invite a Member</h5>
-        <div class="_df" ng-click="$close(result)"><img src="../assets/icons/close_16.png" class="_fh closebut"></div>
+        <div class="_df" ng-click="$close(result)"><img src="../assets/icons/close_16.png" class="closebut"></div>
       </div>
       <div class="_difh _fw modal-add">
-        <ui-select multiple class="modal-add-input nst-mood-simple _df" data-ng-model="place_add_member.selectedUsers" autofocus="true" always-show-list>
+        <ui-select multiple class="modal-add-input nst-mood-simple _df" data-ng-model="place_add_member.selectedUsers" autofocus="true" always-show-list on-select="place_add_member.search('')">
           <ui-select-match placeholder="Invite people to your team" class=" _fw">
             <span>{{$item.fullname}} &lt;{{$item.username}}&gt;</span>
           </ui-select-match>

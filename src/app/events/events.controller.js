@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, $localStorage) {
+  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
     vm.extended = $localStorage.extended;
     vm.collapse = function () {
@@ -24,6 +24,20 @@
     $scope.$on('angular-resizable.resizeEnd', function (event, info) {
       $localStorage.sidebarWidth = info.width;
     });
+
+    // Invitations
+
+    vm.invitations = [];
+    WsService.request('account/get_invitations').then(function (data) {
+      for (var k in data.invitations) {
+        if (data.invitations[k].place._id) {
+          vm.invitations.push(new NestedInvitation(data.invitations[k]));
+        }
+      }
+    })
+    ;
+
+    // /Invitations
 
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });
