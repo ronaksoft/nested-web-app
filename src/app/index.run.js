@@ -15,8 +15,7 @@
     }, 1000);
 
     $rootScope.modals = {};
-
-    // TODO: Add Event Listener on AuthService: AUTH_EVENTS.UNAUTHENTICATE => Redirect to here
+    
     AuthService.addEventListener(AUTH_EVENTS.UNAUTHENTICATE, function (event) {
       console.log('Reason', event);
       if (!($rootScope.modals['unauthorized'] || UNAUTH_REASON.LOGOUT == event.detail.reason)) {

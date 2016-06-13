@@ -6,7 +6,7 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, AuthService, NestedPlace, PLACE_ACCESS) {
+  function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, AuthService, NestedPlace, PLACE_ACCESS) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -20,7 +20,15 @@
     vm.actions = {
       'leave': {
         name: 'Leave',
-        fn: function () {}
+        fn: function () {
+          return $scope.place.removeMember(AuthService.user.id).then(function () {
+            $location.path('/places').replace();
+
+            return $q(function (res) {
+              res();
+            });
+          });
+        }
       }
     };
 
@@ -164,24 +172,19 @@
         );
 
     };
-    vm.removeUserModal = function () {
+
+    vm.removeMember = function (user) {
+      $scope.member = user;
 
       var modal = $uibModal.open({
-          animation: false,
-          templateUrl: 'app/places/context_menu/remove.html',
-          controller: 'WarningController',
-          size: 'sm',
-          scope: $scope
-        })
-        .result.then(
-          function () {
-            // remove user
-          },
-          function () {
-            // Cancel
-          }
-        );
-
+        animation: false,
+        templateUrl: 'app/places/context_menu/remove.html',
+        controller: 'WarningController',
+        size: 'sm',
+        scope: $scope
+      }).result.then(function () {
+        return $scope.place.removeMember($scope.member.username);
+      });
     };
 
   }

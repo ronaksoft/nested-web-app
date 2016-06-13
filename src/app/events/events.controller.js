@@ -32,7 +32,6 @@
       for (var k in data.invitations) {
         if (data.invitations[k].place._id) {
           vm.invitations.push(new NestedInvitation(data.invitations[k]));
-          console.log('Invitation Object', vm.invitations);
         }
       }
     })

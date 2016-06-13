@@ -291,6 +291,8 @@
 
       unauthorize: function () {
         if (this.authorized) {
+          // Currently just called on auth service logout
+          // When stream is closed it will became unauthorized automatically
           this.stream.close();
         }
       },
