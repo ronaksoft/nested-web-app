@@ -509,7 +509,6 @@ vertical-align: middle;
 }
 .ui-select-bootstrap .ui-select-choices-row.active > a{
   background-color: $color-sense-50;
-
 }
 .account-picture {
   border-radius: 50%;
@@ -1071,27 +1070,37 @@ a .ui-select-choises-row-inner {
   height: 170px;
   overflow: hidden;
 }
-.ui-select-container ul {
+.modal-add .ui-select-container ul {
   width: calc(100% + 50px)!important;
   max-height: 170px!important;
   overflow: hidden;
 }
-.ui-select-choices-row{
+.modal-add .ui-select-choices-row{
   display: inline-flex;
   flex-direction: row;
   height: 50px;
   width: 33.3%;
   margin-top: 5px;
 }
-.ui-select-choices-row a{
+.modal-add .ui-select-choices-row a{
   display: inline-flex!important;
   flex-direction: row;
   height: 50px;
   width: 100%;
 }
-.ui-select-choices-row:hover{
+.modal-add .ui-select-choices-row:hover{
   background-color: $color-sense-5;
   cursor: pointer;
+}
+.modal-add  .dropdown-menu {
+  border: none;
+  box-shadow: none;
+}
+.modal-add .ui-select-choices-row.active > a,
+.modal-add .ui-select-choices-row.active > a:hover{
+  background-color: $color-sense-5 ;
+  color: black;
+  border-radius: 10px;
 }
 .modal-add h5 {
   font-size: $font-size-xlarge;
