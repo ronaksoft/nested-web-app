@@ -2,7 +2,7 @@
   <li>
     <ul class="attachments-bar">
       <li data-ng-repeat="(key, attachment) in thePost.attachments" data-ng-init="attached = 'attached' == attachment.status; ext = rexExt.exec(attachment.filename)[1]">
-        <a href="{{attached ? attachment.download.url : ''}}" ng-click="$event.preventDefault(); attached && attachment.getDownloadUrl().then(attachmentView);">
+        <a href="{{attached ? attachment.download.url : ''}}" ng-click="$event.preventDefault(); attached && attachmentView(attachment);">
           <img data-ng-if="attachment.thumbs.x128.uid" src="{{attachment.thumbs.x128.url}}"/>
           <div data-ng-if="!attachment.thumbs.x128.uid && thePost.attachmentPreview" class="att-exp-{{attachment.mimeType.replace('/', '-')}}">
             <p class="nst-attachment-name nst-mood-storm">{{attachment.filename.replace(rexExt, '')}}</p>
