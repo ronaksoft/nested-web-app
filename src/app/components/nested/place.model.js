@@ -427,6 +427,37 @@
           });
         },
 
+        removeMember: function (memberId) {
+          return this.haveAccess(PLACE_ACCESS.REMOVE_MEMBERS) ? WsService.request('place/remove_member', {
+            place_id: this.id,
+            member_id: memberId
+          }).then(function () {
+            var found = false;
+            for (var role in this.members) {
+              if (this.members[role].loaded) {
+                for (var k in this.members[role].users) {
+                  if (memberId == this.members[role].users[k].username) {
+                    delete this.members[role].users[k];
+                    this.members[role].count--;
+                    found = true;
+                    break;
+                  }
+                }
+
+                if (found) {
+                  break;
+                }
+              }
+            }
+
+            return $q(function (res) {
+              res();
+            })
+          }.bind(this)) : $q(function (res, rej) {
+            rej();
+          });
+        },
+
         setPicture: function(uid) {
           return WsService.request('place/set_picture', {
             place_id: this.id,

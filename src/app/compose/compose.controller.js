@@ -7,14 +7,14 @@
 
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $stateParams, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+  function ComposeController($location, $scope, $log, $stateParams, toastr, AuthService, WS_ERROR, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
       $location.search({back: $location.path()});
       $location.path('/signin').replace();
     }
-    
+
     $scope.sendStatus = false;
     $scope.checkfilling = function () {
       $scope.sendStatus = !(vm.recipients.length > 0);

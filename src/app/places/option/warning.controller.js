@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .controller('WarningController', function ($scope,$uibModalInstance){
+    .controller('WarningController', function ($scope, $uibModalInstance){
       $scope.ok = function () {
         $uibModalInstance.close();
       };
