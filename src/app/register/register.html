@@ -1,85 +1,98 @@
 <div class="_fhw">
   <div class="nst-vc ng-scope _fh">
     <div class="panel" id="panel-register">
-      <div class="nst-vb no-gutter2 nst-marginbtm-16">
-        <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">Create an account</p>
-        <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
-          in</a></p>
-      </div>
-      <div class="nst-marginbtm-8">Choose your username</div><div class="_dn nst-mood-lively nst-marginbtm-8">:( Sorry, its not available</div><div class="_dn nst-mood-cheerful nst-marginbtm-8">:) its available</div>
-      <div class="nst-marginbtm-16 has-feedback">
-        <input aria-invalid="false" class="form-control" name="username" type="text" maxlength="40"/>
-        <div class="form-control-feedback-register">@nested.com</div>
-      </div>
-      <div class="nst-marginbtm-8">Set new password</div><div class="_dn nst-mood-lively nst-marginbtm-8">weak password</div><div class="_dn nst-mood-cheerful nst-marginbtm-8">Powerful password</div>
-      <div class="nst-marginbtm-16">
-        <div class="form-group has-feedback" data-ng-model="show">
-          <input class="form-control ng-pristine ng-untouched ng-valid" name="password" data-ng-init="show = true"
-                 type="{{show ? 'password' : 'text'}}" ng-model="inputModel" tooltip-class="pass-popover"
-                 uib-tooltip-template="'app/register/tip_password.html'" tooltip-placement="bottom"
-                 tooltip-trigger="focus" tooltip-enable="!inputModel"/>
-          <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}"
-             data-ng-click="show = !show"></i>
+      <form unsaved-warning-form>
+        <div class="nst-vb no-gutter2 nst-marginbtm-16">
+          <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">Create an account</p>
+          <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
+            in</a></p>
         </div>
-      </div>
-      <div class="_dt nst-marginbtm-16 register-name-table">
-        <div class="_dtr">
-          <div class="_dtc register-name-cell-left">
-            <div class="nst-marginbtm-8">First name</div><div class="_dn nst-mood-lively nst-marginbtm-8">Firstname Required</div>
-            <input class="form-control ng-pristine ng-untouched ng-valid" name="firstname" type="text"/>
-          </div>
-          <div class="_dtc register-name-cell-right">
-            <div class="nst-marginbtm-8">Last name</div><div class="_dn nst-mood-lively nst-marginbtm-8">Lastname Required</div>
-            <input class="form-control ng-pristine ng-untouched ng-valid" name="lastname" type="text"/>
+        <div class="nst-marginbtm-8">Choose your username</div>
+        <div class="_dn nst-mood-lively nst-marginbtm-8">:( Sorry, its not available</div>
+        <div class="_dn nst-mood-cheerful nst-marginbtm-8">:) its available</div>
+        <div class="nst-marginbtm-16 has-feedback">
+          <input aria-invalid="false" class="form-control" name="username" type="text" maxlength="40"/>
+          <div class="form-control-feedback-register">@nested.com</div>
+        </div>
+        <div class="nst-marginbtm-8">Set new password</div>
+        <div class="_dn nst-mood-lively nst-marginbtm-8">weak password</div>
+        <div class="_dn nst-mood-cheerful nst-marginbtm-8">Powerful password</div>
+        <div class="nst-marginbtm-16">
+          <div class="form-group has-feedback" data-ng-model="show">
+            <input class="form-control ng-pristine ng-untouched ng-valid" name="password" data-ng-init="show = true"
+                   type="{{show ? 'password' : 'text'}}" ng-model="inputModel" tooltip-class="pass-popover"
+                   uib-tooltip-template="'app/register/tip_password.html'" tooltip-placement="bottom"
+                   tooltip-trigger="focus" tooltip-enable="!inputModel"/>
+            <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}"
+               data-ng-click="show = !show"></i>
           </div>
         </div>
-      </div>
-      <div class="nst-marginbtm-24">
-        <div class="nst-marginbtm-8">Set an Email for Recovery</div><div class="_dn nst-mood-lively nst-marginbtm-8">Doesn't look like a valid email</div><div class="_dn nst-mood-cheerful nst-marginbtm-8">Nice, Remember verify soon as possible</div>
-        <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="recoveryemail"
-               type="text"/>
-      </div>
-      <div class="nst-marginbtm-16">Gender</div><div class="_dn nst-mood-lively nst-marginbtm-16">Gender Required</div>
-      <ul class="list-inline">
-        <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-          <input type="radio" name="gender" value="female"/>
-          <label>Female</label>
-        </li>
-        <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-          <input type="radio" name="gender" value="male"/>
-          <label>Male</label>
-        </li>
-        <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-          <input type="radio" name="gender" value="other"/>
-          <label>Other</label>
-        </li>
-      </ul>
-      <div class="nst-marginbtm-16 mobile-number">
-        <div class="nst-marginbtm-8">Mobile Phone</div><div class="_dn nst-mood-lively nst-marginbtm-8">Mobile Phone Required</div>
-        <div class="_fw">
-          <input name="mobileNumber" international-phone-number
-                 class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
-        </div>
-      </div>
-      <div class="nst-marginbtm-8">Birthday</div><div class="_dn nst-mood-lively nst-marginbtm-8">Birthday Required</div>
-      <div class="nst-marginbtm-16">
-        <input class="select-birthday" rsmdatedropdowns ng-model="birth"/>
-      </div>
-      <div class="_dt nst-marginbtm-8">
-        <div class="_dtr">
-          <div class="_dtc">
-            <input id="remember" name="remember" value="remember" type="checkbox"/>
-            <label for="remember"></label>
-          </div>
-          <div class="_dtc agreement-text">I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of
-            Service</a> and <a href="#" class="nst-mood-cheerful"> Privacy Policy</a>.
+        <div class="_dt nst-marginbtm-16 register-name-table">
+          <div class="_dtr">
+            <div class="_dtc register-name-cell-left">
+              <div class="nst-marginbtm-8">First name</div>
+              <div class="_dn nst-mood-lively nst-marginbtm-8">Firstname Required</div>
+              <input class="form-control ng-pristine ng-untouched ng-valid" name="firstname" type="text"/>
+            </div>
+            <div class="_dtc register-name-cell-right">
+              <div class="nst-marginbtm-8">Last name</div>
+              <div class="_dn nst-mood-lively nst-marginbtm-8">Lastname Required</div>
+              <input class="form-control ng-pristine ng-untouched ng-valid" name="lastname" type="text"/>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="visibility-hidden nst-font-small nst-mood-lively nst-marginbtm-8">in order to use our services, you must agree to nested Terms of Service.</div>
-      <div class="">
-        <input type="submit" value="Create An Account" class="btn btn-lg btn-block">
-      </div>
+        <div class="nst-marginbtm-24">
+          <div class="nst-marginbtm-8">Set an Email for Recovery</div>
+          <div class="_dn nst-mood-lively nst-marginbtm-8">Doesn't look like a valid email</div>
+          <div class="_dn nst-mood-cheerful nst-marginbtm-8">Nice, Remember verify soon as possible</div>
+          <input aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" name="recoveryemail"
+                 type="text"/>
+        </div>
+        <div class="nst-marginbtm-16">Gender</div>
+        <div class="_dn nst-mood-lively nst-marginbtm-16">Gender Required</div>
+        <ul class="list-inline">
+          <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+            <input type="radio" name="gender" value="female"/>
+            <label>Female</label>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+            <input type="radio" name="gender" value="male"/>
+            <label>Male</label>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+            <input type="radio" name="gender" value="other"/>
+            <label>Other</label>
+          </li>
+        </ul>
+        <div class="nst-marginbtm-16 mobile-number">
+          <div class="nst-marginbtm-8">Mobile Phone</div>
+          <div class="_dn nst-mood-lively nst-marginbtm-8">Mobile Phone Required</div>
+          <div class="_fw">
+            <input name="mobileNumber" international-phone-number
+                   class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="phone"/>
+          </div>
+        </div>
+        <div class="nst-marginbtm-8">Birthday</div>
+        <div class="_dn nst-mood-lively nst-marginbtm-8">Birthday Required</div>
+        <div class="nst-marginbtm-16">
+          <input class="select-birthday" rsmdatedropdowns ng-model="birth"/>
+        </div>
+        <div class="_dt nst-marginbtm-8">
+          <div class="_dtr">
+            <div class="_dtc">
+              <input id="remember" name="remember" value="remember" type="checkbox"/>
+              <label for="remember"></label>
+            </div>
+            <div class="_dtc agreement-text">I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of
+              Service</a> and <a href="#" class="nst-mood-cheerful"> Privacy Policy</a>.
+            </div>
+          </div>
+        </div>
+        <div class="visibility-hidden nst-font-small nst-mood-lively nst-marginbtm-8">in order to use our services, you must agree to nested Terms of Service.</div>
+        <div class="">
+          <input type="submit" value="Create An Account" class="btn btn-lg btn-block">
+        </div>
+      </form>
     </div>
   </div>
 </div>

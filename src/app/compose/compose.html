@@ -12,54 +12,51 @@
       <div class="subnavitems _bgwhite _difc">
         <ul class="nav-width-ul-compose">
           <li class="_df _fw">
-            <a href="javascript:void(0);" class="btn-back-compose" onclick="window.history.back();">Discard</a>
+            <a href="javascript:void(0);" class="btn-white-nav nst-mood-storm" onclick="window.history.back();">Discard</a>
           </li>
           <li class="_df">
-            <a href="javascript:void(0);" class="_fr btn-back-compose"><label for='attach'>Attach</label></a>
+            <a href="javascript:void(0);" class="_fr btn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
           </li>
           <li class="_df">
-            <button href="javascript:void(0);" class="_fr btn-send-compose" ng-click="compose.sendPost()" data-ng-disabled="sendStatus" value="">Send</button>
+            <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()">Send</a>
           </li>
         </ul>
-
-        <!--<form name="testForm" unsaved-warning-form>-->
-        <!--<input unsaved-warning-form name="test" type="unsaved-warning-clear" ng-model="test"/>-->
-        <!--<button type="submit">submit</button>-->
-        <!--<button type="reset" unsaved-warning-clear>reset</button>-->
-        <!--</form>-->
-
       </div>
       <div class="compose-hld _fw">
-        <section class="_difc _fw">
-          <input class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
-        </section>
-        <hr/>
+        <form class="_fw">
+          <div unsaved-warning-form>
+            <section class="_difc _fw">
+              <input class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
+            </section>
+            <hr/>
 
-        <section>
-          <div class="_difc _fw">
-            <div class="_df">
-              <span class="sto">To:</span>
-            </div>
-            <div class="_df _fw input-select-match">
-              <ui-select multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients" on-select="checkfilling()" on-remove="checkfilling()">
-                <ui-select-match placeholder="Type place name or email address...">
-                  <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
-                </ui-select-match>
-                <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
-                                   repeat="place in (compose.places | filter: $select.search) track by place.id">
-                  <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
-                  <span  class="_vabt" data-ng-bind-html="place.name | highlight: $select.search"></span>
-                  </br>
-                  <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
-                </ui-select-choices>
-              </ui-select>
-            </div>
-          </div>
-        </section>
-        <hr data-ng-show="attachshow"/>
+            <section>
+              <div class="_difc _fw">
+                <div class="_df">
+                  <span class="sto">To:</span>
+                </div>
+                <div class="_df _fw input-select-match">
+                  <ui-select multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
+                    <ui-select-match placeholder="Type place name or email address...">
+                      <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
+                    </ui-select-match>
+                    <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
+                                       repeat="place in (compose.places | filter: $select.search) track by place.id">
+                      <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2"
+                           data-font-size="16"/>
+                      <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
+                      </br>
+                      <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
+                    </ui-select-choices>
+                  </ui-select>
+                </div>
+              </div>
+            </section>
+            <hr data-ng-show="attachshow"/>
 
         <div class="nst-attach _dif _fw" data-ng-show="attachshow">
-          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;"></div>
+          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;"
+               class="popover-green _df _fw attachlist" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="bottom-left auto"></div>
           <div class="attach _df">
             <!--<label for="attach">-->
             <!--<div class="headlineicon-green"></div>-->
@@ -78,12 +75,16 @@
         </div>
         <hr class="nomargin"/>
 
-        <section class="nst-compose-message">
-          <div text-angular
-               ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
-               data-ng-model="compose.post.body"></div>
-        </section>
+            <section class="nst-compose-message">
+              <div text-angular
+                   ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
+                   data-ng-model="compose.post.body">
+                <!--<div text-angular  data-ng-model="compose.post.body"></div>-->
+            </section>
+          </div>
+        </form>
       </div>
+
     </div>
     <div class="side">
       <div class="compose _bgwhite _df _fw">
@@ -91,37 +92,3 @@
     </div>
   </div>
 </div>
-
-<!--<script src="bower_components/angular-unsavedChanges/dist/unsavedChanges.js">-->
-<!--</script>-->
-<!--<script>-->
-
-<!--function changeHashOnLoad() {-->
-
-<!--window.location.href += '#';-->
-
-<!--setTimeout('changeHashAgain()', '50');-->
-
-<!--}-->
-
-<!--function changeHashAgain() {-->
-
-<!--window.location.href += '1';-->
-
-<!--}-->
-
-<!--var storedHash = window.location.hash;-->
-
-<!--window.setInterval(function () {-->
-
-<!--if (window.location.hash != storedHash) {-->
-
-<!--window.location.hash = storedHash;-->
-
-<!--}-->
-
-<!--}, 50);-->
-
-<!--window.onload = changeHashOnLoad;-->
-
-<!--</script>-->
