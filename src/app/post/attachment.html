@@ -10,7 +10,7 @@
         <!--Audio-->
         <!--audio/*-->
         <videogular data-ng-switch-when="audio" class="_hf audioplayer" data-ng-init="ad = [{}]; ad[0]['src'] = attachment.download.url; ad[0]['type'] = attachment.mimeType;">
-          <vg-media vg-src="ad"></vg-media>
+          <vg-media data-vg-src="ad"></vg-media>
 
           <vg-controls>
             <vg-play-pause-button></vg-play-pause-button>
@@ -83,14 +83,13 @@
         <div class="_fw">
           <p class="nst-font-large filename-p">{{attachment.filename}}</p><br>
           <p class="nst-font-small nst-mood-storm">{{attachment.size | bytes:0}}</p>
-          {{index}}
         </div>
         <div class="_fw">
           <div dir="rtl" class="_difh _fw" style="align-items: center;height: 68px">
             <div data-ng-if="attachment.post.attachments.length > 1" data-ng-click="nextAtt()" class="_df nst-arrow-rotated-270"></div>
             <div data-ng-if="attachment.post.attachments.length > 1" data-ng-click="prvAtt()" class="_df nst-arrow-rotated-90"></div>
 
-            <div class="_df nst-nav-btn-breeze"><a href="{{attachment.download.url}}" class="nst-mood-storm">Download</a></div>
+            <div class="_df nst-nav-btn-breeze"><a href="" data-ng-click="download(attachment)" class="nst-mood-storm">Download</a></div>
             <div class="_df nst-nav-btn-breeze"><a href="" class="nst-mood-storm">Open in Browser</a></div>
           </div>
 

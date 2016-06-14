@@ -25,9 +25,7 @@
 
     StoreService.prototype = {
       toUrl: function (uid, token) {
-        var sid = uid.substr(0, 7);
-
-        return this.getStore(sid).then(function (store) {
+        return this.getStoreByUid(uid).then(function (store) {
           return store.getDownloadUrl(uid, token).then(function (url) {
             this.change();
 
@@ -57,6 +55,10 @@
         return $q(function (res) {
           res.call(this, this.stores[sid]);
         }.bind(this));
+      },
+
+      getStoreByUid: function (uid) {
+        return this.getStore(uid.substr(0, 7));
       },
 
       update: function () {

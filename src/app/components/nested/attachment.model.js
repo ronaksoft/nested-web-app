@@ -82,24 +82,20 @@
           }.bind(this));
         },
 
-        getDownloadUrl: function () {
-          if (this.download.url) {
-            return $q(function (res) {
-              res(this);
-            }.bind(this));
+        getDownloadUrl: function (token) {
+          if (!this.download.uid) {
+            this.download = new StoreItem(this.id);
           }
 
-          return WsService.request('store/get_download_token', {
-            post_id: this.post && this.post.id,
-            universal_id: this.id
-          }).then(function (data) {
-            this.download = new StoreItem(this.id, data.token);
-            return this.download.getUrl().then(function (url) {
+          var tkPromise = token ? $q(function (res) { res(this); }.bind(token)) : this.download.store.getDownloadToken(this.post.id, this.id);
+
+          return tkPromise.then(function (newToken) {
+            return this.download.getUrl(newToken).then(function (url) {
               this.change();
 
               return $q(function (res) {
-                res(this);
-              }.bind(this));
+                res(url);
+              });
             }.bind(this));
           }.bind(this));
         },

@@ -63,6 +63,17 @@
           });
         },
 
+        getDownloadToken: function (pid, uid) {
+          return WsService.request('store/get_download_token', {
+            post_id: pid,
+            universal_id: uid
+          }).then(function (data) {
+            return $q(function (res) {
+              res(data.token);
+            });
+          });
+        },
+
         getDownloadUrl: function (uid, token) {
           var url = this.url + '/download/' + WsService.getSessionKey() + '/' + uid + (token ? ('/' + token) : '');
 

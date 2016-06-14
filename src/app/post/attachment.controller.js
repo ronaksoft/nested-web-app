@@ -40,5 +40,17 @@
     if ($scope.attachment) {
       vm.getIndex();
     }
+
+    $scope.download = function (attachment, event) {
+      var attach = angular.copy(attachment);
+
+      attach.getDownloadUrl().then(function (url) {
+        window.open(url,'_blank');
+      });
+
+      if (event) {
+        event.preventDefault();
+      }
+    };
   }
 })();

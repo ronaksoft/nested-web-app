@@ -203,7 +203,11 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return attachment.getDownloadUrl().then(function (attachment) {
+      return attachment.getDownloadUrl().then(function () {
+        return $q(function (res) {
+          res(this);
+        }.bind(this));
+      }.bind(attachment)).then(function (attachment) {
         $scope.lastUrl = $location.path();
         $scope.attachment = attachment;
 
