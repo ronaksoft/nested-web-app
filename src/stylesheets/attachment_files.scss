@@ -112,12 +112,14 @@ ul.attachments-bar li {
 }
 //******* Large ********
 
+//pdf
 .att-exp-application-pdf-large{
   background-position: 0 -343px;
   background-size: cover;
   width: 128px;
   height: 176px;
 }
+//file
 .att-exp-application-zip-large,
 .att-exp-application-x-rar-compressed-large,
 .att-exp-application-vnd.android.package-archive-large,
@@ -128,6 +130,18 @@ ul.attachments-bar li {
 .att-exp-application-x-mspublisher-large,
 .att-exp-application-x-msdownload-large{
   background-position: 0 -690px;
+  background-size: cover;
+  width: 128px;
+  height: 176px;
+}
+//document
+[class*="att-exp-text-large-"],
+.att-exp-application-vnd.openxmlformats-officedocument.wordprocessingml.document-large,
+.att-exp-application-msword-large,
+.att-exp-application-vnd.oasis.opendocument.text-large,
+.att-exp-application-vnd.oasis.opendocument.text-template-large,
+.att-exp-application-x-latex-large,
+.att-exp-application-rtf-large {
   background-size: cover;
   width: 128px;
   height: 176px;
@@ -219,6 +233,10 @@ ul.attachments-bar li {
 
 }
 
-.color-zip{
+.color-zip {
   color: #5A28BE;
+}
+
+.color-doc {
+ color: #148CF0
 }

@@ -49,7 +49,9 @@
 
         <!--Document-->
         <!--text/*-->
-        <div data-ng-switch-when="text"></div>
+        <div data-ng-switch-when="text" class="att-exp-text-large-">
+          <div class="_tac _fw _dibp title-att color-doc nst-font-large">DOC</div>
+        </div>
 
         <!--application/*-->
         <div data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
@@ -73,22 +75,27 @@
           </div>
 
           <!--Document-->
-          <div data-ng-switch-when="rtf" class="att-exp-text-">
+          <div data-ng-switch-when="rtf" class="att-exp-text-large-">
             <div class="_tac _fw _dibp title-att color-zip nst-font-large">DOC</div>
           </div>
 
-          <div data-ng-switch-when="msword"></div>
-          <div data-ng-switch-when="vnd.openxmlformats-officedocument.wordprocessingml.document"></div>
+          <div data-ng-switch-when="msword" class="att-exp-application-msword-large">
+            <div class="_tac _fw _dibp title-att color-zip nst-font-large">DOC</div>
+          </div>
+
+          <div data-ng-switch-when="vnd.openxmlformats-officedocument.wordprocessingml.document" class="att-exp-text-large-">
+            <div class="_tac _fw _dibp title-att color-zip nst-font-large">DOC</div>
+          </div>
 
           <!--Other-->
           <!--<iframe data-ng-switch-default class="_fw" src="{{attachment.download.url}}"></iframe>-->
-          <div data-ng-switch-default class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge"></div>
+          <div data-ng-switch-default class="_tac _fw _dibp title-att color-zip nst-font-large"></div>
         </div>
 
         <!--*/*-->
         <!--Other - Unknown-->
         <!--<iframe data-ng-switch-default class="att-exp-" src="{{attachment.download.url}}"></iframe>-->
-        <div data-ng-switch-default class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge"></div>
+        <div data-ng-switch-default class="_tac _fw _dibp title-att color-zip nst-font-xlarge"></div>
       </div>
       <div class="_fw _dif nst-preview-footer">
         <div class="_fw">
