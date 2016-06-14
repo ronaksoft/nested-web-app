@@ -147,6 +147,15 @@ ul.attachments-bar li {
   height: 176px;
 }
 
+// File
+[class*="att-exp-application-large-"],
+.att-exp-application-vnd.android.package-archive-large {
+  background-position: 0 -513px;
+  background-size: cover;
+  width: 128px;
+  height: 176px;
+}
+
 /*
   **************************************************
   *    attachment badges  *
@@ -238,5 +247,9 @@ ul.attachments-bar li {
 }
 
 .color-doc {
- color: #148CF0
+ color: #148CF0;
+}
+
+.color-file {
+  color: #CED9D3;
 }
