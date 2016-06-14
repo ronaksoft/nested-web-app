@@ -210,7 +210,11 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return attachment.getDownloadUrl().then(function (attachment) {
+      return attachment.getDownloadUrl().then(function () {
+        return $q(function (res) {
+          res(this);
+        }.bind(this));
+      }.bind(attachment)).then(function (attachment) {
         $scope.lastUrl = $location.path();
         $scope.attachment = attachment;
 
@@ -218,6 +222,7 @@
           animation: false,
           templateUrl: 'app/post/attachment.html',
           controller: 'AttachmentController',
+          controllerAs: 'attachmentCtrl',
           size: 'mlg',
           windowClass: 'modal-attachment',
           scope: $scope

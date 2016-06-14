@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="places">
-    <button class="btn-green" data-ng-click="invitaion.accept().then(window.location.reload);">Accept</button>
-    <button class="btn-white" data-ng-click="invitaion.decline().then(window.location.reload);">Decline</button>
+    <button class="btn-green" data-ng-click="invitaion.accept().then(function(){console.log('accepted')})">Accept</button>
+    <button class="btn-white" data-ng-click="invitaion.decline().then(window.location.reload">Decline</button>
   </div>
 </div>
