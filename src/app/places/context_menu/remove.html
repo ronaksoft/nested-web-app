@@ -1,11 +1,11 @@
 <div id="delete-view">
   <div class="_difv _fw">
     <div class="_difh modal-head">
-      <p class="_df _fw">Remove UserName from "Ronak Software Group Development"?</p>
+      <p class="_df _fw">Remove {{member.fullname}} from "{{place.name}}"?</p>
       <div class="_df" ng-click="cancel()"><img src="../assets/icons/close.svg" class="_fh"></div>
     </div>
     <div class="_difv _fw">
-      <p class="_df nst-mood-storm modal-detail">Are you sure remove "USER" from Ronak Software Group Development?</p>
+      <p class="_df nst-mood-storm modal-detail">Are you sure remove "{{member.fullname}}" from {{place.name}}?</p>
       <div class="_difh _jcc">
         <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
           <div class="btn-white _jcc _df" ng-click="cancel()"><a class="_df">Cancel</a></div>

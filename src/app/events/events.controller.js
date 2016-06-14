@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $rootScope, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, $localStorage) {
+  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
     vm.extended = $localStorage.extended;
     vm.collapse = function () {
@@ -25,6 +25,19 @@
       $localStorage.sidebarWidth = info.width;
     });
 
+    // Invitations
+
+    vm.invitations = [];
+    WsService.request('account/get_invitations').then(function (data) {
+      for (var k in data.invitations) {
+        if (data.invitations[k].place._id) {
+          vm.invitations.push(new NestedInvitation(data.invitations[k]));
+        }
+      }
+    })
+    ;
+
+    // /Invitations
 
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });
@@ -166,6 +179,7 @@
         animation: false,
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
+        controllerAs: 'post',
         size: 'mlg',
         scope: $scope
       });
@@ -188,11 +202,10 @@
       event.stopPropagation();
     };
 
-    $scope.attachmentView = function (attachment, event) {
-      $scope.attachment = attachment;
-
-      attachment.download.getUrl().then(function (url) {
+    $scope.attachmentView = function (attachment) {
+      return attachment.getDownloadUrl().then(function (attachment) {
         $scope.lastUrl = $location.path();
+        $scope.attachment = attachment;
 
         var modal = $uibModal.open({
           animation: false,
@@ -213,6 +226,10 @@
           delete $scope.lastUrl;
           delete $scope.attachment;
         });
+
+        return $q(function (res) {
+          res($scope.attachment);
+        })
       });
     };
   }

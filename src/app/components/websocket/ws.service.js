@@ -117,6 +117,8 @@
       this.requests = {};
       this.listeners = {};
       this.stream = $websocket(url);
+      this.stream.maxTimeout = 500;
+      this.stream.reconnectIfNotNormalClose = true;
 
       this.stream.onOpen(function (event) {
         $log.debug('WebSocket Opened:', event, this);
@@ -288,7 +290,11 @@
       },
 
       unauthorize: function () {
-        this.authorized && this.stream.close();
+        if (this.authorized) {
+          // Currently just called on auth service logout
+          // When stream is closed it will became unauthorized automatically
+          this.stream.close();
+        }
       },
 
       getSessionKey: function () {

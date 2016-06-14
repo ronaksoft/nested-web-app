@@ -3,9 +3,11 @@
   <div>
     <div class="_pa image-box-preview _fh">
       <div class="image-preview _df _fh">
+        <!--Image-->
         <!--image/*-->
         <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}"/>
 
+        <!--Audio-->
         <!--audio/*-->
         <videogular data-ng-switch-when="audio" class="_hf audioplayer" data-ng-init="ad = [{}]; ad[0]['src'] = attachment.download.url; ad[0]['type'] = attachment.mimeType;">
           <vg-media vg-src="ad"></vg-media>
@@ -23,6 +25,7 @@
           </vg-controls>
         </videogular>
 
+        <!--Video-->
         <!--video/*-->
         <videogular data-ng-switch-when="video" class="_fw" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
           <vg-media vg-src="vg"></vg-media>
@@ -44,12 +47,14 @@
           </vg-controls>
         </videogular>
 
+        <!--Document-->
         <!--text/*-->
         <div data-ng-switch-when="text"></div>
 
         <!--application/*-->
         <div data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
           <!--PDF-->
+          <!--application/pdf-->
           <div data-ng-switch-when="pdf" data-ng-controller="AttachmentPdfController">
             <div class="att-exp-application-pdf-large">
             <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-large">PDF</div>
@@ -76,12 +81,14 @@
           <div data-ng-switch-when="vnd.openxmlformats-officedocument.wordprocessingml.document"></div>
 
           <!--Other-->
-          <iframe data-ng-switch-default class="_fw" src="{{attachment.download.url}}"></iframe>
-          <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge"></div>
+          <!--<iframe data-ng-switch-default class="_fw" src="{{attachment.download.url}}"></iframe>-->
+          <div data-ng-switch-default class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge"></div>
         </div>
 
         <!--*/*-->
-        <iframe class="att-exp-" data-ng-switch-default src="{{attachment.download.url}}"></iframe>
+        <!--Other - Unknown-->
+        <!--<iframe data-ng-switch-default class="att-exp-" src="{{attachment.download.url}}"></iframe>-->
+        <div data-ng-switch-default class="_tac _fw _dibp title-att nst-mood-lively nst-font-xlarge"></div>
       </div>
       <div class="_fw _dif nst-preview-footer">
         <div class="_fw">

@@ -7,13 +7,18 @@
 
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $stateParams, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+  function ComposeController($location, $scope, $log, $stateParams, toastr, AuthService, WS_ERROR, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
       $location.search({back: $location.path()});
       $location.path('/signin').replace();
     }
+
+    $scope.sendStatus = false;
+    $scope.checkfilling = function () {
+      $scope.sendStatus = !(vm.recipients.length > 0);
+    };
 
     $scope.upload_size = {
       uploaded: 0,
@@ -124,6 +129,7 @@
     };
 
     vm.sendPost = function () {
+      $scope.sendStatus = true;
       var post = $scope.compose.post;
       post.contentType = 'text/html';
       for (var k in $scope.compose.recipients) {
@@ -137,8 +143,18 @@
       post.update().then(function (post) {
         toastr.success('Your message has been successfully sent.', 'Message Sent');
         $location.path('/events');
+        $scope.sendStatus = false;
       }).catch(function (data) {
-        toastr.error('Error occurred during sending message.', 'Message Not Sent!');
+        switch (data.err_code) {
+          case WS_ERROR.ACCESS_DENIED:
+            toastr.error('You do not have enough access', 'Message Not Sent!');
+            break;
+
+          default:
+            toastr.error('Error occurred during sending message.', 'Message Not Sent!');
+            break;
+        }
+        $scope.sendStatus = false;
       });
     };
   }
