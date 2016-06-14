@@ -220,7 +220,7 @@
 .menuicon-remove {
   width: 24px;
   height: 24px;
-  background-image: url('../assets/icons/menuicon_24.png');
+  background-image: url('../assets/icons/menuicon.svg');
   background-position: 0 0px;
   background-repeat: no-repeat;
 }
@@ -229,7 +229,7 @@
 [class*="menuicon-create"] {
   width: 24px;
   height: 24px;
-  background-image: url('../assets/icons/menuicon_24.png');
+  background-image: url('../assets/icons/menuicon.svg');
   background-position: 0 -24px;
   background-repeat: no-repeat;
 }
@@ -244,18 +244,6 @@
   border: 1px solid $color-sense;
   padding: 10px;
 }
-
-//.btn-back-place-option {
-//  border: 1px solid $color-breeze;
-//  color: $color-storm;
-//  width: 50px;
-//  height: 22px;
-//  display: inline-block;
-//  border-radius: 5px;
-//  font-size: $font-size-medium;
-//  margin-top: 8px;
-//
-//}
 
 .nst-nav-btn-breeze {
   border: 1px solid $color-breeze;
@@ -307,10 +295,7 @@
   justify-content: center;
   background-color: $color-white;
 }
-.modal-add img {
-  width: 24px;
-  height: 24px;
-}
+
 .modal-add-input {
   width: calc(100% - 50px)!important;
 }

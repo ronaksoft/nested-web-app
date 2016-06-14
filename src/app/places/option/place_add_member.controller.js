@@ -20,7 +20,8 @@
       WsService.request('account/search', {
         keyword: query,
         place_id: $scope.place.id,
-        role: 'teammate' == $scope.role ? MEMBER_TYPE.KEY_HOLDER : MEMBER_TYPE.KNOWN_GUEST
+        role: 'teammate' == $scope.role ? MEMBER_TYPE.KEY_HOLDER : MEMBER_TYPE.KNOWN_GUEST,
+        limit: 10 + vm.selectedUsers.length
       }).then(function (data) {
         $scope.place_add_member.users = [];
         for (var k in data.accounts) {

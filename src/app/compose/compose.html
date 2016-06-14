@@ -18,7 +18,7 @@
             <a href="javascript:void(0);" class="_fr btn-back-compose"><label for='attach'>Attach</label></a>
           </li>
           <li class="_df">
-            <a href="javascript:void(0);" class="_fr btn-send-compose" ng-click="compose.sendPost()">Send</a>
+            <button href="javascript:void(0);" class="_fr btn-send-compose" ng-click="compose.sendPost()" data-ng-disabled="sendStatus" value="">Send</button>
           </li>
         </ul>
 
@@ -41,7 +41,7 @@
               <span class="sto">To:</span>
             </div>
             <div class="_df _fw input-select-match">
-              <ui-select multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
+              <ui-select multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients" on-select="checkfilling()" on-remove="checkfilling()">
                 <ui-select-match placeholder="Type place name or email address...">
                   <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
                 </ui-select-match>
@@ -81,8 +81,7 @@
         <section class="nst-compose-message">
           <div text-angular
                ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
-               data-ng-model="compose.post.body">
-            <!--<div text-angular  data-ng-model="compose.post.body"></div>-->
+               data-ng-model="compose.post.body"></div>
         </section>
       </div>
     </div>

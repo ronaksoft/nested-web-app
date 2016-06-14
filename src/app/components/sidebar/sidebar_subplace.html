@@ -1,6 +1,8 @@
 <div class="_difc _fw">
     <span class="_df sideico ">
-      <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+      <a href="#/place/{{place.id}}">
+        <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+      </a>
     </span>
     <span class="_df _fw place-name {{its_me ? 'active' : undefined}}"><a href="#/events/{{place.id}}" data-ng-bind="place.name"></a></span>
   <span class="e2-arrow _df" data-ng-init="its_mine = events.placeAncestors.slice(0, place.id.split('.').length).join('.') == place.id; its_me = events.placeAncestors.join('.') == place.id">

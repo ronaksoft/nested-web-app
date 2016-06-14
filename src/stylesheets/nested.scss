@@ -183,7 +183,93 @@ a.place {
   padding: 15px 25px;
 }
 
-
+.btn-green{
+  background-color: $color-sense;
+  border: 1px solid #00B45A;
+  border-radius: 5px;
+  margin: 0 5px;
+  width: 128px;
+  flex: none;
+}
+.btn-green:hover:enabled {
+  background-color: $color-sense-wire;
+}
+.btn-green:focus {
+  background-color: $color-sense;
+}
+.btn-green:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+}
+.btn-green a{
+  margin: 4px 0;
+  color: $color-white;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
+}
+.btn-green:hover a{
+  color: white;
+}
+.btn-red{
+  background-color: $color-force;
+  border: 1px solid #ff0014;
+  border-radius: 3px;
+  margin: 0 5px;
+  width: 128px;
+  flex: none;
+}
+.btn-red:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+}
+.btn-red:hover:enabled{
+  background-color: $color-force-wire;
+}
+.btn-red:focus{
+  background-color: $color-force;
+}
+.btn-red a{
+  margin: 4px 0;
+  color: $color-white;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
+}
+.btn-red:hover a{
+  color: white;
+  white-space: nowrap;
+}
+.btn-white{
+  border: 1px solid $color-breeze;
+  background-color: $color-white;
+  border-radius: 3px;
+  margin: 0 5px;
+  width: 128px;
+  flex: none;
+}
+.btn-white:hover{
+  background-color: $color-calm;
+}
+.btn-white:focus{
+  background-color: $color-breeze;
+}
+.btn-white a{
+  margin: 4px 0;
+  color: $color-storm;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 500;
+}
+.btn-white:hover a{
+  color: $color-storm;
+}
+.large-font {
+  font-size: $font-size-large;
+}
+.force {
+  color: $color-force-wire;
+}
 /**
   *********************************
   *     General Hacks             *
@@ -307,7 +393,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
 
 #viewswitch input[type="checkbox"] + label {
   display: inline-block;
-  background: url('../assets/icons/viewswitch.png') no-repeat;
+  background: url('../assets/icons/viewswitch.svg') no-repeat;
   height: 15px;
   min-width: 48px;
   padding: 0 0 0 17px;
@@ -330,7 +416,7 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label {
-  background: url('../assets/icons/controls.png') no-repeat;
+  background: url('../assets/icons/controls.svg') no-repeat;
   height: 16px;
   width: 16px;
   background-position: 0px -48px;
@@ -342,7 +428,7 @@ input[type="radio"] + label {
 }
 
 input[type="radio"]:checked + label {
-  background: url('../assets/icons/controls.png') no-repeat;
+  background: url('../assets/icons/controls.svg') no-repeat;
   background-position: 0px -64px;
   height: 16px;
   width: 17px;
@@ -354,8 +440,19 @@ select {
   appearance: none;
 }
 
-
-
+//*****margins*******
+.margin-top-5 {
+  margin-top: 5px;
+}
+.margin-l-50 {
+  margin-left: 50px;
+}
+.margin-top-10 {
+  margin-top: 10px;
+}
+.margin-l-5 {
+  margin-left: 5px;
+}
 
 /*************************
  *    Account Initials
@@ -402,11 +499,16 @@ select {
 #input-compose-to a {
   border-bottom: 1px solid $color-calm;
   height: 56px;
-  padding: 12px;
+}
+
+.ui-select-bootstrap .ui-select-choices-row > a{
+  padding: 5px;
+}
+#input-compose-to img {
+vertical-align: middle;
 }
 .ui-select-bootstrap .ui-select-choices-row.active > a{
   background-color: $color-sense-50;
-
 }
 .account-picture {
   border-radius: 50%;
@@ -432,6 +534,11 @@ a:hover {
   align-items: center;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
+.modal-buttons {
+  justify-content: flex-end;
+  height: 32px;
+  font-weight:400;
+}
 #add-view {
   border: 1px solid #ced9d3;
   border-radius: 8px;
@@ -440,12 +547,36 @@ a:hover {
   width: 800px;
   height: auto;
 }
+#delete-view {
+  border: 1px solid #ced9d3;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  padding: 15px;
+  width: 510px;
+  height: auto;
+}
 .modal-content {
   background-color: rgba(0, 0, 0, 0);
   border: none;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
-
+.modal-detail {
+  margin: 20px 0;
+  font-size: 16px;
+}
+.modal-detail a{
+  font-weight: bold;
+  color: black;
+}
+.modal-detail .small{
+  font-weight: 100;
+  font-size: 12px;
+}
+.modal-detail input{
+  min-height: 40px;
+  margin-bottom: 10px;
+  margin-top: 6px;
+}
 .modal-attachment {
   //padding: 128px 0;
 }
@@ -473,11 +604,19 @@ a:hover {
 .modal-mlg {
   margin: 0 80px;
   width: 100%;
+  max-width: calc(100% - 160px);
 }
 .modal-sm {
   width: auto!important;
   height: auto!important;
   vertical-align: middle;
+}
+.modal-head {
+  //margin: 10px 0;
+}
+.modal-head p {
+  font-size: 22px;
+  font-weight: 500;
 }
 /*
  ************** Popovers ************
@@ -489,15 +628,25 @@ a:hover {
   z-index: 1000;
 }
  #popover-badge.popover{
-   border-radius: 6px;
+   border-radius: 206px;
    bow-shadow: unset;
 }
+ #popover-badge .popover-content{
+ padding:0;
+ }
+
+ #popover-badge .popover-content:hover {
+   background-color: $color-sense-50;
+ }
 
 .navbar-popover {
   margin-left: 20px;
   margin-top: -6px;
+  direction: ltr;
 }
-
+.places .popover {
+  direction: ltr;
+}
 .popover .arrow {
   display: none;
 }
@@ -507,6 +656,7 @@ a:hover {
   word-break: keep-all;
   overflow: hidden;
   text-overflow: ellipsis;
+
 }
 
 #menu.popover-content {
@@ -521,12 +671,14 @@ a:hover {
 
 .popover-white + .popover {
   background: $color-white;
-  border-radius: 6px;
-  box-shadow: unset;
+  border-radius: 6px 0px 6px 6px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
 
 .popover-green + .popover {
   background: $color-sense-5;
+  border-radius: 6px 0px 6px 6px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-sense-50;
 }
 
@@ -749,7 +901,6 @@ a .ui-select-choises-row-inner {
   flex-direction: column;
   width: 100%;
   height: 100%;
-
 }
 .nst-content-body {
   display: flex;
@@ -857,7 +1008,7 @@ a .ui-select-choises-row-inner {
  */
 
 .nst-ico-eye, .nst-ico-eye-slash {
-  background: url("../assets/icons/form.png") no-repeat;
+  background: url("../assets/icons/inputform.svg") no-repeat;
   height: 32px;
 }
 
@@ -872,21 +1023,24 @@ a .ui-select-choises-row-inner {
  */
 
 [class*="profile-menu-"] {
-  background: url('../assets/icons/profilemenu_24.png') no-repeat;
+  background: url('../assets/icons/menuicon.svg') no-repeat;
   width: 24px;
   height: 24px;
 }
 
-.profile-menu-setting {
-  background-position: 0 0px;
+.profile-menusetting {
+  background: url('../assets/icons/placebuttons.svg') no-repeat;
+  width: 24px;
+  height: 24px;
+  background-position: 0 -35px;
 }
 
-.profile-menu-upgrade {
-  background-position: 0 -24px;
+.profile-menu-edit-profile {
+  background-position: 0 -120px;
 }
 
 .profile-menu-signout {
-  background-position: 0 -48px;
+  background-position: 0 -72px;
 }
 
 /**
@@ -895,10 +1049,10 @@ a .ui-select-choises-row-inner {
   *********************************
  */
 
-.nst-modal-add-teammate {
+.nst-modal-footer {
   background-color: $color-breeze-50;
   border-radius: 6px;
-  margin: 15px 0px;
+  margin-top: 15px;
   padding: 5px;
 }
 
@@ -906,7 +1060,7 @@ a .ui-select-choises-row-inner {
   border-bottom: 1px solid $color-calm;
   margin: 10px 0;
 }
-.suggests > .user > img {
+.ui-select-choices-row > img {
   width: 40px;
   height: 40px;
   border-radius: 100%;
@@ -916,10 +1070,37 @@ a .ui-select-choises-row-inner {
   height: 170px;
   overflow: hidden;
 }
-.suggests .user{
+.modal-add .ui-select-container ul {
+  width: calc(100% + 50px)!important;
+  max-height: 170px!important;
+  overflow: hidden;
+}
+.modal-add .ui-select-choices-row{
+  display: inline-flex;
+  flex-direction: row;
   height: 50px;
   width: 33.3%;
   margin-top: 5px;
+}
+.modal-add .ui-select-choices-row a{
+  display: inline-flex!important;
+  flex-direction: row;
+  height: 50px;
+  width: 100%;
+}
+.modal-add .ui-select-choices-row:hover{
+  background-color: $color-sense-5;
+  cursor: pointer;
+}
+.modal-add  .dropdown-menu {
+  border: none;
+  box-shadow: none;
+}
+.modal-add .ui-select-choices-row.active > a,
+.modal-add .ui-select-choices-row.active > a:hover{
+  background-color: $color-sense-5 ;
+  color: black;
+  border-radius: 10px;
 }
 .modal-add h5 {
   font-size: $font-size-xlarge;
@@ -963,7 +1144,7 @@ a .ui-select-choises-row-inner {
 [class*="ei-"] {
   width: 16px;
   height: 16px;
-  background-image: url('../assets/icons/eventicon.png');
+  background-image: url('../assets/icons/eventicon.svg');
   margin-top: 8px;
 }
 

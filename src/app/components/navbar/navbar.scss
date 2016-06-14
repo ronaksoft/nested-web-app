@@ -167,8 +167,13 @@
   height: 40px;
 
 }
+.subnavitems li a{
+  white-space: nowrap;
+
+}
 .subnavitems li:last-child {
   flex: none;
+  margin: 0;
 }
 .subnavitems li.li-hover:hover,
 .subnavitems li.li-hover.selected {
@@ -189,6 +194,11 @@
   width: 100%;
   text-decoration: none;
   color: $color-solid;
+  white-space: nowrap;
+}
+
+.subnavitems .place-option-anchor:first-child {
+  padding-right: 5px;
 }
 .subnavitems .events-anchor:hover,
 .subnavitems .places-anchor:hover,
@@ -285,13 +295,38 @@ input #nav-search {
   color: $color-storm;
 }
 
-.add-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place_24.png");
-  background-position: 0 -96px;
-  background-repeat: no-repeat;
-}
+
+//[class*="option-"]{
+//  background-image: url('../assets/icons/actionbuttons_place.svg');
+//  background-repeat: no-repeat;
+//  width: 24px;
+//  height: 24px;
+//}
+//
+//.option-delete-icon {
+//  background-position: 0 0px;
+//}
+//
+//.option-leave-icon  {
+//  background-position: 0 -24px;
+//}
+//
+//.option-add-icon {
+//  background-position: 0 -48px;
+//}
+//
+//.option-rename-icon {
+//  background-position: 0 -72px;
+//}
+//
+//.option-add-dif-icon {
+//  background-position: 0 -96px;
+//}
+//
+//.add-icon {
+//  background-position: 0 -96px;
+//  background-repeat: no-repeat;
+//} ******** Doesn't work *******
 
 .option-delete-icon {
   width: 24px;
@@ -334,7 +369,4 @@ input #nav-search {
 }
 .line-height-32 {
   line-height: 32px;
-}
-.margin-top-10 {
-  margin-top: 10px;
 }

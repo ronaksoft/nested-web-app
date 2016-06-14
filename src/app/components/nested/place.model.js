@@ -99,7 +99,7 @@
           if (angular.isString(data)) {
             return this.load(data);
           } else if (data.hasOwnProperty('id')) {
-            angular.extend(this, data);
+            angular.merge(this, data);
 
             this.change();
           } else if (data.hasOwnProperty('_id')) {
@@ -427,6 +427,97 @@
           });
         },
 
+        removeMember: function (memberId) {
+          return this.haveAccess(PLACE_ACCESS.REMOVE_MEMBERS) ? WsService.request('place/remove_member', {
+            place_id: this.id,
+            member_id: memberId
+          }).then(function () {
+            var found = false;
+            for (var role in this.members) {
+              if (this.members[role].loaded) {
+                for (var k in this.members[role].users) {
+                  if (memberId == this.members[role].users[k].username) {
+                    delete this.members[role].users[k];
+                    this.members[role].count--;
+                    found = true;
+                    break;
+                  }
+                }
+
+                if (found) {
+                  break;
+                }
+              }
+            }
+
+            return $q(function (res) {
+              res();
+            })
+          }.bind(this)) : $q(function (res, rej) {
+            rej();
+          });
+        },
+
+        promoteMember: function (memberId) {
+          return this.haveAccess(PLACE_ACCESS.CONTROL) ? WsService.request('place/promote_member', {
+            place_id: this.id,
+            member_id: memberId
+          }).then(function () {
+            var found = false;
+            for (var role in this.members) {
+              if (this.members[role].loaded) {
+                for (var k in this.members[role].users) {
+                  if (memberId == this.members[role].users[k].username) {
+                    // TODO: Found
+                    found = true;
+                    break;
+                  }
+                }
+
+                if (found) {
+                  break;
+                }
+              }
+            }
+
+            return $q(function (res) {
+              res();
+            })
+          }.bind(this)) : $q(function (res, rej) {
+            rej();
+          });
+        },
+
+        demoteMember: function (memberId) {
+          return this.haveAccess(PLACE_ACCESS.CONTROL) ? WsService.request('place/demote_member', {
+            place_id: this.id,
+            member_id: memberId
+          }).then(function () {
+            var found = false;
+            for (var role in this.members) {
+              if (this.members[role].loaded) {
+                for (var k in this.members[role].users) {
+                  if (memberId == this.members[role].users[k].username) {
+                    // TODO: Found
+                    found = true;
+                    break;
+                  }
+                }
+
+                if (found) {
+                  break;
+                }
+              }
+            }
+
+            return $q(function (res) {
+              res();
+            })
+          }.bind(this)) : $q(function (res, rej) {
+            rej();
+          });
+        },
+
         setPicture: function(uid) {
           return WsService.request('place/set_picture', {
             place_id: this.id,
@@ -458,11 +549,47 @@
             data['place_id'] = this.id;
 
             return WsService.request('place/update', data).then(function () {
-              NestedPlaceRepoService.push(this);
+              var placeData = {
+                id: this.id
+              };
 
-              return $q(function (res) {
-                res(this);
-              }.bind(this));
+              var keys = {
+                'place_name': 'name',
+                'place_desc': 'description',
+                'privacy.broadcast': 'privacy.broadcast',
+                'privacy.email': 'privacy.email',
+                'privacy.locked': 'privacy.locked',
+                'privacy.receptive': 'privacy.receptive',
+                'privacy.search': 'privacy.search'
+              };
+
+              for (var k in keys) {
+                if (undefined !== data[k]) {
+                  var path = keys[k].split('.');
+                  var pKey = '-';
+                  var object = {};
+                  object[pKey] = placeData;
+
+                  for (var index in path) {
+                    object = object[pKey];
+                    pKey = path[index];
+
+                    if (!object[pKey]) {
+                      object[pKey] = {};
+                    }
+                  }
+
+                  object[pKey] = data[k];
+                }
+              }
+
+              return this.setData(placeData).then(function (place) {
+                NestedPlaceRepoService.push(place);
+
+                return $q(function (res) {
+                  res(this);
+                }.bind(place));
+              });
             }.bind(this));
           } else if (this.local_id) {
             var params = {

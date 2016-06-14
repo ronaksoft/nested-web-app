@@ -145,13 +145,11 @@
           }
 
           if (data.hasOwnProperty('place_id')) {
-            // TODO: Handle Multiple Places
-            if (angular.isArray(data.place_id)) {
-              this.places = [];
-              for (var k in data.place_id) {
-                this.places.push(new NestedPlace(data.place_id[k]));
-              }
-            }
+            var place_ids = angular.isArray(data.place_id) ? data.place_id : [data.place_name ? {
+              _id: data.place_id,
+              name: data.place_name,
+              picture: data.place_picture
+            } : data.place_id];
 
             var parent = data.parent_id ? new NestedPlace(
               data.parent_name ? {
@@ -160,11 +158,12 @@
               } : data.parent_id
             ) : undefined;
 
-            this.place = new NestedPlace(angular.isArray(data.place_id) ? data.place_id[0] : {
-              _id: data.place_id,
-              name: data.place_name,
-              picture: data.place_picture
-            }, parent);
+            this.places = [];
+            for (var k in place_ids) {
+              this.places.push(new NestedPlace(place_ids[k]), parent);
+            }
+
+            this.place = this.places[0];
           }
 
           if (data.hasOwnProperty('member_type')) {

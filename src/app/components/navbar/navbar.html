@@ -6,8 +6,8 @@
           <div class="firstnav">
 
             <div id='Logo'>
-              <a href="#/"><img id="Pic" src="../assets/images/nested-logo-32.png"/></a>
-              <a href="#/"><img id="Type" src="../assets/images/nested-logotype-32.png"/></a>
+              <a href="#/"><img id="Pic" src="../assets/images/NestedLogo.svg"/></a>
+              <a href="#/"><img id="Type" src="../assets/images/NestedType.svg"/></a>
             </div>
 
             <div id='PrimaryPageSelector'>
@@ -32,81 +32,6 @@
             </div>
           </div>
         </div>
-        <!--<div class='SecondaryPageSelector _fw'>
-          <div class="subnav">
-            <div class="compose">
-              <form action="#/new">
-                <button data-ng-if="events || places" class="composen" >
-                  <a href="#/new">Compose</a>
-                </button>
-              </form>
-            </div>
-            <div class="subnavitems">
-              <ul class="nav-width-ul-compose" data-ng-if="compose">
-                <li>
-                  <a href="javascript:void(0);" class="btn-back-compose" onclick="window.history.back();">Discard</a>
-                </li>
-                <li class="_fr">
-                  <a href="javascript:void(0);" class="_fr btn-send-compose" ng-click="compose.sendPost()">Send</a>
-                </li>
-                <li class="_fr">
-                  <a href="javascript:void(0);" class="_fr btn-back-compose"><label for='attach'>Attach</label></a>
-                </li>
-              </ul>
-
-              <ul class="nav-width-ul" data-ng-if="events">
-                <li data-ng-repeat="(key, filter) in events.filters" class=" li-hover {{key == events.filter ? 'selected' : null}}">
-                  <a class="events-anchor" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
-                </li>
-              </ul>
-
-              <ul class="nav-width-ul " data-ng-if="places">
-                <li data-ng-repeat="(key, filter) in places.filters" class="li-hover {{key== places.filter ? 'selected' : null}}" >
-                  <a class="places-anchor" href="#/places/{{key}}">{{filter.name}}</a>
-                </li>
-                <li class="_fr">
-                  <a href="#/create_place" class="places-anchor nst-mood-storm">Add a Place<div class="option-add-icon-plc _dib"></div></a>
-                </li>
-              </ul>
-
-              <ul class="nav-width-ul margin-ul-placeotion" data-ng-if="place_option">
-                <li class="button-navbar">
-                  <a class="nst-nav-btn-breeze back-btn" href="javascript:void(0);" onclick="window.history.back();">Back</a>
-                </li>
-                <li data-ng-repeat="(key, action) in place_option.actions" class="_fr" data-ng-switch="!!action.url">
-                  <a data-ng-switch-when="true" href="{{action.url}}" class="place-option-anchor" ng-click="action.fn()">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
-                  <a data-ng-switch-when="false" href="javascript:void(0);" class="place-option-anchor" ng-click="action.fn()">{{action.name}}<span class="option-{{key}}-icon _dib"></span></a>
-                </li>
-              </ul>
-
-              <div class="_fw" data-ng-if="create_place">
-                <div class="cp-nav-width-discard">
-                  <div>
-                    <a href="javascript:void(0);" class="btn-back-compose" onclick="window.history.back();">Discard</a>
-                  </div>
-                </div>
-              </div>
-              <div class="_fw" data-ng-if="account_profile">
-                <div class="cp-nav-width-discard">
-                  <div>
-                    <a href="javascript:void(0);" class="btn-back-compose" onclick="window.history.back();">Discard</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="search" id="ViewSelector">
-              <ul class="list-inline text-right" data-ng-if="events">
-                <li>
-                  <span class="text-right" id="viewswitch">
-                    <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="navbar.extended"/>
-                    <label for="ext_switch"></label>
-                  </span>
-                </li>
-                <li><input id="n-search" placeholder="Search"></li>
-              </ul>
-            </div>
-          </div>
-        </div>-->
       </div>
     </div>
   </div>

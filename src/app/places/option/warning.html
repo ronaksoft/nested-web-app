@@ -1,24 +1,18 @@
-<div id="add-view">
+<div id="delete-view">
   <div class="_difv _fw">
-      <div class="_difh modal-add">
-        <h5 class="_df _fw" style="justify-content: center">Warning</h5>
-        <div class="_df" ng-click="$close(result)"><img src="../assets/icons/close_16.png" class="_fh"></div>
-      </div>
+    <div class="_difh modal-head">
+      <p data-ng-show="!place.privacy.locked" class="_df _fw">Make Place "Accessible"?</p>
+      <p data-ng-show="place.privacy.locked" class="_df _fw">Make Place "Locked"?</p>
+      <div class="_df" ng-click="cancel()"><img src="../assets/icons/close.svg" class="_fh"></div>
+    </div>
     <div class="_difv _fw">
-      <div class="_fw _df _jcc">
-        You are about to change your privacy access public view this place, Are you still want to change ?!
-      </div>
-      <div class="_difh _jcc wngbot">
-        <div class="switch">
-          <input type="checkbox" id="sw-notification" class="inpsw" name="notification" />
-          <label class="on active" for="sw-notification" data-ng-click="notification && $event.preventDefault();"><div class="labtxt _fw">YES</div></label>
-          <label class="noton" for="sw-notification" ng-click="$close(result)"><div class="labtxt _fw">CANCEL</div></label>
+      <p class="_df nst-mood-storm modal-detail">You are about to change your privacy access public view this place, Are you still want to change ?!</p>
+      <div class="_difh _jcc">
+        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
+          <div class="btn-white _jcc _df" ng-click="cancel()"><a class="_df">Cancel</a></div>
+          <div class="btn-green _jcc _df" ng-click="ok()"><a class="_df">Yes</a></div>
         </div>
       </div>
-
     </div>
-      <div class="nst-modal-add-teammate _df _fw _jcc">
-          <p>Read our <a class="nst-mood-cheerful">Privacy Policy</a> for more details.</p>
-      </div>
   </div>
 </div>

@@ -7,7 +7,7 @@
 .option-add-icon-plc {
   width: 24px;
   height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-image: url("../assets/icons/actionbuttons_place.svg");
   background-position: 0 -48px;
   background-repeat: no-repeat;
 }
@@ -24,9 +24,6 @@
   width: 100%;
 }
 
-#AllPlaces ul {
-
-}
 #AllPlaces {
   min-width: 574px;
   overflow-y: scroll;
@@ -34,10 +31,19 @@
   flex-direction: column;
   justify-content: space-between;
 }
-.placearrow{
+.placearrow {
   width: 40px;
 }
+#AllPlaces li div div:only-of-type{
+  animation: appearence .4s ease-in;
+}
+#AllPlaces li div div:nth-child(2){
+  animation: appearence .2s ease-in;
+}
+#AllPlaces li div div:nth-child(2) img,#AllPlaces li div div:nth-child(2) div{
 
+  animation: grow-full .1s ease-in;
+}
 #AllPlaces li {
   border-bottom: 1px solid $color-calm;
   display: inline-flex;
@@ -62,10 +68,15 @@ background-color: $color-sense-5;
   list-style: none;
   padding-left: 25px;
 }
+#AllPlaces ul ul li{
+  animation: appearence .1s ease-in;
+}
 
 #AllPlaces .logo {
   width: 48px;
-  flex: none
+  flex: none;
+  justify-content: center;
+  align-items: center;
 }
 
 #AllPlaces li > table td.logo > img {
@@ -122,65 +133,51 @@ background-color: $color-sense-5;
   margin-right: 5px;
 }
 
-.role-icon-crown {
-  background: url('../assets/icons/roleicon_24.png') no-repeat;
+[class*=role-icon-]  {
+  background: url('../assets/icons/roleicon.svg') no-repeat;
   width: 24px;
   height: 24px;
-}
-
-.role-icon-crown-new {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 0px;
-
-}
-
-.role-icon-key {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -16px;
-}
-
-.role-icon-avatar {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -32px;
-}
-
-.role-icon-key-wait {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -48px;
-}
-
-.role-icon-avatar-wait {
-  background: url('../assets/icons/roleicon_16-2.png') no-repeat;
-  width: 16px;
-  height: 16px;
-  background-position: 0 -64px;
 }
 
 .role-icon-green {
-  background: url('../assets/icons/roleicon_24.png') no-repeat;
-  width: 24px;
-  height: 24px;
   background-position: 0 -24px;
 }
-
 .role-icon-gray {
-  background: url('../assets/icons/roleicon_24.png') no-repeat;
-  width: 24px;
-  height: 24px;
   background-position: 0 -48px;
+}
+.role-icon-key-wait{
+  background-position: 0 -72px;
+}
+.role-icon-avatar-wait{
+  background-position: 0 -96px;
+}
+
+
+[class*=role-icons-]  {
+  background: url('../assets/icons/roleicons.svg') no-repeat;
+  width: 16px;
+  height: 16px;
+}
+
+.role-icons-key {
+  background-position: 0 -16px;
+}
+
+.role-icons-avatar {
+  background-position: 0 -32px;
+}
+
+.role-icons-key-wait {
+  background-position: 0 -48px;
+}
+
+.role-icons-avatar-wait {
+  background-position: 0 -64px;
 }
 
 
 [class*=nst-deactive-ico-]{
-  background: url('../assets/icons/placeicon_24_breez.png') no-repeat;
+  background: url('../assets/icons/placeicon.svg') no-repeat;
   height: 24px;
   min-width: 24px;
 }
@@ -189,7 +186,7 @@ background-color: $color-sense-5;
   background-position: 0px -48px;
 }
 
-.nst-deactive-ico-eye {
+.nst-deactive-ico-lock {
   background-position: 0px -24px;
 }
 
@@ -216,18 +213,31 @@ background-color: $color-sense-5;
 }
 
 .nst-more-badge {
-  background: url('../assets/icons/more_32.png') no-repeat;
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
   height: 32px;
   width: 32px;
 }
-
+.nst-option-badge {
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
+  background-position: 0 -32px;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
+.nst-act-badge {
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
+  background-position: 0 -64px;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
 ._dtc .nst-more-badge {
   width: 48px;
   height: 32px;
 }
 
 [class*=nst-place-icon-]{
-  background: url('../assets/icons/placeicon_24_default.png') no-repeat;
+  background: url('../assets/icons/placeicon.svg') no-repeat;
   height: 24px;
   width: 24px;
 }
@@ -256,7 +266,7 @@ background-color: $color-sense-5;
 }
 
 .nst-arrow {
-  background: url('../assets/icons/arrow_16.png') no-repeat;
+  background: url('../assets/icons/arrow.svg') no-repeat;
   height: 25px;
   width: 15px;
   padding: 0 0 0 5px;
@@ -265,7 +275,7 @@ background-color: $color-sense-5;
 }
 
 [class*=nst-arrow-]{
-  background: url('../assets/icons/arrow_16.png') no-repeat;
+  background: url('../assets/icons/arrow.svg') no-repeat;
   height: 25px;
   width: 15px;
   cursor: pointer;
@@ -302,10 +312,16 @@ background-color: $color-sense-5;
 }
 
 .nst-more {
-  width: 70px;
-  justify-content: flex-start;
+  width: 80px;
+  flex: none;
+  justify-content: center;
 }
-
+.no-animation {
+  animation: none!important;
+}
+.no-animation *{
+  animation: none!important;
+}
 .empty-space {
   width: 24px;
   height: 24px;
@@ -337,13 +353,10 @@ background-color: $color-sense-5;
 
 .restplace {
   background-color: white;
-  min-height: 500px;
+  min-height: 300px;
 }
 .restplace:hover {
   background-color: white;
-}
-.margin-l-5 {
-  margin-left: 5px;
 }
 
 .arrow-holder-places {

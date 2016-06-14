@@ -99,6 +99,7 @@
         },
 
         loadComments: function (reload) {
+
           if (this.comments.length > 0 && !reload  && !this.moreComments) {
             return $q(function (resolve) {
               resolve(this.comments);

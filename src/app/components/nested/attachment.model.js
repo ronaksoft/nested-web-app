@@ -28,7 +28,7 @@
           x64: new StoreItem(),
           x128: new StoreItem()
         };
-        this.download = null; // StoreItem
+        this.download = new StoreItem(); // StoreItem
 
         if (data) {
           this.setData(data);
@@ -45,7 +45,7 @@
             this.change();
           } else if (data.hasOwnProperty('_id')) {
             this.id = data._id;
-            this.download = null;
+            this.download = new StoreItem();
 
             this.downloads = data.downloads;
             this.filename = data.filename;
@@ -85,9 +85,9 @@
         },
 
         getDownloadUrl: function () {
-          if (this.download) {
-            return $q(function (resolve) {
-              resolve(this);
+          if (this.download.url) {
+            return $q(function (res) {
+              res(this);
             }.bind(this));
           }
 
@@ -96,9 +96,13 @@
             universal_id: this.id
           }).then(function (data) {
             this.download = new StoreItem(this.id, data.token);
-            this.download.getUrl().then(this.change);
+            return this.download.getUrl().then(function (url) {
+              this.change();
 
-            return this;
+              return $q(function (res) {
+                res(this);
+              }.bind(this));
+            }.bind(this));
           }.bind(this));
         },
 

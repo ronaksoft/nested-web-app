@@ -18,7 +18,6 @@
 
 #EventList .msg a {
   color: $color-sense-wire;
-  width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -62,7 +61,7 @@
 .headlineicon {
   width: 16px;
   height: 16px;
-  background-image: url('../assets/icons/headlineicon_16.png');
+  background-image: url('../assets/icons/headlineicon.svg');
   background-position: 0 0px;
   background-repeat: no-repeat;
 }
@@ -119,6 +118,7 @@
   padding: 0 5px;
   min-width: 782px;
   width: 100%;
+  animation: appearence .2s linear;
 }
 
 #EventList .evrow:hover {
@@ -136,8 +136,11 @@
   width: 100%;
   float: left;
   display: inline-flex;
+  animation: app-tr .5s ease-out;
 }
-
+.actcon *{
+  animation: off-right .1s ease-out;
+}
 .actdes {
   cursor: default;
   min-width: 215px;
@@ -166,6 +169,7 @@
 
 #EventList .sender span {
   line-height: 32px;
+  vertical-align: baseline;
 }
 
 #EventList .msg {
@@ -184,7 +188,7 @@
 }
 .post {
   color: $color-solid!important;
-  font-weight: 400;
+  font-weight: 550;
 }
 #EventList .msg .body {
   display: flex;
@@ -204,6 +208,8 @@
   font-size: $font-size-xsmall;
   justify-content: flex-start;
   align-items: center;
+  position: relative;
+  top:4px
 }
 #EventList .time {
   float: left;
@@ -212,6 +218,7 @@
   display: flex;
   justify-content: center;
   color: $color-solid-60;
+  flex: none;
 }
 #EventList #time-of-event {
   width: 400px;
@@ -247,7 +254,7 @@
 }
 
 .msg .headlineicon {
-  margin-top: 2px;
+  //margin-top: 2px;
 }
 
 #load-more-events {
@@ -330,9 +337,6 @@
   max-width: 100px;
 }
 
-.title-bar {
-  height: 64px;
-}
 
 .title-bar-hr {
   width: 96%;
@@ -354,6 +358,7 @@
 .logo-bar {
   width: 56px;
   margin: 16px;
+  flex: none;
 }
 $spacing: 14px;
 .resizable {
@@ -404,10 +409,23 @@ $spacing: 14px;
 
 .members-status-nav {
   width: 110px;
-  margin-top: 28px;
-  margin-right: -25px;
+  margin-top: 24px;
 }
 .title-att {
   margin-top: 100%;
   font-weight: 500;
+}
+.title-bar {
+  height: 80px;
+}
+
+.title-bar .name span{
+  align-items: center;
+}
+.title-bar .name{
+  justify-content: center;
+}
+.title-bar .name a{
+  align-items: flex-end;
+  font-size: 20px;
 }
