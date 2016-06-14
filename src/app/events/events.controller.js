@@ -232,5 +232,9 @@
         })
       });
     };
+
+    $rootScope.$on('post-removed',function (context) {
+      //TODO : close the modal and update the timeline
+    });
   }
 })();

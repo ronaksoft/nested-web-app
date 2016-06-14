@@ -1,0 +1,13 @@
+<div class="modal-header auto-height">
+    <h3 class="modal-title">Confirm</h3>
+</div>
+<div class="modal-body">
+  <p>Are you sure you want to delete post <strong>{{vm.post.subject}}</strong> from place <strong>{{vm.place.name}}</strong>?</p>
+</div>
+<div class="modal-footer">
+  <div class="switch">
+    <input type="checkbox" id="sw-notification" class="inpsw" name="notification" />
+    <label class="on active" for="sw-notification" data-ng-click="$close(place)"><div class="labtxt _fw">YES</div></label>
+    <label class="noton" for="sw-notification" ng-click="$dismiss()"><div class="labtxt _fw">No</div></label>
+  </div>
+</div>

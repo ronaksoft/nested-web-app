@@ -212,6 +212,13 @@
           });
         },
 
+        deleteFromPlace: function(postId, placeId) {
+          return WsService.request('post/remove', {
+            post_id: postId,
+            place_id: placeId
+          });
+        },
+
         update: function() {
           if (this.id) {
             // TODO: Check if API Exists and is correct
@@ -237,8 +244,71 @@
               })
             }.bind(this));
           }
+        },
+
+        getPlacesHaveDeleteAccess: function (post) {
+          return getPlacesWithAccess(post, 'RM');
+        },
+
+        haveAnyDeleteAccess: function (post) {
+          // var places = filterPlacesByAccessCode(post.places,'RM');
+          // return places > 0;
+          return true;
         }
       };
+
+      function getPlacesWithAccess(post, accessCodes) {
+        var separator = ',';
+        var codes = _.split(accessCodes, separator);
+        var defer = $q.defer();
+
+        if (placesHaveAccessInside(post)) {
+          $log.debug('the places have access object inside');
+          defer.resolve(filterPlacesByAccessCode(post.places, codes));
+        }
+        else {
+          $log.debug('Could not find place accesses and they should be retrieved from the server.');
+
+          var ids = getAllPlacesIds(post);
+          WsService.request('place/get_access', { place_ids: ids }).then(function (res) {
+            fillAccess(post, res.places); // fills access inside every place
+            defer.resolve(filterPlacesByAccessCode(post.places, codes));
+
+          }).catch(function (res) {
+            defer.reject(res);
+          });
+        }
+
+        return defer.promise;
+      }
+
+      function placesHaveAccessInside(post) {
+
+        if (!(post.places && post.places.length > 0)) //does not have any place
+        {
+          return false;
+        }
+
+        return _.every(post.places, function (place) { // all places carry access with themeselves
+          return place.access.length > 0;
+        });
+      }
+
+      function getAllPlacesIds(post) {
+        return _.join(_.map(post.places,'id'), ',');
+      }
+
+      function filterPlacesByAccessCode(places, accessCodes) {
+        return _.filter(places, function (place) {
+          return _.intersection(place.access, accessCodes).length > 0; //do the codes exists in access array?
+        });
+      }
+
+      function fillAccess(post, places) { //fills the post's places access
+        for (var i = 0; i < post.places.length; i++) {
+          post.places[i].access = _.find(places, { '_id' : post.places[i].id }).access;
+        }
+      }
 
       return Post;
     });
