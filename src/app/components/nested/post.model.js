@@ -246,16 +246,19 @@
           }
         },
 
+
         getPlacesHaveDeleteAccess: function (post) {
           return getPlacesWithAccess(post, 'RM');
         },
 
-        haveAnyDeleteAccess: function (post) {
-          // var places = filterPlacesByAccessCode(post.places,'RM');
-          // return places > 0;
-          return true;
+        haveAnyPlaceWithDeleteAccess: function () {
+          return filterPlacesByAccessCode(this.places, 'RM') > 0;
         }
       };
+
+      function loadPlacesWithAccess(ids) {
+        return WsService.request('place/get_access', { place_ids: ids });
+      }
 
       function getPlacesWithAccess(post, accessCodes) {
         var separator = ',';
@@ -270,7 +273,7 @@
           $log.debug('Could not find place accesses and they should be retrieved from the server.');
 
           var ids = getAllPlacesIds(post);
-          WsService.request('place/get_access', { place_ids: ids }).then(function (res) {
+          loadPlacesWithAccess(ids).then(function (res) {
             fillAccess(post, res.places); // fills access inside every place
             defer.resolve(filterPlacesByAccessCode(post.places, codes));
 

@@ -28,7 +28,7 @@
       <div class="post-nav-right-bottom _difh">
         <div class="panel-action _fw">
           <ul class="list-inline _df">
-            <li ng-if="thePost.haveAnyDeleteAccess(thePost)">
+            <li ng-if="thePost.haveAnyPlaceWithDeleteAccess()">
               <!-- href="#/delete/{{thePost.id}}" -->
               <a href="" ng-click="deletePost(thePost);">
                 <span class="nst-mood-storm _dib">Delete</span>
