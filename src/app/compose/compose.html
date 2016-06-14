@@ -59,7 +59,7 @@
         <hr data-ng-show="attachshow"/>
 
         <div class="nst-attach _dif _fw" data-ng-show="attachshow">
-          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post"></div>
+          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;"></div>
           <div class="attach _df">
             <!--<label for="attach">-->
             <!--<div class="headlineicon-green"></div>-->

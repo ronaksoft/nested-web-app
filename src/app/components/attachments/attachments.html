@@ -1,7 +1,7 @@
-<ul data-ng-show="thePost.attachments.length > 0" class="attachments-container" style="list-style: none;">
+<ul data-ng-show="thePost.attachments.length > 0" class="attachments-container">
   <li>
     <ul class="attachments-bar">
-      <li data-ng-repeat="(key, attachment) in thePost.attachments" data-ng-init="attached = 'attached' == attachment.status; ext = rexExt.exec(attachment.filename)[1]" class="popover-green" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="auto bottom" popover-trigger="outsideClick" popover-popup-close-delay="64" style="position: relative;">
+      <li data-ng-repeat="(key, attachment) in thePost.attachments" data-ng-init="attached = 'attached' == attachment.status; ext = rexExt.exec(attachment.filename)[1]" class="popover-green" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="auto bottom" popover-trigger="outsideClick" popover-popup-close-delay="64" popover-enable="deleteEnabled" style="position: relative;">
         <a href="{{attached ? attachment.download.url : ''}}" ng-click="$event.preventDefault(); attached && attachment.getDownloadUrl().then(attachmentView);">
           <img data-ng-if="attachment.thumbs.x128.url" src="{{attachment.thumbs.x128.url}}"/>
           <div data-ng-if="!attachment.thumbs.x128.url && thePost.attachmentPreview" class="att-exp-{{attachment.mimeType.replace('/', '-')}}">
