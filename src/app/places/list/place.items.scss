@@ -1,0 +1,12 @@
+
+.place-list-group {
+  min-width: 282px;
+}
+
+.place-list-group > a.place-list-item {
+  display: block;
+  padding: 4px 16px;
+}
+.place-list-group > a.place-list-item:hover {
+  background: #E7FBF0;
+}

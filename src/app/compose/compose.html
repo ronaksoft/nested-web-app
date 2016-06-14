@@ -59,8 +59,7 @@
         <hr data-ng-show="attachshow"/>
 
         <div class="nst-attach _dif _fw" data-ng-show="attachshow">
-          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post "
-               class="popover-green _df _fw attachlist" uib-popover-template="'app/components/attachments/delete.html'" data-popover-placement="bottom-left auto"></div>
+          <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;"></div>
           <div class="attach _df">
             <!--<label for="attach">-->
             <!--<div class="headlineicon-green"></div>-->
@@ -92,7 +91,6 @@
     </div>
   </div>
 </div>
-
 
 <!--<script src="bower_components/angular-unsavedChanges/dist/unsavedChanges.js">-->
 <!--</script>-->

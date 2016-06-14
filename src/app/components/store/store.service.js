@@ -7,11 +7,10 @@
       FILE: 'upload/file',
       PLACE_PICTURE: 'upload/place_pic',
       PROFILE_PICTURE: 'upload/profile_pic'
-    })
-    .factory('StoreService', NestedStore);
+    }).factory('StoreService', NestedStore);
 
   /** @ngInject */
-  function NestedStore($window, $rootScope, $q, $http, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore) {
+  function NestedStore($window, $rootScope, $q, $http, $sce, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore) {
     function StoreService(stores) {
       this.stores = {};
       this.defaultStore = new NestedStore();
@@ -93,7 +92,7 @@
         }
       },
 
-      upload: function (file, type) {
+      upload: function (file, type, id, onUploadStart) {
         type = type || UPLOAD_TYPE.FILE;
 
         var q = {
@@ -121,9 +120,20 @@
           formData.append('token', token);
           formData.append('fn', 'attachment');
           formData.append('attachment', file);
+          formData.append('_reqid', id || null);
 
-          return $http.post(this.defaultStore.url, formData, {
-            headers: {'Content-Type': undefined}
+          var canceler = $q.defer();
+
+          onUploadStart(canceler);
+
+          return $http({
+            method: 'POST',
+            url: this.defaultStore.url,
+            data: formData,
+            headers: {
+              'Content-Type': undefined
+            },
+            timeout: canceler.promise
           }).then(function (response) {
             var data = response.data.data;
 
@@ -132,7 +142,6 @@
                 case WS_RESPONSE_STATUS.SUCCESS:
                   res(data);
                   break;
-
                 default:
                   rej(data);
                   break;
@@ -140,6 +149,9 @@
               }
             });
           });
+
+
+
         }.bind(this));
       }
     };

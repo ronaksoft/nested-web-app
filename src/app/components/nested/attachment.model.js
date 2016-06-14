@@ -4,7 +4,9 @@
   angular
     .module('nested')
     .constant('ATTACHMENT_STATUS', {
-      ATTACHED: 'attached'
+      UPLOADING: 'uploading',
+      ATTACHED: 'attached',
+      ABORTED: 'aborted'
     })
     .factory('NestedAttachment', function ($rootScope, $q, $log, WsService, NestedPlace, NestedUser, StoreItem) {
       function Attachment(data, post, full) {
@@ -107,6 +109,32 @@
         change: function () {
           if(!$rootScope.$$phase) {
             $rootScope.$digest()
+          }
+        },
+
+        // make sure is it right to change the status here or not
+        setStatus: function (status) {
+          this.status = status;
+          this.change();
+        }.bind(this),
+
+        getClientId: function () {
+          if (!this.clientId) {
+            this.clientId = _.uniqueId('compose_attach_');
+          }
+          return this.clientId;
+        },
+
+        setUploadCanceler: function(canceler){
+          this.canceler = canceler;
+        },
+
+        cancelUpload: function(){
+          if (this.canceler) {
+            console.log(this.canceler);
+            this.canceler.resolve();
+            this.status = status;
+            this.change();
           }
         },
 
