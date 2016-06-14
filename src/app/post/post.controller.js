@@ -119,8 +119,11 @@
               // reload the post, update the time line and notify the user
               // FIXME: the taost message appears only for the first time!
               toastr.success('The post is removed from the place.');
-              $scope.$emit('post-removed');
-              post.load(post.id);
+              post.load(post.id).then(function (result) {
+                $scope.$emit('post-removed', result);
+              }).catch(function (res) {
+                $log.debug('error: ', res);
+              });
             }).catch(function(res) {
               if (res.err_code === 1){
                 $log.debug('You are not allowed to remove the post!');

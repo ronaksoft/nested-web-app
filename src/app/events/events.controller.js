@@ -6,7 +6,7 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, NestedInvitation) {
+  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $log, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
     vm.extended = $localStorage.extended;
     vm.collapse = function () {
@@ -175,7 +175,7 @@
     vm.load();
 
     $scope.postView = function (post, url, event) {
-      var modal = $uibModal.open({
+      $scope.postViewModal = $uibModal.open({
         animation: false,
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
@@ -184,15 +184,22 @@
         scope: $scope
       });
 
+      $rootScope.$on('post-removed',function (context, post) {
+        // FIXME: A post without any places should not exit logically, Make a decision for this case!
+        if (post.places.length === 0) { //the post does not belong to a place anymore
+          $scope.postViewModal.dismiss();
+        }
+      });
+
       $scope.thePost = post;
       $scope.thePost.load();
       $scope.lastUrl = $location.path();
 
-      modal.opened.then(function () {
+      $scope.postViewModal.opened.then(function () {
         // $location.update_path(url, true);
       });
 
-      modal.closed.then(function () {
+      $scope.postViewModal.closed.then(function () {
         // $location.update_path($scope.lastUrl, true);
 
         delete $scope.lastUrl;
@@ -232,9 +239,5 @@
         })
       });
     };
-
-    $rootScope.$on('post-removed',function (context) {
-      //TODO : close the modal and update the timeline
-    });
   }
 })();
