@@ -110,7 +110,7 @@ ul.attachments-bar li {
   height: 192px;
   width: 144px;
 }
-//************** Large ************
+//******* Large ********
 
 //pdf
 .att-exp-application-pdf-large{
@@ -142,6 +142,7 @@ ul.attachments-bar li {
 .att-exp-application-vnd.oasis.opendocument.text-template-large,
 .att-exp-application-x-latex-large,
 .att-exp-application-rtf-large {
+  background-position: 0 0;
   background-size: cover;
   width: 128px;
   height: 176px;
@@ -156,6 +157,36 @@ ul.attachments-bar li {
   height: 176px;
 }
 
+
+
+//large files
+
+
+.att-exp-application-pdf-large{
+  background-position: 0 -343px;
+  background-size: cover;
+  width: 128px;
+  height: 176px;
+}
+.att-exp-application-zip-large,
+.att-exp-application-x-rar-compressed-large,
+.att-exp-application-vnd.android.package-archive-large,
+.att-exp-application-java-archive-large,
+.att-exp-application-java-serialized-object-large,
+.att-exp-application-javascript-large,
+.att-exp-application-x-shockwave-flash-large,
+.att-exp-application-x-mspublisher-large,
+.att-exp-application-x-msdownload-large{
+  background-position: 0 -690px;
+  background-size: cover;
+  width: 128px;
+  height: 176px;
+
+}
+
+.color-file {
+  color: #CED9D3;
+}
 .color-zip {
   color: #5A28BE;
 }
@@ -163,11 +194,6 @@ ul.attachments-bar li {
 .color-doc {
   color: #148CF0;
 }
-
-.color-file {
-  color: #CED9D3;
-}
-
 /*
   **************************************************
   *    attachment badges  *
