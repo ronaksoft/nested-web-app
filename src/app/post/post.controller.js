@@ -98,6 +98,7 @@
             controller: 'placeListController',
             controllerAs: 'vm',
             keyboard: true,
+            size: 'sm',
             resolve: {
               model: function () {
                 return {
@@ -147,6 +148,7 @@
             templateUrl: 'app/post/post.delete.html',
             controller: 'postDeleteController',
             controllerAs: 'vm',
+            size: 'sm',
             keyboard: true,
             resolve: {
               model: function () {
