@@ -1,0 +1,20 @@
+<div id="delete-view">
+  <div class="_difv _fw">
+      <div class="_difh modal-head">
+        <p class="_df _fw force">Confirm</p>
+        <div class="_df" ng-click="$dismiss()"><img src="../assets/icons/close.svg" class="_fh"></div>
+      </div>
+    <div class="_difv _fw modal-detail">
+      <p class="nst-mood-storm">
+        Are you sure you want to delete post <strong>{{vm.post.subject}}</strong> from place <strong>{{vm.place.name}}</strong>?
+      </p>
+      <div class="_difh _jcc">
+        <div class="_difh _fw modal-buttons">
+          <div class="btn-white _jcc _df" ng-click="$dismiss()"><a class="_df">No</a></div>
+          <div class="btn-red _jcc _df" ng-click="$close(place)"><a class="_df">Yes</a></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

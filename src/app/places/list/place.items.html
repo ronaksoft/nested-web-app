@@ -1,0 +1,33 @@
+<!-- <div data-ng-repeat="place in items" class="_dtr" id="popup-badge">
+  <div class="_dtc">
+    <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+  </div>
+  <div class="_dtc">
+    <div class="_dtr">
+      <ul class="list-unstyled text-center">
+        <li>
+          <a href="" class="_dtc teammate-name nst-mood-solid text-left" ng-click="onClick(place.id);">{{place.name}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="_dtr">
+      <div class="_dtc nst-mood-storm nst-font-10">{{place.id}}</div>
+    </div>
+  </div>
+</div> -->
+
+<div class="place-list-group">
+  <a href="" class="place-list-item" data-ng-repeat="place in items" ng-click="select(place);">
+    <div class="_dtc">
+      <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+    </div>
+    <div class="_dtc">
+      <div class="_dtr">
+        <span class="teammate-name nst-mood-solid">{{place.name}}</span>
+      </div>
+      <div class="_dtr">
+        <span class="nst-mood-storm nst-font-10">{{place.id}}</span>
+      </div>
+    </div>
+  </a>
+</div>
