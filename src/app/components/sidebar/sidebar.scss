@@ -20,12 +20,14 @@
   text-decoration: none;
   display: inline;
   position: relative;
-  top: 5px;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+  align-items: center;
 }
-
+.sidebar ul a img{
+  display: flex;
+}
 .sidebar-border {
   border-bottom: 1px solid $color-breeze;
   width: 100%;

@@ -6,7 +6,6 @@
       'ngAnimate',
       'ngCookies',
       'ngTouch',
-      'unsavedChanges',
       'angularResizable',
       'ui.select',
       'ngSanitize',
@@ -32,6 +31,8 @@
       'textAngular',
       'hc.marked',
       'xeditable',
-      'ngStorage'
+      'ngStorage',
+      'unsavedChanges',
+      'ngProgress'
     ]);
 })();

@@ -97,7 +97,7 @@
 
               return $q(function (res) {
                 res(url);
-              });
+              }.bind(this));
             }.bind(this));
           }.bind(this));
         },

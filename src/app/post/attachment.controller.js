@@ -22,24 +22,40 @@
       return $scope.index;
     };
 
-    $scope.nextAtt = function () {
-      if($scope.index < $scope.attachment.post.attachments.length - 1){
-        $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
-      }
-
-      return $scope.attachment.getDownloadUrl();
-    };
-    $scope.prvAtt = function () {
-      if($scope.index > 0) {
-        $scope.attachment = $scope.attachment.post.attachments[--$scope.index];
-      }
-
-      return $scope.attachment.getDownloadUrl();
-    };
-
     if ($scope.attachment) {
       vm.getIndex();
     }
+
+    $scope.nextAtt = function () {
+      var lenght = $scope.attachment.post.attachments.length - 1;
+      if($scope.index < lenght){
+        $scope.progressbar.start();
+        $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
+      }else if($scope.index == lenght) {
+        $scope.progressbar.start();
+        $scope.index = -1;
+        $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
+      }
+
+      return $scope.attachment.getDownloadUrl().then(function () {
+        $scope.progressbar.complete();
+      });
+    };
+    $scope.prvAtt = function () {
+      var lenght = $scope.attachment.post.attachments.length - 1;
+      if($scope.index > 0) {
+        $scope.progressbar.start();
+        $scope.attachment = $scope.attachment.post.attachments[--$scope.index];
+      }else if($scope.index == 0) {
+        $scope.progressbar.start();
+        $scope.index = lenght;
+        $scope.attachment = $scope.attachment.post.attachments[lenght];
+      }
+
+      return $scope.attachment.getDownloadUrl().then(function () {
+        $scope.progressbar.complete();
+      });
+    };
 
     $scope.download = function (attachment, event) {
       var attach = angular.copy(attachment);
