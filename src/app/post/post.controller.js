@@ -36,10 +36,16 @@
     $scope.commentKeyUp = function (event) {
       var noSend = event.shiftKey || event.ctrlKey;
       if (13 === event.keyCode && !noSend) {
-        $scope.thePost.addComment(event.currentTarget.value).then(function (comment) {
+        var body = event.currentTarget.value.trim();
+
+        if (body.length > 0) {
           event.currentTarget.value = '';
-          $scope.scrolling = $scope.unscrolled && true;
-        });
+          $scope.thePost.addComment(body).then(function (comment) {
+            $scope.scrolling = $scope.unscrolled && true;
+          }).catch(function (comment) {
+            this.value = comment;
+          }.bind(event.currentTarget));
+        }
 
         return false;
       }

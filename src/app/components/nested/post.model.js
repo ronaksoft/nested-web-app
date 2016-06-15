@@ -163,7 +163,11 @@
                 res(loadedComment);
               });
             }.bind(this));
-          }.bind(this));
+          }.bind(this)).catch(function () {
+            return $q(function (res, rej) {
+              rej(comment);
+            });
+          });
         },
 
         deleteComment: function (comment) {
