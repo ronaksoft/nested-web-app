@@ -17,65 +17,20 @@
       $scope.progressbar.start();
       //$scope.progressbar.complete();
 
-
-      $scope.setWidth = function(new_width, $event) {
-        $scope.progressbar.set(new_width);
-        $event.preventDefault();
-      }
-
-      $scope.startProgress = function($event) {
-        $event.preventDefault();
-        $scope.progressbar.start();
-      }
-
-      $scope.increment = function($event) {
-        $event.preventDefault();
-        $scope.progressbar.set($scope.progressbar.status() + 9);
-      }
-
-      $scope.new_color = function($event, color) {
-        $event.preventDefault();
-        $scope.progressbar.setColor(color);
-      }
-
-      $scope.new_height = function($event, new_height) {
-        $event.preventDefault();
-        $scope.progressbar.setHeight(new_height);
-      }
-
       $scope.completeProgress = function($event) {
         $event.preventDefault();
         $scope.progressbar.complete();
-      }
+      };
 
       $scope.stopProgress = function($event) {
         $event.preventDefault();
         $scope.progressbar.stop();
-      }
+      };
 
       $scope.resetProgress = function($event) {
         $scope.progressbar.reset();
         $event.preventDefault();
-      }
-
-      $scope.start_contained = function($event) {
-        $scope.contained_progressbar.start();
-        $event.preventDefault();
-      }
-
-      $scope.complete_contained = function($event) {
-        $scope.contained_progressbar.complete();
-        $event.preventDefault();
-      }
-
-      $scope.reset_contained = function($event) {
-        $scope.contained_progressbar.reset();
-        $event.preventDefault();
-      }
-
-    //$scope.progressbar.height('2px');
-    //ngProgress.color('black');
-    $scope.progressbar.start();
+      };
     vm.extended = $localStorage.extended;
     vm.collapse = function () {
       if(vm.extended == true){
