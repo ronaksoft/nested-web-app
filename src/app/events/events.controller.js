@@ -6,8 +6,31 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $log, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, NestedInvitation) {
+  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $log, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, NestedInvitation, ngProgressFactory) {
     var vm = this;
+
+      $scope.progressbar = ngProgressFactory.createInstance();
+
+      $scope.progressbar.setHeight('5px');
+      //$scope.progressbar.setColor('#14D766');
+
+      $scope.progressbar.start();
+      //$scope.progressbar.complete();
+
+      $scope.completeProgress = function($event) {
+        $event.preventDefault();
+        $scope.progressbar.complete();
+      };
+
+      $scope.stopProgress = function($event) {
+        $event.preventDefault();
+        $scope.progressbar.stop();
+      };
+
+      $scope.resetProgress = function($event) {
+        $scope.progressbar.reset();
+        $event.preventDefault();
+      };
     vm.extended = $localStorage.extended;
     vm.collapse = function () {
       if(vm.extended == true){
@@ -18,6 +41,13 @@
         $localStorage.extended = true;
         vm.extended = $localStorage.extended;
       }
+    };
+
+    $scope.filterStatus = "!$all";
+    $scope.filterStatus = "!$" + $localStorage.filterStat;
+    vm.setFilter = function (stat) {
+      $localStorage.filterStat = stat;
+      $scope.filterStatus = "!$" + $localStorage.filterStat
     };
 
     $scope.$store = $localStorage;
@@ -144,6 +174,7 @@
 
           $scope.events.pushEvent(event);
         }
+        $scope.progressbar.complete();
       }).catch(function (data) {
         switch (data.err_code) {
           case WS_ERROR.UNAVAILABLE:
@@ -175,6 +206,7 @@
     vm.load();
 
     $scope.postView = function (post, url, event) {
+      $scope.progressbar.start();
       $scope.postViewModal = $uibModal.open({
         animation: false,
         templateUrl: 'app/post/post.html',
@@ -197,6 +229,7 @@
 
       $scope.postViewModal.opened.then(function () {
         // $location.update_path(url, true);
+        $scope.progressbar.complete();
       });
 
       $scope.postViewModal.closed.then(function () {
@@ -210,7 +243,12 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return attachment.getDownloadUrl().then(function (attachment) {
+      $scope.progressbar.start();
+      return attachment.getDownloadUrl().then(function () {
+        return $q(function (res) {
+          res(this);
+        }.bind(this));
+      }.bind(attachment)).then(function (attachment) {
         $scope.lastUrl = $location.path();
         $scope.attachment = attachment;
 
@@ -218,6 +256,7 @@
           animation: false,
           templateUrl: 'app/post/attachment.html',
           controller: 'AttachmentController',
+          controllerAs: 'attachmentCtrl',
           size: 'mlg',
           windowClass: 'modal-attachment',
           scope: $scope
@@ -225,6 +264,7 @@
 
         modal.opened.then(function () {
           // $location.update_path(attachment.download.url, true);
+          $scope.progressbar.complete();
         });
 
         modal.closed.then(function () {
