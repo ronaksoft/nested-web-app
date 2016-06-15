@@ -295,43 +295,10 @@ input #nav-search {
   color: $color-storm;
 }
 
-
-//[class*="option-"]{
-//  background-image: url('../assets/icons/actionbuttons_place.svg');
-//  background-repeat: no-repeat;
-//  width: 24px;
-//  height: 24px;
-//}
-//
-//.option-delete-icon {
-//  background-position: 0 0px;
-//}
-//
-//.option-leave-icon  {
-//  background-position: 0 -24px;
-//}
-//
-//.option-add-icon {
-//  background-position: 0 -48px;
-//}
-//
-//.option-rename-icon {
-//  background-position: 0 -72px;
-//}
-//
-//.option-add-dif-icon {
-//  background-position: 0 -96px;
-//}
-//
-//.add-icon {
-//  background-position: 0 -96px;
-//  background-repeat: no-repeat;
-//} ******** Doesn't work *******
-
 .option-delete-icon {
   width: 24px;
   height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-image: url("../assets/icons/actionbuttons_place.svg");
   background-position: 0 0px;
   background-repeat: no-repeat;
 }
@@ -339,7 +306,7 @@ input #nav-search {
 .option-leave-icon {
   width: 24px;
   height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-image: url("../assets/icons/actionbuttons_place.svg");
   background-position: 0 -24px;
   background-repeat: no-repeat;
 }
@@ -347,7 +314,7 @@ input #nav-search {
 .option-rename-icon {
   width: 24px;
   height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-image: url("../assets/icons/actionbuttons_place.svg");
   background-position: 0 -72px;
   background-repeat: no-repeat;
 }
@@ -355,7 +322,7 @@ input #nav-search {
 .option-add-icon {
   width: 24px;
   height: 24px;
-  background-image: url("../assets/icons/actionbuttons_place_24.png");
+  background-image: url("../assets/icons/actionbuttons_place.svg");
   background-position: 0 -48px;
   background-repeat: no-repeat;
 }

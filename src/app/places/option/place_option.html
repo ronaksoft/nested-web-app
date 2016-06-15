@@ -12,8 +12,7 @@
       <div class="subnavitems _bgwhite _difc">
       <ul class="nav-width-ul-compose">
         <li class="modal-buttons">
-          <div class="cursor-pointer nst-mood-storm btn-white-nav _jcc _df btn-white-back" href="javascript:void(0);" onclick="window.history.back();">Back
-          </div>
+          <div class="cursor-pointer nst-mood-storm btn-white-nav _jcc _df btn-white-back" href="javascript:void(0);" onclick="window.history.back();">Back</div>
         </li>
       </ul>
       <li data-ng-repeat="(key, action) in place_option.actions" class="_difc"  style="width: 150px" data-ng-switch="!!action.url">
@@ -127,8 +126,8 @@
 
           <div class="nst-teammates _dib">
             <h5 class="tittle-option _di">Teammates</h5>
-            <div data-ng-if="place.haveAccess('AM')" class="_di  _fr">
-              <span class="nst-mood-simple _dib" data-ng-click="place_option.showAddModal('teammate')">Add Teammate</span>
+            <div data-ng-if="place.haveAccess('AM')" class="_di  _fr" data-ng-click="place_option.showAddModal('teammate')">
+              <span class="nst-mood-simple _dib _vat">Add Teammate</span>
               <div class="add-icon _dib"></div>
             </div>
             <hr>
@@ -139,8 +138,8 @@
 
           <div class="place-option-members _dib">
             <h5 class="title-option _di">Participants</h5>
-            <div class="_di _fr">
-              <span class="nst-mood-simple _dib" data-ng-click="place_option.showAddModal('member')">Invite members</span>
+            <div class="_di _fr" data-ng-click="place_option.showAddModal('member')">
+              <span class="nst-mood-simple _dib _vat">Invite members</span>
               <div class="add-icon _dib"></div>
             </div>
             <hr>
