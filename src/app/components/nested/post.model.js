@@ -71,6 +71,12 @@
               this.places[k] = new NestedPlace(this.full ? data.post_places[k]._id : { id: data.post_places[k]._id, name: data.post_places[k].name });
             }
 
+            if (data.place_access) {
+              _.forEach(this.places, function (place) {
+                place.access = _.find(data.place_access, { '_id' : place.id }).access;
+              });
+            }
+
             this.attachments = [];
             this.attachmentPreview = false;
             for (var k in data.post_attachments) {
@@ -252,7 +258,7 @@
         },
 
         haveAnyPlaceWithDeleteAccess: function () {
-          return filterPlacesByAccessCode(this.places, 'RM') > 0;
+          return filterPlacesByAccessCode(this.places, ['RM']).length > 0;
         }
       };
 
