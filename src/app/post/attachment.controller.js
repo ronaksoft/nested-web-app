@@ -27,30 +27,20 @@
     }
 
     $scope.nextAtt = function () {
-      var lenght = $scope.attachment.post.attachments.length - 1;
-      if($scope.index < lenght){
-        $scope.progressbar.start();
-        $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
-      }else if($scope.index == lenght) {
-        $scope.progressbar.start();
-        $scope.index = -1;
-        $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
-      }
+      $scope.progressbar.start();
+      $scope.index = ($scope.index + 1) % $scope.attachment.post.attachments.length;
+      $scope.attachment = $scope.attachment.post.attachments[$scope.index];
 
       return $scope.attachment.getDownloadUrl().then(function () {
         $scope.progressbar.complete();
       });
     };
+
     $scope.prvAtt = function () {
-      var lenght = $scope.attachment.post.attachments.length - 1;
-      if($scope.index > 0) {
-        $scope.progressbar.start();
-        $scope.attachment = $scope.attachment.post.attachments[--$scope.index];
-      }else if($scope.index == 0) {
-        $scope.progressbar.start();
-        $scope.index = lenght;
-        $scope.attachment = $scope.attachment.post.attachments[lenght];
-      }
+      var length = $scope.attachment.post.attachments.length;
+      $scope.progressbar.start();
+      $scope.index = (length + $scope.index - 1) % length;
+      $scope.attachment = $scope.attachment.post.attachments[$scope.index];
 
       return $scope.attachment.getDownloadUrl().then(function () {
         $scope.progressbar.complete();
