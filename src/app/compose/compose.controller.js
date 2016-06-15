@@ -39,7 +39,7 @@
     vm.post = new NestedPost();
     // TODO : attachment preview should be enabled in compose page, Why model controls attachmentPreview??
     vm.post.attachmentPreview = true;
-    if ($stateParams.relation && $stateParams.relation.contains(':')) {
+    if ($stateParams.relation && $stateParams.relation.indexOf(':') > -1) {
       var relation = $stateParams.relation.split(':');
       switch (relation.shift()) {
         case 'fw':
