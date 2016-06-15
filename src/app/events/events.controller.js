@@ -43,6 +43,13 @@
       }
     };
 
+    $scope.filterStatus = "!$all";
+    $scope.filterStatus = "!$" + $localStorage.filterStat;
+    vm.setFilter = function (stat) {
+      $localStorage.filterStat = stat;
+      $scope.filterStatus = "!$" + $localStorage.filterStat
+    };
+
     $scope.$store = $localStorage;
     $scope.$on('angular-resizable.resizeEnd', function (event, info) {
       $localStorage.sidebarWidth = info.width;
