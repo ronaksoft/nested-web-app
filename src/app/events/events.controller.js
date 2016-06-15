@@ -173,8 +173,8 @@
           var event = new NestedEvent(eventData);
 
           $scope.events.pushEvent(event);
-          $scope.progressbar.complete();
         }
+        $scope.progressbar.complete();
       }).catch(function (data) {
         switch (data.err_code) {
           case WS_ERROR.UNAVAILABLE:

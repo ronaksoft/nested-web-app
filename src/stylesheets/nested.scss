@@ -121,6 +121,7 @@ textarea {
 ._dt { display: table; table-layout: fixed; }
 ._dtr { display: table-row; }
 ._dtc { display: table-cell; vertical-align: middle; }
+._fn {flex: none}
 
 ._pa { position: absolute;}
 ._pr { position: relative;}
@@ -1386,7 +1387,7 @@ a.normal-badge {
 */
 #ngProgress {
   background: linear-gradient(to right, rgba(20,215,105,1),rgba(20,215,105,1),rgba(20,215,105,0) );
-  color: transparent!important;
+  color: rgba(20,215,105,.5)!important;
   //color: black!important;
   //opacity: .9!important;
   background-color: transparent!important;
