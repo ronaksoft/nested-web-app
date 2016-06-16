@@ -124,7 +124,9 @@
 
         $scope.compose.post.addAttachment(attachment);
 
-
+        // StoreService.upload2(file, null, attachment.getClientId(), function(canceler){
+        //   attachment.setUploadCanceler(canceler);
+        // });
         StoreService.upload(file, null, attachment.getClientId(), function(canceler){
           attachment.setUploadCanceler(canceler);
         }).then(function (response) {
