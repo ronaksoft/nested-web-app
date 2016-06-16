@@ -32,7 +32,8 @@
       'hc.marked',
       'xeditable',
       'ngStorage',
-      'unsavedChanges',
-      'ngProgress'
+      // 'unsavedChanges',
+      'ngProgress',
+      'lodash'
     ]);
 })();
