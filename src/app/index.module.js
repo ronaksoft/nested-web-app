@@ -16,6 +16,7 @@
       'ngCordova',
       'PlPush',
       'angular-web-notification',
+      'angular-cache',
       'ngMd5',
       'truncate',
       'ui.router',
@@ -32,7 +33,7 @@
       'hc.marked',
       'xeditable',
       'ngStorage',
-      'unsavedChanges',
+      //'unsavedChanges',
       'ngProgress'
     ]);
 })();
