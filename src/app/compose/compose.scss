@@ -326,3 +326,18 @@ div.att-item {
 .btn-group{
   //width: 100%;
 }
+.mce-panel {
+  border: none!important;
+  background-color: transparent!important;
+}
+.mce-btn {
+  border: none!important;
+  background-color: white!important;
+}
+.mce-container, .mce-container{
+  background: white!important;
+
+}
+.mce-menu-item:hover{
+  background-color: $color-sense!important;
+}
