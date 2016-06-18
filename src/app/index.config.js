@@ -8,7 +8,7 @@
   /** @ngInject */
   function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider, CacheFactoryProvider) {
 
-    angular.extend(CacheFactoryProvider.defaults, { maxAge: 15 * 60 * 1000});
+    angular.extend(CacheFactoryProvider.defaults, { maxAge: 30 * 60 * 1000});
 
     // Enable log
     $logProvider.debugEnabled(true);

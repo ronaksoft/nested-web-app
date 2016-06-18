@@ -22,7 +22,7 @@
       inline: false,
       //fixed_toolbar_container: '.nst-compose-message',
       statusbar: false,
-      //trusted: true,
+      trusted: true,
       menubar: false,
       browser_spellcheck: true,
       selector: 'textarea',
