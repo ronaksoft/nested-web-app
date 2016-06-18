@@ -29,7 +29,6 @@
       'com.2fdevs.videogular.plugins.controls',
       'com.2fdevs.videogular.plugins.poster',
       'com.2fdevs.videogular.plugins.poster',
-      'textAngular',
       'ui.tinymce',
       'hc.marked',
       'xeditable',

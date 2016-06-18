@@ -36,12 +36,13 @@
       var placesCache = CacheFactory.get('placesCache');
 
       function fill() {
+        var i = 0;
         for (i = 0; i < placesCache.info().size; i++) {
           vm.places.push(placesCache.get(i).place);
         }
       }
 
-      
+
     })
     .directive('nestedSidebar', nestedSidebar);
 

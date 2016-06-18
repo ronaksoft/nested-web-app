@@ -5,7 +5,7 @@
       <div class="image-preview _df _fh">
         <!--Image-->
         <!--image/*-->
-        <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}"/>
+        <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}" onload="angular.element(this).scope().progressbar.complete();"/>
 
         <!--Audio-->
         <!--audio/*-->

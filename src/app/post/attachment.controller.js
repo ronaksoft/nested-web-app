@@ -6,7 +6,7 @@
     .controller('AttachmentController', AttachmentController);
 
   /** @ngInject */
-  function AttachmentController($location, AuthService, $scope) {
+  function AttachmentController($location, $scope, $rootScope, AuthService) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -32,7 +32,7 @@
       $scope.attachment = $scope.attachment.post.attachments[$scope.index];
 
       return $scope.attachment.getDownloadUrl().then(function () {
-        $scope.progressbar.complete();
+        //$scope.progressbar.complete();
       });
     };
 
@@ -43,7 +43,7 @@
       $scope.attachment = $scope.attachment.post.attachments[$scope.index];
 
       return $scope.attachment.getDownloadUrl().then(function () {
-        $scope.progressbar.complete();
+        //$scope.progressbar.complete();
       });
     };
 
