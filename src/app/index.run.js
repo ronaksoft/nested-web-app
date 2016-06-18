@@ -6,7 +6,9 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $interval, $uibModal, UNAUTH_REASON, AUTH_EVENTS, AuthService, ngProgressFactory) {
+  function runBlock($rootScope, $interval, $uibModal,
+                    ngProgressFactory,
+                    UNAUTH_REASON, AUTH_EVENTS, AuthService, LoaderService, LOADER_EVENTS) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
 
     $rootScope.now = new Date();
@@ -14,21 +16,37 @@
       $rootScope.now.setTime(Date.now());
     }, 1000);
 
-    $rootScope.progressbar = ngProgressFactory.createInstance();
-    $rootScope.progressbar.setHeight('5px');
-    //$scope.progressbar.setColor('#14D766');
-    $rootScope.completeProgress = function($event) {
-      $event.preventDefault();
-      $rootScope.progressbar.complete();
+    $rootScope.progress = {
+      bar: ngProgressFactory.createInstance(),
+      fn: {
+        start: function () {
+          $rootScope.progress.bar.start();
+        },
+        complete: function () {
+          $rootScope.progress.bar.complete();
+        },
+        stop: function () {
+          $rootScope.progress.bar.stop();
+        },
+        reset: function () {
+          $rootScope.progress.bar.reset();
+        }
+      }
     };
-    $rootScope.stopProgress = function($event) {
-      $event.preventDefault();
-      $rootScope.progressbar.stop();
-    };
-    $rootScope.resetProgress = function($event) {
-      $rootScope.progressbar.reset();
-      $event.preventDefault();
-    };
+    $rootScope.progress.bar.setHeight('5px');
+    // $rootScope.progress.bar.setColor('#14D766');
+
+    LoaderService.addEventListener(LOADER_EVENTS.INJECTED, function () {
+      $rootScope.progress.fn.start();
+    });
+
+    LoaderService.addEventListener(LOADER_EVENTS.FINISHED, function (event) {
+      if (event.detail.rejected > 0) {
+        $rootScope.progress.fn.reset();
+      } else {
+        $rootScope.progress.fn.complete();
+      }
+    });
 
     $rootScope.modals = {};
 

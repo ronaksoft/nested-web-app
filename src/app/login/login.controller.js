@@ -6,7 +6,8 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($window, $location, $rootScope, $scope, $q, $timeout, AuthService, AUTH_EVENTS, WS_ERROR) {
+  function LoginController($window, $location, $rootScope, $scope, $q, $timeout,
+                           AuthService, AUTH_EVENTS, WS_ERROR, LoaderService) {
     var vm = this;
 
     if (AuthService.isAuthenticated()) {
@@ -32,7 +33,7 @@
         password: vm.password
       };
 
-      AuthService.login(credentials, vm.remember).then(function () {
+      LoaderService.inject(AuthService.login(credentials, vm.remember).then(function () {
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         var query = $location.search();
 
@@ -67,7 +68,7 @@
         $timeout(function () {
           $scope.login.message.fill = false;
         }, 5000);
-      });
+      }));
     }
   }
 })();

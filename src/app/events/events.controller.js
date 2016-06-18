@@ -6,7 +6,9 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $log, $uibModal, AuthService, WsService, WS_EVENTS, WS_ERROR, NestedEvent, NestedPlace, NestedInvitation) {
+  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $log, $uibModal,
+                            AuthService, WsService, WS_EVENTS, WS_ERROR, LoaderService,
+                            NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
 
     vm.extended = $localStorage.extended;
@@ -33,24 +35,24 @@
       $localStorage.sidebarWidth = info.width;
     });
 
-    // Invitations
+    if (!AuthService.isAuthenticated()) {
+      $location.search({ back: $location.path() });
+      $location.path('/signin').replace();
+    }
 
+    // Invitations
     vm.invitations = [];
-    WsService.request('account/get_invitations').then(function (data) {
+    LoaderService.inject(WsService.request('account/get_invitations').then(function (data) {
       for (var k in data.invitations) {
         if (data.invitations[k].place._id) {
           vm.invitations.push(new NestedInvitation(data.invitations[k]));
         }
       }
-    })
-    ;
 
-    // /Invitations
-
-    if (!AuthService.isAuthenticated()) {
-      $location.search({ back: $location.path() });
-      $location.path('/signin').replace();
-    }
+      return $q(function (res) {
+        res();
+      });
+    }));
 
     vm.moreEvents = true;
     vm.eventGroups = {};
@@ -142,7 +144,7 @@
     };
 
     vm.load = function () {
-      WsService.request('timeline/get_events', vm.parameters).then(function (data) {
+      LoaderService.inject(WsService.request('timeline/get_events', vm.parameters).then(function (data) {
         $scope.events.moreEvents = !(data.events.length < $scope.events.parameters.limit);
         $scope.events.parameters.skip += data.events.length;
 
@@ -152,7 +154,6 @@
 
           $scope.events.pushEvent(event);
         }
-        $rootScope.progressbar.complete();
       }).catch(function (data) {
         switch (data.err_code) {
           case WS_ERROR.UNAVAILABLE:
@@ -164,7 +165,7 @@
 
       }).finally(function () {
         vm.readyToLoad = true;
-      });
+      }));
     };
 
     vm.readyToLoad = true;
@@ -193,7 +194,6 @@
     vm.load();
 
     $scope.postView = function (post, url, event) {
-      $rootScope.progressbar.start();
       $scope.postViewModal = $uibModal.open({
         animation: false,
         templateUrl: 'app/post/post.html',
@@ -211,12 +211,11 @@
       });
 
       $scope.thePost = post;
-      $scope.thePost.load();
+      LoaderService.inject($scope.thePost.load());
       $scope.lastUrl = $location.path();
 
       $scope.postViewModal.opened.then(function () {
         // $location.update_path(url, true);
-        $rootScope.progressbar.complete();
       });
 
       $scope.postViewModal.closed.then(function () {
@@ -230,8 +229,7 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      $rootScope.progressbar.start();
-      return attachment.getDownloadUrl().then(function () {
+      return LoaderService.inject(attachment.getDownloadUrl().then(function () {
         return $q(function (res) {
           res(this);
         }.bind(this));
@@ -263,7 +261,7 @@
         return $q(function (res) {
           res($scope.attachment);
         })
-      });
+      }));
     };
   }
 })();

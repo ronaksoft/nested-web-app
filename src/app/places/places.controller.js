@@ -6,14 +6,9 @@
     .controller('PlacesController', PlacesController);
 
   /** @ngInject */
-  function PlacesController($location, $stateParams, $scope, AuthService, WsService, NestedPlace, MEMBER_TYPE, ngProgressFactory) {
+  function PlacesController($location, $stateParams, $scope,
+                            AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService) {
     var vm = this;
-
-    $scope.progressbar = ngProgressFactory.createInstance();
-
-    $scope.progressbar.setHeight('5px');
-    $scope.progressbar.complete();
-    $scope.progressbar.start();
 
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });
@@ -53,7 +48,7 @@
       parameters['filter'] = vm.filters[vm.filter].filter;
     }
 
-    WsService.request('account/get_my_places', parameters).then(function (data) {
+    LoaderService.inject(WsService.request('account/get_my_places', parameters).then(function (data) {
       for (var k in data.places) {
         if (parameters.filter && !data.places[k].member_type) {
           data.places[k]['member_type'] = parameters.filter;
@@ -61,9 +56,8 @@
 
         $scope.places.places.push(new NestedPlace(data.places[k]));
       }
-      $scope.progressbar.complete();
     }).catch(function (reason) {
-
-    });
+      // TODO: Retry
+    }));
   }
 })();

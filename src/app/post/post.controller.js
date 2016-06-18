@@ -6,7 +6,9 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($location, $scope, $stateParams, $uibModal, $q, $log, _, toastr, AuthService, EVENT_ACTIONS, WS_EVENTS, WsService, NestedPost, NestedComment) {
+  function PostController($location, $scope, $stateParams, $uibModal, $q, $log, _, toastr,
+                          AuthService, EVENT_ACTIONS, WS_EVENTS, WsService, LoaderService,
+                          NestedPost, NestedComment) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -22,9 +24,11 @@
       $scope.thePost = new NestedPost($stateParams.postId);
     }
 
-    $scope.thePost.comments.length > 0 || $scope.thePost.loadComments().then(function () {
-      $scope.scrolling = true;
-    });
+    if ($scope.thePost.comments.length < 1) {
+      LoaderService.inject($scope.thePost.loadComments().then(function () {
+        $scope.scrolling = true;
+      }));
+    }
 
     $scope.unscrolled = true;
     vm.checkScroll = function (event) {
@@ -40,11 +44,11 @@
 
         if (body.length > 0) {
           event.currentTarget.value = '';
-          $scope.thePost.addComment(body).then(function (comment) {
+          LoaderService.inject($scope.thePost.addComment(body).then(function (comment) {
             $scope.scrolling = $scope.unscrolled && true;
           }).catch(function (comment) {
             this.value = comment;
-          }.bind(event.currentTarget));
+          }.bind(event.currentTarget)));
         }
 
         return false;
@@ -61,7 +65,7 @@
           if ($scope.thePost.id == tlEvent.detail.timeline_data.post_id.$oid) {
             var commentId = tlEvent.detail.timeline_data.comment_id.$oid;
 
-            (new NestedComment($scope.thePost)).load(commentId).then(function (comment) {
+            LoaderService.inject((new NestedComment($scope.thePost)).load(commentId).then(function (comment) {
               $scope.thePost.addComment(comment).then(function () {
                 $scope.scrolling = $scope.unscrolled && true;
 
@@ -69,7 +73,7 @@
                   res();
                 });
               }).catch(function () {});
-            });
+            }));
           }
 
           break;

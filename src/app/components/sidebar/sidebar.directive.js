@@ -3,14 +3,14 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function (WsService, NestedPlace, $scope, CacheFactory, $q) {
+    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, CacheFactory, LoaderService) {
       var vm = this;
       vm.places = [];
       vm.tpl = 'app/components/nested/place/row.html';
 
       if (!CacheFactory.get('placesCache')) {
         CacheFactory.createCache('placesCache', {});
-        WsService.request('account/get_my_places', {}).then(function (data) {
+        LoaderService.inject(WsService.request('account/get_my_places', {}).then(function (data) {
           var defer = $q.defer();
           for (var k in data.places) {
             placesCache.put(k, {
@@ -26,7 +26,7 @@
           fill();
         }).catch(function (reason) {
 
-        });
+        }));
       }
       else {
         var placesCache = CacheFactory.get('placesCache');
