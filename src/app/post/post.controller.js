@@ -6,7 +6,7 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($location, $scope, $stateParams, $uibModal, $q, $log, toastr, AuthService, EVENT_ACTIONS, WS_EVENTS, WsService, NestedPost, NestedComment) {
+  function PostController($location, $scope, $stateParams, $uibModal, $q, $log, _, toastr, AuthService, EVENT_ACTIONS, WS_EVENTS, WsService, NestedPost, NestedComment) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {

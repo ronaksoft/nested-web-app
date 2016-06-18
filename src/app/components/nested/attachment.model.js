@@ -8,7 +8,7 @@
       ATTACHED: 'attached',
       ABORTED: 'aborted'
     })
-    .factory('NestedAttachment', function ($rootScope, $q, $log, WsService, NestedPlace, NestedUser, StoreItem) {
+    .factory('NestedAttachment', function ($rootScope, $q, $log, _, WsService, NestedPlace, NestedUser, StoreItem) {
       function Attachment(data, post, full) {
         this.full = full || false;
 
