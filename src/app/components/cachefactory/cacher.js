@@ -28,13 +28,15 @@
 
         /**
          *
-         * @param id
-         * @param fetch boolean value  | result
+         * @param string  id    Cached object's unique identifier
+         * @param boolean fetch
+         *                      value  | result
          *                     ------- | --------
+         *                  undefined  | Return cached object if exists or fetch it
          *                      true   | Force to fetch object whether if already cached object or not
          *                      false  | Do not fetch object in case of it is unavailable in cache at all
-         *                  undefined  | Return cached object if exists or fetch it
-         * @returns {*}
+         *
+         * @returns Promise
          */
       get: function (id, fetch) {
         var object = this.cache.get(id);
