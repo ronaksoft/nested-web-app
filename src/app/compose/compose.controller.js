@@ -7,7 +7,7 @@
 
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $timeout, $stateParams, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+  function ComposeController($location, $scope, $log, $timeout, $stateParams, _, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -144,7 +144,9 @@
 
         $scope.compose.post.addAttachment(attachment);
 
-
+        // StoreService.upload2(file, null, attachment.getClientId(), function(canceler){
+        //   attachment.setUploadCanceler(canceler);
+        // });
         StoreService.upload(file, null, attachment.getClientId(), function(canceler){
           attachment.setUploadCanceler(canceler);
         }).then(function (response) {

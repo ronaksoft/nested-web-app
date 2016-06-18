@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function ($rootScope, $q, $injector, $log, WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
+    .factory('NestedPost', function ($rootScope, $q, $injector, $log, _, WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -119,8 +119,9 @@
           }).then(function (data) {
             var NestedComment = $injector.get('NestedComment');
 
-            for (var k in data.comments) {
-              this.comments.push(new NestedComment(this, data.comments[k]));
+            var someComments = _.filter(data.comments, { _removed : false });
+            for (var k in someComments) {
+              this.comments.push(new NestedComment(this, someComments[k]));
             }
 
             this.moreComments = !(data.comments.length < this.commentLimit);
