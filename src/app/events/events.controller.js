@@ -184,14 +184,23 @@
             break;
         }
 
+      }).finally(function () {
+        vm.readyToLoad = true;
       });
     };
 
+    vm.readyToLoad = true;
     vm.scroll = function (event) {
       var element = event.currentTarget;
       if (element.scrollTop + element.clientHeight + 10 > element.scrollHeight && this.moreEvents) {
-        this.load();
+        console.log(vm.readyToLoad);
+
+        if (vm.readyToLoad) {
+          vm.readyToLoad = false;
+          this.load();
+        }
       }
+
     };
 
     WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {

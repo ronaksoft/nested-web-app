@@ -152,11 +152,121 @@
             });
           });
 
+        }.bind(this));
+      },
 
+      upload2: function (file, type, id, onUploadStart) {
+        type = type || UPLOAD_TYPE.FILE;
+
+        var q = {
+          'file': file instanceof File,
+          'type': (Object.keys(UPLOAD_TYPE).map(function(k) { return UPLOAD_TYPE[k]; })).indexOf(type) > -1
+        };
+        var items = [];
+        for (var k in q) {
+          q[k] || items.push(k);
+        }
+
+        if (items.length > 0) {
+          return $q(function (res, rej) {
+            rej({
+              err_code: WS_ERROR.INVALID,
+              items: items
+            });
+          });
+        }
+
+        return this.defaultStore.getUploadToken().then(function (token) {
+          var formData = new FormData();
+          formData.append('cmd', type);
+          formData.append('_sk', WsService.getSessionKey());
+          formData.append('token', token);
+          formData.append('fn', 'attachment');
+          formData.append('attachment', file);
+          formData.append('_reqid', id || null);
+
+          var canceler = $q.defer();
+
+          onUploadStart(canceler);
+
+          var defer = $q.defer();
+
+          makeCorsRequest(this.defaultStore.url, formData, file);
+
+          return defer.promise;
 
         }.bind(this));
       }
     };
+
+    // Create the XHR object.
+    function createCORSRequest(method, url) {
+      var xhr = new XMLHttpRequest();
+      if ("withCredentials" in xhr) {
+        // XHR for Chrome/Firefox/Opera/Safari.
+        // xhr.open(method, url, true);
+      } else if (typeof XDomainRequest != "undefined") {
+        // XDomainRequest for IE.
+        xhr = new XDomainRequest();
+        // xhr.open(method, url);
+      } else {
+        // CORS not supported.
+        xhr = null;
+      }
+      return xhr;
+    }
+
+    // Make the actual CORS request.
+    function makeCorsRequest(url, form, file) {
+
+      var xhr = createCORSRequest('POST', url);
+      if (!xhr) {
+        alert('CORS not supported');
+        return;
+      }
+
+
+      // Response handlers.
+      // xhr.onload = function() {
+      //   console.log('response', xhr.responseText);
+      // };
+
+      // if (xhr.upload) {
+        xhr.upload.onprogress = function (progressEvent) {
+          if (progressEvent.lengthComputable) {
+            var percentComplete = progressEvent.loaded / progressEvent.total;
+            console.log(percentComplete);
+          } else {
+            console.log('unable to compute');
+            // Unable to compute progress information since the total size is unknown
+          }
+        }
+      // }
+
+      xhr.onerror = function() {
+        console.log('Woops, there was an error making the request.');
+      };
+
+      xhr.open('POST', url, true);
+
+      xhr.upload.onprogress = function (progressEvent) {
+        if (progressEvent.lengthComputable) {
+          var percentComplete = progressEvent.loaded / progressEvent.total;
+          console.log(percentComplete);
+        } else {
+          console.log('unable to compute');
+          // Unable to compute progress information since the total size is unknown
+        }
+      }
+
+      xhr.setRequestHeader("Cache-Control", "no-cache");
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+      xhr.setRequestHeader("X-File-Size", file.size);
+      xhr.setRequestHeader("X-File-Type", file.type);
+      xhr.setRequestHeader("Content-Type", "multipart/form-data");
+
+      xhr.send(form);
+    }
 
     var stores = $window.sessionStorage.getItem('stores');
     var service = new StoreService(stores ? angular.fromJson(stores) : undefined);
