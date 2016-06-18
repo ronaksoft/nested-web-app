@@ -29,11 +29,11 @@
         /**
          *
          * @param id
-         * @param fetch boolean fetch  | resault
+         * @param fetch boolean value  | result
          *                     ------- | --------
-         *                      true   | object with fn
-         *                      False  | reject
-         *                  undeifind  | 
+         *                      true   | Force to fetch object whether if already cached object or not
+         *                      false  | Do not fetch object in case of it is unavailable in cache at all
+         *                  undefined  | Return cached object if exists or fetch it
          * @returns {*}
          */
       get: function (id, fetch) {
