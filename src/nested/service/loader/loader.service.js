@@ -10,7 +10,8 @@
     .service('LoaderService', LoaderService);
 
   /** @ngInject */
-  function LoaderService($q, LOADER_EVENTS) {
+  function LoaderService($q,
+                         LOADER_EVENTS) {
     function Loader() {
       this.isFinished = true;
       this.fnQs = [];
