@@ -6,7 +6,7 @@
     .controller('AttachmentController', AttachmentController);
 
   /** @ngInject */
-  function AttachmentController($location, $scope, $rootScope, AuthService) {
+  function AttachmentController($location, $scope, $q, $rootScope, AuthService, LoaderService) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -58,5 +58,13 @@
         event.preventDefault();
       }
     };
+    $scope.attLoad = {
+      success: function () {},
+      fail: function () {}
+    };
+    LoaderService.inject($q(function(res ,rej) {
+      $scope.attLoad.success = res;
+      $scope.attLoad.fail = rej;
+    }));
   }
 })();
