@@ -533,6 +533,7 @@ select {
   *     Bootstrap Overrides       *
   *********************************
  */
+
 #input-compose-to a {
   border-bottom: 1px solid $color-calm;
   height: 56px;
@@ -541,12 +542,15 @@ select {
 .ui-select-bootstrap .ui-select-choices-row > a{
   padding: 5px;
 }
+
 #input-compose-to img {
 vertical-align: middle;
 }
+
 .ui-select-bootstrap .ui-select-choices-row.active > a{
   background-color: $color-sense-50;
 }
+
 .account-picture {
   border-radius: 50%;
 }
@@ -554,6 +558,7 @@ vertical-align: middle;
 iframe {
   border: none;
 }
+
 a {
   color: $color-sense-wire;
 }
@@ -571,11 +576,13 @@ a:hover {
   align-items: center;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
+
 .modal-buttons {
   justify-content: flex-end;
   height: 32px;
   font-weight:400;
 }
+
 #add-view {
   border: 1px solid #ced9d3;
   border-radius: 8px;
@@ -584,6 +591,7 @@ a:hover {
   width: 800px;
   height: auto;
 }
+
 #delete-view {
   border: 1px solid #ced9d3;
   border-radius: 8px;
@@ -592,28 +600,34 @@ a:hover {
   width: 510px;
   height: auto;
 }
+
 .modal-content {
   background-color: rgba(0, 0, 0, 0);
   border: none;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
+
 .modal-detail {
   margin: 20px 0;
   font-size: 16px;
 }
+
 .modal-detail a{
   font-weight: bold;
   color: black;
 }
+
 .modal-detail .small{
   font-weight: 100;
   font-size: 12px;
 }
+
 .modal-detail input{
   min-height: 40px;
   margin-bottom: 10px;
   margin-top: 6px;
 }
+
 .modal-attachment {
   //padding: 128px 0;
 }
@@ -621,16 +635,16 @@ a:hover {
 .modal-dialog {
   height: 100%;
 }
+
 .modal.in .modal-dialog{
   border-radius: 6px;
-
 }
+
 .modal-dialog .modal-content {
   height: 100%;
 }
 
-.modal-xlg,
-.modal-mlg {
+.modal-xlg, .modal-mlg {
   width: auto;
 }
 
@@ -643,18 +657,32 @@ a:hover {
   width: 100%;
   max-width: calc(100% - 160px);
 }
+
 .modal-sm {
   width: auto!important;
   height: auto!important;
   vertical-align: middle;
 }
+
 .modal-head {
   //margin: 10px 0;
 }
+
 .modal-head p {
   font-size: 22px;
   font-weight: 500;
 }
+
+.editable-click{
+  border-bottom: none;
+  cursor: pointer;
+  color: $color-sense-wire;
+}
+
+.editable-click:hover{
+  color: $color-sense-wire;
+}
+
 /*
  ************** Popovers ************
 */

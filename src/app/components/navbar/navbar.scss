@@ -206,7 +206,7 @@
   color: $color-sense-wire;
 }
 .nav-profile {
-  padding: 20px 0px 2px 0;
+  padding: 10px 0px 2px 0;
   font-weight: 600;
 }
 
@@ -336,4 +336,7 @@ input #nav-search {
 }
 .line-height-32 {
   line-height: 32px;
+}
+.top-nav {
+  top: -3px;
 }

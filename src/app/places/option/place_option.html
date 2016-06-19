@@ -35,7 +35,7 @@
 
               <h5 class="nst-mood-storm">{{place.id + '@nested.me'}}</h5>
               <h5 data-ng-if="place.haveAccess('C')" class="nst-mood-storm" editable-text="place.description" onbeforesave="place_option.updatePlace('place_desc', $data)">{{place.description || 'empty'}}</h5>
-              <h5 data-ng-if="!place.haveAccess('C')">{{place.description || 'empty'}}</h5>
+              <h5 class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description" data-ng-if="!place.haveAccess('C')">{{place.description || 'empty'}}</h5>
             </div>
           </div> <!--/Room name-->
           <div class="options">
@@ -52,7 +52,7 @@
                 </div>
               </div>
               <div class="nst-description _df _fw">
-                <p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place, <a class="nst-mood-cheerful">invite them as a member</a>.</p>
+                <p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place, <a class="nst-mood-cheerful cursor-pointer">invite them as a member</a>.</p>
               </div>
               <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-digest"><i class="nst-place-icon-shown _df"></i></label></div>
@@ -80,7 +80,7 @@
                 </div>
               </div>
               <div class="nst-description _df _fw">
-                <p>Parent members Can't view Inside The Place.<a class="nst-mood-cheerful">Learn more</a></p>
+                <p>Parent members Can't view Inside The Place.<a class="nst-mood-cheerful cursor-pointer">Learn more</a></p>
               </div>
 
               <div class="_difc _fw optionrow">
@@ -93,7 +93,7 @@
                 </div>
               </div>
               <div class="nst-description _df _fw">
-                <p>Only members Can Write Posts. <a class="nst-mood-cheerful">Learn more</a>.</p>
+                <p>Only members Can Write Posts. <a class="nst-mood-cheerful cursor-pointer">Learn more</a>.</p>
               </div>
 
               <div class="_difc _fw optionrow">
@@ -106,7 +106,7 @@
                 </div>
               </div>
               <div class="nst-description _df _fw">
-                <p>Disabled until "Receptive" off <a class="nst-mood-cheerful">Learn more</a>.</p>
+                <p>Disabled until "Receptive" off <a class="nst-mood-cheerful  cursor-pointer">Learn more</a>.</p>
               </div>
 
               <div class="_difc _fw optionrow">
@@ -119,7 +119,7 @@
                 </div>
               </div>
               <div class="nst-description _df _fw">
-                <p>Disabled until "Receptive" off. <a class="nst-mood-cheerful">Learn more</a>.</p>
+                <p>Disabled until "Receptive" off. <a class="nst-mood-cheerful cursor-pointer">Learn more</a>.</p>
               </div>
             </div> <!-- /nst-place-privacy-->
           </div>

@@ -11,6 +11,7 @@
       'ngSanitize',
       'ngMessages',
       'ngAria',
+      'angular-unsaved-changes',
       'ngResource',
       'ngWebSocket',
       'ngCordova',
@@ -33,7 +34,6 @@
       'hc.marked',
       'xeditable',
       'ngStorage',
-      // 'unsavedChanges',
       'ngProgress',
       'lodash'
     ]);
