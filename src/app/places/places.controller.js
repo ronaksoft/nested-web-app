@@ -6,7 +6,8 @@
     .controller('PlacesController', PlacesController);
 
   /** @ngInject */
-  function PlacesController($location, $stateParams, $scope, AuthService, WsService, NestedPlace, MEMBER_TYPE) {
+  function PlacesController($location, $stateParams, $scope,
+                            AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -47,7 +48,7 @@
       parameters['filter'] = vm.filters[vm.filter].filter;
     }
 
-    WsService.request('account/get_my_places', parameters).then(function (data) {
+    LoaderService.inject(WsService.request('account/get_my_places', parameters).then(function (data) {
       for (var k in data.places) {
         if (parameters.filter && !data.places[k].member_type) {
           data.places[k]['member_type'] = parameters.filter;
@@ -56,7 +57,7 @@
         $scope.places.places.push(new NestedPlace(data.places[k]));
       }
     }).catch(function (reason) {
-
-    });
+      // TODO: Retry
+    }));
   }
 })();

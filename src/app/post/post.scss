@@ -343,11 +343,11 @@
 }
 
 .comment-input{
-  position: fixed;
+  position: absolute;
   bottom: 0;
   max-height: 90px;
   min-height: 89px;
-  width: 312px;
+  width: 320px;
   margin: 10px 0;
   right: 2px;
   //flex: 1;
@@ -438,18 +438,10 @@
   padding: 2px 6px;
 }
 .nst-arrow-rotated-270,.nst-arrow-rotated-90{
-  width: 25px;
+  width: 15px;
   height: 30px;
-  position: relative;
   justify-content: center;
-  height: 30px;
   margin: 0 10px;
-}
-.nst-arrow-rotated-90 {
-  top: 5px;
-}
-.nst-arrow-rotated-270 {
-  top: -7px;
 }
 .comment-input-det{
   width: 10px;
@@ -505,4 +497,9 @@
 
 .time-width {
   width: 40px;
+}
+.attachcontrols {
+  border: black;
+  align-items: center;
+  height: 68px
 }

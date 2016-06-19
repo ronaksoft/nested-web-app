@@ -21,7 +21,7 @@
       'leave': {
         name: 'Leave',
         fn: function () {
-          return $scope.place.removeMember(AuthService.user.id).then(function () {
+          return $scope.place.removeMember(AuthService.user.username).then(function () {
             $location.path('/places').replace();
 
             return $q(function (res) {

@@ -6,7 +6,9 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $interval, $uibModal, UNAUTH_REASON, AUTH_EVENTS, AuthService) {
+  function runBlock($rootScope, $interval, $uibModal,
+                    ngProgressFactory,
+                    UNAUTH_REASON, AUTH_EVENTS, AuthService, LoaderService, LOADER_EVENTS) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
 
     $rootScope.now = new Date();
@@ -14,8 +16,40 @@
       $rootScope.now.setTime(Date.now());
     }, 1000);
 
+    $rootScope.progress = {
+      bar: ngProgressFactory.createInstance(),
+      fn: {
+        start: function () {
+          $rootScope.progress.bar.start();
+        },
+        complete: function () {
+          $rootScope.progress.bar.complete();
+        },
+        stop: function () {
+          $rootScope.progress.bar.stop();
+        },
+        reset: function () {
+          $rootScope.progress.bar.reset();
+        }
+      }
+    };
+    $rootScope.progress.bar.setHeight('5px');
+    // $rootScope.progress.bar.setColor('#14D766');
+
+    LoaderService.addEventListener(LOADER_EVENTS.INJECTED, function () {
+      $rootScope.progress.fn.start();
+    });
+
+    LoaderService.addEventListener(LOADER_EVENTS.FINISHED, function (event) {
+      if (event.detail.rejected > 0) {
+        $rootScope.progress.fn.reset();
+      } else {
+        $rootScope.progress.fn.complete();
+      }
+    });
+
     $rootScope.modals = {};
-    
+
     AuthService.addEventListener(AUTH_EVENTS.UNAUTHENTICATE, function (event) {
       console.log('Reason', event);
       if (!($rootScope.modals['unauthorized'] || UNAUTH_REASON.LOGOUT == event.detail.reason)) {

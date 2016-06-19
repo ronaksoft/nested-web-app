@@ -10,7 +10,6 @@
         </div>
       </div>
       <div class="nst-content">
-
         <div class="subnavitems _bgwhite _difc">
           <ul class="nav-width-ul-compose">
             <li class="_df _fw">
@@ -21,7 +20,6 @@
             </li>
             <li class="_df">
               <a unsaved-warning-clear href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()">Send</a>
-
             </li>
           </ul>
         </div>
@@ -76,13 +74,15 @@
           </div>
           <hr class="nomargin"/>
 
-          <section class="nst-compose-message">
-            <div text-angular
-                 ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
-                 data-ng-model="compose.post.body">
-              <!--<div text-angular  data-ng-model="compose.post.body"></div>-->
-          </section>
-        </div>
+            <section class="nst-compose-message">
+              <textarea ui-tinymce="tinymceOptions" placeholder="Your message goes here !" data-ng-model="compose.post.body"></textarea>
+              <!--<div text-angular
+                   ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
+                   data-ng-model="compose.post.body">
+                </div>-->
+            </section>
+          </div>
+        </form>
       </div>
       <div class="side">
         <div class="compose _bgwhite _df _fw">

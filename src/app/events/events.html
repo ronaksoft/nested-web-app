@@ -15,7 +15,7 @@
       <div class="subnavitems _bgwhite _df">
         <ul class="nav-width-ul">
           <li data-ng-repeat="(key, filter) in events.filters" class=" li-hover {{key == events.filter ? 'selected' : null}}">
-            <a class="events-anchor" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}">{{filter.name}}</a>
+            <a class="events-anchor" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}" data-ng-click="events.setFilter(filter.filter)">{{filter.name}}</a>
           </li>
         </ul>
         <div class="search _difc" id="ViewSelector">

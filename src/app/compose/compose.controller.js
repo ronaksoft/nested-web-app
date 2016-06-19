@@ -7,13 +7,33 @@
 
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $timeout, $stateParams, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+  function ComposeController($location, $scope, $log, $timeout, $stateParams, _, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
       $location.search({back: $location.path()});
       $location.path('/signin').replace();
-    }
+    };
+    //$scope.tinymceModel = 'Initial content';
+    $scope.tinymceOptions = {
+      onChange: function(e) {
+        // put logic here for keypress and cut/paste changes
+      },
+      inline: false,
+      //fixed_toolbar_container: '.nst-compose-message',
+      statusbar: false,
+      trusted: true,
+      menubar: false,
+      browser_spellcheck: true,
+      selector: 'textarea',
+      height : 600,
+      plugins : 'autolink link image lists charmap directionality textcolor colorpicker contextmenu emoticons',
+      contextmenu: "link inserttable | cell row column deletetable",
+      toolbar: 'bold italic underline strikethrough | alignleft aligncenter aligncenter alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
+      skin: 'lightgray',
+      theme : 'modern'
+    };
+
 
     $scope.sendStatus = false;
     $scope.checkfilling = function () {
@@ -39,7 +59,7 @@
     vm.post = new NestedPost();
     // TODO : attachment preview should be enabled in compose page, Why model controls attachmentPreview??
     vm.post.attachmentPreview = true;
-    if ($stateParams.relation && $stateParams.relation.contains(':')) {
+    if ($stateParams.relation && $stateParams.relation.indexOf(':') > -1) {
       var relation = $stateParams.relation.split(':');
       switch (relation.shift()) {
         case 'fw':
@@ -124,7 +144,9 @@
 
         $scope.compose.post.addAttachment(attachment);
 
-
+        // StoreService.upload2(file, null, attachment.getClientId(), function(canceler){
+        //   attachment.setUploadCanceler(canceler);
+        // });
         StoreService.upload(file, null, attachment.getClientId(), function(canceler){
           attachment.setUploadCanceler(canceler);
         }).then(function (response) {

@@ -6,7 +6,7 @@
     .controller('AttachmentController', AttachmentController);
 
   /** @ngInject */
-  function AttachmentController($location, AuthService, $scope) {
+  function AttachmentController($location, $scope, $rootScope, AuthService) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
@@ -22,24 +22,30 @@
       return $scope.index;
     };
 
-    $scope.nextAtt = function () {
-      if($scope.index < $scope.attachment.post.attachments.length - 1){
-        $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
-      }
-
-      return $scope.attachment.getDownloadUrl();
-    };
-    $scope.prvAtt = function () {
-      if($scope.index > 0) {
-        $scope.attachment = $scope.attachment.post.attachments[--$scope.index];
-      }
-
-      return $scope.attachment.getDownloadUrl();
-    };
-
     if ($scope.attachment) {
       vm.getIndex();
     }
+
+    $scope.nextAtt = function () {
+      $scope.progressbar.start();
+      $scope.index = ($scope.index + 1) % $scope.attachment.post.attachments.length;
+      $scope.attachment = $scope.attachment.post.attachments[$scope.index];
+
+      return $scope.attachment.getDownloadUrl().then(function () {
+        //$scope.progressbar.complete();
+      });
+    };
+
+    $scope.prvAtt = function () {
+      var length = $scope.attachment.post.attachments.length;
+      $scope.progressbar.start();
+      $scope.index = (length + $scope.index - 1) % length;
+      $scope.attachment = $scope.attachment.post.attachments[$scope.index];
+
+      return $scope.attachment.getDownloadUrl().then(function () {
+        //$scope.progressbar.complete();
+      });
+    };
 
     $scope.download = function (attachment, event) {
       var attach = angular.copy(attachment);

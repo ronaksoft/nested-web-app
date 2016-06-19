@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function ($rootScope, $q, $injector, $log, WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
+    .factory('NestedPost', function ($rootScope, $q, $injector, $log, _, WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -71,6 +71,12 @@
               this.places[k] = new NestedPlace(this.full ? data.post_places[k]._id : { id: data.post_places[k]._id, name: data.post_places[k].name });
             }
 
+            if (data.place_access) {
+              _.forEach(this.places, function (place) {
+                place.access = _.find(data.place_access, { '_id' : place.id }).access;
+              });
+            }
+
             this.attachments = [];
             this.attachmentPreview = false;
             for (var k in data.post_attachments) {
@@ -113,8 +119,9 @@
           }).then(function (data) {
             var NestedComment = $injector.get('NestedComment');
 
-            for (var k in data.comments) {
-              this.comments.push(new NestedComment(this, data.comments[k]));
+            var someComments = _.filter(data.comments, { _removed : false });
+            for (var k in someComments) {
+              this.comments.push(new NestedComment(this, someComments[k]));
             }
 
             this.moreComments = !(data.comments.length < this.commentLimit);
@@ -157,7 +164,11 @@
                 res(loadedComment);
               });
             }.bind(this));
-          }.bind(this));
+          }.bind(this)).catch(function () {
+            return $q(function (res, rej) {
+              rej(comment);
+            });
+          });
         },
 
         deleteComment: function (comment) {
@@ -233,7 +244,9 @@
               forwarded_from: this.forwarded ? this.forwarded.id : undefined,
               subject: this.subject,
               body: this.body,
-              attaches: (this.attachments.map(function (attachment) { return attachment.id; })).join(',')
+              // return attachment.id changed into return attachment._id because id was undefined
+              // FIXME: Ask pouyan what's the difference between _id and id
+              attaches: (this.attachments.map(function (attachment) { return attachment._id; })).join(',')
             };
 
             return WsService.request('post/add', params).then(function (data) {
@@ -246,16 +259,19 @@
           }
         },
 
+
         getPlacesHaveDeleteAccess: function (post) {
           return getPlacesWithAccess(post, 'RM');
         },
 
-        haveAnyDeleteAccess: function (post) {
-          // var places = filterPlacesByAccessCode(post.places,'RM');
-          // return places > 0;
-          return true;
+        haveAnyPlaceWithDeleteAccess: function () {
+          return filterPlacesByAccessCode(this.places, ['RM']).length > 0;
         }
       };
+
+      function loadPlacesWithAccess(ids) {
+        return WsService.request('place/get_access', { place_ids: ids });
+      }
 
       function getPlacesWithAccess(post, accessCodes) {
         var separator = ',';
@@ -270,7 +286,7 @@
           $log.debug('Could not find place accesses and they should be retrieved from the server.');
 
           var ids = getAllPlacesIds(post);
-          WsService.request('place/get_access', { place_ids: ids }).then(function (res) {
+          loadPlacesWithAccess(ids).then(function (res) {
             fillAccess(post, res.places); // fills access inside every place
             defer.resolve(filterPlacesByAccessCode(post.places, codes));
 

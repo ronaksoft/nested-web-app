@@ -6,7 +6,6 @@
       'ngAnimate',
       'ngCookies',
       'ngTouch',
-      'unsavedChanges',
       'angularResizable',
       'ui.select',
       'ngSanitize',
@@ -17,6 +16,7 @@
       'ngCordova',
       'PlPush',
       'angular-web-notification',
+      'angular-cache',
       'ngMd5',
       'truncate',
       'ui.router',
@@ -29,9 +29,12 @@
       'com.2fdevs.videogular.plugins.controls',
       'com.2fdevs.videogular.plugins.poster',
       'com.2fdevs.videogular.plugins.poster',
-      'textAngular',
+      'ui.tinymce',
       'hc.marked',
       'xeditable',
-      'ngStorage'
+      'ngStorage',
+      // 'unsavedChanges',
+      'ngProgress',
+      'lodash'
     ]);
 })();

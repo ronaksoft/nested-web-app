@@ -22,7 +22,7 @@
       KNOWN_GUEST: 'known_guest',
       CREATOR: 'creator'
     })
-    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, WsService, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
+    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, AuthService, WsService, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
 
@@ -428,7 +428,7 @@
         },
 
         removeMember: function (memberId) {
-          return this.haveAccess(PLACE_ACCESS.REMOVE_MEMBERS) ? WsService.request('place/remove_member', {
+          return (this.haveAccess(PLACE_ACCESS.REMOVE_MEMBERS) || memberId == AuthService.user.username) ? WsService.request('place/remove_member', {
             place_id: this.id,
             member_id: memberId
           }).then(function () {

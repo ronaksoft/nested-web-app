@@ -138,7 +138,7 @@
 
           <div class="place-option-members _dib">
             <h5 class="title-option _di">Participants</h5>
-            <div class="_di _fr" data-ng-click="place_option.showAddModal('member')">
+            <div data-ng-if="place.haveAccess('AM')" class="_di _fr" data-ng-click="place_option.showAddModal('member')">
               <span class="nst-mood-simple _dib _vat">Invite members</span>
               <div class="add-icon _dib"></div>
             </div>
