@@ -1,5 +1,4 @@
-<form unsaved-warning-form>
-  <div>
+ <div>
     <div>
       <nested-navbar></nested-navbar>
     </div>
@@ -19,7 +18,7 @@
               <a href="javascript:void(0);" class="_fr btn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
             </li>
             <li class="_df">
-              <a unsaved-warning-clear href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()">Send</a>
+              <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()">Send</a>
             </li>
           </ul>
         </div>
@@ -74,15 +73,23 @@
           </div>
           <hr class="nomargin"/>
 
-            <section class="nst-compose-message">
-              <textarea ui-tinymce="tinymceOptions" placeholder="Your message goes here !" data-ng-model="compose.post.body"></textarea>
-              <!--<div text-angular
-                   ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
-                   data-ng-model="compose.post.body">
-                </div>-->
-            </section>
-          </div>
-        </form>
+          <section class="nst-compose-message">
+
+
+
+              <!--<input page-change-element  type="text"  ng-model="hey" placeholder="enterhere"/>-->
+
+
+           <div page-change="chageMe($event, $toState, $toParams, $fromState, $fromParams,$cancel)">
+            <textarea page-change-element ui-tinymce="tinymceOptions" placeholder="Your message goes here !" data-ng-model="compose.post.body"></textarea>
+           </div>
+            <!--<div text-angular
+                 ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
+                 data-ng-model="compose.post.body">
+              </div>-->
+
+          </section>
+        </div>
       </div>
       <div class="side">
         <div class="compose _bgwhite _df _fw">
@@ -90,5 +97,3 @@
       </div>
     </div>
   </div>
-</form>
-
