@@ -5,7 +5,6 @@
     .module('nested')
     .controller('ComposeController', ComposeController);
 
-
   /** @ngInject */
   function ComposeController($location, $scope, $log, $timeout, $stateParams, _, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
@@ -38,6 +37,17 @@
     $scope.sendStatus = false;
     $scope.checkfilling = function () {
       $scope.sendStatus = !(vm.recipients.length > 0);
+    };
+
+
+    $scope.chageMe = function ($event, $toState, $toParams, $fromState, $fromParams,$cancel) {
+
+      var r = confirm("Are you sure you want to leave this page?");
+      if (r == true) {
+        $cancel.$destroy();
+        $state.go($toState.name)
+      } else {
+      }
     };
 
     $scope.upload_size = {
@@ -144,9 +154,7 @@
 
         $scope.compose.post.addAttachment(attachment);
 
-        // StoreService.upload2(file, null, attachment.getClientId(), function(canceler){
-        //   attachment.setUploadCanceler(canceler);
-        // });
+
         StoreService.upload(file, null, attachment.getClientId(), function(canceler){
           attachment.setUploadCanceler(canceler);
         }).then(function (response) {
