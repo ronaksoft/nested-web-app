@@ -26,7 +26,10 @@ gulp.task('watch', ['inject'], function () {
     }
   });
 
-  gulp.watch(path.join(conf.paths.src, '/app/**/*.js'), function(event) {
+  gulp.watch([
+    path.join(conf.paths.src, '/app/**/*.js'),
+    path.join(conf.paths.src, '/nested/**/*.js')
+  ], function(event) {
     if(isOnlyChange(event)) {
       gulp.start('scripts-reload');
     } else {
