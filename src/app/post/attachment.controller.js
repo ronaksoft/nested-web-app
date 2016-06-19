@@ -6,13 +6,16 @@
     .controller('AttachmentController', AttachmentController);
 
   /** @ngInject */
-  function AttachmentController($location, $scope, $q, $rootScope, AuthService, LoaderService) {
+  function AttachmentController($location, $scope, $rootScope, $q,
+                                AuthService, LoaderService) {
     var vm = this;
 
     if (!AuthService.isAuthenticated()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
+
+    LoaderService.inject();
 
     vm.getIndex = function () {
       $scope.index = $scope.attachment.post.attachments.map(function (att) {

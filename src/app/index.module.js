@@ -11,6 +11,7 @@
       'ngSanitize',
       'ngMessages',
       'ngAria',
+      'angular-unsaved-changes',
       'ngResource',
       'ngWebSocket',
       'ngCordova',
