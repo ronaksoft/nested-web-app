@@ -32,7 +32,6 @@
       'ui.tinymce',
       'hc.marked',
       'xeditable',
-      'ngStorage',
       // 'unsavedChanges',
       'ngProgress',
       'lodash'
