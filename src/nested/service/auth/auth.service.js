@@ -100,6 +100,10 @@
 
         this.state = AUTH_STATE.UNAUTHORIZED;
         this.dispatchEvent(new CustomEvent(AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
+        
+        return $q(function (res) {
+          res(reason);
+        });
       },
 
       login: function (credentials, remember) {
