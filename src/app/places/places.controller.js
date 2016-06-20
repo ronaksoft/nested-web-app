@@ -10,7 +10,7 @@
                             AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService) {
     var vm = this;
 
-    if (!AuthService.isAuthenticated()) {
+    if (!AuthService.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }

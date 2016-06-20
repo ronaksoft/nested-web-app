@@ -6,11 +6,12 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($window, $location, $rootScope, $scope, $q, $timeout,
-                           AuthService, AUTH_EVENTS, WS_ERROR, LoaderService) {
+  function LoginController($location, $rootScope, $scope, $q, $timeout,
+                           AuthService, AUTH_EVENTS, WS_ERROR,
+                           LoaderService) {
     var vm = this;
 
-    if (AuthService.isAuthenticated()) {
+    if (AuthService.isAuthorized()) {
       $location.path('/').replace();
     }
 

@@ -9,10 +9,11 @@
   function ComposeController($location, $scope, $log, $timeout, $stateParams, _, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
-    if (!AuthService.isAuthenticated()) {
+    if (!AuthService.isInAuthorization()) {
       $location.search({back: $location.path()});
       $location.path('/signin').replace();
-    };
+    }
+    
     //$scope.tinymceModel = 'Initial content';
     $scope.tinymceOptions = {
       onChange: function(e) {

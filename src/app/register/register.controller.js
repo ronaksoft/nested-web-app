@@ -9,7 +9,9 @@
   function RegisterController(AuthService, $location) {
     var vm = this;
 
-    AuthService.isAuthenticated(function () { $location.path('/').replace() });
+    if (AuthService.isInAuthorization()) {
+      $location.path('/').replace();
+    }
   }
 })();
 

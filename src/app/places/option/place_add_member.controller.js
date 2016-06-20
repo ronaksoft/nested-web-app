@@ -9,7 +9,7 @@
   function PlaceAddMemberController($location, $scope, WsService, AuthService, NestedUser, MEMBER_TYPE) {
     var vm = this;
 
-    if (!AuthService.isAuthenticated()) {
+    if (!AuthService.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
