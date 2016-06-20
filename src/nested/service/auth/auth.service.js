@@ -3,39 +3,44 @@
 
   angular
     .module('nested')
-    .constant('AUTH_EVENTS', {
-      AUTHENTICATE: 'authenticated',
-      AUTHENTICATE_FAIL: 'authentication-failed',
-      UNAUTHENTICATE: 'unauthenticated',
-
-      SESSION_TIMEOUT: 'auth-session-timeout',
-      NOT_AUTHENTICATED: 'auth-not-authenticated',
-      NOT_AUTHORIZED: 'auth-not-authorized'
+    .constant('AUTH_STATE', {
+      UNAUTHORIZED: 'unauthorized',
+      AUTHORIZING: 'authorizing',
+      AUTHORIZED: 'authorized'
     })
-    .constant('UNAUTH_REASON', {
-      LOGOUT: 'logout'
+    .constant('AUTH_EVENTS', {
+      UNAUTHORIZE: 'unauthorize',
+      AUTHORIZE: 'authorize',
+      AUTHORIZE_FAIL: 'authorize-fail'
+    })
+    .constant('UNREGISTER_REASON', {
+      LOGOUT: 'logout',
+      AUTH_FAIL: 'authorization_fail',
+      DISCONNECT: 'disconnect'
     })
     .service('AuthService', NestedAuthService);
 
   /** @ngInject */
   function NestedAuthService($cookies, $window, $q, $log,
-                             WsService, WS_EVENTS, UNAUTH_REASON, AUTH_EVENTS,
+                             WS_EVENTS, WS_RESPONSE_STATUS, WS_ERROR, UNREGISTER_REASON, AUTH_EVENTS, AUTH_STATE,
+                             WsService,
                              NestedUser) {
     function AuthService(user) {
       this.user = new NestedUser(user);
+      this.state = AUTH_STATE.UNAUTHORIZED;
       this.lastSessionKey = null;
       this.lastSessionSecret = null;
       this.remember = false;
       this.listeners = {};
 
       if (WsService.isInitialized()) {
-        this.reauth();
+        this.reconnect();
       }
 
-      WsService.addEventListener(WS_EVENTS.INITIALIZE, this.reauth.bind(this));
+      WsService.addEventListener(WS_EVENTS.INITIALIZE, this.reconnect.bind(this));
       WsService.addEventListener(WS_EVENTS.UNINITIALIZE, function () {
-        if (this.isAuthenticated()) {
-          this.unauthorize();
+        if (this.isAuthorized()) {
+          this.unregister(UNREGISTER_REASON.DISCONNECT);
         }
       }.bind(this));
     }
@@ -58,75 +63,138 @@
 
         // TODO: Pass to user service
         this.user.setData(data.info);
-        this.user.role = 1;
 
-        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHENTICATE, { detail: { user: this.user } }));
+        this.state = AUTH_STATE.AUTHORIZED;
+        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE, { detail: { user: this.user } }));
 
         return $q(function (res) {
-          res(data);
-        });
+          res(this.user);
+        }.bind(this));
       },
 
-      reauth: function () {
-        var sk = $cookies.get('nsk') || this.lastSessionKey;
-        var ss = $cookies.get('nss') || this.lastSessionSecret;
+      register: function (username, password) {
+        this.state = AUTH_STATE.AUTHORIZING;
 
-        if (ss && sk) {
-          // TODO: Check if `remember me` was checked
+        return WsService.request('session/register', { uid: username, pass: password });
+      },
 
-          return WsService.request('session/recall', {
-            _sk: sk,
-            _ss: ss
-          }).then(
-            this.authorize.bind(this)
-          ).catch(
-            this.unauthorize.bind(this)
-          );
+      recall: function (sessionKey, sessionSecret) {
+        this.state = AUTH_STATE.AUTHORIZING;
+
+        return WsService.request('session/recall', { _sk: sessionKey, _ss: sessionSecret });
+      },
+
+      unregister: function (reason) {
+        switch (reason) {
+          case UNREGISTER_REASON.DISCONNECT:
+            break;
+
+          default:
+            this.lastSessionKey = null;
+            this.lastSessionSecret = null;
+            $cookies.remove('nss');
+            $cookies.remove('nsk');
+            WsService.unauthorize();
+            break;
         }
 
-        this.isAuthenticated() && this.unauthorize('Re-Authentication Failed');
-
-        return $q(function (res, rej) {
-          rej();
-        });
-      },
-
-      unauthorize: function (reason) {
-        $log.debug('Unauthorization', reason);
-
-        this.user.username = null;
-        $cookies.remove('nss');
-        $cookies.remove('nsk');
-
-        WsService.unauthorize();
-
-        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.UNAUTHENTICATE, { detail: { reason: reason } }));
-
-        return $q(function (res) {
-          res(reason);
-        });
+        this.state = AUTH_STATE.UNAUTHORIZED;
+        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
       },
 
       login: function (credentials, remember) {
         this.remember = remember;
 
-        return WsService.request('session/register', {
-          uid: credentials.username,
-          pass: credentials.password
-        }).then(this.authorize.bind(this));
+        return this.register(credentials.username, credentials.password).then(
+          this.authorize.bind(this)
+        ).catch(function (data) {
+          this.unregister(UNREGISTER_REASON.AUTH_FAIL);
+          this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
+
+          return $q(function (res, rej) {
+            rej.apply(null, this.input);
+          }.bind({ input: arguments }));
+        });
       },
 
-      logout: function (reason) {
-        this.lastSessionKey = null;
-        this.lastSessionSecret = null;
+      reconnect: function () {
+        this.lastSessionKey = $cookies.get('nsk') || this.lastSessionKey;
+        this.lastSessionSecret = $cookies.get('nss') || this.lastSessionSecret;
 
-        return this.unauthorize(reason || UNAUTH_REASON.LOGOUT);
+        // TODO: Read from an storage
+        this.remember = true;
 
-        return WsService.request('logout').then(this.unauthorize.bind(this));
+        if (this.lastSessionKey && this.lastSessionSecret) {
+          return this.recall(this.lastSessionKey, this.lastSessionSecret).then(
+            this.authorize.bind(this)
+          ).catch(function (data) {
+            switch (data.err_code) {
+              case WS_ERROR.DUPLICATE:
+                return $q(function (res) {
+                  res({
+                    status: WS_RESPONSE_STATUS.SUCCESS,
+                    info: this.user,
+                    _sk : {
+                      $oid: this.lastSessionKey
+                    },
+                    _ss: this.lastSessionSecret
+                  });
+                }.bind(this)).then(this.authorize.bind(this));
+                break;
+
+              case WS_ERROR.ACCESS_DENIED:
+              case WS_ERROR.INVALID:
+                this.unregister(UNREGISTER_REASON.AUTH_FAIL);
+                this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
+
+                return $q(function (res, rej) {
+                  rej.apply(null, this.input);
+                }.bind({ input: arguments }));
+                break;
+
+              default:
+                // Try to reconnect
+                return this.reconnect();
+                break;
+            }
+          }.bind(this));
+        }
+
+        return $q(function (res, rej) {
+          rej({
+            status: WS_RESPONSE_STATUS.ERROR,
+            err_code: WS_ERROR.INVALID
+          });
+        })
       },
 
-      isAuthenticated: function () {
-        return this.user.username || $cookies.get('nsk');
+      logout: function () {
+        return this.unregister(UNREGISTER_REASON.LOGOUT).then(function () {
+          // Post logout job
+
+          return $q(function (res) {
+            res.apply(null, this.input);
+          }.bind({ input: arguments }));
+        }.bind(this));
+      },
+
+      getState: function () {
+        return this.state;
+      },
+
+      isAuthorized: function () {
+        return AUTH_STATE.AUTHORIZED == this.getState();
+      },
+
+      isInAuthorization: function () {
+        return this.isAuthorized() ||
+          AUTH_STATE.AUTHORIZATION == this.getState() ||
+          $cookies.get('nsk') ||
+          this.lastSessionKey;
+      },
+
+      isUnauthorized: function () {
+        return AUTH_STATE.UNAUTHORIZED == this.getState();
       },
 
       addEventListener: function (type, callback, oneTime) {

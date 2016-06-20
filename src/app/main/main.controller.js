@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MainController($location, AuthService) {
-    if (AuthService.isAuthenticated()) {
+    if (AuthService.isInAuthorization()) {
       $location.path('/events').replace();
     }
   }

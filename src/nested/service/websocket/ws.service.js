@@ -22,7 +22,8 @@
       INVALID: 3,
       INCOMPLETE: 4,
       DUPLICATE: 5,
-      LIMIT_REACHED: 6
+      LIMIT_REACHED: 6,
+      TIMEOUT: 1000
     })
     .constant('WS_RESPONSE_STATUS', {
       UNDEFINED: 'not defined',
@@ -49,7 +50,8 @@
     .factory('WsRequest', NestedWsRequest)
     .service('WsService', NestedWsService);
 
-  function NestedWsRequest(WS_RESPONSE_STATUS, WS_EVENTS, AUTH_COMMANDS, $log) {
+  function NestedWsRequest($log,
+                           WS_RESPONSE_STATUS, WS_ERROR, WS_EVENTS, AUTH_COMMANDS) {
     function Request(service, data, timeout) {
       this.service = service;
       this.data = data;
@@ -64,7 +66,7 @@
             function () {
               this.reject({
                 status: WS_RESPONSE_STATUS.ERROR,
-                err_code: 5
+                err_code: WS_ERROR.TIMEOUT
               });
             }.bind(this),
             this.timeout
