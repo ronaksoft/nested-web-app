@@ -1,5 +1,5 @@
 <nested-navbar></nested-navbar>
-<div id="container" class="_bggray">
+<div id="container" class="_bggray" page-change="changeMe($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
   <div class="side">
     <div class="compose _bgwhite _df _fw">
     </div>
@@ -8,19 +8,18 @@
     <div class="subnavitems _bgwhite _df">
       <div class="cp-nav-width-discard">
         <div>
-          <a href="javascript:void(0);" class="btn-white-nav nst-mood-storm" onclick="window.history.back();">Discard</a>
+          <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
         </div>
       </div>
     </div>
     <div class="panel-profile-setting _bgwhite _ma _fh">
-      <form unsaved-warning-form>
         <div class="_fw upload-photo-container">
         </div>
         <div class="inner-panel _ma">
           <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{user.username}}</div>
           <div class="nst-marginbtm-4">First Name</div>
           <div>
-            <input type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
+            <input page-change-element type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
                    aria-invalid="false" data-ng-model="user.name.fname"/>
           </div>
           <div class="nst-marginbtm-4">Last Name</div>
@@ -38,14 +37,14 @@
           </div>
           <div class="nst-marginbtm-4">Mobile Phone</div>
           <div class="_fw nst-marginbtm-24">
-            <input name="mobileNumber" international-phone-number
+            <input  name="mobileNumber" international-phone-number
                    class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="user.phone"/>
           </div>
           <div class="nst-marginbtm-12">Gender</div>
           <div class="nst-marginbtm-64">
             <ul class="list-inline">
               <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-                <input type="radio" name="gender" value="female"/>
+                <input  type="radio" name="gender" value="female"/>
                 <label>Female</label>
               </li>
               <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
@@ -62,13 +61,11 @@
           <div class="nst-marginbtm-36">
             <input class="select-birthday" rsmdatedropdowns ng-model="birth"/>
           </div>
-
           <div>
             <button class="btn btn-lg btn-block" data-ng-click="account_profile.update()">Save & Exit</button>
           </div>
         </div>
         <div class="restplace _df _fh"></div>
-      </form>
     </div>
   </div>
   <div class="side">
