@@ -24,7 +24,7 @@
     "videogular": "^1.4.3",
     "videogular-themes-default": "^1.4.3",
     "videogular-controls": "^1.4.3",
-    "videogular-buffering": "^1.4.3",
+    "videogular-buffering": "^1.4.4",
     "videogular-poster": "^1.4.3",
     "angular-truncate": "*",
     "angular-web-notification": "^0.0.69",

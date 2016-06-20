@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, $cacheFactory, LoaderService) {
+    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, LoaderService) {
       var vm = this;
       vm.places = [];
       vm.tpl = 'app/components/nested/place/row.html';
