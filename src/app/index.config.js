@@ -6,9 +6,10 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider, CacheFactoryProvider) {
+  function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider) {
 
-    angular.extend(CacheFactoryProvider.defaults, { maxAge: 30 * 60 * 1000});
+    localStorageServiceProvider
+      .setPrefix('nested');
 
     // Enable log
     $logProvider.debugEnabled(true);

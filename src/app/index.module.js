@@ -17,7 +17,7 @@
       'ngCordova',
       'PlPush',
       'angular-web-notification',
-      'angular-cache',
+      'LocalStorageModule',
       'ngMd5',
       'truncate',
       'ui.router',

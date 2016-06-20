@@ -6,76 +6,37 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, CacheFactory, $stateParams, $log, $uibModal,
+  function EventsController($location, $scope, $q, $rootScope, $cacheFactory, $stateParams, $log, $uibModal,
                             AuthService, WsService, WS_EVENTS, WS_ERROR, LoaderService,
-                            NestedEvent, NestedPlace, NestedInvitation) {
+                            NestedEvent, NestedPlace, NestedInvitation, localStorageService) {
     var vm = this;
 
-    var extendedCache;
-
-    if (!CacheFactory.get('extended')) {
-      CacheFactory.createCache('extended', {storageMode: 'localStorage'});
-      extendedCache = CacheFactory.get('extended');
-      extendedCache.put('v', {
-        status: true
-      });
-      vm.extended = extendedCache.get('v').status;
-    } else {
-      extendedCache = CacheFactory.get('extended');
-      vm.extended = extendedCache.get('v').status;
+    if (!localStorageService.get("extended")) {
+      localStorageService.set("extended", false)
     }
 
-     vm.collapse = function () {
-      if(vm.extended == true){
-        extendedCache.put('v', {
-          status: false
-        });
-        vm.extended = extendedCache.get('v').status;
-      }
-      else{
-        extendedCache.put('v', {
-          status: true
-        });
-        vm.extended = extendedCache.get('v').status;
-      }
+    vm.extended = localStorageService.get("extended");
+    vm.collapse = function () {
+      vm.extended =! vm.extended;
+      localStorageService.set("extended", vm.extended);
     };
 
-    if (!CacheFactory.get('filterStat')) {
-      CacheFactory.createCache('filterStat', {storageMode: 'localStorage'});
-      var filterStatCache = CacheFactory.get('filterStat');
-      filterStatCache.put('v', {
-        status: "!$all"
-      });
-      $scope.filterStatus = "!$" + filterStatCache.get('v').status
-    } else {
-      var filterStatCache = CacheFactory.get('filterStat');
-      $scope.filterStatus = "!$" + filterStatCache.get('v').status
+    if (!localStorageService.get("filterStat")) {
+      localStorageService.set("filterStat", "all")
     }
 
+    $scope.filterStatus = "!$" + !localStorageService.get("filterStat");
     vm.setFilter = function (stat) {
-      filterStatCache.put('v', {
-        status: stat
-      });
-      $scope.filterStatus = "!$" + filterStatCache.get('v').status
+      localStorageService.set("filterStat", stat);
     };
 
-    if (!CacheFactory.get('sidebarWidth')) {
-      CacheFactory.createCache('sidebarWidth', {storageMode: 'localStorage'});
-      var sidebarWidthCache = CacheFactory.get('sidebarWidth');
-      sidebarWidthCache.put('v', {
-        width: 222
-      });
-      $scope.sidebarWidth = sidebarWidthCache.get('v').width;
-    }else {
-      var sidebarWidthCache = CacheFactory.get('sidebarWidth');
-      $scope.sidebarWidth = sidebarWidthCache.get('v').width;
+    if (!localStorageService.get("sidebarWidth")) {
+      localStorageService.set("sidebarWidth", 222)
     }
+    $scope.sidebarWidth = localStorageService.get("sidebarWidth");
 
     $scope.$on('angular-resizable.resizeEnd', function (event, info) {
-     sidebarWidthCache.put('v', {
-     width: info.width
-     });
-    $scope.sidebarWidth = sidebarWidthCache.get('v').width;
+      localStorageService.set("sidebarWidth", info.width);
     });
 
     if (!AuthService.isAuthenticated()) {

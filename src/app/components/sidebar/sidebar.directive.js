@@ -3,12 +3,12 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, CacheFactory, LoaderService) {
+    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, $cacheFactory, LoaderService) {
       var vm = this;
       vm.places = [];
       vm.tpl = 'app/components/nested/place/row.html';
 
-      if (!CacheFactory.get('placesCache')) {
+      /*if (!CacheFactory.get('placesCache')) {
         CacheFactory.createCache('placesCache', {});
         LoaderService.inject(WsService.request('account/get_my_places', {}).then(function (data) {
           var defer = $q.defer();
@@ -40,7 +40,7 @@
         for (i = 0; i < placesCache.info().size; i++) {
           vm.places.push(placesCache.get(i).place);
         }
-      }
+      }*/
 
 
     })
