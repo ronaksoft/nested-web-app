@@ -16,8 +16,8 @@
 
   /** @ngInject */
   function NestedStorage($q, $cacheFactory, $cookies,
-                        localStorageService,
-                         STORAGE_TYPE) {
+                         localStorageService,
+                         STORAGE_TYPE, STORAGE_EVENT) {
     function Storage(id, type) {
       // Event listeners
       this.listeners = {};
@@ -67,7 +67,9 @@
       }
 
       this.fetchFn = function (id) {
-        return {};
+        return $q(function (res, rej) {
+          rej();
+        });
       };
     }
 
