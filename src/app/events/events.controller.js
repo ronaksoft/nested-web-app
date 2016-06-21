@@ -172,8 +172,7 @@
     vm.scroll = function (event) {
       var element = event.currentTarget;
       if (element.scrollTop + element.clientHeight + 10 > element.scrollHeight && this.moreEvents) {
-        console.log(vm.readyToLoad);
-
+        
         if (vm.readyToLoad) {
           vm.readyToLoad = false;
           this.load();
