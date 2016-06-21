@@ -255,15 +255,13 @@
     // Listen for when the interface has been configured.
     $scope.$on('$dropletReady', function whenDropletReady() {
 
-      $scope.interface.allowedExtensions([/.+/]);
-      $scope.interface.useArray(false);
+      $scope.attachfiles.allowedExtensions([/.+/]);
+      $scope.attachfiles.useArray(false);
 
     });
     $scope.$on('$dropletFileAdded', function startupload() {
 
-      console.log($scope.interface);
-
-      vm.attach($scope.interface.getFiles($scope.interface.FILE_TYPES.VALID));
+      vm.attach($scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID));
       //$scope.interface = {}
 
     });
