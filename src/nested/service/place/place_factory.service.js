@@ -9,11 +9,11 @@
     .service('NestedPlaceFactoryService', NestedPlaceFactoryService);
 
   function NestedPlaceFactoryService($q,
-                                     CACHE_STORAGE,
-                                     CacherFactoryService, WsService,
+                                     STORAGE_TYPE,
+                                     StorageFactoryService, WsService,
                                      NestedPlace) {
     function NestedPlaceFactory() {
-      this.cache = CacherFactoryService.create('nested.place.factory.service', CACHE_STORAGE.MEMORY);
+      this.cache = StorageFactoryService.create('nested.place.factory.service', STORAGE_TYPE.MEMORY);
       this.cache.setFetchFunction(function (id) {
         return WsService.request('place/get_info', { place_id: id });
       });
