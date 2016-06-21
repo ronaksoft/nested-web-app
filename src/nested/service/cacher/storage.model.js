@@ -3,27 +3,33 @@
 
   angular
     .module('nested')
-    .constant('CACHE_STORAGE', {
+    .constant('STORAGE_TYPE', {
       LOCAL: 'localStorage',
       SESSION: 'sessionStorage',
       MEMORY: 'memory',
       COOKIE: 'cookie'
     })
-    .factory('NestedCacher', NestedCacher);
+    .constant('STORAGE_EVENT', {
+      PUT: 'put'
+    })
+    .factory('NestedStorage', NestedStorage);
 
   /** @ngInject */
-  function NestedCacher($q, $cacheFactory, $cookies,
+  function NestedStorage($q, $cacheFactory, $cookies,
                         localStorageService,
-                        CACHE_STORAGE) {
-    function Cacher(id, storage) {
+                         STORAGE_TYPE) {
+    function Storage(id, type) {
+      // Event listeners
+      this.listeners = {};
+
       this.cache = {
         set: function (key, value) {},
         get: function (key, defValue) {}
       };
 
-      switch (storage) {
-        case CACHE_STORAGE.LOCAL:
-        case CACHE_STORAGE.SESSION:
+      switch (type) {
+        case STORAGE_TYPE.LOCAL:
+        case STORAGE_TYPE.SESSION:
           this.cache.set = function (key, value) {
             return localStorageService.set(id + '_._' + key, value);
           };
@@ -32,7 +38,7 @@
           };
           break;
 
-        case CACHE_STORAGE.MEMORY:
+        case STORAGE_TYPE.MEMORY:
           $cacheFactory(id);
           this.cache.set = function (key, value) {
             if ($cacheFactory(id)) {
@@ -50,10 +56,9 @@
           };
           break;
 
-        case CACHE_STORAGE.COOKIE:
+        case STORAGE_TYPE.COOKIE:
           this.cache.set = function (key, value) {
             return $cookies.put(key, value);
-
           };
           this.cache.get = function (key, defValue) {
             return $cookies.get(key) || defValue;
@@ -66,14 +71,24 @@
       };
     }
 
-    Cacher.prototype = {
+    Storage.prototype = {
+      /**
+       * Puts an object to storage
+       *
+       * @param {string}  id      Object's identifier
+       * @param {*}       object  The object to be stored
+       *
+       * @returns {Promise}
+       */
       put: function (id, object) {
         this.cache.set(id, object);
+        this.dispatchEvent(new CustomEvent(STORAGE_EVENT.PUT, { detail: { object: object, id: id } }));
 
         return this.get(id);
       },
 
         /**
+         * Retrieves object from storage
          *
          * @param {string}  id    Cached object's unique identifier
          * @param {boolean} fetch
@@ -110,10 +125,75 @@
        */
       setFetchFunction: function (fn) {
         this.fetchFn = fn;
+      },
+
+      /**
+       * Registers listener to an event
+       *
+       * @param {STORAGE_EVENT} type      Event name
+       * @param {function}      callback  Listener function
+       * @param {boolean}       oneTime   Whether if listener should be removed after first call or not
+       */
+      addEventListener: function (type, callback, oneTime) {
+        if (!(type in this.listeners)) {
+          this.listeners[type] = [];
+        }
+
+        this.listeners[type].push({
+          flush: oneTime || false,
+          fn: callback
+        });
+      },
+
+      /**
+       * Unregisters listener from an event
+       *
+       * @param {STORAGE_EVENT} type      Event name
+       * @param {function}      callback  Listener function
+       *
+       * @returns {*}
+       */
+      removeEventListener: function (type, callback) {
+        if (!(type in this.listeners)) {
+          return;
+        }
+
+        var stack = this.listeners[type];
+        for (var i = 0, l = stack.length; i < l; i++) {
+          if (stack[i].fn === callback) {
+            stack.splice(i, 1);
+
+            return this.removeEventListener(type, callback);
+          }
+        }
+      },
+
+      /**
+       * Triggers event
+       *
+       * @param {STORAGE_EVENT} event Event name
+       *
+       * @returns {*}
+       */
+      dispatchEvent: function (event) {
+        if (!(event.type in this.listeners)) {
+          return;
+        }
+
+        var stack = this.listeners[event.type];
+        // event.target = this;
+        var flushTank = [];
+        for (var i = 0, l = stack.length; i < l; i++) {
+          stack[i].fn.call(this, event);
+          stack[i].flush && flushTank.push(stack[i]);
+        }
+
+        for (var key in flushTank) {
+          this.removeEventListener(event.type, flushTank[key].fn);
+        }
       }
     };
 
-    return Cacher;
+    return Storage;
   }
-
 })();
