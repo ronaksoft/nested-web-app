@@ -35,6 +35,7 @@
       'xeditable',
       // 'unsavedChanges',
       'ngProgress',
+      'ngDroplet',
       'lodash'
     ]);
 })();

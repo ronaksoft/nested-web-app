@@ -13,7 +13,7 @@
       $location.search({back: $location.path()});
       $location.path('/signin').replace();
     }
-    
+
     //$scope.tinymceModel = 'Initial content';
     $scope.tinymceOptions = {
       onChange: function(e) {
@@ -111,13 +111,28 @@
       return NestedRecipient.isValidEmail(text) ? new NestedRecipient(text) : null;
     };
     $scope.attachshow = false;
-    vm.attach = function (event) {
+    vm.setFile = function (event) {
+      //console.log(event.currentTarget);
       var element = event.currentTarget;
+      var length = element.files.length;
+      console.log(length);
+      var files = [];
+      files.file = {};
+      for (var i = 0; i < length; i++) {
+        var file = element.files[i];
+        var man = {};
+        man.file= file;
+        files.push(man)
+      }
+      vm.attach(files);
+    };
+
+    vm.attach = function (files) {
       $scope.attachshow = true;
 
       var counter = 0;
-      for (var i = 0; i < element.files.length; i++) {
-        var file = element.files[i];
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i].file;
         counter++;
         $scope.upload_size.total += file.size;
 
@@ -214,6 +229,30 @@
         $scope.sendStatus = false;
       });
     };
+    /**
+     * @property interface
+     * @type {Object}
+     */
+    $scope.interface = {};
+
+    // Listen for when the interface has been configured.
+    $scope.$on('$dropletReady', function whenDropletReady() {
+
+      $scope.interface.allowedExtensions([/.+/]);
+      $scope.interface.useArray(false);
+
+    });
+    $scope.$on('$dropletFileAdded', function startupload() {
+
+      console.log($scope.interface);
+
+      vm.attach($scope.interface.getFiles($scope.interface.FILE_TYPES.VALID));
+      //$scope.interface = {}
+
+    });
+
+
+
 
   }
 })();
