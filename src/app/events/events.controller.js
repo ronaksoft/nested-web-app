@@ -35,7 +35,7 @@
       $localStorage.sidebarWidth = info.width;
     });
 
-    if (!AuthService.isAuthenticated()) {
+    if (!AuthService.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }

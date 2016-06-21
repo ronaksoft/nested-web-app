@@ -6,10 +6,12 @@
     .controller('AccountProfileController', AccountProfileController);
 
   /** @ngInject */
-  function AccountProfileController($location, $scope, AuthService, StoreService, UPLOAD_TYPE) {
+  function AccountProfileController($location, $scope,
+                                    UPLOAD_TYPE,
+                                    AuthService, StoreService) {
     var vm = this;
 
-    if (!AuthService.isAuthenticated()) {
+    if (!AuthService.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }

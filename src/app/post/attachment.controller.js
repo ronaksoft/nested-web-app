@@ -10,12 +10,10 @@
                                 AuthService, LoaderService) {
     var vm = this;
 
-    if (!AuthService.isAuthenticated()) {
+    if (!AuthService.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
-
-    LoaderService.inject();
 
     vm.getIndex = function () {
       $scope.index = $scope.attachment.post.attachments.map(function (att) {

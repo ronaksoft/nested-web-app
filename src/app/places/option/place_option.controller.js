@@ -9,7 +9,7 @@
   function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, AuthService, NestedPlace, PLACE_ACCESS) {
     var vm = this;
 
-    if (!AuthService.isAuthenticated()) {
+    if (!AuthService.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
