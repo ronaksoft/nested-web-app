@@ -39,7 +39,7 @@
     $scope.checkfilling = function () {
       $scope.sendStatus = !(vm.recipients.length > 0);
     };
-
+    
     $scope.leaveReason = '';
     $scope.changeMe = function ($event, $toState, $toParams, $fromState, $fromParams, $cancel) {
       if ('SEND' == $scope.leaveReason) {
