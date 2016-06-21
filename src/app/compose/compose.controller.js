@@ -6,14 +6,14 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $timeout, $stateParams, _, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, _, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
       $location.search({back: $location.path()});
       $location.path('/signin').replace();
     }
-    
+
     //$scope.tinymceModel = 'Initial content';
     $scope.tinymceOptions = {
       onChange: function(e) {
@@ -40,14 +40,30 @@
       $scope.sendStatus = !(vm.recipients.length > 0);
     };
 
-
-    $scope.chageMe = function ($event, $toState, $toParams, $fromState, $fromParams,$cancel) {
-
-      var r = confirm("Are you sure you want to leave this page?");
-      if (r == true) {
+    $scope.leaveReason = '';
+    $scope.changeMe = function ($event, $toState, $toParams, $fromState, $fromParams, $cancel) {
+      if ('SEND' == $scope.leaveReason) {
         $cancel.$destroy();
-        $state.go($toState.name)
+        $state.go($toState.name);
       } else {
+        vm.confirmModal = function () {
+          $uibModal.open({
+            animation: false,
+            templateUrl: 'app/compose/confirm.html',
+            controller: 'WarningController',
+            size: 'sm',
+            scope: $scope
+          }).result.then(function () {
+            $cancel.$destroy();
+            $state.go($toState.name);
+          }).catch(function () {
+
+          });
+
+          return false;
+        };
+
+        vm.confirmModal();
       }
     };
 
@@ -199,6 +215,7 @@
 
       post.update().then(function (post) {
         toastr.success('Your message has been successfully sent.', 'Message Sent');
+        $scope.leaveReason = 'SEND';
         $location.path('/events');
         $scope.sendStatus = false;
       }).catch(function (data) {
@@ -214,6 +231,5 @@
         $scope.sendStatus = false;
       });
     };
-
   }
 })();
