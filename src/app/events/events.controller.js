@@ -254,11 +254,8 @@
       var action = tlEvent.detail.timeline_data.action;
       var filter = vm.filters[vm.filter].filter;
 
-      if (shouldPushToEvents(filter, action)){
+      if (shouldPushToEvents(filter, action)) {
           $scope.events.pushEvent(event, true);
-      }
-      else {
-        toastr.info('something happened :)');
       }
     });
 
