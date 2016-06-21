@@ -6,33 +6,37 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $log, $uibModal,
+  function EventsController($location, $scope, $q, $rootScope, $cacheFactory, $stateParams, $log, $uibModal,
                             AuthService, WsService, WS_EVENTS, WS_ERROR, LoaderService,
-                            NestedEvent, NestedPlace, NestedInvitation) {
+                            NestedEvent, NestedPlace, NestedInvitation, localStorageService) {
     var vm = this;
 
-    vm.extended = $localStorage.extended;
+    if (!localStorageService.get("extended")) {
+      localStorageService.set("extended", false)
+    }
+
+    vm.extended = localStorageService.get("extended");
     vm.collapse = function () {
-      if(vm.extended == true){
-        $localStorage.extended = false;
-        vm.extended = $localStorage.extended;
-      }
-      else{
-        $localStorage.extended = true;
-        vm.extended = $localStorage.extended;
-      }
+      vm.extended =! vm.extended;
+      localStorageService.set("extended", vm.extended);
     };
 
-    $scope.filterStatus = "!$all";
-    $scope.filterStatus = "!$" + $localStorage.filterStat;
+    if (!localStorageService.get("filterStat")) {
+      localStorageService.set("filterStat", "all")
+    }
+
+    $scope.filterStatus = "!$" + !localStorageService.get("filterStat");
     vm.setFilter = function (stat) {
-      $localStorage.filterStat = stat;
-      $scope.filterStatus = "!$" + $localStorage.filterStat
+      localStorageService.set("filterStat", stat);
     };
 
-    $scope.$store = $localStorage;
+    if (!localStorageService.get("sidebarWidth")) {
+      localStorageService.set("sidebarWidth", 222)
+    }
+    $scope.sidebarWidth = localStorageService.get("sidebarWidth");
+
     $scope.$on('angular-resizable.resizeEnd', function (event, info) {
-      $localStorage.sidebarWidth = info.width;
+      localStorageService.set("sidebarWidth", info.width);
     });
 
     if (!AuthService.isInAuthorization()) {

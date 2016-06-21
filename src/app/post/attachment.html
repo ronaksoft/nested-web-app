@@ -5,12 +5,12 @@
       <div class="image-preview _df _fh">
         <!--Image-->
         <!--image/*-->
-        <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}" onload="angular.element(this).scope().progressbar.complete();"/>
+        <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}" onload="angular.element(this).scope().attLoad.success();" onerror="angular.element(this).scope().attLoad.fail(angular.element(this).scope().attachment);"/>
 
         <!--Audio-->
         <!--audio/*-->
         <videogular data-ng-switch-when="audio" class="_hf audioplayer" data-ng-init="ad = [{}]; ad[0]['src'] = attachment.download.url; ad[0]['type'] = attachment.mimeType;">
-          <vg-media data-vg-src="ad"></vg-media>
+          <vg-media data-vg-src="ad" ></vg-media>
 
           <vg-controls>
             <vg-play-pause-button></vg-play-pause-button>
@@ -28,23 +28,8 @@
         <!--Video-->
         <!--video/*-->
         <videogular data-ng-switch-when="video" class="_fw" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
-          <vg-media vg-src="vg"></vg-media>
-
-          <vg-controls vg-autohide="true" vg-autohide-time="3000">
-            <vg-play-pause-button></vg-play-pause-button>
-            <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
-            <vg-scrub-bar>
-              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-            </vg-scrub-bar>
-            <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
-            <vg-time-display>{{ totalTime | date:'mm:ss':'+0000' }}</vg-time-display>
-            <vg-volume>
-              <vg-mute-button></vg-mute-button>
-              <vg-volume-bar></vg-volume-bar>
-            </vg-volume>
-            <vg-playback-button></vg-playback-button>
-            <vg-fullscreen-button></vg-fullscreen-button>
-          </vg-controls>
+          <vg-media vg-src="attachment.download.url" vg-native-controls="true" vg-preload="none"></vg-media>
+          <vg-buffering></vg-buffering>
         </videogular>
 
         <!--Document-->

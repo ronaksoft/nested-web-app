@@ -17,7 +17,7 @@
       'ngCordova',
       'PlPush',
       'angular-web-notification',
-      'angular-cache',
+      'LocalStorageModule',
       'ngMd5',
       'truncate',
       'ui.router',
@@ -29,11 +29,11 @@
       'com.2fdevs.videogular',
       'com.2fdevs.videogular.plugins.controls',
       'com.2fdevs.videogular.plugins.poster',
-      'com.2fdevs.videogular.plugins.poster',
+      'com.2fdevs.videogular.plugins.buffering',
       'ui.tinymce',
       'hc.marked',
       'xeditable',
-      'ngStorage',
+      // 'unsavedChanges',
       'ngProgress',
       'lodash'
     ]);
