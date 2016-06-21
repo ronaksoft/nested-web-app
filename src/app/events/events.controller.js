@@ -183,13 +183,27 @@
           case WS_ERROR.UNAVAILABLE:
           case WS_ERROR.INVALID:
           case WS_ERROR.ACCESS_DENIED:
-            $location.path('/').replace();
+            vm.noAccessModal();
+            //$location.path('/').replace();
             break;
         }
 
       }).finally(function () {
         vm.readyToLoad = true;
       }));
+    };
+    vm.noAccessModal = function (user) {
+      $scope.member = user;
+
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/events/partials/noaccess.html',
+        controller: 'WarningController',
+        size: 'sm',
+        scope: $scope
+      }).result.then(function () {
+        return $location.path('/').replace()
+      });
     };
 
     vm.readyToLoad = true;
