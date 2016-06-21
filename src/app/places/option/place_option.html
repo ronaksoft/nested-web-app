@@ -34,7 +34,7 @@
               <h5 data-ng-if="!place.haveAccess('C')">{{place.name || 'empty'}}</h5>
 
               <h5 class="nst-mood-storm">{{place.id + '@nested.me'}}</h5>
-              <h5 data-ng-if="place.haveAccess('C')" class="nst-mood-storm" editable-text="place.description" onbeforesave="place_option.updatePlace('place_desc', $data)">{{place.description || 'empty'}}</h5>
+              <h5 data-ng-if="place.haveAccess('C')" class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place description" editable-text="place.description" onbeforesave="place_option.updatePlace('place_desc', $data)">{{place.description || 'empty'}}</h5>
               <h5 class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description" data-ng-if="!place.haveAccess('C')">{{place.description || 'empty'}}</h5>
             </div>
           </div> <!--/Room name-->

@@ -1,30 +1,34 @@
- <div>
-    <div>
-      <nested-navbar></nested-navbar>
-    </div>
+<div>
+  <div>
+    <nested-navbar></nested-navbar>
+  </div>
 
-    <div id="container" class="_bggray">
-      <div class="side">
-        <div class="compose _bgwhite _df _fw">
-        </div>
+  <div id="container" class="_bggray">
+    <div class="side">
+      <div class="compose _bgwhite _df _fw">
       </div>
-      <div class="nst-content">
+    </div>
+    <div class="nst-content" page-change="changeMe($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
         <div class="subnavitems _bgwhite _difc">
           <ul class="nav-width-ul-compose">
             <li class="_df _fw">
-              <a href="javascript:void(0);" class="btn-white-nav nst-mood-storm" onclick="window.history.back();">Discard</a>
+              <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
+              <!--<a href="javascript:void(0);" class="btn-white-nav nst-mood-storm" onclick="window.history.back();">Discard</a>-->
             </li>
             <li class="_df">
               <a href="javascript:void(0);" class="_fr btn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
             </li>
             <li class="_df">
-              <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()">Send</a>
+              <a nochange  href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()">Send</a>
+              <!--ng-disabled="myForm.$invalid"-->
             </li>
           </ul>
         </div>
         <div class="compose-hld _fw">
           <section class="_difc _fw">
-            <input class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
+            <div class="_df _fw input-select-match">
+              <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
+            </div>
           </section>
           <hr/>
 
@@ -33,8 +37,9 @@
               <div class="_df">
                 <span class="sto">To:</span>
               </div>
+
               <div class="_df _fw input-select-match">
-                <ui-select multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
+                <ui-select page-change-element multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
                   <ui-select-match placeholder="Type place name or email address...">
                     <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
                   </ui-select-match>
@@ -48,9 +53,13 @@
                   </ui-select-choices>
                 </ui-select>
               </div>
+
             </div>
           </section>
           <hr data-ng-show="attachshow"/>
+          <form name="attachmentForm">
+            <input page-change-element type="hidden" name="attLength" data-ng-model="attLength"/>
+          </form>
 
           <div class="nst-attach _dif _fw" data-ng-show="attachshow">
             <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;"
@@ -59,7 +68,7 @@
               <!--<label for="attach">-->
               <!--<div class="headlineicon-green"></div>-->
               <!--</label>-->
-              <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event)"/>
+              <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event); angular.element(this).scope().attachmentForm.attLength.$setViewValue(angular.element(this).scope().compose.post.attachments.length);"/>
             </div>
             <div class="nst-attach-con _fh">
               <!--<div data-ng-if="upload_size.total > 0" class="nst-attach-upload">{{upload_size.uploaded | bytes:0}}/{{upload_size.total | bytes:0}} Uploaded</div>-->
@@ -74,26 +83,19 @@
           <hr class="nomargin"/>
 
           <section class="nst-compose-message">
-
-
-
-              <!--<input page-change-element  type="text"  ng-model="hey" placeholder="enterhere"/>-->
-
-
-           <div page-change="chageMe($event, $toState, $toParams, $fromState, $fromParams,$cancel)">
-            <textarea page-change-element ui-tinymce="tinymceOptions" placeholder="Your message goes here !" data-ng-model="compose.post.body"></textarea>
-           </div>
+            <div>
+              <textarea page-change-element ui-tinymce="tinymceOptions" placeholder="Your message goes here !" data-ng-model="compose.post.body"></textarea>
+            </div>
             <!--<div text-angular
                  ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
                  data-ng-model="compose.post.body">
               </div>-->
-
           </section>
         </div>
-      </div>
-      <div class="side">
-        <div class="compose _bgwhite _df _fw">
-        </div>
+    </div>
+    <div class="side">
+      <div class="compose _bgwhite _df _fw">
       </div>
     </div>
   </div>
+</div>

@@ -6,39 +6,63 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $localStorage, $stateParams, $log, $uibModal, toastr,
-                            AuthService, WsService, WS_EVENTS, EVENT_ACTIONS, WS_ERROR, LoaderService,
+  function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
+                            AuthService, WsService, WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
+                            LoaderService, StorageFactoryService,
                             NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
-
-    vm.extended = $localStorage.extended;
-    vm.collapse = function () {
-      if(vm.extended == true){
-        $localStorage.extended = false;
-        vm.extended = $localStorage.extended;
-      }
-      else{
-        $localStorage.extended = true;
-        vm.extended = $localStorage.extended;
-      }
-    };
-
-    $scope.filterStatus = "!$all";
-    $scope.filterStatus = "!$" + $localStorage.filterStat;
-    vm.setFilter = function (stat) {
-      $localStorage.filterStat = stat;
-      $scope.filterStatus = "!$" + $localStorage.filterStat
-    };
-
-    $scope.$store = $localStorage;
-    $scope.$on('angular-resizable.resizeEnd', function (event, info) {
-      $localStorage.sidebarWidth = info.width;
-    });
 
     if (!AuthService.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
+
+    var storage = StorageFactoryService.create('ui.pages.activity', STORAGE_TYPE.LOCAL);
+    storage.get("extended").catch(function () {
+      var defValue = false;
+      storage.put("extended", defValue);
+
+      return $q(function (res) {
+        res(defValue);
+      });
+    }).then(function (value) {
+      vm.extended = value;
+    });
+
+    vm.collapse = function () {
+      vm.extended =! vm.extended;
+      storage.put("extended", vm.extended);
+    };
+
+    storage.get("filterStat").catch(function () {
+      var defValue = 'all';
+      storage.put("extended", defValue);
+
+      return $q(function (res) {
+        res(defValue);
+      });
+    }).then(function (value) {
+      $scope.filterStatus = "!$" + value;
+    });
+
+    vm.setFilter = function (stat) {
+      storage.put("filterStat", stat);
+    };
+
+    storage.get("sidebarWidth").catch(function () {
+      var defValue = 222;
+      storage.put("extended", defValue);
+
+      return $q(function (res) {
+        res(defValue);
+      });
+    }).then(function (value) {
+      $scope.sidebarWidth = value;
+    });
+
+    $scope.$on('angular-resizable.resizeEnd', function (event, info) {
+      storage.put("sidebarWidth", info.width);
+    });
 
     // Invitations
     vm.invitations = [];
@@ -226,6 +250,7 @@
 
     WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
       var event = new NestedEvent(tlEvent.detail.timeline_data);
+      $log.debug(event);
       var action = tlEvent.detail.timeline_data.action;
       var filter = vm.filters[vm.filter].filter;
 
