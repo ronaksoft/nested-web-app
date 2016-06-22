@@ -75,7 +75,7 @@
         },
 
         getDownloadUrl: function (uid, token) {
-          var url = this.url + '/download/' + WsService.getSessionKey() + '/' + uid + (token ? ('/' + token) : '');
+          var url = this.url + '/view/' + WsService.getSessionKey() + '/' + uid + (token ? ('/' + token) : '');
 
           return $q(function (res) {
             res(url);

@@ -26,11 +26,15 @@
         </videogular>
 
         <!--Video-->
-        <!--video/*-->
-        <videogular data-ng-switch-when="video" class="_fw" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
-          <vg-media vg-src="attachment.download.url" vg-native-controls="true" vg-preload="none"></vg-media>
+        <!--video/*
+
+        <videogular data-ng-switch-when="video"  data-ng-switch-when="!video" class="_fw" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
+          <vg-media vg-src="attachment.download.url" vg-native-controls="true" vg-preload="none" type="video/mp4"></vg-media>
           <vg-buffering></vg-buffering>
-        </videogular>
+        </videogular>-->
+        <video data-ng-switch-when="video" width="auto" height="100%" controls>
+          <source src="{{attachment.download.url}}" >
+        </video>
 
         <!--Document-->
         <!--text/*-->
