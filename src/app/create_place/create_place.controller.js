@@ -48,6 +48,7 @@
         }
 
         return $scope.place.update().then(function (place) {
+          $scope.leaveReason = 'Create Place';
           $location.path('/place/' + place.id).replace();
         }).catch(function (error) {
           switch (error.err_code) {
