@@ -121,6 +121,33 @@
   animation: appearence .2s linear;
 }
 
+@keyframes recent-event {
+  0% {
+    background-color: $color-white;
+  }
+  100% {
+  }
+  background-color: #E7FBF0;
+}
+@keyframes seen-event {
+  0%, 25%, 50% {
+    background-color: #E7FBF0;
+  }
+  100% {
+    background-color: $color-white;
+  }
+}
+
+.evrow.recent {
+  background-color: #E7FBF0;
+}
+.evrow.seen {
+  -webkit-animation: seen-event 3s ease-out;
+  -moz-animation:    seen-event 3s ease-out;
+  -o-animation:      seen-event 3s ease-out;
+  animation:         seen-event 3s ease-out;
+}
+
 #EventList .evrow:hover {
   background-color: #E7FBF0;
 }

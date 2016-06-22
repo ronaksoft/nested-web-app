@@ -8,7 +8,7 @@
       ATTACHED: 'attached',
       ABORTED: 'aborted'
     })
-    .factory('NestedAttachment', function ($rootScope, $q, $log, _, WsService, NestedPlace, NestedUser, StoreItem) {
+    .factory('NestedAttachment', function ($rootScope, $q, $log, _, WsService, NestedPlace, NestedUser, StoreItem, ATTACHMENT_STATUS) {
       function Attachment(data, post, full) {
         this.full = full || false;
 
@@ -127,9 +127,8 @@
 
         cancelUpload: function(){
           if (this.canceler) {
-            console.log(this.canceler);
             this.canceler.resolve();
-            this.status = status;
+            this.status = ATTACHMENT_STATUS.ABORTED;
             this.change();
           }
         },

@@ -3,7 +3,8 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function ($rootScope, $q, $injector, $log, _, WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
+    .factory('NestedPost', function ($rootScope, $q, $injector, $log, _, ATTACHMENT_STATUS,
+      WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -196,8 +197,7 @@
           var itemIndex = this.attachments.indexOf(attachment);
           if(itemIndex !== -1)
           {
-            //TODO : use const instead of 'uploading'
-            if (attachment.status === 'uploading'){
+            if (attachment.status === ATTACHMENT_STATUS.UPLOADING){
               // abort the pending upload request
               attachment.cancelUpload();
             }
@@ -246,7 +246,7 @@
               body: this.body,
               // return attachment.id changed into return attachment._id because id was undefined
               // FIXME: Ask pouyan what's the difference between _id and id
-              attaches: (this.attachments.map(function (attachment) { return attachment._id; })).join(',')
+              attaches: (this.attachments.map(function (attachment) { return attachment.id; })).join(',')
             };
 
             return WsService.request('post/add', params).then(function (data) {

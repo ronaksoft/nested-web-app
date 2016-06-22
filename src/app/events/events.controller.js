@@ -6,8 +6,8 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
-                            AuthService, WsService, WS_EVENTS, WS_ERROR, STORAGE_TYPE,
+  function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
+                            AuthService, WsService, WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
                             LoaderService, StorageFactoryService,
                             NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
@@ -210,7 +210,6 @@
     vm.scroll = function (event) {
       var element = event.currentTarget;
       if (element.scrollTop + element.clientHeight + 10 > element.scrollHeight && this.moreEvents) {
-        console.log(vm.readyToLoad);
 
         if (vm.readyToLoad) {
           vm.readyToLoad = false;
@@ -220,9 +219,58 @@
 
     };
 
+    function shouldPushToEvents(filter, action){
+      var views = [
+        {
+          key: 'all',
+          actions : _.values(EVENT_ACTIONS)
+        },
+        {
+          key: 'inbox',
+          actions : [
+            EVENT_ACTIONS.POST_ADD,
+            EVENT_ACTIONS.POST_REMOVE,
+            EVENT_ACTIONS.POST_UPDATE
+          ]
+        },
+        {
+          key: 'comments',
+          actions : [
+            EVENT_ACTIONS.COMMENT_ADD,
+            EVENT_ACTIONS.COMMENT_REMOVE
+          ]
+        },
+        {
+          key: 'acts',
+          actions : [
+            EVENT_ACTIONS.MEMBER_ADD,
+            EVENT_ACTIONS.MEMBER_REMOVE,
+            EVENT_ACTIONS.MEMBER_INVITE,
+            EVENT_ACTIONS.MEMBER_JOIN,
+            EVENT_ACTIONS.PLACE_ADD,
+            EVENT_ACTIONS.PLACE_REMOVE,
+            EVENT_ACTIONS.PLACE_PRIVACY,
+            EVENT_ACTIONS.PLACE_PICTURE
+          ]
+        },
+      ];
+
+      // returns true if the event belongs to the selected view and is one of its actions
+      return _.some(views, function (view) {
+        return view.key === filter && _.includes(view.actions, action);
+      });
+    }
+
+
     WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
       var event = new NestedEvent(tlEvent.detail.timeline_data);
-      $scope.events.pushEvent(event, true);
+      $log.debug(event);
+      var action = tlEvent.detail.timeline_data.action;
+      var filter = vm.filters[vm.filter].filter;
+
+      if (shouldPushToEvents(filter, action)) {
+          $scope.events.pushEvent(event, true);
+      }
     });
 
     WsService.addEventListener(WS_EVENTS.AUTHORIZE, function (event) {
