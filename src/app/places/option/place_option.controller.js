@@ -21,13 +21,7 @@
       'leave': {
         name: 'Leave',
         fn: function () {
-          return $scope.place.removeMember(AuthService.user.username).then(function () {
-            $location.path('/places').replace();
-
-            return $q(function (res) {
-              res();
-            });
-          });
+          vm.leaveModal();
         }
       }
     };
@@ -184,6 +178,25 @@
         scope: $scope
       }).result.then(function () {
         return $scope.place.removeMember($scope.member.username);
+      });
+    };
+
+    vm.leaveModal = function () {
+
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/places/option/leave.html',
+        controller: 'WarningController',
+        size: 'sm',
+        scope: $scope
+      }).result.then(function () {
+        return $scope.place.removeMember(AuthService.user.username).then(function () {
+          $location.path('/places').replace();
+
+          return $q(function (res) {
+            res();
+          });
+        });
       });
     };
 

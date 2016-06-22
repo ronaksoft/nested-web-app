@@ -3,46 +3,37 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, LoaderService) {
+    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, LoaderService, $cacheFactory, StorageFactoryService, STORAGE_TYPE) {
       var vm = this;
       vm.places = [];
       vm.tpl = 'app/components/nested/place/row.html';
 
-      /*if (!CacheFactory.get('placesCache')) {
-        CacheFactory.createCache('placesCache', {});
-        LoaderService.inject(WsService.request('account/get_my_places', {}).then(function (data) {
-          var defer = $q.defer();
-          for (var k in data.places) {
-            placesCache.put(k, {
-              place: new NestedPlace(data.places[k]),
+      var memory = StorageFactoryService.create('dt.places', STORAGE_TYPE.MEMORY);
+      memory.setFetchFunction(function (id) {
+        switch (id) {
+          case 'places':
+            return WsService.request('account/get_my_places', {}).then(function (data) {
+              var places = [];
+              for (var k in data.places) {
+                places.push(new NestedPlace(data.places[k]));
+              }
+
+              return $q(function (res) {
+                res(this.places);
+              }.bind({ places: places }));
             });
+            break;
 
-            //$scope.sidebarCtrl.places.push(new NestedPlace(data.places[k]));
-          }
-          defer.resolve(placesCache);
-
-          return defer.promise;
-        }).then(function () {
-          fill();
-        }).catch(function (reason) {
-
-        }));
-      }
-      else {
-        var placesCache = CacheFactory.get('placesCache');
-        fill();
-      }
-
-      var placesCache = CacheFactory.get('placesCache');
-
-      function fill() {
-        var i = 0;
-        for (i = 0; i < placesCache.info().size; i++) {
-          vm.places.push(placesCache.get(i).place);
+          default:
+            return $q(function (res, rej) {
+              rej(id);
+            });
+            break;
         }
-      }*/
-
-
+      });
+      memory.get("places").then(function (value) {
+        vm.places = value;
+      });
     })
     .directive('nestedSidebar', nestedSidebar);
 
