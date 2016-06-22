@@ -6,7 +6,7 @@
     .controller('CreatePlaceController', CreatePlaceController);
 
   /** @ngInject */
-  function CreatePlaceController($location, $scope, $stateParams, $q, WS_ERROR, AuthService, StoreService, UPLOAD_TYPE, StoreItem, NestedPlace) {
+  function CreatePlaceController($location, $scope, $uibModal, $stateParams, $q, WS_ERROR, AuthService, StoreService, UPLOAD_TYPE, StoreItem, NestedPlace) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -84,6 +84,34 @@
           }
         });
       });
+    };
+
+    $scope.leaveReason = '';
+    $scope.changeMe = function ($event, $toState, $toParams, $fromState, $fromParams, $cancel) {
+      if ('Create Place' == $scope.leaveReason) {
+        $cancel.$destroy();
+        $state.go($toState.name);
+
+      } else {
+        vm.confirmModal = function () {
+          $uibModal.open({
+            animation: false,
+            templateUrl: 'app/account/profile/confirmprofile.html',
+            controller: 'WarningController',
+            size: 'sm',
+            scope: $scope
+          }).result.then(function () {
+            $cancel.$destroy();
+            $state.go($toState.name);
+          }).catch(function () {
+
+          });
+
+          return false;
+        };
+
+        vm.confirmModal();
+      }
     };
   }
 })();

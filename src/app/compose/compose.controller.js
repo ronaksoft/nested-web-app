@@ -46,6 +46,7 @@
       if ('SEND' == $scope.leaveReason) {
         $cancel.$destroy();
         $state.go($toState.name);
+
       } else {
         vm.confirmModal = function () {
           $uibModal.open({
