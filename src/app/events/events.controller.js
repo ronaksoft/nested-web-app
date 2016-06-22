@@ -65,11 +65,16 @@
     });
 
     // Invitations
-    vm.invitations = [];
+    vm.invitations = {
+      length: 0,
+      invites: {}
+    };
     LoaderService.inject(WsService.request('account/get_invitations').then(function (data) {
       for (var k in data.invitations) {
         if (data.invitations[k].place._id) {
-          vm.invitations.push(new NestedInvitation(data.invitations[k]));
+          var invitation = new NestedInvitation(data.invitations[k]);
+          vm.invitations.invites[invitation.id] = invitation;
+          vm.invitations.length++;
         }
       }
 
@@ -77,6 +82,12 @@
         res();
       });
     }));
+    vm.decideInvite = function (invitation, accept) {
+      return invitation.update(accept).then(function (invitation) {
+        vm.invitations.length--;
+        delete vm.invitations.invites[invitation.id];
+      });
+    };
 
     vm.moreEvents = true;
     vm.eventGroups = {};
