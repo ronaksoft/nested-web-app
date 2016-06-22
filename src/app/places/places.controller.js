@@ -6,8 +6,8 @@
     .controller('PlacesController', PlacesController);
 
   /** @ngInject */
-  function PlacesController($location, $stateParams, $scope,
-                            AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService) {
+  function PlacesController($q, $location, $stateParams, $scope,
+                            AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService, StorageFactoryService, STORAGE_TYPE) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -34,10 +34,6 @@
       '!$member': {
         filter: MEMBER_TYPE.KNOWN_GUEST,
         name: 'Member'
-      },
-      '!$browse': {
-        filter: 'browse',
-        name: 'Browse'
       }
     };
 
@@ -48,16 +44,30 @@
       parameters['filter'] = vm.filters[vm.filter].filter;
     }
 
-    LoaderService.inject(WsService.request('account/get_my_places', parameters).then(function (data) {
-      for (var k in data.places) {
-        if (parameters.filter && !data.places[k].member_type) {
-          data.places[k]['member_type'] = parameters.filter;
-        }
+    var memory = StorageFactoryService.create('dt.places.f', STORAGE_TYPE.MEMORY);
+    memory.setFetchFunction(function (id) {
+      if (0 === id.indexOf('places.')) {
+        return WsService.request('account/get_my_places', parameters).then(function (data) {
+          var places = [];
+          for (var k in data.places) {
+            if (parameters.filter && !data.places[k].member_type) {
+              data.places[k]['member_type'] = parameters.filter;
+            }
+            places.push(new NestedPlace(data.places[k]));
+          }
 
-        $scope.places.places.push(new NestedPlace(data.places[k]));
+          return $q(function (res) {
+            res(this.places);
+          }.bind({ places: places }));
+        });
+      } else {
+        return $q(function (res, rej) {
+          rej(id);
+        });
       }
-    }).catch(function (reason) {
-      // TODO: Retry
+    });
+    LoaderService.inject(memory.get("places." + vm.filter).then(function (value) {
+      $scope.places.places = value;
     }));
   }
 })();
