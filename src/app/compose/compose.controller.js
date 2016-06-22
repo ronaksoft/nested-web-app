@@ -201,7 +201,7 @@
             if (item.getClientId() === response._reqid) {
 
               item.status = 'attached';
-              item._id = response.universal_id;
+              item.id = response.universal_id;
 
               item.change();
             }
@@ -264,11 +264,6 @@
       for (i=0; i<$scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID).length; i++){
         $scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID)[i].deleteFile();
       }
-
     });
-
-
-
-
   }
 })();
