@@ -85,6 +85,10 @@
       },
 
       unregister: function (reason) {
+        var result = $q(function (res) {
+          res(reason);
+        });
+
         switch (reason) {
           case UNREGISTER_REASON.DISCONNECT:
             break;
@@ -94,16 +98,20 @@
             this.lastSessionSecret = null;
             $cookies.remove('nss');
             $cookies.remove('nsk');
-            WsService.unauthorize();
+            result = WsService.request('session/close').then(function () {
+              WsService.unauthorize();
+
+              return $q(function (res) {
+                res(reason);
+              });
+            });
             break;
         }
 
         this.state = AUTH_STATE.UNAUTHORIZED;
         this.dispatchEvent(new CustomEvent(AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
-        
-        return $q(function (res) {
-          res(reason);
-        });
+
+        return result;
       },
 
       login: function (credentials, remember) {
@@ -118,7 +126,7 @@
           return $q(function (res, rej) {
             rej.apply(null, this.input);
           }.bind({ input: arguments }));
-        });
+        }.bind(this));
       },
 
       reconnect: function () {
