@@ -53,7 +53,7 @@
       <hr data-ng-if="events.place.id" class="title-bar-hr _fw">
 
       <!------>
-      <div class="_fw nst-content-body" on-scroll="events.scroll(event)">
+      <div class="_fw nst-content-body" on-scroll="events.scroll(event)" seen-recents>
         <div class="_fw eventsody" id="EventList">
 
 
@@ -66,7 +66,7 @@
                 </p>
               </div>
             </div>
-            <div class="evrow" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event"></div>
+            <div class="evrow" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event" recent-event></div>
           </div>
         </div>
         <div class="text-center _fw moreevent" data-ng-if="events.moreEvents">

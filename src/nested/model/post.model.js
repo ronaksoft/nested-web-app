@@ -3,7 +3,8 @@
 
   angular
     .module('nested')
-    .factory('NestedPost', function ($rootScope, $q, $injector, $log, _, WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
+    .factory('NestedPost', function ($rootScope, $q, $injector, $log, _, ATTACHMENT_STATUS,
+      WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -196,8 +197,7 @@
           var itemIndex = this.attachments.indexOf(attachment);
           if(itemIndex !== -1)
           {
-            //TODO : use const instead of 'uploading'
-            if (attachment.status === 'uploading'){
+            if (attachment.status === ATTACHMENT_STATUS.UPLOADING){
               // abort the pending upload request
               attachment.cancelUpload();
             }
