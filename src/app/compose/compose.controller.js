@@ -6,7 +6,8 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, _, toastr, AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, _, toastr, ATTACHMENT_STATUS,
+    AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -39,7 +40,7 @@
     $scope.checkfilling = function () {
       $scope.sendStatus = !(vm.recipients.length > 0);
     };
-    
+
     $scope.leaveReason = '';
     $scope.changeMe = function ($event, $toState, $toParams, $fromState, $fromParams, $cancel) {
       if ('SEND' == $scope.leaveReason) {
@@ -145,7 +146,7 @@
           mimetype: file.type,
           upload_time: file.lastModified,
           size: file.size,
-          status : 'uploading'
+          status : ATTACHMENT_STATUS.UPLOADING
         });
 
         if (isImage) {
@@ -187,7 +188,7 @@
 
             if (item.getClientId() === response._reqid) {
 
-              item.status = 'attached';
+              item.status = ATTACHMENT_STATUS.ATTACHED;
               item._id = response.universal_id;
 
               item.change();
