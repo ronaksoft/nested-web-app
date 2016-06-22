@@ -128,10 +128,8 @@
     };
     $scope.attachshow = false;
     vm.setFile = function (event) {
-      //console.log(event.currentTarget);
       var element = event.currentTarget;
       var length = element.files.length;
-      console.log(length);
       var files = [];
       files.file = {};
       for (var i = 0; i < length; i++) {
@@ -262,12 +260,10 @@
     $scope.$on('$dropletFileAdded', function startupload() {
 
       vm.attach($scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID));
-      console.log($scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID));
       var i=0;
       for (i=0; i<$scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID).length; i++){
         $scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID)[i].deleteFile();
       }
-      //$scope.interface = {}
 
     });
 

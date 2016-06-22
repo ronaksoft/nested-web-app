@@ -197,12 +197,12 @@
 
       var modal = $uibModal.open({
         animation: false,
-        templateUrl: 'app/events/partials/noaccess.html',
+        templateUrl: 'app/events/noaccess.html',
         controller: 'WarningController',
         size: 'sm',
         scope: $scope
       }).result.then(function () {
-        return $location.path('/').replace()
+        return $location.path('/').replace();
       });
     };
 

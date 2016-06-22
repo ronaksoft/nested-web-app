@@ -3,37 +3,37 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, LoaderService, $cacheFactory) {
+    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, LoaderService, $cacheFactory, StorageFactoryService, STORAGE_TYPE) {
       var vm = this;
       vm.places = [];
       vm.tpl = 'app/components/nested/place/row.html';
 
-      if (!$cacheFactory.get('placesCache')) {
-        var cache = $cacheFactory('placesCache');
-        WsService.request('account/get_my_places', {}).then(function (data) {
-          var defer = $q.defer();
-          for (var k in data.places) {
-            cache.put(k, new NestedPlace(data.places[k]));
-          }
-          defer.resolve(cache);
+      var memory = StorageFactoryService.create('dt.places', STORAGE_TYPE.MEMORY);
+      memory.setFetchFunction(function (id) {
+        switch (id) {
+          case 'places':
+            return WsService.request('account/get_my_places', {}).then(function (data) {
+              var places = [];
+              for (var k in data.places) {
+                places.push(new NestedPlace(data.places[k]));
+              }
 
-          return defer.promise;
-        }).then(function () {
-          fill();
-        })
-      }
-      else {
-        fill();
-      }
+              return $q(function (res) {
+                res(this.places);
+              }.bind({ places: places }));
+            });
+            break;
 
-      function fill() {
-        var cache = $cacheFactory.get('placesCache');
-        var i = 0;
-        for (i = 0; i < cache.info().size; i++) {
-          vm.places.push(cache.get(i));
+          default:
+            return $q(function (res, rej) {
+              rej(id);
+            });
+            break;
         }
-      }
-
+      });
+      memory.get("places").then(function (value) {
+        vm.places = value;
+      });
     })
     .directive('nestedSidebar', nestedSidebar);
 
