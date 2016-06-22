@@ -262,6 +262,11 @@
     $scope.$on('$dropletFileAdded', function startupload() {
 
       vm.attach($scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID));
+      console.log($scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID));
+      var i=0;
+      for (i=0; i<$scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID).length; i++){
+        $scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID)[i].deleteFile();
+      }
       //$scope.interface = {}
 
     });
