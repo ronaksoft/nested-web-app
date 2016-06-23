@@ -124,7 +124,7 @@
             </div> <!-- /nst-place-privacy-->
           </div>
 
-          <div class="nst-teammates _dib">
+          <div class="nst-teammates _dib" data-ng-if="place.members.creators.count > 0">
             <h5 class="tittle-option _di">Teammates</h5>
             <div data-ng-if="place.haveAccess('AM')" class="_di  _fr" data-ng-click="place_option.showAddModal('teammate')">
               <span class="nst-mood-simple _dib _vat">Add Teammate</span>
@@ -136,7 +136,7 @@
             <div data-ng-if="place.haveAccess('SM')" class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.pendingKeyHolders.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'pending_key_holder'"></div>
           </div><!--/nst-teammates-->
 
-          <div class="place-option-members _dib">
+          <div class="place-option-members _dib" data-ng-if="place.members.creators.count > 0">
             <h5 class="title-option _di">Participants</h5>
             <div data-ng-if="place.haveAccess('AM')" class="_di _fr" data-ng-click="place_option.showAddModal('member')">
               <span class="nst-mood-simple _dib _vat">Invite members</span>

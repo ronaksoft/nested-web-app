@@ -84,7 +84,7 @@
           }.bind(this));
         },
 
-        getDownloadUrl: function (token) {
+        getDownloadUrl: function (view, token) {
           if (!this.download.uid) {
             this.download = new StoreItem(this.id);
           }
@@ -92,7 +92,7 @@
           var tkPromise = token ? $q(function (res) { res(this); }.bind(token)) : this.download.store.getDownloadToken(this.post.id, this.id);
 
           return tkPromise.then(function (newToken) {
-            return this.download.getUrl(newToken).then(function (url) {
+            return this.download.getUrl(newToken, view).then(function (url) {
               this.change();
 
               return $q(function (res) {

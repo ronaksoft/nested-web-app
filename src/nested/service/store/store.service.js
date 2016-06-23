@@ -23,9 +23,9 @@
     }
 
     StoreService.prototype = {
-      toUrl: function (uid, token) {
+      toUrl: function (uid, token, view) {
         return this.getStoreByUid(uid).then(function (store) {
-          return store.getDownloadUrl(uid, token).then(function (url) {
+          return store.getDownloadUrl(uid, token, view).then(function (url) {
             this.change();
 
             return $q(function (res) {
