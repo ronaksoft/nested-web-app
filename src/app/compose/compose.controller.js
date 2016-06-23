@@ -131,6 +131,19 @@
     $scope.attachshow = false;
     $scope.showUploadProgress = false;
 
+    $scope.deleteAttachment = function (attachment) {
+      $scope.compose.post.removeAttachment(attachment);
+      if (attachment.status === ATTACHMENT_STATUS.UPLOADING){
+        // abort the pending upload request
+        attachment.cancelUpload();
+      }
+      $timeout(function () {
+        if ($scope.compose.post.attachments.length === 0) {
+          $scope.showUploadProgress = false;
+        }
+      });
+    }
+
     vm.attach = function (event) {
       var element = event.currentTarget;
       $scope.attachshow = true;
@@ -194,14 +207,7 @@
         };
 
         StoreService.uploadWithProgress(uploadSettings).then(function (handler) {
-          attachment.setUploadCanceler(function (e) {
-            handler.abort(e);
-            $timeout(function () {
-              if (!$scope.compose.post.hasAnyUploadInProgress()) {
-                $scope.showUploadProgress = false;
-              }
-            });
-          });
+          attachment.setUploadCanceler(handler.abort);
           handler.start().then(function (response) {
 
             _.forEach($scope.compose.post.attachments, function (item) {
