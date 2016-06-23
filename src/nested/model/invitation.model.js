@@ -69,7 +69,11 @@
             return WsService.request('account/update_invitation', {
               invite_id: this.id,
               state: accept ? 'accepted' : 'ignored'
-            });
+            }).then(function () {
+              return $q(function (res) {
+                res(this);
+              }.bind(this));
+            }.bind(this));
           }
 
           return $q(function (res, rej) {

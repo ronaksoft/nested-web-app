@@ -245,7 +245,6 @@
               subject: this.subject,
               body: this.body,
               // return attachment.id changed into return attachment._id because id was undefined
-              // FIXME: Ask pouyan what's the difference between _id and id
               attaches: (this.attachments.map(function (attachment) { return attachment.id; })).join(',')
             };
 

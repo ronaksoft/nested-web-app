@@ -126,7 +126,9 @@
 
           var canceler = $q.defer();
 
-          onUploadStart(canceler);
+          if (onUploadStart instanceof Function) {
+            onUploadStart(canceler);
+          }
 
           return $http({
             method: 'POST',

@@ -8,7 +8,7 @@
   /** @ngInject */
   function AccountProfileController($location, $scope,
                                     UPLOAD_TYPE,
-                                    AuthService, StoreService) {
+                                    AuthService, StoreService, $uibModal) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -43,6 +43,34 @@
 
     vm.removeImg = function () {
       $scope.user.setPicture();
+    };
+
+    $scope.leaveReason = '';
+    $scope.changeMe = function ($event, $toState, $toParams, $fromState, $fromParams, $cancel) {
+      if ('Save & Exit' == $scope.leaveReason) {
+        $cancel.$destroy();
+        $state.go($toState.name);
+
+      } else {
+        vm.confirmModal = function () {
+          $uibModal.open({
+            animation: false,
+            templateUrl: 'app/account/profile/confirmprofile.html',
+            controller: 'WarningController',
+            size: 'sm',
+            scope: $scope
+          }).result.then(function () {
+            $cancel.$destroy();
+            $state.go($toState.name);
+          }).catch(function () {
+
+          });
+
+          return false;
+        };
+
+        vm.confirmModal();
+      }
     };
   }
 })();

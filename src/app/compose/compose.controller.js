@@ -46,6 +46,7 @@
       if ('SEND' == $scope.leaveReason) {
         $cancel.$destroy();
         $state.go($toState.name);
+
       } else {
         vm.confirmModal = function () {
           $uibModal.open({
@@ -253,14 +254,12 @@
 
     // Listen for when the interface has been configured.
     $scope.$on('$dropletReady', function whenDropletReady() {
-
       $scope.attachfiles.allowedExtensions([/.+/]);
       $scope.attachfiles.useArray(false);
-
     });
     $scope.$on('$dropletFileAdded', function startupload() {
-
       vm.attach($scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID));
+      $scope.attachmentForm.attLength.$setViewValue($scope.compose.post.attachments.length);
       var i=0;
       for (i=0; i<$scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID).length; i++){
         $scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID)[i].deleteFile();

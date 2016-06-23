@@ -20,8 +20,8 @@
         <a data-ng-switch-when="false" href="javascript:void(0);" class="place-option-anchor _difc" ng-click="action.fn()">{{action.name}}<span class="option-{{key}}-icon _df"></span></a>
       </li>
       </div>
-      <div id="place-option-body" class="_bgwhite">
-        <div id="place-option-hld _fh">
+      <div class="place-option-body _bgwhite">
+        <div id="place-option-hld" class="_fh" data-ng-if="place.name">
           <div class="room-name">
             <label for="logo" class="_di">
               <img data-ng-if="place.picture.org.uid" class="account-initials-64 room-pic" src="{{place.picture.x64.url}}"/>
@@ -148,7 +148,7 @@
             </div>
 
           </div> <!-- /place-option-members-->
-          <div class="restplace _df _fh"></div>
+          <div class="restplace _df"></div>
         </div>
       </div>
     </div>
