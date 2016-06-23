@@ -36,7 +36,7 @@
 
     storage.get("filterStat").catch(function () {
       var defValue = 'all';
-      storage.put("extended", defValue);
+      storage.put("filterStat", defValue);
 
       return $q(function (res) {
         res(defValue);
@@ -360,5 +360,11 @@
         })
       }));
     };
+
+    if (vm.filter == '!$all'){
+      console.log(storage.get("filterStat"));
+      storage.put("filterStat", 'all');
+      console.log(storage.get("filterStat"));
+    }
   }
 })();
