@@ -210,11 +210,12 @@ div.att-item {
 }
 .nst-attach-con{
   position: relative;
-  top:-20px;
+  bottom:-20px;
   display: block;
-  justify-content: flex-end;
+  align-self: flex-end;
   width: 196px;
-  margin: 4px;
+  margin: 0 8px;
+
 }
 .nomargin {
   margin-bottom: 0;
