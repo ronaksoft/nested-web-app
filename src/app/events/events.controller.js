@@ -134,7 +134,7 @@
     }
 
     vm.pushEvent = function (event, appendFirst) {
-      var now = $rootScope.now;
+      var now = $rootScope.now();
 
       var gkey = null,
         gtype = null;

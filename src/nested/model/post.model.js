@@ -266,6 +266,30 @@
 
         haveAnyPlaceWithDeleteAccess: function () {
           return filterPlacesByAccessCode(this.places, ['RM']).length > 0;
+        },
+
+        getTotalAttachProgress : function () {
+          var items = _.filter(this.attachments, function (attach) {
+            return status !== ATTACHMENT_STATUS.ABORTED;
+          });
+
+          if (items.length === 0) {
+            return 0;
+          }
+          
+          var value = (_.sumBy(items, 'loadedSize') / _.sumBy(items, 'size'));
+
+          if (value > 1) { //somethimes total progress value goes beyound 100!!
+            return 100;
+          }
+
+          return Math.round(value * 100);
+        },
+
+        hasAnyUploadInProgress : function () {
+          return _.some(this.attachments, function (attach) {
+            return attach.status === ATTACHMENT_STATUS.UPLOADING;
+          });
         }
       };
 
@@ -299,7 +323,6 @@
       }
 
       function placesHaveAccessInside(post) {
-
         if (!(post.places && post.places.length > 0)) //does not have any place
         {
           return false;

@@ -6,7 +6,7 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, _, toastr, ATTACHMENT_STATUS,
+  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout, _, toastr, ATTACHMENT_STATUS,
     AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
@@ -127,7 +127,10 @@
     vm.recipientMaker = function (text) {
       return NestedRecipient.isValidEmail(text) ? new NestedRecipient(text) : null;
     };
+
     $scope.attachshow = false;
+    $scope.showUploadProgress = false;
+
     vm.attach = function (event) {
       var element = event.currentTarget;
       $scope.attachshow = true;
@@ -140,7 +143,6 @@
 
         var isImage = file.type.split('/')[0] == 'image';
         var attachment = new NestedAttachment({
-          // _id: response.universal_id,
           _id: null,
           filename: file.name,
           mimetype: file.type,
@@ -148,6 +150,8 @@
           size: file.size,
           status : ATTACHMENT_STATUS.UPLOADING
         });
+
+        attachment.loadedSize = 0;
 
         if (isImage) {
           var stItem = new StoreItem();
@@ -172,34 +176,53 @@
 
         $scope.compose.post.addAttachment(attachment);
 
-
-        StoreService.upload(file, null, attachment.getClientId(), function(canceler){
-          attachment.setUploadCanceler(canceler);
-        }).then(function (response) {
-
-          $scope.upload_size.uploaded += this.size;
-
-          if (0 == --counter) {
-            $scope.upload_size.total = 0;
-            $scope.upload_size.uploaded = 0;
-          }
-
-          _.forEach($scope.compose.post.attachments, function (item) {
-
-            if (item.getClientId() === response._reqid) {
-
-              item.status = ATTACHMENT_STATUS.ATTACHED;
-              item._id = response.universal_id;
-
-              item.change();
+        var uploadSettings = {
+          file : file,
+          _reqid : attachment.getClientId(),
+          // progress is invoked at most once per every second
+          onProgress : _.throttle(function (e) {
+            if (e.lengthComputable) {
+              this.loadedSize = e.loaded;
+              $timeout(function () {
+                $scope.totalProgress = $scope.compose.post.getTotalAttachProgress();
+              });
             }
+          }.bind(attachment),1000),
+          onStart : function (e) {
+            $scope.showUploadProgress = true;
+          }
+        };
+
+        StoreService.uploadWithProgress(uploadSettings).then(function (handler) {
+          attachment.setUploadCanceler(function (e) {
+            handler.abort(e);
+            $timeout(function () {
+              if (!$scope.compose.post.hasAnyUploadInProgress()) {
+                $scope.showUploadProgress = false;
+              }
+            });
           });
+          handler.start().then(function (response) {
 
-        }.bind(file)).catch(function (reason) {
-          $log.debug('Attach Failed', reason);
-        });
+            _.forEach($scope.compose.post.attachments, function (item) {
 
-      }
+              // FIXME : use a common format for unique id
+              if (item.getClientId() === response.data._reqid) {
+
+                item.status = ATTACHMENT_STATUS.ATTACHED;
+                item._id = response.data.universal_id;
+
+                item.change();
+              }
+
+            });
+
+          }.bind(file)).catch(function (result) {
+            $log.debug(result);
+          });
+      }).catch(function (error) {
+        $log.debug(error);
+      });
     };
 
     vm.sendPost = function () {
@@ -233,4 +256,5 @@
       });
     };
   }
+}
 })();

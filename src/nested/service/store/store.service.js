@@ -10,7 +10,7 @@
     }).factory('StoreService', NestedStore);
 
   /** @ngInject */
-  function NestedStore($window, $rootScope, $q, $http, $sce, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore) {
+  function NestedStore($window, $rootScope, $q, $http, $sce, $log, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore) {
     function StoreService(stores) {
       this.stores = {};
       this.defaultStore = new NestedStore();
@@ -155,12 +155,28 @@
         }.bind(this));
       },
 
-      upload2: function (file, type, id, onUploadStart) {
-        type = type || UPLOAD_TYPE.FILE;
+      uploadWithProgress: function (settings) {
+        var defer = $q.defer;
+
+        var defaultSettings = {
+          file : null,
+          req_id : null,
+          token : null,
+          _sk : WsService.getSessionKey(),
+          fn : 'attachment',
+          cmd : UPLOAD_TYPE.FILE,
+          onStart : null,
+          onProgress : null,
+          onError : null,
+          onUploaded : null,
+          onAborted : null,
+        };
+
+        settings = _.defaults(settings, defaultSettings);
 
         var q = {
-          'file': file instanceof File,
-          'type': (Object.keys(UPLOAD_TYPE).map(function(k) { return UPLOAD_TYPE[k]; })).indexOf(type) > -1
+          'file': settings.file instanceof File,
+          'type': (Object.keys(UPLOAD_TYPE).map(function(k) { return UPLOAD_TYPE[k]; })).indexOf(settings.cmd) > -1
         };
         var items = [];
         for (var k in q) {
@@ -168,104 +184,102 @@
         }
 
         if (items.length > 0) {
-          return $q(function (res, rej) {
-            rej({
-              err_code: WS_ERROR.INVALID,
-              items: items
-            });
-          });
+          return {
+            result : $q(function (res, rej) {
+              rej({
+                err_code: WS_ERROR.INVALID,
+                items: items
+              });
+            })
+          };
         }
 
         return this.defaultStore.getUploadToken().then(function (token) {
+          settings.token = token;
+
           var formData = new FormData();
-          formData.append('cmd', type);
-          formData.append('_sk', WsService.getSessionKey());
-          formData.append('token', token);
-          formData.append('fn', 'attachment');
-          formData.append('attachment', file);
-          formData.append('_reqid', id || null);
-
-          var canceler = $q.defer();
-
-          onUploadStart(canceler);
+          formData.append('cmd', settings.cmd);
+          formData.append('_sk', settings._sk);
+          formData.append('token', settings.token);
+          formData.append('fn', settings.fn);
+          formData.append('attachment', settings.file);
+          formData.append('_reqid', settings._reqid);
 
           var defer = $q.defer();
 
-          makeCorsRequest(this.defaultStore.url, formData, file);
+          var xhr = createCORSRequest('POST');
 
-          return defer.promise;
+          if (!xhr) {
+            return {
+              result : defer.reject('CORS is not supported!')
+            };
+          }
+
+          xhr.open('POST',  this.defaultStore.url, true);
+
+          xhr.setRequestHeader("Cache-Control", "no-cache");
+          xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+          xhr.setRequestHeader("X-File-Size", settings.file.size);
+          xhr.setRequestHeader("X-File-Type", settings.file.type);
+
+          xhr.upload.onloadstart = settings.onStart;
+          xhr.upload.onprogress = settings.onProgress;
+
+          xhr.upload.onerror = function (e) {
+            defer.reject(e);
+            if (settings.onError){
+              settings.onError(e);
+            }
+          };
+
+          xhr.onload = function (e) {
+            if (e.target.status === 200){
+              var data = JSON.parse(e.target.response);
+              defer.resolve(data);
+              if (settings.onUploaded) {
+                settings.onUploaded(data);
+              }
+            }
+          };
+
+          xhr.upload.onabort = function (e) {
+            defer.reject(e);
+            if (settings.onAborted){
+              settings.onAborted(e);
+            }
+          };
+
+          function startUpload() {
+            xhr.send(formData);
+            return defer.promise;
+          }
+
+          function abortUpload() {
+            xhr.abort();
+          }
+
+          return {
+            result : defer.promise,
+            start : startUpload,
+            abort : abortUpload,
+          };
 
         }.bind(this));
       }
     };
 
-    // Create the XHR object.
-    function createCORSRequest(method, url) {
+    function createCORSRequest(method) {
       var xhr = new XMLHttpRequest();
       if ("withCredentials" in xhr) {
         // XHR for Chrome/Firefox/Opera/Safari.
-        // xhr.open(method, url, true);
       } else if (typeof XDomainRequest != "undefined") {
         // XDomainRequest for IE.
         xhr = new XDomainRequest();
-        // xhr.open(method, url);
       } else {
         // CORS not supported.
         xhr = null;
       }
       return xhr;
-    }
-
-    // Make the actual CORS request.
-    function makeCorsRequest(url, form, file) {
-
-      var xhr = createCORSRequest('POST', url);
-      if (!xhr) {
-        alert('CORS not supported');
-        return;
-      }
-
-
-      // Response handlers.
-      // xhr.onload = function() {
-      //   console.log('response', xhr.responseText);
-      // };
-
-      // if (xhr.upload) {
-        xhr.upload.onprogress = function (progressEvent) {
-          if (progressEvent.lengthComputable) {
-            var percentComplete = progressEvent.loaded / progressEvent.total;
-            console.log(percentComplete);
-          } else {
-            console.log('unable to compute');
-            // Unable to compute progress information since the total size is unknown
-          }
-        }
-      // }
-
-      xhr.onerror = function() {
-        console.log('Woops, there was an error making the request.');
-      };
-
-      xhr.open('POST', url, true);
-
-      xhr.upload.onprogress = function (progressEvent) {
-        if (progressEvent.lengthComputable) {
-          var percentComplete = progressEvent.loaded / progressEvent.total;
-          console.log(percentComplete);
-        } else {
-          console.log('unable to compute');
-          // Unable to compute progress information since the total size is unknown
-        }
-      }
-
-      xhr.setRequestHeader("Cache-Control", "no-cache");
-      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-      xhr.setRequestHeader("X-File-Size", file.size);
-      xhr.setRequestHeader("X-File-Type", file.type);
-      xhr.setRequestHeader("Content-Type", "multipart/form-data");
-
-      xhr.send(form);
     }
 
     var stores = $window.sessionStorage.getItem('stores');
