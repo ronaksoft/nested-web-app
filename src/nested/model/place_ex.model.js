@@ -22,7 +22,7 @@
       KNOWN_GUEST: 'known_guest',
       CREATOR: 'creator'
     })
-    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, AuthService, WsService, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
+    .factory('NestedPlaceEx', function ($rootScope, $q, NestedPlaceRepoService, AuthService, WsService, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
 
@@ -606,7 +606,13 @@
             };
 
             return WsService.request('place/add', params).then(function (data) {
-              return this.load(data.place._id);
+              return this.setData(data.place).then(function (place) {
+                NestedPlaceRepoService.push(place);
+
+                return $q(function (res) {
+                  res(this);
+                }.bind(place));
+              });
             }.bind(this));
           } else {
             return $q(function (res, rej) {
