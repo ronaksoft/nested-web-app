@@ -127,7 +127,7 @@
 
         cancelUpload: function(){
           if (this.canceler) {
-            this.canceler.resolve();
+            this.canceler();
             this.status = ATTACHMENT_STATUS.ABORTED;
             this.change();
           }
