@@ -98,19 +98,19 @@
         type = type || UPLOAD_TYPE.FILE;
 
         var q = {
-          'file': file instanceof File,
-          'type': (Object.keys(UPLOAD_TYPE).map(function(k) { return UPLOAD_TYPE[k]; })).indexOf(type) > -1
+          'file': file instanceof File, // file is File object
+          'type': (Object.keys(UPLOAD_TYPE).map(function(k) { return UPLOAD_TYPE[k]; })).indexOf(type) > -1 // type is valid UPLOAD_TYPE
         };
-        var items = [];
+        var issues = [];
         for (var k in q) {
-          q[k] || items.push(k);
+          q[k] || issues.push(k);
         }
 
-        if (items.length > 0) {
+        if (issues.length > 0) {
           return $q(function (res, rej) {
             rej({
               err_code: WS_ERROR.INVALID,
-              items: items
+              items: issues
             });
           });
         }
@@ -126,7 +126,9 @@
 
           var canceler = $q.defer();
 
-          onUploadStart(canceler);
+          if (onUploadStart instanceof Function) {
+            onUploadStart(canceler);
+          }
 
           return $http({
             method: 'POST',

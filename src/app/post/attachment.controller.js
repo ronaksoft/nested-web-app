@@ -23,29 +23,52 @@
       return $scope.index;
     };
 
+    $scope.attLoad = {
+      success: function () {},
+      fail: function () {}
+    };
+
     if ($scope.attachment) {
       vm.getIndex();
+
+      if ('image' == $scope.attachment.mimeType.split('/')[0]) {
+        LoaderService.inject($q(function(res ,rej) {
+          $scope.attLoad.success = res;
+          $scope.attLoad.fail = rej;
+        }));
+      }
     }
 
     $scope.nextAtt = function () {
-      $scope.progressbar.start();
-      $scope.index = ($scope.index + 1) % $scope.attachment.post.attachments.length;
-      $scope.attachment = $scope.attachment.post.attachments[$scope.index];
+      if($scope.index == $scope.attachment.post.attachments.length - 1){
+        $scope.index = -1;
+      }
+      $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
 
-      return $scope.attachment.getDownloadUrl().then(function () {
-        //$scope.progressbar.complete();
-      });
+      return LoaderService.inject($scope.attachment.getDownloadUrl().then(function () {
+        return 'image' == $scope.attachment.mimeType.split('/')[0] ? $q(function(res ,rej) {
+          $scope.attLoad.success = res;
+          $scope.attLoad.fail = rej;
+        }) : $q(function (res) {
+          res.apply(null, this.input);
+        }.bind({ input: arguments }));
+      }));
     };
 
     $scope.prvAtt = function () {
-      var length = $scope.attachment.post.attachments.length;
-      $scope.progressbar.start();
-      $scope.index = (length + $scope.index - 1) % length;
-      $scope.attachment = $scope.attachment.post.attachments[$scope.index];
+      if($scope.index == 1) {
+        $scope.index = $scope.attachment.post.attachments.length + 1;
+      }
+      $scope.attachment = $scope.attachment.post.attachments[--$scope.index];
 
-      return $scope.attachment.getDownloadUrl().then(function () {
-        //$scope.progressbar.complete();
-      });
+      return LoaderService.inject($scope.attachment.getDownloadUrl().then(function () {
+        return 'image' == $scope.attachment.mimeType.split('/')[0] ? $q(function(res ,rej) {
+          $scope.attLoad.success = res;
+          $scope.attLoad.fail = rej;
+        }) : $q(function (res) {
+          res.apply(null, this.input);
+        }.bind({ input: arguments }));
+      }));
     };
 
     $scope.download = function (attachment, event) {
@@ -59,13 +82,5 @@
         event.preventDefault();
       }
     };
-    $scope.attLoad = {
-      success: function () {},
-      fail: function () {}
-    };
-    LoaderService.inject($q(function(res ,rej) {
-      $scope.attLoad.success = res;
-      $scope.attLoad.fail = rej;
-    }));
   }
 })();

@@ -65,11 +65,16 @@
     });
 
     // Invitations
-    vm.invitations = [];
+    vm.invitations = {
+      length: 0,
+      invites: {}
+    };
     LoaderService.inject(WsService.request('account/get_invitations').then(function (data) {
       for (var k in data.invitations) {
         if (data.invitations[k].place._id) {
-          vm.invitations.push(new NestedInvitation(data.invitations[k]));
+          var invitation = new NestedInvitation(data.invitations[k]);
+          vm.invitations.invites[invitation.id] = invitation;
+          vm.invitations.length++;
         }
       }
 
@@ -77,6 +82,12 @@
         res();
       });
     }));
+    vm.decideInvite = function (invitation, accept) {
+      return invitation.update(accept).then(function (invitation) {
+        vm.invitations.length--;
+        delete vm.invitations.invites[invitation.id];
+      });
+    };
 
     vm.moreEvents = true;
     vm.eventGroups = {};
@@ -183,13 +194,27 @@
           case WS_ERROR.UNAVAILABLE:
           case WS_ERROR.INVALID:
           case WS_ERROR.ACCESS_DENIED:
-            $location.path('/').replace();
+            vm.noAccessModal();
+            //$location.path('/').replace();
             break;
         }
 
       }).finally(function () {
         vm.readyToLoad = true;
       }));
+    };
+    vm.noAccessModal = function (user) {
+      $scope.member = user;
+
+      var modal = $uibModal.open({
+        animation: false,
+        templateUrl: 'app/events/noaccess.html',
+        controller: 'WarningController',
+        size: 'sm',
+        scope: $scope
+      }).result.then(function () {
+        return $location.path('/').replace();
+      });
     };
 
     vm.readyToLoad = true;

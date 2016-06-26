@@ -41,15 +41,15 @@
         case STORAGE_TYPE.MEMORY:
           $cacheFactory(id);
           this.cache.set = function (key, value) {
-            if ($cacheFactory(id)) {
-              return $cacheFactory(id).set(key, value);
+            if ($cacheFactory.get(id)) {
+              return $cacheFactory.get(id).put(key, value);
             }
 
             return false;
           };
           this.cache.get = function (key, defValue) {
-            if ($cacheFactory(id)) {
-              return $cacheFactory(id).get(key) || defValue;
+            if ($cacheFactory.get(id)) {
+              return $cacheFactory.get(id).get(key) || defValue;
             }
 
             return defValue;
@@ -123,7 +123,7 @@
 
       /**
        *
-       * @param {function} fn parameter is 'id' return is a 'promise' that then object
+       * @param {function} fn Function which accepts `id` as input and returns Promise which resolves with fetched object as input or rejected with `id` as input
        */
       setFetchFunction: function (fn) {
         this.fetchFn = fn;

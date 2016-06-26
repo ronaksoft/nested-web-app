@@ -19,20 +19,14 @@
               <a href="javascript:void(0);" class="_fr btn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
             </li>
             <li class="_df">
-              <a nochange  href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()">Send</a>
+              <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">Send</a>
               <!--ng-disabled="myForm.$invalid"-->
             </li>
           </ul>
         </div>
-        <div class="compose-hld _fw">
-          <section class="_difc _fw">
-            <div class="_df _fw input-select-match">
-              <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
-            </div>
-          </section>
-          <hr/>
-
-          <section>
+        <div class="compose-hld _fw" ng-model="attachfiles" data-droplet>
+          <div class="droplet"></div>
+          <section class="first-child">
             <div class="_difc _fw">
               <div class="_df">
                 <span class="sto">To:</span>
@@ -56,6 +50,12 @@
 
             </div>
           </section>
+          <hr/>
+          <section class="_difc _fw">
+            <div class="_df _fw input-select-match">
+              <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
+            </div>
+          </section>
           <hr data-ng-show="attachshow"/>
           <form name="attachmentForm">
             <input page-change-element type="hidden" name="attLength" data-ng-model="attLength"/>
@@ -68,7 +68,7 @@
               <!--<label for="attach">-->
               <!--<div class="headlineicon-green"></div>-->
               <!--</label>-->
-              <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.attach(event); angular.element(this).scope().attachmentForm.attLength.$setViewValue(angular.element(this).scope().compose.post.attachments.length);"/>
+              <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.setFile(event); angular.element(this).scope().attachmentForm.attLength.$setViewValue(angular.element(this).scope().compose.post.attachments.length);"/>
             </div>
             <div class="nst-attach-con _fh" ng-if="showUploadProgress">
               <div class="progress">
@@ -88,6 +88,7 @@
                  ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
                  data-ng-model="compose.post.body">
               </div>-->
+
           </section>
         </div>
     </div>

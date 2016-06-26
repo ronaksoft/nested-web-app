@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="title-bar _vam _difv _fw" id="EventList" data-ng-if="events.invitations.length > 0 && !events.place.id">
-        <div class="evrow _fw" data-ng-repeat="invitaion in events.invitations" data-ng-include="'app/events/partials/invitation.html'"></div>
+        <div class="evrow _fw" data-ng-repeat="invitaion in events.invitations.invites" data-ng-include="'app/events/partials/invitation.html'"></div>
       </div>
       <hr data-ng-if="events.invitations.length > 0 && !events.place.id" class="title-bar-hr">
 
@@ -55,8 +55,6 @@
       <!------>
       <div class="_fw nst-content-body" on-scroll="events.scroll(event)" seen-recents>
         <div class="_fw eventsody" id="EventList">
-
-
           <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
             <div class="event-group-time col-lg-12">
               <div class="sender">

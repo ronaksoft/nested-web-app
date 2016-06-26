@@ -46,6 +46,7 @@
       if ('SEND' == $scope.leaveReason) {
         $cancel.$destroy();
         $state.go($toState.name);
+
       } else {
         vm.confirmModal = function () {
           $uibModal.open({
@@ -142,15 +143,28 @@
           $scope.showUploadProgress = false;
         }
       });
-    }
+    };
 
-    vm.attach = function (event) {
+    vm.setFile = function (event) {
       var element = event.currentTarget;
+      var length = element.files.length;
+      var files = [];
+      files.file = {};
+      for (var i = 0; i < length; i++) {
+        var file = element.files[i];
+        var man = {};
+        man.file= file;
+        files.push(man)
+      }
+      vm.attach(files);
+    };
+
+    vm.attach = function (files) {
       $scope.attachshow = true;
 
       var counter = 0;
-      for (var i = 0; i < element.files.length; i++) {
-        var file = element.files[i];
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i].file;
         counter++;
         $scope.upload_size.total += file.size;
 
@@ -261,6 +275,25 @@
         $scope.sendStatus = false;
       });
     };
-  }
+    /**
+     * @property interface
+     * @type {Object}
+     */
+    $scope.interface = {};
+
+    // Listen for when the interface has been configured.
+    $scope.$on('$dropletReady', function whenDropletReady() {
+      $scope.attachfiles.allowedExtensions([/.+/]);
+      $scope.attachfiles.useArray(false);
+    });
+    $scope.$on('$dropletFileAdded', function startupload() {
+      vm.attach($scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID));
+      $scope.attachmentForm.attLength.$setViewValue($scope.compose.post.attachments.length);
+      var i=0;
+      for (i=0; i<$scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID).length; i++){
+        $scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID)[i].deleteFile();
+      }
+    });
+  };
 }
 })();

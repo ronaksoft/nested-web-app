@@ -195,6 +195,7 @@ a.place {
   margin: 0 5px;
   width: 128px;
   flex: none;
+  text-decoration: none;
 }
 
 .btn-green-nav{
@@ -211,18 +212,22 @@ a.place {
   text-align: center;
   color: $color-white;
   padding: 5px 16px 5px 16px;
+  text-decoration: none;
 
 }
 
 .btn-green:hover:enabled {
   background-color: $color-sense-wire;
+  text-decoration: none;
 }
 .btn-green:focus {
   background-color: $color-sense;
+  text-decoration: none;
 }
 .btn-green:disabled{
   opacity: .5;
   cursor: not-allowed;
+  text-decoration: none;
 }
 .btn-green a{
   margin: 4px 0;
@@ -230,9 +235,11 @@ a.place {
   white-space: nowrap;
   font-size: 16px;
   font-weight: 500;
+  text-decoration: none;
 }
 .btn-green:hover a{
   color: white;
+  text-decoration: none;
 }
 .btn-red{
   background-color: $color-force;
@@ -241,16 +248,20 @@ a.place {
   margin: 0 5px;
   width: 128px;
   flex: none;
+  text-decoration: none;
 }
 .btn-red:disabled{
   opacity: .5;
   cursor: not-allowed;
+  text-decoration: none;
 }
 .btn-red:hover:enabled{
   background-color: $color-force-wire;
+  text-decoration: none;
 }
 .btn-red:focus{
   background-color: $color-force;
+  text-decoration: none;
 }
 .btn-red a{
   margin: 4px 0;
@@ -258,10 +269,12 @@ a.place {
   white-space: nowrap;
   font-size: 16px;
   font-weight: 500;
+  text-decoration: none;
 }
 .btn-red:hover a{
   color: white;
   white-space: nowrap;
+  text-decoration: none;
 }
 .btn-white{
   border: 1px solid $color-breeze;
@@ -270,6 +283,7 @@ a.place {
   margin: 0 5px;
   width: 128px;
   flex: none;
+  text-decoration: none;
 }
 .btn-white-nav{
   border: 1px solid $color-breeze;
@@ -284,6 +298,7 @@ a.place {
   font-weight: 600;
   text-align: center;
   padding: 5px 16px 5px 16px;
+  text-decoration: none;
 }
 .btn-white:hover{
   background-color: $color-calm;

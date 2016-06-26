@@ -6,7 +6,10 @@
     .controller('CreatePlaceController', CreatePlaceController);
 
   /** @ngInject */
-  function CreatePlaceController($location, $scope, $stateParams, $q, WS_ERROR, AuthService, StoreService, UPLOAD_TYPE, StoreItem, NestedPlace) {
+  function CreatePlaceController($location, $scope, $uibModal, $stateParams, $q,
+                                 WS_ERROR, UPLOAD_TYPE,
+                                 AuthService, StoreService, LoaderService,
+                                 StoreItem, NestedPlace) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -17,6 +20,7 @@
     $scope.place = new NestedPlace(undefined, new NestedPlace($stateParams.placeId));
     $scope.place.privacy.locked = true;
     $scope.logo = null;
+    $scope.leaveReason = '';
 
     vm.imgToUri = function (event) {
       var element = event.currentTarget;
@@ -41,13 +45,14 @@
     vm.create = function () {
       var p = $scope.logo ? StoreService.upload($scope.logo, UPLOAD_TYPE.PLACE_PICTURE) : $q(function (res) { res(); });
 
-      p.then(function (response) {
+      LoaderService.inject(p.then(function (response) {
         if (!$scope.place.picture.org.uid) {
           $scope.place.picture.org.uid = response ? response.universal_id : undefined;
           $scope.logo = null;
         }
 
         return $scope.place.update().then(function (place) {
+          $scope.leaveReason = 'Create Place';
           $location.path('/place/' + place.id).replace();
         }).catch(function (error) {
           switch (error.err_code) {
@@ -83,7 +88,33 @@
               break;
           }
         });
-      });
+      }));
+    };
+
+    $scope.changeMe = function ($event, $toState, $toParams, $fromState, $fromParams, $cancel) {
+      if ('Create Place' == $scope.leaveReason) {
+        $cancel.$destroy();
+        $state.go($toState.name);
+      } else {
+        vm.confirmModal = function () {
+          $uibModal.open({
+            animation: false,
+            templateUrl: 'app/account/profile/confirmprofile.html',
+            controller: 'WarningController',
+            size: 'sm',
+            scope: $scope
+          }).result.then(function () {
+            $cancel.$destroy();
+            $state.go($toState.name);
+          }).catch(function () {
+
+          });
+
+          return false;
+        };
+
+        vm.confirmModal();
+      }
     };
   }
 })();
