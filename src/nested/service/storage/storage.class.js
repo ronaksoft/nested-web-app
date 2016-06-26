@@ -20,9 +20,10 @@
     .factory('NestedStorage', NestedStorage);
 
   /** @ngInject */
-  function NestedStorage($q, $cacheFactory, $cookies,
+  function NestedStorage($cacheFactory, $cookies,
                          localStorageService,
-                         STORAGE_TYPE, STORAGE_EVENT) {
+                         STORAGE_TYPE, STORAGE_EVENT,
+                         NstSvcRandomize) {
     /**
      * Creates an instance of NestedStorage
      *
@@ -42,12 +43,7 @@
         flush: function () {}
       };
 
-      function generateId(scale) {
-        scale = scale || 10000;
-
-        return Math.round(Math.random() * scale).toString() + (new Date()).getTime().toString();
-      }
-      this.id = generateId();
+      this.id = NstSvcRandomize.genUniqId();
 
       this.timeout = timeout || 0;
 
