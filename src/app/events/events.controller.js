@@ -361,8 +361,64 @@
       }));
     };
 
-    if (vm.filter == '!$all'){
-      storage.put("filterStat", 'all');
+    function shouldPushToEvents(filter, action){
+      var views = [
+        {
+          key: 'all',
+          actions : _.values(EVENT_ACTIONS)
+        },
+        {
+          key: 'inbox',
+          actions : [
+            EVENT_ACTIONS.POST_ADD,
+            EVENT_ACTIONS.POST_REMOVE,
+            EVENT_ACTIONS.POST_UPDATE
+          ]
+        },
+        {
+          key: 'comments',
+          actions : [
+            EVENT_ACTIONS.COMMENT_ADD,
+            EVENT_ACTIONS.COMMENT_REMOVE
+          ]
+        },
+        {
+          key: 'acts',
+          actions : [
+            EVENT_ACTIONS.MEMBER_ADD,
+            EVENT_ACTIONS.MEMBER_REMOVE,
+            EVENT_ACTIONS.MEMBER_INVITE,
+            EVENT_ACTIONS.MEMBER_JOIN,
+            EVENT_ACTIONS.PLACE_ADD,
+            EVENT_ACTIONS.PLACE_REMOVE,
+            EVENT_ACTIONS.PLACE_PRIVACY,
+            EVENT_ACTIONS.PLACE_PICTURE
+          ]
+        },
+      ];
+
+      // returns true if the event belongs to the selected view and is one of its actions
+      return _.some(views, function (view) {
+        return view.key === filter && _.includes(view.actions, action);
+      });
+    }
+
+    function removePostEvent(id) {
+      if (!id) { return; }
+
+      _.forEach(vm.eventGroups, function (group) {
+        var postEvent = _.find(group.set, function (event) {
+          return event.post && event.post.id === id;
+        });
+        if (postEvent){
+          group.set.splice(group.set.indexOf(postEvent), 1);
+          return;
+        }
+      });
     }
   }
+  if (vm.filter == '!$all'){
+    storage.put("filterStat", 'all');
+  }
+
 })();
