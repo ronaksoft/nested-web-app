@@ -1,29 +1,36 @@
-.nst-avatar {
+
+/**
+  ******************************
+  *  General
+  ******************************
+ */
+
+.avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   font-size: 16px;
 }
 
-.nst-avatar-64 {
+.avatar-64 {
   width: 64px;
   height: 64px;
   font-size: 32px;
 }
 
-.nst-avatar-40 {
+.avatar-40 {
   width: 40px;
   height: 40px;
   font-size: 20px;
 }
 
-.nst-vatar-24 {
+.vatar-24 {
   width: 24px;
   height: 24px;
   font-size: 12px;
 }
 
-.nst-icon {
+.icon {
   color: $color-breeze;
   width: 24px;
   height: 24px;
@@ -31,57 +38,57 @@
 
 }
 
-.nst-icon-search {
+.icon-search {
 
 }
 
-.nst-icon-storm {
+.icon-storm {
   color: $color-storm;
 }
 
-.nst-icon-breez {
+.icon-breez {
   color: $color-breeze;
 }
 
-.nst-icon-solid {
+.icon-solid {
   color: $color-solid;
 }
 
-.nst-badge {
+.badge {
 
   padding: 5px;
 
 }
 
-.nst-badge-more {
-
+.badge-more {
 
 }
 
-.nst-a {
+.a {
   color: $color-sense;
   text-decoration: none;
 }
 
-.nst-btn {
+.btn {
   border: 1px $color-breeze solid;
   background-color: $color-white;
   font-size: 14px;
-
   height: 32px;
 }
 
-.nst-btn-sense {
+.btn-sense {
+  @extend .btn;
   background-color: $color-sense;
   color: $color-white;
 }
 
-.nst-btn-force {
+.btn-force {
+  @extend .btn;
   background-color: $color-force;
   color: $color-white;
 }
 
-.nst-input {
+.input {
   border: none;
   background-color: $color-white;
   font-size: 14px;
@@ -89,51 +96,62 @@
 
 }
 
-.nst-input-tiny {
+.input-tiny {
 
 
 }
 
-.nst-input-force {
+.input-force {
 
 }
 
-.nst-input-title {
+.input-title {
 
 }
 
-.nst-textarea {
+.textarea {
 
 }
 
 /**
   ******************************
-  *  nst-navbar
+  *  navbar
   ******************************
  */
 
-.nst-navbar {
+.navbar {
 
 }
 
-.nst-navbar-top {
+.navbar-top {
 
 }
 
-.nst-navbar-bottom {
+.navbar-bottom {
 
 }
 
 
 /**
   ******************************
-  *  nst-sidebar
+  *  sidebar
   ******************************
  */
 
-.nst-sidebar{
+.sidebar {
+  .ul-side-menu {
+
+  }
+  .li-side-menu {
+
+  }
+
+  .ul-side-place-list {
+
+  }
+  .li-sideplace-item {
+
+  }
 
 }
-.nst-side {
 
-}
