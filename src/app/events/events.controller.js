@@ -362,9 +362,7 @@
     };
 
     if (vm.filter == '!$all'){
-      console.log(storage.get("filterStat"));
       storage.put("filterStat", 'all');
-      console.log(storage.get("filterStat"));
     }
   }
 })();
