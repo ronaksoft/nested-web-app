@@ -3,7 +3,6 @@
   height: 32px;
   border-radius: 50%;
   font-size: 16px;
-  background-color: ;
 }
 
 .nst-avatar-64 {
@@ -29,14 +28,11 @@
   width: 24px;
   height: 24px;
   background-color: $color-white;
-  border:;
-  background-image: url();
-  background-position: ;
+
 }
 
 .nst-icon-search {
-  background-image: url();
-  background-position: ;
+
 }
 
 .nst-icon-storm {
@@ -52,17 +48,14 @@
 }
 
 .nst-badge {
-  width: ;
-  height: ;
-  background-color: ;
-  font: ;
+
   padding: 5px;
-  z-index: ;
+
 }
 
 .nst-badge-more {
-  background-color:;
-  z-index: ;
+
+
 }
 
 .nst-a {
@@ -74,8 +67,7 @@
   border: 1px $color-breeze solid;
   background-color: $color-white;
   font-size: 14px;
-  padding:;
-  width:;
+
   height: 32px;
 }
 
@@ -92,17 +84,14 @@
 .nst-input {
   border: none;
   background-color: $color-white;
-  margin: ;
-  padding:;
   font-size: 14px;
-  width:;
   height: 32px;
 
 }
 
 .nst-input-tiny {
-  height: ;
-  
+
+
 }
 
 .nst-input-force {
@@ -123,15 +112,15 @@
   ******************************
  */
 
-.nst-nav-bar {
+.nst-navbar {
 
 }
 
-.nst-nav-bar-top {
+.nst-navbar-top {
 
 }
 
-.nst-nav-bar-bottom {
+.nst-navbar-bottom {
 
 }
 
@@ -142,4 +131,9 @@
   ******************************
  */
 
-.nst-
+.nst-sidebar{
+
+}
+.nst-side {
+
+}
