@@ -37,8 +37,18 @@
         controller: 'ResetPasswordController',
         controllerAs: 'reset_password'
       })
-      .state('events', {
-        url: '/events',
+      .state('messages', {
+        url: '/messages',
+        params: {
+          placeId: null,
+          filter: '!$all'
+        },
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'vm'
+      })
+      .state('activity', {
+        url: '/activity',
         params: {
           placeId: null,
           filter: '!$all'
