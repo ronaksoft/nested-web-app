@@ -13,66 +13,70 @@
       </div>
     </div>
     <div class="panel-profile-setting _bgwhite _ma _fh">
-
-      <div class="_fw upload-photo-container">
-      </div>
-      <div class="inner-panel _ma">
-        <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{user.username}}</div>
-        <div class="nst-marginbtm-4">First Name</div>
-        <div>
-          <form name="place_id">
-            <input page-change-element type="text" name="place_id" class="nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
-                   aria-invalid="false" data-ng-model="user.name.fname"/>
+        <div class="_fw upload-photo-container">
+          <div class="_ma upload-photo">
+            <label for="logo"><img
+              src="{{user.picture.org.url ? user.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
+            <input id="logo" type="file" name="logo" accept="image/*"
+                   onchange="angular.element(this).scope().account_profile.imgToUri(event)"/>
+          </div>
+        </div>
+        <div class="inner-panel _ma">
+          <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{user.username}}</div>
+          <form name="editProfile">
+            <div class="nst-marginbtm-4" ng-if="!editProfile.fname.$error.required || !editProfile.fname.$touched">First Name</div>
+            <div class="nst-marginbtm-4 nst-mood-lively" ng-if="editProfile.fname.$error.required && editProfile.fname.$touched">First Name required!</div>
+            <div>
+              <input type="text" name="fname" class=" nst-marginbtm-24 form-control"
+                     aria-invalid="false" data-ng-model="user.name.fname" data-ng-focus="focus = true;" data-ng-blur="focus = false;" required/>
+            </div>
+            <div class="nst-marginbtm-4" ng-if="editProfile.lname.$valid || editProfile.lname.$untouched">Last Name</div>
+            <div class="nst-marginbtm-4 nst-mood-lively" ng-if="editProfile.lname.$error.required && editProfile.lname.$touched">Last Name required</div>
+            <div>
+              <input type="text" name="lname" class=" nst-marginbtm-24 form-control"
+                     aria-invalid="false" data-ng-model="user.name.lname" required/>
+            </div>
+            <div>
+              <div class="nst-marginbtm-8" ng-if="editProfile.editemail.$untouched && (!focus1 || editProfile.editemail.$valid">Set an Email for Recovery</div>
+              <div class="nst-mood-lively nst-marginbtm-8"  ng-if="editProfile.editemail.$invalid && !editProfile.editemail.$error.required">Doesn't look like a valid email</div>
+              <div class="nst-mood-lively nst-marginbtm-8" ng-if="editProfile.editemail.$error.required && (editProfile.editemail.$touched || focus1) && editProfile.editemail.$invalid && (editProfile.editemail.$dirty || editProfile.editemail.$touched)">email required !!!</div>
+              <div class="nst-mood-cheerful nst-marginbtm-8" ng-if="editProfile.editemail.$valid">Verified Email!</div>
+            </div>
+            <div>
+              <input type="text" name="editemail" class=" nst-marginbtm-24 form-control"
+                     aria-invalid="false" data-ng-model="user.email" data-ng-init="show = true; focus1 = false;" ng-pattern="patterns.email.all" data-ng-focus="focus1 = true;" data-ng-blur="focus1 = false" required/>
+            </div>
+            <div class="nst-marginbtm-4">Mobile Phone</div>
+            <div class="_fw nst-marginbtm-24">
+              <input  name="mobileNumber" international-phone-number
+                     class="select-birthday" data-ng-model="user.phone" required/>
+            </div>
+            <div class="nst-marginbtm-16" ng-if="!editProfile.gender.$error.required || !editProfile.gender.$touched">Gender</div>
+            <div class="nst-mood-lively nst-marginbtm-16" ng-if="editProfile.gender.$error.required && editProfile.gender.$touched">Gender Required</div>
+            <ul class="list-inline nst-marginbtm-48" tab>
+              <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+                  <input page-change-element type="radio" name="gender" value="female" ng-model="gender" required/>
+                <label>Female</label>
+              </li>
+              <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+                  <input page-change-element type="radio" name="gender" value="male" ng-model="gender" required/>
+                <label>Male</label>
+              </li>
+              <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+                  <input page-change-element type="radio" name="gender" value="other" ng-model="gender" required/>
+                <label>Other</label>
+              </li>
+              <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3"></li>
+            </ul>
+            <div class="nst-marginbtm-8">Birthday</div>
+            <div class="nst-marginbtm-36">
+              <input class="select-birthday" rsmdatedropdowns ng-model="birth" required/>
+            </div>
+            <div>
+              <button class="btn btn-lg btn-block" data-ng-click="account_profile.update()">Save & Exit</button>
+            </div>
           </form>
         </div>
-        <div class="nst-marginbtm-4">Last Name</div>
-        <div>
-          <form name="place_id">
-            <input page-change-element type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
-                   aria-invalid="false" data-ng-model="user.name.lname"/>
-          </form>
-        </div>
-        <div>
-          <div class="nst-marginbtm-4">Recovery Mail</div>
-          <div class="verified-li"></div>
-        </div>
-        <div>
-          <form name="place_id">
-            <input page-change-element type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
-                   aria-invalid="false" data-ng-model="user.email"/>
-          </form>
-        </div>
-        <div class="nst-marginbtm-4">Mobile Phone</div>
-        <div class="_fw nst-marginbtm-24">
-          <input page-change-element name="mobileNumber" international-phone-number
-                 class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="user.phone"/>
-        </div>
-        <div class="nst-marginbtm-12">Gender</div>
-        <div class="nst-marginbtm-64">
-          <ul class="list-inline">
-            <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-              <input type="radio" name="gender" value="female"/>
-              <label>Female</label>
-            </li>
-            <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-              <input type="radio" name="gender" value="male"/>
-              <label>Male</label>
-            </li>
-            <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-              <input type="radio" name="gender" value="other"/>
-              <label>Other</label>
-            </li>
-          </ul>
-        </div>
-        <div class="nst-marginbtm-4">Birthday</div>
-        <div class="nst-marginbtm-36">
-          <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="birth"/>
-        </div>
-        <div>
-          <button class="btn btn-lg btn-block" data-ng-click="account_profile.update()">Save & Exit</button>
-        </div>
-      </div>
-      <div class="restplace _df _fh"></div>
     </div>
   </div>
   <div class="side">

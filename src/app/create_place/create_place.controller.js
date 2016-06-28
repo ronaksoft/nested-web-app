@@ -8,7 +8,7 @@
   /** @ngInject */
   function CreatePlaceController($location, $scope, $uibModal, $stateParams, $q,
                                  WS_ERROR, UPLOAD_TYPE,
-                                 AuthService, StoreService, LoaderService,
+                                 AuthService, StoreService, LoaderService, WsService,
                                  StoreItem, NestedPlace) {
     var vm = this;
 
@@ -37,6 +37,12 @@
       }
     };
 
+    $scope.checkId = function (val) {
+      WsService.request('place/exists', {place_id: val}).then(function (value) {
+        console.log(value);
+      })
+
+    };
     vm.removeImg = function () {
       $scope.place.picture.org.url = null;
       $scope.place.picture.org.uid = null;

@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="panel-create-place _bgwhite _ma _fh">
-        <form name="CreatePlaceForm">
+        <form name="placeprivacy">
           <ul class="list-inline head">
             <li>
               <span>/</span>
@@ -37,14 +37,15 @@
           </div>
           <div class="inner-panel _ma">
             <div class="place-id">
-              <div>Place ID</div>
+              <div class="nst-marginbtm-4" ng-if="checkId">Place ID</div>
+              <div class="nst-marginbtm-4 nst-mood-lively" ng-if="!checkId">PlaceID already exist.</div>
               <div>
-                <input page-change-element type="text" name="place_id" class=" nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="place.local_id"/>
+                <input page-change-element type="text" name="place_id" class=" nst-marginbtm-4 form-control" aria-invalid="false" data-ng-model="place.local_id" ng-keyup="checkId(place.local_id)"/>
               </div>
               <div class="notice-bar">Place ID can't be changed later; Be careful!</div>
             </div>
             <div class="place-desc">
-              <div>Place Description</div>
+              <div class="nst-marginbtm-4">Place Description</div>
               <div>
                 <input page-change-element type="text" name="place_desc" class="nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="place.description"/>
               </div>
@@ -64,7 +65,8 @@
                 </label>
               </div>
             </div>
-            <div class="notice-bar">Parent members Can't view Inside The Place. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="place.privacy.locked">Parent members Can't view Inside The Place. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.locked">Parent members also can view Inside The Place. <a href="" class="nst-mood-cheerful">Learn more</a></div>
             <div class="_difc _fw">
               <div class="_df"><label for="sw-receptive"><i class="nst-print _df"></i></label></div>
               <div class="_df _fw"><label for="sw-receptive"><h6>Receptive</h6></label></div>
@@ -78,7 +80,8 @@
                 </label>
               </div>
             </div>
-            <div class="notice-bar">Only members Can Write Posts. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="place.privacy.receptive">Only members Can Write Posts. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.receptive">Can recieve message from outside. <a href="" class="nst-mood-cheerful">Learn more</a></div>
             <div class="_difc _fw">
               <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
               <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
@@ -92,7 +95,9 @@
                 </label>
               </div>
             </div>
-            <div class="notice-bar">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.receptive">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="place.privacy.email && place.privacy.receptive">PlaceID is also an email address that can recieve emails. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.email && place.privacy.receptive">PlaceID is not an email address and can not recieve emails. <a href="" class="nst-mood-cheerful">Learn more</a></div>
             <div class="_difc _fw">
               <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
               <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
@@ -106,11 +111,14 @@
                 </label>
               </div>
             </div>
-            <div class="notice-bar">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.receptive">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.search && place.privacy.receptive">Hidden for user's search. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="place.privacy.search && place.privacy.receptive">Uncoverd for user's search. <a href="" class="nst-mood-cheerful">Learn more</a></div>
             <div>
-              <div>Place Name</div>
+              <div class="nst-marginbtm-4" data-ng-if="!placeprivacy.place_name.$error.required || !placeprivacy.place_name.$touched">Place Name</div>
+              <div class="nst-marginbtm-4 nst-mood-lively" data-ng-if="placeprivacy.place_name.$error.required && (placeprivacy.place_name.$touched || focus) && placeprivacy.place_name.$invalid && (placeprivacy.place_name.$dirty || placeprivacy.place_name.$touched)">Place Name should be fill !</div>
               <div class="nst-marginbtm-4">
-                <input page-change-element type="text" name="place_name" aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="place.name"/>
+                <input page-change-element type="text" name="place_name" aria-invalid="false" ng-class="{'form-control':!placeprivacy.place_name.$error.required || !placeprivacy.place_name.$touched, 'form-control-error': placeprivacy.place_name.$error.required && (placeprivacy.place_name.$touched || focus) && placeprivacy.place_name.$invalid && (placeprivacy.place_name.$dirty || placeprivacy.place_name.$touched)}" data-ng-model="place.name" required/>
               </div>
               <div class="notice-bar">Short name helps you to quickly identify your places.</div>
             </div>

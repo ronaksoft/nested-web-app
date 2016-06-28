@@ -21,14 +21,13 @@
   padding-top: 16px;
   font-size: $font-size-xsmall;
   position: relative;
-  top:2.99px;
+  top:2.3px;
 }
 #panel-register .tooltip-arrow {
- transform: scale(2);
+ transform: scale(3);
 }
 #panel-register .tooltip-inner,
 .tooltip-arrow {
-  opacity: 0.8;
   margin-top: -5px;
 }
 .select-birthday{
@@ -42,7 +41,7 @@
 .select-month,
 .select-day,
 .select-year {
-  background: url("../assets/icons/form.png") no-repeat;
+  background: url("../assets/icons/inputform.svg") no-repeat;
   background-position: 95% -124px;
 }
 
@@ -72,7 +71,7 @@
   border: none;
   margin: 0px;
   padding: 0px;
-  background: url("../assets/icons/form.png") no-repeat;
+  background: url("../assets/icons/inputform.svg") no-repeat;
   height: 32px;
   background-position: 0 -128px;
 }
@@ -164,45 +163,31 @@
 #panel-register .agreement-text a {
   font-size: 10px;
 }
-//---------------Errors---//
+//----------Errors & Validation--------//
 
 .form-control-error {
   display: block;
   width: 100%;
-  height: $input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+  height: $input-height-base;
   padding: $padding-base-vertical $padding-base-horizontal;
   font-size: $font-size-base;
   line-height: $line-height-base;
-  color: $color-force;
+  color: $color-solid;
   background-color: $input-bg;
-  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  background-image: none;
   border: 1px solid $color-force !important;
-  border-radius: $input-border-radius; // Note: This has no effect on <select>s in some browsers, due to the limited stylability of <select>s in CSS.
-  @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075));
-  @include transition(border-color ease-in-out .15s, box-shadow ease-in-out .15s);
-
-  // Customize the `:focus` state to imitate native WebKit styles.
+  border-radius: $input-border-radius;
   @include form-control-focus;
-
-  // Placeholder
   @include placeholder;
-
-  // Unstyle the caret on `<select>`s in IE10+.
   &::-ms-expand {
     border: 0;
     background-color: transparent;
   }
-
-  // Disabled and read-only inputs
-  //
-  // HTML5 says that controls under a fieldset > legend:first-child won't be
-  // disabled if the fieldset is disabled. Due to implementation difficulty, we
-  // don't honor that edge case; we style them as disabled anyway.
   &[disabled],
   &[readonly],
   fieldset[disabled] & {
     background-color: $input-bg-disabled;
-    opacity: 1; // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655
+    opacity: 1;
   }
 
   &[disabled],
@@ -210,3 +195,34 @@
     cursor: $cursor-disabled;
   }
 }
+.form-control-valid {
+  display: block;
+  width: 100%;
+  height: $input-height-base;
+  padding: $padding-base-vertical $padding-base-horizontal;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $color-sense-wire;
+  background-color: $input-bg;
+  background-image: none;
+  border: 1px solid #ccc !important;
+  border-radius: $input-border-radius;
+  @include form-control-focus;
+  @include placeholder;
+  &::-ms-expand {
+    border: 0;
+    background-color: transparent;
+  }
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    background-color: $input-bg-disabled;
+    opacity: 1;
+  }
+
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: $cursor-disabled;
+  }
+}
+
