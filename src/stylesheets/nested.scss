@@ -995,6 +995,28 @@ a .ui-select-choises-row-inner {
   width: 272px;
   height: 100%;
   flex: none;
+  background-color: #F0F5F2;
+  overflow-y: auto;
+  border-color: black;
+  border-width: 4px;
+  border-right: solid;
+  box-sizing: border-box;
+}
+.nested-logo {
+  height: 64px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+#Logo {
+  background: url("../assets/icons/NestedLogo.svg") no-repeat;
+  background-size: contain;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
+.compose {
+  height: 32px;
 }
 .container {
   padding-top: 58px;
