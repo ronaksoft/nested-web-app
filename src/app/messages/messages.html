@@ -24,7 +24,7 @@
         </div>
 
         <div class="navbar-bottom">
-          <div class="_di menu-links-btn display-none" on-scroll="display:block">
+          <div class="_di menu-links-btn display-none">
             <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64" data-word-count="2"
                  data-font-size="16"/>
           </div>
@@ -32,12 +32,28 @@
             <div class="menu-links-btn _dib" ng-click="'#/messages'" ng-class="messages ? 'selected' : null">Messages</div>
             <div class="menu-links-btn _dib" ng-click="'#/activity'" ng-class="events ? 'selected' : null">Activity</div>
             <div class="menu-links-btn _dib" ng-click="'#/option'" ng-class="options ? 'selected' : null">Option</div>
+            <input class="_dib display-none"/>
+            <div class="menu-links-search _dib _fr"><div class="nst-place-icon-search icon-search-rotated _dib"></div></div>
           </div>
-          <div class="nst-place-icon-search icon-search-rotated _dib"></div>
         </div>
-
       </div>
     </div>
-    <div class="content"></div>
+
+    <section class="content">
+      <div class="filter-bar _pr">
+        <div class="filter-bar-hld">
+          <div class="margin-l-15 nst-place-icon-search _dib"></div>
+          <div class="margin-l-15 nst-place-icon-search _dib"></div>
+          <div class="margin-l-15 nst-place-icon-search _dib"></div>
+        </div>
+      </div>
+
+      <div class="_fw quick-message">
+        <input class="_fw input input-title" placeholder="Quick Message Title..."/>
+        <input class="_fw input" placeholder="quick message text..."/>
+
+      </div>
+
+    </section>
   </div>
 </div>

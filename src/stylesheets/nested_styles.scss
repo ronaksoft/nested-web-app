@@ -5,7 +5,7 @@
   ******************************
  */
 .maincontainer {
-  background-color: $color-breeze-50;
+background-color: $color-bg-nested;
 }
 .nst-container {
   width: 100%;
@@ -43,6 +43,7 @@
   background-color: $color-white;
 
 }
+
 
 .icon-search {
 
@@ -102,6 +103,7 @@
   background-color: $color-white;
   font-size: 14px;
   height: 32px;
+  padding-left: 10px;
 
 }
 
@@ -115,6 +117,10 @@
 }
 
 .input-title {
+  font-size: 24px;
+  height: 40px;
+  padding-left: 10px;
+  height: 52px;
 
 }
 
@@ -150,7 +156,6 @@ height: 122px;
 
 .navbar-bottom {
   height: 64px;
-
 }
 
 .menu-links {
@@ -165,11 +170,13 @@ height: 122px;
   text-align: center;
   cursor: pointer;
 }
-
+.menu-links-search {
+  width: 24px;
+  height: 24px;
+}
 .menu-links-btn:hover {
   color: $color-solid;
 }
-
 
 
 /**
@@ -195,6 +202,41 @@ height: 122px;
 
 }
 
+
+/**
+  ******************************
+  *  filter-bar
+  ******************************
+ */
+
+.filter-bar {
+  height: 50px;
+
+}
+.filter-bar-hld {
+  height: 50px;
+  line-height: 60px;
+  width: 140px;
+  float: right;
+}
+
+/**
+  ******************************
+  * Content
+  ******************************
+ */
+
+.content {
+  width: 700px;
+  margin: auto;
+
+}
+
+.quick-message {
+  height: 86px;
+  border: 1px solid $color-breeze;
+}
+
 /**
   ******************************
   *  Margins
@@ -208,12 +250,19 @@ height: 122px;
 .margin-l-5 {
   margin-left: 5px;
 }
+
 .margin-r-5 {
   margin-right: 5px;
 }
+
 .margin-t-5 {
   margin-top: 5px;
 }
+
 .margin-b-5 {
   margin-bottom: 5px;
+}
+
+.margin-l-15 {
+  margin-left: 15px;
 }
