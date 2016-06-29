@@ -4,6 +4,12 @@
   *  General
   ******************************
  */
+.maincontainer {
+  background-color: $color-breeze-50;
+}
+.nst-container {
+  width: 100%;
+}
 
 .avatar {
   width: 32px;
@@ -40,6 +46,9 @@
 
 .icon-search {
 
+}
+.icon-search-rotated {
+  transform: rotate(270deg);
 }
 
 .icon-storm {
@@ -113,23 +122,54 @@
 
 }
 
+.display-none {
+  display: none;
+}
+
 /**
   ******************************
   *  navbar
   ******************************
  */
 
-.navbar {
+.nst-navbar {
+  background-color: $color-white;
+  border-bottom: 1px solid $color-calm;
+  min-width: 700px;
 
 }
+.intern-navbar {
+  height: 190px;
+  width: 700px;
+  margin: auto;
 
+}
 .navbar-top {
-
+height: 122px;
 }
 
 .navbar-bottom {
+  height: 64px;
 
 }
+
+.menu-links {
+  display: inline;
+}
+.menu-links-btn {
+  height: 68px;
+  width: 140px;
+  line-height: 68px;
+  color: $color-storm;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.menu-links-btn:hover {
+  color: $color-solid;
+}
+
 
 
 /**
@@ -155,3 +195,25 @@
 
 }
 
+/**
+  ******************************
+  *  Margins
+  ******************************
+ */
+
+.margin-20 {
+  margin: 20px;
+}
+
+.margin-l-5 {
+  margin-left: 5px;
+}
+.margin-r-5 {
+  margin-right: 5px;
+}
+.margin-t-5 {
+  margin-top: 5px;
+}
+.margin-b-5 {
+  margin-bottom: 5px;
+}
