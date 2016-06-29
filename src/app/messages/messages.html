@@ -20,7 +20,7 @@
           </label>
         </span>
       </div>
-      <div class="side-place">
+      <div class="side-place" data-ng-show="colp">
         <div class="side-place-item">
           <div class="side-place-item-image">
             <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
@@ -31,7 +31,7 @@
             <div class="box-n"></div>
             <div class="box-n"></div>
           </div>
-          <div class="_fw _fh abc">
+          <div class="_fw _fh side-place-name">
             <a class="_fw">Nested Music</a>
           </div>
 
@@ -49,7 +49,7 @@
           </label>
         </span>
       </div>
-      <div class="side-place">
+      <div class="side-place" data-ng-show="colp">
         <div class="side-place-item">
           <div class="side-place-item-image">
             <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
@@ -60,7 +60,7 @@
             <div class="box-r"></div>
             <div class="box-n"></div>
           </div>
-          <div class="_fw _fh abc">
+          <div class="_fw _fh side-place-name">
             <a class="_fw">Nested</a>
             <span class="e2-arrow _df">
               <label data-ng-model="colp"
@@ -76,10 +76,10 @@
               <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
             </div>
             <div class="lines">
-              <div class="box-r"></div>
               <div class="box-n"></div>
-              <div class="box-r"></div>
+              <div class="box-l"></div>
               <div class="box-n"></div>
+              <div class="box-l"></div>
             </div>
             <div class="lines">
               <div class="box-r"></div>
@@ -87,7 +87,7 @@
               <div class="box-r"></div>
               <div class="box-n"></div>
             </div>
-            <div class="_fw _fh abc">
+            <div class="_fw _fh side-place-name">
               <a class="_fw">Copy-writing</a>
               <span class="e2-arrow _df">
                 <label data-ng-model="colp"
@@ -103,10 +103,10 @@
               <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
             </div>
             <div class="lines">
-              <div class="box-r"></div>
               <div class="box-n"></div>
-              <div class="box-r"></div>
+              <div class="box-l"></div>
               <div class="box-n"></div>
+              <div class="box-l"></div>
             </div>
             <div class="lines">
               <div class="box-r"></div>
@@ -114,7 +114,7 @@
               <div class="box-r"></div>
               <div class="box-n"></div>
             </div>
-            <div class="_fw _fh abc">
+            <div class="_fw _fh side-place-name">
               <a class="_fw">Design</a>
               <span class="e2-arrow _df">
                 <label data-ng-model="colp"
@@ -129,10 +129,10 @@
               <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
             </div>
             <div class="lines">
-              <div class="box-r"></div>
               <div class="box-n"></div>
-              <div class="box-r"></div>
+              <div class="box-l"></div>
               <div class="box-n"></div>
+              <div class="box-l"></div>
             </div>
             <div class="lines">
               <div class="box-r"></div>
@@ -140,7 +140,7 @@
               <div class="box-n"></div>
               <div class="box-n"></div>
             </div>
-            <div class="_fw _fh abc">
+            <div class="_fw _fh side-place-name">
               <a class="_fw">Development</a>
               <span class="e2-arrow _df">
                 <label data-ng-model="colp"
@@ -161,7 +161,10 @@
             <div class="box-n"></div>
             <div class="box-n"></div>
           </div>
-          <a class="_fw">The Kichen</a>
+          <div class="_fw _fh side-place-name">
+            <a class="_fw">The Kichen</a>
+          </div>
+
         </div>
       </div>
       <div class="side-place-item">
@@ -169,12 +172,6 @@
           <img initials="place.name" data-url="place.picture.x32.url" data-width="40" data-height="40" data-radius="20" class="account-initials-40" data-word-count="2" data-font-size="16"/>
         </div>
         <a class="_fw">Z Conf7</a>
-        <span class="e2-arrow _df">
-          <label data-ng-model="colp"
-                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-                 data-ng-click="colp =! colp">
-          </label>
-        </span>
       </div>
     </div>
     <div class="side-profile">
@@ -187,9 +184,10 @@
       </div>
     </div>
   </div>
+  <div class="sidebar-border"></div>
   <div class="nst-container">
-    <div class="nst-navbar">
-      <div class="intern-navbar">
+    <div class="nst-navbar _df">
+      <div class="content">
         <div class="navbar-top">
           <div class="title-bar _difh margin-20 _vam _fl">
             <div class="logo-bar _df">

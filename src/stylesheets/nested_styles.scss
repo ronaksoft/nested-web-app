@@ -151,14 +151,8 @@
 .nst-navbar {
   background-color: $color-white;
   border-bottom: 1px solid $color-calm;
-  min-width: 700px;
-
-}
-.intern-navbar {
   height: 190px;
-  width: 700px;
-  margin: auto;
-
+  justify-content: center;
 }
 .navbar-top {
 height: 122px;
@@ -211,7 +205,10 @@ height: 122px;
   }
 
 }
-
+.side-place-name {
+  display: flex;
+  align-items: center;
+}
 .lines {
   display: inline-block;
   width: 32px;
@@ -276,8 +273,11 @@ height: 122px;
 
 .content {
   width: 700px;
-  margin: auto;
-
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .quick-message {

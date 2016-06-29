@@ -995,12 +995,19 @@ a .ui-select-choises-row-inner {
   width: 272px;
   height: 100%;
   flex: none;
-  background-color: #F0F5F2;
+  background-color: $color-calm;
   overflow-y: auto;
-  border-color: black;
-  border-width: 4px;
-  border-right: solid;
-  box-sizing: border-box;
+  overflow-x: hidden;
+}
+.sidebar-border {
+  background-color: $color-calm;
+  //position: relative;
+  //right: 4px;
+  display: flex;
+  flex: none;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, .1));
 }
 .nested-logo {
   height: 115px;
@@ -1108,11 +1115,7 @@ a .ui-select-choises-row-inner {
 }
 .side-place .side-place .side-place-item {
 }
-.abc {
-  display: flex;
-  align-items: center;
-}
-.side-place .side-place .abc:hover{
+.side-place .side-place .side-place-name:hover{
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
   background-color: $color-white;
@@ -1169,14 +1172,14 @@ a .ui-select-choises-row-inner {
   font-size: $font-size-small;
   color: $color-storm;
 }
-.container {
-  padding-top: 58px;
+.nst-container {
+  background-color: $color-bg-nested;
   display: inline-flex;
   flex-direction: column;
   width: 100%;
   overflow: hidden;
 }
-.container:after {
+.nst-container:after {
   content: "";
   display: block;
   height: 0;
