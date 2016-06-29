@@ -45,38 +45,6 @@
   width: 100px;
 }
 
-.compose .composen {
-  padding-left: 35px;
-  background-color: transparent;
-  border: none;
-  text-align: center;
-}
-
-.composen a {
-  background-color: $color-sense;
-  border: 1px solid $color-sense-wire;
-  line-height: 30px ;
-  color: white;
-  display: inline-block;
-  border-radius: 5px;
-  font-size: $font-size-small;
-  font-weight: 900;
-  margin-left: -32px;
-  height: 30px;
-  width: 128px;
-}
-
-.compose {
-  justify-content:center;
-  align-items: center;
-  min-width: 208px;
-  text-align: center;
-  border-bottom: 1px solid #14d769;
-}
-
-.composen a:hover{
-  color: $color-white;
-}
 .subnavitems {
   border-bottom: 1px solid #14d769;
 }
@@ -93,16 +61,6 @@
 .search .input {
   height: 10px;
   width: 50px;
-}
-.compose,.subnavitems{
-  display: flex;
-  z-index: 1;
-  position: relative;
-  right: 0;
-  left: 0;
-  top: 0;
-  align-items: center;
-  min-height: 42px;
 }
 #PrimaryPageSelector {
   width: 100%;

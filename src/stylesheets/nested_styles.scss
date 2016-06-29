@@ -34,12 +34,24 @@
   color: $color-breeze;
   width: 24px;
   height: 24px;
-  background-color: $color-white;
-
 }
 
-.icon-search {
+.icon-all-place {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+}
 
+.icon-bookmarks {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-position: 0 16px;
+  background-repeat: no-repeat;
+}
+
+.icon-sent {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-position: 0 -16px;
+  background-repeat: no-repeat;
 }
 
 .icon-storm {

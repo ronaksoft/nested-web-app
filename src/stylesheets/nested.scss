@@ -216,7 +216,7 @@ a.place {
 
 }
 
-.btn-green:hover:enabled {
+.btn-green:hover {
   background-color: $color-sense-wire;
   text-decoration: none;
 }
@@ -1003,7 +1003,7 @@ a .ui-select-choises-row-inner {
   box-sizing: border-box;
 }
 .nested-logo {
-  height: 64px;
+  height: 82px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -1015,8 +1015,121 @@ a .ui-select-choises-row-inner {
   width: 32px;
   margin: auto;
 }
+
 .compose {
+  display: flex;
+  cursor: pointer;
   height: 32px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  min-width: 208px;
+  text-align: center;
+}
+
+#compose {
+  //border: 1px solid $color-sense-wire;
+  line-height: 30px ;
+  color: white;
+  display: flex;
+  font-size: $font-size-medium;
+  font-family: open-sans, sans-serif;
+  font-weight: 400;
+  justify-content: center;
+  width: 174px;
+  height: 32px;
+}
+
+#compose:hover{
+  color: $color-white;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
+  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
+}
+#compose:active {
+  background-color: $color-sense;
+}
+.side-menu {
+  height: 176px;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  justify-content: center;
+}
+.side-menu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  flex: 0 1 auto;
+}
+.side-menu-item .item{
+  display: flex;
+  color: $color-solid;
+  font-size: $font-size-large;
+  font-weight: 200;
+  margin-left: 3px;
+}
+.side-menu-item:hover{
+
+  background-color: $color-white;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
+  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
+}
+.side-menu-item:active {
+}
+
+.side-place {
+  width: calc(100% - 200px);
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  justify-content: center;
+}
+.side-place-item {
+  display: flex;
+  align-items: center;
+  width: calc (100% - 10px);
+  height: 56px;
+  flex: none;
+  flex: 0 1 auto;
+}
+.side-place-item:hover{
+  border-radius: 7px;
+  background-color: $color-white;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
+  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
+}
+
+.side-place-item:active{
+  border-radius: 7px;
+  background-color: rgba(255,255,255,.4);
+}
+
+.side-place-item-image {
+  width: 60px;
+  display: flex;
+  flex: none;
+  justify-content: flex-end;
+}
+.side-place-item a {
+  color: rgb(71, 97, 82);
+  font-weight: 300;
+  margin-left: 4px;
+}
+.side-profile {
+  width: 100%;
+  height: 64px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
 }
 .container {
   padding-top: 58px;
