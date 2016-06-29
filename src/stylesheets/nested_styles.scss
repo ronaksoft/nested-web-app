@@ -36,22 +36,27 @@
   height: 24px;
 }
 
-.icon-all-place {
+.icon-side {
   background-image: url("../assets/icons/sidebaricon.svg");
-  background-position: 0 0px;
   background-repeat: no-repeat;
+  margin: 0 5px 0 15px;
+}
+
+.icon-all-place {
+  background-position: 0 0px;
 }
 
 .icon-bookmarks {
-  background-image: url("../assets/icons/sidebaricon.svg");
-  background-position: 0 16px;
-  background-repeat: no-repeat;
+  background-position: 0 -24px;
 }
 
 .icon-sent {
-  background-image: url("../assets/icons/sidebaricon.svg");
-  background-position: 0 -16px;
-  background-repeat: no-repeat;
+  background-position: 0 -48px;
+}
+.icon-more {
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
+  height: 32px;
+  width: 32px;
 }
 
 .icon-storm {
@@ -167,3 +172,41 @@
 
 }
 
+.lines {
+  display: inline-block;
+  width: 32px;
+  height: 100%;
+}
+.lines div{
+  float: left;
+  display: inline-block;
+  flex: none;
+  width: 50%;
+  height: 50%;
+  box-sizing: border-box;
+}
+.box-r {
+  border-right: solid;
+  border-width: 1px;
+  border-color: $color-breeze;
+}
+.box-l {
+  border-left: solid;
+  border-width: 1px;
+  border-color: $color-breeze;
+}
+.box-t {
+  border-top: solid;
+  border-width: 1px;
+  border-color: $color-breeze;
+}
+.box-b {
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: $color-breeze;
+}
+.box-n {
+  border-right: solid;
+  border-width: 0;
+  border-color: $color-breeze;
+}
