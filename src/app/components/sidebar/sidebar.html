@@ -2,6 +2,12 @@
   <div class="all-messages {{!events.place.id && events.filter == '!$all' ? 'selected' : null}}">
     <a class="{{!events.place.id && events.filter == '!$all' ? 'active' : null}}" href="#/events">All Places</a>
   </div>
+  <div>
+  <a class="{{!events.place.id && events.filter == '!$all' ? 'active' : null}}" href="#/events">Bookmarks</a>
+  </div>
+  <div>
+  <a class="{{!events.place.id && events.filter == '!$all' ? 'active' : null}}" href="#/events">Sent</a>
+  </div>
 <div>
   <ul>
     <li data-ng-repeat="place in sidebarCtrl.places"
