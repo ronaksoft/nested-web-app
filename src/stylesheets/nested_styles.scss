@@ -324,6 +324,9 @@ height: 122px;
 .post-card {
   margin-top: 32px;
   border: 1px solid #ced9d3;
+  position: relative;
+  box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
+  z-index: 5;
 }
 .post-card section {
   display: inline-flex;
@@ -340,11 +343,38 @@ height: 122px;
   font-size: $font-size-small;
   color: $color-storm;
   margin-left: 8px;
+
+}
+.post-card-time{
+  position: relative;
+  top: 12px;
 }
 .post-card .post-head .img{
   width: 42px;
   justify-content: flex-start;
 }
+.post-card .post-card-badge {
+  background-color: transparent;
+  justify-content: flex-end;
+  position: absolute;
+  z-index: 33;
+  height: 20px;
+}
+.post-card .post-card-badge a{
+  color: $color-white;
+  font-size: $font-size-small;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-left: 5px;
+  padding: 2px 12px 5px 12px;
+  background-color: rgb(134, 157, 145)
+}
+.post-card .post-card-badge a:last-child{
+  z-index: 10;
+  position: relative;
+  background-color: rgb(20, 215, 105);
+}
+
 .post-card .post-subject h3{
   margin: 8px 0;
 
@@ -383,21 +413,44 @@ height: 122px;
   border: solid 1px rgba(0,0,0,.2);
   border-top-width:0px;
   padding: 0 8px;
+  z-index: 1;
+}
+.post-card-comment .comments-load {
+  height: 32px;
+  align-items: center;
+}
+.post-card-comment .comments-load a{
+  margin-left: 32px;
 }
 .post-card-comments {
-  align-items: center;
+  align-items: flex-start;
   margin: 4px 0;
 }
-.post-card-comments a{
+
+.post-card-comments .text{
+  padding-top: 4px;
+}
+.post-card-comments strong{
+  font-weight: 600;
+  position: relative;
+  font-size: 12px;
+  word-wrap: break-word;
+  line-break: strict;
+  white-space: nowrap;
+  height: 100%;
+  float: left;
+}
+.post-card-comments p{
   font-size: 12px;
   font-family: open-sans, sans-serif;
   font-weight: 400;
   color: #476152;
-}
-.post-card-comments a b{
-  font-weight: 600;
+  height: 100%;
+  position: relative;
+  //white-space: nowrap;
 }
 .post-card-comments span{
+  padding-top: 4px;
   font-size: 12px;
   font-family: open-sans, sans-serif;
   font-weight: 300;
