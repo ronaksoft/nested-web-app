@@ -314,3 +314,104 @@ height: 122px;
 .margin-l-15 {
   margin-left: 15px;
 }
+/**
+  ******************************
+  *  messages post card
+  ******************************
+ */
+
+.post-area { }
+.post-card {
+  margin-top: 32px;
+  border: 1px solid #ced9d3;
+}
+.post-card section {
+  display: inline-flex;
+  width: 100%;
+  padding: 0 12px;
+  background-color: $color-white;
+}
+.post-card .post-head {
+  height: 50px;
+  align-items: center;
+  flex: none;
+}
+.post-card .post-head span{
+  font-size: $font-size-small;
+  color: $color-storm;
+  margin-left: 8px;
+}
+.post-card .post-head .img{
+  width: 42px;
+  justify-content: flex-start;
+}
+.post-card .post-subject h3{
+  margin: 8px 0;
+
+}
+.post-card .post-body p{
+  font-size: $font-size-small;
+  color: $color-solid-60;
+  word-spacing: .3em;
+  font-weight: 400;
+  padding: 4px 0;
+  margin: 0;
+}
+.post-card .post-attachments{
+  height: 66px;
+  background-color: white;
+  align-items: center;
+}
+.post-card .post-footer{
+  height: 40px;
+  align-items: center;
+}
+.post-card .post-footer a{
+  font-size: $font-size-small;
+  color: $color-solid-30;
+}
+.post-card .post-footer .post-icons{
+  justify-content: flex-end;
+  padding: 0 8px;
+}
+.post-card-comment{
+  //margin: 0 auto;
+  width: calc(100% - 32px);
+  position: relative;
+  left: 16px;
+  background-color: #E7FBF0;
+  border: solid 1px rgba(0,0,0,.2);
+  border-top-width:0px;
+  padding: 0 8px;
+}
+.post-card-comments {
+  align-items: center;
+  margin: 4px 0;
+}
+.post-card-comments a{
+  font-size: 12px;
+  font-family: open-sans, sans-serif;
+  font-weight: 400;
+  color: #476152;
+}
+.post-card-comments a b{
+  font-weight: 600;
+}
+.post-card-comments span{
+  font-size: 12px;
+  font-family: open-sans, sans-serif;
+  font-weight: 300;
+  color: $color-solid-30;
+}
+.post-card-comment .post-card-comment-input {
+  height: 48px;
+  align-items: center;
+}
+.post-card-comment-input input{
+  height: 32px;
+  align-items: center;
+  border-radius: 5px;
+  padding: 0 8px;
+  font-size: 12px;
+  border: solid 1px rgba(0,0,0,.2);
+}
