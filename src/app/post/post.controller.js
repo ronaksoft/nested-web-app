@@ -18,11 +18,11 @@
       $location.path('/signin').replace();
     }
 
-    vm.postSendProgress = false;
     vm.postLoadProgress = false;
     vm.commentSendProgress = false;
     vm.commentRemoveProgress = false;
     vm.commentLoadProgress = false;
+    vm.hasMoreComments = false;
 
     vm.user = AuthService.user;
     vm.commentSettings = {
@@ -44,7 +44,10 @@
       PostFactoryService.getWithComments(vm.postId, vm.commentSettings).then(function (post) {
         vm.post = post;
         vm.postLoadProgress = false;
+        // the conditions says maybe there are more comments that the limit
+        vm.hasMoreComments = !(vm.commentSettings.skip < vm.commentSettings.limit);
         $scope.scrolling = true;
+
       }).catch(function (error) {
         // TODO: create a service that handles errors
         // and knows what to do when an error occurs
@@ -103,7 +106,7 @@
 
       $scope.commentSendInProgress = true;
 
-      PostFactoryService.addComment(vm.post, body).then(function(post) {
+      PostFactoryService.addComment(vm.post, vm.user, body).then(function(post) {
         vm.post = post;
         event.currentTarget.value = '';
         $scope.scrolling = $scope.unscrolled && true;

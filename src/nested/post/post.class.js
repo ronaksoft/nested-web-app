@@ -3,7 +3,7 @@
 
   angular.module('nested').factory('NstPost', NstPost);
 
-  function NstPost($rootScope, $q, $injector, $log, _, WsService, NstObsModel, NestedUser, NestedPlace, NestedAttachment, NestedRecipient, ATTACHMENT_STATUS) {
+  function NstPost(_, NstObsModel, NestedAttachment, ATTACHMENT_STATUS) {
 
     Post.prototype = new NstObsModel();
     Post.prototype.constructor = Post;
@@ -41,58 +41,6 @@
         angular.extend(this, model);
       }
     }
-
-    Post.prototype.create = function(data) {
-      this.id = data._id.$oid;
-      this.sender = new NestedUser(data.sender);
-      this.replyTo = new Post(data.replyTo);
-      this.subject = data.subject;
-      this.contentType = data.content_type;
-      this.body = data.body;
-      this.internal = data.internal;
-      this.date = new Date(data['time-stamp'] * 1e3);
-      this.updated = new Date(data['last-update'] * 1e3);
-      this.counters = data.counters || this.counters;
-      this.moreComments = this.counters.comments > -1 ? this.counters.comments > this.comments.length : true;
-      this.monitored = data.monitored;
-      this.forwarded = new Post(data.forwarded);
-      this.spam = data.spam;
-
-      this.places = [];
-      for (var k in data.post_places) {
-        this.places[k] = new NestedPlace({
-          id: data.post_places[k]._id,
-          name: data.post_places[k].name
-        });
-      }
-
-      if (data.place_access) {
-        _.forEach(this.places, function(place) {
-          place.access = _.find(data.place_access, {
-            '_id': place.id
-          }).access;
-        });
-      }
-
-      this.attachments = [];
-      this.attachmentPreview = false;
-      for (var k in data.post_attachments) {
-        this.attachments[k] = new NestedAttachment(data.post_attachments[k], this);
-        this.attachmentPreview = this.attachmentPreview || !!this.attachments[k].thumbs.x128.uid;
-      }
-
-      this.recipients = []; // TODO: ?
-      for (var k in data.recipients) {
-        this.recipients[k] = new NestedRecipient(data.recipients[k]);
-      }
-
-      if (this.full) {
-        this.commentLimit = this.counters.comments || 100 * this.commentLimit;
-        this.loadComments();
-      }
-
-      return this;
-    };
 
     Post.prototype.removeComment = function(comment) {
       var index = _.findIndex(this.comments, { 'id': comment.id });
@@ -150,7 +98,7 @@
       var newComments = _.differenceBy(comments, this.comments, 'id');
 
       _.forEach(newComments, function (comment) {
-        this.comments.unshift(comment);
+        this.comments.push(comment);
       }.bind(this));
     };
 
