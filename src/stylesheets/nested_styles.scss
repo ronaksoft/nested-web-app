@@ -120,7 +120,7 @@
   @extend .input;
   border: 1px solid $color-breeze;
   width: 600px;
-  height: 42px;
+  height: 32px;
   z-index: 1;
   margin-top: 15px;
   margin-left: 22px;
@@ -181,6 +181,7 @@ height: 122px;
   font-size: 18px;
   text-align: center;
   cursor: pointer;
+  left: 120px;
 
 
 }
@@ -201,6 +202,10 @@ height: 122px;
 .nst-place-icon-search:focus {
   display: none;
   border-bottom: 200px solid #14d769;
+}
+
+#showinput:focus {
+
 }
 
 /**
