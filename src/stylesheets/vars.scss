@@ -92,3 +92,15 @@ $font-family-per-bold: "OpenSans";
     height: 100%;
   }
 }
+@keyframes post-comment {
+  0% {
+    top: -100px;
+    height: 1px;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    height: auto;
+    opacity: 1;
+  }
+}
