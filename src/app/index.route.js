@@ -113,7 +113,7 @@
         url: '/post/:postId',
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
-        controllerAs: 'post'
+        controllerAs: 'postVm'
       })
       .state('new', {
         url: '/new',
