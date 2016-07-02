@@ -30,7 +30,7 @@
   /** @ngInject */
   function NstPlace($rootScope, $q, $log,
                     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_MODEL_EVENT,
-                    NstSvcRandomize, NstPlaceFactory, AuthService, WsService,
+                    NstSvcRandomize, AuthService, WsService,
                     NestedUser, StoreItem) {
     /**
      * Creates an instance of NestedPlace. Do not use this directly, use NestedPlaceFactoryService.get(data, requiredFields) instead

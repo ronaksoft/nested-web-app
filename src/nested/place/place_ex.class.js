@@ -22,7 +22,7 @@
       KNOWN_GUEST: 'known_guest',
       CREATOR: 'creator'
     })
-    .factory('NestedPlaceEx', function ($rootScope, $q, NestedPlaceRepoService, AuthService, WsService, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
+    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, AuthService, WsService, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
 

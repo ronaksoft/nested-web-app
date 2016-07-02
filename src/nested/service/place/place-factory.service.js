@@ -45,7 +45,7 @@
   function NestedPlaceFactoryService($q,
                                      STORAGE_TYPE,
                                      StorageFactoryService, WsService,
-                                     FactoryQuery, NestedPlace) {
+                                     FactoryQuery, NstPlace) {
     function NestedPlaceFactory() {
       this.cache = StorageFactoryService.create('nested.place.factory.service', STORAGE_TYPE.MEMORY);
       this.cache.setFetchFunction(function (id) {
