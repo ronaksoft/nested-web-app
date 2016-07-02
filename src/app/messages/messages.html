@@ -1,15 +1,193 @@
 <div class="maincontainer _fw _fh">
   <div class="sidebar">
-    <div class="nested-logo">
-      <div id="Logo"></div>
+    <div class="nested-logo"><div id="Logo"></div></div>
+    <div class="compose"><a class="btn-green" id="compose">Compose</a></div>
+    <div class='side-menu'>
+      <div class="side-menu-item"><div class="icon icon-solid icon-side icon-all-place"></div><a class="item">All Places</a></div>
+      <div class="side-menu-item"><div class="icon icon-solid icon-side icon-bookmarks"></div><a class="item">Bookmarks</a></div>
+      <div class="side-menu-item"><div class="icon icon-solid icon-side icon-sent"></div><a class="item">Sent</a></div>
     </div>
-    <div class="compose">
-      <div class="btn-green" id="compose">Compose</div>
+    <div class="side-place">
+      <div class="side-place-item">
+        <div class="side-place-item-image">
+          <img initials="SalPersonal" data-url="place.picture.x32.url" data-width="40" data-height="40" data-radius="20" class="account-initials-40" data-word-count="2" data-font-size="16"/>
+        </div>
+        <a class="_fw">Sal's Personal</a>
+        <span class="e2-arrow _df">
+          <label data-ng-model="colp"
+             class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+             data-ng-click="colp =! colp">
+          </label>
+        </span>
+      </div>
+      <div class="side-place" data-ng-show="colp">
+        <div class="side-place-item">
+          <div class="side-place-item-image">
+            <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+          </div>
+          <div class="lines">
+            <div class="box-r"></div>
+            <div class="box-b"></div>
+            <div class="box-n"></div>
+            <div class="box-n"></div>
+          </div>
+          <div class="_fw _fh side-place-name">
+            <a class="_fw">Nested Music</a>
+          </div>
+
+        </div>
+      </div>
+      <div class="side-place-item">
+        <div class="side-place-item-image">
+          <img initials="place.name" data-url="place.picture.x32.url" data-width="40" data-height="40" data-radius="20" class="account-initials-40" data-word-count="2" data-font-size="16"/>
+        </div>
+        <a class="_fw">Ronak Software Group</a>
+        <span class="e2-arrow _df">
+          <label data-ng-model="colp"
+                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                 data-ng-click="colp =! colp">
+          </label>
+        </span>
+      </div>
+      <div class="side-place" data-ng-show="colp">
+        <div class="side-place-item">
+          <div class="side-place-item-image">
+            <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+          </div>
+          <div class="lines">
+            <div class="box-r"></div>
+            <div class="box-b"></div>
+            <div class="box-r"></div>
+            <div class="box-n"></div>
+          </div>
+          <div class="_fw _fh side-place-name">
+            <a class="_fw">Nested</a>
+            <span class="e2-arrow _df">
+              <label data-ng-model="colp"
+                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                 data-ng-click="colp =! colp">
+          </label>
+            </span>
+          </div>
+        </div>
+        <div class="side-place">
+          <div class="side-place-item">
+            <div class="side-place-item-image">
+              <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+            </div>
+            <div class="lines">
+              <div class="box-n"></div>
+              <div class="box-l"></div>
+              <div class="box-n"></div>
+              <div class="box-l"></div>
+            </div>
+            <div class="lines">
+              <div class="box-r"></div>
+              <div class="box-b"></div>
+              <div class="box-r"></div>
+              <div class="box-n"></div>
+            </div>
+            <div class="_fw _fh side-place-name">
+              <a class="_fw">Copy-writing</a>
+              <span class="e2-arrow _df">
+                <label data-ng-model="colp"
+                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                 data-ng-click="colp =! colp">
+          </label>
+              </span>
+            </div>
+
+          </div>
+          <div class="side-place-item">
+            <div class="side-place-item-image">
+              <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+            </div>
+            <div class="lines">
+              <div class="box-n"></div>
+              <div class="box-l"></div>
+              <div class="box-n"></div>
+              <div class="box-l"></div>
+            </div>
+            <div class="lines">
+              <div class="box-r"></div>
+              <div class="box-b"></div>
+              <div class="box-r"></div>
+              <div class="box-n"></div>
+            </div>
+            <div class="_fw _fh side-place-name">
+              <a class="_fw">Design</a>
+              <span class="e2-arrow _df">
+                <label data-ng-model="colp"
+                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                 data-ng-click="colp =! colp">
+          </label>
+              </span>
+            </div>
+          </div>
+          <div class="side-place-item">
+            <div class="side-place-item-image">
+              <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+            </div>
+            <div class="lines">
+              <div class="box-n"></div>
+              <div class="box-l"></div>
+              <div class="box-n"></div>
+              <div class="box-l"></div>
+            </div>
+            <div class="lines">
+              <div class="box-r"></div>
+              <div class="box-b"></div>
+              <div class="box-n"></div>
+              <div class="box-n"></div>
+            </div>
+            <div class="_fw _fh side-place-name">
+              <a class="_fw">Development</a>
+              <span class="e2-arrow _df">
+                <label data-ng-model="colp"
+                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                 data-ng-click="colp =! colp">
+          </label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="side-place-item">
+          <div class="side-place-item-image">
+            <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+          </div>
+          <div class="lines">
+            <div class="box-r"></div>
+            <div class="box-b"></div>
+            <div class="box-n"></div>
+            <div class="box-n"></div>
+          </div>
+          <div class="_fw _fh side-place-name">
+            <a class="_fw">The Kichen</a>
+          </div>
+
+        </div>
+      </div>
+      <div class="side-place-item">
+        <div class="side-place-item-image">
+          <img initials="place.name" data-url="place.picture.x32.url" data-width="40" data-height="40" data-radius="20" class="account-initials-40" data-word-count="2" data-font-size="16"/>
+        </div>
+        <a class="_fw">Z Conf7</a>
+      </div>
+    </div>
+    <div class="side-profile">
+      <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+      <div class="_fw _df"><a>Sal Naghavi<br><span class="nst-mood-storm">@kuttlass</span> </a></div>
+      <div class="">
+        <a href="#/place/{{events.place.id}}">
+          <div class="icon icon-solid icon-more" data-tooltip-placement="top auto" data-uib-tooltip="Place settings"></div>
+        </a>
+      </div>
     </div>
   </div>
+  <div class="sidebar-border"></div>
   <div class="nst-container">
-    <div class="nst-navbar">
-      <div class="intern-navbar">
+    <div class="nst-navbar _df">
+      <div class="content">
         <div class="navbar-top">
           <div class="title-bar _difh margin-20 _vam _fl">
             <div class="logo-bar _df">
@@ -52,6 +230,49 @@
         <input class="_fw input input-title" placeholder="Quick Message Title..."/>
         <input class="_fw input" placeholder="quick message text..."/>
 
+      </div>
+      <div class="post-area">
+        <div class="post-card _fw">
+          <section class="post-card-badge">
+            <a class="">Ronak Software Group</a>
+            <a class="">+10</a>
+          </section>
+          <section class="post-head _difh">
+            <div class="img _df">
+              <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
+            </div>
+            <div class="_fw _difc">
+              <div class="_difc _fw"><h4 class="_df">Sal Naghavi</h4><span class="nst-mood-storm _df">@kuttlass</span></div>
+              <span class="_df _fn post-card-time">Jun 06, 15:18</span>
+            </div>
+          </section>
+          <section class="post-subject"><h3>Ronak Open Position:</h3></section>
+          <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
+          </p></section>
+          <section class="post-attachments" data-ng-show="false">attachments</section>
+          <section class="post-footer _difh"><a class="_df _fn">1 comment</a><div class="post-icons _fw _df"><div class="icon icon-storm icon-all-place icon-side _df"></div></div></section>
+        </div>
+        <section class="post-card-comment _difv">
+          <div class="_df _fw comments-load"><a>Older Comments...</a></div>
+          <div class="post-card-comments _difh">
+            <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
+            <div class="text _df _fw">
+              <p class="_fw"><strong>Farzin Nami:</strong>Okey hatman merC az pishnahadet</p>
+            </div>
+            <span class="_df _fn">9 days ago</span>
+          </div>
+          <div class="post-card-comments _difh">
+            <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
+            <div class="text _df _fw">
+              <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you send your docs/reports/receipts into those places.</p>
+            </div>
+            <span class="_df _fn">9 days ago</span>
+          </div>
+          <div class="post-card-comment-input _df">
+            <input class="_fw" placeholder="write your comment ...">
+
+          </div>
+        </section>
       </div>
 
     </section>
