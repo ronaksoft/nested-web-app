@@ -3,7 +3,10 @@
 
   angular.module('nested').factory('NstComment', NstComment);
 
-  function NstComment($rootScope, $q, $log, WsService, NestedUser, NstPlace, NstPost) {
+  function NstComment(NstObsModel) {
+    Comment.prototype = new NstObsModel();
+    Comment.prototype.constructor = Comment;
+    
     function Comment(model) {
 
       this.post = null;
@@ -19,26 +22,6 @@
         angular.extend(this, model);
       }
     }
-
-    Comment.prototype = {
-      create: function (post, data) {
-        this.id = data._id.$oid;
-        this.attach = data.attach;
-        this.post = post;
-        this.sender = new NestedUser({
-          _id: data.sender_id,
-          fname: data.sender_fname,
-          lname: data.sender_lname,
-          picture: data.sender_picture
-        });
-        this.body = data.text;
-        this.date = new Date(data.time * 1e3);
-        this.removed = data._removed;
-
-        return this;
-      }
-
-    };
 
     return Comment;
   }

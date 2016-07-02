@@ -71,7 +71,7 @@
 
     <div id="Comments" class="_difv _vat">
       <div class="_difv comment-msg" onscroll="angular.element(this).scope().postVm.checkScroll(event)" scroll-me="scrolling">
-        <div data-ng-if="postVm.post.moreComments" class="_fw text-center">
+        <div data-ng-if="postVm.hasMoreComments" class="_fw text-center">
           <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="postVm.loadMoreComments()">Load More...</a>
         </div>
         <div data-ng-repeat="comment in postVm.post.comments | orderBy : 'date.getTime()'" class="_difh NewComment">

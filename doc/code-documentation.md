@@ -15,7 +15,7 @@ function sum(a, b) {
 }
 ```
 ## Example 2
-A service that wrapsAngular $http service and performs CRUD operations.
+A service that wraps Angular $http service and performs CRUD operations.
 ```javascript
 
 /**
