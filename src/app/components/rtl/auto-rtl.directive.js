@@ -10,19 +10,18 @@
           scope.$watch('autoRtl', function(val) {
             console.log(val);
             function isUnicode(str) {
-              if (str.substring(0, 1).charCodeAt() > 255) {
+              if (str.substring(0, 1).charCodeAt(0) > 255) {
                 return true;
               }
               return false;
             }
             $timeout(function() {
-              var dir =  element[0];
-              dir.keyup(function(e) {
-                console.log("k");
-                if (isUnicode(dir.val())) {
+              var elem =  element[0];
+              elem.keyup(function(e) {
+                // console.log("k");
+                if (isUnicode(elem.val())) {
                   $(this).css('direction', 'rtl');
-                }
-                else {
+                } else {
                   $(this).css('direction', 'ltr');
                 }
               });
