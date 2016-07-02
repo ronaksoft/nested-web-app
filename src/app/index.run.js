@@ -11,10 +11,12 @@
                     UNREGISTER_REASON, AUTH_EVENTS, AuthService, LoaderService, LOADER_EVENTS) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
 
-    $rootScope.now = new Date();
-    $interval(function () {
-      $rootScope.now.setTime(Date.now());
-    }, 1000);
+    $rootScope.now = function () {
+      return new Date();
+    }
+    // $interval(function () {
+    //   $rootScope.now.setTime(Date.now());
+    // }, 1000);
 
     $rootScope.progress = {
       bar: ngProgressFactory.createInstance(),
