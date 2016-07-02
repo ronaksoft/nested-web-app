@@ -3,11 +3,15 @@
 
   angular
     .module('nested')
-    .controller('AttachmentController', AttachmentController);
+    .constant('VIEWPORT', {
+      DOWNLOAD: 'download',
+      VIEW: 'view',
+      STREAM: 'dontUseStream'
+    }).controller('AttachmentController', AttachmentController);
 
   /** @ngInject */
   function AttachmentController($location, $scope, $rootScope, $q,
-                                AuthService, LoaderService) {
+                                AuthService, LoaderService, VIEWPORT) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -45,7 +49,9 @@
       }
       $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
 
-      return LoaderService.inject($scope.attachment.getDownloadUrl().then(function () {
+      var view = VIEWPORT.VIEW;
+
+      return LoaderService.inject($scope.attachment.getDownloadUrl(view).then(function () {
         return 'image' == $scope.attachment.mimeType.split('/')[0] ? $q(function(res ,rej) {
           $scope.attLoad.success = res;
           $scope.attLoad.fail = rej;
@@ -60,8 +66,9 @@
         $scope.index = $scope.attachment.post.attachments.length + 1;
       }
       $scope.attachment = $scope.attachment.post.attachments[--$scope.index];
+      var view = VIEWPORT.VIEW;
 
-      return LoaderService.inject($scope.attachment.getDownloadUrl().then(function () {
+      return LoaderService.inject($scope.attachment.getDownloadUrl(view).then(function () {
         return 'image' == $scope.attachment.mimeType.split('/')[0] ? $q(function(res ,rej) {
           $scope.attLoad.success = res;
           $scope.attLoad.fail = rej;
@@ -74,7 +81,9 @@
     $scope.download = function (attachment, event) {
       var attach = angular.copy(attachment);
 
-      attach.getDownloadUrl().then(function (url) {
+      var view = VIEWPORT.DOWNLOAD;
+
+      attach.getDownloadUrl(view).then(function (url) {
         window.open(url,'_blank');
       });
 

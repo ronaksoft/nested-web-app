@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedStore', function ($rootScope, $q, WsService, $log) {
+    .factory('NestedStore', function ($rootScope, $q, WsService, $log, VIEWPORT) {
       function Store(data, full) {
         this.full = full || false;
 
@@ -74,8 +74,11 @@
           });
         },
 
-        getDownloadUrl: function (uid, token) {
-          var url = this.url + '/download/' + WsService.getSessionKey() + '/' + uid + (token ? ('/' + token) : '');
+        getDownloadUrl: function (uid, token, view) {
+          if(!view){
+            view = VIEWPORT.VIEW
+          }
+          var url = this.url + '/' + view + '/' + WsService.getSessionKey() + '/' + uid + (token ? ('/' + token) : '');
 
           return $q(function (res) {
             res(url);

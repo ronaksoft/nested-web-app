@@ -15,6 +15,18 @@
     <div class="panel-profile-setting _bgwhite _ma _fh">
 
       <div class="_fw upload-photo-container">
+        <div class="_ma upload-photo">
+          <label for="logo"><img
+            src="{{user.picture.x128.url ? user.picture.x128.url : '../assets/images/uploadphoto_16.png'}}"/></label>
+          <input id="logo" type="file" name="logo" accept="image/*"
+                 onchange="angular.element(this).scope().account_profile.imgToUri(event)"/>
+        </div>
+        <div class="probut">
+          <label for="logo" class="add-photo-hover"></label>
+          <div data-ng-if="user.picture.org.url" class="remove-photo-hover"
+               data-ng-click="account_profile.removeImg()"></div>
+        </div>
+
       </div>
       <div class="inner-panel _ma">
         <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{user.username}}</div>
