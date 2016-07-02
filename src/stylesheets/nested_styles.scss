@@ -108,13 +108,22 @@
   color: $color-white;
 }
 
-.input {
+  .input {
   border: none;
   background-color: $color-white;
   font-size: 14px;
   height: 32px;
   padding-left: 10px;
+}
 
+.input-border {
+  @extend .input;
+  border: 1px solid $color-breeze;
+  width: 600px;
+  height: 42px;
+  z-index: 1;
+  margin-top: 15px;
+  margin-left: 22px;
 }
 
 .input-tiny {
@@ -128,7 +137,6 @@
 
 .input-title {
   font-size: 24px;
-  height: 40px;
   padding-left: 10px;
   height: 52px;
 
@@ -159,20 +167,22 @@ height: 122px;
 }
 
 .navbar-bottom {
-  height: 64px;
+  height: 66px;
 }
 
 .menu-links {
   display: inline;
 }
 .menu-links-btn {
-  height: 68px;
-  width: 140px;
-  line-height: 68px;
+  height: 66px;
+  width: 120px;
+  line-height: 58px;
   color: $color-storm;
-  font-size: 24px;
+  font-size: 18px;
   text-align: center;
   cursor: pointer;
+
+
 }
 .menu-links-search {
   width: 24px;
@@ -181,7 +191,17 @@ height: 122px;
 .menu-links-btn:hover {
   color: $color-solid;
 }
+.menu-links .menu-links-btn {
+  border-bottom: 1px solid $color-white;
+}
+.menu-links .li-hover:hover, .selected {
+  border-bottom: 2px solid #14d769;
+}
 
+.nst-place-icon-search:focus {
+  display: none;
+  border-bottom: 200px solid #14d769;
+}
 
 /**
   ******************************
@@ -283,6 +303,7 @@ height: 122px;
 .quick-message {
   height: 86px;
   border: 1px solid $color-breeze;
+  box-shadow: 0 10px 6px -6px rgba(119, 123, 121, 0.4);
 }
 
 /**

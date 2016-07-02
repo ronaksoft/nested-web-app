@@ -1,11 +1,19 @@
 <div class="maincontainer _fw _fh">
   <div class="sidebar">
-    <div class="nested-logo"><div id="Logo"></div></div>
+    <div class="nested-logo">
+      <div id="Logo"></div>
+    </div>
     <div class="compose"><a class="btn-green" id="compose">Compose</a></div>
     <div class='side-menu'>
-      <div class="side-menu-item"><div class="icon icon-solid icon-side icon-all-place"></div><a class="item">All Places</a></div>
-      <div class="side-menu-item"><div class="icon icon-solid icon-side icon-bookmarks"></div><a class="item">Bookmarks</a></div>
-      <div class="side-menu-item"><div class="icon icon-solid icon-side icon-sent"></div><a class="item">Sent</a></div>
+      <div class="side-menu-item">
+        <div class="icon icon-solid icon-side icon-all-place"></div>
+        <a class="item">All Places</a></div>
+      <div class="side-menu-item">
+        <div class="icon icon-solid icon-side icon-bookmarks"></div>
+        <a class="item">Bookmarks</a></div>
+      <div class="side-menu-item">
+        <div class="icon icon-solid icon-side icon-sent"></div>
+        <a class="item">Sent</a></div>
     </div>
     <div class="side-place">
       <div class="side-place-item">
@@ -15,8 +23,8 @@
         <a class="_fw">Sal's Personal</a>
         <span class="e2-arrow _df">
           <label data-ng-model="colp"
-             class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-             data-ng-click="colp =! colp">
+                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                 data-ng-click="colp =! colp">
           </label>
         </span>
       </div>
@@ -64,9 +72,9 @@
             <a class="_fw">Nested</a>
             <span class="e2-arrow _df">
               <label data-ng-model="colp"
-                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-                 data-ng-click="colp =! colp">
-          </label>
+                     class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                     data-ng-click="colp =! colp">
+              </label>
             </span>
           </div>
         </div>
@@ -91,9 +99,9 @@
               <a class="_fw">Copy-writing</a>
               <span class="e2-arrow _df">
                 <label data-ng-model="colp"
-                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-                 data-ng-click="colp =! colp">
-          </label>
+                       class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                       data-ng-click="colp =! colp">
+                </label>
               </span>
             </div>
 
@@ -118,9 +126,9 @@
               <a class="_fw">Design</a>
               <span class="e2-arrow _df">
                 <label data-ng-model="colp"
-                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-                 data-ng-click="colp =! colp">
-          </label>
+                       class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                       data-ng-click="colp =! colp">
+                </label>
               </span>
             </div>
           </div>
@@ -144,9 +152,9 @@
               <a class="_fw">Development</a>
               <span class="e2-arrow _df">
                 <label data-ng-model="colp"
-                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-                 data-ng-click="colp =! colp">
-          </label>
+                       class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                       data-ng-click="colp =! colp">
+                </label>
               </span>
             </div>
           </div>
@@ -206,13 +214,35 @@
             <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64" data-word-count="2"
                  data-font-size="16"/>
           </div>
-          <div class="menu-links">
-            <div class="menu-links-btn _dib" ng-click="'#/messages'" ng-class="messages ? 'selected' : null">Messages</div>
-            <div class="menu-links-btn _dib" ng-click="'#/activity'" ng-class="events ? 'selected' : null">Activity</div>
-            <div class="menu-links-btn _dib" ng-click="'#/option'" ng-class="options ? 'selected' : null">Option</div>
-            <input class="_dib display-none"/>
-            <div class="menu-links-search _dib _fr"><div class="nst-place-icon-search icon-search-rotated _dib"></div></div>
+
+
+          <div class="menu-links _pr">
+          <input id="showinput" class="_dib input-border display-none _pa"/>
+
+          <section>
+          <div for="showinput" tabindex="-1" onfocus="document.getElementById('showinput').style.display='block'" onblur="document.getElementById('showinput').style.display='none'"
+          class="menu-links-search _dib _vam cursor-pointer">
+          <div class="nst-place-icon-search icon-search-rotated _dib"></div>
           </div>
+          <div class="menu-links-btn _dib li-hover" ng-click="'#/messages'" ng-class="messages ? 'selected' : null">Messages</div>
+          <div class="menu-links-btn _dib li-hover" ng-click="'#/activity'" ng-class="events ? 'selected' : null">Activity</div>
+          <div class="menu-links-btn _dib li-hover" ng-click="'#/option'" ng-class="options ? 'selected' : null">Option</div>
+          </section>
+          </div>
+
+
+          <!--<div class="menu-links _pr">-->
+            <!--<section>-->
+              <!--<div class="menu-links-search _dib _vam cursor-pointer">-->
+                <!--<i class="nst-place-icon-search"></i>-->
+              <!--</div>-->
+              <!--<div class="menu-links-search _dib"><input class="_dib"/></div>-->
+              <!--<div class="menu-links-btn _dib li-hover" ng-click="'#/messages'" ng-class="messages ? 'selected' : null">Messages</div>-->
+              <!--<div class="menu-links-btn _dib li-hover" ng-click="'#/activity'" ng-class="events ? 'selected' : null">Activity</div>-->
+              <!--<div class="menu-links-btn _dib li-hover" ng-click="'#/option'" ng-class="options ? 'selected' : null">Option</div>-->
+            <!--</section>-->
+          <!--</div>-->
+
         </div>
       </div>
     </div>
@@ -220,9 +250,9 @@
     <section class="content">
       <div class="filter-bar _pr">
         <div class="filter-bar-hld">
-          <div class="margin-l-15 nst-place-icon-search _dib"></div>
-          <div class="margin-l-15 nst-place-icon-search _dib"></div>
-          <div class="margin-l-15 nst-place-icon-search _dib"></div>
+          <div class="margin-l-15 nst-place-icon-search _dib cursor-pointer"></div>
+          <div class="margin-l-15 nst-place-icon-search _dib cursor-pointer"></div>
+          <div class="margin-l-15 nst-place-icon-search _dib cursor-pointer"></div>
         </div>
       </div>
 
@@ -250,7 +280,11 @@
           <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
           </p></section>
           <section class="post-attachments" data-ng-show="false">attachments</section>
-          <section class="post-footer _difh"><a class="_df _fn">1 comment</a><div class="post-icons _fw _df"><div class="icon icon-storm icon-all-place icon-side _df"></div></div></section>
+          <section class="post-footer _difh"><a class="_df _fn">1 comment</a>
+            <div class="post-icons _fw _df">
+              <div class="icon icon-storm icon-all-place icon-side _df"></div>
+            </div>
+          </section>
         </div>
         <section class="post-card-comment _difv">
           <div class="_df _fw comments-load"><a>Older Comments...</a></div>
@@ -264,7 +298,8 @@
           <div class="post-card-comments _difh">
             <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
             <div class="text _df _fw">
-              <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you send your docs/reports/receipts into those places.</p>
+              <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you send
+                your docs/reports/receipts into those places.</p>
             </div>
             <span class="_df _fn">9 days ago</span>
           </div>
@@ -278,3 +313,4 @@
     </section>
   </div>
 </div>
+
