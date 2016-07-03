@@ -207,6 +207,9 @@ height: 122px;
 #showinput:focus {
 
 }
+.icon-close {
+  background-image: url('../assets/icons/close.svg');
+}
 
 /**
   ******************************
@@ -214,22 +217,7 @@ height: 122px;
   ******************************
  */
 
-.sidebar {
-  .ul-side-menu {
 
-  }
-  .li-side-menu {
-
-  }
-
-  .ul-side-place-list {
-
-  }
-  .li-sideplace-item {
-
-  }
-
-}
 dl {
   margin: 0;
 }
