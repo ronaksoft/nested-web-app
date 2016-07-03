@@ -118,12 +118,12 @@
 
 .input-border {
   @extend .input;
-  border: 1px solid $color-breeze;
-  width: 600px;
-  height: 32px;
+  border: none;
+  width: 700px;
+  height: 98px;
   z-index: 1;
-  margin-top: 15px;
   margin-left: 22px;
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.2);
 }
 
 .input-tiny {
@@ -162,6 +162,7 @@
   height: 183px;
   justify-content: center;
 }
+
 .navbar-top {
 height: 122px;
 }
@@ -173,6 +174,7 @@ height: 122px;
 .menu-links {
   display: inline;
 }
+
 .menu-links-btn {
   height: 62px;
   width: 120px;
@@ -183,18 +185,21 @@ height: 122px;
   cursor: pointer;
   left: 120px;
 
-
 }
+
 .menu-links-search {
   width: 24px;
   height: 24px;
 }
+
 .menu-links-btn:hover {
   color: $color-solid;
 }
+
 .menu-links .menu-links-btn {
   border-bottom: 1px solid $color-white;
 }
+
 .menu-links .li-hover:hover, .selected {
   border-bottom: 2px solid #14d769;
 }
@@ -212,7 +217,13 @@ height: 122px;
   right: -620px;
 }
 
+.fixed {position:fixed; top:0; left:0; z-index:5; width:100%;}
 
+.input-search {
+  width: 700px;
+  height: 98px;
+  background-color: yellow;
+}
 /**
   ******************************
   *  sidebar

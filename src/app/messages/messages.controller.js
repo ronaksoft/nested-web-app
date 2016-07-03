@@ -17,7 +17,7 @@
       $location.path('/signin').replace();
     }
 
-    
+
     vm.gformats = {
       daily: 'EEEE d MMM',
       monthly: 'MMMM',
@@ -130,7 +130,7 @@
         vm.readyToLoad = true;
       }));
     };
-    
+
     vm.readyToLoad = true;
     vm.scroll = function (event) {
       var element = event.currentTarget;
