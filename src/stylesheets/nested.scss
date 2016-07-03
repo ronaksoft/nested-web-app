@@ -750,14 +750,21 @@ a:hover {
 }
 
 .popover-white + .popover {
+  max-width: 320px;
+  min-width: 319px;
+  height: 100px;
   position: absolute;
   top:-11px!important;
-  left:423px!important;
-  width: calc(100% + 10px);
+  left:366px!important;
   z-index: 35;
   background: $color-white;
   border-radius: 6px 0px 6px 6px;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+}
+@media screen and (max-width: 990px){
+  .popover-white + .popover {
+    left:280px!important;
+  }
 }
 
 .popover-green + .popover {
@@ -998,6 +1005,11 @@ a .ui-select-choises-row-inner {
   background-color: $color-calm;
   overflow-y: auto;
   overflow-x: hidden;
+}
+@media screen and (max-width: 990px){
+  .sidebar{
+    display: none;
+  }
 }
 .sidebar > div {
   flex: none;

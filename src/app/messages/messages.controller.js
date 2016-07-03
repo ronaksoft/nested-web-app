@@ -17,80 +17,7 @@
       $location.path('/signin').replace();
     }
 
-    var storage = StorageFactoryService.create('ui.pages.activity', STORAGE_TYPE.LOCAL);
-    storage.get("extended").catch(function () {
-      var defValue = false;
-      storage.put("extended", defValue);
-
-      return $q(function (res) {
-        res(defValue);
-      });
-    }).then(function (value) {
-      vm.extended = value;
-    });
-
-    vm.collapse = function () {
-      vm.extended =! vm.extended;
-      storage.put("extended", vm.extended);
-    };
-
-    storage.get("filterStat").catch(function () {
-      var defValue = 'all';
-      storage.put("extended", defValue);
-
-      return $q(function (res) {
-        res(defValue);
-      });
-    }).then(function (value) {
-      $scope.filterStatus = "!$" + value;
-    });
-
-    vm.setFilter = function (stat) {
-      storage.put("filterStat", stat);
-    };
-
-    storage.get("sidebarWidth").catch(function () {
-      var defValue = 222;
-      storage.put("extended", defValue);
-
-      return $q(function (res) {
-        res(defValue);
-      });
-    }).then(function (value) {
-      $scope.sidebarWidth = value;
-    });
-
-    $scope.$on('angular-resizable.resizeEnd', function (event, info) {
-      storage.put("sidebarWidth", info.width);
-    });
-
-    // Invitations
-    vm.invitations = {
-      length: 0,
-      invites: {}
-    };
-    LoaderService.inject(WsService.request('account/get_invitations').then(function (data) {
-      for (var k in data.invitations) {
-        if (data.invitations[k].place._id) {
-          var invitation = new NestedInvitation(data.invitations[k]);
-          vm.invitations.invites[invitation.id] = invitation;
-          vm.invitations.length++;
-        }
-      }
-
-      return $q(function (res) {
-        res();
-      });
-    }));
-    vm.decideInvite = function (invitation, accept) {
-      return invitation.update(accept).then(function (invitation) {
-        vm.invitations.length--;
-        delete vm.invitations.invites[invitation.id];
-      });
-    };
-
-    vm.moreEvents = true;
-    vm.eventGroups = {};
+    
     vm.gformats = {
       daily: 'EEEE d MMM',
       monthly: 'MMMM',
@@ -203,20 +130,7 @@
         vm.readyToLoad = true;
       }));
     };
-    vm.noAccessModal = function (user) {
-      $scope.member = user;
-
-      var modal = $uibModal.open({
-        animation: false,
-        templateUrl: 'app/events/noaccess.html',
-        controller: 'WarningController',
-        size: 'sm',
-        scope: $scope
-      }).result.then(function () {
-        return $location.path('/').replace();
-      });
-    };
-
+    
     vm.readyToLoad = true;
     vm.scroll = function (event) {
       var element = event.currentTarget;
