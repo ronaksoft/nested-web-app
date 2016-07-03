@@ -10,20 +10,19 @@
           scope.$watch('autoRtl', function(val) {
             console.log(val);
             function isUnicode(str) {
-              if (str.substring(0, 1).charCodeAt() > 255) {
+              if (str.substring(0, 1).charCodeAt(0) > 255) {
                 return true;
               }
               return false;
             }
             $timeout(function() {
-              var dir =  element[0];
-              dir.keyup(function(e) {
-                console.log("k");
-                if (isUnicode(dir.val())) {
-                  $(this).css('direction', 'rtl');
-                }
-                else {
-                  $(this).css('direction', 'ltr');
+              var elem =  element[0];
+              elem.keyup(function(e) {
+                // console.log("k");
+                if (isUnicode(elem.val())) {
+                  angular.element(this).css('direction', 'rtl');
+                } else {
+                  angular.element(this).css('direction', 'ltr');
                 }
               });
             });

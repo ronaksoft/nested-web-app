@@ -7,11 +7,11 @@
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-          var content = $(element);
+          var content = angular.element(element);
           content.on('scroll', function () {
-            var recents = $(element[0]).find('.recent');
-            $.each(recents, function (index, e) {
-              var element = $(e);
+            var recents = angular.element(element[0]).find('.recent');
+            angular.element.each(recents, function (index, e) {
+              var element = angular.element(e);
               if (element.hasClass('recent') && element.visible()) {
                 element.removeClass('recent');
                 element.addClass('seen');

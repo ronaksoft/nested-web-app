@@ -10,7 +10,11 @@
     }).factory('StoreService', NestedStore);
 
   /** @ngInject */
-  function NestedStore($window, $rootScope, $q, $http, $sce, $log, WsService, WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE, NestedStore) {
+  function NestedStore($window, $rootScope, $q, $http, $sce, $log,
+                       _,
+                       WS_RESPONSE_STATUS, WS_ERROR, UPLOAD_TYPE,
+                       WsService,
+                       NestedStore) {
     function StoreService(stores) {
       this.stores = {};
       this.defaultStore = new NestedStore();

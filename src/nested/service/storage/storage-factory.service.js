@@ -3,10 +3,10 @@
 
   angular
     .module('nested')
-    .service('StorageFactoryService', StorageFactoryService);
+    .service('NstSvcStorageFactory', NstSvcStorageFactory);
 
   /** @ngInject */
-  function StorageFactoryService(NestedStorage) {
+  function NstSvcStorageFactory(NstStorage) {
     function StorageFactory() {
       this.storages = {};
       this.listeners = {};
@@ -21,7 +21,7 @@
        */
       create: function (id, type) {
         if (!this.storages.hasOwnProperty(id)) {
-          this.storages[id] = new NestedStorage(id, type);
+          this.storages[id] = new NestedStorage(type);
         }
 
         return this.get(id);
