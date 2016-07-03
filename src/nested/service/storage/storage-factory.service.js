@@ -21,7 +21,7 @@
        */
       create: function (id, type) {
         if (!this.storages.hasOwnProperty(id)) {
-          this.storages[id] = new NestedStorage(id, type);
+          this.storages[id] = new NestedStorage(type);
         }
 
         return this.get(id);
