@@ -6,8 +6,8 @@
     .controller('PlacesController', PlacesController);
 
   /** @ngInject */
-  function PlacesController($q, $location, $stateParams, $scope,
-                            AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService, StorageFactoryService, STORAGE_TYPE) {
+  function PlacesController($q, $location, $stateParams, $scope, $rootScope,
+                            AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService, NstSvcStorageFactory, STORAGE_TYPE) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -43,11 +43,14 @@
     if (vm.filters.hasOwnProperty(vm.filter)) {
       parameters['filter'] = vm.filters[vm.filter].filter;
     }
+    var memory = NstSvcStorageFactory.create('dt.places.f', STORAGE_TYPE.MEMORY);
 
-    var memory = StorageFactoryService.create('dt.places.f', STORAGE_TYPE.MEMORY);
-    memory.setFetchFunction(function (id) {
-      if (0 === id.indexOf('places.')) {
-        return WsService.request('account/get_my_places', parameters).then(function (data) {
+    function load() {
+      var defer = $q.defer();
+
+      vm.places = memory.get("places." + vm.filter);
+      if (!vm.places || vm.places.length === 0) {
+        WsService.request('account/get_my_places', parameters).then(function (data) {
           var places = [];
           for (var k in data.places) {
             if (parameters.filter && !data.places[k].member_type) {
@@ -56,18 +59,27 @@
             places.push(new NestedPlace(data.places[k]));
           }
 
-          return $q(function (res) {
-            res(this.places);
-          }.bind({ places: places }));
+          vm.places = places;
+          memory.set("places." + vm.filter, places);
+          defer.resolve();
         });
       } else {
-        return $q(function (res, rej) {
-          rej(id);
-        });
+        defer.resolve();
       }
-    });
-    LoaderService.inject(memory.get("places." + vm.filter).then(function (value) {
-      $scope.places.places = value;
-    }));
+
+      return defer.promise;
+    }
+
+    LoaderService.inject(load());
+
+    $rootScope.$on('place-removed', function (context, data) {
+      this.memory.flush();
+      load();
+    }.bind({ memory : memory }));
+
+    $rootScope.$on('place-added', function (context, data) {
+      this.memory.flush();
+      load();
+    }.bind({ memory : memory }));
   }
 })();
