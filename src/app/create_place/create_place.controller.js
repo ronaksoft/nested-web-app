@@ -6,7 +6,7 @@
     .controller('CreatePlaceController', CreatePlaceController);
 
   /** @ngInject */
-  function CreatePlaceController($location, $scope, $uibModal, $stateParams, $q, $rootScope,
+  function CreatePlaceController($location, $scope, $uibModal, $stateParams, $q, $state, $rootScope,
                                  WS_ERROR, UPLOAD_TYPE,
                                  AuthService, StoreService, LoaderService,
                                  StoreItem, NestedPlace) {
