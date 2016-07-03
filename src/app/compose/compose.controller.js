@@ -295,6 +295,14 @@
         $scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID)[i].deleteFile();
       }
     });
-  };
-}
+    $scope.hasUploadInProgress = function() {
+      var isInProgress = false;
+      for(var i=0;i < $scope.compose.post.attachments.length;i++){
+        if($scope.compose.post.attachments[i].status === 'uploading'){
+          isInProgress = true;
+        }
+      }
+      return isInProgress;
+    };
+  }
 })();
