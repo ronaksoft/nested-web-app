@@ -156,7 +156,9 @@
         .result.then(
           function () {
             if($scope.deleteValidated == true){
-              $scope.place.delete();
+              $scope.place.delete().then(function (data) {
+                $rootScope.$emit('place-removed', $scope.place);
+              });
               return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
             }
           },

@@ -6,7 +6,7 @@
     .controller('PlacesController', PlacesController);
 
   /** @ngInject */
-  function PlacesController($q, $location, $stateParams, $scope,
+  function PlacesController($q, $location, $stateParams, $scope, $rootScope,
                             AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService, NstSvcStorageFactory, STORAGE_TYPE) {
     var vm = this;
 
@@ -43,26 +43,43 @@
     if (vm.filters.hasOwnProperty(vm.filter)) {
       parameters['filter'] = vm.filters[vm.filter].filter;
     }
-
     var memory = NstSvcStorageFactory.create('dt.places.f', STORAGE_TYPE.MEMORY);
-    vm.places = memory.get("places." + vm.filter);
-    if (!vm.places) {
-      WsService.request('account/get_my_places', parameters).then(function (data) {
-        var places = [];
-        for (var k in data.places) {
-          if (parameters.filter && !data.places[k].member_type) {
-            data.places[k]['member_type'] = parameters.filter;
-          }
-          places.push(new NestedPlace(data.places[k]));
-        }
 
-        vm.places = places;
-        memory.set("places." + vm.filter, places);
-      });
+    function load() {
+      var defer = $q.defer();
+
+      vm.places = memory.get("places." + vm.filter);
+      if (!vm.places || vm.places.length === 0) {
+        WsService.request('account/get_my_places', parameters).then(function (data) {
+          var places = [];
+          for (var k in data.places) {
+            if (parameters.filter && !data.places[k].member_type) {
+              data.places[k]['member_type'] = parameters.filter;
+            }
+            places.push(new NestedPlace(data.places[k]));
+          }
+
+          vm.places = places;
+          memory.set("places." + vm.filter, places);
+          defer.resolve();
+        });
+      } else {
+        defer.resolve();
+      }
+
+      return defer.promise;
     }
 
-    // LoaderService.inject(memory.get("places." + vm.filter).then(function (value) {
-    //   $scope.places.places = value;
-    // }));
+    LoaderService.inject(load());
+
+    $rootScope.$on('place-removed', function (context, data) {
+      this.memory.flush();
+      load();
+    }.bind({ memory : memory }));
+
+    $rootScope.$on('place-added', function (context, data) {
+      this.memory.flush();
+      load();
+    }.bind({ memory : memory }));
   }
 })();
