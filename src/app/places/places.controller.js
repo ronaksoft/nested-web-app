@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlacesController($q, $location, $stateParams, $scope,
-                            AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService, StorageFactoryService, STORAGE_TYPE) {
+                            AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService, NstSvcStorageFactory, STORAGE_TYPE) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -44,30 +44,25 @@
       parameters['filter'] = vm.filters[vm.filter].filter;
     }
 
-    var memory = StorageFactoryService.create('dt.places.f', STORAGE_TYPE.MEMORY);
-    memory.setFetchFunction(function (id) {
-      if (0 === id.indexOf('places.')) {
-        return WsService.request('account/get_my_places', parameters).then(function (data) {
-          var places = [];
-          for (var k in data.places) {
-            if (parameters.filter && !data.places[k].member_type) {
-              data.places[k]['member_type'] = parameters.filter;
-            }
-            places.push(new NestedPlace(data.places[k]));
+    var memory = NstSvcStorageFactory.create('dt.places.f', STORAGE_TYPE.MEMORY);
+    vm.places = memory.get("places." + vm.filter);
+    if (!vm.places) {
+      WsService.request('account/get_my_places', parameters).then(function (data) {
+        var places = [];
+        for (var k in data.places) {
+          if (parameters.filter && !data.places[k].member_type) {
+            data.places[k]['member_type'] = parameters.filter;
           }
+          places.push(new NestedPlace(data.places[k]));
+        }
 
-          return $q(function (res) {
-            res(this.places);
-          }.bind({ places: places }));
-        });
-      } else {
-        return $q(function (res, rej) {
-          rej(id);
-        });
-      }
-    });
-    LoaderService.inject(memory.get("places." + vm.filter).then(function (value) {
-      $scope.places.places = value;
-    }));
+        vm.places = places;
+        memory.set("places." + vm.filter, places);
+      });
+    }
+
+    // LoaderService.inject(memory.get("places." + vm.filter).then(function (value) {
+    //   $scope.places.places = value;
+    // }));
   }
 })();

@@ -17,11 +17,11 @@
        * @param {string}       id       Storage identifier
        * @param {STORAGE_TYPE} type     Storage type
        *
-       * @returns {NestedStorage}
+       * @returns {NstStorage}
        */
       create: function (id, type) {
         if (!this.storages.hasOwnProperty(id)) {
-          this.storages[id] = new NestedStorage(type);
+          this.storages[id] = new NstStorage(type);
         }
 
         return this.get(id);
@@ -30,7 +30,7 @@
       /**
        * @param {string} id Storage identifier
        *
-       * @returns {NestedStorage}
+       * @returns {NstStorage}
        */
       get: function (id) {
         return this.storages[id];
