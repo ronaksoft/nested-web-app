@@ -6,7 +6,7 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, AuthService, NestedPlace, PLACE_ACCESS) {
+  function PlaceOptionController($location, $rootScope, $scope, $log, $stateParams, $q, $uibModal, $timeout, StoreService, UPLOAD_TYPE, AuthService, NestedPlace, PLACE_ACCESS) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -48,8 +48,10 @@
     } else {
       $location.path('/places').replace();
     }
-
+    $scope.showUploadProgress = false;
     vm.imgToUri = function (event) {
+      vm.loadedSize = 0;
+      $scope.showUploadProgress = true;
       var element = event.currentTarget;
 
       for (var i = 0; i < element.files.length; i++) {
@@ -62,12 +64,36 @@
           $scope.place.picture.x64.url = $scope.place.picture.org.url;
           $scope.place.picture.x128.url = $scope.place.picture.org.url;
 
-          return StoreService.upload($scope.logo, UPLOAD_TYPE.PLACE_PICTURE).then(function (response) {
-            $scope.place.picture.org.uid = response.universal_id;
-            $scope.logo = null;
+          var uploadSettings = {
+            file : $scope.logo,
+            cmd : UPLOAD_TYPE.PLACE_PICTURE,
+            // progress is invoked at most once per every second
+            onProgress : _.throttle(function (e) {
+              if (e.lengthComputable) {
+                vm.loadedSize = (e.loaded/e.total)*100;
+                $timeout(function () {
+                  $scope.totalProgress = vm.loadedSize.toFixed(0);
+                });
+              }
+            }.bind(),100),
+            onStart : function (e) {
+              $scope.showUploadProgress = true;
+            }
+          };
 
-            return $scope.place.setPicture(response.universal_id);
+          return StoreService.uploadWithProgress(uploadSettings).then(function (handler) {
+            $scope.place.picture.org.uid = handler.universal_id;
+            $scope.logo = null;
+            handler.start().then(function (response) {
+              $scope.showUploadProgress = false;
+              return $scope.place.setPicture(response.data.universal_id);
+            }).catch(function (result) {
+              $log.debug(result);
+            });
+          }).catch(function (error) {
+            $log.debug(error);
           });
+
         };
 
         reader.readAsDataURL($scope.logo);
