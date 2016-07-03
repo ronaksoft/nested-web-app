@@ -58,8 +58,8 @@
           <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
             <div class="event-group-time col-lg-12">
               <div class="sender">
-                <p class="nst-mood-simple" data-ng-init="today = eventGroup.type == 'daily' && eventGroup.date.getDate() == now.getDate()">
-                  <span data-ng-if="today"><strong class="nst-mood-solid">Today</strong> <span data-ng-bind="now | date:'EEEE d MMM'"></span></span>
+                <p class="nst-mood-simple" data-ng-init="today = eventGroup.type == 'daily' && eventGroup.date.getDate() == now().getDate()">
+                  <span data-ng-if="today"><strong class="nst-mood-solid">Today</strong> <span data-ng-bind="now() | date:'EEEE d MMM'"></span></span>
                   <span data-ng-if="!today" data-ng-bind="eventGroup.date | date:eventGroup.titleFormat"></span>
                 </p>
               </div>

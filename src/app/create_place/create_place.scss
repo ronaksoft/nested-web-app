@@ -32,12 +32,11 @@
 .inner-panel input[type=submit]{
   margin-top: -10px;
 }
-.upload-photo:hover + .add-photo-hover,
-.upload-photo:hover + .add-photo-hover + .remove-photo-hover {
-  display: inline-block;
+.upload-photo:hover + .probut {
+  display: block;
 }
 .add-photo-hover {
-  display: none;
+  display: inline-block;
   background: url("../assets/icons/hovers_24.png") no-repeat;
   background-position: 0 -24px;
   width: 24px;
@@ -46,8 +45,14 @@
   bottom: 45px;
   left: 230px;
 }
-.remove-photo-hover {
+.probut{
   display: none;
+}
+.probut:hover{
+  display: block;
+}
+.remove-photo-hover {
+  display: inline-block;
   background: url("../assets/icons/hovers_24.png") no-repeat;
   width: 24px;
   height: 24px;
@@ -70,7 +75,7 @@
   border-radius: 50%;
 }
 .upload-photo-container {
-  height: 120px;
+  height: 140px;
 }
 .upload-photo{
   vertical-align: middle;
