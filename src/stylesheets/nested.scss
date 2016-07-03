@@ -750,6 +750,11 @@ a:hover {
 }
 
 .popover-white + .popover {
+  position: absolute;
+  top:-11px!important;
+  left:423px!important;
+  width: calc(100% + 10px);
+  z-index: 35;
   background: $color-white;
   border-radius: 6px 0px 6px 6px;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
@@ -960,13 +965,7 @@ a .ui-select-choises-row-inner {
   height: 100%;
   min-width: 208px;
 }
-.nst-content {
-  display: flex;
-  min-width: 715px;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
+
 .nst-content-body {
   display: flex;
   position: relative;
@@ -999,6 +998,9 @@ a .ui-select-choises-row-inner {
   background-color: $color-calm;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.sidebar > div {
+  flex: none;
 }
 .sidebar-border {
   background-color: $color-calm;
@@ -1071,7 +1073,7 @@ a .ui-select-choises-row-inner {
   align-items: center;
   width: 100%;
   height: 48px;
-  flex: 0 1 auto;
+  //flex: 0 1 auto;
 }
 .side-menu-item .item{
   display: flex;
@@ -1093,14 +1095,17 @@ a .ui-select-choises-row-inner {
 .sidebar > .side-place {
   padding-left: 10px;
   height: 100%;
+  //height: calc(100% - 420px);
 }
 
 .side-place {
-  display: flex;
+  display: box;
+  box-orient: horizontal;
+  box-flex: 1;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: flex-end;
   width: 100%;
+  justify-content: flex-start;
   //width: calc(100% - 10px);
 }
 .sidebar > .side-place > .side-place-item{
@@ -1111,7 +1116,6 @@ a .ui-select-choises-row-inner {
   width: 100%;
   align-items: center;
   flex: none;
-  flex: 0 1 auto;
   height: 42px;
 }
 .side-place .side-place .side-place-item {
@@ -1141,7 +1145,7 @@ a .ui-select-choises-row-inner {
 }
 
 .side-place-item-image {
-  width: 60px;
+  width: 52px;
   display: flex;
   flex: none;
   justify-content: flex-end;
@@ -1150,6 +1154,10 @@ a .ui-select-choises-row-inner {
   color: rgb(71, 97, 82);
   font-weight: 300;
   margin-left: 4px;
+}
+.side-place-item .e2-arrow {
+  width: 18px;
+  margin-right: 12px;
 }
 .side-profile {
   width: 100%;
@@ -1178,7 +1186,7 @@ a .ui-select-choises-row-inner {
   display: inline-flex;
   flex-direction: column;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
 }
 .nst-container:after {
   content: "";

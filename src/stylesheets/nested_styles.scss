@@ -159,7 +159,7 @@
 .nst-navbar {
   background-color: $color-white;
   border-bottom: 1px solid $color-calm;
-  height: 190px;
+  height: 183px;
   justify-content: center;
 }
 .navbar-top {
@@ -230,14 +230,117 @@ height: 122px;
   }
 
 }
+dl {
+  margin: 0;
+}
+/*
+
+
+*/
+
+.side-place .side-place .side-place-item:last-child {
+  .lines:last-of-type {
+    .box3 {
+      border-right: none;
+    }
+    .box4 {
+      border-left: none;
+    }
+  }
+}
+.lines:last-of-type {
+  .box1 {
+    border-bottom: solid;
+    border-width: .5px;
+    border-color: $color-breeze;
+  }
+  .box4 {
+    border-top: solid;
+    border-width: .5px;
+    border-color: $color-breeze;
+  }
+}
+
+
+
+ul ul:last-child{
+  .lines {
+    .box1 {
+      border: none;
+    }
+    .box2 {
+      border: none;
+    }
+    .box3 {
+      border: none;
+    }
+    .box4 {
+      border: none;
+    }
+  }
+  .lines:last-of-type {
+    .box1 {
+      border-bottom: solid;
+      border-left: solid;
+      border-width: .5px;
+      border-color: $color-breeze;
+    }
+    .box2 {
+      border-right: solid;
+      border-width: .5px;
+      border-color: $color-breeze;
+    }
+    .box3 {
+      border-right: solid;
+      border-width: .5px;
+      border-color: $color-breeze;
+    }
+    .box4 {
+      border-top: solid;
+      border-left: solid;
+      border-width: .5px;
+      border-color: $color-breeze;
+    }
+  }
+}
+
+
+
+
+
+.box1 {
+  border-left: solid;
+  border-bottom: none;
+  border-width: .5px;
+  border-color: $color-breeze;
+}
+.box2 {
+  border-right: solid;
+  border-bottom: none;
+  border-width: .5px;
+  border-color: $color-breeze;
+}
+.box3 {
+  border-top: none;
+  border-right: solid;
+  border-width: .5px;
+  border-color: $color-breeze;
+}
+.box4 {
+  border-left: solid;
+  border-top: none;
+  border-width: .5px;
+  border-color: $color-breeze;
+}
 .side-place-name {
   display: flex;
   align-items: center;
 }
 .lines {
   display: inline-block;
-  width: 32px;
+  width: 24px;
   height: 100%;
+  flex: none;
 }
 .lines div{
   float: left;
@@ -246,26 +349,6 @@ height: 122px;
   width: 50%;
   height: 50%;
   box-sizing: border-box;
-}
-.box-r {
-  border-right: solid;
-  border-width: 1px;
-  border-color: $color-breeze;
-}
-.box-l {
-  border-left: solid;
-  border-width: 1px;
-  border-color: $color-breeze;
-}
-.box-t {
-  border-top: solid;
-  border-width: 1px;
-  border-color: $color-breeze;
-}
-.box-b {
-  border-bottom: solid;
-  border-width: 1px;
-  border-color: $color-breeze;
 }
 .box-n {
   border-right: solid;
@@ -295,16 +378,42 @@ height: 122px;
   * Content
   ******************************
  */
-
-.content {
-  width: 700px;
+.nst-content {
   display: inline-flex;
-  flex: none;
-  flex-direction: column;
+  flex-direction: row;
+  flex-shrink: inherit;
+  flex-grow: inherit;
   margin-right: auto;
   margin-left: auto;
 }
+.content {
+  width: 686px;
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+  flex-shrink: inherit;
+  flex-grow: inherit;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media screen and (max-width: 990px){
+  .content{
+    width: 600px;
+  }
+}
+.content-plus {
+  display: flex;
+  width: 250px;
+  height: 100%;
+  justify-content: center;
 
+}
+
+@media screen and (max-width: 1500px){
+.content-plus{
+  display: none;
+}
+}
 .quick-message {
   height: 86px;
   border: 1px solid $color-breeze;
@@ -346,10 +455,13 @@ height: 122px;
   ******************************
  */
 
-.post-area { }
+.post-area {
+  justify-content: center;
+}
 .post-card {
   margin-top: 32px;
   border: 1px solid #ced9d3;
+  border-radius: 2px;
   position: relative;
   box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 5;
@@ -387,16 +499,22 @@ height: 122px;
   height: 20px;
 }
 .post-card .post-card-badge a{
+  cursor: pointer;
   color: $color-white;
   font-size: $font-size-small;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
   margin-left: 5px;
   padding: 2px 12px 5px 12px;
-  background-color: rgb(134, 157, 145)
+  background-color: rgb(20, 215, 105);
+  z-index: 36;
+}
+
+.post-card .post-card-badge a:first-child{
+  z-index: 34;
+  background-color: rgb(134, 157, 145);
 }
 .post-card .post-card-badge a:last-child{
-  z-index: 10;
   position: relative;
   background-color: rgb(20, 215, 105);
 }
@@ -431,15 +549,19 @@ height: 122px;
   padding: 0 8px;
 }
 .post-card-comment{
-  //margin: 0 auto;
   width: calc(100% - 32px);
   position: relative;
-  left: 16px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
   background-color: #E7FBF0;
   border: solid 1px rgba(0,0,0,.2);
-  border-top-width:0px;
+  border-top-width: 0;
   padding: 0 8px;
   z-index: 1;
+}
+.post-card-comment.ng-hide-remove {
+  animation: post-comment .2s ease-in;
 }
 .post-card-comment .comments-load {
   height: 32px;
@@ -464,7 +586,6 @@ height: 122px;
   line-break: strict;
   white-space: nowrap;
   height: 100%;
-  float: left;
 }
 .post-card-comments p{
   font-size: 12px;
