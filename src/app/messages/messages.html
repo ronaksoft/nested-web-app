@@ -1,6 +1,8 @@
 <div class="maincontainer _fw _fh">
   <div class="sidebar">
-    <div class="nested-logo"><div id="Logo"></div></div>
+    <div class="nested-logo">
+      <div id="Logo"></div>
+    </div>
     <div class="compose"><a class="btn-green" id="compose" href="#/new">Compose</a></div>
     <div class='side-menu'>
       <div class="side-menu-item">
@@ -21,15 +23,15 @@
         <a class="_fw">Sal's Personal</a>
         <span class="e2-arrow _df">
           <label data-ng-model="colp"
-             class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-             data-ng-click="colp =! colp">
+                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                 data-ng-click="colp =! colp">
           </label>
         </span>
       </li>
       <ul class="side-place" data-ng-show="colp">
         <li class="side-place-item">
           <div class="side-place-item-image">
-            <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="20" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+            <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
           </div>
           <dl class="lines">
             <div class="box2"></div>
@@ -70,9 +72,9 @@
             <a class="_fw">Nested</a>
             <span class="e2-arrow _df">
               <label data-ng-model="colp"
-                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-                 data-ng-click="colp =! colp">
-          </label>
+                     class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                     data-ng-click="colp =! colp">
+              </label>
             </span>
           </div>
         </li>
@@ -97,9 +99,9 @@
               <a class="_fw">Copy-writing</a>
               <span class="e2-arrow _df">
                 <label data-ng-model="colp"
-                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-                 data-ng-click="thisStat =! thisStat">
-          </label>
+                       class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                       data-ng-click="thisStat =! thisStat">
+                </label>
               </span>
             </div>
 
@@ -223,9 +225,9 @@
               <a class="_fw">Design</a>
               <span class="e2-arrow _df">
                 <label data-ng-model="colp"
-                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-                 data-ng-click="colp =! colp">
-          </label>
+                       class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                       data-ng-click="colp =! colp">
+                </label>
               </span>
             </div>
           </li>
@@ -249,9 +251,9 @@
               <a class="_fw">Development</a>
               <span class="e2-arrow _df">
                 <label data-ng-model="colp"
-                 class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
-                 data-ng-click="colp =! colp">
-          </label>
+                       class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+                       data-ng-click="colp =! colp">
+                </label>
               </span>
             </div>
           </li>
@@ -328,19 +330,21 @@
           </div>
 
 
-
           <div class="menu-links _pr">
-            <input id="showinput" class="_dib input-border display-none _pa"/>
+            <!--<input id="showinput" class="_dib input-border  _pa"/>-->
 
             <section>
               <div for="showinput" tabindex="-1" onfocus="document.getElementById('showinput').style.display='block'" onblur="document.getElementById('showinput').style.display='none'"
                    class="menu-links-search _dib _vam cursor-pointer">
                 <div class="nst-place-icon-search icon-search-rotated _dib"></div>
-                <!--<div class="_dib icon-close"></div>-->
               </div>
+
               <div class="menu-links-btn _dib li-hover" ng-click="'#/messages'" ng-class="messages ? 'selected' : null">Messages</div>
               <div class="menu-links-btn _dib li-hover" ng-click="'#/activity'" ng-class="events ? 'selected' : null">Activity</div>
               <div class="menu-links-btn _dib li-hover" ng-click="'#/option'" ng-class="options ? 'selected' : null">Option</div>
+              <div class="menu-links-search _dib _vam">
+                <!--<div class="nst-place-icon-search icon-close _dib _pa"></div>-->
+              </div>
             </section>
           </div>
         </div>
@@ -348,11 +352,17 @@
     </div>
 
     <section class="content">
-      <div class="filter-bar _pr">
-        <div class="filter-bar-hld">
-          <div class="margin-l-15 nst-place-icon-search _dib"></div>
-          <div class="margin-l-15 nst-place-icon-search _dib"></div>
-          <div class="margin-l-15 nst-place-icon-search _dib"></div>
+      <div class="filter-bar">
+        <div class="filter-bar-hld _pr _vam">
+          <div class="_dib iconsblock">
+            <div class="viewicon-filter _pa"></div>
+          </div>
+          <div class="_dib iconsblock">
+            <div class="viewicon-sort _pa"></div>
+          </div>
+          <div class="_dib iconsblock">
+            <div class="viewicon- _pa"></div>
+          </div>
         </div>
       </div>
 
@@ -380,7 +390,11 @@
           <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
           </p></section>
           <section class="post-attachments" data-ng-show="false">attachments</section>
-          <section class="post-footer _difh"><a class="_df _fn">1 comment</a><div class="post-icons _fw _df"><div class="icon icon-storm icon-all-place icon-side _df"></div></div></section>
+          <section class="post-footer _difh"><a class="_df _fn">1 comment</a>
+            <div class="post-icons _fw _df">
+              <div class="icon icon-storm icon-all-place icon-side _df"></div>
+            </div>
+          </section>
         </div>
         <section class="post-card-comment _difv">
           <div class="_df _fw comments-load"><a>Older Comments...</a></div>
@@ -394,7 +408,8 @@
           <div class="post-card-comments _difh">
             <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
             <div class="text _df _fw">
-              <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you send your docs/reports/receipts into those places.</p>
+              <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you send
+                your docs/reports/receipts into those places.</p>
             </div>
             <span class="_df _fn">9 days ago</span>
           </div>
@@ -404,7 +419,6 @@
           </div>
         </section>
       </div>
-
     </section>
   </div>
 </div>

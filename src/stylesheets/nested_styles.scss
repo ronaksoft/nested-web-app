@@ -174,7 +174,7 @@ height: 122px;
   display: inline;
 }
 .menu-links-btn {
-  height: 66px;
+  height: 62px;
   width: 120px;
   line-height: 58px;
   color: $color-storm;
@@ -204,12 +204,14 @@ height: 122px;
   border-bottom: 200px solid #14d769;
 }
 
-#showinput:focus {
-
-}
 .icon-close {
-  background-image: url('../assets/icons/close.svg');
+  background: url('../assets/icons/close.svg');
 }
+.menu-links-search .icon-close {
+  z-index: 2;
+  right: -620px;
+}
+
 
 /**
   ******************************
@@ -354,12 +356,50 @@ ul ul:last-child{
   height: 50px;
 
 }
+
 .filter-bar-hld {
   height: 50px;
   line-height: 60px;
-  width: 140px;
   float: right;
 }
+
+//.filter-bar-hld .viewicon-,.viewicon-sort,.viewicon-filter {
+//  @extend .margin-l-15;
+//}
+
+[class*='viewicon-']{
+  background: url('../assets/icons/viewicon.svg');
+  height: 24px;
+  width: 32px;
+  background-position: 0 0;
+  //top: 20px;
+  line-height: 24px;
+
+}
+
+.viewicon-sort {
+  background-position: 0 -48px;
+}
+
+.viewicon-filter {
+  background-position: 0 -24px;
+}
+
+.iconsblock {
+  width: 38px;
+  height: 28px;
+  cursor: pointer;
+  margin-right: 15px;
+  box-sizing: border-box;
+  margin: auto;
+}
+
+.iconsblock:hover {
+  border: 1px solid $color-breeze;
+  border-radius: 5px;
+  background-color: white;
+}
+
 
 /**
   ******************************
@@ -406,6 +446,7 @@ ul ul:last-child{
   height: 86px;
   border: 1px solid $color-breeze;
   box-shadow: 0 10px 6px -6px rgba(119, 123, 121, 0.4);
+  margin: 10px;
 }
 
 /**
