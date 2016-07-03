@@ -3,10 +3,10 @@
 
   angular
     .module('nested')
-    .service('StorageFactoryService', StorageFactoryService);
+    .service('NstSvcStorageFactory', NstSvcStorageFactory);
 
   /** @ngInject */
-  function StorageFactoryService(NestedStorage) {
+  function NstSvcStorageFactory(NstStorage) {
     function StorageFactory() {
       this.storages = {};
       this.listeners = {};

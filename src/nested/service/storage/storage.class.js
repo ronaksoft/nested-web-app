@@ -17,10 +17,10 @@
       REMOVE: 'remove',
       FLUSH: 'flush'
     })
-    .factory('NestedStorage', NestedStorage);
+    .factory('NstStorage', NstStorage);
 
   /** @ngInject */
-  function NestedStorage($cacheFactory, $cookies,
+  function NstStorage($cacheFactory, $cookies,
                          localStorageService,
                          STORAGE_TYPE, STORAGE_EVENT,
                          NstSvcRandomize) {
