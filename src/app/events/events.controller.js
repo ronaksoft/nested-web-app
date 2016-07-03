@@ -327,7 +327,7 @@
             EVENT_ACTIONS.PLACE_PRIVACY,
             EVENT_ACTIONS.PLACE_PICTURE
           ]
-        },
+        }
       ];
 
       // returns true if the event belongs to the selected view and is one of its actions

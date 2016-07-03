@@ -6,8 +6,11 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout, _, toastr, ATTACHMENT_STATUS,
-    AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout,
+                             _, toastr,
+                             ATTACHMENT_STATUS, WS_ERROR,
+                             AuthService, WsService, StoreService,
+                             StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -175,7 +178,7 @@
           mimetype: file.type,
           upload_time: file.lastModified,
           size: file.size,
-          status : ATTACHMENT_STATUS.UPLOADING
+          status: ATTACHMENT_STATUS.UPLOADING
         });
 
         attachment.loadedSize = 0;
@@ -204,18 +207,18 @@
         $scope.compose.post.addAttachment(attachment);
 
         var uploadSettings = {
-          file : file,
-          _reqid : attachment.getClientId(),
+          file: file,
+          _reqid: attachment.getClientId(),
           // progress is invoked at most once per every second
-          onProgress : _.throttle(function (e) {
+          onProgress: _.throttle(function (e) {
             if (e.lengthComputable) {
               this.loadedSize = e.loaded;
               $timeout(function () {
                 $scope.totalProgress = $scope.compose.post.getTotalAttachProgress();
               });
             }
-          }.bind(attachment),1000),
-          onStart : function (e) {
+          }.bind(attachment), 1000),
+          onStart: function (e) {
             $scope.showUploadProgress = true;
           }
         };
@@ -241,9 +244,10 @@
           }.bind(file)).catch(function (result) {
             $log.debug(result);
           });
-      }).catch(function (error) {
-        $log.debug(error);
-      });
+        }).catch(function (error) {
+          $log.debug(error);
+        });
+      }
     };
 
     vm.sendPost = function () {
@@ -295,6 +299,15 @@
         $scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID)[i].deleteFile();
       }
     });
-  };
-}
+
+    $scope.hasUploadInProgress = function() {
+      var isInProgress = false;
+      for(var i=0;i < $scope.compose.post.attachments.length;i++){
+        if($scope.compose.post.attachments[i].status === 'uploading'){
+          isInProgress = true;
+        }
+      }
+      return isInProgress;
+    };
+  }
 })();
