@@ -6,7 +6,7 @@
     .controller('CreatePlaceController', CreatePlaceController);
 
   /** @ngInject */
-  function CreatePlaceController($location, $scope, $uibModal, $stateParams, $q,
+  function CreatePlaceController($location, $scope, $uibModal, $stateParams, $q, $timeout,
                                  WS_ERROR, UPLOAD_TYPE,
                                  AuthService, StoreService, LoaderService, WsService,
                                  StoreItem, NestedPlace) {
@@ -37,9 +37,25 @@
       }
     };
 
-    $scope.checkId = function (val) {
+    $scope.checkId =_.debounce(checckIds, 550);
+      function checckIds (val) {
       WsService.request('place/exists', {place_id: val}).then(function (value) {
-        console.log(value);
+        $scope.checkPlace = false;
+        vm.alreadyTaken = {
+          text : "PlaceID already Exist"
+        };
+        vm.notTaken = {
+          text : ""
+        };
+
+      }).catch(function () {
+        $scope.checkPlace = true;
+        vm.notTaken = {
+          text : "Unique Place"
+        };
+        vm.alreadyTaken = {
+          text : ""
+        };
       })
 
     };

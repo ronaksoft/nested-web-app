@@ -6,15 +6,14 @@
         <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
           in</a></p>
       </div>
-      <form name="registrationForm" unsaved-warning-form>
+      <form name="registrationForm">
         <div class="nst-marginbtm-8" ng-if="!registrationForm.userName.$error.required || !registrationForm.userName.$touched">Choose your username</div>
         <div class="nst-mood-lively nst-marginbtm-8" ng-if="registrationForm.userName.$error.required && registrationForm.userName.$touched">username required !!!</div>
-        <div class="_dn nst-mood-lively nst-marginbtm-8">:( Sorry, its not available</div>
-        <div class="_dn nst-mood-cheerful nst-marginbtm-8">:) its available</div>
+        <div class="nst-mood-lively nst-marginbtm-8">{{register.alreadyTaken.text}}</div>
+        <div class="nst-mood-cheerful nst-marginbtm-8">{{register.notTaken.text}}</div>
         <div class="nst-marginbtm-16 has-feedback">
-          <form name="place_id>">
-            <input page-change-element aria-invalid="false" ng-class="{'form-control':!registrationForm.userName.$error.required || !registrationForm.userName.$touched,'form-control-error': registrationForm.userName.$error.required && registrationForm.userName.$touched}" name="userName" type="text" maxlength="40" ng-model="userName" tabindex="1" required/>
-          </form>
+            <input aria-invalid="false" ng-class="{'form-control':!registrationForm.userName.$error.required || !registrationForm.userName.$touched,'form-control-error': registrationForm.userName.$error.required && registrationForm.userName.$touched}"
+                   name="userName" pattern=".{3,}" type="text" maxlength="40" ng-model="userName" tabindex="1" ng-keyup="checkUser(userName)" required/>
           <div class="form-control-feedback-register">@nested.com</div>
         </div>
         <div class="nst-marginbtm-8" ng-if="registrationForm.passWord.$untouched && (!focus || registrationForm.passWord.$pristine)">Set new password</div>
@@ -23,12 +22,10 @@
         <div class="nst-mood-cheerful nst-marginbtm-8" ng-if="registrationForm.passWord.$valid">Powerful password</div>
         <div class="nst-marginbtm-16">
           <div class="form-group has-feedback" data-ng-model="show">
-            <form name="place_id">
-              <input page-change-element ng-class="{'form-control': registrationForm.passWord.$untouched && (!focus || registrationForm.passWord.$pristine),'form-control-error': (registrationForm.passWord.$error.pattern || registrationForm.passWord.$error.minlength) || registrationForm.passWord.$error.required && (registrationForm.passWord.$touched || focus) && registrationForm.passWord.$invalid && (registrationForm.passWord.$dirty || registrationForm.passWord.$touched),'form-control-valid': registrationForm.passWord.$valid}" name="passWord" data-ng-init="show = true; focus = false;" data-ng-focus="focus = true;" data-ng-blur="focus = false;"
+              <input ng-class="{'form-control': registrationForm.passWord.$untouched && (!focus || registrationForm.passWord.$pristine),'form-control-error': (registrationForm.passWord.$error.pattern || registrationForm.passWord.$error.minlength) || registrationForm.passWord.$error.required && (registrationForm.passWord.$touched || focus) && registrationForm.passWord.$invalid && (registrationForm.passWord.$dirty || registrationForm.passWord.$touched),'form-control-valid': registrationForm.passWord.$valid}" name="passWord" data-ng-init="show = true; focus = false;" data-ng-focus="focus = true;" data-ng-blur="focus = false;"
                      type="{{show ? 'password' : 'text'}}" ng-model="passWord" ng-minlength="8" ng-pattern="patterns.password.all" tooltip-class="pass-popover"
                      uib-tooltip-template="'app/register/tip_password.html'" tooltip-placement="bottom"
                      tooltip-trigger="focus" tooltip-enable="!passWord" tabindex="2" required/>
-            </form>
             <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}"
                data-ng-click="show = !show"></i>
           </div>
@@ -38,18 +35,14 @@
             <div class="_dtc register-name-cell-left">
               <div class="nst-marginbtm-8 _fw" ng-if="registrationForm.firstName.$valid || registrationForm.firstName.$untouched">First name</div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw" ng-if="registrationForm.firstName.$error.required && registrationForm.firstName.$touched">Firstname Required</div>
-              <form name="place_id">
-                <input page-change-element ng-class="{'form-control': registrationForm.firstName.$valid || registrationForm.firstName.$untouched,'form-control-error': registrationForm.firstName.$error.required && registrationForm.firstName.$touched}"
+                <input ng-class="{'form-control': registrationForm.firstName.$valid || registrationForm.firstName.$untouched,'form-control-error': registrationForm.firstName.$error.required && registrationForm.firstName.$touched}"
                        name="firstName" type="text" ng-model="firstName" tabindex="3" required/>
-              </form>
             </div>
             <div class="_dtc register-name-cell-right">
               <div class="nst-marginbtm-8 _fw" ng-if="registrationForm.lastName.$valid || registrationForm.lastName.$untouched">Last name</div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw" ng-if="registrationForm.lastName.$error.required && registrationForm.lastName.$touched">Lastname Required</div>
-              <form name="place_id">
-                <input page-change-element ng-class="{'form-control': registrationForm.lastName.$valid || registrationForm.lastName.$untouched,'form-control-error': registrationForm.lastName.$error.required && registrationForm.lastName.$touched}"
+                <input ng-class="{'form-control': registrationForm.lastName.$valid || registrationForm.lastName.$untouched,'form-control-error': registrationForm.lastName.$error.required && registrationForm.lastName.$touched}"
                        name="lastName" type="text" ng-model="lastName" tabindex="4" required/>
-              </form>
             </div>
           </div>
         </div>
@@ -58,31 +51,23 @@
           <div class="nst-mood-lively nst-marginbtm-8"  ng-if="registrationForm.email.$invalid && !registrationForm.email.$error.required">Doesn't look like a valid email</div>
           <div class="nst-mood-lively nst-marginbtm-8" ng-if="registrationForm.email.$error.required && (registrationForm.email.$touched || focus1) && registrationForm.email.$invalid && (registrationForm.email.$dirty || registrationForm.email.$touched)">email required !!!</div>
           <div class="nst-mood-cheerful nst-marginbtm-8" ng-if="registrationForm.email.$valid">Nice, Remember verify soon as possible</div>
-          <form name="place_id">
-            <input page-change-element aria-invalid="false" ng-class="{'form-control': registrationForm.email.$untouched && (!focus1 || registrationForm.email.$pristine),'form-control-error': (registrationForm.email.$invalid && !registrationForm.email.$error.required) || registrationForm.email.$error.required && (registrationForm.email.$touched || focus1) && registrationForm.email.$invalid && (registrationForm.email.$dirty || registrationForm.email.$touched),'form-control-valid': registrationForm.email.$valid}"
+            <input aria-invalid="false" ng-class="{'form-control': registrationForm.email.$untouched && (!focus1 || registrationForm.email.$pristine),'form-control-error': (registrationForm.email.$invalid && !registrationForm.email.$error.required) || registrationForm.email.$error.required && (registrationForm.email.$touched || focus1) && registrationForm.email.$invalid && (registrationForm.email.$dirty || registrationForm.email.$touched),'form-control-valid': registrationForm.email.$valid}"
                    name="email" ng-model="email" data-ng-init="show = true; focus1 = false;" ng-pattern="patterns.email.all" data-ng-focus="focus1 = true;" data-ng-blur="focus1 = false;"
                    type="text" tabindex="5" required/>
-          </form>
         </div>
         <div class="nst-marginbtm-16" ng-if="!registrationForm.gender.$error.required || !registrationForm.gender.$touched">Gender</div>
         <div class="nst-mood-lively nst-marginbtm-16" ng-if="registrationForm.gender.$error.required && registrationForm.gender.$touched">Gender Required</div>
-        <ul class="list-inline" tab>
+        <ul class="list-inline">
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-            <form name="place_id">
-              <input page-change-element type="radio" name="gender" value="female" ng-model="gender" required/>
-            </form>
+              <input type="radio" name="gender" value="female" ng-model="gender" required/>
             <label>Female</label>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-            <form name="place_id">
-              <input page-change-element type="radio" name="gender" value="male" ng-model="gender" required/>
-            </form>
+              <input type="radio" name="gender" value="male" ng-model="gender" required/>
             <label>Male</label>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-            <form name="place_id">
-              <input page-change-element type="radio" name="gender" value="other" ng-model="gender" required/>
-            </form>
+              <input type="radio" name="gender" value="other" ng-model="gender" required/>
             <label>Other</label>
           </li>
         </ul>
@@ -90,24 +75,18 @@
           <div class="nst-marginbtm-8" ng-if="!registrationForm.phone.$error.required || !registrationForm.phone.$touched">Mobile Phone</div>
           <div class="nst-mood-lively nst-marginbtm-8" ng-if="registrationForm.phone.$error.required && registrationForm.phone.$touched">Mobile Phone Required</div>
           <div class="_fw">
-            <form name="place_id">
-              <input page-change-element name="mobileNumber" international-phone-number class="select-birthday" data-ng-model="phone" tabindex="6" required/>
-            |</form>
+              <input name="mobileNumber" international-phone-number class="select-birthday" data-ng-model="phone" tabindex="7" required/>
           </div>
         </div>
         <div class="nst-marginbtm-8" ng-if="!registrationForm.birth.$error.required || !registrationForm.birth.$touched">Birthday</div>
         <div class="nst-mood-lively nst-marginbtm-8" ng-if="registrationForm.birth.$error.required && registrationForm.birth.$touched">Birthday Required</div>
         <div class="nst-marginbtm-16">
-          <form name="place_id">
-            <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="birth" requiered/>
-          </form>
+            <input class="select-birthday" rsmdatedropdowns ng-model="birth" requiered/>
         </div>
         <div class="_dt nst-marginbtm-8">
           <div class="_dtr">
             <div class="_dtc">
-              <form name="place_id">
-                <input page-change-element id="remember" name="remember" value="remember" type="checkbox"/>
-              </form>
+                <input id="remember" name="remember" value="remember" type="checkbox" ng-model="answers[item.questID]" aria-invalid="true"/>
               <label for="remember"></label>
             </div>
             <div class="_dtc agreement-text">I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of
@@ -115,10 +94,10 @@
             </div>
           </div>
         </div>
-        <div class="visibility-hidden nst-font-small nst-mood-lively nst-marginbtm-8">in order to use our services, you must agree to nested Terms of Service.</div>
+        <div class="alert-box nst-font-small nst-mood-lively nst-marginbtm-8">{{register.checkBox.text}}</div>
       </form>
       <div>
-        <input page-change-element type="submit" value="Create An Account" class="btn btn-lg btn-block">
+        <input type="submit" value="Create An Account" class="btn btn-lg btn-block" ng-click="stateChanged(item.questID)">
       </div>
     </div>
   </div>

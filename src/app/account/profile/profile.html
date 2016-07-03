@@ -16,9 +16,14 @@
         <div class="_fw upload-photo-container">
           <div class="_ma upload-photo">
             <label for="logo"><img
-              src="{{user.picture.org.url ? user.picture.org.url : '../assets/images/uploadphoto_16.png'}}"/></label>
+              src="{{user.picture.x128.url ? user.picture.x128.url : '../assets/images/uploadphoto_16.png'}}"/></label>
             <input id="logo" type="file" name="logo" accept="image/*"
                    onchange="angular.element(this).scope().account_profile.imgToUri(event)"/>
+          </div>
+          <div class="probut">
+            <label for="logo" class="add-photo-hover"></label>
+            <div data-ng-if="user.picture.org.url" class="remove-photo-hover"
+                 data-ng-click="account_profile.removeImg()"></div>
           </div>
         </div>
         <div class="inner-panel _ma">
@@ -27,33 +32,32 @@
             <div class="nst-marginbtm-4" ng-if="!editProfile.fname.$error.required || !editProfile.fname.$touched">First Name</div>
             <div class="nst-marginbtm-4 nst-mood-lively" ng-if="editProfile.fname.$error.required && editProfile.fname.$touched">First Name required!</div>
             <div>
-              <input type="text" name="fname" class=" nst-marginbtm-24 form-control"
+              <input type="text" name="fname" ng-class="{'nst-marginbtm-24 form-control' : !editProfile.fname.$error.required || !editProfile.fname.$touched,'nst-marginbtm-24 form-control-error' :editProfile.fname.$error.required && editProfile.fname.$touched}"
                      aria-invalid="false" data-ng-model="user.name.fname" data-ng-focus="focus = true;" data-ng-blur="focus = false;" required/>
             </div>
             <div class="nst-marginbtm-4" ng-if="editProfile.lname.$valid || editProfile.lname.$untouched">Last Name</div>
             <div class="nst-marginbtm-4 nst-mood-lively" ng-if="editProfile.lname.$error.required && editProfile.lname.$touched">Last Name required</div>
             <div>
-              <input type="text" name="lname" class=" nst-marginbtm-24 form-control"
+              <input type="text" name="lname" ng-class="{'nst-marginbtm-24 form-control' : !editProfile.lname.$error.required || !editProfile.lname.$touched,'nst-marginbtm-24 form-control-error' :editProfile.lname.$error.required && editProfile.lname.$touched}"
                      aria-invalid="false" data-ng-model="user.name.lname" required/>
             </div>
-            <div>
-              <div class="nst-marginbtm-8" ng-if="editProfile.editemail.$untouched && (!focus1 || editProfile.editemail.$valid">Set an Email for Recovery</div>
+            <div class="nst-marginbtm-24">
+              <div class="nst-marginbtm-8" ng-if="editProfile.editemail.$untouched && (!focus1 || editProfile.editemail.$pristine)">Set an Email for Recovery</div>
               <div class="nst-mood-lively nst-marginbtm-8"  ng-if="editProfile.editemail.$invalid && !editProfile.editemail.$error.required">Doesn't look like a valid email</div>
               <div class="nst-mood-lively nst-marginbtm-8" ng-if="editProfile.editemail.$error.required && (editProfile.editemail.$touched || focus1) && editProfile.editemail.$invalid && (editProfile.editemail.$dirty || editProfile.editemail.$touched)">email required !!!</div>
-              <div class="nst-mood-cheerful nst-marginbtm-8" ng-if="editProfile.editemail.$valid">Verified Email!</div>
-            </div>
-            <div>
-              <input type="text" name="editemail" class=" nst-marginbtm-24 form-control"
-                     aria-invalid="false" data-ng-model="user.email" data-ng-init="show = true; focus1 = false;" ng-pattern="patterns.email.all" data-ng-focus="focus1 = true;" data-ng-blur="focus1 = false" required/>
+                <input aria-invalid="false" ng-class="{'form-control': (editProfile.editemail.$untouched && (!focus1 || editProfile.editemail.$pristine)) || editProfile.editemail.$valid,'form-control-error': (editProfile.editemail.$invalid && !editProfile.editemail.$error.required) || editProfile.editemail.$error.required && (editProfile.editemail.$touched || focus1) && editProfile.editemail.$invalid && (editProfile.editemail.$dirty || editProfile.editemail.$touched)}"
+                       name="editemail" data-ng-model="user.email" data-ng-init="show = true; focus1 = false;" ng-pattern="patterns.email.all" data-ng-focus="focus1 = true;" data-ng-blur="focus1 = false;"
+                       type="text" tabindex="5" required/>
             </div>
             <div class="nst-marginbtm-4">Mobile Phone</div>
+            <div class="nst-marginbtm-4 nst-mood-lively" ng-if="">Mobile Phone Required</div>
             <div class="_fw nst-marginbtm-24">
-              <input  name="mobileNumber" international-phone-number
-                     class="select-birthday" data-ng-model="user.phone" required/>
+              <input  name="mobileNumber" international-phone-number name="userPhone"
+                     class="select-birthday" data-ng-model="user.phone" data-ng-init="show = true; focus1 = false;" data-ng-focus="focus1 = true;" data-ng-blur="focus1 = false" required/>
             </div>
             <div class="nst-marginbtm-16" ng-if="!editProfile.gender.$error.required || !editProfile.gender.$touched">Gender</div>
             <div class="nst-mood-lively nst-marginbtm-16" ng-if="editProfile.gender.$error.required && editProfile.gender.$touched">Gender Required</div>
-            <ul class="list-inline nst-marginbtm-48" tab>
+            <ul class="list-inline nst-marginbtm-48">
               <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
                   <input page-change-element type="radio" name="gender" value="female" ng-model="gender" required/>
                 <label>Female</label>
@@ -68,7 +72,7 @@
               </li>
               <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3"></li>
             </ul>
-            <div class="nst-marginbtm-8">Birthday</div>
+            <div class="nst-marginbtm-8">Birthdate</div>
             <div class="nst-marginbtm-36">
               <input class="select-birthday" rsmdatedropdowns ng-model="birth" required/>
             </div>

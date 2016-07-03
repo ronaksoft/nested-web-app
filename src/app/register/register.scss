@@ -3,8 +3,7 @@
   *     Nested Classes - Page Specific - Register  *
   ********************************************************
  */
-._dn {Display: none}
-.visibility-hidden {visibility: hidden;}
+
 #panel-register{
   width: 352px;
   padding: 24px 16px 24px 16px;
@@ -151,7 +150,6 @@
     margin-bottom: #{$i * 4}px;
   }
 }
-
 .mobile-number{
   margin-top: 60px;
 }
@@ -163,6 +161,10 @@
 #panel-register .agreement-text a {
   font-size: 10px;
 }
+.alert-box {
+  height: 30px;
+  width: 100%;
+}
 //----------Errors & Validation--------//
 
 .form-control-error {
@@ -172,28 +174,11 @@
   padding: $padding-base-vertical $padding-base-horizontal;
   font-size: $font-size-base;
   line-height: $line-height-base;
-  color: $color-solid;
+  color: $color-force !important;
   background-color: $input-bg;
   background-image: none;
   border: 1px solid $color-force !important;
   border-radius: $input-border-radius;
-  @include form-control-focus;
-  @include placeholder;
-  &::-ms-expand {
-    border: 0;
-    background-color: transparent;
-  }
-  &[disabled],
-  &[readonly],
-  fieldset[disabled] & {
-    background-color: $input-bg-disabled;
-    opacity: 1;
-  }
-
-  &[disabled],
-  fieldset[disabled] & {
-    cursor: $cursor-disabled;
-  }
 }
 .form-control-valid {
   display: block;
@@ -202,27 +187,9 @@
   padding: $padding-base-vertical $padding-base-horizontal;
   font-size: $font-size-base;
   line-height: $line-height-base;
-  color: $color-sense-wire;
+  color: $color-sense-wire !important;
   background-color: $input-bg;
   background-image: none;
-  border: 1px solid #ccc !important;
+  border: 1px solid $color-sense !important;
   border-radius: $input-border-radius;
-  @include form-control-focus;
-  @include placeholder;
-  &::-ms-expand {
-    border: 0;
-    background-color: transparent;
-  }
-  &[disabled],
-  &[readonly],
-  fieldset[disabled] & {
-    background-color: $input-bg-disabled;
-    opacity: 1;
-  }
-
-  &[disabled],
-  fieldset[disabled] & {
-    cursor: $cursor-disabled;
-  }
 }
-
