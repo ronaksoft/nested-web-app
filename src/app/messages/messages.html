@@ -330,7 +330,14 @@
           </div>
 
           <div class="menu-links _pr">
-            <input id="showinput" class="_dib input-border _pa" placeholder="Search in Ronak Software Group"/>
+
+
+            <div class="form-group has-feedback" data-ng-model="show">
+              <input class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="login.password" placeholder="Password" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}"/>
+              <i class="_pa _left icon-search form-control-feedback {{show ? 'nst-place-icon-search icon-search' : 'icon-close'}}" data-ng-click="show = !show"></i>
+            </div>
+
+            <input id="showinput" class="form-control ng-pristine ng-untouched ng-valid _dib input-border _pa" data-ng-init="show = true" placeholder="Search in Ronak Software Group..."/>
 
             <section>
               <div for="showinput" tabindex="-1" onfocus="document.getElementById('showinput').style.display='block'" onblur="document.getElementById('showinput').style.display='none'"
