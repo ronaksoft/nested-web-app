@@ -20,9 +20,9 @@
               elem.keyup(function(e) {
                 // console.log("k");
                 if (isUnicode(elem.val())) {
-                  $(this).css('direction', 'rtl');
+                  angular.element(this).css('direction', 'rtl');
                 } else {
-                  $(this).css('direction', 'ltr');
+                  angular.element(this).css('direction', 'ltr');
                 }
               });
             });
