@@ -52,8 +52,10 @@
         }
 
         return $scope.place.update().then(function (place) {
-          $scope.leaveReason = 'Create Place';
-          $location.path('/place/' + place.id).replace();
+          $scope.place.setPicture(response.universal_id);
+          $scope.place.update();
+          //$scope.leaveReason = 'Create Place';
+          //$location.path('/place/' + place.id).replace();
         }).catch(function (error) {
           switch (error.err_code) {
             case WS_ERROR.ACCESS_DENIED:
