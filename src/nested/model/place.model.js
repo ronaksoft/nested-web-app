@@ -432,12 +432,14 @@
             place_id: this.id,
             member_id: memberId
           }).then(function () {
+            console.log(this.members);
             var found = false;
             for (var role in this.members) {
               if (this.members[role].loaded) {
                 for (var k in this.members[role].users) {
                   if (memberId == this.members[role].users[k].username) {
-                    delete this.members[role].users[k];
+                    var index = _.indexOf(this.members[role].users, this.members[role].users[k]);
+                    this.members[role].users.splice(index, 1);
                     this.members[role].count--;
                     found = true;
                     break;
