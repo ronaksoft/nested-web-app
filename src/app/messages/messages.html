@@ -310,7 +310,7 @@
   <div class="nst-container">
     <div class="nst-navbar _df">
       <div class="content">
-        <div class="navbar-top">
+        <div  class="navbar-top" id="navtop">
           <div class="title-bar _difh margin-20 _vam _fl">
             <div class="logo-bar _df">
               <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64" data-word-count="2"
@@ -330,27 +330,19 @@
           </div>
 
           <div class="menu-links _pr">
+            <section class="_pr">
+              <div id="inputsearch" class="form-group has-feedback input-border _pa">
+                <input translate  class="form-control ng-pristine ng-untouched ng-valid" placeholder="Search in Ronak Software Group..." data-ng-init="show = true" type="text"/>
+                <i onclick="toggle_visibility('overlay', 'inputsearch');" id="action-search" class="_pa _left icon-close form-control-feedback " data-ng-click="show = !show"></i>
+              </div>
 
-
-            <div class="form-group has-feedback" data-ng-model="show">
-              <input class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="login.password" placeholder="Password" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}"/>
-              <i class="_pa _left icon-search form-control-feedback {{show ? 'nst-place-icon-search icon-search' : 'icon-close'}}" data-ng-click="show = !show"></i>
-            </div>
-
-            <input id="showinput" class="form-control ng-pristine ng-untouched ng-valid _dib input-border _pa" data-ng-init="show = true" placeholder="Search in Ronak Software Group..."/>
-
-            <section>
-              <div for="showinput" tabindex="-1" onfocus="document.getElementById('showinput').style.display='block'" onblur="document.getElementById('showinput').style.display='none'"
-                   class="menu-links-search _dib _vam cursor-pointer">
-                <div class="nst-place-icon-search icon-search-rotated _dib"></div>
+              <div class="menu-links-search _dib _vam">
+                <div onclick="toggle_visibility('overlay', 'inputsearch');" class="cursor-pointer nst-place-icon-search icon-search-rotated _dib _pa"></div>
               </div>
 
               <div class="menu-links-btn _dib li-hover" ng-click="'#/messages'" ng-class="messages ? 'selected' : null">Messages</div>
               <div class="menu-links-btn _dib li-hover" ng-click="'#/activity'" ng-class="events ? 'selected' : null">Activity</div>
               <div class="menu-links-btn _dib li-hover" ng-click="'#/option'" ng-class="options ? 'selected' : null">Option</div>
-              <div class="menu-links-search _dib _vam">
-                <!--<div class="nst-place-icon-search icon-close _dib _pa"></div>-->
-              </div>
             </section>
           </div>
         </div>
@@ -428,18 +420,25 @@
       </div>
     </section>
   </div>
+  <div onclick="toggle_visibility('overlay', 'inputsearch');" id="overlay"></div>
 </div>
 
 
-<!--<script>-->
-<!--$(document).ready(function() {-->
-<!--$(window).scroll(function(){-->
-<!--if ($(this).scrollTop() > 135) {-->
-<!--$('#task_flyout').addClass('fixed');-->
-<!--} else {-->
-<!--$('#task_flyout').removeClass('fixed');-->
-<!--}-->
-<!--});-->
-<!--});-->
-<!--</script>-->
+<script type="text/javascript">
 
+  function toggle_visibility() {
+    for (var i = 0; i < arguments.length; i++) {
+      var id = arguments[i];
+      var e = document.getElementById(id);
+      if (e.style.display == 'block')
+        e.style.display = 'none';
+      else
+        e.style.display = 'block';
+    }
+  }
+
+</script>
+
+<script type="text/javascript">
+
+</script>

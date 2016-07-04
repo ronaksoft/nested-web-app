@@ -1,4 +1,3 @@
-
 /**
   ******************************
   *  General
@@ -122,7 +121,7 @@
   width: 700px;
   height: 98px;
   z-index: 1;
-  margin-left: 22px;
+  //margin-left: 22px;
   box-shadow: 0px 0px 8px rgba(0,0,0,0.2);
 }
 
@@ -149,12 +148,45 @@
 .display-none {
   display: none;
 }
+.border-none {
+  border: none;
+}
+.plshide:focus {
+  display: none;
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+#inputsearch {
+  display: none;
+  z-index: 6;
+}
+#inputsearch input{
+  border: none;
+  padding-left: 30px;
+  left: 8px;
+  padding-top: 12px;
+}
+#action-search {
+  left: 8px;
+  top: 8px;
+}
 
 /**
   ******************************
   *  navbar
   ******************************
  */
+
 
 .nst-navbar {
   background-color: $color-white;
@@ -211,6 +243,8 @@ height: 122px;
 
 .icon-close {
   background: url('../assets/icons/close.svg');
+  width: 24px;
+  height: 24px;
 }
 .menu-links-search .icon-close {
   z-index: 2;
