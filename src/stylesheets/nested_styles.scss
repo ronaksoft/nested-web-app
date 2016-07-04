@@ -308,6 +308,7 @@ ul ul li:last-child{
 .side-place-name {
   display: flex;
   align-items: center;
+  height: 42px;
 }
 .lines {
   display: inline-block;
@@ -533,9 +534,10 @@ ul ul li:last-child{
   border-top-width: 0;
   padding: 0 8px;
   z-index: 1;
+  transition-duration: .3s;
 }
 .post-card-comment.ng-hide-remove {
-  animation: post-comment .2s ease-in;
+  //animation: post-comment .2s ease-in;
 }
 .post-card-comment .comments-load {
   height: 32px;

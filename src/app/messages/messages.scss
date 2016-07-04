@@ -1,0 +1,6 @@
+@for $i from 1 through 20 {
+  ul li:nth-child(#{$i}):last-child
+  dl:nth-of-type( #{$i - 1} ) {
+    //background-color: black;
+  }
+}

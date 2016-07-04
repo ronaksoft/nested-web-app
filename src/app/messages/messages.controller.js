@@ -17,7 +17,7 @@
       $location.path('/signin').replace();
     }
 
-    
+
     vm.gformats = {
       daily: 'EEEE d MMM',
       monthly: 'MMMM',
@@ -105,63 +105,6 @@
       }
     };
 
-    vm.load = function () {
-      LoaderService.inject(WsService.request('timeline/get_events', vm.parameters).then(function (data) {
-        $scope.events.moreEvents = !(data.events.length < $scope.events.parameters.limit);
-        $scope.events.parameters.skip += data.events.length;
-
-        for (var key in data.events) {
-          var eventData = data.events[key];
-          var event = new NestedEvent(eventData);
-
-          $scope.events.pushEvent(event);
-        }
-      }).catch(function (data) {
-        switch (data.err_code) {
-          case WS_ERROR.UNAVAILABLE:
-          case WS_ERROR.INVALID:
-          case WS_ERROR.ACCESS_DENIED:
-            vm.noAccessModal();
-            //$location.path('/').replace();
-            break;
-        }
-
-      }).finally(function () {
-        vm.readyToLoad = true;
-      }));
-    };
-    
-    vm.readyToLoad = true;
-    vm.scroll = function (event) {
-      var element = event.currentTarget;
-      if (element.scrollTop + element.clientHeight + 10 > element.scrollHeight && this.moreEvents) {
-
-        if (vm.readyToLoad) {
-          vm.readyToLoad = false;
-          this.load();
-        }
-      }
-
-    };
-
-
-
-    WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
-      var event = new NestedEvent(tlEvent.detail.timeline_data);
-      $log.debug(event);
-      var action = tlEvent.detail.timeline_data.action;
-      var filter = vm.filters[vm.filter].filter;
-
-      if (shouldPushToEvents(filter, action)) {
-          $scope.events.pushEvent(event, true);
-      }
-    });
-
-    WsService.addEventListener(WS_EVENTS.AUTHORIZE, function (event) {
-      // TODO: Get timeline events after last event
-    });
-
-    vm.load();
 
     $scope.postView = function (post, url, event) {
       $scope.postViewModal = $uibModal.open({
