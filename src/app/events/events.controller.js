@@ -6,9 +6,10 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
-                            AuthService, WsService, WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
-                            LoaderService, NstSvcStorageFactory,
+  function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
+                            toastr,
+                            WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
+                            AuthService, WsService, LoaderService, NstSvcStorageFactory,
                             NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
 

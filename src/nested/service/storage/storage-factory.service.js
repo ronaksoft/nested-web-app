@@ -21,7 +21,7 @@
        */
       create: function (id, type) {
         if (!this.storages.hasOwnProperty(id)) {
-          this.storages[id] = new NstStorage(type);
+          this.storages[id] = new NstStorage(type, id);
         }
 
         return this.get(id);
