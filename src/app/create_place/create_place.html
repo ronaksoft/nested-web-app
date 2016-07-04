@@ -71,22 +71,7 @@
             </div>
             <div class="notice-bar" ng-if="place.privacy.receptive">Place is Open for Receiving Messages from Everyone.<a href="" class="nst-mood-cheerful">Learn more</a></div>
             <div class="notice-bar" ng-if="!place.privacy.receptive">Place is Blocked for Receiving Messages from Everyone.<a href="" class="nst-mood-cheerful">Learn more</a></div>
-            <div class="_difc _fw">
-              <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
-              <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
-              <div class="_df switch">
-                <input page-change-element type="checkbox" id="sw-email" class="inpsw" name="not" data-ng-model="place.privacy.email" data-ng-disabled="!place.privacy.receptive">
-                <label for="sw-email" data-ng-click="place.privacy.email && $event.preventDefault();">
-                  <div class="labtxt _fw">ON</div>
-                </label>
-                <label for="sw-email" data-ng-click="!place.privacy.email && $event.preventDefault();">
-                  <div class="labtxt _fw">OFF</div>
-                </label>
-              </div>
-            </div>
-            <div class="notice-bar" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-            <div class="notice-bar" ng-if="place.privacy.email && place.privacy.receptive">Email Does Not Appear in Contact Details.<a href="" class="nst-mood-cheerful">Learn more</a></div>
-            <div class="notice-bar" ng-if="!place.privacy.email && place.privacy.receptive">Email Appears in Contact Details.<a href="" class="nst-mood-cheerful">Learn more</a></div>
+
             <div class="_difc _fw">
               <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
               <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
@@ -103,6 +88,23 @@
             <div class="notice-bar" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
             <div class="notice-bar" ng-if="!place.privacy.search && place.privacy.receptive">Place Does Not Appear in Search List for Nonmembers.<a href="" class="nst-mood-cheerful">Learn more</a></div>
             <div class="notice-bar" ng-if="place.privacy.search && place.privacy.receptive">Place Appears in Search List for Everyone.<a href="" class="nst-mood-cheerful">Learn more</a></div>
+
+            <div class="_difc _fw">
+            <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
+            <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
+            <div class="_df switch">
+              <input page-change-element type="checkbox" id="sw-email" class="inpsw" name="not" data-ng-model="place.privacy.email" data-ng-disabled="!place.privacy.receptive">
+              <label for="sw-email" data-ng-click="place.privacy.email && $event.preventDefault();">
+                <div class="labtxt _fw">ON</div>
+              </label>
+              <label for="sw-email" data-ng-click="!place.privacy.email && $event.preventDefault();">
+                <div class="labtxt _fw">OFF</div>
+              </label>
+            </div>
+          </div>
+            <div class="notice-bar" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="place.privacy.email && place.privacy.receptive">Email Does Not Appear in Contact Details.<a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.email && place.privacy.receptive">Email Appears in Contact Details.<a href="" class="nst-mood-cheerful">Learn more</a></div>
             <div>
               <div class="nst-marginbtm-4" data-ng-if="!placeprivacy.place_name.$error.required || !placeprivacy.place_name.$touched">Place Name</div>
               <div class="nst-marginbtm-4 nst-mood-lively" data-ng-if="placeprivacy.place_name.$error.required && (placeprivacy.place_name.$touched || focus) && placeprivacy.place_name.$invalid && (placeprivacy.place_name.$dirty || placeprivacy.place_name.$touched)">Place Name should be fill !</div>

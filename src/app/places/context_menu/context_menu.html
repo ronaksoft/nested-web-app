@@ -1,13 +1,14 @@
-<ul data-ng-if="place.haveAccess('RM')" class="list-unstyled" data-ng-click="place_option.removeMember(member);">
-  <li class="menuicon-remove _dib"></li>
-  <li class="_dib nst-mood-simple _vat">Remove</li>
+<ul data-ng-if="place.haveAccess('RM')" class="list-inline" data-ng-click="place_option.removeMember(member);">
+  <li class="menuicon-remove"></li>
+  <li class="nst-mood-simple">Remove</li>
 </ul>
-<ul>
-  <div data-ng-if="place.haveAccess('C')" data-ng-switch="role">
-    <li data-ng-switch-when="key_holder" class="_dib menuicon-create"></li>
-    <li data-ng-switch-when="creator" class="_dib menuicon-create-transform"></li>
+<div data-ng-if="place.haveAccess('C')" data-ng-switch="role">
+   <ul class="list-inline">
+    <li data-ng-switch-when="key_holder" class="menuicon-create"></li>
+    <li data-ng-switch-when="creator" class="menuicon-create-transform"></li>
 
-    <li data-ng-switch-when="key_holder" class="_dib nst-mood-simple _vat">Promote</li>
-    <li data-ng-switch-when="creator" class="_dib nst-mood-simple _vat">Demote</li>
-  </div>
-</ul>
+    <li data-ng-switch-when="key_holder" class="nst-mood-simple">Promote</li>
+    <li data-ng-switch-when="creator" class="nst-mood-simple">Demote</li>
+   </ul>
+</div>
+
