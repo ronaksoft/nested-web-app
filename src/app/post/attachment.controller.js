@@ -10,7 +10,7 @@
     }).controller('AttachmentController', AttachmentController);
 
   /** @ngInject */
-  function AttachmentController($location, $scope, $rootScope, $q,
+  function AttachmentController($location, $scope, $rootScope, $q, $window,
                                 AuthService, LoaderService, VIEWPORT) {
     var vm = this;
 
@@ -84,7 +84,7 @@
       var view = VIEWPORT.DOWNLOAD;
 
       attach.getDownloadUrl(view).then(function (url) {
-        window.open(url,'_blank');
+        $window.location.assign(url);
       });
 
       if (event) {
