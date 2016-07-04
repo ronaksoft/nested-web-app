@@ -6,7 +6,7 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, AuthService, NestedPlace, PLACE_ACCESS) {
+  function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, AuthService, WsService, NestedPlace, PLACE_ACCESS, EVENT_ACTIONS, WS_EVENTS) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -26,8 +26,8 @@
       }
     };
 
-    if ($stateParams.hasOwnProperty('placeId')) {
-      $scope.place.load($stateParams.placeId).then(function (place) {
+    function load(id) {
+      $scope.place.load(id).then(function (place) {
         if (place.haveAccess(PLACE_ACCESS.REMOVE_PLACE)) {
           $scope.place_option.actions['delete'] = {
             name: 'Delete',
@@ -45,6 +45,11 @@
         }
       });
       $scope.place.loadAllMembers();
+      console.log($scope.place);
+    }
+
+    if ($stateParams.hasOwnProperty('placeId')) {
+      load($stateParams.placeId);
     } else {
       $location.path('/places').replace();
     }
@@ -201,6 +206,46 @@
         });
       });
     };
+
+    WsService.addEventListener(WS_EVENTS.TIMELINE, function (e) {
+      var action = e.detail.timeline_data.action;
+
+
+      /**
+       * if - if the notification is about accepting an invitation
+       */
+      if (action === EVENT_ACTIONS.MEMBER_JOIN){
+        var username = e.detail.timeline_data.actor;
+        $scope.$apply(function () {
+
+          if (e.detail.timeline_data.member_type === 'known_guest') {
+
+            /**
+             * if the member is turned into a known guest,
+             * then find the member in pendingKnownGuests and
+             * move it to the list of knownGuests
+             */
+            var guest = _.find($scope.place.members.pendingKnownGuests.users, { username : username });
+            var index = _.indexOf($scope.place.members.pendingKnownGuests.users, guest);
+            $scope.place.members.pendingKnownGuests.users.splice(index, 1);
+            $scope.place.members.knownGuests.users.push(guest);
+
+          } else if (e.detail.timeline_data.member_type === 'key_holder') {
+
+            /**
+             * if the member is turned into a keyholder,
+             * then find the member in pendingKeyHolders and
+             * move it to the list of knownKeyHolders
+             */
+            var keyholder = _.find($scope.place.members.pendingKeyHolders.users, { username : username });
+            var index = _.indexOf($scope.place.members.pendingKeyHolders.users, keyholder);
+            $scope.place.members.pendingKeyHolders.users.splice(index, 1);
+            $scope.place.members.keyHolders.users.push(keyholder);
+
+          }
+        });
+      }
+    });
 
   }
 })();
