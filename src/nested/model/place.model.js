@@ -432,7 +432,6 @@
             place_id: this.id,
             member_id: memberId
           }).then(function () {
-            console.log(this.members);
             var found = false;
             for (var role in this.members) {
               if (this.members[role].loaded) {
