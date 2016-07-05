@@ -6,9 +6,10 @@
     .controller('EventsController', EventsController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
-                            AuthService, WsService, WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
-                            LoaderService, NstSvcStorageFactory,
+  function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
+                            toastr,
+                            WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
+                            AuthService, WsService, LoaderService, NstSvcStorageFactory,
                             NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
 
@@ -226,6 +227,7 @@
     vm.load();
 
     $scope.postView = function (post, url, event) {
+      $rootScope.target = '_blank';
       $scope.postViewModal = $uibModal.open({
         animation: false,
         templateUrl: 'app/post/post.html',
@@ -253,7 +255,7 @@
 
       $scope.postViewModal.closed.then(function () {
         // $location.update_path($scope.lastUrl, true);
-
+        $rootScope.target = '';
         delete $scope.lastUrl;
         delete $scope.thePost;
       });
@@ -262,7 +264,7 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return LoaderService.inject(attachment.getDownloadUrl().then(function () {
+      return LoaderService.inject(attachment.getViewUrl().then(function () {
         return $q(function (res) {
           res(this);
         }.bind(this));

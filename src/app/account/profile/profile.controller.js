@@ -6,7 +6,7 @@
     .controller('AccountProfileController', AccountProfileController);
 
   /** @ngInject */
-  function AccountProfileController($location, $scope, $state,
+  function AccountProfileController($location, $scope, $state, $timeout, $log,
                                     UPLOAD_TYPE,
                                     AuthService, StoreService, $uibModal) {
     var vm = this;
@@ -19,7 +19,11 @@
     $scope.logo = null;
     $scope.user = AuthService.user;
 
+    $scope.showUploadProgress = false;
+
     vm.imgToUri = function (event) {
+      vm.loadedSize = 0;
+      $scope.showUploadProgress = true;
       var element = event.currentTarget;
 
       for (var i = 0; i < element.files.length; i++) {
@@ -29,12 +33,36 @@
         reader.onload = function (event) {
           $scope.user.picture.org.url = event.target.result;
 
-          return StoreService.upload($scope.logo, UPLOAD_TYPE.PROFILE_PICTURE).then(function (response) {
-            $scope.user.picture.org.uid = response.universal_id;
-            $scope.logo = null;
+          var uploadSettings = {
+            file : $scope.logo,
+            cmd : UPLOAD_TYPE.PROFILE_PICTURE,
+            // progress is invoked at most once per every second
+            onProgress : _.throttle(function (e) {
+              if (e.lengthComputable) {
+                vm.loadedSize = (e.loaded/e.total)*100;
+                $timeout(function () {
+                  $scope.totalProgress = vm.loadedSize.toFixed(0);
+                });
+              }
+            }.bind(),100),
+            onStart : function (e) {
+              $scope.showUploadProgress = true;
+            }
+          };
 
-            return $scope.user.setPicture(response.universal_id);
+          return StoreService.uploadWithProgress(uploadSettings).then(function (handler) {
+            $scope.user.picture.org.uid = handler.universal_id;
+            $scope.logo = null;
+            handler.start().then(function (response) {
+              $scope.showUploadProgress = false;
+              return $scope.user.setPicture(response.data.universal_id);
+            }).catch(function (result) {
+              $log.debug(result);
+            });
+          }).catch(function (error) {
+            $log.debug(error);
           });
+
         };
 
         reader.readAsDataURL($scope.logo);
@@ -42,7 +70,23 @@
     };
 
     vm.removeImg = function () {
-      $scope.user.setPicture();
+      vm.showRemoveModal();
+    };
+
+    vm.showRemoveModal = function () {
+
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/account/profile/remove-pic.html',
+        controller: 'WarningController',
+        size: 'sm',
+        scope: $scope
+      }).result.then(function () {
+        $scope.user.setPicture();
+      }).catch(function () {
+      });
+
+      return false;
     };
     $scope.patterns = {
       email: {

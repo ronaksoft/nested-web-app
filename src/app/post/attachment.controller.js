@@ -49,9 +49,8 @@
       }
       $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
 
-      var view = VIEWPORT.VIEW;
 
-      return LoaderService.inject($scope.attachment.getDownloadUrl(view).then(function () {
+      return LoaderService.inject($scope.attachment.getViewUrl().then(function () {
         return 'image' == $scope.attachment.mimeType.split('/')[0] ? $q(function(res ,rej) {
           $scope.attLoad.success = res;
           $scope.attLoad.fail = rej;
@@ -62,13 +61,12 @@
     };
 
     $scope.prvAtt = function () {
-      if($scope.index == 1) {
-        $scope.index = $scope.attachment.post.attachments.length + 1;
+      if($scope.index == 0) {
+        $scope.index = $scope.attachment.post.attachments.length;
       }
       $scope.attachment = $scope.attachment.post.attachments[--$scope.index];
-      var view = VIEWPORT.VIEW;
 
-      return LoaderService.inject($scope.attachment.getDownloadUrl(view).then(function () {
+      return LoaderService.inject($scope.attachment.getViewUrl().then(function () {
         return 'image' == $scope.attachment.mimeType.split('/')[0] ? $q(function(res ,rej) {
           $scope.attLoad.success = res;
           $scope.attLoad.fail = rej;
@@ -81,9 +79,8 @@
     $scope.download = function (attachment, event) {
       var attach = angular.copy(attachment);
 
-      var view = VIEWPORT.DOWNLOAD;
 
-      attach.getDownloadUrl(view).then(function (url) {
+      attach.getDownloadUrl().then(function (url) {
         $window.location.assign(url);
       });
 

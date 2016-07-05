@@ -28,7 +28,6 @@
               <div data-ng-if="!place.picture.org.uid" class="account-initials-64 _dib room-pic">{{place.name | initials:2}}</div>
             </label>
             <input id="logo" data-ng-disabled="!place.haveAccess('C')" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().place_option.imgToUri(event)"/>
-
             <div class="_dib room-pic">
               <h5 data-ng-if="place.haveAccess('C')" editable-text="place.name" onbeforesave="place_option.updatePlace('place_name', $data)">{{place.name || 'empty'}}</h5>
               <h5 data-ng-if="!place.haveAccess('C')">{{place.name || 'empty'}}</h5>
@@ -36,6 +35,11 @@
               <h5 class="nst-mood-storm">{{place.id + '@nested.me'}}</h5>
               <h5 data-ng-if="place.haveAccess('C')" class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place description" editable-text="place.description" onbeforesave="place_option.updatePlace('place_desc', $data)">{{place.description || 'empty'}}</h5>
               <h5 class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description" data-ng-if="!place.haveAccess('C')">{{place.description || 'empty'}}</h5>
+              <div class="progress" ng-if="showUploadProgress">
+                <div class="progress-bar" ng-class="{'progress-bar-success' : totalProgress == 100}" role="progressbar" aria-valuenow="{{totalProgress}}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{totalProgress}}%;">
+                  <span>{{totalProgress}}%</span>
+                </div>
+              </div>
             </div>
           </div> <!--/Room name-->
           <div class="options">
@@ -52,8 +56,8 @@
                 </div>
               </div>
               <div class="nst-description _df _fw">
-                <div ng-if="place.privacy.notification">You will recieve notifications for this place on all your devices.<a class="nst-mood-cheerful cursor-pointer">Learn More.</a>.</div>
-                <div ng-if="!place.privacy.notification">You won't recieve notifications for this Place.<a class="nst-mood-cheerful cursor-pointer">Learn More.</a>.</div>
+                <div ng-if="place.privacy.notification">You will recieve notifications for this place on all your devices <a class="nst-mood-cheerful cursor-pointer">Learn More </a></div>
+                <div ng-if="!place.privacy.notification">You won't recieve notifications for this Place <a class="nst-mood-cheerful cursor-pointer">Learn More </a></div>
               </div>
               <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-digest"><i class="nst-place-icon-shown _df"></i></label></div>
@@ -79,8 +83,8 @@
                   <label for="sw-receptive" data-ng-click="!place.privacy.receptive && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
-              <div class="nst-description" ng-if="place.privacy.receptive">Place is open for receiving messages from everyone<a href="" class="nst-mood-cheerful">Learn more</a></div>
-              <div class="nst-description" ng-if="!place.privacy.receptive">Place is blocked for receiving messages from everyone<a href="" class="nst-mood-cheerful">Learn more</a></div>
+              <div class="nst-description" ng-if="place.privacy.receptive">Place is open for receiving messages from everyone<a href="" class="nst-mood-cheerful"> Learn more</a></div>
+              <div class="nst-description" ng-if="!place.privacy.receptive">Place is blocked for receiving messages from everyone<a href="" class="nst-mood-cheerful"> Learn more</a></div>
 
 
               <div class="_difc _fw optionrow">
@@ -92,9 +96,9 @@
                   <label for="sw-search" data-ng-click="!place.privacy.search && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
-              <div class="nst-description" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-              <div class="nst-description" ng-if="!place.privacy.search && place.privacy.receptive">Place does not appear in search list for nonmembers  <a href="" class="nst-mood-cheerful">Learn more</a></div>
-              <div class="nst-description" ng-if="place.privacy.search && place.privacy.receptive">Place appears in search list for everyone <a href="" class="nst-mood-cheerful">Learn more</a></div>
+              <div class="nst-description" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off <a href="" class="nst-mood-cheerful"> Learn more</a></div>
+              <div class="nst-description" ng-if="!place.privacy.search && place.privacy.receptive">Place does not appear in search list for nonmembers <a href="" class="nst-mood-cheerful"> Learn more</a></div>
+              <div class="nst-description" ng-if="place.privacy.search && place.privacy.receptive">Place appears in search list for everyone <a href="" class="nst-mood-cheerful"> Learn more</a></div>
 
               <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-email"><i class="nst-place-icon-email _df"></i></label></div>
@@ -106,7 +110,7 @@
                 </div>
               </div>
               <div class="nst-description" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-              <div class="nst-description" ng-if="place.privacy.email && place.privacy.receptive">Email does not appear in contact details<a href="" class="nst-mood-cheerful">Learn more</a></div>
+              <div class="nst-description" ng-if="place.privacy.email && place.privacy.receptive">Email does not appear in contact details <a href="" class="nst-mood-cheerful">Learn more</a></div>
               <div class="nst-description" ng-if="!place.privacy.email && place.privacy.receptive">Email appears in contact details <a href="" class="nst-mood-cheerful">Learn more</a></div>
 
             </div> <!-- /nst-place-privacy-->
@@ -114,9 +118,11 @@
 
           <div class="nst-teammates _dib" data-ng-if="place.members.creators.count > 0">
             <h5 class="tittle-option _di">Teammates</h5>
-            <div data-ng-if="place.haveAccess('AM')" class="_di  _fr" data-ng-click="place_option.showAddModal('teammate')">
-              <span class="nst-mood-simple _dib _vat">Add Teammate</span>
-              <div class="add-icon _dib"></div>
+            <div class="_dt _fr">
+              <div data-ng-if="place.haveAccess('AM')" class="_dtr" data-ng-click="place_option.showAddModal('teammate')">
+                <div class="nst-mood-simple _dtc _vat">Add Teammate</div>
+                <div class="add-icon _dtc"></div>
+              </div>
             </div>
             <hr>
             <div data-ng-if="place.haveAccess('SM')" class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.creators.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'creator'"></div>

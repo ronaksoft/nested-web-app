@@ -32,7 +32,7 @@
      *
      * @constructor
        */
-    function Storage(type, timeout) {
+    function Storage(type, id, timeout) {
       // Event listeners
       this.listeners = {};
 
@@ -43,7 +43,7 @@
         flush: function () {}
       };
 
-      this.id = NstSvcRandomize.genUniqId();
+      this.id = id || NstSvcRandomize.genUniqId();
 
       this.timeout = timeout || 0;
 

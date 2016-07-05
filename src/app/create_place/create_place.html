@@ -46,14 +46,14 @@
                 <input page-change-element pattern=".{3,}" type="text" name="place_id" ng-class="{'form-control nst-marginbtm-4':!placeprivacy.place_id.$error.required || !placeprivacy.place_id.$touched, 'form-control-error nst-marginbtm-4': placeprivacy.place_id.$error.required && (placeprivacy.place_id.$touched || focus) && placeprivacy.place_id.$invalid && (placeprivacy.place_id.$dirty || placeprivacy.place_id.$touched)}"
                        aria-invalid="false" data-ng-model="place.local_id" ng-keyup="checkId(place.local_id)" minlength="3" required/>
               </div>
-              <div class="notice-bar">Place Address can't be changed later; Be careful!</div>
+              <div class="notice-bar">This address is permanent; it cannot be edited later.</div>
             </div>
             <div class="place-desc">
               <div class="nst-marginbtm-4">Description</div>
               <div>
                 <input page-change-element type="text" name="place_desc" class="nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="place.description"/>
               </div>
-              <div class="notice-bar">Place Description</div>
+              <div class="notice-bar">Enter Place Description</div>
             </div>
             <div id="place-privacy">Place Privacy</div>
             <div class="_difc _fw">
@@ -69,8 +69,8 @@
                 </label>
               </div>
             </div>
-            <div class="notice-bar" ng-if="place.privacy.receptive">Place is Open for Receiving Messages from Everyone.<a href="" class="nst-mood-cheerful">Learn more</a></div>
-            <div class="notice-bar" ng-if="!place.privacy.receptive">Place is Blocked for Receiving Messages from Everyone.<a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="place.privacy.receptive">Place is open for receiving messages from everyone <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.receptive">Place is blocked for receiving messages from everyone <a href="" class="nst-mood-cheerful">Learn more</a></div>
 
             <div class="_difc _fw">
               <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
@@ -85,9 +85,9 @@
                 </label>
               </div>
             </div>
-            <div class="notice-bar" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-            <div class="notice-bar" ng-if="!place.privacy.search && place.privacy.receptive">Place Does Not Appear in Search List for Nonmembers.<a href="" class="nst-mood-cheerful">Learn more</a></div>
-            <div class="notice-bar" ng-if="place.privacy.search && place.privacy.receptive">Place Appears in Search List for Everyone.<a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.receptive">Disabled until "Recieving" is off  <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.search && place.privacy.receptive">Place does not appear in search list for nonmembers <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="place.privacy.search && place.privacy.receptive">Place appears in search list for everyone <a href="" class="nst-mood-cheerful">Learn more</a></div>
 
             <div class="_difc _fw">
             <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
@@ -102,9 +102,9 @@
               </label>
             </div>
           </div>
-            <div class="notice-bar" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-            <div class="notice-bar" ng-if="place.privacy.email && place.privacy.receptive">Email Does Not Appear in Contact Details.<a href="" class="nst-mood-cheerful">Learn more</a></div>
-            <div class="notice-bar" ng-if="!place.privacy.email && place.privacy.receptive">Email Appears in Contact Details.<a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.receptive">Disabled until "Recieving" is off <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="place.privacy.email && place.privacy.receptive">Email does not appear in contact details <a href="" class="nst-mood-cheerful">Learn more</a></div>
+            <div class="notice-bar" ng-if="!place.privacy.email && place.privacy.receptive">Email appears in contact details <a href="" class="nst-mood-cheerful">Learn more</a></div>
             <div>
               <div class="nst-marginbtm-4" data-ng-if="!placeprivacy.place_name.$error.required || !placeprivacy.place_name.$touched">Place Name</div>
               <div class="nst-marginbtm-4 nst-mood-lively" data-ng-if="placeprivacy.place_name.$error.required && (placeprivacy.place_name.$touched || focus) && placeprivacy.place_name.$invalid && (placeprivacy.place_name.$dirty || placeprivacy.place_name.$touched)">Place Name should be fill !</div>
