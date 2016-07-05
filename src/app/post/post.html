@@ -104,7 +104,7 @@
           <textarea class="_df _fw" cols="32" maxlength="250" ng-keyup="commentKeyUp($event)" placeholder="write your comment..." data-ng-model="nextComment" auto-rtl="hi"/></textarea>
           <div class="_difh sendcomment">
             <span data-ng-show="250 - nextComment.length < 20" class="nst-mood-simple _df">{{250 - nextComment.length}}</span>
-            <button class="btn-send-comment _df" data-ng-click="commentKeyUp($event)">Send</button>
+            <button class="btn-send-comment _df" data-ng-click="commentSendButton('nextComment');">Send</button>
           </div>
         </div>
       </div>
