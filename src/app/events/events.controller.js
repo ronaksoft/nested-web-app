@@ -8,7 +8,7 @@
   /** @ngInject */
   function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
                             AuthService, WsService, WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
-                            LoaderService, StorageFactoryService,
+                            LoaderService, NstSvcStorageFactory,
                             NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
 
@@ -17,51 +17,27 @@
       $location.path('/signin').replace();
     }
 
-    var storage = StorageFactoryService.create('ui.pages.activity', STORAGE_TYPE.LOCAL);
-    storage.get("extended").catch(function () {
-      var defValue = false;
-      storage.put("extended", defValue);
-
-      return $q(function (res) {
-        res(defValue);
-      });
-    }).then(function (value) {
-      vm.extended = value;
-    });
+    var storage = NstSvcStorageFactory.create('ui.pages.activity', STORAGE_TYPE.LOCAL);
+    vm.extended = storage.get("extended", false);
 
     vm.collapse = function () {
+      console.log('collapse changed');
       vm.extended =! vm.extended;
-      storage.put("extended", vm.extended);
+      storage.set("extended", vm.extended);
     };
 
-    storage.get("filterStat").catch(function () {
-      var defValue = 'all';
-      storage.put("filterStat", defValue);
-
-      return $q(function (res) {
-        res(defValue);
-      });
-    }).then(function (value) {
-      $scope.filterStatus = "!$" + value;
-    });
+    $scope.filterStatus = "!$" + storage.get("filterStat", 'all');
 
     vm.setFilter = function (stat) {
-      storage.put("filterStat", stat);
+      console.log('filter changed');
+      storage.set("filterStat", stat);
     };
 
-    storage.get("sidebarWidth").catch(function () {
-      var defValue = 222;
-      storage.put("extended", defValue);
-
-      return $q(function (res) {
-        res(defValue);
-      });
-    }).then(function (value) {
-      $scope.sidebarWidth = value;
-    });
+    $scope.sidebarWidth = storage.get("sidebarWidth", 222);
 
     $scope.$on('angular-resizable.resizeEnd', function (event, info) {
-      storage.put("sidebarWidth", info.width);
+      console.log('width changed');
+      storage.set("sidebarWidth", info.width);
     });
 
     // Invitations
@@ -354,7 +330,7 @@
             EVENT_ACTIONS.PLACE_PRIVACY,
             EVENT_ACTIONS.PLACE_PICTURE
           ]
-        },
+        }
       ];
 
       // returns true if the event belongs to the selected view and is one of its actions

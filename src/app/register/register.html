@@ -75,13 +75,13 @@
           <div class="nst-marginbtm-8" ng-if="!registrationForm.phone.$error.required || !registrationForm.phone.$touched">Mobile Phone</div>
           <div class="nst-mood-lively nst-marginbtm-8" ng-if="registrationForm.phone.$error.required && registrationForm.phone.$touched">Mobile Phone Required</div>
           <div class="_fw">
-              <input name="mobileNumber" international-phone-number class="select-birthday" data-ng-model="phone" tabindex="7" required/>
+              <input name="mobileNumber" international-phone-number class="select-birthday" data-ng-model="phone" tabindex="7"/>
           </div>
         </div>
         <div class="nst-marginbtm-8" ng-if="!registrationForm.birth.$error.required || !registrationForm.birth.$touched">Birthday</div>
         <div class="nst-mood-lively nst-marginbtm-8" ng-if="registrationForm.birth.$error.required && registrationForm.birth.$touched">Birthday Required</div>
         <div class="nst-marginbtm-16">
-            <input class="select-birthday" rsmdatedropdowns ng-model="birth" requiered/>
+            <input class="select-birthday" rsmdatedropdowns requiered/>
         </div>
         <div class="_dt nst-marginbtm-8">
           <div class="_dtr">

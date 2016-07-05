@@ -7,12 +7,12 @@
       return {
         restrict: 'A',
         scope: {
-          model: '=ngModel',
+          model: '=ngModel'
         },
         link: function (scope, element, attrs) {
           var eventMoment = moment(scope.model.date);
           if (eventMoment.isAfter(moment().add(-5, 's'))) { // found that the event happend recently
-            var item = $(element);
+            var item = angular.element(element);
             if (item.visible()){
               item.addClass('seen');
             } else {

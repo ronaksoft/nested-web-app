@@ -6,7 +6,7 @@
     .controller('CreatePlaceController', CreatePlaceController);
 
   /** @ngInject */
-  function CreatePlaceController($location, $scope, $uibModal, $stateParams, $q, $timeout,
+  function CreatePlaceController($location, $scope, $uibModal, $stateParams, $q, $timeout, $state, $rootScope,
                                  WS_ERROR, UPLOAD_TYPE,
                                  AuthService, StoreService, LoaderService, WsService,
                                  StoreItem, NestedPlace) {
@@ -76,6 +76,7 @@
         return $scope.place.update().then(function (place) {
           $scope.leaveReason = 'Create Place';
           $location.path('/place/' + place.id).replace();
+          $rootScope.$emit('place-added');
         }).catch(function (error) {
           switch (error.err_code) {
             case WS_ERROR.ACCESS_DENIED:
