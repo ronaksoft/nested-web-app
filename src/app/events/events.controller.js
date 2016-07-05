@@ -87,11 +87,11 @@
       },
       '!$members': {
         filter: 'members',
-        name: 'Member Acts'
+        name: 'Member Log'
       },
       '!$place': {
         filter: 'places',
-        name: 'Place Acts'
+        name: 'Place Log'
       }
     };
 
