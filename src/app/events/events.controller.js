@@ -226,6 +226,7 @@
     vm.load();
 
     $scope.postView = function (post, url, event) {
+      $rootScope.target = '_blank';
       $scope.postViewModal = $uibModal.open({
         animation: false,
         templateUrl: 'app/post/post.html',
@@ -253,7 +254,7 @@
 
       $scope.postViewModal.closed.then(function () {
         // $location.update_path($scope.lastUrl, true);
-
+        $rootScope.target = '';
         delete $scope.lastUrl;
         delete $scope.thePost;
       });
@@ -262,7 +263,7 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return LoaderService.inject(attachment.getDownloadUrl().then(function () {
+      return LoaderService.inject(attachment.getViewUrl().then(function () {
         return $q(function (res) {
           res(this);
         }.bind(this));
