@@ -8,7 +8,7 @@
       ATTACHED: 'attached',
       ABORTED: 'aborted'
     })
-    .factory('NestedAttachment', function ($rootScope, $q, $log, _, WsService, NestedPlace, NestedUser, StoreItem, ATTACHMENT_STATUS) {
+    .factory('NestedAttachment', function ($rootScope, $q, $log, _, WsService, NestedPlace, NestedUser, StoreItem, ATTACHMENT_STATUS, VIEWPORT) {
       function Attachment(data, post, full) {
         this.full = full || false;
 
@@ -28,7 +28,9 @@
           x64: new StoreItem(),
           x128: new StoreItem()
         };
-        this.download = new StoreItem(); // StoreItem
+        this.download = new StoreItem();
+        this.stream = new StoreItem();
+        this.view = new StoreItem();// StoreItem
 
         if (data) {
           this.setData(data);
@@ -84,7 +86,7 @@
           }.bind(this));
         },
 
-        getDownloadUrl: function (view, token) {
+        getDownloadUrl: function (token) {
           if (!this.download.uid) {
             this.download = new StoreItem(this.id);
           }
@@ -92,7 +94,43 @@
           var tkPromise = token ? $q(function (res) { res(this); }.bind(token)) : this.download.store.getDownloadToken(this.post.id, this.id);
 
           return tkPromise.then(function (newToken) {
-            return this.download.getUrl(newToken, view).then(function (url) {
+            return this.download.getUrl(newToken, VIEWPORT.DOWNLOAD).then(function (url) {
+              this.change();
+
+              return $q(function (res) {
+                res(url);
+              }.bind(this));
+            }.bind(this));
+          }.bind(this));
+        },
+        getStreamUrl: function (token) {
+          if (!this.stream.uid) {
+            this.stream = new StoreItem(this.id);
+            console.log("2");
+          }
+
+          var tkPromise = token ? $q(function (res) { res(this); }.bind(token)) : this.download.store.getDownloadToken(this.post.id, this.id);
+
+          return tkPromise.then(function (newToken) {
+            return this.stream.getUrl(newToken, VIEWPORT.STREAM).then(function (url) {
+              this.change();
+
+              return $q(function (res) {
+                res(url);
+              }.bind(this));
+            }.bind(this));
+          }.bind(this));
+        },
+        getViewUrl: function (token) {
+          if (!this.view.uid) {
+            this.view = new StoreItem(this.id);
+            console.log("1");
+          }
+
+          var tkPromise = token ? $q(function (res) { res(this); }.bind(token)) : this.download.store.getDownloadToken(this.post.id, this.id);
+
+          return tkPromise.then(function (newToken) {
+            return this.view.getUrl(newToken,VIEWPORT.VIEW).then(function (url) {
               this.change();
 
               return $q(function (res) {

@@ -52,6 +52,7 @@
         }
 
         return $scope.place.update().then(function (place) {
+          $scope.place.setPicture(response.universal_id);
           $scope.leaveReason = 'Create Place';
           $location.path('/place/' + place.id).replace();
           $rootScope.$emit('place-added');
