@@ -41,19 +41,34 @@
     $scope.commentKeyUp = function (event) {
       var noSend = event.shiftKey || event.ctrlKey;
       if (13 === event.keyCode && !noSend) {
-        var body = event.currentTarget.value.trim();
-
-        if (body.length > 0) {
-          event.currentTarget.value = '';
-          LoaderService.inject($scope.thePost.addComment(body).then(function (comment) {
-            $scope.scrolling = $scope.unscrolled && true;
-          }).catch(function (comment) {
-            this.value = comment;
-          }.bind(event.currentTarget)));
-        }
+        $scope.sendComment(event.currentTarget.value).catch(function (comment) {
+          this.value = comment;
+        }.bind(event.currentTarget));
+        event.currentTarget.value = '';
 
         return false;
       }
+    };
+
+    $scope.commentSendButton = function (varName) {
+      $scope.sendComment($scope[varName]).catch(function (comment) {
+        $scope[varName] = comment;
+      });
+      $scope[varName] = '';
+    };
+
+    $scope.sendComment = function (body) {
+      body = body.trim();
+
+      if (body.length > 0) {
+        return LoaderService.inject($scope.thePost.addComment(body).then(function () {
+          $scope.scrolling = $scope.unscrolled && true;
+        }));
+      }
+
+      return $q(function(res, rej){
+        rej('');
+      });
     };
 
     $scope.user = AuthService.user;
@@ -121,6 +136,7 @@
 
           return modal.result;
         }
+
 
         function deletePostFromPlace(post, place) {
           var defer = $q.defer();
