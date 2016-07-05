@@ -44,23 +44,24 @@
           </div> <!--/Room name-->
           <div class="options">
             <div class="nst-options col-xs-12 col-lg-6">
-              <h5 class="tittle-option">Options For Me</h5>
+              <h5 class="tittle-option">Personal</h5>
               <hr>
               <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-notification"><i class="nst-place-icon-notif _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-notification"><h5>Notifictions</h5></label></div>
                 <div class="_df switch">
                   <input type="checkbox" id="sw-notification" class="inpsw" name="notification" data-ng-model="place.privacy.notification" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
-                  <label class="on active" for="sw-notification" data-ng-click="notification && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
-                  <label class="noton" for="sw-notification" data-ng-click="!notification && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
+                  <label class="on active" for="sw-notification" data-ng-click="place.privacy.notification && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
+                  <label class="noton" for="sw-notification" data-ng-click="!place.privacy.notification && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
               <div class="nst-description _df _fw">
-                <p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place, <a class="nst-mood-cheerful cursor-pointer">invite them as a member</a>.</p>
+                <div ng-if="place.privacy.notification">You will recieve notifications for this place on all your devices <a class="nst-mood-cheerful cursor-pointer">Learn More </a></div>
+                <div ng-if="!place.privacy.notification">You won't recieve notifications for this Place <a class="nst-mood-cheerful cursor-pointer">Learn More </a></div>
               </div>
               <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-digest"><i class="nst-place-icon-shown _df"></i></label></div>
-                <div class="_df _fw"><label for="sw-digest"><h5>Show in Digest</h5></label></div>
+                <div class="_df _fw"><label for="sw-digest"><h5>Add to Bookmarks</h5></label></div>
                 <div class="_df switch">
                     <input type="checkbox" id="sw-digest" class="inpsw" name="digest" data-ng-model="digest" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
                     <label class="on active" for="sw-digest" data-ng-click="digest && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
@@ -74,44 +75,30 @@
               <hr>
 
               <div class="_difc _fw optionrow">
-                <div class="_df"><label for="sw-locked"><i class="nst-place-icon-lock _df"></i></label></div>
-                <div class="_df _fw"><label for="sw-locked"><h5>Lock</h5></label></div>
-
-                <div class="_df switch">
-                  <input type="checkbox" id="sw-locked" data-ng-disabled="!place.haveAccess('C')" class="inpsw" name="locked" data-ng-model="place.privacy.locked" onchange="return angular.element(this).scope().place_option.showLockModal(event)"/>
-                  <label for="sw-locked" data-ng-click="place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
-                  <label for="sw-locked" data-ng-click="!place.privacy.locked && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
-                </div>
-              </div>
-              <div class="nst-description _df _fw">
-                <p>Parent members Can't view Inside The Place.<a class="nst-mood-cheerful cursor-pointer">Learn more</a></p>
-              </div>
-
-              <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-receptive"><i class="nst-place-icon-print _df"></i></label></div>
-                <div class="_df _fw"><label for="sw-receptive"><h5>Receptive</h5></label></div>
+                <div class="_df _fw"><label for="sw-receptive"><h5>Recieving</h5></label></div>
                 <div class="_df switch">
                   <input type="checkbox" data-ng-disabled="!place.haveAccess('C')" id="sw-receptive" class="inpsw" name="receptive" data-ng-model="place.privacy.receptive" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
                   <label for="sw-receptive" data-ng-click="place.privacy.receptive && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
                   <label for="sw-receptive" data-ng-click="!place.privacy.receptive && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
-              <div class="nst-description _df _fw">
-                <p>Only members Can Write Posts. <a class="nst-mood-cheerful cursor-pointer">Learn more</a>.</p>
-              </div>
+              <div class="nst-description" ng-if="place.privacy.receptive">Place is open for receiving messages from everyone<a href="" class="nst-mood-cheerful"> Learn more</a></div>
+              <div class="nst-description" ng-if="!place.privacy.receptive">Place is blocked for receiving messages from everyone<a href="" class="nst-mood-cheerful"> Learn more</a></div>
+
 
               <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-search"><i class="nst-place-icon-search _df"></i></label></div>
-                <div class="_df _fw"><label for="sw-search"><h5>Search</h5></label></div>
+                <div class="_df _fw"><label for="sw-search"><h5>Searchable</h5></label></div>
                 <div class="_df switch">
                   <input type="checkbox" data-ng-disabled="!place.privacy.receptive || !place.haveAccess('C') " id="sw-search" class="inpsw" name="search" data-ng-model="place.privacy.search" onchange="angular.element(this).scope().place_option.updatePrivacy(event)"/>
                   <label for="sw-search" data-ng-click="place.privacy.search && $event.preventDefault();"><div class="labtxt _fw">ON</div></label>
                   <label for="sw-search" data-ng-click="!place.privacy.search && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
-              <div class="nst-description _df _fw">
-                <p>Disabled until "Receptive" off <a class="nst-mood-cheerful  cursor-pointer">Learn more</a>.</p>
-              </div>
+              <div class="nst-description" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off <a href="" class="nst-mood-cheerful"> Learn more</a></div>
+              <div class="nst-description" ng-if="!place.privacy.search && place.privacy.receptive">Place does not appear in search list for nonmembers <a href="" class="nst-mood-cheerful"> Learn more</a></div>
+              <div class="nst-description" ng-if="place.privacy.search && place.privacy.receptive">Place appears in search list for everyone <a href="" class="nst-mood-cheerful"> Learn more</a></div>
 
               <div class="_difc _fw optionrow">
                 <div class="_df"><label for="sw-email"><i class="nst-place-icon-email _df"></i></label></div>
@@ -122,17 +109,20 @@
                   <label for="sw-email" data-ng-click="!place.privacy.email && $event.preventDefault();"><div class="labtxt _fw">OFF</div></label>
                 </div>
               </div>
-              <div class="nst-description _df _fw">
-                <p>Disabled until "Receptive" off. <a class="nst-mood-cheerful cursor-pointer">Learn more</a>.</p>
-              </div>
+              <div class="nst-description" ng-if="!place.privacy.receptive">Disabled until "Recieving" is Off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+              <div class="nst-description" ng-if="place.privacy.email && place.privacy.receptive">Email does not appear in contact details <a href="" class="nst-mood-cheerful">Learn more</a></div>
+              <div class="nst-description" ng-if="!place.privacy.email && place.privacy.receptive">Email appears in contact details <a href="" class="nst-mood-cheerful">Learn more</a></div>
+
             </div> <!-- /nst-place-privacy-->
           </div>
 
           <div class="nst-teammates _dib" data-ng-if="place.members.creators.count > 0">
             <h5 class="tittle-option _di">Teammates</h5>
-            <div data-ng-if="place.haveAccess('AM')" class="_di  _fr" data-ng-click="place_option.showAddModal('teammate')">
-              <span class="nst-mood-simple _dib _vat">Add Teammate</span>
-              <div class="add-icon _dib"></div>
+            <div class="_dt _fr">
+              <div data-ng-if="place.haveAccess('AM')" class="_dtr" data-ng-click="place_option.showAddModal('teammate')">
+                <div class="nst-mood-simple _dtc _vat">Add Teammate</div>
+                <div class="add-icon _dtc"></div>
+              </div>
             </div>
             <hr>
             <div data-ng-if="place.haveAccess('SM')" class="col-lg-4 col-xs-6 user" data-ng-repeat="member in place.members.creators.users" data-ng-include="'app/places/option/member.html'" data-ng-init="role = 'creator'"></div>
@@ -143,7 +133,7 @@
           <div class="place-option-members _dib" data-ng-if="place.members.creators.count > 0">
             <h5 class="title-option _di">Participants</h5>
             <div data-ng-if="place.haveAccess('AM')" class="_di _fr" data-ng-click="place_option.showAddModal('member')">
-              <span class="nst-mood-simple _dib _vat">Invite members</span>
+              <span class="nst-mood-simple _dib _vat">Invite Participants</span>
               <div class="add-icon _dib"></div>
             </div>
             <hr>

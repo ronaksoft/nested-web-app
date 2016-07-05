@@ -39,7 +39,7 @@
 
         if (place.haveAccess(PLACE_ACCESS.ADD_PLACE)) {
           $scope.place_option.actions['add'] = {
-            name: 'Add a Subplace',
+            name: 'Create Subplace',
             url: '#/create_place/' + place.id
           };
         }
