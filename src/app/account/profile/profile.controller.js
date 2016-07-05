@@ -70,7 +70,23 @@
     };
 
     vm.removeImg = function () {
-      $scope.user.setPicture();
+      vm.showRemoveModal();
+    };
+
+    vm.showRemoveModal = function () {
+
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/account/profile/remove-pic.html',
+        controller: 'WarningController',
+        size: 'sm',
+        scope: $scope
+      }).result.then(function () {
+        $scope.user.setPicture();
+      }).catch(function () {
+      });
+
+      return false;
     };
 
     $scope.leaveReason = '';
