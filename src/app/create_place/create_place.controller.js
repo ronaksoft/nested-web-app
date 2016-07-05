@@ -52,10 +52,13 @@
         }
 
         return $scope.place.update().then(function (place) {
-          $scope.place.setPicture(response.universal_id);
-          $scope.leaveReason = 'Create Place';
-          $location.path('/place/' + place.id).replace();
           $rootScope.$emit('place-added');
+          var p = response ? place.setPicture(response.universal_id) : $q(function (res) { res(); });
+
+          return p.then(function () {
+            $scope.leaveReason = 'Create Place';
+            $location.path('/events/' + $scope.place.id.trim()).replace();
+          });
         }).catch(function (error) {
           switch (error.err_code) {
             case WS_ERROR.ACCESS_DENIED:

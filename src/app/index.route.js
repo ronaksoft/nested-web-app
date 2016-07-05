@@ -25,18 +25,6 @@
         controller: 'LogoutController',
         controllerAs: 'logout'
       })
-      .state('signup', {
-        url: '/signup',
-        templateUrl: 'app/register/register.html',
-        controller: 'RegisterController',
-        controllerAs: 'register'
-      })
-      .state('forgot-password', {
-        url: '/forgot-password',
-        templateUrl: 'app/reset_password/reset_password.html',
-        controller: 'ResetPasswordController',
-        controllerAs: 'reset_password'
-      })
       .state('events', {
         url: '/events',
         params: {

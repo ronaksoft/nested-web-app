@@ -106,7 +106,7 @@
         getStreamUrl: function (token) {
           if (!this.stream.uid) {
             this.stream = new StoreItem(this.id);
-            console.log("2");
+            $log.debug("2");
           }
 
           var tkPromise = token ? $q(function (res) { res(this); }.bind(token)) : this.download.store.getDownloadToken(this.post.id, this.id);
@@ -124,7 +124,7 @@
         getViewUrl: function (token) {
           if (!this.view.uid) {
             this.view = new StoreItem(this.id);
-            console.log("1");
+            $log.debug("1");
           }
 
           var tkPromise = token ? $q(function (res) { res(this); }.bind(token)) : this.download.store.getDownloadToken(this.post.id, this.id);

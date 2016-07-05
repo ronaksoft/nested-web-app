@@ -45,7 +45,6 @@
         }
       });
       $scope.place.loadAllMembers();
-      console.log($scope.place);
     }
 
     if ($stateParams.hasOwnProperty('placeId')) {
@@ -192,11 +191,10 @@
               });
               return $q(function (res) {res($scope.place.id);$location.path('/places').replace();})
             }
-          },
-          function () {
-            console.log("canceled")
           }
-        );
+        ).catch(function () {
+          $log.debug("canceled");
+        });
 
     };
 

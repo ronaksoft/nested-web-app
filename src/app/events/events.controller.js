@@ -22,7 +22,6 @@
     vm.extended = storage.get("extended", false);
 
     vm.collapse = function () {
-      console.log('collapse changed');
       vm.extended =! vm.extended;
       storage.set("extended", vm.extended);
     };
@@ -30,14 +29,12 @@
     $scope.filterStatus = "!$" + storage.get("filterStat", 'all');
 
     vm.setFilter = function (stat) {
-      console.log('filter changed');
       storage.set("filterStat", stat);
     };
 
     $scope.sidebarWidth = storage.get("sidebarWidth", 222);
 
     $scope.$on('angular-resizable.resizeEnd', function (event, info) {
-      console.log('width changed');
       storage.set("sidebarWidth", info.width);
     });
 
