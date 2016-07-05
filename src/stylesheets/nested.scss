@@ -512,6 +512,7 @@ select {
 
 * [class *= "account-initials-"] {
   margin-right: 8px;
+  flex: none;
   justify-content: center;
   border: 1px $color-solid-30 solid;
 }
@@ -1217,8 +1218,7 @@ a .ui-select-choises-row-inner {
 .side-profile:hover {
   transition-duration: 0.3s;
   transition-timing-function: ease;
-  background-color: rgba(0,0,0,.1);
-  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+  background-color: #d8dcd9;
 }
 .side-profile a{
   color: $color-solid;

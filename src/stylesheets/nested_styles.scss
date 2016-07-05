@@ -355,6 +355,7 @@ ul ul li:last-child{
  */
 .nst-content {
   display: inline-flex;
+  justify-content: center;
   flex-direction: row;
   flex-shrink: inherit;
   flex-grow: inherit;
@@ -368,8 +369,6 @@ ul ul li:last-child{
   flex-direction: column;
   flex-shrink: inherit;
   flex-grow: inherit;
-  margin-right: auto;
-  margin-left: auto;
 }
 @media screen and (max-width: 990px){
   .content{
@@ -381,7 +380,6 @@ ul ul li:last-child{
   width: 276px;
   height: 100%;
   justify-content: center;
-
 }
 
 @media screen and (max-width: 1330px){
