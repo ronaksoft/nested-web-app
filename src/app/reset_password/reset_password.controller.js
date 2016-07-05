@@ -16,9 +16,8 @@
     vm.msg = {
       text: "Enter your username"
     };
-
     vm.btn = {
-      text: "Check"
+      text: "Next"
     };
   }
 })();

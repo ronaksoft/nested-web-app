@@ -30,12 +30,12 @@ select {
   color: rgba(0,0,0,0);
   text-shadow: 0 0 0 #000;
 }
-input[type='text'], input[type='password'], input[type='tel'] {
+input[type='text'], input[type='password'], input[type='tel'], input[type='email'] {
     outline: none ;
     border: 1px solid $color-breeze;
     border-radius: 4px;
     padding: 3px;
-    box-shadow: none;
+    box-shadow: none !important;
     padding-left: 10px;
 }
 
