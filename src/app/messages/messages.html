@@ -309,17 +309,21 @@
   <div class="sidebar-border"></div>
   <div class="nst-container">
 
+
     <div class="nst-navbar _df">
       <div class="content">
-        <div  class="navbar-top" id="navtop">
-          <div class="title-bar _difh margin-20 _vam _fl">
-            <div class="logo-bar _df">
-              <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64" data-word-count="2"
-                   data-font-size="16"/>
-            </div>
-            <div class="name title-bar-holder _difv">
-              <a class="_df _fh"><b>Ronak software Group</b></a>
-              <span class="nst-mood-storm _df _fh" data-ng-bind="events.place.id + '@nested.me'"></span>
+
+        <div class="header" id="header_nav">
+          <div  class="navbar-top">
+            <div class="title-bar _difh margin-20 _vam _fl">
+              <div class="logo-bar _df">
+                <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64" data-word-count="2"
+                     data-font-size="16"/>
+              </div>
+              <div class="name title-bar-holder _difv">
+                <a class="_df _fh"><b>Ronak software Group</b></a>
+                <span class="nst-mood-storm _df _fh" data-ng-bind="events.place.id + '@nested.me'"></span>
+              </div>
             </div>
           </div>
         </div>
@@ -344,7 +348,9 @@
               <div class="menu-links-btn _dib li-hover" ng-click="'#/messages'" ng-class="messages ? 'selected' : null">Messages</div>
               <div class="menu-links-btn _dib li-hover" ng-click="'#/activity'" ng-class="events ? 'selected' : null">Activity</div>
               <div class="menu-links-btn _dib li-hover" ng-click="'#/option'" ng-class="options ? 'selected' : null">Option</div>
+
             </section>
+
           </div>
         </div>
       </div>
@@ -444,4 +450,10 @@
 
 <script type="text/javascript">
 
+  $(document).ready(function(){
+    $('.nst-container').on("scroll touchmove", function (event) {
+      $('#header_nav').toggleClass('tiny', event.currentTarget.scrollTop > 0);
+      $('#btm_nav').toggleClass('tinybtm', event.currentTarget.scrollTop > 0);
+    });
+  });
 </script>

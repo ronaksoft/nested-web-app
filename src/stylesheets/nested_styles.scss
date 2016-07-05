@@ -187,20 +187,43 @@
   ******************************
  */
 
-
 .nst-navbar {
   background-color: $color-white;
   border-bottom: 1px solid $color-calm;
   height: 183px;
   justify-content: center;
+  z-index: 99;
+  //position: fixed;
+  width: 100%;
 }
 
+.header {
+  //width: 100%;
+  //height: 122px;
+  background: $color-white;
+  color: #fff;
+  position: fixed;
+  transition: height 500ms, background 500ms;
+  z-index: 99;
+}
+
+.header.tiny {
+  height: 95px;
+  background: #aaa;
+
+}
+
+
 .navbar-top {
-height: 122px;
+  height: 122px;
 }
 
 .navbar-bottom {
   height: 66px;
+  position: fixed;
+  z-index: 999;
+  top: 122px;
+  background-color: $color-white;
 }
 
 .menu-links {
@@ -216,7 +239,6 @@ height: 122px;
   text-align: center;
   cursor: pointer;
   left: 120px;
-
 }
 
 .menu-links-search {
@@ -251,16 +273,18 @@ height: 122px;
   right: -620px;
 }
 
-.fixed {position:fixed; top:0; left:0; z-index:5; width:100%;}
-
-.input-search {
-  width: 700px;
-  height: 98px;
-  background-color: yellow;
+.fixed {
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:5;
+  width:100%;
 }
+
 ._left{
   left:0;
 }
+
 /**
   ******************************
   *  sidebar
@@ -496,6 +520,7 @@ ul ul:last-child{
   box-shadow: 0 10px 6px -6px rgba(119, 123, 121, 0.4);
   margin: 10px;
 }
+
 
 /**
   ******************************
