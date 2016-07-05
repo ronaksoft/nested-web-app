@@ -263,7 +263,7 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return LoaderService.inject(attachment.getDownloadUrl().then(function () {
+      return LoaderService.inject(attachment.getViewUrl().then(function () {
         return $q(function (res) {
           res(this);
         }.bind(this));

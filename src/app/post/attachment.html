@@ -5,11 +5,11 @@
       <div class="image-preview _df _fh">
         <!--Image-->
         <!--image/*-->
-        <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}" onload="angular.element(this).scope().attLoad.success();" onerror="angular.element(this).scope().attLoad.fail(angular.element(this).scope().attachment);"/>
+        <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.view.url}}" onload="angular.element(this).scope().attLoad.success();" onerror="angular.element(this).scope().attLoad.fail(angular.element(this).scope().attachment);"/>
 
         <!--Audio-->
         <!--audio/*-->
-        <videogular data-ng-switch-when="audio" class="_hf audioplayer" data-ng-init="ad = [{}]; ad[0]['src'] = attachment.download.url; ad[0]['type'] = attachment.mimeType;">
+        <videogular data-ng-switch-when="audio" class="_hf audioplayer" data-ng-init="ad = [{}]; ad[0]['src'] = attachment.view.url; ad[0]['type'] = attachment.mimeType;">
           <vg-media data-vg-src="ad" ></vg-media>
 
           <vg-controls>
@@ -33,7 +33,7 @@
           <vg-buffering></vg-buffering>
         </videogular>-->
         <video data-ng-switch-when="video" width="auto" height="100%" controls>
-          <source src="{{attachment.download.url}}" >
+          <source src="{{attachment.view.url}}" >
         </video>
 
         <!--Document-->
