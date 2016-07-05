@@ -59,7 +59,9 @@
   width: 32px;
 }
 .icon-search-rotated {
-  transform: rotate(270deg);
+  transform: rotate(360deg);
+  background: url('../assets/icons/search.svg');
+
 }
 
 .icon-storm {
@@ -454,7 +456,7 @@ ul ul li:last-child{
 //  @extend .margin-l-15;
 //}
 
-[class*='viewicon-']{
+[class*='icon-viewicon-']{
   background: url('../assets/icons/viewicon.svg');
   height: 24px;
   width: 32px;
@@ -464,11 +466,11 @@ ul ul li:last-child{
 
 }
 
-.viewicon-sort {
+.icon-viewicon-sort {
   background-position: 0 -48px;
 }
 
-.viewicon-filter {
+.icon-viewicon-filter {
   background-position: 0 -24px;
 }
 
