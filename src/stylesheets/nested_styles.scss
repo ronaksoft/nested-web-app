@@ -195,11 +195,18 @@
   border-bottom: 1px solid $color-calm;
   height: 183px;
   justify-content: center;
-  z-index: 99;
+  z-index: 14;
   position: fixed;
   width: 100%;
 }
-
+@media screen and (min-width: 1330px){
+  .nst-navbar{
+    width: calc(100% - 272px);
+  }
+}
+.maincontainer.tiny .nst-navbar{
+  width: calc(100% - 64px);
+}
 .header {
   //width: 100%;
   //height: 122px;
