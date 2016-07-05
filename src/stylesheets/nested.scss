@@ -1120,15 +1120,25 @@ a .ui-select-choises-row-inner {
   justify-content: flex-start;
   //width: calc(100% - 10px);
 }
-.sidebar > .side-place > .side-place-item{
-  height: 56px;
+.sidebar > .side-place > .side-place-item-inner{
+  min-height: 56px;
 }
 .side-place-item {
-  display: flex;
+  display: inline-flex;
   width: 100%;
   align-items: center;
   flex: none;
-  height: 42px;
+  flex-direction: column;
+  //min-height: 42px;
+}
+.side-place-item-inner {
+  display: inline-flex;
+  min-height: 42px;
+  width: 100%;
+  align-items: center;
+  flex: none;
+  flex-direction: row;
+  //height: 42px;
 }
 .side-place .side-place .side-place-item {
 }
@@ -1141,7 +1151,7 @@ a .ui-select-choises-row-inner {
   transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
   transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
 }
-.sidebar > .side-place > .side-place-item:hover{
+.sidebar > .side-place > .side-place-item > .side-place-item-inner:hover{
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
   background-color: $color-white;
@@ -1151,7 +1161,7 @@ a .ui-select-choises-row-inner {
   transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
 }
 
-.sidebar > .side-place > .side-place-item:active{
+.sidebar > .side-place > .side-place-item > .side-place-item-inner:active{
   border-radius: 7px;
   background-color: rgba(255,255,255,.4);
 }
