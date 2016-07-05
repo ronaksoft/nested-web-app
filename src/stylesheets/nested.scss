@@ -68,7 +68,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  min-width: 990px;
+  min-width: 600px;
   overflow-y: hidden;
 }
 
@@ -512,6 +512,7 @@ select {
 
 * [class *= "account-initials-"] {
   margin-right: 8px;
+  flex: none;
   justify-content: center;
   border: 1px $color-solid-30 solid;
 }
@@ -997,6 +998,7 @@ a .ui-select-choises-row-inner {
   z-index: -2;
 }
 .sidebar {
+  z-index: 1;
   display: inline-flex;
   flex-direction: column;
   width: 272px;
@@ -1005,6 +1007,7 @@ a .ui-select-choises-row-inner {
   background-color: $color-calm;
   overflow-y: auto;
   overflow-x: hidden;
+
 }
 @media screen and (max-width: 990px){
   .sidebar{
@@ -1024,8 +1027,20 @@ a .ui-select-choises-row-inner {
   height: 100%;
   background: linear-gradient(to right, $color-calm, rgba(0, 0, 0, .1));
 }
+.side-top {
+  z-index: 2;
+  display: inline-flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: linear-gradient(to bottom, rgb(255,255,255), $color-calm);
+  width: 272px;
+  height: 112px;
+}
 .nested-logo {
-  height: 115px;
+  z-index: 7;
+  height: 80px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -1039,6 +1054,7 @@ a .ui-select-choises-row-inner {
 }
 
 .compose {
+  z-index: 7;
   display: flex;
   cursor: pointer;
   margin-right: auto;
@@ -1108,6 +1124,11 @@ a .ui-select-choises-row-inner {
   padding-left: 10px;
   height: 100%;
   //height: calc(100% - 420px);
+}
+.side-place-wrapper {
+  z-index: 1;
+  padding-bottom: 80px;
+  padding-top: 112px;;
 }
 
 .side-place {
@@ -1182,7 +1203,12 @@ a .ui-select-choises-row-inner {
   margin-right: 12px;
 }
 .side-profile {
-  width: 100%;
+  z-index: 6;
+  position: fixed;
+  width: 272px;
+  left: 0;
+  bottom: 0;
+  background-color: $color-calm;
   height: 80px;
   padding-left: 15px;
   display: flex;
@@ -1192,8 +1218,7 @@ a .ui-select-choises-row-inner {
 .side-profile:hover {
   transition-duration: 0.3s;
   transition-timing-function: ease;
-  background-color: rgba(0,0,0,.1);
-  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+  background-color: #d8dcd9;
 }
 .side-profile a{
   color: $color-solid;
