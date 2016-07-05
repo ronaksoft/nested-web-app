@@ -21,20 +21,23 @@
     vm.extended = storage.get("extended", false);
 
     vm.collapse = function () {
+      console.log('collapse changed');
       vm.extended =! vm.extended;
-      storage.put("extended", vm.extended);
+      storage.set("extended", vm.extended);
     };
 
     $scope.filterStatus = "!$" + storage.get("filterStat", 'all');
 
     vm.setFilter = function (stat) {
-      storage.put("filterStat", stat);
+      console.log('filter changed');
+      storage.set("filterStat", stat);
     };
 
     $scope.sidebarWidth = storage.get("sidebarWidth", 222);
 
     $scope.$on('angular-resizable.resizeEnd', function (event, info) {
-      storage.put("sidebarWidth", info.width);
+      console.log('width changed');
+      storage.set("sidebarWidth", info.width);
     });
 
     // Invitations
