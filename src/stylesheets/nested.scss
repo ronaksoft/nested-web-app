@@ -1007,7 +1007,10 @@ a .ui-select-choises-row-inner {
   background-color: $color-calm;
   overflow-y: auto;
   overflow-x: hidden;
-
+  //transition: .3s;
+}
+.maincontainer.tiny .sidebar{
+  width: 64px;
 }
 @media screen and (max-width: 990px){
   .sidebar{
@@ -1038,6 +1041,9 @@ a .ui-select-choises-row-inner {
   width: 272px;
   height: 112px;
 }
+.maincontainer.tiny .side-top {
+  width: 80px;
+}
 .nested-logo {
   z-index: 7;
   height: 80px;
@@ -1062,7 +1068,7 @@ a .ui-select-choises-row-inner {
   text-align: center;
   justify-content: center;
   align-items: center;
-  min-width: 208px;
+  //min-width: 208px;
   height: 35px;
 }
 
@@ -1077,6 +1083,9 @@ a .ui-select-choises-row-inner {
   justify-content: center;
   width: 174px;
   height: 32px;
+}
+.maincontainer.tiny #compose {
+  width: 54px;
 }
 
 #compose:hover{
@@ -1109,6 +1118,9 @@ a .ui-select-choises-row-inner {
   font-size: $font-size-large;
   font-weight: 200;
   margin-left: 3px;
+}
+.maincontainer.tiny .side-menu-item .item,.maincontainer.tiny .lines {
+  display: none;
 }
 .side-menu-item:hover{
 
@@ -1160,6 +1172,9 @@ a .ui-select-choises-row-inner {
   flex: none;
   flex-direction: row;
   //height: 42px;
+}
+.maincontainer.tiny .side-place-item-inner a {
+  display: none;
 }
 .side-place .side-place .side-place-item {
 }
@@ -1213,7 +1228,9 @@ a .ui-select-choises-row-inner {
   padding-left: 15px;
   display: flex;
   align-items: center;
-
+}
+.maincontainer.tiny .side-profile {
+  width: 64px;
 }
 .side-profile:hover {
   transition-duration: 0.3s;
@@ -1227,6 +1244,10 @@ a .ui-select-choises-row-inner {
 .side-profile span{
   font-size: $font-size-small;
   color: $color-storm;
+}
+.maincontainer.tiny .side-profile span,
+.maincontainer.tiny .side-profile a{
+  display: none;
 }
 .nst-container {
   background-color: $color-bg-nested;
