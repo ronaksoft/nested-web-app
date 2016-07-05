@@ -21,6 +21,7 @@
         $location.path('/').replace();
       }
 
+
       $scope.thePost = new NestedPost($stateParams.postId);
     }
 

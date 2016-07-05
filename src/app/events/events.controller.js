@@ -226,6 +226,7 @@
     vm.load();
 
     $scope.postView = function (post, url, event) {
+      $rootScope.target = '_blank';
       $scope.postViewModal = $uibModal.open({
         animation: false,
         templateUrl: 'app/post/post.html',
@@ -253,7 +254,7 @@
 
       $scope.postViewModal.closed.then(function () {
         // $location.update_path($scope.lastUrl, true);
-
+        $rootScope.target = '';
         delete $scope.lastUrl;
         delete $scope.thePost;
       });
