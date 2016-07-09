@@ -59,8 +59,8 @@
   width: 32px;
 }
 .icon-search-rotated {
-  transform: rotate(360deg);
-  background: url('../assets/icons/search.svg');
+  //transform: rotate(360deg);
+  background: url('../assets/icons/search.svg') no-repeat;
 
 }
 
