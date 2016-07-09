@@ -334,8 +334,8 @@
                      data-font-size="16"/>
               </div>
               <div class="name title-bar-holder _difv">
-                <a class="_df _fh"><b>Ronak software Group</b></a>
-                <span class="nst-mood-storm _df _fh" data-ng-bind="events.place.id + '@nested.me'"></span>
+                <a class="_df _fh">Ronak software Group</a>
+                <span class="nst-mood-storm _df _fh" data-ng-bind="events.place.id + 'ronak@nested.me'"></span>
               </div>
             </div>
           </div>
@@ -672,12 +672,12 @@
       </section>
       <div class="content-plus">a
       </div>
-      <div id="overlay"></div>
+      <div onclick="toggle_visibility('overlay', 'inputsearch');" id="overlay"></div>
     </div>
   </div>
 </div>
 
-<!--  will remove them later!!-->
+<!-- I will remove them later!!-->
 
 <script type="text/javascript">
 
@@ -702,7 +702,6 @@
       $('.nst-navbar').toggleClass('tiny', event.currentTarget.scrollTop > 150);
     });
   });
-//});
 
 $('.nested-logo').click(function(){
   $('.maincontainer').toggleClass('tiny');

@@ -17,7 +17,7 @@
       $location.path('/signin').replace();
     }
 
-    
+
     vm.gformats = {
       daily: 'EEEE d MMM',
       monthly: 'MMMM',

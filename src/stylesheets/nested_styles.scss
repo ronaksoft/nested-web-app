@@ -199,6 +199,7 @@
   position: fixed;
   width: 100%;
 }
+
 @media screen and (min-width: 1330px){
   .nst-navbar{
     width: calc(100% - 272px);
@@ -207,6 +208,7 @@
 .maincontainer.tiny .nst-navbar{
   width: calc(100% - 64px);
 }
+
 .header {
   //width: 100%;
   //height: 122px;
@@ -220,8 +222,17 @@
   height: 132px;
   //background: #aaa;
 }
-.nst-navbar.tiny .navbar-top{
+
+.nst-navbar.tiny .navbar-top {
   height: 66px;
+}
+
+.nst-navbar.tiny .navbar-top span{
+  opacity: 0;
+}
+
+.nst-navbar.tiny .navbar-top a {
+  font-size: 24px;
 }
 
 .nst-navbar.tiny .navbar-bottom{
@@ -229,9 +240,10 @@
 }
 
 .nst-navbar.tiny .account-initials-64 {
-  width: 32px;
-  height: 100%;
+  width: 40px;
+  height: 40px;
 }
+
 .navbar-top {
   height: 122px;
   transition: .3s;
@@ -285,6 +297,7 @@
   width: 24px;
   height: 24px;
 }
+
 .menu-links-search .icon-close {
   z-index: 2;
   right: -620px;
