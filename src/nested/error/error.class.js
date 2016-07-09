@@ -1,6 +1,3 @@
-/**
- * Created by pouyan on 6/26/16.
- */
 (function() {
   'use strict';
 
@@ -9,13 +6,13 @@
     .factory('NstError', NstError);
 
   /** @ngInject */
-  function NstError() {
+  function NstError(NstObject) {
     /**
      * Creates an instance of NstError
      *
-     * @param {string}      message Error message
-     * @param {int}         code    Error code
-     * @param {NstError} previous   Previous error
+     * @param {String}    message   Error message
+     * @param {Number}    code      Error code
+     * @param {NstError}  previous  Previous error
      *
      * @constructor
      */
@@ -23,21 +20,12 @@
       this.message = message;
       this.code = code;
       this.previous = previous;
+
+      NstObject.call(this);
     }
 
-    Error.prototype = {
-      getMessage: function () {
-        return this.message;
-      },
-
-      getCode: function () {
-        return this.code;
-      },
-
-      getPrevious: function () {
-        return this.previous;
-      }
-    };
+    Error.prototype = new NstObject();
+    Error.prototype.constructor = Error;
 
     return Error;
   }

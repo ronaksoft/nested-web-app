@@ -1,6 +1,3 @@
-/**
- * Created by pouyan on 6/26/16.
- */
 (function() {
   'use strict';
   angular
@@ -9,22 +6,24 @@
 
   /** @ngInject */
   function NstFactoryError(NstError) {
+    /**
+     * Creates an instance of NstFactoryError
+     *
+     * @param {NstFactoryQuery} query     The query resulted into error
+     * @param {string}          message   Error message
+     * @param {int}             code      Error code
+     * @param {NstError}        previous  Previous error
+     *
+     * @constructor
+     */
     function FactoryError(query, message, code, previous) {
       this.query = query;
-
-      new NstError(message, code, previous);
+      
+      NstError.call(this, message, code, previous);
     }
 
-    FactoryError.prototype = NstError;
-
-    /**
-     * Retrieves the query which resulted into this error
-     *
-     * @returns {NstFactoryQuery}
-     */
-    FactoryError.prototype.getQuery = function () {
-      return this.query;
-    };
+    FactoryError.prototype = new NstError();
+    FactoryError.prototype.constructor = FactoryError;
 
     return FactoryError;
   }

@@ -1,6 +1,3 @@
-/**
- * Created by pouyan on 6/26/16.
- */
 (function() {
   'use strict';
   angular
@@ -8,31 +5,16 @@
     .factory('NstFactoryQuery', NstFactoryQuery);
 
   /** @ngInject */
-  function NstFactoryQuery() {
+  function NstFactoryQuery(NstObject) {
     function FactoryQuery(id, data) {
       this.id = id;
       this.data = data;
+
+      NstObject.call(this);
     }
 
-    FactoryQuery.prototype = {
-      /**
-       * Retrieves identifier which was queried
-       *
-       * @returns {string}
-       */
-      getId: function () {
-        return this.id;
-      },
-
-      /**
-       * Retrieves data belong to query
-       *
-       * @returns {*}
-       */
-      getData: function () {
-        return this.data;
-      }
-    };
+    FactoryQuery.prototype = new NstObject();
+    FactoryQuery.prototype.constructor = FactoryQuery;
 
     return FactoryQuery;
   }

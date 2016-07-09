@@ -3,8 +3,8 @@
 
   angular.module('nested').factory('NstComment', NstComment);
 
-  function NstComment(NstObsModel) {
-    Comment.prototype = new NstObsModel();
+  function NstComment(NstModel) {
+    Comment.prototype = new NstModel();
     Comment.prototype.constructor = Comment;
     
     function Comment(model) {
@@ -25,5 +25,4 @@
 
     return Comment;
   }
-
 })();
