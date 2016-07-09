@@ -1,29 +1,30 @@
-/**
- * Created by pouyan on 6/26/16.
- */
 (function() {
   'use strict';
 
   angular
     .module('nested')
-    .constant('NST_MODEL_EVENT', {
-      CHANGE: 'change'
-    })
     .factory('NstModel', NstModel);
 
   /** @ngInject */
-  function NstModel() {
+  function NstModel(NstObservableObject) {
     /**
      * Creates an instance of NstModel
      *
      * @constructor
      */
     function Model() {
-
+      NstObservableObject.call(this);
     }
 
-    Model.prototype = {
+    Model.prototype = new NstObservableObject();
+    Model.prototype.constructor = Model;
 
+    Model.prototype.fill = function (data) {
+      if (angular.isObject(data)) {
+        for (var k in data) {
+          this.set(k, data[k]);
+        }
+      }
     };
 
     return Model;
