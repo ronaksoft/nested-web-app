@@ -1009,7 +1009,7 @@ a .ui-select-choises-row-inner {
   transition: .3s;
 }
 .maincontainer.tiny .sidebar{
-  width: 64px;
+  width: 72px;
 }
 @media screen and (max-width: 990px){
   .sidebar{
@@ -1122,7 +1122,7 @@ a .ui-select-choises-row-inner {
   font-weight: 200;
   margin-left: 3px;
 }
-.maincontainer.tiny .side-menu-item .item,.maincontainer.tiny .lines {
+.maincontainer.tiny .onlyExpand, .maincontainer.tiny .side-menu-item .item,.maincontainer.tiny .lines {
   display: none;
 }
 .side-menu-item:hover{
@@ -1233,7 +1233,12 @@ a .ui-select-choises-row-inner {
   align-items: center;
 }
 .maincontainer.tiny .side-profile {
-  width: 64px;
+  width: 72px;
+  padding: 0;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .side-profile:hover {
   transition-duration: 0.3s;
@@ -1257,6 +1262,7 @@ a .ui-select-choises-row-inner {
   display: inline-flex;
   flex-direction: column;
   width: 100%;
+  overflow-y: initial;
   overflow-y: auto;
 }
 
