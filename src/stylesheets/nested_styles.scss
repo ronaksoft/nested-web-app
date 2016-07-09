@@ -64,6 +64,8 @@
 .icon-search-rotated {
   //transform: rotate(360deg);
   background: url('../assets/icons/search.svg') no-repeat;
+  width: 32px;
+  height: 32px;
 
 }
 
@@ -229,6 +231,7 @@
 
 .nst-navbar.tiny .navbar-top {
   height: 66px;
+  animation: load 2.5s infinite linear;
 }
 
 .nst-navbar.tiny .navbar-top span{
@@ -248,9 +251,14 @@
   height: 40px;
 }
 
+.nst-navbar.tiny .movetiny {
+  margin-top: 2px;
+}
 .navbar-top {
   height: 122px;
   transition: .3s;
+  //-webkit-animation: mymove 5s infinite; /* Chrome, Safari, Opera */
+  //animation: mymove 5s infinite;
   z-index: 5;
 }
 
@@ -263,6 +271,7 @@
 
 .menu-links {
   display: inline;
+  left: 35px;
 }
 
 .menu-links-btn {
@@ -270,15 +279,15 @@
   width: 120px;
   line-height: 58px;
   color: $color-storm;
-  font-size: 18px;
+  font-size: 24px;
   text-align: center;
   cursor: pointer;
   left: 120px;
 }
 
 .menu-links-search {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
 }
 
 .menu-links-btn:hover {
@@ -309,13 +318,13 @@
   right: -620px;
 }
 
-.fixed {
-  position:fixed;
-  top:0;
-  left:0;
-  z-index:5;
-  width:100%;
-}
+//.fixed {
+//  position:fixed;
+//  top:0;
+//  left:0;
+//  z-index:5;
+//  width:100%;
+//}
 
 ._left{
   left:0;
@@ -782,4 +791,3 @@ ul ul li:last-child{
   font-size: 12px;
   border: solid 1px rgba(0,0,0,.2);
 }
-
