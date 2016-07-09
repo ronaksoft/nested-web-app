@@ -45,7 +45,7 @@
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'vm'
+        controllerAs: 'messages'
       })
       .state('activity', {
         url: '/activity',

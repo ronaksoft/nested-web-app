@@ -4,19 +4,19 @@
       <div class="nested-logo">
         <div id="Logo"></div>
       </div>
-      <div class="compose"><a class="btn-green" id="compose" href="#/new">Compose</a></div>
+      <div class="compose"><a class="btn-green onlyExpand" id="compose" href="#/new"><div class="icon icon-compose _df"></div><div class="onlyExpand _df">Compose</div> </a></div>
     </div>
     <div class="side-place-wrapper">
       <div class='side-menu'>
         <div class="side-menu-item">
           <div class="icon icon-solid icon-side icon-all-place"></div>
-          <a class="item">All Places</a></div>
+          <a class="item onlyExpand">All Places</a></div>
         <div class="side-menu-item">
           <div class="icon icon-solid icon-side icon-bookmarks"></div>
-          <a class="item">Bookmarks</a></div>
+          <a class="item onlyExpand">Bookmarks</a></div>
         <div class="side-menu-item">
           <div class="icon icon-solid icon-side icon-sent"></div>
-          <a class="item">Sent</a></div>
+          <a class="item onlyExpand">Sent</a></div>
       </div>
       <ul class="side-place">
         <li class="side-place-item">
@@ -312,18 +312,22 @@
       </ul>
     </div>
     <div class="side-profile">
-      <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+      <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32  _df" data-word-count="2" data-font-size="16"/>
       <div class="_fw _df"><a>Sal Naghavi<br><span class="nst-mood-storm">@kuttlass</span> </a></div>
-      <div class="">
-        <a href="#/place/{{events.place.id}}">
+      <div class="_df onlyExpand">
+        <a href="">
           <div class="icon icon-solid icon-more" data-tooltip-placement="top auto" data-uib-tooltip="Place settings"></div>
         </a>
+      </div>
+      <div class="_df" ng-click="chngSideView(); sideView =! sideView">
+        <div ng-show="!sideView" class="nst-arrow-rotated-90"></div>
+        <div ng-show="sideView" class="nst-arrow-rotated-270"></div>
       </div>
     </div>
   </div>
   <!--<nested-sidebar data-ng-model="sidebar"></nested-sidebar>-->
   <div class="sidebar-border"></div>
-  <div class="nst-container">
+  <div class="nst-container" on-scroll="messages.hey();">
     <div class="nst-navbar _df">
       <div class="nst-content">
         <div class="content">
@@ -364,7 +368,8 @@
             </div>
           </div>
         </div>
-        <div class="content-plus">a
+        <div class="content-plus">
+          <div>a</div>
         </div>
       </div>
     </div>
@@ -670,7 +675,9 @@
         </div>
 
       </section>
-      <div class="content-plus">a
+      <div class="content-plus" id="content-plus">
+        <div>a</div>
+        <div>a</div>
       </div>
       <div onclick="toggle_visibility('overlay', 'inputsearch');" id="overlay"></div>
     </div>
@@ -682,7 +689,6 @@
 <script type="text/javascript">
 
   function toggle_visibility() {
-    console.log(arguments);
     for (var i = 0; i < arguments.length; i++) {
       var id = arguments[i];
       var e = document.getElementById(id);
@@ -702,9 +708,5 @@
       $('.nst-navbar').toggleClass('tiny', event.currentTarget.scrollTop > 150);
     });
   });
-
-$('.nested-logo').click(function(){
-  $('.maincontainer').toggleClass('tiny');
-});
 
 </script>
