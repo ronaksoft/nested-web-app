@@ -995,7 +995,6 @@ a .ui-select-choises-row-inner {
 .maincontainer {
   display: inline-flex;
   flex-direction: row;
-  z-index: -2;
 }
 .sidebar {
   z-index: 1;
@@ -1007,7 +1006,7 @@ a .ui-select-choises-row-inner {
   background-color: $color-calm;
   overflow-y: auto;
   overflow-x: hidden;
-  //transition: .3s;
+  transition: .3s;
 }
 .maincontainer.tiny .sidebar{
   width: 64px;
@@ -1019,7 +1018,10 @@ a .ui-select-choises-row-inner {
 }
 .sidebar > div {
   flex: none;
+  transition: 0.3s;
+
 }
+
 .sidebar-border {
   background-color: $color-calm;
   //position: relative;
@@ -1028,8 +1030,9 @@ a .ui-select-choises-row-inner {
   flex: none;
   width: 4px;
   height: 100%;
-  background: linear-gradient(to right, $color-calm, rgba(0, 0, 0, .1));
+  background: linear-gradient(to right, $color-calm, #d8dcd9);
 }
+
 .side-top {
   z-index: 2;
   display: inline-flex;
@@ -1256,6 +1259,7 @@ a .ui-select-choises-row-inner {
   width: 100%;
   overflow-y: auto;
 }
+
 .nst-container:after {
   content: "";
   display: block;

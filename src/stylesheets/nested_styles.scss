@@ -195,9 +195,10 @@
   border-bottom: 1px solid $color-calm;
   height: 183px;
   justify-content: center;
-  z-index: 14;
   position: fixed;
   width: 100%;
+  z-index: 40;
+  transition: 0.3s;
 }
 @media screen and (min-width: 1330px){
   .nst-navbar{
@@ -235,10 +236,12 @@
 .navbar-top {
   height: 122px;
   transition: .3s;
+  z-index: 5;
 }
 
 .navbar-bottom {
   height: 66px;
+  z-index: 5;
   //z-index: 999;
   //background-color: $color-white;
 }
@@ -538,6 +541,7 @@ ul ul li:last-child{
   width: 276px;
   height: 100%;
   justify-content: center;
+  z-index: 50;
 }
 
 @media screen and (max-width: 1330px){
@@ -596,7 +600,7 @@ ul ul li:last-child{
   position: relative;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
-  z-index: 5;
+  //z-index: 2;
 }
 .post-card section {
   display: inline-flex;
@@ -748,3 +752,4 @@ ul ul li:last-child{
   font-size: 12px;
   border: solid 1px rgba(0,0,0,.2);
 }
+
