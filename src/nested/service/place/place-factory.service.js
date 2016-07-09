@@ -1,13 +1,10 @@
-/**
- * Created by pouyan on 6/19/16.
- */
 (function() {
   'use strict';
 
   angular
     .module('nested')
     .factory('FactoryQuery', FactoryQuery)
-    .service('NestedPlaceFactoryService', NestedPlaceFactoryService);
+    .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function FactoryQuery($q) {
     function FactoryQuery(identifier, data, fields) {
@@ -42,7 +39,7 @@
     return FactoryQuery;
   }
 
-  function NestedPlaceFactoryService($q,
+  function NstSvcPlaceFactory($q,
                                      STORAGE_TYPE,
                                      StorageFactoryService, WsService,
                                      FactoryQuery, NstPlace) {

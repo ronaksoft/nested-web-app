@@ -2,11 +2,10 @@
   'use strict';
   angular
     .module('nested')
-    .service('PostStorageService', PostStorageService);
+    .service('NstSvcPostStorage', NstSvcPostStorage);
 
   /** @ngInject */
-  function PostStorageService(STORAGE_TYPE,
-                              NestedStorage) {
-    return new NestedStorage(STORAGE_TYPE.MEMORY);
+  function NstSvcPostStorage(NST_STORAGE_TYPE, NstStorage) {
+    return new NstStorage(NST_STORAGE_TYPE.MEMORY);
   }
 })();

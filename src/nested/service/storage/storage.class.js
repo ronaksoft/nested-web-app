@@ -3,13 +3,13 @@
 
   angular
     .module('nested')
-    .constant('STORAGE_TYPE', {
+    .constant('NST_STORAGE_TYPE', {
       LOCAL: 'localStorage',
       SESSION: 'sessionStorage',
       MEMORY: 'memory',
       COOKIE: 'cookie'
     })
-    .constant('STORAGE_EVENT', {
+    .constant('NST_STORAGE_EVENT', {
       SET: 'set',
       MERGE: 'merge',
       CHANGE: 'change',
@@ -17,12 +17,12 @@
       REMOVE: 'remove',
       FLUSH: 'flush'
     })
-    .factory('NestedStorage', NestedStorage);
+    .factory('NstStorage', NstStorage);
 
   /** @ngInject */
-  function NestedStorage($cacheFactory, $cookies,
+  function NstStorage($cacheFactory, $cookies,
                          localStorageService,
-                         STORAGE_TYPE, STORAGE_EVENT,
+                         NST_STORAGE_TYPE, NST_STORAGE_EVENT,
                          NstSvcRandomize) {
     /**
      * Creates an instance of NestedStorage
@@ -48,8 +48,8 @@
       this.timeout = timeout || 0;
 
       switch (type) {
-        case STORAGE_TYPE.LOCAL:
-        case STORAGE_TYPE.SESSION:
+        case NST_STORAGE_TYPE.LOCAL:
+        case NST_STORAGE_TYPE.SESSION:
           this.cache.set = function (key, value) {
             return localStorageService.set(this.id + '.' + key, value);
           }.bind(this);
@@ -72,7 +72,7 @@
           }.bind(this);
           break;
 
-        case STORAGE_TYPE.MEMORY:
+        case NST_STORAGE_TYPE.MEMORY:
           $cacheFactory(this.id);
           this.cache.set = function (key, value) {
             if ($cacheFactory.get(this.id)) {
@@ -104,7 +104,7 @@
           }.bind(this);
           break;
 
-        case STORAGE_TYPE.COOKIE:
+        case NST_STORAGE_TYPE.COOKIE:
           this.cache.set = function (key, value) {
             return $cookies.put(this.id + '.' + key, value);
           }.bind(this);
@@ -152,8 +152,8 @@
        */
       set: function (id, object) {
         this.cache.set(id, object);
-        this.dispatchEvent(new CustomEvent(STORAGE_EVENT.SET, { detail: { object: object, id: id } }));
-        this.dispatchEvent(new CustomEvent(STORAGE_EVENT.CHANGE, { detail: { object: object, id: id } }));
+        this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.SET, { detail: { object: object, id: id } }));
+        this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.CHANGE, { detail: { object: object, id: id } }));
 
         if (this.timeout > 0) {
           // TODO: Set expiration timeout function
@@ -172,8 +172,8 @@
        */
       merge: function (id, object) {
         this.cache.set(id, angular.merge(this.get(id, {}), object));
-        this.dispatchEvent(new CustomEvent(STORAGE_EVENT.MERGE, { detail: { object: object, id: id } }));
-        this.dispatchEvent(new CustomEvent(STORAGE_EVENT.CHANGE, { detail: { object: object, id: id } }));
+        this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.MERGE, { detail: { object: object, id: id } }));
+        this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.CHANGE, { detail: { object: object, id: id } }));
 
         if (this.timeout > 0) {
           // TODO: Reset expiration timeout function
@@ -194,7 +194,7 @@
 
         var result = this.cache.remove(id);
         if (result) {
-          this.dispatchEvent(new CustomEvent(STORAGE_EVENT.REMOVE, { detail: { object: object, id: id } }));
+          this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.REMOVE, { detail: { object: object, id: id } }));
         }
 
         return result;
@@ -208,7 +208,7 @@
       flush: function () {
         var result = this.cache.flush();
         if (result) {
-          this.dispatchEvent(new CustomEvent(STORAGE_EVENT.FLUSH));
+          this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.FLUSH));
         }
 
         return result;

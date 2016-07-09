@@ -2,11 +2,12 @@
   'use strict';
   angular
     .module('nested')
-    .service('PostFactoryService', PostFactoryService);
+    .service('NstSvcPostFactory', NstSvcPostFactory);
 
   /** @ngInject */
-  function PostFactoryService($q, $log, _, PostStorageService, WsService,
-    NstFactoryError, NstFactoryQuery, NstPost, NstComment, NestedUser, NestedPlace, NestedAttachment) {
+  function NstSvcPostFactory($q, $log, _,
+                             NstSvcPostStorage, WsService,
+                             NstFactoryError, NstFactoryQuery, NstPost, NstComment, NestedUser, NestedPlace, NestedAttachment) {
 
     /**
      * PostFactory - all operations related to post, comment
