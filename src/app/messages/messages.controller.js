@@ -6,7 +6,7 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
+  function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr, $timeout,
                             AuthService, WsService, WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
                             LoaderService, StorageFactoryService,
                             NestedEvent, NestedPlace, NestedInvitation) {
@@ -16,8 +16,40 @@
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
+    var timers = [];
+    vm.hey = function (event) {
+      timers.forEach(function(promises) {
+        $timeout.cancel(promises);
+      });
+      var $sidebar = $("#content-plus"),
+        $window    = $(".nst-container"),
+        topPadding = 150;
 
+      var timer = $timeout(
+        function() {
+          if (150 > $window.scrollTop() > 0) {
+            $sidebar.stop().css({
+              marginTop: $window.scrollTop()
+            });
+          } else if ($window.scrollTop() > topPadding) {
+            $sidebar.stop().css({
+              marginTop: $window.scrollTop() - 51
+            });
+          } else if ($window.scrollTop() == 0){
+            $sidebar.stop().css({
+              marginTop: 0
+            });
+          }
+        },
+        50
+      );
+      timers.push(timer);
+      timer;
 
+    };
+    $scope.chngSideView = function () {
+      $('.maincontainer').toggleClass('tiny');
+    };
     vm.gformats = {
       daily: 'EEEE d MMM',
       monthly: 'MMMM',
@@ -105,45 +137,6 @@
       }
     };
 
-    vm.load = function () {
-      LoaderService.inject(WsService.request('timeline/get_events', vm.parameters).then(function (data) {
-        $scope.events.moreEvents = !(data.events.length < $scope.events.parameters.limit);
-        $scope.events.parameters.skip += data.events.length;
-
-        for (var key in data.events) {
-          var eventData = data.events[key];
-          var event = new NestedEvent(eventData);
-
-          $scope.events.pushEvent(event);
-        }
-      }).catch(function (data) {
-        switch (data.err_code) {
-          case WS_ERROR.UNAVAILABLE:
-          case WS_ERROR.INVALID:
-          case WS_ERROR.ACCESS_DENIED:
-            vm.noAccessModal();
-            //$location.path('/').replace();
-            break;
-        }
-
-      }).finally(function () {
-        vm.readyToLoad = true;
-      }));
-    };
-
-    vm.readyToLoad = true;
-    vm.scroll = function (event) {
-      var element = event.currentTarget;
-      if (element.scrollTop + element.clientHeight + 10 > element.scrollHeight && this.moreEvents) {
-
-        if (vm.readyToLoad) {
-          vm.readyToLoad = false;
-          this.load();
-        }
-      }
-
-    };
-
 
 
     WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
@@ -160,8 +153,6 @@
     WsService.addEventListener(WS_EVENTS.AUTHORIZE, function (event) {
       // TODO: Get timeline events after last event
     });
-
-    vm.load();
 
     $scope.postView = function (post, url, event) {
       $scope.postViewModal = $uibModal.open({
