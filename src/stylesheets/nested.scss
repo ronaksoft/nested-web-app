@@ -1080,12 +1080,13 @@ a .ui-select-choises-row-inner {
   line-height: 30px ;
   color: white;
   display: flex;
-  font-size: $font-size-medium;
+  font-size: 16px;
   font-family: open-sans, sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   justify-content: center;
   width: 174px;
   height: 32px;
+  align-items: center;
 }
 .maincontainer.tiny #compose {
   width: 54px;
@@ -1114,6 +1115,12 @@ a .ui-select-choises-row-inner {
   width: 100%;
   height: 48px;
   //flex: 0 1 auto;
+}
+.maincontainer.tiny .side-menu-item {
+  justify-content: center;
+}
+.maincontainer.tiny .icon-side {
+  margin: 0;
 }
 .side-menu-item .item{
   display: flex;
@@ -1217,8 +1224,12 @@ a .ui-select-choises-row-inner {
   margin-left: 4px;
 }
 .side-place-item .e2-arrow {
-  width: 18px;
+  width: 16px;
+  flex: none;
   margin-right: 12px;
+}
+.maincontainer.tiny .side-place-item .e2-arrow {
+  width: 12px;
 }
 .side-profile {
   z-index: 6;

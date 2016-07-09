@@ -451,11 +451,14 @@ $spacing: 14px;
 
 .title-bar .name span{
   align-items: center;
+  padding-top: 10px;
 }
 .title-bar .name{
   justify-content: center;
 }
 .title-bar .name a{
   align-items: flex-end;
-  font-size: 20px;
+  font-size: 32px;
+  font-weight: 100;
+  padding-top: 10px;
 }
