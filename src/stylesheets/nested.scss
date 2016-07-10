@@ -1151,6 +1151,17 @@ a .ui-select-choises-row-inner {
   padding-bottom: 80px;
   padding-top: 112px;;
 }
+.side-place-wrapper a{
+  text-decoration: none;
+  display: inline;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center;
+  white-space: nowrap;
+}
+
 .side-place-wrapper > .side-place {
   padding-left: 10px;
 }
@@ -1226,7 +1237,7 @@ a .ui-select-choises-row-inner {
   width: 52px;
   display: flex;
   flex: none;
-  justify-content: flex-end;
+  justify-content: center;
 }
 .maincontainer.tiny .side-place-item-image {
   width: 40px;
@@ -1243,6 +1254,12 @@ a .ui-select-choises-row-inner {
   width: 16px;
   flex: none;
   margin-right: 12px;
+}
+.maincontainer.tiny .e2-arrow label {
+  display: none;
+}
+.maincontainer.tiny .sidebar:hover .e2-arrow label {
+  display: block;
 }
 .maincontainer.tiny .side-place-item .e2-arrow {
   width: 12px;
