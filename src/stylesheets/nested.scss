@@ -979,8 +979,6 @@ a .ui-select-choises-row-inner {
   position: relative;
   flex-direction: column;
   height: calc(100% - 50px);
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 .body {
   background-color: $color-white;
@@ -991,10 +989,12 @@ a .ui-select-choises-row-inner {
   height: 100vh;
   width: 100%;
   overflow-y: hidden;
+  z-index: -100;
 }
 .maincontainer {
   display: inline-flex;
   flex-direction: row;
+  z-index: -99;
 }
 .sidebar {
   z-index: 1;
@@ -1004,7 +1004,7 @@ a .ui-select-choises-row-inner {
   height: 100%;
   flex: none;
   background-color: $color-calm;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   transition: .3s;
 }
@@ -1045,7 +1045,7 @@ a .ui-select-choises-row-inner {
   height: 112px;
 }
 .maincontainer.tiny .side-top {
-  width: 80px;
+  width: 72px;
 }
 .nested-logo {
   z-index: 7;
@@ -1149,7 +1149,7 @@ a .ui-select-choises-row-inner {
 .side-place-wrapper {
   z-index: 1;
   padding-bottom: 80px;
-  padding-top: 112px;;
+  padding-top: 112px;
 }
 .side-place-wrapper a{
   text-decoration: none;
@@ -1309,6 +1309,7 @@ a .ui-select-choises-row-inner {
   width: 100%;
   overflow-y: initial;
   overflow-y: auto;
+  z-index: 1;
 }
 
 .nst-container:after {

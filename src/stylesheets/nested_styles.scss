@@ -561,6 +561,7 @@ ul ul li:last-child{
   flex-grow: inherit;
   margin-right: auto;
   margin-left: auto;
+  width: 100%;
 }
 .content {
   width: 686px;
@@ -575,17 +576,22 @@ ul ul li:last-child{
     width: 600px;
   }
 }
+#content-wrapper {
+  margin-top: 182px
+}
 .content-plus {
   display: inline-flex;
   flex-direction: column;
   width: 276px;
-  height: 100%;
-  justify-content: center;
+  //height: 100%;
   margin-left: 16px;
   position: relative;
   transition: 0.2s;
   backface-visibility: hidden;
   transform: translateZ(0) scale(1.0, 1.0);
+}
+.nst-navbar .content-plus{
+  justify-content: center;
 }
 .content-plus>div{
   display: flex;

@@ -116,7 +116,7 @@
   display: flex;
   margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
   padding: 0 5px;
-  min-width: 782px;
+  min-width: 600px;
   width: 100%;
   animation: appearence .2s linear;
 }
@@ -217,7 +217,7 @@
   color: $color-solid!important;
   font-weight: 550;
 }
-#EventList .msg .body {
+#EventList .msg .bod {
   display: flex;
   color: gray;
 }
@@ -272,7 +272,7 @@
   color: $color-white;
 }
 
-#EventList.collapse .msg .body {
+#EventList.collapse .msg .bod {
   display: none;
 }
 
