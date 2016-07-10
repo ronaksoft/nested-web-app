@@ -16,7 +16,7 @@
       for (var k in this) {
         if (!(this[k] instanceof Function)) {
           var uCamelCase = this.getJsName(k, true);
-          this['set' + uCamelCase] = this['set' + camelCase] || new (function (obj, name) {
+          this['set' + uCamelCase] = this['set' + uCamelCase] || new (function (obj, name) {
             return function (value) {
               obj[name] = value;
 
@@ -24,7 +24,7 @@
             };
           })(this, k);
 
-          this['get' + uCamelCase] = this['get' + camelCase] || new (function (obj, name) {
+          this['get' + uCamelCase] = this['get' + uCamelCase] || new (function (obj, name) {
             return function () {
               return obj[name];
             };
