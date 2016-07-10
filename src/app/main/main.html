@@ -10,7 +10,7 @@
       keeping you close in control & up-to-date, wherever you are.</p>
     <div class="mainerror">{{main.invitation.error || "&nbsp;"}}</div>
     <form data-ng-if="!main.invitation.sent" name="inviteForm" data-ng-submit="inviteForm.$valid && main.requestInvitation(inviteForm)">
-      <input class="maininput" name="email" data-ng-model="email" type="email" spellcheck="false" tabindex="1" placeholder="Enter your email & we will invite you soon as possible :)"/><br/>
+      <input class="maininput" name="email" data-ng-model="email" type="email" required spellcheck="false" tabindex="1" placeholder="Enter your email & we will invite you soon as possible :)"/><br/>
       <input id="mainsubmit" type="submit" value="Request a Pioneer Invitation" tabindex="2"/>
     </form>
     <div class="mainsuccess" data-ng-if="main.invitation.sent">Pioneer invitation request has been successfully sent</div>
