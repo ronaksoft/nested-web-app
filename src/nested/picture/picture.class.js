@@ -60,6 +60,7 @@
     Picture.prototype.constructor = Picture;
 
     /**
+     * Sets thumbnail of a specific size
      *
      * @param {Number}      size      Thumbnail size
      * @param {NstResource} resource  Thumbnail resource
@@ -67,12 +68,14 @@
      * @returns {Picture}
      */
     Picture.prototype.setThumbnail = function (size, resource) {
-      this.thumbnails['x' + size] = resource;
+      var thumbnails = this.thumbnails;
+      thumbnails['x' + size] = resource;
 
-      return this;
+      return this.setThumbnails(thumbnails);
     };
 
     /**
+     * Retrieves thumbnail of a specific size
      *
      * @param {Number} size
      *

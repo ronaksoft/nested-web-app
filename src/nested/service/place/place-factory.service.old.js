@@ -3,8 +3,8 @@
 
   angular
     .module('nested')
-    .factory('FactoryQuery', FactoryQuery)
-    .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
+    .factory('Deprecated-FactoryQuery', FactoryQuery)
+    .service('Deprecated-NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function FactoryQuery($q) {
     function FactoryQuery(identifier, data, fields) {
@@ -40,9 +40,9 @@
   }
 
   function NstSvcPlaceFactory($q,
-                                     STORAGE_TYPE,
-                                     StorageFactoryService, WsService,
-                                     FactoryQuery, NstPlace) {
+                              STORAGE_TYPE,
+                              StorageFactoryService, WsService,
+                              FactoryQuery, NstPlace) {
     function NestedPlaceFactory() {
       this.cache = StorageFactoryService.create('nested.place.factory.service', STORAGE_TYPE.MEMORY);
       this.cache.setFetchFunction(function (id) {

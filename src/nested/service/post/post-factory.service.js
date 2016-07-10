@@ -5,7 +5,8 @@
     .service('NstSvcPostFactory', NstSvcPostFactory);
 
   /** @ngInject */
-  function NstSvcPostFactory($q, $log, _,
+  function NstSvcPostFactory($q,
+                             _,
                              NstSvcPostStorage, WsService,
                              NstFactoryError, NstFactoryQuery, NstPost, NstComment, NestedUser, NestedPlace, NestedAttachment) {
 
@@ -29,13 +30,14 @@
      * anonymous function - retrieve a post by id and store in the related cache storage
      *
      * @param  {int}      id  a post id
-     * @return {Promise}      the post
+     *
+     * @returns {Promise}      the post
      */
     function get(id) {
       var query = new NstFactoryQuery(id);
 
       return $q(function(resolve, reject) {
-        var post = PostStorageService.get(this.query.id);
+        var post = NstSvcPostStorage.get(this.query.id);
         if (post) {
           resolve(post);
         } else {
@@ -43,7 +45,7 @@
             post_id: id
           }).then(function(data) {
             post = parsePost(data.post);
-            PostStorageService.set(this.query.id, post);
+            NstSvcPostStorage.set(this.query.id, post);
             resolve(post);
           }.bind({
             query: this.query
@@ -64,7 +66,8 @@
      *
      * @param  {int} id      the post id
      * @param  {int} placeId the place id
-     * @return {Promise}     the removed post
+     *
+     * @returns {Promise}     the removed post
      */
     function remove(id, placeId) {
       var query = new NstFactoryQuery(id, {
@@ -78,10 +81,10 @@
         }).then(function(data) { //remove the object from storage and return the id
           //TODO : First remove the place from post's places
           //TODO : If the place was the last one, remove the post object
-          var post = PostStorageService.get(this.query.id);
+          var post = NstSvcPostStorage.get(this.query.id);
           removePlaceFromPost(post, this.query.data.placeId);
           if (post.places.length === 0) { //the last place was removed
-            PostStorageService.remove(this.query.id);
+            NstSvcPostStorage.remove(this.query.id);
           }
           resolve(post);
         }.bind({
@@ -101,8 +104,9 @@
      * anonymous function - add a comment
      *
      * @param  {NstPost}   post      the post
-     * @param  {string}    content   comment body
-     * @return {Promise}             the comment
+     * @param  {String}    content   comment body
+     *
+     * @returns {Promise}             the comment
      */
     function addComment(post, user, content) {
       // var query = new NstFactoryQuery(postId, { txt : content });
@@ -132,9 +136,10 @@
     /**
      * anonymous function - load a bunch of comments according to the provided skip and limit values in settings
      *
-     * @param  {int}      id        the post id
-     * @param  {object}   settings  all the parameters that will be used to build query for retriving comments
-     * @return {Promise}            the comments list
+     * @param  {int}  id        the post id
+     * @param  {{}}   settings  all the parameters that will be used to build query for retrieving comments
+     *
+     * @returns {Promise}            the comments list
      */
     function retrieveComments(post, settings) {
       var query = new NstFactoryQuery(post.id, {
@@ -176,6 +181,7 @@
      *
      * @param  {int} id         post id
      * @param  {int} commentId  comment id
+     *
      * @return {Promise}        the removed comment
      */
     function removeComment(post, comment) {
