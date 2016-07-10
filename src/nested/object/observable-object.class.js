@@ -47,29 +47,6 @@
     ObservableObject.prototype.constructor = ObservableObject;
 
     /**
-     *
-     * @param {String}  name
-     * @param {Boolean} firstUpper
-     */
-    ObservableObject.prototype.getJsName = function(name, firstUpper) {
-      var camelCased = name.split(/[_\-\s\.]/).map(function (v) { return v[0].toUpperCase() + v.substr(1); }).join('');
-
-      return firstUpper ? camelCased : (camelCased[0].toLowerCase() + camelCased.substr(1));
-    };
-
-    ObservableObject.prototype.set = function (name, value) {
-      var fnName = 'set' + this.getJsName(name, true);
-
-      return this.hasOwnProperty(fnName) && angular.isFunction(this[fnName]) ? this[fnName](value) : undefined;
-    };
-
-    ObservableObject.prototype.get = function (name) {
-      var fnName = 'get' + this.getJsName(name, true);
-
-      return this.hasOwnProperty(fnName) && angular.isFunction(this[fnName]) ? this[fnName]() : undefined;
-    };
-
-    /**
      * Registers listener to an event
      *
      * @param {NST_OBJECT_EVENT}  type      Event name
