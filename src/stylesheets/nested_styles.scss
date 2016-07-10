@@ -823,7 +823,7 @@ ul ul li:last-child{
 }
 
 .popover-content {
- padding: 8px 5px;
+ //padding: 8px 5px;
 }
 .popover-white-nst-sort + .popover{
   background: $color-white;
@@ -843,12 +843,13 @@ ul ul li:last-child{
 }
 
 .ul-popover label {
-  width: 174px;
+  width: 100px;
   float: left;
 }
+
 .ul-popover li:hover {
   background-color: $color-sense-5;
-  width: 100%;
+  width: 206px;
   color: $color-solid;
 }
 
