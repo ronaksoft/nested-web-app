@@ -62,6 +62,16 @@
 #mainsubmit:hover{
   border-bottom: 0;
 }
+
+.mainsuccess {
+  height: 120px;
+  color: $color-sense;
+}
+
+.mainerror {
+  color: $color-force;
+}
+
 .mainlogin {
   margin-top: 120px;
   width: 800px;

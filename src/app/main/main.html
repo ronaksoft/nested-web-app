@@ -8,8 +8,12 @@
       above conventional email & messaging platforms -
       intuitively helping you house your people in places you build,
       keeping you close in control & up-to-date, wherever you are.</p>
-    <input class="maininput" type="email" spellcheck="false" name="Email" tabindex="1" placeholder="Enter your email & we will invite you soon as possible :)"><br>
-    <input id="mainsubmit" type="submit" value="Request a Pioneer Invitation" tabindex="2" onclick="press()">
+    <div class="mainerror">{{main.invitation.error || "&nbsp;"}}</div>
+    <form data-ng-if="!main.invitation.sent" name="inviteForm" data-ng-submit="inviteForm.$valid && main.requestInvitation(inviteForm)">
+      <input class="maininput" name="email" data-ng-model="email" type="email" spellcheck="false" tabindex="1" placeholder="Enter your email & we will invite you soon as possible :)"/><br/>
+      <input id="mainsubmit" type="submit" value="Request a Pioneer Invitation" tabindex="2"/>
+    </form>
+    <div class="mainsuccess" data-ng-if="main.invitation.sent">Pioneer invitation request has been successfully sent</div>
     <div class="mainlogin">
       <div class="_db mainlogintop">
         <div class="_dib"><img class="line" src="assets/images/v0_assets_line.png"></div>
