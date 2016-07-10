@@ -25,7 +25,7 @@
     .factory('NstPlace', NstPlace);
 
   /** @ngInject */
-  function NstPlace(NstModel) {
+  function NstPlace(NST_OBJECT_EVENT, NstModel, NstPlacePrivacy) {
     /**
      * Creates an instance of NstPlace. Do not use this directly, use NstSvcPlaceFactory.get(data) instead
      *
@@ -43,20 +43,6 @@
       this.id = undefined;
 
       /**
-       * Place's parent
-       *
-       * @type {NstPlace}
-       */
-      this.parent = undefined;
-
-      /**
-       * Place's grand place
-       *
-       * @type {undefined|NstPlace}
-       */
-      this.grandParent = undefined;
-
-      /**
        * Place's name
        *
        * @type {undefined|String}
@@ -70,12 +56,55 @@
        */
       this.description = undefined;
 
+      /*****************************
+       *****      Ancestors     ****
+       *****************************/
+
+      /**
+       * Place's parent
+       *
+       * @type {undefined|NstPlace}
+       */
+      this.parent = undefined;
+
+      /**
+       * Place's grand place
+       *
+       * @type {undefined|NstPlace}
+       */
+      this.grandParent = undefined;
+
+      /*****************************
+       *****      Descendant    ****
+       *****************************/
+
       /**
        * Place's children
        *
        * @type {NstPlace[]}
        */
       this.children = [];
+
+      /**
+       * Place's Picture
+       *
+       * @type {undefined|NstPicture}
+       */
+      this.picture = undefined;
+
+      /**
+       * Place's users
+       *
+       * @type {{ userId: { role: String, user: NstUser } }}
+       */
+      this.users = {};
+
+      /**
+       * Place's privacy
+       *
+       * @type {NstPlacePrivacy}
+       */
+      this.privacy = new NstPlacePrivacy();
 
       NstModel.call(this);
 
@@ -86,6 +115,45 @@
 
     Place.prototype = new NstModel();
     Place.prototype.constructor = Place;
+
+    /**
+     * Return users filtered by desired roles
+     *
+     * @param {NST_PLACE_MEMBER_TYPE|NST_PLACE_MEMBER_TYPE[]} roles Roles
+     *
+     * @returns {{ userId: { role: String, user: NstUser } }}
+     */
+    Place.prototype.getUsersByRole = function (roles) {
+      roles = angular.isArray(roles) ? roles : [roles];
+      var result = {};
+
+      for (var id in this.users) {
+        if (roles.indexOf(this.users[id].role) > 0) {
+          result[id] = this.users[id];
+        }
+      }
+
+      return result;
+    };
+
+    Place.prototype.setPrivacy = function (data) {
+      var oldValue = this.privacy;
+      for (var k in data) {
+        this.privacy.set(k, data[k]);
+      }
+
+      var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {
+        detail: {
+          name: 'privacy',
+          newValue: this.privacy,
+          oldValue: oldValue,
+          target: this
+        }
+      });
+      this.dispatchEvent(event);
+
+      return this;
+    };
 
     return Place;
   }

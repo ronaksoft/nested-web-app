@@ -209,6 +209,12 @@
         return AUTH_STATE.UNAUTHORIZED == this.getState();
       },
 
+      haveAccess: function (placeId, permissions) {
+        permissions = angular.isArray(permissions) ? permissions : [permissions];
+
+        // TODO: Get from UserPlaceAccessFactory
+      },
+
       addEventListener: function (type, callback, oneTime) {
         if (!(type in this.listeners)) {
           this.listeners[type] = [];
