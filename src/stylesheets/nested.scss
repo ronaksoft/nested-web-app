@@ -1135,7 +1135,6 @@ a .ui-select-choises-row-inner {
 .side-menu-item:hover{
 
   background-color: $color-white;
-  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
   transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
   transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
   transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
@@ -1143,7 +1142,7 @@ a .ui-select-choises-row-inner {
 .side-menu-item:active {
 }
 .sidebar > .side-place {
-  padding-left: 10px;
+  padding-left: 8px;
   height: 100%;
   //height: calc(100% - 420px);
 }
@@ -1152,7 +1151,20 @@ a .ui-select-choises-row-inner {
   padding-bottom: 80px;
   padding-top: 112px;;
 }
+.side-place-wrapper a{
+  text-decoration: none;
+  display: inline;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center;
+  white-space: nowrap;
+}
 
+.side-place-wrapper > .side-place {
+  padding-left: 10px;
+}
 .side-place {
   display: box;
   box-orient: horizontal;
@@ -1188,25 +1200,34 @@ a .ui-select-choises-row-inner {
 }
 .side-place .side-place .side-place-item {
 }
-.side-place .side-place .side-place-name:hover{
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-  background-color: $color-white;
-  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
-  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
-  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
-  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
-}
-.sidebar > .side-place > .side-place-item > .side-place-item-inner:hover{
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-  background-color: $color-white;
-  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
-  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
-  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
-  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
-}
 
+.side-place-wrapper > .side-place > .side-place-item > .side-place-item-inner:hover{
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  background-color: $color-white;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
+  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
+}
+.side-place-name:hover{
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  background-color: $color-white;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
+  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
+}
+.maincontainer.tiny .side-place-item-inner:hover {
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  background-color: $color-white;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
+  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
+}
 .sidebar > .side-place > .side-place-item > .side-place-item-inner:active{
   border-radius: 7px;
   background-color: rgba(255,255,255,.4);
@@ -1216,7 +1237,13 @@ a .ui-select-choises-row-inner {
   width: 52px;
   display: flex;
   flex: none;
-  justify-content: flex-end;
+  justify-content: center;
+}
+.maincontainer.tiny .side-place-item-image {
+  width: 40px;
+  img {
+    margin-right:2px;
+  }
 }
 .side-place-item a {
   color: rgb(71, 97, 82);
@@ -1227,6 +1254,12 @@ a .ui-select-choises-row-inner {
   width: 16px;
   flex: none;
   margin-right: 12px;
+}
+.maincontainer.tiny .e2-arrow label {
+  display: none;
+}
+.maincontainer.tiny .sidebar:hover .e2-arrow label {
+  display: block;
 }
 .maincontainer.tiny .side-place-item .e2-arrow {
   width: 12px;
