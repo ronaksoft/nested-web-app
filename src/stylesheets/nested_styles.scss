@@ -204,7 +204,7 @@
   height: 183px;
   justify-content: center;
   position: fixed;
-  z-index: -10;
+  z-index: 10;
   width: 100%;
   transition: 0.3s;
 }
@@ -569,10 +569,11 @@ ul ul li:last-child{
   flex-grow: inherit;
 }
 
-@media screen and (max-width: 990px){
-  .content{
+@media screen and (max-width: 990px) {
+  .content {
     width: 600px;
   }
+}
 
 #content-wrapper {
   margin-top: 182px
@@ -887,3 +888,8 @@ label + input[type="checkbox"]  {
 label + input[type="checkbox"]:checked  {
   background-position: 0 -16px;
 }
+
+input[type="checkbox"] {
+  max-width: 100%;
+}
+
