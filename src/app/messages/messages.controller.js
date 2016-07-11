@@ -47,7 +47,7 @@
       timer;
 
     };
-    
+
     vm.srch = function () {
       console.log(arguments);
       for (var i = 0; i < arguments.length; i++) {
@@ -61,7 +61,7 @@
         }
       }
     };
-    
+
     vm.gformats = {
       daily: 'EEEE d MMM',
       monthly: 'MMMM',
@@ -293,6 +293,8 @@
         }
       });
     }
+
+    $("#popover").popover({ trigger: "hover" });
   }
 
 })();
