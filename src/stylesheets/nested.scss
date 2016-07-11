@@ -1011,17 +1011,6 @@ a .ui-select-choises-row-inner {
 .maincontainer.tiny .sidebar{
   width: 72px;
 }
-@media screen and (max-width: 990px){
-  .sidebar{
-    display: none;
-  }
-}
-.sidebar > div {
-  flex: none;
-  transition: 0.3s;
-
-}
-
 .sidebar-border {
   background-color: $color-calm;
   //position: relative;
@@ -1032,9 +1021,21 @@ a .ui-select-choises-row-inner {
   height: 100%;
   background: linear-gradient(to right, $color-calm, #d8dcd9);
 }
+@media screen and (max-width: 990px){
+  .sidebar{
+    display: none;
+  }
+  .sidebar-border {
+    display: none;
+  }
+}
+.sidebar > div {
+  flex: none;
+  transition: 0.3s;
+}
 
 .side-top {
-  z-index: 2;
+  z-index: 1;
   display: inline-flex;
   flex-direction: column;
   position: fixed;
@@ -1266,7 +1267,7 @@ a .ui-select-choises-row-inner {
   width: 12px;
 }
 .side-profile {
-  z-index: 6;
+  z-index: 1;
   position: fixed;
   width: 272px;
   left: 0;
@@ -1281,7 +1282,7 @@ a .ui-select-choises-row-inner {
   width: 72px;
   padding: 0;
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
 }
@@ -1297,6 +1298,9 @@ a .ui-select-choises-row-inner {
 .side-profile span{
   font-size: $font-size-small;
   color: $color-storm;
+}
+.side-profile .icon{
+  filter: contrast(1) grayscale(100%);
 }
 .maincontainer.tiny .side-profile span,
 .maincontainer.tiny .side-profile a{
