@@ -197,6 +197,9 @@
   ******************************
  */
 
+a {
+  color: $color-storm;
+}
 .nst-navbar {
   background-color: $color-white;
   border-bottom: 1px solid $color-calm;
@@ -316,7 +319,6 @@
 }
 .nst-place-icon-search:focus {
   display: none;
-  border-bottom: 200px solid #14d769;
 }
 
 .icon-close {
