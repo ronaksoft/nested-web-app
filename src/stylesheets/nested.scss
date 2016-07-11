@@ -1004,8 +1004,6 @@ a .ui-select-choises-row-inner {
   height: 100%;
   flex: none;
   background-color: $color-calm;
-  overflow-y: auto;
-  overflow-x: hidden;
   transition: .3s;
   z-index: 20;
 }
@@ -1149,8 +1147,9 @@ a .ui-select-choises-row-inner {
 }
 .side-place-wrapper {
   z-index: 1;
-  padding-bottom: 80px;
-  padding-top: 112px;
+  margin-bottom: 80px;
+  margin-top: 112px;
+  overflow-y: auto;
 }
 .side-place-wrapper a{
   text-decoration: none;
