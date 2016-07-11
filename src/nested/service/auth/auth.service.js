@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .constant('AUTH_STATE', {
+    .constant('NST_AUTH_STATE', {
       UNAUTHORIZED: 'unauthorized',
       AUTHORIZING: 'authorizing',
       AUTHORIZED: 'authorized'
@@ -13,7 +13,7 @@
       AUTHORIZE: 'authorize',
       AUTHORIZE_FAIL: 'authorize-fail'
     })
-    .constant('UNREGISTER_REASON', {
+    .constant('NST_UNREGISTER_REASON', {
       LOGOUT: 'logout',
       AUTH_FAIL: 'authorization_fail',
       DISCONNECT: 'disconnect'
@@ -22,12 +22,12 @@
 
   /** @ngInject */
   function NestedAuthService($cookies, $window, $q, $log,
-                             WS_EVENTS, WS_RESPONSE_STATUS, WS_ERROR, UNREGISTER_REASON, AUTH_EVENTS, AUTH_STATE,
+                             NST_WS_EVENT, NST_WS_RESPONSE_STATUS, NST_WS_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE,
                              WsService,
                              NestedUser) {
     function AuthService(user) {
       this.user = new NestedUser(user);
-      this.state = AUTH_STATE.UNAUTHORIZED;
+      this.state = NST_AUTH_STATE.UNAUTHORIZED;
       this.lastSessionKey = null;
       this.lastSessionSecret = null;
       this.remember = false;
@@ -37,10 +37,10 @@
         this.reconnect();
       }
 
-      WsService.addEventListener(WS_EVENTS.INITIALIZE, this.reconnect.bind(this));
-      WsService.addEventListener(WS_EVENTS.UNINITIALIZE, function () {
+      WsService.addEventListener(NST_WS_EVENT.INITIALIZE, this.reconnect.bind(this));
+      WsService.addEventListener(NST_WS_EVENT.UNINITIALIZE, function () {
         if (this.isAuthorized()) {
-          this.unregister(UNREGISTER_REASON.DISCONNECT);
+          this.unregister(NST_UNREGISTER_REASON.DISCONNECT);
         }
       }.bind(this));
     }
@@ -64,7 +64,7 @@
         // TODO: Pass to user service
         this.user.setData(data.info);
 
-        this.state = AUTH_STATE.AUTHORIZED;
+        this.state = NST_AUTH_STATE.AUTHORIZED;
         this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE, { detail: { user: this.user } }));
 
         return $q(function (res) {
@@ -73,13 +73,13 @@
       },
 
       register: function (username, password) {
-        this.state = AUTH_STATE.AUTHORIZING;
+        this.state = NST_AUTH_STATE.AUTHORIZING;
 
         return WsService.request('session/register', { uid: username, pass: password });
       },
 
       recall: function (sessionKey, sessionSecret) {
-        this.state = AUTH_STATE.AUTHORIZING;
+        this.state = NST_AUTH_STATE.AUTHORIZING;
 
         return WsService.request('session/recall', { _sk: sessionKey, _ss: sessionSecret });
       },
@@ -90,7 +90,7 @@
         });
 
         switch (reason) {
-          case UNREGISTER_REASON.DISCONNECT:
+          case NST_UNREGISTER_REASON.DISCONNECT:
             break;
 
           default:
@@ -108,7 +108,7 @@
             break;
         }
 
-        this.state = AUTH_STATE.UNAUTHORIZED;
+        this.state = NST_AUTH_STATE.UNAUTHORIZED;
         this.dispatchEvent(new CustomEvent(AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
 
         return result;
@@ -120,7 +120,7 @@
         return this.register(credentials.username, credentials.password).then(
           this.authorize.bind(this)
         ).catch(function (data) {
-          this.unregister(UNREGISTER_REASON.AUTH_FAIL);
+          this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
           this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
           return $q(function (res, rej) {
@@ -156,7 +156,7 @@
 
               case WS_ERROR.ACCESS_DENIED:
               case WS_ERROR.INVALID:
-                this.unregister(UNREGISTER_REASON.AUTH_FAIL);
+                this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
                 this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
                 return $q(function (res, rej) {
@@ -181,7 +181,7 @@
       },
 
       logout: function () {
-        return this.unregister(UNREGISTER_REASON.LOGOUT).then(function () {
+        return this.unregister(NST_UNREGISTER_REASON.LOGOUT).then(function () {
           // Post logout job
 
           return $q(function (res) {
@@ -195,18 +195,18 @@
       },
 
       isAuthorized: function () {
-        return AUTH_STATE.AUTHORIZED == this.getState();
+        return NST_AUTH_STATE.AUTHORIZED == this.getState();
       },
 
       isInAuthorization: function () {
         return this.isAuthorized() ||
-          AUTH_STATE.AUTHORIZATION == this.getState() ||
+          NST_AUTH_STATE.AUTHORIZATION == this.getState() ||
           $cookies.get('nsk') ||
           this.lastSessionKey;
       },
 
       isUnauthorized: function () {
-        return AUTH_STATE.UNAUTHORIZED == this.getState();
+        return NST_AUTH_STATE.UNAUTHORIZED == this.getState();
       },
 
       haveAccess: function (placeId, permissions) {

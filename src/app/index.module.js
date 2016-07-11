@@ -33,9 +33,9 @@
       'ui.tinymce',
       'hc.marked',
       'xeditable',
-      // 'unsavedChanges',
       'ngProgress',
       'ngDroplet',
-      'lodash'
+      'lodash',
+      'momentjs'
     ]);
 })();

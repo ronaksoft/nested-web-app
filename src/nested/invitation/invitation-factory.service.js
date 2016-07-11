@@ -1,5 +1,6 @@
-(function() {
+(function () {
   'use strict';
+
   angular
     .module('nested')
     .service('NstSvcInvitationFactory', NstSvcInvitationFactory);
@@ -32,19 +33,15 @@
 
         invitation.id = data._id.$oid;
         invitation.role = data.role;
-        
+
         $q.all([
           NstSvcUserFactory.get(data.invitee),
           NstSvcUserFactory.get(data.inviter),
           NstSvcPlaceFactory.get(data.place)
-        ]).then(function ([
-          invitee,
-          inviter,
-          place
-        ]) {
-          invitation.invitee = user;
-          invitation.inviter = user;
-          invitation.place = place;
+        ]).then(function (values) {
+          invitation.invitee = values[0];
+          invitation.inviter = values[1];
+          invitation.place = values[2];
 
           defer.resolve(invitation);
         }).catch(defer.reject);

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('lodash')
+  angular.module('lodash', [])
     .factory('_', function($window) {
       if ($window._) {
         $window._thirdParty = $window._thirdParty || {};

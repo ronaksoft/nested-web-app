@@ -20,5 +20,5 @@
     Invitation.prototype = new NstModel();
     Invitation.prototype.constructor = Invitation;
   }
-  
+
 })();

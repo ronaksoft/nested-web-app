@@ -6,8 +6,8 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($location, $scope, $stateParams, $uibModal, $q, $log, $timeout, _, toastr,
-    AuthService, WsService, LoaderService, PostFactoryService, EVENT_ACTIONS, WS_EVENTS,
+  function PostController($location, $scope, $stateParams, $uibModal, $q, $log, $timeout, _, moment, toastr,
+    AuthService, WsService, LoaderService, PostFactoryService, NST_EVENT_ACTIONS, NST_WS_EVENT,
     NstPost, NstComment, postId) {
     var vm = this;
 
@@ -27,7 +27,7 @@
     vm.user = AuthService.user;
     vm.commentSettings = {
       skip: 0,
-      limit: 30,
+      limit: 30
     };
 
     vm.removeComment = removeComment;
@@ -117,7 +117,7 @@
       });
 
       return false;
-    };
+    }
 
     function loadMoreComments() {
       vm.commentLoadProgress = true;
@@ -132,7 +132,7 @@
     }
 
 
-    WsService.addEventListener(WS_EVENTS.TIMELINE, function(tlEvent) {
+    WsService.addEventListener(NST_WS_EVENT.TIMELINE, function(tlEvent) {
       switch (tlEvent.detail.timeline_data.action) {
         case EVENT_ACTIONS.COMMENT_ADD:
         case EVENT_ACTIONS.COMMENT_REMOVE:

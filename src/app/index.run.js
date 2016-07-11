@@ -8,7 +8,7 @@
   /** @ngInject */
   function runBlock($rootScope, $interval, $uibModal,
                     ngProgressFactory,
-                    UNREGISTER_REASON, AUTH_EVENTS, AuthService, LoaderService, LOADER_EVENTS) {
+                    NST_UNREGISTER_REASON, AUTH_EVENTS, AuthService, LoaderService, LOADER_EVENTS) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
 
     $rootScope.now = function () {
@@ -53,7 +53,7 @@
     $rootScope.modals = {};
 
     AuthService.addEventListener(AUTH_EVENTS.UNAUTHORIZE, function (event) {
-      if (!$rootScope.modals['unauthorized'] && UNREGISTER_REASON.DISCONNECT == event.detail.reason) {
+      if (!$rootScope.modals['unauthorized'] && NST_UNREGISTER_REASON.DISCONNECT == event.detail.reason) {
         $rootScope.modals['unauthorized'] = $uibModal.open({
           animation: false,
           templateUrl: 'app/unauthorized/unauthorized.html',

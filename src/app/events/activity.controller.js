@@ -3,14 +3,14 @@
 
   angular
     .module('nested')
-    .controller('EventsController', EventsController);
+    .controller('ActivityController', ActivityController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
+  function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
                             toastr, _, moment,
-                            AuthService, WsService, WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
+                            AuthService, WsService, NST_WS_EVENT, NST_EVENT_ACTIONS, NST_WS_ERROR, NST_STORAGE_TYPE,
                             LoaderService, StorageFactoryService,
-                            NestedEvent, NestedPlace, NestedInvitation) {
+                            NstActivity, NstPlace, NstInvitation) {
     var vm = this;
 
     vm.activities = [];
@@ -145,7 +145,7 @@
     var currentYearStart = now.startOf('year');
     var currentMonthStart = now.startOf('month');
 
-    if (!acts || acts.length === 0){
+    if (!acts || acts.length === 0) {
       return result;
     }
 
@@ -166,7 +166,7 @@
       min : year.startOf('year'),
       max : year.endOf('year'),
       thisMonth : mapThisMonthActs(thisMonthActs),
-      otherMonths : groupByMonth(otherMontsActs),
+      otherMonths : groupByMonth(otherMontsActs)
     };
 
     var otherYearsActs = _.differenceBy(acts, thisYearActs, 'id');
@@ -246,7 +246,7 @@
       min : null,
       max : null,
       today : {},
-      days : {},
+      days : {}
     };
     var now = moment();
     var todayStart = now.startOf('day');
@@ -260,7 +260,7 @@
     result.today = {
       min : todayStart,
       max : now.endOf('day'),
-      items : todayActs,
+      items : todayActs
     };
 
     var otherDaysActs = _.differenceBy(acts, todayActs, 'id');

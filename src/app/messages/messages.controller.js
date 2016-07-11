@@ -6,10 +6,10 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr, $timeout,
-                            AuthService, WsService, WS_EVENTS, EVENT_ACTIONS, WS_ERROR, STORAGE_TYPE,
-                            LoaderService, StorageFactoryService,
-                            NestedEvent, NestedPlace, NestedInvitation) {
+  function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $timeout, $uibModal,
+    toastr, AuthService, WsService, LoaderService,
+    NST_WS_EVENT, NST_EVENT_ACTIONS, NST_WS_ERROR, NST_STORAGE_TYPE,
+    NstSvcStorageFactory, NstActivity, NstPlace, NstInvitation) {
     var vm = this;
 
     if (!AuthService.isInAuthorization()) {
@@ -151,7 +151,7 @@
 
 
 
-    WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
+    WsService.addEventListener(NST_WS_EVENT.TIMELINE, function (tlEvent) {
       var event = new NestedEvent(tlEvent.detail.timeline_data);
       $log.debug(event);
       var action = tlEvent.detail.timeline_data.action;
@@ -162,7 +162,7 @@
       }
     });
 
-    WsService.addEventListener(WS_EVENTS.AUTHORIZE, function (event) {
+    WsService.addEventListener(NST_WS_EVENT.AUTHORIZE, function (event) {
       // TODO: Get timeline events after last event
     });
 
