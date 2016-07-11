@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($location, $interval, $http, WS_RESPONSE_STATUS, LoaderService, AuthService) {
+  function MainController($location, $interval, $http, WS_ERROR, WS_RESPONSE_STATUS, LoaderService, AuthService) {
     var vm = this;
 
     if (AuthService.isInAuthorization()) {
