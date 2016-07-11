@@ -206,15 +206,24 @@
   z-index: 50;
   width: 100%;
   transition: 0.3s;
+  right: 0;
 }
 
 @media screen and (min-width: 990px){
   .nst-navbar{
     width: calc(100% - 276px);
   }
+  .nst-container{
+    margin-left: 276px
+  }
 }
-.maincontainer.tiny .nst-navbar{
-  width: calc(100% - 64px);
+.maincontainer.tiny {
+  .nst-navbar{
+    width: calc(100% - 64px);
+  }
+  .nst-container{
+    margin-left: 64px
+  }
 }
 
 .header {
