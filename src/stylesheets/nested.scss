@@ -979,6 +979,7 @@ a .ui-select-choises-row-inner {
   position: relative;
   flex-direction: column;
   height: calc(100% - 50px);
+  z-index: -20;
 }
 .body {
   background-color: $color-white;
