@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, LoaderService, $cacheFactory, StorageFactoryService, STORAGE_TYPE) {
+    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, LoaderService, $cacheFactory, StorageFactoryService, STORAGE_TYPE, _) {
       var vm = this;
       vm.places = [];
       vm.tpl = 'app/components/nested/place/row.html';
@@ -14,8 +14,10 @@
           case 'places':
             return WsService.request('account/get_my_places', {}).then(function (data) {
               var places = [];
+              $scope.numbers = [];
               for (var k in data.places) {
                 places.push(new NestedPlace(data.places[k]));
+                $scope.numbers.push(0);
               }
 
               return $q(function (res) {
@@ -33,9 +35,37 @@
       });
       memory.get("places").then(function (value) {
         vm.places = value;
+        console.log(vm.places);
+        function PlaceDepth(depth) {
+          this.depth = depth || 0;
+        }
+        PlaceDepth.prototype = {
+          mapFn: function (place) {
+            var pd = new PlaceDepth(this.depth + 1);
+
+            return {
+              depth: this.depth,
+              children: place.children.map(pd.mapFn.bind(pd))
+            };
+          }
+        };
+        var pd = new PlaceDepth();
+        var placesDep = vm.places.map(pd.mapFn.bind(pd));
+        $scope.dep = placesDep.depth;
+        console.log(placesDep);
+
+        return placesDep;
       });
+      $scope.range = function(n) {
+        return new Array(n);
+      };
+      $scope.chngSideView = function () {
+        $('.maincontainer').toggleClass('tiny');
+      };
+
     })
     .directive('nestedSidebar', nestedSidebar);
+
 
   /** @ngInject */
   function nestedSidebar() {

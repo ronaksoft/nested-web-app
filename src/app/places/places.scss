@@ -268,18 +268,20 @@ background-color: $color-sense-5;
 .nst-arrow {
   background: url('../assets/icons/arrow.svg') no-repeat;
   height: 25px;
-  width: 15px;
+  width: 16px;
   padding: 0 0 0 5px;
   background-position: center center;
+  background-size: contain;
   cursor: pointer;
 }
 
 [class*=nst-arrow-]{
   background: url('../assets/icons/arrow.svg') no-repeat;
   height: 25px;
-  width: 15px;
+  width: 16px;
   cursor: pointer;
   padding: 0 0 0 5px;
+  background-size: contain;
 }
 .nst-arrow-rotated {
   background-position: center center;
