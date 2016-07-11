@@ -58,7 +58,7 @@
         controllerAs: 'events'
       })
       .state('events-filtered-1d', {
-        url: '/events/:placeId',
+        url: '/activity/:placeId',
         params: {
           placeId: null,
           filter: '!$all'
@@ -68,7 +68,7 @@
         controllerAs: 'events'
       })
       .state('events-filtered-2d', {
-        url: '/events/:placeId/:filter',
+        url: '/activity/:placeId/:filter',
         params: {
           placeId: null,
           filter: '!$all'
