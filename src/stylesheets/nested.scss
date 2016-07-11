@@ -1004,7 +1004,7 @@ a .ui-select-choises-row-inner {
   height: 100%;
   flex: none;
   background-color: $color-calm;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   transition: .3s;
 }
