@@ -6,23 +6,22 @@
 
     <div class="nst-content" id="content-wrapper">
       <section class="_fw nst-content-body _bgwhite" seen-recents>
-          <div class="filter-bar _fw">
-            <div class="filter-bar-hld _pr _vam">
-              <div class="_dib iconsblock">
-                <div class="icon icon-viewicon-filter _pa"></div>
-              </div>
-              <div class="_dib iconsblock">
-                <div class="icon icon-viewicon-sort _pa popover-white-nst-sort" uib-popover-template="'app/messages/popovers/sort_popover.html'" data-popover-placement="bottom-center"
-                     popover-trigger="outsideClick"></div>
-              </div>
-              <div class="_dib iconsblock">
+        <div class="filter-bar  _fw">
+          <div class="filter-bar-hld _pr _vam">
+            <p class="nst-mood-storm _dib">All</p>
+            <div class="_dib iconsblock">
+              <div class="icon icon-viewicon-filter _pa"></div>
+            </div>
 
-                <div class="icon icon-viewicon- _pa popover-white-nst" uib-popover-template="'app/messages/popovers/setting_popover.html'" data-popover-placement="bottom-center"
-                     popover-trigger="outsideClick"></div>
-              </div>
+            <p class="nst-mood-storm _dib">Details </p>
+            <div class="_dib iconsblock">
+              <div class="icon icon-viewicon- _pa popover-white-nst" uib-popover-template="'app/messages/popovers/setting_popover.html'" data-popover-placement="bottom-center"
+                   popover-trigger="outsideClick"></div>
             </div>
           </div>
+        </div>
 
+        <section class="_fw nst-content-body _bgwhite" seen-recents>
           <div class="_fw eventsody" id="EventList">
             <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
               <div class="event-group-time col-lg-12">
