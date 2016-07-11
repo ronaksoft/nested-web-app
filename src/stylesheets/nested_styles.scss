@@ -222,10 +222,10 @@ a {
 }
 .maincontainer.tiny {
   .nst-navbar{
-    width: calc(100% - 64px);
+    width: calc(100% - 72px);
   }
   .nst-container{
-    margin-left: 64px
+    margin-left: 72px
   }
 }
 
@@ -782,7 +782,7 @@ ul ul li:last-child{
   margin-left: 5px;
   padding: 1px 8px 5px 8px;
   background-color: rgb(20, 215, 105);
-  z-index: 32;
+  z-index: 36;
 }
 
 .post-card .post-card-badge a:first-child{
