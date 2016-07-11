@@ -6,7 +6,9 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($location, $interval, $http, WS_ERROR, WS_RESPONSE_STATUS, LoaderService, AuthService) {
+  function MainController($q, $location, $http,
+                          WS_ERROR, WS_RESPONSE_STATUS,
+                          LoaderService, AuthService) {
     var vm = this;
 
     if (AuthService.isInAuthorization()) {
@@ -15,7 +17,8 @@
 
     vm.invitation = {
       sent: false,
-      error: ""
+      error: false,
+      message: ""
     };
 
     vm.emailKeyUp = function (event) {
@@ -40,31 +43,23 @@
         LoaderService.inject($http.post('http://x.nested.me/send_invite.php', data, config).then(function (response) {
           switch (response.status) {
             case WS_RESPONSE_STATUS.SUCCESS:
-              vm.invitation.sent = true;
               return $q(function (res) {
-                res();
+                res(response);
               });
               break;
 
             default:
-              switch (response.err_code) {
-                case WS_ERROR.DUPLICATE:
-                  vm.invitation.sent = true;
-                  return $q(function (res) {
-                    res();
-                  });
-                  break;
-
-                default:
-                  return $q(function (res, rej) {
-                    rej(response);
-                  });
-                  break;
-              }
+              return $q(function (res, rej) {
+                rej(response);
+              });
               break;
           }
-        })).catch(function (error) {
-          vm.invitation.error = "There was an error in submitting your pioneer invitation request. Please try again later!";
+        })).catch(function (response) {
+          vm.invitation.error = true;
+          vm.invitation.message = response.msg;
+        }).then(function (response) {
+          vm.invitation.sent = true;
+          vm.invitation.message = response.msg;
         });
       }
     };
