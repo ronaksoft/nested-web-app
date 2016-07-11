@@ -17,7 +17,7 @@
       $location.path('/signin').replace();
     }
     var timers = [];
-    vm.hey = function (event) {
+    vm.conPlusPos = function (event) {
       timers.forEach(function(promises) {
         $timeout.cancel(promises);
       });
@@ -47,7 +47,7 @@
       timer;
 
     };
-
+    
     vm.srch = function () {
       console.log(arguments);
       for (var i = 0; i < arguments.length; i++) {
@@ -61,9 +61,7 @@
         }
       }
     };
-    $scope.chngSideView = function () {
-      $('.maincontainer').toggleClass('tiny');
-    };
+    
     vm.gformats = {
       daily: 'EEEE d MMM',
       monthly: 'MMMM',
