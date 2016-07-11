@@ -294,7 +294,6 @@
       });
     }
 
-    $("#popover").popover({ trigger: "hover" });
   }
 
 })();

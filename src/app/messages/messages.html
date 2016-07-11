@@ -1,8 +1,11 @@
 <div class="maincontainer _fw _fh">
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
-  <div class="sidebar-border"></div>
   <div class="nst-container" on-scroll="messages.conPlusPos();navScroll(event)">
-    <nested-navbar data-ng-model="navbar"></nested-navbar>
+    <div>
+      <div>
+        <nested-navbar data-ng-model="navbar"></nested-navbar>
+      </div>
+    </div>
 
     <div class="nst-content" id="content-wrapper">
       <section class="content">
@@ -43,7 +46,7 @@
               </div>
             </section>
             <section class="post-subject"><h3>Ronak Open Position:</h3></section>
-            <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
+            <section class="post-body"><p>Hi everybody. ¶ We have an open position for another amazing designer in our team :) So please share attached Ad with your other communities. ¶ Thanks
             </p></section>
             <section class="post-attachments" data-ng-show="false">attachments</section>
             <section class="post-footer _difh" ng-click="thisCm=!thisCm"><a class="_df _fn">1 comment</a>
@@ -308,8 +311,30 @@
 
       </section>
       <div class="content-plus" id="content-plus">
-        <div>a</div>
-        <div>a</div>
+        <div>
+          <div class="name">Recent Activities</div>
+          <div class="row">
+            <div class="_df">
+              <img initials="user.name" data-url="user.picture.x24.url" data-width="16" data-height="16" data-radius="16" class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
+            </div>
+            <div class="colomn">
+              <div class="_difh top">
+                <div class="sender _fw _df">
+                  <a>Ehsan</a> <span>@ehsan</span>
+                </div>
+                <div class="_df">
+                  <span>23" ago</span>
+                </div>
+                <div class="ei-comment-add _df _fn"></div>
+              </div>
+              <div class="_df">
+                <p><span>commented</span> Wow, It's really Cool... We love new design :D</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
