@@ -1,87 +1,24 @@
 (function() {
   'use strict';
 
-  angular
-    .module('nested')
-    .factory('NestedInvitation', function ($rootScope, $q, $log, WsService, NestedUser, MEMBER_TYPE, NestedPlace) {
-      function Invitation(data, full) {
-        this.full = full || false;
+  angular.module('nested').factory('NstInvitation', NstInvitation);
+  function NstInvitation(NstModel) {
+    function Invitation(model) {
+      NstModel.call(this);
 
-        this.id = null;
-        this.invitee = new NestedUser();
-        this.inviter = new NestedUser();
-        this.place = new NestedPlace();
-        this.role = null;
+      this.id = null;
+      this.invitee = null;
+      this.inviter = null;
+      this.place = null;
+      this.role = null;
 
-        if (data) {
-          this.setData(data);
-        }
-      }
+      this.fill(model);
 
-      Invitation.prototype = {
-        setData: function(data) {
-          if (angular.isString(data)) {
-            return this.load(data);
-          } else if (data.hasOwnProperty('id')) {
-            angular.extend(this, data);
+      return this;
+    }
 
-            this.change();
-          } else if (data.hasOwnProperty('_id')) {
-            $log.debug('Invitation Data', data);
-            this.id = data._id.$oid;
-            this.invitee.setData(data.invitee);
-            this.inviter.setData(data.inviter);
-            this.place.setData(data.place);
-            this.role = data.role;
-
-            this.change();
-          } else if (data.hasOwnProperty('status')) {
-            this.setData(data.invitation);
-          }
-
-          return $q(function (res) {
-            res(this);
-          }.bind(this));
-        },
-
-        change: function () {
-          if(!$rootScope.$$phase) {
-            $rootScope.$digest()
-          }
-        },
-
-        load: function(id) {
-          this.id = id || this.id;
-
-          return WsService.request('account/get_invitation', { invite_id: this.id }).then(this.setData.bind(this));
-        },
-
-        accept: function () {
-          return this.update(true);
-        },
-
-        decline: function () {
-          return this.update(false);
-        },
-
-        update: function(accept) {
-          if (this.id) {
-            return WsService.request('account/update_invitation', {
-              invite_id: this.id,
-              state: accept ? 'accepted' : 'ignored'
-            }).then(function () {
-              return $q(function (res) {
-                res(this);
-              }.bind(this));
-            }.bind(this));
-          }
-
-          return $q(function (res, rej) {
-            rej();
-          });
-        }
-      };
-
-      return Invitation;
-    });
+    Invitation.prototype = new NstModel();
+    Invitation.prototype.constructor = Invitation;
+  }
+  
 })();
