@@ -69,7 +69,6 @@ body {
   padding: 0;
   box-sizing: border-box;
   min-width: 600px;
-  overflow-y: hidden;
 }
 
 body,
@@ -979,6 +978,7 @@ a .ui-select-choises-row-inner {
   position: relative;
   flex-direction: column;
   height: calc(100% - 50px);
+  z-index: 10;
 }
 .body {
   background-color: $color-white;
@@ -988,7 +988,6 @@ a .ui-select-choises-row-inner {
   //min-width: 990px;
   height: 100vh;
   width: 100%;
-  overflow-y: hidden;
   z-index: -100;
 }
 .maincontainer {
@@ -997,44 +996,46 @@ a .ui-select-choises-row-inner {
   z-index: -99;
 }
 .sidebar {
-  z-index: 1;
-  display: inline-flex;
-  flex-direction: column;
-  width: 272px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  width: 276px;
   height: 100%;
   flex: none;
   background-color: $color-calm;
   overflow-y: auto;
   overflow-x: hidden;
   transition: .3s;
+  z-index: 20;
 }
 .maincontainer.tiny .sidebar{
-  width: 72px;
+  width: 76px;
 }
-@media screen and (max-width: 990px){
-  .sidebar{
-    display: none;
-  }
-}
-.sidebar > div {
-  flex: none;
-  transition: 0.3s;
-
-}
-
 .sidebar-border {
-  background-color: $color-calm;
   //position: relative;
   //right: 4px;
   display: flex;
   flex: none;
   width: 4px;
   height: 100%;
-  background: linear-gradient(to right, $color-calm, #d8dcd9);
+  background: linear-gradient(to right, transparent, #d8dcd9);
+}
+@media screen and (max-width: 990px){
+  .sidebar{
+    display: none;
+  }
+  .sidebar-border {
+    display: none;
+  }
+}
+.sidebar > div {
+  //flex: none;
+  transition: 0.3s;
 }
 
 .side-top {
-  z-index: 2;
+  z-index: 15;
   display: inline-flex;
   flex-direction: column;
   position: fixed;
@@ -1266,7 +1267,7 @@ a .ui-select-choises-row-inner {
   width: 12px;
 }
 .side-profile {
-  z-index: 6;
+  z-index: 1;
   position: fixed;
   width: 272px;
   left: 0;
@@ -1281,7 +1282,7 @@ a .ui-select-choises-row-inner {
   width: 72px;
   padding: 0;
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
 }
@@ -1298,6 +1299,9 @@ a .ui-select-choises-row-inner {
   font-size: $font-size-small;
   color: $color-storm;
 }
+.side-profile .icon{
+  filter: contrast(1) grayscale(100%);
+}
 .maincontainer.tiny .side-profile span,
 .maincontainer.tiny .side-profile a{
   display: none;
@@ -1307,8 +1311,9 @@ a .ui-select-choises-row-inner {
   display: inline-flex;
   flex-direction: column;
   width: 100%;
-  overflow-y: initial;
   overflow-y: auto;
+  overflow-y: initial;
+  scroll-behavior: smooth;
   z-index: 1;
 }
 
