@@ -2,7 +2,11 @@
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
   <div class="sidebar-border"></div>
   <div class="nst-container" on-scroll="messages.conPlusPos();navScroll(event)">
-    <nested-navbar data-ng-model="navbar"></nested-navbar>
+    <div>
+      <div>
+        <nested-navbar data-ng-model="navbar"></nested-navbar>
+      </div>
+    </div>
 
     <div class="nst-content" id="content-wrapper">
       <section class="content">
