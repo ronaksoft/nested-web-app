@@ -40,7 +40,9 @@
           }
         };
 
-        LoaderService.inject($http.post('http://x.nested.me/send_invite.php', data, config).then(function (response) {
+        LoaderService.inject($http.post('http://x.nested.me/send_invite.php', data, config).then(function (data) {
+          var response = angular.fromJson(data.data);
+
           switch (response.status) {
             case WS_RESPONSE_STATUS.SUCCESS:
               return $q(function (res) {
@@ -57,9 +59,17 @@
         })).catch(function (response) {
           vm.invitation.error = true;
           vm.invitation.message = response.msg;
+
+          return $q(function (res, rej) {
+            rej(response);
+          });
         }).then(function (response) {
           vm.invitation.sent = true;
           vm.invitation.message = response.msg;
+
+          return $q(function (res) {
+            res(response);
+          });
         });
       }
     };
