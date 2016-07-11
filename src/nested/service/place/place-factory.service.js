@@ -8,7 +8,7 @@
   function NstSvcPlaceFactory($q,
                               WS_ERROR, NST_PLACE_ACCESS,
                               AuthService, WsService, NstSvcPlaceStorage, NstSvcMinimalPlaceStorage,
-                              NstFactoryQuery, NstFactoryError) {
+                              NstFactoryQuery, NstFactoryError, NstPlace) {
     function PlaceFactory() {
       this.requests = {
         get: {},
@@ -37,7 +37,7 @@
               WsService.request('place/get_info', {
                 place_id: this.query.id
               }).then(function (placeData) {
-                var place = parsePlace(placeData);
+                var place = NstSvcPlaceFactory.parsePlace(placeData);
                 NstSvcPlaceStorage.set(this.query.id, place);
                 resolve(place);
               }.bind({
@@ -73,7 +73,12 @@
             if (place) {
               resolve(place);
             } else {
-              PlaceFactory.get(this.query.id).then(resolve).catch(reject);
+              NstSvcPlaceFactory.get(this.query.id).then(function (place) {
+                NstSvcMinimalPlaceStorage.set(this.query.id, place);
+                resolve(place);
+              }.bind({
+                query: this.query
+              })).catch(reject);
             }
           }.bind({
             query: query
@@ -108,12 +113,85 @@
         }
 
         return this.requests.remove[id];
+      },
+
+      parsePlace: function (placeData) {
+        var place = new NstPlace();
+
+        if (!angular.isObject(placeData)) {
+          return place;
+        }
+
+        place.setId(placeData._id);
+        place.setName(placeData.name);
+        place.setDescription(placeData.description);
+
+        if (angular.isObject(placeData.picture)) {
+          place.setPicture(placeData.picture.org, {
+            32: placeData.picture.x32,
+            64: placeData.picture.x64,
+            128: placeData.picture.x128
+          });
+        }
+
+        if (placeData.parent_id) {
+          var parent = NstSvcMinimalPlaceStorage.get(placeData.parent_id) || NstSvcPlaceStorage.get(placeData.parent_id);
+          if (!parent) {
+            parent = NstSvcPlaceFactory.parsePlace({
+              _id: placeData.parent_id
+            });
+
+            // TODO: Push into factory
+          }
+
+          place.setParent(parent);
+        }
+
+        if (placeData.grand_parent_id) {
+          var grandParent = NstSvcMinimalPlaceStorage.get(placeData.grand_parent_id) || NstSvcPlaceStorage.get(placeData.grand_parent_id);
+          if (!grandParent) {
+            grandParent = NstSvcPlaceFactory.parsePlace({
+              _id: placeData.grand_parent_id
+            });
+
+            // TODO: Push into factory
+          }
+
+          place.setGrandParent(grandParent);
+        }
+
+        if (angular.isArray(placeData.childs)) {
+          var children = {};
+          for (var k in placeData.childs) {
+            var child = NstSvcMinimalPlaceStorage.get(placeData.childs[k]._id) || NstSvcPlaceStorage.get(placeData.childs[k]._id);
+            if (!child) {
+              child = NstSvcPlaceFactory.parsePlace(placeData.childs[k]);
+            }
+
+            child.setParent(place);
+            child.setGrandParent(place.getGrandPlace());
+            // TODO: Push into factory
+
+            children[child.getId()] = child;
+          }
+
+          place.setChildren(children);
+        }
+
+        if (angular.isObject(placeData.privacy)) {
+          place.setPrivacy({
+            email: placeData.privacy.email,
+            locked: placeData.privacy.locked,
+            receptive: placeData.privacy.receptive,
+            search: placeData.privacy.search
+          });
+        }
+
+        // Push Place Access to SvcAuth
+
+        return place;
       }
     };
-
-    function parsePlace(placeData) {
-
-    }
 
     return new PlaceFactory();
   }
