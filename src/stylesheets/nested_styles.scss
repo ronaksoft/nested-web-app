@@ -197,6 +197,9 @@
   ******************************
  */
 
+a {
+  color: $color-storm;
+}
 .nst-navbar {
   background-color: $color-white;
   border-bottom: 1px solid $color-calm;
@@ -298,7 +301,7 @@
 }
 
 .menu-links-search {
-  width: 32px;
+  width: 64px;
   height: 32px;
 }
 
@@ -312,11 +315,10 @@
 
 .menu-links .li-hover:hover, .selected {
   border-bottom: 2px solid #14d769;
+  margin-top: 4px;
 }
-
 .nst-place-icon-search:focus {
   display: none;
-  border-bottom: 200px solid #14d769;
 }
 
 .icon-close {
@@ -493,15 +495,18 @@ ul ul li:last-child{
   ******************************
  */
 
+.p {
+  margin: 0;
+}
 .filter-bar {
   height: 50px;
 }
 
 .filter-bar-hld {
   height: 50px;
-  line-height: 60px;
-  width: 140px;
+  line-height: 50px;
   float: right;
+  margin-right: 5px
 }
 
 //.filter-bar-hld .viewicon-,.viewicon-sort,.viewicon-filter {
@@ -530,9 +535,11 @@ ul ul li:last-child{
   width: 38px;
   height: 28px;
   cursor: pointer;
-  margin-right: 15px;
   box-sizing: border-box;
-  margin: auto;
+
+}
+.iconsblock-right {
+  margin-right: 28px;
 }
 
 .iconsblock:hover {
@@ -585,6 +592,7 @@ ul ul li:last-child{
 #content-wrapper {
   margin-top: 182px
 }
+
 .content-plus {
   display: inline-flex;
   flex-direction: column;
@@ -896,10 +904,22 @@ ul ul li:last-child{
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-breeze;
   position: absolute;
-  top: -2px !important;
-  left: -98px !important;
+  top: -1px !important;
+  left: -90px !important;
   z-index: 36;
 }
+
+.popover-white-nst-msg + .popover {
+  background: $color-white;
+  border-radius: 6px 0px 6px 6px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+  border-color: $color-breeze;
+  position: absolute;
+  top: -1px !important;
+  left: -10px !important;
+  z-index: 36;
+}
+
 
 .popover-white-nst-setting {
   width: 206px;
@@ -911,10 +931,11 @@ ul ul li:last-child{
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-breeze;
   position: absolute;
-  top: -2px !important;
-  left: -139px !important;
+  top: -1px !important;
+  left: -79px !important;
   z-index: 36;
 }
+
 
 .ul-popover li {
   height: 30px;
