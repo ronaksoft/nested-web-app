@@ -6,14 +6,45 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $interval, $uibModal,
+  function runBlock($rootScope, $interval, $uibModal, $window, $timeout,
                     ngProgressFactory,
                     UNREGISTER_REASON, AUTH_EVENTS, AuthService, LoaderService, LOADER_EVENTS) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
 
     $rootScope.now = function () {
       return new Date();
-    }
+    };
+
+    var timers = [];
+    angular.element($window).bind("scroll", function(e) {
+      timers.forEach(function(promises) {
+        $timeout.cancel(promises);
+      });
+      var $sidebar = $("#content-plus"),
+        topPadding = 150;
+
+      var timer = $timeout(
+        function() {
+          if (150 > e.currentTarget.scrollY > 0) {
+            $sidebar.stop().css({
+              marginTop: e.currentTarget.scrollY
+            });
+          } else if (e.currentTarget.scrollY > topPadding) {
+            $sidebar.stop().css({
+              marginTop: e.currentTarget.scrollY - 51
+            });
+          } else if (e.currentTarget.scrollY == 0){
+            $sidebar.stop().css({
+              marginTop: 0
+            });
+          }
+        },
+        50
+      );
+      timers.push(timer);
+      timer;
+      $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
+    });
     // $interval(function () {
     //   $rootScope.now.setTime(Date.now());
     // }, 1000);

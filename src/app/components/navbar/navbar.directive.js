@@ -5,9 +5,6 @@
     .module('nested')
     .controller('NavBarController', function($scope, AuthService) {
       $scope.user = AuthService.user;
-      $scope.navScroll = function (event) {
-        $('.nst-navbar').toggleClass('tiny', event.currentTarget.scrollTop > 55);
-      };
     })
     .directive('nestedNavbar', nestedNavbar);
 
