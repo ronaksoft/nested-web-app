@@ -41,10 +41,13 @@
   margin: 0 5px 0 15px;
   flex: none;
 }
+
 .icon-compose {
   background-image: url("../assets/icons/btnicon.svg");
   background-repeat: no-repeat;
 }
+
+
 .icon-all-place {
   background-position: 0 0px;
 }
@@ -56,17 +59,17 @@
 .icon-sent {
   background-position: 0 -48px;
 }
+
 .icon-more {
   background: url('../assets/icons/nst-more-badge.svg') no-repeat;
   height: 32px;
   width: 32px;
 }
+
 .icon-search-rotated {
-  //transform: rotate(360deg);
   background: url('../assets/icons/search.svg') no-repeat;
   width: 32px;
   height: 32px;
-
 }
 
 .icon-storm {
@@ -82,13 +85,10 @@
 }
 
 .badge {
-
   padding: 5px;
-
 }
 
 .badge-more {
-
 }
 
 .a {
@@ -134,31 +134,28 @@
 }
 
 .input-tiny {
-
-
 }
 
 .input-force {
-
 }
 
 .input-title {
   font-size: 24px;
   padding-left: 10px;
   height: 52px;
-
 }
 
 .textarea {
-
 }
 
 .display-none {
   display: none;
 }
+
 .border-none {
   border: none;
 }
+
 .plshide:focus {
   display: none;
 }
@@ -181,12 +178,14 @@
   z-index: 100;
   margin-top: 16px;
 }
+
 #inputsearch input{
   border: none;
   padding-left: 30px;
   left: 8px;
   padding-top: 12px;
 }
+
 #action-search {
   left: 8px;
   top: 8px;
@@ -204,7 +203,7 @@
   height: 183px;
   justify-content: center;
   position: fixed;
-  z-index: 40;
+  z-index: -10;
   width: 100%;
   transition: 0.3s;
 }
@@ -258,6 +257,7 @@
 .nst-navbar.tiny .movetiny {
   margin-top: 2px;
 }
+
 .navbar-top {
   height: 122px;
   transition: .3s;
@@ -321,17 +321,10 @@
   right: -620px;
 }
 
-//.fixed {
-//  position:fixed;
-//  top:0;
-//  left:0;
-//  z-index:5;
-//  width:100%;
-//}
-
 ._left {
   left: 0;
 }
+
 ._right {
   right: 0;
 }
@@ -539,9 +532,11 @@ ul ul li:last-child{
   border-radius: 5px;
   background-color: white;
 }
+
 .nst-mood-hurricane {
   color: $color-hurricane;
 }
+
 .icon-position {
   height: 40px;
 }
@@ -552,6 +547,7 @@ ul ul li:last-child{
   * Content
   ******************************
  */
+
 .nst-content {
   display: inline-flex;
   justify-content: center;
@@ -562,6 +558,7 @@ ul ul li:last-child{
   margin-left: auto;
   width: 100%;
 }
+
 .content {
   width: 686px;
   display: inline-flex;
@@ -570,11 +567,13 @@ ul ul li:last-child{
   flex-shrink: inherit;
   flex-grow: inherit;
 }
-@media screen and (max-width: 990px){
-  .content{
+
+@media screen and (max-width: 990px) {
+  .content {
     width: 600px;
   }
 }
+
 #content-wrapper {
   margin-top: 182px
 }
@@ -663,11 +662,13 @@ ul ul li:last-child{
   justify-content: center;
   height: auto;
 }
+
 @media screen and (max-width: 1330px){
 .content-plus{
   display: none;
+  }
 }
-}
+
 .quick-message {
   height: 86px;
   border: 1px solid $color-breeze;
@@ -703,6 +704,7 @@ ul ul li:last-child{
 .margin-l-15 {
   margin-left: 15px;
 }
+
 /**
   ******************************
   *  messages post card
@@ -893,9 +895,6 @@ ul ul li:last-child{
   width: 206px;
 }
 
-.popover-content {
- padding: 8px 5px;
-}
 .popover-white-nst-sort + .popover{
   background: $color-white;
   border-radius: 6px 0px 6px 6px;
@@ -914,12 +913,13 @@ ul ul li:last-child{
 }
 
 .ul-popover label {
-  width: 174px;
+  width: 100px;
   float: left;
 }
+
 .ul-popover li:hover {
   background-color: $color-sense-5;
-  width: 100%;
+  width: 206px;
   color: $color-solid;
 }
 
