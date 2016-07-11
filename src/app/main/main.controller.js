@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MainController($q, $location, $http,
-                          WS_ERROR, WS_RESPONSE_STATUS,
+                          WS_RESPONSE_STATUS,
                           LoaderService, AuthService) {
     var vm = this;
 
