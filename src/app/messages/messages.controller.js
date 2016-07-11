@@ -293,8 +293,6 @@
         }
       });
     }
-
-    $("#popover").popover({ trigger: "hover" });
   }
 
 })();

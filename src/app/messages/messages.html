@@ -9,16 +9,35 @@
 
         <div class="filter-bar _fn">
           <div class="filter-bar-hld _pr _vam">
-            <div class="_dib iconsblock">
-              <div class="icon icon-viewicon-filter _pa"></div>
+            <p class="nst-mood-storm _dib"> Latest Messages </p>
+            <div class="_dib iconsblock iconsblock-right">
+              <div class="icon icon-viewicon-sort _pa popover-white-nst-sort" uib-popover-template="'app/messages/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
             </div>
             <div class="_dib iconsblock">
-              <div id="popover" class="icon icon-viewicon-sort _pa popover-white-nst-sort" uib-popover-template="'app/messages/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
+              <div class="icon icon-viewicon-  popover-white-nst-msg" uib-popover-template="'app/messages/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
             </div>
-            <div class="_dib iconsblock">
 
-              <div class="icon icon-viewicon- _pa popover-white-nst" uib-popover-template="'app/messages/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
+
+            <div class="col-sm-3">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                      <span data-bind="label">Select One</span>&nbsp;<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#">Item 1</a></li>
+                      <li><a href="#">Another item</a></li>
+                      <li><a href="#">This is a longer item that will not fit properly</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
+
+
+
+
           </div>
         </div>
 
