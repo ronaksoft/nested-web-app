@@ -317,7 +317,7 @@
         picture: data.sender_picture
       });
       comment.body = data.text;
-      comment.date = new Date(data.time * 1e3);
+      comment.date = new Date(data['time-stamp']);
       comment.removed = data._removed;
 
       return comment;

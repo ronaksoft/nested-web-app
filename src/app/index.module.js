@@ -3,6 +3,7 @@
 
   angular
     .module('nested', [
+      'nested.config',
       'ngAnimate',
       'ngCookies',
       'ngTouch',

@@ -3,49 +3,50 @@
 
   angular
     .module('nested')
-    .constant('AUTH_STATE', {
+    .constant('NST_AUTH_STATE', {
       UNAUTHORIZED: 'unauthorized',
       AUTHORIZING: 'authorizing',
       AUTHORIZED: 'authorized'
     })
-    .constant('AUTH_EVENTS', {
+    .constant('NST_AUTH_EVENTS', {
       UNAUTHORIZE: 'unauthorize',
       AUTHORIZE: 'authorize',
       AUTHORIZE_FAIL: 'authorize-fail'
     })
-    .constant('UNREGISTER_REASON', {
+    .constant('NST_UNREGISTER_REASON', {
       LOGOUT: 'logout',
       AUTH_FAIL: 'authorization_fail',
       DISCONNECT: 'disconnect'
     })
-    .service('AuthService', NestedAuthService);
+    .service('NstSvcAuth', NstSvcAuth);
 
   /** @ngInject */
-  function NestedAuthService($cookies, $window, $q, $log,
-                             WS_EVENTS, WS_RESPONSE_STATUS, WS_ERROR, UNREGISTER_REASON, AUTH_EVENTS, AUTH_STATE,
-                             WsService,
-                             NestedUser) {
-    function AuthService(user) {
-      this.user = new NestedUser(user);
-      this.state = AUTH_STATE.UNAUTHORIZED;
+  function NstSvcAuth($cookies, $window, $q, $log,
+                      NST_SRV_EVENTS, WS_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENTS, NST_AUTH_STATE,
+                      NstSvcServer,
+                      NstUser) {
+    function Auth(user) {
+      // TODO: Let user factory create this
+      this.user = new NstUser(user);
+      this.state = NST_AUTH_STATE.UNAUTHORIZED;
       this.lastSessionKey = null;
       this.lastSessionSecret = null;
       this.remember = false;
       this.listeners = {};
 
-      if (WsService.isInitialized()) {
+      if (NstSvcServer.isInitialized()) {
         this.reconnect();
       }
 
-      WsService.addEventListener(WS_EVENTS.INITIALIZE, this.reconnect.bind(this));
-      WsService.addEventListener(WS_EVENTS.UNINITIALIZE, function () {
+      NstSvcServer.addEventListener(NST_SRV_EVENTS.INITIALIZE, this.reconnect.bind(this));
+      NstSvcServer.addEventListener(NST_SRV_EVENTS.UNINITIALIZE, function () {
         if (this.isAuthorized()) {
-          this.unregister(UNREGISTER_REASON.DISCONNECT);
+          this.unregister(NST_UNREGISTER_REASON.DISCONNECT);
         }
       }.bind(this));
     }
 
-    AuthService.prototype = {
+    Auth.prototype = {
       authorize: function (data) {
         $log.debug('Authorization', data);
 
@@ -64,8 +65,8 @@
         // TODO: Pass to user service
         this.user.setData(data.info);
 
-        this.state = AUTH_STATE.AUTHORIZED;
-        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE, { detail: { user: this.user } }));
+        this.state = NST_AUTH_STATE.AUTHORIZED;
+        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE, { detail: { user: this.user } }));
 
         return $q(function (res) {
           res(this.user);
@@ -73,15 +74,15 @@
       },
 
       register: function (username, password) {
-        this.state = AUTH_STATE.AUTHORIZING;
+        this.state = NST_AUTH_STATE.AUTHORIZING;
 
-        return WsService.request('session/register', { uid: username, pass: password });
+        return NstSvcServer.request('session/register', { uid: username, pass: password });
       },
 
       recall: function (sessionKey, sessionSecret) {
-        this.state = AUTH_STATE.AUTHORIZING;
+        this.state = NST_AUTH_STATE.AUTHORIZING;
 
-        return WsService.request('session/recall', { _sk: sessionKey, _ss: sessionSecret });
+        return NstSvcServer.request('session/recall', { _sk: sessionKey, _ss: sessionSecret });
       },
 
       unregister: function (reason) {
@@ -90,7 +91,7 @@
         });
 
         switch (reason) {
-          case UNREGISTER_REASON.DISCONNECT:
+          case NST_UNREGISTER_REASON.DISCONNECT:
             break;
 
           default:
@@ -98,8 +99,8 @@
             this.lastSessionSecret = null;
             $cookies.remove('nss');
             $cookies.remove('nsk');
-            result = WsService.request('session/close').then(function () {
-              WsService.unauthorize();
+            result = NstSvcServer.request('session/close').then(function () {
+              NstSvcServer.unauthorize();
 
               return $q(function (res) {
                 res(reason);
@@ -108,8 +109,8 @@
             break;
         }
 
-        this.state = AUTH_STATE.UNAUTHORIZED;
-        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
+        this.state = NST_AUTH_STATE.UNAUTHORIZED;
+        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
 
         return result;
       },
@@ -120,8 +121,8 @@
         return this.register(credentials.username, credentials.password).then(
           this.authorize.bind(this)
         ).catch(function (data) {
-          this.unregister(UNREGISTER_REASON.AUTH_FAIL);
-          this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
+          this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
+          this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
           return $q(function (res, rej) {
             rej.apply(null, this.input);
@@ -141,7 +142,7 @@
             this.authorize.bind(this)
           ).catch(function (data) {
             switch (data.err_code) {
-              case WS_ERROR.DUPLICATE:
+              case NST_SRV_ERROR.DUPLICATE:
                 return $q(function (res) {
                   res({
                     status: WS_RESPONSE_STATUS.SUCCESS,
@@ -154,10 +155,10 @@
                 }.bind(this)).then(this.authorize.bind(this));
                 break;
 
-              case WS_ERROR.ACCESS_DENIED:
-              case WS_ERROR.INVALID:
-                this.unregister(UNREGISTER_REASON.AUTH_FAIL);
-                this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
+              case NST_SRV_ERROR.ACCESS_DENIED:
+              case NST_SRV_ERROR.INVALID:
+                this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
+                this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
                 return $q(function (res, rej) {
                   rej.apply(null, this.input);
@@ -175,13 +176,13 @@
         return $q(function (res, rej) {
           rej({
             status: WS_RESPONSE_STATUS.ERROR,
-            err_code: WS_ERROR.INVALID
+            err_code: NST_SRV_ERROR.INVALID
           });
         })
       },
 
       logout: function () {
-        return this.unregister(UNREGISTER_REASON.LOGOUT).then(function () {
+        return this.unregister(NST_UNREGISTER_REASON.LOGOUT).then(function () {
           // Post logout job
 
           return $q(function (res) {
@@ -195,18 +196,18 @@
       },
 
       isAuthorized: function () {
-        return AUTH_STATE.AUTHORIZED == this.getState();
+        return NST_AUTH_STATE.AUTHORIZED == this.getState();
       },
 
       isInAuthorization: function () {
         return this.isAuthorized() ||
-          AUTH_STATE.AUTHORIZATION == this.getState() ||
+          NST_AUTH_STATE.AUTHORIZATION == this.getState() ||
           $cookies.get('nsk') ||
           this.lastSessionKey;
       },
 
       isUnauthorized: function () {
-        return AUTH_STATE.UNAUTHORIZED == this.getState();
+        return NST_AUTH_STATE.UNAUTHORIZED == this.getState();
       },
 
       haveAccess: function (placeId, permissions) {
@@ -262,11 +263,11 @@
 
     // Cache Implementation
     var user = $window.sessionStorage.getItem('nsu');
-    var service = new AuthService(user ? angular.fromJson(user) : undefined);
-    service.addEventListener(AUTH_EVENTS.AUTHENTICATE, function (event) {
+    var service = new Auth(user ? angular.fromJson(user) : undefined);
+    service.addEventListener(NST_AUTH_EVENTS.AUTHENTICATE, function (event) {
       $window.sessionStorage.setItem('nsu', angular.toJson(event.detail.user));
     });
-    service.addEventListener(AUTH_EVENTS.UNAUTHENTICATE, function () {
+    service.addEventListener(NST_AUTH_EVENTS.UNAUTHENTICATE, function () {
       $window.sessionStorage.clear();
     });
 

@@ -6,8 +6,8 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q,
-                              WS_ERROR, NST_PLACE_ACCESS,
-                              AuthService, WsService, NstSvcPlaceStorage, NstSvcMinimalPlaceStorage,
+                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
+                              NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcMinimalPlaceStorage,
                               NstFactoryQuery, NstFactoryError, NstPlace) {
     function PlaceFactory() {
       this.requests = {
@@ -17,7 +17,7 @@
       };
     }
 
-    PlaceFactory.prototype ={
+    PlaceFactory.prototype = {
       /**
        * Retrieves a place by id and store in the related cache storage
        *
@@ -34,7 +34,7 @@
             if (place) {
               resolve(place);
             } else {
-              WsService.request('place/get_info', {
+              NstSvcServer.request('place/get_info', {
                 place_id: this.query.id
               }).then(function (placeData) {
                 var place = NstSvcPlaceFactory.parsePlace(placeData);
@@ -69,7 +69,7 @@
           var query = new NstFactoryQuery(id);
 
           this.requests.getMinimal[id] = $q(function (resolve, reject) {
-            var place = NstSvcMinimalPlaceStorage.get(this.query.id) || NstSvcPlaceStorage.get(this.query.id);
+            var place = NstSvcPlaceStorage.get(this.query.id) || NstSvcMinimalPlaceStorage.get(this.query.id);
             if (place) {
               resolve(place);
             } else {
@@ -88,16 +88,27 @@
         return this.requests.getMinimal[id];
       },
 
+      set: function (place) {
+        NstSvcPlaceStorage.set(place.getId(), place);
+        NstSvcMinimalPlaceStorage.set(place.getId(), place);
+
+        return this;
+      },
+
+      save: function (place) {
+
+      },
+
       remove: function (id) {
         if (!this.requests.remove[id]) {
           var query = new NstFactoryQuery(id);
 
           this.requests.remove[id] = $q(function(resolve, reject) {
-            if (!AuthService.haveAccess(this.query.id, [NST_PLACE_ACCESS.REMOVE_PLACE])) {
-              reject(new NstFactoryError(this.query, 'Access Denied', WS_ERROR.ACCESS_DENIED));
+            if (!NstSvcAuth.haveAccess(this.query.id, [NST_PLACE_ACCESS.REMOVE_PLACE])) {
+              reject(new NstFactoryError(this.query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
             }
 
-            WsService.request('place/remove', {
+            NstSvcServer.request('place/remove', {
               place_id: query.id
             }).then(function () {
 
@@ -190,6 +201,21 @@
         // Push Place Access to SvcAuth
 
         return place;
+      },
+
+      addUser: function (place, role, user) {
+        if (NST_PLACE_MEMBER_TYPE.indexOf(role) < 0) {
+          return $q(function (res, rej) {
+            // TODO: Reject with error
+            rej();
+          });
+        }
+
+        return NstSvcServer.request('place/invite_member', {
+          place_id: place.getId(),
+          member_id: user.getId(),
+          role: role
+        });
       }
     };
 

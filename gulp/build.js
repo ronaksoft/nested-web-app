@@ -33,6 +33,19 @@ gulp.task('html', ['inject', 'partials'], function () {
     addRootSlash: false
   };
 
+  var injectConfig = gulp.src([
+    path.join(conf.paths.conf, '/production.json')
+  ]).pipe(
+    $.ngConfig('nested.config')
+  ).pipe(
+    gulp.dest(conf.paths.dist)
+  );
+
+  var injectConfigOptions = {
+    ignorePath: conf.paths.conf,
+    addRootSlash: false
+  };
+
   var htmlFilter = $.filter('*.html', { restore: true });
   var notIndexFilter = $.filter(['**/*', '!**/index.html'], { restore: true });
   var jsFilter = $.filter('**/*.js', { restore: true });
@@ -40,6 +53,7 @@ gulp.task('html', ['inject', 'partials'], function () {
 
   return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
     .pipe($.inject(partialsInjectFile, partialsInjectOptions))
+    .pipe($.inject(injectConfig, injectConfigOptions))
     .pipe($.useref()) // Build CSS and Javascript files
     .pipe(jsFilter) // Begin - Javascript Files
     .pipe($.sourcemaps.init())

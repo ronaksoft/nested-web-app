@@ -1,0 +1,8 @@
+{
+  "NST_CONFIG": {
+    "APP_ID": "WEB_DEV_{{BUILD}}",
+    "WEBSOCKET": {
+      "URL": "wss://cyrus.nested.me:443"
+    }
+  }
+}

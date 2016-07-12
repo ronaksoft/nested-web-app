@@ -30,11 +30,10 @@
      * Creates an instance of NstPlace. Do not use this directly, use NstSvcPlaceFactory.get(data) instead
      *
      * @param {string|Object} data    Place Info
-     * @param {NstPlace}      parent  Place's parent
      *
      * @constructor
      */
-    function Place(data, parent) {
+    function Place(data) {
       /**
        * Place Identifier
        *
@@ -81,9 +80,11 @@
       /**
        * Place's children
        *
-       * @type {{ placeId: NstPlace }}
+       * @type {{ placeId: NstPlace, length: Number }}
        */
-      this.children = {};
+      this.children = {
+        length: 0
+      };
 
       /**
        * Place's Picture
@@ -95,9 +96,11 @@
       /**
        * Place's users
        *
-       * @type {{ userId: { role: String, user: NstUser } }}
+       * @type {{ userId: { role: String, user: NstUser }, length: Number }}
        */
-      this.users = {};
+      this.users = {
+        length: 0
+      };
 
       /**
        * Place's privacy
@@ -121,15 +124,18 @@
      *
      * @param {NST_PLACE_MEMBER_TYPE|NST_PLACE_MEMBER_TYPE[]} roles Roles
      *
-     * @returns {{ userId: { role: String, user: NstUser } }}
+     * @returns {{ userId: { role: String, user: NstUser }, length: Number }}
      */
     Place.prototype.getUsersByRole = function (roles) {
       roles = angular.isArray(roles) ? roles : [roles];
-      var result = {};
+      var result = {
+        length: 0
+      };
 
       for (var id in this.users) {
         if (roles.indexOf(this.users[id].role) > 0) {
           result[id] = this.users[id];
+          result.length++;
         }
       }
 
