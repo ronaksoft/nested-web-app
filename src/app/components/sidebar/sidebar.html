@@ -311,18 +311,27 @@
         </li>
       </ul>
     </div>
-    <div class="side-profile popover-green" uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="right-top auto" popover-trigger="outsideClick">
-      <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32  _df" data-word-count="2" data-font-size="16"/>
-      <div class="_fw _df"><a>Sal Naghavi<br><span class="nst-mood-storm">@kuttlass</span> </a></div>
-      <div class="_df onlyExpand">
-        <a href="">
-          <div class="icon icon-solid icon-more"></div>
-        </a>
+    <div class="side-profile">
+      <div class="_difh _fw" ng-show="profileMenu">
+        <li class="profile-menu-edit-profile _df _fn"></li>
+        <li class="_df nst-mood-solid a-hover _fw onlyExpand"><a class="nst-mood-solid _difh _fw" href="#/profile">Edit My profile</a></li>
       </div>
-      <div class="_df _fn" ng-click="chngSideView(); sideView =! sideView">
+      <div class="_difh _fw" ng-show="profileMenu">
+        <li class="profile-menu-signout _df _fn"></li>
+        <li class="_df a-hover _fw onlyExpand"><a class="nst-mood-solid _difh _fw" href="#/signout">Sign out</a></li>
+      </div>
+      <div class="_difh _fw">
+        <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32  _df" data-word-count="2" data-font-size="16"/>
+        <div class="_fw _df onlyExpand"><a>Sal Naghavi<br><span class="nst-mood-storm">@kuttlass</span> </a></div>
+        <div class="_df _fn">
+          <div class="icon icon-solid icon-more" ng-click="profileMenu =! profileMenu"></div>
+        </div>
+      </div>
+      <div class="_df _fn _fw _jcc" ng-click="chngSideView(); sideView =! sideView">
         <div ng-show="!sideView" class="nst-arrow-rotated-90"></div>
         <div ng-show="sideView" class="nst-arrow-rotated-270"></div>
       </div>
+    </div>
     </div>
   </div>
   <div class="sidebar-border"></div>
