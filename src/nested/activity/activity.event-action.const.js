@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .constant('EVENT_ACTIONS', {
+    .constant('NST_EVENT_ACTION', {
       MEMBER_ADD: 1,
       MEMBER_REMOVE: 2,
       MEMBER_INVITE: 4,

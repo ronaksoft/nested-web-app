@@ -128,7 +128,7 @@
             }.bind({ object: this.object }));
           }.bind({ object: place, query: query })).catch(function (error) {
             switch (error.err_code) {
-              case WS_ERROR.TIMEOUT:
+              case NST_WS_ERROR.TIMEOUT:
                 return NestedPlaceFactory.get(this.object, this.query.fields);
                 break;
 

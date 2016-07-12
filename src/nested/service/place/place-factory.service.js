@@ -6,7 +6,7 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q,
-                              WS_ERROR, NST_PLACE_ACCESS,
+                              NST_WS_ERROR, NST_PLACE_ACCESS,
                               AuthService, WsService, NstSvcPlaceStorage, NstSvcMinimalPlaceStorage,
                               NstFactoryQuery, NstFactoryError, NstPlace) {
     function PlaceFactory() {
@@ -94,7 +94,7 @@
 
           this.requests.remove[id] = $q(function(resolve, reject) {
             if (!AuthService.haveAccess(this.query.id, [NST_PLACE_ACCESS.REMOVE_PLACE])) {
-              reject(new NstFactoryError(this.query, 'Access Denied', WS_ERROR.ACCESS_DENIED));
+              reject(new NstFactoryError(this.query, 'Access Denied', NST_WS_ERROR.ACCESS_DENIED));
             }
 
             WsService.request('place/remove', {

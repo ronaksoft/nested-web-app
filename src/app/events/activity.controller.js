@@ -8,7 +8,7 @@
   /** @ngInject */
   function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
                             toastr, _, moment,
-                            AuthService, WsService, NST_WS_EVENT, NST_EVENT_ACTIONS, NST_WS_ERROR, NST_STORAGE_TYPE,
+                            AuthService, WsService, NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE,
                             LoaderService, StorageFactoryService,
                             NstActivity, NstPlace, NstInvitation) {
     var vm = this;

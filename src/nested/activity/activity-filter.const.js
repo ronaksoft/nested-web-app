@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .constant('ACTIVITY_FILTERS', {
+    .constant('NST_ACTIVITY_FILTER', {
           ALL : 0,
       MESSAGE : 1,
       COMMENT : 2,

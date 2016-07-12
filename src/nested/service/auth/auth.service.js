@@ -8,7 +8,7 @@
       AUTHORIZING: 'authorizing',
       AUTHORIZED: 'authorized'
     })
-    .constant('AUTH_EVENTS', {
+    .constant('NST_AUTH_EVENT', {
       UNAUTHORIZE: 'unauthorize',
       AUTHORIZE: 'authorize',
       AUTHORIZE_FAIL: 'authorize-fail'
@@ -65,7 +65,7 @@
         this.user.setData(data.info);
 
         this.state = NST_AUTH_STATE.AUTHORIZED;
-        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE, { detail: { user: this.user } }));
+        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, { detail: { user: this.user } }));
 
         return $q(function (res) {
           res(this.user);
@@ -109,7 +109,7 @@
         }
 
         this.state = NST_AUTH_STATE.UNAUTHORIZED;
-        this.dispatchEvent(new CustomEvent(AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
+        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.UNAUTHORIZE, { detail: { reason: reason } }));
 
         return result;
       },
@@ -121,7 +121,7 @@
           this.authorize.bind(this)
         ).catch(function (data) {
           this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
-          this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
+          this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
           return $q(function (res, rej) {
             rej.apply(null, this.input);
@@ -141,10 +141,10 @@
             this.authorize.bind(this)
           ).catch(function (data) {
             switch (data.err_code) {
-              case WS_ERROR.DUPLICATE:
+              case NST_WS_ERROR.DUPLICATE:
                 return $q(function (res) {
                   res({
-                    status: WS_RESPONSE_STATUS.SUCCESS,
+                    status: NST_WS_RESPONSE_STATUS.SUCCESS,
                     info: this.user,
                     _sk : {
                       $oid: this.lastSessionKey
@@ -154,10 +154,10 @@
                 }.bind(this)).then(this.authorize.bind(this));
                 break;
 
-              case WS_ERROR.ACCESS_DENIED:
-              case WS_ERROR.INVALID:
+              case NST_WS_ERROR.ACCESS_DENIED:
+              case NST_WS_ERROR.INVALID:
                 this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
-                this.dispatchEvent(new CustomEvent(AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
+                this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
                 return $q(function (res, rej) {
                   rej.apply(null, this.input);
@@ -174,8 +174,8 @@
 
         return $q(function (res, rej) {
           rej({
-            status: WS_RESPONSE_STATUS.ERROR,
-            err_code: WS_ERROR.INVALID
+            status: NST_WS_RESPONSE_STATUS.ERROR,
+            err_code: NST_WS_ERROR.INVALID
           });
         })
       },
@@ -263,10 +263,10 @@
     // Cache Implementation
     var user = $window.sessionStorage.getItem('nsu');
     var service = new AuthService(user ? angular.fromJson(user) : undefined);
-    service.addEventListener(AUTH_EVENTS.AUTHENTICATE, function (event) {
+    service.addEventListener(NST_AUTH_EVENT.AUTHENTICATE, function (event) {
       $window.sessionStorage.setItem('nsu', angular.toJson(event.detail.user));
     });
-    service.addEventListener(AUTH_EVENTS.UNAUTHENTICATE, function () {
+    service.addEventListener(NST_AUTH_EVENT.UNAUTHENTICATE, function () {
       $window.sessionStorage.clear();
     });
 

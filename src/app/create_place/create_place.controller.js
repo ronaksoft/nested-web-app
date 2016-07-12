@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function CreatePlaceController($location, $scope, $uibModal, $state, $stateParams, $q,
-                                 WS_ERROR, UPLOAD_TYPE,
+                                 NST_WS_ERROR, UPLOAD_TYPE,
                                  AuthService, StoreService, LoaderService,
                                  StoreItem, NestedPlace) {
     var vm = this;
@@ -56,10 +56,10 @@
           $location.path('/place/' + place.id).replace();
         }).catch(function (error) {
           switch (error.err_code) {
-            case WS_ERROR.ACCESS_DENIED:
+            case NST_WS_ERROR.ACCESS_DENIED:
               break;
 
-            case WS_ERROR.INVALID:
+            case NST_WS_ERROR.INVALID:
               // TODO: Enable error message tooltips on view
               for (var k in error.items) {
                 switch (error.items[k]) {
@@ -78,10 +78,10 @@
               }
               break;
 
-            case WS_ERROR.DUPLICATE:
+            case NST_WS_ERROR.DUPLICATE:
               break;
 
-            case WS_ERROR.LIMIT_REACHED:
+            case NST_WS_ERROR.LIMIT_REACHED:
               break;
 
             default:

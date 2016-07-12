@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function LoginController($location, $rootScope, $scope, $q, $timeout,
-                           AuthService, AUTH_EVENTS, WS_ERROR,
+                           AuthService, NST_AUTH_EVENT, NST_WS_ERROR,
                            LoaderService) {
     var vm = this;
 
@@ -35,7 +35,7 @@
       };
 
       LoaderService.inject(AuthService.login(credentials, vm.remember).then(function () {
-        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+        $rootScope.$broadcast(NST_AUTH_EVENT.loginSuccess);
         var query = $location.search();
 
         var back = query.back || '/';
@@ -49,7 +49,7 @@
           $location.path(back).replace();
         });
       }).catch(function (data) {
-        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+        $rootScope.$broadcast(NST_AUTH_EVENT.loginFailed);
         $scope.login.username = $scope.login.password = '';
         $scope.login.progress = false;
 
@@ -57,7 +57,7 @@
         $scope.login.message.class = 'nst-error-msg';
 
         switch (data.err_code) {
-          case WS_ERROR.INVALID:
+          case NST_WS_ERROR.INVALID:
             $scope.login.message.text = 'Invalid Username or Password';
             break;
 

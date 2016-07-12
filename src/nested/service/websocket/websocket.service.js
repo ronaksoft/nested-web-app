@@ -7,7 +7,7 @@
     .service('WsService', NestedWsService);
 
   function NestedWsRequest($log,
-                           NST_WS_RESPONSE_STATUS, NST_WS_ERROR, NST_WS_EVENT, AUTH_COMMANDS) {
+                           NST_WS_RESPONSE_STATUS, NST_WS_ERROR, NST_WS_EVENT, NST_AUTH_COMMAND) {
     function Request(service, data, timeout) {
       this.service = service;
       this.data = data;
@@ -45,7 +45,7 @@
           this.reject = reject;
         }
 
-        if (this.service.isAuthorized() || AUTH_COMMANDS.indexOf(this.data.data.cmd) > -1) {
+        if (this.service.isAuthorized() || NST_AUTH_COMMAND.indexOf(this.data.data.cmd) > -1) {
           if (this.service.isInitialized()) {
             this.send();
           } else {
@@ -62,7 +62,7 @@
   }
 
   /** @ngInject */
-  function NestedWsService($websocket, $q, NST_WS_MESSAGE_TYPE, NST_WS_PUSH_TYPE, NST_WS_RESPONSE_STATUS, NST_WS_EVENT, NST_WS_MESSAGES, APP, NST_AUTH_COMMANDS, WsRequest, $log) {
+  function NestedWsService($websocket, $q, NST_WS_MESSAGE_TYPE, NST_WS_PUSH_TYPE, NST_WS_RESPONSE_STATUS, NST_WS_EVENT, NST_WS_MESSAGE, NST_APP, NST_AUTH_COMMAND, WsRequest, $log) {
     function WsService(appId, appSecret, url) {
       // TODO: Make these configurable
       this.appId = appId;
@@ -94,20 +94,20 @@
         $log.debug('Message:', data);
 
         switch (data.type) {
-          case WS_MESSAGE_TYPE.RESPONSE:
+          case NST_WS_MESSAGE_TYPE.RESPONSE:
             switch (data.data.status) {
-              case WS_RESPONSE_STATUS.SUCCESS:
+              case NST_WS_RESPONSE_STATUS.SUCCESS:
                 if (data.data.hasOwnProperty('msg')) {
                   this.dispatchEvent(new CustomEvent(NST_WS_EVENT.MESSAGE, { detail: data.data.msg }));
                 }
                 break;
 
-              case WS_RESPONSE_STATUS.ERROR:
+              case NST_WS_RESPONSE_STATUS.ERROR:
                 break;
             }
             break;
 
-          case WS_MESSAGE_TYPE.PUSH:
+          case NST_WS_MESSAGE_TYPE.PUSH:
             switch (data.data.type) {
               case WS_PUSH_TYPE.TIMELINE_EVENT:
                 this.dispatchEvent(new CustomEvent(NST_WS_EVENT.TIMELINE, { detail: data.data }));
@@ -136,12 +136,12 @@
           delete this.requests.reqId;
 
           switch (data.type) {
-            case WS_MESSAGE_TYPE.RESPONSE:
+            case NST_WS_MESSAGE_TYPE.RESPONSE:
               switch (data.data.status) {
-                case WS_RESPONSE_STATUS.SUCCESS:
+                case NST_WS_RESPONSE_STATUS.SUCCESS:
                   this.requests[reqId].resolve(data.data);
 
-                  if (AUTH_COMMANDS.indexOf(this.requests[reqId].data.data.cmd) > -1) {
+                  if (NST_AUTH_COMMAND.indexOf(this.requests[reqId].data.data.cmd) > -1) {
                     this.dispatchEvent(new CustomEvent(NST_WS_EVENT.MANUAL_AUTH, {
                       detail: {
                         response: data,
@@ -151,7 +151,7 @@
                   }
                   break;
 
-                case WS_RESPONSE_STATUS.ERROR:
+                case NST_WS_RESPONSE_STATUS.ERROR:
                   $log.debug('Error:', data.data.err_code, 'Sent:', this.requests[reqId].data, 'Received:', data);
                   this.requests[reqId].reject(data.data);
                   break;
@@ -178,7 +178,7 @@
 
       this.addEventListener(NST_WS_EVENT.MESSAGE, function (event) {
         switch (event.detail) {
-          case WS_MESSAGES.INITIALIZE:
+          case NST_WS_MESSAGE.INITIALIZE:
             $log.debug('WebSocket Initialized:', event, this);
             this.initialized = true;
             this.dispatchEvent(new CustomEvent(NST_WS_EVENT.INITIALIZE));
@@ -308,6 +308,6 @@
       }
     };
 
-    return new WsService(APP.ID, APP.SECRET, 'wss://ws001.ws.nested.me:443');
+    return new WsService(NST_APP.ID, NST_APP.SECRET, 'wss://ws001.ws.nested.me:443');
   }
 })();

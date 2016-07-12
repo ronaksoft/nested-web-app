@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
-                            NST_WS_EVENT, NST_EVENT_ACTIONS, NST_WS_ERROR, NST_STORAGE_TYPE,
+                            NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE,
                             AuthService, WsService, LoaderService, NstSvcStorageFactory,
                             NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
@@ -191,9 +191,9 @@
         }
       }).catch(function (data) {
         switch (data.err_code) {
-          case WS_ERROR.UNAVAILABLE:
-          case WS_ERROR.INVALID:
-          case WS_ERROR.ACCESS_DENIED:
+          case NST_WS_ERROR.UNAVAILABLE:
+          case NST_WS_ERROR.INVALID:
+          case NST_WS_ERROR.ACCESS_DENIED:
             vm.noAccessModal();
             //$location.path('/').replace();
             break;
