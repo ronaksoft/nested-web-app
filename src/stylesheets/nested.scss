@@ -73,7 +73,7 @@ body {
 
 body,
 html {
-  height: 100%;
+  min-height: 100%;
 }
 
 *:focus {
@@ -115,6 +115,8 @@ textarea {
 ._difh { display: inline-flex;}
 ._difc { display: inline-flex;align-items: center}
 ._jcc { justify-content: center}
+._aic { align-items: center;}
+
 ._jce { justify-content: flex-end; }
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
@@ -986,7 +988,7 @@ a .ui-select-choises-row-inner {
   //border-left: 1px solid $color-calm;
   //max-width: 1920px;
   //min-width: 990px;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   z-index: -100;
 }
@@ -1005,7 +1007,7 @@ a .ui-select-choises-row-inner {
   flex: none;
   background-color: $color-calm;
   transition: .3s;
-  z-index: 1;
+  z-index: 0;
 }
 .maincontainer.tiny .sidebar{
   width: 72px;
@@ -1316,6 +1318,10 @@ a .ui-select-choises-row-inner {
 }
 .side-profile + .popover {
   top: calc(100% - 150px)!important;
+  & * {
+    animation-duration: .1s;
+    transition: .1s;
+  }
 }
 .nst-container {
   background-color: $color-bg-nested;
@@ -1326,7 +1332,7 @@ a .ui-select-choises-row-inner {
   overflow-y: auto;
   overflow-y: initial;
   scroll-behavior: smooth;
-  z-index: 0;
+  z-index: 1;
 }
 
 .nst-container:after {
