@@ -1266,6 +1266,9 @@ a .ui-select-choises-row-inner {
   flex: none;
   margin-right: 12px;
   opacity: 1;
+  label {
+    transition: .2s;
+  }
 }
 .maincontainer.tiny .e2-arrow label {
   opacity: .5;
