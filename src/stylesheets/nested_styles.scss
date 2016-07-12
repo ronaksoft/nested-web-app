@@ -511,6 +511,12 @@ ul ul li:last-child{
   margin-right: 5px
 }
 
+.filter-bar-hld-ac {
+@extend .filter-bar-hld;
+  margin-right: 25px;
+}
+
+
 //.filter-bar-hld .viewicon-,.viewicon-sort,.viewicon-filter {
 //  @extend .margin-l-15;
 //}
@@ -523,6 +529,7 @@ ul ul li:last-child{
   //top: 20px;
   line-height: 24px;
   position: relative;
+  z-index: 38;
 }
 
 .icon-viewicon-sort {
@@ -532,6 +539,7 @@ ul ul li:last-child{
 
 .icon-viewicon-filter {
   background-position: 0 -24px;
+  z-index: 37;
 }
 
 .iconsblock {
@@ -911,8 +919,8 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -90px !important;
-  z-index: 36;
+  left: -116px !important;
+  z-index: 37;
 }
 
 .popover-white-nst-msg + .popover {
@@ -922,8 +930,8 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -10px !important;
-  z-index: 36;
+  left: 0 !important;
+  z-index: 37;
 }
 
 
