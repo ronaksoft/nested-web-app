@@ -1267,13 +1267,14 @@ a .ui-select-choises-row-inner {
   width: 16px;
   flex: none;
   margin-right: 12px;
+  opacity: 1;
 }
 .maincontainer.tiny .e2-arrow label {
-  display: none;
+  opacity: .5;
 }
 .maincontainer.tiny .sidebar:hover .e2-arrow label {
-  display: block;
-  animation: appearence .2s;
+  opacity: 1;
+  transition: .2s;
 }
 .maincontainer.tiny .side-place-item .e2-arrow {
   width: 12px;
@@ -1285,20 +1286,51 @@ a .ui-select-choises-row-inner {
   left: 0;
   bottom: 0;
   background-color: $color-calm;
-  height: 80px;
-  padding-left: 15px;
-  display: flex;
+  //height: 180px;
+  //padding-left: 15px;
+  display: inline-flex;
+  flex-direction: column;
   align-items: center;
+  a {
+    align-items: center;
+  }
+  & > .ng-hide {
+    animation: appearence 1s;
+    animation-direction: reverse;
+  }
+  & > .ng-hide-remove {
+    animation: appearence 1s;
+  }
 }
 .maincontainer.tiny .side-profile {
   width: 68px;
   padding: 0;
   display: inline-flex;
-  flex-direction: column-reverse;
+  //flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
+  transition: .3s;
+  & > div {
+    padding: 0;
+    transition: .1s;
+    img {
+      margin: 0;
+      transition: .3s;
+    }
+  }
+  a {
+    white-space: nowrap;
+  }
 }
-.side-profile:hover {
+.side-profile > div {
+  margin: 4px 0;
+  padding-left: 15px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  transition: .3s;
+}
+.side-profile>div:hover {
   transition-duration: 0.3s;
   transition-timing-function: ease;
   background-color: #d8dcd9;
