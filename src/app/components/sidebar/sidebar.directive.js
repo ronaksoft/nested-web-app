@@ -3,12 +3,15 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function ($q, WsService, NestedPlace, $scope, LoaderService, $cacheFactory, StorageFactoryService, STORAGE_TYPE, _) {
+    .controller('SidebarController', function ($q, $scope, $cacheFactory,
+                                               NST_STORAGE_TYPE,
+                                               LoaderService, WsService,
+                                               NestedPlace, NstStorage) {
       var vm = this;
       vm.places = [];
       vm.tpl = 'app/components/nested/place/row.html';
 
-      var memory = StorageFactoryService.create('dt.places', STORAGE_TYPE.MEMORY);
+      var memory = new NstStorage(NST_STORAGE_TYPE.MEMORY);
       memory.setFetchFunction(function (id) {
         switch (id) {
           case 'places':

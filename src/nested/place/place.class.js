@@ -81,9 +81,9 @@
       /**
        * Place's children
        *
-       * @type {NstPlace[]}
+       * @type {{ placeId: NstPlace }}
        */
-      this.children = [];
+      this.children = {};
 
       /**
        * Place's Picture

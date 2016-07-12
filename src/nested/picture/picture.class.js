@@ -51,6 +51,7 @@
 
       this.setId(universalId);
       for (var k in thumbnails) {
+        // Export numbers from key: x32 -> 32, 32x -> 32
         var size = Number(String(k).replace(/[a-zA-Z]*/g, ''));
         this.setThumbnail(size, new NstResource(thumbnails[k]));
       }
