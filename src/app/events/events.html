@@ -1,10 +1,9 @@
 <div class="maincontainer _fw _fh">
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
-  <div class="sidebar-border"></div>
-  <div class="nst-container" on-scroll="navScroll(event);events.scroll(event)">
+  <div class="nst-container">
     <nested-navbar data-ng-model="navbar"></nested-navbar>
 
-    <div class="nst-content" id="content-wrapper">
+    <div class="nst-content _tr" id="content-wrapper">
       <section class="_fw nst-content-body _bgwhite" seen-recents>
         <div class="filter-bar  _fw">
           <div class="filter-bar-hld-ac _pr _vam">
@@ -31,7 +30,7 @@
                   </p>
                 </div>
               </div>
-              <div class="evrow" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event" recent-event></div>
+              <div class="evrow _fw _fn" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event" recent-event></div>
             </div>
           </div>
           <div class="text-center _fw moreevent" data-ng-if="events.moreEvents">

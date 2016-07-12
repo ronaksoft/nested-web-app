@@ -97,6 +97,7 @@ textarea {
 ._cf {clear: both;}
 ._fw { width: 100%; }
 ._fh { height: 100%; }
+._fmh { min-height: 100%; }
 ._fvh {height: 100vh;}
 ._fhw {
     position: absolute ;
@@ -995,7 +996,7 @@ a .ui-select-choises-row-inner {
   z-index: -100;
 }
 .maincontainer {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   z-index: -99;
 }
@@ -1363,7 +1364,7 @@ a .ui-select-choises-row-inner {
 .nst-container {
   background-color: $color-bg-nested;
   transition: .3s;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
   overflow-y: auto;
