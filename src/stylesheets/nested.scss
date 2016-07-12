@@ -1778,3 +1778,19 @@ a.normal-badge {
 .progress-bar-success {
   background-color: $color-sense;
 }
+/**
+  *********************************************************
+  *     Nested pages -   * comPose
+  *********************************************************
+*/
+.maincontainer.compose-hld {
+  .content-plus {
+    display: none;
+  }
+  .nst-navbar {
+    width: 100%;
+  }
+  .nst-container {
+    margin-left: 0;
+  }
+}
