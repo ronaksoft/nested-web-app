@@ -1,23 +1,17 @@
 <div class="maincontainer _fw _fh">
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
-  <div class="sidebar-border"></div>
-  <div class="nst-container" on-scroll="messages.conPlusPos();navScroll(event)">
+  <div class="nst-container">
     <nested-navbar data-ng-model="navbar"></nested-navbar>
 
-    <div class="nst-content" id="content-wrapper">
+    <div class="nst-content _tr" id="content-wrapper">
       <section class="content">
-
         <div class="filter-bar _fn">
           <div class="filter-bar-hld _pr _vam">
-            <div class="_dib iconsblock">
-              <div class="icon icon-viewicon-filter _pa"></div>
+            <div class="_difh iconsblock iconsblock-right popover-white-nst-sort" uib-popover-template="'app/messages/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
+              <span class="nst-mood-storm _df"> Latest Messages </span><div class="icon icon-viewicon-sort _df"></div>
             </div>
-            <div class="_dib iconsblock">
-              <div id="popover" class="icon icon-viewicon-sort _pa popover-white-nst-sort" uib-popover-template="'app/messages/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
-            </div>
-            <div class="_dib iconsblock">
-
-              <div class="icon icon-viewicon- _pa popover-white-nst" uib-popover-template="'app/messages/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
+            <div class="_dib">
+              <div class="icon icon-viewicon-  popover-white-nst-msg" uib-popover-template="'app/messages/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
             </div>
           </div>
         </div>
@@ -43,7 +37,7 @@
               </div>
             </section>
             <section class="post-subject"><h3>Ronak Open Position:</h3></section>
-            <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
+            <section class="post-body"><p>Hi everybody. ¶ We have an open position for another amazing designer in our team :) So please share attached Ad with your other communities. ¶ Thanks
             </p></section>
             <section class="post-attachments" data-ng-show="false">attachments</section>
             <section class="post-footer _difh" ng-click="thisCm=!thisCm"><a class="_df _fn">1 comment</a>
@@ -308,8 +302,30 @@
 
       </section>
       <div class="content-plus" id="content-plus">
-        <div>a</div>
-        <div>a</div>
+        <div>
+          <div class="name">Recent Activities</div>
+          <div class="row">
+            <div class="_df">
+              <img initials="user.name" data-url="user.picture.x24.url" data-width="16" data-height="16" data-radius="16" class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
+            </div>
+            <div class="colomn">
+              <div class="_difh top">
+                <div class="sender _fw _df">
+                  <a>Ehsan</a> <span>@ehsan</span>
+                </div>
+                <div class="_df">
+                  <span>23" ago</span>
+                </div>
+                <div class="ei-comment-add _df _fn"></div>
+              </div>
+              <div class="_df">
+                <p><span>commented</span> Wow, It's really Cool... We love new design :D</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

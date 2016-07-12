@@ -16,37 +16,6 @@
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
-    var timers = [];
-    vm.conPlusPos = function (event) {
-      timers.forEach(function(promises) {
-        $timeout.cancel(promises);
-      });
-      var $sidebar = $("#content-plus"),
-        $window    = $(".nst-container"),
-        topPadding = 150;
-
-      var timer = $timeout(
-        function() {
-          if (150 > $window.scrollTop() > 0) {
-            $sidebar.stop().css({
-              marginTop: $window.scrollTop()
-            });
-          } else if ($window.scrollTop() > topPadding) {
-            $sidebar.stop().css({
-              marginTop: $window.scrollTop() - 51
-            });
-          } else if ($window.scrollTop() == 0){
-            $sidebar.stop().css({
-              marginTop: 0
-            });
-          }
-        },
-        50
-      );
-      timers.push(timer);
-      timer;
-
-    };
 
     vm.srch = function () {
       console.log(arguments);
@@ -294,7 +263,6 @@
       });
     }
 
-    $("#popover").popover({ trigger: "hover" });
   }
 
 })();
