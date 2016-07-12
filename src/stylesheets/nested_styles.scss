@@ -590,6 +590,7 @@ ul ul li:last-child{
 @media screen and (max-width: 990px) {
   .content {
     width: 600px;
+    min-width: 600px;
   }
 }
 

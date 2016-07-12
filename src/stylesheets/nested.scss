@@ -115,6 +115,8 @@ textarea {
 ._difh { display: inline-flex;}
 ._difc { display: inline-flex;align-items: center}
 ._jcc { justify-content: center}
+._aic { align-items: center;}
+
 ._jce { justify-content: flex-end; }
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
@@ -1316,6 +1318,10 @@ a .ui-select-choises-row-inner {
 }
 .side-profile + .popover {
   top: calc(100% - 150px)!important;
+  & * {
+    animation-duration: .1s;
+    transition: .1s;
+  }
 }
 .nst-container {
   background-color: $color-bg-nested;
