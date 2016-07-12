@@ -1,11 +1,9 @@
 <div class="maincontainer compose-hld _fw _fh">
   <div class="nst-container">
     <nested-navbar data-ng-model="navbar"></nested-navbar>
-
     <div class="nst-content _tr" id="content-wrapper">
-      <div class="content _bgwhite">
-        <div class="subnavitems _bgwhite _difc">
-          <ul class="nav-width-ul-compose">
+      <section class="content _bgwhite">
+          <ul class="subnavitems _difc nav-width-ul-compose">
             <li class="modal-buttons">
               <div class="cursor-pointer nst-mood-storm btn-white-nav _jcc _df btn-white-back" href="javascript:void(0);" onclick="window.history.back();">Back</div>
             </li>
@@ -16,7 +14,6 @@
               <a data-ng-switch-when="false" href="javascript:void(0);" class="place-option-anchor _difc" ng-click="action.fn()">{{action.name}}<span class="option-{{key}}-icon _df"></span></a>
             </li>
           </ul>
-        </div>
         <div id="place-option-body" class="_bgwhite">
           <div id="place-option-hld _fh">
             <div class="room-name">
@@ -37,7 +34,7 @@
               </div>
             </div> <!--/Room name-->
             <div class="options">
-              <div class="nst-options col-xs-12 col-lg-6">
+              <div class="nst-options col-xs-12 col-lg-12">
                 <h5 class="tittle-option">Options For Me</h5>
                 <hr>
                 <div class="_difc _fw optionrow">
@@ -73,7 +70,7 @@
                 </div>
               </div> <!--/nst-option-->
 
-              <div class="nst-place-privacy col-xs-12 col-lg-6">
+              <div class="nst-place-privacy col-xs-12 col-lg-12">
                 <h5 class="tittle-option">Place Privacy</h5>
                 <hr>
 
@@ -184,7 +181,7 @@
             <div class="restplace _df _fh"></div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   </div>
 </div>
