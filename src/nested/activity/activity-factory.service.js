@@ -155,7 +155,8 @@
         limit: settings.limit,
         skip: settings.skip
       }).then(function (data) {
-
+        console.log('activities');
+        console.log(data);
         _.forEach(data.events, function (item) {
           NstSvcActivityStorage.add(parseActivity(item));
         });

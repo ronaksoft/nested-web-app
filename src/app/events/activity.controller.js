@@ -8,8 +8,8 @@
   /** @ngInject */
   function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
                             toastr, _, moment,
-                            AuthService, WsService, NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE,
-                            LoaderService, StorageFactoryService,
+                            AuthService, WsService, NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER,
+                            LoaderService, NstSvcStorageFactory,
                             NstActivity, NstPlace, NstInvitation) {
     var vm = this;
 
@@ -42,7 +42,7 @@
     vm.activitySettings = {
       skip: 0,
       limit: 25,
-      filter: ACTIVITY_FILTERS.ALL
+      filter: NST_ACTIVITY_FILTER.ALL
     };
 
     if (!AuthService.isInAuthorization()) {
@@ -121,7 +121,7 @@
     }
 
     initialize().then(function (results) {
-
+      console.log(vm.acts);
     }).catch(function (error) {
 
     });

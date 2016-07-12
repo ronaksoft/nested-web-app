@@ -9,8 +9,10 @@
   function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $timeout, $uibModal,
     toastr, AuthService, WsService, LoaderService,
     NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE,
-    NstSvcStorageFactory, NstActivity, NstPlace, NstInvitation) {
+    NstSvcStorageFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory) {
     var vm = this;
+
+    console.log('here in messages');
 
     if (!AuthService.isInAuthorization()) {
       $location.search({ back: $location.path() });
@@ -66,7 +68,7 @@
       $stateParams.placeId = null;
     }
 
-    vm.place = new NestedPlace($stateParams.placeId ? $stateParams.placeId : undefined);
+    vm.place = NstSvcPlaceFactory.get($stateParams.placeId ? $stateParams.placeId : undefined);
     vm.placeAncestors = $stateParams.placeId ? $stateParams.placeId.split('.') : undefined;
     vm.filter = $stateParams.filter;
 
@@ -262,7 +264,8 @@
         }
       });
     }
-
+    // TODO: ask Ali about the below line
+    // $("#popover").popover({ trigger: "hover" });
   }
 
 })();

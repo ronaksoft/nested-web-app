@@ -7,8 +7,10 @@
 
   /** @ngInject */
   function MainController($location, AuthService) {
+
     if (AuthService.isInAuthorization()) {
       $location.path('/messages').replace();
     }
   }
+  
 })();

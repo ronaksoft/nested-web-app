@@ -41,10 +41,10 @@
 
   function NstSvcPlaceFactory($q,
                               STORAGE_TYPE,
-                              StorageFactoryService, WsService,
+                              NstSvcStorageFactory, WsService,
                               FactoryQuery, NstPlace) {
     function NestedPlaceFactory() {
-      this.cache = StorageFactoryService.create('nested.place.factory.service', STORAGE_TYPE.MEMORY);
+      this.cache = NstSvcStorageFactory.create('nested.place.factory.service', STORAGE_TYPE.MEMORY);
       this.cache.setFetchFunction(function (id) {
         // TODO: Return the object
         return WsService.request('place/get_info', { place_id: id });

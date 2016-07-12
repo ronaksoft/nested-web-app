@@ -35,6 +35,8 @@
     Activity.prototype = new NstModel();
     Activity.prototype.constructor = Activity;
 
+    return Activity;
+
   }
 
 })();
