@@ -73,7 +73,7 @@ body {
 
 body,
 html {
-  height: 100%;
+  min-height: 100%;
 }
 
 *:focus {
@@ -115,6 +115,8 @@ textarea {
 ._difh { display: inline-flex;}
 ._difc { display: inline-flex;align-items: center}
 ._jcc { justify-content: center}
+._aic { align-items: center;}
+
 ._jce { justify-content: flex-end; }
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
@@ -148,6 +150,8 @@ textarea {
 ._tr {transition: .3s}
 ._rtl {direction: rtl}
 ._ltr{direction: ltr}
+
+._italic { font-style: italic;}
 
 a.place,
 a.account,
@@ -986,7 +990,7 @@ a .ui-select-choises-row-inner {
   //border-left: 1px solid $color-calm;
   //max-width: 1920px;
   //min-width: 990px;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   z-index: -100;
 }
@@ -1005,7 +1009,7 @@ a .ui-select-choises-row-inner {
   flex: none;
   background-color: $color-calm;
   transition: .3s;
-  z-index: 1;
+  z-index: 0;
 }
 .maincontainer.tiny .sidebar{
   width: 72px;
@@ -1263,13 +1267,14 @@ a .ui-select-choises-row-inner {
   width: 16px;
   flex: none;
   margin-right: 12px;
+  opacity: 1;
 }
 .maincontainer.tiny .e2-arrow label {
-  display: none;
+  opacity: .5;
 }
 .maincontainer.tiny .sidebar:hover .e2-arrow label {
-  display: block;
-  animation: appearence .2s;
+  opacity: 1;
+  transition: .2s;
 }
 .maincontainer.tiny .side-place-item .e2-arrow {
   width: 12px;
@@ -1281,20 +1286,51 @@ a .ui-select-choises-row-inner {
   left: 0;
   bottom: 0;
   background-color: $color-calm;
-  height: 80px;
-  padding-left: 15px;
-  display: flex;
+  //height: 180px;
+  //padding-left: 15px;
+  display: inline-flex;
+  flex-direction: column;
   align-items: center;
+  a {
+    align-items: center;
+  }
+  & > .ng-hide {
+    animation: appearence 1s;
+    animation-direction: reverse;
+  }
+  & > .ng-hide-remove {
+    animation: appearence 1s;
+  }
 }
 .maincontainer.tiny .side-profile {
   width: 68px;
   padding: 0;
   display: inline-flex;
-  flex-direction: column-reverse;
+  //flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
+  transition: .3s;
+  & > div {
+    padding: 0;
+    transition: .1s;
+    img {
+      margin: 0;
+      transition: .3s;
+    }
+  }
+  a {
+    white-space: nowrap;
+  }
 }
-.side-profile:hover {
+.side-profile > div {
+  margin: 4px 0;
+  padding-left: 15px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  transition: .3s;
+}
+.side-profile>div:hover {
   transition-duration: 0.3s;
   transition-timing-function: ease;
   background-color: #d8dcd9;
@@ -1316,6 +1352,10 @@ a .ui-select-choises-row-inner {
 }
 .side-profile + .popover {
   top: calc(100% - 150px)!important;
+  & * {
+    animation-duration: .1s;
+    transition: .1s;
+  }
 }
 .nst-container {
   background-color: $color-bg-nested;
@@ -1326,7 +1366,7 @@ a .ui-select-choises-row-inner {
   overflow-y: auto;
   overflow-y: initial;
   scroll-behavior: smooth;
-  z-index: 0;
+  z-index: 1;
 }
 
 .nst-container:after {

@@ -164,8 +164,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 50;
+  background: #808080;
+  opacity: 0.5;
+  z-index: 100;
   width: 100%;
   height: 100%;
   display: none;
@@ -177,13 +178,22 @@
   display: none;
   z-index: 100;
   margin-top: 16px;
+  height: auto;
+  background-color: $color-white;
+  padding: 8px;
+
+}
+#inputsearch ul li {
+  padding: 5px 0;
 }
 
 #inputsearch input{
   border: none;
   padding-left: 30px;
-  left: 8px;
-  padding-top: 12px;
+  //padding-top: 12px;
+}
+#inputsearch .line-f {
+  left:0;
 }
 
 #action-search {
@@ -205,7 +215,7 @@ a {
   border-bottom: 1px solid $color-calm;
   height: 183px;
   justify-content: center;
-  position: fixed;
+  position: absolute;
   z-index: 50;
   width: 100%;
   transition: 0.3s;
@@ -215,6 +225,7 @@ a {
 
 @media screen and (min-width: 990px){
   .nst-navbar{
+    position: fixed;
     width: calc(100% - 276px);
   }
   .nst-container{
@@ -339,6 +350,13 @@ a {
 
 ._right {
   right: 0;
+}
+
+.search-part1 {
+  padding-bottom: 10px;
+}
+.search-part2 {
+  padding-top: 10px;
 }
 
 /**
@@ -510,6 +528,12 @@ ul ul li:last-child{
   margin-right: 5px
 }
 
+.filter-bar-hld-ac {
+@extend .filter-bar-hld;
+  margin-right: 25px;
+}
+
+
 //.filter-bar-hld .viewicon-,.viewicon-sort,.viewicon-filter {
 //  @extend .margin-l-15;
 //}
@@ -522,6 +546,7 @@ ul ul li:last-child{
   //top: 20px;
   line-height: 24px;
   position: relative;
+  z-index: 38;
 }
 
 .icon-viewicon-sort {
@@ -531,6 +556,7 @@ ul ul li:last-child{
 
 .icon-viewicon-filter {
   background-position: 0 -24px;
+  z-index: 37;
 }
 
 .iconsblock {
@@ -590,6 +616,7 @@ ul ul li:last-child{
 @media screen and (max-width: 990px) {
   .content {
     width: 600px;
+    min-width: 600px;
   }
 }
 
@@ -909,8 +936,8 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -90px !important;
-  z-index: 36;
+  left: -116px !important;
+  z-index: 37;
 }
 
 .popover-white-nst-msg + .popover {
@@ -920,8 +947,8 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -10px !important;
-  z-index: 36;
+  left: 0 !important;
+  z-index: 37;
 }
 
 
@@ -958,6 +985,12 @@ ul ul li:last-child{
   color: $color-solid;
 }
 
+.line-f {
+  height: 1px;
+  background-color: $color-breeze-50;
+  width: 100%;
+  position: absolute;
+}
 .line-popover {
   width: 206px;
   height: 1px;
