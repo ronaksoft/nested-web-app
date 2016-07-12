@@ -1,20 +1,21 @@
 (function() {
   'use strict';
 
-  angular.module('lodash', [])
-    .factory('_', function($window) {
-      if ($window._) {
-        $window._thirdParty = $window._thirdParty || {};
-        $window._thirdParty._ = $window._;
-        try {
-          delete $window._;
-        } catch (e) {
-          $window._ = undefined;
-        }
-      }
-      var lodash = $window._thirdParty._;
+  var lodashModule = angular.module('lodash', []);
+  lodashModule.factory('_', function($window) {
+    if ($window._) {
+      $window._thirdParty = $window._thirdParty || {};
+      $window._thirdParty._ = $window._;
+      // FIXME: remove _ from $window
+      // try {
+      //   delete $window._;
+      // } catch (e) {
+      //   $window._ = undefined;
+      // }
+    }
+    var lodash = $window._thirdParty._;
 
-      return lodash;
-    });
+    return lodash;
+  });
 
 })();

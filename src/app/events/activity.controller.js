@@ -9,7 +9,7 @@
   function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
                             toastr, _, moment,
                             AuthService, WsService, NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER,
-                            LoaderService, NstSvcStorageFactory,
+                            LoaderService, NstSvcActivityFactory,
                             NstActivity, NstPlace, NstInvitation) {
     var vm = this;
 
@@ -57,8 +57,10 @@
     function loadActivities() {
       return $q(function (resolve, reject) {
         NstSvcActivityFactory.load(vm.activitySettings).then(function (activities) {
+
           vm.acts = mapActivities(activities);
-          resolve(activities);
+          resolve(vm.acts);
+
         }).catch(reject);
       });
     };
@@ -66,14 +68,16 @@
     function loadInvitations() {
       return $q(function (resolve, reject) {
         NstSvcInvitationFactory.get().then(function (invitations) {
+
           vm.invitations = invitations;
-          resolve(invitations);
+          resolve(vm.invitations);
+
         }).catch(reject);
       });
     }
 
     function loadMore() {
-      loadActivities();
+      return loadActivities();
     }
 
     function acceptInvitation(invitation) {
@@ -95,9 +99,10 @@
     function applyFilter(filter) {
       vm.activitySettings.filter = vm.filters[filter].filter;
       loadActivities().then(function () {
-
-      }).catch(function () {
-
+        console.log('haha');
+      }).catch(function (error) {
+        console.log('oops');
+        console.log(error);
       });
     }
 
@@ -120,8 +125,13 @@
       }
     }
 
-    initialize().then(function (results) {
-      console.log(vm.acts);
+    // initialize().then(function (results) {
+    //   $log.debug('results:',results);
+    // }).catch(function (error) {
+    //
+    // });
+    loadActivities().then(function (results) {
+      $log.debug('results:',results);
     }).catch(function (error) {
 
     });
@@ -135,19 +145,22 @@
    * @return {Object}              a hierarchal form of activities
    */
   function mapActivities(acts) {
-    var now = moment(),
-        result = {
+    var result = {
           min : null,
           max : null,
-          years : {},
-          thisYear : {}
+          otherYears : {},
+          thisYear : {},
+          hasAnyItem : false,
+          otherYearsHasAnyItem : false
         };
-    var currentYearStart = now.startOf('year');
-    var currentMonthStart = now.startOf('month');
+    var currentYearStart = moment().startOf('year');
+    var currentMonthStart = moment().startOf('month');
 
     if (!acts || acts.length === 0) {
       return result;
     }
+
+    result.hasAnyItem = true;
 
     result.min = moment.min(_.map(acts, 'date'));
     result.max = moment.max(_.map(acts, 'date'));
@@ -163,13 +176,17 @@
     var otherMontsActs = _.differenceBy(thisYearActs, thisMonthActs, 'id');
 
     result.thisYear = {
-      min : year.startOf('year'),
-      max : year.endOf('year'),
+      min : moment().startOf('year'),
+      max : moment().endOf('year'),
       thisMonth : mapThisMonthActs(thisMonthActs),
-      otherMonths : groupByMonth(otherMontsActs)
+      otherMonths : groupByMonth(otherMontsActs),
+      hasAnyItem : thisYearActs.length > 0,
+      otherMonthsHasAnyItem : otherMontsActs.length > 0
     };
 
     var otherYearsActs = _.differenceBy(acts, thisYearActs, 'id');
+
+    result.otherYearsHasAnyItem = otherYearsActs.length > 0;
 
     result.otherYears = groupByYear(otherYearsActs);
 
@@ -184,15 +201,16 @@
    */
   function groupByYear(acts) {
     var years = {};
+
     if (!acts || acts.length === 0) {
       return years;
     }
+
     // there are some activities of past years
     var yearGroups = _.groupBy(acts, function (act) {
-      return act.year();
+      return act.date.year();
     });
-
-    _.forIn(yearGroups, function (year, yearActs) {
+    _.forIn(yearGroups, function (yearActs, year) {
       var yearMoment = yearActs[0].date;
 
       years[year] = {
@@ -214,15 +232,14 @@
   function groupByMonth(acts) {
     var months = {};
 
-    if (!acts || acts.length){
+    if (!acts || acts.length === 0){
       return months;
     }
-
     var monthGroups = _.groupBy(acts, function (act) {
-      return act.month();
+      return act.date.month();
     });
 
-    _.forIn(monthGroups, function (month, monthActs) {
+    _.forIn(monthGroups, function (monthActs, month) {
       var monthMoment = monthActs[0].date;
 
       months[month] = {
@@ -246,24 +263,35 @@
       min : null,
       max : null,
       today : {},
-      days : {}
+      otherDays : {},
+      hasAnyItem : false,
+      otherDaysHasAnyItem : false
     };
-    var now = moment();
-    var todayStart = now.startOf('day');
-    result.min = now.startOf('month');
-    result.max = now.endOf('month');
 
-    var todayActs = _.filter(thisYearActs, function (act) {
+    if (!acts || acts.length === 0){
+      return result;
+    }
+
+    result.hasAnyItem = true;
+
+    var todayStart = moment().startOf('day');
+    result.min = moment().startOf('month');
+    result.max = moment().endOf('month');
+
+    var todayActs = _.filter(acts, function (act) {
       return act.date.isAfter(todayStart);
     });
 
     result.today = {
       min : todayStart,
-      max : now.endOf('day'),
-      items : todayActs
+      max : moment().endOf('day'),
+      items : todayActs,
+      hasAnyItem : todayActs.length > 0
     };
 
     var otherDaysActs = _.differenceBy(acts, todayActs, 'id');
+
+    result.otherDaysHasAnyItem = otherDaysActs.length > 0;
 
     result.otherDays = groupByDay(otherDaysActs);
 
@@ -284,16 +312,15 @@
     }
 
     var dayGroups = _.groupBy(acts, function (act) {
-      return act.date();
+      return act.date.date();
     });
-
-    _.forIn(dayGroups, function (day, dayActs) {
+    _.forIn(dayGroups, function (dayActs, day) {
       var dayMoment = dayActs[0].date;
 
       days[day] = {
         min : dayMoment.startOf('day'),
         max : dayMoment.endOf('day'),
-        items : monthActs
+        items : dayActs
       };
 
     });

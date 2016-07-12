@@ -6,8 +6,9 @@
 
   /** @ngInject */
   function NstSvcActivityFactory($q, $log, _, moment,
-                             NstSvcActivityStorage, WsService,
-                             NstFactoryError, NstFactoryQuery, NstActivity) {
+                             // NstSvcUserFactory
+                             WsService, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory,
+                             NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace) {
 
     /**
      * PostFactory - all operations related to activity
@@ -27,14 +28,13 @@
       activity.id = data._id.$oid;
       activity.type = data.action;
       // activity.date = new Date(data.date * 1e3);
-      activity.date = moment.unix(data.date);
-      activity.lastUpdate = moment.unix(data['last-update']);
+      activity.date = moment(data['timestamp']);
       activity.memberType = data.memberType;
 
       $q.all([
         extractActor(data),
         extractPost(data),
-        extractPlace(data),
+        extractPlaces(data),
         extractComment(data),
         extractMember(data),
       ]).then(function (values) {
@@ -44,6 +44,8 @@
         activity.place = values[2];
         activity.comment = values[3];
         activity.memebr = values[4];
+
+        defer.resolve(activity);
 
       }).catch(defer.reject);
 
@@ -57,11 +59,16 @@
         defer.resolve({}); // TODO: decide to fill with an empty object or an empty NstUser
       }
       else {
-        var user = NstSvcUserFactory.parseUser({
-              _id : data.actor,
-            fname : data.actor_fname,
-            lname : data.actor_lname,
-          picture : data.actor_picture,
+        //TODO : Use NstSvcUserFactory to parse user model
+        // var user = NstSvcUserFactory.parseUser({
+        //       _id : data.actor,
+        //     fname : data.actor_fname,
+        //     lname : data.actor_lname,
+        //   picture : data.actor_picture,
+        // });
+        var user = new NstUser({
+          username : data.actor,
+          fullname : data.actor_name
         });
 
         // TODO: Add user to cache if the model is rich enough
@@ -84,16 +91,18 @@
         //  1. NstSvcUserFactory.get(data.actor)
         //  2. extractActor(data)
         extractActor(data).then(function (user) {
-          defer.resolve(NstSvcPostFactory.parsePost({
-                         _id : data.post_id,
-                      sender : user,
-                     subject : data.post_subject,
-                        body : data.post_body,
-            post_attachments : data.post_attachments,
-                 post_places : data.post_places,
-                'time-stamp' : data.date
-          }));
-        });
+          NstSvcPostFactory.parsePost({
+                           _id : data.post_id,
+                        sender : user,
+                       subject : data.post_subject,
+                          body : data.post_body,
+              post_attachments : data.post_attachments,
+                   post_places : data.post_places,
+                          date : data['time-stamp']
+          }).then(function (post) {
+            defer.resolve(post);
+          }).catch(defer.reject);
+        }).catch(defer.reject);
       }
 
       return defer.promise;
@@ -115,10 +124,10 @@
                        _id : data.comment_id,
                     attach : true,
                  // TODO : This is not filled yet
-                 sender_id : actor.actor,
-              sender_fname : actor.actor_fname,
-              sender_lname : actor.actor_lname,
-            sender_picture : actor.actor_picture,
+                 sender_id : user.actor,
+              sender_fname : user.actor_fname,
+              sender_lname : user.actor_lname,
+            sender_picture : user.actor_picture,
                       text : data.comment_body,
                       time : data.date
           });
@@ -131,8 +140,26 @@
       return defer.promise;
     }
 
-    function extractPlace(data) {
+    function extractPlaces(data) {
+      var defer = $q.defer();
 
+      if (!data.post_places) { // could not find an actor inside
+        defer.resolve([]); // TODO: decide to fill with an empty object or an empty NstUser
+      }
+      else {
+        var places = [];
+
+        _.forEach(data.post_places, function (place) {
+          places.push(new NstPlace({
+            id : place._id,
+            name : place.name
+          }));
+        });
+
+        defer.resolve(places);
+      }
+
+      return defer.promise;
     }
 
     function extractMember(data) {
@@ -142,29 +169,50 @@
         defer.resolve({}); // TODO: decide to fill with an empty object or an empty NstUser
       }
       else {
-        NstSvcUserFactory.get(data.member_id).then(defer.resolve).catch(defer.reject);
+        // TODO: Use NstSvcUserFactory to find the member
+        // NstSvcUserFactory.get(data.member_id).then(defer.resolve).catch(defer.reject);
+        defer.resolve({
+          id : data.member_id
+        });
       }
 
       return defer.promise;
     }
 
     function load(settings) {
-      var defer = $q.defer;
+      var defer = $q.defer();
 
-      WsService.request('timeline/get_events', {
-        limit: settings.limit,
-        skip: settings.skip
-      }).then(function (data) {
-        console.log('activities');
-        console.log(data);
-        _.forEach(data.events, function (item) {
-          NstSvcActivityStorage.add(parseActivity(item));
-        });
+      var activities = NstSvcActivityStorage.get('all', []);
 
-        var activities = NstSvcActivityStorage.get();
+      if (activities.length === 0) { // cache is empty and it's better to ask the server for recent activities
+        WsService.request('timeline/get_events', {
+          limit: settings.limit,
+          skip: settings.skip
+        }).then(function (data) {
+          console.log('got from server');
+          var activities = _.map(data.events, parseActivity);
 
+          $q.all(activities).then(function (values) {
+            NstSvcActivityStorage.set('all', values);
+            defer.resolve(values);
+          }).catch(defer.reject);
+
+
+          // _.forEach(data.events, function (item) {
+          //   parseActivity(item).then(function (activity) {
+          //     var cachedItems = NstSvcActivityStorage.get('all', []);
+          //     cachedItems.push(activity);
+          //     console.log(cachedItems);
+          //     NstSvcActivityStorage.set('all', cachedItems);
+          //   }).catch(defer.catch);
+          // });
+
+          // defer.resolve(NstSvcActivityStorage.get('all', []));
+        }).catch(defer.reject);
+      }
+      else {
         defer.resolve(activities);
-      }).catch(defer.reject);
+      }
 
       return defer.promise;
     }

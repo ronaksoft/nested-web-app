@@ -54,7 +54,7 @@
           filter: '!$all'
         },
         templateUrl: 'app/events/events.html',
-        controller: 'EventsController',
+        controller: 'ActivityController',
         controllerAs: 'events'
       })
       .state('events-filtered-1d', {
@@ -64,7 +64,7 @@
           filter: '!$all'
         },
         templateUrl: 'app/events/events.html',
-        controller: 'EventsController',
+        controller: 'ActivityController',
         controllerAs: 'events'
       })
       .state('events-filtered-2d', {
@@ -74,7 +74,7 @@
           filter: '!$all'
         },
         templateUrl: 'app/events/events.html',
-        controller: 'EventsController',
+        controller: 'ActivityController',
         controllerAs: 'events'
       })
       .state('places', {

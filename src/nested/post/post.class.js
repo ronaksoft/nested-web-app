@@ -3,9 +3,9 @@
 
   angular.module('nested').factory('NstPost', NstPost);
 
-  function NstPost(_, ATTACHMENT_STATUS, NstObservableObject, NestedAttachment) {
+  function NstPost(_, ATTACHMENT_STATUS, NstModel, NestedAttachment) {
 
-    Post.prototype = new NstObservableObject();
+    Post.prototype = new NstModel();
     Post.prototype.constructor = Post;
 
     function Post(model) {
@@ -164,22 +164,23 @@
         return this;
       };
 
-      return Post;
+    }
 
-      function getPlacesWithAccess(post, accessCodes) {
-        var separator = ',';
-        var codes = _.split(accessCodes, separator);
+    return Post;
 
-        return $q(function(resolve, reject) {
-          resolve(filterPlacesByAccessCode(post.places, codes));
-        });
-      }
+    function getPlacesWithAccess(post, accessCodes) {
+      var separator = ',';
+      var codes = _.split(accessCodes, separator);
 
-      function filterPlacesByAccessCode(places, accessCodes) {
-        return _.filter(places, function(place) {
-          return _.intersection(place.access, accessCodes).length > 0; //do the codes exist in access array?
-        });
-      }
+      return $q(function(resolve, reject) {
+        resolve(filterPlacesByAccessCode(post.places, codes));
+      });
+    }
+
+    function filterPlacesByAccessCode(places, accessCodes) {
+      return _.filter(places, function(place) {
+        return _.intersection(place.access, accessCodes).length > 0; //do the codes exist in access array?
+      });
     }
   }
 })();
