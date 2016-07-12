@@ -521,11 +521,12 @@ ul ul li:last-child{
   background-position: 0 0;
   //top: 20px;
   line-height: 24px;
-
+  position: relative;
 }
 
 .icon-viewicon-sort {
   background-position: 0 -48px;
+  z-index: 37;
 }
 
 .icon-viewicon-filter {
@@ -533,8 +534,10 @@ ul ul li:last-child{
 }
 
 .iconsblock {
-  width: 38px;
+  //width: 38px;
   height: 28px;
+  padding: 0 8px;
+  align-items: center;
   cursor: pointer;
   box-sizing: border-box;
 
