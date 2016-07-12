@@ -1314,6 +1314,9 @@ a .ui-select-choises-row-inner {
 .maincontainer.tiny .side-profile a{
   display: none;
 }
+.side-profile + .popover {
+  top: calc(100% - 150px)!important;
+}
 .nst-container {
   background-color: $color-bg-nested;
   transition: .3s;
@@ -1323,7 +1326,7 @@ a .ui-select-choises-row-inner {
   overflow-y: auto;
   overflow-y: initial;
   scroll-behavior: smooth;
-  z-index: 1;
+  z-index: 0;
 }
 
 .nst-container:after {
