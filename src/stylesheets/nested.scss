@@ -981,7 +981,7 @@ a .ui-select-choises-row-inner {
   z-index: 10;
 }
 .body {
-  background-color: $color-white;
+  background-color: $color-bg;
   //border-right: 1px solid $color-calm;
   //border-left: 1px solid $color-calm;
   //max-width: 1920px;
@@ -1005,10 +1005,18 @@ a .ui-select-choises-row-inner {
   flex: none;
   background-color: $color-calm;
   transition: .3s;
-  z-index: 20;
+  z-index: 1;
 }
 .maincontainer.tiny .sidebar{
-  width: 76px;
+  width: 72px;
+}
+.sidebar-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  width: calc(100% - 4px);
+  & > div {
+    transition: .3s;
+  }
 }
 .sidebar-border {
   //position: relative;
@@ -1044,7 +1052,7 @@ a .ui-select-choises-row-inner {
   height: 112px;
 }
 .maincontainer.tiny .side-top {
-  width: 72px;
+  width: 68px;
 }
 .nested-logo {
   z-index: 7;
@@ -1130,6 +1138,7 @@ a .ui-select-choises-row-inner {
 }
 .maincontainer.tiny .onlyExpand, .maincontainer.tiny .side-menu-item .item,.maincontainer.tiny .lines {
   display: none;
+  transition: .3s;
 }
 .side-menu-item:hover{
 
@@ -1278,7 +1287,7 @@ a .ui-select-choises-row-inner {
   align-items: center;
 }
 .maincontainer.tiny .side-profile {
-  width: 72px;
+  width: 68px;
   padding: 0;
   display: inline-flex;
   flex-direction: column-reverse;
@@ -1307,6 +1316,7 @@ a .ui-select-choises-row-inner {
 }
 .nst-container {
   background-color: $color-bg-nested;
+  transition: .3s;
   display: inline-flex;
   flex-direction: column;
   width: 100%;
@@ -1767,4 +1777,20 @@ a.normal-badge {
 }
 .progress-bar-success {
   background-color: $color-sense;
+}
+/**
+  *********************************************************
+  *     Nested pages -   * comPose
+  *********************************************************
+*/
+.maincontainer.compose-hld {
+  .content-plus {
+    display: none;
+  }
+  .nst-navbar {
+    width: 100%;
+  }
+  .nst-container {
+    margin-left: 0;
+  }
 }
