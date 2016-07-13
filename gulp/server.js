@@ -4,6 +4,10 @@ var path = require('path');
 var gulp = require('gulp');
 var conf = require('./conf');
 
+var $ = require('gulp-load-plugins')({
+  pattern: ['gulp-*']
+});
+
 var browserSync = require('browser-sync');
 var browserSyncSpa = require('browser-sync-spa');
 

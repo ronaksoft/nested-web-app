@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedStore', function ($rootScope, $q, WsService, $log) {
+    .factory('NestedStore', function ($rootScope, $q, NstSvcServer, $log) {
       function Store(data, full) {
         this.full = full || false;
 
@@ -52,11 +52,11 @@
         load: function(id) {
           this.id = id || this.id;
 
-          return WsService.request('store/get_store_info', { store_id: this.id }).then(this.setData.bind(this));
+          return NstSvcServer.request('store/get_store_info', { store_id: this.id }).then(this.setData.bind(this));
         },
 
         getUploadToken: function () {
-          return WsService.request('store/get_upload_token').then(function (data) {
+          return NstSvcServer.request('store/get_upload_token').then(function (data) {
             return $q(function (res) {
               res(data.token);
             });
@@ -64,7 +64,7 @@
         },
 
         getDownloadToken: function (pid, uid) {
-          return WsService.request('store/get_download_token', {
+          return NstSvcServer.request('store/get_download_token', {
             post_id: pid,
             universal_id: uid
           }).then(function (data) {
@@ -75,7 +75,7 @@
         },
 
         getDownloadUrl: function (uid, token) {
-          var url = this.url + '/download/' + WsService.getSessionKey() + '/' + uid + (token ? ('/' + token) : '');
+          var url = this.url + '/download/' + NstSvcServer.getSessionKey() + '/' + uid + (token ? ('/' + token) : '');
 
           return $q(function (res) {
             res(url);

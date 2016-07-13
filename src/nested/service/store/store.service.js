@@ -10,7 +10,7 @@
     }).factory('StoreService', NestedStore);
 
   /** @ngInject */
-  function NestedStore($window, $rootScope, $q, $http, $sce, $log, WsService, NST_WS_RESPONSE_STATUS, NST_WS_ERROR, UPLOAD_TYPE, NestedStore) {
+  function NestedStore($window, $rootScope, $q, $http, $sce, $log, WsService, WS_RESPONSE_STATUS, NST_SRV_ERROR, UPLOAD_TYPE, NestedStore) {
     function StoreService(stores) {
       this.stores = {};
       this.defaultStore = new NestedStore();
@@ -109,7 +109,7 @@
         if (issues.length > 0) {
           return $q(function (res, rej) {
             rej({
-              err_code: NST_WS_ERROR.INVALID,
+              err_code: NST_SRV_ERROR.INVALID,
               items: issues
             });
           });
@@ -189,7 +189,7 @@
           return {
             result : $q(function (res, rej) {
               rej({
-                err_code: NST_WS_ERROR.INVALID,
+                err_code: NST_SRV_ERROR.INVALID,
                 items: items
               });
             })

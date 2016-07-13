@@ -28,7 +28,8 @@ gulp.task('watch', ['inject'], function () {
 
   gulp.watch([
     path.join(conf.paths.src, '/app/**/*.js'),
-    path.join(conf.paths.src, '/nested/**/*.js')
+    path.join(conf.paths.src, '/nested/**/*.js'),
+    path.join(conf.paths.conf, '/development.json')
   ], function(event) {
     if(isOnlyChange(event)) {
       gulp.start('scripts-reload');

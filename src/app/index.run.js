@@ -6,48 +6,15 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $interval, $uibModal, $window, $timeout,
+  function runBlock($rootScope, $uibModal,
                     ngProgressFactory,
-                    NST_UNREGISTER_REASON, NST_AUTH_EVENT, AuthService, LoaderService, LOADER_EVENTS) {
+                    NST_UNREGISTER_REASON, NST_AUTH_EVENTS, NST_LOADER_EVENTS,
+                    NstSvcAuth, NstSvcLoader) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
 
     $rootScope.now = function () {
       return new Date();
     };
-
-    var timers = [];
-    angular.element($window).bind("scroll", function(e) {
-      timers.forEach(function(promises) {
-        $timeout.cancel(promises);
-      });
-      var $sidebar = $("#content-plus"),
-        topPadding = 150;
-
-      var timer = $timeout(
-        function() {
-          if (150 > e.currentTarget.scrollY > 0) {
-            $sidebar.stop().css({
-              marginTop: e.currentTarget.scrollY
-            });
-          } else if (e.currentTarget.scrollY > topPadding) {
-            $sidebar.stop().css({
-              marginTop: e.currentTarget.scrollY - 51
-            });
-          } else if (e.currentTarget.scrollY == 0){
-            $sidebar.stop().css({
-              marginTop: 0
-            });
-          }
-        },
-        50
-      );
-      timers.push(timer);
-      timer;
-      $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
-    });
-    // $interval(function () {
-    //   $rootScope.now.setTime(Date.now());
-    // }, 1000);
 
     $rootScope.progress = {
       bar: ngProgressFactory.createInstance(),
@@ -69,11 +36,11 @@
     $rootScope.progress.bar.setHeight('5px');
     // $rootScope.progress.bar.setColor('#14D766');
 
-    LoaderService.addEventListener(LOADER_EVENTS.INJECTED, function () {
+    NstSvcLoader.addEventListener(NST_LOADER_EVENTS.INJECTED, function () {
       $rootScope.progress.fn.start();
     });
 
-    LoaderService.addEventListener(LOADER_EVENTS.FINISHED, function (event) {
+    NstSvcLoader.addEventListener(NST_LOADER_EVENTS.FINISHED, function (event) {
       if (event.detail.rejected > 0) {
         $rootScope.progress.fn.reset();
       } else {
@@ -83,7 +50,7 @@
 
     $rootScope.modals = {};
 
-    AuthService.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
+    NstSvcAuth.addEventListener(NST_AUTH_EVENTS.UNAUTHORIZE, function (event) {
       if (!$rootScope.modals['unauthorized'] && NST_UNREGISTER_REASON.DISCONNECT == event.detail.reason) {
         $rootScope.modals['unauthorized'] = $uibModal.open({
           animation: false,
@@ -94,7 +61,7 @@
       }
     });
 
-    AuthService.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
+    NstSvcAuth.addEventListener(NST_AUTH_EVENTS.AUTHORIZE, function () {
       if ($rootScope.modals['unauthorized']) {
         $rootScope.modals['unauthorized'].close();
         delete $rootScope.modals['unauthorized'];

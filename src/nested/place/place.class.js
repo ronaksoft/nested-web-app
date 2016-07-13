@@ -3,59 +3,25 @@
 
   angular
     .module('nested')
-    .constant('NST_PLACE_ACCESS', {
-      READ: 'RD',
-      WRITE: 'WR',
-      READ_POST: 'RD',
-      WRITE_POST: 'WR',
-      REMOVE_POST: 'D',
-      CONTROL: 'C',
-      ADD_MEMBERS: 'AM',
-      REMOVE_MEMBERS: 'RM',
-      SEE_MEMBERS: 'SM',
-      REMOVE_PLACE: 'RP',
-      ADD_PLACE: 'AP',
-      GUEST: 'G'
-    })
-    .constant('NST_PLACE_MEMBER_TYPE', {
-      KEY_HOLDER: 'key_holder',
-      KNOWN_GUEST: 'known_guest',
-      CREATOR: 'creator'
-    })
     .factory('NstPlace', NstPlace);
 
   /** @ngInject */
-  function NstPlace(NST_OBJECT_EVENT, NstModel, NstPlacePrivacy) {
+  function NstPlace(NST_OBJECT_EVENT, NstTinyPlace, NstPlacePrivacy) {
     /**
      * Creates an instance of NstPlace. Do not use this directly, use NstSvcPlaceFactory.get(data) instead
      *
      * @param {string|Object} data    Place Info
-     * @param {NstPlace}      parent  Place's parent
      *
      * @constructor
      */
-    function Place(data, parent) {
+    function Place(data) {
       /**
-       * Place Identifier
+       * Place's privacy
        *
-       * @type {undefined|String}
+       * @type {NstPlacePrivacy}
        */
-      this.id = undefined;
-
-      /**
-       * Place's name
-       *
-       * @type {undefined|String}
-       */
-      this.name = undefined;
-
-      /**
-       * Place's description
-       *
-       * @type {undefined|String}
-       */
-      this.description = undefined;
-
+      this.privacy = new NstPlacePrivacy();
+      
       /*****************************
        *****      Ancestors     ****
        *****************************/
@@ -81,39 +47,29 @@
       /**
        * Place's children
        *
-       * @type {{ placeId: NstPlace }}
+       * @type {{ placeId: NstPlace, length: Number }}
        */
-      this.children = {};
-
-      /**
-       * Place's Picture
-       *
-       * @type {undefined|NstPicture}
-       */
-      this.picture = undefined;
+      this.children = {
+        length: 0
+      };
 
       /**
        * Place's users
        *
-       * @type {{ userId: { role: String, user: NstUser } }}
+       * @type {{ userId: { role: String, user: NstUser }, length: Number }}
        */
-      this.users = {};
+      this.users = {
+        length: 0
+      };
 
-      /**
-       * Place's privacy
-       *
-       * @type {NstPlacePrivacy}
-       */
-      this.privacy = new NstPlacePrivacy();
-
-      NstModel.call(this);
+      NstTinyPlace.call(this, data);
 
       if (data) {
         this.fill(data);
       }
     }
 
-    Place.prototype = new NstModel();
+    Place.prototype = new NstTinyPlace();
     Place.prototype.constructor = Place;
 
     /**
@@ -121,15 +77,18 @@
      *
      * @param {NST_PLACE_MEMBER_TYPE|NST_PLACE_MEMBER_TYPE[]} roles Roles
      *
-     * @returns {{ userId: { role: String, user: NstUser } }}
+     * @returns {{ userId: { role: String, user: NstUser }, length: Number }}
      */
     Place.prototype.getUsersByRole = function (roles) {
       roles = angular.isArray(roles) ? roles : [roles];
-      var result = {};
+      var result = {
+        length: 0
+      };
 
       for (var id in this.users) {
         if (roles.indexOf(this.users[id].role) > 0) {
           result[id] = this.users[id];
+          result.length++;
         }
       }
 

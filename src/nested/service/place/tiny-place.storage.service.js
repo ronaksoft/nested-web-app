@@ -2,10 +2,10 @@
   'use strict';
   angular
     .module('nested')
-    .service('NstSvcMinimalPlaceStorage', NstSvcMinimalPlaceStorage);
+    .service('NstSvcTinyPlaceStorage', NstSvcTinyPlaceStorage);
 
   /** @ngInject */
-  function NstSvcMinimalPlaceStorage(NST_STORAGE_TYPE, NstStorage) {
+  function NstSvcTinyPlaceStorage(NST_STORAGE_TYPE, NstStorage) {
     return new NstStorage(NST_STORAGE_TYPE.MEMORY);
   }
 })();
