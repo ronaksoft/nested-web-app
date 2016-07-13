@@ -1,18 +1,10 @@
-<div class="maincontainer  _fw _fh">
+<div class="maincontainer prof-hld  _fw _fh">
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
   <div class="nst-container">
     <nested-navbar data-ng-model="navbar"></nested-navbar>
 
     <div class="nst-content" id="content-wrapper" page-change="changeMe($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
       <section class="content _bgwhite">
-
-        <ul class="subnavitems _bgwhite _df">
-          <li class="cp-nav-width-discard">
-            <div>
-              <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
-            </div>
-          </li>
-        </ul>
 
         <div class="panel-profile-setting _bgwhite _ma">
 
@@ -80,7 +72,7 @@
               <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="birth"/>
             </div>
             <div>
-              <button class="btn  btn-sense _fw" data-ng-click="account_profile.update()">Save & Exit</button>
+              <button class="btn btn-sense _fw" data-ng-click="account_profile.update()">Save & Exit</button>
             </div>
           </div>
           <div class="restplace _df _fh"></div>
