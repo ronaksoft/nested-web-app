@@ -1836,14 +1836,28 @@ a.normal-badge {
   *     Nested pages -   * comPose
   *********************************************************
 */
+#nav-com {
+  display: none;
+}
 .maincontainer.compose-hld {
   .content-plus {
     display: none;
   }
-  .nst-navbar {
+  .content {
     width: 100%;
+    margin: auto;
+    max-width: 1058px;
   }
-  .nst-container {
-    margin-left: 0;
+  #content-wrapper .content {
+    height: calc(100vh - 180px );
+  }
+  #nav-com {
+    display: flex;
+  }
+  .navbar-bottom {
+    display: none;
+    div {
+      align-items: center;
+    }
   }
 }
