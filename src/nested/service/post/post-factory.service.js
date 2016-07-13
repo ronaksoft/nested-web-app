@@ -22,6 +22,8 @@
       getWithComments: getWithComments,
       retrieveComments: retrieveComments,
       reateCommentModel: createCommentModel,
+      getMessages : getMessages,
+      getPlaceMessages : getPlaceMessages,
       parsePost: parsePost,
       parseComment: parseComment
     };
@@ -346,5 +348,12 @@
       return defer.promise;
     }
 
+    function getMessages(setting) {
+      $log.debug('Is not implemented yet.');
+    }
+
+    function getPlaceMessages(setting, placeId) {
+      $log.debug('Is not implemented yet.');
+    }
   }
 })();

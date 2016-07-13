@@ -93,11 +93,10 @@
       /**
        * Post.prototype.getPlacesHaveDeleteAccess - Filter places with remove access (RM)
        *
-       * @param  {NstPost}      post  post
        * @return {NstPlace[]}         a list of places with remove access
        */
-      Post.prototype.getPlacesHaveDeleteAccess = function(post) {
-        return getPlacesWithAccess(post, 'RM');
+      Post.prototype.getPlacesHaveDeleteAccess = function() {
+        return getPlacesWithAccess(this, 'RM');
       };
 
       /**

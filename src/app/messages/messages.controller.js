@@ -6,266 +6,233 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $timeout, $uibModal,
-    toastr, NstSvcAuth, NstSvcServer, NstSvcLoader,
-    NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE,
-    NstSvcStorageFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory) {
+  function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout,
+    NstSvcPostFactory, NstSvcMessageSettingStorage,
+    NST_MESSAGES_SORT_OPTION) {
     var vm = this;
 
-    console.log('here in messages');
+    vm.filter = $stateParams.filter || 'all';
 
-    if (!NstSvcAuth.isInAuthorization()) {
-      $location.search({ back: $location.path() });
-      $location.path('/signin').replace();
-    }
+    vm.loadMore = loadMore;
+    vm.sort = sort;
 
-    vm.srch = function () {
-      console.log(arguments);
-      for (var i = 0; i < arguments.length; i++) {
-        var id = arguments[i];
-        var e = document.getElementById(id);
-        console.log(e);
-        if (e.style.display == 'block')
-          e.style.display = 'none';
-        else {
-          e.style.display = 'block';
-        }
-      }
+    var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
+        defaultViewSetting = {
+          content : true,
+          attachments : true,
+          comments : true,
+          quickMessage : true,
+        },
+        sortOptionStorageKey = 'sort-option',
+        viewSettingStorageKey = 'view-setting';
+
+    vm.messagesSetting = {
+      limit : 10,
+       skip : 0,
+       sort : defaultSortOption
     };
 
-    vm.gformats = {
-      daily: 'EEEE d MMM',
-      monthly: 'MMMM',
-      yearly: 'yyyy'
-    };
-    vm.today = new Date(Date.now());
+    vm.toggleContentPreview       = toggleContentPreview;
+    vm.toggleAttachmentPreview    = toggleAttachmentPreview;
+    vm.toggleCommentsPreview      = toggleCommentsPreview;
+    vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
 
-    vm.filters = {
-      '!$all': {
-        filter: 'all',
-        name: 'All'
-      },
-      '!$inbox': {
-        filter: 'inbox',
-        name: 'Inbox'
-      },
-      '!$comments': {
-        filter: 'comments',
-        name: 'Comments'
-      },
-      '!$members': {
-        filter: 'members',
-        name: 'Member Acts'
-      },
-      '!$place': {
-        filter: 'places',
-        name: 'Place Acts'
-      }
-    };
+    (function () {
 
-    if (vm.filters.hasOwnProperty($stateParams.placeId)) {
-      $stateParams.filter = $stateParams.placeId;
-      $stateParams.placeId = null;
-    }
+      $q.all([getMessages(), loadViewSetting(), loadSortOption()]).then(function (values) {
+        vm.messages = mapMessages(values[0]);
+        vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[1]);
+        vm.messagesSetting.sort = values[2] || vm.defaultSortOption
+      }).catch(defer.reject);
 
-    vm.place = NstSvcPlaceFactory.get($stateParams.placeId ? $stateParams.placeId : undefined);
-    vm.placeAncestors = $stateParams.placeId ? $stateParams.placeId.split('.') : undefined;
-    vm.filter = $stateParams.filter;
+    })();
 
-    vm.parameters = {
-      skip: 0,
-      limit: 25,
-      details: 'full'
-    };
-
-    if (vm.filters.hasOwnProperty(vm.filter)) {
-      vm.parameters['filter'] = vm.filters[vm.filter].filter;
-    }
-
-    if (vm.place.id) {
-      vm.parameters['place_id'] = vm.place.id;
-    }
-
-    vm.pushEvent = function (event, appendFirst) {
-      var now = $rootScope.now();
-
-      var gkey = null,
-        gtype = null;
-      if (now.getFullYear() === event.date.getFullYear()) {
-        if (now.getMonth() === event.date.getMonth()) {
-          gtype = 'daily';
-          gkey = gtype + '-' + event.date.getDay();
-        } else {
-          gtype = 'monthly';
-          gkey = gtype + '-' + event.date.getMonth();
-        }
+    function getMessages() {
+      if (vm.filter === 'all') {
+        return NstSvcPostFactory.getMessages(vm.messagesSetting);
       } else {
-        gtype = 'yearly';
-        gkey = gtype + '-' + event.date.getFullYear();
+        var placeId = vm.filter;
+        return NstSvcPostFactory.getPlaceMessages(placeId, vm.messagesSetting);
+      }
+    }
+
+    function loadViewSetting() {
+      return $q(function (resolve, reject) {
+        var setting = NstSvcMessageSettingStorage.get(viewSettingStorageKey, defaultViewSetting);
+        resolve(setting);
+      });
+    }
+
+    function loadSortOption() {
+      return $q(function (resolve, reject) {
+        var option = NstSvcMessageSettingStorage.get(sortOptionStorageKey, defaultSortOption);
+        resolve(option);
+      });
+    }
+
+    function sort(option) {
+      if (!_.includes([
+        NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
+        NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
+      ], option)){
+        throw 'The provided sort option key is not valid';
       }
 
-      if (!$scope.events.eventGroups.hasOwnProperty(gkey)) {
-        $scope.events.eventGroups[gkey] = {
-          titleFormat: $scope.events.gformats[gtype],
-          type: gtype,
-          date: event.date,
-          set: []
+
+      vm.messagesSetting.sort = option;
+      loadMessages();
+    }
+
+    function loadMessages() {
+      getMessages().then(function (messages) {
+        vm.messages = mapMessages(messages);
+      }).catch(function (error) {
+        // TODO:  handle the error
+      });
+    }
+
+    function loadMore() {
+      messagesSetting.skip += messagesSetting.limit;
+      loadMessages();
+    }
+
+    function mapMessages(messages) {
+      var now = moment();
+
+      var fileTypes = {
+        'image' : 'Image',
+        'audio' : 'Audio',
+        'video' : 'Video',
+        'text' : 'Text',
+        'application' : 'Application'
+      };
+
+      var fileFormats = {
+        'zip' : 'ZIP',
+        'x-rar-compressed' : 'RAR',
+        'rtf' : 'DOC',
+        'msword' : 'DOCX',
+        'vnd.openxmlformats-officedocument.wordprocessingml.document' : 'DOC'
+      };
+
+      return _.map(messages, function (message) {
+
+        var firstPlace = _.first(message.places);
+        var otherPlaces = _.except(messages.places, firstPlace);
+
+        return {
+          id : message.id,
+          sender : mapSender(message.sender),
+          subject : mesage.subject,
+          body : message.body,
+          firstPlace : mapPlace(firstPlace),
+          otherPlaces : _.map(otherPlaces, mapPlace),
+          otherPlacesCount : otherPlaces.length,
+          totalPlacesCount : message.places.length,
+          date : formatMessageDate(message.date),
+          attachments : _.map(message.attachments, mapAttachment),
+          hasAnyAttachment : message.attachments.length > 0,
+          comments : _.map(message.comments, mapComment),
+          hasAnyComment : message.comments.length > 0,
+          commentsCount : message.attachments.length,
+          userHasRemoveAccess : message.haveAnyPlaceWithDeleteAccess()
+        };
+      });
+
+      function mapSender(sender) {
+        return {
+          name : sender.fullname,
+          username : sender.username,
+          // avatar : sender.
         };
       }
 
-      if (appendFirst) {
-        $scope.events.eventGroups[gkey].set.unshift(event);
-      } else {
-        $scope.events.eventGroups[gkey].set.push(event);
+      function mapAttachment(attach) {
+        return {
+          name : attach.filename,
+          size : attach.size,
+          url : attach.download.url,
+          type : findFileType(attach),
+          format : findFileFormat(attach),
+        };
       }
-    };
 
-
-
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (tlEvent) {
-      var event = new NestedEvent(tlEvent.detail.timeline_data);
-      $log.debug(event);
-      var action = tlEvent.detail.timeline_data.action;
-      var filter = vm.filters[vm.filter].filter;
-
-      if (shouldPushToEvents(filter, action)) {
-          $scope.events.pushEvent(event, true);
+      function mapPlace(place) {
+        return {
+          id : place.id,
+          name : place.name,
+          // picture : place.
+        };
       }
-    });
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.AUTHORIZE, function (event) {
-      // TODO: Get timeline events after last event
-    });
-
-    $scope.postView = function (post, url, event) {
-      $scope.postViewModal = $uibModal.open({
-        animation: false,
-        templateUrl: 'app/post/post.html',
-        controller: 'PostController',
-        controllerAs: 'post',
-        size: 'mlg',
-        scope: $scope
-      });
-
-      $rootScope.$on('post-removed',function (context, post) {
-        if (post.places.length === 0) {
-          $scope.postViewModal.dismiss();
-          // FIXME: I do not know why it takes a while to disappear!
-          removePostEvent(post.id);
+      function formatMessageDate(date) {
+        if (!date) {
+          return 'Unknown';
         }
-      });
 
-      $scope.thePost = post;
-      NstSvcLoader.inject($scope.thePost.load());
-      $scope.lastUrl = $location.path();
+        var today = moment().startOf('day');
+        if (date.isSameOrAfter(today)) { // today
+          return date.format('[Today at] HH:mm');
+        }
 
-      $scope.postViewModal.opened.then(function () {
-        // $location.update_path(url, true);
-      });
+        var yesterday = moment.startOf('day').subtract(1, 'days');
+        if (date.isSameOrAfter(yesterday)) { // yesterday
+          return date.format('[Yesterday at] HH:mm');
+        }
 
-      $scope.postViewModal.closed.then(function () {
-        // $location.update_path($scope.lastUrl, true);
+        var year = moment.startOf('year');
+        if (date.isSameOrAfter(year)) { // current year
+          return date.format('MMM DD, HH:mm');
+        }
 
-        delete $scope.lastUrl;
-        delete $scope.thePost;
-      });
+        return date.format("MMM DD YYYY, HH:mm"); // last year and older
+      }
 
-      event.stopPropagation();
-    };
+      function formatCommentDate(date) {
+        if (!date) {
+          return 'Unknown';
+        }
 
-    $scope.attachmentView = function (attachment) {
-      return NstSvcLoader.inject(attachment.getDownloadUrl().then(function () {
-        return $q(function (res) {
-          res(this);
-        }.bind(this));
-      }.bind(attachment)).then(function (attachment) {
-        $scope.lastUrl = $location.path();
-        $scope.attachment = attachment;
+        return date.fromNow(false); // 'true' just removes the trailing 'ago'
+      }
 
-        var modal = $uibModal.open({
-          animation: false,
-          templateUrl: 'app/post/attachment.html',
-          controller: 'AttachmentController',
-          controllerAs: 'attachmentCtrl',
-          size: 'mlg',
-          windowClass: 'modal-attachment',
-          scope: $scope
-        });
+      function findFileType(attach) {
+        var type = attach.mimeType.split('/')[0];
 
-        modal.opened.then(function () {
-          // $location.update_path(attachment.download.url, true);
-        });
+        return fileTypes[type] || 'Unknown';
+      }
 
-        modal.closed.then(function () {
-          // $location.update_path(attachment.download.lastUrl, true);
+      function findFileFormat(attach) {
+        var format = attach.mimeType.split('/')[1];
 
-          delete $scope.lastUrl;
-          delete $scope.attachment;
-        });
+        return fileFormats[format] || 'File';
+      }
 
-        return $q(function (res) {
-          res($scope.attachment);
-        })
-      }));
-    };
-
-    function shouldPushToEvents(filter, action){
-      var views = [
-        {
-          key: 'all',
-          actions : _.values(EVENT_ACTIONS)
-        },
-        {
-          key: 'inbox',
-          actions : [
-            EVENT_ACTIONS.POST_ADD,
-            EVENT_ACTIONS.POST_REMOVE,
-            EVENT_ACTIONS.POST_UPDATE
-          ]
-        },
-        {
-          key: 'comments',
-          actions : [
-            EVENT_ACTIONS.COMMENT_ADD,
-            EVENT_ACTIONS.COMMENT_REMOVE
-          ]
-        },
-        {
-          key: 'acts',
-          actions : [
-            EVENT_ACTIONS.MEMBER_ADD,
-            EVENT_ACTIONS.MEMBER_REMOVE,
-            EVENT_ACTIONS.MEMBER_INVITE,
-            EVENT_ACTIONS.MEMBER_JOIN,
-            EVENT_ACTIONS.PLACE_ADD,
-            EVENT_ACTIONS.PLACE_REMOVE,
-            EVENT_ACTIONS.PLACE_PRIVACY,
-            EVENT_ACTIONS.PLACE_PICTURE
-          ]
-        },
-      ];
-
-      // returns true if the event belongs to the selected view and is one of its actions
-      return _.some(views, function (view) {
-        return view.key === filter && _.includes(view.actions, action);
-      });
+      function mapComment(comment) {
+        return {
+            body : comment.body,
+            date : formatCommentDate(comment),
+            sender : mapSender(comment.sender)
+        };
+      }
     }
 
-    function removePostEvent(id) {
-      if (!id) { return; }
-
-      _.forEach(vm.eventGroups, function (group) {
-        var postEvent = _.find(group.set, function (event) {
-          return event.post && event.post.id === id;
-        });
-        if (postEvent){
-          group.set.splice(group.set.indexOf(postEvent), 1);
-          return;
-        }
-      });
+    function toggleContentPreview() {
+      vm.contentPreview = !vm.contentPreview;
     }
-    // TODO: ask Ali about the below line
-    // $("#popover").popover({ trigger: "hover" });
+
+    function toggleCommentsPreview() {
+      vm.commentsPreview = !vm.commentsPreview;
+    }
+
+    function toggleAttachmentPreview() {
+      vm.attachmentPreview = !vm.attachmentPreview;
+    }
+
+    function toggleQuickMessagePreview() {
+      vm.quickMessagePreview = !vm.quickMessagePreview;
+    }
+
   }
 
 })();
