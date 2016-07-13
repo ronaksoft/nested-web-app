@@ -583,9 +583,6 @@ ul ul li:last-child{
   ******************************
  */
 
-.p {
-  margin: 0;
-}
 .filter-bar {
   height: 50px;
 }
@@ -602,10 +599,6 @@ ul ul li:last-child{
   margin-right: 25px;
 }
 
-
-//.filter-bar-hld .viewicon-,.viewicon-sort,.viewicon-filter {
-//  @extend .margin-l-15;
-//}
 
 [class*='icon-viewicon-']{
   background: url('../assets/icons/viewicon.svg');
@@ -653,6 +646,22 @@ ul ul li:last-child{
 
 .icon-position {
   height: 40px;
+}
+
+.list-items {
+  height: 30px;
+  padding: 5px 10px;
+  width: 100%;
+  color: $color-hurricane;
+}
+
+.list-items:hover {
+  background-color: $color-sense-5;
+  color: $color-solid;
+}
+.spansetting {
+  height: 30px;
+  padding: 5px 10px;
 }
 
 
@@ -1001,6 +1010,10 @@ ul ul li:last-child{
   ******************************
  */
 
+.popover-content {
+  padding: 0;
+}
+
 .popover-white-nst + .popover {
   background: $color-white;
   border-radius: 6px 0px 6px 6px;
@@ -1008,8 +1021,9 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -116px !important;
+  left: -94px !important;
   z-index: 37;
+  padding: 0;
 }
 
 .popover-white-nst-msg + .popover {
@@ -1019,13 +1033,14 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: 0 !important;
+  left: 22px !important;
   z-index: 37;
+  box-sizing: inherit;
 }
 
 
 .popover-white-nst-setting {
-  width: 206px;
+  width: 210px;
 }
 
 .popover-white-nst-sort + .popover{
@@ -1035,7 +1050,7 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -79px !important;
+  left: -56px !important;
   z-index: 36;
 }
 
@@ -1047,13 +1062,12 @@ ul ul li:last-child{
 }
 
 .ul-popover label {
-  width: 100px;
+  width: 300px;
   float: left;
 }
 
 .ul-popover li:hover {
   background-color: $color-sense-5;
-  width: 206px;
   color: $color-solid;
 }
 
@@ -1064,11 +1078,12 @@ ul ul li:last-child{
   position: absolute;
 }
 .line-popover {
-  width: 206px;
   height: 1px;
   background-color: $color-breeze-50;
-  position: absolute;
-  bottom: 55px;
+  margin: 5px 0;
+  width: 100%;
+
+
 }
 
 label + input[type="checkbox"]  {
