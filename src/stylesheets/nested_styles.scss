@@ -43,18 +43,15 @@
 }
 .icon-top {
   fill: white;
-  width: 24px;
-  height: 24px;
-  background-size: cover;
-  background-image: url("../assets/icons/smallscreenhandlers.svg");
-  background-repeat: no-repeat;
+  width: 32px;
+  height: 32px;
+  background-size: contain;
 }
 
 .hamburger-icon {
-  background-position: 0 0;
-}
-.comp-icon {
-  background-position: 0 -24px;
+  background-image: url("../assets/icons/hamburger.svg");
+  background-repeat: no-repeat;
+  flex: none;
 }
 
 .icon-compose {
@@ -85,6 +82,12 @@
   background: url('../assets/icons/search.svg') no-repeat;
   width: 32px;
   height: 32px;
+}
+.icon-close-search {
+  background: url('../assets/icons/search.svg') no-repeat;
+  width: 32px;
+  height: 32px;
+  background-position: 0 -32px;
 }
 
 .icon-storm {
@@ -230,16 +233,12 @@
 
 .nst-topnav {
   width: 100%;
-  display: flex;
-  flex: none;
   position: fixed;
   top: 0;
   right: 0;
-  left: 0;
   height: 68px;
   background-color: #14D769;
-  z-index: 52;
-  transition: .3s;
+  z-index: 3000;
   & > div {
     height: 100%;
     align-items: center;
@@ -254,19 +253,7 @@
     justify-content: flex-end;
   }
 }
-#top-nav-container {
-  position: fixed;
-  display: none;
-  z-index: 100;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  top: 68px;
-  background-color: $color-white;
-  padding: 8px;
-  overflow: hidden;
-  animation: appearence .5s;
-}
+
 /**
   ******************************
   *  navbar
@@ -318,11 +305,13 @@ a {
 .navbar-top {
   height: 122px;
   transition: .3s;
+  z-index: 5;
   align-items: center;
 }
 
 .navbar-bottom {
   height: 66px;
+  z-index: 5;
   display: inline-flex;
   flex-direction: row;
 }
@@ -600,9 +589,6 @@ ul ul li:last-child{
   ******************************
  */
 
-.p {
-  margin: 0;
-}
 .filter-bar {
   height: 50px;
 }
@@ -619,10 +605,6 @@ ul ul li:last-child{
   margin-right: 25px;
 }
 
-
-//.filter-bar-hld .viewicon-,.viewicon-sort,.viewicon-filter {
-//  @extend .margin-l-15;
-//}
 
 [class*='icon-viewicon-']{
   background: url('../assets/icons/viewicon.svg');
@@ -670,6 +652,22 @@ ul ul li:last-child{
 
 .icon-position {
   height: 40px;
+}
+
+.list-items {
+  height: 30px;
+  padding: 5px 10px;
+  width: 100%;
+  color: $color-hurricane;
+}
+
+.list-items:hover {
+  background-color: $color-sense-5;
+  color: $color-solid;
+}
+.spansetting {
+  height: 30px;
+  padding: 5px 10px;
 }
 
 
@@ -1018,6 +1016,10 @@ ul ul li:last-child{
   ******************************
  */
 
+.popover-content {
+  padding: 0;
+}
+
 .popover-white-nst + .popover {
   background: $color-white;
   border-radius: 6px 0px 6px 6px;
@@ -1025,8 +1027,9 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -116px !important;
+  left: -94px !important;
   z-index: 37;
+  padding: 0;
 }
 
 .popover-white-nst-msg + .popover {
@@ -1036,13 +1039,14 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: 0 !important;
+  left: 22px !important;
   z-index: 37;
+  box-sizing: inherit;
 }
 
 
 .popover-white-nst-setting {
-  width: 206px;
+  width: 210px;
 }
 
 .popover-white-nst-sort + .popover{
@@ -1052,7 +1056,7 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -79px !important;
+  left: -56px !important;
   z-index: 36;
 }
 
@@ -1064,13 +1068,12 @@ ul ul li:last-child{
 }
 
 .ul-popover label {
-  width: 100px;
+  width: 300px;
   float: left;
 }
 
 .ul-popover li:hover {
   background-color: $color-sense-5;
-  width: 206px;
   color: $color-solid;
 }
 
@@ -1081,11 +1084,12 @@ ul ul li:last-child{
   position: absolute;
 }
 .line-popover {
-  width: 206px;
   height: 1px;
   background-color: $color-breeze-50;
-  position: absolute;
-  bottom: 55px;
+  margin: 5px 0;
+  width: 100%;
+
+
 }
 
 label + input[type="checkbox"]  {
@@ -1095,7 +1099,7 @@ label + input[type="checkbox"]  {
   min-width: 17px;
   padding: 0 0 0 17px;
   font-size: $font-size-small;
-  color: $color-solid;
+  color: $color-force-wire;
 }
 
 label + input[type="checkbox"]:checked  {
