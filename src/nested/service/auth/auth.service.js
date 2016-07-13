@@ -50,7 +50,7 @@
       $cookies.put('nss', this.lastSessionSecret, options);
 
       // TODO: Pass to user service
-      this.user.setData(data.info);
+      this.user.fill(data.info);
 
       this.state = NST_AUTH_STATE.AUTHORIZED;
       this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE, { detail: { user: this.user } }));
