@@ -93,6 +93,19 @@
 
         <a data-ng-if="'#/profile'" href="#/messages" class="btn-white-nav nst-mood-storm  btn-white-nav-ps">Discard</a>
       </div>
+      <div class="navbar-bottom" id="nav-com">
+        <div class="_df _fw">
+          <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
+          <!--<a href="javascript:void(0);" class="btn-white-nav nst-mood-storm" onclick="window.history.back();">Discard</a>-->
+        </div>
+        <div class="_df">
+          <a href="javascript:void(0);" class="_fr btn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
+        </div>
+        <div class="_df">
+          <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">Send</a>
+          <!--ng-disabled="myForm.$invalid"-->
+        </div>
+      </div>
     </div>
     <div class="content-plus">
     </div>
