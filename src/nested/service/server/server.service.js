@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcServer($websocket, $q, $log,
-                        NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENT, NST_SRV_MESSAGES, NST_AUTH_COMMANDS,
+                        NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENT, NST_SRV_MESSAGE, NST_AUTH_COMMANDS,
                         NstSvcRandomize,
                         NstObservableObject, NstRequest) {
     function Server(url, meta) {
@@ -123,7 +123,7 @@
 
       this.addEventListener(NST_SRV_EVENT.MESSAGE, function (event) {
         switch (event.detail) {
-          case NST_SRV_MESSAGES.INITIALIZE:
+          case NST_SRV_MESSAGE.INITIALIZE:
             $log.debug('WebSocket Initialized:', event, this);
             this.initialized = true;
             this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.INITIALIZE));
