@@ -24,6 +24,8 @@ function buildScripts() {
   ]).pipe(
     $.ngConfig('nested.config')
   ).pipe(
+    $.replace('{{BUILD}}', '3.0.0-alpha')
+  ).pipe(
     gulp.dest(path.join(conf.paths.tmp, '/serve/config'))
   );
 
