@@ -1071,7 +1071,13 @@ a .ui-select-choises-row-inner {
   width: 32px;
   margin: auto;
 }
-
+#Logo-white {
+  background: url("../assets/icons/NestedLogo.svg") no-repeat;
+  background-size: contain;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
 .compose {
   z-index: 7;
   display: flex;
