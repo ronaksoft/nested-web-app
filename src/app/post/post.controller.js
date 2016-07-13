@@ -27,7 +27,7 @@
     vm.user = NstSvcAuth.user;
     vm.commentSettings = {
       skip: 0,
-      limit: 30,
+      limit: 30
     };
 
     vm.removeComment = removeComment;
@@ -76,11 +76,11 @@
     /**
      * extractCommentBody - extract and refine the comment
      *
-     * @param  {Event} event event handler
+     * @param  {Event}    e   event handler
      * @return {string}       refined comment
      */
-    function extractCommentBody(event) {
-      return event.currentTarget.value.trim();
+    function extractCommentBody(e) {
+      return e.currentTarget.value.trim();
     }
 
     function allowToRemoveComment(comment) {
@@ -92,14 +92,14 @@
     /**
      * sendComment - add the comment to the list of the post comments
      *
-     * @param  {Event} event keypress event handler
+     * @param  {Event}  e   keypress event handler
      */
-    function sendComment(event) {
-      if (!sendKeyIsPressed(event)) {
+    function sendComment(e) {
+      if (!sendKeyIsPressed(e)) {
         return;
       }
 
-      var body = extractCommentBody(event);
+      var body = extractCommentBody(e);
       if (body.length === 0) {
         return;
       }
@@ -108,7 +108,7 @@
 
       PostFactoryService.addComment(vm.post, vm.user, body).then(function(post) {
         vm.post = post;
-        event.currentTarget.value = '';
+        e.currentTarget.value = '';
         $scope.scrolling = $scope.unscrolled && true;
         $scope.commentSendInProgress = false;
         // TODO: notify
@@ -117,7 +117,7 @@
       });
 
       return false;
-    };
+    }
 
     function loadMoreComments() {
       vm.commentLoadProgress = true;

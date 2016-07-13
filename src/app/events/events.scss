@@ -116,7 +116,7 @@
   display: flex;
   margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
   padding: 0 5px;
-  min-width: 782px;
+  min-width: 600px;
   width: 100%;
   animation: appearence .2s linear;
 }
@@ -126,8 +126,8 @@
     background-color: $color-white;
   }
   100% {
+    background-color: #E7FBF0;
   }
-  background-color: #E7FBF0;
 }
 @keyframes seen-event {
   0%, 25%, 50% {
@@ -217,7 +217,7 @@
   color: $color-solid!important;
   font-weight: 550;
 }
-#EventList .msg .body {
+#EventList .msg .bod {
   display: flex;
   color: gray;
 }
@@ -272,7 +272,7 @@
   color: $color-white;
 }
 
-#EventList.collapse .msg .body {
+#EventList.collapse .msg .bod {
   display: none;
 }
 
@@ -383,9 +383,13 @@
 }
 
 .logo-bar {
-  width: 56px;
-  margin: 16px;
+  //width: 56px;
+  //margin: 16px;
+  width: 64px;
+  margin: 0 8px;
   flex: none;
+  align-items: center;
+  justify-content: center;
 }
 $spacing: 14px;
 .resizable {
@@ -449,11 +453,13 @@ $spacing: 14px;
 
 .title-bar .name span{
   align-items: center;
+  //padding-top: 10px;
 }
 .title-bar .name{
   justify-content: center;
 }
 .title-bar .name a{
   align-items: flex-end;
-  font-size: 20px;
+  font-size: 32px;
+  font-weight: 100;
 }

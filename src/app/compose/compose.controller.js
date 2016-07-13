@@ -28,8 +28,9 @@
       browser_spellcheck: true,
       selector: 'textarea',
       height : 600,
-      plugins : 'autolink link image lists charmap directionality textcolor colorpicker contextmenu emoticons',
-      contextmenu: "link inserttable | cell row column deletetable",
+      plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons',
+      //contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
+      //contextmenu_never_use_native: true,
       toolbar: 'bold italic underline strikethrough | alignleft aligncenter aligncenter alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
       skin: 'lightgray',
       theme : 'modern'

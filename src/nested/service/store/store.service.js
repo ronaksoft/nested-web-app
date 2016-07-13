@@ -143,7 +143,7 @@
 
             return $q(function (res, rej) {
               switch (data.status) {
-                case WS_RESPONSE_STATUS.SUCCESS:
+                case NST_WS_RESPONSE_STATUS.SUCCESS:
                   res(data);
                   break;
                 default:

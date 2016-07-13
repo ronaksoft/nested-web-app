@@ -44,7 +44,7 @@
       parameters['filter'] = vm.filters[vm.filter].filter;
     }
 
-    var memory = StorageFactoryService.create('dt.places.f', STORAGE_TYPE.MEMORY);
+    var memory = NstSvcStorageFactory.create('dt.places.f', STORAGE_TYPE.MEMORY);
     memory.setFetchFunction(function (id) {
       if (0 === id.indexOf('places.')) {
         return NstSvcServer.request('account/get_my_places', parameters).then(function (data) {

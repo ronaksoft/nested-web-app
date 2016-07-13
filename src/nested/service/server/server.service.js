@@ -151,8 +151,8 @@
 
         this.authorized = false;
         this.initialized = false;
-        this.dispatchEvent(new CustomEvent(NST_SRV_EVENTS.UNINITIALIZE));
 
+        this.dispatchEvent(new CustomEvent(NST_SRV_EVENTS.UNINITIALIZE));
         this.stream.reconnect();
       }.bind(this));
 

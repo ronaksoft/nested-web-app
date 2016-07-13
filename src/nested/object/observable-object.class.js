@@ -9,7 +9,7 @@
     .factory('NstObservableObject', NstObservableObject);
 
   /** @ngInject */
-  function NstObservableObject(NstSvcRandomize, NstObject) {
+  function NstObservableObject(NstSvcRandomize, NstObject, NST_OBJECT_EVENT) {
     function ObservableObject() {
       for (var k in this) {
         if (!(this[k] instanceof Function)) {

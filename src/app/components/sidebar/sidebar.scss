@@ -2,18 +2,8 @@
   ********************************************************
   *     Nested Classes - Component Specific - Sidebar  *
   ********************************************************
- */
 
-.sidebar {
-  background-color: $color-breeze-50;
-  border: 1px solid $color-breeze-50;
-  width: 100%;
-  font-size: 14px;
-  overflow-y: auto;
-  //white-space: nowrap;
-  //overflow: hidden;
-  //text-overflow: ellipsis;
-}
+
 
 .sidebar ul a {
   color : $color-solid;
@@ -127,10 +117,7 @@
   overflow: hidden;
   border-bottom: 1px solid black;
 }
-.sidebar .e2-arrow {
-  width: 18px;
-  margin-right: 12px;
-}
+
 .place-name {
   height: 50px;
   width: calc(100% - 65px);
@@ -166,3 +153,4 @@
   overflow-y: auto;
 }
 
+*/

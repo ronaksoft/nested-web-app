@@ -44,7 +44,7 @@
                               StorageFactoryService, NstSvcServer,
                               FactoryQuery, NstPlace) {
     function NestedPlaceFactory() {
-      this.cache = StorageFactoryService.create('nested.place.factory.service', STORAGE_TYPE.MEMORY);
+      this.cache = NstSvcStorageFactory.create('nested.place.factory.service', STORAGE_TYPE.MEMORY);
       this.cache.setFetchFunction(function (id) {
         // TODO: Return the object
         return NstSvcServer.request('place/get_info', { place_id: id });

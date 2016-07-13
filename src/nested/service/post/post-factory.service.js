@@ -6,9 +6,9 @@
 
   /** @ngInject */
   function NstSvcPostFactory($q,
-                             _,
-                             NstSvcPostStorage, NstSvcServer,
-                             NstFactoryError, NstFactoryQuery, NstPost, NstComment, NestedUser, NestedPlace, NestedAttachment) {
+    _,
+    NstSvcPostStorage, NstSvcServer,
+    NstFactoryError, NstFactoryQuery, NstPost, NstComment, NestedUser, NestedPlace, NestedAttachment) {
 
     /**
      * PostFactory - all operations related to post, comment
@@ -16,12 +16,14 @@
     var service = {
       get: get,
       remove: remove,
-      retrieveComments: retrieveComments,
       addComment: addComment,
       removeComment: removeComment,
-      getWithComments: getWithComments,
       createPostModel: createPostModel,
-      createCommentModel: createCommentModel
+      getWithComments: getWithComments,
+      retrieveComments: retrieveComments,
+      reateCommentModel: createCommentModel,
+      parsePost: parsePost,
+      parseComment: parseComment
     };
 
     return service;
@@ -117,7 +119,7 @@
         txt: content
       }).then(function(data) {
         var comment = createCommentModel({
-          id : data.comment_id.$oid,
+          id: data.comment_id.$oid,
           post: post,
           body: content,
           sender: user,
@@ -154,10 +156,12 @@
           skip: settings.skip,
           limit: settings.limit
         }).then(function(data) {
-          var allCommnets = _.map(data.comments, function (comment) {
+          var allCommnets = _.map(data.comments, function(comment) {
             return parseComment(post, comment);
           });
-          var comments = _.filter(allCommnets, { 'removed': false });
+          var comments = _.filter(allCommnets, {
+            'removed': false
+          });
           post.addComments(comments);
 
           settings.skip = settings.skip + allCommnets.length;
@@ -212,11 +216,10 @@
     function getWithComments(postId, commentSettings) {
       var defer = $q.defer();
 
-      get(postId).then(function (post) {
-        if (post && post.id){
+      get(postId).then(function(post) {
+        if (post && post.id) {
           retrieveComments(post, commentSettings).then(defer.resolve).catch(defer.reject);
-        }
-        else {
+        } else {
           defer.reject('could not find a post with provided id.');
         }
       }).catch(defer.reject);
@@ -243,84 +246,104 @@
     }
 
     function parsePost(data) {
-      var post = new NstPost();
+      var defer = $q.defer();
 
-      if (!data){
-        return post;
+      var post = createPostModel();
+
+      if (!data) {
+        defer.resolve(post);
+      } else {
+
+        post.id = data._id.$oid;
+        post.sender = new NestedUser(data.sender);
+        post.subject = data.subject;
+        post.contentType = data.content_type;
+        post.body = data.body;
+        post.internal = data.internal;
+        post.date = new Date(data['time-stamp'] * 1e3);
+        post.updated = new Date(data['last-update'] * 1e3);
+        post.counters = data.counters || post.counters;
+        post.moreComments = false;
+        if (post.counters) {
+          post.moreComments = post.counters.comments > -1 ? post.counters.comments > post.comments.length : true;
+        }
+
+        post.monitored = data.monitored;
+        post.spam = data.spam;
+
+        post.places = [];
+        for (var k in data.post_places) {
+          post.places[k] = new NestedPlace({
+            id: data.post_places[k]._id,
+            name: data.post_places[k].name
+          });
+        }
+
+        if (data.place_access) {
+          _.forEach(post.places, function(place) {
+            place.access = _.find(data.place_access, {
+              '_id': place.id
+            }).access;
+          });
+        }
+
+        post.attachments = [];
+        post.attachmentPreview = false;
+        for (var k in data.post_attachments) {
+          post.attachments[k] = new NestedAttachment(data.post_attachments[k], post);
+          post.attachmentPreview = post.attachmentPreview || !!post.attachments[k].thumbs.x128.uid;
+        }
+
+        post.recipients = []; // TODO: ?
+        for (var k in data.recipients) {
+          post.recipients[k] = new NestedRecipient(data.recipients[k]);
+        }
+
+        if (post.full) {
+          post.commentLimit = post.counters.comments || 100 * post.commentLimit;
+          post.loadComments();
+        }
+
+        $q.all([parsePost(data.replyTo), parsePost(data.forwarded)]).then(function(values) {
+
+          post.replyTo = values[0];
+          post.forwarded = values[1];
+
+          defer.resolve(post);
+
+        }).catch(defer.reject);
       }
 
-      post.id = data._id.$oid;
-      post.sender = new NestedUser(data.sender);
-      post.replyTo = parsePost(data.replyTo);
-      post.subject = data.subject;
-      post.contentType = data.content_type;
-      post.body = data.body;
-      post.internal = data.internal;
-      post.date = new Date(data['time-stamp'] * 1e3);
-      post.updated = new Date(data['last-update'] * 1e3);
-      post.counters = data.counters || post.counters;
-      post.moreComments = post.counters.comments > -1 ? post.counters.comments > post.comments.length : true;
-      post.monitored = data.monitored;
-      post.forwarded = parsePost(data.forwarded);
-      post.spam = data.spam;
-
-      post.places = [];
-      for (var k in data.post_places) {
-        post.places[k] = new NestedPlace({
-          id: data.post_places[k]._id,
-          name: data.post_places[k].name
-        });
-      }
-
-      if (data.place_access) {
-        _.forEach(post.places, function(place) {
-          place.access = _.find(data.place_access, {
-            '_id': place.id
-          }).access;
-        });
-      }
-
-      post.attachments = [];
-      post.attachmentPreview = false;
-      for (var k in data.post_attachments) {
-        post.attachments[k] = new NestedAttachment(data.post_attachments[k], post);
-        post.attachmentPreview = post.attachmentPreview || !!post.attachments[k].thumbs.x128.uid;
-      }
-
-      post.recipients = []; // TODO: ?
-      for (var k in data.recipients) {
-        post.recipients[k] = new NestedRecipient(data.recipients[k]);
-      }
-
-      if (post.full) {
-        post.commentLimit = post.counters.comments || 100 * post.commentLimit;
-        post.loadComments();
-      }
-
-      return post;
+      return defer.promise;
     }
 
     function parseComment(post, data) {
       var comment = new NstComment();
 
+      var defer = $q.defer();
+
       if (!data) {
-        return comment;
+        defer.resolve(comment);
+      } else {
+
+        comment.id = data._id.$oid;
+        comment.attach = data.attach;
+        comment.post = post;
+        comment.sender = new NestedUser({
+          _id: data.sender_id,
+          fname: data.sender_fname,
+          lname: data.sender_lname,
+          picture: data.sender_picture
+        });
+        comment.body = data.text;
+        comment.date = new Date(data['timestamp']);
+        comment.removed = data._removed;
+
+        defer.resolve(comment);
+
       }
 
-      comment.id = data._id.$oid;
-      comment.attach = data.attach;
-      comment.post = post;
-      comment.sender = new NestedUser({
-        _id: data.sender_id,
-        fname: data.sender_fname,
-        lname: data.sender_lname,
-        picture: data.sender_picture
-      });
-      comment.body = data.text;
-      comment.date = new Date(data['time-stamp']);
-      comment.removed = data._removed;
-
-      return comment;
+      return defer.promise;
     }
 
   }
