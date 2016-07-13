@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcServer($websocket, $q, $log,
-                        NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENT, NST_SRV_MESSAGE, NST_AUTH_COMMANDS,
+                        NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENT, NST_SRV_MESSAGE, NST_AUTH_COMMAND,
                         NstSvcRandomize,
                         NstObservableObject, NstRequest) {
     function Server(url, meta) {
@@ -86,7 +86,7 @@
                 case NST_SRV_RESPONSE_STATUS.SUCCESS:
                   this.requests[reqId].resolve(data.data);
 
-                  if (NST_AUTH_COMMANDS.indexOf(this.requests[reqId].data.data.cmd) > -1) {
+                  if (NST_AUTH_COMMAND.indexOf(this.requests[reqId].data.data.cmd) > -1) {
                     this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MANUAL_AUTH, {
                       detail: {
                         response: data,

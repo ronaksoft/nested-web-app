@@ -5,7 +5,7 @@
     .module('nested')
     .factory('NstRequest', NstRequest);
 
-  function NstRequest($q, $log, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_SRV_EVENT, NST_AUTH_COMMANDS) {
+  function NstRequest($q, $log, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_SRV_EVENT, NST_AUTH_COMMAND) {
     function Request(service, data, timeout) {
       this.service = service;
       this.data = data;
@@ -43,7 +43,7 @@
           this.reject = reject;
         }
 
-        if (this.service.isAuthorized() || NST_AUTH_COMMANDS.indexOf(this.data.data.cmd) > -1) {
+        if (this.service.isAuthorized() || NST_AUTH_COMMAND.indexOf(this.data.data.cmd) > -1) {
           if (this.service.isInitialized()) {
             this.send();
           } else {
