@@ -7,10 +7,10 @@
 
   /** @ngInject */
   function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout, _, toastr, ATTACHMENT_STATUS,
-    AuthService, WsService, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+    NstSvcAuth, NstSvcServer, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({back: $location.path()});
       $location.path('/signin').replace();
     }
@@ -78,7 +78,7 @@
     vm.places = [];
     vm.recipients = [];
     vm.search = function (query) {
-      WsService.request('place/search', {keyword: query}).then(function (data) {
+      NstSvcServer.request('place/search', {keyword: query}).then(function (data) {
         $scope.compose.places = [];
         for (var k in data.places) {
           $scope.compose.places.push(new NestedPlace(data.places[k]));
@@ -266,7 +266,7 @@
         $scope.sendStatus = false;
       }).catch(function (data) {
         switch (data.err_code) {
-          case NST_WS_ERROR.ACCESS_DENIED:
+          case NST_SRV_ERROR.ACCESS_DENIED:
             toastr.error('You do not have enough access', 'Message Not Sent!');
             break;
 

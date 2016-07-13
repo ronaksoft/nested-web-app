@@ -6,10 +6,10 @@
     .controller('PlaceAddMemberController', PlaceAddMemberController);
 
   /** @ngInject */
-  function PlaceAddMemberController($location, $scope, WsService, AuthService, NestedUser, MEMBER_TYPE) {
+  function PlaceAddMemberController($location, $scope, NstSvcServer, NstSvcAuth, NestedUser, MEMBER_TYPE) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
@@ -17,7 +17,7 @@
     vm.selectedUsers = [];
 
     vm.search = function (query) {
-      WsService.request('account/search', {
+      NstSvcServer.request('account/search', {
         keyword: query,
         place_id: $scope.place.id,
         role: 'teammate' == $scope.role ? MEMBER_TYPE.KEY_HOLDER : MEMBER_TYPE.KNOWN_GUEST,

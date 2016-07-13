@@ -10,7 +10,7 @@
     }).factory('StoreService', NestedStore);
 
   /** @ngInject */
-  function NestedStore($window, $rootScope, $q, $http, $sce, $log, WsService, WS_RESPONSE_STATUS, NST_SRV_ERROR, UPLOAD_TYPE, NestedStore) {
+  function NestedStore($window, $rootScope, $q, $http, $sce, $log, NstSvcServer, WS_RESPONSE_STATUS, NST_SRV_ERROR, UPLOAD_TYPE, NestedStore) {
     function StoreService(stores) {
       this.stores = {};
       this.defaultStore = new NestedStore();
@@ -61,7 +61,7 @@
       },
 
       update: function () {
-        return WsService.request('store/get_store').then(function (data) {
+        return NstSvcServer.request('store/get_store').then(function (data) {
           var storeIds = angular.isArray(data.store_id) ? data.store_id : [data.store_id];
           var response = {
             resolve: function () {},
@@ -118,7 +118,7 @@
         return this.defaultStore.getUploadToken().then(function (token) {
           var formData = new FormData();
           formData.append('cmd', type);
-          formData.append('_sk', WsService.getSessionKey());
+          formData.append('_sk', NstSvcServer.getSessionKey());
           formData.append('token', token);
           formData.append('fn', 'attachment');
           formData.append('attachment', file);
@@ -164,7 +164,7 @@
           file : null,
           req_id : null,
           token : null,
-          _sk : WsService.getSessionKey(),
+          _sk : NstSvcServer.getSessionKey(),
           fn : 'attachment',
           cmd : UPLOAD_TYPE.FILE,
           onStart : null,

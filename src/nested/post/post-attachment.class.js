@@ -8,7 +8,7 @@
       ATTACHED: 'attached',
       ABORTED: 'aborted'
     })
-    .factory('NestedAttachment', function ($rootScope, $q, $log, _, WsService, NestedPlace, NestedUser, StoreItem, ATTACHMENT_STATUS) {
+    .factory('NestedAttachment', function ($rootScope, $q, $log, _, NstSvcServer, NestedPlace, NestedUser, StoreItem, ATTACHMENT_STATUS) {
       function Attachment(data, post, full) {
         this.full = full || false;
 
@@ -136,18 +136,18 @@
         load: function(id) {
           this.id = id || this.id;
 
-          return WsService.request('attachment/get_info', { attachment_id: this.id }).then(this.setData.bind(this));
+          return NstSvcServer.request('attachment/get_info', { attachment_id: this.id }).then(this.setData.bind(this));
         },
 
         delete: function() {
-          return WsService.request('attachment/remove', {
+          return NstSvcServer.request('attachment/remove', {
             post_id: this.id
           });
         },
 
         update: function() {
           // TODO: Check if API Exists and is correct
-          return WsService.request('attachment/update', {
+          return NstSvcServer.request('attachment/update', {
             post_id: this.id
           });
         }

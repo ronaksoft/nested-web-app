@@ -6,7 +6,7 @@
 
   angular
     .module('nested')
-    .factory('NestedComment', function ($rootScope, $q, $log, WsService, NestedUser, NestedPlace, NestedPost) {
+    .factory('NestedComment', function ($rootScope, $q, $log, NstSvcServer, NestedUser, NestedPlace, NestedPost) {
       function Comment(post, data, full) {
         this.full = full || false;
 
@@ -61,7 +61,7 @@
         },
 
         load: function(id, postId) {
-          return WsService.request('post/get_comment', {
+          return NstSvcServer.request('post/get_comment', {
             post_id: postId || this.post.id,
             comment_id: id || this.id
           }).then(this.setData.bind(this));
@@ -69,7 +69,7 @@
 
         delete: function() {
           if (Date.now() - this.date.getTime() < 20 * 60 * 1e3) {
-            return WsService.request('post/remove_comment', {
+            return NstSvcServer.request('post/remove_comment', {
               post_id: this.post.id,
               comment_id: this.id
             }).then(function () {

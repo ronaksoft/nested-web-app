@@ -6,12 +6,12 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($location, $scope, $stateParams, $uibModal, $q, $log, $timeout, _, moment, toastr,
-    AuthService, WsService, LoaderService, PostFactoryService, NST_EVENT_ACTION, NST_WS_EVENT,
+  function PostController($location, $scope, $stateParams, $uibModal, $q, $log, $timeout, _, toastr,
+    NstSvcAuth, NstSvcServer, NstSvcLoader, PostFactoryService, EVENT_ACTIONS, WS_EVENTS,
     NstPost, NstComment, postId) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({
         back: $location.path()
       });
@@ -24,7 +24,7 @@
     vm.commentLoadProgress = false;
     vm.hasMoreComments = false;
 
-    vm.user = AuthService.user;
+    vm.user = NstSvcAuth.user;
     vm.commentSettings = {
       skip: 0,
       limit: 30
@@ -132,7 +132,7 @@
     }
 
 
-    WsService.addEventListener(NST_WS_EVENT.TIMELINE, function(tlEvent) {
+    NstSvcServer.addEventListener(WS_EVENTS.TIMELINE, function(tlEvent) {
       switch (tlEvent.detail.timeline_data.action) {
         case EVENT_ACTIONS.COMMENT_ADD:
         case EVENT_ACTIONS.COMMENT_REMOVE:
@@ -140,7 +140,7 @@
           if ($scope.thePost.id == tlEvent.detail.timeline_data.post_id.$oid) {
             var commentId = tlEvent.detail.timeline_data.comment_id.$oid;
 
-            LoaderService.inject((new NstComment($scope.thePost)).load(commentId).then(function(comment) {
+            NstSvcLoader.inject((new NstComment($scope.thePost)).load(commentId).then(function(comment) {
               $scope.thePost.addComment(comment).then(function() {
                 $scope.scrolling = $scope.unscrolled && true;
 

@@ -7,12 +7,13 @@
 
   /** @ngInject */
   function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
-                            NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE,
-                            AuthService, WsService, LoaderService, NstSvcStorageFactory,
+
+                            WS_EVENTS, EVENT_ACTIONS, NST_SRV_ERROR, NST_STORAGE_TYPE,
+                            NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcStorageFactory,
                             NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
@@ -69,7 +70,7 @@
       length: 0,
       invites: {}
     };
-    LoaderService.inject(WsService.request('account/get_invitations').then(function (data) {
+    NstSvcLoader.inject(NstSvcServer.request('account/get_invitations').then(function (data) {
       for (var k in data.invitations) {
         if (data.invitations[k].place._id) {
           var invitation = new NestedInvitation(data.invitations[k]);
@@ -179,7 +180,7 @@
     };
 
     vm.load = function () {
-      LoaderService.inject(WsService.request('timeline/get_events', vm.parameters).then(function (data) {
+      NstSvcLoader.inject(NstSvcServer.request('timeline/get_events', vm.parameters).then(function (data) {
         $scope.events.moreEvents = !(data.events.length < $scope.events.parameters.limit);
         $scope.events.parameters.skip += data.events.length;
 
@@ -191,9 +192,9 @@
         }
       }).catch(function (data) {
         switch (data.err_code) {
-          case NST_WS_ERROR.UNAVAILABLE:
-          case NST_WS_ERROR.INVALID:
-          case NST_WS_ERROR.ACCESS_DENIED:
+          case NST_SRV_ERROR.UNAVAILABLE:
+          case NST_SRV_ERROR.INVALID:
+          case NST_SRV_ERROR.ACCESS_DENIED:
             vm.noAccessModal();
             //$location.path('/').replace();
             break;
@@ -232,7 +233,7 @@
 
 
 
-    WsService.addEventListener(NST_WS_EVENT.TIMELINE, function (tlEvent) {
+    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (tlEvent) {
       var event = new NestedEvent(tlEvent.detail.timeline_data);
       $log.debug(event);
       var action = tlEvent.detail.timeline_data.action;
@@ -243,7 +244,8 @@
       }
     });
 
-    WsService.addEventListener(NST_WS_EVENT.AUTHORIZE, function (event) {
+
+    NstSvcServer.addEventListener(WS_EVENTS.AUTHORIZE, function (event) {
       // TODO: Get timeline events after last event
     });
 
@@ -272,7 +274,7 @@
       });
 
       $scope.thePost = post;
-      LoaderService.inject($scope.thePost.load());
+      NstSvcLoader.inject($scope.thePost.load());
       $scope.lastUrl = $location.path();
 
       $scope.postViewModal.opened.then(function () {
@@ -290,7 +292,7 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return LoaderService.inject(attachment.getDownloadUrl().then(function () {
+      return NstSvcLoader.inject(attachment.getDownloadUrl().then(function () {
         return $q(function (res) {
           res(this);
         }.bind(this));

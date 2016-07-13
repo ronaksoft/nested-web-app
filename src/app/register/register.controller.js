@@ -6,10 +6,10 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController(AuthService, $location) {
+  function RegisterController(NstSvcAuth, $location) {
     var vm = this;
 
-    if (AuthService.isInAuthorization()) {
+    if (NstSvcAuth.isInAuthorization()) {
       $location.path('/').replace();
     }
   }

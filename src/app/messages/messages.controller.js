@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $timeout, $uibModal,
-    toastr, AuthService, WsService, LoaderService,
+    toastr, AuthService, WsService, NstSvcLoader,
     NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE,
     NstSvcStorageFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory) {
     var vm = this;
@@ -156,7 +156,7 @@
       });
 
       $scope.thePost = post;
-      LoaderService.inject($scope.thePost.load());
+      NstSvcLoader.inject($scope.thePost.load());
       $scope.lastUrl = $location.path();
 
       $scope.postViewModal.opened.then(function () {
@@ -174,7 +174,7 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return LoaderService.inject(attachment.getDownloadUrl().then(function () {
+      return NstSvcLoader.inject(attachment.getDownloadUrl().then(function () {
         return $q(function (res) {
           res(this);
         }.bind(this));

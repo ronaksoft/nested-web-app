@@ -3,8 +3,8 @@
 
   angular
     .module('nested')
-    .controller('NavBarController', function($scope, AuthService) {
-      $scope.user = AuthService.user;
+    .controller('NavBarController', function($scope, NstSvcAuth) {
+      $scope.user = NstSvcAuth.user;
     })
     .directive('nestedNavbar', nestedNavbar);
 
