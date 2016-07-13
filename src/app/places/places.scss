@@ -34,89 +34,54 @@
 .placearrow {
   width: 40px;
 }
-#AllPlaces li div div:only-of-type{
+.top-nav-places li div div:only-of-type{
   animation: appearence .4s ease-in;
 }
-#AllPlaces li div div:nth-child(2){
+.top-nav-places li div div:nth-child(2){
   animation: appearence .2s ease-in;
 }
-#AllPlaces li div div:nth-child(2) img,#AllPlaces li div div:nth-child(2) div{
+.top-nav-places li div div:nth-child(2) img,.top-nav-places li div div:nth-child(2) div{
 
   animation: grow-full .1s ease-in;
 }
-#AllPlaces li {
+.top-nav-places li {
   border-bottom: 1px solid $color-calm;
   display: inline-flex;
   flex-direction: column;
   width: 100%;
 }
-#AllPlaces div {
+.top-nav-places div {
 }
-#AllPlaces div:hover {
-background-color: $color-sense-5;
+.placerow:hover {
+  background-color: $color-sense-5;
 }
-#AllPlaces > div:hover:last-child {
-  background-color: $color-white;
+.top-nav-places > div:hover:last-child {
+  //background-color: $color-white;
 }
-
-#AllPlaces ul {
+.top-nav-places ul {
   flex-direction: column;
   list-style: none;
   flex:1 0 auto;
 }
-#AllPlaces ul ul {
+.top-nav-places {
+  flex-direction: column;
+  list-style: none;
+  flex:1 0 auto;
+}
+.top-nav-places ul ul {
   list-style: none;
   padding-left: 25px;
 }
-#AllPlaces ul ul li{
+.top-nav-places ul ul li{
   animation: appearence .1s ease-in;
 }
 
-#AllPlaces .logo {
+.top-nav-places .logo {
   width: 48px;
+  margin-left: 16px;
   flex: none;
   justify-content: center;
   align-items: center;
-}
-
-#AllPlaces li > table td.logo > img {
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-  vertical-align: middle;
-}
-#AllPlaces li li table {
-  max-height: 48px
-}
-#AllPlaces li li > table td.logo > img {
-  width: 32px;
-  height: 32px;
-  border-radius: 24px;
-  vertical-align: middle;
-}
-
-#AllPlaces li > table td.name {
-  min-width: 200px;
-  margin-top: 15px;
-
-}
-
-#AllPlaces li > table td.name img {
-  width: 24px;
-  height: 24px;
-  vertical-align: middle;
-}
-
-#AllPlaces li > table td.name h5 {
-  margin: 1px 5px;
-  font-weight: normal;
-  font-size: small;
-}
-
-#AllPlaces li > table td.name p {
-  margin-left: 5px;
-  //color: #787878;
-  font-size: x-small;
 }
 
 #AllPlaces .members {
@@ -124,10 +89,6 @@ background-color: $color-sense-5;
   text-align: right;
 }
 
-#AllPlaces li > table td.members img {
-  width: 32px;
-  margin: 1px;
-}
 
 .place-members {
   margin-right: 5px;
@@ -370,13 +331,24 @@ background-color: $color-sense-5;
   margin-top: 20px;
 }
 
-.name a {
-  color: $color-solid;
+.name h5 {
+  color: #000000;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
 }
 .placerow {
   flex-direction: row;
+  height: 64px;
   background-color: $color-white;
   position: relative;
+  border-bottom: 1px solid $color-calm;
+  .option-add-icon-plc {
+    width: 42px;
+    height: 42px;
+    background-position: 0 -84px;
+    background-size: cover;
+  }
 }
 .properties {
   width: 100px;

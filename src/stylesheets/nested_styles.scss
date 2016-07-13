@@ -31,8 +31,7 @@
 
 .icon {
   color: $color-breeze;
-  width: 24px;
-  height: 24px;
+  background-size: cover;
 }
 
 .icon-side {
@@ -40,6 +39,37 @@
   background-repeat: no-repeat;
   margin: 0 5px 0 15px;
   flex: none;
+  width: 24px;
+  height: 24px;
+}
+.icon-all-place {
+  background-position: 0 0px;
+}
+
+.icon-bookmarks {
+  background-position: 0 -24px;
+}
+
+.icon-sent {
+  background-position: 0 -48px;
+}
+.icon-top-action {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-repeat: no-repeat;
+  flex: none;
+  width: 48px;
+  height: 48px;
+}
+.icon-top-all-place {
+  background-position: 0 0px;
+}
+
+.icon-top-bookmarks {
+  background-position: 0 -48px;
+}
+
+.icon-top-sent {
+  background-position: 0 -90px;
 }
 .icon-top {
   fill: white;
@@ -62,18 +92,6 @@
   background-repeat: no-repeat;
 }
 
-
-.icon-all-place {
-  background-position: 0 0px;
-}
-
-.icon-bookmarks {
-  background-position: 0 -24px;
-}
-
-.icon-sent {
-  background-position: 0 -48px;
-}
 
 .icon-more {
   background: url('../assets/icons/nst-more-badge.svg') no-repeat;
@@ -262,10 +280,46 @@
   left: 0;
   bottom: 0;
   top: 68px;
-  background-color: $color-white;
+  background-color: $color-breeze-50;
   padding: 8px;
   overflow: hidden;
   animation: appearence .5s;
+}
+
+.top-nav-actions {
+  height: 128px;
+  a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px;
+    align-items: center;
+    justify-content: center;
+    .top-nav-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      div {
+        flex: none;
+      }
+    }
+    &>div:first-child {
+      height: calc(100% - 30px);
+    }
+    span {
+      height: 30px;
+      flex: none;
+      color: #000000;
+      text-align: center;
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 300;
+    }
+  }
+  & > div:last-child {
+    align-items: flex-end;
+  }
 }
 /**
   ******************************
