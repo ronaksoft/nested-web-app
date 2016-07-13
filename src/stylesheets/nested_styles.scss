@@ -43,15 +43,18 @@
 }
 .icon-top {
   fill: white;
-  width: 32px;
-  height: 32px;
-  background-size: contain;
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  background-image: url("../assets/icons/smallscreenhandlers.svg");
+  background-repeat: no-repeat;
 }
 
 .hamburger-icon {
-  background-image: url("../assets/icons/hamburger.svg");
-  background-repeat: no-repeat;
-  flex: none;
+  background-position: 0 0;
+}
+.comp-icon {
+  background-position: 0 -24px;
 }
 
 .icon-compose {
@@ -227,12 +230,16 @@
 
 .nst-topnav {
   width: 100%;
+  display: flex;
+  flex: none;
   position: fixed;
   top: 0;
   right: 0;
+  left: 0;
   height: 68px;
   background-color: #14D769;
-  z-index: 3000;
+  z-index: 52;
+  transition: .3s;
   & > div {
     height: 100%;
     align-items: center;
@@ -247,7 +254,19 @@
     justify-content: flex-end;
   }
 }
-
+#top-nav-container {
+  position: fixed;
+  display: none;
+  z-index: 100;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 68px;
+  background-color: $color-white;
+  padding: 8px;
+  overflow: hidden;
+  animation: appearence .5s;
+}
 /**
   ******************************
   *  navbar
@@ -299,13 +318,11 @@ a {
 .navbar-top {
   height: 122px;
   transition: .3s;
-  z-index: 5;
   align-items: center;
 }
 
 .navbar-bottom {
   height: 66px;
-  z-index: 5;
   display: inline-flex;
   flex-direction: row;
 }

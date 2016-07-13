@@ -1,3 +1,15 @@
+<div class="nst-topnav _difh">
+  <div class="_fw _df">
+    <div class="icon icon-top hamburger-icon" ng-click="open('top-nav-container');"></div>
+  </div>
+  <div class="_fw _jcc _df">
+    <a href="#/"><div id="Logo-white"></div></a>
+  </div>
+  <div class="_fw _df">
+    <a href="#/new"><div class="icon icon-top comp-icon _df"></div></a>
+  </div>
+</div>
+<nested-navbar-top data-ng-model="navbar-top"></nested-navbar-top>
 <div class="nst-navbar _df">
   <div class="nst-content">
     <div class="content">
@@ -132,41 +144,3 @@
     </div>
   </div>
 </div>
-<!--<div class="nst-nav">
-  <div class="_dt">
-    <div class='_dtr'>
-      <div class="_dtc">
-        <div id="Header" class="_dt _fw">
-          <div class="firstnav">
-
-            <div id='Logo'>
-              <a href="#/"><img id="Pic" src="../assets/images/NestedLogo.svg"/></a>
-              <a href="#/"><img id="Type" src="../assets/images/NestedType.svg"/></a>
-            </div>
-
-            <div id='PrimaryPageSelector'>
-              <ul>
-                <li ng-class="events ? 'selected' : null">
-                  <a href="#/events">Activity</a>
-                </li>
-                <li ng-class="places ? 'selected' : null">
-                  <a href="#/places">Places</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class='signin popover-green' uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="bottom-left auto" popover-trigger="outsideClick">
-              <ul class="list-inline text-right">
-                <li><span class="_pr nst-menu-arrow _dib top-nav"></span></li>
-                <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
-                <li>
-                  <img initials="user.fullname" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>-->
