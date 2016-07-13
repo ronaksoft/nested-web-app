@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PostController($location, $scope, $stateParams, $uibModal, $q, $log, $timeout, _, toastr,
-    NstSvcAuth, NstSvcServer, LoaderService, PostFactoryService, EVENT_ACTIONS, WS_EVENTS,
+    NstSvcAuth, NstSvcServer, NstSvcLoader, PostFactoryService, EVENT_ACTIONS, WS_EVENTS,
     NstPost, NstComment, postId) {
     var vm = this;
 
@@ -27,7 +27,7 @@
     vm.user = NstSvcAuth.user;
     vm.commentSettings = {
       skip: 0,
-      limit: 30,
+      limit: 30
     };
 
     vm.removeComment = removeComment;
@@ -76,11 +76,11 @@
     /**
      * extractCommentBody - extract and refine the comment
      *
-     * @param  {Event} event event handler
+     * @param  {Event}    e   event handler
      * @return {string}       refined comment
      */
-    function extractCommentBody(event) {
-      return event.currentTarget.value.trim();
+    function extractCommentBody(e) {
+      return e.currentTarget.value.trim();
     }
 
     function allowToRemoveComment(comment) {
@@ -92,14 +92,14 @@
     /**
      * sendComment - add the comment to the list of the post comments
      *
-     * @param  {Event} event keypress event handler
+     * @param  {Event}  e   keypress event handler
      */
-    function sendComment(event) {
-      if (!sendKeyIsPressed(event)) {
+    function sendComment(e) {
+      if (!sendKeyIsPressed(e)) {
         return;
       }
 
-      var body = extractCommentBody(event);
+      var body = extractCommentBody(e);
       if (body.length === 0) {
         return;
       }
@@ -108,7 +108,7 @@
 
       PostFactoryService.addComment(vm.post, vm.user, body).then(function(post) {
         vm.post = post;
-        event.currentTarget.value = '';
+        e.currentTarget.value = '';
         $scope.scrolling = $scope.unscrolled && true;
         $scope.commentSendInProgress = false;
         // TODO: notify
@@ -117,7 +117,7 @@
       });
 
       return false;
-    };
+    }
 
     function loadMoreComments() {
       vm.commentLoadProgress = true;
@@ -140,7 +140,7 @@
           if ($scope.thePost.id == tlEvent.detail.timeline_data.post_id.$oid) {
             var commentId = tlEvent.detail.timeline_data.comment_id.$oid;
 
-            LoaderService.inject((new NstComment($scope.thePost)).load(commentId).then(function(comment) {
+            NstSvcLoader.inject((new NstComment($scope.thePost)).load(commentId).then(function(comment) {
               $scope.thePost.addComment(comment).then(function() {
                 $scope.scrolling = $scope.unscrolled && true;
 

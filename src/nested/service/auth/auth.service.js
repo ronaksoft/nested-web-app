@@ -8,7 +8,7 @@
       AUTHORIZING: 'authorizing',
       AUTHORIZED: 'authorized'
     })
-    .constant('NST_AUTH_EVENTS', {
+    .constant('NST_AUTH_EVENT', {
       UNAUTHORIZE: 'unauthorize',
       AUTHORIZE: 'authorize',
       AUTHORIZE_FAIL: 'authorize-fail'
@@ -22,7 +22,7 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $window, $q, $log,
-                      NST_SRV_EVENTS, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENTS, NST_AUTH_STATE,
+                      NST_SRV_EVENTS, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE,
                       NstSvcServer,
                       NstUser) {
     function Auth(user) {
@@ -66,7 +66,7 @@
         this.user.setData(data.info);
 
         this.state = NST_AUTH_STATE.AUTHORIZED;
-        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE, { detail: { user: this.user } }));
+        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, { detail: { user: this.user } }));
 
         return $q(function (res) {
           res(this.user);
@@ -110,7 +110,7 @@
         }
 
         this.state = NST_AUTH_STATE.UNAUTHORIZED;
-        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
+        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.UNAUTHORIZE, { detail: { reason: reason } }));
 
         return result;
       },
@@ -122,7 +122,7 @@
           this.authorize.bind(this)
         ).catch(function (data) {
           this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
-          this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
+          this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
           return $q(function (res, rej) {
             rej.apply(null, this.input);
@@ -158,7 +158,7 @@
               case NST_SRV_ERROR.ACCESS_DENIED:
               case NST_SRV_ERROR.INVALID:
                 this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
-                this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
+                this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
                 return $q(function (res, rej) {
                   rej.apply(null, this.input);
@@ -264,10 +264,10 @@
     // Cache Implementation
     var user = $window.sessionStorage.getItem('nsu');
     var service = new Auth(user ? angular.fromJson(user) : undefined);
-    service.addEventListener(NST_AUTH_EVENTS.AUTHENTICATE, function (event) {
+    service.addEventListener(NST_AUTH_EVENT.AUTHENTICATE, function (event) {
       $window.sessionStorage.setItem('nsu', angular.toJson(event.detail.user));
     });
-    service.addEventListener(NST_AUTH_EVENTS.UNAUTHENTICATE, function () {
+    service.addEventListener(NST_AUTH_EVENT.UNAUTHENTICATE, function () {
       $window.sessionStorage.clear();
     });
 

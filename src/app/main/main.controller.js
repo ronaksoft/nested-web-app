@@ -11,4 +11,5 @@
       $location.path('/events').replace();
     }
   }
+
 })();

@@ -8,7 +8,7 @@
   /** @ngInject */
   function CreatePlaceController($location, $scope, $uibModal, $state, $stateParams, $q,
                                  NST_SRV_ERROR, UPLOAD_TYPE,
-                                 NstSvcAuth, StoreService, LoaderService,
+                                 NstSvcAuth, StoreService, NstSvcLoader,
                                  StoreItem, NestedPlace) {
     var vm = this;
 
@@ -45,7 +45,7 @@
     vm.create = function () {
       var p = $scope.logo ? StoreService.upload($scope.logo, UPLOAD_TYPE.PLACE_PICTURE) : $q(function (res) { res(); });
 
-      LoaderService.inject(p.then(function (response) {
+      NstSvcLoader.inject(p.then(function (response) {
         if (!$scope.place.picture.org.uid) {
           $scope.place.picture.org.uid = response ? response.universal_id : undefined;
           $scope.logo = null;

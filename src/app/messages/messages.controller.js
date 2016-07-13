@@ -3,94 +3,36 @@
 
   angular
     .module('nested')
-    .controller('EventsController', EventsController);
+    .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
-                            WS_EVENTS, EVENT_ACTIONS, NST_SRV_ERROR, NST_STORAGE_TYPE,
-                            NstSvcAuth, NstSvcServer, LoaderService, NstSvcStorageFactory,
-                            NestedEvent, NestedPlace, NestedInvitation) {
+  function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $timeout, $uibModal,
+    toastr, AuthService, WsService, NstSvcLoader,
+    NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE,
+    NstSvcStorageFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory) {
     var vm = this;
 
-    if (!NstSvcAuth.isInAuthorization()) {
+    console.log('here in messages');
+
+    if (!AuthService.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
 
-    // var storage = StorageFactoryService.create('ui.pages.activity', STORAGE_TYPE.LOCAL);
-    // storage.get("extended").catch(function () {
-    //   var defValue = false;
-    //   storage.put("extended", defValue);
-    //
-    //   return $q(function (res) {
-    //     res(defValue);
-    //   });
-    // }).then(function (value) {
-    //   vm.extended = value;
-    // });
-
-    // vm.collapse = function () {
-    //   vm.extended =! vm.extended;
-    //   storage.put("extended", vm.extended);
-    // };
-
-    // storage.get("filterStat").catch(function () {
-    //   var defValue = 'all';
-    //   storage.put("extended", defValue);
-    //
-    //   return $q(function (res) {
-    //     res(defValue);
-    //   });
-    // }).then(function (value) {
-    //   $scope.filterStatus = "!$" + value;
-    // });
-    //
-    // vm.setFilter = function (stat) {
-    //   storage.put("filterStat", stat);
-    // };
-    //
-    // storage.get("sidebarWidth").catch(function () {
-    //   var defValue = 222;
-    //   storage.put("extended", defValue);
-    //
-    //   return $q(function (res) {
-    //     res(defValue);
-    //   });
-    // }).then(function (value) {
-    //   $scope.sidebarWidth = value;
-    // });
-
-    // $scope.$on('angular-resizable.resizeEnd', function (event, info) {
-    //   storage.put("sidebarWidth", info.width);
-    // });
-
-    // Invitations
-    vm.invitations = {
-      length: 0,
-      invites: {}
-    };
-    LoaderService.inject(NstSvcServer.request('account/get_invitations').then(function (data) {
-      for (var k in data.invitations) {
-        if (data.invitations[k].place._id) {
-          var invitation = new NestedInvitation(data.invitations[k]);
-          vm.invitations.invites[invitation.id] = invitation;
-          vm.invitations.length++;
+    vm.srch = function () {
+      console.log(arguments);
+      for (var i = 0; i < arguments.length; i++) {
+        var id = arguments[i];
+        var e = document.getElementById(id);
+        console.log(e);
+        if (e.style.display == 'block')
+          e.style.display = 'none';
+        else {
+          e.style.display = 'block';
         }
       }
-
-      return $q(function (res) {
-        res();
-      });
-    }));
-    vm.decideInvite = function (invitation, accept) {
-      return invitation.update(accept).then(function (invitation) {
-        vm.invitations.length--;
-        delete vm.invitations.invites[invitation.id];
-      });
     };
 
-    vm.moreEvents = true;
-    vm.eventGroups = {};
     vm.gformats = {
       daily: 'EEEE d MMM',
       monthly: 'MMMM',
@@ -126,7 +68,7 @@
       $stateParams.placeId = null;
     }
 
-    vm.place = new NestedPlace($stateParams.placeId ? $stateParams.placeId : undefined);
+    vm.place = NstSvcPlaceFactory.get($stateParams.placeId ? $stateParams.placeId : undefined);
     vm.placeAncestors = $stateParams.placeId ? $stateParams.placeId.split('.') : undefined;
     vm.filter = $stateParams.filter;
 
@@ -178,61 +120,9 @@
       }
     };
 
-    vm.load = function () {
-      LoaderService.inject(NstSvcServer.request('timeline/get_events', vm.parameters).then(function (data) {
-        $scope.events.moreEvents = !(data.events.length < $scope.events.parameters.limit);
-        $scope.events.parameters.skip += data.events.length;
-
-        for (var key in data.events) {
-          var eventData = data.events[key];
-          var event = new NestedEvent(eventData);
-
-          $scope.events.pushEvent(event);
-        }
-      }).catch(function (data) {
-        switch (data.err_code) {
-          case NST_SRV_ERROR.UNAVAILABLE:
-          case NST_SRV_ERROR.INVALID:
-          case NST_SRV_ERROR.ACCESS_DENIED:
-            vm.noAccessModal();
-            //$location.path('/').replace();
-            break;
-        }
-
-      }).finally(function () {
-        vm.readyToLoad = true;
-      }));
-    };
-    vm.noAccessModal = function (user) {
-      $scope.member = user;
-
-      var modal = $uibModal.open({
-        animation: false,
-        templateUrl: 'app/events/noaccess.html',
-        controller: 'WarningController',
-        size: 'sm',
-        scope: $scope
-      }).result.then(function () {
-        return $location.path('/').replace();
-      });
-    };
-
-    vm.readyToLoad = true;
-    vm.scroll = function (event) {
-      var element = event.currentTarget;
-      if (element.scrollTop + element.clientHeight + 10 > element.scrollHeight && this.moreEvents) {
-
-        if (vm.readyToLoad) {
-          vm.readyToLoad = false;
-          this.load();
-        }
-      }
-
-    };
 
 
-
-    NstSvcServer.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
+    WsService.addEventListener(NST_WS_EVENT.TIMELINE, function (tlEvent) {
       var event = new NestedEvent(tlEvent.detail.timeline_data);
       $log.debug(event);
       var action = tlEvent.detail.timeline_data.action;
@@ -243,24 +133,18 @@
       }
     });
 
-    NstSvcServer.addEventListener(WS_EVENTS.AUTHORIZE, function (event) {
+    WsService.addEventListener(NST_WS_EVENT.AUTHORIZE, function (event) {
       // TODO: Get timeline events after last event
     });
-
-    vm.load();
 
     $scope.postView = function (post, url, event) {
       $scope.postViewModal = $uibModal.open({
         animation: false,
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
-        controllerAs: 'postVm',
+        controllerAs: 'post',
         size: 'mlg',
-        resolve: {
-          postId: function () {
-            return post.id;
-          }
-        }
+        scope: $scope
       });
 
       $rootScope.$on('post-removed',function (context, post) {
@@ -272,7 +156,7 @@
       });
 
       $scope.thePost = post;
-      LoaderService.inject($scope.thePost.load());
+      NstSvcLoader.inject($scope.thePost.load());
       $scope.lastUrl = $location.path();
 
       $scope.postViewModal.opened.then(function () {
@@ -290,7 +174,7 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return LoaderService.inject(attachment.getDownloadUrl().then(function () {
+      return NstSvcLoader.inject(attachment.getDownloadUrl().then(function () {
         return $q(function (res) {
           res(this);
         }.bind(this));
@@ -380,6 +264,8 @@
         }
       });
     }
+    // TODO: ask Ali about the below line
+    // $("#popover").popover({ trigger: "hover" });
   }
 
 })();

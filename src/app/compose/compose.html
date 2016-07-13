@@ -1,16 +1,10 @@
-<div>
-  <div>
-    <nested-navbar></nested-navbar>
-  </div>
+<div class="maincontainer compose-hld _fw _fh">
+  <div class="nst-container" page-change="changeMe($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+    <nested-navbar data-ng-model="navbar"></nested-navbar>
 
-  <div id="container" class="_bggray">
-    <div class="side">
-      <div class="compose _bgwhite _df _fw">
-      </div>
-    </div>
-    <div class="nst-content" page-change="changeMe($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
-        <div class="subnavitems _bgwhite _difc">
-          <ul class="nav-width-ul-compose">
+    <div class="nst-content _tr" id="content-wrapper">
+      <section class="content _bgwhite">
+          <ul class="nav-width-ul-compose _fn _difh">
             <li class="_df _fw">
               <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
               <!--<a href="javascript:void(0);" class="btn-white-nav nst-mood-storm" onclick="window.history.back();">Discard</a>-->
@@ -23,8 +17,7 @@
               <!--ng-disabled="myForm.$invalid"-->
             </li>
           </ul>
-        </div>
-        <div class="compose-hld _fw" ng-model="attachfiles" data-droplet>
+        <div class="_fw" ng-model="attachfiles" data-droplet>
           <div class="droplet"></div>
           <section class="first-child">
             <div class="_difc _fw">
@@ -91,10 +84,7 @@
 
           </section>
         </div>
-    </div>
-    <div class="side">
-      <div class="compose _bgwhite _df _fw">
-      </div>
+      </section>
     </div>
   </div>
 </div>

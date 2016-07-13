@@ -7,7 +7,8 @@
 
   /** @ngInject */
   function PlacesController($q, $location, $stateParams, $scope,
-                            NstSvcAuth, NstSvcServer, NestedPlace, MEMBER_TYPE, LoaderService, StorageFactoryService, STORAGE_TYPE) {
+
+                            NstSvcAuth, NstSvcServer, NestedPlace, MEMBER_TYPE, NstSvcLoader, StorageFactoryService, STORAGE_TYPE) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -44,7 +45,7 @@
       parameters['filter'] = vm.filters[vm.filter].filter;
     }
 
-    var memory = StorageFactoryService.create('dt.places.f', STORAGE_TYPE.MEMORY);
+    var memory = NstSvcStorageFactory.create('dt.places.f', STORAGE_TYPE.MEMORY);
     memory.setFetchFunction(function (id) {
       if (0 === id.indexOf('places.')) {
         return NstSvcServer.request('account/get_my_places', parameters).then(function (data) {
@@ -66,7 +67,7 @@
         });
       }
     });
-    LoaderService.inject(memory.get("places." + vm.filter).then(function (value) {
+    NstSvcLoader.inject(memory.get("places." + vm.filter).then(function (value) {
       $scope.places.places = value;
     }));
   }
