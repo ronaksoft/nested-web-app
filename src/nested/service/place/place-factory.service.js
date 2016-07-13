@@ -7,17 +7,25 @@
 
   function NstSvcPlaceFactory($q,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
-                              NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcMinimalPlaceStorage,
-                              NstFactoryQuery, NstFactoryError, NstPlace) {
+                              NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
+                              NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace) {
     function PlaceFactory() {
       this.requests = {
         get: {},
-        getMinimal: {},
+        getTiny: {},
         remove: {}
       };
     }
 
     PlaceFactory.prototype = {
+      has: function (id) {
+        return !!NstSvcPlaceStorage.get(id);
+      },
+
+      hasTiny: function (id) {
+        return !!NstSvcTinyPlaceStorage.get(id);
+      },
+
       /**
        * Retrieves a place by id and store in the related cache storage
        *
@@ -64,17 +72,22 @@
        *
        * @returns {Promise}
        */
-      getMinimal: function (id) {
-        if (!this.requests.getMinimal[id]) {
+      getTiny: function (id) {
+        if (!this.requests.getTiny[id]) {
           var query = new NstFactoryQuery(id);
 
-          this.requests.getMinimal[id] = $q(function (resolve, reject) {
-            var place = NstSvcPlaceStorage.get(this.query.id) || NstSvcMinimalPlaceStorage.get(this.query.id);
+          this.requests.getTiny[id] = $q(function (resolve, reject) {
+            var place = NstSvcPlaceStorage.get(this.query.id) || NstSvcTinyPlaceStorage.get(this.query.id);
             if (place) {
+              if (!(place instanceof NstTinyPlace)) {
+                place = new NstTinyPlace(place);
+              }
+
               resolve(place);
             } else {
               NstSvcPlaceFactory.get(this.query.id).then(function (place) {
-                NstSvcMinimalPlaceStorage.set(this.query.id, place);
+                place = new NstTinyPlace(place);
+                NstSvcTinyPlaceStorage.set(this.query.id, place);
                 resolve(place);
               }.bind({
                 query: this.query
@@ -85,12 +98,15 @@
           }));
         }
 
-        return this.requests.getMinimal[id];
+        return this.requests.getTiny[id];
       },
 
       set: function (place) {
-        NstSvcPlaceStorage.set(place.getId(), place);
-        NstSvcMinimalPlaceStorage.set(place.getId(), place);
+        if (place instanceof NstPlace) {
+          NstSvcPlaceStorage.set(place.getId(), place);
+        } else if (place instanceof NstTinyPlace) {
+          NstSvcTinyPlaceStorage.set(place.getId(), place);
+        }
 
         return this;
       },
@@ -126,6 +142,28 @@
         return this.requests.remove[id];
       },
 
+      parseTinyPlace: function (placeData) {
+        var place = new NstTinyPlace();
+
+        if (!angular.isObject(placeData)) {
+          return place;
+        }
+
+        place.setId(placeData._id);
+        place.setName(placeData.name);
+        place.setDescription(placeData.description);
+
+        if (angular.isObject(placeData.picture)) {
+          place.setPicture(placeData.picture.org, {
+            32: placeData.picture.x32,
+            64: placeData.picture.x64,
+            128: placeData.picture.x128
+          });
+        }
+
+        return place;
+      },
+
       parsePlace: function (placeData) {
         var place = new NstPlace();
 
@@ -146,9 +184,9 @@
         }
 
         if (placeData.parent_id) {
-          var parent = NstSvcMinimalPlaceStorage.get(placeData.parent_id) || NstSvcPlaceStorage.get(placeData.parent_id);
+          var parent = NstSvcTinyPlaceStorage.get(placeData.parent_id) || NstSvcPlaceStorage.get(placeData.parent_id);
           if (!parent) {
-            parent = NstSvcPlaceFactory.parsePlace({
+            parent = NstSvcPlaceFactory.parseTinyPlace({
               _id: placeData.parent_id
             });
 
@@ -159,9 +197,9 @@
         }
 
         if (placeData.grand_parent_id) {
-          var grandParent = NstSvcMinimalPlaceStorage.get(placeData.grand_parent_id) || NstSvcPlaceStorage.get(placeData.grand_parent_id);
+          var grandParent = NstSvcTinyPlaceStorage.get(placeData.grand_parent_id) || NstSvcPlaceStorage.get(placeData.grand_parent_id);
           if (!grandParent) {
-            grandParent = NstSvcPlaceFactory.parsePlace({
+            grandParent = NstSvcPlaceFactory.parseTinyPlace({
               _id: placeData.grand_parent_id
             });
 
@@ -174,7 +212,7 @@
         if (angular.isArray(placeData.childs)) {
           var children = {};
           for (var k in placeData.childs) {
-            var child = NstSvcMinimalPlaceStorage.get(placeData.childs[k]._id) || NstSvcPlaceStorage.get(placeData.childs[k]._id);
+            var child = NstSvcTinyPlaceStorage.get(placeData.childs[k]._id) || NstSvcPlaceStorage.get(placeData.childs[k]._id);
             if (!child) {
               child = NstSvcPlaceFactory.parsePlace(placeData.childs[k]);
             }

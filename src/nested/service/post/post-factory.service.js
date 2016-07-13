@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcPostFactory($q,
                              _,
-                             NstSvcPostStorage, WsService,
+                             NstSvcPostStorage, NstSvcServer,
                              NstFactoryError, NstFactoryQuery, NstPost, NstComment, NestedUser, NestedPlace, NestedAttachment) {
 
     /**
@@ -41,7 +41,7 @@
         if (post) {
           resolve(post);
         } else {
-          WsService.request('post/get', {
+          NstSvcServer.request('post/get', {
             post_id: id
           }).then(function(data) {
             post = parsePost(data.post);
@@ -75,7 +75,7 @@
       });
 
       return $q(function(resolve, reject) {
-        WsService.request('post/remove', {
+        NstSvcServer.request('post/remove', {
           post_id: this.query.id,
           place_id: this.query.data.placeId
         }).then(function(data) { //remove the object from storage and return the id
@@ -112,7 +112,7 @@
       // var query = new NstFactoryQuery(postId, { txt : content });
       var defer = $q.defer();
 
-      WsService.request('post/add_comment', {
+      NstSvcServer.request('post/add_comment', {
         post_id: post.id,
         txt: content
       }).then(function(data) {
@@ -149,7 +149,7 @@
 
       // I'm not sure is it correct to store and retrieve an entity like comment
       return $q(function(resolve, reject) {
-        WsService.request('post/get_comments', {
+        NstSvcServer.request('post/get_comments', {
           post_id: post.id,
           skip: settings.skip,
           limit: settings.limit
@@ -190,7 +190,7 @@
       });
 
       return $q(function(resolve, reject) {
-        WsService.request('post/remove_comment', {
+        NstSvcServer.request('post/remove_comment', {
           post_id: post.id,
           comment_id: comment.id
         }).then(function(data) {

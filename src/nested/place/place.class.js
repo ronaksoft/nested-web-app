@@ -3,29 +3,10 @@
 
   angular
     .module('nested')
-    .constant('NST_PLACE_ACCESS', {
-      READ: 'RD',
-      WRITE: 'WR',
-      READ_POST: 'RD',
-      WRITE_POST: 'WR',
-      REMOVE_POST: 'D',
-      CONTROL: 'C',
-      ADD_MEMBERS: 'AM',
-      REMOVE_MEMBERS: 'RM',
-      SEE_MEMBERS: 'SM',
-      REMOVE_PLACE: 'RP',
-      ADD_PLACE: 'AP',
-      GUEST: 'G'
-    })
-    .constant('NST_PLACE_MEMBER_TYPE', {
-      KEY_HOLDER: 'key_holder',
-      KNOWN_GUEST: 'known_guest',
-      CREATOR: 'creator'
-    })
     .factory('NstPlace', NstPlace);
 
   /** @ngInject */
-  function NstPlace(NST_OBJECT_EVENT, NstModel, NstPlacePrivacy) {
+  function NstPlace(NST_OBJECT_EVENT, NstTinyPlace, NstPlacePrivacy) {
     /**
      * Creates an instance of NstPlace. Do not use this directly, use NstSvcPlaceFactory.get(data) instead
      *
@@ -35,26 +16,12 @@
      */
     function Place(data) {
       /**
-       * Place Identifier
+       * Place's privacy
        *
-       * @type {undefined|String}
+       * @type {NstPlacePrivacy}
        */
-      this.id = undefined;
-
-      /**
-       * Place's name
-       *
-       * @type {undefined|String}
-       */
-      this.name = undefined;
-
-      /**
-       * Place's description
-       *
-       * @type {undefined|String}
-       */
-      this.description = undefined;
-
+      this.privacy = new NstPlacePrivacy();
+      
       /*****************************
        *****      Ancestors     ****
        *****************************/
@@ -87,13 +54,6 @@
       };
 
       /**
-       * Place's Picture
-       *
-       * @type {undefined|NstPicture}
-       */
-      this.picture = undefined;
-
-      /**
        * Place's users
        *
        * @type {{ userId: { role: String, user: NstUser }, length: Number }}
@@ -102,21 +62,14 @@
         length: 0
       };
 
-      /**
-       * Place's privacy
-       *
-       * @type {NstPlacePrivacy}
-       */
-      this.privacy = new NstPlacePrivacy();
-
-      NstModel.call(this);
+      NstTinyPlace.call(this, data);
 
       if (data) {
         this.fill(data);
       }
     }
 
-    Place.prototype = new NstModel();
+    Place.prototype = new NstTinyPlace();
     Place.prototype.constructor = Place;
 
     /**

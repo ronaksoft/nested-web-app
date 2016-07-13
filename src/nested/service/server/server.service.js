@@ -48,6 +48,7 @@
   /** @ngInject */
   function NstSvcServer($websocket, $q, $log,
                         NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENTS, NST_SRV_MESSAGES, NST_AUTH_COMMANDS,
+                        NstSvcRandomize,
                         NstRequest) {
     function Server(url, meta) {
       this.meta = meta || {};
@@ -190,17 +191,17 @@
         var rawData = {
           type: 'q',
           _reqid: reqId,
-          data: payload
+          data: payload,
+          meta: this.meta
         };
 
-        this.requests[reqId] = new WsRequest(this, rawData, !angular.isNumber(timeout) || timeout < 0 ? 5000 : timeout);
+        this.requests[reqId] = new NstRequest(this, rawData, !angular.isNumber(timeout) || timeout < 0 ? 5000 : timeout);
 
         return $q(this.requests[reqId].promise);
       },
 
       genRequestId: function (action, data, timeout) {
-        return 'REQ/' + action.toUpperCase() + '/' +
-          Math.round(Math.random() * 10000).toString() + (new Date()).getTime().toString();
+        return 'REQ/' + action.toUpperCase() + '/' + NstSvcRandomize.genUniqId();
       },
 
       isInitialized: function () {
@@ -272,6 +273,8 @@
       }
     };
 
-    return new WsService(APP.ID, APP.SECRET, 'wss://dev.cyrus.nested.me:443');
+    return new Server(NST_CONFIG.WEBSOCKET.URL, {
+      app_id: NST_CONFIG.APP_ID
+    });
   }
 })();

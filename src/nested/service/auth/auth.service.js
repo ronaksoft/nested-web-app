@@ -22,7 +22,7 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $window, $q, $log,
-                      NST_SRV_EVENTS, WS_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENTS, NST_AUTH_STATE,
+                      NST_SRV_EVENTS, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENTS, NST_AUTH_STATE,
                       NstSvcServer,
                       NstUser) {
     function Auth(user) {
@@ -145,7 +145,7 @@
               case NST_SRV_ERROR.DUPLICATE:
                 return $q(function (res) {
                   res({
-                    status: WS_RESPONSE_STATUS.SUCCESS,
+                    status: NST_SRV_RESPONSE_STATUS.SUCCESS,
                     info: this.user,
                     _sk : {
                       $oid: this.lastSessionKey
@@ -175,7 +175,7 @@
 
         return $q(function (res, rej) {
           rej({
-            status: WS_RESPONSE_STATUS.ERROR,
+            status: NST_SRV_RESPONSE_STATUS.ERROR,
             err_code: NST_SRV_ERROR.INVALID
           });
         })
