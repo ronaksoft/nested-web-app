@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $timeout, $uibModal,
     toastr, NstSvcAuth, NstSvcServer, NstSvcLoader,
-    NST_SRV_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE,
+    NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE,
     NstSvcStorageFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory) {
     var vm = this;
 
