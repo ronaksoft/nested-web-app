@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedInvitation', function ($rootScope, $q, $log, WsService, NestedUser, MEMBER_TYPE, NestedPlace) {
+    .factory('NestedInvitation', function ($rootScope, $q, $log, NstSvcServer, NestedUser, MEMBER_TYPE, NestedPlace) {
       function Invitation(data, full) {
         this.full = full || false;
 
@@ -53,7 +53,7 @@
         load: function(id) {
           this.id = id || this.id;
 
-          return WsService.request('account/get_invitation', { invite_id: this.id }).then(this.setData.bind(this));
+          return NstSvcServer.request('account/get_invitation', { invite_id: this.id }).then(this.setData.bind(this));
         },
 
         accept: function () {
@@ -66,7 +66,7 @@
 
         update: function(accept) {
           if (this.id) {
-            return WsService.request('account/update_invitation', {
+            return NstSvcServer.request('account/update_invitation', {
               invite_id: this.id,
               state: accept ? 'accepted' : 'ignored'
             }).then(function () {

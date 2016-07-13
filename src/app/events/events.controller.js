@@ -7,12 +7,12 @@
 
   /** @ngInject */
   function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
-                            WS_EVENTS, EVENT_ACTIONS, WS_ERROR, NST_STORAGE_TYPE,
-                            AuthService, WsService, LoaderService, NstSvcStorageFactory,
+                            WS_EVENTS, EVENT_ACTIONS, NST_SRV_ERROR, NST_STORAGE_TYPE,
+                            NstSvcAuth, NstSvcServer, LoaderService, NstSvcStorageFactory,
                             NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
@@ -69,7 +69,7 @@
       length: 0,
       invites: {}
     };
-    LoaderService.inject(WsService.request('account/get_invitations').then(function (data) {
+    LoaderService.inject(NstSvcServer.request('account/get_invitations').then(function (data) {
       for (var k in data.invitations) {
         if (data.invitations[k].place._id) {
           var invitation = new NestedInvitation(data.invitations[k]);
@@ -179,7 +179,7 @@
     };
 
     vm.load = function () {
-      LoaderService.inject(WsService.request('timeline/get_events', vm.parameters).then(function (data) {
+      LoaderService.inject(NstSvcServer.request('timeline/get_events', vm.parameters).then(function (data) {
         $scope.events.moreEvents = !(data.events.length < $scope.events.parameters.limit);
         $scope.events.parameters.skip += data.events.length;
 
@@ -191,9 +191,9 @@
         }
       }).catch(function (data) {
         switch (data.err_code) {
-          case WS_ERROR.UNAVAILABLE:
-          case WS_ERROR.INVALID:
-          case WS_ERROR.ACCESS_DENIED:
+          case NST_SRV_ERROR.UNAVAILABLE:
+          case NST_SRV_ERROR.INVALID:
+          case NST_SRV_ERROR.ACCESS_DENIED:
             vm.noAccessModal();
             //$location.path('/').replace();
             break;
@@ -232,7 +232,7 @@
 
 
 
-    WsService.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
+    NstSvcServer.addEventListener(WS_EVENTS.TIMELINE, function (tlEvent) {
       var event = new NestedEvent(tlEvent.detail.timeline_data);
       $log.debug(event);
       var action = tlEvent.detail.timeline_data.action;
@@ -243,7 +243,7 @@
       }
     });
 
-    WsService.addEventListener(WS_EVENTS.AUTHORIZE, function (event) {
+    NstSvcServer.addEventListener(WS_EVENTS.AUTHORIZE, function (event) {
       // TODO: Get timeline events after last event
     });
 

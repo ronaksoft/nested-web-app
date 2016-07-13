@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .service('NestedUserRepoService', function ($q, WsService) {
+    .service('NestedUserRepoService', function ($q, NstSvcServer) {
       function UserRepoService(repo) {
         this.repo = repo || {};
       }
@@ -23,7 +23,7 @@
               }.bind(this));
             }
           } else {
-            this.repo[id] = WsService.request('account/get_info', { account_id: id }).then(function (data) {
+            this.repo[id] = NstSvcServer.request('account/get_info', { account_id: id }).then(function (data) {
               // TODO: Cache the native object
               this.repo[id] = data;
 

@@ -7,10 +7,10 @@
 
   /** @ngInject */
   function PlacesController($q, $location, $stateParams, $scope,
-                            AuthService, WsService, NestedPlace, MEMBER_TYPE, LoaderService, StorageFactoryService, STORAGE_TYPE) {
+                            NstSvcAuth, NstSvcServer, NestedPlace, MEMBER_TYPE, LoaderService, StorageFactoryService, STORAGE_TYPE) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
@@ -47,7 +47,7 @@
     var memory = StorageFactoryService.create('dt.places.f', STORAGE_TYPE.MEMORY);
     memory.setFetchFunction(function (id) {
       if (0 === id.indexOf('places.')) {
-        return WsService.request('account/get_my_places', parameters).then(function (data) {
+        return NstSvcServer.request('account/get_my_places', parameters).then(function (data) {
           var places = [];
           for (var k in data.places) {
             if (parameters.filter && !data.places[k].member_type) {

@@ -41,13 +41,13 @@
 
   function NstSvcPlaceFactory($q,
                               STORAGE_TYPE,
-                              StorageFactoryService, WsService,
+                              StorageFactoryService, NstSvcServer,
                               FactoryQuery, NstPlace) {
     function NestedPlaceFactory() {
       this.cache = StorageFactoryService.create('nested.place.factory.service', STORAGE_TYPE.MEMORY);
       this.cache.setFetchFunction(function (id) {
         // TODO: Return the object
-        return WsService.request('place/get_info', { place_id: id });
+        return NstSvcServer.request('place/get_info', { place_id: id });
       });
     }
 
@@ -128,7 +128,7 @@
             }.bind({ object: this.object }));
           }.bind({ object: place, query: query })).catch(function (error) {
             switch (error.err_code) {
-              case WS_ERROR.TIMEOUT:
+              case NST_SRV_ERROR.TIMEOUT:
                 return NestedPlaceFactory.get(this.object, this.query.fields);
                 break;
 

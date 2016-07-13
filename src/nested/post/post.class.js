@@ -105,7 +105,7 @@
     return Post;
 
     function loadPlacesWithAccess(ids) {
-      return WsService.request('place/get_access', {
+      return NstSvcServer.request('place/get_access', {
         place_ids: ids
       });
     }

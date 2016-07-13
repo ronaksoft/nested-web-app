@@ -5,7 +5,7 @@
     .module('nested')
     .controller('SidebarController', function ($q, $scope, $cacheFactory,
                                                NST_STORAGE_TYPE,
-                                               LoaderService, WsService,
+                                               LoaderService, NstSvcServer,
                                                NestedPlace, NstStorage) {
       var vm = this;
       vm.places = [];
@@ -15,7 +15,7 @@
       memory.setFetchFunction(function (id) {
         switch (id) {
           case 'places':
-            return WsService.request('account/get_my_places', {}).then(function (data) {
+            return NstSvcServer.request('account/get_my_places', {}).then(function (data) {
               var places = [];
               for (var k in data.places) {
                 places.push(new NestedPlace(data.places[k]));

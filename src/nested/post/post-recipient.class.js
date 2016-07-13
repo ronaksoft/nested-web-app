@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedRecipient', function ($q, $rootScope, WsService) {
+    .factory('NestedRecipient', function ($q, $rootScope, NstSvcServer) {
       function Recipient(data) {
         this.email = null;
         this.id = null;

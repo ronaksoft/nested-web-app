@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedUser', function ($q, WsService, NestedUserRepoService, StoreItem, $rootScope) {
+    .factory('NestedUser', function ($q, NstSvcServer, NestedUserRepoService, StoreItem, $rootScope) {
       function User(data) {
         this.username = null;
         this.email = null;
@@ -80,7 +80,7 @@
         },
 
         delete: function() {
-          return WsService.request('post/remove', {
+          return NstSvcServer.request('post/remove', {
             post_id: this.id
           });
         },
@@ -91,7 +91,7 @@
             params['universal_id'] = uid;
           }
 
-          return WsService.request(uid ? 'account/set_picture' : 'account/remove_picture', params).then(function () {
+          return NstSvcServer.request(uid ? 'account/set_picture' : 'account/remove_picture', params).then(function () {
             this.picture.org = new StoreItem(uid);
             this.picture.x32 = this.picture.org;
             this.picture.x64 = this.picture.org;
@@ -105,7 +105,7 @@
 
         update: function() {
           // TODO: Check if API Exists and is correct
-          return WsService.request('account/update', {
+          return NstSvcServer.request('account/update', {
             user_id: this.username
           });
         }

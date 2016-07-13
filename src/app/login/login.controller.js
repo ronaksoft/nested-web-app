@@ -7,11 +7,11 @@
 
   /** @ngInject */
   function LoginController($location, $rootScope, $scope, $q, $timeout,
-                           AuthService, AUTH_EVENTS, WS_ERROR,
+                           NstSvcAuth, AUTH_EVENTS, NST_SRV_ERROR,
                            LoaderService) {
     var vm = this;
 
-    if (AuthService.isAuthorized()) {
+    if (NstSvcAuth.isAuthorized()) {
       $location.path('/').replace();
     }
 
@@ -34,7 +34,7 @@
         password: vm.password
       };
 
-      LoaderService.inject(AuthService.login(credentials, vm.remember).then(function () {
+      LoaderService.inject(NstSvcAuth.login(credentials, vm.remember).then(function () {
         $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         var query = $location.search();
 
@@ -57,7 +57,7 @@
         $scope.login.message.class = 'nst-error-msg';
 
         switch (data.err_code) {
-          case WS_ERROR.INVALID:
+          case NST_SRV_ERROR.INVALID:
             $scope.login.message.text = 'Invalid Username or Password';
             break;
 

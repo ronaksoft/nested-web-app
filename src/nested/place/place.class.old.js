@@ -22,7 +22,7 @@
       KNOWN_GUEST: 'known_guest',
       CREATOR: 'creator'
     })
-    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, AuthService, WsService, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
+    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, NstSvcAuth, NstSvcServer, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
 
@@ -224,7 +224,7 @@
         addMember: function (role, user, invite) {
           var type = ((invite ? 'pending_' : '') + role).split('_').map(function (v, k) { return k == 0 ? v : (v[0].toUpperCase() + v.substr(1)); }).join('') + 's';
           if (this.members[type]) {
-            return WsService.request('place/invite_member', {
+            return NstSvcServer.request('place/invite_member', {
               place_id: this.id,
               member_id: user.username,
               role: role
@@ -250,7 +250,7 @@
             }.bind(this));
           }
 
-          return WsService.request('place/get_creators', {
+          return NstSvcServer.request('place/get_creators', {
             place_id: this.id
           }).then(function (data) {
             this.members.creators.users = [];
@@ -273,7 +273,7 @@
             }.bind(this));
           }
 
-          return WsService.request('place/get_key_holders', {
+          return NstSvcServer.request('place/get_key_holders', {
             place_id: this.id
           }).then(function (data) {
             this.members.keyHolders.users = [];
@@ -296,7 +296,7 @@
             }.bind(this));
           }
 
-          return WsService.request('place/get_pending_invitations', {
+          return NstSvcServer.request('place/get_pending_invitations', {
             place_id: this.id,
             member_type: MEMBER_TYPE.KEY_HOLDER
           }).then(function (data) {
@@ -320,7 +320,7 @@
             }.bind(this));
           }
 
-          return WsService.request('place/get_known_guests', {
+          return NstSvcServer.request('place/get_known_guests', {
             place_id: this.id
           }).then(function (data) {
             this.members.knownGuests.users = [];
@@ -343,7 +343,7 @@
             }.bind(this));
           }
 
-          return WsService.request('place/get_pending_invitations', {
+          return NstSvcServer.request('place/get_pending_invitations', {
             place_id: this.id,
             member_type: MEMBER_TYPE.KNOWN_GUEST
           }).then(function (data) {
@@ -367,7 +367,7 @@
             }.bind(this));
           }
 
-          return WsService.request('place/get_members', {
+          return NstSvcServer.request('place/get_members', {
             place_id: this.id
           }).then(function (data) {
             this.members.creators.users = [];
@@ -420,7 +420,7 @@
         },
 
         delete: function() {
-          return this.haveAccess(PLACE_ACCESS.REMOVE_PLACE) ? WsService.request('place/remove', {
+          return this.haveAccess(PLACE_ACCESS.REMOVE_PLACE) ? NstSvcServer.request('place/remove', {
             place_id: this.id
           }) : $q(function (res, rej) {
             rej();
@@ -428,7 +428,7 @@
         },
 
         removeMember: function (memberId) {
-          return (this.haveAccess(PLACE_ACCESS.REMOVE_MEMBERS) || memberId == AuthService.user.username) ? WsService.request('place/remove_member', {
+          return (this.haveAccess(PLACE_ACCESS.REMOVE_MEMBERS) || memberId == NstSvcAuth.user.username) ? NstSvcServer.request('place/remove_member', {
             place_id: this.id,
             member_id: memberId
           }).then(function () {
@@ -459,7 +459,7 @@
         },
 
         promoteMember: function (memberId) {
-          return this.haveAccess(PLACE_ACCESS.CONTROL) ? WsService.request('place/promote_member', {
+          return this.haveAccess(PLACE_ACCESS.CONTROL) ? NstSvcServer.request('place/promote_member', {
             place_id: this.id,
             member_id: memberId
           }).then(function () {
@@ -489,7 +489,7 @@
         },
 
         demoteMember: function (memberId) {
-          return this.haveAccess(PLACE_ACCESS.CONTROL) ? WsService.request('place/demote_member', {
+          return this.haveAccess(PLACE_ACCESS.CONTROL) ? NstSvcServer.request('place/demote_member', {
             place_id: this.id,
             member_id: memberId
           }).then(function () {
@@ -519,7 +519,7 @@
         },
 
         setPicture: function(uid) {
-          return WsService.request('place/set_picture', {
+          return NstSvcServer.request('place/set_picture', {
             place_id: this.id,
             universal_id: uid
           }).then(function () {
@@ -548,7 +548,7 @@
               };
             data['place_id'] = this.id;
 
-            return WsService.request('place/update', data).then(function () {
+            return NstSvcServer.request('place/update', data).then(function () {
               var placeData = {
                 id: this.id
               };
@@ -605,7 +605,7 @@
               'privacy.search': this.privacy.search
             };
 
-            return WsService.request('place/add', params).then(function (data) {
+            return NstSvcServer.request('place/add', params).then(function (data) {
               return this.setData(data.place).then(function (place) {
                 NestedPlaceRepoService.push(place);
 

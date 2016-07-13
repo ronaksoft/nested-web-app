@@ -7,10 +7,10 @@
 
   /** @ngInject */
   function AttachmentController($location, $scope, $rootScope, $q,
-                                AuthService, LoaderService) {
+                                NstSvcAuth, LoaderService) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }

@@ -6,9 +6,9 @@
     .controller('UnauthorizedController', UnauthorizedController);
 
   /** @ngInject */
-  function UnauthorizedController($location, $rootScope, $scope, $q, AuthService) {
+  function UnauthorizedController($location, $rootScope, $scope, $q, NstSvcAuth) {
     $scope.signout = function () {
-      return AuthService.logout().then(function () {
+      return NstSvcAuth.logout().then(function () {
         $location.path('/').replace();
         $rootScope.modals['unauthorized'].close();
 

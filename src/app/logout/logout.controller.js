@@ -8,8 +8,8 @@
   /** @ngInject */
   function LogoutController($location, $rootScope,
                             AUTH_EVENTS,
-                            AuthService) {
-    AuthService.logout().then(function () {
+                            NstSvcAuth) {
+    NstSvcAuth.logout().then(function () {
       $rootScope.$broadcast(AUTH_EVENTS.UNAUTHORIZE);
       $location.path('/').replace();
     });

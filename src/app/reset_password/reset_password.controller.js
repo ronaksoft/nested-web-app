@@ -6,10 +6,10 @@
     .controller('ResetPasswordController', ResetPasswordController);
 
   /** @ngInject */
-  function ResetPasswordController(AuthService, $location) {
+  function ResetPasswordController(NstSvcAuth, $location) {
     var vm = this;
 
-    if (AuthService.isInAuthorization()) {
+    if (NstSvcAuth.isInAuthorization()) {
       $location.path('/').replace();
     }
 

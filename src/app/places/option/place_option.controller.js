@@ -6,10 +6,10 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, AuthService, NestedPlace, PLACE_ACCESS) {
+  function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, NstSvcAuth, NestedPlace, PLACE_ACCESS) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
@@ -190,7 +190,7 @@
         size: 'sm',
         scope: $scope
       }).result.then(function () {
-        return $scope.place.removeMember(AuthService.user.username).then(function () {
+        return $scope.place.removeMember(NstSvcAuth.user.username).then(function () {
           $location.path('/places').replace();
 
           return $q(function (res) {

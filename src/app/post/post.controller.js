@@ -7,11 +7,11 @@
 
   /** @ngInject */
   function PostController($location, $scope, $stateParams, $uibModal, $q, $log, $timeout, _, toastr,
-    AuthService, WsService, LoaderService, PostFactoryService, EVENT_ACTIONS, WS_EVENTS,
+    NstSvcAuth, NstSvcServer, LoaderService, PostFactoryService, EVENT_ACTIONS, WS_EVENTS,
     NstPost, NstComment, postId) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({
         back: $location.path()
       });
@@ -24,7 +24,7 @@
     vm.commentLoadProgress = false;
     vm.hasMoreComments = false;
 
-    vm.user = AuthService.user;
+    vm.user = NstSvcAuth.user;
     vm.commentSettings = {
       skip: 0,
       limit: 30,
@@ -132,7 +132,7 @@
     }
 
 
-    WsService.addEventListener(WS_EVENTS.TIMELINE, function(tlEvent) {
+    NstSvcServer.addEventListener(WS_EVENTS.TIMELINE, function(tlEvent) {
       switch (tlEvent.detail.timeline_data.action) {
         case EVENT_ACTIONS.COMMENT_ADD:
         case EVENT_ACTIONS.COMMENT_REMOVE:

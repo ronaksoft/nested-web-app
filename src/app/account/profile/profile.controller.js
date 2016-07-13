@@ -8,16 +8,16 @@
   /** @ngInject */
   function AccountProfileController($location, $scope,
                                     UPLOAD_TYPE,
-                                    AuthService, StoreService, $uibModal) {
+                                    NstSvcAuth, StoreService, $uibModal) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
 
     $scope.logo = null;
-    $scope.user = AuthService.user;
+    $scope.user = NstSvcAuth.user;
 
     vm.imgToUri = function (event) {
       var element = event.currentTarget;

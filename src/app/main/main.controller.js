@@ -6,8 +6,8 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($location, AuthService) {
-    if (AuthService.isInAuthorization()) {
+  function MainController($location, NstSvcAuth) {
+    if (NstSvcAuth.isInAuthorization()) {
       $location.path('/events').replace();
     }
   }

@@ -4,7 +4,7 @@
   angular
     .module('nested')
     .factory('NestedPost', function ($rootScope, $q, $injector, $log, _, ATTACHMENT_STATUS,
-      WsService, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
+      NstSvcServer, NestedUser, NestedPlace, NestedAttachment, NestedRecipient) {
       function Post(data, full) {
         this.full = full || false;
 
@@ -113,7 +113,7 @@
             }.bind(this));
           }
 
-          return WsService.request('post/get_comments', {
+          return NstSvcServer.request('post/get_comments', {
             skip: this.comments.length,
             limit: this.commentLimit,
             post_id: this.id
@@ -154,7 +154,7 @@
             }
           }
 
-          return WsService.request('post/add_comment', {
+          return NstSvcServer.request('post/add_comment', {
             post_id: this.id,
             txt: comment
           }).then(function (data) {
@@ -210,17 +210,17 @@
         load: function(id) {
           this.id = id || this.id;
 
-          return WsService.request('post/get', { post_id: this.id }).then(this.setData.bind(this));
+          return NstSvcServer.request('post/get', { post_id: this.id }).then(this.setData.bind(this));
         },
 
         delete: function() {
-          return WsService.request('post/remove', {
+          return NstSvcServer.request('post/remove', {
             post_id: this.id
           });
         },
 
         deleteFromPlace: function(postId, placeId) {
-          return WsService.request('post/remove', {
+          return NstSvcServer.request('post/remove', {
             post_id: postId,
             place_id: placeId
           });
@@ -229,7 +229,7 @@
         update: function() {
           if (this.id) {
             // TODO: Check if API Exists and is correct
-            return WsService.request('post/update', {
+            return NstSvcServer.request('post/update', {
               post_id: this.id
             });
           } else {
@@ -244,7 +244,7 @@
               attaches: (this.attachments.map(function (attachment) { return attachment.id; })).join(',')
             };
 
-            return WsService.request('post/add', params).then(function (data) {
+            return NstSvcServer.request('post/add', params).then(function (data) {
               this.id = data.post_id.$oid;
 
               return $q(function (res) {
@@ -289,7 +289,7 @@
       };
 
       function loadPlacesWithAccess(ids) {
-        return WsService.request('place/get_access', { place_ids: ids });
+        return NstSvcServer.request('place/get_access', { place_ids: ids });
       }
 
       function getPlacesWithAccess(post, accessCodes) {

@@ -7,12 +7,12 @@
 
   /** @ngInject */
   function CreatePlaceController($location, $scope, $uibModal, $state, $stateParams, $q,
-                                 WS_ERROR, UPLOAD_TYPE,
-                                 AuthService, StoreService, LoaderService,
+                                 NST_SRV_ERROR, UPLOAD_TYPE,
+                                 NstSvcAuth, StoreService, LoaderService,
                                  StoreItem, NestedPlace) {
     var vm = this;
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
@@ -56,10 +56,10 @@
           $location.path('/place/' + place.id).replace();
         }).catch(function (error) {
           switch (error.err_code) {
-            case WS_ERROR.ACCESS_DENIED:
+            case NST_SRV_ERROR.ACCESS_DENIED:
               break;
 
-            case WS_ERROR.INVALID:
+            case NST_SRV_ERROR.INVALID:
               // TODO: Enable error message tooltips on view
               for (var k in error.items) {
                 switch (error.items[k]) {
@@ -78,10 +78,10 @@
               }
               break;
 
-            case WS_ERROR.DUPLICATE:
+            case NST_SRV_ERROR.DUPLICATE:
               break;
 
-            case WS_ERROR.LIMIT_REACHED:
+            case NST_SRV_ERROR.LIMIT_REACHED:
               break;
 
             default:

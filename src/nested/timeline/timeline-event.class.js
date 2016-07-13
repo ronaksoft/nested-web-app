@@ -25,7 +25,7 @@
       ACCOUNT_LOGIN: 8192,
       ACCOUNT_PICTURE: 16384
     })
-    .factory('NestedEvent', function (WsService, EVENT_ACTIONS, NestedUser, NestedPost, NestedComment, NestedPlace, $log) {
+    .factory('NestedEvent', function (NstSvcServer, EVENT_ACTIONS, NestedUser, NestedPost, NestedComment, NestedPlace, $log) {
       function Event(data) {
         this.id = null;
         this.type = null;
@@ -176,7 +176,7 @@
         },
 
         load: function(id) {
-          WsService.request('event/get_info', {
+          NstSvcServer.request('event/get_info', {
             event_id: id
           }).then(function (data) {
             this.setData(data);
@@ -184,14 +184,14 @@
         },
 
         delete: function() {
-          return WsService.request('post/remove', {
+          return NstSvcServer.request('post/remove', {
             post_id: this.id
           });
         },
 
         update: function() {
           // TODO: Check if API Exists and is correct
-          return WsService.request('post/update', {
+          return NstSvcServer.request('post/update', {
             post_id: this.id
           });
         }

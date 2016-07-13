@@ -6,7 +6,7 @@
     .controller('ContextMenuController', ContextMenuController);
 
   /** @ngInject */
-  function ContextMenuController($location, AuthService, NestedPlace, $scope) {
+  function ContextMenuController($location, NstSvcAuth, NestedPlace, $scope) {
     var vm = this;
   }
 })();
