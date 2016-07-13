@@ -6,17 +6,15 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $interval, $uibModal,
+  function runBlock($rootScope, $uibModal,
                     ngProgressFactory,
-                    UNREGISTER_REASON, AUTH_EVENTS, AuthService, LoaderService, LOADER_EVENTS) {
+                    NST_UNREGISTER_REASON, NST_AUTH_EVENTS, NST_LOADER_EVENTS,
+                    NstSvcAuth, NstSvcLoader) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
 
     $rootScope.now = function () {
       return new Date();
-    }
-    // $interval(function () {
-    //   $rootScope.now.setTime(Date.now());
-    // }, 1000);
+    };
 
     $rootScope.progress = {
       bar: ngProgressFactory.createInstance(),
@@ -38,11 +36,11 @@
     $rootScope.progress.bar.setHeight('5px');
     // $rootScope.progress.bar.setColor('#14D766');
 
-    LoaderService.addEventListener(LOADER_EVENTS.INJECTED, function () {
+    NstSvcLoader.addEventListener(NST_LOADER_EVENTS.INJECTED, function () {
       $rootScope.progress.fn.start();
     });
 
-    LoaderService.addEventListener(LOADER_EVENTS.FINISHED, function (event) {
+    NstSvcLoader.addEventListener(NST_LOADER_EVENTS.FINISHED, function (event) {
       if (event.detail.rejected > 0) {
         $rootScope.progress.fn.reset();
       } else {
@@ -52,8 +50,8 @@
 
     $rootScope.modals = {};
 
-    AuthService.addEventListener(AUTH_EVENTS.UNAUTHORIZE, function (event) {
-      if (!$rootScope.modals['unauthorized'] && UNREGISTER_REASON.DISCONNECT == event.detail.reason) {
+    NstSvcAuth.addEventListener(NST_AUTH_EVENTS.UNAUTHORIZE, function (event) {
+      if (!$rootScope.modals['unauthorized'] && NST_UNREGISTER_REASON.DISCONNECT == event.detail.reason) {
         $rootScope.modals['unauthorized'] = $uibModal.open({
           animation: false,
           templateUrl: 'app/unauthorized/unauthorized.html',
@@ -63,7 +61,7 @@
       }
     });
 
-    AuthService.addEventListener(AUTH_EVENTS.AUTHORIZE, function () {
+    NstSvcAuth.addEventListener(NST_AUTH_EVENTS.AUTHORIZE, function () {
       if ($rootScope.modals['unauthorized']) {
         $rootScope.modals['unauthorized'].close();
         delete $rootScope.modals['unauthorized'];
