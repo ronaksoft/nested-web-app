@@ -5,7 +5,7 @@
     .module('nested')
     .factory('NstTinyUser', NstTinyUser);
 
-  function NstTinyUser(NstModel, NstStoreResource, NstPicture) {
+  function NstTinyUser(NST_OBJECT_EVENT, NstModel, NstStoreResource, NstPicture) {
     /**
      * Creates an instance of NstTinyUser. Do not use this directly, use NstSvcUserFactory.getTiny(data) instead
      *

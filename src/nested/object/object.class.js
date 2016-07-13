@@ -42,7 +42,9 @@
      * @param {Boolean} firstUpper
      */
     MyObject.prototype.getJsName = function(name, firstUpper) {
-      var camelCased = name.split(/[_\-\s\.]/).map(function (v) { return v[0].toUpperCase() + v.substr(1); }).join('');
+      var camelCased = name.split(/[_\-\s\.]/).map(function (v) {
+        return (v[0] ? v[0].toUpperCase() + v.substr(1) : '');
+      }).join('');
 
       return firstUpper ? camelCased : (camelCased[0].toLowerCase() + camelCased.substr(1));
     };
