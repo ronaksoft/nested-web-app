@@ -6,7 +6,7 @@
     .factory('NstPicture', NstPicture);
 
   /** @ngInject */
-  function NstPicture(NST_OBJECT_EVENT, NstObservableObject, NstStoreResource) {
+  function NstPicture($log, NST_OBJECT_EVENT, NstObservableObject, NstStoreResource) {
     /**
      * Creates an instance of NstPicture
      *
@@ -40,7 +40,7 @@
       NstObservableObject.call(this);
 
       this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
-        console.log('Picture Event Listener Context: ', this);
+        $log.debug('Picture Event Listener Context: ', this);
 
         switch (event.detail.name) {
           case 'id':

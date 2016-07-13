@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout, _, toastr, ATTACHMENT_STATUS,
-    NstSvcAuth, NstSvcServer, NstSvcStore, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+    NstSvcAuth, NstSvcServer, NstSvcStore, NstStoreResource, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -182,7 +182,7 @@
         attachment.loadedSize = 0;
 
         if (isImage) {
-          var stItem = new StoreItem();
+          var stItem = new NstStoreResource();
           stItem.uid = attachment.id;
           attachment.thumbs = {
             x32: stItem,

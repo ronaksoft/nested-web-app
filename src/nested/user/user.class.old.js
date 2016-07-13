@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .factory('NestedUser', function ($q, NstSvcServer, NestedUserRepoService, StoreItem, $rootScope) {
+    .factory('NestedUser', function ($q, NstSvcServer, NestedUserRepoService, NstStoreResource, $rootScope) {
       function User(data) {
         this.username = null;
         this.email = null;
@@ -17,10 +17,10 @@
         };
         this.fullname = null;
         this.picture = {
-          org: new StoreItem(), // <StoreItem>
-          x32: new StoreItem(),
-          x64: new StoreItem(),
-          x128: new StoreItem()
+          org: new NstStoreResource(), // <NstStoreResource>
+          x32: new NstStoreResource(),
+          x64: new NstStoreResource(),
+          x128: new NstStoreResource()
         };
 
         if (data) {
@@ -54,10 +54,10 @@
 
             if (data.picture) {
               this.picture = {
-                org: new StoreItem(data.picture.org),
-                x32: new StoreItem(data.picture.x32),
-                x64: new StoreItem(data.picture.x64),
-                x128: new StoreItem(data.picture.x128)
+                org: new NstStoreResource(data.picture.org),
+                x32: new NstStoreResource(data.picture.x32),
+                x64: new NstStoreResource(data.picture.x64),
+                x128: new NstStoreResource(data.picture.x128)
               };
             }
 
@@ -92,7 +92,7 @@
           }
 
           return NstSvcServer.request(uid ? 'account/set_picture' : 'account/remove_picture', params).then(function () {
-            this.picture.org = new StoreItem(uid);
+            this.picture.org = new NstStoreResource(uid);
             this.picture.x32 = this.picture.org;
             this.picture.x64 = this.picture.org;
             this.picture.x128 = this.picture.org;

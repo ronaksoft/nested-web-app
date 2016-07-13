@@ -6,7 +6,7 @@
     .factory('NstStoreResource', NstStoreResource);
 
   /** @ngInject */
-  function NstStoreResource(NST_STORE_ROUTE, NST_OBJECT_EVENT, NstSvcStore, NstObservableObject, NstStoreToken) {
+  function NstStoreResource($log, NST_STORE_ROUTE, NST_OBJECT_EVENT, NstSvcStore, NstObservableObject, NstStoreToken) {
     /**
      * Creates an instance of NstStoreResource
      *
@@ -44,7 +44,7 @@
       NstObservableObject.call(this);
 
       this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
-        console.log('Resource Event Listener Context: ', this);
+        $log.debug('Resource Event Listener Context: ', this);
 
         switch (event.detail.name) {
           case 'id':

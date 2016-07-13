@@ -22,7 +22,7 @@
       KNOWN_GUEST: 'known_guest',
       CREATOR: 'creator'
     })
-    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, NstSvcAuth, NstSvcServer, NestedUser, PLACE_ACCESS, MEMBER_TYPE, StoreItem, $log) {
+    .factory('NestedPlace', function ($rootScope, $q, NestedPlaceRepoService, NstSvcAuth, NstSvcServer, NestedUser, PLACE_ACCESS, MEMBER_TYPE, NstStoreResource, $log) {
       function Place(data, parent, full) {
         this.full = full || false;
 
@@ -65,10 +65,10 @@
         };
 
         this.picture = {
-          org: new StoreItem(), // <StoreItem>
-          x32: new StoreItem(),
-          x64: new StoreItem(),
-          x128: new StoreItem()
+          org: new NstStoreResource(), // <NstStoreResource>
+          x32: new NstStoreResource(),
+          x64: new NstStoreResource(),
+          x128: new NstStoreResource()
         };
         this.counters = {
           creators: -1,
@@ -121,10 +121,10 @@
             }
 
             if (data.picture && angular.isObject(data.picture)) {
-              this.picture.org = new StoreItem(data.picture.org);
-              this.picture.x32 = new StoreItem(data.picture.x32);
-              this.picture.x64 = new StoreItem(data.picture.x64);
-              this.picture.x128 = new StoreItem(data.picture.x128);
+              this.picture.org = new NstStoreResource(data.picture.org);
+              this.picture.x32 = new NstStoreResource(data.picture.x32);
+              this.picture.x64 = new NstStoreResource(data.picture.x64);
+              this.picture.x128 = new NstStoreResource(data.picture.x128);
             }
 
             this.counters = {
@@ -523,7 +523,7 @@
             place_id: this.id,
             universal_id: uid
           }).then(function () {
-            this.picture.org = new StoreItem(uid);
+            this.picture.org = new NstStoreResource(uid);
             this.picture.x32 = this.picture.org;
             this.picture.x64 = this.picture.org;
             this.picture.x128 = this.picture.org;

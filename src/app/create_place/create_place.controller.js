@@ -9,7 +9,7 @@
   function CreatePlaceController($location, $scope, $uibModal, $state, $stateParams, $q,
                                  NST_SRV_ERROR, UPLOAD_TYPE,
                                  NstSvcAuth, NstSvcStore, NstSvcLoader,
-                                 StoreItem, NestedPlace) {
+                                 NstStoreResource, NestedPlace) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {

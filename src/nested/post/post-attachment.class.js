@@ -8,7 +8,7 @@
       ATTACHED: 'attached',
       ABORTED: 'aborted'
     })
-    .factory('NestedAttachment', function ($rootScope, $q, $log, _, NstSvcServer, NestedPlace, NestedUser, StoreItem, ATTACHMENT_STATUS) {
+    .factory('NestedAttachment', function ($rootScope, $q, $log, _, NstSvcServer, NestedPlace, NestedUser, NstStoreResource, ATTACHMENT_STATUS) {
       function Attachment(data, post, full) {
         this.full = full || false;
 
@@ -24,11 +24,11 @@
         this.owners = []; // [<Place>]
         this.uploader = null; // <User>
         this.thumbs = {
-          x32: new StoreItem(),
-          x64: new StoreItem(),
-          x128: new StoreItem()
+          x32: new NstStoreResource(),
+          x64: new NstStoreResource(),
+          x128: new NstStoreResource()
         };
-        this.download = new StoreItem(); // StoreItem
+        this.download = new NstStoreResource(); // NstStoreResource
 
         if (data) {
           this.setData(data);
@@ -45,7 +45,7 @@
             this.change();
           } else if (data.hasOwnProperty('_id')) {
             this.id = data._id;
-            this.download = new StoreItem();
+            this.download = new NstStoreResource();
 
             this.downloads = data.downloads;
             this.filename = data.filename;
@@ -57,9 +57,9 @@
             this.uploader = new NestedUser({ username: data.uploader });
             if (data.thumbs) {
               this.thumbs = {
-                x32: new StoreItem(data.thumbs.x32),
-                x64: new StoreItem(data.thumbs.x64),
-                x128: new StoreItem(data.thumbs.x128)
+                x32: new NstStoreResource(data.thumbs.x32),
+                x64: new NstStoreResource(data.thumbs.x64),
+                x128: new NstStoreResource(data.thumbs.x128)
               };
             }
 
@@ -86,7 +86,7 @@
 
         getDownloadUrl: function (token) {
           if (!this.download.uid) {
-            this.download = new StoreItem(this.id);
+            this.download = new NstStoreResource(this.id);
           }
 
           var tkPromise = token ? $q(function (res) { res(this); }.bind(token)) : this.download.store.getDownloadToken(this.post.id, this.id);

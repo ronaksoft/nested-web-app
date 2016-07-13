@@ -15,6 +15,27 @@
      */
     function User(data) {
       /**
+       * User's Email Address
+       *
+       * @type {undefined|String}
+       */
+      this.email = undefined;
+
+      /**
+       * User's Email Address Verification Status
+       *
+       * @type {undefined|String}
+       */
+      this.emailVerified = undefined;
+      
+      /**
+       * User's Phone Number
+       *
+       * @type {undefined|String}
+       */
+      this.phone = undefined;
+      
+      /**
        * User's Country
        *
        * @type {undefined|String}
