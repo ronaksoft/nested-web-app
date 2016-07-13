@@ -8,7 +8,7 @@
   /** @ngInject */
   function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
                             toastr, _, moment,
-                            AuthService, WsService, NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER,
+                            NstSvcAuth, NstSvcServer, NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER,
                             NstSvcLoader, NstSvcActivityFactory,
                             NstActivity, NstPlace, NstInvitation) {
     var vm = this;
@@ -45,7 +45,7 @@
       filter: NST_ACTIVITY_FILTER.ALL
     };
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }

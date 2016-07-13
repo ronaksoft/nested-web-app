@@ -7,14 +7,14 @@
 
   /** @ngInject */
   function MessagesController($location, $scope, $q, $rootScope, $stateParams, $log, $timeout, $uibModal,
-    toastr, AuthService, WsService, NstSvcLoader,
+    toastr, NstSvcAuth, NstSvcServer, NstSvcLoader,
     NST_WS_EVENT, NST_EVENT_ACTION, NST_WS_ERROR, NST_STORAGE_TYPE,
     NstSvcStorageFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory) {
     var vm = this;
 
     console.log('here in messages');
 
-    if (!AuthService.isInAuthorization()) {
+    if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
@@ -122,7 +122,7 @@
 
 
 
-    WsService.addEventListener(NST_WS_EVENT.TIMELINE, function (tlEvent) {
+    NstSvcServer.addEventListener(NST_WS_EVENT.TIMELINE, function (tlEvent) {
       var event = new NestedEvent(tlEvent.detail.timeline_data);
       $log.debug(event);
       var action = tlEvent.detail.timeline_data.action;
@@ -133,7 +133,7 @@
       }
     });
 
-    WsService.addEventListener(NST_WS_EVENT.AUTHORIZE, function (event) {
+    NstSvcServer.addEventListener(NST_WS_EVENT.AUTHORIZE, function (event) {
       // TODO: Get timeline events after last event
     });
 

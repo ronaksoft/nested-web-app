@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcInvitationFactory($q, $log, _, moment,
-                             NstSvcInvitationStorage, WsService,
+                             NstSvcInvitationStorage, NstSvcServer,
                              NstFactoryError, NstFactoryQuery, NstInvitation) {
 
     /**
@@ -57,7 +57,7 @@
     function get() {
       var defer = $q.defer();
 
-      WsService.request('account/get_invitation', { invite_id: this.id }).then(function (response) {
+      NstSvcServer.request('account/get_invitation', { invite_id: this.id }).then(function (response) {
         // TODO: parse the response and return an object
       }).catch(defer.reject);
 
@@ -67,7 +67,7 @@
     function accept(id) {
         var defer = $q.defer();
 
-        WsService.request('account/update_invitation', {
+        NstSvcServer.request('account/update_invitation', {
           invite_id: id,
           state: 'accepted'
         }).then(function (response) {
@@ -80,7 +80,7 @@
     function decline(id) {
       var defer = $q.defer();
 
-      WsService.request('account/update_invitation', {
+      NstSvcServer.request('account/update_invitation', {
         invite_id: id,
         state: 'ignored'
       }).then(function (response) {

@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcActivityFactory($q, $log, _, moment,
                              // NstSvcUserFactory
-                             WsService, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory,
+                             NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory,
                              NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace) {
 
     /**
@@ -185,7 +185,7 @@
       var activities = NstSvcActivityStorage.get('all', []);
 
       if (activities.length === 0) { // cache is empty and it's better to ask the server for recent activities
-        WsService.request('timeline/get_events', {
+        NstSvcServer.request('timeline/get_events', {
           limit: settings.limit,
           skip: settings.skip
         }).then(function (data) {
