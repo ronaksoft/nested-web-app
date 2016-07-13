@@ -49,7 +49,7 @@
   function NstSvcServer($websocket, $q, $log,
                         NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENTS, NST_SRV_MESSAGES, NST_AUTH_COMMANDS,
                         NstSvcRandomize,
-                        NstRequest) {
+                        NstObservableObject, NstRequest) {
     function Server(url, meta) {
       this.meta = meta || {};
       this.sesKey = '';
@@ -180,97 +180,54 @@
       });
     }
 
-    Server.prototype = {
-      request: function (action, data, timeout) {
-        var reqId = this.genRequestId(action, data, timeout);
+    Server.prototype = new NstObservableObject();
+    Server.prototype.constructor = Server;
 
-        var payload = angular.extend(data || {}, {
-          cmd: action
-        });
+    Server.prototype.request = function (action, data, timeout) {
+      var reqId = this.genRequestId(action, data, timeout);
 
-        var rawData = {
-          type: 'q',
-          _reqid: reqId,
-          data: payload,
-          meta: this.meta
-        };
+      var payload = angular.extend(data || {}, {
+        cmd: action
+      });
 
-        this.requests[reqId] = new NstRequest(this, rawData, !angular.isNumber(timeout) || timeout < 0 ? 5000 : timeout);
+      var rawData = {
+        type: 'q',
+        _reqid: reqId,
+        data: payload,
+        meta: this.meta
+      };
 
-        return $q(this.requests[reqId].promise);
-      },
+      this.requests[reqId] = new NstRequest(this, rawData, !angular.isNumber(timeout) || timeout < 0 ? 5000 : timeout);
 
-      genRequestId: function (action, data, timeout) {
-        return 'REQ/' + action.toUpperCase() + '/' + NstSvcRandomize.genUniqId();
-      },
+      return $q(this.requests[reqId].promise);
+    };
 
-      isInitialized: function () {
-        return this.initialized;
-      },
+    Server.prototype.genRequestId = function (action, data, timeout) {
+      return 'REQ/' + action.toUpperCase() + '/' + NstSvcRandomize.genUniqId();
+    };
 
-      isAuthorized: function () {
-        return this.authorized;
-      },
+    Server.prototype.isInitialized = function () {
+      return this.initialized;
+    };
 
-      unauthorize: function () {
-        if (this.authorized) {
-          // Currently just called on auth service logout
-          // When stream is closed it will became unauthorized automatically
-          this.stream.close();
-        }
-      },
+    Server.prototype.isAuthorized = function () {
+      return this.authorized;
+    };
 
-      getSessionKey: function () {
-        return this.sesKey;
-      },
-
-      getSessionSecret: function () {
-        return this.sesSecret;
-      },
-
-      addEventListener: function (type, callback, oneTime) {
-        if (!(type in this.listeners)) {
-          this.listeners[type] = [];
-        }
-
-        this.listeners[type].push({
-          flush: oneTime || false,
-          fn: callback
-        });
-      },
-
-      removeEventListener: function (type, callback) {
-        if (!(type in this.listeners)) {
-          return;
-        }
-
-        var stack = this.listeners[type];
-        for (var i = 0, l = stack.length; i < l; i++) {
-          if (stack[i].fn === callback) {
-            stack.splice(i, 1);
-
-            return this.removeEventListener(type, callback);
-          }
-        }
-      },
-
-      dispatchEvent: function (event) {
-        if (!(event.type in this.listeners)) {
-          return;
-        }
-
-        var stack = this.listeners[event.type];
-        // event.target = this;
-        var flushTank = [];
-        for (var i = 0, l = stack.length; i < l; i++) {
-          stack[i].fn.call(this, event);
-          stack[i].flush && flushTank.push(stack[i]);
-        }
-
-        for (var key in flushTank) {
-          this.removeEventListener(event.type, flushTank[key].fn);
-        }
+    Server.prototype.unauthorize = function () {
+      if (this.authorized) {
+        // Currently just called on auth service logout
+        // When stream is closed it will became unauthorized automatically
+        this.stream.close();
       }
+    };
+
+    Server.prototype.getSessionKey = function () {
+      return this.sesKey;
+    };
+
+    Server.prototype.getSessionSecret = function () {
+      return this.sesSecret;
     };
 
     return new Server(NST_CONFIG.WEBSOCKET.URL, {

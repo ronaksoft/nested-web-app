@@ -9,7 +9,7 @@
   function NstSvcAuth($cookies, $window, $q, $log,
                       NST_SRV_EVENTS, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENTS, NST_AUTH_STATE,
                       NstSvcServer,
-                      NstUser) {
+                      NstObservableObject, NstUser) {
     function Auth(user) {
       // TODO: Let user factory create this
       this.user = new NstUser(user);
@@ -31,219 +31,176 @@
       }.bind(this));
     }
 
-    Auth.prototype = {
-      authorize: function (data) {
-        $log.debug('Authorization', data);
+    Auth.prototype = new NstObservableObject();
+    Auth.prototype.constructor = Auth;
 
-        var options = {};
-        if (this.remember) {
-          var expires = new Date();
-          expires.setFullYear(expires.getFullYear() + 1);
-          options['expires'] = expires;
-        }
+    Auth.prototype.authorize = function (data) {
+      $log.debug('Authorization', data);
 
-        this.lastSessionKey = data._sk.$oid;
-        this.lastSessionSecret = data._ss;
-        $cookies.put('nsk', this.lastSessionKey, options);
-        $cookies.put('nss', this.lastSessionSecret, options);
+      var options = {};
+      if (this.remember) {
+        var expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 1);
+        options['expires'] = expires;
+      }
 
-        // TODO: Pass to user service
-        this.user.setData(data.info);
+      this.lastSessionKey = data._sk.$oid;
+      this.lastSessionSecret = data._ss;
+      $cookies.put('nsk', this.lastSessionKey, options);
+      $cookies.put('nss', this.lastSessionSecret, options);
 
-        this.state = NST_AUTH_STATE.AUTHORIZED;
-        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE, { detail: { user: this.user } }));
+      // TODO: Pass to user service
+      this.user.setData(data.info);
 
-        return $q(function (res) {
-          res(this.user);
-        }.bind(this));
-      },
+      this.state = NST_AUTH_STATE.AUTHORIZED;
+      this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE, { detail: { user: this.user } }));
 
-      register: function (username, password) {
-        this.state = NST_AUTH_STATE.AUTHORIZING;
+      return $q(function (res) {
+        res(this.user);
+      }.bind(this));
+    };
 
-        return NstSvcServer.request('session/register', { uid: username, pass: password });
-      },
+    Auth.prototype.register = function (username, password) {
+      this.state = NST_AUTH_STATE.AUTHORIZING;
 
-      recall: function (sessionKey, sessionSecret) {
-        this.state = NST_AUTH_STATE.AUTHORIZING;
+      return NstSvcServer.request('session/register', { uid: username, pass: password });
+    };
 
-        return NstSvcServer.request('session/recall', { _sk: sessionKey, _ss: sessionSecret });
-      },
+    Auth.prototype.recall = function (sessionKey, sessionSecret) {
+      this.state = NST_AUTH_STATE.AUTHORIZING;
 
-      unregister: function (reason) {
-        var result = $q(function (res) {
-          res(reason);
-        });
+      return NstSvcServer.request('session/recall', { _sk: sessionKey, _ss: sessionSecret });
+    };
 
-        switch (reason) {
-          case NST_UNREGISTER_REASON.DISCONNECT:
-            break;
+    Auth.prototype.unregister = function (reason) {
+      var result = $q(function (res) {
+        res(reason);
+      });
 
-          default:
-            this.lastSessionKey = null;
-            this.lastSessionSecret = null;
-            $cookies.remove('nss');
-            $cookies.remove('nsk');
-            result = NstSvcServer.request('session/close').then(function () {
-              NstSvcServer.unauthorize();
+      switch (reason) {
+        case NST_UNREGISTER_REASON.DISCONNECT:
+          break;
 
-              return $q(function (res) {
-                res(reason);
-              });
+        default:
+          this.lastSessionKey = null;
+          this.lastSessionSecret = null;
+          $cookies.remove('nss');
+          $cookies.remove('nsk');
+          result = NstSvcServer.request('session/close').then(function () {
+            NstSvcServer.unauthorize();
+
+            return $q(function (res) {
+              res(reason);
             });
-            break;
-        }
+          });
+          break;
+      }
 
-        this.state = NST_AUTH_STATE.UNAUTHORIZED;
-        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
+      this.state = NST_AUTH_STATE.UNAUTHORIZED;
+      this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.UNAUTHORIZE, { detail: { reason: reason } }));
 
-        return result;
-      },
+      return result;
+    };
 
-      login: function (credentials, remember) {
-        this.remember = remember;
+    Auth.prototype.login = function (credentials, remember) {
+      this.remember = remember;
 
-        return this.register(credentials.username, credentials.password).then(
-          this.authorize.bind(this)
-        ).catch(function (data) {
-          this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
-          this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
-
-          return $q(function (res, rej) {
-            rej.apply(null, this.input);
-          }.bind({ input: arguments }));
-        }.bind(this));
-      },
-
-      reconnect: function () {
-        this.lastSessionKey = $cookies.get('nsk') || this.lastSessionKey;
-        this.lastSessionSecret = $cookies.get('nss') || this.lastSessionSecret;
-
-        // TODO: Read from an storage
-        this.remember = true;
-
-        if (this.lastSessionKey && this.lastSessionSecret) {
-          return this.recall(this.lastSessionKey, this.lastSessionSecret).then(
-            this.authorize.bind(this)
-          ).catch(function (data) {
-            switch (data.err_code) {
-              case NST_SRV_ERROR.DUPLICATE:
-                return $q(function (res) {
-                  res({
-                    status: NST_SRV_RESPONSE_STATUS.SUCCESS,
-                    info: this.user,
-                    _sk : {
-                      $oid: this.lastSessionKey
-                    },
-                    _ss: this.lastSessionSecret
-                  });
-                }.bind(this)).then(this.authorize.bind(this));
-                break;
-
-              case NST_SRV_ERROR.ACCESS_DENIED:
-              case NST_SRV_ERROR.INVALID:
-                this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
-                this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
-
-                return $q(function (res, rej) {
-                  rej.apply(null, this.input);
-                }.bind({ input: arguments }));
-                break;
-
-              default:
-                // Try to reconnect
-                return this.reconnect();
-                break;
-            }
-          }.bind(this));
-        }
+      return this.register(credentials.username, credentials.password).then(
+        this.authorize.bind(this)
+      ).catch(function (data) {
+        this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
+        this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
         return $q(function (res, rej) {
-          rej({
-            status: NST_SRV_RESPONSE_STATUS.ERROR,
-            err_code: NST_SRV_ERROR.INVALID
-          });
-        })
-      },
+          rej.apply(null, this.input);
+        }.bind({ input: arguments }));
+      }.bind(this));
+    };
 
-      logout: function () {
-        return this.unregister(NST_UNREGISTER_REASON.LOGOUT).then(function () {
-          // Post logout job
+    Auth.prototype.reconnect = function () {
+      this.lastSessionKey = $cookies.get('nsk') || this.lastSessionKey;
+      this.lastSessionSecret = $cookies.get('nss') || this.lastSessionSecret;
 
-          return $q(function (res) {
-            res.apply(null, this.input);
-          }.bind({ input: arguments }));
-        }.bind(this));
-      },
+      // TODO: Read from an storage
+      this.remember = true;
 
-      getState: function () {
-        return this.state;
-      },
+      if (this.lastSessionKey && this.lastSessionSecret) {
+        return this.recall(this.lastSessionKey, this.lastSessionSecret).then(
+          this.authorize.bind(this)
+        ).catch(function (data) {
+          switch (data.err_code) {
+            case NST_SRV_ERROR.DUPLICATE:
+              return $q(function (res) {
+                res({
+                  status: NST_SRV_RESPONSE_STATUS.SUCCESS,
+                  info: this.user,
+                  _sk : {
+                    $oid: this.lastSessionKey
+                  },
+                  _ss: this.lastSessionSecret
+                });
+              }.bind(this)).then(this.authorize.bind(this));
+              break;
 
-      isAuthorized: function () {
-        return NST_AUTH_STATE.AUTHORIZED == this.getState();
-      },
+            case NST_SRV_ERROR.ACCESS_DENIED:
+            case NST_SRV_ERROR.INVALID:
+              this.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
+              this.dispatchEvent(new CustomEvent(NST_AUTH_EVENTS.AUTHORIZE_FAIL, { detail: { reason: data.err_code } }));
 
-      isInAuthorization: function () {
-        return this.isAuthorized() ||
-          NST_AUTH_STATE.AUTHORIZATION == this.getState() ||
-          $cookies.get('nsk') ||
-          this.lastSessionKey;
-      },
+              return $q(function (res, rej) {
+                rej.apply(null, this.input);
+              }.bind({ input: arguments }));
+              break;
 
-      isUnauthorized: function () {
-        return NST_AUTH_STATE.UNAUTHORIZED == this.getState();
-      },
-
-      haveAccess: function (placeId, permissions) {
-        permissions = angular.isArray(permissions) ? permissions : [permissions];
-
-        // TODO: Get from UserPlaceAccessFactory
-      },
-
-      addEventListener: function (type, callback, oneTime) {
-        if (!(type in this.listeners)) {
-          this.listeners[type] = [];
-        }
-
-        this.listeners[type].push({
-          flush: oneTime || false,
-          fn: callback
-        });
-      },
-
-      removeEventListener: function (type, callback) {
-        if (!(type in this.listeners)) {
-          return;
-        }
-
-        var stack = this.listeners[type];
-        for (var i = 0, l = stack.length; i < l; i++) {
-          if (stack[i].fn === callback) {
-            stack.splice(i, 1);
-
-            return this.removeEventListener(type, callback);
+            default:
+              // Try to reconnect
+              return this.reconnect();
+              break;
           }
-        }
-      },
-
-      dispatchEvent: function (event) {
-        if (!(event.type in this.listeners)) {
-          return;
-        }
-
-        var stack = this.listeners[event.type];
-        // event.target = this;
-        var flushTank = [];
-        for (var i = 0, l = stack.length; i < l; i++) {
-          stack[i].fn.call(this, event);
-          stack[i].flush && flushTank.push(stack[i]);
-        }
-
-        for (var key in flushTank) {
-          this.removeEventListener(event.type, flushTank[key].fn);
-        }
+        }.bind(this));
       }
+
+      return $q(function (res, rej) {
+        rej({
+          status: NST_SRV_RESPONSE_STATUS.ERROR,
+          err_code: NST_SRV_ERROR.INVALID
+        });
+      })
+    };
+
+    Auth.prototype.logout = function () {
+      return this.unregister(NST_UNREGISTER_REASON.LOGOUT).then(function () {
+        // Post logout job
+
+        return $q(function (res) {
+          res.apply(null, this.input);
+        }.bind({ input: arguments }));
+      }.bind(this));
+    };
+
+    Auth.prototype.getState = function () {
+      return this.state;
+    };
+
+    Auth.prototype.isAuthorized = function () {
+      return NST_AUTH_STATE.AUTHORIZED == this.getState();
+    };
+
+    Auth.prototype.isInAuthorization = function () {
+      return this.isAuthorized() ||
+        NST_AUTH_STATE.AUTHORIZATION == this.getState() ||
+        $cookies.get('nsk') ||
+        this.lastSessionKey;
+    };
+
+    Auth.prototype.isUnauthorized = function () {
+      return NST_AUTH_STATE.UNAUTHORIZED == this.getState();
+    };
+
+    Auth.prototype.haveAccess = function (placeId, permissions) {
+      permissions = angular.isArray(permissions) ? permissions : [permissions];
+
+      // TODO: Get from UserPlaceAccessFactory
     };
 
     // Cache Implementation
