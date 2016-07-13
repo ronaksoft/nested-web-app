@@ -6,7 +6,7 @@
     .factory('NstStoreResource', NstStoreResource);
 
   /** @ngInject */
-  function NstStoreResource(NST_STORE_ROUTE, NST_OBJECT_EVENT, NstSvcStore, NstObservableObject) {
+  function NstStoreResource(NST_STORE_ROUTE, NST_OBJECT_EVENT, NstSvcStore, NstObservableObject, NstStoreToken) {
     /**
      * Creates an instance of NstStoreResource
      *
@@ -28,7 +28,7 @@
        *
        * @type {undefined|NstStoreToken}
        */
-      this.token = undefined;
+      this.token = new NstStoreToken();
 
       /**
        * Resource urls
@@ -60,7 +60,7 @@
       });
 
       this.setId(universalId);
-      this.setToken(token);
+      token && this.setToken(token);
     }
 
     StoreResource.prototype = new NstObservableObject();

@@ -6,7 +6,7 @@
     .factory('NstPicture', NstPicture);
 
   /** @ngInject */
-  function NstPicture(NST_OBJECT_EVENT, NstStoreResource) {
+  function NstPicture(NST_OBJECT_EVENT, NstObservableObject, NstStoreResource) {
     /**
      * Creates an instance of NstPicture
      *
