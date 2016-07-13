@@ -64,7 +64,7 @@
                 </div>
                 <div class="name _fw _difv _jcc _di">
                   <div class="_dib">
-                    <span class="_df _tr _dib _italic">from</span>
+                    <i class="_df _tr _dib">from</i>
                     <span class="_df _tr _dib nst-mood-cheerful">Ehsan Nouredin Musa</span>
                     <span class="nst-mood-storm _df _tr _dib" data-ng-bind="events.place.id + '@ehsannm'"></span>
                   </div>
@@ -102,8 +102,8 @@
 
           </div>
         </div>
-
       </div>
+
       <div class="navbar-bottom" id="nav-com">
         <div class="_df _fw">
           <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
@@ -117,6 +117,28 @@
           <!--ng-disabled="myForm.$invalid"-->
         </div>
       </div>
+
+      <div class="navbar-bottom" id="nav-prof">
+        <div class="_df _fw">
+          <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
+        </div>
+      </div>
+
+      <div class="navbar-bottom" id="nav-option">
+        <div class="_df _fw">
+          <a href="#/events" class="btn-white-nav nst-mood-storm">Back</a>
+          <!--<a href="javascript:void(0);" class="btn-white-nav nst-mood-storm" onclick="window.history.back();">Discard</a>-->
+        </div>
+        <div class="_df">
+          <a href="javascript:void(0);" class="_fr btn-white-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">
+            <span class="_dib _vat">Leave</span>
+            <div class="_dib option-leave-icon"></div>
+          </a>
+          <!--ng-disabled="myForm.$invalid"-->
+        </div>
+      </div>
+
+
     </div>
     <div class="content-plus">
     </div>

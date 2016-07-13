@@ -106,3 +106,37 @@
   top: -5px;
 }
 
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific -navbar changes *
+  **********************************************************
+ */
+
+
+#nav-prof {
+  display: none
+}
+
+.maincontainer.create-hld {
+  .content-plus {
+    display: none;
+  }
+  .content {
+    width: 100%;
+    margin: auto;
+    max-width: 1058px;
+  }
+  #content-wrapper .content {
+    height: calc(100vh - 180px );
+  }
+  #nav-prof {
+    display: flex;
+  }
+  .navbar-bottom {
+    display: none;
+    div {
+      align-items: center;
+    }
+  }
+}
