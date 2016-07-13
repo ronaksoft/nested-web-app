@@ -3,19 +3,19 @@
 
   angular
     .module('nested')
-    .factory('NstResource', NstResource);
+    .factory('NstStoreResource', NstStoreResource);
 
   /** @ngInject */
-  function NstResource(NST_STORE_ROUTE, NST_OBJECT_EVENT, NstSvcStore, NstObservableObject) {
+  function NstStoreResource(NST_STORE_ROUTE, NST_OBJECT_EVENT, NstSvcStore, NstObservableObject) {
     /**
-     * Creates an instance of NstResource
+     * Creates an instance of NstStoreResource
      *
      * @param {String}    universalId  Universal Identifier of Resource in Store
-     * @param {NstToken}  token        Token to download the resource
+     * @param {NstStoreToken}  token        Token to download the resource
      *
      * @constructor
      */
-    function Resource(universalId, token) {
+    function StoreResource(universalId, token) {
       /**
        * Resource Identifier
        *
@@ -26,7 +26,7 @@
       /**
        * Resource download token
        *
-       * @type {undefined|String}
+       * @type {undefined|NstStoreToken}
        */
       this.token = undefined;
 
@@ -63,15 +63,15 @@
       this.setToken(token);
     }
 
-    Resource.prototype = new NstObservableObject();
-    Resource.prototype.constructor = Resource;
-    
-    Resource.prototype.refreshUrls = function () {
+    StoreResource.prototype = new NstObservableObject();
+    StoreResource.prototype.constructor = StoreResource;
+
+    StoreResource.prototype.refreshUrls = function () {
       this.url.download = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, this.id, this.token);
       this.url.view = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, this.id, this.token);
       this.url.stream = NstSvcStore.resolveUrl(NST_STORE_ROUTE.STREAM, this.id, this.token);
     };
 
-    return Resource;
+    return StoreResource;
   }
 })();

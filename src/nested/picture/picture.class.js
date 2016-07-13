@@ -6,7 +6,7 @@
     .factory('NstPicture', NstPicture);
 
   /** @ngInject */
-  function NstPicture(NST_OBJECT_EVENT, NstResource) {
+  function NstPicture(NST_OBJECT_EVENT, NstStoreResource) {
     /**
      * Creates an instance of NstPicture
      *
@@ -26,14 +26,14 @@
       /**
        * Main Picture Resource
        *
-       * @type {NstResource}
+       * @type {NstStoreResource}
        */
-      this.org = new NstResource();
+      this.org = new NstStoreResource();
 
       /**
        * Picture Thumbnails' Resources
        *
-       * @type {NstResource[]}
+       * @type {NstStoreResource[]}
        */
       this.thumbnails = [];
 
@@ -53,7 +53,7 @@
       for (var k in thumbnails) {
         // Export numbers from key: x32 -> 32, 32x -> 32
         var size = Number(String(k).replace(/[a-zA-Z]*/g, ''));
-        this.setThumbnail(size, new NstResource(thumbnails[k]));
+        this.setThumbnail(size, new NstStoreResource(thumbnails[k]));
       }
     }
 
@@ -64,7 +64,7 @@
      * Sets thumbnail of a specific size
      *
      * @param {Number}      size      Thumbnail size
-     * @param {NstResource} resource  Thumbnail resource
+     * @param {NstStoreResource} resource  Thumbnail resource
      *
      * @returns {Picture}
      */
@@ -80,7 +80,7 @@
      *
      * @param {Number} size
      *
-     * @returns {NstResource}
+     * @returns {NstStoreResource}
      */
     Picture.prototype.getThumbnail = function (size) {
       return this.thumbnails['x' + size];

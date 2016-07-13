@@ -1,8 +1,11 @@
 {
   "NST_CONFIG": {
-    "APP_ID": "WEB_DEV_{{BUILD}}",
+    "APP_ID": "web-dev-{{BUILD}}",
     "WEBSOCKET": {
       "URL": "wss://ws001.ws.nested.me:443"
+    },
+    "STORE": {
+      "URL": "https://dev.xerxes.nested.me"
     }
   }
 }

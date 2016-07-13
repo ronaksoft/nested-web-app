@@ -5,7 +5,7 @@
     .module('nested')
     .factory('NstUser', NstUser);
 
-  function NstUser(NstModel) {
+  function NstUser(NstTinyUser) {
     /**
      * Creates an instance of NstUser. Do not use this directly, use NstSvcUserFactory.get(data) instead
      *
@@ -15,20 +15,27 @@
      */
     function User(data) {
       /**
-       * User Identifier (Username)
+       * User's Country
        *
        * @type {undefined|String}
        */
-      this.id = undefined;
+      this.country = undefined;
 
-      NstModel.call(this);
+      /**
+       * User's Registration Status
+       *
+       * @type {undefined|Boolean}
+       */
+      this.registered = undefined;
+
+      NstTinyUser.call(this);
 
       if (data) {
         this.fill(data);
       }
     }
 
-    User.prototype = new NstModel();
+    User.prototype = new NstTinyUser();
     User.prototype.constructor = User;
 
     return User;

@@ -3,12 +3,12 @@
 
   angular
     .module('nested')
-    .factory('NstToken', NstToken);
+    .factory('NstStoreToken', NstStoreToken);
 
   /** @ngInject */
-  function NstToken(NstObservableObject) {
+  function NstStoreToken(NstObservableObject) {
     /**
-     * Creates an instance of NstToken
+     * Creates an instance of NstStoreToken
      *
      * @param {String}      string      Token string
      * @param {Number|Date} expiration  Token expiration date
@@ -31,6 +31,10 @@
 
     Token.prototype.isExpired = function () {
       return this.expiration > Date.now();
+    };
+
+    Token.prototype.toString = function () {
+      return this.getString();
     };
 
     return Token;

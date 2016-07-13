@@ -3,46 +3,6 @@
 
   angular
     .module('nested')
-    .constant('NST_SRV_MESSAGE_TYPE', {
-      QUEST: 'q',
-      RESPONSE: 'r',
-      PUSH: 'p'
-    })
-    .constant('NST_SRV_PUSH_TYPE', {
-      TIMELINE_EVENT: 'tl_event'
-    })
-    .constant('NST_SRV_ERROR', {
-      UNKNOWN: 0,
-      ACCESS_DENIED: 1,
-      UNAVAILABLE: 2,
-      INVALID: 3,
-      INCOMPLETE: 4,
-      DUPLICATE: 5,
-      LIMIT_REACHED: 6,
-      TIMEOUT: 1000
-    })
-    .constant('NST_SRV_RESPONSE_STATUS', {
-      UNDEFINED: 'not defined',
-      SUCCESS: 'ok',
-      ERROR: 'err',
-      FATAL_ERROR: 'fatal error',
-      WARNING: 'warning',
-      NOTICE: 'notice'
-    })
-    .constant('NST_SRV_MESSAGES', {
-      INITIALIZE: 'hi'
-    })
-    .constant('NST_SRV_EVENTS', {
-      MESSAGE: '__message',
-      INITIALIZE: '__initialize',
-      AUTHORIZE: '__authorize',
-      MANUAL_AUTH: '__mauthorize',
-      UNINITIALIZE: '__uninitialize',
-      ERROR: '__error',
-
-      TIMELINE: '__timeline'
-    })
-    .constant('NST_AUTH_COMMANDS', ['session/register', 'session/recall'])
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */

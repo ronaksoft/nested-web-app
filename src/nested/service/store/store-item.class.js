@@ -6,7 +6,7 @@
     .factory('StoreItem', StoreItem);
 
   /** @ngInject */
-  function StoreItem($sce, $q, StoreService, NestedStore) {
+  function StoreItem($sce, $q, NstSvcStore, NestedStore) {
     function Item(uid) {
       if (uid instanceof Item) {
         angular.extend(this, uid);
@@ -17,7 +17,7 @@
       }
 
       if (this.uid) {
-        StoreService.getStoreByUid(this.uid).then(function (store) {
+        NstSvcStore.getStoreByUid(this.uid).then(function (store) {
           this.store = store;
         }.bind(this));
 
@@ -27,7 +27,7 @@
 
     Item.prototype = {
       getUrl: function (token) {
-        return StoreService.toUrl(this.uid, token).then(function (url) {
+        return NstSvcStore.toUrl(this.uid, token).then(function (url) {
           this.url = $sce.trustAsResourceUrl(url);
 
           return $q(function (res) {

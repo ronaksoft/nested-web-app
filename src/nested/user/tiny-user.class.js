@@ -3,41 +3,40 @@
 
   angular
     .module('nested')
-    .factory('NstTinyPlace', NstTinyPlace);
+    .factory('NstTinyUser', NstTinyUser);
 
-  /** @ngInject */
-  function NstTinyPlace(NST_OBJECT_EVENT, NstModel, NstPicture) {
+  function NstTinyUser(NstModel, NstStoreResource, NstPicture) {
     /**
-     * Creates an instance of NstTinyPlace. Do not use this directly, use NstSvcPlaceFactory.getTiny(data) instead
+     * Creates an instance of NstTinyUser. Do not use this directly, use NstSvcUserFactory.getTiny(data) instead
      *
-     * @param {string|Object} data    Place Info
+     * @param {string|Object} data  User Info
      *
      * @constructor
      */
-    function TinyPlace(data) {
+    function TinyUser(data) {
       /**
-       * Place Identifier
+       * User Identifier (Username)
        *
        * @type {undefined|String}
        */
       this.id = undefined;
 
       /**
-       * Place's name
+       * User's First Name
        *
        * @type {undefined|String}
        */
-      this.name = undefined;
+      this.firstName = undefined;
 
       /**
-       * Place's description
+       * User's Last Name
        *
        * @type {undefined|String}
        */
-      this.description = undefined;
+      this.lastName = undefined;
 
       /**
-       * Place's Picture
+       * User's Picture
        *
        * @type {undefined|NstPicture}
        */
@@ -50,20 +49,28 @@
       }
     }
 
-    TinyPlace.prototype = new NstModel();
-    TinyPlace.prototype.constructor = TinyPlace;
+    TinyUser.prototype = new NstModel();
+    TinyUser.prototype.constructor = TinyUser;
 
-    TinyPlace.prototype.setPicture = function (picture) {
+    TinyUser.prototype.setFname = function (fname) {
+      return this.setFirstName(fname);
+    };
+
+    TinyUser.prototype.setLname = function (lname) {
+      return this.setLastName(lname);
+    };
+
+    TinyUser.prototype.setPicture = function (picture) {
       var oldValue = this.picture;
-      
+
       this.picture.org.setId(picture.org);
       var pictureClone = angular.copy(picture);
       delete pictureClone.org;
-      
+
       for (var size in pictureClone) {
         this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
       }
-      
+
       var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {
         detail: {
           name: 'picture',
@@ -75,6 +82,6 @@
       this.dispatchEvent(event);
     };
 
-    return TinyPlace;
+    return TinyUser;
   }
 })();

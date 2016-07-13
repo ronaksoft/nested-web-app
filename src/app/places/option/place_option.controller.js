@@ -6,7 +6,7 @@
     .controller('PlaceOptionController', PlaceOptionController);
 
   /** @ngInject */
-  function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, StoreService, UPLOAD_TYPE, NstSvcAuth, NestedPlace, PLACE_ACCESS) {
+  function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, NstSvcStore, UPLOAD_TYPE, NstSvcAuth, NestedPlace, PLACE_ACCESS) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -62,7 +62,7 @@
           $scope.place.picture.x64.url = $scope.place.picture.org.url;
           $scope.place.picture.x128.url = $scope.place.picture.org.url;
 
-          return StoreService.upload($scope.logo, UPLOAD_TYPE.PLACE_PICTURE).then(function (response) {
+          return NstSvcStore.upload($scope.logo, UPLOAD_TYPE.PLACE_PICTURE).then(function (response) {
             $scope.place.picture.org.uid = response.universal_id;
             $scope.logo = null;
 

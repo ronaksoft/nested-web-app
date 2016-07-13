@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout, _, toastr, ATTACHMENT_STATUS,
-    NstSvcAuth, NstSvcServer, StoreService, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+    NstSvcAuth, NstSvcServer, NstSvcStore, StoreItem, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -221,7 +221,7 @@
           }
         };
 
-        StoreService.uploadWithProgress(uploadSettings).then(function (handler) {
+        NstSvcStore.uploadWithProgress(uploadSettings).then(function (handler) {
           attachment.setUploadCanceler(handler.abort);
           handler.start().then(function (response) {
 

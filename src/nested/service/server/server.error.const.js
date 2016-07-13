@@ -1,7 +1,7 @@
 (function () {
 
   'use strict';
-  angular.module('nested').constant('NST_WS_ERROR', {
+  angular.module('nested').constant('NST_SRV_ERROR', {
     UNKNOWN: 0,
     ACCESS_DENIED: 1,
     UNAVAILABLE: 2,
@@ -11,5 +11,4 @@
     LIMIT_REACHED: 6,
     TIMEOUT: 1000
   });
-
 })();
