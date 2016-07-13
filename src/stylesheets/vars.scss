@@ -48,6 +48,10 @@ $font-family-per-bold: "OpenSans";
   from {opacity: 0;}
   to {opacity: 1;}
 }
+@keyframes appearenceOp {
+  from {opacity: 0;}
+  to {opacity: .5;}
+}
 @keyframes fadeoutcom {
   from {z-index: 20;}
   to {z-index: -10;}
