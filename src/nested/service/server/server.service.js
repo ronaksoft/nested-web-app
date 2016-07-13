@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcServer($websocket, $q, $log,
-                        NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENTS, NST_SRV_MESSAGES, NST_AUTH_COMMANDS,
+                        NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENT, NST_SRV_MESSAGES, NST_AUTH_COMMANDS,
                         NstSvcRandomize,
                         NstObservableObject, NstRequest) {
     function Server(url, meta) {
@@ -43,7 +43,7 @@
             switch (data.data.status) {
               case NST_SRV_RESPONSE_STATUS.SUCCESS:
                 if (data.data.hasOwnProperty('msg')) {
-                  this.dispatchEvent(new CustomEvent(NST_SRV_EVENTS.MESSAGE, { detail: data.data.msg }));
+                  this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MESSAGE, { detail: data.data.msg }));
                 }
                 break;
 
@@ -55,7 +55,7 @@
           case NST_SRV_MESSAGE_TYPE.PUSH:
             switch (data.data.type) {
               case NST_SRV_PUSH_TYPE.TIMELINE_EVENT:
-                this.dispatchEvent(new CustomEvent(NST_SRV_EVENTS.TIMELINE, { detail: data.data }));
+                this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.TIMELINE, { detail: data.data }));
                 break;
             }
             break;
@@ -87,7 +87,7 @@
                   this.requests[reqId].resolve(data.data);
 
                   if (NST_AUTH_COMMANDS.indexOf(this.requests[reqId].data.data.cmd) > -1) {
-                    this.dispatchEvent(new CustomEvent(NST_SRV_EVENTS.MANUAL_AUTH, {
+                    this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MANUAL_AUTH, {
                       detail: {
                         response: data,
                         request: this.requests[reqId].data
@@ -112,31 +112,31 @@
         this.authorized = false;
         this.initialized = false;
 
-        this.dispatchEvent(new CustomEvent(NST_SRV_EVENTS.UNINITIALIZE));
+        this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.UNINITIALIZE));
         this.stream.reconnect();
       }.bind(this));
 
       this.stream.onError(function (event) {
         $log.debug('WebSocket Error:', event, this);
-        this.dispatchEvent(new CustomEvent(NST_SRV_EVENTS.ERROR));
+        this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.ERROR));
       }.bind(this));
 
-      this.addEventListener(NST_SRV_EVENTS.MESSAGE, function (event) {
+      this.addEventListener(NST_SRV_EVENT.MESSAGE, function (event) {
         switch (event.detail) {
           case NST_SRV_MESSAGES.INITIALIZE:
             $log.debug('WebSocket Initialized:', event, this);
             this.initialized = true;
-            this.dispatchEvent(new CustomEvent(NST_SRV_EVENTS.INITIALIZE));
+            this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.INITIALIZE));
             break;
         }
       }.bind(this));
 
-      this.addEventListener(NST_SRV_EVENTS.MANUAL_AUTH, function (event) {
+      this.addEventListener(NST_SRV_EVENT.MANUAL_AUTH, function (event) {
         $log.debug('Dispatching Auth Event', event.detail);
         this.authorized = true;
         this.sesSecret = event.detail.response.data._ss;
         this.sesKey = event.detail.response.data._sk.$oid;
-        this.dispatchEvent(new CustomEvent(NST_SRV_EVENTS.AUTHORIZE));
+        this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.AUTHORIZE));
       });
     }
 

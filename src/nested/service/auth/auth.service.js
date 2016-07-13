@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $window, $q, $log,
-                      NST_SRV_EVENTS, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENTS, NST_AUTH_STATE,
+                      NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENTS, NST_AUTH_STATE,
                       NstSvcServer,
                       NstObservableObject, NstUser) {
     function Auth(user) {
@@ -23,8 +23,8 @@
         this.reconnect();
       }
 
-      NstSvcServer.addEventListener(NST_SRV_EVENTS.INITIALIZE, this.reconnect.bind(this));
-      NstSvcServer.addEventListener(NST_SRV_EVENTS.UNINITIALIZE, function () {
+      NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, this.reconnect.bind(this));
+      NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function () {
         if (this.isAuthorized()) {
           this.unregister(NST_UNREGISTER_REASON.DISCONNECT);
         }

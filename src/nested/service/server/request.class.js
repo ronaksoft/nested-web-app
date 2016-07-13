@@ -5,7 +5,7 @@
     .module('nested')
     .factory('NstRequest', NstRequest);
 
-  function NstRequest($q, $log, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_SRV_EVENTS, NST_AUTH_COMMANDS) {
+  function NstRequest($q, $log, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_SRV_EVENT, NST_AUTH_COMMANDS) {
     function Request(service, data, timeout) {
       this.service = service;
       this.data = data;
@@ -47,10 +47,10 @@
           if (this.service.isInitialized()) {
             this.send();
           } else {
-            this.service.addEventListener(NST_SRV_EVENTS.INITIALIZE, this.send, true);
+            this.service.addEventListener(NST_SRV_EVENT.INITIALIZE, this.send, true);
           }
         } else {
-          this.service.addEventListener(NST_SRV_EVENTS.AUTHORIZE, this.send, true);
+          this.service.addEventListener(NST_SRV_EVENT.AUTHORIZE, this.send, true);
         }
 
       }.bind(this);
