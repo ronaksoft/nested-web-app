@@ -1,33 +1,37 @@
-<div class="popup-panel popover-white-nst-setting">
+<div id="setting" class="popup-panel popover-white-nst-setting">
   <div class="icon-position">
-    View setting
+   <span class="spansetting"> View setting</span>
   </div>
-  <ul class="list-unstyled nst-mood-hurricane ul-popover nst-font-medium">
-    <li>
+  <div>
+    <div class="list-items">
       <label class="" for="content"> Content Preview</label>
       <input class="_fr" type="checkbox" id="content" name="content" value="content"
              data-ng-model="preview.content"/>
-    </li>
-
-    <li>
+    </div>
+  </div>
+  <div>
+    <div class="list-items">
       <label class="" for="attachments">Attachments</label>
       <input class="_fr" type="checkbox" id="attachments" name="attachments" value="attachments"
              data-ng-model="login.attachments"/>
-    </li>
-
-    <li>
+    </div>
+  </div>
+  <div>
+    <div class="list-items">
       <label class="" for="comments">Comments</label>
       <input class="_fr" type="checkbox" id="comments" name="comments" value="comments"
              data-ng-model="login.comments"/>
-    </li>
+    </div>
+  </div>
 
-    <li>
-      <div class="line-popover"></div>
-    </li>
+  <div class="line-popover"></div>
 
-    <li>
+  <div>
+    <div class="list-items">
       <label class="" for="msg">Quick message</label>
       <input class="_fr" type="checkbox" id="msg" name="msg" value="msg"
              data-ng-model="login.msg"/>
-    </li>
-  </ul>
+    </div>
+  </div>
+
+</div>

@@ -73,8 +73,8 @@
 }
 .icon-top {
   fill: white;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   background-size: cover;
   background-image: url("../assets/icons/smallscreenhandlers.svg");
   background-repeat: no-repeat;
@@ -103,6 +103,12 @@
   background: url('../assets/icons/search.svg') no-repeat;
   width: 32px;
   height: 32px;
+}
+.icon-close-search {
+  background: url('../assets/icons/search.svg') no-repeat;
+  width: 32px;
+  height: 32px;
+  background-position: 0 -32px;
 }
 
 .icon-storm {
