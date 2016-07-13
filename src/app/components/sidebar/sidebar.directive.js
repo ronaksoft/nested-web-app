@@ -5,7 +5,7 @@
     .module('nested')
     .controller('SidebarController', function ($q, $scope, $cacheFactory,
                                                NST_STORAGE_TYPE,
-                                               LoaderService, NstSvcServer,
+                                               NstSvcLoader, NstSvcServer,
                                                NestedPlace, NstStorage) {
       var vm = this;
       vm.places = [];

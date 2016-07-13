@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function AttachmentController($location, $scope, $rootScope, $q,
-                                NstSvcAuth, LoaderService) {
+                                NstSvcAuth, NstSvcLoader) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -32,7 +32,7 @@
       vm.getIndex();
 
       if ('image' == $scope.attachment.mimeType.split('/')[0]) {
-        LoaderService.inject($q(function(res ,rej) {
+        NstSvcLoader.inject($q(function(res ,rej) {
           $scope.attLoad.success = res;
           $scope.attLoad.fail = rej;
         }));
@@ -45,7 +45,7 @@
       }
       $scope.attachment = $scope.attachment.post.attachments[++$scope.index];
 
-      return LoaderService.inject($scope.attachment.getDownloadUrl().then(function () {
+      return NstSvcLoader.inject($scope.attachment.getDownloadUrl().then(function () {
         return 'image' == $scope.attachment.mimeType.split('/')[0] ? $q(function(res ,rej) {
           $scope.attLoad.success = res;
           $scope.attLoad.fail = rej;
@@ -61,7 +61,7 @@
       }
       $scope.attachment = $scope.attachment.post.attachments[--$scope.index];
 
-      return LoaderService.inject($scope.attachment.getDownloadUrl().then(function () {
+      return NstSvcLoader.inject($scope.attachment.getDownloadUrl().then(function () {
         return 'image' == $scope.attachment.mimeType.split('/')[0] ? $q(function(res ,rej) {
           $scope.attLoad.success = res;
           $scope.attLoad.fail = rej;

@@ -8,7 +8,7 @@
   /** @ngInject */
   function EventsController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, toastr,
                             WS_EVENTS, EVENT_ACTIONS, NST_SRV_ERROR, NST_STORAGE_TYPE,
-                            NstSvcAuth, NstSvcServer, LoaderService, NstSvcStorageFactory,
+                            NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcStorageFactory,
                             NestedEvent, NestedPlace, NestedInvitation) {
     var vm = this;
 
@@ -69,7 +69,7 @@
       length: 0,
       invites: {}
     };
-    LoaderService.inject(NstSvcServer.request('account/get_invitations').then(function (data) {
+    NstSvcLoader.inject(NstSvcServer.request('account/get_invitations').then(function (data) {
       for (var k in data.invitations) {
         if (data.invitations[k].place._id) {
           var invitation = new NestedInvitation(data.invitations[k]);
@@ -179,7 +179,7 @@
     };
 
     vm.load = function () {
-      LoaderService.inject(NstSvcServer.request('timeline/get_events', vm.parameters).then(function (data) {
+      NstSvcLoader.inject(NstSvcServer.request('timeline/get_events', vm.parameters).then(function (data) {
         $scope.events.moreEvents = !(data.events.length < $scope.events.parameters.limit);
         $scope.events.parameters.skip += data.events.length;
 
@@ -272,7 +272,7 @@
       });
 
       $scope.thePost = post;
-      LoaderService.inject($scope.thePost.load());
+      NstSvcLoader.inject($scope.thePost.load());
       $scope.lastUrl = $location.path();
 
       $scope.postViewModal.opened.then(function () {
@@ -290,7 +290,7 @@
     };
 
     $scope.attachmentView = function (attachment) {
-      return LoaderService.inject(attachment.getDownloadUrl().then(function () {
+      return NstSvcLoader.inject(attachment.getDownloadUrl().then(function () {
         return $q(function (res) {
           res(this);
         }.bind(this));

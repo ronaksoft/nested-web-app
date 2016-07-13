@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlacesController($q, $location, $stateParams, $scope,
-                            NstSvcAuth, NstSvcServer, NestedPlace, MEMBER_TYPE, LoaderService, StorageFactoryService, STORAGE_TYPE) {
+                            NstSvcAuth, NstSvcServer, NestedPlace, MEMBER_TYPE, NstSvcLoader, StorageFactoryService, STORAGE_TYPE) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -66,7 +66,7 @@
         });
       }
     });
-    LoaderService.inject(memory.get("places." + vm.filter).then(function (value) {
+    NstSvcLoader.inject(memory.get("places." + vm.filter).then(function (value) {
       $scope.places.places = value;
     }));
   }

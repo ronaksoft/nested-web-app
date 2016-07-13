@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PostController($location, $scope, $stateParams, $uibModal, $q, $log, $timeout, _, toastr,
-    NstSvcAuth, NstSvcServer, LoaderService, PostFactoryService, EVENT_ACTIONS, WS_EVENTS,
+    NstSvcAuth, NstSvcServer, NstSvcLoader, PostFactoryService, EVENT_ACTIONS, WS_EVENTS,
     NstPost, NstComment, postId) {
     var vm = this;
 
@@ -140,7 +140,7 @@
           if ($scope.thePost.id == tlEvent.detail.timeline_data.post_id.$oid) {
             var commentId = tlEvent.detail.timeline_data.comment_id.$oid;
 
-            LoaderService.inject((new NstComment($scope.thePost)).load(commentId).then(function(comment) {
+            NstSvcLoader.inject((new NstComment($scope.thePost)).load(commentId).then(function(comment) {
               $scope.thePost.addComment(comment).then(function() {
                 $scope.scrolling = $scope.unscrolled && true;
 
