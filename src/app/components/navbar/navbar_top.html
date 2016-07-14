@@ -1,4 +1,4 @@
-<div id="top-nav-container">
+<div id="top-nav-container" ng-if="topNavOpen">
   <div class="top-nav-actions _difh _fw">
     <a href="#">
       <div class="top-nav-action">
@@ -9,8 +9,8 @@
     <a href="#"><div class="top-nav-action"><div class="icon icon-top-action icon-top-bookmarks"></div></div><span class="_df">Bookmarks</span></a>
     <a href="#"><div class="top-nav-action"><div class="icon icon-top-action icon-top-sent"></div></div><span class="_df">Sent</span></a>
   </div>
-  <div class="top-nav-places _difh _fw">
-    <div class="_difc _fw placerow">
+  <ul class="top-nav-places _difh _fw">
+    <li class="_difc _fw placerow">
       <div class="logo _df">
         <div class="option-add-icon-plc"></div>
       </div>
@@ -23,8 +23,8 @@
           </div>
         </div>
       </a>
-    </div>
-    <div class="_difc _fw placerow">
+    </li>
+    <li class="_difc _fw placerow">
         <div class="logo _df">
           <a href="#/place/ronak">
             <img class="account-initials-40" src="../assets/icons/absents_place.svg"></img>
@@ -47,6 +47,136 @@
             <label class="label-position-places nst-arrow-rotated"></label>
           </div>
         </div>
+      </li>
+    <li>
+      <ul class="top-nav-places _difh _fw">
+        <li class="_difc _fw placerow">
+          <div class="logo _df">
+            <a href="#/place/ronak">
+              <img class="account-initials-40" src="../assets/icons/absents_place.svg"></img>
+            </a>
+          </div>
+          <a class="name _df _fw" href="#/place/ronak">
+            <div class="name _df _fw">
+              <div class="_difh">
+                <div class="_df ico">
+                  <div class="role-icon-green"></div>
+                </div>
+                <div class="_difv _fw">
+                  <h5 class="_df">Ronak Software Group</h5>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="_df placearrow">
+            <div class="arrow-holder-places" data-ng-click="colp =! colp" data-ng-model="colp" role="button" tabindex="0" aria-hidden="false" aria-invalid="false">
+              <label class="label-position-places nst-arrow-rotated"></label>
+            </div>
+          </div>
+        </li>
+        <li class="_difc _fw placerow">
+          <div class="logo _df">
+            <a href="#/place/ronak">
+              <img class="account-initials-40" src="../assets/icons/absents_place.svg"></img>
+            </a>
+          </div>
+          <a class="name _df _fw" href="#/place/ronak">
+            <div class="name _df _fw">
+              <div class="_difh">
+                <div class="_df ico">
+                  <div class="role-icon-green"></div>
+                </div>
+                <div class="_difv _fw">
+                  <h5 class="_df">Ronak Software Group</h5>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="_df placearrow">
+            <div class="arrow-holder-places" data-ng-click="colp =! colp" data-ng-model="colp" role="button" tabindex="0" aria-hidden="false" aria-invalid="false">
+              <label class="label-position-places nst-arrow-rotated"></label>
+            </div>
+          </div>
+        </li>
+        <li>
+          <ul class="top-nav-places _difh _fw">
+            <li class="_difc _fw placerow">
+              <div class="logo _df">
+                <a href="#/place/ronak">
+                  <img class="account-initials-40" src="../assets/icons/absents_place.svg"></img>
+                </a>
+              </div>
+              <a class="name _df _fw" href="#/place/ronak">
+                <div class="name _df _fw">
+                  <div class="_difh">
+                    <div class="_df ico">
+                      <div class="role-icon-green"></div>
+                    </div>
+                    <div class="_difv _fw">
+                      <h5 class="_df">Ronak Software Group</h5>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <div class="_df placearrow">
+                <div class="arrow-holder-places" data-ng-click="colp =! colp" data-ng-model="colp" role="button" tabindex="0" aria-hidden="false" aria-invalid="false">
+                  <label class="label-position-places nst-arrow-rotated"></label>
+                </div>
+              </div>
+            </li>
+            <li class="_difc _fw placerow">
+              <div class="logo _df">
+                <a href="#/place/ronak">
+                  <img class="account-initials-40" src="../assets/icons/absents_place.svg"></img>
+                </a>
+              </div>
+              <a class="name _df _fw" href="#/place/ronak">
+                <div class="name _df _fw">
+                  <div class="_difh">
+                    <div class="_df ico">
+                      <div class="role-icon-green"></div>
+                    </div>
+                    <div class="_difv _fw">
+                      <h5 class="_df">Ronak Software Group</h5>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <div class="_df placearrow">
+                <div class="arrow-holder-places" data-ng-click="colp =! colp" data-ng-model="colp" role="button" tabindex="0" aria-hidden="false" aria-invalid="false">
+                  <label class="label-position-places nst-arrow-rotated"></label>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="_difc _fw placerow">
+      <div class="logo _df">
+        <a href="#/place/ronak">
+          <img class="account-initials-40" src="../assets/icons/absents_place.svg"></img>
+        </a>
       </div>
-  </div>
+      <a class="name _df _fw" href="#/place/ronak">
+        <div class="name _df _fw">
+          <div class="_difh">
+            <div class="_df ico">
+              <div class="role-icon-green"></div>
+            </div>
+            <div class="_difv _fw">
+              <h5 class="_df">Ronak Software Group</h5>
+            </div>
+          </div>
+        </div>
+      </a>
+      <div class="_df placearrow">
+        <div class="arrow-holder-places" data-ng-click="colp =! colp" data-ng-model="colp" role="button" tabindex="0" aria-hidden="false" aria-invalid="false">
+          <label class="label-position-places nst-arrow-rotated"></label>
+        </div>
+      </div>
+    </li>
+
+  </ul>
 </div>

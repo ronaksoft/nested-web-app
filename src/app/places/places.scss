@@ -12,18 +12,6 @@
   background-repeat: no-repeat;
 }
 
-#place-bg {
-  background-color: $color-breeze-50;
-}
-
-#container-places {
-  max-width: 1920px;
-  min-width: 990px;
-  margin: auto;
-  height: 100%;
-  width: 100%;
-}
-
 #AllPlaces {
   min-width: 574px;
   overflow-y: scroll;
@@ -34,46 +22,42 @@
 .placearrow {
   width: 40px;
 }
-.top-nav-places li div div:only-of-type{
+ul.top-nav-places li div div:only-of-type{
   animation: appearence .4s ease-in;
 }
-.top-nav-places li div div:nth-child(2){
+ul.top-nav-places li div div:nth-child(2){
   animation: appearence .2s ease-in;
 }
-.top-nav-places li div div:nth-child(2) img,.top-nav-places li div div:nth-child(2) div{
-
+ul.top-nav-places li div div:nth-child(2) img,.top-nav-places li div div:nth-child(2) div{
   animation: grow-full .1s ease-in;
 }
-.top-nav-places li {
+ul.top-nav-places {
+  overflow-y: auto;
   border-bottom: 1px solid $color-calm;
   display: inline-flex;
   flex-direction: column;
   width: 100%;
+  flex:1 0 auto;
+  ul {
+    border-bottom: 1px solid $color-calm;
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    flex:1 0 auto;
+    list-style: none;
+    padding-left: 25px;
+    li {
+      animation: appearence .1s ease-in;
+    }
+  }
 }
-.top-nav-places div {
-}
+
 .placerow:hover {
   background-color: $color-sense-5;
 }
+
 .top-nav-places > div:hover:last-child {
   //background-color: $color-white;
-}
-.top-nav-places ul {
-  flex-direction: column;
-  list-style: none;
-  flex:1 0 auto;
-}
-.top-nav-places {
-  flex-direction: column;
-  list-style: none;
-  flex:1 0 auto;
-}
-.top-nav-places ul ul {
-  list-style: none;
-  padding-left: 25px;
-}
-.top-nav-places ul ul li{
-  animation: appearence .1s ease-in;
 }
 
 .top-nav-places .logo {
@@ -84,15 +68,6 @@
   align-items: center;
 }
 
-#AllPlaces .members {
-  width: 168px;
-  text-align: right;
-}
-
-
-.place-members {
-  margin-right: 5px;
-}
 
 [class*=role-icon-]  {
   background: url('../assets/icons/roleicon.svg') no-repeat;
