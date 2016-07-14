@@ -21,9 +21,10 @@
 
   /** @ngInject */
   function NstStorage($cacheFactory, $cookies,
-                         localStorageService,
-                         NST_STORAGE_TYPE, NST_STORAGE_EVENT,
-                         NstSvcRandomize) {
+                      localStorageService,
+                      NST_STORAGE_TYPE, NST_STORAGE_EVENT,
+                      NstSvcRandomize,
+                      NstObservableObject) {
     /**
      * Creates an instance of NestedStorage
      *
@@ -129,28 +130,31 @@
       }
     }
 
-    Storage.prototype = {
-      /**
-       * Retrieves object from storage
-       *
-       * @param {string}  id        Stored object's unique identifier
-       * @param {*}       defValue  Default value to be returned in case of key is unavailable
-       *
-       * @returns {*} Stored object or default value
-       */
-      get: function (id, defValue) {
-        return this.cache.get(id) || defValue;
-      },
+    Storage.prototype = new NstObservableObject();
+    Storage.prototype.constructor = Storage;
 
-      /**
-       * Sets an object to storage
-       *
-       * @param {string}  id      Object's identifier
-       * @param {*}       object  The object to be stored
-       *
-       * @returns {*} Stored object
-       */
-      set: function (id, object) {
+    /**
+     * Retrieves object from storage
+     *
+     * @param {string}  id        Stored object's unique identifier
+     * @param {*}       defValue  Default value to be returned in case of key is unavailable
+     *
+     * @returns {*} Stored object or default value
+     */
+    Storage.prototype.get = function (id, defValue) {
+      return this.cache.get(id) || defValue;
+    };
+
+    /**
+     * Sets an object to storage
+     *
+     * @param {string}  id      Object's identifier
+     * @param {*}       object  The object to be stored
+     *
+     * @returns {*} Stored object
+     */
+    Storage.prototype.set = function (id, object) {
+      if (this.isValidObject(object)) {
         this.cache.set(id, object);
         this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.SET, { detail: { object: object, id: id } }));
         this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.CHANGE, { detail: { object: object, id: id } }));
@@ -158,127 +162,68 @@
         if (this.timeout > 0) {
           // TODO: Set expiration timeout function
         }
+      }
 
-        return this.get(id);
-      },
+      return this.get(id);
+    };
 
-      /**
-       * Merges an object and its old value in storage
-       *
-       * @param {string}  id      Object's identifier
-       * @param {*}       object  The object to be merged
-       *
-       * @returns {*} Stored object
-       */
-      merge: function (id, object) {
-        this.cache.set(id, angular.merge(this.get(id, {}), object));
+    /**
+     * Merges an object and its old value in storage
+     *
+     * @param {string}  id      Object's identifier
+     * @param {*}       object  The object to be merged
+     *
+     * @returns {*} Stored object
+     */
+    Storage.prototype.merge = function (id, object) {
+      var tObject = angular.merge(this.get(id, {}), object);
+      if (this.isValidObject(tObject)) {
+        this.cache.set(id, tObject);
         this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.MERGE, { detail: { object: object, id: id } }));
-        this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.CHANGE, { detail: { object: object, id: id } }));
+        this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.CHANGE, { detail: { object: tObject, id: id } }));
 
         if (this.timeout > 0) {
           // TODO: Reset expiration timeout function
         }
-
-        return this.get(id);
-      },
-
-      /**
-       * Removes an object from storage
-       *
-       * @param {string}  id      Object's identifier
-       *
-       * @returns {boolean} Remove success
-       */
-      remove: function (id) {
-        var object = this.get(id);
-
-        var result = this.cache.remove(id);
-        if (result) {
-          this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.REMOVE, { detail: { object: object, id: id } }));
-        }
-
-        return result;
-      },
-
-      /**
-       * Removes all objects from storage
-       *
-       * @returns {boolean} Remove success
-       */
-      flush: function () {
-        var result = this.cache.flush();
-        if (result) {
-          this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.FLUSH));
-        }
-
-        return result;
-      },
-
-      /**
-       * Registers listener to an event
-       *
-       * @param {STORAGE_EVENT} type      Event name
-       * @param {function}      callback  Listener function
-       * @param {boolean}       oneTime   Whether if listener should be removed after first call or not
-       */
-      addEventListener: function (type, callback, oneTime) {
-        if (!(type in this.listeners)) {
-          this.listeners[type] = [];
-        }
-
-        this.listeners[type].push({
-          flush: oneTime || false,
-          fn: callback
-        });
-      },
-
-      /**
-       * Unregisters listener from an event
-       *
-       * @param {STORAGE_EVENT} type      Event name
-       * @param {function}      callback  Listener function
-       *
-       * @returns {*}
-       */
-      removeEventListener: function (type, callback) {
-        if (!(type in this.listeners)) {
-          return;
-        }
-
-        var stack = this.listeners[type];
-        for (var i = 0, l = stack.length; i < l; i++) {
-          if (stack[i].fn === callback) {
-            stack.splice(i, 1);
-
-            return this.removeEventListener(type, callback);
-          }
-        }
-      },
-
-      /**
-       * Triggers event
-       *
-       * @param {STORAGE_EVENT} event Event name
-       *
-       * @returns {*}
-       */
-      dispatchEvent: function (event) {
-        if (!(event.type in this.listeners)) {
-          return;
-        }
-
-        var stack = this.listeners[event.type];
-        // event.target = this;
-        var flushTank = [];
-        for (var i = 0, l = stack.length; i < l; i++) {
-          stack[i].fn.call(this, event);
-          stack[i].flush && flushTank.push(stack[i]);
-        }
-
-        for (var key in flushTank) {
-          this.removeEventListener(event.type, flushTank[key].fn);
-        }
       }
+
+      return this.get(id);
+    };
+
+    /**
+     * Removes an object from storage
+     *
+     * @param {string}  id      Object's identifier
+     *
+     * @returns {boolean} Remove success
+     */
+    Storage.prototype.remove = function (id) {
+      var object = this.get(id);
+
+      var result = this.cache.remove(id);
+      if (result) {
+        this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.REMOVE, { detail: { object: object, id: id } }));
+      }
+
+      return result;
+    };
+
+    /**
+     * Removes all objects from storage
+     *
+     * @returns {boolean} Remove success
+     */
+    Storage.prototype.flush = function () {
+      var result = this.cache.flush();
+      if (result) {
+        this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.FLUSH));
+      }
+
+      return result;
+    };
+
+    Storage.prototype.isValidObject = function (object) {
+      return true;
     };
 
     return Storage;

@@ -21,7 +21,7 @@
        * @type {NstPlacePrivacy}
        */
       this.privacy = new NstPlacePrivacy();
-      
+
       /*****************************
        *****      Ancestors     ****
        *****************************/

@@ -5,10 +5,10 @@
     .service('NstSvcPostFactory', NstSvcPostFactory);
 
   /** @ngInject */
-  function NstSvcPostFactory($q,
-    _,
-    NstSvcPostStorage, NstSvcServer,
-    NstFactoryError, NstFactoryQuery, NstPost, NstComment, NestedUser, NestedPlace, NestedAttachment) {
+  function NstSvcPostFactory($q, $log,
+                             _,
+                             NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory,
+                             NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstUser, NestedAttachment) {
 
     /**
      * PostFactory - all operations related to post, comment
@@ -255,9 +255,10 @@
       if (!data) {
         defer.resolve(post);
       } else {
+        var promises = [];
 
         post.id = data._id.$oid;
-        post.sender = new NestedUser(data.sender);
+        post.sender = new NstUser(data.sender);
         post.subject = data.subject;
         post.contentType = data.content_type;
         post.body = data.body;
@@ -275,10 +276,16 @@
 
         post.places = [];
         for (var k in data.post_places) {
-          post.places[k] = new NestedPlace({
-            id: data.post_places[k]._id,
-            name: data.post_places[k].name
-          });
+          promises.push((function (index) {
+            var id = data.post_places[index]._id;
+
+            return NstSvcPlaceFactory.set(NstSvcPlaceFactory.parseTinyPlace({
+              _id: id,
+              name: data.post_places[index].name
+            })).getTiny(id).then(function (tinyPlace) {
+              post.places[index] = tinyPlace;
+            });
+          })(k));
         }
 
         if (data.place_access) {
@@ -306,7 +313,7 @@
           post.loadComments();
         }
 
-        $q.all([parsePost(data.replyTo), parsePost(data.forwarded)]).then(function(values) {
+        $q.all(promises.concat([parsePost(data.replyTo), parsePost(data.forwarded)])).then(function(values) {
 
           post.replyTo = values[0];
           post.forwarded = values[1];
@@ -331,7 +338,7 @@
         comment.id = data._id.$oid;
         comment.attach = data.attach;
         comment.post = post;
-        comment.sender = new NestedUser({
+        comment.sender = new NstUser({
           _id: data.sender_id,
           fname: data.sender_fname,
           lname: data.sender_lname,

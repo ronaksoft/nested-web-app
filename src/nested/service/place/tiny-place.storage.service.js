@@ -5,7 +5,32 @@
     .service('NstSvcTinyPlaceStorage', NstSvcTinyPlaceStorage);
 
   /** @ngInject */
-  function NstSvcTinyPlaceStorage(NST_STORAGE_TYPE, NstStorage) {
-    return new NstStorage(NST_STORAGE_TYPE.MEMORY);
+  function NstSvcTinyPlaceStorage($log, NST_STORAGE_TYPE, NstStorage) {
+    function TinyPlaceStorage(memory) {
+      NstStorage.call(this, memory);
+    }
+
+    TinyPlaceStorage.prototype = new NstStorage();
+    TinyPlaceStorage.prototype.constructor = TinyPlaceStorage;
+
+    TinyPlaceStorage.prototype.isValidObject = function (object) {
+      var q = {
+        id: object.id,
+        name: object.name,
+        description: object.description,
+        picture: object.picture
+      };
+      for (var k in q) {
+        if (undefined == q[k]) {
+          $log.debug('Unable to store TinyPlace because ', '`' + k + '`', 'was undefined:', object);
+          
+          return false;
+        }
+      }
+      
+      return true;
+    };
+
+    return new TinyPlaceStorage(NST_STORAGE_TYPE.MEMORY);
   }
 })();

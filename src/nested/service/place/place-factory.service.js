@@ -38,28 +38,22 @@
           var query = new NstFactoryQuery(id);
 
           this.requests.get[id] = $q(function (resolve, reject) {
-            var place = NstSvcPlaceStorage.get(this.query.id);
+            var place = NstSvcPlaceStorage.get(query.id);
             if (place) {
               resolve(place);
             } else {
               NstSvcServer.request('place/get_info', {
-                place_id: this.query.id
+                place_id: query.id
               }).then(function (placeData) {
                 var place = NstSvcPlaceFactory.parsePlace(placeData);
-                NstSvcPlaceStorage.set(this.query.id, place);
+                NstSvcPlaceStorage.set(query.id, place);
                 resolve(place);
-              }.bind({
-                query: this.query
-              })).catch(function(error) {
+              }).catch(function(error) {
                 // TODO: Handle error by type
-                reject(new NstFactoryError(this.query, error.message, error.err_code));
-              }.bind({
-                query: this.query
-              }));
+                reject(new NstFactoryError(query, error.message, error.err_code));
+              });
             }
-          }.bind({
-            query: query
-          }));
+          });
         }
 
         return this.requests.get[id];
@@ -77,7 +71,7 @@
           var query = new NstFactoryQuery(id);
 
           this.requests.getTiny[id] = $q(function (resolve, reject) {
-            var place = NstSvcPlaceStorage.get(this.query.id) || NstSvcTinyPlaceStorage.get(this.query.id);
+            var place = NstSvcPlaceStorage.get(query.id) || NstSvcTinyPlaceStorage.get(query.id);
             if (place) {
               if (!(place instanceof NstTinyPlace)) {
                 place = new NstTinyPlace(place);
@@ -85,26 +79,36 @@
 
               resolve(place);
             } else {
-              NstSvcPlaceFactory.get(this.query.id).then(function (place) {
+              NstSvcPlaceFactory.get(query.id).then(function (place) {
                 place = new NstTinyPlace(place);
-                NstSvcTinyPlaceStorage.set(this.query.id, place);
+                NstSvcTinyPlaceStorage.set(query.id, place);
                 resolve(place);
-              }.bind({
-                query: this.query
-              })).catch(reject);
+              }).catch(reject);
             }
-          }.bind({
-            query: query
-          }));
+          });
         }
 
         return this.requests.getTiny[id];
       },
 
+      getMyPlaces: function () {
+        return NstSvcServer.request('account/get_my_places').then(function (data) {
+
+        });
+      },
+
       set: function (place) {
         if (place instanceof NstPlace) {
+          if (this.has(place.getId())) {
+            place = this.get(place.getId()).merge(place);
+          }
+
           NstSvcPlaceStorage.set(place.getId(), place);
         } else if (place instanceof NstTinyPlace) {
+          if (this.hasTiny(place.getId())) {
+            place = this.getTiny(place.getId()).merge(place);
+          }
+
           NstSvcTinyPlaceStorage.set(place.getId(), place);
         }
 
@@ -112,7 +116,66 @@
       },
 
       save: function (place) {
+        if (place.isNew()) {
+          var params = {
+            place_id: place.getId(),
+            place_name: place.getName(),
+            place_desc: place.getDescription(),
+            place_pic: place.getPicture().getOrg().getId(),
+            // 'privacy.broadcast': place.getPrivacy().getBroadcast(),
+            'privacy.locked': place.getPrivacy().getLocked(),
+            'privacy.receptive': place.getPrivacy().getReceptive(),
+            'privacy.email': place.getPrivacy().getEmail(),
+            'privacy.search': place.getPrivacy().getSearch()
+          };
 
+          if (place.parent) {
+            params.parent_id = place.parent.getId();
+            params.place_id = params.place_id.substr(params.parent_id.length);
+          }
+
+          var query = new NstFactoryQuery(place.getId(), params);
+
+          return NstSvcServer.request('place/add', params).then(function (data) {
+            var newPlace = NstSvcPlaceFactory.parsePlace(data.place);
+
+            return $q(function (res) {
+              res(NstSvcPlaceFactory.set(newPlace).get(newPlace.getId()).save());
+            });
+          }).catch(function (error) {
+            // TODO: Handle error by type
+
+            return $q(function (res, rej) {
+              rej(new NstFactoryError(query, error.message, error.err_code))
+            })
+          });
+        } else {
+          var params = {
+            place_id: place.getId(),
+            place_name: place.getName(),
+            place_desc: place.getDescription(),
+            place_pic: place.getPicture().getOrg().getId(),
+            // 'privacy.broadcast': place.getPrivacy().getBroadcast(),
+            'privacy.locked': place.getPrivacy().getLocked(),
+            'privacy.receptive': place.getPrivacy().getReceptive(),
+            'privacy.email': place.getPrivacy().getEmail(),
+            'privacy.search': place.getPrivacy().getSearch()
+          };
+
+          var query = new NstFactoryQuery(place.getId(), params);
+
+          return NstSvcServer.request('place/update', params).then(function () {
+            return $q(function (res) {
+              res(NstSvcPlaceFactory.set().get(place.getId()).save());
+            });
+          }).catch(function (error) {
+            // TODO: Handle error by type
+
+            return $q(function (res, rej) {
+              rej(new NstFactoryError(query, error.message, error.err_code))
+            })
+          });
+        }
       },
 
       remove: function (id) {
@@ -120,23 +183,20 @@
           var query = new NstFactoryQuery(id);
 
           this.requests.remove[id] = $q(function(resolve, reject) {
-            if (!NstSvcAuth.haveAccess(this.query.id, [NST_PLACE_ACCESS.REMOVE_PLACE])) {
-              reject(new NstFactoryError(this.query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
+            if (!NstSvcAuth.haveAccess(query.id, [NST_PLACE_ACCESS.REMOVE_PLACE])) {
+              reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
             }
 
             NstSvcServer.request('place/remove', {
               place_id: query.id
             }).then(function () {
-
+              NstSvcPlaceStorage.remove(query.id);
+              NstSvcTinyPlaceStorage.remove(query.id);
             }).catch(function (error) {
               // TODO: Handle error by type
-              reject(new NstFactoryError(this.query, error.message, error.err_code));
-            }.bind({
-              query: this.query
-            }));
-          }.bind({
-            query: query
-          }));
+              reject(new NstFactoryError(query, error.message, error.err_code));
+            });
+          });
         }
 
         return this.requests.remove[id];
@@ -149,6 +209,7 @@
           return place;
         }
 
+        place.setNew(false);
         place.setId(placeData._id);
         place.setName(placeData.name);
         place.setDescription(placeData.description);
@@ -171,6 +232,7 @@
           return place;
         }
 
+        place.setNew(false);
         place.setId(placeData._id);
         place.setName(placeData.name);
         place.setDescription(placeData.description);
