@@ -6,14 +6,32 @@
     .factory('NstModel', NstModel);
 
   /** @ngInject */
-  function NstModel(NstObservableObject) {
+  function NstModel(NST_OBJECT_EVENT, NstObservableObject) {
     /**
      * Creates an instance of NstModel
      *
      * @constructor
      */
     function Model() {
+      /**
+       * Whether if model is new
+       *
+       * @type {boolean}
+       */
+      this.new = true;
+
+      /**
+       * Whether if model is updated
+       *
+       * @type {boolean}
+       */
+      this.updated = false;
+
       NstObservableObject.call(this);
+
+      this.addEventListener(NST_OBJECT_EVENT.CHANGE, function () {
+        this.updated = true;
+      });
     }
 
     Model.prototype = new NstObservableObject();
@@ -25,6 +43,8 @@
           this.set(k, data[k]);
         }
       }
+
+      return this;
     };
 
     Model.prototype.merge = function (data) {
@@ -40,6 +60,23 @@
           this.set(k, value);
         }
       }
+
+      return this;
+    };
+
+    Model.prototype.isNew = function () {
+      return this.getNew();
+    };
+
+    Model.prototype.isUpdated = function () {
+      return this.getUpdated();
+    };
+
+    Model.prototype.save = function () {
+      this.new = false;
+      this.updated = false;
+
+      return this;
     };
 
     return Model;
