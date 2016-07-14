@@ -73,8 +73,8 @@
 }
 .icon-top {
   fill: white;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   background-size: cover;
   background-image: url("../assets/icons/smallscreenhandlers.svg");
   background-repeat: no-repeat;
@@ -84,12 +84,15 @@
   background-position: 0 0;
 }
 .comp-icon {
-  background-position: 0 -32px;
+  background-position: 0 -24px;
 }
 
 .icon-compose {
   background-image: url("../assets/icons/btnicon.svg");
   background-repeat: no-repeat;
+  margin: 0 4px 0 0;
+  width: 20px;
+  height: 20px;
 }
 
 
@@ -122,7 +125,20 @@
 .icon-solid {
   fill: $color-solid;
 }
-
+.icon-post {
+  background-image: url("../assets/icons/messageact.svg");
+  background-repeat: no-repeat;
+  margin: 0 5px;
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+}
+.icon-fw {
+  background-position: 0 0;
+}
+.icon-delete-menu {
+  background-position: 0 -20px;
+}
 .badge {
   padding: 5px;
 }
@@ -716,6 +732,7 @@ ul ul li:last-child{
   align-items: center;
   cursor: pointer;
   box-sizing: border-box;
+  border: 1px solid transparent;
 
 }
 .iconsblock-right {
@@ -723,7 +740,7 @@ ul ul li:last-child{
 }
 
 .iconsblock:hover {
-  border: 1px solid $color-breeze;
+  border-color: $color-breeze;
   border-radius: 5px;
   background-color: white;
 }
@@ -773,7 +790,7 @@ ul ul li:last-child{
     min-width: 600px;
   }
   #content-wrapper {
-    margin-top: 220px
+    margin-top: 200px
   }
 }
 
@@ -956,6 +973,7 @@ ul ul li:last-child{
   position: absolute;
   z-index: 34;
   height: 20px;
+  top: -1px;
 }
 .post-card .post-card-badge a{
   cursor: pointer;

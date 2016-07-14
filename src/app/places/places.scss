@@ -213,11 +213,10 @@ ul.top-nav-places {
 
 [class*=nst-arrow-]{
   background: url('../assets/icons/arrow.svg') no-repeat;
-  height: 25px;
+  height: 16px;
   width: 16px;
   cursor: pointer;
-  padding: 0 0 0 5px;
-  background-size: contain;
+  background-size: cover;
 }
 .nst-arrow-rotated {
   background-position: center center;

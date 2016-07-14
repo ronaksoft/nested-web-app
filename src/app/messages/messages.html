@@ -1,4 +1,4 @@
-<div class="maincontainer _fw _fh">
+<div class="maincontainer _fw _fh ng-class:{ 'tiny': sideView }">
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
   <div class="nst-container">
     <nested-navbar data-ng-model="navbar"></nested-navbar>
@@ -43,7 +43,8 @@
             <section class="post-attachments" data-ng-show="false">attachments</section>
             <section class="post-footer _difh" ng-click="thisCm=!thisCm"><a class="_df _fn">1 comment</a>
               <div class="post-icons _fw _df">
-                <div class="icon icon-storm icon-all-place icon-side _df"></div>
+                <div class="icon icon-post icon-fw _df"></div>
+                <div class="icon icon-post icon-delete-menu _df"></div>
               </div>
             </section>
           </div>
@@ -89,7 +90,9 @@
             <section class="post-attachments" data-ng-show="false">attachments</section>
             <section class="post-footer _difh"><a class="_df _fn">1 comment</a>
               <div class="post-icons _fw _df">
-                <div class="icon icon-storm icon-all-place icon-side _df"></div>
+                <div class="icon icon-storm action-button-post- _df"></div>
+                <div class="icon icon-storm action-button-post-delete _df"></div>
+                <div class="icon icon-storm action-button-post-forward _df"></div>
               </div>
             </section>
           </div>
