@@ -11,7 +11,7 @@
     NST_MESSAGES_SORT_OPTION) {
     var vm = this;
 
-    vm.filter = $stateParams.filter || 'all';
+    vm.filter = $stateParams.filter || '!$all';
 
     vm.loadMore = loadMore;
     vm.sort = sort;
@@ -38,21 +38,23 @@
     vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
 
     (function () {
-
       $q.all([getMessages(), loadViewSetting(), loadSortOption()]).then(function (values) {
         vm.messages = mapMessages(values[0]);
         vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[1]);
         vm.messagesSetting.sort = values[2] || vm.defaultSortOption
-      }).catch(defer.reject);
+        console.log(vm.messages);
+      }).catch(function (error) {
+        $log.debug(error)
+      });
 
     })();
 
     function getMessages() {
-      if (vm.filter === 'all') {
+      if (vm.filter === '!$all') {
         return NstSvcPostFactory.getMessages(vm.messagesSetting);
       } else {
         var placeId = vm.filter;
-        return NstSvcPostFactory.getPlaceMessages(placeId, vm.messagesSetting);
+        return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, placeId);
       }
     }
 
@@ -97,6 +99,7 @@
     }
 
     function mapMessages(messages) {
+
       var now = moment();
 
       var fileTypes = {
@@ -118,12 +121,12 @@
       return _.map(messages, function (message) {
 
         var firstPlace = _.first(message.places);
-        var otherPlaces = _.except(messages.places, firstPlace);
+        var otherPlaces = _.remove(messages.places, firstPlace, 'id');
 
         return {
           id : message.id,
           sender : mapSender(message.sender),
-          subject : mesage.subject,
+          subject : message.subject,
           body : message.body,
           firstPlace : mapPlace(firstPlace),
           otherPlaces : _.map(otherPlaces, mapPlace),
@@ -143,7 +146,7 @@
         return {
           name : sender.fullname,
           username : sender.username,
-          // avatar : sender.
+          avatar : sender.picture.x32.url.download
         };
       }
 
@@ -170,17 +173,21 @@
           return 'Unknown';
         }
 
+        if (!moment.isMoment(date)){
+          date = moment(date);
+        }
+
         var today = moment().startOf('day');
         if (date.isSameOrAfter(today)) { // today
           return date.format('[Today at] HH:mm');
         }
 
-        var yesterday = moment.startOf('day').subtract(1, 'days');
+        var yesterday = moment().startOf('day').subtract(1, 'days');
         if (date.isSameOrAfter(yesterday)) { // yesterday
           return date.format('[Yesterday at] HH:mm');
         }
 
-        var year = moment.startOf('year');
+        var year = moment().startOf('year');
         if (date.isSameOrAfter(year)) { // current year
           return date.format('MMM DD, HH:mm');
         }

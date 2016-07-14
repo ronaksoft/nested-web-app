@@ -6,9 +6,9 @@
 
   /** @ngInject */
   function NstSvcPostFactory($q, $log,
-                             _,
-                             NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory,
-                             NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstUser, NestedAttachment) {
+    _,
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory,
+    NstFactoryError, NstFactoryQuery ,NstPost, NstComment, NstUser, NestedAttachment) { // TODO: It should not inject any model, ask the factory to create the model
 
     /**
      * PostFactory - all operations related to post, comment
@@ -22,8 +22,8 @@
       getWithComments: getWithComments,
       retrieveComments: retrieveComments,
       reateCommentModel: createCommentModel,
-      getMessages : getMessages,
-      getPlaceMessages : getPlaceMessages,
+      getMessages: getMessages,
+      getPlaceMessages: getPlaceMessages,
       parsePost: parsePost,
       parseComment: parseComment
     };
@@ -229,7 +229,6 @@
       return defer.promise;
     }
 
-
     function removePlaceFromPost(post, placeId) {
       var index = _.indexOf(post.places, {
         'id': placeId
@@ -257,14 +256,16 @@
       } else {
         var promises = [];
 
+        console.log(data);
+
         post.id = data._id.$oid;
         post.sender = new NstUser(data.sender);
         post.subject = data.subject;
         post.contentType = data.content_type;
         post.body = data.body;
         post.internal = data.internal;
-        post.date = new Date(data['time-stamp'] * 1e3);
-        post.updated = new Date(data['last-update'] * 1e3);
+        post.date = new Date(data['timestamp'] * 1e3);
+        post.updated = new Date(data['last_update'] * 1e3);
         post.counters = data.counters || post.counters;
         post.moreComments = false;
         if (post.counters) {
@@ -276,13 +277,13 @@
 
         post.places = [];
         for (var k in data.post_places) {
-          promises.push((function (index) {
+          promises.push((function(index) {
             var id = data.post_places[index]._id;
 
             return NstSvcPlaceFactory.set(NstSvcPlaceFactory.parseTinyPlace({
               _id: id,
               name: data.post_places[index].name
-            })).getTiny(id).then(function (tinyPlace) {
+            })).getTiny(id).then(function(tinyPlace) {
               post.places[index] = tinyPlace;
             });
           })(k));
@@ -355,12 +356,120 @@
       return defer.promise;
     }
 
+    function parseMessageComment(data) {
+      var defer = $q.defer();
+      var comment = createCommentModel();
+      if (!data) {
+        defer.resolve(comment);
+      } else {
+        comment.id = data.comment_id.$oid;
+        comment.body = data.text;
+        comment.date = new Date(data.timestap);
+        comment.removed = data._removed;
+        comment.sender = new NstTinyUser(data.sender);
+
+        // TODO: Ask the factory to get the user
+        // NstSvcUserFactory.get(data.sender_id.$oid).then(function (sender) {
+        //   comment.sender = sender;
+        //
+        //   defer.resolve(comment);
+        // }).catch(defer.reject);
+      }
+
+      return defer.promise;
+    }
+
+    function parseMessage(data) {
+      var defer = $q.defer();
+
+      var message = createPostModel();
+      if (!data) {
+        defer.resolve(message);
+      } else {
+
+
+        message.id = data._id.$oid;
+        message.subject = data.subject;
+        message.body = data.body;
+        message.removed = data._removed;
+        message.content_type = data.content_type;
+        message.counters = data.counters;
+        message.internal = data.internal;
+        message.lastUpdate = data.last_update;
+        message.timestap = new Date(data.timestamp);
+
+        // var senderPromise = NstSvcUserFactory.parseUser(data.sender);
+        var senderPromise = new $q(function (resolve, reject) {
+          resolve(new NstUser(data.sender));
+        });
+
+
+        var replayToPromise = get(data.reply_to ? data.reply_to.$oid : undefined);
+        var forwardedFromPromise = get(data.forwarded_from ? data.forwarded_from.$oid : undefined);
+        var placePromises = _.map(data.post_places, NstSvcPlaceFactory.parseTinyPlace);
+        var attachmentPromises = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
+        var commentPromises = _.map(data['last-comments'], parseMessageComment);
+
+        var promises = _.concat(senderPromise, replyToPromise, forwardedFromPromise);
+
+        $q.all(promises).then(function(values) {
+          message.seder = values[0];
+          message.replyTo = values[1];
+          message.forwardedFrom = values[2];
+
+          return $q.all(placePromises);
+        }).then(function(places) {
+          message.places = places;
+
+          return $q.all(attachmentPromises);
+        }).then(function(attachments) {
+          message.attachments = attachments;
+
+          return $q.all(commentPromises);
+        }).then(function(comments) {
+          message.comments = comments;
+
+          defer.resolve(message);
+        }).catch(defer.reject);
+
+      }
+
+      return defer.promise;
+
+    }
+
     function getMessages(setting) {
-      $log.debug('Is not implemented yet.');
+      var defer = $q.defer();
+      NstSvcServer.request('account/get_posts', {
+        skip: setting.skip,
+        limit: setting.limit
+      }).then(function(data) {
+        var items = _.map(data.posts.posts, parseMessage);
+        $q.all(items).then(defer.resolve);
+      }).catch(function(error) {
+        // TODO: format the error and throw it
+        defer.reject(error);
+      });
+
+      return defer.promise;
     }
 
     function getPlaceMessages(setting, placeId) {
-      $log.debug('Is not implemented yet.');
+
+      var defer = $q.defer();
+      NstSvcServer.request('place/get_posts', {
+        skip: setting.skip,
+        limit: setting.limit,
+        place_id: placeId
+      }).then(function(data) {
+        var items = _.map(data.posts.posts, parseMessage);
+        $q.all(items).then(defer.resolve);
+      }).catch(function(error) {
+        // TODO: format the error and throw it
+        defer.reject(error);
+      });
+
+      return defer.promise;
     }
   }
 })();
