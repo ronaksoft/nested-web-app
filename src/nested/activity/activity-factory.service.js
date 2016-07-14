@@ -15,7 +15,7 @@
      */
     var service = {
       load : load,
-
+      getRecent : getRecent
     };
 
     return service;
@@ -189,25 +189,13 @@
           limit: settings.limit,
           skip: settings.skip
         }).then(function (data) {
-          console.log('got from server');
           var activities = _.map(data.events, parseActivity);
 
           $q.all(activities).then(function (values) {
-            NstSvcActivityStorage.set('all', values);
+            NstSvcActivityStorage.merge('all', values);
             defer.resolve(values);
           }).catch(defer.reject);
 
-
-          // _.forEach(data.events, function (item) {
-          //   parseActivity(item).then(function (activity) {
-          //     var cachedItems = NstSvcActivityStorage.get('all', []);
-          //     cachedItems.push(activity);
-          //     console.log(cachedItems);
-          //     NstSvcActivityStorage.set('all', cachedItems);
-          //   }).catch(defer.catch);
-          // });
-
-          // defer.resolve(NstSvcActivityStorage.get('all', []));
         }).catch(defer.reject);
       }
       else {
@@ -217,5 +205,61 @@
       return defer.promise;
     }
 
+    function getRecent(settings) {
+      var defer = $q.defer();
+
+      var defaultSettings = {
+        limit : 10,
+        placeId : null
+      };
+      settings = _.defaults(defaultSettings, settings);
+
+      if (settings.placeId) {
+        getPlaceActivities(settings).then(defer.resolve).catch(defer.reject);
+      } else {
+        load(settings).then(defer.resolve).catch(defer.reject);
+      }
+
+      return defer.promise;
+    }
+
+    function getPlaceActivities(settings) {
+      var defaultSettings = {
+        limit : 10,
+      };
+      settings = _.defaults(defaultSettings, settings);
+
+      if (!settings.placeId) {
+        throw 'Could not find the place id.'
+      }
+
+      var activities = NstSvcActivityStorage.get('all', []);
+
+      if (activities.length === 0) { // cache is empty and it's better to ask the server for recent activities
+        NstSvcServer.request('place/get_events', {
+          limit : settings.limit,
+          skip : 0,
+          place_id : settings.placeId
+        }).then(function (data) {
+          var activities = _.map(data.events, parseActivity);
+
+          $q.all(activities).then(function (values) {
+            NstSvcActivityStorage.merge('all', values);
+            defer.resolve(values);
+          }).catch(defer.reject);
+
+        }).catch(defer.reject);
+      }
+      else {
+        var placeActivities = _.filter(activities, function (act) {
+          return _.some(act.places, function (place) {
+            return place.id === settings.placeId;
+          });
+        });
+
+        defer.resolve(placeActivities);
+      }
+
+    }
   }
 })();

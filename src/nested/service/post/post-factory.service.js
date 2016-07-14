@@ -366,7 +366,7 @@
         comment.body = data.text;
         comment.date = new Date(data.timestap);
         comment.removed = data._removed;
-        comment.sender = new NstTinyUser(data.sender);
+        comment.sender = new NstUser(data.sender);
 
         // TODO: Ask the factory to get the user
         // NstSvcUserFactory.get(data.sender_id.$oid).then(function (sender) {

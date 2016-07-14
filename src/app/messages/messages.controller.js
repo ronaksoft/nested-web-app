@@ -11,7 +11,9 @@
     NST_MESSAGES_SORT_OPTION) {
     var vm = this;
 
-    vm.filter = $stateParams.filter || '!$all';
+    var FILTER_ALL = '!$all';
+
+    vm.filter = $stateParams.filter || FILTER_ALL;
 
     vm.loadMore = loadMore;
     vm.sort = sort;
@@ -38,11 +40,12 @@
     vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
 
     (function () {
-      $q.all([getMessages(), loadViewSetting(), loadSortOption()]).then(function (values) {
+      $q.all([getMessages(), loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
         vm.messages = mapMessages(values[0]);
         vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[1]);
-        vm.messagesSetting.sort = values[2] || vm.defaultSortOption
-        console.log(vm.messages);
+        vm.messagesSetting.sort = values[2] || vm.defaultSortOption;
+        // TODO: Does it need to be mapped??
+        vm.activities = values[3];
       }).catch(function (error) {
         $log.debug(error)
       });
@@ -50,7 +53,7 @@
     })();
 
     function getMessages() {
-      if (vm.filter === '!$all') {
+      if (vm.filter === FILTER_ALL) {
         return NstSvcPostFactory.getMessages(vm.messagesSetting);
       } else {
         var placeId = vm.filter;
@@ -96,6 +99,19 @@
     function loadMore() {
       messagesSetting.skip += messagesSetting.limit;
       loadMessages();
+    }
+
+    function loadRecentActivities() {
+      var defer = $q.defer();
+
+      var settings = {
+        limit : 10,
+        placeId : vm.filter !== FILTER_ALL ? vm.filter : null
+      };
+
+      NstSvcActivityFactory.getRecent(settings).then(defer.resolve).catch(defer.reject);
+
+      return defer.promise;
     }
 
     function mapMessages(messages) {
