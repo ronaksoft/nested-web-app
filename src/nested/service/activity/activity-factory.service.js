@@ -5,10 +5,11 @@
     .service('NstSvcActivityFactory', NstSvcActivityFactory);
 
   /** @ngInject */
-  function NstSvcActivityFactory($q, $log, _, moment,
-                             // NstSvcUserFactory
-                             NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory,
-                             NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace) {
+  function NstSvcActivityFactory($q, $log,
+                                 _, moment,
+                                 NstSvcUserFactory,
+                                 NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory,
+                                 NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace) {
 
     /**
      * PostFactory - all operations related to activity

@@ -7,7 +7,9 @@
 
   /** @ngInject */
   function PlacesController($q, $location, $stateParams, $scope,
-                            NstSvcAuth, NstSvcServer, NestedPlace, MEMBER_TYPE, NstSvcLoader, StorageFactoryService, STORAGE_TYPE) {
+                            NST_PLACE_MEMBER_TYPE, NST_STORAGE_TYPE,
+                            NstSvcAuth, NstSvcServer,
+                            NstPlace, NstSvcLoader) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -24,15 +26,15 @@
         name: 'All'
       },
       '!$creator': {
-        filter: MEMBER_TYPE.CREATOR,
+        filter: NST_PLACE_MEMBER_TYPE.CREATOR,
         name: 'Creator'
       },
       '!$insider': {
-        filter: MEMBER_TYPE.KEY_HOLDER,
+        filter: NST_PLACE_MEMBER_TYPE.KEY_HOLDER,
         name: 'Insider'
       },
       '!$member': {
-        filter: MEMBER_TYPE.KNOWN_GUEST,
+        filter: NST_PLACE_MEMBER_TYPE.KNOWN_GUEST,
         name: 'Member'
       }
     };
@@ -44,7 +46,7 @@
       parameters['filter'] = vm.filters[vm.filter].filter;
     }
 
-    var memory = NstSvcStorageFactory.create('dt.places.f', STORAGE_TYPE.MEMORY);
+    var memory = NstSvcStorageFactory.create('dt.places.f', NST_STORAGE_TYPE.MEMORY);
     memory.setFetchFunction(function (id) {
       if (0 === id.indexOf('places.')) {
         return NstSvcServer.request('account/get_my_places', parameters).then(function (data) {
@@ -53,7 +55,7 @@
             if (parameters.filter && !data.places[k].member_type) {
               data.places[k]['member_type'] = parameters.filter;
             }
-            places.push(new NestedPlace(data.places[k]));
+            places.push(new NstPlace(data.places[k]));
           }
 
           return $q(function (res) {

@@ -3,7 +3,7 @@
 
   angular.module('nested').factory('NstPost', NstPost);
 
-  function NstPost(_, ATTACHMENT_STATUS, NstModel, NestedAttachment) {
+  function NstPost($q, _, ATTACHMENT_STATUS, NstModel, NestedAttachment) {
 
     Post.prototype = new NstModel();
     Post.prototype.constructor = Post;

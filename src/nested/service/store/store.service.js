@@ -6,9 +6,10 @@
     .service('NstSvcStore', NstSvcStore);
 
   function NstSvcStore($q, $http,
-                       NST_CONFIG, NST_STORE_ROUTE, NST_STORE_ROUTE_PATTERN, NST_STORE_UPLOAD_TYPE,
+                       _,
+                       NST_SRV_ERROR, NST_CONFIG, NST_STORE_ROUTE, NST_STORE_ROUTE_PATTERN, NST_STORE_UPLOAD_TYPE, NST_SRV_RESPONSE_STATUS,
                        NstSvcServer, NstSvcDownloadTokenStorage, NstSvcUploadTokenStorage,
-                       NstObservableObject) {
+                       NstObservableObject, NstStoreToken) {
     /**
      * Creates an instance of NstSvcStore
      *

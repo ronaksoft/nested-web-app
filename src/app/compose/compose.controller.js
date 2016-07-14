@@ -6,8 +6,11 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout, _, toastr, ATTACHMENT_STATUS,
-    NstSvcAuth, NstSvcServer, NstSvcStore, NstStoreResource, NestedPost, NestedPlace, NestedRecipient, NestedAttachment) {
+  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout,
+                             _, toastr,
+                             ATTACHMENT_STATUS, NST_SRV_ERROR,
+                             NstSvcAuth, NstSvcServer, NstSvcStore,
+                             NstStoreResource, NstPost, NstPlace, NestedRecipient, NestedAttachment) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -81,19 +84,19 @@
       NstSvcServer.request('place/search', {keyword: query}).then(function (data) {
         $scope.compose.places = [];
         for (var k in data.places) {
-          $scope.compose.places.push(new NestedPlace(data.places[k]));
+          $scope.compose.places.push(new NstPlace(data.places[k]));
         }
       });
     };
 
-    vm.post = new NestedPost();
+    vm.post = new NstPost();
     // TODO : attachment preview should be enabled in compose page, Why model controls attachmentPreview??
     vm.post.attachmentPreview = true;
     if ($stateParams.relation && $stateParams.relation.indexOf(':') > -1) {
       var relation = $stateParams.relation.split(':');
       switch (relation.shift()) {
         case 'fw':
-          vm.post.forwarded = new NestedPost();
+          vm.post.forwarded = new NstPost();
           vm.post.forwarded.attachmentPreview = true;
           vm.post.forwarded.load(relation.join('')).then(function (post) {
             $scope.compose.post.subject = 'FW: ' + post.subject;
@@ -104,7 +107,7 @@
           break;
 
         case 'ra':
-          vm.post.replyTo = new NestedPost();
+          vm.post.replyTo = new NstPost();
           vm.post.replyTo.attachmentPreview = true;
 
           vm.post.replyTo.load(relation.join('')).then(function (post) {
@@ -115,11 +118,11 @@
           break;
 
         case 'rs':
-          vm.post.replyTo = new NestedPost();
+          vm.post.replyTo = new NstPost();
           vm.post.replyTo.attachmentPreview = true;
           vm.post.replyTo.load(relation.join('')).then(function (post) {
             $scope.compose.post.subject = 'RE: ' + post.subject;
-            $scope.compose.post.places.push(new NestedPlace(post.sender.username));
+            $scope.compose.post.places.push(new NstPlace(post.sender.username));
             $scope.compose.recipients = $scope.compose.post.places;
           });
           break;
@@ -252,7 +255,7 @@
       var post = $scope.compose.post;
       post.contentType = 'text/html';
       for (var k in $scope.compose.recipients) {
-        if ($scope.compose.recipients[k] instanceof NestedPlace) {
+        if ($scope.compose.recipients[k] instanceof NstPlace) {
           post.places.push($scope.compose.recipients[k]);
         } else {
           post.recipients.push($scope.compose.recipients[k]);

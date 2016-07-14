@@ -93,7 +93,7 @@
 
       getMyPlaces: function () {
         return NstSvcServer.request('account/get_my_places').then(function (data) {
-
+          
         });
       },
 

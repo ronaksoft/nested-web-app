@@ -6,7 +6,7 @@
     .controller('AccountProfileController', AccountProfileController);
 
   /** @ngInject */
-  function AccountProfileController($location, $scope,
+  function AccountProfileController($location, $scope, $state,
                                     UPLOAD_TYPE,
                                     NstSvcAuth, NstSvcStore, $uibModal) {
     var vm = this;

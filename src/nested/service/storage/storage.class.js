@@ -3,20 +3,6 @@
 
   angular
     .module('nested')
-    .constant('NST_STORAGE_TYPE', {
-      LOCAL: 'localStorage',
-      SESSION: 'sessionStorage',
-      MEMORY: 'memory',
-      COOKIE: 'cookie'
-    })
-    .constant('NST_STORAGE_EVENT', {
-      SET: 'set',
-      MERGE: 'merge',
-      CHANGE: 'change',
-      EXPIRE: 'expire',
-      REMOVE: 'remove',
-      FLUSH: 'flush'
-    })
     .factory('NstStorage', NstStorage);
 
   /** @ngInject */
@@ -28,12 +14,13 @@
     /**
      * Creates an instance of NestedStorage
      *
-     * @param {STORAGE_TYPE}  type    Storage Type
-     * @param {int}           timeout Storage expiration timeout
+     * @param {NST_STORAGE_TYPE}  type    Storage Type
+     * @param {String}            id      Storage Identifier
+     * @param {int}               timeout Storage expiration timeout
      *
      * @constructor
        */
-    function Storage(type, timeout) {
+    function Storage(type, id, timeout) {
       // Event listeners
       this.listeners = {};
 
@@ -44,7 +31,7 @@
         flush: function () {}
       };
 
-      this.id = NstSvcRandomize.genUniqId();
+      this.id = id || NstSvcRandomize.genUniqId();
 
       this.timeout = timeout || 0;
 

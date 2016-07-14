@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcTinyPlaceStorage($log, NST_STORAGE_TYPE, NstStorage) {
     function TinyPlaceStorage(memory) {
-      NstStorage.call(this, memory);
+      NstStorage.call(this, memory, 'tiny_place');
     }
 
     TinyPlaceStorage.prototype = new NstStorage();
@@ -23,11 +23,11 @@
       for (var k in q) {
         if (undefined == q[k]) {
           $log.debug('Unable to store TinyPlace because ', '`' + k + '`', 'was undefined:', object);
-          
+
           return false;
         }
       }
-      
+
       return true;
     };
 

@@ -6,7 +6,7 @@
     .factory('NstTinyPlace', NstTinyPlace);
 
   /** @ngInject */
-  function NstTinyPlace(NST_OBJECT_EVENT, NstModel, NstPicture) {
+  function NstTinyPlace(NST_OBJECT_EVENT, NstModel, NstPicture, NstStoreResource) {
     /**
      * Creates an instance of NstTinyPlace. Do not use this directly, use NstSvcPlaceFactory.getTiny(data) instead
      *
