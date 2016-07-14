@@ -7,12 +7,13 @@
 
   function NstSvcPlaceFactory($q,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
-                              NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage,
+                              NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage,
                               NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace) {
     function PlaceFactory() {
       this.requests = {
         get: {},
         getTiny: {},
+        getMine: undefined,
         remove: {}
       };
     }
@@ -37,6 +38,7 @@
         if (!this.requests.get[id]) {
           var query = new NstFactoryQuery(id);
 
+          // FIXME: Check whether if request should be removed on resolve/reject
           this.requests.get[id] = $q(function (resolve, reject) {
             var place = NstSvcPlaceStorage.get(query.id);
             if (place) {
@@ -70,6 +72,7 @@
         if (!this.requests.getTiny[id]) {
           var query = new NstFactoryQuery(id);
 
+          // FIXME: Check whether if request should be removed on resolve/reject
           this.requests.getTiny[id] = $q(function (resolve, reject) {
             var place = NstSvcPlaceStorage.get(query.id) || NstSvcTinyPlaceStorage.get(query.id);
             if (place) {
@@ -92,9 +95,39 @@
       },
 
       getMyPlaces: function () {
-        return NstSvcServer.request('account/get_my_places').then(function (data) {
-          
-        });
+        if (!this.requests.getMine) {
+          this.requests.getMine = $q(function (resolve, reject) {
+            var placeIds = NstSvcMyPlaceIdStorage.get('all');
+            if (placeIds) {
+              resolve(placeIds.map(function (id) {
+                return NstSvcPlaceFactory.get(id);
+              }));
+            } else {
+              NstSvcServer.request('account/get_my_places').then(function (data) {
+                
+              });
+            }
+          });
+        }
+
+        return this.requests.getMine;
+      },
+
+      getMyTinyPlaces: function () {
+        if (!this.requests.getMine) {
+          this.requests.getMine = $q(function (resolve, reject) {
+            var places = NstSvcMyPlaceIdStorage.get('all');
+            if (places) {
+
+            } else {
+              NstSvcServer.request('account/get_my_places').then(function (data) {
+
+              });
+            }
+          });
+        }
+
+        return this.requests.getMine;
       },
 
       set: function (place) {
