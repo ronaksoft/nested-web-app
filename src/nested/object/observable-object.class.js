@@ -70,7 +70,7 @@
     /**
      * Unregisters listener from an event
      *
-     * @param {string} id Listener Id
+     * @param {String} id Listener Id
      *
      * @returns {boolean} Success
      */
@@ -91,12 +91,12 @@
     /**
      * Triggers event
      *
-     * @param {STORAGE_EVENT} event Event name
+     * @param {NST_OBJECT_EVENT} event Event name
      *
      * @returns {*}
      */
     ObservableObject.prototype.dispatchEvent = function (event) {
-      if (!(event.type in this.eventListeners)) {
+      if (!(this.eventListeners.hasOwnProperty(event.type))) {
         return;
       }
 

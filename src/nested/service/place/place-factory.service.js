@@ -100,6 +100,7 @@
        */
       getMyPlaces: function () {
         function resolveMap(map) {
+          // FIXME: Here is Promise
           var place = angular.copy(NstSvcPlaceFactory.get(map.id));
 
           if (map.children.length > 0) {
@@ -131,7 +132,6 @@
               NstSvcServer.request('account/get_my_places', { detail: 'full' }).then(function (data) {
                 var placeIds = data.places.map(createMap);
                 NstSvcMyPlaceIdStorage.set('all', placeIds);
-                console.log(placeIds);
                 resolve(placeIds.map(resolveMap));
               });
             }
@@ -174,7 +174,6 @@
               NstSvcServer.request('account/get_my_places', { detail: 'full' }).then(function (data) {
                 var placeIds = data.places.map(createMap);
                 NstSvcMyPlaceIdStorage.set('all', placeIds);
-                console.log(placeIds);
                 resolve(placeIds.map(resolveMap));
               });
             }
@@ -451,7 +450,7 @@
     };
 
     var service = new PlaceFactory();
-    service.getMyPlaces();
+    service.getMyPlaces().then(console.log);
 
     return service;
   }
