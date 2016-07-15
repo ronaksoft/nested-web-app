@@ -75,7 +75,7 @@
           keyHolders: -1,
           knownGuests: -1,
           allMembers: -1,
-          childs: -1,
+          children: -1,
           posts: -1,
           size: -1
         };
@@ -146,17 +146,17 @@
               this.counters.knownGuests = data.counters.known_guests;
               this.members.knownGuests.count = this.counters.knownGuests;
 
-              this.counters.children = data.counters.childs;
+              this.counters.children = data.counters.children;
               this.counters.posts = data.counters.posts;
               this.counters.size = data.counters.size;
             }
             this.counters.allMembers = this.counters.knownGuests + this.counters.keyHolders + this.counters.creators;
 
             this.children = [];
-            if (angular.isArray(data.childs)) {
-              this.counters.children = this.counters.children > -1 ? this.counters.children : data.childs.length;
-              for (var k in data.childs) {
-                this.children[k] = new Place(this.full ? data.childs[k]._id : data.childs[k], this, this.full);
+            if (angular.isArray(data.children)) {
+              this.counters.children = this.counters.children > -1 ? this.counters.children : data.children.length;
+              for (var k in data.children) {
+                this.children[k] = new Place(this.full ? data.children[k]._id : data.children[k], this, this.full);
               }
             }
 

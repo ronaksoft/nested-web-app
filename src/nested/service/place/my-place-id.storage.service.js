@@ -5,7 +5,7 @@
     .service('NstSvcMyPlaceIdStorage', NstSvcMyPlaceIdStorage);
 
   /** @ngInject */
-  function NstSvcMyPlaceIdStorage($log, NST_STORAGE_TYPE, NstStorage, NstSvcTinyMyPlaceIdStorage) {
+  function NstSvcMyPlaceIdStorage(NST_STORAGE_TYPE, NstStorage) {
     function MyPlaceIdStorage(memory) {
       NstStorage.call(this, memory, 'my_place_id');
     }

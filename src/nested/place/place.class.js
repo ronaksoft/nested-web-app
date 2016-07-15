@@ -22,37 +22,6 @@
        */
       this.privacy = new NstPlacePrivacy();
 
-      /*****************************
-       *****      Ancestors     ****
-       *****************************/
-
-      /**
-       * Place's parent
-       *
-       * @type {undefined|NstPlace}
-       */
-      this.parent = undefined;
-
-      /**
-       * Place's grand place
-       *
-       * @type {undefined|NstPlace}
-       */
-      this.grandParent = undefined;
-
-      /*****************************
-       *****      Descendant    ****
-       *****************************/
-
-      /**
-       * Place's children
-       *
-       * @type {{ placeId: NstPlace, length: Number }}
-       */
-      this.children = {
-        length: 0
-      };
-
       /**
        * Place's users
        *

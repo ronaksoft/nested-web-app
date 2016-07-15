@@ -43,6 +43,37 @@
        */
       this.picture = new NstPicture();
 
+      /*****************************
+       *****      Ancestors     ****
+       *****************************/
+
+      /**
+       * Place's parent
+       *
+       * @type {undefined|NstPlace}
+       */
+      this.parent = undefined;
+
+      /**
+       * Place's grand place
+       *
+       * @type {undefined|NstPlace}
+       */
+      this.grandParent = undefined;
+
+      /*****************************
+       *****      Descendant    ****
+       *****************************/
+
+      /**
+       * Place's children
+       *
+       * @type {{ placeId: NstPlace, length: Number }}
+       */
+      this.children = {
+        length: 0
+      };
+
       NstModel.call(this);
 
       if (data) {
@@ -55,15 +86,15 @@
 
     TinyPlace.prototype.setPicture = function (picture) {
       var oldValue = this.picture;
-      
+
       this.picture.org.setId(picture.org);
       var pictureClone = angular.copy(picture);
       delete pictureClone.org;
-      
+
       for (var size in pictureClone) {
         this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
       }
-      
+
       var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {
         detail: {
           name: 'picture',

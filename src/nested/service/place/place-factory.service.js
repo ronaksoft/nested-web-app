@@ -94,17 +94,45 @@
         return this.requests.getTiny[id];
       },
 
+      /**
+       *
+       * @returns {Promise}
+       */
       getMyPlaces: function () {
+        function resolveMap(map) {
+          var place = angular.copy(NstSvcPlaceFactory.get(map.id));
+
+          if (map.children.length > 0) {
+            place.setChildren(map.children.map(resolveMap));
+          }
+
+          return place;
+        }
+
+        function createMap(place) {
+          var map = {
+            id: place._id,
+            children: []
+          };
+
+          if (place.childs && place.childs.length > 0) {
+            map.children = place.childs.map(createMap);
+          }
+
+          return map;
+        }
+
         if (!this.requests.getMine) {
           this.requests.getMine = $q(function (resolve, reject) {
             var placeIds = NstSvcMyPlaceIdStorage.get('all');
             if (placeIds) {
-              resolve(placeIds.map(function (id) {
-                return NstSvcPlaceFactory.get(id);
-              }));
+              resolve(placeIds.map(resolveMap));
             } else {
-              NstSvcServer.request('account/get_my_places').then(function (data) {
-                
+              NstSvcServer.request('account/get_my_places', { detail: 'full' }).then(function (data) {
+                var placeIds = data.places.map(createMap);
+                NstSvcMyPlaceIdStorage.set('all', placeIds);
+                console.log(placeIds);
+                resolve(placeIds.map(resolveMap));
               });
             }
           });
@@ -114,14 +142,40 @@
       },
 
       getMyTinyPlaces: function () {
+        function resolveMap(map) {
+          var place = angular.copy(NstSvcPlaceFactory.getTiny(map.id));
+
+          if (map.children.length > 0) {
+            place.setChildren(map.children.map(resolveMap));
+          }
+
+          return place;
+        }
+
+        function createMap(place) {
+          var map = {
+            id: place._id,
+            children: []
+          };
+
+          if (place.childs && place.childs.length > 0) {
+            map.children = place.childs.map(createMap);
+          }
+
+          return map;
+        }
+
         if (!this.requests.getMine) {
           this.requests.getMine = $q(function (resolve, reject) {
-            var places = NstSvcMyPlaceIdStorage.get('all');
-            if (places) {
-
+            var placeIds = NstSvcMyPlaceIdStorage.get('all');
+            if (placeIds) {
+              resolve(placeIds.map(resolveMap));
             } else {
-              NstSvcServer.request('account/get_my_places').then(function (data) {
-
+              NstSvcServer.request('account/get_my_places', { detail: 'full' }).then(function (data) {
+                var placeIds = data.places.map(createMap);
+                NstSvcMyPlaceIdStorage.set('all', placeIds);
+                console.log(placeIds);
+                resolve(placeIds.map(resolveMap));
               });
             }
           });
@@ -255,29 +309,6 @@
           });
         }
 
-        return place;
-      },
-
-      parsePlace: function (placeData) {
-        var place = new NstPlace();
-
-        if (!angular.isObject(placeData)) {
-          return place;
-        }
-
-        place.setNew(false);
-        place.setId(placeData._id);
-        place.setName(placeData.name);
-        place.setDescription(placeData.description);
-
-        if (angular.isObject(placeData.picture)) {
-          place.setPicture(placeData.picture.org, {
-            32: placeData.picture.x32,
-            64: placeData.picture.x64,
-            128: placeData.picture.x128
-          });
-        }
-
         if (placeData.parent_id) {
           var parent = NstSvcTinyPlaceStorage.get(placeData.parent_id) || NstSvcPlaceStorage.get(placeData.parent_id);
           if (!parent) {
@@ -308,6 +339,73 @@
           var children = {};
           for (var k in placeData.childs) {
             var child = NstSvcTinyPlaceStorage.get(placeData.childs[k]._id) || NstSvcPlaceStorage.get(placeData.childs[k]._id);
+            if (!child) {
+              child = NstSvcPlaceFactory.parseTinyPlace(placeData.childs[k]);
+            }
+
+            child.setParent(place);
+            child.setGrandParent(place.getGrandPlace());
+            // TODO: Push into factory
+
+            children[child.getId()] = child;
+          }
+
+          place.setChildren(children);
+        }
+
+        return place;
+      },
+
+      parsePlace: function (placeData) {
+        var place = new NstPlace();
+
+        if (!angular.isObject(placeData)) {
+          return place;
+        }
+
+        place.setNew(false);
+        place.setId(placeData._id);
+        place.setName(placeData.name);
+        place.setDescription(placeData.description);
+
+        if (angular.isObject(placeData.picture)) {
+          place.setPicture(placeData.picture.org, {
+            32: placeData.picture.x32,
+            64: placeData.picture.x64,
+            128: placeData.picture.x128
+          });
+        }
+
+        if (placeData.parent_id) {
+          var parent = NstSvcPlaceStorage.get(placeData.parent_id) || NstSvcTinyPlaceStorage.get(placeData.parent_id);
+          if (!parent) {
+            parent = NstSvcPlaceFactory.parseTinyPlace({
+              _id: placeData.parent_id
+            });
+
+            // TODO: Push into factory
+          }
+
+          place.setParent(parent);
+        }
+
+        if (placeData.grand_parent_id) {
+          var grandParent = NstSvcPlaceStorage.get(placeData.grand_parent_id) || NstSvcTinyPlaceStorage.get(placeData.grand_parent_id);
+          if (!grandParent) {
+            grandParent = NstSvcPlaceFactory.parseTinyPlace({
+              _id: placeData.grand_parent_id
+            });
+
+            // TODO: Push into factory
+          }
+
+          place.setGrandParent(grandParent);
+        }
+
+        if (angular.isArray(placeData.childs)) {
+          var children = {};
+          for (var k in placeData.childs) {
+            var child = NstSvcPlaceStorage.get(placeData.childs[k]._id) || NstSvcTinyPlaceStorage.get(placeData.childs[k]._id);
             if (!child) {
               child = NstSvcPlaceFactory.parsePlace(placeData.childs[k]);
             }
@@ -352,6 +450,9 @@
       }
     };
 
-    return new PlaceFactory();
+    var service = new PlaceFactory();
+    service.getMyPlaces();
+
+    return service;
   }
 })();
