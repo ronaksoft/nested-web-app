@@ -564,6 +564,38 @@ ul ul > li:last-child li{
       border: none;
     }
   }
+  &:last-child li{
+    .lines:nth-of-type(2){
+      .box1 {
+        border: none;
+      }
+      .box2 {
+        border: none;
+      }
+      .box3 {
+        border: none;
+      }
+      .box4 {
+        border: none;
+      }
+    }
+    &:last-child li{
+      .lines:nth-of-type(3){
+        .box1 {
+          border: none;
+        }
+        .box2 {
+          border: none;
+        }
+        .box3 {
+          border: none;
+        }
+        .box4 {
+          border: none;
+        }
+      }
+    }
+  }
 }
 .lines:last-of-type {
   .box1 {
