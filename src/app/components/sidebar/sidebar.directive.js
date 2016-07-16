@@ -3,11 +3,28 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function ($q, $scope, $cacheFactory,
-                                               NST_STORAGE_TYPE,
-                                               NstSvcLoader, NstSvcServer,
-                                               NestedPlace, NstStorage) {
+    .controller('SidebarController', function ($q, $scope, NstSvcLoader, NstSvcPlaceFactory) {
       var vm = this;
+
+      $q.all([getMyPlaces()]).then(function (resolvedSet) {
+        vm.places = mapPlaces(resolvedSet[0]);
+      });
+
+      /*****************************
+       *****    Fetch Methods   ****
+       *****************************/
+
+      function getMyPlaces() {
+        return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
+      }
+
+      /*****************************
+       *****     Map Methods    ****
+       *****************************/
+
+      function mapPlaces(places) {
+
+      }
 
       // TODO: delete all commented lines
       // TODO: here is waht we need to build the sidebar
