@@ -87,7 +87,7 @@
           }
           this.actor = new NestedUser(q);
 
-          this.date = new Date(data.date * 1e3);
+          this.date = new Date(data.timestamp);
           var now = new Date(Date.now());
           if (now.getFullYear() === this.date.getFullYear()) {
             if (now.getMonth() === this.date.getMonth()) {
@@ -109,7 +109,7 @@
               body: data.post_body || (EVENT_ACTIONS.POST_ADD == this.type ? data.post_body : ''),
               post_attachments: data.post_attachments || [],
               post_places: data.post_places, // TODO: Please be `places`
-              'time-stamp': data.date // TODO: Please be `time`
+              timestamp: data.timestamp // TODO: Please be `time`
             };
             for (var k in q) {
               if (undefined == q[k]) {
@@ -131,7 +131,7 @@
               sender_lname: this.actor.name.lname,
               sender_picture: this.actor.picture,
               text: data.comment_body,
-              time: data.date
+              timestamp: data.timestamp
             };
             for (var k in q) {
               if (undefined == q[k]) {
