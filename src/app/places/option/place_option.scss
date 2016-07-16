@@ -340,20 +340,21 @@
 
 
 #nav-option {
-  display: none
+  display: none;
 }
 
 .maincontainer.option-hld {
   .content-plus {
-    display: none;
+    //display: none;
   }
   .content {
-    width: 100%;
-    margin: auto;
-    max-width: 1058px;
+    //width: 100%;
+    //margin: auto;
+    //max-width: 1058px;
   }
   #content-wrapper .content {
     height: calc(100vh - 180px );
+    width: 686px;
   }
   #nav-option {
     display: flex;

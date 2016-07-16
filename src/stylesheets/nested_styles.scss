@@ -756,6 +756,22 @@ ul ul li:last-child{
   height: 40px;
 }
 
+.list-items {
+  height: 30px;
+  padding: 5px 10px;
+  width: 100%;
+  color: $color-hurricane;
+}
+
+.list-items:hover {
+  background-color: $color-sense-5;
+  color: $color-solid;
+}
+.spansetting {
+  height: 30px;
+  padding: 5px 10px;
+}
+
 
 /**
   ******************************
@@ -822,7 +838,7 @@ ul ul li:last-child{
     padding: 12px 0 24px 8px;
     z-index: 15;
     background-color: $color-white;
-    border: 1px solid $color-breeze;
+    border: 1px solid $color-border;
     position: relative;
     .row {
       display: inline-flex;
@@ -893,7 +909,7 @@ ul ul li:last-child{
 .quick-message {
   height: 86px;
   z-index: 10;
-  border: 1px solid $color-breeze;
+  border: 1px solid $color-border;
 }
 
 
@@ -938,7 +954,7 @@ ul ul li:last-child{
 }
 .post-card {
   margin-top: 32px;
-  border: 1px solid #ced9d3;
+  border: 1px solid $color-border;
   border-radius: 2px;
   position: relative;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
@@ -1035,7 +1051,7 @@ ul ul li:last-child{
   display: flex;
   flex-direction: column;
   background-color: #E7FBF0;
-  border: solid 1px rgba(0,0,0,.2);
+  border: solid 1px $color-border;
   border-top-width: 0;
   padding: 0 8px;
   z-index: 10;
@@ -1109,8 +1125,8 @@ ul ul li:last-child{
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-breeze;
   position: absolute;
-  top: -94px !important;
-  left: -116px !important;
+  top: 0px !important;
+  left: -92px !important;
   z-index: 37;
   padding: 0;
 }
