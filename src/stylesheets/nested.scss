@@ -1063,6 +1063,7 @@ a .ui-select-choises-row-inner {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 #Logo {
   background: url("../assets/icons/NestedLogo.svg") no-repeat;
@@ -1198,6 +1199,9 @@ a .ui-select-choises-row-inner {
 .sidebar ul li .side-place-item-inner{
   min-height: 56px;
 }
+.side-place-invite-item-inner{
+  min-height: 56px;
+}
 .sidebar ul ul li .side-place-item-inner{
   min-height: 42px;
 }
@@ -1216,8 +1220,33 @@ a .ui-select-choises-row-inner {
   flex: none;
   flex-direction: row;
 }
-.maincontainer.tiny .side-place-item-inner a {
-  display: none;
+.side-place-invite-item-inner {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  flex: none;
+  flex-direction: row;
+}
+.side-place-invite-item-inner:hover{
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  background-color: $color-white;
+  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
+  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
+}
+.maincontainer.tiny {
+  .side-place-item-inner {
+    a {
+      display: none;
+    }
+  }
+  .side-place-invite-item-inner {
+    a {
+      display: none;
+    }
+  }
 }
 .side-place .side-place .side-place-item {
 }
@@ -1863,5 +1892,5 @@ a.normal-badge {
 }
 
 .first-child {
-  margin-top: 20pxa;
+  margin-top: 20px;
 }

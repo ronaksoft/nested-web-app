@@ -280,6 +280,9 @@
   background-color: #14D769;
   z-index: 52;
   transition: .3s;
+  &.bg-hur {
+    background-color: $color-hurricane;
+  }
   & > div {
     height: 100%;
     align-items: center;
