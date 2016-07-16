@@ -85,7 +85,6 @@
       delete pictureClone.org;
 
       for (var size in pictureClone) {
-        console.log('Picture', size, this.picture);
         this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
       }
 

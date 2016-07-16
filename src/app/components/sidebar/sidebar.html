@@ -12,13 +12,13 @@
       <div class='side-menu'>
         <div class="side-menu-item">
           <div class="icon icon-solid icon-side icon-all-place"></div>
-          <a class="item onlyExpand">All Places</a></div>
+          <a href="{{ctlSidebar.urls.unfiltered}}" class="item onlyExpand">All Places</a></div>
         <div class="side-menu-item">
           <div class="icon icon-solid icon-side icon-bookmarks"></div>
-          <a class="item onlyExpand">Bookmarks</a></div>
+          <a href="{{ctlSidebar.urls.bookmarks}}" class="item onlyExpand">Bookmarks</a></div>
         <div class="side-menu-item">
           <div class="icon icon-solid icon-side icon-sent"></div>
-          <a class="item onlyExpand">Sent</a></div>
+          <a href="{{ctlSidebar.urls.sent}}" class="item onlyExpand">Sent</a></div>
       </div>
       <ul class="side-place">
         <li class="side-place-item" data-ng-repeat="place in ctlSidebar.places"

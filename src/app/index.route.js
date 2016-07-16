@@ -12,142 +12,110 @@
         url: '/',
         templateUrl: 'app/main/main.html',
         controller: 'MainController',
-        controllerAs: 'main'
+        controllerAs: 'ctlMain'
       })
+
+      /*****************************
+       *****     Auth Routes    ****
+       *****************************/
+
       .state('signin', {
         url: '/signin',
         templateUrl: 'app/login/login.html',
         controller: 'LoginController',
-        controllerAs: 'login'
+        controllerAs: 'ctlLogin'
       })
       .state('signout', {
         url: '/signout',
         controller: 'LogoutController',
-        controllerAs: 'logout'
+        controllerAs: 'ctlLogout'
       })
-      .state('signup', {
-        url: '/signup',
-        templateUrl: 'app/register/register.html',
-        controller: 'RegisterController',
-        controllerAs: 'register'
+
+      /*****************************
+       *****   Places Routes    ****
+       *****************************/
+
+      .state('place-messages', {
+        url: '/places/:placeId/messages',
+        params: {
+          placeId: '_'
+        },
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages'
       })
-      .state('forgot-password', {
-        url: '/forgot-password',
-        templateUrl: 'app/reset_password/reset_password.html',
-        controller: 'ResetPasswordController',
-        controllerAs: 'reset_password'
+      .state('place-activity', {
+        url: '/places/:placeId/activity',
+        params: {
+          placeId: '_'
+        },
+        templateUrl: 'app/events/events.html',
+        controller: 'ActivityController',
+        controllerAs: 'ctlActivity'
       })
+      .state('place-settings', {
+        url: '/places/:placeId/settings',
+        params: {
+          placeId: '_'
+        },
+        templateUrl: 'app/places/settings.html',
+        controller: 'PlaceSettingsController',
+        controllerAs: 'ctlPlaceSettings'
+      })
+
+      /*****************************
+       *****  Activity Routes   ****
+       *****************************/
+
+      .state('activity', {
+        url: '/activity',
+        params: {
+          filter: '!$all'
+        },
+        templateUrl: 'app/events/events.html',
+        controller: 'ActivityController',
+        controllerAs: 'ctlActivity'
+      })
+      .state('activity-bookmarks', {
+        url: '/activity/bookmarks',
+        params: {
+          filter: '!$all'
+        },
+        templateUrl: 'app/events/events.html',
+        controller: 'ActivityController',
+        controllerAs: 'ctlActivity'
+      })
+
+      /*****************************
+       *****  Messages Routes   ****
+       *****************************/
+
       .state('messages', {
         url: '/messages',
         params: {
-          placeId: null,
           filter: '!$all'
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
-        controllerAs: 'messages'
+        controllerAs: 'ctlMessages'
       })
-      .state('activity', {
-        url: '/activity',
-        params: {
-          placeId: null,
-          filter: '!$all'
-        },
-        templateUrl: 'app/events/events.html',
-        controller: 'ActivityController',
-        controllerAs: 'events'
-      })
-      .state('events-filtered-1d', {
-        url: '/activity/:placeId',
-        params: {
-          placeId: null,
-          filter: '!$all'
-        },
-        templateUrl: 'app/events/events.html',
-        controller: 'ActivityController',
-        controllerAs: 'events'
-      })
-      .state('events-filtered-2d', {
-        url: '/activity/:placeId/:filter',
-        params: {
-          placeId: null,
-          filter: '!$all'
-        },
-        templateUrl: 'app/events/events.html',
-        controller: 'ActivityController',
-        controllerAs: 'events'
-      })
-      .state('places', {
-        url: '/places',
+      .state('messages-bookmarks', {
+        url: '/messages/bookmarks',
         params: {
           filter: '!$all'
         },
-        templateUrl: 'app/places/places.html',
-        controller: 'PlacesController',
-        controllerAs: 'places'
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages'
       })
-      .state('places-filtered', {
-        url: '/places/:filter',
+      .state('messages-sent', {
+        url: '/messages/sent',
         params: {
           filter: '!$all'
         },
-        templateUrl: 'app/places/places.html',
-        controller: 'PlacesController',
-        controllerAs: 'places'
-      })
-      .state('place', {
-        url: '/place/:placeId',
-        templateUrl: 'app/places/option/place_option.html',
-        controller: 'PlaceOptionController',
-        controllerAs: 'place_option'
-      })
-      .state('create-place', {
-        url: '/create_place',
-        params: {
-          placeId: null
-        },
-        templateUrl: 'app/create_place/create_place.html',
-        controller: 'CreatePlaceController',
-        controllerAs: 'create_place'
-      })
-      .state('create-subplace', {
-        url: '/create_place/:placeId',
-        params: {
-          placeId: null
-        },
-        templateUrl: 'app/create_place/create_place.html',
-        controller: 'CreatePlaceController',
-        controllerAs: 'create_place'
-      })
-      .state('post', {
-        url: '/post/:postId',
-        templateUrl: 'app/post/post.html',
-        controller: 'PostController',
-        controllerAs: 'postVm'
-      })
-      .state('new', {
-        url: '/new',
-        params: {
-          relation: null
-        },
-        templateUrl: 'app/compose/compose.html',
-        controller: 'ComposeController',
-        controllerAs: 'compose'
-      })
-      .state('new-related', {
-        url: '/new/:relation',
-        params: {
-          relation: null
-        },
-        templateUrl: 'app/compose/compose.html',
-        controller: 'ComposeController',
-        controllerAs: 'compose'
-      })
-      .state('profile', {
-        url: '/profile',
-        templateUrl: 'app/account/profile/profile.html',
-        controller: 'AccountProfileController',
-        controllerAs: 'account_profile'
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages'
       });
 
     $urlRouterProvider.otherwise('/');

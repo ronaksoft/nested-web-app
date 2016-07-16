@@ -3,9 +3,13 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function ($q, $scope, NstSvcLoader, NstSvcPlaceFactory) {
+    .controller('SidebarController', function ($q, $scope, $state, $stateParams, $location,
+                                               NstSvcLoader, NstSvcPlaceFactory) {
       var vm = this;
-      vm.tpl = 'app/components/nested/place/row.html';
+
+      if ('_' == $stateParams.placeId) {
+        $state.go(getUnfilteredState());
+      }
 
       // TODO: Here is what we need to build the sidebar
       //    1. User Places
@@ -13,6 +17,12 @@
       //    3. User Profile
 
       $q.all([getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
+        vm.urls = {
+          unfiltered: $state.href(getUnfilteredState()),
+          bookmarks: $state.href(getBookmarksState()),
+          sent: $state.href(getSentState())
+        };
+
         vm.places = mapPlaces(resolvedSet[0]);
         vm.invitations = mapInvitations(resolvedSet[1]);
       });
@@ -50,9 +60,58 @@
         return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
       }
 
+      function getPlaceFilteredState() {
+        var state = 'place-messages';
+        switch ($state.current.name) {
+          case 'activity':
+          case 'place-activity':
+            state = 'place-activity';
+            break;
+        }
+
+        return state;
+      }
+
+      function getUnfilteredState() {
+        var state = 'messages';
+        switch ($state.current.name) {
+          case 'activity':
+          case 'place-activity':
+            state = 'activity';
+            break;
+        }
+
+        return state;
+      }
+
+      function getBookmarksState() {
+        var state = 'messages-bookmarks';
+        switch ($state.current.name) {
+          case 'activity':
+          case 'place-activity':
+            state = 'activity-bookmarks';
+            break;
+        }
+
+        return state;
+      }
+
+      function getSentState() {
+        var state = 'messages-sent';
+        switch ($state.current.name) {
+          case 'activity':
+          case 'place-activity':
+            break;
+        }
+
+        return state;
+      }
+
       /*****************************
        *****     Map Methods    ****
        *****************************/
+
+      console.log('State: ', $state.current, $stateParams);
 
       function mapPlaces(places, depth) {
         depth = depth || 0;
@@ -60,6 +119,7 @@
         var placesClone = Object.keys(places).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
           var place = places[k];
           place.depth = depth;
+          place.url = $state.href(getPlaceFilteredState(), { placeId: place.getId() });
           place.isCollapsed = true;
           place.isFirstChild = 0 == i;
           place.isLastChild = (arr.length - 1) == i;
