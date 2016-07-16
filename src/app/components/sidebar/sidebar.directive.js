@@ -22,7 +22,12 @@
        *****************************/
 
       vm.range = function (num) {
-        return new Array(num);
+        var seq = [];
+        for (var i = 0; i < num; i++) {
+          seq.push(i);
+        }
+
+        return seq;
       };
 
       vm.acceptInvitation = function (invitation) {
@@ -55,6 +60,7 @@
         var placesClone = Object.keys(places).filter(function (k) { return 'length' !== k; }).map(function (k) {
           var place = places[k];
           place.depth = depth;
+          place.collapsed = true;
           place.children = mapPlaces(place.children, depth + 1);
 
           return place;

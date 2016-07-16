@@ -81,11 +81,11 @@
         BASE_URL: this.url,
         SESSION_KEY: NstSvcServer.getSessionKey(),
         UNIVERSAL_ID: universalId,
-        TOKEN: token.getString()
+        TOKEN: token.getString() || ''
       };
 
       for (var k in replace) {
-        pattern = pattern.replace(k, replace[k]);
+        pattern = pattern.replace('{{' + k + '}}', replace[k]);
       }
 
       return pattern;

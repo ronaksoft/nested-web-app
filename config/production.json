@@ -5,7 +5,7 @@
       "URL": "wss://cyrus.nested.me:443"
     },
     "STORE": {
-      "URL": "https://xerxes.nested.me"
+      "URL": "http://xerxes.nested.me"
     }
   }
 }

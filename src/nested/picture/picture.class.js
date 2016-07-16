@@ -33,9 +33,9 @@
       /**
        * Picture Thumbnails' Resources
        *
-       * @type {NstStoreResource[]}
+       * @type {size: NstStoreResource}
        */
-      this.thumbnails = [];
+      this.thumbnails = {};
 
       NstObservableObject.call(this);
 
@@ -67,6 +67,7 @@
      * @returns {Picture}
      */
     Picture.prototype.setThumbnail = function (size, resource) {
+      size = Number(String(size).replace(/[a-zA-Z]*/g, ''));
       var thumbnails = this.thumbnails;
       thumbnails['x' + size] = resource;
 
@@ -81,6 +82,8 @@
      * @returns {NstStoreResource}
      */
     Picture.prototype.getThumbnail = function (size) {
+      size = Number(String(size).replace(/[a-zA-Z]*/g, ''));
+
       return this.thumbnails['x' + size];
     };
 
