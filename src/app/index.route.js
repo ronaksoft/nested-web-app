@@ -46,6 +46,20 @@
       })
 
       /*****************************
+       *****     Post Routes    ****
+       *****************************/
+
+      .state('post', {
+        url: '/message/:postId',
+        params: {
+          postId: '_'
+        },
+        templateUrl: 'app/post/post.html',
+        controller: 'PostController',
+        controllerAs: 'ctlPost'
+      })
+
+      /*****************************
        *****  Activity Routes   ****
        *****************************/
 
@@ -166,6 +180,20 @@
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
+      })
+
+      /*****************************
+       *****   Search Routes    ****
+       *****************************/
+
+      .state('search', {
+        url: '/search/:query',
+        params: {
+          query: '_'
+        },
+        templateUrl: 'app/search/search.html',
+        controller: 'SearchController',
+        controllerAs: 'ctlSearch'
       });
 
     $urlRouterProvider.otherwise('/');
