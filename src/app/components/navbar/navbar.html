@@ -1,8 +1,22 @@
+<div class="nst-topnav _difh ng-class:{ 'bg-hur': topNavOpen }">
+  <div class="_fw _df">
+    <div ng-class="topNavOpen ? 'icon-close-search' : 'icon icon-top hamburger-icon'" ng-click="topNavOpen =! topNavOpen"></div>
+  </div>
+  <div class="_fw _jcc _df">
+    <a href="#/"><div id="Logo-white"></div></a>
+  </div>
+  <div class="_fw _df">
+    <a ng-if="!topNavOpen" href="#/new"><div class="icon icon-top comp-icon _df"></div></a>
+    <a ng-if="topNavOpen" href="#/profile"><div class="profile-menu-edit-profile"></div></a>
+    <a ng-if="topNavOpen" href="#/signout"><div class="profile-menu-signout"></div></a>
+  </div>
+</div>
+<nested-navbar-top></nested-navbar-top>
 <div class="nst-navbar _df">
   <div class="nst-content">
     <div class="content">
       <div class="navbar-top _df">
-        <div class="title-bar _difh _fw">
+        <div class="title-bar _difh _fw" ng-if="false">
           <div class="logo-bar _df">
             <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
                  data-font-size="16"/>
@@ -10,6 +24,15 @@
           <div class="name _fw _difv _jcc">
             <a class="_df _tr">Ronak software Group</a>
             <span class="nst-mood-storm _df _tr" data-ng-bind="events.place.id + 'ronak@nested.me'"></span>
+          </div>
+        </div>
+        <div class="title-bar _difh _fw" ng-if="true">
+          <div class="logo-bar _df">
+            <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
+                 data-font-size="16"/>
+          </div>
+          <div class="name _fw _difv _jcc">
+            <a class="_df _tr">All Places</a>
           </div>
         </div>
       </div>
@@ -22,12 +45,12 @@
 
           <div class="menu-links-btn _dib li-hover" ng-class="messages ? 'selected' : null"><a href="#/messages">Messages</a></div>
           <div class="menu-links-btn _dib li-hover" ng-class="events ? 'selected' : null"><a href="#/activity">Activity</a></div>
-          <div class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null"><a href="#/place/{{events.place.id}}">Option</a></div>
+          <div ng-show="events.place.id" class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null"><a href="#/place/{{events.place.id}}">Settings</a></div>
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">
           <input class="form-control" placeholder="Search in Ronak Software Group..." type="text"/>
           <i ng-click="messages.srch('overlay', 'inputsearch');" id="action-search"
-             class="_pa _left icon-close form-control-feedback"></i>
+             class="_pa _left icon-close-search form-control-feedback"></i>
           <div class="search-part1">
             <ul class="list-unstyled">
               <li>
@@ -52,7 +75,7 @@
                 </div>
                 <div class="name _fw _difv _jcc _di">
                   <div class="_dib">
-                    <span class="_df _tr _dib _italic">from</span>
+                    <i class="_df _tr _dib">from</i>
                     <span class="_df _tr _dib nst-mood-cheerful">Ehsan Nouredin Musa</span>
                     <span class="nst-mood-storm _df _tr _dib" data-ng-bind="events.place.id + '@ehsannm'"></span>
                   </div>
@@ -90,48 +113,41 @@
 
           </div>
         </div>
-
       </div>
+
+      <div class="navbar-bottom" id="nav-com">
+        <div class="_df _fw">
+          <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
+        </div>
+        <div class="_df _fn">
+          <a href="javascript:void(0);" class="_fr btn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
+        </div>
+        <div class="_df _fn">
+          <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">Send</a>
+        </div>
+      </div>
+
+      <div class="navbar-bottom" id="nav-prof">
+        <div class="_df _fw">
+          <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
+        </div>
+      </div>
+
+      <div class="navbar-bottom" id="nav-option">
+        <div class="_df _fw">
+          <a href="#/events" class="btn-white-nav nst-mood-storm">Back</a>
+        </div>
+        <div class="_df">
+          <a href="javascript:void(0);" class="_fr btn-white-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">
+            <span class="_dib _vat">Leave</span>
+            <div class="_dib option-leave-icon"></div>
+          </a>
+        </div>
+      </div>
+
+
     </div>
     <div class="content-plus">
     </div>
   </div>
 </div>
-<!--<div class="nst-nav">
-  <div class="_dt">
-    <div class='_dtr'>
-      <div class="_dtc">
-        <div id="Header" class="_dt _fw">
-          <div class="firstnav">
-
-            <div id='Logo'>
-              <a href="#/"><img id="Pic" src="../assets/images/NestedLogo.svg"/></a>
-              <a href="#/"><img id="Type" src="../assets/images/NestedType.svg"/></a>
-            </div>
-
-            <div id='PrimaryPageSelector'>
-              <ul>
-                <li ng-class="events ? 'selected' : null">
-                  <a href="#/events">Activity</a>
-                </li>
-                <li ng-class="places ? 'selected' : null">
-                  <a href="#/places">Places</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class='signin popover-green' uib-popover-template="'app/components/navbar/menu.html'" data-popover-placement="bottom-left auto" popover-trigger="outsideClick">
-              <ul class="list-inline text-right">
-                <li><span class="_pr nst-menu-arrow _dib top-nav"></span></li>
-                <li><p class="nst-mood-cheerful nav-profile">{{user.fullname}}</p></li>
-                <li>
-                  <img initials="user.fullname" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>-->

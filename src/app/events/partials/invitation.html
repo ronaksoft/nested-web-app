@@ -1,18 +1,29 @@
-<div class="actdes">
-  <div class="ico">
-    <div class="ei-invite"></div>
-  </div>
-  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = invitaion.inviter"></div>
-</div>
-<div class="actcon">
-  <div class="msg">
-    <div class="subject">
-      <span class="nst-mood-simple">Invited you to&nbsp;</span>
-      <a class="nst-mood-solid post" href="#/events/{{invitaion.place.id}}" data-ng-bind-html="invitaion.place.name"></a>
+<div id="delete-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw force">Confirm invitation</p>
+      <div class="_df" ng-click="cancel()"><img src="../assets/icons/close.svg"></div>
     </div>
-  </div>
-  <div class="places">
-    <button class="btn-green" data-ng-click="events.decideInvite(invitaion, true)">Accept</button>
-    <button class="btn-white" data-ng-click="events.decideInvite(invitaion, false)">Decline</button>
+    <div class="_difv _fw">
+      <div class="_fw _df">
+        <img data-ng-if="place.picture.org.uid" class="account-initials-64" src="{{place.picture.x64.url}}"/>
+        <div data-ng-if="!place.picture.org.uid" class="account-initials-64 _dib room-pic">{{place.name | initials:2}}</div>
+        <div class="_dib">
+          <h4 href="#/events/{{invitaion.place.id}}">{{invitaion.place.name|| 'empty'}}</h4>
+          <h5 class="nst-mood-storm">{{invitaion.place.id + '@nested.me'}}</h5>
+        </div>
+      </div>
+      <div class="_fw _difv _jcc nst-mood-storm modal-detail">
+        <a class="nst-mood-solid post">You are invited to this place by : {{invitaion.inviter}}</a>
+        <span class="_df">You are invited to this place by : {{invitaion.inviter}}</span>
+      </div>
+      <div class="_difh _jcc">
+        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
+          <div class="btn-white _jcc _df" ng-click="accept()"><a class="_df">Decline</a></div>
+          <div class="btn-green _jcc _df" ng-click="decline()"><a class="_df">Accept</a></div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>

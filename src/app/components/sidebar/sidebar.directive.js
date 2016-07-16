@@ -5,16 +5,39 @@
     .module('nested')
     .controller('SidebarController', function ($q, $scope, NstSvcLoader, NstSvcPlaceFactory) {
       var vm = this;
+      vm.tpl = 'app/components/nested/place/row.html';
 
-      $q.all([getMyPlaces()]).then(function (resolvedSet) {
+      // TODO: Here is what we need to build the sidebar
+      //    1. User Places
+      //    2. User Invitations
+      //    3. User Profile
+
+      $q.all([getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
         vm.places = mapPlaces(resolvedSet[0]);
+        vm.invitations = mapInvitations(resolvedSet[1]);
       });
+
+      /*****************************
+       ***** Controller Methods ****
+       *****************************/
+
+      vm.acceptInvitation = function (invitation) {
+        return decideInvitation(invitation, true);
+      };
+
+      vm.declineInvitation = function (invitation) {
+        return decideInvitation(invitation, false);
+      };
 
       /*****************************
        *****    Fetch Methods   ****
        *****************************/
 
       function getMyPlaces() {
+        return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
+      }
+
+      function getInvitations() {
         return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
       }
 
@@ -26,40 +49,55 @@
 
       }
 
-      // TODO: delete all commented lines
-      // TODO: here is waht we need to build the sidebar
-      //          1. An array of places
-      //          2. The authenticated user profile
+      function mapInvitations(invitations) {
 
-      // vm.places = [];
-      // vm.tpl = 'app/components/nested/place/row.html';
-      //
-      // var memory = new NstStorage(NST_STORAGE_TYPE.MEMORY);
-      // memory.setFetchFunction(function (id) {
-      //   switch (id) {
-      //     case 'places':
-      //       return NstSvcServer.request('account/get_my_places', {}).then(function (data) {
-      //         var places = [];
-      //         for (var k in data.places) {
-      //           places.push(new NestedPlace(data.places[k]));
-      //         }
-      //
-      //         return $q(function (res) {
-      //           res(this.places);
-      //         }.bind({ places: places }));
-      //       });
-      //       break;
-      //
-      //     default:
-      //       return $q(function (res, rej) {
-      //         rej(id);
-      //       });
-      //       break;
+      }
+
+      /*****************************
+       *****    Other Methods   ****
+       *****************************/
+
+      function decideInvitation(invitation, accept) {
+
+      }
+
+      // // Invitations
+      // $scope.invitations = {
+      //   length: 0,
+      //   invites: {}
+      // };
+      // LoaderService.inject(WsService.request('account/get_invitations').then(function (data) {
+      //   for (var k in data.invitations) {
+      //     if (data.invitations[k].place._id) {
+      //       var invitation = new NestedInvitation(data.invitations[k]);
+      //       $scope.invitations.invites[invitation.id] = invitation;
+      //       $scope.invitations.length++;
+      //     }
       //   }
-      // });
-      // memory.get("places").then(function (value) {
-      //   vm.places = value;
-      // });
+      //
+      //   return $q(function (res) {
+      //     res();
+      //   });
+      // }));
+      // $scope.decideInvite = function (invitation, accept) {
+      //   return invitation.update(accept).then(function (invitation) {
+      //     $scope.invitations.length--;
+      //     delete $scope.invitations.invites[invitation.id];
+      //   });
+      // };
+      //
+      // $scope.inviteModal = function () {
+      //
+      //   $uibModal.open({
+      //     animation: false,
+      //     templateUrl: 'app/events/partials/invitation.html',
+      //     controller: 'InvitationController',
+      //     size: 'sm',
+      //     scope: $scope
+      //   }).result.then(function () {
+      //     return $location.path('/').replace();
+      //   });
+      // };
 
     })
     .directive('nestedSidebar', nestedSidebar);
@@ -71,7 +109,7 @@
       restrict: 'E',
       templateUrl: 'app/components/sidebar/sidebar.html',
       controller: 'SidebarController',
-      controllerAs: 'sidebarCtrl',
+      controllerAs: 'ctrlSidebar',
       bindToController: true
     };
   }

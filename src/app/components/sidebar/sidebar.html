@@ -1,10 +1,12 @@
-<div class="sidebar _difh">
+<div class="sidebar _df">
   <div class="sidebar-wrapper">
     <div class="side-top">
       <div class="nested-logo">
-        <div id="Logo"></div>
+        <a href="#/">
+          <div id="Logo"></div>
+        </a>
       </div>
-      <div class="compose"><a class="btn-green onlyExpand _tr" id="compose" href="#/new"><div class="icon icon-compose _df"></div><div class="onlyExpand _df">Compose</div> </a></div>
+      <div class="compose"><a class="btn-green onlyExpand _tr" id="compose" href="#/new"><div class="icon icon-side icon-compose _df"></div><div class="onlyExpand _df">Compose</div> </a></div>
     </div>
     <div class="side-place-wrapper _fw">
       <div class='side-menu'>
@@ -310,6 +312,16 @@
           </div>
         </li>
       </ul>
+      <ul class="side-place" data-ng-if="invitations.length > 0 && !events.place.id">
+        <li class="side-place-item" data-ng-repeat="invitaion in invitations.invites">
+          <div class="side-place-invite-item-inner" ng-click="inviteModal()">
+            <div class="side-place-item-image">
+              <img initials="SalPersonal" data-url="place.picture.x32.url" data-width="40" data-height="40" data-radius="20" class="account-initials-40" data-word-count="2" data-font-size="16"/>
+            </div>
+            <a class="_fw">Pending place invitation</a>
+          </div>
+        </li>
+      </ul>
     </div>
     <div class="side-profile">
       <div class="_difh _fw" ng-show="profileMenu">
@@ -327,7 +339,7 @@
           <div class="icon icon-solid icon-more" ng-click="profileMenu =! profileMenu"></div>
         </div>
       </div>
-      <div class="_df _fn _fw _jcc" ng-click="chngSideView(); sideView =! sideView">
+      <div class="_df _fn _fw _jcc" ng-click="sideView =! sideView">
         <div ng-show="!sideView" class="nst-arrow-rotated-90"></div>
         <div ng-show="sideView" class="nst-arrow-rotated-270"></div>
       </div>
