@@ -59,8 +59,8 @@
             this.contentType = data.content_type;
             this.body = data.body;
             this.internal = data.internal;
-            this.date = new Date(data['time-stamp'] * 1e3);
-            this.updated = new Date(data['last-update'] * 1e3);
+            this.date = new Date(data['time-stamp']);
+            this.updated = new Date(data['last-update']);
             this.counters = data.counters || this.counters;
             this.moreComments = this.counters.comments > -1 ? this.counters.comments > this.comments.length : true;
             this.monitored = data.monitored;

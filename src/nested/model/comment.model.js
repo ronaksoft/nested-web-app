@@ -43,7 +43,7 @@
               picture: data.sender_picture
             });
             this.body = data.text;
-            this.date = new Date(data.time * 1e3);
+            this.date = new Date(data.time);
 
             this.change();
           } else if (data.hasOwnProperty('status')) {

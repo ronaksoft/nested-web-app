@@ -55,7 +55,7 @@
             this.size = data.size;
             this.status = data.status;
             this.storeId = data.store_id;
-            this.uploadTime = new Date(data.upload_time * 1e3);
+            this.uploadTime = new Date(data.upload_time);
             this.uploader = new NestedUser({ username: data.uploader });
             if (data.thumbs) {
               this.thumbs = {
