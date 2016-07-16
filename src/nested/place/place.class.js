@@ -16,6 +16,13 @@
      */
     function Place(data) {
       /**
+       * Place's description
+       *
+       * @type {undefined|String}
+       */
+      this.description = undefined;
+
+      /**
        * Place's privacy
        *
        * @type {NstPlacePrivacy}

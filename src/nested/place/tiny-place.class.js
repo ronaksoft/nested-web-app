@@ -30,13 +30,6 @@
       this.name = undefined;
 
       /**
-       * Place's description
-       *
-       * @type {undefined|String}
-       */
-      this.description = undefined;
-
-      /**
        * Place's Picture
        *
        * @type {undefined|NstPicture}
