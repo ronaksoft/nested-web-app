@@ -21,6 +21,10 @@
        ***** Controller Methods ****
        *****************************/
 
+      vm.range = function (num) {
+        return new Array(num);
+      };
+
       vm.acceptInvitation = function (invitation) {
         return decideInvitation(invitation, true);
       };
@@ -45,8 +49,18 @@
        *****     Map Methods    ****
        *****************************/
 
-      function mapPlaces(places) {
+      function mapPlaces(places, depth) {
+        depth = depth || 0;
 
+        var placesClone = Object.keys(places).filter(function (k) { return 'length' !== k; }).map(function (k) {
+          var place = places[k];
+          place.depth = depth;
+          place.children = mapPlaces(place.children, depth + 1);
+
+          return place;
+        });
+
+        return placesClone;
       }
 
       function mapInvitations(invitations) {
@@ -109,7 +123,7 @@
       restrict: 'E',
       templateUrl: 'app/components/sidebar/sidebar.html',
       controller: 'SidebarController',
-      controllerAs: 'ctrlSidebar',
+      controllerAs: 'ctlSidebar',
       bindToController: true
     };
   }

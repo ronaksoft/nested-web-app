@@ -371,7 +371,6 @@
         place.setNew(false);
         place.setId(placeData._id);
         place.setName(placeData.name);
-        place.setDescription(placeData.description);
 
         if (angular.isObject(placeData.picture)) {
           place.setPicture(placeData.picture);

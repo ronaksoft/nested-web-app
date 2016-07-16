@@ -1,0 +1,15 @@
+<div class="side-place-item-inner">
+  <div class="side-place-item-image"
+       data-ng-include="'app/components/sidebar/picture.html'" onload="place = place; size = 40"></div>
+  <a class="_fw">{{place.getName()}}</a>
+  <span data-ng-if="place.children.length > 0" class="e2-arrow _df">
+    <label data-ng-model="colp"
+           class="arrow-holder-nav {{colp ? 'nst-arrow-rotated' : 'nst-arrow'}}"
+           data-ng-click="colp =! colp">
+    </label>
+  </span>
+</div>
+<ul class="side-place" data-ng-if="place.children.length > 0" data-ng-show="colp || true">
+  <li class="side-place-item" data-ng-repeat="child in place.children"
+      data-ng-include="'app/components/sidebar/subplace.html'" onload="place = child"></li>
+</ul>
