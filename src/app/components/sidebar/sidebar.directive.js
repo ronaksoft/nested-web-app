@@ -57,10 +57,12 @@
       function mapPlaces(places, depth) {
         depth = depth || 0;
 
-        var placesClone = Object.keys(places).filter(function (k) { return 'length' !== k; }).map(function (k) {
+        var placesClone = Object.keys(places).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
           var place = places[k];
           place.depth = depth;
-          place.collapsed = true;
+          place.isCollapsed = true;
+          place.isFirstChild = 0 == i;
+          place.isLastChild = (arr.length - 1) == i;
           place.children = mapPlaces(place.children, depth + 1);
 
           return place;
