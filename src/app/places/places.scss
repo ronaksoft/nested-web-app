@@ -12,18 +12,6 @@
   background-repeat: no-repeat;
 }
 
-#place-bg {
-  background-color: $color-breeze-50;
-}
-
-#container-places {
-  max-width: 1920px;
-  min-width: 990px;
-  margin: auto;
-  height: 100%;
-  width: 100%;
-}
-
 #AllPlaces {
   min-width: 574px;
   overflow-y: scroll;
@@ -34,104 +22,52 @@
 .placearrow {
   width: 40px;
 }
-#AllPlaces li div div:only-of-type{
+ul.top-nav-places li div div:only-of-type{
   animation: appearence .4s ease-in;
 }
-#AllPlaces li div div:nth-child(2){
+ul.top-nav-places li div div:nth-child(2){
   animation: appearence .2s ease-in;
 }
-#AllPlaces li div div:nth-child(2) img,#AllPlaces li div div:nth-child(2) div{
-
+ul.top-nav-places li div div:nth-child(2) img,.top-nav-places li div div:nth-child(2) div{
   animation: grow-full .1s ease-in;
 }
-#AllPlaces li {
+ul.top-nav-places {
+  overflow-y: auto;
   border-bottom: 1px solid $color-calm;
   display: inline-flex;
   flex-direction: column;
   width: 100%;
-}
-#AllPlaces div {
-}
-#AllPlaces div:hover {
-background-color: $color-sense-5;
-}
-#AllPlaces > div:hover:last-child {
-  background-color: $color-white;
-}
-
-#AllPlaces ul {
-  flex-direction: column;
-  list-style: none;
   flex:1 0 auto;
-}
-#AllPlaces ul ul {
-  list-style: none;
-  padding-left: 25px;
-}
-#AllPlaces ul ul li{
-  animation: appearence .1s ease-in;
+  ul {
+    border-bottom: 1px solid $color-calm;
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    flex:1 0 auto;
+    list-style: none;
+    padding-left: 25px;
+    li {
+      animation: appearence .1s ease-in;
+    }
+  }
 }
 
-#AllPlaces .logo {
+.placerow:hover {
+  background-color: $color-sense-5;
+}
+
+.top-nav-places > div:hover:last-child {
+  //background-color: $color-white;
+}
+
+.top-nav-places .logo {
   width: 48px;
+  margin-left: 16px;
   flex: none;
   justify-content: center;
   align-items: center;
 }
 
-#AllPlaces li > table td.logo > img {
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-  vertical-align: middle;
-}
-#AllPlaces li li table {
-  max-height: 48px
-}
-#AllPlaces li li > table td.logo > img {
-  width: 32px;
-  height: 32px;
-  border-radius: 24px;
-  vertical-align: middle;
-}
-
-#AllPlaces li > table td.name {
-  min-width: 200px;
-  margin-top: 15px;
-
-}
-
-#AllPlaces li > table td.name img {
-  width: 24px;
-  height: 24px;
-  vertical-align: middle;
-}
-
-#AllPlaces li > table td.name h5 {
-  margin: 1px 5px;
-  font-weight: normal;
-  font-size: small;
-}
-
-#AllPlaces li > table td.name p {
-  margin-left: 5px;
-  //color: #787878;
-  font-size: x-small;
-}
-
-#AllPlaces .members {
-  width: 168px;
-  text-align: right;
-}
-
-#AllPlaces li > table td.members img {
-  width: 32px;
-  margin: 1px;
-}
-
-.place-members {
-  margin-right: 5px;
-}
 
 [class*=role-icon-]  {
   background: url('../assets/icons/roleicon.svg') no-repeat;
@@ -277,11 +213,10 @@ background-color: $color-sense-5;
 
 [class*=nst-arrow-]{
   background: url('../assets/icons/arrow.svg') no-repeat;
-  height: 25px;
+  height: 16px;
   width: 16px;
   cursor: pointer;
-  padding: 0 0 0 5px;
-  background-size: contain;
+  background-size: cover;
 }
 .nst-arrow-rotated {
   background-position: center center;
@@ -370,13 +305,24 @@ background-color: $color-sense-5;
   margin-top: 20px;
 }
 
-.name a {
-  color: $color-solid;
+.name h5 {
+  color: #000000;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
 }
 .placerow {
   flex-direction: row;
+  height: 64px;
   background-color: $color-white;
   position: relative;
+  border-bottom: 1px solid $color-calm;
+  .option-add-icon-plc {
+    width: 42px;
+    height: 42px;
+    background-position: 0 -84px;
+    background-size: cover;
+  }
 }
 .properties {
   width: 100px;

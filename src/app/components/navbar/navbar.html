@@ -1,20 +1,22 @@
 <div class="nst-topnav _difh">
   <div class="_fw _df">
-    <div class="icon icon-top hamburger-icon" ng-click="open('top-nav-container');"></div>
+    <div ng-class="topNavOpen ? 'icon-close-search' : 'icon icon-top hamburger-icon'" ng-click="topNavOpen =! topNavOpen"></div>
   </div>
   <div class="_fw _jcc _df">
     <a href="#/"><div id="Logo-white"></div></a>
   </div>
   <div class="_fw _df">
-    <a href="#/new"><div class="icon icon-top comp-icon _df"></div></a>
+    <a ng-if="!topNavOpen" href="#/new"><div class="icon icon-top comp-icon _df"></div></a>
+    <a ng-if="topNavOpen" href="#/profile"><div class="profile-menu-edit-profile"></div></a>
+    <a ng-if="topNavOpen" href="#/signout"><div class="profile-menu-signout"></div></a>
   </div>
 </div>
-<nested-navbar-top data-ng-model="navbar-top"></nested-navbar-top>
+<nested-navbar-top></nested-navbar-top>
 <div class="nst-navbar _df">
   <div class="nst-content">
     <div class="content">
       <div class="navbar-top _df">
-        <div class="title-bar _difh _fw">
+        <div class="title-bar _difh _fw" ng-if="false">
           <div class="logo-bar _df">
             <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
                  data-font-size="16"/>
@@ -22,6 +24,15 @@
           <div class="name _fw _difv _jcc">
             <a class="_df _tr">Ronak software Group</a>
             <span class="nst-mood-storm _df _tr" data-ng-bind="events.place.id + 'ronak@nested.me'"></span>
+          </div>
+        </div>
+        <div class="title-bar _difh _fw" ng-if="true">
+          <div class="logo-bar _df">
+            <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
+                 data-font-size="16"/>
+          </div>
+          <div class="name _fw _difv _jcc">
+            <a class="_df _tr">All Places</a>
           </div>
         </div>
       </div>
@@ -34,7 +45,7 @@
 
           <div class="menu-links-btn _dib li-hover" ng-class="messages ? 'selected' : null"><a href="#/messages">Messages</a></div>
           <div class="menu-links-btn _dib li-hover" ng-class="events ? 'selected' : null"><a href="#/activity">Activity</a></div>
-          <div class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null"><a href="#/place/{{events.place.id}}">Option</a></div>
+          <div ng-show="events.place.id" class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null"><a href="#/place/{{events.place.id}}">Settings</a></div>
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">
           <input class="form-control" placeholder="Search in Ronak Software Group..." type="text"/>
@@ -107,14 +118,12 @@
       <div class="navbar-bottom" id="nav-com">
         <div class="_df _fw">
           <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
-          <!--<a href="javascript:void(0);" class="btn-white-nav nst-mood-storm" onclick="window.history.back();">Discard</a>-->
         </div>
-        <div class="_df">
+        <div class="_df _fn">
           <a href="javascript:void(0);" class="_fr btn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
         </div>
-        <div class="_df">
+        <div class="_df _fn">
           <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">Send</a>
-          <!--ng-disabled="myForm.$invalid"-->
         </div>
       </div>
 
@@ -127,14 +136,12 @@
       <div class="navbar-bottom" id="nav-option">
         <div class="_df _fw">
           <a href="#/events" class="btn-white-nav nst-mood-storm">Back</a>
-          <!--<a href="javascript:void(0);" class="btn-white-nav nst-mood-storm" onclick="window.history.back();">Discard</a>-->
         </div>
         <div class="_df">
           <a href="javascript:void(0);" class="_fr btn-white-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">
             <span class="_dib _vat">Leave</span>
             <div class="_dib option-leave-icon"></div>
           </a>
-          <!--ng-disabled="myForm.$invalid"-->
         </div>
       </div>
 

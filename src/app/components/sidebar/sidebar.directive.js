@@ -59,9 +59,6 @@
       $scope.range = function(n) {
         return new Array(n);
       };
-      $scope.chngSideView = function () {
-        $('.maincontainer').toggleClass('tiny');
-      };
 
     })
     .directive('nestedSidebar', nestedSidebar);

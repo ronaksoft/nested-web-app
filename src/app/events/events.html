@@ -1,4 +1,4 @@
-<div class="maincontainer _fw _fh">
+<div class="maincontainer _fw _fh ng-class:{ 'tiny': sideView }">
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
   <div class="nst-container">
     <nested-navbar data-ng-model="navbar"></nested-navbar>
@@ -20,7 +20,7 @@
         </div>
 
         <section class="_fw nst-content-body _bgwhite" seen-recents>
-          <div class="_fw eventsody" id="EventList">
+          <div class="_fw eventsody _bgwhite" id="EventList">
             <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
               <div class="event-group-time col-lg-12">
                 <div class="sender">

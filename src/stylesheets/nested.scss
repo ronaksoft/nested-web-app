@@ -1144,6 +1144,7 @@ a .ui-select-choises-row-inner {
   font-size: $font-size-large;
   font-weight: 200;
   margin-left: 3px;
+  cursor: default;
 }
 .maincontainer.tiny .onlyExpand, .maincontainer.tiny .side-menu-item .item,.maincontainer.tiny .lines {
   display: none;
@@ -1165,9 +1166,10 @@ a .ui-select-choises-row-inner {
 }
 .side-place-wrapper {
   z-index: 1;
-  margin-bottom: 80px;
+  margin-bottom: 96px;
   margin-top: 112px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .side-place-wrapper a{
   text-decoration: none;
@@ -1193,8 +1195,11 @@ a .ui-select-choises-row-inner {
   justify-content: flex-start;
   //width: calc(100% - 10px);
 }
-.sidebar > .side-place > .side-place-item-inner{
+.sidebar ul li .side-place-item-inner{
   min-height: 56px;
+}
+.sidebar ul ul li .side-place-item-inner{
+  min-height: 42px;
 }
 .side-place-item {
   display: inline-flex;
@@ -1206,12 +1211,10 @@ a .ui-select-choises-row-inner {
 }
 .side-place-item-inner {
   display: inline-flex;
-  min-height: 42px;
   width: 100%;
   align-items: center;
   flex: none;
   flex-direction: row;
-  //height: 42px;
 }
 .maincontainer.tiny .side-place-item-inner a {
   display: none;
@@ -1278,7 +1281,7 @@ a .ui-select-choises-row-inner {
   }
 }
 .maincontainer.tiny .e2-arrow label {
-  opacity: .5;
+  opacity: .2;
 }
 .maincontainer.tiny .sidebar:hover .e2-arrow label {
   opacity: 1;
@@ -1331,9 +1334,8 @@ a .ui-select-choises-row-inner {
   }
 }
 .side-profile > div {
-  margin: 4px 0;
-  padding-left: 15px;
-  height: 32px;
+  padding: 4px 0 4px 15px;
+  height: 48px;
   align-items: center;
   justify-content: center;
   transition: .3s;
@@ -1860,3 +1862,6 @@ a.normal-badge {
   }
 }
 
+.first-child {
+  margin-top: 20pxa;
+}

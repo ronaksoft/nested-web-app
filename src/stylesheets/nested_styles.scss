@@ -31,8 +31,7 @@
 
 .icon {
   color: $color-breeze;
-  width: 24px;
-  height: 24px;
+  background-size: cover;
 }
 
 .icon-side {
@@ -40,26 +39,9 @@
   background-repeat: no-repeat;
   margin: 0 5px 0 15px;
   flex: none;
+  width: 24px;
+  height: 24px;
 }
-.icon-top {
-  fill: white;
-  width: 32px;
-  height: 32px;
-  background-size: contain;
-}
-
-.hamburger-icon {
-  background-image: url("../assets/icons/hamburger.svg");
-  background-repeat: no-repeat;
-  flex: none;
-}
-
-.icon-compose {
-  background-image: url("../assets/icons/btnicon.svg");
-  background-repeat: no-repeat;
-}
-
-
 .icon-all-place {
   background-position: 0 0px;
 }
@@ -71,6 +53,48 @@
 .icon-sent {
   background-position: 0 -48px;
 }
+.icon-top-action {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-repeat: no-repeat;
+  flex: none;
+  width: 48px;
+  height: 48px;
+}
+.icon-top-all-place {
+  background-position: 0 0px;
+}
+
+.icon-top-bookmarks {
+  background-position: 0 -48px;
+}
+
+.icon-top-sent {
+  background-position: 0 -90px;
+}
+.icon-top {
+  fill: white;
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  background-image: url("../assets/icons/smallscreenhandlers.svg");
+  background-repeat: no-repeat;
+}
+
+.hamburger-icon {
+  background-position: 0 0;
+}
+.comp-icon {
+  background-position: 0 -24px;
+}
+
+.icon-compose {
+  background-image: url("../assets/icons/btnicon.svg");
+  background-repeat: no-repeat;
+  margin: 0 4px 0 0;
+  width: 20px;
+  height: 20px;
+}
+
 
 .icon-more {
   background: url('../assets/icons/nst-more-badge.svg') no-repeat;
@@ -101,7 +125,20 @@
 .icon-solid {
   fill: $color-solid;
 }
-
+.icon-post {
+  background-image: url("../assets/icons/messageact.svg");
+  background-repeat: no-repeat;
+  margin: 0 5px;
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+}
+.icon-fw {
+  background-position: 0 0;
+}
+.icon-delete-menu {
+  background-position: 0 -20px;
+}
 .badge {
   padding: 5px;
 }
@@ -233,12 +270,16 @@
 
 .nst-topnav {
   width: 100%;
+  display: flex;
+  flex: none;
   position: fixed;
   top: 0;
   right: 0;
+  left: 0;
   height: 68px;
   background-color: #14D769;
-  z-index: 3000;
+  z-index: 52;
+  transition: .3s;
   & > div {
     height: 100%;
     align-items: center;
@@ -253,7 +294,56 @@
     justify-content: flex-end;
   }
 }
+#top-nav-container {
+  position: fixed;
+  z-index: 100;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  top: 68px;
+  background-color: $color-breeze-50;
+  padding: 8px 0;
+  overflow: hidden;
+  &.ng-inter {
+    animation: appearence .5s;
+  }
+}
 
+.top-nav-actions {
+  height: 128px;
+  a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px;
+    align-items: center;
+    justify-content: center;
+    .top-nav-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      div {
+        flex: none;
+      }
+    }
+    &>div:first-child {
+      height: calc(100% - 30px);
+    }
+    span {
+      height: 30px;
+      flex: none;
+      color: #000000;
+      text-align: center;
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 300;
+    }
+  }
+  & > div:last-child {
+    align-items: flex-end;
+  }
+}
 /**
   ******************************
   *  navbar
@@ -291,6 +381,9 @@ a {
   .nst-topnav{
     display: none;
   }
+  #top-nav-container {
+    display: none;
+  }
 }
 .maincontainer.tiny {
   .nst-navbar{
@@ -305,13 +398,11 @@ a {
 .navbar-top {
   height: 122px;
   transition: .3s;
-  z-index: 5;
   align-items: center;
 }
 
 .navbar-bottom {
   height: 66px;
-  z-index: 5;
   display: inline-flex;
   flex-direction: row;
 }
@@ -589,6 +680,9 @@ ul ul li:last-child{
   ******************************
  */
 
+.p {
+  margin: 0;
+}
 .filter-bar {
   height: 50px;
 }
@@ -605,6 +699,10 @@ ul ul li:last-child{
   margin-right: 25px;
 }
 
+
+//.filter-bar-hld .viewicon-,.viewicon-sort,.viewicon-filter {
+//  @extend .margin-l-15;
+//}
 
 [class*='icon-viewicon-']{
   background: url('../assets/icons/viewicon.svg');
@@ -634,6 +732,7 @@ ul ul li:last-child{
   align-items: center;
   cursor: pointer;
   box-sizing: border-box;
+  border: 1px solid transparent;
 
 }
 .iconsblock-right {
@@ -641,7 +740,7 @@ ul ul li:last-child{
 }
 
 .iconsblock:hover {
-  border: 1px solid $color-breeze;
+  border-color: $color-breeze;
   border-radius: 5px;
   background-color: white;
 }
@@ -652,22 +751,6 @@ ul ul li:last-child{
 
 .icon-position {
   height: 40px;
-}
-
-.list-items {
-  height: 30px;
-  padding: 5px 10px;
-  width: 100%;
-  color: $color-hurricane;
-}
-
-.list-items:hover {
-  background-color: $color-sense-5;
-  color: $color-solid;
-}
-.spansetting {
-  height: 30px;
-  padding: 5px 10px;
 }
 
 
@@ -707,7 +790,7 @@ ul ul li:last-child{
     min-width: 600px;
   }
   #content-wrapper {
-    margin-top: 220px
+    margin-top: 200px
   }
 }
 
@@ -890,6 +973,7 @@ ul ul li:last-child{
   position: absolute;
   z-index: 34;
   height: 20px;
+  top: -1px;
 }
 .post-card .post-card-badge a{
   cursor: pointer;
@@ -1016,10 +1100,6 @@ ul ul li:last-child{
   ******************************
  */
 
-.popover-content {
-  padding: 0;
-}
-
 .popover-white-nst + .popover {
   background: $color-white;
   border-radius: 6px 0px 6px 6px;
@@ -1027,9 +1107,8 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -94px !important;
+  left: -116px !important;
   z-index: 37;
-  padding: 0;
 }
 
 .popover-white-nst-msg + .popover {
@@ -1039,14 +1118,13 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: 22px !important;
+  left: 0 !important;
   z-index: 37;
-  box-sizing: inherit;
 }
 
 
 .popover-white-nst-setting {
-  width: 210px;
+  width: 206px;
 }
 
 .popover-white-nst-sort + .popover{
@@ -1056,7 +1134,7 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -56px !important;
+  left: -79px !important;
   z-index: 36;
 }
 
@@ -1068,12 +1146,13 @@ ul ul li:last-child{
 }
 
 .ul-popover label {
-  width: 300px;
+  width: 100px;
   float: left;
 }
 
 .ul-popover li:hover {
   background-color: $color-sense-5;
+  width: 206px;
   color: $color-solid;
 }
 
@@ -1084,12 +1163,11 @@ ul ul li:last-child{
   position: absolute;
 }
 .line-popover {
+  width: 206px;
   height: 1px;
   background-color: $color-breeze-50;
-  margin: 5px 0;
-  width: 100%;
-
-
+  position: absolute;
+  bottom: 55px;
 }
 
 label + input[type="checkbox"]  {
@@ -1099,7 +1177,7 @@ label + input[type="checkbox"]  {
   min-width: 17px;
   padding: 0 0 0 17px;
   font-size: $font-size-small;
-  color: $color-force-wire;
+  color: $color-solid;
 }
 
 label + input[type="checkbox"]:checked  {
