@@ -35,24 +35,6 @@
        *****   Places Routes    ****
        *****************************/
 
-      .state('place-messages', {
-        url: '/places/:placeId/messages',
-        params: {
-          placeId: '_'
-        },
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages'
-      })
-      .state('place-activity', {
-        url: '/places/:placeId/activity',
-        params: {
-          placeId: '_'
-        },
-        templateUrl: 'app/events/events.html',
-        controller: 'ActivityController',
-        controllerAs: 'ctlActivity'
-      })
       .state('place-settings', {
         url: '/places/:placeId/settings',
         params: {
@@ -69,17 +51,48 @@
 
       .state('activity', {
         url: '/activity',
-        params: {
-          filter: '!$all'
-        },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity'
       })
       .state('activity-bookmarks', {
         url: '/activity/bookmarks',
+        templateUrl: 'app/events/events.html',
+        controller: 'ActivityController',
+        controllerAs: 'ctlActivity'
+      })
+      .state('activity-bookmarks-filtered', {
+        url: '/activity/bookmarks/:filter',
         params: {
-          filter: '!$all'
+          filter: '_'
+        },
+        templateUrl: 'app/events/events.html',
+        controller: 'ActivityController',
+        controllerAs: 'ctlActivity'
+      })
+      .state('activity-filtered', {
+        url: '/activity/:filter',
+        params: {
+          filter: '_'
+        },
+        templateUrl: 'app/events/events.html',
+        controller: 'ActivityController',
+        controllerAs: 'ctlActivity'
+      })
+      .state('place-activity', {
+        url: '/places/:placeId/activity',
+        params: {
+          placeId: '_'
+        },
+        templateUrl: 'app/events/events.html',
+        controller: 'ActivityController',
+        controllerAs: 'ctlActivity'
+      })
+      .state('place-activity-filtered', {
+        url: '/places/:placeId/activity/:filter',
+        params: {
+          placeId: '_',
+          filter: '_'
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
@@ -92,17 +105,20 @@
 
       .state('messages', {
         url: '/messages',
-        params: {
-          filter: '!$all'
-        },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
       .state('messages-bookmarks', {
         url: '/messages/bookmarks',
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages'
+      })
+      .state('messages-bookmarks-sorted', {
+        url: '/messages/bookmarks/:sort',
         params: {
-          filter: '!$all'
+          sort: '_'
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
@@ -110,8 +126,42 @@
       })
       .state('messages-sent', {
         url: '/messages/sent',
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages'
+      })
+      .state('messages-sent-sorted', {
+        url: '/messages/sent/:sort',
         params: {
-          filter: '!$all'
+          sort: '_'
+        },
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages'
+      })
+      .state('messages-sorted', {
+        url: '/messages/:sort',
+        params: {
+          sort: '_'
+        },
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages'
+      })
+      .state('place-messages', {
+        url: '/places/:placeId/messages',
+        params: {
+          placeId: '_'
+        },
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages'
+      })
+      .state('place-messages-sorted', {
+        url: '/places/:placeId/messages/:sort',
+        params: {
+          placeId: '_',
+          sort: '_'
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
