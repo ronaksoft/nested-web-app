@@ -132,7 +132,6 @@
           }
 
           $q.all(promises).then(function () {
-            console.log('Resolved Places: ', arguments);
             var places = { length: arguments.length };
             for (var k in arguments) {
               places[arguments[k].getId()] = arguments[k];
@@ -209,7 +208,6 @@
           }
 
           $q.all(promises).then(function (promises) {
-            console.log('Resolved Places: ', promises);
             var places = { length: promises.length };
             for (var k in promises) {
               places[promises[k].getId()] = promises[k];
@@ -518,11 +516,6 @@
       }
     };
 
-    var service = new PlaceFactory();
-    service.getMyTinyPlaces().then(function (places) {
-      console.log('My Places: ', places);
-    });
-
-    return service;
+    return new PlaceFactory();
   }
 })();
