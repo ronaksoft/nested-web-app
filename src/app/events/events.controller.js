@@ -59,35 +59,7 @@
     }).then(function (value) {
       $scope.sidebarWidth = value;
     });
-
-    $scope.$on('angular-resizable.resizeEnd', function (event, info) {
-      storage.put("sidebarWidth", info.width);
-    });
-
-    // Invitations
-    vm.invitations = {
-      length: 0,
-      invites: {}
-    };
-    LoaderService.inject(WsService.request('account/get_invitations').then(function (data) {
-      for (var k in data.invitations) {
-        if (data.invitations[k].place._id) {
-          var invitation = new NestedInvitation(data.invitations[k]);
-          vm.invitations.invites[invitation.id] = invitation;
-          vm.invitations.length++;
-        }
-      }
-
-      return $q(function (res) {
-        res();
-      });
-    }));
-    vm.decideInvite = function (invitation, accept) {
-      return invitation.update(accept).then(function (invitation) {
-        vm.invitations.length--;
-        delete vm.invitations.invites[invitation.id];
-      });
-    };
+    
 
     vm.moreEvents = true;
     vm.eventGroups = {};

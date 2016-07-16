@@ -280,6 +280,9 @@
   background-color: #14D769;
   z-index: 52;
   transition: .3s;
+  &.bg-hur {
+    background-color: $color-hurricane;
+  }
   & > div {
     height: 100%;
     align-items: center;
@@ -753,6 +756,22 @@ ul ul li:last-child{
   height: 40px;
 }
 
+.list-items {
+  height: 30px;
+  padding: 5px 10px;
+  width: 100%;
+  color: $color-hurricane;
+}
+
+.list-items:hover {
+  background-color: $color-sense-5;
+  color: $color-solid;
+}
+.spansetting {
+  height: 30px;
+  padding: 5px 10px;
+}
+
 
 /**
   ******************************
@@ -1106,9 +1125,10 @@ ul ul li:last-child{
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-breeze;
   position: absolute;
-  top: -1px !important;
-  left: -116px !important;
+  top: 0px !important;
+  left: -92px !important;
   z-index: 37;
+  padding: 0;
 }
 
 .popover-white-nst-msg + .popover {
@@ -1118,13 +1138,13 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: 0 !important;
+  left: 22px !important;
   z-index: 37;
 }
 
 
 .popover-white-nst-setting {
-  width: 206px;
+  width: 210px;
 }
 
 .popover-white-nst-sort + .popover{
@@ -1134,7 +1154,7 @@ ul ul li:last-child{
   border-color: $color-breeze;
   position: absolute;
   top: -1px !important;
-  left: -79px !important;
+  left: -56px !important;
   z-index: 36;
 }
 
@@ -1146,13 +1166,12 @@ ul ul li:last-child{
 }
 
 .ul-popover label {
-  width: 100px;
+  width: 300px;
   float: left;
 }
 
 .ul-popover li:hover {
   background-color: $color-sense-5;
-  width: 206px;
   color: $color-solid;
 }
 
@@ -1163,11 +1182,10 @@ ul ul li:last-child{
   position: absolute;
 }
 .line-popover {
-  width: 206px;
   height: 1px;
   background-color: $color-breeze-50;
-  position: absolute;
-  bottom: 55px;
+  margin: 5px 0;
+  width: 100%;
 }
 
 label + input[type="checkbox"]  {
@@ -1177,7 +1195,7 @@ label + input[type="checkbox"]  {
   min-width: 17px;
   padding: 0 0 0 17px;
   font-size: $font-size-small;
-  color: $color-solid;
+  color: $color-force-wire;
 }
 
 label + input[type="checkbox"]:checked  {
