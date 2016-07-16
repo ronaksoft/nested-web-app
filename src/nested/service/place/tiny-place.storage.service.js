@@ -17,7 +17,6 @@
       var q = {
         id: object.id,
         name: object.name,
-        description: object.description,
         picture: object.picture
       };
       for (var k in q) {

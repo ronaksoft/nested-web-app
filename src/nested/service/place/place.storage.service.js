@@ -15,7 +15,8 @@
 
     PlaceStorage.prototype.isValidObject = function (object) {
       var q = {
-        isTiny: NstSvcTinyPlaceStorage.isValidObject(object) ? true : undefined
+        isTiny: NstSvcTinyPlaceStorage.isValidObject(object) ? true : undefined,
+        description: object.description
       };
       for (var k in q) {
         if (undefined == q[k]) {

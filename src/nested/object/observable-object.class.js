@@ -14,23 +14,23 @@
       for (var k in this) {
         if (!(this[k] instanceof Function)) {
           var uCamelCase = this.getJsName(k, true);
-          // TODO: User NstObject's instead
-          this['set' + uCamelCase] = this['set' + uCamelCase] || new (function (obj, name) {
+          // TODO: Use NstObject's instead
+          this['set' + uCamelCase] = this['set' + uCamelCase] || (function (name) {
               return function (value) {
                 var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {
                   detail: {
                     name: name,
                     newValue: value,
-                    oldValue: obj[name],
-                    target: obj
+                    oldValue: this[name],
+                    target: this
                   }
                 });
-                obj[name] = value;
-                obj.dispatchEvent(event);
+                this[name] = value;
+                this.dispatchEvent(event);
 
-                return obj;
+                return this;
               };
-            })(this, k);
+            })(k);
         }
       }
 

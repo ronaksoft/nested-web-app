@@ -35,6 +35,8 @@
        * @returns {Promise}
        */
       get: function (id) {
+        var factory = this;
+
         if (!this.requests.get[id]) {
           var query = new NstFactoryQuery(id);
 
@@ -47,7 +49,7 @@
               NstSvcServer.request('place/get_info', {
                 place_id: query.id
               }).then(function (placeData) {
-                var place = NstSvcPlaceFactory.parsePlace(placeData);
+                var place = factory.parsePlace(placeData.info);
                 NstSvcPlaceStorage.set(query.id, place);
                 resolve(place);
               }).catch(function(error) {
@@ -69,6 +71,8 @@
        * @returns {Promise}
        */
       getTiny: function (id) {
+        var factory = this;
+
         if (!this.requests.getTiny[id]) {
           var query = new NstFactoryQuery(id);
 
@@ -82,7 +86,7 @@
 
               resolve(place);
             } else {
-              NstSvcPlaceFactory.get(query.id).then(function (place) {
+              factory.get(query.id).then(function (place) {
                 place = new NstTinyPlace(place);
                 NstSvcTinyPlaceStorage.set(query.id, place);
                 resolve(place);
@@ -99,25 +103,59 @@
        * @returns {Promise}
        */
       getMyPlaces: function () {
-        function resolveMap(map) {
-          // FIXME: Here is Promise
-          var place = angular.copy(NstSvcPlaceFactory.get(map.id));
+        var factory = this;
 
-          if (map.children.length > 0) {
-            place.setChildren(map.children.map(resolveMap));
+        function resolveMap(placeIds) {
+          var deferred = $q.defer();
+          var promises = [];
+
+          for (var k in placeIds) {
+            (function (placeId) {
+              promises.push(factory.get(placeId.id).then(function (place) {
+                var placeClone = angular.copy(place);
+
+                var deferred = $q.defer();
+
+                if (placeId.children.length > 0) {
+                  resolveMap(placeId.children).then(function (places) {
+                    placeClone.setChildren(places);
+
+                    deferred.resolve(placeClone);
+                  });
+                } else {
+                  deferred.resolve(placeClone);
+                }
+
+                return deferred.promise;
+              }));
+            })(placeIds[k]);
           }
 
-          return place;
+          $q.all(promises).then(function () {
+            console.log('Resolved Places: ', arguments);
+            var places = { length: arguments.length };
+            for (var k in arguments) {
+              places[arguments[k].getId()] = arguments[k];
+            }
+
+            deferred.resolve(places);
+          });
+
+          return deferred.promise;
         }
 
-        function createMap(place) {
+        function createMap(placeData) {
+          var place = factory.parsePlace(placeData);
+
           var map = {
-            id: place._id,
+            id: place.getId(),
             children: []
           };
 
-          if (place.childs && place.childs.length > 0) {
-            map.children = place.childs.map(createMap);
+          factory.set(place);
+
+          if (placeData.childs && placeData.childs.length > 0) {
+            map.children = placeData.childs.map(createMap);
           }
 
           return map;
@@ -127,12 +165,12 @@
           this.requests.getMine = $q(function (resolve, reject) {
             var placeIds = NstSvcMyPlaceIdStorage.get('all');
             if (placeIds) {
-              resolve(placeIds.map(resolveMap));
+              resolveMap(placeIds).then(resolve);
             } else {
               NstSvcServer.request('account/get_my_places', { detail: 'full' }).then(function (data) {
                 var placeIds = data.places.map(createMap);
                 NstSvcMyPlaceIdStorage.set('all', placeIds);
-                resolve(placeIds.map(resolveMap));
+                resolveMap(placeIds).then(resolve);
               });
             }
           });
@@ -142,24 +180,59 @@
       },
 
       getMyTinyPlaces: function () {
-        function resolveMap(map) {
-          var place = angular.copy(NstSvcPlaceFactory.getTiny(map.id));
+        var factory = this;
 
-          if (map.children.length > 0) {
-            place.setChildren(map.children.map(resolveMap));
+        function resolveMap(placeIds) {
+          var deferred = $q.defer();
+          var promises = [];
+
+          for (var k in placeIds) {
+            (function (placeId) {
+              promises.push(factory.getTiny(placeId.id).then(function (place) {
+                var placeClone = angular.copy(place);
+
+                var deferred = $q.defer();
+
+                if (placeId.children.length > 0) {
+                  resolveMap(placeId.children).then(function (places) {
+                    placeClone.setChildren(places);
+
+                    deferred.resolve(placeClone);
+                  });
+                } else {
+                  deferred.resolve(placeClone);
+                }
+
+                return deferred.promise;
+              }));
+            })(placeIds[k]);
           }
 
-          return place;
+          $q.all(promises).then(function (promises) {
+            console.log('Resolved Places: ', promises);
+            var places = { length: promises.length };
+            for (var k in promises) {
+              places[promises[k].getId()] = promises[k];
+            }
+
+            deferred.resolve(places);
+          });
+
+          return deferred.promise;
         }
 
-        function createMap(place) {
+        function createMap(placeData) {
+          var place = factory.parseTinyPlace(placeData);
+
           var map = {
-            id: place._id,
+            id: place.getId(),
             children: []
           };
 
-          if (place.childs && place.childs.length > 0) {
-            map.children = place.childs.map(createMap);
+          factory.set(place);
+
+          if (placeData.childs && placeData.childs.length > 0) {
+            map.children = placeData.childs.map(createMap);
           }
 
           return map;
@@ -167,14 +240,14 @@
 
         if (!this.requests.getMine) {
           this.requests.getMine = $q(function (resolve, reject) {
-            var placeIds = NstSvcMyPlaceIdStorage.get('all');
+            var placeIds = NstSvcMyPlaceIdStorage.get('tiny');
             if (placeIds) {
-              resolve(placeIds.map(resolveMap));
+              resolveMap(placeIds).then(resolve);
             } else {
-              NstSvcServer.request('account/get_my_places', { detail: 'full' }).then(function (data) {
+              NstSvcServer.request('account/get_my_places').then(function (data) {
                 var placeIds = data.places.map(createMap);
-                NstSvcMyPlaceIdStorage.set('all', placeIds);
-                resolve(placeIds.map(resolveMap));
+                NstSvcMyPlaceIdStorage.set('tiny', placeIds);
+                resolveMap(placeIds).then(resolve);
               });
             }
           });
@@ -202,6 +275,8 @@
       },
 
       save: function (place) {
+        var factory = this;
+
         if (place.isNew()) {
           var params = {
             place_id: place.getId(),
@@ -223,7 +298,7 @@
           var query = new NstFactoryQuery(place.getId(), params);
 
           return NstSvcServer.request('place/add', params).then(function (data) {
-            var newPlace = NstSvcPlaceFactory.parsePlace(data.place);
+            var newPlace = factory.parsePlace(data.place);
 
             return $q(function (res) {
               res(NstSvcPlaceFactory.set(newPlace).get(newPlace.getId()).save());
@@ -301,17 +376,13 @@
         place.setDescription(placeData.description);
 
         if (angular.isObject(placeData.picture)) {
-          place.setPicture(placeData.picture.org, {
-            32: placeData.picture.x32,
-            64: placeData.picture.x64,
-            128: placeData.picture.x128
-          });
+          place.setPicture(placeData.picture);
         }
 
         if (placeData.parent_id) {
           var parent = NstSvcTinyPlaceStorage.get(placeData.parent_id) || NstSvcPlaceStorage.get(placeData.parent_id);
           if (!parent) {
-            parent = NstSvcPlaceFactory.parseTinyPlace({
+            parent = this.parseTinyPlace({
               _id: placeData.parent_id
             });
 
@@ -324,7 +395,7 @@
         if (placeData.grand_parent_id) {
           var grandParent = NstSvcTinyPlaceStorage.get(placeData.grand_parent_id) || NstSvcPlaceStorage.get(placeData.grand_parent_id);
           if (!grandParent) {
-            grandParent = NstSvcPlaceFactory.parseTinyPlace({
+            grandParent = this.parseTinyPlace({
               _id: placeData.grand_parent_id
             });
 
@@ -335,18 +406,19 @@
         }
 
         if (angular.isArray(placeData.childs)) {
-          var children = {};
+          var children = { length: 0 };
           for (var k in placeData.childs) {
             var child = NstSvcTinyPlaceStorage.get(placeData.childs[k]._id) || NstSvcPlaceStorage.get(placeData.childs[k]._id);
             if (!child) {
-              child = NstSvcPlaceFactory.parseTinyPlace(placeData.childs[k]);
+              child = this.parseTinyPlace(placeData.childs[k]);
             }
 
             child.setParent(place);
-            child.setGrandParent(place.getGrandPlace());
+            child.setGrandParent(place.getGrandParent());
             // TODO: Push into factory
 
             children[child.getId()] = child;
+            children.length++;
           }
 
           place.setChildren(children);
@@ -368,17 +440,13 @@
         place.setDescription(placeData.description);
 
         if (angular.isObject(placeData.picture)) {
-          place.setPicture(placeData.picture.org, {
-            32: placeData.picture.x32,
-            64: placeData.picture.x64,
-            128: placeData.picture.x128
-          });
+          place.setPicture(placeData.picture);
         }
 
         if (placeData.parent_id) {
           var parent = NstSvcPlaceStorage.get(placeData.parent_id) || NstSvcTinyPlaceStorage.get(placeData.parent_id);
           if (!parent) {
-            parent = NstSvcPlaceFactory.parseTinyPlace({
+            parent = this.parseTinyPlace({
               _id: placeData.parent_id
             });
 
@@ -391,7 +459,7 @@
         if (placeData.grand_parent_id) {
           var grandParent = NstSvcPlaceStorage.get(placeData.grand_parent_id) || NstSvcTinyPlaceStorage.get(placeData.grand_parent_id);
           if (!grandParent) {
-            grandParent = NstSvcPlaceFactory.parseTinyPlace({
+            grandParent = this.parseTinyPlace({
               _id: placeData.grand_parent_id
             });
 
@@ -402,18 +470,19 @@
         }
 
         if (angular.isArray(placeData.childs)) {
-          var children = {};
+          var children = { length: 0 };
           for (var k in placeData.childs) {
             var child = NstSvcPlaceStorage.get(placeData.childs[k]._id) || NstSvcTinyPlaceStorage.get(placeData.childs[k]._id);
             if (!child) {
-              child = NstSvcPlaceFactory.parsePlace(placeData.childs[k]);
+              child = this.parsePlace(placeData.childs[k]);
             }
 
             child.setParent(place);
-            child.setGrandParent(place.getGrandPlace());
+            child.setGrandParent(place.getGrandParent());
             // TODO: Push into factory
 
             children[child.getId()] = child;
+            children.length++;
           }
 
           place.setChildren(children);
@@ -450,7 +519,9 @@
     };
 
     var service = new PlaceFactory();
-    service.getMyPlaces().then(console.log);
+    service.getMyTinyPlaces().then(function (places) {
+      console.log('My Places: ', places);
+    });
 
     return service;
   }

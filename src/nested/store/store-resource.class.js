@@ -44,8 +44,6 @@
       NstObservableObject.call(this);
 
       this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
-        $log.debug('Resource Event Listener Context: ', this);
-
         switch (event.detail.name) {
           case 'id':
           case 'token':
