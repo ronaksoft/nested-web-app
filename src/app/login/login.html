@@ -8,26 +8,26 @@
         </div>
       </div>
       <div  class="panel-body">
-        <form accept-charset="UTF-8" role="form" data-ng-submit="login.auth()">
+        <form accept-charset="UTF-8" role="form" data-ng-submit="ctlLogin.auth()">
           <fieldset>
             <div class="form-group">
               <input type="text" class="form-control" placeholder="Username" name="username"
-                     data-ng-model="login.username"/>
+                     data-ng-model="ctlLogin.username"/>
             </div>
 
             <div class="form-group has-feedback" data-ng-model="show">
-              <input class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="login.password" placeholder="Password" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}"/>
+              <input class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="ctlLogin.password" placeholder="Password" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}"/>
               <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
             </div>
 
             <div class="form-group">
-              <input data-ng-disabled="login.progress" class="btn-green btn-lg btn-block" type="submit" value="Sign in">
+              <input data-ng-disabled="ctlLogin.progress" class="btn-green btn-lg btn-block" type="submit" value="Sign in">
             </div>
 
             <div class="row nst-vb">
               <div class="text-left _hf">
                 <input type="checkbox" id="remember" name="remember" value="remember"
-                       data-ng-model="login.remember"/>
+                       data-ng-model="ctlLogin.remember"/>
                 <label for="remember">Stay sign in</label>
               </div>
               <a class="_hf text-right nst-mood-cheerful " href="#/forgot-password">Forgot Password?</a>
@@ -35,7 +35,7 @@
           </fieldset>
         </form>
 
-        <div data-ng-if="login.message.fill" class="{{login.message.class}} _fw _tac" data-ng-bind="login.message.text"></div>
+        <div data-ng-if="ctlLogin.message.fill" class="{{ctlLogin.message.class}} _fw _tac" data-ng-bind="ctlLogin.message.text"></div>
       </div>
     </div>
   </div>

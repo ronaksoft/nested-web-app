@@ -26,8 +26,8 @@
     vm.progress = false;
 
     vm.auth = function () {
-      $scope.login.progress = true;
-      $scope.login.message.fill = false;
+      vm.progress = true;
+      vm.message.fill = false;
 
       var credentials = {
         username: vm.username,
@@ -50,24 +50,24 @@
         });
       }).catch(function (data) {
         $rootScope.$broadcast(NST_AUTH_EVENTS.loginFailed);
-        $scope.login.username = $scope.login.password = '';
-        $scope.login.progress = false;
+        vm.username = vm.password = '';
+        vm.progress = false;
 
-        $scope.login.message.fill = true;
-        $scope.login.message.class = 'nst-error-msg';
+        vm.message.fill = true;
+        vm.message.class = 'nst-error-msg';
 
         switch (data.err_code) {
           case NST_SRV_ERROR.INVALID:
-            $scope.login.message.text = 'Invalid Username or Password';
+            vm.message.text = 'Invalid Username or Password';
             break;
 
           default:
-            $scope.login.message.text = 'An error occurred in login. Please try again later';
+            vm.message.text = 'An error occurred in login. Please try again later';
             break;
         }
 
         $timeout(function () {
-          $scope.login.message.fill = false;
+          vm.message.fill = false;
         }, 5000);
       }));
     }
