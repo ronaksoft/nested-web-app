@@ -163,7 +163,10 @@
      * @returns {*} Stored object
      */
     Storage.prototype.merge = function (id, object) {
-      var tObject = angular.merge(this.get(id, {}), object);
+      var oObject = this.get(id, {});
+      var tObject = (oObject.hasOwnProperty('merge') && oObject['merge'] instanceof Function) ?
+        oObject.merge(object) : angular.merge(oObject, object);
+
       if (this.isValidObject(tObject)) {
         this.cache.set(id, tObject);
         this.dispatchEvent(new CustomEvent(NST_STORAGE_EVENT.MERGE, { detail: { object: object, id: id } }));

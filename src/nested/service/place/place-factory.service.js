@@ -263,16 +263,16 @@
     PlaceFactory.prototype.set = function (place) {
       if (place instanceof NstPlace) {
         if (this.has(place.getId())) {
-          place = this.get(place.getId()).merge(place);
+          NstSvcPlaceStorage.merge(place.getId(), place);
+        } else {
+          NstSvcPlaceStorage.set(place.getId(), place);
         }
-
-        NstSvcPlaceStorage.set(place.getId(), place);
       } else if (place instanceof NstTinyPlace) {
         if (this.hasTiny(place.getId())) {
-          place = this.getTiny(place.getId()).merge(place);
+          NstSvcTinyPlaceStorage.merge(place.getId(), place);
+        } else {
+          NstSvcTinyPlaceStorage.set(place.getId(), place);
         }
-
-        NstSvcTinyPlaceStorage.set(place.getId(), place);
       }
 
       return this;
