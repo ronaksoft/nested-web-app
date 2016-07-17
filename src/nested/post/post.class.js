@@ -3,7 +3,7 @@
 
   angular.module('nested').factory('NstPost', NstPost);
 
-  function NstPost($q, _, ATTACHMENT_STATUS, NstModel, NestedAttachment) {
+  function NstPost($q, _, ATTACHMENT_STATUS, NstModel, NstAttachment) {
 
     Post.prototype = new NstModel();
     Post.prototype.constructor = Post;
@@ -20,7 +20,7 @@
       this.replyTo = null;
       this.date = null;
       this.updated = null;
-      this.attachments = []; // [<NestedAttachment>]
+      this.attachments = []; // [<NstAttachment>]
       this.attachmentPreview = false;
       this.comments = []; // [<NstComment>]
       this.places = []; // [<NstPlace>]
@@ -65,7 +65,7 @@
        * @return {NstPost}                  post
        */
       Post.prototype.addAttachment = function(attachment) {
-        attachment = attachment instanceof NestedAttachment ? attachment : new NestedAttachment(attachment, this);
+        attachment = attachment instanceof NstAttachment ? attachment : new NstAttachment(attachment, this);
         attachment.post = this;
         this.attachments.push(attachment);
 

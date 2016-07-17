@@ -56,7 +56,7 @@
               resolve(place);
             }).catch(function(error) {
               // TODO: Handle error by type
-              rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }
         });
@@ -310,8 +310,8 @@
         }).catch(function (error) {
           // TODO: Handle error by type
 
-          return $q(function (res, rej) {
-            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          return $q(function (res, reject) {
+            reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         });
       } else {
@@ -336,8 +336,8 @@
         }).catch(function (error) {
           // TODO: Handle error by type
 
-          return $q(function (res, rej) {
-            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          return $q(function (res, reject) {
+            reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         });
       }
@@ -359,7 +359,7 @@
             NstSvcTinyPlaceStorage.remove(query.id);
           }).catch(function (error) {
             // TODO: Handle error by type
-            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         });
       }
@@ -507,9 +507,9 @@
 
     PlaceFactory.prototype.addUser = function (place, role, user) {
       if (NST_PLACE_MEMBER_TYPE.indexOf(role) < 0) {
-        return $q(function (res, rej) {
+        return $q(function (res, reject) {
           // TODO: Reject with error
-          rej();
+          reject();
         });
       }
 

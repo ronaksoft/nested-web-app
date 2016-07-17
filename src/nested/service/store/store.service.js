@@ -32,43 +32,22 @@
     Store.prototype.constructor = Store;
 
     Store.prototype.getUploadToken = function () {
-      // TODO: Remove tokens from cache on use
-      // TODO: Always cache an extra upload token to resolve immediately
+      var defer = $q.defer();
 
-      return NstSvcServer.request('store/get_upload_token').then(function (data) {
-        return $q(function (res) {
-          // TODO: Read expiration date from token itself
-          var token = new NstStoreToken(data.token, new Date(Date.now() + 3600));
-          // TODO: Cache tokens
-          res(token);
+      var rawToken = NstSvcUploadTokenStorage.get(uploadTokenKey);
+      if (rawToken) { // the token was found in cache
+        defer.resolve(createToken(rawToken));
+      } else { // get a new token for upload
+        NstSvcServer.request('store/get_upload_token').then(function(data) {
+          NstSvcUploadTokenStorage.set(uploadTokenKey, data.token);
+          defer.resolve(createToken(data.token));
+        }).catch(function(error) {
+          defer.reject(new NstFactoryError(new NstFactoryQuery(), error.message, error.code));
         });
-      });
-    };
-
-    Store.prototype.getDownloadToken = function (postId, universalId) {
-      var token = NstSvcDownloadTokenStorage.get(puidToId(postId, universalId));
-      if (token) {
-        if (!token.isExpired()) {
-          return $q(function (res) {
-            res(token);
-          });
-        }
-
-        NstSvcDownloadTokenStorage.remove(puidToId(postId, universalId))
       }
 
-      return NstSvcServer.request('store/get_download_token', {
-        post_id: postId,
-        universal_id: universalId
-      }).then(function (data) {
-        return $q(function (res) {
-          // TODO: Read expiration date from token itself
-          var token = new NstStoreToken(data.token, new Date(Date.now() + 3600));
-          NstSvcDownloadTokenStorage.set(puidToId(postId, universalId), token);
-          res(token);
-        });
-      });
-    };
+      return defer.promise;
+    }
 
     Store.prototype.resolveUrl = function (route, universalId, token) {
       var routeKey = Object.keys(NST_STORE_ROUTE).filter(function (k) { return route == NST_STORE_ROUTE[k]; }).pop();
@@ -267,10 +246,6 @@
 
       }.bind(this));
     };
-
-    function puidToId(postId, universalId) {
-      return postId + '/' + universalId;
-    }
 
     function createCORSRequest(method) {
       var xhr = new XMLHttpRequest();

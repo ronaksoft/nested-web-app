@@ -9,8 +9,8 @@
   function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout,
                              _, toastr,
                              ATTACHMENT_STATUS, NST_SRV_ERROR,
-                             NstSvcAuth, NstSvcServer, NstSvcStore,
-                             NstStoreResource, NstPost, NstPlace, NestedRecipient, NestedAttachment) {
+                             NstSvcAuth, NstSvcAttachmentFactory, NstSvcServer, NstSvcStore,
+                             NstStoreResource, NstPost, NstPlace, NestedRecipient) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -137,15 +137,23 @@
     $scope.showUploadProgress = false;
 
     $scope.deleteAttachment = function (attachment) {
-      $scope.compose.post.removeAttachment(attachment);
-      if (attachment.status === ATTACHMENT_STATUS.UPLOADING){
-        // abort the pending upload request
-        attachment.cancelUpload();
-      }
-      $timeout(function () {
-        if ($scope.compose.post.attachments.length === 0) {
-          $scope.showUploadProgress = false;
+      new $q(function (resolve, reject) {
+        if (attachment.status === ATTACHMENT_STATUS.UPLOADING) {
+          // abort the pending upload request
+          attachment.cancelUpload();
+          resolve(attachment);
+        } else { // the store is uploaded and it should be removed from server
+          NstSvcAttachmentFactory.remove(attachment.id).then(function (result) {
+            resolve(attachment);
+          }).catch(reject);
         }
+      }).then(function (attachment) {
+        $scope.compose.post.removeAttachment(attachment);
+        $timeout(function () {
+          if ($scope.compose.post.attachments.length === 0) {
+            $scope.showUploadProgress = false;
+          }
+        });
       });
     };
 
@@ -173,7 +181,7 @@
         $scope.upload_size.total += file.size;
 
         var isImage = file.type.split('/')[0] == 'image';
-        var attachment = new NestedAttachment({
+        var attachment = NstSvcAttachmentFactory.createAttachmentModel({
           _id: null,
           filename: file.name,
           mimetype: file.type,

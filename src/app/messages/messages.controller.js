@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout,
                               NST_MESSAGES_SORT_OPTION,
-                              NstSvcPostFactory, NstSvcMessageSettingStorage) {
+                              NstSvcPostFactory, NstSvcActivityFactory, NstSvcMessageSettingStorage) {
     var vm = this;
 
     var FILTER_ALL = '!$all';

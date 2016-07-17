@@ -7,8 +7,8 @@
   /** @ngInject */
   function NstSvcPostFactory($q, $log,
     _,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory,
-    NstFactoryError, NstFactoryQuery ,NstPost, NstComment, NstUser, NestedAttachment) { // TODO: It should not inject any model, ask the factory to create the model
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcAttachmentFactory,NstSvcStore,
+    NstFactoryError, NstFactoryQuery ,NstPost, NstComment, NstUser) { // TODO: It should not inject any model, ask the factory to create the model
 
     /**
      * PostFactory - all operations related to post, comment
@@ -46,7 +46,7 @@
           resolve(post);
         } else {
           NstSvcServer.request('post/get', {
-            post_id: id
+            'post_id' : id
           }).then(function(data) {
             post = parsePost(data.post);
             NstSvcPostStorage.set(this.query.id, post);
@@ -54,8 +54,9 @@
           }.bind({
             query: this.query
           })).catch(function(error) {
-            // TODO: Handle error by type
-            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            console.log('woops');
+            console.log(error);
+            reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           }.bind({
             query: this.query
           }));
@@ -95,7 +96,7 @@
           query: this.query
         })).catch(function(error) {
           // TODO: Handle error by type
-          rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         }.bind({
           query: this.query
         }));
@@ -173,7 +174,7 @@
           query: this.query
         })).catch(function(error) {
           // TODO: Handle error by type
-          rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         }.bind({
           query: this.query
         }));
@@ -206,7 +207,7 @@
           query: this.query
         })).catch(function(error) {
           // TODO: Handle error by type
-          rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         }.bind({
           query: this.query
         }));
@@ -215,6 +216,13 @@
       }));
     }
 
+    /**
+     * getWithComments - Retrieves a post with its comments
+     *
+     * @param  {String}   postId          The post id
+     * @param  {Object}   commentSettings Some settings like skip and limit
+     * @return {Promise}                  A promise that resolves a NstPost
+     */
     function getWithComments(postId, commentSettings) {
       var defer = $q.defer();
 
@@ -247,6 +255,7 @@
     }
 
     function parsePost(data) {
+      $log.debug('The post is :', data);
       var defer = $q.defer();
 
       var post = createPostModel();
@@ -255,8 +264,6 @@
         defer.resolve(post);
       } else {
         var promises = [];
-
-        console.log(data);
 
         post.id = data._id.$oid;
         post.sender = new NstUser(data.sender);
@@ -298,10 +305,11 @@
         }
 
         post.attachments = [];
-        post.attachmentPreview = false;
-        for (var k in data.post_attachments) {
-          post.attachments[k] = new NestedAttachment(data.post_attachments[k], post);
-          post.attachmentPreview = post.attachmentPreview || !!post.attachments[k].thumbs.x128.uid;
+        // TODO: write some promises for attachments
+        if (data.post_attachments) {
+          for (var k in data.post_attachments) {
+            post.attachments[k] = NstSvcAttachmentFactory.createAttachmentModel(data.post_attachments[k], post);
+          }
         }
 
         post.recipients = []; // TODO: ?
@@ -404,10 +412,12 @@
         });
 
 
-        var replayToPromise = get(data.reply_to ? data.reply_to.$oid : undefined);
+        var replyToPromise = get(data.reply_to ? data.reply_to.$oid : undefined);
         var forwardedFromPromise = get(data.forwarded_from ? data.forwarded_from.$oid : undefined);
         var placePromises = _.map(data.post_places, NstSvcPlaceFactory.parseTinyPlace);
-        var attachmentPromises = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
+        var attachmentPromises = _.map(data.post_attachments, function (attachment) {
+          return NstSvcAttachmentFactory.parseAttachment(attachment, message);
+        });
         var commentPromises = _.map(data['last-comments'], parseMessageComment);
 
         var promises = _.concat(senderPromise, replyToPromise, forwardedFromPromise);

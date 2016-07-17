@@ -7,8 +7,7 @@
   /** @ngInject */
   function NstSvcActivityFactory($q, $log,
                                  _, moment,
-                                 NstSvcUserFactory,
-                                 NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory,
+                                 NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
                                  NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace) {
 
     /**
@@ -60,16 +59,11 @@
         defer.resolve({}); // TODO: decide to fill with an empty object or an empty NstUser
       }
       else {
-        //TODO : Use NstSvcUserFactory to parse user model
-        // var user = NstSvcUserFactory.parseUser({
-        //       _id : data.actor,
-        //     fname : data.actor_fname,
-        //     lname : data.actor_lname,
-        //   picture : data.actor_picture,
-        // });
-        var user = new NstUser({
-          username : data.actor,
-          fullname : data.actor_name
+        var user = NstSvcUserFactory.parseTinyUser({
+              _id : data.actor,
+            fname : data.actor_fname,
+            lname : data.actor_lname,
+          picture : data.actor_picture,
         });
 
         // TODO: Add user to cache if the model is rich enough

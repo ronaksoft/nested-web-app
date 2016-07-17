@@ -72,9 +72,8 @@
     };
 
     $scope.download = function (attachment, event) {
-      var attach = angular.copy(attachment);
 
-      attach.getDownloadUrl().then(function (url) {
+      NstSvcAttachmentFactory.getDownloadUrl(attachment).then(function (url) {
         window.open(url,'_blank');
       });
 
