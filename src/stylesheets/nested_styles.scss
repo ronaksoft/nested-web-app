@@ -551,64 +551,28 @@ ul ul > li:last-child > .side-place-item-inner{
 
 .side-place-wrapper > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type{
-    .box1 {
-      border: none;
-    }
-    .box2 {
-      border: none;
-    }
-    .box3 {
-      border: none;
-    }
-    .box4 {
+    div {
       border: none;
     }
   }
 }
 .side-place-wrapper > ul > li > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type + .lines{
-    .box1 {
-      border: none;
-    }
-    .box2 {
-      border: none;
-    }
-    .box3 {
-      border: none;
-    }
-    .box4 {
+    div {
       border: none;
     }
   }
 }
 .side-place-wrapper > ul > li > ul > li > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type + .lines + .lines{
-    .box1 {
-      border: none;
-    }
-    .box2 {
-      border: none;
-    }
-    .box3 {
-      border: none;
-    }
-    .box4 {
+    div {
       border: none;
     }
   }
 }
 .side-place-wrapper > ul > li > ul > li > ul > li > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type + .lines + .lines + .lines{
-    .box1 {
-      border: none;
-    }
-    .box2 {
-      border: none;
-    }
-    .box3 {
-      border: none;
-    }
-    .box4 {
+    div {
       border: none;
     }
   }
