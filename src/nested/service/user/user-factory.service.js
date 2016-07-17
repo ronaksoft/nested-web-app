@@ -101,16 +101,16 @@
     UserFactory.prototype.set = function (user) {
       if (user instanceof NstUser) {
         if (this.has(user.getId())) {
-          user = this.get(user.getId()).merge(user);
+          NstSvcUserStorage.merge(user.getId(), user);
+        } else {
+          NstSvcUserStorage.set(user.getId(), user);
         }
-
-        NstSvcUserStorage.set(user.getId(), user);
       } else if (user instanceof NstTinyUser) {
         if (this.hasTiny(user.getId())) {
-          user = this.getTiny(user.getId()).merge(user);
+          NstSvcTinyUserStorage.merge(user.getId(), user);
+        } else {
+          NstSvcTinyUserStorage.set(user.getId(), user);
         }
-
-        NstSvcTinyUserStorage.set(user.getId(), user);
       }
 
       return this;
