@@ -549,51 +549,31 @@ ul ul > li:last-child > .side-place-item-inner{
   }
 }
 
-ul ul > li:last-child li{
-  .lines:first-of-type{
-    .box1 {
-      border: none;
-    }
-    .box2 {
-      border: none;
-    }
-    .box3 {
-      border: none;
-    }
-    .box4 {
+.side-place-wrapper > ul > li > ul > li:last-child > ul{
+  li .lines:first-of-type{
+    div {
       border: none;
     }
   }
-  &:last-child li{
-    .lines:nth-of-type(2){
-      .box1 {
-        border: none;
-      }
-      .box2 {
-        border: none;
-      }
-      .box3 {
-        border: none;
-      }
-      .box4 {
-        border: none;
-      }
+}
+.side-place-wrapper > ul > li > ul > li > ul > li:last-child > ul{
+  li .lines:first-of-type + .lines{
+    div {
+      border: none;
     }
-    &:last-child li{
-      .lines:nth-of-type(3){
-        .box1 {
-          border: none;
-        }
-        .box2 {
-          border: none;
-        }
-        .box3 {
-          border: none;
-        }
-        .box4 {
-          border: none;
-        }
-      }
+  }
+}
+.side-place-wrapper > ul > li > ul > li > ul > li > ul > li:last-child > ul{
+  li .lines:first-of-type + .lines + .lines{
+    div {
+      border: none;
+    }
+  }
+}
+.side-place-wrapper > ul > li > ul > li > ul > li > ul > li > ul > li:last-child > ul{
+  li .lines:first-of-type + .lines + .lines + .lines{
+    div {
+      border: none;
     }
   }
 }
