@@ -56,7 +56,7 @@
               resolve(place);
             }).catch(function(error) {
               // TODO: Handle error by type
-              reject(new NstFactoryError(query, error.message, error.err_code));
+              rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }
         });
@@ -311,7 +311,7 @@
           // TODO: Handle error by type
 
           return $q(function (res, rej) {
-            rej(new NstFactoryError(query, error.message, error.err_code))
+            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         });
       } else {
@@ -337,7 +337,7 @@
           // TODO: Handle error by type
 
           return $q(function (res, rej) {
-            rej(new NstFactoryError(query, error.message, error.err_code))
+            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         });
       }
@@ -359,7 +359,7 @@
             NstSvcTinyPlaceStorage.remove(query.id);
           }).catch(function (error) {
             // TODO: Handle error by type
-            reject(new NstFactoryError(query, error.message, error.err_code));
+            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         });
       }

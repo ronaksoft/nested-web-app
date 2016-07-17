@@ -8,5 +8,4 @@
       AUTHORIZE: 'authorize',
       AUTHORIZE_FAIL: 'authorize-fail'
     });
-
 })();

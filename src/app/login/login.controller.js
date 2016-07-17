@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function LoginController($location, $rootScope, $scope, $q, $timeout,
-                           NstSvcAuth, NST_AUTH_EVENTS, NST_SRV_ERROR,
+                           NstSvcAuth, NST_AUTH_EVENT, NST_SRV_ERROR,
                            NstSvcLoader) {
     var vm = this;
 
@@ -35,7 +35,7 @@
       };
 
       NstSvcLoader.inject(NstSvcAuth.login(credentials, vm.remember).then(function () {
-        $rootScope.$broadcast(NST_AUTH_EVENTS.loginSuccess);
+        $rootScope.$broadcast(NST_AUTH_EVENT.loginSuccess);
         var query = $location.search();
 
         var back = query.back || '/';
@@ -49,7 +49,7 @@
           $location.path(back).replace();
         });
       }).catch(function (data) {
-        $rootScope.$broadcast(NST_AUTH_EVENTS.loginFailed);
+        $rootScope.$broadcast(NST_AUTH_EVENT.loginFailed);
         vm.username = vm.password = '';
         vm.progress = false;
 

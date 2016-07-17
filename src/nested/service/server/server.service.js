@@ -9,7 +9,7 @@
   function NstSvcServer($websocket, $q, $log,
                         NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENT, NST_SRV_MESSAGE, NST_AUTH_COMMAND,
                         NstSvcRandomize,
-                        NstObservableObject, NstRequest) {
+                        NstObservableObject, NstServerError, NstServerQuery, NstRequest) {
     function Server(url, meta) {
       this.meta = meta || {};
       this.sesKey = '';
@@ -98,7 +98,13 @@
 
                 case NST_SRV_RESPONSE_STATUS.ERROR:
                   $log.debug('Error:', data.data.err_code, 'Sent:', this.requests[reqId].data, 'Received:', data);
-                  this.requests[reqId].reject(data.data);
+                  var error = new NstServerError(
+                    new NstServerQuery(reqId, this.requests[reqId]),
+                    data.data.message,
+                    data.data.err_code,
+                    data.data
+                  );
+                  this.requests[reqId].reject(error);
                   break;
               }
               break;
