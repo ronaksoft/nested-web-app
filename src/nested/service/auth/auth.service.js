@@ -6,7 +6,7 @@
     .service('NstSvcAuth', NstSvcAuth);
 
   /** @ngInject */
-  function NstSvcAuth($cookies, $window, $q, $log,
+  function NstSvcAuth($cookies, $q, $log,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE,
                       NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage,
                       NstObservableObject) {
@@ -52,8 +52,8 @@
       $cookies.put('nsk', this.lastSessionKey, options);
       $cookies.put('nss', this.lastSessionSecret, options);
 
-      // TODO: Pass to user service
-      this.user.fill(data.info);
+      var user = NstSvcUserFactory.parseUser(data.info);
+      this.user = NstSvcUserFactory.set(user).get(user.getId());
 
       this.state = NST_AUTH_STATE.AUTHORIZED;
       this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, { detail: { user: this.user } }));
@@ -191,7 +191,7 @@
 
     Auth.prototype.isInAuthorization = function () {
       return this.isAuthorized() ||
-        NST_AUTH_STATE.AUTHORIZATION == this.getState() ||
+        NST_AUTH_STATE.AUTHORIZING == this.getState() ||
         $cookies.get('nsk') ||
         this.lastSessionKey;
     };

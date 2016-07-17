@@ -8,5 +8,4 @@
       AUTHORIZING: 'authorizing',
       AUTHORIZED: 'authorized'
     });
-
 })();
