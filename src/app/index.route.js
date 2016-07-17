@@ -32,6 +32,55 @@
       })
 
       /*****************************
+       *****    User Routes     ****
+       *****************************/
+
+      .state('profile', {
+        url: '/profile',
+        templateUrl: 'app/profile/profile.html',
+        controller: 'ProfileController',
+        controllerAs: 'ctlProfile'
+      })
+
+      /*****************************
+       *****   Compose Routes   ****
+       *****************************/
+
+      .state('compose', {
+        url: '/compose',
+        templateUrl: 'app/compose/compose.html',
+        controller: 'ComposeController',
+        controllerAs: 'ctlCompose'
+      })
+      .state('compose-forward', {
+        url: '/forward/:postId',
+        params: {
+          postId: '_'
+        },
+        templateUrl: 'app/compose/compose.html',
+        controller: 'ComposeController',
+        controllerAs: 'ctlCompose'
+      })
+      .state('compose-replyall', {
+        url: '/reply/:postId',
+        params: {
+          postId: '_'
+        },
+        templateUrl: 'app/compose/compose.html',
+        controller: 'ComposeController',
+        controllerAs: 'ctlCompose'
+      })
+      .state('compose-replysender', {
+        url: '/reply/:postId/sender',
+        params: {
+          postId: '_'
+        },
+        templateUrl: 'app/compose/compose.html',
+        controller: 'ComposeController',
+        controllerAs: 'ctlCompose'
+      })
+
+      /*****************************
        *****   Places Routes    ****
        *****************************/
 
@@ -43,6 +92,15 @@
         templateUrl: 'app/places/settings.html',
         controller: 'PlaceSettingsController',
         controllerAs: 'ctlPlaceSettings'
+      })
+      .state('place-add', {
+        url: '/places/:placeId/add',
+        params: {
+          placeId: '_'
+        },
+        templateUrl: 'app/places/create.html',
+        controller: 'PlaceAddController',
+        controllerAs: 'ctlPlaceAdd'
       })
 
       /*****************************

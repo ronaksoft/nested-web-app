@@ -111,8 +111,6 @@
        *****     Map Methods    ****
        *****************************/
 
-      console.log('State: ', $state.current, $stateParams);
-
       function mapPlaces(places, depth) {
         depth = depth || 0;
 
