@@ -6,8 +6,7 @@
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
   function NstSvcUserFactory($q,
-                             NST_SRV_ERROR, NST_USER_ACCESS,
-                             NstSvcAuth, NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
+                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
                              NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser) {
     function UserFactory() {
       this.requests = {
@@ -55,7 +54,7 @@
               resolve(user);
             }).catch(function(error) {
               // TODO: Handle error by type
-              reject(new NstFactoryError(query, error.message, error.err_code));
+              rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }
         });
@@ -137,7 +136,7 @@
           // TODO: Handle error by type
 
           return $q(function (res, rej) {
-            rej(new NstFactoryError(query, error.message, error.err_code))
+            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         });
       } else {
@@ -157,7 +156,7 @@
           // TODO: Handle error by type
 
           return $q(function (res, rej) {
-            rej(new NstFactoryError(query, error.message, error.err_code))
+            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         });
       }
@@ -168,9 +167,9 @@
         var query = new NstFactoryQuery(id);
 
         this.requests.remove[id] = $q(function(resolve, reject) {
-          if (!NstSvcAuth.haveAccess(query.id, [NST_USER_ACCESS.REMOVE])) {
-            reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
-          }
+          // if (!NstSvcAuth.haveAccess(query.id, [NST_USER_ACCESS.REMOVE])) {
+          //   reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
+          // }
 
           NstSvcServer.request('account/remove', {
             account_id: query.id
@@ -179,7 +178,7 @@
             NstSvcTinyUserStorage.remove(query.id);
           }).catch(function (error) {
             // TODO: Handle error by type
-            reject(new NstFactoryError(query, error.message, error.err_code));
+            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         });
       }
@@ -206,22 +205,22 @@
       return user;
     };
 
-    UserFactory.prototype.parseUser = function (placeData) {
+    UserFactory.prototype.parseUser = function (userData) {
       var user = new NstUser();
 
-      if (!angular.isObject(placeData)) {
+      if (!angular.isObject(userData)) {
         return user;
       }
 
       user.setNew(false);
-      user.setId(placeData._id);
+      user.setId(userData._id);
       user.setFirstName(userData.fname);
       user.setLastName(userData.lname);
       user.setPhone(userData.phone);
       user.setCountry(userData.country);
 
-      if (angular.isObject(placeData.picture)) {
-        user.setPicture(placeData.picture);
+      if (angular.isObject(userData.picture)) {
+        user.setPicture(userData.picture);
       }
 
       return user;

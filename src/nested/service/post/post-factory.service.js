@@ -55,7 +55,7 @@
             query: this.query
           })).catch(function(error) {
             // TODO: Handle error by type
-            reject(new NstFactoryError(this.query, error.message, error.err_code));
+            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           }.bind({
             query: this.query
           }));
@@ -95,7 +95,7 @@
           query: this.query
         })).catch(function(error) {
           // TODO: Handle error by type
-          reject(new NstFactoryError(this.query, error.message, error.err_code));
+          rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         }.bind({
           query: this.query
         }));
@@ -173,7 +173,7 @@
           query: this.query
         })).catch(function(error) {
           // TODO: Handle error by type
-          reject(new NstFactoryError(this.query, error.message, error.err_code));
+          rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         }.bind({
           query: this.query
         }));
@@ -206,7 +206,7 @@
           query: this.query
         })).catch(function(error) {
           // TODO: Handle error by type
-          reject(new NstFactoryError(this.query, error.message, error.err_code));
+          rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         }.bind({
           query: this.query
         }));

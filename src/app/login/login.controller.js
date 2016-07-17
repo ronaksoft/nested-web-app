@@ -48,7 +48,7 @@
           res();
           $location.path(back).replace();
         });
-      }).catch(function (data) {
+      }).catch(function (error) {
         $rootScope.$broadcast(NST_AUTH_EVENT.loginFailed);
         vm.username = vm.password = '';
         vm.progress = false;
@@ -56,7 +56,7 @@
         vm.message.fill = true;
         vm.message.class = 'nst-error-msg';
 
-        switch (data.err_code) {
+        switch (error.getCode()) {
           case NST_SRV_ERROR.INVALID:
             vm.message.text = 'Invalid Username or Password';
             break;

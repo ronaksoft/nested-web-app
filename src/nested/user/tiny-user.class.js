@@ -62,7 +62,7 @@
 
     TinyUser.prototype.setPicture = function (picture) {
       var oldValue = this.picture;
-
+      
       this.picture.org.setId(picture.org);
       var pictureClone = angular.copy(picture);
       delete pictureClone.org;
