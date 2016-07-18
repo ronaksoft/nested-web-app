@@ -2,7 +2,8 @@
   "NST_CONFIG": {
     "APP_ID": "web-{{BUILD}}",
     "WEBSOCKET": {
-      "URL": "wss://cyrus.nested.me:443"
+      "URL": "wss://cyrus.nested.me:443",
+      "TIMEOUT": 5000
     },
     "STORE": {
       "URL": "http://xerxes.nested.me"
