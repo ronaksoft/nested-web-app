@@ -33,19 +33,19 @@
       NstObservableObject.call(this);
 
       this.stream.onOpen(function (event) {
-        $log.debug('WebSocket Opened:', event, this);
+        $log.debug('WS | Opened:', event, this);
       }.bind(this));
 
       // Orphan Router
       this.stream.onMessage(function(ws) {
         if (!ws.data) {
-          $log.debug('Empty Orphan Message:', ws);
+          $log.debug('WS | Empty Orphan Message:', ws);
 
           return;
         }
 
         var data = angular.fromJson(ws.data);
-        $log.debug('Message:', data);
+        $log.debug('WS | Message:', data);
 
         switch (data.type) {
           case NST_SRV_MESSAGE_TYPE.RESPONSE:
@@ -74,7 +74,7 @@
       // Response Router
       this.stream.onMessage(function(ws) {
         if (!ws.data) {
-          $log.debug('Empty Will Be Routed Message:', ws);
+          $log.debug('WS | Empty Will Be Routed Message:', ws);
 
           return;
         }
@@ -110,7 +110,7 @@
 
                 case NST_SRV_RESPONSE_STATUS.ERROR:
                   response.setStatus(NST_RES_STATUS.FAILURE);
-                  $log.debug('Error:', response.getData().err_code, 'Sent:', qItem.request, 'Received:', response.getData());
+                  $log.debug('WS | Error:', response.getData().err_code, 'Sent:', qItem.request, 'Received:', response.getData());
 
                   qItem.request.finish(response);
                   break;
@@ -121,7 +121,7 @@
       }.bind(this));
 
       this.stream.onClose(function(event) {
-        $log.debug('WebSocket Closed:', event, this);
+        $log.debug('WS | Closed:', event, this);
 
         this.authorized = false;
         this.initialized = false;
@@ -131,14 +131,14 @@
       }.bind(this));
 
       this.stream.onError(function (event) {
-        $log.debug('WebSocket Error:', event, this);
+        $log.debug('WS | Error:', event, this);
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.ERROR));
       }.bind(this));
 
       this.addEventListener(NST_SRV_EVENT.MESSAGE, function (event) {
         switch (event.detail) {
           case NST_SRV_MESSAGE.INITIALIZE:
-            $log.debug('WebSocket Initialized:', event, this);
+            $log.debug('WS | Initialized:', event, this);
             this.initialized = true;
             this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.INITIALIZE));
             break;
@@ -146,10 +146,10 @@
       }.bind(this));
 
       this.addEventListener(NST_SRV_EVENT.MANUAL_AUTH, function (event) {
-        $log.debug('Dispatching Auth Event', event.detail);
+        $log.debug('WS | Dispatching Auth Event', event.detail);
         this.authorized = true;
-        this.sesSecret = event.detail.response.data._ss;
-        this.sesKey = event.detail.response.data._sk.$oid;
+        this.sesSecret = event.detail.response.getData()._ss;
+        this.sesKey = event.detail.response.getData()._sk.$oid;
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.AUTHORIZE));
       });
     }
@@ -274,6 +274,8 @@
     };
 
     Server.prototype.send = function (request) {
+      $log.debug('WS | Sending', request.getData());
+
       return this.stream.send(angular.toJson(request.getData()));
     };
 
