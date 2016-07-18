@@ -39,12 +39,15 @@
     vm.toggleCommentsPreview      = toggleCommentsPreview;
     vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
 
+    console.log('in messages');
+
     (function () {
       $q.all([getMessages(), loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
+        console.log('zaza');
+        console.log(values);
         vm.messages = mapMessages(values[0]);
         vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[1]);
         vm.messagesSetting.sort = values[2] || vm.defaultSortOption;
-        // TODO: Does it need to be mapped??
         vm.activities = values[3];
       }).catch(function (error) {
         $log.debug(error)
@@ -53,9 +56,12 @@
     })();
 
     function getMessages() {
+      console.log('wanna');
       if (vm.filter === FILTER_ALL) {
+        console.log('filter is all');
         return NstSvcPostFactory.getMessages(vm.messagesSetting);
       } else {
+        console.log('filter foo');
         var placeId = vm.filter;
         return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, placeId);
       }
@@ -109,12 +115,19 @@
         placeId : vm.filter !== FILTER_ALL ? vm.filter : null
       };
 
-      NstSvcActivityFactory.getRecent(settings).then(defer.resolve).catch(defer.reject);
+      NstSvcActivityFactory.getRecent(settings).then(function (activities) {
+        console.log('here in messages');
+        console.log('activities are');
+        console.log(activities);
+        defer.resolve(mapActivities(activities));
+      }).catch(defer.reject);
 
       return defer.promise;
     }
 
     function mapMessages(messages) {
+      console.log('messages are');
+      console.log(messages);
 
       var now = moment();
 
@@ -256,6 +269,78 @@
       vm.quickMessagePreview = !vm.quickMessagePreview;
     }
 
+    function mapActivities(activities) {
+      var items = _.map(activities, function (item) {
+        return {
+          id : item.id,
+          actor : mapActivityActor(item),
+          member : mapActivityMember(item),
+          comment : mapActivityComment(item),
+          post : mapActivityPost(item),
+          date : getPassedTime(item.date),
+          type : item.type
+        };
+      });
+
+      console.log('mapped activities');
+      console.log(items);
+
+      return items;
+    }
+
+    function getPassedTime(date) {
+      if (!moment.isMoment(date)) {
+        date = moment(date);
+      }
+
+      return date.fromNow();
+    }
+
+    function mapActivityMember(activity) {
+      console.log(activity);
+      if (!activity.member) {
+        return {};
+      }
+      console.log('haha');
+      console.log(activity.member);
+      return {
+        id : activity.member.id,
+        name : activity.member.fullName,
+        type : activity.member.type
+      };
+    }
+
+    function mapActivityComment(activity) {
+      if (!activity.comment) {
+        return {};
+      }
+
+      return {
+        id : activity.comment.id,
+        body : activity.comment.body
+      };
+    }
+
+    function mapActivityPost(activity) {
+      if (!activity.post) {
+        return {};
+      }
+      console.log('post is');
+      console.log(activity.post);
+      return {
+        id : activity.post.id,
+        subject : activity.post.subject
+      };
+    }
+
+    function mapActivityActor(activity) {
+      console.log(activity.actor);
+      return {
+        id : activity.actor.id,
+        avatar : activity.actor.picture.getThumbnail('32').url.download,
+        name : activity.actor.fullName
+      };
+    }
   }
 
 })();

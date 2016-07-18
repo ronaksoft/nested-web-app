@@ -41,25 +41,29 @@
       var query = new NstFactoryQuery(id);
 
       return $q(function(resolve, reject) {
-        var post = NstSvcPostStorage.get(this.query.id);
-        if (post) {
-          resolve(post);
+        if (!this.query.id){
+          resolve(null);
         } else {
-          NstSvcServer.request('post/get', {
-            'post_id' : id
-          }).then(function(data) {
-            post = parsePost(data.post);
-            NstSvcPostStorage.set(this.query.id, post);
+          var post = NstSvcPostStorage.get(this.query.id);
+          if (post) {
             resolve(post);
-          }.bind({
-            query: this.query
-          })).catch(function(error) {
-            console.log('woops');
-            console.log(error);
-            reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          }.bind({
-            query: this.query
-          }));
+          } else {
+            NstSvcServer.request('post/get', {
+              post_id : query.id
+            }).then(function(data) {
+              post = parsePost(data.post);
+              NstSvcPostStorage.set(this.query.id, post);
+              resolve(post);
+            }.bind({
+              query: this.query
+            })).catch(function(error) {
+              console.log('woops');
+              console.log(error);
+              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            }.bind({
+              query: this.query
+            }));
+          }
         }
       }.bind({
         query: query
@@ -255,7 +259,6 @@
     }
 
     function parsePost(data) {
-      $log.debug('The post is :', data);
       var defer = $q.defer();
 
       var post = createPostModel();
@@ -411,7 +414,6 @@
           resolve(new NstUser(data.sender));
         });
 
-
         var replyToPromise = get(data.reply_to ? data.reply_to.$oid : undefined);
         var forwardedFromPromise = get(data.forwarded_from ? data.forwarded_from.$oid : undefined);
         var placePromises = _.map(data.post_places, NstSvcPlaceFactory.parseTinyPlace);
@@ -454,6 +456,8 @@
         skip: setting.skip,
         limit: setting.limit
       }).then(function(data) {
+        console.log('these are posts');
+        console.log(data);
         var items = _.map(data.posts.posts, parseMessage);
         $q.all(items).then(defer.resolve);
       }).catch(function(error) {
