@@ -352,6 +352,6 @@
       }
     };
 
-    return new WsService(APP.ID, APP.SECRET, 'wss://ws001.ws.nested.me:443');
+    return new WsService(APP.ID, APP.SECRET, 'wss://dev.cyrus.nested.me:443');
   }
 })();
