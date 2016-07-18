@@ -7,8 +7,8 @@
 
   /** @ngInject */
   function NstSvcInvitationFactory($q, $log, _, moment,
-                             NstSvcInvitationStorage, NstSvcServer,
-                             NstFactoryError, NstFactoryQuery, NstInvitation) {
+                                   NstSvcInvitationStorage, NstSvcServer,
+                                   NstFactoryError, NstFactoryQuery, NstInvitation) {
 
     /**
      * PostFactory - all operations related to activity

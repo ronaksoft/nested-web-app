@@ -36,6 +36,13 @@
       this.lastName = undefined;
 
       /**
+       * User's Full Name
+       *
+       * @type {undefined|String}
+       */
+      this.fullName = undefined;
+
+      /**
        * User's Picture
        *
        * @type {undefined|NstPicture}
@@ -43,6 +50,15 @@
       this.picture = new NstPicture();
 
       NstModel.call(this);
+
+      this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
+        switch (event.detail.name) {
+          case 'firstName':
+          case 'lastName':
+            this.setFullName(this.getFirstName() + ' ' + this.getLastName());
+            break;
+        }
+      });
 
       if (data) {
         this.fill(data);
@@ -62,13 +78,19 @@
 
     TinyUser.prototype.setPicture = function (picture) {
       var oldValue = this.picture;
-      
-      this.picture.org.setId(picture.org);
-      var pictureClone = angular.copy(picture);
-      delete pictureClone.org;
 
-      for (var size in pictureClone) {
-        this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
+      if (picture instanceof NstPicture) {
+        this.picture = picture;
+      } else if (angular.isObject(picture)) {
+        this.picture.org.setId(picture.org);
+        var pictureClone = angular.copy(picture);
+        delete pictureClone.org;
+
+        for (var size in pictureClone) {
+          this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
+        }
+      } else {
+        return;
       }
 
       var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {

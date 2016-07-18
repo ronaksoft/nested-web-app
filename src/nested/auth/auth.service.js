@@ -22,6 +22,8 @@
       this.lastSessionSecret = null;
       this.remember = false;
 
+      NstObservableObject.call(this);
+
       if (NstSvcServer.isInitialized()) {
         this.reconnect();
       }
@@ -131,6 +133,7 @@
         return this.recall(this.lastSessionKey, this.lastSessionSecret).then(
           this.authorize.bind(this)
         ).catch(function (error) {
+          console.log(error);
           switch (error.getCode()) {
             case NST_SRV_ERROR.DUPLICATE:
               return $q(function (res) {
@@ -179,10 +182,6 @@
           res.apply(null, this.input);
         }.bind({ input: arguments }));
       }.bind(this));
-    };
-
-    Auth.prototype.getState = function () {
-      return this.state;
     };
 
     Auth.prototype.isAuthorized = function () {

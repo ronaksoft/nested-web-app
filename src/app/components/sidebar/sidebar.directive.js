@@ -4,7 +4,7 @@
   angular
     .module('nested')
     .controller('SidebarController', function ($q, $scope, $state, $stateParams, $location,
-                                               NstSvcLoader, NstSvcPlaceFactory) {
+                                               NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory) {
       var vm = this;
 
       if ('_' == $stateParams.placeId) {
@@ -16,15 +16,17 @@
       //    2. User Invitations
       //    3. User Profile
 
-      $q.all([getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
+      $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
         vm.urls = {
           unfiltered: $state.href(getUnfilteredState()),
           bookmarks: $state.href(getBookmarksState()),
           sent: $state.href(getSentState())
         };
 
-        vm.places = mapPlaces(resolvedSet[0]);
-        vm.invitations = mapInvitations(resolvedSet[1]);
+        console.log('Resolved: ', resolvedSet);
+        vm.user = mapUser(resolvedSet[0]);
+        vm.places = mapPlaces(resolvedSet[1]);
+        vm.invitations = mapInvitations(resolvedSet[2]);
       });
 
       /*****************************
@@ -52,12 +54,20 @@
        *****    Fetch Methods   ****
        *****************************/
 
+      function getUser() {
+        return NstSvcLoader.inject($q(function (res) {
+          res(NstSvcAuth.getUser());
+        }));
+      }
+
       function getMyPlaces() {
         return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
       }
 
       function getInvitations() {
-        return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
+        return NstSvcLoader.inject($q(function (res) {
+          res([]);
+        }));
       }
 
       function getPlaceFilteredState() {
@@ -110,6 +120,10 @@
       /*****************************
        *****     Map Methods    ****
        *****************************/
+
+      function mapUser(user) {
+        return user;
+      }
 
       function mapPlaces(places, depth) {
         depth = depth || 0;

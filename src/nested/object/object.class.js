@@ -16,19 +16,19 @@
       for (var k in this) {
         if (!(this[k] instanceof Function)) {
           var uCamelCase = this.getJsName(k, true);
-          this['set' + uCamelCase] = this['set' + uCamelCase] || new (function (obj, name) {
-            return function (value) {
-              obj[name] = value;
+          this['set' + uCamelCase] = this['set' + uCamelCase] || (function (name) {
+              return function (value) {
+                this[name] = value;
 
-              return obj;
-            };
-          })(this, k);
+                return this;
+              };
+            })(k);
 
-          this['get' + uCamelCase] = this['get' + uCamelCase] || new (function (obj, name) {
-            return function () {
-              return obj[name];
-            };
-          })(this, k);
+          this['get' + uCamelCase] = this['get' + uCamelCase] || (function (name) {
+              return function (value) {
+                return this[name];
+              };
+            })(k);
         }
       }
     }

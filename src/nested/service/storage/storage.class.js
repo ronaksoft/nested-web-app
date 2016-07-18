@@ -164,7 +164,7 @@
      */
     Storage.prototype.merge = function (id, object) {
       var oObject = this.get(id, {});
-      var tObject = (oObject.hasOwnProperty('merge') && oObject['merge'] instanceof Function) ?
+      var tObject = (oObject['merge'] && oObject['merge'] instanceof Function) ?
         oObject.merge(object) : angular.merge(oObject, object);
 
       if (this.isValidObject(tObject)) {

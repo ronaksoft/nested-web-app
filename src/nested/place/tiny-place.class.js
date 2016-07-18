@@ -80,12 +80,18 @@
     TinyPlace.prototype.setPicture = function (picture) {
       var oldValue = this.picture;
 
-      this.picture.org.setId(picture.org);
-      var pictureClone = angular.copy(picture);
-      delete pictureClone.org;
+      if (picture instanceof NstPicture) {
+        this.picture = picture;
+      } else if (angular.isObject(picture)) {
+        this.picture.org.setId(picture.org);
+        var pictureClone = angular.copy(picture);
+        delete pictureClone.org;
 
-      for (var size in pictureClone) {
-        this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
+        for (var size in pictureClone) {
+          this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
+        }
+      } else {
+        return;
       }
 
       var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {
