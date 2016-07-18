@@ -8,7 +8,7 @@
   /** @ngInject */
   function MainController($location, NstSvcAuth) {
     if (NstSvcAuth.isInAuthorization()) {
-      $location.path('/events').replace();
+      $location.path('/messages').replace();
     }
   }
 

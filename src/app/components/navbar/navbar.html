@@ -37,10 +37,10 @@
         </div>
       </div>
       <div class="navbar-bottom">
-        <div ng-click="messages.srch('overlay', 'inputsearch');" id="overlay"></div>
+        <div ng-click="srch('overlay', 'inputsearch');" id="overlay"></div>
         <div class="_pa">
           <div class="menu-links-search _dib _vam">
-            <div ng-click="messages.srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
+            <div ng-click="srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
           <div class="menu-links-btn _dib li-hover" ng-class="messages ? 'selected' : null"><a href="#/messages">Messages</a></div>
@@ -49,7 +49,7 @@
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">
           <input class="form-control" placeholder="Search in Ronak Software Group..." type="text"/>
-          <i ng-click="messages.srch('overlay', 'inputsearch');" id="action-search"
+          <i ng-click="srch('overlay', 'inputsearch');" id="action-search"
              class="_pa _left icon-close-search form-control-feedback"></i>
           <div class="search-part1">
             <ul class="list-unstyled">

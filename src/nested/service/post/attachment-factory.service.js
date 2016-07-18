@@ -55,7 +55,6 @@
       });
 
       var uploaderPromise = NstSvcUserFactory.get(data.uploader);
-
       $q.all(placePromises).then(function(places) {
         attachment.places = places;
         return uploaderPromise;

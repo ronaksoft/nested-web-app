@@ -40,12 +40,20 @@
     vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
 
     (function () {
-      $q.all([getMessages(), loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
-        vm.messages = mapMessages(values[0]);
-        vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[1]);
-        vm.messagesSetting.sort = values[2] || vm.defaultSortOption;
-        // TODO: Does it need to be mapped??
-        vm.activities = values[3];
+      // $q.all([getMessages(), loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
+      //   vm.messages = mapMessages(values[0]);
+      //   vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[1]);
+      //   vm.messagesSetting.sort = values[2] || vm.defaultSortOption;
+      //   vm.activities = values[3];
+      // }).catch(function (error) {
+      //   $log.debug(error)
+      // });
+
+      $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
+        vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
+        vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
+        vm.activities = values[2];
+
       }).catch(function (error) {
         $log.debug(error)
       });
@@ -63,15 +71,17 @@
 
     function loadViewSetting() {
       return $q(function (resolve, reject) {
-        var setting = NstSvcMessageSettingStorage.get(viewSettingStorageKey, defaultViewSetting);
-        resolve(setting);
+        // var setting = NstSvcMessageSettingStorage.get(viewSettingStorageKey, defaultViewSetting);
+        // resolve(setting);
+        resolve(defaultViewSetting)
       });
     }
 
     function loadSortOption() {
       return $q(function (resolve, reject) {
-        var option = NstSvcMessageSettingStorage.get(sortOptionStorageKey, defaultSortOption);
-        resolve(option);
+        // var option = NstSvcMessageSettingStorage.get(sortOptionStorageKey, defaultSortOption);
+        // resolve(option);
+        resolve(defaultSortOption);
       });
     }
 
@@ -109,7 +119,9 @@
         placeId : vm.filter !== FILTER_ALL ? vm.filter : null
       };
 
-      NstSvcActivityFactory.getRecent(settings).then(defer.resolve).catch(defer.reject);
+      NstSvcActivityFactory.getRecent(settings).then(function (activities) {
+        defer.resolve(mapActivities(activities));
+      }).catch(defer.reject);
 
       return defer.promise;
     }
@@ -256,6 +268,69 @@
       vm.quickMessagePreview = !vm.quickMessagePreview;
     }
 
+    function mapActivities(activities) {
+      var items = _.map(activities, function (item) {
+        return {
+          id : item.id,
+          actor : mapActivityActor(item),
+          member : mapActivityMember(item),
+          comment : mapActivityComment(item),
+          post : mapActivityPost(item),
+          date : getPassedTime(item.date),
+          type : item.type
+        };
+      });
+
+      return items;
+    }
+
+    function getPassedTime(date) {
+      if (!moment.isMoment(date)) {
+        date = moment(date);
+      }
+
+      return date.fromNow();
+    }
+
+    function mapActivityMember(activity) {
+      if (!activity.member) {
+        return {};
+      }
+      return {
+        id : activity.member.id,
+        name : activity.member.fullName,
+        type : activity.member.type
+      };
+    }
+
+    function mapActivityComment(activity) {
+      if (!activity.comment) {
+        return {};
+      }
+
+      return {
+        id : activity.comment.id,
+        body : activity.comment.body
+      };
+    }
+
+    function mapActivityPost(activity) {
+      if (!activity.post) {
+        return {};
+      }
+      return {
+        id : activity.post.id,
+        subject : activity.post.subject
+      };
+    }
+
+    function mapActivityActor(activity) {
+      return {
+        id : activity.actor.id,
+        avatar : activity.actor.picture.getThumbnail('32').url.download,
+        name : activity.actor.fullName
+      };
+    }
   }
 
 })();

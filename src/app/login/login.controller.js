@@ -12,7 +12,7 @@
     var vm = this;
 
     if (NstSvcAuth.isAuthorized()) {
-      $location.path('/').replace();
+      $location.path('/messages').replace();
     }
 
     vm.username = '';

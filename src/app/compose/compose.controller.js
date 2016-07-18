@@ -240,7 +240,6 @@
 
               // FIXME : use a common format for unique id
               if (item.getClientId() === response.data._reqid) {
-                console.log(item);
 
                 item.status = ATTACHMENT_STATUS.ATTACHED;
                 item.id = response.data.universal_id;

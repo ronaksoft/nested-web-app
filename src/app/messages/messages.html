@@ -7,23 +7,24 @@
       <section class="content">
         <div class="filter-bar _fn">
           <div class="filter-bar-hld _pr _vam">
-            <div class="_difh iconsblock iconsblock-right popover-white-nst-sort" uib-popover-template="'app/messages/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
-              <span class="nst-mood-storm _df"> Latest Messages </span>
+            <div class="_difh iconsblock iconsblock-right popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
+              <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort}}</span>
               <div class="icon icon-viewicon-sort _df"></div>
             </div>
             <div class="_dib iconsblock">
-              <div class="icon icon-viewicon-  popover-white-nst-msg" uib-popover-template="'app/messages/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
+              <div class="icon icon-viewicon-  popover-white-nst-msg" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
             </div>
           </div>
         </div>
 
-        <div class="_fw quick-message _fn">
+        <div class="_fw quick-message _fn" ng-if="ctlMessages.viewSetting.quickMessagePreview">
           <input class="_fw input input-title" placeholder="Quick Message Title..."/>
           <input class="_fw input" placeholder="quick message text..."/>
 
         </div>
         <div class="post-area">
-          <div class="post-card _fw">
+          <div class="_fw" data-ng-repeat="msg in ctlMessages.messages" data-ng-include="'app/messages/partials/message/post-card.html'" data-ng-model="message" recent-event></div>
+          <!--<div class="post-card _fw">
             <section class="post-card-badge">
               <a class="">Ronak Software Group</a>
               <a class="popover-white" data-uib-popover-template="'app/events/partials/event/common/more_places.html'" data-popover-placement="auto bottom-right" popover-trigger="outsideClick">+10</a>
@@ -69,266 +70,14 @@
               <input class="_fw" placeholder="write your comment ...">
 
             </div>
-          </section>
-          <div class="post-card _fw">
-            <section class="post-card-badge">
-              <a class="">Ronak Software Group</a>
-              <a class="">+10</a>
-            </section>
-            <section class="post-head _difh">
-              <div class="img _df">
-                <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
-              </div>
-              <div class="_fw _difc">
-                <div class="_difc _fw"><h4 class="_df">Sal Naghavi</h4><span class="nst-mood-storm _df">@kuttlass</span></div>
-                <span class="_df _fn post-card-time">Jun 06, 15:18</span>
-              </div>
-            </section>
-            <section class="post-subject"><h3>Ronak Open Position:</h3></section>
-            <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
-            </p></section>
-            <section class="post-attachments" data-ng-show="false">attachments</section>
-            <section class="post-footer _difh"><a class="_df _fn">1 comment</a>
-              <div class="post-icons _fw _df">
-                <div class="icon icon-storm action-button-post- _df"></div>
-                <div class="icon icon-storm action-button-post-delete _df"></div>
-                <div class="icon icon-storm action-button-post-forward _df"></div>
-              </div>
-            </section>
-          </div>
-          <section class="post-card-comment">
-            <div class="_df _fw comments-load"><a>Older Comments...</a></div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Farzin Nami:</strong>Okey hatman merC az pishnahadet</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you
-                  send your docs/reports/receipts into those places.</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comment-input _df">
-              <input class="_fw" placeholder="write your comment ...">
-
-            </div>
-          </section>
-          <div class="post-card _fw">
-            <section class="post-card-badge">
-              <a class="">Ronak Software Group</a>
-              <a class="">+10</a>
-            </section>
-            <section class="post-head _difh">
-              <div class="img _df">
-                <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
-              </div>
-              <div class="_fw _difc">
-                <div class="_difc _fw"><h4 class="_df">Sal Naghavi</h4><span class="nst-mood-storm _df">@kuttlass</span></div>
-                <span class="_df _fn post-card-time">Jun 06, 15:18</span>
-              </div>
-            </section>
-            <section class="post-subject"><h3>Ronak Open Position:</h3></section>
-            <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
-            </p></section>
-            <section class="post-attachments" data-ng-show="false">attachments</section>
-            <section class="post-footer _difh"><a class="_df _fn">1 comment</a>
-              <div class="post-icons _fw _df">
-                <div class="icon icon-storm icon-all-place icon-side _df"></div>
-              </div>
-            </section>
-          </div>
-          <section class="post-card-comment">
-            <div class="_df _fw comments-load"><a>Older Comments...</a></div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Farzin Nami:</strong>Okey hatman merC az pishnahadet</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you
-                  send your docs/reports/receipts into those places.</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comment-input _df">
-              <input class="_fw" placeholder="write your comment ...">
-
-            </div>
-          </section>
-          <div class="post-card _fw">
-            <section class="post-card-badge">
-              <a class="">Ronak Software Group</a>
-              <a class="">+10</a>
-            </section>
-            <section class="post-head _difh">
-              <div class="img _df">
-                <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
-              </div>
-              <div class="_fw _difc">
-                <div class="_difc _fw"><h4 class="_df">Sal Naghavi</h4><span class="nst-mood-storm _df">@kuttlass</span></div>
-                <span class="_df _fn post-card-time">Jun 06, 15:18</span>
-              </div>
-            </section>
-            <section class="post-subject"><h3>Ronak Open Position:</h3></section>
-            <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
-            </p></section>
-            <section class="post-attachments" data-ng-show="false">attachments</section>
-            <section class="post-footer _difh"><a class="_df _fn">1 comment</a>
-              <div class="post-icons _fw _df">
-                <div class="icon icon-storm icon-all-place icon-side _df"></div>
-              </div>
-            </section>
-          </div>
-          <section class="post-card-comment">
-            <div class="_df _fw comments-load"><a>Older Comments...</a></div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Farzin Nami:</strong>Okey hatman merC az pishnahadet</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you
-                  send your docs/reports/receipts into those places.</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comment-input _df">
-              <input class="_fw" placeholder="write your comment ...">
-
-            </div>
-          </section>
-          <div class="post-card _fw">
-            <section class="post-card-badge">
-              <a class="">Ronak Software Group</a>
-              <a class="">+10</a>
-            </section>
-            <section class="post-head _difh">
-              <div class="img _df">
-                <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
-              </div>
-              <div class="_fw _difc">
-                <div class="_difc _fw"><h4 class="_df">Sal Naghavi</h4><span class="nst-mood-storm _df">@kuttlass</span></div>
-                <span class="_df _fn post-card-time">Jun 06, 15:18</span>
-              </div>
-            </section>
-            <section class="post-subject"><h3>Ronak Open Position:</h3></section>
-            <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
-            </p></section>
-            <section class="post-attachments" data-ng-show="false">attachments</section>
-            <section class="post-footer _difh"><a class="_df _fn">1 comment</a>
-              <div class="post-icons _fw _df">
-                <div class="icon icon-storm icon-all-place icon-side _df"></div>
-              </div>
-            </section>
-          </div>
-          <section class="post-card-comment">
-            <div class="_df _fw comments-load"><a>Older Comments...</a></div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Farzin Nami:</strong>Okey hatman merC az pishnahadet</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you
-                  send your docs/reports/receipts into those places.</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comment-input _df">
-              <input class="_fw" placeholder="write your comment ...">
-
-            </div>
-          </section>
-          <div class="post-card _fw">
-            <section class="post-card-badge">
-              <a class="">Ronak Software Group</a>
-              <a class="">+10</a>
-            </section>
-            <section class="post-head _difh">
-              <div class="img _df">
-                <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
-              </div>
-              <div class="_fw _difc">
-                <div class="_difc _fw"><h4 class="_df">Sal Naghavi</h4><span class="nst-mood-storm _df">@kuttlass</span></div>
-                <span class="_df _fn post-card-time">Jun 06, 15:18</span>
-              </div>
-            </section>
-            <section class="post-subject"><h3>Ronak Open Position:</h3></section>
-            <section class="post-body"><p>درودبا توجه به این‌که کف شرکت موکته، ایده‌ی خوبیه که دست‌کم یه کپسول آتش‌خاموش‌کن برای دفتر تهیه کنیم. مرسی اَه :)
-            </p></section>
-            <section class="post-attachments" data-ng-show="false">attachments</section>
-            <section class="post-footer _difh"><a class="_df _fn">1 comment</a>
-              <div class="post-icons _fw _df">
-                <div class="icon icon-storm icon-all-place icon-side _df"></div>
-              </div>
-            </section>
-          </div>
-          <section class="post-card-comment">
-            <div class="_df _fw comments-load"><a>Older Comments...</a></div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Farzin Nami:</strong>Okey hatman merC az pishnahadet</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comments _difh">
-              <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-              <div class="text _df _fw">
-                <p class="_fw"><strong>Ehsan Noureddin Mousa:</strong>@kayvannm you will be told to send what documents where ? even there might be cases that you are not member of a place but you
-                  send your docs/reports/receipts into those places.</p>
-              </div>
-              <span class="_df _fn">9 days ago</span>
-            </div>
-            <div class="post-card-comment-input _df">
-              <input class="_fw" placeholder="write your comment ...">
-
-            </div>
-          </section>
+          </section>-->
         </div>
 
       </section>
       <div class="content-plus" id="content-plus">
         <div>
           <div class="name">Recent Activities</div>
-          <div class="row">
-            <div class="_df">
-              <img initials="user.name" data-url="user.picture.x24.url" data-width="16" data-height="16" data-radius="16" class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
-            </div>
-            <div class="colomn">
-              <div class="_difh top">
-                <div class="sender _fw _df">
-                  <a>Ehsan</a> <span>@ehsan</span>
-                </div>
-                <div class="_df">
-                  <span>23" ago</span>
-                </div>
-                <div class="ei-comment-add _df _fn"></div>
-              </div>
-              <div class="_df">
-                <p><span>commented</span> Wow, It's really Cool... We love new design :D</p>
-              </div>
-            </div>
-
-          </div>
-
+          <recent-activity-item ng-repeat="act in ctlMessages.activities" model="act"></recent-activity-item>
         </div>
       </div>
     </div>

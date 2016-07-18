@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcPostFactory($q, $log,
     _,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcAttachmentFactory,NstSvcStore,
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,NstSvcStore,
     NstFactoryError, NstFactoryQuery ,NstPost, NstComment, NstUser) { // TODO: It should not inject any model, ask the factory to create the model
 
     /**
@@ -41,25 +41,27 @@
       var query = new NstFactoryQuery(id);
 
       return $q(function(resolve, reject) {
-        var post = NstSvcPostStorage.get(this.query.id);
-        if (post) {
-          resolve(post);
+        if (!this.query.id){
+          resolve(null);
         } else {
-          NstSvcServer.request('post/get', {
-            'post_id' : id
-          }).then(function(data) {
-            post = parsePost(data.post);
-            NstSvcPostStorage.set(this.query.id, post);
+          var post = NstSvcPostStorage.get(this.query.id);
+          if (post) {
             resolve(post);
-          }.bind({
-            query: this.query
-          })).catch(function(error) {
-            console.log('woops');
-            console.log(error);
-            reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          }.bind({
-            query: this.query
-          }));
+          } else {
+            NstSvcServer.request('post/get', {
+              post_id : query.id
+            }).then(function(data) {
+              post = parsePost(data.post);
+              NstSvcPostStorage.set(this.query.id, post);
+              resolve(post);
+            }.bind({
+              query: this.query
+            })).catch(function(error) {
+              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            }.bind({
+              query: this.query
+            }));
+          }
         }
       }.bind({
         query: query
@@ -255,7 +257,6 @@
     }
 
     function parsePost(data) {
-      $log.debug('The post is :', data);
       var defer = $q.defer();
 
       var post = createPostModel();
@@ -365,6 +366,7 @@
     }
 
     function parseMessageComment(data) {
+
       var defer = $q.defer();
       var comment = createCommentModel();
       if (!data) {
@@ -395,7 +397,6 @@
         defer.resolve(message);
       } else {
 
-
         message.id = data._id.$oid;
         message.subject = data.subject;
         message.body = data.body;
@@ -406,26 +407,33 @@
         message.lastUpdate = data.last_update;
         message.timestap = new Date(data.timestamp);
 
-        // var senderPromise = NstSvcUserFactory.parseUser(data.sender);
-        var senderPromise = new $q(function (resolve, reject) {
-          resolve(new NstUser(data.sender));
-        });
-
-
+        var senderPromise = NstSvcUserFactory.get(data.sender._id);
         var replyToPromise = get(data.reply_to ? data.reply_to.$oid : undefined);
         var forwardedFromPromise = get(data.forwarded_from ? data.forwarded_from.$oid : undefined);
-        var placePromises = _.map(data.post_places, NstSvcPlaceFactory.parseTinyPlace);
+        var placePromises = _.map(data.post_places, function (place) {
+          return NstSvcPlaceFactory.parseTinyPlace(place);
+        });
+
         var attachmentPromises = _.map(data.post_attachments, function (attachment) {
           return NstSvcAttachmentFactory.parseAttachment(attachment, message);
         });
-        var commentPromises = _.map(data['last-comments'], parseMessageComment);
 
-        var promises = _.concat(senderPromise, replyToPromise, forwardedFromPromise);
+        var commentPromises = _.map(data['last-comments'], function (comment) {
+          return parseMessageComment(comment);
+        });
 
-        $q.all(promises).then(function(values) {
-          message.seder = values[0];
-          message.replyTo = values[1];
-          message.forwardedFrom = values[2];
+        // var promises = _.concat(senderPromise, replyToPromise, forwardedFromPromise);
+
+        senderPromise.then(function (sender) {
+          message.sender = sender;
+
+          return replyToPromise;
+        }).then(function (replyTo) {
+          message.replyTo = replyTo;
+
+          return forwardedFromPromise;
+        }).then(function (forwardedFrom) {
+          message.forwardedFrom = forwardedFrom;
 
           return $q.all(placePromises);
         }).then(function(places) {
@@ -438,7 +446,6 @@
           return $q.all(commentPromises);
         }).then(function(comments) {
           message.comments = comments;
-
           defer.resolve(message);
         }).catch(defer.reject);
 
