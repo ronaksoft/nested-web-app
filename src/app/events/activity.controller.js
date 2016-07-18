@@ -53,16 +53,12 @@
       }
 
       function initialize() {
-        console.log('going to initialize');
         return $q.all([loadActivities(), loadInvitations()]);
       }
 
       function loadActivities() {
         return $q(function(resolve, reject) {
-          console.log('loading activities');
           NstSvcActivityFactory.load(vm.activitySettings).then(function(activities) {
-            console.log('activities');
-            console.log(activities);
             vm.acts = mapActivities(activities);
             resolve(vm.acts);
 
@@ -128,9 +124,8 @@
       }
 
       initialize().then(function (values) {
-        console.log('initialized successfully...');
       }).catch(function (error) {
-        console.log(error);
+        $log.debug(error);
       })
 
     }

@@ -39,16 +39,22 @@
     vm.toggleCommentsPreview      = toggleCommentsPreview;
     vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
 
-    console.log('in messages');
-
     (function () {
-      $q.all([getMessages(), loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
-        console.log('zaza');
-        console.log(values);
-        vm.messages = mapMessages(values[0]);
-        vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[1]);
-        vm.messagesSetting.sort = values[2] || vm.defaultSortOption;
-        vm.activities = values[3];
+      // $q.all([getMessages(), loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
+      //   vm.messages = mapMessages(values[0]);
+      //   vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[1]);
+      //   vm.messagesSetting.sort = values[2] || vm.defaultSortOption;
+      //   vm.activities = values[3];
+      // }).catch(function (error) {
+      //   $log.debug(error)
+      // });
+
+      $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
+        vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
+        vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
+        vm.activities = values[2];
+
+        console.log(vm);
       }).catch(function (error) {
         $log.debug(error)
       });
@@ -56,12 +62,9 @@
     })();
 
     function getMessages() {
-      console.log('wanna');
       if (vm.filter === FILTER_ALL) {
-        console.log('filter is all');
         return NstSvcPostFactory.getMessages(vm.messagesSetting);
       } else {
-        console.log('filter foo');
         var placeId = vm.filter;
         return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, placeId);
       }
@@ -69,15 +72,17 @@
 
     function loadViewSetting() {
       return $q(function (resolve, reject) {
-        var setting = NstSvcMessageSettingStorage.get(viewSettingStorageKey, defaultViewSetting);
-        resolve(setting);
+        // var setting = NstSvcMessageSettingStorage.get(viewSettingStorageKey, defaultViewSetting);
+        // resolve(setting);
+        resolve(defaultViewSetting)
       });
     }
 
     function loadSortOption() {
       return $q(function (resolve, reject) {
-        var option = NstSvcMessageSettingStorage.get(sortOptionStorageKey, defaultSortOption);
-        resolve(option);
+        // var option = NstSvcMessageSettingStorage.get(sortOptionStorageKey, defaultSortOption);
+        // resolve(option);
+        resolve(defaultSortOption);
       });
     }
 
@@ -116,9 +121,6 @@
       };
 
       NstSvcActivityFactory.getRecent(settings).then(function (activities) {
-        console.log('here in messages');
-        console.log('activities are');
-        console.log(activities);
         defer.resolve(mapActivities(activities));
       }).catch(defer.reject);
 
@@ -126,8 +128,6 @@
     }
 
     function mapMessages(messages) {
-      console.log('messages are');
-      console.log(messages);
 
       var now = moment();
 
@@ -282,9 +282,6 @@
         };
       });
 
-      console.log('mapped activities');
-      console.log(items);
-
       return items;
     }
 
@@ -297,12 +294,9 @@
     }
 
     function mapActivityMember(activity) {
-      console.log(activity);
       if (!activity.member) {
         return {};
       }
-      console.log('haha');
-      console.log(activity.member);
       return {
         id : activity.member.id,
         name : activity.member.fullName,
@@ -325,8 +319,6 @@
       if (!activity.post) {
         return {};
       }
-      console.log('post is');
-      console.log(activity.post);
       return {
         id : activity.post.id,
         subject : activity.post.subject
@@ -334,7 +326,6 @@
     }
 
     function mapActivityActor(activity) {
-      console.log(activity.actor);
       return {
         id : activity.actor.id,
         avatar : activity.actor.picture.getThumbnail('32').url.download,

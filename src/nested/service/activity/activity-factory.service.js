@@ -21,8 +21,6 @@
     return service;
 
     function parseActivity(data) {
-      console.log('parsing :');
-      console.log(data);
       var defer = $q.defer();
 
       var activity = new NstActivity();
@@ -55,7 +53,6 @@
     }
 
     function extractActor(data) {
-      console.log('parsing actor');
       var defer = $q.defer();
 
       if (!data.actor) { // could not find an actor inside
@@ -77,7 +74,6 @@
     }
 
     function extractPost(data) {
-      console.log('parsing post');
       var defer = $q.defer();
 
       if (!data.post_id) { // could not find any post inside
@@ -105,7 +101,6 @@
     }
 
     function extractComment(data) {
-      console.log('parsing comment');
       var defer = $q.defer();
 
       if (!data.comment_id) { // could not find any comment inside
@@ -122,7 +117,6 @@
     }
 
     function extractPlaces(data) {
-      console.log('parsing places');
       var defer = $q.defer();
 
       if (!data.post_places) { // could not find an actor inside
@@ -144,14 +138,11 @@
     }
 
     function extractMember(data) {
-      console.log('parsing member');
       var defer = $q.defer();
 
       if (!data.member_id) { // could not find a member inside
         defer.resolve({}); // TODO: decide to fill with an empty object or an empty NstUser
       } else {
-        console.log('yoyo');
-        console.log(data);
         defer.resolve({
           id: data.member_id,
           fullName: data.invitee_name,
@@ -175,8 +166,6 @@
           var activities = _.map(data.events, parseActivity);
 
           $q.all(activities).then(function(values) {
-            console.log('map completed and value is:');
-            console.log(values);
             NstSvcActivityStorage.merge('all', values);
             defer.resolve(values);
           }).catch(defer.reject);

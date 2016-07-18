@@ -27,6 +27,8 @@
 
 
     function parseAttachment(data, post) {
+      console.log('parsing attachment');
+      console.log(data);
       var defer = $q.defer();
 
       var attachment = createAttachmentModel();
@@ -55,11 +57,13 @@
       });
 
       var uploaderPromise = NstSvcUserFactory.get(data.uploader);
-
+      console.log('attachment parse completed and gonna fetch other properties');
       $q.all(placePromises).then(function(places) {
+        console.log('places resolved');
         attachment.places = places;
         return uploaderPromise;
       }).then(function(uploader) {
+        console.log('uploader resolved');
         attachment.uploader = uploader;
 
         defer.resolve(attachment);
