@@ -8,7 +8,7 @@
   function NstSvcActivityFactory($q, $log,
     _, moment,
     NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
-    NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace) {
+    NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace, NstTinyComment, NstTinyPost) {
 
     /**
      * PostFactory - all operations related to activity
@@ -77,24 +77,18 @@
       var defer = $q.defer();
 
       if (!data.post_id) { // could not find any post inside
-        defer.resolve({}); // TODO: decide to fill with an empty object or an empty NstPost
+        defer.resolve(new NstTinyPost());
       } else {
-        // TODO: find the user in data or get it from factory
-        //  1. NstSvcUserFactory.get(data.actor)
-        //  2. extractActor(data)
-        extractActor(data).then(function(user) {
-          NstSvcPostFactory.parsePost({
-            _id: data.post_id,
-            sender: user,
-            subject: data.post_subject,
-            body: data.post_body,
-            post_attachments: data.post_attachments,
-            post_places: data.post_places,
-            date: data['time-stamp']
-          }).then(function(post) {
-            defer.resolve(post);
-          }).catch(defer.reject);
-        }).catch(defer.reject);
+        var tinyPost = new NstTinyPost({
+          id : data.post_id.$oid,
+          subject : data.post_subject,
+          senderId : data.actor,
+          placeIds : _.map(data.post_places, function (place) {
+            return place._id;
+          })
+        });
+
+        defer.resolve(tinyPost);
       }
 
       return defer.promise;
@@ -102,15 +96,14 @@
 
     function extractComment(data) {
       var defer = $q.defer();
-
       if (!data.comment_id) { // could not find any comment inside
-        defer.resolve({}); // TODO: decide to fill with an empty object or an empty NstComment
+        defer.resolve(new NstTinyComment());
       } else {
-        var comment = {
-          id: data.comment_id.$oid,
-          body: data.comment_body
-        };
-        defer.resolve(comment);
+        defer.resolve(new NstTinyComment({
+          id : data.comment_id.$oid,
+          body : data.comment_body,
+          postId : data.post_id.$oid
+        }));
       }
 
       return defer.promise;

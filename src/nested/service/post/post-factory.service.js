@@ -57,8 +57,6 @@
             }.bind({
               query: this.query
             })).catch(function(error) {
-              console.log('woops');
-              console.log(error);
               reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             }.bind({
               query: this.query
@@ -399,8 +397,6 @@
         defer.resolve(message);
       } else {
 
-        console.log(data);
-
         message.id = data._id.$oid;
         message.subject = data.subject;
         message.body = data.body;
@@ -428,44 +424,28 @@
 
         // var promises = _.concat(senderPromise, replyToPromise, forwardedFromPromise);
 
-        console.log('going to parse message heavily');
-
         senderPromise.then(function (sender) {
-          console.log('sender is');
-          console.log(sender);
           message.sender = sender;
 
           return replyToPromise;
         }).then(function (replyTo) {
-          console.log('replyTo is');
-          console.log(replyTo);
           message.replyTo = replyTo;
 
           return forwardedFromPromise;
         }).then(function (forwardedFrom) {
-          console.log('forwardedFrom is');
-          console.log(forwardedFrom);
           message.forwardedFrom = forwardedFrom;
 
           return $q.all(placePromises);
         }).then(function(places) {
-          console.log('places is');
-          console.log(places);
           message.places = places;
 
           return $q.all(attachmentPromises);
         }).then(function(attachments) {
-          console.log('attachments is');
-          console.log(attachments);
           message.attachments = attachments;
 
           return $q.all(commentPromises);
         }).then(function(comments) {
-          console.log('comments is');
-          console.log(comments);
           message.comments = comments;
-          console.log('message parsed and is:');
-          console.log(message);
           defer.resolve(message);
         }).catch(defer.reject);
 

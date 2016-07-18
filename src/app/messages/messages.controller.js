@@ -54,7 +54,6 @@
         vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
         vm.activities = values[2];
 
-        console.log(vm);
       }).catch(function (error) {
         $log.debug(error)
       });
