@@ -4,33 +4,33 @@
   </div>
   <div>
     <div class="list-items">
-      <label class="" for="content"> Content Preview</label>
+      <label class="" for="content"  ng-click="ctlMessages.toggleContentPreview()"> Content Preview</label>
       <input class="_fr" type="checkbox" id="content" name="content" value="content"
-             data-ng-model="preview.content"/>
+             data-ng-model="ctlMessages.messagesSetting.sort.content"/>
     </div>
   </div>
   <div>
-    <div class="list-items">
+    <div class="list-items" ng-click="ctlMessages.toggleAttachmentPreview()">
       <label class="" for="attachments">Attachments</label>
       <input class="_fr" type="checkbox" id="attachments" name="attachments" value="attachments"
-             data-ng-model="login.attachments"/>
+             data-ng-model="ctlMessages.messagesSetting.sort.attachments"/>
     </div>
   </div>
   <div>
     <div class="list-items">
-      <label class="" for="comments">Comments</label>
+      <label class="" for="comments"  ng-click="ctlMessages.toggleCommentsPreview()">Comments</label>
       <input class="_fr" type="checkbox" id="comments" name="comments" value="comments"
-             data-ng-model="login.comments"/>
+             data-ng-model="ctlMessages.messagesSetting.sort.comments"/>
     </div>
   </div>
 
   <div class="line-popover"></div>
 
   <div>
-    <div class="list-items">
+    <div class="list-items"  ng-click="ctlMessages.toggleQuickMessagePreview()">
       <label class="" for="msg">Quick message</label>
       <input class="_fr" type="checkbox" id="msg" name="msg" value="msg"
-             data-ng-model="login.msg"/>
+             data-ng-model="ctlMessages.messagesSetting.sort.quickMessage"/>
     </div>
   </div>
 </div>
