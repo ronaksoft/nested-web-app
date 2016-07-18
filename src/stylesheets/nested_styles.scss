@@ -549,18 +549,30 @@ ul ul > li:last-child > .side-place-item-inner{
   }
 }
 
-ul ul > li:last-child li{
-  .lines:first-of-type{
-    .box1 {
+.side-place-wrapper > ul > li > ul > li:last-child > ul{
+  li .lines:first-of-type{
+    div {
       border: none;
     }
-    .box2 {
+  }
+}
+.side-place-wrapper > ul > li > ul > li > ul > li:last-child > ul{
+  li .lines:first-of-type + .lines{
+    div {
       border: none;
     }
-    .box3 {
+  }
+}
+.side-place-wrapper > ul > li > ul > li > ul > li > ul > li:last-child > ul{
+  li .lines:first-of-type + .lines + .lines{
+    div {
       border: none;
     }
-    .box4 {
+  }
+}
+.side-place-wrapper > ul > li > ul > li > ul > li > ul > li > ul > li:last-child > ul{
+  li .lines:first-of-type + .lines + .lines + .lines{
+    div {
       border: none;
     }
   }
