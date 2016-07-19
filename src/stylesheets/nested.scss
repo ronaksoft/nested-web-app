@@ -1027,8 +1027,13 @@ a .ui-select-choises-row-inner {
   display: flex;
   flex: none;
   width: 4px;
-  height: 100%;
+  top:0;
+  right:0;
+  bottom:0;
+  position: absolute;
   background: linear-gradient(to right, transparent, #d8dcd9);
+  background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,#d8dcd9 100%);
+
 }
 @media screen and (max-width: 990px){
   .sidebar{
