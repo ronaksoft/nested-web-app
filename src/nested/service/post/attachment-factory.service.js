@@ -37,7 +37,7 @@
         attachment.id = data._id;
         attachment.file = new NstStoreResource(data.download);
         attachment.downloads = data.downloads;
-        attachment.name = data.filename;
+        attachment.fileName = data.filename;
         attachment.mimeType = data.mimetype;
         attachment.size = data.size;
         attachment.status = data.status;

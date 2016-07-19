@@ -173,7 +173,7 @@
 
       function mapAttachment(attach) {
         return {
-          name : attach.name,
+          fileName : attach.fileName,
           size : attach.size,
           url : attach.file.url,
           type : findFileType(attach),

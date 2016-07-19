@@ -14,7 +14,7 @@
         this.size = 0;
         this.status = null;
         this.mimeType = null;
-        this.name = null;
+        this.fileName = null;
         this.uploadTime = null;
         this.owners = []; // [<NstPlace>]
         this.ownerIds = [];
