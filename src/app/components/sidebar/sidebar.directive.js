@@ -122,7 +122,11 @@
        *****************************/
 
       function mapUser(user) {
-        return user;
+        return {
+          id : user.getId(),
+          avatar : user.getPicture().getThumbnail(32).getUrl().view,
+          name : user.getFullName()
+        };
       }
 
       function mapPlaces(places, depth) {
