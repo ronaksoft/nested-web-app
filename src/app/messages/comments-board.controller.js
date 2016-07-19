@@ -9,7 +9,7 @@
     NstSvcPostFactory) {
       var vm = this;
       vm.post = {};
-      vm.comments = {};
+      //vm.comments = {};
       vm.setting = {
         skip : 0,
         limit : 10

@@ -17,7 +17,7 @@
     <h3 ng-if="ctlPost.post.subject.length < 1"><i>No Subject</i></h3>
   </section>
   <section class="post-body {{ctlPost.post.contentType == 'text/plain' ? 'pre' : ''}}" ng-if="ctlPost.post.subject.length > 0 && ctlPost.viewSetting.content">{{ctlPost.post.body | emoji}}</section>
-  <section class="post-body" ng-if="ctlPost.post.subject.length < 1 && ctlMessages.ViewSetting.content"><i>No message</i></section>
+  <section class="post-body" ng-if="ctlPost.post.subject.length < 1 && ctlPost.ViewSetting.content"><i>No message</i></section>
   <section class="post-attachments" data-ng-if="ctlPost.post.hasAnyAttachment && ctlPost.viewSetting.attachments">
     <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = ctlPost.post"></div>
   </section>
@@ -37,7 +37,7 @@
     </div>
     <span class="_df _fn">9 days ago</span>
   </div>-->
-  <comment ng-repeat="cm in ctlPost.post.comments" cm="cm"></comment>
+  <comments-board comments="ctlPost.post.comments"></comments-board>
   <div class="post-card-comment-input _df">
     <input class="_fw" placeholder="write your comment ...">
 

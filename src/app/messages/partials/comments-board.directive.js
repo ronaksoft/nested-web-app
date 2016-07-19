@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .directive('comment', comment);
+    .directive('commentsBoard', comment);
 
   /** @ngInject */
   function comment() {
@@ -14,9 +14,9 @@
       },
       templateUrl: 'app/messages/partials/message/comment.html',
       controller: 'CommentsBoardController',
-      controllerAs: 'ctlComment',
+      controllerAs: 'ctlComments',
       bindToController: {
-        comment: '=cm'
+        comments: '=comments'
       }
     };
   }

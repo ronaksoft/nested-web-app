@@ -169,7 +169,7 @@
         }
         return {
           name : sender.fullName,
-          username : sender.username,
+          username : sender.id,
           avatar : sender.picture.getThumbnail('32').url.download
         };
       }
