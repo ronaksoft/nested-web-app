@@ -50,7 +50,7 @@
         vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
         vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
         vm.activities = values[2];
-        vm.messages = values[3];
+        vm.messages = mapMessages(values[3]);
         console.log(vm);
       }).catch(function (error) {
         $log.debug(error)
