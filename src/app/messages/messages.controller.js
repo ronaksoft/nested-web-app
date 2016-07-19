@@ -148,6 +148,7 @@
           sender : mapSender(message.sender),
           subject : message.subject,
           body : message.body,
+          contentType : message.contentType,
           firstPlace : mapPlace(firstPlace),
           allPlaces : _.map(message.places, mapPlace),
           otherPlacesCount : message.places.length -1,
@@ -249,19 +250,19 @@
     }
 
     function toggleContentPreview() {
-      vm.contentPreview = !vm.contentPreview;
+      vm.messagesSetting.contentPreview = !vm.messagesSetting.contentPreview;
     }
 
     function toggleCommentsPreview() {
-      vm.commentsPreview = !vm.commentsPreview;
+      vm.messagesSetting.commentsPreview = !vm.messagesSetting.commentsPreview;
     }
 
     function toggleAttachmentPreview() {
-      vm.attachmentPreview = !vm.attachmentPreview;
+      vm.messagesSetting.attachmentPreview = !vm.messagesSetting.attachmentPreview;
     }
 
     function toggleQuickMessagePreview() {
-      vm.quickMessagePreview = !vm.quickMessagePreview;
+      vm.messagesSetting.quickMessagePreview = !vm.messagesSetting.quickMessagePreview;
     }
 
     function mapActivities(activities) {
