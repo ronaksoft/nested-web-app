@@ -40,20 +40,18 @@
     vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
 
     (function () {
-      // $q.all([getMessages(), loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
+      // $q.all([getMessages()]).then(function (values) {
       //   vm.messages = mapMessages(values[0]);
-      //   vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[1]);
-      //   vm.messagesSetting.sort = values[2] || vm.defaultSortOption;
-      //   vm.activities = values[3];
       // }).catch(function (error) {
       //   $log.debug(error)
       // });
 
-      $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities()]).then(function (values) {
+      $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), getMessages()]).then(function (values) {
         vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
         vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
         vm.activities = values[2];
-
+        vm.messages = values[3];
+        console.log(vm);
       }).catch(function (error) {
         $log.debug(error)
       });
@@ -149,7 +147,6 @@
       return _.map(messages, function (message) {
 
         var firstPlace = _.first(message.places);
-        var otherPlaces = _.remove(messages.places, firstPlace, 'id');
 
         return {
           id : message.id,
@@ -157,32 +154,35 @@
           subject : message.subject,
           body : message.body,
           firstPlace : mapPlace(firstPlace),
-          otherPlaces : _.map(otherPlaces, mapPlace),
-          otherPlacesCount : otherPlaces.length,
-          totalPlacesCount : message.places.length,
+          allPlaces : _.map(message.places, mapPlace),
+          otherPlacesCount : message.places.length -1,
+          allPlacesCount : message.places.length,
           date : formatMessageDate(message.date),
           attachments : _.map(message.attachments, mapAttachment),
           hasAnyAttachment : message.attachments.length > 0,
           comments : _.map(message.comments, mapComment),
           hasAnyComment : message.comments.length > 0,
-          commentsCount : message.attachments.length,
-          userHasRemoveAccess : message.haveAnyPlaceWithDeleteAccess()
+          commentsCount : message.comments.length,
+          // userHasRemoveAccess : message.haveAnyPlaceWithDeleteAccess()
         };
       });
 
       function mapSender(sender) {
+        if (!sender) {
+          return {};
+        }
         return {
-          name : sender.fullname,
+          name : sender.fullName,
           username : sender.username,
-          avatar : sender.picture.x32.url.download
+          avatar : sender.picture.getThumbnail('32').url.download
         };
       }
 
       function mapAttachment(attach) {
         return {
-          name : attach.filename,
+          name : attach.name,
           size : attach.size,
-          url : attach.download.url,
+          url : attach.file.url,
           type : findFileType(attach),
           format : findFileFormat(attach),
         };
@@ -226,6 +226,10 @@
       function formatCommentDate(date) {
         if (!date) {
           return 'Unknown';
+        }
+
+        if (!moment.isMoment(date)){
+          date = moment(date);
         }
 
         return date.fromNow(false); // 'true' just removes the trailing 'ago'

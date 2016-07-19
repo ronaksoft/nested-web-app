@@ -10,8 +10,11 @@
     function TinyComment(model) {
 
       this.postId = null;
+      this.senderId = null;
+      this.sender = null;
       this.id = null;
       this.body = null;
+      this.date = null;
 
       NstModel.call(this, model);
 
