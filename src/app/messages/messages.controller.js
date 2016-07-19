@@ -45,7 +45,6 @@
         vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
         vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
         vm.activities = values[2];
-        console.log('zoooo', values[3]);
         vm.messages = mapMessages(values[3]);
         console.log(vm);
       }).catch(function (error) {
@@ -188,7 +187,7 @@
         return {
           id : place.id,
           name : place.name,
-          // picture : place.
+          picture : place.picture.getThumbnail('64').url.download
         };
       }
 
