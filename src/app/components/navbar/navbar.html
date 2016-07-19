@@ -1,14 +1,14 @@
 <div class="nst-topnav _difh ng-class:{ 'bg-hur': topNavOpen }">
   <div class="_fw _df">
-    <div ng-class="topNavOpen ? 'icon-close-search' : 'icon icon-top hamburger-icon'" ng-click="topNavOpen =! topNavOpen"></div>
+    <div ng-class="topNavOpen ? 'icon icon-top close-icon' : 'icon icon-top hamburger-icon'" ng-click="topNavOpen =! topNavOpen"></div>
   </div>
   <div class="_fw _jcc _df">
     <a href="#/"><div id="Logo-white"></div></a>
   </div>
   <div class="_fw _df">
     <a ng-if="!topNavOpen" href="#/new"><div class="icon icon-top comp-icon _df"></div></a>
-    <a ng-if="topNavOpen" href="#/profile"><div class="profile-menu-edit-profile"></div></a>
-    <a ng-if="topNavOpen" href="#/signout"><div class="profile-menu-signout"></div></a>
+    <a ng-if="topNavOpen" href="#/profile"><div class="icon icon-top profile-icon _df"></div></a>
+    <a ng-if="topNavOpen" href="#/signout"><div class="icon icon-top signout-icon _df"></div></a>
   </div>
 </div>
 <nested-navbar-top></nested-navbar-top>
