@@ -247,6 +247,7 @@
         });
 
         var commentPromises = _.map(data['last-comments'], function (comment) {
+          console.log(comment);
           return NstSvcCommentFactory.parseMessageComment(comment);
         });
 
@@ -273,6 +274,7 @@
 
           return $q.all(commentPromises);
         }).then(function(comments) {
+          console.log(comments);
           message.comments = comments;
           defer.resolve(message);
         }).catch(defer.reject);

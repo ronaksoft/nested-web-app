@@ -178,6 +178,7 @@
           url : attach.file.url,
           type : findFileType(attach),
           format : findFileFormat(attach),
+          thumbnail : attach.thumbnail.getThumbnail('128').url.download
         };
       }
 
@@ -243,7 +244,7 @@
       function mapComment(comment) {
         return {
             body : comment.body,
-            date : formatCommentDate(comment),
+            date : formatCommentDate(comment.date),
             sender : mapSender(comment.sender)
         };
       }

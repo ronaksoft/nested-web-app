@@ -8,7 +8,7 @@
   function NstSvcAttachmentFactory($q, $log,
     _,
     NstSvcServer, NstSvcStore, NstSvcPlaceFactory, NstSvcUserFactory,
-    NstAttachment, NstStoreResource, NstFactoryError, NstFactoryQuery) {
+    NstAttachment, NstPicture, NstStoreResource, NstFactoryError, NstFactoryQuery) {
 
     var uploadTokenKey = 'default-upload-token';
 
@@ -45,6 +45,7 @@
         attachment.uploadTime = new Date(data.upload_time);
         attachment.ownerIds = data.owners;
         attachment.uploaderId = data.uploader;
+        attachment.thumbnail = new NstPicture(null, data.thumbs);
         // TODO: Replace thumbs with NstPicture
         if (data.thumbs) {
           attachment.thumbs = {
