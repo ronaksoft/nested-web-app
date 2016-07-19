@@ -1054,6 +1054,9 @@ ul ul li:last-child{
   height: 66px;
   background-color: white;
   align-items: center;
+  ul {
+    list-style: none;
+  }
 }
 .post-card .post-footer{
   height: 40px;

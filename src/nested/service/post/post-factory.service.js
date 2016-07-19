@@ -233,7 +233,7 @@
         message.counters = data.counters;
         message.internal = data.internal;
         message.lastUpdate = data.last_update;
-        message.timestap = new Date(data.timestamp);
+        message.date = new Date(data.timestamp);
 
         var senderPromise = NstSvcUserFactory.get(data.sender._id);
         var replyToPromise = get(data.reply_to ? data.reply_to.$oid : undefined);

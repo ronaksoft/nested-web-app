@@ -40,16 +40,12 @@
     vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
 
     (function () {
-      // $q.all([getMessages()]).then(function (values) {
-      //   vm.messages = mapMessages(values[0]);
-      // }).catch(function (error) {
-      //   $log.debug(error)
-      // });
 
       $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), getMessages()]).then(function (values) {
         vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
         vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
         vm.activities = values[2];
+        console.log('zoooo', values[3]);
         vm.messages = mapMessages(values[3]);
         console.log(vm);
       }).catch(function (error) {
