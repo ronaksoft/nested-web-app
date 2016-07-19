@@ -6,12 +6,10 @@
     .controller('CommentsBoardController', CommentsBoardController);
 
   function CommentsBoardController($rootScope, $scope, $stateParams, $log, $q, $timeout,
-    postModel, commentsList,
     NstSvcPostFactory) {
       var vm = this;
-
-      vm.post = postModel;
-      vm.comments = commentsList;
+      vm.post = {};
+      vm.comments = {};
       vm.setting = {
         skip : 0,
         limit : 10

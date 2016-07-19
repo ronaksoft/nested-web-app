@@ -755,7 +755,8 @@ a:hover {
 .popover-white + .popover {
   max-width: 320px;
   min-width: 319px;
-  height: 100px;
+  max-height: 200px;
+  overflow-y: auto;
   position: absolute;
   top:-11px!important;
   left:366px!important;
