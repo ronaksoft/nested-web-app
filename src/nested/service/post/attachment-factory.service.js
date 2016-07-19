@@ -27,42 +27,35 @@
 
 
     function parseAttachment(data, post) {
-      var defer = $q.defer();
+      var defer = $q.defer(),
+          attachment = createAttachmentModel();
 
-      var attachment = createAttachmentModel();
-
-      attachment.post = post;
-      attachment.id = data._id;
-      attachment.file = new NstStoreResource(data.download);
-      attachment.downloads = data.downloads;
-      attachment.name = data.filename;
-      attachment.mimeType = data.mimetype;
-      attachment.size = data.size;
-      attachment.status = data.status;
-      attachment.storeId = data.store_id;
-      attachment.uploadTime = new Date(data.upload_time);
-      // TODO: Replace thumbs with NstPicture
-      if (data.thumbs) {
-        attachment.thumbs = {
-          x32: new NstStoreResource(data.thumbs.x32),
-          x64: new NstStoreResource(data.thumbs.x64),
-          x128: new NstStoreResource(data.thumbs.x128)
-        };
-      }
-
-      var placePromises = _.map(data.owners, function (id) {
-        return NstSvcPlaceFactory.get(id);
-      });
-
-      var uploaderPromise = NstSvcUserFactory.get(data.uploader);
-      $q.all(placePromises).then(function(places) {
-        attachment.places = places;
-        return uploaderPromise;
-      }).then(function(uploader) {
-        attachment.uploader = uploader;
+      if (!data || !data._id) {
+        defer.resolve(attachment);
+      } else {
+        attachment.post = post;
+        attachment.id = data._id;
+        attachment.file = new NstStoreResource(data.download);
+        attachment.downloads = data.downloads;
+        attachment.name = data.filename;
+        attachment.mimeType = data.mimetype;
+        attachment.size = data.size;
+        attachment.status = data.status;
+        attachment.storeId = data.store_id;
+        attachment.uploadTime = new Date(data.upload_time);
+        attachment.ownerIds = data.owners;
+        attachment.uploaderId = data.uploader;
+        // TODO: Replace thumbs with NstPicture
+        if (data.thumbs) {
+          attachment.thumbs = {
+            x32: new NstStoreResource(data.thumbs.x32),
+            x64: new NstStoreResource(data.thumbs.x64),
+            x128: new NstStoreResource(data.thumbs.x128)
+          };
+        }
 
         defer.resolve(attachment);
-      }).catch(defer.reject);
+      }
 
       return defer.promise;
     }

@@ -17,12 +17,10 @@
         this.name = null;
         this.uploadTime = null;
         this.owners = []; // [<NstPlace>]
+        this.ownerIds = [];
         this.uploader = null; // <NstUser>
-        this.thumbs = {
-          x32: null,
-          x64: null,
-          x128: null
-        };
+        this.uploaderId = null;
+        this.thumbnail = null;
         this.file = null; // NstStoreResource
 
         NstModel.call(this);
