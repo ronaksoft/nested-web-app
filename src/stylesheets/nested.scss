@@ -755,7 +755,8 @@ a:hover {
 .popover-white + .popover {
   max-width: 320px;
   min-width: 319px;
-  height: 100px;
+  max-height: 200px;
+  overflow-y: auto;
   position: absolute;
   top:-11px!important;
   left:366px!important;
@@ -1027,8 +1028,13 @@ a .ui-select-choises-row-inner {
   display: flex;
   flex: none;
   width: 4px;
-  height: 100%;
+  top:0;
+  right:0;
+  bottom:0;
+  position: absolute;
   background: linear-gradient(to right, transparent, #d8dcd9);
+  background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,#d8dcd9 100%);
+
 }
 @media screen and (max-width: 990px){
   .sidebar{
@@ -1238,9 +1244,7 @@ a .ui-select-choises-row-inner {
 }
 .maincontainer.tiny {
   .side-place-item-inner {
-    a {
-      display: none;
-    }
+    flex: none;
   }
   .side-place-invite-item-inner {
     a {
@@ -1299,6 +1303,14 @@ a .ui-select-choises-row-inner {
   color: rgb(71, 97, 82);
   font-weight: 300;
   margin-left: 4px;
+}
+.side-place-item-inner > a:first-child {
+  flex-direction: row;
+  display: inline-flex;
+  min-width: 40px;
+}
+.side-place .side-place .side-place-item-inner > a:first-child {
+  width: auto;
 }
 .side-place-item .e2-arrow {
   width: 16px;

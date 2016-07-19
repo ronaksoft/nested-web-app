@@ -164,6 +164,9 @@
       });
 
       function mapSender(sender) {
+        if (!sender) {
+          return {};
+        }
         return {
           name : sender.fullName,
           username : sender.id,
