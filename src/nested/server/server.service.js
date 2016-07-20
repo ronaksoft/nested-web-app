@@ -203,17 +203,17 @@
       var qItem = this.queue[reqId];
 
       if (qItem && !qItem.request.isFinished()) {
-        var server = this;
+        var service = this;
         qItem.request.setStatus(NST_REQ_STATUS.QUEUED);
 
         if (this.isAuthorized() || NST_AUTH_COMMAND.indexOf(qItem.request.getMethod()) > -1) {
           if (this.isInitialized()) {
-            server.sendQueueItem(reqId, timeout);
+            service.sendQueueItem(reqId, timeout);
           } else {
-            qItem.listenerId = this.addEventListener(NST_SRV_EVENT.INITIALIZE, function () { server.sendQueueItem(reqId, timeout); }, true);
+            qItem.listenerId = this.addEventListener(NST_SRV_EVENT.INITIALIZE, function () { service.sendQueueItem(reqId, timeout); }, true);
           }
         } else {
-          qItem.listenerId = this.addEventListener(NST_SRV_EVENT.AUTHORIZE, function () { server.sendQueueItem(reqId, timeout); }, true);
+          qItem.listenerId = this.addEventListener(NST_SRV_EVENT.AUTHORIZE, function () { service.sendQueueItem(reqId, timeout); }, true);
         }
 
         return qItem.request;
@@ -252,13 +252,13 @@
     };
 
     Server.prototype.sendQueueItem = function (reqId, timeout) {
-      var server = this;
+      var service = this;
       var qItem = this.queue[reqId];
 
       if (qItem && !qItem.request.isFinished()) {
         if (timeout > 0) {
           qItem.timeoutPromise = $timeout(function () {
-            server.cancelQueueItem(reqId);
+            service.cancelQueueItem(reqId);
           }, timeout);
         }
 

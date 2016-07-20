@@ -226,6 +226,26 @@
       return user;
     };
 
+    UserFactory.prototype.toUserData = function (user) {
+      var userData = {
+        _id: user.getId(),
+        fname: user.getFirstName(),
+        lname: user.getLastName(),
+        phone: user.getPhone(),
+        country: user.getCountry(),
+        picture: {
+          org: user.getPicture().getOrg().getId()
+        }
+      };
+
+      var thumbs = user.getPicture().getThumbnails();
+      for (var size in thumbs) {
+        userData.picture['x' + size] = thumbs[size].getId();
+      }
+
+      return userData;
+    };
+
     return new UserFactory();
   }
 })();

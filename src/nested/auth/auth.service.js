@@ -16,6 +16,8 @@
         user = NstSvcUserFactory.set(user).get(user.getId());
       }
 
+      console.log('Auth | The user: ', user);
+
       this.user = user;
       this.state = NST_AUTH_STATE.UNAUTHORIZED;
       this.lastSessionKey = null;
@@ -40,7 +42,8 @@
     Auth.prototype.constructor = Auth;
 
     Auth.prototype.authorize = function (data) {
-      $log.debug('Authorization', data);
+      var service = this;
+      $log.debug('Auth | Authorization', data);
 
       var options = {};
       if (this.remember) {
@@ -54,15 +57,19 @@
       $cookies.put('nsk', this.lastSessionKey, options);
       $cookies.put('nss', this.lastSessionSecret, options);
 
-      var user = NstSvcUserFactory.parseUser(data.info);
-      this.user = NstSvcUserFactory.set(user).get(user.getId());
+      this.user = NstSvcUserFactory.parseUser(data.info);
 
-      this.state = NST_AUTH_STATE.AUTHORIZED;
-      this.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, { detail: { user: this.user } }));
+      return NstSvcUserFactory.set(this.user).get(this.user.getId()).then(function (user) {
+        service.setUser(user);
+        service.setState(NST_AUTH_STATE.AUTHORIZED);
 
-      return $q(function (res) {
-        res(this.user);
-      }.bind(this));
+        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, { detail: { user: service.user } }));
+
+        var deferred = $q.defer();
+        deferred.resolve(service.getUser());
+
+        return deferred.promise;
+      });
     };
 
     Auth.prototype.register = function (username, password) {
@@ -209,7 +216,9 @@
     var user = NstSvcAuthStorage.get('user');
     var service = new Auth(user ? angular.fromJson(user) : undefined);
     service.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-      NstSvcAuthStorage.set('user', angular.toJson(event.detail.user));
+      var user = event.detail.user;
+
+      NstSvcAuthStorage.set('user', angular.toJson(NstSvcUserFactory.toUserData(user)));
     });
     service.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
       NstSvcAuthStorage.remove('user');
