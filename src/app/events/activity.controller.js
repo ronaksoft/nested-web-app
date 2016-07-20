@@ -57,10 +57,16 @@
         return $q.all([loadActivities()]);
       }
 
+      initialize().then(function (values) {
+      }).catch(function (error) {
+        $log.debug(error);
+      });
+
       function loadActivities() {
         return $q(function(resolve, reject) {
           NstSvcActivityFactory.load(vm.activitySettings).then(function(activities) {
             vm.acts = mapActivities(activities);
+            console.log(vm.acts);
             resolve(vm.acts);
 
           }).catch(reject);
@@ -123,11 +129,6 @@
           }
         }
       }
-
-      initialize().then(function (values) {
-      }).catch(function (error) {
-        $log.debug(error);
-      })
 
     }
 
@@ -212,7 +213,7 @@
         years[year] = {
           min: yearMoment.startOf('year'),
           max: yearMoment.endOf('year'),
-          items: yearActs
+          items: mapActivities(yearActs)
         };
       });
 
@@ -241,7 +242,7 @@
         months[month] = {
           min: monthMoment.startOf('month'),
           max: monthMoment.endOf('month'),
-          items: monthActs
+          items: mapActivities(monthActs)
         };
       });
 
@@ -281,7 +282,7 @@
       result.today = {
         min: todayStart,
         max: moment().endOf('day'),
-        items: todayActs,
+        items: mapActivities(todayActs),
         hasAnyItem: todayActs.length > 0
       };
 
@@ -322,6 +323,71 @@
       });
 
       return days;
+    }
+
+    function mapActivities(activities) {
+      var items = _.map(activities, function (item) {
+        return {
+          id : item.id,
+          actor : mapActivityActor(item),
+          member : mapActivityMember(item),
+          comment : mapActivityComment(item),
+          post : mapActivityPost(item),
+          date : getPassedTime(item.date),
+          type : item.type
+        };
+      });
+
+      return items;
+    }
+
+    function getPassedTime(date) {
+      if (!moment.isMoment(date)) {
+        date = moment(date);
+      }
+
+      return date.fromNow();
+    }
+
+    function mapActivityMember(activity) {
+      if (!activity.member) {
+        return {};
+      }
+      return {
+        id : activity.member.id,
+        name : activity.member.fullName,
+        type : activity.member.type
+      };
+    }
+
+    function mapActivityComment(activity) {
+      console.log(activity);
+      if (!activity.comment) {
+        return {};
+      }
+
+      return {
+        id : activity.comment.id,
+        body : activity.comment.body
+      };
+    }
+
+    function mapActivityPost(activity) {
+      if (!activity.post) {
+        return {};
+      }
+      return {
+        id : activity.post.id,
+        subject : activity.post.subject
+      };
+    }
+
+    function mapActivityActor(activity) {
+      return {
+        id : activity.actor.id,
+        avatar : activity.actor.picture.thumbnails.x32.url.download,
+        name : activity.actor.fullName
+      };
     }
 
   })();

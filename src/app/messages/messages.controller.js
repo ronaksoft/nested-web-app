@@ -326,7 +326,6 @@
     }
 
     function mapActivityActor(activity) {
-      console.log(activity);
       return {
         id : activity.actor.id,
         avatar : activity.actor.picture.thumbnails.x32.url.download,

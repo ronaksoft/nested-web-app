@@ -176,7 +176,6 @@
       } else {
         comment.id = data.comment_id.$oid;
         comment.body = data.text;
-        console.log(data);
         comment.date = new Date(data.timestamp);
         comment.removed = data._removed;
 
