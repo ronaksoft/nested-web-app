@@ -240,7 +240,7 @@
 
       var thumbs = user.getPicture().getThumbnails();
       for (var size in thumbs) {
-        userData.picture['x' + size] = thumbs[size].getId();
+        userData.picture[size] = thumbs[size].getId();
       }
 
       return userData;

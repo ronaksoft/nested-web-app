@@ -7,7 +7,8 @@
 
   /** @ngInject */
   function NstSvcServer($websocket, $q, $log, $timeout,
-                        NST_CONFIG, NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_EVENT, NST_SRV_MESSAGE, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
+                        NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
+                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_SRV_EVENT, NST_SRV_MESSAGE,
                         NstSvcRandomize,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
@@ -85,7 +86,7 @@
         var qItem = this.queue[reqId];
 
         if (qItem && !qItem.request.isFinished()) {
-          if (qItem.timeoutPromise instanceof Promise) {
+          if (qItem.timeoutPromise) {
             $timeout.cancel(qItem.timeoutPromise);
           }
           // delete this.queue[reqId];
@@ -166,7 +167,7 @@
         type: 'q',
         _reqid: reqId,
         data: payload,
-        meta: this.meta
+        meta: this.configs.meta
       };
       var request = new NstRequest(action, rawData);
       this.queue[reqId] = {
@@ -175,7 +176,7 @@
         listenerId: undefined
       };
 
-      timeout = angular.isNumber(timeout) ? timeout : this.getConfigs().streamTimeout;
+      timeout = angular.isNumber(timeout) ? timeout : this.getConfigs().requestTimeout;
 
       // TODO: Return the request itself
       return this.enqueueToSend(reqId, timeout).getPromise().then(function (response) {
@@ -187,6 +188,7 @@
         return deferred.promise;
       }).catch(function (response) {
         var deferred = $q.defer();
+        $log.debug('WS | Response: ', response);
 
         deferred.reject(new NstServerError(
           new NstServerQuery(action, data),
@@ -222,7 +224,7 @@
       return new NstRequest();
     };
 
-    Server.prototype.cancelQueueItem = function (reqId) {
+    Server.prototype.cancelQueueItem = function (reqId, response) {
       var qItem = this.queue[reqId];
 
       if (qItem && !qItem.request.isFinished()) {
@@ -244,8 +246,9 @@
             break;
         }
 
+        $log.debug('WS | Cancelled: ', reqId, qItem.request);
         qItem.request.setStatus(NST_REQ_STATUS.CANCELLED);
-        qItem.request.finish(new NstResponse());
+        qItem.request.finish(response || new NstResponse());
       }
 
       return false;
@@ -258,7 +261,11 @@
       if (qItem && !qItem.request.isFinished()) {
         if (timeout > 0) {
           qItem.timeoutPromise = $timeout(function () {
-            service.cancelQueueItem(reqId);
+            $log.debug('WS | Timeout: ', reqId, qItem.request, ' After: ', timeout);
+            service.cancelQueueItem(reqId, new NstResponse(NST_RES_STATUS.FAILURE, {
+              err_code: NST_SRV_ERROR.TIMEOUT,
+              message: 'Request Timeout'
+            }));
           }, timeout);
         }
 

@@ -11,12 +11,13 @@
                       NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage,
                       NstObservableObject) {
     function Auth(userData) {
+      var service = this;
       var user = NstSvcUserFactory.parseUser(userData);
       if (user.getId()) {
-        user = NstSvcUserFactory.set(user).get(user.getId());
+        NstSvcUserFactory.set(user).get(user.getId()).then(function (user) {
+          service.user = user;
+        });
       }
-
-      console.log('Auth | The user: ', user);
 
       this.user = user;
       this.state = NST_AUTH_STATE.UNAUTHORIZED;
@@ -214,11 +215,9 @@
 
     // Cache Implementation
     var user = NstSvcAuthStorage.get('user');
-    var service = new Auth(user ? angular.fromJson(user) : undefined);
+    var service = new Auth(user);
     service.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-      var user = event.detail.user;
-
-      NstSvcAuthStorage.set('user', angular.toJson(NstSvcUserFactory.toUserData(user)));
+      NstSvcAuthStorage.set('user', NstSvcUserFactory.toUserData(event.detail.user));
     });
     service.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
       NstSvcAuthStorage.remove('user');
