@@ -16,7 +16,7 @@
     <h3 ng-if="ctlPost.post.subject.length > 0">{{ctlPost.post.subject}}</h3>
     <h3 ng-if="ctlPost.post.subject.length < 1"><i>No Subject</i></h3>
   </section>
-  <section class="post-body {{ctlPost.post.contentType == 'text/plain' ? 'pre' : ''}}" ng-if="ctlPost.post.body.length > 0 && ctlPost.viewSetting.content">{{ctlPost.post.body | emoji}}</section>
+  <section class="post-body {{ctlPost.post.contentType == 'text/plain' ? 'pre' : 'pre'}}" ng-if="ctlPost.post.body.length > 0 && ctlPost.viewSetting.content">{{ctlPost.post.body | emoji}}</section>
   <section class="post-body" ng-if="ctlPost.post.body.length < 1 && ctlPost.ViewSetting.content"><i>Empty post</i></section>
   <section class="post-attachments" data-ng-if="ctlPost.post.hasAnyAttachment && ctlPost.viewSetting.attachments">
     <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = ctlPost.post"></div>
