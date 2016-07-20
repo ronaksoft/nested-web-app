@@ -30,7 +30,7 @@
                   </p>
                 </div>
               </div>
-              <div class="evrow _fw _fn" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event" recent-event></div>
+              <activity-item data-ng-repeat="event in eventGroup.set"></activity-item>
             </div>
           </div>
           <div class="text-center _fw moreevent" data-ng-if="events.moreEvents">
