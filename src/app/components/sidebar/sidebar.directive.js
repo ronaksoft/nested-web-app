@@ -5,9 +5,37 @@
     .module('nested')
     .controller('SidebarController', function ($q, $scope, $state, $stateParams, $location,
                                                NST_AUTH_EVENT,
-                                               NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory) {
+                                               NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory) {
       var vm = this;
+
+      /*****************************
+       *** Controller Properties ***
+       *****************************/
+
       vm.stateParams = $stateParams;
+
+      /*****************************
+       ***** Controller Methods ****
+       *****************************/
+
+      vm.range = function (num) {
+        var seq = [];
+        for (var i = 0; i < num; i++) {
+          seq.push(i);
+        }
+
+        return seq;
+      };
+
+      vm['invitations'] = {};
+
+      vm.invitations.accept = function (id) {
+        return NstSvcInvitationFactory.accept(id);
+      };
+
+      vm.invitations.decline = function (id) {
+        return NstSvcInvitationFactory.decline(id);
+      };
 
       if ($stateParams.placeId) {
         if ('_' == $stateParams.placeId) {
@@ -35,27 +63,6 @@
       });
 
       /*****************************
-       ***** Controller Methods ****
-       *****************************/
-
-      vm.range = function (num) {
-        var seq = [];
-        for (var i = 0; i < num; i++) {
-          seq.push(i);
-        }
-
-        return seq;
-      };
-
-      vm.acceptInvitation = function (invitation) {
-        return decideInvitation(invitation, true);
-      };
-
-      vm.declineInvitation = function (invitation) {
-        return decideInvitation(invitation, false);
-      };
-
-      /*****************************
        *****    Fetch Methods   ****
        *****************************/
 
@@ -77,9 +84,7 @@
       }
 
       function getInvitations() {
-        return NstSvcLoader.inject($q(function (res) {
-          res([]);
-        }));
+        return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
       }
 
       function getPlaceFilteredState() {
@@ -169,16 +174,12 @@
       }
 
       function mapInvitations(invitations) {
-
+        return invitations;
       }
 
       /*****************************
        *****    Other Methods   ****
        *****************************/
-
-      function decideInvitation(invitation, accept) {
-
-      }
 
       // // Invitations
       // $scope.invitations = {
