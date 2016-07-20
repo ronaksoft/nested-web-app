@@ -2,7 +2,7 @@
   <div class="ico">
     <div class="ei-comment-add"></div>
   </div>
-  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = event.actor"></div>
+  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
   <div class="msg" data-ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)">

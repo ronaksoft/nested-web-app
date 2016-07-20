@@ -30,10 +30,10 @@
                   </p>
                 </div>
               </div>
-              <activity-item data-ng-repeat="event in eventGroup.set"></activity-item>
+              <activity-item data-ng-repeat="act in ctlActivity.activities" model="act"></activity-item>
             </div>
           </div>
-          <div class="text-center _fw moreevent" data-ng-if="events.moreEvents">
+          <div class="text-center _fw moreevent" data-ng-if="ctlActivity.moreEvents">
             <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
           </div>
         </section>
