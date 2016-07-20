@@ -27,8 +27,8 @@
 
       activity.id = data._id.$oid;
       activity.type = data.action;
-      // activity.date = new Date(data.date * 1e3);
-      activity.date = new Date(data['timestamp']);
+      activity.date = new Date(data.timestamp);
+      activity.lastUpdate = new Date(data.last_update);
       activity.memberType = data.memberType;
 
       $q.all([
@@ -95,10 +95,12 @@
     }
 
     function extractComment(data) {
+      console.log(data);
       var defer = $q.defer();
       if (!data.comment_id) { // could not find any comment inside
         defer.resolve(new NstTinyComment());
       } else {
+        console.log('haha');
         defer.resolve(new NstTinyComment({
           id : data.comment_id.$oid,
           body : data.comment_body,
@@ -190,10 +192,6 @@
     }
 
     function getPlaceActivities(settings) {
-      var defaultSettings = {
-        limit: 10,
-      };
-      settings = _.defaults(defaultSettings, settings);
 
       if (!settings.placeId) {
         throw 'Could not find the place id.'
