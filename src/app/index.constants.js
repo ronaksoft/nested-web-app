@@ -4,6 +4,9 @@
 
   angular
     .module('nested')
-    .constant('moment', moment);
+    .constant('moment', moment)
+    .constant('NST_DEFAULT', {
+      STATE: 'messages'
+    });
 
 })();
