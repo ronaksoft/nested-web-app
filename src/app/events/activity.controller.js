@@ -53,7 +53,8 @@
       }
 
       function initialize() {
-        return $q.all([loadActivities(), loadInvitations()]);
+        // return $q.all([loadActivities(), loadInvitations()]);
+        return $q.all([loadActivities()]);
       }
 
       function loadActivities() {
@@ -137,6 +138,9 @@
      * @return {Object}              a hierarchal form of activities
      */
     function mapActivities(acts) {
+      _.forEach(acts, function (act) {
+        act.date = moment(act.date);
+      })
       var result = {
         min: null,
         max: null,
