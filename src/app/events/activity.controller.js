@@ -53,7 +53,8 @@
       }
 
       function initialize() {
-        return $q.all([loadActivities(), loadInvitations()]);
+        // return $q.all([loadActivities(), loadInvitations()]);
+        return $q.all([loadActivities()]);
       }
 
       function loadActivities() {
