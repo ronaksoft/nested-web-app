@@ -66,7 +66,7 @@
         return $q(function(resolve, reject) {
           NstSvcActivityFactory.load(vm.activitySettings).then(function(activities) {
             vm.acts = mapActivities(activities);
-            console.log(vm.acts);
+            $log.debug(vm.acts);
             resolve(vm.acts);
 
           }).catch(reject);
@@ -327,13 +327,16 @@
 
     function mapActivities(activities) {
       var items = _.map(activities, function (item) {
+
         return {
           id : item.id,
           actor : mapActivityActor(item),
           member : mapActivityMember(item),
           comment : mapActivityComment(item),
+          place : mapActivityPlace(item),
           post : mapActivityPost(item),
-          date : getPassedTime(item.date),
+          elapsed : getPassedTime(item.date),
+          date : moment(item.date).format('dddd, MMMM Do YYYY, HH:mm'),
           type : item.type
         };
       });
@@ -350,7 +353,7 @@
     }
 
     function mapActivityMember(activity) {
-      if (!activity.member) {
+      if (!activity.member || !activity.member.id) {
         return {};
       }
       return {
@@ -361,24 +364,32 @@
     }
 
     function mapActivityComment(activity) {
-      console.log(activity);
-      if (!activity.comment) {
+      if (!activity.comment || !activity.comment.id) {
         return {};
       }
 
       return {
         id : activity.comment.id,
-        body : activity.comment.body
+        body : activity.comment.body,
+        postId : activity.post.id,
       };
     }
 
     function mapActivityPost(activity) {
-      if (!activity.post) {
+      if (!activity.post || !activity.post.id) {
         return {};
       }
+      var firstPlace = _.first(activity.post.places);
       return {
         id : activity.post.id,
-        subject : activity.post.subject
+        subject : activity.post.subject,
+        body : activity.post.body,
+        attachments : _.map(activity.post.attachments, mapPostAttachment),
+        hasAnyAttachment : activity.post.attachments ? activity.post.attachments.length > 0 : false,
+        firstPlace : mapPostPlace(firstPlace),
+        allPlaces : _.map(activity.post.places, mapPostPlace),
+        otherPlacesCount : activity.post.places.length -1,
+        allPlacesCount : activity.post.places.length
       };
     }
 
@@ -387,6 +398,58 @@
         id : activity.actor.id,
         avatar : activity.actor.picture.thumbnails.x32.url.download,
         name : activity.actor.fullName
+      };
+    }
+
+    function mapPostAttachment(attach) {
+      if (!attach || !attach.id) {
+        return {}
+      }
+      return {
+        fileName : attach.fileName,
+        size : attach.size,
+        url : attach.file.url,
+        type : findFileType(attach),
+        format : findFileFormat(attach),
+        thumbnail : attach.thumbnail.getThumbnail('128').url.download
+      };
+    }
+
+    function mapPostPlace(place) {
+      if (!place || !place.id) {
+        return {};
+      }
+
+      return {
+        id : place.id,
+        name : place.name,
+        //picture : place.picture.thumbnails.x64.url.download
+      };
+    }
+
+    function mapActivityPlace(activity) {
+      if (!activity.place || !activity.place.id){
+        return {};
+      }
+
+      return {
+        id : activity.place.id,
+        name : activity.place.name,
+        picture : activity.place.picture.thumbnails.x64.url.download,
+        hasParent : !!activity.place.parent,
+        parent : mapParentPlace(activity),
+      };
+    }
+
+    function mapParentPlace(activity) {
+      if (!activity.place || !activity.place.parent) {
+        return {};
+      }
+
+      return {
+        id : activity.place.parent.id,
+        name : activity.place.parent.name,
+        picture : activity.place.parent.picture.thumbnails.x64.url.download,
       };
     }
 

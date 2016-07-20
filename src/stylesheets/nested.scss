@@ -1141,6 +1141,10 @@ a .ui-select-choises-row-inner {
   height: 48px;
   //flex: 0 1 auto;
 }
+.side-menu-item a{
+  display: inline-flex!important;
+  flex-direction: row;
+}
 .maincontainer.tiny .side-menu-item {
   justify-content: center;
 }
@@ -1153,7 +1157,7 @@ a .ui-select-choises-row-inner {
   font-size: $font-size-large;
   font-weight: 200;
   margin-left: 3px;
-  cursor: default;
+  cursor: pointer;
 }
 .maincontainer.tiny .onlyExpand, .maincontainer.tiny .side-menu-item .item,.maincontainer.tiny .lines {
   display: none;

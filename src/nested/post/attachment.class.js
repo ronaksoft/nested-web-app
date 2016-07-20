@@ -26,7 +26,7 @@
         NstModel.call(this);
 
         if (data) {
-          this.setData(data);
+          this.fill(data);
         }
       }
 

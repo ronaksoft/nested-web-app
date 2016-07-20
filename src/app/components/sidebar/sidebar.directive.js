@@ -4,6 +4,7 @@
   angular
     .module('nested')
     .controller('SidebarController', function ($q, $scope, $state, $stateParams, $location,
+                                               NST_AUTH_EVENT,
                                                NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory) {
       var vm = this;
 
@@ -55,7 +56,14 @@
 
       function getUser() {
         return NstSvcLoader.inject($q(function (res) {
-          res(NstSvcAuth.getUser());
+          if (NstSvcAuth.isAuthorized()) {
+            res(NstSvcAuth.getUser());
+          } else {
+            NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
+              res(NstSvcAuth.getUser());
+            });
+          }
+          
         }));
       }
 

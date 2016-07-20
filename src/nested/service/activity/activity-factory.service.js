@@ -8,7 +8,7 @@
   function NstSvcActivityFactory($q, $log,
     _, moment,
     NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
-    NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace, NstTinyComment, NstTinyPost) {
+    NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstAttachment) {
 
     /**
      * PostFactory - all operations related to activity
@@ -34,7 +34,7 @@
       $q.all([
         extractActor(data),
         extractPost(data),
-        extractPlaces(data),
+        extractPlace(data),
         extractComment(data),
         extractMember(data),
       ]).then(function(values) {
@@ -55,8 +55,8 @@
     function extractActor(data) {
       var defer = $q.defer();
 
-      if (!data.actor) { // could not find an actor inside
-        defer.resolve({}); // TODO: decide to fill with an empty object or an empty NstUser
+      if (!data.actor) {
+        defer.resolve(null);
       } else {
         var user = NstSvcUserFactory.parseTinyUser({
           _id: data.actor,
@@ -77,14 +77,26 @@
       var defer = $q.defer();
 
       if (!data.post_id) { // could not find any post inside
-        defer.resolve(new NstTinyPost());
+        defer.resolve(null);
       } else {
-        var tinyPost = new NstTinyPost({
-          id : data.post_id.$oid,
-          subject : data.post_subject,
-          senderId : data.actor,
-          placeIds : _.map(data.post_places, function (place) {
-            return place._id;
+        var tinyPost = new NstPost({
+          id: data.post_id.$oid,
+          subject: data.post_subject,
+          body: data.post_body,
+          senderId: data.actor,
+          places: _.map(data.post_places, function(place) {
+            return new NstTinyPlace({
+              id: place._id,
+              name: place.name,
+              picture: new NstPicture(null, place.picture)
+            });
+          }),
+          attachments: _.map(data.post_attachments, function(item) {
+            return new NstAttachment({
+              // id : ,
+              // postId : ,
+              //
+            });
           })
         });
 
@@ -95,38 +107,31 @@
     }
 
     function extractComment(data) {
-      console.log(data);
       var defer = $q.defer();
       if (!data.comment_id) { // could not find any comment inside
-        defer.resolve(new NstTinyComment());
+        defer.resolve(null);
       } else {
-        console.log('haha');
         defer.resolve(new NstTinyComment({
-          id : data.comment_id.$oid,
-          body : data.comment_body,
-          postId : data.post_id.$oid
+          id: data.comment_id.$oid,
+          body: data.comment_body,
+          postId: data.post_id.$oid
         }));
       }
 
       return defer.promise;
     }
 
-    function extractPlaces(data) {
+    function extractPlace(data) {
       var defer = $q.defer();
 
-      if (!data.post_places) { // could not find an actor inside
-        defer.resolve([]); // TODO: decide to fill with an empty object or an empty NstUser
+      if (!data.place_id) {
+        defer.resolve(null);
       } else {
-        var places = [];
 
-        _.forEach(data.post_places, function(place) {
-          places.push(new NstPlace({
-            id: place._id,
-            name: place.name
-          }));
-        });
-
-        defer.resolve(places);
+        var placeId = data.child_id || data.place_id;
+        NstSvcPlaceFactory.get(placeId).then(function(place) {
+          defer.resolve(place);
+        }).catch(defer.reject);
       }
 
       return defer.promise;
@@ -136,7 +141,7 @@
       var defer = $q.defer();
 
       if (!data.member_id) { // could not find a member inside
-        defer.resolve({}); // TODO: decide to fill with an empty object or an empty NstUser
+        defer.resolve(null); // TODO: decide to fill with an empty object or an empty NstUser
       } else {
         defer.resolve({
           id: data.member_id,
@@ -194,7 +199,7 @@
     function getPlaceActivities(settings) {
 
       if (!settings.placeId) {
-        throw 'Could not find the place id.'
+        throw 'Could not find the place id.';
       }
 
       var activities = NstSvcActivityStorage.get('all', []);
