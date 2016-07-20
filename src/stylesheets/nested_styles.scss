@@ -86,6 +86,15 @@
 .comp-icon {
   background-position: 0 -24px;
 }
+.close-icon {
+  background-position: 0 -46px;
+}
+.profile-icon {
+  background-position: 0 -68px;
+}
+.signout-icon {
+  background-position: 0 -91px;
+}
 
 .icon-compose {
   background-image: url("../assets/icons/btnicon.svg");
@@ -1042,9 +1051,12 @@ ul ul li:last-child{
   margin: 0;
 }
 .post-card .post-attachments{
-  height: 66px;
+  //height: 66px;
   background-color: white;
   align-items: center;
+  ul {
+    list-style: none;
+  }
 }
 .post-card .post-footer{
   height: 40px;

@@ -1,0 +1,45 @@
+<div class="post-card _fw">
+  <section class="post-card-badge">
+    <a class="">{{ctlPost.post.firstPlace.name}}</a>
+    <a class="popover-white" data-uib-popover-template="'app/messages/partials/popovers/more_places.html'" data-popover-placement="auto bottom-right" popover-trigger="outsideClick">+{{ctlPost.post.otherPlacesCount}}</a>
+  </section>
+  <section class="post-head _difh">
+    <div class="img _df">
+      <img initials="user.name" data-url="ctlPost.post.sender.avatar" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
+    </div>
+    <div class="_fw _difc">
+      <div class="_difc _fw"><h4 class="_df">{{ctlPost.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{ctlPost.post.sender.username}}</span></div>
+      <span class="_df _fn post-card-time">{{ctlPost.post.date}}</span>
+    </div>
+  </section>
+  <section class="post-subject">
+    <h3 ng-if="ctlPost.post.subject.length > 0">{{ctlPost.post.subject}}</h3>
+    <h3 ng-if="ctlPost.post.subject.length < 1"><i>No Subject</i></h3>
+  </section>
+  <section class="post-body {{ctlPost.post.contentType == 'text/plain' ? 'pre' : ''}}" ng-if="ctlPost.post.subject.length > 0 && ctlPost.viewSetting.content">{{ctlPost.post.body | emoji}}</section>
+  <section class="post-body" ng-if="ctlPost.post.subject.length < 1 && ctlPost.ViewSetting.content"><i>No message</i></section>
+  <section class="post-attachments" data-ng-if="ctlPost.post.hasAnyAttachment && ctlPost.viewSetting.attachments">
+    <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = ctlPost.post"></div>
+  </section>
+  <section class="post-footer _difh"><a class="_df _fn">{{ctlPost.post.commentsCount}} comments</a>
+    <div class="post-icons _fw _df">
+      <div class="icon icon-post icon-fw _df"></div>
+      <div ng-if="ctlPost.post.userHasRemoveAccess" class="icon icon-post icon-delete-menu _df"></div>
+    </div>
+  </section>
+</div>
+<section class="post-card-comment" ng-if="ctlPost.viewSetting.comments">
+  <div ng-if="ctlPost.post.hasMoreComment" class="_df _fw comments-load"><a>Older Comments...</a></div>
+  <!--<div class="post-card-comments _difh">
+    <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
+    <div class="text _df _fw">
+      <p class="_fw"><strong>Farzin Nami:</strong>Okey hatman merC az pishnahadet</p>
+    </div>
+    <span class="_df _fn">9 days ago</span>
+  </div>-->
+  <comments-board comments="ctlPost.post.comments"></comments-board>
+  <div class="post-card-comment-input _df">
+    <input class="_fw" placeholder="write your comment ...">
+
+  </div>
+</section>

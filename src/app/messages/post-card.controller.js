@@ -6,18 +6,16 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($rootScope, $scope, $stateParams, $log, $q, $timeout,
-    postModel, viewSetting,
     NstSvcPostFactory) {
     var vm = this;
-
-    vm.viewSetting = viewSetting;
-    vm.post = postModel;
+    //vm.viewSetting = {};
+    //vm.post = {};
     vm.commentsBoardPreview = false;
 
     vm.reply = reply;
     vm.remove = remove;
     vm.allowToRemove = allowToRemove;
-    vm.forward = forward;
+    vm.forward = {};
     vm.toggleCommentsBorad = toggleCommentsBorad;
 
 
