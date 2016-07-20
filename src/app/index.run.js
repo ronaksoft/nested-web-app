@@ -6,7 +6,7 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $uibModal,
+  function runBlock($rootScope, $uibModal, $window, $timeout,
                     ngProgressFactory,
                     NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENTS,
                     NstSvcAuth, NstSvcLoader) {
@@ -67,6 +67,41 @@
         delete $rootScope.modals['unauthorized'];
       }
     });
+
+
+
+    var timers = [];
+    angular.element($window).bind("scroll", function(e) {
+      timers.forEach(function(promises) {
+        $timeout.cancel(promises);
+      });
+      var $sidebar = $("#content-plus"),
+        topPadding = 150;
+
+      var timer = $timeout(
+        function() {
+          if (150 > e.currentTarget.scrollY > 0) {
+            $sidebar.stop().css({
+              marginTop: e.currentTarget.scrollY
+            });
+          } else if (e.currentTarget.scrollY > topPadding) {
+            $sidebar.stop().css({
+              marginTop: e.currentTarget.scrollY - 51
+            });
+          } else if (e.currentTarget.scrollY == 0){
+            $sidebar.stop().css({
+              marginTop: 0
+            });
+          }
+        },
+        50
+      );
+      timers.push(timer);
+      timer;
+      $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
+    });
+
+
   }
 
 })();

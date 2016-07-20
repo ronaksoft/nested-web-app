@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .directive('ActivityItem', ActivityItem);
+    .directive('activityItem', ActivityItem);
 
   /** @ngInject */
   function ActivityItem(NST_EVENT_ACTION) {
