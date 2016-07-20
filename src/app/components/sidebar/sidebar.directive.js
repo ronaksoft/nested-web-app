@@ -133,19 +133,21 @@
        *****     Map Methods    ****
        *****************************/
 
-      function mapUser(user) {
-        return {
-          id : user.getId(),
-          avatar : user.getPicture().getThumbnail(32).getUrl().view,
-          name : user.getFullName()
+      function mapUser(userModel) {
+        var user = {
+          id : userModel.getId(),
+          avatar : userModel.getPicture().getThumbnail(32).getUrl().view,
+          name : userModel.getFullName()
         };
+
+        return user;
       }
 
-      function mapPlaces(places, depth) {
+      function mapPlaces(placeModels, depth) {
         depth = depth || 0;
 
-        var placesClone = Object.keys(places).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
-          var placeModel = places[k];
+        var placesClone = Object.keys(placeModels).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
+          var placeModel = placeModels[k];
           var place = {};
           place.depth = depth;
           place.id = placeModel.getId();

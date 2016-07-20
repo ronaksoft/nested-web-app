@@ -45,9 +45,11 @@
         <li class="_df a-hover _fw onlyExpand"><a class="nst-mood-solid _difh _fw" href="#/signout">Sign out</a></li>
       </div>
       <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
-        <div class="side-place-item-image"
-             data-ng-include="'app/components/sidebar/picture.html'" onload="place = ctlSidebar.user; size = 32"></div>
-        <!--<img initials="ctlSidebar.user.name" data-url="user.avatar" data-width="32" data-height="32" data-radius="16" class="account-initials-32  _df" data-word-count="2" data-font-size="16"/>-->
+        <!--<div class="side-place-item-image"-->
+             <!--data-ng-include="'app/components/sidebar/picture.html'" data-ng-init="object = ctlSidebar.user; size = 32"></div>-->
+        <img class="account-initials-32"
+             initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
+             data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
         <div class="_fw _df onlyExpand"><a>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm">@{{ctlSidebar.user.id}}</span> </a></div>
         <div class="_df _fn onlyExpand">
           <div class="icon icon-solid icon-more"></div>
