@@ -28,8 +28,7 @@
         </div>
         <div class="title-bar _difh _fw" ng-if="true">
           <div class="logo-bar _df">
-            <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
-                 data-font-size="16"/>
+            <div class="icon icon-solid icon-side icon-all-place"></div>
           </div>
           <div class="name _fw _difv _jcc">
             <a class="_df _tr">All Places</a>
@@ -48,7 +47,7 @@
           <div ng-show="events.place.id" class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null"><a href="#/place/{{events.place.id}}">Settings</a></div>
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">
-          <input class="form-control" placeholder="Search in Ronak Software Group..." type="text"/>
+          <input class="form-control" placeholder="Search in Ronak Software Group..." type="text" focus-me/>
           <i ng-click="srch('overlay', 'inputsearch');" id="action-search"
              class="_pa _left icon-close-search form-control-feedback"></i>
           <div class="search-part1">

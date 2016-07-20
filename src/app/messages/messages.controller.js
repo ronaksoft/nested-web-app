@@ -270,7 +270,7 @@
     }
 
     function mapActivities(activities) {
-      return _.map(activities, function (item) {
+      var items = _.map(activities, function (item) {
         return {
           id : item.id,
           actor : mapActivityActor(item),
@@ -340,7 +340,6 @@
         };
       }
     }
-
   }
 
 })();
