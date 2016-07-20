@@ -270,7 +270,7 @@
     }
 
     function mapActivities(activities) {
-      var items = _.map(activities, function (item) {
+      return _.map(activities, function (item) {
         return {
           id : item.id,
           actor : mapActivityActor(item),
@@ -282,56 +282,65 @@
         };
       });
 
-      return items;
-    }
+      function getPassedTime(date) {
+        if (!moment.isMoment(date)) {
+          date = moment(date);
+        }
 
-    function getPassedTime(date) {
-      if (!moment.isMoment(date)) {
-        date = moment(date);
+        return date.fromNow();
       }
 
-      return date.fromNow();
-    }
-
-    function mapActivityMember(activity) {
-      if (!activity.member) {
-        return {};
-      }
-      return {
-        id : activity.member.id,
-        name : activity.member.fullName,
-        type : activity.member.type
-      };
-    }
-
-    function mapActivityComment(activity) {
-      if (!activity.comment) {
-        return {};
+      function mapActivityMember(activity) {
+        if (!activity.member) {
+          return {};
+        }
+        return {
+          id : activity.member.id,
+          name : activity.member.fullName,
+          type : activity.member.type
+        };
       }
 
-      return {
-        id : activity.comment.id,
-        body : activity.comment.body
-      };
-    }
 
-    function mapActivityPost(activity) {
-      if (!activity.post) {
-        return {};
+      function mapActivityComment(activity) {
+        if (!activity.comment) {
+          return {};
+        }
+
+        return {
+          id : activity.comment.id,
+          body : activity.comment.body
+        };
       }
-      return {
-        id : activity.post.id,
-        subject : activity.post.subject
-      };
+
+      function mapActivityPost(activity) {
+        if (!activity.post) {
+          return {};
+        }
+        return {
+          id : activity.post.id,
+          subject : activity.post.subject,
+          body : activity.post.body
+        };
+      }
+
+      function mapActivityActor(activity) {
+        return {
+          id : activity.actor.id,
+          avatar : activity.actor.picture.thumbnails.x32.url.download,
+          name : activity.actor.fullName
+        };
+      }
+
+      function mapActivityPlace(place) {
+        return {
+          id : place.id,
+          name : place.name,
+          picture : place.picture.getThumbnail('64').url.download
+        };
+      }
     }
 
-    function mapActivityActor(activity) {
-      return {
-        id : activity.actor.id,
-        avatar : activity.actor.picture.thumbnails.x32.url.download,
-        name : activity.actor.fullName
-      };
-    }
   }
 
 })();

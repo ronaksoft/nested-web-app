@@ -21,7 +21,6 @@
 
       this.post = null;
       this.place = null;
-      this.places = [];
       this.comment = null;
 
       this.member = null;

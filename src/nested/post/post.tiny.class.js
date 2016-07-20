@@ -12,8 +12,9 @@
 
       this.id = null;
       this.subject = null;
-      this.placeIds = []; // aray of places id
+      this.places = []; // aray of places id
       this.senderId = null; // sender id
+      this.attachments = null;
 
       NstModel.call(this, model);
 
