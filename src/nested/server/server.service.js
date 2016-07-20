@@ -139,7 +139,7 @@
         switch (event.detail) {
           case NST_SRV_MESSAGE.INITIALIZE:
             $log.debug('WS | Initialized:', event, this);
-            this.initialized = true;
+            this.setInitialized(true);
             this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.INITIALIZE));
             break;
         }
@@ -147,9 +147,9 @@
 
       this.addEventListener(NST_SRV_EVENT.MANUAL_AUTH, function (event) {
         $log.debug('WS | Dispatching Auth Event', event.detail);
-        this.authorized = true;
-        this.sesSecret = event.detail.response.getData()._ss;
-        this.sesKey = event.detail.response.getData()._sk.$oid;
+        this.setAuthorized(true);
+        this.setSesSecret(event.detail.response.getData()._ss);
+        this.setSesKey(event.detail.response.getData()._sk.$oid);
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.AUTHORIZE));
       });
     }
@@ -160,9 +160,7 @@
     Server.prototype.request = function (action, data, timeout) {
       var reqId = this.genQueueId(action, data);
       var payload = angular.extend(data || {}, {
-        cmd: action,
-        _sk: this.getSessionKey(),
-        _ss: this.getSessionSecret()
+        cmd: action
       });
       var rawData = {
         type: 'q',
@@ -176,6 +174,8 @@
         timeoutPromise: undefined,
         listenerId: undefined
       };
+
+      timeout = angular.isNumber(timeout) ? timeout : this.getConfigs().streamTimeout;
 
       // TODO: Return the request itself
       return this.enqueueToSend(reqId, timeout).getPromise().then(function (response) {
@@ -252,12 +252,13 @@
     };
 
     Server.prototype.sendQueueItem = function (reqId, timeout) {
+      var server = this;
       var qItem = this.queue[reqId];
 
       if (qItem && !qItem.request.isFinished()) {
         if (timeout > 0) {
           qItem.timeoutPromise = $timeout(function () {
-
+            server.cancelQueueItem(reqId);
           }, timeout);
         }
 
@@ -276,6 +277,13 @@
     Server.prototype.send = function (request) {
       $log.debug('WS | Sending', request.getData());
 
+      if (this.isAuthorized()) {
+        var data = request.getData();
+        data.data['_sk'] = this.getSessionKey();
+        data.data['_ss'] = this.getSessionSecret();
+        request.setData(data);
+      }
+
       return this.stream.send(angular.toJson(request.getData()));
     };
 
@@ -284,11 +292,11 @@
     };
 
     Server.prototype.isInitialized = function () {
-      return this.initialized;
+      return this.getInitialized();
     };
 
     Server.prototype.isAuthorized = function () {
-      return this.authorized;
+      return this.getAuthorized();
     };
 
     Server.prototype.unauthorize = function () {
@@ -300,11 +308,11 @@
     };
 
     Server.prototype.getSessionKey = function () {
-      return this.sesKey;
+      return this.getSesKey();
     };
 
     Server.prototype.getSessionSecret = function () {
-      return this.sesSecret;
+      return this.getSesSecret();
     };
 
     return new Server(NST_CONFIG.WEBSOCKET.URL, {
