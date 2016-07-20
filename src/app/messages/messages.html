@@ -6,7 +6,7 @@
     <div class="nst-content _tr" id="content-wrapper">
       <section class="content">
         <div class="filter-bar _fw">
-            <div class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
+            <div class="iconsblock popover-white-nst-sort" ng-mouseenter="popopen = true" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popopen">
               <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort}}</span>
               <div class="icon icon-viewicon-sort _df"></div>
             </div>

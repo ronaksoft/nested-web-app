@@ -332,6 +332,7 @@
         name : activity.actor.fullName
       };
     }
+    $rootScope.popopen = false
   }
 
 })();
