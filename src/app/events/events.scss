@@ -246,6 +246,9 @@
   justify-content: center;
   color: $color-solid-60;
   flex: none;
+  span {
+    font-size: 11px;
+  }
 }
 #EventList #time-of-event {
   width: 400px;

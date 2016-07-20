@@ -1,0 +1,36 @@
+<div id="setting" class="popup-panel popover-white-nst-setting">
+  <div class="icon-position">
+    <span class="spansetting">Select filter</span>
+  </div>
+  <div>
+    <div class="list-items">
+      <label class="" for="content"  ng-click="ctlMessages.toggleContentPreview()">all</label>
+      <input class="_fr" type="radio" id="content" name="filter" value="content"
+             data-ng-model="ctlActivity.filters"/>
+    </div>
+  </div>
+  <div>
+    <div class="list-items" ng-click="ctlMessages.toggleAttachmentPreview()">
+      <label class="" for="attachments">Messages</label>
+      <input class="_fr" type="radio" id="attachments" name="filter" value="attachments"
+             data-ng-model="ctlActivity.filters"/>
+    </div>
+  </div>
+  <div>
+    <div class="list-items">
+      <label class="" for="comments"  ng-click="ctlMessages.toggleCommentsPreview()">Comments</label>
+      <input class="_fr" type="radio" id="comments" name="filter" value="comments"
+             data-ng-model="ctlActivity.filters"/>
+    </div>
+  </div>
+
+  <div class="line-popover"></div>
+
+  <div>
+    <div class="list-items"  ng-click="ctlMessages.toggleQuickMessagePreview()">
+      <label class="" for="msg">Logs</label>
+      <input class="_fr" type="radio" id="msg" name="filter" value="msg"
+             data-ng-model="ctlActivity.filters"/>
+    </div>
+  </div>
+</div>

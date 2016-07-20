@@ -69,7 +69,7 @@
     });
 
 
-
+    //TODO NEEDS REWRITE COMPLETELY
     var timers = [];
     angular.element($window).bind("scroll", function(e) {
       timers.forEach(function(promises) {

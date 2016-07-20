@@ -3,12 +3,12 @@
 
   angular
     .module('nested')
-    .directive('recentActivityItem', ActivityItem);
+    .directive('recentActivityItem', RecentActivityItem);
 
   /**
    * switch template of each activity in messages page
    */
-  function ActivityItem(NST_EVENT_ACTION) {
+  function RecentActivityItem(NST_EVENT_ACTION) {
     return {
       restrict: 'E',
       scope:{

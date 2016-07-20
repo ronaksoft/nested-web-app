@@ -5,16 +5,14 @@
 
     <div class="nst-content _tr" id="content-wrapper">
       <section class="content">
-        <div class="filter-bar _fn">
-          <div class="filter-bar-hld _pr _vam">
-            <div class="_difh iconsblock iconsblock-right popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
+        <div class="filter-bar _fw">
+            <div class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
               <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort}}</span>
               <div class="icon icon-viewicon-sort _df"></div>
             </div>
-            <div class="_dib iconsblock">
-              <div class="icon icon-viewicon-  popover-white-nst-msg" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick"></div>
+            <div class="iconsblock popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
+              <div class="icon icon-viewicon- "></div>
             </div>
-          </div>
         </div>
 
         <div class="_fw quick-message _fn" ng-if="ctlMessages.ViewSetting.quickMessage">
