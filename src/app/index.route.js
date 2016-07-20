@@ -89,7 +89,7 @@
         params: {
           placeId: '_'
         },
-        templateUrl: 'app/places/settings.html',
+        templateUrl: 'app/places/settings/main.html',
         controller: 'PlaceSettingsController',
         controllerAs: 'ctlPlaceSettings'
       })
@@ -98,7 +98,7 @@
         params: {
           placeId: '_'
         },
-        templateUrl: 'app/places/create.html',
+        templateUrl: 'app/places/add/main.html',
         controller: 'PlaceAddController',
         controllerAs: 'ctlPlaceAdd'
       })

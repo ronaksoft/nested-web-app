@@ -23,7 +23,6 @@
           sent: $state.href(getSentState())
         };
 
-        console.log('Resolved: ', resolvedSet);
         vm.user = mapUser(resolvedSet[0]);
         vm.places = mapPlaces(resolvedSet[1]);
         vm.invitations = mapInvitations(resolvedSet[2]);
