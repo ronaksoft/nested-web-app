@@ -1,36 +1,34 @@
-<div id="setting" class="popup-panel popover-white-nst-setting">
+<div id="setting" class="popup-panel">
   <div class="icon-position">
    <span class="spansetting"> View setting</span>
   </div>
   <div>
     <div class="list-items">
-      <label class="" for="content"  ng-click="ctlMessages.toggleContentPreview()"> Content Preview</label>
       <input class="_fr" type="checkbox" id="content" name="content" value="content"
              data-ng-model="ctlMessages.ViewSetting.content"/>
+      <label class="_fw setting" for="content"  ng-click="ctlMessages.toggleContentPreview()"> Content Preview</label>
     </div>
   </div>
   <div>
     <div class="list-items" ng-click="ctlMessages.toggleAttachmentPreview()">
-      <label class="" for="attachments">Attachments</label>
       <input class="_fr" type="checkbox" id="attachments" name="attachments" value="attachments"
              data-ng-model="ctlMessages.ViewSetting.attachments"/>
+      <label class="_fw setting" for="attachments">Attachments</label>
     </div>
   </div>
   <div>
     <div class="list-items">
-      <label class="" for="comments"  ng-click="ctlMessages.toggleCommentsPreview()">Comments</label>
       <input class="_fr" type="checkbox" id="comments" name="comments" value="comments"
              data-ng-model="ctlMessages.ViewSetting.comments"/>
+      <label class="_fw setting" for="comments"  ng-click="ctlMessages.toggleCommentsPreview()">Comments</label>
     </div>
   </div>
-
-  <div class="line-popover"></div>
-
   <div>
     <div class="list-items"  ng-click="ctlMessages.toggleQuickMessagePreview()">
-      <label class="" for="msg">Quick message</label>
       <input class="_fr" type="checkbox" id="msg" name="msg" value="msg"
              data-ng-model="ctlMessages.ViewSetting.quickMessage"/>
+      <label class="_fw setting" for="msg">Quick message</label>
+
     </div>
   </div>
 </div>

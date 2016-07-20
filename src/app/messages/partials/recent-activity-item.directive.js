@@ -3,13 +3,12 @@
 
   angular
     .module('nested')
-    .controller('RecentActivityItemController', function($scope) {
+    .directive('recentActivityItem', RecentActivityItem);
 
-    })
-    .directive('recentActivityItem', ActivityItem);
-
-  /** @ngInject */
-  function ActivityItem(NST_EVENT_ACTION) {
+  /**
+   * switch template of each activity in messages page
+   */
+  function RecentActivityItem(NST_EVENT_ACTION) {
     return {
       restrict: 'E',
       scope:{
@@ -46,9 +45,6 @@
         }
       },
       template: '<div class="row" data-ng-include="tplUrl" data-ng-init="act = activity"></div>'
-      // controller: 'RecentActivityItemController',
-      // controllerAs: 'ctlRecentActivityItemController',
-      // bindToController: true
     };
   }
 
