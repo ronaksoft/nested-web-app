@@ -1,0 +1,19 @@
+<div id="setting" class="popup-panel">
+  <div class="icon-position">
+   <span class="spansetting"> View setting</span>
+  </div>
+  <div>
+    <div class="list-items" ng-click="extended =! extended">
+      <label class="" for="collapsed">collapsed view</label>
+      <input class="_fr" type="radio" id="collapsed" name="extended" value="content"
+             data-ng-model="ctlActivity.filters"/>
+    </div>
+  </div>
+  <div>
+    <div class="list-items" ng-click="extended =! extended">
+      <label class="" for="extended">expanded view</label>
+      <input class="_fr" type="radio" id="extended" name="extended" value="attachments"
+             data-ng-model="ctlActivity.filters"/>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,9 @@
     .module('nested')
     .directive('commentsBoard', comment);
 
-  /** @ngInject */
+  /**
+   * array of comments that comments-board.controller.js controls the them all
+   */
   function comment() {
     return {
       restrict: 'E',

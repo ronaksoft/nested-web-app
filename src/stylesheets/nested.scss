@@ -358,20 +358,22 @@ input[type="checkbox"] {
 input[type="checkbox"] {
   max-width: 1px;
 }
+#panel-signin{
+  input[type="checkbox"] + label {
+    display: inline-block;
+    background: url('../assets/icons/controls.svg') no-repeat;
+    height: 16px;
+    min-width: 17px;
+    padding: 0 0 0 17px;
+    font-size: $font-size-small;
+    color: $color-solid;
+  }
 
-input[type="checkbox"] + label {
-  display: inline-block;
-  background: url('../assets/icons/controls.svg') no-repeat;
-  height: 16px;
-  min-width: 17px;
-  padding: 0 0 0 17px;
-  font-size: $font-size-small;
-  color: $color-solid;
+  input[type="checkbox"]:checked + label {
+    background-position: 0 -16px;
+  }
 }
 
-input[type="checkbox"]:checked + label {
-  background-position: 0 -16px;
-}
 
 /**
  *   Switch Checkboxes

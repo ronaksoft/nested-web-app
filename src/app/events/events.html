@@ -4,36 +4,24 @@
     <nested-navbar data-ng-model="navbar"></nested-navbar>
 
     <div class="nst-content _tr" id="content-wrapper">
-      <section class="_fw nst-content-body _bgwhite" seen-recents>
+      <section class="_fw nst-content-body _bgwhite">
         <div class="filter-bar  _fw">
-          <div class="filter-bar-hld-ac _pr _vam">
-            <div class="_dib iconsblock _difh">
-              <span class="nst-mood-storm _di">All</span>
-              <div class="icon icon-viewicon-filter _pa _dib"></div>
-            </div>
-
-            <div class="_dib iconsblock">
-              <div class="icon icon-viewicon- _pa popover-white-nst" uib-popover-template="'app/messages/popovers/setting_popover.html'" data-popover-placement="bottom-center"
-                   popover-trigger="outsideClick"></div>
-            </div>
+          <div class="iconsblock popover-white-nst-filter" uib-popover-template="'app/events/partials/popovers/filter_popover.html'" data-popover-placement="bottom-center"
+               popover-trigger="outsideClick">
+            <span class="nst-mood-storm _df">All</span>
+            <div class="icon icon-viewicon-filter _df"></div>
+          </div>
+          <div class="iconsblock popover-white-nst-setting" uib-popover-template="'app/events/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center"
+               popover-trigger="outsideClick">
+            <div class="icon icon-viewicon- _pa"></div>
           </div>
         </div>
 
-        <section class="_fw nst-content-body _bgwhite" seen-recents>
+        <section class="_fw nst-content-body _bgwhite">
           <div class="_fw eventsody _bgwhite" id="EventList">
-            <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
-              <div class="event-group-time col-lg-12">
-                <div class="sender">
-                  <p class="nst-mood-simple" data-ng-init="today = eventGroup.type == 'daily' && eventGroup.date.getDate() == now().getDate()">
-                    <span data-ng-if="today"><strong class="nst-mood-solid">Today</strong> <span data-ng-bind="now() | date:'EEEE d MMM'"></span></span>
-                    <span data-ng-if="!today" data-ng-bind="eventGroup.date | date:eventGroup.titleFormat"></span>
-                  </p>
-                </div>
-              </div>
-              <div class="evrow _fw _fn" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event" recent-event></div>
-            </div>
+            <activity-item data-ng-repeat="act in ctlActivity.acts" model="act">a</activity-item>
           </div>
-          <div class="text-center _fw moreevent" data-ng-if="events.moreEvents">
+          <div class="text-center _fw moreevent" data-ng-if="ctlActivity.moreEvents">
             <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
           </div>
         </section>

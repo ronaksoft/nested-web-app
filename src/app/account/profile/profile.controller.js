@@ -3,18 +3,41 @@
 
   angular
     .module('nested')
-    .controller('AccountProfileController', AccountProfileController);
+    .controller('ProfileController', AccountProfileController);
 
   /** @ngInject */
-  function AccountProfileController($location, $scope, $state,
-                                    UPLOAD_TYPE,
-                                    NstSvcAuth, NstSvcStore, $uibModal) {
+  function AccountProfileController($location, $scope, $state, $q, $uibModal,
+                                    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
       $location.search({ back: $location.path() });
       $location.path('/signin').replace();
     }
+
+    getUser().then(function (resolvedSet) {
+      vm.user = mapUser(resolvedSet);
+    });
+
+    function getUser() {
+      return NstSvcLoader.inject($q(function (res) {
+        res(NstSvcAuth.getUser());
+      }));
+    }
+
+    function mapUser(user) {
+      return {
+        id : user.getId(),
+        avatar : user.getPicture().getThumbnail(128).getUrl().view,
+        fname : user.getFirstName(),
+        lname : user.getLastName(),
+        phone : user.getPhone()
+      };
+    }
+
+    vm.update = function () {
+      NstSvcUserFactory.save(vm.user);
+    };
 
     $scope.logo = null;
     $scope.user = NstSvcAuth.user;

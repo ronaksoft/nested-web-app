@@ -10,47 +10,47 @@
 
           <div class="_fw upload-photo-container">
               <div class="_ma upload-photo">
-                <label for="logo"><img src="http://st00001.stores.nested.me/view/5785ebedb074b14f601e1df3/ST00001575fba01e0745a427b8b4574"></label>
-                <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().account_profile.imgToUri(event)">
+                <label for="logo"><img src="{{ctlProfile.user.avatar}}"></label>
+                <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlProfile.imgToUri(event)">
               </div>
               <div class="probut">
                 <label for="logo" class="add-photo-hover"></label>
-                <!-- ngIf: user.picture.org.url --><div data-ng-if="user.picture.org.url" class="remove-photo-hover ng-scope" data-ng-click="account_profile.removeImg()" role="button" tabindex="0"></div><!-- end ngIf: user.picture.org.url -->
+                <!-- ngIf: user.picture.org.url --><div data-ng-if="ctlProfile.user.avatar" class="remove-photo-hover" data-ng-click="ctlProfile.removeImg()" role="button" tabindex="0"></div><!-- end ngIf: user.picture.org.url -->
               </div>
           </div>
 
           <div class="inner-panel _ma">
-            <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{user.username}}</div>
+            <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{ctlProfile.user.id}}</div>
             <div class="nst-marginbtm-4">First Name</div>
             <div>
               <form name="place_id">
-                <input page-change-element type="text" name="place_id" class="nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
-                       aria-invalid="false" data-ng-model="user.name.fname"/>
+                <input page-change-element type="text" name="place_id" class="nst-marginbtm-24 form-control"
+                       aria-invalid="false" data-ng-model="ctlProfile.user.fname"/>
               </form>
             </div>
             <div class="nst-marginbtm-4">Last Name</div>
             <div>
               <form name="place_id">
-                <input page-change-element type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
-                       aria-invalid="false" data-ng-model="user.name.lname"/>
+                <input page-change-element type="text" name="place_id" class=" nst-marginbtm-24 form-control"
+                       aria-invalid="false" data-ng-model="ctlProfile.user.lname"/>
               </form>
             </div>
-            <div>
+            <!--<div>
               <div class="nst-marginbtm-4">Recovery Mail</div>
               <div class="verified-li"></div>
-            </div>
+            </div
             <div>
               <form name="place_id">
-                <input page-change-element type="text" name="place_id" class=" nst-marginbtm-24 form-control ng-pristine ng-untouched ng-valid"
-                       aria-invalid="false" data-ng-model="user.email"/>
+                <input page-change-element type="text" name="place_id" value="{{ctlProfile.user.email}}" class=" nst-marginbtm-24 form-control"
+                       aria-invalid="false" data-ng-model="ctlProfile.user.email"/>
               </form>
-            </div>
+            </div>>-->
             <div class="nst-marginbtm-4">Mobile Phone</div>
             <div class="_fw nst-marginbtm-24">
-              <input page-change-element name="mobileNumber" international-phone-number
-                     class="select-birthday ng-pristine ng-untouched ng-valid" data-ng-model="user.phone"/>
+              <input disabled page-change-element name="mobileNumber" international-phone-number value="{{ctlProfile.user.phone}}"
+                     class="select-birthday" data-ng-model="ctlProfile.user.phone"/>
             </div>
-            <div class="nst-marginbtm-12">Gender</div>
+            <!--<div class="nst-marginbtm-12">Gender</div>
             <div class="nst-marginbtm-64">
               <ul class="list-inline">
                 <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
@@ -70,9 +70,9 @@
             <div class="nst-marginbtm-4">Birthday</div>
             <div class="nst-marginbtm-36">
               <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="birth"/>
-            </div>
+            </div>-->
             <div>
-              <button class="btn btn-sense _fw" data-ng-click="account_profile.update()">Save & Exit</button>
+              <button class="btn btn-sense _fw" data-ng-click="ctlProfile.update()">Save & Exit</button>
             </div>
           </div>
           <div class="restplace _df _fh"></div>
