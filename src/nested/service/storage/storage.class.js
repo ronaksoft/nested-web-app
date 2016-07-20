@@ -165,7 +165,7 @@
     Storage.prototype.merge = function (id, object) {
       var oObject = this.get(id, {});
       var tObject = (oObject['merge'] && oObject['merge'] instanceof Function) ?
-        oObject.merge(object) : angular.merge(oObject, object);
+        oObject.merge(object) : angular.extend(oObject, object);
 
       if (this.isValidObject(tObject)) {
         this.cache.set(id, tObject);

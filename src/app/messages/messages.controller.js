@@ -46,7 +46,7 @@
         vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
         vm.activities = values[2];
         vm.messages = mapMessages(values[3]);
-        console.log(vm);
+        $log.debug(vm);
       }).catch(function (error) {
         $log.debug(error)
       });

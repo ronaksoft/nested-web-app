@@ -80,18 +80,18 @@
         defer.resolve(null);
       } else {
         var tinyPost = new NstPost({
-          id : data.post_id.$oid,
-          subject : data.post_subject,
-          body : data.post_body,
-          senderId : data.actor,
-          places : _.map(data.post_places, function (place) {
+          id: data.post_id.$oid,
+          subject: data.post_subject,
+          body: data.post_body,
+          senderId: data.actor,
+          places: _.map(data.post_places, function(place) {
             return new NstTinyPlace({
-              id : place._id,
-              name : place.name,
-              picture : new NstPicture(null, place.picture)
+              id: place._id,
+              name: place.name,
+              picture: new NstPicture(null, place.picture)
             });
           }),
-          attachments : _.map(data.post_attachments, function (item) {
+          attachments: _.map(data.post_attachments, function(item) {
             return new NstAttachment({
               // id : ,
               // postId : ,
@@ -111,11 +111,10 @@
       if (!data.comment_id) { // could not find any comment inside
         defer.resolve(null);
       } else {
-        console.log('haha');
         defer.resolve(new NstTinyComment({
-          id : data.comment_id.$oid,
-          body : data.comment_body,
-          postId : data.post_id.$oid
+          id: data.comment_id.$oid,
+          body: data.comment_body,
+          postId: data.post_id.$oid
         }));
       }
 
@@ -128,15 +127,11 @@
       if (!data.place_id) {
         defer.resolve(null);
       } else {
-        NstSvcPlaceFactory.get(data.place_id).then(function (samePlace) {
-          var place = new NstPlace({
-            id : data.place_id,
-            name : data.place_name,
-            picture : new NstPicture(null, data.place_picture),
-            parent : samePlace.getParent()
-          });
+
+        var placeId = data.child_id || data.place_id;
+        NstSvcPlaceFactory.get(placeId).then(function(place) {
           defer.resolve(place);
-        });
+        }).catch(defer.reject);
       }
 
       return defer.promise;
@@ -168,7 +163,6 @@
           limit: settings.limit,
           skip: settings.skip
         }).then(function(data) {
-          console.log('zozo',data);
           var activities = _.map(data.events, parseActivity);
 
           $q.all(activities).then(function(values) {

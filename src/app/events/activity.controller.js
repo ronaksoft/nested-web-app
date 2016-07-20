@@ -66,7 +66,7 @@
         return $q(function(resolve, reject) {
           NstSvcActivityFactory.load(vm.activitySettings).then(function(activities) {
             vm.acts = mapActivities(activities);
-            console.log(vm.acts);
+            $log.debug(vm.acts);
             resolve(vm.acts);
 
           }).catch(reject);
@@ -364,7 +364,6 @@
     }
 
     function mapActivityComment(activity) {
-      console.log(activity);
       if (!activity.comment || !activity.comment.id) {
         return {};
       }
@@ -436,7 +435,21 @@
       return {
         id : activity.place.id,
         name : activity.place.name,
-        picture : activity.place.picture.thumbnails.x64.url.download
+        picture : activity.place.picture.thumbnails.x64.url.download,
+        hasParent : !!activity.place.parent,
+        parent : mapParentPlace(activity),
+      };
+    }
+
+    function mapParentPlace(activity) {
+      if (!activity.place || !activity.place.parent) {
+        return {};
+      }
+
+      return {
+        id : activity.place.parent.id,
+        name : activity.place.parent.name,
+        picture : activity.place.parent.picture.thumbnails.x64.url.download,
       };
     }
 
