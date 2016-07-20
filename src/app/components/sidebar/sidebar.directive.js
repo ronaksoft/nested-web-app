@@ -7,9 +7,14 @@
                                                NST_AUTH_EVENT,
                                                NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory) {
       var vm = this;
+      vm.stateParams = $stateParams;
 
-      if ('_' == $stateParams.placeId) {
-        $state.go(getUnfilteredState());
+      if ($stateParams.placeId) {
+        if ('_' == $stateParams.placeId) {
+          $state.go(getUnfilteredState());
+        } else {
+          vm.stateParams.placeIdSplitted = $stateParams.placeId.split('.');
+        }
       }
 
       // TODO: Here is what we need to build the sidebar
@@ -63,7 +68,7 @@
               res(NstSvcAuth.getUser());
             });
           }
-          
+
         }));
       }
 
@@ -140,13 +145,20 @@
         depth = depth || 0;
 
         var placesClone = Object.keys(places).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
-          var place = places[k];
+          var placeModel = places[k];
+          var place = {};
           place.depth = depth;
-          place.url = $state.href(getPlaceFilteredState(), { placeId: place.getId() });
+          place.id = placeModel.getId();
+          place.name = placeModel.getName();
+          place.url = $state.href(getPlaceFilteredState(), { placeId: placeModel.getId() });
+          place.avatar = placeModel.getPicture().getThumbnail(32).getUrl().view;
           place.isCollapsed = true;
+          if (vm.stateParams.placeIdSplitted) {
+            place.isCollapsed = place.id != vm.stateParams.placeIdSplitted.slice(0, place.id.split('.').length).join('.');
+          }
           place.isFirstChild = 0 == i;
           place.isLastChild = (arr.length - 1) == i;
-          place.children = mapPlaces(place.children, depth + 1);
+          place.children = mapPlaces(placeModel.children, depth + 1);
 
           return place;
         });
