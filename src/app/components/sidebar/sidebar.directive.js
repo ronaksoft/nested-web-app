@@ -158,7 +158,7 @@
           place.id = placeModel.getId();
           place.name = placeModel.getName();
           place.url = $state.href(getPlaceFilteredState(), { placeId: placeModel.getId() });
-          place.avatar = placeModel.getPicture().getThumbnail(32).getUrl().view;
+          place.avatar = placeModel.getPicture().getId() ? placeModel.getPicture().getThumbnail(32).getUrl().view : '/assets/icons/absents_place.svg';
           place.isCollapsed = true;
           if (vm.stateParams.placeIdSplitted) {
             place.isCollapsed = place.id != vm.stateParams.placeIdSplitted.slice(0, place.id.split('.').length).join('.');

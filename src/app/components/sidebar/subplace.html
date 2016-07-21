@@ -1,7 +1,8 @@
 <div class="side-place-item-inner">
   <a href="{{place.url}}" class="_fn">
-  <div class="side-place-item-image"
-       data-ng-include="'app/components/sidebar/picture.html'" data-ng-init="object = place; size = 32"></div>
+  <div class="side-place-item-image">
+    <img class="account-initials-32" src="{{place.avatar}}"/>
+  </div>
 
   <dl data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
     <div class="box2"></div>

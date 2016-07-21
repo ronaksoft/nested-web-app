@@ -20,7 +20,7 @@ gulp.task('scripts', function() {
 
 function buildScripts() {
   var config = gulp.src([
-    path.join(conf.paths.conf, '/development.json')
+    path.join(conf.paths.conf, '/*.json')
   ]).pipe(
     $.ngConfig('nested.config')
   ).pipe(

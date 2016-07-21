@@ -216,7 +216,7 @@
         years[year] = {
           min: yearMoment.startOf('year'),
           max: yearMoment.endOf('year'),
-          items: mapActivities(yearActs)
+          items: mapActivityItems(yearActs)
         };
       });
 
@@ -245,7 +245,7 @@
         months[month] = {
           min: monthMoment.startOf('month'),
           max: monthMoment.endOf('month'),
-          items: mapActivities(monthActs)
+          items: mapActivityItems(monthActs)
         };
       });
 
@@ -285,7 +285,7 @@
       result.today = {
         min: todayStart,
         max: moment().endOf('day'),
-        items: mapActivities(todayActs),
+        items: mapActivityItems(todayActs),
         hasAnyItem: todayActs.length > 0
       };
 
@@ -328,7 +328,7 @@
       return days;
     }
 
-    function mapActivities(activities) {
+    function mapActivityItems(activities) {
       var items = _.map(activities, function (item) {
 
         return {
