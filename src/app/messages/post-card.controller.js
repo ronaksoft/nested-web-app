@@ -6,7 +6,7 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($rootScope, $scope, $stateParams, $log, $q, $timeout,
-    NstSvcPostFactory) {
+    NstSvcCommentFactory, NstSvcPostFactory) {
     var vm = this;
     //vm.viewSetting = {};
     //vm.post = {};
@@ -17,6 +17,7 @@
     vm.allowToRemove = allowToRemove;
     vm.forward = {};
     vm.toggleCommentsBorad = toggleCommentsBorad;
+    vm.sendComment = sendComment;
 
 
     /**
@@ -159,6 +160,63 @@
       vm.commentsBoardPreview = !vm.commentsBoardPreview;
     }
 
+    /**
+    * send - add the comment to the list of the post comments
+    *
+    * @param  {Event}  e   keypress event handler
+    */
+    function sendComment(e) {
+      console.log('sending', e);
+      console.log(vm.post);
+      if (!sendKeyIsPressed(e)) {
+        return;
+      }
+
+      var body = extractCommentBody(e);
+      if (body.length === 0) {
+        return;
+      }
+
+      vm.isSending = true;
+
+      NstSvcPostFactory.get(vm.post.id).then(function (post) {
+        return NstSvcCommentFactory.addComment(post, body)
+      }).then(function(post) {
+        vm.post = post;
+        e.currentTarget.value = '';
+        vm.isSending = false;
+        // TODO: notify
+      }).catch(function(error) {
+        // TODO: decide
+      });
+
+      return false;
+    }
+
+    /**
+     * sendKeyIsPressed - check whether the pressed key is Enter or not
+     *
+     * @param  {Event} event keypress event handler
+     * @return {bool}        true if the pressed key is Enter
+     */
+    function sendKeyIsPressed(event) {
+      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
+    }
+
+    /**
+     * extractCommentBody - extract and refine the comment
+     *
+     * @param  {Event}    e   event handler
+     * @return {string}       refined comment
+     */
+    function extractCommentBody(e) {
+      return e.currentTarget.value.trim();
+    }
+
+    function allowToRemoveComment(comment) {
+      return comment.sender.username === vm.user.username
+        && (Date.now() - comment.date < 20 * 60 * 1e3);
+    }
   }
 
 })();

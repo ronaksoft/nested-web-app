@@ -7,13 +7,14 @@
   /** @ngInject */
   function NstSvcCommentFactory($q, $log,
     _,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,NstSvcStore,
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage,
     NstFactoryError, NstFactoryQuery ,NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture) { // TODO: It should not inject any model, ask the factory to create the model
 
     /**
      * CommentFactory - all operations related to comment
      */
     var service = {
+      getComment : getComment,
       addComment: addComment,
       removeComment: removeComment,
       retrieveComments: retrieveComments,
@@ -24,6 +25,37 @@
 
     return service;
 
+    function getComment(id) {
+      var query = new NstFactoryQuery(id);
+
+      return $q(function(resolve, reject) {
+        if (!this.query.id){
+          resolve(null);
+        } else {
+          var comment = NstSvcCommentStorage.get(this.query.id);
+          if (comment) {
+            resolve(comment);
+          } else {
+            NstSvcServer.request('comment/get', {
+              comment_id : query.id
+            }).then(function(data) {
+              comment = parseComment(data.comment);
+              NstSvcCommentStorage.set(this.query.id, comment);
+              resolve(comment);
+            }.bind({
+              query: this.query
+            })).catch(function(error) {
+              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            }.bind({
+              query: this.query
+            }));
+          }
+        }
+      }.bind({
+        query: query
+      }));
+    }
+
     /**
      * anonymous function - add a comment
      *
@@ -32,7 +64,7 @@
      *
      * @returns {Promise}             the comment
      */
-    function addComment(post, user, content) {
+    function addComment(post, content) {
       // var query = new NstFactoryQuery(postId, { txt : content });
       var defer = $q.defer();
 
@@ -40,16 +72,13 @@
         post_id: post.id,
         txt: content
       }).then(function(data) {
-        var comment = createCommentModel({
-          id: data.comment_id.$oid,
-          post: post,
-          body: content,
-          sender: user,
-          date: Date.now()
-        });
-        post.addComments([comment]);
-        defer.resolve(post);
+        var id = data.comment_id.$oid;
 
+        return getComment(id);
+      }).then(function (comment) {
+          post.addComments([comment]);
+          NstSvcPostStorage.set(post.id, post);
+          defer.resolve(post);
       }).catch(function(error) {
         defer.reject(error);
       });

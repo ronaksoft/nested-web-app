@@ -39,7 +39,7 @@
   </div>-->
   <comments-board comments="ctlPost.post.comments"></comments-board>
   <div class="post-card-comment-input _df">
-    <input class="_fw" placeholder="write your comment ...">
+    <input class="_fw" placeholder="write your comment ..." ng-keyup="ctlPost.sendComment($event)">
 
   </div>
 </section>

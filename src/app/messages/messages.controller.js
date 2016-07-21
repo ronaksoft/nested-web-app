@@ -371,6 +371,13 @@
       return defer.promise;
     }
 
+    function replaceMessage(message) {
+      var messageIndex = _.findIndex(vm.messages, function (item) {
+        return item.id === message.id;
+      });
+
+      vm.messages.splice(messageIndex, 1, message);
+    }
 
   }
 
