@@ -83,7 +83,7 @@
       if (picture instanceof NstPicture) {
         this.picture = picture;
       } else if (angular.isObject(picture)) {
-        this.picture.org.setId(picture.org);
+        this.picture.setId(picture.org);
         var pictureClone = angular.copy(picture);
         delete pictureClone.org;
 
