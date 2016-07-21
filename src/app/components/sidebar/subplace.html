@@ -1,15 +1,15 @@
 <div class="side-place-item-inner">
   <a href="{{place.url}}" class="_fn">
-  <div class="side-place-item-image">
-    <img class="account-initials-32" src="{{place.avatar}}"/>
-  </div>
+    <div class="side-place-item-image">
+      <img class="account-initials-32" src="{{place.avatar}}"/>
+    </div>
 
-  <dl data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
-    <div class="box2"></div>
-    <div class="box1"></div>
-    <div class="box3"></div>
-    <div class="box4"></div>
-  </dl>
+    <dl data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
+      <div class="box2"></div>
+      <div class="box1"></div>
+      <div class="box3"></div>
+      <div class="box4"></div>
+    </dl>
   </a>
   <div class="_fw _fh side-place-name">
     <a href="{{place.url}}" class="_fw onlyExpand">{{place.name}}</a>

@@ -9,24 +9,125 @@
   function NstSvcInvitationFactory($q, $log, _, moment,
                                    NST_SRV_ERROR,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory,
-                                   NstFactoryError, NstFactoryQuery, NstInvitation) {
+                                   NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation) {
+    function InvitationFactory() {
+      this.requests = {
+        get: {},
+        decide: {}
+      };
+    }
 
-    /**
-     * PostFactory - all operations related to activity
-     */
-    var service = {
-      getAll : getAll,
-      get : get,
-      accept : accept,
-      decline : decline
-    };
+    InvitationFactory.prototype = new NstObservableObject();
+    InvitationFactory.prototype.constructor = InvitationFactory;
 
-    return service;
-
-    function parseInvitation(data) {
+    InvitationFactory.prototype.getAll = function () {
+      var factory = this;
       var defer = $q.defer();
 
-      var invitation = createInvitation();
+      NstSvcServer.request('account/get_invitations').then(function (response) {
+        var promises = [];
+        for (var k in response.invitations) {
+          promises.push(factory.parseInvitation(response.invitations[k]).catch(function (error) {
+            return $q(function (res) {
+              res(error);
+            });
+          }));
+        }
+
+        $q.all(promises).then(function (values) {
+          var invitations = [];
+          for (var k in values) {
+            if (values[k] instanceof NstInvitation) {
+              var invitation = values[k];
+
+              NstSvcInvitationStorage.set(invitation.getId(), invitation);
+              invitations.push(invitation);
+            }
+          }
+
+          defer.resolve(invitations);
+        });
+      }).catch(function (error) {
+        defer.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
+      });
+
+      return defer.promise;
+    };
+
+    InvitationFactory.prototype.get = function (id) {
+      var factory = this;
+
+      if (!this.requests.get[id]) {
+        var query = new NstFactoryQuery(id);
+
+        // FIXME: Check whether if request should be removed on resolve/reject
+        this.requests.get[id] = $q(function (resolve, reject) {
+          var invitation = NstSvcInvitationStorage.get(query.getId());
+          console.log('Got Invitation: ', query.getId(), invitation);
+          if (invitation) {
+            resolve(invitation);
+          } else {
+            NstSvcServer.request('account/get_invitation', {
+              invite_id: query.getId()
+            }).then(function (invitationData) {
+              var invitation = factory.parseInvitation(invitationData.info);
+              NstSvcInvitationStorage.set(query.getId(), invitation);
+              resolve(invitation);
+            }).catch(function(error) {
+              // TODO: Handle error by type
+              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            });
+          }
+        });
+      }
+
+      return this.requests.get[id];
+    };
+
+    InvitationFactory.prototype.accept = function (id) {
+      if (!this.requests.decide[id]) {
+        var defer = $q.defer();
+
+        NstSvcServer.request('account/update_invitation', {
+          invite_id: id,
+          state: 'accepted'
+        }).then(function (response) {
+          // TODO: parse the response and return an object
+          defer.resolve(response);
+        }).catch(defer.reject);
+
+        this.requests.decide[id] = defer.promise;
+      }
+
+      return this.requests.decide[id];
+    };
+
+    InvitationFactory.prototype.decline = function (id) {
+      if (!this.requests.decide[id]) {
+        var defer = $q.defer();
+
+        NstSvcServer.request('account/update_invitation', {
+          invite_id: id,
+          state: 'ignored'
+        }).then(function (response) {
+          // TODO: parse the response and return an object
+          defer.resolve(response);
+        }).catch(defer.reject);
+
+        this.requests.decide[id] = defer.promise;
+      }
+
+      return this.requests.decide[id];
+    };
+
+    InvitationFactory.prototype.createInvitation = function () {
+      return new NstInvitation();
+    };
+
+    InvitationFactory.prototype.parseInvitation = function (data) {
+      var defer = $q.defer();
+
+      var invitation = this.createInvitation();
 
       if (!data){
         defer.resolve(invitation);
@@ -61,77 +162,8 @@
       }
 
       return defer.promise;
-    }
+    };
 
-    function createInvitation() {
-      return new NstInvitation();
-    }
-
-    function getAll() {
-      var defer = $q.defer();
-
-      NstSvcServer.request('account/get_invitations').then(function (response) {
-        var promises = [];
-        for (var k in response.invitations) {
-          promises.push(parseInvitation(response.invitations[k]).catch(function (error) {
-            return $q(function (res) {
-              res(error);
-            });
-          }));
-        }
-
-        $q.all(promises).then(function (values) {
-          var invitations = [];
-          for (var k in values) {
-            if (values[k] instanceof NstInvitation) {
-              invitations.push(values[k]);
-            }
-          }
-
-          defer.resolve(invitations);
-        });
-      }).catch(function (error) {
-        defer.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
-      });
-
-      return defer.promise;
-    }
-
-    function get(id) {
-      var defer = $q.defer();
-
-      NstSvcServer.request('account/get_invitation', { invite_id: id }).then(function (response) {
-        // TODO: parse the response and return an object
-      }).catch(defer.reject);
-
-      return defer.promise;
-    }
-
-    function accept(id) {
-        var defer = $q.defer();
-
-        NstSvcServer.request('account/update_invitation', {
-          invite_id: id,
-          state: 'accepted'
-        }).then(function (response) {
-          // TODO: parse the response and return an object
-        }).catch(defer.reject);
-
-        return defer.promise;
-    }
-
-    function decline(id) {
-      var defer = $q.defer();
-
-      NstSvcServer.request('account/update_invitation', {
-        invite_id: id,
-        state: 'ignored'
-      }).then(function (response) {
-        // TODO: parse the response and return an object
-      }).catch(defer.reject);
-
-      return defer.promise;
-    }
-
+    return new InvitationFactory();
   }
 })();

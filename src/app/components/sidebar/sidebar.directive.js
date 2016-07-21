@@ -3,9 +3,10 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', function ($q, $scope, $state, $stateParams, $location,
+    .controller('SidebarController', function ($q, $scope, $state, $stateParams, $location, $uibModal,
                                                NST_AUTH_EVENT,
-                                               NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory) {
+                                               NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                                               NstVmUser, NstVmPlace, NstVmInvitation) {
       var vm = this;
 
       /*****************************
@@ -13,6 +14,11 @@
        *****************************/
 
       vm.stateParams = $stateParams;
+      vm.urls = {
+        unfiltered: $state.href(getUnfilteredState()),
+        bookmarks: $state.href(getBookmarksState()),
+        sent: $state.href(getSentState())
+      };
 
       /*****************************
        ***** Controller Methods ****
@@ -27,15 +33,42 @@
         return seq;
       };
 
-      vm['invitations'] = {};
+      vm['invitation'] = {};
 
-      vm.invitations.accept = function (id) {
+      vm.invitation.accept = function (id) {
         return NstSvcInvitationFactory.accept(id);
       };
 
-      vm.invitations.decline = function (id) {
+      vm.invitation.decline = function (id) {
         return NstSvcInvitationFactory.decline(id);
       };
+
+      vm.invitation.showModal = function (id) {
+        NstSvcInvitationFactory.get(id).then(function (invitation) {
+          $uibModal.open({
+            animation: false,
+            size: 'sm',
+            templateUrl: 'app/components/sidebar/invitation/decide-modal.html',
+            controller: 'InvitationController',
+            controllerAs: 'ctrlInvitation',
+            resolve: {
+              argv: {
+                invitation: invitation
+              }
+            }
+          }).result.then(function (result) {
+            if (result) {
+              return vm.invitation.accept(id);
+            } else {
+              return vm.invitation.decline(id);
+            }
+          });
+        });
+      };
+
+      /*****************************
+       *****  Controller Logic  ****
+       *****************************/
 
       if ($stateParams.placeId) {
         if ('_' == $stateParams.placeId) {
@@ -45,59 +78,15 @@
         }
       }
 
-      // TODO: Here is what we need to build the sidebar
-      //    1. User Places
-      //    2. User Invitations
-      //    3. User Profile
-
       $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
-        vm.urls = {
-          unfiltered: $state.href(getUnfilteredState()),
-          bookmarks: $state.href(getBookmarksState()),
-          sent: $state.href(getSentState())
-        };
-
         vm.user = mapUser(resolvedSet[0]);
         vm.places = mapPlaces(resolvedSet[1]);
         vm.invitations = mapInvitations(resolvedSet[2]);
       });
 
       /*****************************
-       *****    Fetch Methods   ****
+       *****    State Methods   ****
        *****************************/
-
-      function getUser() {
-        return NstSvcLoader.inject($q(function (res) {
-          if (NstSvcAuth.isAuthorized()) {
-            res(NstSvcAuth.getUser());
-          } else {
-            NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
-              res(NstSvcAuth.getUser());
-            });
-          }
-
-        }));
-      }
-
-      function getMyPlaces() {
-        return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
-      }
-
-      function getInvitations() {
-        return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
-      }
-
-      function getPlaceFilteredState() {
-        var state = 'place-messages';
-        switch ($state.current.name) {
-          case 'activity':
-          case 'place-activity':
-            state = 'place-activity';
-            break;
-        }
-
-        return state;
-      }
 
       function getUnfilteredState() {
         var state = 'messages';
@@ -135,34 +124,57 @@
       }
 
       /*****************************
+       *****    Fetch Methods   ****
+       *****************************/
+
+      function getUser() {
+        return NstSvcLoader.inject($q(function (res) {
+          if (NstSvcAuth.isAuthorized()) {
+            res(NstSvcAuth.getUser());
+          } else {
+            NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
+              res(NstSvcAuth.getUser());
+            });
+          }
+
+        }));
+      }
+
+      function getMyPlaces() {
+        return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
+      }
+
+      function getInvitations() {
+        return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
+      }
+
+      /*****************************
        *****     Map Methods    ****
        *****************************/
 
       function mapUser(userModel) {
-        var user = {
-          id : userModel.getId(),
-          avatar : userModel.getPicture().getThumbnail(32).getUrl().view,
-          name : userModel.getFullName()
-        };
+        return new NstVmUser(userModel);
+      }
 
-        return user;
+      function mapPlace(placeModel, depth) {
+        return new NstVmPlace(placeModel, depth);
+      }
+
+      function mapInvitation(invitationModel) {
+        return new NstVmInvitation(invitationModel);
       }
 
       function mapPlaces(placeModels, depth) {
         depth = depth || 0;
 
-        var placesClone = Object.keys(placeModels).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
+        var places = Object.keys(placeModels).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
           var placeModel = placeModels[k];
-          var place = {};
-          place.depth = depth;
-          place.id = placeModel.getId();
-          place.name = placeModel.getName();
-          place.url = $state.href(getPlaceFilteredState(), { placeId: placeModel.getId() });
-          place.avatar = placeModel.getPicture().getId() ? placeModel.getPicture().getThumbnail(32).getUrl().view : '/assets/icons/absents_place.svg';
+          var place = mapPlace(placeModel, depth);
           place.isCollapsed = true;
           if (vm.stateParams.placeIdSplitted) {
             place.isCollapsed = place.id != vm.stateParams.placeIdSplitted.slice(0, place.id.split('.').length).join('.');
           }
+
           place.isFirstChild = 0 == i;
           place.isLastChild = (arr.length - 1) == i;
           place.children = mapPlaces(placeModel.children, depth + 1);
@@ -170,55 +182,16 @@
           return place;
         });
 
-        return placesClone;
+        return places;
       }
 
-      function mapInvitations(invitations) {
-        return invitations;
+      function mapInvitations(invitationModels) {
+        return invitationModels.map(mapInvitation);
       }
 
       /*****************************
        *****    Other Methods   ****
        *****************************/
-
-      // // Invitations
-      // $scope.invitations = {
-      //   length: 0,
-      //   invites: {}
-      // };
-      // LoaderService.inject(WsService.request('account/get_invitations').then(function (data) {
-      //   for (var k in data.invitations) {
-      //     if (data.invitations[k].place._id) {
-      //       var invitation = new NestedInvitation(data.invitations[k]);
-      //       $scope.invitations.invites[invitation.id] = invitation;
-      //       $scope.invitations.length++;
-      //     }
-      //   }
-      //
-      //   return $q(function (res) {
-      //     res();
-      //   });
-      // }));
-      // $scope.decideInvite = function (invitation, accept) {
-      //   return invitation.update(accept).then(function (invitation) {
-      //     $scope.invitations.length--;
-      //     delete $scope.invitations.invites[invitation.id];
-      //   });
-      // };
-      //
-      // $scope.inviteModal = function () {
-      //
-      //   $uibModal.open({
-      //     animation: false,
-      //     templateUrl: 'app/events/partials/invitation.html',
-      //     controller: 'InvitationController',
-      //     size: 'sm',
-      //     scope: $scope
-      //   }).result.then(function () {
-      //     return $location.path('/').replace();
-      //   });
-      // };
-
     })
     .directive('nestedSidebar', nestedSidebar);
 
