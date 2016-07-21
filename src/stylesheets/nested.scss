@@ -1327,11 +1327,11 @@ a .ui-select-choises-row-inner {
   }
 }
 .maincontainer.tiny ul ul .side-place-item-image {
-  width: 32px;
+  width: 40px;
   &::after{
     content: "";
     position: absolute;
-    left: 0;
+    left: 4px;
     width: 32px;
     height: 32px;
     border-radius: 1000px;
@@ -1343,12 +1343,10 @@ a .ui-select-choises-row-inner {
   }
 }
 ul ul .side-place-item-image {
-  width: 32px;
-  height: 32px;
   &::after{
     content: "";
     position: absolute;
-    left: 0;
+    left: 10px;
     width: 32px;
     height: 32px;
     border-radius: 1000px;
