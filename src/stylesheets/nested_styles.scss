@@ -53,6 +53,14 @@
 .icon-sent {
   background-position: 0 -48px;
 }
+.icon-nav {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-repeat: no-repeat;
+  margin: 0 15px 0 0;
+  flex: none;
+  width: 64px;
+  height: 64px;
+}
 .icon-top-action {
   background-image: url("../assets/icons/sidebaricon.svg");
   background-repeat: no-repeat;
@@ -779,6 +787,10 @@ ul ul li:last-child{
 }
 
 .list-items:hover {
+  background-color: $color-sense-5;
+  color: $color-solid;
+}
+.list-items.active {
   background-color: $color-sense-5;
   color: $color-solid;
 }

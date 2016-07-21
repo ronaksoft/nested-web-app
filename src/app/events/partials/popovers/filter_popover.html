@@ -4,33 +4,26 @@
   </div>
   <div>
     <div class="list-items">
-      <label class="" for="content"  ng-click="ctlMessages.toggleContentPreview()">all</label>
-      <input class="_fr" type="radio" id="content" name="filter" value="content"
-             data-ng-model="ctlActivity.filters"/>
+      <label class="" for="content"  ng-click="ctlActivity.applyFilter('all')">all</label>
+      <input class="_fr" type="radio" id="content" name="filter" value="content" data-ng-model="ctlActivity.filters"/>
     </div>
   </div>
   <div>
-    <div class="list-items" ng-click="ctlMessages.toggleAttachmentPreview()">
+    <div class="list-items" ng-click="ctlActivity.applyFilter('messages')">
       <label class="" for="attachments">Messages</label>
-      <input class="_fr" type="radio" id="attachments" name="filter" value="attachments"
-             data-ng-model="ctlActivity.filters"/>
+      <input class="_fr" type="radio" id="attachments" name="filter" value="attachments" data-ng-model="ctlActivity.filters"/>
     </div>
   </div>
   <div>
     <div class="list-items">
-      <label class="" for="comments"  ng-click="ctlMessages.toggleCommentsPreview()">Comments</label>
-      <input class="_fr" type="radio" id="comments" name="filter" value="comments"
-             data-ng-model="ctlActivity.filters"/>
+      <label class="" for="comments"  ng-click="ctlActivity.applyFilter('comments')">Comments</label>
+      <input class="_fr" type="radio" id="comments" name="filter" value="comments" data-ng-model="ctlActivity.filters"/>
     </div>
   </div>
-
-  <div class="line-popover"></div>
-
   <div>
-    <div class="list-items"  ng-click="ctlMessages.toggleQuickMessagePreview()">
+    <div class="list-items"  ng-click="ctlActivity.applyFilter('log')">
       <label class="" for="msg">Logs</label>
-      <input class="_fr" type="radio" id="msg" name="filter" value="msg"
-             data-ng-model="ctlActivity.filters"/>
+      <input class="_fr" type="radio" id="msg" name="filter" value="msg" data-ng-model="ctlActivity.filters"/>
     </div>
   </div>
 </div>

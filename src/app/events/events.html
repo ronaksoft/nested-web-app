@@ -19,10 +19,10 @@
 
         <section class="_fw nst-content-body _bgwhite">
           <div class="_fw eventsody _bgwhite" id="EventList">
-            <activity-item data-ng-repeat="act in ctlActivity.acts" model="act">a</activity-item>
+            <activity-item data-ng-repeat="act in ctlActivity.acts" model="act" extended="ctlActivity.extended">a</activity-item>
           </div>
-          <div class="text-center _fw moreevent" data-ng-if="ctlActivity.moreEvents">
-            <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
+          <div class="text-center _fw moreevent">
+            <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="ctlActivity.loadMore()">Load More...</a>
           </div>
         </section>
       </section>

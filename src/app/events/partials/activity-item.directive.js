@@ -10,7 +10,8 @@
     return {
       restrict: 'E',
       scope:{
-        activity: '=model'
+        activity: '=model',
+        extended: '=extended'
       },
       link: function(scope, elem, attrs) {
         switch (scope.activity.type){
@@ -42,7 +43,7 @@
             break;
         }
       },
-      template: '<div class="evrow _fw _fn" data-ng-include="tplUrl" data-ng-init="act = activity"></div>'
+      template: '<div class="evrow _fw _fn" data-ng-include="tplUrl" data-ng-init="act = activity;extended = extended"></div>'
     };
   }
 

@@ -100,7 +100,7 @@
     }
 
     function loadMore() {
-      messagesSetting.skip += messagesSetting.limit;
+      vm.messagesSetting.skip += vm.messagesSetting.limit;
       loadMessages();
     }
 
