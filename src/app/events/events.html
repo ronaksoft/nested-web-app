@@ -19,7 +19,38 @@
 
         <section class="_fw nst-content-body _bgwhite">
           <div class="_fw eventsody _bgwhite" id="EventList">
-            <activity-item data-ng-repeat="act in ctlActivity.acts" model="act" extended="ctlActivity.extended">a</activity-item>
+            <div class="sender">
+              <p class="nst-mood-simple">
+                <span class="">Today</span>
+              </p>
+            </div>
+            <activity-item data-ng-repeat="act in ctlActivity.acts.thisYear.thisMonth.today.items" model="act" extended="ctlActivity.extended"></activity-item>
+
+            <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
+              <div class="sender">
+                <p class="nst-mood-simple">
+                  <span class="ng-binding ng-scope">{{value.min}}</span>
+                </p>
+              </div>
+                <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
+            </div>
+            <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
+              <div class="sender">
+                <p class="nst-mood-simple">
+                  <span class="ng-binding ng-scope">{{value.min}}</span>
+                </p>
+              </div>
+              <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
+            </div>
+            <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
+              <div class="sender">
+                <p class="nst-mood-simple">
+                  <span class="ng-binding ng-scope">{{value.min}}</span>
+                </p>
+              </div>
+              <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
+            </div>
+
           </div>
           <div class="text-center _fw moreevent">
             <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="ctlActivity.loadMore()">Load More...</a>

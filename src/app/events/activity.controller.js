@@ -346,7 +346,7 @@
         days[day] = {
           min: dayMoment.startOf('day'),
           max: dayMoment.endOf('day'),
-          items: dayActs
+          items: mapActivityItems(dayActs)
         };
 
       });
