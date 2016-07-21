@@ -518,7 +518,7 @@ select {
   margin-right: 8px;
   flex: none;
   justify-content: center;
-  border: 1px $color-border-pics solid;
+  //border: 1px $color-border-pics solid;
 }
 
 @for $i from 1 through 32 {
@@ -530,12 +530,10 @@ select {
     text-align: center;
     font-size: #{$i * 3}px;
     font-weight: normal;
-    color: white;
     background-color: $color-solid-30;
     vertical-align: top;
   }
 }
-
 .account-initials-right {
   width: 32px;
   height: 32px;
@@ -1301,13 +1299,65 @@ a .ui-select-choises-row-inner {
   display: flex;
   flex: none;
   justify-content: center;
+  &::after{
+    content: "";
+    position: absolute;
+    left: 2px;
+    width: 40px;
+    height: 40px;
+    border-radius: 1000px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    pointer-events: none;
+  }
 }
 .maincontainer.tiny .side-place-item-image {
   width: 40px;
+  &::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 1000px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    pointer-events: none;
+  }
   img {
-    margin-right:2px;
+    margin-right: 0;
   }
 }
+.maincontainer.tiny ul ul .side-place-item-image {
+  width: 40px;
+  &::after{
+    content: "";
+    position: absolute;
+    left: 4px;
+    width: 32px;
+    height: 32px;
+    border-radius: 1000px;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    pointer-events: none;
+  }
+  img {
+    margin-right: 0;
+  }
+}
+ul ul .side-place-item-image {
+  &::after{
+    content: "";
+    position: absolute;
+    left: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 1000px;
+    box-shadow: inset 0 0 0 1px $color-border;
+    pointer-events: none;
+  }
+  img {
+    margin-right: 0;
+  }
+}
+
 .side-place-item a {
   color: rgb(71, 97, 82);
   font-weight: 300;
