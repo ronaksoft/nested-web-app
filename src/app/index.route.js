@@ -61,7 +61,7 @@
         controller: 'ComposeController',
         controllerAs: 'ctlCompose'
       })
-      .state('compose-replyall', {
+      .state('compose-reply-all', {
         url: '/reply/:postId',
         params: {
           postId: '_'
@@ -70,7 +70,7 @@
         controller: 'ComposeController',
         controllerAs: 'ctlCompose'
       })
-      .state('compose-replysender', {
+      .state('compose-reply-sender', {
         url: '/reply/:postId/sender',
         params: {
           postId: '_'

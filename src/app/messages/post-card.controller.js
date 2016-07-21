@@ -5,12 +5,26 @@
     .module('nested')
     .controller('PostCardController', PostCardController);
 
-  function PostCardController($rootScope, $scope, $stateParams, $log, $q, $timeout,
-    NstSvcCommentFactory, NstSvcPostFactory) {
+  function PostCardController($rootScope, $scope, $state, $stateParams, $log, $q, $timeout,
+                              NstSvcCommentFactory, NstSvcPostFactory) {
     var vm = this;
+
+    /*****************************
+     *** Controller Properties ***
+     *****************************/
+    
     //vm.viewSetting = {};
     //vm.post = {};
     vm.commentsBoardPreview = false;
+    vm.urls = {
+      reply_all: $state.href('compose-reply-all', { postId: vm.post.id }),
+      reply_sender: $state.href('compose-reply-sender', { postId: vm.post.id }),
+      forward: $state.href('compose-forward', { postId: vm.post.id })
+    };
+
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
 
     vm.reply = reply;
     vm.remove = remove;

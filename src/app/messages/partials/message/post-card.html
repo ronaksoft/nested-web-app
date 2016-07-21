@@ -23,7 +23,9 @@
   </section>
   <section class="post-footer _difh"><a class="_df _fn">{{ctlPost.post.commentsCount}} comments</a>
     <div class="post-icons _fw _df">
-      <div class="icon icon-post icon-fw _df"></div>
+      <a href="{{ctlPost.urls.forward}}" class="icon icon-post icon-fw _df"></a>
+      <a href="{{ctlPost.urls.reply_all}}" class="icon icon-post icon-fw _df"></a>
+      <a href="{{ctlPost.urls.reply_sender}}" class="icon icon-post icon-fw _df"></a>
       <div ng-if="ctlPost.post.userHasRemoveAccess" class="icon icon-post icon-delete-menu _df"></div>
     </div>
   </section>
