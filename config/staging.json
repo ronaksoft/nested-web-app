@@ -2,10 +2,14 @@
   "NST_CONFIG": {
     "APP_ID": "web-stg-{{BUILD}}",
     "WEBSOCKET": {
-      "URL": "wss://dev.cyrus.nested.me:443"
+      "URL": "wss://dev.cyrus.nested.me:443",
+      "TIMEOUT": 10000
     },
     "STORE": {
       "URL": "https://dev.xerxes.nested.me"
+    },
+    "PIONEER_INVITATION": {
+      "URL": "http://x.nested.me/send_invite.php"
     }
   }
 }

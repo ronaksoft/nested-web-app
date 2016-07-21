@@ -1,7 +1,8 @@
 <div class="side-place-item-inner">
   <a href="{{place.url}}" class="_fn">
-  <div class="side-place-item-image"
-       data-ng-include="'app/components/sidebar/picture.html'" onload="place = place; size = 32"></div>
+  <div class="side-place-item-image">
+    <img class="account-initials-32" src="{{place.avatar}}"/>
+  </div>
 
   <dl data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
     <div class="box2"></div>
@@ -11,7 +12,7 @@
   </dl>
   </a>
   <div class="_fw _fh side-place-name">
-    <a href="{{place.url}}" class="_fw onlyExpand">{{place.getName()}}</a>
+    <a href="{{place.url}}" class="_fw onlyExpand">{{place.name}}</a>
 
     <span data-ng-if="place.children.length > 0" class="e2-arrow _df">
       <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"

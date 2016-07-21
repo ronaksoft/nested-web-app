@@ -5,11 +5,44 @@
     .module('nested')
     .controller('SidebarController', function ($q, $scope, $state, $stateParams, $location,
                                                NST_AUTH_EVENT,
-                                               NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory) {
+                                               NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory) {
       var vm = this;
 
-      if ('_' == $stateParams.placeId) {
-        $state.go(getUnfilteredState());
+      /*****************************
+       *** Controller Properties ***
+       *****************************/
+
+      vm.stateParams = $stateParams;
+
+      /*****************************
+       ***** Controller Methods ****
+       *****************************/
+
+      vm.range = function (num) {
+        var seq = [];
+        for (var i = 0; i < num; i++) {
+          seq.push(i);
+        }
+
+        return seq;
+      };
+
+      vm['invitations'] = {};
+
+      vm.invitations.accept = function (id) {
+        return NstSvcInvitationFactory.accept(id);
+      };
+
+      vm.invitations.decline = function (id) {
+        return NstSvcInvitationFactory.decline(id);
+      };
+
+      if ($stateParams.placeId) {
+        if ('_' == $stateParams.placeId) {
+          $state.go(getUnfilteredState());
+        } else {
+          vm.stateParams.placeIdSplitted = $stateParams.placeId.split('.');
+        }
       }
 
       // TODO: Here is what we need to build the sidebar
@@ -30,27 +63,6 @@
       });
 
       /*****************************
-       ***** Controller Methods ****
-       *****************************/
-
-      vm.range = function (num) {
-        var seq = [];
-        for (var i = 0; i < num; i++) {
-          seq.push(i);
-        }
-
-        return seq;
-      };
-
-      vm.acceptInvitation = function (invitation) {
-        return decideInvitation(invitation, true);
-      };
-
-      vm.declineInvitation = function (invitation) {
-        return decideInvitation(invitation, false);
-      };
-
-      /*****************************
        *****    Fetch Methods   ****
        *****************************/
 
@@ -63,7 +75,7 @@
               res(NstSvcAuth.getUser());
             });
           }
-          
+
         }));
       }
 
@@ -72,9 +84,7 @@
       }
 
       function getInvitations() {
-        return NstSvcLoader.inject($q(function (res) {
-          res([]);
-        }));
+        return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
       }
 
       function getPlaceFilteredState() {
@@ -128,25 +138,34 @@
        *****     Map Methods    ****
        *****************************/
 
-      function mapUser(user) {
-        return {
-          id : user.getId(),
-          avatar : user.getPicture().getThumbnail(32).getUrl().view,
-          name : user.getFullName()
+      function mapUser(userModel) {
+        var user = {
+          id : userModel.getId(),
+          avatar : userModel.getPicture().getThumbnail(32).getUrl().view,
+          name : userModel.getFullName()
         };
+
+        return user;
       }
 
-      function mapPlaces(places, depth) {
+      function mapPlaces(placeModels, depth) {
         depth = depth || 0;
 
-        var placesClone = Object.keys(places).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
-          var place = places[k];
+        var placesClone = Object.keys(placeModels).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
+          var placeModel = placeModels[k];
+          var place = {};
           place.depth = depth;
-          place.url = $state.href(getPlaceFilteredState(), { placeId: place.getId() });
+          place.id = placeModel.getId();
+          place.name = placeModel.getName();
+          place.url = $state.href(getPlaceFilteredState(), { placeId: placeModel.getId() });
+          place.avatar = placeModel.getPicture().getId() ? placeModel.getPicture().getThumbnail(32).getUrl().view : '/assets/icons/absents_place.svg';
           place.isCollapsed = true;
+          if (vm.stateParams.placeIdSplitted) {
+            place.isCollapsed = place.id != vm.stateParams.placeIdSplitted.slice(0, place.id.split('.').length).join('.');
+          }
           place.isFirstChild = 0 == i;
           place.isLastChild = (arr.length - 1) == i;
-          place.children = mapPlaces(place.children, depth + 1);
+          place.children = mapPlaces(placeModel.children, depth + 1);
 
           return place;
         });
@@ -155,16 +174,12 @@
       }
 
       function mapInvitations(invitations) {
-
+        return invitations;
       }
 
       /*****************************
        *****    Other Methods   ****
        *****************************/
-
-      function decideInvitation(invitation, accept) {
-
-      }
 
       // // Invitations
       // $scope.invitations = {

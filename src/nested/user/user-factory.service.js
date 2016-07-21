@@ -48,13 +48,13 @@
           } else {
             NstSvcServer.request('account/get_info', {
               account_id: query.id
-            }).then(function (placeData) {
-              var user = factory.parseUser(placeData.info);
+            }).then(function (userData) {
+              var user = factory.parseUser(userData.info);
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
             }).catch(function(error) {
               // TODO: Handle error by type
-              rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }
         });
@@ -178,7 +178,9 @@
             NstSvcTinyUserStorage.remove(query.id);
           }).catch(function (error) {
             // TODO: Handle error by type
-            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            return $q(function (res, rej) {
+              rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            });
           });
         });
       }
@@ -240,7 +242,7 @@
 
       var thumbs = user.getPicture().getThumbnails();
       for (var size in thumbs) {
-        userData.picture['x' + size] = thumbs[size].getId();
+        userData.picture[size] = thumbs[size].getId();
       }
 
       return userData;

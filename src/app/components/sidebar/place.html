@@ -1,9 +1,10 @@
 <div class="side-place-item-inner">
   <a href="{{place.url}}" class="_fw">
-    <div class="side-place-item-image"
-       data-ng-include="'app/components/sidebar/picture.html'" onload="place = place; size = 40"></div>
+    <div class="side-place-item-image">
+      <img class="account-initials-40" src="{{place.avatar}}"/>
+    </div>
 
-    <span href="{{place.url}}" class="_fw onlyExpand">{{place.getName()}}</span>
+    <span href="{{place.url}}" class="_fw onlyExpand">{{place.name}}</span>
   </a>
   <span data-ng-if="place.children.length > 0" class="e2-arrow _df">
     <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"
