@@ -9,7 +9,7 @@
     function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
       toastr, _, moment,
       NstSvcAuth, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER,
-      NstSvcLoader, NstSvcActivityFactory, NstSvcInvitationFactory,
+      NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
       NstActivity, NstPlace, NstInvitation) {
       var vm = this;
 
@@ -48,6 +48,12 @@
         filter: NST_ACTIVITY_FILTER.ALL
       };
 
+      if (!$stateParams.placeId || $stateParams.placeId === '_'){
+        vm.currentPlaceId = null;
+      } else {
+        vm.currentPlaceId = $stateParams.placeId;
+      }
+
       if (!NstSvcAuth.isInAuthorization()) {
         $location.search({
           back: $location.path()
@@ -55,21 +61,21 @@
         $location.path('/signin').replace();
       }
 
-      function initialize() {
-        // return $q.all([loadActivities(), loadInvitations()]);
-        return $q.all([loadActivities()]);
-      }
-
-      initialize().then(function (values) {
-      }).catch(function (error) {
-        $log.debug(error);
-      });
+      (function() {
+        setPlace(vm.currentPlaceId).then(function(placeFound) {
+          // return $q.all([loadActivities(), loadInvitations()]);
+          return $q.all([loadActivities()]);
+        }).then(function(values) {
+          $log.debug(values[0]);
+        }).catch(function(error) {
+          $log.debug(error);
+        })
+      })();
 
       function loadActivities() {
         return $q(function(resolve, reject) {
           NstSvcActivityFactory.load(vm.activitySettings).then(function(activities) {
             vm.acts = mapActivities(activities);
-            $log.debug(vm.acts);
             resolve(vm.acts);
 
           }).catch(reject);
@@ -133,6 +139,26 @@
         }
       }
 
+
+      function setPlace(id) {
+        var defer = $q.defer();
+        if (!id) {
+          defer.resolve(false);
+        } else {
+          return NstSvcPlaceFactory.get(id).then(function(place) {
+            if (place && place.id) {
+              vm.currentPlace = place;
+              defer.resolve(true);
+            } else {
+              vm.currentPlace = null;
+              defer.resolve(false);
+            }
+          }).catch(defer.reject);
+        }
+
+        return defer.promise;
+      }
+
     }
 
     /**
@@ -142,7 +168,7 @@
      * @return {Object}              a hierarchal form of activities
      */
     function mapActivities(acts) {
-      _.forEach(acts, function (act) {
+      _.forEach(acts, function(act) {
         act.date = moment(act.date);
       })
       var result = {
@@ -329,18 +355,18 @@
     }
 
     function mapActivityItems(activities) {
-      var items = _.map(activities, function (item) {
+      var items = _.map(activities, function(item) {
 
         return {
-          id : item.id,
-          actor : mapActivityActor(item),
-          member : mapActivityMember(item),
-          comment : mapActivityComment(item),
-          place : mapActivityPlace(item),
-          post : mapActivityPost(item),
-          elapsed : getPassedTime(item.date),
-          date : moment(item.date).format('dddd, MMMM Do YYYY, HH:mm'),
-          type : item.type
+          id: item.id,
+          actor: mapActivityActor(item),
+          member: mapActivityMember(item),
+          comment: mapActivityComment(item),
+          place: mapActivityPlace(item),
+          post: mapActivityPost(item),
+          elapsed: getPassedTime(item.date),
+          date: moment(item.date).format('dddd, MMMM Do YYYY, HH:mm'),
+          type: item.type
         };
       });
 
@@ -360,9 +386,9 @@
         return {};
       }
       return {
-        id : activity.member.id,
-        name : activity.member.fullName,
-        type : activity.member.type
+        id: activity.member.id,
+        name: activity.member.fullName,
+        type: activity.member.type
       };
     }
 
@@ -372,9 +398,9 @@
       }
 
       return {
-        id : activity.comment.id,
-        body : activity.comment.body,
-        postId : activity.post.id,
+        id: activity.comment.id,
+        body: activity.comment.body,
+        postId: activity.post.id,
       };
     }
 
@@ -384,23 +410,23 @@
       }
       var firstPlace = _.first(activity.post.places);
       return {
-        id : activity.post.id,
-        subject : activity.post.subject,
-        body : activity.post.body,
-        attachments : _.map(activity.post.attachments, mapPostAttachment),
-        hasAnyAttachment : activity.post.attachments ? activity.post.attachments.length > 0 : false,
-        firstPlace : mapPostPlace(firstPlace),
-        allPlaces : _.map(activity.post.places, mapPostPlace),
-        otherPlacesCount : activity.post.places.length -1,
-        allPlacesCount : activity.post.places.length
+        id: activity.post.id,
+        subject: activity.post.subject,
+        body: activity.post.body,
+        attachments: _.map(activity.post.attachments, mapPostAttachment),
+        hasAnyAttachment: activity.post.attachments ? activity.post.attachments.length > 0 : false,
+        firstPlace: mapPostPlace(firstPlace),
+        allPlaces: _.map(activity.post.places, mapPostPlace),
+        otherPlacesCount: activity.post.places.length - 1,
+        allPlacesCount: activity.post.places.length
       };
     }
 
     function mapActivityActor(activity) {
       return {
-        id : activity.actor.id,
-        avatar : activity.actor.picture.thumbnails.x32.url.download,
-        name : activity.actor.fullName
+        id: activity.actor.id,
+        avatar: activity.actor.picture.thumbnails.x32.url.download,
+        name: activity.actor.fullName
       };
     }
 
@@ -409,12 +435,12 @@
         return {}
       }
       return {
-        fileName : attach.fileName,
-        size : attach.size,
-        url : attach.file.url,
-        type : findFileType(attach),
-        format : findFileFormat(attach),
-        thumbnail : attach.thumbnail.getThumbnail('128').url.download
+        fileName: attach.fileName,
+        size: attach.size,
+        url: attach.file.url,
+        type: findFileType(attach),
+        format: findFileFormat(attach),
+        thumbnail: attach.thumbnail.getThumbnail('128').url.download
       };
     }
 
@@ -424,23 +450,23 @@
       }
 
       return {
-        id : place.id,
-        name : place.name,
+        id: place.id,
+        name: place.name,
         //picture : place.picture.thumbnails.x64.url.download
       };
     }
 
     function mapActivityPlace(activity) {
-      if (!activity.place || !activity.place.id){
+      if (!activity.place || !activity.place.id) {
         return {};
       }
 
       return {
-        id : activity.place.id,
-        name : activity.place.name,
-        picture : activity.place.picture.thumbnails.x64.url.download,
-        hasParent : !!activity.place.parent,
-        parent : mapParentPlace(activity),
+        id: activity.place.id,
+        name: activity.place.name,
+        picture: activity.place.picture.thumbnails.x64.url.download,
+        hasParent: !!activity.place.parent,
+        parent: mapParentPlace(activity),
       };
     }
 
@@ -450,9 +476,9 @@
       }
 
       return {
-        id : activity.place.parent.id,
-        name : activity.place.parent.name,
-        picture : activity.place.parent.picture.thumbnails.x64.url.download,
+        id: activity.place.parent.id,
+        name: activity.place.parent.name,
+        picture: activity.place.parent.picture.thumbnails.x64.url.download,
       };
     }
 

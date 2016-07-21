@@ -16,7 +16,7 @@
   <div class="nst-content">
     <div class="content">
       <div class="navbar-top _df">
-        <div class="title-bar _difh _fw" ng-if="false">
+        <!-- <div class="title-bar _difh _fw" ng-if="false">
           <div class="logo-bar _df">
             <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
                  data-font-size="16"/>
@@ -25,13 +25,16 @@
             <a class="_df _tr">Ronak software Group</a>
             <span class="nst-mood-storm _df _tr" data-ng-bind="events.place.id + 'ronak@nested.me'"></span>
           </div>
-        </div>
+        </div> -->
         <div class="title-bar _difh _fw" ng-if="true">
           <div class="logo-bar _df">
-            <div class="icon icon-nav icon-all-place"></div>
+            <div ng-if="!navbarCtrl.hasPlace()" class="icon icon-nav icon-all-place"></div>
+            <img ng-if="navbarCtrl.hasPlace()" initials="navbarCtrl.getPlaceName()" data-url="navbarCtrl.getPlacePicture()" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
+                 data-font-size="16"/>
           </div>
           <div class="name _fw _difv _jcc">
-            <a class="_df _tr">All Places</a>
+            <a class="_df _tr">{{navbarCtrl.getPlaceName()}}</a>
+            <span class="nst-mood-storm _df _tr" ng-if="navbarCtrl.hasPlace()">{{navbarCtrl.getPlaceId()}}@nested.me</span>
           </div>
         </div>
       </div>
@@ -42,9 +45,15 @@
             <div ng-click="srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
-          <div class="menu-links-btn _dib li-hover" ng-class="messages ? 'selected' : null"><a href="#/messages">Messages</a></div>
-          <div class="menu-links-btn _dib li-hover" ng-class="events ? 'selected' : null"><a href="#/activity">Activity</a></div>
-          <div ng-show="events.place.id" class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null"><a href="#/place/{{events.place.id}}">Settings</a></div>
+          <div class="menu-links-btn _dib li-hover" ng-class="messages ? 'selected' : null">
+            <a href="" ng-click="navbarCtrl.navigateMessages()">Messages</a>
+          </div>
+          <div class="menu-links-btn _dib li-hover" ng-class="events ? 'selected' : null">
+            <a href="" ng-click="navbarCtrl.navigateActivity()">Activity</a>
+          </div>
+          <div ng-if="navbarCtrl.hasPlace()" class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null">
+            <a href="" ng-click="navbarCtrl.navigateSettings()">Settings</a>
+          </div>
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">
           <input class="form-control" placeholder="Search in Ronak Software Group..." type="text" focus-me/>

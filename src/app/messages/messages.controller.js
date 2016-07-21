@@ -1,4 +1,4 @@
-(function() {
+; (function() {
   'use strict';
 
   angular
@@ -8,25 +8,28 @@
   /** @ngInject */
   function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout,
                               NST_MESSAGES_SORT_OPTION,
-                              NstSvcPostFactory, NstSvcActivityFactory, NstSvcMessageSettingStorage) {
+                              NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcMessageSettingStorage) {
     var vm = this;
-
     var FILTER_ALL = '!$all';
+    var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
+    defaultViewSetting = {
+      content : true,
+      attachments : true,
+      comments : true,
+      quickMessage : true,
+    },
+    sortOptionStorageKey = 'sort-option',
+    viewSettingStorageKey = 'view-setting';
+
+    if (!$stateParams.placeId || $stateParams.placeId === '_'){
+      vm.currentPlaceId = null;
+    } else {
+      vm.currentPlaceId = $stateParams.placeId;
+    }
 
     vm.filter = $stateParams.filter || FILTER_ALL;
-
     vm.loadMore = loadMore;
     vm.sort = sort;
-
-    var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
-        defaultViewSetting = {
-          content : true,
-          attachments : true,
-          comments : true,
-          quickMessage : true,
-        },
-        sortOptionStorageKey = 'sort-option',
-        viewSettingStorageKey = 'view-setting';
 
     vm.messagesSetting = {
       limit : 10,
@@ -40,12 +43,17 @@
     vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
 
     (function () {
+      setPlace(vm.currentPlaceId).then(function (placeFound) {
 
-      $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), getMessages()]).then(function (values) {
-        vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
-        vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
-        vm.activities = values[2];
-        vm.messages = mapMessages(values[3]);
+        return $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), getMessages()]);
+      }).then(function (values) {
+        if (values) {
+          vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
+          vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
+          vm.activities = values[2];
+          vm.messages = mapMessages(values[3]);
+        }
+
         $log.debug(vm);
       }).catch(function (error) {
         $log.debug(error)
@@ -54,11 +62,10 @@
     })();
 
     function getMessages() {
-      if (vm.filter === FILTER_ALL) {
+      if (!vm.currentPlace) {
         return NstSvcPostFactory.getMessages(vm.messagesSetting);
       } else {
-        var placeId = vm.filter;
-        return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, placeId);
+        return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlace.id);
       }
     }
 
@@ -109,8 +116,12 @@
 
       var settings = {
         limit : 10,
-        placeId : vm.filter !== FILTER_ALL ? vm.filter : null
+        placeId : null
       };
+
+      if (vm.currentPlace) {
+        settings.placeId = vm.currentPlace.id;
+      }
 
       NstSvcActivityFactory.getRecent(settings).then(function (activities) {
         defer.resolve(mapActivities(activities));
@@ -340,6 +351,27 @@
         };
       }
     }
+
+    function setPlace(id) {
+      var defer = $q.defer();
+      if (!id) {
+        defer.resolve(false);
+      } else {
+        return NstSvcPlaceFactory.get(id).then(function(place) {
+          if (place && place.id) {
+            vm.currentPlace = place;
+            defer.resolve(true);
+          } else {
+            vm.currentPlace = null;
+            defer.resolve(false);
+          }
+        }).catch(defer.reject);
+      }
+
+      return defer.promise;
+    }
+
+
   }
 
 })();
