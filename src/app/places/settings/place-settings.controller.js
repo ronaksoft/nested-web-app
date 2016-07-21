@@ -3,10 +3,13 @@
 
   angular
     .module('nested')
-    .controller('PlaceOptionController', PlaceOptionController);
+    .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceOptionController($location, $rootScope, $scope, $stateParams, $q, $uibModal, NstSvcStore, UPLOAD_TYPE, NstSvcAuth, NestedPlace, PLACE_ACCESS) {
+  function PlaceSettingsController($location, $scope, $stateParams, $q, $uibModal,
+                                   UPLOAD_TYPE, PLACE_ACCESS,
+                                   NstSvcStore, NstSvcAuth,
+                                   NestedPlace) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
