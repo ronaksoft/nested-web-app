@@ -1168,14 +1168,17 @@ ul ul li:last-child{
 }
 
 .popover-white-nst-msg + .popover {
+  max-width: 320px;
+  min-width: 319px;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  top:-11px!important;
+  left:366px!important;
+  z-index: 35;
   background: $color-white;
   border-radius: 6px 0px 6px 6px;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
-  border-color: $color-breeze;
-  position: absolute;
-  top: -1px !important;
-  left: 22px !important;
-  z-index: 37;
 }
 
 
