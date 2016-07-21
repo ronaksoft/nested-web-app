@@ -50,8 +50,9 @@
         if (values) {
           vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
           vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
-          vm.activities = values[2];
+          vm.activities = mapActivities(values[2]);
           vm.messages = mapMessages(values[3]);
+
         }
 
         $log.debug(vm);
@@ -124,7 +125,7 @@
       }
 
       NstSvcActivityFactory.getRecent(settings).then(function (activities) {
-        defer.resolve(mapActivities(activities));
+        defer.resolve(activities);
       }).catch(defer.reject);
 
       return defer.promise;
@@ -281,7 +282,7 @@
     }
 
     function mapActivities(activities) {
-      var items = _.map(activities, function (item) {
+      return _.map(activities, function (item) {
         return {
           id : item.id,
           actor : mapActivityActor(item),
@@ -311,7 +312,6 @@
           type : activity.member.type
         };
       }
-
 
       function mapActivityComment(activity) {
         if (!activity.comment) {
