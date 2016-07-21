@@ -21,9 +21,6 @@
      * @constructor
        */
     function Storage(type, id, timeout) {
-      // Event listeners
-      this.listeners = {};
-
       this.cache = {
         set: function (key, value) {},
         get: function (key) {},
@@ -115,6 +112,8 @@
           }.bind(this);
           break;
       }
+
+      NstObservableObject.call(this);
     }
 
     Storage.prototype = new NstObservableObject();

@@ -77,6 +77,7 @@
         return getComment(id);
       }).then(function (comment) {
           post.addComments([comment]);
+          console.log('before setting cach:', post);
           NstSvcPostStorage.set(post.id, post);
           defer.resolve(post);
       }).catch(function(error) {

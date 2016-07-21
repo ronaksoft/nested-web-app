@@ -7,8 +7,8 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout,
-                              NST_MESSAGES_SORT_OPTION,
-                              NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcMessageSettingStorage) {
+                              NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT,
+                              NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcMessageSettingStorage,  NstSvcPostStorage) {
     var vm = this;
     var FILTER_ALL = '!$all';
     var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
@@ -370,6 +370,10 @@
 
       return defer.promise;
     }
+
+    NstSvcPostStorage.addEventListener(NST_STORAGE_EVENT.CHANGE, function (event) {
+      console.log(event.detail.object);
+    });
 
     function replaceMessage(message) {
       var messageIndex = _.findIndex(vm.messages, function (item) {

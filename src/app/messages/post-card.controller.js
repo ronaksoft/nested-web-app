@@ -180,6 +180,7 @@
       vm.isSending = true;
 
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
+        console.log('the post is: ',post);
         return NstSvcCommentFactory.addComment(post, body)
       }).then(function(post) {
         vm.post = post;
