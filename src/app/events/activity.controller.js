@@ -13,6 +13,9 @@
       NstActivity, NstPlace, NstInvitation) {
       var vm = this;
 
+      //TODO it needs to connect with cache
+      vm.extended = true;
+
       vm.activities = [];
       vm.loadMore = loadMore;
       vm.acceptInvitation = acceptInvitation;

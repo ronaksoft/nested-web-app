@@ -3,17 +3,13 @@
    <span class="spansetting"> View setting</span>
   </div>
   <div>
-    <div class="list-items" ng-click="extended =! extended">
-      <label class="" for="collapsed">collapsed view</label>
-      <input class="_fr" type="radio" id="collapsed" name="extended" value="content"
-             data-ng-model="ctlActivity.filters"/>
+    <div class="list-items ng-class:{ 'active': !ctlActivity.extended }" ng-click="ctlActivity.extended = false">
+      <a class="">collapsed view</a>
     </div>
   </div>
   <div>
-    <div class="list-items" ng-click="extended =! extended">
-      <label class="" for="extended">expanded view</label>
-      <input class="_fr" type="radio" id="extended" name="extended" value="attachments"
-             data-ng-model="ctlActivity.filters"/>
+    <div class="list-items ng-class:{ 'active': ctlActivity.extended }" ng-click="ctlActivity.extended = true">
+      <a class="">expanded view</a>
     </div>
   </div>
 </div>
