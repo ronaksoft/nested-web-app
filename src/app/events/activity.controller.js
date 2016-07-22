@@ -7,13 +7,13 @@
 
     /** @ngInject */
     function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal,
-      toastr, _, moment,
-      NstSvcAuth, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER,
-      NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
-      NstActivity, NstPlace, NstInvitation) {
+                                toastr, _, moment,
+                                NstSvcAuth, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER,
+                                NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                                NstActivity, NstPlace, NstInvitation) {
       var vm = this;
 
-      //TODO it needs to connect with cache
+      // TODO it needs to connect with cache
       vm.extended = true;
 
       vm.activities = [];
@@ -80,7 +80,7 @@
 
           }).catch(reject);
         });
-      };
+      }
 
       function loadInvitations() {
         return $q(function(resolve, reject) {

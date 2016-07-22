@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider) {
+  function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider) {
 
     localStorageServiceProvider
       .setPrefix('nested');
@@ -27,8 +27,11 @@
       sanitize: true
     });
     markedProvider.setRenderer({
-      heading: function (text, level) {
+      heading: function (text) {
         return '<strong>' + text + '</strong>';
+      },
+      paragraph: function (text) {
+        return text;
       }
     });
 
@@ -38,6 +41,15 @@
     toastrConfig.positionClass = 'toast-top-right';
     toastrConfig.preventDuplicates = true;
     toastrConfig.progressBar = true;
+
+    // Scrollbars
+    ScrollBarsProvider.defaults = {
+      theme: 'minimal-dark',
+      scrollInertia: 300,
+      advanced:{
+        updateOnContentResize: true
+      }
+    };
   }
 
 })();
