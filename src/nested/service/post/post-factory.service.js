@@ -288,8 +288,11 @@
         skip: setting.skip,
         limit: setting.limit
       }).then(function(data) {
-        var items = _.map(data.posts.posts, parseMessage);
-        $q.all(items).then(function (messages) {
+        var messagePromises = _.map(data.posts.posts, parseMessage);
+        $q.all(messagePromises).then(function (messages) {
+          _.forEach(messages, function (item) {
+            NstSvcPostStorage.set(item.id, item);
+          });
           defer.resolve(messages);
         });
       }).catch(function(error) {
@@ -308,8 +311,13 @@
         limit: setting.limit,
         place_id: placeId
       }).then(function(data) {
-        var items = _.map(data.posts.posts, parseMessage);
-        $q.all(items).then(defer.resolve);
+        var messagePromises = _.map(data.posts.posts, parseMessage);
+        $q.all(messagePromises).then(function (messages) {
+          _.forEach(messages, function (item) {
+            NstSvcPostStorage.set(item.id, item);
+          });
+          defer.resolve(messages);
+        });
       }).catch(function(error) {
         // TODO: format the error and throw it
         defer.reject(error);

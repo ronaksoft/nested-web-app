@@ -1,4 +1,5 @@
-; (function() {
+;
+(function() {
   'use strict';
 
   angular
@@ -7,21 +8,22 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout,
-                              NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT,
-                              NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcMessageSettingStorage,  NstSvcPostStorage) {
+    NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT,
+    NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcMessageSettingStorage, NstSvcPostStorage, NstSvcCommentFactory, NstSvcPostMap) {
+
     var vm = this;
     var FILTER_ALL = '!$all';
     var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
-    defaultViewSetting = {
-      content : true,
-      attachments : true,
-      comments : true,
-      quickMessage : true,
-    },
-    sortOptionStorageKey = 'sort-option',
-    viewSettingStorageKey = 'view-setting';
+      defaultViewSetting = {
+        content: true,
+        attachments: true,
+        comments: true,
+        quickMessage: true,
+      },
+      sortOptionStorageKey = 'sort-option',
+      viewSettingStorageKey = 'view-setting';
 
-    if (!$stateParams.placeId || $stateParams.placeId === '_'){
+    if (!$stateParams.placeId || $stateParams.placeId === '_') {
       vm.currentPlaceId = null;
     } else {
       vm.currentPlaceId = $stateParams.placeId;
@@ -32,21 +34,21 @@
     vm.sort = sort;
 
     vm.messagesSetting = {
-      limit : 10,
-       skip : 0,
-       sort : defaultSortOption
+      limit: 10,
+      skip: 0,
+      sort: defaultSortOption
     };
 
-    vm.toggleContentPreview       = toggleContentPreview;
-    vm.toggleAttachmentPreview    = toggleAttachmentPreview;
-    vm.toggleCommentsPreview      = toggleCommentsPreview;
-    vm.toggleQuickMessagePreview  = toggleQuickMessagePreview;
+    vm.toggleContentPreview = toggleContentPreview;
+    vm.toggleAttachmentPreview = toggleAttachmentPreview;
+    vm.toggleCommentsPreview = toggleCommentsPreview;
+    vm.toggleQuickMessagePreview = toggleQuickMessagePreview;
 
-    (function () {
-      setPlace(vm.currentPlaceId).then(function (placeFound) {
+    (function() {
+      setPlace(vm.currentPlaceId).then(function(placeFound) {
 
         return $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), getMessages()]);
-      }).then(function (values) {
+      }).then(function(values) {
         if (values) {
           vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
           vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
@@ -56,7 +58,7 @@
         }
 
         $log.debug(vm);
-      }).catch(function (error) {
+      }).catch(function(error) {
         $log.debug(error)
       });
 
@@ -71,7 +73,7 @@
     }
 
     function loadViewSetting() {
-      return $q(function (resolve, reject) {
+      return $q(function(resolve, reject) {
         // var setting = NstSvcMessageSettingStorage.get(viewSettingStorageKey, defaultViewSetting);
         // resolve(setting);
         resolve(defaultViewSetting)
@@ -79,7 +81,7 @@
     }
 
     function loadSortOption() {
-      return $q(function (resolve, reject) {
+      return $q(function(resolve, reject) {
         // var option = NstSvcMessageSettingStorage.get(sortOptionStorageKey, defaultSortOption);
         // resolve(option);
         resolve(defaultSortOption);
@@ -88,9 +90,9 @@
 
     function sort(option) {
       if (!_.includes([
-        NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
-        NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
-      ], option)){
+          NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
+          NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
+        ], option)) {
         throw 'The provided sort option key is not valid';
       }
 
@@ -100,9 +102,9 @@
     }
 
     function loadMessages() {
-      getMessages().then(function (messages) {
+      getMessages().then(function(messages) {
         vm.messages = mapMessages(messages);
-      }).catch(function (error) {
+      }).catch(function(error) {
         // TODO:  handle the error
       });
     }
@@ -116,153 +118,27 @@
       var defer = $q.defer();
 
       var settings = {
-        limit : 10,
-        placeId : null
+        limit: 10,
+        placeId: null
       };
 
       if (vm.currentPlace) {
         settings.placeId = vm.currentPlace.id;
       }
 
-      NstSvcActivityFactory.getRecent(settings).then(function (activities) {
+      NstSvcActivityFactory.getRecent(settings).then(function(activities) {
         defer.resolve(activities);
       }).catch(defer.reject);
 
       return defer.promise;
     }
 
+    function mapMessage(post) {
+      return NstSvcPostMap.toMessage(post);
+    }
+
     function mapMessages(messages) {
-
-      var now = moment();
-
-      var fileTypes = {
-        'image' : 'Image',
-        'audio' : 'Audio',
-        'video' : 'Video',
-        'text' : 'Text',
-        'application' : 'Application'
-      };
-
-      var fileFormats = {
-        'zip' : 'ZIP',
-        'x-rar-compressed' : 'RAR',
-        'rtf' : 'DOC',
-        'msword' : 'DOCX',
-        'vnd.openxmlformats-officedocument.wordprocessingml.document' : 'DOC'
-      };
-
-      return _.map(messages, function (message) {
-
-        var firstPlace = _.first(message.places);
-
-        return {
-          id : message.id,
-          sender : mapSender(message.sender),
-          subject : message.subject,
-          body : message.body,
-          contentType : message.contentType,
-          firstPlace : mapPlace(firstPlace),
-          allPlaces : _.map(message.places, mapPlace),
-          otherPlacesCount : message.places.length -1,
-          allPlacesCount : message.places.length,
-          date : formatMessageDate(message.date),
-          attachments : _.map(message.attachments, mapAttachment),
-          hasAnyAttachment : message.attachments.length > 0,
-          comments : _.map(message.comments, mapComment),
-          hasAnyComment : message.comments.length > 0,
-          commentsCount : message.comments.length,
-          // userHasRemoveAccess : message.haveAnyPlaceWithDeleteAccess()
-        };
-      });
-
-      function mapSender(sender) {
-        if (!sender) {
-          return {};
-        }
-        return {
-          name : sender.fullName,
-          username : sender.id,
-          avatar : sender.picture.getThumbnail('32').url.download
-        };
-      }
-
-      function mapAttachment(attach) {
-        return {
-          fileName : attach.fileName,
-          size : attach.size,
-          url : attach.file.url,
-          type : findFileType(attach),
-          format : findFileFormat(attach),
-          thumbnail : attach.thumbnail.getThumbnail('128').url.download
-        };
-      }
-
-      function mapPlace(place) {
-        return {
-          id : place.id,
-          name : place.name,
-          picture : place.picture.getThumbnail('64').url.download
-        };
-      }
-
-      function formatMessageDate(date) {
-        if (!date) {
-          return 'Unknown';
-        }
-
-        if (!moment.isMoment(date)){
-          date = moment(date);
-        }
-
-        var today = moment().startOf('day');
-        if (date.isSameOrAfter(today)) { // today
-          return date.format('[Today at] HH:mm');
-        }
-
-        var yesterday = moment().startOf('day').subtract(1, 'days');
-        if (date.isSameOrAfter(yesterday)) { // yesterday
-          return date.format('[Yesterday at] HH:mm');
-        }
-
-        var year = moment().startOf('year');
-        if (date.isSameOrAfter(year)) { // current year
-          return date.format('MMM DD, HH:mm');
-        }
-
-        return date.format("MMM DD YYYY, HH:mm"); // last year and older
-      }
-
-      function formatCommentDate(date) {
-        if (!date) {
-          return 'Unknown';
-        }
-
-        if (!moment.isMoment(date)){
-          date = moment(date);
-        }
-
-        return date.fromNow(false); // 'true' just removes the trailing 'ago'
-      }
-
-      function findFileType(attach) {
-        var type = attach.mimeType.split('/')[0];
-
-        return fileTypes[type] || 'Unknown';
-      }
-
-      function findFileFormat(attach) {
-        var format = attach.mimeType.split('/')[1];
-
-        return fileFormats[format] || 'File';
-      }
-
-      function mapComment(comment) {
-        return {
-            body : comment.body,
-            date : formatCommentDate(comment.date),
-            sender : mapSender(comment.sender)
-        };
-      }
+      return _.map(messages, mapMessage);
     }
 
     function toggleContentPreview() {
@@ -282,15 +158,15 @@
     }
 
     function mapActivities(activities) {
-      return _.map(activities, function (item) {
+      return _.map(activities, function(item) {
         return {
-          id : item.id,
-          actor : mapActivityActor(item),
-          member : mapActivityMember(item),
-          comment : mapActivityComment(item),
-          post : mapActivityPost(item),
-          date : getPassedTime(item.date),
-          type : item.type
+          id: item.id,
+          actor: mapActivityActor(item),
+          member: mapActivityMember(item),
+          comment: mapActivityComment(item),
+          post: mapActivityPost(item),
+          date: getPassedTime(item.date),
+          type: item.type
         };
       });
 
@@ -307,9 +183,9 @@
           return {};
         }
         return {
-          id : activity.member.id,
-          name : activity.member.fullName,
-          type : activity.member.type
+          id: activity.member.id,
+          name: activity.member.fullName,
+          type: activity.member.type
         };
       }
 
@@ -319,8 +195,8 @@
         }
 
         return {
-          id : activity.comment.id,
-          body : activity.comment.body
+          id: activity.comment.id,
+          body: activity.comment.body
         };
       }
 
@@ -329,25 +205,25 @@
           return {};
         }
         return {
-          id : activity.post.id,
-          subject : activity.post.subject,
-          body : activity.post.body
+          id: activity.post.id,
+          subject: activity.post.subject,
+          body: activity.post.body
         };
       }
 
       function mapActivityActor(activity) {
         return {
-          id : activity.actor.id,
-          avatar : activity.actor.picture.thumbnails.x32.url.download,
-          name : activity.actor.fullName
+          id: activity.actor.id,
+          avatar: activity.actor.picture.thumbnails.x32.url.download,
+          name: activity.actor.fullName
         };
       }
 
       function mapActivityPlace(place) {
         return {
-          id : place.id,
-          name : place.name,
-          picture : place.picture.getThumbnail('64').url.download
+          id: place.id,
+          name: place.name,
+          picture: place.picture.getThumbnail('64').url.download
         };
       }
     }
@@ -370,17 +246,21 @@
 
       return defer.promise;
     }
-
-    NstSvcPostStorage.addEventListener(NST_STORAGE_EVENT.CHANGE, function (event) {
-      console.log(event.detail.object);
+    NstSvcCommentFactory.addEventListener(NST_COMMENT_FACTORY_EVENT.COMMENT_ADDED, function(event) {
+      // event.detail.object.then(function(message) {
+      //   console.log(message);
+      //   console.log('woohoo');
+      //   console.log(event);
+      //   // replaceMessage(message);
+      // });
     });
 
     function replaceMessage(message) {
-      var messageIndex = _.findIndex(vm.messages, function (item) {
+      var messageIndex = _.findIndex(vm.messages, function(item) {
         return item.id === message.id;
       });
 
-      vm.messages.splice(messageIndex, 1, message);
+      vm.messages.splice(messageIndex, 1, mapMessage(message));
     }
 
   }

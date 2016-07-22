@@ -7,53 +7,60 @@
   /** @ngInject */
   function NstSvcCommentFactory($q, $log,
     _,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage,
-    NstFactoryError, NstFactoryQuery ,NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture) { // TODO: It should not inject any model, ask the factory to create the model
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage, NstObservableObject, NstFactoryEventData,
+    NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NST_COMMENT_FACTORY_EVENT) { // TODO: It should not inject any model, ask the factory to create the model
 
-    /**
-     * CommentFactory - all operations related to comment
-     */
-    var service = {
-      getComment : getComment,
-      addComment: addComment,
-      removeComment: removeComment,
-      retrieveComments: retrieveComments,
-      createCommentModel: createCommentModel,
-      parseComment: parseComment,
-      parseMessageComment : parseMessageComment
-    };
+    function CommentFactory() {
 
-    return service;
+    }
 
-    function getComment(id) {
-      var query = new NstFactoryQuery(id);
+    CommentFactory.prototype = new NstObservableObject();
+    CommentFactory.prototype.constructor = CommentFactory;
 
-      return $q(function(resolve, reject) {
-        if (!this.query.id){
-          resolve(null);
-        } else {
-          var comment = NstSvcCommentStorage.get(this.query.id);
-          if (comment) {
-            resolve(comment);
-          } else {
-            NstSvcServer.request('comment/get', {
-              comment_id : query.id
-            }).then(function(data) {
-              comment = parseComment(data.comment);
-              NstSvcCommentStorage.set(this.query.id, comment);
-              resolve(comment);
-            }.bind({
-              query: this.query
-            })).catch(function(error) {
-              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            }.bind({
-              query: this.query
-            }));
-          }
-        }
-      }.bind({
-        query: query
-      }));
+    CommentFactory.prototype.getComment = getComment;
+    CommentFactory.prototype.addComment = addComment;
+    CommentFactory.prototype.removeComment = removeComment;
+    CommentFactory.prototype.retrieveComments = retrieveComments;
+    CommentFactory.prototype.createCommentModel = createCommentModel;
+    CommentFactory.prototype.parseComment = parseComment;
+    CommentFactory.prototype.parseMessageComment = parseMessageComment;
+
+    return new CommentFactory();
+
+    /*********************
+     *  Implementations  *
+     *********************/
+
+    function getComment(commentId, PostId) {
+      var query = new NstFactoryQuery(commentId, {
+        postId: PostId
+      });
+
+      var defer = $q.defer();
+
+      if (!query.id) {
+        defer.resolve(null);
+      } else {
+
+        // var comment = NstSvcCommentStorage.get(query.id, query.postId);
+        // if (comment) {
+        //   defer.resolve(comment);
+        // } else {
+          NstSvcServer.request('post/get_comment', {
+            comment_id: query.id,
+            post_id: query.data.postId
+          }).then(function(data) {
+            return parseComment(data.comment);
+          }).then(function(comment) {
+            // NstSvcCommentStorage.set(query.id, comment);
+            defer.resolve(comment);
+          }).catch(function(error) {
+            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          });
+        // }
+      }
+
+      return defer.promise;
     }
 
     /**
@@ -65,24 +72,20 @@
      * @returns {Promise}             the comment
      */
     function addComment(post, content) {
-      // var query = new NstFactoryQuery(postId, { txt : content });
       var defer = $q.defer();
 
       NstSvcServer.request('post/add_comment', {
         post_id: post.id,
         txt: content
       }).then(function(data) {
-        var id = data.comment_id.$oid;
-
-        return getComment(id);
+        var commentId = data.comment_id.$oid;
+        return getComment(commentId, post.id);
       }).then(function (comment) {
-          post.addComments([comment]);
-          console.log('before setting cach:', post);
-          NstSvcPostStorage.set(post.id, post);
-          defer.resolve(post);
-      }).catch(function(error) {
-        defer.reject(error);
-      });
+        post.addComment(comment);
+        NstSvcPostStorage.set(post.id, post);
+        defer.resolve(post);
+        // dispatchEvent(new CustomEvent(NST_COMMENT_FACTORY_EVENT.COMMENT_ADDED, new NstFactoryEventData(post)));
+      }).catch(defer.reject);
 
       return defer.promise;
     }
@@ -109,7 +112,7 @@
           limit: settings.limit
         }).then(function(data) {
           var allCommnets = _.map(data.comments, function(comment) {
-            return parseComment(post, comment);
+            return parseComment(comment, post);
           });
           var comments = _.filter(allCommnets, {
             'removed': false
@@ -169,7 +172,7 @@
       return new NstComment(model);
     }
 
-    function parseComment(post, data) {
+    function parseComment(data, post) {
       var comment = new NstComment();
 
       var defer = $q.defer();
@@ -181,16 +184,15 @@
         comment.id = data._id.$oid;
         comment.attach = data.attach;
         comment.post = post;
-        comment.sender = new NstUser({
-          _id: data.sender_id,
-          fname: data.sender_fname,
-          lname: data.sender_lname,
+        comment.sender = new NstTinyUser({
+          id: data.sender_id,
+          firstName: data.sender_fname,
+          lastName: data.sender_lname,
           picture: data.sender_picture
         });
         comment.body = data.text;
         comment.date = new Date(data['timestamp']);
         comment.removed = data._removed;
-
         defer.resolve(comment);
 
       }
@@ -209,7 +211,7 @@
         comment.date = new Date(data.timestamp);
         comment.removed = data._removed;
 
-        NstSvcUserFactory.get(data.sender_id).then(function (sender) {
+        NstSvcUserFactory.get(data.sender_id).then(function(sender) {
           comment.sender = sender;
 
           defer.resolve(comment);
@@ -220,4 +222,5 @@
     }
 
   }
+
 })();

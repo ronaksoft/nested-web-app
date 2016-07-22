@@ -6,20 +6,26 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($rootScope, $scope, $state, $stateParams, $log, $q, $timeout,
-                              NstSvcCommentFactory, NstSvcPostFactory) {
+    NstSvcCommentFactory, NstSvcPostFactory, NstSvcPostMap, NstSvcServer, NstSvcPostStorage, NST_EVENT_ACTION, NST_SRV_EVENT) {
     var vm = this;
 
     /*****************************
      *** Controller Properties ***
      *****************************/
-    
+
     //vm.viewSetting = {};
     //vm.post = {};
     vm.commentsBoardPreview = false;
     vm.urls = {
-      reply_all: $state.href('compose-reply-all', { postId: vm.post.id }),
-      reply_sender: $state.href('compose-reply-sender', { postId: vm.post.id }),
-      forward: $state.href('compose-forward', { postId: vm.post.id })
+      reply_all: $state.href('compose-reply-all', {
+        postId: vm.post.id
+      }),
+      reply_sender: $state.href('compose-reply-sender', {
+        postId: vm.post.id
+      }),
+      forward: $state.href('compose-forward', {
+        postId: vm.post.id
+      })
     };
 
     /*****************************
@@ -175,13 +181,11 @@
     }
 
     /**
-    * send - add the comment to the list of the post comments
-    *
-    * @param  {Event}  e   keypress event handler
-    */
+     * send - add the comment to the list of the post comments
+     *
+     * @param  {Event}  e   keypress event handler
+     */
     function sendComment(e) {
-      console.log('sending', e);
-      console.log(vm.post);
       if (!sendKeyIsPressed(e)) {
         return;
       }
@@ -193,13 +197,13 @@
 
       vm.isSending = true;
 
-      NstSvcPostFactory.get(vm.post.id).then(function (post) {
-        console.log('the post is: ',post);
+      NstSvcPostFactory.get(vm.post.id).then(function(post) {
+        console.log('the post is : ', post);
         return NstSvcCommentFactory.addComment(post, body)
-      }).then(function(post) {
-        vm.post = post;
+      }).then(function(editedPost) {
         e.currentTarget.value = '';
         vm.isSending = false;
+        vm.post = NstSvcPostMap.toMessage(editedPost);
         // TODO: notify
       }).catch(function(error) {
         // TODO: decide
@@ -229,9 +233,58 @@
     }
 
     function allowToRemoveComment(comment) {
-      return comment.sender.username === vm.user.username
-        && (Date.now() - comment.date < 20 * 60 * 1e3);
+      return comment.sender.username === vm.user.username &&
+        (Date.now() - comment.date < 20 * 60 * 1e3);
     }
+
+    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(e) {
+      switch (e.detail.timeline_data.action) {
+        case NST_EVENT_ACTION.COMMENT_ADD:
+        var postId = e.detail.timeline_data.post_id.$oid;
+
+        if (vm.post.id == postId) {
+          var commentId = e.detail.timeline_data.comment_id.$oid;
+          NstSvcPostFactory.get(postId).then(function(post) {
+            var comment = _.find(post.comments, function (comment) {
+              return comment.id === commentId;
+            });
+            if (!comment) { // could not find the comment inside the post and it has to be added
+              NstSvcCommentFactory.getComment(commentId, postId).then(function (comment) {
+                post.addComment(comment);
+                NstSvcPostStorage.set(post.id, post);
+                vm.post = NstSvcPostMap.toMessage(post);
+              }).catch(function (error) {
+                $log.debug(error);
+              });
+            }
+          }).catch(function(error) {
+            $log.debug(error);
+          });
+        }
+
+        break;
+        case NST_EVENT_ACTION.COMMENT_REMOVE:
+          // TODO: optimize by droping the removed comment instead of replacing the post
+          var postId = e.detail.timeline_data.post_id.$oid;
+          var commentId = e.detail.timeline_data.comment_id.$oid;
+          if (vm.post.id === postId) {
+            var post = NstSvcPostFactory.get(postId).then(function (post) {
+              commentIndex = _.findIndex(post.comments, function (comment) {
+                return comment.id === commentId;
+              });
+              if (commentIndex) {
+                post.comments.splice(commentIndex, 1);
+                // TODO: Only the factory has access to a storage!
+                NstSvcPostStorage.set(post.id, post);
+                vm.post = NstSvcPostMap.toMessage(post);
+              }
+            }).catch(function (error) {
+              $log.debug(error);
+            });
+          }
+        break;
+      }
+    });
   }
 
 })();

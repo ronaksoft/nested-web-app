@@ -38,12 +38,11 @@
       NstTinyPost.call(this, model);
 
       if (model && model.id) {
-        this.fill(this, model);
+        this.fill(model);
       }
 
     }
 
-    return Post;
 
     /**
      * Post.prototype.removeComment - remove a comment from its post by id
@@ -149,6 +148,12 @@
       });
     };
 
+    Post.prototype.addComment = function(comment) {
+      this.comments.push(comment);
+
+      return this;
+    };
+
     /**
      * anonymous function - add the comment to the post comments list if it was
      * not added before
@@ -160,11 +165,12 @@
       var newComments = _.differenceBy(comments, this.comments, 'id');
 
       _.forEach(newComments, function(comment) {
-        this.comments.push(comment);
+        this.addComment(comment);
       }.bind(this));
 
       return this;
     };
+
 
     function getPlacesWithAccess(post, accessCodes) {
       var separator = ',';
@@ -180,5 +186,7 @@
         return _.intersection(place.access, accessCodes).length > 0; //do the codes exist in access array?
       });
     }
+
+    return Post;
   }
 })();
