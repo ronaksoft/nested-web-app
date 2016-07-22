@@ -17,7 +17,7 @@
 
       vm.loadMore = loadMore;
       vm.remove = remove;
-      vm.send = send;
+      // vm.send = send;
 
       function loadMore() {
         vm.loading = true;
