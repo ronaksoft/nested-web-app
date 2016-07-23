@@ -46,7 +46,6 @@
       * @param  {Event}  e   keypress event handler
       */
       function send(e) {
-        console.log('sending', e);
         if (!sendKeyIsPressed(e)) {
           return;
         }

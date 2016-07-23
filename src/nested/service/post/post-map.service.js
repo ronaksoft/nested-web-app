@@ -18,7 +18,6 @@
      *********************/
 
     function toMessage(post) {
-
       var now = moment();
 
       var fileTypes = {
@@ -55,6 +54,8 @@
         comments: _.map(post.comments, mapComment),
         hasAnyComment: post.comments.length > 0,
         commentsCount: post.comments.length,
+        isReplyed : !!post.replyTo,
+        isForwarded : !!post.forwardedFrom
         // userHasRemoveAccess : post.haveAnyPlaceWithDeleteAccess()
       };
 

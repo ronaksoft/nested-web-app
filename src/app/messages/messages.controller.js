@@ -14,6 +14,9 @@
     NstSvcPostMap, NstSvcActivityMap) {
 
     var vm = this;
+    vm.messages = [];
+    vm.cache = [];
+    var DEFAULT_MESSAGES_COUNT = 8;
     var FILTER_ALL = '!$all';
     var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
       defaultViewSetting = {
@@ -36,9 +39,10 @@
     vm.sort = sort;
 
     vm.messagesSetting = {
-      limit: 10,
-      skip: 0,
-      sort: defaultSortOption
+      limit : DEFAULT_MESSAGES_COUNT,
+      skip : 0,
+      sort : defaultSortOption,
+      date : null
     };
 
     vm.toggleContentPreview = toggleContentPreview;
@@ -49,13 +53,12 @@
     (function() {
       setPlace(vm.currentPlaceId).then(function(placeFound) {
 
-        return $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), getMessages()]);
+        return $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), loadMessages()]);
       }).then(function(values) {
         if (values) {
           vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
           vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
           vm.activities = mapActivities(values[2]);
-          vm.messages = mapMessages(values[3]);
         }
 
         $log.debug(vm);
@@ -90,29 +93,46 @@
     }
 
     function sort(option) {
-      if (!_.includes([
-          NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
-          NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
-        ], option)) {
-        throw 'The provided sort option key is not valid';
-      }
-
-
       vm.messagesSetting.sort = option;
+      var cacheSize = vm.cache.length;
+      vm.cache = [];
+      vm.messagesSetting.date = null;
+      vm.messagesSetting.limit = cacheSize;
       loadMessages();
     }
 
     function loadMessages() {
+      var defer = $q.defer();
+
+      vm.messagesSetting.date = getLastMessageTime();
       getMessages().then(function(messages) {
-        vm.messages = mapMessages(messages);
-      }).catch(function(error) {
-        // TODO:  handle the error
-      });
+        vm.cache = _.concat(vm.cache, messages);
+        vm.messages = mapMessages(vm.cache);
+        console.log(vm.messages);
+        defer.resolve(vm.messages);
+      }).catch(defer.reject);
+
+      return defer.promise;
     }
 
     function loadMore() {
-      vm.messagesSetting.skip += vm.messagesSetting.limit;
-      loadMessages();
+      vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
+      loadMessages().then(function () {
+      });
+    }
+
+    function getLastMessageTime() {
+
+      var last = _.last(_.orderBy(vm.cache, 'date', 'desc'));
+      if (!last) {
+
+        return moment().format('x');
+      }
+      if (moment.isMoment(last.date)) {
+        return last.date.format('x');
+      }
+
+      return last.date.getTime();
     }
 
     function loadRecentActivities() {
