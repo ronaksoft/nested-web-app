@@ -51,7 +51,7 @@
         filter: NST_ACTIVITY_FILTER.ALL
       };
 
-      if (!$stateParams.placeId || $stateParams.placeId === '_'){
+      if (!$stateParams.placeId || $stateParams.placeId === '_') {
         vm.currentPlaceId = null;
       } else {
         vm.currentPlaceId = $stateParams.placeId;
@@ -91,17 +91,14 @@
       }
 
       function getLastActivityTime() {
-        return moment().subtract(10, 'days').format('x');
-
-        var last = _.last(vm.cache);
+        var last = _.last(_.orderBy(vm.cache, 'date', 'desc'));
         if (!last) {
-
           return Date.now().getTime() / 1000;
         }
         if (moment.isMoment(last.date)) {
           return last.date.format('x');
         }
-        console.log(last);
+
         return last.date.getTime() / 1000;
       }
 
@@ -117,7 +114,7 @@
       }
 
       function loadMore() {
-        loadActivities().then(function () {
+        loadActivities().then(function() {
           console.log(vm.acts);
         });
       }
@@ -163,7 +160,6 @@
           }
         }
       }
-
 
       function setPlace(id) {
         var defer = $q.defer();
