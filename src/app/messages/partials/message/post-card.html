@@ -8,7 +8,12 @@
       <img initials="user.name" data-url="ctlPost.post.sender.avatar" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _df" data-word-count="2" data-font-size="16"/>
     </div>
     <div class="_fw _difc">
-      <div class="_difc _fw"><h4 class="_df">{{ctlPost.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{ctlPost.post.sender.username}}</span></div>
+      <div class="_difc _fw">
+        <div ng-if="ctlPost.post.hasAnyAttachment" class="icon icon-post-head icon-attach"></div>
+        <div ng-if="ctlPost.post.forwarded" class="icon icon-post-head icon-fw"></div>
+        <div ng-if="ctlPost.post.replied" class="icon icon-post-head icon-reply"></div>
+        <h4 class="_df">{{ctlPost.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{ctlPost.post.sender.username}}</span>
+      </div>
       <span class="_df _fn post-card-time">{{ctlPost.post.date}}</span>
     </div>
   </section>
