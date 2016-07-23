@@ -46,11 +46,17 @@
     ScrollBarsProvider.defaults = {
       theme: 'minimal-dark',
       scrollInertia: 300,
+      callbacks:{
+        onScroll:function(){
+          //console.log(arguments);
+        }
+      },
       advanced:{
         updateOnContentResize: true
       },
       autoHideScrollbar: true
     };
   }
+
 
 })();

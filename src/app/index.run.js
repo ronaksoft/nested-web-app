@@ -69,7 +69,6 @@
     });
 
 
-    //TODO NEEDS REWRITE COMPLETELY
     var timers = [];
     $rootScope.scrolling = function(e) {
       if (e.currentTarget.scrollY + e.currentTarget.screen.availHeight > document.body.scrollHeight) {
