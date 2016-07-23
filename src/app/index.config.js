@@ -48,7 +48,8 @@
       scrollInertia: 300,
       advanced:{
         updateOnContentResize: true
-      }
+      },
+      autoHideScrollbar: true
     };
   }
 

@@ -71,8 +71,7 @@
 
     //TODO NEEDS REWRITE COMPLETELY
     var timers = [];
-    angular.element($window).bind("scroll", function(e) {
-
+    $rootScope.scrolling = function(e) {
       if (e.currentTarget.scrollY + e.currentTarget.screen.availHeight > document.body.scrollHeight) {
         console.log("scrolled")
       }
@@ -104,7 +103,7 @@
       timers.push(timer);
       timer;
       $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
-    });
+    }
 
 
   }
