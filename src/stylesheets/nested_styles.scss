@@ -161,17 +161,17 @@
   background-repeat: no-repeat;
   margin: 0 5px;
   background-size: cover;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 .icon-attach {
   background-position: 0 0;
 }
 .icon-reply {
-  background-position: 0 -20px;
+  background-position: 0 -16px;
 }
 .icon-fw {
-  background-position: 0 -40px;
+  background-position: 0 -32px;
 }
 .badge {
   padding: 5px;
@@ -404,7 +404,9 @@ a {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   //box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
 }
-
+.maincontainer.navtiny #content-wrapper {
+  //margin-top: 100px;
+}
 @media screen and (min-width: 990px){
   .nst-navbar{
     top: 0;
@@ -422,7 +424,7 @@ a {
     display: none;
   }
 }
-.maincontainer.tiny {
+.maincontainer.sidetiny {
   .nst-navbar{
     width: calc(100% - 72px);
   }
@@ -444,29 +446,30 @@ a {
   flex-direction: row;
 }
 
-.nst-navbar.tiny {
-  height: 132px;
-  //background: #aaa;
-  .navbar-top {
-    height: 66px;
-    span{
-      height: 0;
-      padding: 0;
-      overflow: hidden;
-    }
-    a {
-      font-size: 24px;
-    }
+.maincontainer.navtiny {
+  .nst-navbar{
+    height: 132px;
+    //background: #aaa;
+    .navbar-top {
+      height: 66px;
+      span{
+        height: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      a {
+        font-size: 24px;
+      }
 
+    }
+    .navbar-bottom{
+      height: 66px;
+    }
+    .account-initials-64 {
+      width: 40px;
+      height: 40px;
+    }
   }
-  .navbar-bottom{
-    height: 66px;
-  }
-  .account-initials-64 {
-    width: 40px;
-    height: 40px;
-  }
-
 }
 
 @media screen and (max-width: 990px){
@@ -848,6 +851,9 @@ ul ul li:last-child{
 #content-wrapper {
   margin-top: 182px;
   //overflow: auto;
+}
+.maincontainer.navtiny #content-wrapper{
+  margin-top: 132px;
 }
 
 @media screen and (max-width: 990px) {
@@ -1279,7 +1285,7 @@ input[type="checkbox"]:checked + label.setting {
 .mCustomScrollBox {
   width: 100%;
 }
-#content-wrapper>#mCSB_2>#mCSB_2_container {
+#content-wrapper>.mCustomScrollBox>.mCSB_container {
   justify-content: center;
   display: flex;
 }
