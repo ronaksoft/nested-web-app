@@ -9,7 +9,9 @@
   /** @ngInject */
   function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout,
     NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT,
-    NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcMessageSettingStorage, NstSvcPostStorage, NstSvcCommentFactory, NstSvcPostMap) {
+    NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory,
+    NstSvcMessageSettingStorage, NstSvcPostStorage,
+    NstSvcPostMap, NstSvcActivityMap) {
 
     var vm = this;
     var FILTER_ALL = '!$all';
@@ -54,7 +56,6 @@
           vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
           vm.activities = mapActivities(values[2]);
           vm.messages = mapMessages(values[3]);
-
         }
 
         $log.debug(vm);
@@ -141,6 +142,10 @@
       return _.map(messages, mapMessage);
     }
 
+    function mapActivities(activities) {
+      return _.map(activities, NstSvcActivityMap.toRecentActivity);
+    }
+
     function toggleContentPreview() {
       vm.messagesSetting.contentPreview = !vm.messagesSetting.contentPreview;
     }
@@ -155,77 +160,6 @@
 
     function toggleQuickMessagePreview() {
       vm.messagesSetting.quickMessagePreview = !vm.messagesSetting.quickMessagePreview;
-    }
-
-    function mapActivities(activities) {
-      return _.map(activities, function(item) {
-        return {
-          id: item.id,
-          actor: mapActivityActor(item),
-          member: mapActivityMember(item),
-          comment: mapActivityComment(item),
-          post: mapActivityPost(item),
-          date: getPassedTime(item.date),
-          type: item.type
-        };
-      });
-
-      function getPassedTime(date) {
-        if (!moment.isMoment(date)) {
-          date = moment(date);
-        }
-
-        return date.fromNow();
-      }
-
-      function mapActivityMember(activity) {
-        if (!activity.member) {
-          return {};
-        }
-        return {
-          id: activity.member.id,
-          name: activity.member.fullName,
-          type: activity.member.type
-        };
-      }
-
-      function mapActivityComment(activity) {
-        if (!activity.comment) {
-          return {};
-        }
-
-        return {
-          id: activity.comment.id,
-          body: activity.comment.body
-        };
-      }
-
-      function mapActivityPost(activity) {
-        if (!activity.post) {
-          return {};
-        }
-        return {
-          id: activity.post.id,
-          subject: activity.post.subject,
-          body: activity.post.body
-        };
-      }
-
-      function mapActivityActor(activity) {
-        return {
-          id: activity.actor.id,
-          avatar: activity.actor.picture.thumbnails.x32.url.download,
-          name: activity.actor.fullName
-        };
-      }
-
-      function mapActivityPlace(place) {
-        return {
-          id: place.id,
-          name: place.name,
-          picture: place.picture.getThumbnail('64').url.download
-        };
-      }
     }
 
     function setPlace(id) {
@@ -246,6 +180,7 @@
 
       return defer.promise;
     }
+
     NstSvcCommentFactory.addEventListener(NST_COMMENT_FACTORY_EVENT.COMMENT_ADDED, function(event) {
       // event.detail.object.then(function(message) {
       //   console.log(message);

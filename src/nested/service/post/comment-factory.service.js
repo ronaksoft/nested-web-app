@@ -81,9 +81,11 @@
         var commentId = data.comment_id.$oid;
         return getComment(commentId, post.id);
       }).then(function (comment) {
-        post.addComment(comment);
-        NstSvcPostStorage.set(post.id, post);
-        defer.resolve(post);
+        var result = post.addComment(comment);
+        if (result) {
+          NstSvcPostStorage.set(post.id, post);
+        }
+        defer.resolve(comment);
         // dispatchEvent(new CustomEvent(NST_COMMENT_FACTORY_EVENT.COMMENT_ADDED, new NstFactoryEventData(post)));
       }).catch(defer.reject);
 

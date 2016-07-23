@@ -150,9 +150,15 @@
     };
 
     Post.prototype.addComment = function(comment) {
-      this.comments.push(comment);
+      var index = _.findIndex(this.comments, function (item) {
+        return item.id === comment.id;
+      });
+      if (index === -1){
+        this.comments.push(comment);
+        return true;
+      }
 
-      return this;
+      return false;
     };
 
     /**

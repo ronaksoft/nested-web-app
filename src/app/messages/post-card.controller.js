@@ -198,15 +198,15 @@
       vm.isSending = true;
 
       NstSvcPostFactory.get(vm.post.id).then(function(post) {
-        console.log('the post is : ', post);
-        return NstSvcCommentFactory.addComment(post, body)
-      }).then(function(editedPost) {
-        e.currentTarget.value = '';
-        vm.isSending = false;
-        vm.post = NstSvcPostMap.toMessage(editedPost);
-        // TODO: notify
-      }).catch(function(error) {
-        // TODO: decide
+        NstSvcCommentFactory.addComment(post, body).then(function (comment) {
+          // vm.post = post;
+          e.currentTarget.value = '';
+          vm.isSending = false;
+        }).catch(function (error) {
+          $log.debug(error);
+        });
+      }).catch(function (error) {
+        $log.debug(error);
       });
 
       return false;
@@ -245,18 +245,15 @@
         if (vm.post.id == postId) {
           var commentId = e.detail.timeline_data.comment_id.$oid;
           NstSvcPostFactory.get(postId).then(function(post) {
-            var comment = _.find(post.comments, function (comment) {
-              return comment.id === commentId;
-            });
-            if (!comment) { // could not find the comment inside the post and it has to be added
               NstSvcCommentFactory.getComment(commentId, postId).then(function (comment) {
-                post.addComment(comment);
-                NstSvcPostStorage.set(post.id, post);
-                vm.post = NstSvcPostMap.toMessage(post);
+                  var result = post.addComment(comment);
+                  if (result) {
+                    NstSvcPostStorage.set(post.id, post);
+                    vm.post = NstSvcPostMap.toMessage(post);
+                  }
               }).catch(function (error) {
                 $log.debug(error);
               });
-            }
           }).catch(function(error) {
             $log.debug(error);
           });
