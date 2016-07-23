@@ -18,7 +18,8 @@
       // TODO it needs to connect with cache
       vm.extended = true;
 
-      vm.activities = [];
+      vm.acts = [];
+      vm.cache = [];
       vm.loadMore = loadMore;
       vm.acceptInvitation = acceptInvitation;
       vm.declineInvitation = declineInvitation;
@@ -76,12 +77,32 @@
 
       function loadActivities() {
         return $q(function(resolve, reject) {
+          if (_.some(vm.cache)) {
+            vm.activitySettings.date = getLastActivityTime();
+          }
+
           NstSvcActivityFactory.load(vm.activitySettings).then(function(activities) {
-            vm.acts = mapActivities(activities);
+            vm.cache = _.concat(vm.cache, activities);
+            vm.acts = mapActivities(vm.cache);
             resolve(vm.acts);
 
           }).catch(reject);
         });
+      }
+
+      function getLastActivityTime() {
+        return moment().subtract(10, 'days').format('x');
+
+        var last = _.last(vm.cache);
+        if (!last) {
+
+          return Date.now().getTime() / 1000;
+        }
+        if (moment.isMoment(last.date)) {
+          return last.date.format('x');
+        }
+        console.log(last);
+        return last.date.getTime() / 1000;
       }
 
       function loadInvitations() {
@@ -96,7 +117,9 @@
       }
 
       function loadMore() {
-        return loadActivities();
+        loadActivities().then(function () {
+          console.log(vm.acts);
+        });
       }
 
       function acceptInvitation(invitation) {
