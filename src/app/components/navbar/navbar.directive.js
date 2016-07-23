@@ -9,9 +9,9 @@
   function nestedNavbar() {
     return {
       restrict: 'E',
-      templateUrl: 'app/components/navbar/navbar.html',
       controller: 'NavbarController',
-      controllerAs: 'navbarCtrl',
+      controllerAs: 'ctlNavbar',
+      templateUrl: 'app/components/navbar/navbar.html',
       scope: {
         place : '='
       }
