@@ -285,8 +285,9 @@
     function getMessages(setting) {
       var defer = $q.defer();
       NstSvcServer.request('account/get_posts', {
-        skip: setting.skip,
-        limit: setting.limit
+        // skip: setting.skip,
+        limit: setting.limit,
+        before : setting.date
       }).then(function(data) {
         var messagePromises = _.map(data.posts.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
@@ -307,8 +308,9 @@
 
       var defer = $q.defer();
       NstSvcServer.request('place/get_posts', {
-        skip: setting.skip,
+        // skip: setting.skip,
         limit: setting.limit,
+        before : setting.date,
         place_id: placeId
       }).then(function(data) {
         var messagePromises = _.map(data.posts.posts, parseMessage);

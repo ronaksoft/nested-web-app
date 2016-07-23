@@ -161,7 +161,7 @@
       // if (activities.length === 0) { // cache is empty and it's better to ask the server for recent activities
         NstSvcServer.request('timeline/get_events', {
             limit : settings.limit,
-             skip : settings.skip,
+            //  skip : settings.skip,
            before : settings.date
         }).then(function(data) {
           var activities = _.map(data.events, parseActivity);
@@ -208,7 +208,8 @@
       if (activities.length === 0) { // cache is empty and it's better to ask the server for recent activities
         NstSvcServer.request('place/get_events', {
           limit: settings.limit,
-          skip: 0,
+          // skip: 0,
+          before : settings.date,
           place_id: settings.placeId
         }).then(function(data) {
           var activities = _.map(data.events, parseActivity);

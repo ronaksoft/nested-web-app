@@ -14,6 +14,8 @@
     NstSvcPostMap, NstSvcActivityMap) {
 
     var vm = this;
+    vm.messages = [];
+    vm.cache = [];
     var FILTER_ALL = '!$all';
     var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
       defaultViewSetting = {
@@ -36,7 +38,7 @@
     vm.sort = sort;
 
     vm.messagesSetting = {
-      limit: 10,
+      limit: 8,
       skip: 0,
       sort: defaultSortOption
     };
@@ -49,13 +51,12 @@
     (function() {
       setPlace(vm.currentPlaceId).then(function(placeFound) {
 
-        return $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), getMessages()]);
+        return $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), loadMessages()]);
       }).then(function(values) {
         if (values) {
           vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
           vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
           vm.activities = mapActivities(values[2]);
-          vm.messages = mapMessages(values[3]);
         }
 
         $log.debug(vm);
@@ -90,29 +91,46 @@
     }
 
     function sort(option) {
-      if (!_.includes([
-          NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
-          NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
-        ], option)) {
-        throw 'The provided sort option key is not valid';
-      }
-
 
       vm.messagesSetting.sort = option;
       loadMessages();
     }
 
     function loadMessages() {
+      var defer = $q.defer();
+      vm.messagesSetting.date = getLastMessageTime();
+      console.log('setting:',vm.messagesSetting);
       getMessages().then(function(messages) {
-        vm.messages = mapMessages(messages);
-      }).catch(function(error) {
-        // TODO:  handle the error
-      });
+        console.log('messages :', messages);
+        vm.cache = _.concat(vm.cache, messages);
+        console.log('cache :', vm.cache);
+        vm.messages = mapMessages(vm.cache);
+        defer.resolve(vm.messages);
+      }).catch(defer.reject);
+
+      return defer.promise;
     }
 
     function loadMore() {
-      vm.messagesSetting.skip += vm.messagesSetting.limit;
-      loadMessages();
+      loadMessages().then(function () {
+        console.log(vm.messages);
+      });
+    }
+
+    function getLastMessageTime() {
+
+      var last = _.last(_.orderBy(vm.cache, 'date', 'desc'));
+      console.log('last', last);
+      if (!last) {
+
+        return moment().format('x');
+      }
+      if (moment.isMoment(last.date)) {
+        console.log('i am here');
+        return last.date.format('x');
+      }
+
+      return last.date.getTime();
     }
 
     function loadRecentActivities() {
