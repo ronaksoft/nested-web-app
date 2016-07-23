@@ -12,9 +12,10 @@
       NstSvcActivityMap,
       NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
       NstActivity, NstPlace, NstInvitation) {
+
       var vm = this;
 
-      //TODO it needs to connect with cache
+      // TODO it needs to connect with cache
       vm.extended = true;
 
       vm.activities = [];
@@ -81,7 +82,7 @@
 
           }).catch(reject);
         });
-      };
+      }
 
       function loadInvitations() {
         return $q(function(resolve, reject) {

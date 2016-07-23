@@ -35,5 +35,5 @@ function buildScripts() {
     path.join(conf.paths.tmp, '/serve/config/*.js')
   ]).pipe($.eslint())
     .pipe($.eslint.format())
-    .pipe($.size())
-};
+    .pipe($.size());
+}

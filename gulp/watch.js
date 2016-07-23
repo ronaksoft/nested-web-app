@@ -32,7 +32,9 @@ gulp.task('watch', ['inject'], function () {
     path.join(conf.paths.conf, '/development.json')
   ], function(event) {
     if(isOnlyChange(event)) {
-      gulp.start('scripts-reload');
+      // Move bundling one level up
+      // gulp.start('scripts-reload');
+      gulp.start('inject-reload');
     } else {
       gulp.start('inject-reload');
     }

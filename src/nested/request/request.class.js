@@ -5,7 +5,7 @@
     .module('nested')
     .factory('NstRequest', NstRequest);
 
-  function NstRequest($q, NST_REQ_STATUS, NST_RES_STATUS, NstResponse, NstObservableObject) {
+  function NstRequest($q, NST_REQ_STATUS, NST_RES_STATUS, NstObservableObject, NstResponse) {
     function Request(method, data) {
       this.method = method;
       this.data = data;

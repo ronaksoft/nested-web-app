@@ -16,6 +16,7 @@
       'ngResource',
       'ngWebSocket',
       'ngCordova',
+      'ngScrollbars',
       'PlPush',
       'angular-web-notification',
       'LocalStorageModule',

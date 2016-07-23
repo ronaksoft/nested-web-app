@@ -1,10 +1,11 @@
 (function() {
   'use strict';
 
-  angular.module('nested').factory('NstPost', NstPost);
+  angular
+    .module('nested')
+    .factory('NstPost', NstPost);
 
-  function NstPost($q, _, ATTACHMENT_STATUS, NstTinyPost, NstAttachment) {
-
+  function NstPost($q, _, NST_ATTACHMENT_STATUS, NstTinyPost, NstAttachment) {
     Post.prototype = new NstTinyPost();
     Post.prototype.constructor = Post;
 
@@ -120,7 +121,7 @@
      */
     Post.prototype.getTotalAttachProgress = function() {
       var items = _.filter(this.attachments, function(attach) {
-        return status !== ATTACHMENT_STATUS.ABORTED;
+        return status !== NST_ATTACHMENT_STATUS.ABORTED;
       });
 
       if (items.length === 0) {
@@ -144,7 +145,7 @@
      */
     Post.prototype.hasAnyUploadInProgress = function() {
       return _.some(this.attachments, function(attach) {
-        return attach.status === ATTACHMENT_STATUS.UPLOADING;
+        return attach.status === NST_ATTACHMENT_STATUS.UPLOADING;
       });
     };
 

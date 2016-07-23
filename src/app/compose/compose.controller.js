@@ -13,10 +13,38 @@
                              NstStoreResource, NstPost, NstPlace, NestedRecipient) {
     var vm = this;
 
+    /*****************************
+     *** Controller Properties ***
+     *****************************/
+
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
+
+    /*****************************
+     *****  Controller Logic  ****
+     *****************************/
+
     if (!NstSvcAuth.isInAuthorization()) {
       $location.search({back: $location.path()});
       $location.path('/signin').replace();
     }
+
+    /*****************************
+     *****    State Methods   ****
+     *****************************/
+
+    /*****************************
+     *****    Fetch Methods   ****
+     *****************************/
+
+    /*****************************
+     *****     Map Methods    ****
+     *****************************/
+
+    /*****************************
+     *****    Other Methods   ****
+     *****************************/
 
     //$scope.tinymceModel = 'Initial content';
     $scope.tinymceOptions = {

@@ -5,7 +5,9 @@ var args = require('yargs');
 var gulp = require('gulp');
 var conf = require('./conf');
 
-var $ = require('gulp-load-plugins')();
+var $ = require('gulp-load-plugins')({
+  pattern: ['gulp-*']
+});
 
 var wiredep = require('wiredep').stream;
 var _ = require('lodash');
@@ -37,13 +39,22 @@ gulp.task('inject', ['scripts', 'styles'], function () {
   var injectScripts = gulp.src([
     path.join(conf.paths.tmp, '/serve/config/' + config + '.js'),
     path.join(conf.paths.src, '/app/**/*.module.js'),
-    path.join(conf.paths.src, '/app/**/*.js'),
+    path.join(conf.paths.src, '/app/**/*.const.js'),
     path.join(conf.paths.src, '/nested/**/*.module.js'),
+    path.join(conf.paths.src, '/nested/**/*.const.js'),
+    path.join(conf.paths.src, '/nested/**/*.class.js'),
+    path.join(conf.paths.src, '/nested/**/*.service.js'),
     path.join(conf.paths.src, '/nested/**/*.js'),
+    path.join(conf.paths.src, '/app/**/*.directive.js'),
+    path.join(conf.paths.src, '/app/**/*.controller.js'),
+    path.join(conf.paths.src, '/app/**/*.js'),
     path.join('!' + conf.paths.src, '/app/**/*.spec.js'),
-    path.join('!' + conf.paths.src, '/app/**/*.mock.js')
+    path.join('!' + conf.paths.src, '/app/**/*.mock.js'),
+    path.join('!' + conf.paths.src, '/nested/**/*.spec.js'),
+    path.join('!' + conf.paths.src, '/nested/**/*.mock.js')
   ])
-  .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
+    .pipe($.ngAnnotate())
+    .pipe($.ngModuleSort());
 
   var injectOptions = {
     ignorePath: [conf.paths.src, path.join(conf.paths.tmp, '/serve')],
