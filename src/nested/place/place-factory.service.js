@@ -260,6 +260,28 @@
       return this.requests.getMine;
     };
 
+    PlaceFactory.prototype.search = function (keyword) {
+      var factory = this;
+      var deferred = $q.defer();
+      var query = new NstFactoryQuery(keyword);
+      
+      NstSvcServer.request('place/search', { keyword: keyword }).then(function (response) {
+        var places = [];
+        for (var k in response.places) {
+          var place = factory.parseTinyPlace(response.places[k]);
+          factory.set(place);
+          places.push(place);
+        }
+        
+        deferred.resolve(places);
+      }).catch(function(error) {
+        // TODO: Handle error by type
+        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      });
+      
+      return deferred.promise;
+    };
+
     PlaceFactory.prototype.set = function (place) {
       if (place instanceof NstPlace) {
         if (this.has(place.getId())) {

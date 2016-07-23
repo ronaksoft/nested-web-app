@@ -25,16 +25,15 @@
               </div>
 
               <div class="_df _fw input-select-match">
-                <ui-select page-change-element multiple class="address-input _dib" id="input-compose-to" tagging="compose.recipientMaker" data-ng-model="compose.recipients">
+                <ui-select page-change-element multiple class="address-input _dib" id="input-compose-to" tagging="ctlCompose.recipients.isValid" data-ng-model="ctlCompose.model.recipients">
                   <ui-select-match placeholder="Type place name or email address...">
                     <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
                   </ui-select-match>
-                  <ui-select-choices refresh="compose.search($select.search)" refresh-delay="0"
-                                     repeat="place in (compose.places | filter: $select.search) track by place.id">
-                    <img initials="place.name" data-url="place.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2"
-                         data-font-size="16"/>
+                  <ui-select-choices refresh="ctlCompose.search.fn($select.search)" refresh-delay="0"
+                                     repeat="place in (ctlCompose.search.results | filter: $select.search) track by place.id">
+                    <img class="account-initials-32" src="{{place.avatar}}"/>
                     <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
-                    </br>
+                    <br/>
                     <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
                   </ui-select-choices>
                 </ui-select>
@@ -45,7 +44,7 @@
           <hr/>
           <section class="_difc _fw">
             <div class="_df _fw input-select-match">
-              <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="compose.post.subject"/>
+              <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject"/>
             </div>
           </section>
           <hr data-ng-show="attachshow"/>
@@ -74,7 +73,7 @@
 
           <section class="nst-compose-message">
             <div>
-              <textarea page-change-element ui-tinymce="tinymceOptions" placeholder="Your message goes here !" data-ng-model="compose.post.body"></textarea>
+              <textarea page-change-element ui-tinymce="ctlCompose.configs.tinymce" placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"></textarea>
             </div>
             <!--<div text-angular
                  ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"

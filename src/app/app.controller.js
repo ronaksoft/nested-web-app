@@ -12,7 +12,7 @@
     vm.navView = false;
 
     // FIXME: NEEDS REWRITE COMPLETELY
-    $rootScope.msgScroll = {
+    vm.msgScroll = {
       callbacks: {
         whileScrolling:function(){
           var t = -this.mcs.top;
@@ -29,11 +29,9 @@
               marginTop: 0
             });
           }
-
-
         },
         onTotalScroll:function () {
-          //TODO load activities
+          //TODO load more
         },
         onTotalScrollOffset:10,
         alwaysTriggerOffsets:false
@@ -42,7 +40,6 @@
 
     if (NstSvcAuth.isInAuthorization()) {
       $state.go(NST_DEFAULT.STATE);
-
     } else {
       var previousLocation = $location.path();
       if (previousLocation === '/signin') {
@@ -55,8 +52,7 @@
     }
 
     $rootScope.$on('$stateChangeStart', function(event, nextState, currentState) {
-
-      if (nextState.name === 'signin' || nextState.name === 'home'){
+      if (['signin', 'home'].indexOf(nextState.name) > -1) {
         return;
       }
 
