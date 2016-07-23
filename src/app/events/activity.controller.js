@@ -18,7 +18,8 @@
       // TODO it needs to connect with cache
       vm.extended = true;
 
-      vm.activities = [];
+      vm.acts = [];
+      vm.cache = [];
       vm.loadMore = loadMore;
       vm.acceptInvitation = acceptInvitation;
       vm.declineInvitation = declineInvitation;
@@ -50,7 +51,7 @@
         filter: NST_ACTIVITY_FILTER.ALL
       };
 
-      if (!$stateParams.placeId || $stateParams.placeId === '_'){
+      if (!$stateParams.placeId || $stateParams.placeId === '_') {
         vm.currentPlaceId = null;
       } else {
         vm.currentPlaceId = $stateParams.placeId;
@@ -76,12 +77,29 @@
 
       function loadActivities() {
         return $q(function(resolve, reject) {
+          if (_.some(vm.cache)) {
+            vm.activitySettings.date = getLastActivityTime();
+          }
+
           NstSvcActivityFactory.load(vm.activitySettings).then(function(activities) {
-            vm.acts = mapActivities(activities);
+            vm.cache = _.concat(vm.cache, activities);
+            vm.acts = mapActivities(vm.cache);
             resolve(vm.acts);
 
           }).catch(reject);
         });
+      }
+
+      function getLastActivityTime() {
+        var last = _.last(_.orderBy(vm.cache, 'date', 'desc'));
+        if (!last) {
+          return Date.now().getTime() / 1000;
+        }
+        if (moment.isMoment(last.date)) {
+          return last.date.format('x');
+        }
+
+        return last.date.getTime() / 1000;
       }
 
       function loadInvitations() {
@@ -96,7 +114,9 @@
       }
 
       function loadMore() {
-        return loadActivities();
+        loadActivities().then(function() {
+          console.log(vm.acts);
+        });
       }
 
       function acceptInvitation(invitation) {
@@ -140,7 +160,6 @@
           }
         }
       }
-
 
       function setPlace(id) {
         var defer = $q.defer();

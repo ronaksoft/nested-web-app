@@ -29,7 +29,7 @@
             <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
               <div class="sender">
                 <p class="nst-mood-simple">
-                  <span class="ng-binding ng-scope">{{value.min}}</span>
+                  <span class="ng-binding ng-scope">{{value.date}}</span>
                 </p>
               </div>
                 <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
@@ -37,7 +37,7 @@
             <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
               <div class="sender">
                 <p class="nst-mood-simple">
-                  <span class="ng-binding ng-scope">{{value.min}}</span>
+                  <span class="ng-binding ng-scope">{{value.date}}</span>
                 </p>
               </div>
               <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
@@ -45,7 +45,7 @@
             <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
               <div class="sender">
                 <p class="nst-mood-simple">
-                  <span class="ng-binding ng-scope">{{value.min}}</span>
+                  <span class="ng-binding ng-scope">{{value.date}}</span>
                 </p>
               </div>
               <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>

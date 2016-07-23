@@ -156,24 +156,25 @@
     function load(settings) {
       var defer = $q.defer();
 
-      var activities = NstSvcActivityStorage.get('all', []);
+      // var activities = NstSvcActivityStorage.get('all', []);
 
-      if (activities.length === 0) { // cache is empty and it's better to ask the server for recent activities
+      // if (activities.length === 0) { // cache is empty and it's better to ask the server for recent activities
         NstSvcServer.request('timeline/get_events', {
-          limit: settings.limit,
-          skip: settings.skip
+            limit : settings.limit,
+             skip : settings.skip,
+           before : settings.date
         }).then(function(data) {
           var activities = _.map(data.events, parseActivity);
 
           $q.all(activities).then(function(values) {
-            NstSvcActivityStorage.merge('all', values);
+            // NstSvcActivityStorage.merge('all', values);
             defer.resolve(values);
           }).catch(defer.reject);
 
         }).catch(defer.reject);
-      } else {
-        defer.resolve(activities);
-      }
+      // } else {
+      //   defer.resolve(activities);
+      // }
 
       return defer.promise;
     }

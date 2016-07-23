@@ -1,3 +1,4 @@
+{{ctlNavbar}}
 <div class="nst-topnav _difh ng-class:{ 'bg-hur': topNavOpen }">
   <div class="_fw _df">
     <div ng-class="topNavOpen ? 'icon icon-top close-icon' : 'icon icon-top hamburger-icon'" ng-click="topNavOpen =! topNavOpen"></div>
@@ -28,13 +29,13 @@
         </div> -->
         <div class="title-bar _difh _fw" ng-if="true">
           <div class="logo-bar _df">
-            <div ng-if="!navbarCtrl.hasPlace()" class="icon icon-nav icon-all-place"></div>
-            <img ng-if="navbarCtrl.hasPlace()" initials="navbarCtrl.getPlaceName()" data-url="navbarCtrl.getPlacePicture()" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
+            <div ng-if="!ctlNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
+            <img ng-if="ctlNavbar.hasPlace()" initials="ctlNavbar.getPlaceName()" data-url="ctlNavbar.getPlacePicture()" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
                  data-font-size="16"/>
           </div>
           <div class="name _fw _difv _jcc">
-            <a class="_df _tr">{{navbarCtrl.getPlaceName()}}</a>
-            <span class="nst-mood-storm _df _tr" ng-if="navbarCtrl.hasPlace()">{{navbarCtrl.getPlaceId()}}@nested.me</span>
+            <a class="_df _tr">{{ctlNavbar.getPlaceName()}}</a>
+            <span class="nst-mood-storm _df _tr" ng-if="ctlNavbar.hasPlace()">{{ctlNavbar.getPlaceId()}}@nested.me</span>
           </div>
         </div>
       </div>
@@ -46,13 +47,13 @@
           </div>
 
           <div class="menu-links-btn _dib li-hover" ng-class="messages ? 'selected' : null">
-            <a href="" ng-click="navbarCtrl.navigateMessages()">Messages</a>
+            <a href="" ng-click="ctlNavbar.navigateMessages()">Messages</a>
           </div>
           <div class="menu-links-btn _dib li-hover" ng-class="events ? 'selected' : null">
-            <a href="" ng-click="navbarCtrl.navigateActivity()">Activity</a>
+            <a href="" ng-click="ctlNavbar.navigateActivity()">Activity</a>
           </div>
-          <div ng-if="navbarCtrl.hasPlace()" class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null">
-            <a href="" ng-click="navbarCtrl.navigateSettings()">Settings</a>
+          <div ng-if="ctlNavbar.hasPlace()" class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null">
+            <a href="" ng-click="ctlNavbar.navigateSettings()">Settings</a>
           </div>
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">

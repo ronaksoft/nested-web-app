@@ -94,8 +94,8 @@
         act.date = moment(act.date);
       })
       var result = {
-        min: null,
-        max: null,
+        // min: null,
+        // max: null,
         otherYears: {},
         thisYear: {},
         hasAnyItem: false,
@@ -124,8 +124,8 @@
       var otherMontsActs = _.differenceBy(thisYearActs, thisMonthActs, 'id');
 
       result.thisYear = {
-        min: moment().startOf('year'),
-        max: moment().endOf('year'),
+        // min: moment().startOf('year'),
+        // max: moment().endOf('year'),
         thisMonth: mapThisMonthActs(thisMonthActs),
         otherMonths: groupByMonth(otherMontsActs),
         hasAnyItem: thisYearActs.length > 0,
@@ -148,7 +148,7 @@
      * @return {Object}              pairs of year and activity list, consider year as key
      */
     function groupByYear(acts) {
-      var years = {};
+      var years = [];
 
       if (!acts || acts.length === 0) {
         return years;
@@ -161,11 +161,15 @@
       _.forIn(yearGroups, function(yearActs, year) {
         var yearMoment = yearActs[0].date;
 
-        years[year] = {
-          min: yearMoment.startOf('year'),
-          max: yearMoment.endOf('year'),
-          items: mapActivityItems(yearActs)
-        };
+        var min = yearMoment.startOf('year');
+        // var max = yearMoment.endOf('year');
+
+        years.push({
+          // min: min,
+          // max: max,
+          date : yearMoment.startOf('year').format('YYYY'),
+          items: mapActivityItems(sortActivities(yearActs))
+        });
       });
 
       return years;
@@ -178,7 +182,7 @@
      * @return {Object}                pairs of month and activity list, consider month as key
      */
     function groupByMonth(acts) {
-      var months = {};
+      var months = [];
 
       if (!acts || acts.length === 0) {
         return months;
@@ -189,12 +193,15 @@
 
       _.forIn(monthGroups, function(monthActs, month) {
         var monthMoment = monthActs[0].date;
+        // var max = monthMoment.endOf('month');
+        // var min = monthMoment.startOf('month');
 
-        months[month] = {
-          min: monthMoment.startOf('month'),
-          max: monthMoment.endOf('month'),
-          items: mapActivityItems(monthActs)
-        };
+        months.push({
+          // min: min,
+          // max: max,
+          date : monthMoment.startOf('month').format('MMM YYYY'),
+          items: mapActivityItems(sortActivities(monthActs))
+        });
       });
 
       return months;
@@ -208,8 +215,8 @@
      */
     function mapThisMonthActs(acts) {
       var result = {
-        min: null,
-        max: null,
+        // min: null,
+        // max: null,
         today: {},
         otherDays: {},
         hasAnyItem: false,
@@ -223,17 +230,17 @@
       result.hasAnyItem = true;
 
       var todayStart = moment().startOf('day');
-      result.min = moment().startOf('month');
-      result.max = moment().endOf('month');
+      // result.min = moment().startOf('month');
+      // result.max = moment().endOf('month');
 
       var todayActs = _.filter(acts, function(act) {
         return act.date.isAfter(todayStart);
       });
 
       result.today = {
-        min: todayStart,
-        max: moment().endOf('day'),
-        items: mapActivityItems(todayActs),
+        // min: todayStart,
+        // max: moment().endOf('day'),
+        items: mapActivityItems(sortActivities(todayActs)),
         hasAnyItem: todayActs.length > 0
       };
 
@@ -253,7 +260,7 @@
      * @return {Object}               pairs of day and activity list, consider day as key
      */
     function groupByDay(acts) {
-      var days = {};
+      var days = [];
 
       if (!acts || acts.length === 0) {
         return days;
@@ -262,14 +269,19 @@
       var dayGroups = _.groupBy(acts, function(act) {
         return act.date.date();
       });
-      _.forIn(dayGroups, function(dayActs, day) {
+
+      _.forInRight(dayGroups, function(dayActs, day) {
         var dayMoment = dayActs[0].date;
 
-        days[day] = {
-          min: dayMoment.startOf('day'),
-          max: dayMoment.endOf('day'),
-          items: mapActivityItems(dayActs)
-        };
+        // var min = dayMoment.startOf('day');
+        // var max = dayMoment.endOf('day');
+
+        days.push({
+          // min : min,
+          // max : max,
+          date : dayMoment.startOf('day').format('DD MMM'),
+          items: mapActivityItems(sortActivities(dayActs))
+        });
 
       });
 
@@ -404,6 +416,9 @@
       };
     }
 
+    function sortActivities(activities) {
+      return _.orderBy(activities, 'date', 'desc');
+    }
   }
 
 })();
