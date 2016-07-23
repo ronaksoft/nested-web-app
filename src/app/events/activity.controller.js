@@ -47,7 +47,7 @@
       };
       vm.activitySettings = {
         skip: 0,
-        limit: 25,
+        limit: 24,
         filter: NST_ACTIVITY_FILTER.ALL
       };
 
@@ -77,9 +77,7 @@
 
       function loadActivities() {
         return $q(function(resolve, reject) {
-          if (_.some(vm.cache)) {
-            vm.activitySettings.date = getLastActivityTime();
-          }
+          vm.activitySettings.date = getLastActivityTime();
 
           NstSvcActivityFactory.load(vm.activitySettings).then(function(activities) {
             vm.cache = _.concat(vm.cache, activities);
@@ -93,7 +91,7 @@
       function getLastActivityTime() {
         var last = _.last(_.orderBy(vm.cache, 'date', 'desc'));
         if (!last) {
-          return Date.now().getTime() / 1000;
+          return moment().format('x');
         }
         if (moment.isMoment(last.date)) {
           return last.date.format('x');
