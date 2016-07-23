@@ -8,7 +8,7 @@
   function NstSvcPostFactory($q, $log,
     _,
     NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,NstSvcStore, NstSvcCommentFactory,
-    NstFactoryError, NstFactoryQuery ,NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture) { // TODO: It should not inject any model, ask the factory to create the model
+    NstFactoryError, NstFactoryQuery ,NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NST_MESSAGES_SORT_OPTION) { // TODO: It should not inject any model, ask the factory to create the model
 
     /**
      * PostFactory - all operations related to post, comment
@@ -284,11 +284,17 @@
 
     function getMessages(setting) {
       var defer = $q.defer();
-      NstSvcServer.request('account/get_posts', {
-        // skip: setting.skip,
+
+      var options = {
         limit: setting.limit,
         before : setting.date
-      }).then(function(data) {
+      };
+
+      if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY){
+        options.by_update = true;
+      }
+
+      NstSvcServer.request('account/get_posts', options).then(function(data) {
         var messagePromises = _.map(data.posts.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
@@ -307,12 +313,18 @@
     function getPlaceMessages(setting, placeId) {
 
       var defer = $q.defer();
-      NstSvcServer.request('place/get_posts', {
-        // skip: setting.skip,
+
+      var options = {
         limit: setting.limit,
         before : setting.date,
         place_id: placeId
-      }).then(function(data) {
+      };
+
+      if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY){
+        options.by_update = true;
+      }
+
+      NstSvcServer.request('place/get_posts', options).then(function(data) {
         var messagePromises = _.map(data.posts.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {

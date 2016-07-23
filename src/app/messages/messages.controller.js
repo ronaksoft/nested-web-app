@@ -16,6 +16,7 @@
     var vm = this;
     vm.messages = [];
     vm.cache = [];
+    var DEFAULT_MESSAGES_COUNT = 8;
     var FILTER_ALL = '!$all';
     var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
       defaultViewSetting = {
@@ -38,9 +39,10 @@
     vm.sort = sort;
 
     vm.messagesSetting = {
-      limit: 8,
-      skip: 0,
-      sort: defaultSortOption
+      limit : DEFAULT_MESSAGES_COUNT,
+      skip : 0,
+      sort : defaultSortOption,
+      date : null
     };
 
     vm.toggleContentPreview = toggleContentPreview;
@@ -91,13 +93,17 @@
     }
 
     function sort(option) {
-
       vm.messagesSetting.sort = option;
+      var cacheSize = vm.cache.length;
+      vm.cache = [];
+      vm.messagesSetting.date = null;
+      vm.messagesSetting.limit = cacheSize;
       loadMessages();
     }
 
     function loadMessages() {
       var defer = $q.defer();
+
       vm.messagesSetting.date = getLastMessageTime();
       getMessages().then(function(messages) {
         vm.cache = _.concat(vm.cache, messages);
@@ -109,6 +115,7 @@
     }
 
     function loadMore() {
+      vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
       loadMessages().then(function () {
       });
     }
