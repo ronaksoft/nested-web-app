@@ -5,7 +5,7 @@
     .service('NstSvcPostMap', NstSvcPostMap);
 
   /** @ngInject */
-  function NstSvcPostMap() {
+  function NstSvcPostMap(NstSvcCommentMap) {
 
     var service = {
       toMessage: toMessage
@@ -115,18 +115,6 @@
         return date.format("MMM DD YYYY, HH:mm"); // last year and older
       }
 
-      function formatCommentDate(date) {
-        if (!date) {
-          return 'Unknown';
-        }
-
-        if (!moment.isMoment(date)) {
-          date = moment(date);
-        }
-
-        return date.fromNow(false); // 'true' just removes the trailing 'ago'
-      }
-
       function findFileType(attach) {
         var type = attach.mimeType.split('/')[0];
 
@@ -140,11 +128,7 @@
       }
 
       function mapComment(comment) {
-        return {
-          body: comment.body,
-          date: formatCommentDate(comment.date),
-          sender: mapSender(comment.sender)
-        };
+        return NstSvcCommentMap.toMessageComment(comment);
       }
 
     }
