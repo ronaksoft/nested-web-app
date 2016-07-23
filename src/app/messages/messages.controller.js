@@ -108,6 +108,7 @@
       getMessages().then(function(messages) {
         vm.cache = _.concat(vm.cache, messages);
         vm.messages = mapMessages(vm.cache);
+        console.log(vm.messages);
         defer.resolve(vm.messages);
       }).catch(defer.reject);
 

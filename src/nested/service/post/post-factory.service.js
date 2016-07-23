@@ -138,7 +138,6 @@
 
     function parsePost(data) {
       var defer = $q.defer();
-
       var post = createPostModel();
 
       if (!data) {
@@ -203,10 +202,10 @@
           post.loadComments();
         }
 
-        $q.all(promises.concat([parsePost(data.replyTo), parsePost(data.forwarded)])).then(function(values) {
+        $q.all(promises.concat([parsePost(data.replyTo), parsePost(data.forward_from)])).then(function(values) {
 
           post.replyTo = values[0];
-          post.forwarded = values[1];
+          post.forwardFrom = values[1];
 
           defer.resolve(post);
 
