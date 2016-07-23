@@ -161,9 +161,13 @@
       _.forIn(yearGroups, function(yearActs, year) {
         var yearMoment = yearActs[0].date;
 
+        var min = yearMoment.startOf('year');
+        var max = yearMoment.endOf('year');
+
         years[year] = {
-          min: yearMoment.startOf('year'),
-          max: yearMoment.endOf('year'),
+          min: min,
+          max: max,
+          date : min.format('YYYY'),
           items: mapActivityItems(yearActs)
         };
       });
@@ -189,10 +193,13 @@
 
       _.forIn(monthGroups, function(monthActs, month) {
         var monthMoment = monthActs[0].date;
+        var max = monthMoment.endOf('month');
+        var min = monthMoment.startOf('month');
 
         months[month] = {
-          min: monthMoment.startOf('month'),
-          max: monthMoment.endOf('month'),
+          min: min,
+          max: max,
+          date : min.format('MMM YYYY'),
           items: mapActivityItems(monthActs)
         };
       });
@@ -265,9 +272,13 @@
       _.forIn(dayGroups, function(dayActs, day) {
         var dayMoment = dayActs[0].date;
 
+        var min = dayMoment.startOf('day');
+        var max = dayMoment.endOf('day');
+
         days[day] = {
-          min: dayMoment.startOf('day'),
-          max: dayMoment.endOf('day'),
+          min : min,
+          max : max,
+          date : min.format('DD MMM'),
           items: mapActivityItems(dayActs)
         };
 

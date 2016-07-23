@@ -181,23 +181,6 @@
       return defer.promise;
     }
 
-    NstSvcCommentFactory.addEventListener(NST_COMMENT_FACTORY_EVENT.COMMENT_ADDED, function(event) {
-      // event.detail.object.then(function(message) {
-      //   console.log(message);
-      //   console.log('woohoo');
-      //   console.log(event);
-      //   // replaceMessage(message);
-      // });
-    });
-
-    function replaceMessage(message) {
-      var messageIndex = _.findIndex(vm.messages, function(item) {
-        return item.id === message.id;
-      });
-
-      vm.messages.splice(messageIndex, 1, mapMessage(message));
-    }
-
   }
 
 })();
