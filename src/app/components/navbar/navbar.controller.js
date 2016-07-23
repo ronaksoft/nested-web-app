@@ -15,6 +15,9 @@
     // });
 
     $scope.user = NstSvcAuth.getUser();
+
+
+    //todo should read from cache
     $scope.topNavOpen = false;
 
     $scope.srch = function srch() {
