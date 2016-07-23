@@ -97,7 +97,7 @@
           return last.date.format('x');
         }
 
-        return last.date.getTime() / 1000;
+        return last.date.getTime();
       }
 
       function loadInvitations() {
@@ -113,7 +113,6 @@
 
       function loadMore() {
         loadActivities().then(function() {
-          console.log(vm.acts);
         });
       }
 

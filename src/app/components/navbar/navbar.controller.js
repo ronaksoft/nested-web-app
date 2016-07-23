@@ -59,7 +59,6 @@
     };
 
     vm.navigateMessages = function () {
-      console.log($scope);
       if (vm.hasPlace()) {
         $state.go('place-messages', {
           placeId : $scope.place.id
@@ -70,7 +69,6 @@
     };
 
     vm.navigateActivity = function () {
-      console.log($scope);
       if (vm.hasPlace()) {
         $state.go('place-activity', {
           placeId : $scope.place.id
@@ -88,6 +86,5 @@
       }
     };
 
-    console.log(vm);
   }
 })();

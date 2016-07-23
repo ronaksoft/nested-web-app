@@ -99,11 +99,8 @@
     function loadMessages() {
       var defer = $q.defer();
       vm.messagesSetting.date = getLastMessageTime();
-      console.log('setting:',vm.messagesSetting);
       getMessages().then(function(messages) {
-        console.log('messages :', messages);
         vm.cache = _.concat(vm.cache, messages);
-        console.log('cache :', vm.cache);
         vm.messages = mapMessages(vm.cache);
         defer.resolve(vm.messages);
       }).catch(defer.reject);
@@ -113,20 +110,17 @@
 
     function loadMore() {
       loadMessages().then(function () {
-        console.log(vm.messages);
       });
     }
 
     function getLastMessageTime() {
 
       var last = _.last(_.orderBy(vm.cache, 'date', 'desc'));
-      console.log('last', last);
       if (!last) {
 
         return moment().format('x');
       }
       if (moment.isMoment(last.date)) {
-        console.log('i am here');
         return last.date.format('x');
       }
 
