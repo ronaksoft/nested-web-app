@@ -156,6 +156,23 @@
 .icon-delete-menu {
   background-position: 0 -20px;
 }
+.icon-post-head {
+  background-image: url("../assets/icons/headlineicon.svg");
+  background-repeat: no-repeat;
+  margin: 0 5px;
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+}
+.icon-attach {
+  background-position: 0 0;
+}
+.icon-reply {
+  background-position: 0 -20px;
+}
+.icon-fw {
+  background-position: 0 -40px;
+}
 .badge {
   padding: 5px;
 }
@@ -721,6 +738,7 @@ ul ul li:last-child{
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  flex: none;
 }
 
 
@@ -812,8 +830,8 @@ ul ul li:last-child{
   flex-direction: row;
   flex-shrink: inherit;
   flex-grow: inherit;
-  margin-right: auto;
-  margin-left: auto;
+  //margin-right: auto;
+  //margin-left: auto;
   width: 100%;
 }
 
@@ -829,6 +847,7 @@ ul ul li:last-child{
 
 #content-wrapper {
   margin-top: 182px;
+  //overflow: auto;
 }
 
 @media screen and (max-width: 990px) {
@@ -1250,4 +1269,17 @@ label.setting  {
 
 input[type="checkbox"]:checked + label.setting {
   background: url('../assets/icons/controls.svg') right  -16px no-repeat
+}
+
+/**
+  ******************************
+  * NST Scrollbar
+  ******************************
+ */
+.mCustomScrollBox {
+  width: 100%;
+}
+#content-wrapper>#mCSB_2>#mCSB_2_container {
+  justify-content: center;
+  display: flex;
 }

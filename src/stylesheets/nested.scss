@@ -69,6 +69,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   min-width: 600px;
+  overflow: hidden;
 }
 
 body,
@@ -993,6 +994,7 @@ a .ui-select-choises-row-inner {
   //max-width: 1920px;
   //min-width: 990px;
   min-height: 100vh;
+  height: 100%;
   width: 100%;
   z-index: -100;
 }
@@ -1476,9 +1478,9 @@ ul ul .side-place-item-image {
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow-y: auto;
-  overflow-y: initial;
-  scroll-behavior: smooth;
+  //overflow-y: auto;
+  //overflow-y: initial;
+  //scroll-behavior: smooth;
   z-index: 1;
 }
 
