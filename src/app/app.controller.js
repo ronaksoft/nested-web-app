@@ -31,6 +31,19 @@
         'messages-sorted',
         'place-messages',
         'place-messages-sorted'
+      ].indexOf($state.current.name) > -1,
+      isPlaceSettings: [
+        'place-settings'
+      ].indexOf($state.current.name) > -1,
+      isPlaceAdd: [
+        'place-add'
+      ].indexOf($state.current.name) > -1,
+      isCompose: [
+        'compose',
+        'place-compose',
+        'compose-forward',
+        'compose-reply-all',
+        'compose-reply-sender'
       ].indexOf($state.current.name) > -1
     };
 
