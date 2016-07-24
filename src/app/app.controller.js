@@ -9,36 +9,7 @@
   function AppController($rootScope, $timeout, $state, $location, NstSvcAuth, NST_DEFAULT) {
     var vm = this;
 
-    vm.navView = false;
-
-    // FIXME: NEEDS REWRITE COMPLETELY
-    $rootScope.msgScroll = {
-      callbacks: {
-        whileScrolling:function(){
-          var t = -this.mcs.top;
-          $timeout(function () { vm.navView = t > 55; });
-
-          $('.nst-navbar').toggleClass('tiny', t > 55);
-
-          if ( t > 0) {
-            $("#content-plus").stop().css({
-              marginTop: t
-            });
-          } else if(t == 0){
-            $("#content-plus").stop().css({
-              marginTop: 0
-            });
-          }
-
-
-        },
-        onTotalScroll:function () {
-          //TODO load activities
-        },
-        onTotalScrollOffset:10,
-        alwaysTriggerOffsets:false
-      }
-    };
+    $rootScope.navView = false;
 
     if (NstSvcAuth.isInAuthorization()) {
       $state.go(NST_DEFAULT.STATE);

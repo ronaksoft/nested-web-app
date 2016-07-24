@@ -164,13 +164,13 @@
   width: 16px;
   height: 16px;
 }
-.icon-attach {
+.icon-attached {
   background-position: 0 0;
 }
-.icon-reply {
+.icon-replied {
   background-position: 0 -16px;
 }
-.icon-fw {
+.icon-fwd {
   background-position: 0 -32px;
 }
 .badge {
@@ -850,6 +850,7 @@ ul ul li:last-child{
 
 #content-wrapper {
   margin-top: 182px;
+  height: 100%;
   //overflow: auto;
 }
 .maincontainer.navtiny #content-wrapper{
@@ -1157,7 +1158,7 @@ ul ul li:last-child{
   font-size: 12px;
   font-family: open-sans, sans-serif;
   font-weight: 300;
-  color: $color-solid-30;
+  color: $color-wind;
 }
 .post-card-comment .post-card-comment-input {
   height: 48px;
@@ -1290,5 +1291,9 @@ input[type="checkbox"]:checked + label.setting {
   display: flex;
 }
 .mCSB_scrollTools {
-  width: 5px;
+  width: 4px;
+}
+#mCSB_3_scrollbar_vertical {
+  right: 4px;
+  z-index: 20;
 }

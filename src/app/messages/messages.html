@@ -1,9 +1,9 @@
-<div class="maincontainer _fw _fh ng-class:{'navtiny' : ctlApp.navView,'sidetiny' : sideView}" >
+<div class="maincontainer _fw _fh ng-class:{'navtiny' : navView,'sidetiny' : sideView}" >
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
   <div class="nst-container">
     <nested-navbar data-ng-model="navbar" place="ctlMessages.currentPlace"></nested-navbar>
 
-    <div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="msgScroll">
+    <div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlMessages.scroll">
       <section class="content">
         <div class="filter-bar _fw">
             <div class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
