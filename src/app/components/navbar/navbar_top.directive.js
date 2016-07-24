@@ -13,8 +13,8 @@
     return {
       restrict: 'E',
       templateUrl: 'app/components/navbar/navbar_top.html',
-      controller: 'NavBarController',
-      controllerAs: 'navbarCtrl',
+      controller: 'SidebarController',
+      controllerAs: 'ctlNavTop',
       bindToController: true
     };
   }

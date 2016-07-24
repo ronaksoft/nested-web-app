@@ -6,7 +6,7 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($rootScope, $timeout, $state, $location, NstSvcAuth, NST_DEFAULT) {
+  function AppController($scope, $rootScope, $timeout, $state, $location, NstSvcAuth, NST_DEFAULT) {
     var vm = this;
 
     /*****************************
@@ -47,37 +47,32 @@
       ].indexOf($state.current.name) > -1
     };
 
-    vm.navView = false;
+    //todo should read from cache
+    $rootScope.navView = false;
+    $rootScope.topNavOpen = false;
 
-    // FIXME: NEEDS REWRITE COMPLETELY
-    vm.msgScroll = {
-      callbacks: {
-        whileScrolling:function(){
-          var t = -this.mcs.top;
-          $timeout(function () { vm.navView = t > 55; });
+    vm.scroll = function(event){
+      var t = event.target.scrollTop;
+      $timeout(function () { $rootScope.navView = t > 55; });
 
-          $('.nst-navbar').toggleClass('tiny', t > 55);
+      $('.nst-navbar').toggleClass('tiny', t > 55);
 
-          if ( t > 0) {
-            $("#content-plus").stop().css({
-              marginTop: t
-            });
-          } else if(t == 0){
-            $("#content-plus").stop().css({
-              marginTop: 0
-            });
-          }
-        },
-        onTotalScroll:function () {
-          //TODO load more
-        },
-        onTotalScrollOffset:10,
-        alwaysTriggerOffsets:false
+      if ( t > 0) {
+        $("#content-plus").stop().css({
+          marginTop: t
+        });
+      } else if(t == 0){
+        $("#content-plus").stop().css({
+          marginTop: 0
+        });
       }
+
+
     };
 
     if (NstSvcAuth.isInAuthorization()) {
       $state.go(NST_DEFAULT.STATE);
+
     } else {
       var previousLocation = $location.path();
       if (previousLocation === '/signin') {

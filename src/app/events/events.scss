@@ -5,7 +5,7 @@
   **********************************************************
  */
 .eventsody {
- height: 100%;
+ min-height: 100%;
 }
 .moreevent {
   height: 50px;
@@ -102,7 +102,11 @@
   height: auto;
   flex: none;
 }
-
+.actdate {
+  min-height: 25px;
+  margin-left: 8px;
+  width: 100%;
+}
 #EventList .ico {
   display: block;
   float: left;
@@ -142,9 +146,6 @@
   background-color: #E7FBF0;
 }
 .evrow.seen {
-  -webkit-animation: seen-event 3s ease-out;
-  -moz-animation:    seen-event 3s ease-out;
-  -o-animation:      seen-event 3s ease-out;
   animation:         seen-event 3s ease-out;
 }
 
@@ -165,12 +166,12 @@
   display: inline-flex;
   animation: app-tr .5s ease-out;
 }
-.actcon *{
+.actcon > *{
   animation: off-right .1s ease-out;
 }
 .actdes {
   cursor: default;
-  min-width: 215px;
+  min-width: 200px;
   float: left;
   position: relative;
 }
@@ -257,7 +258,7 @@
 }
 
 .more-tag {
-  background-color: $color-solid;
+  background-color: #8AEBB4;
   text-align: center;
   left:5px;
   cursor: pointer;
@@ -267,7 +268,7 @@
   flex:none;
 }
 .more-tag a{
-  color: $color-white;
+  color: #476152;
   font-size: $font-size-xsmall;
   white-space: nowrap;
   padding: 2px 8px;
@@ -275,6 +276,7 @@
 }
 .more-tag:hover {
   color: $color-white;
+  background-color: #476152;
 }
 
 #EventList.collapse .msg .bod {

@@ -164,13 +164,13 @@
   width: 16px;
   height: 16px;
 }
-.icon-attach {
+.icon-attached {
   background-position: 0 0;
 }
-.icon-reply {
+.icon-replied {
   background-position: 0 -16px;
 }
-.icon-fw {
+.icon-fwd {
   background-position: 0 -32px;
 }
 .badge {
@@ -338,9 +338,10 @@
   left: 0;
   bottom: 0;
   top: 68px;
+  height: calc(100% - 68px);
+  overflow: auto;
   background-color: $color-breeze-50;
   padding: 8px 0;
-  overflow: hidden;
   &.ng-inter {
     animation: appearence .5s;
   }
@@ -408,6 +409,9 @@ a {
   //margin-top: 100px;
 }
 @media screen and (min-width: 990px){
+  .maincontainer {
+    height: 100%;
+  }
   .nst-navbar{
     top: 0;
     position: fixed;
@@ -438,6 +442,10 @@ a {
   height: 122px;
   transition: .3s;
   align-items: center;
+  a {
+    color: $color-solid;
+    font-weight: 100;
+  }
 }
 
 .navbar-bottom {
@@ -516,6 +524,9 @@ a {
   text-align: center;
   cursor: pointer;
   left: 120px;
+  &.active {
+    border-bottom: 1px solid #00b45a ;
+  }
 }
 
 .menu-links-search {
@@ -850,7 +861,13 @@ ul ul li:last-child{
 
 #content-wrapper {
   margin-top: 182px;
-  //overflow: auto;
+  max-height: calc(100% - 182px);
+  min-height: calc(100% - 185px);
+  justify-content: center;
+  display: flex;
+  overflow-y: initial;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .maincontainer.navtiny #content-wrapper{
   margin-top: 132px;
@@ -877,8 +894,6 @@ ul ul li:last-child{
   transition: 0.2s;
   backface-visibility: hidden;
   transform: translateZ(0) scale(1.0, 1.0);
-  height: 200px;
-
   & > div {
     display: inline-flex;
     font-family: open-sans, sans-serif;
@@ -894,6 +909,7 @@ ul ul li:last-child{
     border: 1px solid $color-border;
     position: relative;
     justify-content: space-between;
+    overflow-y: auto;
     .row {
       display: inline-flex;
       flex-direction: row;
@@ -1112,7 +1128,7 @@ ul ul li:last-child{
   background-color: #E7FBF0;
   border: solid 1px $color-border;
   border-top-width: 0;
-  padding: 0 8px;
+  padding: 8px 8px 0 8px;
   z-index: 10;
   transition-duration: .3s;
 }
@@ -1157,7 +1173,7 @@ ul ul li:last-child{
   font-size: 12px;
   font-family: open-sans, sans-serif;
   font-weight: 300;
-  color: $color-solid-30;
+  color: $color-wind;
 }
 .post-card-comment .post-card-comment-input {
   height: 48px;
@@ -1177,6 +1193,21 @@ ul ul li:last-child{
   * Setting Popover
   ******************************
  */
+.popover-white-nst-activity-places + .popover {
+  background: $color-white;
+  border-radius: 6px 0px 6px 6px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+  border-color: $color-breeze;
+  position: absolute;
+  z-index: 35;
+  padding: 0;
+  width: 320px;
+  max-height: 200px;
+  overflow-y: auto;
+  .popover-content {
+    padding: 8px 4px;
+  }
+}
 
 .popover-white-nst-filter + .popover {
   background: $color-white;
@@ -1277,6 +1308,13 @@ input[type="checkbox"]:checked + label.setting {
   background: url('../assets/icons/controls.svg') right  -16px no-repeat
 }
 
+.popup-panel {
+  margin-top: 24px;
+  span {
+    color: $color-breeze;
+    font-size: 10px;
+  }
+}
 /**
   ******************************
   * NST Scrollbar
@@ -1288,4 +1326,11 @@ input[type="checkbox"]:checked + label.setting {
 #content-wrapper>.mCustomScrollBox>.mCSB_container {
   justify-content: center;
   display: flex;
+}
+.mCSB_scrollTools {
+  width: 4px;
+}
+#mCSB_3_scrollbar_vertical {
+  right: 4px;
+  z-index: 20;
 }
