@@ -6,7 +6,7 @@
     .config(routerConfig);
 
   /** @ngInject */
-  function routerConfig($stateProvider, $urlRouterProvider) {
+  function routerConfig($stateProvider, $urlRouterProvider, NST_DEFAULT) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -55,7 +55,7 @@
       .state('place-compose', {
         url: '/compose/:placeId',
         params: {
-          placeId: '_'
+          placeId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/compose/compose.html',
         controller: 'ComposeController',
@@ -64,7 +64,7 @@
       .state('compose-forward', {
         url: '/forward/:postId',
         params: {
-          postId: '_'
+          postId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/compose/compose.html',
         controller: 'ComposeController',
@@ -73,7 +73,7 @@
       .state('compose-reply-all', {
         url: '/reply/:postId',
         params: {
-          postId: '_'
+          postId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/compose/compose.html',
         controller: 'ComposeController',
@@ -82,7 +82,7 @@
       .state('compose-reply-sender', {
         url: '/reply/:postId/sender',
         params: {
-          postId: '_'
+          postId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/compose/compose.html',
         controller: 'ComposeController',
@@ -96,7 +96,7 @@
       .state('place-settings', {
         url: '/places/:placeId/settings',
         params: {
-          placeId: '_'
+          placeId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/places/settings/main.html',
         controller: 'PlaceSettingsController',
@@ -105,7 +105,7 @@
       .state('place-add', {
         url: '/places/:placeId/add',
         params: {
-          placeId: '_'
+          placeId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/places/add/main.html',
         controller: 'PlaceAddController',
@@ -119,7 +119,7 @@
       .state('post', {
         url: '/message/:postId',
         params: {
-          postId: '_'
+          postId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
@@ -145,7 +145,7 @@
       .state('activity-bookmarks-filtered', {
         url: '/activity/bookmarks/:filter',
         params: {
-          filter: '_'
+          filter: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
@@ -154,7 +154,7 @@
       .state('activity-filtered', {
         url: '/activity/:filter',
         params: {
-          filter: '_'
+          filter: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
@@ -163,7 +163,7 @@
       .state('place-activity', {
         url: '/places/:placeId/activity',
         params: {
-          placeId: '_'
+          placeId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
@@ -172,8 +172,8 @@
       .state('place-activity-filtered', {
         url: '/places/:placeId/activity/:filter',
         params: {
-          placeId: '_',
-          filter: '_'
+          placeId: NST_DEFAULT.STATE_PARAM,
+          filter: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
@@ -199,7 +199,7 @@
       .state('messages-bookmarks-sorted', {
         url: '/messages/bookmarks/:sort',
         params: {
-          sort: '_'
+          sort: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
@@ -214,7 +214,7 @@
       .state('messages-sent-sorted', {
         url: '/messages/sent/:sort',
         params: {
-          sort: '_'
+          sort: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
@@ -223,7 +223,7 @@
       .state('messages-sorted', {
         url: '/messages/:sort',
         params: {
-          sort: '_'
+          sort: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
@@ -232,7 +232,7 @@
       .state('place-messages', {
         url: '/places/:placeId/messages',
         params: {
-          placeId: '_'
+          placeId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
@@ -241,8 +241,8 @@
       .state('place-messages-sorted', {
         url: '/places/:placeId/messages/:sort',
         params: {
-          placeId: '_',
-          sort: '_'
+          placeId: NST_DEFAULT.STATE_PARAM,
+          sort: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
@@ -256,7 +256,7 @@
       .state('search', {
         url: '/search/:query',
         params: {
-          query: '_'
+          query: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/search/search.html',
         controller: 'SearchController',

@@ -3,10 +3,10 @@
 
   angular
     .module('nested')
-    .controller('NavbarController', NavbarController);
+    .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function NavbarController($scope, $rootScope, NstSvcAuth, $state, $timeout) {
+  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, $timeout) {
     var vm = this;
     // $scope.$watch('place', function (newValue, oldValue) {
     //   // if (oldValue !== newValue) {
@@ -18,8 +18,7 @@
      *** Controller Properties ***
      *****************************/
     
-    $scope.user = NstSvcAuth.getUser();
-    
+    vm.user = NstSvcAuth.getUser();
 
     $scope.srch = function srch() {
       for (var i = 0; i < arguments.length; i++) {

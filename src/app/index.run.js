@@ -8,7 +8,7 @@
   /** @ngInject */
   function runBlock($rootScope, $uibModal, $window, $timeout,
                     ngProgressFactory,
-                    NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENTS,
+                    NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
                     NstSvcAuth, NstSvcLoader) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
 
@@ -36,11 +36,11 @@
     $rootScope.progress.bar.setHeight('5px');
     // $rootScope.progress.bar.setColor('#14D766');
 
-    NstSvcLoader.addEventListener(NST_LOADER_EVENTS.INJECTED, function () {
+    NstSvcLoader.addEventListener(NST_LOADER_EVENT.INJECTED, function () {
       $rootScope.progress.fn.start();
     });
 
-    NstSvcLoader.addEventListener(NST_LOADER_EVENTS.FINISHED, function (event) {
+    NstSvcLoader.addEventListener(NST_LOADER_EVENT.FINISHED, function (event) {
       if (event.detail.rejected > 0) {
         $rootScope.progress.fn.reset();
       } else {

@@ -89,7 +89,7 @@
           if (qItem.timeoutPromise) {
             $timeout.cancel(qItem.timeoutPromise);
           }
-          // delete this.queue[reqId];
+          delete this.queue[reqId];
 
           switch (data.type) {
             case NST_SRV_MESSAGE_TYPE.RESPONSE:
@@ -231,12 +231,13 @@
         switch (qItem.request.getStatus()) {
           case NST_REQ_STATUS.NOT_SENT:
           case NST_REQ_STATUS.SENT:
-            // delete this.queue[reqId];
+            delete this.queue[reqId];
             break;
 
           case NST_REQ_STATUS.QUEUED:
             if (qItem.timeoutPromise instanceof Promise) {
               $timeout.cancel(qItem.timeoutPromise);
+              delete this.queue[reqId];
             }
             break;
 

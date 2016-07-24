@@ -60,7 +60,21 @@
         });
       }
 
-      return this.requests.get[id];
+      return this.requests.get[id].then(function () {
+        var args = arguments;
+        delete factory.requests.get[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.get[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     /**
@@ -95,7 +109,21 @@
         });
       }
 
-      return this.requests.getTiny[id];
+      return this.requests.getTiny[id].then(function () {
+        var args = arguments;
+        delete factory.requests.getTiny[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.getTiny[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     UserFactory.prototype.set = function (user) {
@@ -185,7 +213,21 @@
         });
       }
 
-      return this.requests.remove[id];
+      return this.requests.remove[id].then(function () {
+        var args = arguments;
+        delete factory.requests.remove[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.remove[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     UserFactory.prototype.parseTinyUser = function (userData) {

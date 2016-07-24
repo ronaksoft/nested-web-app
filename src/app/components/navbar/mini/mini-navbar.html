@@ -1,20 +1,20 @@
 <div id="top-nav-container" ng-show="topNavOpen">
   <div class="top-nav-actions _difh _fw">
-    <a href="{{ctlSidebar.urls.unfiltered}}" class="_df">
+    <a href="{{ctlMiniNavbar.urls.unfiltered}}" class="_df">
       <div class="top-nav-action">
         <div class="icon icon-top-action icon-top-all-place"></div>
       </div>
       <span class="_df">All Places</span>
     </a>
-    <a href="{{ctlSidebar.urls.bookmarks}}"><div class="top-nav-action"><div class="icon icon-top-action icon-top-bookmarks"></div></div><span class="_df">Bookmarks</span></a>
-    <a href="{{ctlSidebar.urls.sent}}"><div class="top-nav-action"><div class="icon icon-top-action icon-top-sent"></div></div><span class="_df">Sent</span></a>
+    <a href="{{ctlMiniNavbar.urls.bookmarks}}"><div class="top-nav-action"><div class="icon icon-top-action icon-top-bookmarks"></div></div><span class="_df">Bookmarks</span></a>
+    <a href="{{ctlMiniNavbar.urls.sent}}"><div class="top-nav-action"><div class="icon icon-top-action icon-top-sent"></div></div><span class="_df">Sent</span></a>
   </div>
   <ul class="top-nav-places _difh _fw">
     <li class="_difc _fw placerow">
       <div class="logo _df">
         <div class="option-add-icon-plc"></div>
       </div>
-      <a class="name _df _fw" href="#/places/_/add">
+      <a class="name _df _fw" href="{{ctlMiniNavbar.urls.placeAdd}}">
         <div class="name _df _fw">
           <div class="_difh">
             <div class="_difv _fw">
@@ -24,7 +24,7 @@
         </div>
       </a>
     </li>
-    <li data-ng-repeat="place in ctlNavTop.places"
-        data-ng-include="'app/components/navbar/place.html'" onload="place = place"></li>
+    <li data-ng-repeat="place in ctlMiniNavbar.places"
+        data-ng-include="'app/components/navbar/mini/place.html'" data-ng-init="place = place"></li>
   </ul>
 </div>

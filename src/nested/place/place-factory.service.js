@@ -14,6 +14,7 @@
         get: {},
         getTiny: {},
         getMine: undefined,
+        getMyTiny: undefined,
         remove: {}
       };
     }
@@ -62,7 +63,21 @@
         });
       }
 
-      return this.requests.get[id];
+      return this.requests.get[id].then(function () {
+        var args = arguments;
+        delete factory.requests.get[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.get[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     /**
@@ -97,7 +112,21 @@
         });
       }
 
-      return this.requests.getTiny[id];
+      return this.requests.getTiny[id].then(function () {
+        var args = arguments;
+        delete factory.requests.getTiny[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.getTiny[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     /**
@@ -177,7 +206,21 @@
         });
       }
 
-      return this.requests.getMine;
+      return this.requests.getMine.then(function () {
+        var args = arguments;
+        factory.requests.getMine = undefined;
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        factory.requests.getMine = undefined;
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     /**
@@ -242,8 +285,8 @@
         return map;
       }
 
-      if (!this.requests.getMine) {
-        this.requests.getMine = $q(function (resolve, reject) {
+      if (!this.requests.getMyTiny) {
+        this.requests.getMyTiny = $q(function (resolve, reject) {
           var placeIds = NstSvcMyPlaceIdStorage.get('tiny');
           if (placeIds) {
             resolveMap(placeIds).then(resolve);
@@ -257,14 +300,28 @@
         });
       }
 
-      return this.requests.getMine;
+      return this.requests.getMyTiny.then(function () {
+        var args = arguments;
+        factory.requests.getMyTiny = undefined;
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        factory.requests.getMyTiny = undefined;
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     PlaceFactory.prototype.search = function (keyword) {
       var factory = this;
       var deferred = $q.defer();
       var query = new NstFactoryQuery(keyword);
-      
+
       NstSvcServer.request('place/search', { keyword: keyword }).then(function (response) {
         var places = [];
         for (var k in response.places) {
@@ -272,13 +329,13 @@
           factory.set(place);
           places.push(place);
         }
-        
+
         deferred.resolve(places);
       }).catch(function(error) {
         // TODO: Handle error by type
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
-      
+
       return deferred.promise;
     };
 
@@ -386,7 +443,21 @@
         });
       }
 
-      return this.requests.remove[id];
+      return this.requests.remove[id].then(function () {
+        var args = arguments;
+        delete factory.requests.remove[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.remove[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     PlaceFactory.prototype.parseTinyPlace = function (placeData) {

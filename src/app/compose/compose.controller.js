@@ -8,8 +8,8 @@
   /** @ngInject */
   function ComposeController($q, $location, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,
-                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN,
-                             NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
+                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT,
+                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
                              NstStoreResource, NstPost, NstPlace, NstVmPlace, NstVmSelectTag, NestedRecipient) {
     var vm = this;
 
@@ -17,17 +17,14 @@
      *** Controller Properties ***
      *****************************/
 
-    vm.load = {
-      providers: [],
-      handlers: []
-    };
-
     vm.model = {
       recipients: [],
       subject: '',
       attachments: [],
-      body: ''
+      body: '',
+      ready: false
     };
+
 
     vm.search = {
       results: []
@@ -79,14 +76,17 @@
       var isPlaceId = 0 == text.split('.').filter(function (v, i) {
           return !(0 == i ? NST_PATTERN.GRAND_PLACE_ID.test(v) : NST_PATTERN.SUB_PLACE_ID.test(v));
       }).length;
-      var isEmail = NestedRecipient.isValidEmail(text);
+      var isEmail = NST_PATTERN.EMAIL.test(text);
+
       if (isPlaceId) {
         var tag = new NstVmSelectTag({
           id: text,
           name: text,
           data: NstSvcPlaceFactory.get(text).then(function (place) {
-            tag.name = place.getName();
-            tag.data = place;
+            $timeout(function () {
+              tag.name = place.getName();
+              tag.data = place;
+            });
           }).catch(function () {
             tag.isTag = false;
           })
@@ -123,26 +123,67 @@
     switch ($state.current.name) {
       case 'place-compose':
         if ($stateParams.placeId) {
-          if ('_' == $stateParams.placeId) {
+          if (NST_DEFAULT.STATE_PARAM == $stateParams.placeId) {
             $state.go('compose');
           } else {
-            // TODO: Fill vm.model.recipients
-            vm.load.providers.push(getPlace($stateParams.placeId));
-            vm.load.handlers.push(function (place) {
+            getPlace($stateParams.placeId).then(function (place) {
               // FIXME: Push Compose Recipient View Model Instead
               vm.model.recipients.push(new NstVmPlace(place));
-              console.log(vm.model.recipients);
             });
+          }
+        }
+        break;
+
+      case 'compose-forward':
+        if ($stateParams.postId) {
+          if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
+            $state.go('compose');
+          } else {
+            getPost($stateParams.postId).then(function (post) {
+              vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
+              vm.model.body = post.getBody();
+              vm.model.attachments = post.getAttachments();
+            });
+          }
+        }
+        break;
+
+      case 'compose-reply-all':
+        if ($stateParams.postId) {
+          if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
+            $state.go('compose');
+          } else {
+            getPost($stateParams.postId).then(function (post) {
+              vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
+              var places = post.getPlaces();
+              for (var k in places) {
+                // FIXME: Push Compose Recipient View Model Instead
+                vm.model.recipients.push(new NstVmPlace(places[k]));
+              }
+            });
+          }
+        }
+        break;
+
+      case 'compose-reply-sender':
+        if ($stateParams.postId) {
+          if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
+            $state.go('compose');
+          } else {
+            getPost($stateParams.postId).then(function (post) {
+              vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
+
+              return getPlace(post.getSender().getId()).then(function (place) {
+                vm.model.recipients.push(new NstVmPlace(place));
+              });
+            })
           }
         }
         break;
     }
 
-    $q.all(vm.load.providers).then(function (resolvedSet) {
-      console.log(resolvedSet);
-      for (var k in resolvedSet) {
-        vm.load.handlers[k].call(this, resolvedSet[k]);
-      }
+    NstSvcLoader.finished().then(function () {
+      console.log(vm.model);
     });
 
     /*****************************
@@ -154,7 +195,27 @@
      *****************************/
 
     function getPlace(id) {
-      return NstSvcLoader.inject(NstSvcPlaceFactory.get(id));
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
+        return NstSvcPlaceFactory.get(id).catch(function (error) {
+          var deferred = $q.defer();
+
+          switch (error.getPrevious().getCode()) {
+            case NST_SRV_ERROR.TIMEOUT:
+              deferred.reject.apply(null, arguments);
+              break;
+
+            default:
+              deferred.resolve(NstSvcPlaceFactory.parseTinyPlace({ _id: id }));
+              break;
+          }
+
+          return deferred.promise;
+        })
+      }));
+    }
+
+    function getPost(id) {
+      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPostFactory.get(id) }));
     }
 
     /*****************************
@@ -206,43 +267,6 @@
     vm.post = new NstPost();
     // TODO : attachment preview should be enabled in compose page, Why model controls attachmentPreview??
     vm.post.attachmentPreview = true;
-    if ($stateParams.relation && $stateParams.relation.indexOf(':') > -1) {
-      var relation = $stateParams.relation.split(':');
-      switch (relation.shift()) {
-        case 'fw':
-          vm.post.forwarded = new NstPost();
-          vm.post.forwarded.attachmentPreview = true;
-          vm.post.forwarded.load(relation.join('')).then(function (post) {
-            $scope.compose.post.subject = 'FW: ' + post.subject;
-            $scope.compose.post.body = post.body;
-            $scope.compose.post.attachments = post.attachments;
-            $scope.attachshow = $scope.compose.post.attachments.length > 0;
-          });
-          break;
-
-        case 'ra':
-          vm.post.replyTo = new NstPost();
-          vm.post.replyTo.attachmentPreview = true;
-
-          vm.post.replyTo.load(relation.join('')).then(function (post) {
-            $scope.compose.post.subject = 'RE: ' + post.subject;
-            $scope.compose.post.places = post.places;
-            $scope.compose.recipients = post.places.concat(post.recipients);
-          });
-          break;
-
-        case 'rs':
-          vm.post.replyTo = new NstPost();
-          vm.post.replyTo.attachmentPreview = true;
-          vm.post.replyTo.load(relation.join('')).then(function (post) {
-            $scope.compose.post.subject = 'RE: ' + post.subject;
-            $scope.compose.post.places.push(new NstPlace(post.sender.username));
-            $scope.compose.recipients = $scope.compose.post.places;
-          });
-          break;
-      }
-    }
-
     $scope.attachshow = false;
     $scope.showUploadProgress = false;
 

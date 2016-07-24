@@ -11,7 +11,7 @@
     <a ng-if="topNavOpen" href="#/signout"><div class="icon icon-top signout-icon _df"></div></a>
   </div>
 </div>
-<nested-navbar-top></nested-navbar-top>
+<nested-mini-navbar></nested-mini-navbar>
 <div class="nst-navbar _df">
   <div class="nst-content">
     <div class="content">
@@ -28,13 +28,13 @@
         </div> -->
         <div class="title-bar _difh _fw" ng-if="true">
           <div class="logo-bar _df">
-            <div ng-if="!ctlNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
-            <img ng-if="ctlNavbar.hasPlace()" initials="ctlNavbar.getPlaceName()" data-url="ctlNavbar.getPlacePicture()" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
+            <div ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
+            <img ng-if="ctlFullNavbar.hasPlace()" initials="ctlFullNavbar.getPlaceName()" data-url="ctlFullNavbar.getPlacePicture()" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
                  data-font-size="16"/>
           </div>
           <div class="name _fw _difv _jcc">
-            <a class="_df _tr">{{ctlNavbar.getPlaceName()}}</a>
-            <span class="nst-mood-storm _df _tr" ng-if="ctlNavbar.hasPlace()">{{ctlNavbar.getPlaceId()}}@nested.me</span>
+            <a class="_df _tr">{{ctlFullNavbar.getPlaceName()}}</a>
+            <span class="nst-mood-storm _df _tr" ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceId()}}@nested.me</span>
           </div>
         </div>
       </div>
@@ -45,14 +45,14 @@
             <div ng-click="srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
-          <div class="menu-links-btn _dib li-hover" ng-class="messages ? 'active' : null">
-            <a href="" ng-click="ctlNavbar.navigateMessages()">Messages</a>
+          <div class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isMessages ? 'active' : null">
+            <a href="" ng-click="ctlFullNavbar.navigateMessages()">Messages</a>
           </div>
-          <div class="menu-links-btn _dib li-hover" ng-class="events ? 'active' : null">
-            <a href="" ng-click="ctlNavbar.navigateActivity()">Activity</a>
+          <div class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isActivity ? 'active' : null">
+            <a href="" ng-click="ctlFullNavbar.navigateActivity()">Activity</a>
           </div>
-          <div ng-if="ctlNavbar.hasPlace()" class="menu-links-btn _dib li-hover"  ng-class="options ? 'active' : null">
-            <a href="" ng-click="ctlNavbar.navigateSettings()">Settings</a>
+          <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isPlaceSettings ? 'active' : null">
+            <a href="" ng-click="ctlFullNavbar.navigateSettings()">Settings</a>
           </div>
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">
@@ -131,7 +131,7 @@
           <a href="javascript:void(0);" class="_fr btn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
         </div>
         <div class="_df _fn">
-          <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">Send</a>
+          <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="ctlCompose.send()" data-ng-disabled="!ctlCompose.model.ready">Send</a>
         </div>
       </div>
 
@@ -152,8 +152,6 @@
           </a>
         </div>
       </div>
-
-
     </div>
     <div class="content-plus">
     </div>

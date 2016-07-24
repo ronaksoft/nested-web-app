@@ -3,16 +3,10 @@
 
   angular
     .module('nested')
-    .constant('NST_LOADER_EVENTS', {
-      FINISHED: '__finished',
-      INJECTED: '__injected'
-    })
     .service('NstSvcLoader', NstSvcLoader);
 
   /** @ngInject */
-  function NstSvcLoader($q,
-                        NST_LOADER_EVENTS,
-                        NstObservableObject) {
+  function NstSvcLoader($q, NST_LOADER_EVENT, NstObservableObject) {
     function Loader() {
       this.isFinished = true;
       this.fnQs = [];
@@ -49,7 +43,7 @@
       }.bind(this));
 
       this.promises.push(bindedPromise);
-      this.dispatchEvent(new CustomEvent(NST_LOADER_EVENTS.INJECTED, { detail: { promise: bindedPromise } }));
+      this.dispatchEvent(new CustomEvent(NST_LOADER_EVENT.INJECTED, { detail: { promise: bindedPromise } }));
 
       // TODO: What if returning the promise itself?
       return bindedPromise;
@@ -90,7 +84,7 @@
 
       if (this.counter.injected == this.counter.resolved + this.counter.rejected) {
         this.isFinished = true;
-        this.dispatchEvent(new CustomEvent(NST_LOADER_EVENTS.FINISHED, {
+        this.dispatchEvent(new CustomEvent(NST_LOADER_EVENT.FINISHED, {
           detail: {
             promises: this.promises,
             injected: this.counter.injected,

@@ -3,14 +3,19 @@
 
   angular
     .module('nested')
-    .controller('SidebarController', SidebarController);
+    .controller('MiniNavbarController', MiniNavbarController);
 
   /** @ngInject */
-  function SidebarController($q, $state, $stateParams, $uibModal,
-                             NST_AUTH_EVENT,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
-                             NstVmUser, NstVmPlace, NstVmInvitation) {
+  function MiniNavbarController($q, $state, $stateParams, $uibModal,
+                                NST_AUTH_EVENT, NST_DEFAULT,
+                                NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                                NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
+    // $scope.$watch('place', function (newValue, oldValue) {
+    //   // if (oldValue !== newValue) {
+    //   //   vm.place = newValue;
+    //   // }
+    // });
 
     /*****************************
      *** Controller Properties ***
@@ -20,10 +25,10 @@
     vm.invitation = {};
     vm.urls = {
       unfiltered: $state.href(getUnfilteredState()),
-      compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || '_' }),
+      compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
       bookmarks: $state.href(getBookmarksState()),
       sent: $state.href(getSentState()),
-      placeAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || '_' })
+      placeAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
     };
 
     /*****************************
@@ -70,17 +75,37 @@
       });
     };
 
+    vm.getPlaceName = function () {
+      if (vm.hasPlace()){
+        return $scope.place.name;
+      } else {
+        return 'All Places';
+      }
+    };
+
+    vm.getPlaceId = function () {
+      if (vm.hasPlace()){
+        return $scope.place.id;
+      } else {
+        return '';
+      }
+    };
+
+    vm.getPlacePicture = function () {
+      if (vm.hasPlace()){
+        return $scope.place.picture.thumbnails.x64.url.view;
+      } else {
+        return '';
+      }
+    };
+
+    vm.hasPlace = function () {
+      return $scope.place && $scope.place.id;
+    };
+
     /*****************************
      *****  Controller Logic  ****
      *****************************/
-
-    if (vm.stateParams.placeId) {
-      if ('_' == vm.stateParams.placeId) {
-        $state.go(getUnfilteredState());
-      } else {
-        vm.stateParams.placeIdSplitted = vm.stateParams.placeId.split('.');
-      }
-    }
 
     $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
       vm.user = mapUser(resolvedSet[0]);
@@ -91,8 +116,6 @@
     /*****************************
      *****    State Methods   ****
      *****************************/
-
-    // TODO: Move these to Common Service
 
     function getUnfilteredState() {
       var state = 'messages';
@@ -171,6 +194,7 @@
             res(NstSvcAuth.getUser());
           });
         }
+
       }));
     }
 

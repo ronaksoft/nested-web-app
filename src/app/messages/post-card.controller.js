@@ -266,7 +266,7 @@
           var commentId = e.detail.timeline_data.comment_id.$oid;
           if (vm.post.id === postId) {
             var post = NstSvcPostFactory.get(postId).then(function (post) {
-              commentIndex = _.findIndex(post.comments, function (comment) {
+              var commentIndex = _.findIndex(post.comments, function (comment) {
                 return comment.id === commentId;
               });
               if (commentIndex) {

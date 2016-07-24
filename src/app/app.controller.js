@@ -72,8 +72,8 @@
 
     if (NstSvcAuth.isInAuthorization()) {
       $state.go(NST_DEFAULT.STATE);
-
     } else {
+      // TODO: Handle this via $state
       var previousLocation = $location.path();
       if (previousLocation === '/signin') {
         previousLocation = '';

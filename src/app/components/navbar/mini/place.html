@@ -17,7 +17,8 @@
     </div>
   </a>
   <div class="_df placearrow" data-ng-if="place.children.length > 0">
-    <div class="arrow-holder-places" data-ng-click="place.isCollapsed =! place.isCollapsed" data-ng-model="colp" role="button" tabindex="0" aria-hidden="false" aria-invalid="false">
+    <div class="arrow-holder-places" data-ng-click="place.isCollapsed =! place.isCollapsed"
+         data-ng-model="colp" role="button" tabindex="0" aria-hidden="false" aria-invalid="false">
       <label class="label-position-places {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"></label>
     </div>
   </div>
@@ -25,6 +26,6 @@
 <li data-ng-if="place.children.length > 0" data-ng-show="!place.isCollapsed">
   <ul class="top-nav-places _difh _fw" >
     <li data-ng-repeat="child in place.children"
-        data-ng-include="'app/components/navbar/place.html'" onload="place = child"></li>
+        data-ng-include="'app/components/navbar/mini/place.html'" onload="place = child"></li>
   </ul>
 </li>
