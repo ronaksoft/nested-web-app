@@ -257,7 +257,7 @@
 }
 
 .more-tag {
-  background-color: $color-solid;
+  background-color: #8AEBB4;
   text-align: center;
   left:5px;
   cursor: pointer;
@@ -267,7 +267,7 @@
   flex:none;
 }
 .more-tag a{
-  color: $color-white;
+  color: #476152;
   font-size: $font-size-xsmall;
   white-space: nowrap;
   padding: 2px 8px;
@@ -275,6 +275,7 @@
 }
 .more-tag:hover {
   color: $color-white;
+  background-color: #476152;
 }
 
 #EventList.collapse .msg .bod {

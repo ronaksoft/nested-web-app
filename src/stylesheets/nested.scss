@@ -1163,8 +1163,13 @@ a .ui-select-choises-row-inner {
   cursor: pointer;
 }
 .maincontainer.sidetiny .onlyExpand, .maincontainer.sidetiny .side-menu-item .item,.maincontainer.sidetiny .lines {
-  display: none;
+  width : 0;
+  flex: none;
+  overflow: hidden;
   transition: .3s;
+  a{
+    white-space: nowrap;
+  }
 }
 .side-menu-item:hover{
 
@@ -1180,12 +1185,15 @@ a .ui-select-choises-row-inner {
   height: 100%;
   //height: calc(100% - 420px);
 }
-.side-place-wrapper {
+.side-wrapper {
   z-index: 1;
-  margin-bottom: 96px;
-  margin-top: 112px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  //margin-bottom: 96px;
+  //margin-top: 112px;
+  top: 112px;
+  left: 0;
+  bottom: -96px;
+  max-height: 100%;
+  height: calc(100% - 210px);
 }
 .side-place-wrapper a{
   text-decoration: none;
@@ -1844,14 +1852,20 @@ a.normal-badge {
 //}
 
 .small-badge {
-  background-color: $color-badge;
+  background-color: #CED9D3;
   border-radius: 40px;
   flex: none;
   align-items: center;
 
 }
+.small-badge:hover {
+  background-color: #476152;
+  a {
+    color: $color-white;
+  }
+}
 .small-badge a{
-  color: $color-solid;
+  color: #476152;
   margin: 0 8px;
   font-size: 11px;
   white-space: nowrap;
