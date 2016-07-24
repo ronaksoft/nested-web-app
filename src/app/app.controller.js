@@ -9,6 +9,31 @@
   function AppController($rootScope, $timeout, $state, $location, NstSvcAuth, NST_DEFAULT) {
     var vm = this;
 
+    /*****************************
+     *** Controller Properties ***
+     *****************************/
+
+    vm.page = {
+      isActivity: [
+        'activity',
+        'activity-bookmarks',
+        'activity-bookmarks-filtered',
+        'activity-filtered',
+        'place-activity',
+        'place-activity-filtered'
+      ].indexOf($state.current.name) > -1,
+      isMessages: [
+        'messages',
+        'messages-bookmarks',
+        'messages-bookmarks-sorted',
+        'messages-sent',
+        'messages-sent-sorted',
+        'messages-sorted',
+        'place-messages',
+        'place-messages-sorted'
+      ].indexOf($state.current.name) > -1
+    };
+
     vm.navView = false;
 
     // FIXME: NEEDS REWRITE COMPLETELY

@@ -8,9 +8,9 @@
   /** @ngInject */
   function ComposeController($q, $location, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,
-                             ATTACHMENT_STATUS, NST_SRV_ERROR,
+                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
-                             NstStoreResource, NstPost, NstPlace, NstVmPlace, NestedRecipient) {
+                             NstStoreResource, NstPost, NstPlace, NstVmPlace, NstVmSelectTag, NestedRecipient) {
     var vm = this;
 
     /*****************************
@@ -74,9 +74,34 @@
       });
     };
 
-    vm.recipients.isValid = function (text) {
-      // FIXME: To use new class and also check for hidden places. Return View Model
-      return NestedRecipient.isValidEmail(text) ? new NestedRecipient(text) : null;
+    vm.recipients.tagger = function (text) {
+      // FIXME: To use new class and also check for hidden places
+      var isPlaceId = 0 == text.split('.').filter(function (v, i) {
+          return !(0 == i ? NST_PATTERN.GRAND_PLACE_ID.test(v) : NST_PATTERN.SUB_PLACE_ID.test(v));
+      }).length;
+      var isEmail = NestedRecipient.isValidEmail(text);
+      if (isPlaceId) {
+        var tag = new NstVmSelectTag({
+          id: text,
+          name: text,
+          data: NstSvcPlaceFactory.get(text).then(function (place) {
+            tag.name = place.getName();
+            tag.data = place;
+          }).catch(function () {
+            tag.isTag = false;
+          })
+        });
+
+        return tag;
+      } else if (isEmail) {
+        return new NstVmSelectTag({
+          id: text,
+          name: text,
+          data: new NestedRecipient(text)
+        });
+      }
+
+      return new NstVmSelectTag();
     };
 
     vm.attachments.attach = function () {
