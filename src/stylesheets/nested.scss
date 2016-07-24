@@ -986,7 +986,7 @@ a .ui-select-choises-row-inner {
   display: flex;
   position: relative;
   flex-direction: column;
-  height: calc(100% - 50px);
+  min-height: calc(100% - 50px);
   z-index: 10;
 }
 .body {

@@ -1292,6 +1292,13 @@ input[type="checkbox"]:checked + label.setting {
   background: url('../assets/icons/controls.svg') right  -16px no-repeat
 }
 
+.popup-panel {
+  margin-top: 24px;
+  span {
+    color: $color-breeze;
+    font-size: 10px;
+  }
+}
 /**
   ******************************
   * NST Scrollbar

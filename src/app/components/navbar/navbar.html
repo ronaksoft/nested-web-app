@@ -45,13 +45,13 @@
             <div ng-click="srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
-          <div class="menu-links-btn _dib li-hover" ng-class="messages ? 'selected' : null">
+          <div class="menu-links-btn _dib li-hover" ng-class="messages ? 'active' : null">
             <a href="" ng-click="ctlNavbar.navigateMessages()">Messages</a>
           </div>
-          <div class="menu-links-btn _dib li-hover" ng-class="events ? 'selected' : null">
+          <div class="menu-links-btn _dib li-hover" ng-class="events ? 'active' : null">
             <a href="" ng-click="ctlNavbar.navigateActivity()">Activity</a>
           </div>
-          <div ng-if="ctlNavbar.hasPlace()" class="menu-links-btn _dib li-hover"  ng-class="options ? 'selected' : null">
+          <div ng-if="ctlNavbar.hasPlace()" class="menu-links-btn _dib li-hover"  ng-class="options ? 'active' : null">
             <a href="" ng-click="ctlNavbar.navigateSettings()">Settings</a>
           </div>
         </div>

@@ -19,7 +19,7 @@
 
         <section class="_fw nst-content-body _bgwhite">
           <div class="_fw eventsody _bgwhite" id="EventList">
-            <div class="sender">
+            <div class="actdate" ng-if="ctlActivity.acts.thisYear.thisMonth.today.hasAnyItem">
               <p class="nst-mood-simple">
                 <span class="">Today</span>
               </p>
@@ -27,7 +27,7 @@
             <activity-item data-ng-repeat="act in ctlActivity.acts.thisYear.thisMonth.today.items" model="act" extended="ctlActivity.extended"></activity-item>
 
             <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
-              <div class="sender">
+              <div class="actdate">
                 <p class="nst-mood-simple">
                   <span class="ng-binding ng-scope">{{value.date}}</span>
                 </p>
@@ -35,7 +35,7 @@
                 <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
             </div>
             <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
-              <div class="sender">
+              <div class="actdate">
                 <p class="nst-mood-simple">
                   <span class="ng-binding ng-scope">{{value.date}}</span>
                 </p>
@@ -43,7 +43,7 @@
               <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
             </div>
             <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
-              <div class="sender">
+              <div class="actdate">
                 <p class="nst-mood-simple">
                   <span class="ng-binding ng-scope">{{value.date}}</span>
                 </p>
