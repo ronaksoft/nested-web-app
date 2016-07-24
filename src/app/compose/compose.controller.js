@@ -173,6 +173,7 @@
             getPost($stateParams.postId).then(function (post) {
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
 
+              // TODO: First search in post places to find a match then try to get from factory
               return getPlace(post.getSender().getId()).then(function (place) {
                 vm.model.recipients.push(new NstVmPlace(place));
               });
@@ -201,10 +202,12 @@
 
           switch (error.getPrevious().getCode()) {
             case NST_SRV_ERROR.TIMEOUT:
+              // Keep Retrying
               deferred.reject.apply(null, arguments);
               break;
 
             default:
+              // Do not retry anymore
               deferred.resolve(NstSvcPlaceFactory.parseTinyPlace({ _id: id }));
               break;
           }
