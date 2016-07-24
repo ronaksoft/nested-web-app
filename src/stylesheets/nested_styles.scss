@@ -338,9 +338,10 @@
   left: 0;
   bottom: 0;
   top: 68px;
+  height: calc(100% - 68px);
+  overflow: auto;
   background-color: $color-breeze-50;
   padding: 8px 0;
-  overflow: hidden;
   &.ng-inter {
     animation: appearence .5s;
   }
@@ -1192,6 +1193,21 @@ ul ul li:last-child{
   * Setting Popover
   ******************************
  */
+.popover-white-nst-activity-places + .popover {
+  background: $color-white;
+  border-radius: 6px 0px 6px 6px;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+  border-color: $color-breeze;
+  position: absolute;
+  z-index: 35;
+  padding: 0;
+  width: 320px;
+  max-height: 200px;
+  overflow-y: auto;
+  .popover-content {
+    padding: 8px 4px;
+  }
+}
 
 .popover-white-nst-filter + .popover {
   background: $color-white;

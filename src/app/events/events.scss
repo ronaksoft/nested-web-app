@@ -146,9 +146,6 @@
   background-color: #E7FBF0;
 }
 .evrow.seen {
-  -webkit-animation: seen-event 3s ease-out;
-  -moz-animation:    seen-event 3s ease-out;
-  -o-animation:      seen-event 3s ease-out;
   animation:         seen-event 3s ease-out;
 }
 
@@ -169,7 +166,7 @@
   display: inline-flex;
   animation: app-tr .5s ease-out;
 }
-.actcon *{
+.actcon > *{
   animation: off-right .1s ease-out;
 }
 .actdes {

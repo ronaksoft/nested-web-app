@@ -202,7 +202,13 @@
     }
 
 
-
+    vm.scroll = function (event) {
+      var element = event.currentTarget;
+      if (element.scrollTop + element.clientHeight === element.scrollHeight) {
+        $log.debug("load more");
+        vm.loadMore();
+      }
+    };
     /* FIXME: NEEDS REWRITE COMPLETELY
     vm.scroll = {
       callbacks: {
