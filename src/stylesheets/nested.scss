@@ -75,7 +75,6 @@ body {
   padding: 0;
   box-sizing: border-box;
   min-width: 600px;
-  overflow: hidden;
   height: 100%;
   min-height: 100vh;
 }
@@ -1191,15 +1190,16 @@ a .ui-select-choises-row-inner {
   height: 100%;
   //height: calc(100% - 420px);
 }
-.side-wrapper {
+.side-place-wrapper {
   z-index: 1;
-  //margin-bottom: 96px;
-  //margin-top: 112px;
-  top: 112px;
+  margin-bottom: 96px;
+  margin-top: 112px;
+  //top: 112px;
   left: 0;
-  bottom: -96px;
+  //bottom: -96px;
   max-height: 100%;
-  height: calc(100% - 210px);
+  min-height: calc(100% - 210px);
+  overflow: auto;
 }
 .side-place-wrapper a{
   text-decoration: none;

@@ -1,9 +1,9 @@
-<div class="maincontainer _fw _fh ng-class:{ 'tiny': sideView }">
+<div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : sideView}" >
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
   <div class="nst-container">
     <nested-navbar data-ng-model="navbar" place="ctlActivity.currentPlace"></nested-navbar>
 
-    <div class="nst-content _tr" id="content-wrapper" ng-scrollbars>
+    <div class="nst-content _tr" id="content-wrapper">
       <section class="_fw nst-content-body _bgwhite">
         <div class="filter-bar  _fw">
           <div class="iconsblock popover-white-nst-filter" uib-popover-template="'app/events/partials/popovers/filter_popover.html'" data-popover-placement="bottom-center"

@@ -203,7 +203,7 @@
 
 
 
-    // FIXME: NEEDS REWRITE COMPLETELY
+    /* FIXME: NEEDS REWRITE COMPLETELY
     vm.scroll = {
       callbacks: {
         whileScrolling:function(){
@@ -231,7 +231,7 @@
         onTotalScrollOffset:10,
         alwaysTriggerOffsets:false
       }
-    };
+    };*/
 
   }
 

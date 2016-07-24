@@ -408,6 +408,9 @@ a {
   //margin-top: 100px;
 }
 @media screen and (min-width: 990px){
+  .maincontainer {
+    height: 100%;
+  }
   .nst-navbar{
     top: 0;
     position: fixed;
@@ -438,6 +441,10 @@ a {
   height: 122px;
   transition: .3s;
   align-items: center;
+  a {
+    color: $color-solid;
+    font-weight: 100;
+  }
 }
 
 .navbar-bottom {
@@ -516,6 +523,9 @@ a {
   text-align: center;
   cursor: pointer;
   left: 120px;
+  &.active {
+    border-bottom: 1px solid #00b45a ;
+  }
 }
 
 .menu-links-search {
@@ -850,8 +860,13 @@ ul ul li:last-child{
 
 #content-wrapper {
   margin-top: 182px;
-  height: 100%;
-  //overflow: auto;
+  max-height: calc(100% - 182px);
+  min-height: calc(100% - 185px);
+  justify-content: center;
+  display: flex;
+  overflow-y: initial;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .maincontainer.navtiny #content-wrapper{
   margin-top: 132px;
@@ -878,8 +893,6 @@ ul ul li:last-child{
   transition: 0.2s;
   backface-visibility: hidden;
   transform: translateZ(0) scale(1.0, 1.0);
-  height: 200px;
-
   & > div {
     display: inline-flex;
     font-family: open-sans, sans-serif;
@@ -895,6 +908,7 @@ ul ul li:last-child{
     border: 1px solid $color-border;
     position: relative;
     justify-content: space-between;
+    overflow-y: auto;
     .row {
       display: inline-flex;
       flex-direction: row;
@@ -1113,7 +1127,7 @@ ul ul li:last-child{
   background-color: #E7FBF0;
   border: solid 1px $color-border;
   border-top-width: 0;
-  padding: 0 8px;
+  padding: 8px 8px 0 8px;
   z-index: 10;
   transition-duration: .3s;
 }
