@@ -52,6 +52,15 @@
         controller: 'ComposeController',
         controllerAs: 'ctlCompose'
       })
+      .state('place-compose', {
+        url: '/compose/:placeId',
+        params: {
+          placeId: '_'
+        },
+        templateUrl: 'app/compose/compose.html',
+        controller: 'ComposeController',
+        controllerAs: 'ctlCompose'
+      })
       .state('compose-forward', {
         url: '/forward/:postId',
         params: {

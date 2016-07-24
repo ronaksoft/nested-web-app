@@ -6,29 +6,144 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($location, $scope, $log, $uibModal, $stateParams, $state, $timeout,
+  function ComposeController($q, $location, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,
-                             ATTACHMENT_STATUS, NST_SRV_ERROR,
-                             NstSvcAuth, NstSvcAttachmentFactory, NstSvcServer, NstSvcStore,
-                             NstStoreResource, NstPost, NstPlace, NestedRecipient) {
+                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN,
+                             NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
+                             NstStoreResource, NstPost, NstPlace, NstVmPlace, NstVmSelectTag, NestedRecipient) {
     var vm = this;
 
     /*****************************
      *** Controller Properties ***
      *****************************/
 
+    vm.load = {
+      providers: [],
+      handlers: []
+    };
+
+    vm.model = {
+      recipients: [],
+      subject: '',
+      attachments: [],
+      body: ''
+    };
+
+    vm.search = {
+      results: []
+    };
+
+    vm.recipients = {
+    };
+
+    vm.attachments = {
+    };
+
+    vm.configs = {
+      tinymce: {
+        inline: false,
+        // fixed_toolbar_container: '.nst-compose-message',
+        statusbar: false,
+        trusted: true,
+        menubar: false,
+        browser_spellcheck: true,
+        selector: 'textarea',
+        height : 600,
+        plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons',
+        // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
+        // contextmenu_never_use_native: true,
+        toolbar: 'bold italic underline strikethrough | alignleft aligncenter aligncenter alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
+        skin: 'lightgray',
+        theme : 'modern'
+      }
+    };
+
     /*****************************
      ***** Controller Methods ****
      *****************************/
+
+    vm.configs.tinymce.onChange = function (event) {
+      // Put logic here for keypress and cut/paste changes
+    };
+
+    vm.search.fn = function (query) {
+      return NstSvcPlaceFactory.search(query).then(function (places) {
+        vm.search.results = places.map(function (place) {
+          return new NstVmPlace(place);
+        });
+      });
+    };
+
+    vm.recipients.tagger = function (text) {
+      // FIXME: To use new class and also check for hidden places
+      var isPlaceId = 0 == text.split('.').filter(function (v, i) {
+          return !(0 == i ? NST_PATTERN.GRAND_PLACE_ID.test(v) : NST_PATTERN.SUB_PLACE_ID.test(v));
+      }).length;
+      var isEmail = NestedRecipient.isValidEmail(text);
+      if (isPlaceId) {
+        var tag = new NstVmSelectTag({
+          id: text,
+          name: text,
+          data: NstSvcPlaceFactory.get(text).then(function (place) {
+            tag.name = place.getName();
+            tag.data = place;
+          }).catch(function () {
+            tag.isTag = false;
+          })
+        });
+
+        return tag;
+      } else if (isEmail) {
+        return new NstVmSelectTag({
+          id: text,
+          name: text,
+          data: new NestedRecipient(text)
+        });
+      }
+
+      return new NstVmSelectTag();
+    };
+
+    vm.attachments.attach = function () {
+
+    };
+
+    vm.attachments.detach = function () {
+
+    };
+
+    vm.send = function () {
+      var post = NstSvcPostFactory.createPostModel();
+    };
 
     /*****************************
      *****  Controller Logic  ****
      *****************************/
 
-    if (!NstSvcAuth.isInAuthorization()) {
-      $location.search({back: $location.path()});
-      $location.path('/signin').replace();
+    switch ($state.current.name) {
+      case 'place-compose':
+        if ($stateParams.placeId) {
+          if ('_' == $stateParams.placeId) {
+            $state.go('compose');
+          } else {
+            // TODO: Fill vm.model.recipients
+            vm.load.providers.push(getPlace($stateParams.placeId));
+            vm.load.handlers.push(function (place) {
+              // FIXME: Push Compose Recipient View Model Instead
+              vm.model.recipients.push(new NstVmPlace(place));
+              console.log(vm.model.recipients);
+            });
+          }
+        }
+        break;
     }
+
+    $q.all(vm.load.providers).then(function (resolvedSet) {
+      console.log(resolvedSet);
+      for (var k in resolvedSet) {
+        vm.load.handlers[k].call(this, resolvedSet[k]);
+      }
+    });
 
     /*****************************
      *****    State Methods   ****
@@ -38,6 +153,10 @@
      *****    Fetch Methods   ****
      *****************************/
 
+    function getPlace(id) {
+      return NstSvcLoader.inject(NstSvcPlaceFactory.get(id));
+    }
+
     /*****************************
      *****     Map Methods    ****
      *****************************/
@@ -45,28 +164,6 @@
     /*****************************
      *****    Other Methods   ****
      *****************************/
-
-    //$scope.tinymceModel = 'Initial content';
-    $scope.tinymceOptions = {
-      onChange: function(e) {
-        // put logic here for keypress and cut/paste changes
-      },
-      inline: false,
-      //fixed_toolbar_container: '.nst-compose-message',
-      statusbar: false,
-      trusted: true,
-      menubar: false,
-      browser_spellcheck: true,
-      selector: 'textarea',
-      height : 600,
-      plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons',
-      //contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
-      //contextmenu_never_use_native: true,
-      toolbar: 'bold italic underline strikethrough | alignleft aligncenter aligncenter alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
-      skin: 'lightgray',
-      theme : 'modern'
-    };
-
 
     $scope.sendStatus = false;
     $scope.checkfilling = function () {
@@ -104,17 +201,6 @@
     $scope.upload_size = {
       uploaded: 0,
       total: 0
-    };
-
-    vm.places = [];
-    vm.recipients = [];
-    vm.search = function (query) {
-      NstSvcServer.request('place/search', {keyword: query}).then(function (data) {
-        $scope.compose.places = [];
-        for (var k in data.places) {
-          $scope.compose.places.push(new NstPlace(data.places[k]));
-        }
-      });
     };
 
     vm.post = new NstPost();
@@ -156,10 +242,6 @@
           break;
       }
     }
-
-    vm.recipientMaker = function (text) {
-      return NestedRecipient.isValidEmail(text) ? new NestedRecipient(text) : null;
-    };
 
     $scope.attachshow = false;
     $scope.showUploadProgress = false;

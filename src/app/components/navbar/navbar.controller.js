@@ -14,6 +14,10 @@
     //   // }
     // });
 
+    /*****************************
+     *** Controller Properties ***
+     *****************************/
+    
     $scope.user = NstSvcAuth.getUser();
     
 

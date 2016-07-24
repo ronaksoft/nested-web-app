@@ -52,7 +52,7 @@
         for (var k in data) {
           var value = data[k];
           if (angular.isObject(value)) {
-            value = angular.extend(this.get(k), value);
+            value = angular.extend(this.get(k) || {}, value);
           } else if (angular.isArray(value)) {
             value = (this.get(k) || []).concat(value);
           }

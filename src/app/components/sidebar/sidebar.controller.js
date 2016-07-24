@@ -19,6 +19,7 @@
     vm.stateParams = $stateParams;
     vm.urls = {
       unfiltered: $state.href(getUnfilteredState()),
+      compose: $state.href(getComposeState(), { placeId: $stateParams.placeId || '_' }),
       bookmarks: $state.href(getBookmarksState()),
       sent: $state.href(getSentState())
     };
@@ -97,6 +98,20 @@
         case 'activity':
         case 'place-activity':
           state = 'activity';
+          break;
+      }
+
+      return state;
+    }
+
+    function getComposeState() {
+      var state = 'compose';
+      switch ($state.current.name) {
+        case 'place-activity':
+        case 'place-activity-sorted':
+        case 'place-messages':
+        case 'place-messages-filtered':
+          state = 'place-compose';
           break;
       }
 
