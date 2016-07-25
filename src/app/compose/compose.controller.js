@@ -158,13 +158,12 @@
           if (recipient.data instanceof NstPlace) {
           } else if (recipient.data instanceof NstRecipient) {
           } else {
-            console.log('Compose | Model not ready: ', recipient);
             result = false;
           }
         } else if (recipient instanceof NstPlace) {
         } else if (recipient instanceof NstTinyPlace) {
+        } else if (recipient instanceof NstVmPlace) {
         } else {
-          console.log('Compose | Model not ready: ', recipient);
           result = false;
         }
       }
@@ -200,13 +199,19 @@
             places.push(recipient);
           } else if (recipient instanceof NstTinyPlace) {
             places.push(recipient);
+          } else if (recipient instanceof NstVmPlace) {
+            places.push(NstSvcPlaceFactory.parseTinyPlace({
+              _id: recipient.id,
+              name: recipient.name
+            }));
           }
         }
+        post.setRecipients(recipients);
+        post.setPlaces(places);
 
         var deferred = $q.defer();
-        console.log(post);
 
-        NstSvcPostFactory.send(post).then(function (response) {
+        NstSvcLoader.inject(NstSvcPostFactory.send(post).then(function (response) {
           vm.model.saving = false;
           vm.model.saved = true;
           // TODO: Check if one or more places failed
@@ -215,7 +220,7 @@
         }).catch(function (error) {
           vm.model.saving = false;
           console.log('Compose | Error Occured: ', error);
-        });
+        }));
 
         return deferred.promise;
       }
@@ -307,7 +312,6 @@
     }
 
     NstSvcLoader.finished().then(function () {
-      console.log(vm.model);
     });
 
     /*****************************
