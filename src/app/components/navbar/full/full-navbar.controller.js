@@ -19,6 +19,17 @@
      *****************************/
 
     vm.user = NstSvcAuth.getUser();
+    vm.urls = {
+      messages : '',
+      activity : '',
+      settings : '',
+    };
+    vm.hasPlace = hasPlace;
+    vm.getPlaceId = getPlaceId;
+    vm.getPlaceName = getPlaceName;
+    vm.getPlacePicture = getPlacePicture;
+
+    generateUrs();
 
     $scope.srch = function srch() {
       for (var i = 0; i < arguments.length; i++) {
@@ -32,24 +43,24 @@
       }
     };
 
-    vm.getPlaceName = function () {
-      if (vm.hasPlace()){
+    function getPlaceName() {
+      if (hasPlace()){
         return $scope.place.name;
       } else {
         return 'All Places';
       }
     };
 
-    vm.getPlaceId = function () {
-      if (vm.hasPlace()){
+    function getPlaceId() {
+      if (hasPlace()){
         return $scope.place.id;
       } else {
         return '';
       }
     };
 
-    vm.getPlacePicture = function () {
-      if (vm.hasPlace()){
+    function getPlacePicture() {
+      if (hasPlace()){
         return $scope.place.picture.thumbnails.x64.url.view;
       } else {
         return '';
@@ -57,37 +68,21 @@
     };
 
 
-    vm.hasPlace = function () {
+    function hasPlace() {
       return $scope.place && $scope.place.id;
     };
 
-    vm.navigateMessages = function () {
-      if (vm.hasPlace()) {
-        $state.go('place-messages', {
-          placeId : $scope.place.id
-        });
+    function generateUrs() {
+      if (vm.hasPlace()){
+        vm.urls.messages = $state.href('place-messages', { placeId : vm.getPlaceId() });
+        vm.urls.activity = $state.href('place-activity', { placeId : vm.getPlaceId() });
+        vm.urls.settings = $state.href('place-settings', { placeId : vm.getPlaceId() });
       } else {
-        $state.go('messages');
+        vm.urls.messages = $state.href('messages');
+        vm.urls.activity = $state.href('activity');
+        vm.urls.settings = '';
       }
-    };
-
-    vm.navigateActivity = function () {
-      if (vm.hasPlace()) {
-        $state.go('place-activity', {
-          placeId : $scope.place.id
-        });
-      } else {
-        $state.go('activity');
-      }
-    };
-
-    vm.navigateSetting = function () {
-      if (vm.hasPlace()) {
-        $state.go('place-settings', {
-          placeId : $scope.place.id
-        });
-      }
-    };
+    }
 
     $scope.$watch('topNavOpen',function (newValue,oldValue) {
       $rootScope.topNavOpen = newValue;

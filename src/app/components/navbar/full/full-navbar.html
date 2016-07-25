@@ -33,13 +33,13 @@
           </div>
 
           <div class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isMessages ? 'active' : null">
-            <a href="" ng-click="ctlFullNavbar.navigateMessages()">Messages{{ctlApp.page.isActivity}}</a>
+            <a href="{{ctlFullNavbar.urls.messages}}">Messages{{ctlApp.page.isActivity}}</a>
           </div>
           <div class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isActivity ? 'active' : null">
-            <a href="" ng-click="ctlFullNavbar.navigateActivity()">Activity</a>
+            <a href="{{ctlFullNavbar.urls.activity}}">Activity</a>
           </div>
           <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isPlaceSettings ? 'active' : null">
-            <a href="" ng-click="ctlFullNavbar.navigateSettings()">Settings</a>
+            <a href="{{ctlFullNavbar.urls.settings}}">Settings</a>
           </div>
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">
