@@ -56,7 +56,7 @@
         return $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), loadMessages()]);
       }).then(function(values) {
         if (values) {
-          vm.ViewSetting = _.defaults(vm.defaultViewSetting, values[0]);
+          vm.viewSetting = _.defaults(vm.defaultViewSetting, values[0]);
           vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
           vm.activities = mapActivities(values[2]);
         }
@@ -167,19 +167,20 @@
     }
 
     function toggleContentPreview() {
-      vm.messagesSetting.contentPreview = !vm.messagesSetting.contentPreview;
+      vm.viewSetting.content = !vm.viewSetting.content;
     }
 
     function toggleCommentsPreview() {
-      vm.messagesSetting.commentsPreview = !vm.messagesSetting.commentsPreview;
+      console.log(vm.viewSetting);
+      vm.viewSetting.comments = !vm.viewSetting.comments;
     }
 
     function toggleAttachmentPreview() {
-      vm.messagesSetting.attachmentPreview = !vm.messagesSetting.attachmentPreview;
+      vm.viewSetting.attachment = !vm.viewSetting.attachment;
     }
 
     function toggleQuickMessagePreview() {
-      vm.messagesSetting.quickMessagePreview = !vm.messagesSetting.quickMessagePreview;
+      vm.viewSetting.quickMessage = !vm.viewSetting.quickMessage;
     }
 
     function setPlace(id) {
