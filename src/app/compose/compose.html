@@ -1,5 +1,5 @@
-<div class="maincontainer compose-hld _fw ng-class:{'navtiny' : navView,'sidetiny' : sideView}">
-  <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
+<div class="maincontainer _fw compose-hld ng-class:{'navtiny' : navView,'sidetiny' : sideView}">
+  <nested-sidebar class="_fn _fh"></nested-sidebar>
   <div class="nst-container" page-change="changeMe($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
     <div class="nst-topnav _difh">
       <div class="_fw _df">
@@ -12,7 +12,7 @@
         <div class="icon icon-compose _df"></div>
       </div>
     </div>
-    <nested-navbar data-ng-model="navbar"></nested-navbar>
+    <nested-navbar controls="ctlCompose.controls" place="ctlCompose.place"></nested-navbar>
 
     <div class="nst-content _tr" id="content-wrapper">
       <section class="content _bgwhite">
@@ -56,10 +56,7 @@
             <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;delete = deleteAttachment;"
                  class="popover-green _df _fw attachlist"></div>
             <div class="attach _df">
-              <!--<label for="attach">-->
-              <!--<div class="headlineicon-green"></div>-->
-              <!--</label>-->
-              <input id="attach" type="file" multiple onchange="angular.element(this).scope().compose.setFile(event); angular.element(this).scope().attachmentForm.attLength.$setViewValue(angular.element(this).scope().compose.post.attachments.length);"/>
+              <input id="{{ctlCompose.attach.id}}" type="file" multiple onchange="angular.element(this).scope().compose.setFile(event); angular.element(this).scope().attachmentForm.attLength.$setViewValue(angular.element(this).scope().compose.post.attachments.length);"/>
             </div>
             <div class="nst-attach-con _fh" ng-if="showUploadProgress">
               <div class="progress">
@@ -83,32 +80,6 @@
           </section>
         </div>
       </section>
-      <div class="content-plus" id="content-plus">
-        <div>
-          <div class="name">Recent Activities</div>
-          <div class="row">
-            <div class="_df">
-              <img initials="user.name" data-url="user.picture.x24.url" data-width="16" data-height="16" data-radius="16" class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
-            </div>
-            <div class="colomn">
-              <div class="_difh top">
-                <div class="sender _fw _df">
-                  <a>Ehsan</a> <span>@ehsan</span>
-                </div>
-                <div class="_df">
-                  <span>23" ago</span>
-                </div>
-                <div class="ei-comment-add _df _fn"></div>
-              </div>
-              <div class="_df">
-                <p><span>commented</span> Wow, It's really Cool... We love new design :D</p>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
     </div>
   </div>
 </div>

@@ -8,9 +8,9 @@
   /** @ngInject */
   function ComposeController($q, $location, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,
-                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT,
+                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE,
                              NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
-                             NstStoreResource, NstPost, NstPlace, NstVmPlace, NstVmSelectTag, NestedRecipient) {
+                             NstStoreResource, NstPost, NstPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl) {
     var vm = this;
 
     /*****************************
@@ -19,12 +19,29 @@
 
     vm.model = {
       recipients: [],
-      subject: '',
       attachments: [],
+      subject: '',
       body: '',
+      forwardedFrom: null,
+      replyTo: null,
       ready: false
     };
 
+    vm.attach = {
+      id: 'attach'
+    };
+
+    vm.place = undefined;
+
+    vm.controls = {
+      left: [
+        // TODO: Get Previous state
+        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('home'))
+      ],
+      right: [
+        new NstVmNavbarControl('Attach', NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attach.id })
+      ]
+    };
 
     vm.search = {
       results: []
@@ -82,13 +99,15 @@
         var tag = new NstVmSelectTag({
           id: text,
           name: text,
-          data: NstSvcPlaceFactory.get(text).then(function (place) {
+          data: NstSvcPlaceFactory.getTiny(text).then(function (place) {
             $timeout(function () {
               tag.name = place.getName();
               tag.data = place;
             });
           }).catch(function () {
-            tag.isTag = false;
+            $timeout(function () {
+              tag.isTag = false;
+            });
           })
         });
 
@@ -97,7 +116,11 @@
         return new NstVmSelectTag({
           id: text,
           name: text,
-          data: new NestedRecipient(text)
+          data: new NstRecipient({
+            id: text,
+            email: text,
+            name: text
+          })
         });
       }
 
@@ -113,8 +136,25 @@
     };
 
     vm.send = function () {
-      var post = NstSvcPostFactory.createPostModel();
+      console.log('Compose | Model: ', vm.model);
+
+      if (vm.model.ready) {
+        var post = NstSvcPostFactory.createPostModel();
+        post.setSubject(vm.model.subject);
+        post.setBody(vm.model.body);
+
+        // TODO: Process Recipients
+        for (var k in vm.model.recipients) {
+          var recipient = vm.model.recipients[k];
+          if (recipient.data instanceof NstPlace) {
+
+          } else if (recipient.data instanceof NstRecipient) {
+
+          }
+        }
+      }
     };
+    vm.controls.right.push(new NstVmNavbarControl('Send', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
     /*****************************
      *****  Controller Logic  ****
@@ -129,6 +169,7 @@
             getPlace($stateParams.placeId).then(function (place) {
               // FIXME: Push Compose Recipient View Model Instead
               vm.model.recipients.push(new NstVmPlace(place));
+              vm.place = place;
             });
           }
         }
@@ -143,6 +184,7 @@
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
               vm.model.body = post.getBody();
               vm.model.attachments = post.getAttachments();
+              vm.model.forwardedFrom = post;
             });
           }
         }
@@ -154,6 +196,7 @@
             $state.go('compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
+              vm.model.replyTo = post;
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
               var places = post.getPlaces();
               for (var k in places) {
@@ -171,10 +214,12 @@
             $state.go('compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
+              vm.model.replyTo = post;
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
 
               // TODO: First search in post places to find a match then try to get from factory
               return getPlace(post.getSender().getId()).then(function (place) {
+                vm.place = place;
                 vm.model.recipients.push(new NstVmPlace(place));
               });
             })
@@ -308,7 +353,7 @@
       vm.attach(files);
     };
 
-    vm.attach = function (files) {
+    vm.attachMethod = function (files) {
       $scope.attachshow = true;
 
       var counter = 0;
