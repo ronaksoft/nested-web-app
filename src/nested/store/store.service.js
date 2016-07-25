@@ -47,11 +47,11 @@
       }
 
       return defer.promise;
-    }
+    };
 
     Store.prototype.resolveUrl = function (route, universalId, token) {
       var routeKey = Object.keys(NST_STORE_ROUTE).filter(function (k) { return route == NST_STORE_ROUTE[k]; }).pop();
-      if (!routeKey) {
+      if (!(routeKey && universalId)) {
         return undefined;
       }
 
