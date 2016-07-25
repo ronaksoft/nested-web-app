@@ -4,29 +4,25 @@
   </div>
   <div>
     <div class="list-items">
-      <input class="_fr" type="checkbox" id="content" name="content" value="content"
-             data-ng-model="ctlMessages.ViewSetting.content"/>
-      <label class="_fw setting" for="content"  ng-click="ctlMessages.toggleContentPreview()"> Content Preview</label>
+      <input class="_fr" type="checkbox" id="content" name="content" ng-click="ctlMessages.toggleContentPreview()" ng-checked="ctlMessages.viewSetting.content"/>
+      <label class="_fw setting" for="content"> Content Preview</label>
     </div>
   </div>
   <div>
-    <div class="list-items" ng-click="ctlMessages.toggleAttachmentPreview()">
-      <input class="_fr" type="checkbox" id="attachments" name="attachments" value="attachments"
-             data-ng-model="ctlMessages.ViewSetting.attachments"/>
+    <div class="list-items">
+      <input class="_fr" type="checkbox" id="attachments" name="attachments" ng-click="ctlMessages.toggleAttachmentsPreview()" ng-checked="ctlMessages.viewSetting.attachments"/>
       <label class="_fw setting" for="attachments">Attachments</label>
     </div>
   </div>
   <div>
     <div class="list-items">
-      <input class="_fr" type="checkbox" id="comments" name="comments"
-             ng-checked="ctlMessages.ViewSetting.comments"/>
-      <label class="_fw setting" for="comments"  ng-click="ctlMessages.toggleCommentsPreview()">Comments</label>
+      <input class="_fr" type="checkbox" id="comments" name="comments" ng-click="ctlMessages.toggleCommentsPreview()" ng-checked="ctlMessages.viewSetting.comments"/>
+      <label class="_fw setting" for="comments">Comments</label>
     </div>
   </div>
   <div ng-if="ctlMessages.currentPlaceId">
-    <div class="list-items"  ng-click="ctlMessages.toggleQuickMessagePreview()">
-      <input class="_fr" type="checkbox" id="msg" name="msg" value="msg"
-             data-ng-model="ctlMessages.ViewSetting.quickMessage"/>
+    <div class="list-items">
+      <input class="_fr" type="checkbox" id="msg" name="msg" ng-click="ctlMessages.toggleQuickMessagePreview()" ng-checked="ctlMessages.viewSetting.quickMessage"/>
       <label class="_fw setting" for="msg">Quick message</label>
 
     </div>

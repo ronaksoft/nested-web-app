@@ -1,4 +1,3 @@
-;
 (function() {
   'use strict';
 
@@ -8,9 +7,9 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout,
-    NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT,
+    NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING,
     NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory,
-    NstSvcMessageSettingStorage, NstSvcPostStorage,
+    NstSvcMessagesSettingStorage, NstSvcPostStorage,
     NstSvcPostMap, NstSvcActivityMap) {
 
     var vm = this;
@@ -25,8 +24,7 @@
         comments: true,
         quickMessage: true,
       },
-      sortOptionStorageKey = 'sort-option',
-      viewSettingStorageKey = 'view-setting';
+      sortOptionStorageKey = 'sort-option';
 
     if (!$stateParams.placeId || $stateParams.placeId === '_') {
       vm.currentPlaceId = null;
@@ -46,19 +44,18 @@
     };
 
     vm.toggleContentPreview = toggleContentPreview;
-    vm.toggleAttachmentPreview = toggleAttachmentPreview;
+    vm.toggleAttachmentsPreview = toggleAttachmentsPreview;
     vm.toggleCommentsPreview = toggleCommentsPreview;
     vm.toggleQuickMessagePreview = toggleQuickMessagePreview;
 
     (function() {
       setPlace(vm.currentPlaceId).then(function(placeFound) {
 
-        return $q.all([loadViewSetting(), loadSortOption(), loadRecentActivities(), loadMessages()]);
+        return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
       }).then(function(values) {
         if (values) {
-          vm.viewSetting = _.defaults(vm.defaultViewSetting, values[0]);
-          vm.messagesSetting.sort = values[1] || vm.defaultSortOption;
-          vm.activities = mapActivities(values[2]);
+          vm.viewSetting = _.defaults(values[0], vm.defaultViewSetting);
+          vm.activities = mapActivities(values[1]);
         }
 
         $log.debug(vm);
@@ -78,17 +75,20 @@
 
     function loadViewSetting() {
       return $q(function(resolve, reject) {
-        // var setting = NstSvcMessageSettingStorage.get(viewSettingStorageKey, defaultViewSetting);
-        // resolve(setting);
-        resolve(defaultViewSetting)
+        var setting = {
+          content: readSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT),
+          attachments: readSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS),
+          comments: readSettingItem(NST_MESSAGES_VIEW_SETTING.COMMENTS),
+          quickMessage: readSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE),
+        };
+        resolve(setting);
       });
     }
 
     function loadSortOption() {
       return $q(function(resolve, reject) {
-        // var option = NstSvcMessageSettingStorage.get(sortOptionStorageKey, defaultSortOption);
-        // resolve(option);
-        resolve(defaultSortOption);
+        var option = NstSvcMessagesSettingStorage.get(sortOptionStorageKey, defaultSortOption);
+        resolve(option);
       });
     }
 
@@ -98,14 +98,17 @@
       vm.cache = [];
       vm.messagesSetting.date = null;
       vm.messagesSetting.limit = cacheSize;
+      NstSvcMessagesSettingStorage.set(sortOptionStorageKey, option);
       loadMessages();
     }
 
     function loadMessages() {
       var defer = $q.defer();
-
       vm.messagesSetting.date = getLastMessageTime();
-      getMessages().then(function(messages) {
+      loadSortOption().then(function (sortOption) {
+        vm.messagesSetting.sort = sortOption || defaultSortOption;
+        return getMessages();
+      }).then(function(messages) {
         vm.cache = _.concat(vm.cache, messages);
         vm.messages = mapMessages(vm.cache);
         console.log(vm.messages);
@@ -168,19 +171,22 @@
 
     function toggleContentPreview() {
       vm.viewSetting.content = !vm.viewSetting.content;
+      setSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT, vm.viewSetting.content);
     }
 
     function toggleCommentsPreview() {
-      console.log(vm.viewSetting);
       vm.viewSetting.comments = !vm.viewSetting.comments;
+      setSettingItem(NST_MESSAGES_VIEW_SETTING.COMMENTS, vm.viewSetting.comments);
     }
 
-    function toggleAttachmentPreview() {
-      vm.viewSetting.attachment = !vm.viewSetting.attachment;
+    function toggleAttachmentsPreview() {
+      vm.viewSetting.attachments = !vm.viewSetting.attachments;
+      setSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS, vm.viewSetting.attachments);
     }
 
     function toggleQuickMessagePreview() {
       vm.viewSetting.quickMessage = !vm.viewSetting.quickMessage;
+      setSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE, vm.viewSetting.quickMessage);
     }
 
     function setPlace(id) {
@@ -210,6 +216,20 @@
         vm.loadMore();
       }
     };
+
+    function readSettingItem(key) {
+      var value = NstSvcMessagesSettingStorage.get(key);
+
+      if (value === 'hide'){
+        return false;
+      }
+
+      return true;
+    }
+
+    function setSettingItem(key, bool) {
+      NstSvcMessagesSettingStorage.set(key, bool ? 'show' : 'hide');
+    }
     /* FIXME: NEEDS REWRITE COMPLETELY
     vm.scroll = {
       callbacks: {
