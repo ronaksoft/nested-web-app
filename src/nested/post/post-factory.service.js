@@ -194,7 +194,7 @@
 
         post.recipients = []; // TODO: ?
         for (var k in data.recipients) {
-          post.recipients[k] = new NestedRecipient(data.recipients[k]);
+          post.recipients[k] = new NstRecipient(data.recipients[k]);
         }
 
         if (post.full) {

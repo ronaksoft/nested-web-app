@@ -1971,9 +1971,6 @@ a.normal-badge {
   *     Nested pages -   * comPose
   *********************************************************
 */
-#nav-com {
-  display: none;
-}
 .maincontainer.compose-hld {
   .content-plus {
     display: none;
@@ -1991,7 +1988,6 @@ a.normal-badge {
     display: flex;
   }
   .navbar-bottom {
-    display: none;
     div {
       align-items: center;
     }

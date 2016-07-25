@@ -23,7 +23,7 @@
       this.attachmentPreview = false;
       this.comments = []; // [<NstComment>]
       this.places = []; // [<NstPlace>]
-      this.recipients = []; // [<NestedRecipients>]
+      this.recipients = []; // [<NstRecipient>]
       this.spam = 0;
       this.monitored = false;
       this.internal = false;

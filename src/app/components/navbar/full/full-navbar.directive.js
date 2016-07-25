@@ -12,8 +12,10 @@
       templateUrl: 'app/components/navbar/full/full-navbar.html',
       controller: 'FullNavbarController',
       controllerAs: 'ctlFullNavbar',
+      bindToController: true,
       scope: {
-        place : '='
+        controls: '=',
+        place: '='
       }
     };
   }
