@@ -58,7 +58,6 @@
       var t = event.target.scrollTop;
       $timeout(function () {
         if(t > 55){
-          console.log(t)
           $rootScope.navView = true
         }else {
           $rootScope.navView = false

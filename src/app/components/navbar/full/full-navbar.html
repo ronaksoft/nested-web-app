@@ -32,13 +32,13 @@
             <div ng-click="srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
-          <div class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isMessages ? 'active' : null">
+          <div class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isMessages ? 'active' : null">
             <a href="" ng-click="ctlFullNavbar.navigateMessages()">Messages{{ctlApp.page.isActivity}}</a>
           </div>
-          <div class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isActivity ? 'active' : null">
+          <div class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isActivity ? 'active' : null">
             <a href="" ng-click="ctlFullNavbar.navigateActivity()">Activity</a>
           </div>
-          <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isPlaceSettings ? 'active' : null">
+          <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isPlaceSettings ? 'active' : null">
             <a href="" ng-click="ctlFullNavbar.navigateSettings()">Settings</a>
           </div>
         </div>
@@ -112,28 +112,28 @@
 
       <div class="navbar-bottom" id="nav-com">
         <div class="_df _fw">
-          <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
+          <a href="#/events" class="butn-white-nav nst-mood-storm">Discard</a>
         </div>
         <div class="_df _fn">
-          <a href="javascript:void(0);" class="_fr btn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
+          <a href="javascript:void(0);" class="_fr butn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
         </div>
         <div class="_df _fn">
-          <a href="javascript:void(0);" class="_fr btn-green-nav" ng-click="ctlCompose.send()" data-ng-disabled="!ctlCompose.model.ready">Send</a>
+          <a href="javascript:void(0);" class="_fr butn-green-nav" ng-click="ctlCompose.send()" data-ng-disabled="!ctlCompose.model.ready">Send</a>
         </div>
       </div>
 
       <div class="navbar-bottom" id="nav-prof">
         <div class="_df _fw">
-          <a href="#/events" class="btn-white-nav nst-mood-storm">Discard</a>
+          <a href="#/events" class="butn-white-nav nst-mood-storm">Discard</a>
         </div>
       </div>
 
       <div class="navbar-bottom" id="nav-option">
         <div class="_df _fw">
-          <a href="#/events" class="btn-white-nav nst-mood-storm">Back</a>
+          <a href="#/events" class="butn-white-nav nst-mood-storm">Back</a>
         </div>
         <div class="_df">
-          <a href="javascript:void(0);" class="_fr btn-white-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">
+          <a href="javascript:void(0);" class="_fr butn-white-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">
             <span class="_dib _vat">Leave</span>
             <div class="_dib option-leave-icon"></div>
           </a>

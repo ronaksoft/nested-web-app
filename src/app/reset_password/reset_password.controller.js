@@ -17,7 +17,7 @@
       text: "Enter your username"
     };
 
-    vm.btn = {
+    vm.butn = {
       text: "Check"
     };
   }
