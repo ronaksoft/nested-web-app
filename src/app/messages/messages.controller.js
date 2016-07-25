@@ -6,8 +6,8 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout,
-    NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING,
+  function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout, $state,
+    NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT,
     NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory,
     NstSvcMessagesSettingStorage, NstSvcPostStorage,
     NstSvcPostMap, NstSvcActivityMap) {
@@ -16,7 +16,6 @@
     vm.messages = [];
     vm.cache = [];
     var DEFAULT_MESSAGES_COUNT = 8;
-    var FILTER_ALL = '!$all';
     var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
       defaultViewSetting = {
         content: true,
@@ -26,15 +25,7 @@
       },
       sortOptionStorageKey = 'sort-option';
 
-    if (!$stateParams.placeId || $stateParams.placeId === '_') {
-      vm.currentPlaceId = null;
-    } else {
-      vm.currentPlaceId = $stateParams.placeId;
-    }
-
-    vm.filter = $stateParams.filter || FILTER_ALL;
     vm.loadMore = loadMore;
-    vm.sort = sort;
 
     vm.messagesSetting = {
       limit : DEFAULT_MESSAGES_COUNT,
@@ -49,15 +40,25 @@
     vm.toggleQuickMessagePreview = toggleQuickMessagePreview;
 
     (function() {
+      if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
+        vm.currentPlaceId = null;
+      } else {
+        vm.currentPlaceId = $stateParams.placeId;
+      }
+
+      if (!$stateParams.sort || $stateParams.sort === NST_DEFAULT.STATE_PARAM){
+        vm.messagesSetting.sort = NstSvcMessagesSettingStorage.get(sortOptionStorageKey);
+      } else {
+        vm.messagesSetting.sort = $stateParams.sort;
+        NstSvcMessagesSettingStorage.set(sortOptionStorageKey, vm.messagesSetting.sort);
+      }
+
+      generateUrls();
+
       setPlace(vm.currentPlaceId).then(function(placeFound) {
 
         return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
       }).then(function(values) {
-        if (values) {
-          vm.viewSetting = _.defaults(values[0], vm.defaultViewSetting);
-          vm.activities = mapActivities(values[1]);
-        }
-
         $log.debug(vm);
       }).catch(function(error) {
         $log.debug(error)
@@ -81,7 +82,8 @@
           comments: readSettingItem(NST_MESSAGES_VIEW_SETTING.COMMENTS),
           quickMessage: readSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE),
         };
-        resolve(setting);
+        vm.viewSetting = _.defaults(setting, vm.defaultViewSetting);
+        resolve(vm.viewSetting);
       });
     }
 
@@ -92,26 +94,14 @@
       });
     }
 
-    function sort(option) {
-      vm.messagesSetting.sort = option;
-      var cacheSize = vm.cache.length;
-      vm.cache = [];
-      vm.messagesSetting.date = null;
-      vm.messagesSetting.limit = cacheSize;
-      NstSvcMessagesSettingStorage.set(sortOptionStorageKey, option);
-      loadMessages();
-    }
-
     function loadMessages() {
       var defer = $q.defer();
+
       vm.messagesSetting.date = getLastMessageTime();
-      loadSortOption().then(function (sortOption) {
-        vm.messagesSetting.sort = sortOption || defaultSortOption;
-        return getMessages();
-      }).then(function(messages) {
+
+      getMessages().then(function(messages) {
         vm.cache = _.concat(vm.cache, messages);
         vm.messages = mapMessages(vm.cache);
-        console.log(vm.messages);
         defer.resolve(vm.messages);
       }).catch(defer.reject);
 
@@ -151,7 +141,8 @@
       }
 
       NstSvcActivityFactory.getRecent(settings).then(function(activities) {
-        defer.resolve(activities);
+        vm.activities = mapActivities(activities);
+        defer.resolve(vm.activities);
       }).catch(defer.reject);
 
       return defer.promise;
@@ -208,6 +199,21 @@
       return defer.promise;
     }
 
+    function generateUrls() {
+      vm.urls = {
+        latestActivity : '',
+        latestMessages : ''
+      };
+
+      if (vm.currentPlaceId) {
+        vm.urls.latestActivity = $state.href('place-messages-sorted', { placeId : vm.currentPlaceId, sort : NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY });
+        vm.urls.latestMessages = $state.href('place-messages-sorted', { placeId : vm.currentPlaceId, sort : NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES });
+      } else {
+        vm.urls.latestActivity = $state.href('messages-sorted', { sort : NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY });
+        vm.urls.latestMessages = $state.href('messages-sorted', { sort : NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES });
+      }
+
+    }
 
     vm.scroll = function (event) {
       var element = event.currentTarget;

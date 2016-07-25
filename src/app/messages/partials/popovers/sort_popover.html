@@ -1,12 +1,5 @@
 <div class="popup-panel">
-  <div>
-    <span class="spansetting nst-font-small">Sort by</span>
-  </div>
-  <div>
-    <div class="list-items" ng-click="ctlMessages.sort('latest-messages')">Latest Messages</div>
-  </div>
-
-  <div>
-    <div class="list-items" ng-click="ctlMessages.sort('latest-activity')">Latest Activity</div>
-  </div>
+  <span class="spansetting nst-font-small">Sort by</span>
+  <a class="_db list-items" href="{{ctlMessages.urls.latestMessages}}">Latest Messages</a>
+  <a class="_db list-items" href="{{ctlMessages.urls.latestActivity}}">Latest Activity</a>
 </div>
