@@ -7,6 +7,7 @@
   /** @ngInject */
   function NstSvcActivityFactory($q, $log,
     _, moment,
+    NST_ACTIVITY_FILTER,
     NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
     NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstAttachment) {
 
@@ -14,7 +15,7 @@
      * PostFactory - all operations related to activity
      */
     var service = {
-      load: load,
+      get: get,
       getRecent: getRecent
     };
 
@@ -50,186 +51,176 @@
       }).catch(defer.reject);
 
       return defer.promise;
-    }
 
-    function extractActor(data) {
-      var defer = $q.defer();
+      function extractActor(data) {
+        var defer = $q.defer();
 
-      if (!data.actor) {
-        defer.resolve(null);
-      } else {
-        var user = NstSvcUserFactory.parseTinyUser({
-          _id: data.actor,
-          fname: data.actor_fname,
-          lname: data.actor_lname,
-          picture: data.actor_picture,
-        });
+        if (!data.actor) {
+          defer.resolve(null);
+        } else {
+          var user = NstSvcUserFactory.parseTinyUser({
+            _id: data.actor,
+            fname: data.actor_fname,
+            lname: data.actor_lname,
+            picture: data.actor_picture,
+          });
 
-        // TODO: Add user to cache if the model is rich enough
+          // TODO: Add user to cache if the model is rich enough
 
-        defer.resolve(user);
+          defer.resolve(user);
+        }
+
+        return defer.promise;
       }
 
-      return defer.promise;
-    }
+      function extractPost(data) {
+        var defer = $q.defer();
 
-    function extractPost(data) {
-      var defer = $q.defer();
+        if (!data.post_id) { // could not find any post inside
+          defer.resolve(null);
+        } else {
+          var tinyPost = new NstPost({
+            id: data.post_id.$oid,
+            subject: data.post_subject,
+            body: data.post_body,
+            senderId: data.actor,
+            places: _.map(data.post_places, function(place) {
+              return new NstTinyPlace({
+                id: place._id,
+                name: place.name,
+                picture: new NstPicture(null, place.picture)
+              });
+            }),
+            attachments: _.map(data.post_attachments, function(item) {
+              return new NstAttachment({
+                // id : ,
+                // postId : ,
+                //
+              });
+            })
+          });
 
-      if (!data.post_id) { // could not find any post inside
-        defer.resolve(null);
-      } else {
-        var tinyPost = new NstPost({
-          id: data.post_id.$oid,
-          subject: data.post_subject,
-          body: data.post_body,
-          senderId: data.actor,
-          places: _.map(data.post_places, function(place) {
-            return new NstTinyPlace({
-              id: place._id,
-              name: place.name,
-              picture: new NstPicture(null, place.picture)
-            });
-          }),
-          attachments: _.map(data.post_attachments, function(item) {
-            return new NstAttachment({
-              // id : ,
-              // postId : ,
-              //
-            });
-          })
-        });
+          defer.resolve(tinyPost);
+        }
 
-        defer.resolve(tinyPost);
+        return defer.promise;
       }
 
-      return defer.promise;
-    }
+      function extractComment(data) {
+        var defer = $q.defer();
+        if (!data.comment_id) { // could not find any comment inside
+          defer.resolve(null);
+        } else {
+          defer.resolve(new NstTinyComment({
+            id: data.comment_id.$oid,
+            body: data.comment_body,
+            postId: data.post_id.$oid
+          }));
+        }
 
-    function extractComment(data) {
-      var defer = $q.defer();
-      if (!data.comment_id) { // could not find any comment inside
-        defer.resolve(null);
-      } else {
-        defer.resolve(new NstTinyComment({
-          id: data.comment_id.$oid,
-          body: data.comment_body,
-          postId: data.post_id.$oid
-        }));
+        return defer.promise;
       }
 
-      return defer.promise;
-    }
+      function extractPlace(data) {
+        var defer = $q.defer();
 
-    function extractPlace(data) {
-      var defer = $q.defer();
+        if (!data.place_id) {
+          defer.resolve(null);
+        } else {
 
-      if (!data.place_id) {
-        defer.resolve(null);
-      } else {
-
-        var placeId = data.child_id || data.place_id;
-        NstSvcPlaceFactory.get(placeId).then(function(place) {
-          defer.resolve(place);
-        }).catch(defer.reject);
-      }
-
-      return defer.promise;
-    }
-
-    function extractMember(data) {
-      var defer = $q.defer();
-
-      if (!data.member_id) { // could not find a member inside
-        defer.resolve(null); // TODO: decide to fill with an empty object or an empty NstUser
-      } else {
-        defer.resolve({
-          id: data.member_id,
-          fullName: data.invitee_name,
-          type: data.member_type
-        });
-      }
-
-      return defer.promise;
-    }
-
-    function load(settings) {
-      var defer = $q.defer();
-
-      // var activities = NstSvcActivityStorage.get('all', []);
-
-      // if (activities.length === 0) { // cache is empty and it's better to ask the server for recent activities
-        NstSvcServer.request('timeline/get_events', {
-            limit : settings.limit,
-            //  skip : settings.skip,
-           before : settings.date
-        }).then(function(data) {
-          var activities = _.map(data.events, parseActivity);
-
-          $q.all(activities).then(function(values) {
-            // NstSvcActivityStorage.merge('all', values);
-            defer.resolve(values);
+          var placeId = data.child_id || data.place_id;
+          NstSvcPlaceFactory.get(placeId).then(function(place) {
+            defer.resolve(place);
           }).catch(defer.reject);
+        }
 
+        return defer.promise;
+      }
+
+      function extractMember(data) {
+        var defer = $q.defer();
+
+        if (!data.member_id) { // could not find a member inside
+          defer.resolve(null); // TODO: decide to fill with an empty object or an empty NstUser
+        } else {
+          defer.resolve({
+            id: data.member_id,
+            fullName: data.invitee_name,
+            type: data.member_type
+          });
+        }
+
+        return defer.promise;
+      }
+
+    }
+
+    function get(settings) {
+      var defaultSettings = {
+        limit: 32,
+        placeId: null,
+        date: null,
+        filter: 'all'
+      };
+      settings = _.defaults(settings, defaultSettings);
+      if (settings.placeId) {
+        return getByPlace(settings);
+      } else {
+        return getAll(settings);
+      }
+    }
+
+    function getAll(settings) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('timeline/get_events', {
+        limit: settings.limit,
+        before: settings.date,
+        filter: settings.filter
+      }).then(function(data) {
+        var activities = _.map(data.events, parseActivity);
+
+        $q.all(activities).then(function(values) {
+          defer.resolve(values);
         }).catch(defer.reject);
-      // } else {
-      //   defer.resolve(activities);
-      // }
+
+      }).catch(defer.reject);
 
       return defer.promise;
     }
 
     function getRecent(settings) {
-      var defer = $q.defer();
-
-      var defaultSettings = {
-        limit: 10,
-        placeId: null
+      var mandatorySettings = {
+        filter: NST_ACTIVITY_FILTER.ALL,
+        limit: 15
       };
-      settings = _.defaults(defaultSettings, settings);
-
-      if (settings.placeId) {
-        getPlaceActivities(settings).then(defer.resolve).catch(defer.reject);
-      } else {
-        load(settings).then(defer.resolve).catch(defer.reject);
-      }
-
-      return defer.promise;
+      settings = _.defaults(settings, mandatorySettings);
+      return get(settings);
     }
 
-    function getPlaceActivities(settings) {
+    function getByPlace(settings) {
 
       if (!settings.placeId) {
         throw 'Could not find the place id.';
       }
 
-      var activities = NstSvcActivityStorage.get('all', []);
+      var defer = $q.defer();
 
-      if (activities.length === 0) { // cache is empty and it's better to ask the server for recent activities
-        NstSvcServer.request('place/get_events', {
-          limit: settings.limit,
-          // skip: 0,
-          before : settings.date,
-          place_id: settings.placeId
-        }).then(function(data) {
-          var activities = _.map(data.events, parseActivity);
+      NstSvcServer.request('timeline/get_events', {
+        limit: settings.limit,
+        before: settings.date,
+        place_id: settings.placeId,
+        filter: settings.filter
+      }).then(function(data) {
+        var activities = _.map(data.events, parseActivity);
 
-          $q.all(activities).then(function(values) {
-            NstSvcActivityStorage.merge('all', values);
-            defer.resolve(values);
-          }).catch(defer.reject);
-
+        $q.all(activities).then(function(values) {
+          defer.resolve(values);
         }).catch(defer.reject);
-      } else {
-        var placeActivities = _.filter(activities, function(act) {
-          return _.some(act.places, function(place) {
-            return place.id === settings.placeId;
-          });
-        });
 
-        defer.resolve(placeActivities);
-      }
+      }).catch(defer.reject);
 
+      return defer.promise;
     }
   }
 })();
