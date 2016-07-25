@@ -185,21 +185,21 @@
   text-decoration: none;
 }
 
-.btn {
+.butn {
   border: 1px $color-breeze solid;
   background-color: $color-white;
   font-size: 14px;
   height: 32px;
 }
 
-.btn-sense {
-  @extend .btn;
+.butn-sense {
+  @extend .butn;
   background-color: $color-sense;
   color: $color-white;
 }
 
-.btn-force {
-  @extend .btn;
+.butn-force {
+  @extend .butn;
   background-color: $color-force;
   color: $color-white;
 }
@@ -289,7 +289,7 @@
   left: 8px;
   top: 8px;
 }
-.btn-white-nav-ps {
+.butn-white-nav-ps {
   position: absolute;
   left:10px;
   bottom: 0;
@@ -421,20 +421,20 @@ a {
     margin-left: 276px;
     width: calc(100% - 276px);
   }
+  .maincontainer.sidetiny {
+    .nst-container{
+      margin-left: 80px;
+      width: calc(100% - 80px );
+    }
+    .nst-navbar{
+      width: calc(100% - 80px);
+    }
+  }
   .nst-topnav{
     display: none;
   }
   #top-nav-container {
     display: none;
-  }
-}
-.maincontainer.sidetiny {
-  .nst-navbar{
-    width: calc(100% - 80px);
-  }
-  .nst-container{
-    margin-left: 80px;
-    width: calc(100% - 80px );
   }
 }
 
@@ -515,7 +515,7 @@ a {
   //left: 35px;
 }
 
-.menu-links-btn {
+.menu-links-butn {
   height: 62px;
   width: 120px;
   line-height: 58px;
@@ -534,11 +534,11 @@ a {
   height: 32px;
 }
 
-.menu-links-btn:hover {
+.menu-links-butn:hover {
   color: $color-solid;
 }
 
-.menu-links .menu-links-btn {
+.menu-links .menu-links-butn {
   border-bottom: 1px solid $color-white;
 }
 
@@ -871,6 +871,8 @@ ul ul li:last-child{
 }
 .maincontainer.navtiny #content-wrapper{
   margin-top: 132px;
+  max-height: calc(100% - 132px);
+  min-height: calc(100% - 135px);
 }
 
 @media screen and (max-width: 990px) {
@@ -903,7 +905,7 @@ ul ul li:last-child{
     flex: none;
     overflow-y: auto;
     margin-top: 32px;
-    padding: 12px 0 24px 8px;
+    padding: 12px 0;
     z-index: 15;
     background-color: $color-white;
     border: 1px solid $color-border;
@@ -917,6 +919,7 @@ ul ul li:last-child{
       //height: 24px;
       align-items: flex-start;
       flex-shrink: inherit;
+      padding-left: 8px;
       .colomn {
         display: inline-flex;
         flex-direction: column;
@@ -964,6 +967,10 @@ ul ul li:last-child{
             font-size: 11px;
           }
         }
+      }
+      &:hover {
+        background-color: $color-calm;
+        cursor: pointer;
       }
     }
   }
@@ -1093,6 +1100,9 @@ ul ul li:last-child{
 .post-card .post-card-badge a:last-child{
   position: relative;
   background-color: rgb(20, 215, 105);
+}
+.popup-msg-badge {
+  margin-top: 20px;
 }
 
 .post-card .post-subject h3{
@@ -1244,6 +1254,9 @@ ul ul li:last-child{
   background: $color-white;
   border-radius: 6px 0px 6px 6px;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+  .popover-inner {
+    padding: 8px 4px;
+  }
 }
 
 

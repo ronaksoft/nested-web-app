@@ -4,7 +4,7 @@
   *********************************************************
  */
 
-#ComposeBtns a {
+#Composebutns a {
   text-align: right;
   background-color: #14D769;
   border: 1px solid #00B45A;
@@ -71,7 +71,7 @@
 }
 
 #ComposeContainer #Toolbar {display: block;}
-#ComposeContainer #Toolbar .btn {
+#ComposeContainer #Toolbar .butn {
   padding: 4px;
   cursor: pointer;
 }
@@ -122,16 +122,16 @@ div.att-item {
   box-shadow: none;
 }
 
-.btn-toolbar > .btn-group {
+.butn-toolbar > .butn-group {
   padding: 5px;
 }
 
-.nst-compose-message .btn {
+.nst-compose-message .butn {
   background-color: $color-white;
   color: $color-solid;
   border: 0px solid $color-storm;
 }
-.nst-compose-message .btn.active {
+.nst-compose-message .butn.active {
   background-color: $color-white;
   color: $color-sense-wire;
 }
@@ -149,7 +149,7 @@ div.att-item {
 
 }
 
-.btn-default.active {
+.butn-default.active {
   background-color: $color-sense;
   text-shadow: none;
   box-shadow: none;
@@ -269,7 +269,7 @@ div.att-item {
   padding: 10px;
 }
 
-.btn-send-compose{
+.butn-send-compose{
   width: 48px;
   height: 24px;
   background-color: $color-sense;
@@ -283,15 +283,15 @@ div.att-item {
   margin: 8px 0;
   line-height: 22px;
 }
-.btn-send-compose:disabled{
+.butn-send-compose:disabled{
   opacity: .5;
   cursor: not-allowed;
 }
-.btn-send-compose:hover {
+.butn-send-compose:hover {
   color: white;
 }
 
-.btn-back-compose {
+.butn-back-compose {
   border: 1px solid $color-breeze;
   color: $color-storm;
   width: 64px;
@@ -305,7 +305,7 @@ div.att-item {
   margin: 8px 0;
   text-align: center;
 }
-.btn-back-compose:hover {
+.butn-back-compose:hover {
   color: $color-storm;
 }
 
@@ -320,7 +320,7 @@ div.att-item {
 .sto {
   padding: 0 16px;
 }
-.btn-group{
+.butn-group{
   //width: 100%;
 }
 .mce-panel {
@@ -334,6 +334,9 @@ div.att-item {
 .mce-container, .mce-container{
   background: white!important;
 
+}
+.ui-select-bootstrap > .ui-select-choices {
+  max-height: 400px
 }
 .mce-menu-item:hover{
   background-color: $color-sense!important;

@@ -193,7 +193,7 @@ a.place {
   padding: 15px 25px;
 }
 
-.btn-green{
+.butn-green{
   background-color: $color-sense;
   border: 1px solid #00B45A;
   border-radius: 5px;
@@ -203,7 +203,7 @@ a.place {
   text-decoration: none;
 }
 
-.btn-green-nav{
+.butn-green-nav{
   background-color: $color-sense;
   border: 1px solid #00B45A;
   border-radius: 3px;
@@ -221,20 +221,20 @@ a.place {
 
 }
 
-.btn-green:hover {
+.butn-green:hover {
   background-color: $color-sense-wire;
   text-decoration: none;
 }
-.btn-green:focus {
+.butn-green:focus {
   background-color: $color-sense;
   text-decoration: none;
 }
-.btn-green:disabled{
+.butn-green:disabled{
   opacity: .5;
   cursor: not-allowed;
   text-decoration: none;
 }
-.btn-green a{
+.butn-green a{
   margin: 4px 0;
   color: $color-white;
   white-space: nowrap;
@@ -242,11 +242,11 @@ a.place {
   font-weight: 500;
   text-decoration: none;
 }
-.btn-green:hover a{
+.butn-green:hover a{
   color: white;
   text-decoration: none;
 }
-.btn-red{
+.butn-red{
   background-color: $color-force;
   border: 1px solid #ff0014;
   border-radius: 3px;
@@ -255,20 +255,20 @@ a.place {
   flex: none;
   text-decoration: none;
 }
-.btn-red:disabled{
+.butn-red:disabled{
   opacity: .5;
   cursor: not-allowed;
   text-decoration: none;
 }
-.btn-red:hover:enabled{
+.butn-red:hover:enabled{
   background-color: $color-force-wire;
   text-decoration: none;
 }
-.btn-red:focus{
+.butn-red:focus{
   background-color: $color-force;
   text-decoration: none;
 }
-.btn-red a{
+.butn-red a{
   margin: 4px 0;
   color: $color-white;
   white-space: nowrap;
@@ -276,12 +276,12 @@ a.place {
   font-weight: 500;
   text-decoration: none;
 }
-.btn-red:hover a{
+.butn-red:hover a{
   color: white;
   white-space: nowrap;
   text-decoration: none;
 }
-.btn-white{
+.butn-white{
   border: 1px solid $color-breeze;
   background-color: $color-white;
   border-radius: 3px;
@@ -290,7 +290,7 @@ a.place {
   flex: none;
   text-decoration: none;
 }
-.btn-white-nav{
+.butn-white-nav{
   border: 1px solid $color-breeze;
   background-color: $color-white;
   border-radius: 3px;
@@ -305,20 +305,20 @@ a.place {
   padding: 5px 16px 5px 16px;
   text-decoration: none;
 }
-.btn-white:hover{
+.butn-white:hover{
   background-color: $color-calm;
 }
-.btn-white:focus{
+.butn-white:focus{
   background-color: $color-breeze;
 }
-.btn-white a{
+.butn-white a{
   margin: 4px 0;
   color: $color-storm;
   white-space: nowrap;
   font-size: 16px;
   font-weight: 500;
 }
-.btn-white:hover a{
+.butn-white:hover a{
   color: $color-storm;
 }
 .large-font {
@@ -809,7 +809,7 @@ a:hover {
   border: 1px solid $color-breeze;
 }
 .form-control:focus,
-.btn:focus {
+.butn:focus {
   border: 2px solid $color-solid;
   box-shadow: none;
 }
@@ -835,7 +835,7 @@ a:hover {
   font-size: $font-size-small;
 }
 
-.btn {
+.butn {
   background-color: $color-sense;
   font-size: $font-size-medium;
   font-weight: bold;

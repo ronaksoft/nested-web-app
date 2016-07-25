@@ -305,7 +305,7 @@
   float: left;
 }
 
-#PostView .NewComment #CommentSendBtn {
+#PostView .NewComment #CommentSendbutn {
   background-color: $color-sense;
   border: none;
   border-radius: 5px;
@@ -427,12 +427,12 @@
 .file-preview {
   height: 550px;
 }
-.nst-preview-footer .nst-nav-btn-breeze,
+.nst-preview-footer .nst-nav-butn-breeze,
 #PostView .nst-arrow-rotated-270,#PostView .nst-arrow-rotated-90{
   height: 30px;
   flex: none;
 }
-.nst-preview-footer .nst-nav-btn-breeze{
+.nst-preview-footer .nst-nav-butn-breeze{
   align-items: center;
   margin:0 8px;
   padding: 2px 6px;
@@ -462,7 +462,7 @@
   justify-content: flex-end;
 }
 
-.btn-send-comment{
+.butn-send-comment{
   width: 48px;
   height: 24px;
   background-color: $color-sense;
