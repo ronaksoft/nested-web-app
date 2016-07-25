@@ -49,11 +49,14 @@
 
     //todo should read from cache
     $rootScope.navView = false;
-    $rootScope.topNavOpen = false;
+    $scope.topNavOpen = false;
+    $rootScope.$watch('topNavOpen',function (newValue,oldValue) {
+      $scope.topNavOpen = newValue;
+    });
 
     vm.scroll = function(event){
       var t = event.target.scrollTop;
-      $timeout(function () { $rootScope.navView = t > 55; });
+      $timeout(function () { $rootScope.navView = t > 55 });
 
       $('.nst-navbar').toggleClass('tiny', t > 55);
 

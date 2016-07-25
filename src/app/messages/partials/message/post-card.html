@@ -10,8 +10,8 @@
     <div class="_fw _difc">
       <div class="_difc _fw">
         <div ng-if="ctlPost.post.hasAnyAttachment" class="icon icon-post-head icon-attached"></div>
-        <div ng-if="ctlPost.post.forwarded" class="icon icon-post-head icon-fwd"></div>
-        <div ng-if="ctlPost.post.replied" class="icon icon-post-head icon-replied"></div>
+        <div ng-if="ctlPost.post.isForwarded" class="icon icon-post-head icon-fwd"></div>
+        <div ng-if="ctlPost.post.isReplyed" class="icon icon-post-head icon-replied"></div>
         <h4 class="_df">{{ctlPost.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{ctlPost.post.sender.username}}</span>
       </div>
       <span class="_df _fn post-card-time">{{ctlPost.post.date}}</span>
@@ -28,9 +28,8 @@
   </section>
   <section class="post-footer _difh"><a class="_df _fn">{{ctlPost.post.commentsCount}} comments</a>
     <div class="post-icons _fw _df">
-      <a href="{{ctlPost.urls.forward}}" class="icon icon-post icon-fw _df"></a>
-      <a href="{{ctlPost.urls.reply_all}}" class="icon icon-post icon-fw _df"></a>
-      <a href="{{ctlPost.urls.reply_sender}}" class="icon icon-post icon-fw _df"></a>
+      <a href="{{ctlPost.urls.forward}}" class="icon icon-post-head icon-fwd _df"></a>
+      <div class="icon icon-post icon-fw _df popover-white-nst-activity-places" data-uib-popover-template="'app/messages/partials/popovers/reply.html'" data-popover-placement="auto top-left" popover-trigger="outsideClick"></div>
       <div ng-if="ctlPost.post.userHasRemoveAccess" class="icon icon-post icon-delete-menu _df"></div>
     </div>
   </section>

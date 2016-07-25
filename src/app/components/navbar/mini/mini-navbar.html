@@ -1,3 +1,16 @@
+<div class="nst-topnav _difh ng-class:{ 'bg-hur': topNavOpen }">
+  <div class="_fw _df">
+    <div ng-class="topNavOpen ? 'icon icon-top close-icon' : 'icon icon-top hamburger-icon'" ng-click="topNavOpen = !topNavOpen"></div>
+  </div>
+  <div class="_fw _jcc _df">
+    <a href="#/"><div id="Logo-white"></div></a>
+  </div>
+  <div class="_fw _df">
+    <a ng-show="!topNavOpen" href="{{ctlMiniNavbar.urls.compose}}"><div class="icon icon-top comp-icon _df"></div></a>
+    <a ng-show="topNavOpen" href="#/profile"><div class="icon icon-top profile-icon _df"></div></a>
+    <a ng-show="topNavOpen" href="#/signout"><div class="icon icon-top signout-icon _df"></div></a>
+  </div>
+</div>
 <div id="top-nav-container" ng-show="topNavOpen">
   <div class="top-nav-actions _difh _fw">
     <a href="{{ctlMiniNavbar.urls.unfiltered}}" class="_df">

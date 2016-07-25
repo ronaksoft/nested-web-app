@@ -1,16 +1,3 @@
-<div class="nst-topnav _difh ng-class:{ 'bg-hur': topNavOpen }">
-  <div class="_fw _df">
-    <div ng-class="topNavOpen ? 'icon icon-top close-icon' : 'icon icon-top hamburger-icon'" ng-click="topNavOpen = !topNavOpen"></div>
-  </div>
-  <div class="_fw _jcc _df">
-    <a href="#/"><div id="Logo-white"></div></a>
-  </div>
-  <div class="_fw _df">
-    <a ng-if="!topNavOpen" href="#/compose"><div class="icon icon-top comp-icon _df"></div></a>
-    <a ng-if="topNavOpen" href="#/profile"><div class="icon icon-top profile-icon _df"></div></a>
-    <a ng-if="topNavOpen" href="#/signout"><div class="icon icon-top signout-icon _df"></div></a>
-  </div>
-</div>
 <nested-mini-navbar></nested-mini-navbar>
 <div class="nst-navbar _df">
   <div class="nst-content">
@@ -46,7 +33,7 @@
           </div>
 
           <div class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isMessages ? 'active' : null">
-            <a href="" ng-click="ctlFullNavbar.navigateMessages()">Messages</a>
+            <a href="" ng-click="ctlFullNavbar.navigateMessages()">Messages{{ctlApp.page.isActivity}}</a>
           </div>
           <div class="menu-links-btn _dib li-hover" ng-class="ctlApp.page.isActivity ? 'active' : null">
             <a href="" ng-click="ctlFullNavbar.navigateActivity()">Activity</a>
