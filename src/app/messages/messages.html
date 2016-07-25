@@ -1,4 +1,4 @@
-<div class="maincontainer _fw _fh ng-class:{'navtiny' : ctlApp.navView,'sidetiny' : sideView}" >
+<div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : sideView}" >
   <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
   <div class="nst-container">
     <nested-navbar data-ng-model="navbar" place="ctlMessages.currentPlace"></nested-navbar>
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="_fw quick-message _fn" ng-if="ctlMessages.ViewSetting.quickMessage">
+        <div class="_fw quick-message _fn" ng-if="ctlMessages.ViewSetting.quickMessage && ctlMessages.currentPlaceId">
           <input class="_fw input input-title" placeholder="Quick Message Title..."/>
           <input class="_fw input" placeholder="quick message text..."/>
 

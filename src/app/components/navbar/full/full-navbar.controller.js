@@ -17,7 +17,7 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-    
+
     vm.user = NstSvcAuth.getUser();
 
     $scope.srch = function srch() {
@@ -89,5 +89,8 @@
       }
     };
 
+    $scope.$watch('topNavOpen',function (newValue,oldValue) {
+      $rootScope.topNavOpen = newValue;
+    });
   }
 })();

@@ -430,11 +430,11 @@ a {
 }
 .maincontainer.sidetiny {
   .nst-navbar{
-    width: calc(100% - 72px);
+    width: calc(100% - 80px);
   }
   .nst-container{
-    margin-left: 72px;
-    width: calc(100% - 72px );
+    margin-left: 80px;
+    width: calc(100% - 80px );
   }
 }
 
@@ -933,13 +933,21 @@ ul ul li:last-child{
           height: 20px;
           padding-right: 8px;
           align-items: center;
+          max-width: 234px;
+          flex: none;
+          overflow: hidden;
           .sender {
             align-items: center;
+            overflow: hidden;
+            max-width: 100%;
             a {
               color: #476152;
               font-weight: 600;
               font-size: 11px;
               line-height: 13px;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
             }
           }
           .ei-comment-add{
@@ -1230,7 +1238,8 @@ ul ul li:last-child{
   overflow-y: auto;
   position: absolute;
   top:-11px!important;
-  left:366px!important;
+  left:auto!important;
+  right:-1px;
   z-index: 35;
   background: $color-white;
   border-radius: 6px 0px 6px 6px;

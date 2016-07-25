@@ -23,7 +23,7 @@
       <label class="_fw setting" for="comments"  ng-click="ctlMessages.toggleCommentsPreview()">Comments</label>
     </div>
   </div>
-  <div>
+  <div ng-if="ctlMessages.currentPlaceId">
     <div class="list-items"  ng-click="ctlMessages.toggleQuickMessagePreview()">
       <input class="_fr" type="checkbox" id="msg" name="msg" value="msg"
              data-ng-model="ctlMessages.ViewSetting.quickMessage"/>
