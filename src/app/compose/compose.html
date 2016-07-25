@@ -25,7 +25,7 @@
               </div>
 
               <div class="_df _fw input-select-match">
-                <ui-select page-change-element multiple class="address-input _dib" id="input-compose-to" tagging="ctlCompose.recipients.tagger" data-ng-model="ctlCompose.model.recipients">
+                <ui-select page-change-element multiple class="address-input _dib" id="input-compose-to" tagging="ctlCompose.search.tagger" data-ng-model="ctlCompose.model.recipients">
                   <ui-select-match placeholder="Type place name or email address...">
                     <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
                   </ui-select-match>
@@ -49,14 +49,14 @@
           </section>
           <hr data-ng-show="attachshow"/>
           <form name="attachmentForm">
-            <input page-change-element type="hidden" name="attLength" data-ng-model="attLength"/>
+            <input page-change-element type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
           </form>
 
           <div class="nst-attach _dif _fw" data-ng-show="attachshow">
             <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;delete = deleteAttachment;"
                  class="popover-green _df _fw attachlist"></div>
             <div class="attach _df">
-              <input id="{{ctlCompose.attach.id}}" type="file" multiple onchange="angular.element(this).scope().compose.setFile(event); angular.element(this).scope().attachmentForm.attLength.$setViewValue(angular.element(this).scope().compose.post.attachments.length);"/>
+              <input id="{{ctlCompose.attach.id}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
             </div>
             <div class="nst-attach-con _fh" ng-if="showUploadProgress">
               <div class="progress">

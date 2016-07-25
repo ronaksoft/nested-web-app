@@ -5,7 +5,7 @@
     .module('nested')
     .factory('NstRecipient', NstRecipient);
 
-  function NstRecipient(NstObservableObject) {
+  function NstRecipient(NstModel) {
     /**
      * Creates an instance of NstPostRecipient
      *
@@ -20,7 +20,7 @@
        * @type {undefined|String}
        */
       this.id = undefined;
-      
+
       /**
        * Recipient's email address
        *
@@ -34,17 +34,17 @@
        * @type {undefined|String}
        */
       this.name = undefined;
-      
-      NstObservableObject.call(this);
+
+      NstModel.call(this);
 
       if (data) {
         this.fill(data);
       }
     }
 
-    Recipient.prototype = new NstObservableObject();
+    Recipient.prototype = new NstModel();
     Recipient.prototype.constructor = Recipient;
-    
+
     return Recipient;
   }
 })();

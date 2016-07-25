@@ -23,8 +23,6 @@
       this.fn = fn || function () {};
       this.url = url || $state.href($state.current.name);
       this.data = data || {};
-
-      console.log('The Function: ', fn);
     }
 
     return VmNavbarControl;
