@@ -56,14 +56,7 @@
 
     vm.scroll = function(event){
       var t = event.target.scrollTop;
-      $timeout(function () {
-        if(t > 55){
-          $rootScope.navView = true
-        }else {
-          $rootScope.navView = false
-        }
-        //$rootScope.navView = t > 55;console.log(t)
-      });
+      $timeout(function () {$rootScope.navView = t > 55});
 
       if ( t > 0) {
         $("#content-plus").stop().css({

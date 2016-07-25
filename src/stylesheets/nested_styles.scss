@@ -150,8 +150,11 @@
   width: 20px;
   height: 20px;
 }
-.icon-fw {
+.icon-rp {
   background-position: 0 0;
+}
+.icon-fw {
+  background-position: 0 -40px;
 }
 .icon-delete-menu {
   background-position: 0 -20px;
@@ -980,6 +983,7 @@ ul ul li:last-child{
     line-height: 13px;
     font-weight: 400;
     margin-bottom: 12px;
+    padding-left: 8px;
   }
 }
 .nst-navbar .content-plus{
