@@ -70,7 +70,7 @@
         return {
           id: activity.actor.id,
           avatar: activity.actor.picture.thumbnails.x32.url.download,
-          name: activity.actor.fullName
+          name: activity.actor.firstName
         };
       }
 
@@ -92,7 +92,7 @@
     function toActivityItems(acts) {
       _.forEach(acts, function(act) {
         act.date = moment(act.date);
-      })
+      });
       var result = {
         // min: null,
         // max: null,
@@ -110,8 +110,8 @@
 
       result.hasAnyItem = true;
 
-      result.min = moment.min(_.map(acts, 'date'));
-      result.max = moment.max(_.map(acts, 'date'));
+      // result.min = moment.min(_.map(acts, 'date'));
+      // result.max = moment.max(_.map(acts, 'date'));
 
       var thisYearActs = _.filter(acts, function(act) {
         return act.date.isAfter(currentYearStart);
@@ -161,13 +161,13 @@
       _.forIn(yearGroups, function(yearActs, year) {
         var yearMoment = yearActs[0].date;
 
-        var min = yearMoment.startOf('year');
+        // var min = yearMoment.startOf('year');
         // var max = yearMoment.endOf('year');
 
         years.push({
           // min: min,
           // max: max,
-          date : yearMoment.startOf('year').format('YYYY'),
+          date : yearMoment.clone().startOf('year').format('YYYY'),
           items: mapActivityItems(sortActivities(yearActs))
         });
       });
@@ -199,7 +199,7 @@
         months.push({
           // min: min,
           // max: max,
-          date : monthMoment.startOf('month').format('MMM YYYY'),
+          date : monthMoment.clone().startOf('month').format('MMM YYYY'),
           items: mapActivityItems(sortActivities(monthActs))
         });
       });
@@ -279,7 +279,7 @@
         days.push({
           // min : min,
           // max : max,
-          date : dayMoment.startOf('day').format('DD MMM'),
+          date : dayMoment.clone().startOf('day').format('DD MMM'),
           items: mapActivityItems(sortActivities(dayActs))
         });
 
@@ -298,13 +298,21 @@
           comment: mapActivityComment(item),
           place: mapActivityPlace(item),
           post: mapActivityPost(item),
-          elapsed: getPassedTime(item.date),
+          time: getTime(item.date),
           date: moment(item.date).format('dddd, MMMM Do YYYY, HH:mm'),
           type: item.type
         };
       });
 
       return items;
+    }
+
+    function getTime(date) {
+      if (!moment.isMoment(date)) {
+        date = moment(date);
+      }
+
+      return date.format('HH:mm');
     }
 
     function getPassedTime(date) {
