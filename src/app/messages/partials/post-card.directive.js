@@ -14,7 +14,7 @@
       },
       templateUrl: 'app/messages/partials/message/post-card.html',
       controller: 'PostCardController',
-      controllerAs: 'ctlPost',
+      controllerAs: 'ctlPostCard',
       bindToController: {
         post: '=post',
         viewSetting: '=settings'

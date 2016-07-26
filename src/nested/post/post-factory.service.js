@@ -148,7 +148,7 @@
 
       get(postId).then(function(post) {
         if (post && post.id) {
-          retrieveComments(post, commentSettings).then(defer.resolve).catch(defer.reject);
+          NstSvcCommentFactory.retrieveComments(post, commentSettings).then(defer.resolve).catch(defer.reject);
         } else {
           defer.reject('could not find a post with provided id.');
         }

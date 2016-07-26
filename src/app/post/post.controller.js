@@ -6,17 +6,11 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($location, $scope, $stateParams, $uibModal, $q, $log, $timeout, _, toastr,
-    NstSvcAuth, NstSvcServer, NstSvcLoader, PostFactoryService, EVENT_ACTIONS, WS_EVENTS,
-    NstPost, NstComment, postId) {
+  function PostController($scope, $stateParams, $uibModal, $q, $log, _, toastr,
+    NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, EVENT_ACTIONS, NST_SRV_EVENT,
+    NstComment, postId) {
     var vm = this;
 
-    if (!NstSvcAuth.isInAuthorization()) {
-      $location.search({
-        back: $location.path()
-      });
-      $location.path('/signin').replace();
-    }
 
     vm.postLoadProgress = false;
     vm.commentSendProgress = false;
@@ -41,7 +35,7 @@
 
     (function () {
       vm.postLoadProgress = true;
-      PostFactoryService.getWithComments(vm.postId, vm.commentSettings).then(function (post) {
+      NstSvcPostFactory.getWithComments(vm.postId, vm.commentSettings).then(function (post) {
         vm.post = post;
         vm.postLoadProgress = false;
         // the conditions says maybe there are more comments that the limit
@@ -104,16 +98,20 @@
         return;
       }
 
+      vm.nextComment = "";
+
       $scope.commentSendInProgress = true;
 
-      PostFactoryService.addComment(vm.post, vm.user, body).then(function(post) {
+      NstSvcCommentFactory.addComment(vm.post, body).then(function(post) {
+        console.log('post comment',post);
         vm.post = post;
         e.currentTarget.value = '';
         $scope.scrolling = $scope.unscrolled && true;
         $scope.commentSendInProgress = false;
         // TODO: notify
       }).catch(function(error) {
-        // TODO: decide
+        vm.nextComment = body;
+        // TODO: decide && show toastr
       });
 
       return false;
@@ -121,7 +119,7 @@
 
     function loadMoreComments() {
       vm.commentLoadProgress = true;
-      PostFactoryService.retrieveComments(vm.post, vm.commentSettings).then(function (post) {
+      NstSvcPostFactory.retrieveComments(vm.post, vm.commentSettings).then(function (post) {
         vm.post = post;
         vm.commentLoadProgress = false;
         vm.scrolling = true;
@@ -132,16 +130,16 @@
     }
 
 
-    NstSvcServer.addEventListener(WS_EVENTS.TIMELINE, function(tlEvent) {
+    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(tlEvent) {
       switch (tlEvent.detail.timeline_data.action) {
         case EVENT_ACTIONS.COMMENT_ADD:
         case EVENT_ACTIONS.COMMENT_REMOVE:
 
-          if ($scope.thePost.id == tlEvent.detail.timeline_data.post_id.$oid) {
+          if (vm.post.id == tlEvent.detail.timeline_data.post_id.$oid) {
             var commentId = tlEvent.detail.timeline_data.comment_id.$oid;
 
-            NstSvcLoader.inject((new NstComment($scope.thePost)).load(commentId).then(function(comment) {
-              $scope.thePost.addComment(comment).then(function() {
+            NstSvcLoader.inject((new NstComment(vm.post)).load(commentId).then(function(comment) {
+              vm.post.addComment(comment).then(function() {
                 $scope.scrolling = $scope.unscrolled && true;
 
                 return $q(function(res) {
@@ -164,11 +162,11 @@
      */
     function removeComment(comment) {
       vm.commentRemoveProgress = true;
-      PostFactoryService.removeComment(vm.post, comment).then(function(comment) {
+      NstSvcCommentFactory.removeComment(vm.post, comment).then(function(comment) {
         vm.commentRemoveProgress = false;
         //notify
       }).catch(function(error) {
-        //decide
+        // TODO: decide && show toastr
       });
     }
 
@@ -244,7 +242,7 @@
           var defer = $q.defer();
 
           confirmOnDelete(post, place).then(function() {
-            PostFactoryService.remove(post.id, place.id).then(function(res) {
+            NstSvcPostFactory.remove(post.id, place.id).then(function(res) {
               // reload the post, update the time line and notify the user
               // FIXME: the taost message appears only for the first time!
               toastr.success('The post is removed from the place.');

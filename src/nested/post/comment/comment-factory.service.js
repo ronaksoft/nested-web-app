@@ -85,7 +85,7 @@
         if (result) {
           NstSvcPostStorage.set(post.id, post);
         }
-        defer.resolve(comment);
+        defer.resolve(post);
         // dispatchEvent(new CustomEvent(NST_COMMENT_FACTORY_EVENT.COMMENT_ADDED, new NstFactoryEventData(post)));
       }).catch(defer.reject);
 
