@@ -266,10 +266,12 @@
         message.internal = data.internal;
         message.lastUpdate = data.last_update;
         message.date = new Date(data.timestamp);
+        message.replyTo = data.reply_to ? data.reply_to.$oid : undefined;
+        message.forwardFrom = data.forward_from ? data.forward_from.$oid : undefined;
 
         var senderPromise = NstSvcUserFactory.get(data.sender._id);
-        var replyToPromise = get(data.reply_to ? data.reply_to.$oid : undefined);
-        var forwardedFromPromise = get(data.forwarded_from ? data.forwarded_from.$oid : undefined);
+        // var replyToPromise = get(data.reply_to ? data.reply_to.$oid : undefined);
+        // var forwardFromPromise = get(data.forward_from ? data.forward_from.$oid : undefined);
         var placePromises = _.map(data.post_places, function (place) {
           return NstSvcPlaceFactory.parseTinyPlace(place);
         });
@@ -282,18 +284,18 @@
           return NstSvcCommentFactory.parseMessageComment(comment);
         });
 
-        // var promises = _.concat(senderPromise, replyToPromise, forwardedFromPromise);
+        // var promises = _.concat(senderPromise, replyToPromise, forwardFromPromise);
 
         senderPromise.then(function (sender) {
           message.sender = sender;
 
-          return replyToPromise;
-        }).then(function (replyTo) {
-          message.replyTo = replyTo;
-
-          return forwardedFromPromise;
-        }).then(function (forwardedFrom) {
-          message.forwardedFrom = forwardedFrom;
+        //   return replyToPromise;
+        // }).then(function (replyTo) {
+        //   message.replyTo = replyTo;
+        //
+        //   return forwardFromPromise;
+        // }).then(function (forwardFrom) {
+        //   message.forwardFrom = forwardFrom;
 
           return $q.all(placePromises);
         }).then(function(places) {
