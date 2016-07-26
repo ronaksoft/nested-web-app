@@ -598,15 +598,18 @@ a:hover {
 }
 
 .modal {
-  min-width: 900px;
+  min-width: 600px;
   min-height: 600px;
   padding: 80px 0;
   display: flex!important;
   justify-content: center;
   align-items: center;
+  position: absolute;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
-
+body.modal-open {
+  overflow: auto;
+}
 .modal-buttons {
   justify-content: flex-end;
   height: 32px;
@@ -683,9 +686,8 @@ a:hover {
 }
 
 .modal-mlg {
-  margin: 0 80px;
   width: calc(100% - 160px);
-  max-width: 1600px;
+  max-width: 1200px;
 }
 
 .modal-sm {
@@ -933,6 +935,10 @@ a .ui-select-choises-row-inner {
 .nst-mood-simple {
   color: $color-solid-60;
   flex:none
+}
+
+.nst-mood-pending {
+  color: $color-bg-pending;
 }
 
 .nst-mood-smooth {
