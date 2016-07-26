@@ -22,7 +22,7 @@
     vm.urls = {
       messages : '',
       activity : '',
-      settings : '',
+      settings : ''
     };
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;

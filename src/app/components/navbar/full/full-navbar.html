@@ -25,7 +25,8 @@
           </div>
         </div>
       </div>
-      <div class="navbar-bottom">
+
+      <div class="navbar-bottom" data-ng-if="!ctlFullNavbar.controls">
         <div ng-click="srch('overlay', 'inputsearch');" id="overlay"></div>
         <div class="_pa">
           <div class="menu-links-search _dib _vam">
@@ -110,15 +111,23 @@
         </div>
       </div>
 
-      <div class="navbar-bottom" id="nav-com">
-        <div class="_df _fw">
-          <a href="#/events" class="butn-white-nav nst-mood-storm">Discard</a>
+      <div class="navbar-bottom" data-ng-if="ctlFullNavbar.controls">
+        <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
+          <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
+             href="{{control.url}}" data-ng-click="control.fn()">{{control.caption}}</a>
+          <label data-ng-switch-when="button-label" class="butn-white-nav nst-mood-storm"
+                 data-ng-click="control.fn()" for="{{control.data.id}}">{{control.caption}}</label>
+          <a data-ng-switch-when="button-success" class="butn-green-nav"
+             href="{{control.url}}" data-ng-click="control.fn()">{{control.caption}}</a>
         </div>
-        <div class="_df _fn">
-          <a href="javascript:void(0);" class="_fr butn-white-nav nst-mood-storm"><label for='attach'>Attach</label></a>
-        </div>
-        <div class="_df _fn">
-          <a href="javascript:void(0);" class="_fr butn-green-nav" ng-click="ctlCompose.send()" data-ng-disabled="!ctlCompose.model.ready">Send</a>
+
+        <div class="_df _fn" data-ng-repeat="control in ctlFullNavbar.controls.right" data-ng-switch="control.type">
+          <a data-ng-switch-when="button" class="_fr butn-white-nav nst-mood-storm"
+             href="{{control.url}}" data-ng-click="control.fn()">{{control.caption}}</a>
+          <label data-ng-switch-when="button-label" class="_fr butn-white-nav nst-mood-storm"
+                 data-ng-click="control.fn()" for="{{control.data.id}}">{{control.caption}}</label>
+          <a data-ng-switch-when="button-success" class="_fr butn-green-nav"
+             href="{{control.url}}" data-ng-click="control.fn()">{{control.caption}}</a>
         </div>
       </div>
 
@@ -140,7 +149,6 @@
         </div>
       </div>
     </div>
-    <div class="content-plus">
-    </div>
+    <div class="content-plus"></div>
   </div>
 </div>

@@ -50,21 +50,31 @@
 
     $rootScope.modals = {};
 
+    /***************************
+     **** Disconnected Modal ***
+     ***************************/
+
+    var dcModalPromise;
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
-      if (!$rootScope.modals['unauthorized'] && NST_UNREGISTER_REASON.DISCONNECT == event.detail.reason) {
-        $rootScope.modals['unauthorized'] = $uibModal.open({
-          animation: false,
-          templateUrl: 'app/unauthorized/unauthorized.html',
-          controller: 'UnauthorizedController',
-          size: 'sm'
-        });
+      if (!$rootScope.modals['disconnected'] && NST_UNREGISTER_REASON.DISCONNECT == event.detail.reason) {
+        dcModalPromise = $timeout(function () {
+          $rootScope.modals['disconnected'] = $uibModal.open({
+            animation: false,
+            templateUrl: 'app/modals/disconnected/main.html',
+            controller: 'DisconnectedController',
+            controllerAs: 'ctlDisconnected',
+            size: 'sm'
+          });
+        }, 4000);
       }
     });
-
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
-      if ($rootScope.modals['unauthorized']) {
-        $rootScope.modals['unauthorized'].close();
-        delete $rootScope.modals['unauthorized'];
+      if ($rootScope.modals['disconnected']) {
+        $rootScope.modals['disconnected'].close();
+        delete $rootScope.modals['disconnected'];
+      } else if (dcModalPromise) {
+        $timeout.cancel(dcModalPromise);
+        dcModalPromise = undefined;
       }
     });
 

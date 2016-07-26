@@ -8,9 +8,9 @@
   /** @ngInject */
   function ComposeController($q, $location, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,
-                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT,
+                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE,
                              NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
-                             NstStoreResource, NstPost, NstPlace, NstVmPlace, NstVmSelectTag, NestedRecipient) {
+                             NstStoreResource, NstTinyPlace, NstPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl) {
     var vm = this;
 
     /*****************************
@@ -19,21 +19,41 @@
 
     vm.model = {
       recipients: [],
-      subject: '',
       attachments: [],
+      subject: '',
       body: '',
-      ready: false
+      forwardedFrom: null,
+      replyTo: null,
+      ready: false,
+      saving: false,
+      saved: false
     };
 
+    vm.attach = {
+      id: 'attach'
+    };
+
+    vm.place = undefined;
+
+    vm.controls = {
+      left: [
+        // TODO: Get Previous state
+        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('home'))
+      ],
+      right: [
+        new NstVmNavbarControl('Attach', NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attach.id })
+      ]
+    };
 
     vm.search = {
       results: []
     };
 
-    vm.recipients = {
-    };
-
     vm.attachments = {
+      size: {
+        uploaded: 0,
+        total: 0
+      }
     };
 
     vm.configs = {
@@ -71,7 +91,7 @@
       });
     };
 
-    vm.recipients.tagger = function (text) {
+    vm.search.tagger = function (text) {
       // FIXME: To use new class and also check for hidden places
       var isPlaceId = 0 == text.split('.').filter(function (v, i) {
           return !(0 == i ? NST_PATTERN.GRAND_PLACE_ID.test(v) : NST_PATTERN.SUB_PLACE_ID.test(v));
@@ -82,13 +102,15 @@
         var tag = new NstVmSelectTag({
           id: text,
           name: text,
-          data: NstSvcPlaceFactory.get(text).then(function (place) {
+          data: NstSvcPlaceFactory.getTiny(text).then(function (place) {
             $timeout(function () {
               tag.name = place.getName();
               tag.data = place;
             });
           }).catch(function () {
-            tag.isTag = false;
+            $timeout(function () {
+              tag.isTag = false;
+            });
           })
         });
 
@@ -97,24 +119,113 @@
         return new NstVmSelectTag({
           id: text,
           name: text,
-          data: new NestedRecipient(text)
+          data: new NstRecipient({
+            id: text,
+            email: text,
+            name: text
+          })
         });
       }
 
       return new NstVmSelectTag();
     };
 
-    vm.attachments.attach = function () {
+    vm.attachments.fileSelected = function (event) {
+      event.currentTarget.files.map(vm.attachments.attach);
+    };
+
+    vm.attachments.fileDropped = function (event) {
+      event.currentTarget.files.map(vm.attachments.attach);
+    };
+
+    vm.attachments.attach = function (file) {
+      vm.model.ready = false;
+    };
+
+    vm.attachments.detach = function (id) {
 
     };
 
-    vm.attachments.detach = function () {
+    // TODO: Call this while model is changed
+    vm.model.check = function () {
+      var result = true;
 
+      result = result && vm.model.subject.trim().length > 0;
+      result = result && vm.model.recipients.length > 0;
+      for (var k in vm.model.recipients) {
+        var recipient = vm.model.recipients[k];
+        if (recipient instanceof NstVmSelectTag) {
+          if (recipient.data instanceof NstPlace) {
+          } else if (recipient.data instanceof NstRecipient) {
+          } else {
+            result = false;
+          }
+        } else if (recipient instanceof NstPlace) {
+        } else if (recipient instanceof NstTinyPlace) {
+        } else if (recipient instanceof NstVmPlace) {
+        } else {
+          result = false;
+        }
+      }
+
+      vm.model.ready = result;
+
+      return vm.model.ready;
     };
 
     vm.send = function () {
-      var post = NstSvcPostFactory.createPostModel();
+      vm.model.check();
+      if (vm.model.ready && !vm.model.saving) {
+        vm.model.saving = true;
+        var post = NstSvcPostFactory.createPostModel();
+        post.setSubject(vm.model.subject);
+        post.setBody(vm.model.body);
+        post.setContentType('text/html');
+        post.setAttachments(vm.model.attachments);
+        vm.model.forwardedFrom && post.setForwarded(vm.model.forwardedFrom);
+        vm.model.replyTo && post.setReplyTo(vm.model.replyTo);
+
+        var places = [];
+        var recipients = [];
+        for (var k in vm.model.recipients) {
+          var recipient = vm.model.recipients[k];
+          if (recipient instanceof NstVmSelectTag) {
+            if (recipient.data instanceof NstPlace) {
+              places.push(recipient.data);
+            } else if (recipient.data instanceof NstRecipient) {
+              recipients.push(recipient.data);
+            }
+          } else if (recipient instanceof NstPlace) {
+            places.push(recipient);
+          } else if (recipient instanceof NstTinyPlace) {
+            places.push(recipient);
+          } else if (recipient instanceof NstVmPlace) {
+            places.push(NstSvcPlaceFactory.parseTinyPlace({
+              _id: recipient.id,
+              name: recipient.name
+            }));
+          }
+        }
+        post.setRecipients(recipients);
+        post.setPlaces(places);
+
+        var deferred = $q.defer();
+
+        NstSvcLoader.inject(NstSvcPostFactory.send(post).then(function (response) {
+          vm.model.saving = false;
+          vm.model.saved = true;
+          // TODO: Check if one or more places failed
+          toastr.success('Your message has been successfully sent.', 'Message Sent');
+          $state.go('messages-sent');
+        }).catch(function (error) {
+          vm.model.saving = false;
+          console.log('Compose | Error Occured: ', error);
+        }));
+
+        return deferred.promise;
+      }
     };
+    vm.controls.right.push(new NstVmNavbarControl('Send', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
     /*****************************
      *****  Controller Logic  ****
@@ -128,7 +239,12 @@
           } else {
             getPlace($stateParams.placeId).then(function (place) {
               // FIXME: Push Compose Recipient View Model Instead
-              vm.model.recipients.push(new NstVmPlace(place));
+              vm.model.recipients.push(new NstVmSelectTag({
+                id: place.getId(),
+                name: place.getName(),
+                data: place
+              }));
+              vm.place = place;
             });
           }
         }
@@ -143,6 +259,7 @@
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
               vm.model.body = post.getBody();
               vm.model.attachments = post.getAttachments();
+              vm.model.forwardedFrom = post;
             });
           }
         }
@@ -154,11 +271,16 @@
             $state.go('compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
+              vm.model.replyTo = post;
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
               var places = post.getPlaces();
               for (var k in places) {
-                // FIXME: Push Compose Recipient View Model Instead
-                vm.model.recipients.push(new NstVmPlace(places[k]));
+                var place = places[k];
+                vm.model.recipients.push(new NstVmSelectTag({
+                  id: place.getId(),
+                  name: place.getName(),
+                  data: place
+                }));
               }
             });
           }
@@ -171,11 +293,17 @@
             $state.go('compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
+              vm.model.replyTo = post;
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
 
               // TODO: First search in post places to find a match then try to get from factory
               return getPlace(post.getSender().getId()).then(function (place) {
-                vm.model.recipients.push(new NstVmPlace(place));
+                vm.place = place;
+                vm.model.recipients.push(new NstVmSelectTag({
+                  id: place.getId(),
+                  name: place.getName(),
+                  data: place
+                }));
               });
             })
           }
@@ -184,7 +312,6 @@
     }
 
     NstSvcLoader.finished().then(function () {
-      console.log(vm.model);
     });
 
     /*****************************
@@ -234,18 +361,17 @@
       $scope.sendStatus = !(vm.recipients.length > 0);
     };
 
-    $scope.leaveReason = '';
     $scope.changeMe = function ($event, $toState, $toParams, $fromState, $fromParams, $cancel) {
-      if ('SEND' == $scope.leaveReason) {
+      if (vm.model.saved) {
         $cancel.$destroy();
         $state.go($toState.name);
-
       } else {
         vm.confirmModal = function () {
           $uibModal.open({
             animation: false,
             templateUrl: 'app/compose/confirm.html',
             controller: 'WarningController',
+            controllerAs: 'ctlWarning',
             size: 'sm',
             scope: $scope
           }).result.then(function () {
@@ -261,17 +387,6 @@
         vm.confirmModal();
       }
     };
-
-    $scope.upload_size = {
-      uploaded: 0,
-      total: 0
-    };
-
-    vm.post = new NstPost();
-    // TODO : attachment preview should be enabled in compose page, Why model controls attachmentPreview??
-    vm.post.attachmentPreview = true;
-    $scope.attachshow = false;
-    $scope.showUploadProgress = false;
 
     $scope.deleteAttachment = function (attachment) {
       new $q(function (resolve, reject) {
@@ -294,21 +409,7 @@
       });
     };
 
-    vm.setFile = function (event) {
-      var element = event.currentTarget;
-      var length = element.files.length;
-      var files = [];
-      files.file = {};
-      for (var i = 0; i < length; i++) {
-        var file = element.files[i];
-        var man = {};
-        man.file= file;
-        files.push(man)
-      }
-      vm.attach(files);
-    };
-
-    vm.attach = function (files) {
+    vm.attachMethod = function (files) {
       $scope.attachshow = true;
 
       var counter = 0;
@@ -394,36 +495,6 @@
       });
     };
 
-    vm.sendPost = function () {
-      $scope.sendStatus = true;
-      var post = $scope.compose.post;
-      post.contentType = 'text/html';
-      for (var k in $scope.compose.recipients) {
-        if ($scope.compose.recipients[k] instanceof NstPlace) {
-          post.places.push($scope.compose.recipients[k]);
-        } else {
-          post.recipients.push($scope.compose.recipients[k]);
-        }
-      }
-
-      post.update().then(function (post) {
-        toastr.success('Your message has been successfully sent.', 'Message Sent');
-        $scope.leaveReason = 'SEND';
-        $location.path('/events');
-        $scope.sendStatus = false;
-      }).catch(function (data) {
-        switch (data.err_code) {
-          case NST_SRV_ERROR.ACCESS_DENIED:
-            toastr.error('You do not have enough access', 'Message Not Sent!');
-            break;
-
-          default:
-            toastr.error('Error occurred during sending message.', 'Message Not Sent!');
-            break;
-        }
-        $scope.sendStatus = false;
-      });
-    };
     /**
      * @property interface
      * @type {Object}

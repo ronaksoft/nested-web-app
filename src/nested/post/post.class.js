@@ -15,19 +15,41 @@
 
       this.body = null;
       this.contentType = "text/plain";
-      this.sender = null; // <NestedUser>
-      this.replyTo = null;
+
+      /**
+       * Post Sender
+       *
+       * @type {NstUser}
+       */
+      this.sender = null;
+
       this.date = null;
       this.updated = null;
-      this.attachments = []; // [<NstAttachment>]
+
+      // FIXME: WTF is this doin here? :D
       this.attachmentPreview = false;
-      this.comments = []; // [<NstComment>]
-      this.places = []; // [<NstPlace>]
-      this.recipients = []; // [<NestedRecipients>]
+
+      /**
+       * Post Comments
+       *
+       * @type {NstComment[]}
+       */
+      this.comments = [];
+
+      /**
+       * Post Recipients
+       *
+       * @type {NstRecipient[]}
+       */
+      this.recipients = [];
+
       this.spam = 0;
       this.monitored = false;
       this.internal = false;
+
       this.forwarded = null;
+      this.replyTo = null;
+
       this.counters = {
         attaches: -1,
         comments: -1,
@@ -41,9 +63,7 @@
       if (model && model.id) {
         this.fill(model);
       }
-
     }
-
 
     /**
      * Post.prototype.removeComment - remove a comment from its post by id

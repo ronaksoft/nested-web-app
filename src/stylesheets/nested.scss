@@ -321,6 +321,15 @@ a.place {
 .butn-white:hover a{
   color: $color-storm;
 }
+.butn-lg {
+  padding: 4px 16px;
+  font-size: 16px;
+  line-height: 1.33333;
+}
+.butn-login {
+  width: 100%;
+  margin: 0;
+}
 .large-font {
   font-size: $font-size-large;
 }
@@ -1962,9 +1971,6 @@ a.normal-badge {
   *     Nested pages -   * comPose
   *********************************************************
 */
-#nav-com {
-  display: none;
-}
 .maincontainer.compose-hld {
   .content-plus {
     display: none;
@@ -1982,7 +1988,6 @@ a.normal-badge {
     display: flex;
   }
   .navbar-bottom {
-    display: none;
     div {
       align-items: center;
     }
