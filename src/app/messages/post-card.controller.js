@@ -240,17 +240,9 @@
     //TODO put it in directive ...
     vm.languageIsRtl = function (str) {
       str = str.trim();
-      var letters = [],rtlChars = 0,ltrChars = 0;
+      var charCode = str.charCodeAt(0);
 
-      for (var i = 1; i <= str.length + 1; i++) {
-        letters[i] = str.substring((i - 1), i);
-        if (letters[i].charCodeAt(0) > 1300 && 1700 > letters[i].charCodeAt(0)) {
-          ++rtlChars;
-        }else  if(letters[i].charCodeAt() < 1300){
-          ++ltrChars;
-        }
-      }
-      return rtlChars > ltrChars/2 && rtlChars > 2;
+      return charCode > 1300 && 1700 > charCode;
     };
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(e) {
