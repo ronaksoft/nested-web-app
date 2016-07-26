@@ -7,7 +7,7 @@
       <section class="content">
         <div class="filter-bar _fw">
             <div class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
-              <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort}}</span>
+              <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort == 'latest-messages' ? 'Latest Messages' : 'Latest Activity'}}</span>
               <div class="icon icon-viewicon-sort _df"></div>
             </div>
             <div class="iconsblock popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
