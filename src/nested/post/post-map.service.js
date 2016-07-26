@@ -20,22 +20,6 @@
     function toMessage(post) {
       var now = moment();
 
-      var fileTypes = {
-        'image': 'Image',
-        'audio': 'Audio',
-        'video': 'Video',
-        'text': 'Text',
-        'application': 'Application'
-      };
-
-      var fileFormats = {
-        'zip': 'ZIP',
-        'x-rar-compressed': 'RAR',
-        'rtf': 'DOC',
-        'msword': 'DOCX',
-        'vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOC'
-      };
-
       var firstPlace = _.first(post.places);
 
       return {
@@ -79,6 +63,34 @@
           format: findFileFormat(attach),
           thumbnail: attach.thumbnail.getThumbnail('128').url.download
         };
+
+        function findFileType(attach) {
+          var fileTypes = {
+            'image': 'Image',
+            'audio': 'Audio',
+            'video': 'Video',
+            'text': 'Text',
+            'application': 'Application'
+          };
+
+          var type = attach.mimeType.split('/')[0];
+
+          return fileTypes[type] || 'Unknown';
+        }
+
+        function findFileFormat(attach) {
+          var fileFormats = {
+            'zip': 'ZIP',
+            'x-rar-compressed': 'RAR',
+            'rtf': 'DOC',
+            'msword': 'DOCX',
+            'vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOC'
+          };
+          
+          var format = attach.mimeType.split('/')[1];
+
+          return fileFormats[format] || 'File';
+        }
       }
 
       function mapPlace(place) {
@@ -115,6 +127,8 @@
 
         return date.format("MMM DD YYYY, HH:mm"); // last year and older
       }
+
+
 
       function mapComment(comment) {
         return NstSvcCommentMap.toMessageComment(comment);
