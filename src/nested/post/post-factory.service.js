@@ -228,7 +228,11 @@
 
         post.recipients = []; // TODO: ?
         for (var k in data.recipients) {
-          post.recipients[k] = new NstRecipient(data.recipients[k]);
+          post.recipients[k] = new NstRecipient({
+            id: data.recipients[k],
+            name: data.recipients[k],
+            email: data.recipients[k]
+          });
         }
 
         if (post.full) {
