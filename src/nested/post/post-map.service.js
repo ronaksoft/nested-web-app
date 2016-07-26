@@ -53,7 +53,7 @@
         hasAnyAttachment: post.attachments.length > 0,
         comments: _.map(post.comments, mapComment),
         hasAnyComment: post.comments.length > 0,
-        commentsCount: post.counters.comments,
+        commentsCount: post.counters.comments > -1 ? post.counters.comments : 0,
         isReplyed : !!post.replyTo,
         isForwarded : !!post.forwardFrom
         // userHasRemoveAccess : post.haveAnyPlaceWithDeleteAccess()

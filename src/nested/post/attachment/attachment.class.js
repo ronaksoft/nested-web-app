@@ -20,8 +20,8 @@
         this.ownerIds = [];
         this.uploader = null; // <NstUser>
         this.uploaderId = null;
-        this.thumbnail = null;
-        this.file = null; // NstStoreResource
+        this.thumbnail = null; //<NstPicture>
+        this.fileName = null; // NstStoreResource
 
         NstModel.call(this);
 
@@ -34,7 +34,6 @@
       // make sure is it right to change the status here or not
       Attachment.prototype.setStatus = function(status) {
         this.status = status;
-        this.change();
       }.bind(this);
 
       Attachment.prototype.getClientId = function() {
@@ -53,7 +52,6 @@
         if (this.canceler) {
           this.canceler();
           this.status = NST_ATTACHMENT_STATUS.ABORTED;
-          this.change();
         }
       }
 
