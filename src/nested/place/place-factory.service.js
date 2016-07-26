@@ -6,7 +6,7 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q,
-                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
+                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_AUTH_EVENT,
                               NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage,
                               NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace) {
     function PlaceFactory() {
@@ -612,6 +612,10 @@
         role: role
       });
     };
+
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+      NstSvcMyPlaceIdStorage.flush();
+    });
 
     return new PlaceFactory();
   }
