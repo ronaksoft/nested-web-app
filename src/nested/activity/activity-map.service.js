@@ -427,6 +427,35 @@
     function sortActivities(activities) {
       return _.orderBy(activities, 'date', 'desc');
     }
+
+    function findFileType(attach) {
+      var fileTypes = {
+        'image': 'Image',
+        'audio': 'Audio',
+        'video': 'Video',
+        'text': 'Text',
+        'application': 'Application'
+      };
+
+      var type = attach.mimeType.split('/')[0];
+
+      return fileTypes[type] || 'Unknown';
+    }
+
+    function findFileFormat(attach) {
+      var fileFormats = {
+        'zip': 'ZIP',
+        'x-rar-compressed': 'RAR',
+        'rtf': 'DOC',
+        'msword': 'DOCX',
+        'vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOC'
+      };
+
+
+      var format = attach.mimeType.split('/')[1];
+
+      return fileFormats[format] || 'File';
+    }
   }
 
 })();

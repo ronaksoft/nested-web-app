@@ -116,18 +116,6 @@
         return date.format("MMM DD YYYY, HH:mm"); // last year and older
       }
 
-      function findFileType(attach) {
-        var type = attach.mimeType.split('/')[0];
-
-        return fileTypes[type] || 'Unknown';
-      }
-
-      function findFileFormat(attach) {
-        var format = attach.mimeType.split('/')[1];
-
-        return fileFormats[format] || 'File';
-      }
-
       function mapComment(comment) {
         return NstSvcCommentMap.toMessageComment(comment);
       }

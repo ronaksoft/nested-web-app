@@ -8,7 +8,7 @@
   function NstSvcActivityFactory($q, $log,
     _, moment,
     NST_ACTIVITY_FILTER,
-    NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
+    NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,
     NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstAttachment) {
 
     /**
@@ -82,28 +82,28 @@
         if (!data.post_id) { // could not find any post inside
           defer.resolve(null);
         } else {
-          var tinyPost = new NstPost({
-            id: data.post_id.$oid,
-            subject: data.post_subject,
-            body: data.post_body,
-            senderId: data.actor,
-            places: _.map(data.post_places, function(place) {
-              return new NstTinyPlace({
-                id: place._id,
-                name: place.name,
-                picture: new NstPicture(null, place.picture)
-              });
-            }),
-            attachments: _.map(data.post_attachments, function(item) {
-              return new NstAttachment({
-                // id : ,
-                // postId : ,
-                //
-              });
-            })
+          var attachmentPromises = _.map(data.post_attachments, function (attachment) {
+            return NstSvcAttachmentFactory.parseAttachment(attachment);
           });
 
-          defer.resolve(tinyPost);
+          $q.all(attachmentPromises).then(function (values) {
+            var tinyPost = new NstPost({
+              id: data.post_id.$oid,
+              subject: data.post_subject,
+              body: data.post_body,
+              senderId: data.actor,
+              places: _.map(data.post_places, function(place) {
+                return new NstTinyPlace({
+                  id: place._id,
+                  name: place.name,
+                  picture: new NstPicture(null, place.picture)
+                });
+              }),
+              attachments : values
+            });
+
+            defer.resolve(tinyPost);
+          });
         }
 
         return defer.promise;
