@@ -12,16 +12,27 @@
 
       this.id = null;
       this.subject = null;
-      this.places = []; // aray of places id
       this.senderId = null; // sender id
-      this.attachments = null;
+      
+      /**
+       * Post Places
+       *
+       * @type {NstPlace[]}
+       */
+      this.places = [];
+
+      /**
+       * Post Attachments
+       *
+       * @type {NstAttachment[]}
+       */
+      this.attachments = [];
 
       NstModel.call(this, model);
 
       if (model && model.id) {
         this.fill(model);
       }
-
     }
 
     return TinyPost;

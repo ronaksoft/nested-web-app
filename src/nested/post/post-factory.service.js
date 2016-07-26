@@ -15,12 +15,13 @@
      */
     var service = {
       get: get,
+      send: send,
       remove: remove,
       createPostModel: createPostModel,
       getWithComments: getWithComments,
       getMessages: getMessages,
       getPlaceMessages: getPlaceMessages,
-      parsePost: parsePost,
+      parsePost: parsePost
     };
 
     return service;
@@ -36,10 +37,10 @@
       var query = new NstFactoryQuery(id);
 
       return $q(function(resolve, reject) {
-        if (!this.query.id){
+        if (!query.id){
           resolve(null);
         } else {
-          var post = NstSvcPostStorage.get(this.query.id);
+          var post = NstSvcPostStorage.get(query.id);
           if (post) {
             resolve(post);
           } else {
@@ -47,20 +48,53 @@
               post_id : query.id
             }).then(function(data) {
               post = parsePost(data.post);
-              NstSvcPostStorage.set(this.query.id, post);
+              NstSvcPostStorage.set(query.id, post);
               resolve(post);
-            }.bind({
-              query: this.query
-            })).catch(function(error) {
+            }).catch(function(error) {
               reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            }.bind({
-              query: this.query
-            }));
+            });
           }
         }
-      }.bind({
-        query: query
-      }));
+      });
+    }
+
+    function send(post) {
+      var deferred = $q.defer();
+
+      var params = {
+        targets: '',
+        content_type: post.getContentType(),
+        subject: post.getSubject(),
+        body: post.getBody()
+      };
+
+      params.targets = post.getPlaces().map(
+        function (place) { return place.getId(); }
+      ).concat(post.getRecipients().map(
+        function (recipient) { return recipient.getId(); }
+      )).join(',');
+
+      if (post.getReplyTo()) {
+        params.reply_to = post.getReplyTo().getId();
+      }
+
+      if (post.getForwarded()) {
+        params.forwarded_from = post.getForwarded().getId();
+      }
+
+      if (post.getAttachments()) {
+        params.attaches = post.getAttachments().map(
+          function (attachment) { return attachment.getId(); }
+        ).join(',');
+      }
+
+      NstSvcServer.request('post/add', params).then(function (response) {
+        post.setId(response.post_id.$oid);
+
+        deferred.resolve(post);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
     }
 
     /**
