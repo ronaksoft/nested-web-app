@@ -237,21 +237,12 @@
         (Date.now() - comment.date < 20 * 60 * 1e3);
     }
 
+    //TODO put it in directive ...
     vm.languageIsRtl = function (str) {
       str = str.trim();
-      var rtlDiff = 0;
+      var charCode = str.charCodeAt(0);
 
-      for (var i = 0; i <= str.length; i++) {
-        var char = str[i];
-        var charCode = char.charCodeAt(0);
-        if (charCode > 1300 && 1700 > charCode) {
-          rtlDiff++;
-        } else if (charCode < 1300) {
-          rtlDiff -= 0.5;
-        }
-      }
-
-      return rtlDiff > 2;
+      return charCode > 1300 && 1700 > charCode;
     };
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(e) {

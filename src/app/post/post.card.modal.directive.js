@@ -10,7 +10,7 @@
         link: link,
         template: '<div ng-click="openPostCardModal(post.id)" ng-transclude></div>',
         restrict: 'EA',
-        replace: true,
+        replace: false,
         transclude: true,
         scope: {
           post : '='
