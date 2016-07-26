@@ -70,6 +70,7 @@
         return {
           id: activity.actor.id,
           avatar: activity.actor.picture.thumbnails.x32.url.download,
+          fullname: activity.actor.getFullName(),
           name: activity.actor.firstName
         };
       }

@@ -1,4 +1,4 @@
-<div class="post-card _fw"  >
+<div class="post-card _fw">
   <section class="post-card-badge">
     <a class="">{{ctlPostCard.post.firstPlace.name}}</a>
     <a ng-if="ctlPostCard.post.allPlacesCount > 1" class="popover-white-nst-msg"
@@ -13,21 +13,22 @@
     </div>
     <div class="_fw _difc">
       <div class="_difc _fw">
-        <div ng-if="ctlPostCard.post.hasAnyAttachment" class="icon icon-post-head icon-attach"></div>
-        <div ng-if="ctlPostCard.post.forwarded" class="icon icon-post-head icon-fw"></div>
-        <div ng-if="ctlPostCard.post.replied" class="icon icon-post-head icon-reply"></div>
+        <div ng-if="ctlPostCard.post.hasAnyAttachment" class="icon icon-post-head icon-attached"></div>
+        <div ng-if="ctlPostCard.post.isForwarded" class="icon icon-post-head icon-fwd"></div>
+        <div ng-if="ctlPostCard.post.isReplyed" class="icon icon-post-head icon-replied"></div>
         <h4 class="_df">{{ctlPostCard.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{ctlPostCard.post.sender.username}}</span>
       </div>
       <span class="_df _fn post-card-time">{{ctlPostCard.post.date}}</span>
     </div>
   </section>
-  <section class="post-subject" post-card-modal post="ctlPostCard.post">
+  <section class="post-subject" post-card-modal post="ctlPostCard.post" dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.subject)) ? 'rtl' : 'ltr'}}">
     <h3 ng-if="ctlPostCard.post.subject.length > 0">{{ctlPostCard.post.subject}}</h3>
     <h3 ng-if="ctlPostCard.post.subject.length < 1"><i>No Subject</i></h3>
   </section >
-  <section class="post-body {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : 'pre'}}"
+  <section class="post-body {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
            post-card-modal post="ctlPostCard.post"
-           ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.viewSetting.content">{{ctlPostCard.post.body | emoji}}
+           ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.viewSetting.content"
+           dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.body)) ? 'rtl' : 'ltr'}}">{{ctlPostCard.post.body | emoji}}
   </section>
   <section class="post-body" ng-if="ctlPostCard.post.body.length < 1 && ctlPostCard.ViewSetting.content"
            post-card-modal post="ctlPostCard.post">
@@ -40,25 +41,16 @@
   <section class="post-footer _difh"><a class="_df _fn">{{ctlPostCard.post.commentsCount}} comments</a>
     <div class="post-icons _fw _df">
       <a href="{{ctlPostCard.urls.forward}}" class="icon icon-post icon-fw _df"></a>
-      <a href="{{ctlPostCard.urls.reply_all}}" class="icon icon-post icon-fw _df"></a>
-      <a href="{{ctlPostCard.urls.reply_sender}}" class="icon icon-post icon-fw _df"></a>
+      <div class="icon icon-post icon-rp _df popover-white-nst-activity-places" data-uib-popover-template="'app/messages/partials/popovers/reply.html'" data-popover-placement="auto top-right" popover-trigger="outsideClick"></div>
       <div ng-if="ctlPostCard.post.userHasRemoveAccess" class="icon icon-post icon-delete-menu _df"></div>
     </div>
   </section>
 </div>
 <section class="post-card-comment" ng-if="ctlPostCard.viewSetting.comments">
   <div ng-if="ctlPostCard.post.hasMoreComment" class="_df _fw comments-load"><a>Older Comments...</a></div>
-  <!--<div class="post-card-comments _difh">
-    <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-    <div class="text _df _fw">
-      <p class="_fw"><strong>Farzin Nami:</strong>Okey hatman merC az pishnahadet</p>
-    </div>
-    <span class="_df _fn">9 days ago</span>
-  </div>-->
   <comments-board comments="ctlPostCard.post.comments"></comments-board>
   <div class="post-card-comment-input _df">
     <input class="_fw" placeholder="write your comment ..." ng-keyup="ctlPostCard.sendComment($event)">
 
   </div>
 </section>
-

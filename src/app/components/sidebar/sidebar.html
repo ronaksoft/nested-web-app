@@ -20,22 +20,22 @@
             <a href="{{ctlSidebar.urls.sent}}"><div class="icon icon-solid icon-side icon-sent"></div>
               <span class="item onlyExpand _fw">Sent</span></a></div>
         </div>
-        <ul class="side-place">
+      <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0">
+        <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
+          <div class="side-place-item-inner">
+            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
+              <div class="side-place-item-image">
+                <img class="account-initials-40" src="{{invitaion.place.avatar}}"/>
+              </div>
+
+              <span class="_fw onlyExpand nst-mood-pending">{{invitaion.place.name}} (Pending Invitation)</span></span>
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul class="side-place">
           <li class="side-place-item" data-ng-repeat="place in ctlSidebar.places"
               data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
-        </ul>
-        <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0">
-          <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
-            <div class="side-place-item-inner">
-              <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
-                <div class="side-place-item-image">
-                  <img class="account-initials-40" src="{{invitaion.place.avatar}}"/>
-                </div>
-
-                <span class="_fw onlyExpand nst-mood-smooth">{{invitaion.place.name}} (Pending Invitation)</span></span>
-              </a>
-            </div>
-          </li>
         </ul>
       </div>
     <div class="side-profile">
