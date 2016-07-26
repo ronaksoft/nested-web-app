@@ -28,21 +28,14 @@
   </section>
   <section class="post-footer _difh"><a class="_df _fn">{{ctlPost.post.commentsCount}} comments</a>
     <div class="post-icons _fw _df">
-      <a href="{{ctlPost.urls.forward}}" class="icon icon-post-head icon-fwd _df"></a>
-      <div class="icon icon-post icon-fw _df popover-white-nst-activity-places" data-uib-popover-template="'app/messages/partials/popovers/reply.html'" data-popover-placement="auto top-left" popover-trigger="outsideClick"></div>
+      <a href="{{ctlPost.urls.forward}}" class="icon icon-post icon-fw _df"></a>
+      <div class="icon icon-post icon-rp _df popover-white-nst-activity-places" data-uib-popover-template="'app/messages/partials/popovers/reply.html'" data-popover-placement="auto top-right" popover-trigger="outsideClick"></div>
       <div ng-if="ctlPost.post.userHasRemoveAccess" class="icon icon-post icon-delete-menu _df"></div>
     </div>
   </section>
 </div>
 <section class="post-card-comment" ng-if="ctlPost.viewSetting.comments">
   <div ng-if="ctlPost.post.hasMoreComment" class="_df _fw comments-load"><a>Older Comments...</a></div>
-  <!--<div class="post-card-comments _difh">
-    <img initials="user.name" data-url="user.picture.x32.url" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
-    <div class="text _df _fw">
-      <p class="_fw"><strong>Farzin Nami:</strong>Okey hatman merC az pishnahadet</p>
-    </div>
-    <span class="_df _fn">9 days ago</span>
-  </div>-->
   <comments-board comments="ctlPost.post.comments"></comments-board>
   <div class="post-card-comment-input _df">
     <input class="_fw" placeholder="write your comment ..." ng-keyup="ctlPost.sendComment($event)">
