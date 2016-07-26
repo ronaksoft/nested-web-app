@@ -23,6 +23,10 @@
     <a href="{{ctlMiniNavbar.urls.sent}}"><div class="top-nav-action"><div class="icon icon-top-action icon-top-sent"></div></div><span class="_df">Sent</span></a>
   </div>
   <ul class="top-nav-places _difh _fw">
+    <li data-ng-repeat="invite in ctlMiniNavbar.invitations"
+        data-ng-include="'app/components/navbar/mini/invites.html'" data-ng-init="invite = invite"  ng-click="ctlMiniNavbar.invitation.showModal(invite.id)"></li>
+  </ul>
+  <ul class="top-nav-places _difh _fw">
     <li class="_difc _fw placerow">
       <div class="logo _df">
         <div class="option-add-icon-plc"></div>
