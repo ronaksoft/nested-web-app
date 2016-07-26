@@ -237,6 +237,23 @@
         (Date.now() - comment.date < 20 * 60 * 1e3);
     }
 
+    vm.languageIsRtl = function (str) {
+      str = str.trim();
+      var rtlDiff = 0;
+
+      for (var i = 0; i <= str.length; i++) {
+        var char = str[i];
+        var charCode = char.charCodeAt(0);
+        if (charCode > 1300 && 1700 > charCode) {
+          rtlDiff++;
+        } else if (charCode < 1300) {
+          rtlDiff -= 0.5;
+        }
+      }
+
+      return rtlDiff > 2;
+    };
+
     NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(e) {
       switch (e.detail.timeline_data.action) {
         case NST_EVENT_ACTION.COMMENT_ADD:

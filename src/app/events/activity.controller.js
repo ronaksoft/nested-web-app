@@ -36,6 +36,14 @@
         placeId : null,
         date : null,
       };
+      vm.urls = {
+        filters : {
+          all : '',
+          messages : '',
+          comments : '',
+          logs : ''
+        }
+      };
 
 
       /******************
@@ -54,6 +62,8 @@
         } else {
           vm.activitySettings.filter = NST_ACTIVITY_FILTER.ALL;
         }
+
+        generateUrls();
 
         setPlace(vm.activitySettings.placeId).then(function(placeFound) {
           // return $q.all([loadActivities(), loadInvitations()]);
@@ -199,6 +209,24 @@
 
       function placeIdParamIsValid(value) {
         return !!$stateParams.placeId && $stateParams.placeId !== NST_DEFAULT.STATE_PARAM;
+      }
+
+      function generateUrls() {
+        if (vm.activitySettings.placeId){
+          vm.urls.filters = {
+            all : $state.href('place-activity-filtered', { placeId : vm.activitySettings.placeId, filter : 'all' }),
+            messages : $state.href('place-activity-filtered', { placeId : vm.activitySettings.placeId, filter : 'messages' }),
+            comments : $state.href('place-activity-filtered', { placeId : vm.activitySettings.placeId, filter : 'comments' }),
+            logs : $state.href('place-activity-filtered', { placeId : vm.activitySettings.placeId, filter : 'log' })
+          };
+        } else {
+          vm.urls.filters = {
+            all : $state.href('activity-filtered', { filter : 'all' }),
+            messages : $state.href('activity-filtered', { filter : 'messages' }),
+            comments : $state.href('activity-filtered', { filter : 'comments' }),
+            logs : $state.href('activity-filtered', { filter : 'log' })
+          };
+        }
       }
     }
 

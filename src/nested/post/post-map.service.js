@@ -53,9 +53,9 @@
         hasAnyAttachment: post.attachments.length > 0,
         comments: _.map(post.comments, mapComment),
         hasAnyComment: post.comments.length > 0,
-        commentsCount: post.comments.length,
+        commentsCount: post.counters.comments,
         isReplyed : !!post.replyTo,
-        isForwarded : !!post.forwardedFrom
+        isForwarded : !!post.forwardFrom
         // userHasRemoveAccess : post.haveAnyPlaceWithDeleteAccess()
       };
 
