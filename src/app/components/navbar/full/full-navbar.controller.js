@@ -29,7 +29,7 @@
     vm.getPlaceName = getPlaceName;
     vm.getPlacePicture = getPlacePicture;
 
-    generateUrs();
+    generateUrls();
 
     $scope.srch = function srch() {
       for (var i = 0; i < arguments.length; i++) {
@@ -72,7 +72,7 @@
       return $scope.place && $scope.place.id;
     };
 
-    function generateUrs() {
+    function generateUrls() {
       if (vm.hasPlace()){
         vm.urls.messages = $state.href('place-messages', { placeId : vm.getPlaceId() });
         vm.urls.activity = $state.href('place-activity', { placeId : vm.getPlaceId() });
