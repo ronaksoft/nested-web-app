@@ -150,7 +150,7 @@
 
       get(postId).then(function(post) {
         if (post && post.id) {
-          retrieveComments(post, commentSettings).then(defer.resolve).catch(defer.reject);
+          NstSvcCommentFactory.retrieveComments(post, commentSettings).then(defer.resolve).catch(defer.reject);
         } else {
           defer.reject('could not find a post with provided id.');
         }
@@ -228,7 +228,11 @@
 
         post.recipients = []; // TODO: ?
         for (var k in data.recipients) {
-          post.recipients[k] = new NstRecipient(data.recipients[k]);
+          post.recipients[k] = new NstRecipient({
+            id: data.recipients[k],
+            name: data.recipients[k],
+            email: data.recipients[k]
+          });
         }
 
         var replyToPromise = data.replyTo ? parsePost(data.replyTo) : createEmptyPromise();

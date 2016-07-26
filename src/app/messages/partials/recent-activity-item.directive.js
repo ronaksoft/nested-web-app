@@ -11,6 +11,7 @@
   function RecentActivityItem(NST_EVENT_ACTION) {
     return {
       restrict: 'E',
+      replace: true,
       scope:{
         activity: '=model'
       },
