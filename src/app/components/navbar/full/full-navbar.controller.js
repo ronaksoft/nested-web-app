@@ -45,32 +45,32 @@
 
     function getPlaceName() {
       if (hasPlace()){
-        return $scope.place.name;
+        return vm.place.name;
       } else {
         return 'All Places';
       }
-    };
+    }
 
     function getPlaceId() {
       if (hasPlace()){
-        return $scope.place.id;
+        return vm.place.id;
       } else {
         return '';
       }
-    };
+    }
 
     function getPlacePicture() {
       if (hasPlace()){
-        return $scope.place.picture.thumbnails.x64.url.view;
+        return vm.place.picture.thumbnails.x64.url.view;
       } else {
         return '';
       }
-    };
+    }
 
 
     function hasPlace() {
-      return $scope.place && $scope.place.id;
-    };
+      return vm.place && vm.place.id;
+    }
 
     function generateUrls() {
       if (vm.hasPlace()){
