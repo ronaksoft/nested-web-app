@@ -1148,7 +1148,8 @@ a .ui-select-choises-row-inner {
   background-color: $color-sense;
 }
 .side-menu {
-  height: 180px;
+  //height: 180px;
+  padding: 16px 0;
   display: flex;
   flex: none;
   flex-direction: column;
