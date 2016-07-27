@@ -29,7 +29,6 @@
          */
 
 
-        console.log("post object" , scope.post);
 
         scope.openPostCardModal = function (postId) {
 

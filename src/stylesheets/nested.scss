@@ -686,7 +686,7 @@ body.modal-open {
 }
 
 .modal-mlg {
-  width: calc(100% - 160px);
+  width: 100%;
   max-width: 1200px;
 }
 
@@ -1148,7 +1148,8 @@ a .ui-select-choises-row-inner {
   background-color: $color-sense;
 }
 .side-menu {
-  height: 180px;
+  //height: 180px;
+  padding: 16px 0;
   display: flex;
   flex: none;
   flex-direction: column;
@@ -1977,7 +1978,7 @@ a.normal-badge {
   *     Nested pages -   * comPose
   *********************************************************
 */
-.maincontainer.compose-hld {
+.maincontainer.second-view {
   .content-plus {
     display: none;
   }
@@ -1987,8 +1988,7 @@ a.normal-badge {
     max-width: 1058px;
   }
   #content-wrapper .content {
-    height: calc(100vh - 180px );
-
+    height: calc(100vh - 130px );
   }
   #nav-com {
     display: flex;
