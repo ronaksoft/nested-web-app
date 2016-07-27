@@ -187,7 +187,10 @@
   color: $color-sense;
   text-decoration: none;
 }
-
+mark {
+  background-color: inherit;
+  color: inherit;
+}
 .butn {
   border: 1px $color-breeze solid;
   background-color: $color-white;
@@ -1138,6 +1141,9 @@ ul ul li:last-child{
 }
 .post-card-comment .comments-load a{
   margin-left: 32px;
+  &:hover {
+    color: black;
+  }
 }
 .post-card-comments {
   align-items: flex-start;

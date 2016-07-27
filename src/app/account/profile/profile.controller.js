@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function AccountProfileController($location, $scope, $state, $q, $uibModal,
-                                    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory) {
+                                    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NST_STORE_UPLOAD_TYPE) {
     var vm = this;
 
     if (!NstSvcAuth.isInAuthorization()) {
@@ -52,7 +52,7 @@
         reader.onload = function (event) {
           $scope.user.picture.org.url = event.target.result;
 
-          return NstSvcStore.upload($scope.logo, UPLOAD_TYPE.PROFILE_PICTURE).then(function (response) {
+          return NstSvcStore.upload($scope.logo, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE).then(function (response) {
             $scope.user.picture.org.uid = response.universal_id;
             $scope.logo = null;
 
