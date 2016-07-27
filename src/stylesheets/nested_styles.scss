@@ -965,7 +965,7 @@ ul ul li:last-child{
               overflow: hidden;
             }
           }
-          .ei-comment-add{
+          [class*="ei-"]{
             margin: 0 4px;
           }
         }
@@ -981,7 +981,7 @@ ul ul li:last-child{
         }
       }
       &:hover {
-        background-color: $color-calm;
+        background-color: $color-sense-5;
         cursor: pointer;
         transition: .2s;
       }
