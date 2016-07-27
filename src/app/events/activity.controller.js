@@ -101,17 +101,6 @@
       }
 
       function applyFilter(filter) {
-        // if (filterIsValid(filter)) {
-        //   vm.activitySettings.filter = filter;
-        // } else {
-        //   vm.activitySettings.filter = NST_ACTIVITY_FILTER.ALL;
-        // }
-        // vm.activitySettings.date = null;
-        // vm.cache = [];
-        // loadActivities().then(function() {}).catch(function(error) {
-        //   $log.debug(error);
-        // });
-        console.log(filter);
         if (vm.activitySettings.placeId) {
           $state.go('place-activity-filtered', {
             placeId : vm.activitySettings.placeId,
@@ -228,6 +217,23 @@
           };
         }
       }
+
+      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (e) {
+        // console.log(e);
+        // var activity = NstSvcActivityFactory.parseActivityEvent(e.detail.timeline_data).then(function (activity) {
+        //   console.log(activity);
+        // }).catch(function (error) {
+        //   $log.debug(error);
+        // });
+        // $log.debug(e);
+        // var action = e.detail.timeline_data.action;
+        // var filter = vm.filters[vm.filter].filter;
+
+        // if (shouldPushToEvents(filter, action)) {
+        //     $scope.events.pushEvent(event, true);
+        // }
+      });
+
     }
 
   })();

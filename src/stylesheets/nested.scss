@@ -1978,7 +1978,7 @@ a.normal-badge {
   *     Nested pages -   * comPose
   *********************************************************
 */
-.maincontainer.compose-hld {
+.maincontainer.second-view {
   .content-plus {
     display: none;
   }
@@ -1988,8 +1988,7 @@ a.normal-badge {
     max-width: 1058px;
   }
   #content-wrapper .content {
-    height: calc(100vh - 180px );
-
+    height: calc(100vh - 130px );
   }
   #nav-com {
     display: flex;

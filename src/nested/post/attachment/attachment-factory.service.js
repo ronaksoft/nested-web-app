@@ -33,9 +33,10 @@
       if (!data || !data._id) {
         defer.resolve(attachment);
       } else {
+
         attachment.post = post;
         attachment.id = data._id;
-        attachment.file = new NstStoreResource(data.download);
+        attachment.file = new NstStoreResource(data._id);
         attachment.downloads = data.downloads;
         attachment.fileName = data.filename;
         attachment.mimeType = data.mimetype;
@@ -45,15 +46,7 @@
         attachment.uploadTime = new Date(data.upload_time);
         attachment.ownerIds = data.owners;
         attachment.uploaderId = data.uploader;
-        attachment.thumbnail = new NstPicture(null, data.thumbs);
-        // TODO: Replace thumbs with NstPicture
-        if (data.thumbs) {
-          attachment.thumbs = {
-            x32: new NstStoreResource(data.thumbs.x32),
-            x64: new NstStoreResource(data.thumbs.x64),
-            x128: new NstStoreResource(data.thumbs.x128)
-          };
-        }
+        attachment.thumbnail = new NstPicture(attachment.id, data.thumbs);
 
         defer.resolve(attachment);
       }

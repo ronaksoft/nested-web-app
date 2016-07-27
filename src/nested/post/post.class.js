@@ -198,6 +198,11 @@
       return this;
     };
 
+    Post.prototype.belongsToPlace = function (placeId) {
+      return _.some(this.places, function (place) {
+        return place.id === placeId;
+      });
+    };
 
     function getPlacesWithAccess(post, accessCodes) {
       var separator = ',';

@@ -20,22 +20,6 @@
     function toMessage(post) {
       var now = moment();
 
-      var fileTypes = {
-        'image': 'Image',
-        'audio': 'Audio',
-        'video': 'Video',
-        'text': 'Text',
-        'application': 'Application'
-      };
-
-      var fileFormats = {
-        'zip': 'ZIP',
-        'x-rar-compressed': 'RAR',
-        'rtf': 'DOC',
-        'msword': 'DOCX',
-        'vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOC'
-      };
-
       var firstPlace = _.first(post.places);
 
       return {
@@ -53,7 +37,7 @@
         hasAnyAttachment: post.attachments.length > 0,
         comments: _.map(post.comments, mapComment),
         hasAnyComment: post.comments.length > 0,
-        commentsCount: post.counters.comments,
+        commentsCount: post.counters.comments > -1 ? post.counters.comments : 0,
         isReplyed : !!post.replyTo,
         isForwarded : !!post.forwardFrom
         // userHasRemoveAccess : post.haveAnyPlaceWithDeleteAccess()
@@ -79,6 +63,34 @@
           format: findFileFormat(attach),
           thumbnail: attach.thumbnail.getThumbnail('128').url.download
         };
+
+        function findFileType(attach) {
+          var fileTypes = {
+            'image': 'Image',
+            'audio': 'Audio',
+            'video': 'Video',
+            'text': 'Text',
+            'application': 'Application'
+          };
+
+          var type = attach.mimeType.split('/')[0];
+
+          return fileTypes[type] || 'Unknown';
+        }
+
+        function findFileFormat(attach) {
+          var fileFormats = {
+            'zip': 'ZIP',
+            'x-rar-compressed': 'RAR',
+            'rtf': 'DOC',
+            'msword': 'DOCX',
+            'vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOC'
+          };
+          
+          var format = attach.mimeType.split('/')[1];
+
+          return fileFormats[format] || 'File';
+        }
       }
 
       function mapPlace(place) {
@@ -116,17 +128,7 @@
         return date.format("MMM DD YYYY, HH:mm"); // last year and older
       }
 
-      function findFileType(attach) {
-        var type = attach.mimeType.split('/')[0];
 
-        return fileTypes[type] || 'Unknown';
-      }
-
-      function findFileFormat(attach) {
-        var format = attach.mimeType.split('/')[1];
-
-        return fileFormats[format] || 'File';
-      }
 
       function mapComment(comment) {
         return NstSvcCommentMap.toMessageComment(comment);

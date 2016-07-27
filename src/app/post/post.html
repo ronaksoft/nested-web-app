@@ -23,12 +23,12 @@
             </a>
           </li>
 
-          <li>
-            <a href="#/new/fw:{{postVm.post.id}}">
-              <span class="nst-mood-solid _dib">Forward</span>
-              <span class="action-button-post-forward  _dib"></span>
-            </a>
-          </li>
+            <li>
+              <a href="{{postVm.urls.forward}}">
+                <span class="nst-mood-solid _dib">Forward</span>
+                <span class="action-button-post-forward  _dib"></span>
+              </a>
+            </li>
 
           <li>
             <div class="popover-white-nst-activity-places cursor-pointer" uib-popover-template="'app/post/reply.html'" ng-init="postVm = postVm" data-popover-placement="bottom-right auto" popover-trigger="outsideClick">
@@ -39,7 +39,6 @@
 
         </ul>
       </div>
-
     </div>
   </div>
   <div class="_difh _fh" id="PostBody">

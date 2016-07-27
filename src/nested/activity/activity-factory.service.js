@@ -8,7 +8,7 @@
   function NstSvcActivityFactory($q, $log,
     _, moment,
     NST_ACTIVITY_FILTER,
-    NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory,
+    NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,
     NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstAttachment) {
 
     /**
@@ -16,12 +16,15 @@
      */
     var service = {
       get: get,
-      getRecent: getRecent
+      getRecent: getRecent,
+      parseActivity : parseActivity,
+      parseActivityEvent : parseActivityEvent
     };
 
     return service;
 
     function parseActivity(data) {
+      console.log('event', data);
       var defer = $q.defer();
 
       var activity = new NstActivity();
@@ -79,28 +82,28 @@
         if (!data.post_id) { // could not find any post inside
           defer.resolve(null);
         } else {
-          var tinyPost = new NstPost({
-            id: data.post_id.$oid,
-            subject: data.post_subject,
-            body: data.post_body,
-            senderId: data.actor,
-            places: _.map(data.post_places, function(place) {
-              return new NstTinyPlace({
-                id: place._id,
-                name: place.name,
-                picture: new NstPicture(null, place.picture)
-              });
-            }),
-            attachments: _.map(data.post_attachments, function(item) {
-              return new NstAttachment({
-                // id : ,
-                // postId : ,
-                //
-              });
-            })
+          var attachmentPromises = _.map(data.post_attachments, function (attachment) {
+            return NstSvcAttachmentFactory.parseAttachment(attachment);
           });
 
-          defer.resolve(tinyPost);
+          $q.all(attachmentPromises).then(function (values) {
+            var tinyPost = new NstPost({
+              id: data.post_id.$oid,
+              subject: data.post_subject,
+              body: data.post_body,
+              senderId: data.actor,
+              places: _.map(data.post_places, function(place) {
+                return new NstTinyPlace({
+                  id: place._id,
+                  name: place.name,
+                  picture: new NstPicture(null, place.picture)
+                });
+              }),
+              attachments : values
+            });
+
+            defer.resolve(tinyPost);
+          });
         }
 
         return defer.promise;
@@ -153,6 +156,107 @@
         return defer.promise;
       }
 
+    }
+
+    function parseActivityEvent(data) {
+        console.log('event', data);
+        var defer = $q.defer();
+
+        var activity = new NstActivity();
+
+        activity.id = data._id.$oid;
+        activity.type = data.action;
+        activity.date = new Date(data.timestamp);
+        activity.lastUpdate = new Date(data.last_update);
+        activity.memberType = data.memberType;
+
+        $q.all([
+          extractActor(data),
+          extractPost(data),
+          extractPlace(data),
+          extractComment(data),
+          extractMember(data),
+        ]).then(function(values) {
+
+          activity.actor = values[0];
+          activity.post = values[1];
+          activity.place = values[2];
+          activity.comment = values[3];
+          activity.member = values[4];
+
+          defer.resolve(activity);
+
+        }).catch(defer.reject);
+
+        return defer.promise;
+
+        function extractActor(data) {
+          if (data.actor) {
+            return NstSvcUserFactory.get(data.actor);
+          } else {
+            return $q(function (resolve) {
+              resolve(null);
+            });
+          }
+        }
+
+        function extractActor(data) {
+          if (data.by) {
+            return NstSvcUserFactory.get(data.by);
+          } else {
+            return $q(function (resolve) {
+              resolve(null);
+            });
+          }
+        }
+
+        function extractPost(data) {
+          if (data.post_id) { // could not find any post inside
+            return NstSvcPostFactory.get(data.post_id);
+          } else {
+            return $q(function (resolve) {
+              resolve(null);
+            });
+          }
+        }
+
+        function extractComment(data) {
+          if (data.comment_id) { // could not find any post inside
+            return NstSvcCommentFactory.get(data.comment_id.$oid);
+          } else {
+            return $q(function (resolve) {
+              resolve(null);
+            });
+          }
+        }
+
+        function extractPlace(data) {
+          if (data.place_id && data.place_id.length > 0){
+            return NstSvcPlaceFactory.get(data.place_id[0]);
+          } else {
+            return $q(function (resolve) {
+              resolve(null);
+            });
+          }
+        }
+
+        function extractMember(data) {
+          var defer = $q.defer();
+
+          if (!data.member_id) { // could not find a member inside
+            defer.resolve(null); // TODO: decide to fill with an empty object or an empty NstUser
+          } else {
+            NstSvcUserFactory.get(data.member_id).then(function (member) {
+              defer.resolve({
+                id: data.member_id,
+                fullName: member.fullName,
+                type: data.member_type
+              });
+            }).catch(defer.reject);
+          }
+
+          return defer.promise;
+        }
     }
 
     function get(settings) {
