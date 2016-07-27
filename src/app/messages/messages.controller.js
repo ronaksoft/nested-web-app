@@ -270,6 +270,15 @@
               break;
           }
       });
+
+      vm.preventParentScroll = function (event) {
+        var element = event.currentTarget;
+        var delta = event.wheelDelta;
+        console.log('element.scrollHeight',element.scrollHeight,'element.clientHeight',element.clientHeight,'delta',delta,'element.scrollTop',element.scrollTop);
+        if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
+          event.preventDefault();
+        }
+      }
     }
 
 })();

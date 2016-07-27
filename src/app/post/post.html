@@ -50,7 +50,7 @@
 
         <div class="_df _fh">
           <div class="_fh _fw">
-            <div class="msg-post-view {{postVm.post.contentType == 'text/plain' ? 'pre' : ''}}" data-ng-bind-html="postVm.post.body | emoji"></div>
+            <div class="msg-post-view {{postVm.post.contentType == 'text/plain' ? 'pre' : ''}}"><emoji>{{postVm.post.body}}</emoji></div>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
         </div>
         <div data-ng-repeat="comment in postVm.post.comments | orderBy : 'date.getTime()'" class="_difh NewComment">
           <div class="_df profile-post-view">
-            <img initials="comment.sender_fname" data-url="comment.sender.picture.x32.url" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
+            <img initials="comment.sender.fullname" data-url="comment.sender.avatar" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
           </div>
           <div class="_difv _fw">
             <div class="_difh">
