@@ -931,6 +931,7 @@ ul ul li:last-child{
       align-items: flex-start;
       flex-shrink: inherit;
       padding-left: 8px;
+      padding-top: 8px;
       .colomn {
         display: inline-flex;
         flex-direction: column;
@@ -982,6 +983,7 @@ ul ul li:last-child{
       &:hover {
         background-color: $color-calm;
         cursor: pointer;
+        transition: .2s;
       }
     }
   }
