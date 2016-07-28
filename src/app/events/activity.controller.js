@@ -235,7 +235,7 @@
       });
 
       // FIXME: NEEDS REWRITE COMPLETELY
-      vm.scrollbarConf = {
+      vm.bodyScrollConf = {
         axis: 'y',
         callbacks: {
           whileScrolling:function(){
