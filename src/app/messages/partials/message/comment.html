@@ -1,8 +1,8 @@
 <div ng-repeat="comment in ctlComments.comments">
   <div class="post-card-comments _difh _fw">
-    <img initials="user.name" data-url="comment.sender.avatar" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
+    <img initials="comment.sender.fullname" data-url="comment.sender.avatar" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
     <div class="text _df _fw">
-      <p class="_fw"><strong>{{comment.sender.name}}:</strong>&nbsp;<emoji><a marked="comment.body"></a></emoji></p>
+      <p class="_fw"><strong>{{comment.sender.name}}:</strong>&nbsp;<emoji><mark marked="comment.body"></mark></emoji></p>
     </div>
     <span class="_df _fn">{{comment.date}}</span>
   </div>

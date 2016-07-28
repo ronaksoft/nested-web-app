@@ -25,7 +25,6 @@
          *
          * @param  {type} places list of places to be shown
          */
-        console.log("post object" , scope.post);
 
         scope.openPostCardModal = function (postId) {
           var modal = $uibModal.open({

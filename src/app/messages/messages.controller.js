@@ -270,6 +270,18 @@
               break;
           }
       });
+
+      //FIXE some times it got a problem ( delta causes )
+      vm.preventParentScroll = function (event) {
+        var element = event.currentTarget;
+        var delta = event.wheelDelta;
+        // console.log('element.scrollHeight', element.scrollHeight, 'element.clientHeight', element.clientHeight, 'delta', delta, 'element.scrollTop', element.scrollTop);
+        (element.scrollTop === (element.scrollHeight - element.clientHeight) && delta > 0) && console.log('To Bottom - Delta > 0', delta);
+        (element.scrollTop === 0 && delta < 0) && console.log('To Top - Delta < 0', delta);
+        if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
+          event.preventDefault();
+        }
+      }
     }
 
 })();
