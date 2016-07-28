@@ -8,11 +8,11 @@
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider, NST_DEFAULT) {
     $stateProvider
-      .state('home', {
+      .state('intro', {
         url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainController',
-        controllerAs: 'ctlMain'
+        templateUrl: 'app/pages/intro/main.html',
+        controller: 'IntroController',
+        controllerAs: 'ctlIntro'
       })
 
       /*****************************
@@ -21,7 +21,7 @@
 
       .state('signin', {
         url: '/signin',
-        templateUrl: 'app/login/login.html',
+        templateUrl: 'app/pages/login/main.html',
         controller: 'LoginController',
         controllerAs: 'ctlLogin'
       })
@@ -37,9 +37,9 @@
 
       .state('profile', {
         url: '/profile',
-        templateUrl: 'app/account/profile/profile.html',
-        controller: 'ProfileController',
-        controllerAs: 'ctlProfile'
+        templateUrl: 'app/pages/account/profile/edit/main.html',
+        controller: 'ProfileEditController',
+        controllerAs: 'ctlProfileEdit'
       })
 
       /*****************************
@@ -48,7 +48,7 @@
 
       .state('compose', {
         url: '/compose',
-        templateUrl: 'app/compose/compose.html',
+        templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose'
       })
@@ -57,7 +57,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/compose/compose.html',
+        templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose'
       })
@@ -66,7 +66,7 @@
         params: {
           postId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/compose/compose.html',
+        templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose'
       })
@@ -75,7 +75,7 @@
         params: {
           postId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/compose/compose.html',
+        templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose'
       })
@@ -84,7 +84,7 @@
         params: {
           postId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/compose/compose.html',
+        templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose'
       })
@@ -98,7 +98,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/places/settings/main.html',
+        templateUrl: 'app/pages/places/settings/main.html',
         controller: 'PlaceSettingsController',
         controllerAs: 'ctlPlaceSettings'
       })
@@ -186,13 +186,13 @@
 
       .state('messages', {
         url: '/messages',
-        templateUrl: 'app/messages/messages.html',
+        templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
       .state('messages-bookmarks', {
         url: '/messages/bookmarks',
-        templateUrl: 'app/messages/messages.html',
+        templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
@@ -201,13 +201,13 @@
         params: {
           sort: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/messages/messages.html',
+        templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
       .state('messages-sent', {
         url: '/messages/sent',
-        templateUrl: 'app/messages/messages.html',
+        templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
@@ -216,7 +216,7 @@
         params: {
           sort: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/messages/messages.html',
+        templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
@@ -225,7 +225,7 @@
         params: {
           sort: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/messages/messages.html',
+        templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
@@ -234,7 +234,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/messages/messages.html',
+        templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
@@ -244,7 +244,7 @@
           placeId: NST_DEFAULT.STATE_PARAM,
           sort: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/messages/messages.html',
+        templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })

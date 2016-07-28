@@ -20,7 +20,7 @@
       timeInMs = new Date();
       timeInMs = timeInMs.setHours(timeInMs.getHours() - 24);
 
-      el = angular.element('<nested-sidebar></nested-sidebar>');
+      el = angular.element('<nst-sidebar></nst-sidebar>');
 
       $compile(el)($rootScope.$new());
       $rootScope.$digest();

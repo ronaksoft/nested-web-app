@@ -86,7 +86,7 @@
     }
 
     $rootScope.$on('$stateChangeStart', function(event, nextState, currentState) {
-      if (['signin', 'home'].indexOf(nextState.name) > -1) {
+      if (['signin', 'intro'].indexOf(nextState.name) > -1) {
         return;
       }
 

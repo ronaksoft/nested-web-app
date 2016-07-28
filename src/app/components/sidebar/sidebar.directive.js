@@ -3,10 +3,10 @@
 
   angular
     .module('nested')
-    .directive('nestedSidebar', nestedSidebar);
+    .directive('nstSidebar', Sidebar);
 
   /** @ngInject */
-  function nestedSidebar() {
+  function Sidebar() {
     return {
       restrict: 'E',
       templateUrl: 'app/components/sidebar/sidebar.html',
