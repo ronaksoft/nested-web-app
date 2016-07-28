@@ -10,7 +10,11 @@
 
   /** @ngInject */
   function NstObservableObject(NstSvcRandomize, NstObject, NST_OBJECT_EVENT) {
-    function ObservableObject() {
+    function ObservableObject(me) {
+      if (me) {
+        angular.extend(this, me);
+      }
+
       for (var k in this) {
         if (!(this[k] instanceof Function)) {
           var uCamelCase = this.getJsName(k, true);

@@ -40,11 +40,11 @@
     };
 
     vm.invitation.accept = function (id) {
-      return NstSvcInvitationFactory.accept(id);
+      return NstSvcLoader.inject(NstSvcInvitationFactory.accept(id));
     };
 
     vm.invitation.decline = function (id) {
-      return NstSvcInvitationFactory.decline(id);
+      return NstSvcLoader.inject(NstSvcInvitationFactory.decline(id));
     };
 
     vm.invitation.showModal = function (id) {
@@ -61,8 +61,16 @@
             }
           }
         }).result.then(function (result) {
+          for (var k in vm.invitations) {
+            if (id == vm.invitations[k].id) {
+              vm.invitations.splice(k, 1);
+            }
+          }
+
           if (result) {
-            return vm.invitation.accept(id);
+            return vm.invitation.accept(id).then(function () {
+              // TODO: Add to my-place-ids storage (Not directly. Do it via Factory)
+            });
           } else {
             return vm.invitation.decline(id);
           }
@@ -241,7 +249,7 @@
       switch (event.detail.timeline_data.action) {
         case NST_EVENT_ACTION.MEMBER_INVITE:
           console.log('Invitation Data: ', event.detail.timeline_data);
-          getInvitation(event.detail.timeline_data.invite_id).then(pushInvitation);
+          getInvitation(event.detail.timeline_data.invite_id.$oid).then(pushInvitation);
           break;
 
         case NST_EVENT_ACTION.MEMBER_REMOVE:

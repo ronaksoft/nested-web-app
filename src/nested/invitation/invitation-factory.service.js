@@ -70,7 +70,7 @@
             NstSvcServer.request('account/get_invitation', {
               invite_id: query.getId()
             }).then(function (invitationData) {
-              var invitation = factory.parseInvitation(invitationData.info);
+              var invitation = factory.parseInvitation(invitationData.invitations);
               NstSvcInvitationStorage.set(query.getId(), invitation);
               resolve(invitation);
             }).catch(function(error) {
@@ -135,12 +135,29 @@
         invitation.setId(data._id.$oid);
         invitation.setRole(data.role);
 
-        var invitee = NstSvcUserFactory.parseTinyUser(data.invitee);
-        var inviter = NstSvcUserFactory.parseTinyUser(data.inviter);
-        var place = NstSvcPlaceFactory.parseTinyPlace(data.place);
-        NstSvcUserFactory.set(invitee);
-        NstSvcUserFactory.set(inviter);
-        NstSvcPlaceFactory.set(place);
+        var invitee = NstSvcUserFactory.parseTinyUser();
+        if (angular.isObject(data.invitee)) {
+          invitee = NstSvcUserFactory.parseTinyUser(data.invitee);
+          NstSvcUserFactory.set(invitee);
+        } else if (data.invitee_id) {
+          invitee.setId(data.invitee_id);
+        }
+
+        var inviter = NstSvcUserFactory.parseTinyUser();
+        if (angular.isObject(data.inviter)) {
+          inviter = NstSvcUserFactory.parseTinyUser(data.inviter);
+          NstSvcUserFactory.set(inviter);
+        } else if (data.inviter_id) {
+          inviter.setId(data.inviter_id);
+        }
+
+        var place = NstSvcPlaceFactory.parseTinyPlace();
+        if (angular.isObject(data.place)) {
+          place = NstSvcPlaceFactory.parseTinyPlace(data.place);
+          NstSvcPlaceFactory.set(place);
+        } else if (data.place_id) {
+          place.setId(data.place_id);
+        }
 
         if (invitee.getId() && inviter.getId() && place.getId()) {
           $q.all([

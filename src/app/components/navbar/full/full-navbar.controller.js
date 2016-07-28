@@ -61,7 +61,7 @@
     }
 
     function generateUrls() {
-      if (vm.hasPlace()){
+      if (hasPlace()) {
         vm.urls.messages = $state.href('place-messages', { placeId : vm.getPlaceId() });
         vm.urls.activity = $state.href('place-activity', { placeId : vm.getPlaceId() });
         vm.urls.settings = $state.href('place-settings', { placeId : vm.getPlaceId() });
