@@ -56,6 +56,7 @@
 
     vm.scroll = function(event){
       var t = event.target.scrollTop;
+      //console.log(t);
       $timeout(function () {$rootScope.navView = t > 55});
 
       if ( t > 0) {

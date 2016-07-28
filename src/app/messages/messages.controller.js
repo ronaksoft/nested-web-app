@@ -282,6 +282,36 @@
           event.preventDefault();
         }
       }
+
+      // FIXME: NEEDS REWRITE COMPLETELY
+      vm.scroll = {
+        callbacks: {
+          whileScrolling:function(){
+            var t = -this.mcs.top;
+            console.log(t);
+            $timeout(function () { $rootScope.navView = t > 55; });
+
+            //$('.nst-navbar').toggleClass('tiny', t > 55);
+
+            if ( t > 0) {
+              $("#content-plus").stop().css({
+                marginTop: t
+              });
+            } else if(t == 0){
+              $("#content-plus").stop().css({
+                marginTop: 0
+              });
+            }
+
+
+          },
+          onTotalScroll:function () {
+            vm.loadMore();
+          },
+          onTotalScrollOffset:10,
+          alwaysTriggerOffsets:false
+        }
+      };
     }
 
 })();

@@ -6,7 +6,7 @@
       .controller('ActivityController', ActivityController);
 
     /** @ngInject */
-    function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state,
+    function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state, $timeout,
       toastr, _, moment,
       NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT,
       NstSvcActivityMap,
@@ -233,6 +233,38 @@
         //     $scope.events.pushEvent(event, true);
         // }
       });
+
+      // FIXME: NEEDS REWRITE COMPLETELY
+      vm.scroll = {
+        axis: 'y',
+        callbacks: {
+          whileScrolling:function(){
+            var t = -this.mcs.top;
+            console.log(t);
+            $timeout(function () { $rootScope.navView = t > 55; });
+
+            //$('.nst-navbar').toggleClass('tiny', t > 55);
+
+            if ( t > 0) {
+              $("#content-plus").stop().css({
+                marginTop: t
+              });
+            } else if(t == 0){
+              $("#content-plus").stop().css({
+                marginTop: 0
+              });
+            }
+
+
+          },
+          onTotalScroll:function () {
+            vm.loadMore();
+          },
+          onTotalScrollOffset:10,
+          alwaysTriggerOffsets:false
+        }
+      };
+
 
     }
 
