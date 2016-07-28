@@ -32,6 +32,7 @@
     vm.sendComment = sendComment;
     vm.loadMoreComments = loadMoreComments;
     vm.allowToRemoveComment = allowToRemoveComment;
+    vm.loadPostComments = loadPostComments;
 
     vm.urls = {
       reply_all: $state.href('compose-reply-all', {
@@ -69,7 +70,7 @@
      */
     function loadPostComments() {
       NstSvcCommentFactory.retrieveComments(vm.post, vm.commentSettings).then(function (post) {
-        vm.post = Object.assign({},vm.post, post);
+        vm.post = post;
         console.log("get with comment :" , vm.post);
         vm.postLoadProgress = false;
         // the conditions says maybe there are more comments that the limit
@@ -125,16 +126,17 @@
 
       vm.nextComment = "";
 
-      $scope.commentSendInProgress = true;
+      vm.commentSendInProgress = true;
 
       NstSvcCommentFactory.addComment(vm.post, body).then(function(post) {
         vm.post = post;
         e.currentTarget.value = '';
-        $scope.scrolling = $scope.unscrolled && true;
-        $scope.commentSendInProgress = false;
+        vm.scrolling = $scope.unscrolled && true;
+        vm.commentSendInProgress = false;
         // TODO: notify
       }).catch(function(error) {
         vm.nextComment = body;
+        vm.commentSendInProgress = false;
         // TODO: decide && show toastr
       });
 
