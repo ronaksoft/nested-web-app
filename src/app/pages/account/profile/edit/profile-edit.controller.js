@@ -6,7 +6,7 @@
     .controller('ProfileEditController', ProfileEditController);
 
   /** @ngInject */
-  function AccountProfileController($scope, $state, $q, $uibModal,
+  function ProfileEditController($scope, $state, $q, $uibModal,
                                     NST_STORE_UPLOAD_TYPE,
                                     NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory) {
     var vm = this;

@@ -11,31 +11,16 @@
           emoji: '=',
           src: '='
         },
-        link: function (scope, element, attrs) {
-          set(scope.emoji || element.html() || '');
-
-          scope.$watch(function () { return element.html(); }, set);
-
-          if (attrs.emoji) {
-            scope.$watch('emoji', set);
-          }
-
-          if (attrs.src) {
-            scope.$watch('src', function (src) {
-              $templateRequest(src, true).then(function (response) {
-                set(response);
-              }, function () {
-                set('');
-                scope.$emit('$emojiIncludeError', attrs.src);
-              });
-            });
-          }
-
-          function set(text) {
-            element.html(emoji(text));
-            // $compile(element.contents())(scope.$parent);
+        compile: function(tElem, tAttrs){
+          return {
+            pre: function(scope, iElem, iAttrs){
+            },
+            post: function(scope, iElem, iAttrs){
+              iElem.html(emoji(iElem.html()));
+            }
           }
         }
+
       };
     });
 })();

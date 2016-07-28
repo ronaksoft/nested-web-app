@@ -3,9 +3,9 @@
 
   angular
     .module('nested')
-    .filter('emoji', function (emoji) {
+    .filter('emoji', function ($sce, emoji) {
       return function (toParse) {
-        return emoji(toParse);
+        return $sce.trustAsHtml(emoji(toParse));
       };
     });
 })();

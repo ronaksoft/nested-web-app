@@ -72,6 +72,13 @@
         "fonts/fontawesome-webfont.woff",
         "fonts/fontawesome-webfont.woff2"
       ]
+    },
+    "emojione": {
+      "main": [
+        "assets/css/emojione.css",
+        "lib/js/emojione.js",
+        "assets/sprites/emojione.sprites.svg"
+      ]
     }
   }
 }

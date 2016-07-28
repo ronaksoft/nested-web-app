@@ -6,11 +6,12 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($scope, $stateParams, $uibModal, $q, $log, $state, _, toastr,
-    NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, EVENT_ACTIONS, NST_SRV_EVENT,
-    NstComment, postId) {
+  function PostController($scope, $stateParams, $uibModal, $q, $log, $state,
+                          _, toastr,
+                          EVENT_ACTIONS, NST_SRV_EVENT,
+                          NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap,
+                          NstComment, NstVmUser, postId) {
     var vm = this;
-    vm.post = {};
     vm.postId = $stateParams.postId || postId;
 
 
@@ -20,7 +21,7 @@
     vm.commentLoadProgress = false;
     vm.hasMoreComments = false;
 
-    vm.user = NstSvcAuth.user;
+    vm.user = new NstVmUser(NstSvcAuth.getUser());
     vm.commentSettings = {
       skip: 0,
       limit: 30
@@ -51,7 +52,8 @@
       vm.postLoadProgress = true;
 
       NstSvcPostFactory.get(vm.postId).then(function (post) {
-        vm.post = post;
+        vm.postModel = post;
+        vm.post = NstSvcPostMap.toMessage(post);
         loadPostComments();
       });
 
@@ -69,9 +71,12 @@
      *
      */
     function loadPostComments() {
-      NstSvcCommentFactory.retrieveComments(vm.post, vm.commentSettings).then(function (post) {
-        vm.post = post;
-        console.log("get with comment :" , vm.post);
+      NstSvcCommentFactory.retrieveComments(vm.postModel, vm.commentSettings).then(function (post) {
+        vm.postModel = post;
+        vm.post = NstSvcPostMap.toMessage(vm.postModel);
+
+        console.log(3333, vm.post)
+
         vm.postLoadProgress = false;
         // the conditions says maybe there are more comments that the limit
         vm.hasMoreComments = !(vm.commentSettings.skip < vm.commentSettings.limit);
@@ -128,8 +133,9 @@
 
       vm.commentSendInProgress = true;
 
-      NstSvcCommentFactory.addComment(vm.post, body).then(function(post) {
-        vm.post = post;
+      NstSvcCommentFactory.addComment(vm.postModel, body).then(function(post) {
+        vm.postModel = post;
+        vm.post = NstSvcPostMap.toMessage(vm.postModel);
         e.currentTarget.value = '';
         vm.scrolling = $scope.unscrolled && true;
         vm.commentSendInProgress = false;
@@ -146,7 +152,8 @@
     function loadMoreComments() {
       vm.commentLoadProgress = true;
       NstSvcPostFactory.retrieveComments(vm.post, vm.commentSettings).then(function (post) {
-        vm.post = post;
+        vm.postModel = post;
+        vm.post = NstSvcPostMap.toMessage(vm.postModel);
         vm.commentLoadProgress = false;
         vm.scrolling = true;
       }).catch(function (error) {
