@@ -127,7 +127,7 @@
           $log.debug("load more");
           loadMore();
         }
-      };
+      }
 
 
       /**********************
@@ -235,7 +235,7 @@
       });
 
       // FIXME: NEEDS REWRITE COMPLETELY
-      vm.scroll = {
+      vm.bodyScrollConf = {
         axis: 'y',
         callbacks: {
           whileScrolling:function(){
@@ -254,8 +254,6 @@
                 marginTop: 0
               });
             }
-
-
           },
           onTotalScroll:function () {
             vm.loadMore();
@@ -264,8 +262,5 @@
           alwaysTriggerOffsets:false
         }
       };
-
-
     }
-
   })();
