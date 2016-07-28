@@ -3,12 +3,12 @@
 
   angular
     .module('nested')
-    .controller('MainController', MainController);
+    .controller('IntroController', IntroController);
 
   /** @ngInject */
-  function MainController($q, $state, $http,
-                          NST_SRV_RESPONSE_STATUS, NST_DEFAULT, NST_CONFIG,
-                          NstSvcLoader, NstSvcAuth) {
+  function IntroController($q, $state, $http,
+                           NST_SRV_RESPONSE_STATUS, NST_DEFAULT, NST_CONFIG,
+                           NstSvcLoader, NstSvcAuth) {
     var vm = this;
 
     if (NstSvcAuth.isInAuthorization()) {

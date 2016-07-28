@@ -6,12 +6,9 @@
     .controller('LogoutController', LogoutController);
 
   /** @ngInject */
-  function LogoutController($location, $rootScope,
-                            NST_AUTH_EVENT,
-                            NstSvcAuth) {
+  function LogoutController($state, NstSvcAuth) {
     NstSvcAuth.logout().then(function () {
-      $rootScope.$broadcast(NST_AUTH_EVENT.UNAUTHORIZE);
-      $location.path('/').replace();
+      $state.go('intro').replace();
     });
   }
 })();

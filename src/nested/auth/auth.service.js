@@ -183,13 +183,7 @@
     };
 
     Auth.prototype.logout = function () {
-      return this.unregister(NST_UNREGISTER_REASON.LOGOUT).then(function () {
-        // Post logout job
-
-        return $q(function (res) {
-          res.apply(null, this.input);
-        }.bind({ input: arguments }));
-      }.bind(this));
+      return this.unregister(NST_UNREGISTER_REASON.LOGOUT);
     };
 
     Auth.prototype.isAuthorized = function () {
