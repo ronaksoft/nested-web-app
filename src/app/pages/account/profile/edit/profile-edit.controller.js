@@ -7,8 +7,8 @@
 
   /** @ngInject */
   function ProfileEditController($scope, $state, $q, $uibModal,
-                                 NST_STORE_UPLOAD_TYPE,
-                                 NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory) {
+                                    NST_STORE_UPLOAD_TYPE,
+                                    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory) {
     var vm = this;
 
     getUser().then(function (resolvedSet) {

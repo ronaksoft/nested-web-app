@@ -20,8 +20,10 @@
 
       self.$get = function ($window) {
         return function parse(toParse) {
-          return $window.emojione.unicodeToImage(findToParse(toParse) || '', self.opts);
+          return $window.emojione.toImage(findToParse(toParse));
         };
       };
+
+      return self;
     });
 })();

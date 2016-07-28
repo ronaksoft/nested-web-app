@@ -5,7 +5,7 @@
   <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
-  <div class="msg" post-card-modal post="act.post">
+  <div class="msg" nst-post-modal post="act.post">
     <div class="subject">
       <span class="nst-mood-simple">commented on&nbsp;</span>
       <a class="nst-mood-solid post" href="#/post/{{act.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)" data-ng-bind-html="act.post.subject || '<i>No Subject</i>' | emoji"></a>

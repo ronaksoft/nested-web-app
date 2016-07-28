@@ -51,5 +51,14 @@
       },
       autoHideScrollbar: true
     };
+
+ //config emojiOne
+    emojione.imageType = 'svg';
+    emojione.sprites = true;
+    emojione.imagePathSVGSprites = './../bower_components/emojione/assets/sprites/emojione.sprites.svg';
+
+
   }
+
+
 })();
