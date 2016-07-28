@@ -5,7 +5,7 @@
     .service('NstSvcPostMap', NstSvcPostMap);
 
   /** @ngInject */
-  function NstSvcPostMap(NstSvcCommentMap) {
+  function NstSvcPostMap(NstSvcCommentMap, NstSvcAttachmentMap) {
 
     var service = {
       toMessage: toMessage
@@ -33,7 +33,7 @@
         otherPlacesCount: post.places.length - 1,
         allPlacesCount: post.places.length,
         date: formatMessageDate(post.date),
-        attachments: _.map(post.attachments, mapAttachment),
+        attachments: _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem),
         hasAnyAttachment: post.attachments.length > 0,
         comments: _.map(post.comments, mapComment),
         hasAnyComment: post.comments.length > 0,
@@ -52,45 +52,6 @@
           username: sender.id,
           avatar: sender.picture.getThumbnail('32').url.download
         };
-      }
-
-      function mapAttachment(attach) {
-        return {
-          fileName: attach.fileName,
-          size: attach.size,
-          url: attach.file.url,
-          type: findFileType(attach),
-          format: findFileFormat(attach),
-          thumbnail: attach.thumbnail.getThumbnail('128').url.download
-        };
-
-        function findFileType(attach) {
-          var fileTypes = {
-            'image': 'Image',
-            'audio': 'Audio',
-            'video': 'Video',
-            'text': 'Text',
-            'application': 'Application'
-          };
-
-          var type = attach.mimeType.split('/')[0];
-
-          return fileTypes[type] || 'Unknown';
-        }
-
-        function findFileFormat(attach) {
-          var fileFormats = {
-            'zip': 'ZIP',
-            'x-rar-compressed': 'RAR',
-            'rtf': 'DOC',
-            'msword': 'DOCX',
-            'vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOC'
-          };
-          
-          var format = attach.mimeType.split('/')[1];
-
-          return fileFormats[format] || 'File';
-        }
       }
 
       function mapPlace(place) {

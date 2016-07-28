@@ -59,7 +59,7 @@
 
           return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
         }).then(function(values) {
-          $log.debug(vm);
+            
         }).catch(function(error) {
           $log.debug(error)
         });
