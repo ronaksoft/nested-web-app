@@ -69,7 +69,7 @@
           // return $q.all([loadActivities(), loadInvitations()]);
           return $q.all([loadActivities()]);
         }).then(function(values) {
-          $log.debug(values[0]);
+
         }).catch(function(error) {
           $log.debug(error);
         })

@@ -6,7 +6,7 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($q, $location, $state, $stateParams, $scope, $log, $uibModal, $timeout,
+  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,
                              ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE,
                              NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore,
@@ -38,7 +38,7 @@
     vm.controls = {
       left: [
         // TODO: Get Previous state
-        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('home'))
+        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('intro'))
       ],
       right: [
         new NstVmNavbarControl('Attach', NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attach.id })
@@ -227,6 +227,31 @@
     };
     vm.controls.right.push(new NstVmNavbarControl('Send', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
+    vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
+      if (vm.model.saved) {
+        cancel.$destroy();
+        $state.go(toState.name);
+      } else {
+        if (!$rootScope.modals['disconnected']) {
+          $rootScope.modals['leave-confirm'] = $uibModal.open({
+            animation: false,
+            templateUrl: 'app/modals/leave-confirm/main.html',
+            controller: 'LeaveConfirmController',
+            controllerAs: 'ctlLeaveConfirm',
+            size: 'sm',
+            resolve: {
+
+            }
+          });
+
+          $rootScope.modals['leave-confirm'].result.then(function () {
+            cancel.$destroy();
+            $state.go(toState.name);
+          });
+        }
+      }
+    };
+
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -359,33 +384,6 @@
     $scope.sendStatus = false;
     $scope.checkfilling = function () {
       $scope.sendStatus = !(vm.recipients.length > 0);
-    };
-
-    $scope.changeMe = function ($event, $toState, $toParams, $fromState, $fromParams, $cancel) {
-      if (vm.model.saved) {
-        $cancel.$destroy();
-        $state.go($toState.name);
-      } else {
-        vm.confirmModal = function () {
-          $uibModal.open({
-            animation: false,
-            templateUrl: 'app/compose/confirm.html',
-            controller: 'WarningController',
-            controllerAs: 'ctlWarning',
-            size: 'sm',
-            scope: $scope
-          }).result.then(function () {
-            $cancel.$destroy();
-            $state.go($toState.name);
-          }).catch(function () {
-
-          });
-
-          return false;
-        };
-
-        vm.confirmModal();
-      }
     };
 
     $scope.deleteAttachment = function (attachment) {

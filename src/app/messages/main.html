@@ -1,7 +1,7 @@
 <div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : sideView}" >
-  <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
+  <nst-sidebar data-ng-model="sidebar" class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
-    <nested-navbar data-ng-model="navbar" place="ctlMessages.currentPlace"></nested-navbar>
+    <nst-navbar data-ng-model="navbar" place="ctlMessages.currentPlace"></nst-navbar>
 
     <div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlMessages.scroll" onscroll="angular.element(this).scope().ctlMessages.scroll(event);angular.element(this).scope().ctlApp.scroll(event)">
       <section class="content">
