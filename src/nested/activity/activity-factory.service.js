@@ -24,7 +24,6 @@
     return service;
 
     function parseActivity(data) {
-      console.log('event', data);
       var defer = $q.defer();
 
       var activity = new NstActivity();
@@ -159,7 +158,6 @@
     }
 
     function parseActivityEvent(data) {
-        console.log('event', data);
         var defer = $q.defer();
 
         var activity = new NstActivity();
