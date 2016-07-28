@@ -1,6 +1,7 @@
 @import "mixin.scss";
 
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", null, null, ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", light, null, ttf woff woff2);
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, ttf woff woff2);
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, eot woff2);
@@ -1025,7 +1026,7 @@ a .ui-select-choises-row-inner {
   left: 0;
   bottom: 0;
   top: 0;
-  width: 276px;
+  width: 272px;
   height: 100%;
   flex: none;
   background-color: $color-calm;
@@ -1033,12 +1034,13 @@ a .ui-select-choises-row-inner {
   z-index: 0;
 }
 .maincontainer.sidetiny .sidebar{
-  width: 80px;
+  width: 76px;
 }
 .sidebar-wrapper {
+  z-index: 50;
   display: inline-flex;
   flex-direction: column;
-  width: calc(100% - 4px);
+  width: 100%;
   & > div {
     transition: .3s;
   }
@@ -1046,15 +1048,16 @@ a .ui-select-choises-row-inner {
 .sidebar-border {
   //position: relative;
   //right: 4px;
+  z-index: 55;
   display: flex;
   flex: none;
-  width: 4px;
+  width: 6px;
   top:0;
   right:0;
   bottom:0;
   position: absolute;
-  background: linear-gradient(to right, transparent, #d8dcd9);
-  background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,#d8dcd9 100%);
+  background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,.04));
+  background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,.04) 100%);
 
 }
 @media screen and (max-width: 990px){
@@ -1231,7 +1234,7 @@ a .ui-select-choises-row-inner {
   justify-content: center;
 }
 
-.side-place-wrapper > .side-place {
+.side-place-wrapper > div > div > .side-place {
   padding-left: 10px;
 }
 .side-place {
@@ -1297,7 +1300,7 @@ a .ui-select-choises-row-inner {
 .side-place .side-place .side-place-item {
 }
 
-.side-place-wrapper > .side-place > .side-place-item > .side-place-item-inner:hover{
+.side-place-wrapper> div > div > .side-place > .side-place-item > .side-place-item-inner:hover{
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
   background-color: $color-white;
@@ -1341,7 +1344,7 @@ a .ui-select-choises-row-inner {
     width: 40px;
     height: 40px;
     border-radius: 1000px;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
     pointer-events: none;
   }
 }
@@ -1392,11 +1395,12 @@ ul ul .side-place-item-image {
     margin-right: 0;
   }
 }
-
+.side-place-name a {
+  margin-left: 4px;
+}
 .side-place-item a {
   color: rgb(71, 97, 82);
-  font-weight: 300;
-  margin-left: 4px;
+  font-weight: $font-wight-regular;
 }
 .side-place-item-inner > a:first-child {
   flex-direction: row;

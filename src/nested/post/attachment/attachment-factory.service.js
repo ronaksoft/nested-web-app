@@ -46,7 +46,12 @@
         attachment.uploadTime = new Date(data.upload_time);
         attachment.ownerIds = data.owners;
         attachment.uploaderId = data.uploader;
-        attachment.thumbnail = new NstPicture(attachment.id, data.thumbs);
+        if (data.thumbs && data.thumbs.x32 && data.thumbs.x64 && data.thumbs.x128) {
+          attachment.thumbnail = new NstPicture(attachment.id, data.thumbs);
+        } else {
+          attachment.thumbnail = null;
+        }
+
 
         defer.resolve(attachment);
       }

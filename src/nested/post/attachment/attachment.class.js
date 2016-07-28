@@ -55,6 +55,10 @@
         }
       }
 
+      Attachment.prototype.hasThumbnail = function() {
+        return !!this.thumbnail && !!this.thumbnail.id;
+      }
+
       return Attachment;
     });
 })();

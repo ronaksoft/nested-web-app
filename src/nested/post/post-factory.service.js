@@ -36,28 +36,30 @@
      * @returns {Promise}      the post
      */
     function get(id) {
+      var defer = $q.defer();
+
       var query = new NstFactoryQuery(id);
 
-      return $q(function(resolve, reject) {
-        if (!query.id){
-          resolve(null);
+      if (!query.id) {
+        defer.resolve(null);
+      } else {
+        var post = NstSvcPostStorage.get(query.id);
+        if (post && !post.bodyIsTrivial) {
+          defer.resolve(post);
         } else {
-          var post = NstSvcPostStorage.get(query.id);
-          if (post) {
-            resolve(post);
-          } else {
-            NstSvcServer.request('post/get', {
-              post_id : query.id
-            }).then(function(data) {
-              post = parsePost(data.post);
-              NstSvcPostStorage.set(query.id, post);
-              resolve(post);
-            }).catch(function(error) {
-              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            });
-          }
+          NstSvcServer.request('post/get', {
+            post_id: query.id
+          }).then(function(data) {
+            post = parsePost(data.post);
+            NstSvcPostStorage.set(query.id, post);
+            defer.resolve(post);
+          }).catch(function(error) {
+            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          });
         }
-      });
+      }
+
+      return defer.promise;
     }
 
     function send(post) {
@@ -263,6 +265,8 @@
         message.id = data._id.$oid;
         message.subject = data.subject;
         message.body = data.body;
+        // A message body is trivial
+        message.bodyIsTrivial = true;
         message.removed = data._removed;
         message.content_type = data.content_type;
         message.counters = data.counters;

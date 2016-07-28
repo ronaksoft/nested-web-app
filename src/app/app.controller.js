@@ -56,6 +56,7 @@
 
     vm.scroll = function(event){
       var t = event.target.scrollTop;
+      //console.log(t);
       $timeout(function () {$rootScope.navView = t > 55});
 
       if ( t > 0) {
@@ -86,7 +87,7 @@
     }
 
     $rootScope.$on('$stateChangeStart', function(event, nextState, currentState) {
-      if (['signin', 'home'].indexOf(nextState.name) > -1) {
+      if (['signin', 'intro'].indexOf(nextState.name) > -1) {
         return;
       }
 

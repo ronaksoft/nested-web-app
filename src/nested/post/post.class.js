@@ -14,6 +14,8 @@
       this.moreComments = false;
 
       this.body = null;
+      // some sort of APIs return post with a trivial body
+      this.bodyIsTrivial = false;
       this.contentType = "text/plain";
 
       /**
@@ -25,9 +27,6 @@
 
       this.date = null;
       this.updated = null;
-
-      // FIXME: WTF is this doin here? :D
-      this.attachmentPreview = false;
 
       /**
        * Post Comments
@@ -47,7 +46,7 @@
       this.monitored = false;
       this.internal = false;
 
-      this.forwarded = null;
+      this.forwardFrom = null;
       this.replyTo = null;
 
       this.counters = {

@@ -17,14 +17,14 @@
       if (!attachment || !attachment.id){
         return {};
       }
-
       var model = {
         name : NstSvcFileTypeService.removeSuffix(attachment.fileName),
         size : attachment.size,
         url : attachment.file.url.view,
         type : NstSvcFileTypeService.getType(attachment.mimeType),
         extension : NstSvcFileTypeService.getSuffix(attachment.fileName),
-        thumbnail : attachment.thumbnail ? attachment.thumbnail.getThumbnail('128').url.view : ''
+        thumbnail : attachment.hasThumbnail() ? attachment.thumbnail.getThumbnail('128').url.view : null,
+        hasThumbnail : attachment.hasThumbnail()
       };
 
       return model;

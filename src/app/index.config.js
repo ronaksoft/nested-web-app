@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider) {
+  function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider) {
 
     localStorageServiceProvider
       .setPrefix('nested');
@@ -41,7 +41,17 @@
     toastrConfig.positionClass = 'toast-top-right';
     toastrConfig.preventDuplicates = true;
     toastrConfig.progressBar = true;
-    
+
+    // Scrollbars
+    ScrollBarsProvider.defaults = {
+      theme: 'minimal-dark',
+      scrollInertia: 300,
+      advanced:{
+        updateOnContentResize: true
+      },
+      autoHideScrollbar: true
+    };
+
   }
 
 

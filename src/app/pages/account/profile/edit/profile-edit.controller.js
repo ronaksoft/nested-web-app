@@ -3,17 +3,13 @@
 
   angular
     .module('nested')
-    .controller('ProfileController', AccountProfileController);
+    .controller('ProfileEditController', ProfileEditController);
 
   /** @ngInject */
-  function AccountProfileController($location, $scope, $state, $q, $uibModal,
-                                    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NST_STORE_UPLOAD_TYPE) {
+  function AccountProfileController($scope, $state, $q, $uibModal,
+                                    NST_STORE_UPLOAD_TYPE,
+                                    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory) {
     var vm = this;
-
-    if (!NstSvcAuth.isInAuthorization()) {
-      $location.search({ back: $location.path() });
-      $location.path('/signin').replace();
-    }
 
     getUser().then(function (resolvedSet) {
       vm.user = mapUser(resolvedSet);
@@ -69,10 +65,10 @@
     };
 
     $scope.leaveReason = '';
-    $scope.changeMe = function ($event, $toState, $toParams, $fromState, $fromParams, $cancel) {
+    $scope.changeMe = function (event, toState, toParams, fromState, fromParams, cancel) {
       if ('Save & Exit' == $scope.leaveReason) {
-        $cancel.$destroy();
-        $state.go($toState.name);
+        cancel.$destroy();
+        $state.go(toState.name);
 
       } else {
         vm.confirmModal = function () {
@@ -83,8 +79,8 @@
             size: 'sm',
             scope: $scope
           }).result.then(function () {
-            $cancel.$destroy();
-            $state.go($toState.name);
+            cancel.$destroy();
+            $state.go(toState.name);
           }).catch(function () {
 
           });
