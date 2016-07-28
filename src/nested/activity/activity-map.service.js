@@ -5,7 +5,7 @@
     .service('NstSvcActivityMap', NstSvcActivityMap);
 
   /** @ngInject */
-  function NstSvcActivityMap() {
+  function NstSvcActivityMap(NstSvcAttachmentMap) {
 
     var service = {
       toRecentActivity : toRecentActivity,
@@ -356,7 +356,7 @@
         id: activity.post.id,
         subject: activity.post.subject,
         body: activity.post.body,
-        attachments: _.map(activity.post.attachments, mapPostAttachment),
+        attachments: _.map(activity.post.attachments, NstSvcAttachmentMap.toAttachmentItem),
         hasAnyAttachment: activity.post.attachments ? activity.post.attachments.length > 0 : false,
         firstPlace: mapPostPlace(firstPlace),
         allPlaces: _.map(activity.post.places, mapPostPlace),
@@ -370,20 +370,6 @@
         id: activity.actor.id,
         avatar: activity.actor.picture.thumbnails.x32.url.download,
         name: activity.actor.fullName
-      };
-    }
-
-    function mapPostAttachment(attach) {
-      if (!attach || !attach.id) {
-        return {}
-      }
-      return {
-        fileName: attach.fileName,
-        size: attach.size,
-        url: attach.file.url,
-        type: findFileType(attach),
-        format: findFileFormat(attach),
-        thumbnail: attach.thumbnail.getThumbnail('128').url.download
       };
     }
 
@@ -429,34 +415,6 @@
       return _.orderBy(activities, 'date', 'desc');
     }
 
-    function findFileType(attach) {
-      var fileTypes = {
-        'image': 'Image',
-        'audio': 'Audio',
-        'video': 'Video',
-        'text': 'Text',
-        'application': 'Application'
-      };
-
-      var type = attach.mimeType.split('/')[0];
-
-      return fileTypes[type] || 'Unknown';
-    }
-
-    function findFileFormat(attach) {
-      var fileFormats = {
-        'zip': 'ZIP',
-        'x-rar-compressed': 'RAR',
-        'rtf': 'DOC',
-        'msword': 'DOCX',
-        'vnd.openxmlformats-officedocument.wordprocessingml.document': 'DOC'
-      };
-
-
-      var format = attach.mimeType.split('/')[1];
-
-      return fileFormats[format] || 'File';
-    }
   }
 
 })();
