@@ -10,14 +10,14 @@
     return {
       restrict: 'E',
       scope:{},
-      link: function(scope, elem, attrs) {
-      },
+      link: function(scope, elem, attrs) {},
       templateUrl: 'app/messages/partials/message/post-card.html',
       controller: 'PostCardController',
       controllerAs: 'ctlPostCard',
       bindToController: {
         post: '=post',
-        viewSetting: '=settings'
+        viewSetting: '=settings',
+        thisPlace: '=postinplace'
       }
     };
   }

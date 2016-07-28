@@ -8,7 +8,10 @@
     function PostDirective($uibModal) {
       var directive = {
         link: link,
-        template: '<div ng-click="openPostCardModal(post.id)" ng-transclude></div>',
+        template: function( element, attrs ) {
+          var tag = element[0].nodeName;
+          return '<' + tag +' ng-click="openPostCardModal(post.id)" ng-transclude></' + tag +'>';
+        },
         restrict: 'EA',
         replace: false,
         transclude: true,
@@ -19,13 +22,14 @@
 
 
       function link(scope, element, attrs) {
-
-
         /**
          * postPreview - preview the places that have delete access and let the user to chose one
          *
          * @param  {type} places list of places to be shown
          */
+
+
+
         scope.openPostCardModal = function (postId) {
 
           var modal = $uibModal.open({

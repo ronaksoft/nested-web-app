@@ -34,14 +34,14 @@
 
 }
 
-.post-nav-left {
-  min-width: 500px;
-  padding-left: 16px;
-  padding-top: 18px;
+.post-nav-top {
+  align-items: center;
+  padding: 16px 16px 0 8px;
+  height: 60px;
   overflow: hidden;
 }
 
-.post-nav-left p {
+.post-nav-top p {
   overflow: hidden;
   word-break: break-all;
   font-size: $font-size-xlarge;
@@ -49,34 +49,24 @@
   line-height: 1.1em;
   padding-bottom: 5px;
 }
-
-.post-nav-left-bottom {
-  float: left;
-  min-height: 40px;
-  min-width: 500px;
-  padding-left: 16px;
+.post-nav-top .time {
+  margin: 0 4px;
+}
+.post-nav-top .closebut{
+  align-self: flex-start;
+}
+.post-nav-bot {
   align-items: center;
+  height: 40px;
+  padding: 0 16px 0 8px;
+  overflow: hidden;
 }
 
 .post-nav-left-bottom p {
   //padding-top: 8px;
 }
 
-.post-nav-right {
-  width: 340px;
-  padding-top: 18px;
-  max-width: 200px;
-}
-.post-nav-right > div{
-  display: flex;
-  width: 33.3%;
-  justify-content: flex-end;
-}
-.post-nav-right > div > img{
-  width: 24px;
-  height: 24px;
-  margin-right: 5px;
-}
+
 .post-nav-right-bottom {
   min-width: 305px;
 }
@@ -287,7 +277,8 @@
 
 #PostView #Comments {
   padding: 5px;
-  width: 320px;
+  max-width: 320px;
+  width: 30%;
   flex:none;
   background-color: rgb(247, 250, 249);
   border-radius: 6px;
@@ -347,7 +338,8 @@
   bottom: 0;
   max-height: 90px;
   min-height: 89px;
-  width: 310px;
+  width: 29%;
+  max-width: 318px;
   margin: 10px 5px;
   right: 2px;
   //flex: 1;
@@ -375,7 +367,9 @@
   text-overflow: ellipsis;
 }
 .badges {
-  padding-left: 25px;
+  margin:0 15px;
+  max-width: calc(100% - 250px);
+  overflow-x: auto;
 }
 .image-preview {
   background-color: rgba(240, 245, 242,0.7);

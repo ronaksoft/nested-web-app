@@ -6,10 +6,12 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($scope, $stateParams, $uibModal, $q, $log, _, toastr,
+  function PostController($scope, $stateParams, $uibModal, $q, $log, $state, _, toastr,
     NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, EVENT_ACTIONS, NST_SRV_EVENT,
     NstComment, postId) {
     var vm = this;
+    vm.post = {};
+    vm.postId = $stateParams.postId || postId;
 
 
     vm.postLoadProgress = false;
@@ -31,21 +33,27 @@
     vm.loadMoreComments = loadMoreComments;
     vm.allowToRemoveComment = allowToRemoveComment;
 
-    vm.postId = $stateParams.postId || postId;
+    vm.urls = {
+      reply_all: $state.href('compose-reply-all', {
+        postId: vm.postId
+      }),
+      reply_sender: $state.href('compose-reply-sender', {
+        postId: vm.postId
+      }),
+      forward: $state.href('compose-forward', {
+        postId: vm.postId
+      })
+    };
+
 
     (function () {
       vm.postLoadProgress = true;
-      NstSvcPostFactory.getWithComments(vm.postId, vm.commentSettings).then(function (post) {
-        vm.post = post;
-        vm.postLoadProgress = false;
-        // the conditions says maybe there are more comments that the limit
-        vm.hasMoreComments = !(vm.commentSettings.skip < vm.commentSettings.limit);
-        $scope.scrolling = true;
 
-      }).catch(function (error) {
-        // TODO: create a service that handles errors
-        // and knows what to do when an error occurs
+      NstSvcPostFactory.get(vm.postId).then(function (post) {
+        vm.post = post;
+        loadPostComments();
       });
+
     })();
 
     $scope.unscrolled = true;
@@ -55,6 +63,23 @@
       $scope.unscrolled = element.scrollTop === (element.scrollHeight - element.offsetHeight);
     };
 
+    /**
+     * Load comments of this post
+     *
+     */
+    function loadPostComments() {
+      NstSvcCommentFactory.retrieveComments(vm.post, vm.commentSettings).then(function (post) {
+        vm.post = Object.assign({},vm.post, post);
+        console.log("get with comment :" , vm.post);
+        vm.postLoadProgress = false;
+        // the conditions says maybe there are more comments that the limit
+        vm.hasMoreComments = !(vm.commentSettings.skip < vm.commentSettings.limit);
+        $scope.scrolling = true;
+      }).catch(function (error) {
+        // TODO: create a service that handles errors
+        // and knows what to do when an error occurs
+      });
+    }
 
     /**
      * sendKeyIsPressed - check whether the pressed key is Enter or not
@@ -103,7 +128,6 @@
       $scope.commentSendInProgress = true;
 
       NstSvcCommentFactory.addComment(vm.post, body).then(function(post) {
-        console.log('post comment',post);
         vm.post = post;
         e.currentTarget.value = '';
         $scope.scrolling = $scope.unscrolled && true;
