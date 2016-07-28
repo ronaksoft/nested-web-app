@@ -34,10 +34,11 @@
            post-card-modal post="ctlPostCard.post">
     <i>Empty post</i>
   </section>
-  <section class="post-attachments" data-ng-if="ctlPostCard.post.hasAnyAttachment && ctlPostCard.viewSetting.attachments">
+  <!-- <section class="post-attachments" data-ng-if="ctlPostCard.post.hasAnyAttachment && ctlPostCard.viewSetting.attachments">
     <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'"
          data-ng-init="thePost = ctlPostCard.post"></div>
-  </section>
+  </section> -->
+  <nst-attachments-preview-bar mode="badge" items="ctlPostCard.post.attachments" onItemClick=""/>
   <section class="post-footer _difh"><a class="_df _fn">{{ctlPostCard.post.commentsCount}} comments</a>
     <div class="post-icons _fw _df">
       <a href="{{ctlPostCard.urls.forward}}" class="icon icon-post icon-fw _df"></a>

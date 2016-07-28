@@ -22,12 +22,16 @@
         size : attachment.size,
         url : attachment.file.url.view,
         type : NstSvcFileTypeService.getType(attachment.mimeType),
-        extension : NstSvcFileTypeService.getSuffix(attachment.fileName),
+        extension : formatExtension(NstSvcFileTypeService.getSuffix(attachment.fileName)),
         thumbnail : attachment.hasThumbnail() ? attachment.thumbnail.getThumbnail('128').url.view : null,
         hasThumbnail : attachment.hasThumbnail()
       };
 
       return model;
+    }
+
+    function formatExtension(extension) {
+      return _.upperCase(_.replace(extension, '.', ''));
     }
   }
 
