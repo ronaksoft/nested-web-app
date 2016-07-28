@@ -302,12 +302,17 @@
       }
     };
 
+    vm.recentScrollConf = {
+      mouseWheel: {
+        preventDefault: true
+      }
+    };
+
     // FIXME: NEEDS REWRITE COMPLETELY
-    vm.scrollbarConf = {
+    vm.bodyScrollConf = {
       callbacks: {
         whileScrolling:function(){
           var t = -this.mcs.top;
-          console.log(t);
           $timeout(function () { $rootScope.navView = t > 55; });
 
           //$('.nst-navbar').toggleClass('tiny', t > 55);
@@ -321,8 +326,6 @@
               marginTop: 0
             });
           }
-
-
         },
         onTotalScroll:function () {
           vm.loadMore();

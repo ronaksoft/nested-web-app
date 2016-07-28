@@ -7,8 +7,8 @@
 
   /** @ngInject */
   function SidebarController($q, $state, $stateParams, $uibModal,
-                             NST_AUTH_EVENT,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                             NST_AUTH_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
+                             NstSvcLoader, NstSvcTry, NstSvcServer, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
 
@@ -178,6 +178,10 @@
       return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPlaceFactory.getMyTinyPlaces(); }));
     }
 
+    function getInvitation(id) {
+      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcInvitationFactory.get(id); }));
+    }
+
     function getInvitations() {
       return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcInvitationFactory.getAll(); }));
     }
@@ -222,7 +226,36 @@
     }
 
     /*****************************
+     *****    Push Methods    ****
+     *****************************/
+
+    function pushInvitation(invitationModel) {
+      vm.invitations.push(mapInvitation(invitationModel));
+    }
+
+    /*****************************
      *****    Other Methods   ****
      *****************************/
+
+    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
+      switch (event.detail.timeline_data.action) {
+        case NST_EVENT_ACTION.MEMBER_INVITE:
+          console.log('Invitation Data: ', event.detail.timeline_data);
+          getInvitation(event.detail.timeline_data.invite_id).then(pushInvitation);
+          break;
+
+        case NST_EVENT_ACTION.MEMBER_REMOVE:
+          break;
+
+        case NST_EVENT_ACTION.PLACE_ADD:
+          break;
+
+        case NST_EVENT_ACTION.PLACE_REMOVE:
+          break;
+
+        case NST_EVENT_ACTION.PLACE_PICTURE:
+          break;
+      }
+    });
   }
 })();

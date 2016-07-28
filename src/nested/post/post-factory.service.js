@@ -82,8 +82,8 @@
         params.reply_to = post.getReplyTo().getId();
       }
 
-      if (post.getForwarded()) {
-        params.forwarded_from = post.getForwarded().getId();
+      if (post.getForwardFrom()) {
+        params.forwarded_from = post.getForwardFrom().getId();
       }
 
       if (post.getAttachments()) {

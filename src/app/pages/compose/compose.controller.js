@@ -322,13 +322,38 @@
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
 
               // TODO: First search in post places to find a match then try to get from factory
-              return getPlace(post.getSender().getId()).then(function (place) {
+              var postPlaces = post.getPlaces();
+              var place = undefined;
+              for (var k in postPlaces) {
+                if (post.getSender().getId() == postPlaces[k].getId()) {
+                  place = postPlaces[k];
+                  break;
+                }
+              }
+
+              var deferred = $q.defer();
+
+              if (place) {
+                deferred.resolve(place);
+              } else {
+                getPlace(post.getSender().getId()).then(function (place) {
+                  deferred.resolve(place);
+                });
+              }
+
+              return deferred.promise.then(function (place) {
+                var deferred = $q.defer();
+
                 vm.place = place;
                 vm.model.recipients.push(new NstVmSelectTag({
                   id: place.getId(),
                   name: place.getName(),
                   data: place
                 }));
+
+                deferred.resolve(post);
+
+                return deferred.promise;
               });
             })
           }
