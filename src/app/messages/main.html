@@ -3,7 +3,7 @@
   <div class="nst-container">
     <nst-navbar data-ng-model="navbar" place="ctlMessages.currentPlace"></nst-navbar>
 
-    <div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlMessages.scroll" onscroll="angular.element(this).scope().ctlMessages.scroll(event);angular.element(this).scope().ctlApp.scroll(event)">
+    <div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlMessages.scrollbarConf" onscroll="angular.element(this).scope().ctlMessages.scroll(event);angular.element(this).scope().ctlApp.scroll(event)">
       <section class="content">
         <div class="filter-bar _fw">
             <div class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">

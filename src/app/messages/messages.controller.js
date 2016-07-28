@@ -290,7 +290,7 @@
       }
     });
 
-    //FIXE some times it got a problem ( delta causes )
+    // FIXME some times it got a problem ( delta causes )
     vm.preventParentScroll = function(event) {
       var element = event.currentTarget;
       var delta = event.wheelDelta;
@@ -300,37 +300,37 @@
       if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
         event.preventDefault();
       }
+    };
 
-      // FIXME: NEEDS REWRITE COMPLETELY
-      vm.scroll = {
-        callbacks: {
-          whileScrolling:function(){
-            var t = -this.mcs.top;
-            console.log(t);
-            $timeout(function () { $rootScope.navView = t > 55; });
+    // FIXME: NEEDS REWRITE COMPLETELY
+    vm.scrollbarConf = {
+      callbacks: {
+        whileScrolling:function(){
+          var t = -this.mcs.top;
+          console.log(t);
+          $timeout(function () { $rootScope.navView = t > 55; });
 
-            //$('.nst-navbar').toggleClass('tiny', t > 55);
+          //$('.nst-navbar').toggleClass('tiny', t > 55);
 
-            if ( t > 0) {
-              $("#content-plus").stop().css({
-                marginTop: t
-              });
-            } else if(t == 0){
-              $("#content-plus").stop().css({
-                marginTop: 0
-              });
-            }
+          if ( t > 0) {
+            $("#content-plus").stop().css({
+              marginTop: t
+            });
+          } else if(t == 0){
+            $("#content-plus").stop().css({
+              marginTop: 0
+            });
+          }
 
 
-          },
-          onTotalScroll:function () {
-            vm.loadMore();
-          },
-          onTotalScrollOffset:10,
-          alwaysTriggerOffsets:false
-        }
-      };
-    }
+        },
+        onTotalScroll:function () {
+          vm.loadMore();
+        },
+        onTotalScrollOffset:10,
+        alwaysTriggerOffsets:false
+      }
+    };
   }
 
 })();

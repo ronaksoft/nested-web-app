@@ -51,8 +51,5 @@
       },
       autoHideScrollbar: true
     };
-
   }
-
-
 })();
