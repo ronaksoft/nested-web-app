@@ -46,8 +46,9 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.ngAnnotate())
     .pipe($.replace('.debugEnabled(true)', '.debugEnabled(false)')) // disable debug mode
     .pipe($.replace('./../bower_components/emojione/assets/sprites/emojione.sprites.svg', '../assets/fonts/emojione.sprites.svg')) //replace emoji svg path
-    .pipe($.uglify({preserveComments: $.uglifySaveLicense})).on('error', conf.errorHandler('Uglify'))
+    .pipe($.uglify({mangle: true, preserveComments: $.uglifySaveLicense})).on('error', conf.errorHandler('Uglify'))
     // TODO: The Obfuscator
+    .pipe($.minify())
     .pipe($.sourcemaps.write('maps'))
     .pipe(jsFilter.restore) // End - Javascript Files
     .pipe(cssFilter) // Begin - CSS Files
