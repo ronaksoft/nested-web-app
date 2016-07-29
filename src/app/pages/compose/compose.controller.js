@@ -258,13 +258,13 @@
       attachment.setStatus(NST_ATTACHMENT_STATUS.UPLOADING);
       attachment.setSize(file.size);
       attachment.setFilename(file.name);
-      attachment.setMimetype(file.type);
+      attachment.setMimeType(file.type);
       attachment.setUploadTime(file.lastModified);
 
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
-      var type = NstSvcFileType.getType(attachment.getMimetype());
+      var type = NstSvcFileType.getType(attachment.getMimeType());
 
       // Load and Show Thumbnail
       if (NST_FILE_TYPE.IMAGE == type) {
