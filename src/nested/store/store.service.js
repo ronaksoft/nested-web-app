@@ -174,7 +174,7 @@
         };
       }
 
-      return this.defaultStore.getUploadToken().then(function (token) {
+      return this.getUploadToken().then(function (token) {
         settings.token = token;
 
         var formData = new FormData();
@@ -195,7 +195,7 @@
           };
         }
 
-        xhr.open('POST', this.defaultStore.url, true);
+        xhr.open('POST', this.url, true);
 
         xhr.setRequestHeader("Cache-Control", "no-cache");
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
