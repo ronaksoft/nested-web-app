@@ -17,11 +17,11 @@
         return {};
       }
       var model = {
-        name: NstSvcFileType.removeSuffix(attachment.getFileName()),
+        name: NstSvcFileType.removeSuffix(attachment.getFilename()),
         size: attachment.getSize(),
         url: attachment.getResource().getUrl().view,
         type: NstSvcFileType.getType(attachment.getMimeType()),
-        extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFileName())),
+        extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
         thumbnail: attachment.hasThumbnail() ? attachment.getPicture().getLargestThumbnail().getUrl().view : null,
         hasThumbnail: attachment.hasThumbnail()
       };
