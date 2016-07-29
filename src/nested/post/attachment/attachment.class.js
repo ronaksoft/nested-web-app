@@ -1,64 +1,171 @@
 (function() {
   'use strict';
 
-  angular.module('nested').factory('NstAttachment', function(NstModel) {
+  angular.module('nested').factory('NstAttachment', NstAttachment);
 
-      Attachment.prototype = new NstModel();
-      Attachment.constructor = Attachment;
+  function NstAttachment(NST_ATTACHMENT_STATUS, NstModel, NstUser, NstPicture, NstStoreResource) {
+    Attachment.prototype = new NstModel();
+    Attachment.constructor = Attachment;
 
-      function Attachment(data) {
-        this.id = null;
-        this.post = null;
-        this.storeId = null;
-        this.downloads = -1;
-        this.size = 0;
-        this.status = null;
-        this.mimeType = null;
-        this.fileName = null;
-        this.uploadTime = null;
-        this.owners = []; // [<NstPlace>]
-        this.ownerIds = [];
-        this.uploader = null; // <NstUser>
-        this.uploaderId = null;
-        this.thumbnail = null; //<NstPicture>
-        this.fileName = null; // NstStoreResource
+    function Attachment(data) {
+      /**
+       * Attachment's Identifier
+       *
+       * @type {String}
+       */
+      this.id = null;
 
-        NstModel.call(this);
+      /**
+       * TODO: Clarify requirement reason
+       * Attachment's Post
+       *
+       * @type {NstPost}
+       */
+      this.post = undefined;
 
-        if (data) {
-          this.fill(data);
+      /**
+       * TODO: Clarify requirement reason
+       * Attachment's Store's Identifier
+       *
+       * @type {String}
+       */
+      this.storeId = undefined;
+
+      /**
+       * Attachment's Status
+       *
+       * @type {NST_ATTACHMENT_STATUS}
+       */
+      this.status = NST_ATTACHMENT_STATUS.UNKNOWN;
+
+      /**
+       * Attachment's Places
+       *
+       * @type {NstPlace[]}
+       */
+      this.places = [];
+
+      /**
+       * Attachment's Uploader
+       *
+       * @type {NstUser}
+       */
+      this.uploader = new NstUser();
+
+      /**
+       * Attachment's Preview Picture
+       *
+       * @type {NstPicture}
+       */
+      this.picture = new NstPicture();
+
+      /**
+       * Attachment's Store Resource
+       *
+       * @type {NstStoreResource}
+       */
+      this.resource = new NstStoreResource();
+
+      /**
+       * Attachment's Upload Date
+       *
+       * @type {Date}
+       */
+      this.uploadTime = new Date(0);
+
+      /**
+       * Attachment's Download Times
+       *
+       * @type {Number}
+       */
+      this.downloads = -1;
+
+      // TODO: Move below properties into NstFile
+
+      /**
+       * Attachment's Filename
+       *
+       * @type {String}
+       */
+      this.filename = null;
+
+      /**
+       * Attachment's Size
+       *
+       * @type {Number}
+       */
+      this.size = 0;
+
+      /**
+       * Attachment's Mime Type
+       *
+       * @type {Number}
+       */
+      this.mimeType = null;
+
+      NstModel.call(this);
+
+      if (data) {
+        this.fill(data);
+      }
+    }
+
+    Attachment.prototype.hasThumbnail = function(size) {
+      return !!(this.getPicture().getId() || this.getPicture().getThumbnail(128 || size));
+    };
+
+    Attachment.prototype.addPlace = function(place) {
+      var places = this.getPlaces();
+      for (var k in places) {
+        if (place.getId() == places[k].getId()) {
+          places.splice(k, 1);
+          break;
+        }
+      }
+      places.push(place);
+      
+      return this.setPlaces(places);
+    };
+
+    Attachment.prototype.removePlace = function(id) {
+      var places = this.getPlaces();
+      var place = undefined;
+      for (var k in places) {
+        if (id == places[k].getId()) {
+          place = places[k];
+          places.splice(k, 1);
+          break;
         }
       }
 
-
-      // make sure is it right to change the status here or not
-      Attachment.prototype.setStatus = function(status) {
-        this.status = status;
-      }.bind(this);
-
-      Attachment.prototype.getClientId = function() {
-        if (!this.clientId) {
-          // TODO: Not sure about clientId maybe it should be moved to somewhere like the related factory
-          this.clientId = _.uniqueId('compose_attach_');
-        }
-        return this.clientId;
+      if (place) {
+        this.setPlaces(places);
       }
+      
+      return place;
+    };
 
-      Attachment.prototype.setUploadCanceler = function(canceler) {
-        this.canceler = canceler;
+    // TODO: Move below actions somewhere else
+
+    Attachment.prototype.getClientId = function() {
+      if (!this.clientId) {
+        // TODO: Not sure about clientId maybe it should be moved to somewhere like the related factory
+        this.clientId = _.uniqueId('compose_attach_');
       }
+      return this.clientId;
+    };
 
-      Attachment.prototype.cancelUpload = function() {
-        if (this.canceler) {
-          this.canceler();
-          this.status = NST_ATTACHMENT_STATUS.ABORTED;
-        }
+    Attachment.prototype.setUploadCanceler = function(canceler) {
+      this.canceler = canceler;
+    };
+
+    Attachment.prototype.cancelUpload = function() {
+      if (this.canceler) {
+        this.canceler();
+        this.status = NST_ATTACHMENT_STATUS.ABORTED;
       }
+    };
 
-      Attachment.prototype.hasThumbnail = function() {
-        return !!this.thumbnail && !!this.thumbnail.id;
-      }
-
-      return Attachment;
-    });
+    return Attachment;
+  }
 })();

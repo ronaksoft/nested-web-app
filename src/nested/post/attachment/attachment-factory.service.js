@@ -6,9 +6,10 @@
 
   /** @ngInject */
   function NstSvcAttachmentFactory($q, $log,
-    _,
-    NstSvcServer, NstSvcStore, NstSvcPlaceFactory, NstSvcUserFactory,
-    NstAttachment, NstPicture, NstStoreResource, NstFactoryError, NstFactoryQuery) {
+                                   _,
+                                   NST_FILE_TYPE,
+                                   NstSvcServer, NstSvcStore, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcFileType,
+                                   NstAttachment, NstPicture, NstStoreResource, NstFactoryError, NstFactoryQuery) {
 
     var uploadTokenKey = 'default-upload-token';
 
@@ -33,27 +34,41 @@
       if (!data || !data._id) {
         defer.resolve(attachment);
       } else {
+        attachment.setId(data._id);
+        attachment.setPost(post);
+        attachment.setResource(new NstStoreResource(data._id));
+        attachment.setDownloads(data.downloads);
+        attachment.setFilename(data.filename);
+        attachment.setMimeType(data.mimetype);
+        attachment.setSize(data.size);
+        attachment.setStatus(data.status);
+        attachment.setStoreId(data.store_id);
+        attachment.setUploadTime(new Date(data.upload_time));
 
-        attachment.post = post;
-        attachment.id = data._id;
-        attachment.file = new NstStoreResource(data._id);
-        attachment.downloads = data.downloads;
-        attachment.fileName = data.filename;
-        attachment.mimeType = data.mimetype;
-        attachment.size = data.size;
-        attachment.status = data.status;
-        attachment.storeId = data.store_id;
-        attachment.uploadTime = new Date(data.upload_time);
-        attachment.ownerIds = data.owners;
-        attachment.uploaderId = data.uploader;
-        if (data.thumbs && data.thumbs.x32 && data.thumbs.x64 && data.thumbs.x128) {
-          attachment.thumbnail = new NstPicture(attachment.id, data.thumbs);
-        } else {
-          attachment.thumbnail = null;
+        var promises = [];
+
+        promises.push(NstSvcUserFactory.getTiny(data.uploader).then(function (user) {
+          attachment.setUploader(user);
+        }));
+
+        for (var k in data.owners) {
+          promises.push(NstSvcPlaceFactory.getTiny(data.owners[k]).then(function (place) {
+            attachment.addPlace(place);
+          }));
         }
 
+        if (data.thumbs) {
+          var picture = new NstPicture(attachment.getId(), data.thumbs);
+          if (NST_FILE_TYPE.IMAGE != NstSvcFileType.getType(attachment.getMimeType())) {
+            picture.setId(picture.getLargestThumbnail().getId());
+          }
 
-        defer.resolve(attachment);
+          attachment.setPicture(picture);
+        }
+
+        $q.all(promises).then(function () {
+          defer.resolve(attachment);
+        });
       }
 
       return defer.promise;

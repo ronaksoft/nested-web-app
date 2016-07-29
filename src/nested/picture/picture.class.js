@@ -87,6 +87,12 @@
       return this.thumbnails['x' + size];
     };
 
+    Picture.prototype.getLargestThumbnail = function () {
+      var lgSize = Math.max.apply(null, Object.keys(this.getThumbnails()).map(function (v) { return Number(v); }));
+
+      return this.getThumbnail(lgSize);
+    };
+
     return Picture;
   }
 })();

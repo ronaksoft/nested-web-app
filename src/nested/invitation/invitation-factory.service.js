@@ -70,7 +70,7 @@
             NstSvcServer.request('account/get_invitation', {
               invite_id: query.getId()
             }).then(function (invitationData) {
-              var invitation = factory.parseInvitation(invitationData.invitations);
+              var invitation = factory.parseInvitation(invitationData.invitation);
               NstSvcInvitationStorage.set(query.getId(), invitation);
               resolve(invitation);
             }).catch(function(error) {

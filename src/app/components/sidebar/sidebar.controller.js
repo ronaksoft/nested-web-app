@@ -248,7 +248,6 @@
     NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
       switch (event.detail.timeline_data.action) {
         case NST_EVENT_ACTION.MEMBER_INVITE:
-          console.log('Invitation Data: ', event.detail.timeline_data);
           getInvitation(event.detail.timeline_data.invite_id.$oid).then(pushInvitation);
           break;
 

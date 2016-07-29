@@ -20,7 +20,7 @@
 
       self.$get = function ($window) {
         return function parse(toParse) {
-          return $window.emojione.toImage(findToParse(toParse));
+          return $window.emojione.toImage(findToParse(toParse) || '');
         };
       };
 

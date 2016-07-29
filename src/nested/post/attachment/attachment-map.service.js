@@ -5,7 +5,7 @@
     .service('NstSvcAttachmentMap', NstSvcAttachmentMap);
 
   /** @ngInject */
-  function NstSvcAttachmentMap(NstSvcFileTypeService) {
+  function NstSvcAttachmentMap(NstSvcFileType) {
 
     var service = {
       toAttachmentItem : toAttachmentItem
@@ -18,11 +18,11 @@
         return {};
       }
       var model = {
-        name : NstSvcFileTypeService.removeSuffix(attachment.fileName),
+        name : NstSvcFileType.removeSuffix(attachment.fileName),
         size : attachment.size,
         url : attachment.file.url.view,
-        type : NstSvcFileTypeService.getType(attachment.mimeType),
-        extension : formatExtension(NstSvcFileTypeService.getSuffix(attachment.fileName)),
+        type : NstSvcFileType.getType(attachment.mimeType),
+        extension : formatExtension(NstSvcFileType.getSuffix(attachment.fileName)),
         thumbnail : attachment.hasThumbnail() ? attachment.thumbnail.getThumbnail('128').url.view : null,
         hasThumbnail : attachment.hasThumbnail()
       };

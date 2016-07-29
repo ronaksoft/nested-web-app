@@ -56,7 +56,7 @@
             <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;delete = deleteAttachment;"
                  class="popover-green _df _fw attachlist"></div>
             <div class="attach _df">
-              <input id="{{ctlCompose.attach.id}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
+              <input id="{{ctlCompose.attachments.elementId}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
             </div>
             <div class="nst-attach-con _fh" ng-if="showUploadProgress">
               <div class="progress">

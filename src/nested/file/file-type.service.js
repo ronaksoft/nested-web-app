@@ -2,10 +2,10 @@
   'use strict';
   angular
     .module('nested')
-    .service('NstSvcFileTypeService', NstSvcFileTypeService);
+    .service('NstSvcFileType', NstSvcFileType);
 
   /** @ngInject */
-  function NstSvcFileTypeService(NST_FILE_TYPE) {
+  function NstSvcFileType(NST_FILE_TYPE) {
     var fileGroups = {};
 
     fileGroups[NST_FILE_TYPE.ARCHIVE] = [
