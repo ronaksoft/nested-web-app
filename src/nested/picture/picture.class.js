@@ -88,7 +88,7 @@
     };
 
     Picture.prototype.getLargestThumbnail = function () {
-      var lgSize = Math.max.apply(null, Object.keys(this.getThumbnails()).map(function (v) { return Number(v); }));
+      var lgSize = Math.max.apply(null, Object.keys(this.getThumbnails()).map(function (v) { return Number(String(v).replace(/[a-zA-Z]*/g, '')); }));
 
       return this.getThumbnail(lgSize);
     };
