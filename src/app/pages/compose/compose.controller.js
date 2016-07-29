@@ -272,6 +272,7 @@
         var reader = new FileReader();
         reader.onload = function (event) {
           var uri = event.target.result;
+          // TODO: Generate Raw Resource
           var resource = new NstStoreResource(uri);
 
           attachment.getPicture().setOrg(resource);
@@ -282,11 +283,49 @@
           qThumb.resolve();
         };
 
-        promises.push(qThumb.promise);
+        promises.push(NstSvcLoader.inject(qThumb.promise));
         reader.readAsDataURL(file);
       }
 
       // Upload Attachment
+      {
+        var uploadSettings = {
+          file: file,
+          // _reqid: attachment.getClientId(),
+          // // progress is invoked at most once per every second
+          // onProgress: _.throttle(function (event) {
+          //   if (event.lengthComputable) {
+          //     attachment.loadedSize = event.loaded;
+          //     $timeout(function () {
+          //       $scope.totalProgress = $scope.compose.post.getTotalAttachProgress();
+          //     });
+          //   }
+          // }, 1000),
+          // onStart : function (e) {
+          //   $scope.showUploadProgress = true;
+          // }
+        };
+
+        promises.push(NstSvcLoader.inject(NstSvcStore.uploadWithProgress(uploadSettings).then(function (handler) {
+          var deferred = $q.defer();
+
+          // attachment.setUploadCanceler(handler.abort);
+          handler.start().then(function (response) {
+            attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
+            attachment.setId(response.data.universal_id);
+
+            deferred.resolve(attachment);
+          }).catch(function (result) {
+            $log.debug('Compose | Attach Upload Handler Error: ', result);
+
+            deferred.reject();
+          });
+
+          return deferred.promise;
+        })).catch(function (error) {
+          $log.debug('Compose | Attach Upload Error: ', error);
+        }));
+      }
 
       $q.all(promises).then(function () {
         deferred.resolve(attachment);

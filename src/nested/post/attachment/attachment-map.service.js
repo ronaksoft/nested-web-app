@@ -6,7 +6,6 @@
 
   /** @ngInject */
   function NstSvcAttachmentMap(NstSvcFileType) {
-
     var service = {
       toAttachmentItem : toAttachmentItem
     };
@@ -18,13 +17,13 @@
         return {};
       }
       var model = {
-        name : NstSvcFileType.removeSuffix(attachment.fileName),
-        size : attachment.size,
-        url : attachment.file.url.view,
-        type : NstSvcFileType.getType(attachment.mimeType),
-        extension : formatExtension(NstSvcFileType.getSuffix(attachment.fileName)),
-        thumbnail : attachment.hasThumbnail() ? attachment.thumbnail.getThumbnail('128').url.view : null,
-        hasThumbnail : attachment.hasThumbnail()
+        name: NstSvcFileType.removeSuffix(attachment.getFileName()),
+        size: attachment.getSize(),
+        url: attachment.getResource().getUrl().view,
+        type: NstSvcFileType.getType(attachment.getMimeType()),
+        extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFileName())),
+        thumbnail: attachment.hasThumbnail() ? attachment.getPicture().getLargestThumbnail().getUrl().view : null,
+        hasThumbnail: attachment.hasThumbnail()
       };
 
       return model;
@@ -34,5 +33,4 @@
       return _.upperCase(_.replace(extension, '.', ''));
     }
   }
-
 })();
