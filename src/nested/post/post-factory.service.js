@@ -201,18 +201,24 @@
         post.monitored = data.monitored;
         post.spam = data.spam;
 
-        post.places = [];
         for (var k in data.post_places) {
           promises.push((function(index) {
+            var deferred = $q.defer();
             var id = data.post_places[index]._id;
 
-            return NstSvcPlaceFactory.set(NstSvcPlaceFactory.parseTinyPlace({
+            NstSvcPlaceFactory.set(NstSvcPlaceFactory.parseTinyPlace({
               _id : id,
               name : data.post_places[index].name,
               picture : data.post_places[index].picture
-            })).getTiny(id).then(function(tinyPlace) {
+            }));
+
+            NstSvcPlaceFactory.getTiny(id).then(function(tinyPlace) {
               post.places[index] = tinyPlace;
+
+              deferred.resolve(tinyPlace);
             });
+
+            return deferred.promise;
           })(k));
         }
 
@@ -224,9 +230,11 @@
           });
         }
 
-        post.attachments = [];
-
-        var attachmentPromises = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
+        _.map(data.post_attachments, function (data) {
+          promises.push(NstSvcAttachmentFactory.parseAttachment(data).then(function (attachment) {
+            post.addAttachment(attachment);
+          }));
+        });
 
         post.recipients = []; // TODO: ?
         for (var k in data.recipients) {
@@ -237,18 +245,19 @@
           });
         }
 
-        var replyToPromise = data.replyTo ? parsePost(data.replyTo) : createEmptyPromise();
-        var forwardFromPromise = data.forward_from ? parsePost(data.forward_from) :  createEmptyPromise();
+        if (data.replyTo) {
+          promises.push(parsePost(data.replyTo).then(function (replyTo) {
+            post.setReplyTo(replyTo);
+          }));
+        }
 
-        $q.all([replyToPromise, forwardFromPromise]).then(function(values) {
-          post.replyTo = values[0];
-          post.forwardFrom = values[1];
+        if (data.forward_from) {
+          promises.push(parsePost(data.forward_from).then(function (forwardFrom) {
+            post.setForwardFrom(forwardFrom);
+          }));
+        }
 
-          return $q.all(attachmentPromises);
-        }).then(function (attachments) {
-          post.attachments = attachments;
-          defer.resolve(post);
-        }).catch(defer.reject);
+        $q.all(promises).then(function() { defer.resolve(post); }).catch(defer.reject);
       }
 
       return defer.promise;
@@ -383,12 +392,5 @@
 
       return defer.promise;
     }
-
-    function createEmptyPromise() {
-      return $q(function (resolve) {
-        resolve(null);
-      });
-    }
-
   }
 })();
