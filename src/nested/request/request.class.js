@@ -5,7 +5,7 @@
     .module('nested')
     .factory('NstRequest', NstRequest);
 
-  function NstRequest($q, NST_REQ_STATUS, NST_RES_STATUS, NstObservableObject, NstResponse) {
+  function NstRequest($q, NST_OBJECT_EVENT, NST_REQ_STATUS, NST_RES_STATUS, NstObservableObject, NstResponse) {
     function Request(method, data) {
       this.method = method;
       this.data = data;
@@ -20,7 +20,7 @@
       this.finish = function (response) {
         this.setResponse(response);
 
-        if (NST_RES_STATUS.UNKNOWN != response.getStatus()) {
+        if (!this.isFinished() && NST_RES_STATUS.UNKNOWN != response.getStatus()) {
           this.setStatus(NST_REQ_STATUS.RESPONDED);
         }
 
@@ -35,8 +35,88 @@
     Request.prototype = new NstObservableObject();
     Request.prototype.constructor = Request;
 
+    Request.prototype.sent = function () {
+      var deferred = $q.defer();
+
+      if (this.isSent()) {
+        deferred.resolve(this.getStatus());
+      } else {
+        this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
+          switch (event.detail.name) {
+            case 'status':
+              if (Request.isSentStatus(event.detail.newValue)) {
+                deferred.resolve(event.detail.newValue);
+              }
+              break;
+          }
+        }, true);
+      }
+
+      return deferred.promise;
+    };
+
+    Request.prototype.finished = function () {
+      var deferred = $q.defer();
+
+      if (this.isFinished()) {
+        deferred.resolve(this.getStatus());
+      } else {
+        this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
+          switch (event.detail.name) {
+            case 'status':
+              if (Request.isFinishedStatus(event.detail.newValue)) {
+                deferred.resolve(event.detail.newValue);
+              }
+              break;
+          }
+        }, true);
+      }
+
+      return deferred.promise;
+    };
+
+    Request.prototype.cancelled = function () {
+      var deferred = $q.defer();
+
+      if (this.isCancelled()) {
+        deferred.resolve(this.getStatus());
+      } else {
+        this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
+          switch (event.detail.name) {
+            case 'status':
+              if (Request.isCancelledStatus(event.detail.newValue)) {
+                deferred.resolve(event.detail.newValue);
+              }
+              break;
+          }
+        }, true);
+      }
+
+      return deferred.promise;
+    };
+
+    Request.prototype.isSent = function () {
+      return Request.isSentStatus(this.getStatus());
+    };
+
     Request.prototype.isFinished = function () {
-      return [NST_REQ_STATUS.CANCELLED, NST_REQ_STATUS.RESPONDED].indexOf(this.getStatus()) > -1;
+      return Request.isFinishedStatus(this.getStatus());
+    };
+
+    Request.prototype.isCancelled = function () {
+      return Request.isCancelledStatus(this.getStatus());
+    };
+
+    Request.isSentStatus = function(status) {
+      return [NST_REQ_STATUS.SENT, NST_REQ_STATUS.CANCELLED, NST_REQ_STATUS.RESPONDED].indexOf(status) > -1;
+    };
+
+    Request.isFinishedStatus = function(status) {
+      return [NST_REQ_STATUS.CANCELLED, NST_REQ_STATUS.RESPONDED].indexOf(status) > -1;
+    };
+
+    Request.isCancelledStatus = function(status) {
+      return [NST_REQ_STATUS.CANCELLED].indexOf(status) > -1;
     };
 
     return Request;
