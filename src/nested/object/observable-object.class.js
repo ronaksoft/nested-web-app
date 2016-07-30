@@ -3,9 +3,6 @@
 
   angular
     .module('nested')
-    .constant('NST_OBJECT_EVENT', {
-      CHANGE: 'change'
-    })
     .factory('NstObservableObject', NstObservableObject);
 
   /** @ngInject */
