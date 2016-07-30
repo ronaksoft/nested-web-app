@@ -183,23 +183,23 @@
       } else {
         var promises = [];
 
-        post.id = data._id.$oid;
-        post.sender = NstSvcUserFactory.parseTinyUser(data.sender);
+        post.setId(data._id.$oid);
+        post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
         NstSvcUserFactory.set(post.sender);
-        post.subject = data.subject;
-        post.contentType = data.content_type;
-        post.body = data.body;
-        post.internal = data.internal;
-        post.date = new Date(data['timestamp']);
-        post.updated = new Date(data['last_update']);
-        post.counters = data.counters || post.counters;
-        post.moreComments = false;
+        post.setSubject(data.subject);
+        post.setContentType(data.content_type);
+        post.setBody(data.body);
+        post.setInternal(data.internal);
+        post.setDate(new Date(data['timestamp']));
+        post.setUpdated(new Date(data['last_update']));
+        post.setCounters(data.counters || post.counters);
+        post.setMoreComments(false);
         if (post.counters) {
-          post.moreComments = post.counters.comments > -1 ? post.counters.comments > post.comments.length : true;
+          post.setMoreComments(post.counters.comments > -1 ? post.counters.comments > post.comments.length : true);
         }
 
-        post.monitored = data.monitored;
-        post.spam = data.spam;
+        post.setMonitored(data.monitored);
+        post.setSpam(data.spam);
 
         for (var k in data.post_places) {
           promises.push((function(index) {
@@ -213,6 +213,7 @@
             }));
 
             NstSvcPlaceFactory.getTiny(id).then(function(tinyPlace) {
+              // TODO: Use NstPost.addPlace()
               post.places[index] = tinyPlace;
 
               deferred.resolve(tinyPlace);
