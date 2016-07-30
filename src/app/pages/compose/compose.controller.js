@@ -27,7 +27,8 @@
       errors: [],
       ready: false,
       saving: false,
-      saved: false
+      saved: false,
+      modified: false
     };
 
     vm.search = {
@@ -364,9 +365,27 @@
 
     };
 
+    vm.model.isModified = function () {
+      vm.model.modified = (function (model) {
+        var modified = false;
+
+        modified = modified || model.subject.trim().length > 0;
+        modified = modified || model.body.trim().length > 0;
+        modified = modified || model.recipients.length > 0;
+        modified = modified || model.attachments.length > 0;
+
+        return modified;
+      })(vm.model);
+
+      $log.debug('Compose | Model Modified? ', vm.model.modified);
+
+      return vm.model.modified;
+    }
+
     // TODO: Call this while model is changed
-    // TODO: Return error reason
     vm.model.check = function () {
+      vm.model.isModified();
+
       vm.model.errors = (function (model) {
         var errors = [];
 
@@ -430,7 +449,10 @@
 
         if (vm.model.saving) {
           // TODO: Already being in save process error
-          deferred.reject([]);
+          deferred.reject([{
+            name: 'saving',
+            message: 'Already is being sent'
+          }]);
         } else {
           if (vm.model.check()) {
             vm.model.saving = true;
@@ -440,7 +462,7 @@
             post.setBody(vm.model.body);
             post.setContentType('text/html');
             post.setAttachments(vm.model.attachments);
-            vm.model.forwardedFrom && post.setForwarded(vm.model.forwardedFrom);
+            vm.model.forwardedFrom && post.setForwardFrom(vm.model.forwardedFrom);
             vm.model.replyTo && post.setReplyTo(vm.model.replyTo);
 
             var places = [];
@@ -484,14 +506,20 @@
         $state.go('messages-sent');
       }).catch(function (errors) {
         vm.model.saving = false;
+        toastr.error(errors.filter(
+          function (v) { return !!v.message; }
+        ).map(
+          function (v, i) { return String(Number(i) + 1) + '. ' + v.message; }
+        ).join("<br/>"), 'Compose Error');
 
-        console.log('Compose | Error Occured: ', errors);
+        $log.debug('Compose | Error Occurred: ', errors);
       }));
     };
     vm.controls.right.push(new NstVmNavbarControl('Send', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-      if (vm.model.saved) {
+      $log.debug('Compose | Gonna Change State: ', toState);
+      if (vm.model.saved || !vm.model.isModified()) {
         cancel.$destroy();
         $state.go(toState.name);
       } else {
