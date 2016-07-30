@@ -105,7 +105,9 @@
       var flushTank = [];
       for (var id in this.eventListeners[event.type]) {
         this.eventListeners[event.type][id].fn.call(this, event);
-        this.eventListeners[event.type][id].flush && flushTank.push(id);
+        if (this.eventListeners[event.type][id] && this.eventListeners[event.type][id].flush) {
+          flushTank.push(id);
+        }
       }
 
       for (var key in flushTank) {

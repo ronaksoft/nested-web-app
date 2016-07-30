@@ -20,14 +20,16 @@
       this.finish = function (response) {
         this.setResponse(response);
 
-        if (!this.isFinished() && NST_RES_STATUS.UNKNOWN != response.getStatus()) {
-          this.setStatus(NST_REQ_STATUS.RESPONDED);
-        }
+        if (!this.isFinished()) {
+          if (NST_RES_STATUS.UNKNOWN != response.getStatus()) {
+            this.setStatus(NST_REQ_STATUS.RESPONDED);
+          }
 
-        if (NST_RES_STATUS.SUCCESS == response.getStatus()) {
-          deferred.resolve(response);
-        } else {
-          deferred.reject(response);
+          if (NST_RES_STATUS.SUCCESS == response.getStatus()) {
+            deferred.resolve(response);
+          } else {
+            deferred.reject(response);
+          }
         }
       };
     }
@@ -39,17 +41,19 @@
       var deferred = $q.defer();
 
       if (this.isSent()) {
-        deferred.resolve(this.getStatus());
+        deferred.resolve(this.getData());
       } else {
-        this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
+        var me = this;
+        var lId = this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
           switch (event.detail.name) {
             case 'status':
               if (Request.isSentStatus(event.detail.newValue)) {
-                deferred.resolve(event.detail.newValue);
+                deferred.resolve(me.getData());
+                me.removeEventListener(lId);
               }
               break;
           }
-        }, true);
+        });
       }
 
       return deferred.promise;
@@ -59,17 +63,19 @@
       var deferred = $q.defer();
 
       if (this.isFinished()) {
-        deferred.resolve(this.getStatus());
+        deferred.resolve(this.getResponse());
       } else {
-        this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
+        var me = this;
+        var lId = this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
           switch (event.detail.name) {
             case 'status':
               if (Request.isFinishedStatus(event.detail.newValue)) {
-                deferred.resolve(event.detail.newValue);
+                deferred.resolve(me.getResponse());
+                me.removeEventListener(lId);
               }
               break;
           }
-        }, true);
+        });
       }
 
       return deferred.promise;
@@ -79,17 +85,19 @@
       var deferred = $q.defer();
 
       if (this.isCancelled()) {
-        deferred.resolve(this.getStatus());
+        deferred.resolve(this.getResponse());
       } else {
-        this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
+        var me = this;
+        var lId = this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
           switch (event.detail.name) {
             case 'status':
               if (Request.isCancelledStatus(event.detail.newValue)) {
-                deferred.resolve(event.detail.newValue);
+                deferred.resolve(me.getResponse());
+                me.removeEventListener(lId);
               }
               break;
           }
-        }, true);
+        });
       }
 
       return deferred.promise;

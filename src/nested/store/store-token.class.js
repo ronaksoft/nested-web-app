@@ -17,7 +17,6 @@
      */
     function Token(string, expiration) {
       this.string = undefined;
-
       this.expiration = new Date();
 
       NstObservableObject.call(this);
@@ -34,7 +33,7 @@
     };
 
     Token.prototype.toString = function () {
-      return this.getString();
+      return this.getString() || '';
     };
 
     return Token;
