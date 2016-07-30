@@ -8,7 +8,7 @@
   function NstSvcAttachmentFactory($q, $log,
                                    _,
                                    NST_FILE_TYPE,
-                                   NstSvcServer, NstSvcStore, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcFileType,
+                                   NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcFileType, NstSvcDownloadTokenStorage,
                                    NstAttachment, NstPicture, NstStoreResource, NstFactoryError, NstFactoryQuery) {
 
     var uploadTokenKey = 'default-upload-token';
@@ -81,14 +81,12 @@
 
     function getDownloadToken(postId, attachmentId) {
       var defer = $q.defer();
-      var tokenKey = generateTokenKey(postId, attachmentId)
+      var tokenKey = generateTokenKey(postId, attachmentId);
 
       var token = NstSvcDownloadTokenStorage.get(tokenKey);
       if (!token || token.isExpired()) { // then if the token exists then remove it and get a new token
-
         NstSvcDownloadTokenStorage.remove(tokenKey);
         requestNewDownloadToken(postId, attachmentId).then(defer.resolve).catch(defer.reject);
-
       } else { // current token is still valid and resolve it
         defer.resolve(token);
       }
@@ -103,15 +101,14 @@
         post_id: postId,
         universal_id: universalId
       }).then(function(data) {
-        // TODO: Read expiration date from token itself
-        var token = new NstStoreToken(data.token, new Date(Date.now() + 3600));
+        var token = createToken(data.token);
         NstSvcDownloadTokenStorage.set(tokenKey, token);
         defer.resolve(token);
       }).catch(function(error) {
-        var query = new NstFactoryQuery(attachmentId, {
-          postId: postId,
-        });
+        var query = new NstFactoryQuery(attachmentId, { postId: postId });
         var factoryError = new NstFactoryError(query, error.message, error.code);
+
+        defer.reject(factoryError);
       });
 
       return defer.promise;
@@ -135,17 +132,13 @@
     function remove(attachmentId, postId) {
       var defer = $q.defer();
 
-      return NstSvcServer.request('attachment/remove', {
+      NstSvcServer.request('attachment/remove', {
         post_id: postId,
         attachment_id: attachmentId
       }).then(function(response) {
-
-        resolve(attachmentId);
+        defer.resolve(attachmentId);
       }).catch(function(error) {
-
-        var query = new NstFactoryQuery(attachmentId, {
-          postId: postId,
-        });
+        var query = new NstFactoryQuery(attachmentId, { postId: postId });
         var factoryError = new NstFactoryError(query, error.message, error.code);
 
         defer.reject(factoryError);
@@ -161,7 +154,6 @@
     function createAttachmentModel() {
       return new NstAttachment();
     }
-
 
     /**
      * getDownloadUrl - Gets a download Url of the attachment in the following steps:
