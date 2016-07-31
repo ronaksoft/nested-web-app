@@ -329,9 +329,10 @@
             var t = -this.mcs.top;
             // $("#content-plus").stop().animate(
             //   {marginTop:t}, {duration:1});
-            TweenMax.to("#content-plus", 1, {
+            TweenMax.to("#content-plus", .1, {
               y: t
             });
+            TweenMax.lagSmoothing(500, 33);
 
             $timeout(function () { $rootScope.navView = t > 55; });
 
