@@ -142,122 +142,239 @@
     };
 
     Store.prototype.uploadWithProgress = function (file, onProgress, type) {
+      type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
-    };
-
-    Store.prototype.uploadWithProgressOld = function(settings) {
-      var defer = $q.defer;
-
-      var defaultSettings = {
-        file: null,
-        req_id: null,
-        token: null,
-        _sk: NstSvcServer.getSessionKey(),
-        fn: 'attachment',
-        cmd: NST_STORE_UPLOAD_TYPE.FILE,
-        onStart: null,
-        onProgress: null,
-        onError: null,
-        onUploaded: null,
-        onAborted: null,
-      };
-
-      settings = _.defaults(settings, defaultSettings);
+      var service = this;
+      var action = 'upload/' + type;
+      var request = new NstRequest(action, {
+        file: file,
+        type: type
+      });
 
       var q = {
-        'file': settings.file instanceof File,
-        'type': (Object.keys(NST_STORE_UPLOAD_TYPE).map(function (k) {
-          return NST_STORE_UPLOAD_TYPE[k];
-        })).indexOf(settings.cmd) > -1
+        'file': file instanceof File, // file is File object
+        'type': _.values(NST_STORE_UPLOAD_TYPE).indexOf(type) > -1 // type is valid NST_STORE_UPLOAD_TYPE
       };
-      var items = [];
+      var issues = [];
       for (var k in q) {
-        q[k] || items.push(k);
+        q[k] || issues.push(k);
       }
 
-      if (items.length > 0) {
-        return {
-          result: $q(function (res, rej) {
-            rej({
-              err_code: NST_SRV_ERROR.INVALID,
-              items: items
-            });
-          })
-        };
+      if (issues.length > 0) {
+        request.setStatus(NST_REQ_STATUS.CANCELLED);
+        request.finish(new NstResponse(NST_RES_STATUS.FAILURE, {
+          err_code: NST_SRV_ERROR.INVALID,
+          items: issues
+        }));
+
+        return request;
       }
 
-      return this.getUploadToken().then(function (token) {
-        settings.token = token;
+      var reqId = generateReqId('upload/' + type, file.name);
+      request.setStatus(NST_REQ_STATUS.QUEUED);
+      request.setData(angular.extend(request.getData(), { reqId: reqId }));
 
+      getUploadToken().catch(function (error) {
+        var deferred = $q.defer();
+        // TODO: Check for what to be passed as response data
+        var response = new NstResponse(NST_RES_STATUS.FAILURE, error);
+        deferred.reject(response);
+
+        return deferred.promise;
+      }).then(function (token) {
         var formData = new FormData();
-        formData.append('cmd', settings.cmd);
-        formData.append('_sk', settings._sk);
-        formData.append('token', settings.token.getString());
-        formData.append('fn', settings.fn);
-        formData.append('attachment', settings.file);
-        formData.append('_reqid', settings._reqid);
+        formData.append('cmd', type);
+        formData.append('_sk', NstSvcServer.getSessionKey());
+        formData.append('token', token.getString());
+        formData.append('fn', 'attachment');
+        formData.append('attachment', file);
+        formData.append('_reqid', reqId);
 
-        var defer = $q.defer();
+        var deferred = $q.defer();
 
         var xhr = createCORSRequest('POST');
 
-        if (!xhr) {
-          return {
-            result: defer.reject('CORS is not supported!')
+        if (xhr) {
+          xhr.open('POST', service.getUrl(), true);
+
+          xhr.setRequestHeader("Cache-Control", "no-cache");
+          xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+          xhr.setRequestHeader("X-File-Size", file.size);
+          xhr.setRequestHeader("X-File-Type", file.type);
+
+          xhr.upload.onloadstart = function () {
+            request.setStatus(NST_REQ_STATUS.SENT);
           };
-        }
 
-        xhr.open('POST', this.url, true);
-
-        xhr.setRequestHeader("Cache-Control", "no-cache");
-        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-        xhr.setRequestHeader("X-File-Size", settings.file.size);
-        xhr.setRequestHeader("X-File-Type", settings.file.type);
-
-        xhr.upload.onloadstart = settings.onStart;
-        xhr.upload.onprogress = settings.onProgress;
-
-        xhr.upload.onerror = function (e) {
-          defer.reject(e);
-          if (settings.onError) {
-            settings.onError(e);
+          if (onProgress) {
+            xhr.upload.onprogress = onProgress;
           }
-        };
 
-        xhr.onload = function (e) {
-          if (e.target.status === 200) {
-            var data = JSON.parse(e.target.response);
-            defer.resolve(data);
-            if (settings.onUploaded) {
-              settings.onUploaded(data);
+          xhr.upload.onerror = function (event) {
+            request.setStatus(NST_REQ_STATUS.CANCELLED);
+            deferred.reject(new NstResponse(NST_RES_STATUS.FAILURE, event));
+          };
+
+          xhr.onload = function (event) {
+            if (200 == event.target.status) {
+              var httpData = JSON.parse(event.target.response);
+              console.log('Store | Progressive Upload Finished: ', httpData);
+              var data = httpData.data;
+              var response = new NstResponse(NST_RES_STATUS.UNKNOWN, data);
+
+              switch (data.status) {
+                case NST_SRV_RESPONSE_STATUS.SUCCESS:
+                  response.setStatus(NST_RES_STATUS.SUCCESS);
+                  deferred.resolve(response);
+                  break;
+
+                default:
+                  response.setStatus(NST_RES_STATUS.FAILURE);
+                  deferred.reject(response);
+                  break;
+              }
+            } else {
+              // TODO: Catch here
             }
-          }
-        };
+          };
 
-        xhr.upload.onabort = function (e) {
-          defer.reject(e);
-          if (settings.onAborted) {
-            settings.onAborted(e);
-          }
-        };
+          xhr.upload.onabort = function (event) {
+            request.setStatus(NST_REQ_STATUS.CANCELLED);
+            deferred.reject(new NstResponse(NST_RES_STATUS.FAILURE, event));
+          };
 
-        function startUpload() {
+          request.cancelled().then(function () {
+            xhr.abort();
+          });
+
           xhr.send(formData);
-          return defer.promise;
+        } else {
+          deferred.reject(new NstResponse(NST_RES_STATUS.FAILURE, 'CORS is not supported!'));
         }
 
-        function abortUpload() {
-          xhr.abort();
-        }
+        return deferred.promise;
+      }).then(function (response) {
+        request.finish(response);
+      }).catch(function (response) {
+        request.finish(response);
+      });
 
-        return {
-          result: defer.promise,
-          start: startUpload,
-          abort: abortUpload
-        };
-
-      }.bind(this));
+      return request;
     };
+
+    // Store.prototype.uploadWithProgressOld = function(settings) {
+    //   var defer = $q.defer;
+    //
+    //   var defaultSettings = {
+    //     file: null,
+    //     req_id: null,
+    //     token: null,
+    //     _sk: NstSvcServer.getSessionKey(),
+    //     fn: 'attachment',
+    //     cmd: NST_STORE_UPLOAD_TYPE.FILE,
+    //     onStart: null,
+    //     onProgress: null,
+    //     onError: null,
+    //     onUploaded: null,
+    //     onAborted: null,
+    //   };
+    //
+    //   settings = _.defaults(settings, defaultSettings);
+    //
+    //   var q = {
+    //     'file': settings.file instanceof File,
+    //     'type': (Object.keys(NST_STORE_UPLOAD_TYPE).map(function (k) {
+    //       return NST_STORE_UPLOAD_TYPE[k];
+    //     })).indexOf(settings.cmd) > -1
+    //   };
+    //   var items = [];
+    //   for (var k in q) {
+    //     q[k] || items.push(k);
+    //   }
+    //
+    //   if (items.length > 0) {
+    //     return {
+    //       result: $q(function (res, rej) {
+    //         rej({
+    //           err_code: NST_SRV_ERROR.INVALID,
+    //           items: items
+    //         });
+    //       })
+    //     };
+    //   }
+    //
+    //   return this.getUploadToken().then(function (token) {
+    //     settings.token = token;
+    //
+    //     var formData = new FormData();
+    //     formData.append('cmd', settings.cmd);
+    //     formData.append('_sk', settings._sk);
+    //     formData.append('token', settings.token.getString());
+    //     formData.append('fn', settings.fn);
+    //     formData.append('attachment', settings.file);
+    //     formData.append('_reqid', settings._reqid);
+    //
+    //     var defer = $q.defer();
+    //
+    //     var xhr = createCORSRequest('POST');
+    //
+    //     if (!xhr) {
+    //       return {
+    //         result: defer.reject('CORS is not supported!')
+    //       };
+    //     }
+    //
+    //     xhr.open('POST', this.url, true);
+    //
+    //     xhr.setRequestHeader("Cache-Control", "no-cache");
+    //     xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    //     xhr.setRequestHeader("X-File-Size", settings.file.size);
+    //     xhr.setRequestHeader("X-File-Type", settings.file.type);
+    //
+    //     xhr.upload.onloadstart = settings.onStart;
+    //     xhr.upload.onprogress = settings.onProgress;
+    //
+    //     xhr.upload.onerror = function (e) {
+    //       defer.reject(e);
+    //       if (settings.onError) {
+    //         settings.onError(e);
+    //       }
+    //     };
+    //
+    //     xhr.onload = function (e) {
+    //       if (e.target.status === 200) {
+    //         var data = JSON.parse(e.target.response);
+    //         defer.resolve(data);
+    //         if (settings.onUploaded) {
+    //           settings.onUploaded(data);
+    //         }
+    //       }
+    //     };
+    //
+    //     xhr.upload.onabort = function (e) {
+    //       defer.reject(e);
+    //       if (settings.onAborted) {
+    //         settings.onAborted(e);
+    //       }
+    //     };
+    //
+    //     function startUpload() {
+    //       xhr.send(formData);
+    //       return defer.promise;
+    //     }
+    //
+    //     function abortUpload() {
+    //       xhr.abort();
+    //     }
+    //
+    //     return {
+    //       result: defer.promise,
+    //       start: startUpload,
+    //       abort: abortUpload
+    //     };
+    //
+    //   }.bind(this));
+    // };
 
     Store.prototype.cancelUpload = function (request, response) {
 

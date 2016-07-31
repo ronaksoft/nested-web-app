@@ -135,6 +135,7 @@
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i]).then(function (resolved) {
           resolved.request.sent().then(function () {
+            vm.attachments.size.total += resolved.attachment.getSize();
             vm.attachments.viewModels.push(NstSvcAttachmentMap.toUploadAttachmentItem(resolved.attachment));
           });
         });
@@ -146,6 +147,7 @@
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i]).then(function (resolved) {
           resolved.request.sent().then(function () {
+            vm.attachments.size.total += resolved.attachment.getSize();
             vm.attachments.viewModels.push(NstSvcAttachmentMap.toUploadAttachmentItem(resolved.attachment));
           });
         });
@@ -300,13 +302,16 @@
       }
 
       // Upload Attachment
-      // var request = NstSvcStore.uploadWithProgress(file, function (event) {
-      //
-      // });
-      var request = NstSvcStore.upload(file);
+      var request = NstSvcStore.uploadWithProgress(file, function (event) {
+        if (event.lengthComputable) {
+          $log.debug('Uploaded (', attachment.getFilename(), ')', Number((event.loaded / event.total) * 100).toFixed(2), '%');
+        }
+      });
       NstSvcLoader.inject(request.finished().then(function (response) {
         var deferred = $q.defer();
+        $log.debug('Upload Finished (', attachment.getFilename(), ')');
 
+        vm.attachments.size.total -= attachment.getSize();
         attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
         attachment.setId(response.data.universal_id);
         deferred.resolve(attachment);
