@@ -6,7 +6,7 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout, $state,
+  function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout, $state, _,
     NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION,
     NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory, NstSvcServer,
     NstSvcMessagesSettingStorage, NstSvcPostStorage,
@@ -309,25 +309,41 @@
       }
     };
 
+
       // FIXME: NEEDS REWRITE COMPLETELY
+    var tts = [];
       vm.bodyScrollConf = {
         axis: 'xy',
         callbacks: {
           whileScrolling:function(){
             var t = -this.mcs.top;
+            tts.forEach(function (promisses) {
+              $timeout.cancel(promisses);
+            });
+            var tfunc = $timeout( function () {
+              console.log(t);
+              $("#content-plus").animate(
+                {marginTop:t},1);
+            });
+            tts.push(tfunc);
+
             $timeout(function () { $rootScope.navView = t > 55; });
 
           //$('.nst-navbar').toggleClass('tiny', t > 55);
 
-          if ( t > 0) {
-            $("#content-plus").stop().css({
-              marginTop: t
-            });
-          } else if(t == 0){
-            $("#content-plus").stop().css({
-              marginTop: 0
-            });
-          }
+          //   var func = function () {
+          //     console.log(t);
+          //     $("#content-plus").animate(
+          //       {marginTop:t}, {duration:1, easing:"easeOutStrong"});
+          //   };
+          //   var debounced = _.debounce(func, 250, { 'maxWait': 1000 });
+          //   if ( t > 0) {
+          //     debounced();
+          //   } else if(t == 0){
+          //   $("#content-plus").stop().css({
+          //     marginTop: 0
+          //   });
+          // }
         },
         onTotalScroll:function () {
           vm.loadMore();
