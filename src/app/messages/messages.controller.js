@@ -282,7 +282,7 @@
           NstSvcPostFactory.getMessage(postId).then(function(post) {
             if (!vm.currentPlaceId || post.belongsToPlace(vm.currentPlaceId)) {
               vm.cache.splice(0, 1, post);
-              vm.messages.splice(0, 1, mapMessage(post));
+              vm.messages.splice(0, 0, mapMessage(post));
             }
           }).catch(function(error) {
             $log.debug(error);
