@@ -354,7 +354,6 @@
       // }));
 
       $q.all(promises).then(function () {
-        vm.model.attachments.push(attachment);
         deferred.resolve(request);
       });
 
