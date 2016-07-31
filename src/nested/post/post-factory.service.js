@@ -19,6 +19,7 @@
       remove: remove,
       createPostModel: createPostModel,
       getWithComments: getWithComments,
+      getSentMessages: getSentMessages,
       getMessages: getMessages,
       getPlaceMessages: getPlaceMessages,
       parsePost: parsePost,
@@ -335,6 +336,34 @@
       }
 
       NstSvcServer.request('account/get_posts', options).then(function(data) {
+        var messagePromises = _.map(data.posts.posts, parseMessage);
+        $q.all(messagePromises).then(function (messages) {
+          _.forEach(messages, function (item) {
+            NstSvcPostStorage.set(item.id, item);
+          });
+          defer.resolve(messages);
+        });
+      }).catch(function(error) {
+        // TODO: format the error and throw it
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
+    function getSentMessages(setting) {
+      var defer = $q.defer();
+
+      var options = {
+        limit: setting.limit,
+        before : setting.date
+      };
+
+      if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY){
+        options.by_update = true;
+      }
+
+      NstSvcServer.request('account/get_sent_posts', options).then(function(data) {
         var messagePromises = _.map(data.posts.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {

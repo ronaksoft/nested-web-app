@@ -3,7 +3,7 @@
 
   angular.module('nested').factory('NstAttachment', NstAttachment);
 
-  function NstAttachment(NST_ATTACHMENT_STATUS, NstModel, NstUser, NstPicture, NstStoreResource) {
+  function NstAttachment(NST_ATTACHMENT_STATUS, NstModel, NstUser, NstPicture, NstLocalResource) {
     Attachment.prototype = new NstModel();
     Attachment.constructor = Attachment;
 
@@ -62,9 +62,9 @@
       /**
        * Attachment's Store Resource
        *
-       * @type {NstStoreResource}
+       * @type {NstStoreResource|NstLocalResource}
        */
-      this.resource = new NstStoreResource();
+      this.resource = new NstLocalResource();
 
       /**
        * Attachment's Upload Date
