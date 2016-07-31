@@ -6,7 +6,7 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($scope, $rootScope, $timeout, $state, $location, NstSvcAuth, NST_DEFAULT) {
+  function AppController($scope, $rootScope, $timeout, $state, $location, $uibModalStack, NstSvcAuth, NST_DEFAULT) {
     var vm = this;
 
     /*****************************
@@ -84,6 +84,7 @@
       $location.path('/signin').replace();
     }
 
+
     $rootScope.$on('$stateChangeStart', function(event, nextState, currentState) {
       if (['signin', 'intro'].indexOf(nextState.name) > -1) {
         return;
@@ -94,6 +95,12 @@
         event.preventDefault();
         $state.go('signin');
       }
+
     });
+
+    $rootScope.$on('$statechangesuccess', function () {
+      $uibModalStack.dismissAll();
+    });
+
   }
 })();
