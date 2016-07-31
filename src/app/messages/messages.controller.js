@@ -327,15 +327,11 @@
         callbacks: {
           whileScrolling:function(){
             var t = -this.mcs.top;
-            tts.forEach(function (promisses) {
-              $timeout.cancel(promisses);
+            // $("#content-plus").stop().animate(
+            //   {marginTop:t}, {duration:1});
+            TweenMax.to("#content-plus", 1, {
+              y: t
             });
-            var tfunc = $timeout( function () {
-              console.log(t);
-              $("#content-plus").animate(
-                {marginTop:t}, {duration:10});
-            });
-            tts.push(tfunc);
 
             $timeout(function () { $rootScope.navView = t > 55; });
 
