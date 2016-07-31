@@ -387,7 +387,7 @@
       $log.debug('Compose | Model Modified? ', vm.model.modified);
 
       return vm.model.modified;
-    }
+    };
 
     // TODO: Call this while model is changed
     vm.model.check = function () {

@@ -53,9 +53,9 @@
           </form>
 
           <div class="nst-attach _dif _fw" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
-            <nst-attachments-preview-bar mode="thumbnail" items="ctlCompose.attachments.viewModels"></nst-attachments-preview-bar>
-            <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;delete = deleteAttachment;"
-                 class="popover-green _df _fw attachlist"></div>
+            <div class="_fw">
+              <nst-attachments-preview-bar mode="thumbnail" items="ctlCompose.attachments.viewModels"></nst-attachments-preview-bar>
+            </div>
             <div class="attach _df">
               <input id="{{ctlCompose.attachments.elementId}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
             </div>
