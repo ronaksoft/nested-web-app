@@ -80,7 +80,7 @@
         case 'messages-sent-sorted':
           return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
           break;
-        
+
         default:
           return NstSvcPostFactory.getMessages(vm.messagesSetting);
           break;

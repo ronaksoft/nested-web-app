@@ -5,7 +5,7 @@
 
   function NstAttachment(NST_ATTACHMENT_STATUS, NstModel, NstUser, NstPicture, NstLocalResource) {
     Attachment.prototype = new NstModel();
-    Attachment.constructor = Attachment;
+    Attachment.prototype.constructor = Attachment;
 
     function Attachment(data) {
       /**
