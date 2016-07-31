@@ -303,6 +303,7 @@
     };
 
     vm.recentScrollConf = {
+      axis: 'y',
       mouseWheel: {
         preventDefault: true
       }

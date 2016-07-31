@@ -4,10 +4,10 @@
       <img class="account-initials-40" src="{{place.avatar}}"/>
     </div>
 
-    <span class="_fw onlyExpand">{{place.name}}</span>
+    <span ng-if="!sideView" class="_fw onlyExpand">{{place.name}}</span>
   </a>
-  <span data-ng-if="place.children.length > 0" class="e2-arrow _df">
-    <label class="arrow-holder-nav onlyExpand {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"
+  <span data-ng-if="place.children.length > 0 && !sideView" class="e2-arrow _df">
+    <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"
            data-ng-click="place.isCollapsed =! place.isCollapsed">
     </label>
   </span>

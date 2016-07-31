@@ -4,18 +4,18 @@
       <img class="account-initials-32" src="{{place.avatar}}"/>
     </div>
 
-    <dl data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
+    <dl ng-show="!sideView" data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
       <div class="box2"></div>
       <div class="box1"></div>
       <div class="box3"></div>
       <div class="box4"></div>
     </dl>
   </a>
-  <div class="_fw _fh side-place-name">
+  <div class="_fw _fh side-place-name" ng-show="!sideView">
     <a href="{{place.url}}" class="_fw onlyExpand">{{place.name}}</a>
 
     <span data-ng-if="place.children.length > 0" class="e2-arrow _df">
-      <label class="arrow-holder-nav onlyExpand {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"
+      <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"
              data-ng-click="place.isCollapsed =! place.isCollapsed">
       </label>
     </span>
