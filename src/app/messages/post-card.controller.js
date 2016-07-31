@@ -38,6 +38,7 @@
     vm.forward = {};
     vm.toggleCommentsBorad = toggleCommentsBorad;
     vm.sendComment = sendComment;
+    vm.attachmentClick = attachmentClick;
 
 
     /**
@@ -244,6 +245,9 @@
 
       return charCode > 1300 && 1700 > charCode;
     };
+
+    function attachmentClick(item) {
+    }
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(e) {
       switch (e.detail.timeline_data.action) {

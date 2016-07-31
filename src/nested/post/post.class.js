@@ -46,8 +46,11 @@
       this.monitored = false;
       this.internal = false;
 
-      this.forwardFrom = null;
+      // TODO: Use ReplyToId instead
       this.replyTo = null;
+
+      // TODO: Use ForwardFromId instead
+      this.forwardFrom = null;
 
       this.counters = {
         attaches: -1,
@@ -172,7 +175,7 @@
       var index = _.findIndex(this.comments, function (item) {
         return item.id === comment.id;
       });
-      if (index === -1){
+      if (index === -1) {
         this.comments.push(comment);
         return true;
       }

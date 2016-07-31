@@ -75,8 +75,6 @@
         vm.postModel = post;
         vm.post = NstSvcPostMap.toMessage(vm.postModel);
 
-        console.log(3333, vm.post)
-
         vm.postLoadProgress = false;
         // the conditions says maybe there are more comments that the limit
         vm.hasMoreComments = !(vm.commentSettings.skip < vm.commentSettings.limit);

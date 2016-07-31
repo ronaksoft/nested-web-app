@@ -5,7 +5,7 @@
 
   function NstAttachment(NST_ATTACHMENT_STATUS, NstModel, NstUser, NstPicture, NstLocalResource) {
     Attachment.prototype = new NstModel();
-    Attachment.constructor = Attachment;
+    Attachment.prototype.constructor = Attachment;
 
     function Attachment(data) {
       /**
@@ -39,6 +39,7 @@
       this.status = NST_ATTACHMENT_STATUS.UNKNOWN;
 
       /**
+       * TODO: Use PlaceIds instead
        * Attachment's Places
        *
        * @type {NstPlace[]}
@@ -46,6 +47,7 @@
       this.places = [];
 
       /**
+       * TODO: Use UploaderId instead
        * Attachment's Uploader
        *
        * @type {NstUser}
@@ -111,7 +113,7 @@
     }
 
     Attachment.prototype.hasThumbnail = function(size) {
-      return !!(this.getPicture().getId() || this.getPicture().getThumbnail(128 || size));
+      return !!(this.getPicture().getId() || this.getPicture().getThumbnail(128 || size).getId());
     };
 
     Attachment.prototype.addPlace = function(place) {
@@ -123,7 +125,7 @@
         }
       }
       places.push(place);
-      
+
       return this.setPlaces(places);
     };
 
@@ -141,7 +143,7 @@
       if (place) {
         this.setPlaces(places);
       }
-      
+
       return place;
     };
 

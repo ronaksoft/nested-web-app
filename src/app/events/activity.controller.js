@@ -163,6 +163,7 @@
           NstSvcActivityFactory.get(vm.activitySettings).then(function(activities) {
             vm.cache = _.concat(vm.cache, activities);
             vm.acts = mapActivities(vm.cache);
+            console.log(vm.acts);
             resolve(vm.acts);
 
           }).catch(reject);

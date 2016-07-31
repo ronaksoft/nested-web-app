@@ -168,7 +168,7 @@
             invitation.setInvitee(values[0]);
             invitation.setInviter(values[1]);
             invitation.setPlace(values[2]);
-
+            
             defer.resolve(invitation);
           }).catch(function (error) {
             defer.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
