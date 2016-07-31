@@ -30,7 +30,9 @@
         }
 
         scope.onClick = function (item) {
-          scope.onItemClick(item);
+          if (scope.onItemClick) {
+            scope.onItemClick(item);
+          }
         };
 
       }
