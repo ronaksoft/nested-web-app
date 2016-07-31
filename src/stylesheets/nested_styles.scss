@@ -876,7 +876,7 @@ ul ul li:last-child{
   transform: translateZ(0) scale(1.0, 1.0);
   & > div {
     display: inline-flex;
-    font-family: open-sans, sans-serif;
+    font-family: OpenSans, sans-serif;
     flex-direction: column;
     width: 276px;
     height: 380px;
@@ -972,6 +972,7 @@ ul ul li:last-child{
 @media screen and (max-width: 1330px){
 .content-plus{
   display: none;
+  height: 0!important;
   }
 }
 
@@ -1091,13 +1092,13 @@ ul ul li:last-child{
   margin: 8px 0;
 
 }
-.post-card .post-body p{
-  font-size: $font-size-small;
-  color: $color-solid-60;
+.post-card .post-body{
+  font-size: 13px;
+  color: #808080;
   word-spacing: .3em;
   font-weight: 400;
-  padding: 4px 0;
   margin: 0;
+  padding-top: 4px;
 }
 .post-card .post-attachments{
   //height: 66px;
@@ -1164,7 +1165,7 @@ ul ul li:last-child{
 }
 .post-card-comments p{
   font-size: 12px;
-  font-family: open-sans, sans-serif;
+  font-family: OpenSans, sans-serif;
   font-weight: 400;
   color: #476152;
   height: 100%;
@@ -1174,7 +1175,7 @@ ul ul li:last-child{
 .post-card-comments span{
   padding-top: 4px;
   font-size: 12px;
-  font-family: open-sans, sans-serif;
+  font-family: OpenSans, sans-serif;
   font-weight: 300;
   color: $color-wind;
 }
@@ -1385,10 +1386,11 @@ input[type="checkbox"]:checked + label.setting {
   }
   .maincontainer {
     height: auto;
-    min-height: 100%;
+    //min-height: 100%;
+    overflow: visible;
   }
   #content-wrapper {
-    max-height : 100%;
+    max-height : 100%!important;
     margin-top: 200px;
     overflow: visible;
   }

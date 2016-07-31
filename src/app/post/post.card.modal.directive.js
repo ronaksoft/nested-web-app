@@ -13,7 +13,7 @@
           return '<' + tag +' ng-click="openPostCardModal(post.id)" ng-transclude></' + tag +'>';
         },
         restrict: 'EA',
-        replace: false,
+        replace: true,
         transclude: true,
         scope: {
           post : '='

@@ -285,6 +285,7 @@
 
       // FIXME: NEEDS REWRITE COMPLETELY
       vm.scroll = {
+        axis: 'xy',
         callbacks: {
           whileScrolling:function(){
             var t = -this.mcs.top;
