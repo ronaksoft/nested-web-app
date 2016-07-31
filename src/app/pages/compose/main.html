@@ -52,7 +52,8 @@
             <input page-change-element type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
           </form>
 
-          <div class="nst-attach _dif _fw" data-ng-show="attachshow">
+          <div class="nst-attach _dif _fw" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
+            <nst-attachments-preview-bar mode="thumbnail" items="ctlCompose.attachments.viewModels"></nst-attachments-preview-bar>
             <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;delete = deleteAttachment;"
                  class="popover-green _df _fw attachlist"></div>
             <div class="attach _df">
@@ -72,11 +73,6 @@
             <div>
               <textarea page-change-element ui-tinymce="ctlCompose.configs.tinymce" placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"></textarea>
             </div>
-            <!--<div text-angular
-                 ta-toolbar="[['bold','italics','underline','strikeThrough'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],['h1','h2','h3','p','clear'],['ul','ol'],['indent','outdent'],['insertLink']]"
-                 data-ng-model="compose.post.body">
-              </div>-->
-
           </section>
         </div>
       </section>

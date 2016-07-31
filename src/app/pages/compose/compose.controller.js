@@ -9,7 +9,7 @@
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,
                              ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
-                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType,
+                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
                              NstTinyPlace, NstPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
 
@@ -37,6 +37,7 @@
 
     vm.attachments = {
       elementId: 'attach',
+      viewModels: [],
       size: {
         uploaded: 0,
         total: 0
@@ -132,8 +133,10 @@
     vm.attachments.fileSelected = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {
-
+        vm.attachments.attach(files[i]).then(function (resolved) {
+          resolved.request.sent().then(function () {
+            vm.attachments.viewModels.push(NstSvcAttachmentMap.toUploadAttachmentItem(resolved.attachment));
+          });
         });
       }
     };
@@ -141,8 +144,10 @@
     vm.attachments.fileDropped = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {
-
+        vm.attachments.attach(files[i]).then(function (resolved) {
+          resolved.request.sent().then(function () {
+            vm.attachments.viewModels.push(NstSvcAttachmentMap.toUploadAttachmentItem(resolved.attachment));
+          });
         });
       }
     };
@@ -354,7 +359,10 @@
       // }));
 
       $q.all(promises).then(function () {
-        deferred.resolve(request);
+        deferred.resolve({
+          attachment: attachment,
+          request: request
+        });
       });
 
       return deferred.promise;
@@ -574,6 +582,9 @@
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
               vm.model.body = post.getBody();
               vm.model.attachments = post.getAttachments();
+              for (var k in vm.model.attachments) {
+                vm.attachments.viewModels.push(NstSvcAttachmentMap.toAttachmentItem(vm.model.attachments[k]));
+              }
               vm.model.forwardedFrom = post;
             });
           }

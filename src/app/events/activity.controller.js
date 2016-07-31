@@ -163,7 +163,7 @@
           NstSvcActivityFactory.get(vm.activitySettings).then(function(activities) {
             vm.cache = _.concat(vm.cache, activities);
             vm.acts = mapActivities(vm.cache);
-            console.log(vm.acts);
+            $log.debug('Activity | Activities: ', vm.acts);
             resolve(vm.acts);
 
           }).catch(reject);
@@ -241,7 +241,6 @@
         callbacks: {
           whileScrolling:function(){
             var t = -this.mcs.top;
-            console.log(t);
             $timeout(function () { $rootScope.navView = t > 55; });
 
             //$('.nst-navbar').toggleClass('tiny', t > 55);

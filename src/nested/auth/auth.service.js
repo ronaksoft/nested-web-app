@@ -141,7 +141,7 @@
         return this.recall(this.lastSessionKey, this.lastSessionSecret).then(
           this.authorize.bind(this)
         ).catch(function (error) {
-          console.log(error);
+          $log.debug('Auth | Recall Error: ', error);
           switch (error.getCode()) {
             case NST_SRV_ERROR.DUPLICATE:
               return $q(function (res) {
