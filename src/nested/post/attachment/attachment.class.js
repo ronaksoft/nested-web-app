@@ -39,6 +39,7 @@
       this.status = NST_ATTACHMENT_STATUS.UNKNOWN;
 
       /**
+       * TODO: Use PlaceIds instead
        * Attachment's Places
        *
        * @type {NstPlace[]}
@@ -46,6 +47,7 @@
       this.places = [];
 
       /**
+       * TODO: Use UploaderId instead
        * Attachment's Uploader
        *
        * @type {NstUser}
@@ -123,7 +125,7 @@
         }
       }
       places.push(place);
-      
+
       return this.setPlaces(places);
     };
 
@@ -141,7 +143,7 @@
       if (place) {
         this.setPlaces(places);
       }
-      
+
       return place;
     };
 

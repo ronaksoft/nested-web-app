@@ -47,14 +47,38 @@
 
         var promises = [];
 
-        promises.push(NstSvcUserFactory.getTiny(data.uploader).then(function (user) {
-          attachment.setUploader(user);
-        }));
-
-        for (var k in data.owners) {
-          promises.push(NstSvcPlaceFactory.getTiny(data.owners[k]).then(function (place) {
-            attachment.addPlace(place);
+        // TODO: Use UploaderId instead
+        if (data.uploader) {
+          promises.push(NstSvcUserFactory.getTiny(data.uploader).catch(function (error) {
+            
+          }).then(function (user) {
+            attachment.setUploader(user);
           }));
+        }
+
+        // TODO: Use OwnerIds instead
+        if (data.owners) {
+          for (var k in data.owners) {
+            promises.push((function(index) {
+              var deferred = $q.defer();
+              var id = data.owners[index];
+
+              // TODO: Put it to retry structure
+              NstSvcPlaceFactory.getTiny(id).catch(function (error) {
+                return $q(function (res) {
+                  res(NstSvcPlaceFactory.parseTinyPlace({
+                    _id: id
+                  }));
+                });
+              }).then(function(tinyPlace) {
+                attachment.addPlace(tinyPlace);
+
+                deferred.resolve(tinyPlace);
+              });
+
+              return deferred.promise;
+            })(k));
+          }
         }
 
         if (data.thumbs) {
