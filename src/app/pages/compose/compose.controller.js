@@ -280,7 +280,7 @@
         reader.onload = function (event) {
           var uri = event.target.result;
           // TODO: Generate Raw Resource
-          var resource = new NstStoreResource(uri);
+          var resource = new NstLocalResource(uri);
 
           attachment.getPicture().setOrg(resource);
           attachment.getPicture().setThumbnail(32, resource);
