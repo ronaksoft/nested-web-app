@@ -1,0 +1,76 @@
+.attachments-preview-bar {
+  padding: 6px 10px;
+  background: $color-white;
+  ul {
+    list-style: none;
+    li {
+      display: inline-block;
+    }
+  }
+  ul.thumbnail-bar {
+
+  }
+  ul.badge-bar {
+    li {
+      margin-right: 8px;
+      margin-bottom: 4px;
+    }
+    a.attach-badge-default {
+      .badge-extension {
+        display: inline-block;
+        line-height: 24px;
+        font-size: $font-size-xxsmall;
+        font-weight: bold;
+        border-radius: 6px 0 0 6px;
+        color: $color-white;
+        background-color: $color-storm;
+        padding: 0 4px;
+        overflow: hidden;
+      }
+      .badge-name {
+        display: inline-block;
+        line-height: 24px;
+        font-size: $font-size-xsmall;
+        min-width: 72px;
+        max-width: 256px;
+        border-radius: 0 6px 6px 0;
+        background-color: $color-breeze-50;
+        color: $color-solid;
+        padding: 0 6px;
+        margin-left: -3px;
+        overflow: hidden;
+      }
+    }
+    a.attach-badge-default:hover {
+      color: $color-white;
+      text-decoration: none;
+    }
+    .attach-badge-image {
+      .badge-extension {
+        background-color: #3CC882 !important;
+      }
+    }
+    .attach-badge-archive {
+      .badge-extension {
+        background-color: #5A28BE !important;
+      }
+    }
+    .attach-badge-document {
+      .badge-extension {
+        background-color: #148CF0 !important;
+      }
+    }
+    .attach-badge-multimedia {
+      .badge-extension {
+        background-color: #3CC882 !important;
+      }
+    }
+    .attach-badge-pdf {
+      .badge-extension {
+        background-color: #FA0032 !important;
+      }
+    }
+    .attach-badge-other {
+    }
+  }
+}

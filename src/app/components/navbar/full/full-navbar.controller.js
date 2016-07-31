@@ -44,27 +44,15 @@
     };
 
     function getPlaceName() {
-      if (hasPlace()){
-        return vm.place.name;
-      } else {
-        return 'All Places';
-      }
+      return hasPlace() ? vm.place.name : 'All Places';
     }
 
     function getPlaceId() {
-      if (hasPlace()){
-        return vm.place.id;
-      } else {
-        return '';
-      }
+      return hasPlace() ? vm.place.id : '';
     }
 
     function getPlacePicture() {
-      if (hasPlace()){
-        return vm.place.picture.thumbnails.x64.url.view;
-      } else {
-        return '';
-      }
+      return hasPlace() ? vm.place.getPicture().getThumbnail(64).getUrl().view : '';
     }
 
 
@@ -73,7 +61,7 @@
     }
 
     function generateUrls() {
-      if (vm.hasPlace()){
+      if (hasPlace()) {
         vm.urls.messages = $state.href('place-messages', { placeId : vm.getPlaceId() });
         vm.urls.activity = $state.href('place-activity', { placeId : vm.getPlaceId() });
         vm.urls.settings = $state.href('place-settings', { placeId : vm.getPlaceId() });

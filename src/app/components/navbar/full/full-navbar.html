@@ -1,4 +1,4 @@
-<nested-mini-navbar></nested-mini-navbar>
+<nst-mini-navbar></nst-mini-navbar>
 <div class="nst-navbar _df">
   <div class="nst-content">
     <div class="content">
@@ -15,9 +15,8 @@
         </div> -->
         <div class="title-bar _difh _fw" ng-if="true">
           <div class="logo-bar _df">
-            <div ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
-            <img ng-if="ctlFullNavbar.hasPlace()" data-url="ctlFullNavbar.getPlacePicture()" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
-                 data-font-size="16"/>
+            <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
+            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" src="{{ctlFullNavbar.getPlacePicture()}}"/>
           </div>
           <div class="name _fw _difv _jcc">
             <a class="_df _tr">{{ctlFullNavbar.getPlaceName()}}</a>

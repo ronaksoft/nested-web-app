@@ -7,8 +7,8 @@
 
   /** @ngInject */
   function SidebarController($q, $state, $stateParams, $uibModal,
-                             NST_AUTH_EVENT,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                             NST_AUTH_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
+                             NstSvcLoader, NstSvcTry, NstSvcServer, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
 
@@ -40,11 +40,11 @@
     };
 
     vm.invitation.accept = function (id) {
-      return NstSvcInvitationFactory.accept(id);
+      return NstSvcLoader.inject(NstSvcInvitationFactory.accept(id));
     };
 
     vm.invitation.decline = function (id) {
-      return NstSvcInvitationFactory.decline(id);
+      return NstSvcLoader.inject(NstSvcInvitationFactory.decline(id));
     };
 
     vm.invitation.showModal = function (id) {
@@ -61,8 +61,16 @@
             }
           }
         }).result.then(function (result) {
+          for (var k in vm.invitations) {
+            if (id == vm.invitations[k].id) {
+              vm.invitations.splice(k, 1);
+            }
+          }
+
           if (result) {
-            return vm.invitation.accept(id);
+            return vm.invitation.accept(id).then(function () {
+              // TODO: Add to my-place-ids storage (Not directly. Do it via Factory)
+            });
           } else {
             return vm.invitation.decline(id);
           }
@@ -178,6 +186,10 @@
       return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPlaceFactory.getMyTinyPlaces(); }));
     }
 
+    function getInvitation(id) {
+      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcInvitationFactory.get(id); }));
+    }
+
     function getInvitations() {
       return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcInvitationFactory.getAll(); }));
     }
@@ -222,7 +234,35 @@
     }
 
     /*****************************
+     *****    Push Methods    ****
+     *****************************/
+
+    function pushInvitation(invitationModel) {
+      vm.invitations.push(mapInvitation(invitationModel));
+    }
+
+    /*****************************
      *****    Other Methods   ****
      *****************************/
+
+    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
+      switch (event.detail.timeline_data.action) {
+        case NST_EVENT_ACTION.MEMBER_INVITE:
+          getInvitation(event.detail.timeline_data.invite_id.$oid).then(pushInvitation);
+          break;
+
+        case NST_EVENT_ACTION.MEMBER_REMOVE:
+          break;
+
+        case NST_EVENT_ACTION.PLACE_ADD:
+          break;
+
+        case NST_EVENT_ACTION.PLACE_REMOVE:
+          break;
+
+        case NST_EVENT_ACTION.PLACE_PICTURE:
+          break;
+      }
+    });
   }
 })();

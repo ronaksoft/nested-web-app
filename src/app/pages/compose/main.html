@@ -1,6 +1,6 @@
 <div class="maincontainer _fw second-view ng-class:{'navtiny' : navView,'sidetiny' : sideView}">
-  <nested-sidebar class="_fn _fh"></nested-sidebar>
-  <div class="nst-container" page-change="changeMe($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+  <nst-sidebar class="_fn _fh"></nst-sidebar>
+  <div class="nst-container" page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
     <div class="nst-topnav _difh">
       <div class="_fw _df">
         <div class="icon icon-top hamburger-icon"></div>
@@ -12,7 +12,7 @@
         <div class="icon icon-compose _df"></div>
       </div>
     </div>
-    <nested-navbar controls="ctlCompose.controls" place="ctlCompose.place"></nested-navbar>
+    <nst-navbar controls="ctlCompose.controls" place="ctlCompose.place"></nst-navbar>
 
     <div class="nst-content _tr" id="content-wrapper">
       <section class="content _bgwhite">
@@ -56,7 +56,7 @@
             <div data-ng-include="'app/components/attachments/attachments.html'" data-ng-init="thePost = compose.post;deleteEnabled = true;delete = deleteAttachment;"
                  class="popover-green _df _fw attachlist"></div>
             <div class="attach _df">
-              <input id="{{ctlCompose.attach.id}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
+              <input id="{{ctlCompose.attachments.elementId}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
             </div>
             <div class="nst-attach-con _fh" ng-if="showUploadProgress">
               <div class="progress">

@@ -36,28 +36,30 @@
      * @returns {Promise}      the post
      */
     function get(id) {
+      var defer = $q.defer();
+
       var query = new NstFactoryQuery(id);
 
-      return $q(function(resolve, reject) {
-        if (!query.id){
-          resolve(null);
+      if (!query.id) {
+        defer.resolve(null);
+      } else {
+        var post = NstSvcPostStorage.get(query.id);
+        if (post && !post.bodyIsTrivial) {
+          defer.resolve(post);
         } else {
-          var post = NstSvcPostStorage.get(query.id);
-          if (post) {
-            resolve(post);
-          } else {
-            NstSvcServer.request('post/get', {
-              post_id : query.id
-            }).then(function(data) {
-              post = parsePost(data.post);
-              NstSvcPostStorage.set(query.id, post);
-              resolve(post);
-            }).catch(function(error) {
-              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            });
-          }
+          NstSvcServer.request('post/get', {
+            post_id: query.id
+          }).then(function(data) {
+            post = parsePost(data.post);
+            NstSvcPostStorage.set(query.id, post);
+            defer.resolve(post);
+          }).catch(function(error) {
+            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          });
         }
-      });
+      }
+
+      return defer.promise;
     }
 
     function send(post) {
@@ -80,8 +82,8 @@
         params.reply_to = post.getReplyTo().getId();
       }
 
-      if (post.getForwarded()) {
-        params.forwarded_from = post.getForwarded().getId();
+      if (post.getForwardFrom()) {
+        params.forwarded_from = post.getForwardFrom().getId();
       }
 
       if (post.getAttachments()) {
@@ -181,36 +183,43 @@
       } else {
         var promises = [];
 
-        post.id = data._id.$oid;
-        post.sender = NstSvcUserFactory.parseTinyUser(data.sender);
+        post.setId(data._id.$oid);
+        post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
         NstSvcUserFactory.set(post.sender);
-        post.subject = data.subject;
-        post.contentType = data.content_type;
-        post.body = data.body;
-        post.internal = data.internal;
-        post.date = new Date(data['timestamp']);
-        post.updated = new Date(data['last_update']);
-        post.counters = data.counters || post.counters;
-        post.moreComments = false;
+        post.setSubject(data.subject);
+        post.setContentType(data.content_type);
+        post.setBody(data.body);
+        post.setInternal(data.internal);
+        post.setDate(new Date(data['timestamp']));
+        post.setUpdated(new Date(data['last_update']));
+        post.setCounters(data.counters || post.counters);
+        post.setMoreComments(false);
         if (post.counters) {
-          post.moreComments = post.counters.comments > -1 ? post.counters.comments > post.comments.length : true;
+          post.setMoreComments(post.counters.comments > -1 ? post.counters.comments > post.comments.length : true);
         }
 
-        post.monitored = data.monitored;
-        post.spam = data.spam;
+        post.setMonitored(data.monitored);
+        post.setSpam(data.spam);
 
-        post.places = [];
         for (var k in data.post_places) {
           promises.push((function(index) {
+            var deferred = $q.defer();
             var id = data.post_places[index]._id;
 
-            return NstSvcPlaceFactory.set(NstSvcPlaceFactory.parseTinyPlace({
+            NstSvcPlaceFactory.set(NstSvcPlaceFactory.parseTinyPlace({
               _id : id,
               name : data.post_places[index].name,
               picture : data.post_places[index].picture
-            })).getTiny(id).then(function(tinyPlace) {
+            }));
+
+            NstSvcPlaceFactory.getTiny(id).then(function(tinyPlace) {
+              // TODO: Use NstPost.addPlace()
               post.places[index] = tinyPlace;
+
+              deferred.resolve(tinyPlace);
             });
+
+            return deferred.promise;
           })(k));
         }
 
@@ -222,9 +231,11 @@
           });
         }
 
-        post.attachments = [];
-
-        var attachmentPromises = _.map(data.post_attachments, NstSvcAttachmentFactory.parseAttachment);
+        _.map(data.post_attachments, function (data) {
+          promises.push(NstSvcAttachmentFactory.parseAttachment(data).then(function (attachment) {
+            post.addAttachment(attachment);
+          }));
+        });
 
         post.recipients = []; // TODO: ?
         for (var k in data.recipients) {
@@ -235,18 +246,19 @@
           });
         }
 
-        var replyToPromise = data.replyTo ? parsePost(data.replyTo) : createEmptyPromise();
-        var forwardFromPromise = data.forward_from ? parsePost(data.forward_from) :  createEmptyPromise();
+        if (data.replyTo) {
+          promises.push(parsePost(data.replyTo).then(function (replyTo) {
+            post.setReplyTo(replyTo);
+          }));
+        }
 
-        $q.all([replyToPromise, forwardFromPromise]).then(function(values) {
-          post.replyTo = values[0];
-          post.forwardFrom = values[1];
+        if (data.forward_from) {
+          promises.push(parsePost(data.forward_from).then(function (forwardFrom) {
+            post.setForwardFrom(forwardFrom);
+          }));
+        }
 
-          return $q.all(attachmentPromises);
-        }).then(function (attachments) {
-          post.attachments = attachments;
-          defer.resolve(post);
-        }).catch(defer.reject);
+        $q.all(promises).then(function() { defer.resolve(post); }).catch(defer.reject);
       }
 
       return defer.promise;
@@ -263,6 +275,8 @@
         message.id = data._id.$oid;
         message.subject = data.subject;
         message.body = data.body;
+        // A message body is trivial
+        message.bodyIsTrivial = true;
         message.removed = data._removed;
         message.content_type = data.content_type;
         message.counters = data.counters;
@@ -379,12 +393,5 @@
 
       return defer.promise;
     }
-
-    function createEmptyPromise() {
-      return $q(function (resolve) {
-        resolve(null);
-      });
-    }
-
   }
 })();

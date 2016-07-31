@@ -3,14 +3,15 @@
 
   angular
     .module('nested')
-    .constant('NST_OBJECT_EVENT', {
-      CHANGE: 'change'
-    })
     .factory('NstObservableObject', NstObservableObject);
 
   /** @ngInject */
   function NstObservableObject(NstSvcRandomize, NstObject, NST_OBJECT_EVENT) {
-    function ObservableObject() {
+    function ObservableObject(me) {
+      if (me) {
+        angular.extend(this, me);
+      }
+
       for (var k in this) {
         if (!(this[k] instanceof Function)) {
           var uCamelCase = this.getJsName(k, true);
@@ -104,7 +105,9 @@
       var flushTank = [];
       for (var id in this.eventListeners[event.type]) {
         this.eventListeners[event.type][id].fn.call(this, event);
-        this.eventListeners[event.type][id].flush && flushTank.push(id);
+        if (this.eventListeners[event.type][id] && this.eventListeners[event.type][id].flush) {
+          flushTank.push(id);
+        }
       }
 
       for (var key in flushTank) {

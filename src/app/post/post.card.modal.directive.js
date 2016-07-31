@@ -1,11 +1,10 @@
 (function () {
     'use strict';
 
-
     angular.module('nested')
-      .directive('postCardModal', PostDirective);
+      .directive('nstPostModal', PostModal);
 
-    function PostDirective($uibModal) {
+    function PostModal($uibModal) {
       var directive = {
         link: link,
         template: function( element, attrs ) {
@@ -20,7 +19,6 @@
         }
       };
 
-
       function link(scope, element, attrs) {
         /**
          * postPreview - preview the places that have delete access and let the user to chose one
@@ -28,10 +26,7 @@
          * @param  {type} places list of places to be shown
          */
 
-
-
         scope.openPostCardModal = function (postId) {
-
           var modal = $uibModal.open({
             animation: false,
             templateUrl: 'app/post/post.html',
@@ -45,13 +40,9 @@
             }
           });
 
-
           return modal.result;
         }
-
-
       }
-
 
       return directive;
     }

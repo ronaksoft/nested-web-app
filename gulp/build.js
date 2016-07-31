@@ -26,17 +26,17 @@ gulp.task('partials', function () {
 });
 
 gulp.task('html', ['inject', 'partials'], function () {
-  var partialsInjectFile = gulp.src(path.join(conf.paths.tmp, '/partials/templateCacheHtml.js'), { read: false });
+  var partialsInjectFile = gulp.src(path.join(conf.paths.tmp, '/partials/templateCacheHtml.js'), {read: false});
   var partialsInjectOptions = {
     starttag: '<!-- inject:partials -->',
     ignorePath: path.join(conf.paths.tmp, '/partials'),
     addRootSlash: false
   };
 
-  var htmlFilter = $.filter('*.html', { restore: true });
-  var notIndexFilter = $.filter(['**/*', '!**/index.html'], { restore: true });
-  var jsFilter = $.filter('**/*.js', { restore: true });
-  var cssFilter = $.filter('**/*.css', { restore: true });
+  var htmlFilter = $.filter('*.html', {restore: true});
+  var notIndexFilter = $.filter(['**/*', '!**/index.html'], {restore: true});
+  var jsFilter = $.filter('**/*.js', {restore: true});
+  var cssFilter = $.filter('**/*.css', {restore: true});
 
   return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
     .pipe($.inject(partialsInjectFile, partialsInjectOptions))
@@ -44,16 +44,18 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(jsFilter) // Begin - Javascript Files
     .pipe($.sourcemaps.init())
     .pipe($.ngAnnotate())
-    .pipe($.replace('.debugEnabled(true)', '.debugEnabled(false)'))
-    .pipe($.uglify({ preserveComments: $.uglifySaveLicense })).on('error', conf.errorHandler('Uglify'))
+    .pipe($.replace('.debugEnabled(true)', '.debugEnabled(false)')) // disable debug mode
+    .pipe($.replace('./../bower_components/emojione/assets/sprites/emojione.sprites.svg', '../assets/fonts/emojione.sprites.svg')) //replace emoji svg path
+    .pipe($.uglify({mangle: true, preserveComments: $.uglifySaveLicense})).on('error', conf.errorHandler('Uglify'))
     // TODO: The Obfuscator
+    .pipe($.minify())
     .pipe($.sourcemaps.write('maps'))
     .pipe(jsFilter.restore) // End - Javascript Files
     .pipe(cssFilter) // Begin - CSS Files
     // .pipe($.sourcemaps.init()) // Do not need sourcemap while using clean-css
-    .pipe($.replace('../../bower_components/bootstrap-sass/assets/fonts/bootstrap/', '../fonts/'))
-    .pipe($.replace('../../bower_components/font-awesome/fonts/', '../fonts/'))
-    .pipe($.cleanCss({ compatibility: 'ie8' }))
+    .pipe($.replace('../../bower_components/bootstrap-sass/assets/fonts/bootstrap/', '../assets/fonts/'))
+    .pipe($.replace('../../bower_components/font-awesome/fonts/', '../assets/fonts/'))
+    .pipe($.cleanCss({compatibility: 'ie8'}))
     // .pipe($.sourcemaps.write('maps')) // Do not need sourcemap while using clean-css
     .pipe(cssFilter.restore) // End - CSS Files
     .pipe(notIndexFilter) // Exclude index.html
@@ -71,8 +73,8 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(htmlFilter.restore) // End - HTML Files
     .pipe($.revReplace()) // Refactor Occurrences renamed of Files
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
-    .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
-  });
+    .pipe($.size({title: path.join(conf.paths.dist, '/'), showFiles: true}));
+});
 
 // Only applies for fonts from bower dependencies
 // Custom fonts are handled by the "other" task
@@ -80,7 +82,7 @@ gulp.task('fonts', function () {
   return gulp.src($.mainBowerFiles())
     .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
     .pipe($.flatten())
-    .pipe(gulp.dest(path.join(conf.paths.dist, '/fonts/')));
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/assets/fonts/')));
 });
 
 gulp.task('other', function () {

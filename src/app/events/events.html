@@ -1,9 +1,9 @@
 <div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : sideView}" >
-  <nested-sidebar data-ng-model="sidebar" class="_fn _fh"></nested-sidebar>
+  <nst-sidebar data-ng-model="sidebar" class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
-    <nested-navbar data-ng-model="navbar" place="ctlActivity.currentPlace"></nested-navbar>
+    <nst-navbar data-ng-model="navbar" place="ctlActivity.currentPlace"></nst-navbar>
 
-    <div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlActivity.scroll">
+    <div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlActivity.bodyScrollConf">
       <section class="_fw nst-content-body _bgwhite">
         <div class="filter-bar  _fw">
           <div class="iconsblock popover-white-nst-filter" uib-popover-template="'app/events/partials/popovers/filter_popover.html'" data-popover-placement="bottom-center"
@@ -63,7 +63,7 @@
 
 
 <!--<div>
-  <nested-navbar data-ng-model="navbar"></nested-navbar>
+  <nst-navbar data-ng-model="navbar"></nst-navbar>
   <div id="container">
     <div class="side _bggray _fw" resizable data-r-directions="['right']" data-r-flex="true" ng-style="{'width': sidebarWidth}" ng-mouseleave="events.sidebarWidthFunc($event)">
       <div class="compose _bgwhite _df _fw">
@@ -73,7 +73,7 @@
           </button>
         </form>
       </div>
-      <nested-sidebar data-ng-model="sidebar" class="_fw _df nested-sidebar"></nested-sidebar>
+      <nst-sidebar data-ng-model="sidebar" class="_fw _df nst-sidebar"></nst-sidebar>
     </div>
     <div class="nst-content">
       <div class="subnavitems _bgwhite _df">

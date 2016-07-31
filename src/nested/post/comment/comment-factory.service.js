@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   angular
     .module('nested')
@@ -6,9 +6,9 @@
 
   /** @ngInject */
   function NstSvcCommentFactory($q, $log,
-    _,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage, NstObservableObject, NstFactoryEventData,
-    NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NST_COMMENT_FACTORY_EVENT) { // TODO: It should not inject any model, ask the factory to create the model
+                                _,
+                                NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage, NstObservableObject, NstFactoryEventData,
+                                NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NST_COMMENT_FACTORY_EVENT) { // TODO: It should not inject any model, ask the factory to create the model
 
     function CommentFactory() {
 
@@ -46,17 +46,17 @@
         // if (comment) {
         //   defer.resolve(comment);
         // } else {
-          NstSvcServer.request('post/get_comment', {
-            comment_id: query.id,
-            post_id: query.data.postId
-          }).then(function(data) {
-            return parseComment(data.comment);
-          }).then(function(comment) {
-            // NstSvcCommentStorage.set(query.id, comment);
-            defer.resolve(comment);
-          }).catch(function(error) {
-            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+        NstSvcServer.request('post/get_comment', {
+          comment_id: query.id,
+          post_id: query.data.postId
+        }).then(function (data) {
+          return parseComment(data.comment);
+        }).then(function (comment) {
+          // NstSvcCommentStorage.set(query.id, comment);
+          defer.resolve(comment);
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
         // }
       }
 
@@ -77,7 +77,7 @@
       NstSvcServer.request('post/add_comment', {
         post_id: post.id,
         txt: content
-      }).then(function(data) {
+      }).then(function (data) {
         var commentId = data.comment_id.$oid;
         return getComment(commentId, post.id);
       }).then(function (comment) {
@@ -107,26 +107,31 @@
       });
 
       // I'm not sure is it correct to store and retrieve an entity like comment
-      return $q(function(resolve, reject) {
+      return $q(function (resolve, reject) {
         NstSvcServer.request('post/get_comments', {
           post_id: post.id,
           skip: settings.skip,
           limit: settings.limit
-        }).then(function(data) {
-          var allCommnets = _.map(data.comments, function(comment) {
+        }).then(function (data) {
+          var allCommnets = _.map(data.comments, function (comment) {
             return parseComment(comment, post);
           });
-          var comments = _.filter(allCommnets, {
-            'removed': false
-          });
-          post.addComments(comments);
 
-          settings.skip = settings.skip + allCommnets.length;
+          $q.all(allCommnets)
+            .then(function (commentItems) {
+              var comments = _.filter(commentItems, {
+                'removed': false
+              });
+              post.addComments(comments);
 
-          resolve(post);
+              settings.skip = settings.skip + commentItems.length;
+              resolve(post);
+            });
+
+
         }.bind({
           query: this.query
-        })).catch(function(error) {
+        })).catch(function (error) {
           // TODO: Handle error by type
           reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         }.bind({
@@ -150,16 +155,16 @@
         commentId: comment.id
       });
 
-      return $q(function(resolve, reject) {
+      return $q(function (resolve, reject) {
         NstSvcServer.request('post/remove_comment', {
           post_id: post.id,
           comment_id: comment.id
-        }).then(function(data) {
+        }).then(function (data) {
           post.removeComment(comment);
           resolve(post);
         }.bind({
           query: this.query
-        })).catch(function(error) {
+        })).catch(function (error) {
           // TODO: Handle error by type
           reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         }.bind({
@@ -213,7 +218,7 @@
         comment.date = new Date(data.timestamp);
         comment.removed = data._removed;
 
-        NstSvcUserFactory.get(data.sender_id).then(function(sender) {
+        NstSvcUserFactory.get(data.sender_id).then(function (sender) {
           comment.sender = sender;
 
           defer.resolve(comment);

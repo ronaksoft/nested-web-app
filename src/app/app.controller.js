@@ -47,7 +47,7 @@
       ].indexOf($state.current.name) > -1
     };
 
-    //todo should read from cache
+    // TODO should read from cache
     $rootScope.navView = false;
     $scope.topNavOpen = false;
     $rootScope.$watch('topNavOpen',function (newValue,oldValue) {
@@ -68,8 +68,6 @@
           marginTop: 0
         });
       }
-
-
     };
 
     if (NstSvcAuth.isInAuthorization()) {
@@ -87,7 +85,7 @@
     }
 
     $rootScope.$on('$stateChangeStart', function(event, nextState, currentState) {
-      if (['signin', 'home'].indexOf(nextState.name) > -1) {
+      if (['signin', 'intro'].indexOf(nextState.name) > -1) {
         return;
       }
 

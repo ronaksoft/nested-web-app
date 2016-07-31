@@ -5,11 +5,11 @@
     .module('nested')
     .service('NstSvcStore', NstSvcStore);
 
-  function NstSvcStore($q, $http,
+  function NstSvcStore($q, $http, $log,
                        _,
-                       NST_SRV_ERROR, NST_CONFIG, NST_STORE_ROUTE, NST_STORE_ROUTE_PATTERN, NST_STORE_UPLOAD_TYPE, NST_SRV_RESPONSE_STATUS,
-                       NstSvcServer, NstSvcDownloadTokenStorage, NstSvcUploadTokenStorage,
-                       NstObservableObject, NstStoreToken) {
+                       NST_RES_STATUS, NST_REQ_STATUS, NST_SRV_ERROR, NST_CONFIG, NST_STORE_ROUTE, NST_STORE_ROUTE_PATTERN, NST_STORE_UPLOAD_TYPE, NST_SRV_RESPONSE_STATUS,
+                       NstSvcServer, NstSvcDownloadTokenStorage, NstSvcUploadTokenStorage, NstSvcRandomize,
+                       NstObservableObject, NstStoreToken, NstRequest, NstResponse) {
     /**
      * Creates an instance of NstSvcStore
      *
@@ -30,24 +30,6 @@
 
     Store.prototype = new NstObservableObject();
     Store.prototype.constructor = Store;
-
-    Store.prototype.getUploadToken = function () {
-      var defer = $q.defer();
-
-      var rawToken = NstSvcUploadTokenStorage.get(uploadTokenKey);
-      if (rawToken) { // the token was found in cache
-        defer.resolve(createToken(rawToken));
-      } else { // get a new token for upload
-        NstSvcServer.request('store/get_upload_token').then(function(data) {
-          NstSvcUploadTokenStorage.set(uploadTokenKey, data.token);
-          defer.resolve(createToken(data.token));
-        }).catch(function(error) {
-          defer.reject(new NstFactoryError(new NstFactoryQuery(), error.message, error.code));
-        });
-      }
-
-      return defer.promise;
-    };
 
     Store.prototype.resolveUrl = function (route, universalId, token) {
       var routeKey = Object.keys(NST_STORE_ROUTE).filter(function (k) { return route == NST_STORE_ROUTE[k]; }).pop();
@@ -70,12 +52,19 @@
       return pattern;
     };
 
-    Store.prototype.upload = function(file, type, id, onUploadStart) {
+    Store.prototype.upload = function(file, type) {
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
+
+      var service = this;
+      var action = 'upload/' + type;
+      var request = new NstRequest(action, {
+        file: file,
+        type: type
+      });
 
       var q = {
         'file': file instanceof File, // file is File object
-        'type': (Object.keys(NST_STORE_UPLOAD_TYPE).map(function(k) { return NST_STORE_UPLOAD_TYPE[k]; })).indexOf(type) > -1 // type is valid NST_STORE_UPLOAD_TYPE
+        'type': Object.values(NST_STORE_UPLOAD_TYPE).indexOf(type) > -1 // type is valid NST_STORE_UPLOAD_TYPE
       };
       var issues = [];
       for (var k in q) {
@@ -83,57 +72,80 @@
       }
 
       if (issues.length > 0) {
-        return $q(function (res, rej) {
-          rej({
-            err_code: NST_SRV_ERROR.INVALID,
-            items: issues
-          });
-        });
+        request.setStatus(NST_REQ_STATUS.CANCELLED);
+        request.finish(new NstResponse(NST_RES_STATUS.FAILURE, {
+          err_code: NST_SRV_ERROR.INVALID,
+          items: issues
+        }));
+
+        return request;
       }
 
-      return this.getUploadToken().then(function (token) {
+      var reqId = generateReqId('upload/' + type, file.name);
+      request.setStatus(NST_REQ_STATUS.QUEUED);
+      request.setData(angular.extend(request.getData(), { reqId: reqId }));
+
+      getUploadToken().catch(function (error) {
+        var deferred = $q.defer();
+        // TODO: Check for what to be passed as response data
+        var response = new NstResponse(NST_RES_STATUS.FAILURE, error);
+        deferred.reject(response);
+
+        return deferred.promise;
+      }).then(function (token) {
         var formData = new FormData();
         formData.append('cmd', type);
         formData.append('_sk', NstSvcServer.getSessionKey());
         formData.append('token', token.getString());
         formData.append('fn', 'attachment');
         formData.append('attachment', file);
-        formData.append('_reqid', id || null);
+        formData.append('_reqid', reqId);
 
-        var canceler = $q.defer();
-
-        if (onUploadStart instanceof Function) {
-          onUploadStart(canceler);
-        }
-
-        return $http({
+        var ajax = $http({
           method: 'POST',
-          url: this.url,
+          url: service.getUrl(),
           data: formData,
           headers: {
             'Content-Type': undefined
           },
-          timeout: canceler.promise
-        }).then(function (response) {
-          var data = response.data.data;
+          timeout: request.cancelled()
+        }).then(function (httpData) {
+          var deferred = $q.defer();
+          var data = httpData.data.data;
+          var response = new NstResponse(NST_RES_STATUS.UNKNOWN, data);
 
-          return $q(function (res, rej) {
-            switch (data.status) {
-              case NST_SRV_RESPONSE_STATUS.SUCCESS:
-                res(data);
-                break;
+          switch (data.status) {
+            case NST_SRV_RESPONSE_STATUS.SUCCESS:
+              response.setStatus(NST_RES_STATUS.SUCCESS);
+              deferred.resolve(response);
+              break;
 
-              default:
-                rej(data);
-                break;
-            }
-          });
+            default:
+              response.setStatus(NST_RES_STATUS.FAILURE);
+              deferred.reject(response);
+              break;
+          }
+
+          return deferred.promise;
         });
 
-      }.bind(this));
+        request.setStatus(NST_REQ_STATUS.SENT);
+
+        return ajax;
+      }).then(function (response) {
+        request.finish(response);
+      }).catch(function (response) {
+        request.finish(response);
+      });
+
+      return request;
     };
 
-    Store.prototype.uploadWithProgress = function(settings) {
+    Store.prototype.uploadWithProgress = function (file, onProgress, type) {
+
+    };
+
+    Store.prototype.uploadWithProgressOld = function(settings) {
       var defer = $q.defer;
 
       var defaultSettings = {
@@ -174,7 +186,7 @@
         };
       }
 
-      return this.defaultStore.getUploadToken().then(function (token) {
+      return this.getUploadToken().then(function (token) {
         settings.token = token;
 
         var formData = new FormData();
@@ -195,7 +207,7 @@
           };
         }
 
-        xhr.open('POST', this.defaultStore.url, true);
+        xhr.open('POST', this.url, true);
 
         xhr.setRequestHeader("Cache-Control", "no-cache");
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -246,6 +258,49 @@
 
       }.bind(this));
     };
+
+    Store.prototype.cancelUpload = function (request, response) {
+
+    };
+
+    function getUploadToken() {
+      var defer = $q.defer();
+      var tokenKey = 'default-upload-token';
+
+      var token = NstSvcUploadTokenStorage.get(tokenKey);
+      if (!token || token.isExpired()) {
+        NstSvcUploadTokenStorage.remove(tokenKey);
+        requestNewUploadToken(tokenKey).then(defer.resolve).catch(defer.reject);
+      } else {
+        defer.resolve(token);
+      }
+
+      return defer.promise;
+    }
+
+    function requestNewUploadToken(storageKey) {
+      var deferred = $q.defer();
+
+      NstSvcServer.request('store/get_upload_token').then(function(data) {
+        var token = createToken(data.token);
+        NstSvcDownloadTokenStorage.set(storageKey, token);
+        deferred.resolve(token);
+      }).catch(function(error) {
+        // TODO: Reject with StoreError(StoreQuery) Object
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+    }
+
+    function createToken(rawToken) {
+      // TODO: Read expiration date from token itself
+      return new NstStoreToken(rawToken, new Date(Date.now() + 3600));
+    }
+
+    function generateReqId(action, name) {
+      return 'REQ/' + action.toUpperCase() + '/' + name.toUpperCase() + '/' + NstSvcRandomize.genUniqId();
+    }
 
     function createCORSRequest(method) {
       var xhr = new XMLHttpRequest();

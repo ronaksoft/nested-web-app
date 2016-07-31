@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .directive('nestedNavbar', Navbar);
+    .directive('nstNavbar', Navbar);
 
   /** @ngInject */
   function Navbar() {

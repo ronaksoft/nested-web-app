@@ -1,0 +1,18 @@
+<div class="attachments-preview-bar">
+  <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
+    <li ng-repeat="item in items">
+      <a href="javascript:void(0);" ng-click="onItemClick">
+        <img ng-if="item.hasThumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}"/>
+        <div ng-if="!item.hasThumbnail" class="attach-thumbnail-default" ng-class="{{'attach-thumbnail-' + item.type}}"></div>
+      </a>
+    </li>
+  </ul>
+  <ul ng-if="internalMode == 'badge'" class="badge-bar">
+    <li ng-repeat="item in items">
+      <a href="javascript:void(0);" ng-click="onItemClick" class="attach-badge-default {{'attach-badge-' + item.type}}">
+        <div class="badge-extension">{{item.extension}}</div>
+        <div class="badge-name">{{item.name}}</div>
+      </a>
+    </li>
+  </ul>
+</div>

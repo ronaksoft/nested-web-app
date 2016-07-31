@@ -6,9 +6,10 @@
 
   /** @ngInject */
   function NstSvcAttachmentFactory($q, $log,
-    _,
-    NstSvcServer, NstSvcStore, NstSvcPlaceFactory, NstSvcUserFactory,
-    NstAttachment, NstPicture, NstStoreResource, NstFactoryError, NstFactoryQuery) {
+                                   _,
+                                   NST_FILE_TYPE,
+                                   NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcFileType, NstSvcDownloadTokenStorage,
+                                   NstAttachment, NstPicture, NstStoreResource, NstFactoryError, NstFactoryQuery) {
 
     var uploadTokenKey = 'default-upload-token';
 
@@ -33,22 +34,41 @@
       if (!data || !data._id) {
         defer.resolve(attachment);
       } else {
+        attachment.setId(data._id);
+        attachment.setPost(post);
+        attachment.setResource(new NstStoreResource(data._id));
+        attachment.setDownloads(data.downloads);
+        attachment.setFilename(data.filename);
+        attachment.setMimeType(data.mimetype);
+        attachment.setSize(data.size);
+        attachment.setStatus(data.status);
+        attachment.setStoreId(data.store_id);
+        attachment.setUploadTime(new Date(data.upload_time));
 
-        attachment.post = post;
-        attachment.id = data._id;
-        attachment.file = new NstStoreResource(data._id);
-        attachment.downloads = data.downloads;
-        attachment.fileName = data.filename;
-        attachment.mimeType = data.mimetype;
-        attachment.size = data.size;
-        attachment.status = data.status;
-        attachment.storeId = data.store_id;
-        attachment.uploadTime = new Date(data.upload_time);
-        attachment.ownerIds = data.owners;
-        attachment.uploaderId = data.uploader;
-        attachment.thumbnail = new NstPicture(attachment.id, data.thumbs);
+        var promises = [];
 
-        defer.resolve(attachment);
+        promises.push(NstSvcUserFactory.getTiny(data.uploader).then(function (user) {
+          attachment.setUploader(user);
+        }));
+
+        for (var k in data.owners) {
+          promises.push(NstSvcPlaceFactory.getTiny(data.owners[k]).then(function (place) {
+            attachment.addPlace(place);
+          }));
+        }
+
+        if (data.thumbs) {
+          var picture = new NstPicture(attachment.getId(), data.thumbs);
+          if (NST_FILE_TYPE.IMAGE != NstSvcFileType.getType(attachment.getMimeType())) {
+            picture.setId(picture.getLargestThumbnail().getId());
+          }
+
+          attachment.setPicture(picture);
+        }
+
+        $q.all(promises).then(function () {
+          defer.resolve(attachment);
+        });
       }
 
       return defer.promise;
@@ -61,14 +81,12 @@
 
     function getDownloadToken(postId, attachmentId) {
       var defer = $q.defer();
-      var tokenKey = generateTokenKey(postId, attachmentId)
+      var tokenKey = generateTokenKey(postId, attachmentId);
 
       var token = NstSvcDownloadTokenStorage.get(tokenKey);
       if (!token || token.isExpired()) { // then if the token exists then remove it and get a new token
-
         NstSvcDownloadTokenStorage.remove(tokenKey);
         requestNewDownloadToken(postId, attachmentId).then(defer.resolve).catch(defer.reject);
-
       } else { // current token is still valid and resolve it
         defer.resolve(token);
       }
@@ -83,15 +101,14 @@
         post_id: postId,
         universal_id: universalId
       }).then(function(data) {
-        // TODO: Read expiration date from token itself
-        var token = new NstStoreToken(data.token, new Date(Date.now() + 3600));
+        var token = createToken(data.token);
         NstSvcDownloadTokenStorage.set(tokenKey, token);
         defer.resolve(token);
       }).catch(function(error) {
-        var query = new NstFactoryQuery(attachmentId, {
-          postId: postId,
-        });
+        var query = new NstFactoryQuery(attachmentId, { postId: postId });
         var factoryError = new NstFactoryError(query, error.message, error.code);
+
+        defer.reject(factoryError);
       });
 
       return defer.promise;
@@ -115,17 +132,13 @@
     function remove(attachmentId, postId) {
       var defer = $q.defer();
 
-      return NstSvcServer.request('attachment/remove', {
+      NstSvcServer.request('attachment/remove', {
         post_id: postId,
         attachment_id: attachmentId
       }).then(function(response) {
-
-        resolve(attachmentId);
+        defer.resolve(attachmentId);
       }).catch(function(error) {
-
-        var query = new NstFactoryQuery(attachmentId, {
-          postId: postId,
-        });
+        var query = new NstFactoryQuery(attachmentId, { postId: postId });
         var factoryError = new NstFactoryError(query, error.message, error.code);
 
         defer.reject(factoryError);
@@ -141,7 +154,6 @@
     function createAttachmentModel() {
       return new NstAttachment();
     }
-
 
     /**
      * getDownloadUrl - Gets a download Url of the attachment in the following steps:
