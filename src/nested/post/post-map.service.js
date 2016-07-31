@@ -21,7 +21,6 @@
       var now = moment();
 
       var firstPlace = _.first(post.places);
-
       return {
         id: post.id,
         sender: mapSender(post.sender),

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider) {
+  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider) {
 
     localStorageServiceProvider
       .setPrefix('nested');
@@ -27,6 +27,9 @@
       sanitize: true
     });
     markedProvider.setRenderer({
+      link: function(href, title, text) {
+        return "<a href='" + href + "'" + (title ? " title='" + title + "'" : '') + " target='_blank'>" + text + "</a>";
+      },
       heading: function (text) {
         return '<strong>' + text + '</strong>';
       },
@@ -46,13 +49,13 @@
     ScrollBarsProvider.defaults = {
       theme: 'minimal-dark',
       scrollInertia: 300,
-      advanced:{
+      advanced: {
         updateOnContentResize: true
       },
       autoHideScrollbar: true
     };
 
- //config emojiOne
+    //config emojiOne
     emojione.imageType = 'svg';
     emojione.sprites = true;
     emojione.imagePathSVGSprites = './../bower_components/emojione/assets/sprites/emojione.sprites.svg';
