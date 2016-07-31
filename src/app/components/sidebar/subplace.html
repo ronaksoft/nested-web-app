@@ -11,8 +11,8 @@
       <div class="box4"></div>
     </dl>
   </a>
-  <div class="_fw _fh side-place-name" ng-show="!sideView">
-    <a href="{{place.url}}" class="_fw onlyExpand">{{place.name}}</a>
+  <div class="_fw _fh side-place-name fade-animation" ng-show="!sideView">
+    <a href="{{place.url}}" class="_fw onlyExpand" ng-mouseenter="ctlSidebar.detectellipsis($event)">{{place.name}}</a>
 
     <span data-ng-if="place.children.length > 0" class="e2-arrow _df">
       <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"

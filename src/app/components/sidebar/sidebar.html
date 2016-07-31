@@ -12,13 +12,13 @@
         <div class="side-menu">
           <div class="side-menu-item">
             <a href="{{ctlSidebar.urls.unfiltered}}"><div class="icon icon-solid icon-side icon-all-place _df"></div>
-              <span class="item onlyExpand _df _fw">All Places</span></a></div>
+              <span class="item _df _fw fade-animation" ng-show="!sideView">All Places</span></a></div>
           <div class="side-menu-item" ng-if="false">
             <a href="{{ctlSidebar.urls.bookmarks}}"><div class="icon icon-solid icon-side icon-bookmarks"></div>
-              <span class="item onlyExpand _fw">Bookmarks</span></a></div>
+              <span class="item _fw" ng-show="!sideView">Bookmarks</span></a></div>
           <div class="side-menu-item" ng-if="false">
             <a href="{{ctlSidebar.urls.sent}}"><div class="icon icon-solid icon-side icon-sent"></div>
-              <span class="item onlyExpand _fw">Sent</span></a></div>
+              <span class="item _fw" ng-show="!sideView">Sent</span></a></div>
         </div>
       <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0">
         <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
@@ -41,18 +41,20 @@
     <div class="side-profile">
       <div class="_difh _fw" ng-show="profileMenu">
         <li class="profile-menu-edit-profile _df _fn"></li>
-        <li class="_df nst-mood-solid a-hover _fw onlyExpand"><a class="nst-mood-solid _difh _fw" href="#/profile">Edit My profile</a></li>
+        <li class="_df nst-mood-solid a-hover _fw fade-animation" ng-show="!sideView"><a class="nst-mood-solid _difh _fw" href="#/profile">Edit My profile</a></li>
       </div>
       <div class="_difh _fw" ng-show="profileMenu">
         <li class="profile-menu-signout _df _fn"></li>
-        <li class="_df a-hover _fw onlyExpand"><a class="nst-mood-solid _difh _fw" href="#/signout">Sign out</a></li>
+        <li class="_df a-hover fade-animation _fw" ng-show="!sideView"><a class="nst-mood-solid _difh _fw" href="#/signout">Sign out</a></li>
       </div>
       <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
         <img class="account-initials-32"
              initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
              data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
-        <div class="_fw _df onlyExpand"><a>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm">@{{ctlSidebar.user.id}}</span> </a></div>
-        <div class="_df _fn onlyExpand">
+        <div class="_fw _df fade-animation" ng-show="!sideView">
+          <a>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm">@{{ctlSidebar.user.id}}</span> </a>
+        </div>
+        <div class="_df _fn fade-animation" ng-show="!sideView">
           <div class="icon icon-solid icon-more"></div>
         </div>
       </div>
@@ -65,28 +67,3 @@
   <div class="sidebar-border"></div>
   </div>
 </div>
-<!--<div class="sidebar">
-  <div class="nested-logo"><div id="Logo"></div></div>
-  <div class="compose"><a class="butn-green" id="compose" href="#/new">Compose</a></div>
-  <div class='side-menu'>
-    <div class="side-menu-item"><div class="icon icon-solid icon-side icon-all-place"></div><a class="item">All Places</a></div>
-    <div class="side-menu-item"><div class="icon icon-solid icon-side icon-bookmarks"></div><a class="item">Bookmarks</a></div>
-    <div class="side-menu-item"><div class="icon icon-solid icon-side icon-sent"></div><a class="item">Sent</a></div>
-  </div>
-    <ul class="side-place">
-      <li data-ng-repeat="place in sidebarCtrl.places"
-          data-ng-init="its_mine = events.placeAncestors.slice(0, place.id.split('.').length).join('.') == place.id; its_me = events.placeAncestors.join('.') == place.id"
-          class="side-place-item {{its_mine ? 'selected' : undefined}}"
-          data-ng-include="'app/components/sidebar/sidebar_subplace.html'" data-ng-model="place">
-      </li>
-    </ul>
-  <div class="side-profile">
-    <img initials="user.name" data-url="user.picture.x32.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
-    <div class="_fw _df"><a>Sal Naghavi<br><span class="nst-mood-storm">@kuttlass</span> </a></div>
-    <div class="">
-      <a href="#/place/{{events.place.id}}">
-        <div class="icon icon-solid icon-more" data-tooltip-placement="top auto" data-uib-tooltip="Place settings"></div>
-      </a>
-    </div>
-  </div>
-</div>-->
