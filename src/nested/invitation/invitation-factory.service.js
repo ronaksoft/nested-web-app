@@ -6,8 +6,8 @@
     .service('NstSvcInvitationFactory', NstSvcInvitationFactory);
 
   /** @ngInject */
-  function NstSvcInvitationFactory($q, $log, _, moment,
-                                   NST_SRV_ERROR,
+  function NstSvcInvitationFactory($q,
+                                   NST_SRV_ERROR, NST_INVITATION_FACTORY_EVENT,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory,
                                    NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation) {
     function InvitationFactory() {
@@ -63,7 +63,6 @@
         // FIXME: Check whether if request should be removed on resolve/reject
         this.requests.get[id] = $q(function (resolve, reject) {
           var invitation = NstSvcInvitationStorage.get(query.getId());
-          console.log('Got Invitation: ', query.getId(), invitation);
           if (invitation) {
             resolve(invitation);
           } else {
@@ -87,14 +86,21 @@
     InvitationFactory.prototype.accept = function (id) {
       if (!this.requests.decide[id]) {
         var defer = $q.defer();
+        var factory = this;
 
-        NstSvcServer.request('account/update_invitation', {
-          invite_id: id,
-          state: 'accepted'
-        }).then(function (response) {
-          // TODO: parse the response and return an object
-          defer.resolve(response);
-        }).catch(defer.reject);
+        this.get(id).then(function (invitation) {
+          NstSvcServer.request('account/update_invitation', {
+            invite_id: id,
+            state: 'accepted'
+          }).then(function (response) {
+            // TODO: parse the response and return an object
+            defer.resolve(response);
+            factory.dispatchEvent(new CustomEvent(
+              NST_INVITATION_FACTORY_EVENT.ACCEPT,
+              { detail: { id: id, invitation: invitation } }
+            ));
+          }).catch(defer.reject);
+        });
 
         this.requests.decide[id] = defer.promise;
       }
@@ -105,14 +111,21 @@
     InvitationFactory.prototype.decline = function (id) {
       if (!this.requests.decide[id]) {
         var defer = $q.defer();
+        var factory = this;
 
-        NstSvcServer.request('account/update_invitation', {
-          invite_id: id,
-          state: 'ignored'
-        }).then(function (response) {
-          // TODO: parse the response and return an object
-          defer.resolve(response);
-        }).catch(defer.reject);
+        this.get(id).then(function (invitation) {
+          NstSvcServer.request('account/update_invitation', {
+            invite_id: id,
+            state: 'ignored'
+          }).then(function (response) {
+            // TODO: parse the response and return an object
+            defer.resolve(response);
+            factory.dispatchEvent(new CustomEvent(
+              NST_INVITATION_FACTORY_EVENT.DECLINE,
+              { detail: { id: id, invitation: invitation } }
+            ));
+          }).catch(defer.reject);
+        });
 
         this.requests.decide[id] = defer.promise;
       }
@@ -168,7 +181,7 @@
             invitation.setInvitee(values[0]);
             invitation.setInviter(values[1]);
             invitation.setPlace(values[2]);
-            
+
             defer.resolve(invitation);
           }).catch(function (error) {
             defer.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));

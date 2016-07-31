@@ -617,6 +617,12 @@
       NstSvcMyPlaceIdStorage.flush();
     });
 
+    // NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
+    //   var invitation = event.detail.invitation;
+    //
+    //   console.log('Place Factory | Invitation Accepted: ', invitation);
+    // });
+
     return new PlaceFactory();
   }
 })();
