@@ -70,10 +70,20 @@
     })();
 
     function getMessages() {
-      if (!vm.currentPlace) {
-        return NstSvcPostFactory.getMessages(vm.messagesSetting);
-      } else {
-        return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlace.id);
+      switch ($state.current.name) {
+        case 'place-messages':
+        case 'place-messages-sorted':
+          return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlace.id);
+          break;
+
+        case 'messages-sent':
+        case 'messages-sent-sorted':
+          return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
+          break;
+        
+        default:
+          return NstSvcPostFactory.getMessages(vm.messagesSetting);
+          break;
       }
     }
 
