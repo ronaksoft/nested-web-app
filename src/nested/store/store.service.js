@@ -64,7 +64,7 @@
 
       var q = {
         'file': file instanceof File, // file is File object
-        'type': Object.values(NST_STORE_UPLOAD_TYPE).indexOf(type) > -1 // type is valid NST_STORE_UPLOAD_TYPE
+        'type': _.values(NST_STORE_UPLOAD_TYPE).indexOf(type) > -1 // type is valid NST_STORE_UPLOAD_TYPE
       };
       var issues = [];
       for (var k in q) {
