@@ -80,7 +80,7 @@
         case 'messages-sent-sorted':
           return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
           break;
-        
+
         default:
           return NstSvcPostFactory.getMessages(vm.messagesSetting);
           break;
@@ -333,7 +333,7 @@
             var tfunc = $timeout( function () {
               console.log(t);
               $("#content-plus").animate(
-                {marginTop:t},1);
+                {marginTop:t}, {duration:10});
             });
             tts.push(tfunc);
 
