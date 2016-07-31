@@ -111,7 +111,7 @@
     }
 
     Attachment.prototype.hasThumbnail = function(size) {
-      return !!(this.getPicture().getId() || this.getPicture().getThumbnail(128 || size));
+      return !!(this.getPicture().getId() || this.getPicture().getThumbnail(128 || size).getId());
     };
 
     Attachment.prototype.addPlace = function(place) {
@@ -123,7 +123,7 @@
         }
       }
       places.push(place);
-      
+
       return this.setPlaces(places);
     };
 
@@ -141,7 +141,7 @@
       if (place) {
         this.setPlaces(places);
       }
-      
+
       return place;
     };
 

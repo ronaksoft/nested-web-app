@@ -8,7 +8,39 @@
     }
   }
   ul.thumbnail-bar {
-
+    li {
+      margin-right: 8px;
+      margin-bottom: 4px;
+      vertical-align: middle;
+    }
+    .attach-thumbnail {
+      height: 96px;
+      width: 96px;
+    }
+    .attach-thumbnail-default {
+      height: 96px;
+      width: 72px;
+      background: url('../assets/icons/attachment_card.svg') no-repeat;
+      background-position: 0px -288px;
+      background-size: cover;
+      padding: 20px 8px 6px 8px;
+      word-wrap: break-word;
+      font-size: $font-size-xsmall;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .attach-thumbnail-archive {
+      background-position: 0px -384px;
+    }
+    .attach-thumbnail-document {
+      background-position: 0px 0px;
+    }
+    .attach-thumbnail-pdf {
+      background-position: 0 -192px;
+    }
+    .attach-thumbnail-multimedia {
+      background-position: 0 -96px;
+    }
   }
   ul.badge-bar {
     li {
@@ -25,20 +57,26 @@
         color: $color-white;
         background-color: $color-storm;
         padding: 0 4px;
+        min-width: 16px;
+        max-width: 48px;
+        white-space: nowrap;
         overflow: hidden;
+        text-overflow: ellipsis;
       }
       .badge-name {
         display: inline-block;
         line-height: 24px;
         font-size: $font-size-xsmall;
-        min-width: 72px;
-        max-width: 256px;
+        min-width: 16px;
+        max-width: 172px;
         border-radius: 0 6px 6px 0;
         background-color: $color-breeze-50;
         color: $color-solid;
         padding: 0 6px;
         margin-left: -3px;
+        white-space: nowrap;
         overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
     a.attach-badge-default:hover {
