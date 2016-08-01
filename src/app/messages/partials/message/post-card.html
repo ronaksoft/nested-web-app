@@ -57,8 +57,11 @@
   </section>
 </div>
 <section class="post-card-comment" ng-if="ctlPostCard.viewSetting.comments">
-  <div ng-if="ctlPostCard.post.hasMoreComment" class="_df _fw comments-load"><a>Older Comments...</a></div>
-  <comments-board comments="ctlPostCard.post.comments"></comments-board>
+  <div  class="_df _fw comments-load">
+    <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()">Older comments...</a>
+    <a ng-if="ctlPostCard.commentBoardIsRolled == false" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()">Roll up</a>
+  </div>
+  <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"></comments-board>
   <div class="post-card-comment-input _df">
     <input class="_fw" placeholder="write your comment ..." ng-keyup="ctlPostCard.sendComment($event)">
 
