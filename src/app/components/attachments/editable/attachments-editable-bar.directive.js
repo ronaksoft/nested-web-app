@@ -10,6 +10,7 @@
       restrict: 'E',
       templateUrl: 'app/components/attachments/editable/main.html',
       scope: {
+        onItemDelete: '=',
         onItemClick: '=',
         items: '=',
         mode: '='
@@ -35,6 +36,11 @@
           }
         };
 
+        scope.onDelete = function (item) {
+          if (scope.onItemDelete) {
+            scope.onItemDelete(item);
+          }
+        };
       }
     };
 
