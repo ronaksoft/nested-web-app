@@ -36,7 +36,7 @@
 
       </section>
       <div class="content-plus" id="content-plus">
-        <div ng-scrollbars ng-scrollbars-config="ctlMessages.recentScrollConf" onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
+        <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlMessages.recentScrollConf" onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
           <div class="name">Recent Activities</div>
           <recent-activity-item ng-repeat="act in ctlMessages.activities" model="act"></recent-activity-item>
         </div>

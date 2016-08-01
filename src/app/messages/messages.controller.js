@@ -318,22 +318,25 @@
 
 
       // FIXME: NEEDS REWRITE COMPLETELY
-    var tts = [];
+      var tl = new TimelineLite({});
       vm.bodyScrollConf = {
         axis: 'xy',
         callbacks: {
           whileScrolling:function(){
             var t = -this.mcs.top;
+            var cp = document.getElementById("cp1");
+            //console.log(tl);
+            tl.kill({y:true}, cp);
+            tl.add(TweenLite.to(cp, 0.5, {y: t, ease: SlowMo.ease.config(0.7, 0.7, false)}));
+            tl.play();
             // $("#content-plus").stop().animate(
             //   {marginTop:t}, {duration:1});
-            TweenMax.to("#content-plus", .1, {
-              y: t
-            });
-            TweenMax.lagSmoothing(500, 33);
+            // TweenMax.to("#cp1", .001, {
+            //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
+            // });
+            //TweenMax.lagSmoothing(500, 33);
 
             $timeout(function () { $rootScope.navView = t > 55; });
-
-          //$('.nst-navbar').toggleClass('tiny', t > 55);
 
           //   var func = function () {
           //     console.log(t);
