@@ -5,10 +5,10 @@
     .service('NstSvcAttachmentMap', NstSvcAttachmentMap);
 
   /** @ngInject */
-  function NstSvcAttachmentMap(NstSvcFileType) {
+  function NstSvcAttachmentMap(NST_ATTACHMENT_STATUS, NstSvcRandomize, NstSvcFileType) {
     var service = {
       toAttachmentItem : toAttachmentItem,
-      toUploadAttachmentItem: toUploadAttachmentItem
+      toEditableAttachmentItem: toEditableAttachmentItem
     };
 
     return service;
@@ -19,6 +19,7 @@
       }
 
       var model = {
+        id: attachment.getId(),
         name: NstSvcFileType.removeSuffix(attachment.getFilename()),
         size: attachment.getSize(),
         url: attachment.getResource().getUrl().view,
@@ -31,13 +32,20 @@
       return model;
     }
 
-    function toUploadAttachmentItem(attachment) {
+    function toEditableAttachmentItem(attachment, id) {
       if (!attachment) {
         return {};
       }
 
+      var isAttached = NST_ATTACHMENT_STATUS.ATTACHED == attachment.getStatus();
+      id = id || attachment.id || NstSvcRandomize.genUniqId();
+
       var model = {
+        id : id,
         name: NstSvcFileType.removeSuffix(attachment.getFilename()),
+        isUploaded: isAttached,
+        uploadedSize: isAttached ? attachment.getSize() : 0,
+        uploadedRatio: isAttached ? 1 : 0,
         size: attachment.getSize(),
         url: attachment.getResource().getUrl().view,
         type: NstSvcFileType.getType(attachment.getMimeType()),

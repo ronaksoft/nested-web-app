@@ -377,7 +377,8 @@
     // };
 
     Store.prototype.cancelUpload = function (request, response) {
-
+      request.setStatus(NST_REQ_STATUS.CANCELLED);
+      request.finish(response || new NstResponse());
     };
 
     function getUploadToken() {
