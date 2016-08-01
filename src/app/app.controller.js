@@ -89,7 +89,8 @@
 
 
     $rootScope.$on('$stateChangeStart', function(event, nextState, currentState) {
-      if (['signin', 'intro'].indexOf(nextState.name) > -1) {
+      $uibModalStack.dismissAll();
+      if (['signin', 'intro','register'].indexOf(nextState.name) > -1) {
         return;
       }
 
@@ -101,9 +102,6 @@
 
     });
 
-    $rootScope.$on('$statechangesuccess', function () {
-      $uibModalStack.dismissAll();
-    });
 
   }
 })();

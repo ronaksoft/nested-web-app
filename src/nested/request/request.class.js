@@ -24,7 +24,9 @@
           if (NST_RES_STATUS.UNKNOWN != response.getStatus()) {
             this.setStatus(NST_REQ_STATUS.RESPONDED);
           }
+        }
 
+        if (0 == deferred.promise.$$state.status) {
           if (NST_RES_STATUS.SUCCESS == response.getStatus()) {
             deferred.resolve(response);
           } else {

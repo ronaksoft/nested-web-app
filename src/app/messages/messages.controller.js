@@ -7,10 +7,10 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout, $state,
-    NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION,
-    NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory, NstSvcServer,
-    NstSvcMessagesSettingStorage, NstSvcPostStorage,
-    NstSvcPostMap, NstSvcActivityMap) {
+                              NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION,
+                              NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
+                              NstSvcMessagesSettingStorage, NstSvcPostStorage,
+                              NstSvcPostMap, NstSvcActivityMap) {
 
     var vm = this;
     vm.messages = [];
@@ -108,38 +108,43 @@
     }
 
     function loadMessages() {
-      var defer = $q.defer();
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
+        var defer = $q.defer();
 
-      vm.messagesSetting.date = getLastMessageTime();
+        vm.messagesSetting.date = getLastMessageTime();
 
-      getMessages().then(function(messages) {
-        if (messages.length === 0) {
-          if (vm.cache.length === 0) {
-            vm.noMessages = true;
+        getMessages().then(function(messages) {
+          if (messages.length === 0) {
+            if (vm.cache.length === 0) {
+              vm.noMessages = true;
+            } else {
+              vm.reachedTheEnd = true;
+            }
           } else {
-            vm.reachedTheEnd = true;
+            vm.reachedTheEnd = false;
+            vm.noMessages = false;
+            vm.cache = _.concat(vm.cache, messages);
+            vm.messages = mapMessages(vm.cache);
           }
-        } else {
-          vm.reachedTheEnd = false;
-          vm.noMessages = false;
-          vm.cache = _.concat(vm.cache, messages);
-          vm.messages = mapMessages(vm.cache);
-        }
-        vm.tryAgainToLoadMore = false;
-        defer.resolve(vm.messages);
-      }).catch(function(error) {
-        vm.tryAgainToLoadMore = true;
-        defer.reject(error);
-      });
+          vm.tryAgainToLoadMore = false;
+          defer.resolve(vm.messages);
+        }).catch(function(error) {
+          vm.tryAgainToLoadMore = true;
+          defer.reject(error);
+        });
 
-      return defer.promise;
+        return defer.promise;
+      }));
     }
 
     function loadMore() {
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
-      loadMessages().catch(function (error) {
-        $log.debug(error)
-      });
+
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
+        loadMessages().catch(function (error) {
+          $log.debug(error)
+        });
+      }));
     }
 
     function getLastMessageTime() {
@@ -157,23 +162,25 @@
     }
 
     function loadRecentActivities() {
-      var defer = $q.defer();
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
+        var defer = $q.defer();
 
-      var settings = {
-        limit: 10,
-        placeId: null
-      };
+        var settings = {
+          limit: 10,
+          placeId: null
+        };
 
-      if (vm.currentPlace) {
-        settings.placeId = vm.currentPlace.id;
-      }
+        if (vm.currentPlace) {
+          settings.placeId = vm.currentPlace.id;
+        }
 
-      NstSvcActivityFactory.getRecent(settings).then(function(activities) {
-        vm.activities = mapActivities(activities);
-        defer.resolve(vm.activities);
-      }).catch(defer.reject);
+        NstSvcActivityFactory.getRecent(settings).then(function(activities) {
+          vm.activities = mapActivities(activities);
+          defer.resolve(vm.activities);
+        }).catch(defer.reject);
 
-      return defer.promise;
+        return defer.promise;
+      }));
     }
 
     function mapMessage(post) {

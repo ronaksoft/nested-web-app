@@ -19,6 +19,12 @@
        *****     Auth Routes    ****
        *****************************/
 
+      .state('register', {
+        url: '/register',
+        templateUrl: 'app/register/register.html',
+        controller: 'RegisterController',
+        controllerAs: 'ctlRegister'
+      })
       .state('signin', {
         url: '/signin',
         templateUrl: 'app/pages/login/main.html',
@@ -119,7 +125,8 @@
       .state('post', {
         url: '/message/:postId',
         params: {
-          postId: NST_DEFAULT.STATE_PARAM
+          postId: NST_DEFAULT.STATE_PARAM,
+          post: {}
         },
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
