@@ -9,7 +9,7 @@
         link: link,
         template: function( element, attrs ) {
           var tag = element[0].nodeName;
-          return '<' + tag +' ng-click="openPostCardModal(post.id)" ng-transclude></' + tag +'>';
+          return '<' + tag +' ng-click="openPostCardModal(post)" ng-transclude></' + tag +'>';
         },
         restrict: 'EA',
         replace: false,
@@ -26,7 +26,8 @@
          * @param  {type} places list of places to be shown
          */
 
-        scope.openPostCardModal = function (postId) {
+        scope.openPostCardModal = function (post) {
+
           var modal = $uibModal.open({
             animation: false,
             templateUrl: 'app/post/post.html',
@@ -34,8 +35,11 @@
             controllerAs: 'postVm',
             size: 'mlg',
             resolve: {
+              post: function () {
+                return post
+              },
               postId: function () {
-                return postId
+                return post.id
               }
             }
           });
