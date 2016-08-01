@@ -136,7 +136,7 @@
         vm.attachments.attach(files[i]).then(function (resolved) {
           resolved.request.sent().then(function () {
             vm.attachments.size.total += resolved.attachment.getSize();
-            vm.attachments.viewModels.push(NstSvcAttachmentMap.toUploadAttachmentItem(resolved.attachment));
+            vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(resolved.attachment));
           });
         });
       }
@@ -148,7 +148,7 @@
         vm.attachments.attach(files[i]).then(function (resolved) {
           resolved.request.sent().then(function () {
             vm.attachments.size.total += resolved.attachment.getSize();
-            vm.attachments.viewModels.push(NstSvcAttachmentMap.toUploadAttachmentItem(resolved.attachment));
+            vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(resolved.attachment));
           });
         });
       }
