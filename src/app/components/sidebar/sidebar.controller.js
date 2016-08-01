@@ -6,12 +6,12 @@
     .controller('SidebarController', SidebarController);
 
   /** @ngInject */
-  function SidebarController($q, $state, $stateParams, $uibModal,
+  function SidebarController($q, $state, $stateParams, $uibModal, $log,
                              NST_AUTH_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
                              NstSvcLoader, NstSvcTry, NstSvcServer, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
-    console.log(vm.stat)
+    $log.debug(vm.stat);
 
     /*****************************
      *** Controller Properties ***
