@@ -6,7 +6,7 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout, $state, _,
+  function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout, $state,
     NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION,
     NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory, NstSvcServer,
     NstSvcMessagesSettingStorage, NstSvcPostStorage,
@@ -319,15 +319,17 @@
 
       // FIXME: NEEDS REWRITE COMPLETELY
       var tl = new TimelineLite({});
+      var cp = document.getElementById("cp1");
       vm.bodyScrollConf = {
         axis: 'xy',
         callbacks: {
           whileScrolling:function(){
             var t = -this.mcs.top;
-            var cp = document.getElementById("cp1");
+            $timeout(function () { $rootScope.navView = t > 55; });
             //console.log(tl);
             tl.kill({y:true}, cp);
-            tl.add(TweenLite.to(cp, 0.5, {y: t, ease: SlowMo.ease.config(0.7, 0.7, false)}));
+            tl.add(TweenLite.to(cp, 0.5, {y: t, ease: Power2.easeOut, force3D:true}));
+            //tl.lagSmoothing(200, 20);
             tl.play();
             // $("#content-plus").stop().animate(
             //   {marginTop:t}, {duration:1});
@@ -336,7 +338,7 @@
             // });
             //TweenMax.lagSmoothing(500, 33);
 
-            $timeout(function () { $rootScope.navView = t > 55; });
+
 
           //   var func = function () {
           //     console.log(t);

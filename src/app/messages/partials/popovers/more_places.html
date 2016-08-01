@@ -1,13 +1,13 @@
 <div id="popup-msg-badge" class="_fw _fh" ng-scrollbars>
   <div  data-ng-repeat="place in ctlPostCard.post.allPlaces" class="_dtr">
     <div class="_dtc">
-      <img initials="place.name" data-url="place.picture" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+      <img src="{{place.picture}}" class="account-initials-32"/>
     </div>
     <div class="_dtc">
       <div class="_dtr">
         <ul class="list-unstyled text-center">
           <li>
-            <span href="#/events/{{place.id}}" class="_dtc teammate-name nst-mood-solid text-left">{{place.name}}</span>
+            <span href="#/messages/{{place.id}}" class="_dtc teammate-name nst-mood-solid text-left">{{place.name}}</span>
           </li>
         </ul>
       </div>
