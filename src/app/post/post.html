@@ -1,10 +1,15 @@
 <div id="PostView" class="_difv _fw _fh">
   <div class="_difv _fw" id="PostHeader">
     <div class="post-nav-top _difh _fw">
-      <p class="_df _fw" data-ng-bind-html="postVm.post.subject | emoji"></p>
+      <p class="_df _fw" ng-if="postVm.post.subject.length >= 1"
+         dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.subject)) ? 'rtl' : 'ltr'}}"
+         data-ng-bind-html="postVm.post.subject | emoji"></p>
+      <p class="_df _fw" ng-if="postVm.post.subject.length < 1">
+        <i>No Subject</i>
+      </p>
       <div class="time nst-mood-storm _fn">{{postVm.post.date}}</div>
       <div class="closebut" ng-click="$close(result)">
-        <img src="../assets/icons/close.svg" />
+        <img src="../assets/icons/close.svg"/>
       </div>
     </div>
     <div class="post-nav-bot _difh">
@@ -27,7 +32,6 @@
               <span class="action-button-post-delete _dib"></span>
             </a>
           </li>
-
           <li>
             <a href="{{postVm.urls.forward}}">
               <span class="nst-mood-solid _dib">Forward</span>
@@ -51,15 +55,15 @@
     <div id="Content" class="_df _fw">
       <div class="_difv _fh _fw">
         <div class="_df _fw">
-          <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'"
-               data-ng-init="thePost = postVm.post"></div>
+          <div class="attachments _fw _df" data-ng-if="postVm.post.hasAnyAttachment">
+            <nst-attachments-preview-bar mode="thumbnail" items="postVm.post.attachments"/>
+          </div>
         </div>
-
         <div class="_df _fh">
           <div class="_fh _fw">
             <div class="msg-post-view {{postVm.post.contentType == 'text/plain' ? 'pre' : ''}}"
-              data-ng-bind-html="postVm.post.body | openLinkInNewWindow | emoji ">
-
+                 dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.body)) ? 'rtl' : 'ltr'}}"
+                 data-ng-bind-html="postVm.post.body | openLinkInNewWindow | emoji ">
             </div>
           </div>
         </div>

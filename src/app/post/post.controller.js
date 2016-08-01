@@ -10,8 +10,10 @@
                           _, toastr,
                           EVENT_ACTIONS, NST_SRV_EVENT,
                           NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap,
-                          NstComment, NstVmUser, postId) {
+                          NstComment, NstVmUser, postId, post) {
     var vm = this;
+console.log(post,postId)
+    if (post)  vm.post = post;
     vm.postId = $stateParams.postId || postId;
 
 
