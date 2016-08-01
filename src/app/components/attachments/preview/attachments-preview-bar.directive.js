@@ -8,7 +8,7 @@
   function AttachmentsPreviewBar(NST_ATTACHMENTS_PREVIEW_BAR_MODE) {
     return {
       restrict: 'E',
-      templateUrl: 'app/components/attachments/attachments-preview-bar.html',
+      templateUrl: 'app/components/attachments/preview/main.html',
       scope: {
         onItemClick: '=',
         items: '=',

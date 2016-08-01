@@ -18,7 +18,8 @@
       controller: 'CommentsBoardController',
       controllerAs: 'ctlComments',
       bindToController: {
-        comments: '=comments'
+        comments: '=comments',
+        limit: '=limit'
       }
     };
   }
