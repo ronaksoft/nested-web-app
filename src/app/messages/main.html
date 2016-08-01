@@ -1,18 +1,18 @@
-<div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : sideView}" >
-  <nst-sidebar data-ng-model="sidebar" class="_fn _fh"></nst-sidebar>
+<div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}" >
+  <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed" class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
     <nst-navbar data-ng-model="navbar" place="ctlMessages.currentPlace"></nst-navbar>
 
     <div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlMessages.bodyScrollConf" onscroll="angular.element(this).scope().ctlMessages.scroll(event);angular.element(this).scope().ctlApp.scroll(event)">
       <section class="content">
-        <div class="filter-bar _fw">
-            <div class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
-              <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort == 'latest-messages' ? 'Latest Messages' : 'Latest Activity'}}</span>
-              <div class="icon icon-viewicon-sort _df"></div>
-            </div>
-            <div class="iconsblock popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick">
-              <div class="icon icon-viewicon- "></div>
-            </div>
+        <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" >
+          <div ng-mouseenter="popoverSortShow = true" class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSortShow">
+            <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort == 'latest-messages' ? 'Latest Messages' : 'Latest Activity'}}</span>
+            <div class="icon icon-viewicon-sort _df" ></div>
+          </div>
+          <div ng-mouseenter="popoverSetShow = true"  class="iconsblock popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSetShow">
+            <div class="icon icon-viewicon- "></div>
+          </div>
         </div>
 
         <div class="_fw quick-message _fn" ng-if="ctlMessages.viewSetting.quickMessage && ctlMessages.currentPlaceId && false">
@@ -36,7 +36,7 @@
 
       </section>
       <div class="content-plus" id="content-plus">
-        <div ng-scrollbars ng-scrollbars-config="ctlMessages.recentScrollConf" onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
+        <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlMessages.recentScrollConf" onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
           <div class="name">Recent Activities</div>
           <recent-activity-item ng-repeat="act in ctlMessages.activities" model="act"></recent-activity-item>
         </div>

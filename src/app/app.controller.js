@@ -12,7 +12,10 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-
+    vm.viewSettings = {
+      sidebar : {collapsed: false},
+      navbar : {collapsed:false}
+    };
     vm.page = {
       isActivity: [
         'activity',
