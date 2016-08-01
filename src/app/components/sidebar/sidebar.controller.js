@@ -265,15 +265,5 @@
           break;
       }
     });
-
-
-
-    //detetect ellipsis of sidebar place names
-    vm.detectellipsis = function (e) {
-      console.log(e.currentTarget.attributes);
-      if (e.currentTarget.clientWidth < e.currentTarget.scrollWidth) {
-        console.log("overflow");
-      }
-    }
   }
 })();

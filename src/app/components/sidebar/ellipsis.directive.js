@@ -1,20 +1,37 @@
-(function() {
+(function () {
   'use strict';
 
-  angular
-    .module('nested')
-    .directive('nstSidebar', Sidebar);
+  angular.module('nested')
+    .directive('ellipsis', ellipsis);
 
-  /** @ngInject */
-  function Sidebar() {
-    return {
-      restrict: 'E',
-      templateUrl: 'app/components/sidebar/sidebar.html',
-      controller: 'SidebarController',
-      controllerAs: 'ctlSidebar',
-      bindToController: {
-        collapsed: '='
-      }
+  function ellipsis() {
+    var directive = {
+      link: link,
+      template: function(element, attrs) {
+        var tag = element[0].nodeName;
+        return '<' + tag + ' ng-mouseenter="ellipsisControl()" data-uib-tooltip="{{name}}" data-tooltip-enable="{{tooltipEnabled}}" data-tooltip-placement="top auto" ng-transclude></' + tag +'>';
+      },
+      restrict: 'A',
+      scope: {
+        name: '=ellipsis'
+      },
+      replace: true,
+      transclude: true
     };
+
+    function link(scope, element, attrs) {
+      /**
+       * postPreview - preview the places that have delete access and let the user to chose one
+       *
+       * @param  {type} places list of places to be shown
+       */
+      scope.ellipsisControl = function () {
+        if (element[0].clientWidth < element[0].scrollWidth) {
+          scope.tooltipEnabled = true;
+        }
+      }
+    }
+
+    return directive;
   }
 })();
