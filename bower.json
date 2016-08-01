@@ -46,7 +46,9 @@
     "ng-droplet": "^0.5.16",
     "angular-translate": "^2.11.0",
     "angular-i18n": "^1.5.7",
-    "ng-scrollbars": "^0.0.10"
+    "ng-scrollbars": "^0.0.10",
+    "jquery.animated": "^0.4.0",
+    "gsap": "GreenSock-JS#^1.18.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"

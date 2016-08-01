@@ -291,45 +291,8 @@
         qRead.resolve(uri);
       };
 
-      readyPromises.push(NstSvcLoader.inject(qRead.promise));
+      NstSvcLoader.inject(qRead.promise);
       reader.readAsDataURL(file);
-
-      // var uploadSettings = {
-      //   file: file,
-      //   // _reqid: attachment.getClientId(),
-      //   // // progress is invoked at most once per every second
-      //   // onProgress: _.throttle(function (event) {
-      //   //   if (event.lengthComputable) {
-      //   //     attachment.loadedSize = event.loaded;
-      //   //     $timeout(function () {
-      //   //       $scope.totalProgress = $scope.compose.post.getTotalAttachProgress();
-      //   //     });
-      //   //   }
-      //   // }, 1000),
-      //   // onStart : function (e) {
-      //   //   $scope.showUploadProgress = true;
-      //   // }
-      // };
-      //
-      // promises.push(NstSvcLoader.inject(NstSvcStore.uploadWithProgress(uploadSettings).then(function (handler) {
-      //   var deferred = $q.defer();
-      //
-      //   // attachment.setUploadCanceler(handler.abort);
-      //   handler.start().then(function (response) {
-      //     attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
-      //     attachment.setId(response.data.universal_id);
-      //
-      //     deferred.resolve(attachment);
-      //   }).catch(function (result) {
-      //     $log.debug('Compose | Attach Upload Handler Error: ', result);
-      //
-      //     deferred.reject();
-      //   });
-      //
-      //   return deferred.promise;
-      // })).catch(function (error) {
-      //   $log.debug('Compose | Attach Upload Error: ', error);
-      // }));
 
       qRead.promise.then(function (uri) {
         // Upload Attachment
@@ -350,11 +313,13 @@
           vm.attachments.viewModels.push(vmAttachment);
         });
 
-        NstSvcLoader.inject(request.finished().then(function (response) {
-          var deferred = $q.defer();
-
+        request.finished().then(function () {
           // vm.attachments.size.total -= attachment.getSize();
           delete vm.attachments.requests[attachment.getId()];
+        });
+
+        NstSvcLoader.inject(request.getPromise().then(function (response) {
+          var deferred = $q.defer();
 
           attachment.setId(response.data.universal_id);
           attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
@@ -375,10 +340,10 @@
 
           return deferred.promise;
         }));
-      });
 
-      $q.all(readyPromises).then(function () {
-        deferred.resolve(request);
+        $q.all(readyPromises).then(function () {
+          deferred.resolve(request);
+        });
       });
 
       return deferred.promise;
@@ -387,6 +352,7 @@
     vm.attachments.detach = function (vmAttachment) {
       var id = vmAttachment.id;
       var attachment = _.find(vm.model.attachments, { id: id });
+      $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment) {
         switch (attachment.getStatus()) {

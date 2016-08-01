@@ -14,7 +14,7 @@
     </div>
     <nst-navbar controls="ctlCompose.controls" place="ctlCompose.place"></nst-navbar>
 
-    <div class="nst-content _tr" id="content-wrapper">
+    <div class="nst-content _tr" id="content-wrapper" ng-scrollbars>
       <section class="content _bgwhite">
         <div class="_fw" ng-model="attachfiles" data-droplet>
           <div class="droplet"></div>
@@ -54,7 +54,7 @@
 
           <div class="nst-attach _dif _fw" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
             <div class="_fw">
-              <nst-attachments-editable-bar mode="thumbnail" items="ctlCompose.attachments.viewModels"></nst-attachments-editable-bar>
+              <nst-attachments-editable-bar mode="thumbnail" items="ctlCompose.attachments.viewModels" on-item-delete="ctlCompose.attachments.detach"></nst-attachments-editable-bar>
             </div>
             <div class="attach _df">
               <input id="{{ctlCompose.attachments.elementId}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>

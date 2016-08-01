@@ -327,13 +327,18 @@ div.att-item {
   border: none!important;
   background-color: transparent!important;
 }
-.mce-btn {
+.mce-widget {
   border: none!important;
   background-color: white!important;
 }
 .mce-container, .mce-container{
   background: white!important;
+}
 
+.mce-primary {
+  @extend .butn-sense;
+  color: $color-white!important;
+  background-color: $color-sense!important;
 }
 .ui-select-bootstrap > .ui-select-choices {
   max-height: 400px

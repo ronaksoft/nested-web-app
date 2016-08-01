@@ -1,7 +1,7 @@
 @import "mixin.scss";
 
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", null, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", light, null, ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, ttf woff woff2);
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, ttf woff woff2);
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, eot woff2);
@@ -342,7 +342,9 @@ a.place {
   *     General Hacks             *
   *********************************
  */
-
+.emojione {
+  height: 1em;
+}
 //****input Styles****
 
 .switch {
@@ -1129,12 +1131,15 @@ a .ui-select-choises-row-inner {
   color: white;
   display: flex;
   font-size: 16px;
-  font-family: open-sans, sans-serif;
-  font-weight: 500;
+  font-family: OpenSans, sans-serif;
+  font-weight: $font-wight-semibold;
   justify-content: center;
   width: 174px;
   height: 32px;
   align-items: center;
+  .icon-side {
+    margin: 0 6px 0 0;
+  }
 }
 .maincontainer.sidetiny #compose {
   width: 54px;
@@ -1170,10 +1175,10 @@ a .ui-select-choises-row-inner {
   flex-direction: row;
 }
 .maincontainer.sidetiny .side-menu-item {
-  justify-content: center;
+  //justify-content: center;
 }
-.maincontainer.sidetiny .icon-side {
-  margin: 0;
+.maincontainer .icon-side {
+  margin-left: 26px;
 }
 .side-menu-item .item{
   display: flex;
@@ -1231,7 +1236,7 @@ a .ui-select-choises-row-inner {
   white-space: nowrap;
 }
 .side-menu-item a{
-  justify-content: center;
+  //justify-content: center;
 }
 
 .side-place-wrapper > div > div > .side-place {
@@ -1309,6 +1314,16 @@ a .ui-select-choises-row-inner {
   transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
   transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
 }
+.side-place-wrapper> div > div > .side-place > .side-place-item > .side-place-item-inner{
+  &.active {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    background-color: rgba(50,150,255,.2);
+  }
+  &.active:hover {
+    background-color: rgba(50,150,255,.4);
+  }
+}
 .side-place-name:hover{
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
@@ -1340,7 +1355,7 @@ a .ui-select-choises-row-inner {
   &::after{
     content: "";
     position: absolute;
-    left: 2px;
+    left: 10px;
     width: 40px;
     height: 40px;
     border-radius: 1000px;
@@ -1353,11 +1368,11 @@ a .ui-select-choises-row-inner {
   &::after{
     content: "";
     position: absolute;
-    left: 0;
+    left: 8px;
     width: 40px;
     height: 40px;
     border-radius: 1000px;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
     pointer-events: none;
   }
   img {
@@ -1369,11 +1384,11 @@ a .ui-select-choises-row-inner {
   &::after{
     content: "";
     position: absolute;
-    left: 4px;
+    left: 12px;
     width: 32px;
     height: 32px;
     border-radius: 1000px;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
     pointer-events: none;
   }
   img {
@@ -1384,28 +1399,30 @@ ul ul .side-place-item-image {
   &::after{
     content: "";
     position: absolute;
-    left: 10px;
+    left: 18px;
     width: 32px;
     height: 32px;
     border-radius: 1000px;
-    box-shadow: inset 0 0 0 1px $color-border;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
     pointer-events: none;
   }
   img {
     margin-right: 0;
   }
 }
+
 .side-place-name a {
   margin-left: 4px;
 }
 .side-place-item a {
-  color: rgb(71, 97, 82);
+  color: $color-hurricane;
   font-weight: $font-wight-regular;
 }
 .side-place-item-inner > a:first-child {
   flex-direction: row;
   display: inline-flex;
   min-width: 40px;
+  padding-left: 8px;
 }
 .side-place .side-place .side-place-item-inner > a:first-child {
   width: auto;
@@ -1458,14 +1475,14 @@ ul ul .side-place-item-image {
   padding: 0;
   display: inline-flex;
   //flex-direction: column-reverse;
-  justify-content: center;
   align-items: center;
   transition: .3s;
   & > div {
+    justify-content: center;
     padding: 0;
     transition: .1s;
-    img {
-      margin: 0;
+    & > img {
+      //margin-left: 22px;
       transition: .3s;
     }
   }
@@ -1474,11 +1491,15 @@ ul ul .side-place-item-image {
   }
 }
 .side-profile > div {
-  padding: 4px 0 4px 15px;
+  padding: 4px 0 4px 22px;
   height: 48px;
   align-items: center;
   justify-content: center;
   transition: .3s;
+  & > img {
+    //margin-left: 22px;
+    transition: .3s;
+  }
 }
 .side-profile>div:hover {
   transition-duration: 0.3s;
@@ -1510,7 +1531,7 @@ ul ul .side-place-item-image {
 .nst-container {
   background-color: $color-bg-nested;
   transition: .3s;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   width: 100%;
   //overflow-y: auto;

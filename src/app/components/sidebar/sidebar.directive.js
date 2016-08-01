@@ -12,7 +12,9 @@
       templateUrl: 'app/components/sidebar/sidebar.html',
       controller: 'SidebarController',
       controllerAs: 'ctlSidebar',
-      bindToController: true
+      bindToController: {
+        collapsed: '='
+      }
     };
   }
 })();

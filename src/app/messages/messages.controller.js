@@ -310,29 +310,49 @@
     };
 
     vm.recentScrollConf = {
+      axis: 'y',
       mouseWheel: {
         preventDefault: true
       }
     };
 
-    // FIXME: NEEDS REWRITE COMPLETELY
-    vm.bodyScrollConf = {
-      callbacks: {
-        whileScrolling:function(){
-          var t = -this.mcs.top;
-          $timeout(function () { $rootScope.navView = t > 55; });
 
-          //$('.nst-navbar').toggleClass('tiny', t > 55);
+      // FIXME: NEEDS REWRITE COMPLETELY
+      var tl = new TimelineLite({});
+      var cp = document.getElementById("cp1");
+      vm.bodyScrollConf = {
+        axis: 'xy',
+        callbacks: {
+          whileScrolling:function(){
+            var t = -this.mcs.top;
+            $timeout(function () { $rootScope.navView = t > 55; });
+            //console.log(tl);
+            tl.kill({y:true}, cp);
+            tl.add(TweenLite.to(cp, 0.5, {y: t, ease: Power2.easeOut, force3D:true}));
+            //tl.lagSmoothing(200, 20);
+            tl.play();
+            // $("#content-plus").stop().animate(
+            //   {marginTop:t}, {duration:1});
+            // TweenMax.to("#cp1", .001, {
+            //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
+            // });
+            //TweenMax.lagSmoothing(500, 33);
 
-          if ( t > 0) {
-            $("#content-plus").stop().css({
-              marginTop: t
-            });
-          } else if(t == 0){
-            $("#content-plus").stop().css({
-              marginTop: 0
-            });
-          }
+
+
+          //   var func = function () {
+          //     console.log(t);
+          //     $("#content-plus").animate(
+          //       {marginTop:t}, {duration:1, easing:"easeOutStrong"});
+          //   };
+          //   var debounced = _.debounce(func, 250, { 'maxWait': 1000 });
+          //   if ( t > 0) {
+          //     debounced();
+          //   } else if(t == 0){
+          //   $("#content-plus").stop().css({
+          //     marginTop: 0
+          //   });
+          // }
         },
         onTotalScroll:function () {
           vm.loadMore();
