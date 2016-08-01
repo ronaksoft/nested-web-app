@@ -45,14 +45,12 @@
         return;
       }
 
-      vm.isSendingComment = true;
-
       var body = extractCommentBody(e);
       if (body.length === 0) {
         return;
       }
 
-      vm.isSending = true;
+      vm.isSendingComment = true;
 
       NstSvcPostFactory.get(vm.post.id).then(function(post) {
         NstSvcCommentFactory.addComment(post, body).then(function (comment) {
