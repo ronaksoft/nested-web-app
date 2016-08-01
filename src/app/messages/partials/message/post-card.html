@@ -57,7 +57,7 @@
   </section>
 </div>
 <section class="post-card-comment">
-  <div  class="_df _fw comments-load" ng-if="ctlPostCard.post.commentsCount > 3">
+  <div  class="_df _fw comments-load" ng-if="ctlPostCard.post.commentsCount > ctlPostCard.post.comments.length">
     <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()">Older comments...</a>
     <a ng-if="ctlPostCard.commentBoardIsRolled == false" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()">Roll up</a>
   </div>

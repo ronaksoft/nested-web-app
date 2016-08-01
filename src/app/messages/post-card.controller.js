@@ -56,6 +56,15 @@
 
       NstSvcPostFactory.get(vm.post.id).then(function(post) {
         NstSvcCommentFactory.addComment(post, body).then(function (comment) {
+          console.log('adding a comment :',comment);
+          var added = post.addComment(comment);
+          if (added) {
+            // NstSvcPostStorage.set(post.id, post);
+            vm.commentBoardLimit++;
+            vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
+            vm.post.commentsCount++;
+          }
+
           e.currentTarget.value = '';
           vm.isSendingComment = false;
         }).catch(function (error) {
@@ -167,33 +176,33 @@
       });
     }
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(e) {
-      switch (e.detail.timeline_data.action) {
-        case NST_EVENT_ACTION.COMMENT_ADD:
-        var postId = e.detail.timeline_data.post_id.$oid;
-
-        if (vm.post.id == postId) {
-          var commentId = e.detail.timeline_data.comment_id.$oid;
-          NstSvcPostFactory.get(postId).then(function(post) {
-              NstSvcCommentFactory.getComment(commentId, postId).then(function (comment) {
-                  var result = post.addComment(comment);
-                  if (result) {
-                    NstSvcPostStorage.set(post.id, post);
-                    vm.commentBoardLimit = vm.commentBoardLimit + 1;
-                    vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
-                    vm.post.commentsCount++;
-                  }
-              }).catch(function (error) {
-                $log.debug(error);
-              });
-          }).catch(function(error) {
-            $log.debug(error);
-          });
-        }
-
-        break;
-      }
-    });
+    // NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(e) {
+    //   switch (e.detail.timeline_data.action) {
+    //     case NST_EVENT_ACTION.COMMENT_ADD:
+    //     var postId = e.detail.timeline_data.post_id.$oid;
+    //
+    //     if (vm.post.id == postId) {
+    //       var commentId = e.detail.timeline_data.comment_id.$oid;
+    //       NstSvcPostFactory.get(postId).then(function(post) {
+    //           NstSvcCommentFactory.getComment(commentId, postId).then(function (comment) {
+    //               var result = post.addComment(comment);
+    //               if (result) {
+    //                 // NstSvcPostStorage.set(post.id, post);
+    //                 vm.commentBoardLimit++;
+    //                 vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
+    //                 vm.post.commentsCount++;
+    //               }
+    //           }).catch(function (error) {
+    //             $log.debug(error);
+    //           });
+    //       }).catch(function(error) {
+    //         $log.debug(error);
+    //       });
+    //     }
+    //
+    //     break;
+    //   }
+    // });
 
     // initializing
     (function () {

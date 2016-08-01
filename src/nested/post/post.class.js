@@ -175,6 +175,7 @@
       var index = _.findIndex(this.comments, function (item) {
         return item.id === comment.id;
       });
+      console.log('comment index is : ', index);
       if (index === -1) {
         this.comments.push(comment);
         return true;
