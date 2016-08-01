@@ -27,6 +27,7 @@
     vm.showOlderComments = showOlderComments;
     vm.limitCommentBoard = limitCommentBoard;
     vm.canShowOlderComments = canShowOlderComments;
+    vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
 
 
 
@@ -138,7 +139,7 @@
     }
 
     function showOlderComments() {
-      if (vm.commentBoardIsRolled === true) {
+      if (vm.commentBoardIsRolled) {
         clearCommentBoardLimit();
       } else {
         loadMoreComments();
@@ -147,6 +148,10 @@
 
     function canShowOlderComments() {
       return vm.hasOlderComments || vm.commentBoardIsRolled === true;
+    }
+
+    function commentBoardNeedsRolling() {
+      return vm.commentBoardIsRolled === false;
     }
 
     function loadMoreComments() {
