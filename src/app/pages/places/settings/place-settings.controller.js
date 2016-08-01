@@ -7,18 +7,44 @@
 
   /** @ngInject */
   function PlaceSettingsController($location, $scope, $stateParams, $q, $uibModal,
-                                   UPLOAD_TYPE, PLACE_ACCESS,
-                                   NstSvcStore, NstSvcAuth,
-                                   NestedPlace) {
+                                   NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS,
+                                   NstSvcStore, NstSvcAuth, NstSvcPlaceFactory,
+                                   NstPlace) {
     var vm = this;
 
-    if (!NstSvcAuth.isInAuthorization()) {
-      $location.search({ back: $location.path() });
-      $location.path('/signin').replace();
-    }
+    /*****************************
+     *** Controller Properties ***
+     *****************************/
+
+    vm.model = {
+    };
+
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
+
+    /*****************************
+     *****  Controller Logic  ****
+     *****************************/
+
+    /*****************************
+     *****    State Methods   ****
+     *****************************/
+
+    /*****************************
+     *****    Fetch Methods   ****
+     *****************************/
+
+    /*****************************
+     *****     Map Methods    ****
+     *****************************/
+
+    /*****************************
+     *****    Other Methods   ****
+     *****************************/
 
     $scope.logo = null;
-    $scope.place = new NestedPlace();
+    $scope.place = new NstPlace();
 
     vm.actions = {
       'leave': {
@@ -31,7 +57,7 @@
 
     if ($stateParams.hasOwnProperty('placeId')) {
       $scope.place.load($stateParams.placeId).then(function (place) {
-        if (place.haveAccess(PLACE_ACCESS.REMOVE_PLACE)) {
+        if (place.haveAccess(NST_PLACE_ACCESS.REMOVE_PLACE)) {
           $scope.place_option.actions['delete'] = {
             name: 'Delete',
             fn: function () {
@@ -40,7 +66,7 @@
           };
         }
 
-        if (place.haveAccess(PLACE_ACCESS.ADD_PLACE)) {
+        if (place.haveAccess(NST_PLACE_ACCESS.ADD_PLACE)) {
           $scope.place_option.actions['add'] = {
             name: 'Add a Subplace',
             url: '#/create_place/' + place.id
@@ -65,7 +91,7 @@
           $scope.place.picture.x64.url = $scope.place.picture.org.url;
           $scope.place.picture.x128.url = $scope.place.picture.org.url;
 
-          return NstSvcStore.upload($scope.logo, UPLOAD_TYPE.PLACE_PICTURE).then(function (response) {
+          return NstSvcStore.upload($scope.logo, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE).then(function (response) {
             $scope.place.picture.org.uid = response.universal_id;
             $scope.logo = null;
 

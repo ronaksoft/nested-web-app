@@ -282,7 +282,7 @@
           NstSvcPostFactory.getMessage(postId).then(function(post) {
             if (!vm.currentPlaceId || post.belongsToPlace(vm.currentPlaceId)) {
               vm.cache.splice(0, 1, post);
-              vm.messages.splice(0, 1, mapMessage(post));
+              vm.messages.splice(0, 0, mapMessage(post));
             }
           }).catch(function(error) {
             $log.debug(error);
@@ -304,9 +304,6 @@
     vm.preventParentScroll = function(event) {
       var element = event.currentTarget;
       var delta = event.wheelDelta;
-      // console.log('element.scrollHeight', element.scrollHeight, 'element.clientHeight', element.clientHeight, 'delta', delta, 'element.scrollTop', element.scrollTop);
-      (element.scrollTop === (element.scrollHeight - element.clientHeight) && delta > 0) && console.log('To Bottom - Delta > 0', delta);
-      (element.scrollTop === 0 && delta < 0) && console.log('To Top - Delta < 0', delta);
       if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
         event.preventDefault();
       }

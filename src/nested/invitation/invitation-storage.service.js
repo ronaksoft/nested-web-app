@@ -6,6 +6,6 @@
 
   /** @ngInject */
   function NstSvcInvitationStorage(NST_STORAGE_TYPE, NstStorage) {
-    return new NstStorage(NST_STORAGE_TYPE.MEMORY);
+    return new NstStorage(NST_STORAGE_TYPE.MEMORY, 'invitation');
   }
 })();

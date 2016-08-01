@@ -50,7 +50,7 @@
         // TODO: Use UploaderId instead
         if (data.uploader) {
           promises.push(NstSvcUserFactory.getTiny(data.uploader).catch(function (error) {
-            
+
           }).then(function (user) {
             attachment.setUploader(user);
           }));
@@ -82,8 +82,10 @@
         }
 
         if (data.thumbs) {
-          var picture = new NstPicture(attachment.getId(), data.thumbs);
-          if (NST_FILE_TYPE.IMAGE != NstSvcFileType.getType(attachment.getMimeType())) {
+          var picture = new NstPicture(undefined, data.thumbs);
+          if (NST_FILE_TYPE.IMAGE == NstSvcFileType.getType(attachment.getMimeType())) {
+            picture.setId(attachment.getId());
+          } else if (picture.getLargestThumbnail()) {
             picture.setId(picture.getLargestThumbnail().getId());
           }
 

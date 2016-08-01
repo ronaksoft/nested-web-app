@@ -9,8 +9,8 @@
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,
                              ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
-                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType,
-                             NstStoreResource, NstTinyPlace, NstPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl) {
+                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
+                             NstTinyPlace, NstPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
 
     /*****************************
@@ -37,6 +37,7 @@
 
     vm.attachments = {
       elementId: 'attach',
+      viewModels: [],
       size: {
         uploaded: 0,
         total: 0
@@ -132,8 +133,11 @@
     vm.attachments.fileSelected = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {
-
+        vm.attachments.attach(files[i]).then(function (resolved) {
+          resolved.request.sent().then(function () {
+            vm.attachments.size.total += resolved.attachment.getSize();
+            vm.attachments.viewModels.push(NstSvcAttachmentMap.toUploadAttachmentItem(resolved.attachment));
+          });
         });
       }
     };
@@ -141,8 +145,11 @@
     vm.attachments.fileDropped = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {
-
+        vm.attachments.attach(files[i]).then(function (resolved) {
+          resolved.request.sent().then(function () {
+            vm.attachments.size.total += resolved.attachment.getSize();
+            vm.attachments.viewModels.push(NstSvcAttachmentMap.toUploadAttachmentItem(resolved.attachment));
+          });
         });
       }
     };
@@ -295,13 +302,16 @@
       }
 
       // Upload Attachment
-      // var request = NstSvcStore.uploadWithProgress(file, function (event) {
-      //
-      // });
-      var request = NstSvcStore.upload(file);
+      var request = NstSvcStore.uploadWithProgress(file, function (event) {
+        if (event.lengthComputable) {
+          $log.debug('Uploaded (', attachment.getFilename(), ')', Number((event.loaded / event.total) * 100).toFixed(2), '%');
+        }
+      });
       NstSvcLoader.inject(request.finished().then(function (response) {
         var deferred = $q.defer();
+        $log.debug('Upload Finished (', attachment.getFilename(), ')');
 
+        vm.attachments.size.total -= attachment.getSize();
         attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
         attachment.setId(response.data.universal_id);
         deferred.resolve(attachment);
@@ -354,7 +364,10 @@
       // }));
 
       $q.all(promises).then(function () {
-        deferred.resolve(request);
+        deferred.resolve({
+          attachment: attachment,
+          request: request
+        });
       });
 
       return deferred.promise;
@@ -379,7 +392,7 @@
       $log.debug('Compose | Model Modified? ', vm.model.modified);
 
       return vm.model.modified;
-    }
+    };
 
     // TODO: Call this while model is changed
     vm.model.check = function () {
@@ -574,6 +587,9 @@
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
               vm.model.body = post.getBody();
               vm.model.attachments = post.getAttachments();
+              for (var k in vm.model.attachments) {
+                vm.attachments.viewModels.push(NstSvcAttachmentMap.toAttachmentItem(vm.model.attachments[k]));
+              }
               vm.model.forwardedFrom = post;
             });
           }
