@@ -11,6 +11,7 @@
                              NstSvcLoader, NstSvcTry, NstSvcServer, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
+    console.log(vm.stat)
 
     /*****************************
      *** Controller Properties ***

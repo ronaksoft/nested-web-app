@@ -12,9 +12,8 @@
       templateUrl: 'app/components/sidebar/sidebar.html',
       controller: 'SidebarController',
       controllerAs: 'ctlSidebar',
-      bindToController: true,
-      scope: {
-        stat: '=stat'
+      bindToController: {
+        collapsed: '='
       }
     };
   }

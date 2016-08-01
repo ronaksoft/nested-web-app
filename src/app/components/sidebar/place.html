@@ -4,9 +4,9 @@
       <img class="account-initials-40" src="{{place.avatar}}"/>
     </div>
 
-    <span class="_fw fade-animation" ng-show="!sideView">{{place.name}}</span>
+    <span class="_fw fade-animation" ng-show="!ctlSidebar.collapsed">{{place.name}}</span>
   </a>
-  <span class="e2-arrow _df fade-animation" data-ng-if="place.children.length > 0 && !sideView">
+  <span class="e2-arrow _df fade-animation" data-ng-if="place.children.length > 0 && !ctlSidebar.collapsed">
     <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"
            data-ng-click="place.isCollapsed =! place.isCollapsed">
     </label>

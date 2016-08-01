@@ -4,17 +4,17 @@
       <img class="account-initials-32" src="{{place.avatar}}"/>
     </div>
 
-    <dl ng-show="!sideView" data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
+    <dl ng-show="!ctlSidebar.collapsed" data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
       <div class="box2"></div>
       <div class="box1"></div>
       <div class="box3"></div>
       <div class="box4"></div>
     </dl>
   </a>
-  <div class="_fw _fh side-place-name fade-animation" ng-show="!sideView">
-    <a href="{{place.url}}" class="_fw onlyExpand" ng-mouseenter="ctlSidebar.detectellipsis($event)">{{place.name}}</a>
+  <div class="_fw _fh side-place-name fade-animation" ng-show="!ctlSidebar.collapsed">
+    <a href="{{place.url}}" class="_fw" ng-mouseenter="ctlSidebar.detectellipsis($event)">{{place.name}}</a>
 
-    <span data-ng-if="place.children.length > 0" class="e2-arrow _df">
+    <span data-ng-if="place.children.length > 0 && !ctlSidebar.collapsed" class="e2-arrow _df">
       <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"
              data-ng-click="place.isCollapsed =! place.isCollapsed">
       </label>
