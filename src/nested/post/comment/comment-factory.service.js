@@ -102,7 +102,7 @@
      */
     function retrieveComments(post, settings) {
       var query = new NstFactoryQuery(post.id, {
-        skip: settings.skip,
+        date: settings.date,
         limit: settings.limit
       });
 
@@ -118,11 +118,9 @@
         });
 
         $q.all(allCommnets).then(function(commentItems) {
-          console.log('commentItems', commentItems);
             var comments = _.filter(commentItems, {
               'removed': false
             });
-            console.log('filtered comments', comments);
             post.addComments(comments);
             defer.resolve(comments);
           });
