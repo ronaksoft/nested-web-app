@@ -11,41 +11,19 @@
     var vm = this;
     var commentBoardMin = 3;
     var commentBoardMax = 99;
-
-    /*****************************
-     *** Controller Properties ***
-     *****************************/
-
-    vm.commentsBoardPreview = false;
-    vm.urls = {
-      reply_all: $state.href('compose-reply-all', {
-        postId: vm.post.id
-      }),
-      reply_sender: $state.href('compose-reply-sender', {
-        postId: vm.post.id
-      }),
-      forward: $state.href('compose-forward', {
-        postId: vm.post.id
-      })
-    };
-
     var commentsSettings = {
       limit : 8,
       date : null
     };
 
-    /*****************************
-     ***** Controller Methods ****
-     *****************************/
-
     vm.reply = reply;
-    vm.toggleCommentsBorad = toggleCommentsBorad;
     vm.sendComment = sendComment;
     vm.attachmentClick = attachmentClick;
 
-    vm.commentBoardLimit = commentBoardMin;
     vm.hasOlderComments = true;
     vm.commentBoardIsRolled = null;
+    vm.isSendingComment = false;
+    vm.commentBoardLimit = commentBoardMin;
     vm.showOlderComments = showOlderComments;
     vm.limitCommentBoard = limitCommentBoard;
     vm.canShowOlderComments = canShowOlderComments;
@@ -55,10 +33,6 @@
 
     function reply() {
       $debug.log('Is not implemented yet!')
-    }
-
-    function toggleCommentsBorad() {
-      vm.commentsBoardPreview = !vm.commentsBoardPreview;
     }
 
     /**
@@ -71,6 +45,8 @@
         return;
       }
 
+      vm.isSendingComment = true;
+
       var body = extractCommentBody(e);
       if (body.length === 0) {
         return;
@@ -81,11 +57,12 @@
       NstSvcPostFactory.get(vm.post.id).then(function(post) {
         NstSvcCommentFactory.addComment(post, body).then(function (comment) {
           e.currentTarget.value = '';
-          vm.isSending = false;
+          vm.isSendingComment = false;
         }).catch(function (error) {
           $log.debug(error);
         });
       }).catch(function (error) {
+        vm.isSendingComment = false;
         $log.debug(error);
       });
 
@@ -141,9 +118,16 @@
 
     function getDateOfOldestComment(post) {
       var oldest = findOldestComment(post);
-      var date = oldest ? oldest.date : post.date;
+      var date = null;
+      if (oldest) {
+        date = oldest.date;
+        console.log('reading date from oldest comment', oldest);
+      } else {
+        console.log('reading comment from post date');
+        date = post.date;
+      }
 
-      return date.subtract(1, 'ms').format('x');
+      return date.subtract(1, 'ms').valueOf();
     }
 
     function showOlderComments() {
@@ -162,13 +146,11 @@
       var date = getDateOfOldestComment(vm.post);
 
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
-        console.log('post is : ', post);
         return NstSvcCommentFactory.retrieveComments(post, {
           date : date,
           limit : commentsSettings.limit
         });
       }).then(function (comments) {
-        console.log('new comments are :', comments);
 
         if (comments.length < commentsSettings.limit) {
           vm.hasOlderComments = false;
@@ -199,6 +181,7 @@
                     NstSvcPostStorage.set(post.id, post);
                     vm.commentBoardLimit = vm.commentBoardLimit + 1;
                     vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
+                    vm.post.commentsCount++;
                   }
               }).catch(function (error) {
                 $log.debug(error);
@@ -211,6 +194,28 @@
         break;
       }
     });
+
+    // initializing
+    (function () {
+      if (vm.post.commentsCount > vm.post.comments.length) {
+        vm.hasOlderComments = true;
+      } else {
+        vm.hasOlderComments = false;
+      }
+
+      vm.urls = {
+        reply_all: $state.href('compose-reply-all', {
+          postId: vm.post.id
+        }),
+        reply_sender: $state.href('compose-reply-sender', {
+          postId: vm.post.id
+        }),
+        forward: $state.href('compose-forward', {
+          postId: vm.post.id
+        })
+      };
+    })();
+
   }
 
 })();
