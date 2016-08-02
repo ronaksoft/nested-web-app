@@ -561,8 +561,6 @@
           parent = this.parseTinyPlace({
             _id: placeData.parent_id
           });
-
-          // TODO: Push into factory
         }
 
         place.setParent(parent);
@@ -574,8 +572,6 @@
           grandParent = this.parseTinyPlace({
             _id: placeData.grand_parent_id
           });
-
-          // TODO: Push into factory
         }
 
         place.setGrandParent(grandParent);
@@ -625,8 +621,6 @@
           parent = this.parseTinyPlace({
             _id: placeData.parent_id
           });
-
-          // TODO: Push into factory
         }
 
         place.setParent(parent);
@@ -638,8 +632,6 @@
           grandParent = this.parseTinyPlace({
             _id: placeData.grand_parent_id
           });
-
-          // TODO: Push into factory
         }
 
         place.setGrandParent(grandParent);
@@ -672,8 +664,8 @@
           search: placeData.privacy.search
         });
       }
-
-      // Push Place Access to SvcAuth
+      
+      NstSvcAuth.setAccess(place.getId(), placeData.access);
 
       return place;
     };

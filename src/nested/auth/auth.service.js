@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcAuth($cookies, $q, $log,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE,
-                      NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage,
+                      NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceAccessStorage, NstSvcPlaceRoleStorage,
                       NstObservableObject) {
     function Auth(userData) {
       var service = this;
@@ -201,20 +201,67 @@
       return NST_AUTH_STATE.UNAUTHORIZED == this.getState();
     };
 
+    Auth.prototype.setRole = function (placeId, role) {
+      NstSvcPlaceRoleStorage.set(placeId, role);
+    };
+
+    Auth.prototype.getRole = function (placeId, forceRequest) {
+      var deferred = $q.defer();
+
+      var placeRole = NstSvcPlaceRoleStorage.get(placeId);
+      if (placeRole && !forceRequest) {
+        deferred.resolve(placeRole);
+      } else {
+        // TODO: Implement Request
+        deferred.reject('');
+      }
+
+      return deferred.promise;
+    };
+
+    Auth.prototype.setAccess = function (placeId, access) {
+      return NstSvcPlaceAccessStorage.set(placeId, access);
+    };
+
+    Auth.prototype.getAccess = function (placeId, forceRequest) {
+      var deferred = $q.defer();
+
+      var placeAccess = NstSvcPlaceAccessStorage.get(placeId);
+      if (placeAccess && !forceRequest) {
+        deferred.resolve(placeAccess);
+      } else {
+        // FIXME: Not Sure About Command
+        NstSvcServer.request('place/get_access', { place_id: placeId }).then(function (response) {
+          deferred.resolve(response.access);
+        });
+      }
+
+      return deferred.promise;
+    };
+
     /**
      *
      * @param placeId
-     * @param permissions
+     * @param supAccess
+     * @param forceRequest
      *
      * @return {Boolean}
      */
-    Auth.prototype.haveAccess = function (placeId, permissions) {
-      permissions = angular.isArray(permissions) ? permissions : [permissions];
+    Auth.prototype.haveAccess = function (placeId, supAccess, forceRequest) {
+      supAccess = angular.isArray(supAccess) ? supAccess : [supAccess];
 
-      // TODO: Get from UserPlaceAccessFactory
+      this.getAccess(placeId, forceRequest).then(function (actAccess) {
+        var deferred = $q.defer();
 
-      return $q(function (resolve, reject) {
-        resolve(true);
+        // FIXME: Not Sure About Comparison
+        var difference = _.difference(supAccess, actAccess);
+        if (0 == difference.length) {
+          deferred.resolve(true);
+        } else {
+          deferred.reject(difference);
+        }
+
+        return deferred.promise;
       });
     };
 
