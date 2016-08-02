@@ -6,7 +6,7 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($location, $scope, $stateParams, $q, $uibModal,
+  function PlaceSettingsController($location, $scope, $stateParams, $q, $uibModal, $log,
                                    NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS,
                                    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory,
                                    NstPlace) {
@@ -16,35 +16,35 @@
      *** Controller Properties ***
      *****************************/
 
-    vm.model = {
-    };
 
-    /*****************************
-     ***** Controller Methods ****
-     *****************************/
+    (function () {
+      vm.place = {};
+      vm.placeId = $stateParams.placeId;
+      NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
+        console.log(place);
+        vm.place = place;
 
-    /*****************************
-     *****  Controller Logic  ****
-     *****************************/
+        return $q.all([
+          NstSvcPlaceFactory.getMembers(vm.placeId),
+          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
+          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
+          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
+          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS)
+        ]);
+      }).then(function (values) {
+        vm.members = values[0];
+        vm.hasRemoveAccess = values[1];
+        vm.hasAddPlaceAccess = values[2];
+        vm.hasControlAccess = values[3];
+        vm.hasAddMembersAccess = values[4];
+        vm.hasSeeMembersAccess = values[5];
 
-    /*****************************
-     *****    State Methods   ****
-     *****************************/
-
-    /*****************************
-     *****    Fetch Methods   ****
-     *****************************/
-
-    /*****************************
-     *****     Map Methods    ****
-     *****************************/
-
-    /*****************************
-     *****    Other Methods   ****
-     *****************************/
-
-    $scope.logo = null;
-    $scope.place = new NstPlace();
+        console.log(vm);
+      }).catch(function (error) {
+        $log.debug(error);
+      });
+    })();
 
     vm.actions = {
       'leave': {
@@ -55,28 +55,28 @@
       }
     };
 
-    if ($stateParams.hasOwnProperty('placeId')) {
-      $scope.place.load($stateParams.placeId).then(function (place) {
-        if (place.haveAccess(NST_PLACE_ACCESS.REMOVE_PLACE)) {
-          $scope.place_option.actions['delete'] = {
-            name: 'Delete',
-            fn: function () {
-              vm.showDeleteModal()
-            }
-          };
-        }
-
-        if (place.haveAccess(NST_PLACE_ACCESS.ADD_PLACE)) {
-          $scope.place_option.actions['add'] = {
-            name: 'Add a Subplace',
-            url: '#/create_place/' + place.id
-          };
-        }
-      });
-      $scope.place.loadAllMembers();
-    } else {
-      $location.path('/places').replace();
-    }
+    // if ($stateParams.hasOwnProperty('placeId')) {
+    //   $scope.place.load($stateParams.placeId).then(function (place) {
+    //     if (place.haveAccess(NST_PLACE_ACCESS.REMOVE_PLACE)) {
+    //       $scope.place_option.actions['delete'] = {
+    //         name: 'Delete',
+    //         fn: function () {
+    //           vm.showDeleteModal()
+    //         }
+    //       };
+    //     }
+    //
+    //     if (place.haveAccess(NST_PLACE_ACCESS.ADD_PLACE)) {
+    //       $scope.place_option.actions['add'] = {
+    //         name: 'Add a Subplace',
+    //         url: '#/create_place/' + place.id
+    //       };
+    //     }
+    //   });
+    //   $scope.place.loadAllMembers();
+    // } else {
+    //   $location.path('/places').replace();
+    // }
 
     vm.imgToUri = function (event) {
       var element = event.currentTarget;
@@ -229,5 +229,44 @@
       });
     };
 
+    function remove() {
+      var defer = $q.defer();
+
+      return NstSvcPlaceFactory.remove(vm.place.id).then(function () {
+        defer.resolve(true);
+      }).catch(function (error) {
+        $log.debug(error);
+        defer.reject(false);
+      });
+
+      return defer.promise;
+    }
+
+    function removeMember(username) {
+      var defer = $q.defer();
+
+      return NstSvcPlaceFactory.removeMember(vm.place.id, username).then(function () {
+        defer.resolve(true);
+      }).catch(function (error) {
+        $log.debug(error);
+        defer.reject(false);
+      });
+
+      return defer.promise;
+    }
+
+    function update(property, value) {
+      var defer = $q.defer();
+
+      vm.place[property] = value;
+      return NstSvcPlaceFactory.update(vm.place).then(function () {
+        defer.resolve(true);
+      }).catch(function (error) {
+        $log.debug(error);
+        defer.reject(false);
+      });
+
+      return defer.promise;
+    }
   }
 })();

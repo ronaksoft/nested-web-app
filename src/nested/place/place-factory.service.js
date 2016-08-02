@@ -5,9 +5,9 @@
     .module('nested')
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
-  function NstSvcPlaceFactory($q,
+  function NstSvcPlaceFactory($q, $log,
                               NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT,
-                              NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage,
+                              NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory,
                               NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace) {
     function PlaceFactory() {
       var factory = this;
@@ -692,6 +692,52 @@
         role: role
       });
     };
+
+    PlaceFactory.prototype.removeMember = function (placeId, memberId) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('place/remove_member', {
+        place_id: placeId,
+        member_id: memberId
+      }).then(function (isRemoved) {
+
+      }).catch(function (error) {
+
+      });
+
+      return defer.promise;
+    };
+
+    PlaceFactory.prototype.getMembers = function (placeId) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('place/get_members', {
+        place_id: placeId
+      }).then(function (data) {
+        defer.resolve({
+          creators : _.map(data.creators, NstSvcUserFactory.parseUser),
+          keyHolders : _.map(data.key_holders, NstSvcUserFactory.parseUser),
+          knownGuests : _.map(data.known_guests, NstSvcUserFactory.parseUser),
+        });
+
+        $log.debug(data);
+      }).catch(function (error) {
+        $log.debug(error);
+      });
+
+      return defer.promise;
+    };
+
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+      NstSvcMyPlaceIdStorage.flush();
+    });
+
+    // NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
+    //   var invitation = event.detail.invitation;
+    //
+    //   console.log('Place Factory | Invitation Accepted: ', invitation);
+    // });
+
 
     return new PlaceFactory();
   }
