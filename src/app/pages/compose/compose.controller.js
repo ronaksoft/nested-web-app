@@ -692,12 +692,12 @@
           }
 
           return deferred.promise;
-        })
+        });
       }));
     }
 
     function getPost(id) {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPostFactory.get(id) }));
+      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPostFactory.get(id); }));
     }
 
     /*****************************
