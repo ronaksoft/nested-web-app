@@ -7,14 +7,31 @@
 
   /** @ngInject */
   function NstSvcInvitationFactory($q,
-                                   NST_SRV_ERROR, NST_INVITATION_FACTORY_EVENT,
+                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory,
                                    NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation) {
     function InvitationFactory() {
+      var factory = this;
+
       this.requests = {
         get: {},
         decide: {}
       };
+
+      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
+        var tlData = event.detail.timeline_data;
+
+        switch (tlData.action) {
+          case NST_EVENT_ACTION.MEMBER_INVITE:
+            factory.get(tlData.invite_id.$oid).then(function (invitation) {
+              factory.dispatchEvent(new CustomEvent(
+                NST_INVITATION_FACTORY_EVENT.ADD,
+                { detail: { id: invitation.getId(), invitation: invitation } }
+              ));
+            });
+            break;
+        }
+      });
     }
 
     InvitationFactory.prototype = new NstObservableObject();

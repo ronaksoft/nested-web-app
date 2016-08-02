@@ -7,8 +7,9 @@
 
   /** @ngInject */
   function SidebarController($q, $state, $stateParams, $uibModal, $log,
-                             NST_AUTH_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
-                             NstSvcLoader, NstSvcTry, NstSvcServer, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                             _,
+                             NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS,
+                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
     $log.debug(vm.stat);
@@ -246,24 +247,51 @@
      *****    Other Methods   ****
      *****************************/
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
-      switch (event.detail.timeline_data.action) {
-        case NST_EVENT_ACTION.MEMBER_INVITE:
-          getInvitation(event.detail.timeline_data.invite_id.$oid).then(pushInvitation);
-          break;
+    NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ADD, function (event) {
+      pushInvitation(event.detail.invitation);
+    });
 
-        case NST_EVENT_ACTION.MEMBER_REMOVE:
-          break;
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
+      var vmPlace = _.find(vm.places, { id: event.detail.id });
 
-        case NST_EVENT_ACTION.PLACE_ADD:
-          break;
-
-        case NST_EVENT_ACTION.PLACE_REMOVE:
-          break;
-
-        case NST_EVENT_ACTION.PLACE_PICTURE:
-          break;
+      if (!vmPlace) {
+        // TODO: Highlight Place
+        vm.places.push(mapPlace(event.detail.place));
       }
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
+      var place = event.detail.place;
+      var parentPlace = event.detail.parentPlace;
+      var parentPlacesIds = String(parentPlace.getId()).split(NST_DELIMITERS.PLACE_ID);
+      var collection = vm.places;
+      var lastVisibleVmPlace = undefined;
+
+      for (var k in parentPlacesIds) {
+        var ptrVmPlaceId = parentPlacesIds.slice(0, k + 1);
+        var ptrVmPlace = _.find(collection, { id: ptrVmPlaceId });
+        if (ptrVmPlace) {
+          if (!lastVisibleVmPlace) {
+            lastVisibleVmPlace = ptrVmPlace;
+          } else {
+            // TODO: ??
+          }
+
+          if (ptrVmPlaceId == parentPlace.id) {
+            // TODO: Highlight last not-collapsed ancestor: lastVisibleVmPlace
+            ptrVmPlace.children.push(mapPlace(place));
+            break;
+          }
+
+          collection = ptrVmPlace.children;
+        } else {
+          return;
+        }
+      }
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
+
     });
   }
 })();

@@ -9,7 +9,7 @@
                                    _,
                                    NST_FILE_TYPE,
                                    NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcFileType, NstSvcDownloadTokenStorage,
-                                   NstAttachment, NstPicture, NstStoreResource, NstFactoryError, NstFactoryQuery) {
+                                   NstAttachment, NstPicture, NstStoreResource, NstStoreToken, NstFactoryError, NstFactoryQuery) {
 
     var uploadTokenKey = 'default-upload-token';
 
@@ -21,6 +21,7 @@
       load: load,
       remove: remove,
       getDownloadUrl : getDownloadUrl,
+      getDownloadToken: getDownloadToken,
       createAttachmentModel : createAttachmentModel
     };
 
@@ -112,7 +113,10 @@
       var token = NstSvcDownloadTokenStorage.get(tokenKey);
       if (!token || token.isExpired()) { // then if the token exists then remove it and get a new token
         NstSvcDownloadTokenStorage.remove(tokenKey);
-        requestNewDownloadToken(postId, attachmentId).then(defer.resolve).catch(defer.reject);
+        requestNewDownloadToken(postId, attachmentId).then(function (token) {
+          NstSvcDownloadTokenStorage.set(tokenKey, token);
+          defer.resolve(token);
+        }).catch(defer.reject);
       } else { // current token is still valid and resolve it
         defer.resolve(token);
       }
@@ -125,10 +129,9 @@
 
       NstSvcServer.request('store/get_download_token', {
         post_id: postId,
-        universal_id: universalId
+        universal_id: attachmentId
       }).then(function(data) {
         var token = createToken(data.token);
-        NstSvcDownloadTokenStorage.set(tokenKey, token);
         defer.resolve(token);
       }).catch(function(error) {
         var query = new NstFactoryQuery(attachmentId, { postId: postId });

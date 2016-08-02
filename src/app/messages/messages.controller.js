@@ -276,11 +276,7 @@
     function readSettingItem(key) {
       var value = NstSvcMessagesSettingStorage.get(key);
 
-      if (value === 'hide') {
-        return false;
-      }
-
-      return true;
+      return 'hide' !== value;
     }
 
     function setSettingItem(key, bool) {
@@ -300,6 +296,7 @@
             $log.debug(error);
           });
           break;
+
         case NST_EVENT_ACTION.POST_REMOVE:
           var postId = e.detail.timeline_data.post_id.$oid;
           var messageIndex = _.findIndex(vm.messages, {
