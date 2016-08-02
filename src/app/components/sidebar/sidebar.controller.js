@@ -51,6 +51,7 @@
 
     vm.invitation.showModal = function (id) {
       NstSvcInvitationFactory.get(id).then(function (invitation) {
+        // Show User the invitation Decide Modal
         $uibModal.open({
           animation: false,
           size: 'sm',
@@ -69,7 +70,7 @@
             }
           }
 
-          if (result) {
+          if (result) { // Accept the Invitation
             return vm.invitation.accept(id).then(function (invitation) {
               var vmPlace = _.find(vm.places, { id: invitation.getPlace().getId() });
 
@@ -81,7 +82,7 @@
 
               $state.go(vmPlace.url);
             });
-          } else {
+          } else { // Decline the Invitation
             return vm.invitation.decline(id);
           }
         });
@@ -257,6 +258,17 @@
 
     NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ADD, function (event) {
       pushInvitation(event.detail.invitation);
+    });
+
+    NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
+      var invitation = event.detail.invitation;
+
+      for (var k in vm.invitations) {
+        if (invitation.getId() == vm.invitations[k].id) {
+          vm.invitations.splice(k, 1);
+          return;
+        }
+      }
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
