@@ -70,8 +70,13 @@
           }
 
           if (result) {
-            return vm.invitation.accept(id).then(function () {
-              // TODO: Add to my-place-ids storage (Not directly. Do it via Factory)
+            return vm.invitation.accept(id).then(function (invitation) {
+              var vmPlace = _.find(vm.places, { id: invitation.getPlace().getId() });
+
+              if (!vmPlace) {
+                // TODO: Highlight Newly Added Place
+                vm.places.push(mapPlace(invitation.getPlace()));
+              }
             });
           } else {
             return vm.invitation.decline(id);
@@ -255,7 +260,7 @@
       var vmPlace = _.find(vm.places, { id: event.detail.id });
 
       if (!vmPlace) {
-        // TODO: Highlight Place
+        // TODO: Highlight Newly Added Place
         vm.places.push(mapPlace(event.detail.place));
       }
     });
