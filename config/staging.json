@@ -10,11 +10,6 @@
     },
     "PIONEER_INVITATION": {
       "URL": "http://x.nested.me/send_invite.php"
-    },
-    "REGISTER" : {
-      "AJAX" : {
-        "URL" : "http://api.nested.me"
-      }
     }
   }
 }
