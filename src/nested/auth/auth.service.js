@@ -205,6 +205,10 @@
       permissions = angular.isArray(permissions) ? permissions : [permissions];
 
       // TODO: Get from UserPlaceAccessFactory
+
+      return $q(function (resolve, reject) {
+        resolve(true);
+      });
     };
 
     // Cache Implementation
