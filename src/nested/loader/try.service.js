@@ -18,8 +18,8 @@
       delay = delay || 0;
       max = max || -1;
       tries = tries || 0;
-
-      return method.call(null).catch(function () {
+      
+      return method.apply(null).catch(function () {
         var reasons = arguments;
 
         return $timeout(delay).then(function () {

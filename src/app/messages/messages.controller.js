@@ -141,8 +141,13 @@
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
 
       return NstSvcLoader.inject(NstSvcTry.do(function () {
-        loadMessages().catch(function (error) {
-          $log.debug(error)
+        return loadMessages().catch(function (error) {
+          var deferred = $q.defer();
+
+          $log.debug('Messages | Load More Error: ', error);
+          deferred.reject.apply(null, arguments);
+
+          return deferred.promise;
         });
       }));
     }
