@@ -52,6 +52,7 @@
             break;
 
           case NST_EVENT_ACTION.PLACE_REMOVE:
+            // TODO: Check for Place_Id/Child_Id
             factory.dispatchEvent(new CustomEvent(
               NST_PLACE_FACTORY_EVENT.REMOVE,
               { detail: { id: tlData.place_id } }
