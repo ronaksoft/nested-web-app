@@ -6,10 +6,12 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q,
-                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_AUTH_EVENT,
+                              NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT,
                               NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage,
-                              NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace) {
+                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace) {
     function PlaceFactory() {
+      var factory = this;
+
       this.requests = {
         get: {},
         getTiny: {},
@@ -17,9 +19,67 @@
         getMyTiny: undefined,
         remove: {}
       };
+
+      NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+        NstSvcMyPlaceIdStorage.flush();
+      });
+
+      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
+        var tlData = event.detail.timeline_data;
+
+        // TODO: Do I have to handle member_add/member_remove too?
+
+        switch (tlData.action) {
+          case NST_EVENT_ACTION.PLACE_ADD:
+            var isGrandPlace = tlData.place_id && !tlData.child_id;
+            var isSubPlace = tlData.place_id && tlData.child_id;
+
+            if (isGrandPlace) {
+              factory.getTiny(tlData.place_id).then(function (place) {
+                factory.dispatchEvent(new CustomEvent(
+                  NST_PLACE_FACTORY_EVENT.ROOT_ADD,
+                  { detail: { id: place.getId(), place: place } }
+                ));
+              });
+            } else if (isSubPlace) {
+              $q.all([factory.getTiny(tlData.place_id), factory.getTiny(tlData.child_id)]).then(function (parentPlace, place) {
+                factory.dispatchEvent(new CustomEvent(
+                  NST_PLACE_FACTORY_EVENT.SUB_ADD,
+                  { detail: { id: place.getId(), place: place, parentPlace: parentPlace } }
+                ));
+              });
+            }
+            break;
+
+          case NST_EVENT_ACTION.PLACE_REMOVE:
+            factory.dispatchEvent(new CustomEvent(
+              NST_PLACE_FACTORY_EVENT.REMOVE,
+              { detail: { id: tlData.place_id } }
+            ));
+            break;
+
+          case NST_EVENT_ACTION.PLACE_PRIVACY:
+            this.get(tlData.place_id).then(function (place) {
+              factory.dispatchEvent(new CustomEvent(
+                NST_PLACE_FACTORY_EVENT.PRIVACY_CHANGED,
+                { detail: { id: place.getId(), place: place } }
+              ));
+            });
+            break;
+
+          case NST_EVENT_ACTION.PLACE_PICTURE:
+            this.getTiny(tlData.place_id).then(function (place) {
+              factory.dispatchEvent(new CustomEvent(
+                NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE,
+                { detail: { id: place.getId(), place: place } }
+              ));
+            });
+            break;
+        }
+      });
     }
 
-    PlaceFactory.prototype = {};
+    PlaceFactory.prototype = new NstObservableObject();
     PlaceFactory.prototype.constructor = PlaceFactory;
 
     PlaceFactory.prototype.has = function (id) {
@@ -357,6 +417,25 @@
       return this;
     };
 
+    PlaceFactory.prototype.addToMyPlaceIds = function (placeId) {
+      var factory = this;
+      var fullPlaceIds = NstSvcMyPlaceIdStorage.get('all');
+      var tinyPlaceIds = NstSvcMyPlaceIdStorage.get('tiny');
+
+      fullPlaceIds.push(placeId);
+      tinyPlaceIds.push(placeId);
+
+      NstSvcMyPlaceIdStorage.set('all', fullPlaceIds);
+      NstSvcMyPlaceIdStorage.set('tiny', tinyPlaceIds);
+
+      return this.getTiny(placeId).then(function (place) {
+        this.dispatchEvent(new CustomEvent(
+          NST_PLACE_FACTORY_EVENT.ROOT_ADD,
+          { detail: { id: placeId, place: place } }
+        ));
+      });
+    };
+
     PlaceFactory.prototype.save = function (place) {
       var factory = this;
 
@@ -612,16 +691,6 @@
         role: role
       });
     };
-
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
-      NstSvcMyPlaceIdStorage.flush();
-    });
-
-    // NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
-    //   var invitation = event.detail.invitation;
-    //
-    //   console.log('Place Factory | Invitation Accepted: ', invitation);
-    // });
 
     return new PlaceFactory();
   }

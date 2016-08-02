@@ -201,6 +201,13 @@
       return NST_AUTH_STATE.UNAUTHORIZED == this.getState();
     };
 
+    /**
+     *
+     * @param placeId
+     * @param permissions
+     *
+     * @return {Boolean}
+     */
     Auth.prototype.haveAccess = function (placeId, permissions) {
       permissions = angular.isArray(permissions) ? permissions : [permissions];
 

@@ -7,8 +7,8 @@
 
   /** @ngInject */
   function SidebarController($q, $state, $stateParams, $uibModal, $log,
-                             NST_AUTH_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
-                             NstSvcLoader, NstSvcTry, NstSvcServer, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                             NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT,
+                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
     $log.debug(vm.stat);
@@ -246,24 +246,20 @@
      *****    Other Methods   ****
      *****************************/
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
-      switch (event.detail.timeline_data.action) {
-        case NST_EVENT_ACTION.MEMBER_INVITE:
-          getInvitation(event.detail.timeline_data.invite_id.$oid).then(pushInvitation);
-          break;
+    NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ADD, function (event) {
+      pushInvitation(event.detail.invitation);
+    });
 
-        case NST_EVENT_ACTION.MEMBER_REMOVE:
-          break;
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
+      // TODO: Add Place to ROOT of Sidebar
+    });
 
-        case NST_EVENT_ACTION.PLACE_ADD:
-          break;
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
+      // TODO: Add Place to Sidebar
+    });
 
-        case NST_EVENT_ACTION.PLACE_REMOVE:
-          break;
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
 
-        case NST_EVENT_ACTION.PLACE_PICTURE:
-          break;
-      }
     });
   }
 })();

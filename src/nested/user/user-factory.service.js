@@ -7,7 +7,7 @@
 
   function NstSvcUserFactory($q,
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
-                             NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser) {
+                             NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser) {
     function UserFactory() {
       this.requests = {
         get: {},
@@ -16,7 +16,7 @@
       };
     }
 
-    UserFactory.prototype = {};
+    UserFactory.prototype = new NstObservableObject();
     UserFactory.prototype.constructor = UserFactory;
 
     UserFactory.prototype.has = function (id) {

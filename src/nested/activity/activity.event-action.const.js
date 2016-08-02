@@ -25,5 +25,4 @@
       ACCOUNT_LOGIN: 8192,
       ACCOUNT_PICTURE: 16384
     });
-
 })();
