@@ -51,7 +51,9 @@
        ******************/
 
       (function() {
+        console.log('initializng');
         if (placeIdParamIsValid($stateParams.placeId)) {
+          console.log('place id is valid');
           vm.activitySettings.placeId = $stateParams.placeId;
         } else {
           vm.activitySettings.placeId = null;
@@ -65,6 +67,7 @@
 
         generateUrls();
 
+        console.log('setting place...');
         setPlace(vm.activitySettings.placeId).then(function(placeFound) {
           // return $q.all([loadActivities(), loadInvitations()]);
           return $q.all([loadActivities()]);

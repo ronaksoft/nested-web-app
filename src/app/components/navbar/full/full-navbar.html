@@ -16,7 +16,7 @@
         <div class="title-bar _difh _fw" ng-if="true">
           <div class="logo-bar _df">
             <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
-            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" src="{{ctlFullNavbar.getPlacePicture()}}"/>
+            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.getPlacePicture()}}"/>
           </div>
           <div class="name _fw _difv _jcc">
             <a class="_df _tr">{{ctlFullNavbar.getPlaceName()}}</a>
@@ -33,13 +33,13 @@
           </div>
 
           <div class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isMessages ? 'active' : null">
-            <a href="{{ctlFullNavbar.urls.messages}}">Messages{{ctlApp.page.isActivity}}</a>
+            <a href="{{ctlFullNavbar.getMessagesUrl()}}">Messages{{ctlApp.page.isActivity}}</a>
           </div>
           <div class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isActivity ? 'active' : null">
-            <a href="{{ctlFullNavbar.urls.activity}}">Activity</a>
+            <a href="{{ctlFullNavbar.getActivityUrl()}}">Activity</a>
           </div>
           <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isPlaceSettings ? 'active' : null">
-            <a href="{{ctlFullNavbar.urls.settings}}">Settings</a>
+            <a href="{{ctlFullNavbar.getSettingsUrl()}}">Settings</a>
           </div>
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">
