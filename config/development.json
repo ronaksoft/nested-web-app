@@ -2,11 +2,11 @@
   "NST_CONFIG": {
     "APP_ID": "web-dev-{{BUILD}}",
     "WEBSOCKET": {
-      "URL": "wss://dev.cyrus.nested.me:443",
+      "URL": "ws://cyrus.nested.ronaksoftware.com",
       "TIMEOUT": 5000
     },
     "STORE": {
-      "URL": "http://dev.xerxes.nested.me"
+      "URL": "http://xerxes.nested.ronaksoftware.com"
     },
     "PIONEER_INVITATION": {
       "URL": "http://x.nested.me/send_invite.php"
