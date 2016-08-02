@@ -9,9 +9,11 @@
   function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, $timeout) {
     var vm = this;
     // $scope.$watch('place', function (newValue, oldValue) {
-    //   // if (oldValue !== newValue) {
-    //   //   vm.place = newValue;
-    //   // }
+    //   console.log('place value is : ', newValue);
+    //   if (oldValue !== newValue) {
+    //     vm.place = newValue;
+    //     generateUrls();
+    //   }
     // });
 
     /*****************************
@@ -19,17 +21,15 @@
      *****************************/
 
     vm.user = NstSvcAuth.getUser();
-    vm.urls = {
-      messages : '',
-      activity : '',
-      settings : ''
-    };
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
     vm.getPlaceName = getPlaceName;
     vm.getPlacePicture = getPlacePicture;
+    vm.getMessagesUrl = getMessagesUrl;
+    vm.getActivityUrl = getActivityUrl;
+    vm.getSettingsUrl = getSettingsUrl;
 
-    generateUrls();
+    // generateUrls();
 
     $scope.srch = function srch() {
       for (var i = 0; i < arguments.length; i++) {
@@ -60,15 +60,26 @@
       return vm.place && vm.place.id;
     }
 
-    function generateUrls() {
+
+    function getMessagesUrl() {
       if (hasPlace()) {
-        vm.urls.messages = $state.href('place-messages', { placeId : vm.getPlaceId() });
-        vm.urls.activity = $state.href('place-activity', { placeId : vm.getPlaceId() });
-        vm.urls.settings = $state.href('place-settings', { placeId : vm.getPlaceId() });
+        return $state.href('place-messages', { placeId : vm.getPlaceId() });
       } else {
-        vm.urls.messages = $state.href('messages');
-        vm.urls.activity = $state.href('activity');
-        vm.urls.settings = '';
+        return $state.href('messages');
+      }
+    }
+    function getActivityUrl() {
+      if (hasPlace()) {
+        return $state.href('place-activity', { placeId : vm.getPlaceId() });
+      } else {
+        return $state.href('activity');
+      }
+    }
+    function getSettingsUrl() {
+      if (hasPlace()) {
+        return $state.href('place-settings', { placeId : vm.getPlaceId() });
+      } else {
+        return '';
       }
     }
 
