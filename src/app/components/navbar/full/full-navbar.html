@@ -16,7 +16,7 @@
         <div class="title-bar _difh _fw" ng-if="true">
           <div class="logo-bar _df">
             <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
-            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" src="{{ctlFullNavbar.getPlacePicture()}}"/>
+            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.getPlacePicture()}}"/>
           </div>
           <div class="name _fw _difv _jcc">
             <a class="_df _tr">{{ctlFullNavbar.getPlaceName()}}</a>
