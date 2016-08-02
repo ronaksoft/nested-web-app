@@ -74,9 +74,12 @@
               var vmPlace = _.find(vm.places, { id: invitation.getPlace().getId() });
 
               if (!vmPlace) {
+                vmPlace = mapPlace(invitation.getPlace());
                 // TODO: Highlight Newly Added Place
-                vm.places.push(mapPlace(invitation.getPlace()));
+                vm.places.push(vmPlace);
               }
+
+              $state.go(vmPlace.url);
             });
           } else {
             return vm.invitation.decline(id);
