@@ -772,8 +772,6 @@
       return deferred.promise;
     }
 
-
-
-    return placeFactory;
+    return new PlaceFactory();
   }
 })();
