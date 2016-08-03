@@ -13,7 +13,7 @@
     },
     "REGISTER" : {
       "AJAX" : {
-        "URL" : "http://api.nested.me"
+        "URL" : "http://api.nested.ronaksoftware.com"
       }
     }
   }
