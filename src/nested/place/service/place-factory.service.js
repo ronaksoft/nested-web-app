@@ -48,7 +48,9 @@
                 ));
               });
             } else if (isSubPlace) {
-              $q.all([factory.getTiny(tlData.place_id), factory.getTiny(tlData.child_id)]).then(function (parentPlace, place) {
+              $q.all([factory.getTiny(tlData.place_id), factory.getTiny(tlData.child_id)]).then(function (resolvedSet) {
+                var parentPlace = resolvedSet[0];
+                var place = resolvedSet[1];
                 factory.dispatchEvent(new CustomEvent(
                   NST_PLACE_FACTORY_EVENT.SUB_ADD,
                   { detail: { id: place.getId(), place: place, parentPlace: parentPlace } }
@@ -59,10 +61,12 @@
 
           case NST_EVENT_ACTION.PLACE_REMOVE:
             // TODO: Check for Place_Id/Child_Id
-            factory.dispatchEvent(new CustomEvent(
-              NST_PLACE_FACTORY_EVENT.REMOVE,
-              { detail: { id: tlData.place_id } }
-            ));
+            factory.getTiny(tlData.place_id).then(function (parentPlace) {
+              factory.dispatchEvent(new CustomEvent(
+                NST_PLACE_FACTORY_EVENT.REMOVE,
+                { detail: { id: tlData.child_id, parentPlace: parentPlace } }
+              ));
+            });
             break;
 
           case NST_EVENT_ACTION.PLACE_PRIVACY:
