@@ -5,13 +5,22 @@
     .module('nested')
     .factory('NstHttp', NstHttp);
 
-  function NstHttp($q, $http, NstObservableObject, NST_CONFIG, NST_REQ_STATUS, NST_RES_STATUS, NstResponse) {
-    function HTTP(route, data) {
+  function NstHttp($q, $http, _, NstObservableObject, NST_CONFIG, NST_REQ_STATUS, NST_RES_STATUS, NstResponse) {
+    function HTTP(route, data, settings) {
       this.route = NST_CONFIG.REGISTER.AJAX.URL + route;
       this.data = data;
       this.status = NST_REQ_STATUS.NOT_SENT;
       this.response = new NstResponse();
-
+      
+      this.settings = {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      };
+      if (angular.isObject(settings)) {
+        this.settings = _.defaults(this.settings, settings);
+      }
 
       NstObservableObject.call(this);
 
@@ -37,13 +46,12 @@
     HTTP.prototype.constructor = HTTP;
 
     HTTP.prototype.get = function () {
-
       var me = this;
       var deferred = $q.defer();
+      var options = this.settings;
+      options.params = this.data;
 
-      $http.get(this.route, {
-        params: this.data
-      }).success(function (data, status, header, config) {
+      $http.get(this.route, options).success(function (data, status, header, config) {
         me.setStatus(NST_RES_STATUS.SUCCESS);
         deferred.resolve(data.data);
       }).error(function (error) {

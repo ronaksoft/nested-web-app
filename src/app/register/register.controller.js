@@ -45,15 +45,13 @@
         return false;
       }
 
-      var ajax = new NstHttp('register/',
-        {
-          f: 'verify_phone',
-          phone: vm.phone
-        });
+      var ajax = new NstHttp('/register/', {
+        f: 'verify_phone',
+        phone: vm.phone
+      });
       ajax.get().then(function (data) {
         vm.vid = data.vid;
         vm.step = 'step2';
-
       })
       .catch(function (error) {
       })
