@@ -1,10 +1,32 @@
 <div class="attachments-editable-bar">
   <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
-    <li ng-repeat="item in items">
-      <a href="javascript:void(0);" ng-click="onDelete(item)">
-        <img ng-if="item.hasThumbnail" class="attach-thumbnail" alt="" style="background: url({{item.thumbnail}});background-size: cover;"/>
-        <div ng-if="!item.hasThumbnail" class="attach-thumbnail-default {{'attach-thumbnail-' + item.type}}">
-          {{item.name + '.' + item.extension}}
+    <li ng-repeat="item in items" ng-class="item.isUploaded ? '' : 'uploading'">
+      <a href="javascript:void(0);">
+        <div ng-if="item.hasThumbnail">
+          <img class="attach-thumbnail" alt="" style="background: url({{item.thumbnail}});background-size: cover;"/>
+          <div class="atttach-detail">
+            <div class="attach-name"></div>
+            <div class="uploadprogress">
+              <div ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="circle"></div>
+              <div class="del">
+                <img ng-click="onDelete(item)" src="../assets/icons/close.svg"/>
+              </div>
+            </div>
+            <div class="attach-ext">{{item.extension || 'Failed!'}}</div>
+          </div>
+        </div>
+        <div ng-if="!item.hasThumbnail">
+          <div class="attach-thumbnail-default {{'attach-thumbnail-' + item.type}}"></div>
+          <div class="atttach-detail">
+            <div class="attach-name">{{item.name}}</div>
+            <div class="uploadprogress">
+              <div ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="circle"></div>
+              <div class="del">
+                <img ng-click="onDelete(item)" src="../assets/icons/close.svg"/>
+              </div>
+            </div>
+            <div class="attach-ext">{{item.extension || 'Failed!'}}</div>
+          </div>
         </div>
       </a>
     </li>
