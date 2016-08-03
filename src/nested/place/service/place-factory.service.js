@@ -17,6 +17,8 @@
         getTiny: {},
         getMine: undefined,
         getMyTiny: undefined,
+        getAccess: {},
+        getRole: {},
         remove: {}
       };
 
@@ -99,8 +101,7 @@
 
       if (!this.requests.get[id]) {
         var query = new NstFactoryQuery(id);
-
-        // FIXME: Check whether if request should be removed on resolve/reject
+        
         this.requests.get[id] = $q(function (resolve, reject) {
           var place = NstSvcPlaceStorage.get(query.id);
           if (place) {
@@ -148,8 +149,7 @@
 
       if (!this.requests.getTiny[id]) {
         var query = new NstFactoryQuery(id);
-
-        // FIXME: Check whether if request should be removed on resolve/reject
+        
         this.requests.getTiny[id] = $q(function (resolve, reject) {
           var place = NstSvcPlaceStorage.get(query.id) || NstSvcTinyPlaceStorage.get(query.id);
           if (place) {
@@ -248,6 +248,8 @@
       }
 
       if (!this.requests.getMine) {
+        var query = new NstFactoryQuery();
+        
         this.requests.getMine = $q(function (resolve, reject) {
           var placeIds = NstSvcMyPlaceIdStorage.get('all');
           if (placeIds) {
@@ -257,6 +259,8 @@
               var placeIds = data.places.map(createMap);
               NstSvcMyPlaceIdStorage.set('all', placeIds);
               resolveMap(placeIds).then(resolve);
+            }).catch(function (error) {
+              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }
         });
@@ -342,6 +346,8 @@
       }
 
       if (!this.requests.getMyTiny) {
+        var query = new NstFactoryQuery();
+        
         this.requests.getMyTiny = $q(function (resolve, reject) {
           var placeIds = NstSvcMyPlaceIdStorage.get('tiny');
           if (placeIds) {
@@ -351,6 +357,8 @@
               var placeIds = data.places.map(createMap);
               NstSvcMyPlaceIdStorage.set('tiny', placeIds);
               resolveMap(placeIds).then(resolve);
+            }).catch(function (error) {
+              reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }
         });
@@ -423,12 +431,17 @@
       NstSvcMyPlaceIdStorage.set('all', fullPlaceIds);
       NstSvcMyPlaceIdStorage.set('tiny', tinyPlaceIds);
 
-      return this.getTiny(placeId).then(function (place) {
-        this.dispatchEvent(new CustomEvent(
+      var deferred = $q.defer();
+      this.getTiny(placeId).then(function (place) {
+        factory.dispatchEvent(new CustomEvent(
           NST_PLACE_FACTORY_EVENT.ROOT_ADD,
           { detail: { id: placeId, place: place } }
         ));
-      });
+        
+        deferred.resolve(place);
+      }).catch(deferred.reject);
+      
+      return deferred.promise;
     };
 
     PlaceFactory.prototype.save = function (place) {
@@ -510,6 +523,7 @@
               NstSvcPlaceStorage.remove(query.id);
               NstSvcTinyPlaceStorage.remove(query.id);
               // TODO: Remove from my places
+              // TODO: Dispatch PLACE REMOVE Event
               deferred.resolve(place);
             }).catch(function (error) {
               deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -665,11 +679,11 @@
       }
 
       if (placeData.access) {
-        setAccessOnPlace(place.getId(), placeData.access);
+        this.setAccessOnPlace(place.getId(), placeData.access);
       }
 
       if (placeData.role) {
-        setRoleOnPlace(place.getId(), placeData.role);
+        this.setRoleOnPlace(place.getId(), placeData.role);
       }
 
       return place;
@@ -754,61 +768,105 @@
       return defer.promise;
     };
 
-    PlaceFactory.prototype.getRoleOnPlace = function (placeId, forceRequest) {
-      var deferred = $q.defer();
+    PlaceFactory.prototype.getRoleOnPlace = function (id, forceRequest) {
+      var factory = this;
+      
+      if (!this.requests.getRole[id]) {
+        var deferred = $q.defer();
+        var query = new NstFactoryQuery(id);
 
-      var placeRole = NstSvcPlaceRoleStorage.get(placeId);
-      if (placeRole && !forceRequest) {
-        deferred.resolve(placeRole);
-      } else {
-        this.get(placeId).then(function () {
-          placeRole = NstSvcPlaceRoleStorage.get(placeId);
-          if (placeRole) {
-            deferred.resolve(placeRole);
-          } else {
-            deferred.reject(); // TODO: Reject with factory error
-          }
-        }).catch(deferred.reject);
+        var placeRole = NstSvcPlaceRoleStorage.get(id);
+        if (placeRole && !forceRequest) {
+          deferred.resolve(placeRole);
+        } else {
+          this.get(id).then(function () {
+            placeRole = NstSvcPlaceRoleStorage.get(id);
+            if (placeRole) {
+              deferred.resolve(placeRole);
+            } else {
+              deferred.reject(new NstFactoryError(query, 'Unknown Error in Retrieving Place Role', NST_SRV_ERROR.UNKNOWN));
+            }
+          }).catch(deferred.reject);
+        }
+
+        return deferred.promise;
       }
+      
+      return this.requests.getRole[id].then(function () {
+        var args = arguments;
+        delete factory.requests.getRole[id];
 
-      return deferred.promise;
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.getRole[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });;
     };
 
-    PlaceFactory.prototype.getAccessOnPlace = function(placeId, forceRequest) {
-      var deferred = $q.defer();
-
-      var placeAccess = NstSvcPlaceAccessStorage.get(placeId);
-      if (placeAccess && !forceRequest) {
-        deferred.resolve(placeAccess);
-      } else {
-        NstSvcServer.request('place/get_access', { place_ids: placeId }).then(function (response) {
-          var access = [];
-          if (response.places.length) {
-            if (response.places.length > 1) {
-              access = {};
-              for (var k in response.places) {
-                var placeData = response.places[k];
-                var id = placeData._id;
-                access[id] = placeData.access;
-                setAccessOnPlace(id, access[id]);
+    PlaceFactory.prototype.getAccessOnPlace = function(id, forceRequest) {
+      var factory = this;
+      
+      if (!this.requests.getAccess[id]) {
+        var deferred = $q.defer();
+        var query = new NstFactoryQuery(id);
+        
+        var placeAccess = NstSvcPlaceAccessStorage.get(id);
+        if (placeAccess && !forceRequest) {
+          deferred.resolve(placeAccess);
+        } else {
+          NstSvcServer.request('place/get_access', { place_ids: id }).then(function (response) {
+            var access = [];
+            if (response.places.length) {
+              if (response.places.length > 1) {
+                access = {};
+                for (var k in response.places) {
+                  var placeData = response.places[k];
+                  var placeId = placeData._id;
+                  access[placeId] = placeData.access;
+                  setAccessOnPlace(placeId, access[placeId]);
+                }
+              } else {
+                var placeData = response.places[0];
+                access = placeData.access;
+                setAccessOnPlace(id, placeData.access);
               }
-            } else {
-              var placeData = response.places[0];
-              access = placeData.access;
-              setAccessOnPlace(placeId, placeData.access);
             }
-          }
 
-          if (access) {
-            deferred.resolve(access);
-          } else {
-            // TODO: Reject with factory error
-            deferred.reject();
-          }
-        }).catch(deferred.reject); // TODO: Reject with factory error
+            if (access) {
+              deferred.resolve(access);
+            } else {
+              // TODO: Reject with factory error
+              deferred.reject(new NstFactoryError(query, 'Unknown Error in Retrieving Place Role', NST_SRV_ERROR.UNKNOWN));
+            }
+          }).catch(function (error) {
+            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          });
+        }
+
+        this.requests.getAccess[id] = deferred.promise;
       }
+      
+      return this.requests.getAccess[id].then(function () {
+        var args = arguments;
+        delete factory.requests.getAccess[id];
 
-      return deferred.promise;
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.getAccess[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     /**
@@ -827,22 +885,22 @@
       this.getAccessOnPlace(placeId, forceRequest).then(function (actAccess) {
         var difference = _.difference(qAccess, actAccess);
         deferred.resolve(0 == difference.length);
-      }).catch(deferred.reject); // TODO: Reject with factory error
+      }).catch(deferred.reject);
 
       return deferred.promise;
     };
 
-    function setRoleOnPlace(placeId, role) {
+    PlaceFactory.prototype.setRoleOnPlace = function(placeId, role) {
       if (role) {
         NstSvcPlaceRoleStorage.set(placeId, role);
       }
-    }
+    };
 
-    function setAccessOnPlace(placeId, access) {
+    PlaceFactory.prototype.setAccessOnPlace = function(placeId, access) {
       if (access) {
         return NstSvcPlaceAccessStorage.set(placeId, access);
       }
-    }
+    };
 
     return new PlaceFactory();
   }
