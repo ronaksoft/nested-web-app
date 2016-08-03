@@ -73,7 +73,7 @@
 
         this.requests.getAll = defer.promise;
       }
-      
+
       return this.requests.getAll.then(function () {
         var args = arguments;
         factory.requests.getAll = undefined;
@@ -96,7 +96,7 @@
 
       if (!this.requests.get[id]) {
         var query = new NstFactoryQuery(id);
-        
+
         this.requests.get[id] = $q(function (resolve, reject) {
           var invitation = NstSvcInvitationStorage.get(query.getId());
           if (invitation) {
@@ -133,9 +133,11 @@
     };
 
     InvitationFactory.prototype.accept = function (id) {
+      var factory = this;
+
       if (!this.requests.decide[id]) {
         var defer = $q.defer();
-        var factory = this;
+        var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
           NstSvcServer.request('account/update_invitation', {
@@ -148,8 +150,10 @@
               NST_INVITATION_FACTORY_EVENT.ACCEPT,
               { detail: { id: id, invitation: invitation } }
             ));
-          }).catch(defer.reject);
-        });
+          }).catch(function (error) {
+            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          });
+        }).catch(defer.reject);
 
         this.requests.decide[id] = defer.promise;
       }
@@ -158,9 +162,11 @@
     };
 
     InvitationFactory.prototype.decline = function (id) {
+      var factory = this;
+
       if (!this.requests.decide[id]) {
         var defer = $q.defer();
-        var factory = this;
+        var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
           NstSvcServer.request('account/update_invitation', {
@@ -173,8 +179,10 @@
               NST_INVITATION_FACTORY_EVENT.DECLINE,
               { detail: { id: id, invitation: invitation } }
             ));
-          }).catch(defer.reject);
-        });
+          }).catch(function (error) {
+            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          });
+        }).catch(defer.reject);
 
         this.requests.decide[id] = defer.promise;
       }

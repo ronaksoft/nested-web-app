@@ -60,7 +60,6 @@
             break;
 
           case NST_EVENT_ACTION.PLACE_REMOVE:
-            // TODO: Check for Place_Id/Child_Id
             factory.getTiny(tlData.place_id).then(function (parentPlace) {
               factory.dispatchEvent(new CustomEvent(
                 NST_PLACE_FACTORY_EVENT.REMOVE,
