@@ -248,21 +248,20 @@
      * @return {Boolean}
      */
     Auth.prototype.haveAccess = function (placeId, supAccess, forceRequest) {
+      var deferred = $q.defer();
+
       supAccess = angular.isArray(supAccess) ? supAccess : [supAccess];
 
       this.getAccess(placeId, forceRequest).then(function (actAccess) {
-        var deferred = $q.defer();
 
         // FIXME: Not Sure About Comparison
         var difference = _.difference(supAccess, actAccess);
-        if (0 == difference.length) {
-          deferred.resolve(true);
-        } else {
-          deferred.reject(difference);
-        }
+        var result = 0 == difference.length;
+        deferred.resolve(result);
 
-        return deferred.promise;
-      });
+      }).catch(deferred.reject);
+
+      return deferred.promise;
     };
 
     // Cache Implementation

@@ -28,38 +28,46 @@
 
     vm.updatePrivacy = updatePrivacy;
     vm.setNotification = setNotification;
+    vm.update = update;
 
     (function() {
       vm.place = {};
       vm.placeId = $stateParams.placeId;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
-        console.log(place);
         vm.place = place;
 
         return $q.all([
-          NstSvcPlaceFactory.getMembers(vm.placeId),
-          NstSvcPlaceFactory.getNotificationOption(vm.placeId),
           NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
           NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
           NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
           NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS)
+          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
+          NstSvcPlaceFactory.getNotificationOption(vm.placeId),
         ]);
       }).then(function(values) {
-        vm.members = values[0];
-        vm.options.notification = values[1];
-        vm.hasRemoveAccess = values[2];
-        vm.hasAddPlaceAccess = values[3];
-        vm.hasControlAccess = values[4];
-        vm.hasAddMembersAccess = values[5];
-        vm.hasSeeMembersAccess = values[6];
+        vm.hasRemoveAccess = values[0];
+        vm.hasAddPlaceAccess = values[1];
+        vm.hasControlAccess = values[2];
+        vm.hasAddMembersAccess = values[3];
+        vm.hasSeeMembersAccess = values[4];
+        vm.options.notification = values[5];
 
-        vm.hasAnyGuest = _.some(vm.members.knownGuests) || _.some(vm.members.pendingKnownGuests);
-        vm.hasAnyTeamate = _.some(vm.members.creators) || _.some(vm.members.keyHolders) || _.some(vm.members.pendingKeyHolders);
-        console.log(vm);
+        return vm.hasSeeMembersAccess ? NstSvcPlaceFactory.getMembers(vm.placeId)
+                                      : $q(function (resolve) {
+                                        resolve([]);
+                                      });
+      }).then(function (members) {
+          vm.members = members;
+          vm.hasAnyGuest = _.some(vm.members.knownGuests) ||
+                           _.some(vm.members.pendingKnownGuests);
+
+          vm.hasAnyTeamate = _.some(vm.members.creators) ||
+                             _.some(vm.members.keyHolders) ||
+                             _.some(vm.members.pendingKeyHolders);
       }).catch(function(error) {
         $log.debug(error);
       });
+
     })();
 
     vm.actions = {
@@ -70,70 +78,6 @@
         }
       }
     };
-
-    // if ($stateParams.hasOwnProperty('placeId')) {
-    //   $scope.place.load($stateParams.placeId).then(function (place) {
-    //     if (place.haveAccess(NST_PLACE_ACCESS.REMOVE_PLACE)) {
-    //       $scope.place_option.actions['delete'] = {
-    //         name: 'Delete',
-    //         fn: function () {
-    //           vm.showDeleteModal()
-    //         }
-    //       };
-    //     }
-    //
-    //     if (place.haveAccess(NST_PLACE_ACCESS.ADD_PLACE)) {
-    //       $scope.place_option.actions['add'] = {
-    //         name: 'Add a Subplace',
-    //         url: '#/create_place/' + place.id
-    //       };
-    //     }
-    //   });
-    //   $scope.place.loadAllMembers();
-    // } else {
-    //   $location.path('/places').replace();
-    // }
-
-    vm.imgToUri = function(event) {
-      var element = event.currentTarget;
-
-      for (var i = 0; i < element.files.length; i++) {
-        $scope.logo = element.files[i];
-
-        var reader = new FileReader();
-        reader.onload = function(event) {
-          $scope.place.picture.org.url = event.target.result;
-          $scope.place.picture.x32.url = $scope.place.picture.org.url;
-          $scope.place.picture.x64.url = $scope.place.picture.org.url;
-          $scope.place.picture.x128.url = $scope.place.picture.org.url;
-
-          return NstSvcStore.upload($scope.logo, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE).then(function(response) {
-            $scope.place.picture.org.uid = response.universal_id;
-            $scope.logo = null;
-
-            return $scope.place.setPicture(response.universal_id);
-          });
-        };
-
-        reader.readAsDataURL($scope.logo);
-      }
-    };
-
-    // vm.updatePrivacy = function (event) {
-    //   var element = event.currentTarget;
-    //   var data = {};
-    //   data['privacy.' + element.name] = element.checked;
-    //
-    //   return $scope.place.update(data);
-    // };
-
-    vm.updatePlace = function(name, value) {
-      var data = {};
-      data[name] = value;
-
-      return $scope.place.update(data);
-    };
-
 
     $scope.checkplace = function(PlaceId) {
       if (PlaceId == $scope.place.id) {
