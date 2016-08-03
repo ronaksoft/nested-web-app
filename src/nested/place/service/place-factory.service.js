@@ -19,6 +19,7 @@
         getMyTiny: undefined,
         getAccess: {},
         getRole: {},
+        setNotif: {},
         remove: {}
       };
 
@@ -753,19 +754,40 @@
       return defer.promise;
     };
 
-    PlaceFactory.prototype.setNotificationOption = function (placeId, value) {
-      var defer = $q.defer();
+    PlaceFactory.prototype.setNotificationOption = function (id, value) {
+      var factory = this;
 
-      NstSvcServer.request('notification/set_place_notification', {
-        place_id : placeId,
-        state : !!value
-      }).then(function (data) {
-        defer.resolve(true);
-      }).catch(function (error) {
-        defer.reject(error);
+      if (!this.requests.setNotif[id]) {
+        var defer = $q.defer();
+        var query = new NstFactoryQuery(id);
+
+        NstSvcServer.request('notification/set_place_notification', {
+          place_id: id,
+          state: !!value
+        }).then(function () {
+          defer.resolve(true);
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+
+        this.requests.setNotif[id] = defer.promise;
+      }
+
+      return this.requests.setNotif[id].then(function () {
+        var args = arguments;
+        delete factory.requests.setNotif[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.setNotif[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
       });
-
-      return defer.promise;
     };
 
     PlaceFactory.prototype.getRoleOnPlace = function (id, forceRequest) {
