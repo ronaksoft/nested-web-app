@@ -1,9 +1,9 @@
-<ul data-ng-if="place.haveAccess('RM')" class="list-unstyled" data-ng-click="place_option.removeMember(member);">
+<ul data-ng-if="place.hasAccess('RM')" class="list-unstyled" data-ng-click="place_option.removeMember(member);">
   <li class="menuicon-remove _dib"></li>
   <li class="_dib nst-mood-simple _vat">Remove</li>
 </ul>
 <ul>
-  <div data-ng-if="place.haveAccess('C')" data-ng-switch="role">
+  <div data-ng-if="place.hasAccess('C')" data-ng-switch="role">
     <li data-ng-switch-when="key_holder" class="_dib menuicon-create"></li>
     <li data-ng-switch-when="creator" class="_dib menuicon-create-transform"></li>
 

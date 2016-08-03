@@ -1,33 +1,33 @@
 <div id="add-view">
   <div class="_difv _fw">
       <div class="_difh modal-add">
-        <h5 class="_df _fw" data-ng-if="add_teammate">Add a Teammate</h5>
-        <h5 class="_df _fw" data-ng-if="add_member">Invite a Member</h5>
-        <div class="_df" ng-click="$close(result)"><img src="../assets/icons/close.svg" class="closebut"></div>
+        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isTeamateMode">Add a Teammate</h5>
+        <h5 class="_df _fw" data-ng-if="!addMemberCtrl.isTeamateMode">Invite a Member</h5>
+        <div class="_df" ng-click="$dismiss();"><img src="../assets/icons/close.svg" class="closebut"></div>
       </div>
       <div class="_difh _fw modal-add">
-        <ui-select multiple class="modal-add-input nst-mood-simple _df" data-ng-model="place_add_member.selectedUsers" autofocus="true" always-show-list on-select="place_add_member.search('')">
+        <ui-select multiple class="modal-add-input nst-mood-simple _df" data-ng-model="addMemberCtrl.selectedUsers" autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
           <ui-select-match placeholder="Invite people to your team" class=" _fw">
-            <span>{{$item.fullname}} &lt;{{$item.username}}&gt;</span>
+            <span>{{$item.fullName}} &lt;{{$item.id}}&gt;</span>
           </ui-select-match>
-          <ui-select-choices refresh="place_add_member.search($select.search)" refresh-delay="0"
-                             repeat="user in (place_add_member.users | filter: $select.search) track by user.username" >
-            <img initials="user.fullname" data-url="user.picture.x64.url" data-width="40" data-height="40" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
+          <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
+                             repeat="user in (addMemberCtrl.users | filter: $select.search) track by user.id" >
+            <img initials="user.fullName" data-url="user.picture.thumbnails.x64.url.download" data-width="40" data-height="40" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
             <div class="_difv">
-              <span class="_df _fw" data-ng-bind-html="user.fullname | highlight: $select.search"></span>
-              <small class="_df">@{{user.username}}</small>
+              <span class="_df _fw" data-ng-bind-html="user.fullName | highlight: $select.search"></span>
+              <small class="_df">@{{user.id}}</small>
             </div>
           </ui-select-choices>
         </ui-select>
-        <button class="butn-send-compose _df" data-ng-if="!add_teammate" data-ng-click="place_add_member.add()">Invite</button>
-        <button class="butn-send-compose _df" data-ng-if="add_teammate" data-ng-click="place_add_member.add()">Add</button>
+        <button class="butn-send-compose _df" data-ng-if="!addMemberCtrl.isTeamateMode" data-ng-click="addMemberCtrl.add();">Invite</button>
+        <button class="butn-send-compose _df" data-ng-if="addMemberCtrl.isTeamateMode" data-ng-click="addMemberCtrl.add();">Add</button>
       </div>
     <div class="_difh _fw">
       <div class="_fw suggests">
 
       </div>
     </div>
-      <div data-ng-if="add_teammate" class="nst-modal-footer _df _fw">
+      <div data-ng-if="addMemberCtrl.isTeamateMode" class="nst-modal-footer _df _fw">
           <p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place ,<a class="nst-mood-cheerful">invite them as a member</a>.</p>
       </div>
   </div>

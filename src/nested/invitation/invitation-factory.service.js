@@ -90,7 +90,6 @@
               NstSvcInvitationStorage.set(query.getId(), invitation);
               resolve(invitation);
             }).catch(function(error) {
-              // TODO: Handle error by type
               reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }

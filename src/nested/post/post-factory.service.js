@@ -134,7 +134,6 @@
         }.bind({
           query: this.query
         })).catch(function(error) {
-          // TODO: Handle error by type
           reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         }.bind({
           query: this.query

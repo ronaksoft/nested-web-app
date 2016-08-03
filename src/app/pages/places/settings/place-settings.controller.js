@@ -7,16 +7,16 @@
 
   /** @ngInject */
   function PlaceSettingsController($location, $scope, $stateParams, $q, $uibModal, $log,
-    NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS,
+    NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory,
-    NstPlace) {
+    NstPlace, NstPicture) {
     var vm = this;
 
     /*****************************
      *** Controller Properties ***
      *****************************/
 
-    vm.members = null;
+    vm.members = {};
     vm.options = {
       notification : null
     };
@@ -29,22 +29,27 @@
     vm.updatePrivacy = updatePrivacy;
     vm.setNotification = setNotification;
     vm.update = update;
+    vm.addMember = addMember;
+    vm.inviteParticipant = inviteParticipant;
+    vm.loadImage = loadImage;
 
     (function() {
       vm.place = {};
       vm.placeId = $stateParams.placeId;
+      vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
 
         return $q.all([
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
-          NstSvcPlaceFactory.getNotificationOption(vm.placeId),
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
+          NstSvcPlaceFactory.getNotificationOption(vm.placeId)
         ]);
       }).then(function(values) {
+
         vm.hasRemoveAccess = values[0];
         vm.hasAddPlaceAccess = values[1];
         vm.hasControlAccess = values[2];
@@ -57,13 +62,27 @@
                                         resolve([]);
                                       });
       }).then(function (members) {
-          vm.members = members;
-          vm.hasAnyGuest = _.some(vm.members.knownGuests) ||
-                           _.some(vm.members.pendingKnownGuests);
 
-          vm.hasAnyTeamate = _.some(vm.members.creators) ||
-                             _.some(vm.members.keyHolders) ||
-                             _.some(vm.members.pendingKeyHolders);
+          vm.members.creators = members.creators;
+          vm.members.keyHolders = members.keyHolders;
+          vm.members.knownGuests = members.knownGuests;
+
+
+        return vm.hasSeeMembersAccess ? NstSvcPlaceFactory.getPendings(vm.placeId)
+                                      : $q(function (resolve) {
+                                        resolve([]);
+                                      });
+      }).then(function (pendings) {
+
+        vm.members.pendingKeyHolders = pendings.pendingKeyHolders;
+        vm.members.pendingKnownGuests = pendings.pendingKnownGuests;
+
+        vm.hasAnyGuest = _.some(vm.members.knownGuests) ||
+                         _.some(vm.members.pendingKnownGuests);
+
+        vm.hasAnyTeamate = _.some(vm.members.creators) ||
+                           _.some(vm.members.keyHolders) ||
+                           _.some(vm.members.pendingKeyHolders);
       }).catch(function(error) {
         $log.debug(error);
       });
@@ -79,6 +98,39 @@
       }
     };
 
+    vm.imgToUri = function(event) {
+      var element = event.currentTarget;
+
+      for (var i = 0; i < element.files.length; i++) {
+        $scope.logo = element.files[i];
+
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          $scope.place.picture.org.url = event.target.result;
+          $scope.place.picture.x32.url = $scope.place.picture.org.url;
+          $scope.place.picture.x64.url = $scope.place.picture.org.url;
+          $scope.place.picture.x128.url = $scope.place.picture.org.url;
+
+          return NstSvcStore.upload($scope.logo, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE).then(function(response) {
+            $scope.place.picture.org.uid = response.universal_id;
+            $scope.logo = null;
+
+            return $scope.place.setPicture(response.universal_id);
+          });
+        };
+
+        reader.readAsDataURL($scope.logo);
+      }
+    };
+
+    vm.updatePlace = function(name, value) {
+      var data = {};
+      data[name] = value;
+
+      return $scope.place.update(data);
+    };
+
+
     $scope.checkplace = function(PlaceId) {
       if (PlaceId == $scope.place.id) {
         $scope.deleteValidated = true;
@@ -87,28 +139,60 @@
       }
     };
 
-    vm.showAddModal = function(role) {
-      $scope.role = role;
-      $scope['add_' + role] = true;
+    function showAddModal(role) {
 
       var modal = $uibModal.open({
         animation: false,
-        templateUrl: 'app/places/option/add_member.html',
+        templateUrl: 'app/pages/places/settings/add_member.html',
         controller: 'PlaceAddMemberController',
-        controllerAs: 'place_add_member',
+        controllerAs: 'addMemberCtrl',
         size: 'sm',
-        scope: $scope
+        resolve : {
+          chosenRole : function () {
+            return role;
+          },
+          currentPlace : function () {
+            return vm.place;
+          }
+        },
       });
 
+      modal.result.then(function (selectedUsers) {
+        $q.all(_.map(selectedUsers, function (user) {
+          return $q(function (resolve, reject) {
+            return NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (inviteId) {
+              resolve({
+                userId : user.id,
+                inviteId : inviteId
+              });
+            }).catch(function (error) {
+              if (error.err_code === NST_SRV_ERROR.DUPLICATE){
+                resolve({
+                  userId : user.id,
+                  inviteId : null,
+                  duplicate : true
+                });
+              } else {
+                reject(error);
+              }
+            });
+          });
+        })).then(function (values) {
 
-      $scope.closeModal = modal.close;
-
-      modal.closed.then(function() {
-        delete $scope['add_' + role];
-        delete $scope.role;
-        delete $scope.closeModal;
+        }).catch(function (error) {
+          $log.debug(error);
+        });
       });
     };
+
+    function addMember() {
+      showAddModal(NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
+    }
+
+    function inviteParticipant() {
+      showAddModal(NST_PLACE_MEMBER_TYPE.KNOWN_GUEST);
+    }
+
     vm.showLockModal = function(event) {
       event.preventDefault();
       event.stopPropagation();
@@ -130,6 +214,7 @@
 
       return false;
     };
+
     vm.showDeleteModal = function() {
 
       $scope.deleteValidated = false;
@@ -157,20 +242,6 @@
           }
         );
 
-    };
-
-    vm.removeMember = function(user) {
-      $scope.member = user;
-
-      var modal = $uibModal.open({
-        animation: false,
-        templateUrl: 'app/places/context_menu/remove.html',
-        controller: 'WarningController',
-        size: 'sm',
-        scope: $scope
-      }).result.then(function() {
-        return $scope.place.removeMember($scope.member.username);
-      });
     };
 
     vm.leaveModal = function() {
@@ -224,7 +295,6 @@
       }
       update('privacy', vm.place.privacy).then(function (result) {
         if (result) {
-          console.log('hoohoooo!');
         }
       }).catch(function (error) {
 
@@ -254,6 +324,42 @@
       }).catch(function (error) {
 
       });
+    }
+
+    function loadImage(event) {
+      var file = event.currentTarget.files[0];
+
+      if (file) {
+        vm.logoFile = file;
+        vm.logoUrl = '';
+
+        var reader = new FileReader();
+        reader.onload = function(readEvent) {
+          vm.logoUrl = readEvent.target.result;
+
+          // upload the picture
+          var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE);
+
+          request.getPromise().then(function (result) {
+            vm.place.getPicture().setId(result.data.universal_id);
+            vm.place.getPicture().setThumbnail(32, vm.place.getPicture().getOrg());
+            vm.place.getPicture().setThumbnail(64, vm.place.getPicture().getOrg());
+            vm.place.getPicture().setThumbnail(128, vm.place.getPicture().getOrg());
+            // update();
+            console.log('hoora');
+          });
+        };
+
+        reader.readAsDataURL(vm.logoFile);
+
+      }
+
+    }
+
+    function logoUploadProgress(event) {
+      vm.logoUploadedSize = event.loaded;
+      vm.logoUploadedRatio = Number(event.loaded / event.total).toFixed(4);
+      console.log(vm.logoUploadedRatio);
     }
   }
 })();
