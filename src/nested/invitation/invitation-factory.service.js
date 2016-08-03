@@ -15,6 +15,7 @@
 
       this.requests = {
         get: {},
+        getAll: undefined,
         decide: {}
       };
 
@@ -39,36 +40,55 @@
 
     InvitationFactory.prototype.getAll = function () {
       var factory = this;
-      var defer = $q.defer();
 
-      NstSvcServer.request('account/get_invitations').then(function (response) {
-        var promises = [];
-        for (var k in response.invitations) {
-          promises.push(factory.parseInvitation(response.invitations[k]).catch(function (error) {
-            return $q(function (res) {
-              res(error);
-            });
-          }));
-        }
+      if (!this.requests.getAll) {
+        var defer = $q.defer();
 
-        $q.all(promises).then(function (values) {
-          var invitations = [];
-          for (var k in values) {
-            if (values[k] instanceof NstInvitation) {
-              var invitation = values[k];
-
-              NstSvcInvitationStorage.set(invitation.getId(), invitation);
-              invitations.push(invitation);
-            }
+        NstSvcServer.request('account/get_invitations').then(function (response) {
+          var promises = [];
+          for (var k in response.invitations) {
+            promises.push(factory.parseInvitation(response.invitations[k]).catch(function (error) {
+              return $q(function (res) {
+                res(error);
+              });
+            }));
           }
 
-          defer.resolve(invitations);
-        });
-      }).catch(function (error) {
-        defer.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
-      });
+          $q.all(promises).then(function (values) {
+            var invitations = [];
+            for (var k in values) {
+              if (values[k] instanceof NstInvitation) {
+                var invitation = values[k];
 
-      return defer.promise;
+                NstSvcInvitationStorage.set(invitation.getId(), invitation);
+                invitations.push(invitation);
+              }
+            }
+
+            defer.resolve(invitations);
+          });
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
+        });
+
+        this.requests.getAll = defer.promise;
+      }
+      
+      return this.requests.getAll.then(function () {
+        var args = arguments;
+        factory.requests.getAll = undefined;
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        factory.requests.getAll = undefined;
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     InvitationFactory.prototype.get = function (id) {
@@ -76,8 +96,7 @@
 
       if (!this.requests.get[id]) {
         var query = new NstFactoryQuery(id);
-
-        // FIXME: Check whether if request should be removed on resolve/reject
+        
         this.requests.get[id] = $q(function (resolve, reject) {
           var invitation = NstSvcInvitationStorage.get(query.getId());
           if (invitation) {
@@ -96,7 +115,21 @@
         });
       }
 
-      return this.requests.get[id];
+      return this.requests.get[id].then(function () {
+        var args = arguments;
+        delete factory.requests.get[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.get[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     InvitationFactory.prototype.accept = function (id) {

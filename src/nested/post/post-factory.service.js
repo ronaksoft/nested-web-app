@@ -253,10 +253,10 @@
 
         if (data.place_access) {
           _.forEach(post.places, function(place) {
-            // TODO: Fill NstAuth Access DB
             place.access = _.find(data.place_access, {
               '_id': place.id
             }).access;
+            NstSvcPlaceFactory.setAccessOnPlace(place.id, place.access);
           });
         }
 
