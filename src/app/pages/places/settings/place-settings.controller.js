@@ -39,11 +39,11 @@
         return $q.all([
           NstSvcPlaceFactory.getMembers(vm.placeId),
           NstSvcPlaceFactory.getNotificationOption(vm.placeId),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-          NstSvcAuth.haveAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS)
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS)
         ]);
       }).then(function(values) {
         vm.members = values[0];
@@ -73,7 +73,7 @@
 
     // if ($stateParams.hasOwnProperty('placeId')) {
     //   $scope.place.load($stateParams.placeId).then(function (place) {
-    //     if (place.haveAccess(NST_PLACE_ACCESS.REMOVE_PLACE)) {
+    //     if (place.hasAccess(NST_PLACE_ACCESS.REMOVE_PLACE)) {
     //       $scope.place_option.actions['delete'] = {
     //         name: 'Delete',
     //         fn: function () {
@@ -82,7 +82,7 @@
     //       };
     //     }
     //
-    //     if (place.haveAccess(NST_PLACE_ACCESS.ADD_PLACE)) {
+    //     if (place.hasAccess(NST_PLACE_ACCESS.ADD_PLACE)) {
     //       $scope.place_option.actions['add'] = {
     //         name: 'Add a Subplace',
     //         url: '#/create_place/' + place.id
