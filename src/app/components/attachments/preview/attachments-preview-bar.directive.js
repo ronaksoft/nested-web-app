@@ -39,7 +39,7 @@
     };
 
     function modeIsValid(mode) {
-      return _.values(NST_ATTACHMENTS_PREVIEW_BAR_MODE).indexOf(mode) > -1
+      return _.values(NST_ATTACHMENTS_PREVIEW_BAR_MODE).indexOf(mode) > -1;
     }
 
   };

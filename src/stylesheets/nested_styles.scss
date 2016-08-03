@@ -1373,12 +1373,13 @@ input[type="checkbox"]:checked + label.setting {
     width: calc(100% - 32px);
   }
   nst-navbar {
-    height: 132px;
-    min-height: 132px;
+    height: 250px;
+    min-height: 250px;
   }
   .nst-navbar{
-    height: 132px;
-    //background: #aaa;
+    margin-top: 67px;
+    height: 183px;
+    /*background: #aaa;
     .navbar-top {
       height: 66px;
       span{
@@ -1397,14 +1398,14 @@ input[type="checkbox"]:checked + label.setting {
     .account-initials-64 {
       width: 48px;
       height: 48px;
-    }
+    }*/
 
   }
   .maincontainer {
     height: 100%;
     //min-height: 100%;
     overflow: visible;
-    padding-top: 67px;
+    //padding-top: 67px;
   }
   #content-wrapper {
     max-height : 100%!important;
