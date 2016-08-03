@@ -2013,7 +2013,7 @@ a.normal-badge {
     max-width: 1058px;
   }
   #content-wrapper .content {
-    height: calc(100vh - 130px );
+    min-height: calc(100vh - 1810px );
   }
   #nav-com {
     display: flex;
