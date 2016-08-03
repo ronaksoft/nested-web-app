@@ -12,8 +12,6 @@
           mode: '@progressbarMode'
         },
         link: function (scope, element) {
-          console.log(scope);
-
           var constructor = progressBar.Line;
           if (scope.mode) {
             var qMode = String(scope.mode).toLowerCase().split('').map(function (v, i) { return 0 == i ? v.toUpperCase() : v; }).join('');
@@ -30,7 +28,6 @@
             duration: 1400
           });
           scope.$watch('ngProgressbar', function (newVal) {
-            console.log(newVal);
             progressbar.animate(Number(newVal));
           });
         }
