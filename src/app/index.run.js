@@ -9,7 +9,7 @@
   function runBlock($rootScope, $uibModal, $window, $timeout,
                     ngProgressFactory,
                     NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
-                    NstSvcAuth, NstSvcLoader, NstSvcPlaceInvitationFriend) {
+                    NstSvcAuth, NstSvcLoader, NstSvcPlaceInvitationFriend, NstSvcPlaceAuthFriend) {
     $rootScope.rexExt = /(?:\.([^.]+))?$/;
 
     $rootScope.now = function () {

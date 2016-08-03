@@ -53,7 +53,6 @@
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
             }).catch(function(error) {
-              // TODO: Handle error by type
               reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }
@@ -161,8 +160,6 @@
             res(NstSvcUserFactory.set(newUser).get(newUser.getId()).save());
           });
         }).catch(function (error) {
-          // TODO: Handle error by type
-
           return $q(function (res, rej) {
             rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
@@ -181,8 +178,6 @@
             res(NstSvcUserFactory.set().get(user.getId()).save());
           });
         }).catch(function (error) {
-          // TODO: Handle error by type
-
           return $q(function (res, rej) {
             rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
@@ -205,7 +200,6 @@
             NstSvcUserStorage.remove(query.id);
             NstSvcTinyUserStorage.remove(query.id);
           }).catch(function (error) {
-            // TODO: Handle error by type
             return $q(function (res, rej) {
               rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
