@@ -490,7 +490,7 @@
 
         return NstSvcServer.request('place/update', params).then(function () {
           return $q(function (res) {
-            res(NstSvcPlaceFactory.set().get(place.getId()).save());
+            res(factory.set(place).get(place.getId()));
           });
         }).catch(function (error) {
           // TODO: Handle error by type
@@ -723,6 +723,35 @@
         $log.debug(data);
       }).catch(function (error) {
         $log.debug(error);
+      });
+
+      return defer.promise;
+    };
+
+    PlaceFactory.prototype.getNotificationOption = function (placeId) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('notification/get_place_notification', {
+        place_id : placeId
+      }).then(function (data) {
+        defer.resolve(data.state);
+      }).catch(function (error) {
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    };
+
+    PlaceFactory.prototype.setNotificationOption = function (placeId, value) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('notification/set_place_notification', {
+        place_id : placeId,
+        state : !!value
+      }).then(function (data) {
+        defer.resolve(true);
+      }).catch(function (error) {
+        defer.reject(error);
       });
 
       return defer.promise;
