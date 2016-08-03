@@ -23,6 +23,8 @@
         getMembers: {},
         getNotif: {},
 
+        isMine: {},
+
         addMember: {},
         setNotification: {},
 
@@ -385,6 +387,61 @@
       }).catch(function () {
         var args = arguments;
         factory.requests.getMyTiny = undefined;
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
+    };
+
+    PlaceFactory.prototype.addToMyPlaceIds = function (id) {
+      var factory = this;
+      var fullPlaceIds = NstSvcMyPlaceIdStorage.get('all');
+      var tinyPlaceIds = NstSvcMyPlaceIdStorage.get('tiny');
+
+      fullPlaceIds.push(id);
+      tinyPlaceIds.push(id);
+
+      NstSvcMyPlaceIdStorage.set('all', fullPlaceIds);
+      NstSvcMyPlaceIdStorage.set('tiny', tinyPlaceIds);
+
+      var deferred = $q.defer();
+      this.getTiny(id).then(function (place) {
+        factory.dispatchEvent(new CustomEvent(
+          NST_PLACE_FACTORY_EVENT.ROOT_ADD,
+          { detail: { id: id, place: place } }
+        ));
+
+        deferred.resolve(place);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    };
+
+    PlaceFactory.prototype.isInMyPlaces = function (id) {
+      var factory = this;
+
+      if (!this.requests.isMine[id]) {
+        var deferred = $q.defer();
+        var query = new NstFactoryQuery(id);
+
+        this.getMyTinyPlaces().then(function (myTinyPlaces) {
+          // TODO: Implement this check
+        }).catch(deferred.reject);
+
+        this.requests.isMine[id] = deferred.promise;
+      }
+
+      return this.requests.isMine[id].then(function () {
+        var args = arguments;
+        delete factory.requests.isMine[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.isMine[id];
 
         return $q(function (res, rej) {
           rej.apply(null, args);
@@ -912,30 +969,6 @@
       }
 
       return this;
-    };
-
-    PlaceFactory.prototype.addToMyPlaceIds = function (placeId) {
-      var factory = this;
-      var fullPlaceIds = NstSvcMyPlaceIdStorage.get('all');
-      var tinyPlaceIds = NstSvcMyPlaceIdStorage.get('tiny');
-
-      fullPlaceIds.push(placeId);
-      tinyPlaceIds.push(placeId);
-
-      NstSvcMyPlaceIdStorage.set('all', fullPlaceIds);
-      NstSvcMyPlaceIdStorage.set('tiny', tinyPlaceIds);
-
-      var deferred = $q.defer();
-      this.getTiny(placeId).then(function (place) {
-        factory.dispatchEvent(new CustomEvent(
-          NST_PLACE_FACTORY_EVENT.ROOT_ADD,
-          { detail: { id: placeId, place: place } }
-        ));
-
-        deferred.resolve(place);
-      }).catch(deferred.reject);
-
-      return deferred.promise;
     };
 
     PlaceFactory.prototype.parseTinyPlace = function (placeData) {
