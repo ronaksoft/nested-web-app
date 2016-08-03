@@ -7,9 +7,9 @@
     function PostModal($uibModal) {
       var directive = {
         link: link,
-        template: function( element, attrs ) {
+        template: function(element) {
           var tag = element[0].nodeName;
-          return '<' + tag +' ng-click="openPostCardModal(post)" ng-transclude></' + tag +'>';
+          return '<' + tag +' ng-click="openPostModal(post)" ng-transclude></' + tag +'>';
         },
         restrict: 'EA',
         replace: true,
@@ -19,15 +19,8 @@
         }
       };
 
-      function link(scope, element, attrs) {
-        /**
-         * postPreview - preview the places that have delete access and let the user to chose one
-         *
-         * @param  {type} places list of places to be shown
-         */
-
-        scope.openPostCardModal = function (post) {
-
+      function link(scope) {
+        scope.openPostModal = function (vmPost) {
           var modal = $uibModal.open({
             animation: false,
             templateUrl: 'app/post/post.html',
@@ -35,11 +28,11 @@
             controllerAs: 'postVm',
             size: 'mlg',
             resolve: {
-              post: function () {
-                return post
+              vmPost: function () {
+                return vmPost;
               },
               postId: function () {
-                return post.id
+                return vmPost.id
               }
             }
           });

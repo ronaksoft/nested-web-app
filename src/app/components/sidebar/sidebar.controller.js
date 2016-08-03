@@ -51,6 +51,7 @@
 
     vm.invitation.showModal = function (id) {
       NstSvcInvitationFactory.get(id).then(function (invitation) {
+        // Show User the invitation Decide Modal
         $uibModal.open({
           animation: false,
           size: 'sm',
@@ -69,11 +70,19 @@
             }
           }
 
-          if (result) {
-            return vm.invitation.accept(id).then(function () {
-              // TODO: Add to my-place-ids storage (Not directly. Do it via Factory)
+          if (result) { // Accept the Invitation
+            return vm.invitation.accept(id).then(function (invitation) {
+              var vmPlace = _.find(vm.places, { id: invitation.getPlace().getId() });
+
+              if (!vmPlace) {
+                vmPlace = mapPlace(invitation.getPlace());
+                // TODO: Highlight Newly Added Place
+                vm.places.push(vmPlace);
+              }
+
+              $state.go(vmPlace.url);
             });
-          } else {
+          } else { // Decline the Invitation
             return vm.invitation.decline(id);
           }
         });
@@ -251,11 +260,22 @@
       pushInvitation(event.detail.invitation);
     });
 
+    NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
+      var invitation = event.detail.invitation;
+
+      for (var k in vm.invitations) {
+        if (invitation.getId() == vm.invitations[k].id) {
+          vm.invitations.splice(k, 1);
+          return;
+        }
+      }
+    });
+
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
       var vmPlace = _.find(vm.places, { id: event.detail.id });
 
       if (!vmPlace) {
-        // TODO: Highlight Place
+        // TODO: Highlight Newly Added Place
         vm.places.push(mapPlace(event.detail.place));
       }
     });

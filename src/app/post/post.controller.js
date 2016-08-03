@@ -10,12 +10,11 @@
                           _, toastr,
                           EVENT_ACTIONS, NST_SRV_EVENT,
                           NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap,
-                          NstComment, NstVmUser, postId, post) {
+                          NstComment, NstVmUser, vmPost, postId) {
     var vm = this;
-console.log(post,postId)
-    if (post)  vm.post = post;
+    console.log(vmPost,postId);
+    if (vmPost)  vm.post = vmPost;
     vm.postId = $stateParams.postId || postId;
-
 
     vm.postLoadProgress = false;
     vm.commentSendProgress = false;

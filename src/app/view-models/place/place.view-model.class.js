@@ -42,6 +42,8 @@
         state = 'place-activity';
       } else if ($state.current.name.indexOf('compose') > -1) {
         state = 'place-compose';
+      } else if ($state.current.name.indexOf('settings') > -1) {
+        state = 'place-settings';
       }
 
       return state;
