@@ -7,7 +7,7 @@
 
   function NstSvcPlaceFactory($q, $log,
                               NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_AUTH_EVENT, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT,
-                              NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory,
+                              NstSvcAuth, NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage,
                               NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace) {
     function PlaceFactory() {
       var factory = this;
@@ -19,10 +19,6 @@
         getMyTiny: undefined,
         remove: {}
       };
-
-      NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
-        NstSvcMyPlaceIdStorage.flush();
-      });
 
       NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
         var tlData = event.detail.timeline_data;
@@ -77,6 +73,11 @@
             });
             break;
         }
+      });
+
+      NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
+        NstSvcMyPlaceIdStorage.flush();
+        NstSvcPlaceRoleStorage.flush();
       });
     }
 
@@ -664,7 +665,7 @@
           search: placeData.privacy.search
         });
       }
-      
+
       NstSvcAuth.setAccess(place.getId(), placeData.access);
 
       return place;
@@ -720,9 +721,25 @@
       return defer.promise;
     };
 
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function () {
-      NstSvcMyPlaceIdStorage.flush();
-    });
+    var placeFactory = new PlaceFactory();
+
+    function setRoleOnPlace(placeId, role) {
+      NstSvcPlaceRoleStorage.set(placeId, role);
+    }
+
+    function getRoleOnPlace(placeId, forceRequest) {
+      var deferred = $q.defer();
+
+      var placeRole = NstSvcPlaceRoleStorage.get(placeId);
+      if (placeRole && !forceRequest) {
+        deferred.resolve(placeRole);
+      } else {
+        // TODO: Implement Request
+        deferred.reject('');
+      }
+
+      return deferred.promise;
+    }
 
     // NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
     //   var invitation = event.detail.invitation;
@@ -731,6 +748,6 @@
     // });
 
 
-    return new PlaceFactory();
+    return placeFactory;
   }
 })();
