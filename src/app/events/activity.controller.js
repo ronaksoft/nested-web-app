@@ -236,24 +236,24 @@
       });
 
       // FIXME: NEEDS REWRITE COMPLETELY
+      var nav = document.getElementsByTagName("nst-navbar")[0];
+      TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Power1.easeOut, force3D:true});
+      $timeout(function () { $rootScope.navView = false });
       vm.bodyScrollConf = {
-        axis: 'xy',
+        axis: 'y',
         callbacks: {
           whileScrolling:function(){
             var t = -this.mcs.top;
-            $timeout(function () { $rootScope.navView = t > 55; });
+            if (t > 55 && !$rootScope.navView){
+              //tl.kill({minHeight:true,maxHeight:true}, nav);
+              TweenLite.to(nav, 0.1, {minHeight: 131, maxHeight: 131, height: 131, ease: Power1.easeOut, force3D:true});
+              $timeout(function () { $rootScope.navView = t > 55; });
+            }else if(t < 55 && $rootScope.navView) {
+              TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Power1.easeOut, force3D:true});
+              $timeout(function () { $rootScope.navView = t > 55; });
+            }
 
             //$('.nst-navbar').toggleClass('tiny', t > 55);
-
-            if ( t > 0) {
-              $("#content-plus").stop().css({
-                marginTop: t
-              });
-            } else if(t == 0){
-              $("#content-plus").stop().css({
-                marginTop: 0
-              });
-            }
           },
           onTotalScroll:function () {
             vm.loadMore();
