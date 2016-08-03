@@ -10,6 +10,11 @@
     },
     "PIONEER_INVITATION": {
       "URL": "http://x.nested.ronaksoftware.com/send_invite.php"
+    },
+    "REGISTER" : {
+      "AJAX" : {
+        "URL" : "http://api.nested.ronaksoftware.com"
+      }
     }
   }
 }

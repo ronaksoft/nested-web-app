@@ -8,7 +8,7 @@
 
       <section class="content _bgwhite">
         <!-- TODO : Remove the style about scroll -->
-        <div id="place-option-body" class="_bgwhite" style="height : 2000px; overflow: scroll;">
+        <div id="place-option-body" class="_bgwhite" style="height : 2500px;">
           <div id="place-option-hld _fh">
             <div class="room-name">
               <label for="logo" class="_di">
@@ -35,12 +35,12 @@
                   <div class="_df"><label for="sw-notification"><i class="nst-place-icon-notif _df"></i></label></div>
                   <div class="_df _fw"><label for="sw-notification"><h5>Notifictions</h5></label></div>
                   <div class="_df switch">
-                    <input type="checkbox" id="sw-notification" class="inpsw" name="notification" data-ng-model="ctlPlaceSettings.place.privacy.notification"
-                           onchange="TODO:FIX"/>
-                    <label class="on active" for="sw-notification" data-ng-click="notification && $event.preventDefault();">
+                    <input type="checkbox" id="sw-notification" class="inpsw" name="notification" data-ng-model="ctlPlaceSettings.options.notification"
+                           ng-change="ctlPlaceSettings.setNotification()"/>
+                    <label class="on active" for="sw-notification" data-ng-click="ctlPlaceSettings.options.notification && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
-                    <label class="noton" for="sw-notification" data-ng-click="!notification && $event.preventDefault();">
+                    <label class="noton" for="sw-notification" data-ng-click="!ctlPlaceSettings.options.notification && $event.preventDefault();">
                       <div class="labtxt _fw">OFF</div>
                     </label>
                   </div>
@@ -49,7 +49,7 @@
                   <p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place, <a class="nst-mood-cheerful cursor-pointer">invite them
                     as a member</a>.</p>
                 </div>
-                <div class="_difc _fw optionrow">
+                <!-- <div class="_difc _fw optionrow">
                   <div class="_df"><label for="sw-digest"><i class="nst-place-icon-shown _df"></i></label></div>
                   <div class="_df _fw"><label for="sw-digest"><h5>Show in Digest</h5></label></div>
                   <div class="_df switch">
@@ -61,7 +61,7 @@
                       <div class="labtxt _fw">OFF</div>
                     </label>
                   </div>
-                </div>
+                </div> -->
               </div> <!--/nst-option-->
 
               <div class="nst-place-privacy col-xs-12 col-lg-6">
@@ -74,7 +74,7 @@
 
                   <div class="_df switch">
                     <input type="checkbox" id="sw-locked" data-ng-disabled="!ctlPlaceSettings.hasControlAccess" class="inpsw" name="locked" data-ng-model="ctlPlaceSettings.place.privacy.locked"
-                           onchange="return angular.element(this).scope().place_option.showLockModal(event)"/>
+                           ng-change="ctlPlaceSettings.updatePrivacy()"/>
                     <label for="sw-locked" data-ng-click="ctlPlaceSettings.place.privacy.locked && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
@@ -92,7 +92,7 @@
                   <div class="_df _fw"><label for="sw-receptive"><h5>Receptive</h5></label></div>
                   <div class="_df switch">
                     <input type="checkbox" data-ng-disabled="!ctlPlaceSettings.hasControlAccess" id="sw-receptive" class="inpsw" name="receptive" data-ng-model="ctlPlaceSettings.place.privacy.receptive"
-                           onchange="TODO:FIX"/>
+                      ng-change="ctlPlaceSettings.updatePrivacy()"/>
                     <label for="sw-receptive" data-ng-click="ctlPlaceSettings.place.privacy.receptive && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
@@ -109,8 +109,8 @@
                   <div class="_df"><label for="sw-search"><i class="nst-place-icon-search _df"></i></label></div>
                   <div class="_df _fw"><label for="sw-search"><h5>Search</h5></label></div>
                   <div class="_df switch">
-                    <input type="checkbox" data-ng-disabled="!ctlPlaceSettings.place.privacy.receptive || !ctlPlaceSettings.hasControlAccess " id="sw-search" class="inpsw" name="search" data-ng-model="place.privacy.search"
-                           onchange="TODO:FIX"/>
+                    <input type="checkbox" data-ng-disabled="!ctlPlaceSettings.place.privacy.receptive || !ctlPlaceSettings.hasControlAccess " id="sw-search" class="inpsw" name="search" data-ng-model="ctlPlaceSettings.place.privacy.search"
+                      ng-change=""/>
                     <label for="sw-search" data-ng-click="ctlPlaceSettings.place.privacy.search && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
@@ -127,8 +127,8 @@
                   <div class="_df"><label for="sw-email"><i class="nst-place-icon-email _df"></i></label></div>
                   <div class="_df _fw"><label for="sw-email"><h5>Email</h5></label></div>
                   <div class="_df switch">
-                    <input type="checkbox" data-ng-disabled="!ctlPlaceSettings.place.privacy.receptive || !ctlPlaceSettings.hasControlAccess" id="sw-email" class="inpsw" name="email" data-ng-model="place.privacy.email"
-                           onchange="TODO:FIX"/>
+                    <input type="checkbox" data-ng-disabled="!ctlPlaceSettings.place.privacy.receptive || !ctlPlaceSettings.hasControlAccess" id="sw-email" class="inpsw" name="email" data-ng-model="ctlPlaceSettings.place.privacy.email"
+                           ng-change=""/>
                     <label for="sw-email" data-ng-click="ctlPlaceSettings.place.privacy.email && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
@@ -150,6 +150,12 @@
                 <div class="add-icon _dib"></div>
               </div>
               <hr>
+              <h5 ng-if="!ctlPlaceSettings.hasSeeMembersAccess" class="nst-mood-storm">
+                You are not allowed to see other teamates!
+              </h5>
+              <h5 ng-if="ctlPlaceSettings.hasSeeMembersAccess && ctlPlaceSettings.hasSeeMembersAccess && !ctlPlaceSettings.hasAnyTeamate" class="nst-mood-storm">
+                There is not any teamate here!
+              </h5>
               <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.creators" data-ng-include="'app/pages/places/settings/member.html'"
                    data-ng-init="role = 'creator'"></div>
               <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.keyHolders" data-ng-include="'app/pages/places/settings/member.html'"
@@ -165,6 +171,12 @@
                 <div class="add-icon _dib"></div>
               </div>
               <hr>
+              <h5 ng-if="!ctlPlaceSettings.hasSeeMembersAccess" class="nst-mood-storm">
+                You are not allowed to see the participants!
+              </h5>
+              <h5 ng-if="ctlPlaceSettings.hasSeeMembersAccess && !ctlPlaceSettings.hasAnyGuest" class="nst-mood-storm">
+                There is not any participant here!
+              </h5>
               <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlPlaceSettings.members.knownGuests" data-ng-include="'app/pages/places/settings/member.html'"
                    data-ng-init="role = 'known_guest'"></div>
               <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlPlaceSettings.members.pendingKnownGuests" data-ng-include="'app/pages/places/settings/member.html'"
