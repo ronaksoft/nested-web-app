@@ -101,7 +101,7 @@
 
       if (!this.requests.get[id]) {
         var query = new NstFactoryQuery(id);
-        
+
         this.requests.get[id] = $q(function (resolve, reject) {
           var place = NstSvcPlaceStorage.get(query.id);
           if (place) {
@@ -149,7 +149,7 @@
 
       if (!this.requests.getTiny[id]) {
         var query = new NstFactoryQuery(id);
-        
+
         this.requests.getTiny[id] = $q(function (resolve, reject) {
           var place = NstSvcPlaceStorage.get(query.id) || NstSvcTinyPlaceStorage.get(query.id);
           if (place) {
@@ -249,7 +249,7 @@
 
       if (!this.requests.getMine) {
         var query = new NstFactoryQuery();
-        
+
         this.requests.getMine = $q(function (resolve, reject) {
           var placeIds = NstSvcMyPlaceIdStorage.get('all');
           if (placeIds) {
@@ -347,7 +347,7 @@
 
       if (!this.requests.getMyTiny) {
         var query = new NstFactoryQuery();
-        
+
         this.requests.getMyTiny = $q(function (resolve, reject) {
           var placeIds = NstSvcMyPlaceIdStorage.get('tiny');
           if (placeIds) {
@@ -437,10 +437,10 @@
           NST_PLACE_FACTORY_EVENT.ROOT_ADD,
           { detail: { id: placeId, place: place } }
         ));
-        
+
         deferred.resolve(place);
       }).catch(deferred.reject);
-      
+
       return deferred.promise;
     };
 
@@ -770,7 +770,7 @@
 
     PlaceFactory.prototype.getRoleOnPlace = function (id, forceRequest) {
       var factory = this;
-      
+
       if (!this.requests.getRole[id]) {
         var deferred = $q.defer();
         var query = new NstFactoryQuery(id);
@@ -789,9 +789,9 @@
           }).catch(deferred.reject);
         }
 
-        return deferred.promise;
+        this.requests.getRole[id] = deferred.promise;
       }
-      
+
       return this.requests.getRole[id].then(function () {
         var args = arguments;
         delete factory.requests.getRole[id];
@@ -806,16 +806,16 @@
         return $q(function (res, rej) {
           rej.apply(null, args);
         });
-      });;
+      });
     };
 
     PlaceFactory.prototype.getAccessOnPlace = function(id, forceRequest) {
       var factory = this;
-      
+
       if (!this.requests.getAccess[id]) {
         var deferred = $q.defer();
         var query = new NstFactoryQuery(id);
-        
+
         var placeAccess = NstSvcPlaceAccessStorage.get(id);
         if (placeAccess && !forceRequest) {
           deferred.resolve(placeAccess);
@@ -841,7 +841,6 @@
             if (access) {
               deferred.resolve(access);
             } else {
-              // TODO: Reject with factory error
               deferred.reject(new NstFactoryError(query, 'Unknown Error in Retrieving Place Role', NST_SRV_ERROR.UNKNOWN));
             }
           }).catch(function (error) {
@@ -851,7 +850,7 @@
 
         this.requests.getAccess[id] = deferred.promise;
       }
-      
+
       return this.requests.getAccess[id].then(function () {
         var args = arguments;
         delete factory.requests.getAccess[id];
