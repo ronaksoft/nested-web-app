@@ -284,6 +284,31 @@
       return userData;
     };
 
+    UserFactory.prototype.search = function (settings) {
+      var factory = this;
+      var defer = $q.defer();
+
+      var defaultSettings = {
+        query : '' ,
+        placeId : null,
+        limit : 10,
+        role : null
+      };
+
+      settings = _.defaults(settings, defaultSettings);
+      NstSvcServer.request('account/search', {
+        keyword: settings.query,
+        place_id: settings.placeId,
+        role: settings.role,
+        limit: settings.limit
+      }).then(function (data) {
+        var users = _.map(data.accounts, factory.parseTinyUser);
+        defer.resolve(users);
+      }).catch(defer.reject);
+
+      return defer.promise;
+    };
+
     return new UserFactory();
   }
 })();

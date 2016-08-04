@@ -311,7 +311,7 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-
+      
     });
   }
 })();

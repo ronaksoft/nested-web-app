@@ -6,47 +6,43 @@
     .controller('PlaceAddMemberController', PlaceAddMemberController);
 
   /** @ngInject */
-  function PlaceAddMemberController($location, $scope, NstSvcServer, NstSvcAuth, NestedUser, MEMBER_TYPE) {
+  function PlaceAddMemberController($location, $scope, $log,
+    NstSvcServer, NstSvcAuth, NestedUser, NstSvcUserFactory,
+    NST_PLACE_MEMBER_TYPE,
+    chosenRole, currentPlace) {
     var vm = this;
+    var defaultSearchResultCount = 9;
 
-    if (!NstSvcAuth.isInAuthorization()) {
-      $location.search({ back: $location.path() });
-      $location.path('/signin').replace();
+    vm.isTeamateMode = true;
+    if (chosenRole === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
+      vm.isTeamateMode = false;
     }
-
     vm.selectedUsers = [];
+    vm.users = [];
+    vm.search = _.debounce(search, 512);
+    vm.add = add;
 
-    vm.search = function (query) {
-      NstSvcServer.request('account/search', {
-        keyword: query,
-        place_id: $scope.place.id,
-        role: 'teammate' == $scope.role ? MEMBER_TYPE.KEY_HOLDER : MEMBER_TYPE.KNOWN_GUEST,
-        limit: 10 + vm.selectedUsers.length
-      }).then(function (data) {
-        $scope.place_add_member.users = [];
-        for (var k in data.accounts) {
-          $scope.place_add_member.users.push(new NestedUser(data.accounts[k]));
-        }
+    function search(query) {
+      var settings = {
+        query : query,
+        role : chosenRole,
+        placeId : currentPlace.id,
+        limit : calculateSearchLimit()
+      };
+
+      NstSvcUserFactory.search(settings).then(function (users) {
+        vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
+      }).catch(function (error) {
+        $log.debug(error);
       });
     };
 
-    vm.add = function () {
-      for (var k in $scope.place_add_member.selectedUsers) {
-        var user = $scope.place_add_member.selectedUsers[k];
-
-        switch ($scope.role) {
-          case 'teammate':
-            $scope.place.addMember('key_holder', user, true);
-            break;
-
-          case 'member':
-          default:
-            $scope.place.addMember('known_guest', user, true);
-            break;
-        }
-      }
-
-      $scope.closeModal();
+    function add() {
+      $scope.$close(vm.selectedUsers);
     };
+
+    function calculateSearchLimit() {
+      return defaultSearchResultCount + vm.selectedUsers.length;
+    }
   }
 })();
