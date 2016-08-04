@@ -6,9 +6,9 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($location, $scope, $stateParams, $q, $uibModal, $log,
-    NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE,
-    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory,
+  function PlaceSettingsController($location, $scope, $stateParams, $q, $uibModal, $log, $state,
+    NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE,
+    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl,
     NstPlace, NstPicture) {
     var vm = this;
 
@@ -32,13 +32,29 @@
     vm.addMember = addMember;
     vm.inviteParticipant = inviteParticipant;
     vm.loadImage = loadImage;
+    vm.confirmToLock = confirmToLock;
+    vm.confirmToLeave = confirmToLeave;
+
+    vm.controls = {
+      left: [
+        // TODO: Get Previous state
+        new NstVmNavbarControl('Back', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('place-messages', {
+          placeId : $stateParams.placeId
+        }))
+      ],
+      right: [
+        new NstVmNavbarControl('Leave', NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, vm.confirmToLeave)
+      ]
+    };
 
     (function() {
+      $log.debug('Initializing of PlaceSettingsController just started...');
       vm.place = {};
       vm.placeId = $stateParams.placeId;
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
+        $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));
 
         return $q.all([
           NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
@@ -57,6 +73,8 @@
         vm.hasSeeMembersAccess = values[4];
         vm.options.notification = values[5];
 
+        $log.debug(NstUtility.string.format('Place "{0}" settings retrieved successfully.', vm.place.name));
+
         return vm.hasSeeMembersAccess ? NstSvcPlaceFactory.getMembers(vm.placeId)
                                       : $q(function (resolve) {
                                         resolve([]);
@@ -67,6 +85,12 @@
           vm.members.keyHolders = members.keyHolders;
           vm.members.knownGuests = members.knownGuests;
 
+          $log.debug(NstUtility.string.format('Place "{0}" has {1} creator(s), {2} key holder(s) and {3} known guest(s).',
+            vm.place.name,
+            vm.members.creators.length,
+            vm.members.keyHolders.length,
+            vm.members.knownGuests.length
+          ));
 
         return vm.hasSeeMembersAccess ? NstSvcPlaceFactory.getPendings(vm.placeId)
                                       : $q(function (resolve) {
@@ -76,6 +100,12 @@
 
         vm.members.pendingKeyHolders = pendings.pendingKeyHolders;
         vm.members.pendingKnownGuests = pendings.pendingKnownGuests;
+
+        $log.debug(NstUtility.string.format('Place "{0}" has {1} pending key holder(s) and {2} pending known guest(s).',
+          vm.place.name,
+          vm.members.pendingKeyHolders.length,
+          vm.members.pendingKnownGuests.length
+        ));
 
         vm.hasAnyGuest = _.some(vm.members.knownGuests) ||
                          _.some(vm.members.pendingKnownGuests);
@@ -89,61 +119,14 @@
 
     })();
 
-    vm.actions = {
-      'leave': {
-        name: 'Leave',
-        fn: function() {
-          vm.leaveModal();
-        }
-      }
-    };
 
-    vm.imgToUri = function(event) {
-      var element = event.currentTarget;
-
-      for (var i = 0; i < element.files.length; i++) {
-        $scope.logo = element.files[i];
-
-        var reader = new FileReader();
-        reader.onload = function(event) {
-          $scope.place.picture.org.url = event.target.result;
-          $scope.place.picture.x32.url = $scope.place.picture.org.url;
-          $scope.place.picture.x64.url = $scope.place.picture.org.url;
-          $scope.place.picture.x128.url = $scope.place.picture.org.url;
-
-          return NstSvcStore.upload($scope.logo, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE).then(function(response) {
-            $scope.place.picture.org.uid = response.universal_id;
-            $scope.logo = null;
-
-            return $scope.place.setPicture(response.universal_id);
-          });
-        };
-
-        reader.readAsDataURL($scope.logo);
-      }
-    };
-
-    vm.updatePlace = function(name, value) {
-      var data = {};
-      data[name] = value;
-
-      return $scope.place.update(data);
-    };
-
-
-    $scope.checkplace = function(PlaceId) {
-      if (PlaceId == $scope.place.id) {
-        $scope.deleteValidated = true;
-      } else {
-        $scope.deleteValidated = false;
-      }
-    };
 
     function showAddModal(role) {
+      console.log(role);
 
       var modal = $uibModal.open({
         animation: false,
-        templateUrl: 'app/pages/places/settings/add_member.html',
+        templateUrl: 'app/pages/places/settings/place-add-member.html',
         controller: 'PlaceAddMemberController',
         controllerAs: 'addMemberCtrl',
         size: 'sm',
@@ -159,17 +142,25 @@
 
       modal.result.then(function (selectedUsers) {
         $q.all(_.map(selectedUsers, function (user) {
+
           return $q(function (resolve, reject) {
-            return NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (inviteId) {
+            NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (invitationId) {
+              console.log('invitation id is :', invitationId);
+              $log.debug(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
               resolve({
-                userId : user.id,
-                inviteId : inviteId
+                user : user,
+                role : role,
+                invitationId : invitationId
               });
             }).catch(function (error) {
-              if (error.err_code === NST_SRV_ERROR.DUPLICATE){
+              // FIXME: Why cannot catch the error!
+              console.log(error);
+              if (error.getCode() === NST_SRV_ERROR.DUPLICATE){
+                $log.debug(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
                 resolve({
-                  userId : user.id,
-                  inviteId : null,
+                  user : user,
+                  role : role,
+                  invitationId : null,
                   duplicate : true
                 });
               } else {
@@ -177,10 +168,19 @@
               }
             });
           });
-        })).then(function (values) {
 
+        })).then(function (values) {
+          _.forEach(values, function (result) {
+            if (!result.duplicate) {
+              if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
+                vm.members.pendingKeyHolders.push(result.user);
+              } else if (result.role === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
+                vm.members.pendingKnownGuests.push(result.user);
+              }
+            }
+          });
         }).catch(function (error) {
-          $log.debug(error);
+          $log.debug('an error from all.', error);
         });
       });
     };
@@ -193,23 +193,16 @@
       showAddModal(NST_PLACE_MEMBER_TYPE.KNOWN_GUEST);
     }
 
-    vm.showLockModal = function(event) {
+     function confirmToLock (event) {
       event.preventDefault();
       event.stopPropagation();
 
       $uibModal.open({
         animation: false,
-        templateUrl: 'app/places/option/warning.html',
-        controller: 'WarningController',
-        size: 'sm',
-        scope: $scope
-      }).result.then(function() {
-        var data = {};
-        data['privacy.locked'] = $scope.place.privacy.locked;
-
-        return $scope.place.update(data);
-      }).catch(function() {
-        $scope.place.privacy.locked = !$scope.place.privacy.locked;
+        templateUrl: 'app/pages/places/settings/place-lock-warning.html',
+        size: 'sm'
+      }).result.then(function(result) {
+        updatePrivacy('locked', !vm.place.privacy.getLocked());
       });
 
       return false;
@@ -244,85 +237,65 @@
 
     };
 
-    vm.leaveModal = function() {
+    function confirmToLeave() {
 
       $uibModal.open({
         animation: false,
-        templateUrl: 'app/places/option/leave.html',
-        controller: 'WarningController',
+        templateUrl: 'app/places/option/place-leave-confirm.html',
         size: 'sm',
-        scope: $scope
+        scope: {
+          place : vm.place
+        }
       }).result.then(function() {
-        return $scope.place.removeMember(NstSvcAuth.user.username).then(function() {
-          $location.path('/places').replace();
-
-          return $q(function(res) {
-            res();
-          });
-        });
+        console.log('where do you wanna go?');
+        // return $scope.place.removeMember(NstSvcAuth.user.username).then(function() {
+        //   $location.path('/places').replace();
+        //
+        //   return $q(function(res) {
+        //     res();
+        //   });
+        // });
       });
     };
 
     function remove() {
-      var defer = $q.defer();
-
       return NstSvcPlaceFactory.remove(vm.place.id).then(function() {
-        defer.resolve(true);
       }).catch(function(error) {
         $log.debug(error);
-        defer.reject(false);
       });
-
-      return defer.promise;
     }
 
     function removeMember(username) {
-      var defer = $q.defer();
-
       return NstSvcPlaceFactory.removeMember(vm.place.id, username).then(function() {
-        defer.resolve(true);
       }).catch(function(error) {
         $log.debug(error);
-        defer.reject(false);
       });
-
-      return defer.promise;
     }
 
     function updatePrivacy(name, value) {
       if (name && value){
         vm.place.privacy[name] = value;
       }
-      update('privacy', vm.place.privacy).then(function (result) {
-        if (result) {
-        }
-      }).catch(function (error) {
-
-      });
+      update('privacy', vm.place.privacy);
     }
 
     function update(property, value) {
-      var defer = $q.defer();
-
       if (property && value) {
         vm.place[property] = value;
       }
 
       NstSvcPlaceFactory.save(vm.place).then(function(result) {
-        defer.resolve(true);
+        $log.debug(NstUtility.string.format('Place {0} information updated successfully.', vm.place.id));
       }).catch(function(error) {
         $log.debug(error);
-        defer.reject(false);
       });
-
-      return defer.promise;
     }
 
     function setNotification() {
-      NstSvcPlaceFactory.setNotificationOption(vm.placeId).then(function (result) {
-        console.log('yeah baby!');
+      NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.options.notification).then(function (result) {
+        $log.debug(NstUtility.string.format('Place {0} notification setting changed to {1} successfully.', vm.place.id, vm.options.notification));
       }).catch(function (error) {
-
+        $log.debug(error);
       });
     }
 
@@ -335,6 +308,7 @@
 
         var reader = new FileReader();
         reader.onload = function(readEvent) {
+          $log.debug('The picture is loaded locally and going to be sent to server.');
           vm.logoUrl = readEvent.target.result;
 
           // upload the picture
@@ -345,8 +319,11 @@
             vm.place.getPicture().setThumbnail(32, vm.place.getPicture().getOrg());
             vm.place.getPicture().setThumbnail(64, vm.place.getPicture().getOrg());
             vm.place.getPicture().setThumbnail(128, vm.place.getPicture().getOrg());
-            // update();
-            console.log('hoora');
+            NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
+              $log.debug(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
+            }).catch(function (error) {
+              $log.debug(error);
+            })
           });
         };
 
@@ -359,7 +336,8 @@
     function logoUploadProgress(event) {
       vm.logoUploadedSize = event.loaded;
       vm.logoUploadedRatio = Number(event.loaded / event.total).toFixed(4);
-      console.log(vm.logoUploadedRatio);
+
+      $log.debug(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
     }
   }
 })();

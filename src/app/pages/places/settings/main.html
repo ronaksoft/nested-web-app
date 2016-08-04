@@ -1,13 +1,12 @@
 <div class="maincontainer _fw option-hld ng-class:{'navtiny' : navView,'sidetiny' : sideView}">
   <nst-sidebar data-ng-model="sidebar" class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
-    <nst-navbar place="ctlPlaceSettings.place"></nst-navbar>
+    <nst-navbar place="ctlPlaceSettings.place" controls="ctlPlaceSettings.controls"></nst-navbar>
 
     <div class="nst-content _tr" id="content-wrapper" ng-scrollbars>
 
 
       <section class="content _bgwhite">
-        <!-- TODO : Remove the style about scroll -->
         <div id="place-option-body" class="_bgwhite">
           <div id="place-option-hld _fh">
             <div class="room-name">
@@ -73,12 +72,11 @@
                   <div class="_df _fw"><label for="sw-locked"><h5>Lock</h5></label></div>
 
                   <div class="_df switch">
-                    <input type="checkbox" id="sw-locked" data-ng-disabled="!ctlPlaceSettings.hasControlAccess" class="inpsw" name="locked" data-ng-model="ctlPlaceSettings.place.privacy.locked"
-                           ng-change="ctlPlaceSettings.updatePrivacy()"/>
-                    <label for="sw-locked" data-ng-click="ctlPlaceSettings.place.privacy.locked && $event.preventDefault();">
+                    <input type="checkbox" id="sw-locked" data-ng-disabled="!ctlPlaceSettings.hasControlAccess" class="inpsw" name="locked" ng-checked="ctlPlaceSettings.place.privacy.locked" />
+                    <label for="sw-locked" data-ng-click="ctlPlaceSettings.confirmToLock($event);">
                       <div class="labtxt _fw">ON</div>
                     </label>
-                    <label for="sw-locked" data-ng-click="!ctlPlaceSettings.place.privacy.locked && $event.preventDefault();">
+                    <label for="sw-locked" data-ng-click="ctlPlaceSettings.confirmToLock($event);">
                       <div class="labtxt _fw">OFF</div>
                     </label>
                   </div>
@@ -156,11 +154,11 @@
               <h5 ng-if="ctlPlaceSettings.hasSeeMembersAccess && ctlPlaceSettings.hasSeeMembersAccess && !ctlPlaceSettings.hasAnyTeamate" class="nst-mood-storm">
                 There is not any teamate here!
               </h5>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.creators" data-ng-include="'app/pages/places/settings/member.html'"
+              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.creators" data-ng-include="'app/pages/places/settings/place-member.html'"
                    data-ng-init="role = 'creator'"></div>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.keyHolders" data-ng-include="'app/pages/places/settings/member.html'"
+              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.keyHolders" data-ng-include="'app/pages/places/settings/place-member.html'"
                    data-ng-init="role = 'key_holder'"></div>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.pendingKeyHolders" data-ng-include="'app/pages/places/settings/member.html'"
+              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.pendingKeyHolders" data-ng-include="'app/pages/places/settings/place-member.html'"
                    data-ng-init="role = 'pending_key_holder'"></div>
             </div><!--/nst-teammates-->
 
@@ -177,9 +175,9 @@
               <h5 ng-if="ctlPlaceSettings.hasSeeMembersAccess && !ctlPlaceSettings.hasAnyGuest" class="nst-mood-storm">
                 There is not any participant here!
               </h5>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlPlaceSettings.members.knownGuests" data-ng-include="'app/pages/places/settings/member.html'"
+              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlPlaceSettings.members.knownGuests" data-ng-include="'app/pages/places/settings/place-member.html'"
                    data-ng-init="role = 'known_guest'"></div>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlPlaceSettings.members.pendingKnownGuests" data-ng-include="'app/pages/places/settings/member.html'"
+              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlPlaceSettings.members.pendingKnownGuests" data-ng-include="'app/pages/places/settings/place-member.html'"
                    data-ng-init="role = 'pending_known_guest'">
               </div>
 
