@@ -193,7 +193,6 @@ mark {
 
 }
 
-
 .butn {
   border: 1px $color-breeze solid;
   background-color: $color-white;
@@ -1157,10 +1156,11 @@ ul ul li:last-child{
 .post-card-comments {
   align-items: flex-start;
   margin: 4px 0;
+  background-color: #E7FBf0;
 }
 
 .post-card-comments:hover {
-  background-color: $color-sense-5;
+  background-color: #D0f7e1;
 }
 
 .post-card-comments .text{
@@ -1426,3 +1426,9 @@ input[type="checkbox"]:checked + label.setting {
     min-width: 600px;
   }
 }
+
+
+//#popup-msg-badge  div ._dtr :hover {
+//  background-color: $color-sense-5;
+//}
+
