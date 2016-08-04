@@ -253,7 +253,7 @@
     }
 
     /*****************************
-     *****    Other Methods   ****
+     *****  Event Listeners   ****
      *****************************/
 
     NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ADD, function (event) {

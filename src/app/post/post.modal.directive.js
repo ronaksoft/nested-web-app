@@ -25,7 +25,7 @@
             animation: false,
             templateUrl: 'app/post/post.html',
             controller: 'PostController',
-            controllerAs: 'postVm',
+            controllerAs: 'ctlPost',
             size: 'mlg',
             resolve: {
               vmPost: function () {

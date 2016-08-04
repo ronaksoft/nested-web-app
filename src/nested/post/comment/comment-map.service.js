@@ -8,7 +8,8 @@
   function NstSvcCommentMap(NstVmCommentItem) {
 
     var service = {
-      toMessageComment: toMessageComment
+      toMessageComment: toMessageComment,
+      toPostComment: toPostComment
     };
 
     return service;
@@ -17,6 +18,8 @@
       return new NstVmCommentItem(comment);
     }
 
+    function toPostComment(comment) {
+      return new NstVmCommentItem(comment, true);
+    }
   }
-
 })();

@@ -19,9 +19,9 @@
       this.avatar = null;
 
       if (model instanceof NstTinyUser) {
-        this.name = model.fullName;
-        this.username = model.id;
-        this.avatar = model.picture.getThumbnail('32').url.view;
+        this.name = model.getFullName();
+        this.username = model.getId();
+        this.avatar = model.getPicture().getThumbnail(32).getUrl().view;
       }
 
     }

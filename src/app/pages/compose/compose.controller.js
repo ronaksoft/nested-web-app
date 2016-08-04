@@ -276,7 +276,6 @@
 
       reader.onload = function (event) {
         var uri = event.target.result;
-        // TODO: Generate Raw Resource
         var resource = new NstLocalResource(uri);
         attachment.setResource(resource);
 
