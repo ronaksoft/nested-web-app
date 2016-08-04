@@ -51,6 +51,10 @@
       forward: $state.href('compose-forward', { postId: vm.postId })
     };
 
+    vm.scrollConfig = {
+      axis: 'x'
+    };
+
     /*****************************
      ***** Controller Methods ****
      *****************************/

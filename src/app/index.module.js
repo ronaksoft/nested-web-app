@@ -7,7 +7,6 @@
       'ngAnimate',
       'ngCookies',
       'ngTouch',
-      'angularResizable',
       'ui.select',
       'ngSanitize',
       'ngMessages',
