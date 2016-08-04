@@ -780,11 +780,6 @@ body.modal-open {
   border-radius: 6px 0px 6px 6px;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
-@media screen and (max-width: 990px){
-  .popover-white + .popover {
-    left:280px!important;
-  }
-}
 
 .popover-green + .popover {
   background: $color-sense-5;
@@ -1062,14 +1057,7 @@ a .ui-select-choises-row-inner {
   background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,.04) 100%);
 
 }
-@media screen and (max-width: 990px){
-  .sidebar{
-    display: none;
-  }
-  .sidebar-border {
-    display: none;
-  }
-}
+
 .sidebar > div {
   //flex: none;
   transition: 0.3s;
@@ -1955,30 +1943,6 @@ a.normal-badge {
   color: $color-solid;
 }
 
-
-
-/**
-  *********************************************************
-  *     Nested Classes -   * Media
-  *********************************************************
- */
-
-@media (min-width: 1000px) {
-  #AllPlaces { width: 100%; }
-}
-@media (max-width: 999px) {
-
-  #AllPlaces li > table td.properties {}
-  #AllPlaces li > table td.members {}
-}
-
-@media (max-width: 999px) {
-  #MyPlaces {}
-  #EventList td.places {}
-  #PostView .main-body .right-column {}
-  #PostView #Toolbar {}
-  #PostView #Comments {}
-}
 /**
   *********************************************************
   *     Nested Classes -   * ngProgress
