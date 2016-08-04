@@ -268,12 +268,10 @@
 
 #PostView #Content {
   vertical-align: top;
-  overflow: auto;
 }
 
 #PostView #PostBody {
   border: none;
-  overflow: auto;
 }
 
 #PostView #Comments {
@@ -370,7 +368,13 @@
 .badges {
   margin:0 15px;
   max-width: calc(100% - 250px);
-  overflow-x: auto;
+  div div {
+    display: inline-flex;
+    flex-direction: row;
+  }
+  .mCSB_container {
+    width: auto !important;
+  }
 }
 .image-preview {
   background-color: rgba(240, 245, 242,0.7);

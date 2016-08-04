@@ -12,6 +12,10 @@
                           NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap,
                           NstComment, NstVmUser, vmPost, postId) {
     var vm = this;
+    vm.scrollConfig = {
+      axis: 'x'
+    };
+
     console.log(vmPost,postId);
     if (vmPost)  vm.post = vmPost;
     vm.postId = $stateParams.postId || postId;
