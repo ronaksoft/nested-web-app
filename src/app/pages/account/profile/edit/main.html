@@ -1,5 +1,5 @@
-<div class="maincontainer prof-hld  _fw ng-class:{'navtiny' : navView,'sidetiny' : sideView}">
-  <nst-sidebar data-ng-model="sidebar" class="_fn _fh"></nst-sidebar>
+<div class="maincontainer prof-hld  _fw ng-class:{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
+  <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed"  class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
     <nst-navbar data-ng-model="navbar"></nst-navbar>
 

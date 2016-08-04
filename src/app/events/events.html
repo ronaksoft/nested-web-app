@@ -1,5 +1,5 @@
-<div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : sideView}" >
-  <nst-sidebar data-ng-model="sidebar" class="_fn _fh"></nst-sidebar>
+<div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}" >
+  <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed" class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
     <nst-navbar data-ng-model="navbar" place="ctlActivity.currentPlace"></nst-navbar>
 
@@ -60,82 +60,3 @@
     </div>
   </div>
 </div>
-
-
-<!--<div>
-  <nst-navbar data-ng-model="navbar"></nst-navbar>
-  <div id="container">
-    <div class="side _bggray _fw" resizable data-r-directions="['right']" data-r-flex="true" ng-style="{'width': sidebarWidth}" ng-mouseleave="events.sidebarWidthFunc($event)">
-      <div class="compose _bgwhite _df _fw">
-        <form action="#/new">
-          <button data-ng-if="events || places" class="composen" >
-            <a href="#/new">Compose</a>
-          </button>
-        </form>
-      </div>
-      <nst-sidebar data-ng-model="sidebar" class="_fw _df nst-sidebar"></nst-sidebar>
-    </div>
-    <div class="nst-content">
-      <div class="subnavitems _bgwhite _df">
-        <ul class="nav-width-ul">
-          <li data-ng-repeat="(key, filter) in events.filters" class=" li-hover {{key == events.filter ? 'selected' : null}}">
-            <a class="events-anchor" href="#/events/{{events.place.id ? events.place.id + '/' : null }}{{key}}" data-ng-click="events.setFilter(filter.filter)">{{filter.name}}</a>
-          </li>
-        </ul>
-        <div class="search _difc" id="ViewSelector">
-          <div class="_df">
-              <span class="text-right viewswitch" id="viewswitch" ng-click="events.collapse()" data-uib-tooltip="You can collapse or expand the activity body" data-tooltip-append-to-body="false" data-tooltip-placement="left-top">
-                <input type="checkbox" id="ext_switch" name="ext_switch" data-ng-model="events.extended"/>
-                <label for="ext_switch"></label>
-              </span>
-          </div>
-          <div class="_df"><input id="n-search" placeholder="Search"></div>
-        </div>
-      </div>
-      <div data-ng-if="events.place.id" class="_fl title-bar _vam _difh _fw">
-        <div class="logo-bar _df">
-          <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="48" data-height="48" data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
-        </div>
-        <div class="name title-bar-holder _difv">
-          <a class="_df _fh"><b>{{events.place.name}}</b></a>
-          <span class="nst-mood-storm _df _fh" data-ng-bind="events.place.id + '@nested.me'"></span>
-        </div>
-        <div class="nst-mood-storm members-status-nav _df">{{events.place.counters.allMembers}} members</div>
-        <div class="margin-top-20">
-          <div class="nst-more">
-            <a href="#/place/{{events.place.id}}">
-              <div class="nst-option-badge no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place settings"></div>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="title-bar _vam _difv _fw" id="EventList" data-ng-if="events.invitations.length > 0 && !events.place.id">
-        <div class="evrow _fw" data-ng-repeat="invitaion in events.invitations.invites" data-ng-include="'app/events/partials/invitation.html'"></div>
-      </div>
-      <hr data-ng-if="events.invitations.length > 0 && !events.place.id" class="title-bar-hr">
-
-      <hr data-ng-if="events.place.id" class="title-bar-hr _fw">
-
-      <div class="_fw nst-content-body" on-scroll="events.scroll(event)" seen-recents>
-        <div class="_fw eventsody" id="EventList">
-          <div data-ng-repeat="eventGroup in events.eventGroups" class="_fw">
-            <div class="event-group-time col-lg-12">
-              <div class="sender">
-                <p class="nst-mood-simple" data-ng-init="today = eventGroup.type == 'daily' && eventGroup.date.getDate() == now().getDate()">
-                  <span data-ng-if="today"><strong class="nst-mood-solid">Today</strong> <span data-ng-bind="now() | date:'EEEE d MMM'"></span></span>
-                  <span data-ng-if="!today" data-ng-bind="eventGroup.date | date:eventGroup.titleFormat"></span>
-                </p>
-              </div>
-            </div>
-            <div class="evrow" data-ng-repeat="event in eventGroup.set" data-ng-include="event.view.tpl.path" data-ng-model="event" recent-event></div>
-          </div>
-        </div>
-        <div class="text-center _fw moreevent" data-ng-if="events.moreEvents">
-          <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="events.load()">Load More...</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
--->
