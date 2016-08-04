@@ -1465,7 +1465,7 @@ ul ul .side-place-item-image {
   //flex-direction: column-reverse;
   align-items: center;
   transition: .3s;
-  & > div {
+  & > a > div {
     justify-content: center;
     padding: 0;
     transition: .1s;
@@ -1478,7 +1478,7 @@ ul ul .side-place-item-image {
     white-space: nowrap;
   }
 }
-.side-profile > div {
+.side-profile > a > div {
   padding: 4px 0 4px 22px;
   height: 48px;
   align-items: center;
@@ -1489,25 +1489,21 @@ ul ul .side-place-item-image {
     transition: .3s;
   }
 }
-.side-profile>div:hover {
+.side-profile > a > div:hover {
   transition-duration: 0.3s;
   transition-timing-function: ease;
   background-color: #d8dcd9;
 }
-.side-profile a{
+.side-profile span{
   color: $color-solid;
   line-height: 1em;
 }
-.side-profile span{
+.side-profile span.sm{
   font-size: $font-size-small;
   color: $color-storm;
 }
 .side-profile .icon{
   filter: contrast(1) grayscale(100%);
-}
-.maincontainer.sidetiny .side-profile span,
-.maincontainer.sidetiny .side-profile a{
-  display: none;
 }
 .side-profile + .popover {
   top: calc(100% - 150px)!important;

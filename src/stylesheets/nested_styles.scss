@@ -345,7 +345,6 @@ mark {
   bottom: 0;
   top: 68px;
   height: calc(100% - 68px);
-  overflow: auto;
   background-color: $color-breeze-50;
   padding: 8px 0;
   &.ng-inter {
@@ -465,6 +464,9 @@ nst-navbar {
       width: 40px;
       height: 40px;
     }
+  }
+  #content-wrapper {
+    min-height: calc(100vh - 131px);
   }
 }
 
@@ -824,13 +826,12 @@ ul ul li:last-child{
 #content-wrapper {
   //margin-top: 182px;
   //min-height: calc(100% - 183px);
-  min-height: 500px;
+  min-height: calc(100vh - 183px);
   height: 100%;
+  clear: both;
   justify-content: center;
   display: flex;
   align-self: flex-end;
-  overflow-y: initial;
-  overflow-y: auto;
   overflow-x: hidden;
 }
 
