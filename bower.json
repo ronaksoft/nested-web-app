@@ -33,7 +33,6 @@
     "ui-select": "angular-ui-select#^0.16.1",
     "angular-marked": "^1.2.0",
     "angular-xeditable": "^0.1.12",
-    "angular-resizable": "^1.2.0",
     "initial.js": "https://github.com/pouyanh/initial.js.git#v0.4.0",
     "lodash": "^4.13.1",
     "ngstorage": "^0.3.10",
