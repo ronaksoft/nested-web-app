@@ -80,7 +80,7 @@
                 vm.places.push(vmPlace);
               }
 
-              $state.go(vmPlace.url);
+              $state.go(getPlaceFilteredState(), { placeId: vmPlace.id });
             });
           } else { // Decline the Invitation
             return vm.invitation.decline(id);
@@ -124,6 +124,20 @@
         case 'place-activity-filtered':
           state = 'activity';
           break;
+      }
+
+      return state;
+    }
+
+    function getPlaceFilteredState() {
+      var state = 'place-messages';
+
+      if ($state.current.name.indexOf('activity') > -1) {
+        state = 'place-activity';
+      } else if ($state.current.name.indexOf('compose') > -1) {
+        state = 'place-compose';
+      } else if ($state.current.name.indexOf('settings') > -1) {
+        state = 'place-settings';
       }
 
       return state;
@@ -311,7 +325,7 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-      
+
     });
   }
 })();

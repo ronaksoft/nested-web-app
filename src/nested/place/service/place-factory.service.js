@@ -396,14 +396,18 @@
 
     PlaceFactory.prototype.addToMyPlaceIds = function (id) {
       var factory = this;
+
       var fullPlaceIds = NstSvcMyPlaceIdStorage.get('all');
+      if (fullPlaceIds) {
+        fullPlaceIds.push(id);
+        NstSvcMyPlaceIdStorage.set('all', fullPlaceIds);
+      }
+
       var tinyPlaceIds = NstSvcMyPlaceIdStorage.get('tiny');
-
-      fullPlaceIds.push(id);
-      tinyPlaceIds.push(id);
-
-      NstSvcMyPlaceIdStorage.set('all', fullPlaceIds);
-      NstSvcMyPlaceIdStorage.set('tiny', tinyPlaceIds);
+      if (tinyPlaceIds) {
+        tinyPlaceIds.push(id);
+        NstSvcMyPlaceIdStorage.set('tiny', tinyPlaceIds);
+      }
 
       var deferred = $q.defer();
       this.getTiny(id).then(function (place) {
