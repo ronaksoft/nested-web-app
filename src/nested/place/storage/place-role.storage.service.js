@@ -13,6 +13,6 @@
     PlaceRoleStorage.prototype = new NstStorage();
     PlaceRoleStorage.prototype.constructor = PlaceRoleStorage;
 
-    return new PlaceRoleStorage(NST_STORAGE_TYPE.SESSION);
+    return new PlaceRoleStorage(NST_STORAGE_TYPE.LOCAL);
   }
 })();

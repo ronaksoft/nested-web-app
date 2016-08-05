@@ -13,6 +13,6 @@
     PlaceAccessStorage.prototype = new NstStorage();
     PlaceAccessStorage.prototype.constructor = PlaceAccessStorage;
 
-    return new PlaceAccessStorage(NST_STORAGE_TYPE.SESSION);
+    return new PlaceAccessStorage(NST_STORAGE_TYPE.LOCAL);
   }
 })();
