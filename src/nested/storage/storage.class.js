@@ -21,6 +21,7 @@
      * @constructor
        */
     function Storage(type, id, timeout) {
+      var storage = this;
       this.cache = {
         set: function (key, value) {},
         get: function (key) {},
@@ -36,80 +37,74 @@
         case NST_STORAGE_TYPE.LOCAL:
         case NST_STORAGE_TYPE.SESSION:
           this.cache.set = function (key, value) {
-            return localStorageService.set(this.id + '.' + key, value);
-          }.bind(this);
+            return localStorageService.set(storage.id + '.' + key, value);
+          };
           this.cache.get = function (key) {
-            return localStorageService.get(this.id + '.' + key);
-          }.bind(this);
+            return localStorageService.get(storage.id + '.' + key);
+          };
           this.cache.remove = function (key) {
-            return localStorageService.remove(this.id + '.' + key);
-          }.bind(this);
+            return localStorageService.remove(storage.id + '.' + key);
+          };
           this.cache.flush = function () {
-            var all = localStorageService.keys();
-            var result = true;
-            for (var k in all) {
-              if (0 == k.indexOf(this.id + '.')) {
-                result = result && localStorageService.remove(k);
-              }
-            }
+            var patKeys = new RegExp('^' + storage.id + "\\.");
 
-            return result;
-          }.bind(this);
+            return localStorageService.clearAll(patKeys);
+          };
           break;
 
         case NST_STORAGE_TYPE.MEMORY:
           $cacheFactory(this.id);
           this.cache.set = function (key, value) {
-            if ($cacheFactory.get(this.id)) {
-              return $cacheFactory.get(this.id).put(key, value);
+            if ($cacheFactory.get(storage.id)) {
+              return $cacheFactory.get(storage.id).put(key, value);
             }
 
             return false;
-          }.bind(this);
+          };
           this.cache.get = function (key) {
-            if ($cacheFactory.get(this.id)) {
-              return $cacheFactory.get(this.id).get(key);
+            if ($cacheFactory.get(storage.id)) {
+              return $cacheFactory.get(storage.id).get(key);
             }
 
             return undefined;
-          }.bind(this);
+          };
           this.cache.remove = function (key) {
-            if ($cacheFactory.get(this.id)) {
-              return $cacheFactory.get(this.id).remove(key);
+            if ($cacheFactory.get(storage.id)) {
+              return $cacheFactory.get(storage.id).remove(key);
             }
 
             return false;
-          }.bind(this);
+          };
           this.cache.flush = function () {
-            if ($cacheFactory.get(this.id)) {
-              return $cacheFactory.get(this.id).removeAll();
+            if ($cacheFactory.get(storage.id)) {
+              return $cacheFactory.get(storage.id).removeAll();
             }
 
             return false;
-          }.bind(this);
+          };
           break;
 
         case NST_STORAGE_TYPE.COOKIE:
           this.cache.set = function (key, value) {
-            return $cookies.put(this.id + '.' + key, value);
-          }.bind(this);
+            return $cookies.put(storage.id + '.' + key, value);
+          };
           this.cache.get = function (key) {
-            return $cookies.get(this.id + '.' + key);
-          }.bind(this);
+            return $cookies.get(storage.id + '.' + key);
+          };
           this.cache.remove = function (key) {
-            return $cookies.remove(this.id + '.' + key);
-          }.bind(this);
+            return $cookies.remove(storage.id + '.' + key);
+          };
           this.cache.flush = function () {
             var all = $cookies.getAll();
             var result = true;
             for (var k in all) {
-              if (0 == k.indexOf(this.id + '.')) {
+              if (0 == k.indexOf(storage.id + '.')) {
                 result = result && $cookies.remove(k);
               }
             }
 
             return result;
-          }.bind(this);
+          };
           break;
       }
 
