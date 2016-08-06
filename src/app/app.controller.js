@@ -6,49 +6,25 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($scope, $rootScope, $timeout, $state, $location, $uibModalStack, NstSvcAuth, NST_DEFAULT) {
+  function AppController($scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack,
+                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE,
+                         NstSvcAuth) {
     var vm = this;
 
     /*****************************
      *** Controller Properties ***
      *****************************/
+
     vm.viewSettings = {
       sidebar : {collapsed: false},
       navbar : {collapsed:false}
     };
-    vm.page = {
-      isActivity: [
-        'activity',
-        'activity-bookmarks',
-        'activity-bookmarks-filtered',
-        'activity-filtered',
-        'place-activity',
-        'place-activity-filtered'
-      ].indexOf($state.current.name) > -1,
-      isMessages: [
-        'messages',
-        'messages-bookmarks',
-        'messages-bookmarks-sorted',
-        'messages-sent',
-        'messages-sent-sorted',
-        'messages-sorted',
-        'place-messages',
-        'place-messages-sorted'
-      ].indexOf($state.current.name) > -1,
-      isPlaceSettings: [
-        'place-settings'
-      ].indexOf($state.current.name) > -1,
-      isPlaceAdd: [
-        'place-add'
-      ].indexOf($state.current.name) > -1,
-      isCompose: [
-        'compose',
-        'place-compose',
-        'compose-forward',
-        'compose-reply-all',
-        'compose-reply-sender'
-      ].indexOf($state.current.name) > -1
-    };
+
+    vm.page = getActivePages($state.current, $state.params);
+
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
 
     // TODO should read from cache
     $rootScope.navView = false;
@@ -59,7 +35,6 @@
 
     vm.scroll = function(event){
       var t = event.target.scrollTop;
-      //console.log(t);
       $timeout(function () {$rootScope.navView = t > 55});
 
       if ( t > 0) {
@@ -73,35 +48,113 @@
       }
     };
 
-    if (NstSvcAuth.isInAuthorization()) {
-      $state.go(NST_DEFAULT.STATE);
-    } else {
-      // TODO: Handle this via $state
-      var previousLocation = $location.path();
-      if (previousLocation === '/signin') {
-        previousLocation = '';
+    /*****************************
+     *****  Controller Logic  ****
+     *****************************/
+
+    (function () {
+      var validState = getValidState($state.current, $stateParams);
+      if ($state.current.name != validState.name) {
+        $state.go(validState.name, validState.params);
       }
-      $location.search({
-        back: previousLocation
-      });
-      $location.path('/signin').replace();
+    })();
+
+    /*****************************
+     *****    State Methods   ****
+     *****************************/
+
+    function getValidState(toState, toParams) {
+      var toPublicState = NST_PUBLIC_STATE.indexOf(toState.name) > -1;
+
+      if (NstSvcAuth.isInAuthorization()) {
+        if (toPublicState) {
+          return {
+            name: NST_DEFAULT.STATE
+          };
+        }
+      } else {
+        if (!toPublicState) {
+          return {
+            name: 'signin-back',
+            params: {
+              back: $window.encodeURIComponent(angular.toJson({
+                name: toState.name,
+                params: toParams
+              }))
+            }
+          };
+        }
+      }
+
+      return {
+        name: toState.name,
+        params: toParams
+      };
     }
 
+    function getActivePages(state, params, previousState, previousParams) {
+      var pages = Object.keys(NST_PAGE);
+      var page = {
+        state: {
+          current: {
+            name: state.name,
+            params: params,
+            url: $state.href(state.name, params)
+          },
+          previous: {
+            name: state.name,
+            params: params,
+            url: $state.href(state.name, params)
+          }
+        }
+      };
 
-    $rootScope.$on('$stateChangeStart', function(event, nextState, currentState) {
-      $uibModalStack.dismissAll();
-      if (['signin', 'intro','register'].indexOf(nextState.name) > -1) {
-        return;
+      if (previousState) {
+        page.state.previous = {
+          name: previousState.name,
+          params: previousParams,
+          url: $state.href(previousState.name, previousParams)
+        };
       }
 
-      if (!NstSvcAuth.isInAuthorization(nextState)) {
+      for (var k in pages) {
+        var cName = pages[k].toLowerCase().split('').filter(function (v, i) { return 0 == i ? v.toUpperCase() : v; }).join('');
+        var isActive = NST_PAGE[pages[k]].indexOf(state.name) > -1;
+
+        if (previousState) {
+          var wasActive = NST_PAGE[pages[k]].indexOf(page.state.previous.name) > -1;
+
+          if (wasActive) {
+            page.state.previous.group = pages[k];
+          }
+        }
+
+        page['is' + cName] = isActive;
+        if (isActive) {
+          page.state.current.group = pages[k];
+        }
+      }
+
+      return page;
+    }
+
+    /*****************************
+     *****  Event Listeners   ****
+     *****************************/
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+      $uibModalStack.dismissAll();
+
+      var validState = getValidState(toState, toParams);
+      if (toState.name != validState.name) {
         $rootScope.$broadcast('$stateChangeError');
         event.preventDefault();
-        $state.go('signin');
+        $state.go(validState.name, validState.params);
       }
-
     });
 
-
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      vm.page = getActivePages(toState, toParams, fromState, fromParams);
+    });
   }
 })();

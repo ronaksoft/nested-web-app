@@ -23,6 +23,11 @@
         name: NstSvcFileType.removeSuffix(attachment.getFilename()),
         size: attachment.getSize(),
         url: attachment.getResource().getUrl().view,
+        urls: {
+          view: attachment.getResource().getUrl().view,
+          download: attachment.getResource().getUrl().download,
+          stream: attachment.getResource().getUrl().stream
+        },
         type: NstSvcFileType.getType(attachment.getMimeType()),
         extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
         thumbnail: attachment.hasThumbnail() ? attachment.getPicture().getLargestThumbnail().getUrl().view : null,

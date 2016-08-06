@@ -12,7 +12,6 @@
                           NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap,
                           NstVmUser, vmPost, postId) {
     var vm = this;
-    $log.debug(vmPost, postId);
 
     /*****************************
      *** Controller Properties ***

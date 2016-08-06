@@ -2,21 +2,23 @@
 <div class="nst-navbar _df">
   <div class="nst-content">
     <div class="content">
-      <div class="navbar-top _df">
-        <!-- <div class="title-bar _difh _fw" ng-if="false">
+      <div class="navbar-top _df" data-ng-switch="ctlFullNavbar.page.state.current.group">
+        <div class="title-bar _difh _fw" data-ng-switch-when="COMPOSE">
           <div class="logo-bar _df">
-            <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
-                 data-font-size="16"/>
+            <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-compose"></div>
+            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" src="{{ctlFullNavbar.getPlacePicture()}}"/>
           </div>
           <div class="name _fw _difv _jcc">
-            <a class="_df _tr">Ronak software Group</a>
-            <span class="nst-mood-storm _df _tr" data-ng-bind="events.place.id + 'ronak@nested.me'"></span>
+            <a class="_df _tr" data-ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceName()}}</a>
+            <a class="_df _tr" data-ng-if="!ctlFullNavbar.hasPlace()">Compose</a>
+            <span class="nst-mood-storm _df _tr" data-ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceId()}}@nested.me</span>
           </div>
-        </div> -->
-        <div class="title-bar _difh _fw" ng-if="true">
+        </div>
+
+        <div class="title-bar _difh _fw" data-ng-switch-default>
           <div class="logo-bar _df">
             <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
-            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.getPlacePicture()}}"/>
+            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" src="{{ctlFullNavbar.getPlacePicture()}}"/>
           </div>
           <div class="name _fw _difv _jcc">
             <a class="_df _tr">{{ctlFullNavbar.getPlaceName()}}</a>
@@ -32,13 +34,13 @@
             <div ng-click="srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
-          <div class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isMessages ? 'active' : null">
-            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}">Messages{{ctlApp.page.isActivity}}</a>
+          <div class="menu-links-butn _dib li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
+            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}">Messages</a>
           </div>
-          <div class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isActivity ? 'active' : null">
+          <div class="menu-links-butn _dib li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}">Activity</a>
           </div>
-          <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isPlaceSettings ? 'active' : null">
+          <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _dib li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">
             <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}">Settings</a>
           </div>
         </div>
@@ -114,6 +116,8 @@
         <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
           <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
              href="{{control.url}}" data-ng-click="control.fn()">{{control.caption}}</a>
+          <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm"
+             href="{{ctlFullNavbar.page.state.previous.url}}" data-ng-click="control.fn()">{{control.caption}}</a>
           <label data-ng-switch-when="button-label" class="butn-white-nav nst-mood-storm"
                  data-ng-click="control.fn()" for="{{control.data.id}}">{{control.caption}}</label>
           <a data-ng-switch-when="button-success" class="butn-green-nav"
@@ -123,6 +127,8 @@
         <div class="_df _fn" data-ng-repeat="control in ctlFullNavbar.controls.right" data-ng-switch="control.type">
           <a data-ng-switch-when="button" class="_fr butn-white-nav nst-mood-storm"
              href="{{control.url}}" data-ng-click="control.fn()">{{control.caption}}</a>
+          <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm"
+             href="{{ctlFullNavbar.page.state.previous.url}}" data-ng-click="control.fn()">{{control.caption}}</a>
           <label data-ng-switch-when="button-label" class="_fr butn-white-nav nst-mood-storm"
                  data-ng-click="control.fn()" for="{{control.data.id}}">{{control.caption}}</label>
           <a data-ng-switch-when="button-success" class="_fr butn-green-nav"
@@ -132,13 +138,13 @@
 
       <div class="navbar-bottom" id="nav-prof">
         <div class="_df _fw">
-          <a href="#/events" class="butn-white-nav nst-mood-storm">Discard</a>
+          <a href="{{ctlFullNavbar.page.state.previous.url}}" class="butn-white-nav nst-mood-storm">Discard</a>
         </div>
       </div>
 
       <div class="navbar-bottom" id="nav-option">
         <div class="_df _fw">
-          <a href="#/events" class="butn-white-nav nst-mood-storm">Back</a>
+          <a href="{{ctlFullNavbar.page.state.previous.url}}" class="butn-white-nav nst-mood-storm">Back</a>
         </div>
         <div class="_df">
           <a href="javascript:void(0);" class="_fr butn-white-nav" ng-click="compose.sendPost()" data-ng-disabled="attachment.value">

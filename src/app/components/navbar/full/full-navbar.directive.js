@@ -15,7 +15,8 @@
       bindToController: true,
       scope: {
         controls: '=',
-        place: '='
+        place: '=',
+        page: '='
       }
     };
   }

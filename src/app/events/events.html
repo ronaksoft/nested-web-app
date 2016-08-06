@@ -1,7 +1,7 @@
 <div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}" >
   <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed" class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
-    <nst-navbar data-ng-model="navbar" place="ctlActivity.currentPlace"></nst-navbar>
+    <nst-navbar data-ng-model="navbar" place="ctlActivity.currentPlace" page="ctlApp.page"></nst-navbar>
 
     <div class="nst-content _tr _bgwhite" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlActivity.bodyScrollConf">
       <section class="_fw nst-content-body">

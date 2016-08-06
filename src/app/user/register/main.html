@@ -42,7 +42,7 @@
         <p class="nst-mood-lively" data-ng-if="ctlRegister.verificationWrongCode">
           Wrong Code
         </p>
-        
+
         <div class="nst-marginbtm-16">
           <div class="form-group wrong-code" data-ng-model="show">
             <input id="phone_code"
@@ -72,7 +72,7 @@
           <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
             in</a></p>
         </div>
-         
+
 
       <div class="nst-marginbtm-8 _dib">Enter your username :</div>
       <div class="nst-mood-lively nst-marginbtm-8 _dib"
@@ -92,7 +92,7 @@
                ng-class="{'form-control':!registrationForm.userName.$error.required || !registrationForm.userName.$touched,'form-control-error': (registrationForm.userName.$error.required && registrationForm.userName.$touched) || (registrationForm.userName.$error.pattern && registrationForm.userName.$touched)}"
                ng-pattern="ctlRegister.patterns.username.general" uib-tooltip-class="tooltip" tooltip-trigger="none"
                tooltip-is-open="registrationForm.userName.$error.pattern && registrationForm.userName.$touched"
-               uib-tooltip-template="'app/register/tip_username.html'" minlength="5" maxlength="32"
+               uib-tooltip-template="'app/user/register/tip_username.html'" minlength="5" maxlength="32"
                ng-minlength="5" ng-maxlength="32"
                name="userName" type="text" ng-model="ctlRegister.username" tabindex="1" ng-keyup="ctlRegister.checkUser(ctlRegister.username)"
                data-tooltip-placement="bottom" required/>
@@ -123,7 +123,7 @@
             id="pass" name="password" data-ng-init="ctlRegister.show=true" type="{{ctlRegister.show ? 'password': 'text'}}"
             data-tooltip-placement="bottom" ng-minlength="8" tooltip-trigger="none"
             tooltip-is-open="registrationForm.password.$error.pattern && registrationForm.password.$touched"
-            uib-tooltip-class="tooltip" uib-tooltip-template="'app/register/tip_password.html'"
+            uib-tooltip-class="tooltip" uib-tooltip-template="'app/user/register/tip_password.html'"
             tooltip-enable="!ctlRegister.password" tabindex="2" required/>
           <i
             class="cursor-pointer nst-ico-eye-slash form-control-feedback {{ctlRegister.show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}"
@@ -201,8 +201,8 @@
           </div>
         </div>
         </div>
-        
-      
+
+
       <div class="alert-box nst-font-small nst-mood-lively nst-marginbtm-8" ng-show="!ctlRegister.acceptAgreement">
         You must accept our agreement.
       </div>
