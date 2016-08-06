@@ -175,15 +175,16 @@
     }
 
     function updateToken(token) {
+      var qToken = $q.defer();
       var deferred = $q.defer();
 
       if (token) {
-        deferred.resolve(token);
+        qToken.resolve(token);
       } else {
-        loadToken(vm.attachments.current).then(deferred.resolve);
+        loadToken(vm.attachments.current).then(qToken.resolve);
       }
 
-      return NstSvcLoader.inject(deferred.promise.then(function (token) {
+      NstSvcLoader.inject(qToken.promise.then(function (token) {
         var deferred = $q.defer();
         var attachment = _.find(vm.postModel.attachments, { id: vm.attachments.current.id });
 
@@ -199,7 +200,9 @@
         deferred.resolve(attachment);
 
         return deferred.promise;
-      }));
+      })).then(deferred.resolve);
+
+      return deferred.promise;
     }
 
     function loadToken(vmAttachment) {
