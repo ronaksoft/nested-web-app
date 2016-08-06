@@ -246,6 +246,13 @@
     animation: spin 2s linear infinite;
   }
 
+  @for $i from 3 through 6 {
+    .nst-loading-size-#{$i * 4} {
+      width: #{$i * 4}px;
+      height: #{$i * 4}px;
+    }
+  }
+
   @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
