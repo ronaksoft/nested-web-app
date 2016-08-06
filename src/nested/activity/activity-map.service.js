@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
   angular
     .module('nested')
@@ -8,8 +8,8 @@
   function NstSvcActivityMap(NstSvcAttachmentMap) {
 
     var service = {
-      toRecentActivity : toRecentActivity,
-      toActivityItems : toActivityItems
+      toRecentActivity: toRecentActivity,
+      toActivityItems: toActivityItems
     };
 
     return service;
@@ -22,7 +22,8 @@
         comment: mapActivityComment(activity),
         post: mapActivityPost(activity),
         date: getPassedTime(activity.date),
-        type: activity.type
+        type: activity.type,
+        place: mapActivityPlace(activity.place)
       };
 
       function getPassedTime(date) {
@@ -76,11 +77,15 @@
       }
 
       function mapActivityPlace(place) {
-        return {
-          id: place.id,
-          name: place.name,
-          picture: place.picture.getThumbnail('64').url.download
-        };
+        if (place) {
+          return {
+            id: place.id,
+            name: place.name,
+            picture: place.picture.getThumbnail('64').url.download
+          };
+        }else{
+          return null
+        }
       }
     }
 
@@ -91,7 +96,7 @@
      * @return {Object}              a hierarchal form of activities
      */
     function toActivityItems(acts) {
-      _.forEach(acts, function(act) {
+      _.forEach(acts, function (act) {
         act.date = moment(act.date);
       });
       var result = {
@@ -114,11 +119,11 @@
       // result.min = moment.min(_.map(acts, 'date'));
       // result.max = moment.max(_.map(acts, 'date'));
 
-      var thisYearActs = _.filter(acts, function(act) {
+      var thisYearActs = _.filter(acts, function (act) {
         return act.date.isAfter(currentYearStart);
       });
 
-      var thisMonthActs = _.filter(thisYearActs, function(act) {
+      var thisMonthActs = _.filter(thisYearActs, function (act) {
         return act.date.isAfter(currentMonthStart);
       });
 
@@ -156,10 +161,10 @@
       }
 
       // there are some activities of past years
-      var yearGroups = _.groupBy(acts, function(act) {
+      var yearGroups = _.groupBy(acts, function (act) {
         return act.date.year();
       });
-      _.forIn(yearGroups, function(yearActs, year) {
+      _.forIn(yearGroups, function (yearActs, year) {
         var yearMoment = yearActs[0].date;
 
         // var min = yearMoment.startOf('year');
@@ -168,7 +173,7 @@
         years.push({
           // min: min,
           // max: max,
-          date : yearMoment.clone().startOf('year').format('YYYY'),
+          date: yearMoment.clone().startOf('year').format('YYYY'),
           items: mapActivityItems(sortActivities(yearActs))
         });
       });
@@ -188,11 +193,11 @@
       if (!acts || acts.length === 0) {
         return months;
       }
-      var monthGroups = _.groupBy(acts, function(act) {
+      var monthGroups = _.groupBy(acts, function (act) {
         return act.date.month();
       });
 
-      _.forIn(monthGroups, function(monthActs, month) {
+      _.forIn(monthGroups, function (monthActs, month) {
         var monthMoment = monthActs[0].date;
         // var max = monthMoment.endOf('month');
         // var min = monthMoment.startOf('month');
@@ -200,7 +205,7 @@
         months.push({
           // min: min,
           // max: max,
-          date : monthMoment.clone().startOf('month').format('MMM YYYY'),
+          date: monthMoment.clone().startOf('month').format('MMM YYYY'),
           items: mapActivityItems(sortActivities(monthActs))
         });
       });
@@ -234,7 +239,7 @@
       // result.min = moment().startOf('month');
       // result.max = moment().endOf('month');
 
-      var todayActs = _.filter(acts, function(act) {
+      var todayActs = _.filter(acts, function (act) {
         return act.date.isAfter(todayStart);
       });
 
@@ -267,11 +272,11 @@
         return days;
       }
 
-      var dayGroups = _.groupBy(acts, function(act) {
+      var dayGroups = _.groupBy(acts, function (act) {
         return act.date.date();
       });
 
-      _.forInRight(dayGroups, function(dayActs, day) {
+      _.forInRight(dayGroups, function (dayActs, day) {
         var dayMoment = dayActs[0].date;
 
         // var min = dayMoment.startOf('day');
@@ -280,7 +285,7 @@
         days.push({
           // min : min,
           // max : max,
-          date : dayMoment.clone().startOf('day').format('DD MMM'),
+          date: dayMoment.clone().startOf('day').format('DD MMM'),
           items: mapActivityItems(sortActivities(dayActs))
         });
 
@@ -290,7 +295,7 @@
     }
 
     function mapActivityItems(activities) {
-      var items = _.map(activities, function(item) {
+      var items = _.map(activities, function (item) {
 
         return {
           id: item.id,
