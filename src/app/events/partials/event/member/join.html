@@ -2,12 +2,15 @@
   <div class="ico">
     <div class="ei-member-join"></div>
   </div>
-  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = act.actor"></div>
+  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'"
+       data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
   <div class="msg">
-    <span class="nst-mood-simple">joined </span>
-    <a class="place" href="#/activity/{{act.member.id}}" data-ng-bind="act.member.name"></a>
+    <span class="nst-mood-simple">joined to</span>
+    <a class="place" ui-sref="place-messages({placeId: act.place.id})">
+      {{act.inSpecificPlace ? "here" : act.place.name}}
+    </a>
   </div>
   <div class="places"></div>
   <div class="time no-animation" data-ng-include="'app/events/partials/event/common/date.html'"></div>

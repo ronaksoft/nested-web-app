@@ -409,11 +409,21 @@
         return {};
       }
 
-      return {
-        id: activity.place.parent.id,
-        name: activity.place.parent.name,
-        picture: activity.place.parent.picture.thumbnails.x64.url.download,
+      var parentPlace = {
+        id: activity.place.getParent().getId(),
+        name: activity.place.getParent().getName(),
+        picture: '/assets/icons/absents_place.svg'
       };
+
+      if (activity.place.getParent().getPicture().getThumbnail(64)) {
+        parentPlace.picture = activity.place.getParent().getPicture().getThumbnail(64).getUrl().view;
+      } else if (activity.place.getParent().getPicture().getLargestThumbnail()) {
+        parentPlace.picture = activity.place.getParent().getPicture().getLargestThumbnail().getUrl().view;
+      } else if (activity.place.getParent().getPicture().getId()) {
+        parentPlace.picture = activity.place.getParent().getPicture().getOrg().getUrl().view;
+      }
+
+      return parentPlace;
     }
 
     function sortActivities(activities) {

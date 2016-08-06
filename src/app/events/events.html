@@ -24,7 +24,7 @@
                 <span class="">Today</span>
               </p>
             </div>
-            <activity-item data-ng-repeat="act in ctlActivity.acts.thisYear.thisMonth.today.items" model="act" extended="ctlActivity.extended"></activity-item>
+            <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in ctlActivity.acts.thisYear.thisMonth.today.items" model="act" extended="ctlActivity.extended"></activity-item>
 
             <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
               <div class="actdate">
@@ -32,7 +32,7 @@
                   <span class="ng-binding ng-scope">{{value.date}}</span>
                 </p>
               </div>
-                <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
+                <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
             </div>
             <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
               <div class="actdate">
@@ -40,7 +40,7 @@
                   <span class="ng-binding ng-scope">{{value.date}}</span>
                 </p>
               </div>
-              <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
+              <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
             </div>
             <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
               <div class="actdate">
@@ -48,7 +48,7 @@
                   <span class="ng-binding ng-scope">{{value.date}}</span>
                 </p>
               </div>
-              <activity-item data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
+              <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
             </div>
 
           </div>

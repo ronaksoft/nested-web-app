@@ -124,25 +124,22 @@
       }
 
       function extractPlace(data) {
-
         var defer = $q.defer();
-        var placeId;
+        var placeId, parentId;
 
         if (!data.place_id) {
           defer.resolve(null);
         } else {
-
-          if (data.child_id || data.place_id){
-            if (data.child_id){
-              placeId = data.child_id
-            }else if(angular.isObject(data.place_id)){
-              placeId = data.place_id.$oid
-            }else{
-              placeId = data.place_id
-            }
+          if (angular.isObject(data.place_id)) {
+            placeId = data.place_id.$oid;
+          } else {
+            placeId = data.place_id;
           }
 
           NstSvcPlaceFactory.get(placeId).then(function(place) {
+            if (data.parent_id) {
+              place.getParent().setName(data.parent_name);
+            }
 
             defer.resolve(place);
           }).catch(defer.reject);
@@ -292,7 +289,7 @@
         before: settings.date,
         filter: settings.filter
       }).then(function(data) {
-        
+
         var activities = _.map(data.events, parseActivity);
 
         $q.all(activities).then(function(values) {

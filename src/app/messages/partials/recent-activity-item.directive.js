@@ -13,9 +13,15 @@
       restrict: 'E',
       replace: true,
       scope:{
-        activity: '=model'
+        activity: '=model',
+        place : '=place'
       },
       link: function(scope, elem, attrs) {
+
+        if (scope.place){
+          scope.activity.inSpecificPlace = true;
+        }
+
         switch (scope.activity.type){
           case NST_EVENT_ACTION.COMMENT_ADD:
             scope.tplUrl = 'app/messages/partials/activity/comment-row.html';
