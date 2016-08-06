@@ -1428,6 +1428,9 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 
+.hovercolor:hover {
+  background-color: $color-sense-5;
+}
 
 //#popup-msg-badge  div ._dtr :hover {
 //  background-color: $color-sense-5;
