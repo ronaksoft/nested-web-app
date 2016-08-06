@@ -29,9 +29,6 @@
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
 
-
-
-
     function reply() {
       $debug.log('Is not implemented yet!')
     }

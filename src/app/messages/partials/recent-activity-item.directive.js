@@ -15,7 +15,7 @@
       scope:{
         activity: '=model'
       },
-      link: function(scope, elem, attrs) {
+      link: function(scope) {
         switch (scope.activity.type){
           case NST_EVENT_ACTION.COMMENT_ADD:
             scope.tplUrl = 'app/messages/partials/activity/comment-row.html';
@@ -48,5 +48,4 @@
       template: '<div class="row" data-ng-include="tplUrl" data-ng-init="act = activity"></div>'
     };
   }
-
 })();

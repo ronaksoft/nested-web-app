@@ -5,7 +5,7 @@
     .module('nested')
     .directive('ngProgressbar', function ($timeout, _, progressBar, NST_PROGRESSBAR_MODE) {
       return {
-        restrict: 'AE',
+        restrict: 'A',
         replace: true,
         scope: {
           ngProgressbar: '@',

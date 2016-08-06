@@ -103,7 +103,7 @@
 
     function createToken(rawToken) {
       // TODO: Read expiration date from token itself
-      return new NstStoreToken(rawToken, new Date(Date.now() + 3600));
+      return new NstStoreToken(rawToken, new Date(Date.now() + 3550000));
     }
 
     function getDownloadToken(postId, attachmentId) {
@@ -144,10 +144,10 @@
     }
 
     function load(id, post) {
-      var defer = $q.defer;
+      var defer = $q.defer();
 
       NstSvcServer.request('attachment/get_info', {
-        attachment_id: this.id
+        attachment_id: id
       }).then(function(response) {
         parseAttachment(response.attachment, post).then(defer.resolve).reject(defer.reject);
       }).catch(function(error) {
