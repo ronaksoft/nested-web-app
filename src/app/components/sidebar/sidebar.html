@@ -28,7 +28,8 @@
                 <img class="account-initials-40" ng-src="{{invitaion.place.avatar}}"/>
               </div>
 
-              <span class="_fw onlyExpand nst-mood-pending">{{invitaion.place.name}} (Pending Invitation)</span></span>
+              <a data-ellipsis="invitaion.place.name" class="onlyExpand nst-mood-pending invitation-name">{{invitaion.place.name}}</a>
+              <span class="_fn nst-mood-pending onlyExpand">(Pending Invitation)</span>
             </a>
           </div>
         </li>
