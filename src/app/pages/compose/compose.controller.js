@@ -181,11 +181,11 @@
 
         qRead.resolve(uri);
       };
-
-      NstSvcLoader.inject(qRead.promise);
       reader.readAsDataURL(file);
 
-      qRead.promise.then(function (uri) {
+      NstSvcLoader.inject(qRead.promise.then(function (uri) {
+        var deferred = $q.defer();
+
         // Upload Attachment
         var vmAttachment = NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
         attachment.setId(vmAttachment.id);
@@ -209,7 +209,7 @@
           delete vm.attachments.requests[attachment.getId()];
         });
 
-        NstSvcLoader.inject(request.getPromise().then(function (response) {
+        request.getPromise().then(function (response) {
           var deferred = $q.defer();
 
           attachment.setId(response.data.universal_id);
@@ -223,19 +223,19 @@
           deferred.resolve(attachment);
 
           return deferred.promise;
-        }).catch(function (result) {
+        }).catch(function (error) {
           var deferred = $q.defer();
 
-          $log.debug('Compose | Attach Upload Error: ', result);
+          $log.debug('Compose | Attach Upload Error: ', error);
           deferred.reject.call(arguments);
 
           return deferred.promise;
-        }));
-
-        $q.all(readyPromises).then(function () {
+        }).then(function () {
           deferred.resolve(request);
         });
-      });
+
+        return deferred.promise;
+      })).then(deferred.resolve);
 
       return deferred.promise;
     };
