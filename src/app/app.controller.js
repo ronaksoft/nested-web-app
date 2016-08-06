@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function AppController($scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack,
-                         PUBLIC_STATE, NST_DEFAULT,
+                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE,
                          NstSvcAuth) {
     var vm = this;
 
@@ -64,7 +64,7 @@
      *****************************/
 
     function getValidState(toState, toParams) {
-      var toPublicState = PUBLIC_STATE.indexOf(toState.name) > -1;
+      var toPublicState = NST_PUBLIC_STATE.indexOf(toState.name) > -1;
 
       if (NstSvcAuth.isInAuthorization()) {
         if (toPublicState) {
@@ -92,44 +92,50 @@
       };
     }
 
-    function getActivePages(state, params) {
-      return {
-        isSignin: [
-          'signin',
-          'signin-back'
-        ].indexOf(state.name) > -1,
-        isActivity: [
-          'activity',
-          'activity-bookmarks',
-          'activity-bookmarks-filtered',
-          'activity-filtered',
-          'place-activity',
-          'place-activity-filtered'
-        ].indexOf(state.name) > -1,
-        isMessages: [
-          'messages',
-          'messages-bookmarks',
-          'messages-bookmarks-sorted',
-          'messages-sent',
-          'messages-sent-sorted',
-          'messages-sorted',
-          'place-messages',
-          'place-messages-sorted'
-        ].indexOf(state.name) > -1,
-        isPlaceSettings: [
-          'place-settings'
-        ].indexOf(state.name) > -1,
-        isPlaceAdd: [
-          'place-add'
-        ].indexOf(state.name) > -1,
-        isCompose: [
-          'compose',
-          'place-compose',
-          'compose-forward',
-          'compose-reply-all',
-          'compose-reply-sender'
-        ].indexOf(state.name) > -1
+    function getActivePages(state, params, previousState, previousParams) {
+      var pages = Object.keys(NST_PAGE);
+      var page = {
+        state: {
+          current: {
+            name: state.name,
+            params: params,
+            url: $state.href(state.name, params)
+          },
+          previous: {
+            name: state.name,
+            params: params,
+            url: $state.href(state.name, params)
+          }
+        }
       };
+
+      if (previousState) {
+        page.state.previous = {
+          name: previousState.name,
+          params: previousParams,
+          url: $state.href(previousState.name, previousParams)
+        };
+      }
+
+      for (var k in pages) {
+        var cName = pages[k].toLowerCase().split('').filter(function (v, i) { return 0 == i ? v.toUpperCase() : v; }).join('');
+        var isActive = NST_PAGE[pages[k]].indexOf(state.name) > -1;
+
+        if (previousState) {
+          var wasActive = NST_PAGE[pages[k]].indexOf(page.state.previous.name) > -1;
+
+          if (wasActive) {
+            page.state.previous.group = pages[k];
+          }
+        }
+
+        page['is' + cName] = isActive;
+        if (isActive) {
+          page.state.current.group = pages[k];
+        }
+      }
+
+      return page;
     }
 
     /*****************************
@@ -147,8 +153,8 @@
       }
     });
 
-    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams) {
-      vm.page = getActivePages(toState, toParams);
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      vm.page = getActivePages(toState, toParams, fromState, fromParams);
     });
   }
 })();
