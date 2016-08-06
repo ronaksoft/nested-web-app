@@ -473,6 +473,9 @@ nst-navbar {
   height: 66px;
   display: inline-flex;
   flex-direction: row;
+  font-family: OpenSans;
+  font-weight: 100;
+  font-size: 24px;
 }
 
 .maincontainer.navtiny {
@@ -522,7 +525,9 @@ nst-navbar {
   cursor: pointer;
   left: 120px;
   &.active {
-    border-bottom: 1px solid #00b45a ;
+    border-bottom: 2px solid $color-sense ;
+    margin-top: 3px;
+    color: $color-solid;
   }
 }
 
