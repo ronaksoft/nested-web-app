@@ -9,6 +9,12 @@
       STATE: 'messages',
       STATE_PARAM: '_'
     })
+    .constant('PUBLIC_STATE', [
+      'signin',
+      'signin-back',
+      'intro',
+      'register'
+    ])
     .constant('NST_PATTERN', {
       GRAND_PLACE_ID: /^[a-zA-Z]\w{3,30}[a-zA-Z0-9]$/,
       SUB_PLACE_ID: /^[a-zA-Z]\w{1,30}[a-zA-Z0-9]$/,

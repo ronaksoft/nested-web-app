@@ -3,20 +3,10 @@
   <div class="nst-content">
     <div class="content">
       <div class="navbar-top _df">
-        <!-- <div class="title-bar _difh _fw" ng-if="false">
-          <div class="logo-bar _df">
-            <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="64" data-height="64" data-radius="32" class="account-initials-64 _tr" data-word-count="2"
-                 data-font-size="16"/>
-          </div>
-          <div class="name _fw _difv _jcc">
-            <a class="_df _tr">Ronak software Group</a>
-            <span class="nst-mood-storm _df _tr" data-ng-bind="events.place.id + 'ronak@nested.me'"></span>
-          </div>
-        </div> -->
-        <div class="title-bar _difh _fw" ng-if="true">
+        <div class="title-bar _difh _fw">
           <div class="logo-bar _df">
             <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
-            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.getPlacePicture()}}"/>
+            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" src="{{ctlFullNavbar.getPlacePicture()}}"/>
           </div>
           <div class="name _fw _difv _jcc">
             <a class="_df _tr">{{ctlFullNavbar.getPlaceName()}}</a>
@@ -32,13 +22,13 @@
             <div ng-click="srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
-          <div class="menu-links-butn _dib li-hover active" ng-class="ctlApp.page.isMessages ? 'active' : null">
-            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}">Messages{{ctlApp.page.isActivity}}</a>
+          <div class="menu-links-butn _dib li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
+            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}">Messages</a>
           </div>
-          <div class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isActivity ? 'active' : null">
+          <div class="menu-links-butn _dib li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}">Activity</a>
           </div>
-          <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _dib li-hover" ng-class="ctlApp.page.isPlaceSettings ? 'active' : null">
+          <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _dib li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">
             <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}">Settings</a>
           </div>
         </div>

@@ -19,7 +19,7 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-
+    
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;

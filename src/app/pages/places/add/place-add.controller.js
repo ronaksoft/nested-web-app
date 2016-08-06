@@ -12,11 +12,6 @@
                                  NstStoreResource, NestedPlace) {
     var vm = this;
 
-    if (!NstSvcAuth.isInAuthorization()) {
-      $location.search({ back: $location.path() });
-      $location.path('/signin').replace();
-    }
-
     $scope.place = new NestedPlace(undefined, new NestedPlace($stateParams.placeId));
     $scope.place.privacy.locked = true;
     $scope.logo = null;

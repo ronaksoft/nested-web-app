@@ -6,49 +6,25 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($scope, $rootScope, $timeout, $state, $location, $uibModalStack, NstSvcAuth, NST_DEFAULT) {
+  function AppController($scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack,
+                         PUBLIC_STATE, NST_DEFAULT,
+                         NstSvcAuth) {
     var vm = this;
 
     /*****************************
      *** Controller Properties ***
      *****************************/
+
     vm.viewSettings = {
       sidebar : {collapsed: false},
       navbar : {collapsed:false}
     };
-    vm.page = {
-      isActivity: [
-        'activity',
-        'activity-bookmarks',
-        'activity-bookmarks-filtered',
-        'activity-filtered',
-        'place-activity',
-        'place-activity-filtered'
-      ].indexOf($state.current.name) > -1,
-      isMessages: [
-        'messages',
-        'messages-bookmarks',
-        'messages-bookmarks-sorted',
-        'messages-sent',
-        'messages-sent-sorted',
-        'messages-sorted',
-        'place-messages',
-        'place-messages-sorted'
-      ].indexOf($state.current.name) > -1,
-      isPlaceSettings: [
-        'place-settings'
-      ].indexOf($state.current.name) > -1,
-      isPlaceAdd: [
-        'place-add'
-      ].indexOf($state.current.name) > -1,
-      isCompose: [
-        'compose',
-        'place-compose',
-        'compose-forward',
-        'compose-reply-all',
-        'compose-reply-sender'
-      ].indexOf($state.current.name) > -1
-    };
+
+    vm.page = getActivePages($state.current, $state.params);
+
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
 
     // TODO should read from cache
     $rootScope.navView = false;
@@ -59,7 +35,6 @@
 
     vm.scroll = function(event){
       var t = event.target.scrollTop;
-      //console.log(t);
       $timeout(function () {$rootScope.navView = t > 55});
 
       if ( t > 0) {
@@ -73,35 +48,107 @@
       }
     };
 
-    if (NstSvcAuth.isInAuthorization()) {
-      $state.go(NST_DEFAULT.STATE);
-    } else {
-      // TODO: Handle this via $state
-      var previousLocation = $location.path();
-      if (previousLocation === '/signin') {
-        previousLocation = '';
+    /*****************************
+     *****  Controller Logic  ****
+     *****************************/
+
+    (function () {
+      var validState = getValidState($state.current, $stateParams);
+      if ($state.current.name != validState.name) {
+        $state.go(validState.name, validState.params);
       }
-      $location.search({
-        back: previousLocation
-      });
-      $location.path('/signin').replace();
+    })();
+
+    /*****************************
+     *****    State Methods   ****
+     *****************************/
+
+    function getValidState(toState, toParams) {
+      var toPublicState = PUBLIC_STATE.indexOf(toState.name) > -1;
+
+      if (NstSvcAuth.isInAuthorization()) {
+        if (toPublicState) {
+          return {
+            name: NST_DEFAULT.STATE
+          };
+        }
+      } else {
+        if (!toPublicState) {
+          return {
+            name: 'signin-back',
+            params: {
+              back: $window.encodeURIComponent(angular.toJson({
+                name: toState.name,
+                params: toParams
+              }))
+            }
+          };
+        }
+      }
+
+      return {
+        name: toState.name,
+        params: toParams
+      };
     }
 
+    function getActivePages(state, params) {
+      return {
+        isSignin: [
+          'signin',
+          'signin-back'
+        ].indexOf(state.name) > -1,
+        isActivity: [
+          'activity',
+          'activity-bookmarks',
+          'activity-bookmarks-filtered',
+          'activity-filtered',
+          'place-activity',
+          'place-activity-filtered'
+        ].indexOf(state.name) > -1,
+        isMessages: [
+          'messages',
+          'messages-bookmarks',
+          'messages-bookmarks-sorted',
+          'messages-sent',
+          'messages-sent-sorted',
+          'messages-sorted',
+          'place-messages',
+          'place-messages-sorted'
+        ].indexOf(state.name) > -1,
+        isPlaceSettings: [
+          'place-settings'
+        ].indexOf(state.name) > -1,
+        isPlaceAdd: [
+          'place-add'
+        ].indexOf(state.name) > -1,
+        isCompose: [
+          'compose',
+          'place-compose',
+          'compose-forward',
+          'compose-reply-all',
+          'compose-reply-sender'
+        ].indexOf(state.name) > -1
+      };
+    }
 
-    $rootScope.$on('$stateChangeStart', function(event, nextState, currentState) {
+    /*****************************
+     *****  Event Listeners   ****
+     *****************************/
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
       $uibModalStack.dismissAll();
-      if (['signin', 'intro','register'].indexOf(nextState.name) > -1) {
-        return;
-      }
 
-      if (!NstSvcAuth.isInAuthorization(nextState)) {
+      var validState = getValidState(toState, toParams);
+      if (toState.name != validState.name) {
         $rootScope.$broadcast('$stateChangeError');
         event.preventDefault();
-        $state.go('signin');
+        $state.go(validState.name, validState.params);
       }
-
     });
 
-
+    $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams) {
+      vm.page = getActivePages(toState, toParams);
+    });
   }
 })();
