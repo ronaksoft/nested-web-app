@@ -937,7 +937,7 @@ a .ui-select-choises-row-inner {
 }
 
 .nst-mood-pending {
-  color: $color-bg-pending;
+  color: $color-bg-pending!important;
 }
 
 .nst-mood-smooth {
@@ -1246,6 +1246,13 @@ a .ui-select-choises-row-inner {
 }
 .side-place-invite-item-inner{
   min-height: 56px;
+}
+.invitation-name {
+  display: inline-flex;
+  flex-direction: row;
+  & + span {
+    width: 136px;
+  }
 }
 .sidebar ul ul li .side-place-item-inner{
   min-height: 42px;
