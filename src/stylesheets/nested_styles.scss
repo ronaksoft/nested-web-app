@@ -439,6 +439,9 @@ nst-navbar {
   height: 66px;
   display: inline-flex;
   flex-direction: row;
+  font-family: OpenSans;
+  font-weight: 100;
+  font-size: 24px;
 }
 
 .maincontainer.navtiny {
@@ -491,7 +494,9 @@ nst-navbar {
   cursor: pointer;
   left: 120px;
   &.active {
-    border-bottom: 1px solid #00b45a ;
+    border-bottom: 2px solid $color-sense ;
+    margin-top: 3px;
+    color: $color-solid;
   }
 }
 
@@ -1098,7 +1103,7 @@ ul ul li:last-child{
   background-color: #E7FBF0;
   border: solid 1px $color-border;
   border-top-width: 0;
-  padding: 8px 8px 0 8px;
+  //padding: 8px 8px 0 8px;
   z-index: 10;
   transition-duration: .3s;
 }
@@ -1119,10 +1124,12 @@ ul ul li:last-child{
   align-items: flex-start;
   margin: 4px 0;
   background-color: #E7FBf0;
+  padding: 8px 8px 0 8px;
 }
 
 .post-card-comments:hover {
   background-color: #D0f7e1;
+
 }
 
 .post-card-comments .text{
@@ -1222,7 +1229,6 @@ ul ul li:last-child{
     max-height: 190px;
   }
 }
-
 
 .popover-white-nst-setting + .popover {
   background: $color-white;
@@ -1477,6 +1483,9 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 
+.hovercolor:hover {
+  background-color: $color-sense-5;
+}
 
 //#popup-msg-badge  div ._dtr :hover {
 //  background-color: $color-sense-5;
