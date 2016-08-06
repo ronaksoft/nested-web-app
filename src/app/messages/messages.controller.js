@@ -29,6 +29,7 @@
     vm.tryAgainToLoadMore = false;
     vm.reachedTheEnd = false;
     vm.noMessages = false;
+    vm.loading = true;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -108,6 +109,8 @@
     }
 
     function loadMessages() {
+      vm.loading = true;
+      vm.tryAgainToLoadMore = false;
       return NstSvcLoader.inject(NstSvcTry.do(function () {
         var defer = $q.defer();
 
@@ -127,8 +130,10 @@
             vm.messages = mapMessages(vm.cache);
           }
           vm.tryAgainToLoadMore = false;
+          vm.loading = false;
           defer.resolve(vm.messages);
         }).catch(function(error) {
+          vm.loading = false;
           vm.tryAgainToLoadMore = true;
           defer.reject(error);
         });

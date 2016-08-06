@@ -1988,3 +1988,13 @@ a.normal-badge {
 .first-child {
   margin-top: 20px;
 }
+
+
+
+
+@for $i from 0 through 6 {
+  .nst-margin-#{$i * 4} {
+    margin: #{$i * 4}px;
+  }
+}
+
