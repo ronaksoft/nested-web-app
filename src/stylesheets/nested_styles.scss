@@ -1489,3 +1489,51 @@ input[type="checkbox"]:checked + label.setting {
 //  background-color: $color-sense-5;
 //}
 
+
+
+
+
+/**
+  *********************************************************
+  *     Nested Fade in all elements
+  *********************************************************
+*/
+
+* {
+  animation: fadein 0.8s;
+  -moz-animation: fadein 0.8s; /* Firefox */
+  -webkit-animation: fadein 0.8s; /* Safari and Chrome */
+  -o-animation: fadein 0.8s; /* Opera */
+}
+@keyframes fadein {
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-moz-keyframes fadein { /* Firefox */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-o-keyframes fadein { /* Opera */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity: 1;
+  }
+}
