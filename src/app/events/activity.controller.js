@@ -70,14 +70,20 @@
 
       generateUrls();
 
-      setPlace(vm.activitySettings.placeId).then(function (placeFound) {
-        // return $q.all([loadActivities(), loadInvitations()]);
-        return $q.all([loadActivities()]);
-      }).then(function (values) {
+      if (vm.activitySettings.placeId) {
+        setPlace(vm.activitySettings.placeId).then(function (place) {
+          if (place) {
+            return $q.all([loadActivities()]);
+          }
+        }).catch(function (error) {
+          $log.debug(error);
+        });
+      } else {
+        $q.all([loadActivities()]).catch(function (error) {
+          $log.debug(error);
+        });
+      }
 
-      }).catch(function (error) {
-        $log.debug(error);
-      })
     })();
 
 
@@ -143,16 +149,15 @@
     function setPlace(id) {
       var defer = $q.defer();
       if (!id) {
-        defer.resolve(false);
+        defer.resolve(null);
       } else {
-        return NstSvcPlaceFactory.get(id).then(function (place) {
+        NstSvcPlaceFactory.get(id).then(function (place) {
           if (place && place.id) {
             vm.currentPlace = place;
-            defer.resolve(true);
           } else {
             vm.currentPlace = null;
-            defer.resolve(false);
           }
+          defer.resolve(vm.currentPlace);
         }).catch(defer.reject);
       }
 

@@ -7,8 +7,8 @@
 
   /** @ngInject */
   function AppController($scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack,
-                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE,
-                         NstSvcAuth) {
+                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR,
+                         NstSvcAuth, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
 
     /*****************************
@@ -153,8 +153,38 @@
       }
     });
 
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+      if (toParams.placeId) {
+        NstSvcPlaceFactory.get(toParams.placeId).catch(function (error) {
+          if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
+            NstSvcModal.error('Does not exist!','We are sorry, but the place you are looking for can not be found!').then(function (result) {
+              $state.go(getDefaultRelatedState(toState));
+            });
+          } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
+            NstSvcModal.error('Access denied!','You are not allowed to be here!').then(function (result) {
+              $state.go(getDefaultRelatedState(toState));
+            });
+          }
+        });
+      }
+    });
+
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
     });
+
+    function getDefaultRelatedState(state) {
+      var group = _.findKey(NST_PAGE, function (pages) {
+        return _.includes(pages, state.name);
+      });
+
+      if ('ACTIVITY' === group) {
+        return $state.get('activity');
+      } else if ('MESSAGES' === group) {
+        return $state.get('messages');
+      } else {
+        return $state.get('messages');
+      }
+    }
   }
 })();

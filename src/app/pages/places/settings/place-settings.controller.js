@@ -78,9 +78,9 @@
           });
       }).then(function(members) {
 
-        vm.members.creators = members.creators;
-        vm.members.keyHolders = members.keyHolders;
-        vm.members.knownGuests = members.knownGuests;
+        vm.members.creators = members.creators || [];
+        vm.members.keyHolders = members.keyHolders || [];
+        vm.members.knownGuests = members.knownGuests || [];
 
         $log.debug(NstUtility.string.format('Place "{0}" has {1} creator(s), {2} key holder(s) and {3} known guest(s).',
           vm.place.name,
@@ -95,8 +95,8 @@
           });
       }).then(function(pendings) {
 
-        vm.members.pendingKeyHolders = pendings.pendingKeyHolders;
-        vm.members.pendingKnownGuests = pendings.pendingKnownGuests;
+        vm.members.pendingKeyHolders = pendings.pendingKeyHolders || [];
+        vm.members.pendingKnownGuests = pendings.pendingKnownGuests || [];
 
         $log.debug(NstUtility.string.format('Place "{0}" has {1} pending key holder(s) and {2} pending known guest(s).',
           vm.place.name,
