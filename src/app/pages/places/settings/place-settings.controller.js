@@ -226,11 +226,9 @@
         }).catch(function (reason) {
 
         });
-
-    };
+    }
 
     function confirmToLeave() {
-
       $uibModal.open({
         animation: false,
         templateUrl: 'app/places/option/place-leave-confirm.html',
@@ -242,7 +240,14 @@
         $log.debug('where do you wanna go?');
         leave();
       });
-    };
+    }
+
+    function remove() {
+      return NstSvcPlaceFactory.remove(vm.place.id).then(function() {
+      }).catch(function(error) {
+        $log.debug(error);
+      });
+    }
 
     function removeMember(username) {
       return NstSvcPlaceFactory.removeMember(vm.place.id, username).then(function() {}).catch(function(error) {
