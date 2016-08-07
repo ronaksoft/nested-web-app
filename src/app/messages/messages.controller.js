@@ -59,19 +59,14 @@
 
       generateUrls();
 
-      if (vm.currentPlaceId) {
-        setPlace(vm.currentPlaceId).then(function(place) {
-          if (place) {
-            return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
-          }
-        }).catch(function(error) {
-          $log.debug(error)
-        });
-      } else {
-        $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function(error) {
-          $log.debug(error);
-        });
-      }
+      setPlace(vm.currentPlaceId).then(function(placeFound) {
+
+        return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
+      }).then(function(values) {
+
+      }).catch(function(error) {
+        $log.debug(error)
+      });
 
     })();
 
@@ -170,8 +165,8 @@
       if (vm.loading) return;
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return loadMessages().catch(function (error) {
+      return NstSvcLoader.inject(NstSvcTry.do(function() {
+        return loadMessages().catch(function(error) {
           var deferred = $q.defer();
 
           $log.debug('Messages | Load More Error: ', error);
@@ -190,7 +185,6 @@
 
         return moment().format('x');
       }
-
       if (moment.isMoment(last.date)) {
         return last.date.format('x');
       }
@@ -199,7 +193,7 @@
     }
 
     function loadRecentActivities() {
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
+      return NstSvcLoader.inject(NstSvcTry.do(function() {
         var defer = $q.defer();
 
         var settings = {
@@ -255,17 +249,18 @@
     function setPlace(id) {
       var defer = $q.defer();
       if (!id) {
-        defer.resolve(false);
+        defer.reject(new Error('Could not find a place without Id.'));
       } else {
-        return NstSvcPlaceFactory.get(id).then(function(place) {
+        NstSvcPlaceFactory.get(id).then(function(place) {
           if (place && place.id) {
             vm.currentPlace = place;
-            defer.resolve(true);
           } else {
             vm.currentPlace = null;
-            defer.resolve(false);
           }
-        }).catch(defer.reject);
+          defer.resolve(vm.currentPlace);
+        }).catch(function (error) {
+          defer.reject(error);
+        });
       }
 
       return defer.promise;
