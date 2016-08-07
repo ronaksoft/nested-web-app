@@ -59,14 +59,18 @@
 
       generateUrls();
 
-      setPlace(vm.currentPlaceId).then(function(placeFound) {
-
+      if (vm.currentPlaceId) {
+        setPlace(vm.currentPlaceId).then(function(placeFound) {
+          return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
+        }).catch(function(error) {
+          $log.debug(error)
+        });
+      } else {
+        vm.currentPlace = null;
         return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
-      }).then(function(values) {
+      }
 
-      }).catch(function(error) {
-        $log.debug(error)
-      });
+
 
     })();
 
