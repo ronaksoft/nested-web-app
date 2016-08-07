@@ -224,12 +224,9 @@
 
           return deferred.promise;
         }).catch(function (error) {
-          var deferred = $q.defer();
-
           $log.debug('Compose | Attach Upload Error: ', error);
-          deferred.reject.call(arguments);
 
-          return deferred.promise;
+          deferred.reject(error);
         }).then(function () {
           deferred.resolve(request);
         });
@@ -401,6 +398,10 @@
 
         toastr.success('Your message has been successfully sent.', 'Message Sent');
         $state.go('messages-sent');
+
+        return $q(function (res) {
+          res(response);
+        });
       }).catch(function (errors) {
         vm.model.saving = false;
         toastr.error(errors.filter(
@@ -410,6 +411,10 @@
         ).join("<br/>"), 'Compose Error');
 
         $log.debug('Compose | Error Occurred: ', errors);
+
+        return $q(function (res, rej) {
+          rej(errors);
+        });
       }));
     };
     vm.controls.right.push(new NstVmNavbarControl('Send', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));

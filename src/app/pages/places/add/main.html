@@ -2,7 +2,7 @@
   <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed"  class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
     <nst-navbar data-ng-model="navbar" controls="ctlPlaceAdd.controls" page="ctlApp.page"></nst-navbar>
-    <section class="nst-content _tr" id="content-wrapper" page-change="changeMe($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+    <section class="nst-content _tr" id="content-wrapper" page-change="ctlPlaceAdd.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
       <section class="content _bgwhite">
         <div class="panel-create-place  _ma _fh">
           <form name="CreatePlaceForm">
@@ -18,10 +18,10 @@
             <div class="_fw upload-photo-container">
               <div class="_ma upload-photo">
                 <label for="logo"><img src="{{ctlPlaceAdd.model.picture.url}}"/></label>
-                <input page-change-element id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().create_place.imgToUri(event)" data-ng-model="place.picture"/>
+                <input page-change-element id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlPlaceAdd.imgToUri(event)" data-ng-model="place.picture"/>
               </div>
               <label for="logo" class="add-photo-hover"></label>
-              <div data-ng-if="ctlPlaceAdd.model.picture.id" class="remove-photo-hover" data-ng-click="create_place.removeImg()"></div>
+              <div data-ng-if="ctlPlaceAdd.model.picture.file" class="remove-photo-hover" data-ng-click="ctlPlaceAdd.removeImg()"></div>
             </div>
             <div class="inner-panel _ma">
               <div class="place-id">
@@ -104,7 +104,7 @@
               </div>
               <div class="notice-bar">Disabled until "Receptive" off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
               <!--<div>-->
-                <!--<button class="butn  butn-sense _fw" data-ng-click="create_place.create()">Create Place</button>-->
+                <!--<button class="butn  butn-sense _fw" data-ng-click="ctlPlaceAdd.create()">Create Place</button>-->
               <!--</div>-->
             </div>
           </form>

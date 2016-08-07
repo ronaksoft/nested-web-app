@@ -457,6 +457,8 @@
       var factory = this;
 
       if (place.isNew()) {
+        var deferred = $q.defer();
+
         var params = {
           place_id: place.getId(),
           place_name: place.getName(),
@@ -469,24 +471,60 @@
           'privacy.search': place.getPrivacy().getSearch()
         };
 
-        if (place.parent) {
-          params.parent_id = place.parent.getId();
+        if (place.getParent() && place.getParent().getId()) {
+          params.parent_id = place.getParent().getId();
           params.place_id = params.place_id.substr(params.parent_id.length);
         }
 
         var query = new NstFactoryQuery(place.getId(), params);
 
-        return NstSvcServer.request('place/add', params).then(function (data) {
+        NstSvcServer.request('place/add', params).then(function (data) {
           var newPlace = factory.parsePlace(data.place);
 
           return $q(function (res) {
-            res(NstSvcPlaceFactory.set(newPlace).get(newPlace.getId()).save());
+            res(newPlace);
           });
+        }).then(function (newPlace) {
+          var deferred = $q.defer();
+
+          if (place.getPicture().getOrg().getId()) {
+            NstSvcServer.request('place/set_picture', {
+              place_id: newPlace.getId(),
+              universal_id: place.getPicture().getOrg().getId()
+            }).then(function () {
+              deferred.resolve(newPlace);
+            }).catch(deferred.reject);
+          } else {
+            deferred.resolve(newPlace);
+          }
+
+          return deferred.promise;
+        }).then(function (newPlace) {
+          newPlace.save();
+          factory.set(newPlace);
+
+          if (params.parent_id) {
+            // Subplace Added
+            factory.getTiny(params.parent_id).then(function (parentPlace) {
+              factory.dispatchEvent(new CustomEvent(
+                NST_PLACE_FACTORY_EVENT.SUB_ADD,
+                { detail: { id: newPlace.getId(), place: newPlace, parentPlace: parentPlace } }
+              ));
+            });
+          } else {
+            // Grand Place Added
+            factory.dispatchEvent(new CustomEvent(
+              NST_PLACE_FACTORY_EVENT.ROOT_ADD,
+              { detail: { id: newPlace.getId(), place: newPlace } }
+            ));
+          }
+
+          deferred.resolve(newPlace);
         }).catch(function (error) {
-          return $q(function (res, reject) {
-            reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
+
+        return deferred.promise;
       } else {
         var params = {
           place_id: place.getId(),
