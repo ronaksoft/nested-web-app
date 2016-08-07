@@ -16,7 +16,7 @@
         activity: '=model',
         place : '=place'
       },
-      link: function(scope, elem, attrs) {
+      link: function(scope) {
 
         if (scope.place){
           scope.activity.inSpecificPlace = true;
@@ -54,5 +54,4 @@
       template: '<div class="row" data-ng-include="tplUrl" data-ng-init="act = activity"></div>'
     };
   }
-
 })();

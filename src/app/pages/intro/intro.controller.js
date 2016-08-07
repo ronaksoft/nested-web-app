@@ -11,10 +11,6 @@
                            NstSvcLoader, NstSvcAuth) {
     var vm = this;
 
-    if (NstSvcAuth.isInAuthorization()) {
-      $state.go(NST_DEFAULT.STATE);
-    }
-
     vm.invitation = {
       sent: false,
       error: false,

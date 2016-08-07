@@ -37,10 +37,7 @@
 
     vm.controls = {
       left: [
-        // TODO: Get Previous state
-        new NstVmNavbarControl('Back', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('place-messages', {
-          placeId : $stateParams.placeId
-        }))
+        new NstVmNavbarControl('Back', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
       ],
       right: [
         new NstVmNavbarControl('Leave', NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, vm.confirmToLeave)

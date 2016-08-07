@@ -14,11 +14,11 @@
         items: '=',
         mode: '='
       },
-      link: function (scope, element, attributes) {
+      link: function (scope) {
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
 
-        if (modeIsValid(attributes.mode)) {
-          scope.internalMode = attributes.mode;
+        if (modeIsValid(scope.mode)) {
+          scope.internalMode = scope.mode;
         }
 
         if (scope.internalMode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO){
@@ -31,17 +31,14 @@
 
         scope.onClick = function (item) {
           if (scope.onItemClick) {
-            scope.onItemClick(item);
+            scope.onItemClick(item, scope.items);
           }
         };
-
       }
     };
 
     function modeIsValid(mode) {
       return _.values(NST_ATTACHMENTS_PREVIEW_BAR_MODE).indexOf(mode) > -1;
     }
-
-  };
-
+  }
 })();

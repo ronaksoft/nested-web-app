@@ -1107,15 +1107,13 @@ ul ul li:last-child{
   z-index: 10;
   transition-duration: .3s;
 }
-.post-card-comment.ng-hide-remove {
-  //animation: post-comment .2s ease-in;
-}
 .post-card-comment .comments-load {
   height: 32px;
   align-items: center;
 }
 .post-card-comment .comments-load a{
   margin-left: 32px;
+  color: $color-sense-wire;
   &:hover {
     color: black;
   }
