@@ -128,7 +128,7 @@
             page.state.previous.group = pages[k];
           }
         }
-        
+
         page['is' + cName] = isActive;
         if (isActive) {
           page.state.current.group = pages[k];
@@ -154,7 +154,7 @@
     });
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
-      if (toParams.placeId) {
+      if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
         NstSvcPlaceFactory.get(toParams.placeId).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
             NstSvcModal.error('Does not exist!','We are sorry, but the place you are looking for can not be found!').then(function (result) {

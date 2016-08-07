@@ -891,12 +891,12 @@
                   var placeData = response.places[k];
                   var placeId = placeData._id;
                   access[placeId] = placeData.access;
-                  setAccessOnPlace(placeId, access[placeId]);
+                  factory.setAccessOnPlace(placeId, access[placeId]);
                 }
               } else {
                 var placeData = response.places[0];
                 access = placeData.access;
-                setAccessOnPlace(id, placeData.access);
+                factory.setAccessOnPlace(id, placeData.access);
               }
             }
 
@@ -1035,7 +1035,7 @@
     };
 
     PlaceFactory.prototype.parsePlace = function (placeData) {
-      var place = new NstPlace();
+      var place = this.createPlaceModel();
 
       if (!angular.isObject(placeData)) {
         return place;
@@ -1109,6 +1109,10 @@
       }
 
       return place;
+    };
+
+    PlaceFactory.prototype.createPlaceModel = function (model) {
+      return new NstPlace(model);
     };
 
     return new PlaceFactory();
