@@ -127,7 +127,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/places/add/main.html',
+        templateUrl: 'app/pages/places/add/main.html',
         controller: 'PlaceAddController',
         controllerAs: 'ctlPlaceAdd'
       })

@@ -113,11 +113,6 @@
   **********************************************************
  */
 
-
-#nav-prof {
-  display: none;
-}
-
 .maincontainer.create-hld {
   .content-plus {
     display: none;
@@ -134,7 +129,7 @@
     display: flex;
   }
   .navbar-bottom {
-    display: none;
+    //display: none;
     div {
       align-items: center;
     }
