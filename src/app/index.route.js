@@ -11,7 +11,7 @@
       /*****************************
        *****   Public Routes    ****
        *****************************/
-      
+
       .state('intro', {
         url: '/',
         templateUrl: 'app/pages/intro/main.html',
@@ -25,11 +25,11 @@
         controller: 'RegisterController',
         controllerAs: 'ctlRegister'
       })
-        
+
       /*****************************
        *****     Auth Routes    ****
        *****************************/
-      
+
       .state('signin', {
         url: '/signin',
         templateUrl: 'app/user/login/main.html',

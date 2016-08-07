@@ -74,7 +74,7 @@
       $scope.place.picture.org.uid = null;
     };
 
-    vm.create = function () {
+    vm.createOld = function () {
       var p = $scope.logo ? NstSvcStore.upload($scope.logo, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE) : $q(function (res) { res(); });
 
       NstSvcLoader.inject(p.then(function (response) {
@@ -268,7 +268,7 @@
               })
             }
           }).catch(function () {
-            $state.go(NST_DEFAULT.STATE).replace();
+            $state.go(NST_DEFAULT.STATE);
           });
         }
       }

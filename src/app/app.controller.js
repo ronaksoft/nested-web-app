@@ -183,7 +183,7 @@
       } else if ('MESSAGES' === group) {
         return $state.get('messages');
       } else {
-        return $state.get('messages');
+        return $state.get(NST_DEFAULT.STATE);
       }
     }
   }

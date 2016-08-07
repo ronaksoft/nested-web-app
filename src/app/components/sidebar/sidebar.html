@@ -19,6 +19,9 @@
           <div class="side-menu-item">
             <a href="{{ctlSidebar.urls.sent}}"><div class="icon icon-solid icon-side icon-sent"></div>
               <span class="item _fw" ng-show="!ctlSidebar.collapsed">Sent</span></a></div>
+          <div class="side-menu-item" ng-if="true">
+            <a href="{{ctlSidebar.urls.placeAdd}}"><div class="icon icon-solid icon-side"></div>
+              <span class="item _fw" ng-show="!ctlSidebar.collapsed">Create Place</span></a></div>
         </div>
       <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0">
         <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">

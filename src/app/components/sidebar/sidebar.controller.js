@@ -8,7 +8,7 @@
   /** @ngInject */
   function SidebarController($q, $state, $stateParams, $uibModal, $log,
                              _,
-                             NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS,
                              NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
@@ -22,10 +22,10 @@
     vm.invitation = {};
     vm.urls = {
       unfiltered: $state.href(getUnfilteredState()),
-      compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || '_' }),
+      compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
       bookmarks: $state.href(getBookmarksState()),
       sent: $state.href(getSentState()),
-      placeAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || '_' })
+      placeAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
     };
 
     /*****************************
@@ -94,9 +94,7 @@
      *****************************/
 
     if (vm.stateParams.placeId) {
-      if ('_' == vm.stateParams.placeId) {
-        $state.go(getUnfilteredState());
-      } else {
+      if (NST_DEFAULT.STATE_PARAM != vm.stateParams.placeId) {
         vm.stateParams.placeIdSplitted = vm.stateParams.placeId.split('.');
       }
     }
