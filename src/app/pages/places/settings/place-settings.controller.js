@@ -6,7 +6,7 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($location, $scope, $stateParams, $q, $uibModal, $log, $state,
+  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state,
     NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl,
     NstPlace, NstPicture) {
@@ -62,7 +62,7 @@
           NstSvcPlaceFactory.getNotificationOption(vm.placeId)
         ]);
       }).then(function(values) {
-
+        $log.debug('Place Has Accesses: ', values);
         vm.hasRemoveAccess = values[0];
         vm.hasAddPlaceAccess = values[1];
         vm.hasControlAccess = values[2];
@@ -119,7 +119,7 @@
 
 
     function showAddModal(role) {
-      console.log(role);
+      $log.debug(role);
 
       var modal = $uibModal.open({
         animation: false,
@@ -142,7 +142,7 @@
 
           return $q(function(resolve, reject) {
             NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
-              console.log('invitation id is :', invitationId);
+              $log.debug('invitation id is :', invitationId);
               $log.debug(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
               resolve({
                 user: user,
@@ -151,7 +151,7 @@
               });
             }).catch(function(error) {
               // FIXME: Why cannot catch the error!
-              console.log(error);
+              $log.debug(error);
               if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
                 $log.debug(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
                 resolve({
@@ -239,7 +239,7 @@
           place: vm.place
         }
       }).result.then(function() {
-        console.log('where do you wanna go?');
+        $log.debug('where do you wanna go?');
         leave();
       });
     };

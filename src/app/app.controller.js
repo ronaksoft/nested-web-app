@@ -118,7 +118,7 @@
       }
 
       for (var k in pages) {
-        var cName = pages[k].toLowerCase().split('').filter(function (v, i) { return 0 == i ? v.toUpperCase() : v; }).join('');
+        var cName = pages[k].toLowerCase().split('').map(function (v, i) { return 0 == i ? v.toUpperCase() : v; }).join('');
         var isActive = NST_PAGE[pages[k]].indexOf(state.name) > -1;
 
         if (previousState) {
@@ -128,7 +128,7 @@
             page.state.previous.group = pages[k];
           }
         }
-
+        
         page['is' + cName] = isActive;
         if (isActive) {
           page.state.current.group = pages[k];
