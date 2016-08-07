@@ -88,7 +88,7 @@
     };
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-      $log.debug('Place Add | Gonna Change State: ', toState);
+      $log.debug('Place Add | Gonna Change State: ', toState, toParams);
       if (vm.model.saved || !vm.model.isModified()) {
         cancel.$destroy();
         $state.go(toState.name);
@@ -129,8 +129,6 @@
 
         return modified;
       })(vm.model);
-
-      $log.debug('Compose | Model Modified? ', vm.model.modified);
 
       return vm.model.modified;
     };
@@ -300,8 +298,6 @@
       })().then(function (place) {
         vm.model.saving = false;
         vm.model.saved = true;
-
-        console.log('Place Added: ', place);
 
         toastr.success('Place ' + place.getName() + ' has been successfully created.', 'Place Added');
         $state.go('place-messages', { placeId: place.getId() });
