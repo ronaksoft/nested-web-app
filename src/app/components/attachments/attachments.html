@@ -10,7 +10,7 @@
           </div>-->
           <div data-ng-if="!attachment.thumbnail" class="attachment-badge-bar">
             <div class="_dib att-badge-{{attachment.type}}">{{attachment.format}}</div>
-            <span class="_dib _fr _tofe">{{attachment.fileName}}</span>
+            <span class="_dib _fr _tofe no-underline">{{attachment.fileName}}</span>
           </div>
         </a>
         <div data-ng-if="attachment.status == 'uploading'" class="overlay"></div>

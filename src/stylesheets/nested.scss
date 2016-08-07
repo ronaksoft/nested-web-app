@@ -179,6 +179,22 @@ a.place {
 .cursor-pointer {
   cursor: pointer;
 }
+.no-underline {
+  text-decoration: none;
+}
+.no-underline span:focus {
+  text-decoration: none;
+}
+
+*:visited, *:link ,*:active*:hover {
+  text-decoration: none !important;
+
+}
+
+.margin-r_5{
+  margin-right: -5px;
+}
+
 
 /**
   ******************************
@@ -547,6 +563,7 @@ select {
     font-weight: normal;
     background-color: $color-solid-30;
     vertical-align: top;
+    border: 1px solid #b2b2b2;
   }
 }
 .account-initials-right {
@@ -559,6 +576,7 @@ select {
   font-weight: normal;
   color: white;
   background-color: $color-solid-30;
+  border: 1px solid #b2b2b2;
 }
 
 /**
