@@ -7,8 +7,12 @@
 
   /** @ngInject */
   function LogoutController($state, NstSvcAuth) {
-    NstSvcAuth.logout().then(function () {
+    if (NstSvcAuth.isAuthorized()) {
+      NstSvcAuth.logout().then(function () {
+        $state.go('intro');
+      });
+    } else {
       $state.go('intro');
-    });
+    }
   }
 })();

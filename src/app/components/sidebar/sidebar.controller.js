@@ -25,9 +25,10 @@
       compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
       bookmarks: $state.href(getBookmarksState()),
       sent: $state.href(getSentState()),
-      placeAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
+      placeAdd: $state.href(getPlaceAddState(), { placeId: NST_DEFAULT.STATE_PARAM }),
+      subplaceAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
     };
-
+    
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -240,8 +241,10 @@
         var placeModel = placeModels[k];
         var place = mapPlace(placeModel, depth);
         place.isCollapsed = true;
+        place.isActive = false;
         if (vm.stateParams.placeIdSplitted) {
           place.isCollapsed = place.id != vm.stateParams.placeIdSplitted.slice(0, place.id.split('.').length).join('.');
+          place.isActive = vm.stateParams.placeId == place.id;
         }
 
         place.isFirstChild = 0 == i;
