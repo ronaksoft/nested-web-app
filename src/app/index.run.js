@@ -6,12 +6,10 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $uibModal, $window, $timeout,
+  function runBlock($rootScope, $uibModal, $timeout,
                     ngProgressFactory,
                     NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
-                    NstSvcAuth, NstSvcLoader, NstSvcPlaceInvitationFriend, NstSvcPlaceAuthFriend) {
-    $rootScope.rexExt = /(?:\.([^.]+))?$/;
-
+                    NstSvcAuth, NstSvcLoader, NstSvcPlaceInvitationFriend, NstSvcPlaceAuthFriend, NstSvcPostCommentFriend) {
     $rootScope.now = function () {
       return new Date();
     };

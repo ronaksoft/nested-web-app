@@ -6,14 +6,14 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($location, $rootScope, $scope, $q, $timeout,
-                           NstSvcAuth, NST_AUTH_EVENT, NST_SRV_ERROR,
-                           NstSvcLoader) {
+  function LoginController($q, $window, $timeout, $state,
+                           NST_DEFAULT, NST_SRV_ERROR,
+                           NstSvcLoader, NstSvcAuth) {
     var vm = this;
 
-    if (NstSvcAuth.isAuthorized()) {
-      $location.path('/messages').replace();
-    }
+    /*****************************
+     *** Controller Properties ***
+     *****************************/
 
     vm.username = '';
     vm.password = '';
@@ -25,6 +25,10 @@
     };
     vm.progress = false;
 
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
+
     vm.auth = function () {
       vm.progress = true;
       vm.message.fill = false;
@@ -35,21 +39,18 @@
       };
 
       NstSvcLoader.inject(NstSvcAuth.login(credentials, vm.remember).then(function () {
-        $rootScope.$broadcast(NST_AUTH_EVENT.loginSuccess);
-        var query = $location.search();
-
-        var back = query.back || '/';
-        if (query.back) {
-          delete query.back;
-          $location.search(query);
-        }
-
         return $q(function (res) {
+          var state = {
+            name: NST_DEFAULT.STATE
+          };
+          if ($state.params.back) {
+            state = angular.fromJson($window.decodeURIComponent($state.params.back));
+          }
+
           res();
-          $location.path(back).replace();
+          $state.go(state.name, state.params);
         });
       }).catch(function (error) {
-        $rootScope.$broadcast(NST_AUTH_EVENT.loginFailed);
         vm.username = vm.password = '';
         vm.progress = false;
 
@@ -70,6 +71,6 @@
           vm.message.fill = false;
         }, 5000);
       }));
-    }
+    };
   }
 })();

@@ -29,7 +29,7 @@
     Token.prototype.constructor = Token;
 
     Token.prototype.isExpired = function () {
-      return this.expiration > Date.now();
+      return Date.now() > this.expiration.valueOf();
     };
 
     Token.prototype.toString = function () {

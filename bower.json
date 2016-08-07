@@ -33,7 +33,6 @@
     "ui-select": "angular-ui-select#^0.16.1",
     "angular-marked": "^1.2.0",
     "angular-xeditable": "^0.1.12",
-    "angular-resizable": "^1.2.0",
     "initial.js": "https://github.com/pouyanh/initial.js.git#v0.4.0",
     "lodash": "^4.13.1",
     "ngstorage": "^0.3.10",
@@ -47,7 +46,6 @@
     "angular-translate": "^2.11.0",
     "angular-i18n": "^1.5.7",
     "ng-scrollbars": "^0.0.10",
-    "jquery.animated": "^0.4.0",
     "gsap": "GreenSock-JS#^1.18.2",
     "progressbar.js": "^1.0.1"
   },

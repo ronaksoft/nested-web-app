@@ -8,6 +8,10 @@
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider, NST_DEFAULT) {
     $stateProvider
+      /*****************************
+       *****   Public Routes    ****
+       *****************************/
+      
       .state('intro', {
         url: '/',
         templateUrl: 'app/pages/intro/main.html',
@@ -15,19 +19,29 @@
         controllerAs: 'ctlIntro'
       })
 
-      /*****************************
-       *****     Auth Routes    ****
-       *****************************/
-
       .state('register', {
         url: '/register',
-        templateUrl: 'app/register/register.html',
+        templateUrl: 'app/user/register/main.html',
         controller: 'RegisterController',
         controllerAs: 'ctlRegister'
       })
+        
+      /*****************************
+       *****     Auth Routes    ****
+       *****************************/
+      
       .state('signin', {
         url: '/signin',
-        templateUrl: 'app/pages/login/main.html',
+        templateUrl: 'app/user/login/main.html',
+        controller: 'LoginController',
+        controllerAs: 'ctlLogin'
+      })
+      .state('signin-back', {
+        url: '/signin/:back',
+        params: {
+          back: NST_DEFAULT.STATE_PARAM
+        },
+        templateUrl: 'app/user/login/main.html',
         controller: 'LoginController',
         controllerAs: 'ctlLogin'
       })

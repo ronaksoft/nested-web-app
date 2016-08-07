@@ -21,6 +21,7 @@
 }
 a,a:focus{
   outline-width:0;
+  text-decoration: none;
 }
 div, ul, ol {
     margin: 0;
@@ -798,11 +799,6 @@ body.modal-open {
   border-radius: 6px 0px 6px 6px;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
-@media screen and (max-width: 990px){
-  .popover-white + .popover {
-    left:280px!important;
-  }
-}
 
 .popover-green + .popover {
   background: $color-sense-5;
@@ -959,7 +955,7 @@ a .ui-select-choises-row-inner {
 }
 
 .nst-mood-pending {
-  color: $color-bg-pending;
+  color: $color-bg-pending!important;
 }
 
 .nst-mood-smooth {
@@ -1080,14 +1076,7 @@ a .ui-select-choises-row-inner {
   background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,.04) 100%);
 
 }
-@media screen and (max-width: 990px){
-  .sidebar{
-    display: none;
-  }
-  .sidebar-border {
-    display: none;
-  }
-}
+
 .sidebar > div {
   //flex: none;
   transition: 0.3s;
@@ -1273,8 +1262,13 @@ a .ui-select-choises-row-inner {
 .sidebar ul li .side-place-item-inner{
   min-height: 56px;
 }
-.side-place-invite-item-inner{
-  min-height: 56px;
+
+.invitation-name {
+  display: inline-flex;
+  flex-direction: row;
+  & + span {
+    width: 136px;
+  }
 }
 .sidebar ul ul li .side-place-item-inner{
   min-height: 42px;
@@ -1293,6 +1287,7 @@ a .ui-select-choises-row-inner {
   align-items: center;
   flex: none;
   flex-direction: row;
+  cursor: pointer;
 }
 .side-place-invite-item-inner {
   display: inline-flex;
@@ -1495,7 +1490,7 @@ ul ul .side-place-item-image {
   //flex-direction: column-reverse;
   align-items: center;
   transition: .3s;
-  & > div {
+  & > a > div {
     justify-content: center;
     padding: 0;
     transition: .1s;
@@ -1508,7 +1503,7 @@ ul ul .side-place-item-image {
     white-space: nowrap;
   }
 }
-.side-profile > div {
+.side-profile > a > div {
   padding: 4px 0 4px 22px;
   height: 48px;
   align-items: center;
@@ -1519,25 +1514,21 @@ ul ul .side-place-item-image {
     transition: .3s;
   }
 }
-.side-profile>div:hover {
+.side-profile > a > div:hover {
   transition-duration: 0.3s;
   transition-timing-function: ease;
   background-color: #d8dcd9;
 }
-.side-profile a{
+.side-profile span{
   color: $color-solid;
   line-height: 1em;
 }
-.side-profile span{
+.side-profile span.sm{
   font-size: $font-size-small;
   color: $color-storm;
 }
 .side-profile .icon{
   filter: contrast(1) grayscale(100%);
-}
-.maincontainer.sidetiny .side-profile span,
-.maincontainer.sidetiny .side-profile a{
-  display: none;
 }
 .side-profile + .popover {
   top: calc(100% - 150px)!important;
@@ -1973,30 +1964,6 @@ a.normal-badge {
   color: $color-solid;
 }
 
-
-
-/**
-  *********************************************************
-  *     Nested Classes -   * Media
-  *********************************************************
- */
-
-@media (min-width: 1000px) {
-  #AllPlaces { width: 100%; }
-}
-@media (max-width: 999px) {
-
-  #AllPlaces li > table td.properties {}
-  #AllPlaces li > table td.members {}
-}
-
-@media (max-width: 999px) {
-  #MyPlaces {}
-  #EventList td.places {}
-  #PostView .main-body .right-column {}
-  #PostView #Toolbar {}
-  #PostView #Comments {}
-}
 /**
   *********************************************************
   *     Nested Classes -   * ngProgress
@@ -2046,3 +2013,13 @@ a.normal-badge {
 .first-child {
   margin-top: 20px;
 }
+
+
+
+
+@for $i from 0 through 6 {
+  .nst-margin-#{$i * 4} {
+    margin: #{$i * 4}px;
+  }
+}
+

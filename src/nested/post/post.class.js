@@ -10,7 +10,6 @@
     Post.prototype.constructor = Post;
 
     function Post(model) {
-      this.commentLimit = 30;
       this.moreComments = false;
 
       this.body = null;

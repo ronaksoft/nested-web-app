@@ -6,154 +6,70 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($scope, $stateParams, $uibModal, $q, $log, $state,
+  function PostController($q, $scope, $stateParams, $uibModal, $log, $state,
                           _, toastr,
-                          EVENT_ACTIONS, NST_SRV_EVENT,
-                          NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap,
-                          NstComment, NstVmUser, vmPost, postId) {
+                          NST_COMMENT_FACTORY_EVENT,
+                          NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap,
+                          NstVmUser, vmPost, postId) {
     var vm = this;
-    console.log(vmPost,postId);
-    if (vmPost)  vm.post = vmPost;
-    vm.postId = $stateParams.postId || postId;
 
-    vm.postLoadProgress = false;
-    vm.commentSendProgress = false;
-    vm.commentRemoveProgress = false;
-    vm.commentLoadProgress = false;
-    vm.hasMoreComments = false;
+    /*****************************
+     *** Controller Properties ***
+     *****************************/
 
     vm.user = new NstVmUser(NstSvcAuth.getUser());
+
+    vm.comments = [];
     vm.commentSettings = {
-      skip: 0,
-      limit: 30
+      date: Date.now(),
+      limit: 10
     };
 
-    vm.removeComment = removeComment;
-    vm.haseRemoveAccess = haseRemoveAccess;
-    vm.removePost = removePost;
-    vm.sendComment = sendComment;
-    vm.loadMoreComments = loadMoreComments;
-    vm.allowToRemoveComment = allowToRemoveComment;
-    vm.loadPostComments = loadPostComments;
+    vm.postModel = undefined;
+    vm.post = undefined;
+    if (vmPost) {
+      vm.post = vmPost;
+      if (vm.post.comments) {
+        vm.comments = vm.post.comments;
+      }
+    }
+    vm.postId = $stateParams.postId || postId;
+
+    vm.status = {
+      postLoadProgress: false,
+      commentSendProgress: false,
+      commentRemoveProgress: false,
+      commentLoadProgress: false,
+      hasMoreComments: false,
+      ready: false
+    };
 
     vm.urls = {
-      reply_all: $state.href('compose-reply-all', {
-        postId: vm.postId
-      }),
-      reply_sender: $state.href('compose-reply-sender', {
-        postId: vm.postId
-      }),
-      forward: $state.href('compose-forward', {
-        postId: vm.postId
-      })
+      reply_all: $state.href('compose-reply-all', { postId: vm.postId }),
+      reply_sender: $state.href('compose-reply-sender', { postId: vm.postId }),
+      forward: $state.href('compose-forward', { postId: vm.postId })
     };
 
-
-    (function () {
-      vm.postLoadProgress = true;
-
-      NstSvcPostFactory.get(vm.postId).then(function (post) {
-        vm.postModel = post;
-        vm.post = NstSvcPostMap.toMessage(post);
-        loadPostComments();
-      });
-
-    })();
-
-    $scope.unscrolled = true;
-    vm.checkScroll = function(event) {
-      var element = event.target;
-
-      $scope.unscrolled = element.scrollTop === (element.scrollHeight - element.offsetHeight);
+    vm.scrollConfig = {
+      axis: 'x'
     };
 
-    /**
-     * Load comments of this post
-     *
-     */
-    function loadPostComments() {
-      NstSvcCommentFactory.retrieveComments(vm.postModel, vm.commentSettings).then(function (post) {
-        vm.postModel = post;
-        vm.post = NstSvcPostMap.toMessage(vm.postModel);
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
 
-        vm.postLoadProgress = false;
-        // the conditions says maybe there are more comments that the limit
-        vm.hasMoreComments = !(vm.commentSettings.skip < vm.commentSettings.limit);
-        $scope.scrolling = true;
-      }).catch(function (error) {
-        // TODO: create a service that handles errors
-        // and knows what to do when an error occurs
-      });
-    }
+    vm.sendComment = sendComment;
+    vm.removeComment = removeComment;
+    vm.loadMoreComments = loadComments;
+    vm.allowToRemoveComment = allowToRemoveComment;
+    vm.hasRemoveAccess = hasRemoveAccess;
+    vm.removePost = removePost;
 
-    /**
-     * sendKeyIsPressed - check whether the pressed key is Enter or not
-     *
-     * @param  {Event} event keypress event handler
-     * @return {bool}        true if the pressed key is Enter
-     */
-    function sendKeyIsPressed(event) {
-      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
-    }
+    function loadComments() {
+      vm.commentSettings.date = getDateOfOldestComment(vm.postModel);
 
-
-    /**
-     * extractCommentBody - extract and refine the comment
-     *
-     * @param  {Event}    e   event handler
-     * @return {string}       refined comment
-     */
-    function extractCommentBody(e) {
-      return e.currentTarget.value.trim();
-    }
-
-    function allowToRemoveComment(comment) {
-      return comment.sender.username === vm.user.username
-        && (Date.now() - comment.date < 20 * 60 * 1e3);
-    }
-
-
-    /**
-     * sendComment - add the comment to the list of the post comments
-     *
-     * @param  {Event}  e   keypress event handler
-     */
-    function sendComment(e) {
-      if (!sendKeyIsPressed(e)) {
-        return;
-      }
-
-      var body = extractCommentBody(e);
-      if (body.length === 0) {
-        return;
-      }
-
-      vm.nextComment = "";
-
-      vm.commentSendInProgress = true;
-
-      NstSvcCommentFactory.addComment(vm.postModel, body).then(function(post) {
-        vm.postModel = post;
-        vm.post = NstSvcPostMap.toMessage(vm.postModel);
-        e.currentTarget.value = '';
-        vm.scrolling = $scope.unscrolled && true;
-        vm.commentSendInProgress = false;
-        // TODO: notify
-      }).catch(function(error) {
-        vm.nextComment = body;
-        vm.commentSendInProgress = false;
-        // TODO: decide && show toastr
-      });
-
-      return false;
-    }
-
-    function loadMoreComments() {
-      vm.commentLoadProgress = true;
-      NstSvcPostFactory.retrieveComments(vm.post, vm.commentSettings).then(function (post) {
-        vm.postModel = post;
-        vm.post = NstSvcPostMap.toMessage(vm.postModel);
-        vm.commentLoadProgress = false;
+      return reqGetComments(vm.postModel, vm.commentSettings).then(function (comments) {
+        vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
         vm.scrolling = true;
       }).catch(function (error) {
         // TODO: create a service that handles errors
@@ -161,30 +77,35 @@
       });
     }
 
-
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(tlEvent) {
-      switch (tlEvent.detail.timeline_data.action) {
-        case EVENT_ACTIONS.COMMENT_ADD:
-        case EVENT_ACTIONS.COMMENT_REMOVE:
-
-          if (vm.post.id == tlEvent.detail.timeline_data.post_id.$oid) {
-            var commentId = tlEvent.detail.timeline_data.comment_id.$oid;
-
-            NstSvcLoader.inject((new NstComment(vm.post)).load(commentId).then(function(comment) {
-              vm.post.addComment(comment).then(function() {
-                $scope.scrolling = $scope.unscrolled && true;
-
-                return $q(function(res) {
-                  res();
-                });
-              }).catch(function() {});
-            }));
-          }
-
-          break;
+    /**
+     * sendComment - add the comment to the list of the post comments
+     *
+     * @param  {Event}  event   keypress event handler
+     */
+    function sendComment(event) {
+      if (!sendKeyIsPressed(event)) {
+        return;
       }
-    });
 
+      var body = extractCommentBody(event);
+      if (0 == body.length) {
+        return;
+      }
+
+      vm.nextComment = "";
+
+      reqAddComment(vm.postModel, body).then(function(comment) {
+        // TODO: notify
+        pushComment(comment);
+        event.currentTarget.value = '';
+        vm.scrolling = $scope.unscrolled && true;
+      }).catch(function(error) {
+        vm.nextComment = body;
+        // TODO: decide && show toastr
+      });
+
+      return false;
+    }
 
     /**
      * removeComment - remove the comment
@@ -193,23 +114,20 @@
      * @param  {NstComment}  comment   the comment
      */
     function removeComment(comment) {
-      vm.commentRemoveProgress = true;
-      NstSvcCommentFactory.removeComment(vm.post, comment).then(function(comment) {
-        vm.commentRemoveProgress = false;
-        //notify
+      reqRemoveComment(vm.postModel, comment).then(function(post) {
+        // TODO: Notify
       }).catch(function(error) {
         // TODO: decide && show toastr
       });
     }
 
-
     /**
-     * haseRemoveAccess - the post has any place with delete access
+     * hasRemoveAccess - the post has any place with delete access
      *
      * @param  {NstPost} post  current post
      * @return {type}             true if there is any place with delete access
      */
-    function haseRemoveAccess(post) {
+    function hasRemoveAccess(post) {
       return post.haveAnyPlaceWithDeleteAccess();
     }
 
@@ -335,6 +253,213 @@
       }).catch(function(error) {
         $log.debug(error);
       });
+    }
+
+    /*****************************
+     *****  Controller Logic  ****
+     *****************************/
+
+    (function () {
+      reqGetPost(vm.postId).then(function (post) {
+        vm.postModel = post;
+        vm.post = mapPost(vm.postModel);
+        if (vm.post.comments) {
+          vm.comments = vm.post.comments;
+        }
+
+        return loadComments();
+      }).then(function () {
+        vm.status.ready = true;
+      });
+    })();
+
+    $scope.unscrolled = true;
+    vm.checkScroll = function(event) {
+      var element = event.target;
+
+      $scope.unscrolled = element.scrollTop === (element.scrollHeight - element.offsetHeight);
+    };
+
+    /*****************************
+     *****   Request Methods  ****
+     *****************************/
+
+    function reqAddComment(post, text) {
+      vm.status.commentSendProgress = true;
+
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
+        return NstSvcCommentFactory.addComment(post, text)
+      }, undefined, 3)).then(function (comment) {
+        vm.status.commentSendProgress = false;
+
+        return $q(function (res) {
+          res(comment);
+        });
+      }).catch(function (error) {
+        vm.status.commentSendProgress = false;
+
+        return $q(function (res, rej) {
+          rej(error);
+        });
+      });
+    }
+
+    function reqRemoveComment(post, comment) {
+      vm.status.commentRemoveProgress = true;
+
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
+        return NstSvcCommentFactory.removeComment(post, comment);
+      })).then(function (post) {
+        vm.status.commentRemoveProgress = false;
+
+        return $q(function (res) {
+          res(post);
+        });
+      }).catch(function (error) {
+        vm.status.commentRemoveProgress = false;
+
+        return $q(function (res, rej) {
+          rej(error);
+        });
+      });
+    }
+
+    function reqGetPost(id) {
+      vm.status.postLoadProgress = true;
+
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
+        return NstSvcPostFactory.get(id);
+      })).then(function (post) {
+        vm.status.postLoadProgress = false;
+
+        return $q(function (res) {
+          res(post);
+        });
+      }).catch(function (error) {
+        vm.status.postLoadProgress = false;
+
+        return $q(function (res, rej) {
+          rej(error);
+        });
+      });
+    }
+
+    function reqGetComments(post, settings) {
+      vm.status.commentLoadProgress = true;
+
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
+        return NstSvcCommentFactory.retrieveComments(post, settings);
+      })).then(function (comments) {
+        vm.status.commentLoadProgress = false;
+        // the conditions says maybe there are more comments that the limit
+        vm.status.hasMoreComments = comments.length >= settings.limit;
+
+        return $q(function (res) {
+          res(comments);
+        });
+      }).catch(function (error) {
+        vm.status.commentLoadProgress = false;
+
+        return $q(function (res, rej) {
+          rej(error);
+        });
+      });
+    }
+
+    /*****************************
+     *****     Map Methods    ****
+     *****************************/
+
+    function mapPost(postModel) {
+      return NstSvcPostMap.toMessage(postModel);
+    }
+
+    function mapComment(commentModel) {
+      return NstSvcCommentMap.toPostComment(commentModel);
+    }
+
+    function mapComments(commentModels) {
+      return reorderComments(_.map(commentModels, mapComment));
+    }
+
+    function reorderComments(comments) {
+      return _.orderBy(comments, 'date', 'asc');
+    }
+
+    /*****************************
+     *****    Push Methods    ****
+     *****************************/
+
+    function pushComment(commentModel) {
+      var alreadyPushed = _.find(vm.comments, { id: commentModel.id });
+
+      if (!alreadyPushed) {
+        vm.comments.push(mapComment(commentModel));
+      }
+    }
+
+    /*****************************
+     *****  Event Listeners   ****
+     *****************************/
+
+    NstSvcCommentFactory.addEventListener(NST_COMMENT_FACTORY_EVENT.ADD, function (event) {
+      if (vm.postId == event.detail.postId) {
+        pushComment(event.detail.comment);
+      }
+    });
+
+    NstSvcCommentFactory.addEventListener(NST_COMMENT_FACTORY_EVENT.REMOVE, function (event) {
+      if (vm.postId == event.detail.postId) {
+
+      }
+    });
+
+    /*****************************
+     *****   Other Methods    ****
+     *****************************/
+
+    /**
+     * sendKeyIsPressed - check whether the pressed key is Enter or not
+     *
+     * @param  {Event} event keypress event handler
+     *
+     * @return {bool}        true if the pressed key is Enter
+     */
+    function sendKeyIsPressed(event) {
+      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
+    }
+
+    /**
+     * extractCommentBody - extract and refine the comment
+     *
+     * @param  {Event}    event   event handler
+     *
+     * @return {string}       refined comment
+     */
+    function extractCommentBody(event) {
+      return event.currentTarget.value.trim();
+    }
+
+    function findOldestComment(post) {
+      return _.first(_.orderBy(post.comments, 'date'));
+    }
+
+    function getDateOfOldestComment(post) {
+      var oldest = findOldestComment(post);
+      var date = null;
+      if (oldest) {
+        date = oldest.date;
+      } else {
+        date = new Date();
+      }
+      date.setMilliseconds(date.getMilliseconds() - 1);
+
+      return date.valueOf();
+    }
+
+    function allowToRemoveComment(comment) {
+      return comment.sender.id === vm.user.id
+        && (Date.now() - comment.date < 20 * 60 * 1e3);
     }
   }
 })();

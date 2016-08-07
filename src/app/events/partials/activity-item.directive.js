@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -9,12 +9,18 @@
   function ActivityItem(NST_EVENT_ACTION) {
     return {
       restrict: 'E',
-      scope:{
+      scope: {
         activity: '=model',
-        extended: '=extended'
+        extended: '=extended',
+        place: '=place'
       },
-      link: function(scope, elem, attrs) {
-        switch (scope.activity.type){
+      link: function (scope, elem, attrs) {
+
+        if (scope.place){
+          scope.activity.inSpecificPlace = true;
+        }
+
+        switch (scope.activity.type) {
           case NST_EVENT_ACTION.COMMENT_ADD:
             scope.tplUrl = 'app/events/partials/event/comment/add.html';
             break;

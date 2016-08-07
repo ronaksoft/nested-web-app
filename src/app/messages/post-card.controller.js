@@ -29,9 +29,6 @@
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
 
-
-
-
     function reply() {
       $debug.log('Is not implemented yet!')
     }
@@ -55,14 +52,10 @@
 
       NstSvcPostFactory.get(vm.post.id).then(function(post) {
         NstSvcCommentFactory.addComment(post, body).then(function (comment) {
-          console.log('adding a comment :',comment);
-          var added = post.addComment(comment);
-          if (added) {
-            // NstSvcPostStorage.set(post.id, post);
-            vm.commentBoardLimit++;
-            vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
-            vm.post.commentsCount++;
-          }
+          $log.debug('adding a comment :',comment);
+          vm.commentBoardLimit++;
+          vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
+          vm.post.commentsCount++;
 
           e.currentTarget.value = '';
           vm.isSendingComment = false;
@@ -163,17 +156,10 @@
           limit : commentsSettings.limit
         });
       }).then(function (comments) {
-
-        if (comments.length < commentsSettings.limit) {
-          vm.hasOlderComments = false;
-        } else {
-          vm.hasOlderComments = true;
-        }
-
+        vm.hasOlderComments = comments.length >= commentsSettings.limit;
         var commentItems = _.orderBy(_.map(comments, NstSvcCommentMap.toMessageComment), 'date', 'asc');
         vm.post.comments = _.concat(commentItems, vm.post.comments);
         clearCommentBoardLimit();
-
       }).catch(function (error) {
         $log.debug(error);
       });

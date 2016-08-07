@@ -11,9 +11,8 @@
       this.data = data;
       this.status = NST_REQ_STATUS.NOT_SENT;
       this.response = new NstResponse();
-      
+
       this.settings = {
-        withCredentials: true,
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         }

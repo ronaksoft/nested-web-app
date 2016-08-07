@@ -49,8 +49,7 @@
 
     vm.controls = {
       left: [
-        // TODO: Get Previous state
-        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('intro'))
+        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
       ],
       right: [
         new NstVmNavbarControl('Attach', NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attachments.elementId })
@@ -67,7 +66,7 @@
         browser_spellcheck: true,
         selector: 'textarea',
         height : 600,
-        plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons',
+        plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,
         toolbar: 'bold italic underline strikethrough | alignleft aligncenter aligncenter alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
@@ -145,113 +144,6 @@
       }
     };
 
-    // vm.attachMethod = function (files) {
-    //   $scope.attachshow = true;
-    //
-    //   var counter = 0;
-    //   for (var i = 0; i < files.length; i++) {
-    //     var file = files[i].file;
-    //     counter++;
-    //     $scope.upload_size.total += file.size;
-    //
-    //     var isImage = file.type.split('/')[0] == 'image';
-    //     var attachment = NstSvcAttachmentFactory.createAttachmentModel({
-    //       _id: null,
-    //       filename: file.name,
-    //       mimetype: file.type,
-    //       upload_time: file.lastModified,
-    //       size: file.size,
-    //       status : ATTACHMENT_STATUS.UPLOADING
-    //     });
-    //
-    //     attachment.loadedSize = 0;
-    //
-    //     if (isImage) {
-    //       var stItem = new NstStoreResource();
-    //       stItem.uid = attachment.id;
-    //       attachment.thumbs = {
-    //         x32: stItem,
-    //         x64: stItem,
-    //         x128: stItem
-    //       };
-    //
-    //       var reader = new FileReader();
-    //       reader.onload = function (event) {
-    //         var uri = event.target.result;
-    //         this.thumbs.x32.url = uri;
-    //         this.thumbs.x64.url = uri;
-    //         this.thumbs.x128.url = uri;
-    //
-    //       }.bind(attachment);
-    //
-    //       reader.readAsDataURL(file);
-    //     }
-    //
-    //     $scope.compose.post.addAttachment(attachment);
-    //
-    //     var uploadSettings = {
-    //       file : file,
-    //       _reqid : attachment.getClientId(),
-    //       // progress is invoked at most once per every second
-    //       onProgress : _.throttle(function (e) {
-    //         if (e.lengthComputable) {
-    //           this.loadedSize = e.loaded;
-    //           $timeout(function () {
-    //             $scope.totalProgress = $scope.compose.post.getTotalAttachProgress();
-    //           });
-    //         }
-    //       }.bind(attachment),1000),
-    //       onStart : function (e) {
-    //         $scope.showUploadProgress = true;
-    //       }
-    //     };
-    //
-    //     NstSvcStore.uploadWithProgress(uploadSettings).then(function (handler) {
-    //       attachment.setUploadCanceler(handler.abort);
-    //       handler.start().then(function (response) {
-    //
-    //         _.forEach($scope.compose.post.attachments, function (item) {
-    //
-    //           // FIXME : use a common format for unique id
-    //           if (item.getClientId() === response.data._reqid) {
-    //
-    //             item.status = ATTACHMENT_STATUS.ATTACHED;
-    //             item.id = response.data.universal_id;
-    //
-    //             item.change();
-    //           }
-    //
-    //         });
-    //
-    //       }.bind(file)).catch(function (result) {
-    //         $log.debug(result);
-    //       });
-    //     }).catch(function (error) {
-    //       $log.debug(error);
-    //     });
-    //   };
-    //
-    //   /**
-    //    * @property interface
-    //    * @type {Object}
-    //    */
-    //   $scope.interface = {};
-    //
-    //   // Listen for when the interface has been configured.
-    //   $scope.$on('$dropletReady', function whenDropletReady() {
-    //     $scope.attachfiles.allowedExtensions([/.+/]);
-    //     $scope.attachfiles.useArray(false);
-    //   });
-    //   $scope.$on('$dropletFileAdded', function startupload() {
-    //     vm.attach($scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID));
-    //     $scope.attachmentForm.attLength.$setViewValue($scope.compose.post.attachments.length);
-    //     var i=0;
-    //     for (i=0; i<$scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID).length; i++){
-    //       $scope.attachfiles.getFiles($scope.attachfiles.FILE_TYPES.VALID)[i].deleteFile();
-    //     }
-    //   });
-    // };
-
     vm.attachments.attach = function (file) {
       var deferred = $q.defer();
       var readyPromises = [];
@@ -276,7 +168,6 @@
 
       reader.onload = function (event) {
         var uri = event.target.result;
-        // TODO: Generate Raw Resource
         var resource = new NstLocalResource(uri);
         attachment.setResource(resource);
 
@@ -290,11 +181,11 @@
 
         qRead.resolve(uri);
       };
-
-      NstSvcLoader.inject(qRead.promise);
       reader.readAsDataURL(file);
 
-      qRead.promise.then(function (uri) {
+      NstSvcLoader.inject(qRead.promise.then(function (uri) {
+        var deferred = $q.defer();
+
         // Upload Attachment
         var vmAttachment = NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
         attachment.setId(vmAttachment.id);
@@ -318,7 +209,7 @@
           delete vm.attachments.requests[attachment.getId()];
         });
 
-        NstSvcLoader.inject(request.getPromise().then(function (response) {
+        request.getPromise().then(function (response) {
           var deferred = $q.defer();
 
           attachment.setId(response.data.universal_id);
@@ -332,19 +223,19 @@
           deferred.resolve(attachment);
 
           return deferred.promise;
-        }).catch(function (result) {
+        }).catch(function (error) {
           var deferred = $q.defer();
 
-          $log.debug('Compose | Attach Upload Error: ', result);
+          $log.debug('Compose | Attach Upload Error: ', error);
           deferred.reject.call(arguments);
 
           return deferred.promise;
-        }));
-
-        $q.all(readyPromises).then(function () {
+        }).then(function () {
           deferred.resolve(request);
         });
-      });
+
+        return deferred.promise;
+      })).then(deferred.resolve);
 
       return deferred.promise;
     };

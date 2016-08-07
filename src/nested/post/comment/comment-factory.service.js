@@ -5,13 +5,47 @@
     .service('NstSvcCommentFactory', NstSvcCommentFactory);
 
   /** @ngInject */
+  // TODO: It should not inject any model, ask the factory to create the model
   function NstSvcCommentFactory($q, $log,
-    _,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage, NstObservableObject, NstFactoryEventData,
-    NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NST_COMMENT_FACTORY_EVENT) { // TODO: It should not inject any model, ask the factory to create the model
+                                _,
+                                NST_COMMENT_FACTORY_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
+                                NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage, NstObservableObject, NstFactoryEventData,
+                                NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture) {
 
     function CommentFactory() {
+      var factory = this;
 
+      this.requests = {
+        get: {}
+      };
+
+      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
+        var tlData = event.detail.timeline_data;
+
+        switch (tlData.action) {
+          case NST_EVENT_ACTION.COMMENT_ADD:
+            var postId = tlData.post_id.$oid;
+            var commentId = tlData.comment_id.$oid;
+
+            factory.getComment(commentId, postId).then(function (comment) {
+              factory.dispatchEvent(new CustomEvent(
+                NST_COMMENT_FACTORY_EVENT.ADD,
+                { detail: { id: commentId, postId: postId, comment: comment } }
+              ));
+            });
+            break;
+
+          case NST_EVENT_ACTION.COMMENT_REMOVE:
+            var postId = tlData.post_id.$oid;
+            var commentId = tlData.comment_id.$oid;
+
+            factory.dispatchEvent(new CustomEvent(
+              NST_COMMENT_FACTORY_EVENT.REMOVE,
+              { detail: { id: commentId, postId: postId } }
+            ));
+            break;
+        }
+      });
     }
 
     CommentFactory.prototype = new NstObservableObject();
@@ -25,15 +59,17 @@
     CommentFactory.prototype.parseComment = parseComment;
     CommentFactory.prototype.parseMessageComment = parseMessageComment;
 
-    return new CommentFactory();
+    var factory = new CommentFactory();
+
+    return factory;
 
     /*********************
      *  Implementations  *
      *********************/
 
-    function getComment(commentId, PostId) {
+    function getComment(commentId, postId) {
       var query = new NstFactoryQuery(commentId, {
-        postId: PostId
+        postId: postId
       });
 
       var defer = $q.defer();
@@ -81,12 +117,12 @@
         var commentId = data.comment_id.$oid;
         return getComment(commentId, post.id);
       }).then(function(comment) {
-        // var result = post.addComment(comment);
-        // if (result) {
-        //   NstSvcPostStorage.set(post.id, post);
-        // }
         defer.resolve(comment);
-        // dispatchEvent(new CustomEvent(NST_COMMENT_FACTORY_EVENT.COMMENT_ADDED, new NstFactoryEventData(post)));
+
+        factory.dispatchEvent(new CustomEvent(
+          NST_COMMENT_FACTORY_EVENT.ADD,
+          { detail: { id: comment.id, postId: post.id, comment: comment } }
+        ));
       }).catch(defer.reject);
 
       return defer.promise;
@@ -124,9 +160,8 @@
             post.addComments(comments);
             defer.resolve(comments);
           });
-
       }).catch(function(error) {
-        reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
 
       return defer.promise;

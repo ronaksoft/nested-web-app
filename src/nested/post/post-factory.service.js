@@ -8,13 +8,15 @@
   function NstSvcPostFactory($q,
     _,
     NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory,NstSvcStore, NstSvcCommentFactory,
-    NstFactoryError, NstFactoryQuery ,NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NST_MESSAGES_SORT_OPTION) { // TODO: It should not inject any model, ask the factory to create the model
+    NstFactoryError, NstFactoryQuery, NstPost, NstTinyPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NST_MESSAGES_SORT_OPTION) { // TODO: It should not inject any model, ask the factory to create the model
 
     /**
      * PostFactory - all operations related to post, comment
      */
     var service = {
+      has: has,
       get: get,
+      set: set,
       send: send,
       remove: remove,
       createPostModel: createPostModel,
@@ -28,6 +30,10 @@
     };
 
     return service;
+
+    function has(id) {
+      return !!NstSvcPostStorage.get(id);
+    }
 
     /**
      * anonymous function - retrieve a post by id and store in the related cache storage
@@ -64,6 +70,24 @@
       }
 
       return defer.promise;
+    }
+
+    function set(post) {
+      if (post instanceof NstPost) {
+        if (has(post.getId())) {
+          NstSvcPostStorage.merge(post.getId(), post);
+        } else {
+          NstSvcPostStorage.set(post.getId(), post);
+        }
+      } else if (post instanceof NstTinyPost) {
+        // if (hasTiny(post.getId())) {
+        //   NstSvcTinyPostStorage.merge(post.getId(), post);
+        // } else {
+        //   NstSvcTinyPostStorage.set(post.getId(), post);
+        // }
+      }
+
+      return this;
     }
 
     function send(post) {
