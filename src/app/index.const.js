@@ -22,7 +22,7 @@
       'REGISTER': [
         'register'
       ],
-      'SIGNING': [
+      'SIGNIN': [
         'signin',
         'signin-back'
       ],
