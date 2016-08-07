@@ -60,18 +60,18 @@
       generateUrls();
 
       if (vm.currentPlaceId) {
-        setPlace(vm.currentPlaceId).then(function(placeFound) {
-          return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
+        setPlace(vm.currentPlaceId).then(function(place) {
+          if (place) {
+            return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
+          }
         }).catch(function(error) {
-          $log.debug(error)
+          $log.debug(error);
         });
       } else {
-        vm.currentPlace = null;
-        return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
+        $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function(error) {
+          $log.debug(error);
+        });
       }
-
-
-
     })();
 
     function getMessages() {
@@ -126,7 +126,6 @@
         vm.messagesSetting.date = getLastMessageTime();
 
         getMessages().then(function (messages) {
-          vm.loading = false;
           vm.cache = _.concat(vm.cache, messages);
 
           if (0 == vm.cache.length) {
@@ -147,13 +146,14 @@
 
               if (hasData.length === 0) {
                 vm.messages.push(mapMessage(messages[i]));
-              }else{
+              } else {
                 // Todo :: remove this line after fixed by server
                 vm.reachedTheEnd = true;
               }
             }
           }
           vm.tryAgainToLoadMore = false;
+          vm.loading = false;
           defer.resolve(vm.messages);
         }).catch(function (error) {
           vm.loading = false;
@@ -166,7 +166,10 @@
     }
 
     function loadMore() {
-      if (vm.loading) return;
+      if (vm.loading) {
+        return $q.resolve(vm.messages);
+      }
+      
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
 
       return NstSvcLoader.inject(NstSvcTry.do(function() {
@@ -252,14 +255,13 @@
 
     function setPlace(id) {
       var defer = $q.defer();
+      vm.currentPlace = null;
       if (!id) {
         defer.reject(new Error('Could not find a place without Id.'));
       } else {
         NstSvcPlaceFactory.get(id).then(function(place) {
           if (place && place.id) {
             vm.currentPlace = place;
-          } else {
-            vm.currentPlace = null;
           }
           defer.resolve(vm.currentPlace);
         }).catch(function (error) {
@@ -357,38 +359,65 @@
     };
 
 
-      // FIXME: NEEDS REWRITE COMPLETELY
-      var tl = new TimelineLite({});
-      var cp = document.getElementById("cp1");
-      var nav = document.getElementsByTagName("nst-navbar")[0];
-      TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Power1.easeOut});
-      $timeout(function () { $rootScope.navView = false });
-      vm.bodyScrollConf = {
-        axis: 'xy',
-        callbacks: {
-          whileScrolling:function(){
-            var t = -this.mcs.top;
-            //$timeout(function () { $rootScope.navView = t > 55; });
-            //console.log(tl);
-            tl.kill({y:true}, cp);
-            TweenLite.to(cp, 0.5, {y: t, ease: Power2.easeOut, force3D:true});
-            if (t > 55 && !$rootScope.navView){
-              //tl.kill({minHeight:true,maxHeight:true}, nav);
-              TweenLite.to(nav, 0.1, {minHeight: 131, maxHeight: 131, height: 131, ease: Power1.easeOut});
-              $timeout(function () { $rootScope.navView = t > 55; });
-            }else if(t < 55 && $rootScope.navView) {
-              TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Power1.easeOut});
-              $timeout(function () { $rootScope.navView = t > 55; });
-            }
+    // FIXME: NEEDS REWRITE COMPLETELY
+    var tl = new TimelineLite({});
+    var cp = document.getElementById("cp1");
+    var nav = document.getElementsByTagName("nst-navbar")[0];
+    TweenLite.to(nav, 0.1, {
+      minHeight: 183,
+      maxHeight: 183,
+      height: 183,
+      ease: Power1.easeOut
+    });
+    $timeout(function() {
+      $rootScope.navView = false
+    });
+    vm.bodyScrollConf = {
+      axis: 'xy',
+      callbacks: {
+        whileScrolling: function() {
+          var t = -this.mcs.top;
+          //$timeout(function () { $rootScope.navView = t > 55; });
+          //console.log(tl);
+          tl.kill({
+            y: true
+          }, cp);
+          TweenLite.to(cp, 0.5, {
+            y: t,
+            ease: Power2.easeOut,
+            force3D: true
+          });
+          if (t > 55 && !$rootScope.navView) {
+            //tl.kill({minHeight:true,maxHeight:true}, nav);
+            TweenLite.to(nav, 0.1, {
+              minHeight: 131,
+              maxHeight: 131,
+              height: 131,
+              ease: Power1.easeOut
+            });
+            $timeout(function() {
+              $rootScope.navView = t > 55;
+            });
+          } else if (t < 55 && $rootScope.navView) {
+            TweenLite.to(nav, 0.1, {
+              minHeight: 183,
+              maxHeight: 183,
+              height: 183,
+              ease: Power1.easeOut
+            });
+            $timeout(function() {
+              $rootScope.navView = t > 55;
+            });
+          }
 
-            //tl.lagSmoothing(200, 20);
-            tl.play();
-            // $("#content-plus").stop().animate(
-            //   {marginTop:t}, {duration:1});
-            // TweenMax.to("#cp1", .001, {
-            //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
-            // });
-            //TweenMax.lagSmoothing(500, 33);
+          //tl.lagSmoothing(200, 20);
+          tl.play();
+          // $("#content-plus").stop().animate(
+          //   {marginTop:t}, {duration:1});
+          // TweenMax.to("#cp1", .001, {
+          //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
+          // });
+          //TweenMax.lagSmoothing(500, 33);
 
 
 
@@ -406,11 +435,11 @@
           //   });
           // }
         },
-        onTotalScroll:function () {
+        onTotalScroll: function() {
           vm.loadMore();
         },
-        onTotalScrollOffset:10,
-        alwaysTriggerOffsets:false
+        onTotalScrollOffset: 10,
+        alwaysTriggerOffsets: false
       }
     };
   }

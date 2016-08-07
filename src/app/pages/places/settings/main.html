@@ -17,10 +17,10 @@
               <input id="logo" data-ng-disabled="!ctlPlaceSettings.hasControlAccess" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlPlaceSettings.loadImage(event)"/>
 
               <div class="_dib room-pic">
-                <h5 data-ng-if="ctlPlaceSettings.hasControlAccess" editable-text="ctlPlaceSettings.place.name" onbeforesave="ctlPlaceSettings.update('name', $data)">{{ctlPlaceSettings.place.name || 'empty'}}</h5>
-                <h5 data-ng-if="!ctlPlaceSettings.hasControlAccess">{{ctlPlaceSettings.place.name || 'empty'}}</h5>
+                <h5 data-ng-if="ctlPlaceSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" editable-text="ctlPlaceSettings.place.name" onbeforesave="ctlPlaceSettings.update('name', $data)">{{ctlPlaceSettings.place.name || 'empty'}}</h5>
+                <h5 data-ng-if="!ctlPlaceSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name">{{ctlPlaceSettings.place.name || 'empty'}}</h5>
 
-                <h5 class="nst-mood-storm">{{ctlPlaceSettings.place.id + '@nested.me'}}</h5>
+                <h5 class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place ID">{{ctlPlaceSettings.place.id + '@nested.me'}}</h5>
                 <h5 data-ng-if="ctlPlaceSettings.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place description" editable-text="ctlPlaceSettings.place.description"
                     onbeforesave="ctlPlaceSettings.update('description', $data)">{{ctlPlaceSettings.place.description || 'empty'}}</h5>
                 <h5 class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description" data-ng-if="!ctlPlaceSettings.hasControlAccess">{{ctlPlaceSettings.place.description || 'empty'}}</h5>
@@ -44,8 +44,10 @@
                     </label>
                   </div>
                 </div>
-                <div class="nst-description _df _fw" ng-if="ctlPlaceSettings.options.notification">You will recieve notifications for this place on all your devices <a class="nst-mood-cheerful cursor-pointer">Learn More </a></div>
-                <div class="nst-description _df _fw" ng-if="!ctlPlaceSettings.options.notification">You won't recieve notifications for this Place <a class="nst-mood-cheerful cursor-pointer">Learn More </a></div>
+                <div class="nst-description _df _fw">
+                  <div class="nst-description" ng-if="ctlPlaceSettings.options.notification">You will receive notifications for this place on all your devices <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
+                  <div class="nst-description" ng-if="!ctlPlaceSettings.options.notification">You won't receive notifications for this Place <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
+                </div>
                 <!-- <div class="_difc _fw optionrow">
                   <div class="_df"><label for="sw-digest"><i class="nst-place-icon-shown _df"></i></label></div>
                   <div class="_df _fw"><label for="sw-digest"><h5>Show in Digest</h5></label></div>
@@ -80,8 +82,8 @@
                   </div>
                 </div>
                 <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="ctlPlaceSettings.place.privacy.receptive">Place is open for receiving messages from everyone<a href="" class="nst-mood-cheerful cursor-pointer"> Learn more</a></div>
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.receptive">Place is blocked for receiving messages from everyone<a href="" class="nst-mood-cheerful cursor-pointer"> Learn more</a></div>
+                  <div class="nst-description" ng-if="ctlPlaceSettings.place.privacy.receptive">Place is open for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.receptive">Place is blocked for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
                 </div>
 
                 <div class="_difc _fw optionrow">
@@ -99,9 +101,9 @@
                   </div>
                 </div>
                 <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.receptive">Disabled until "Recieving" is Off <a href="" class="nst-mood-cheerful cursor-pointer"> Learn more</a></div>
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.search && ctlPlaceSettings.place.privacy.receptive">Place does not appear in search list for nonmembers <a href="" class="nst-mood-cheerful cursor-pointer"> Learn more</a></div>
-                  <div class="nst-description" ng-if="ctlPlaceSettings.place.privacy.search && ctlPlaceSettings.place.privacy.receptive">Place appears in search list for everyone <a href="" class="nst-mood-cheerful cursor-pointer"> Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.receptive">Disabled until "Receiving" is Off <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.search && ctlPlaceSettings.place.privacy.receptive">Place does not appear in search list for nonmembers <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div class="nst-description" ng-if="ctlPlaceSettings.place.privacy.search && ctlPlaceSettings.place.privacy.receptive">Place appears in search list for everyone <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
                 </div>
 
                 <div class="_difc _fw optionrow">
@@ -119,9 +121,9 @@
                   </div>
                 </div>
                 <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.receptive">Disabled until "Recieving" is Off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-                  <div class="nst-description" ng-if="ctlPlaceSettings.place.privacy.email && ctlPlaceSettings.place.privacy.receptive">Email does not appear in contact details <a href="" class="nst-mood-cheerful cursor-pointer">Learn more</a></div>
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.email && ctlPlaceSettings.place.privacy.receptive">Email appears in contact details <a href="" class="nst-mood-cheerful cursor-pointer">Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.receptive">Disabled until "Receiving" is Off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+                  <div class="nst-description" ng-if="ctlPlaceSettings.place.privacy.email && ctlPlaceSettings.place.privacy.receptive">Email does not appear in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.email && ctlPlaceSettings.place.privacy.receptive">Email appears in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
                 <div>
               </div> <!-- /nst-place-privacy-->
             </div>

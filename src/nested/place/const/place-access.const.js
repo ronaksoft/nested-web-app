@@ -15,6 +15,7 @@
       SEE_MEMBERS: 'SM',
       REMOVE_PLACE: 'RP',
       ADD_PLACE: 'AP',
+      SEE_PLACE: 'SP',
       GUEST: 'G'
     })
 })();
