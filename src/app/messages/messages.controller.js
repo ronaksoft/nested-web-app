@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,10 +7,10 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout, $state,
-    NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR,
-    NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
-    NstSvcMessagesSettingStorage, NstSvcPostStorage,
-    NstSvcPostMap, NstSvcActivityMap, NstSvcModal) {
+                              NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR,
+                              NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
+                              NstSvcMessagesSettingStorage, NstSvcPostStorage,
+                              NstSvcPostMap, NstSvcActivityMap, NstSvcModal) {
 
     var vm = this;
     vm.messages = [];
@@ -30,6 +30,7 @@
     vm.reachedTheEnd = false;
     vm.noMessages = false;
     vm.loading = false;
+    vm.loadMessageError = false;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -60,16 +61,22 @@
       generateUrls();
 
       if (vm.currentPlaceId) {
-        setPlace(vm.currentPlaceId).then(function(place) {
+        setPlace(vm.currentPlaceId).then(function (place) {
           if (place) {
-            return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
+            return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function (error) {
+              $log.debug(error);
+              vm.loadMessageError = true;
+              console.log(555999, vm.errorInInitialLoading)
+            });
           }
-        }).catch(function(error) {
+        }).catch(function (error) {
+          vm.errorInInitialLoading = true;
           $log.debug(error);
         });
       } else {
-        $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function(error) {
+        $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function (error) {
           $log.debug(error);
+          vm.loadMessageError = true;
         });
       }
     })();
@@ -112,8 +119,9 @@
       });
     }
 
-    function loadMessages() {
-      if (vm.noMessages || vm.reachedTheEnd) {
+    function loadMessages(force) {
+
+      if ((vm.noMessages || vm.reachedTheEnd || vm.errorInInitialLoading) && !force) {
         return $q.resolve(vm.messages);
       }
 
@@ -125,55 +133,54 @@
 
         vm.messagesSetting.date = getLastMessageTime();
 
-        getMessages().then(function (messages) {
-          vm.cache = _.concat(vm.cache, messages);
+        getMessages()
+          .then(function (messages) {
+            vm.cache = _.concat(vm.cache, messages);
 
-          if (0 == vm.cache.length) {
-            vm.noMessages = true;
-          }
+            if (0 == vm.cache.length) {
+              vm.noMessages = true;
+            }
 
-          if (messages.length < vm.messagesSetting.limit) {
-            vm.reachedTheEnd = true;
-          }
+            if (messages.length < vm.messagesSetting.limit) {
+              vm.reachedTheEnd = true;
+            }
 
-          if (messages.length > 0) {
-            var lastMessageVersion = vm.messages.slice();
+            if (messages.length > 0) {
+              var lastMessageVersion = vm.messages.slice();
 
-            for (var i = 0; i < messages.length; i++) {
-              var hasData = lastMessageVersion.filter(function (obj) {
-                return (obj.id === messages[i].id);
-              });
+              for (var i = 0; i < messages.length; i++) {
+                var hasData = lastMessageVersion.filter(function (obj) {
+                  return (obj.id === messages[i].id);
+                });
 
-              if (hasData.length === 0) {
-                vm.messages.push(mapMessage(messages[i]));
-              } else {
-                // Todo :: remove this line after fixed by server
-                vm.reachedTheEnd = true;
+                if (hasData.length === 0) {
+                  vm.messages.push(mapMessage(messages[i]));
+                } else {
+                  // Todo :: remove this line after fixed by server
+                  vm.reachedTheEnd = true;
+                }
               }
             }
-          }
-          vm.tryAgainToLoadMore = false;
-          vm.loading = false;
-          defer.resolve(vm.messages);
-        }).catch(function (error) {
-          vm.loading = false;
-          vm.tryAgainToLoadMore = true;
-          defer.reject(error);
-        });
+            vm.tryAgainToLoadMore = false;
+            vm.loading = false;
+            defer.resolve(vm.messages);
+          })
+          .catch(function (error) {
+            console.log(555557777)
+            vm.loading = false;
+            vm.tryAgainToLoadMore = true;
+            defer.reject(error);
+          });
 
         return defer.promise;
       }));
     }
 
-    function loadMore() {
-      if (vm.loading) {
-        return $q.resolve(vm.messages);
-      }
-      
+    function loadMore(force) {
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function() {
-        return loadMessages().catch(function(error) {
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
+        return loadMessages(force).catch(function (error) {
           var deferred = $q.defer();
 
           $log.debug('Messages | Load More Error: ', error);
@@ -189,18 +196,19 @@
       var last = _.last(vm.cache);
 
       if (!last) {
-
         return moment().format('x');
       }
-      if (moment.isMoment(last.date)) {
-        return last.date.format('x');
+
+      var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.updatedDate : last.date;
+      if (moment.isMoment(lastDate)) {
+        return lastDate.format('x');
       }
 
-      return last.date.getTime();
+      return lastDate.getTime();
     }
 
     function loadRecentActivities() {
-      return NstSvcLoader.inject(NstSvcTry.do(function() {
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
         var defer = $q.defer();
 
         var settings = {
@@ -259,7 +267,7 @@
       if (!id) {
         defer.reject(new Error('Could not find a place without Id.'));
       } else {
-        NstSvcPlaceFactory.get(id).then(function(place) {
+        NstSvcPlaceFactory.get(id).then(function (place) {
           if (place && place.id) {
             vm.currentPlace = place;
           }
@@ -298,7 +306,7 @@
 
     }
 
-    vm.scroll = function(event) {
+    vm.scroll = function (event) {
       var element = event.currentTarget;
       if (element.scrollTop + element.clientHeight === element.scrollHeight) {
         $log.debug("load more");
@@ -316,16 +324,16 @@
       NstSvcMessagesSettingStorage.set(key, bool ? 'show' : 'hide');
     }
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(e) {
+    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (e) {
       switch (e.detail.timeline_data.action) {
         case NST_EVENT_ACTION.POST_ADD:
           var postId = e.detail.timeline_data.post_id.$oid;
-          NstSvcPostFactory.getMessage(postId).then(function(post) {
+          NstSvcPostFactory.getMessage(postId).then(function (post) {
             if (!vm.currentPlaceId || post.belongsToPlace(vm.currentPlaceId)) {
               vm.cache.splice(0, 1, post);
               vm.messages.splice(0, 0, mapMessage(post));
             }
-          }).catch(function(error) {
+          }).catch(function (error) {
             $log.debug(error);
           });
           break;
@@ -343,7 +351,7 @@
     });
 
     // FIXME some times it got a problem ( delta causes )
-    vm.preventParentScroll = function(event) {
+    vm.preventParentScroll = function (event) {
       var element = event.currentTarget;
       var delta = event.wheelDelta;
       if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
@@ -369,13 +377,13 @@
       height: 183,
       ease: Power1.easeOut
     });
-    $timeout(function() {
+    $timeout(function () {
       $rootScope.navView = false
     });
     vm.bodyScrollConf = {
       axis: 'xy',
       callbacks: {
-        whileScrolling: function() {
+        whileScrolling: function () {
           var t = -this.mcs.top;
           //$timeout(function () { $rootScope.navView = t > 55; });
           //console.log(tl);
@@ -395,7 +403,7 @@
               height: 131,
               ease: Power1.easeOut
             });
-            $timeout(function() {
+            $timeout(function () {
               $rootScope.navView = t > 55;
             });
           } else if (t < 55 && $rootScope.navView) {
@@ -405,7 +413,7 @@
               height: 183,
               ease: Power1.easeOut
             });
-            $timeout(function() {
+            $timeout(function () {
               $rootScope.navView = t > 55;
             });
           }
@@ -418,7 +426,6 @@
           //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
           // });
           //TweenMax.lagSmoothing(500, 33);
-
 
 
           //   var func = function () {
@@ -435,7 +442,7 @@
           //   });
           // }
         },
-        onTotalScroll: function() {
+        onTotalScroll: function () {
           vm.loadMore();
         },
         onTotalScrollOffset: 10,

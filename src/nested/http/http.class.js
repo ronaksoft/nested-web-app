@@ -67,10 +67,18 @@
       var me = this;
       var deferred = $q.defer();
 
-      $http.post(this.route, this.data).success(function (data, status, header, config) {
+
+      $http({
+        method: 'POST',
+        url: this.route,
+        data: this.data,
+        headers: {
+          'Content-Type': undefined
+        }
+      }).then(function (data) {
         me.setStatus(NST_RES_STATUS.SUCCESS);
         deferred.resolve(data.data);
-      }).error(function (error) {
+      }).catch(function (error) {
         me.setStatus(NST_RES_STATUS.FAILURE);
         deferred.reject(error);
       });
