@@ -8,7 +8,8 @@
   function NstSvcPlaceFactory($q, $log,
                               NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage,
-                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace) {
+                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace,
+                              NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
     function PlaceFactory() {
       var factory = this;
 
@@ -742,10 +743,20 @@
         NstSvcServer.request('place/remove_member', {
           place_id: id,
           member_id: memberId
-        }).then(function (isRemoved) {
-          $log.debug('Place Factory | Member Remove Response: ', isRemoved);
+        }).then(function (result) {
+          defer.resolve();
+          $log.debug('Place Factory | Member Remove Response: ', result);
         }).catch(function (error) {
-          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
+            if (error.previous.items[0] === 'only_one_creator') {
+              defer.reject(new NstPlaceOneCreatorLeftError(error));
+            } else if (error.previous.items[0] === 'parent_creator') {
+              defer.reject(new NstPlaceCreatorOfParentError(error));
+            }
+
+          } else {
+            defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          }
           $log.debug('Place Factory | Member Remove Error: ', error);
         });
 

@@ -8,7 +8,7 @@
   /** @ngInject */
   function PostController($q, $scope, $stateParams, $uibModal, $log, $state,
                           _, toastr,
-                          NST_COMMENT_FACTORY_EVENT,
+                          NST_COMMENT_FACTORY_EVENT, NST_POST_EVENT,
                           NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap,
                           NstVmUser, vmPost, postId) {
     var vm = this;
@@ -270,6 +270,7 @@
         return loadComments();
       }).then(function () {
         vm.status.ready = true;
+        NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {detail: { postId : vm.post.id }}));
       });
     })();
 

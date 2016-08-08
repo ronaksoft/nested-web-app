@@ -1,6 +1,6 @@
 <div class="_fhw">
   <div class="nst-vc ng-scope _fh">
-    <div class="panel" id="panel-register">
+    <div class="panel no-animation" id="panel-register">
       <form novalidate name="firstStep" ng-show="ctlRegister.step === 'step1'" unsaved-warning-form
             data-ng-submit="ctlRegister.submitPhoneNumber()">
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
@@ -13,8 +13,13 @@
           Enter your phone number.</br>
           We will send a verification code on your phone.
         </p>
-        <div class="nst-mood-lively nst-marginbtm-8" data-ng-if="firstStep.mobileNumber.$error.required && firstStep.mobileNumber.$touched">Mobile Phone Required</div>
-        <div class="nst-mood-lively nst-marginbtm-8" data-ng-if="!ctlRegister.phone && firstStep.mobileNumber.$touched">Wrong number</div>
+        <div class="nst-mood-lively nst-marginbtm-8"
+             data-ng-if="firstStep.mobileNumber.$error.required && firstStep.mobileNumber.$touched">Mobile Phone
+          Required
+        </div>
+        <div class="nst-mood-lively nst-marginbtm-8" data-ng-if="!ctlRegister.phone && firstStep.mobileNumber.$touched">
+          Wrong number
+        </div>
         <div class="nst-marginbtm-16"></div>
         <input name="mobileNumber" id="mobileNumber" international-phone-number
                class="select-birthday" data-ng-model="ctlRegister.phone"/>
@@ -22,13 +27,15 @@
         <div class="nst-marginbtm-16">
         </div>
         <div>
-          <input type="button" ng-disabled="!ctlRegister.phone" data-ng-click="ctlRegister.submitPhoneNumber()" value="Next"
+          <input type="button" ng-disabled="!ctlRegister.phone" data-ng-click="ctlRegister.submitPhoneNumber()"
+                 value="Next"
                  class="butn-green butn-lg butn-login">
         </div>
 
       </form>
 
-      <form novalidate name="registrationForm" ng-show="ctlRegister.step === 'step2'" unsaved-warning-form ng-submit="ctlRegister.verifyCode()">
+      <form novalidate name="registrationForm" ng-show="ctlRegister.step === 'step2'" unsaved-warning-form
+            ng-submit="ctlRegister.verifyCode()">
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-xs-9 nst-font-xlarge">Enter Your Code</p>
           <a href="#" class="col-xs-3 text-right">
@@ -46,8 +53,8 @@
         <div class="nst-marginbtm-16">
           <div class="form-group wrong-code" data-ng-model="show">
             <input id="phone_code"
-            maxlength="4"
-            ng-class="{'form-control':!secondstep.password.$error.required || !secondstep.password.$touched,
+                   maxlength="4"
+                   ng-class="{'form-control':!secondstep.password.$error.required || !secondstep.password.$touched,
                       'form-control-error':secondstep.password.$error.required && secondstep.password.$touched}"
                    name="phone_code"
                    ng-model="ctlRegister.verificationCode"/>
@@ -55,48 +62,51 @@
         </div>
         <div class="text-center">
           <input type="submit" value="Verify"
-                  ng-disabled="ctlRegister.verificationCode.length !== 4 || verification == 'start'"
+                 ng-disabled="ctlRegister.verificationCode.length !== 4 || verification == 'start'"
                  class="butn-green butn-lg butn-login">
         </div>
         <div class="text-center margin-t-5">
-          <nst-disable-for-btn min="2" sec="0" id="call" class="btn" click="ctlRegister.callMe()" value="Call me"></nst-disable-for-btn>
+          <nst-disable-for-btn min="2" sec="0" id="call" class="btn" click="ctlRegister.callMe()"
+                               value="Call me"></nst-disable-for-btn>
         </div>
         <div class="text-center margin-t-5">
-          <nst-disable-for-btn id="resend"  min="0" sec="45" click="ctlRegister.resend()" value="Resend" class="btn"></nst-disable-for-btn>
+          <nst-disable-for-btn id="resend" min="0" sec="45" click="ctlRegister.resend()" value="Resend"
+                               class="btn"></nst-disable-for-btn>
         </div>
       </form>
 
-      <form novalidate name="registrationForm" ng-show="ctlRegister.step === 'step3'" ng-submit="ctlRegister.register()"  unsaved-warning-form>
+      <form novalidate name="registrationForm" ng-show="ctlRegister.step === 'step3'" ng-submit="ctlRegister.register()"
+            unsaved-warning-form>
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">Create an account</p>
           <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
             in</a></p>
         </div>
 
-
-      <div class="nst-marginbtm-8 _dib">Enter your username :</div>
-      <div class="nst-mood-lively nst-marginbtm-8 _dib"
-           ng-if="registrationForm.userName.$error.required && registrationForm.userName.$touched">username required
-      </div>
-      <div class="nst-mood-sense nst-loading nst-marginbtm-8 _fr" ng-if="ctlRegister.checkWithServer"></div>
-      <div class="nst-mood-lively nst-marginbtm-8 _dib"
-           ng-if="!ctlRegister.avaiablity && !registrationForm.userName.$error.required && !ctlRegister.checkWithServer && !registrationForm.userName.$error.pattern && !registrationForm.userName.$error.minlength">
-        Not available
-      </div>
-      <div class="nst-mood-cheerful nst-marginbtm-8 _dib"
-           ng-if="ctlRegister.avaiablity && !registrationForm.userName.$error.required && !ctlRegister.checkWithServer && !registrationForm.userName.$error.pattern && !registrationForm.userName.$error.minlength">
-        Available
-      </div>
-      <div class="nst-marginbtm-16">
-        <input id="uid" aria-invalid="false"
-               ng-class="{'form-control':!registrationForm.userName.$error.required || !registrationForm.userName.$touched,'form-control-error': (registrationForm.userName.$error.required && registrationForm.userName.$touched) || (registrationForm.userName.$error.pattern && registrationForm.userName.$touched)}"
-               ng-pattern="ctlRegister.patterns.username.general" uib-tooltip-class="tooltip" tooltip-trigger="none"
-               tooltip-is-open="registrationForm.userName.$error.pattern && registrationForm.userName.$touched"
-               uib-tooltip-template="'app/user/register/tip_username.html'" minlength="5" maxlength="32"
-               ng-minlength="5" ng-maxlength="32"
-               name="userName" type="text" ng-model="ctlRegister.username" tabindex="1" ng-keyup="ctlRegister.checkUser(ctlRegister.username)"
-               data-tooltip-placement="bottom" required/>
-      </div>
+        <div class="nst-marginbtm-8 _dib">Enter your username :</div>
+        <div class="nst-mood-lively nst-marginbtm-8 _dib"
+             ng-if="registrationForm.username.$error.required && registrationForm.username.$touched">username required
+        </div>
+        <div class="nst-mood-sense nst-loading nst-marginbtm-8 _fr" ng-if="ctlRegister.checkWithServer"></div>
+        <div class="nst-mood-lively nst-marginbtm-8 _dib"
+             ng-if="!ctlRegister.avaiablity && !registrationForm.username.$error.required && !ctlRegister.checkWithServer && !registrationForm.username.$error.pattern && !registrationForm.username.$error.minlength">
+          Not available
+        </div>
+        <div class="nst-mood-cheerful nst-marginbtm-8 _dib"
+             ng-if="ctlRegister.avaiablity && !registrationForm.username.$error.required && !ctlRegister.checkWithServer && !registrationForm.username.$error.pattern && !registrationForm.username.$error.minlength">
+          Available
+        </div>
+        <div class="nst-marginbtm-16">
+          <input id="uid" aria-invalid="false"
+                 ng-class="{'form-control':!registrationForm.username.$error.required || !registrationForm.username.$touched,'form-control-error': (registrationForm.username.$error.required && registrationForm.username.$touched) || (registrationForm.username.$error.pattern && registrationForm.username.$touched)}"
+                 ng-pattern="ctlRegister.patterns.username.general" uib-tooltip-class="tooltip" tooltip-trigger="none"
+                 tooltip-is-open="registrationForm.username.$error.pattern && registrationForm.username.$touched"
+                 uib-tooltip-template="'app/user/register/tip_username.html'" ngMinlength="5" ngMaxlength="32"
+                 ng-minlength="5" ng-maxlength="32"
+                 name="username" type="text" ng-model="ctlRegister.username" tabindex="1"
+                 ng-keyup="ctlRegister.checkUser(ctlRegister.username)"
+                 data-tooltip-placement="bottom" required/>
+        </div>
 
 
 
@@ -120,7 +130,7 @@
             ng-class="{'form-control': registrationForm.password.$untouched && (!ctlRegister.focus || registrationForm.password.$pristine),'form-control-error': (registrationForm.password.$error.pattern || registrationForm.password.$error.minlength) || registrationForm.password.$error.required && (registrationForm.password.$touched || ctlRegister.focus) && registrationForm.password.$invalid && (registrationForm.password.$dirty || registrationForm.password.$touched),'form-control-valid': registrationForm.password.$valid}"
             data-ng-focus="ctlRegister.focus = true;" data-ng-blur="ctlRegister.focus = false;" ng-model="ctlRegister.password"
             ng-pattern="ctlRegister.patterns.password.all"
-            id="pass" name="password" data-ng-init="ctlRegister.show=true" type="{{ctlRegister.show ? 'password': 'text'}}"
+            id="pass" name="password" data-ng-init="ctlRegister.show = true" type="{{ctlRegister.show ? 'password': 'text'}}"
             data-tooltip-placement="bottom" ng-minlength="8" tooltip-trigger="none"
             tooltip-is-open="registrationForm.password.$error.pattern && registrationForm.password.$touched"
             uib-tooltip-class="tooltip" uib-tooltip-template="'app/user/register/tip_password.html'"
@@ -132,81 +142,80 @@
       </div>
 
 
-
-
         <div class="_dt nst-marginbtm-16 register-name-table">
-        <div class="_dtr">
-          <div class="_dtc register-name-cell-left">
-            <div class="nst-marginbtm-8 _fw"
-                 ng-if="registrationForm.firstname.$valid || registrationForm.firstname.$untouched">First name
+          <div class="_dtr">
+            <div class="_dtc register-name-cell-left">
+              <div class="nst-marginbtm-8 _fw"
+                   ng-if="registrationForm.firstname.$valid || registrationForm.firstname.$untouched">First name
+              </div>
+              <div class="nst-mood-lively nst-marginbtm-8 _fw"
+                   ng-if="registrationForm.firstname.$error.required && registrationForm.firstname.$touched">firstname
+                Required
+              </div>
+              <input id="fname"
+                     ng-class="{'form-control': registrationForm.firstname.$valid || registrationForm.firstname.$untouched,'form-control-error': registrationForm.firstname.$error.required && registrationForm.firstname.$touched}"
+                     name="firstname" type="text" ng-model="ctlRegister.fname" tabindex="3" required/>
             </div>
-            <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                 ng-if="registrationForm.firstname.$error.required && registrationForm.firstname.$touched">firstname
-              Required
+            <div class="_dtc register-name-cell-right">
+              <div class="nst-marginbtm-8 _fw"
+                   ng-if="registrationForm.lastname.$valid || registrationForm.lastname.$untouched">Last name
+              </div>
+              <div class="nst-mood-lively nst-marginbtm-8 _fw"
+                   ng-if="registrationForm.lastname.$error.required && registrationForm.lastname.$touched">lastname
+                Required
+              </div>
+              <input id="lname"
+                     ng-class="{'form-control': registrationForm.lastname.$valid || registrationForm.lastname.$untouched,'form-control-error': registrationForm.lastname.$error.required && registrationForm.lastname.$touched}"
+                     name="lastname" type="text" ng-model="ctlRegister.lname" tabindex="4" required/>
             </div>
-            <input id="fname"
-                   ng-class="{'form-control': registrationForm.firstname.$valid || registrationForm.firstname.$untouched,'form-control-error': registrationForm.firstname.$error.required && registrationForm.firstname.$touched}"
-                   name="firstname" type="text" ng-model="ctlRegister.fname" tabindex="3" required/>
-          </div>
-          <div class="_dtc register-name-cell-right">
-            <div class="nst-marginbtm-8 _fw"
-                 ng-if="registrationForm.lastname.$valid || registrationForm.lastname.$untouched">Last name
-            </div>
-            <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                 ng-if="registrationForm.lastname.$error.required && registrationForm.lastname.$touched">lastname
-              Required
-            </div>
-            <input id="lname"
-                   ng-class="{'form-control': registrationForm.lastname.$valid || registrationForm.lastname.$untouched,'form-control-error': registrationForm.lastname.$error.required && registrationForm.lastname.$touched}"
-                   name="lastname" type="text" ng-model="ctlRegister.lname" tabindex="4" required/>
           </div>
         </div>
-      </div>
 
-      <div class="nst-marginbtm-16"
-           ng-if="!registrationForm.gender.$error.required || !registrationForm.gender.$touched">Gender
-      </div>
-      <div class="nst-mood-lively nst-marginbtm-16" ng-show="ctlRegister.hasNotGender">Gender Required </div>
-      <ul class="list-inline">
-        <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-          <input type="radio" name="gender" value="female" ng-model="ctlRegister.gender" tabindex="5" required/>
-          <label>Female</label>
-        </li>
-        <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-          <input type="radio" name="gender" value="male" ng-model="ctlRegister.gender" tabindex="6" required/>
-          <label>Male</label>
-        </li>
-        <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-          <input type="radio" name="gender" value="other" ng-model="ctlRegister.gender" tabindex="7" required/>
-          <label>Other</label>
-        </li>
-      </ul>
+        <div class="nst-marginbtm-16"
+             ng-if="!registrationForm.gender.$error.required || !registrationForm.gender.$touched">Gender
+        </div>
+        <div class="nst-mood-lively nst-marginbtm-16" ng-show="ctlRegister.hasNotGender">Gender Required</div>
+        <ul class="list-inline">
+          <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+            <input type="radio" name="gender" value="female" ng-model="ctlRegister.gender" tabindex="5" required/>
+            <label>Female</label>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+            <input type="radio" name="gender" value="male" ng-model="ctlRegister.gender" tabindex="6" required/>
+            <label>Male</label>
+          </li>
+          <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
+            <input type="radio" name="gender" value="other" ng-model="ctlRegister.gender" tabindex="7" required/>
+            <label>Other</label>
+          </li>
+        </ul>
 
         <div class="nst-marginbtm-16 mobile-number _pr"></div>
         <div class="nst-marginbtm-16">Birthday</div>
-        <div class="nst-mood-lively nst-marginbtm-8" ng-show="ctlRegister.hasNotBirth" >Birthday Required</div>
+        <div class="nst-mood-lively nst-marginbtm-8" ng-show="ctlRegister.hasNotBirth">Birthday Required</div>
         <div class="nst-marginbtm-16">
           <input class="select-birthday" rsmdatedropdowns ng-model="ctlRegister.birth"/>
         </div>
 
 
         <div class="_dt nst-marginbtm-8">
-        <div class="_dtr">
-          <div class="_dtc">
-            <input id="agreement" name="agreement" ng-model="ctlRegister.agreement" value="agreement" type="checkbox" tabindex="9"/>
-            <label for="agreement"></label>
+          <div class="_dtr">
+            <div class="_dtc">
+              <input id="agreement" name="agreement" ng-model="ctlRegister.agreement" value="agreement" type="checkbox"
+                     tabindex="9"/>
+              <label for="agreement"></label>
+            </div>
+            <div class="_dtc agreement-text">I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of
+              Service</a> and <a href="#" class="nst-mood-cheerful"> Privacy Policy</a>.
+            </div>
           </div>
-          <div class="_dtc agreement-text">I Agree To The nested<a href="#" class="nst-mood-cheerful"> Terms Of
-            Service</a> and <a href="#" class="nst-mood-cheerful"> Privacy Policy</a>.
-          </div>
-        </div>
         </div>
 
 
-      <div class="alert-box nst-font-small nst-mood-lively nst-marginbtm-8" ng-show="!ctlRegister.acceptAgreement">
-        You must accept our agreement.
-      </div>
-      <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="Finish!">
+        <div class="alert-box nst-font-small nst-mood-lively nst-marginbtm-8" ng-show="!ctlRegister.acceptAgreement">
+          You must accept our agreement.
+        </div>
+        <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="Finish!">
       </form>
     </div>
   </div>

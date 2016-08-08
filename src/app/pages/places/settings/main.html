@@ -1,7 +1,7 @@
 <div class="maincontainer _fw option-hld ng-class:{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
   <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed"  class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
-    <nst-navbar place="ctlPlaceSettings.place" controls="ctlPlaceSettings.controls" page="ctlApp.page"></nst-navbar>
+    <nst-navbar place="ctlSettings.place" controls="ctlSettings.controls" page="ctlApp.page"></nst-navbar>
 
     <div class="nst-content _tr" id="content-wrapper" ng-scrollbars>
 
@@ -11,19 +11,19 @@
           <div id="place-option-hld _fh">
             <div class="room-name">
               <label for="logo" class="_di">
-                <img data-ng-if="ctlPlaceSettings.logoFile || ctlPlaceSettings.place.picture.thumbnails.x64.url.download" class="account-initials-64 room-pic" ng-src="{{ctlPlaceSettings.logoUrl || ctlPlaceSettings.place.picture.thumbnails.x64.url.download}}"/>
-                <div data-ng-if="!ctlPlaceSettings.place.picture.thumbnails.x64.url.download && !ctlPlaceSettings.logoFile" class="account-initials-64 _dib room-pic">{{ctlPlaceSettings.place.name | initials:2}}</div>
+                <img data-ng-if="ctlSettings.logoFile || ctlSettings.place.picture.thumbnails.x64.url.download" class="account-initials-64 room-pic" ng-src="{{ctlSettings.logoUrl || ctlSettings.place.picture.thumbnails.x64.url.download}}"/>
+                <div data-ng-if="!ctlSettings.place.picture.thumbnails.x64.url.download && !ctlSettings.logoFile" class="account-initials-64 _dib room-pic">{{ctlSettings.place.name | initials:2}}</div>
               </label>
-              <input id="logo" data-ng-disabled="!ctlPlaceSettings.hasControlAccess" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlPlaceSettings.loadImage(event)"/>
+              <input id="logo" data-ng-disabled="!ctlSettings.hasControlAccess" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlSettings.loadImage(event)"/>
 
               <div class="_dib room-pic">
-                <h5 data-ng-if="ctlPlaceSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" editable-text="ctlPlaceSettings.place.name" onbeforesave="ctlPlaceSettings.update('name', $data)">{{ctlPlaceSettings.place.name || 'empty'}}</h5>
-                <h5 data-ng-if="!ctlPlaceSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name">{{ctlPlaceSettings.place.name || 'empty'}}</h5>
+                <h5 data-ng-if="ctlSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.update('name', $data)">{{ctlSettings.place.name || 'empty'}}</h5>
+                <h5 data-ng-if="!ctlSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name">{{ctlSettings.place.name || 'empty'}}</h5>
 
-                <h5 class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place ID">{{ctlPlaceSettings.place.id + '@nested.me'}}</h5>
-                <h5 data-ng-if="ctlPlaceSettings.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place description" editable-text="ctlPlaceSettings.place.description"
-                    onbeforesave="ctlPlaceSettings.update('description', $data)">{{ctlPlaceSettings.place.description || 'empty'}}</h5>
-                <h5 class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description" data-ng-if="!ctlPlaceSettings.hasControlAccess">{{ctlPlaceSettings.place.description || 'empty'}}</h5>
+                <h5 class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place ID">{{ctlSettings.place.id + '@nested.me'}}</h5>
+                <h5 data-ng-if="ctlSettings.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place description" editable-text="ctlSettings.place.description"
+                    onbeforesave="ctlSettings.update('description', $data)">{{ctlSettings.place.description || 'empty'}}</h5>
+                <h5 class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description" data-ng-if="!ctlSettings.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</h5>
               </div>
             </div> <!--/Room name-->
             <div class="options">
@@ -34,19 +34,19 @@
                   <div class="_df"><label for="sw-notification"><i class="nst-place-icon-notif _df"></i></label></div>
                   <div class="_df _fw"><label for="sw-notification"><h5>Notifictions</h5></label></div>
                   <div class="_df switch">
-                    <input type="checkbox" id="sw-notification" class="inpsw" name="notification" data-ng-model="ctlPlaceSettings.options.notification"
-                           ng-change="ctlPlaceSettings.setNotification()"/>
-                    <label class="on active" for="sw-notification" data-ng-click="ctlPlaceSettings.options.notification && $event.preventDefault();">
+                    <input type="checkbox" id="sw-notification" class="inpsw" name="notification" data-ng-model="ctlSettings.options.notification"
+                           ng-change="ctlSettings.setNotification()"/>
+                    <label class="on active" for="sw-notification" data-ng-click="ctlSettings.options.notification && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
-                    <label class="noton" for="sw-notification" data-ng-click="!ctlPlaceSettings.options.notification && $event.preventDefault();">
+                    <label class="noton" for="sw-notification" data-ng-click="!ctlSettings.options.notification && $event.preventDefault();">
                       <div class="labtxt _fw">OFF</div>
                     </label>
                   </div>
                 </div>
                 <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="ctlPlaceSettings.options.notification">You will receive notifications for this place on all your devices <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.options.notification">You won't receive notifications for this Place <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
+                  <div class="nst-description" ng-if="ctlSettings.options.notification">You will receive notifications for this place on all your devices <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
+                  <div class="nst-description" ng-if="!ctlSettings.options.notification">You won't receive notifications for this Place <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
                 </div>
                 <!-- <div class="_difc _fw optionrow">
                   <div class="_df"><label for="sw-digest"><i class="nst-place-icon-shown _df"></i></label></div>
@@ -71,102 +71,102 @@
                   <div class="_df"><label for="sw-receptive"><i class="nst-place-icon-print _df"></i></label></div>
                   <div class="_df _fw"><label for="sw-receptive"><h5>Receiving</h5></label></div>
                   <div class="_df switch">
-                    <input type="checkbox" data-ng-disabled="!ctlPlaceSettings.hasControlAccess" id="sw-receptive" class="inpsw" name="receptive" data-ng-model="ctlPlaceSettings.place.privacy.receptive"
-                      ng-change="ctlPlaceSettings.updatePrivacy()"/>
-                    <label for="sw-receptive" data-ng-click="ctlPlaceSettings.place.privacy.receptive && $event.preventDefault();">
+                    <input type="checkbox" data-ng-disabled="!ctlSettings.hasControlAccess" id="sw-receptive" class="inpsw" name="receptive" data-ng-model="ctlSettings.place.privacy.receptive"
+                      ng-change="ctlSettings.updatePrivacy()"/>
+                    <label for="sw-receptive" data-ng-click="ctlSettings.place.privacy.receptive && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
-                    <label for="sw-receptive" data-ng-click="!ctlPlaceSettings.place.privacy.receptive && $event.preventDefault();">
+                    <label for="sw-receptive" data-ng-click="!ctlSettings.place.privacy.receptive && $event.preventDefault();">
                       <div class="labtxt _fw">OFF</div>
                     </label>
                   </div>
                 </div>
                 <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="ctlPlaceSettings.place.privacy.receptive">Place is open for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.receptive">Place is blocked for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div class="nst-description" ng-if="ctlSettings.place.privacy.receptive">Place is open for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.receptive">Place is blocked for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
                 </div>
 
                 <div class="_difc _fw optionrow">
                   <div class="_df"><label for="sw-search"><i class="nst-place-icon-search _df"></i></label></div>
                   <div class="_df _fw"><label for="sw-search"><h5>Searchable</h5></label></div>
                   <div class="_df switch">
-                    <input type="checkbox" data-ng-disabled="!ctlPlaceSettings.place.privacy.receptive || !ctlPlaceSettings.hasControlAccess " id="sw-search" class="inpsw" name="search" data-ng-model="ctlPlaceSettings.place.privacy.search"
+                    <input type="checkbox" data-ng-disabled="!ctlSettings.place.privacy.receptive || !ctlSettings.hasControlAccess " id="sw-search" class="inpsw" name="search" data-ng-model="ctlSettings.place.privacy.search"
                       ng-change=""/>
-                    <label for="sw-search" data-ng-click="ctlPlaceSettings.place.privacy.search && $event.preventDefault();">
+                    <label for="sw-search" data-ng-click="ctlSettings.place.privacy.search && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
-                    <label for="sw-search" data-ng-click="!ctlPlaceSettings.place.privacy.search && $event.preventDefault();">
+                    <label for="sw-search" data-ng-click="!ctlSettings.place.privacy.search && $event.preventDefault();">
                       <div class="labtxt _fw">OFF</div>
                     </label>
                   </div>
                 </div>
                 <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.receptive">Disabled until "Receiving" is Off <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.search && ctlPlaceSettings.place.privacy.receptive">Place does not appear in search list for nonmembers <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
-                  <div class="nst-description" ng-if="ctlPlaceSettings.place.privacy.search && ctlPlaceSettings.place.privacy.receptive">Place appears in search list for everyone <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.receptive">Disabled until "Receiving" is Off <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.search && ctlSettings.place.privacy.receptive">Place does not appear in search list for nonmembers <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div class="nst-description" ng-if="ctlSettings.place.privacy.search && ctlSettings.place.privacy.receptive">Place appears in search list for everyone <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
                 </div>
 
                 <div class="_difc _fw optionrow">
                   <div class="_df"><label for="sw-email"><i class="nst-place-icon-email _df"></i></label></div>
                   <div class="_df _fw"><label for="sw-email"><h5>Email</h5></label></div>
                   <div class="_df switch">
-                    <input type="checkbox" data-ng-disabled="!ctlPlaceSettings.place.privacy.receptive || !ctlPlaceSettings.hasControlAccess" id="sw-email" class="inpsw" name="email" data-ng-model="ctlPlaceSettings.place.privacy.email"
+                    <input type="checkbox" data-ng-disabled="!ctlSettings.place.privacy.receptive || !ctlSettings.hasControlAccess" id="sw-email" class="inpsw" name="email" data-ng-model="ctlSettings.place.privacy.email"
                            ng-change=""/>
-                    <label for="sw-email" data-ng-click="ctlPlaceSettings.place.privacy.email && $event.preventDefault();">
+                    <label for="sw-email" data-ng-click="ctlSettings.place.privacy.email && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
-                    <label for="sw-email" data-ng-click="!ctlPlaceSettings.place.privacy.email && $event.preventDefault();">
+                    <label for="sw-email" data-ng-click="!ctlSettings.place.privacy.email && $event.preventDefault();">
                       <div class="labtxt _fw">OFF</div>
                     </label>
                   </div>
                 </div>
                 <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.receptive">Disabled until "Receiving" is Off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
-                  <div class="nst-description" ng-if="ctlPlaceSettings.place.privacy.email && ctlPlaceSettings.place.privacy.receptive">Email does not appear in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
-                  <div class="nst-description" ng-if="!ctlPlaceSettings.place.privacy.email && ctlPlaceSettings.place.privacy.receptive">Email appears in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.receptive">Disabled until "Receiving" is Off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+                  <div class="nst-description" ng-if="ctlSettings.place.privacy.email && ctlSettings.place.privacy.receptive">Email does not appear in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.email && ctlSettings.place.privacy.receptive">Email appears in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
                 <div>
               </div> <!-- /nst-place-privacy-->
             </div>
 
             <div class="nst-teammates _dib">
               <h5 class="tittle-option _di">Teammates</h5>
-              <div data-ng-if="ctlPlaceSettings.hasAddMembersAccess" class="_di  _fr" data-ng-click="ctlPlaceSettings.addMember()">
+              <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di  _fr" data-ng-click="ctlSettings.addMember()">
                 <span class="nst-mood-simple _dib _vat">Add Teammate</span>
                 <div class="add-icon _dib"></div>
               </div>
               <hr>
-              <h5 ng-if="!ctlPlaceSettings.hasSeeMembersAccess" class="nst-mood-storm">
+              <h5 ng-if="!ctlSettings.hasSeeMembersAccess" class="nst-mood-storm">
                 You are not allowed to see other teamates!
               </h5>
-              <h5 ng-if="ctlPlaceSettings.hasSeeMembersAccess && !ctlPlaceSettings.hasAnyTeamate" class="nst-mood-storm">
+              <h5 ng-if="ctlSettings.hasSeeMembersAccess && !ctlSettings.hasAnyTeamate" class="nst-mood-storm">
                 There is not any teamate here!
               </h5>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.creators" data-ng-include="'app/pages/places/settings/place-member.html'"
-                   data-ng-init="role = 'creator'"></div>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.keyHolders" data-ng-include="'app/pages/places/settings/place-member.html'"
-                   data-ng-init="role = 'key_holder'"></div>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.pendingKeyHolders" data-ng-include="'app/pages/places/settings/place-member.html'"
-                   data-ng-init="role = 'pending_key_holder'"></div>
+              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.creators"
+                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="creator"/>
+              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.keyHolders"
+                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="key_holder"/>
+              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.pendingKeyHolders"
+                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="pending_key_holder"/>
             </div><!--/nst-teammates-->
 
             <div class="place-option-members _dib">
               <h5 class="title-option _di">Participants</h5>
-              <div data-ng-if="ctlPlaceSettings.hasAddMembersAccess" class="_di _fr" data-ng-click="ctlPlaceSettings.inviteParticipant()">
+              <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di _fr" data-ng-click="ctlSettings.inviteParticipant()">
                 <span class="nst-mood-simple _dib _vat">Invite members</span>
                 <div class="add-icon _dib"></div>
               </div>
               <hr>
-              <h5 ng-if="!ctlPlaceSettings.hasSeeMembersAccess" class="nst-mood-storm">
+              <h5 ng-if="!ctlSettings.hasSeeMembersAccess" class="nst-mood-storm">
                 You are not allowed to see the participants!
               </h5>
-              <h5 ng-if="ctlPlaceSettings.hasSeeMembersAccess && !ctlPlaceSettings.hasAnyGuest" class="nst-mood-storm">
+              <h5 ng-if="ctlSettings.hasSeeMembersAccess && !ctlSettings.hasAnyGuest" class="nst-mood-storm">
                 There is not any participant here!
               </h5>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlPlaceSettings.members.knownGuests" data-ng-include="'app/pages/places/settings/place-member.html'"
-                   data-ng-init="role = 'known_guest'"></div>
-              <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlPlaceSettings.members.pendingKnownGuests" data-ng-include="'app/pages/places/settings/place-member.html'"
-                   data-ng-init="role = 'pending_known_guest'">
-              </div>
+              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlSettings.members.knownGuests"
+                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="known_guest"/>
+              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlSettings.members.pendingKnownGuests"
+                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="pending_known_guest"/>
+
 
             </div> <!-- /place-option-members-->
             <div class="restplace _df _fh"></div>

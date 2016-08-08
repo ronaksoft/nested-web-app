@@ -11,7 +11,7 @@
 
     }
 
-    Utility.prototype = new Object();
+    Utility.prototype = {};
     Utility.prototype.constructor = Utility;
 
     Utility.prototype.string = NstUtilString;

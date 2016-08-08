@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $location, $timeout, toastr, NstHttp) {
+  function RegisterController($scope, $state, $timeout, md5, toastr, NST_DEFAULT, NstSvcAuth, NstHttp) {
     var vm = this;
 
     vm.step = "step1";
@@ -27,7 +27,7 @@
         noenddash : /^(?:-?[a-zA-Z0-9]+)*$/,
       },
       username : {
-        general : /^[a-zA-Z](?!.*--)(?:-?[a-zA-Z0-9]+)*$/,
+        general : /^([a-zA-Z](?!.*--)(?:-?[a-zA-Z0-9]+)*){5,}$/,
       },
     };
 
@@ -41,6 +41,8 @@
 
     vm.submitPhoneNumber = function () {
 
+      console.log(vm)
+
       if(!vm.phone){
         return false;
       }
@@ -50,6 +52,7 @@
         phone: vm.phone
       });
       ajax.get().then(function (data) {
+        if (data.code) vm.verificationCode = data.code;
         vm.vid = data.vid;
         vm.step = 'step2';
       })
@@ -60,7 +63,7 @@
 
     vm.resend = function(){
 
-      var ajax = new NstHttp('register/',
+      var ajax = new NstHttp('/register/',
       {
         f: 'send_code_txt',
             vid: vm.vid,
@@ -75,7 +78,7 @@
     }
 
     vm.callMe = function (){
-      var ajax = new NstHttp('register/',
+      var ajax = new NstHttp('/register/',
       {
         f: 'send_code_call',
         vid: vm.vid,
@@ -93,7 +96,7 @@
     vm.verifyCode = function (){
         vm.verification = 'start';
 
-         var ajax = new NstHttp('register/',
+         var ajax = new NstHttp('/register/',
         {
           f: 'verify_phone_code',
           vid: vm.vid,
@@ -138,7 +141,7 @@
         }else{
           vm.hasNotGender = false;
         }
-        if (vm.hasNotBirth || vm.hasNotGender) return false;
+        if (vm.hasNotBirth || vm.hasNotGender || !vm.password || !vm.username) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
@@ -146,32 +149,41 @@
 
         var dob = new Date(vm.birth);
 
-        var postData = {
-            f: 'register',
-            vid: vm.vid,
-            phone: vm.phone,
-            uid: vm.username,
-            pass: vm.password,
-            fname: vm.fname,
-            lname: vm.lname,
-            gender: vm.gender,
-            agreement: vm.agreement,
-            dob: dob.getFullYear() + "-" + pad(dob.getMonth() + 1) + "-" + pad(dob.getDay() + 1)
-        }
+      var credentials = {
+        username: vm.username.toLowerCase(),
+        password: md5.createHash(vm.password)
+      }
 
+        var postData  = new FormData();
+        postData.append('f', 'register');
+        postData.append('vid', vm.vid);
+        postData.append('phone', vm.phone);
+        postData.append('uid', credentials.username);
+        postData.append('pass', credentials.password);
+        postData.append('fname', vm.fname);
+        postData.append('lname', vm.lname);
+        postData.append('gender', vm.gender);
+        postData.append('agreement', vm.agreement);
+        postData.append('dob', dob.getFullYear() + "-" + pad(dob.getMonth() + 1) + "-" + pad(dob.getDay() + 1));
 
-        var ajax = new NstHttp('register/',postData);
-        ajax.postJquery().then(function (data) {
-          if (data.status === "ok"){
-            $state.go("signin")
+        var ajax = new NstHttp('/register/',postData);
+
+        ajax.post().then(function (data) {
+          if (data.data.status === "ok") {
+            NstSvcAuth.login(credentials, true).then(function () {
+              return $state.go(NST_DEFAULT.STATE);
+            }).catch(function () {
+              return $state.go("signin");
+            });
           }else{
-
+            toastr.error("Error in create account!");
           }
         })
         .catch(function (error) {
+          toastr.error("Error in create account!");
         })
 
-    }
+    };
 
     var timers = [];
     vm.checkUser = function (val) {
@@ -182,7 +194,7 @@
 
         var timer = $timeout(function () {
           vm.checkWithServer = true;
-          var ajax = new NstHttp('register/',{
+          var ajax = new NstHttp('/register/',{
               f: 'account_exists',
               uid: val
           });

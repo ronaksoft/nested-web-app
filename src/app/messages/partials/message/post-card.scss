@@ -1,0 +1,14 @@
+.new-comments-count {
+  cursor: pointer;
+  padding: 2px 3px;
+  color: $color-white !important;
+  background: $color-wind !important;
+  font-size: $font-size-xsmall;
+  font-weight: bold;
+  border-radius: 2px;
+  margin: 0 4px;
+}
+.new-comments-count:hover {
+  background: $color-sense-wire !important;
+  color: white !important;
+}

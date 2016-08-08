@@ -390,7 +390,7 @@ input[type="checkbox"] {
 input[type="checkbox"] {
   max-width: 1px;
 }
-#panel-signin{
+#panel-signin, #panel-register{
   input[type="checkbox"] + label {
     display: inline-block;
     background: url('../assets/icons/controls.svg') no-repeat;

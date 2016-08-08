@@ -120,7 +120,7 @@
         },
         templateUrl: 'app/pages/places/settings/main.html',
         controller: 'PlaceSettingsController',
-        controllerAs: 'ctlPlaceSettings'
+        controllerAs: 'ctlSettings'
       })
       .state('place-add', {
         url: '/places/:placeId/add',

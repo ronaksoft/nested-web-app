@@ -24,7 +24,6 @@
       'ui.router',
       'ui.bootstrap',
       'toastr',
-      'pdf',
       'internationalPhoneNumber',
       'rorymadden.date-dropdowns',
       'com.2fdevs.videogular',
