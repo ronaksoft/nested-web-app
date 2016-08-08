@@ -109,37 +109,37 @@
         </div>
 
 
-        <div class="nst-marginbtm-8"
-             ng-if="registrationForm.password.$untouched && (!focus || registrationForm.password.$pristine)">Set new
-          password
+
+
+
+      <div class="nst-marginbtm-8"
+           ng-if="registrationForm.password.$untouched && (!focus || registrationForm.password.$pristine)">Set new
+        password
+      </div>
+      <div class="nst-mood-lively nst-marginbtm-8"
+           ng-if="registrationForm.password.$error.pattern || registrationForm.password.$error.minlength">Weak password
+      </div>
+      <div class="nst-mood-lively nst-marginbtm-8"
+           ng-if="registrationForm.password.$error.required && (registrationForm.password.$touched || ctlRegister.focus) && registrationForm.password.$invalid && (registrationForm.password.$dirty || registrationForm.password.$touched)">
+        password required
+      </div>
+      <div class="nst-mood-cheerful nst-marginbtm-8" ng-if="registrationForm.password.$valid">Powerful password</div>
+      <div class="nst-marginbtm-16">
+        <div class="form-group has-feedback" data-ng-model="ctlRegister.show">
+          <input
+            ng-class="{'form-control': registrationForm.password.$untouched && (!ctlRegister.focus || registrationForm.password.$pristine),'form-control-error': (registrationForm.password.$error.pattern || registrationForm.password.$error.minlength) || registrationForm.password.$error.required && (registrationForm.password.$touched || ctlRegister.focus) && registrationForm.password.$invalid && (registrationForm.password.$dirty || registrationForm.password.$touched),'form-control-valid': registrationForm.password.$valid}"
+            data-ng-focus="ctlRegister.focus = true;" data-ng-blur="ctlRegister.focus = false;" ng-model="ctlRegister.password"
+            ng-pattern="ctlRegister.patterns.password.all"
+            id="pass" name="password" data-ng-init="ctlRegister.show = true" type="{{ctlRegister.show ? 'password': 'text'}}"
+            data-tooltip-placement="bottom" ng-minlength="8" tooltip-trigger="none"
+            tooltip-is-open="registrationForm.password.$error.pattern && registrationForm.password.$touched"
+            uib-tooltip-class="tooltip" uib-tooltip-template="'app/user/register/tip_password.html'"
+            tooltip-enable="!ctlRegister.password" tabindex="2" required/>
+          <i
+            class="cursor-pointer nst-ico-eye-slash form-control-feedback {{ctlRegister.show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}"
+            data-ng-click="ctlRegister.show = !ctlRegister.show"></i>
         </div>
-        <div class="nst-mood-lively nst-marginbtm-8"
-             ng-if="registrationForm.password.$error.pattern || registrationForm.password.$error.minlength">Weak
-          password
-        </div>
-        <div class="nst-mood-lively nst-marginbtm-8"
-             ng-if="registrationForm.password.$error.required && (registrationForm.password.$touched || ctlRegister.focus) && registrationForm.password.$invalid && (registrationForm.password.$dirty || registrationForm.password.$touched)">
-          password required
-        </div>
-        <div class="nst-mood-cheerful nst-marginbtm-8" ng-if="registrationForm.password.$valid">Powerful password</div>
-        <div class="nst-marginbtm-16">
-          <div class="form-group has-feedback" data-ng-model="ctlRegister.show">
-            <input
-              ng-class="{'form-control': registrationForm.password.$untouched && (!ctlRegister.focus || registrationForm.password.$pristine),'form-control-error': (registrationForm.password.$error.pattern || registrationForm.password.$error.minlength) || registrationForm.password.$error.required && (registrationForm.password.$touched || ctlRegister.focus) && registrationForm.password.$invalid && (registrationForm.password.$dirty || registrationForm.password.$touched),'form-control-valid': registrationForm.password.$valid}"
-              data-ng-focus="ctlRegister.focus = true;" data-ng-blur="ctlRegister.focus = false;"
-              ng-model="ctlRegister.password"
-              ng-pattern="ctlRegister.patterns.password.all"
-              id="pass" name="password" data-ng-init="ctlRegister.show=true"
-              type="{{ctlRegister.show ? 'password': 'text'}}"
-              data-tooltip-placement="bottom" ng-minlength="8" tooltip-trigger="none"
-              tooltip-is-open="registrationForm.password.$error.pattern && registrationForm.password.$touched"
-              uib-tooltip-class="tooltip" uib-tooltip-template="'app/user/register/tip_password.html'"
-              tooltip-enable="!ctlRegister.password" tabindex="2" required/>
-            <i
-              class="cursor-pointer nst-ico-eye-slash form-control-feedback {{ctlRegister.show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}"
-              data-ng-click="ctlRegister.show = !ctlRegister.show"></i>
-          </div>
-        </div>
+      </div>
 
 
         <div class="_dt nst-marginbtm-16 register-name-table">
