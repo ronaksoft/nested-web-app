@@ -120,7 +120,7 @@
             ng-class="{'form-control': registrationForm.password.$untouched && (!ctlRegister.focus || registrationForm.password.$pristine),'form-control-error': (registrationForm.password.$error.pattern || registrationForm.password.$error.minlength) || registrationForm.password.$error.required && (registrationForm.password.$touched || ctlRegister.focus) && registrationForm.password.$invalid && (registrationForm.password.$dirty || registrationForm.password.$touched),'form-control-valid': registrationForm.password.$valid}"
             data-ng-focus="ctlRegister.focus = true;" data-ng-blur="ctlRegister.focus = false;" ng-model="ctlRegister.password"
             ng-pattern="ctlRegister.patterns.password.all"
-            id="pass" name="password" data-ng-init="ctlRegister.show=true" type="{{ctlRegister.show ? 'password': 'text'}}"
+            id="pass" name="password" data-ng-init="ctlRegister.show = true" type="{{ctlRegister.show ? 'password': 'text'}}"
             data-tooltip-placement="bottom" ng-minlength="8" tooltip-trigger="none"
             tooltip-is-open="registrationForm.password.$error.pattern && registrationForm.password.$touched"
             uib-tooltip-class="tooltip" uib-tooltip-template="'app/user/register/tip_password.html'"

@@ -158,8 +158,7 @@
         postData.append('gender', vm.gender);
         postData.append('agreement', vm.agreement);
         postData.append('dob', dob.getFullYear() + "-" + pad(dob.getMonth() + 1) + "-" + pad(dob.getDay() + 1));
-
-
+      
         var ajax = new NstHttp('/register/',postData);
 
         ajax.post().then(function (data) {
