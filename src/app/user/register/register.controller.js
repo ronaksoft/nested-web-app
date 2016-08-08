@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, $timeout, md5, toastr, NstHttp) {
+  function RegisterController($scope, $state, $timeout, md5, toastr, NST_DEFAULT, NstSvcAuth, NstHttp) {
     var vm = this;
 
     vm.step = "step1";
@@ -27,7 +27,7 @@
         noenddash : /^(?:-?[a-zA-Z0-9]+)*$/,
       },
       username : {
-        general : /^[a-zA-Z](?!.*--)(?:-?[a-zA-Z0-9]+)*$/,
+        general : /^([a-zA-Z](?!.*--)(?:-?[a-zA-Z0-9]+)*){5,}$/,
       },
     };
 
@@ -40,6 +40,8 @@
 
 
     vm.submitPhoneNumber = function () {
+
+      console.log(vm)
 
       if(!vm.phone){
         return false;
@@ -139,7 +141,7 @@
         }else{
           vm.hasNotGender = false;
         }
-        if (vm.hasNotBirth || vm.hasNotGender) return false;
+        if (vm.hasNotBirth || vm.hasNotGender || !vm.password || !vm.username) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
@@ -147,25 +149,32 @@
 
         var dob = new Date(vm.birth);
 
+      var credentials = {
+        username: vm.username.toLowerCase(),
+        password: md5.createHash(vm.password)
+      }
+
         var postData  = new FormData();
         postData.append('f', 'register');
         postData.append('vid', vm.vid);
         postData.append('phone', vm.phone);
-        postData.append('uid', vm.username);
-        postData.append('pass', md5.createHash(vm.password));
+        postData.append('uid', credentials.username);
+        postData.append('pass', credentials.password);
         postData.append('fname', vm.fname);
         postData.append('lname', vm.lname);
         postData.append('gender', vm.gender);
         postData.append('agreement', vm.agreement);
         postData.append('dob', dob.getFullYear() + "-" + pad(dob.getMonth() + 1) + "-" + pad(dob.getDay() + 1));
 
-
         var ajax = new NstHttp('/register/',postData);
 
         ajax.post().then(function (data) {
-          console.log('looog',data);
-          if (data.data.status === "ok"){
-            $state.go("signin");
+          if (data.data.status === "ok") {
+            NstSvcAuth.login(credentials, true).then(function () {
+              return $state.go(NST_DEFAULT.STATE);
+            }).catch(function () {
+              return $state.go("signin");
+            });
           }else{
             toastr.error("Error in create account!");
           }

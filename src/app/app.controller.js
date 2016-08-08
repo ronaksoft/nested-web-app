@@ -8,12 +8,21 @@
   /** @ngInject */
   function AppController($scope, $window, $rootScope, $timeout, $interval, $state, $stateParams, $uibModalStack,
                          NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR,
-                         NstSvcAuth, NstSvcPlaceFactory, NstSvcModal) {
+                         NstSvcServer, NstSvcAuth, NST_SRV_EVENT, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
 
-    $interval(function () {
-      vm.disconected = !vm.disconected
-    },1000);
+
+    NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
+      console.log("NST_SRV_EVENT.INITIALIZE,", msg);
+      if (!vm.disconected) {
+        vm.disconected = true;
+      }
+    });
+    NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
+      if (vm.disconected) {
+        vm.disconected = false;
+      }
+    });
 
     /*****************************
      *** Controller Properties ***
