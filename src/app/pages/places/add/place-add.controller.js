@@ -6,7 +6,7 @@
     .controller('PlaceAddController', PlaceAddController);
 
   /** @ngInject */
-  function PlaceAddController($q, $timeout, $scope, $uibModal, $state, $stateParams, $log,
+  function PlaceAddController($q, $timeout, $rootScope, $uibModal, $state, $stateParams, $log,
                               toastr,
                               NST_DEFAULT, NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_PLACE_ACCESS,
                               NstSvcStore, NstSvcLoader, NstSvcTry, NstSvcPlaceFactory,
@@ -88,7 +88,7 @@
     };
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-      $log.debug('Place Add | Gonna Change State: ', toState, toParams);
+      $log.debug('Place Add | Gonna Change State: ', arguments);
       if (vm.model.saved || !vm.model.isModified()) {
         cancel.$destroy();
         $state.go(toState.name, toParams);
