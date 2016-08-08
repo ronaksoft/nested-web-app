@@ -379,10 +379,18 @@
 .comment-input .nst-mood-simple {
   margin-right: 10px;
 }
+.nst-preview-pic-mode {
+  max-width: 100%;
+  max-height: calc(100vh - 244px);
+  min-height: 330px;
+}
 
 .filename-p {
   padding-top: 22px;
   padding-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .audioplayer{
   height: 50px;
@@ -401,5 +409,6 @@
 .attachcontrols {
   border: black;
   align-items: center;
-  height: 68px
+  height: 68px;
+  width: 300px;
 }
