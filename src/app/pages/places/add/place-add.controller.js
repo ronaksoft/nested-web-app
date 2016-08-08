@@ -120,7 +120,7 @@
         modified = modified || model.id.trim().length > 0;
         modified = modified || model.description.trim().length > 0;
         modified = modified || model.name.length > 0;
-        modified = modified || model.picture.id.trim().length > 0;
+        modified = modified || model.picture.file;
         modified = modified || model.privacy.email;
         modified = modified || !model.privacy.locked;
         modified = modified || model.privacy.receptive;
