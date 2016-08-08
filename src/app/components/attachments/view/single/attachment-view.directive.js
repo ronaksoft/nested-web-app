@@ -29,6 +29,10 @@
         case NST_FILE_TYPE.IMAGE:
           scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
           break;
+
+        case NST_FILE_TYPE.MULTIMEDIA:
+          scope.tplUrl = 'app/components/attachments/view/single/partials/media.html';
+          break;
       }
     }
   }
