@@ -299,8 +299,8 @@
         vm.model.saving = false;
         vm.model.saved = true;
 
-        toastr.success('Place ' + place.getName() + ' has been successfully created.', 'Place Added');
-        $state.go('place-messages', { placeId: place.getId() });
+        toastr.success('Place ' + place.getName() + '#' + place.getId() + ' has been successfully created.', 'Place Added');
+        $state.go('place-settings', { placeId: place.getId() });
 
         return $q(function (res) {
           res(place);
