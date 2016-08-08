@@ -139,13 +139,15 @@
         }else{
           vm.hasNotGender = false;
         }
-        if (vm.hasNotBirth || vm.hasNotGender) return false;
+        if (vm.hasNotBirth || vm.hasNotGender || !vm.password) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
         } //convert 1 digit numbers to 2 digits
 
         var dob = new Date(vm.birth);
+
+
 
         var postData  = new FormData();
         postData.append('f', 'register');
