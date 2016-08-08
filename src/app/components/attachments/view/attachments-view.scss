@@ -112,4 +112,6 @@
 }
 .nst-preview-pic-mode {
   max-width: 100%;
+  max-height: calc(100vh - 244px);
+  min-height: 330px;
 }
