@@ -53,6 +53,12 @@
 .icon-sent {
   background-position: 0 -48px;
 }
+
+.icon-add {
+  background-image: url("../assets/icons/actionbuttons_place.svg");
+  background-position: 0 -48px;
+}
+
 .icon-nav {
   background-image: url("../assets/icons/sidebaricon.svg");
   background-repeat: no-repeat;
@@ -847,7 +853,7 @@ ul ul li:last-child{
   flex-direction: column;
   width: 276px;
   z-index: 10;
-  //height: 100%;
+  height: 100%;
   margin-left: 16px;
   position: relative;
   transition: 0.2s;
@@ -919,8 +925,8 @@ ul ul li:last-child{
         p {
           color: #808080;
           font-size: 11px;
-          line-height: 13px;
-          font-weight: 400;
+          //line-height: 13px;
+          //font-weight: 400;
           span {
             font-style: italic;
             font-size: 11px;
@@ -1062,8 +1068,13 @@ ul ul li:last-child{
   max-height: 190px;
 }
 
+h3 {
+  font-weight: 100;
+}
 .post-card .post-subject h3{
   margin: 8px 0;
+  font-size: 24px;
+  line-height: 29px;
 
 }
 .post-card .post-body{
@@ -1073,6 +1084,7 @@ ul ul li:last-child{
   font-weight: 400;
   margin: 0;
   padding-top: 4px;
+  line-height: 125%;
 }
 .post-card .post-attachments{
   //height: 66px;
@@ -1103,7 +1115,7 @@ ul ul li:last-child{
   background-color: #E7FBF0;
   border: solid 1px $color-border;
   border-top-width: 0;
-  //padding: 8px 8px 0 8px;
+  padding: 8px 8px 0 8px;
   z-index: 10;
   transition-duration: .3s;
 }
@@ -1489,3 +1501,51 @@ input[type="checkbox"]:checked + label.setting {
 //  background-color: $color-sense-5;
 //}
 
+
+
+
+
+/**
+  *********************************************************
+  *     Nested Fade in all elements
+  *********************************************************
+*/
+
+* {
+  animation: fadein 0.8s;
+  -moz-animation: fadein 0.8s; /* Firefox */
+  -webkit-animation: fadein 0.8s; /* Safari and Chrome */
+  -o-animation: fadein 0.8s; /* Opera */
+}
+@keyframes fadein {
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-moz-keyframes fadein { /* Firefox */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity:1;
+  }
+}
+@-o-keyframes fadein { /* Opera */
+  from {
+    opacity:0;
+  }
+  to {
+    opacity: 1;
+  }
+}

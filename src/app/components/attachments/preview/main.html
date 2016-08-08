@@ -1,6 +1,6 @@
 <div class="attachments-preview-bar">
   <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
-    <li ng-repeat="item in items">
+    <li ng-repeat="item in items" data-tooltip-placement="bottom" data-uib-tooltip="{{item.name + '.' + item.extension}}">
       <a href="javascript:void(0);" ng-click="onClick(item)">
         <img ng-if="item.hasThumbnail" class="attach-thumbnail" alt="" style="background: url({{item.thumbnail}});background-size: cover;"/>
         <div ng-if="!item.hasThumbnail" class="attach-thumbnail-default {{'attach-thumbnail-' + item.type}}">

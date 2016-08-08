@@ -11,7 +11,7 @@
       /*****************************
        *****   Public Routes    ****
        *****************************/
-      
+
       .state('intro', {
         url: '/',
         templateUrl: 'app/pages/intro/main.html',
@@ -25,11 +25,11 @@
         controller: 'RegisterController',
         controllerAs: 'ctlRegister'
       })
-        
+
       /*****************************
        *****     Auth Routes    ****
        *****************************/
-      
+
       .state('signin', {
         url: '/signin',
         templateUrl: 'app/user/login/main.html',
@@ -127,7 +127,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/places/add/main.html',
+        templateUrl: 'app/pages/places/add/main.html',
         controller: 'PlaceAddController',
         controllerAs: 'ctlPlaceAdd'
       })

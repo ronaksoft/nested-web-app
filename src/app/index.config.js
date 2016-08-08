@@ -48,7 +48,7 @@
     // Scrollbars
     ScrollBarsProvider.defaults = {
       theme: 'minimal-dark',
-      scrollInertia: 300,
+      scrollInertia: 150,
       advanced: {
         updateOnContentResize: true
       },

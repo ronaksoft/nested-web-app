@@ -1,7 +1,7 @@
 <div class="post-card _fw">
   <!-- ng-if="!ctlPostCard.thisPlace" -->
   <section class="post-card-badge" >
-    <a class="" data-ng-if="ctlPostCard.post.firstPlace">{{ctlPostCard.post.firstPlace.name}}</a>
+    <a class="margin-r-5" data-ng-if="ctlPostCard.post.firstPlace">{{ctlPostCard.post.firstPlace.name}}</a>
     <a ng-if="ctlPostCard.post.allPlacesCount > 1" class="popover-white-nst-msg"
        data-uib-popover-template="'app/messages/partials/popovers/more_places.html'"
        data-popover-placement="auto bottom-right"
@@ -27,7 +27,7 @@
            dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.subject)) ? 'rtl' : 'ltr'}}">
     <h3 ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject | emoji">
     </h3>
-    <h3 ng-if="ctlPostCard.post.subject.length < 1"><i>No Subject</i></h3>
+    <h3 ng-if="ctlPostCard.post.subject.length < 1" class="nst-mood-breez"><i>No Subject</i></h3>
   </section>
   <section class="post-body {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
            nst-post-modal post="ctlPostCard.post"
@@ -49,7 +49,7 @@
   <section class="post-footer _difh"><a class="_df _fn">{{ctlPostCard.post.commentsCount}} comments</a>
     <div class="post-icons _fw _df">
       <a href="{{ctlPostCard.urls.forward}}" class="icon icon-post icon-fw _df"></a>
-      <div class="icon icon-post icon-rp _df popover-white-nst-activity-places"
+      <div class="cursor-pointer margin-r_5 icon icon-post icon-rp _df popover-white-nst-activity-places"
            data-uib-popover-template="'app/messages/partials/popovers/reply.html'"
            data-popover-placement="auto top-right" popover-trigger="outsideClick"></div>
       <div ng-if="ctlPostCard.post.userHasRemoveAccess" class="icon icon-post icon-delete-menu _df"></div>

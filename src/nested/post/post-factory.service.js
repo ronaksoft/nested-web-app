@@ -218,7 +218,12 @@
         post.setInternal(data.internal);
 
         post.setDate(new Date(data['timestamp']));
-        post.setUpdated(new Date(data['last_update']));
+
+        if (data['last_update']) {
+          post.setUpdatedDate(new Date(data['last_update']));
+        } else {
+          post.setUpdatedDate(post.getDate());
+        }
 
         post.setMonitored(data.monitored);
         post.setSpam(data.spam);
@@ -364,8 +369,13 @@
         message.removed = data._removed;
         message.setCounters(data.counters || message.counters);
         message.setInternal(data.internal);
-        message.setUpdated(new Date(data.last_update));
         message.setDate(new Date(data.timestamp));
+
+        if (data.last_update) {
+          message.setUpdatedDate(new Date(data.last_update));
+        } else {
+          message.setUpdatedDate(message.getDate());
+        }
 
         // TODO: What about Counters and More Comments?
 

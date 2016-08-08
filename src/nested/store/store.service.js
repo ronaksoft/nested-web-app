@@ -218,7 +218,6 @@
           xhr.onload = function (event) {
             if (200 == event.target.status) {
               var httpData = JSON.parse(event.target.response);
-              console.log('Store | Progressive Upload Finished: ', httpData);
               var data = httpData.data;
               var response = new NstResponse(NST_RES_STATUS.UNKNOWN, data);
 

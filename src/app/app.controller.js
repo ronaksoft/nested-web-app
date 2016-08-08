@@ -118,7 +118,7 @@
       }
 
       for (var k in pages) {
-        var cName = pages[k].toLowerCase().split('').filter(function (v, i) { return 0 == i ? v.toUpperCase() : v; }).join('');
+        var cName = pages[k].toLowerCase().split('').map(function (v, i) { return 0 == i ? v.toUpperCase() : v; }).join('');
         var isActive = NST_PAGE[pages[k]].indexOf(state.name) > -1;
 
         if (previousState) {
@@ -154,7 +154,7 @@
     });
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
-      if (toParams.placeId) {
+      if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
         NstSvcPlaceFactory.get(toParams.placeId).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
             NstSvcModal.error('Does not exist!','We are sorry, but the place you are looking for can not be found!').then(function (result) {
@@ -183,7 +183,7 @@
       } else if ('MESSAGES' === group) {
         return $state.get('messages');
       } else {
-        return $state.get('messages');
+        return $state.get(NST_DEFAULT.STATE);
       }
     }
   }

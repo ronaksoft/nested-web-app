@@ -25,7 +25,7 @@
       this.sender = null;
 
       this.date = null;
-      this.updated = null;
+      this.updatedDate = null;
 
       /**
        * Post Comments

@@ -6,7 +6,7 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($location, $scope, $stateParams, $q, $uibModal, $log, $state,
+  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state,
     NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl,
     NstPlace, NstPicture) {
@@ -73,7 +73,7 @@
           NstSvcPlaceFactory.getNotificationOption(vm.placeId)
         ]);
       }).then(function(values) {
-
+        $log.debug('Place Has Accesses: ', values);
         vm.hasRemoveAccess = values[0];
         vm.hasAddPlaceAccess = values[1];
         vm.hasControlAccess = values[2];
@@ -178,6 +178,7 @@
 
           return $q(function(resolve, reject) {
             NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
+
               $log.debug(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
               resolve({
                 user: user,
@@ -258,11 +259,9 @@
         }).result.then(function(confirmResult) {
           remove();
         });
-
-    };
+    }
 
     function confirmToLeave() {
-
       $uibModal.open({
         animation: false,
         templateUrl: 'app/pages/places/settings/place-leave-confirm.html',
@@ -277,7 +276,14 @@
       }).result.then(function() {
         leave();
       });
-    };
+    }
+
+    function remove() {
+      return NstSvcPlaceFactory.remove(vm.place.id).then(function() {
+      }).catch(function(error) {
+        $log.debug(error);
+      });
+    }
 
     function removeMember(username) {
       NstSvcPlaceFactory.removeMember(vm.place.id, username).then(function(result) {

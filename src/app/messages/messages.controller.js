@@ -29,7 +29,7 @@
     vm.tryAgainToLoadMore = false;
     vm.reachedTheEnd = false;
     vm.noMessages = false;
-    vm.loading = true;
+    vm.loading = false;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -43,7 +43,7 @@
     vm.toggleCommentsPreview = toggleCommentsPreview;
     vm.toggleQuickMessagePreview = toggleQuickMessagePreview;
 
-    (function() {
+    (function () {
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
         vm.currentPlaceId = null;
       } else {
@@ -65,14 +65,13 @@
             return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]);
           }
         }).catch(function(error) {
-          $log.debug(error)
+          $log.debug(error);
         });
       } else {
         $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function(error) {
           $log.debug(error);
         });
       }
-
     })();
 
     function getMessages() {
@@ -94,7 +93,7 @@
     }
 
     function loadViewSetting() {
-      return $q(function(resolve, reject) {
+      return $q(function (resolve, reject) {
         var setting = {
           content: readSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT),
           attachments: readSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS),
@@ -107,37 +106,56 @@
     }
 
     function loadSortOption() {
-      return $q(function(resolve, reject) {
+      return $q(function (resolve, reject) {
         var option = NstSvcMessagesSettingStorage.get(sortOptionStorageKey, defaultSortOption);
         resolve(option);
       });
     }
 
     function loadMessages() {
-      vm.loading = true;
+      if (vm.noMessages || vm.reachedTheEnd) {
+        return $q.resolve(vm.messages);
+      }
+
       vm.tryAgainToLoadMore = false;
-      return NstSvcLoader.inject(NstSvcTry.do(function() {
+      vm.loading = true;
+
+      return NstSvcLoader.inject(NstSvcTry.do(function () {
         var defer = $q.defer();
 
         vm.messagesSetting.date = getLastMessageTime();
 
-        getMessages().then(function(messages) {
-          if (messages.length === 0) {
-            if (vm.cache.length === 0) {
-              vm.noMessages = true;
-            } else {
-              vm.reachedTheEnd = true;
+        getMessages().then(function (messages) {
+          vm.cache = _.concat(vm.cache, messages);
+
+          if (0 == vm.cache.length) {
+            vm.noMessages = true;
+          }
+
+          if (messages.length < vm.messagesSetting.limit) {
+            vm.reachedTheEnd = true;
+          }
+
+          if (messages.length > 0) {
+            var lastMessageVersion = vm.messages.slice();
+
+            for (var i = 0; i < messages.length; i++) {
+              var hasData = lastMessageVersion.filter(function (obj) {
+                return (obj.id === messages[i].id);
+              });
+
+              if (hasData.length === 0) {
+                vm.messages.push(mapMessage(messages[i]));
+              } else {
+                // Todo :: remove this line after fixed by server
+                vm.reachedTheEnd = true;
+              }
             }
-          } else {
-            vm.reachedTheEnd = false;
-            vm.noMessages = false;
-            vm.cache = _.concat(vm.cache, messages);
-            vm.messages = mapMessages(vm.cache);
           }
           vm.tryAgainToLoadMore = false;
           vm.loading = false;
           defer.resolve(vm.messages);
-        }).catch(function(error) {
+        }).catch(function (error) {
           vm.loading = false;
           vm.tryAgainToLoadMore = true;
           defer.reject(error);
@@ -148,6 +166,10 @@
     }
 
     function loadMore() {
+      if (vm.loading) {
+        return $q.resolve(vm.messages);
+      }
+      
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
 
       return NstSvcLoader.inject(NstSvcTry.do(function() {
@@ -164,7 +186,8 @@
 
     function getLastMessageTime() {
 
-      var last = _.last(_.orderBy(vm.cache, 'date', 'desc'));
+      var last = _.last(vm.cache);
+
       if (!last) {
 
         return moment().format('x');
@@ -189,7 +212,7 @@
           settings.placeId = vm.currentPlace.id;
         }
 
-        NstSvcActivityFactory.getRecent(settings).then(function(activities) {
+        NstSvcActivityFactory.getRecent(settings).then(function (activities) {
           vm.activities = mapActivities(activities);
           defer.resolve(vm.activities);
         }).catch(defer.reject);
@@ -232,14 +255,13 @@
 
     function setPlace(id) {
       var defer = $q.defer();
+      vm.currentPlace = null;
       if (!id) {
         defer.reject(new Error('Could not find a place without Id.'));
       } else {
         NstSvcPlaceFactory.get(id).then(function(place) {
           if (place && place.id) {
             vm.currentPlace = place;
-          } else {
-            vm.currentPlace = null;
           }
           defer.resolve(vm.currentPlace);
         }).catch(function (error) {
