@@ -196,14 +196,15 @@
       var last = _.last(vm.cache);
 
       if (!last) {
-
         return moment().format('x');
       }
-      if (moment.isMoment(last.date)) {
-        return last.date.format('x');
+
+      var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.updatedDate : last.date;
+      if (moment.isMoment(lastDate)) {
+        return lastDate.format('x');
       }
 
-      return last.date.getTime();
+      return lastDate.getTime();
     }
 
     function loadRecentActivities() {

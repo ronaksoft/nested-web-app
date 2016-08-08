@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,7 +6,7 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $uibModal, $timeout,
+  function runBlock($rootScope, $uibModal, $timeout,$interval,
                     ngProgressFactory,
                     NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
                     NstSvcAuth, NstSvcLoader, NstSvcPlaceInvitationFriend, NstSvcPlaceAuthFriend, NstSvcPostCommentFriend) {
@@ -47,34 +47,6 @@
     });
 
     $rootScope.modals = {};
-
-    /***************************
-     **** Disconnected Modal ***
-     ***************************/
-
-    var dcModalPromise;
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
-      if (!$rootScope.modals['disconnected'] && NST_UNREGISTER_REASON.DISCONNECT == event.detail.reason) {
-        dcModalPromise = $timeout(function () {
-          $rootScope.modals['disconnected'] = $uibModal.open({
-            animation: false,
-            templateUrl: 'app/modals/disconnected/main.html',
-            controller: 'DisconnectedController',
-            controllerAs: 'ctlDisconnected',
-            size: 'sm'
-          });
-        }, 4000);
-      }
-    });
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function () {
-      if ($rootScope.modals['disconnected']) {
-        $rootScope.modals['disconnected'].close();
-        delete $rootScope.modals['disconnected'];
-      } else if (dcModalPromise) {
-        $timeout.cancel(dcModalPromise);
-        dcModalPromise = undefined;
-      }
-    });
 
 
     // var timers = [];

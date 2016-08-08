@@ -1,0 +1,33 @@
+.disconnect-message {
+  opacity: 0.95;
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  right: 0;
+  color: #fff4c2;
+  background-color: #2c2c2c;
+  padding : 10px;
+  margin : 5px;
+  border-radius: 5px;
+}
+.reconnecting:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4,end) 1400ms infinite;
+  animation: ellipsis steps(4,end) 1400ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25em;
+  }
+}
