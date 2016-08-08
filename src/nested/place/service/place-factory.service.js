@@ -575,7 +575,6 @@
               // TODO: Dispatch PLACE REMOVE Event
               deferred.resolve(place);
             }).catch(function (error) {
-              console.log('jojo', error);
               deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }).catch(function (error) {
@@ -749,7 +748,6 @@
           $log.debug('Place Factory | Member Remove Response: ', result);
         }).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            console.log('hoho', error);
             if (error.previous.items[0] === 'only_one_creator') {
               defer.reject(new NstPlaceOneCreatorLeftError(error));
             } else if (error.previous.items[0] === 'parent_creator') {

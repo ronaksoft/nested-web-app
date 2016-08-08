@@ -1,0 +1,10 @@
+<ul data-ng-if="hasRemoveAccess" class="list-unstyled" data-ng-click="onRemove(member);">
+  <li class="menuicon-remove _dib"></li>
+  <li class="_dib nst-mood-simple _vat">Remove</li>
+</ul>
+<ul data-ng-if="hasControlAccess" data-ng-switch="role">
+  <li data-ng-switch-when="key_holder" class="_dib menuicon-create"></li>
+  <li data-ng-switch-when="key_holder" class="_dib nst-mood-simple _vat">Promote</li>
+  <li data-ng-switch-when="creator" class="_dib menuicon-create-transform"></li>
+  <li data-ng-switch-when="creator" class="_dib nst-mood-simple _vat">Demote</li>
+</ul>
