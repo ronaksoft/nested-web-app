@@ -3,7 +3,7 @@
     "APP_ID": "web-{{BUILD}}",
     "WEBSOCKET": {
       "URL": "wss://cyrus.nested.me:443",
-      "TIMEOUT": 10000
+      "TIMEOUT": 60000
     },
     "STORE": {
       "URL": "https://xerxes.nested.me"
