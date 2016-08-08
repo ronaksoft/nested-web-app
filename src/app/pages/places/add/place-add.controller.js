@@ -88,7 +88,6 @@
     };
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-      $log.debug('Place Add | Gonna Change State: ', arguments);
       if (vm.model.saved || !vm.model.isModified()) {
         cancel.$destroy();
         $state.go(toState.name, toParams);
