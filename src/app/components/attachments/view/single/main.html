@@ -9,20 +9,17 @@
   <!--</div>-->
 
   <div class="_fw _dif nst-preview-footer">
-    <div class="_fw">
+    <div class="filedetails _difv _fw">
       <p class="nst-font-large filename-p">{{ctlAttachmentView.attachments.current.name}}.{{ctlAttachmentView.attachments.current.extension}}</p><br/>
       <p class="nst-font-small nst-mood-storm">{{ctlAttachmentView.attachments.current.size | bytes:0}}</p>
     </div>
-    <div class="_fw">
-      <div dir="rtl" class="_difh _fw attachcontrols">
-        <div class="_df nst-nav-butn-breeze _jcc" data-ng-if="ctlAttachmentView.attachments.collection.length > 1">
-          <div data-ng-click="ctlAttachmentView.goNext()" class="_df nst-arrow-rotated-270"></div>
-          <div data-ng-click="ctlAttachmentView.goPrevious()" class="_df nst-arrow-rotated-90"></div>
-        </div>
-
-        <div class="_df nst-nav-butn-breeze"><a href="{{ctlAttachmentView.attachments.current.urls.download}}" target="_blank" class="nst-mood-storm">Download</a></div>
+      <div class="_difh attachcontrols _fn">
         <div class="_df nst-nav-butn-breeze"><a href="{{ctlAttachmentView.attachments.current.urls.view}}" target="_blank" class="nst-mood-storm">Open in Browser</a></div>
+        <div class="_df nst-nav-butn-breeze"><a href="{{ctlAttachmentView.attachments.current.urls.download}}" target="_blank" class="nst-mood-storm">Download</a></div>
+        <div class="_df nst-nav-butn-breeze _jcc" data-ng-if="ctlAttachmentView.attachments.collection.length > 1">
+          <div data-ng-click="ctlAttachmentView.goPrevious()" class="_df nst-arrow-rotated-90"></div>
+          <div data-ng-click="ctlAttachmentView.goNext()" class="_df nst-arrow-rotated-270"></div>
+        </div>
       </div>
-    </div>
   </div>
 </div>
