@@ -3,29 +3,29 @@
       <div class="_difh modal-head">
         <p ng-if="!nextStep" class="_df _fw force">Are you sure about deleting this place?</p>
         <p ng-if="nextStep" class="_df _fw force">Confirm to Delete Place</p>
-        <div class="_df" ng-click="cancel()"><img src="../assets/icons/close.svg"></div>
+        <div class="_df" ng-click="$dismiss();"><img src="../assets/icons/close.svg"></div>
       </div>
     <div class="_difv _fw">
       <div ng-if="!nextStep" class="_fw _df">
-        <img data-ng-if="place.picture.org.uid" class="account-initials-64" src="{{place.picture.x64.url}}"/>
-        <div data-ng-if="!place.picture.org.uid" class="account-initials-64 _dib room-pic">{{place.name | initials:2}}</div>
+        <img data-ng-if="removeCtrl.place.picture.thumbnails.x64.url.download" class="account-initials-64" src="{{removeCtrl.place.picture.thumbnails.x64.url.download}}"/>
+        <div data-ng-if="!removeCtrl.place.picture.thumbnails.x64.url.download" class="account-initials-64 _dib room-pic">{{removeCtrl.place.name | initials:2}}</div>
         <div class="_dib">
-          <h4>{{place.name || 'empty'}}</h4>
-          <h5 class="nst-mood-storm">{{place.id + '@nested.me'}}</h5>
+          <h4>{{removeCtrl.place.name || 'empty'}}</h4>
+          <h5 class="nst-mood-storm">{{removeCtrl.place.id + '@nested.me'}}</h5>
         </div>
       </div>
       <p ng-if="!nextStep" class="_df nst-mood-storm modal-detail">By deleting place, all place data & messages will be erased permanently. Are you really sure?</p>
       <div ng-if="nextStep" class="_fw _difv _jcc nst-mood-storm modal-detail">
         <span class="df nst-mood-storm small">Enter your place id</span>
-        <input class="_df form-control " name="PlaceName" ng-model="PlaceName" ng-keyup="checkplace(PlaceName)" placeholder="Place Name" focus-me>
+        <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place Name" focus-me>
         </input>
-        <span class="_df">For confirming delete place you should type place id:</span><a class="_df">{{place.id}}</a>
+        <span class="_df">For confirming delete place you should type place id:</span><a class="_df">{{removeCtrl.place.id}}</a>
       </div>
       <div class="_difh _jcc">
         <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
-          <div class="butn-white _jcc _df" ng-click="cancel()"><a class="_df">Cancel</a></div>
+          <div class="butn-white _jcc _df" ng-click="$dismiss();"><a class="_df">Cancel</a></div>
           <div ng-hide="nextStep" class="butn-red _jcc _df" ng-click="nextStep =! nextStep; focusInput=true"><a class="_df">Delete Place</a></div>
-          <button ng-if="nextStep" data-ng-disabled="!deleteValidated" class="butn-red _jcc _df" ng-click="ok()"><a class="_df">DELETE</a></button>
+          <button ng-if="nextStep" data-ng-disabled="!removeCtrl.validateInput()" class="butn-red _jcc _df" ng-click="$close();"><a class="_df">DELETE</a></button>
         </div>
       </div>
 

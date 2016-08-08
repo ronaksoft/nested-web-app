@@ -34,15 +34,25 @@
     vm.loadImage = loadImage;
     vm.confirmToLock = confirmToLock;
     vm.confirmToLeave = confirmToLeave;
+    vm.confirmToRemove = confirmToRemove;
 
     vm.controls = {
       left: [
         new NstVmNavbarControl('Back', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
       ],
-      right: [
-        new NstVmNavbarControl('Leave', NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, vm.confirmToLeave)
-      ]
+      right: []
     };
+
+    var addSubplaceControl = new NstVmNavbarControl('Add a subplace', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('place-add', { placeId : $stateParams.placeId }), null, {
+      icon : 'option-add-icon'
+    });
+    var removeControl = new NstVmNavbarControl('Delete', NST_NAVBAR_CONTROL_TYPE.BUTTON, undefined, vm.confirmToRemove, {
+      icon : 'option-delete-icon'
+    });
+    var leaveControl = new NstVmNavbarControl('Leave', NST_NAVBAR_CONTROL_TYPE.BUTTON, undefined, vm.confirmToLeave, {
+      icon : 'option-leave-icon'
+    });
+
 
     (function() {
       $log.debug('Initializing of PlaceSettingsController just started...');
@@ -51,6 +61,7 @@
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
+
         $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));
 
         return $q.all([
@@ -70,9 +81,12 @@
         vm.hasSeeMembersAccess = values[4];
         vm.options.notification = values[5];
 
+        setControls();
+
         $log.debug(NstUtility.string.format('Place "{0}" settings retrieved successfully.', vm.place.name));
 
-        return vm.hasSeeMembersAccess ? NstSvcPlaceFactory.getMembers(vm.placeId) :
+        return vm.hasSeeMembersAccess ?
+          NstSvcPlaceFactory.getMembers(vm.placeId) :
           $q(function(resolve) {
             resolve([]);
           });
@@ -89,7 +103,7 @@
           vm.members.knownGuests.length
         ));
 
-        return vm.hasSeeMembersAccess ? NstSvcPlaceFactory.getPendings(vm.placeId) :
+        return allowedToSeePendings() ? NstSvcPlaceFactory.getPendings(vm.placeId) :
           $q(function(resolve) {
             resolve([]);
           });
@@ -104,22 +118,44 @@
           vm.members.pendingKnownGuests.length
         ));
 
-        vm.hasAnyGuest = _.some(vm.members.knownGuests) ||
-          _.some(vm.members.pendingKnownGuests);
+        vm.hasAnyGuest = vm.members.knownGuests.length > 0 ||
+          vm.members.pendingKnownGuests.length > 0;
 
-        vm.hasAnyTeamate = _.some(vm.members.creators) ||
-          _.some(vm.members.keyHolders) ||
-          _.some(vm.members.pendingKeyHolders);
+        vm.hasAnyTeamate = vm.members.creators.length > 0 ||
+          vm.members.keyHolders.length > 0 ||
+          vm.members.pendingKeyHolders.length > 0;
       }).catch(function(error) {
         $log.debug(error);
       });
 
     })();
 
+    function setControls() {
+      if (vm.hasRemoveAccess) {
+        vm.controls.right.push(removeControl);
+      }
 
+      if (vm.hasAddPlaceAccess) {
+        vm.controls.right.push(addSubplaceControl);
+      }
+      // The user is the owner
+      if (!(vm.place.grandParent && vm.place.grandParent.id === NstSvcAuth.user.id)) {
+        vm.controls.right.push(leaveControl);
+      }
+    }
+
+    /**
+     * allowedToSeePendings - A known guest is not allowed to see other members that their invitation is still pending
+     *
+     * @return {Boolean}  Returns true if the user is not a known guest
+     */
+    function allowedToSeePendings() {
+      return !_.some(vm.members.knownGuests, function (guest) {
+        return guest.id === NstSvcAuth.user.id;
+      });
+    }
 
     function showAddModal(role) {
-      console.log(role);
 
       var modal = $uibModal.open({
         animation: false,
@@ -142,7 +178,6 @@
 
           return $q(function(resolve, reject) {
             NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
-              console.log('invitation id is :', invitationId);
               $log.debug(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
               resolve({
                 user: user,
@@ -151,7 +186,6 @@
               });
             }).catch(function(error) {
               // FIXME: Why cannot catch the error!
-              console.log(error);
               if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
                 $log.debug(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
                 resolve({
@@ -212,19 +246,17 @@
 
       var modal = $uibModal.open({
           animation: false,
-          templateUrl: 'app/pages/places/option/place-delete.html',
+          templateUrl: 'app/pages/places/settings/place-delete.html',
+          controller : 'PlaceRemoveConfirmController',
+          controllerAs : 'removeCtrl',
           size: 'sm',
-          scope: {
-            place: vm.place
+          resolve: {
+            selectedPlace : function () {
+              return vm.place;
+            }
           }
         }).result.then(function(confirmResult) {
-          NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
-            $state.go('messages');
-          }).catch(function(error) {
-            $log.debug(error);
-          });
-        }).catch(function (reason) {
-
+          remove();
         });
 
     };
@@ -233,28 +265,45 @@
 
       $uibModal.open({
         animation: false,
-        templateUrl: 'app/places/option/place-leave-confirm.html',
+        templateUrl: 'app/pages/places/settings/place-leave-confirm.html',
         size: 'sm',
-        scope: {
-          place: vm.place
+        controller : 'PlaceLeaveConfirmController',
+        controllerAs : 'leaveCtrl',
+        resolve : {
+          selectedPlace: function () {
+            return vm.place;
+          }
         }
       }).result.then(function() {
-        console.log('where do you wanna go?');
         leave();
       });
     };
 
     function removeMember(username) {
-      return NstSvcPlaceFactory.removeMember(vm.place.id, username).then(function() {}).catch(function(error) {
+      NstSvcPlaceFactory.removeMember(vm.place.id, username).then(function(result) {
+
+      }).catch(function(error) {
         $log.debug(error);
       });
     }
 
     function leave() {
-      return NstSvcPlaceFactory.removeMember(vm.place.id, NstSvcAuth.user.id).then(function() {}).catch(function(error) {
+      NstSvcPlaceFactory.removeMember(vm.place.id, NstSvcAuth.user.id).then(function(result) {
+        console.log('you leaved');
+        $state.go('messages');
+      }).catch(function(error) {
+        console.log('you are still here');
         $log.debug(error);
       });
 
+    }
+
+    function remove() {
+      NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
+        $state.go('messages');
+      }).catch(function(error) {
+        $log.debug(error);
+      });
     }
 
     function updatePrivacy(name, value) {

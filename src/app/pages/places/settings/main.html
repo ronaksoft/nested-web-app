@@ -151,7 +151,7 @@
               <h5 ng-if="!ctlPlaceSettings.hasSeeMembersAccess" class="nst-mood-storm">
                 You are not allowed to see other teamates!
               </h5>
-              <h5 ng-if="ctlPlaceSettings.hasSeeMembersAccess && ctlPlaceSettings.hasSeeMembersAccess && !ctlPlaceSettings.hasAnyTeamate" class="nst-mood-storm">
+              <h5 ng-if="ctlPlaceSettings.hasSeeMembersAccess && !ctlPlaceSettings.hasAnyTeamate" class="nst-mood-storm">
                 There is not any teamate here!
               </h5>
               <div data-ng-if="ctlPlaceSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlPlaceSettings.members.creators" data-ng-include="'app/pages/places/settings/place-member.html'"
