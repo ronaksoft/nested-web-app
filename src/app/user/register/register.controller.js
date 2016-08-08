@@ -27,7 +27,7 @@
         noenddash : /^(?:-?[a-zA-Z0-9]+)*$/,
       },
       username : {
-        general : /^[a-zA-Z](?!.*--)(?:-?[a-zA-Z0-9]+)*$/,
+        general : /^([a-zA-Z](?!.*--)(?:-?[a-zA-Z0-9]+)*){5,}$/,
       },
     };
 
@@ -41,6 +41,8 @@
 
     vm.submitPhoneNumber = function () {
 
+      console.log(vm)
+      
       if(!vm.phone){
         return false;
       }
@@ -139,7 +141,7 @@
         }else{
           vm.hasNotGender = false;
         }
-        if (vm.hasNotBirth || vm.hasNotGender || !vm.password) return false;
+        if (vm.hasNotBirth || vm.hasNotGender || !vm.password || !vm.username) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
@@ -153,7 +155,7 @@
         postData.append('f', 'register');
         postData.append('vid', vm.vid);
         postData.append('phone', vm.phone);
-        postData.append('uid', vm.username);
+        postData.append('uid', vm.username.toLowerCase());
         postData.append('pass', md5.createHash(vm.password));
         postData.append('fname', vm.fname);
         postData.append('lname', vm.lname);

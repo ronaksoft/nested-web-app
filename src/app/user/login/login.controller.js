@@ -34,7 +34,7 @@
       vm.message.fill = false;
 
       var credentials = {
-        username: vm.username,
+        username: vm.username.toLowerCase(),
         password: md5.createHash(vm.password)
       };
 
