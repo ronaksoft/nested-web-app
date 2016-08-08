@@ -122,9 +122,7 @@
       var date = null;
       if (oldest) {
         date = oldest.date;
-        console.log('reading date from oldest comment', oldest);
       } else {
-        console.log('reading comment from post date');
         date = post.date;
       }
 

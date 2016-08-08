@@ -330,36 +330,3 @@
 .optionrow div:first-child {
   min-width: 24px;
 }
-
-
-/**
-  **********************************************************
-  *     Nested Classes - Page Specific -navbar changes *
-  **********************************************************
- */
-
-
-#nav-option {
-  display: none;
-}
-
-.maincontainer.option-hld {
-  .content-plus {
-    //display: none;
-  }
-  .content {
-    //width: 100%;
-    //margin: auto;
-    //max-width: 1058px;
-  }
-
-  #nav-option {
-    display: flex;
-  }
-  .navbar-bottom {
-    display: none;
-    div {
-      align-items: center;
-    }
-  }
-}

@@ -153,16 +153,24 @@
       }
     });
 
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
       if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
         NstSvcPlaceFactory.get(toParams.placeId).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
             NstSvcModal.error('Does not exist!','We are sorry, but the place you are looking for can not be found!').then(function (result) {
-              $state.go(getDefaultRelatedState(toState));
+              if (fromState.name) {
+                $state.go(fromState, fromParams);
+              } else {
+                $state.go('messages');
+              }
             });
           } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
             NstSvcModal.error('Access denied!','You are not allowed to be here!').then(function (result) {
-              $state.go(getDefaultRelatedState(toState));
+              if (fromState.name) {
+                $state.go(fromState, fromParams);
+              } else {
+                $state.go('messages');
+              }
             });
           }
         });
@@ -173,18 +181,5 @@
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
     });
 
-    function getDefaultRelatedState(state) {
-      var group = _.findKey(NST_PAGE, function (pages) {
-        return _.includes(pages, state.name);
-      });
-
-      if ('ACTIVITY' === group) {
-        return $state.get('activity');
-      } else if ('MESSAGES' === group) {
-        return $state.get('messages');
-      } else {
-        return $state.get(NST_DEFAULT.STATE);
-      }
-    }
   }
 })();
