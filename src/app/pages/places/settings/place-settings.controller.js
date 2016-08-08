@@ -6,9 +6,10 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state,
-    NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE,
+  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
+    NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl,
+    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
     NstPlace, NstPicture) {
     var vm = this;
 
@@ -287,7 +288,15 @@
 
     function removeMember(username) {
       NstSvcPlaceFactory.removeMember(vm.place.id, username).then(function(result) {
-
+        _.forIn(vm.members, function (group) {
+          var memberIndex = _.findIndex(vm.members[group], function (member) {
+            return member.id === username;
+          });
+          if (memberIndex > -1) {
+            vm.members[group].splice(memberIndex, 1);
+            return;
+          }
+        });
       }).catch(function(error) {
         $log.debug(error);
       });
@@ -295,10 +304,13 @@
 
     function leave() {
       NstSvcPlaceFactory.removeMember(vm.place.id, NstSvcAuth.user.id).then(function(result) {
-        console.log('you leaved');
-        $state.go('messages');
+        $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
-        console.log('you are still here');
+        if (error instanceof NstPlaceOneCreatorLeftError){
+          toastr.error('You are the only creator of the place!');
+        } else if (error instanceof NstPlaceCreatorOfParentError) {
+          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are creator of the top-level place ({0}).', vm.place.parent.name));
+        }
         $log.debug(error);
       });
 
@@ -306,7 +318,7 @@
 
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
-        $state.go('messages');
+        $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
         $log.debug(error);
       });
