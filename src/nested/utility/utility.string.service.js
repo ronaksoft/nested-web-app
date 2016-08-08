@@ -11,7 +11,7 @@
 
     }
 
-    StringUtility.prototype = new Object();
+    StringUtility.prototype = {};
     StringUtility.prototype.constructor = StringUtility;
 
     StringUtility.prototype.format = function (text) {
