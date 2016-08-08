@@ -37,12 +37,19 @@
           </a>
         </div>
 
-        <div class="nst-margin-24" ng-if="ctlMessages.reachedTheEnd || ctlMessages.noMessages">
+        <div class="nst-margin-24"
+             ng-if="ctlMessages.reachedTheEnd || ctlMessages.noMessages || ctlMessages.loadMessageError">
           <p class="text-center nst-mood-storm" ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd">
             There are no more messages!
           </p>
           <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages">
             Be the first who writes something here...
+          </p>
+          <p class="text-center nst-mood-storm" ng-if="ctlMessages.loadMessageError">
+            An error has occurred. Please
+            <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore(true)">
+              try again...
+            </a>
           </p>
         </div>
         <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlMessages.loading">
