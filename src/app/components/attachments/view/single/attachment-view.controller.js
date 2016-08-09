@@ -6,9 +6,25 @@
     .controller('AttachmentViewController', AttachmentViewController);
 
   function AttachmentViewController($q, $timeout,
+                                    hotkeys,
                                     NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
                                     postId, vmAttachment, vmAttachments) {
     var vm = this;
+
+    hotkeys.add({
+      combo: 'right',
+      description: 'compose state',
+      callback: function() {
+        vm.goNext();
+      }
+    });
+    hotkeys.add({
+      combo: 'left',
+      description: 'compose state',
+      callback: function() {
+        vm.goPrevious();
+      }
+    });
 
     /*****************************
      *** Controller Properties ***

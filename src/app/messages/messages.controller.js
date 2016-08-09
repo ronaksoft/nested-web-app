@@ -378,7 +378,7 @@
       $rootScope.navView = false
     });
     vm.bodyScrollConf = {
-      axis: 'xy',
+      axis: 'y',
       callbacks: {
         whileScrolling: function () {
           var t = -this.mcs.top;

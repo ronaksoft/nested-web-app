@@ -36,6 +36,7 @@
       'ngProgress',
       'ngDroplet',
       'lodash',
-      'momentjs'
+      'momentjs',
+      'cfp.hotkeys'
     ]);
 })();
