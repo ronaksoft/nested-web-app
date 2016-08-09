@@ -46,7 +46,8 @@
     "angular-i18n": "^1.5.7",
     "ng-scrollbars": "^0.0.10",
     "gsap": "GreenSock-JS#^1.18.2",
-    "progressbar.js": "^1.0.1"
+    "progressbar.js": "^1.0.1",
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"
