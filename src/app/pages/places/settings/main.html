@@ -141,12 +141,12 @@
               <h5 ng-if="ctlSettings.hasSeeMembersAccess && !ctlSettings.hasAnyTeamate" class="nst-mood-storm">
                 There is not any teamate here!
               </h5>
-              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.creators"
-                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="creator"/>
-              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.keyHolders"
-                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="key_holder"/>
-              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.pendingKeyHolders"
-                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="pending_key_holder"/>
+              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.creators"
+                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="creator"/>
+              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.keyHolders"
+                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="key_holder"/>
+              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.pendingKeyHolders"
+                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="pending_key_holder"/>
             </div><!--/nst-teammates-->
 
             <div class="place-option-members _dib">
@@ -162,10 +162,10 @@
               <h5 ng-if="ctlSettings.hasSeeMembersAccess && !ctlSettings.hasAnyGuest" class="nst-mood-storm">
                 There is not any participant here!
               </h5>
-              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlSettings.members.knownGuests"
-                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="known_guest"/>
-              <place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlSettings.members.pendingKnownGuests"
-                member="member" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="pending_known_guest"/>
+              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlSettings.members.knownGuests"
+                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" role="known_guest"/>
+              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlSettings.members.pendingKnownGuests"
+                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" role="pending_known_guest"/>
 
 
             </div> <!-- /place-option-members-->

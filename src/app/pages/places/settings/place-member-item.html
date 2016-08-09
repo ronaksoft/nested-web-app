@@ -1,6 +1,6 @@
 <div class="_fw teammates-panel">
   <div class="_df poti">
-    <img initials="member.fullName" data-url="member.picture.thumbnails.x64.url.download" data-width="48" data-height="48" data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
+    <img initials="memberCtrl.member.fullName" data-url="memberCtrl.member.picture.thumbnails.x64.url.download" data-width="48" data-height="48" data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
   </div>
   <div class="_df potn">
     <div data-ng-switch="role" class="_fn">
@@ -10,11 +10,11 @@
       <div data-ng-switch-when="pending_known_guest" class="role-icons-avatar-wait role-icon"></div>
       <div data-ng-switch-default class="role-icons-avatar role-icon"></div>
     </div>
-    <div class="teammate-name">{{member.fullName}}<br><div class="nst-mood-storm"> @{{member.id}}</div></div>
+    <div class="teammate-name">{{memberCtrl.member.fullName}}<br><div class="nst-mood-storm"> @{{memberCtrl.member.id}}</div></div>
   </div>
-  <div class="_df potm" ng-if="hasRemoveAccess || hasControlAccess">
+  <div class="_df potm" ng-if="memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess">
     <a href="">
-      <div class="nst-more-badge popover-green no-animation"  data-tooltip-placement="left auto" data-uib-tooltip="more option" data-popover-placement="bottom-right auto" id="active-test" uib-popover-template="'app/pages/places/settings/place-member-controls.html'" popover-trigger="outsideClick"></div>
+      <div class="nst-more-badge popover-green no-animation"  data-tooltip-placement="left auto" data-uib-tooltip="more option" data-popover-placement="bottom-right auto" id="active-test" uib-popover-template="'app/pages/places/settings/place-member-item-options.html'" popover-trigger="outsideClick"></div>
     </a>
   </div>
 </div>
