@@ -29,7 +29,7 @@
         sender: mapSender(post.sender),
         subject: post.subject,
         body: post.body,
-        isInternal: post.getInternal(),
+        isExternal: !post.getInternal(),
         contentType: post.contentType,
         firstPlace: firstPlace ? mapPlace(firstPlace) : undefined,
         allPlaces: _.map(postPlaces, mapPlace),
