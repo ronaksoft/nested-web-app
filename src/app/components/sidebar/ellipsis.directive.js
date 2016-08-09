@@ -9,7 +9,7 @@
       link: link,
       template: function(element, attrs) {
         var tag = element[0].nodeName;
-        return '<' + tag + ' ng-mouseenter="ellipsisControl()" data-uib-tooltip="{{name}}" data-tooltip-enable="{{tooltipEnabled}}" data-tooltip-append-to-body="false" data-tooltip-placement="top auto" ng-transclude></' + tag +'>';
+        return '<' + tag + ' ng-mouseenter="ellipsisControl()" data-uib-tooltip="{{name}}" data-tooltip-enable="{{tooltipEnabled}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto" ng-transclude></' + tag +'>';
       },
       restrict: 'A',
       scope: {
