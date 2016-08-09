@@ -8,7 +8,7 @@
   // TODO: It should not inject any model, ask the factory to create the model
   function NstSvcCommentFactory($q, $log,
                                 _,
-                                NST_COMMENT_FACTORY_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
+                                NST_COMMENT_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
                                 NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage, NstObservableObject, NstFactoryEventData,
                                 NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture) {
 
@@ -29,7 +29,7 @@
 
             factory.getComment(commentId, postId).then(function (comment) {
               factory.dispatchEvent(new CustomEvent(
-                NST_COMMENT_FACTORY_EVENT.ADD,
+                NST_COMMENT_EVENT.ADD,
                 { detail: { id: commentId, postId: postId, comment: comment } }
               ));
             });
@@ -40,7 +40,7 @@
             var commentId = tlData.comment_id.$oid;
 
             factory.dispatchEvent(new CustomEvent(
-              NST_COMMENT_FACTORY_EVENT.REMOVE,
+              NST_COMMENT_EVENT.REMOVE,
               { detail: { id: commentId, postId: postId } }
             ));
             break;
@@ -120,7 +120,7 @@
         defer.resolve(comment);
 
         factory.dispatchEvent(new CustomEvent(
-          NST_COMMENT_FACTORY_EVENT.ADD,
+          NST_COMMENT_EVENT.ADD,
           { detail: { id: comment.id, postId: post.id, comment: comment } }
         ));
       }).catch(defer.reject);

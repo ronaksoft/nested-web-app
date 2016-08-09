@@ -1216,6 +1216,36 @@
       return new NstPlace(model);
     };
 
+    PlaceFactory.prototype.promoteMember = function (placeId, memberId) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('place/promote_member', {
+        place_id: placeId,
+        member_id: memberId
+      }).then(function (result) {
+        defer.resolve();
+      }).catch(function (error) {
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
+    PlaceFactory.prototype.demoteMember = function (placeId, memberId) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('place/demote_member', {
+        place_id: placeId,
+        member_id: memberId
+      }).then(function (result) {
+        defer.resolve();
+      }).catch(function (error) {
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
     return new PlaceFactory();
   }
 })();

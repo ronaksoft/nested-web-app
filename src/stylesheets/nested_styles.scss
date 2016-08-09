@@ -1519,7 +1519,7 @@ input[type="checkbox"]:checked + label.setting {
   *********************************************************
 */
 
-* {
+.fade-in {
   animation: fadein 0.8s;
   -moz-animation: fadein 0.8s; /* Firefox */
   -webkit-animation: fadein 0.8s; /* Safari and Chrome */
@@ -1527,7 +1527,7 @@ input[type="checkbox"]:checked + label.setting {
 }
 
 
-.no-animation , .no-animation *{
+.no-fade-in , .no-fade-in *{
   animation: none;
   -moz-animation: none; /* Firefox */
   -webkit-animation: none; /* Safari and Chrome */

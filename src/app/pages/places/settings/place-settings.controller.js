@@ -279,13 +279,6 @@
       });
     }
 
-    function remove() {
-      return NstSvcPlaceFactory.remove(vm.place.id).then(function() {
-      }).catch(function(error) {
-        $log.debug(error);
-      });
-    }
-
     function removeMember(username) {
       NstSvcPlaceFactory.removeMember(vm.place.id, username).then(function(result) {
         _.forIn(vm.members, function (group) {
