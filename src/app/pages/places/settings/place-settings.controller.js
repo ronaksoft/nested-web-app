@@ -6,7 +6,7 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
+  function PlaceSettingsController($scope, $rootScope, $stateParams, $q, $uibModal, $log, $state, toastr, $timeout,
     NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
@@ -382,5 +382,107 @@
 
       $log.debug(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
     }
+
+
+    // FIXME some times it got a problem ( delta causes )
+    vm.preventParentScroll = function (event) {
+      var element = event.currentTarget;
+      var delta = event.wheelDelta;
+      if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
+        event.preventDefault();
+      }
+    };
+
+    vm.recentScrollConf = {
+      axis: 'y',
+      mouseWheel: {
+        preventDefault: true
+      }
+    };
+
+
+    // FIXME: NEEDS REWRITE COMPLETELY
+    var tl = new TimelineLite({});
+    var cp = document.getElementById("cp1");
+    var nav = document.getElementsByTagName("nst-navbar")[0];
+    TweenLite.to(nav, 0.1, {
+      minHeight: 183,
+      maxHeight: 183,
+      height: 183,
+      ease: Power1.easeOut
+    });
+    $timeout(function () {
+      $rootScope.navView = false
+    });
+    vm.bodyScrollConf = {
+      axis: 'y',
+      callbacks: {
+        whileScrolling: function () {
+          var t = -this.mcs.top;
+          //$timeout(function () { $rootScope.navView = t > 55; });
+          //console.log(tl);
+          tl.kill({
+            y: true
+          }, cp);
+          TweenLite.to(cp, 0.5, {
+            y: t,
+            ease: Power2.easeOut,
+            force3D: true
+          });
+          if (t > 55 && !$rootScope.navView) {
+            //tl.kill({minHeight:true,maxHeight:true}, nav);
+            TweenLite.to(nav, 0.1, {
+              minHeight: 131,
+              maxHeight: 131,
+              height: 131,
+              ease: Power1.easeOut
+            });
+            $timeout(function () {
+              $rootScope.navView = t > 55;
+            });
+          } else if (t < 55 && $rootScope.navView) {
+            TweenLite.to(nav, 0.1, {
+              minHeight: 183,
+              maxHeight: 183,
+              height: 183,
+              ease: Power1.easeOut
+            });
+            $timeout(function () {
+              $rootScope.navView = t > 55;
+            });
+          }
+
+          //tl.lagSmoothing(200, 20);
+          tl.play();
+          // $("#content-plus").stop().animate(
+          //   {marginTop:t}, {duration:1});
+          // TweenMax.to("#cp1", .001, {
+          //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
+          // });
+          //TweenMax.lagSmoothing(500, 33);
+
+
+          //   var func = function () {
+          //     console.log(t);
+          //     $("#content-plus").animate(
+          //       {marginTop:t}, {duration:1, easing:"easeOutStrong"});
+          //   };
+          //   var debounced = _.debounce(func, 250, { 'maxWait': 1000 });
+          //   if ( t > 0) {
+          //     debounced();
+          //   } else if(t == 0){
+          //   $("#content-plus").stop().css({
+          //     marginTop: 0
+          //   });
+          // }
+        },
+        onTotalScroll: function () {
+          vm.loadMore();
+        },
+        onTotalScrollOffset: 10,
+        alwaysTriggerOffsets: false
+      }
+    };
+
   }
 })();
