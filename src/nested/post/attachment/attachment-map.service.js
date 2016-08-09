@@ -21,6 +21,9 @@
       var model = {
         id: attachment.getId(),
         name: NstSvcFileType.removeSuffix(attachment.getFilename()),
+        isDownloaded: false,
+        downloadedSize: 0,
+        downloadedRatio: 0,
         size: attachment.getSize(),
         url: attachment.getResource().getUrl().view,
         urls: {

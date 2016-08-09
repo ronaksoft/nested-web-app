@@ -5,9 +5,13 @@
     .module('nested')
     .factory('NstHttp', NstHttp);
 
-  function NstHttp($q, $http, _, NstObservableObject, NST_CONFIG, NST_REQ_STATUS, NST_RES_STATUS, NstResponse) {
+  function NstHttp($q, $http,
+                   _,
+                   NST_SRV_ERROR, NST_CONFIG, NST_REQ_STATUS, NST_RES_STATUS,
+                   NstSvcRandomize,
+                   NstObservableObject, NstRequest, NstResponse) {
     function HTTP(route, data, settings) {
-      this.route = NST_CONFIG.REGISTER.AJAX.URL + route;
+      this.route = (0 == route.indexOf('http://')) ? route : (NST_CONFIG.REGISTER.AJAX.URL + route);
       this.data = data;
       this.status = NST_REQ_STATUS.NOT_SENT;
       this.response = new NstResponse();
@@ -108,7 +112,121 @@
       return deferred.promise;
     };
 
+    /*****************************
+     *****      Download      ****
+     *****************************/
 
+    HTTP.prototype.download = function () {
+
+    };
+
+    HTTP.prototype.downloadWithProgress = function (onProgress) {
+      var service = this;
+      var request = new NstRequest(service.getRoute());
+
+      // Conditions
+      var q = {};
+      var issues = [];
+      for (var k in q) {
+        q[k] || issues.push(k);
+      }
+
+      if (issues.length > 0) {
+        request.setStatus(NST_REQ_STATUS.CANCELLED);
+        request.finish(new NstResponse(NST_RES_STATUS.FAILURE, {
+          err_code: NST_SRV_ERROR.INVALID,
+          items: issues
+        }));
+
+        return request;
+      }
+
+      var reqId = generateReqId('download/file', service.getRoute());
+      request.setStatus(NST_REQ_STATUS.QUEUED);
+      request.setData(angular.extend(request.getData() || {}, { reqId: reqId }));
+
+      (function () {
+        var deferred = $q.defer();
+
+        var xhr = HTTP.createCORSRequest('GET');
+
+        if (xhr) {
+          xhr.open('GET', service.getRoute(), true);
+
+          // xhr.setRequestHeader("Cache-Control", "cache");
+          // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+          xhr.responseType = "arraybuffer";
+
+          xhr.onloadstart = function () {
+            request.setStatus(NST_REQ_STATUS.SENT);
+          };
+
+          if (onProgress) {
+            xhr.onprogress = onProgress;
+          }
+
+          xhr.onerror = function (event) {
+            request.setStatus(NST_REQ_STATUS.CANCELLED);
+            deferred.reject(new NstResponse(NST_RES_STATUS.FAILURE, event));
+          };
+
+          xhr.onload = function (event) {
+            if (200 == event.target.status) {
+              var data = event.target.response;
+              var response = new NstResponse(NST_RES_STATUS.SUCCESS, data);
+              deferred.resolve(response);
+            } else {
+              // TODO: Catch here
+            }
+          };
+
+          xhr.onabort = function (event) {
+            request.setStatus(NST_REQ_STATUS.CANCELLED);
+            deferred.reject(new NstResponse(NST_RES_STATUS.FAILURE, event));
+          };
+
+          request.cancelled().then(function () {
+            xhr.abort();
+          });
+
+          xhr.send();
+        } else {
+          deferred.reject(new NstResponse(NST_RES_STATUS.FAILURE, 'CORS is not supported!'));
+        }
+
+        return deferred.promise;
+      })().then(function (response) {
+        request.finish(response);
+      }).catch(function (response) {
+        request.finish(response);
+      });
+
+      return request;
+    };
+
+    HTTP.prototype.cancelDownload = function (request, response) {
+      request.setStatus(NST_REQ_STATUS.CANCELLED);
+      request.finish(response || new NstResponse());
+    };
+
+    HTTP.createCORSRequest = function (method) {
+      var xhr = new XMLHttpRequest();
+      if ("withCredentials" in xhr) {
+        // XHR for Chrome/Firefox/Opera/Safari.
+      } else if (typeof XDomainRequest != "undefined") {
+        // XDomainRequest for IE.
+        xhr = new XDomainRequest();
+      } else {
+        // CORS not supported.
+        xhr = null;
+      }
+
+      return xhr;
+    };
+
+    function generateReqId(action, name) {
+      return 'REQ/' + action.toUpperCase() + '/' + name.toUpperCase() + '/' + NstSvcRandomize.genUniqId();
+    }
 
     return HTTP;
   }
