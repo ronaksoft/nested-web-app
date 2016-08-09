@@ -38,15 +38,13 @@
 
     vm.avaiablity = false;
 
-
     vm.submitPhoneNumber = function () {
-
-      console.log(vm)
-
       if(!vm.phone){
         return false;
       }
-
+      
+      vm.country = $("#mobileNumber").intlTelInput("getSelectedCountryData").iso2;
+      
       var ajax = new NstHttp('/register/', {
         f: 'verify_phone',
         phone: vm.phone
@@ -57,6 +55,7 @@
         vm.step = 'step2';
       })
       .catch(function (error) {
+        toastr.error("Error in validation your phone nubmer!")
       })
     };
 
@@ -69,8 +68,9 @@
             vid: vm.vid,
             phone: vm.phone
       })
+      ajax.get()
       .then(function(data){
-        toastr.success("Varification code has been send again.")
+        toastr.success("Varification code has been sent again.")
       })
       .catch(function(error){
 
@@ -148,16 +148,17 @@
         } //convert 1 digit numbers to 2 digits
 
         var dob = new Date(vm.birth);
-
-      var credentials = {
-        username: vm.username.toLowerCase(),
-        password: md5.createHash(vm.password)
-      }
+        
+        var credentials = {
+          username: vm.username.toLowerCase(),
+          password: md5.createHash(vm.password)
+        };
 
         var postData  = new FormData();
         postData.append('f', 'register');
         postData.append('vid', vm.vid);
         postData.append('phone', vm.phone);
+        postData.append('country', vm.country);
         postData.append('uid', credentials.username);
         postData.append('pass', credentials.password);
         postData.append('fname', vm.fname);
@@ -165,6 +166,7 @@
         postData.append('gender', vm.gender);
         postData.append('agreement', vm.agreement);
         postData.append('dob', dob.getFullYear() + "-" + pad(dob.getMonth() + 1) + "-" + pad(dob.getDay() + 1));
+
 
         var ajax = new NstHttp('/register/',postData);
 

@@ -63,10 +63,9 @@
       if (vm.currentPlaceId) {
         setPlace(vm.currentPlaceId).then(function (place) {
           if (place) {
-            return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function (error) {
+            return $q.all([loadViewSetting(), loadMessages()]).catch(function (error) {
               $log.debug(error);
               vm.loadMessageError = true;
-              console.log(555999, vm.errorInInitialLoading)
             });
           }
         }).catch(function (error) {
@@ -74,7 +73,7 @@
           $log.debug(error);
         });
       } else {
-        $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function (error) {
+        $q.all([loadViewSetting(), loadMessages()]).catch(function (error) {
           $log.debug(error);
           vm.loadMessageError = true;
         });
@@ -120,8 +119,7 @@
     }
 
     function loadMessages(force) {
-
-      if ((vm.noMessages || vm.reachedTheEnd || vm.errorInInitialLoading) && !force) {
+      if (vm.loading || ((vm.noMessages || vm.reachedTheEnd || vm.errorInInitialLoading) && !force)) {
         return $q.resolve(vm.messages);
       }
 
@@ -166,7 +164,6 @@
             defer.resolve(vm.messages);
           })
           .catch(function (error) {
-            console.log(555557777)
             vm.loading = false;
             vm.tryAgainToLoadMore = true;
             defer.reject(error);
@@ -208,25 +205,28 @@
     }
 
     function loadRecentActivities() {
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        var defer = $q.defer();
-
-        var settings = {
-          limit: 10,
-          placeId: null
-        };
-
-        if (vm.currentPlace) {
-          settings.placeId = vm.currentPlace.id;
-        }
-
-        NstSvcActivityFactory.getRecent(settings).then(function (activities) {
-          vm.activities = mapActivities(activities);
-          defer.resolve(vm.activities);
-        }).catch(defer.reject);
-
-        return defer.promise;
-      }));
+      // return NstSvcLoader.inject(NstSvcTry.do(function () {
+      //   var defer = $q.defer();
+      //
+      //   var settings = {
+      //     limit: 10,
+      //     placeId: null
+      //   };
+      //
+      //   if (vm.currentPlace) {
+      //     settings.placeId = vm.currentPlace.id;
+      //   }
+      //
+      //   NstSvcActivityFactory.getRecent(settings).then(function (activities) {
+      //     vm.activities = mapActivities(activities);
+      //     defer.resolve(vm.activities);
+      //   }).catch(defer.reject);
+      //
+      //   return defer.promise;
+      // }));
+      return $q(function (resolve) {
+        resolve();
+      });
     }
 
     function mapMessage(post) {
