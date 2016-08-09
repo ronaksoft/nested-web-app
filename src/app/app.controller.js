@@ -12,6 +12,10 @@
     var vm = this;
 
 
+    vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+    
+
+
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
       console.log("NST_SRV_EVENT.INITIALIZE,", msg);
       if (!vm.disconected) {
