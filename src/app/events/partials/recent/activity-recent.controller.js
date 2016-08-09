@@ -14,8 +14,10 @@
     vm.activities = [];
 
     NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
-      console.log(e);
-      addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail.object));
+      var activity = e.detail.object;
+      if (activityBelongsToPlace(activity)){
+        addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail.object));
+      }
     });
 
     (function () {
@@ -46,8 +48,22 @@
     }
 
     function addNewActivity(activity) {
-      vm.activities.pop();
+      if (vm.activities.length >= vm.count){
+        vm.activities.pop();
+      }
       vm.activities.unshift(activity);
+    }
+
+    function activityBelongsToPlace(activity) {
+      if (activity.place) {
+        return activity.place.id === vm.placeId;
+      } else if (activity.post) {
+        return _.some(activity.post.places, function (place) {
+          return place.id === vm.placeId;
+        });
+      }
+
+      return false;
     }
 
   }

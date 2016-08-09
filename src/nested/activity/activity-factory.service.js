@@ -210,11 +210,9 @@
 
         function extractActor(data) {
           if (data.actor) {
-            console.log('has actor:', data.actor);
-            return NstSvcUserFactory.get(data.actor);
+            return NstSvcUserFactory.getTiny(data.actor);
           } else if (data.by) {
-            console.log('has by :', data.by);
-            return NstSvcUserFactory.get(data.by);
+            return NstSvcUserFactory.getTiny(data.by);
           } else {
             return $q(function (resolve) {
               resolve(null);
@@ -224,7 +222,6 @@
 
         function extractPost(data) {
           if (data.post_id && data.post_id.$oid) {
-            console.log('has post :', data.post_id.$oid);
             return NstSvcPostFactory.get(data.post_id.$oid);
           } else {
             return $q(function (resolve) {
@@ -235,7 +232,6 @@
 
         function extractComment(data) {
           if (data.comment_id && data.comment_id.$oid) {
-            console.log('has comment :', data.comment_id.$oid);
             return NstSvcCommentFactory.getComment(data.comment_id.$oid, data.post_id.$oid);
           } else {
             return $q(function (resolve) {
@@ -246,8 +242,7 @@
 
         function extractPlace(data) {
           if (data.place_id && !_.isArray(data.place_id)){
-            console.log('has place', data.place_id);
-            return NstSvcPlaceFactory.get(data.place_id);
+            return NstSvcPlaceFactory.getTiny(data.place_id);
           } else {
             return $q(function (resolve) {
               resolve(null);
@@ -257,8 +252,7 @@
 
         function extractMember(data) {
           if (data.member_id) {
-            console.log('has a member : ', data.member_id);
-            return NstSvcUserFactory.get(data.member_id);
+            return NstSvcUserFactory.getTiny(data.member_id);
           } else {
             return $q(function (resolve) {
               resolve(null);
