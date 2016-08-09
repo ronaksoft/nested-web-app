@@ -56,7 +56,6 @@
           $log.debug('adding a comment :',comment);
           vm.commentBoardLimit++;
           vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
-          vm.post.commentsCount++;
 
           e.currentTarget.value = '';
           vm.isSendingComment = false;
@@ -178,9 +177,13 @@
 
     NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function(e) {
       // FIXME: What if me sending comment from another device?
-        if (vm.post.id === e.detail.postId && e.detail.comment.sender.id !== NstSvcAuth.user.id){
-          vm.newCommentsCount ++;
+      if (vm.post.id === e.detail.postId){
+        if (NstSvcAuth.getUser().getId() == e.detail.comment.sender.id) {
+          vm.post.commentsCount++;
+        } else {
+          vm.newCommentsCount++;
         }
+      }
     });
 
     // initializing
