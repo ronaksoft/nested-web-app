@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, $timeout, md5, toastr, NstHttp) {
+  function RegisterController($scope, $state, $timeout, md5, toastr, NST_DEFAULT, NstSvcAuth, NstHttp) {
     var vm = this;
 
     vm.step = "step1";
@@ -171,9 +171,12 @@
         var ajax = new NstHttp('/register/',postData);
 
         ajax.post().then(function (data) {
-          console.log('looog',data);
-          if (data.data.status === "ok"){
-            $state.go("signin");
+          if (data.data.status === "ok") {
+            NstSvcAuth.login(credentials, true).then(function () {
+              return $state.go(NST_DEFAULT.STATE);
+            }).catch(function () {
+              return $state.go("signin");
+            });
           }else{
             toastr.error("Error in create account!");
           }
