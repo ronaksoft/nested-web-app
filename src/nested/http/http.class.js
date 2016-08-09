@@ -154,7 +154,7 @@
           xhr.open('GET', service.getRoute(), true);
 
           // TODO: Make browser to cache
-          xhr.setRequestHeader("Cache-Control", "max-age=3600");
+          // xhr.setRequestHeader("Cache-Control", "max-age=3600");
           xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
           xhr.responseType = "arraybuffer";
 
