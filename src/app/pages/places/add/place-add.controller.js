@@ -344,7 +344,7 @@
               })
             }
           }).catch(function () {
-            $state.go(NST_DEFAULT.STATE);
+            // $state.go(NST_DEFAULT.STATE);
           });
         }
       }
