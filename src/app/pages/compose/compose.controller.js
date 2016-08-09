@@ -56,7 +56,6 @@
       ]
     };
 
-    var height = $(window).height() - 400;
     vm.configs = {
       tinymce: {
         inline: false,
@@ -66,7 +65,7 @@
         menubar: false,
         browser_spellcheck: true,
         selector: 'textarea',
-        height : height,
+        height : 200,
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,

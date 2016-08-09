@@ -162,6 +162,10 @@ div.att-item {
   **********************************************************
  */
 
+.content iframe {
+  height: calc(100vh - 390px)!important;
+}
+
 #compose-body {
   //background-color: $color-white;
   //margin: 0px auto;

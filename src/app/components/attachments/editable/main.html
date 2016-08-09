@@ -4,14 +4,9 @@
         <div class="_pr" ng-if="item.hasThumbnail">
           <div class="atttach-detail">
             <div class="attach-name"></div>
-            <div class="uploadprogress" ng-if="!item.isUploaded">
-              <div ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="circle"></div>
-              <div class="del">
-                <img ng-click="onDelete(item)" src="../assets/icons/close.svg"/>
-              </div>
-            </div>
-            <div class="uploadprogress" ng-if="item.isUploaded && mouseover">
-              <div class="del">
+            <div class="uploadprogress">
+              <div ng-if="!item.isUploaded" ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="circle"></div>
+              <div ng-if="!item.isUploaded || mouseover" class="del">
                 <img ng-click="onDelete(item)" src="../assets/icons/close.svg"/>
               </div>
             </div>
@@ -25,10 +20,7 @@
             <div class="attach-name">{{item.name}}</div>
             <div class="uploadprogress">
               <div ng-if="!item.isUploaded" ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="circle"></div>
-              <div class="del" ng-if="!item.isUploaded">
-                <img ng-click="onDelete(item)" src="../assets/icons/close.svg"/>
-              </div>
-              <div class="del" ng-if="item.isUploaded && mouseover">
+              <div class="del" ng-if="!item.isUploaded || mouseover">
                 <img ng-click="onDelete(item)" src="../assets/icons/close.svg"/>
               </div>
             </div>
