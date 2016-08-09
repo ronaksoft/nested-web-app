@@ -91,7 +91,7 @@
                   <div class="_df _fw"><label for="sw-search"><h5>Searchable</h5></label></div>
                   <div class="_df switch">
                     <input type="checkbox" data-ng-disabled="!ctlSettings.place.privacy.receptive || !ctlSettings.hasControlAccess " id="sw-search" class="inpsw" name="search" data-ng-model="ctlSettings.place.privacy.search"
-                      ng-change=""/>
+                      ng-change="ctlSettings.updatePrivacy()"/>
                     <label for="sw-search" data-ng-click="ctlSettings.place.privacy.search && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
@@ -111,7 +111,7 @@
                   <div class="_df _fw"><label for="sw-email"><h5>Email</h5></label></div>
                   <div class="_df switch">
                     <input type="checkbox" data-ng-disabled="!ctlSettings.place.privacy.receptive || !ctlSettings.hasControlAccess" id="sw-email" class="inpsw" name="email" data-ng-model="ctlSettings.place.privacy.email"
-                           ng-change=""/>
+                           ng-change="ctlSettings.updatePrivacy()"/>
                     <label for="sw-email" data-ng-click="ctlSettings.place.privacy.email && $event.preventDefault();">
                       <div class="labtxt _fw">ON</div>
                     </label>
