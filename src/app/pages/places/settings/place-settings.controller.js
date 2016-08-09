@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
-    NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_DEFAULT,
+    NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
     NstPlace, NstPicture) {

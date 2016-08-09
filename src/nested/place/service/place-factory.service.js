@@ -28,6 +28,7 @@
 
         addMember: {},
         setNotification: {},
+        setPicture: {},
 
         removeMember: {},
         remove: {}
@@ -551,6 +552,57 @@
           });
         });
       }
+    };
+    
+    PlaceFactory.prototype.updatePicture = function (id, uid) {
+      var factory = this;
+
+      if (!this.requests.setPicture[id]) {
+        var deferred = $q.defer();
+        var query = new NstFactoryQuery(id, { uid: uid });
+
+        this.hasAccess(query.id, [NST_PLACE_ACCESS.CONTROL]).then(function (has) {
+          if (!has) {
+            deferred.reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
+          }
+
+          NstSvcServer.request('place/set_picture', {
+            place_id: id,
+            universal_id: uid
+          }).then(function (response) {
+            deferred.resolve(response);
+          }).catch(function (error) {
+            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          });
+        }).catch(function () {
+          deferred.reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
+        });
+
+        this.requests.setPicture[id] = deferred.promise;
+      }
+
+      return this.requests.setPicture[id].then(function () {
+        var args = arguments;
+        delete factory.requests.setPicture[id];
+
+        factory.getTiny(id).then(function (place) {
+          factory.dispatchEvent(new CustomEvent(
+            NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE,
+            { detail: { id: place.getId(), place: place } }
+          ));
+        });
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.setPicture[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     PlaceFactory.prototype.remove = function (id) {
