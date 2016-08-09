@@ -196,7 +196,7 @@
 mark {
   background-color: inherit;
   color: inherit;
-
+  word-break: break-all;
 }
 
 .butn {
@@ -923,6 +923,7 @@ ul ul li:last-child{
           }
         }
         p {
+          word-break: break-all;
           color: #808080;
           font-size: 11px;
           //line-height: 13px;
@@ -1075,7 +1076,7 @@ h3 {
   margin: 8px 0;
   font-size: 24px;
   line-height: 29px;
-
+  word-break: break-all;
 }
 .post-card .post-body{
   font-size: 13px;

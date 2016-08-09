@@ -5,10 +5,27 @@
     .module('nested')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $timeout,
+  function AttachmentViewController($q, $timeout, $log,
+                                    hotkeys,
                                     NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
+                                    NstHttp,
                                     postId, vmAttachment, vmAttachments) {
     var vm = this;
+
+    hotkeys.add({
+      combo: 'right',
+      description: 'compose state',
+      callback: function() {
+        vm.goNext();
+      }
+    });
+    hotkeys.add({
+      combo: 'left',
+      description: 'compose state',
+      callback: function() {
+        vm.goPrevious();
+      }
+    });
 
     /*****************************
      *** Controller Properties ***
@@ -26,7 +43,11 @@
     vm.attachments = {
       collection: vmAttachments,
       current: vmAttachment,
-      tokenUpdater: undefined
+      tokenUpdater: undefined,
+      downloader: {
+        http: undefined,
+        request: undefined
+      }
     };
 
     /*****************************
@@ -60,12 +81,14 @@
       }
 
       vm.attachments.current = vmAttachment;
-      if (vm.attachments.current.hasThumbnail) {
-        // Written in $timeout Just to update view
-        $timeout(function () {
-          vm.attachments.current.url = vm.attachments.current.thumbnail;
-        });
-      }
+      // Written in $timeout Just to update view
+      $timeout(function () {
+        if (vm.attachments.current.hasThumbnail) {
+          if (!vm.attachments.current.isDownloaded) {
+            vm.attachments.current.url = vm.attachments.current.thumbnail;
+          }
+        }
+      });
 
       var promises = [
         loadToken(vm.attachments.current)
@@ -190,17 +213,65 @@
 
         if (!attachment) {
           deferred.reject();
+        } else {
+          if (vm.attachments.downloader.request && vm.attachments.downloader.http) {
+            vm.attachments.downloader.http.cancelDownload(vm.attachments.downloader.request);
+          }
+
+          attachment.getResource().setToken(token);
+          $timeout(function () {
+            vm.attachments.current.urls.view = attachment.getResource().getUrl().view;
+            vm.attachments.current.urls.download = attachment.getResource().getUrl().download;
+            vm.attachments.current.urls.stream = attachment.getResource().getUrl().stream;
+          });
+          deferred.resolve(attachment);
         }
 
-        attachment.getResource().setToken(token);
-        $timeout(function () {
-          // TODO: Do not show until new url is fully loaded
-          vm.attachments.current = mapAttachment(attachment);
+        return deferred.promise;
+      }).then(function (attachment) {
+        var deferred = $q.defer();
+
+        vm.attachments.downloader.http = new NstHttp(attachment.getResource().getUrl().view + '/' + attachment.getFilename());
+        vm.attachments.downloader.request = vm.attachments.downloader.http.downloadWithProgress(function (event) {
+          if (event.lengthComputable) {
+            vm.attachments.current.downloadedSize = event.loaded;
+            vm.attachments.current.downloadedRatio = Number(event.loaded / event.total).toFixed(4);
+          }
         });
-        deferred.resolve(attachment);
+
+        vm.attachments.downloader.request.finished().then(function () {
+          vm.attachments.downloader.request = undefined;
+          vm.attachments.downloader.http = undefined;
+        });
+
+        vm.attachments.downloader.request.getPromise().then(function (response) {
+          var reader = new FileReader();
+          var blob = new Blob([response.getData()], { type: attachment.getMimeType() });
+          reader.onloadend = function(event) {
+            var base64data = event.target.result;
+            // Written in $timeout Just to update view
+            $timeout(function () {
+              // vm.attachments.current = mapAttachment(attachment);
+              vm.attachments.current.downloadedSize = attachment.getSize();
+              vm.attachments.current.downloadedRatio = 1;
+              vm.attachments.current.isDownloaded = true;
+              vm.attachments.current.url = base64data;
+
+              var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
+              vm.attachments.collection[key] = vm.attachments.current;
+            });
+          };
+          reader.readAsDataURL(blob);
+
+          deferred.resolve(attachment);
+        }).catch(deferred.reject);
 
         return deferred.promise;
-      })).then(deferred.resolve);
+      }).then(deferred.resolve).catch(function (error) {
+        $log.debug('Attachment View | Download Error: ', error);
+
+        deferred.reject(error);
+      }));
 
       return deferred.promise;
     }

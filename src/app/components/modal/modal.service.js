@@ -8,10 +8,9 @@
   /** @ngInject */
   function NstSvcModal($uibModal) {
     function Modal() {
-
     }
 
-    Modal.prototype = new Object();
+    Modal.prototype = {};
     Modal.prototype.constructor = Modal;
 
     Modal.prototype.error = function (title, message) {

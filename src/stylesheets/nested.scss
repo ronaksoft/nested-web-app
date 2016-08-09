@@ -564,7 +564,6 @@ select {
     font-weight: normal;
     background-color: $color-solid-30;
     vertical-align: top;
-    border: 1px solid #b2b2b2;
   }
 }
 .account-initials-right {
@@ -1266,6 +1265,18 @@ a .ui-select-choises-row-inner {
 .invitation-name {
   display: inline-flex;
   flex-direction: row;
+  text-decoration: none;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center;
+  white-space: nowrap;
+  span {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   & + span {
     width: 136px;
   }

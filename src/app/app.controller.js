@@ -6,10 +6,15 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($scope, $window, $rootScope, $timeout, $interval, $state, $stateParams, $uibModalStack,
+  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack,
+                         hotkeys,
                          NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR,
                          NstSvcServer, NstSvcAuth, NST_SRV_EVENT, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
+
+
+    vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+
 
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
@@ -24,6 +29,24 @@
       }
     });
 
+    /*****************************
+     *** Hotkeys
+     *****************************/
+
+    hotkeys.add({
+      combo: 'space',
+      description: 'collapse or expand sidebar',
+      callback: function() {
+        vm.viewSettings.sidebar.collapsed =! vm.viewSettings.sidebar.collapsed;
+      }
+    });
+    hotkeys.add({
+      combo: 'c',
+      description: 'compose state',
+      callback: function() {
+        $state.go('compose');
+      }
+    });
     /*****************************
      *** Controller Properties ***
      *****************************/
@@ -174,17 +197,27 @@
       if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
         NstSvcPlaceFactory.get(toParams.placeId).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
-            NstSvcModal.error('Does not exist!','We are sorry, but the place you are looking for can not be found!').then(function (result) {
+            NstSvcModal.error('Does not exist!','We are sorry, but the place you are looking for can not be found!').catch(function () {
+              // This handles dismissed modal
+              return $q(function (res) {
+                res(false);
+              });
+            }).then(function () {
               if (fromState.name) {
-                $state.go(fromState, fromParams);
+                $state.go(fromState.name, fromParams);
               } else {
                 $state.go(NST_DEFAULT.STATE);
               }
             });
           } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            NstSvcModal.error('Access denied!','You are not allowed to be here!').then(function (result) {
+            NstSvcModal.error('Access denied!','You are not allowed to be here!').catch(function () {
+              // This handles dismissed modal
+              return $q(function (res) {
+                res(false);
+              });
+            }).then(function () {
               if (fromState.name) {
-                $state.go(fromState, fromParams);
+                $state.go(fromState.name, fromParams);
               } else {
                 $state.go(NST_DEFAULT.STATE);
               }

@@ -24,23 +24,4 @@
 <ul class="side-place" data-ng-if="place.children.length > 0 || place.isActive" data-ng-show="!place.isCollapsed">
   <li class="side-place-item" data-ng-repeat="child in place.children"
       data-ng-include="'app/components/sidebar/subplace.html'" onload="place = child"></li>
-
-  <li class="side-place-item" data-ng-if="place.isActive">
-    <div class="side-place-item-inner">
-      <a href="{{ctlSidebar.urls.subplaceAdd}}" class="_fn">
-        <div class="side-place-item-image">
-          <img class="account-initials-32" style="border-color: rgba(0, 0, 0, 0); background-color:rgba(0, 0, 0, 0); background-image: url('/assets/icons/actionbuttons_place.svg'); background-position: 0 -60px; background-size: cover;"/>
-        </div>
-        <dl data-ng-show="!ctlSidebar.collapsed" data-ng-repeat="i in ctlSidebar.range(place.depth + 1)" class="lines">
-          <div class="box2"></div>
-          <div class="box1"></div>
-          <div class="box3"></div>
-          <div class="box4"></div>
-        </dl>
-      </a>
-      <div class="_fw _fh side-place-name fade-animation" ng-show="!ctlSidebar.collapsed">
-        <a href="{{ctlSidebar.urls.subplaceAdd}}" class="_fw" data-ellipsis="'Create Subplace'">Create Subplace</a>
-      </div>
-    </div>
-  </li>
 </ul>
