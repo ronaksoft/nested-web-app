@@ -15,8 +15,11 @@
       var that = this;
 
       NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
-        var activity = parseActivityEvent(event.detail.timeline_data).then(function (activity) {
-          that.dispatchEvent(new CustomEvent(NST_ACTIVITY_FACTORY_EVENT.ADD, new NstFactoryEventData(activity)));
+        parseActivityEvent(event.detail.timeline_data).then(function (activity) {
+          that.dispatchEvent(new CustomEvent(
+            NST_ACTIVITY_FACTORY_EVENT.ADD,
+            new NstFactoryEventData(activity)
+          ));
         }).catch(function (error) {
           $log.debug(error);
         });
@@ -180,7 +183,7 @@
         var defer = $q.defer();
 
         var activity = new NstActivity();
-        console.log('recieved activity is :', data);
+        $log.debug('recieved activity is :', data);
 
         activity.id = data._id.$oid;
         activity.type = data.action;

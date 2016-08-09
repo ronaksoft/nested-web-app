@@ -177,6 +177,7 @@
     });
 
     NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function(e) {
+      // FIXME: What if me sending comment from another device?
         if (vm.post.id === e.detail.postId && e.detail.comment.sender.id !== NstSvcAuth.user.id){
           vm.newCommentsCount ++;
         }
