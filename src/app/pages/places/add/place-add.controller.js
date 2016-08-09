@@ -344,6 +344,7 @@
               })
             }
           }).catch(function () {
+            // App Controller StateChange Listener Handles this
             // $state.go(NST_DEFAULT.STATE);
           });
         }
