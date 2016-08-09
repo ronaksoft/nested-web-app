@@ -66,7 +66,6 @@
             return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function (error) {
               $log.debug(error);
               vm.loadMessageError = true;
-              console.log(555999, vm.errorInInitialLoading)
             });
           }
         }).catch(function (error) {
@@ -120,8 +119,7 @@
     }
 
     function loadMessages(force) {
-
-      if ((vm.noMessages || vm.reachedTheEnd || vm.errorInInitialLoading) && !force) {
+      if (vm.loading || ((vm.noMessages || vm.reachedTheEnd || vm.errorInInitialLoading) && !force)) {
         return $q.resolve(vm.messages);
       }
 
@@ -166,7 +164,6 @@
             defer.resolve(vm.messages);
           })
           .catch(function (error) {
-            console.log(555557777)
             vm.loading = false;
             vm.tryAgainToLoadMore = true;
             defer.reject(error);
@@ -381,7 +378,7 @@
       $rootScope.navView = false
     });
     vm.bodyScrollConf = {
-      axis: 'xy',
+      axis: 'y',
       callbacks: {
         whileScrolling: function () {
           var t = -this.mcs.top;

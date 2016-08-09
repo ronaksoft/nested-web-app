@@ -28,7 +28,7 @@
       placeAdd: $state.href(getPlaceAddState(), { placeId: NST_DEFAULT.STATE_PARAM }),
       subplaceAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
     };
-    
+
     /*****************************
      ***** Controller Methods ****
      *****************************/
