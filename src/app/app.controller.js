@@ -7,6 +7,7 @@
 
   /** @ngInject */
   function AppController($scope, $window, $rootScope, $timeout, $interval, $state, $stateParams, $uibModalStack,
+                         hotkeys,
                          NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR,
                          NstSvcServer, NstSvcAuth, NST_SRV_EVENT, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
@@ -28,6 +29,24 @@
       }
     });
 
+    /*****************************
+     *** Hotkeys
+     *****************************/
+
+    hotkeys.add({
+      combo: 'space',
+      description: 'collapse or expand sidebar',
+      callback: function() {
+        vm.viewSettings.sidebar.collapsed =! vm.viewSettings.sidebar.collapsed;
+      }
+    });
+    hotkeys.add({
+      combo: 'c',
+      description: 'compose state',
+      callback: function() {
+        $state.go('compose');
+      }
+    });
     /*****************************
      *** Controller Properties ***
      *****************************/
