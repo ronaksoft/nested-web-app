@@ -373,9 +373,7 @@
         };
 
         reader.readAsDataURL(vm.logoFile);
-
       }
-
     }
 
     function logoUploadProgress(event) {

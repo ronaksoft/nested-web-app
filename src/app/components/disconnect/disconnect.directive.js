@@ -15,11 +15,8 @@
           disconnect: '='
         },
         link: function (scope, tElem, tAttrs) {
-          console.log(11111, scope.disconnect);
           return {
-            post: function (scope, element, Attr) {
-              console.assert(2222, scope.disconnect)
-            }
+            post: function (scope, element, Attr) {}
           }
         }
       };
