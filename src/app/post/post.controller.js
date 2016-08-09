@@ -8,7 +8,7 @@
   /** @ngInject */
   function PostController($q, $scope, $stateParams, $uibModal, $log, $state,
                           _, toastr,
-                          NST_COMMENT_FACTORY_EVENT, NST_POST_EVENT,
+                          NST_COMMENT_EVENT, NST_POST_EVENT,
                           NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap,
                           NstVmUser, vmPost, postId) {
     var vm = this;
@@ -403,13 +403,13 @@
      *****  Event Listeners   ****
      *****************************/
 
-    NstSvcCommentFactory.addEventListener(NST_COMMENT_FACTORY_EVENT.ADD, function (event) {
+    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function (event) {
       if (vm.postId == event.detail.postId) {
         pushComment(event.detail.comment);
       }
     });
 
-    NstSvcCommentFactory.addEventListener(NST_COMMENT_FACTORY_EVENT.REMOVE, function (event) {
+    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.REMOVE, function (event) {
       if (vm.postId == event.detail.postId) {
 
       }
