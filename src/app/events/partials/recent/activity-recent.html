@@ -1,0 +1,8 @@
+<div class="activity-recent">
+  <div class="name">Recent Activities</div>
+  <ul class="recent-container">
+    <li class="recent-item" ng-repeat="activity in recentCtrl.activities">
+      <recent-activity-item place="recentCtrl.place" model="activity" />
+    </li>
+  </ul>
+</div>

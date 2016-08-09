@@ -63,10 +63,12 @@
       <div class="content-plus" id="content-plus">
         <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlMessages.recentScrollConf"
              onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
-          <div class="name">Recent Activities</div>
+          <!-- <div class="name">Recent Activities</div>
           <recent-activity-item ng-repeat="act in ctlMessages.activities" place="ctlMessages.currentPlace"
-                                model="act"></recent-activity-item>
+                                model="act"></recent-activity-item> -->
+            <nst-recent-activity place-id="ctlMessages.currentPlaceId" count="10"/>
         </div>
+
       </div>
     </div>
   </div>
