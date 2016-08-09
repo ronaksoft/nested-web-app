@@ -117,7 +117,56 @@
      *****************************/
 
     HTTP.prototype.download = function () {
+      var service = this;
+      var request = new NstRequest(service.getRoute());
 
+      // Conditions
+      var q = {};
+      var issues = [];
+      for (var k in q) {
+        q[k] || issues.push(k);
+      }
+
+      if (issues.length > 0) {
+        request.setStatus(NST_REQ_STATUS.CANCELLED);
+        request.finish(new NstResponse(NST_RES_STATUS.FAILURE, {
+          err_code: NST_SRV_ERROR.INVALID,
+          items: issues
+        }));
+
+        return request;
+      }
+
+      var reqId = generateReqId('download/file', service.getRoute());
+      request.setStatus(NST_REQ_STATUS.QUEUED);
+      request.setData(angular.extend(request.getData() || {}, { reqId: reqId }));
+
+      (function () {
+        var ajax = $http({
+          method: 'GET',
+          responseType: "arraybuffer",
+          url: service.getRoute(),
+          timeout: request.cancelled()
+        }).then(function (httpData) {
+          var deferred = $q.defer();
+
+          var data = httpData.data;
+          var response = new NstResponse(NST_RES_STATUS.SUCCESS, data);
+          deferred.resolve(response);
+
+          return deferred.promise;
+        });
+
+        request.setStatus(NST_REQ_STATUS.SENT);
+
+        return ajax;
+      })().then(function (response) {
+        request.finish(response);
+      }).catch(function (response) {
+        request.finish(response);
+      });
+
+      return request;
     };
 
     HTTP.prototype.downloadWithProgress = function (onProgress) {

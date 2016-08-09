@@ -252,6 +252,8 @@
             // Written in $timeout Just to update view
             $timeout(function () {
               // vm.attachments.current = mapAttachment(attachment);
+              vm.attachments.current.downloadedSize = attachment.getSize();
+              vm.attachments.current.downloadedRatio = 1;
               vm.attachments.current.isDownloaded = true;
               vm.attachments.current.url = base64data;
 
