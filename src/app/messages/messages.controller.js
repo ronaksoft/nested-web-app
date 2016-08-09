@@ -63,7 +63,7 @@
       if (vm.currentPlaceId) {
         setPlace(vm.currentPlaceId).then(function (place) {
           if (place) {
-            return $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function (error) {
+            return $q.all([loadViewSetting(), loadMessages()]).catch(function (error) {
               $log.debug(error);
               vm.loadMessageError = true;
             });
@@ -73,7 +73,7 @@
           $log.debug(error);
         });
       } else {
-        $q.all([loadViewSetting(), loadRecentActivities(), loadMessages()]).catch(function (error) {
+        $q.all([loadViewSetting(), loadMessages()]).catch(function (error) {
           $log.debug(error);
           vm.loadMessageError = true;
         });
@@ -205,25 +205,28 @@
     }
 
     function loadRecentActivities() {
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        var defer = $q.defer();
-
-        var settings = {
-          limit: 10,
-          placeId: null
-        };
-
-        if (vm.currentPlace) {
-          settings.placeId = vm.currentPlace.id;
-        }
-
-        NstSvcActivityFactory.getRecent(settings).then(function (activities) {
-          vm.activities = mapActivities(activities);
-          defer.resolve(vm.activities);
-        }).catch(defer.reject);
-
-        return defer.promise;
-      }));
+      // return NstSvcLoader.inject(NstSvcTry.do(function () {
+      //   var defer = $q.defer();
+      //
+      //   var settings = {
+      //     limit: 10,
+      //     placeId: null
+      //   };
+      //
+      //   if (vm.currentPlace) {
+      //     settings.placeId = vm.currentPlace.id;
+      //   }
+      //
+      //   NstSvcActivityFactory.getRecent(settings).then(function (activities) {
+      //     vm.activities = mapActivities(activities);
+      //     defer.resolve(vm.activities);
+      //   }).catch(defer.reject);
+      //
+      //   return defer.promise;
+      // }));
+      return $q(function (resolve) {
+        resolve();
+      });
     }
 
     function mapMessage(post) {
