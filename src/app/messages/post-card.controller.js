@@ -6,8 +6,8 @@
     .controller('PostCardController', PostCardController);
 
   function PostCardController($rootScope, $scope, $state, $stateParams, $log, $q, $timeout,
-    NstSvcServer, NstSvcCommentFactory, NstSvcPostFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPostStorage,
-    NST_EVENT_ACTION, NST_SRV_EVENT, NST_POST_EVENT) {
+    NstSvcServer, NstSvcCommentFactory, NstSvcPostFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPostStorage, NstSvcAuth,
+    NST_EVENT_ACTION, NST_SRV_EVENT, NST_POST_EVENT, NST_COMMENT_EVENT) {
     var vm = this;
     var commentBoardMin = 3;
     var commentBoardMax = 99;
@@ -176,34 +176,10 @@
       }
     });
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(e) {
-      switch (e.detail.timeline_data.action) {
-        case NST_EVENT_ACTION.COMMENT_ADD:
-        var postId = e.detail.timeline_data.post_id.$oid;
-        if (vm.post.id === postId){
+    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function(e) {
+        if (vm.post.id === e.detail.postId && e.detail.comment.sender.id !== NstSvcAuth.user.id){
           vm.newCommentsCount ++;
         }
-        //
-        // if (vm.post.id == postId) {
-        //   var commentId = e.detail.timeline_data.comment_id.$oid;
-        //   NstSvcPostFactory.get(postId).then(function(post) {
-        //       NstSvcCommentFactory.getComment(commentId, postId).then(function (comment) {
-        //           var result = post.addComment(comment);
-        //           if (result) {
-        //             // NstSvcPostStorage.set(post.id, post);
-        //             vm.commentBoardLimit++;
-        //             vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
-        //             vm.post.commentsCount++;
-        //           }
-        //       }).catch(function (error) {
-        //         $log.debug(error);
-        //       });
-        //   }).catch(function(error) {
-        //     $log.debug(error);
-        //   });
-        // }
-        break;
-      }
     });
 
     // initializing

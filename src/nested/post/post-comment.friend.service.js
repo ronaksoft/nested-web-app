@@ -5,9 +5,9 @@
     .module('nested')
     .service('NstSvcPostCommentFriend', NstSvcPostCommentFriend);
 
-  function NstSvcPostCommentFriend(NST_COMMENT_FACTORY_EVENT,
+  function NstSvcPostCommentFriend(NST_COMMENT_EVENT,
                                    NstSvcPostFactory, NstSvcCommentFactory) {
-    NstSvcCommentFactory.addEventListener(NST_COMMENT_FACTORY_EVENT.ADD, function (event) {
+    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function (event) {
       var comment = event.detail.comment;
       var postId = event.detail.postId;
 

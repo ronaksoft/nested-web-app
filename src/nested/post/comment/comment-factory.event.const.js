@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .constant('NST_COMMENT_FACTORY_EVENT', {
+    .constant('NST_COMMENT_EVENT', {
       ADD: 'post-comment-added',
       REMOVE: 'post-comment-removed'
     });

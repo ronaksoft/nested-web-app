@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout, $state,
-                              NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_FACTORY_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR,
+                              NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR,
                               NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
                               NstSvcMessagesSettingStorage, NstSvcPostStorage,
                               NstSvcPostMap, NstSvcActivityMap, NstSvcModal) {
