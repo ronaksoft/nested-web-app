@@ -39,18 +39,14 @@
     vm.avaiablity = false;
 
     vm.submitPhoneNumber = function () {
-
-
       if(!vm.phone){
         return false;
       }
-
-
-
-
+      
+      vm.country = $("#mobileNumber").intlTelInput("getSelectedCountryData").iso2;
+      
       var ajax = new NstHttp('/register/', {
         f: 'verify_phone',
-        country: $("#mobileNumber").intlTelInput("getSelectedCountryData").iso2,
         phone: vm.phone
       });
       ajax.get().then(function (data) {
@@ -152,15 +148,19 @@
         } //convert 1 digit numbers to 2 digits
 
         var dob = new Date(vm.birth);
-
-
+        
+        var credentials = {
+          username: vm.username.toLowerCase(),
+          password: md5.createHash(vm.password)
+        };
 
         var postData  = new FormData();
         postData.append('f', 'register');
         postData.append('vid', vm.vid);
         postData.append('phone', vm.phone);
-        postData.append('uid', vm.username.toLowerCase());
-        postData.append('pass', md5.createHash(vm.password));
+        postData.append('country', vm.country);
+        postData.append('uid', credentials.username);
+        postData.append('pass', credentials.password);
         postData.append('fname', vm.fname);
         postData.append('lname', vm.lname);
         postData.append('gender', vm.gender);
