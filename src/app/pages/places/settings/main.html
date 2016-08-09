@@ -44,9 +44,9 @@
                     </label>
                   </div>
                 </div>
-                <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="ctlSettings.options.notification">You will receive notifications for this place on all your devices <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
-                  <div class="nst-description" ng-if="!ctlSettings.options.notification">You won't receive notifications for this Place <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
+                <div class="nst-description _df _fw no-animation">
+                  <div ng-if="ctlSettings.options.notification">You will receive notifications for this place on all your devices <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
+                  <div ng-if="!ctlSettings.options.notification">You won't receive notifications for this Place <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn More</a></div>
                 </div>
                 <!-- <div class="_difc _fw optionrow">
                   <div class="_df"><label for="sw-digest"><i class="nst-place-icon-shown _df"></i></label></div>
@@ -81,9 +81,9 @@
                     </label>
                   </div>
                 </div>
-                <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="ctlSettings.place.privacy.receptive">Place is open for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
-                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.receptive">Place is blocked for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                <div class="nst-description no-animation _df _fw">
+                  <div ng-if="ctlSettings.place.privacy.receptive">Place is open for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div ng-if="!ctlSettings.place.privacy.receptive">Place is blocked for receiving messages from everyone<a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
                 </div>
 
                 <div class="_difc _fw optionrow">
@@ -100,10 +100,10 @@
                     </label>
                   </div>
                 </div>
-                <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.receptive">Disabled until "Receiving" is Off <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
-                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.search && ctlSettings.place.privacy.receptive">Place does not appear in search list for nonmembers <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
-                  <div class="nst-description" ng-if="ctlSettings.place.privacy.search && ctlSettings.place.privacy.receptive">Place appears in search list for everyone <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                <div class="nst-description no-animation _df _fw">
+                  <div ng-if="!ctlSettings.place.privacy.receptive">Disabled until "Receiving" is Off <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div ng-if="!ctlSettings.place.privacy.search && ctlSettings.place.privacy.receptive">Place does not appear in search list for nonmembers <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
+                  <div ng-if="ctlSettings.place.privacy.search && ctlSettings.place.privacy.receptive">Place appears in search list for everyone <a href="javascript:void(0);" class="nst-mood-cheerful"> Learn more</a></div>
                 </div>
 
                 <div class="_difc _fw optionrow">
@@ -120,10 +120,10 @@
                     </label>
                   </div>
                 </div>
-                <div class="nst-description _df _fw">
-                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.receptive">Disabled until "Receiving" is Off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
-                  <div class="nst-description" ng-if="ctlSettings.place.privacy.email && ctlSettings.place.privacy.receptive">Email does not appear in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
-                  <div class="nst-description" ng-if="!ctlSettings.place.privacy.email && ctlSettings.place.privacy.receptive">Email appears in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+                <div class="nst-description no-animation _df _fw">
+                  <div ng-if="!ctlSettings.place.privacy.receptive">Disabled until "Receiving" is Off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+                  <div ng-if="ctlSettings.place.privacy.email && ctlSettings.place.privacy.receptive">Email does not appear in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+                  <div ng-if="!ctlSettings.place.privacy.email && ctlSettings.place.privacy.receptive">Email appears in contact details <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
                 <div>
               </div> <!-- /nst-place-privacy-->
             </div>

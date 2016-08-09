@@ -13,6 +13,10 @@
     vm.hasNotBirth = false;
     vm.hasNotGender = false;
     vm.acceptAgreement = true;
+    vm.requiredUser = false;
+    vm.requiredPassword = false;
+    vm.requiredFirstname = false;
+    vm.requiredLastname = false;
 
 
     vm.patterns = {
@@ -24,7 +28,7 @@
         wordbgn : /^[a-zA-Z]/,
         //Todo :: check for '--'
         nodbldash : /^(?!.*--)/,
-        noenddash : /^(?:-?[a-zA-Z0-9]+)*$/,
+        noenddash : /^(?:-?[a-zA-Z0-9-]+)*$/,
       },
       username : {
         general : /^([a-zA-Z](?!.*--)(?:-?[a-zA-Z0-9]+)*){5,}$/,
@@ -141,7 +145,32 @@
         }else{
           vm.hasNotGender = false;
         }
-        if (vm.hasNotBirth || vm.hasNotGender || !vm.password || !vm.username) return false;
+
+        if(vm.username === undefined){
+          vm.requiredUser = true;
+        }else{
+          vm.requiredUser= false;
+        }
+
+        if(vm.password === undefined){
+          vm.requiredPassword = true;
+        }else{
+          vm.requiredPassword= false;
+        }
+
+        if(vm.firstname === undefined){
+          vm.requiredFirstname = true;
+        }else{
+          vm.requiredFirstname= false;
+        }
+
+      if(vm.lastname === undefined){
+        vm.requiredLastname = true;
+      }else{
+        vm.requiredLastname= false;
+      }
+
+        if (vm.hasNotBirth || vm.hasNotGender || !vm.password || !vm.username || vm.requiredLastname || vm.requiredFirstname || vm.acceptAgreement) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();

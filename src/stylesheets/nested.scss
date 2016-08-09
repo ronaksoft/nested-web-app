@@ -440,7 +440,7 @@ input[type="checkbox"].inpsw + label + label {
 input[type="checkbox"].inpsw:checked + label  {
   background-color: $color-sense-wire;
   color: $color-white;
-  border: none;
+  border-color: transparent;
 }
 
 // Off: Value = 1;

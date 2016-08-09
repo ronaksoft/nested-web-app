@@ -5,7 +5,7 @@
     <section class="nst-content _tr" id="content-wrapper" page-change="ctlPlaceAdd.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
       <section class="content _bgwhite">
         <div class="panel-create-place  _ma _fh">
-          <form name="CreatePlaceForm">
+          <form name="CreatePlaceForm" data-ng-submit="create_place.create()" novalidate>
             <ul class="list-inline head">
               <li>
                 <span>/</span>
@@ -23,18 +23,41 @@
               <label for="logo" class="add-photo-hover"></label>
               <div data-ng-if="ctlPlaceAdd.model.picture.file" class="remove-photo-hover" data-ng-click="ctlPlaceAdd.removeImg()"></div>
             </div>
-            <div class="inner-panel _ma">
+            <div class="inner-panel _fw">
               <div class="place-id">
-                <div>Place ID</div>
                 <div>
-                  <input page-change-element type="text" name="place_id" class=" nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false" data-ng-model="ctlPlaceAdd.model.id"/>
+                  <div>Place ID</div>
+                  <!--<div class="nst-marginbtm-8 _dib">Place ID :</div>-->
+                  <!--<div class="nst-mood-lively nst-marginbtm-8 _dib"-->
+                       <!--ng-if="registrationForm.username.$error.required && registrationForm.username.$touched">username required-->
+                  <!--</div>-->
+                  <!--<div class="nst-mood-sense nst-loading nst-marginbtm-8 _fr" ng-if="ctlRegister.checkWithServer"></div>-->
+                  <!--<div class="nst-mood-lively nst-marginbtm-8 _dib"-->
+                       <!--ng-if="!ctlRegister.avaiablity && !registrationForm.username.$error.required && !ctlRegister.checkWithServer && !registrationForm.username.$error.pattern && !registrationForm.username.$error.minlength">-->
+                    <!--Not available-->
+                  <!--</div>-->
+                  <!--<div class="nst-mood-cheerful nst-marginbtm-8 _dib"-->
+                       <!--ng-if="ctlRegister.avaiablity && !registrationForm.username.$error.required && !ctlRegister.checkWithServer && !registrationForm.username.$error.pattern && !registrationForm.username.$error.minlength">-->
+                    <!--Available-->
+                  <!--</div>-->
+                  <div class="nst-marginbtm-16">
+                    <input id="uid" aria-invalid="false" class="form-control" ng-pattern="ctlRegister.patterns.username.general" uib-tooltip-class="tooltip" tooltip-trigger="none"
+                           tooltip-is-open="registrationForm.username.$error.pattern && registrationForm.username.$touched"
+                           uib-tooltip-template="'app/user/register/tip_username.html'"
+                           ng-minlength="5" ng-maxlength="32" page-change-element
+                           name="placeid" type="text" ng-model="ctlPlaceAdd.model.id" tabindex="1"
+                           ng-keyup="ctlRegister.checkUser(ctlRegister.username)"
+                           data-tooltip-placement="bottom" required/>
+                  </div>
                 </div>
                 <div class="notice-bar">Place ID can't be changed later; Be careful!</div>
               </div>
               <div>
-                <div>Place Name</div>
+                <div class="nst-marginbtm-8 _fw" ng-if="CreatePlaceForm.placename.$valid || CreatePlaceForm.placename.$untouched">Place Name</div>
+                <div class="nst-mood-lively nst-marginbtm-8 _fw" ng-if="CreatePlaceForm.placename.$error.required && CreatePlaceForm.placename.$touched">Place Name Required</div>
                 <div class="nst-marginbtm-4">
-                  <input page-change-element type="text" name="place_name" aria-invalid="false" class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="ctlPlaceAdd.model.name"/>
+                  <input page-change-element ng-class="{'form-control': CreatePlaceForm.placename.$valid || CreatePlaceForm.placename.$untouched,'form-control-error': CreatePlaceForm.placename.$error.required && CreatePlaceForm.placename.$touched}"
+                         type="text" name="placename" aria-invalid="false" class="form-control" data-ng-model="ctlPlaceAdd.model.name" required/>
                 </div>
                 <div class="notice-bar">Short name helps you to quickly identify your places.</div>
               </div>
@@ -74,7 +97,10 @@
                   </label>
                 </div>
               </div>
-              <div class="notice-bar">Only members Can Write Posts. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+              <div class="nst-description no-animation _fw">
+                <div ng-if="!ctlPlaceAdd.model.privacy.receptive">Can recieve message from outside. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+                <div ng-if="ctlPlaceAdd.model.privacy.receptive">Only members Can Write Posts. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+              </div>
               <div class="_difc _fw">
                 <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
@@ -88,7 +114,11 @@
                   </label>
                 </div>
               </div>
-              <div class="notice-bar">Disabled until "Receptive" off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+              <div class="nst-description no-animation _fw">
+                <div ng-if="!ctlPlaceAdd.model.privacy.receptive">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+                <div ng-if="ctlPlaceAdd.model.privacy.email && ctlPlaceAdd.model.privacy.receptive">PlaceID is also an email address that can recieve emails. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+                <div ng-if="!ctlPlaceAdd.model.privacy.email && ctlPlaceAdd.model.privacy.receptive">PlaceID is not an email address and can not recieve emails. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+              </div>
               <div class="_difc _fw">
                 <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
                 <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
@@ -102,10 +132,15 @@
                   </label>
                 </div>
               </div>
-              <div class="notice-bar">Disabled until "Receptive" off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
-              <!--<div>-->
-                <!--<button class="butn  butn-sense _fw" data-ng-click="ctlPlaceAdd.create()">Create Place</button>-->
-              <!--</div>-->
+              <div class="nst-description no-animation _fw">
+                <div ng-if="!ctlPlaceAdd.model.privacy.receptive">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+                <div ng-if="!ctlPlaceAdd.model.privacy.search && ctlPlaceAdd.model.privacy.receptive">Hidden for user's search. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+                <div ng-if="ctlPlaceAdd.model.privacy.search && ctlPlaceAdd.model.privacy.receptive">Uncoverd for user's search. <a href="" class="nst-mood-cheerful">Learn more</a></div>
+              </div>
+              <div class="empty-box-30"></div>
+              <div>
+                <button class="butn  butn-sense _fw" type="submit">Create Place</button>
+              </div>
             </div>
           </form>
         </div>

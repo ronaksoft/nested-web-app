@@ -317,15 +317,10 @@
 }
 .nst-description {
   background-color: $color-breeze-50;
-  border-radius: 6px;
-  margin: 0 0 15px 0;
-  padding: 5px;
-  top: -5px;
-  position: relative
-}
-.nst-description p {
-  margin: 0;
   font-size: $font-size-small;
+  height: 30px;
+  border-radius: 4px;
+  padding: 4px 0 0 4px;
 }
 .optionrow div:first-child {
   min-width: 24px;

@@ -34,7 +34,7 @@
 
       </form>
 
-      <form novalidate name="registrationForm" ng-show="ctlRegister.step === 'step2'" unsaved-warning-form
+      <form novalidate name="registrationForm" unsaved-warning-form
             ng-submit="ctlRegister.verifyCode()">
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-xs-9 nst-font-xlarge">Enter Your Code</p>
@@ -75,17 +75,16 @@
         </div>
       </form>
 
-      <form novalidate name="registrationForm" ng-show="ctlRegister.step === 'step3'" ng-submit="ctlRegister.register()"
+      <form novalidate name="registrationForm" ng-submit="ctlRegister.register()"
             unsaved-warning-form>
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">Create an account</p>
           <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
             in</a></p>
         </div>
-
         <div class="nst-marginbtm-8 _dib">Enter your username :</div>
         <div class="nst-mood-lively nst-marginbtm-8 _dib"
-             ng-if="registrationForm.username.$error.required && registrationForm.username.$touched">username required
+             ng-if="(registrationForm.username.$error.required && registrationForm.username.$touched) || ctlRegister.requiredUser">username required
         </div>
         <div class="nst-mood-sense nst-loading nst-marginbtm-8 _fr" ng-if="ctlRegister.checkWithServer"></div>
         <div class="nst-mood-lively nst-marginbtm-8 _dib"
@@ -120,7 +119,7 @@
            ng-if="registrationForm.password.$error.pattern || registrationForm.password.$error.minlength">Weak password
       </div>
       <div class="nst-mood-lively nst-marginbtm-8"
-           ng-if="registrationForm.password.$error.required && (registrationForm.password.$touched || ctlRegister.focus) && registrationForm.password.$invalid && (registrationForm.password.$dirty || registrationForm.password.$touched)">
+           ng-if="ctrlRegister.requiredPassword">
         password required
       </div>
       <div class="nst-mood-cheerful nst-marginbtm-8" ng-if="registrationForm.password.$valid">Powerful password</div>
@@ -146,10 +145,10 @@
           <div class="_dtr">
             <div class="_dtc register-name-cell-left">
               <div class="nst-marginbtm-8 _fw"
-                   ng-if="registrationForm.firstname.$valid || registrationForm.firstname.$untouched">First name
+                   ng-if="!ctlRegister.requiredFirstname">First name
               </div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                   ng-if="registrationForm.firstname.$error.required && registrationForm.firstname.$touched">firstname
+                   ng-if="ctlRegister.requiredFirstname">Firstname
                 Required
               </div>
               <input id="fname"
@@ -158,10 +157,10 @@
             </div>
             <div class="_dtc register-name-cell-right">
               <div class="nst-marginbtm-8 _fw"
-                   ng-if="registrationForm.lastname.$valid || registrationForm.lastname.$untouched">Last name
+                   ng-if="!ctlRegister.requiredLastname">Last name
               </div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                   ng-if="registrationForm.lastname.$error.required && registrationForm.lastname.$touched">lastname
+                   ng-if="ctlRegister.requiredLastname">Lastname
                 Required
               </div>
               <input id="lname"
@@ -170,11 +169,10 @@
             </div>
           </div>
         </div>
-
-        <div class="nst-marginbtm-16"
-             ng-if="!registrationForm.gender.$error.required || !registrationForm.gender.$touched">Gender
+        <div class="empty-box-30">
+          <div class="nst-marginbtm-16" ng-if="!ctlRegister.hasNotGender">Gender</div>
+          <div class="nst-mood-lively nst-marginbtm-16" ng-if="ctlRegister.hasNotGender">Gender Required</div>
         </div>
-        <div class="nst-mood-lively nst-marginbtm-16" ng-show="ctlRegister.hasNotGender">Gender Required</div>
         <ul class="list-inline">
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
             <input type="radio" name="gender" value="female" ng-model="ctlRegister.gender" tabindex="5" required/>
@@ -191,8 +189,10 @@
         </ul>
 
         <div class="nst-marginbtm-16 mobile-number _pr"></div>
-        <div class="nst-marginbtm-16">Birthday</div>
-        <div class="nst-mood-lively nst-marginbtm-8" ng-show="ctlRegister.hasNotBirth">Birthday Required</div>
+        <div class="empty-box-30">
+          <div class="nst-marginbtm-16" ng-if="!ctlRegister.hasNotBirth">Birthday</div>
+          <div class="nst-mood-lively nst-marginbtm-8" ng-if="ctlRegister.hasNotBirth">Birthday Required</div>
+        </div>
         <div class="nst-marginbtm-16">
           <input class="select-birthday" rsmdatedropdowns ng-model="ctlRegister.birth"/>
         </div>
@@ -211,9 +211,10 @@
           </div>
         </div>
 
-
-        <div class="alert-box nst-font-small nst-mood-lively nst-marginbtm-8" ng-show="!ctlRegister.acceptAgreement">
-          You must accept our agreement.
+        <div class="empty-box-30  nst-marginbtm-8">
+          <div class="nst-font-small nst-mood-lively" ng-if="!ctlRegister.acceptAgreement">
+            In order to use our services, you must agree to Nested Terms of Service.
+          </div>
         </div>
         <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="Finish!">
       </form>
