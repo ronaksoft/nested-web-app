@@ -153,8 +153,9 @@
         if (xhr) {
           xhr.open('GET', service.getRoute(), true);
 
-          // xhr.setRequestHeader("Cache-Control", "cache");
-          // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+          // TODO: Make browser to cache
+          xhr.setRequestHeader("Cache-Control", "max-age=3600");
+          xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
           xhr.responseType = "arraybuffer";
 
           xhr.onloadstart = function () {
