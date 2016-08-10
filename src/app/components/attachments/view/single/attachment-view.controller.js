@@ -5,7 +5,7 @@
     .module('nested')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $timeout, $log,
+  function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
                                     hotkeys,
                                     NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
                                     NstHttp,
@@ -115,6 +115,14 @@
 
     vm.goTo(vm.attachments.current);
 
+    $uibModalInstance.result.catch(function () {
+      return $q(function (res) {
+        res(false);
+      });
+    }).then(function () {
+      unregisterTokenUpdater();
+    });
+
     /*****************************
      *****   Request Methods  ****
      *****************************/
@@ -183,13 +191,16 @@
      *****   Other Methods    ****
      *****************************/
 
-    function registerToken(token) {
+    function unregisterTokenUpdater() {
       if (vm.attachments.tokenUpdater) {
         $timeout.cancel(vm.attachments.tokenUpdater);
         vm.attachments.tokenUpdater = undefined;
       }
+    }
 
-      // FIXME: Cancel updater on modal exit
+    function registerToken(token) {
+      unregisterTokenUpdater();
+
       vm.attachments.tokenUpdater = $timeout(function () {
         updateToken().then(function (attachment) {
           registerToken(attachment.getResource().getToken());
