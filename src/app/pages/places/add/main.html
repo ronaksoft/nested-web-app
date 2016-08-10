@@ -25,29 +25,10 @@
             </div>
             <div class="inner-panel _fw">
               <div class="place-id">
+                <div>Place ID</div>
                 <div>
-                  <div>Place ID</div>
-                  <!--<div class="nst-marginbtm-8 _dib">Place ID :</div>-->
-                  <!--<div class="nst-mood-lively nst-marginbtm-8 _dib"-->
-                       <!--ng-if="registrationForm.username.$error.required && registrationForm.username.$touched">username required-->
-                  <!--</div>-->
-                  <!--<div class="nst-mood-sense nst-loading nst-marginbtm-8 _fr" ng-if="ctlRegister.checkWithServer"></div>-->
-                  <!--<div class="nst-mood-lively nst-marginbtm-8 _dib"-->
-                       <!--ng-if="!ctlRegister.avaiablity && !registrationForm.username.$error.required && !ctlRegister.checkWithServer && !registrationForm.username.$error.pattern && !registrationForm.username.$error.minlength">-->
-                    <!--Not available-->
-                  <!--</div>-->
-                  <!--<div class="nst-mood-cheerful nst-marginbtm-8 _dib"-->
-                       <!--ng-if="ctlRegister.avaiablity && !registrationForm.username.$error.required && !ctlRegister.checkWithServer && !registrationForm.username.$error.pattern && !registrationForm.username.$error.minlength">-->
-                    <!--Available-->
-                  <!--</div>-->
                   <div class="nst-marginbtm-16">
-                    <input id="uid" aria-invalid="false" class="form-control" ng-pattern="ctlRegister.patterns.username.general" uib-tooltip-class="tooltip" tooltip-trigger="none"
-                           tooltip-is-open="registrationForm.username.$error.pattern && registrationForm.username.$touched"
-                           uib-tooltip-template="'app/user/register/tip_username.html'"
-                           ng-minlength="5" ng-maxlength="32" page-change-element
-                           name="placeid" type="text" ng-model="ctlPlaceAdd.model.id" tabindex="1"
-                           ng-keyup="ctlRegister.checkUser(ctlRegister.username)"
-                           data-tooltip-placement="bottom" required/>
+                    <input page-change-element type="text" name="place_id" class=" nst-marginbtm-4" aria-invalid="false" data-ng-model="ctlPlaceAdd.model.id"/>
                   </div>
                 </div>
                 <div class="notice-bar">Place ID can't be changed later; Be careful!</div>
