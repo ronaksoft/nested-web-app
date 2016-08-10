@@ -465,12 +465,11 @@
           place_id: place.getId(),
           place_name: place.getName(),
           place_desc: place.getDescription(),
-          place_pic: place.getPicture().getOrg().getId(),
-          // 'privacy.broadcast': place.getPrivacy().getBroadcast(),
-          'privacy.locked': place.getPrivacy().getLocked(),
-          'privacy.receptive': place.getPrivacy().getReceptive(),
-          'privacy.email': place.getPrivacy().getEmail(),
-          'privacy.search': place.getPrivacy().getSearch()
+          // place_pic: place.getPicture().getOrg().getId(),
+          // 'privacy.locked': place.getPrivacy().getLocked(),
+          // 'privacy.receptive': place.getPrivacy().getReceptive(),
+          // 'privacy.email': place.getPrivacy().getEmail(),
+          // 'privacy.search': place.getPrivacy().getSearch()
         };
 
         if (place.getParent() && place.getParent().getId()) {
@@ -487,18 +486,25 @@
             res(newPlace);
           });
         }).then(function (newPlace) {
+          newPlace.save();
+          factory.set(newPlace);
+
           var deferred = $q.defer();
 
+          newPlace.setPrivacy(place.getPrivacy());
+          var promises = [
+            factory.save(newPlace)
+          ];
+
+          // TODO: Move this to update
           if (place.getPicture().getOrg().getId()) {
-            NstSvcServer.request('place/set_picture', {
-              place_id: newPlace.getId(),
-              universal_id: place.getPicture().getOrg().getId()
-            }).then(function () {
-              deferred.resolve(newPlace);
-            }).catch(deferred.reject);
-          } else {
-            deferred.resolve(newPlace);
+            promises.push(factory.updatePicture(newPlace.getId(), place.getPicture().getOrg().getId()));
           }
+
+          $q.all(promises).then(function (resolveds) {
+            var newPlace = resolveds[0];
+            deferred.resolve(newPlace);
+          }).catch(deferred.reject);
 
           return deferred.promise;
         }).then(function (newPlace) {
@@ -532,8 +538,7 @@
           place_id: place.getId(),
           place_name: place.getName(),
           place_desc: place.getDescription(),
-          place_pic: place.getPicture().getOrg().getId(),
-          // 'privacy.broadcast': place.getPrivacy().getBroadcast(),
+          // place_pic: place.getPicture().getOrg().getId(),
           'privacy.locked': place.getPrivacy().getLocked(),
           'privacy.receptive': place.getPrivacy().getReceptive(),
           'privacy.email': place.getPrivacy().getEmail(),
@@ -542,18 +547,18 @@
 
         var query = new NstFactoryQuery(place.getId(), params);
 
-        return NstSvcServer.request('place/update', params).then(function () {
-          return $q(function (res) {
-            res(factory.set(place).get(place.getId()));
-          });
-        }).catch(function (error) {
+        return NstSvcServer.request('place/update', params).catch(function (error) {
           return $q(function (res, reject) {
             reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
+        }).then(function () {
+          factory.set(place);
+
+          return factory.get(place.getId());
         });
       }
     };
-    
+
     PlaceFactory.prototype.updatePicture = function (id, uid) {
       var factory = this;
 
