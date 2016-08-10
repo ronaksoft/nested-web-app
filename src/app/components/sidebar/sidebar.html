@@ -86,8 +86,7 @@
       </a>
       <a class="_fw">
         <div class="_df _fn _fw _jcc" ng-click="ctlSidebar.collapsed =! ctlSidebar.collapsed">
-          <div ng-show="!ctlSidebar.collapsed" class="nst-arrow-rotated-90"></div>
-          <div ng-show="ctlSidebar.collapsed" class="nst-arrow-rotated-270"></div>
+          <div ng-class="{'nst-arrow-rotated-90' : ctlSidebar.collapsed,'nst-arrow-rotated-270' : !ctlSidebar.collapsed}" class="nst-arrow-rotated-90"></div>
         </div>
         </a>
     </div>
