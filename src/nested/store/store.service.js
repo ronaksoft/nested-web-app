@@ -9,7 +9,7 @@
                        _,
                        NST_RES_STATUS, NST_REQ_STATUS, NST_SRV_ERROR, NST_CONFIG, NST_STORE_ROUTE, NST_STORE_ROUTE_PATTERN, NST_STORE_UPLOAD_TYPE, NST_SRV_RESPONSE_STATUS,
                        NstSvcServer, NstSvcDownloadTokenStorage, NstSvcUploadTokenStorage, NstSvcRandomize,
-                       NstObservableObject, NstStoreToken, NstRequest, NstResponse) {
+                       NstObservableObject, NstStoreToken, NstRequest, NstResponse, NstHttp) {
     /**
      * Creates an instance of NstSvcStore
      *
@@ -192,7 +192,7 @@
 
         var deferred = $q.defer();
 
-        var xhr = createCORSRequest('POST');
+        var xhr = NstHttp.createCORSRequest('POST');
 
         if (xhr) {
           xhr.open('POST', service.getUrl(), true);
@@ -303,20 +303,6 @@
 
     function generateReqId(action, name) {
       return 'REQ/' + action.toUpperCase() + '/' + name.toUpperCase() + '/' + NstSvcRandomize.genUniqId();
-    }
-
-    function createCORSRequest(method) {
-      var xhr = new XMLHttpRequest();
-      if ("withCredentials" in xhr) {
-        // XHR for Chrome/Firefox/Opera/Safari.
-      } else if (typeof XDomainRequest != "undefined") {
-        // XDomainRequest for IE.
-        xhr = new XDomainRequest();
-      } else {
-        // CORS not supported.
-        xhr = null;
-      }
-      return xhr;
     }
 
     return new Store(NST_CONFIG.STORE.URL);

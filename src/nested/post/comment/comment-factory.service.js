@@ -30,7 +30,7 @@
             factory.getComment(commentId, postId).then(function (comment) {
               factory.dispatchEvent(new CustomEvent(
                 NST_COMMENT_EVENT.ADD,
-                { detail: { id: commentId, postId: postId, comment: comment } }
+                { detail: { id: commentId, postId: postId, comment: comment, internal: false } }
               ));
             });
             break;
@@ -41,7 +41,7 @@
 
             factory.dispatchEvent(new CustomEvent(
               NST_COMMENT_EVENT.REMOVE,
-              { detail: { id: commentId, postId: postId } }
+              { detail: { id: commentId, postId: postId, internal: false } }
             ));
             break;
         }
@@ -121,7 +121,7 @@
 
         factory.dispatchEvent(new CustomEvent(
           NST_COMMENT_EVENT.ADD,
-          { detail: { id: comment.id, postId: post.id, comment: comment } }
+          { detail: { id: comment.id, postId: post.id, comment: comment, internal: true } }
         ));
       }).catch(defer.reject);
 

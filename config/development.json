@@ -6,7 +6,8 @@
       "TIMEOUT": 30000
     },
     "STORE": {
-      "URL": "http://xerxes.nested.ronaksoftware.com"
+      "URL": "http://xerxes.nested.ronaksoftware.com",
+      "TOKEN_EXPMS": 3550000
     },
     "PIONEER_INVITATION": {
       "URL": "http://x.nested.ronaksoftware.com/send_invite.php"
