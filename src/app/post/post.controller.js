@@ -372,7 +372,7 @@
      *****************************/
 
     function mapPost(postModel) {
-      return NstSvcPostMap.toMessage(postModel);
+      return NstSvcPostMap.toPost(postModel);
     }
 
     function mapComment(commentModel) {

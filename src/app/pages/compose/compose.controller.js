@@ -277,7 +277,6 @@
       return vm.model.modified;
     };
 
-    // TODO: Call this while model is changed
     vm.model.check = function () {
       vm.model.isModified();
 
@@ -344,7 +343,7 @@
         var deferred = $q.defer();
 
         if (vm.model.saving) {
-          // TODO: Already being in save process error
+          // Already is being sent process error
           deferred.reject([{
             name: 'saving',
             message: 'Already is being sent'
