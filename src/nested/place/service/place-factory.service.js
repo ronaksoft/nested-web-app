@@ -464,7 +464,7 @@
         var params = {
           place_id: place.getId(),
           place_name: place.getName(),
-          place_desc: place.getDescription(),
+          // place_desc: place.getDescription(),
           // place_pic: place.getPicture().getOrg().getId(),
           // 'privacy.locked': place.getPrivacy().getLocked(),
           // 'privacy.receptive': place.getPrivacy().getReceptive(),
@@ -491,6 +491,7 @@
 
           var deferred = $q.defer();
 
+          newPlace.setDescription(place.getDescription());
           newPlace.setPrivacy(place.getPrivacy());
           var promises = [
             factory.save(newPlace)
