@@ -1476,6 +1476,28 @@ ul ul .side-place-item-image {
 .maincontainer.sidetiny .side-place-item .e2-arrow {
   width: 12px;
 }
+
+.create-place {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #476152;
+  div {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100%;
+    width: 80%;
+    text-align: center;
+  }
+  div:hover {
+    background-color: rgba(71,97,82,.1);
+    border-radius: 10px;
+  }
+}
+
 .side-profile {
   z-index: 1;
   position: fixed;
