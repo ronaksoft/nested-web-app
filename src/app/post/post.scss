@@ -386,6 +386,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  & > * {
+    max-height: calc(100vh - 244px);
+    flex: none;
+  }
 }
 
 .filename-p {
