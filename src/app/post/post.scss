@@ -390,6 +390,9 @@
     max-height: calc(100vh - 244px);
     flex: none;
   }
+  & > img {
+    width: 100%;
+  }
 }
 
 .filename-p {
