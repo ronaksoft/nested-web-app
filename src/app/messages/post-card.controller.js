@@ -5,9 +5,10 @@
     .module('nested')
     .controller('PostCardController', PostCardController);
 
-  function PostCardController($rootScope, $scope, $state, $stateParams, $log, $q, $timeout,
-    NstSvcServer, NstSvcCommentFactory, NstSvcPostFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPostStorage, NstSvcAuth,
-    NST_EVENT_ACTION, NST_SRV_EVENT, NST_POST_EVENT, NST_COMMENT_EVENT) {
+  function PostCardController($state, $log,
+                              _,
+                              NST_POST_EVENT, NST_COMMENT_EVENT,
+                              NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
     var vm = this;
     var commentBoardMin = 3;
     var commentBoardMax = 99;
@@ -17,6 +18,7 @@
     };
 
     vm.newCommentsCount = 0;
+    vm.myAlreadyCountedIds = [];
     vm.reply = reply;
     vm.sendComment = sendComment;
     vm.attachmentClick = attachmentClick;
@@ -56,7 +58,6 @@
           $log.debug('adding a comment :',comment);
           vm.commentBoardLimit++;
           vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
-          vm.post.commentsCount++;
 
           e.currentTarget.value = '';
           vm.isSendingComment = false;
@@ -177,18 +178,34 @@
     });
 
     NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function(e) {
-        if (vm.post.id === e.detail.postId && e.detail.comment.sender.id !== NstSvcAuth.user.id){
-          vm.newCommentsCount ++;
+      if (vm.post.id === e.detail.postId){
+        // If me sending comment from another device, then add number to badge
+        var meSent = NstSvcAuth.getUser().getId() == e.detail.comment.sender.id;
+        var fromPostCard = vm.isSendingComment;
+        var isAppEvent = e.detail.internal;
+        if (meSent) {
+          if (vm.myAlreadyCountedIds.indexOf(e.detail.id) > -1) {
+            vm.myAlreadyCountedIds = _.filter(vm.myAlreadyCountedIds, function (v) { return e.detail.id != v; });
+          } else {
+            if (fromPostCard) {
+              vm.post.commentsCount++;
+            } else {
+              // From Post View or Other Devices: Add to badge
+              vm.newCommentsCount++;
+            }
+
+            vm.myAlreadyCountedIds.push(e.detail.id);
+          }
+        } else {
+          // Add to badge
+          vm.newCommentsCount++;
         }
+      }
     });
 
     // initializing
     (function () {
-      if (vm.post.commentsCount > vm.post.comments.length) {
-        vm.hasOlderComments = true;
-      } else {
-        vm.hasOlderComments = false;
-      }
+      vm.hasOlderComments = vm.post.commentsCount > vm.post.comments.length;
 
       vm.urls = {
         reply_all: $state.href('compose-reply-all', {

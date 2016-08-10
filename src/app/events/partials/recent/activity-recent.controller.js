@@ -55,7 +55,9 @@
     }
 
     function activityBelongsToPlace(activity) {
-      if (activity.place) {
+      if (!vm.placeId) {
+        return true;
+      } else if (activity.place) {
         return activity.place.id === vm.placeId;
       } else if (activity.post) {
         return _.some(activity.post.places, function (place) {
