@@ -15,7 +15,7 @@
           hasControlAccess : '=',
           hasRemoveAccess : '=',
           member : '=',
-          role : '@'
+          role : '='
         },
         link: function (scope, element, attrs) {
 

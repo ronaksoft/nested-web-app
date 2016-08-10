@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcInvitationFactory($q,
-                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION,
+                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory,
                                    NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation) {
     function InvitationFactory() {
@@ -16,7 +16,8 @@
       this.requests = {
         get: {},
         getAll: undefined,
-        decide: {}
+        decide: {},
+        getPendings: {}
       };
 
       NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
@@ -249,6 +250,84 @@
       }
 
       return defer.promise;
+    };
+
+    InvitationFactory.prototype.revoke = function (invitationId) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('place/remove_invite', {
+        invite_id : invitationId
+      }).then(function (result) {
+        defer.resolve(true);
+      }).catch(function (error) {
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
+    InvitationFactory.prototype.getPlacePendingInvitations = function (placeId) {
+      var factory = this;
+
+      if (!this.requests.getPendings[placeId]) {
+        var defer = $q.defer();
+        var query = new NstFactoryQuery(placeId);
+
+        // TODO: Ask server to merge these 2 request
+        $q.all([
+          NstSvcServer.request('place/get_pending_invitations', {
+            place_id: placeId,
+            member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER
+          }),
+          NstSvcServer.request('place/get_pending_invitations', {
+            place_id: placeId,
+            member_type : NST_PLACE_MEMBER_TYPE.KNOWN_GUEST
+          })
+        ]).then(function (result) {
+
+          var keyHolders = _.map(result[0].invitations, function (invitation) {
+            return factory.parseInvitation(invitation);
+          });
+
+          var knownGuests = _.map(result[1].invitations, function (invitation) {
+            return factory.parseInvitation(invitation);
+          });
+
+          var data = {};
+          $q.all(keyHolders).then(function (keyholderInvitations) {
+            data.pendingKeyHolders = keyholderInvitations;
+
+            return $q.all(knownGuests);
+          }).then(function (knownGuestInvitations) {
+            data.pendingKnownGuests = knownGuestInvitations;
+
+            defer.resolve(data);
+          }).catch(defer.reject);
+
+
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          $log.debug(error);
+        });
+
+        this.requests.getPendings[placeId] = defer.promise;
+      }
+
+      return this.requests.getPendings[placeId].then(function () {
+        var args = arguments;
+        delete factory.requests.getPendings[placeId];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.getPendings[placeId];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
     };
 
     return new InvitationFactory();

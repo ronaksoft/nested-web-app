@@ -128,45 +128,33 @@
               </div> <!-- /nst-place-privacy-->
             </div>
 
-            <div class="nst-teammates _dib">
+            <div class="nst-teammates _dib" ng-if="ctlSettings.hasSeeMembersAccess">
               <h5 class="tittle-option _di">Teammates</h5>
               <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di  _fr" data-ng-click="ctlSettings.addMember()">
-                <span class="nst-mood-simple _dib _vat">Add Teammate</span>
+                <span ng-if="ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Add Teammate</span>
+                <span ng-if="!ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Add from Teammates</span>
                 <div class="add-icon _dib"></div>
               </div>
               <hr>
-              <h5 ng-if="!ctlSettings.hasSeeMembersAccess" class="nst-mood-storm">
-                You are not allowed to see other teamates!
-              </h5>
               <h5 ng-if="ctlSettings.hasSeeMembersAccess && !ctlSettings.hasAnyTeamate" class="nst-mood-storm">
                 There is not any teamate here!
               </h5>
-              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.creators"
-                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="creator"/>
-              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.keyHolders"
-                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="key_holder"/>
-              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.members.pendingKeyHolders"
-                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="pending_key_holder"/>
+              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user" data-ng-repeat="member in ctlSettings.teamates"
+                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember" role="member.state"/>
             </div><!--/nst-teammates-->
 
-            <div class="place-option-members _dib">
+            <div class="place-option-members _dib" ng-if="ctlSettings.hasSeeMembersAccess">
               <h5 class="title-option _di">Participants</h5>
               <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di _fr" data-ng-click="ctlSettings.inviteParticipant()">
                 <span class="nst-mood-simple _dib _vat">Invite members</span>
                 <div class="add-icon _dib"></div>
               </div>
               <hr>
-              <h5 ng-if="!ctlSettings.hasSeeMembersAccess" class="nst-mood-storm">
-                You are not allowed to see the participants!
-              </h5>
-              <h5 ng-if="ctlSettings.hasSeeMembersAccess && !ctlSettings.hasAnyGuest" class="nst-mood-storm">
+              <h5 ng-if="ctlSettings.hasSeeMembersAccess && !ctlSettings.hasAnyParticipant" class="nst-mood-storm">
                 There is not any participant here!
               </h5>
-              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlSettings.members.knownGuests"
-                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" role="known_guest"/>
-              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlSettings.members.pendingKnownGuests"
-                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" role="pending_known_guest"/>
-
+              <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6" data-ng-repeat="member in ctlSettings.participants"
+                member="member" place="ctlSettings.place" has-remove-access="ctlSettings.hasRemoveAccess" has-control-access="ctlSettings.hasControlAccess" role="member.state"/>
 
             </div> <!-- /place-option-members-->
             <div class="restplace _df _fh"></div>
