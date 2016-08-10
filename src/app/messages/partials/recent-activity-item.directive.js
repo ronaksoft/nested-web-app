@@ -22,11 +22,15 @@
           scope.activity.inSpecificPlace = true;
         }
 
-        switch (scope.activity.type){
-          case NST_EVENT_ACTION.COMMENT_ADD:
-            scope.tplUrl = 'app/messages/partials/activity/comment-row.html';
+        switch (scope.activity.type) {
+          case NST_EVENT_ACTION.MEMBER_ADD:
+            scope.tplUrl = 'app/messages/partials/activity/member-add-row.html';
             break;
-
+          
+          case NST_EVENT_ACTION.MEMBER_REMOVE:
+            scope.tplUrl = 'app/messages/partials/activity/member-remove-row.html';
+            break;
+          
           case NST_EVENT_ACTION.MEMBER_INVITE:
             scope.tplUrl = 'app/messages/partials/activity/invite-row.html';
             break;
@@ -47,7 +51,12 @@
             scope.tplUrl = 'app/messages/partials/activity/remove-row.html';
             break;
 
+          case NST_EVENT_ACTION.COMMENT_ADD:
+            scope.tplUrl = 'app/messages/partials/activity/comment-row.html';
+            break;
+
           default:
+            scope.tplUrl = 'app/messages/partials/activity/default.html';
             break;
         }
       },

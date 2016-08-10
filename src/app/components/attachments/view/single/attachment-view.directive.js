@@ -33,6 +33,20 @@
         case NST_FILE_TYPE.MULTIMEDIA:
           scope.tplUrl = 'app/components/attachments/view/single/partials/media.html';
           break;
+
+        case NST_FILE_TYPE.ARCHIVE:
+          scope.tplUrl = 'app/components/attachments/view/single/partials/archive.html';
+          break;
+
+        case NST_FILE_TYPE.DOCUMENT:
+          scope.tplUrl = 'app/components/attachments/view/single/partials/document.html';
+          break;
+
+        case NST_FILE_TYPE.PDF:
+          scope.tplUrl = 'app/components/attachments/view/single/partials/pdf.html';
+          break;
+        default:
+          scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
       }
     }
   }

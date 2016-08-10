@@ -1,6 +1,12 @@
-<div class="nst-preview-pic-mode">
-  <videogular class="_fw">
+<div class="nst-preview-pic-mode" ng-if="attachment.isDownloaded">
+  <videogular class="">
     <vg-media vg-src="attachment.url" vg-native-controls="true" vg-preload="none"></vg-media>
     <vg-buffering></vg-buffering>
   </videogular>
+</div>
+
+<div ng-if="!attachment.isDownloaded" class="nst-preview-pic-mode">
+  <div class="downloadprogress">
+    <div ng-progressbar="{{attachment.downloadedRatio}}" progressbar-mode="circle"></div>
+  </div>
 </div>
