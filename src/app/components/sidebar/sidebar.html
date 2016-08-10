@@ -55,7 +55,10 @@
       </ul>
       <a href="{{ctlSidebar.urls.placeAdd}}">
       <div class="create-place _fw">
-        <div><span>+ Create New Grand Place</span></div>
+        <div>
+          <span ng-if="!ctlSidebar.collapsed">+ Create New Grand Place</span>
+          <span ng-if="ctlSidebar.collapsed">+</span>
+        </div>
       </div>
       </a>
     </div>
