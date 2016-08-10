@@ -56,11 +56,11 @@
       if (hasPlace()) {
         var thumbnail = vm.place.getPicture().getThumbnail(64);
 
-        if (!thumbnail) {
+        if (!thumbnail.getId()) {
           thumbnail = vm.place.getPicture().getLargestThumbnail();
         }
 
-        if (thumbnail) {
+        if (thumbnail.getId()) {
           avatar = thumbnail.getUrl().view;
         }
       }
