@@ -52,7 +52,7 @@
       }
 
       if (!$stateParams.sort || $stateParams.sort === NST_DEFAULT.STATE_PARAM) {
-        vm.messagesSetting.sort = NstSvcMessagesSettingStorage.get(sortOptionStorageKey);
+        vm.messagesSetting.sort = NstSvcMessagesSettingStorage.get(sortOptionStorageKey, defaultSortOption);
       } else {
         vm.messagesSetting.sort = $stateParams.sort;
         NstSvcMessagesSettingStorage.set(sortOptionStorageKey, vm.messagesSetting.sort);
