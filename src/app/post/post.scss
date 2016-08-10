@@ -383,6 +383,9 @@
   max-width: 100%;
   max-height: calc(100vh - 244px);
   min-height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .filename-p {

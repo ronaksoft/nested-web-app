@@ -804,6 +804,12 @@ body.modal-open {
   border-radius: 6px 0px 6px 6px;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-sense-50;
+  li {
+    padding: 8px;
+  }
+  li:hover {
+    background-color: $color-sense-50;
+  }
 }
 
 .popover-green + .popover.bottom > .arrow {
@@ -1470,6 +1476,28 @@ ul ul .side-place-item-image {
 .maincontainer.sidetiny .side-place-item .e2-arrow {
   width: 12px;
 }
+
+.create-place {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #476152;
+  div {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 100%;
+    width: 80%;
+    text-align: center;
+  }
+  div:hover {
+    background-color: rgba(71,97,82,.1);
+    border-radius: 10px;
+  }
+}
+
 .side-profile {
   z-index: 1;
   position: fixed;

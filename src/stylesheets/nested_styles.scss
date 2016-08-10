@@ -939,6 +939,10 @@ ul ul li:last-child{
         cursor: pointer;
         transition: .2s;
       }
+      &:before {
+        content: "";
+        display: none;
+      }
     }
   }
   .name {

@@ -53,6 +53,11 @@
           <!--</div>-->
         <!--</li>-->
       </ul>
+      <a href="{{ctlSidebar.urls.placeAdd}}">
+      <div class="create-place _fw">
+        <div><span>+ Create New Grand Place</span></div>
+      </div>
+      </a>
     </div>
     <div class="side-profile">
       <a class="_fw" ng-show="profileMenu" href="#/profile">
@@ -86,8 +91,7 @@
       </a>
       <a class="_fw">
         <div class="_df _fn _fw _jcc" ng-click="ctlSidebar.collapsed =! ctlSidebar.collapsed">
-          <div ng-show="!ctlSidebar.collapsed" class="nst-arrow-rotated-90"></div>
-          <div ng-show="ctlSidebar.collapsed" class="nst-arrow-rotated-270"></div>
+          <div ng-class="{'nst-arrow-rotated-90' : ctlSidebar.collapsed,'nst-arrow-rotated-270' : !ctlSidebar.collapsed}" class="nst-arrow-rotated-90"></div>
         </div>
         </a>
     </div>
