@@ -103,7 +103,7 @@
 
     function createToken(rawToken) {
       // TODO: Read expiration date from token itself
-      return new NstStoreToken(rawToken, new Date(Date.now() + 3550000));
+      return new NstStoreToken(rawToken, new Date(Number(rawToken.split('-').pop())));
     }
 
     function getDownloadToken(postId, attachmentId) {
