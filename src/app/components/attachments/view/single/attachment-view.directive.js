@@ -45,6 +45,8 @@
         case NST_FILE_TYPE.PDF:
           scope.tplUrl = 'app/components/attachments/view/single/partials/pdf.html';
           break;
+        default:
+          scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
       }
     }
   }
