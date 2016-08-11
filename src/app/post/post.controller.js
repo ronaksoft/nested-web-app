@@ -26,10 +26,7 @@
     };
 
     vm.scrollbarConfig = {
-      autoHideScrollbar: false,
-      advanced:{
-        updateOnContentResize: true
-      }
+      
     };
 
     vm.postModel = undefined;
