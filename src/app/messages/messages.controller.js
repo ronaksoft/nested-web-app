@@ -140,6 +140,7 @@
             }
 
             if (messages.length < vm.messagesSetting.limit) {
+              $log.debug('Messages | Reached the end because of less results: ', messages);
               vm.reachedTheEnd = true;
             }
 
@@ -155,6 +156,7 @@
                   vm.messages.push(mapMessage(messages[i]));
                 } else {
                   // Todo :: remove this line after fixed by server
+                  $log.debug('Messages | Reached the end because of duplication: ', hasData);
                   vm.reachedTheEnd = true;
                 }
               }
