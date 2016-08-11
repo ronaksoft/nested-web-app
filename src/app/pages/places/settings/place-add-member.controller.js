@@ -14,9 +14,17 @@
     var defaultSearchResultCount = 9;
 
     vm.isTeamateMode = true;
+    vm.isGrandPlace = true;
+
     if (chosenRole === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
       vm.isTeamateMode = false;
     }
+
+    if (!currentPlace.parent || !currentPlace.parent.id){
+      vm.isGrandPlace = true;
+    }
+
+
     vm.selectedUsers = [];
     vm.users = [];
     vm.search = _.debounce(search, 512);

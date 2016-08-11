@@ -6,18 +6,17 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
+  function PlaceSettingsController($scope, $rootScope, $stateParams, $q, $uibModal, $log, $state, toastr, $timeout,
     NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_DEFAULT,
-    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl,
+    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl, NstSvcInvitationFactory,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
-    NstPlace, NstPicture) {
+    NstPlace, NstPicture, NstVmMemberItem) {
     var vm = this;
 
     /*****************************
      *** Controller Properties ***
      *****************************/
 
-    vm.members = {};
     vm.options = {
       notification: null
     };
@@ -62,6 +61,7 @@
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
+        vm.isGrandPlace = !vm.place.parent || !vm.place.parent.id;
 
         $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));
 
@@ -89,44 +89,89 @@
         return vm.hasSeeMembersAccess ?
           NstSvcPlaceFactory.getMembers(vm.placeId) :
           $q(function(resolve) {
-            resolve([]);
+            resolve({});
           });
       }).then(function(members) {
+        vm.teamates = _.concat(_.map(members.creators, function (member) {
+          return new NstVmMemberItem(member, 'creator');
+        }), _.map(members.keyHolders, function (member) {
+          return new NstVmMemberItem(member, 'key_holder');
+        }));
 
-        vm.members.creators = members.creators || [];
-        vm.members.keyHolders = members.keyHolders || [];
-        vm.members.knownGuests = members.knownGuests || [];
+        vm.participants = _.map(members.knownGuests, function (member) {
+          return new NstVmMemberItem(member, 'known_guest');
+        });
 
         $log.debug(NstUtility.string.format('Place "{0}" has {1} creator(s), {2} key holder(s) and {3} known guest(s).',
           vm.place.name,
-          vm.members.creators.length,
-          vm.members.keyHolders.length,
-          vm.members.knownGuests.length
+          members.creators ? members.creators.length : 0,
+          members.keyHolders ? members.keyHolders.length : 0,
+          members.knownGuests ? members.knownGuests.length : 0
         ));
 
-        return allowedToSeePendings() ? NstSvcPlaceFactory.getPendings(vm.placeId) :
+        // A known guest is not allowed to see other members that their invitation is still pending
+        var allowedToSeePendings = !(vm.place.id === NstSvcAuth.user.id);
+
+        return allowedToSeePendings ? NstSvcInvitationFactory.getPlacePendingInvitations(vm.placeId) :
           $q(function(resolve) {
-            resolve([]);
+            resolve({});
           });
       }).then(function(pendings) {
+        vm.teamates = _.concat(vm.teamates, _.map(pendings.pendingKeyHolders, function (invitation) {
+          return new NstVmMemberItem(invitation, 'pending_key_holder');
+        }));
 
-        vm.members.pendingKeyHolders = pendings.pendingKeyHolders || [];
-        vm.members.pendingKnownGuests = pendings.pendingKnownGuests || [];
+        vm.participants = _.concat(vm.participants, _.map(pendings.pendingKnownGuests, function (invitation) {
+          return new NstVmMemberItem(invitation, 'pending_known_guest');
+        }));
 
         $log.debug(NstUtility.string.format('Place "{0}" has {1} pending key holder(s) and {2} pending known guest(s).',
           vm.place.name,
-          vm.members.pendingKeyHolders.length,
-          vm.members.pendingKnownGuests.length
+          pendings.pendingKeyHolders ? pendings.pendingKeyHolders.length : 0,
+          pendings.pendingKnownGuests ? pendings.pendingKnownGuests.length : 0
         ));
 
-        vm.hasAnyGuest = vm.members.knownGuests.length > 0 ||
-          vm.members.pendingKnownGuests.length > 0;
+        vm.hasAnyParticipant = vm.participants.length > 0;
+        vm.hasAnyTeamate = vm.teamates.length > 0;
 
-        vm.hasAnyTeamate = vm.members.creators.length > 0 ||
-          vm.members.keyHolders.length > 0 ||
-          vm.members.pendingKeyHolders.length > 0;
+        console.log(vm);
+
       }).catch(function(error) {
         $log.debug(error);
+      });
+
+      $scope.$on('member-promoted', function (event, data) {
+        if (data.member.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
+          data.member.role = NST_PLACE_MEMBER_TYPE.CREATOR;
+        }
+      });
+      $scope.$on('member-demoted', function (event, data) {
+        if (data.member.role === NST_PLACE_MEMBER_TYPE.CREATOR) {
+          data.member.role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+        }
+      });
+      $scope.$on('member-removed', function (event, data) {
+        switch (data.member.role) {
+          case NST_PLACE_MEMBER_TYPE.CREATOR:
+          case NST_PLACE_MEMBER_TYPE.KEY_HOLDER:
+          case 'pending_' + NST_PLACE_MEMBER_TYPE.KEY_HOLDER:
+            var memberIndex = _.findIndex(vm.teamates, { id : data.member.id });
+            if (memberIndex > -1) {
+              vm.teamates.splice(memberIndex, 1);
+            }
+            break;
+          case NST_PLACE_MEMBER_TYPE.KNOWN_GUEST:
+          case 'pending_' + NST_PLACE_MEMBER_TYPE.KNOWN_GUEST:
+            var memberIndex = _.findIndex(vm.participants, { id : data.member.id });
+            if (memberIndex > -1) {
+              vm.participants.splice(memberIndex, 1);
+            }
+            break;
+          default:
+            $log.debug(NstUtility.string.format('Can not remove the member, Because her role is "{0}" which was not expected!', data.previousRole));
+            break;
+
+        }
       });
 
     })();
@@ -145,16 +190,6 @@
       }
     }
 
-    /**
-     * allowedToSeePendings - A known guest is not allowed to see other members that their invitation is still pending
-     *
-     * @return {Boolean}  Returns true if the user is not a known guest
-     */
-    function allowedToSeePendings() {
-      return !_.some(vm.members.knownGuests, function (guest) {
-        return guest.id === NstSvcAuth.user.id;
-      });
-    }
 
     function showAddModal(role) {
 
@@ -206,14 +241,14 @@
           _.forEach(values, function(result) {
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-                vm.members.pendingKeyHolders.push(result.user);
+                vm.teamates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
               } else if (result.role === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
-                vm.members.pendingKnownGuests.push(result.user);
+                vm.participants.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
               }
             }
           });
         }).catch(function(error) {
-          $log.debug('an error from all.', error);
+          $log.debug(error);
         });
       });
     };
@@ -276,22 +311,6 @@
         }
       }).result.then(function() {
         leave();
-      });
-    }
-
-    function removeMember(username) {
-      NstSvcPlaceFactory.removeMember(vm.place.id, username).then(function(result) {
-        _.forIn(vm.members, function (group) {
-          var memberIndex = _.findIndex(vm.members[group], function (member) {
-            return member.id === username;
-          });
-          if (memberIndex > -1) {
-            vm.members[group].splice(memberIndex, 1);
-            return;
-          }
-        });
-      }).catch(function(error) {
-        $log.debug(error);
       });
     }
 
@@ -382,5 +401,107 @@
 
       $log.debug(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
     }
+
+
+    // FIXME some times it got a problem ( delta causes )
+    vm.preventParentScroll = function (event) {
+      var element = event.currentTarget;
+      var delta = event.wheelDelta;
+      if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
+        event.preventDefault();
+      }
+    };
+
+    vm.recentScrollConf = {
+      axis: 'y',
+      mouseWheel: {
+        preventDefault: true
+      }
+    };
+
+
+    // FIXME: NEEDS REWRITE COMPLETELY
+    var tl = new TimelineLite({});
+    var cp = document.getElementById("cp1");
+    var nav = document.getElementsByTagName("nst-navbar")[0];
+    TweenLite.to(nav, 0.1, {
+      minHeight: 183,
+      maxHeight: 183,
+      height: 183,
+      ease: Power1.easeOut
+    });
+    $timeout(function () {
+      $rootScope.navView = false
+    });
+    vm.bodyScrollConf = {
+      axis: 'y',
+      callbacks: {
+        whileScrolling: function () {
+          var t = -this.mcs.top;
+          //$timeout(function () { $rootScope.navView = t > 55; });
+          //console.log(tl);
+          tl.kill({
+            y: true
+          }, cp);
+          TweenLite.to(cp, 0.5, {
+            y: t,
+            ease: Power2.easeOut,
+            force3D: true
+          });
+          if (t > 55 && !$rootScope.navView) {
+            //tl.kill({minHeight:true,maxHeight:true}, nav);
+            TweenLite.to(nav, 0.1, {
+              minHeight: 131,
+              maxHeight: 131,
+              height: 131,
+              ease: Power1.easeOut
+            });
+            $timeout(function () {
+              $rootScope.navView = t > 55;
+            });
+          } else if (t < 55 && $rootScope.navView) {
+            TweenLite.to(nav, 0.1, {
+              minHeight: 183,
+              maxHeight: 183,
+              height: 183,
+              ease: Power1.easeOut
+            });
+            $timeout(function () {
+              $rootScope.navView = t > 55;
+            });
+          }
+
+          //tl.lagSmoothing(200, 20);
+          tl.play();
+          // $("#content-plus").stop().animate(
+          //   {marginTop:t}, {duration:1});
+          // TweenMax.to("#cp1", .001, {
+          //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
+          // });
+          //TweenMax.lagSmoothing(500, 33);
+
+
+          //   var func = function () {
+          //     console.log(t);
+          //     $("#content-plus").animate(
+          //       {marginTop:t}, {duration:1, easing:"easeOutStrong"});
+          //   };
+          //   var debounced = _.debounce(func, 250, { 'maxWait': 1000 });
+          //   if ( t > 0) {
+          //     debounced();
+          //   } else if(t == 0){
+          //   $("#content-plus").stop().css({
+          //     marginTop: 0
+          //   });
+          // }
+        },
+        onTotalScroll: function () {
+          vm.loadMore();
+        },
+        onTotalScrollOffset: 10,
+        alwaysTriggerOffsets: false
+      }
+    };
+
   }
 })();

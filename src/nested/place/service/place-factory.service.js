@@ -20,16 +20,12 @@
         getMyTiny: undefined,
         getAccess: {},
         getRole: {},
-        getPendings: {},
         getMembers: {},
         getNotif: {},
-
         isMine: {},
-
         addMember: {},
         setNotification: {},
         setPicture: {},
-
         removeMember: {},
         remove: {}
       };
@@ -849,9 +845,9 @@
           place_id: id
         }).then(function (data) {
           defer.resolve({
-            creators : _.map(data.creators, NstSvcUserFactory.parseUser),
-            keyHolders : _.map(data.key_holders, NstSvcUserFactory.parseUser),
-            knownGuests : _.map(data.known_guests, NstSvcUserFactory.parseUser),
+            creators : _.map(data.creators, NstSvcUserFactory.parseTinyUser),
+            keyHolders : _.map(data.key_holders, NstSvcUserFactory.parseTinyUser),
+            knownGuests : _.map(data.known_guests, NstSvcUserFactory.parseTinyUser),
           });
 
           $log.debug('Place Factory | Member Retrieve Response: ', data);
@@ -880,56 +876,6 @@
       });
     };
 
-    PlaceFactory.prototype.getPendings = function (id) {
-      var factory = this;
-
-      if (!this.requests.getPendings[id]) {
-        var defer = $q.defer();
-        var query = new NstFactoryQuery(id);
-
-        // TODO: Ask server to merge these 2 request
-        $q.all([
-          NstSvcServer.request('place/get_pending_invitations', {
-            place_id: id,
-            member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER
-          }),
-          NstSvcServer.request('place/get_pending_invitations', {
-            place_id: id,
-            member_type : NST_PLACE_MEMBER_TYPE.KNOWN_GUEST
-          })
-        ]).then(function (values) {
-          defer.resolve({
-            pendingKeyHolders : _.map(values[0].invitations, function (invitation) {
-              return NstSvcUserFactory.parseUser(invitation.invitee);
-            }),
-            pendingKnownGuests : _.map(values[1].invitations, function (invitation) {
-              return NstSvcUserFactory.parseUser(invitation.invitee);
-            })
-          });
-        }).catch(function (error) {
-          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          $log.debug(error);
-        });
-
-        this.requests.getPendings[id] = defer.promise;
-      }
-
-      return this.requests.getPendings[id].then(function () {
-        var args = arguments;
-        delete factory.requests.getPendings[id];
-
-        return $q(function (res) {
-          res.apply(null, args);
-        });
-      }).catch(function () {
-        var args = arguments;
-        delete factory.requests.getPendings[id];
-
-        return $q(function (res, rej) {
-          rej.apply(null, args);
-        });
-      });
-    };
 
     PlaceFactory.prototype.getRoleOnPlace = function (id, forceRequest) {
       var factory = this;

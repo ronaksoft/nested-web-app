@@ -10,13 +10,13 @@
                              _, toastr,
                              ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
-                             NstTinyPlace, NstPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
 
     /*****************************
      *** Controller Properties ***
      *****************************/
-
+    
     vm.model = {
       recipients: [],
       attachments: [],
@@ -277,7 +277,6 @@
       return vm.model.modified;
     };
 
-    // TODO: Call this while model is changed
     vm.model.check = function () {
       vm.model.isModified();
 
@@ -344,7 +343,7 @@
         var deferred = $q.defer();
 
         if (vm.model.saving) {
-          // TODO: Already being in save process error
+          // Already is being sent process error
           deferred.reject([{
             name: 'saving',
             message: 'Already is being sent'
