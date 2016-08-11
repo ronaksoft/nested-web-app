@@ -25,9 +25,9 @@
               </div>
 
               <div class="_df _fw input-select-match">
-                <ui-select class="address-input _dib" id="input-compose-to"
+                <ui-select multiple class="address-input _dib" id="input-compose-to"
                            page-change-element data-ng-model="ctlCompose.model.recipients" data-ng-change="ctlCompose.model.check()"
-                           multiple tagging="ctlCompose.search.tagger" tagging-label="false">
+                           tagging="ctlCompose.search.tagger" tagging-label="true">
                   <ui-select-match placeholder="Type place name or email address...">
                     <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
                   </ui-select-match>

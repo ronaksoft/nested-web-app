@@ -16,7 +16,7 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-    
+
     vm.model = {
       recipients: [],
       attachments: [],
