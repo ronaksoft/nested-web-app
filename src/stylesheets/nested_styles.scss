@@ -1123,7 +1123,6 @@ h3 {
   background-color: #E7FBF0;
   border: solid 1px $color-border;
   border-top-width: 0;
-  padding: 8px 8px 0 8px;
   z-index: 10;
   transition-duration: .3s;
 }
@@ -1140,14 +1139,17 @@ h3 {
 }
 .post-card-comments {
   align-items: flex-start;
-  margin: 4px 0;
   background-color: #E7FBf0;
   padding: 8px 8px 0 8px;
+  transition: 500ms;
+}
+
+.post-card-comments:first-of-type {
+  margin-top: 8px;
 }
 
 .post-card-comments:hover {
   background-color: #D0f7e1;
-
 }
 
 .post-card-comments .text{
@@ -1179,10 +1181,12 @@ h3 {
   font-family: OpenSans, sans-serif;
   font-weight: 300;
   color: $color-wind;
+  margin: 0 4px;
 }
 .post-card-comment .post-card-comment-input {
   height: 48px;
   align-items: center;
+  padding: 0 6px;
 }
 .post-card-comment-input input{
   height: 32px;
