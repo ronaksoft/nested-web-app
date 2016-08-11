@@ -16,7 +16,7 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-    
+
     vm.model = {
       recipients: [],
       attachments: [],
@@ -25,10 +25,10 @@
       forwardedFrom: null,
       replyTo: null,
       errors: [],
+      modified: false,
       ready: false,
       saving: false,
-      saved: false,
-      modified: false
+      saved: false
     };
 
     vm.search = {
