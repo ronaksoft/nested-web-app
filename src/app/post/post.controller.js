@@ -56,7 +56,7 @@
       reply_sender: $state.href('compose-reply-sender', { postId: vm.postId }),
       forward: $state.href('compose-forward', { postId: vm.postId })
     };
-    
+
 
     /*****************************
      ***** Controller Methods ****
