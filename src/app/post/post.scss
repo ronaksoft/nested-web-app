@@ -176,6 +176,7 @@
 
 #PostView #Content {
   vertical-align: top;
+  min-height: calc(100vh - 400px);
 }
 
 #PostView #PostBody {

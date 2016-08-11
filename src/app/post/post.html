@@ -53,13 +53,12 @@
   </div>
   <div class="_difh _fh" id="PostBody">
     <div ng-scrollbars id="Content" class="_df _fw">
-      <div class="_difv _fh _fw">
-        <div class="_df _fw">
+        <div class="_db _fw">
           <div class="attachments _fw _df" data-ng-if="ctlPost.post.hasAnyAttachment">
             <nst-attachments-view post-id="ctlPost.post.id" attachments="ctlPost.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>
           </div>
         </div>
-        <div class="_df _fh">
+        <div class="_db _fh">
           <div class="_fh _fw">
             <div class="msg-post-view {{ctlPost.post.contentType == 'text/plain' ? 'pre' : ''}}"
                  dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.body)) ? 'rtl' : 'ltr'}}"
@@ -68,7 +67,6 @@
           </div>
         </div>
       </div>
-    </div>
 
     <div id="Comments" class="_difv _vat">
       <div class="_difv comment-msg" ng-scrollbars ng-scrollbars-config="ctlPost.scrollbarConfig">
