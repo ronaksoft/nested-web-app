@@ -134,6 +134,7 @@ textarea {
 ._pr { position: relative;}
 ._pf { position: fixed;}
 ._oh { overflow: hidden; }
+._oph { opacity: .5; }
 ._tofe {
     white-space: nowrap;
     word-break: keep-all;
@@ -1079,7 +1080,6 @@ a .ui-select-choises-row-inner {
   position: absolute;
   background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,.04));
   background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,.04) 100%);
-
 }
 
 .sidebar > div {

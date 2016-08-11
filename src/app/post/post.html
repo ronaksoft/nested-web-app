@@ -17,7 +17,7 @@
            data-radius="12" class="account-initials-24 _df" data-word-count="2" data-font-size="11"/>
       <span class="actor-name nst-mood-cheerful _df">{{ctlPost.post.sender.name}}</span>
       <span class="margin-l-5 nst-mood-storm">to</span>
-      <div class="badges _df _fw" ng-scrollbars ng-scrollbars-config="ctlPost.scrollConfig">
+      <div class="badges _df _fw">
         <div class="large-badge _df" data-ng-repeat="place in ctlPost.post.allPlaces">
           <a class="_di _fl" href="/#/places/{{place.id}}/messages">
             {{place.name}}
@@ -53,13 +53,12 @@
   </div>
   <div class="_difh _fh" id="PostBody">
     <div ng-scrollbars id="Content" class="_df _fw">
-      <div class="_difv _fh _fw">
-        <div class="_df _fw">
+        <div class="_db _fw">
           <div class="attachments _fw _df" data-ng-if="ctlPost.post.hasAnyAttachment">
             <nst-attachments-view post-id="ctlPost.post.id" attachments="ctlPost.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>
           </div>
         </div>
-        <div class="_df _fh">
+        <div class="_db _fh">
           <div class="_fh _fw">
             <div class="msg-post-view {{ctlPost.post.contentType == 'text/plain' ? 'pre' : ''}}"
                  dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.body)) ? 'rtl' : 'ltr'}}"
@@ -68,56 +67,58 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div id="Comments" class="_difv _vat">
-      <div class="_difv comment-msg" onscroll="angular.element(this).scope().ctlPost.checkScroll(event)"
-           scroll-me="scrolling">
-        <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
-          <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
-        </div>
-        <div data-ng-repeat="comment in ctlPost.comments" class="_difh NewComment">
-          <div class="_df profile-post-view">
-            <img initials="comment.sender.name" data-url="comment.sender.avatar" data-width="24" data-height="24"
-                 data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
-          </div>
-          <div class="_difv _fw">
-            <div class="_difh">
-              <h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.name"></h5>
-              <div class="_df time-post-view nst-mood-storm"
-                   data-uib-tooltip="{{comment.date | date : 'full'}}"
-                   data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
+    <div id="Comments" class="_df _vat">
+      <div class="_fw" ng-scrollbars>
+        <div class="_db _fh">
+          <div class="comment-msg _difv _fw">
+            <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
+              <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
             </div>
-            <div class="_df _fw cmt-post-view">
-              <emoji>
-                <mark marked="comment.body">
-                </mark>
-              </emoji>
-              &nbsp;&nbsp;
-              <a href="javascript:void(0);" data-ng-if="ctlPost.allowToRemoveComment(comment)"
-                 class="nst-mood-storm nst-font-small"
-                 ng-click="ctlPost.removeComment(comment);">delete</a>
+            <div data-ng-repeat="comment in ctlPost.comments" class="_fw _difh NewComment">
+              <div class="_df profile-post-view">
+                <img initials="comment.sender.name" data-url="comment.sender.avatar" data-width="24" data-height="24"
+                     data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
+              </div>
+              <div class="_difv _fw">
+                <div class="_difh">
+                  <h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.name"></h5>
+                  <div class="_df time-post-view nst-mood-storm"
+                       data-uib-tooltip="{{comment.date | date : 'full'}}"
+                       data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
+                </div>
+                <div class="_df _fw cmt-post-view">
+                  <emoji>
+                    <mark marked="comment.body">
+                    </mark>
+                  </emoji>
+                  &nbsp;&nbsp;
+                  <a href="javascript:void(0);" data-ng-if="ctlPost.allowToRemoveComment(comment)"
+                     class="nst-mood-storm nst-font-small"
+                     ng-click="ctlPost.removeComment(comment);">delete</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="comment-input _difh">
-        <div class="_df">
+        <div class="_difv">
           <img initials="ctlPost.user.name" data-url="ctlPost.user.avatar" data-width="32" data-height="32"
                data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
+          <span data-ng-show="250 - ctlPost.nextComment.length < 20"
+                class="nst-mood-simple _df">{{250 - ctlPost.nextComment.length}}</span>
         </div>
         <div class="_difv _fw">
+          <!--<div class="_difh sendcomment">
+            <button class="butn-send-comment df" data-ng-click="ctlPost.sendComment($event)">Send</button>
+          </div>-->
           <textarea class="_df _fw" cols="32" maxlength="250"
                     data-ng-disabled="ctlPost.status.commentSendInProgress"
                     data-ng-model="ctlPost.nextComment"
                     ng-keyup="ctlPost.sendComment($event)"
                     placeholder="write your comment..."/>
           </textarea>
-          <div class="_difh sendcomment">
-            <span data-ng-show="250 - nextComment.length < 20"
-                  class="nst-mood-simple _df">{{250 - nextComment.length}}</span>
-            <button class="butn-send-comment df" data-ng-click="ctlPost.sendComment($event)">Send</button>
-          </div>
         </div>
       </div>
     </div>
