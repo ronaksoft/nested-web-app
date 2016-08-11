@@ -270,7 +270,12 @@
         return loadComments();
       }).then(function () {
         vm.status.ready = true;
-        NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {detail: { postId : vm.post.id }}));
+        NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
+          detail: {
+            postId : vm.post.id,
+            comments : vm.comments
+          }
+        }));
       });
     })();
 
