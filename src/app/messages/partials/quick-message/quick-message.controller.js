@@ -16,10 +16,10 @@
       subject: '',
       body: '',
       errors: [],
+      modified: false,
       ready: false,
       saving: false,
-      saved: false,
-      modified: false
+      saved: false
     };
 
     /*****************************
@@ -67,7 +67,18 @@
       vm.model.subject = form.elements['subject'].value;
       vm.model.body = form.elements['body'].value;
 
-      return vm.send();
+      vm.send().then(function () {
+        form.elements['subject'].value = '';
+        form.elements['body'].value = '';
+        vm.model.subject = '';
+        vm.model.body = '';
+        vm.model.saved = false;
+        vm.model.check();
+      });
+
+      event.preventDefault();
+
+      return false;
     };
 
     vm.send = function () {
