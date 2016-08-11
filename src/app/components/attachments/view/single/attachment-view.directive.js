@@ -30,7 +30,10 @@
           scope.tplUrl = 'app/components/attachments/view/single/partials/image.html';
           break;
 
-        case NST_FILE_TYPE.MULTIMEDIA:
+        case NST_FILE_TYPE.VIDEO:
+          scope.tplUrl = 'app/components/attachments/view/single/partials/media.html';
+          break;
+        case NST_FILE_TYPE.AUDIO:
           scope.tplUrl = 'app/components/attachments/view/single/partials/media.html';
           break;
 

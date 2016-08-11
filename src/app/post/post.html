@@ -7,7 +7,7 @@
       <p class="_df _fw" ng-if="ctlPost.post.subject.length < 1">
         <i>No Subject</i>
       </p>
-      <div class="time nst-mood-storm _fn">{{ctlPost.post.date}}</div>
+      <div class="time nst-mood-storm _fn">{{ctlPost.post.date | date : 'long'}}</div>
       <div class="closebut" ng-click="$close(result)">
         <img src="../assets/icons/close.svg"/>
       </div>
@@ -83,9 +83,9 @@
               <div class="_difv _fw">
                 <div class="_difh">
                   <h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.name"></h5>
-                  <div class="_df time-post-view nst-mood-storm" data-ng-bind="comment.date | date:'dd MMM yyyy'"
-                       data-uib-tooltip="{{comment.date | date:'yyyy d MMM H:mm'}}"
-                       data-tooltip-append-to-body="true" data-tooltip-placement="auto left"></div>
+                  <div class="_df time-post-view nst-mood-storm"
+                       data-uib-tooltip="{{comment.date | date : 'full'}}"
+                       data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
                 </div>
                 <div class="_df _fw cmt-post-view">
                   <emoji>
