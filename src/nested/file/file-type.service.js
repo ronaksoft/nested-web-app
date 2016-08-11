@@ -29,12 +29,14 @@
       'image/svg+xml'
     ];
 
-    fileGroups[NST_FILE_TYPE.MULTIMEDIA] = [
+    fileGroups[NST_FILE_TYPE.AUDIO] = [
       'audio/mpeg',
       'audio/aac',
       'audio/mp4',
       'audio/wma',
-      'audio/ogg',
+      'audio/ogg'
+    ];
+    fileGroups[NST_FILE_TYPE.VIDEO] = [
       'video/mp4',
       'video/3gp',
       'video/ogg',
