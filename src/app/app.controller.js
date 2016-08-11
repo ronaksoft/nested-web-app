@@ -8,7 +8,7 @@
   /** @ngInject */
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack,
                          hotkeys,
-                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR,
+                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT,
                          NstSvcServer, NstSvcAuth, NST_SRV_EVENT, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
 
@@ -188,6 +188,12 @@
     /*****************************
      *****  Event Listeners   ****
      *****************************/
+
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
+      if (-1 == NST_PAGE.SIGNIN.indexOf($state.current.name)) {
+        $state.go($state.current.name, $state.params);
+      }
+    });
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       $uibModalStack.dismissAll();

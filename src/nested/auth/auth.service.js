@@ -100,7 +100,6 @@
 
       switch (reason) {
         case NST_UNREGISTER_REASON.DISCONNECT:
-        case NST_UNREGISTER_REASON.AUTH_FAIL:
           deferred.resolve(reason);
           break;
 
