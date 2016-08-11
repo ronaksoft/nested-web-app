@@ -20,7 +20,8 @@
         <div ng-if="ctlPostCard.post.isReplyed" class="icon icon-post-head icon-replied"></div>
         <h4 class="_df">{{ctlPostCard.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{ctlPostCard.post.sender.username}}</span>
       </div>
-      <span class="_df _fn post-card-time">{{ctlPostCard.post.date}}</span>
+      <span class="_df _fn post-card-time" data-uib-tooltip="{{ctlPostCard.post.date | date : 'full'}}"
+      data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{ctlPostCard.post.date | date : 'short'}}</span>
     </div>
   </section>
   <section class="post-subject" nst-post-modal post="ctlPostCard.post"

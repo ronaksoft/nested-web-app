@@ -36,7 +36,7 @@
         allPlaces: _.map(postPlaces, mapPlace),
         otherPlacesCount: postPlaces.length - 1,
         allPlacesCount: postPlaces.length,
-        date: formatMessageDate(post.date),
+        date: post.date,
         attachments: _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem),
         hasAnyAttachment: post.attachments.length > 0,
         comments: _.map(post.comments, mapComment),
@@ -53,33 +53,6 @@
 
       function mapComment(comment) {
         return NstSvcCommentMap.toMessageComment(comment);
-      }
-
-      function formatMessageDate(date) {
-        if (!date) {
-          return 'Unknown';
-        }
-
-        if (!moment.isMoment(date)) {
-          date = moment(date);
-        }
-
-        var today = moment().startOf('day');
-        if (date.isSameOrAfter(today)) { // today
-          return date.format('[Today at] HH:mm');
-        }
-
-        var yesterday = moment().startOf('day').subtract(1, 'days');
-        if (date.isSameOrAfter(yesterday)) { // yesterday
-          return date.format('[Yesterday at] HH:mm');
-        }
-
-        var year = moment().startOf('year');
-        if (date.isSameOrAfter(year)) { // current year
-          return date.format('MMM DD, HH:mm');
-        }
-
-        return date.format("MMM DD YYYY, HH:mm"); // last year and older
       }
     }
 
@@ -98,7 +71,7 @@
         allPlaces: _.map(postPlaces, mapPlace),
         otherPlacesCount: postPlaces.length - 1,
         allPlacesCount: postPlaces.length,
-        date: formatPostDate(post.date),
+        date: post.date,
         attachments: _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem),
         hasAnyAttachment: post.attachments.length > 0,
         comments: _.map(post.comments, mapComment),
@@ -115,33 +88,6 @@
 
       function mapComment(comment) {
         return NstSvcCommentMap.toPostComment(comment);
-      }
-
-      function formatPostDate(date) {
-        if (!date) {
-          return 'Unknown';
-        }
-
-        if (!moment.isMoment(date)) {
-          date = moment(date);
-        }
-
-        var today = moment().startOf('day');
-        if (date.isSameOrAfter(today)) { // today
-          return date.format('[Today at] HH:mm');
-        }
-
-        var yesterday = moment().startOf('day').subtract(1, 'days');
-        if (date.isSameOrAfter(yesterday)) { // yesterday
-          return date.format('[Yesterday at] HH:mm');
-        }
-
-        var year = moment().startOf('year');
-        if (date.isSameOrAfter(year)) { // current year
-          return date.format('MMM DD, HH:mm');
-        }
-
-        return date.format("MMM DD YYYY, HH:mm"); // last year and older
       }
     }
 
