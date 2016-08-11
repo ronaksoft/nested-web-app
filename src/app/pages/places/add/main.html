@@ -2,9 +2,9 @@
   <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed"  class="_fn _fh"></nst-sidebar>
   <div class="nst-container">
     <nst-navbar data-ng-model="navbar" controls="ctlPlaceAdd.controls" page="ctlApp.page"></nst-navbar>
-    <section class="nst-content _tr" id="content-wrapper" page-change="ctlPlaceAdd.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
-      <section class="content _bgwhite">
-        <div class="panel-create-place  _ma _fh">
+    <section class="nst-content _tr" id="content-wrapper" ng-scrollbars page-change="ctlPlaceAdd.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+      <section class="content _bgwhite _fh">
+        <div class="panel-create-place  _ma">
           <form name="CreatePlaceForm">
             <ul class="list-inline head">
               <li>
