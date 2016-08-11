@@ -197,6 +197,7 @@ mark {
   background-color: inherit;
   color: inherit;
   word-break: break-all;
+  word-break: break-word;
 }
 
 .butn {
@@ -1338,6 +1339,9 @@ input[type="checkbox"]:checked + label.setting {
  */
 .mCustomScrollBox {
   width: 100%;
+}
+.mCSB_scrollTools_vertical {
+  display: block!important;
 }
 #content-wrapper>.mCustomScrollBox>.mCSB_container {
   justify-content: center;

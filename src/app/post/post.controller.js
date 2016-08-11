@@ -25,6 +25,13 @@
       limit: 10
     };
 
+    vm.scrollbarConfig = {
+      autoHideScrollbar: false,
+      advanced:{
+        updateOnContentResize: true
+      }
+    };
+
     vm.postModel = undefined;
     vm.post = undefined;
     if (vmPost) {
