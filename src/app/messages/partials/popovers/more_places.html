@@ -1,5 +1,6 @@
-<div id="popup-msg-badge" class="_fw _fh" ng-scrollbars>
-  <div  data-ng-repeat="place in ctlPostCard.post.allPlaces" class="_dtr hovercolor">
+<div id="popup-msg-badge" class="_fw _difv" ng-scrollbars>
+  <div  data-ng-repeat="place in ctlPostCard.post.allPlaces" class="_fw _df hovercolor">
+    <a class="more-place-row" href="#/messages/{{place.id}}">
     <div class="_dtc">
       <img src="{{place.picture}}" class="account-initials-32"/>
     </div>
@@ -7,7 +8,7 @@
       <div class="_dtr">
         <ul class="list-unstyled text-center">
           <li>
-            <span href="#/messages/{{place.id}}" class="_dtc teammate-name nst-mood-solid text-left">{{place.name}}</span>
+            <span class="_dtc teammate-name nst-mood-solid text-left">{{place.name}}</span>
           </li>
         </ul>
       </div>
@@ -15,6 +16,7 @@
         <div class="_dtc nst-mood-storm nst-font-small">{{place.id}}</div>
       </div>
     </div>
+    </a>
   </div>
 </div>
 
