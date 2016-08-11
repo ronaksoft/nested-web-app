@@ -104,6 +104,14 @@
           deferred.resolve(reason);
           break;
 
+        case NST_UNREGISTER_REASON.AUTH_FAIL:
+          this.setLastSessionKey(null);
+          this.setLastSessionSecret(null);
+          $cookies.remove('nss');
+          $cookies.remove('nsk');
+          deferred.resolve(reason);
+          break;
+
         default:
           this.setLastSessionKey(null);
           this.setLastSessionSecret(null);
