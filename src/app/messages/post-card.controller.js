@@ -173,6 +173,7 @@
      */
     NstSvcPostFactory.addEventListener(NST_POST_EVENT.VIEWED, function (e) {
       if (e.detail.postId === vm.post.id) {
+        vm.post.commentsCount += vm.newCommentsCount;
         vm.newCommentsCount = 0;
         if (e.detail.comments && e.detail.comments.length > 0) {
           vm.post.comments = e.detail.comments;
