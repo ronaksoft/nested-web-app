@@ -107,7 +107,8 @@
       if (NstSvcAuth.isInAuthorization()) {
         if (toPublicState) {
           return {
-            name: NST_DEFAULT.STATE
+            name: NST_DEFAULT.STATE,
+            params: {}
           };
         }
       } else {
@@ -191,7 +192,8 @@
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
       if (-1 == NST_PAGE.SIGNIN.indexOf($state.current.name)) {
-        $state.go($state.current.name, $state.params);
+        var validState = getValidState($state.current, $state.params);
+        $state.go(validState.name, validState.params);
       }
     });
 
