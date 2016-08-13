@@ -1,7 +1,6 @@
 'use strict';
 
 var path = require('path');
-var args = require('yargs');
 var gulp = require('gulp');
 var conf = require('./conf');
 
@@ -18,26 +17,16 @@ gulp.task('inject-reload', ['inject'], function() {
   browserSync.reload();
 });
 
+// TODO:Can be splitted into inject:development, inject:production, inject:staging
 gulp.task('inject', ['scripts', 'styles'], function () {
   var injectStyles = gulp.src([
     path.join(conf.paths.tmp, '/serve/app/**/*.css'),
     path.join('!' + conf.paths.tmp, '/serve/app/vendor.css')
   ], { read: false });
 
-  // TODO:Can be splitted into inject:development, inject:production, inject:staging
-  var config = 'development';
-  switch (args.argv.mode) {
-    case 'production':
-      config = 'production';
-      break;
-
-    case 'staging':
-      config = 'staging';
-      break;
-  }
 
   var injectScripts = gulp.src([
-    path.join(conf.paths.tmp, '/serve/config/' + config + '.js'),
+    path.join(conf.paths.tmp, '/serve/config/' + conf.mode + '.js'),
     path.join(conf.paths.src, '/app/**/*.module.js'),
     path.join(conf.paths.src, '/app/**/*.const.js'),
     path.join(conf.paths.src, '/nested/**/*.module.js'),

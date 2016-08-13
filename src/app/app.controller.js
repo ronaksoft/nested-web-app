@@ -8,8 +8,8 @@
   /** @ngInject */
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack,
                          hotkeys,
-                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT,
-                         NstSvcServer, NstSvcAuth, NST_SRV_EVENT, NstSvcPlaceFactory, NstSvcModal) {
+                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT,
+                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
 
     vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
@@ -98,8 +98,7 @@
         });
       }
     };
-
-
+    
     /*****************************
      *****  Controller Logic  ****
      *****************************/
