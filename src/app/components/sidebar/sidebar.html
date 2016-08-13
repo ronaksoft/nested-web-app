@@ -31,7 +31,7 @@
                 <img class="account-initials-40" ng-src="{{invitaion.place.avatar}}"/>
               </div>
 
-              <a data-ellipsis="invitaion.place.name" class="onlyExpand nst-mood-pending invitation-name">{{invitaion.place.name}}</a>
+              <span data-ellipsis="invitaion.place.name" class="invitation-name onlyExpand nst-mood-pending">{{invitaion.place.name}}</span>
               <span class="_fn nst-mood-pending onlyExpand">(Pending Invitation)</span>
             </a>
           </div>
@@ -53,6 +53,14 @@
           <!--</div>-->
         <!--</li>-->
       </ul>
+      <a href="{{ctlSidebar.urls.placeAdd}}">
+      <div class="create-place _fw">
+        <div>
+          <span ng-if="!ctlSidebar.collapsed">+ Create New Grand Place</span>
+          <span ng-if="ctlSidebar.collapsed">+</span>
+        </div>
+      </div>
+      </a>
     </div>
     <div class="side-profile">
       <a class="_fw" ng-show="profileMenu" href="#/profile">
@@ -86,8 +94,7 @@
       </a>
       <a class="_fw">
         <div class="_df _fn _fw _jcc" ng-click="ctlSidebar.collapsed =! ctlSidebar.collapsed">
-          <div ng-show="!ctlSidebar.collapsed" class="nst-arrow-rotated-90"></div>
-          <div ng-show="ctlSidebar.collapsed" class="nst-arrow-rotated-270"></div>
+          <div ng-class="{'nst-arrow-rotated-90' : !ctlSidebar.collapsed,'nst-arrow-rotated-270' : ctlSidebar.collapsed}" class="nst-arrow-rotated-90"></div>
         </div>
         </a>
     </div>

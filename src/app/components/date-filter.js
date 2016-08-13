@@ -11,29 +11,32 @@
         }
 
         switch (format) {
-          case 'relative':
+          case 'short':
             var today = moment().startOf('day');
             if (date.isSameOrAfter(today)) { // today
-              return date.format('[Today at] HH:mm');
+              return date.format('HH:mm');
             }
 
             var yesterday = moment().startOf('day').subtract(1, 'days');
             if (date.isSameOrAfter(yesterday)) { // yesterday
-              return date.format('[Yesterday at] HH:mm');
+              return date.format('[Yesterday ]HH:mm');
             }
 
             var year = moment().startOf('year');
             if (date.isSameOrAfter(year)) { // current year
-              return date.format('MMM DD, HH:mm');
+              return date.format('MMM DD');
             }
 
-            return date.format("MMM DD YYYY, HH:mm"); // last year and older
+            return date.format("MMM DD YYYY"); // last year and older
           case 'passed':
             // 'true' just removes the trailing 'ago'
             return date.fromNow(false);
-          default:
+          case 'long':
             return date.format("MMM DD YYYY, HH:mm");
-
+          case 'full':
+            return date.format("dddd, MMMM DD YYYY, HH:mm");
+          default:
+            return date.format("dddd, MMMM DD YYYY, HH:mm");
         }
 
 

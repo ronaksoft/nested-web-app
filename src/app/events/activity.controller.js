@@ -175,8 +175,6 @@
         vm.activitySettings.date = getLastActivityTime();
         NstSvcActivityFactory.get(vm.activitySettings).then(function (activities) {
 
-          $log.debug('Activity | Activities: ', vm.acts);
-
           if (activities.length === 0) {
             vm.reachedTheEnd = true;
           } else {

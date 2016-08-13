@@ -53,6 +53,7 @@
 
     Auth.prototype.authorize = function (data) {
       var service = this;
+      var deferred = $q.defer();
       $log.debug('Auth | Authorization', data);
 
       var options = {};
@@ -68,18 +69,17 @@
       $cookies.put('nss', this.lastSessionSecret, options);
 
       this.setUser(NstSvcUserFactory.parseUser(data.info));
+      NstSvcUserFactory.set(this.getUser());
 
-      return NstSvcUserFactory.set(this.getUser()).get(this.getUser().getId()).then(function (user) {
+      NstSvcUserFactory.get(this.getUser().getId()).then(function (user) {
         service.setUser(user);
         service.setState(NST_AUTH_STATE.AUTHORIZED);
 
         service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, { detail: { user: service.getUser() } }));
-
-        var deferred = $q.defer();
         deferred.resolve(service.getUser());
+      }).catch(deferred.reject);
 
-        return deferred.promise;
-      });
+      return deferred.promise;
     };
 
     Auth.prototype.register = function (username, password) {
@@ -97,10 +97,19 @@
     Auth.prototype.unregister = function (reason) {
       var service = this;
       var deferred = $q.defer();
+      var qUnauth = $q.defer();
 
       switch (reason) {
         case NST_UNREGISTER_REASON.DISCONNECT:
-          deferred.resolve(reason);
+          qUnauth.resolve(reason);
+          break;
+
+        case NST_UNREGISTER_REASON.AUTH_FAIL:
+          this.setLastSessionKey(null);
+          this.setLastSessionSecret(null);
+          $cookies.remove('nss');
+          $cookies.remove('nsk');
+          qUnauth.resolve(reason);
           break;
 
         default:
@@ -110,39 +119,40 @@
           $cookies.remove('nsk');
           NstSvcServer.request('session/close').then(function () {
             NstSvcServer.unauthorize();
-            deferred.resolve(reason);
-          }).catch(deferred.reject);
+            qUnauth.resolve(reason);
+          }).catch(qUnauth.reject);
           break;
       }
 
-      return deferred.promise.then(function (response) {
+      qUnauth.promise.then(function (response) {
         service.setState(NST_AUTH_STATE.UNAUTHORIZED);
         service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.UNAUTHORIZE, { detail: { reason: reason } }));
+        deferred.resolve(response);
+      }).catch(deferred.reject);
 
-        return $q(function (res) {
-          res(response);
-        });
-      });
+      return deferred.promise;
     };
 
     Auth.prototype.login = function (credentials, remember) {
       var service = this;
+      var deferred = $q.defer();
       this.setRemember(remember);
 
-      return this.register(credentials.username, credentials.password).then(
-        this.authorize.bind(this)
-      ).catch(function (error) {
-        service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: error } }));
-
-        return $q(function (res, rej) {
-          rej(error);
+      this.register(credentials.username, credentials.password).then(function (response) {
+        service.authorize(response).then(deferred.resolve);
+      }).catch(function (error) {
+        service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
+          deferred.reject(error);
+          service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: error } }));
         });
       });
+
+      return deferred.promise;
     };
 
     Auth.prototype.reconnect = function () {
       var service = this;
+      var deferred = $q.defer();
 
       if ($cookies.get('nsk')) {
         this.setLastSessionKey($cookies.get('nsk'));
@@ -154,48 +164,44 @@
 
       if (this.getLastSessionKey() && this.getLastSessionSecret()) {
         // TODO: Use Try Service
-        return this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(
-          this.authorize.bind(this)
-        ).catch(function (error) {
+        this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
+          service.authorize(response).then(deferred.resolve);
+        }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);
           switch (error.getCode()) {
             case NST_SRV_ERROR.DUPLICATE:
-              return $q(function (res) {
-                res({
-                  status: NST_SRV_RESPONSE_STATUS.SUCCESS,
-                  info: service.getUser(),
-                  _sk : {
-                    $oid: service.getLastSessionKey()
-                  },
-                  _ss: service.getLastSessionSecret()
-                });
-              }).then(this.authorize.bind(this));
+              service.authorize({
+                status: NST_SRV_RESPONSE_STATUS.SUCCESS,
+                info: service.getUser(),
+                _sk : {
+                  $oid: service.getLastSessionKey()
+                },
+                _ss: service.getLastSessionSecret()
+              }).then(deferred.resolve).catch(deferred.reject);
               break;
 
             case NST_SRV_ERROR.ACCESS_DENIED:
             case NST_SRV_ERROR.INVALID:
-              service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL);
-              service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: error } }));
-
-              return $q(function (res, rej) {
-                rej(error);
-              });
+              service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
+                deferred.reject(error);
+                service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: error } }));
+              }).catch(deferred.reject);
               break;
 
             default:
               // Try to reconnect
-              return this.reconnect();
+              service.reconnect().then(deferred.resolve).catch(deferred.reject);
               break;
           }
-        }.bind(this));
-      }
-
-      return $q(function (res, rej) {
-        rej({
+        });
+      } else {
+        deferred.reject({
           status: NST_SRV_RESPONSE_STATUS.ERROR,
           err_code: NST_SRV_ERROR.INVALID
         });
-      })
+      }
+
+      return deferred.promise;
     };
 
     Auth.prototype.logout = function () {

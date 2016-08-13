@@ -118,7 +118,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/pages/places/settings/main.html',
+        templateUrl: 'app/pages/places/settings/place-settings.html',
         controller: 'PlaceSettingsController',
         controllerAs: 'ctlSettings'
       })

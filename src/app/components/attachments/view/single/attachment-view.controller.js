@@ -5,7 +5,7 @@
     .module('nested')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $timeout, $log,
+  function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
                                     hotkeys,
                                     NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
                                     NstHttp,
@@ -115,6 +115,14 @@
 
     vm.goTo(vm.attachments.current);
 
+    $uibModalInstance.result.catch(function () {
+      return $q(function (res) {
+        res(false);
+      });
+    }).then(function () {
+      unregisterTokenUpdater();
+    });
+
     /*****************************
      *****   Request Methods  ****
      *****************************/
@@ -183,13 +191,16 @@
      *****   Other Methods    ****
      *****************************/
 
-    function registerToken(token) {
+    function unregisterTokenUpdater() {
       if (vm.attachments.tokenUpdater) {
         $timeout.cancel(vm.attachments.tokenUpdater);
         vm.attachments.tokenUpdater = undefined;
       }
+    }
 
-      // FIXME: Cancel updater on modal exit
+    function registerToken(token) {
+      unregisterTokenUpdater();
+
       vm.attachments.tokenUpdater = $timeout(function () {
         updateToken().then(function (attachment) {
           registerToken(attachment.getResource().getToken());
@@ -218,14 +229,20 @@
             vm.attachments.downloader.http.cancelDownload(vm.attachments.downloader.request);
           }
 
-          vm.attachments.current.isDownloaded = false;
           attachment.getResource().setToken(token);
+          $timeout(function () {
+            vm.attachments.current.urls.view = attachment.getResource().getUrl().view;
+            vm.attachments.current.urls.download = attachment.getResource().getUrl().download;
+            vm.attachments.current.urls.stream = attachment.getResource().getUrl().stream;
+          });
           deferred.resolve(attachment);
         }
 
         return deferred.promise;
-      })).then(function (attachment) {
-        vm.attachments.downloader.http = new NstHttp(attachment.getResource().getUrl().view);
+      }).then(function (attachment) {
+        var deferred = $q.defer();
+
+        vm.attachments.downloader.http = new NstHttp(attachment.getResource().getUrl().view + '/' + attachment.getFilename());
         vm.attachments.downloader.request = vm.attachments.downloader.http.downloadWithProgress(function (event) {
           if (event.lengthComputable) {
             vm.attachments.current.downloadedSize = event.loaded;
@@ -245,20 +262,27 @@
             var base64data = event.target.result;
             // Written in $timeout Just to update view
             $timeout(function () {
-              vm.attachments.current = mapAttachment(attachment);
+              // vm.attachments.current = mapAttachment(attachment);
+              vm.attachments.current.downloadedSize = attachment.getSize();
+              vm.attachments.current.downloadedRatio = 1;
               vm.attachments.current.isDownloaded = true;
               vm.attachments.current.url = base64data;
+
+              var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
+              vm.attachments.collection[key] = vm.attachments.current;
             });
           };
           reader.readAsDataURL(blob);
 
           deferred.resolve(attachment);
-        }).catch(function (error) {
-          $log.debug('Attachment View | Download Error: ', error);
+        }).catch(deferred.reject);
 
-          deferred.reject(error);
-        });
-      });
+        return deferred.promise;
+      }).then(deferred.resolve).catch(function (error) {
+        $log.debug('Attachment View | Download Error: ', error);
+
+        deferred.reject(error);
+      }));
 
       return deferred.promise;
     }

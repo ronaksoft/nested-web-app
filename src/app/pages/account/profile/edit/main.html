@@ -3,36 +3,39 @@
   <div class="nst-container">
     <nst-navbar data-ng-model="navbar"></nst-navbar>
 
-    <div class="nst-content" id="content-wrapper" page-change="changeMe($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+    <div class="nst-content" id="content-wrapper" page-change="ctlProfileEdit.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
       <section class="content _bgwhite">
 
         <div class="panel-profile-setting _bgwhite _ma">
 
           <div class="_fw upload-photo-container">
               <div class="_ma upload-photo">
-                <label for="logo"><img src="{{ctlProfile.user.avatar}}"></label>
-                <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlProfile.imgToUri(event)">
+                <label for="logo"><img initials="ctlProfileEdit.model.fullName" data-url="ctlProfileEdit.model.picture.url"
+                  data-width="size" data-height="size" data-radius="64" data-word-count="2" data-font-size="16"></label>
+                <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlProfileEdit.imgToUri(event)">
               </div>
               <div class="probut">
                 <label for="logo" class="add-photo-hover"></label>
-                <!-- ngIf: user.picture.org.url --><div class="remove-photo-hover" data-ng-click="ctlProfile.removeImg()" role="button" tabindex="0"></div><!-- end ngIf: user.picture.org.url -->
+                <!-- ngIf: ctlProfileEdit.model.picture.url --><div class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImg()" role="button" tabindex="0"></div><!-- end ngIf: ctlProfileEdit.model.picture.url -->
               </div>
           </div>
 
           <div class="inner-panel _ma">
-            <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{ctlProfile.user.id}}</div>
+            <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{ctlProfileEdit.model.id}}</div>
             <div class="nst-marginbtm-4">First Name</div>
             <div>
               <form name="place_id">
-                <input page-change-element type="text" name="place_id" class="nst-marginbtm-24 form-control"
-                       aria-invalid="false" data-ng-model="ctlProfile.user.fname"/>
+                <input page-change-element class="nst-marginbtm-24 form-control" aria-invalid="false"
+                       type="text" name="first_name"
+                       data-ng-model="ctlProfileEdit.model.firstName" data-ng-change="ctlProfileEdit.model.check()"/>
               </form>
             </div>
             <div class="nst-marginbtm-4">Last Name</div>
             <div>
               <form name="place_id">
-                <input page-change-element type="text" name="place_id" class=" nst-marginbtm-24 form-control"
-                       aria-invalid="false" data-ng-model="ctlProfile.user.lname"/>
+                <input page-change-element class=" nst-marginbtm-24 form-control" aria-invalid="false"
+                       type="text" name="last_name"
+                       data-ng-model="ctlProfileEdit.model.lastName" data-ng-change="ctlProfileEdit.model.check()"/>
               </form>
             </div>
             <!--<div>
@@ -47,8 +50,8 @@
             </div>>-->
             <div class="nst-marginbtm-4">Mobile Phone</div>
             <div class="_fw nst-marginbtm-24">
-              <input disabled page-change-element name="mobileNumber" international-phone-number value="{{ctlProfile.user.phone}}"
-                     class="select-birthday" data-ng-model="ctlProfile.user.phone"/>
+              <input disabled name="phone_number" international-phone-number
+                     data-ng-model="ctlProfileEdit.model.phone"/>
             </div>
             <!--<div class="nst-marginbtm-12">Gender</div>
             <div class="nst-marginbtm-64">
@@ -72,7 +75,7 @@
               <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="birth"/>
             </div>-->
             <div>
-              <button class="butn butn-sense _fw" data-ng-click="ctlProfile.update()">Save & Exit</button>
+              <button class="butn butn-sense _fw" data-ng-click="ctlProfileEdit.save()">Save & Exit</button>
             </div>
           </div>
           <div class="restplace _df _fh"></div>

@@ -7,7 +7,8 @@
       IMAGE: 'image',
       ARCHIVE: 'archive',
       DOCUMENT: 'document',
-      MULTIMEDIA: 'multimedia',
+      AUDIO: 'audio',
+      VIDEO: 'video',
       PDF: 'pdf',
       OTHER: 'other'
     });

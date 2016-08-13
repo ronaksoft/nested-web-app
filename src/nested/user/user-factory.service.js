@@ -146,6 +146,8 @@
     UserFactory.prototype.save = function (user) {
       var factory = this;
 
+      // TODO: Enqueue requests
+
       if (user.isNew()) {
         var params = {
           account_id: user.getId()
@@ -165,24 +167,55 @@
           });
         });
       } else {
-        // TODO: Add phonenumber, country, firstName, lastName
+        var deferred = $q.defer();
+
+        // TODO: Add Phone Number, Country
         var params = {
-          account_id: user.getId()
+          fname: user.getFirstName(),
+          lname: user.getLastName()
         };
 
         var query = new NstFactoryQuery(user.getId(), params);
 
+        var promises = [
+          NstSvcServer.request('account/update', params)
+        ];
+
+        if (user.getPicture().getId()) {
+          promises.push(factory.updatePicture(user.getPicture().getId()));
+        } else {
+          promises.push(factory.removePicture());
+        }
+
         // TODO: Set account picture
-        return NstSvcServer.request('account/update', params).then(function () {
-          return $q(function (res) {
-            res(NstSvcUserFactory.set().get(user.getId()).save());
-          });
+        $q.all(promises).then(function () {
+          // TODO: Dispatch event
+          user.save();
+          factory.set(user);
+
+          deferred.resolve(user);
         }).catch(function (error) {
-          return $q(function (res, rej) {
-            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
+          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
+
+        return deferred.promise;
       }
+    };
+
+    // TODO: Move to Auth Service
+    UserFactory.prototype.updatePicture = function (uid) {
+      // TODO: Enqueue requests
+      // TODO: Reject with factory error
+      // TODO: Dispatch event
+      return NstSvcServer.request('account/set_picture', { universal_id: uid });
+    };
+
+    // TODO: Move to Auth Service
+    UserFactory.prototype.removePicture = function () {
+      // TODO: Enqueue requests
+      // TODO: Reject with factory error
+      // TODO: Dispatch event
+      return NstSvcServer.request('account/remove_picture');
     };
 
     UserFactory.prototype.remove = function (id) {
@@ -282,6 +315,10 @@
       }
 
       return userData;
+    };
+
+    UserFactory.prototype.createUserModel = function (model) {
+      return new NstUser(model);
     };
 
     UserFactory.prototype.search = function (settings) {

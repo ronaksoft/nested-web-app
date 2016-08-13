@@ -176,6 +176,7 @@
 
 #PostView #Content {
   vertical-align: top;
+  min-height: calc(100vh - 400px);
 }
 
 #PostView #PostBody {
@@ -240,12 +241,14 @@
 #PostView #CommentList .comment:hover {
   background-color: #E7FBF0;
 }
-
+#Comments .mCustomScrollbar {
+  margin-bottom: 90px;
+}
 .comment-input{
   position: absolute;
   bottom: 0;
-  max-height: 90px;
-  min-height: 89px;
+  max-height: 65px;
+  min-height: 64px;
   width: 29%;
   max-width: 318px;
   margin: 10px 5px;
@@ -257,11 +260,9 @@
   top: 4px;
 }
 .comment-msg {
-  overflow-y: auto;
-  overflow-x: hidden;
   justify-content: space-between;
   //flex: 1;
-  margin-bottom: 110px;
+  //margin-bottom: 110px;
 }
 
 .actor-name {
@@ -383,6 +384,17 @@
   max-width: 100%;
   max-height: calc(100vh - 244px);
   min-height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > * {
+    max-height: calc(100vh - 244px);
+    flex: none;
+  }
+  & > img {
+    width: 100%;
+    object-fit: contain;
+  }
 }
 
 .filename-p {

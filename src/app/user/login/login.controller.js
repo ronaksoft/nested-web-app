@@ -43,8 +43,13 @@
           var state = {
             name: NST_DEFAULT.STATE
           };
+
           if ($state.params.back) {
-            state = angular.fromJson($window.decodeURIComponent($state.params.back));
+            var desState = angular.fromJson($window.decodeURIComponent($state.params.back));
+            if (desState.name && $state.get(desState.name)) {
+              state.name = desState.name;
+              state.params = desState.params || undefined;
+            }
           }
 
           res();

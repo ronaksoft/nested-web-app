@@ -19,7 +19,7 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-    
+
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
@@ -52,7 +52,20 @@
     }
 
     function getPlacePicture() {
-      return hasPlace() ? vm.place.getPicture().getThumbnail(64).getUrl().view : '';
+      var avatar = '/assets/icons/absents_place.svg';
+      if (hasPlace()) {
+        var thumbnail = vm.place.getPicture().getThumbnail(64);
+
+        if (!thumbnail.getId()) {
+          thumbnail = vm.place.getPicture().getLargestThumbnail();
+        }
+
+        if (thumbnail.getId()) {
+          avatar = thumbnail.getUrl().view;
+        }
+      }
+
+      return avatar;
     }
 
 

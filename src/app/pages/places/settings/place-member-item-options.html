@@ -2,10 +2,10 @@
   <li ng-if="memberCtrl.hasRemoveAccess" ng-click="memberCtrl.remove();">
     <i class="menuicon-remove _dib"></i><span class="_dib nst-mood-simple _vat">Remove</span>
   </li>
-  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.role == 'key_holder'" ng-click="memberCtrl.promote();">
+  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'key_holder'" ng-click="memberCtrl.promote();">
     <i class="_dib menuicon-create"></i><span class="_dib nst-mood-simple _vat">Promote</span>
   </li>
-  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.role == 'creator'" ng-click="memberCtrl.demote();">
+  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'creator'" ng-click="memberCtrl.demote();">
     <i class="_dib menuicon-create-transform"></i><span class="_dib nst-mood-simple _vat">Demote</span>
   </li>
 </ul>

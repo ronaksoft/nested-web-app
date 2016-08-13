@@ -6,11 +6,11 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $scope, $location, $q, $stateParams, $log, $timeout, $state,
-                              NST_MESSAGES_SORT_OPTION, NST_STORAGE_EVENT, NST_COMMENT_EVENT, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR,
-                              NstSvcPostFactory, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcCommentFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
-                              NstSvcMessagesSettingStorage, NstSvcPostStorage,
-                              NstSvcPostMap, NstSvcActivityMap, NstSvcModal) {
+  function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state,
+                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
+                              NstSvcMessagesSettingStorage,
+                              NstSvcPostMap, NstSvcActivityMap) {
 
     var vm = this;
     vm.messages = [];
@@ -21,7 +21,7 @@
         content: true,
         attachments: true,
         comments: true,
-        quickMessage: true,
+        quickMessage: true
       },
       sortOptionStorageKey = 'sort-option';
 
@@ -52,7 +52,7 @@
       }
 
       if (!$stateParams.sort || $stateParams.sort === NST_DEFAULT.STATE_PARAM) {
-        vm.messagesSetting.sort = NstSvcMessagesSettingStorage.get(sortOptionStorageKey);
+        vm.messagesSetting.sort = NstSvcMessagesSettingStorage.get(sortOptionStorageKey, defaultSortOption);
       } else {
         vm.messagesSetting.sort = $stateParams.sort;
         NstSvcMessagesSettingStorage.set(sortOptionStorageKey, vm.messagesSetting.sort);
@@ -140,6 +140,7 @@
             }
 
             if (messages.length < vm.messagesSetting.limit) {
+              $log.debug('Messages | Reached the end because of less results: ', messages);
               vm.reachedTheEnd = true;
             }
 
@@ -155,6 +156,7 @@
                   vm.messages.push(mapMessage(messages[i]));
                 } else {
                   // Todo :: remove this line after fixed by server
+                  $log.debug('Messages | Reached the end because of duplication: ', hasData);
                   vm.reachedTheEnd = true;
                 }
               }

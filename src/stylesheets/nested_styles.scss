@@ -197,6 +197,7 @@ mark {
   background-color: inherit;
   color: inherit;
   word-break: break-all;
+  word-break: break-word;
 }
 
 .butn {
@@ -939,6 +940,10 @@ ul ul li:last-child{
         cursor: pointer;
         transition: .2s;
       }
+      &:before {
+        content: "";
+        display: none;
+      }
     }
   }
   .name {
@@ -1044,7 +1049,7 @@ ul ul li:last-child{
   height: 20px;
   top: -1px;
 }
-.post-card .post-card-badge a{
+.post-card .post-card-badge > a{
   cursor: pointer;
   color: $color-white;
   font-size: $font-size-small;
@@ -1056,11 +1061,11 @@ ul ul li:last-child{
   z-index: 36;
 }
 
-.post-card .post-card-badge a:first-child{
+.post-card .post-card-badge > a:first-child{
   z-index: 32;
   background-color: rgb(134, 157, 145);
 }
-.post-card .post-card-badge a:last-child{
+.post-card .post-card-badge > a:last-child{
   position: relative;
   background-color: rgb(20, 215, 105);
 }
@@ -1068,7 +1073,9 @@ ul ul li:last-child{
   //margin-top: 20px;
   max-height: 190px;
 }
-
+.more-place-row {
+  padding: 4px 8px;
+}
 h3 {
   font-weight: 100;
 }
@@ -1077,6 +1084,7 @@ h3 {
   font-size: 24px;
   line-height: 29px;
   word-break: break-all;
+  word-break: break-word;
 }
 .post-card .post-body{
   font-size: 13px;
@@ -1116,7 +1124,6 @@ h3 {
   background-color: #E7FBF0;
   border: solid 1px $color-border;
   border-top-width: 0;
-  padding: 8px 8px 0 8px;
   z-index: 10;
   transition-duration: .3s;
 }
@@ -1133,14 +1140,17 @@ h3 {
 }
 .post-card-comments {
   align-items: flex-start;
-  margin: 4px 0;
   background-color: #E7FBf0;
   padding: 8px 8px 0 8px;
+  transition: 500ms;
+}
+
+.post-card-comments:first-of-type {
+  margin-top: 8px;
 }
 
 .post-card-comments:hover {
   background-color: #D0f7e1;
-
 }
 
 .post-card-comments .text{
@@ -1162,6 +1172,8 @@ h3 {
   color: #476152;
   height: 100%;
   position: relative;
+  word-break: break-all;
+  word-break: break-word;
   //white-space: nowrap;
 }
 .post-card-comments span{
@@ -1170,10 +1182,12 @@ h3 {
   font-family: OpenSans, sans-serif;
   font-weight: 300;
   color: $color-wind;
+  margin: 0 4px;
 }
 .post-card-comment .post-card-comment-input {
   height: 48px;
   align-items: center;
+  padding: 0 6px;
 }
 .post-card-comment-input input{
   height: 32px;
@@ -1201,7 +1215,7 @@ h3 {
   //max-height: 200px;
   //overflow-y: auto;
   .popover-content {
-    padding: 8px 4px;
+    padding: 8px 0;
   }
 }
 
@@ -1233,7 +1247,7 @@ h3 {
   border-radius: 6px 0px 6px 6px;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   .popover-inner {
-    padding: 8px 4px;
+    //padding: 8px 4px;
     max-height: 200px;
   }
   .popover-content {
@@ -1325,6 +1339,9 @@ input[type="checkbox"]:checked + label.setting {
  */
 .mCustomScrollBox {
   width: 100%;
+}
+.mCSB_scrollTools_vertical {
+  display: block!important;
 }
 #content-wrapper>.mCustomScrollBox>.mCSB_container {
   justify-content: center;
@@ -1497,10 +1514,6 @@ input[type="checkbox"]:checked + label.setting {
 .hovercolor:hover {
   background-color: $color-sense-5;
 }
-
-//#popup-msg-badge  div ._dtr :hover {
-//  background-color: $color-sense-5;
-//}
 
 /**
   *********************************************************

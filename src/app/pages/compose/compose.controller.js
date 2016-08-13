@@ -10,7 +10,7 @@
                              _, toastr,
                              ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
-                             NstTinyPlace, NstPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
 
     /*****************************
@@ -25,10 +25,10 @@
       forwardedFrom: null,
       replyTo: null,
       errors: [],
+      modified: false,
       ready: false,
       saving: false,
-      saved: false,
-      modified: false
+      saved: false
     };
 
     vm.search = {
@@ -92,7 +92,7 @@
     };
 
     vm.search.tagger = function (text) {
-      // FIXME: To use new class and also check for hidden places
+      // TODO: To use new class and also check for hidden places
       var isPlaceId = 0 == text.split('.').filter(function (v, i) {
           return !(0 == i ? NST_PATTERN.GRAND_PLACE_ID.test(v) : NST_PATTERN.SUB_PLACE_ID.test(v));
       }).length;
@@ -110,6 +110,7 @@
           }).catch(function () {
             $timeout(function () {
               tag.isTag = false;
+              tag.data = NstSvcPlaceFactory.parseTinyPlace({ _id: text });
             });
           })
         });
@@ -127,7 +128,7 @@
         });
       }
 
-      return new NstVmSelectTag();
+      return false;
     };
 
     vm.attachments.fileSelected = function (event) {
@@ -276,17 +277,18 @@
       return vm.model.modified;
     };
 
-    // TODO: Call this while model is changed
     vm.model.check = function () {
       vm.model.isModified();
 
       vm.model.errors = (function (model) {
         var errors = [];
 
-        if (0 == model.subject.trim().length) {
+        var atleastOne = model.subject.trim().length + model.body.trim().length + model.attachments.length > 0;
+
+        if (!atleastOne) {
           errors.push({
-            name: 'subject',
-            message: 'Subject is Empty'
+            name: 'mandatory',
+            message: 'One of Post Body, Subject or Attachment is Mandatory'
           });
         }
 
@@ -300,7 +302,7 @@
         for (var k in model.recipients) {
           var recipient = model.recipients[k];
           if (recipient instanceof NstVmSelectTag) {
-            if (recipient.data instanceof NstPlace) {
+            if (recipient.data instanceof NstTinyPlace) {
             } else if (recipient.data instanceof NstRecipient) {
             } else {
               errors.push({
@@ -308,7 +310,6 @@
                 message: 'Unknown Recipient'
               });
             }
-          } else if (recipient instanceof NstPlace) {
           } else if (recipient instanceof NstTinyPlace) {
           } else if (recipient instanceof NstVmPlace) {
           } else {
@@ -342,7 +343,7 @@
         var deferred = $q.defer();
 
         if (vm.model.saving) {
-          // TODO: Already being in save process error
+          // Already is being sent process error
           deferred.reject([{
             name: 'saving',
             message: 'Already is being sent'
@@ -364,13 +365,11 @@
             for (var k in vm.model.recipients) {
               var recipient = vm.model.recipients[k];
               if (recipient instanceof NstVmSelectTag) {
-                if (recipient.data instanceof NstPlace) {
+                if (recipient.data instanceof NstTinyPlace) {
                   places.push(recipient.data);
                 } else if (recipient.data instanceof NstRecipient) {
                   recipients.push(recipient.data);
                 }
-              } else if (recipient instanceof NstPlace) {
-                places.push(recipient);
               } else if (recipient instanceof NstTinyPlace) {
                 places.push(recipient);
               } else if (recipient instanceof NstVmPlace) {

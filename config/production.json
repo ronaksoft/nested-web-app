@@ -6,7 +6,8 @@
       "TIMEOUT": 60000
     },
     "STORE": {
-      "URL": "https://xerxes.nested.me"
+      "URL": "https://xerxes.nested.me",
+      "TOKEN_EXPMS": 3550000
     },
     "PIONEER_INVITATION": {
       "URL": "https://x.nested.me/send_invite.php"

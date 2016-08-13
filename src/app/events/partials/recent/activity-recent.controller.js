@@ -6,12 +6,15 @@
     .controller('RecentActivityController', RecentActivityController);
 
   /** @ngInject */
-  function RecentActivityController($scope, $log, toastr, $q,
-    NstSvcLoader, NstSvcTry,
-    NstSvcActivityFactory, NstSvcActivityMap,
-    NST_ACTIVITY_FACTORY_EVENT) {
+  function RecentActivityController($q,
+                                    NstSvcLoader, NstSvcTry,
+                                    NstSvcActivityFactory, NstSvcActivityMap,
+                                    NST_ACTIVITY_FACTORY_EVENT) {
     var vm = this;
     vm.activities = [];
+    vm.status = {
+      loadInProgress: true
+    };
 
     NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
       var activity = e.detail.object;
@@ -35,6 +38,7 @@
 
         NstSvcActivityFactory.getRecent(settings).then(function (activities) {
           vm.activities = mapActivities(activities);
+          vm.status.loadInProgress = false;
           defer.resolve(vm.activities);
         }).catch(defer.reject);
 
@@ -55,7 +59,9 @@
     }
 
     function activityBelongsToPlace(activity) {
-      if (activity.place) {
+      if (!vm.placeId) {
+        return true;
+      } else if (activity.place) {
         return activity.place.id === vm.placeId;
       } else if (activity.post) {
         return _.some(activity.post.places, function (place) {

@@ -44,10 +44,10 @@
         search: false
       },
       errors: [],
+      modified: false,
       ready: false,
       saving: false,
-      saved: false,
-      modified: false
+      saved: false
     };
 
     vm.controls = {
@@ -88,7 +88,6 @@
     };
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-      $log.debug('Place Add | Leaving Page');
       if (vm.model.saved || !vm.model.isModified()) {
         cancel.$destroy();
         $state.go(toState.name, toParams);
@@ -130,8 +129,6 @@
         return modified;
       })(vm.model);
 
-      $log.debug('Model is modified? ', vm.model.modified);
-
       return vm.model.modified;
     };
 
@@ -156,10 +153,16 @@
           });
         }
 
+        if (vm.model.picture.request) {
+          errors.push({
+            name: 'picture',
+            message: 'Picture uploading has not been finished yet'
+          });
+        }
+
         return errors;
       })(vm.model);
-
-      $log.debug('Place Add | Model Checked: ', vm.model.errors);
+      
       vm.model.ready = 0 == vm.model.errors.length;
 
       return vm.model.ready;
@@ -170,7 +173,6 @@
         var deferred = $q.defer();
 
         if (vm.model.saving) {
-          // TODO: Already being in save process error
           deferred.reject([{
             name: 'saving',
             message: 'Already is being created'
@@ -344,7 +346,8 @@
               })
             }
           }).catch(function () {
-            $state.go(NST_DEFAULT.STATE);
+            // App Controller StateChange Listener Handles this
+            // $state.go(NST_DEFAULT.STATE);
           });
         }
       }
