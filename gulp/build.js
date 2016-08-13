@@ -44,7 +44,6 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(jsFilter) // Begin - Javascript Files
     .pipe($.sourcemaps.init())
     .pipe($.ngAnnotate())
-    .pipe($.replace('.debugEnabled(true)', '.debugEnabled(false)')) // disable debug mode
     .pipe($.replace('./../bower_components/emojione/assets/sprites/emojione.sprites.svg', '../assets/fonts/emojione.sprites.svg')) //replace emoji svg path
     .pipe($.uglify({mangle: true, preserveComments: $.uglifySaveLicense})).on('error', conf.errorHandler('Uglify'))
     // TODO: The Obfuscator
@@ -72,8 +71,8 @@ gulp.task('html', ['inject', 'partials'], function () {
     }))
     .pipe(htmlFilter.restore) // End - HTML Files
     .pipe($.revReplace()) // Refactor Occurrences renamed of Files
-    .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
-    .pipe($.size({title: path.join(conf.paths.dist, '/'), showFiles: true}));
+    .pipe(gulp.dest(path.join(conf.paths.relDist, '/')))
+    .pipe($.size({title: path.join(conf.paths.relDist, '/'), showFiles: true}));
 });
 
 // Only applies for fonts from bower dependencies
@@ -82,7 +81,7 @@ gulp.task('fonts', function () {
   return gulp.src($.mainBowerFiles())
     .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
     .pipe($.flatten())
-    .pipe(gulp.dest(path.join(conf.paths.dist, '/assets/fonts/')));
+    .pipe(gulp.dest(path.join(conf.paths.relDist, '/assets/fonts/')));
 });
 
 gulp.task('other', function () {
@@ -95,7 +94,7 @@ gulp.task('other', function () {
     path.join('!' + conf.paths.src, '/**/*.{html,css,js,scss}')
   ])
     .pipe(fileFilter)
-    .pipe(gulp.dest(path.join(conf.paths.dist, '/')));
+    .pipe(gulp.dest(path.join(conf.paths.relDist, '/')));
 });
 
 gulp.task('clean', function () {
