@@ -23,6 +23,9 @@ a,a:focus{
   outline-width:0;
   text-decoration: none;
 }
+input,textarea,textarea:focus,input:focus {
+  font-size: 16px;
+}
 div, ul, ol {
     margin: 0;
     padding: 0;
