@@ -2028,6 +2028,11 @@ a.normal-badge {
   *********************************************************
 */
 .maincontainer.second-view {
+  .nst-container {
+    margin: 0;
+    width: 100%; 
+  }
+
   .content-plus {
     display: none;
   }

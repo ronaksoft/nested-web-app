@@ -27,7 +27,7 @@
         <div class="nst-marginbtm-16">
         </div>
         <div>
-          <input type="button" ng-disabled="!ctlRegister.phone" data-ng-click="ctlRegister.submitPhoneNumber()"
+          <input type="button" ng-disabled="!ctlRegister.phone || ctlRegister.getCodeRequest" data-ng-click="ctlRegister.submitPhoneNumber()"
                  value="Next"
                  class="butn-green butn-lg butn-login">
         </div>

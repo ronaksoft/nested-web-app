@@ -1,5 +1,4 @@
-<div class="maincontainer _fw second-view ng-class:{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
-  <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed" class="_fn _fh"></nst-sidebar>
+<div class="maincontainer second-view">
   <div class="nst-container" page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
     <div class="nst-topnav _difh">
       <div class="_fw _df">
@@ -25,9 +24,7 @@
               </div>
 
               <div class="_df _fw input-select-match">
-                <ui-select multiple class="address-input _dib" id="input-compose-to"
-                           page-change-element data-ng-model="ctlCompose.model.recipients" data-ng-change="ctlCompose.model.check()"
-                           tagging="ctlCompose.search.tagger" tagging-label="true">
+                <ui-select page-change-element multiple class="address-input _dib" id="input-compose-to" tagging="ctlCompose.search.tagger" data-ng-model="ctlCompose.model.recipients">
                   <ui-select-match placeholder="Type place name or email address...">
                     <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
                   </ui-select-match>
@@ -46,8 +43,7 @@
           <hr/>
           <section class="_difc _fw">
             <div class="_df _fw input-select-match">
-              <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..."
-                     data-ng-model="ctlCompose.model.subject" data-ng-change="ctlCompose.model.check()"/>
+              <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject"/>
             </div>
           </section>
           <hr data-ng-show="attachshow"/>
@@ -62,13 +58,19 @@
             <div class="attach _df">
               <input id="{{ctlCompose.attachments.elementId}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
             </div>
+            <div class="nst-attach-con _fh" ng-if="showUploadProgress">
+              <div class="progress">
+                <div class="progress-bar" ng-class="{'progress-bar-success' : totalProgress == 100}" role="progressbar" aria-valuenow="{{totalProgress}}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{totalProgress}}%;">
+                  <span>{{totalProgress}}%</span>
+                </div>
+              </div>
+            </div>
           </div>
           <hr class="nomargin"/>
 
           <section class="nst-compose-message">
             <div>
-              <textarea ui-tinymce="ctlCompose.configs.tinymce" placeholder="Your message goes here..."
-                        page-change-element data-ng-model="ctlCompose.model.body" data-ng-change="ctlCompose.model.check()"></textarea>
+              <textarea page-change-element ui-tinymce="ctlCompose.configs.tinymce" placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"></textarea>
             </div>
           </section>
         </div>
