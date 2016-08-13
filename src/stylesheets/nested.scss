@@ -158,6 +158,17 @@ textarea {
 ._rtl {direction: rtl}
 ._ltr{direction: ltr}
 
+._wrb {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
+}
+._txe {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 a.place,
 a.account,
 a.post {
