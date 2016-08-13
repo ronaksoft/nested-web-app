@@ -808,16 +808,17 @@ ul ul li:last-child{
   padding: 5px 10px;
   width: 100%;
   color: $color-hurricane;
+  &.active {
+    background-color: $color-sense-5;
+    color: $color-solid;
+    border-bottom-left-radius: 5px;
+  }
+  &:hover {
+    background-color: $color-sense-5;
+    color: $color-solid;
+  }
 }
 
-.list-items:hover {
-  background-color: $color-sense-5;
-  color: $color-solid;
-}
-.list-items.active {
-  background-color: $color-sense-5;
-  color: $color-solid;
-}
 .spansetting {
   height: 30px;
   padding: 5px 10px;
