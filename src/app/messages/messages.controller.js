@@ -389,15 +389,20 @@
           var t = -this.mcs.top;
           //$timeout(function () { $rootScope.navView = t > 55; });
           //console.log(tl);
-          tl.kill({
-            y: true
-          }, cp);
-          TweenLite.to(cp, 0.5, {
-            y: t,
-            ease: Power2.easeOut,
-            force3D: true
-          });
+          // tl.kill({
+          //   y: true
+          // }, cp);
+          // TweenLite.to(cp, 0.5, {
+          //   y: 140,
+          //   ease: Power2.easeOut,
+          //   force3D: true
+          // });
           if (t > 55 && !$rootScope.navView) {
+            //$('#content-plus').clone().prop('id', 'cpmirror').appendTo("#mCSB_3_container");
+            //var z = $('#content-plus').offset().left + 127;
+            //console.log(z);
+            //$('#cpmirror').css({'opacity':0});
+            //$('#content-plus').css({position: 'fixed',marginLeft: 356});
             //tl.kill({minHeight:true,maxHeight:true}, nav);
             TweenLite.to(nav, 0.1, {
               minHeight: 96,

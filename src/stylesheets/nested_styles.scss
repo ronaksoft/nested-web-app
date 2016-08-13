@@ -816,6 +816,7 @@ ul ul li:last-child{
   &:hover {
     background-color: $color-sense-5;
     color: $color-solid;
+    border-bottom-left-radius: 5px;
   }
 }
 
@@ -823,7 +824,10 @@ ul ul li:last-child{
   height: 30px;
   padding: 5px 10px;
 }
-
+#content-plus {
+  position: fixed;
+  margin-left: 356px;
+}
 
 /**
   ******************************
