@@ -125,24 +125,22 @@
             params: {}
           };
         }
-      } else {
-        if (!toPublicState) {
-          if (toState.name) {
-            return {
-              name: 'signin-back',
-              params: {
-                back: $window.encodeURIComponent(angular.toJson({
-                  name: toState.name,
-                  params: toParams
-                }))
-              }
-            };
-          } else {
-            return {
-              name: 'signin',
-              params: {}
-            };
-          }
+      } else if (!toPublicState) {
+        if (toState.name) {
+          return {
+            name: 'signin-back',
+            params: {
+              back: $window.encodeURIComponent(angular.toJson({
+                name: toState.name,
+                params: toParams
+              }))
+            }
+          };
+        } else {
+          return {
+            name: 'signin',
+            params: {}
+          };
         }
       }
 

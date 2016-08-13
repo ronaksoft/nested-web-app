@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, $timeout, md5, toastr, NST_DEFAULT, NstSvcAuth, NstHttp) {
+  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NstSvcAuth, NstHttp) {
     var vm = this;
 
 
@@ -245,8 +245,9 @@
     }
 
     //checking phone from get
-    if (getParameterByName('phone')){
-      vm.phone = getParameterByName('phone');
+    var phone = $stateParams.phone || getParameterByName('phone');
+    if (phone){
+      vm.phone = phone;
       vm.submitPhoneNumber();
       vm.step = "step2";
     }else{

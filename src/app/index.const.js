@@ -13,7 +13,8 @@
       'signin',
       'signin-back',
       'intro',
-      'register'
+      'register',
+      'registerWithPhone'
     ])
     .constant('NST_PAGE', {
       'INTRO': [
