@@ -25,6 +25,10 @@
       limit: 10
     };
 
+    vm.scrollbarConfig = {
+      
+    };
+
     vm.postModel = undefined;
     vm.post = undefined;
     if (vmPost) {
@@ -50,9 +54,6 @@
       forward: $state.href('compose-forward', { postId: vm.postId })
     };
 
-    vm.scrollConfig = {
-      axis: 'x'
-    };
 
     /*****************************
      ***** Controller Methods ****
@@ -270,7 +271,12 @@
         return loadComments();
       }).then(function () {
         vm.status.ready = true;
-        NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {detail: { postId : vm.post.id }}));
+        NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
+          detail: {
+            postId : vm.post.id,
+            comments : vm.comments
+          }
+        }));
       });
     })();
 

@@ -36,7 +36,10 @@
     .attach-thumbnail-pdf {
       background-position: 0 -192px;
     }
-    .attach-thumbnail-multimedia {
+    .attach-thumbnail-audio {
+      background-position: 0 -96px;
+    }
+    .attach-thumbnail-video {
       background-position: 0 -96px;
     }
   }
@@ -96,7 +99,12 @@
         background-color: #148CF0 !important;
       }
     }
-    .attach-badge-multimedia {
+    .attach-badge-video {
+      .badge-extension {
+        background-color: #3CC882 !important;
+      }
+    }
+    .attach-badge-audio {
       .badge-extension {
         background-color: #3CC882 !important;
       }
@@ -116,4 +124,5 @@
   width: 32px;
   height: 32px;
   left: 48%;
+  top: 45%;
 }

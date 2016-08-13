@@ -118,7 +118,7 @@
       }
 
       if (post.getForwardFrom()) {
-        params.forwarded_from = post.getForwardFrom().getId();
+        params.forward_from = post.getForwardFrom().getId();
       }
 
       if (post.getAttachments()) {

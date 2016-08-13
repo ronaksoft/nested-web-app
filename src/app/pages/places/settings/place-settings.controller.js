@@ -134,8 +134,6 @@
         vm.hasAnyParticipant = vm.participants.length > 0;
         vm.hasAnyTeamate = vm.teamates.length > 0;
 
-        console.log(vm);
-
       }).catch(function(error) {
         $log.debug(error);
       });
