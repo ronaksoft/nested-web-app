@@ -3,18 +3,18 @@
 
   angular
     .module('nested')
-    .service('NstLoggerConsole', NstLoggerConsole);
+    .factory('NstLoggerConsole', NstLoggerConsole);
 
   /** @ngInject */
-  function NstLoggerConsole($log, NST_LOG_TYPE, LoggerBasic) {
+  function NstLoggerConsole($log, NST_LOG_TYPE, NstLoggerBasic) {
     function LoggerConsole() {
     }
 
-    LoggerConsole.prototype = new LoggerBasic();
+    LoggerConsole.prototype = new NstLoggerBasic();
     LoggerConsole.prototype.constructor = LoggerConsole;
 
     LoggerConsole.prototype.write = function () {
-      var args = arguments;
+      var args = Array.prototype.slice.call(arguments);
       var type = args.shift();
 
       args.unshift((new Date()).toISOString() + ', ');
