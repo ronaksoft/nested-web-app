@@ -1,6 +1,8 @@
 <div class="nst-topnav _difh ng-class:{ 'bg-hur': topNavOpen }">
   <div class="_fw _df">
-    <div ng-class="topNavOpen ? 'icon icon-top close-icon' : 'icon icon-top hamburger-icon'" ng-click="topNavOpen = !topNavOpen"></div>
+    <div ng-class="topNavOpen ? '_pr icon icon-top close-icon' : '_pr icon icon-top hamburger-icon'" ng-click="topNavOpen = !topNavOpen">
+      <i ng-if="ctlMiniNavbar.invitations.length > 0" class="badge-invite">{{ctlMiniNavbar.invitations.length}}</i>
+    </div>
   </div>
   <div class="_fw _jcc _df">
     <a href="#/"><div id="Logo-white"></div></a>
