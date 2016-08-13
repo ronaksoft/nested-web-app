@@ -275,13 +275,12 @@ mark {
 }
 
 #inputsearch {
-  position: relative;
   display: none;
   z-index: 100;
   margin-top: 16px;
   background-color: $color-white;
   padding: 8px;
-
+  position: absolute;
 }
 #inputsearch ul li {
   padding: 5px 0;
@@ -470,19 +469,20 @@ nst-navbar {
     //height: 132px;
     //background: #aaa;
     .navbar-top {
-      height: 66px;
+      height: 48px;
       span{
         height: 0;
         padding: 0;
         overflow: hidden;
       }
       a {
-        font-size: 24px;
+        font-weight: 300;
+        font-size: 16px;
       }
 
     }
     .navbar-bottom{
-      height: 66px;
+      height: 48px;
     }
     .account-initials-64 {
       width: 40px;
@@ -504,14 +504,15 @@ nst-navbar {
 }
 
 .menu-links-butn {
-  height: 62px;
   width: 120px;
-  line-height: 58px;
   color: $color-storm;
   font-size: 24px;
+  line-height: 24px;
   text-align: center;
   cursor: pointer;
   left: 120px;
+  align-items: center;
+  justify-content: center;
   &.active {
     border-bottom: 2px solid $color-sense ;
     margin-top: 3px;
@@ -522,6 +523,7 @@ nst-navbar {
 .menu-links-search {
   width: 64px;
   height: 32px;
+  align-self: center;
 }
 
 .menu-links-butn:hover {

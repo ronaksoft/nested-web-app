@@ -400,9 +400,9 @@
           if (t > 55 && !$rootScope.navView) {
             //tl.kill({minHeight:true,maxHeight:true}, nav);
             TweenLite.to(nav, 0.1, {
-              minHeight: 131,
-              maxHeight: 131,
-              height: 131,
+              minHeight: 96,
+              maxHeight: 96,
+              height: 96,
               ease: Power1.easeOut
             });
             $timeout(function () {

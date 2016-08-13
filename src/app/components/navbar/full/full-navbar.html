@@ -29,20 +29,20 @@
 
       <div class="navbar-bottom" data-ng-if="!ctlFullNavbar.controls">
         <div ng-click="srch('overlay', 'inputsearch');" id="overlay"></div>
-        <div class="_pa">
-          <div class="menu-links-search _dib _vam">
+        <div class="_difh _fh">
+          <div class="menu-links-search _df">
             <div ng-click="srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
-          <div class="menu-links-butn _dib li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
-            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}">Messages</a>
-          </div>
-          <div class="menu-links-butn _dib li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
-            <a ng-href="{{ctlFullNavbar.getActivityUrl()}}">Activity</a>
-          </div>
-          <div ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _dib li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">
-            <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}">Settings</a>
-          </div>
+          <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
+            Messages
+          </a>
+          <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
+            Activity
+          </a>
+          <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}" ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">
+            Settings
+          </a>
         </div>
         <div id="inputsearch" class="form-group has-feedback input-border _fw">
           <input class="form-control" placeholder="Search in Ronak Software Group..." type="text" focus-me/>
