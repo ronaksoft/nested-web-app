@@ -22,7 +22,7 @@
         member: mapActivityMember(activity),
         comment: mapActivityComment(activity),
         post: mapActivityPost(activity),
-        date: getPassedTime(activity.date),
+        date: activity.date,
         type: activity.type,
         place: mapActivityPlace(activity.place)
       };

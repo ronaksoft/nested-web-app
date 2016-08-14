@@ -6,7 +6,7 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack,
+  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log,
                          hotkeys,
                          NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT,
                          NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal) {
@@ -25,6 +25,11 @@
         vm.disconected = false;
       }
     });
+
+    // calls $digest every 1 sec to update elapsed times.
+    $interval(function () {
+      $log.debug('AppController calls $digest to update passed times every 1 min.');
+    }, 60 * 1000);
 
 
     /*****************************
