@@ -40,6 +40,17 @@ input[type='text'], input[type='password'], input[type='tel'] {
     box-shadow: none;
     padding-left: 10px;
 }
+
+input::-webkit-input-placeholder {
+  line-height: 32px;
+}
+input::-moz-placeholder {
+  line-height: 32px;
+}
+input:-ms-input-placeholder {
+  line-height: 32px;
+}
+
 a {
   text-decoration: none;
 }
