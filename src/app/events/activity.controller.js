@@ -8,9 +8,9 @@
   /** @ngInject */
   function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state, $timeout,
                               toastr, _, moment,
-                              NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT,
+                              NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
                               NstSvcActivityMap,
-                              NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                              NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
                               NstActivity, NstPlace, NstInvitation) {
 
     var vm = this;
@@ -244,21 +244,32 @@
       }
     }
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (e) {
-      // console.log(e);
-      // var activity = NstSvcActivityFactory.parseActivityEvent(e.detail.timeline_data).then(function (activity) {
-      //   console.log(activity);
-      // }).catch(function (error) {
-      //   $log.debug(error);
-      // });
-      // $log.debug(e);
-      // var action = e.detail.timeline_data.action;
-      // var filter = vm.filters[vm.filter].filter;
-
-      // if (shouldPushToEvents(filter, action)) {
-      //     $scope.events.pushEvent(event, true);
-      // }
+    NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
+      var activity = e.detail.object;
+      if (activityBelongsToPlace(activity)){
+        addNewActivity(NstSvcActivityMap.toActivityItem(e.detail.object));
+      }
     });
+
+    function activityBelongsToPlace(activity) {
+      if (!vm.activitySettings.placeId) {
+        return true;
+      } else if (activity.place) {
+        return activity.place.id === vm.activitySettings.placeId;
+      } else if (activity.post) {
+        return _.some(activity.post.places, function (place) {
+          return place.id === vm.activitySettings.placeId;
+        });
+      }
+
+      return false;
+    }
+
+    function addNewActivity(activity) {
+      vm.acts.thisYear.thisMonth.today.items.unshift(activity);
+      vm.acts.thisYear.thisMonth.today.hasAnyItem = true;
+    }
+
 
     // FIXME: NEEDS REWRITE COMPLETELY
     var nav = document.getElementsByTagName("nst-navbar")[0];

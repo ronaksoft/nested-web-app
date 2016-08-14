@@ -11,6 +11,8 @@
         }
 
         switch (format) {
+          case 'time':
+            return date.format("HH:mm");
           case 'short':
             var today = moment().startOf('day');
             if (date.isSameOrAfter(today)) { // today
