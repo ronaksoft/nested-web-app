@@ -2,7 +2,7 @@
   <div class="ico">
     <div class="ei-comment-add"></div>
   </div>
-  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = act.actor"></div>
+  <div class="sender" data-ng-include="'app/events/partials/activity-common-actor.html'" data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
   <div class="msg" nst-post-modal post="act.post">
@@ -18,5 +18,5 @@
     </div>
     <div class="small-badge _df _pr"><a href="#/activity/{{act.post.places[0].id}}"  data-ng-bind="act.post.firstPlace.name"></a></div>
   </div>
-  <div class="time no-animation" data-ng-include="'app/events/partials/event/common/date.html'"></div>
+  <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
 </div>
