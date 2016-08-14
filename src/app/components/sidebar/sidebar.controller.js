@@ -6,7 +6,7 @@
     .controller('SidebarController', SidebarController);
 
   /** @ngInject */
-  function SidebarController($q, $state, $stateParams, $uibModal, $log,
+  function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log,
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS,
                              NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
@@ -18,16 +18,11 @@
      *** Controller Properties ***
      *****************************/
 
+
     vm.stateParams = $stateParams;
     vm.invitation = {};
-    vm.urls = {
-      unfiltered: $state.href(getUnfilteredState()),
-      compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
-      bookmarks: $state.href(getBookmarksState()),
-      sent: $state.href(getSentState()),
-      placeAdd: $state.href(getPlaceAddState(), { placeId: NST_DEFAULT.STATE_PARAM }),
-      subplaceAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
-    };
+    vm.places = [];
+
 
     /*****************************
      ***** Controller Methods ****
@@ -104,7 +99,46 @@
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
+      fixPlaceUrl();
     });
+
+    /*****************************
+     *****    Change urls   ****
+     *****************************/
+    
+    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      fixPlaceUrl();
+    });
+
+
+    function fixPlaceUrl() {
+
+      vm.urls = {
+        unfiltered: $state.href(getUnfilteredState()),
+        compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
+        bookmarks: $state.href(getBookmarksState()),
+        sent: $state.href(getSentState()),
+        placeAdd: $state.href(getPlaceAddState(), { placeId: NST_DEFAULT.STATE_PARAM }),
+        subplaceAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
+      };
+      mapPlacesUrl(vm.places);
+    };
+
+    function mapPlacesUrl(places) {
+      var currentPlace = $state.current;
+      places.map(function (place) {
+
+        if ($state.current.params.placeId) {
+          place.href = $state.href(currentPlace.name, Object.assign({}, $stateParams, {placeId: place.id}));
+        }else{
+          place.href = place.url;
+        }
+
+        if (place.children) mapPlacesUrl(place.children);
+
+        return place;
+      })
+    }
 
     /*****************************
      *****    State Methods   ****
@@ -250,7 +284,6 @@
         place.isFirstChild = 0 == i;
         place.isLastChild = (arr.length - 1) == i;
         place.children = mapPlaces(placeModel.children, depth + 1);
-
         return place;
       });
     }
@@ -328,5 +361,6 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
 
     });
+
   }
 })();
