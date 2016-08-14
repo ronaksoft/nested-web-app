@@ -196,16 +196,11 @@
 
     function mergeWithOtherActivities(activities) {
       var activityItems = mapActivities(activities);
-      // console.log('hoora');
-      // vm.acts = activityItems;
       _.mergeWith(vm.acts, activityItems, function (objValue, srcValue, key, object, source, stack) {
-        // console.log('targetValue',targetValue);
-        // console.log('sourceValue',sourceValue);
         if (_.isArray(objValue) && key === 'items') {
           return objValue.concat(srcValue);
         }
       });
-      console.log(vm.acts);
     }
 
     function setLastActivityDate(activities) {
