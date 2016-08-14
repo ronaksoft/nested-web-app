@@ -2,7 +2,7 @@
   <div class="ico">
     <div class="ei-mail-unread"></div>
   </div>
-  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'"
+  <div class="sender" data-ng-include="'app/events/partials/activity-common-actor.html'"
        data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
@@ -25,5 +25,5 @@
     </a>
     <a class="small-badge _df _pr" href="#/events/{{act.post.places[0].id}}">{{act.post.firstPlace.name}}</a>
   </div>
-  <div class="time no-animation" data-ng-include="'app/events/partials/event/common/date.html'"></div>
+  <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
 </div>

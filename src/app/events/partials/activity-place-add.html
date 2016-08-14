@@ -4,7 +4,7 @@
     <div initials class="placeactsico account-initials-16" data-ng-if="!act.place.picture"
          data-ng-bind="act.place.name | initials:2"></div>
   </div>
-  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'"
+  <div class="sender" data-ng-include="'app/events/partials/activity-common-actor.html'"
        data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
@@ -23,5 +23,5 @@
     </div>
   </div>
   <div class='places'></div>
-  <div class="time no-animation" data-ng-include="'app/events/partials/event/common/date.html'"></div>
+  <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
 </div>

@@ -6,7 +6,7 @@
     .directive('nstRecentActivity', function () {
       return {
         restrict: 'E',
-        templateUrl : 'app/events/partials/recent/activity-recent.html',
+        templateUrl : 'app/events/recent/activity-recent.html',
         controller : 'RecentActivityController',
         controllerAs : 'recentCtrl',
         bindToController : true,
