@@ -27,14 +27,6 @@
         place: mapActivityPlace(activity.place)
       };
 
-      function getPassedTime(date) {
-        if (!moment.isMoment(date)) {
-          date = moment(date);
-        }
-
-        return date.fromNow();
-      }
-
       function mapActivityMember(activity) {
         if (!activity.member) {
           return {};
@@ -302,14 +294,6 @@
       });
 
       return items;
-    }
-
-    function getPassedTime(date) {
-      if (!moment.isMoment(date)) {
-        date = moment(date);
-      }
-
-      return date.fromNow();
     }
 
     function mapActivityMember(activity) {
