@@ -1,13 +1,11 @@
 @import "mixin.scss";
 
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, eot woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
-@include font-face(YekanBakh2,"../assets/fonts/YekanBakhTest", bold, null, ttf);
-@include font-face(OpenSans2,"../assets/fonts/OpenSansTest", bold, null, ttf);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Light", 300, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", 400, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot ttf woff woff2);
 @include font-face(corporativeblack,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Black");
 @include font-face(corporativeregular,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Regular");
 
@@ -1163,7 +1161,6 @@ a .ui-select-choises-row-inner {
   color: white;
   display: flex;
   font-size: 16px;
-  font-family: OpenSans, sans-serif;
   font-weight: $font-wight-semibold;
   justify-content: center;
   width: 174px;
@@ -1975,20 +1972,21 @@ a.normal-badge {
   border-radius: 40px;
   flex: none;
   align-items: center;
-
-}
-.small-badge:hover {
-  background-color: #476152;
-  a {
+  display: flex;
+  color: #476152;
+  padding: 3px 8px 0 8px;
+  font-size: $font-size-xsmall;
+  margin: 0 8px;
+  white-space: nowrap;
+  height: 16px;
+  line-height: 16px;
+  white-space: nowrap;
+  &:hover {
+    background-color: #476152;
     color: $color-white;
   }
 }
-.small-badge a{
-  color: #476152;
-  margin: 0 8px;
-  font-size: 11px;
-  white-space: nowrap;
-}
+
 .place:hover {
   color : black;
 }

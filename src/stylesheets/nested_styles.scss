@@ -461,7 +461,6 @@ nst-navbar {
   height: 66px;
   display: inline-flex;
   flex-direction: row;
-  font-family: OpenSans;
   font-weight: 100;
   font-size: 24px;
 }
@@ -874,7 +873,6 @@ ul ul li:last-child{
   transform: translateZ(0) scale(1.0, 1.0);
   & > div {
     display: inline-flex;
-    font-family: OpenSans, sans-serif;
     flex-direction: column;
     width: 276px;
     height: 380px;
@@ -925,7 +923,7 @@ ul ul li:last-child{
               color: #476152;
               font-weight: 600;
               font-size: 11px;
-              line-height: 13px;
+              line-height: 15px;
               white-space: nowrap;
               text-overflow: ellipsis;
               overflow: hidden;
@@ -1078,7 +1076,7 @@ ul ul li:last-child{
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   margin-left: 5px;
-  padding: 1px 8px 5px 8px;
+  padding: 5px 8px 5px 8px;
   background-color: rgb(20, 215, 105);
   z-index: 36;
 }
@@ -1187,7 +1185,6 @@ h3 {
 }
 .post-card-comments p{
   font-size: 12px;
-  font-family: OpenSans, sans-serif;
   font-weight: 400;
   color: #476152;
   height: 100%;
@@ -1196,7 +1193,6 @@ h3 {
 .post-card-comments span{
   padding-top: 4px;
   font-size: 12px;
-  font-family: OpenSans, sans-serif;
   font-weight: 300;
   color: $color-wind;
   margin: 0 4px;
