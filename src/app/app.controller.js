@@ -43,7 +43,7 @@
 
 
     /*****************************
-     *** Hotkeys
+     ********* Hotkeys ***********
      *****************************/
 
     hotkeys.add({
@@ -57,7 +57,7 @@
       combo: 'c',
       description: 'compose state',
       callback: function () {
-        $state.go('compose');
+        $state.go('place-compose');
       }
     });
     /*****************************

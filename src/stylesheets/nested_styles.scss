@@ -186,9 +186,6 @@
   padding: 5px;
 }
 
-.badge-more {
-}
-
 .a {
   color: $color-sense;
   text-decoration: none;
@@ -196,8 +193,7 @@
 mark {
   background-color: inherit;
   color: inherit;
-  word-break: break-all;
-  word-break: break-word;
+  @extend ._wrb
 }
 
 .butn {
@@ -279,13 +275,12 @@ mark {
 }
 
 #inputsearch {
-  position: relative;
   display: none;
   z-index: 100;
   margin-top: 16px;
   background-color: $color-white;
   padding: 8px;
-
+  position: absolute;
 }
 #inputsearch ul li {
   padding: 5px 0;
@@ -396,6 +391,22 @@ mark {
     align-items: flex-end;
   }
 }
+.badge-invite {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  color: white;
+  background-color: red;
+  border-radius: 100px;
+  display: flex;
+  padding-top: 3px;
+  justify-content: center;
+  top: -15px;
+  right: -15px;
+  font-style: normal;
+  font-size: 18px;
+  font-weight: 700;
+}
 /**
   ******************************
   *  navbar
@@ -420,20 +431,25 @@ a {
   //box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
 }
 nst-navbar {
-  min-height: 183px;
-  max-height: 183px;
   height: 183px;
   width: 100%;
   transition: .3s;
   align-self: flex-start;
-  position: relative;
+  position: fixed;
   display: flex;
   flex: none;
   top: 0;
+  right: 0;
+  z-index: 55;
 }
 
+.navbarillu {
+  width: 100%;
+  height: 183px;
+  flex: none
+}
 .navbar-top {
-  height: 122px;
+  height: 117px;
   transition: .3s;
   align-items: center;
   a {
@@ -446,39 +462,33 @@ nst-navbar {
   height: 66px;
   display: inline-flex;
   flex-direction: row;
-  font-family: OpenSans;
   font-weight: 100;
   font-size: 24px;
 }
 
 .maincontainer.navtiny {
   nst-navbar{
-    //min-height: 132px;
-    //max-height: 132px;
-    //height: 132px;
-    //background: #aaa;
+    height: 96px;
     .navbar-top {
-      height: 66px;
+      height: 48px;
       span{
         height: 0;
         padding: 0;
         overflow: hidden;
       }
       a {
-        font-size: 24px;
+        font-weight: 300;
+        font-size: 16px;
       }
 
     }
     .navbar-bottom{
-      height: 66px;
+      height: 48px;
     }
     .account-initials-64 {
       width: 40px;
       height: 40px;
     }
-  }
-  #content-wrapper {
-    min-height: calc(100vh - 131px);
   }
 }
 
@@ -492,17 +502,17 @@ nst-navbar {
 }
 
 .menu-links-butn {
-  height: 62px;
   width: 120px;
-  line-height: 58px;
   color: $color-storm;
   font-size: 24px;
+  line-height: 24px;
   text-align: center;
   cursor: pointer;
   left: 120px;
+  align-items: center;
+  justify-content: center;
   &.active {
     border-bottom: 2px solid $color-sense ;
-    margin-top: 3px;
     color: $color-solid;
   }
 }
@@ -510,6 +520,7 @@ nst-navbar {
 .menu-links-search {
   width: 64px;
   height: 32px;
+  align-self: center;
 }
 
 .menu-links-butn:hover {
@@ -794,21 +805,22 @@ ul ul li:last-child{
   padding: 5px 10px;
   width: 100%;
   color: $color-hurricane;
+  &.active {
+    background-color: $color-sense-5;
+    color: $color-solid;
+    border-bottom-left-radius: 5px;
+  }
+  &:hover {
+    background-color: $color-sense-5;
+    color: $color-solid;
+    border-bottom-left-radius: 5px;
+  }
 }
 
-.list-items:hover {
-  background-color: $color-sense-5;
-  color: $color-solid;
-}
-.list-items.active {
-  background-color: $color-sense-5;
-  color: $color-solid;
-}
 .spansetting {
   height: 30px;
   padding: 5px 10px;
 }
-
 
 /**
   ******************************
@@ -819,7 +831,7 @@ ul ul li:last-child{
 .nst-content {
   display: inline-flex;
   justify-content: center;
-  flex-direction: row;
+  flex-flow: row;
   flex-shrink: inherit;
   flex-grow: inherit;
   //margin-right: auto;
@@ -840,7 +852,7 @@ ul ul li:last-child{
 #content-wrapper {
   //margin-top: 182px;
   //min-height: calc(100% - 183px);
-  min-height: calc(100vh - 183px);
+  min-height: 100vh;
   height: 100%;
   clear: both;
   justify-content: center;
@@ -862,7 +874,6 @@ ul ul li:last-child{
   transform: translateZ(0) scale(1.0, 1.0);
   & > div {
     display: inline-flex;
-    font-family: OpenSans, sans-serif;
     flex-direction: column;
     width: 276px;
     height: 380px;
@@ -913,7 +924,7 @@ ul ul li:last-child{
               color: #476152;
               font-weight: 600;
               font-size: 11px;
-              line-height: 13px;
+              line-height: 15px;
               white-space: nowrap;
               text-overflow: ellipsis;
               overflow: hidden;
@@ -955,11 +966,21 @@ ul ul li:last-child{
     padding-left: 8px;
   }
 }
+#content-plus {
+  position: fixed;
+  margin-left: 356px;
+  margin-top: 183px;
+  Left: 50%
+}
+.maincontainer.navtiny {
+  #content-plus {
+    margin-top: 96px;
+  }
+}
 .nst-navbar .content-plus{
   justify-content: center;
   height: auto;
 }
-
 
 .quick-message {
   height: 86px;
@@ -1056,7 +1077,7 @@ ul ul li:last-child{
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   margin-left: 5px;
-  padding: 1px 8px 5px 8px;
+  padding: 5px 8px 5px 8px;
   background-color: rgb(20, 215, 105);
   z-index: 36;
 }
@@ -1083,8 +1104,6 @@ h3 {
   margin: 8px 0;
   font-size: 24px;
   line-height: 29px;
-  word-break: break-all;
-  word-break: break-word;
 }
 .post-card .post-body{
   font-size: 13px;
@@ -1167,19 +1186,14 @@ h3 {
 }
 .post-card-comments p{
   font-size: 12px;
-  font-family: OpenSans, sans-serif;
   font-weight: 400;
   color: #476152;
   height: 100%;
   position: relative;
-  word-break: break-all;
-  word-break: break-word;
-  //white-space: nowrap;
 }
 .post-card-comments span{
   padding-top: 4px;
   font-size: 12px;
-  font-family: OpenSans, sans-serif;
   font-weight: 300;
   color: $color-wind;
   margin: 0 4px;
@@ -1347,6 +1361,7 @@ input[type="checkbox"]:checked + label.setting {
   justify-content: center;
   display: flex;
   width: 100%!important;
+  min-height: 100%;
 }
 .mCSB_scrollTools {
   width: 4px;
@@ -1479,10 +1494,9 @@ input[type="checkbox"]:checked + label.setting {
   .maincontainer {
     height: 100%;
   }
-  .nst-navbar{
+  nst-navbar{
     top: 0;
-    //position: fixed;
-    //width: calc(100% - 272px);
+    width: calc(100% - 272px);
   }
   .nst-container{
     margin-left: 272px;
@@ -1493,6 +1507,10 @@ input[type="checkbox"]:checked + label.setting {
       margin-left: 76px;
       width: calc(100% - 76px );
     }
+    nst-navbar{
+      top: 0;
+      width: calc(100% - 76px);
+    }
   }
   .nst-topnav{
     display: none;
@@ -1502,12 +1520,18 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 
-//max-width: 1330px
 
 @media screen and (max-width: 1330px){
   .content-plus{
     display: none;
     height: 0!important;
+  }
+}
+@media screen and (min-width: 1330px){
+  .maincontainer.sidetiny{
+    #content-plus {
+      margin-left: 258px;
+    }
   }
 }
 
