@@ -9,7 +9,8 @@
 
     var service = {
       toRecentActivity: toRecentActivity,
-      toActivityItems: toActivityItems
+      toActivityItems: toActivityItems,
+      toActivityItem : toActivityItem
     };
 
     return service;
@@ -297,28 +298,10 @@
     function mapActivityItems(activities) {
       var items = _.map(activities, function (item) {
 
-        return {
-          id: item.id,
-          actor: mapActivityActor(item),
-          member: mapActivityMember(item),
-          comment: mapActivityComment(item),
-          place: mapActivityPlace(item),
-          post: mapActivityPost(item),
-          time: getTime(item.date),
-          date: moment(item.date).format('dddd, MMMM Do YYYY, HH:mm'),
-          type: item.type
-        };
+        return toActivityItem(item);
       });
 
       return items;
-    }
-
-    function getTime(date) {
-      if (!moment.isMoment(date)) {
-        date = moment(date);
-      }
-
-      return date.format('HH:mm');
     }
 
     function getPassedTime(date) {
@@ -430,6 +413,18 @@
       return _.orderBy(activities, 'date', 'desc');
     }
 
+    function toActivityItem(activity) {
+      return {
+        id: activity.id,
+        actor: mapActivityActor(activity),
+        member: mapActivityMember(activity),
+        comment: mapActivityComment(activity),
+        place: mapActivityPlace(activity),
+        post: mapActivityPost(activity),
+        date: moment(activity.date),
+        type: activity.type
+      };
+    }
   }
 
 })();
