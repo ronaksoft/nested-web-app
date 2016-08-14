@@ -105,7 +105,14 @@
     /*****************************
      *****    Change urls   ****
      *****************************/
-    
+
+    $scope.$watch(function () {
+      return $state.current.name;
+    },function () {
+      fixPlaceUrl();
+    });
+
+
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       fixPlaceUrl();
     });
@@ -128,7 +135,7 @@
       var currentPlace = $state.current;
       places.map(function (place) {
 
-        if ($state.current.params.placeId) {
+        if ($state.current.params && $state.current.params.placeId) {
           place.href = $state.href(currentPlace.name, Object.assign({}, $stateParams, {placeId: place.id}));
         }else{
           place.href = place.url;
