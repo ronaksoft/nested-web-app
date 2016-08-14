@@ -824,11 +824,6 @@ ul ul li:last-child{
   height: 30px;
   padding: 5px 10px;
 }
-#content-plus {
-  position: fixed;
-  margin-left: 356px;
-  Left: 50%
-}
 
 /**
   ******************************
@@ -974,6 +969,11 @@ ul ul li:last-child{
     margin-bottom: 12px;
     padding-left: 8px;
   }
+}
+#content-plus {
+  position: fixed;
+  margin-left: 356px;
+  Left: 50%
 }
 .nst-navbar .content-plus{
   justify-content: center;
@@ -1517,12 +1517,18 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 
-//max-width: 1330px
 
 @media screen and (max-width: 1330px){
   .content-plus{
     display: none;
     height: 0!important;
+  }
+}
+@media screen and (min-width: 1330px){
+  .maincontainer.sidetiny{
+    #content-plus {
+      margin-left: 258px;
+    }
   }
 }
 
