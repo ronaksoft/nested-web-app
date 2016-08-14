@@ -291,7 +291,7 @@
         whileScrolling: function () {
           var t = -this.mcs.top;
           if (t > 55 && !$rootScope.navView) {
-            TweenLite.to(nav, 0.1, {minHeight: 131, maxHeight: 131, height: 131, ease: Linear.easeNone});
+            TweenLite.to(nav, 0.1, {minHeight: 96, maxHeight: 96, height: 96, ease: Linear.easeNone});
             $timeout(function () {
               $rootScope.navView = t > 55;
             });

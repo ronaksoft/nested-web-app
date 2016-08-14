@@ -1,18 +1,14 @@
 <nst-navbar data-ng-model="navbar" place="ctlMessages.currentPlace" page="ctlApp.page"></nst-navbar>
-
 <div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlMessages.bodyScrollConf"
      onscroll="angular.element(this).scope().ctlMessages.scroll(event);angular.element(this).scope().ctlApp.scroll(event)">
   <section class="content nst-marginbtm-28">
-    <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
-      <div ng-mouseenter="popoverSortShow = true" class="iconsblock popover-white-nst-sort"
-           uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
-           data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSortShow">
+    <div class="navbarillu"></div>
+    <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" >
+      <div ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSortShow">
         <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort == 'latest-messages' ? 'Latest Messages' : 'Latest Activity'}}</span>
-        <div class="icon icon-viewicon-sort _df"></div>
+        <div class="icon icon-viewicon-sort _df" ></div>
       </div>
-      <div ng-mouseenter="popoverSetShow = true" class="iconsblock popover-white-nst-setting"
-           uib-popover-template="'app/messages/partials/popovers/setting_popover.html'"
-           data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSetShow">
+      <div ng-mouseenter="popoverSetShow = true;popoverSortShow = false"  class="iconsblock popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSetShow">
         <div class="icon icon-viewicon- "></div>
       </div>
     </div>
@@ -54,6 +50,7 @@
     </div>
     <div class="nst-marginbtm-32"></div>
   </section>
+  <div class="content-plus"></div>
   <div class="content-plus" id="content-plus">
     <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlMessages.recentScrollConf"
          onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
