@@ -19,7 +19,7 @@
     "angular-md5": "^0.1.10",
     "moment": "~2.13.0",
     "animate.css": "~3.5.1",
-    "international-phone-number": "^0.0.16",
+    "international-phone-number": "https://github.com/ronaksoft/international-phone-number.git#v0.0.17",
     "emojione": "^2.1.4",
     "videogular": "^1.4.3",
     "videogular-themes-default": "^1.4.3",
