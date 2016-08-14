@@ -448,7 +448,7 @@ nst-navbar {
   flex: none
 }
 .navbar-top {
-  height: 122px;
+  height: 117px;
   transition: .3s;
   align-items: center;
   a {
@@ -513,7 +513,6 @@ nst-navbar {
   justify-content: center;
   &.active {
     border-bottom: 2px solid $color-sense ;
-    margin-top: 3px;
     color: $color-solid;
   }
 }
@@ -1365,6 +1364,7 @@ input[type="checkbox"]:checked + label.setting {
   justify-content: center;
   display: flex;
   width: 100%!important;
+  height: 100%;
 }
 .mCSB_scrollTools {
   width: 4px;
