@@ -1,6 +1,16 @@
 {
   "NST_CONFIG": {
     "APP_ID": "web-{{BUILD}}",
+    "LOG": {
+      "LEVEL": 1,
+      "GATEWAY": {
+        "TYPE": "http",
+        "OPTIONS": {
+          "METHOD": "POST",
+          "URL": "https://api.nested.me/log"
+        }
+      }
+    },
     "WEBSOCKET": {
       "URL": "wss://cyrus.nested.me:443",
       "TIMEOUT": 60000
