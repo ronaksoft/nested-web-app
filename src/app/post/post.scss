@@ -36,7 +36,7 @@
   word-break: break-all;
   font-size: $font-size-xlarge;
   text-overflow: ellipsis;
-  line-height: 1.1em;
+  line-height: 30px;
   padding-bottom: 5px;
 }
 .post-nav-top .time {
@@ -100,8 +100,10 @@
 }
 
 .time-post-view {
-  width: 110px;
+  max-width: 110px;
   font-size: $font-size-small;
+  justify-content: flex-end;
+  padding-right: 5px;
 }
 
 .profile-post-view {
