@@ -34,10 +34,12 @@
     $rootScope.$watch(function () {
       return NstSvcAuth.isAuthorized()
     }, function () {
-      if (NstSvcAuth.isAuthorized()) {
-        vm.loginView = true
-      }else {
-        vm.loginView = false
+      if (!vm.disconected) {
+        if (NstSvcAuth.isAuthorized()) {
+          vm.loginView = true
+        } else {
+          vm.loginView = false
+        }
       }
     });
 
