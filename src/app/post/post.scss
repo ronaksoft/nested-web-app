@@ -100,8 +100,10 @@
 }
 
 .time-post-view {
-  width: 110px;
+  max-width: 110px;
   font-size: $font-size-small;
+  justify-content: flex-end;
+  padding-right: 5px;
 }
 
 .profile-post-view {
