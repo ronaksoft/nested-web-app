@@ -1364,7 +1364,7 @@ input[type="checkbox"]:checked + label.setting {
   justify-content: center;
   display: flex;
   width: 100%!important;
-  height: 100%;
+  min-height: 100%;
 }
 .mCSB_scrollTools {
   width: 4px;
