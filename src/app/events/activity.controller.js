@@ -18,10 +18,11 @@
     // TODO it needs to connect with cache
     vm.extended = true;
     // where we bind activities view-model for view
-    vm.acts = [];
+    vm.acts = {};
     // where we keep NstActivities and will be mapped to view-model
     vm.cache = [];
     vm.currentPlace = null;
+    vm.noMessages = false;
 
     vm.loadMore = loadMore;
     vm.acceptInvitation = acceptInvitation;
@@ -73,13 +74,13 @@
       if (vm.activitySettings.placeId) {
         setPlace(vm.activitySettings.placeId).then(function (place) {
           if (place) {
-            return $q.all([loadActivities()]);
+            return loadActivities();
           }
         }).catch(function (error) {
           $log.debug(error);
         });
       } else {
-        $q.all([loadActivities()]).catch(function (error) {
+        loadActivities().catch(function (error) {
           $log.debug(error);
         });
       }
@@ -92,8 +93,7 @@
      ********************/
 
     function loadMore() {
-      loadActivities().then(function () {
-      });
+      loadActivities();
     }
 
     function acceptInvitation(invitation) {
@@ -136,7 +136,6 @@
     function scroll(event) {
       var element = event.currentTarget;
       if (element.scrollTop + element.clientHeight === element.scrollHeight) {
-        $log.debug("load more");
         loadMore();
       }
     }
@@ -172,20 +171,20 @@
       vm.loading = true;
       vm.tryAgainToLoadMore = false;
       return $q(function (resolve, reject) {
-        vm.activitySettings.date = getLastActivityTime();
+
         NstSvcActivityFactory.get(vm.activitySettings).then(function (activities) {
 
           if (activities.length === 0) {
             vm.reachedTheEnd = true;
           } else {
             vm.reachedTheEnd = false;
-            vm.cache = _.concat(vm.cache, activities);
-            vm.acts = mapActivities(vm.cache);
+            setLastActivityDate(activities);
+            mergeWithOtherActivities(activities);
           }
           vm.loading = false;
           vm.tryAgainToLoadMore = false;
-          resolve(vm.acts);
 
+          resolve(vm.acts);
         }).catch(function(error) {
           vm.loading = false;
           vm.tryAgainToLoadMore = true;
@@ -195,16 +194,29 @@
       });
     }
 
-    function getLastActivityTime() {
-      var last = _.last(_.orderBy(vm.cache, 'date', 'desc'));
-      if (!last) {
-        return moment().format('x');
-      }
-      if (moment.isMoment(last.date)) {
-        return last.date.format('x');
-      }
+    function mergeWithOtherActivities(activities) {
+      var activityItems = mapActivities(activities);
+      // console.log('hoora');
+      // vm.acts = activityItems;
+      _.mergeWith(vm.acts, activityItems, function (objValue, srcValue, key, object, source, stack) {
+        // console.log('targetValue',targetValue);
+        // console.log('sourceValue',sourceValue);
+        if (_.isArray(objValue) && key === 'items') {
+          return objValue.concat(srcValue);
+        }
+      });
+      console.log(vm.acts);
+    }
 
-      return last.date.getTime();
+    function setLastActivityDate(activities) {
+      var last = _.last(activities);
+      if (!last) {
+        vm.activitySettings.date = moment().format('x');
+      } else if (moment.isMoment(last.date)) {
+        vm.activitySettings.date = last.date.format('x');
+      } else {
+        vm.activitySettings.date = last.date.getTime();
+      }
     }
 
     function loadInvitations() {
