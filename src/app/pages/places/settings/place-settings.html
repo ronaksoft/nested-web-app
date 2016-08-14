@@ -4,6 +4,7 @@
 
 
   <section class="content _bgwhite _fh">
+    <div class="navbarillu"></div>
     <div class="room-name">
       <label for="logo" class="_di">
         <img data-ng-if="ctlSettings.logoFile || ctlSettings.place.picture.thumbnails.x64.url.download"
@@ -197,6 +198,8 @@
     </div>
   </section>
 
+  <div class="content-plus">
+  </div>
   <div class="content-plus" id="content-plus">
     <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlSettings.recentScrollConf"
          onwheel="angular.element(this).scope().ctlSettings.preventParentScroll(event)">

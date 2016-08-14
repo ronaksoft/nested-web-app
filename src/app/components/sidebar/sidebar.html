@@ -25,14 +25,15 @@
       </div>
       <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0">
         <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
-          <div class="side-place-item-inner active">
+          <div class="side-place-invite-item-inner active">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
               <div class="side-place-item-image">
                 <img class="account-initials-40" ng-src="{{invitaion.place.avatar}}"/>
               </div>
-
-              <span data-ellipsis="invitaion.place.name" class="invitation-name onlyExpand nst-mood-pending">{{invitaion.place.name}}</span>
-              <span class="_fn nst-mood-pending onlyExpand">(Pending Invitation)</span>
+              <div class="_fw _difv _oh">
+                <span class="onlyExpand nst-font-small nst-mood-pending-fill">You've been invited to</span>
+                <span data-ellipsis="invitaion.place.name" class="invitation-name onlyExpand nst-mood-pending _txe _fw" style="color: #3296FF;">{{invitaion.place.name}}</span>
+              </div>
             </a>
           </div>
         </li>

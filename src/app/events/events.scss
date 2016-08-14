@@ -259,20 +259,17 @@
 
 .more-tag {
   background-color: #8AEBB4;
-  text-align: center;
-  left:5px;
+  margin-left: 5px;
   cursor: pointer;
-  border-radius: 40px;
+  border-radius: 32px;
   white-space: nowrap;
-  line-height: 13px;
-  flex:none;
-}
-.more-tag a{
+  height: 16px;
+  line-height: 16px;
+  flex : none;
   color: #476152;
+  padding: 3px 8px 2px 8px;
   font-size: $font-size-xsmall;
-  white-space: nowrap;
-  padding: 2px 8px;
-  line-height: 13px;
+  align-self: center;
 }
 .more-tag:hover {
   color: $color-white;

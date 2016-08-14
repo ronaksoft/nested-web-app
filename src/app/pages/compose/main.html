@@ -1,20 +1,9 @@
-<div class="maincontainer second-view">
-  <div class="nst-container" page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
-    <div class="nst-topnav _difh">
-      <div class="_fw _df">
-        <div class="icon icon-top hamburger-icon"></div>
-      </div>
-      <div class="_fw _jcc _df">
-        <div id="Logo-white"></div>
-      </div>
-      <div class="_fw _df">
-        <div class="icon icon-compose _df"></div>
-      </div>
-    </div>
-    <nst-navbar controls="ctlCompose.controls" place="ctlCompose.place" page="ctlApp.page"></nst-navbar>
+<div class="second-view">
+  <nst-navbar controls="ctlCompose.controls" place="ctlCompose.place" page="ctlApp.page"></nst-navbar>
 
-    <div class="nst-content _tr" id="content-wrapper" ng-scrollbars>
+  <div class="nst-content _tr" id="content-wrapper" ng-scrollbars page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
       <section class="content _bgwhite">
+        <div class="navbarillu"></div>
         <div class="_fw" ng-model="attachfiles" data-droplet>
           <div class="droplet"></div>
           <section class="first-child">
@@ -76,7 +65,6 @@
         </div>
       </section>
     </div>
-  </div>
 </div>
 
 
