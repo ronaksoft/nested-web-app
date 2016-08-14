@@ -373,12 +373,6 @@
     var tl = new TimelineLite({});
     var cp = document.getElementById("cp1");
     var nav = document.getElementsByTagName("nst-navbar")[0];
-    TweenLite.to(nav, 0.1, {
-      minHeight: 183,
-      maxHeight: 183,
-      height: 183,
-      ease: Power1.easeOut
-    });
     $timeout(function () {
       $rootScope.navView = false
     });
@@ -404,22 +398,22 @@
             //$('#cpmirror').css({'opacity':0});
             //$('#content-plus').css({position: 'fixed',marginLeft: 356});
             //tl.kill({minHeight:true,maxHeight:true}, nav);
-            TweenLite.to(nav, 0.1, {
-              minHeight: 96,
-              maxHeight: 96,
-              height: 96,
-              ease: Power1.easeOut
-            });
+            // TweenLite.to(nav, 0.1, {
+            //   minHeight: 96,
+            //   maxHeight: 96,
+            //   height: 96,
+            //   ease: Power1.easeOut
+            // });
             $timeout(function () {
               $rootScope.navView = t > 55;
             });
           } else if (t < 55 && $rootScope.navView) {
-            TweenLite.to(nav, 0.1, {
-              minHeight: 183,
-              maxHeight: 183,
-              height: 183,
-              ease: Power1.easeOut
-            });
+            // TweenLite.to(nav, 0.1, {
+            //   minHeight: 183,
+            //   maxHeight: 183,
+            //   height: 183,
+            //   ease: Power1.easeOut
+            // });
             $timeout(function () {
               $rootScope.navView = t > 55;
             });

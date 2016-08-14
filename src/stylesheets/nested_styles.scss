@@ -399,7 +399,7 @@ mark {
   background-color: red;
   border-radius: 100px;
   display: flex;
-  align-items: center;
+  padding-top: 3px;
   justify-content: center;
   top: -15px;
   right: -15px;
@@ -431,18 +431,22 @@ a {
   //box-shadow: 0px 0px 4px rgba(0,0,0,0.1);
 }
 nst-navbar {
-  min-height: 183px;
-  max-height: 183px;
   height: 183px;
   width: 100%;
   transition: .3s;
   align-self: flex-start;
-  position: relative;
+  position: fixed;
   display: flex;
   flex: none;
   top: 0;
+  z-index: 55;
 }
 
+.navbarillu {
+  width: 100%;
+  height: 183px;
+  flex: none
+}
 .navbar-top {
   height: 122px;
   transition: .3s;
@@ -464,10 +468,7 @@ nst-navbar {
 
 .maincontainer.navtiny {
   nst-navbar{
-    //min-height: 132px;
-    //max-height: 132px;
-    //height: 132px;
-    //background: #aaa;
+    height: 96px;
     .navbar-top {
       height: 48px;
       span{
@@ -488,9 +489,6 @@ nst-navbar {
       width: 40px;
       height: 40px;
     }
-  }
-  #content-wrapper {
-    min-height: calc(100vh - 131px);
   }
 }
 
@@ -834,7 +832,7 @@ ul ul li:last-child{
 .nst-content {
   display: inline-flex;
   justify-content: center;
-  flex-direction: row;
+  flex-flow: row;
   flex-shrink: inherit;
   flex-grow: inherit;
   //margin-right: auto;
@@ -855,7 +853,7 @@ ul ul li:last-child{
 #content-wrapper {
   //margin-top: 182px;
   //min-height: calc(100% - 183px);
-  min-height: calc(100vh - 183px);
+  min-height: 100vh;
   height: 100%;
   clear: both;
   justify-content: center;
@@ -973,13 +971,18 @@ ul ul li:last-child{
 #content-plus {
   position: fixed;
   margin-left: 356px;
+  margin-top: 183px;
   Left: 50%
+}
+.maincontainer.navtiny {
+  #content-plus {
+    margin-top: 96px;
+  }
 }
 .nst-navbar .content-plus{
   justify-content: center;
   height: auto;
 }
-
 
 .quick-message {
   height: 86px;
@@ -1494,10 +1497,9 @@ input[type="checkbox"]:checked + label.setting {
   .maincontainer {
     height: 100%;
   }
-  .nst-navbar{
+  nst-navbar{
     top: 0;
-    //position: fixed;
-    //width: calc(100% - 272px);
+    width: calc(100% - 272px);
   }
   .nst-container{
     margin-left: 272px;
@@ -1507,6 +1509,10 @@ input[type="checkbox"]:checked + label.setting {
     .nst-container{
       margin-left: 76px;
       width: calc(100% - 76px );
+    }
+    nst-navbar{
+      top: 0;
+      width: calc(100% - 76px);
     }
   }
   .nst-topnav{

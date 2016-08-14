@@ -6,6 +6,8 @@
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, eot woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
+@include font-face(YekanBakh2,"../assets/fonts/YekanBakhTest", bold, null, ttf);
+@include font-face(OpenSans2,"../assets/fonts/OpenSansTest", bold, null, ttf);
 @include font-face(corporativeblack,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Black");
 @include font-face(corporativeregular,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Regular");
 
@@ -22,9 +24,6 @@
 a,a:focus{
   outline-width:0;
   text-decoration: none;
-}
-input,textarea,textarea:focus,input:focus {
-  font-size: 16px;
 }
 div, ul, ol {
     margin: 0;
@@ -2055,7 +2054,7 @@ a.normal-badge {
 .maincontainer.second-view {
   .nst-container {
     margin: 0;
-    width: 100%; 
+    width: 100%;
   }
 
   .content-plus {
