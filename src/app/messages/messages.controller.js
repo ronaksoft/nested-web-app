@@ -10,7 +10,7 @@
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
                               NstSvcMessagesSettingStorage,
-                              NstSvcPostMap, NstSvcActivityMap) {
+                              NstSvcPostMap) {
 
     var vm = this;
 
@@ -92,7 +92,7 @@
 
       });
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
-        
+
       });
     })();
 
@@ -101,16 +101,13 @@
         case 'place-messages':
         case 'place-messages-sorted':
           return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlace.id);
-          break;
 
         case 'messages-sent':
         case 'messages-sent-sorted':
           return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
-          break;
 
         default:
           return NstSvcPostFactory.getMessages(vm.messagesSetting);
-          break;
       }
     }
 
@@ -120,9 +117,9 @@
           content: readSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT),
           attachments: readSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS),
           comments: readSettingItem(NST_MESSAGES_VIEW_SETTING.COMMENTS),
-          quickMessage: readSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE),
+          quickMessage: readSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE)
         };
-        vm.viewSetting = _.defaults(setting, vm.defaultViewSetting);
+        vm.viewSetting = _.defaults(setting, defaultViewSetting);
         resolve(vm.viewSetting);
       });
     }

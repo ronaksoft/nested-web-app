@@ -6,7 +6,7 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, $timeout) {
+  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state) {
     var vm = this;
     // $scope.$watch('place', function (newValue, oldValue) {
     //   console.log('place value is : ', newValue);
