@@ -3,9 +3,9 @@
 
   angular
     .module('nested')
-    .directive('orientation', OrientationInherit);
+    .directive('orientation', OrientationInheritance);
 
-  function OrientationInherit($timeout) {
+  function OrientationInheritance($timeout) {
     return {
       restrict: 'A',
       scope: {
