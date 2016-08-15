@@ -5,14 +5,41 @@
     .service('NstSvcPostFactory', NstSvcPostFactory);
 
   /** @ngInject */
-  function NstSvcPostFactory($q,
+  function NstSvcPostFactory($q, $log,
     _,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory,
+    NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData,
     NstFactoryError, NstFactoryQuery, NstPost, NstTinyPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NstObservableObject,
-    NST_MESSAGES_SORT_OPTION) {
+    NST_MESSAGES_SORT_OPTION, NST_POST_FACTORY_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION) {
 
     function PostFactory() {
 
+      var factory = this;
+
+      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (e) {
+        switch (e.detail.timeline_data.action) {
+          case NST_EVENT_ACTION.POST_ADD:
+            var postId = e.detail.timeline_data.post_id.$oid;
+            getMessage(postId).then(function (post) {
+              if (post.sender.id !== NstSvcAuth.user.id) {
+                factory.dispatchEvent(new CustomEvent(
+                  NST_POST_FACTORY_EVENT.ADD,
+                  new NstFactoryEventData(post)
+                ));
+              }
+            }).catch(function (error) {
+              $log.debug(error);
+            });
+            break;
+
+          case NST_EVENT_ACTION.POST_REMOVE:
+            var postId = e.detail.timeline_data.post_id.$oid;
+            factory.dispatchEvent(new CustomEvent(
+              NST_POST_FACTORY_EVENT.REMOVE,
+              new NstFactoryEventData(postId)
+            ));
+            break;
+        }
+      });
     }
 
     PostFactory.prototype = new NstObservableObject();

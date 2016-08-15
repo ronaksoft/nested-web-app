@@ -1,5 +1,5 @@
 <div class="side-place-item-inner">
-  <a href="{{place.url}}" class="_fn">
+  <a href="{{place.href}}" class="_fn">
     <div class="side-place-item-image">
       <img class="account-initials-32" src="{{place.avatar}}"/>
     </div>
@@ -12,7 +12,7 @@
     </dl>
   </a>
   <div class="_fw _fh side-place-name fade-animation" ng-show="!ctlSidebar.collapsed">
-    <a href="{{place.url}}" class="_fw" data-ellipsis="place.name">{{place.name}}</a>
+    <a href="{{place.href}}" class="_fw" data-ellipsis="place.name">{{place.name}}</a>
 
     <span data-ng-if="place.children.length > 0 && !ctlSidebar.collapsed" class="e2-arrow _df">
       <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"

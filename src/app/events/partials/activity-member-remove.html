@@ -2,7 +2,7 @@
   <div class="ico">
     <div class="ei-member-leave"></div>
   </div>
-  <div class="sender" data-ng-include="'app/events/partials/event/common/actor.html'" data-ng-init="actor = act.actor"></div>
+  <div class="sender" data-ng-include="'app/events/partials/activity-common-actor.html'" data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
   <div class="msg">
@@ -10,5 +10,5 @@
     <span data-ng-if="act.member.name != act.actor.name" class="nst-mood-simple">Removed <strong data-ng-bind="act.member.name"></strong> from <a class="place" href="#/events/{{act.member.id}}" data-ng-bind="act.member.name"></a></span>
   </div>
   <div class="places"></div>
-  <div class="time no-animation" data-ng-include="'app/events/partials/event/common/date.html'"></div>
+  <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
 </div>

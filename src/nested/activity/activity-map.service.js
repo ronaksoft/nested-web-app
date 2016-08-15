@@ -9,7 +9,8 @@
 
     var service = {
       toRecentActivity: toRecentActivity,
-      toActivityItems: toActivityItems
+      toActivityItems: toActivityItems,
+      toActivityItem : toActivityItem
     };
 
     return service;
@@ -21,18 +22,10 @@
         member: mapActivityMember(activity),
         comment: mapActivityComment(activity),
         post: mapActivityPost(activity),
-        date: getPassedTime(activity.date),
+        date: activity.date,
         type: activity.type,
         place: mapActivityPlace(activity.place)
       };
-
-      function getPassedTime(date) {
-        if (!moment.isMoment(date)) {
-          date = moment(date);
-        }
-
-        return date.fromNow();
-      }
 
       function mapActivityMember(activity) {
         if (!activity.member) {
@@ -297,36 +290,10 @@
     function mapActivityItems(activities) {
       var items = _.map(activities, function (item) {
 
-        return {
-          id: item.id,
-          actor: mapActivityActor(item),
-          member: mapActivityMember(item),
-          comment: mapActivityComment(item),
-          place: mapActivityPlace(item),
-          post: mapActivityPost(item),
-          time: getTime(item.date),
-          date: moment(item.date).format('dddd, MMMM Do YYYY, HH:mm'),
-          type: item.type
-        };
+        return toActivityItem(item);
       });
 
       return items;
-    }
-
-    function getTime(date) {
-      if (!moment.isMoment(date)) {
-        date = moment(date);
-      }
-
-      return date.format('HH:mm');
-    }
-
-    function getPassedTime(date) {
-      if (!moment.isMoment(date)) {
-        date = moment(date);
-      }
-
-      return date.fromNow();
     }
 
     function mapActivityMember(activity) {
@@ -348,7 +315,7 @@
       return {
         id: activity.comment.id,
         body: activity.comment.body,
-        postId: activity.post.id,
+        postId: activity.post.id
       };
     }
 
@@ -385,7 +352,7 @@
 
       return {
         id: place.id,
-        name: place.name,
+        name: place.name
         //picture : place.picture.thumbnails.x64.url.download
       };
     }
@@ -400,7 +367,7 @@
         name: activity.place.name,
         picture: activity.place.picture.thumbnails.x64.url.download,
         hasParent: !!activity.place.parent,
-        parent: mapParentPlace(activity),
+        parent: mapParentPlace(activity)
       };
     }
 
@@ -430,6 +397,18 @@
       return _.orderBy(activities, 'date', 'desc');
     }
 
+    function toActivityItem(activity) {
+      return {
+        id: activity.id,
+        actor: mapActivityActor(activity),
+        member: mapActivityMember(activity),
+        comment: mapActivityComment(activity),
+        place: mapActivityPlace(activity),
+        post: mapActivityPost(activity),
+        date: moment(activity.date),
+        type: activity.type
+      };
+    }
   }
 
 })();

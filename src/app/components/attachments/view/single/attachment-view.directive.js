@@ -31,10 +31,11 @@
           break;
 
         case NST_FILE_TYPE.VIDEO:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/media.html';
+          scope.tplUrl = 'app/components/attachments/view/single/partials/video.html';
           break;
+        
         case NST_FILE_TYPE.AUDIO:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/media.html';
+          scope.tplUrl = 'app/components/attachments/view/single/partials/audio.html';
           break;
 
         case NST_FILE_TYPE.ARCHIVE:

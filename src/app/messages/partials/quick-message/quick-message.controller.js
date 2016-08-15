@@ -5,7 +5,7 @@
     .module('nested')
     .controller('QuickMessageController', QuickMessageController);
 
-  function QuickMessageController($q, toastr, NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory) {
+  function QuickMessageController($q, $log, toastr, NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory) {
     var vm = this;
 
     /*****************************

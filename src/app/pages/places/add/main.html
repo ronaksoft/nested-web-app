@@ -1,130 +1,131 @@
-<div class="maincontainer create-hld  _fw ng-class:{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
-  <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed"  class="_fn _fh"></nst-sidebar>
-  <div class="nst-container">
-    <nst-navbar data-ng-model="navbar" controls="ctlPlaceAdd.controls" page="ctlApp.page"></nst-navbar>
-    <section class="nst-content _tr" id="content-wrapper" page-change="ctlPlaceAdd.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
-      <section class="content _bgwhite">
-        <div class="panel-create-place  _ma _fh">
-          <form name="CreatePlaceForm" data-ng-submit="create_place.create()" novalidate>
-            <ul class="list-inline head">
-              <li>
-                <span>/</span>
-              </li>
-              <li data-ng-repeat="pid in ctlPlaceAdd.model.parentId.split('.')">
-                <img src="../assets/icons/arrow_16.png" class="arrow-right"/>
-                <span>{{pid}}</span>
-              </li>
-            </ul>
-            <div class="_fw upload-photo-container">
-              <div class="_ma upload-photo">
-                <label for="logo"><img src="{{ctlPlaceAdd.model.picture.url}}"/></label>
-                <input page-change-element id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlPlaceAdd.imgToUri(event)" data-ng-model="place.picture"/>
-              </div>
-              <label for="logo" class="add-photo-hover"></label>
-              <div data-ng-if="ctlPlaceAdd.model.picture.file" class="remove-photo-hover" data-ng-click="ctlPlaceAdd.removeImg()"></div>
+<div class="second-view _fh">
+  <nst-navbar data-ng-model="navbar" controls="ctlPlaceAdd.controls" page="ctlApp.page"></nst-navbar>
+  <div class="nst-content _tr" id="content-wrapper" ng-scrollbars page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+    <section class="content _bgwhite">
+      <div class="navbarillu"></div>
+      <div class="panel-create-place  _ma">
+        <form name="CreatePlaceForm">
+          <ul class="list-inline head">
+            <li>
+              <span>/</span>
+            </li>
+            <li data-ng-repeat="pid in ctlPlaceAdd.model.parentId.split('.')">
+              <img src="../assets/icons/arrow_16.png" class="arrow-right"/>
+              <span>{{pid}}</span>
+            </li>
+          </ul>
+          <div class="_fw upload-photo-container">
+            <div class="_ma upload-photo">
+              <label for="logo"><img src="{{ctlPlaceAdd.model.picture.url}}"/></label>
+              <input page-change-element id="logo" type="file" name="logo" accept="image/*"
+                     onchange="angular.element(this).scope().ctlPlaceAdd.imgToUri(event)"
+                     data-ng-model="place.picture"/>
             </div>
-            <div class="inner-panel _fw">
-              <div class="place-id">
-                <div>Place ID</div>
-                <div>
-                  <div class="nst-marginbtm-16">
-                    <input page-change-element type="text" name="place_id" class=" nst-marginbtm-4" aria-invalid="false" data-ng-model="ctlPlaceAdd.model.id"/>
-                  </div>
-                </div>
-                <div class="notice-bar">Place ID can't be changed later; Be careful!</div>
-              </div>
+            <label for="logo" class="add-photo-hover"></label>
+            <div data-ng-if="ctlPlaceAdd.model.picture.file" class="remove-photo-hover"
+                 data-ng-click="ctlPlaceAdd.removeImg()"></div>
+          </div>
+          <div class="inner-panel _ma">
+            <div class="place-id">
+              <div>Place ID</div>
               <div>
-                <div class="nst-marginbtm-8 _fw" ng-if="CreatePlaceForm.placename.$valid || CreatePlaceForm.placename.$untouched">Place Name</div>
-                <div class="nst-mood-lively nst-marginbtm-8 _fw" ng-if="CreatePlaceForm.placename.$error.required && CreatePlaceForm.placename.$touched">Place Name Required</div>
-                <div class="nst-marginbtm-4">
-                  <input page-change-element ng-class="{'form-control': CreatePlaceForm.placename.$valid || CreatePlaceForm.placename.$untouched,'form-control-error': CreatePlaceForm.placename.$error.required && CreatePlaceForm.placename.$touched}"
-                         type="text" name="placename" aria-invalid="false" class="form-control" data-ng-model="ctlPlaceAdd.model.name" required/>
-                </div>
-                <div class="notice-bar">Short name helps you to quickly identify your places.</div>
+                <input page-change-element type="text" name="place_id"
+                       class=" nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false"
+                       data-ng-model="ctlPlaceAdd.model.id"/>
               </div>
-              <div class="place-desc">
-                <div>Place Description</div>
-                <div>
-                  <input page-change-element type="text" name="place_desc" class="nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false"
-                         data-ng-model="ctlPlaceAdd.model.description"/>
-                </div>
-                <div class="notice-bar">Place Description</div>
+              <div class="notice-bar">Place ID can't be changed later; Be careful!</div>
+            </div>
+            <div>
+              <div>Place Name</div>
+              <div class="nst-marginbtm-4">
+                <input page-change-element type="text" name="place_name" aria-invalid="false"
+                       class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="ctlPlaceAdd.model.name"/>
               </div>
-              <div id="place-privacy">Place Privacy</div>
-              <!--<div class="_difc _fw">-->
-                <!--<div class="_df"><label for="sw-locked"><i class="nst-lock _df"></i></label></div>-->
-                <!--<div class="_df _fw"><label for="sw-locked"><h6>Lock</h6></label></div>-->
-                <!--<div class="_df switch">-->
-                  <!--<input page-change-element type="checkbox" id="sw-locked" class="inpsw" name="not" data-ng-model="ctlPlaceAdd.model.privacy.locked">-->
-                  <!--<label for="sw-locked" data-ng-click="ctlPlaceAdd.model.privacy.locked && $event.preventDefault();">-->
-                    <!--<div class="labtxt _fw">ON</div>-->
-                  <!--</label>-->
-                  <!--<label for="sw-locked" data-ng-click="!ctlPlaceAdd.model.privacy.locked && $event.preventDefault();">-->
-                    <!--<div class="labtxt _fw">OFF</div>-->
-                  <!--</label>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="notice-bar">Parent members Can't view Inside The Place. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>-->
-              <div class="_difc _fw">
-                <div class="_df"><label for="sw-receptive"><i class="nst-print _df"></i></label></div>
-                <div class="_df _fw"><label for="sw-receptive"><h6>Receiving</h6></label></div>
-                <div class="_df switch">
-                  <input page-change-element type="checkbox" id="sw-receptive" class="inpsw" name="not" data-ng-model="ctlPlaceAdd.model.privacy.receptive">
-                  <label for="sw-receptive" data-ng-click="ctlPlaceAdd.model.privacy.receptive && $event.preventDefault();">
-                    <div class="labtxt _fw">ON</div>
-                  </label>
-                  <label for="sw-receptive" data-ng-click="!ctlPlaceAdd.model.privacy.receptive && $event.preventDefault();">
-                    <div class="labtxt _fw">OFF</div>
-                  </label>
-                </div>
-              </div>
-              <div class="nst-description no-animation _fw">
-                <div ng-if="!ctlPlaceAdd.model.privacy.receptive">Can recieve message from outside. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-                <div ng-if="ctlPlaceAdd.model.privacy.receptive">Only members Can Write Posts. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-              </div>
-              <div class="_difc _fw">
-                <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
-                <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
-                <div class="_df switch">
-                  <input page-change-element type="checkbox" id="sw-email" class="inpsw" name="not" data-ng-model="ctlPlaceAdd.model.privacy.email" data-ng-disabled="!ctlPlaceAdd.model.privacy.receptive">
-                  <label for="sw-email" data-ng-click="ctlPlaceAdd.model.privacy.email && $event.preventDefault();">
-                    <div class="labtxt _fw">ON</div>
-                  </label>
-                  <label for="sw-email" data-ng-click="!ctlPlaceAdd.model.privacy.email && $event.preventDefault();">
-                    <div class="labtxt _fw">OFF</div>
-                  </label>
-                </div>
-              </div>
-              <div class="nst-description no-animation _fw">
-                <div ng-if="!ctlPlaceAdd.model.privacy.receptive">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-                <div ng-if="ctlPlaceAdd.model.privacy.email && ctlPlaceAdd.model.privacy.receptive">PlaceID is also an email address that can recieve emails. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-                <div ng-if="!ctlPlaceAdd.model.privacy.email && ctlPlaceAdd.model.privacy.receptive">PlaceID is not an email address and can not recieve emails. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-              </div>
-              <div class="_difc _fw">
-                <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
-                <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
-                <div class="_df switch">
-                  <input page-change-element type="checkbox" id="sw-search" class="inpsw" name="not" data-ng-model="ctlPlaceAdd.model.privacy.search" data-ng-disabled="!ctlPlaceAdd.model.privacy.receptive">
-                  <label for="sw-search" data-ng-click="ctlPlaceAdd.model.privacy.search && $event.preventDefault();">
-                    <div class="labtxt _fw">ON</div>
-                  </label>
-                  <label for="sw-search" data-ng-click="!ctlPlaceAdd.model.privacy.search && $event.preventDefault();">
-                    <div class="labtxt _fw">OFF</div>
-                  </label>
-                </div>
-              </div>
-              <div class="nst-description no-animation _fw">
-                <div ng-if="!ctlPlaceAdd.model.privacy.receptive">Disabled until "Receptive" off. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-                <div ng-if="!ctlPlaceAdd.model.privacy.search && ctlPlaceAdd.model.privacy.receptive">Hidden for user's search. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-                <div ng-if="ctlPlaceAdd.model.privacy.search && ctlPlaceAdd.model.privacy.receptive">Uncoverd for user's search. <a href="" class="nst-mood-cheerful">Learn more</a></div>
-              </div>
-              <div class="empty-box-30"></div>
+              <div class="notice-bar">Short name helps you to quickly identify your places.</div>
+            </div>
+            <div class="place-desc">
+              <div>Place Description</div>
               <div>
-                <button class="butn  butn-sense _fw" type="submit">Create Place</button>
+                <input page-change-element type="text" name="place_desc"
+                       class="nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false"
+                       data-ng-model="ctlPlaceAdd.model.description"/>
+              </div>
+              <div class="notice-bar">Place Description</div>
+            </div>
+            <div id="place-privacy">Place Privacy</div>
+            <!--<div class="_difc _fw">-->
+            <!--<div class="_df"><label for="sw-locked"><i class="nst-lock _df"></i></label></div>-->
+            <!--<div class="_df _fw"><label for="sw-locked"><h6>Lock</h6></label></div>-->
+            <!--<div class="_df switch">-->
+            <!--<input page-change-element type="checkbox" id="sw-locked" class="inpsw" name="not" data-ng-model="ctlPlaceAdd.model.privacy.locked">-->
+            <!--<label for="sw-locked" data-ng-click="ctlPlaceAdd.model.privacy.locked && $event.preventDefault();">-->
+            <!--<div class="labtxt _fw">ON</div>-->
+            <!--</label>-->
+            <!--<label for="sw-locked" data-ng-click="!ctlPlaceAdd.model.privacy.locked && $event.preventDefault();">-->
+            <!--<div class="labtxt _fw">OFF</div>-->
+            <!--</label>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="notice-bar">Parent members Can't view Inside The Place. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>-->
+            <div class="_difc _fw">
+              <div class="_df"><label for="sw-receptive"><i class="nst-print _df"></i></label></div>
+              <div class="_df _fw"><label for="sw-receptive"><h6>Receiving</h6></label></div>
+              <div class="_df switch">
+                <input page-change-element type="checkbox" id="sw-receptive" class="inpsw" name="not"
+                       data-ng-model="ctlPlaceAdd.model.privacy.receptive">
+                <label for="sw-receptive"
+                       data-ng-click="ctlPlaceAdd.model.privacy.receptive && $event.preventDefault();">
+                  <div class="labtxt _fw">ON</div>
+                </label>
+                <label for="sw-receptive"
+                       data-ng-click="!ctlPlaceAdd.model.privacy.receptive && $event.preventDefault();">
+                  <div class="labtxt _fw">OFF</div>
+                </label>
               </div>
             </div>
-          </form>
-        </div>
+            <div class="notice-bar">Only members Can Write Posts. <a href="javascript:void(0);"
+                                                                     class="nst-mood-cheerful">Learn
+              more</a></div>
+            <div class="_difc _fw">
+              <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
+              <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
+              <div class="_df switch">
+                <input page-change-element type="checkbox" id="sw-email" class="inpsw" name="not"
+                       data-ng-model="ctlPlaceAdd.model.privacy.email"
+                       data-ng-disabled="!ctlPlaceAdd.model.privacy.receptive">
+                <label for="sw-email" data-ng-click="ctlPlaceAdd.model.privacy.email && $event.preventDefault();">
+                  <div class="labtxt _fw">ON</div>
+                </label>
+                <label for="sw-email" data-ng-click="!ctlPlaceAdd.model.privacy.email && $event.preventDefault();">
+                  <div class="labtxt _fw">OFF</div>
+                </label>
+              </div>
+            </div>
+            <div class="notice-bar">Disabled until "Receptive" off. <a href="javascript:void(0);"
+                                                                       class="nst-mood-cheerful">Learn more</a></div>
+            <div class="_difc _fw">
+              <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
+              <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
+              <div class="_df switch">
+                <input page-change-element type="checkbox" id="sw-search" class="inpsw" name="not"
+                       data-ng-model="ctlPlaceAdd.model.privacy.search"
+                       data-ng-disabled="!ctlPlaceAdd.model.privacy.receptive">
+                <label for="sw-search" data-ng-click="ctlPlaceAdd.model.privacy.search && $event.preventDefault();">
+                  <div class="labtxt _fw">ON</div>
+                </label>
+                <label for="sw-search" data-ng-click="!ctlPlaceAdd.model.privacy.search && $event.preventDefault();">
+                  <div class="labtxt _fw">OFF</div>
+                </label>
+              </div>
+            </div>
+            <div class="notice-bar">Disabled until "Receptive" off. <a href="javascript:void(0);"
+                                                                       class="nst-mood-cheerful">Learn more</a></div>
+            <!--<div>-->
+            <!--<button class="butn  butn-sense _fw" data-ng-click="ctlPlaceAdd.create()">Create Place</button>-->
+            <!--</div>-->
+          </div>
+        </form>
+      </div>
     </section>
   </div>
 </div>

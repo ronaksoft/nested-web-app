@@ -136,6 +136,7 @@
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i]).then(function (request) {});
       }
+      event.currentTarget.value = "";
     };
 
     vm.attachments.fileDropped = function (event) {
@@ -143,6 +144,7 @@
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i]).then(function (request) {});
       }
+      event.currentTarget.value = "";
     };
 
     vm.attachments.attach = function (file) {
@@ -243,7 +245,7 @@
       var attachment = _.find(vm.model.attachments, { id: id });
       $log.debug('Compose | Attachment Delete: ', id, attachment);
 
-      if (attachment) {
+      if (attachment && attachment.length !== 0) {
         switch (attachment.getStatus()) {
           case NST_ATTACHMENT_STATUS.UPLOADING:
             var request = vm.attachments.requests[attachment.getId()];
@@ -257,6 +259,8 @@
         vm.attachments.viewModels = vm.attachments.viewModels.filter(function (v) { return id != v.id; });
         vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
         vm.attachments.size.total -= attachment.getSize();
+      }else{
+        vm.model.attachments = [];
       }
     };
 

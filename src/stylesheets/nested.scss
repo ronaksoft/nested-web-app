@@ -6,6 +6,8 @@
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, eot woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
+@include font-face(OpenSansGood,"../assets/fonts/OpenSansGood", normal, null, ttf);
+@include font-face(YekanBakhGood,"../assets/fonts/YekanBakhGood", normal, null, ttf);
 @include font-face(corporativeblack,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Black");
 @include font-face(corporativeregular,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Regular");
 
@@ -157,6 +159,21 @@ textarea {
 ._tr {transition: .3s}
 ._rtl {direction: rtl}
 ._ltr{direction: ltr}
+
+._wrb {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
+}
+._txe {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  span {
+    @extend ._txe
+  }
+}
 
 a.place,
 a.account,
@@ -963,6 +980,9 @@ a .ui-select-choises-row-inner {
 .nst-mood-pending {
   color: $color-bg-pending!important;
 }
+.nst-mood-pending-fill {
+  color: $color-bg-pending-fill!important;
+}
 
 .nst-mood-smooth {
   color: $color-solid-30;
@@ -1143,7 +1163,6 @@ a .ui-select-choises-row-inner {
   color: white;
   display: flex;
   font-size: 16px;
-  font-family: OpenSans, sans-serif;
   font-weight: $font-wight-semibold;
   justify-content: center;
   width: 174px;
@@ -1275,17 +1294,9 @@ a .ui-select-choises-row-inner {
   position: relative;
   width: 100%;
   overflow: hidden;
-  text-overflow: ellipsis;
   align-items: center;
-  white-space: nowrap;
-  span {
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  & + span {
-    width: 136px;
-  }
+  font-weight: 600;
+  font-size: 14px;
 }
 .sidebar ul ul li .side-place-item-inner{
   min-height: 42px;
@@ -1309,27 +1320,42 @@ a .ui-select-choises-row-inner {
 .side-place-invite-item-inner {
   display: inline-flex;
   width: 100%;
+  height: 56px;
   align-items: center;
   flex: none;
   flex-direction: row;
-}
-.side-place-invite-item-inner:hover{
+  cursor: pointer;
+  background-color: #EBF5FF;
+  border: solid 1px $color-bg-pending-fill;
+  border-right: 0;
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
+  box-sizing: border-box;
+}
+.side-place-invite-item-inner:hover{
   background-color: $color-white;
-  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
-  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
-  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
-  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  border: solid 1px $color-bg-pending;
+  border-right: 0;
 }
 .maincontainer.sidetiny {
-  .side-place-item-inner {
+  .side-place-item-inner,.side-place-invite-item-inner {
     flex: none;
   }
   .side-place-invite-item-inner {
-    a {
+    span {
       display: none;
     }
+  }
+  .side-place-item-inner:hover {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    background-color: $color-white;
+    transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
+    transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
+    transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
+    transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
   }
 }
 .side-place .side-place .side-place-item {
@@ -1355,15 +1381,6 @@ a .ui-select-choises-row-inner {
   }
 }
 .side-place-name:hover{
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-  background-color: $color-white;
-  transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s;
-  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
-  transition-property: background-image, background-position, background-color, border-color, border-radius, color, font-size, font-style, font-weight, letter-spacing, line-height, text-align, box-shadow, text-shadow, opacity;
-  transition-timing-function: ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease, ease;
-}
-.maincontainer.sidetiny .side-place-item-inner:hover {
   border-top-left-radius: 7px;
   border-bottom-left-radius: 7px;
   background-color: $color-white;
@@ -1449,6 +1466,12 @@ ul ul .side-place-item-image {
   font-weight: $font-wight-regular;
 }
 .side-place-item-inner > a:first-child {
+  flex-direction: row;
+  display: inline-flex;
+  min-width: 40px;
+  padding-left: 8px;
+}
+.side-place-invite-item-inner > a:first-child {
   flex-direction: row;
   display: inline-flex;
   min-width: 40px;
@@ -1951,20 +1974,21 @@ a.normal-badge {
   border-radius: 40px;
   flex: none;
   align-items: center;
-
-}
-.small-badge:hover {
-  background-color: #476152;
-  a {
+  display: flex;
+  color: #476152;
+  padding: 3px 8px 0 8px;
+  font-size: $font-size-xsmall;
+  margin: 0 8px;
+  white-space: nowrap;
+  height: 16px;
+  line-height: 16px;
+  white-space: nowrap;
+  &:hover {
+    background-color: #476152;
     color: $color-white;
   }
 }
-.small-badge a{
-  color: #476152;
-  margin: 0 8px;
-  font-size: 11px;
-  white-space: nowrap;
-}
+
 .place:hover {
   color : black;
 }
@@ -2027,7 +2051,12 @@ a.normal-badge {
   *     Nested pages -   * comPose
   *********************************************************
 */
-.maincontainer.second-view {
+.second-view {
+  .nst-container {
+    margin: 0;
+    width: 100%;
+  }
+
   .content-plus {
     display: none;
   }
@@ -2035,9 +2064,10 @@ a.normal-badge {
     width: 100%;
     margin: auto;
     max-width: 1058px;
+    min-height: 100%;
   }
   #content-wrapper .content {
-    max-height: calc(100vh - 183px );
+    //max-height: calc(100vh - 183px );
   }
   #nav-com {
     display: flex;

@@ -10,7 +10,7 @@
 
     fileGroups[NST_FILE_TYPE.ARCHIVE] = [
       'application/zip',
-      'application/x-rar-compressed',
+      'application/x-rar-compressed'
     ];
 
     fileGroups[NST_FILE_TYPE.DOCUMENT] = [

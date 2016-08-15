@@ -6,7 +6,7 @@
     .service('NstSvcLogger', NstSvcLogger);
 
   /** @ngInject */
-  function NstSvcLogger(_, NST_CONFIG, NST_LOGGER_GATEWAY, NstLoggerBasic, NstLoggerConsole, NstLoggerHttp) {
+  function NstSvcLogger(_, NST_CONFIG, NST_LOG_TYPE, NST_LOGGER_GATEWAY, NstLoggerBasic, NstLoggerConsole, NstLoggerHttp) {
     function Logger(config) {
       var defConfig = {
         LEVEL: 1,
@@ -18,7 +18,7 @@
 
       this.config = _.defaults(config, defConfig);
       this.logger = new NstLoggerBasic(this.config.GATEWAY.OPTIONS);
-      
+
       switch (this.config.GATEWAY.TYPE) {
         case NST_LOGGER_GATEWAY.HTTP:
           this.logger = new NstLoggerHttp(this.config.GATEWAY.OPTIONS);
@@ -32,18 +32,70 @@
 
     Logger.prototype = {};
     Logger.prototype.constructor = Logger;
-    
+
+    /**
+     * @param {NST_LOG_TYPE}  type  Log Type
+     * @param {Number}        level Log Level
+     *
+     */
     Logger.prototype.log = function () {
-      var args = arguments;
+      var args = Array.prototype.slice.call(arguments);
       var type = args.shift();
-      var level = args.shift();
-      
+      var level = Number(args.shift());
+
       if (level <= this.config.LEVEL) {
-        args.unshift(level);
         args.unshift(type);
-        
+
         this.logger.write.apply(null, args);
       }
+    };
+
+    Logger.prototype.warn = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(1);
+      args.unshift(NST_LOG_TYPE.WARNING);
+
+      return this.log.apply(this, args);
+    };
+
+    Logger.prototype.error = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(1);
+      args.unshift(NST_LOG_TYPE.ERROR);
+
+      return this.log.apply(this, args);
+    };
+
+    Logger.prototype.info = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(1);
+      args.unshift(NST_LOG_TYPE.INFO);
+
+      return this.log.apply(this, args);
+    };
+
+    Logger.prototype.debug = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(1);
+      args.unshift(NST_LOG_TYPE.DEBUG);
+
+      return this.log.apply(this, args);
+    };
+
+    Logger.prototype.debug2 = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(2);
+      args.unshift(NST_LOG_TYPE.DEBUG);
+
+      return this.log.apply(this, args);
+    };
+
+    Logger.prototype.debug3 = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(3);
+      args.unshift(NST_LOG_TYPE.DEBUG);
+
+      return this.log.apply(this, args);
     };
 
     return new Logger(NST_CONFIG.LOG);

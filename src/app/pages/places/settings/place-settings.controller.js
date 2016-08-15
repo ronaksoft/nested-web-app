@@ -204,7 +204,7 @@
           currentPlace: function() {
             return vm.place;
           }
-        },
+        }
       });
 
       modal.result.then(function(selectedUsers) {
@@ -249,7 +249,7 @@
           $log.debug(error);
         });
       });
-    };
+    }
 
     function addMember() {
       showAddModal(NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
@@ -272,7 +272,7 @@
       });
 
       return false;
-    };
+    }
 
     function confirmToRemove() {
 

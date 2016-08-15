@@ -6,10 +6,10 @@
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer($websocket, $q, $log, $timeout,
+  function NstSvcServer($websocket, $q, $timeout,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_SRV_EVENT, NST_SRV_MESSAGE,
-                        NstSvcRandomize,
+                        NstSvcRandomize, NstSvcLogger,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
@@ -34,19 +34,19 @@
       NstObservableObject.call(this);
 
       this.stream.onOpen(function (event) {
-        $log.debug('WS | Opened:', event, this);
+        NstSvcLogger.debug2('WS | Opened:', event, this);
       }.bind(this));
 
       // Orphan Router
       this.stream.onMessage(function(ws) {
         if (!ws.data) {
-          $log.debug('WS | Empty Orphan Message:', ws);
+          NstSvcLogger.debug2('WS | Empty Orphan Message:', ws);
 
           return;
         }
 
         var data = angular.fromJson(ws.data);
-        $log.debug('WS | Message:', data);
+        NstSvcLogger.debug2('WS | Message:', data);
 
         switch (data.type) {
           case NST_SRV_MESSAGE_TYPE.RESPONSE:
@@ -75,7 +75,7 @@
       // Response Router
       this.stream.onMessage(function(ws) {
         if (!ws.data) {
-          $log.debug('WS | Empty Will Be Routed Message:', ws);
+          NstSvcLogger.debug2('WS | Empty Will Be Routed Message:', ws);
 
           return;
         }
@@ -111,7 +111,7 @@
 
                 case NST_SRV_RESPONSE_STATUS.ERROR:
                   response.setStatus(NST_RES_STATUS.FAILURE);
-                  $log.debug('WS | Error:', response.getData().err_code, 'Sent:', qItem.request, 'Received:', response.getData());
+                  NstSvcLogger.debug2('WS | Error:', response.getData().err_code, 'Sent:', qItem.request, 'Received:', response.getData());
 
                   qItem.request.finish(response);
                   break;
@@ -122,7 +122,7 @@
       }.bind(this));
 
       this.stream.onClose(function(event) {
-        $log.debug('WS | Closed:', event, this);
+        NstSvcLogger.debug2('WS | Closed:', event, this);
 
         this.authorized = false;
         this.initialized = false;
@@ -132,14 +132,14 @@
       }.bind(this));
 
       this.stream.onError(function (event) {
-        $log.debug('WS | Error:', event, this);
+        NstSvcLogger.debug2('WS | Error:', event, this);
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.ERROR));
       }.bind(this));
 
       this.addEventListener(NST_SRV_EVENT.MESSAGE, function (event) {
         switch (event.detail) {
           case NST_SRV_MESSAGE.INITIALIZE:
-            $log.debug('WS | Initialized:', event, this);
+            NstSvcLogger.debug2('WS | Initialized:', event, this);
             this.setInitialized(true);
             this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.INITIALIZE));
             break;
@@ -147,7 +147,7 @@
       }.bind(this));
 
       this.addEventListener(NST_SRV_EVENT.MANUAL_AUTH, function (event) {
-        $log.debug('WS | Dispatching Auth Event', event.detail);
+        NstSvcLogger.debug2('WS | Dispatching Auth Event', event.detail);
         this.setAuthorized(true);
         this.setSesSecret(event.detail.response.getData()._ss);
         this.setSesKey(event.detail.response.getData()._sk.$oid);
@@ -188,7 +188,7 @@
         return deferred.promise;
       }).catch(function (response) {
         var deferred = $q.defer();
-        $log.debug('WS | Response: ', response);
+        NstSvcLogger.debug2('WS | Response: ', response);
 
         deferred.reject(new NstServerError(
           new NstServerQuery(action, data),
@@ -247,7 +247,7 @@
             break;
         }
 
-        $log.debug('WS | Cancelled: ', reqId, qItem.request);
+        NstSvcLogger.debug2('WS | Cancelled: ', reqId, qItem.request);
         qItem.request.setStatus(NST_REQ_STATUS.CANCELLED);
         qItem.request.finish(response || new NstResponse());
       }
@@ -262,7 +262,7 @@
       if (qItem && !qItem.request.isFinished()) {
         if (timeout > 0) {
           qItem.timeoutPromise = $timeout(function () {
-            $log.debug('WS | Timeout: ', reqId, qItem.request, ' After: ', timeout);
+            NstSvcLogger.debug2('WS | Timeout: ', reqId, qItem.request, ' After: ', timeout);
             service.cancelQueueItem(reqId, new NstResponse(NST_RES_STATUS.FAILURE, {
               err_code: NST_SRV_ERROR.TIMEOUT,
               message: 'Request Timeout'
@@ -283,7 +283,7 @@
     };
 
     Server.prototype.send = function (request) {
-      $log.debug('WS | Sending', request.getData());
+      NstSvcLogger.debug2('WS | Sending', request.getData());
 
       if (this.isAuthorized()) {
         var data = request.getData();

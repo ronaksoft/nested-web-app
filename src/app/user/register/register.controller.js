@@ -6,10 +6,10 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, $timeout, md5, toastr, NST_DEFAULT, NstSvcAuth, NstHttp) {
+  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NstSvcAuth, NstHttp) {
     var vm = this;
 
-    vm.step = "step1";
+
     vm.hasNotBirth = false;
     vm.hasNotGender = false;
     vm.acceptAgreement = true;
@@ -42,24 +42,39 @@
 
     vm.avaiablity = false;
 
+
+
+
     vm.submitPhoneNumber = function () {
+
       if(!vm.phone){
         return false;
+      }else{
+        vm.step = "step1";
       }
-      
+
+      vm.getCodeRequest = true;
       vm.country = $("#mobileNumber").intlTelInput("getSelectedCountryData").iso2;
-      
+
+
       var ajax = new NstHttp('/register/', {
         f: 'verify_phone',
         phone: vm.phone
       });
       ajax.get().then(function (data) {
-        if (data.code) vm.verificationCode = data.code;
-        vm.vid = data.vid;
-        vm.step = 'step2';
+        vm.getCodeRequest = false;
+        if (data.status == "ok") {
+          if (data.code) vm.verificationCode = data.code;
+          vm.vid = data.vid;
+          vm.step = 'step2';
+        }else{
+          toastr.error("Your number is not valid or already used!")
+        }
       })
       .catch(function (error) {
-        toastr.error("Error in validation your phone nubmer!")
+        vm.step = "step1";
+        vm.getCodeRequest = false;
+        toastr.error("Error in validation your phone number!")
       })
     };
 
@@ -177,7 +192,7 @@
         } //convert 1 digit numbers to 2 digits
 
         var dob = new Date(vm.birth);
-        
+
         var credentials = {
           username: vm.username.toLowerCase(),
           password: md5.createHash(vm.password)
@@ -247,6 +262,31 @@
         timer;
       }
     };
+
+
+
+
+    //Parse url and get params from url
+    function getParameterByName(name) {
+      var url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    //checking phone from get
+    var phone = $stateParams.phone || getParameterByName('phone');
+    if (phone){
+      vm.phone = phone;
+      vm.submitPhoneNumber();
+      vm.step = "step2";
+    }else{
+      vm.step = "step1";
+    }
+
 
 
   }

@@ -33,6 +33,7 @@
         },
         type: NstSvcFileType.getType(attachment.getMimeType()),
         extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
+		meta: {},
         thumbnail: attachment.hasThumbnail() ? attachment.getPicture().getLargestThumbnail().getUrl().view : null,
         hasThumbnail: attachment.hasThumbnail()
       };

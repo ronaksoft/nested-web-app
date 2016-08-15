@@ -7,16 +7,15 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state,
-                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION,
+                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
                               NstSvcMessagesSettingStorage,
-                              NstSvcPostMap, NstSvcActivityMap) {
+                              NstSvcPostMap) {
 
     var vm = this;
-    vm.messages = [];
-    vm.cache = [];
-    var DEFAULT_MESSAGES_COUNT = 8;
-    var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
+
+    var DEFAULT_MESSAGES_COUNT = 8,
+      defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
       defaultViewSetting = {
         content: true,
         attachments: true,
@@ -25,12 +24,18 @@
       },
       sortOptionStorageKey = 'sort-option';
 
+    vm.messages = [];
+    vm.cache = [];
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
     vm.reachedTheEnd = false;
     vm.noMessages = false;
     vm.loading = false;
     vm.loadMessageError = false;
+    vm.newMessages = [];
+    vm.hasNewMessages = hasNewMessages;
+    vm.getNewMessagesCount = getNewMessagesCount;
+    vm.showNewMessages = showNewMessages;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -43,6 +48,7 @@
     vm.toggleAttachmentsPreview = toggleAttachmentsPreview;
     vm.toggleCommentsPreview = toggleCommentsPreview;
     vm.toggleQuickMessagePreview = toggleQuickMessagePreview;
+
 
     (function () {
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
@@ -78,6 +84,20 @@
           vm.loadMessageError = true;
         });
       }
+
+      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
+        var newMessage = e.detail.object;
+
+        if (!vm.currentPlaceId || newMessage.belongsToPlace(vm.currentPlaceId)) {
+          if (!_.some(vm.messages, { id : newMessage.id })){
+            vm.newMessages.unshift(mapMessage(newMessage));
+          }
+        }
+
+      });
+      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
+
+      });
     })();
 
     function getMessages() {
@@ -85,16 +105,13 @@
         case 'place-messages':
         case 'place-messages-sorted':
           return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlace.id);
-          break;
 
         case 'messages-sent':
         case 'messages-sent-sorted':
           return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
-          break;
 
         default:
           return NstSvcPostFactory.getMessages(vm.messagesSetting);
-          break;
       }
     }
 
@@ -104,17 +121,10 @@
           content: readSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT),
           attachments: readSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS),
           comments: readSettingItem(NST_MESSAGES_VIEW_SETTING.COMMENTS),
-          quickMessage: readSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE),
+          quickMessage: readSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE)
         };
-        vm.viewSetting = _.defaults(setting, vm.defaultViewSetting);
+        vm.viewSetting = _.defaults(setting, defaultViewSetting);
         resolve(vm.viewSetting);
-      });
-    }
-
-    function loadSortOption() {
-      return $q(function (resolve, reject) {
-        var option = NstSvcMessagesSettingStorage.get(sortOptionStorageKey, defaultSortOption);
-        resolve(option);
       });
     }
 
@@ -123,56 +133,72 @@
         return $q.resolve(vm.messages);
       }
 
+      var defer = $q.defer();
       vm.tryAgainToLoadMore = false;
       vm.loading = true;
 
       return NstSvcLoader.inject(NstSvcTry.do(function () {
-        var defer = $q.defer();
-
-        vm.messagesSetting.date = getLastMessageTime();
-
-        getMessages()
-          .then(function (messages) {
-            vm.cache = _.concat(vm.cache, messages);
-
-            if (0 == vm.cache.length) {
+        if (vm.currentPlaceId){
+          return NstSvcPlaceFactory.hasAccess(vm.currentPlaceId, NST_PLACE_ACCESS.READ).then(function (has) {
+            if (has){
+              return getAccessableMessages();
+            } else {
               vm.noMessages = true;
+              return defer.resolve(vm.messages);
             }
+          })
+        }else{
+          return getAccessableMessages();
+        }
+      }));
 
-            if (messages.length < vm.messagesSetting.limit) {
-              $log.debug('Messages | Reached the end because of less results: ', messages);
+      return defer.promise;
+    }
+
+    function getAccessableMessages() {
+      var defer = $q.defer();
+      vm.messagesSetting.date = getLastMessageTime();
+
+      getMessages().then(function (messages) {
+        vm.cache = _.concat(vm.cache, messages);
+
+        if (0 == vm.cache.length) {
+          vm.noMessages = true;
+        }
+
+        if (messages.length < vm.messagesSetting.limit) {
+          $log.debug('Messages | Reached the end because of less results: ', messages);
+          vm.reachedTheEnd = true;
+        }
+
+        if (messages.length > 0) {
+          var lastMessageVersion = vm.messages.slice();
+
+          for (var i = 0; i < messages.length; i++) {
+            var hasData = lastMessageVersion.filter(function (obj) {
+              return (obj.id === messages[i].id);
+            });
+
+            if (hasData.length === 0) {
+              vm.messages.push(mapMessage(messages[i]));
+            } else {
+              // Todo :: remove this line after fixed by server
+              $log.debug('Messages | Reached the end because of duplication: ', hasData);
               vm.reachedTheEnd = true;
             }
+          }
+        }
+        vm.tryAgainToLoadMore = false;
+        vm.loading = false;
+        defer.resolve(vm.messages);
+      })
+        .catch(function (error) {
+          vm.loading = false;
+          vm.tryAgainToLoadMore = true;
+          defer.reject(error);
+        });
 
-            if (messages.length > 0) {
-              var lastMessageVersion = vm.messages.slice();
-
-              for (var i = 0; i < messages.length; i++) {
-                var hasData = lastMessageVersion.filter(function (obj) {
-                  return (obj.id === messages[i].id);
-                });
-
-                if (hasData.length === 0) {
-                  vm.messages.push(mapMessage(messages[i]));
-                } else {
-                  // Todo :: remove this line after fixed by server
-                  $log.debug('Messages | Reached the end because of duplication: ', hasData);
-                  vm.reachedTheEnd = true;
-                }
-              }
-            }
-            vm.tryAgainToLoadMore = false;
-            vm.loading = false;
-            defer.resolve(vm.messages);
-          })
-          .catch(function (error) {
-            vm.loading = false;
-            vm.tryAgainToLoadMore = true;
-            defer.reject(error);
-          });
-
-        return defer.promise;
-      }));
+      return defer.promise;
     }
 
     function loadMore(force) {
@@ -206,41 +232,12 @@
       return lastDate.getTime();
     }
 
-    function loadRecentActivities() {
-      // return NstSvcLoader.inject(NstSvcTry.do(function () {
-      //   var defer = $q.defer();
-      //
-      //   var settings = {
-      //     limit: 10,
-      //     placeId: null
-      //   };
-      //
-      //   if (vm.currentPlace) {
-      //     settings.placeId = vm.currentPlace.id;
-      //   }
-      //
-      //   NstSvcActivityFactory.getRecent(settings).then(function (activities) {
-      //     vm.activities = mapActivities(activities);
-      //     defer.resolve(vm.activities);
-      //   }).catch(defer.reject);
-      //
-      //   return defer.promise;
-      // }));
-      return $q(function (resolve) {
-        resolve();
-      });
-    }
-
     function mapMessage(post) {
       return NstSvcPostMap.toMessage(post);
     }
 
     function mapMessages(messages) {
       return _.map(messages, mapMessage);
-    }
-
-    function mapActivities(activities) {
-      return _.map(activities, NstSvcActivityMap.toRecentActivity);
     }
 
     function toggleContentPreview() {
@@ -316,6 +313,14 @@
       }
     };
 
+    function hasNewMessages() {
+      return vm.newMessages.length > 0;
+    }
+
+    function getNewMessagesCount() {
+      return vm.newMessages.length;
+    }
+
     function readSettingItem(key) {
       var value = NstSvcMessagesSettingStorage.get(key);
 
@@ -326,31 +331,15 @@
       NstSvcMessagesSettingStorage.set(key, bool ? 'show' : 'hide');
     }
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (e) {
-      switch (e.detail.timeline_data.action) {
-        case NST_EVENT_ACTION.POST_ADD:
-          var postId = e.detail.timeline_data.post_id.$oid;
-          NstSvcPostFactory.getMessage(postId).then(function (post) {
-            if (!vm.currentPlaceId || post.belongsToPlace(vm.currentPlaceId)) {
-              vm.cache.splice(0, 1, post);
-              vm.messages.splice(0, 0, mapMessage(post));
-            }
-          }).catch(function (error) {
-            $log.debug(error);
-          });
-          break;
+    function showNewMessages() {
+      _.forEachRight(vm.newMessages, function (item) {
+        if (!_.some(vm.messages, { id : item.id })) {
+          vm.messages.unshift(item);
+        }
+      });
 
-        case NST_EVENT_ACTION.POST_REMOVE:
-          var postId = e.detail.timeline_data.post_id.$oid;
-          var messageIndex = _.findIndex(vm.messages, {
-            'id': postId
-          });
-          if (messageIndex !== -1) {
-            vm.messages.splice(messageIndex, 1);
-          }
-          break;
-      }
-    });
+      vm.newMessages = [];
+    }
 
     // FIXME some times it got a problem ( delta causes )
     vm.preventParentScroll = function (event) {
@@ -373,12 +362,6 @@
     var tl = new TimelineLite({});
     var cp = document.getElementById("cp1");
     var nav = document.getElementsByTagName("nst-navbar")[0];
-    TweenLite.to(nav, 0.1, {
-      minHeight: 183,
-      maxHeight: 183,
-      height: 183,
-      ease: Power1.easeOut
-    });
     $timeout(function () {
       $rootScope.navView = false
     });
@@ -389,32 +372,37 @@
           var t = -this.mcs.top;
           //$timeout(function () { $rootScope.navView = t > 55; });
           //console.log(tl);
-          tl.kill({
-            y: true
-          }, cp);
-          TweenLite.to(cp, 0.5, {
-            y: t,
-            ease: Power2.easeOut,
-            force3D: true
-          });
+          // tl.kill({
+          //   y: true
+          // }, cp);
+          // TweenLite.to(cp, 0.5, {
+          //   y: 140,
+          //   ease: Power2.easeOut,
+          //   force3D: true
+          // });
           if (t > 55 && !$rootScope.navView) {
+            //$('#content-plus').clone().prop('id', 'cpmirror').appendTo("#mCSB_3_container");
+            //var z = $('#content-plus').offset().left + 127;
+            //console.log(z);
+            //$('#cpmirror').css({'opacity':0});
+            //$('#content-plus').css({position: 'fixed',marginLeft: 356});
             //tl.kill({minHeight:true,maxHeight:true}, nav);
-            TweenLite.to(nav, 0.1, {
-              minHeight: 131,
-              maxHeight: 131,
-              height: 131,
-              ease: Power1.easeOut
-            });
+            // TweenLite.to(nav, 0.1, {
+            //   minHeight: 96,
+            //   maxHeight: 96,
+            //   height: 96,
+            //   ease: Power1.easeOut
+            // });
             $timeout(function () {
               $rootScope.navView = t > 55;
             });
           } else if (t < 55 && $rootScope.navView) {
-            TweenLite.to(nav, 0.1, {
-              minHeight: 183,
-              maxHeight: 183,
-              height: 183,
-              ease: Power1.easeOut
-            });
+            // TweenLite.to(nav, 0.1, {
+            //   minHeight: 183,
+            //   maxHeight: 183,
+            //   height: 183,
+            //   ease: Power1.easeOut
+            // });
             $timeout(function () {
               $rootScope.navView = t > 55;
             });

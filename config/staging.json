@@ -11,6 +11,7 @@
         }
       }
     },
+    "SIGN_OUT_TARGET" : "http://webapp.nested.ronaksoftware.com",
     "WEBSOCKET": {
       "URL": "ws://cyrus.nested.ronaksoftware.com",
       "TIMEOUT": 60000

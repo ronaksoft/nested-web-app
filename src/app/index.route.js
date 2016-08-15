@@ -26,6 +26,16 @@
         controllerAs: 'ctlRegister'
       })
 
+      .state('registerWithPhone', {
+        url: '/register/phone/:phone',
+        params: {
+          phone: NST_DEFAULT.STATE_PARAM
+        },
+        templateUrl: 'app/user/register/main.html',
+        controller: 'RegisterController',
+        controllerAs: 'ctlRegister'
+      })
+
       /*****************************
        *****     Auth Routes    ****
        *****************************/

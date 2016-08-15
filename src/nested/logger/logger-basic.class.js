@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .service('NstLoggerBasic', NstLoggerBasic);
+    .factory('NstLoggerBasic', NstLoggerBasic);
 
   /** @ngInject */
   function NstLoggerBasic() {

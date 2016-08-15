@@ -1,23 +1,27 @@
-<div class="maincontainer prof-hld  _fw ng-class:{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
-  <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed"  class="_fn _fh"></nst-sidebar>
-  <div class="nst-container">
+<div class="second-view _fh">
     <nst-navbar data-ng-model="navbar"></nst-navbar>
 
-    <div class="nst-content" id="content-wrapper" page-change="ctlProfileEdit.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+    <div class="nst-content" id="content-wrapper"
+         page-change="ctlProfileEdit.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
       <section class="content _bgwhite">
 
         <div class="panel-profile-setting _bgwhite _ma">
 
           <div class="_fw upload-photo-container">
-              <div class="_ma upload-photo">
-                <label for="logo"><img initials="ctlProfileEdit.model.fullName" data-url="ctlProfileEdit.model.picture.url"
-                  data-width="size" data-height="size" data-radius="64" data-word-count="2" data-font-size="16"></label>
-                <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlProfileEdit.imgToUri(event)">
-              </div>
-              <div class="probut">
-                <label for="logo" class="add-photo-hover"></label>
-                <!-- ngIf: ctlProfileEdit.model.picture.url --><div class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImg()" role="button" tabindex="0"></div><!-- end ngIf: ctlProfileEdit.model.picture.url -->
-              </div>
+            <div class="_ma upload-photo">
+              <label for="logo"><img initials="ctlProfileEdit.model.fullName"
+                                     data-url="ctlProfileEdit.model.picture.url"
+                                     data-width="size" data-height="size" data-radius="64" data-word-count="2"
+                                     data-font-size="16"></label>
+              <input id="logo" type="file" name="logo" accept="image/*"
+                     onchange="angular.element(this).scope().ctlProfileEdit.imgToUri(event)">
+            </div>
+            <div class="probut">
+              <label for="logo" class="add-photo-hover"></label>
+              <!-- ngIf: ctlProfileEdit.model.picture.url -->
+              <div class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImg()" role="button"
+                   tabindex="0"></div><!-- end ngIf: ctlProfileEdit.model.picture.url -->
+            </div>
           </div>
 
           <div class="inner-panel _ma">
@@ -50,7 +54,7 @@
             </div>>-->
             <div class="nst-marginbtm-4">Mobile Phone</div>
             <div class="_fw nst-marginbtm-24">
-              <input disabled name="phone_number" international-phone-number
+              <input class="_fw" disabled name="phone_number" international-phone-number
                      data-ng-model="ctlProfileEdit.model.phone"/>
             </div>
             <!--<div class="nst-marginbtm-12">Gender</div>
@@ -78,8 +82,8 @@
               <button class="butn butn-sense _fw" data-ng-click="ctlProfileEdit.save()">Save & Exit</button>
             </div>
           </div>
-          <div class="restplace _df _fh"></div>
+          <div ng-hide="true" class="restplace _df _fh"></div>
         </div>
+      </section>
     </div>
-  </div>
 </div>

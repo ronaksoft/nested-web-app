@@ -43,11 +43,11 @@
       }).catch(function (error) {
         $log.debug(error);
       });
-    };
+    }
 
     function add() {
       $scope.$close(vm.selectedUsers);
-    };
+    }
 
     function calculateSearchLimit() {
       return defaultSearchResultCount + vm.selectedUsers.length;

@@ -6,19 +6,16 @@
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack,
+  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log,
                          hotkeys,
-                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT,
-                         NstSvcServer, NstSvcAuth, NST_SRV_EVENT, NstSvcPlaceFactory, NstSvcModal) {
+                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
+                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
-
 
     vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
 
 
-
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
-      console.log("NST_SRV_EVENT.INITIALIZE,", msg);
       if (!vm.disconected) {
         vm.disconected = true;
       }
@@ -29,22 +26,45 @@
       }
     });
 
+    // calls $digest every 1 sec to update elapsed times.
+    $interval(function () {
+      $log.debug('AppController calls $digest to update passed times every 1 min.');
+    }, 60 * 1000);
+
+
     /*****************************
-     *** Hotkeys
+     *****   Manage Ui View   ****
+     *****************************/
+
+    $rootScope.$watch(function () {
+      return NstSvcAuth.isAuthorized()
+    }, function () {
+      if (!vm.disconected) {
+        if (NstSvcAuth.isAuthorized()) {
+          vm.loginView = true
+        } else {
+          vm.loginView = false
+        }
+      }
+    });
+
+
+    /*****************************
+     ********* Hotkeys ***********
      *****************************/
 
     hotkeys.add({
       combo: 'space',
       description: 'collapse or expand sidebar',
-      callback: function() {
-        vm.viewSettings.sidebar.collapsed =! vm.viewSettings.sidebar.collapsed;
+      callback: function () {
+        vm.viewSettings.sidebar.collapsed = !vm.viewSettings.sidebar.collapsed;
       }
     });
     hotkeys.add({
       combo: 'c',
       description: 'compose state',
-      callback: function() {
-        $state.go('compose');
+      callback: function () {
+        $state.go('place-compose');
       }
     });
     /*****************************
@@ -111,24 +131,22 @@
             params: {}
           };
         }
-      } else {
-        if (!toPublicState) {
-          if (toState.name) {
-            return {
-              name: 'signin-back',
-              params: {
-                back: $window.encodeURIComponent(angular.toJson({
-                  name: toState.name,
-                  params: toParams
-                }))
-              }
-            };
-          } else {
-            return {
-              name: 'signin',
-              params: {}
-            };
-          }
+      } else if (!toPublicState) {
+        if (toState.name) {
+          return {
+            name: 'signin-back',
+            params: {
+              back: $window.encodeURIComponent(angular.toJson({
+                name: toState.name,
+                params: toParams
+              }))
+            }
+          };
+        } else {
+          return {
+            name: 'signin',
+            params: {}
+          };
         }
       }
 
@@ -208,11 +226,20 @@
       }
     });
 
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
-        NstSvcPlaceFactory.get(toParams.placeId).catch(function (error) {
+
+        NstSvcPlaceFactory.get(toParams.placeId).then(function (place) {
+          return NstSvcPlaceFactory.hasAccess(toParams.placeId, NST_PLACE_ACCESS.READ).then(function (has) {
+            return $q(function (res, rej) {
+              if (!has) {
+                rej(new NstFactoryError(null, "", NST_SRV_ERROR.ACCESS_DENIED));
+              }
+            });
+          });
+        }).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
-            NstSvcModal.error('Does not exist!','We are sorry, but the place you are looking for can not be found!').catch(function () {
+            NstSvcModal.error('Does not exist!', 'We are sorry, but the place you are looking for can not be found!').catch(function () {
               // This handles dismissed modal
               return $q(function (res) {
                 res(false);
@@ -225,7 +252,7 @@
               }
             });
           } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            NstSvcModal.error('Access denied!','You are not allowed to be here!').catch(function () {
+            NstSvcModal.error('Access denied!', 'You are not allowed to be here!').catch(function () {
               // This handles dismissed modal
               return $q(function (res) {
                 res(false);

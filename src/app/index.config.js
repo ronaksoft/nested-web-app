@@ -19,8 +19,8 @@
     $locationProvider.hashPrefix('');
 
     // International Phone Directive
-    ipnConfig.defaultCountry = 'ir';
-    ipnConfig.preferredCountries = ['ir', 'pl'];
+    ipnConfig.defaultCountry = 'us';
+    // ipnConfig.preferredCountries = ['ir', 'pl'];
 
     // Markdown Configs
     markedProvider.setOptions({
