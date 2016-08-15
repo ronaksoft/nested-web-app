@@ -11,6 +11,7 @@
         }
       }
     },
+    "SIGN_OUT_TARGET" : "https://nested.me",
     "WEBSOCKET": {
       "URL": "wss://cyrus.nested.me:443",
       "TIMEOUT": 60000
