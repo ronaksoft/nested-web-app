@@ -6,6 +6,8 @@
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, eot woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
+@include font-face(OpenSansGood,"../assets/fonts/OpenSansGood", normal, null, ttf);
+@include font-face(YekanBakhGood,"../assets/fonts/YekanBakhGood", normal, null, ttf);
 @include font-face(corporativeblack,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Black");
 @include font-face(corporativeregular,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Regular");
 
@@ -39,16 +41,6 @@ input[type='text'], input[type='password'], input[type='tel'] {
     padding: 3px;
     box-shadow: none;
     padding-left: 10px;
-}
-
-input::-webkit-input-placeholder {
-  line-height: 32px;
-}
-input::-moz-placeholder {
-  line-height: 32px;
-}
-input:-ms-input-placeholder {
-  line-height: 32px;
 }
 
 a {
@@ -2072,6 +2064,7 @@ a.normal-badge {
     width: 100%;
     margin: auto;
     max-width: 1058px;
+    min-height: 100%;
   }
   #content-wrapper .content {
     //max-height: calc(100vh - 183px );
