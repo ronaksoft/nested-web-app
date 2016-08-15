@@ -166,8 +166,7 @@
       var rawData = {
         type: 'q',
         _reqid: reqId,
-        data: payload,
-        meta: this.configs.meta
+        data: payload
       };
       var request = new NstRequest(action, rawData);
       this.queue[reqId] = {
@@ -289,6 +288,7 @@
         var data = request.getData();
         data.data['_sk'] = this.getSessionKey();
         data.data['_ss'] = this.getSessionSecret();
+        data.data = angular.extend(data.data, this.configs.meta);
         request.setData(data);
       }
 
