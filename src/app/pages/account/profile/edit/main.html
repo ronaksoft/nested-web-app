@@ -15,12 +15,12 @@
                                      data-font-size="16"></label>
               <input id="logo" type="file" name="logo" accept="image/*"
                      onchange="angular.element(this).scope().ctlProfileEdit.imgToUri(event)">
-            </div>
-            <div class="probut">
-              <label for="logo" class="add-photo-hover"></label>
-              <!-- ngIf: ctlProfileEdit.model.picture.url -->
-              <div class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImg()" role="button"
-                   tabindex="0"></div><!-- end ngIf: ctlProfileEdit.model.picture.url -->
+              <div class="probut">
+                <label for="logo" class="add-photo-hover"></label>
+                <!-- ngIf: ctlProfileEdit.model.picture.url -->
+                <div ng-if="ctlProfileEdit.model.picture.url" class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImg()" role="button"></div>
+                <!-- end ngIf: ctlProfileEdit.model.picture.url -->
+              </div>
             </div>
           </div>
 
