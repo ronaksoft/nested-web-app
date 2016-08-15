@@ -55,9 +55,10 @@
 
       NstSvcPostFactory.get(vm.post.id).then(function(post) {
         NstSvcCommentFactory.addComment(post, body).then(function (comment) {
-          $log.debug('adding a comment :',comment);
-          vm.commentBoardLimit++;
-          vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
+          if (!_.some(vm.post.comments, { id : comment.id })){
+            vm.commentBoardLimit++;
+            vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
+          }
 
           e.currentTarget.value = '';
           vm.isSendingComment = false;

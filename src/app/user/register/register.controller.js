@@ -59,14 +59,18 @@
       });
       ajax.get().then(function (data) {
         vm.getCodeRequest = false;
-        if (data.code) vm.verificationCode = data.code;
-        vm.vid = data.vid;
-        vm.step = 'step2';
+        if (data.status == "ok") {
+          if (data.code) vm.verificationCode = data.code;
+          vm.vid = data.vid;
+          vm.step = 'step2';
+        }else{
+          toastr.error("Your number is not valid or already used!")
+        }
       })
       .catch(function (error) {
         vm.step = "step1";
         vm.getCodeRequest = false;
-        toastr.error("Error in validation your phone nubmer!")
+        toastr.error("Error in validation your phone number!")
       })
     };
 

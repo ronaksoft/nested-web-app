@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state,
-                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,
+                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
                               NstSvcMessagesSettingStorage,
                               NstSvcPostMap) {
@@ -86,8 +86,12 @@
       }
 
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
-        if (!vm.currentPlaceId || e.detail.object.belongsToPlace(vm.currentPlaceId)) {
-          vm.newMessages.unshift(mapMessage(e.detail.object));
+        var newMessage = e.detail.object;
+
+        if (!vm.currentPlaceId || newMessage.belongsToPlace(vm.currentPlaceId)) {
+          if (!_.some(vm.messages, { id : newMessage.id })){
+            vm.newMessages.unshift(mapMessage(newMessage));
+          }
         }
 
       });
@@ -129,55 +133,72 @@
         return $q.resolve(vm.messages);
       }
 
+      var defer = $q.defer();
       vm.tryAgainToLoadMore = false;
       vm.loading = true;
 
       return NstSvcLoader.inject(NstSvcTry.do(function () {
-        var defer = $q.defer();
-
-        vm.messagesSetting.date = getLastMessageTime();
-
-        getMessages().then(function (messages) {
-            vm.cache = _.concat(vm.cache, messages);
-
-            if (0 == vm.cache.length) {
+        if (vm.currentPlaceId){
+          return NstSvcPlaceFactory.hasAccess(vm.currentPlaceId, NST_PLACE_ACCESS.READ).then(function (has) {
+            if (has){
+              return getAccessableMessages();
+            } else {
               vm.noMessages = true;
+              return defer.resolve(vm.messages);
             }
+          })
+        }else{
+          return getAccessableMessages();
+        }
+      }));
 
-            if (messages.length < vm.messagesSetting.limit) {
-              $log.debug('Messages | Reached the end because of less results: ', messages);
+      return defer.promise;
+    }
+
+    function getAccessableMessages() {
+      var defer = $q.defer();
+      vm.messagesSetting.date = getLastMessageTime();
+
+      getMessages().then(function (messages) {
+        vm.cache = _.concat(vm.cache, messages);
+
+        if (0 == vm.cache.length) {
+          vm.noMessages = true;
+        }
+
+        if (messages.length < vm.messagesSetting.limit) {
+          $log.debug('Messages | Reached the end because of less results: ', messages);
+          vm.reachedTheEnd = true;
+        }
+
+        if (messages.length > 0) {
+          var lastMessageVersion = vm.messages.slice();
+
+          for (var i = 0; i < messages.length; i++) {
+            var hasData = lastMessageVersion.filter(function (obj) {
+              return (obj.id === messages[i].id);
+            });
+
+            if (hasData.length === 0) {
+              vm.messages.push(mapMessage(messages[i]));
+            } else {
+              // Todo :: remove this line after fixed by server
+              $log.debug('Messages | Reached the end because of duplication: ', hasData);
               vm.reachedTheEnd = true;
             }
+          }
+        }
+        vm.tryAgainToLoadMore = false;
+        vm.loading = false;
+        defer.resolve(vm.messages);
+      })
+        .catch(function (error) {
+          vm.loading = false;
+          vm.tryAgainToLoadMore = true;
+          defer.reject(error);
+        });
 
-            if (messages.length > 0) {
-              var lastMessageVersion = vm.messages.slice();
-
-              for (var i = 0; i < messages.length; i++) {
-                var hasData = lastMessageVersion.filter(function (obj) {
-                  return (obj.id === messages[i].id);
-                });
-
-                if (hasData.length === 0) {
-                  vm.messages.push(mapMessage(messages[i]));
-                } else {
-                  // Todo :: remove this line after fixed by server
-                  $log.debug('Messages | Reached the end because of duplication: ', hasData);
-                  vm.reachedTheEnd = true;
-                }
-              }
-            }
-            vm.tryAgainToLoadMore = false;
-            vm.loading = false;
-            defer.resolve(vm.messages);
-          })
-          .catch(function (error) {
-            vm.loading = false;
-            vm.tryAgainToLoadMore = true;
-            defer.reject(error);
-          });
-
-        return defer.promise;
-      }));
+      return defer.promise;
     }
 
     function loadMore(force) {
@@ -312,7 +333,9 @@
 
     function showNewMessages() {
       _.forEachRight(vm.newMessages, function (item) {
-        vm.messages.unshift(item);
+        if (!_.some(vm.messages, { id : item.id })) {
+          vm.messages.unshift(item);
+        }
       });
 
       vm.newMessages = [];

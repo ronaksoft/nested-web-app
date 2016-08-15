@@ -8,8 +8,8 @@
   /** @ngInject */
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log,
                          hotkeys,
-                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT,
-                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal) {
+                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
+                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
 
     vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
@@ -228,7 +228,16 @@
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
-        NstSvcPlaceFactory.get(toParams.placeId).catch(function (error) {
+
+        NstSvcPlaceFactory.get(toParams.placeId).then(function (place) {
+          return NstSvcPlaceFactory.hasAccess(toParams.placeId, NST_PLACE_ACCESS.READ).then(function (has) {
+            return $q(function (res, rej) {
+              if (!has) {
+                rej(new NstFactoryError(null, "", NST_SRV_ERROR.ACCESS_DENIED));
+              }
+            });
+          });
+        }).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
             NstSvcModal.error('Does not exist!', 'We are sorry, but the place you are looking for can not be found!').catch(function () {
               // This handles dismissed modal
