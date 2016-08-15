@@ -20,10 +20,12 @@
           case NST_EVENT_ACTION.POST_ADD:
             var postId = e.detail.timeline_data.post_id.$oid;
             getMessage(postId).then(function (post) {
-              factory.dispatchEvent(new CustomEvent(
-                NST_POST_FACTORY_EVENT.ADD,
-                new NstFactoryEventData(post)
-              ));
+              if (post.sender.id !== NstSvcAuth.user.id) {
+                factory.dispatchEvent(new CustomEvent(
+                  NST_POST_FACTORY_EVENT.ADD,
+                  new NstFactoryEventData(post)
+                ));
+              }
             }).catch(function (error) {
               $log.debug(error);
             });
