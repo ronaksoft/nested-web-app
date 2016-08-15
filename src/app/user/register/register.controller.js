@@ -64,6 +64,7 @@
           vm.vid = data.vid;
           vm.step = 'step2';
         }else{
+          vm.step = 'step1';
           toastr.error("Your number is not valid or already used!")
         }
       })
