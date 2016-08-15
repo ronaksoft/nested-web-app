@@ -86,8 +86,13 @@
       }
 
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
-        if (!vm.currentPlaceId || e.detail.object.belongsToPlace(vm.currentPlaceId)) {
-          vm.newMessages.unshift(mapMessage(e.detail.object));
+        var newMessage = e.detail.object;
+        console.log(newMessage);
+
+        if (!vm.currentPlaceId || newMessage.belongsToPlace(vm.currentPlaceId)) {
+          if (!_.some(vm.messages, { id : newMessage.id })){
+            vm.newMessages.unshift(mapMessage(newMessage));
+          }
         }
 
       });
@@ -329,7 +334,9 @@
 
     function showNewMessages() {
       _.forEachRight(vm.newMessages, function (item) {
-        vm.messages.unshift(item);
+        if (!_.some(vm.messages, { id : item.id })) {
+          vm.messages.unshift(item);
+        }
       });
 
       vm.newMessages = [];
