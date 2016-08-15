@@ -24,9 +24,9 @@
 
     function update(scope,element) {
       element.removeAttr("style");
-      let ori = scope.orientation;
-      let eleH = element[0].parentElement.scrollHeight;
-      let eleW = element[0].parentElement.scrollWidth;
+      var ori = scope.orientation;
+      var eleH = element[0].parentElement.scrollHeight;
+      var eleW = element[0].parentElement.scrollWidth;
       switch (ori){
         case '1':
           // No action needed
