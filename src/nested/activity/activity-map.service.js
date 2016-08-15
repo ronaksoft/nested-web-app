@@ -22,18 +22,10 @@
         member: mapActivityMember(activity),
         comment: mapActivityComment(activity),
         post: mapActivityPost(activity),
-        date: getPassedTime(activity.date),
+        date: activity.date,
         type: activity.type,
         place: mapActivityPlace(activity.place)
       };
-
-      function getPassedTime(date) {
-        if (!moment.isMoment(date)) {
-          date = moment(date);
-        }
-
-        return date.fromNow();
-      }
 
       function mapActivityMember(activity) {
         if (!activity.member) {
@@ -302,14 +294,6 @@
       });
 
       return items;
-    }
-
-    function getPassedTime(date) {
-      if (!moment.isMoment(date)) {
-        date = moment(date);
-      }
-
-      return date.fromNow();
     }
 
     function mapActivityMember(activity) {

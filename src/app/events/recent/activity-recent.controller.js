@@ -39,13 +39,13 @@
         NstSvcActivityFactory.getRecent(settings).then(function (activities) {
           vm.activities = mapActivities(activities);
           vm.status.loadInProgress = false;
+
           defer.resolve(vm.activities);
         }).catch(defer.reject);
 
         return defer.promise;
       }));
     })();
-
 
     function mapActivities(activities) {
       return _.map(activities, NstSvcActivityMap.toRecentActivity);
