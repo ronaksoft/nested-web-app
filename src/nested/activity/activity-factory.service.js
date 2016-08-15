@@ -52,7 +52,7 @@
         extractPost(data),
         extractPlace(data),
         extractComment(data),
-        extractMember(data),
+        extractMember(data)
       ]).then(function(values) {
 
         activity.actor = values[0];
@@ -77,7 +77,7 @@
             _id: data.actor,
             fname: data.actor_fname,
             lname: data.actor_lname,
-            picture: data.actor_picture,
+            picture: data.actor_picture
           });
 
           // TODO: Add user to cache if the model is rich enough
@@ -196,7 +196,7 @@
           extractPost(data),
           extractPlace(data),
           extractComment(data),
-          extractMember(data),
+          extractMember(data)
         ]).then(function(values) {
 
           activity.actor = values[0];

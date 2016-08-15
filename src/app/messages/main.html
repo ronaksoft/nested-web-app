@@ -15,12 +15,15 @@
 
     <nst-quick-message data-ng-if="ctlMessages.viewSetting.quickMessage && ctlMessages.currentPlaceId"
                        place-id="ctlMessages.currentPlaceId"></nst-quick-message>
-
+   <div class="new-post-badge-area" ng-if="ctlMessages.hasNewMessages()">
+     <button class="btn new-post-badge" data-tooltip-placement="top" data-uib-tooltip="{{ctlMessages.newMessages.length == 1 ? 'A new message' : ctlMessages.newMessages.length + ' new messages'}}" ng-click="ctlMessages.showNewMessages();">
+       <span class="badge-counter">+{{ctlMessages.getNewMessagesCount()}}</span>
+     </button>
+   </div>
     <div class="post-area">
       <post-card class="_fw" data-ng-repeat="msg in ctlMessages.messages track by $index" post="msg"
                  settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId"></post-card>
     </div>
-
     <div class="text-center nst-margin-24" ng-if="ctlMessages.tryAgainToLoadMore">
       <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore()">
         {{ctlMessages.cache.length === 0 ? "Click here to load messages!" : "Load More..."}}
