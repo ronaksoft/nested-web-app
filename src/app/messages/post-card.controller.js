@@ -94,6 +94,10 @@
 
     //TODO put it in directive ...
     vm.languageIsRtl = function (str) {
+      if (!str || !_.isString(str)) {
+        return false;
+      }
+
       str = str.trim();
       var charCode = str.charCodeAt(0);
 

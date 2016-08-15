@@ -10,7 +10,7 @@
                                 _,
                                 NST_COMMENT_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
                                 NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage, NstObservableObject, NstFactoryEventData,
-                                NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture) {
+                                NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser) {
 
     function CommentFactory() {
       var factory = this;

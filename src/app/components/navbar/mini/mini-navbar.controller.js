@@ -6,7 +6,7 @@
     .controller('MiniNavbarController', MiniNavbarController);
 
   /** @ngInject */
-  function MiniNavbarController($q, $state, $stateParams, $uibModal,
+  function MiniNavbarController($q, $state, $stateParams, $uibModal, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
                                 NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                                 NstVmUser, NstVmPlace, NstVmInvitation) {

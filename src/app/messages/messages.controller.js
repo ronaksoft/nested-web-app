@@ -7,16 +7,15 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state,
-                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION,
+                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
                               NstSvcMessagesSettingStorage,
-                              NstSvcPostMap, NstSvcActivityMap) {
+                              NstSvcPostMap) {
 
     var vm = this;
-    vm.messages = [];
-    vm.cache = [];
-    var DEFAULT_MESSAGES_COUNT = 8;
-    var defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
+
+    var DEFAULT_MESSAGES_COUNT = 8,
+      defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
       defaultViewSetting = {
         content: true,
         attachments: true,
@@ -25,12 +24,18 @@
       },
       sortOptionStorageKey = 'sort-option';
 
+    vm.messages = [];
+    vm.cache = [];
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
     vm.reachedTheEnd = false;
     vm.noMessages = false;
     vm.loading = false;
     vm.loadMessageError = false;
+    vm.newMessages = [];
+    vm.hasNewMessages = hasNewMessages;
+    vm.getNewMessagesCount = getNewMessagesCount;
+    vm.showNewMessages = showNewMessages;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -79,6 +84,16 @@
           vm.loadMessageError = true;
         });
       }
+
+      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
+        if (!vm.currentPlaceId || e.detail.object.belongsToPlace(vm.currentPlaceId)) {
+          vm.newMessages.unshift(mapMessage(e.detail.object));
+        }
+
+      });
+      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
+
+      });
     })();
 
     function getMessages() {
@@ -86,16 +101,13 @@
         case 'place-messages':
         case 'place-messages-sorted':
           return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlace.id);
-          break;
 
         case 'messages-sent':
         case 'messages-sent-sorted':
           return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
-          break;
 
         default:
           return NstSvcPostFactory.getMessages(vm.messagesSetting);
-          break;
       }
     }
 
@@ -105,9 +117,9 @@
           content: readSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT),
           attachments: readSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS),
           comments: readSettingItem(NST_MESSAGES_VIEW_SETTING.COMMENTS),
-          quickMessage: readSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE),
+          quickMessage: readSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE)
         };
-        vm.viewSetting = _.defaults(setting, vm.defaultViewSetting);
+        vm.viewSetting = _.defaults(setting, defaultViewSetting);
         resolve(vm.viewSetting);
       });
     }
@@ -280,6 +292,14 @@
       }
     };
 
+    function hasNewMessages() {
+      return vm.newMessages.length > 0;
+    }
+
+    function getNewMessagesCount() {
+      return vm.newMessages.length;
+    }
+
     function readSettingItem(key) {
       var value = NstSvcMessagesSettingStorage.get(key);
 
@@ -290,31 +310,13 @@
       NstSvcMessagesSettingStorage.set(key, bool ? 'show' : 'hide');
     }
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (e) {
-      switch (e.detail.timeline_data.action) {
-        case NST_EVENT_ACTION.POST_ADD:
-          var postId = e.detail.timeline_data.post_id.$oid;
-          NstSvcPostFactory.getMessage(postId).then(function (post) {
-            if (!vm.currentPlaceId || post.belongsToPlace(vm.currentPlaceId)) {
-              vm.cache.splice(0, 1, post);
-              vm.messages.splice(0, 0, mapMessage(post));
-            }
-          }).catch(function (error) {
-            $log.debug(error);
-          });
-          break;
+    function showNewMessages() {
+      _.forEachRight(vm.newMessages, function (item) {
+        vm.messages.unshift(item);
+      });
 
-        case NST_EVENT_ACTION.POST_REMOVE:
-          var postId = e.detail.timeline_data.post_id.$oid;
-          var messageIndex = _.findIndex(vm.messages, {
-            'id': postId
-          });
-          if (messageIndex !== -1) {
-            vm.messages.splice(messageIndex, 1);
-          }
-          break;
-      }
-    });
+      vm.newMessages = [];
+    }
 
     // FIXME some times it got a problem ( delta causes )
     vm.preventParentScroll = function (event) {
