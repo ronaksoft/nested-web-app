@@ -262,18 +262,6 @@
           reader.onloadend = function(event) {
             var base64data = event.target.result;
 
-			if (NST_FILE_TYPE.IMAGE == vm.attachments.current.type) {
-				EXIF.getData({ src: base64data }, function () {
-					if (this.exifdata || this.iptcdata) {
-						vm.attachments.current.meta.exif = this.exifdata || {};
-						vm.attachments.current.meta.iptc = this.iptcdata || {};
-						
-						var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
-						vm.attachments.collection[key] = vm.attachments.current;
-					}
-				});
-			}
-
             // Written in $timeout Just to update view
             $timeout(function () {
               // vm.attachments.current = mapAttachment(attachment);
@@ -281,6 +269,18 @@
               vm.attachments.current.downloadedRatio = 1;
               vm.attachments.current.isDownloaded = true;
               vm.attachments.current.url = base64data;
+
+              if (NST_FILE_TYPE.IMAGE == vm.attachments.current.type) {
+                EXIF.getData({ src: base64data }, function () {
+                  if (this.exifdata || this.iptcdata) {
+                    vm.attachments.current.meta.exif = this.exifdata || {};
+                    vm.attachments.current.meta.iptc = this.iptcdata || {};
+
+                    var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
+                    vm.attachments.collection[key] = vm.attachments.current;
+                  }
+                });
+              }
 
               var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
               vm.attachments.collection[key] = vm.attachments.current;
