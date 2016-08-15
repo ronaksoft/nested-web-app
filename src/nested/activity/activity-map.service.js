@@ -22,18 +22,10 @@
         member: mapActivityMember(activity),
         comment: mapActivityComment(activity),
         post: mapActivityPost(activity),
-        date: getPassedTime(activity.date),
+        date: activity.date,
         type: activity.type,
         place: mapActivityPlace(activity.place)
       };
-
-      function getPassedTime(date) {
-        if (!moment.isMoment(date)) {
-          date = moment(date);
-        }
-
-        return date.fromNow();
-      }
 
       function mapActivityMember(activity) {
         if (!activity.member) {
@@ -304,14 +296,6 @@
       return items;
     }
 
-    function getPassedTime(date) {
-      if (!moment.isMoment(date)) {
-        date = moment(date);
-      }
-
-      return date.fromNow();
-    }
-
     function mapActivityMember(activity) {
       if (!activity.member || !activity.member.id) {
         return {};
@@ -331,7 +315,7 @@
       return {
         id: activity.comment.id,
         body: activity.comment.body,
-        postId: activity.post.id,
+        postId: activity.post.id
       };
     }
 
@@ -368,7 +352,7 @@
 
       return {
         id: place.id,
-        name: place.name,
+        name: place.name
         //picture : place.picture.thumbnails.x64.url.download
       };
     }
@@ -383,7 +367,7 @@
         name: activity.place.name,
         picture: activity.place.picture.thumbnails.x64.url.download,
         hasParent: !!activity.place.parent,
-        parent: mapParentPlace(activity),
+        parent: mapParentPlace(activity)
       };
     }
 

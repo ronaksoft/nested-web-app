@@ -11,24 +11,22 @@
       scope: {
         orientation: '@'
       },
-      replace: true,
       link: function (scope ,element) {
-        element.removeAttr("style");
-        update(scope,element);
         scope.$watch('orientation', function () {
-          $timeout(function () {
-            update(scope,element);
-          });
+          if (scope.orientation > 0){
+            $timeout(function () {
+              update(scope,element);
+            });
+          }
         });
-      },
-      template: '<img />'
+      }
     };
 
     function update(scope,element) {
-      var ori = scope.orientation;
-      var eleH = element[0].parentElement.scrollHeight;
-      var eleW = element[0].parentElement.scrollWidth;
-      console.log(element[0].parentElement.scrollHeight,element[0].scrollWidth,ori);
+      element.removeAttr("style");
+      let ori = scope.orientation;
+      let eleH = element[0].parentElement.scrollHeight;
+      let eleW = element[0].parentElement.scrollWidth;
       switch (ori){
         case '1':
           // No action needed
@@ -68,15 +66,15 @@
             'transform': 'scaleX(-1) rotate(90deg)',
             'filter': 'FlipH',
             '-ms-filter': "FlipH",
-            'width': element[0].parentElement.scrollHeight,
-            'height': element[0].parentElement.scrollWidth
+            'width': eleH,
+            'height': eleW
           });
           break;
         case '6':
           element.css({
             'transform': 'rotate(90deg)',
-            'width': element[0].parentElement.scrollHeight,
-            'height': element[0].parentElement.scrollWidth
+            'width': eleH,
+            'height': eleW
           });
           break;
         case '7':
@@ -87,19 +85,19 @@
             'transform': 'scaleX(-1) rotate(-90deg)',
             'filter': 'FlipH',
             '-ms-filter': "FlipH",
-            'width': element[0].parentElement.scrollHeight,
-            'height': element[0].parentElement.scrollWidth
+            'width': eleH,
+            'height': eleW
           });
           break;
         case '8':
           element.css({
             'transform': 'rotate(-90deg)',
-            'width': element[0].parentElement.scrollHeight,
-            'height': element[0].parentElement.scrollWidth
+            'width': eleH,
+            'height': eleW
           });
           break;
         default:
-          scope.tplUrl = 'app/components/attachments/view/single/partials/default.html';
+          element.css({});
       }
     }
   }

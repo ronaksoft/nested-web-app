@@ -5,7 +5,7 @@
     .module('nested')
     .filter('date', function() {
 
-      return function(date, format) {
+      var dateFilter = function(date, format) {
         if (!moment.isMoment(date)) {
           date = moment(date);
         }
@@ -40,8 +40,10 @@
           default:
             return date.format("dddd, MMMM DD YYYY, HH:mm");
         }
-
-
       }
+
+      dateFilter.$stateful = true;
+
+      return dateFilter;
     });
 })();
