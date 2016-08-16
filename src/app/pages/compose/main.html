@@ -1,73 +1,66 @@
-<div class="second-view">
-  <nst-navbar controls="ctlCompose.controls" place="ctlCompose.place" page="ctlApp.page"></nst-navbar>
+<nst-navbar controls="ctlCompose.controls" place="ctlCompose.place" page="ctlApp.page" class="second-view"></nst-navbar>
 
-  <div class="nst-content _tr" id="content-wrapper" ng-scrollbars page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
-      <section class="content _bgwhite">
-        <div class="navbarillu"></div>
-        <div class="_fw" ng-model="attachfiles" data-droplet>
-          <div class="droplet"></div>
-          <section class="first-child">
-            <div class="_difc _fw">
-              <div class="_df">
-                <span class="sto">To:</span>
-              </div>
+<div class="nst-content _tr second-view" id="content-wrapper" ng-scrollbars page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+  <section class="content _bgwhite">
+    <div class="navbarillu"></div>
+    <div class="_fw" ng-model="attachfiles" data-droplet>
+      <div class="droplet"></div>
+      <section class="first-child">
+        <div class="_difc _fw">
+          <div class="_df">
+            <span class="sto">To:</span>
+          </div>
 
-              <div class="_df _fw input-select-match">
-                <ui-select page-change-element multiple class="address-input _dib" id="input-compose-to" tagging="ctlCompose.search.tagger" data-ng-model="ctlCompose.model.recipients">
-                  <ui-select-match placeholder="Type place name or email address...">
-                    <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
-                  </ui-select-match>
-                  <ui-select-choices refresh="ctlCompose.search.fn($select.search)" refresh-delay="0"
-                                     repeat="place in (ctlCompose.search.results | filter: $select.search) track by place.id">
-                    <img class="account-initials-32" src="{{place.avatar}}"/>
-                    <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
-                    <br/>
-                    <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
-                  </ui-select-choices>
-                </ui-select>
-              </div>
+          <div class="_df _fw input-select-match">
+            <ui-select page-change-element multiple class="address-input _dib" id="input-compose-to" tagging="ctlCompose.search.tagger" data-ng-model="ctlCompose.model.recipients">
+              <ui-select-match placeholder="Type place name or email address...">
+                <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
+              </ui-select-match>
+              <ui-select-choices refresh="ctlCompose.search.fn($select.search)" refresh-delay="0"
+                                 repeat="place in (ctlCompose.search.results | filter: $select.search) track by place.id">
+                <img class="account-initials-32" src="{{place.avatar}}"/>
+                <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
+                <br/>
+                <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
+              </ui-select-choices>
+            </ui-select>
+          </div>
 
-            </div>
-          </section>
-          <hr/>
-          <section class="_difc _fw">
-            <div class="_df _fw input-select-match">
-              <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject"/>
-            </div>
-          </section>
-          <hr data-ng-show="attachshow"/>
-          <form name="attachmentForm">
-            <input page-change-element type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
-          </form>
+        </div>
+      </section>
+      <hr/>
+      <section class="_difc _fw">
+        <div class="_df _fw input-select-match">
+          <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject"/>
+        </div>
+      </section>
+      <hr data-ng-show="attachshow"/>
+      <form name="attachmentForm">
+        <input page-change-element type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
+      </form>
 
-          <div class="nst-attach _dif _fw" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
-            <div class="_fw">
-              <nst-attachments-editable-bar mode="thumbnail" items="ctlCompose.attachments.viewModels" on-item-delete="ctlCompose.attachments.detach"></nst-attachments-editable-bar>
-            </div>
-            <div class="attach _df">
-              <input id="{{ctlCompose.attachments.elementId}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
-            </div>
-            <div class="nst-attach-con _fh" ng-if="showUploadProgress">
-              <div class="progress">
-                <div class="progress-bar" ng-class="{'progress-bar-success' : totalProgress == 100}" role="progressbar" aria-valuenow="{{totalProgress}}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{totalProgress}}%;">
-                  <span>{{totalProgress}}%</span>
-                </div>
-              </div>
+      <div class="nst-attach _dif _fw" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
+        <div class="_fw">
+          <nst-attachments-editable-bar mode="thumbnail" items="ctlCompose.attachments.viewModels" on-item-delete="ctlCompose.attachments.detach"></nst-attachments-editable-bar>
+        </div>
+        <div class="attach _df">
+          <input id="{{ctlCompose.attachments.elementId}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
+        </div>
+        <div class="nst-attach-con _fh" ng-if="showUploadProgress">
+          <div class="progress">
+            <div class="progress-bar" ng-class="{'progress-bar-success' : totalProgress == 100}" role="progressbar" aria-valuenow="{{totalProgress}}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: {{totalProgress}}%;">
+              <span>{{totalProgress}}%</span>
             </div>
           </div>
-          <hr class="nomargin"/>
+        </div>
+      </div>
+      <hr class="nomargin"/>
 
-          <section class="nst-compose-message">
-            <div>
-              <textarea page-change-element ui-tinymce="ctlCompose.configs.tinymce" placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"></textarea>
-            </div>
-          </section>
+      <section class="nst-compose-message">
+        <div>
+          <textarea page-change-element ui-tinymce="ctlCompose.configs.tinymce" placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"></textarea>
         </div>
       </section>
     </div>
+  </section>
 </div>
-
-
-
-
-

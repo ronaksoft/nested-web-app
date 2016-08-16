@@ -99,6 +99,11 @@ textarea {
   //border: 1px solid $color-calm;
 }
 
+hr {
+  margin-top: .7em;
+  margin-bottom: .7em;
+}
+
 ._fl {float: left ;}
 ._fr {float: right;}
 ._cf {clear: both;}
@@ -446,7 +451,7 @@ input[type="checkbox"].inpsw + label {
 
 // Off: Value = 0;
 input[type="checkbox"].inpsw + label + label {
-  background-color: $color-sense-wire;
+  background-color: $color-sense;
   color: $color-white;
   box-sizing: border-box;
   border: none;
@@ -456,7 +461,7 @@ input[type="checkbox"].inpsw + label + label {
 
 // On: Value = 1;
 input[type="checkbox"].inpsw:checked + label  {
-  background-color: $color-sense-wire;
+  background-color: $color-sense;
   color: $color-white;
   border-color: transparent;
 }
@@ -2052,11 +2057,6 @@ a.normal-badge {
   *********************************************************
 */
 .second-view {
-  .nst-container {
-    margin: 0;
-    width: 100%;
-  }
-
   .content-plus {
     display: none;
   }
