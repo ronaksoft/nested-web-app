@@ -12,6 +12,7 @@
                          NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
 
+    vm.showLoadingScreen = true;
     vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
 
 
@@ -21,6 +22,12 @@
       }
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
+      // Hide and remove initial loading
+      // this is placed here to make sure the WS has been connected
+      $timeout(function (){
+        vm.showLoadingScreen = false;
+      },2000);
+
       if (vm.disconected) {
         vm.disconected = false;
       }
