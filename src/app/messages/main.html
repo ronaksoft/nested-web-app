@@ -21,7 +21,7 @@
      </button>
    </div>
     <div class="post-area">
-      <post-card class="_fw" data-ng-repeat="msg in ctlMessages.messages track by $index" post="msg"
+      <post-card class="_fw" data-ng-repeat="msg in ctlMessages.messages track by msg.id" post="msg"
                  settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId"></post-card>
     </div>
     <div class="text-center nst-margin-24" ng-if="ctlMessages.tryAgainToLoadMore">

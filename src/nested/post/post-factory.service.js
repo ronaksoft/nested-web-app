@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcPostFactory($q, $log,
     _,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData,
+    NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData,
     NstFactoryError, NstFactoryQuery, NstPost, NstTinyPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NstObservableObject,
     NST_MESSAGES_SORT_OPTION, NST_POST_FACTORY_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION) {
 
@@ -20,10 +20,12 @@
           case NST_EVENT_ACTION.POST_ADD:
             var postId = e.detail.timeline_data.post_id.$oid;
             getMessage(postId).then(function (post) {
-              factory.dispatchEvent(new CustomEvent(
-                NST_POST_FACTORY_EVENT.ADD,
-                new NstFactoryEventData(post)
-              ));
+              if (post.sender.id !== NstSvcAuth.user.id) {
+                factory.dispatchEvent(new CustomEvent(
+                  NST_POST_FACTORY_EVENT.ADD,
+                  new NstFactoryEventData(post)
+                ));
+              }
             }).catch(function (error) {
               $log.debug(error);
             });

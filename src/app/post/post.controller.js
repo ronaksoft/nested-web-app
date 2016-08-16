@@ -26,7 +26,7 @@
     };
 
     vm.scrollbarConfig = {
-      
+
     };
 
     vm.postModel = undefined;
@@ -465,7 +465,7 @@
     }
 
     function allowToRemoveComment(comment) {
-      return comment.sender.id === vm.user.id
+      return comment.sender.username === vm.user.id
         && (Date.now() - comment.date < 20 * 60 * 1e3);
     }
   }

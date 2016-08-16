@@ -125,4 +125,9 @@
   height: 32px;
   left: 48%;
   top: 45%;
+  z-index: 20;
+}
+.img-thumb-view {
+  filter: blur(2px);
+  opacity: .8;
 }
