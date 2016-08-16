@@ -454,7 +454,7 @@ input[type="checkbox"].inpsw + label + label {
   background-color: $color-sense;
   color: $color-white;
   box-sizing: border-box;
-  border: none;
+  border: 1px;
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
 }
@@ -462,8 +462,9 @@ input[type="checkbox"].inpsw + label + label {
 // On: Value = 1;
 input[type="checkbox"].inpsw:checked + label  {
   background-color: $color-sense;
+  border-color: $color-sense;
   color: $color-white;
-  border-color: transparent;
+  box-sizing: border-box;
 }
 
 // Off: Value = 1;
@@ -493,6 +494,7 @@ input[type="checkbox"].inpsw:disabled + label + label  {
 // On: Value = 1; Disabled
 input[type="checkbox"].inpsw[disabled]:checked + label  {
   background-color: $color-breeze;
+  border-color: $color-breeze;;
   color: $color-wind;
 }
 
