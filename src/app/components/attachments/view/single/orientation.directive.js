@@ -18,6 +18,12 @@
               update(scope,element);
             });
           }
+          $timeout(function () {
+            console.log("start2");
+            element.animate({
+              'opacity': 1
+            }, 700);
+          },11);
         });
       }
     };
