@@ -1258,7 +1258,7 @@ a .ui-select-choises-row-inner {
   left: 0;
   //bottom: -96px;
   max-height: 100%;
-  min-height: calc(100% - 210px);
+  min-height: calc(100vh - 210px);
   overflow: auto;
 }
 .side-place-wrapper a{
