@@ -9,7 +9,7 @@
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log,
                          hotkeys,
                          NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT,
-                         NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal) {
+                         NstObject, NstSvcServer, NstSvcAuth, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal) {
     var vm = this;
 
     vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
@@ -182,9 +182,7 @@
       }
 
       for (var k in pages) {
-        var cName = pages[k].toLowerCase().split('').map(function (v, i) {
-          return 0 == i ? v.toUpperCase() : v;
-        }).join('');
+        var cName = NstObject.prototype.getJsName(pages[k], true);
         var isActive = NST_PAGE[pages[k]].indexOf(state.name) > -1;
 
         if (previousState) {
