@@ -24,7 +24,9 @@
 
     function update(scope,element) {
       element.removeAttr("style");
-      console.log(element[0].offsetParent.clientHeight);
+      $timeout(function () {
+        console.log(element[0].parentElement.scrollHeight,element[0].parentElement.scrollWidth);
+      },100);
       var ori = scope.orientation;
       var eleH = element[0].parentElement.scrollHeight;
       var eleW = element[0].parentElement.scrollWidth;
@@ -61,9 +63,8 @@
             'transform': 'scaleX(-1) rotate(180deg)',
             'filter': 'FlipH',
             '-ms-filter': "FlipH"
-          }).animate({
-            'width': element[0].offsetParent.clientHeight,
-            'height': element[0].offsetParent.clientWidth,
+          });
+          element.animate({
             'opacity': 1
           }, 'slow');
           break;
@@ -75,20 +76,26 @@
             'transform': 'scaleX(-1) rotate(90deg)',
             'filter': 'FlipH',
             '-ms-filter': "FlipH"
-          }).animate({
-            'width': element[0].offsetParent.clientHeight,
-            'height': element[0].offsetParent.clientWidth,
-            'opacity': 1
+          });
+          $timeout(function () {
+            element.animate({
+              'width': element[0].parentElement.clientHeight,
+              'height': element[0].parentElement.clientWidth,
+              'opacity': 1
           }, 'slow');
+          },100);
           break;
         case '6':
           element.css({
             'transform': 'rotate(90deg)'
-          }).animate({
-            'width': element[0].offsetParent.clientHeight,
-            'height': element[0].offsetParent.clientWidth,
-            'opacity': 1
-          }, 'slow');
+          });
+          $timeout(function () {
+            element.animate({
+              'width': element[0].parentElement.clientHeight,
+              'height': element[0].parentElement.clientWidth,
+              'opacity': 1
+            }, 'slow');
+          },100);
           break;
         case '7':
           element.css({
@@ -98,20 +105,26 @@
             'transform': 'scaleX(-1) rotate(-90deg)',
             'filter': 'FlipH',
             '-ms-filter': "FlipH"
-          }).animate({
-            'width': element[0].offsetParent.clientHeight,
-            'height': element[0].offsetParent.clientWidth,
-            'opacity': 1
-          }, 'slow');
+          });
+          $timeout(function () {
+            element.animate({
+              'width': element[0].parentElement.clientHeight,
+              'height': element[0].parentElement.clientWidth,
+              'opacity': 1
+            }, 'slow');
+          },100);
           break;
         case '8':
           element.css({
             'transform': 'rotate(-90deg)'
-          }).animate({
-            'width': element[0].offsetParent.clientHeight,
-            'height': element[0].offsetParent.clientWidth,
-            'opacity': 1
-          }, 'slow');
+          });
+          $timeout(function () {
+            element.animate({
+              'width': element[0].parentElement.clientHeight,
+              'height': element[0].parentElement.clientWidth,
+              'opacity': 1
+            }, 'slow');
+          },100);
           break;
         default:
           element.css({});
