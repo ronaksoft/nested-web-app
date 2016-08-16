@@ -29,7 +29,9 @@
       var eleW = element[0].parentElement.scrollWidth;
       switch (ori){
         case '1':
-          // No action needed
+          element.animate({
+            'opacity': 1
+          }, 'slow');
           break;
         case '2':
           element.css({
@@ -59,6 +61,8 @@
             'filter': 'FlipH',
             '-ms-filter': "FlipH"
           }).animate({
+            'width': eleH,
+            'height': eleW,
             'opacity': 1
           }, 'slow');
           break;
