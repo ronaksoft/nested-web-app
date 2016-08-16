@@ -12,12 +12,12 @@
        *****   Public Routes    ****
        *****************************/
 
-      .state('intro', {
-        url: '/',
-        templateUrl: 'app/pages/intro/main.html',
-        controller: 'IntroController',
-        controllerAs: 'ctlIntro'
-      })
+      // .state('intro', {
+      //   url: '/',
+      //   templateUrl: 'app/pages/intro/main.html',
+      //   controller: 'IntroController',
+      //   controllerAs: 'ctlIntro'
+      // })
 
       .state('register', {
         url: '/register',
@@ -294,7 +294,7 @@
         controllerAs: 'ctlSearch'
       });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/signin');
   }
 
 })();

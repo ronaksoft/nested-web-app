@@ -13,6 +13,7 @@
 						 NstObject) {
     var vm = this;
 
+    vm.loginView = true;
     vm.showLoadingScreen = true;
     vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
 
@@ -49,9 +50,9 @@
     }, function () {
       if (!vm.disconected) {
         if (NstSvcAuth.isAuthorized()) {
-          vm.loginView = true
-        } else {
           vm.loginView = false
+        } else {
+          vm.loginView = true
         }
       }
     });
@@ -143,6 +144,7 @@
           };
         }
       } else if (!toPublicState) {
+        vm.loginView = true;
         if (toState.name) {
           return {
             name: 'signin-back',
@@ -224,7 +226,6 @@
       if (-1 == NST_PAGE.SIGNIN.indexOf($state.current.name)) {
         var validState = getValidState($state.current, $state.params);
         $state.go(validState.name, validState.params);
-        vm.loginView = true;
       }
 
     });
@@ -285,6 +286,9 @@
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
+      if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER).indexOf(toState.name) > -1) {
+        vm.loginView = true;
+      }
     });
   }
 })();
