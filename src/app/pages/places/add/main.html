@@ -29,19 +29,24 @@
         </div>
         <div class="inner-panel _ma">
           <div class="place-id">
-            <div>Place ID</div>
+            <div class="_dib nst-marginbtm-8">Place ID : </div>
+            <div class="_dib nst-mood-lively nst-marginbtm-8" ng-if="CreatePlaceForm.place_id.$error.required && CreatePlaceForm.place_id.$touched">Required</div>
+            <div class="_fr nst-loading nst-loading-size-16" ng-if="ctlPlaceAdd.status.existCheckInProgress"></div>
+            <div class="_dib nst-mood-cheerful nst-marginbtm-8" ng-if="!ctlPlaceAdd.placeIdCheck.result && !ctlPlaceAdd.placeIdMinLength">available</div>
+            <div class="_dib nst-mood-lively nst-marginbtm-8" ng-if="ctlPlaceAdd.placeIdCheck.result && ctlPlaceAdd.placeIdMinLength">already exist</div>
             <div>
               <input page-change-element type="text" name="place_id"
-                     class=" nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false"
-                     data-ng-model="ctlPlaceAdd.model.id"/>
+                     ng-class="(CreatePlaceForm.place_id.$error.required && CreatePlaceForm.place_id.$touched) ? 'form-control-error' : 'form-control'" aria-invalid="false"
+                     ng-keyup="ctlPlaceAdd.existCheck()" data-ng-model="ctlPlaceAdd.model.id" required/>
             </div>
             <div class="notice-bar">Place ID can't be changed later; Be careful!</div>
           </div>
           <div>
-            <div>Place Name</div>
+            <div class="_dib">Place Name : </div>
+            <div class="_dib nst-mood-lively" ng-if="CreatePlaceForm.place_name.$touched && CreatePlaceForm.place_name.$error.required">Required</div>
             <div class="nst-marginbtm-4">
               <input page-change-element type="text" name="place_name" aria-invalid="false"
-                     class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="ctlPlaceAdd.model.name"/>
+                     ng-class="{'form-control': CreatePlaceForm.place_name.$untouched || CreatePlaceForm.place_name.$valid,'form-control-error': CreatePlaceForm.place_name.$touched && CreatePlaceForm.place_name.$error.required}" data-ng-model="ctlPlaceAdd.model.name" required/>
             </div>
             <div class="notice-bar">Short name helps you to quickly identify your places.</div>
           </div>
