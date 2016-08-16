@@ -1,16 +1,16 @@
-<nst-navbar place="ctlSettings.place" controls="ctlSettings.controls" page="ctlApp.page"></nst-navbar>
+<nst-navbar place="ctlSettings.place" page="ctlApp.page"></nst-navbar>
 
 <div class="nst-content _tr" id="content-wrapper" ng-scrollbars>
 
 
   <section class="content _bgwhite _fh" id="place-settings">
     <div class="navbarillu"></div>
-    <div class="place-actions _difh _jcc">
-      <a href="" class="_difh _fw"><div class="option-add-icon"></div>Add a Subplace</a>
-      <a href="" class="_difh _fn delete-button">Delete<div class="option-leave-icon"></div></a>
-      <a href="" class="_difh _fn">Leave<div class="option-delete-icon"></div></a>
+    <div class="place-actions _difh _jcc" ng-if="ctlSettings.hasAnyControlOverHere();">
+      <a href="" class="_difh _fw" ng-if="ctlSettings.allowedToAddSubPlace()"><div class="option-add-icon"></div>Add a Subplace</a>
+      <a href="" class="_difh _fn delete-button" ng-if="ctlSettings.allowedToDelete()">Delete<div class="option-leave-icon"></div></a>
+      <a href="" class="_difh _fn" ng-if="ctlSettings.allowedToLeave();">Leave<div class="option-delete-icon"></div></a>
     </div>
-    <hr>
+    <hr ng-if="ctlSettings.hasAnyControlOverHere();">
     <div class="room-name">
       <label for="logo" class="_di">
         <img data-ng-if="ctlSettings.logoFile || ctlSettings.place.picture.thumbnails.x64.url.download"
@@ -170,7 +170,7 @@
             <div class="add-icon _dib"></div>
           </div>
           <hr>
-          <h5 ng-if="ctlSettings.hasSeeMembersAccess && !ctlSettings.hasAnyTeamate" class="nst-mood-storm">
+          <h5 ng-if="!ctlSettings.hasAnyTeamate()" class="nst-mood-storm">
             There is not any teamate here!
           </h5>
           <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user"
@@ -189,7 +189,7 @@
             <div class="add-icon _dib"></div>
           </div>
           <hr>
-          <h5 ng-if="ctlSettings.hasSeeMembersAccess && !ctlSettings.hasAnyParticipant" class="nst-mood-storm">
+          <h5 ng-if="!ctlSettings.hasAnyParticipant()" class="nst-mood-storm">
             There is not any participant here!
           </h5>
           <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6"
