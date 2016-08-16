@@ -21,7 +21,6 @@
     vm.myAlreadyCountedIds = [];
     vm.reply = reply;
     vm.sendComment = sendComment;
-    vm.attachmentClick = attachmentClick;
 
     vm.hasOlderComments = true;
     vm.commentBoardIsRolled = null;
@@ -104,10 +103,6 @@
 
       return charCode > 1300 && 1700 > charCode;
     };
-
-    function attachmentClick(item) {
-
-    }
 
     function limitCommentBoard() {
       vm.commentBoardLimit = commentBoardMin;
