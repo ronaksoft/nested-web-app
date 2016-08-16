@@ -183,9 +183,7 @@
       }
 
       for (var k in pages) {
-        var cName = NstObject.prototype.getJsName(pages[k], true);
         var isActive = NST_PAGE[pages[k]].indexOf(state.name) > -1;
-
         if (previousState) {
           var wasActive = NST_PAGE[pages[k]].indexOf(page.state.previous.name) > -1;
 
@@ -194,13 +192,18 @@
           }
         }
 
-        page['is' + cName] = isActive;
+        page['is' + capitalCase(pages[k])] = isActive;
         if (isActive) {
           page.state.current.group = pages[k];
         }
       }
+      console.log(page);
 
       return page;
+    }
+
+    function capitalCase(name) {
+      return _.join(_.map(_.split(name, '_'), _.capitalize),'');
     }
 
     /*****************************
