@@ -24,17 +24,20 @@
 
     function update(scope,element) {
       element.removeAttr("style");
-      $timeout(function () {
-        console.log(element[0].parentElement.scrollHeight,element[0].parentElement.scrollWidth);
-      },100);
       var ori = scope.orientation;
       var eleH = element[0].parentElement.scrollHeight;
       var eleW = element[0].parentElement.scrollWidth;
       switch (ori){
         case '1':
-          element.animate({
-            'opacity': 1
-          }, 'slow');
+          element.css({
+            'opacity': 0
+          });
+          $timeout(function () {
+            console.log("start2");
+            element.animate({
+              'opacity': 1
+            }, 2000);
+          },11);
           break;
         case '2':
           element.css({
@@ -43,17 +46,27 @@
             '-webkit-transform': 'scaleX(-1)',
             'transform': 'scaleX(-1)',
             'filter': 'FlipH',
-            '-ms-filter': "FlipH"
-          }).animate({
-            'opacity': 1
-          }, 'slow');
+            '-ms-filter': "FlipH",
+            'opacity': 0
+          });
+          $timeout(function () {
+            console.log("start2");
+            element.animate({
+              'opacity': 1
+            }, 2000);
+          },11);
           break;
         case '3':
           element.css({
-            'transform': 'rotate(180deg)'
-          }).animate({
-            'opacity': 1
-          }, 'slow');
+            'transform': 'rotate(180deg)',
+            'opacity': 0
+          });
+          $timeout(function () {
+            console.log("start2");
+            element.animate({
+              'opacity': 1
+            }, 2000);
+          },11);
           break;
         case '4':
           element.css({
@@ -62,11 +75,14 @@
             '-webkit-transform': 'scaleX(-1)',
             'transform': 'scaleX(-1) rotate(180deg)',
             'filter': 'FlipH',
-            '-ms-filter': "FlipH"
+            '-ms-filter': "FlipH",
+            'opacity': 0
           });
-          element.animate({
-            'opacity': 1
-          }, 'slow');
+          $timeout(function () {
+            element.animate({
+              'opacity': 1
+            }, 2000);
+          },11);
           break;
         case '5':
           element.css({
@@ -75,27 +91,37 @@
             '-webkit-transform': 'scaleX(-1)',
             'transform': 'scaleX(-1) rotate(90deg)',
             'filter': 'FlipH',
-            '-ms-filter': "FlipH"
+            '-ms-filter': "FlipH",
+            'opacity': 0
           });
           $timeout(function () {
-            element.animate({
+            element.css({
               'width': element[0].parentElement.clientHeight,
               'height': element[0].parentElement.clientWidth,
+            });
+          },10);
+          $timeout(function () {
+            element.animate({
               'opacity': 1
-          }, 'slow');
-          },100);
+            }, 2000);
+          },11);
           break;
         case '6':
           element.css({
-            'transform': 'rotate(90deg)'
+            'transform': 'rotate(90deg)',
+            'opacity': 0
           });
           $timeout(function () {
-            element.animate({
+            element.css({
               'width': element[0].parentElement.clientHeight,
               'height': element[0].parentElement.clientWidth,
+            });
+          },10);
+          $timeout(function () {
+            element.animate({
               'opacity': 1
-            }, 'slow');
-          },100);
+            }, 2000);
+          },11);
           break;
         case '7':
           element.css({
@@ -104,27 +130,39 @@
             '-webkit-transform': 'scaleX(-1)',
             'transform': 'scaleX(-1) rotate(-90deg)',
             'filter': 'FlipH',
-            '-ms-filter': "FlipH"
+            '-ms-filter': "FlipH",
+            'opacity': 0
           });
           $timeout(function () {
-            element.animate({
+            element.css({
               'width': element[0].parentElement.clientHeight,
               'height': element[0].parentElement.clientWidth,
+            });
+          },10);
+          $timeout(function () {
+            element.animate({
               'opacity': 1
-            }, 'slow');
-          },100);
+            }, 2000);
+          },11);
           break;
         case '8':
           element.css({
-            'transform': 'rotate(-90deg)'
+            'transform': 'rotate(-90deg)',
+            'filter': 'FlipH',
+            '-ms-filter': "FlipH",
+            'opacity': 0
           });
           $timeout(function () {
-            element.animate({
+            element.css({
               'width': element[0].parentElement.clientHeight,
               'height': element[0].parentElement.clientWidth,
+            });
+          },10);
+          $timeout(function () {
+            element.animate({
               'opacity': 1
-            }, 'slow');
-          },100);
+            }, 2000);
+          },11);
           break;
         default:
           element.css({});
