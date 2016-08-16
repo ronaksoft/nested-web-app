@@ -1,5 +1,5 @@
 <div ng-if="!attachment.isDownloaded" class="downloadprogress">
   <div ng-progressbar="{{attachment.downloadedRatio}}" progressbar-mode="circle"></div>
 </div>
-<img ng-if="!attachment.isDownloaded" src="{{attachment.url}}" class="img-thumb-view"/>
-<img ng-if="attachment.isDownloaded" src="{{attachment.url}}" orientation="{{attachment.meta.exif.Orientation}}" style="" />
+<img ng-if="!attachment.isDownloaded" ng-src="{{attachment.url}}" class="img-thumb-view"/>
+<img ng-if="attachment.isDownloaded" ng-src="{{attachment.url}}" orientation="{{attachment.meta.exif.Orientation}}" style="opacity: 0"/>

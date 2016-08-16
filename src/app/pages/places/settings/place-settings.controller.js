@@ -35,24 +35,12 @@
     vm.confirmToLock = confirmToLock;
     vm.confirmToLeave = confirmToLeave;
     vm.confirmToRemove = confirmToRemove;
-
-    vm.controls = {
-      left: [
-        new NstVmNavbarControl('Back', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
-      ],
-      right: []
-    };
-
-    var addSubplaceControl = new NstVmNavbarControl('Add a subplace', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('place-add', { placeId : $stateParams.placeId }), null, {
-      icon : 'option-add-icon'
-    });
-    var removeControl = new NstVmNavbarControl('Delete', NST_NAVBAR_CONTROL_TYPE.BUTTON, undefined, vm.confirmToRemove, {
-      icon : 'option-delete-icon'
-    });
-    var leaveControl = new NstVmNavbarControl('Leave', NST_NAVBAR_CONTROL_TYPE.BUTTON, undefined, vm.confirmToLeave, {
-      icon : 'option-leave-icon'
-    });
-
+    vm.hasAnyTeamate = hasAnyTeamate;
+    vm.hasAnyParticipant = hasAnyParticipant;
+    vm.allowedToAddSubPlace = allowedToAddSubPlace;
+    vm.allowedToDelete = allowedToDelete;
+    vm.allowedToLeave = allowedToLeave;
+    vm.hasAnyControlOverHere = hasAnyControlOverHere;
 
     (function() {
       $log.debug('Initializing of PlaceSettingsController just started...');
@@ -81,8 +69,6 @@
         vm.hasAddMembersAccess = values[3];
         vm.hasSeeMembersAccess = values[4];
         vm.options.notification = values[5];
-
-        setControls();
 
         $log.debug(NstUtility.string.format('Place "{0}" settings retrieved successfully.', vm.place.name));
 
@@ -131,9 +117,6 @@
           pendings.pendingKnownGuests ? pendings.pendingKnownGuests.length : 0
         ));
 
-        vm.hasAnyParticipant = vm.participants.length > 0;
-        vm.hasAnyTeamate = vm.teamates.length > 0;
-
       }).catch(function(error) {
         $log.debug(error);
       });
@@ -174,20 +157,30 @@
 
     })();
 
-    function setControls() {
-      if (vm.hasRemoveAccess) {
-        vm.controls.right.push(removeControl);
-      }
-
-      if (vm.hasAddPlaceAccess) {
-        vm.controls.right.push(addSubplaceControl);
-      }
-      // The user is the owner
-      if (!(vm.place.grandParent && vm.place.grandParent.id === NstSvcAuth.user.id)) {
-        vm.controls.right.push(leaveControl);
-      }
+    function allowedToAddSubPlace() {
+      return vm.hasAddPlaceAccess;
     }
 
+
+    function allowedToDelete() {
+      return vm.hasRemoveAccess && vm.place.children.length === 0;
+    }
+
+
+    /**
+     * allowedToLeave - Check if the user is allowed to leave the place
+     * If the user is the only creator of the place, Leaving is not possible and the place should be removed
+     *
+     *
+     * @return {type}  description
+     */
+    function allowedToLeave() {
+      return vm.teamates && vm.teamates.length > 1;
+    }
+
+    function hasAnyControlOverHere() {
+      return allowedToDelete() || allowedToLeave() || allowedToAddSubPlace();
+    }
 
     function showAddModal(role) {
 
@@ -398,6 +391,14 @@
       vm.logoUploadedRatio = Number(event.loaded / event.total).toFixed(4);
 
       $log.debug(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
+    }
+
+    function hasAnyTeamate() {
+      return vm.teamates && vm.teamates.length > 0;
+    }
+
+    function hasAnyParticipant() {
+      return vm.participants && vm.participants.length > 0;
     }
 
 

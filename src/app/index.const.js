@@ -14,14 +14,15 @@
       'signin-back',
       'intro',
       'register',
-      'registerWithPhone'
+      'register-with-phone'
     ])
     .constant('NST_PAGE', {
       'INTRO': [
         'intro'
       ],
       'REGISTER': [
-        'register'
+        'register',
+        'register-with-phone'
       ],
       'SIGNIN': [
         'signin',

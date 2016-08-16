@@ -9,9 +9,12 @@
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log,
                          hotkeys,
                          NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
-                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal) {
+                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal,
+						 NstObject) {
     var vm = this;
 
+    vm.loginView = true;
+    vm.showLoadingScreen = true;
     vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
 
 
@@ -21,6 +24,12 @@
       }
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
+      // Hide and remove initial loading
+      // this is placed here to make sure the WS has been connected
+      $timeout(function (){
+        vm.showLoadingScreen = false;
+      },2000);
+
       if (vm.disconected) {
         vm.disconected = false;
       }
@@ -41,9 +50,9 @@
     }, function () {
       if (!vm.disconected) {
         if (NstSvcAuth.isAuthorized()) {
-          vm.loginView = true
-        } else {
           vm.loginView = false
+        } else {
+          vm.loginView = true
         }
       }
     });
@@ -111,6 +120,9 @@
      *****************************/
 
     (function () {
+      if ($state.current.name === "") {
+        return;
+      }
       var validState = getValidState($state.current, $stateParams);
       if ($state.current.name != validState.name) {
         $state.go(validState.name, validState.params);
@@ -132,6 +144,7 @@
           };
         }
       } else if (!toPublicState) {
+        vm.loginView = true;
         if (toState.name) {
           return {
             name: 'signin-back',
@@ -182,11 +195,7 @@
       }
 
       for (var k in pages) {
-        var cName = pages[k].toLowerCase().split('').map(function (v, i) {
-          return 0 == i ? v.toUpperCase() : v;
-        }).join('');
         var isActive = NST_PAGE[pages[k]].indexOf(state.name) > -1;
-
         if (previousState) {
           var wasActive = NST_PAGE[pages[k]].indexOf(page.state.previous.name) > -1;
 
@@ -195,7 +204,7 @@
           }
         }
 
-        page['is' + cName] = isActive;
+        page['is' + capitalCase(pages[k])] = isActive;
         if (isActive) {
           page.state.current.group = pages[k];
         }
@@ -204,20 +213,25 @@
       return page;
     }
 
+    function capitalCase(name) {
+      return _.join(_.map(_.split(name, '_'), _.capitalize),'');
+    }
+
     /*****************************
      *****  Event Listeners   ****
      *****************************/
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
+
       if (-1 == NST_PAGE.SIGNIN.indexOf($state.current.name)) {
         var validState = getValidState($state.current, $state.params);
         $state.go(validState.name, validState.params);
       }
+
     });
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       $uibModalStack.dismissAll();
-
       var validState = getValidState(toState, toParams);
       if (toState.name != validState.name) {
         $rootScope.$broadcast('$stateChangeError');
@@ -225,6 +239,7 @@
         $state.go(validState.name, validState.params);
       }
     });
+
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
@@ -271,6 +286,9 @@
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
+      if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER).indexOf(toState.name) > -1) {
+        vm.loginView = true;
+      }
     });
   }
 })();

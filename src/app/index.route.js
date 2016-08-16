@@ -12,12 +12,12 @@
        *****   Public Routes    ****
        *****************************/
 
-      .state('intro', {
-        url: '/',
-        templateUrl: 'app/pages/intro/main.html',
-        controller: 'IntroController',
-        controllerAs: 'ctlIntro'
-      })
+      // .state('intro', {
+      //   url: '/',
+      //   templateUrl: 'app/pages/intro/main.html',
+      //   controller: 'IntroController',
+      //   controllerAs: 'ctlIntro'
+      // })
 
       .state('register', {
         url: '/register',
@@ -26,7 +26,7 @@
         controllerAs: 'ctlRegister'
       })
 
-      .state('registerWithPhone', {
+      .state('register-with-phone', {
         url: '/register/phone/:phone',
         params: {
           phone: NST_DEFAULT.STATE_PARAM
@@ -294,7 +294,7 @@
         controllerAs: 'ctlSearch'
       });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/signin');
   }
 
 })();
