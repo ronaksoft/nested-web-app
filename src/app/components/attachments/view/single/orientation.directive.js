@@ -38,15 +38,17 @@
             '-webkit-transform': 'scaleX(-1)',
             'transform': 'scaleX(-1)',
             'filter': 'FlipH',
-            '-ms-filter': "FlipH",
-            'width': eleH,
-            'height': eleW
-          });
+            '-ms-filter': "FlipH"
+          }).animate({
+            'opacity': 1
+          }, 'slow');
           break;
         case '3':
           element.css({
             'transform': 'rotate(180deg)'
-          });
+          }).animate({
+            'opacity': 1
+          }, 'slow');
           break;
         case '4':
           element.css({
@@ -56,7 +58,9 @@
             'transform': 'scaleX(-1) rotate(180deg)',
             'filter': 'FlipH',
             '-ms-filter': "FlipH"
-          });
+          }).animate({
+            'opacity': 1
+          }, 'slow');
           break;
         case '5':
           element.css({
@@ -65,17 +69,21 @@
             '-webkit-transform': 'scaleX(-1)',
             'transform': 'scaleX(-1) rotate(90deg)',
             'filter': 'FlipH',
-            '-ms-filter': "FlipH",
+            '-ms-filter': "FlipH"
+          }).animate({
             'width': eleH,
-            'height': eleW
-          });
+            'height': eleW,
+            'opacity': 1
+          }, 'slow');
           break;
         case '6':
           element.css({
-            'transform': 'rotate(90deg)',
+            'transform': 'rotate(90deg)'
+          }).animate({
             'width': eleH,
-            'height': eleW
-          });
+            'height': eleW,
+            'opacity': 1
+          }, 'slow');
           break;
         case '7':
           element.css({
@@ -84,17 +92,21 @@
             '-webkit-transform': 'scaleX(-1)',
             'transform': 'scaleX(-1) rotate(-90deg)',
             'filter': 'FlipH',
-            '-ms-filter': "FlipH",
+            '-ms-filter': "FlipH"
+          }).animate({
             'width': eleH,
-            'height': eleW
-          });
+            'height': eleW,
+            'opacity': 1
+          }, 'slow');
           break;
         case '8':
           element.css({
-            'transform': 'rotate(-90deg)',
+            'transform': 'rotate(-90deg)'
+          }).animate({
             'width': eleH,
-            'height': eleW
-          });
+            'height': eleW,
+            'opacity': 1
+          }, 'slow');
           break;
         default:
           element.css({});
