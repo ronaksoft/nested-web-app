@@ -12,6 +12,7 @@
       }
     },
     "SIGN_OUT_TARGET" : "https://nested.me",
+    "TINY_MCE_ASSETS_PATH" : "https://webapp.nested.me/scripts/",
     "WEBSOCKET": {
       "URL": "wss://cyrus.nested.me:443",
       "TIMEOUT": 60000
