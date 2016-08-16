@@ -36,7 +36,7 @@
             console.log("start2");
             element.animate({
               'opacity': 1
-            }, 2000);
+            }, 700);
           },11);
           break;
         case '2':
@@ -53,7 +53,7 @@
             console.log("start2");
             element.animate({
               'opacity': 1
-            }, 2000);
+            }, 700);
           },11);
           break;
         case '3':
@@ -65,7 +65,7 @@
             console.log("start2");
             element.animate({
               'opacity': 1
-            }, 2000);
+            }, 700);
           },11);
           break;
         case '4':
@@ -81,7 +81,7 @@
           $timeout(function () {
             element.animate({
               'opacity': 1
-            }, 2000);
+            }, 700);
           },11);
           break;
         case '5':
@@ -103,7 +103,7 @@
           $timeout(function () {
             element.animate({
               'opacity': 1
-            }, 2000);
+            }, 700);
           },11);
           break;
         case '6':
@@ -120,7 +120,7 @@
           $timeout(function () {
             element.animate({
               'opacity': 1
-            }, 2000);
+            }, 700);
           },11);
           break;
         case '7':
@@ -142,7 +142,7 @@
           $timeout(function () {
             element.animate({
               'opacity': 1
-            }, 2000);
+            }, 700);
           },11);
           break;
         case '8':
@@ -161,7 +161,7 @@
           $timeout(function () {
             element.animate({
               'opacity': 1
-            }, 2000);
+            }, 700);
           },11);
           break;
         default:
