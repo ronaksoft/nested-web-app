@@ -29,7 +29,15 @@
       var eleW = element[0].parentElement.scrollWidth;
       switch (ori){
         case '1':
-          // No action needed
+          element.css({
+            'opacity': 0
+          });
+          $timeout(function () {
+            console.log("start2");
+            element.animate({
+              'opacity': 1
+            }, 700);
+          },11);
           break;
         case '2':
           element.css({
@@ -39,14 +47,26 @@
             'transform': 'scaleX(-1)',
             'filter': 'FlipH',
             '-ms-filter': "FlipH",
-            'width': eleH,
-            'height': eleW
+            'opacity': 0
           });
+          $timeout(function () {
+            console.log("start2");
+            element.animate({
+              'opacity': 1
+            }, 700);
+          },11);
           break;
         case '3':
           element.css({
-            'transform': 'rotate(180deg)'
+            'transform': 'rotate(180deg)',
+            'opacity': 0
           });
+          $timeout(function () {
+            console.log("start2");
+            element.animate({
+              'opacity': 1
+            }, 700);
+          },11);
           break;
         case '4':
           element.css({
@@ -55,8 +75,14 @@
             '-webkit-transform': 'scaleX(-1)',
             'transform': 'scaleX(-1) rotate(180deg)',
             'filter': 'FlipH',
-            '-ms-filter': "FlipH"
+            '-ms-filter': "FlipH",
+            'opacity': 0
           });
+          $timeout(function () {
+            element.animate({
+              'opacity': 1
+            }, 700);
+          },11);
           break;
         case '5':
           element.css({
@@ -66,16 +92,36 @@
             'transform': 'scaleX(-1) rotate(90deg)',
             'filter': 'FlipH',
             '-ms-filter': "FlipH",
-            'width': eleH,
-            'height': eleW
+            'opacity': 0
           });
+          $timeout(function () {
+            element.css({
+              'width': element[0].parentElement.clientHeight,
+              'height': element[0].parentElement.clientWidth,
+            });
+          },10);
+          $timeout(function () {
+            element.animate({
+              'opacity': 1
+            }, 700);
+          },11);
           break;
         case '6':
           element.css({
             'transform': 'rotate(90deg)',
-            'width': eleH,
-            'height': eleW
+            'opacity': 0
           });
+          $timeout(function () {
+            element.css({
+              'width': element[0].parentElement.clientHeight,
+              'height': element[0].parentElement.clientWidth,
+            });
+          },10);
+          $timeout(function () {
+            element.animate({
+              'opacity': 1
+            }, 700);
+          },11);
           break;
         case '7':
           element.css({
@@ -85,16 +131,38 @@
             'transform': 'scaleX(-1) rotate(-90deg)',
             'filter': 'FlipH',
             '-ms-filter': "FlipH",
-            'width': eleH,
-            'height': eleW
+            'opacity': 0
           });
+          $timeout(function () {
+            element.css({
+              'width': element[0].parentElement.clientHeight,
+              'height': element[0].parentElement.clientWidth,
+            });
+          },10);
+          $timeout(function () {
+            element.animate({
+              'opacity': 1
+            }, 700);
+          },11);
           break;
         case '8':
           element.css({
             'transform': 'rotate(-90deg)',
-            'width': eleH,
-            'height': eleW
+            'filter': 'FlipH',
+            '-ms-filter': "FlipH",
+            'opacity': 0
           });
+          $timeout(function () {
+            element.css({
+              'width': element[0].parentElement.clientHeight,
+              'height': element[0].parentElement.clientWidth,
+            });
+          },10);
+          $timeout(function () {
+            element.animate({
+              'opacity': 1
+            }, 700);
+          },11);
           break;
         default:
           element.css({});
