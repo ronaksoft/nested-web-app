@@ -26,7 +26,7 @@
         controllerAs: 'ctlRegister'
       })
 
-      .state('registerWithPhone', {
+      .state('register-with-phone', {
         url: '/register/phone/:phone',
         params: {
           phone: NST_DEFAULT.STATE_PARAM
