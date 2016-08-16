@@ -28,10 +28,10 @@
         wordbgn : /^[a-zA-Z]/,
         //Todo :: check for '--'
         nodbldash : /^(?!.*--)/,
-        noenddash : /^(?:-?[a-zA-Z0-9-]+)*$/,
+        noenddash : /^(?:-?[a-zA-Z0-9-]+)*$/
       },
       username : {
-        general : /^([a-zA-Z](?!.*--)(?:-?[a-zA-Z0-9]+)*){5,}$/,
+        general : /^[a-zA-Z](?!.*--)[a-zA-Z0-9-]{4,30}[^-]$/,
       },
     };
 
