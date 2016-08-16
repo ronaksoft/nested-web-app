@@ -24,6 +24,7 @@
 
     function update(scope,element) {
       element.removeAttr("style");
+      console.log(element[0].offsetParent.clientHeight);
       var ori = scope.orientation;
       var eleH = element[0].parentElement.scrollHeight;
       var eleW = element[0].parentElement.scrollWidth;
@@ -61,8 +62,8 @@
             'filter': 'FlipH',
             '-ms-filter': "FlipH"
           }).animate({
-            'width': eleH,
-            'height': eleW,
+            'width': element[0].offsetParent.clientHeight,
+            'height': element[0].offsetParent.clientWidth,
             'opacity': 1
           }, 'slow');
           break;
@@ -75,8 +76,8 @@
             'filter': 'FlipH',
             '-ms-filter': "FlipH"
           }).animate({
-            'width': eleH,
-            'height': eleW,
+            'width': element[0].offsetParent.clientHeight,
+            'height': element[0].offsetParent.clientWidth,
             'opacity': 1
           }, 'slow');
           break;
@@ -84,8 +85,8 @@
           element.css({
             'transform': 'rotate(90deg)'
           }).animate({
-            'width': eleH,
-            'height': eleW,
+            'width': element[0].offsetParent.clientHeight,
+            'height': element[0].offsetParent.clientWidth,
             'opacity': 1
           }, 'slow');
           break;
@@ -98,8 +99,8 @@
             'filter': 'FlipH',
             '-ms-filter': "FlipH"
           }).animate({
-            'width': eleH,
-            'height': eleW,
+            'width': element[0].offsetParent.clientHeight,
+            'height': element[0].offsetParent.clientWidth,
             'opacity': 1
           }, 'slow');
           break;
@@ -107,8 +108,8 @@
           element.css({
             'transform': 'rotate(-90deg)'
           }).animate({
-            'width': eleH,
-            'height': eleW,
+            'width': element[0].offsetParent.clientHeight,
+            'height': element[0].offsetParent.clientWidth,
             'opacity': 1
           }, 'slow');
           break;
