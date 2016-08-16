@@ -8,7 +8,7 @@
   /** @ngInject */
   function PlaceAddController($q, $timeout, $rootScope, $uibModal, $state, $stateParams, $log,
                               toastr,
-                              NST_DEFAULT, NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_PLACE_ACCESS,
+                              NST_DEFAULT, NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_PLACE_ACCESS, NST_PATTERN,
                               NstSvcStore, NstSvcLoader, NstSvcTry, NstSvcPlaceFactory,
                               NstVmNavbarControl) {
     var vm = this;
@@ -19,6 +19,7 @@
      *****************************/
 
     vm.status = {
+      existCheckInProgress : false,
       accessCheckProgress: false,
       createInProgress: false
     };
@@ -55,6 +56,11 @@
         new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
       ],
       right: []
+    };
+
+    vm.placeIdCheck = {
+      timer: undefined,
+      result: false // False means place id exist
     };
 
     /*****************************
@@ -144,6 +150,34 @@
             name: 'id',
             message: 'Place ID is Empty'
           });
+        } else {
+
+          if (model.id.length < 6){
+            errors.push({
+              name: 'id-length',
+              message: 'At least 6 character'
+            });
+          }
+
+          if (!model.id.match(NST_PATTERN.GRAND_PLACE_ID)){
+            errors.push({
+              name: 'id-pattern',
+              message: 'Place ID must start with alphabet and ends with number or alphabet'
+            });
+          }
+
+          if (vm.status.existCheckInProgress = true) {
+            errors.push({
+              name: 'check-id-in-progress',
+              message: 'Place ID checking is in progress.'
+            });
+          }
+
+          if (!vm.placeIdCheck.result) {
+            errors.push({
+              name: 'id-exist',
+            });
+          }
         }
 
         if (0 == model.name.trim().length) {
@@ -162,7 +196,7 @@
 
         return errors;
       })(vm.model);
-      
+
       vm.model.ready = 0 == vm.model.errors.length;
 
       return vm.model.ready;
@@ -184,7 +218,7 @@
             var place = NstSvcPlaceFactory.createPlaceModel();
             var qParent = $q.defer();
             var qPicture = $q.defer();
-            var id = vm.model.id;
+            var id = vm.model.id.trim();
 
             if (vm.model.parentId) {
               id = vm.model.parentId + id;
@@ -330,6 +364,37 @@
     };
     vm.controls.right.push(new NstVmNavbarControl('Create', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.create));
 
+
+    vm.placeIdMinLength = true;
+    vm.existCheck = function (val) {
+      if (vm.model.id && vm.model.id.length < 6){
+        vm.placeIdMinLength = true;
+        return false;
+      }else{
+        vm.placeIdMinLength = false;
+      }
+      vm.placeIdCheck.result = false;
+      if (vm.model.id && vm.model.id.length >= 6 && vm.model.id.match(NST_PATTERN.GRAND_PLACE_ID)){
+        if (vm.placeIdCheck.timer) {
+          $timeout.cancel(vm.placeIdCheck.timer);
+        }
+
+        vm.placeIdCheck.timer = $timeout(function () {
+          vm.status.existCheckInProgress = true;
+          reqPlaceExist(val).then(function (exists) {
+            vm.status.existCheckInProgress = false;
+            if (exists == true){
+              vm.placeIdCheck.result = true;
+            }
+            else if(exists == false){
+              vm.placeIdCheck.result = false;
+            }
+          });
+
+        }, 2000);
+      }
+    };
+
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -368,6 +433,24 @@
         });
       }).catch(function (error) {
         vm.status.createInProgress = false;
+
+        return $q(function (res, rej) {
+          rej(error);
+        });
+      });
+    }
+
+    function reqPlaceExist(placeId) {
+      vm.status.existCheckInProgress = true;
+
+      return NstSvcPlaceFactory.placeIdServerCheck(placeId).then(function (exists) {
+        vm.status.existCheckInProgress = false;
+
+        return $q(function (res) {
+          res(exists);
+        });
+      }).catch(function (error) {
+        vm.status.existCheckInProgress = false;
 
         return $q(function (res, rej) {
           rej(error);
