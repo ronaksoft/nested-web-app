@@ -58,6 +58,7 @@
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.parseMessage = parseMessage;
     PostFactory.prototype.getMessage = getMessage;
+    PostFactory.prototype.search = search;
 
     return new PostFactory();
 
@@ -625,6 +626,28 @@
 
         defer.resolve(message);
       }).catch(defer.reject);
+
+      return defer.promise;
+    }
+
+    function search(searchQuery, limit) {
+      var defer = $q.defer();
+      var query = new NstFactoryQuery(null, {
+        searchQuery : searchQuery,
+        limit : limit
+      });
+
+      NstSvcServer.request('posts/search', {
+        keywords : searchQuery.toString(),
+        skip : 0,
+        limit : limit || 8
+      }).then(function (result) {
+
+        defer.resolve(result);
+      }).catch(function (error) {
+
+        defer.reject(new NstFactoryError(query, '', error.getCode(), error));
+      });
 
       return defer.promise;
     }

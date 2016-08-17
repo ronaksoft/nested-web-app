@@ -9,7 +9,8 @@
 
     var service = {
       toMessage: toMessage,
-      toPost: toPost
+      toPost: toPost,
+      toSearchMessageItem : toSearchMessageItem
     };
 
     return service;
@@ -91,6 +92,32 @@
       }
     }
 
+    function toSearchMessageItem(post) {
+      var now = moment();
+
+      var senderPlaceId = post.sender.id;
+      var postPlaces = post.places.filter(function (v) { return senderPlaceId != v.id; });
+      var firstPlace = _.first(postPlaces);
+
+      return {
+        id: post.id,
+        sender: mapSender(post.sender),
+        subject: post.subject,
+        body: post.body,
+        isExternal: !post.internal,
+        contentType: post.contentType,
+        firstPlace: firstPlace ? mapPlace(firstPlace) : undefined,
+        allPlaces: _.map(postPlaces, mapPlace),
+        otherPlacesCount: postPlaces.length - 1,
+        allPlacesCount: postPlaces.length,
+        date: post.date,
+        hasAnyAttachment: post.attachments.length > 0,
+        hasAnyComment: post.comments.length > 0,
+        commentsCount: post.counters.comments > -1 ? post.counters.comments : 0,
+        isReplyed : !!post.replyTo,
+        isForwarded : !!post.forwardFrom
+      };
+    }
     /*****************************
      ***** Intern Map Methods ****
      *****************************/
