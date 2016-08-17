@@ -8,7 +8,7 @@
   /** @ngInject */
   function runBlock($rootScope, $uibModal, $timeout,$interval,
                     ngProgressFactory,
-                    NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
+                    NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
                     NstSvcAuth, NstSvcLoader, NstSvcPlaceInvitationFriend, NstSvcPlaceAuthFriend, NstSvcPostCommentFriend) {
     $rootScope.now = function () {
       return new Date();
@@ -47,6 +47,11 @@
     });
 
     $rootScope.modals = {};
+
+    //Config Tiny-MCE base url
+    if (NST_CONFIG.TINY_MCE_ASSETS_PATH) {
+      tinyMCE.baseURL = NST_CONFIG.TINY_MCE_ASSETS_PATH;
+    }
 
 
     // var timers = [];

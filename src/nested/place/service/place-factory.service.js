@@ -1196,7 +1196,21 @@
       });
 
       return defer.promise;
-    }
+    };
+
+    PlaceFactory.prototype.placeIdServerCheck = function (id) {
+      var defer = $q.defer();
+
+      NstSvcServer.request('place/exists', {
+        place_id: id
+      }).then(function (data) {
+        defer.resolve(data.exists);
+      }).catch(function (error) {
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    };
 
     return new PlaceFactory();
   }
