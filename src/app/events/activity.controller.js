@@ -173,7 +173,6 @@
       return $q(function (resolve, reject) {
 
         NstSvcActivityFactory.get(vm.activitySettings).then(function (activities) {
-
           if (activities.length === 0) {
             vm.reachedTheEnd = true;
           } else {

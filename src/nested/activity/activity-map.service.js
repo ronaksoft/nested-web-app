@@ -70,16 +70,31 @@
       }
 
       function mapActivityPlace(place) {
-        if (place) {
-          return {
-            id: place.id,
-            name: place.name,
-            picture: place.picture.getThumbnail('64').url.download
-          };
-        }else{
-          return null
+        if (!activity.place || !activity.place.id) {
+          return {};
         }
+
+        return {
+          id: activity.place.id,
+          name: activity.place.name,
+          hasParent: !!activity.place.parent,
+          parent: mapParentPlace(activity)
+        };
       }
+
+      function mapParentPlace(activity) {
+        if (!activity.place || !activity.place.parent) {
+          return {};
+        }
+
+        var parentPlace = {
+          id: activity.place.getParent().getId(),
+          name: activity.place.getParent().getName(),
+        };
+
+        return parentPlace;
+      }
+
     }
 
     /**

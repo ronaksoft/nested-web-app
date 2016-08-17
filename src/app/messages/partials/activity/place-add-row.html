@@ -12,6 +12,8 @@
     <div class="ei-member-invite _df _fn"></div>
   </div>
   <div class="_df">
-    <p><span>nested in</span> {{act.member.name}}</p>
+    <p>
+      <span>created {{act.place.name}}</span><span data-ng-if="act.place.hasParent">nested in {{act.place.parent.name}}</span>
+    </p>
   </div>
 </div>
