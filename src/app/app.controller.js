@@ -197,7 +197,6 @@
           page.state.current.group = pages[k];
         }
       }
-      console.log(page);
 
       return page;
     }
