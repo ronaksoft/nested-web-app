@@ -6,9 +6,9 @@
   <section class="content _bgwhite _fh" id="place-settings">
     <div class="navbarillu"></div>
     <div class="place-actions _difh _jcc" ng-if="ctlSettings.hasAnyControlOverHere();">
-      <a href="" class="_difh _fw" ng-if="ctlSettings.allowedToAddSubPlace()"><div class="option-add-icon"></div>Add a Subplace</a>
-      <a href="" class="_difh _fn delete-button" ng-if="ctlSettings.allowedToDelete()">Delete<div class="option-leave-icon"></div></a>
-      <a href="" class="_difh _fn" ng-if="ctlSettings.allowedToLeave();">Leave<div class="option-delete-icon"></div></a>
+      <a ui-sref="place-add({ placeId : ctlSettings.placeId })" class="_difh _fw" ng-if="ctlSettings.allowedToAddSubPlace()"><div class="option-add-icon"></div>Add a Subplace</a>
+      <a href="" class="_difh _fn delete-button" ng-if="ctlSettings.allowedToDelete()" ng-click="ctlSettings.confirmToRemove()">Delete<div class="option-leave-icon"></div></a>
+      <a href="" class="_difh _fn" ng-if="ctlSettings.allowedToLeave();" ng-click="ctlSettings.confirmToLeave();">Leave<div class="option-delete-icon"></div></a>
     </div>
     <hr ng-if="ctlSettings.hasAnyControlOverHere();">
     <div class="room-name">
