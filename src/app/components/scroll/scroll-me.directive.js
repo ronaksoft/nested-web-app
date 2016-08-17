@@ -13,7 +13,7 @@
           var self = $(element[0]);
           var selfscr = self.find(".mCSB_dragger");
           var scrollTop = selfscr.position().top;
-          if ( scrollTop == 0 || selfscr['context'].clientHeight - 100 < selfscr[0].offsetHeight + scrollTop) {
+          if ( scrollTop < 5 || selfscr['context'].clientHeight - 100 < selfscr[0].offsetHeight + scrollTop) {
             $timeout(function() {
               $(element[0]).mCustomScrollbar("scrollTo","bottom",{
                 scrollEasing:"easeOut"
