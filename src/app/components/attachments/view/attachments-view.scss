@@ -118,6 +118,18 @@
     }
   }
 }
+.attachments-list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 68px;
+  width: 100px;
+  opacity: 0;
+}
+.attachments-list:hover {
+  opacity: .85;
+  transition: .3s;
+}
 .downloadprogress {
   position: absolute;
   display: flex;

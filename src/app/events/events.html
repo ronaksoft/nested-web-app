@@ -4,18 +4,20 @@
      ng-scrollbars-config="ctlActivity.bodyScrollConf">
   <section class="_fw nst-content-body">
     <div class="navbarillu"></div>
-    <div class="filter-bar  _fw">
+    <div class="filter-bar  _fw" ng-mouseleave="filterPopoverShow = false;popoverSettingShow = false">
       <div class="iconsblock popover-white-nst-filter"
+           ng-mouseenter="filterPopoverShow = true;popoverSettingShow = false"
            uib-popover-template="'app/events/partials/popovers/filter_popover.html'"
            data-popover-placement="bottom-center"
-           popover-trigger="outsideClick">
+           popover-trigger="outsideClick" popover-is-open="filterPopoverShow">
         <span class="nst-mood-storm _df">All</span>
         <div class="icon icon-viewicon-filter _df"></div>
       </div>
       <div class="iconsblock popover-white-nst-setting"
+           ng-mouseenter="filterPopoverShow = false;popoverSettingShow = true"
            uib-popover-template="'app/events/partials/popovers/setting_popover.html'"
            data-popover-placement="bottom-center"
-           popover-trigger="outsideClick">
+           popover-trigger="outsideClick" popover-is-open="popoverSettingShow">
         <div class="icon icon-viewicon- _pa"></div>
       </div>
     </div>

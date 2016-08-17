@@ -11,7 +11,7 @@
                    NstSvcRandomize,
                    NstObservableObject, NstRequest, NstResponse) {
     function HTTP(route, data, settings) {
-      this.route = (0 == route.indexOf('http://')) ? route : (NST_CONFIG.REGISTER.AJAX.URL + route);
+      this.route = (0 == route.indexOf('http')) ? route : (NST_CONFIG.REGISTER.AJAX.URL + route);
       this.data = data;
       this.status = NST_REQ_STATUS.NOT_SENT;
       this.response = new NstResponse();
