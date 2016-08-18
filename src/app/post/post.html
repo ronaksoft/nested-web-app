@@ -88,14 +88,15 @@
                        data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
                 </div>
                 <div class="_df _fw _wrb cmt-post-view">
-                  <emoji>
+                  <emoji data-ng-if="!ctlPost.allowToRemoveComment(comment)">
                     <mark marked="comment.body">
                     </mark>
                   </emoji>
-                  &nbsp;&nbsp;
-                  <a href="javascript:void(0);" data-ng-if="ctlPost.allowToRemoveComment(comment)"
-                     class="nst-mood-storm nst-font-small"
-                     ng-click="ctlPost.removeComment(comment);">delete</a>
+                  <emoji data-ng-if="ctlPost.allowToRemoveComment(comment)" ng-click="ctlPost.removeComment(comment);">
+                    <mark marked="comment.body">
+                    </mark>
+                    <a class="nst-mood-storm nst-font-small" >&nbsp;&nbsp;delete </a>
+                  </emoji>
                 </div>
               </div>
             </div>
