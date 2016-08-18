@@ -19,7 +19,6 @@
             });
           }
           $timeout(function () {
-            console.log("start2");
             element.animate({
               'opacity': 1
             }, 700);
@@ -39,7 +38,6 @@
             'opacity': 0
           });
           $timeout(function () {
-            console.log("start2");
             element.animate({
               'opacity': 1
             }, 700);
@@ -56,7 +54,6 @@
             'opacity': 0
           });
           $timeout(function () {
-            console.log("start2");
             element.animate({
               'opacity': 1
             }, 700);
@@ -68,7 +65,6 @@
             'opacity': 0
           });
           $timeout(function () {
-            console.log("start2");
             element.animate({
               'opacity': 1
             }, 700);
