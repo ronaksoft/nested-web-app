@@ -16,9 +16,7 @@
       if (!object) {
         throw new Error('Could not find object.');
       }
-      this.detail = {
-        object : object
-      };
+      this.detail = object;
     }
 
     FactoryEventData.prototype = {};
