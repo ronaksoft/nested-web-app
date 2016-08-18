@@ -166,8 +166,9 @@ hr {
 ._ltr{direction: ltr}
 
 ._wrb {
-  -ms-word-break: break-all;
-  word-break: break-all;
+  //word-break: break-all;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
 }
