@@ -51,8 +51,9 @@
   </section>
   <section class="post-footer _difh">
     <a class="_df _fn">
-      <span ng-if="ctlPostCard.post.hasAnyComment()">{{ctlPostCard.post.commentsCount}} comments</span>
-      <span ng-if="!ctlPostCard.post.hasAnyComment()">No comments!</span>
+      <span ng-if="!ctlPostCard.post.hasAnyComment()">No comment</span>
+      <span ng-if="ctlPostCard.post.commentsCount == 1">One comments</span>
+      <span ng-if="ctlPostCard.post.commentsCount > 1">{{ctlPostCard.post.commentsCount}} comments</span>
     </a>
     <a ng-if="ctlPostCard.newCommentsCount > 0" class="new-comments-count" nst-post-modal post="ctlPostCard.post"
              dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.subject)) ? 'rtl' : 'ltr'}}">
