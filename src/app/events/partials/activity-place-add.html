@@ -12,13 +12,11 @@
     <div class="subject">
       <span class="nst-mood-simple">created&nbsp;</span>
       <a ui-sref="place-messages({placeId: act.place.id})">
-        {{act.inSpecificPlace ? "this place" : act.place.name}}
+        {{act.place.name}}
       </a>
       <span data-ng-if="act.place.hasParent">
-        <span class="nst-mood-simple">&nbsp;nested in&nbsp;</span>
-        <a ui-sref="place-messages({placeId: act.place.parent.id})">
-          {{act.place.parent.name}}
-        </a>
+        <span class="nst-mood-simple">&nbsp;nested in</span>
+        <a ui-sref="place-messages({placeId: act.place.parent.id})">{{act.inSpecificPlace ? "here" : act.place.parent.name}}</a>
       </span>
     </div>
   </div>

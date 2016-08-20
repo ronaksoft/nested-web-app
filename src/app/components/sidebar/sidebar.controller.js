@@ -9,7 +9,7 @@
   function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log,
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
     $log.debug(vm.stat);
@@ -99,8 +99,10 @@
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
+
       fixPlaceUrl();
     });
+
 
     /*****************************
      *****    Change urls   ****
@@ -366,7 +368,7 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-
+      NstSvcPlaceFactory.removePlaceFromTree(vm.places, event.detail, null);
     });
 
   }

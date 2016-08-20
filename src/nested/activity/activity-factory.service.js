@@ -138,16 +138,12 @@
 
       function extractPlace(data) {
         var defer = $q.defer();
-        var placeId, parentId;
 
         if (!data.place_id) {
           defer.resolve(null);
         } else {
-          if (angular.isObject(data.place_id)) {
-            placeId = data.place_id.$oid;
-          } else {
-            placeId = data.place_id;
-          }
+
+          var placeId = data.child_id || (angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id);
 
           NstSvcPlaceFactory.get(placeId).then(function(place) {
             if (data.parent_id) {
