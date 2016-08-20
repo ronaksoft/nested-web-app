@@ -27,19 +27,19 @@
             </div>
           </div>
         </div>
-        <div class="inner-panel _ma">
+        <div class="inner-panel _ma _fw">
           <div class="place-id">
             <div class="_dib nst-marginbtm-8">Place ID : </div>
             <div class="_dib nst-mood-lively nst-marginbtm-8" ng-if="CreatePlaceForm.place_id.$error.required && CreatePlaceForm.place_id.$touched">Required</div>
             <div class="_fr nst-loading nst-loading-size-16" ng-if="ctlPlaceAdd.status.existCheckInProgress"></div>
             <div class="_dib nst-mood-cheerful nst-marginbtm-8" ng-if="!ctlPlaceAdd.placeIdCheck.result && !ctlPlaceAdd.placeIdMinLength">available</div>
-            <div class="_dib nst-mood-lively nst-marginbtm-8" ng-if="ctlPlaceAdd.placeIdCheck.result && ctlPlaceAdd.placeIdMinLength">already exist</div>
-            <div>
+            <div class="_dib nst-mood-lively nst-marginbtm-8" ng-if="ctlPlaceAdd.placeIdCheck.result && !ctlPlaceAdd.placeIdMinLength">already exist</div>
+            <div class="nst-marginbtm-4">
               <input page-change-element type="text" name="place_id"
                      ng-class="(CreatePlaceForm.place_id.$error.required && CreatePlaceForm.place_id.$touched) ? 'form-control-error' : 'form-control'" aria-invalid="false"
-                     ng-keyup="ctlPlaceAdd.existCheck()" data-ng-model="ctlPlaceAdd.model.id" required/>
+                     ng-keyup="ctlPlaceAdd.existCheck(ctlPlaceAdd.model.id)" data-ng-model="ctlPlaceAdd.model.id" required/>
             </div>
-            <div class="notice-bar">Place ID can't be changed later; Be careful!</div>
+            <div class="notice-bar">Place ID can't be changed later, so choose wisely!</div>
           </div>
           <div>
             <div class="_dib">Place Name : </div>
@@ -48,7 +48,7 @@
               <input page-change-element type="text" name="place_name" aria-invalid="false"
                      ng-class="{'form-control': CreatePlaceForm.place_name.$untouched || CreatePlaceForm.place_name.$valid,'form-control-error': CreatePlaceForm.place_name.$touched && CreatePlaceForm.place_name.$error.required}" data-ng-model="ctlPlaceAdd.model.name" required/>
             </div>
-            <div class="notice-bar">Short name helps you to quickly identify your places.</div>
+            <div class="notice-bar">Short name that helps you to quickly identify your places.</div>
           </div>
           <div class="place-desc">
             <div>Place Description</div>
@@ -57,7 +57,7 @@
                      class="nst-marginbtm-4 form-control ng-pristine ng-untouched ng-valid" aria-invalid="false"
                      data-ng-model="ctlPlaceAdd.model.description"/>
             </div>
-            <div class="notice-bar">Place Description</div>
+            <div class="notice-bar">A short description of your place.</div>
           </div>
           <div id="place-privacy">Place Privacy</div>
           <!--<div class="_difc _fw">-->
@@ -90,9 +90,8 @@
               </label>
             </div>
           </div>
-          <div class="notice-bar">Only members Can Write Posts. <a href="javascript:void(0);"
-                                                                   class="nst-mood-cheerful">Learn
-            more</a></div>
+          <div class="notice-bar" ng-if="!ctlPlaceAdd.model.privacy.receptive">Only members can write posts. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+          <div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.receptive">Place can receive messages from all senders.<a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
           <div class="_difc _fw">
             <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
             <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
@@ -108,8 +107,9 @@
               </label>
             </div>
           </div>
-          <div class="notice-bar">Disabled until "Receptive" off. <a href="javascript:void(0);"
-                                                                     class="nst-mood-cheerful">Learn more</a></div>
+          <div class="notice-bar" ng-if="!ctlPlaceAdd.model.privacy.receptive">Disabled until "Receptive" off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+          <div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.receptive && ctlPlaceAdd.model.privacy.email">Place can receive emails from all senders. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+          <div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.receptive && !ctlPlaceAdd.model.privacy.email">PlaceID is not an email address and can not recieve emails. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
           <div class="_difc _fw">
             <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
             <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
@@ -125,8 +125,9 @@
               </label>
             </div>
           </div>
-          <div class="notice-bar">Disabled until "Receptive" off. <a href="javascript:void(0);"
-                                                                     class="nst-mood-cheerful">Learn more</a></div>
+          <div class="notice-bar" ng-if="!ctlPlaceAdd.model.privacy.receptive">Disabled until "Receptive" off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+          <div class="notice-bar" ng-if="!ctlPlaceAdd.model.privacy.search && ctlPlaceAdd.model.privacy.receptive">Hidden for user's search. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+          <div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.search && ctlPlaceAdd.model.privacy.receptive">Place can be found through in-app searches. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
           <!--<div>-->
           <!--<button class="butn  butn-sense _fw" data-ng-click="ctlPlaceAdd.create()">Create Place</button>-->
           <!--</div>-->

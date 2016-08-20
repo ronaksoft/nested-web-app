@@ -367,9 +367,9 @@
 
     vm.placeIdMinLength = true;
     vm.existCheck = function (val) {
-      if (vm.model.id && vm.model.id.length < 6){
+      if (vm.model.id.length < 6){
         vm.placeIdMinLength = true;
-        return false;
+
       }else{
         vm.placeIdMinLength = false;
       }
@@ -391,7 +391,7 @@
             }
           });
 
-        }, 2000);
+        }, 1000);
       }
     };
 
