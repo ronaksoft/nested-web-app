@@ -1,0 +1,91 @@
+(function () {
+  'use strict';
+
+  angular
+    .module('nested')
+    .factory('NstVmMessage', NstVmMessage);
+
+  function NstVmMessage(NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth) {
+
+    function VmMessage(post) {
+
+      this.id = null;
+      this.sender = null;
+      this.subject = null;
+      this.body = null;
+      this.isExternal = null;
+      this.contentType = null;
+      this.date = null;
+      this.attachments = [];
+      this.comments = [];
+      this.isReplyed  = null;
+      this.isForwarded = null;
+      this.commentsCount = 0;
+
+      this.getFirstPlace = function () {
+        return _.first(this.allPlaces);
+      }
+
+      this.getOtherPlacesCount = function () {
+        return this.getOtherPlaces().length;
+      }
+
+      this.getOtherPlaces = function () {
+        return _.tail(this.allPlaces);
+      }
+
+      this.getAllPlacesCount = function () {
+        return this.allPlaces.length;
+      }
+
+      this.hasAnyAttachment = function () {
+        return this.attachments.length > 0;
+      }
+
+      this.hasAnyComment = function () {
+        return this.commentsCount > 0;
+      }
+
+
+      if (post instanceof NstPost) {
+        this.id = post.id;
+        this.sender = mapSender(post.sender);
+        this.subject = post.subject;
+        this.body = post.body;
+        this.isExternal = !post.internal;
+        this.contentType = post.contentType;
+        this.allPlaces = _.map(_.reject(post.places, { id : NstSvcAuth.user.id }), mapPlace);
+        this.date = post.date;
+        this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
+        this.comments = _.map(post.comments, NstSvcCommentMap.toMessageComment);
+        this.isReplyed = !!post.replyTo;
+        this.isForwarded = !!post.forwardFrom;
+        this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
+      }
+    }
+
+    return VmMessage;
+
+    // TODO: Use NstVmUser instead
+    function mapSender(sender) {
+      if (!sender) {
+        return {};
+      }
+
+      return {
+        name: sender.fullName,
+        username: sender.id,
+        avatar: sender.getPicture().getThumbnail(32).getUrl().view
+      };
+    }
+
+    // TODO: Use NstVmPlace instead
+    function mapPlace(place) {
+      return {
+        id: place.id,
+        name: place.name,
+        picture: place.getPicture().getThumbnail(64).getUrl().view
+      };
+    }
+  }
+})();

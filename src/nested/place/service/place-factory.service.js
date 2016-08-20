@@ -1228,12 +1228,20 @@
     }
 
     PlaceFactory.prototype.filterPlacesByRemovePostAccess = function (places) {
+      return this.filterPlacesByAccessCode(places, NST_PLACE_ACCESS.REMOVE_POST);
+    }
+
+    PlaceFactory.prototype.filterPlacesByReadPostAccess = function (places) {
+      return this.filterPlacesByAccessCode(places, NST_PLACE_ACCESS.READ);
+    }
+
+    PlaceFactory.prototype.filterPlacesByAccessCode = function (places, code) {
       var defer = $q.defer();
       var factory = this;
 
       var accessPromises = _.map(places, function (place) {
         return $q(function (resolve, reject) {
-            factory.hasAccess(place.id, NST_PLACE_ACCESS.REMOVE_POST).then(function (hasAccess) {
+            factory.hasAccess(place.id, code).then(function (hasAccess) {
               resolve(hasAccess ? place : null);
             }).catch(reject);
         });
@@ -1287,12 +1295,6 @@
       return false;
     }
 
-
-    function filterPlacesByAccessCode(places, accessCodes) {
-      return _.filter(places, function(place) {
-        return _.intersection(place.access, accessCodes).length > 0; //do the codes exist in access array?
-      });
-    }
 
     return new PlaceFactory();
   }

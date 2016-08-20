@@ -98,6 +98,32 @@
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
 
       });
+
+      $rootScope.$on('post-removed', function (event, data) {
+        if (_.some(vm.messages, { id : data.postId })) {
+          var message = _.find(vm.messages, { id : data.postId });
+          // remove the place from the post's places
+          var placeIndex = _.findIndex(message.allPlaces, { id : data.placeId });
+          if (placeIndex > -1) {
+            message.allPlaces.splice(placeIndex, 1);
+          }
+
+          // remove the post if the user has not access to see it any more
+          NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces).then(function (places) {
+            if (_.isArray(places) && places.length === 0) {
+              var messageIndex = _.findIndex(vm.messages, { id : data.postId });
+              if (messageIndex > -1) {
+                vm.messages.splice(messageIndex, 1);
+              }
+            }
+
+          }).catch(function (error) {
+            $log.debug(error);
+          });
+        }
+
+      });
+
     })();
 
     function getMessages() {
@@ -160,7 +186,6 @@
       vm.messagesSetting.date = getLastMessageTime();
 
       getMessages().then(function (messages) {
-        console.log(messages);
         vm.cache = _.concat(vm.cache, messages);
 
         if (0 == vm.cache.length) {

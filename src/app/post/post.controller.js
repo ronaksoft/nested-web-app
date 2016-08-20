@@ -6,7 +6,7 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $stateParams, $uibModal, $log, $state,
+  function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance,
                           _, toastr,
                           NST_COMMENT_EVENT, NST_POST_EVENT,
                           NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
@@ -24,7 +24,7 @@
       date: Date.now(),
       limit: 10
     };
-
+    vm.placesWithRemoveAccess = [];
     vm.scrollbarConfig = {
 
     };
@@ -63,8 +63,8 @@
     vm.removeComment = removeComment;
     vm.loadMoreComments = loadComments;
     vm.allowToRemoveComment = allowToRemoveComment;
-    vm.hasRemoveAccess = hasRemoveAccess;
     vm.removePost = removePost;
+    vm.hasRemoveAccess = hasRemoveAccess;
 
     function loadComments() {
       vm.commentSettings.date = getDateOfOldestComment(vm.postModel);
@@ -188,8 +188,26 @@
 
           confirmOnDelete(post, place).then(function() {
             NstSvcPostFactory.remove(post.id, place.id).then(function(res) {
-              // TODO : reload the post, update the time line and notify the user
+
+              NstUtility.collection.dropById(post.allPlaces, place.id);
+              NstUtility.collection.dropById(vm.placesWithRemoveAccess, place.id);
+
+              NstSvcPlaceFactory.filterPlacesByReadPostAccess(post.allPlaces).then(function (places) {
+                if (_.isArray(places) && places.length === 0) {
+                  $uibModalInstance.dismiss();
+                }
+
+              }).catch(function (error) {
+                $log.debug(error);
+              });
+
               toastr.success(NstUtility.string.format('The post is removed from {0}.', place.name));
+
+              $rootScope.$broadcast('post-removed', {
+                postId : post.id,
+                placeId : place.id
+              });
+
             }).catch(function(res) {
               if (res.err_code === 1) {
                 $log.debug('You are not allowed to remove the post!');
@@ -255,7 +273,6 @@
         return NstSvcPlaceFactory.filterPlacesByRemovePostAccess(post.places);
       }).then(function (placesWithRemoveAccess) {
         vm.placesWithRemoveAccess = placesWithRemoveAccess;
-        vm.hasRemoveAccess = vm.placesWithRemoveAccess.length > 0;
 
         return loadComments();
       }).then(function () {
@@ -413,6 +430,10 @@
     /*****************************
      *****   Other Methods    ****
      *****************************/
+
+     function hasRemoveAccess () {
+       return vm.placesWithRemoveAccess && vm.placesWithRemoveAccess.length > 0;
+     }
 
     /**
      * sendKeyIsPressed - check whether the pressed key is Enter or not
