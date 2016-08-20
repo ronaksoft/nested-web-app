@@ -81,7 +81,6 @@
       return this;
     };
 
-
     /**
      * Post.prototype.addAttachment - add an attachment to a post
      *
@@ -98,7 +97,6 @@
       return this;
     };
 
-
     /**
      * Post.prototype.removeAttachment - remove an attachment from a post attachments list
      *
@@ -114,61 +112,6 @@
       return this;
     };
 
-    /**
-     * Post.prototype.getPlacesHaveDeleteAccess - Filter places with remove access (RM)
-     *
-     * @return {NstPlace[]}         a list of places with remove access
-     */
-    Post.prototype.getPlacesHaveDeleteAccess = function() {
-      return getPlacesWithAccess(this, 'RM');
-    };
-
-    /**
-     * Post.prototype.haveAnyPlaceWithDeleteAccess - check if there is any place
-     * with remove access (RM) or not
-     *
-     * @return {boolean}  return true if there is any place with remove access
-     */
-    Post.prototype.haveAnyPlaceWithDeleteAccess = function() {
-      return filterPlacesByAccessCode(this.places, ['RM']).length > 0;
-    };
-
-
-    /**
-     * Post.prototype.getTotalAttachProgress - calculate the amount of bytes were
-     * sent to server and report the total progress in percentage
-     *
-     * @return {Number}  total progress in percentage
-     */
-    Post.prototype.getTotalAttachProgress = function() {
-      var items = _.filter(this.attachments, function(attach) {
-        return status !== NST_ATTACHMENT_STATUS.ABORTED;
-      });
-
-      if (items.length === 0) {
-        return 0;
-      }
-
-      var value = (_.sumBy(items, 'loadedSize') / _.sumBy(items, 'size'));
-
-      if (value > 1) { //somethimes total progress value goes beyound 100!!
-        return 100;
-      }
-
-      return Math.round(value * 100);
-    };
-
-    /**
-     * Post.prototype.hasAnyUploadInProgress - check if any upload wether is in
-     * progress or not
-     *
-     * @return {boolean}  true if any upload is in progress
-     */
-    Post.prototype.hasAnyUploadInProgress = function() {
-      return _.some(this.attachments, function(attach) {
-        return attach.status === NST_ATTACHMENT_STATUS.UPLOADING;
-      });
-    };
 
     Post.prototype.addComment = function(comment) {
       var index = _.findIndex(this.comments, function (item) {
@@ -205,20 +148,7 @@
       });
     };
 
-    function getPlacesWithAccess(post, accessCodes) {
-      var separator = ',';
-      var codes = _.split(accessCodes, separator);
 
-      return $q(function(resolve, reject) {
-        resolve(filterPlacesByAccessCode(post.places, codes));
-      });
-    }
-
-    function filterPlacesByAccessCode(places, accessCodes) {
-      return _.filter(places, function(place) {
-        return _.intersection(place.access, accessCodes).length > 0; //do the codes exist in access array?
-      });
-    }
 
     return Post;
   }

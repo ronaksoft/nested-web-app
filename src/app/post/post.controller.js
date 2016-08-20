@@ -9,7 +9,7 @@
   function PostController($q, $scope, $stateParams, $uibModal, $log, $state,
                           _, toastr,
                           NST_COMMENT_EVENT, NST_POST_EVENT,
-                          NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap,
+                          NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
                           NstVmUser, vmPost, postId) {
     var vm = this;
 
@@ -138,20 +138,14 @@
      * @param  {NstPost} post current post
      */
     function removePost(post) {
-      post.getPlacesHaveDeleteAccess(post).then(function(places) {
-
-        if (moreThanOnePlace(places)) { //for multiple choices:
-          previewPlaces(places).then(function(place) {
+        if (vm.placesWithRemoveAccess.length > 1) { //for multiple choices:
+          previewPlaces(vm.placesWithRemoveAccess).then(function(place) {
             performDelete(post, place);
           }).catch(function(reason) {
 
           });
         } else { // only one place
-          performDelete(post, _.last(places));
-        }
-
-        function moreThanOnePlace(places) {
-          return places.length > 1;
+          performDelete(post, _.last(vm.placesWithRemoveAccess));
         }
 
 
@@ -164,7 +158,7 @@
 
           var modal = $uibModal.open({
             animation: false,
-            templateUrl: 'app/places/list/place.list.modal.html',
+            templateUrl: 'app/pages/places/list/place.list.modal.html',
             controller: 'placeListController',
             controllerAs: 'vm',
             keyboard: true,
@@ -194,14 +188,8 @@
 
           confirmOnDelete(post, place).then(function() {
             NstSvcPostFactory.remove(post.id, place.id).then(function(res) {
-              // reload the post, update the time line and notify the user
-              // FIXME: the taost message appears only for the first time!
-              toastr.success('The post is removed from the place.');
-              post.load(post.id).then(function(result) {
-                $scope.$emit('post-removed', result);
-              }).catch(function(res) {
-                $log.debug('error: ', res);
-              });
+              // TODO : reload the post, update the time line and notify the user
+              toastr.success(NstUtility.string.format('The post is removed from {0}.', place.name));
             }).catch(function(res) {
               if (res.err_code === 1) {
                 $log.debug('You are not allowed to remove the post!');
@@ -222,7 +210,6 @@
             $log.debug(error);
           })
         }
-
 
         /**
          * confirmOnDelete - warn the user about removing the post from the chosen place
@@ -251,9 +238,6 @@
 
           return modal.result;
         }
-      }).catch(function(error) {
-        $log.debug(error);
-      });
     }
 
     /*****************************
@@ -267,6 +251,11 @@
         if (vm.post.comments) {
           vm.comments = vm.post.comments;
         }
+
+        return NstSvcPlaceFactory.filterPlacesByRemovePostAccess(post.places);
+      }).then(function (placesWithRemoveAccess) {
+        vm.placesWithRemoveAccess = placesWithRemoveAccess;
+        vm.hasRemoveAccess = vm.placesWithRemoveAccess.length > 0;
 
         return loadComments();
       }).then(function () {

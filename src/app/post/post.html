@@ -26,8 +26,8 @@
       </div>
       <div class="panel-action _fn">
         <ul class="list-inline _df">
-          <li ng-if="ctlPost.post.haveAnyPlaceWithDeleteAccess()">
-            <a href="" ng-click="deletePost(ctlPost.post);">
+          <li ng-if="ctlPost.hasRemoveAccess">
+            <a href="" ng-click="ctlPost.removePost(ctlPost.post);">
               <span class="nst-mood-solid _dib">Delete</span>
               <span class="action-button-post-delete _dib"></span>
             </a>

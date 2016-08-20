@@ -78,8 +78,7 @@
         hasAnyComment: post.comments.length > 0,
         commentsCount: post.counters.comments > -1 ? post.counters.comments : 0,
         isReplyed : !!post.replyTo,
-        isForwarded : !!post.forwardFrom
-        // userHasRemoveAccess : post.haveAnyPlaceWithDeleteAccess()
+        isForwarded : !!post.forwardFrom,
       };
 
       /*****************************

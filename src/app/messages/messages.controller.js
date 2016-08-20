@@ -160,6 +160,7 @@
       vm.messagesSetting.date = getLastMessageTime();
 
       getMessages().then(function (messages) {
+        console.log(messages);
         vm.cache = _.concat(vm.cache, messages);
 
         if (0 == vm.cache.length) {

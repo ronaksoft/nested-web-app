@@ -631,7 +631,7 @@
               NstSvcMyPlaceIdStorage.set('tiny', myPlaces);
 
               factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(id)));
-              
+
               deferred.resolve(place);
             }).catch(function (error) {
               deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -1227,6 +1227,27 @@
       removePlace(tree, placeId);
     }
 
+    PlaceFactory.prototype.filterPlacesByRemovePostAccess = function (places) {
+      var defer = $q.defer();
+      var factory = this;
+
+      var accessPromises = _.map(places, function (place) {
+        return $q(function (resolve, reject) {
+            factory.hasAccess(place.id, NST_PLACE_ACCESS.REMOVE_POST).then(function (hasAccess) {
+              resolve(hasAccess ? place : null);
+            }).catch(reject);
+        });
+      });
+
+      $q.all(accessPromises).then(function (places) {
+        defer.resolve(_.filter(places, function (place) {
+          return !_.isNull(place);
+        }));
+      }).catch(defer.reject);
+
+      return defer.promise;
+    }
+
     function removePlace(places, originalId, parentId) {
       if (!_.isArray(places) || places.length === 0 || !originalId) {
         return false;
@@ -1264,6 +1285,13 @@
       }
 
       return false;
+    }
+
+
+    function filterPlacesByAccessCode(places, accessCodes) {
+      return _.filter(places, function(place) {
+        return _.intersection(place.access, accessCodes).length > 0; //do the codes exist in access array?
+      });
     }
 
     return new PlaceFactory();
