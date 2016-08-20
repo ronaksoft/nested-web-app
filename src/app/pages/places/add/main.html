@@ -32,12 +32,12 @@
             <div class="_dib nst-marginbtm-8">Place ID : </div>
             <div class="_dib nst-mood-lively nst-marginbtm-8" ng-if="CreatePlaceForm.place_id.$error.required && CreatePlaceForm.place_id.$touched">Required</div>
             <div class="_fr nst-loading nst-loading-size-16" ng-if="ctlPlaceAdd.status.existCheckInProgress"></div>
-            <div class="_dib nst-mood-cheerful nst-marginbtm-8" ng-if="!ctlPlaceAdd.placeIdCheck.result && !ctlPlaceAdd.placeIdMinLength && !(CreatePlaceForm.place_id.$error.required && CreatePlaceForm.place_id.$touched)">available</div>
-            <div class="_dib nst-mood-lively nst-marginbtm-8" ng-if="ctlPlaceAdd.placeIdCheck.result && ctlPlaceAdd.placeIdMinLength && !(CreatePlaceForm.place_id.$error.required && CreatePlaceForm.place_id.$touched)">already exist</div>
+            <div class="_dib nst-mood-cheerful nst-marginbtm-8" ng-if="!ctlPlaceAdd.placeIdCheck.result && !ctlPlaceAdd.placeIdMinLength">available</div>
+            <div class="_dib nst-mood-lively nst-marginbtm-8" ng-if="ctlPlaceAdd.placeIdCheck.result && !ctlPlaceAdd.placeIdMinLength">already exist</div>
             <div class="nst-marginbtm-4">
               <input page-change-element type="text" name="place_id"
                      ng-class="(CreatePlaceForm.place_id.$error.required && CreatePlaceForm.place_id.$touched) ? 'form-control-error' : 'form-control'" aria-invalid="false"
-                     ng-keyup="ctlPlaceAdd.existCheck()" data-ng-model="ctlPlaceAdd.model.id" required/>
+                     ng-keyup="ctlPlaceAdd.existCheck(ctlPlaceAdd.model.id)" data-ng-model="ctlPlaceAdd.model.id" required/>
             </div>
             <div class="notice-bar">Place ID can't be changed later, so choose wisely!</div>
           </div>
