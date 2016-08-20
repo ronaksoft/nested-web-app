@@ -17,9 +17,8 @@
     };
 
     NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
-      var activity = e.detail.object;
-      if (activityBelongsToPlace(activity)){
-        addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail.object));
+      if (activityBelongsToPlace(e.detail)){
+        addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail));
       }
     });
 

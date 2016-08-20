@@ -86,7 +86,7 @@
       }
 
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
-        var newMessage = e.detail.object;
+        var newMessage = e.detail;
 
         if (!vm.currentPlaceId || newMessage.belongsToPlace(vm.currentPlaceId)) {
           if (!_.some(vm.messages, { id : newMessage.id })){
