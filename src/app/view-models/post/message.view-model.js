@@ -23,7 +23,7 @@
       this.commentsCount = 0;
 
       this.getFirstPlace = function () {
-        return _.first(this.allPlaces);
+        return _.first(this.getOtherPlaces());
       }
 
       this.getOtherPlacesCount = function () {
@@ -31,7 +31,7 @@
       }
 
       this.getOtherPlaces = function () {
-        return _.tail(this.allPlaces);
+        return _.reject(this.allPlaces, { id : NstSvcAuth.user.id });
       }
 
       this.getAllPlacesCount = function () {
@@ -54,7 +54,7 @@
         this.body = post.body;
         this.isExternal = !post.internal;
         this.contentType = post.contentType;
-        this.allPlaces = _.map(_.reject(post.places, { id : NstSvcAuth.user.id }), mapPlace);
+        this.allPlaces = _.map(post.places, mapPlace);
         this.date = post.date;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
         this.comments = _.map(post.comments, NstSvcCommentMap.toMessageComment);

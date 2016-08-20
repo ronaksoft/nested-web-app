@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility,
                               NstSvcMessagesSettingStorage,
                               NstSvcPostMap) {
 
@@ -103,18 +103,12 @@
         if (_.some(vm.messages, { id : data.postId })) {
           var message = _.find(vm.messages, { id : data.postId });
           // remove the place from the post's places
-          var placeIndex = _.findIndex(message.allPlaces, { id : data.placeId });
-          if (placeIndex > -1) {
-            message.allPlaces.splice(placeIndex, 1);
-          }
+          NstUtility.collection.dropById(message.allPlaces, data.placeId);
 
           // remove the post if the user has not access to see it any more
           NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces).then(function (places) {
             if (_.isArray(places) && places.length === 0) {
-              var messageIndex = _.findIndex(vm.messages, { id : data.postId });
-              if (messageIndex > -1) {
-                vm.messages.splice(messageIndex, 1);
-              }
+              NstUtility.collection.dropById(vm.messages, data.postId);
             }
 
           }).catch(function (error) {
