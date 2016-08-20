@@ -166,14 +166,14 @@
             });
           }
 
-          if (vm.status.existCheckInProgress = true) {
+          if (vm.status.existCheckInProgress == true) {
             errors.push({
               name: 'check-id-in-progress',
               message: 'Place ID checking is in progress.'
             });
           }
 
-          if (!vm.placeIdCheck.result) {
+          if (vm.placeIdCheck.result) {
             errors.push({
               name: 'id-exist',
             });
