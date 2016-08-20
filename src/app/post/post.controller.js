@@ -475,6 +475,7 @@
     }
 
     function allowToRemoveComment(comment) {
+      return false;
       return comment.sender.username === vm.user.id
         && (Date.now() - comment.date < 20 * 60 * 1e3);
     }

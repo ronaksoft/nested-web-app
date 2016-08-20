@@ -8,7 +8,7 @@
   /** @ngInject */
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log,
                          hotkeys,
-                         NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
+                         NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
                          NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal,
 						 NstObject) {
     var vm = this;
@@ -16,6 +16,32 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
     vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+
+
+
+    /*****************************
+     *****  Configure TrackJs  ****
+     *****************************/
+
+    //FIXME:: remove me after all errors defined and handled
+    // function configTracker() {
+    //   var newConfigs = {
+    //     version: NST_CONFIG.APP_ID,
+    //     console: {
+    //       // By default TrackJS will watch all console activity and include that information in the Telemetry Timeline
+    //       enabled: false,
+    //     }
+    //   };
+    //
+    //   if(NstSvcAuth.isAuthorized()){
+    //     newConfigs.userId = NstSvcAuth.getUser().getId();
+    //   }else{
+    //     newConfigs.userId = null;
+    //   }
+    //   if (trackJs !== undefined)
+    //     trackJs.configure(newConfigs);
+    // }
+
 
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
@@ -45,17 +71,27 @@
      *****   Manage Ui View   ****
      *****************************/
 
-    $rootScope.$watch(function () {
-      return NstSvcAuth.isAuthorized()
-    }, function () {
-      if (!vm.disconected) {
-        if (NstSvcAuth.isAuthorized()) {
-          vm.loginView = false
-        } else {
-          vm.loginView = true
-        }
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
+      var reason = event.detail.reason;
+      if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
+        vm.loginView = true;
       }
     });
+
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
+      var reason = event.detail.reason;
+      if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
+        vm.loginView = false;
+      }
+    });
+
+    // $rootScope.$watch(function () {
+    //   return NstSvcAuth.isInAuthorization();
+    // }, function () {
+    //   if (!vm.disconected) {
+    //     vm.loginView = !NstSvcAuth.isInAuthorization();
+    //   }
+    // });
 
 
     /*****************************
@@ -137,6 +173,7 @@
       var toPublicState = NST_PUBLIC_STATE.indexOf(toState.name) > -1;
 
       if (NstSvcAuth.isInAuthorization()) {
+
         if (toPublicState) {
           return {
             name: NST_DEFAULT.STATE,
