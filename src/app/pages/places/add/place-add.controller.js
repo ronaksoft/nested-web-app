@@ -108,7 +108,7 @@
         cancel.$destroy();
         $state.go(toState.name, toParams);
       } else {
-        if (!$rootScope.modals['leave-confirm']) {
+      if (!$rootScope.modals['leave-confirm']) {
           $rootScope.modals['leave-confirm'] = $uibModal.open({
             animation: false,
             templateUrl: 'app/modals/leave-confirm/main.html',
