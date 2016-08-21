@@ -122,7 +122,7 @@ hr {
 
 ._db { display: block; }
 ._df { display: flex}
- 
+
 ._dib { display: inline-block;}
 ._dif { display: inline-flex;}
 ._difv { display: inline-flex;flex-direction: column}
@@ -2035,6 +2035,7 @@ a.normal-badge {
 .normal-badge:hover {
   color: $color-solid;
 }
+
 
 /**
   *********************************************************
