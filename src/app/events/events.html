@@ -1,62 +1,89 @@
-<div class="maincontainer _fw ng-class:{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}" >
-  <nst-sidebar data-ng-model="sidebar" collapsed="ctlApp.viewSettings.sidebar.collapsed" class="_fn _fh"></nst-sidebar>
-  <div class="nst-container">
-    <nst-navbar data-ng-model="navbar" place="ctlActivity.currentPlace" page="ctlApp.page"></nst-navbar>
+<nst-navbar data-ng-model="navbar" place="ctlActivity.currentPlace" page="ctlApp.page"></nst-navbar>
 
-    <div class="nst-content _tr _bgwhite" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlActivity.bodyScrollConf">
-      <section class="_fw nst-content-body">
-        <div class="filter-bar  _fw">
-          <div class="iconsblock popover-white-nst-filter" uib-popover-template="'app/events/partials/popovers/filter_popover.html'" data-popover-placement="bottom-center"
-               popover-trigger="outsideClick">
-            <span class="nst-mood-storm _df">All</span>
-            <div class="icon icon-viewicon-filter _df"></div>
+<div class="nst-content _tr _bgwhite" id="content-wrapper" ng-scrollbars
+     ng-scrollbars-config="ctlActivity.bodyScrollConf">
+  <section class="_fw nst-content-body">
+    <div class="navbarillu"></div>
+    <div class="filter-bar  _fw" ng-mouseleave="filterPopoverShow = false;popoverSettingShow = false">
+      <div class="iconsblock popover-white-nst-filter"
+           ng-mouseenter="filterPopoverShow = true;popoverSettingShow = false"
+           uib-popover-template="'app/events/partials/popovers/filter_popover.html'"
+           data-popover-placement="bottom-center"
+           popover-trigger="outsideClick" popover-is-open="filterPopoverShow">
+        <span class="nst-mood-storm _df">All</span>
+        <div class="icon icon-viewicon-filter _df"></div>
+      </div>
+      <div class="iconsblock popover-white-nst-setting"
+           ng-mouseenter="filterPopoverShow = false;popoverSettingShow = true"
+           uib-popover-template="'app/events/partials/popovers/setting_popover.html'"
+           data-popover-placement="bottom-center"
+           popover-trigger="outsideClick" popover-is-open="popoverSettingShow">
+        <div class="icon icon-viewicon- _pa"></div>
+      </div>
+    </div>
+
+    <section class="_fw nst-content-body _bgwhite">
+      <div class="_fw eventsody _bgwhite" id="EventList">
+        <div class="actdate" ng-if="ctlActivity.acts.thisYear.thisMonth.today.hasAnyItem">
+          <p class="nst-mood-simple">
+            <span class="">Today</span>
+          </p>
+        </div>
+        <activity-item place="ctlActivity.currentPlace"
+                       data-ng-repeat="act in ctlActivity.acts.thisYear.thisMonth.today.items" model="act"
+                       extended="ctlActivity.extended"></activity-item>
+
+        <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
+          <div class="actdate">
+            <p class="nst-mood-simple">
+              <span class="ng-binding ng-scope">{{value.date}}</span>
+            </p>
           </div>
-          <div class="iconsblock popover-white-nst-setting" uib-popover-template="'app/events/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center"
-               popover-trigger="outsideClick">
-            <div class="icon icon-viewicon- _pa"></div>
+          <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
+                         extended="ctlActivity.extended"></activity-item>
+        </div>
+        <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
+          <div class="actdate">
+            <p class="nst-mood-simple">
+              <span class="ng-binding ng-scope">{{value.date}}</span>
+            </p>
           </div>
+          <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
+                         extended="ctlActivity.extended"></activity-item>
+        </div>
+        <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
+          <div class="actdate">
+            <p class="nst-mood-simple">
+              <span class="ng-binding ng-scope">{{value.date}}</span>
+            </p>
+          </div>
+          <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
+                         extended="ctlActivity.extended"></activity-item>
         </div>
 
-        <section class="_fw nst-content-body _bgwhite">
-          <div class="_fw eventsody _bgwhite" id="EventList">
-            <div class="actdate" ng-if="ctlActivity.acts.thisYear.thisMonth.today.hasAnyItem">
-              <p class="nst-mood-simple">
-                <span class="">Today</span>
-              </p>
-            </div>
-            <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in ctlActivity.acts.thisYear.thisMonth.today.items" model="act" extended="ctlActivity.extended"></activity-item>
+      </div>
 
-            <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
-              <div class="actdate">
-                <p class="nst-mood-simple">
-                  <span class="ng-binding ng-scope">{{value.date}}</span>
-                </p>
-              </div>
-                <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
-            </div>
-            <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
-              <div class="actdate">
-                <p class="nst-mood-simple">
-                  <span class="ng-binding ng-scope">{{value.date}}</span>
-                </p>
-              </div>
-              <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
-            </div>
-            <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
-              <div class="actdate">
-                <p class="nst-mood-simple">
-                  <span class="ng-binding ng-scope">{{value.date}}</span>
-                </p>
-              </div>
-              <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act" extended="ctlActivity.extended"></activity-item>
-            </div>
-
+      <div class="nst-marginbtm-48 text-center">
+        <br>
+        <p class="nst-mood-storm" ng-if="ctlActivity.reachedTheEnd">
+          You reached the end of activities!
+        </p>
+        <p class="nst-mood-storm" ng-if="ctlActivity.noMessages">
+          There is not any activity here!
+        </p>
+        <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlActivity.loading">
+          <div class="col-xs-6">
+            <div class="nst-loading nst-loading-size-16  _fr"></div>
           </div>
-          <div class="text-center _fw moreevent">
-            <a href="javascript:void(0);" id="load-more-events" class="nst-mood-cheerful" data-ng-click="ctlActivity.loadMore()">Load More...</a>
-          </div>
-        </section>
-      </section>
-    </div>
-  </div>
+          <div class="col-xs-6 nst-marginbtm-4">Loading...</div>
+        </div>
+        <p class="nst-mood-storm" ng-if="ctlActivity.loadMessageError">
+          An error has occurred. Please
+          <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlActivity.loadMore()">
+            try again...
+          </a>
+        </p>
+      </div>
+    </section>
+  </section>
 </div>

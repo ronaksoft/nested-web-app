@@ -1,6 +1,14 @@
 {
   "NST_CONFIG": {
     "APP_ID": "web-dev-{{BUILD}}",
+    "LOG": {
+      "LEVEL": 3,
+      "GATEWAY": {
+        "TYPE": "console",
+        "OPTIONS": {}
+      }
+    },
+    "SIGN_OUT_TARGET" : "/#",
     "WEBSOCKET": {
       "URL": "ws://cyrus.nested.ronaksoftware.com",
       "TIMEOUT": 30000

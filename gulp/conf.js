@@ -7,6 +7,21 @@
  */
 
 var gutil = require('gulp-util');
+var args = require('yargs');
+
+/**
+ *  Application mode
+ */
+exports.mode = 'development';
+switch (args.argv.mode) {
+  case 'production':
+    exports.mode = 'production';
+    break;
+
+  case 'staging':
+    exports.mode = 'staging';
+    break;
+}
 
 /**
  *  The main paths of your project handle these with care
@@ -15,6 +30,7 @@ exports.paths = {
   src: 'src',
   conf: 'config',
   dist: 'dist',
+  relDist: 'dist/' + exports.mode,
   tmp: '.tmp',
   e2e: 'e2e'
 };

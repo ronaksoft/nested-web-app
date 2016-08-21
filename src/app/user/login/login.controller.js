@@ -6,10 +6,13 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($q, $window, $timeout, $state, md5,
+  function LoginController($q, $window, $rootScope, $timeout, $state, md5,
                            NST_DEFAULT, NST_SRV_ERROR,
                            NstSvcLoader, NstSvcAuth) {
     var vm = this;
+
+    $rootScope.$broadcast('show-login-view');
+
 
     /*****************************
      *** Controller Properties ***

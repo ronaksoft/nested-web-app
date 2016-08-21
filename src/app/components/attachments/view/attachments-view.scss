@@ -118,6 +118,18 @@
     }
   }
 }
+.attachments-list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 68px;
+  width: 100px;
+  opacity: 0;
+}
+.attachments-list:hover {
+  opacity: .85;
+  transition: .3s;
+}
 .downloadprogress {
   position: absolute;
   display: flex;
@@ -125,4 +137,9 @@
   height: 32px;
   left: 48%;
   top: 45%;
+  z-index: 20;
+}
+.img-thumb-view {
+  filter: blur(2px);
+  opacity: .8;
 }

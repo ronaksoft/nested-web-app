@@ -1,6 +1,17 @@
 {
   "NST_CONFIG": {
     "APP_ID": "web-stg-{{BUILD}}",
+    "LOG": {
+      "LEVEL": 1,
+      "GATEWAY": {
+        "TYPE": "http",
+        "OPTIONS": {
+          "METHOD": "POST",
+          "URL": "http://api.nested.ronaksoftware.com/log"
+        }
+      }
+    },
+    "SIGN_OUT_TARGET" : "http://webapp.nested.ronaksoftware.com",
     "WEBSOCKET": {
       "URL": "ws://cyrus.nested.ronaksoftware.com",
       "TIMEOUT": 60000

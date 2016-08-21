@@ -3,7 +3,7 @@
 
   angular.module('nested').controller('placeListController', placeListController);
 
-  function placeListController($scope, $log)
+  function placeListController($scope)
   {
     var vm = this;
     vm.places = $scope.$resolve.model.places;

@@ -10,7 +10,7 @@
 
 
 .panel-create-place {
-  padding: 8px;
+  padding-top: 20px;
   width: 574px;
   text-decoration: none;
   border: 1px $color-breeze;
@@ -30,28 +30,30 @@
 .inner-panel input[type=submit]{
   margin-top: -10px;
 }
-.upload-photo:hover + .add-photo-hover,
-.upload-photo:hover + .add-photo-hover + .remove-photo-hover {
-  display: inline-block;
+.upload-photo:hover .probut {
+  display: flex;
+}
+.probut {
+  display: none;
+  position: absolute;
+  height: 20px;
+  width: 100%;
+  bottom: 25px;
 }
 .add-photo-hover {
-  display: none;
-  background: url("../assets/icons/hovers_24.png") no-repeat;
+  background: url("../assets/icons/hovers.svg") no-repeat;
   background-position: 0 -24px;
   width: 24px;
   height: 24px;
-  position: relative;
-  bottom: 45px;
-  left: 230px;
+  position: absolute;
+  left: 10px;
 }
 .remove-photo-hover {
-  display: none;
-  background: url("../assets/icons/hovers_24.png") no-repeat;
+  background: url("../assets/icons/hovers.svg") no-repeat;
   width: 24px;
   height: 24px;
-  position: relative;
-  bottom: 51px;
-  left: 280px;
+  position: absolute;
+  right: 10px;
 }
 .arrow-right {
   transform: rotate(270deg);
@@ -81,7 +83,6 @@
   border-radius: 50%;
 }
 .inner-panel{
-  width: 384px;
   margin-bottom: 30px;
 }
 #place-privacy{

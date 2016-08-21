@@ -10,7 +10,7 @@
                                 _,
                                 NST_COMMENT_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
                                 NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage, NstObservableObject, NstFactoryEventData,
-                                NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture) {
+                                NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser) {
 
     function CommentFactory() {
       var factory = this;
@@ -117,6 +117,7 @@
         var commentId = data.comment_id.$oid;
         return getComment(commentId, post.id);
       }).then(function(comment) {
+        post.addComment(comment);
         defer.resolve(comment);
 
         factory.dispatchEvent(new CustomEvent(

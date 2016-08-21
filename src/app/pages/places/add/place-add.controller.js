@@ -8,8 +8,8 @@
   /** @ngInject */
   function PlaceAddController($q, $timeout, $rootScope, $uibModal, $state, $stateParams, $log,
                               toastr,
-                              NST_DEFAULT, NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_PLACE_ACCESS,
-                              NstSvcStore, NstSvcLoader, NstSvcTry, NstSvcPlaceFactory,
+                              NST_DEFAULT, NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_PLACE_ACCESS, NST_PATTERN,
+                              NstSvcStore, NstUtility, NstSvcLoader, NstSvcTry, NstSvcPlaceFactory,
                               NstVmNavbarControl) {
     var vm = this;
     var ABSENT_PICTURE = '/assets/icons/absents_place.svg';
@@ -19,6 +19,7 @@
      *****************************/
 
     vm.status = {
+      existCheckInProgress : false,
       accessCheckProgress: false,
       createInProgress: false
     };
@@ -57,6 +58,20 @@
       right: []
     };
 
+    vm.placeIdCheck = {
+      timer: undefined,
+      result: false // False means place id exist
+    };
+
+
+    if ($stateParams.placeId === NST_DEFAULT.STATE_PARAM){
+      vm.placeIdLimit = 6;
+      vm.placeIdRegex = NST_PATTERN.GRAND_PLACE_ID;
+    }else{
+      vm.placeIdLimit = 3;
+      vm.placeIdRegex = NST_PATTERN.SUB_PLACE_ID;
+    }
+
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -88,6 +103,7 @@
     };
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
+      $log.debug('Add Place | Leaving Page');
       if (vm.model.saved || !vm.model.isModified()) {
         cancel.$destroy();
         $state.go(toState.name, toParams);
@@ -144,6 +160,34 @@
             name: 'id',
             message: 'Place ID is Empty'
           });
+        } else {
+
+          if (model.id.length < vm.placeIdLimit){
+            errors.push({
+              name: 'id-length',
+              message:  NstUtility.string.format('At least {0} character', vm.placeIdLimit)
+            });
+          }
+
+          if (!model.id.match(vm.placeIdRegex)){
+            errors.push({
+              name: 'id-pattern',
+              message: 'Place ID must start with alphabet and ends with number or alphabet'
+            });
+          }
+
+          if (vm.status.existCheckInProgress == true) {
+            errors.push({
+              name: 'check-id-in-progress',
+              message: 'Place ID checking is in progress.'
+            });
+          }
+
+          if (vm.placeIdCheck.result) {
+            errors.push({
+              name: 'id-exist',
+            });
+          }
         }
 
         if (0 == model.name.trim().length) {
@@ -162,7 +206,7 @@
 
         return errors;
       })(vm.model);
-      
+
       vm.model.ready = 0 == vm.model.errors.length;
 
       return vm.model.ready;
@@ -184,7 +228,7 @@
             var place = NstSvcPlaceFactory.createPlaceModel();
             var qParent = $q.defer();
             var qPicture = $q.defer();
-            var id = vm.model.id;
+            var id = vm.model.id.trim();
 
             if (vm.model.parentId) {
               id = vm.model.parentId + id;
@@ -330,6 +374,55 @@
     };
     vm.controls.right.push(new NstVmNavbarControl('Create', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.create));
 
+
+
+    /*****************************
+     *****  Validate PlaceId  ****
+     *****************************/
+
+    function setLoadingDisplay(status) {
+      vm.status.existCheckInProgress = status;
+    }
+
+    vm.placeIdMinLength = true;
+    vm.existCheck = function (val) {
+
+      setLoadingDisplay(true);
+
+      vm.placeIdCheck.result = false;
+      vm.placeIdMinLength = true;
+
+      if (vm.model.id && vm.model.id.length < vm.placeIdLimit){
+        vm.placeIdMinLength = true;
+        setLoadingDisplay(false);
+        return;
+      }else{
+        vm.placeIdMinLength = false;
+      }
+      vm.placeIdCheck.result = false;
+
+      if (vm.model.id && vm.model.id.length >= 3 && vm.model.id.match(vm.placeIdRegex)){
+        if (vm.placeIdCheck.timer) {
+          $timeout.cancel(vm.placeIdCheck.timer);
+        }
+
+        vm.placeIdCheck.timer = $timeout(function () {
+          setLoadingDisplay(true);
+          reqPlaceExist(val).then(function (exists) {
+            setLoadingDisplay(false);
+
+            if (exists == true){
+              vm.placeIdCheck.result = true;
+            }
+            else if(exists == false){
+              vm.placeIdCheck.result = false;
+            }
+          });
+
+        }, 1000);
+      }
+    };
+
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -368,6 +461,24 @@
         });
       }).catch(function (error) {
         vm.status.createInProgress = false;
+
+        return $q(function (res, rej) {
+          rej(error);
+        });
+      });
+    }
+
+    function reqPlaceExist(placeId) {
+      setLoadingDisplay(true);
+
+      return NstSvcPlaceFactory.placeIdServerCheck(placeId).then(function (exists) {
+        setLoadingDisplay(false);
+
+        return $q(function (res) {
+          res(exists);
+        });
+      }).catch(function (error) {
+        setLoadingDisplay(false);
 
         return $q(function (res, rej) {
           rej(error);

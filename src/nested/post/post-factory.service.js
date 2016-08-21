@@ -5,14 +5,41 @@
     .service('NstSvcPostFactory', NstSvcPostFactory);
 
   /** @ngInject */
-  function NstSvcPostFactory($q,
+  function NstSvcPostFactory($q, $log,
     _,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory,
+    NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData,
     NstFactoryError, NstFactoryQuery, NstPost, NstTinyPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NstObservableObject,
-    NST_MESSAGES_SORT_OPTION) {
+    NST_MESSAGES_SORT_OPTION, NST_POST_FACTORY_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION) {
 
     function PostFactory() {
 
+      var factory = this;
+
+      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (e) {
+        switch (e.detail.timeline_data.action) {
+          case NST_EVENT_ACTION.POST_ADD:
+            var postId = e.detail.timeline_data.post_id.$oid;
+            getMessage(postId).then(function (post) {
+              if (post.sender.id !== NstSvcAuth.user.id) {
+                factory.dispatchEvent(new CustomEvent(
+                  NST_POST_FACTORY_EVENT.ADD,
+                  new NstFactoryEventData(post)
+                ));
+              }
+            }).catch(function (error) {
+              $log.debug(error);
+            });
+            break;
+
+          case NST_EVENT_ACTION.POST_REMOVE:
+            var postId = e.detail.timeline_data.post_id.$oid;
+            factory.dispatchEvent(new CustomEvent(
+              NST_POST_FACTORY_EVENT.REMOVE,
+              new NstFactoryEventData(postId)
+            ));
+            break;
+        }
+      });
     }
 
     PostFactory.prototype = new NstObservableObject();
@@ -290,11 +317,12 @@
         }
 
         if (data.place_access) {
-          _.forEach(post.places, function(place) {
-            place.access = _.find(data.place_access, {
-              '_id': place.id
+          _.forEach(data.post_places, function(place) {
+            var accesses = _.find(data.place_access, {
+              '_id': place._id
             }).access;
-            NstSvcPlaceFactory.setAccessOnPlace(place.id, place.access);
+
+            NstSvcPlaceFactory.setAccessOnPlace(place._id, accesses);
           });
         }
 
@@ -449,15 +477,15 @@
         }
 
         if (data['last-comments']) {
-          _.forEach(data['last-comments'], function(data) {
-            promises.push(NstSvcCommentFactory.parseMessageComment(data).then(function(comment) {
-              message.addComment(comment);
-
-              return $q(function(res) {
-                res(comment);
-              });
-            }));
+          var commentPromises = _.map(data['last-comments'], function (comment) {
+            return NstSvcCommentFactory.parseMessageComment(comment)
           });
+
+          var allComments = $q.all(commentPromises).then(function (comments) {
+            message.addComments(comments);
+          });
+
+          promises.push(allComments);
         }
 
         // TODO: Use ReplyToId instead

@@ -4,7 +4,6 @@
   angular
     .module('nested', [
       'nested.config',
-      'ngAnimate',
       'ngCookies',
       'ngTouch',
       'ui.select',

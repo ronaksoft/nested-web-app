@@ -6,7 +6,7 @@
     .service('NstSvcInvitationFactory', NstSvcInvitationFactory);
 
   /** @ngInject */
-  function NstSvcInvitationFactory($q,
+  function NstSvcInvitationFactory($q, $log,
                                    NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory,
                                    NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation) {

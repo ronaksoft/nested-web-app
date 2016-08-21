@@ -8,9 +8,9 @@
   /** @ngInject */
   function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state, $timeout,
                               toastr, _, moment,
-                              NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT,
+                              NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
                               NstSvcActivityMap,
-                              NstSvcAuth, NstSvcServer, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                              NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
                               NstActivity, NstPlace, NstInvitation) {
 
     var vm = this;
@@ -18,10 +18,11 @@
     // TODO it needs to connect with cache
     vm.extended = true;
     // where we bind activities view-model for view
-    vm.acts = [];
+    vm.acts = {};
     // where we keep NstActivities and will be mapped to view-model
     vm.cache = [];
     vm.currentPlace = null;
+    vm.noMessages = false;
 
     vm.loadMore = loadMore;
     vm.acceptInvitation = acceptInvitation;
@@ -73,13 +74,13 @@
       if (vm.activitySettings.placeId) {
         setPlace(vm.activitySettings.placeId).then(function (place) {
           if (place) {
-            return $q.all([loadActivities()]);
+            return loadActivities();
           }
         }).catch(function (error) {
           $log.debug(error);
         });
       } else {
-        $q.all([loadActivities()]).catch(function (error) {
+        loadActivities().catch(function (error) {
           $log.debug(error);
         });
       }
@@ -92,8 +93,7 @@
      ********************/
 
     function loadMore() {
-      loadActivities().then(function () {
-      });
+      loadActivities();
     }
 
     function acceptInvitation(invitation) {
@@ -136,7 +136,6 @@
     function scroll(event) {
       var element = event.currentTarget;
       if (element.scrollTop + element.clientHeight === element.scrollHeight) {
-        $log.debug("load more");
         loadMore();
       }
     }
@@ -172,20 +171,19 @@
       vm.loading = true;
       vm.tryAgainToLoadMore = false;
       return $q(function (resolve, reject) {
-        vm.activitySettings.date = getLastActivityTime();
-        NstSvcActivityFactory.get(vm.activitySettings).then(function (activities) {
 
+        NstSvcActivityFactory.get(vm.activitySettings).then(function (activities) {
           if (activities.length === 0) {
             vm.reachedTheEnd = true;
           } else {
             vm.reachedTheEnd = false;
-            vm.cache = _.concat(vm.cache, activities);
-            vm.acts = mapActivities(vm.cache);
+            setLastActivityDate(activities);
+            mergeWithOtherActivities(activities);
           }
           vm.loading = false;
           vm.tryAgainToLoadMore = false;
-          resolve(vm.acts);
 
+          resolve(vm.acts);
         }).catch(function(error) {
           vm.loading = false;
           vm.tryAgainToLoadMore = true;
@@ -195,16 +193,24 @@
       });
     }
 
-    function getLastActivityTime() {
-      var last = _.last(_.orderBy(vm.cache, 'date', 'desc'));
-      if (!last) {
-        return moment().format('x');
-      }
-      if (moment.isMoment(last.date)) {
-        return last.date.format('x');
-      }
+    function mergeWithOtherActivities(activities) {
+      var activityItems = mapActivities(activities);
+      _.mergeWith(vm.acts, activityItems, function (objValue, srcValue, key, object, source, stack) {
+        if (_.isArray(objValue) && key === 'items') {
+          return objValue.concat(srcValue);
+        }
+      });
+    }
 
-      return last.date.getTime();
+    function setLastActivityDate(activities) {
+      var last = _.last(activities);
+      if (!last) {
+        vm.activitySettings.date = moment().format('x');
+      } else if (moment.isMoment(last.date)) {
+        vm.activitySettings.date = last.date.format('x');
+      } else {
+        vm.activitySettings.date = last.date.getTime();
+      }
     }
 
     function loadInvitations() {
@@ -244,21 +250,31 @@
       }
     }
 
-    NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (e) {
-      // console.log(e);
-      // var activity = NstSvcActivityFactory.parseActivityEvent(e.detail.timeline_data).then(function (activity) {
-      //   console.log(activity);
-      // }).catch(function (error) {
-      //   $log.debug(error);
-      // });
-      // $log.debug(e);
-      // var action = e.detail.timeline_data.action;
-      // var filter = vm.filters[vm.filter].filter;
-
-      // if (shouldPushToEvents(filter, action)) {
-      //     $scope.events.pushEvent(event, true);
-      // }
+    NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
+      if (activityBelongsToPlace(e.detail)){
+        addNewActivity(NstSvcActivityMap.toActivityItem(e.detail));
+      }
     });
+
+    function activityBelongsToPlace(activity) {
+      if (!vm.activitySettings.placeId) {
+        return true;
+      } else if (activity.place) {
+        return activity.place.id === vm.activitySettings.placeId;
+      } else if (activity.post) {
+        return _.some(activity.post.places, function (place) {
+          return place.id === vm.activitySettings.placeId;
+        });
+      }
+
+      return false;
+    }
+
+    function addNewActivity(activity) {
+      vm.acts.thisYear.thisMonth.today.items.unshift(activity);
+      vm.acts.thisYear.thisMonth.today.hasAnyItem = true;
+    }
+
 
     // FIXME: NEEDS REWRITE COMPLETELY
     var nav = document.getElementsByTagName("nst-navbar")[0];
@@ -273,7 +289,7 @@
         whileScrolling: function () {
           var t = -this.mcs.top;
           if (t > 55 && !$rootScope.navView) {
-            TweenLite.to(nav, 0.1, {minHeight: 131, maxHeight: 131, height: 131, ease: Linear.easeNone});
+            TweenLite.to(nav, 0.1, {minHeight: 96, maxHeight: 96, height: 96, ease: Linear.easeNone});
             $timeout(function () {
               $rootScope.navView = t > 55;
             });
