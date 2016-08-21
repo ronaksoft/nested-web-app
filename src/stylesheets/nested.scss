@@ -2036,40 +2036,6 @@ a.normal-badge {
   color: $color-solid;
 }
 
-/**
-  *********************************************************
-  *     Nested Classes -   * loading page
-  *********************************************************
-*/
-.slider{
-  position: relative;
-  width: 250px;
-  height: 4px;
-  margin-top: -30px;
-  overflow: hidden;
-}
-.line{
-  position: absolute;
-  background: #14d769;
-  width: 250px;
-  height: 4px;
-  overflow: hidden;
-}
-.break{
-  position: absolute;
-  background: #fafafa;
-  width: 6px;
-  height: 4px;
-}
-
-.dot1{ animation: loading 2s infinite;}
-.dot2{ animation: loading 2s 0.5s infinite; }
-.dot3{ animation: loading 2s 1s infinite; }
-
-@keyframes loading {
-  from { left: 0; }
-  to { left: 250px; }
-}
 
 /**
   *********************************************************
