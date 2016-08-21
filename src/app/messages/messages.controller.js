@@ -107,8 +107,11 @@
 
           // remove the post if the user has not access to see it any more
           NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces).then(function (places) {
-            if (_.isArray(places) && places.length === 0) {
-              NstUtility.collection.dropById(vm.messages, data.postId);
+            if (_.isArray(places)) {
+              if (places.length === 0 || (vm.currentPlaceId && data.placeId == vm.currentPlaceId )) {
+                NstUtility.collection.dropById(vm.messages, data.postId);
+                return;
+              }
             }
 
           }).catch(function (error) {
