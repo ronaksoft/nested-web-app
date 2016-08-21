@@ -139,7 +139,7 @@ hr {
 ._fn {flex: none}
 
 ._pa { position: absolute;}
-._pr { position: relative;}
+._pr { position: relative; padding-top: 0px;}
 ._pf { position: fixed;}
 ._oh { overflow: hidden; }
 ._oph { opacity: .5; }
@@ -602,6 +602,7 @@ select {
   background-color: $color-solid-30;
   border: 1px solid #b2b2b2;
 }
+
 
 /**
   *********************************
@@ -1860,6 +1861,7 @@ ul ul .side-place-item-image {
 .ei-mail-unread {
   background-position: 0 0;
   background-repeat: no-repeat;
+  margin-top: 6px;
 }
 
 .ei-member-join {
@@ -1875,7 +1877,7 @@ ul ul .side-place-item-image {
 .ei-comment-add {
   background-position: 0 -48px;
   background-repeat: no-repeat;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .ei-invite {
@@ -1982,7 +1984,7 @@ a.normal-badge {
   align-items: center;
   display: flex;
   color: #476152;
-  padding: 3px 8px 0 8px;
+  padding: 0px 8px 0 8px;
   font-size: $font-size-xsmall;
   margin: 0 8px;
   white-space: nowrap;
@@ -1992,6 +1994,7 @@ a.normal-badge {
   &:hover {
     background-color: #476152;
     color: $color-white;
+   
   }
 }
 
