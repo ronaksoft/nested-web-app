@@ -73,34 +73,28 @@
 
 
     $rootScope.$on('show-login-view', function () {
-      if (!NstSvcAuth.isInAuthorization()){
-        vm.loginView = true;
-      }else{
-        vm.loginView = false;
-      }
+      vm.loginView = !NstSvcAuth.isInAuthorization()
     });
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
       var reason = event.detail.reason;
       if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
-        vm.loginView = true;
+        // vm.loginView = true;
+        getValidState($state.current, $state.params);
       }
     });
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-      var reason = event.detail.reason;
-      if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
-        vm.loginView = false;
-      }
+      getValidState($state.current, $state.params);
     });
 
-    // $rootScope.$watch(function () {
-    //   return NstSvcAuth.isInAuthorization();
-    // }, function () {
-    //   if (!vm.disconected) {
-    //     vm.loginView = !NstSvcAuth.isInAuthorization();
-    //   }
-    // });
+    $rootScope.$watch(function () {
+      return NstSvcAuth.isInAuthorization();
+    }, function () {
+      if (!vm.disconected) {
+        vm.loginView = !NstSvcAuth.isInAuthorization();
+      }
+    });
 
 
     /*****************************
@@ -184,6 +178,7 @@
       if (NstSvcAuth.isInAuthorization()) {
 
         if (toPublicState) {
+          vm.loginView = false;
           return {
             name: NST_DEFAULT.STATE,
             params: {}
