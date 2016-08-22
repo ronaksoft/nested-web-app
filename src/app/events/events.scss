@@ -174,7 +174,7 @@
   min-width: 200px;
   float: left;
   position: relative;
-  padding-top: 6px;
+  padding-top: 1px;
 }
 
 #EventList .sender {
@@ -206,7 +206,6 @@
   overflow: hidden;
   flex-direction: column;
   padding-left: 10px;
-  
 }
 .subject .nst-mood-simple {
   font-size: $font-size-small;
@@ -270,7 +269,7 @@
   line-height: 16px;
   flex : none;
   color: #476152;
-  padding: 3px 8px 2px 8px;
+  padding: 0px 8px 2px 8px;
   font-size: $font-size-xsmall;
   align-self: center;
 }

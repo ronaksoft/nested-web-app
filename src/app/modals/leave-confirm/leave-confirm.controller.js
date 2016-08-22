@@ -5,7 +5,7 @@
     .module('nested')
     .controller('LeaveConfirmController', LeaveConfirmController);
 
-  function LeaveConfirmController($uibModalInstance) {
+  function LeaveConfirmController($uibModalInstance,$uibModalStack) {
     var vm = this;
 
     vm.ok = function () {
@@ -13,7 +13,8 @@
     };
 
     vm.cancel = function () {
-      $uibModalInstance.dismiss();
+      console.log($uibModalInstance);    
+      $uibModalStack.dismissAll();
     };
   }
 })();
