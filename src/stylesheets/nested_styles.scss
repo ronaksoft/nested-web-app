@@ -977,6 +977,9 @@ ul ul li:last-child{
   #content-plus {
     top: 96px;
   }
+  #new-post {
+    top:102px;
+  }
 }
 .nst-navbar .content-plus{
   justify-content: center;
@@ -1028,6 +1031,35 @@ ul ul li:last-child{
 
 .post-area {
   justify-content: center;
+}
+#new-post {
+  position: fixed;
+  z-index: 555;
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 189px;
+  width: 162px;
+  height: 32px;
+  background-color: #FF0014;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  color: white;
+  font-size: 16px;
+  white-space: nowrap;
+  opacity: .85;
+  transition: .3s;
+  i {
+    width: 16px;
+    height: 16px;
+    //filter: hue-rotate(220deg) saturate(5);
+    mask: url('../assets/icons/close.svg') no-repeat 100% 100%;
+    mask-size: cover;
+    background-color: white;
+  }
 }
 .post-card {
   margin-top: 32px;
@@ -1414,7 +1446,13 @@ input[type="checkbox"]:checked + label.setting {
     height: 183px;
     min-height: 183px;
   }
+  #new-post {
+    top: 198px;
+  }
   .maincontainer.navtiny {
+    #new-post {
+      top: 135px;
+    }
     .nst-navbar{
       margin-top: 67px;
       height: 64px;
@@ -1545,11 +1583,28 @@ input[type="checkbox"]:checked + label.setting {
     height: 0!important;
   }
 }
+@media screen and (max-width: 1330px) and (min-width: 990px){
+  .maincontainer.sidetiny{
+    #new-post {
+      margin-left: 36px;
+      transform: translateX(-50%);
+    }
+  }
+  #new-post {
+    margin-left: 138px;
+  }
+}
 @media screen and (min-width: 1330px){
   .maincontainer.sidetiny{
     #content-plus {
       margin-left: 258px;
     }
+    #new-post {
+      margin-left: -102px;
+    }
+  }
+  #new-post {
+    //margin-left: 138px;
   }
 }
 
