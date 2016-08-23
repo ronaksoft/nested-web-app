@@ -19,7 +19,7 @@
       </ui-select-footer>
     </ui-select> -->
 
-    <input type="input" ng-model="ctlSearch.queryString" />
+    <input type="input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
     <button type="button" ng-click="ctlSearch.search(ctlSearch.queryString);">Search</button>
 
 

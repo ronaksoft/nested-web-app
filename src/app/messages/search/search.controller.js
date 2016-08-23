@@ -38,6 +38,7 @@
 
     vm.search = search;
     vm.loadMore = loadMore;
+    vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
 
     (function () {
 
@@ -45,6 +46,24 @@
       vm.queryString = query.toString();
       searchMessages(vm.queryString);
     })();
+
+    /**
+     * sendKeyIsPressed - check whether the pressed key is Enter or not
+     *
+     * @param  {Event} event keypress event handler
+     * @return {bool}        true if the pressed key is Enter
+     */
+    function sendKeyIsPressed(event) {
+      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
+    }
+
+    function searchOnEnterKeyPressed(e, queryString) {
+      if (!sendKeyIsPressed(e)) {
+        return;
+      }
+
+      search(queryString);
+    }
 
     function search(queryString) {
       vm.messages.length = 0;
