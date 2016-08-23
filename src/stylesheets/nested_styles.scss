@@ -1047,11 +1047,14 @@ ul ul li:last-child{
   justify-content: center;
   align-items: center;
   align-self: center;
-  color: white;
-  font-size: 16px;
-  white-space: nowrap;
   opacity: .85;
   transition: .3s;
+  a {
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    padding-left: 10px;
+  }
   i {
     width: 16px;
     height: 16px;

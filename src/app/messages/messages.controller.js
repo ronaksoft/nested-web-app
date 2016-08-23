@@ -354,14 +354,22 @@
       NstSvcMessagesSettingStorage.set(key, bool ? 'show' : 'hide');
     }
 
-    function showNewMessages() {
-      _.forEachRight(vm.newMessages, function (item) {
-        if (!_.some(vm.messages, { id : item.id })) {
-          vm.messages.unshift(item);
+    function showNewMessages(ans,wrapper) {
+      if (ans == "yes") {
+        _.forEachRight(vm.newMessages, function (item) {
+          if (!_.some(vm.messages, { id : item.id })) {
+            vm.messages.unshift(item);
+          }
+        });
+        $('#wrapper').mCustomScrollbar("scrollTo","top",{
+          scrollEasing:"easeOut"
+        });
+        vm.newMessages = [];
+      }else  {
+        vm.hasNewMessages = function () {
+          return false
         }
-      });
-
-      vm.newMessages = [];
+      }
     }
 
     // FIXME some times it got a problem ( delta causes )
