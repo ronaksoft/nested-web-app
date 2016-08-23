@@ -338,7 +338,8 @@
     }
 
     function getNewMessagesCount() {
-      return vm.newMessages.length;
+      return "2";
+      //return vm.newMessages.length;
     }
 
     function readSettingItem(key) {
