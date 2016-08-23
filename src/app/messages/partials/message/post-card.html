@@ -26,8 +26,7 @@
       data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{ctlPostCard.post.date | date : 'short'}}</span>
     </div>
   </section>
-  <section class="post-subject" nst-post-modal post="ctlPostCard.post"
-           dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.subject)) ? 'rtl' : 'ltr'}}">
+  <section class="post-subject" nst-post-modal post="ctlPostCard.post" auto-dir="{{ctlPostCard.post.subject}}">
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject | emoji">
     </h3>
     <h3 ng-if="ctlPostCard.post.subject.length < 1" class="nst-mood-breez"><i>No Subject</i></h3>
@@ -35,7 +34,7 @@
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
            nst-post-modal post="ctlPostCard.post"
            ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.viewSetting.content"
-           dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.body)) ? 'rtl' : 'ltr'}}">
+           auto-dir="{{ctlPostCard.post.body}}">
     <span ng-bind-html="ctlPostCard.post.body | emoji"></span>
   </section>
   <section class="post-body" ng-if="ctlPostCard.post.body.length < 1 && ctlPostCard.ViewSetting.content"
@@ -56,7 +55,7 @@
       <span ng-if="ctlPostCard.post.commentsCount > 1">{{ctlPostCard.post.commentsCount}} comments</span>
     </a>
     <a ng-if="ctlPostCard.newCommentsCount > 0" class="new-comments-count" nst-post-modal post="ctlPostCard.post"
-             dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.subject)) ? 'rtl' : 'ltr'}}">
+             auto-dir="{{ctlPostCard.post.subject}}">
       <span>+{{ctlPostCard.newCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
