@@ -52,6 +52,7 @@
       var element = event.currentTarget;
       var reader = new FileReader();
 
+      vm.model.picture.id = '';
       vm.model.picture.file = element.files[0];
       reader.onload = function (event) {
         $timeout(function () {
@@ -70,8 +71,9 @@
       $timeout(function () {
         vm.model.picture.id = '';
         vm.model.picture.file = null;
-        vm.model.picture.url = ABSENT_PICTURE;
+        vm.model.picture.url = '';
       });
+      
     };
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
@@ -166,35 +168,35 @@
             var user = vm.userModel;
             var qPicture = $q.defer();
 
-            if (vm.model.picture.file) {
-              if (vm.model.picture.id) {
-                user.getPicture().setId(vm.model.picture.id);
-              } else {
-                vm.model.picture.request = NstSvcStore.uploadWithProgress(vm.model.picture.file, function (event) {
-                  if (event.lengthComputable) {
-                    vm.model.picture.uploadedSize = event.loaded;
-                    vm.model.picture.uploadedRatio = Number(event.loaded / event.total).toFixed(4);
-                  }
-                }, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
 
-                vm.model.picture.request.sent().then(function () {
-                  vm.model.picture.isUploading = true;
-                });
-
-                vm.model.picture.request.finished().then(function () {
-                  vm.model.picture.isUploading = false;
-                  vm.model.picture.request = null;
-                });
-
-                vm.model.picture.request.getPromise().then(function (response) {
-                  vm.model.picture.id = response.data.universal_id;
-                  user.getPicture().setId(vm.model.picture.id);
-                  qPicture.resolve(user);
-                }).catch(qPicture.reject);
-              }
-            } else {
+            //TODO:: Move to Auth Service
+            if (vm.model.picture.id || !vm.model.picture.file) {
+              user.getPicture().setId(vm.model.picture.id);
               qPicture.resolve(user);
+            } else {
+              vm.model.picture.request = NstSvcStore.uploadWithProgress(vm.model.picture.file, function (event) {
+                if (event.lengthComputable) {
+                  vm.model.picture.uploadedSize = event.loaded;
+                  vm.model.picture.uploadedRatio = Number(event.loaded / event.total).toFixed(4);
+                }
+              }, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
+
+              vm.model.picture.request.sent().then(function () {
+                vm.model.picture.isUploading = true;
+              });
+
+              vm.model.picture.request.finished().then(function () {
+                vm.model.picture.isUploading = false;
+                vm.model.picture.request = null;
+              });
+
+              vm.model.picture.request.getPromise().then(function (response) {
+                vm.model.picture.id = response.data.universal_id;
+                user.getPicture().setId(vm.model.picture.id);
+                qPicture.resolve(user);
+              }).catch(qPicture.reject);
             }
+
 
             $q.all([qPicture.promise]).then(function () {
               user.setFirstName(vm.model.firstName);

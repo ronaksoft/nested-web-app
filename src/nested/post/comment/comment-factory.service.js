@@ -117,6 +117,7 @@
         var commentId = data.comment_id.$oid;
         return getComment(commentId, post.id);
       }).then(function(comment) {
+        post.addComment(comment);
         defer.resolve(comment);
 
         factory.dispatchEvent(new CustomEvent(

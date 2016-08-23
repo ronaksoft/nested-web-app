@@ -1,7 +1,7 @@
 <li class="_difc _fw placerow">
   <div class="logo _df">
-    <a href="{{place.url}}">
-      <img class="account-initials-40" src="{{place.avatar}}" />
+    <a ng-if="place.avatar" href="{{place.url}}">
+      <img class="account-initials-40" ng-src="{{place.avatar}}" />
     </a>
   </div>
   <a class="name _df _fw" href="{{place.url}}">

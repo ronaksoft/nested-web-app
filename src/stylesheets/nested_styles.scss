@@ -399,7 +399,7 @@ mark {
   background-color: red;
   border-radius: 100px;
   display: flex;
-  padding-top: 3px;
+  //padding-top: 3px;
   justify-content: center;
   top: -15px;
   right: -15px;
@@ -1062,6 +1062,22 @@ ul ul li:last-child{
 .post-card .post-head .img{
   width: 42px;
   justify-content: flex-start;
+}
+.post-card-user-avatar {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.post-card-user-avatar::after {
+    left: 12px;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 1000px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+    pointer-events: none;
+    content: "";
 }
 .post-card .post-card-badge {
   background-color: transparent;

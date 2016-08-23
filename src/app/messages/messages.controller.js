@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility,
                               NstSvcMessagesSettingStorage,
                               NstSvcPostMap) {
 
@@ -86,7 +86,7 @@
       }
 
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
-        var newMessage = e.detail.object;
+        var newMessage = e.detail;
 
         if (!vm.currentPlaceId || newMessage.belongsToPlace(vm.currentPlaceId)) {
           if (!_.some(vm.messages, { id : newMessage.id })){
@@ -98,6 +98,29 @@
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
 
       });
+
+      $rootScope.$on('post-removed', function (event, data) {
+        if (_.some(vm.messages, { id : data.postId })) {
+          var message = _.find(vm.messages, { id : data.postId });
+          // remove the place from the post's places
+          NstUtility.collection.dropById(message.allPlaces, data.placeId);
+
+          // remove the post if the user has not access to see it any more
+          NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces).then(function (places) {
+            if (_.isArray(places)) {
+              if (places.length === 0 || (vm.currentPlaceId && data.placeId == vm.currentPlaceId )) {
+                NstUtility.collection.dropById(vm.messages, data.postId);
+                return;
+              }
+            }
+
+          }).catch(function (error) {
+            $log.debug(error);
+          });
+        }
+
+      });
+
     })();
 
     function getMessages() {

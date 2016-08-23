@@ -318,11 +318,12 @@
         }
 
         if (data.place_access) {
-          _.forEach(post.places, function(place) {
-            place.access = _.find(data.place_access, {
-              '_id': place.id
+          _.forEach(data.post_places, function(place) {
+            var accesses = _.find(data.place_access, {
+              '_id': place._id
             }).access;
-            NstSvcPlaceFactory.setAccessOnPlace(place.id, place.access);
+
+            NstSvcPlaceFactory.setAccessOnPlace(place._id, accesses);
           });
         }
 
@@ -477,15 +478,15 @@
         }
 
         if (data['last-comments']) {
-          _.forEach(data['last-comments'], function(data) {
-            promises.push(NstSvcCommentFactory.parseMessageComment(data).then(function(comment) {
-              message.addComment(comment);
-
-              return $q(function(res) {
-                res(comment);
-              });
-            }));
+          var commentPromises = _.map(data['last-comments'], function (comment) {
+            return NstSvcCommentFactory.parseMessageComment(comment)
           });
+
+          var allComments = $q.all(commentPromises).then(function (comments) {
+            message.addComments(comments);
+          });
+
+          promises.push(allComments);
         }
 
         // TODO: Use ReplyToId instead

@@ -41,6 +41,7 @@
 }
 .post-nav-top .time {
   margin: 0 4px;
+  align-self: flex-start;
 }
 .post-nav-top .closebut{
   align-self: flex-start;
@@ -179,6 +180,8 @@
 #PostView #Content {
   vertical-align: top;
   min-height: calc(100vh - 400px);
+  min-width: calc(100% - 320px);
+  width: 70%;
 }
 
 #PostView #PostBody {

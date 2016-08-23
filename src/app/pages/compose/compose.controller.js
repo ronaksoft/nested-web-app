@@ -423,12 +423,12 @@
     vm.controls.right.push(new NstVmNavbarControl('Send', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-      $log.debug('Compose | Leaving Page');
+     $log.debug('Compose | Leaving Page');
       if (vm.model.saved || !vm.model.isModified()) {
         cancel.$destroy();
         $state.go(toState.name, toParams);
       } else {
-        if (!$rootScope.modals['leave-confirm']) {
+//        if (!$rootScope.modals['leave-confirm']) {
           $rootScope.modals['leave-confirm'] = $uibModal.open({
             animation: false,
             templateUrl: 'app/modals/leave-confirm/main.html',
@@ -439,12 +439,11 @@
 
             }
           });
-
           $rootScope.modals['leave-confirm'].result.then(function () {
             cancel.$destroy();
             $state.go(toState.name, toParams);
           });
-        }
+//        }
       }
     };
 

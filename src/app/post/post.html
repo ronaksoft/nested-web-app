@@ -26,8 +26,8 @@
       </div>
       <div class="panel-action _fn">
         <ul class="list-inline _df">
-          <li ng-if="ctlPost.post.haveAnyPlaceWithDeleteAccess()">
-            <a href="" ng-click="deletePost(ctlPost.post);">
+          <li ng-if="ctlPost.hasRemoveAccess()">
+            <a href="" ng-click="ctlPost.removePost(ctlPost.post);">
               <span class="nst-mood-solid _dib">Delete</span>
               <span class="action-button-post-delete _dib"></span>
             </a>
@@ -69,7 +69,7 @@
       </div>
 
     <div id="Comments" class="_df _vat">
-      <div class="_fw" ng-scrollbars>
+      <div class="_fw" ng-scrollbars scroll-me="ctlPost.comments.length">
         <div class="_db _fh">
           <div class="comment-msg _difv _fw">
             <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
@@ -88,14 +88,15 @@
                        data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
                 </div>
                 <div class="_df _fw _wrb cmt-post-view">
-                  <emoji>
+                  <emoji data-ng-if="!ctlPost.allowToRemoveComment(comment)">
                     <mark marked="comment.body">
                     </mark>
                   </emoji>
-                  &nbsp;&nbsp;
-                  <a href="javascript:void(0);" data-ng-if="ctlPost.allowToRemoveComment(comment)"
-                     class="nst-mood-storm nst-font-small"
-                     ng-click="ctlPost.removeComment(comment);">delete</a>
+                  <emoji data-ng-if="ctlPost.allowToRemoveComment(comment)" ng-click="ctlPost.removeComment(comment);">
+                    <mark marked="comment.body">
+                    </mark>
+                    <a class="nst-mood-storm nst-font-small" >&nbsp;&nbsp;delete </a>
+                  </emoji>
                 </div>
               </div>
             </div>

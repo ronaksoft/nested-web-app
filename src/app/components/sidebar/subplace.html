@@ -1,7 +1,7 @@
-<div class="side-place-item-inner">
+<div class="side-place-item-inner"  data-uib-tooltip="{{place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
   <a href="{{place.href}}" class="_fn">
     <div class="side-place-item-image">
-      <img class="account-initials-32" src="{{place.avatar}}"/>
+      <img class="account-initials-32" ng-src="{{place.avatar}}"/>
     </div>
 
     <dl ng-show="!ctlSidebar.collapsed" data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">

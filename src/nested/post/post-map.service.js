@@ -5,7 +5,7 @@
     .service('NstSvcPostMap', NstSvcPostMap);
 
   /** @ngInject */
-  function NstSvcPostMap($q, $log, NST_PLACE_MEMBER_TYPE, NstSvcAuth, NstSvcPlaceFactory, NstSvcCommentMap, NstSvcAttachmentMap) {
+  function NstSvcPostMap($q, $log, NST_PLACE_MEMBER_TYPE, NstSvcAuth, NstSvcPlaceFactory, NstSvcCommentMap, NstSvcAttachmentMap, NstVmMessage) {
 
     var service = {
       toMessage: toMessage,
@@ -20,41 +20,7 @@
      *****************************/
 
     function toMessage(post) {
-      var now = moment();
-
-      var senderPlaceId = post.sender.id;
-      var postPlaces = post.places.filter(function (v) { return senderPlaceId != v.id; });
-      var firstPlace = _.first(postPlaces);
-
-      return {
-        id: post.id,
-        sender: mapSender(post.sender),
-        subject: post.subject,
-        body: post.body,
-        isExternal: !post.internal,
-        contentType: post.contentType,
-        firstPlace: firstPlace ? mapPlace(firstPlace) : undefined,
-        allPlaces: _.map(postPlaces, mapPlace),
-        otherPlacesCount: postPlaces.length - 1,
-        allPlacesCount: postPlaces.length,
-        date: post.date,
-        attachments: _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem),
-        hasAnyAttachment: post.attachments.length > 0,
-        comments: _.map(post.comments, mapComment),
-        hasAnyComment: post.comments.length > 0,
-        commentsCount: post.counters.comments > -1 ? post.counters.comments : 0,
-        isReplyed : !!post.replyTo,
-        isForwarded : !!post.forwardFrom
-        // userHasRemoveAccess : post.haveAnyPlaceWithDeleteAccess()
-      };
-
-      /*****************************
-       *****   MSG Map Methods  ****
-       *****************************/
-
-      function mapComment(comment) {
-        return NstSvcCommentMap.toMessageComment(comment);
-      }
+      return new NstVmMessage(post);
     }
 
     function toPost(post) {
@@ -79,8 +45,7 @@
         hasAnyComment: post.comments.length > 0,
         commentsCount: post.counters.comments > -1 ? post.counters.comments : 0,
         isReplyed : !!post.replyTo,
-        isForwarded : !!post.forwardFrom
-        // userHasRemoveAccess : post.haveAnyPlaceWithDeleteAccess()
+        isForwarded : !!post.forwardFrom,
       };
 
       /*****************************

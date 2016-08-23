@@ -8,7 +8,7 @@
   function NstSvcPlaceFactory($q, $log,
                               NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage,
-                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace,
+                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace, NstFactoryEventData,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
     function PlaceFactory() {
       var factory = this;
@@ -623,10 +623,15 @@
             NstSvcServer.request('place/remove', {
               place_id: query.id
             }).then(function () {
+              // clean up storages
               NstSvcPlaceStorage.remove(query.id);
               NstSvcTinyPlaceStorage.remove(query.id);
-              // TODO: Remove from my places
-              // TODO: Dispatch PLACE REMOVE Event
+              var myPlaces = NstSvcMyPlaceIdStorage.get('tiny');
+              factory.removePlaceFromTree(myPlaces, id);
+              NstSvcMyPlaceIdStorage.set('tiny', myPlaces);
+
+              factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(id)));
+
               deferred.resolve(place);
             }).catch(function (error) {
               deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -798,6 +803,12 @@
           place_id: id,
           member_id: memberId
         }).then(function (result) {
+          if (memberId === NstSvcAuth.user.id) { // current user wants to leave the place
+            factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(id)));
+            $log.debug(NstUtility.string.format('User "{0}" leaved place "{1}".', memberId, id));
+          } else {
+            $log.debug(NstUtility.string.format('User "{0}" was removed from place "{1}".', memberId, id));
+          }
           defer.resolve();
           $log.debug('Place Factory | Member Remove Response: ', result);
         }).catch(function (error) {
@@ -1211,6 +1222,79 @@
 
       return defer.promise;
     };
+
+    PlaceFactory.prototype.removePlaceFromTree = function (tree, placeId) {
+      removePlace(tree, placeId);
+    }
+
+    PlaceFactory.prototype.filterPlacesByRemovePostAccess = function (places) {
+      return this.filterPlacesByAccessCode(places, NST_PLACE_ACCESS.REMOVE_POST);
+    }
+
+    PlaceFactory.prototype.filterPlacesByReadPostAccess = function (places) {
+      return this.filterPlacesByAccessCode(places, NST_PLACE_ACCESS.READ);
+    }
+
+    PlaceFactory.prototype.filterPlacesByAccessCode = function (places, code) {
+      var defer = $q.defer();
+      var factory = this;
+
+      var accessPromises = _.map(places, function (place) {
+        return $q(function (resolve, reject) {
+            factory.hasAccess(place.id, code).then(function (hasAccess) {
+              resolve(hasAccess ? place : null);
+            }).catch(reject);
+        });
+      });
+
+      $q.all(accessPromises).then(function (places) {
+        defer.resolve(_.filter(places, function (place) {
+          return !_.isNull(place);
+        }));
+      }).catch(defer.reject);
+
+      return defer.promise;
+    }
+
+    function removePlace(places, originalId, parentId) {
+      if (!_.isArray(places) || places.length === 0 || !originalId) {
+        return false;
+      }
+
+      var removed = removeItemById(places, originalId);
+      if (removed) {
+        return true;
+      }
+
+      // parentId is null for the first time.
+      parentId = parentId || _.first(_.split(originalId, '.'));
+      var parent = _.find(places, { id : parentId });
+      var childId = getChildId(originalId, parentId);
+      removePlace(parent.children, originalId, childId);
+    }
+
+    /**
+     * getChildId - Finds the next childId by matching the parentId and originalId
+     *
+     * @param  {String} originalId Id of the place that should be removed
+     * @param  {String} parentId   Id of the place parent
+     * @return {String}            The next child that might be the parent of the place
+     */
+    function getChildId(originalId, parentId) {
+      var withoutParent = originalId.substring(parentId.length + 1);
+      return parentId + '.' + _.first(_.split(withoutParent, '.'));
+    }
+
+    function removeItemById(list, id) {
+      var childIndex = _.findIndex(list, { id : id });
+      if (childIndex > -1) {
+        list.splice(childIndex, 1);
+        return true; // found and removed
+      }
+
+      return false;
+    }
+
 
     return new PlaceFactory();
   }
