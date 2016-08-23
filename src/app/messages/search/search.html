@@ -19,8 +19,16 @@
       </ui-select-footer>
     </ui-select> -->
 
-    <input type="input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
-    <button type="button" ng-click="ctlSearch.search(ctlSearch.queryString);">Search</button>
+    <!-- <input type="input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
+    <button type="button" ng-click="ctlSearch.search(ctlSearch.queryString);">Search</button> -->
+
+    <div class="search-input-group">
+      <button class="search-clear" type="button" ng-click="ctlSearch.clearSearchQuery();">×</button>
+      <input type="text" class="search-input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);" />
+      <button type="button" class="search-button" ng-click="ctlSearch.search(ctlSearch.queryString);">
+        <div class="icon icon-search-rotated"></div>
+      </button>
+    </div>
 
 
     <div class="post-area">
