@@ -71,6 +71,15 @@
      *****   Manage Ui View   ****
      *****************************/
 
+
+    $rootScope.$on('show-login-view', function () {
+      if (!NstSvcAuth.isInAuthorization()){
+        vm.loginView = true;
+      }else{
+        vm.loginView = false;
+      }
+    });
+
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
       var reason = event.detail.reason;
       if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {

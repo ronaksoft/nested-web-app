@@ -5,14 +5,13 @@
   <section class="content _bgwhite">
     <div class="navbarillu"></div>
     <div class="panel-profile-setting _ma">
-
       <div class="_fw upload-photo-container">
         <div class="_ma upload-photo">
           <label for="logo">
-            <img initials="ctlProfileEdit.model.fullName"
-                                 data-url="ctlProfileEdit.model.picture.url"
-                                 data-width="size" data-height="size" data-radius="64" data-word-count="2"
-                                 data-font-size="16">
+            <img ng-if="ctlProfileEdit.model.picture.url" ng-src="{{ctlProfileEdit.model.picture.url}}">
+            <img ng-if="!ctlProfileEdit.model.picture.url" initials="ctlProfileEdit.model.fullName"
+                 data-width="size" data-height="size" data-radius="64" data-word-count="2"
+                 data-font-size="16">
           </label>
           <input id="logo" type="file" name="logo" accept="image/*"
                  onchange="angular.element(this).scope().ctlProfileEdit.imgToUri(event)">
