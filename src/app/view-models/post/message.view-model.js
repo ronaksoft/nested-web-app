@@ -48,6 +48,7 @@
 
 
       if (post instanceof NstPost) {
+        console.log(post);
         this.id = post.id;
         this.sender = mapSender(post.sender);
         this.subject = post.subject;
@@ -58,8 +59,8 @@
         this.date = post.date;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
         this.comments = _.map(post.comments, NstSvcCommentMap.toMessageComment);
-        this.isReplyed = !!post.replyTo;
-        this.isForwarded = !!post.forwardFrom;
+        this.isReplyed = !!post.replyToId;
+        this.isForwarded = !!post.forwardFromId;
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
       }
     }

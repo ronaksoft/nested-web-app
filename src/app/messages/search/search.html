@@ -1,39 +1,52 @@
-<div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlMessages.bodyScrollConf"
-     onscroll="angular.element(this).scope().ctlMessages.scroll(event);angular.element(this).scope().ctlApp.scroll(event)"
+<div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlSearch.bodyScrollConf"
+     onscroll="angular.element(this).scope().ctlSearch.scroll(event);angular.element(this).scope().ctlApp.scroll(event)"
      ng-swipe-left="">
   <section class="content nst-marginbtm-28">
+
+    <!-- <ui-select multiple tagging class="" data-ng-model="ctlSearch.queryItems" on-select="ctlSearch.selectSuggestedItem();">
+      <ui-select-header>
+        <span>header</span>
+      </ui-select-header>
+      <ui-select-choices group-by="'type'" refresh="ctlSearch.searchPeople($select.search)" refresh-delay="0"
+                         repeat="item in ctlSearch.suggestedItems" >
+                         <span>{{item.name}}</span>
+      </ui-select-choices>
+      <ui-select-match placeholder="Search..." class=" _fw">
+        <span>{{$item.name}}</span>
+      </ui-select-match>
+      <ui-select-footer>
+        <span>footer</span>
+      </ui-select-footer>
+    </ui-select> -->
+
     <input type="input" ng-model="ctlSearch.queryString" />
     <button type="button" ng-click="ctlSearch.search(ctlSearch.queryString);">Search</button>
+
+
     <div class="post-area">
       <post-card class="_fw" data-ng-repeat="msg in ctlSearch.messages track by msg.id" post="msg"
                  settings="ctlSearch.viewSetting" postinplace="ctlSearch.currentPlaceId"></post-card>
     </div>
-    <div class="text-center nst-margin-24" ng-if="ctlSearch.tryAgainToLoadMore">
-      <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlSearch.loadMore()">
-        {{ctlSearch.cache.length === 0 ? "Click here to load messages!" : "Load More..."}}
-      </a>
-    </div>
 
-    <div class="nst-margin-24"
-         ng-if="ctlSearch.reachedTheEnd || ctlSearch.noMessages || ctlSearch.loadMessageError">
-      <p class="text-center nst-mood-storm" ng-if="!ctlSearch.noMessages && ctlSearch.reachedTheEnd">
+    <div class="nst-margin-24 text-center" ng-if="ctlSearch.reachedTheEnd || ctlSearch.loadMessageError || ctlSearch.loading || ctlSearch.noResult">
+      <p class="nst-mood-storm" ng-if="ctlSearch.noResult">
+        Could not find any result!
+      </p>
+      <p class="nst-mood-storm" ng-if="ctlSearch.reachedTheEnd">
         There are no more messages!
       </p>
-      <p class="text-center nst-mood-storm" ng-if="ctlSearch.noMessages">
-        Be the first who writes something here...
-      </p>
-      <p class="text-center nst-mood-storm" ng-if="ctlSearch.loadMessageError">
+      <p class="nst-mood-storm" ng-if="ctlSearch.loadMessageError">
         An error has occurred. Please
-        <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlSearch.loadMore(true)">
+        <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlSearch.loadMore()">
           try again...
         </a>
       </p>
-    </div>
-    <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlSearch.loading">
-      <div class="col-xs-6">
-        <div class="nst-loading nst-loading-size-16  _fr"></div>
+      <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlSearch.loading">
+        <div class="col-xs-6">
+          <div class="nst-loading nst-loading-size-16  _fr"></div>
+        </div>
+        <div class="col-xs-6 nst-marginbtm-4">Loading...</div>
       </div>
-      <div class="col-xs-6 nst-marginbtm-4">Loading...</div>
     </div>
     <div class="nst-marginbtm-32"></div>
   </section>

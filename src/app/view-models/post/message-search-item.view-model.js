@@ -57,8 +57,8 @@
         this.allPlaces = _.map(post.places, mapPlace);
         this.date = post.date;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
-        this.isReplyed = !!post.replyTo;
-        this.isForwarded = !!post.forwardFrom;
+        this.isReplyed = !!post.replyToId;
+        this.isForwarded = !!post.forwardFromId;
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
       }
     }
