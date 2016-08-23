@@ -9,16 +9,26 @@
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {
-        var str = attrs.autoDir;
-        if (!str || !_.isString(str)) {
-          return element.attr("dir","ltr");
+
+        function direction(str) {
+          if (!str || !_.isString(str)) {
+            return element.attr("dir","ltr");
+          }
+
+          str = str.trim();
+          var charCode = str.charCodeAt(0);
+          if (charCode > 1300 && 1700 > charCode) {
+            return element.attr("dir","rtl");
+          }
         }
 
-        str = str.trim();
-        var charCode = str.charCodeAt(0);
-        if (charCode > 1300 && 1700 > charCode) {
-          return element.attr("dir","rtl");
-        }
+        scope.$watch(function(){
+          return attrs.autoDir;
+        },function () {
+          direction(attrs.autoDir);
+        })
+
+
       }
     };
   }
