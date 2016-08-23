@@ -73,27 +73,18 @@
 
 
     $rootScope.$on('show-login-view', function () {
-      vm.loginView = !NstSvcAuth.isInAuthorization()
+      vm.loginView = true;
     });
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
       var reason = event.detail.reason;
       if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
-        // vm.loginView = true;
         getValidState($state.current, $state.params);
       }
     });
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
       getValidState($state.current, $state.params);
-    });
-
-    $rootScope.$watch(function () {
-      return NstSvcAuth.isInAuthorization();
-    }, function () {
-      if (!vm.disconected) {
-        vm.loginView = !NstSvcAuth.isInAuthorization();
-      }
     });
 
 
@@ -178,14 +169,14 @@
       if (NstSvcAuth.isInAuthorization()) {
 
         if (toPublicState) {
-          vm.loginView = false;
+          vm.loginView = true;
           return {
             name: NST_DEFAULT.STATE,
             params: {}
           };
         }
       } else if (!toPublicState) {
-        vm.loginView = true;
+        vm.loginView = false;
         if (toState.name) {
           return {
             name: 'signin-back',
@@ -197,6 +188,7 @@
             }
           };
         } else {
+          vm.loginView = true;
           return {
             name: 'signin',
             params: {}
@@ -329,6 +321,8 @@
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
       if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER).indexOf(toState.name) > -1) {
         vm.loginView = true;
+      }else{
+        vm.loginView = false;
       }
     });
   }
