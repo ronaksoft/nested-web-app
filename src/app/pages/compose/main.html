@@ -31,7 +31,7 @@
       <hr/>
       <section class="_difc _fw">
         <div class="_df _fw input-select-match">
-          <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject"/>
+          <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject" auto-dir="{{ctlCompose.model.subject}}">
         </div>
       </section>
       <hr data-ng-show="attachshow"/>
@@ -58,7 +58,7 @@
 
       <section class="nst-compose-message">
         <div>
-          <textarea page-change-element ui-tinymce="ctlCompose.configs.tinymce" placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"></textarea>
+          <textarea page-change-element ui-tinymce="ctlCompose.configs.tinymce" placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body" auto-dir="ctlCompose.model.body"></textarea>
         </div>
       </section>
     </div>
