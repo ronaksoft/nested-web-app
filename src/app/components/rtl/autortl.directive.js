@@ -10,7 +10,6 @@
       restrict: 'A',
       link: function (scope ,element, attrs) {
         var str = attrs.autoDir;
-        console.log(str);
         if (!str || !_.isString(str)) {
           return element.attr("dir","ltr");
         }
