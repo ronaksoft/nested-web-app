@@ -21,7 +21,8 @@
       this.users = [];
       this.otherKeywords = [];
 
-      var words = _.split(query, QUERY_SEPARATOR);
+      var decodedQuery = decodeURIComponent(query);
+      var words = _.split(decodedQuery, QUERY_SEPARATOR);
 
       _.forEach(words, function (word) {
         if (_.startsWith(word, NST_SEARCH_QUERY_PREFIX.PLACE)) {
@@ -55,6 +56,10 @@
       return _.join(items, QUERY_SEPARATOR);
     }
 
+    SearchQuery.prototype.ToEncodeString = function () {
+      return encodeURIComponent(this.toString());
+    }
+
     SearchQuery.prototype.addPlace = function (place) {
       this.places.push(place);
     };
@@ -65,6 +70,12 @@
       this.otherKeywords.push(keyword);
     };
 
+    SearchQuery.encode = function (queryString) {
+      return encodeURIComponent(queryString);
+    };
+
     return SearchQuery;
+
+
   }
 })();

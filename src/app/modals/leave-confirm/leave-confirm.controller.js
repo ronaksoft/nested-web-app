@@ -13,7 +13,6 @@
     };
 
     vm.cancel = function () {
-      console.log($uibModalInstance);    
       $uibModalStack.dismissAll();
     };
   }

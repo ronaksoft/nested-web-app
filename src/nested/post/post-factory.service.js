@@ -631,22 +631,21 @@
       return defer.promise;
     }
 
-    function search(searchQuery, limit) {
+    function search(queryString, limit) {
       var defer = $q.defer();
       var query = new NstFactoryQuery(null, {
-        searchQuery : searchQuery,
+        query : queryString,
         limit : limit
       });
 
-      NstSvcServer.request('posts/search', {
-        keywords : searchQuery.toString(),
+      NstSvcServer.request('post/search', {
+        keywords : queryString,
         skip : 0,
         limit : limit || 8
       }).then(function (result) {
-
-        defer.resolve(result);
+        var postPromises = _.map(result.posts.posts, parseMessage);
+        $q.all(postPromises).then(defer.resolve).catch(defer.reject);
       }).catch(function (error) {
-
         defer.reject(new NstFactoryError(query, '', error.getCode(), error));
       });
 
