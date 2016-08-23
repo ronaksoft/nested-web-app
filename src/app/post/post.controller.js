@@ -201,7 +201,7 @@
                 $log.debug(error);
               });
 
-              toastr.success(NstUtility.string.format('The post is removed from {0}.', place.name));
+              toastr.success(NstUtility.string.format('The post has been removed from {0}.', place.name));
 
               $rootScope.$broadcast('post-removed', {
                 postId : post.id,
