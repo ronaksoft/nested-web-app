@@ -122,7 +122,8 @@
                     data-ng-disabled="ctlPost.status.commentSendInProgress"
                     data-ng-model="ctlPost.nextComment"
                     ng-keyup="ctlPost.sendComment($event)"
-                    placeholder="write your comment..."/>
+                    placeholder="write your comment..."
+                    auto-dir="{{ctlPost.nextComment}}"/>
           </textarea>
         </div>
       </div>
