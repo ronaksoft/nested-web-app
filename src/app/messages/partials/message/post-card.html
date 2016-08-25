@@ -50,12 +50,12 @@
     <nst-attachments-view post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>
   </section>
   <section class="post-footer _difh">
-    <a class="_df _fn">
+    <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
       <span ng-if="!ctlPostCard.post.hasAnyComment()">No comment</span>
       <span ng-if="ctlPostCard.post.commentsCount == 1">One comments</span>
       <span ng-if="ctlPostCard.post.commentsCount > 1">{{ctlPostCard.post.commentsCount}} comments</span>
     </a>
-    <a ng-if="ctlPostCard.newCommentsCount > 0" class="new-comments-count" nst-post-modal post="ctlPostCard.post"
+    <a ng-if="ctlPostCard.newCommentsCount > 0 && !ctlPostCard.hideComments" class="new-comments-count" nst-post-modal post="ctlPostCard.post"
              dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.subject)) ? 'rtl' : 'ltr'}}">
       <span>+{{ctlPostCard.newCommentsCount}}</span>
     </a>
@@ -68,7 +68,7 @@
     </div>
   </section>
 </div>
-<section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments">
+<section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments && !ctlPostCard.hideComments">
   <div  class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
     <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()">Older comments...</a>
     <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()">Roll up</a>

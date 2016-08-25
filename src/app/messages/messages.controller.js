@@ -51,6 +51,9 @@
 
 
     (function () {
+
+      vm.isSentMode = 'messages-sent' === $state.current.name;
+
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
         vm.currentPlaceId = null;
       } else {
