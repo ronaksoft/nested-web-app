@@ -55,13 +55,14 @@
       var avatar = '/assets/icons/absents_place.svg';
       if (hasPlace()) {
         var thumbnail = vm.place.getPicture().getThumbnail(64);
+        if (thumbnail) {
+          if (!thumbnail.getId()) {
+            thumbnail = vm.place.getPicture().getLargestThumbnail();
+          }
 
-        if (!thumbnail.getId()) {
-          thumbnail = vm.place.getPicture().getLargestThumbnail();
-        }
-
-        if (thumbnail.getId()) {
-          avatar = thumbnail.getUrl().view;
+          if (thumbnail.getId()) {
+            avatar = thumbnail.getUrl().view;
+          }
         }
       }
 
