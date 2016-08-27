@@ -286,30 +286,29 @@ mark {
 }
 
 #inputsearch {
-  display: none;
+  max-width: 0;
   z-index: 100;
-  margin-top: 16px;
   background-color: $color-white;
-  padding: 8px;
+  //padding: 0 8px;
   position: absolute;
+  align-self: center;
+  overflow: hidden;
+  align-items: center;
+  display: flex;
 }
 #inputsearch ul li {
   padding: 5px 0;
 }
 
 #inputsearch input{
-  border: none;
-  padding-left: 30px;
+  //border: 2px solid black;
+  padding-left: 38px;
   //padding-top: 12px;
 }
 #inputsearch .line-f {
   left:0;
 }
 
-#action-search {
-  left: 8px;
-  top: 8px;
-}
 .butn-white-nav-ps {
   position: absolute;
   left:10px;

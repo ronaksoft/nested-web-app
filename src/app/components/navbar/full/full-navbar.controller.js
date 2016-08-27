@@ -31,16 +31,39 @@
     vm.search = search;
     // generateUrls();
 
-    $scope.srch = function srch() {
-      for (var i = 0; i < arguments.length; i++) {
-        var id = arguments[i];
-        var e = document.getElementById(id);
-        if (e.style.display == 'block')
-          e.style.display = 'none';
-        else {
-          e.style.display = 'block';
-        }
+    vm.srch = function srch(el) {
+      var ele = $('#' + el);
+      var eleInp = ele.find('input');
+      var elePrv = ele.prev();
+      var openStat = function () {
+        return ele[0].clientWidth > 0
+      };
+      function open() {
+        ele.stop().animate({
+          maxWidth : 1000
+        },300);
+        eleInp.focus();
       }
+      function close() {
+        ele.stop().animate({
+          maxWidth : 0
+        },100);
+        eleInp.val("");
+      }
+      elePrv.stop().fadeToggle('slow','swing');
+      if (openStat()) {
+        close()
+      } else {
+        open()
+      }
+
+        // var id = arguments[i];
+        // var e = document.getElementById(id);
+        // if (e.style.display == 'block')
+        //   e.style.display = 'none';
+        // else {
+        //   e.style.display = 'block';
+        // }
     };
 
     function getPlaceName() {
