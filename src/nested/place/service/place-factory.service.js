@@ -505,12 +505,21 @@
 
           return deferred.promise;
         }).then(function (newPlace) {
+          // TODO: Is the model able to save itself? The answer is NO! the below line is not required it think.
           newPlace.save();
           factory.set(newPlace);
 
           if (params.parent_id) {
             // Subplace Added
             factory.getTiny(params.parent_id).then(function (parentPlace) {
+
+              parentPlace.children[newPlace.id] = newPlace;
+              parentPlace.children.length++;
+
+              var myPlaces = NstSvcMyPlaceIdStorage.get('tiny');
+              factory.addPlaceToTree(myPlaces, { id : newPlace.id, children : [] });
+              NstSvcMyPlaceIdStorage.set('tiny', myPlaces);
+
               factory.dispatchEvent(new CustomEvent(
                 NST_PLACE_FACTORY_EVENT.SUB_ADD,
                 { detail: { id: newPlace.getId(), place: newPlace, parentPlace: parentPlace } }
@@ -1254,6 +1263,47 @@
       }).catch(defer.reject);
 
       return defer.promise;
+    }
+
+    PlaceFactory.prototype.addPlaceToTree = function (tree, place) {
+      addPlace(tree, place);
+    }
+
+    /**
+     * addPlace - Finds parent of a place and puts the place in its children
+     *
+     * @param  {NstVmPlace[]} places    The tree of places
+     * @param  {NstVmPlace}   place     A new place
+     * @param  {String}       parentId  Current parent Id
+     * @param  {Number}       depth     Current depth
+     * @return {Bolean}                 Returns true if the place was added
+     */
+    function addPlace(places, place, parentId, depth) {
+      if (!_.isArray(places) || !place) {
+        return false;
+      }
+
+      depth = depth || 0;
+
+      var placeIdSlices = _.split(place.id, '.');
+      // set the root place as parent Id for the first time
+      parentId = parentId || _.first(placeIdSlices);
+      var parent = _.find(places, { id : parentId });
+      // For example, if parentId='ronak' and placeId='ronak.dev.web' then trailingIds whould be ['dev', 'web']
+      var trailingIds = _.difference(placeIdSlices, _.split(parentId, '.'));
+      if (trailingIds.length > 0) {
+        depth ++;
+        var nextParentId = _.join(_.concat(parentId,_.first(trailingIds)), '.');
+        return addPlace(parent.children, place, nextParentId, depth);
+      } else {
+        if (_.has(place, 'depth')){
+          place.depth = depth;
+        }
+        places.push(place);
+        return true;
+      }
+
+      return false;
     }
 
     function removePlace(places, originalId, parentId) {

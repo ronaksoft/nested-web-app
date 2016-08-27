@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="64" viewBox="0 0 32 64">
   <defs>
     <style>
-      .a,.b{fill:none;stroke-linecap:round;stroke-miterlimit:10;}.a{stroke:#a6b9af;stroke-width:2px;}.b{stroke:#ced9d3;}
+      .a,.b{fill:none;stroke-linecap:round;stroke-miterlimit:10;}.a{stroke:white;stroke-width:2px;}.b{stroke:#ced9d3;}
     </style>
   </defs>
   <title>Source</title>

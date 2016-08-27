@@ -200,7 +200,7 @@
           !vm.username ||
           vm.requiredLastname ||
           vm.requiredFirstname ||
-          vm.acceptAgreement) return false;
+          !vm.acceptAgreement) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
