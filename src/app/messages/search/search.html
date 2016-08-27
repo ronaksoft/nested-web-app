@@ -22,8 +22,8 @@
     <!-- <input type="input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
     <button type="button" ng-click="ctlSearch.search(ctlSearch.queryString);">Search</button> -->
     <div class="top-section">
+      <button class="search-clear" type="button" ng-click="ctlSearch.clearSearchQuery();">×</button>
       <div class="search-input-group">
-        <button class="search-clear" type="button" ng-click="ctlSearch.clearSearchQuery();">×</button>
         <input type="text" class="search-input" ng-model="ctlSearch.queryString"
                ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
         <button type="button" class="search-button" ng-click="ctlSearch.search(ctlSearch.queryString);">
