@@ -355,7 +355,8 @@ div.att-item {
   background-color: $color-sense!important;
 }
 .ui-select-bootstrap > .ui-select-choices {
-  max-height: 400px
+  height: 400px;
+  max-height: 50vh
 }
 .mce-menu-item:hover{
   background-color: $color-sense!important;
