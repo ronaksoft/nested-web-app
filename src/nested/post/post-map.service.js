@@ -5,11 +5,15 @@
     .service('NstSvcPostMap', NstSvcPostMap);
 
   /** @ngInject */
-  function NstSvcPostMap($q, $log, NST_PLACE_MEMBER_TYPE, NstSvcAuth, NstSvcPlaceFactory, NstSvcCommentMap, NstSvcAttachmentMap, NstVmMessage) {
+  function NstSvcPostMap($q, $log,
+    NST_PLACE_MEMBER_TYPE,
+    NstSvcAuth, NstSvcPlaceFactory, NstSvcCommentMap, NstSvcAttachmentMap,
+    NstVmMessage, NstVmMessageSearchItem) {
 
     var service = {
       toMessage: toMessage,
-      toPost: toPost
+      toPost: toPost,
+      toSearchMessageItem : toSearchMessageItem
     };
 
     return service;
@@ -43,8 +47,8 @@
         comments: _.map(post.comments, mapComment),
         hasAnyComment: post.comments.length > 0,
         commentsCount: post.counters.comments > -1 ? post.counters.comments : 0,
-        isReplyed : !!post.replyTo,
-        isForwarded : !!post.forwardFrom,
+        isReplyed : !!post.replyToId,
+        isForwarded : !!post.forwardFromId,
       };
 
       /*****************************
@@ -56,6 +60,9 @@
       }
     }
 
+    function toSearchMessageItem(post) {
+      return new NstVmMessageSearchItem(post);
+    }
     /*****************************
      ***** Intern Map Methods ****
      *****************************/

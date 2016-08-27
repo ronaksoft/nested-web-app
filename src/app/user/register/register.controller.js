@@ -174,19 +174,25 @@
           vm.requiredPassword= false;
         }
 
-        if(vm.firstname === undefined){
+        if(vm.fname === undefined){
           vm.requiredFirstname = true;
         }else{
           vm.requiredFirstname= false;
         }
 
-      if(vm.lastname === undefined){
+      if(vm.lname === undefined){
         vm.requiredLastname = true;
       }else{
         vm.requiredLastname= false;
       }
 
-        if (vm.hasNotBirth || vm.hasNotGender || !vm.password || !vm.username || vm.requiredLastname || vm.requiredFirstname || vm.acceptAgreement) return false;
+        if (vm.hasNotBirth ||
+          vm.hasNotGender ||
+          !vm.password ||
+          !vm.username ||
+          vm.requiredLastname ||
+          vm.requiredFirstname ||
+          !vm.acceptAgreement) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();

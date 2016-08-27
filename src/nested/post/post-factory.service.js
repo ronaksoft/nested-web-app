@@ -58,6 +58,7 @@
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.parseMessage = parseMessage;
     PostFactory.prototype.getMessage = getMessage;
+    PostFactory.prototype.search = search;
 
     return new PostFactory();
 
@@ -488,39 +489,8 @@
           promises.push(allComments);
         }
 
-        // TODO: Use ReplyToId instead
-        if (data.reply_to) {
-          promises.push(get(data.reply_to.$oid).catch(function(error) {
-            return parsePost({
-              _id: {
-                $oid: data.reply_to.$oid
-              }
-            });
-          }).then(function(relPost) {
-            message.setReplyTo(relPost);
-
-            return $q(function(res) {
-              res(relPost);
-            });
-          }));
-        }
-
-        // TODO: Use ForwardFromId instead
-        if (data.forward_from) {
-          promises.push(get(data.forward_from.$oid).catch(function(error) {
-            return parsePost({
-              _id: {
-                $oid: data.forward_from.$oid
-              }
-            });
-          }).then(function(relPost) {
-            message.setForwardFrom(relPost);
-
-            return $q(function(res) {
-              res(relPost);
-            });
-          }));
-        }
+        message.setReplyToId(data.reply_to ? data.reply_to.$oid : null);
+        message.setForwardFromId(data.forward_from ? data.forward_from.$oid : null);
 
         $q.all(promises).then(function() {
           defer.resolve(message);
@@ -626,6 +596,29 @@
 
         defer.resolve(message);
       }).catch(defer.reject);
+
+      return defer.promise;
+    }
+
+    function search(queryString, limit, skip) {
+      var defer = $q.defer();
+      var query = new NstFactoryQuery(null, {
+        query : queryString,
+        limit : limit,
+        skip : skip
+      });
+
+      NstSvcServer.request('post/search', {
+        keywords : queryString,
+        skip : 0,
+        limit : limit || 8,
+        skip : skip || 0,
+      }).then(function (result) {
+        var postPromises = _.map(result.posts.posts, parseMessage);
+        $q.all(postPromises).then(defer.resolve).catch(defer.reject);
+      }).catch(function (error) {
+        defer.reject(new NstFactoryError(query, '', error.getCode(), error));
+      });
 
       return defer.promise;
     }

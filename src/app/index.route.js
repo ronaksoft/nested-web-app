@@ -289,7 +289,7 @@
         params: {
           query: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/search/search.html',
+        templateUrl: 'app/messages/search/search.html',
         controller: 'SearchController',
         controllerAs: 'ctlSearch'
       });

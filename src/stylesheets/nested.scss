@@ -182,6 +182,21 @@ hr {
   }
 }
 
+pre {
+  font-family: $font-family-eng-reg;
+  background: inherit;
+  border: medium none;
+  font-size: inherit;
+  line-height: inherit;
+  margin: inherit;
+  padding: inherit;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
 a.place,
 a.account,
 a.post {
@@ -1997,7 +2012,7 @@ a.normal-badge {
   &:hover {
     background-color: #476152;
     color: $color-white;
-   
+
   }
 }
 

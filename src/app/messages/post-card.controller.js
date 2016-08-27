@@ -92,18 +92,6 @@
       return e.currentTarget.value.trim();
     }
 
-    //TODO put it in directive ...
-    vm.languageIsRtl = function (str) {
-      if (!str || !_.isString(str)) {
-        return false;
-      }
-
-      str = str.trim();
-      var charCode = str.charCodeAt(0);
-
-      return charCode > 1300 && 1700 > charCode;
-    };
-
     function limitCommentBoard() {
       vm.commentBoardLimit = commentBoardMin;
       vm.commentBoardIsRolled = true;
