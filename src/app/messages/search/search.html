@@ -21,22 +21,24 @@
 
     <!-- <input type="input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
     <button type="button" ng-click="ctlSearch.search(ctlSearch.queryString);">Search</button> -->
-
-    <div class="search-input-group">
-      <button class="search-clear" type="button" ng-click="ctlSearch.clearSearchQuery();">×</button>
-      <input type="text" class="search-input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);" />
-      <button type="button" class="search-button" ng-click="ctlSearch.search(ctlSearch.queryString);">
-        <div class="icon icon-search-rotated"></div>
-      </button>
+    <div class="top-section">
+      <div class="search-input-group">
+        <button class="search-clear" type="button" ng-click="ctlSearch.clearSearchQuery();">×</button>
+        <input type="text" class="search-input" ng-model="ctlSearch.queryString"
+               ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
+        <button type="button" class="search-button" ng-click="ctlSearch.search(ctlSearch.queryString);">
+          <div class="icon-search-rotated-white"></div>
+        </button>
+      </div>
     </div>
-
 
     <div class="post-area">
       <post-card class="_fw" data-ng-repeat="msg in ctlSearch.messages track by msg.id" post="msg"
                  settings="ctlSearch.viewSetting" postinplace="ctlSearch.currentPlaceId"></post-card>
     </div>
 
-    <div class="nst-margin-24 text-center" ng-if="ctlSearch.reachedTheEnd || ctlSearch.loadMessageError || ctlSearch.loading || ctlSearch.noResult">
+    <div class="nst-margin-24 text-center"
+         ng-if="ctlSearch.reachedTheEnd || ctlSearch.loadMessageError || ctlSearch.loading || ctlSearch.noResult">
       <p class="nst-mood-storm" ng-if="ctlSearch.noResult">
         Could not find any result!
       </p>

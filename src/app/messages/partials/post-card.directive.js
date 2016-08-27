@@ -17,7 +17,8 @@
       bindToController: {
         post: '=post',
         viewSetting: '=settings',
-        thisPlace: '=postinplace'
+        thisPlace: '=postinplace',
+        hideComments: '=hideComments'
       }
     };
   }
