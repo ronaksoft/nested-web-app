@@ -47,9 +47,12 @@
 
       // TODO: Use ReplyToId instead
       this.replyTo = null;
+      this.replyToId = null;
+
 
       // TODO: Use ForwardFromId instead
       this.forwardFrom = null;
+      this.forwardFromId = null;
 
       this.counters = {
         attaches: -1,
