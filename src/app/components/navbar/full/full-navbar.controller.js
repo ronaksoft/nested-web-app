@@ -112,7 +112,7 @@
         return;
       }
 
-      $state.go('search', { query : new NstSearchQuery(query).encode() });
+      $state.go('search', { query : NstSearchQuery.encode(query) });
     }
 
     $scope.$watch('topNavOpen',function (newValue,oldValue) {
