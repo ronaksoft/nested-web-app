@@ -15,8 +15,10 @@
         content = content.trim();
 
         if (content.length <= maxCharacters) return content;
+
         if (content.length > maxCharacters)
-          return content.substr(0,247) + '...'
+
+          return content.substr(0, 247) + '...'
 
         content = content.substring(0, maxCharacters);
 
