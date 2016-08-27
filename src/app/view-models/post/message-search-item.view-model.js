@@ -3,11 +3,11 @@
 
   angular
     .module('nested')
-    .factory('NstVmMessage', NstVmMessage);
+    .factory('NstVmMessageSearchItem', NstVmMessageSearchItem);
 
-  function NstVmMessage(NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth) {
+  function NstVmMessageSearchItem(NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth) {
 
-    function VmMessage(post) {
+    function VmMessageSearchItem(post) {
 
       this.id = null;
       this.sender = null;
@@ -48,7 +48,6 @@
 
 
       if (post instanceof NstPost) {
-        console.log(post);
         this.id = post.id;
         this.sender = mapSender(post.sender);
         this.subject = post.subject;
@@ -58,14 +57,13 @@
         this.allPlaces = _.map(post.places, mapPlace);
         this.date = post.date;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
-        this.comments = _.map(post.comments, NstSvcCommentMap.toMessageComment);
         this.isReplyed = !!post.replyToId;
         this.isForwarded = !!post.forwardFromId;
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
       }
     }
 
-    return VmMessage;
+    return VmMessageSearchItem;
 
     // TODO: Use NstVmUser instead
     function mapSender(sender) {

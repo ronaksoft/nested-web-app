@@ -47,9 +47,12 @@
 
       // TODO: Use ReplyToId instead
       this.replyTo = null;
+      this.replyToId = null;
+
 
       // TODO: Use ForwardFromId instead
       this.forwardFrom = null;
+      this.forwardFromId = null;
 
       this.counters = {
         attaches: -1,
@@ -58,6 +61,10 @@
         forwarded: -1,
         size: -1
       };
+
+      // The user is allowed to retract the post (remove from all places)
+      // TODO: add this in all parse functions
+      this.wipeAccess = false;
 
       NstTinyPost.call(this, model);
 

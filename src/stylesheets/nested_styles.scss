@@ -130,6 +130,11 @@
   width: 32px;
   height: 32px;
 }
+.icon-search-rotated-white {
+  background: url('../assets/icons/search-white.svg') no-repeat;
+  width: 32px;
+  height: 32px;
+}
 .icon-close-search {
   background: url('../assets/icons/search.svg') no-repeat;
   width: 32px;
@@ -184,6 +189,12 @@
 }
 .badge {
   padding: 5px;
+}
+.icon-open-link {
+  background-image: url("../assets/icons/info-8.svg");
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
 }
 
 .a {
@@ -1063,6 +1074,9 @@ ul ul li:last-child{
     mask: url('../assets/icons/close.svg') no-repeat 100% 100%;
     mask-size: cover;
     background-color: white;
+  }
+  &:hover {
+    cursor: pointer;
   }
 }
 .post-card {

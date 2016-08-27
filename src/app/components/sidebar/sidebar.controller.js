@@ -329,42 +329,11 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
-      var vmPlace = _.find(vm.places, { id: event.detail.id });
-
-      if (!vmPlace) {
-        // TODO: Highlight Newly Added Place
-        vm.places.push(mapPlace(event.detail.place));
-      }
+      NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(event.detail.place));
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
-      var place = event.detail.place;
-      var parentPlace = event.detail.parentPlace;
-      var parentPlacesIds = String(parentPlace.getId()).split(NST_DELIMITERS.PLACE_ID);
-      var collection = vm.places;
-      var lastVisibleVmPlace = undefined;
-
-      for (var k in parentPlacesIds) {
-        var ptrVmPlaceId = parentPlacesIds.slice(0, k + 1);
-        var ptrVmPlace = _.find(collection, { id: ptrVmPlaceId });
-        if (ptrVmPlace) {
-          if (!lastVisibleVmPlace) {
-            lastVisibleVmPlace = ptrVmPlace;
-          } else {
-            // TODO: ??
-          }
-
-          if (ptrVmPlaceId == parentPlace.id) {
-            // TODO: Highlight last not-collapsed ancestor: lastVisibleVmPlace
-            ptrVmPlace.children.push(mapPlace(place));
-            break;
-          }
-
-          collection = ptrVmPlace.children;
-        } else {
-          return;
-        }
-      }
+      NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(event.detail.place));
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
