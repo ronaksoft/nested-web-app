@@ -9,12 +9,8 @@
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {
-        scope.$watch(function () {
-          return attrs.autoDir;
-        }, function () {
-          var str = attrs.autoDir;
 
-
+        function direction(str) {
           if (!str || !_.isString(str)) {
             return element.attr("dir","ltr");
           }
@@ -24,7 +20,14 @@
           if (charCode > 1300 && 1700 > charCode) {
             return element.attr("dir","rtl");
           }
-        });
+        }
+
+        scope.$watch(function(){
+          return attrs.autoDir;
+        },function () {
+          direction(attrs.autoDir);
+        })
+
 
       }
     };

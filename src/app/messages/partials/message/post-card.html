@@ -74,6 +74,8 @@
   </div>
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"></comments-board>
   <div class="post-card-comment-input _df">
-    <input auto-dir="{{commentByUser}}" class="_fw" placeholder="write your comment ..." ng-keyup="ctlPostCard.sendComment($event)" ng-model="commentByUser" ng-disabled="ctlPostCard.isSendingComment"/>
+    <input class="_fw" data-ng-model="ctlPostCard.post.newComment" auto-dir="{{ctlPostCard.post.newComment}}"
+           placeholder="write your comment ..." ng-keyup="ctlPostCard.sendComment($event)"
+           ng-disabled="ctlPostCard.isSendingComment"/>
   </div>
 </section>

@@ -60,10 +60,14 @@
         </div>
         <div class="_db _fh">
           <div class="_fh _fw">
-            <div class="msg-post-view {{ctlPost.post.contentType == 'text/plain' ? 'pre' : ''}}"
+            <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="msg-post-view"
                  dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.body)) ? 'rtl' : 'ltr'}}"
                  data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
             </div>
+            <pre ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view"
+                 dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.body)) ? 'rtl' : 'ltr'}}"
+                 data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
+            </pre>
           </div>
         </div>
       </div>
@@ -118,7 +122,8 @@
                     data-ng-disabled="ctlPost.status.commentSendInProgress"
                     data-ng-model="ctlPost.nextComment"
                     ng-keyup="ctlPost.sendComment($event)"
-                    placeholder="write your comment..."/>
+                    placeholder="write your comment..."
+                    auto-dir="{{ctlPost.nextComment}}"/>
           </textarea>
         </div>
       </div>
