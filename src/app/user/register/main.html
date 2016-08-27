@@ -74,7 +74,7 @@
         </div>
       </form>
 
-      <form ng-show="ctlRegister.step === 'step3'"  novalidate name="registrationForm" ng-submit="ctlRegister.register()"
+      <form   novalidate name="registrationForm" ng-submit="ctlRegister.register()"
             unsaved-warning-form>
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">Create an account</p>
@@ -97,13 +97,13 @@
         </div>
         <div class="nst-marginbtm-16">
           <input id="uid" aria-invalid="false"
-                 ng-class="{'form-control':!registrationForm.username.$error.required || !registrationForm.username.$touched,'form-control-error': (registrationForm.username.$error.required && registrationForm.username.$touched) || (registrationForm.username.$error.pattern && registrationForm.username.$touched)}"
+                 ng-class="{'form-control':!registrationForm.username.$error.required || !registrationForm.username.$touched,'form-control-error': ctlRegister.requiredUser || (registrationForm.username.$error.required && registrationForm.username.$touched) || (registrationForm.username.$error.pattern && registrationForm.username.$touched)}"
                  ng-pattern="ctlRegister.patterns.username.general" uib-tooltip-class="tooltip" tooltip-trigger="none"
                  tooltip-is-open="registrationForm.username.$error.pattern && registrationForm.username.$touched"
                  uib-tooltip-template="'app/user/register/tip_username.html'" ngMinlength="5" ngMaxlength="32"
                  ng-minlength="5" ng-maxlength="32"
                  name="username" type="text" ng-model="ctlRegister.username" tabindex="1"
-                 ng-change="ctlRegister.checkUser(ctlRegister.username);ctlRegister.tooltipAlert(ctlRegister.username)"
+                 ng-change="ctlRegister.checkUser(ctlRegister.username);ctlRegister.tooltipUsernameAlert(ctlRegister.username)"
                  data-tooltip-placement="bottom" required/>
         </div>
 
@@ -116,7 +116,7 @@
            ng-if="registrationForm.password.$error.pattern || registrationForm.password.$error.minlength">Weak password
       </div>
       <div class="nst-mood-lively nst-marginbtm-8 _dib"
-           ng-if="ctrlRegister.requiredPassword">
+           ng-if="ctrlRegister.requiredPassword || (registrationForm.password.$touched && registrationForm.password.$error.required)">
         password required
       </div>
       <div class="nst-mood-cheerful nst-marginbtm-8 _dib" ng-if="registrationForm.password.$valid">Powerful password</div>
@@ -145,11 +145,11 @@
                    ng-if="!ctlRegister.requiredFirstname">First name
               </div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                   ng-if="ctlRegister.requiredFirstname">Firstname
+                   ng-if="ctlRegister.requiredFirstname || (registrationForm.firstname.$touched && registrationForm.firstname.$error.required)">Firstname
                 Required
               </div>
               <input id="fname"
-                     ng-class="{'form-control': registrationForm.firstname.$valid || registrationForm.firstname.$untouched,'form-control-error': registrationForm.firstname.$error.required && registrationForm.firstname.$touched}"
+                     ng-class="{'form-control': registrationForm.firstname.$valid || registrationForm.firstname.$untouched,'form-control-error': ctlRegister.requiredFirstname || (registrationForm.firstname.$touched && registrationForm.firstname.$error.required)}"
                      name="firstname" type="text" ng-model="ctlRegister.fname" tabindex="3" required/>
             </div>
             <div class="_dtc register-name-cell-right">
@@ -157,11 +157,11 @@
                    ng-if="!ctlRegister.requiredLastname">Last name
               </div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                   ng-if="ctlRegister.requiredLastname">Lastname
+                   ng-if="ctlRegister.requiredLastname || (registrationForm.lastname.$touched && registrationForm.lastname.$error.required)">Lastname
                 Required
               </div>
               <input id="lname"
-                     ng-class="{'form-control': registrationForm.lastname.$valid || registrationForm.lastname.$untouched,'form-control-error': registrationForm.lastname.$error.required && registrationForm.lastname.$touched}"
+                     ng-class="{'form-control': registrationForm.lastname.$valid || registrationForm.lastname.$untouched,'form-control-error': ctlRegister.requiredLastname || (registrationForm.lastname.$touched && registrationForm.lastname.$error.required)}"
                      name="lastname" type="text" ng-model="ctlRegister.lname" tabindex="4" required/>
             </div>
           </div>

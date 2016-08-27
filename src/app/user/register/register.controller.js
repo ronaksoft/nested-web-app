@@ -26,25 +26,13 @@
         general : NST_PATTERN.USERNAME
       }
     };
-    vm.dblDash = false;
-    vm.dblDashRegex = /^(?=.*--)/;
-    vm.tooltipAlert = function(val) {
-      if (val && val.match(vm.dblDashRegex)){
-        vm.dblDash = true;
-      }
-      else {
-        vm.dblDash = false;
-      }
-    },
 
-          // Todo :: check for '--'
-        // nodbldash : /^(?!.*--)/,
-        // noenddash : /^(?:-?[a-zA-Z0-9-]+)*$/
-      // };
+    vm.tooltipPasswordAlert = {
+      letters : /(?=.*[A-Z])(?=.*[a-z])/,
+      symbolOrNumber: /(?=.*[\d~!@#\$%\^&\*\(\)\-_=\+\|\{\}\[\]\?\.])/
+    };
 
 
-
-    // vm.patterns.password.all = new RegExp(vm.patterns.password.letters.source + vm.patterns.password.symbolOrNumber.source);
 
     vm.checkWithServer = false;
 
