@@ -1063,6 +1063,9 @@ ul ul li:last-child{
     mask-size: cover;
     background-color: white;
   }
+  &:hover {
+    cursor: pointer;
+  }
 }
 .post-card {
   margin-top: 32px;
