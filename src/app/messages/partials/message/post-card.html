@@ -27,7 +27,7 @@
     </div>
   </section>
   <section class="post-subject" ng-if="ctlPostCard.post.subject.length > 0"
-           dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.subject)) ? 'rtl' : 'ltr'}}">
+           auto-dir="{{ctlPostCard.post.subject}}">
     <h3 class="_wrb" nst-post-modal post="ctlPostCard.post" ng-bind-html="ctlPostCard.post.subject | emoji">
     </h3>
     <!-- <h3 ng-if="ctlPostCard.post.subject.length < 1" class="nst-mood-breez"><i>No Subject</i></h3> -->
