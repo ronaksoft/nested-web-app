@@ -16,9 +16,9 @@
     Try.prototype.do = function (method, delay, max, tries) {
       var service = this;
       delay = delay || 0;
-      max = max || -1;
+      max = max || 1;
       tries = tries || 0;
-      
+
       return method.apply(null).catch(function () {
         var reasons = arguments;
 
