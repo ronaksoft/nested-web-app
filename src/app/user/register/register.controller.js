@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NstSvcAuth, NstHttp) {
+  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp) {
     var vm = this;
 
 
@@ -20,23 +20,31 @@
 
 
     vm.patterns = {
-      password : {
-        letters : /(?=.*[A-Z])(?=.*[a-z])/,
-        symbolOrNumber: /(?=.*[\d~!@#\$%\^&\*\(\)\-_=\+\|\{\}\[\]\?\.])/,
-      },
-      tooltipAlert : {
-        wordbgn : /^[a-zA-Z]/,
-        //Todo :: check for '--'
-        nodbldash : /^(?!.*--)/,
-        noenddash : /^(?:-?[a-zA-Z0-9-]+)*$/
-      },
+      password : NST_PATTERN.PASSWORD,
+
       username : {
-        general : /^[a-zA-Z](?!.*--)[a-zA-Z0-9-]{4,30}[^-]$/,
+        general : NST_PATTERN.USERNAME
       }
     };
+    vm.dblDash = false;
+    vm.dblDashRegex = /^(?=.*--)/;
+    vm.tooltipAlert = function(val) {
+      if (val && val.match(vm.dblDashRegex)){
+        vm.dblDash = true;
+      }
+      else {
+        vm.dblDash = false;
+      }
+    },
+
+          // Todo :: check for '--'
+        // nodbldash : /^(?!.*--)/,
+        // noenddash : /^(?:-?[a-zA-Z0-9-]+)*$/
+      // };
 
 
-    vm.patterns.password.all = new RegExp(vm.patterns.password.letters.source + vm.patterns.password.symbolOrNumber.source);
+
+    // vm.patterns.password.all = new RegExp(vm.patterns.password.letters.source + vm.patterns.password.symbolOrNumber.source);
 
     vm.checkWithServer = false;
 

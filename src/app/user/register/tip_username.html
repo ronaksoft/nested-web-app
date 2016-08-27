@@ -1,7 +1,7 @@
 <div>
     <div>only number,alphabet and dash (-)</div>
     <div>at least 5 character</div>
-    <div ng-class="!ctlRegister.patterns.tooltipAlert.wordbgn.test(registrationForm.userName.$viewValue) ? '_dn' : 'nst-mood-lively'">No number or dash for start</div>
-    <div ng-class="!ctlRegister.patterns.tooltipAlert.nodbldash.test(registrationForm.userName.$viewValue) ? '_dn' : 'nst-mood-lively'">sequence dashes (--) not allowed</div>
-    <div ng-class="!ctlRegister.patterns.tooltipAlert.noenddash.test(registrationForm.userName.$viewValue) ? '_dn' : 'nst-mood-lively'">not allowed to end with dash</div>
+    <!--<div ng-class="!ctlRegister.patterns.tooltipAlert.wordbgn.test(registrationForm.userName.$viewValue) ? '_dn' : 'nst-mood-lively'">No number or dash for start</div>-->
+    <div ng-class="ctlRegister.dblDash ? '_dn' : 'nst-mood-lively'">sequence dashes (--) not allowed</div>
+    <!--<div ng-class="!ctlRegister.patterns.tooltipAlert.noenddash.test(registrationForm.userName.$viewValue) ? '_dn' : 'nst-mood-lively'">not allowed to end with dash</div>-->
 </div>
