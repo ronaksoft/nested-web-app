@@ -402,11 +402,18 @@
     vm.bodyScrollConf = {
       axis: 'y',
       scrollInertia: 500,
-      autoDraggerLength: true,
-      keyboard:{ enable: true },
-      contentTouchScroll: 1,
-      documentTouchScroll: true,
-      scrollEasing:"easeOut",
+      //autoDraggerLength: true,
+      //keyboard:{ enable: true },
+      //contentTouchScroll: 1,
+      //documentTouchScroll: true,
+      //scrollEasing:"easeOut",
+      advanced: {
+        updateOnContentResize: true
+      },
+      scrollButtons: {
+        scrollAmount: 'auto', // scroll amount when button pressed
+        enable: true // enable scrolling buttons by default
+      },
       callbacks: {
         whileScrolling: function () {
           var t = -this.mcs.top;
