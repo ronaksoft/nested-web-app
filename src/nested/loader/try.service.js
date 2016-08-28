@@ -13,18 +13,28 @@
     Try.prototype = new NstObservableObject();
     Try.prototype.constructor = Try;
 
-    Try.prototype.do = function (method, delay, max, tries) {
+    Try.prototype.for = function (method, tries, cutoff, delay) {
       var service = this;
-      delay = delay || 0;
-      max = max || 1;
-      tries = tries || 0;
+      console.log('trying', tries);
 
-      return method.apply(null).catch(function () {
+      delay = delay || 0;
+      tries = tries || 0;
+      cutoff = cutoff || function () { return false; };
+
+      return method.apply(arguments).then(function () {
+        return $q.resolve.apply(null, arguments);
+      }).catch(function () {
         var reasons = arguments;
 
-        return $timeout(delay).then(function () {
-          return (-1 == max || tries < max) ? service.do(method, delay, max, tries + 1) : $q.reject.apply(null, reasons);
-        });
+        if (cutoff.apply(null, reasons) || (tries < 1)) {
+          return $q.reject.apply(null, reasons);
+        } else {
+
+          return $timeout(function () {
+            return service.for(method, tries - 1, cutoff, delay);
+          }, delay);
+        }
+
       });
     };
 

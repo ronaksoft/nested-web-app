@@ -489,9 +489,7 @@
     function reqHasAddAccess(id) {
       vm.status.accessCheckProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcPlaceFactory.hasAccess(id, NST_PLACE_ACCESS.ADD_PLACE);
-      })).then(function (has) {
+      return NstSvcLoader.inject(NstSvcPlaceFactory.hasAccess(id, NST_PLACE_ACCESS.ADD_PLACE)).then(function (has) {
         vm.status.accessCheckProgress = false;
 
         return $q(function (res) {

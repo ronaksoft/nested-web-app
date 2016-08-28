@@ -9,7 +9,7 @@
   function NstSvcServer($websocket, $q, $timeout,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_SRV_EVENT, NST_SRV_MESSAGE,
-                        NstSvcRandomize, NstSvcLogger,
+                        NstSvcRandomize, NstSvcLogger, NstSvcTry,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
@@ -178,7 +178,8 @@
       timeout = angular.isNumber(timeout) ? timeout : this.getConfigs().requestTimeout;
 
       // TODO: Return the request itself
-      return this.enqueueToSend(reqId, timeout).getPromise().then(function (response) {
+      var retryablePromise = NstSvcTry.for(this.enqueueToSend(reqId, timeout).getPromise(), 10, shouldStopTrying, 1000);
+      return retryablePromise.then(function (response) {
         var deferred = $q.defer();
 
         // TODO: Resolve with response itself
@@ -188,7 +189,6 @@
       }).catch(function (response) {
         var deferred = $q.defer();
         NstSvcLogger.debug2('WS | Response: ', response);
-
         deferred.reject(new NstServerError(
           new NstServerQuery(action, data),
           response.getData().message,
@@ -199,6 +199,13 @@
         return deferred.promise;
       });
     };
+
+    function shouldStopTrying(response) {
+      var errorCode = response.data.err_code;
+
+      // return false;
+      return errorCode !== NST_SRV_ERROR.TIMEOUT;
+    }
 
     Server.prototype.enqueueToSend = function (reqId, timeout) {
       var qItem = this.queue[reqId];

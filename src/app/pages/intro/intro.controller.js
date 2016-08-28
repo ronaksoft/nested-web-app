@@ -36,7 +36,7 @@
           }
         };
 
-        NstSvcLoader.inject($http.post(NST_CONFIG.PIONEER_INVITATION.URL, data, config).then(function (data) {
+        NstSvcLoader.inject($http.post(NST_CONFIG.PIONEER_INVITATION.URL, data, config)).then(function (data) {
           var response = angular.fromJson(data.data);
 
           switch (response.status) {
@@ -52,7 +52,7 @@
               });
               break;
           }
-        })).catch(function (response) {
+        }).catch(function (response) {
           vm.invitation.error = true;
           vm.invitation.message = response.msg;
 
