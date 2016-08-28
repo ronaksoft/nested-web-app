@@ -13,25 +13,21 @@
     Try.prototype = new NstObservableObject();
     Try.prototype.constructor = Try;
 
-    Try.prototype.for = function (method, tries, cutoff, delay) {
+    Try.prototype.do = function (method, cutoff, tries, delay) {
       var service = this;
-      console.log('trying', tries);
 
       delay = delay || 0;
-      tries = tries || 0;
+      tries = angular.isNumber(tries) ? tries : -1 ;
       cutoff = cutoff || function () { return false; };
 
-      return method.apply(arguments).then(function () {
-        return $q.resolve.apply(null, arguments);
-      }).catch(function () {
-        var reasons = arguments;
-
-        if (cutoff.apply(null, reasons) || (tries < 1)) {
-          return $q.reject.apply(null, reasons);
+      return method().then(function (result) {
+        return $q.resolve(result);
+      }).catch(function (error) {
+        if (cutoff(error) || tries === 0) {
+          return $q.reject(error);
         } else {
-
           return $timeout(function () {
-            return service.for(method, tries - 1, cutoff, delay);
+            return service.do(method, cutoff, tries - 1, delay);
           }, delay);
         }
 
