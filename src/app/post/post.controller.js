@@ -300,9 +300,7 @@
     function reqAddComment(post, text) {
       vm.status.commentSendProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcCommentFactory.addComment(post, text)
-      }, undefined, 3)).then(function (comment) {
+      return NstSvcLoader.inject(NstSvcCommentFactory.addComment(post, text)).then(function (comment) {
         vm.status.commentSendProgress = false;
 
         return $q(function (res) {
@@ -320,9 +318,7 @@
     function reqRemoveComment(post, comment) {
       vm.status.commentRemoveProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcCommentFactory.removeComment(post, comment);
-      })).then(function (post) {
+      return NstSvcLoader.inject(NstSvcCommentFactory.removeComment(post, comment)).then(function (post) {
         vm.status.commentRemoveProgress = false;
 
         return $q(function (res) {
@@ -340,9 +336,7 @@
     function reqGetPost(id) {
       vm.status.postLoadProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcPostFactory.get(id);
-      })).then(function (post) {
+      return NstSvcLoader.inject(NstSvcPostFactory.get(id)).then(function (post) {
         vm.status.postLoadProgress = false;
 
         return $q(function (res) {
@@ -360,9 +354,7 @@
     function reqGetComments(post, settings) {
       vm.status.commentLoadProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcCommentFactory.retrieveComments(post, settings);
-      })).then(function (comments) {
+      return NstSvcLoader.inject(NstSvcCommentFactory.retrieveComments(post, settings)).then(function (comments) {
         vm.status.commentLoadProgress = false;
         // the conditions says maybe there are more comments that the limit
         vm.status.hasMoreComments = comments.length >= settings.limit;

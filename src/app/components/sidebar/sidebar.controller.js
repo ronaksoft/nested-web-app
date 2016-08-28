@@ -250,15 +250,15 @@
     }
 
     function getMyPlaces() {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPlaceFactory.getMyTinyPlaces(); }));
+      return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
     }
 
     function getInvitation(id) {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcInvitationFactory.get(id); }));
+      return NstSvcLoader.inject(NstSvcInvitationFactory.get(id));
     }
 
     function getInvitations() {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcInvitationFactory.getAll(); }));
+      return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
     }
 
     /*****************************
