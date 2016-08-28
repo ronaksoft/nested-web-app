@@ -11,8 +11,8 @@
   <div class='msg'>
     <div class="subject">
       <span class="nst-mood-simple">created&nbsp;</span>
-      <a ui-sref="place-messages({placeId: act.place.id})">
-        {{act.place.name}}
+      <a class="place" href="#/activity/({placeId: act.place.id})">
+        {{act.inSpecificPlace ? "here" : act.place.name}}
       </a>
       <span data-ng-if="act.place.hasParent">
         <span class="nst-mood-simple">&nbsp;nested in</span>
