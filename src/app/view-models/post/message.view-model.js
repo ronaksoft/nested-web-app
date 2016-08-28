@@ -48,7 +48,6 @@
 
 
       if (post instanceof NstPost) {
-        console.log(post);
         this.id = post.id;
         this.sender = mapSender(post.sender);
         this.subject = post.subject;
