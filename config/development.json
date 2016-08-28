@@ -11,7 +11,8 @@
     "SIGN_OUT_TARGET" : "/#",
     "WEBSOCKET": {
       "URL": "ws://cyrus.nested.ronaksoftware.com",
-      "TIMEOUT": 30000
+      "TIMEOUT": 30000,
+      "REQUEST_MAX_RETRY_TIMES" : 4
     },
     "STORE": {
       "URL": "http://xerxes.nested.ronaksoftware.com",

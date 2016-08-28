@@ -9,12 +9,13 @@
   function NstSvcServer($websocket, $q, $timeout,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_SRV_EVENT, NST_SRV_MESSAGE,
-                        NstSvcRandomize, NstSvcLogger,
+                        NstSvcRandomize, NstSvcLogger, NstSvcTry,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
         streamTimeout: 500,
         requestTimeout: 1000,
+        maxRetries : 16,
         meta: {}
       };
 
@@ -159,46 +160,59 @@
     Server.prototype.constructor = Server;
 
     Server.prototype.request = function (action, data, timeout) {
-      var reqId = this.genQueueId(action, data);
+      var service = this;
       var payload = angular.extend(data || {}, {
         cmd: action
       });
-      var rawData = {
-        type: 'q',
-        _reqid: reqId,
-        data: payload
-      };
-      var request = new NstRequest(action, rawData);
-      this.queue[reqId] = {
-        request: request,
-        timeoutPromise: undefined,
-        listenerId: undefined
-      };
+      var retryablePromise = NstSvcTry.do(function () {
 
-      timeout = angular.isNumber(timeout) ? timeout : this.getConfigs().requestTimeout;
+        var reqId = service.genQueueId(action, data);
+        var rawData = {
+          type: 'q',
+          _reqid: reqId,
+          data: payload
+        };
+        var request = new NstRequest(action, rawData);
+        service.queue[reqId] = {
+          request: request,
+          timeoutPromise: undefined,
+          listenerId: undefined
+        };
+
+        timeout = angular.isNumber(timeout) ? timeout : service.getConfigs().requestTimeout;
+
+        return service.enqueueToSend(reqId, timeout).getPromise();
+      }, shouldStopTrying, service.getConfigs().maxRetries);
+
 
       // TODO: Return the request itself
-      return this.enqueueToSend(reqId, timeout).getPromise().then(function (response) {
+      return retryablePromise.then(function (response) {
         var deferred = $q.defer();
 
         // TODO: Resolve with response itself
-        deferred.resolve(response.getData(), request);
+        deferred.resolve(response.getData());
 
         return deferred.promise;
       }).catch(function (response) {
         var deferred = $q.defer();
         NstSvcLogger.debug2('WS | Response: ', response);
-
+        // TODO: retry here by creating a new request
         deferred.reject(new NstServerError(
           new NstServerQuery(action, data),
           response.getData().message,
           response.getData().err_code,
           response.getData()
-        ), request);
+        ));
 
         return deferred.promise;
       });
     };
+
+    function shouldStopTrying(response) {
+      var errorCode = response.data.err_code;
+
+      return errorCode !== NST_SRV_ERROR.TIMEOUT;
+    }
 
     Server.prototype.enqueueToSend = function (reqId, timeout) {
       var qItem = this.queue[reqId];
@@ -325,6 +339,7 @@
 
     return new Server(NST_CONFIG.WEBSOCKET.URL, {
       requestTimeout: NST_CONFIG.WEBSOCKET.TIMEOUT,
+      maxRetries : NST_CONFIG.WEBSOCKET.REQUEST_MAX_RETRY_TIMES,
       meta: {
         app_id: NST_CONFIG.APP_ID
       }
