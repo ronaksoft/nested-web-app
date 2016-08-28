@@ -1,67 +1,68 @@
-(function () {
-  'use strict';
+'use strict';
+angular
+  .module('nested')
+  .service('NstSvcNotification', NstSvcNotification);
+/** @ngInject */
+function NstSvcNotification($q, _,
+                            NST_PERMISSION_NOTIFICATION,
+                            NstObservableObject, NstSvcLogger) {
+  function MyNotification() {
+    this.permission = Notification.permission;
+    this.stack = {};
+    this.options = {};
+  }
 
-  angular
-    .module('nested')
-    .service('NstSvcNotification', NstSvcNotification);
+  MyNotification.prototype = {};
+  MyNotification.prototype = new NstObservableObject();
+  MyNotification.prototype.constructor = MyNotification;
 
-  /** @ngInject */
-  function NstSvcNotification($q, _,
-                              NST_PERMISSION_NOTIFICATION,
-                              NstObservableObject, NstSvcLogger) {
-    function MyNotification() {
-      this.permission = Notification.permission;
-      this.stack = {};
-      this.options = {};
+
+  MyNotification.prototype.requestPermission = function () {
+    var service = this;
+
+    function startNotification(result) {
+      service.setPermission(result);
+      if (result == NST_PERMISSION_NOTIFICATION.GRANTED) {
+
+      }
     }
 
-    MyNotification.prototype = {};
-    MyNotification.prototype = new NstObservableObject();
-    MyNotification.prototype.constructor = MyNotification;
+    if (NST_PERMISSION_NOTIFICATION.GRANTED !== this.permission)
+      Notification.requestPermission(startNotification)
+  };
 
+  MyNotification.prototype.push = function (title, options) {
+    if (!("Notification" in window)) {
+      NstSvcLogger.info(" Notification | This browser does not support desktop notification");
+      return;
+    }
 
-    MyNotification.prototype.requestPermission = function () {
-      var service = this;
+    var opt = _.extend(this.options, options);
+    if (!opt.tag)
+      opt.tag = 'n_' + Date.now();
 
-      function startNotification(result) {
-        service.setPermission(result);
-        if (result == NST_PERMISSION_NOTIFICATION.GRANTED){
+    var defer = $q.defer();
 
-        }
-      }
-
-      if (NST_PERMISSION_NOTIFICATION.GRANTED !== this.permission)
-        Notification.requestPermission(startNotification)
+    var notification_object = {
+      title: title,
+      options: opt,
+      q: defer.promise
     };
 
-    MyNotification.prototype.push = function (title, options) {
-      if (!("Notification" in window)) {
-        NstSvcLogger.info(" Notification | This browser does not support desktop notification");
-        return;
-      }
-      if (!options.tag)
-        options.tag = 'n_' + Date.now();
+    this.stack[opt.tag] = notification_object;
+    this.show(opt.tag);
+    return notification_object.q;
+  };
 
+  MyNotification.prototype.show = function (notificationTag) {
+    var notif_object = this.stack[notificationTag];
 
-      var opt = _.extend(this.options, options);
-      var notification_object = {
-        title: title,
-        option: opt,
-        q: $q.defer()
-      };
+    console.log(notif_object);
 
-      this.stack[options.tag] = notification_object;
+    var notif = new Notification(notif_object.title, notif_object.options);
+    notif.onclick = notif_object.q.resolve(notif);
 
-      return notification_object.q;
-    };
+  };
 
-    MyNotification.prototype.show = function (notificationTag) {
-      var notif_object = this.stack[notificationTag];
-      var notif = new Notification(notif_object.title, notif_object.options);
-      notif.onClick(notif_object.q.resolve);
-
-    };
-
-    return new MyNotification();
-  }
-});
+  return new MyNotification();
+}
