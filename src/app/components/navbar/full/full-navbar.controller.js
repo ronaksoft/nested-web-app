@@ -34,7 +34,7 @@
     vm.srch = function srch(el) {
       var ele = $('#' + el);
       var eleInp = ele.find('input');
-      var elePrv = ele.prev();
+      var elePrv = ele.next();
       var openStat = function () {
         return ele[0].clientWidth > 0
       };

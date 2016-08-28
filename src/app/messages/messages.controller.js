@@ -401,6 +401,12 @@
     });
     vm.bodyScrollConf = {
       axis: 'y',
+      scrollInertia: 500,
+      autoDraggerLength: true,
+      keyboard:{ enable: true },
+      contentTouchScroll: 1,
+      documentTouchScroll: true,
+      scrollEasing:"easeOut",
       callbacks: {
         whileScrolling: function () {
           var t = -this.mcs.top;
