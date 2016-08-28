@@ -3,7 +3,7 @@
 
   angular
     .module('nested')
-    .controller('PostCardController', PostCardController);
+    .controller('PostCardController', PostCardController)
 
   function PostCardController($state, $log,
                               _,

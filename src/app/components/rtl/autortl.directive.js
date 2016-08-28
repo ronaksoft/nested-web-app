@@ -16,6 +16,10 @@
           }
 
           str = str.trim();
+          // if (persianRex.rtl.test(str)) {
+          //   console.log("farsi");
+          //   return element.attr("dir","rtl");
+          // }
           var charCode = str.charCodeAt(0);
           if (charCode > 1300 && 1700 > charCode) {
             return element.attr("dir","rtl");
