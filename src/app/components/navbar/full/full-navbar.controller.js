@@ -126,8 +126,13 @@
       if (!sendKeyIsPressed(event)) {
         return;
       }
+      var searchQury = new NstSearchQuery(query);
 
-      $state.go('search', { query : NstSearchQuery.encode(query) });
+      if (hasPlace()){
+        searchQury.addPlace(getPlaceId());
+      }
+
+      $state.go('search', { query : NstSearchQuery.encode(searchQury.toString()) });
     }
 
     $scope.$watch('topNavOpen',function (newValue,oldValue) {
