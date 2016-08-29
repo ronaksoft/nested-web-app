@@ -20,7 +20,7 @@
 
 
     vm.patterns = {
-      password : NST_PATTERN.PASSWORD,
+      // password : NST_PATTERN.PASSWORD,
 
       username : {
         general : NST_PATTERN.USERNAME
@@ -38,6 +38,79 @@
 
     vm.avaiablity = false;
 
+
+
+    vm.clearPassError = function (val) {
+      if (val && val.length > 0) {
+        vm.requiredPassword = false;
+      }
+      else {
+        vm.requiredPassword = true;
+        return;
+      }
+    };
+
+
+    vm.clearUserError = function (val) {
+      if (val && val.length > 0) {
+        vm.requiredUser = false;
+      }
+      else {
+        vm.requiredUser = true;
+        return;
+      }
+    };
+
+
+    vm.clearFnameError = function (val) {
+      if (val && val.length > 0) {
+        vm.requiredFirstname = false;
+      }
+      else {
+        vm.requiredFirstname = true;
+        return;
+      }
+    };
+
+    vm.clearLnameError = function (val) {
+      if (val && val.length > 0) {
+        vm.requiredLastname = false;
+      }
+      else {
+        vm.requiredLastname = true;
+        return;
+      }
+    };
+
+    vm.clearGenderError = function (val) {
+      if (val && val.length > 0) {
+        vm.hasNotGender = false;
+      }
+      else {
+        vm.hasNotGender = true;
+        return;
+      }
+    };
+
+    vm.clearBdayError = function (val) {
+      if (val) {
+        vm.hasNotBirth = false;
+      }
+      else {
+        vm.hasNotBirth = true;
+        return;
+      }
+    };
+
+    vm.clearAgreementError = function (val) {
+      if (val && val.length > 0) {
+        vm.acceptAgreement = false;
+      }
+      else {
+        vm.acceptAgreement = true;
+        return;
+      }
+    };
 
 
 

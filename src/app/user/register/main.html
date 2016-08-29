@@ -12,16 +12,10 @@
           Enter your phone number.</br>
           We will send a verification code on your phone.
         </p>
-        <div class="nst-mood-lively nst-marginbtm-8"
-             data-ng-if="firstStep.mobileNumber.$error.required && firstStep.mobileNumber.$touched">Mobile Phone
-          Required
-        </div>
-        <div class="nst-mood-lively nst-marginbtm-8" data-ng-if="!ctlRegister.phone && firstStep.mobileNumber.$touched">
-          Wrong number
-        </div>
+
         <div class="nst-marginbtm-16"></div>
         <input name="mobileNumber" id="mobileNumber" international-phone-number
-               class="select-birthday" data-ng-model="ctlRegister.phone"/>
+               class="select-birthday" data-ng-model="ctlRegister.phone" autofocus/>
 
         <div class="nst-marginbtm-16">
         </div>
@@ -74,8 +68,8 @@
         </div>
       </form>
 
-      <form   novalidate name="registrationForm" ng-submit="ctlRegister.register()"
-            unsaved-warning-form>
+      <form ng-show="ctlRegister.step === 'step3'" novalidate name="registrationForm" ng-submit="ctlRegister.register()"
+              unsaved-warning-form>
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge">Create an account</p>
           <a href="#" class="col-xs-3 text-right">
@@ -84,7 +78,7 @@
         </div>
         <div class="nst-marginbtm-8 _dib">Enter your username :</div>
         <div class="nst-mood-lively nst-marginbtm-8 _dib"
-             ng-if="(registrationForm.username.$error.required && registrationForm.username.$touched) || ctlRegister.requiredUser">username required
+             ng-if="ctlRegister.requiredUser">username required
         </div>
         <div class="nst-mood-sense nst-loading nst-marginbtm-8 _fr" ng-if="ctlRegister.checkWithServer"></div>
         <div class="nst-mood-lively nst-marginbtm-8 _dib"
@@ -97,45 +91,35 @@
         </div>
         <div class="nst-marginbtm-16">
           <input id="uid" aria-invalid="false"
-                 ng-class="{'form-control':!registrationForm.username.$error.required || !registrationForm.username.$touched,'form-control-error': ctlRegister.requiredUser || (registrationForm.username.$error.required && registrationForm.username.$touched) || (registrationForm.username.$error.pattern && registrationForm.username.$touched)}"
+                 ng-class="{'form-control': !ctlRegister.requiredUser || !registrationForm.username.$error.required || !registrationForm.username.$touched,'form-control-error': ctlRegister.requiredUser || (registrationForm.username.$error.pattern && registrationForm.username.$touched)}"
                  ng-pattern="ctlRegister.patterns.username.general" uib-tooltip-class="tooltip" tooltip-trigger="none"
                  tooltip-is-open="registrationForm.username.$error.pattern && registrationForm.username.$touched"
                  uib-tooltip-template="'app/user/register/tip_username.html'" ngMinlength="5" ngMaxlength="32"
                  ng-minlength="5" ng-maxlength="32"
                  name="username" type="text" ng-model="ctlRegister.username" tabindex="1"
-                 ng-change="ctlRegister.checkUser(ctlRegister.username);ctlRegister.tooltipUsernameAlert(ctlRegister.username)"
-                 data-tooltip-placement="bottom" required/>
+                 ng-change="ctlRegister.checkUser(ctlRegister.username);ctlRegister.clearUserError(ctlRegister.username)"
+                 data-tooltip-placement="bottom" required autofocus/>
         </div>
 
 
 
 
 
-      <div class="nst-marginbtm-8 _dib">Set new password : </div>
-      <div class="nst-mood-lively nst-marginbtm-8 _dib"
-           ng-if="registrationForm.password.$error.pattern || registrationForm.password.$error.minlength">Weak password
-      </div>
-      <div class="nst-mood-lively nst-marginbtm-8 _dib"
-           ng-if="ctrlRegister.requiredPassword || (registrationForm.password.$touched && registrationForm.password.$error.required)">
-        password required
-      </div>
-      <div class="nst-mood-cheerful nst-marginbtm-8 _dib" ng-if="registrationForm.password.$valid">Powerful password</div>
-      <div class="nst-marginbtm-16">
-        <div class="form-group has-feedback" data-ng-model="ctlRegister.show">
-          <input
-            ng-class="{'form-control': registrationForm.password.$untouched && (!ctlRegister.focus || registrationForm.password.$pristine),'form-control-error': (registrationForm.password.$error.pattern || registrationForm.password.$error.minlength) || registrationForm.password.$error.required && (registrationForm.password.$touched || ctlRegister.focus) && registrationForm.password.$invalid && (registrationForm.password.$dirty || registrationForm.password.$touched),'form-control-valid': registrationForm.password.$valid}"
-            data-ng-focus="ctlRegister.focus = true;" data-ng-blur="ctlRegister.focus = false;" ng-model="ctlRegister.password"
-            ng-pattern="ctlRegister.patterns.password"
-            id="pass" name="password" data-ng-init="ctlRegister.show = true" type="{{ctlRegister.show ? 'password': 'text'}}"
-            data-tooltip-placement="bottom" ng-minlength="8" tooltip-trigger="none"
-            tooltip-is-open="registrationForm.password.$error.pattern && registrationForm.password.$touched"
-            uib-tooltip-class="tooltip" uib-tooltip-template="'app/user/register/tip_password.html'"
-            tooltip-enable="!ctlRegister.password" tabindex="2" required/>
-          <i
-            class="cursor-pointer nst-ico-eye-slash form-control-feedback {{ctlRegister.show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}"
-            data-ng-click="ctlRegister.show = !ctlRegister.show"></i>
+        <div class="nst-marginbtm-8" ng-if="!ctlRegister.requiredPassword && !registrationForm.password.$error.minlength">Set a password</div>
+        <div class="nst-marginbtm-8 nst-mood-lively" ng-if="registrationForm.password.$error.minlength">6 minimum character</div>
+        <div class="nst-mood-lively nst-marginbtm-8" ng-if="ctlRegister.requiredPassword && !registrationForm.password.$error.minlength">password required</div>
+        <!--<div class="nst-mood-lively nst-marginbtm-8 _dib" ng-if="registrationForm.password.$error.pattern || registrationForm.password.$error.minlength">Weak password  </div>-->
+        <!--<div class="nst-mood-cheerful nst-marginbtm-8 _dib" ng-if="registrationForm.password.$valid">Powerful password</div>-->
+        <div class="nst-marginbtm-16">
+          <div class="form-group has-feedback" data-ng-model="ctlRegister.show">
+            <input ng-class="{'form-control' : !ctlRegister.requiredPassword && !registrationForm.password.$error.minlength,'form-control-error' : registrationForm.password.$error.minlength || ctlRegister.requiredPassword && !registrationForm.password.$error.minlength}"
+                   ng-model="ctlRegister.password" ng-pattern="ctlRegister.patterns.password"
+              id="pass" name="password" data-ng-init="ctlRegister.show = true" data-ng-change="ctlRegister.clearPassError(ctlRegister.password)" type="{{ctlRegister.show ? 'password': 'text'}}" minlength="6" tabindex="2" required/>
+            <i
+              class="cursor-pointer nst-ico-eye-slash form-control-feedback {{ctlRegister.show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}"
+              data-ng-click="ctlRegister.show = !ctlRegister.show"></i>
+          </div>
         </div>
-      </div>
 
 
         <div class="_dt nst-marginbtm-16 register-name-table">
@@ -145,24 +129,24 @@
                    ng-if="!ctlRegister.requiredFirstname">First name
               </div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                   ng-if="ctlRegister.requiredFirstname || (registrationForm.firstname.$touched && registrationForm.firstname.$error.required)">Firstname
+                   ng-if="ctlRegister.requiredFirstname">Firstname
                 Required
               </div>
               <input id="fname"
-                     ng-class="{'form-control': registrationForm.firstname.$valid || registrationForm.firstname.$untouched,'form-control-error': ctlRegister.requiredFirstname || (registrationForm.firstname.$touched && registrationForm.firstname.$error.required)}"
-                     name="firstname" type="text" ng-model="ctlRegister.fname" tabindex="3" required/>
+                     ng-class="ctlRegister.requiredFirstname ? 'form-control-error' : 'form-control'"
+                     name="firstname" type="text" ng-model="ctlRegister.fname" data-ng-change="ctlRegister.clearFnameError(ctlRegister.fname)" tabindex="3" required/>
             </div>
             <div class="_dtc register-name-cell-right">
               <div class="nst-marginbtm-8 _fw"
                    ng-if="!ctlRegister.requiredLastname">Last name
               </div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                   ng-if="ctlRegister.requiredLastname || (registrationForm.lastname.$touched && registrationForm.lastname.$error.required)">Lastname
+                   ng-if="ctlRegister.requiredLastname">Lastname
                 Required
               </div>
               <input id="lname"
-                     ng-class="{'form-control': registrationForm.lastname.$valid || registrationForm.lastname.$untouched,'form-control-error': ctlRegister.requiredLastname || (registrationForm.lastname.$touched && registrationForm.lastname.$error.required)}"
-                     name="lastname" type="text" ng-model="ctlRegister.lname" tabindex="4" required/>
+                     ng-class="ctlRegister.requiredLastname ? 'form-control-error': 'form-control'"
+                     name="lastname" type="text" ng-model="ctlRegister.lname" data-ng-change="ctlRegister.clearLnameError(ctlRegister.lname)" tabindex="4" required/>
             </div>
           </div>
         </div>
@@ -172,16 +156,16 @@
         </div>
         <ul class="list-inline">
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-            <input type="radio" name="gender" value="female" ng-model="ctlRegister.gender" tabindex="5" required/>
-            <label>Female</label>
+            <input id="female" type="radio" name="gender" value="female" data-ng-change="ctlRegister.clearGenderError(ctlRegister.gender)" ng-model="ctlRegister.gender" tabindex="5" required/>
+            <label for="female">Female</label>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-            <input type="radio" name="gender" value="male" ng-model="ctlRegister.gender" tabindex="6" required/>
-            <label>Male</label>
+            <input id="male" type="radio" name="gender" value="male" data-ng-change="ctlRegister.clearGenderError(ctlRegister.gender)" ng-model="ctlRegister.gender" tabindex="6" required/>
+            <label for="male">Male</label>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-            <input type="radio" name="gender" value="other" ng-model="ctlRegister.gender" tabindex="7" required/>
-            <label>Other</label>
+            <input id="other" type="radio" name="gender" value="other" data-ng-change="ctlRegister.clearGenderError(ctlRegister.gender)" ng-model="ctlRegister.gender" tabindex="7" required/>
+            <label for="other">Other</label>
           </li>
         </ul>
 
@@ -191,14 +175,14 @@
           <div class="nst-mood-lively nst-marginbtm-8" ng-if="ctlRegister.hasNotBirth">Birthday Required</div>
         </div>
         <div class="nst-marginbtm-16">
-          <input class="select-birthday" rsmdatedropdowns ng-model="ctlRegister.birth"/>
+          <input class="select-birthday" rsmdatedropdowns ng-model="ctlRegister.birth" ng-change="ctlRegister.clearBdayError(value)"/>
         </div>
 
 
         <div class="_dt nst-marginbtm-8">
           <div class="_dtr">
             <div class="_dtc">
-              <input id="agreement" name="agreement" ng-model="ctlRegister.agreement" value="agreement" type="checkbox"
+              <input id="agreement" name="agreement" ng-model="ctlRegister.agreement" data-ng-change="ctlRegister.clearAgreementError(ctlRegister.agreement)" value="agreement" type="checkbox"
                      tabindex="9"/>
               <label for="agreement"></label>
             </div>
