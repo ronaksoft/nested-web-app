@@ -10,12 +10,12 @@
       <span class="nst-mood-simple">Removed</span>
       <a ui-sref="place-messages({placeId: act.place.id})">
         @{{act.member.id}}
-      </a><span class="nst-mood-simple"> from</span><a class="place" href="#/activity/({placeId: act.place.id})">
+      </a><span class="nst-mood-simple"> from</span><a class="place" href="#/places/{{act.place.id}}/activity">
       {{act.inSpecificPlace ? "here" : act.place.name}}
     </a>
     </p>
     <p data-ng-if="act.member.id == act.actor.id">
-      <span class="nst-mood-simple">Left</span> <a class="place" href="#/activity/({placeId: act.place.id})">
+      <span class="nst-mood-simple">Left</span> <a class="place" href="#/places/{{act.place.id}}/activity">
       {{act.inSpecificPlace ? "here" : act.place.name}}
     </a>
     </p>
