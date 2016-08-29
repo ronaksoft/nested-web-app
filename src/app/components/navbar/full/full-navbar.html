@@ -28,6 +28,18 @@
       </div>
 
       <div class="navbar-bottom" data-ng-if="!ctlFullNavbar.controls">
+        <div id="inputsearch" class="has-feedback _fw">
+          <input class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.getPlaceName() : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery" focus-me/>
+          <i ng-click="ctlFullNavbar.srch('inputsearch');"
+             class="_pa _left icon-close-search form-control-feedback"></i>
+          <!--<div class="search-part1">
+          </div>
+
+          <div class="line-f _fw"></div>
+
+          <div class="search-part2">
+          </div>-->
+        </div>
         <div class="_difh _fh">
           <div class="menu-links-search _df">
             <div ng-click="ctlFullNavbar.srch('inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
@@ -42,19 +54,7 @@
           <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}" ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">
             Settings
           </a>
-        </div>
-        <div id="inputsearch" class="has-feedback _fw">
-          <input class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.getPlaceName() : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery" focus-me/>
-          <i ng-click="ctlFullNavbar.srch('inputsearch');"
-             class="_pa _left icon-close-search form-control-feedback"></i>
-          <!--<div class="search-part1">
-          </div>
-
-          <div class="line-f _fw"></div>
-
-          <div class="search-part2">
-          </div>-->
-        </div>
+      </div>
       </div>
 
       <div class="navbar-bottom" data-ng-if="ctlFullNavbar.controls">

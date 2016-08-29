@@ -17,6 +17,10 @@
      *** Controller Properties ***
      *****************************/
 
+    $timeout(function () {
+      $rootScope.navView = false
+    });
+    
     vm.model = {
       recipients: [],
       attachments: [],
