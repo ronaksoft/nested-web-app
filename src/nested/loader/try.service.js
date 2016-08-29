@@ -6,7 +6,7 @@
     .service('NstSvcTry', NstSvcTry);
 
   /** @ngInject */
-  function NstSvcTry($q, $timeout, NST_TRY_EVENT, NstObservableObject) {
+  function NstSvcTry($q, $timeout, NstObservableObject) {
     function Try() {
     }
 
