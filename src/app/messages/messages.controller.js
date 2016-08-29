@@ -72,7 +72,7 @@
       if (vm.currentPlaceId) {
         setPlace(vm.currentPlaceId).then(function (place) {
           if (place) {
-            return $q.all([loadViewSetting(), loadMessages()]).catch(function (error) {
+            return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages()])).catch(function (error) {
               $log.debug(error);
               vm.loadMessageError = true;
             });
@@ -82,7 +82,7 @@
           $log.debug(error);
         });
       } else {
-        $q.all([loadViewSetting(), loadMessages()]).catch(function (error) {
+        NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages()])).catch(function (error) {
           $log.debug(error);
           vm.loadMessageError = true;
         });
@@ -163,20 +163,18 @@
       vm.tryAgainToLoadMore = false;
       vm.loading = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        if (vm.currentPlaceId){
-          return NstSvcPlaceFactory.hasAccess(vm.currentPlaceId, NST_PLACE_ACCESS.READ).then(function (has) {
-            if (has){
-              return getAccessableMessages();
-            } else {
-              vm.noMessages = true;
-              return defer.resolve(vm.messages);
-            }
-          })
-        }else{
-          return getAccessableMessages();
-        }
-      }));
+      if (vm.currentPlaceId){
+        return NstSvcPlaceFactory.hasAccess(vm.currentPlaceId, NST_PLACE_ACCESS.READ).then(function (has) {
+          if (has){
+            return getAccessableMessages();
+          } else {
+            vm.noMessages = true;
+            return defer.resolve(vm.messages);
+          }
+        })
+      } else {
+        return getAccessableMessages();
+      }
 
       return defer.promise;
     }
@@ -230,8 +228,7 @@
     function loadMore(force) {
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return loadMessages(force).catch(function (error) {
+      return NstSvcLoader.inject(loadMessages(force)).catch(function (error) {
           var deferred = $q.defer();
 
           $log.debug('Messages | Load More Error: ', error);
@@ -239,7 +236,6 @@
 
           return deferred.promise;
         });
-      }));
     }
 
     function getLastMessageTime() {
