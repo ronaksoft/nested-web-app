@@ -7,8 +7,7 @@
 
   /** @ngInject */
   function RecentActivityController($q,
-                                    NstSvcLoader, NstSvcTry,
-                                    NstSvcActivityFactory, NstSvcActivityMap,
+                                    NstSvcLoader, NstSvcActivityFactory, NstSvcActivityMap,
                                     NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstFactoryError, NST_SRV_ERROR) {
     var vm = this;
     vm.activities = [];
@@ -23,31 +22,25 @@
     });
 
     (function () {
-      NstSvcLoader.inject(NstSvcTry.do(function () {
-        var defer = $q.defer();
 
-        var settings = {
-          limit: vm.count || 10,
-          placeId: null
-        };
+      var settings = {
+        limit: vm.count || 10,
+        placeId: null
+      };
 
-        if (vm.placeId || vm.place) {
-          settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
-        }
+      if (vm.placeId || vm.place) {
+        settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
+      }
 
-        if (settings.placeId) {
-          return NstSvcPlaceFactory.hasAccess(settings.placeId, NST_PLACE_ACCESS.READ).then(function (has) {
-            if (has) {
-              return getRecentActivity(settings);
-            } else {
-              defer.reject();
-            }
-          })
-        }else{
-          return getRecentActivity(settings);
-        }
-      }));
-
+      if (settings.placeId) {
+        return NstSvcLoader.inject(NstSvcPlaceFactory.hasAccess(settings.placeId, NST_PLACE_ACCESS.READ)).then(function (has) {
+          if (has) {
+            return NstSvcLoader.inject(getRecentActivity(settings));
+          }
+        });
+      } else {
+        return NstSvcLoader.inject(getRecentActivity(settings));
+      }
 
     })();
 
@@ -61,7 +54,9 @@
         vm.status.loadInProgress = false;
 
         defer.resolve(vm.activities);
-      }).catch(defer.reject);
+      }).catch(function (error) {
+        vm.status.loadInProgress = false;
+      });
 
       return defer.promise;
     }

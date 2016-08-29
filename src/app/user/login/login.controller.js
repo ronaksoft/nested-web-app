@@ -41,7 +41,7 @@
         password: md5.createHash(vm.password)
       };
 
-      NstSvcLoader.inject(NstSvcAuth.login(credentials, vm.remember).then(function () {
+      NstSvcLoader.inject(NstSvcAuth.login(credentials, vm.remember)).then(function () {
         return $q(function (res) {
           var state = {
             name: NST_DEFAULT.STATE
@@ -78,7 +78,7 @@
         $timeout(function () {
           vm.message.fill = false;
         }, 5000);
-      }));
+      });
     };
   }
 })();

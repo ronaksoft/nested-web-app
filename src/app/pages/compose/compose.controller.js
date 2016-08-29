@@ -17,6 +17,10 @@
      *** Controller Properties ***
      *****************************/
 
+    $timeout(function () {
+      $rootScope.navView = false
+    });
+    
     vm.model = {
       recipients: [],
       attachments: [],
@@ -573,7 +577,7 @@
      *****************************/
 
     function getPlace(id) {
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
+      return NstSvcLoader.inject(function () {
         return NstSvcPlaceFactory.get(id).catch(function (error) {
           var deferred = $q.defer();
 
@@ -591,11 +595,11 @@
 
           return deferred.promise;
         });
-      }));
+      });
     }
 
     function getPost(id) {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPostFactory.get(id); }));
+      return NstSvcLoader.inject(NstSvcPostFactory.get(id));
     }
 
     /*****************************

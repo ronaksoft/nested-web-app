@@ -199,11 +199,11 @@
     }
 
     function getMyPlaces() {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPlaceFactory.getMyTinyPlaces(); }));
+      return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
     }
 
     function getInvitations() {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcInvitationFactory.getAll(); }));
+      return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
     }
 
     /*****************************

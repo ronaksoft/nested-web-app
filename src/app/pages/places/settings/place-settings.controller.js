@@ -62,7 +62,6 @@
           NstSvcPlaceFactory.getNotificationOption(vm.placeId)
         ]);
       }).then(function(values) {
-        $log.debug('Place Has Accesses: ', values);
         vm.hasRemoveAccess = values[0];
         vm.hasAddPlaceAccess = values[1];
         vm.hasControlAccess = values[2];
