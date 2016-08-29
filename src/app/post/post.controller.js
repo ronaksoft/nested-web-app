@@ -115,8 +115,11 @@
      * @param  {NstComment}  comment   the comment
      */
     function removeComment(comment) {
+      if (vm.status.commentRemoveProgress) {
+        return;
+      }
       reqRemoveComment(vm.postModel, comment).then(function(post) {
-        // TODO: Notify
+        NstUtility.collection.dropById(vm.comments, comment.id);
       }).catch(function(error) {
         // TODO: decide && show toastr
       });
@@ -467,9 +470,13 @@
     }
 
     function allowToRemoveComment(comment) {
+      if (comment && comment.id && vm.user && vm.user.id) {
+        var now = Date.now();
+        return comment.sender.username === vm.user.id
+        && ((now - comment.date) < 20 * 60 * 1e3);
+      }
+
       return false;
-      return comment.sender.username === vm.user.id
-        && (Date.now() - comment.date < 20 * 60 * 1e3);
     }
   }
 })();
