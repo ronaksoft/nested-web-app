@@ -8,7 +8,7 @@
 <div class="actcon">
   <div class="msg">
     <span class="nst-mood-simple">joined to</span>
-    <a class="place" href="#/places/{{act.place.id}}/activity">
+    <a class="place" ui-sref="place-activity({placeId: act.place.id})">
       {{act.inSpecificPlace ? "here" : act.place.name}}
     </a>
     </a>
