@@ -80,7 +80,21 @@
         url: '/compose',
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
+
       })
       .state('place-compose', {
         url: '/compose/:placeId',
@@ -89,7 +103,20 @@
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
       })
       .state('compose-forward', {
         url: '/forward/:postId',
@@ -98,7 +125,20 @@
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
       })
       .state('compose-reply-all', {
         url: '/reply/:postId',
@@ -107,7 +147,20 @@
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
       })
       .state('compose-reply-sender', {
         url: '/reply/:postId/sender',
@@ -116,7 +169,20 @@
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
       })
 
       /*****************************

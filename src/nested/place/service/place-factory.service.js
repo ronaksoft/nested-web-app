@@ -560,6 +560,11 @@
         }).then(function () {
           factory.set(place);
 
+          factory.dispatchEvent(new CustomEvent(
+            NST_PLACE_FACTORY_EVENT.UPDATE,
+            { detail: { id: place.getId(), place: place } }
+          ));
+
           return factory.get(place.getId());
         });
       }
@@ -1269,6 +1274,11 @@
       addPlace(tree, place);
     }
 
+    PlaceFactory.prototype.updatePlaceInTree = function (tree, place) {
+      updatePlace(tree, place);
+    }
+
+
     /**
      * addPlace - Finds parent of a place and puts the place in its children
      *
@@ -1306,6 +1316,30 @@
       return false;
     }
 
+
+
+    function updatePlace(places, place, depth) {
+      if (!_.isArray(places) || places.length === 0) {
+        return false;
+      }
+
+
+      var placeLevels = _.split(place.id,'.');
+      depth = depth || 0;
+
+      if(depth == placeLevels.length -1){
+        var itemIndex = _.findIndex(places, {id : place.id});
+        places[itemIndex] = place;
+        places[itemIndex].depth = depth;
+        return true;
+      }else{
+        var parentId = _.take(placeLevels, depth + 1).join('.');
+        var parentIndex = _.findIndex(places, {id : parentId});
+        updatePlace(places[parentIndex].children, place, depth + 1)
+      }
+
+    }
+
     function removePlace(places, originalId, parentId) {
       if (!_.isArray(places) || places.length === 0 || !originalId) {
         return false;
@@ -1340,6 +1374,16 @@
       if (childIndex > -1) {
         list.splice(childIndex, 1);
         return true; // found and removed
+      }
+
+      return false;
+    }
+
+    function updateItemById(list, id , place) {
+      var childIndex = _.findIndex(list, { id : id });
+      if (childIndex > -1) {
+        list[childIndex] = place;
+        return true; // found and updated
       }
 
       return false;

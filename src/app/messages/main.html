@@ -14,8 +14,8 @@
       </div>
     </div>
 
-    <nst-quick-message data-ng-if="ctlMessages.viewSetting.quickMessage && ctlMessages.currentPlaceId"
-                       place-id="ctlMessages.currentPlaceId"></nst-quick-message>
+    <!--<nst-quick-message data-ng-if="ctlMessages.viewSetting.quickMessage && ctlMessages.currentPlaceId"-->
+                       <!--place-id="ctlMessages.currentPlaceId"></nst-quick-message>-->
    <!--<div class="new-post-badge-area" ng-if="ctlMessages.hasNewMessages()">-->
      <!--<button class="btn new-post-badge" data-tooltip-placement="top" data-uib-tooltip="{{ctlMessages.newMessages.length == 1 ? 'A new message' : ctlMessages.newMessages.length + ' new messages'}}" ng-click="ctlMessages.showNewMessages();">-->
        <!--<span class="badge-counter">+{{ctlMessages.getNewMessagesCount()}}</span>-->
@@ -63,10 +63,8 @@
   <div class="content-plus" id="content-plus">
     <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlMessages.recentScrollConf"
          onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
-      <!-- <div class="name">Recent Activities</div>
-      <recent-activity-item ng-repeat="act in ctlMessages.activities" place="ctlMessages.currentPlace"
-                            model="act"></recent-activity-item> -->
-      <nst-recent-activity place-id="ctlMessages.currentPlaceId" count="10"/>
+      <!--FIXME:: use only one of place/place-id -->
+      <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
     </div>
 
   </div>
