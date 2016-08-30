@@ -34,7 +34,7 @@
     vm.srch = function srch(el) {
       var ele = $('#' + el);
       var eleInp = ele.find('input');
-      var elePrv = ele.prev();
+      var elePrv = ele.next();
       var openStat = function () {
         return ele[0].clientWidth > 0
       };
@@ -126,8 +126,13 @@
       if (!sendKeyIsPressed(event)) {
         return;
       }
+      var searchQury = new NstSearchQuery(query);
 
-      $state.go('search', { query : NstSearchQuery.encode(query) });
+      if (hasPlace()){
+        searchQury.addPlace(getPlaceId());
+      }
+
+      $state.go('search', { query : NstSearchQuery.encode(searchQury.toString()) });
     }
 
     $scope.$watch('topNavOpen',function (newValue,oldValue) {
