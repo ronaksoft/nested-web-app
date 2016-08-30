@@ -25,22 +25,19 @@
       </div>
 
       <div class="inner-panel _ma">
-        <div class="_tac nst-marginbtm-32 nst-mood-storm">@{{ctlProfileEdit.model.id}}</div>
-        <div class="nst-marginbtm-4">First Name</div>
+        <div class="_tac nst-mood-storm">@{{ctlProfileEdit.model.id}}</div>
+        <div class="_tac nst-marginbtm-32 changePassLink">Change Password</div>
+        <label for="first_name">First Name</label>
         <div>
-          <form name="place_id">
-            <input page-change-element class="nst-marginbtm-24 form-control" aria-invalid="false"
-                   type="text" name="first_name"
+            <input page-change-element class="form-control" aria-invalid="false"
+                   type="text" name="first_name" id="first_name"
                    data-ng-model="ctlProfileEdit.model.firstName" data-ng-change="ctlProfileEdit.model.check()"/>
-          </form>
         </div>
-        <div class="nst-marginbtm-4">Last Name</div>
+        <label for="Last_name">Last Name</label>
         <div>
-          <form name="place_id">
-            <input page-change-element class=" nst-marginbtm-24 form-control" aria-invalid="false"
-                   type="text" name="last_name"
+            <input page-change-element class="form-control" aria-invalid="false"
+                   type="text" name="last_name" id="Last_name"
                    data-ng-model="ctlProfileEdit.model.lastName" data-ng-change="ctlProfileEdit.model.check()"/>
-          </form>
         </div>
         <!--<div class="nst-marginbtm-4">Change Password</div>-->
         <!--<div>-->
@@ -66,34 +63,32 @@
                    aria-invalid="false" data-ng-model="ctlProfile.user.email"/>
           </form>
         </div>>-->
-        <div class="nst-marginbtm-4">Mobile Phone</div>
-        <div class="_fw nst-marginbtm-24">
-          <input class="_fw" disabled name="phone_number" international-phone-number
+        <label for="Mobile_number">Mobile phone</label>
+        <div class="nst-marginbtm-24">
+          <input class="_fw" id="Mobile_number" disabled name="phone_number" international-phone-number
                  data-ng-model="ctlProfileEdit.model.phone"/>
         </div>
-        <!--<div class="nst-marginbtm-12">Gender</div>
-        <div class="nst-marginbtm-64">
-          <ul class="list-inline">
-            <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-              <input type="radio" name="gender" value="female"/>
-              <label>Female</label>
-            </li>
-            <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-              <input type="radio" name="gender" value="male"/>
-              <label>Male</label>
-            </li>
-            <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-              <input type="radio" name="gender" value="other"/>
-              <label>Other</label>
-            </li>
-          </ul>
-        </div>
-        <div class="nst-marginbtm-4">Birthday</div>
+        <label>Gender</label>
+        <ul class="_fw _difh list-unstyled">
+          <li class="_df _fw _pr _jcc">
+            <input type="radio" name="gender" value="female" id="female"/>
+            <label for="female">Female</label>
+          </li>
+          <div class="_fw _difh _pr _jcc">
+            <input type="radio" name="gender" value="male" id="male"/>
+            <label for="male">Male</label>
+          </div>
+          <div class="_fw _difh _pr _jcc">
+            <input type="radio" name="gender" value="other" id="others"/>
+            <label for="others">Other</label>
+          </div>
+        </ul>
+        <label>Date of Birth</label>
         <div class="nst-marginbtm-36">
           <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="birth"/>
-        </div>-->
+        </div>
         <div>
-          <button class="butn butn-sense _fw" data-ng-click="ctlProfileEdit.save()">Save & Exit</button>
+          <button class="butn-green _fw" data-ng-click="ctlProfileEdit.save()">Save & Exit</button>
         </div>
       </div>
       <div class="restplace _df _fh"></div>

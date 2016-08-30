@@ -1,48 +1,65 @@
 .upload-photo-container-setting {
   height: 125px;
 }
+.changePassLink {
+  color: #14D769;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+}
 .panel-profile-setting {
   padding: 50px 8px 8px 8px;
   width: 574px;
   text-decoration: none;
   border: 1px $color-breeze;
   //overflow-y: auto;
-}
-.panel-profile-setting .select-month {
-  width: 174px;
-}
-.panel-profile-setting .select-day {
-  width: 102px;
-  padding-left: 2px;
-}
-.panel-profile-setting .select-year {
-  width: 102px;
-  padding-left: 2px;
+  label {
+    font-weight: 400;
+    color: #869D91;
+    min-height: 12px;
+    font-size: 12px;
+    line-height: 15px;
+    margin-bottom: 8px;
+  }
+  input {
+    margin-bottom: 24px;
+    height: 40px;
+  }
+  ul {
+    height: 30px;
+    input,label {
+      display: flex;
+      position: static!important;
+    }
+  }
+  .select-birthday {
+    background-color: transparent;
+    color: #C0C0C0;
+    min-height: 26px;
+    font-weight: 400;
+    display: flex;
+    .select-month {
+      display: flex;
+      width: 40%;
+    }
+    .select-day {
+      display: flex;
+      width: 30%;
+      padding-left: 2px;
+    }
+    .select-year {
+      display: flex;
+      width: 30%;
+      padding-left: 2px;
+    }
+  }
+  button {
+    height: 40px;
+    width: 100%;
+    color: white
+  }
 }
 
 #nav-prof {
 display: none
-}
-
-.maincontainer.prof-hld {
-  .content-plus {
-    display: none;
-  }
-  .content {
-    width: 100%;
-    margin: auto;
-    max-width: 1058px;
-  }
-  #content-wrapper .content {
-    //height: calc(100vh - 180px );
-  }
-  #nav-prof {
-    display: flex;
-  }
-  .navbar-bottom {
-    display: none;
-    div {
-      align-items: center;
-    }
-  }
 }
