@@ -9,7 +9,7 @@
   function ProfileEditController($rootScope, $state, $q, $uibModal, $timeout, $log,
                                  toastr,
                                  NST_STORE_UPLOAD_TYPE, NST_DEFAULT,
-                                 NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory) {
+                                 NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl,NST_NAVBAR_CONTROL_TYPE) {
     var vm = this;
 
     /*****************************
@@ -18,6 +18,11 @@
 
     vm.status = {
       saveInProgress: false
+    };
+
+    vm.controls = {
+      left: [],
+      right: []
     };
 
     vm.userModel = NstSvcAuth.getUser();
@@ -73,7 +78,7 @@
         vm.model.picture.file = null;
         vm.model.picture.url = '';
       });
-      
+
     };
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {

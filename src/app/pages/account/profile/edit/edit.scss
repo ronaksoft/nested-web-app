@@ -6,13 +6,22 @@
   font-size: 12px;
   line-height: 18px;
   font-weight: 400;
+  cursor: pointer;
 }
 .panel-profile-setting {
   padding: 50px 8px 8px 8px;
   width: 574px;
   text-decoration: none;
   border: 1px $color-breeze;
-  //overflow-y: auto;
+  .profile-name {
+    font-weight: 300;
+    color: #000000;
+    font-size: 32px;
+  }
+  .profile-id {
+    font-weight: 300;
+    font-size: 20px;
+  }
   label {
     font-weight: 400;
     color: #869D91;
@@ -21,9 +30,12 @@
     line-height: 15px;
     margin-bottom: 8px;
   }
-  input {
+  input,select {
     margin-bottom: 24px;
     height: 40px;
+  }
+  input:disabled {
+    background-color: $color-calm;
   }
   ul {
     height: 30px;
@@ -57,6 +69,9 @@
     height: 40px;
     width: 100%;
     color: white
+  }
+  .ng-enter {
+    animation: fade-in 3s;
   }
 }
 

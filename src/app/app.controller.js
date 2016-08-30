@@ -15,7 +15,6 @@
 
     vm.loginView = true;
     vm.showLoadingScreen = true;
-    vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
 
 
 

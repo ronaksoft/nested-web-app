@@ -1,4 +1,4 @@
-<nst-navbar data-ng-model="navbar" class="second-view"></nst-navbar>
+<nst-navbar controls="ctlProfileEdit.controls" page="ctlApp.page" class="second-view"></nst-navbar>
 
 <div class="nst-content second-view" id="content-wrapper"
      page-change="ctlProfileEdit.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)" ng-scrollbars>
@@ -16,28 +16,81 @@
           <input id="logo" type="file" name="logo" accept="image/*"
                  onchange="angular.element(this).scope().ctlProfileEdit.imgToUri(event)">
           <div class="probut">
-            <label for="logo" class="add-photo-hover"></label>
-            <!-- ngIf: ctlProfileEdit.model.picture.url -->
             <div ng-if="ctlProfileEdit.model.picture.url" class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImg()" role="button"></div>
-            <!-- end ngIf: ctlProfileEdit.model.picture.url -->
+            <label for="logo" class="add-photo-hover"></label>
           </div>
         </div>
       </div>
 
       <div class="inner-panel _ma">
-        <div class="_tac nst-mood-storm">@{{ctlProfileEdit.model.id}}</div>
-        <div class="_tac nst-marginbtm-32 changePassLink">Change Password</div>
-        <label for="first_name">First Name</label>
-        <div>
+        <div class="_tac profile-name">{{ctlProfileEdit.model.fullName}}</div>
+        <div class="_tac nst-mood-storm profile-id">@{{ctlProfileEdit.model.id}}</div>
+        <div class="_tac nst-marginbtm-32 changePassLink" ng-init="changePassword = false" ng-show="!changePassword" hm-tap="changePassword = true">Change Password</div>
+        <div ng-if="changePassword">
+          <label for="old_pass">Old password</label>
+          <div>
+              <input page-change-element class="form-control" aria-invalid="true"
+                     type="password" name="first_name" id="old_pass" placeholder="Type your old password !"
+                     data-ng-model="ctlProfileEdit.model.oldPass" data-ng-change="ctlProfileEdit.model.check()"/>
+          </div>
+          <label for="new_pass">New Password</label>
+          <div>
+              <input page-change-element class="form-control" aria-invalid="true"
+                     type="password" name="last_name" id="new_pass" placeholder="Type your new password !"
+                     data-ng-model="ctlProfileEdit.model.newPass" data-ng-change="ctlProfileEdit.model.check()"/>
+          </div>
+          <label for="new_pass_conf">New Password confirm</label>
+          <div>
+              <input page-change-element class="form-control" aria-invalid="true"
+                     type="password" name="last_name" id="new_pass_conf" placeholder="Type your new password again!"
+                     data-ng-model="ctlProfileEdit.model.newPassConf" data-ng-change="ctlProfileEdit.model.check()"/>
+          </div>
+        </div>
+        <div ng-if="!changePassword">
+          <label for="first_name">First Name</label>
+          <div>
             <input page-change-element class="form-control" aria-invalid="false"
                    type="text" name="first_name" id="first_name"
                    data-ng-model="ctlProfileEdit.model.firstName" data-ng-change="ctlProfileEdit.model.check()"/>
-        </div>
-        <label for="Last_name">Last Name</label>
-        <div>
+          </div>
+          <label for="Last_name">Last Name</label>
+          <div>
             <input page-change-element class="form-control" aria-invalid="false"
                    type="text" name="last_name" id="Last_name"
                    data-ng-model="ctlProfileEdit.model.lastName" data-ng-change="ctlProfileEdit.model.check()"/>
+          </div>
+          <label for="Mobile_number">Mobile phone</label>
+          <div class="nst-marginbtm-24">
+            <input class="_fw" id="Mobile_number" disabled name="phone_number" international-phone-number
+                   data-ng-model="ctlProfileEdit.model.phone"/>
+          </div>
+          <label>Gender</label>
+          <select name="dateFields.month" class="form-control" aria-invalid="false">
+            <option value="male" selected="selected">Male</option>
+            <option label="Female" value="female">Female</option>
+            <option label="Other" value="other">Other</option>
+          </select>
+          <!--<ul class="_fw _difh list-unstyled">-->
+          <!--<li class="_df _fw _pr _jcc">-->
+          <!--<input type="radio" name="gender" value="female" id="female"/>-->
+          <!--<label for="female">Female</label>-->
+          <!--</li>-->
+          <!--<div class="_fw _difh _pr _jcc">-->
+          <!--<input type="radio" name="gender" value="male" id="male"/>-->
+          <!--<label for="male">Male</label>-->
+          <!--</div>-->
+          <!--<div class="_fw _difh _pr _jcc">-->
+          <!--<input type="radio" name="gender" value="other" id="others"/>-->
+          <!--<label for="others">Other</label>-->
+          <!--</div>-->
+          <!--</ul>-->
+          <label>Date of Birth</label>
+          <div class="nst-marginbtm-36">
+            <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="birth"/>
+          </div>
+        </div>
+        <div>
+          <button class="butn-green _fw" data-ng-click="ctlProfileEdit.save()">Save & Exit</button>
         </div>
         <!--<div class="nst-marginbtm-4">Change Password</div>-->
         <!--<div>-->
@@ -63,33 +116,7 @@
                    aria-invalid="false" data-ng-model="ctlProfile.user.email"/>
           </form>
         </div>>-->
-        <label for="Mobile_number">Mobile phone</label>
-        <div class="nst-marginbtm-24">
-          <input class="_fw" id="Mobile_number" disabled name="phone_number" international-phone-number
-                 data-ng-model="ctlProfileEdit.model.phone"/>
-        </div>
-        <label>Gender</label>
-        <ul class="_fw _difh list-unstyled">
-          <li class="_df _fw _pr _jcc">
-            <input type="radio" name="gender" value="female" id="female"/>
-            <label for="female">Female</label>
-          </li>
-          <div class="_fw _difh _pr _jcc">
-            <input type="radio" name="gender" value="male" id="male"/>
-            <label for="male">Male</label>
-          </div>
-          <div class="_fw _difh _pr _jcc">
-            <input type="radio" name="gender" value="other" id="others"/>
-            <label for="others">Other</label>
-          </div>
-        </ul>
-        <label>Date of Birth</label>
-        <div class="nst-marginbtm-36">
-          <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="birth"/>
-        </div>
-        <div>
-          <button class="butn-green _fw" data-ng-click="ctlProfileEdit.save()">Save & Exit</button>
-        </div>
+
       </div>
       <div class="restplace _df _fh"></div>
     </div>
