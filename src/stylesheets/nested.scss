@@ -4,7 +4,7 @@
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, ttf woff woff2);
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, ttf woff woff2);
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, eot woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
 
 /**
@@ -75,7 +75,19 @@ body {
   box-sizing: border-box;
   //min-width: 600px;
 }
-
+body.modal-open {
+  position: absolute;
+  z-index: 999;
+  min-width: 500px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  .body {
+    overflow: hidden;
+    height: 100%;
+  }
+}
 *:focus {
   outline: none;
 }
