@@ -349,6 +349,7 @@ mark {
   height: calc(100% - 68px);
   background-color: $color-breeze-50;
   padding: 8px 0;
+  overflow: auto;
   &.ng-inter {
     animation: appearence .5s;
   }
