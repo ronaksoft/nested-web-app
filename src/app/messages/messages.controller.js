@@ -327,13 +327,13 @@
 
     }
 
-    vm.scroll = function (event) {
+    $(window).scroll(function (event) {
       var element = event.currentTarget;
-      if (element.scrollTop + element.clientHeight === element.scrollHeight) {
+      if (element.pageYOffset + element.innerHeight === $('body').height()) {
         $log.debug("load more");
         vm.loadMore();
       }
-    };
+    });
 
     function hasNewMessages() {
       return vm.newMessages.length > 0;
@@ -389,6 +389,12 @@
 
 
     // FIXME: NEEDS REWRITE COMPLETELY
+    vm.swipeLeft = function () {
+      $state.go('activity')
+    };
+    vm.swipeBotton = function () {
+      $rootScope.navView = false
+    };
     var tl = new TimelineLite({});
     var cp = document.getElementById("cp1");
     var nav = document.getElementsByTagName("nst-navbar")[0];

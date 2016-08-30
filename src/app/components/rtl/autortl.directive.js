@@ -79,7 +79,6 @@
           this.persianRex = persianRex;
         }
         function direction(str) {
-          console.log('startRTL');
           if (!str || !_.isString(str)) {
             return element.attr("dir","ltr");
           }

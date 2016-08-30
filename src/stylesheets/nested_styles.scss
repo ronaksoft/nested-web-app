@@ -857,7 +857,9 @@ ul ul li:last-child{
   justify-content: center;
   display: flex;
   align-self: flex-end;
-  overflow-x: hidden;
+  //overflow-x: hidden;
+  overflow-y: auto;
+  overflow-y: initial;
 }
 
 .content-plus {
@@ -1439,7 +1441,14 @@ input[type="checkbox"]:checked + label.setting {
   * NST Responsive
   ******************************
  */
-
+@media screen and (max-width: 600px) {
+  .content {
+    width: 100%;
+  }
+  .menu-links-butn {
+    font-size: 16px;
+  }
+}
 //max-width: 990px
 
 @media screen and (max-width: 990px){
@@ -1450,6 +1459,7 @@ input[type="checkbox"]:checked + label.setting {
   nst-navbar {
     height: 183px;
     min-height: 183px;
+    transition: .3s ease;
   }
   #new-post {
     top: 198px;
@@ -1459,16 +1469,15 @@ input[type="checkbox"]:checked + label.setting {
       top: 135px;
     }
     .nst-navbar{
-      margin-top: 67px;
-      height: 64px;
+      //top: -66px;
+      transform: translate3d(0,-66px,0);
       //min-height: 132px;
       //max-height: 132px;
       //height: 132px;
       //background: #aaa;
       .navbar-top {
-        height: 0;
-        max-height: 0;
         overflow: hidden;
+        height: 66px;
         span{
           height: 0;
           padding: 0;
@@ -1477,10 +1486,9 @@ input[type="checkbox"]:checked + label.setting {
         a {
           font-size: 24px;
         }
-
       }
       .navbar-bottom{
-        height: 64px;
+        height: 60px;
       }
       .account-initials-64 {
         width: 40px;
@@ -1489,9 +1497,11 @@ input[type="checkbox"]:checked + label.setting {
     }
   }
   .nst-navbar{
+    transition: .3s ease;
     margin-top: 67px;
     height: 126px;
-    transition: .3s;
+    top: 0;
+    position: relative;
     .navbar-top {
       height: 66px;
       max-height: 66px;
@@ -1515,21 +1525,22 @@ input[type="checkbox"]:checked + label.setting {
 
   }
   .maincontainer {
-    height: 100%;
+    //height: 100%;
     //min-height: 100%;
-    overflow: visible;
+    //overflow: visible;
     //padding-top: 67px;
   }
   #content-wrapper {
     max-height : 100%!important;
-    overflow: visible;
+    //overflow: visible;
   }
   #content-wrapper .content {
-    overflow: visible;
+    //overflow: visible;
   }
   .content {
-    width: 600px;
-    min-width: 600px;
+    //width: 600px;
+    //min-width: 600px;
+    height: 100%;
   }
   .popover-white + .popover {
     left:280px!important;
@@ -1546,7 +1557,7 @@ input[type="checkbox"]:checked + label.setting {
 
 @media screen and (min-width: 990px){
   body {
-    overflow: hidden;
+    //overflow: hidden;
   }
   .modal-mlg {
     margin: 0 80px;

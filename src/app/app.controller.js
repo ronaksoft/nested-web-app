@@ -128,22 +128,30 @@
       $scope.topNavOpen = newValue;
     });
 
-    vm.scroll = function (event) {
-      var t = event.target.scrollTop;
-      $timeout(function () {
-        $rootScope.navView = t > 55
-      });
-
-      if (t > 0) {
-        $("#content-plus").stop().css({
-          marginTop: t
+    var scrollValue = 0;
+    var scrollTimeout = false;
+    $(window).scroll(function (event) {
+      var t = event.currentTarget.scrollY;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function(){
+        vm.scrolled = $(document).scrollTop() - scrollValue;
+        scrollValue = $(document).scrollTop();
+        if (vm.scrolled < -5 && $rootScope.navView) {
+          $timeout(function () {
+            $rootScope.navView = false;
+          });
+        }
+      }, 10);
+      if (t > 55 && !$rootScope.navView && vm.scrolled > 0) {
+        $timeout(function () {
+          $rootScope.navView = t > 55;
         });
-      } else if (t == 0) {
-        $("#content-plus").stop().css({
-          marginTop: 0
+      } else if (t < 55 && $rootScope.navView) {
+        $timeout(function () {
+          $rootScope.navView = t > 55;
         });
       }
-    };
+    });
 
     /*****************************
      *****  Controller Logic  ****
