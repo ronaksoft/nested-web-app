@@ -164,6 +164,7 @@ div.att-item {
 
 .content iframe {
   height: calc(100vh - 390px)!important;
+  min-height: 100px;
 }
 
 #compose-body {

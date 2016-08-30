@@ -437,84 +437,9 @@
     var tl = new TimelineLite({});
     var cp = document.getElementById("cp1");
     var nav = document.getElementsByTagName("nst-navbar")[0];
-    TweenLite.to(nav, 0.1, {
-      minHeight: 183,
-      maxHeight: 183,
-      height: 183,
-      ease: Power1.easeOut
-    });
     $timeout(function () {
       $rootScope.navView = false
     });
-    vm.bodyScrollConf = {
-      axis: 'y',
-      callbacks: {
-        whileScrolling: function () {
-          var t = -this.mcs.top;
-          //$timeout(function () { $rootScope.navView = t > 55; });
-          //console.log(tl);
-          tl.kill({
-            y: true
-          }, cp);
-          TweenLite.to(cp, 0.5, {
-            y: t,
-            ease: Power2.easeOut,
-            force3D: true
-          });
-          if (t > 55 && !$rootScope.navView) {
-            //tl.kill({minHeight:true,maxHeight:true}, nav);
-            TweenLite.to(nav, 0.1, {
-              minHeight: 131,
-              maxHeight: 131,
-              height: 131,
-              ease: Power1.easeOut
-            });
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          } else if (t < 55 && $rootScope.navView) {
-            TweenLite.to(nav, 0.1, {
-              minHeight: 183,
-              maxHeight: 183,
-              height: 183,
-              ease: Power1.easeOut
-            });
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          }
-
-          //tl.lagSmoothing(200, 20);
-          tl.play();
-          // $("#content-plus").stop().animate(
-          //   {marginTop:t}, {duration:1});
-          // TweenMax.to("#cp1", .001, {
-          //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
-          // });
-          //TweenMax.lagSmoothing(500, 33);
-
-
-          //   var func = function () {
-          //     console.log(t);
-          //     $("#content-plus").animate(
-          //       {marginTop:t}, {duration:1, easing:"easeOutStrong"});
-          //   };
-          //   var debounced = _.debounce(func, 250, { 'maxWait': 1000 });
-          //   if ( t > 0) {
-          //     debounced();
-          //   } else if(t == 0){
-          //   $("#content-plus").stop().css({
-          //     marginTop: 0
-          //   });
-          // }
-        },
-        onTotalScroll: function () {
-          vm.loadMore();
-        },
-        onTotalScrollOffset: 10,
-        alwaysTriggerOffsets: false
-      }
-    };
 
   }
 })();

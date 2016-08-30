@@ -327,14 +327,6 @@
 
     }
 
-    vm.scroll = function (event) {
-      var element = event.currentTarget;
-      if (element.scrollTop + element.clientHeight === element.scrollHeight) {
-        $log.debug("load more");
-        vm.loadMore();
-      }
-    };
-
     function hasNewMessages() {
       return vm.newMessages.length > 0;
     }
@@ -372,6 +364,15 @@
     }
 
     // FIXME some times it got a problem ( delta causes )
+
+    $(window).scroll(function (event) {
+      var element = event.currentTarget;
+      if (element.pageYOffset + element.innerHeight === $('body').height()) {
+        $log.debug("load more");
+        vm.loadMore();
+      }
+    });
+    
     vm.preventParentScroll = function (event) {
       var element = event.currentTarget;
       var delta = event.wheelDelta;
@@ -380,15 +381,14 @@
       }
     };
 
-    vm.recentScrollConf = {
-      axis: 'y',
-      mouseWheel: {
-        preventDefault: true
-      }
-    };
-
 
     // FIXME: NEEDS REWRITE COMPLETELY
+    vm.swipeLeft = function () {
+      $state.go('activity')
+    };
+    vm.swipeBotton = function () {
+      $rootScope.navView = false
+    };
     var tl = new TimelineLite({});
     var cp = document.getElementById("cp1");
     var nav = document.getElementsByTagName("nst-navbar")[0];
