@@ -1,7 +1,5 @@
 <nst-navbar data-ng-model="navbar" place="ctlMessages.currentPlace" page="ctlApp.page"></nst-navbar>
-<div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlMessages.bodyScrollConf"
-     onscroll="angular.element(this).scope().ctlMessages.scroll(event);angular.element(this).scope().ctlApp.scroll(event)"
-     ng-swipe-left="">
+<div class="nst-content _tr" id="content-wrapper">
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
@@ -61,7 +59,7 @@
   </section>
   <div class="content-plus"></div>
   <div class="content-plus" id="content-plus">
-    <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlMessages.recentScrollConf"
+    <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlApp.customScrollPreventConfig"
          onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
