@@ -114,16 +114,13 @@
       search('');
     }
 
-    vm.bodyScrollConf = {
-      axis: 'y',
-      callbacks: {
-        onTotalScroll: function () {
-          vm.loadMore();
-        },
-        onTotalScrollOffset: 10,
-        alwaysTriggerOffsets: false
+    $(window).scroll(function (event) {
+      var element = event.currentTarget;
+      if (element.pageYOffset + element.innerHeight === $('body').height()) {
+        $log.debug("load more");
+        vm.loadMore();
       }
-    };
+    });
   }
 
 })();
