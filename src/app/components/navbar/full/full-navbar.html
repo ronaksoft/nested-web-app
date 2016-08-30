@@ -29,7 +29,7 @@
 
       <div class="navbar-bottom" data-ng-if="!ctlFullNavbar.controls">
         <div id="inputsearch" class="has-feedback _fw">
-          <input class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.getPlaceName() : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery" focus-me/>
+          <input class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.getPlaceName() : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
           <i ng-click="ctlFullNavbar.srch('inputsearch');"
              class="_pa _left icon-close-search form-control-feedback"></i>
           <!--<div class="search-part1">

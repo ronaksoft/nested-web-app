@@ -6,7 +6,7 @@
       'nested.config',
       'ngCookies',
       'ngTouch',
-      //'hmTouchEvents',
+      'hmTouchEvents',
       'ui.select',
       'ngSanitize',
       'ngMessages',

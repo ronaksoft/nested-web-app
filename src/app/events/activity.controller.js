@@ -29,7 +29,6 @@
     vm.declineInvitation = declineInvitation;
     vm.applyFilter = applyFilter;
     vm.viewPost = viewPost;
-    vm.scroll = scroll;
 
     vm.activitySettings = {
       limit: 24,
@@ -133,12 +132,13 @@
       });
     }
 
-    function scroll(event) {
+    $(window).scroll(function (event) {
       var element = event.currentTarget;
-      if (element.scrollTop + element.clientHeight === element.scrollHeight) {
-        loadMore();
+      if (element.pageYOffset + element.innerHeight === $('body').height()) {
+        $log.debug("load more");
+        vm.loadMore();
       }
-    }
+    });
 
 
     /**********************
@@ -279,7 +279,7 @@
     // FIXME: NEEDS REWRITE COMPLETELY
     var nav = document.getElementsByTagName("nst-navbar")[0];
     var nst = document.getElementsByClassName("nst-content");
-    TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Linear.easeNone});
+    //TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Linear.easeNone});
     $timeout(function () {
       $rootScope.navView = false
     });

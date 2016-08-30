@@ -121,6 +121,13 @@
      ***** Controller Methods ****
      *****************************/
 
+    vm.customScrollPreventConfig = {
+      axis: 'y',
+      mouseWheel: {
+        preventDefault: true
+      }
+    };
+
     // TODO should read from cache
     $rootScope.navView = false;
     $scope.topNavOpen = false;

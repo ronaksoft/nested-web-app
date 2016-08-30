@@ -327,14 +327,6 @@
 
     }
 
-    $(window).scroll(function (event) {
-      var element = event.currentTarget;
-      if (element.pageYOffset + element.innerHeight === $('body').height()) {
-        $log.debug("load more");
-        vm.loadMore();
-      }
-    });
-
     function hasNewMessages() {
       return vm.newMessages.length > 0;
     }
@@ -372,18 +364,20 @@
     }
 
     // FIXME some times it got a problem ( delta causes )
+
+    $(window).scroll(function (event) {
+      var element = event.currentTarget;
+      if (element.pageYOffset + element.innerHeight === $('body').height()) {
+        $log.debug("load more");
+        vm.loadMore();
+      }
+    });
+    
     vm.preventParentScroll = function (event) {
       var element = event.currentTarget;
       var delta = event.wheelDelta;
       if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
         event.preventDefault();
-      }
-    };
-
-    vm.recentScrollConf = {
-      axis: 'y',
-      mouseWheel: {
-        preventDefault: true
       }
     };
 
