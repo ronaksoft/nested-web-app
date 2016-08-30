@@ -610,7 +610,6 @@
 
       NstSvcServer.request('post/search', {
         keywords : queryString,
-        skip : 0,
         limit : limit || 8,
         skip : skip || 0,
       }).then(function (result) {

@@ -91,16 +91,9 @@
                        data-uib-tooltip="{{comment.date | date : 'full'}}"
                        data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
                 </div>
-                <div class="_df _fw _wrb cmt-post-view">
-                  <emoji data-ng-if="!ctlPost.allowToRemoveComment(comment)">
-                    <mark marked="comment.body">
-                    </mark>
-                  </emoji>
-                  <emoji data-ng-if="ctlPost.allowToRemoveComment(comment)" ng-click="ctlPost.removeComment(comment);">
-                    <mark marked="comment.body">
-                    </mark>
-                    <a class="nst-mood-storm nst-font-small" >&nbsp;&nbsp;delete </a>
-                  </emoji>
+                <div class="_fw _wrb cmt-post-view">
+                  <span ng-bind-html="comment.body | emoji"></span>
+                  <a href data-ng-if="ctlPost.allowToRemoveComment(comment);" ng-click="ctlPost.removeComment(comment);" class="nst-mood-storm nst-font-small" >&nbsp;&nbsp;delete </a>
                 </div>
               </div>
             </div>

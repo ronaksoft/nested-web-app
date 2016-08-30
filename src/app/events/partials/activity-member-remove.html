@@ -6,8 +6,19 @@
 </div>
 <div class="actcon">
   <div class="msg">
-    <span data-ng-if="act.member.name == act.actor.name" class="nst-mood-simple">Left <a class="place" href="#/activity/{{act.member.id}}" data-ng-bind="event.place.name"></a></span>
-    <span data-ng-if="act.member.name != act.actor.name" class="nst-mood-simple">Removed <strong data-ng-bind="act.member.name"></strong> from <a class="place" href="#/events/{{act.member.id}}" data-ng-bind="act.member.name"></a></span>
+    <p data-ng-if="!(act.member.id == act.actor.id)">
+      <span class="nst-mood-simple">Removed</span>
+      <a ui-sref="place-messages({placeId: act.place.id})">
+        @{{act.member.id}}
+      </a><span class="nst-mood-simple"> from</span><a class="place" ui-sref="place-activity({placeId: act.place.id})">
+      {{act.inSpecificPlace ? "here" : act.place.name}}
+    </a>
+    </p>
+    <p data-ng-if="act.member.id == act.actor.id">
+      <span class="nst-mood-simple">Left</span> <a class="place" ui-sref="place-activity({placeId: act.place.id})">
+      {{act.inSpecificPlace ? "here" : act.place.name}}
+    </a>
+    </p>
   </div>
   <div class="places"></div>
   <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
