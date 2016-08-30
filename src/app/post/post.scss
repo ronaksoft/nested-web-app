@@ -101,7 +101,8 @@
 }
 
 .time-post-view {
-  width: 100%;
+  flex:none;
+  max-width: 110px;
   font-size: $font-size-small;
   justify-content: flex-end;
   padding-right: 5px;

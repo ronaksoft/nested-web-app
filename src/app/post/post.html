@@ -59,8 +59,8 @@
           </div>
         </div>
         <div class="_db _fh">
-          <div class="_fh _fw _wrb">
-            <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="msg-post-view"
+          <div class="_wrb _fh _fw ">
+            <div ng-if="ctlPost.post.contentType !== 'text/plain'" class=" msg-post-view"
                  dir="{{(ctlPostCard.languageIsRtl(ctlPostCard.post.body)) ? 'rtl' : 'ltr'}}"
                  data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
             </div>
