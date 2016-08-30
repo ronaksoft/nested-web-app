@@ -174,7 +174,22 @@
      * @return {type}  description
      */
     function allowedToLeave() {
-      return vm.teamates && vm.teamates.length > 1;
+
+      if (!vm.teamates){
+        return false;
+      }
+
+      var creators = vm.teamates.filter(function (member) {
+        return member.role === NST_PLACE_MEMBER_TYPE.CREATOR;
+      });
+
+
+      if (creators.length ===  0 || (creators.length === 1 && creators[0].id === NstSvcAuth.user.id)){
+        return false;
+      }
+
+      return true;
+
     }
 
     function hasAnyControlOverHere() {
