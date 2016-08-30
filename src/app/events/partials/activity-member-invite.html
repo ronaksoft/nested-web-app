@@ -9,8 +9,7 @@
     <span class="nst-mood-simple">invited </span>
     <a class="account" href="#" data-ng-bind="act.member.name"></a>
     <span> to </span>
-    <a class="place" href="#/activity/{{act.member.id}}">{{act.place.name}}</a>
-    <!--<span> as </span><a class="account" href="#" data-ng-bind="act.member.type"></a>-->
+    <a class="place" ui-sref="place-activity({placeId: act.place.id})">{{act.inSpecificPlace ? "here" : act.place.name}}</a>
   </div>
   <div class="places"></div>
   <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
