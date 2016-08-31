@@ -174,10 +174,6 @@
 
       NstSvcLoader.inject(deferred.promise);
 
-      deferred.promise.then(function () {
-        $window.history.back();
-      });
-
       updateModel(vm.model).then(function(user) {
 
         if (vm.model.picture.file) {
