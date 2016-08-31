@@ -13,9 +13,6 @@
      * @constructor
      */
     function FactoryEventData(object) {
-      if (!object) {
-        throw new Error('Could not find object.');
-      }
       this.detail = object;
     }
 

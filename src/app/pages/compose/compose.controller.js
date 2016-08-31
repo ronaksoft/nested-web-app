@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
-                             _, toastr,
+                             _, toastr,PreviousState,
                              ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
@@ -20,7 +20,7 @@
     $timeout(function () {
       $rootScope.navView = false
     });
-    
+
     vm.model = {
       recipients: [],
       attachments: [],
@@ -404,7 +404,17 @@
         // TODO: Check if one or more places failed
 
         toastr.success('Your message has been successfully sent.', 'Message Sent');
-        $state.go('messages-sent');
+
+
+          if (PreviousState.Name === "") {
+            if($stateParams.placeId) {
+              $state.go('place-messages',{placeId : $stateParams.placeId});
+            }else{
+              $state.go(NST_DEFAULT.STATE);
+            }
+          } else {
+            $state.go(PreviousState.Name, PreviousState.Params);
+          }
 
         return $q(function (res) {
           res(response);
@@ -422,6 +432,7 @@
         return $q(function (res, rej) {
           rej(errors);
         });
+
       }));
     };
     vm.controls.right.push(new NstVmNavbarControl('Send', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
@@ -450,7 +461,6 @@
 //        }
       }
     };
-
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -577,8 +587,8 @@
      *****************************/
 
     function getPlace(id) {
-      return NstSvcLoader.inject(function () {
-        return NstSvcPlaceFactory.get(id).catch(function (error) {
+      return NstSvcLoader.inject(
+         NstSvcPlaceFactory.get(id).catch(function (error) {
           var deferred = $q.defer();
 
           switch (error.getPrevious().getCode()) {
@@ -594,12 +604,12 @@
           }
 
           return deferred.promise;
-        });
-      });
+        })
+      );
     }
 
     function getPost(id) {
-      return NstSvcLoader.inject(NstSvcPostFactory.get(id));
+      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPostFactory.get(id); }));
     }
 
     /*****************************

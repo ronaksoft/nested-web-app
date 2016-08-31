@@ -12,7 +12,7 @@
         </a>
       </div>
     </div>
-    <div class="side-place-wrapper _fw" ng-scrollbars>
+    <div class="side-place-wrapper _fw" ng-scrollbars ng-scrollbars-config="ctlApp.customScrollPreventConfig">
       <div class="side-menu">
         <div class="side-menu-item" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="top auto">
           <a href="{{ctlSidebar.urls.unfiltered}}">
@@ -90,9 +90,10 @@
       </a>
       <a class="_fw">
         <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
-          <img class="account-initials-32"
+          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-32"
                initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
                data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
+          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}" class="account-initials-32"/>
           <div class="_fw _df fade-animation" ng-show="!ctlSidebar.collapsed">
             <span>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm sm">@{{ctlSidebar.user.id}}</span> </span>
           </div>

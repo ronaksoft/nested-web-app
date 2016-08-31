@@ -15,7 +15,6 @@
 
     vm.loginView = true;
     vm.showLoadingScreen = true;
-    vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
 
 
 
@@ -121,6 +120,13 @@
      ***** Controller Methods ****
      *****************************/
 
+    vm.customScrollPreventConfig = {
+      axis: 'y',
+      mouseWheel: {
+        preventDefault: true
+      }
+    };
+
     // TODO should read from cache
     $rootScope.navView = false;
     $scope.topNavOpen = false;
@@ -128,22 +134,30 @@
       $scope.topNavOpen = newValue;
     });
 
-    vm.scroll = function (event) {
-      var t = event.target.scrollTop;
-      $timeout(function () {
-        $rootScope.navView = t > 55
-      });
-
-      if (t > 0) {
-        $("#content-plus").stop().css({
-          marginTop: t
+    var scrollValue = 0;
+    var scrollTimeout = false;
+    $(window).scroll(function (event) {
+      var t = event.currentTarget.scrollY;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function(){
+        vm.scrolled = $(document).scrollTop() - scrollValue;
+        scrollValue = $(document).scrollTop();
+        if (vm.scrolled < -5 && $rootScope.navView) {
+          $timeout(function () {
+            $rootScope.navView = false;
+          });
+        }
+      }, 10);
+      if (t > 55 && !$rootScope.navView && vm.scrolled > 0) {
+        $timeout(function () {
+          $rootScope.navView = t > 55;
         });
-      } else if (t == 0) {
-        $("#content-plus").stop().css({
-          marginTop: 0
+      } else if (t < 55 && $rootScope.navView) {
+        $timeout(function () {
+          $rootScope.navView = t > 55;
         });
       }
-    };
+    });
 
     /*****************************
      *****  Controller Logic  ****
@@ -300,7 +314,7 @@
               }
             });
           } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            NstSvcModal.error('Access denied!', 'You are not allowed to be here!').catch(function () {
+            NstSvcModal.error('Access denied', 'You don\'t have access permissions for this Place.').catch(function () {
               // This handles dismissed modal
               return $q(function (res) {
                 res(false);

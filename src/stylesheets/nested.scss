@@ -4,12 +4,8 @@
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, ttf woff woff2);
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, ttf woff woff2);
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, eot woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
-@include font-face(OpenSansGood,"../assets/fonts/OpenSansGood", normal, null, ttf);
-@include font-face(YekanBakhGood,"../assets/fonts/YekanBakhGood", normal, null, ttf);
-@include font-face(corporativeblack,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Black");
-@include font-face(corporativeregular,"../assets/fonts/CorporativeSansAlt/CorporativeSansAlt-Regular");
 
 /**
   ******************************
@@ -64,25 +60,34 @@ a:hover {
 body,
 html {
   min-height: 100vh;
-  height: 100%;
 }
 
 body {
   background-color: $color-bg;
   font-family: $font-family-per-reg, $font-family-eng-reg;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  //position: absolute;
+  //top: 0;
+  //left: 0;
+  //bottom: 0;
+  //right: 0;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   //min-width: 600px;
-  height: 100%;
-  min-height: 100vh;
 }
-
+body.modal-open {
+  position: absolute;
+  z-index: 999;
+  min-width: 500px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  .body {
+    overflow: hidden;
+    height: 100%;
+  }
+}
 *:focus {
   outline: none;
 }
@@ -109,6 +114,7 @@ hr {
 ._cf {clear: both;}
 ._fw { width: 100%; }
 ._fh { height: 100%; }
+._fhv { height: 100vh; }
 ._fmh { min-height: 100%; }
 ._fvh {height: 100vh;}
 ._fhw {
@@ -1071,6 +1077,7 @@ a .ui-select-choises-row-inner {
   flex-direction: column;
   min-height: calc(100% - 50px);
   z-index: 10;
+  height: 100%;
 }
 .body {
   background-color: $color-bg;
@@ -1078,8 +1085,7 @@ a .ui-select-choises-row-inner {
   //border-left: 1px solid $color-calm;
   //max-width: 1920px;
   //min-width: 990px;
-  min-height: 100vh;
-  height: 100%;
+  //height: 100%;
   width: 100%;
   z-index: -100;
 }
@@ -1552,7 +1558,7 @@ ul ul .side-place-item-image {
   width: 272px;
   left: 0;
   bottom: 0;
-  background-color: $color-calm;
+  background-color: #e7ece9;
   //height: 180px;
   //padding-left: 15px;
   display: inline-flex;
@@ -1631,7 +1637,7 @@ ul ul .side-place-item-image {
   flex-direction: column;
   width: 100%;
   //overflow-y: auto;
-  //overflow-y: initial;
+  //  overflow-y: initial;
   //scroll-behavior: smooth;
   z-index: 1;
 }

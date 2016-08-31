@@ -1,6 +1,6 @@
 <nst-navbar place="ctlSettings.place" page="ctlApp.page"></nst-navbar>
 
-<div class="nst-content _tr" id="content-wrapper" ng-scrollbars>
+<div class="nst-content _tr" id="content-wrapper">
 
 
   <section class="content _bgwhite _fh" id="place-settings">
@@ -212,7 +212,8 @@
       <!-- <div class="name">Recent Activities</div>
       <recent-activity-item ng-repeat="act in ctlMessages.activities" place="ctlMessages.currentPlace"
                             model="act"></recent-activity-item> -->
-      <nst-recent-activity place="ctlSettings.placeId" count="10"/>
+      <!--FIXME:: use only one of place/place-id -->
+      <nst-recent-activity place-id="ctlSettings.placeId" place="ctlSettings.placeId" count="10"/>
     </div>
 
   </div>

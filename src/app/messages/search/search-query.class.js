@@ -61,10 +61,14 @@
     }
 
     SearchQuery.prototype.addPlace = function (place) {
-      this.places.push(place);
+      if (!_.includes(this.places, place)) {
+        this.places.push(place);
+      }
     };
     SearchQuery.prototype.addUser = function (user) {
-      this.users.push(user);
+      if (!_.includes(this.users, user)) {
+        this.users.push(user);
+      }
     };
     SearchQuery.prototype.addOtherKeyword = function (keyword) {
       this.otherKeywords.push(keyword);

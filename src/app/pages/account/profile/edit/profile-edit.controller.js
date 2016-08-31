@@ -6,33 +6,47 @@
     .controller('ProfileEditController', ProfileEditController);
 
   /** @ngInject */
-  function ProfileEditController($rootScope, $state, $q, $uibModal, $timeout, $log,
-                                 toastr,
-                                 NST_STORE_UPLOAD_TYPE, NST_DEFAULT,
-                                 NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory) {
+  function ProfileEditController($rootScope, $state, $q, $uibModal, $timeout, $log, $window,
+    toastr,
+    NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
+    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility) {
     var vm = this;
+
 
     /*****************************
      *** Controller Properties ***
      *****************************/
 
+    vm.save = save;
+    vm.removeImage = removeImage;
+    vm.setImage = setImage;
     vm.status = {
       saveInProgress: false
     };
 
-    vm.userModel = NstSvcAuth.getUser();
+    vm.controls = {
+      left: [],
+      right: []
+    };
+
+    vm.genders = [
+      {key : 'm', title : 'Male'},
+      {key : 'f', title : 'Female'},
+      {key : 'o', title : 'Other'}
+    ];
 
     vm.model = {
-      id: '',
+      id: null,
       firstName: '',
       lastName: '',
-      fullName: '',
       phone: '',
+      gender: 'm',
+      dateOfBirth : null,
       picture: {
         id: '',
         file: null,
         url: '',
-        request: null,
+        remove : false,
         isUploading: false,
         uploadedSize: 0,
         uploadedRatio: 0
@@ -48,14 +62,16 @@
      ***** Controller Methods ****
      *****************************/
 
-    vm.imgToUri = function (event) {
+    function setImage(event) {
       var element = event.currentTarget;
       var reader = new FileReader();
 
       vm.model.picture.id = '';
       vm.model.picture.file = element.files[0];
-      reader.onload = function (event) {
-        $timeout(function () {
+      vm.model.picture.remove = false;
+
+      reader.onload = function(event) {
+        $timeout(function() {
           vm.model.picture.url = event.target.result;
         });
       };
@@ -63,230 +79,130 @@
       reader.readAsDataURL(vm.model.picture.file);
     };
 
-    vm.removeImg = function () {
+    function removeImage() {
       if (vm.model.picture.request) {
         NstSvcStore.cancelUpload(vm.model.picture.request);
       }
 
-      $timeout(function () {
-        vm.model.picture.id = '';
-        vm.model.picture.file = null;
-        vm.model.picture.url = '';
+      vm.model.picture.id = '';
+      vm.model.picture.file = null;
+      vm.model.picture.url = '';
+      vm.model.picture.remove = true;
+    };
+    
+    (function() {
+      var userPromise = NstSvcUserFactory.get();
+      NstSvcLoader.inject(userPromise);
+
+      userPromise.then(function(user) {
+
+        vm.model.id = user.getId();
+        vm.model.firstName = user.getFirstName();
+        vm.model.lastName = user.getLastName();
+        vm.model.fullName = user.getFullName();
+        vm.model.phone = user.getPhone();
+        vm.model.dateOfBirth = new Date(user.getDateOfBirth());
+        vm.model.gender = user.getGender();
+
+        if (user.getPicture().getId()) {
+          vm.model.picture.id = user.getPicture().getId();
+          vm.model.picture.url = user.getPicture().thumbnails.x128.url.view;
+        }
+      }).catch(function(error) {
+        $log.debug(error);
       });
-      
-    };
 
-    vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-      if (vm.model.saved || !vm.model.isModified()) {
-        cancel.$destroy();
-        $state.go(toState.name, toParams);
-      } else {
-        if (!$rootScope.modals['leave-confirm']) {
-          $rootScope.modals['leave-confirm'] = $uibModal.open({
-            animation: false,
-            templateUrl: 'app/modals/leave-confirm/main.html',
-            controller: 'LeaveConfirmController',
-            controllerAs: 'ctlLeaveConfirm',
-            size: 'sm',
-            resolve: {
-
-            }
-          });
-
-          $rootScope.modals['leave-confirm'].result.then(function () {
-            cancel.$destroy();
-            $state.go(toState.name, toParams);
-          });
-        }
-      }
-    };
-
-    vm.model.isModified = function () {
-      vm.model.fullName = vm.model.firstName + ' ' + vm.model.lastName;
-      vm.model.modified = (function (model) {
-        var modified = false;
-
-        modified = modified || model.firstName.trim().length > 0;
-        modified = modified || model.lastName.trim().length > 0;
-        modified = modified || model.picture.file;
-
-        return modified;
-      })(vm.model);
-
-      return vm.model.modified;
-    };
-
-    // TODO: Call this while model is changed
-    vm.model.check = function () {
-      vm.model.isModified();
-
-      vm.model.errors = (function (model) {
-        var errors = [];
-
-        if (0 == model.firstName.trim().length) {
-          errors.push({
-            name: 'firstname',
-            message: 'First Name is Empty'
-          });
-        }
-
-        if (0 == model.lastName.trim().length) {
-          errors.push({
-            name: 'lastname',
-            message: 'Last Name is Empty'
-          });
-        }
-
-        if (vm.model.picture.request) {
-          errors.push({
-            name: 'picture',
-            message: 'Picture uploading has not been finished yet'
-          });
-        }
-
-        return errors;
-      })(vm.model);
-
-      vm.model.ready = 0 == vm.model.errors.length;
-
-      return vm.model.ready;
-    };
-
-    vm.save = function () {
-      return NstSvcLoader.inject((function () {
-        var deferred = $q.defer();
-
-        if (vm.model.saving) {
-          deferred.reject([{
-            name: 'saving',
-            message: 'Already is being saved'
-          }]);
-        } else {
-          if (vm.model.check()) {
-            vm.model.saving = true;
-
-            var user = vm.userModel;
-            var qPicture = $q.defer();
-
-
-            //TODO:: Move to Auth Service
-            if (vm.model.picture.id || !vm.model.picture.file) {
-              user.getPicture().setId(vm.model.picture.id);
-              qPicture.resolve(user);
-            } else {
-              vm.model.picture.request = NstSvcStore.uploadWithProgress(vm.model.picture.file, function (event) {
-                if (event.lengthComputable) {
-                  vm.model.picture.uploadedSize = event.loaded;
-                  vm.model.picture.uploadedRatio = Number(event.loaded / event.total).toFixed(4);
-                }
-              }, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
-
-              vm.model.picture.request.sent().then(function () {
-                vm.model.picture.isUploading = true;
-              });
-
-              vm.model.picture.request.finished().then(function () {
-                vm.model.picture.isUploading = false;
-                vm.model.picture.request = null;
-              });
-
-              vm.model.picture.request.getPromise().then(function (response) {
-                vm.model.picture.id = response.data.universal_id;
-                user.getPicture().setId(vm.model.picture.id);
-                qPicture.resolve(user);
-              }).catch(qPicture.reject);
-            }
-
-
-            $q.all([qPicture.promise]).then(function () {
-              user.setFirstName(vm.model.firstName);
-              user.setLastName(vm.model.lastName);
-
-              return reqUpdateUser(user);
-            }).then(deferred.resolve).catch(function (error) { deferred.reject([error]); });
-          } else {
-            deferred.reject(vm.model.errors);
-          }
-        }
-
-        return deferred.promise;
-      })().then(function (user) {
-        vm.model.saving = false;
-        vm.model.saved = true;
-
-        toastr.success('Your profile has been successfully updated.', 'Profile Updated');
-        $state.go(NST_DEFAULT.STATE);
-
-        return $q(function (res) {
-          res(user);
-        });
-      }).catch(function (errors) {
-        vm.model.saving = false;
-        toastr.error(errors.filter(
-          function (v) { return !!v.message; }
-        ).map(
-          function (v, i) { return String(Number(i) + 1) + '. ' + v.message; }
-        ).join("<br/>"), 'Profile Update Error');
-
-        $log.debug('Profile Update | Error Occurred: ', errors);
-
-        return $q(function (res, rej) {
-          rej(errors);
-        });
-      }));
-    };
-
-    /*****************************
-     *****  Controller Logic  ****
-     *****************************/
-
-    (function () {
-      vm.model.id = vm.userModel.getId();
-      vm.model.firstName = vm.userModel.getFirstName();
-      vm.model.lastName = vm.userModel.getLastName();
-      vm.model.fullName = vm.userModel.getFullName();
-      vm.model.phone = vm.userModel.getPhone();
-
-      if (vm.userModel.getPicture().getId()) {
-        vm.model.picture.id = vm.userModel.getPicture().getId();
-        vm.model.picture.url = vm.userModel.getPicture().getLargestThumbnail().getUrl().view;
-      }
     })();
 
-    /*****************************
-     *****   Request Methods  ****
-     *****************************/
+    function storePicture(file, viewModel) {
+      var deferred = $q.defer();
 
-    function reqUpdateUser(user) {
-      vm.status.saveInProgress = true;
+      var request = NstSvcStore.uploadWithProgress(file, function(event) {
+        if (event.lengthComputable) {
+          viewModel.picture.uploadedSize = event.loaded;
+          viewModel.picture.uploadedRatio = Number(event.loaded / event.total).toFixed(4);
+        }
+      }, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
 
-      return NstSvcLoader.inject(NstSvcUserFactory.save(user)).then(function (newUser) {
-        vm.status.saveInProgress = false;
-
-        return $q(function (res) {
-          res(newUser);
-        });
-      }).catch(function (error) {
-        vm.status.saveInProgress = false;
-
-        return $q(function (res, rej) {
-          rej(error);
-        });
+      request.sent().then(function() {
+        viewModel.picture.isUploading = true;
       });
+
+      request.finished().then(function() {
+        viewModel.picture.isUploading = false;
+      });
+
+      request.getPromise().then(function(response) {
+        var id = response.data.universal_id;
+        deferred.resolve(id);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
     }
 
-    /*****************************
-     *****     Map Methods    ****
-     *****************************/
+    function removePicture() {
+      var deferred = $q.defer();
 
-    function mapUser(user) {
-      return {
-        id : user.getId(),
-        avatar : user.getPicture().getThumbnail(128).getUrl().view,
-        fname : user.getFirstName(),
-        lname : user.getLastName(),
-        phone : user.getPhone()
-      };
+      NstSvcUserFactory.removePicture().then(deferred.resolve).catch(deferred.reject);
+
+      return deferred.promise;
     }
+
+    function updateModel(viewModel) {
+      var deferred = $q.defer();
+      NstSvcUserFactory.get(viewModel.id).then(function(user) {
+
+        user.firstName = viewModel.firstName;
+        user.lastName = viewModel.lastName;
+        user.phone = viewModel.phone;
+        user.gender = viewModel.gender;
+        user.dateOfBirth = moment(viewModel.dateOfBirth).startOf('date').format('YYYY-MM-DD');
+
+        return NstSvcUserFactory.updateProfile(user);
+      }).then(function(user) {
+        deferred.resolve(user);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    function save() {
+      var deferred = $q.defer();
+
+      NstSvcLoader.inject(deferred.promise);
+
+      deferred.promise.then(function () {
+        $window.history.back();
+      });
+
+      updateModel(vm.model).then(function(user) {
+
+        if (vm.model.picture.file) {
+          storePicture(vm.model.picture.file, vm.model).then(function(storeId) {
+
+            return NstSvcUserFactory.updatePicture(storeId);
+          }).then(function (pictureId) {
+            vm.model.picture.id = pictureId;
+            user.getPicture().setId(pictureId);
+            user.getPicture().setThumbnail(32, user.getPicture().getOrg());
+            user.getPicture().setThumbnail(64, user.getPicture().getOrg());
+            user.getPicture().setThumbnail(128, user.getPicture().getOrg());
+
+            deferred.resolve(user);
+          }).catch(deferred.reject);
+        } else if (vm.model.picture.remove) {
+          removePicture().then(function () {
+            user.picture = new NstPicture();
+            deferred.resolve(user);
+          }).catch(deferred.reject);
+        } else {
+          deferred.resolve(user);
+        }
+
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
   }
 })();
