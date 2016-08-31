@@ -14,9 +14,9 @@
                  data-font-size="16">
           </label>
           <input id="logo" type="file" name="logo" accept="image/*"
-                 onchange="angular.element(this).scope().ctlProfileEdit.imgToUri(event)">
+                 onchange="angular.element(this).scope().ctlProfileEdit.setImage(event)">
           <div class="probut">
-            <div ng-if="ctlProfileEdit.model.picture.url" class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImg()" role="button"></div>
+            <div ng-if="ctlProfileEdit.model.picture.url" class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImage()" role="button"></div>
             <label for="logo" class="add-photo-hover"></label>
           </div>
         </div>
@@ -65,11 +65,7 @@
                    data-ng-model="ctlProfileEdit.model.phone"/>
           </div>
           <label>Gender</label>
-          <select name="dateFields.month" class="form-control" aria-invalid="false">
-            <option value="male" selected="selected">Male</option>
-            <option label="Female" value="female">Female</option>
-            <option label="Other" value="other">Other</option>
-          </select>
+          <select ng-model="ctlProfileEdit.model.gender" ng-options="gender.key as gender.title for gender in ctlProfileEdit.genders" class="form-control" aria-invalid="false" disabled="disabled" />
           <!--<ul class="_fw _difh list-unstyled">-->
           <!--<li class="_df _fw _pr _jcc">-->
           <!--<input type="radio" name="gender" value="female" id="female"/>-->
@@ -86,7 +82,7 @@
           <!--</ul>-->
           <label>Date of Birth</label>
           <div class="nst-marginbtm-36">
-            <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="birth"/>
+            <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="ctlProfileEdit.model.dateOfBirth"/>
           </div>
         </div>
         <div>
@@ -122,4 +118,3 @@
     </div>
   </section>
 </div>
-
