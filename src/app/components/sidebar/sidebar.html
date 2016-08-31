@@ -90,9 +90,10 @@
       </a>
       <a class="_fw">
         <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
-          <img class="account-initials-32"
+          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-32"
                initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
                data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
+          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}" class="account-initials-32"/>
           <div class="_fw _df fade-animation" ng-show="!ctlSidebar.collapsed">
             <span>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm sm">@{{ctlSidebar.user.id}}</span> </span>
           </div>
