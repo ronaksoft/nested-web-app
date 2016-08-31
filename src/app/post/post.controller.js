@@ -84,9 +84,8 @@
      * @param  {Event}  event   keypress event handler
      */
     function sendComment(event) {
-      console.log("before send");
       var cm = event.currentTarget.innerText;
-      
+
       if (!sendKeyIsPressed(event)) {
         return;
       }
@@ -97,7 +96,6 @@
       }
 
       vm.nextComment = "";
-      console.log("send");
 
       reqAddComment(vm.postModel, body).then(function(comment) {
         // TODO: notify

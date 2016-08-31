@@ -438,8 +438,10 @@
 }
 .highlight {
   background-color: $color-force;
+  color: white
 }
 [contenteditable]:empty:before{
   content: attr(placeholder);
   display: block; /* For Firefox */
+  color: #ced9d3;
 }

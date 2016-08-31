@@ -453,7 +453,9 @@ input[type="checkbox"] {
     background-position: 0 -16px;
   }
 }
-
+.form-control {
+  line-height: normal;
+}
 
 /**
  *   Switch Checkboxes
