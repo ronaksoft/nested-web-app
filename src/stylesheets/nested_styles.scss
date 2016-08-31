@@ -467,27 +467,27 @@ nst-navbar {
 
 .maincontainer.navtiny {
   nst-navbar{
-    height: 96px;
+    //transform: translate3d(0,-87px,0);
     .navbar-top {
-      height: 48px;
-      span{
-        height: 0;
-        padding: 0;
-        overflow: hidden;
-      }
-      a {
-        font-weight: 300;
-        font-size: 16px;
-      }
+      //height: 48px;
+      //span{
+      //  height: 0;
+      //  padding: 0;
+      //  overflow: hidden;
+      //}
+      //a {
+      //  font-weight: 300;
+      //  font-size: 16px;
+      //}
 
     }
-    .navbar-bottom{
-      height: 48px;
-    }
-    .account-initials-64 {
-      width: 40px;
-      height: 40px;
-    }
+    //.navbar-bottom{
+    //  height: 48px;
+    //}
+    //.account-initials-64 {
+    //  width: 40px;
+    //  height: 40px;
+    //}
   }
 }
 
@@ -1231,6 +1231,7 @@ h3 {
 
 .post-card-comments .text{
   padding-top: 4px;
+  max-width: calc(100% - 108px);
 }
 .post-card-comments strong{
   font-weight: 600;
@@ -1565,9 +1566,15 @@ input[type="checkbox"]:checked + label.setting {
   }
   .maincontainer {
     height: 100%;
+    &.navtiny {
+      nst-navbar {
+        transform: translate3d(0,-117px,0);
+      }
+    }
   }
   nst-navbar{
     top: 0;
+    transform: translate3d(0,0,0);
     width: calc(100% - 272px);
   }
   .nst-container{
