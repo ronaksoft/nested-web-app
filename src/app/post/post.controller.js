@@ -83,15 +83,10 @@
      *
      * @param  {Event}  event   keypress event handler
      */
-    function sendComment() {
-      // console.log($(this));
+    function sendComment(event) {
+      console.log("before send");
       var cm = event.currentTarget.innerText;
-      // if (cm.length > 250) {
-      //   var innerHTML = '<p>' + cm.substring(0,250) + '<em class="highlight">' + cm.substring(250,cm.length) + '</em>' + '</p>';
-      //   event.currentTarget.innerHTML = '';
-      //   event.currentTarget.innerHTML = innerHTML;
-      //   //$(event).focus().html('').html(innerHTML)
-      // }
+      
       if (!sendKeyIsPressed(event)) {
         return;
       }
@@ -102,6 +97,7 @@
       }
 
       vm.nextComment = "";
+      console.log("send");
 
       reqAddComment(vm.postModel, body).then(function(comment) {
         // TODO: notify

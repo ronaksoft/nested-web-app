@@ -14,12 +14,9 @@
           var maxLength = parseInt(attrs.maxLength) + 2;
           if (str.length > maxLength) {
             var innerHTML = '<p>' + str.substring(0,maxLength - 2) + '<em class="highlight">' + str.substring(maxLength - 2,str.length) + '</em>' + '</p>';
-            // event.currentTarget.innerHTML = '';
-            // event.currentTarget.innerHTML = innerHTML;
             $(element[0]).html(innerHTML);
             element[0].focus();
             placeCaretAtEnd(element[0]);
-            //$(event).focus().html('').html(innerHTML)
           }
 
         }

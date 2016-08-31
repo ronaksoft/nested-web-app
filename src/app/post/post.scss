@@ -382,9 +382,6 @@
   line-height: 22px;
   //margin-right: 15px;
 }
-.comment-input .nst-mood-simple {
-  margin-right: 10px;
-}
 .nst-preview-pic-mode {
   max-width: 100%;
   max-height: calc(100vh - 244px);
@@ -440,5 +437,9 @@
   border-radius: 6px;
 }
 .highlight {
-  background-color: orange;
+  background-color: $color-force;
+}
+[contenteditable]:empty:before{
+  content: attr(placeholder);
+  display: block; /* For Firefox */
 }
