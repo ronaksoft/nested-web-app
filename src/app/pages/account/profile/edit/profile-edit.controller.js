@@ -42,6 +42,7 @@
       phone: '',
       gender: 'm',
       dateOfBirth : null,
+      country : null,
       picture: {
         id: '',
         file: null,
@@ -89,7 +90,7 @@
       vm.model.picture.url = '';
       vm.model.picture.remove = true;
     };
-    
+
     (function() {
       var userPromise = NstSvcUserFactory.get();
       NstSvcLoader.inject(userPromise);
@@ -103,6 +104,7 @@
         vm.model.phone = user.getPhone();
         vm.model.dateOfBirth = new Date(user.getDateOfBirth());
         vm.model.gender = user.getGender();
+        vm.model.country = user.getCountry();
 
         if (user.getPicture().getId()) {
           vm.model.picture.id = user.getPicture().getId();
@@ -157,6 +159,7 @@
         user.phone = viewModel.phone;
         user.gender = viewModel.gender;
         user.dateOfBirth = moment(viewModel.dateOfBirth).startOf('date').format('YYYY-MM-DD');
+        user.country = viewModel.country;
 
         return NstSvcUserFactory.updateProfile(user);
       }).then(function(user) {
