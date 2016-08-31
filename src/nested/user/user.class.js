@@ -27,14 +27,14 @@
        * @type {undefined|String}
        */
       this.emailVerified = undefined;
-      
+
       /**
        * User's Phone Number
        *
        * @type {undefined|String}
        */
       this.phone = undefined;
-      
+
       /**
        * User's Country
        *
@@ -48,6 +48,19 @@
        * @type {undefined|Boolean}
        */
       this.registered = undefined;
+
+      /**
+       * User's Date of Birth
+       *
+       * @type {undefined|string}
+       */
+      this.dateOfBirth = undefined;
+
+      /**
+       *  User's Gender
+       *  @type {undefined|m|f|o}
+       */
+      this.gender = undefined;
 
       NstTinyUser.call(this);
 
