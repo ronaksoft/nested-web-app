@@ -83,12 +83,20 @@
      *
      * @param  {Event}  event   keypress event handler
      */
-    function sendComment(event) {
+    function sendComment() {
+      // console.log($(this));
+      var cm = event.currentTarget.innerText;
+      // if (cm.length > 250) {
+      //   var innerHTML = '<p>' + cm.substring(0,250) + '<em class="highlight">' + cm.substring(250,cm.length) + '</em>' + '</p>';
+      //   event.currentTarget.innerHTML = '';
+      //   event.currentTarget.innerHTML = innerHTML;
+      //   //$(event).focus().html('').html(innerHTML)
+      // }
       if (!sendKeyIsPressed(event)) {
         return;
       }
 
-      var body = extractCommentBody(event);
+      var body = extractCommentBody(cm);
       if (0 == body.length) {
         return;
       }
@@ -448,8 +456,8 @@
      *
      * @return {string}       refined comment
      */
-    function extractCommentBody(event) {
-      return event.currentTarget.value.trim();
+    function extractCommentBody(cm) {
+      return cm.trim();
     }
 
     function findOldestComment(post) {

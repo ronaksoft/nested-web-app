@@ -429,3 +429,16 @@
   height: 68px;
   width: 300px;
 }
+.comment-box {
+  background-color: white;
+  overflow-y: auto;
+  border: 1px solid #ced9d3!important;
+  padding: 6px 8px 6px 6px;
+  margin-bottom: 5px;
+  height: 60px;
+  resize: none;
+  border-radius: 6px;
+}
+.highlight {
+  background-color: orange;
+}
