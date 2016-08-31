@@ -67,7 +67,7 @@
 
       .state('profile', {
         url: '/profile',
-        templateUrl: 'app/pages/account/profile/edit/main.html',
+        templateUrl: 'app/pages/account/profile-edit/profile-edit.html',
         controller: 'ProfileEditController',
         controllerAs: 'ctlProfileEdit'
       })

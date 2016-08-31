@@ -31,19 +31,19 @@
           <div>
               <input page-change-element class="form-control" aria-invalid="true"
                      type="password" name="first_name" id="old_pass" placeholder="Type your old password !"
-                     data-ng-model="ctlProfileEdit.model.oldPass" data-ng-change="ctlProfileEdit.model.check()"/>
+                     data-ng-model="ctlProfileEdit.model.oldPass"/>
           </div>
           <label for="new_pass">New Password</label>
           <div>
               <input page-change-element class="form-control" aria-invalid="true"
                      type="password" name="last_name" id="new_pass" placeholder="Type your new password !"
-                     data-ng-model="ctlProfileEdit.model.newPass" data-ng-change="ctlProfileEdit.model.check()"/>
+                     data-ng-model="ctlProfileEdit.model.newPass"/>
           </div>
           <label for="new_pass_conf">New Password confirm</label>
           <div>
               <input page-change-element class="form-control" aria-invalid="true"
                      type="password" name="last_name" id="new_pass_conf" placeholder="Type your new password again!"
-                     data-ng-model="ctlProfileEdit.model.newPassConf" data-ng-change="ctlProfileEdit.model.check()"/>
+                     data-ng-model="ctlProfileEdit.model.newPassConf"/>
           </div>
         </div>
         <div ng-if="!changePassword">
@@ -51,13 +51,13 @@
           <div>
             <input page-change-element class="form-control" aria-invalid="false"
                    type="text" name="first_name" id="first_name"
-                   data-ng-model="ctlProfileEdit.model.firstName" data-ng-change="ctlProfileEdit.model.check()"/>
+                   data-ng-model="ctlProfileEdit.model.firstName"/>
           </div>
           <label for="Last_name">Last Name</label>
           <div>
             <input page-change-element class="form-control" aria-invalid="false"
                    type="text" name="last_name" id="Last_name"
-                   data-ng-model="ctlProfileEdit.model.lastName" data-ng-change="ctlProfileEdit.model.check()"/>
+                   data-ng-model="ctlProfileEdit.model.lastName"/>
           </div>
           <label for="Mobile_number">Mobile phone</label>
           <div class="nst-marginbtm-24">
@@ -66,20 +66,6 @@
           </div>
           <label>Gender</label>
           <select ng-model="ctlProfileEdit.model.gender" ng-options="gender.key as gender.title for gender in ctlProfileEdit.genders" class="form-control" aria-invalid="false" disabled="disabled" />
-          <!--<ul class="_fw _difh list-unstyled">-->
-          <!--<li class="_df _fw _pr _jcc">-->
-          <!--<input type="radio" name="gender" value="female" id="female"/>-->
-          <!--<label for="female">Female</label>-->
-          <!--</li>-->
-          <!--<div class="_fw _difh _pr _jcc">-->
-          <!--<input type="radio" name="gender" value="male" id="male"/>-->
-          <!--<label for="male">Male</label>-->
-          <!--</div>-->
-          <!--<div class="_fw _difh _pr _jcc">-->
-          <!--<input type="radio" name="gender" value="other" id="others"/>-->
-          <!--<label for="others">Other</label>-->
-          <!--</div>-->
-          <!--</ul>-->
           <label>Date of Birth</label>
           <div class="nst-marginbtm-36">
             <input page-change-element class="select-birthday" rsmdatedropdowns ng-model="ctlProfileEdit.model.dateOfBirth"/>
@@ -88,30 +74,6 @@
         <div>
           <button class="butn-green _fw" data-ng-click="ctlProfileEdit.save()">Save & Exit</button>
         </div>
-        <!--<div class="nst-marginbtm-4">Change Password</div>-->
-        <!--<div>-->
-          <!--<form name="place_id">-->
-            <!--<input page-change-element class="nst-marginbtm-24 form-control" aria-invalid="true"-->
-                   <!--type="password" name="password" placeholder="Type your old password !"-->
-                   <!--data-ng-model="ctlProfileEdit.model.oldPass" data-ng-change="ctlProfileEdit.model.check()"/>-->
-            <!--<input page-change-element class="nst-marginbtm-24 form-control" aria-invalid="true"-->
-                   <!--type="password" name="password" placeholder="Type your new password !"-->
-                   <!--data-ng-model="ctlProfileEdit.model.newPass" data-ng-change="ctlProfileEdit.model.check()"/>-->
-            <!--<input page-change-element class="nst-marginbtm-24 form-control" aria-invalid="true"-->
-                   <!--type="password" name="password" placeholder="Type your new password again!"-->
-                   <!--data-ng-model="ctlProfileEdit.model.newPassConf" data-ng-change="ctlProfileEdit.model.check()"/>-->
-          <!--</form>-->
-        <!--</div>-->
-        <!--<div>
-          <div class="nst-marginbtm-4">Recovery Mail</div>
-          <div class="verified-li"></div>
-        </div
-        <div>
-          <form name="place_id">
-            <input page-change-element type="text" name="place_id" value="{{ctlProfile.user.email}}" class=" nst-marginbtm-24 form-control"
-                   aria-invalid="false" data-ng-model="ctlProfile.user.email"/>
-          </form>
-        </div>>-->
 
       </div>
       <div class="restplace _df _fh"></div>
