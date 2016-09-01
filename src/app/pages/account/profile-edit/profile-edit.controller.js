@@ -20,6 +20,8 @@
     vm.save = save;
     vm.removeImage = removeImage;
     vm.setImage = setImage;
+    vm.changePassword = changePassword;
+
     vm.status = {
       saveInProgress: false
     };
@@ -169,7 +171,16 @@
       return deferred.promise;
     }
 
-    function save() {
+    function save(isValid) {
+      vm.submitted = true;
+
+
+
+      if (!isValid) {
+        console.log('oops');
+        return;
+      }
+
       var deferred = $q.defer();
 
       NstSvcLoader.inject(deferred.promise);
@@ -203,5 +214,8 @@
       return deferred.promise;
     }
 
+    function changePassword() {
+      $state.go('change-password');
+    }
   }
 })();

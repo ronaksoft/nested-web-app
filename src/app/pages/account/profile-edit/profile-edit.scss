@@ -13,6 +13,7 @@
   width: 574px;
   text-decoration: none;
   border: 1px $color-breeze;
+  margin: 0 auto;
   .profile-name {
     font-weight: 300;
     color: #000000;
@@ -31,7 +32,7 @@
     margin-bottom: 8px;
   }
   input,select {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     height: 40px;
   }
   input:disabled {
