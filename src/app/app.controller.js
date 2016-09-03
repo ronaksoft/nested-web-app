@@ -180,8 +180,8 @@
     function getValidState(toState, toParams) {
       var toPublicState = NST_PUBLIC_STATE.indexOf(toState.name) > -1;
 
-      if (NstSvcAuth.isInAuthorization()) {
 
+      if (NstSvcAuth.isInAuthorization()) {
         if (toPublicState) {
           vm.loginView = true;
           return {
@@ -202,6 +202,7 @@
             }
           };
         } else {
+
           vm.loginView = true;
           return {
             name: 'signin',
@@ -209,7 +210,7 @@
           };
         }
       }
-
+      
       return {
         name: toState.name,
         params: toParams
@@ -333,7 +334,8 @@
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
-      if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER).indexOf(toState.name) > -1) {
+      //FIXMS:: check public pages in getValidState function
+      if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER.concat(NST_PAGE.RECOVER)).indexOf(toState.name) > -1) {
         vm.loginView = true;
       }else{
         vm.loginView = false;

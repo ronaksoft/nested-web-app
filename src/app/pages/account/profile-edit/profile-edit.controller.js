@@ -20,12 +20,16 @@
     vm.save = save;
     vm.removeImage = removeImage;
     vm.setImage = setImage;
+    vm.changePassword = changePassword;
+
     vm.status = {
       saveInProgress: false
     };
 
     vm.controls = {
-      left: [],
+      left: [
+        new NstVmNavbarControl('Back', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
+      ],
       right: []
     };
 
@@ -42,6 +46,7 @@
       phone: '',
       gender: 'm',
       dateOfBirth : null,
+      country : null,
       picture: {
         id: '',
         file: null,
@@ -89,7 +94,7 @@
       vm.model.picture.url = '';
       vm.model.picture.remove = true;
     };
-    
+
     (function() {
       var userPromise = NstSvcUserFactory.get();
       NstSvcLoader.inject(userPromise);
@@ -103,6 +108,7 @@
         vm.model.phone = user.getPhone();
         vm.model.dateOfBirth = new Date(user.getDateOfBirth());
         vm.model.gender = user.getGender();
+        vm.model.country = user.getCountry();
 
         if (user.getPicture().getId()) {
           vm.model.picture.id = user.getPicture().getId();
@@ -157,6 +163,7 @@
         user.phone = viewModel.phone;
         user.gender = viewModel.gender;
         user.dateOfBirth = moment(viewModel.dateOfBirth).startOf('date').format('YYYY-MM-DD');
+        user.country = viewModel.country;
 
         return NstSvcUserFactory.updateProfile(user);
       }).then(function(user) {
@@ -166,14 +173,16 @@
       return deferred.promise;
     }
 
-    function save() {
+    function save(isValid) {
+      vm.submitted = true;
+
+      if (!isValid) {
+        return;
+      }
+
       var deferred = $q.defer();
 
       NstSvcLoader.inject(deferred.promise);
-
-      deferred.promise.then(function () {
-        $window.history.back();
-      });
 
       updateModel(vm.model).then(function(user) {
 
@@ -204,5 +213,8 @@
       return deferred.promise;
     }
 
+    function changePassword() {
+      $state.go('change-password');
+    }
   }
 })();

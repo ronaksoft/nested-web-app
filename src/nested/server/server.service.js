@@ -199,7 +199,7 @@
         // TODO: retry here by creating a new request
         deferred.reject(new NstServerError(
           new NstServerQuery(action, data),
-          response.getData().message,
+          response.getData().items,
           response.getData().err_code,
           response.getData()
         ));

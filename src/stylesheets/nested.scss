@@ -6,6 +6,8 @@
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, woff woff2);
 @include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
+@include font-face(OpenSanss,"../assets/fonts/OpenSans", normal, null, woff);
+@include font-face(YekanBakhs,"../assets/fonts/YekanBakhNested", normal, null, woff);
 
 /**
   ******************************
@@ -262,7 +264,7 @@ a.place {
   border: 1px solid #00B45A;
   border-radius: 5px;
   margin: 0 5px;
-  width: 128px;
+  min-width: 128px;
   flex: none;
   text-decoration: none;
 }
@@ -451,7 +453,9 @@ input[type="checkbox"] {
     background-position: 0 -16px;
   }
 }
-
+.form-control {
+  line-height: normal;
+}
 
 /**
  *   Switch Checkboxes
@@ -878,14 +882,6 @@ body.modal-open {
   left: 0;
 }
 
-.panel {
-  background-color: white;
-  margin: auto;
-  border-radius: 8px;
-  border: 1px solid $color-breeze;
-  padding: 25px 15px 25px 15px;
-  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
-}
 
 .form-control {
   border: 1px solid $color-breeze;

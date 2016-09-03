@@ -5,7 +5,7 @@
     .module('nested')
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
-  function NstSvcUserFactory($q,
+  function NstSvcUserFactory($q, md5,
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
                              NST_USER_FACTORY_EVENT,
                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
@@ -166,6 +166,27 @@
         factory.set(user);
         factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
         deferred.resolve(user);
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      });
+
+      return deferred.promise;
+    }
+
+    UserFactory.prototype.changePassword = function (oldPassword, newPassword) {
+      var deferred = $q.defer();
+      var factory = this;
+
+      var query = new NstFactoryQuery(null, {
+        oldPassword : oldPassword,
+        newPassword : newPassword
+      });
+
+      NstSvcServer.request('account/set_password', {
+        old_pass : md5.createHash(oldPassword),
+        new_pass : md5.createHash(newPassword)
+      }).then(function (result) {
+        deferred.resolve();
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });

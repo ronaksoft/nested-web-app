@@ -14,7 +14,8 @@
       'signin-back',
       'intro',
       'register',
-      'register-with-phone'
+      'register-with-phone',
+      'recover'
     ])
     .constant('NST_PAGE', {
       'INTRO': [
@@ -23,6 +24,9 @@
       'REGISTER': [
         'register',
         'register-with-phone'
+      ],
+      'RECOVER': [
+        'recover'
       ],
       'SIGNIN': [
         'signin',
@@ -73,6 +77,7 @@
       ]
     })
     .constant('NST_PATTERN', {
+      // PASSWORD : /(?=.*[A-Z])(?=.*[a-z])(?=.*[\d~!@#\$%\^&\*\(\)\-_=\+\|\{\}\[\]\?\.])/,
       USERNAME : /^[a-zA-Z](?!.*--)[a-zA-Z0-9-]{3,30}[^-]$/,
       GRAND_PLACE_ID: /^[a-zA-Z](?!.*--)[a-zA-Z0-9-]{4,30}[^-]$/,
       SUB_PLACE_ID: /^[a-zA-Z](?!.*--)[a-zA-Z0-9-]{0,30}[^-]/,

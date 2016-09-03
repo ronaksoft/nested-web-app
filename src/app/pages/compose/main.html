@@ -1,4 +1,4 @@
-<nst-navbar controls="ctlCompose.controls" place="ctlCompose.place" page="ctlApp.page" class="second-view"></nst-navbar>
+<nst-navbar controls="ctlCompose.controls" page="ctlApp.page" nav-title="Compose" ready-to-show="true" class="second-view"></nst-navbar>
 
 <div class="nst-content _tr second-view" id="content-wrapper" page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
   <section class="content _bgwhite">
@@ -21,7 +21,6 @@
                 <img class="account-initials-32" ng-src="{{place.avatar}}"/>
                 <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
                 <br/>
-                <p class="nst-font-10 _vat margin-l-50">{{place.id}}</p>
                 <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
               </ui-select-choices>
             </ui-select>
