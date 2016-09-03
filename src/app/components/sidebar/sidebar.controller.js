@@ -8,8 +8,8 @@
   /** @ngInject */
   function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT,
+                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
     $log.debug(vm.stat);
@@ -99,7 +99,6 @@
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
-
       fixPlaceUrl();
     });
 
@@ -340,6 +339,18 @@
       NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
     });
 
+    NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
+      vm.user = mapUser(event.detail);
+    });
+
+    NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
+      vm.user.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
+
+      var place = _.find(vm.places, { id : NstSvcAuth.user.id });
+      if (place) {
+        place.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
+      }
+    });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
       NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));

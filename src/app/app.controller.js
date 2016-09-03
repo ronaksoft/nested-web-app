@@ -314,7 +314,7 @@
               }
             });
           } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            NstSvcModal.error('Access denied!', 'You are not allowed to be here!').catch(function () {
+            NstSvcModal.error('Access denied', 'You don\'t have access permissions for this Place.').catch(function () {
               // This handles dismissed modal
               return $q(function (res) {
                 res(false);

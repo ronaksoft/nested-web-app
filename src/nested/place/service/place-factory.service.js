@@ -901,7 +901,6 @@
       });
     };
 
-
     PlaceFactory.prototype.getRoleOnPlace = function (id, forceRequest) {
       var factory = this;
 
