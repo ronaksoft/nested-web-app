@@ -84,11 +84,13 @@
      * @param  {Event}  event   keypress event handler
      */
     function sendComment(event) {
+      var cm = event.currentTarget.innerText;
+
       if (!sendKeyIsPressed(event)) {
         return;
       }
 
-      var body = extractCommentBody(event);
+      var body = extractCommentBody(cm);
       if (0 == body.length) {
         return;
       }
@@ -448,8 +450,8 @@
      *
      * @return {string}       refined comment
      */
-    function extractCommentBody(event) {
-      return event.currentTarget.value.trim();
+    function extractCommentBody(cm) {
+      return cm.trim();
     }
 
     function findOldestComment(post) {
