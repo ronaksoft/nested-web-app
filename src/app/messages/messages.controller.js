@@ -290,6 +290,7 @@
       } else {
         NstSvcPlaceFactory.get(id).then(function (place) {
           if (place && place.id) {
+            console.log(place);
             vm.currentPlace = place;
           }
           defer.resolve(vm.currentPlace);
@@ -372,7 +373,7 @@
         vm.loadMore();
       }
     });
-    
+
     vm.preventParentScroll = function (event) {
       var element = event.currentTarget;
       var delta = event.wheelDelta;

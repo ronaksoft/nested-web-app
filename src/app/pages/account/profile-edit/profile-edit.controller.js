@@ -27,7 +27,9 @@
     };
 
     vm.controls = {
-      left: [],
+      left: [
+        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
+      ],
       right: []
     };
 
