@@ -10,11 +10,8 @@
       <span class="nst-mood-simple">commented on&nbsp;</span>
       <a class="nst-mood-solid post" href="#/post/{{act.post.id}}" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)" data-ng-bind-html="act.post.subject || '<i>No Subject</i>' | emoji"></a>
     </div>
-<<<<<<< HEAD
+
     <div data-ng-show="extended" class=" _wrb bod" data-ng-bind-html="act.comment.body | emoji"></div>
-=======
-    <div data-ng-show="extended" class="bod _wrb" data-ng-bind-html="act.comment.body | emoji"></div>
->>>>>>> 4b2218cc44a488054de62f03c5c51a7ae795e883
   </div>
   <div class="places _dif">
     <a data-ng-if="act.post.allPlacesCount > 1" class="_df _pr more-tag popover-white-nst-activity-places" id="popover-badge" data-uib-popover-template="'app/events/partials/popovers/more_places.html'" data-popover-placement="auto bottom-right" popover-trigger="outsideClick">
