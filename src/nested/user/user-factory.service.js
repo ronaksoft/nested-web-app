@@ -174,8 +174,6 @@
     }
 
     UserFactory.prototype.changePassword = function (oldPassword, newPassword) {
-      console.log(oldPassword);
-      console.log(newPassword);
       var deferred = $q.defer();
       var factory = this;
 

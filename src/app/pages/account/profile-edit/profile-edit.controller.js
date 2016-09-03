@@ -176,10 +176,7 @@
     function save(isValid) {
       vm.submitted = true;
 
-
-
       if (!isValid) {
-        console.log('oops');
         return;
       }
 
