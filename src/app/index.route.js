@@ -25,6 +25,13 @@
         controller: 'RegisterController',
         controllerAs: 'ctlRegister'
       })
+      
+      .state('recover', {
+        url: '/recover',
+        templateUrl: 'app/user/reset-password/main.html',
+        controller: 'ResetPasswordController',
+        controllerAs: 'ctlRecoverAcc'
+      })
 
       .state('register-with-phone', {
         url: '/register/phone/:phone',

@@ -49,6 +49,7 @@
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
+        vm.placeLoaded = true;
         vm.isGrandPlace = !vm.place.parent || !vm.place.parent.id;
 
         $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));

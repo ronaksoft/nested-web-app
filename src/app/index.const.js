@@ -14,7 +14,8 @@
       'signin-back',
       'intro',
       'register',
-      'register-with-phone'
+      'register-with-phone',
+      'recover'
     ])
     .constant('NST_PAGE', {
       'INTRO': [
@@ -23,6 +24,9 @@
       'REGISTER': [
         'register',
         'register-with-phone'
+      ],
+      'RECOVER': [
+        'recover'
       ],
       'SIGNIN': [
         'signin',
