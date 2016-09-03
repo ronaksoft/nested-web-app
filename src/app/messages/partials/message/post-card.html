@@ -60,12 +60,11 @@
       <span>+{{ctlPostCard.newCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
-      <a href class="icon icon-open-link" nst-post-modal post="ctlPostCard.post"></a>
-      <a href="{{ctlPostCard.urls.forward}}" class="icon icon-post icon-fw _df"></a>
+      <a href class="icon icon-post icon-open-link" nst-post-modal post="ctlPostCard.post" data-uib-tooltip="View" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"></a>
+      <a href="{{ctlPostCard.urls.forward}}" class="icon icon-post icon-fw _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"></a>
       <div class="cursor-pointer margin-r_5 icon icon-post icon-rp _df popover-white-nst-activity-places"
            data-uib-popover-template="'app/messages/partials/popovers/reply.html'"
-           data-popover-placement="auto top-right" popover-trigger="outsideClick"></div>
-      <div ng-if="ctlPostCard.post.userHasRemoveAccess" class="icon icon-post icon-delete-menu _df"></div>
+           data-popover-placement="auto top-right" popover-trigger="outsideClick" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"></div>
     </div>
   </section>
 </div>
