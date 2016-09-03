@@ -2,7 +2,6 @@
   <div class="_difv _fw" id="PostHeader">
     <div class="post-nav-top _difh _fw">
       <p class="_df _fw" ng-if="ctlPost.post.subject.length >= 1"
-         auto-dir="{{ctlPost.post.subject}}"
          data-ng-bind-html="ctlPost.post.subject | emoji"></p>
       <p class="_df _fw" ng-if="ctlPost.post.subject.length < 1">
         <i>No Subject</i>
@@ -61,7 +60,7 @@
       <div class="_db _fh">
         <div class="_fh _fw _wrb">
           <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="msg-post-view"
-               auto-dir="{{ctlPostCard.post.body}}"
+               auto-dir="{{ctlPost.post.body}}"
                data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
           </div>
             <pre ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view"
@@ -91,7 +90,7 @@
                        data-uib-tooltip="{{comment.date | date : 'full'}}"
                        data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
                 </div>
-                <div class="_fw _wrb cmt-post-view">
+                <div class="_fw _wrb cmt-post-view" auto-dir="{{comment.body}}">
                   <span ng-bind-html="comment.body | emoji"></span>
                   <a href data-ng-if="ctlPost.allowToRemoveComment(comment);" ng-click="ctlPost.removeComment(comment);" class="nst-mood-storm nst-font-small" >&nbsp;&nbsp;delete </a>
                 </div>
@@ -104,20 +103,24 @@
         <div class="_difv">
           <img initials="ctlPost.user.name" data-url="ctlPost.user.avatar" data-width="32" data-height="32"
                data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
-          <span data-ng-show="250 - ctlPost.nextComment.length < 20"
-                class="nst-mood-simple _df">{{250 - ctlPost.nextComment.length}}</span>
+          <span data-ng-show="512 - ctlPost.nextComment.length < 30"
+                class="nst-mood-simple _df _ma">{{ctlPost.nextComment.length <= 512 ? 512 - ctlPost.nextComment.length : 514 - ctlPost.nextComment.length}}</span>
         </div>
         <div class="_difv _fw">
           <!--<div class="_difh sendcomment">
             <button class="butn-send-comment df" data-ng-click="ctlPost.sendComment($event)">Send</button>
           </div>-->
-          <textarea class="_df _fw" cols="32" maxlength="250"
-                    data-ng-disabled="ctlPost.status.commentSendInProgress"
-                    data-ng-model="ctlPost.nextComment"
-                    ng-keyup="ctlPost.sendComment($event)"
-                    placeholder="write your comment..."
-                    auto-dir="{{ctlPost.nextComment}}"/>
-          </textarea>
+          <div contenteditable role="textbox" aria-multiline="false" placeholder="Write your comment..."
+               ng-keydown="ctlPost.sendComment($event)" data-ng-disabled="ctlPost.status.commentSendInProgress"
+               ng-model="ctlPost.nextComment" auto-dir="{{ctlPost.nextComment}}" max-length="512"
+               aria-expanded="false" class="_df _fw comment-box _wrb"></div>
+          <!--<textarea class="_df _fw" cols="32"-->
+                    <!--data-ng-disabled="ctlPost.status.commentSendInProgress"-->
+                    <!--data-ng-model="ctlPost.nextComment"-->
+                    <!--ng-keyup="ctlPost.sendComment($event)"-->
+                    <!--placeholder="write your comment..."-->
+                    <!--auto-dir="{{ctlPost.nextComment}}"></textarea>-->
+          <!--</textarea>-->
         </div>
       </div>
     </div>

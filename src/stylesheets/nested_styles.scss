@@ -464,27 +464,27 @@ nst-navbar {
 
 .maincontainer.navtiny {
   nst-navbar{
-    height: 96px;
+    //transform: translate3d(0,-87px,0);
     .navbar-top {
-      height: 48px;
-      span{
-        height: 0;
-        padding: 0;
-        overflow: hidden;
-      }
-      a {
-        font-weight: 300;
-        font-size: 16px;
-      }
+      //height: 48px;
+      //span{
+      //  height: 0;
+      //  padding: 0;
+      //  overflow: hidden;
+      //}
+      //a {
+      //  font-weight: 300;
+      //  font-size: 16px;
+      //}
 
     }
-    .navbar-bottom{
-      height: 48px;
-    }
-    .account-initials-64 {
-      width: 40px;
-      height: 40px;
-    }
+    //.navbar-bottom{
+    //  height: 48px;
+    //}
+    //.account-initials-64 {
+    //  width: 40px;
+    //  height: 40px;
+    //}
   }
 }
 
@@ -704,7 +704,7 @@ ul ul li:last-child{
 .lines {
   display: inline-block;
   width: 12px;
-  height: 42px;
+  height: 43px;
   //height: 100%;
   flex: none;
 }
@@ -1228,6 +1228,7 @@ h3 {
 
 .post-card-comments .text{
   padding-top: 4px;
+  max-width: calc(100% - 108px);
 }
 .post-card-comments strong{
   font-weight: 600;
@@ -1264,7 +1265,6 @@ h3 {
   padding: 0 8px;
   font-size: 12px;
   border: solid 1px rgba(0,0,0,.2);
-  line-height: 32px;
 }
 
 /**
@@ -1563,9 +1563,15 @@ input[type="checkbox"]:checked + label.setting {
   }
   .maincontainer {
     height: 100%;
+    &.navtiny {
+      nst-navbar {
+        transform: translate3d(0,-117px,0);
+      }
+    }
   }
   nst-navbar{
     top: 0;
+    transform: translate3d(0,0,0);
     width: calc(100% - 272px);
   }
   .nst-container{
