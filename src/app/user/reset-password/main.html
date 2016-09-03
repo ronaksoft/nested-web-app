@@ -1,27 +1,46 @@
-<div class="nst-vc">
+<div class="_fhw">
+  <div class="nst-vc">
   <div id="panel-reset" class="panel">
     <div class="panel-heading">
       <div class="nst-vb no-gutter2">
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 nst-font-large">Reset Password</div>
-        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 nst-mood-calm nst-font-medium text-right" >or <a class="nst-green nst-mood-cheerful" href="#/signin">Back to Sign in</a></div>
+        <h3 ng-show="ctlRecoverAcc.step1" class="col-xs-9 nst-font-large">Recover Your Account</h3>
+        <h3 ng-show="ctlRecoverAcc.step2" class="col-xs-9 nst-font-large">Check Your Phone</h3>
+        <h3 ng-show="ctlRecoverAcc.step3" class="col-xs-9 nst-font-large">Reset Password</h3>
+        <h3 ng-show="" class="col-xs-9 nst-font-large">{{ctlRecoverAcc.msg.head}}</h3>
+        <div ng-show="ctlRecoverAcc.step1" class="col-xs-3 nst-mood-calm nst-font-medium text-right" >or <a class="nst-green nst-mood-cheerful" href="#/signin">Sign in</a></div>
       </div>
     </div>
-    <div class="panel-body"
-         data-ng-controller="ResetPasswordController as resetpass">
+    <div class="panel-body">
       <form accept-charset="UTF-8" role="form">
         <div class="msg-panel">
-          <div class="text-center nst-vc"><p class="text-center nst-vc nst-margin-auto">{{resetpass.msg.text}}</p></div>
+          <div class="nst-vc">
+            <p ng-show="ctlRecoverAcc.step1" class="nst-margin-auto">Enter your username or phone number to help you sign in back to the nested.</p>
+            <p ng-show="ctlRecoverAcc.step2" class="nst-margin-auto text-center">We've sent a security code via SMS to <br><a>+989106661346</a><br> to recover <a>@******ss</a>.</p>
+            <p ng-show="ctlRecoverAcc.step3" class="nst-margin-auto">To continue to your account you should enter new password.</p>
+          </div>
         </div>
         <fieldset>
-          <div class="form-group">
-            <input class="form-control" placeholder="nested username" name="username" type="text">
+          <div class="form-group" ng-show="ctlRecoverAcc.step1">
+            <label for="user">Username or phone number (with country code)</label>
+            <input class="form-control" placeholder="username/phone number" id="user" type="text">
           </div>
-          <input class="butn butn-block" type="submit" value={{resetpass.butn.text}}>
+          <div class="form-group" ng-show="ctlRecoverAcc.step2">
+            <label for="confCode">Code</label>
+            <input class="form-control" id="confCode" type="text">
+            <div class="call-btn disabled">Call (wait 58")</div>
+            <div class="filler"></div>
+            <div class="call-btn">Resend</div>
+          </div>
+          <div class="form-group" ng-show="ctlRecoverAcc.step3">
+            <input class="form-control" placeholder="Enter new password" type="password">
+            <input class="form-control" placeholder="Confirm new password" type="password">
+          </div>
+          <div ng-show="ctlRecoverAcc.step1" class="butn-green _fw" ng-click="ctlRecoverAcc.submitNumber()">Next</div>
+          <div ng-show="ctlRecoverAcc.step2" class="butn-green _fw" ng-click="ctlRecoverAcc.submitCode()">Submit</div>
+          <div ng-show="ctlRecoverAcc.step3" class="butn-green _fw" ng-click="ctlRecoverAcc.resetPass()">Continue</div>
         </fieldset>
       </form>
     </div>
   </div>
+  </div>
 </div>
-
-
-
