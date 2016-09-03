@@ -290,7 +290,6 @@
       } else {
         NstSvcPlaceFactory.get(id).then(function (place) {
           if (place && place.id) {
-            console.log(place);
             vm.currentPlace = place;
           }
           defer.resolve(vm.currentPlace);
