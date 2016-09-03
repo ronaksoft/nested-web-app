@@ -15,12 +15,12 @@
       bindToController: true,
       scope: {
         controls: '=',
-        place: '=',
         page: '=',
         pictureUrl : '@navPictureUrl',
         pictureClass : '@navPictureClass',
         title : '@navTitle',
-        placeId : '@'
+        placeId : '@',
+        readyToShow : '='
       }
     };
   }

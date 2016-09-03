@@ -8,12 +8,14 @@
   /** @ngInject */
   function ChangePasswordController($scope, $log, $state,
     toastr,
-    NstSvcUserFactory, NstSvcLoader,
-    NST_SRV_ERROR) {
+    NstSvcUserFactory, NstSvcLoader, NstVmNavbarControl,
+    NST_SRV_ERROR, NST_NAVBAR_CONTROL_TYPE) {
     var vm = this;
 
     vm.controls = {
-      left: [],
+      left: [
+        new NstVmNavbarControl('Back', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
+      ],
       right: []
     };
 
