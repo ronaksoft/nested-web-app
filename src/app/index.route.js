@@ -74,9 +74,15 @@
 
       .state('profile', {
         url: '/profile',
-        templateUrl: 'app/pages/account/profile/edit/main.html',
+        templateUrl: 'app/pages/account/profile-edit/profile-edit.html',
         controller: 'ProfileEditController',
         controllerAs: 'ctlProfileEdit'
+      })
+      .state('change-password', {
+        url: '/change-password',
+        templateUrl: 'app/pages/account/change-password/change-password.html',
+        controller: 'ChangePasswordController',
+        controllerAs: 'ctlPass'
       })
 
       /*****************************

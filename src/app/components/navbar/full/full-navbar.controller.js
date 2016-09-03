@@ -8,14 +8,6 @@
   /** @ngInject */
   function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery) {
     var vm = this;
-    // $scope.$watch('place', function (newValue, oldValue) {
-    //   console.log('place value is : ', newValue);
-    //   if (oldValue !== newValue) {
-    //     vm.place = newValue;
-    //     generateUrls();
-    //   }
-    // });
-
     /*****************************
      *** Controller Properties ***
      *****************************/
@@ -23,13 +15,10 @@
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
-    vm.getPlaceName = getPlaceName;
-    vm.getPlacePicture = getPlacePicture;
     vm.getMessagesUrl = getMessagesUrl;
     vm.getActivityUrl = getActivityUrl;
     vm.getSettingsUrl = getSettingsUrl;
     vm.search = search;
-    // generateUrls();
 
     vm.srch = function srch(el) {
       var ele = $('#' + el);
@@ -58,35 +47,12 @@
       }
     };
 
-    function getPlaceName() {
-      return hasPlace() ? vm.place.name : 'All Places';
-    }
-
     function getPlaceId() {
-      return hasPlace() ? vm.place.id : '';
+      return vm.placeId;
     }
-
-    function getPlacePicture() {
-      var avatar = '/assets/icons/absents_place.svg';
-      if (hasPlace()) {
-        var thumbnail = vm.place.getPicture().getThumbnail(64);
-        if (thumbnail) {
-          if (!thumbnail.getId()) {
-            thumbnail = vm.place.getPicture().getLargestThumbnail();
-          }
-
-          if (thumbnail.getId()) {
-            avatar = thumbnail.getUrl().view;
-          }
-        }
-      }
-
-      return avatar;
-    }
-
 
     function hasPlace() {
-      return vm.place && vm.place.id;
+      return !!vm.placeId;
     }
 
 
