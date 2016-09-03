@@ -2,34 +2,22 @@
 <div class="nst-navbar">
   <div class="nst-content _tr">
     <div class="content">
-      <div class="navbar-top _df" data-ng-switch="ctlFullNavbar.page.state.current.group">
-        <div class="title-bar _difh _fw" data-ng-switch-when="COMPOSE">
-          <div class="logo-bar _df">
-            <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-compose"></div>
-            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.getPlacePicture()}}"/>
+      <div class="navbar-top _df">
+        <div class="title-bar _difh _fw">
+          <div class="logo-bar _df" ng-if="ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass">
+            <div data-ng-if="ctlFullNavbar.pictureClass" class="icon {{ctlFullNavbar.pictureClass}}"></div>
+            <img ng-if="ctlFullNavbar.pictureUrl" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
           </div>
           <div class="name _fw _difv _jcc">
-            <a class="_df _tr" data-ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceName()}}</a>
-            <a class="_df _tr" data-ng-if="!ctlFullNavbar.hasPlace()">Compose</a>
+            <a class="_df _tr">{{ctlFullNavbar.title}}</a>
             <span class="nst-mood-storm _df _tr" data-ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceId()}}@nested.me</span>
-          </div>
-        </div>
-
-        <div class="title-bar _difh _fw" data-ng-switch-default>
-          <div class="logo-bar _df">
-            <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
-            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.getPlacePicture()}}"/>
-          </div>
-          <div class="name _fw _difv _jcc">
-            <a class="_df _tr">{{ctlFullNavbar.getPlaceName()}}</a>
-            <span class="nst-mood-storm _df _tr" ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceId()}}@nested.me</span>
           </div>
         </div>
       </div>
 
       <div class="navbar-bottom" data-ng-if="!ctlFullNavbar.controls">
         <div id="inputsearch" class="has-feedback _fw">
-          <input class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.getPlaceName() : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
+          <input class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.title : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
           <i ng-click="ctlFullNavbar.srch('inputsearch');"
              class="_pa _left icon-close-search form-control-feedback"></i>
           <!--<div class="search-part1">

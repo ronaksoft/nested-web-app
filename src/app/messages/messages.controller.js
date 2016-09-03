@@ -372,7 +372,7 @@
         vm.loadMore();
       }
     });
-    
+
     vm.preventParentScroll = function (event) {
       var element = event.currentTarget;
       var delta = event.wheelDelta;

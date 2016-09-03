@@ -27,7 +27,9 @@
     };
 
     vm.controls = {
-      left: [],
+      left: [
+        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
+      ],
       right: []
     };
 
@@ -174,10 +176,7 @@
     function save(isValid) {
       vm.submitted = true;
 
-
-
       if (!isValid) {
-        console.log('oops');
         return;
       }
 
