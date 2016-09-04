@@ -244,6 +244,9 @@ a.place {
   margin-right: -5px;
 }
 
+.ng-hide {
+    display:none!important;
+}
 
 /**
   ******************************
@@ -1034,6 +1037,9 @@ a .ui-select-choises-row-inner {
 .nst-mood-solid {
   color: $color-solid
 }
+.nst-mood-sense-5 {
+  background-color: #f3fdf7;
+}
 
 /**
   *********************************
@@ -1564,13 +1570,13 @@ ul ul .side-place-item-image {
   a {
     align-items: center;
   }
-  & > .ng-hide {
-    animation: appearence 1s;
-    animation-direction: reverse;
-  }
-  & > .ng-hide-remove {
-    animation: appearence 1s;
-  }
+  // & > .ng-hide {
+  //   animation: appearence 1s;
+  //   animation-direction: reverse;
+  // }
+  // & > .ng-hide-remove {
+  //   animation: appearence 1s;
+  // }
 }
 .maincontainer.sidetiny .side-profile {
   width: 76px;
@@ -2117,4 +2123,3 @@ a.normal-badge {
     margin: #{$i * 4}px;
   }
 }
-

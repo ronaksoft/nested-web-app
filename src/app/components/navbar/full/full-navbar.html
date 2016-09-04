@@ -36,7 +36,7 @@
           <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
             Messages
           </a>
-          <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
+          <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
             Activity
           </a>
           <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}" ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">

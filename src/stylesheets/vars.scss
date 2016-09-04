@@ -29,6 +29,7 @@ $color-bg-pending: #3296FF;
 $color-bg-pending-fill: #99CBFF;
 $color-border-pics: rgba(0,0,0,.2);
 $color-border: rgb(220,220,220);
+$color-grey: rgb(192,192,192);
 
 
 $font-size-xxsmall: 10px;
@@ -117,19 +118,4 @@ $font-family-per-bold: 'YekanBakhs';
     height: auto;
     opacity: 1;
   }
-}
-.fade-animation {
-  opacity: 1;
-}
-
-.fade-animation.ng-hide-add.ng-hide-add-active{
-  transition: all linear 0.2s;
-}
-
-.fade-animation.ng-hide-remove.ng-hide-remove-active {
-  transition: all linear 0.5s;
-}
-
-.fade-animation.ng-hide {
-  opacity: 0;
 }

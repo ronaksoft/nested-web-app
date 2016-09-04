@@ -37,6 +37,7 @@
       'ngDroplet',
       'lodash',
       'momentjs',
-      'cfp.hotkeys'
+      'cfp.hotkeys',
+      'ngAnimate'
     ]);
 })();

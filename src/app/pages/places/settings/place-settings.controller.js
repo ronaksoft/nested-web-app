@@ -18,7 +18,8 @@
      *****************************/
 
     vm.options = {
-      notification: null
+      notification: null,
+      bookmark : null
     };
     vm.hasRemoveAccess = null;
     vm.hasAddPlaceAccess = null;
@@ -28,6 +29,7 @@
 
     vm.updatePrivacy = updatePrivacy;
     vm.setNotification = setNotification;
+    vm.setBookmark = setBookmark;
     vm.update = update;
     vm.addMember = addMember;
     vm.inviteParticipant = inviteParticipant;
@@ -60,7 +62,9 @@
           NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
           NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
           NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
-          NstSvcPlaceFactory.getNotificationOption(vm.placeId)
+          NstSvcPlaceFactory.getNotificationOption(vm.placeId),
+          NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred'),
+          NstSvcPlaceFactory.getBookmarkedPlaces('_starred')
         ]);
       }).then(function(values) {
         vm.hasRemoveAccess = values[0];
@@ -69,6 +73,8 @@
         vm.hasAddMembersAccess = values[3];
         vm.hasSeeMembersAccess = values[4];
         vm.options.notification = values[5];
+        vm.options.bookmark = values[6];
+        vm.options.bookmark1 = values[7];
 
         $log.debug(NstUtility.string.format('Place "{0}" settings retrieved successfully.', vm.place.name));
 
@@ -175,7 +181,22 @@
      * @return {type}  description
      */
     function allowedToLeave() {
-      return vm.teamates && vm.teamates.length > 1;
+
+      if (!vm.teamates){
+        return false;
+      }
+
+      var creators = vm.teamates.filter(function (member) {
+        return member.role === NST_PLACE_MEMBER_TYPE.CREATOR;
+      });
+
+
+      if (creators.length ===  0 || (creators.length === 1 && creators[0].id === NstSvcAuth.user.id)){
+        return false;
+      }
+
+      return true;
+
     }
 
     function hasAnyControlOverHere() {
@@ -349,6 +370,15 @@
     function setNotification() {
       NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.options.notification).then(function(result) {
         $log.debug(NstUtility.string.format('Place {0} notification setting changed to {1} successfully.', vm.place.id, vm.options.notification));
+      }).catch(function(error) {
+        $log.debug(error);
+      });
+    }
+
+
+    function setBookmark() {
+      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, '_starred', vm.options.bookmark).then(function(result) {
+        $log.debug(NstUtility.string.format('Place {0} bookmark setting changed to {1} successfully.', vm.place.id, vm.options.bookmark));
       }).catch(function(error) {
         $log.debug(error);
       });
