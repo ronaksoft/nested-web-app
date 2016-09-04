@@ -96,6 +96,7 @@
       }
 
       vm.nextComment = "";
+      vm.remainChars = vm.nextComment.length <= 512 ? 512 - vm.nextComment.length : 514 - vm.nextComment.length
 
       reqAddComment(vm.postModel, body).then(function(comment) {
         // TODO: notify
