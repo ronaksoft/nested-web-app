@@ -1,44 +1,47 @@
 <div class="_fhw">
-  <div class="nst-vc ng-scope _fh">
+  <div class="nst-vc nst-mood-sense-5 ng-scope _fh">
     <div class="panel no-animation" id="panel-register">
       <form novalidate name="firstStep" ng-show="ctlRegister.step === 'step1'" unsaved-warning-form
             data-ng-submit="ctlRegister.submitPhoneNumber()">
-        <div class="nst-vb no-gutter2 nst-marginbtm-16">
-          <p class="col-xs-9 nst-font-xlarge">Register now!</p>
+        <div class="nst-vb no-gutter2 nst-marginbtm-48">
+          <p class="col-xs-9 nst-font-xlarge">Create an Account</p>
           <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
             in</a></p>
         </div>
-        <p>
-          Enter your phone number.</br>
-          We will send a verification code on your phone.
+        <p class="nst-font-medium nst-marginbtm-48">
+          For creating nested account please enter your phone number.
         </p>
-
-        <div class="nst-marginbtm-16"></div>
+        <p class="nst-mood-storm nst-font-small">Mobile Phone</p>
         <input name="mobileNumber" id="mobileNumber" international-phone-number
-               class="select-birthday" data-ng-model="ctlRegister.phone" autofocus/>
+               class="phone-input _fw" data-ng-model="ctlRegister.phone" autofocus/>
 
-        <div class="nst-marginbtm-16">
+        <div class="nst-marginbtm-60">
         </div>
         <div>
           <input type="button" ng-disabled="!ctlRegister.phone || ctlRegister.getCodeRequest" data-ng-click="ctlRegister.submitPhoneNumber()"
                  value="Next"
-                 class="butn-green butn-lg butn-login">
+                 class="butn-green butn-lg butn-login nstbtn">
         </div>
 
       </form>
 
-      <form novalidate ng-show="ctlRegister.step === 'step2'" name="registrationForm" unsaved-warning-form
+      <form ng-show="ctlRegister.step === 'step2'" novalidate name="registrationForm" unsaved-warning-form
             ng-submit="ctlRegister.verifyCode()">
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
-          <p class="col-xs-9 nst-font-xlarge">Enter Your Code</p>
-          <a href="#" class="col-xs-3 text-right">
-            <img src="assets/icons/NestedLogo.svg" width="32" height="32">
-          </a>
+          <p class="col-xs-9 nst-font-xlarge">Phone Verification</p>
         </div>
-
-        <p>
-          Enter the 4 digits code texted to this phone number :
-        </p>
+        <div class="text-center nst-font-medium nst-marginbtm-52">
+          We've sent a verification code via SMS to
+        </div>
+        <div class="nst-mood-cheerful text-center nst-font-medium nst-margin-20">
+          {{ctlRegister.phone}}
+        </div>
+        <div class="text-center nst-font-medium nst-margin-20">
+          <a href="#">It's not me!</a>
+        </div>
+        <div class="nst-mood-storm nst-font-medium nst-margin-8">
+          4 Digits verification code
+        </div>
         <p class="nst-mood-lively" data-ng-if="ctlRegister.verificationWrongCode">
           Wrong Code
         </p>
@@ -53,18 +56,18 @@
                    ng-model="ctlRegister.verificationCode"/>
           </div>
         </div>
+
+        <div class="_difh nst-marginbtm-16">
+          <div class="text-center _df react-btn lftbtn" nst-disable-for-btn min="2" sec="0" id="call" class="btn" click="ctlRegister.callMe()" value="Call">
+          </div>
+          <div class="text-center _df react-btn" nst-disable-for-btn id="resend" min="0" sec="45" click="ctlRegister.resend()" value="Resend">
+          </div>
+        </div>
+
         <div class="text-center">
           <input type="submit" value="Verify"
                  ng-disabled="ctlRegister.verificationCode.length !== 4 || verification == 'start'"
-                 class="butn-green butn-lg butn-login">
-        </div>
-        <div class="text-center margin-t-5">
-          <nst-disable-for-btn min="2" sec="0" id="call" class="btn" click="ctlRegister.callMe()"
-                               value="Call me"></nst-disable-for-btn>
-        </div>
-        <div class="text-center margin-t-5">
-          <nst-disable-for-btn id="resend" min="0" sec="45" click="ctlRegister.resend()" value="Resend"
-                               class="btn"></nst-disable-for-btn>
+                 class="butn-green butn-lg butn-login nstbtn">
         </div>
       </form>
 
