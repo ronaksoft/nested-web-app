@@ -51,7 +51,6 @@
 
 
     (function () {
-
       vm.isSentMode = 'messages-sent' === $state.current.name;
 
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
@@ -89,8 +88,28 @@
         });
       }
 
+      if (isBookMark()){
+
+        NstSvcPlaceFactory.getBookmarkedPlaces('_starred')
+          .then(function (data) {
+            vm.bookmarkedPlaces = data;
+        });
+      }
+
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
         var newMessage = e.detail;
+
+
+        if (isBookMark()){
+          if (!_.some(vm.messages, { id : newMessage.id }) &&
+            _.intersectionWith(vm.bookmarkedPlaces, newMessage.getPlaces(), function (a, b) {
+              console.log(b, a == b.getId());
+              return a == b.getId()
+            }).length > 0){
+            vm.newMessages.unshift(mapMessage(newMessage));
+          }
+          return;
+        }
 
         if (!vm.currentPlaceId || newMessage.belongsToPlace(vm.currentPlaceId)) {
           if (!_.some(vm.messages, { id : newMessage.id })){
@@ -99,8 +118,9 @@
         }
 
       });
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
 
+      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
+        //TODO:: Handel me
       });
 
       $rootScope.$on('post-removed', function (event, data) {
@@ -125,7 +145,25 @@
 
       });
 
+      setNavbarProperties();
     })();
+
+    function setNavbarProperties() {
+      vm.navTitle = 'All Places';
+      vm.navIconClass = 'icon-nav icon-all-places';
+
+
+      if (isBookMark()) {
+        vm.navTitle = 'Bookmarks';
+        vm.navIconClass = 'icon-nav icon-top-bookmarks';
+      }
+
+      if (vm.isSentMode){
+        vm.navTitle = 'Sent';
+        vm.navIconClass = 'icon-nav icon-top-sent';
+      }
+
+    }
 
     function getMessages() {
       switch ($state.current.name) {
@@ -136,6 +174,10 @@
         case 'messages-sent':
         case 'messages-sent-sorted':
           return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
+
+        case 'messages-bookmarks':
+        case 'messages-bookmarks-sorted':
+          return NstSvcPostFactory.getBookmarksMessages(vm.messagesSetting);
 
         default:
           return NstSvcPostFactory.getMessages(vm.messagesSetting);
@@ -364,6 +406,16 @@
         }
       }
     }
+
+    function isBookMark() {
+      if ($state.current.name == 'messages-bookmarks' ||
+        $state.current.name == 'messages-bookmarks-sorted'){
+        vm.isBookmarkMode = true;
+        return true;
+      }
+      return false;
+    }
+
 
     // FIXME some times it got a problem ( delta causes )
 

@@ -55,6 +55,7 @@
     PostFactory.prototype.getSentMessages = getSentMessages;
     PostFactory.prototype.getMessages = getMessages;
     PostFactory.prototype.getPlaceMessages = getPlaceMessages;
+    PostFactory.prototype.getBookmarksMessages = getBookmarksMessages;
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.parseMessage = parseMessage;
     PostFactory.prototype.getMessage = getMessage;
@@ -571,6 +572,38 @@
       }
 
       NstSvcServer.request('place/get_posts', options).then(function(data) {
+        var messagePromises = _.map(data.posts.posts, parseMessage);
+        $q.all(messagePromises).then(function(messages) {
+          _.forEach(messages, function(item) {
+            NstSvcPostStorage.set(item.id, item);
+          });
+          defer.resolve(messages);
+        });
+      }).catch(function(error) {
+        // TODO: format the error and throw it
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
+    function getBookmarksMessages(setting, bookmarkId) {
+
+      var defer = $q.defer();
+
+      bookmarkId = bookmarkId || "_starred";
+
+      var options = {
+        limit: setting.limit,
+        before: setting.date,
+        bookmark_id: bookmarkId
+      };
+
+      if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
+        options.by_update = true;
+      }
+
+      NstSvcServer.request('account/get_bookmarked_posts', options).then(function(data) {
         var messagePromises = _.map(data.posts.posts, parseMessage);
         $q.all(messagePromises).then(function(messages) {
           _.forEach(messages, function(item) {
