@@ -79,6 +79,7 @@
           $log.debug(error);
         });
       } else {
+        vm.currentPlaceLoaded = true;
         loadActivities().catch(function (error) {
           $log.debug(error);
         });
@@ -153,6 +154,7 @@
         NstSvcPlaceFactory.get(id).then(function (place) {
           if (place && place.id) {
             vm.currentPlace = place;
+            vm.currentPlaceLoaded = true;
           } else {
             vm.currentPlace = null;
           }

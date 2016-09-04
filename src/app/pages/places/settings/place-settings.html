@@ -1,4 +1,4 @@
-<nst-navbar place="ctlSettings.place" page="ctlApp.page"></nst-navbar>
+<nst-navbar data-ng-model="navbar" place-id="{{::ctlSettings.place.id}}" nav-title="{{ctlSettings.place.id?ctlSettings.place.name:'All Places'}}" nav-picture-url="{{ctlSettings.place.id ? ctlSettings.place.picture.thumbnails.x64.url.view : '' }}" nav-picture-class="{{ !ctlSettings.place.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlSettings.placeLoaded" page="ctlApp.page"></nst-navbar>
 
 <div class="nst-content _tr" id="content-wrapper">
 
