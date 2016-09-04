@@ -4,7 +4,7 @@
       <a href="javascript:void(0);" ng-click="onClick(item)">
         <img ng-if="item.hasThumbnail" class="attach-thumbnail" alt="" style="background: url({{item.thumbnail}});background-size: cover;"/>
         <div ng-if="!item.hasThumbnail" class="attach-thumbnail-default {{'attach-thumbnail-' + item.type}}">
-          {{item.name + '.' + item.extension}}
+          {{encodeURI(item.name) + '.' + item.extension}}
         </div>
       </a>
     </li>
