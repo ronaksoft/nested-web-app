@@ -47,6 +47,7 @@ a {
 
 a:hover {
   text-decoration: none;
+  color: inherit;
 }
 .a-hover:hover {
   color: $color-sense;
@@ -668,10 +669,6 @@ iframe {
 
 a {
   color: $color-sense-wire;
-}
-
-a:hover {
-  color: inherit;
 }
 
 .modal {
