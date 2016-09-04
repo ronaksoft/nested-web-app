@@ -1409,6 +1409,9 @@ input[type="checkbox"]:checked + label.setting {
   * NST Scrollbar
   ******************************
  */
+.nano {
+  position: static!important;
+}
 .mCustomScrollBox {
   width: 100%;
 }
