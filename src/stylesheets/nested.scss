@@ -47,6 +47,7 @@ a {
 
 a:hover {
   text-decoration: none;
+  color: inherit;
 }
 .a-hover:hover {
   color: $color-sense;
@@ -65,7 +66,7 @@ html {
 }
 
 body {
-  background-color: $color-bg;
+  background-color: $color-sense-5;
   font-family: $font-family-per-reg, $font-family-eng-reg;
   //position: absolute;
   //top: 0;
@@ -670,10 +671,6 @@ a {
   color: $color-sense-wire;
 }
 
-a:hover {
-  color: inherit;
-}
-
 .modal {
   min-width: 600px;
   min-height: 600px;
@@ -1082,7 +1079,6 @@ a .ui-select-choises-row-inner {
   height: 100%;
 }
 .body {
-  background-color: $color-bg;
   //border-right: 1px solid $color-calm;
   //border-left: 1px solid $color-calm;
   //max-width: 1920px;
