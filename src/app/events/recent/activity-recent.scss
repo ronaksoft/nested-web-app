@@ -2,16 +2,22 @@
 
   .recent-container {
 
-    .recent-item {
-      opacity: 1;
-    }
-    .recent-item.ng-enter {
-      -webkit-transition: 1s ease;
-      transition: 1s ease;
+    .recent-item.hot.ng-enter {
+      transition: all 0.8s ease-out;
       opacity: 0;
     }
-    .recent-item.ng-enter-active {
+    .recent-item.hot.ng-enter-active {
+      background-color: #E1FEE0;
+      animation: bg-transiate 6s forwards;
       opacity: 1;
     }
   }
+}
+@keyframes bg-transiate {
+    90% {
+        background:#E1FEE0;
+    }
+    100% {
+        background: #fff;
+    }
 }

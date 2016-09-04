@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider) {
+  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider, $animateProvider) {
 
     localStorageServiceProvider
       .setPrefix('nested');
@@ -59,5 +59,7 @@
     emojione.imageType = 'svg';
     emojione.sprites = true;
     emojione.imagePathSVGSprites = './../bower_components/emojione/assets/sprites/emojione.sprites.svg';
+
+    $animateProvider.classNameFilter(/use-ng-animate/);
   }
 })();

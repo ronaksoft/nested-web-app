@@ -69,6 +69,7 @@
       if (vm.activities.length >= vm.count){
         vm.activities.pop();
       }
+      activity.isHot = true;
       vm.activities.unshift(activity);
     }
 
