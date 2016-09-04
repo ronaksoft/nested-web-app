@@ -7,8 +7,8 @@
 .visibility-hidden {visibility: hidden;}
 
 #panel-register{
-  width: 352px;
-  padding: 24px 16px 24px 16px;
+  width: 358px;
+  padding: 24px 16px 16px 16px;
   line-height: 1.25;
   font-size: $font-size-xsmall;
   font-family: $font-family-eng-reg;
@@ -59,6 +59,11 @@
   //border: 1px solid $color-force;
 }
 //-------------------------------------------------//
+.phone-input {
+  height: 38px;
+  border : 1px solid $color-grey;
+  border-radius: $panel-border-radius;
+}
 .register-name-table {
   border-collapse: separate;
 }
@@ -71,6 +76,15 @@
 .register-name-cell-right {
   padding-left: 2px;
 }
+
+#panel-register .arrow {
+  display: none;
+}
+.flag-dropdown {
+  background: url("../assets/icons/inputform.svg") no-repeat;
+  background-position: 90% -124px;
+  width: 50px;
+  }
 
 #panel-register .intl-tel-input .selected-flag .arrow {
   position: relative;
@@ -295,4 +309,15 @@
 .confirm-bx > div {
 padding: 12px 16px;
 text-align: right;
+}
+
+.nstbtn {
+  height: 40px;
+}
+.react-btn {
+  height: 36px;
+  width : 154px;
+}
+.lftbtn {
+  margin-right: 16px;
 }

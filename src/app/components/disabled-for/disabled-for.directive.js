@@ -18,15 +18,15 @@
       };
     })
     .controller('nstDisableForBtnCrtl', function($scope, $interval){
-      
+
       var vm = $scope;
-      
+
       vm.min = parseInt($scope.min);
       vm.sec = parseInt($scope.sec);
       vm.orginalText = $scope.orginalText;
       vm.click = $scope.click;
 
-      
+
         var i = [],
         play = [];
 
@@ -42,20 +42,20 @@
               var seconds = inSeconds % 60;
               if(minutes >= 1){
                 if(seconds.toString().length > 1){
-                  vm.text = minutes + ":" + seconds + " minutes left to " + $scope.orginalText;
+                  vm.text = "Call " + "( Wait " + minutes + ":" + seconds + ")";
                 }else{
-                  vm.text = minutes + ":" + "0" + seconds + " minutes left to " + $scope.orginalText;
+                  vm.text = "Call " + "( Wait " + minutes + ":" + "0" + seconds + ")";
                 }
               }else{
-                vm.text = seconds + " seconds left to " + $scope.orginalText;
+                vm.text = "Call " + "( Wait " + seconds + ")";
               }
             }else{
               if(inSeconds > 1){
                 inSeconds = inSeconds - 1;
                 if(inSeconds.toString().length > 1){
-                 vm.text = inSeconds + " seconds left to " + $scope.orginalText;
+                 vm.text = "Resend " + "( Wait " + inSeconds + ")";
                 }else{
-                  vm.text = "0" + inSeconds + " seconds left to " + $scope.orginalText;
+                  vm.text = "Resend " + "( Wait " + "0" + inSeconds + ")";
                 }
               }else{
                 vm.disabled = false;
@@ -67,7 +67,7 @@
             }
           }, 1000);
         }
-    
+
         vm.onClick = function(){
           vm.click();
           start();
