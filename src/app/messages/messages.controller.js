@@ -82,6 +82,7 @@
           $log.debug(error);
         });
       } else {
+        vm.currentPlaceLoaded = true;
         NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages()])).catch(function (error) {
           $log.debug(error);
           vm.loadMessageError = true;
@@ -291,6 +292,7 @@
         NstSvcPlaceFactory.get(id).then(function (place) {
           if (place && place.id) {
             vm.currentPlace = place;
+            vm.currentPlaceLoaded = true;
           }
           defer.resolve(vm.currentPlace);
         }).catch(function (error) {
