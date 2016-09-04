@@ -25,6 +25,8 @@
         isMine: {},
         addMember: {},
         setNotification: {},
+        getBookmark: {},
+        setBookmark: {},
         setPicture: {},
         removeMember: {},
         remove: {}
@@ -739,6 +741,105 @@
       }).catch(function () {
         var args = arguments;
         delete factory.requests.setNotification[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
+    };
+
+    PlaceFactory.prototype.getBookmarkedPlaces = function (bookmarkId) {
+      var factory = this;
+      var defer = $q.defer();
+      var query = new NstFactoryQuery(bookmarkId);
+
+      NstSvcServer.request('bookmark/get_places', {
+        bookmark_id: bookmarkId
+      }).then(function (data) {
+        defer.resolve(data.places);
+      }).catch(function (error) {
+        defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      });
+
+      return defer.promise.then(function () {
+        var args = arguments;
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+
+      });
+
+    };
+
+
+    PlaceFactory.prototype.getBookmarkOption = function (id, bookmarkId) {
+      var factory = this;
+
+      if (!this.requests.getBookmark[id]) {
+        var defer = $q.defer();
+        var query = new NstFactoryQuery(id);
+
+        NstSvcServer.request('bookmark/exists', {
+          place_id: id,
+          bookmark_id : bookmarkId
+        }).then(function (data) {
+          defer.resolve(data.exists);
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+
+        this.requests.getBookmark[id] = defer.promise;
+      }
+
+      return this.requests.getBookmark[id].then(function () {
+        var args = arguments;
+        delete factory.requests.getNotif[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.getNotif[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
+    };
+
+    PlaceFactory.prototype.setBookmarkOption = function (id, bookmarkId, value) {
+      var factory = this;
+      var requestCommad;
+      value ? requestCommad = 'bookmark/add_place' : requestCommad = 'bookmark/remove_place'
+
+      if (!this.requests.setBookmark[id]) {
+        var defer = $q.defer();
+        var query = new NstFactoryQuery(id);
+
+        NstSvcServer.request(requestCommad, {
+          place_id: id,
+          bookmark_id: bookmarkId,
+        }).then(function () {
+          defer.resolve(true);
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+
+        this.requests.setBookmark[id] = defer.promise;
+      }
+
+      return this.requests.setBookmark[id].then(function () {
+        var args = arguments;
+        delete factory.requests.setBookmark[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.setBookmark[id];
 
         return $q(function (res, rej) {
           rej.apply(null, args);

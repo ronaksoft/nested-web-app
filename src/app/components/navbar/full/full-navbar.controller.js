@@ -12,6 +12,7 @@
      *** Controller Properties ***
      *****************************/
 
+    isBookMark();
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
@@ -19,6 +20,7 @@
     vm.getActivityUrl = getActivityUrl;
     vm.getSettingsUrl = getSettingsUrl;
     vm.search = search;
+
 
     vm.srch = function srch(el) {
       var ele = $('#' + el);
@@ -77,6 +79,16 @@
         return '';
       }
     }
+
+    function isBookMark() {
+      if ($state.current.name == 'messages-bookmarks' ||
+        $state.current.name == 'messages-bookmarks-sorted'){
+        vm.isBookmarkMode = true;
+        return true;
+      }
+      return false;
+    }
+
 
     /**
      * sendKeyIsPressed - check whether the pressed key is Enter or not
