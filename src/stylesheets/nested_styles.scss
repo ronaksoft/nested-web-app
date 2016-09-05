@@ -1116,6 +1116,55 @@ ul ul li:last-child{
     pointer-events: none;
     content: "";
 }
+.post-card-comment-user-avatar {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.post-card-comment-user-avatar::after {
+  left: 9px;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 1000px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+  pointer-events: none;
+  content: "";
+}
+.post-comment-user-avatar {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.post-comment-user-avatar::after {
+  left: 9px;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 1000px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+  pointer-events: none;
+  content: "";
+}
+.activity-common-user-avatar {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.activity-common-user-avatar::after {
+  left: 47px;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 1000px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
+  pointer-events: none;
+  content: "";
+}
+
 .post-card .post-card-badge {
   background-color: transparent;
   justify-content: flex-end;
