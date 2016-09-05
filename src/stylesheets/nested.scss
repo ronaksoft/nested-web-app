@@ -79,7 +79,6 @@ body {
   //min-width: 600px;
 }
 body.modal-open {
-  //position: absolute;
   //z-index: 999;
   //min-width: 500px;
   //top: 0;
@@ -181,6 +180,7 @@ hr {
   //word-break: break-all;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  word-break: break-all;
   word-break: break-word;
   hyphens: auto;
 }
@@ -271,9 +271,11 @@ a.place {
   border: 1px solid #00B45A;
   border-radius: 5px;
   margin: 0 5px;
-  min-width: 128px;
   flex: none;
   text-decoration: none;
+}
+.modal .butn-green {
+  width: 128px;
 }
 
 .butn-green-nav{

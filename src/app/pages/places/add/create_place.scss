@@ -38,7 +38,7 @@
   position: absolute;
   height: 32px;
   width: 100%;
-  bottom: 12px;
+  bottom: 0;
 }
 .add-photo-hover {
   background: url("../assets/icons/hovers.svg") no-repeat;
@@ -78,9 +78,10 @@
 .upload-photo{
   vertical-align: middle;
   text-align: center;
-  display: table-cell;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
-  left: 220px;
   width: 120px;
   height: 120px;
   border-radius: 50%;
