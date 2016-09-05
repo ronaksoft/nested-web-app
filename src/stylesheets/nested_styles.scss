@@ -1076,6 +1076,9 @@ ul ul li:last-child{
   z-index: 20;
   background-color: $color-white;
 }
+.post-card ul{
+  margin-left: 8px;
+}
 .post-card section {
   display: inline-flex;
   width: 100%;
