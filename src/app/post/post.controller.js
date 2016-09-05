@@ -84,19 +84,20 @@
      * @param  {Event}  event   keypress event handler
      */
     function sendComment(event) {
-      var cm = event.currentTarget.innerText;
+      //var cm = event.currentTarget.innerText;
+      var cm = event.currentTarget.value;
 
       if (!sendKeyIsPressed(event)) {
         return;
       }
 
       var body = extractCommentBody(cm);
+      console.log(body);
       if (0 == body.length) {
         return;
       }
 
       vm.nextComment = "";
-
       reqAddComment(vm.postModel, body).then(function(comment) {
         // TODO: notify
         pushComment(comment);
