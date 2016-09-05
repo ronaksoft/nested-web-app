@@ -12,7 +12,7 @@
         var str = "custom";
         function highlight(str) {
           var maxLength = parseInt(attrs.maxLength);
-          var caretPos = doGetCaretPosition(element[0]) - maxLength ;
+          //var caretPos = doGetCaretPosition(element[0]) - maxLength ;
           //console.log(caretPos);
           if (str.length > maxLength) {
             var innerHTML = '<p>' + str.substring(0, maxLength) + '<em class=\'highlight\'>' + str.substring(maxLength) + '</em>' + '</p>';
