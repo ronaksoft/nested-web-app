@@ -86,7 +86,7 @@ body.modal-open {
   //left: 0;
   //bottom: 0;
   //right: 0;
-  overflow: hidden!important;
+  overflow-y: hidden!important;
   height: 100%;
   .body {
     overflow: hidden;
