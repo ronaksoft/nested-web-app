@@ -65,10 +65,10 @@
                auto-dir="{{ctlPost.post.body}}"
                data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
           </div>
-            <pre ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view"
-                 auto-dir="{{ctlPostCard.post.body}}"
-                 data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
-            </pre>
+            <div ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view"
+                 auto-dir="{{ctlPostCard.post.body}}">
+              <pre data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji "></pre>
+            </div>
         </div>
       </div>
     </div>
@@ -114,19 +114,20 @@
         </div>
         <div class="_difv _fw">
           <!--<div class="_difh sendcomment">
-            <button class="butn-send-comment df" data-ng-click="ctlPost.sendComment($event)">Send</button>
+            <button class="butn-send-comment df" da
+            ta-ng-click="ctlPost.sendComment($event)">Send</button>
           </div>-->
-          <div contenteditable role="textbox" aria-multiline="false" placeholder="Write your comment..."
-               ng-keydown="ctlPost.sendComment($event)" data-ng-disabled="ctlPost.status.commentSendInProgress"
-               ng-model="ctlPost.nextComment" auto-dir="{{ctlPost.nextComment}}" max-length="512"
-               aria-expanded="false" class="_df _fw comment-box _wrb"></div>
-          <!--<textarea class="_df _fw" cols="32"-->
-                    <!--data-ng-disabled="ctlPost.status.commentSendInProgress"-->
-                    <!--data-ng-model="ctlPost.nextComment"-->
-                    <!--ng-keyup="ctlPost.sendComment($event)"-->
-                    <!--placeholder="write your comment..."-->
-                    <!--auto-dir="{{ctlPost.nextComment}}"></textarea>-->
-          <!--</textarea>-->
+          <!--<div contenteditable role="textbox" aria-multiline="false" placeholder="Write your comment..."-->
+               <!--ng-keydown="ctlPost.sendComment($event)" data-ng-disabled="ctlPost.status.commentSendInProgress"-->
+               <!--ng-model="ctlPost.nextComment" auto-dir="{{ctlPost.nextComment}}" max-length="5"-->
+               <!--aria-expanded="false" class="_fw comment-box _wrb"><p></p></div>-->
+          <textarea class="_df _fw" cols="32"
+                    data-ng-disabled="ctlPost.status.commentSendInProgress"
+                    data-ng-model="ctlPost.nextComment"
+                    ng-keyup="ctlPost.sendComment($event)"
+                    placeholder="write your comment..."
+                    auto-dir="{{ctlPost.nextComment}}"></textarea>
+          </textarea>
         </div>
       </div>
     </div>

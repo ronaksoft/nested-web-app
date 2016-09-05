@@ -79,13 +79,15 @@ body {
   //min-width: 600px;
 }
 body.modal-open {
-  position: absolute;
-  z-index: 999;
-  min-width: 500px;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  //position: absolute;
+  //z-index: 999;
+  //min-width: 500px;
+  //top: 0;
+  //left: 0;
+  //bottom: 0;
+  //right: 0;
+  overflow-y: hidden!important;
+  height: 100%;
   .body {
     overflow: hidden;
     height: 100%;
@@ -179,7 +181,7 @@ hr {
   //word-break: break-all;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
   hyphens: auto;
 }
 ._txe {
@@ -197,13 +199,14 @@ pre {
   border: medium none;
   font-size: inherit;
   line-height: inherit;
-  margin: inherit;
-  padding: inherit;
+  margin: 0;
+  padding: 0;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
+  overflow: hidden;
 }
 
 a.place,
