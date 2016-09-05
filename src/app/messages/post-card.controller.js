@@ -5,7 +5,7 @@
     .module('nested')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log,
+  function PostCardController($state, $log, $timeout,
                               _,
                               NST_POST_EVENT, NST_COMMENT_EVENT,
                               NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
@@ -61,6 +61,9 @@
 
           e.currentTarget.value = '';
           vm.isSendingComment = false;
+          $timeout(function () {
+            e.currentTarget.focus();
+          },10)
         }).catch(function (error) {
           $log.debug(error);
         });
@@ -68,7 +71,6 @@
         vm.isSendingComment = false;
         $log.debug(error);
       });
-
       return false;
     }
 
