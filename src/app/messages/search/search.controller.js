@@ -59,7 +59,7 @@
     }
 
     function searchOnEnterKeyPressed(e, queryString) {
-      if (!sendKeyIsPressed(e)) {
+      if (!sendKeyIsPressed(e) || !queryString) {
         return;
       }
 
