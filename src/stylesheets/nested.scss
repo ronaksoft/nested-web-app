@@ -79,13 +79,15 @@ body {
   //min-width: 600px;
 }
 body.modal-open {
-  position: absolute;
-  z-index: 999;
-  min-width: 500px;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  //position: absolute;
+  //z-index: 999;
+  //min-width: 500px;
+  //top: 0;
+  //left: 0;
+  //bottom: 0;
+  //right: 0;
+  overflow: hidden!important;
+  height: 100%;
   .body {
     overflow: hidden;
     height: 100%;
