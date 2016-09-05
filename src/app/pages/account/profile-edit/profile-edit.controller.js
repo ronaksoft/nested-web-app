@@ -186,6 +186,8 @@
 
       updateModel(vm.model).then(function(user) {
 
+        vm.model.fullName = user.getFullName();
+
         if (vm.model.picture.file) {
           storePicture(vm.model.picture.file, vm.model).then(function(storeId) {
 
