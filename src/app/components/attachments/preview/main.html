@@ -1,6 +1,6 @@
 <div class="attachments-preview-bar">
   <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
-    <li ng-repeat="item in items | orderBy:'order'" data-tooltip-placement="bottom" data-uib-tooltip="{{item.name + '.' + item.extension}}">
+    <li ng-repeat="item in items | orderBy:['order', 'name']" data-tooltip-placement="bottom" data-uib-tooltip="{{item.name + '.' + item.extension}}">
       <a href="javascript:void(0);" ng-click="onClick(item)">
         <img ng-if="item.hasThumbnail" class="attach-thumbnail" alt="" style="background: url({{item.thumbnail}});background-size: cover;"/>
         <div ng-if="!item.hasThumbnail" class="attach-thumbnail-default {{'attach-thumbnail-' + item.type}}">
@@ -10,7 +10,7 @@
     </li>
   </ul>
   <ul ng-if="internalMode == 'badge'" class="badge-bar">
-    <li ng-repeat="item in items | orderBy:'order'">
+    <li ng-repeat="item in items | orderBy:['order', 'name']">
       <a href="javascript:void(0);" ng-click="onClick(item)" class="attach-badge-default {{'attach-badge-' + item.type}}">
         <div class="badge-extension">{{item.extension ? item.extension : '&nbsp'}}</div>
         <div class="badge-name">{{item.name ? item.name : '&nbsp'}}</div>
