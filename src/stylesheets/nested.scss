@@ -86,7 +86,7 @@ body.modal-open {
   //left: 0;
   //bottom: 0;
   //right: 0;
-  overflow: hidden!important;
+  overflow-y: hidden!important;
   height: 100%;
   .body {
     overflow: hidden;
@@ -181,7 +181,7 @@ hr {
   //word-break: break-all;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
   hyphens: auto;
 }
 ._txe {
