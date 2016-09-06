@@ -1567,13 +1567,6 @@ input[type="checkbox"]:checked + label.setting {
     margin: 0 80px;
     width: calc(100% - 160px);
   }
-  .modal {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
   .maincontainer {
     height: 100%;
     &.navtiny {

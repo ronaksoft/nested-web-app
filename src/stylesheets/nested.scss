@@ -85,11 +85,22 @@ body.modal-open {
   //left: 0;
   //bottom: 0;
   //right: 0;
-  overflow-y: hidden!important;
+  //overflow-y: hidden!important;
   height: 100%;
+  //max-height: 100vh;
+  overflow-y: hidden;
   .body {
     overflow: hidden;
     height: 100%;
+  }
+  .modal {
+    height: 100%;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    right: 0;
+    left: 0;
+    overflow: hidden;
   }
 }
 *:focus {
@@ -678,16 +689,13 @@ a {
 
 .modal {
   min-width: 600px;
-  min-height: 600px;
+  min-height: 350px;
   padding: 80px 0;
   display: flex!important;
   justify-content: center;
   align-items: center;
   position: absolute;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
-}
-body.modal-open {
-  overflow: auto;
 }
 .modal-buttons {
   justify-content: flex-end;
