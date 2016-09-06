@@ -1,0 +1,20 @@
+$hot-bg-color: cornsilk;
+@keyframes slide-down {
+  from {
+    background-color: $hot-bg-color;
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+  to {
+    background-color: $hot-bg-color;
+  }
+}
+
+@keyframes set-seen {
+  from {
+    background-color: $hot-bg-color;
+  }
+  to {
+    background-color: inherit;
+  }
+}
