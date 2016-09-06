@@ -22,7 +22,7 @@
     // where we keep NstActivities and will be mapped to view-model
     vm.cache = [];
     vm.currentPlace = null;
-    vm.noMessages = false;
+    vm.noActivity = false;
 
     vm.loadMore = loadMore;
     vm.acceptInvitation = acceptInvitation;
@@ -175,7 +175,10 @@
       return $q(function (resolve, reject) {
 
         NstSvcActivityFactory.get(vm.activitySettings).then(function (activities) {
-          if (activities.length === 0) {
+          if (activities.length === 0 && !vm.acts.hasAnyItem) {
+            vm.reachedTheEnd = false;
+            vm.noActivity = true;
+          }else if (activities.length === 0 && vm.acts.length > 0) {
             vm.reachedTheEnd = true;
           } else {
             vm.reachedTheEnd = false;
