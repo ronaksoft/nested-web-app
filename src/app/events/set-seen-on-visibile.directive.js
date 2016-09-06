@@ -7,10 +7,8 @@
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-          console.log('element is ',element);
           var content = $(element);
           content.on('scroll', function () {
-            console.log('scrolling');
             var recents = content.find('.hot');
             $.each(recents, function (index, e) {
               var element = $(e);

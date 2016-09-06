@@ -6,30 +6,23 @@
     .directive('scrollChangeObserver', scrollChangeObserver);
 
   /** @ngInject */
-  function scrollChangeObserver(NstObservableObject) {
+  function scrollChangeObserver() {
     return {
       restrict : 'E',
-      controller : ScrollChangeController,
-      controllerAs : 'ctlScroll',
       bindToController : true,
       scope : {
-        key : '@observerKey'
+        key : '@eventKey'
+      },
+      controllerAs : 'ctlChange',
+      controller : function ($scope, $rootScope) {
+        var vm = this;
+        var key = vm.key || 'body-scroll-change';
+
+        $(window).scroll(_.debounce(function (event) {
+          $rootScope.$broadcast(key, { event : event });
+        }, 265));
       }
     };
   }
-
-    function ScrollChangeController($scope, NstObservableObject) {
-      var vm = this;
-      vm.key = vm.key || 'body-scroll-change';
-
-      vm.container = new NstObservableObject();
-
-      $(window).scroll(_.debounce(function (event) {
-        vm.container.dispatchEvent(new CustomEvent(vm.key, {
-          detail : event
-        }));
-      }, 265));
-    }
-
 
 })();
