@@ -73,7 +73,7 @@
       return reqGetComments(vm.postModel, vm.commentSettings).then(function (comments) {
         vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
         if (commentCount == 0){
-          vm.scrollToNewComment = true;
+          vm.scrollToNewComment = commentCount;
         }else{
           vm.scrollToNewComment = false;
         }
@@ -106,8 +106,8 @@
       reqAddComment(vm.postModel, body).then(function(comment) {
         // TODO: notify
         pushComment(comment);
+        vm.scrollToNewComment = vm.comments.length;
         event.currentTarget.value = '';
-        vm.scrollToNewComment = true;
         vm.scrolling = $scope.unscrolled && true;
       }).catch(function(error) {
         vm.nextComment = body;
