@@ -6,10 +6,10 @@
     .controller('ProfileEditController', ProfileEditController);
 
   /** @ngInject */
-  function ProfileEditController($rootScope, $state, $q, $uibModal, $timeout, $log, $window,
-    toastr,
+  function ProfileEditController($rootScope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
+    toastr, PreviousState,
     NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
-    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility) {
+    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility ) {
     var vm = this;
 
 
@@ -28,7 +28,9 @@
 
     vm.controls = {
       left: [
-        new NstVmNavbarControl('Back', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
+        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, null, function () {
+          $state.go(NST_DEFAULT.STATE);
+        })
       ],
       right: []
     };
@@ -120,6 +122,7 @@
 
     })();
 
+
     function storePicture(file, viewModel) {
       var deferred = $q.defer();
 
@@ -185,6 +188,8 @@
       NstSvcLoader.inject(deferred.promise);
 
       updateModel(vm.model).then(function(user) {
+
+        vm.model.fullName = user.getFullName();
 
         if (vm.model.picture.file) {
           storePicture(vm.model.picture.file, vm.model).then(function(storeId) {

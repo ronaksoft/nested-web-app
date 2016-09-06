@@ -101,7 +101,7 @@
     }
 
     function search(query, event) {
-      if (!sendKeyIsPressed(event)) {
+      if (!sendKeyIsPressed(event) || !query) {
         return;
       }
       var searchQury = new NstSearchQuery(query);
