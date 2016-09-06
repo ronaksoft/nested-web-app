@@ -9,4 +9,32 @@
     position: absolute;
     //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   }
+  #PostView {
+    .nst-mood-solid {
+      display: none;
+    }
+    .comment-input-toggle {
+      display: flex;
+    }
+    #Comments {
+      position: relative;
+      .mCustomScrollbar {
+        margin-bottom: 0;
+      }
+    }
+    .comment-input {
+      height: 100%;
+      width: 100%;
+      max-height: 200px;
+      margin: 0;
+      padding: 10px;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f7faf9;
+      textarea {
+        height: 100%;
+      }
+    }
+  }
+
 }

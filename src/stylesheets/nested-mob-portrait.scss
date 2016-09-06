@@ -1,0 +1,15 @@
+@media screen and (max-width: 600px) and (orientation: landscape) {
+  .modal {
+    min-height: 350px;
+    min-width: 1px!important;
+    padding: 50px 0!important;
+    display: flex!important;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+    span.nst-mood-solid:first-of-type {
+      display: none;
+    }
+  }
+}
