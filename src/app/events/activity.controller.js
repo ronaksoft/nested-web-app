@@ -133,15 +133,6 @@
       });
     }
 
-    $(window).scroll(function (event) {
-      var element = event.currentTarget;
-      if (element.pageYOffset + element.innerHeight === $('body').height()) {
-        $log.debug("load more");
-        vm.loadMore();
-      }
-    });
-
-
     /**********************
      ** Helper Functions **
      **********************/
@@ -281,7 +272,6 @@
       vm.acts.thisYear.thisMonth.today.items.unshift(activity);
       vm.acts.thisYear.thisMonth.today.hasAnyItem = true;
     }
-
 
     // FIXME: NEEDS REWRITE COMPLETELY
     var nav = document.getElementsByTagName("nst-navbar")[0];
