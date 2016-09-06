@@ -115,7 +115,7 @@
   vertical-align: top;
 }
 
-.evrow {
+#EventList .evrow {
   position: relative;
   display: flex;
   margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
@@ -123,10 +123,14 @@
   min-width: 600px;
   width: 100%;
 }
-
-.evrow.hot.ng-enter {
-  animation: slide-down 0.5s forwards,
-   set-seen 0.75s 4s forwards;
+#EventList .evrow.hot {
+  background-color: $hot-bg-color;
+}
+#EventList .evrow.hot.ng-enter {
+  animation: activity-item-hot 0.5s forwards;
+}
+#EventList .evrow.seen {
+  animation: activity-item-normal 0.75s 3s forwards;
 }
 
 #EventList .evrow:hover {

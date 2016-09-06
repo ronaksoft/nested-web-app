@@ -1,5 +1,5 @@
 $hot-bg-color: cornsilk;
-@keyframes slide-down {
+@keyframes activity-item-hot {
   from {
     background-color: $hot-bg-color;
     transform-origin: top;
@@ -10,11 +10,11 @@ $hot-bg-color: cornsilk;
   }
 }
 
-@keyframes set-seen {
+@keyframes activity-item-normal {
   from {
     background-color: $hot-bg-color;
   }
   to {
-    background-color: inherit;
+    background-color: white;
   }
 }
