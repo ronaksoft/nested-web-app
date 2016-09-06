@@ -6,7 +6,9 @@
         <div class="title-bar _difh _fw" ng-show="ctlFullNavbar.readyToShow">
           <div class="logo-bar _df" ng-if="ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass">
             <div data-ng-if="ctlFullNavbar.pictureClass" class="icon {{ctlFullNavbar.pictureClass}}"></div>
+            <div class="navbar-picture">
             <img ng-if="ctlFullNavbar.pictureUrl" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
+            </div>
           </div>
           <div class="name _fw _difv _jcc">
             <a class="_df _tr">{{ctlFullNavbar.title}}</a>
