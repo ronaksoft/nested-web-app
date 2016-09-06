@@ -122,31 +122,11 @@
   padding: 0 5px;
   min-width: 600px;
   width: 100%;
-  animation: appearence .2s linear;
 }
 
-@keyframes recent-event {
-  0% {
-    background-color: $color-white;
-  }
-  100% {
-    background-color: #E7FBF0;
-  }
-}
-@keyframes seen-event {
-  0%, 25%, 50% {
-    background-color: #E7FBF0;
-  }
-  100% {
-    background-color: $color-white;
-  }
-}
-
-.evrow.recent {
-  background-color: #E7FBF0;
-}
-.evrow.seen {
-  animation:         seen-event 3s ease-out;
+.evrow.hot.ng-enter {
+  animation: slide-down 0.5s forwards,
+   set-seen 0.75s 4s forwards;
 }
 
 #EventList .evrow:hover {

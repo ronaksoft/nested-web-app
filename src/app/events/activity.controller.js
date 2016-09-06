@@ -254,7 +254,9 @@
 
     NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
       if (activityBelongsToPlace(e.detail)){
-        addNewActivity(NstSvcActivityMap.toActivityItem(e.detail));
+        var activityItem = NstSvcActivityMap.toActivityItem(e.detail);
+        activityItem.isHot = true;
+        addNewActivity(activityItem);
       }
     });
 
