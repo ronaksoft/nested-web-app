@@ -19,7 +19,7 @@
       </div>
 
       <div class="inner-panel _ma">
-        <div class="_tac profile-name">{{::ctlProfileEdit.model.fullName}}</div>
+        <div class="_tac profile-name">{{ctlProfileEdit.model.fullName}}</div>
         <div class="_tac nst-mood-storm profile-id">@{{ctlProfileEdit.model.id}}</div>
         <div class="text-center">
           <a class="_tac nst-marginbtm-32 changePassLink" ui-sref="change-password">Change Password</a>
@@ -37,7 +37,7 @@
           </div>
           <div class="form-group">
             <label for="phone">Mobile phone</label>
-            <input class="_fw" name="phone" international-phone-number default-country="IR" country="ctlProfileEdit.model.country" data-ng-model="ctlProfileEdit.model.phone" disabled/>
+            <input class=" _fw" name="phone" international-phone-number default-country="IR" country="ctlProfileEdit.model.country" data-ng-model="ctlProfileEdit.model.phone" disabled/>
           </div>
           <div class="form-group">
             <label for="gender">Gender</label>

@@ -65,6 +65,15 @@
         this.places.push(place);
       }
     };
+
+    SearchQuery.prototype.getDefaultPlaceId = function () {
+      if (this.places.length > 0){
+        return this.places[0];
+      } else {
+        return null;
+      }
+    };
+
     SearchQuery.prototype.addUser = function (user) {
       if (!_.includes(this.users, user)) {
         this.users.push(user);

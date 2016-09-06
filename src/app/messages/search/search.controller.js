@@ -7,11 +7,12 @@
 
   /** @ngInject */
   function SearchController($rootScope, $log, $stateParams, $state, $timeout,
-    NstSvcPostFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
-    NstSearchQuery) {
+                            NST_DEFAULT, NstSvcPostFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
+                            NstSearchQuery) {
     var vm = this;
     var limit = 8;
     var skip = 0;
+
 
     vm.reachedTheEnd = false;
     vm.loading = false;
@@ -39,12 +40,14 @@
     vm.search = search;
     vm.loadMore = loadMore;
     vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
-    vm.clearSearchQuery = clearSearchQuery;
+    vm.backToPlace = backToPlace;
 
     (function () {
 
       var query = getUriQuery();
       vm.queryString = query.toString();
+      var searchObj = new NstSearchQuery(vm.queryString);
+      vm.refererPlaceId = searchObj.getDefaultPlaceId();
       searchMessages(vm.queryString);
     })();
 
@@ -59,7 +62,7 @@
     }
 
     function searchOnEnterKeyPressed(e, queryString) {
-      if (!sendKeyIsPressed(e)) {
+      if (!sendKeyIsPressed(e) || !queryString) {
         return;
       }
 
@@ -109,9 +112,12 @@
       searchMessages(vm.queryString);
     }
 
-    function clearSearchQuery() {
-      vm.queryString = '';
-      search('');
+    function backToPlace() {
+      if (vm.refererPlaceId){
+        $state.go('place-messages', { placeId : vm.refererPlaceId});
+      } else {
+        $state.go(NST_DEFAULT.STATE);
+      }
     }
 
     $(window).scroll(function (event) {
