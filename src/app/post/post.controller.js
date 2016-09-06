@@ -68,10 +68,16 @@
 
     function loadComments() {
       vm.commentSettings.date = getDateOfOldestComment(vm.postModel);
+      var commentCount = vm.comments.length;
 
       return reqGetComments(vm.postModel, vm.commentSettings).then(function (comments) {
         vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
-        vm.scrolling = true;
+        if (commentCount == 0){
+          vm.scrollToNewComment = true;
+        }else{
+          vm.scrollToNewComment = false;
+        }
+        // vm.scrolling = true;
       }).catch(function (error) {
         // TODO: create a service that handles errors
         // and knows what to do when an error occurs
@@ -92,7 +98,6 @@
       }
 
       var body = extractCommentBody(cm);
-      console.log(body);
       if (0 == body.length) {
         return;
       }
@@ -102,6 +107,7 @@
         // TODO: notify
         pushComment(comment);
         event.currentTarget.value = '';
+        vm.scrollToNewComment = true;
         vm.scrolling = $scope.unscrolled && true;
       }).catch(function(error) {
         vm.nextComment = body;
