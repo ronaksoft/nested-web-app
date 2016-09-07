@@ -1,18 +1,8 @@
-@for $i from 1 through 20 {
-  ul li:nth-child(#{$i}):last-child
-  dl:nth-of-type( #{$i - 1} ) {
-    //background-color: black;
-  }
-}
-.new-post-badge-area {
-  text-align: center;
-  .new-post-badge {
-    background: $color-storm;
-    color: white;
-    transition: background-color 0.5s ease-out;
-  }
-  .new-post-badge:hover {
-    background: $color-sense-wire;
-    color: white;
-  }
+hr.hot-message-separator {
+  border: 0;
+  width: 92%;
+  margin-top: 24px;
+   height: 1px;
+   background: #333;
+   background-image: linear-gradient(to right, #ced9d3, $color-sense, #ced9d3);
 }

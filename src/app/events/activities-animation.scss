@@ -18,3 +18,24 @@ $hot-bg-color: cornsilk;
     background-color: white;
   }
 }
+
+@keyframes recent-activity-item-hot {
+  from {
+    transform-origin: top;
+    transform: scaleY(0);
+    background-color: $hot-bg-color;
+  }
+  to {
+    transform: scaleY(1);
+    background-color: $hot-bg-color;
+  }
+}
+
+@keyframes recent-activity-item-normal {
+  from {
+    background-color: $hot-bg-color;
+  }
+  to {
+    background-color: white;
+  }
+}

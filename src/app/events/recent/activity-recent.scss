@@ -1,11 +1,7 @@
 .activity-recent {
   .recent-container {
-    .recent-item.seen {
-      animation: activity-item-normal 0.75s 4s forwards;
-    }
-
     .recent-item.hot.ng-enter {
-      animation: activity-item-hot 0.5s forwards;
+      animation: recent-activity-item-hot 0.5s forwards, recent-activity-item-normal 0.75s 4s backwards;
     }
   }
 }

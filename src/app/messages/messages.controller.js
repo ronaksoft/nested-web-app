@@ -25,15 +25,17 @@
       sortOptionStorageKey = 'sort-option';
 
     vm.messages = [];
+    vm.newMessages = [];
+    vm.hotMessages = [];
     vm.cache = [];
+    vm.hasNewMessages = false;
+
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
     vm.reachedTheEnd = false;
     vm.noMessages = false;
     vm.loading = false;
     vm.loadMessageError = false;
-    vm.newMessages = [];
-    vm.hasNewMessages = hasNewMessages;
     vm.getNewMessagesCount = getNewMessagesCount;
     vm.showNewMessages = showNewMessages;
 
@@ -103,17 +105,22 @@
         if (isBookMark()){
           if (!_.some(vm.messages, { id : newMessage.id }) &&
             _.intersectionWith(vm.bookmarkedPlaces, newMessage.getPlaces(), function (a, b) {
-              console.log(b, a == b.getId());
               return a == b.getId()
             }).length > 0){
-            vm.newMessages.unshift(mapMessage(newMessage));
+              var item = mapMessage(newMessage);
+              item.isHot = true;
+              vm.newMessages.unshift(item);
+              vm.hasNewMessages = true;
           }
           return;
         }
 
         if (!vm.currentPlaceId || newMessage.belongsToPlace(vm.currentPlaceId)) {
           if (!_.some(vm.messages, { id : newMessage.id })){
-            vm.newMessages.unshift(mapMessage(newMessage));
+            var item = mapMessage(newMessage);
+            item.isHot = true;
+            vm.newMessages.unshift(item);
+            vm.hasNewMessages = true;
           }
         }
 
@@ -247,7 +254,7 @@
             });
 
             if (hasData.length === 0) {
-              vm.messages.push(mapMessage(messages[i]));
+                vm.messages.push(mapMessage(messages[i]));
             } else {
               // Todo :: remove this line after fixed by server
               $log.debug('Messages | Reached the end because of duplication: ', hasData);
@@ -371,10 +378,6 @@
 
     }
 
-    function hasNewMessages() {
-      return vm.newMessages.length > 0;
-    }
-
     function getNewMessagesCount() {
       return vm.newMessages.length;
     }
@@ -391,19 +394,30 @@
 
     function showNewMessages(ans,wrapper) {
       if (ans == "yes") {
-        _.forEachRight(vm.newMessages, function (item) {
-          if (!_.some(vm.messages, { id : item.id })) {
-            vm.messages.unshift(item);
-          }
+        //clear hot items
+        _.forEachRight(vm.hotMessages, function (item) {
+          insertMessage(vm.messages, item);
         });
+
+        vm.hotMessages.length = 0;
+        //push newMessages to hotMessages
+        _.forEachRight(vm.newMessages, function (item) {
+          insertMessage(vm.hotMessages, item);
+        });
+
+        vm.newMessages.length = 0;
+
         $('#wrapper').mCustomScrollbar("scrollTo","top",{
           scrollEasing:"easeOut"
         });
-        vm.newMessages = [];
-      }else  {
-        vm.hasNewMessages = function () {
-          return false
-        }
+      }
+
+      vm.hasNewMessages = false;
+    }
+
+    function insertMessage(list, item) {
+      if (!_.some(list, { id : item.id })) {
+        list.unshift(item);
       }
     }
 
