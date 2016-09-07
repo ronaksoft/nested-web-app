@@ -1,12 +1,12 @@
 $hot-bg-color: cornsilk;
 @keyframes activity-item-hot {
   from {
-    background-color: $hot-bg-color;
     transform-origin: top;
     transform: scaleY(0);
   }
   to {
-    background-color: $hot-bg-color;
+    transform: scaleY(1);
+    // background-color: $hot-bg-color;
   }
 }
 

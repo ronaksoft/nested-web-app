@@ -130,16 +130,17 @@
   animation: activity-item-hot 0.5s forwards;
 }
 #EventList .evrow.seen {
-  animation: activity-item-normal 0.75s 3s forwards;
+  animation: activity-item-normal 0.75s 3s backwards;
+  background-color: inherit;
 }
 
-#EventList .evrow:hover {
-  background-color: #E7FBF0;
+#EventList .evrow:hover, #EventList .evrow.seen:hover {
+  background-color: #E7FBF0!important;
 }
 
-#EventList .evrow:hover .time{
-  background-color: #E7FBF0;
-}
+// #EventList .evrow:hover .time{
+//   background-color: #E7FBF0;
+// }
 
 .actcon {
   border-bottom: 1px solid #ced9d3;
