@@ -1,7 +1,10 @@
 .activity-recent {
   .recent-container {
+    .recent-item.hot {
+      overflow-y: hidden;
+    }
     .recent-item.hot.ng-enter {
-      animation: recent-activity-item-hot 0.5s forwards, recent-activity-item-normal 0.75s 4s backwards;
+      animation: recent-activity-item-hot 0.75s ease-in forwards, recent-activity-item-normal 0.75s 4s ease-out forwards;
     }
   }
 }

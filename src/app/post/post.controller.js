@@ -162,7 +162,7 @@
 
 
         /**
-         * previewPlaces - preview the places that have delete access and let the user to chose one
+         * previewPlaces - preview the places that have delete access and let the user to choose one
          *
          * @param  {type} places list of places to be shown
          */

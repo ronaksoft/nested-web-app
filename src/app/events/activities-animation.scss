@@ -1,12 +1,10 @@
 $hot-bg-color: cornsilk;
 @keyframes activity-item-hot {
   from {
-    transform-origin: top;
-    transform: scaleY(0);
+    max-height: 0;
   }
   to {
-    transform: scaleY(1);
-    // background-color: $hot-bg-color;
+    max-height: 64px;
   }
 }
 
@@ -21,12 +19,11 @@ $hot-bg-color: cornsilk;
 
 @keyframes recent-activity-item-hot {
   from {
-    transform-origin: top;
-    transform: scaleY(0);
+    max-height: 0;
     background-color: $hot-bg-color;
   }
   to {
-    transform: scaleY(1);
+    max-height: 512px;
     background-color: $hot-bg-color;
   }
 }

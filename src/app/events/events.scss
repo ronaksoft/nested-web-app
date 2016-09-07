@@ -125,17 +125,18 @@
 }
 #EventList .evrow.hot {
   background-color: $hot-bg-color;
+  overflow-y: hidden;
 }
 #EventList .evrow.hot.ng-enter {
-  animation: activity-item-hot 0.5s forwards;
+  animation: activity-item-hot 0.64s ease-in-out forwards;
 }
 #EventList .evrow.seen {
-  animation: activity-item-normal 0.75s 3s backwards;
-  background-color: inherit;
+  background: inherit;
+  animation: activity-item-normal 0.64s 3s ease-out backwards;
 }
 
-#EventList .evrow:hover, #EventList .evrow.seen:hover {
-  background-color: #E7FBF0!important;
+#EventList .evrow:hover{
+  background-color: #E7FBF0;
 }
 
 .actcon {
