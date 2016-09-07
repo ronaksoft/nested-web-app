@@ -431,6 +431,11 @@ a.place {
 .emojione {
   height: 1em;
 }
+[img-crop] {
+  width: 200px;
+  height: 200px;
+  display: flex;
+}
 //****input Styles****
 
 .switch {
