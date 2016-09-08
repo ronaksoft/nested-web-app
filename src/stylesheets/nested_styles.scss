@@ -1075,6 +1075,7 @@ ul ul li:last-child{
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 20;
   background-color: $color-white;
+  overflow: hidden;
 }
 .post-card ul{
   margin-left: 8px;
@@ -1303,6 +1304,7 @@ h3 {
   border-top-width: 0;
   z-index: 10;
   transition-duration: .3s;
+  overflow: hidden;
 }
 .post-card-comment .comments-load {
   height: 32px;
@@ -1510,9 +1512,6 @@ input[type="checkbox"]:checked + label.setting {
   * NST Scrollbar
   ******************************
  */
-.nano {
-  position: static!important;
-}
 .mCustomScrollBox {
   width: 100%;
 }
