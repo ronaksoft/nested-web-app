@@ -189,12 +189,11 @@ hr {
 ._ltr{direction: ltr}
 
 ._wrb {
-  //word-break: break-all;
-  overflow-wrap: break-word;
+  display: block;
+  font-size: 14px;
+  line-height: 18px;
+  white-space: pre-wrap;
   word-wrap: break-word;
-  word-break: break-all;
-  word-break: break-word;
-  hyphens: auto;
 }
 ._txe {
   overflow: hidden;
