@@ -1,6 +1,7 @@
 <nst-navbar data-ng-model="navbar" place-id="{{::ctlActivity.currentPlace.id}}" nav-title="{{ctlActivity.currentPlace.id?ctlActivity.currentPlace.name:'All Places'}}" nav-picture-url="{{ctlActivity.currentPlace.id ? ctlActivity.currentPlace.picture.thumbnails.x64.url.view : '' }}" nav-picture-class="{{ !ctlActivity.currentPlace.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlActivity.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
 <!-- ctlActivity.currentPlace -->
 <div class="nst-content _tr _bgwhite" id="content-wrapper">
+  <scroll-change-handler reached-bottom="ctlActivity.loadMore"/>
   <section class="_fw nst-content-body">
     <div class="navbarillu"></div>
     <div class="filter-bar  _fw" ng-mouseleave="filterPopoverShow = false;popoverSettingShow = false">
@@ -22,7 +23,7 @@
     </div>
 
     <section class="_fw nst-content-body _bgwhite">
-      <div class="_fw eventsody _bgwhite" id="EventList">
+      <div class="_fw eventsody _bgwhite" id="EventList" set-seen-on-visible>
         <div class="actdate" ng-if="ctlActivity.acts.thisYear.thisMonth.today.hasAnyItem">
           <p class="nst-mood-simple">
             <span class="">Today</span>
@@ -67,7 +68,7 @@
         <p class="nst-mood-storm" ng-if="ctlActivity.reachedTheEnd">
           You reached the end of activities!
         </p>
-        <p class="nst-mood-storm" ng-if="ctlActivity.noMessages">
+        <p class="nst-mood-storm" ng-if="ctlActivity.noActivity">
           There is not any activity here!
         </p>
         <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlActivity.loading">

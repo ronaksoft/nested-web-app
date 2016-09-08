@@ -36,7 +36,7 @@
     };
 
     vm.search = {
-      results: []
+      results: [],
     };
 
     vm.attachments = {
@@ -88,9 +88,15 @@
     };
 
     vm.search.fn = function (query) {
+      if (query.length > 4){
+        return [];
+      }
       return NstSvcPlaceFactory.search(query).then(function (places) {
         vm.search.results = places.map(function (place) {
-          return new NstVmPlace(place);
+          if (place && vm.model.recipients.filter(function (obj) {
+              return ( obj.id === place.id);
+            }).length === 0 )
+              return new NstVmPlace(place);
         });
       });
     };
@@ -107,21 +113,20 @@
           id: text,
           name: text,
           data: NstSvcPlaceFactory.getTiny(text).then(function (place) {
-            $timeout(function () {
+            // $timeout(function () {
               tag.name = place.getName();
               tag.data = place;
-            });
+            // });
           }).catch(function () {
-            $timeout(function () {
+            // $timeout(function () {
               tag.isTag = false;
               tag.data = NstSvcPlaceFactory.parseTinyPlace({ _id: text });
-            });
+            // });
           })
         });
-
         return tag;
       } else if (isEmail) {
-        return new NstVmSelectTag({
+        var tag = new NstVmSelectTag({
           id: text,
           name: text,
           data: new NstRecipient({
@@ -130,9 +135,9 @@
             name: text
           })
         });
+        return tag;
       }
-
-      return false;
+      return {isTag : false, name: text};
     };
 
     vm.attachments.fileSelected = function (event) {

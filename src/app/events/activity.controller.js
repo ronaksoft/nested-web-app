@@ -22,7 +22,7 @@
     // where we keep NstActivities and will be mapped to view-model
     vm.cache = [];
     vm.currentPlace = null;
-    vm.noMessages = false;
+    vm.noActivity = false;
 
     vm.loadMore = loadMore;
     vm.acceptInvitation = acceptInvitation;
@@ -133,15 +133,6 @@
       });
     }
 
-    $(window).scroll(function (event) {
-      var element = event.currentTarget;
-      if (element.pageYOffset + element.innerHeight === $('body').height()) {
-        $log.debug("load more");
-        vm.loadMore();
-      }
-    });
-
-
     /**********************
      ** Helper Functions **
      **********************/
@@ -175,7 +166,10 @@
       return $q(function (resolve, reject) {
 
         NstSvcActivityFactory.get(vm.activitySettings).then(function (activities) {
-          if (activities.length === 0) {
+          if (activities.length === 0 && !vm.acts.hasAnyItem) {
+            vm.reachedTheEnd = false;
+            vm.noActivity = true;
+          }else if (activities.length === 0 && vm.acts.length > 0) {
             vm.reachedTheEnd = true;
           } else {
             vm.reachedTheEnd = false;
@@ -254,7 +248,9 @@
 
     NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
       if (activityBelongsToPlace(e.detail)){
-        addNewActivity(NstSvcActivityMap.toActivityItem(e.detail));
+        var activityItem = NstSvcActivityMap.toActivityItem(e.detail);
+        activityItem.isHot = true;
+        addNewActivity(activityItem);
       }
     });
 
@@ -276,7 +272,6 @@
       vm.acts.thisYear.thisMonth.today.items.unshift(activity);
       vm.acts.thisYear.thisMonth.today.hasAnyItem = true;
     }
-
 
     // FIXME: NEEDS REWRITE COMPLETELY
     var nav = document.getElementsByTagName("nst-navbar")[0];

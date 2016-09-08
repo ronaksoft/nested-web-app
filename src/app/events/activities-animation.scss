@@ -1,0 +1,38 @@
+$hot-bg-color: cornsilk;
+@keyframes activity-item-hot {
+  from {
+    max-height: 0;
+  }
+  to {
+    max-height: 64px;
+  }
+}
+
+@keyframes activity-item-normal {
+  from {
+    background-color: $hot-bg-color;
+  }
+  to {
+    background-color: white;
+  }
+}
+
+@keyframes recent-activity-item-hot {
+  from {
+    max-height: 0;
+    background-color: $hot-bg-color;
+  }
+  to {
+    max-height: 512px;
+    background-color: $hot-bg-color;
+  }
+}
+
+@keyframes recent-activity-item-normal {
+  from {
+    background-color: $hot-bg-color;
+  }
+  to {
+    background-color: white;
+  }
+}

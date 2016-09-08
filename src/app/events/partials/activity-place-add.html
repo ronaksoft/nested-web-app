@@ -12,7 +12,7 @@
     <div class="subject">
       <span class="nst-mood-simple">created&nbsp;</span>
       <a class="place" ui-sref="place-activity({placeId: act.place.id})">
-        {{act.inSpecificPlace ? "here" : act.place.name}}
+        {{act.inSpecificPlace == act.place.parent.id  ? "here" : act.place.name}}
       </a>
       <span data-ng-if="act.place.hasParent">
         <span class="nst-mood-simple">&nbsp;nested in</span>

@@ -1,23 +1,10 @@
 .activity-recent {
-
   .recent-container {
-
-    .recent-item.hot.ng-enter {
-      transition: all 0.8s ease-out;
-      opacity: 0;
+    .recent-item.hot {
+      overflow-y: hidden;
     }
-    .recent-item.hot.ng-enter-active {
-      background-color: #E1FEE0;
-      animation: bg-transiate 6s forwards;
-      opacity: 1;
+    .recent-item.hot.ng-enter {
+      animation: recent-activity-item-hot 0.75s ease-in forwards, recent-activity-item-normal 0.75s 4s ease-out forwards;
     }
   }
-}
-@keyframes bg-transiate {
-    90% {
-        background:#E1FEE0;
-    }
-    100% {
-        background: #fff;
-    }
 }

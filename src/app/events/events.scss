@@ -115,45 +115,27 @@
   vertical-align: top;
 }
 
-.evrow {
+#EventList .evrow {
   position: relative;
   display: flex;
   margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
   padding: 0 5px;
   min-width: 600px;
   width: 100%;
-  animation: appearence .2s linear;
+}
+#EventList .evrow.hot {
+  background-color: $hot-bg-color;
+  overflow-y: hidden;
+}
+#EventList .evrow.hot.ng-enter {
+  animation: activity-item-hot 0.64s ease-in-out forwards;
+}
+#EventList .evrow.seen {
+  background: inherit;
+  animation: activity-item-normal 0.64s 3s ease-out backwards;
 }
 
-@keyframes recent-event {
-  0% {
-    background-color: $color-white;
-  }
-  100% {
-    background-color: #E7FBF0;
-  }
-}
-@keyframes seen-event {
-  0%, 25%, 50% {
-    background-color: #E7FBF0;
-  }
-  100% {
-    background-color: $color-white;
-  }
-}
-
-.evrow.recent {
-  background-color: #E7FBF0;
-}
-.evrow.seen {
-  animation:         seen-event 3s ease-out;
-}
-
-#EventList .evrow:hover {
-  background-color: #E7FBF0;
-}
-
-#EventList .evrow:hover .time{
+#EventList .evrow:hover{
   background-color: #E7FBF0;
 }
 
