@@ -115,7 +115,7 @@
   vertical-align: top;
 }
 
-.evrow {
+#EventList .evrow {
   position: relative;
   display: flex;
   margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
@@ -123,17 +123,19 @@
   min-width: 600px;
   width: 100%;
 }
-
-.evrow.hot.ng-enter {
-  animation: slide-down 0.5s forwards,
-   set-seen 0.75s 4s forwards;
+#EventList .evrow.hot {
+  background-color: $hot-bg-color;
+  overflow-y: hidden;
+}
+#EventList .evrow.hot.ng-enter {
+  animation: activity-item-hot 0.64s ease-in-out forwards;
+}
+#EventList .evrow.seen {
+  background: inherit;
+  animation: activity-item-normal 0.64s 3s ease-out backwards;
 }
 
-#EventList .evrow:hover {
-  background-color: #E7FBF0;
-}
-
-#EventList .evrow:hover .time{
+#EventList .evrow:hover{
   background-color: #E7FBF0;
 }
 
