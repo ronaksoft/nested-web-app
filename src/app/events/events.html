@@ -1,6 +1,7 @@
 <nst-navbar data-ng-model="navbar" place-id="{{::ctlActivity.currentPlace.id}}" nav-title="{{ctlActivity.currentPlace.id?ctlActivity.currentPlace.name:'All Places'}}" nav-picture-url="{{ctlActivity.currentPlace.id ? ctlActivity.currentPlace.picture.thumbnails.x64.url.view : '' }}" nav-picture-class="{{ !ctlActivity.currentPlace.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlActivity.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
 <!-- ctlActivity.currentPlace -->
 <div class="nst-content _tr _bgwhite" id="content-wrapper">
+  <scroll-change-handler reached-bottom="ctlActivity.loadMore"/>
   <section class="_fw nst-content-body">
     <div class="navbarillu"></div>
     <div class="filter-bar  _fw" ng-mouseleave="filterPopoverShow = false;popoverSettingShow = false">
@@ -9,7 +10,7 @@
            uib-popover-template="'app/events/partials/popovers/filter_popover.html'"
            data-popover-placement="bottom-center"
            popover-trigger="outsideClick" popover-is-open="filterPopoverShow">
-        <span class="nst-mood-storm _df">All</span>
+        <span class="nst-mood-storm _df">{{ctlActivity.filterDictionary[ctlActivity.activitySettings.filter]}}</span>
         <div class="icon icon-viewicon-filter _df"></div>
       </div>
       <div class="iconsblock popover-white-nst-setting"
@@ -22,7 +23,7 @@
     </div>
 
     <section class="_fw nst-content-body _bgwhite">
-      <div class="_fw eventsody _bgwhite" id="EventList">
+      <div class="_fw eventsody _bgwhite" id="EventList" set-seen-on-visible>
         <div class="actdate" ng-if="ctlActivity.acts.thisYear.thisMonth.today.hasAnyItem">
           <p class="nst-mood-simple">
             <span class="">Today</span>
@@ -30,7 +31,7 @@
         </div>
         <activity-item place="ctlActivity.currentPlace"
                        data-ng-repeat="act in ctlActivity.acts.thisYear.thisMonth.today.items" model="act"
-                       extended="ctlActivity.extended"></activity-item>
+                       extended="ctlActivity.expanded"></activity-item>
 
         <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
           <div class="actdate">
@@ -39,7 +40,7 @@
             </p>
           </div>
           <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
-                         extended="ctlActivity.extended"></activity-item>
+                         extended="ctlActivity.expanded"></activity-item>
         </div>
         <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
           <div class="actdate">
@@ -48,7 +49,7 @@
             </p>
           </div>
           <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
-                         extended="ctlActivity.extended"></activity-item>
+                         extended="ctlActivity.expanded"></activity-item>
         </div>
         <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
           <div class="actdate">
@@ -57,7 +58,7 @@
             </p>
           </div>
           <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
-                         extended="ctlActivity.extended"></activity-item>
+                         extended="ctlActivity.expanded"></activity-item>
         </div>
 
       </div>

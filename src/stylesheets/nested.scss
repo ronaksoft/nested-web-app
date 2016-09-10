@@ -85,11 +85,23 @@ body.modal-open {
   //left: 0;
   //bottom: 0;
   //right: 0;
-  overflow-y: hidden!important;
+  //overflow-y: hidden!important;
   height: 100%;
+  //max-height: 100vh;
+  overflow-y: hidden;
+  overflow-x: auto;
   .body {
     overflow: hidden;
     height: 100%;
+  }
+  .modal {
+    height: 100%;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    right: 0;
+    left: 0;
+    overflow: hidden;
   }
 }
 *:focus {
@@ -177,12 +189,10 @@ hr {
 ._ltr{direction: ltr}
 
 ._wrb {
-  //word-break: break-all;
-  overflow-wrap: break-word;
+  font-size: 14px;
+  line-height: 18px;
+  white-space: pre-wrap;
   word-wrap: break-word;
-  word-break: break-all;
-  word-break: break-word;
-  hyphens: auto;
 }
 ._txe {
   overflow: hidden;
@@ -418,6 +428,11 @@ a.place {
  */
 .emojione {
   height: 1em;
+}
+[img-crop] {
+  width: 200px;
+  height: 200px;
+  display: flex;
 }
 //****input Styles****
 
@@ -678,16 +693,13 @@ a {
 
 .modal {
   min-width: 600px;
-  min-height: 600px;
+  min-height: 350px;
   padding: 80px 0;
   display: flex!important;
   justify-content: center;
   align-items: center;
   position: absolute;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
-}
-body.modal-open {
-  overflow: auto;
 }
 .modal-buttons {
   justify-content: flex-end;
@@ -2047,7 +2059,7 @@ a.normal-badge {
   flex: none;
   display: flex;
   align-items: center;
-  margin: 0 5px;
+  margin: 4px 4px;
 }
 .large-badge a{
   color: $color-solid;

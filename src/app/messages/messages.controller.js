@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility, NstSvcAuth,
                               NstSvcMessagesSettingStorage,
                               NstSvcPostMap) {
 
@@ -25,15 +25,18 @@
       sortOptionStorageKey = 'sort-option';
 
     vm.messages = [];
+    vm.newMessages = [];
+    vm.hotMessages = [];
     vm.cache = [];
+    vm.hasNewMessages = false;
+    vm.myPlaceIds = [];
+
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
     vm.reachedTheEnd = false;
     vm.noMessages = false;
     vm.loading = false;
     vm.loadMessageError = false;
-    vm.newMessages = [];
-    vm.hasNewMessages = hasNewMessages;
     vm.getNewMessagesCount = getNewMessagesCount;
     vm.showNewMessages = showNewMessages;
 
@@ -71,7 +74,7 @@
       if (vm.currentPlaceId) {
         setPlace(vm.currentPlaceId).then(function (place) {
           if (place) {
-            return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages()])).catch(function (error) {
+            return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
               $log.debug(error);
               vm.loadMessageError = true;
             });
@@ -82,7 +85,7 @@
         });
       } else {
         vm.currentPlaceLoaded = true;
-        NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages()])).catch(function (error) {
+        NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
           $log.debug(error);
           vm.loadMessageError = true;
         });
@@ -103,17 +106,22 @@
         if (isBookMark()){
           if (!_.some(vm.messages, { id : newMessage.id }) &&
             _.intersectionWith(vm.bookmarkedPlaces, newMessage.getPlaces(), function (a, b) {
-              console.log(b, a == b.getId());
               return a == b.getId()
             }).length > 0){
-            vm.newMessages.unshift(mapMessage(newMessage));
+              var item = mapMessage(newMessage);
+              item.isHot = true;
+              vm.newMessages.unshift(item);
+              vm.hasNewMessages = true;
           }
           return;
         }
 
         if (!vm.currentPlaceId || newMessage.belongsToPlace(vm.currentPlaceId)) {
           if (!_.some(vm.messages, { id : newMessage.id })){
-            vm.newMessages.unshift(mapMessage(newMessage));
+            var item = mapMessage(newMessage);
+            item.isHot = true;
+            vm.newMessages.unshift(item);
+            vm.hasNewMessages = true;
           }
         }
 
@@ -247,7 +255,7 @@
             });
 
             if (hasData.length === 0) {
-              vm.messages.push(mapMessage(messages[i]));
+                vm.messages.push(mapMessage(messages[i]));
             } else {
               // Todo :: remove this line after fixed by server
               $log.debug('Messages | Reached the end because of duplication: ', hasData);
@@ -298,7 +306,8 @@
     }
 
     function mapMessage(post) {
-      return NstSvcPostMap.toMessage(post);
+      var firstId = vm.currentPlaceId ? vm.currentPlaceId : NstSvcAuth.user.id;
+      return NstSvcPostMap.toMessage(post, firstId, vm.myPlaceIds);
     }
 
     function mapMessages(messages) {
@@ -371,10 +380,6 @@
 
     }
 
-    function hasNewMessages() {
-      return vm.newMessages.length > 0;
-    }
-
     function getNewMessagesCount() {
       return vm.newMessages.length;
     }
@@ -391,19 +396,30 @@
 
     function showNewMessages(ans,wrapper) {
       if (ans == "yes") {
-        _.forEachRight(vm.newMessages, function (item) {
-          if (!_.some(vm.messages, { id : item.id })) {
-            vm.messages.unshift(item);
-          }
+        //clear hot items
+        _.forEachRight(vm.hotMessages, function (item) {
+          insertMessage(vm.messages, item);
         });
+
+        vm.hotMessages.length = 0;
+        //push newMessages to hotMessages
+        _.forEachRight(vm.newMessages, function (item) {
+          insertMessage(vm.hotMessages, item);
+        });
+
+        vm.newMessages.length = 0;
+
         $('#wrapper').mCustomScrollbar("scrollTo","top",{
           scrollEasing:"easeOut"
         });
-        vm.newMessages = [];
-      }else  {
-        vm.hasNewMessages = function () {
-          return false
-        }
+      }
+
+      vm.hasNewMessages = false;
+    }
+
+    function insertMessage(list, item) {
+      if (!_.some(list, { id : item.id })) {
+        list.unshift(item);
       }
     }
 
@@ -416,16 +432,30 @@
       return false;
     }
 
+    function fillPlaceIds(container, list) {
+      if (_.isObject(container) && _.keys(container).length > 1) {
+        _.forIn(container, function (item) {
+          if (_.isObject(item) && item.id){
+            list.push(item.id);
 
-    // FIXME some times it got a problem ( delta causes )
-
-    $(window).scroll(function (event) {
-      var element = event.currentTarget;
-      if (element.pageYOffset + element.innerHeight === $('body').height()) {
-        $log.debug("load more");
-        vm.loadMore();
+            fillPlaceIds(item.children, list);
+          }
+        });
       }
-    });
+    };
+
+    function loadMyPlaces() {
+      var defer = $q.defer();
+
+      NstSvcPlaceFactory.getMyTinyPlaces().then(function (myPlaces) {
+        var flatPlaceIds = [];
+        fillPlaceIds(myPlaces, flatPlaceIds);
+        vm.myPlaceIds = flatPlaceIds;
+        defer.resolve(flatPlaceIds);
+      }).catch(defer.reject);
+
+      return defer.promise;
+    }
 
     vm.preventParentScroll = function (event) {
       var element = event.currentTarget;

@@ -38,6 +38,7 @@
       'lodash',
       'momentjs',
       'cfp.hotkeys',
+      'ngImgCrop',
       'ngAnimate'
     ]);
 })();
