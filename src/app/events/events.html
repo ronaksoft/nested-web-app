@@ -10,7 +10,7 @@
            uib-popover-template="'app/events/partials/popovers/filter_popover.html'"
            data-popover-placement="bottom-center"
            popover-trigger="outsideClick" popover-is-open="filterPopoverShow">
-        <span class="nst-mood-storm _df">All</span>
+        <span class="nst-mood-storm _df">{{ctlActivity.filterDictionary[ctlActivity.activitySettings.filter]}}</span>
         <div class="icon icon-viewicon-filter _df"></div>
       </div>
       <div class="iconsblock popover-white-nst-setting"
@@ -31,7 +31,7 @@
         </div>
         <activity-item place="ctlActivity.currentPlace"
                        data-ng-repeat="act in ctlActivity.acts.thisYear.thisMonth.today.items" model="act"
-                       extended="ctlActivity.extended"></activity-item>
+                       extended="ctlActivity.expanded"></activity-item>
 
         <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
           <div class="actdate">
@@ -40,7 +40,7 @@
             </p>
           </div>
           <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
-                         extended="ctlActivity.extended"></activity-item>
+                         extended="ctlActivity.expanded"></activity-item>
         </div>
         <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
           <div class="actdate">
@@ -49,7 +49,7 @@
             </p>
           </div>
           <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
-                         extended="ctlActivity.extended"></activity-item>
+                         extended="ctlActivity.expanded"></activity-item>
         </div>
         <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
           <div class="actdate">
@@ -58,7 +58,7 @@
             </p>
           </div>
           <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
-                         extended="ctlActivity.extended"></activity-item>
+                         extended="ctlActivity.expanded"></activity-item>
         </div>
 
       </div>
