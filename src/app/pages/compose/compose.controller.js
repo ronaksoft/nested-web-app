@@ -21,6 +21,17 @@
       $rootScope.navView = false
     });
 
+
+    vm.people = [
+      { label: 'ehsan'},
+      { label: 'sorousht'},
+      { label: 'naamesteh'},
+      { label: 'pouya'},
+      { label: 'asal'},
+      { label: 'moosamir'},
+      { label: 'kayvan'}
+    ];
+
     vm.model = {
       recipients: [],
       attachments: [],

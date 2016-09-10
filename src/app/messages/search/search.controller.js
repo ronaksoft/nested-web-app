@@ -13,6 +13,15 @@
     var limit = 8;
     var skip = 0;
 
+    vm.people = [
+      { label: 'ehsan'},
+      { label: 'sorousht'},
+      { label: 'naamesteh'},
+      { label: 'pouya'},
+      { label: 'asal'},
+      { label: 'moosamir'},
+      { label: 'kayvan'}
+    ];
 
     vm.reachedTheEnd = false;
     vm.loading = false;

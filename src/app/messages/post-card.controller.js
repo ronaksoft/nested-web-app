@@ -9,6 +9,7 @@
                               _,
                               NST_POST_EVENT, NST_COMMENT_EVENT,
                               NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
+
     var vm = this;
     var commentBoardMin = 3;
     var commentBoardMax = 99;
@@ -30,6 +31,16 @@
     vm.limitCommentBoard = limitCommentBoard;
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
+
+    vm.people = [
+      { label: 'ehsan'},
+      { label: 'sorousht'},
+      { label: 'naamesteh'},
+      { label: 'pouya'},
+      { label: 'asal'},
+      { label: 'moosamir'},
+      { label: 'kayvan'}
+    ];
 
     function reply() {
       $debug.log('Is not implemented yet!')

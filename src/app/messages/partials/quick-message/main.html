@@ -1,7 +1,7 @@
 <div class="_fw quick-message _fn">
   <form name="frmQuickMessage" data-ng-submit="ctlQuickMessage.model.submit($event)">
-    <input class="_fw input input-title" name="subject" data-ng-disabled="ctlQuickMessage.model.saving" placeholder="Quick Message Title..."/>
-    <input class="_fw input" name="body" data-ng-disabled="ctlQuickMessage.model.saving" placeholder="quick message text..."/>
-    <input class="hidden" type="submit"/>
+    <input class="_fw input input-title" mentio mentio-items="ctlQuickMessage.people" name="subject" data-ng-disabled="ctlQuickMessage.model.saving" placeholder="Quick Message Title..."/>
+    <input class="_fw input" mentio mentio-items="ctlQuickMessage.people" name="body" data-ng-disabled="ctlQuickMessage.model.saving" placeholder="quick message text..."/>
+    <input class="hidden" type="submit" mentio mentio-items="ctlQuickMessage.people"/>
   </form>
 </div>

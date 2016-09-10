@@ -12,6 +12,16 @@
      *** Controller Properties ***
      *****************************/
 
+    vm.people = [
+      { label: 'ehsan'},
+      { label: 'sorousht'},
+      { label: 'naamesteh'},
+      { label: 'pouya'},
+      { label: 'asal'},
+      { label: 'moosamir'},
+      { label: 'kayvan'}
+    ];
+
     isBookMark();
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
