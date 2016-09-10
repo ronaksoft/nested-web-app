@@ -10,13 +10,13 @@
                               toastr, _, moment,
                               NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
                               NstSvcActivityMap,
+                              NstSvcActivitySettingStorage,
                               NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
                               NstActivity, NstPlace, NstInvitation) {
 
     var vm = this;
 
     // TODO it needs to connect with cache
-    vm.extended = true;
     // where we bind activities view-model for view
     vm.acts = {};
     // where we keep NstActivities and will be mapped to view-model
@@ -28,7 +28,10 @@
     vm.acceptInvitation = acceptInvitation;
     vm.declineInvitation = declineInvitation;
     vm.applyFilter = applyFilter;
+    vm.toggleViewMode = toggleViewMode;
     vm.viewPost = viewPost;
+
+    vm.expanded = true;
 
     vm.activitySettings = {
       limit: 24,
@@ -36,6 +39,9 @@
       placeId: null,
       date: null,
     };
+
+    vm.filterDictionary = {};
+
     vm.urls = {
       filters: {
         all: '',
@@ -56,17 +62,31 @@
      ******************/
 
     (function () {
+      vm.filterDictionary[NST_ACTIVITY_FILTER.ALL] = 'All';
+      vm.filterDictionary[NST_ACTIVITY_FILTER.MESSAGES] = 'Messages';
+      vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = 'Comments';
+      vm.filterDictionary[NST_ACTIVITY_FILTER.LOGS] = 'Logs';
+
       if (placeIdParamIsValid($stateParams.placeId)) {
         vm.activitySettings.placeId = $stateParams.placeId;
       } else {
         vm.activitySettings.placeId = null;
       }
 
-      if (filterIsValid($stateParams.filter)) {
-        vm.activitySettings.filter = $stateParams.filter;
+      // first check url to match a filter
+      if (!$stateParams.filter || $stateParams.filter === NST_DEFAULT.STATE_PARAM) {
+        vm.activitySettings.filter = NstSvcActivitySettingStorage.get('filter') || NST_ACTIVITY_FILTER.ALL;
       } else {
-        vm.activitySettings.filter = NST_ACTIVITY_FILTER.ALL;
+        if (filterIsValid($stateParams.filter)) {
+          vm.activitySettings.filter = $stateParams.filter;
+          NstSvcActivitySettingStorage.set('filter', vm.activitySettings.filter);
+        } else {
+          vm.activitySettings.filter = NST_ACTIVITY_FILTER.ALL;
+        }
       }
+
+      console.log(NstSvcActivitySettingStorage.get('collapsed'));
+      vm.expanded = !NstSvcActivitySettingStorage.get('collapsed');
 
       generateUrls();
 
@@ -117,12 +137,17 @@
         $state.go('place-activity-filtered', {
           placeId: vm.activitySettings.placeId,
           filter: filter
-        });
+        }, { notify : false });
       } else {
         $state.go('activity-filtered', {
           filter: filter
-        });
+        }, { notify : false });
       }
+    }
+
+    function toggleViewMode() {
+      vm.expanded = !vm.expanded;
+      NstSvcActivitySettingStorage.set('collapsed', !vm.expanded);
     }
 
     function viewPost(postId) {

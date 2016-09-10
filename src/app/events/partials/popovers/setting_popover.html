@@ -3,12 +3,12 @@
    <span class="spansetting"> View setting</span>
   </div>
   <div>
-    <div class="list-items ng-class:{ 'active': !ctlActivity.extended }" ng-click="ctlActivity.extended = false">
+    <div class="list-items ng-class:{ 'active': ctlActivity.expanded == false }" ng-click="ctlActivity.toggleViewMode();">
       <a class="">Collapsed View</a>
     </div>
   </div>
   <div>
-    <div class="list-items ng-class:{ 'active': ctlActivity.extended }" ng-click="ctlActivity.extended = true">
+    <div class="list-items ng-class:{ 'active': ctlActivity.expanded == true }" ng-click="ctlActivity.toggleViewMode();">
       <a class="">Expanded View</a>
     </div>
   </div>

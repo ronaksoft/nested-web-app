@@ -1,6 +1,6 @@
 <div class="actdes">
   <div class="ico">
-    <img data-ng-if="act.place.picture" src="{{act.place.picture}}" height="16" width="16" class="placeactsico"/>
+    <img data-ng-if="act.place.picture" ng-src="{{act.place.picture}}" height="16" width="16" class="placeactsico"/>
     <div initials class="placeactsico account-initials-16" data-ng-if="!act.place.picture"
          data-ng-bind="act.place.name | initials:2"></div>
   </div>
