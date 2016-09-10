@@ -7,6 +7,6 @@
       ALL : 'all',
       MESSAGES : 'messages',
       COMMENTS : 'comments',
-      LOG : 'log'
+      LOGS : 'log'
     });
 })();

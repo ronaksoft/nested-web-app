@@ -1,7 +1,7 @@
 <div id="setting" class="popup-panel popover-white-nst-setting">
   <span class="spansetting">Select filter</span>
-  <a class="_db list-items" href="{{ctlActivity.urls.filters.all}}">All</a>
-  <a class="_db list-items" href="{{ctlActivity.urls.filters.messages}}">Messages</a>
-  <a class="_db list-items" href="{{ctlActivity.urls.filters.comments}}">Comments</a>
-  <a class="_db list-items" href="{{ctlActivity.urls.filters.logs}}">Logs</a>
+  <a class="_db list-items" ng-class="{ 'active': ctlActivity.activitySettings.filter == 'all' }" href="{{::ctlActivity.urls.filters.all}}">{{::ctlActivity.filterDictionary['all']}}</a>
+  <a class="_db list-items" ng-class="{ 'active': ctlActivity.activitySettings.filter == 'messages' }" href="{{::ctlActivity.urls.filters.messages}}">{{::ctlActivity.filterDictionary['messages']}}</a>
+  <a class="_db list-items" ng-class="{ 'active': ctlActivity.activitySettings.filter == 'comments' }" href="{{::ctlActivity.urls.filters.comments}}">{{::ctlActivity.filterDictionary['comments']}}</a>
+  <a class="_db list-items" ng-class="{ 'active': ctlActivity.activitySettings.filter == 'log' }" href="{{::ctlActivity.urls.filters.logs}}">{{::ctlActivity.filterDictionary['log']}}</a>
 </div>

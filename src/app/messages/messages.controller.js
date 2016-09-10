@@ -8,7 +8,7 @@
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility, NstSvcAuth,
                               NstSvcMessagesSettingStorage,
                               NstSvcPostMap) {
 
@@ -29,6 +29,7 @@
     vm.hotMessages = [];
     vm.cache = [];
     vm.hasNewMessages = false;
+    vm.myPlaceIds = [];
 
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
@@ -73,7 +74,7 @@
       if (vm.currentPlaceId) {
         setPlace(vm.currentPlaceId).then(function (place) {
           if (place) {
-            return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages()])).catch(function (error) {
+            return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
               $log.debug(error);
               vm.loadMessageError = true;
             });
@@ -84,7 +85,7 @@
         });
       } else {
         vm.currentPlaceLoaded = true;
-        NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages()])).catch(function (error) {
+        NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
           $log.debug(error);
           vm.loadMessageError = true;
         });
@@ -305,7 +306,8 @@
     }
 
     function mapMessage(post) {
-      return NstSvcPostMap.toMessage(post);
+      var firstId = vm.currentPlaceId ? vm.currentPlaceId : NstSvcAuth.user.id;
+      return NstSvcPostMap.toMessage(post, firstId, vm.myPlaceIds);
     }
 
     function mapMessages(messages) {
@@ -428,6 +430,31 @@
         return true;
       }
       return false;
+    }
+
+    function fillPlaceIds(container, list) {
+      if (_.isObject(container) && _.keys(container).length > 1) {
+        _.forIn(container, function (item) {
+          if (_.isObject(item) && item.id){
+            list.push(item.id);
+
+            fillPlaceIds(item.children, list);
+          }
+        });
+      }
+    };
+
+    function loadMyPlaces() {
+      var defer = $q.defer();
+
+      NstSvcPlaceFactory.getMyTinyPlaces().then(function (myPlaces) {
+        var flatPlaceIds = [];
+        fillPlaceIds(myPlaces, flatPlaceIds);
+        vm.myPlaceIds = flatPlaceIds;
+        defer.resolve(flatPlaceIds);
+      }).catch(defer.reject);
+
+      return defer.promise;
     }
 
     vm.preventParentScroll = function (event) {
