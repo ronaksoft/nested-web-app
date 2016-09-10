@@ -93,7 +93,7 @@
     }
 
     // TODO: Use NstVmPlace instead
-    function mapPlace(place, membership) {
+    function mapPlace(place) {
       return {
         id: place.id,
         name: place.name,
