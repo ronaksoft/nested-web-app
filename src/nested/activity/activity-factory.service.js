@@ -143,12 +143,6 @@
           defer.resolve(null);
         } else {
 
-          // var placeId = data.child_id || (angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id);
-
-          // NstSvcPlaceFactory.get(placeId).then(function(place) {
-          //   if (data.parent_id) {
-          //     place.getParent().setName(data.parent_name);
-          //   }
           if (data.child_id) {
             defer.resolve(new NstTinyPlace({
               id : angular.isObject(data.child_id) ? data.child_id.$oid : data.child_id,
