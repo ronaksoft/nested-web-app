@@ -1409,8 +1409,10 @@
         if (_.has(place, 'depth')){
           place.depth = depth;
         }
-        places.push(place);
-        return true;
+        if (!_.some(places, { id : place.id })) {
+          places.push(place);
+          return true;
+        }
       }
 
       return false;
