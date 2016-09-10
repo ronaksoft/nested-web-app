@@ -6,7 +6,7 @@
     .controller('ProfileEditController', ProfileEditController);
 
   /** @ngInject */
-  function ProfileEditController($rootScope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
+  function ProfileEditController($scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
     toastr, PreviousState,
     NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
     NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility ) {
@@ -68,23 +68,41 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
-
+    vm.uploadedImage = false;
     function setImage(event) {
+      vm.uploadedImage = true;
       var element = event.currentTarget;
       var reader = new FileReader();
 
       vm.model.picture.id = '';
-      vm.model.picture.file = element.files[0];
+      vm.model.picture.uploadedFile = element.files[0];
+      vm.model.picture.uploadedFileName = element.files[0].name;
+      console.log(vm.model.picture.uploadedFileName.name);
       vm.model.picture.remove = false;
 
       reader.onload = function(event) {
         $timeout(function() {
-          vm.model.picture.url = event.target.result;
+          vm.model.picture.uploaded = event.target.result;
         });
       };
+      reader.readAsDataURL(vm.model.picture.uploadedFile);
+    }
 
-      reader.readAsDataURL(vm.model.picture.file);
-    };
+    $scope.$watch(function(){
+      return vm.model.picture.url;
+    },function () {
+      urltoFile(vm.model.picture.url, vm.model.picture.uploadedFileName, 'image/jpg')
+        .then(function(file){
+          vm.model.picture.file = file
+        })
+    });
+
+    function urltoFile(url, filename, mimeType){
+      return (fetch(url)
+          .then(function(res){return res.arrayBuffer();})
+          .then(function(buf){return new File([buf], filename, {type:mimeType});})
+      );
+    }
 
     function removeImage() {
       if (vm.model.picture.request) {
@@ -95,7 +113,7 @@
       vm.model.picture.file = null;
       vm.model.picture.url = '';
       vm.model.picture.remove = true;
-    };
+    }
 
     (function() {
       var userPromise = NstSvcUserFactory.get();
