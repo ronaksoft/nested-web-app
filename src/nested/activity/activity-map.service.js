@@ -380,7 +380,7 @@
       return {
         id: activity.place.id,
         name: activity.place.name,
-        picture: activity.place.picture.thumbnails.x64.url.download,
+        picture: activity.place.picture.id ? activity.place.picture.thumbnails.x64.url.download : '',
         hasParent: !!activity.place.parent,
         parent: mapParentPlace(activity)
       };
