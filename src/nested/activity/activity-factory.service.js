@@ -143,15 +143,33 @@
           defer.resolve(null);
         } else {
 
-          var placeId = data.child_id || (angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id);
+          // var placeId = data.child_id || (angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id);
 
-          NstSvcPlaceFactory.get(placeId).then(function(place) {
-            if (data.parent_id) {
-              place.getParent().setName(data.parent_name);
-            }
+          // NstSvcPlaceFactory.get(placeId).then(function(place) {
+          //   if (data.parent_id) {
+          //     place.getParent().setName(data.parent_name);
+          //   }
+          if (data.child_id) {
+            defer.resolve(new NstTinyPlace({
+              id : angular.isObject(data.child_id) ? data.child_id.$oid : data.child_id,
+              name : data.place_name,
+              picture : data.place_picture ? new NstPicture(data.place_picture.org, data.place_picture) : new NstPicture(),
+              parent : new NstTinyPlace({
+                id : angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id,
+                name : data.parent_name,
+                picture : new NstPicture(),
+              })
+            }));
 
-            defer.resolve(place);
-          }).catch(defer.reject);
+          } else {
+            defer.resolve(new NstTinyPlace({
+              id : angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id,
+              name : data.place_name,
+              picture : data.place_picture ? new NstPicture(data.place_picture.org, data.place_picture) : new NstPicture()
+            }));
+          }
+
+          // }).catch(defer.reject);
         }
 
         return defer.promise;
