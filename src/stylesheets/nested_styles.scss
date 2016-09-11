@@ -1123,7 +1123,7 @@ ul ul li:last-child{
 .post-card-comment-user-avatar {
   width: 40px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .post-card-comment-user-avatar::after {
@@ -1140,10 +1140,15 @@ ul ul li:last-child{
   width: 40px;
   display: flex;
   justify-content: center;
+  position: relative;
+}
+.post-comment-user-avatar img{
+  margin: 0;
 }
 
 .post-comment-user-avatar::after {
-  left: 9px;
+  left: 50%;
+  transform: translateX(-50%);
   position: absolute;
   width: 24px;
   height: 24px;
