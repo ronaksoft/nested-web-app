@@ -1,7 +1,7 @@
 <nst-navbar data-ng-model="navbar" place-id="{{::ctlActivity.currentPlace.id}}" nav-title="{{ctlActivity.currentPlace.id?ctlActivity.currentPlace.name:'All Places'}}" nav-picture-url="{{ctlActivity.currentPlace.id ? ctlActivity.currentPlace.picture.thumbnails.x64.url.view : '' }}" nav-picture-class="{{ !ctlActivity.currentPlace.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlActivity.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
 <!-- ctlActivity.currentPlace -->
 <div class="nst-content _tr _bgwhite" id="content-wrapper">
-  <scroll-change-handler reached-bottom="ctlActivity.loadMore"/>
+  <scroll-change-handler reached-bottom="ctlActivity.loadMore"></scroll-change-handler>
   <section class="_fw nst-content-body">
     <div class="navbarillu"></div>
     <div class="filter-bar  _fw" ng-mouseleave="filterPopoverShow = false;popoverSettingShow = false">
