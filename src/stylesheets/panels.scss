@@ -4,12 +4,14 @@
   border-radius: 8px;
   border: 1px solid $color-breeze;
   padding: 25px 10px 25px 10px;
+  width: 358px;
 }
 #panel-reset {
   background-color: white;
-  padding: 0;
   h3 {
     font-size: 22px;
+    margin-bottom: 22px;
+    font-weight: 400;
   }
   label {
     color: #869D91;
@@ -18,6 +20,7 @@
     font-size: 12px;
   }
   .panel-body {
+    padding: 0;
     .butn-green {
       height: 40px;
       color: white;
@@ -26,17 +29,19 @@
       justify-content: center;
     }
     p {
-      line-height: 2em;
+      line-height: 1.2em;
+      margin:  32px 0;
     }
     a {
       color: #00B45A;;
+    }
+    .form-group {
+      margin: 22px 0;
     }
     input {
       min-height: 26px;
       color: #C0C0C0;
       font-weight: 400;
-      padding: 6px;
-      margin-bottom: 20px;
       transition: .3s;
       border: 2px solid #CED9D3;
       &:hover {
