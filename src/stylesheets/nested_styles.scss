@@ -1255,8 +1255,8 @@ ul ul li:last-child{
 }
 #popup-msg-badge {
   //margin-top: 20px;
-  max-height: 196px;
-  overflow-y: scroll;
+  max-height: 150px;
+  overflow-y: auto;
 }
 .more-place-row {
   padding: 4px 8px;
@@ -1417,7 +1417,7 @@ h3 {
 .popover-white-nst-msg + .popover {
   max-width: 320px;
   min-width: 319px;
-  max-height: 200px;
+  max-height: 150px;
   overflow-y: auto;
   position: absolute;
   top:-11px!important;
@@ -1429,10 +1429,12 @@ h3 {
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   .popover-inner {
     //padding: 8px 4px;
-    max-height: 200px;
+    max-height: 145px;
+    overflow-y: hidden;
   }
   .popover-content {
-    max-height: 190px;
+    max-height: 145px;
+    overflow-y: hidden;
   }
 }
 
