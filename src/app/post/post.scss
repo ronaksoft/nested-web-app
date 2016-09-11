@@ -417,8 +417,9 @@
   min-width: 24px;
   min-height: 24px;
 }
-.comment-msg div:last-child {
+.comment-msg > div > div:last-child {
   flex-grow: 1!important;
+  width: calc(100% - 32px);
 }
 
 .time-width {
