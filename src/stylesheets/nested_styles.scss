@@ -1250,7 +1250,8 @@ ul ul li:last-child{
 }
 #popup-msg-badge {
   //margin-top: 20px;
-  max-height: 190px;
+  max-height: 196px;
+  overflow-y: scroll;
 }
 .more-place-row {
   padding: 4px 8px;
