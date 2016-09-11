@@ -73,7 +73,7 @@
       return reqGetComments(vm.postModel, vm.commentSettings).then(function (comments) {
         vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
         if (commentCount == 0){
-          vm.scrollToNewComment = commentCount;
+            vm.scrollToNewComment = vm.comments.length;
         }else{
           vm.scrollToNewComment = false;
         }
