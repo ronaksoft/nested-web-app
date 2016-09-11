@@ -48,6 +48,13 @@
             </div>
           </li>
 
+          <li>
+            <div class="comment-input-toggle cursor-pointer" ng-init="commentInput = true" ng-click="commentInput =! commentInput">
+              <span class="nst-mood-solid _dib">Send comment</span>
+              <span class="action-button-post- _dib"></span>
+            </div>
+          </li>
+
         </ul>
       </div>
     </div>
@@ -103,8 +110,8 @@
           </div>
         </div>
       </div>
-      <div class="comment-input _difh">
-        <div class="_difv">
+      <div class="comment-input _difh" ng-show="commentInput">
+        <div class="_difv _pr _fn">
           <div class="write-comment-user-avatar">
           <img initials="ctlPost.user.name" data-url="ctlPost.user.avatar" data-width="32" data-height="32"
                data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
@@ -112,7 +119,7 @@
           <span data-ng-show="512 - ctlPost.nextComment.length < 30"
                 class="nst-mood-simple _df _ma" data-ng-bind="512 - ctlPost.nextComment.length"></span>
         </div>
-        <div class="_difv _fw">
+        <div class="_difv _fw _fh">
           <!--<div class="_difh sendcomment">
             <button class="butn-send-comment df" da
             ta-ng-click="ctlPost.sendComment($event)">Send</button>

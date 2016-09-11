@@ -8,7 +8,7 @@
   function NstSvcPlaceFactory($q, $log,
                               NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage,
-                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyPlace, NstPlace, NstFactoryEventData,
+                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
     function PlaceFactory() {
       var factory = this;
@@ -907,7 +907,7 @@
       });
     };
 
-    PlaceFactory.prototype.removeMember = function (id, memberId) {
+    PlaceFactory.prototype.removeMember = function (id, memberId, currentUser) {
       var factory = this;
 
       if (!this.requests.removeMember[id]) {
@@ -918,7 +918,7 @@
           place_id: id,
           member_id: memberId
         }).then(function (result) {
-          if (memberId === NstSvcAuth.user.id) { // current user wants to leave the place
+          if (currentUser) { // current user wants to leave the place
             factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(id)));
             $log.debug(NstUtility.string.format('User "{0}" leaved place "{1}".', memberId, id));
           } else {
@@ -1409,8 +1409,10 @@
         if (_.has(place, 'depth')){
           place.depth = depth;
         }
-        places.push(place);
-        return true;
+        if (!_.some(places, { id : place.id })) {
+          places.push(place);
+          return true;
+        }
       }
 
       return false;

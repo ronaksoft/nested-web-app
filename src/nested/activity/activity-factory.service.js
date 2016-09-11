@@ -90,6 +90,7 @@
 
       function extractPost(data) {
         var defer = $q.defer();
+        console.log(data);
 
         if (!data.post_id) { // could not find any post inside
           defer.resolve(null);
@@ -143,15 +144,27 @@
           defer.resolve(null);
         } else {
 
-          var placeId = data.child_id || (angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id);
+          if (data.child_id) {
+            defer.resolve(new NstTinyPlace({
+              id : angular.isObject(data.child_id) ? data.child_id.$oid : data.child_id,
+              name : data.place_name,
+              picture : data.place_picture ? new NstPicture(data.place_picture.org, data.place_picture) : new NstPicture(),
+              parent : new NstTinyPlace({
+                id : angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id,
+                name : data.parent_name,
+                picture : new NstPicture(),
+              })
+            }));
 
-          NstSvcPlaceFactory.get(placeId).then(function(place) {
-            if (data.parent_id) {
-              place.getParent().setName(data.parent_name);
-            }
+          } else {
+            defer.resolve(new NstTinyPlace({
+              id : angular.isObject(data.place_id) ? data.place_id.$oid : data.place_id,
+              name : data.place_name,
+              picture : data.place_picture ? new NstPicture(data.place_picture.org, data.place_picture) : new NstPicture()
+            }));
+          }
 
-            defer.resolve(place);
-          }).catch(defer.reject);
+          // }).catch(defer.reject);
         }
 
         return defer.promise;

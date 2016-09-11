@@ -85,7 +85,6 @@
         }
       }
 
-      console.log(NstSvcActivitySettingStorage.get('collapsed'));
       vm.expanded = !NstSvcActivitySettingStorage.get('collapsed');
 
       generateUrls();
@@ -215,6 +214,7 @@
     }
 
     function mergeWithOtherActivities(activities) {
+      console.log(activities);
       var activityItems = mapActivities(activities);
       _.mergeWith(vm.acts, activityItems, function (objValue, srcValue, key, object, source, stack) {
         if (_.isArray(objValue) && key === 'items') {
@@ -294,8 +294,10 @@
     }
 
     function addNewActivity(activity) {
-      vm.acts.thisYear.thisMonth.today.items.unshift(activity);
-      vm.acts.thisYear.thisMonth.today.hasAnyItem = true;
+      if (!_.some(vm.acts.thisYear.thisMonth.today.items, { id : activity.id })){
+        vm.acts.thisYear.thisMonth.today.items.unshift(activity);
+        vm.acts.thisYear.thisMonth.today.hasAnyItem = true;
+      }
     }
 
     // FIXME: NEEDS REWRITE COMPLETELY

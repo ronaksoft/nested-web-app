@@ -1075,6 +1075,7 @@ ul ul li:last-child{
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 20;
   background-color: $color-white;
+  overflow: hidden;
 }
 .post-card ul{
   margin-left: 8px;
@@ -1122,7 +1123,7 @@ ul ul li:last-child{
 .post-card-comment-user-avatar {
   width: 40px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .post-card-comment-user-avatar::after {
@@ -1139,10 +1140,15 @@ ul ul li:last-child{
   width: 40px;
   display: flex;
   justify-content: center;
+  position: relative;
+}
+.post-comment-user-avatar img{
+  margin: 0;
 }
 
 .post-comment-user-avatar::after {
-  left: 9px;
+  left: 50%;
+  transform: translateX(-50%);
   position: absolute;
   width: 24px;
   height: 24px;
@@ -1153,7 +1159,7 @@ ul ul li:last-child{
 }
 .activity-common-user-avatar {
   width: 40px;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
 }
 
@@ -1249,7 +1255,8 @@ ul ul li:last-child{
 }
 #popup-msg-badge {
   //margin-top: 20px;
-  max-height: 190px;
+  max-height: 150px;
+  overflow-y: auto;
 }
 .more-place-row {
   padding: 4px 8px;
@@ -1261,6 +1268,7 @@ h3 {
   margin: 8px 0;
   font-size: 24px;
   line-height: 29px;
+  word-break: break-all;
 }
 .post-card .post-body{
   font-size: 13px;
@@ -1302,6 +1310,7 @@ h3 {
   border-top-width: 0;
   z-index: 10;
   transition-duration: .3s;
+  overflow: hidden;
 }
 .post-card-comment .comments-load {
   height: 32px;
@@ -1331,7 +1340,7 @@ h3 {
 
 .post-card-comments .text{
   padding-top: 4px;
-  //max-width: calc(100% - 108px);
+  max-width: calc(100% - 108px);
 }
 .post-card-comments strong{
   font-weight: 600;
@@ -1408,7 +1417,7 @@ h3 {
 .popover-white-nst-msg + .popover {
   max-width: 320px;
   min-width: 319px;
-  max-height: 200px;
+  max-height: 150px;
   overflow-y: auto;
   position: absolute;
   top:-11px!important;
@@ -1420,10 +1429,12 @@ h3 {
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   .popover-inner {
     //padding: 8px 4px;
-    max-height: 200px;
+    max-height: 145px;
+    overflow-y: hidden;
   }
   .popover-content {
-    max-height: 190px;
+    max-height: 145px;
+    overflow-y: hidden;
   }
 }
 
@@ -1509,9 +1520,6 @@ input[type="checkbox"]:checked + label.setting {
   * NST Scrollbar
   ******************************
  */
-.nano {
-  position: static!important;
-}
 .mCustomScrollBox {
   width: 100%;
 }
@@ -1666,13 +1674,6 @@ input[type="checkbox"]:checked + label.setting {
   .modal-mlg {
     margin: 0 80px;
     width: calc(100% - 160px);
-  }
-  .modal {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
   }
   .maincontainer {
     height: 100%;

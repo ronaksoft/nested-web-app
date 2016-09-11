@@ -7,8 +7,9 @@
       <div class="_fw upload-photo-container">
         <div class="_ma upload-photo">
           <label for="logo">
-            <img ng-if="ctlProfileEdit.model.picture.url" ng-src="{{ctlProfileEdit.model.picture.url}}">
-            <img ng-if="!ctlProfileEdit.model.picture.url" initials="ctlProfileEdit.model.fullName" data-width="size" data-height="size" data-radius="64" data-word-count="2" data-font-size="16">
+            <img ng-show="!ctlProfileEdit.uploadedImage && ctlProfileEdit.model.picture.url"  ng-src="{{ctlProfileEdit.model.picture.url}}">
+            <img ng-show="ctlProfileEdit.uploadedImage" ng-src="{{ctlProfileEdit.model.picture.url}}">
+            <img ng-if="!ctlProfileEdit.model.picture.url && !ctlProfileEdit.uploadedImage" initials="ctlProfileEdit.model.fullName" data-width="size" data-height="size" data-radius="64" data-word-count="2" data-font-size="16">
           </label>
           <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlProfileEdit.setImage(event)">
           <div class="probut">
@@ -17,6 +18,7 @@
           </div>
         </div>
       </div>
+      <img-crop ng-if="ctlProfileEdit.uploadedImage" style="height: 80px; display: none" image="ctlProfileEdit.model.picture.uploaded" result-image="ctlProfileEdit.model.picture.url" result-image-quality="1"></img-crop>
 
       <div class="inner-panel _ma">
         <div class="_tac profile-name">{{ctlProfileEdit.model.fullName}}</div>

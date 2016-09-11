@@ -1,13 +1,11 @@
 @import "mixin.scss";
 
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, woff woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
-@include font-face(OpenSanss,"../assets/fonts/OpenSans", normal, null, woff);
-@include font-face(YekanBakhs,"../assets/fonts/YekanBakhNested", normal, null, woff);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNested-Regular", null, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNested-Bold", bold, null, eot ttf woff woff2);
 
 /**
   ******************************
@@ -85,11 +83,24 @@ body.modal-open {
   //left: 0;
   //bottom: 0;
   //right: 0;
-  overflow-y: hidden!important;
-  height: 100%;
+  //overflow-y: hidden!important;
+  //height: 100%;
+  //max-height: 100vh;
+  //overflow-y: hidden;
+  //overflow-x: auto;
   .body {
-    overflow: hidden;
-    height: 100%;
+    //overflow: hidden;
+    //height: 100%;
+  }
+  .modal {
+    height: auto;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
   }
 }
 *:focus {
@@ -177,12 +188,9 @@ hr {
 ._ltr{direction: ltr}
 
 ._wrb {
-  //word-break: break-all;
-  overflow-wrap: break-word;
+  font-size: 14px;
+  line-height: 18px;
   word-wrap: break-word;
-  word-break: break-all;
-  word-break: break-word;
-  hyphens: auto;
 }
 ._txe {
   overflow: hidden;
@@ -418,6 +426,11 @@ a.place {
  */
 .emojione {
   height: 1em;
+}
+[img-crop] {
+  width: 200px;
+  height: 200px;
+  display: flex;
 }
 //****input Styles****
 
@@ -678,16 +691,13 @@ a {
 
 .modal {
   min-width: 600px;
-  min-height: 600px;
+  min-height: 350px;
   padding: 80px 0;
   display: flex!important;
   justify-content: center;
   align-items: center;
   position: absolute;
   //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
-}
-body.modal-open {
-  overflow: auto;
 }
 .modal-buttons {
   justify-content: flex-end;
@@ -773,6 +783,7 @@ body.modal-open {
   width: auto!important;
   height: auto!important;
   vertical-align: middle;
+  max-height: 100%;
 }
 
 .modal-head {
