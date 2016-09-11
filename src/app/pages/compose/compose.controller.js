@@ -88,17 +88,35 @@
     };
 
     vm.search.fn = function (query) {
-      if (query.length > 4){
-        return [];
-      }
+
+      var initPlace = NstSvcPlaceFactory.parseTinyPlace({
+        _id: query,
+        name: query
+      });
+
+      if(query.length)
+        vm.search.results = [new NstVmPlace(initPlace)];
+
+
       return NstSvcPlaceFactory.search(query).then(function (places) {
-        vm.search.results = places.map(function (place) {
+        vm.search.results = [];
+        places.map(function (place) {
           if (place && vm.model.recipients.filter(function (obj) {
               return ( obj.id === place.id);
-            }).length === 0 )
-              return new NstVmPlace(place);
+            }).length === 0) {
+            if (place.id === query) {
+              initPlace = new NstVmPlace(place);
+            } else {
+              vm.search.results.push(new NstVmPlace(place));
+            }
+          }
         });
+
+        if (initPlace.id)
+          vm.search.results.unshift(initPlace);
+
       });
+
     };
 
     vm.search.tagger = function (text) {
@@ -395,7 +413,9 @@
             post.setRecipients(recipients);
             post.setPlaces(places);
 
-            NstSvcPostFactory.send(post).then(deferred.resolve).catch(function (error) { deferred.reject([error]); });
+            NstSvcPostFactory.send(post).then(function (response) {
+              deferred.resolve(response);
+            }).catch(function (error) { deferred.reject([error]); });
           } else {
             deferred.reject(vm.model.errors);
           }
@@ -410,16 +430,20 @@
 
         toastr.success('Your message has been successfully sent.', 'Message Sent');
 
+        if(response.noPermitPlaces.length > 0){
+          var text = NstUtility.string.format('Your message hasn\'t been successfully sent to {0}', response.noPermitPlaces.join(','));
+          toastr.warning(text, 'Message doesn\'t Sent');
+        }
 
-          if (PreviousState.Name === "") {
-            if($stateParams.placeId) {
-              $state.go('place-messages',{placeId : $stateParams.placeId});
-            }else{
-              $state.go(NST_DEFAULT.STATE);
-            }
+        if (PreviousState.Name === "") {
+          if ($stateParams.placeId) {
+            $state.go('place-messages', {placeId: $stateParams.placeId});
           } else {
-            $state.go(PreviousState.Name, PreviousState.Params);
+            $state.go(NST_DEFAULT.STATE);
           }
+        } else {
+          $state.go(PreviousState.Name, PreviousState.Params);
+        }
 
         return $q(function (res) {
           res(response);
