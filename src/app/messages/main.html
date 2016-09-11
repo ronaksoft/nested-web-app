@@ -71,8 +71,7 @@
   </section>
   <div class="content-plus"></div>
   <div class="content-plus" id="content-plus" ng-if="!ctlMessages.isBookmarkMode">
-    <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlApp.customScrollPreventConfig"
-         onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
+    <div id="cp1" perfect-scrollbar>
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
     </div>

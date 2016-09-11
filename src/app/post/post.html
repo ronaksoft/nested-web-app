@@ -60,7 +60,7 @@
     </div>
   </div>
   <div class="_difh _fh" id="PostBody">
-    <div ng-scrollbars id="Content" class="_df _fw">
+    <div perfect-scrollbar id="Content" class="_df _fw">
       <div class="_db _fw">
         <div class="attachments _fw _df" data-ng-if="ctlPost.post.hasAnyAttachment">
           <nst-attachments-view post-id="ctlPost.post.id" attachments="ctlPost.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>
@@ -81,7 +81,8 @@
     </div>
 
     <div id="Comments" class="_df _vat">
-      <div class="_fw" ng-scrollbars scroll-me="ctlPost.scrollToNewComment">
+      <!-- scroll-me="ctlPost.scrollToNewComment" -->
+      <div class="_fw" perfect-scrollbar>
         <div class="_db _fh">
           <div class="comment-msg _difv _fw">
             <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
