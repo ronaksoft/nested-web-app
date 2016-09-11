@@ -327,7 +327,7 @@
     }
 
     function leave() {
-      NstSvcPlaceFactory.removeMember(vm.place.id, NstSvcAuth.user.id).then(function(result) {
+      NstSvcPlaceFactory.removeMember(vm.place.id, NstSvcAuth.user.id, true).then(function(result) {
         $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
         if (error instanceof NstPlaceOneCreatorLeftError){

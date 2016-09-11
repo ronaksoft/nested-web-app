@@ -1075,6 +1075,7 @@ ul ul li:last-child{
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 20;
   background-color: $color-white;
+  overflow: hidden;
 }
 .post-card ul{
   margin-left: 8px;
@@ -1153,7 +1154,7 @@ ul ul li:last-child{
 }
 .activity-common-user-avatar {
   width: 40px;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
 }
 
@@ -1261,6 +1262,7 @@ h3 {
   margin: 8px 0;
   font-size: 24px;
   line-height: 29px;
+  word-break: break-all;
 }
 .post-card .post-body{
   font-size: 13px;
@@ -1302,6 +1304,7 @@ h3 {
   border-top-width: 0;
   z-index: 10;
   transition-duration: .3s;
+  overflow: hidden;
 }
 .post-card-comment .comments-load {
   height: 32px;
@@ -1509,9 +1512,6 @@ input[type="checkbox"]:checked + label.setting {
   * NST Scrollbar
   ******************************
  */
-.nano {
-  position: static!important;
-}
 .mCustomScrollBox {
   width: 100%;
 }
@@ -1666,13 +1666,6 @@ input[type="checkbox"]:checked + label.setting {
   .modal-mlg {
     margin: 0 80px;
     width: calc(100% - 160px);
-  }
-  .modal {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
   }
   .maincontainer {
     height: 100%;

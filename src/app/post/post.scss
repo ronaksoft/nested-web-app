@@ -48,6 +48,7 @@
 }
 .post-nav-bot {
   align-items: center;
+  min-height: 40px;
   padding: 0 16px 0 8px;
   overflow: hidden;
 }
@@ -91,14 +92,16 @@
 }
 
 .panel-action li {
-  width: 100px;
+  max-width: 100px;
   margin: auto;
   flex: none;
 }
 .panel-action li span:last-child {
   vertical-align: bottom;
 }
-
+.comment-input-toggle {
+  display: none;
+}
 .time-post-view {
   flex:none;
   max-width: 110px;
@@ -284,9 +287,9 @@
 
 .badges {
   margin:0 15px;
+  flex-wrap: wrap;
   max-width: calc(100% - 250px);
   min-width: 100px;
-  flex-wrap: wrap;
   div div {
     display: inline-flex;
     flex-direction: row;
