@@ -1,13 +1,11 @@
 @import "mixin.scss";
 
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, ttf woff woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Regular", null, null, woff woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakh-Bold", bold, null, eot woff2);
-@include font-face(OpenSanss,"../assets/fonts/OpenSans", normal, null, woff);
-@include font-face(YekanBakhs,"../assets/fonts/YekanBakhNested", normal, null, woff);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNested-Regular", null, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNested-Bold", bold, null, eot ttf woff woff2);
 
 /**
   ******************************
@@ -191,7 +189,6 @@ hr {
 ._wrb {
   font-size: 14px;
   line-height: 18px;
-  white-space: pre-wrap;
   word-wrap: break-word;
 }
 ._txe {
