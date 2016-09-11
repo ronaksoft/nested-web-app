@@ -22,7 +22,7 @@
     <div class="top-section">
       <button class="search-clear" type="button" ng-click="ctlSearch.backToPlace();">×</button>
       <div class="search-input-group">
-        <input type="text" mentio mentio-items="ctlSearch.people" mentio-typed-text="typedTerm"  class="search-input" ng-model="ctlSearch.queryString"
+        <input  type="text" class="search-input" ng-model="ctlSearch.queryString"
                ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
         <button type="button" class="search-button" ng-click="ctlSearch.search(ctlSearch.queryString);">
           <div class="icon-search-rotated-white"></div>

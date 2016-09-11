@@ -32,16 +32,7 @@
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
 
-    vm.people = [
-      { label: 'ehsan'},
-      { label: 'sorousht'},
-      { label: 'naamesteh'},
-      { label: 'pouya'},
-      { label: 'asal'},
-      { label: 'moosamir'},
-      { label: 'kayvan'}
-    ];
-
+   
     function reply() {
       $debug.log('Is not implemented yet!')
     }

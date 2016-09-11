@@ -39,6 +39,6 @@
       'momentjs',
       'cfp.hotkeys',
       'ngAnimate',
-      'mentio'
+      'mentio',
     ]);
 })();

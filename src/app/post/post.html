@@ -121,7 +121,7 @@
                <!--ng-keydown="ctlPost.sendComment($event)" data-ng-disabled="ctlPost.status.commentSendInProgress"-->
                <!--ng-model="ctlPost.nextComment" auto-dir="{{ctlPost.nextComment}}" max-length="5"-->
                <!--aria-expanded="false" class="_fw comment-box _wrb"><p></p></div>-->
-          <textarea type="text" class="_df _fw" mentio mentio-items="ctlPost.people" mentio-typed-text="typedTerm" cols="32"
+          <textarea type="text" class="_df _fw" cols="32"
                     data-ng-disabled="ctlPost.status.commentSendInProgress"
                     data-ng-model="ctlPost.nextComment"
                     ng-keyup="ctlPost.sendComment($event)"

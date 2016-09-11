@@ -17,16 +17,6 @@
      *** Controller Properties ***
      *****************************/
 
-    vm.people = [
-      { label: 'ehsan'},
-      { label: 'sorousht'},
-      { label: 'naamesteh'},
-      { label: 'pouya'},
-      { label: 'asal'},
-      { label: 'moosamir'},
-      { label: 'kayvan'}
-    ];
-    
     vm.user = new NstVmUser(NstSvcAuth.getUser());
 
     vm.comments = [];
