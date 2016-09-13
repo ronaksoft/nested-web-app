@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.activity')
     .constant('NST_ACTIVITY_FACTORY_EVENT', {
       ADD: 'add'
     });

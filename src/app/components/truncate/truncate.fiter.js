@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.text')
     .filter('removeHTMLTags', function() {
       return function(text) {
         return  text ? String(text).replace(/<[^>]+>/gm, '') : '';

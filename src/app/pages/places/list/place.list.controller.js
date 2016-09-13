@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('nested').controller('placeListController', placeListController);
+  angular.module('ronak.nested.web.place').controller('placeListController', placeListController);
 
   function placeListController($scope)
   {

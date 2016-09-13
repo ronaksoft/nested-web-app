@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.log')
     .constant('NST_LOG_TYPE', {
       DEBUG: 'debug',
       INFO: 'info',

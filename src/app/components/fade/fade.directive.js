@@ -12,7 +12,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components')
     .directive('nstShowEffect', function($timeout) {
       return {
         restrict: 'A',

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('nested').factory('NstTinyPost', NstTinyPost);
+  angular.module('ronak.nested.web.messages').factory('NstTinyPost', NstTinyPost);
 
   function NstTinyPost($q, _, ATTACHMENT_STATUS, NstModel, NstAttachment) {
 
@@ -13,7 +13,7 @@
       this.id = null;
       this.subject = null;
       this.senderId = null; // sender id
-      
+
       /**
        * Post Places
        *

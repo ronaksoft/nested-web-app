@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.main')
     .controller('AppController', AppController);
 
   /** @ngInject */
@@ -210,7 +210,7 @@
           };
         }
       }
-      
+
       return {
         name: toState.name,
         params: toParams
