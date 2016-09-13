@@ -6,7 +6,7 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state, $interval,
+  function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state, $interval, $scope,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility, NstSvcAuth,
                               NstSvcMessagesSettingStorage,
@@ -457,6 +457,7 @@
       return defer.promise;
     }
 
+    console.log($scope);
   }
 
 })();

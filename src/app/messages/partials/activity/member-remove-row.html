@@ -5,22 +5,22 @@
 <div class="colomn">
   <div class="_difh top">
     <div class="sender _fw _df">
-      <a>{{act.actor.name}}</a> <span>&nbsp;@{{act.actor.id}}</span>
+      <a>{{::act.actor.name}}</a> <span>&nbsp;@{{::act.actor.id}}</span>
     </div>
     <div class="_df _fn">
-      <span>{{act.date | date : 'passed'}}</span>
+      <span>{{act.date | passed }}</span>
     </div>
     <div class="ei-member-leave _df _fn"></div>
   </div>
   <div class="_df">
     <p data-ng-if="!(act.member.id == act.actor.id)">
       <span class="nst-mood-simple">Removed
-        @{{act.member.id}}</span><span class="nst-mood-simple"> from
-          {{act.inSpecificPlace ? "here" : act.place.name}}</span>
+        @{{::act.member.id}}</span><span class="nst-mood-simple"> from
+          {{::act.inSpecificPlace ? "here" : act.place.name}}</span>
     </p>
     <p data-ng-if="act.member.id == act.actor.id">
       <span class="nst-mood-simple">Left
-      {{act.inSpecificPlace ? "here" : act.place.name}}</span>
+      {{::act.inSpecificPlace ? "here" : act.place.name}}</span>
     </p>
   </div>
 </div>
