@@ -1,0 +1,12 @@
+.list-group-item-text {
+  margin-left: 10px;
+  color: #fff;
+  background-color: #428bca;
+  border-color: #428bca;
+}
+
+.user-photo {
+  max-width: 30px;
+  max-height: 30px;
+  border-radius: 15px;
+}
