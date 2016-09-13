@@ -6,7 +6,7 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state,
+  function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state, $interval,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility, NstSvcAuth,
                               NstSvcMessagesSettingStorage,
@@ -457,115 +457,6 @@
       return defer.promise;
     }
 
-    vm.preventParentScroll = function (event) {
-      var element = event.currentTarget;
-      var delta = event.wheelDelta;
-      if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
-        event.preventDefault();
-      }
-    };
-
-
-    // FIXME: NEEDS REWRITE COMPLETELY
-    vm.swipeLeft = function () {
-      $state.go('activity')
-    };
-    vm.swipeBotton = function () {
-      $rootScope.navView = false
-    };
-    var tl = new TimelineLite({});
-    var cp = document.getElementById("cp1");
-    var nav = document.getElementsByTagName("nst-navbar")[0];
-    $timeout(function () {
-      $rootScope.navView = false
-    });
-    vm.bodyScrollConf = {
-      axis: 'y',
-      scrollInertia: 500,
-      //autoDraggerLength: true,
-      //keyboard:{ enable: true },
-      //contentTouchScroll: 1,
-      //documentTouchScroll: true,
-      //scrollEasing:"easeOut",
-      advanced: {
-        updateOnContentResize: true
-      },
-      scrollButtons: {
-        scrollAmount: 'auto', // scroll amount when button pressed
-        enable: true // enable scrolling buttons by default
-      },
-      callbacks: {
-        whileScrolling: function () {
-          var t = -this.mcs.top;
-          //$timeout(function () { $rootScope.navView = t > 55; });
-          //console.log(tl);
-          // tl.kill({
-          //   y: true
-          // }, cp);
-          // TweenLite.to(cp, 0.5, {
-          //   y: 140,
-          //   ease: Power2.easeOut,
-          //   force3D: true
-          // });
-          if (t > 55 && !$rootScope.navView) {
-            //$('#content-plus').clone().prop('id', 'cpmirror').appendTo("#mCSB_3_container");
-            //var z = $('#content-plus').offset().left + 127;
-            //console.log(z);
-            //$('#cpmirror').css({'opacity':0});
-            //$('#content-plus').css({position: 'fixed',marginLeft: 356});
-            //tl.kill({minHeight:true,maxHeight:true}, nav);
-            // TweenLite.to(nav, 0.1, {
-            //   minHeight: 96,
-            //   maxHeight: 96,
-            //   height: 96,
-            //   ease: Power1.easeOut
-            // });
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          } else if (t < 55 && $rootScope.navView) {
-            // TweenLite.to(nav, 0.1, {
-            //   minHeight: 183,
-            //   maxHeight: 183,
-            //   height: 183,
-            //   ease: Power1.easeOut
-            // });
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          }
-
-          //tl.lagSmoothing(200, 20);
-          tl.play();
-          // $("#content-plus").stop().animate(
-          //   {marginTop:t}, {duration:1});
-          // TweenMax.to("#cp1", .001, {
-          //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
-          // });
-          //TweenMax.lagSmoothing(500, 33);
-
-
-          //   var func = function () {
-          //     console.log(t);
-          //     $("#content-plus").animate(
-          //       {marginTop:t}, {duration:1, easing:"easeOutStrong"});
-          //   };
-          //   var debounced = _.debounce(func, 250, { 'maxWait': 1000 });
-          //   if ( t > 0) {
-          //     debounced();
-          //   } else if(t == 0){
-          //   $("#content-plus").stop().css({
-          //     marginTop: 0
-          //   });
-          // }
-        },
-        onTotalScroll: function () {
-          vm.loadMore();
-        },
-        onTotalScrollOffset: 10,
-        alwaysTriggerOffsets: false
-      }
-    };
   }
 
 })();

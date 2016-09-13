@@ -19,14 +19,6 @@
       </div>
     </div>
 
-    <!--<nst-quick-message data-ng-if="ctlMessages.viewSetting.quickMessage && ctlMessages.currentPlaceId"-->
-                       <!--place-id="ctlMessages.currentPlaceId"></nst-quick-message>-->
-   <!--<div class="new-post-badge-area" ng-if="ctlMessages.hasNewMessages()">-->
-     <!--<button class="btn new-post-badge" data-tooltip-placement="top" data-uib-tooltip="{{ctlMessages.newMessages.length == 1 ? 'A new message' : ctlMessages.newMessages.length + ' new messages'}}" ng-click="ctlMessages.showNewMessages();">-->
-       <!--<span class="badge-counter">+{{ctlMessages.getNewMessagesCount()}}</span>-->
-     <!--</button>-->
-   <!--</div>-->
-
     <div class="post-area">
       <div id="new-post"  ng-show="ctlMessages.hasNewMessages">
         <i ng-click="ctlMessages.showNewMessages('no','content-wrapper');"></i>
@@ -71,7 +63,7 @@
   </section>
   <div class="content-plus"></div>
   <div class="content-plus" id="content-plus" ng-if="!ctlMessages.isBookmarkMode">
-    <div id="cp1" perfect-scrollbar>
+    <div id="cp1" nst-scrollbar>
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
     </div>
