@@ -32,7 +32,7 @@
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
 
-   
+
     function reply() {
       $debug.log('Is not implemented yet!')
     }
@@ -43,10 +43,12 @@
      * @param  {Event}  e   keypress event handler
      */
     function sendComment(e) {
-      if (!sendKeyIsPressed(e)) {
+
+      var element = angular.element(e.target);
+      if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-
+      
       var body = extractCommentBody(e);
       if (body.length === 0) {
         return;
