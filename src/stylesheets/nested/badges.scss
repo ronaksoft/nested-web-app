@@ -1,0 +1,114 @@
+a.normal-badge {
+  color: $color-solid;
+}
+
+.small-badge {
+  background-color: #CED9D3;
+  border-radius: 40px;
+  flex: none;
+  align-items: center;
+  display: flex;
+  color: #476152;
+  padding: 0px 8px 0 8px;
+  font-size: $font-size-xsmall;
+  margin: 0 8px;
+  white-space: nowrap;
+  height: 16px;
+  line-height: 16px;
+  white-space: nowrap;
+  &:hover {
+    background-color: #476152;
+    color: $color-white;
+
+  }
+}
+
+.place:hover {
+  color : black;
+}
+
+.normal-badge {
+  background-color: $color-badge;
+  border-radius: 9px;
+  color: $color-solid;
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 0 8px;
+  height: 20px;
+  flex: none;
+}
+
+.large-badge {
+  background-color: $color-badge;
+  border-radius: 16px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  margin: 4px 4px;
+}
+.large-badge a {
+  color: $color-solid;
+  margin: 2px 12px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.normal-badge:hover {
+  color: $color-solid;
+}
+
+#new-post {
+  position: fixed;
+  z-index: 555;
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 189px;
+  width: 162px;
+  height: 32px;
+  background-color: #FF0014;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  opacity: .85;
+  transition: .3s;
+  a {
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+    padding-left: 10px;
+    cursor: pointer;
+  }
+  i {
+    width: 16px;
+    height: 16px;
+    //filter: hue-rotate(220deg) saturate(5);
+    mask: url('../assets/icons/close.svg') no-repeat 100% 100%;
+    mask-size: cover;
+    background-color: white;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+
+.more-tag {
+  background-color: #8AEBB4;
+  margin-left: 5px;
+  cursor: pointer;
+  border-radius: 32px;
+  white-space: nowrap;
+  height: 16px;
+  line-height: 16px;
+  flex : none;
+  color: #476152;
+  padding: 0px 8px 2px 8px;
+  font-size: $font-size-xsmall;
+  align-self: center;
+  &:hover {
+    color: $color-white;
+    background-color: #476152;
+  }
+}

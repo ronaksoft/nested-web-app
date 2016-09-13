@@ -1,0 +1,182 @@
+._fl {float: left ;}
+._fr {float: right;}
+._cf {clear: both;}
+._fw { width: 100%; }
+._fh { height: 100%; }
+._fhv { height: 100vh; }
+._fmh { min-height: 100%; }
+._fvh {height: 100vh;}
+._fhw {
+  position: absolute ;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
+
+._db { display: block; }
+._df { display: flex}
+
+._dib { display: inline-block;}
+._dif { display: inline-flex;}
+._difv { display: inline-flex;flex-direction: column}
+._difh { display: inline-flex;}
+._difc { display: inline-flex;align-items: center}
+._jcc { justify-content: center}
+._aic { align-items: center;}
+
+._jce { justify-content: flex-end; }
+._di { display: inline; }
+._dt { display: table; table-layout: fixed; }
+._dtr { display: table-row; }
+._dtc { display: table-cell; vertical-align: middle; }
+._fn {flex: none}
+
+._pa { position: absolute;}
+._pr { position: relative;}
+._pf { position: fixed;}
+._oh { overflow: hidden; }
+._oph { opacity: .5; }
+._tofe {
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+._tac { text-align: center; }
+._tar { text-align: right;}
+._tal { text-align: left;}
+._vam { vertical-align: middle;}
+._vat { vertical-align: top;}
+._vabl { vertical-align: baseline;}
+._vabt { vertical-align: bottom;}
+
+._cgray {color: #E7ECE9;}
+._bggray {background-color: #E7ECE9};
+._bgwhite {background-color: $color-white;};
+
+._modal {z-index: 101}
+._tr {transition: .3s}
+._rtl {direction: rtl}
+._ltr{direction: ltr}
+
+._wrb {
+  font-size: 14px;
+  line-height: 18px;
+  word-wrap: break-word;
+}
+._txe {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  span {
+    @extend ._txe
+  }
+}
+
+._hf{
+  min-width: 50%;
+}
+
+.display-none {
+  display: none;
+}
+.visibility-hidden {visibility: hidden;}
+
+._dn { display: none }
+
+.border-none {
+  border: none;
+}
+
+.nst-font-10 {
+  font-size: 10px;
+}
+
+.nst-font-xsmall {
+  font-size: $font-size-xsmall;
+}
+.nst-font-small {
+  font-size: $font-size-small;
+}
+
+.nst-font-medium {
+  font-size: $font-size-medium;
+}
+
+.nst-font-large {
+  font-size: $font-size-large;
+}
+
+.nst-font-xlarge {
+  font-size: $font-size-xlarge;
+}
+
+.nst-mood-simple {
+  color: $color-solid-60;
+  flex:none
+}
+
+.nst-mood-pending {
+  color: $color-bg-pending!important;
+}
+.nst-mood-pending-fill {
+  color: $color-bg-pending-fill!important;
+}
+
+.nst-mood-smooth {
+  color: $color-solid-30;
+}
+
+.nst-mood-storm {
+  color: $color-storm;
+}
+
+.nst-mood-cheerful {
+  color: $color-sense-wire;
+}
+
+.nst-mood-lively {
+  color: $color-force-wire;
+}
+
+.nst-mood-hurricane {
+  color: $color-hurricane;
+}
+
+.nst-mood-breez {
+  color: $color-breeze;
+}
+
+.nst-mood-solid {
+  color: $color-solid
+}
+.nst-mood-sense-5 {
+  background-color: #f3fdf7;
+}
+.defcur {
+  cursor: default;
+}
+.nacur {
+  cursor: not-allowed;
+  color: black;
+}
+.nacur:hover {
+  color: black;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.large-font {
+  font-size: $font-size-large;
+}
+.force {
+  color: $color-force-wire;
+}
+.fade-in {
+  animation: fadein $animation-dur;
+}
+.no-fade-in , .no-fade-in *{
+  animation: none;
+}

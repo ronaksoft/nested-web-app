@@ -2,106 +2,167 @@
   **********************************************************
   *     Nested Classes - Page Specific - Post-view *
   **********************************************************
- */
-
-.post-nav {
-  display: inline-block;
-  width: 100%;
-  min-height: 60px;
-
-}
+*/
 #PostView {
   overflow: hidden;
   border: 1px solid $color-breeze;
   border-radius: 6px;
   background-color: $color-white;
   padding: 0;
-}
-#PostView {
   animation: appearence .3s ease-out;
+  #PostHeader {
+    border-bottom: 1px solid $color-breeze;
+    padding: 0;
+    min-height: 100px;
+    flex: none;
+  }
+  #PostBody {
+    border: none;
+    overflow: auto;
+  }
+  #PostTime {
+    top: 0px;
+    right: 0px;
+    text-align: right;
+    vertical-align: top;
+    line-height: 32px;
+    .time {
+      margin: 1px 10px;
+      font-size: $font-size-small;
+    }
+    .date {
+      margin: 1px;
+      color: gray;
+      font-weight: bold;
+      position: relative;
+      top:-1px;
+    }
+  }
+  #Content {
+    vertical-align: top;
+    min-height: calc(100vh - 400px);
+    min-width: calc(100% - 320px);
+    width: 70%;
+  }
+  #Comments {
+    padding: 5px;
+    max-width: 320px;
+    width: 30%;
+    flex:none;
+    background-color: rgb(247, 250, 249);
+    border-radius: 6px;
+    .mCustomScrollbar {
+      margin-bottom: 90px;
+    }
+  }
+  .NewComment {
+    padding: 5px;
+    flex-shrink: 0;
+    .account-ico {
+      float: left;
+    }
+    h5 {
+      text-overflow: ellipsis;
+      margin: 0;
+    }
+    #CommentSendbutn {
+      background-color: $color-sense;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      color: $color-white;
+    }
+  }
+  #CommentList {
+    .sender {
+      color: $color-sense;
+      font-weight: bold;
+    }
+    .sender-ico {
+      float: left;
+      img {
+        border-radius: 16px;
+        margin-right: 3px;
+      }
+    }
+    .comment-txt {
+      overflow: hidden;
+      line-height: 24px;
+      vertical-align: baseline;
+    }
+    .comment {
+      clear: both;
+      padding: 5px;
+      &:hover {
+        background-color: #E7FBF0;
+      }
+    }
+  }
 }
-// .modal.ng-leave {
-//   animation: appearence .2s ease-out reverse;
-// }
 
 .post-nav-top {
   align-items: center;
   padding: 16px 16px 0 8px;
   min-height: 60px;
   overflow: hidden;
+  p {
+    overflow: hidden;
+    word-break: break-all;
+    font-size: $font-size-xlarge;
+    text-overflow: ellipsis;
+    line-height: 30px;
+    padding-bottom: 5px;
+  }
+  .time {
+    margin: 0 4px;
+    align-self: flex-start;
+  }
+  .closebut{
+    align-self: flex-start;
+  }
 }
 
-.post-nav-top p {
-  overflow: hidden;
-  word-break: break-all;
-  font-size: $font-size-xlarge;
-  text-overflow: ellipsis;
-  line-height: 30px;
-  padding-bottom: 5px;
-}
-.post-nav-top .time {
-  margin: 0 4px;
-  align-self: flex-start;
-}
-.post-nav-top .closebut{
-  align-self: flex-start;
-}
 .post-nav-bot {
   align-items: center;
   min-height: 40px;
   padding: 0 16px 0 8px;
   overflow: hidden;
+  .actor-name {
+    max-width: 200px;
+    //padding-top: 4px;
+    overflow: hidden;
+    white-space: nowrap;
+    flex: none;
+    span{
+      text-overflow: ellipsis;
+    }
+  }
+  .badges {
+    margin:0 15px;
+    flex-wrap: wrap;
+    max-width: calc(100% - 250px);
+    min-width: 100px;
+    div div {
+      display: inline-flex;
+      flex-direction: row;
+    }
+    .mCSB_container {
+      width: auto !important;
+    }
+  }
+  .panel-action li {
+    max-width: 100px;
+    margin: auto;
+    flex: none;
+    span:last-child {
+      vertical-align: bottom;
+    }
+    .comment-input-toggle {
+      display: none;
+    }
+  }
 }
 
-[class*="action-button-post-"]{
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_post.svg');
-}
-
-.action-button-post-delete {
-  background-position: 0 -48px;
-}
-
-.action-button-post-forward {
-  background-position: 0 -24px;
-}
-
-.delete-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_post_24.png');
-  background-position: 0 -48px;
-  background-repeat: no-repeat;
-}
-
-.forward-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_post_24.png');
-  background-position: 0 -24px;
-  background-repeat: no-repeat;
-}
-
-.Reply-icon {
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_post_24.png');
-  background-position: 0 0px;
-  background-repeat: no-repeat;
-}
-
-.panel-action li {
-  max-width: 100px;
-  margin: auto;
-  flex: none;
-}
-.panel-action li span:last-child {
-  vertical-align: bottom;
-}
-.comment-input-toggle {
-  display: none;
-}
 .time-post-view {
   flex:none;
   max-width: 110px;
@@ -123,136 +184,7 @@
   padding-right: 5px;
 }
 
-.comment-input textarea {
-  float: left;
-  border: 1px solid $color-breeze !important;
-  padding: 6px;
-  padding-right: 8px;
-  margin-bottom: 5px;
-  height: 60px;
-  resize: none;
-  border-radius: 6px;
-}
-
-.comment-input img {
-  margin-top: 6px;
-  margin-left: 4px;
-  flex: none;
-}
-
-#PostView .main-body .left-column {
-}
-
-#PostView .main-body .right-column {
-  width: 300px;
-}
-
-#PostView #PostHeader {
-  border-bottom: 1px solid $color-breeze;
-  padding: 0px;
-  min-height: 100px;
-  flex: none;
-}
-#PostView #PostBody {
-  //padding-bottom: 100px;
-}
-
-#PostView #PostTime {
-  top: 0px;
-  right: 0px;
-  text-align: right;
-  vertical-align: top;
-  line-height: 32px;
-}
-
-#PostView #PostTime .date {
-  margin: 1px;
-  color: gray;
-  font-weight: bold;
-}
-.date {
-  position: relative;
-  top:-1px;
-}
-
-#PostView #PostTime .time {
-  margin: 1px 10px;
-  font-size: $font-size-small;
-}
-
-#PostView #Content {
-  vertical-align: top;
-  min-height: calc(100vh - 400px);
-  min-width: calc(100% - 320px);
-  width: 70%;
-}
-
-#PostView #PostBody {
-  border: none;
-  overflow: auto;
-}
-
-#PostView #Comments {
-  padding: 5px;
-  max-width: 320px;
-  width: 30%;
-  flex:none;
-  background-color: rgb(247, 250, 249);
-  border-radius: 6px;
-}
-
-#PostView .NewComment {
-  padding: 5px;
-  flex-shrink: 0;
-}
-.NewComment h5 {
-  text-overflow: ellipsis;
-  margin: 0;
-}
-#PostView .NewComment .account-ico {
-  float: left;
-}
-
-#PostView .NewComment #CommentSendbutn {
-  background-color: $color-sense;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  color: $color-white;
-}
-
-#PostView #CommentList .sender-ico {
-  float: left;
-}
-
-#PostView #CommentList .sender-ico img {
-  border-radius: 16px;
-  margin-right: 3px;
-}
-
-#PostView #CommentList .sender {
-  color: $color-sense;
-  font-weight: bold;
-}
-
-#PostView #CommentList .comment-txt {
-  overflow: hidden;
-  line-height: 24px;
-  vertical-align: baseline;
-}
-
-#PostView #CommentList .comment {
-  clear: both;
-  padding: 5px;
-}
-
-#PostView #CommentList .comment:hover {
-  background-color: #E7FBF0;
-}
-#Comments .mCustomScrollbar {
-  margin-bottom: 90px;
-}
-.comment-input{
+.comment-input {
   position: absolute;
   bottom: 0;
   max-height: 65px;
@@ -262,112 +194,34 @@
   margin: 10px 5px;
   right: 2px;
   //flex: 1;
+  span {
+    position: relative;
+    top: 4px;
+  }
+  img {
+    margin-top: 6px;
+    margin-left: 4px;
+    flex: none;
+  }
+  textarea {
+    float: left;
+    border: 1px solid $color-breeze !important;
+    padding: 6px;
+    padding-right: 8px;
+    margin-bottom: 5px;
+    height: 60px;
+    resize: none;
+    border-radius: 6px;
+  }
 }
-.comment-input span {
-  position: relative;
-  top: 4px;
-}
+
 .comment-msg {
   justify-content: space-between;
-  //flex: 1;
-  //margin-bottom: 110px;
-}
-
-.actor-name {
-  max-width: 200px;
-  //padding-top: 4px;
-  overflow: hidden;
-  white-space: nowrap;
-  flex: none;
-}
-
-.actor-name span{
-  text-overflow: ellipsis;
-}
-
-.badges {
-  margin:0 15px;
-  flex-wrap: wrap;
-  max-width: calc(100% - 250px);
-  min-width: 100px;
-  div div {
-    display: inline-flex;
-    flex-direction: row;
-  }
-  .mCSB_container {
-    width: auto !important;
+  div:last-child {
+    flex-grow: 1!important;
   }
 }
-.image-preview {
-  background-color: rgba(240, 245, 242,0.7);
-  border-radius: 6px;
-  padding: 10px 0 68px 0;
-  //overflow: hidden;
-  align-items: center;
-  justify-content: center;
-  //margin-bottom: 58px;
-}
-.image-preview > img {
-  max-height: 100%;
-  max-width: 100%;
-  object-fit: contain;
-  padding-bottom: 10px;
-}
 
-.nst-preview-footer {
-  position: absolute;
-  height: 68px;
-  background-color: white;
-  bottom: 0;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-  line-height: 1px;
-  padding-left: 10px;
-}
-
-.image-box-preview {
-  left: 0;
-  right: 0;
-  border-radius: 6px;
-  min-height: 240px;
-  min-width: 240px;
-
-}
-
-.file-preview {
-  height: 550px;
-}
-.nst-preview-footer .nst-nav-butn-breeze,
-#PostView .nst-arrow-rotated-270,#PostView .nst-arrow-rotated-90{
-  height: 30px;
-  flex: none;
-}
-.nst-preview-footer .nst-nav-butn-breeze{
-  align-items: center;
-  margin:0 8px;
-  padding: 2px 6px;
-}
-#PostView .nst-arrow-rotated-270,#PostView .nst-arrow-rotated-90{
-  width: 15px;
-  height: 30px;
-  justify-content: center;
-  margin: 0 10px;
-}
-.comment-input-det{
-  width: 10px;
-}
-.comment-input-det button{
-  margin-left: 8px;
-  margin-bottom: 7px;
-
-}
-
-.closebut{
-  position: relative;
-  top: -5px;
-  height: 24px;
-  width: 24px;
-}
 .sendcomment {
   justify-content: flex-end;
 }
@@ -386,50 +240,12 @@
   line-height: 22px;
   //margin-right: 15px;
 }
-.nst-preview-pic-mode {
-  max-width: 100%;
-  max-height: calc(100vh - 244px);
-  min-height: 330px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  & > * {
-    max-height: calc(100vh - 244px);
-    flex: none;
-  }
-  & > img {
-    width: 100%;
-    object-fit: contain;
-  }
-}
 
-.filename-p {
-  padding-top: 22px;
-  padding-bottom: 10px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.audioplayer{
-  height: 50px;
-}
 .account-initials-24 {
   min-width: 24px;
   min-height: 24px;
 }
-.comment-msg div:last-child {
-  flex-grow: 1!important;
-}
 
-.time-width {
-  width: 40px;
-}
-.attachcontrols {
-  border: black;
-  align-items: center;
-  height: 68px;
-  width: 300px;
-}
 .comment-box {
   background-color: white;
   overflow-y: auto;
@@ -443,16 +259,4 @@
 .highlight {
   background-color: $color-force;
   color: white
-}
-[contenteditable] p:empty {
-  padding-top: 20px;
-}
-[contenteditable] p:empty:before{
-  content: attr(placeholder);
-  display: block;
-  color: #ced9d3;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 10px;
 }

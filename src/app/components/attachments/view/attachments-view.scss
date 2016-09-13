@@ -118,6 +118,10 @@
     }
   }
 }
+.filedetails {
+  width: 100%;
+  max-width: calc(100% - 300px);
+}
 .attachments-list {
   position: absolute;
   left: 0;
@@ -142,4 +146,92 @@
 .img-thumb-view {
   filter: blur(2px);
   opacity: .8;
+}
+
+.image-preview {
+  background-color: rgba(240, 245, 242,0.7);
+  border-radius: 6px;
+  padding: 10px 0 68px 0;
+  //overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  //margin-bottom: 58px;
+}
+.image-preview > img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  padding-bottom: 10px;
+}
+
+.nst-preview-pic-mode {
+  max-width: 100%;
+  max-height: calc(100vh - 244px);
+  min-height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > * {
+    max-height: calc(100vh - 244px);
+    flex: none;
+  }
+  & > img {
+    width: 100%;
+    object-fit: contain;
+  }
+}
+.image-box-preview {
+  left: 0;
+  right: 0;
+  border-radius: 6px;
+  min-height: 240px;
+  min-width: 240px;
+
+}
+.filename-p {
+  padding-top: 22px;
+  padding-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.audioplayer{
+  height: 50px;
+}
+
+.attachcontrols {
+  border: black;
+  align-items: center;
+  height: 68px;
+  width: 300px;
+}
+#PostView {
+  .nst-arrow-rotated-270,.nst-arrow-rotated-90{
+    width: 15px;
+    height: 30px;
+    justify-content: center;
+    margin: 0 10px;
+  }
+}
+
+.nst-preview-footer .nst-nav-butn-breeze,
+#PostView .nst-arrow-rotated-270,#PostView .nst-arrow-rotated-90{
+  height: 30px;
+  flex: none;
+}
+.nst-preview-footer .nst-nav-butn-breeze{
+  align-items: center;
+  margin:0 8px;
+  padding: 2px 6px;
+}
+
+.nst-preview-footer {
+  position: absolute;
+  height: 68px;
+  background-color: white;
+  bottom: 0;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  line-height: 1px;
+  padding-left: 10px;
 }

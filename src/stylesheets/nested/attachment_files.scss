@@ -44,7 +44,7 @@ ul.attachments-bar li div.overlay {
 [class*="att-exp-"] {
   width: 72px;
   height: 96px;
-  background: url('../assets/icons/attachment_card.svg') no-repeat;
+  background: url('../../assets/icons/attachment_card.svg') no-repeat;
   color: black;
   //overflow: hidden;
   //word-break: break-all;
@@ -107,7 +107,7 @@ ul.attachments-bar li div.overlay {
 .large-viewe-attach {
   height: 192px;
   width: 144px;
-  background: url('../assets/icons/attachment_card.svg') no-repeat;
+  background: url('../../assets/icons/attachment_card.svg') no-repeat;
   background-position: 0px -384px;
   background-size:  cover;
 }
@@ -115,7 +115,7 @@ ul.attachments-bar li div.overlay {
 .large-view-attach-zip {
   height: 192px;
   width: 144px;
-  background: url('../assets/icons/attachment_card.svg') no-repeat;
+  background: url('../../assets/icons/attachment_card.svg') no-repeat;
   background-position: 0px -768px;
   background-size:  cover;
 }
@@ -217,8 +217,10 @@ ul.attachments-bar li div.overlay {
   color: $color-solid;
   border-radius: 6px;
   margin-left: 5px;
-  padding: 0;
   display: inline-flex;
+  padding-left: 5px;
+  padding-right: 8px;
+  overflow: hidden;
 ;
 }
 
@@ -288,6 +290,7 @@ ul.attachments-bar li div.overlay {
   height: 65px;
 }
 
-.nst-attachment-mimetype {
-
+.title-att {
+  padding-top: 100%;
+  font-weight: 500;
 }

@@ -3,8 +3,6 @@
   *     Nested Classes - Page Specific - Register  *
   ********************************************************
  */
-._dn { display: none }
-.visibility-hidden {visibility: hidden;}
 
 #panel-register{
   width: 358px;
@@ -16,6 +14,14 @@
 
 }
 
+.select-birthday {
+  background-color: #eaffea;
+  width: 100%;
+  height: 38px;
+  option:hover {
+    background-color: #ccffe6;
+  }
+}
 #panel-register .tooltip-inner {
   width: 240px;
   height: 96px;
@@ -265,16 +271,6 @@
       width: #{$i * 4}px;
       height: #{$i * 4}px;
     }
-  }
-
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
   }
 
 //--------Overlay-----------

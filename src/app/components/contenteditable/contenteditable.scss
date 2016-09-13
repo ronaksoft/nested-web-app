@@ -1,0 +1,12 @@
+[contenteditable] p:empty {
+  padding-top: 20px;
+}
+[contenteditable] p:empty:before{
+  content: attr(placeholder);
+  display: block;
+  color: #ced9d3;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 10px;
+}
