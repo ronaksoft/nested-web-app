@@ -8,6 +8,8 @@
     MANUAL_AUTH: '__mauthorize',
     UNINITIALIZE: '__uninitialize',
     ERROR: '__error',
-    TIMELINE: '__timeline'
+    TIMELINE: '__timeline',
+    DISCONNECT: 'DISCONNECT',
+    CONNECT: 'CONNECT'
   });
 })();
