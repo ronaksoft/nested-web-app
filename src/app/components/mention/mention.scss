@@ -1,22 +1,20 @@
-.box-menu {
-  min-width: 200px !important;
-}
-.mention-items span{
-  padding-left:10px !important;
-}
-
-
 .atwho-view .cur {
-  background: #E7FBf0 !important;
-  color: white!important;
+  background: #E7FBf0;
+  color: white;
+}
+.atwho-view ul {
+  display: inline-flex;
+  flex-direction: column;
 }
 .atwho-view ul li {
-  display: block;
+  display: inline-flex;
+  flex-direction: row;
   padding: 5px 10px;
-  border-bottom:0 !important;
+  border-bottom:0;
   cursor: pointer;
+  > div {
+    flex-direction: column;
+  }
 }
-.text-name{
-  vertical-align: middle !important;
-}
+
 
