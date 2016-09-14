@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.messages')
+    .module('ronak.nested.web.message')
     .controller('QuickMessageController', QuickMessageController);
 
   function QuickMessageController($q, $log, toastr, NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory) {

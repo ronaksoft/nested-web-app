@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.messages')
+    .module('ronak.nested.web.message')
     .factory('NstSearchQuery', NstSearchQuery);
 
   /** @ngInject */

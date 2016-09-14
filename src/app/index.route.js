@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.main')
+    .module('ronak.nested.web')
     .config(routerConfig);
 
   /** @ngInject */

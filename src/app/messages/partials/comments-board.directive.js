@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.messages')
+    .module('ronak.nested.web.message')
     .directive('commentsBoard', comment);
 
   /**

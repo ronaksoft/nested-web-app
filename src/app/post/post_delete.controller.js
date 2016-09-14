@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('ronak.nested.web.messages').controller('postDeleteController', postDeleteController);
+  angular.module('ronak.nested.web.message').controller('postDeleteController', postDeleteController);
 
   function postDeleteController($scope, $log)
   {

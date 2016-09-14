@@ -2,14 +2,14 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.main')
+    .module('ronak.nested.web')
     .config(config);
 
   /** @ngInject */
   function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider, $animateProvider) {
 
     localStorageServiceProvider
-      .setPrefix('nested');
+      .setPrefix('ronak.nested.web');
 
     // Enable log
     $logProvider.debugEnabled(true);

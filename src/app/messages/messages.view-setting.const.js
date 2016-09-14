@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.messages')
+    .module('ronak.nested.web.message')
     .constant('NST_MESSAGES_VIEW_SETTING', {
       COMMENTS : 'comments',
       CONTENT : 'content',

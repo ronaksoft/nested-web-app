@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('ronak.nested.web.messages')
+    angular.module('ronak.nested.web.message')
       .directive('nstPostModal', PostModal);
 
     function PostModal($uibModal) {

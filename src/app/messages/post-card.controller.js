@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.messages')
+    .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
   function PostCardController($state, $log, $timeout,
