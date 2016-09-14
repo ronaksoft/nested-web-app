@@ -35,6 +35,7 @@
       vm.post = vmPost;
       if (vm.post.comments) {
         vm.comments = vm.post.comments;
+        vm.scrollToNewComment = vm.comments.length;
       }
     }
     vm.postId = $stateParams.postId || postId;

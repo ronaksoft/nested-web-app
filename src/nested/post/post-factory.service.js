@@ -161,7 +161,7 @@
       NstSvcServer.request('post/add', params).then(function(response) {
         post.setId(response.post_id.$oid);
 
-        deferred.resolve(post);
+        deferred.resolve({post : post ,noPermitPlaces : response.no_permit_places},response.no_permit_places);
       }).catch(deferred.reject);
 
       return deferred.promise;

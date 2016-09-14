@@ -11,7 +11,7 @@
                            NstSvcLoader, NstSvcAuth) {
     var vm = this;
 
-    vm.invitation = {
+    /*vm.invitation = {
       sent: false,
       error: false,
       message: ""
@@ -68,6 +68,6 @@
           });
         });
       }
-    };
+    };*/
   }
 })();
