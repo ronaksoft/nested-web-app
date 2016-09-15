@@ -3,15 +3,15 @@
   left: 0;
   bottom: 0;
   top: 0;
-  width: 272px;
+  width: $sidebar-width;
   height: 100%;
   flex: none;
   background-color: $color-calm;
-  transition: .3s;
+  transition: $animation-dur;
   z-index: 0;
 }
 .maincontainer.sidetiny .sidebar{
-  width: 76px;
+  width: $sidebar-width-tiny;
 }
 .sidebar-wrapper {
   z-index: 50;
@@ -19,7 +19,7 @@
   flex-direction: column;
   width: 100%;
   & > div {
-    transition: .3s;
+    transition: $animation-dur;
   }
 }
 .sidebar-border {
@@ -39,7 +39,7 @@
 
 .sidebar > div {
   //flex: none;
-  transition: 0.3s;
+  transition: $animation-dur;
 }
 
 .side-top {
@@ -50,12 +50,12 @@
   left: 0;
   top: 0;
   background: linear-gradient(to bottom, rgb(255,255,255), $color-calm);
-  width: 272px;
+  width: $sidebar-width;
   height: 112px;
-  transition: .3s;
+  transition: $animation-dur;
 }
 .maincontainer.sidetiny .side-top {
-  width: 76px;
+  width: $sidebar-width-tiny;
 }
 .nested-logo {
   z-index: 7;
@@ -83,8 +83,8 @@
   z-index: 7;
   display: flex;
   cursor: pointer;
-  margin-right: auto;
   margin-left: auto;
+  margin-right: auto;
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -95,9 +95,9 @@
 #compose {
   //border: 1px solid $color-sense-wire;
   line-height: 30px ;
-  color: white;
+  color: $color-white;
   display: flex;
-  font-size: 16px;
+  font-size: $font-size-large;
   font-weight: $font-wight-semibold;
   justify-content: center;
   width: 174px;
@@ -153,7 +153,7 @@
   font-weight: 200;
   margin-left: 3px;
   cursor: pointer;
-  transition: .3s;
+  transition: $animation-dur;
 }
 .maincontainer.sidetiny .onlyExpand, .maincontainer.sidetiny .side-menu-item .item,.maincontainer.sidetiny .lines {
   width : 0;
@@ -161,7 +161,7 @@
   padding: 0;
   flex: none;
   overflow: hidden;
-  transition: .3s;
+  transition: $animation-dur;
   a{
     white-space: nowrap;
   }
@@ -209,9 +209,9 @@
   padding-left: 10px;
 }
 .side-place {
-  display: box;
-  box-orient: horizontal;
-  box-flex: 1;
+  display: flex;
+  flex-flow: column;
+  flex: 1;
   flex-direction: column;
   align-items: flex-end;
   width: 100%;
@@ -231,7 +231,7 @@
   overflow: hidden;
   align-items: center;
   font-weight: 600;
-  font-size: 14px;
+  font-size: $font-size-medium;
 }
 .sidebar ul ul li .side-place-item-inner{
   min-height: 42px;
@@ -441,7 +441,7 @@ ul ul .side-place-item-image {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #476152;
+  color: $color-hurricane;
   div {
     align-items: center;
     justify-content: center;
@@ -459,7 +459,7 @@ ul ul .side-place-item-image {
 .side-profile {
   z-index: 1;
   position: fixed;
-  width: 272px;
+  width: $sidebar-width;
   left: 0;
   bottom: 0;
   background-color: #e7ece9;
@@ -479,14 +479,14 @@ ul ul .side-place-item-image {
   display: inline-flex;
   //flex-direction: column-reverse;
   align-items: center;
-  transition: .3s;
+  transition: $animation-dur;
   & > a > div {
     justify-content: center;
     padding: 0;
     transition: .1s;
     & > img {
       //margin-left: 22px;
-      transition: .3s;
+      transition: $animation-dur;
     }
   }
   a {
@@ -498,14 +498,14 @@ ul ul .side-place-item-image {
   height: 48px;
   align-items: center;
   justify-content: center;
-  transition: .3s;
+  transition: $animation-dur;
   & > img {
     //margin-left: 22px;
-    transition: .3s;
+    transition: $animation-dur;
   }
 }
 .side-profile > a > div:hover {
-  transition-duration: 0.3s;
+  transition-duration: $animation-dur;
   transition-timing-function: ease;
   background-color: #d8dcd9;
 }

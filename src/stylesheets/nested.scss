@@ -1,57 +1,36 @@
 /**
   ******************************
-  *     Layout                 *
+  *  Margins
   ******************************
  */
 
-.a-hover:hover {
-  color: $color-sense;
-}
-.input-disabled{
-  pointer-events: none;
+.margin-20 {
+  margin: 20px;
 }
 
-
-.no-underline {
-  text-decoration: none;
+.margin-l-5 {
+  margin-left: 5px;
 }
-.no-underline span:focus {
-  text-decoration: none;
+
+.margin-r-5 {
+  margin-right: 5px;
+}
+
+.margin-t-5 {
+  margin-top: 5px;
+}
+
+.margin-b-5 {
+  margin-bottom: 5px;
+}
+
+.margin-l-15 {
+  margin-left: 15px;
 }
 
 .margin-r_5{
   margin-right: -5px;
 }
-
-.ng-hide {
-    display:none!important;
-}
-
-/**
-  *********************************
-  *     General Hacks             *
-  *********************************
- */
-.emojione {
-  height: 1em;
-}
-[img-crop] {
-  width: 200px;
-  height: 200px;
-  display: flex;
-}
-
-.labtxt{
-  text-align: center;
-  padding-top: 5px;
-}
-
-.form-control {
-  line-height: normal;
-}
-
-
-//*****margins*******
 .margin-top-5 {
   margin-top: 5px;
 }
@@ -64,106 +43,6 @@
 .margin-l-5 {
   margin-left: 5px;
 }
-
-
-/**
-  *********************************
-  *     Bootstrap Overrides       *
-  *********************************
- */
-
-
-.account-picture {
-  border-radius: 50%;
-}
-
-iframe {
-  border: none;
-}
-
-
-.modal-buttons {
-  justify-content: flex-end;
-  height: 32px;
-  font-weight:400;
-}
-
-
-.editable-click{
-  border-bottom: none;
-  cursor: pointer;
-  color: $color-sense-wire;
-}
-
-.editable-click:hover{
-  color: $color-sense-wire;
-}
-
-.form-control {
-  border: 1px solid $color-breeze;
-}
-.form-control:focus,
-.butn:focus {
-  border: 2px solid $color-solid;
-  box-shadow: none;
-}
-
-.form-control::-webkit-input-placeholder {
-  color: $color-wind;
-}
-
-.form-control:-moz-placeholder {
-  color: $color-wind;
-}
-
-.form-control::-moz-placeholder {
-  color: $color-wind;
-}
-
-.form-control:-ms-input-placeholder {
-  color: $color-wind;
-}
-
-.panel a {
-  text-decoration: none;
-  font-size: $font-size-small;
-}
-
-
-label {
-  font-weight: normal;
-}
-
-.form-control-feedback {
-  top: 4px;
-  pointer-events: auto;
-}
-
-.videogular vg-media video {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 550px;
-}
-
-/**
-  *************************************
-  *     Nested Classes - Typography   *
-  *************************************
- */
-
-
-.nst-error-msg {
-  margin-top: 16px;
-  font-size: $font-size-small;
-  color: $color-force-wire;
-}
-
-/**
-  *********************************
-  *     Nested Classes - Layouts  *
-  *********************************
- */
 
 .nst-fh {
   height: 100%;
@@ -236,77 +115,6 @@ label {
 
 .no-gutter2 [class*="col-"]:last-child {
   padding-right: 0px;
-}
-
-/**
-  ***************************************************************
-  *     Nested Classes - Component Specific - menu    *
-  ***************************************************************
- */
-
-[class*="profile-menu-"] {
-  background: url('../assets/icons/menuicon.svg') no-repeat;
-  width: 24px;
-  height: 24px;
-}
-
-.profile-menusetting {
-  background: url('../assets/icons/placebuttons.svg') no-repeat;
-  width: 24px;
-  height: 24px;
-  background-position: 0 -35px;
-}
-
-.profile-menu-edit-profile {
-  background-position: 0 -120px;
-}
-
-.profile-menu-signout {
-  background-position: 0 -72px;
-}
-
-/**
-  *********************************
-  *     Unknown                   *
-  *********************************
- */
-
-.chkHolder span {
-  margin-left: 3px;
-  text-align: left;
-  padding: 10px 15px;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-
-.rightLink {
-  text-align: right;
-}
-
-#chat-profile {
-  margin-left: 5px;
-  margin-top: 5px;
-}
-
-/**
-  *********************************************************
-  *     Nested Classes -Events *
-  *********************************************************
- */
-
-.placeactsico {
-  margin-top: 8px;
-  border-radius: 50%;
-}
-
-/**
-  *********************************************************
-  *     Nested pages -   * comPose
-  *********************************************************
-*/
-
-.first-child {
-  margin-top: 20px;
 }
 
 @for $i from 0 through 6 {

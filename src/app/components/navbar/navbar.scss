@@ -34,9 +34,9 @@
   right: 0;
   left: 0;
   height: 68px;
-  background-color: #14D769;
+  background-color: $color-sense;
   z-index: 52;
-  transition: background-color .3s ease-in;
+  transition: background-color $animation-dur ease-in;
   &.bg-hur {
     background-color: $color-hurricane;
   }
@@ -94,7 +94,7 @@
     span {
       height: 30px;
       flex: none;
-      color: #000000;
+      color: $color-solid;
       text-align: center;
       font-size: 18px;
       line-height: 22px;
@@ -109,7 +109,7 @@
   position: absolute;
   width: 24px;
   height: 24px;
-  color: white;
+  color: $color-white;
   background-color: red;
   border-radius: 100px;
   display: flex;
@@ -138,7 +138,7 @@ a {
   //position: absolute;
   z-index: 50;
   width: 100%;
-  transition: 0.3s;
+  transition: $animation-dur;
   right: 0;
   top: 68px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -147,7 +147,7 @@ a {
 nst-navbar {
   height: 183px;
   width: 100%;
-  transition: .3s;
+  transition: $animation-dur;
   align-self: flex-start;
   position: fixed;
   display: flex;
@@ -164,7 +164,7 @@ nst-navbar {
 }
 .navbar-top {
   height: 117px;
-  transition: .3s;
+  transition: $animation-dur;
   align-items: center;
   a {
     color: $color-solid;
@@ -220,7 +220,7 @@ nst-navbar {
 }
 
 .menu-links .li-hover:hover, .selected {
-  border-bottom: 2px solid #14d769;
+  border-bottom: 2px solid $color-sense;
   margin-top: 4px;
 }
 .nst-place-icon-search:focus {

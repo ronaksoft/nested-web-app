@@ -53,16 +53,6 @@
     "angular-mocks": "~1.5.6"
   },
   "overrides": {
-    "bootstrap-sass": {
-      "main": [
-        "assets/stylesheets/_bootstrap.scss",
-        "assets/fonts/bootstrap/glyphicons-halflings-regular.eot",
-        "assets/fonts/bootstrap/glyphicons-halflings-regular.svg",
-        "assets/fonts/bootstrap/glyphicons-halflings-regular.ttf",
-        "assets/fonts/bootstrap/glyphicons-halflings-regular.woff",
-        "assets/fonts/bootstrap/glyphicons-halflings-regular.woff2"
-      ]
-    },
     "font-awesome": {
       "main": [
         "less/font-awesome.less",

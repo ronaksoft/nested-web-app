@@ -20,18 +20,18 @@ body.modal-open {
   }
 }
 #add-view {
-  border: 1px solid #ced9d3;
+  border: 1px solid $color-breeze;
   border-radius: 8px;
-  background-color: #FFFFFF;
+  background-color: $color-white;
   padding: 10px;
   width: 800px;
   height: auto;
 }
 
 #delete-view {
-  border: 1px solid #ced9d3;
+  border: 1px solid $color-breeze;
   border-radius: 8px;
-  background-color: #FFFFFF;
+  background-color: $color-white;
   padding: 15px;
   width: 510px;
   height: auto;
@@ -45,17 +45,17 @@ body.modal-open {
 
 .modal-detail {
   margin: 20px 0;
-  font-size: 16px;
+  font-size: $font-size-large;
 }
 
 .modal-detail a{
   font-weight: bold;
-  color: black;
+  color: $color-solid;
 }
 
 .modal-detail .small{
   font-weight: 100;
-  font-size: 12px;
+  font-size: $font-size-small;
 }
 
 .modal-detail input{
@@ -73,7 +73,7 @@ body.modal-open {
 }
 
 .modal.in .modal-dialog{
-  border-radius: 6px;
+  border-radius: $border-radius-large;
 }
 
 .modal-dialog .modal-content {
@@ -105,12 +105,12 @@ body.modal-open {
 }
 
 .modal-head p {
-  font-size: 22px;
+  font-size: $font-size-xlarge;
   font-weight: 500;
 }
 .nst-modal-footer {
   background-color: $color-breeze-50;
-  border-radius: 6px;
+  border-radius: $border-radius-large;
   margin-top: 15px;
   padding: 5px;
 }
@@ -158,7 +158,7 @@ body.modal-open {
 .modal-add .ui-select-choices-row.active > a,
 .modal-add .ui-select-choices-row.active > a:hover{
   background-color: $color-sense-5 ;
-  color: black;
+  color: $color-solid;
   border-radius: 10px;
 }
 .modal-add h5 {
@@ -170,5 +170,5 @@ body.modal-open {
   padding: 5px 0;
 }
 .modal-content {
-  background-color: #FFFFFF !important;
+  background-color: $color-white!important;
 }

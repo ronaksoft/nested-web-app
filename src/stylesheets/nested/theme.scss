@@ -22,7 +22,7 @@
 }
 .nst-container {
   background-color: $color-bg-nested;
-  transition: .3s;
+  transition: $animation-dur;
   display: inline-flex;
   flex-direction: column;
   width: 100%;
@@ -82,8 +82,7 @@
   }
   .content {
     width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    @include center-block();
     max-width: 1058px;
     min-height: 100%;
   }
@@ -103,6 +102,13 @@
 a {
   color: $color-sense-wire;
 }
+.a {
+  color: $color-sense;
+  text-decoration: none;
+}
+.a-hover:hover {
+  color: $color-sense;
+}
 
 .hovercolor:hover {
   background-color: $color-sense-5;
@@ -117,24 +123,29 @@ hr {
   margin-top: .7em;
   margin-bottom: .7em;
 }
+.first-child {
+  margin-top: 20px;
+}
 
 /**
-  *********************************************************
-  *     Nested Classes -   * ngProgress
-  *********************************************************
+  *********************************
+  *     List items  *
+  *********************************
 */
 
-#ngProgress {
-  background: linear-gradient(to right, rgba(20,215,105,1),rgba(20,215,105,1),rgba(20,215,105,0) );
-  color: rgba(20,215,105,.5)!important;
-  //color: black!important;
-  //opacity: .9!important;
-  background-color: transparent!important;
-}
-
-.progress-bar {
-  background-color: $color-solid-60;
-}
-.progress-bar-success {
-  background-color: $color-sense;
+.list-items {
+  height: 30px;
+  padding: 5px 10px;
+  width: 100%;
+  color: $color-hurricane;
+  &.active {
+    background-color: $color-sense-5;
+    color: $color-solid;
+    border-bottom-left-radius: 5px;
+  }
+  &:hover {
+    background-color: $color-sense-5;
+    color: $color-solid;
+    border-bottom-left-radius: 5px;
+  }
 }

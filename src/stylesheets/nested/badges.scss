@@ -3,12 +3,12 @@ a.normal-badge {
 }
 
 .small-badge {
-  background-color: #CED9D3;
+  background-color: $color-breeze;
   border-radius: 40px;
   flex: none;
   align-items: center;
   display: flex;
-  color: #476152;
+  color: $color-hurricane;
   padding: 0px 8px 0 8px;
   font-size: $font-size-xsmall;
   margin: 0 8px;
@@ -17,7 +17,7 @@ a.normal-badge {
   line-height: 16px;
   white-space: nowrap;
   &:hover {
-    background-color: #476152;
+    background-color: $color-hurricane;
     color: $color-white;
 
   }
@@ -31,7 +31,7 @@ a.normal-badge {
   background-color: $color-badge;
   border-radius: 9px;
   color: $color-solid;
-  font-size: 12px;
+  font-size: $font-size-small;
   white-space: nowrap;
   padding: 0 8px;
   height: 20px;
@@ -65,17 +65,17 @@ a.normal-badge {
   top: 189px;
   width: 162px;
   height: 32px;
-  background-color: #FF0014;
+  background-color: $color-force-wire;
   border-radius: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   align-self: center;
-  opacity: .85;
-  transition: .3s;
+  @include opacity(.85);
+  transition: $animation-dur;
   a {
-    color: white;
-    font-size: 14px;
+    color: $color-white;
+    font-size: $font-size-medium;
     white-space: nowrap;
     padding-left: 10px;
     cursor: pointer;
@@ -86,7 +86,7 @@ a.normal-badge {
     //filter: hue-rotate(220deg) saturate(5);
     mask: url('../assets/icons/close.svg') no-repeat 100% 100%;
     mask-size: cover;
-    background-color: white;
+    background-color: $color-white;
   }
   &:hover {
     cursor: pointer;
@@ -103,12 +103,12 @@ a.normal-badge {
   height: 16px;
   line-height: 16px;
   flex : none;
-  color: #476152;
+  color: $color-hurricane;
   padding: 0px 8px 2px 8px;
   font-size: $font-size-xsmall;
   align-self: center;
   &:hover {
     color: $color-white;
-    background-color: #476152;
+    background-color: $color-hurricane;
   }
 }

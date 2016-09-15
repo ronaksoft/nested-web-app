@@ -7,23 +7,23 @@
   width: 358px;
 }
 #panel-reset {
-  background-color: white;
+  background-color: $color-white;
   h3 {
-    font-size: 22px;
+    font-size: $font-size-xlarge;
     margin-bottom: 22px;
     font-weight: 400;
   }
   label {
-    color: #869D91;
+    color: $color-storm;
     text-align: left;
     line-height: 12px;
-    font-size: 12px;
+    font-size: $font-size-small;
   }
   .panel-body {
     padding: 0;
     .butn-green {
       height: 40px;
-      color: white;
+      color: $color-white;
       align-items: center;
       display: flex;
       justify-content: center;
@@ -33,7 +33,7 @@
       margin:  32px 0;
     }
     a {
-      color: #00B45A;;
+      color: $color-sense-wire;;
     }
     .form-group {
       margin: 22px 0;
@@ -42,22 +42,22 @@
       min-height: 26px;
       color: #C0C0C0;
       font-weight: 400;
-      transition: .3s;
-      border: 2px solid #CED9D3;
+      transition: $animation-dur;
+      border: 2px solid $color-breeze;
       &:hover {
-        color: #000;
-        border-color: #000;
+        color: $color-solid;
+        border-color: $color-solid;
       }
     }
     input:invalid {
-      border: 2px solid #FF0014;
-      color: #FF0014;
+      border: 2px solid $color-force-wire;
+      color: $color-force-wire;
     }
     .call-btn {
       border-style: solid;
       border-width: 1px;
-      border-color: #869D91;
-      background-color: #A6B9AF;
+      border-color: $color-storm;
+      background-color: $color-wind;
       height: 32px;
       border-radius: 4px;
       display: flex;
@@ -67,16 +67,16 @@
       max-width: 48%;
       min-width: 48%;
       margin: 10px 0;
-      color: #FFFFFF;
-      font-size: 16px;
+      color: $color-white;
+      font-size: $font-size-large;
       font-weight: 600;
       &:hover{
-        background-color: #869D91;
+        background-color: $color-storm;
       }
       &.disabled {
-        border-color: #CED9D3;
-        background-color: #F0F5F2;
-        color: #CED9D3;
+        border-color: $color-breeze;
+        background-color: $color-calm;
+        color: $color-breeze;
       }
     }
     .filler {

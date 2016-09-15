@@ -117,7 +117,7 @@ output {
   height: $input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
   padding: $padding-base-vertical $padding-base-horizontal;
   font-size: $font-size-base;
-  line-height: $line-height-base;
+  line-height: normal;
   color: $input-color;
   background-color: $input-bg;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
@@ -136,6 +136,13 @@ output {
   &::-ms-expand {
     border: 0;
     background-color: transparent;
+  }
+
+  &::-webkit-input-placeholder,
+  &:-moz-placeholder,
+  &::-moz-placeholder,
+  &:-ms-input-placeholder {
+    color: $color-wind;
   }
 
   // Disabled and read-only inputs
@@ -397,7 +404,7 @@ input[type="checkbox"] {
 // Feedback icon (requires .glyphicon classes)
 .form-control-feedback {
   position: absolute;
-  top: 0;
+  top: 4px;
   right: 0;
   z-index: 2; // Ensure icon is above input groups
   display: block;
@@ -405,7 +412,7 @@ input[type="checkbox"] {
   height: $input-height-base;
   line-height: $input-height-base;
   text-align: center;
-  pointer-events: none;
+  pointer-events: auto;
 }
 .input-lg + .form-control-feedback,
 .input-group-lg + .form-control-feedback,

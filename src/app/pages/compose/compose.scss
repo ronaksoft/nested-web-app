@@ -59,7 +59,7 @@
   display: inline-block;
   position: relative;
   z-index: 556;
-  color: black;
+  color: $color-solid;
   text-decoration: none;
   font-weight: normal;
   font-size: 20px;
@@ -79,7 +79,7 @@
 }
 .mce-widget {
   border: none!important;
-  background-color: white!important;
+  background-color: $color-white!important;
 }
 .mce-container, .mce-container{
   background: white!important;
@@ -168,7 +168,7 @@
   min-width: 150px;
   padding: 3px 10px;
   background-color: $color-fillbox;
-  border-radius: 6px;
+  border-radius: $border-radius-large;
   line-height: 15px;
   font-size: $font-size-small;
 }

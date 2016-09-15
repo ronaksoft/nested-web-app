@@ -119,7 +119,7 @@
   background-color: inherit;
 }
 .select-birthday option {
-  color: black;
+  color: $color-solid;
   height: 40px;
   text-align: center;
   background-color: $color-sense-5;
@@ -167,7 +167,7 @@
   text-align: center;
   width: 100%;
   height: 40px;
-  font-size: 14px;
+  font-size: $font-size-medium;
   background-color: transparent;
   color: $color-solid-30;
   border: 1px solid $color-breeze;
@@ -189,7 +189,7 @@
 }
 
 #panel-register .agreement-text a {
-  font-size: 10px;
+  font-size: $font-size-xxsmall;
 }
 
 #confirm p {
@@ -236,7 +236,7 @@
 
 .input-force {
   border: 1px solid $color-force-wire;
-  border-radius: 6px;
+  border-radius: $border-radius-large;
   .p{
     color: $color-force-wire;
   }

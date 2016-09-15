@@ -50,7 +50,15 @@ $font-family-eng-bold: 'OpenSans';
 $font-family-per-reg: 'YekanBakh';
 $font-family-per-bold: 'YekanBakh';
 
+$border-radius-base:        4px !default;
+$border-radius-large:       6px !default;
+$border-radius-small:       3px !default;
+
 $animation-dur: .3s;
+$navbar-height: 183px;
+$sidebar-width: 272px;
+$sidebar-width-tiny: 76px;
+
 /**
   *********************************
   *     Keyframes                 *
@@ -70,7 +78,7 @@ $animation-dur: .3s;
 }
 @keyframes grow-htb {
   0% {height: 0;}
-  80% {heigh: 120%}
+  80% {height: 120%}
   100% {height: 100%;}
 }
 @keyframes app-tr {
@@ -154,7 +162,7 @@ $animation-dur: .3s;
     background-color: $hot-bg-color;
   }
   to {
-    background-color: white;
+    background-color: $color-white;
   }
 }
 
@@ -174,7 +182,7 @@ $animation-dur: .3s;
     background-color: $hot-bg-color;
   }
   to {
-    background-color: white;
+    background-color: $color-white;
   }
 }
 

@@ -43,6 +43,10 @@
   margin: 0;
   padding: 0;
 }
+.popover {
+  border-radius: $border-radius-large 0 $border-radius-large $border-radius-large;
+  box-shadow: 0 0 16px 0 rgba(71, 97, 82, 0.15);
+}
 
 .popover-white + .popover {
   max-width: 320px;
@@ -52,14 +56,9 @@
   position: absolute;
   z-index: 35;
   background: $color-white;
-  border-radius: 6px 0px 6px 6px;
-  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
 }
-
 .popover-green + .popover {
   background: $color-sense-5;
-  border-radius: 6px 0px 6px 6px;
-  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-sense-50;
   li {
     padding: 8px;
@@ -82,13 +81,11 @@
 }
 
 .popover.bottom > .arrow:after {
-  border-bottom-color: #fff;
+  border-bottom-color: $color-white;
   left: 0;
 }
 .popover-white-nst-activity-places + .popover {
   background: $color-white;
-  border-radius: 6px 0px 6px 6px;
-  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-breeze;
   position: absolute;
   z-index: 35;
@@ -103,8 +100,6 @@
 
 .popover-white-nst-filter + .popover {
   background: $color-white;
-  border-radius: 6px 0px 6px 6px;
-  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-breeze;
   position: absolute;
   top: 1px !important;
@@ -126,8 +121,6 @@
   right:-1px;
   z-index: 35;
   background: $color-white;
-  border-radius: 6px 0px 6px 6px;
-  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   .popover-inner {
     //padding: 8px 4px;
     max-height: 145px;
@@ -141,8 +134,6 @@
 
 .popover-white-nst-setting + .popover {
   background: $color-white;
-  border-radius: 6px 0px 6px 6px;
-  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-breeze;
   position: absolute;
   top: 1px !important;
@@ -155,8 +146,6 @@
 
 .popover-white-nst-sort + .popover{
   background: $color-white;
-  border-radius: 6px 0px 6px 6px;
-  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
   border-color: $color-breeze;
   position: absolute;
   top: 1px !important;
@@ -213,7 +202,7 @@ input[type="checkbox"]:checked + label.setting {
   margin-top: 24px;
   span {
     color: $color-breeze;
-    font-size: 10px;
+    font-size: $font-size-xxsmall;
   }
 }
 #popup-msg-badge {

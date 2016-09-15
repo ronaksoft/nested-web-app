@@ -14,7 +14,7 @@
 }
 
 .actcon {
-  border-bottom: 1px solid #ced9d3;
+  border-bottom: 1px solid $color-breeze;
   padding: 6px 5px;
   min-width:400px;
   width: 100%;
@@ -34,6 +34,11 @@
   padding-top: 1px;
 }
 
+.placeactsico {
+  margin-top: 8px;
+  border-radius: 50%;
+}
+
 #EventList {
   width: 100%;
   height: auto;
@@ -43,7 +48,6 @@
     display: flex;
     margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
     padding: 0 5px;
-    min-width: 600px;
     width: 100%;
     &:hover{
       background-color: #E7FBF0;
@@ -143,7 +147,7 @@
     flex: none;
     margin-top: 4px;
     span {
-      font-size: 11px;
+      font-size: $font-size-xsmall;
     }
   }
 }

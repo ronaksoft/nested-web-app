@@ -6,10 +6,10 @@
 #PostView {
   overflow: hidden;
   border: 1px solid $color-breeze;
-  border-radius: 6px;
+  border-radius: $border-radius-large;
   background-color: $color-white;
   padding: 0;
-  animation: appearence .3s ease-out;
+  animation: appearence $animation-dur ease-out;
   #PostHeader {
     border-bottom: 1px solid $color-breeze;
     padding: 0;
@@ -50,7 +50,7 @@
     width: 30%;
     flex:none;
     background-color: rgb(247, 250, 249);
-    border-radius: 6px;
+    border-radius: $border-radius-large;
     .mCustomScrollbar {
       margin-bottom: 90px;
     }
@@ -211,7 +211,7 @@
     margin-bottom: 5px;
     height: 60px;
     resize: none;
-    border-radius: 6px;
+    border-radius: $border-radius-large;
   }
 }
 
@@ -230,9 +230,9 @@
   width: 48px;
   height: 24px;
   background-color: $color-sense;
-  border: 1px solid #00B45A;
+  border: 1px solid $color-sense-wire;
   padding-top: 2px;
-  color: white;
+  color: $color-white;
   display: inline-block;
   border-radius: 5px;
   font-size: $font-size-medium;
@@ -247,16 +247,16 @@
 }
 
 .comment-box {
-  background-color: white;
+  background-color: $color-white;
   overflow-y: auto;
-  border: 1px solid #ced9d3!important;
+  border: 1px solid $color-breeze!important;
   padding: 6px 8px 6px 6px;
   margin-bottom: 5px;
   height: 60px;
   resize: none;
-  border-radius: 6px;
+  border-radius: $border-radius-large;
 }
 .highlight {
   background-color: $color-force;
-  color: white
+  color: $color-white
 }

@@ -1,4 +1,4 @@
-@media screen and (max-width: 990px) and (orientation: landscape) {
+@media screen and (max-width: $screen-md) and (orientation: landscape) {
   .modal {
     min-height: 350px;
     min-width: 1px!important;

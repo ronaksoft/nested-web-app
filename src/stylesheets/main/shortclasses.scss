@@ -57,14 +57,13 @@
 ._bgwhite {background-color: $color-white;};
 
 ._modal {z-index: 101}
-._tr {transition: .3s}
+._tr {transition: $animation-dur}
 ._rtl {direction: rtl}
 ._ltr{direction: ltr}
 
 ._wrb {
-  font-size: 14px;
-  line-height: 18px;
   word-wrap: break-word;
+  word-break: break-word;
 }
 ._txe {
   overflow: hidden;
@@ -79,9 +78,6 @@
   min-width: 50%;
 }
 
-.display-none {
-  display: none;
-}
 .visibility-hidden {visibility: hidden;}
 
 ._dn { display: none }
@@ -91,7 +87,7 @@
 }
 
 .nst-font-10 {
-  font-size: 10px;
+  font-size: $font-size-xxsmall;
 }
 
 .nst-font-xsmall {
@@ -153,17 +149,17 @@
   color: $color-solid
 }
 .nst-mood-sense-5 {
-  background-color: #f3fdf7;
+  background-color: $color-sense-5;
 }
 .defcur {
   cursor: default;
 }
 .nacur {
   cursor: not-allowed;
-  color: black;
+  color: $color-solid;
 }
 .nacur:hover {
-  color: black;
+  color: $color-solid;
 }
 .cursor-pointer {
   cursor: pointer;

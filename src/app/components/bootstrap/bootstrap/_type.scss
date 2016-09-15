@@ -83,7 +83,6 @@ small,
 mark,
 .mark {
   background-color: $state-warning-bg;
-  padding: .2em;
 }
 
 // Alignment
@@ -119,7 +118,7 @@ mark,
 .bg-primary {
   // Given the contrast here, this is the only class to have its color inverted
   // automatically.
-  color: #fff;
+  color: $color-white;
 }
 @include bg-variant('.bg-primary', $brand-primary);
 
@@ -184,7 +183,7 @@ ol {
 // Description Lists
 dl {
   margin-top: 0; // Remove browser default
-  margin-bottom: $line-height-computed;
+  margin-bottom: 0;
 }
 dt,
 dd {
@@ -213,7 +212,7 @@ dd {
       width: ($dl-horizontal-offset - 20);
       clear: left;
       text-align: right;
-      @include text-overflow;
+      @include text-overflow()
     }
     dd {
       margin-left: $dl-horizontal-offset;

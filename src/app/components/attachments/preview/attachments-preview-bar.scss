@@ -54,7 +54,7 @@
         line-height: 24px;
         font-size: $font-size-xxsmall;
         font-weight: bold;
-        border-radius: 6px 0 0 6px;
+        border-radius: $border-radius-large 0 0 $border-radius-large;
         color: $color-white;
         background-color: $color-storm;
         padding: 0 4px;

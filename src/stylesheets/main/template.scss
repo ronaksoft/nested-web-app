@@ -76,7 +76,11 @@ div, ul, ol {
 }
 
 select {
-  color: #000;
+  color: $color-solid;
   color: rgba(0,0,0,0);
-  text-shadow: 0 0 0 #000;
+  text-shadow: 0 0 0 $color-solid;
+}
+
+iframe {
+  border: none;
 }

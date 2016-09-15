@@ -45,7 +45,7 @@ ul.attachments-bar li div.overlay {
   width: 72px;
   height: 96px;
   background: url('../../assets/icons/attachment_card.svg') no-repeat;
-  color: black;
+  color: $color-solid;
   //overflow: hidden;
   //word-break: break-all;
   //word-wrap: unset;
@@ -197,7 +197,7 @@ ul.attachments-bar li div.overlay {
 }
 
 .color-file {
-  color: #CED9D3;
+  color: $color-breeze;
 }
 .color-zip {
   color: #5A28BE;
@@ -215,7 +215,7 @@ ul.attachments-bar li div.overlay {
 .attachment-badge-bar {
   background-color: $color-breeze-50;
   color: $color-solid;
-  border-radius: 6px;
+  border-radius: $border-radius-large;
   margin-left: 5px;
   display: inline-flex;
   padding-left: 5px;
@@ -229,7 +229,7 @@ ul.attachments-bar li div.overlay {
   background-color: $color-storm;
   font-size: $font-size-xxsmall;
   line-height: 20px;
-  border-radius: 6px 0 0 6px;
+  border-radius: $border-radius-large 0 0 $border-radius-large;
   padding: 0.5ex 6px;
   text-align: center;
 }

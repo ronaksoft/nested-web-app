@@ -2,8 +2,8 @@
   height: 125px;
 }
 .changePassLink {
-  color: #14D769;
-  font-size: 12px;
+  color: $color-sense;
+  font-size: $font-size-small;
   line-height: 18px;
   font-weight: 400;
   cursor: pointer;
@@ -20,7 +20,7 @@
   margin: 0 auto;
   .profile-name {
     font-weight: 300;
-    color: #000000;
+    color: $color-solid;
     font-size: 32px;
   }
   .profile-id {
@@ -29,9 +29,9 @@
   }
   label {
     font-weight: 400;
-    color: #869D91;
+    color: $color-storm;
     min-height: 12px;
-    font-size: 12px;
+    font-size: $font-size-small;
     line-height: 15px;
     margin-bottom: 8px;
   }
@@ -73,7 +73,7 @@
   button {
     height: 40px;
     width: 100%;
-    color: white
+    color: $color-white
   }
   .ng-enter {
     animation: fade-in 3s;

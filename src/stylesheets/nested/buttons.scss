@@ -3,10 +3,14 @@
   font-size: $font-size-medium;
   font-weight: bold;
   border: 1px solid $color-sense-wire;
-  color: white;
+  color: $color-white;
   height: 40px;
-  border-radius: 6px;
+  border-radius: $border-radius-large;
   line-height: 1.33333;
+  &:focus {
+    border: 2px solid $color-solid;
+    box-shadow: none;
+  }
 }
 
 /**
@@ -17,23 +21,24 @@
 
 .butn-green{
   background-color: $color-sense;
-  border: 1px solid #00B45A;
+  border: 1px solid $color-sense-wire;
   border-radius: 5px;
   margin: 0 5px;
   flex: none;
   text-decoration: none;
+  color: $color-white;
 }
 
 .butn-green-nav{
   background-color: $color-sense;
-  border: 1px solid #00B45A;
+  border: 1px solid $color-sense-wire;
   border-radius: 3px;
   margin: 5px;
   height: 32px;
   flex: none;
   display: inline-block;
   line-height: 22px;
-  font-size: 14px;
+  font-size: $font-size-medium;
   font-weight: 600;
   text-align: center;
   color: $color-white;
@@ -58,12 +63,12 @@
   margin: 4px 0;
   color: $color-white;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: $font-size-large;
   font-weight: 500;
   text-decoration: none;
 }
 .butn-green:hover a{
-  color: white;
+  color: $color-white;
   text-decoration: none;
 }
 
@@ -75,7 +80,7 @@
 
 .butn-red{
   background-color: $color-force;
-  border: 1px solid #ff0014;
+  border: 1px solid $color-force-wire;
   border-radius: 3px;
   margin: 0 5px;
   width: 128px;
@@ -99,12 +104,12 @@
   margin: 4px 0;
   color: $color-white;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: $font-size-large;
   font-weight: 500;
   text-decoration: none;
 }
 .butn-red:hover a{
-  color: white;
+  color: $color-white;
   white-space: nowrap;
   text-decoration: none;
 }
@@ -133,7 +138,7 @@
   flex: none;
   display: inline-block;
   line-height: 22px;
-  font-size: 14px;
+  font-size: $font-size-medium;
   font-weight: 600;
   text-align: center;
   padding: 5px 16px 5px 16px;
@@ -149,7 +154,7 @@
   margin: 4px 0;
   color: $color-storm;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: $font-size-large;
   font-weight: 500;
 }
 .butn-white:hover a{
@@ -164,7 +169,7 @@
 
 .butn-lg {
   padding: 4px 16px;
-  font-size: 16px;
+  font-size: $font-size-large;
   line-height: 1.33333;
 }
 .butn-login {
@@ -182,7 +187,7 @@
 .butn {
   border: 1px $color-breeze solid;
   background-color: $color-white;
-  font-size: 14px;
+  font-size: $font-size-medium;
   height: 32px;
 }
 
@@ -202,9 +207,9 @@
   width: 48px;
   height: 24px;
   background-color: $color-sense;
-  border: 1px solid #00B45A;
+  border: 1px solid $color-sense-wire;
   padding-top: 2px;
-  color: white;
+  color: $color-white;
   display: inline-block;
   border-radius: 5px;
   font-size: $font-size-medium;
@@ -217,7 +222,7 @@
   cursor: not-allowed;
 }
 .butn-send-compose:hover {
-  color: white;
+  color: $color-white;
 }
 
 .butn-back-compose {
@@ -243,6 +248,11 @@
   *********************************
 */
 
+.labtxt{
+  text-align: center;
+  padding-top: 5px;
+}
+
 .switch {
   min-width: 128px;
   display: inline-flex;
@@ -251,7 +261,7 @@
 .switch label{
   width: 50%;
   height: 24px;
-  font-size: 12px;
+  font-size: $font-size-small;
   cursor: pointer;
   display: table;
   vertical-align: middle;

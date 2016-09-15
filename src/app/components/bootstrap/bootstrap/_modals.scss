@@ -60,6 +60,12 @@
   outline: 0;
 }
 
+.modal-buttons {
+  justify-content: flex-end;
+  height: 32px;
+  font-weight:400;
+}
+
 // Modal background
 .modal-backdrop {
   position: fixed;
