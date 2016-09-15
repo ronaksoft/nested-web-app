@@ -72,13 +72,13 @@
   background-color: $color-white;
 }
 
-.teammates-panel .account-initials-48 {
-  margin: 6px 0px 6px 12px;
-}
 
 .teammates-panel {
   display: inline-flex;
   height: 50px;
+  > div:first-child {
+    margin: 6px 0 6px 12px;
+  }
 }
 .teammates-panel:after {
   /* Prevent wrapper from shrinking height,

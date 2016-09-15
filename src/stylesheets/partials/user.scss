@@ -1,12 +1,11 @@
 /*************************
- *    Account Initials
+ *    User Initials & avatars
  *************************/
 
 * [class *= "account-initials-"] {
   margin-right: 8px;
   flex: none;
   justify-content: center;
-  //border: 1px $color-border-pics solid;
 }
 
 @for $i from 1 through 32 {
@@ -23,122 +22,13 @@
   }
 }
 .post-card-user-avatar {
-  width: 40px;
-  display: flex;
-  justify-content: center;
+  @include avatar(40px,32px);
 }
 
-.post-card-user-avatar::after {
-  left: 12px;
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  border-radius: 1000px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
-  pointer-events: none;
-  content: "";
-}
-.post-card-comment-user-avatar {
-  width: 40px;
-  display: flex;
-  justify-content: flex-start;
-}
-
-.post-card-comment-user-avatar::after {
-  left: 8px;
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border-radius: 1000px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
-  pointer-events: none;
-  content: "";
-}
 .post-comment-user-avatar {
-  width: 40px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-.post-comment-user-avatar img{
-  margin: 0;
+  @include avatar(40px,24px);
 }
 
-.post-comment-user-avatar::after {
-  left: 50%;
-  transform: translateX(-50%);
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border-radius: 1000px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
-  pointer-events: none;
-  content: "";
-}
-.activity-common-user-avatar {
-  width: 40px;
-  display: inline-flex;
-  justify-content: center;
-}
-
-.activity-common-user-avatar::after {
-  left: 47px;
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border-radius: 1000px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
-  pointer-events: none;
-  content: "";
-}
-.write-comment-user-avatar {
-  width: 40px;
-  display: flex;
-  justify-content: center;
-}
-
-.write-comment-user-avatar::after {
-  left: 2px;
-  top: 6px;
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  border-radius: 1000px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
-  pointer-events: none;
-  content: "";
-}
 .place-member-user-avatar {
-  width: 70px;
-  display: flex;
-  justify-content: center;
-}
-
-.place-member-user-avatar::after {
-  left: 27px;
-  top: 6px;
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  border-radius: 1000px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
-  pointer-events: none;
-  content: "";
-}
-.sidebar-user-avatar {
-  width: 40px;
-  display: flex;
-  position:relative;
-  justify-content: center;
-}
-
-.sidebar-user-avatar::after {
-  left:0;
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  border-radius: 1000px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
-  pointer-events: none;
-  content: "";
+  @include avatar(70px,48px);
 }

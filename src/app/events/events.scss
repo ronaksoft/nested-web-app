@@ -33,12 +33,10 @@
   position: relative;
   padding-top: 1px;
 }
-
 .placeactsico {
   margin-top: 8px;
   border-radius: 50%;
 }
-
 #EventList {
   width: 100%;
   height: auto;
@@ -82,10 +80,9 @@
     text-overflow: ellipsis;
     word-break: keep-all;
     white-space: nowrap;
-    img {
+    > div:first-child {
       margin-left: 2px;
       margin-right: 4px;
-      border-radius: 16px;
     }
     span {
       line-height: 24px;
