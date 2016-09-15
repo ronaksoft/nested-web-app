@@ -25,7 +25,7 @@
     vm.status = {
       saveInProgress: false
     };
-
+    
     vm.controls = {
       left: [
         new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, null, function () {
