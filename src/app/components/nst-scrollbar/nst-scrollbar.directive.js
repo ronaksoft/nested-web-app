@@ -63,7 +63,7 @@
         scrollAnimate : checkBooleanValue($attrs.scrollAnimate),
         scrollSpeed : $attrs.scrollSpeed === 'slow' || $attrs.scrollSpeed === 'fast' ? $attrs.scrollSpeed : readNumberValue($attrs.scrollSpeed)
       };
-      
+
       var settings = _.defaults(customSettings, nstScrollbarSettings);
 
       var container = $element[0];
