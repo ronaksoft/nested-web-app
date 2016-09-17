@@ -77,7 +77,6 @@
       vm.model.picture.id = '';
       vm.model.picture.uploadedFile = element.files[0];
       vm.model.picture.uploadedFileName = element.files[0].name;
-      console.log(vm.model.picture.uploadedFileName.name);
       vm.model.picture.remove = false;
 
       reader.onload = function(event) {

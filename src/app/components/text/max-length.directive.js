@@ -64,7 +64,6 @@
         }
 
         function placeCaretAtPos(el,pos) {
-          console.log(el.children().children(),pos);
           el.children().children().caret(pos);
         }
 

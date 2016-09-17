@@ -214,7 +214,6 @@
     }
 
     function mergeWithOtherActivities(activities) {
-      console.log(activities);
       var activityItems = mapActivities(activities);
       _.mergeWith(vm.acts, activityItems, function (objValue, srcValue, key, object, source, stack) {
         if (_.isArray(objValue) && key === 'items') {
