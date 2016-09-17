@@ -1,0 +1,388 @@
+.butn {
+  background-color: $color-sense;
+  font-size: $font-size-medium;
+  font-weight: bold;
+  border: 1px solid $color-sense-wire;
+  color: $color-white;
+  height: 40px;
+  border-radius: $border-radius-large;
+  line-height: 1.33333;
+  &:focus {
+    border: 2px solid $color-solid;
+    box-shadow: none;
+  }
+}
+
+/**
+  *********************************
+  *        Green btn              *
+  *********************************
+*/
+
+.butn-green{
+  background-color: $color-sense;
+  border: 1px solid $color-sense-wire;
+  border-radius: 5px;
+  margin: 0 5px;
+  flex: none;
+  text-decoration: none;
+  color: $color-white;
+}
+
+.butn-green-nav{
+  background-color: $color-sense;
+  border: 1px solid $color-sense-wire;
+  border-radius: 3px;
+  margin: 5px;
+  height: 32px;
+  flex: none;
+  display: inline-block;
+  line-height: 22px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  text-align: center;
+  color: $color-white;
+  padding: 5px 16px 5px 16px;
+  text-decoration: none;
+}
+
+.butn-green:hover {
+  background-color: $color-sense-wire;
+  text-decoration: none;
+}
+.butn-green:focus {
+  background-color: $color-sense;
+  text-decoration: none;
+}
+.butn-green:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+.butn-green a{
+  margin: 4px 0;
+  color: $color-white;
+  white-space: nowrap;
+  font-size: $font-size-large;
+  font-weight: 500;
+  text-decoration: none;
+}
+.butn-green:hover a{
+  color: $color-white;
+  text-decoration: none;
+}
+
+/**
+  *********************************
+  *          red btn              *
+  *********************************
+*/
+
+.butn-red{
+  background-color: $color-force;
+  border: 1px solid $color-force-wire;
+  border-radius: 3px;
+  margin: 0 5px;
+  width: 128px;
+  flex: none;
+  text-decoration: none;
+}
+.butn-red:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+.butn-red:hover:enabled{
+  background-color: $color-force-wire;
+  text-decoration: none;
+}
+.butn-red:focus{
+  background-color: $color-force;
+  text-decoration: none;
+}
+.butn-red a{
+  margin: 4px 0;
+  color: $color-white;
+  white-space: nowrap;
+  font-size: $font-size-large;
+  font-weight: 500;
+  text-decoration: none;
+}
+.butn-red:hover a{
+  color: $color-white;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/**
+  *********************************
+  *         White btn             *
+  *********************************
+*/
+
+.butn-white{
+  border: 1px solid $color-breeze;
+  background-color: $color-white;
+  border-radius: 3px;
+  margin: 0 5px;
+  width: 128px;
+  flex: none;
+  text-decoration: none;
+}
+.butn-white-nav{
+  border: 1px solid $color-breeze;
+  background-color: $color-white;
+  border-radius: 3px;
+  margin: 5px;
+  height: 32px;
+  flex: none;
+  display: inline-block;
+  line-height: 22px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  text-align: center;
+  padding: 5px 16px 5px 16px;
+  text-decoration: none;
+}
+.butn-white:hover{
+  background-color: $color-calm;
+}
+.butn-white:focus{
+  background-color: $color-breeze;
+}
+.butn-white a{
+  margin: 4px 0;
+  color: $color-storm;
+  white-space: nowrap;
+  font-size: $font-size-large;
+  font-weight: 500;
+}
+.butn-white:hover a{
+  color: $color-storm;
+}
+
+/**
+  *********************************
+  *      Other btn classes        *
+  *********************************
+*/
+
+.butn-lg {
+  padding: 4px 16px;
+  font-size: $font-size-large;
+  line-height: 1.33333;
+}
+.butn-login {
+  width: 100%;
+  margin: 0;
+}
+
+.butn-white-nav-ps {
+  position: absolute;
+  left:10px;
+  bottom: 0;
+
+}
+
+.butn {
+  border: 1px $color-breeze solid;
+  background-color: $color-white;
+  font-size: $font-size-medium;
+  height: 32px;
+}
+
+.butn-sense {
+  @extend .butn;
+  background-color: $color-sense;
+  color: $color-white;
+}
+
+.butn-force {
+  @extend .butn;
+  background-color: $color-force;
+  color: $color-white;
+}
+
+.butn-send-compose{
+  width: 48px;
+  height: 24px;
+  background-color: $color-sense;
+  border: 1px solid $color-sense-wire;
+  padding-top: 2px;
+  color: $color-white;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  margin: 8px 0;
+  line-height: 22px;
+}
+.butn-send-compose:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+}
+.butn-send-compose:hover {
+  color: $color-white;
+}
+
+.butn-back-compose {
+  border: 1px solid $color-breeze;
+  color: $color-storm;
+  width: 64px;
+  height: 24px;
+  padding-top: 2px;
+  display: inline-block;
+  border-radius: 5px;
+  line-height: 22px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  margin: 8px 0;
+  text-align: center;
+}
+.butn-back-compose:hover {
+  color: $color-storm;
+}
+/**
+  *********************************
+  *          switches          *
+  *********************************
+*/
+
+.labtxt{
+  text-align: center;
+  padding-top: 5px;
+}
+
+.switch {
+  min-width: 128px;
+  display: inline-flex;
+}
+
+.switch label{
+  width: 50%;
+  height: 24px;
+  font-size: $font-size-small;
+  cursor: pointer;
+  display: table;
+  vertical-align: middle;
+  text-align: center;
+}
+
+// On: Value = 0;
+input[type="checkbox"].inpsw + label {
+  box-sizing: border-box;
+  height: auto;
+  padding: 0 0;
+  border-width:1px;
+  border-right-width: 0px;
+  border-color: $color-breeze;
+  border-style:solid;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  background: none;
+  color : $color-wind;
+}
+
+// Off: Value = 0;
+input[type="checkbox"].inpsw + label + label {
+  background-color: $color-sense;
+  color: $color-white;
+  box-sizing: border-box;
+  border: 1px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+// On: Value = 1;
+input[type="checkbox"].inpsw:checked + label  {
+  background-color: $color-sense;
+  border-color: $color-sense;
+  color: $color-white;
+  box-sizing: border-box;
+}
+
+// Off: Value = 1;
+input[type="checkbox"].inpsw:checked + label + label  {
+  box-sizing: border-box;
+  border-width:1px;
+  border-left-width: 0px;
+  border-color: $color-breeze;
+  border-style:solid;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  background: none;
+  color : $color-wind;
+}
+
+// On: Value = 0; Disabled
+input[type="checkbox"].inpsw:disabled + label  {
+  color: $color-breeze;
+}
+
+// Off: Value = 0; Disabled
+input[type="checkbox"].inpsw:disabled + label + label  {
+  background-color: $color-breeze;
+  color : $color-wind;
+}
+
+// On: Value = 1; Disabled
+input[type="checkbox"].inpsw[disabled]:checked + label  {
+  background-color: $color-breeze;
+  border-color: $color-breeze;;
+  color: $color-wind;
+}
+
+// Off: Value = 1; Disabled
+input[type="checkbox"].inpsw[disabled]:checked + label + label  {
+  color: $color-breeze;
+  background-color: $color-white;
+}
+
+#viewswitch input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/viewswitch.svg') no-repeat;
+  height: 15px;
+  min-width: 48px;
+  padding: 0 0 0 17px;
+  background-position: 0 -15px;
+}
+
+#viewswitch input[type="checkbox"]:checked + label {
+  background-position: 0px 0px;
+
+}
+
+/**
+  *********************************
+  *          radio btns           *
+  *********************************
+*/
+
+input[type="radio"] {
+  opacity: 0;
+  height: 16px;
+  width: 16px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+input[type="radio"] + label {
+  background: url('../assets/icons/controls.svg') no-repeat;
+  height: 16px;
+  width: 16px;
+  background-position: 0px -48px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  padding-left: 22px;
+}
+
+input[type="radio"]:checked + label {
+  background: url('../assets/icons/controls.svg') no-repeat;
+  background-position: 0px -64px;
+  height: 16px;
+  width: 17px;
+}

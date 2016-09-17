@@ -91,7 +91,6 @@
       function extractPost(data) {
         var defer = $q.defer();
 
-
         if (!data.post_id) { // could not find any post inside
           defer.resolve(null);
         } else {

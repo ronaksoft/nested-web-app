@@ -1,0 +1,111 @@
+.content-plus {
+  display: inline-flex;
+  flex-direction: column;
+  width: 276px;
+  z-index: 10;
+  height: 100%;
+  margin-left: 16px;
+  position: relative;
+  transition: 0.2s;
+  backface-visibility: hidden;
+  transform: translateZ(0) scale(1.0, 1.0);
+  & > div {
+    display: inline-flex;
+    flex-direction: column;
+    width: 276px;
+    height: 380px;
+    flex: none;
+    overflow-y: auto;
+    margin-top: 32px;
+    padding: 12px 0;
+    z-index: 15;
+    background-color: $color-white;
+    border: 1px solid $color-border;
+    position: relative;
+    justify-content: space-between;
+    overflow-y: auto;
+    .row {
+      display: inline-flex;
+      flex-direction: row;
+      width: 100%;
+      //height: 24px;
+      align-items: flex-start;
+      flex-shrink: inherit;
+      padding-left: 8px;
+      padding-top: 8px;
+      .colomn {
+        display: inline-flex;
+        flex-direction: column;
+        width: 100%;
+        border-bottom: 1px solid $color-breeze;
+        span {
+          color: $color-wind;
+          font-size: $font-size-xxsmall;
+          line-height: 12px;
+          font-weight: 400;
+          white-space: nowrap;
+        }
+        .top{
+          height: 20px;
+          width: 100%;
+          padding-right: 8px;
+          align-items: center;
+          max-width: 234px;
+          flex: none;
+          overflow: hidden;
+          .sender {
+            align-items: center;
+            overflow: hidden;
+            max-width: 100%;
+            a {
+              color: $color-hurricane;
+              font-weight: 600;
+              font-size: $font-size-xsmall;
+              line-height: 15px;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+            }
+          }
+          [class*="ei-"]{
+            margin: 0 4px;
+          }
+        }
+        p {
+          word-break: break-all;
+          color: #808080;
+          font-size: $font-size-xsmall;
+          //line-height: 13px;
+          //font-weight: 400;
+          span {
+            font-style: italic;
+            font-size: $font-size-xsmall;
+          }
+        }
+      }
+      &:hover {
+        background-color: $color-sense-5;
+        cursor: pointer;
+        transition: .2s;
+      }
+      &:before {
+        content: "";
+        display: none;
+      }
+    }
+  }
+  .name {
+    color: $color-breeze;
+    font-size: $font-size-xsmall;
+    line-height: 15px;
+    font-weight: 400;
+    margin-bottom: 12px;
+    padding-left: 8px;
+  }
+}
+#content-plus {
+  position: fixed;
+  margin-left: 356px;
+  top: 183px;
+  Left: 50%
+}

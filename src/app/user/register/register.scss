@@ -3,8 +3,6 @@
   *     Nested Classes - Page Specific - Register  *
   ********************************************************
  */
-._dn { display: none }
-.visibility-hidden {visibility: hidden;}
 
 #panel-register{
   width: 358px;
@@ -16,6 +14,14 @@
 
 }
 
+.select-birthday {
+  background-color: #eaffea;
+  width: 100%;
+  height: 38px;
+  option:hover {
+    background-color: #ccffe6;
+  }
+}
 #panel-register .tooltip-inner {
   width: 240px;
   height: 96px;
@@ -113,7 +119,7 @@
   background-color: inherit;
 }
 .select-birthday option {
-  color: black;
+  color: $color-solid;
   height: 40px;
   text-align: center;
   background-color: $color-sense-5;
@@ -161,7 +167,7 @@
   text-align: center;
   width: 100%;
   height: 40px;
-  font-size: 14px;
+  font-size: $font-size-medium;
   background-color: transparent;
   color: $color-solid-30;
   border: 1px solid $color-breeze;
@@ -183,7 +189,7 @@
 }
 
 #panel-register .agreement-text a {
-  font-size: 10px;
+  font-size: $font-size-xxsmall;
 }
 
 #confirm p {
@@ -230,7 +236,7 @@
 
 .input-force {
   border: 1px solid $color-force-wire;
-  border-radius: 6px;
+  border-radius: $border-radius-large;
   .p{
     color: $color-force-wire;
   }
@@ -265,16 +271,6 @@
       width: #{$i * 4}px;
       height: #{$i * 4}px;
     }
-  }
-
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
   }
 
 //--------Overlay-----------

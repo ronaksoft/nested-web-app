@@ -299,36 +299,7 @@
       }
     }
 
-    // FIXME: NEEDS REWRITE COMPLETELY
-    var nav = document.getElementsByTagName("nst-navbar")[0];
-    var nst = document.getElementsByClassName("nst-content");
-    //TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Linear.easeNone});
-    $timeout(function () {
-      $rootScope.navView = false
-    });
-    vm.bodyScrollConf = {
-      axis: 'y',
-      callbacks: {
-        whileScrolling: function () {
-          var t = -this.mcs.top;
-          if (t > 55 && !$rootScope.navView) {
-            TweenLite.to(nav, 0.1, {minHeight: 96, maxHeight: 96, height: 96, ease: Linear.easeNone});
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          } else if (t < 55 && $rootScope.navView) {
-            TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Linear.easeNone});
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          }
-        },
-        onTotalScroll: function () {
-          vm.loadMore();
-        },
-        onTotalScrollOffset: 10,
-        alwaysTriggerOffsets: false
-      }
-    };
+    console.log($scope);
+
   }
 })();
