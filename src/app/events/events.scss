@@ -47,6 +47,7 @@
     margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
     padding: 0 5px;
     width: 100%;
+    flex-wrap: wrap;
     &:hover{
       background-color: #E7FBF0;
     }
@@ -65,13 +66,12 @@
   .ico {
     display: block;
     float: left;
-    width: 40px;
+    width: 16px;
     padding-left: 8px;
     vertical-align: top;
   }
   .sender {
-    float: left;
-    display: block;
+    display: inline-flex;
     width: calc(100% - 40px);
     vertical-align: top;
     margin-top: 5px;
@@ -87,6 +87,8 @@
     span {
       line-height: 24px;
       vertical-align: baseline;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .msg {
