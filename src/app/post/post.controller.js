@@ -90,12 +90,18 @@
      * @param  {Event}  event   keypress event handler
      */
     function sendComment(event) {
+
       //var cm = event.currentTarget.innerText;
       var cm = event.currentTarget.value;
 
-      if (!sendKeyIsPressed(event)) {
+      var element = angular.element(event.target);
+      if (!sendKeyIsPressed(event) || element.attr("mention") === "true") {
         return;
       }
+
+      // if (!sendKeyIsPressed(event)) {
+      //   return;
+      // }
 
       var body = extractCommentBody(cm);
       if (0 == body.length) {

@@ -17,7 +17,7 @@
 
       <div class="navbar-bottom" data-ng-if="!ctlFullNavbar.controls">
         <div id="inputsearch" class="has-feedback _fw">
-          <input type="text" mentio mentio-items="ctlFullNavbar.people" mentio-typed-text="typedTerm" mentio-trigger-char="'#'" class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.title : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
+          <input type="text" nst-mention class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.title : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
           <i ng-click="ctlFullNavbar.srch('inputsearch');"
              class="_pa _left icon-close-search form-control-feedback"></i>
           <!--<div class="search-part1">

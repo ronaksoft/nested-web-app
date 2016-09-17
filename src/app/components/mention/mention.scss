@@ -1,6 +1,16 @@
 .atwho-view .cur {
   background: #E7FBf0;
-  color: white;
+  color:#333 ;
+}
+.atwho-view .cur small {
+    color:#333;
+}
+.atwho-view strong {
+    color: #333;
+}
+.atwho-view .cur strong {
+    color: #333;
+    font:bold;
 }
 .atwho-view ul {
   display: inline-flex;
@@ -16,5 +26,7 @@
     flex-direction: column;
   }
 }
-
+.atwho-view strong {
+    color: #333;
+}
 
