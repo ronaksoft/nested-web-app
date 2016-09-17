@@ -299,7 +299,5 @@
       }
     }
 
-    console.log($scope);
-
   }
 })();
