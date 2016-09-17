@@ -16,7 +16,7 @@
 .actcon {
   border-bottom: 1px solid $color-breeze;
   padding: 6px 5px;
-  min-width:400px;
+  //min-width:400px;
   width: 100%;
   float: left;
   display: inline-flex;
@@ -47,7 +47,6 @@
     margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
     padding: 0 5px;
     width: 100%;
-    flex-wrap: wrap;
     &:hover{
       background-color: #E7FBF0;
     }
