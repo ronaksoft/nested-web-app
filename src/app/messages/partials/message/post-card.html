@@ -1,7 +1,7 @@
 <div class="post-card _fw">
   <!-- ng-if="!ctlPostCard.thisPlace" -->
   <section class="post-card-badge" ng-init="firstPlace = ctlPostCard.post.getFirstPlace()">
-    <a class="margin-r-5" data-ng-if="firstPlace" href="#/places/{{firstPlace.id}}/messages">{{firstPlace.name}}</a>
+    <a class="margin-r-5" data-ng-if="firstPlace" href="#/places/{{::firstPlace.id}}/messages">{{::firstPlace.name}}</a>
     <a ng-if="ctlPostCard.post.getAllPlacesCount() > 1" class="popover-white-nst-msg"
        data-uib-popover-template="'app/messages/partials/popovers/more_places.html'"
        data-popover-placement="auto bottom-right"
@@ -20,14 +20,14 @@
         <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
         <div ng-if="ctlPostCard.post.isForwarded" class="icon icon-post-head icon-fwd"></div>
         <div ng-if="ctlPostCard.post.isReplyed" class="icon icon-post-head icon-replied"></div>
-        <h4 class="_df">{{ctlPostCard.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{ctlPostCard.post.sender.username}}</span>
+        <h4 class="_df">{{::ctlPostCard.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{::ctlPostCard.post.sender.username}}</span>
       </div>
-      <span class="_df _fn post-card-time" data-uib-tooltip="{{ctlPostCard.post.date | date : 'full'}}"
-      data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{ctlPostCard.post.date | date : 'short'}}</span>
+      <span class="_df _fn post-card-time" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
+      data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{::ctlPostCard.post.date | date : 'short'}}</span>
     </div>
   </section>
   <section ng-if="ctlPostCard.post.subject.length > 0" class="post-subject" nst-post-modal post="ctlPostCard.post"
-           auto-dir="{{ctlPostCard.post.subject}}">
+           auto-dir="{{::ctlPostCard.post.subject}}">
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject | emoji">
     </h3>
     <h3 ng-if="ctlPostCard.post.subject.length < 1" class="nst-mood-breez"><i>No Subject</i></h3>
@@ -35,7 +35,7 @@
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
            post="ctlPostCard.post"
            ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.viewSetting.content"
-           auto-dir="{{ctlPostCard.post.body}}">
+           auto-dir="{{::ctlPostCard.post.body}}">
     <span ng-bind-html="ctlPostCard.post.body | truncate | emoji"></span>
   </section>
   <section class="post-body" ng-if="ctlPostCard.post.body.length < 1 && ctlPostCard.ViewSetting.content"
@@ -52,16 +52,16 @@
   <section class="post-footer _difh">
     <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
       <span ng-if="!ctlPostCard.post.hasAnyComment()">No comment</span>
-      <span ng-if="ctlPostCard.post.commentsCount == 1">One comments</span>
-      <span ng-if="ctlPostCard.post.commentsCount > 1">{{ctlPostCard.post.commentsCount}} comments</span>
+      <span ng-if="ctlPostCard.post.commentsCount == 1">One comment</span>
+      <span ng-if="ctlPostCard.post.commentsCount > 1">{{::ctlPostCard.post.commentsCount}} comments</span>
     </a>
     <a ng-if="ctlPostCard.newCommentsCount > 0 " class="new-comments-count" nst-post-modal post="ctlPostCard.post"
-             auto-dir="{{ctlPostCard.post.subject}}">
-      <span>+{{ctlPostCard.newCommentsCount}}</span>
+             auto-dir="{{::ctlPostCard.post.subject}}">
+      <span>+{{::ctlPostCard.newCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
       <a href class="icon icon-post icon-open-link" nst-post-modal post="ctlPostCard.post" data-uib-tooltip="View" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"></a>
-      <a href="{{ctlPostCard.urls.forward}}" class="icon icon-post icon-fw _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"></a>
+      <a href="{{::ctlPostCard.urls.forward}}" class="icon icon-post icon-fw _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"></a>
       <div class="cursor-pointer margin-r_5 icon icon-post icon-rp _df popover-white-nst-activity-places"
            data-uib-popover-template="'app/messages/partials/popovers/reply.html'"
            data-popover-placement="auto top-right" popover-trigger="outsideClick" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"></div>
@@ -75,7 +75,7 @@
   </div>
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"></comments-board>
   <div class="post-card-comment-input _df">
-    <input data-ng-model="ctlPostCard.post.newComment" auto-dir="{{ctlPostCard.post.newComment}}"
+    <input data-ng-model="ctlPostCard.post.newComment" auto-dir="{{::ctlPostCard.post.newComment}}"
            class="_fw" placeholder="write your comment ..." ng-keyup="ctlPostCard.sendComment($event)"
            ng-disabled="ctlPostCard.isSendingComment" max-length="1024"/>
   </div>

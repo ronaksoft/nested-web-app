@@ -10,7 +10,7 @@
            uib-popover-template="'app/events/partials/popovers/filter_popover.html'"
            data-popover-placement="bottom-center"
            popover-trigger="outsideClick" popover-is-open="filterPopoverShow">
-        <span class="nst-mood-storm _df">{{ctlActivity.filterDictionary[ctlActivity.activitySettings.filter]}}</span>
+        <span class="nst-mood-storm _df">{{::ctlActivity.filterDictionary[ctlActivity.activitySettings.filter]}}</span>
         <div class="icon icon-viewicon-filter _df"></div>
       </div>
       <div class="iconsblock popover-white-nst-setting"
@@ -36,7 +36,7 @@
         <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
           <div class="actdate">
             <p class="nst-mood-simple">
-              <span class="ng-binding ng-scope">{{value.date}}</span>
+              <span class="ng-binding ng-scope">{{::value.date}}</span>
             </p>
           </div>
           <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
@@ -45,7 +45,7 @@
         <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
           <div class="actdate">
             <p class="nst-mood-simple">
-              <span class="ng-binding ng-scope">{{value.date}}</span>
+              <span class="ng-binding ng-scope">{{::value.date}}</span>
             </p>
           </div>
           <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
@@ -54,7 +54,7 @@
         <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
           <div class="actdate">
             <p class="nst-mood-simple">
-              <span class="ng-binding ng-scope">{{value.date}}</span>
+              <span class="ng-binding ng-scope">{{::value.date}}</span>
             </p>
           </div>
           <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
