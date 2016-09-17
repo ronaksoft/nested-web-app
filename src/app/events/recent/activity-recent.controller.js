@@ -6,7 +6,7 @@
     .controller('RecentActivityController', RecentActivityController);
 
   /** @ngInject */
-  function RecentActivityController($q,
+  function RecentActivityController($q, $scope,
                                     NstSvcLoader, NstSvcActivityFactory, NstSvcActivityMap,
                                     NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstFactoryError, NST_SRV_ERROR) {
     var vm = this;
