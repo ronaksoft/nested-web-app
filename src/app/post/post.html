@@ -67,11 +67,11 @@
         </div>
       </div>
       <div class="_df _fh _fw _wrb">
-        <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="msg-post-view"
+        <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="msg-post-view _fw"
              auto-dir="{{ctlPost.post.body}}"
              data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
         </div>
-        <div ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view"
+        <div ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view _fw"
              auto-dir="س">
           <pre data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji "></pre>
         </div>
@@ -80,31 +80,27 @@
 
     <div id="Comments" class="_df _vat">
       <!-- scroll-me="ctlPost.scrollToNewComment" -->
-      <div class="_fw" nst-scrollbar>
-        <div class="_db _fh">
-          <div class="comment-msg _difv _fw">
-            <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
-              <a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
+      <div class="comment-msg _difv _fw" nst-scrollbar>
+        <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
+          <a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
+        </div>
+        <div data-ng-repeat="comment in ctlPost.comments" class="_fw _difh NewComment">
+          <div class="_df profile-post-view">
+            <div class="post-comment-user-avatar">
+              <img initials="comment.sender.name" data-url="comment.sender.avatar" data-width="24" data-height="24"
+                   data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
             </div>
-            <div data-ng-repeat="comment in ctlPost.comments" class="_fw _difh NewComment">
-              <div class="_df profile-post-view">
-                <div class="post-comment-user-avatar">
-                <img initials="comment.sender.name" data-url="comment.sender.avatar" data-width="24" data-height="24"
-                     data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
-                  </div>
-              </div>
-              <div class="_difv _fw">
-                <div class="_difh">
-                  <h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.name"></h5>
-                  <div class="_df time-post-view nst-mood-storm"
-                       data-uib-tooltip="{{comment.date | date : 'full'}}"
-                       data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
-                </div>
-                <div class="_fw _wrb cmt-post-view" auto-dir="{{comment.body}}">
-                  <span ng-bind-html="comment.body | emoji"></span>
-                  <a href data-ng-if="ctlPost.allowToRemoveComment(comment);" ng-click="ctlPost.removeComment(comment);" class="nst-mood-storm nst-font-small" >&nbsp;&nbsp;delete </a>
-                </div>
-              </div>
+          </div>
+          <div class="_difv _fw">
+            <div class="_difh">
+              <h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.name"></h5>
+              <div class="_df time-post-view nst-mood-storm"
+                   data-uib-tooltip="{{comment.date | date : 'full'}}"
+                   data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
+            </div>
+            <div class="_fw _wrb cmt-post-view" auto-dir="{{comment.body}}">
+              <span ng-bind-html="comment.body | emoji"></span>
+              <a href data-ng-if="ctlPost.allowToRemoveComment(comment);" ng-click="ctlPost.removeComment(comment);" class="nst-mood-storm nst-font-small" >&nbsp;&nbsp;delete </a>
             </div>
           </div>
         </div>

@@ -330,19 +330,19 @@
 }
 
 .side-place-item-image {
-  @include avatar(52px,40px);
+  @include avatar(60px,40px);
 }
 .maincontainer.sidetiny .side-place-item-image {
-  @include avatar(40px,40px);
+  @include avatar(60px,40px);
 }
 .maincontainer.sidetiny ul ul .side-place-item-image {
-  @include avatar(40px,32px);
+  @include avatar(60px,32px);
   img {
     margin-right: 0;
   }
 }
 ul ul .side-place-item-image {
-  @include avatar(52px,32px);
+  @include avatar(60px,32px);
   img {
     margin-right: 0;
   }

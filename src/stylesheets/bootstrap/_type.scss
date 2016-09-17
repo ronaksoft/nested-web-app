@@ -80,11 +80,6 @@ small,
   font-size: floor((100% * $font-size-small / $font-size-base));
 }
 
-mark,
-.mark {
-  background-color: $state-warning-bg;
-}
-
 // Alignment
 .text-left           { text-align: left; }
 .text-right          { text-align: right; }
@@ -148,7 +143,7 @@ mark,
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: ($line-height-computed / 2);
+  //margin-bottom: ($line-height-computed / 2);
   ul,
   ol {
     margin-bottom: 0;
