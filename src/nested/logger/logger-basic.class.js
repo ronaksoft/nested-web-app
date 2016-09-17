@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.components')
+    .module('ronak.nested.web.common.log')
     .factory('NstLoggerBasic', NstLoggerBasic);
 
   /** @ngInject */

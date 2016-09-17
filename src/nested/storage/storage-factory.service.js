@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.components.cache')
+    .module('ronak.nested.web.common.cache')
     .service('NstSvcStorageFactory', NstSvcStorageFactory);
 
   /** @ngInject */

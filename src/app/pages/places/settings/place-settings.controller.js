@@ -57,11 +57,11 @@
         $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));
 
         return $q.all([
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
           NstSvcPlaceFactory.getNotificationOption(vm.placeId),
           NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred'),
           NstSvcPlaceFactory.getBookmarkedPlaces('_starred')

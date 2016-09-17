@@ -1,9 +1,9 @@
 (function() {
   'use strict';
 
-  angular.module('ronak.nested.web.message').factory('NstTinyPost', NstTinyPost);
+  angular.module('ronak.nested.web.models').factory('NstTinyPost', NstTinyPost);
 
-  function NstTinyPost($q, _, ATTACHMENT_STATUS, NstModel, NstAttachment) {
+  function NstTinyPost($q, _, NST_ATTACHMENT_STATUS, NstModel, NstAttachment) {
 
     TinyPost.prototype = new NstModel();
     TinyPost.prototype.constructor = TinyPost;

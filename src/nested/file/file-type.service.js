@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('ronak.nested.web.components.file')
+    .module('ronak.nested.web.file')
     .service('NstSvcFileType', NstSvcFileType);
 
   /** @ngInject */

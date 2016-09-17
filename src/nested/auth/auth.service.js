@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcAuth($cookies, $q, $log,
                       NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
-                      NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcAuthStorage,
+                      NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage,
                       NstObservableObject) {
     function Auth(userData) {
       var service = this;
@@ -221,18 +221,6 @@
 
     Auth.prototype.isUnauthorized = function () {
       return NST_AUTH_STATE.UNAUTHORIZED == this.getState();
-    };
-
-    Auth.prototype.getRole = function (placeId, forceRequest) {
-      return NstSvcPlaceFactory.getRoleOnPlace(placeId, forceRequest);
-    };
-
-    Auth.prototype.getAccess = function (placeId, forceRequest) {
-      return NstSvcPlaceFactory.getAccessOnPlace(placeId, forceRequest);
-    };
-
-    Auth.prototype.hasAccess = function (placeId, qAccess, forceRequest) {
-      return NstSvcPlaceFactory.hasAccess(placeId, qAccess, forceRequest);
     };
 
     // Cache Implementation

@@ -5,14 +5,20 @@
     .module('ronak.nested.web.place')
     .service('NstSvcPlaceInvitationFriend', NstSvcPlaceInvitationFriend);
 
-  function NstSvcPlaceInvitationFriend($log,
-                                       NST_INVITATION_FACTORY_EVENT,
-                                       NstSvcPlaceFactory, NstSvcInvitationFactory) {
-    NstSvcInvitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function (event) {
-      var invitation = event.detail.invitation;
-      $log.debug('Place Factory | Invitation Accepted: ', invitation);
+  function NstSvcPlaceInvitationFriend($log, $injector,
+    NST_INVITATION_FACTORY_EVENT,
+    NstSvcPlaceFactory) {
+      console.log('lolo');
+      if ($injector.has('NstSvcInvitationFactory')) {
+        var invitationFactory = $injector.get('NstSvcInvitationFactory');
 
-      NstSvcPlaceFactory.addToMyPlaceIds(invitation.getPlace().getId());
-    });
+         invitationFactory.addEventListener(NST_INVITATION_FACTORY_EVENT.ACCEPT, function(event) {
+          var invitation = event.detail.invitation;
+          $log.debug('Place Factory | Invitation Accepted: ', invitation);
+
+          NstSvcPlaceFactory.addToMyPlaceIds(invitation.getPlace().getId());
+        });
+      }
+
   }
 })();

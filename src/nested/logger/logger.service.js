@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.components.log')
+    .module('ronak.nested.web.common.log')
     .service('NstSvcLogger', NstSvcLogger);
 
   /** @ngInject */
