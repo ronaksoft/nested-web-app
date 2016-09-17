@@ -60,22 +60,20 @@
     </div>
   </div>
   <div class="_difh _fh" id="PostBody">
-    <div nst-scrollbar id="Content" class="_df _fw">
-      <div class="_db _fw">
+    <div nst-scrollbar id="Content" class="_difv _fw">
+      <div class="_df _fw">
         <div class="attachments _fw _df" data-ng-if="ctlPost.post.hasAnyAttachment">
           <nst-attachments-view post-id="ctlPost.post.id" attachments="ctlPost.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>
         </div>
       </div>
-      <div class="_db _fh">
-        <div class="_fh _fw _wrb">
-          <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="msg-post-view"
-               auto-dir="{{ctlPost.post.body}}"
-               data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
-          </div>
-            <div ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view"
-                 auto-dir="{{ctlPostCard.post.body}}">
-              <pre data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji "></pre>
-            </div>
+      <div class="_df _fh _fw _wrb">
+        <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="msg-post-view"
+             auto-dir="{{ctlPost.post.body}}"
+             data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
+        </div>
+        <div ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view"
+             auto-dir="س">
+          <pre data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji "></pre>
         </div>
       </div>
     </div>
@@ -86,7 +84,7 @@
         <div class="_db _fh">
           <div class="comment-msg _difv _fw">
             <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
-              <a id="load-more-events" class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
+              <a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
             </div>
             <div data-ng-repeat="comment in ctlPost.comments" class="_fw _difh NewComment">
               <div class="_df profile-post-view">
@@ -113,7 +111,7 @@
       </div>
       <div class="comment-input _difh" ng-show="commentInput">
         <div class="_difv _pr _fn">
-          <div class="write-comment-user-avatar">
+          <div class="post-card-user-avatar">
           <img initials="ctlPost.user.name" data-url="ctlPost.user.avatar" data-width="32" data-height="32"
                data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
           </div>
