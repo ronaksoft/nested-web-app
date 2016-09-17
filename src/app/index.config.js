@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider, $animateProvider) {
+  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, $animateProvider) {
 
     localStorageServiceProvider
       .setPrefix('ronak.nested.web');
@@ -44,16 +44,6 @@
     toastrConfig.positionClass = 'toast-top-right';
     toastrConfig.preventOpenDuplicates = true;
     toastrConfig.progressBar = true;
-
-    // Scrollbars
-    ScrollBarsProvider.defaults = {
-      theme: 'minimal-dark',
-      scrollInertia: 150,
-      advanced: {
-        updateOnContentResize: true
-      },
-      autoHideScrollbar: true
-    };
 
     //config emojiOne
     emojione.imageType = 'svg';
