@@ -60,22 +60,20 @@
     </div>
   </div>
   <div class="_difh _fh" id="PostBody">
-    <div nst-scrollbar id="Content" class="_df _fw">
-      <div class="_db _fw">
+    <div nst-scrollbar id="Content" class="_difv _fw">
+      <div class="_df _fw">
         <div class="attachments _fw _df" data-ng-if="ctlPost.post.hasAnyAttachment">
           <nst-attachments-view post-id="ctlPost.post.id" attachments="ctlPost.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>
         </div>
       </div>
-      <div class="_db _fh">
-        <div class="_fh _fw _wrb">
-          <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="msg-post-view"
-               auto-dir="{{ctlPost.post.body}}"
-               data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
-          </div>
-            <div ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view"
-                 auto-dir="س">
-              <pre data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji "></pre>
-            </div>
+      <div class="_df _fh _fw _wrb">
+        <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="msg-post-view"
+             auto-dir="{{ctlPost.post.body}}"
+             data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
+        </div>
+        <div ng-if="ctlPost.post.contentType === 'text/plain'" class="msg-post-view"
+             auto-dir="س">
+          <pre data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji "></pre>
         </div>
       </div>
     </div>
