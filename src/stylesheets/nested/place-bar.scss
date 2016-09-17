@@ -1,0 +1,24 @@
+.logo-bar {
+  width: 64px;
+  margin: 0 8px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-bar {
+  height: 80px;
+  .name{
+    justify-content: center;
+    span{
+      align-items: center;
+      //padding-top: 10px;
+    }
+    a{
+      align-items: flex-end;
+      font-size: 32px;
+      font-weight: 100;
+    }
+
+  }
+}

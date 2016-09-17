@@ -1,6 +1,6 @@
 <div class="actdes">
   <div class="ico">
-    <img data-ng-if="act.place.picture" ng-src="{{act.place.picture}}" height="16" width="16" class="placeactsico"/>
+    <img data-ng-if="act.place.picture" ng-src="{{::act.place.picture}}" height="16" width="16" class="placeactsico"/>
     <div initials class="placeactsico account-initials-16" data-ng-if="!act.place.picture"
          data-ng-bind="act.place.name | initials:2"></div>
   </div>
@@ -12,11 +12,11 @@
     <div class="subject">
       <span class="nst-mood-simple">created&nbsp;</span>
       <a class="place" ui-sref="place-activity({placeId: act.place.id})">
-        {{act.inSpecificPlace == act.place.parent.id  ? "here" : act.place.name}}
+        {{::act.inSpecificPlace == act.place.parent.id  ? "here" : act.place.name}}
       </a>
       <span data-ng-if="act.place.hasParent">
         <span class="nst-mood-simple">&nbsp;nested in</span>
-        <a ui-sref="place-messages({placeId: act.place.parent.id})">{{act.inSpecificPlace ? "here" : act.place.parent.name}}</a>
+        <a ui-sref="place-messages({placeId: act.place.parent.id})">{{::act.inSpecificPlace ? "here" : act.place.parent.name}}</a>
       </span>
     </div>
   </div>

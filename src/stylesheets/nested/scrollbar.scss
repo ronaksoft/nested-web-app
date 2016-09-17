@@ -1,0 +1,27 @@
+.mCustomScrollBox {
+  width: 100%;
+}
+.mCSB_scrollTools_vertical {
+  display: block!important;
+}
+#content-wrapper>.mCustomScrollBox>.mCSB_container {
+  justify-content: center;
+  display: flex;
+  width: 100%!important;
+  min-height: 100%;
+}
+.mCSB_scrollTools {
+  width: 4px;
+  right: 2px!important;
+  z-index: 555;
+}
+#mCSB_3_scrollbar_vertical {
+  right: 4px;
+  z-index: 20;
+}
+.mCSB_2_scrollbar_vertical {
+  z-index: 555;
+}
+.mCSB_container {
+  width: 100%!important;
+}

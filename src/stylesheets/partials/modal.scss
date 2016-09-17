@@ -1,0 +1,174 @@
+body.modal-open {
+  .modal {
+    height: auto;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+    min-width: 600px;
+    padding: 80px 0;
+    display: flex!important;
+    justify-content: center;
+    align-items: center;
+    //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+    .butn-green {
+      width: 128px;
+    }
+  }
+}
+#add-view {
+  border: 1px solid $color-breeze;
+  border-radius: 8px;
+  background-color: $color-white;
+  padding: 10px;
+  width: 800px;
+  height: auto;
+}
+
+#delete-view {
+  border: 1px solid $color-breeze;
+  border-radius: 8px;
+  background-color: $color-white;
+  padding: 15px;
+  width: 510px;
+  height: auto;
+}
+
+.modal-content {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
+}
+
+.modal-detail {
+  margin: 20px 0;
+  font-size: $font-size-large;
+}
+
+.modal-detail a{
+  font-weight: bold;
+  color: $color-solid;
+}
+
+.modal-detail .small{
+  font-weight: 100;
+  font-size: $font-size-small;
+}
+
+.modal-detail input{
+  min-height: 40px;
+  margin-bottom: 10px;
+  margin-top: 6px;
+}
+
+.modal-attachment {
+  //padding: 128px 0;
+}
+
+.modal-dialog {
+  height: 100%;
+}
+
+.modal.in .modal-dialog{
+  border-radius: $border-radius-large;
+}
+
+.modal-dialog .modal-content {
+  height: 100%;
+}
+
+.modal-xlg, .modal-mlg {
+  width: auto;
+}
+
+.modal-xlg {
+  margin: 0 1%;
+}
+
+.modal-mlg {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.modal-sm {
+  width: auto!important;
+  height: auto!important;
+  vertical-align: middle;
+  max-height: 100%;
+}
+
+.modal-head {
+  //margin: 10px 0;
+}
+
+.modal-head p {
+  font-size: $font-size-xlarge;
+  font-weight: 500;
+}
+.nst-modal-footer {
+  background-color: $color-breeze-50;
+  border-radius: $border-radius-large;
+  margin-top: 15px;
+  padding: 5px;
+}
+
+.modal-add {
+  border-bottom: 1px solid $color-calm;
+  margin: 10px 0;
+}
+.ui-select-choices-row > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-right: 8px;
+}
+.suggests {
+  height: 170px;
+  overflow: hidden;
+}
+.modal-add .ui-select-container ul {
+  width: calc(100% + 50px)!important;
+  max-height: 170px!important;
+  overflow: hidden;
+}
+.modal-add .ui-select-choices-row{
+  display: inline-flex;
+  flex-direction: row;
+  height: 50px;
+  width: 33.3%;
+  margin-top: 5px;
+}
+.modal-add .ui-select-choices-row a{
+  display: inline-flex!important;
+  flex-direction: row;
+  height: 50px;
+  width: 100%;
+}
+.modal-add .ui-select-choices-row:hover{
+  background-color: $color-sense-5;
+  cursor: pointer;
+}
+.modal-add  .dropdown-menu {
+  border: none;
+  box-shadow: none;
+}
+.modal-add .ui-select-choices-row.active > a,
+.modal-add .ui-select-choices-row.active > a:hover{
+  background-color: $color-sense-5 ;
+  color: $color-solid;
+  border-radius: 10px;
+}
+.modal-add h5 {
+  font-size: $font-size-xlarge;
+}
+
+.modal-add input {
+  border: none;
+  padding: 5px 0;
+}
+.modal-content {
+  background-color: $color-white!important;
+}
