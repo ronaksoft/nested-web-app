@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div class="navbar-bottom" data-ng-if="!ctlFullNavbar.controls">
+      <div class="navbar-bottom _fw" data-ng-if="!ctlFullNavbar.controls">
         <div id="inputsearch" class="has-feedback _fw">
           <input class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.title : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
           <i ng-click="ctlFullNavbar.srch('inputsearch');"
@@ -45,7 +45,7 @@
       </div>
       </div>
 
-      <div class="navbar-bottom" data-ng-if="ctlFullNavbar.controls">
+      <div class="navbar-bottom _fw" data-ng-if="ctlFullNavbar.controls">
         <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
           <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
              href="{{control.url}}" data-ng-click="control.fn()">

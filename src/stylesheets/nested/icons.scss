@@ -186,11 +186,12 @@
   //width: 38px;
   display: flex;
   height: 28px;
-  padding: 0 8px;
   align-items: center;
   cursor: pointer;
   box-sizing: border-box;
   border: 1px solid transparent;
+  min-width: 32px;
+  margin-right: 8px;
 
 }
 .iconsblock-right {

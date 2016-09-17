@@ -16,7 +16,7 @@
 .actcon {
   border-bottom: 1px solid $color-breeze;
   padding: 6px 5px;
-  min-width:400px;
+  //min-width:400px;
   width: 100%;
   float: left;
   display: inline-flex;
@@ -65,13 +65,12 @@
   .ico {
     display: block;
     float: left;
-    width: 40px;
+    width: 16px;
     padding-left: 8px;
     vertical-align: top;
   }
   .sender {
-    float: left;
-    display: block;
+    display: inline-flex;
     width: calc(100% - 40px);
     vertical-align: top;
     margin-top: 5px;
@@ -87,6 +86,8 @@
     span {
       line-height: 24px;
       vertical-align: baseline;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .msg {
