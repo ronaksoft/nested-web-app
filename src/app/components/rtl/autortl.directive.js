@@ -110,7 +110,11 @@
           }
 
           function decideRtl(str) {
+            console.log(str);
+            str = str.replace(/([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g, '');
+            console.log(str);
             str = str.trim();
+            console.log(str);
             str = str.substring(0, 1);
             if (persianRex.rtl.test(str)) {
               return element.attr("dir","rtl");
