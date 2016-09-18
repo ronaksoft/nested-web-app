@@ -5,11 +5,14 @@
 
 // Base class
 .panel {
-  margin-bottom: $line-height-computed;
+  margin: auto;
+  box-shadow: 0 0 16px 0 rgba(71, 97, 82, 0.15);
+  border-radius: 8px;
+  border: 1px solid $color-breeze;
+  padding: 25px 10px;
+  width: 358px;
   background-color: $panel-bg;
-  border: 1px solid transparent;
-  border-radius: $panel-border-radius;
-  @include box-shadow(0 1px 1px rgba(0,0,0,.05));
+  //@include box-shadow(0 1px 1px rgba(0,0,0,.05));
   a {
     text-decoration: none;
     font-size: $font-size-small;
