@@ -2,14 +2,14 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.main')
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log,
+  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
                          hotkeys,
                          NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
-                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal,
+                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal,
 						 NstObject) {
     var vm = this;
 
@@ -210,7 +210,7 @@
           };
         }
       }
-      
+
       return {
         name: toState.name,
         params: toParams
@@ -288,49 +288,51 @@
       }
     });
 
+    if ($injector.has('NstSvcPlaceFactory')){
+      var NstSvcPlaceFactory = $injector.get('NstSvcPlaceFactory');
+      $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
-
-        NstSvcPlaceFactory.get(toParams.placeId).then(function (place) {
-          return NstSvcPlaceFactory.hasAccess(toParams.placeId, NST_PLACE_ACCESS.READ).then(function (has) {
-            return $q(function (res, rej) {
-              if (!has) {
-                rej(new NstFactoryError(null, "", NST_SRV_ERROR.ACCESS_DENIED));
-              }
+          NstSvcPlaceFactory.get(toParams.placeId).then(function (place) {
+            return NstSvcPlaceFactory.hasAccess(toParams.placeId, NST_PLACE_ACCESS.READ).then(function (has) {
+              return $q(function (res, rej) {
+                if (!has) {
+                  rej(new NstFactoryError(null, "", NST_SRV_ERROR.ACCESS_DENIED));
+                }
+              });
             });
+          }).catch(function (error) {
+            if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
+              NstSvcModal.error('Does not exist!', 'We are sorry, but the place you are looking for can not be found!').catch(function () {
+                // This handles dismissed modal
+                return $q(function (res) {
+                  res(false);
+                });
+              }).then(function () {
+                if (fromState.name) {
+                  $state.go(fromState.name, fromParams);
+                } else {
+                  $state.go(NST_DEFAULT.STATE);
+                }
+              });
+            } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
+              NstSvcModal.error('Access denied', 'You don\'t have access permissions for this Place.').catch(function () {
+                // This handles dismissed modal
+                return $q(function (res) {
+                  res(false);
+                });
+              }).then(function () {
+                if (fromState.name) {
+                  $state.go(fromState.name, fromParams);
+                } else {
+                  $state.go(NST_DEFAULT.STATE);
+                }
+              });
+            }
           });
-        }).catch(function (error) {
-          if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
-            NstSvcModal.error('Does not exist!', 'We are sorry, but the place you are looking for can not be found!').catch(function () {
-              // This handles dismissed modal
-              return $q(function (res) {
-                res(false);
-              });
-            }).then(function () {
-              if (fromState.name) {
-                $state.go(fromState.name, fromParams);
-              } else {
-                $state.go(NST_DEFAULT.STATE);
-              }
-            });
-          } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            NstSvcModal.error('Access denied', 'You don\'t have access permissions for this Place.').catch(function () {
-              // This handles dismissed modal
-              return $q(function (res) {
-                res(false);
-              });
-            }).then(function () {
-              if (fromState.name) {
-                $state.go(fromState.name, fromParams);
-              } else {
-                $state.go(NST_DEFAULT.STATE);
-              }
-            });
-          }
-        });
-      }
-    });
+        }
+      });
+    }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       vm.page = getActivePages(toState, toParams, fromState, fromParams);

@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  var app = angular.module('nested');
+  var app = angular.module('ronak.nested.web.components.scroll');
   var defaultSettings = {
     wheelSpeed : 1,
     minScrollbarLength : 16,

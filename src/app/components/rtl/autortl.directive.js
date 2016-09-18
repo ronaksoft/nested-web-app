@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.text')
     .directive('autoDir', autoDirDetector);
 
   function autoDirDetector() {
@@ -117,7 +117,6 @@
             ];
             str = str.replace(new RegExp(emojiRanges.join('|'), 'g'), '');
             str = str.trim();
-            console.log(str);
             str = str.substring(0, 1);
             if (persianRex.rtl.test(str)) {
               return element.attr("dir","rtl");

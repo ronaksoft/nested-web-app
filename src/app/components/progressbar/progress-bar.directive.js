@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components')
     .directive('ngProgressbar', function ($timeout, _, progressBar, NST_PROGRESSBAR_MODE) {
       return {
         restrict: 'A',

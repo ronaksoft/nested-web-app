@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.models')
     .factory('NstTinyUser', NstTinyUser);
 
   function NstTinyUser(NST_OBJECT_EVENT, NstModel, NstStoreResource, NstPicture) {

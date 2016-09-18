@@ -1,9 +1,9 @@
-(function () {
-  'use strict';
-  angular
-    .module('nested')
-    .directive('nstMention', function ($rootScope, $timeout, NstSvcUserFactory, NstSvcPlaceFactory, NstVmUser, NstVmPlace) {
-      return {
+(function (){
+    'use strict';
+ angular
+     .module('ronak.nested.web.components.mention')
+     .directive('nstMention', function ($rootScope, $timeout, NstSvcUserFactory, NstSvcPlaceFactory, NstVmUser, NstVmPlace) {
+    return {
         restrict: 'A',
         link: function (scope, element, attrs) {
 
@@ -21,75 +21,75 @@
 
           element
             .atwho({
-              at: "@",
-              searchKey: "name",
+              at:"@",
+              searchKey:"name",
               maxLen: 10,
               startWithSpace: true,
-              limit: 5,
-              displayTpl: scope.tplUrl,
-              callbacks: {
-                beforeInsert: function (value, $li) {
+              limit:5,
+              displayTpl:scope.tplUrl,
+              callbacks : {
+                  beforeInsert:function (value, $li){
                   var elm = angular.element($li);
                   return '@' + elm.attr('data-id');
                 },
-                remoteFilter: function (query, callback) {
-                  var searchSettings = {
-                    query: query,
-                    limit: 5,
-                  };
-                  NstSvcUserFactory.search(searchSettings).then(function (users) {
-                    var items = [];
-                    _.map(users, function (item) {
-                      var obj = new NstVmUser(item);
-                      items.push({
-                        id: obj.id,
-                        name: obj.name,
-                        avatar: obj.avatar
-                      })
-                    });
-                    callback(items);
-                  }).catch(function (error) {
-                  });
+                  remoteFilter : function (query, callback) {
+                      var searchSettings = {
+                           query : query,
+                           limit : 5,
+                       };
+                      NstSvcUserFactory.search(searchSettings).then(function (users) {
+                          var items = [];
+                          _.map(users, function (item) {
+                                            var obj =  new NstVmUser(item);
+                                          items.push({
+                                                id : obj.id,
+                                                name : obj.name,
+                                                avatar : obj.avatar
+                                                    })
+                                            });
+                          callback(items);
+                      }).catch(function (error) {
+                      });
+                   }
                 }
-              }
-            })
+              })
+
 
             .atwho({
-              at: "#",
-              searchKey: "name",
-              maxLen: 10,
-              startWithSpace: true,
-              limit: 5,
-              displayTpl: scope.tplUrl,
-              callbacks: {
-                beforeInsert: function (value, $li) {
-                  var elm = angular.element($li);
-                  return '#' + elm.attr('data-id');
-                },
-                remoteFilter: function (query, callback) {
-                  var searchSettings = {
-                    query: query.query,
-                    limit: 5,
-                  };
-                  NstSvcPlaceFactory.search(query).then(function (places) {
-                    var items = [];
-                    _.map(places, function (item) {
-                      var obj = new NstVmPlace(item);
+                    at:"#",
+                    searchKey:"name",
+                    maxLen: 10,
+                    startWithSpace: true,
+                    limit:5,
+                    displayTpl:scope.tplUrl,
+                    callbacks : {
+                          beforeInsert:function (value, $li){
+                          var elm = angular.element($li);
+                          return '#' + elm.attr('data-id');
+                      },
+                    remoteFilter : function (query, callback) {
+                       var searchSettings = {
+                           query : query.query,
+                           limit : 5,
+                      };
+                    NstSvcPlaceFactory.search(query).then(function (places) {
+                           var items = [];
+                         _.map(places, function (item) {
+                                            var obj =  new NstVmPlace(item);
 
-                      items.push({
-                        id: obj.id,
-                        name: obj.name,
-                        avatar: obj.avatar
-                      })
-                    });
+                                       items.push({
+                                                id : obj.id,
+                                                name : obj.name,
+                                                avatar : obj.avatar
+                                                 })
+                                      });
 
-                    callback(items);
-                  }).catch(function (error) {
-                  });
+                             callback(items);
+                      }).catch(function (error) {
+                      });
 
-                }
-              }
-            });
+                   }
+              }})
 
 
           //remove useless atwho-container tag after change a state

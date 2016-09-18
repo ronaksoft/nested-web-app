@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components')
     .constant('NST_PROGRESSBAR_MODE', {
       CIRCLE: 'Circle',
       LINE: 'Line'

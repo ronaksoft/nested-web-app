@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.date')
     .filter('date', function() {
 
       return function(date, format) {

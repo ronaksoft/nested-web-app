@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
@@ -367,4 +367,3 @@
 
   }
 })();
-
