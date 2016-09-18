@@ -7,10 +7,10 @@ module.exports = function(config) {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
-    ngHtml2JsPreprocessor: {
-      stripPrefix: conf.paths.src + '/',
-      moduleName: 'ronak.nested.web'
-    },
+    // ngHtml2JsPreprocessor: {
+    //   stripPrefix: conf.paths.src + '/',
+    //   moduleName: 'ronak.nested.web'
+    // },
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -24,11 +24,11 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'src/app/index.module.js',
       'src/app/index.config.js',
-      'src/nested/**/*.module.js',
-      'src/nested/**/*.class.js',
-      'src/nested/**/*.const.js',
-      'src/nested/**/*.service.js',
-      'src/nested/**/*.spec.js'
+      'src/**/*.module.js',
+      'src/**/*.class.js',
+      'src/**/*.const.js',
+      'src/**/*.service.js',
+      'src/**/*.spec.js'
     ],
 
 
@@ -78,5 +78,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
+  });
 }
