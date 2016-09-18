@@ -122,11 +122,6 @@
               return element.attr("dir","rtl");
             }
           }
-
-          // var charCode = str.charCodeAt(0);
-          // if (charCode > 1300 && 1700 > charCode) {
-          //   return element.attr("dir","rtl");
-          // }
         }
 
         scope.$watch(function(){
