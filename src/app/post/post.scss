@@ -119,6 +119,10 @@
   }
   .closebut{
     align-self: flex-start;
+
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
 
