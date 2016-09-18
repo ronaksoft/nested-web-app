@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .service('NstSvcPostMap', NstSvcPostMap);
 
   /** @ngInject */
@@ -22,8 +22,8 @@
      *****  Implementations   ****
      *****************************/
 
-    function toMessage(post) {
-      return new NstVmMessage(post);
+    function toMessage(post, firstPlaceId, myPlaceIds) {
+      return new NstVmMessage(post, firstPlaceId, myPlaceIds);
     }
 
     function toPost(post) {

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.place')
     .directive('nstPlaceMemberItem', function (moment) {
       return {
         restrict: 'E',

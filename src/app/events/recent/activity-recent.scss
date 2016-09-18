@@ -1,17 +1,10 @@
 .activity-recent {
-
   .recent-container {
-
-    .recent-item {
-      opacity: 1;
+    .recent-item.hot {
+      overflow-y: hidden;
     }
-    .recent-item.ng-enter {
-      -webkit-transition: 1s ease;
-      transition: 1s ease;
-      opacity: 0;
-    }
-    .recent-item.ng-enter-active {
-      opacity: 1;
+    .recent-item.hot.ng-enter {
+      animation: recent-activity-item-hot 0.75s ease-in forwards, recent-activity-item-normal 0.75s 4s ease-out forwards;
     }
   }
 }

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .factory('NstVmUser', NstVmUser);
 
   function NstVmUser(NstTinyUser, NstUser) {
@@ -17,7 +17,7 @@
       this.id = '';
       this.name = '';
       this.avatar = '';
-      
+
       if (userModel instanceof NstTinyUser || userModel instanceof NstUser) {
         this.id = userModel.getId();
         this.name = userModel.getFullName();

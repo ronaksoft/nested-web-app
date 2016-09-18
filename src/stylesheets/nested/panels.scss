@@ -1,0 +1,100 @@
+.panel {
+
+}
+#panel-reset {
+  background-color: $color-white;
+  h3 {
+    font-size: $font-size-xlarge;
+    margin-bottom: 22px;
+    font-weight: 400;
+  }
+  label {
+    color: $color-storm;
+    text-align: left;
+    line-height: 12px;
+    font-size: $font-size-small;
+  }
+  .panel-body {
+    padding: 0;
+    .butn-green {
+      height: 40px;
+      color: $color-white;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+    p {
+      line-height: 1.2em;
+      margin:  32px 0;
+    }
+    a {
+      color: $color-sense-wire;;
+    }
+    .form-group {
+      margin: 22px 0;
+    }
+    input {
+      min-height: 26px;
+      color: #C0C0C0;
+      font-weight: 400;
+      transition: $animation-dur;
+      border: 2px solid $color-breeze;
+      &:hover {
+        color: $color-solid;
+        border-color: $color-solid;
+      }
+    }
+    input:invalid {
+      border: 2px solid $color-force-wire;
+      color: $color-force-wire;
+    }
+    .call-btn {
+      border-style: solid;
+      border-width: 1px;
+      border-color: $color-storm;
+      background-color: $color-wind;
+      height: 32px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      float: left;
+      max-width: 48%;
+      min-width: 48%;
+      margin: 10px 0;
+      color: $color-white;
+      font-size: $font-size-large;
+      font-weight: 600;
+      &:hover{
+        background-color: $color-storm;
+      }
+      &.disabled {
+        border-color: $color-breeze;
+        background-color: $color-calm;
+        color: $color-breeze;
+      }
+    }
+    .filler {
+      display: flex;
+      float: left;
+      max-width: 4%;
+      min-width: 4%;
+      height: 1px;
+    }
+  }
+}
+#panel-signin, #panel-register{
+  input[type="checkbox"] + label {
+    display: inline-block;
+    background: url('../assets/icons/controls.svg') no-repeat;
+    height: 16px;
+    min-width: 17px;
+    padding: 0 0 0 17px;
+    font-size: $font-size-small;
+    color: $color-solid;
+  }
+
+  input[type="checkbox"]:checked + label {
+    background-position: 0 -16px;
+  }
+}

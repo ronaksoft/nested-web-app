@@ -5,19 +5,17 @@
 <div class="colomn">
   <div class="_difh top">
     <div class="sender _fw _df">
-      <a>{{act.actor.name}}</a> <span>&nbsp;@{{act.actor.id}}</span>
+      <a>{{::act.actor.name}}</a> <span>&nbsp;@{{::act.actor.id}}</span>
     </div>
     <div class="_df _fn">
-      <span>{{act.date | date : 'passed'}}</span>
+      <span>{{act.date | passed }}</span>
     </div>
     <div class="ei-member-join _df _fn"></div>
   </div>
   <div class="_df">
     <p>
-      <span>Joined to</span>
-      <a ui-sref="place-messages({placeId: act.place.id})">
-        {{act.inSpecificPlace ? "here" : act.place.name}}
-      </a>
+      <span>Joined
+        {{::act.inSpecificPlace ? "" : act.place.name}}</span>
     </p>
   </div>
 </div>

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.activity')
     .controller('ActivityController', ActivityController);
 
   /** @ngInject */
@@ -10,26 +10,28 @@
                               toastr, _, moment,
                               NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
                               NstSvcActivityMap,
+                              NstSvcActivitySettingStorage,
                               NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
                               NstActivity, NstPlace, NstInvitation) {
 
     var vm = this;
 
     // TODO it needs to connect with cache
-    vm.extended = true;
     // where we bind activities view-model for view
     vm.acts = {};
     // where we keep NstActivities and will be mapped to view-model
     vm.cache = [];
     vm.currentPlace = null;
-    vm.noMessages = false;
+    vm.noActivity = false;
 
     vm.loadMore = loadMore;
     vm.acceptInvitation = acceptInvitation;
     vm.declineInvitation = declineInvitation;
     vm.applyFilter = applyFilter;
+    vm.toggleViewMode = toggleViewMode;
     vm.viewPost = viewPost;
-    vm.scroll = scroll;
+
+    vm.expanded = true;
 
     vm.activitySettings = {
       limit: 24,
@@ -37,6 +39,9 @@
       placeId: null,
       date: null,
     };
+
+    vm.filterDictionary = {};
+
     vm.urls = {
       filters: {
         all: '',
@@ -57,17 +62,30 @@
      ******************/
 
     (function () {
+      vm.filterDictionary[NST_ACTIVITY_FILTER.ALL] = 'All';
+      vm.filterDictionary[NST_ACTIVITY_FILTER.MESSAGES] = 'Messages';
+      vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = 'Comments';
+      vm.filterDictionary[NST_ACTIVITY_FILTER.LOGS] = 'Logs';
+
       if (placeIdParamIsValid($stateParams.placeId)) {
         vm.activitySettings.placeId = $stateParams.placeId;
       } else {
         vm.activitySettings.placeId = null;
       }
 
-      if (filterIsValid($stateParams.filter)) {
-        vm.activitySettings.filter = $stateParams.filter;
+      // first check url to match a filter
+      if (!$stateParams.filter || $stateParams.filter === NST_DEFAULT.STATE_PARAM) {
+        vm.activitySettings.filter = NstSvcActivitySettingStorage.get('filter') || NST_ACTIVITY_FILTER.ALL;
       } else {
-        vm.activitySettings.filter = NST_ACTIVITY_FILTER.ALL;
+        if (filterIsValid($stateParams.filter)) {
+          vm.activitySettings.filter = $stateParams.filter;
+          NstSvcActivitySettingStorage.set('filter', vm.activitySettings.filter);
+        } else {
+          vm.activitySettings.filter = NST_ACTIVITY_FILTER.ALL;
+        }
       }
+
+      vm.expanded = !NstSvcActivitySettingStorage.get('collapsed');
 
       generateUrls();
 
@@ -80,6 +98,7 @@
           $log.debug(error);
         });
       } else {
+        vm.currentPlaceLoaded = true;
         loadActivities().catch(function (error) {
           $log.debug(error);
         });
@@ -117,12 +136,17 @@
         $state.go('place-activity-filtered', {
           placeId: vm.activitySettings.placeId,
           filter: filter
-        });
+        }, { notify : false });
       } else {
         $state.go('activity-filtered', {
           filter: filter
-        });
+        }, { notify : false });
       }
+    }
+
+    function toggleViewMode() {
+      vm.expanded = !vm.expanded;
+      NstSvcActivitySettingStorage.set('collapsed', !vm.expanded);
     }
 
     function viewPost(postId) {
@@ -132,14 +156,6 @@
 
       });
     }
-
-    function scroll(event) {
-      var element = event.currentTarget;
-      if (element.scrollTop + element.clientHeight === element.scrollHeight) {
-        loadMore();
-      }
-    }
-
 
     /**********************
      ** Helper Functions **
@@ -153,6 +169,7 @@
         NstSvcPlaceFactory.get(id).then(function (place) {
           if (place && place.id) {
             vm.currentPlace = place;
+            vm.currentPlaceLoaded = true;
           } else {
             vm.currentPlace = null;
           }
@@ -173,7 +190,10 @@
       return $q(function (resolve, reject) {
 
         NstSvcActivityFactory.get(vm.activitySettings).then(function (activities) {
-          if (activities.length === 0) {
+          if (activities.length === 0 && !vm.acts.hasAnyItem) {
+            vm.reachedTheEnd = false;
+            vm.noActivity = true;
+          }else if (activities.length === 0 && vm.acts.length > 0) {
             vm.reachedTheEnd = true;
           } else {
             vm.reachedTheEnd = false;
@@ -252,7 +272,9 @@
 
     NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
       if (activityBelongsToPlace(e.detail)){
-        addNewActivity(NstSvcActivityMap.toActivityItem(e.detail));
+        var activityItem = NstSvcActivityMap.toActivityItem(e.detail);
+        activityItem.isHot = true;
+        addNewActivity(activityItem);
       }
     });
 
@@ -271,41 +293,11 @@
     }
 
     function addNewActivity(activity) {
-      vm.acts.thisYear.thisMonth.today.items.unshift(activity);
-      vm.acts.thisYear.thisMonth.today.hasAnyItem = true;
+      if (!_.some(vm.acts.thisYear.thisMonth.today.items, { id : activity.id })){
+        vm.acts.thisYear.thisMonth.today.items.unshift(activity);
+        vm.acts.thisYear.thisMonth.today.hasAnyItem = true;
+      }
     }
 
-
-    // FIXME: NEEDS REWRITE COMPLETELY
-    var nav = document.getElementsByTagName("nst-navbar")[0];
-    var nst = document.getElementsByClassName("nst-content");
-    TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Linear.easeNone});
-    $timeout(function () {
-      $rootScope.navView = false
-    });
-    vm.bodyScrollConf = {
-      axis: 'y',
-      callbacks: {
-        whileScrolling: function () {
-          var t = -this.mcs.top;
-          if (t > 55 && !$rootScope.navView) {
-            TweenLite.to(nav, 0.1, {minHeight: 96, maxHeight: 96, height: 96, ease: Linear.easeNone});
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          } else if (t < 55 && $rootScope.navView) {
-            TweenLite.to(nav, 0.1, {minHeight: 183, maxHeight: 183, height: 183, ease: Linear.easeNone});
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          }
-        },
-        onTotalScroll: function () {
-          vm.loadMore();
-        },
-        onTotalScrollOffset: 10,
-        alwaysTriggerOffsets: false
-      }
-    };
   }
 })();

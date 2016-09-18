@@ -2,13 +2,13 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .controller('SearchController', SearchController);
 
   /** @ngInject */
   function SearchController($rootScope, $log, $stateParams, $state, $timeout,
-    NstSvcPostFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
-    NstSearchQuery) {
+                            NST_DEFAULT, NstSvcPostFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
+                            NstSearchQuery) {
     var vm = this;
     var limit = 8;
     var skip = 0;
@@ -39,12 +39,14 @@
     vm.search = search;
     vm.loadMore = loadMore;
     vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
-    vm.clearSearchQuery = clearSearchQuery;
+    vm.backToPlace = backToPlace;
 
     (function () {
 
       var query = getUriQuery();
       vm.queryString = query.toString();
+      var searchObj = new NstSearchQuery(vm.queryString);
+      vm.refererPlaceId = searchObj.getDefaultPlaceId();
       searchMessages(vm.queryString);
     })();
 
@@ -59,9 +61,14 @@
     }
 
     function searchOnEnterKeyPressed(e, queryString) {
-      if (!sendKeyIsPressed(e)) {
+
+      var element = angular.element(event.target);
+      if (!queryString || !sendKeyIsPressed(event) || element.attr("mention") === "true") {
         return;
       }
+      // if (!sendKeyIsPressed(e) || !queryString) {
+      //   return;
+      // }
 
       search(queryString);
     }
@@ -109,21 +116,21 @@
       searchMessages(vm.queryString);
     }
 
-    function clearSearchQuery() {
-      vm.queryString = '';
-      search('');
+    function backToPlace() {
+      if (vm.refererPlaceId){
+        $state.go('place-messages', { placeId : vm.refererPlaceId});
+      } else {
+        $state.go(NST_DEFAULT.STATE);
+      }
     }
 
-    vm.bodyScrollConf = {
-      axis: 'y',
-      callbacks: {
-        onTotalScroll: function () {
-          vm.loadMore();
-        },
-        onTotalScrollOffset: 10,
-        alwaysTriggerOffsets: false
+    $(window).scroll(function (event) {
+      var element = event.currentTarget;
+      if (element.pageYOffset + element.innerHeight === $('body').height()) {
+        $log.debug("load more");
+        vm.loadMore();
       }
-    };
+    });
   }
 
 })();

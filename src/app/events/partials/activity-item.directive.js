@@ -2,13 +2,14 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.activity')
     .directive('activityItem', ActivityItem);
 
   /** @ngInject */
   function ActivityItem(NST_EVENT_ACTION) {
     return {
       restrict: 'E',
+      transclude : true,
       scope: {
         activity: '=model',
         extended: '=extended',
@@ -16,6 +17,7 @@
       },
       link: function (scope, elem, attrs) {
 
+        // TODO: Do not modify the view-model here!!
         if (scope.place){
           scope.activity.inSpecificPlace = true;
         }
@@ -58,7 +60,7 @@
             break;
         }
       },
-      template: '<div class="evrow _fw _fn" data-ng-include="tplUrl" data-ng-init="act = activity;extended = extended"></div>'
+      template: '<div class="evrow _fw _fn use-ng-animate" ng-class="{ hot : activity.isHot }" data-ng-include="tplUrl" data-ng-init="act = activity;extended = extended"></div>'
     };
   }
 

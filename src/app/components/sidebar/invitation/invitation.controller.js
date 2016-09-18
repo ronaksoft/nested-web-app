@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .controller('InvitationController', function ($state, $scope, $uibModalInstance, NstVmInvitation, argv){
       var vm = this;
 

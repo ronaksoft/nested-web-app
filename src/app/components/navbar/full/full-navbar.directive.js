@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.navbar')
     .directive('nstNavbar', Navbar);
 
   /** @ngInject */
@@ -15,8 +15,12 @@
       bindToController: true,
       scope: {
         controls: '=',
-        place: '=',
-        page: '='
+        page: '=',
+        pictureUrl : '@navPictureUrl',
+        pictureClass : '@navPictureClass',
+        title : '@navTitle',
+        placeId : '@',
+        readyToShow : '='
       }
     };
   }

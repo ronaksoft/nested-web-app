@@ -2,10 +2,10 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.date')
     .filter('date', function() {
 
-      var dateFilter = function(date, format) {
+      return function(date, format) {
         if (!moment.isMoment(date)) {
           date = moment(date);
         }
@@ -30,9 +30,6 @@
             }
 
             return date.format("MMM DD YYYY"); // last year and older
-          case 'passed':
-            // 'true' just removes the trailing 'ago'
-            return date.fromNow(false);
           case 'long':
             return date.format("MMM DD YYYY, HH:mm");
           case 'full':
@@ -42,8 +39,5 @@
         }
       }
 
-      dateFilter.$stateful = true;
-
-      return dateFilter;
     });
 })();

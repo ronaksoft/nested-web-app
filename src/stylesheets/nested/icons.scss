@@ -1,0 +1,384 @@
+
+.icon {
+  color: $color-breeze;
+  background-size: cover;
+}
+
+.icon-side {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-repeat: no-repeat;
+  margin: 0 5px 0 15px;
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+.icon-all-place {
+  background-position: 0 0px;
+}
+
+.icon-bookmarks {
+  background-position: 0 -24px;
+}
+
+.icon-sent {
+  background-position: 0 -48px;
+}
+
+.icon-add {
+  background-image: url("../assets/icons/actionbuttons_place.svg");
+  background-position: 0 -48px;
+}
+
+.icon-nav {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-repeat: no-repeat;
+  margin: 0 15px 0 0;
+  flex: none;
+  width: 48px;
+  height: 48px;
+}
+.icon-top-action {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-repeat: no-repeat;
+  flex: none;
+  width: 48px;
+  height: 48px;
+}
+.icon-top-all-place {
+  background-position: 0 0px;
+}
+
+.icon-top-bookmarks {
+  background-position: 0 -48px;
+}
+
+.icon-top-sent {
+  background-position: 0 -96px;
+}
+.icon-top {
+  fill: white;
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  background-image: url("../assets/icons/smallscreenhandlers.svg");
+  background-repeat: no-repeat;
+}
+
+.hamburger-icon {
+  background-position: 0 0;
+}
+.comp-icon {
+  background-position: 0 -24px;
+}
+.close-icon {
+  background-position: 0 -48px;
+}
+.profile-icon {
+  background-position: 0 -72px;
+}
+.signout-icon {
+  background-position: 0 -96px;
+}
+
+.icon-compose {
+  background-image: url("../assets/icons/btnicon.svg");
+  background-repeat: no-repeat;
+  margin: 0 4px 0 0;
+  width: 20px;
+  height: 20px;
+}
+
+
+.icon-more {
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
+  height: 32px;
+  width: 32px;
+}
+
+.icon-search-rotated {
+  background: url('../assets/icons/search.svg') no-repeat;
+  width: 32px;
+  height: 32px;
+}
+.icon-search-rotated-white {
+  background: url('../assets/icons/search-white.svg') no-repeat;
+  width: 32px;
+  height: 32px;
+}
+.icon-close-search {
+  background: url('../assets/icons/search.svg') no-repeat;
+  width: 32px;
+  height: 32px;
+  background-position: 0 -32px;
+}
+
+.icon-storm {
+  color: $color-storm;
+}
+
+.icon-breez {
+  color: $color-breeze;
+}
+
+.icon-solid {
+  fill: $color-solid;
+}
+.icon-post {
+  background-image: url("../assets/icons/messageact.svg");
+  background-repeat: no-repeat;
+  margin: 0 5px;
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+}
+.icon-rp {
+  background-position: 0 0;
+}
+.icon-fw {
+  background-position: 0 -40px;
+}
+.icon-delete-menu {
+  background-position: 0 -20px;
+}
+.icon-post-head {
+  background-image: url("../assets/icons/headlineicon.svg");
+  background-repeat: no-repeat;
+  margin: 0 5px;
+  background-size: cover;
+  width: 16px;
+  height: 16px;
+}
+.icon-attached {
+  background-position: 0 0;
+}
+.icon-replied {
+  background-position: 0 -16px;
+}
+.icon-fwd {
+  background-position: 0 -32px;
+}
+.icon-open-link {
+  background-position: 0 -60px
+}
+
+[class*='icon-viewicon-']{
+  background: url('../assets/icons/viewicon.svg');
+  height: 24px;
+  width: 32px;
+  background-position: 0 0;
+  //top: 20px;
+  line-height: 24px;
+  position: relative;
+  z-index: 38;
+}
+
+.icon-viewicon-sort {
+  background-position: 0 -48px;
+  z-index: 37;
+}
+
+.icon-viewicon-filter {
+  background-position: 0 -24px;
+  z-index: 37;
+}
+
+.iconsblock {
+  //width: 38px;
+  display: flex;
+  height: 28px;
+  align-items: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  min-width: 32px;
+  margin-right: 8px;
+
+}
+.iconsblock-right {
+  margin-right: 28px;
+}
+
+.iconsblock:hover {
+  border-color: $color-breeze;
+  border-radius: 5px;
+  background-color: $color-white;
+}
+.icon-close {
+  background: url('../assets/icons/close.svg');
+  width: 24px;
+  height: 24px;
+}
+[class*="ei-"] {
+  width: 16px;
+  height: 16px;
+  background-image: url('../assets/icons/eventicon.svg');
+  margin-top: 8px;
+}
+
+.ei-mail-read {
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.ei-mail-unread {
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  margin-top: 6px;
+}
+
+.ei-member-join {
+  background-position: 0 -96px;
+  background-repeat: no-repeat;
+}
+
+.ei-member-leave {
+  background-position: center -80px;
+  background-repeat: no-repeat;
+}
+
+.ei-comment-add {
+  background-position: 0 -48px;
+  background-repeat: no-repeat;
+  margin-top: 6px;
+}
+
+.ei-invite {
+  background-position: 0 -112px;
+  background-repeat: no-repeat;
+  margin-top: 8px;
+}
+
+.ei-member-invite {
+  background-position: 0 -64px;
+  background-repeat: no-repeat;
+  margin-top: 8px;
+}
+.nst-ico-eye, .nst-ico-eye-slash {
+  background: url("../assets/icons/inputform.svg") no-repeat;
+  height: 32px;
+}
+
+.nst-ico-eye {
+  background-position: 0 -64px;
+}
+
+
+.option-delete-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place.svg");
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+}
+
+.option-leave-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place.svg");
+  background-position: 0 -24px;
+  background-repeat: no-repeat;
+}
+
+.option-rename-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place.svg");
+  background-position: 0 -72px;
+  background-repeat: no-repeat;
+}
+
+.option-add-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place.svg");
+  background-position: 0 -48px;
+  background-repeat: no-repeat;
+}
+
+.nst-event-pic {
+  width: 16px;
+  height: 16px;
+  background-image: url('../assets/icons/eventicon.png');
+  background-position: 0 -2px;
+  background-repeat: no-repeat;
+}
+
+.headlineicon {
+  width: 16px;
+  height: 16px;
+  background-image: url('../assets/icons/headlineicon.svg');
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+}
+
+.headlineicon-green {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/actionbuttons_compose_24.png');
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+[class*="action-button-post-"]{
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/actionbuttons_post.svg');
+}
+
+.action-button-post-delete {
+  background-position: 0 -48px;
+}
+
+.action-button-post-forward {
+  background-position: 0 -24px;
+}
+
+.delete-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/actionbuttons_post_24.png');
+  background-position: 0 -48px;
+  background-repeat: no-repeat;
+}
+
+.forward-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/actionbuttons_post_24.png');
+  background-position: 0 -24px;
+  background-repeat: no-repeat;
+}
+
+.Reply-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/actionbuttons_post_24.png');
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+}
+.closebut{
+  position: relative;
+  top: -5px;
+  height: 24px;
+  width: 24px;
+}
+
+[class*="profile-menu-"] {
+  background: url('../assets/icons/menuicon.svg') no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.profile-menusetting {
+  background: url('../assets/icons/placebuttons.svg') no-repeat;
+  width: 24px;
+  height: 24px;
+  background-position: 0 -35px;
+}
+
+.profile-menu-edit-profile {
+  background-position: 0 -120px;
+}
+
+.profile-menu-signout {
+  background-position: 0 -72px;
+}

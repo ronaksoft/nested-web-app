@@ -1,9 +1,9 @@
-angular.module('nested').directive('placeItems', placeItems);
+angular.module('ronak.nested.web.place').directive('placeItems', placeItems);
 
 function placeItems() {
   var directive = {
         link: link,
-        templateUrl: '/app/pages/places/list/place.items.html',
+        templateUrl: 'app/pages/places/list/place.items.html',
         restrict: 'EA',
         scope: {
           items: '=',

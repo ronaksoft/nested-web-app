@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .factory('NstVmPlace', NstVmPlace);
   // TODO: Why a view-model injects $state!!??
   function NstVmPlace($state, NstTinyPlace, NstPlace) {

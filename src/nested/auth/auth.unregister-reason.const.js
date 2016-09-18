@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .constant('NST_UNREGISTER_REASON', {
       LOGOUT: 'logout',
       AUTH_FAIL: 'authorization_fail',

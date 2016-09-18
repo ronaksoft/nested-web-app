@@ -2,76 +2,59 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.navbar')
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
   function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery) {
     var vm = this;
-    // $scope.$watch('place', function (newValue, oldValue) {
-    //   console.log('place value is : ', newValue);
-    //   if (oldValue !== newValue) {
-    //     vm.place = newValue;
-    //     generateUrls();
-    //   }
-    // });
-
     /*****************************
      *** Controller Properties ***
      *****************************/
 
+    isBookMark();
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
-    vm.getPlaceName = getPlaceName;
-    vm.getPlacePicture = getPlacePicture;
     vm.getMessagesUrl = getMessagesUrl;
     vm.getActivityUrl = getActivityUrl;
     vm.getSettingsUrl = getSettingsUrl;
     vm.search = search;
-    // generateUrls();
 
-    $scope.srch = function srch() {
-      for (var i = 0; i < arguments.length; i++) {
-        var id = arguments[i];
-        var e = document.getElementById(id);
-        if (e.style.display == 'block')
-          e.style.display = 'none';
-        else {
-          e.style.display = 'block';
-        }
+
+    vm.srch = function srch(el) {
+      var ele = $('#' + el);
+      var eleInp = ele.find('input');
+      var elePrv = ele.next();
+      var openStat = function () {
+        return ele[0].clientWidth > 0
+      };
+      function open() {
+        ele.stop().animate({
+          maxWidth : 1000
+        },300);
+        eleInp.focus();
+      }
+      function close() {
+        ele.stop().animate({
+          maxWidth : 0
+        },100);
+        eleInp.val("");
+      }
+      elePrv.stop().fadeToggle('slow','swing');
+      if (openStat()) {
+        close()
+      } else {
+        open()
       }
     };
 
-    function getPlaceName() {
-      return hasPlace() ? vm.place.name : 'All Places';
-    }
-
     function getPlaceId() {
-      return hasPlace() ? vm.place.id : '';
+      return vm.placeId;
     }
-
-    function getPlacePicture() {
-      var avatar = '/assets/icons/absents_place.svg';
-      if (hasPlace()) {
-        var thumbnail = vm.place.getPicture().getThumbnail(64);
-        if (thumbnail) {
-          if (!thumbnail.getId()) {
-            thumbnail = vm.place.getPicture().getLargestThumbnail();
-          }
-
-          if (thumbnail.getId()) {
-            avatar = thumbnail.getUrl().view;
-          }
-        }
-      }
-
-      return avatar;
-    }
-
 
     function hasPlace() {
-      return vm.place && vm.place.id;
+      return !!vm.placeId;
     }
 
 
@@ -97,6 +80,16 @@
       }
     }
 
+    function isBookMark() {
+      if ($state.current.name == 'messages-bookmarks' ||
+        $state.current.name == 'messages-bookmarks-sorted'){
+        vm.isBookmarkMode = true;
+        return true;
+      }
+      return false;
+    }
+
+
     /**
      * sendKeyIsPressed - check whether the pressed key is Enter or not
      *
@@ -108,11 +101,16 @@
     }
 
     function search(query, event) {
-      if (!sendKeyIsPressed(event)) {
+      if (!sendKeyIsPressed(event) || !query) {
         return;
       }
+      var searchQury = new NstSearchQuery(query);
 
-      $state.go('search', { query : NstSearchQuery.encode(query) });
+      if (hasPlace()){
+        searchQury.addPlace(getPlaceId());
+      }
+
+      $state.go('search', { query : NstSearchQuery.encode(searchQury.toString()) });
     }
 
     $scope.$watch('topNavOpen',function (newValue,oldValue) {

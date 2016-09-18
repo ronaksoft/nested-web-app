@@ -2,14 +2,14 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web')
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider) {
+  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, $animateProvider) {
 
     localStorageServiceProvider
-      .setPrefix('nested');
+      .setPrefix('ronak.nested.web');
 
     // Enable log
     $logProvider.debugEnabled(true);
@@ -45,19 +45,11 @@
     toastrConfig.preventOpenDuplicates = true;
     toastrConfig.progressBar = true;
 
-    // Scrollbars
-    ScrollBarsProvider.defaults = {
-      theme: 'minimal-dark',
-      scrollInertia: 150,
-      advanced: {
-        updateOnContentResize: true
-      },
-      autoHideScrollbar: true
-    };
-
     //config emojiOne
     emojione.imageType = 'svg';
     emojione.sprites = true;
     emojione.imagePathSVGSprites = './../bower_components/emojione/assets/sprites/emojione.sprites.svg';
+
+    $animateProvider.classNameFilter(/use-ng-animate/);
   }
 })();

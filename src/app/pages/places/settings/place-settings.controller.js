@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.place')
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
@@ -18,7 +18,8 @@
      *****************************/
 
     vm.options = {
-      notification: null
+      notification: null,
+      bookmark : null
     };
     vm.hasRemoveAccess = null;
     vm.hasAddPlaceAccess = null;
@@ -28,6 +29,7 @@
 
     vm.updatePrivacy = updatePrivacy;
     vm.setNotification = setNotification;
+    vm.setBookmark = setBookmark;
     vm.update = update;
     vm.addMember = addMember;
     vm.inviteParticipant = inviteParticipant;
@@ -49,17 +51,20 @@
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
+        vm.placeLoaded = true;
         vm.isGrandPlace = !vm.place.parent || !vm.place.parent.id;
 
         $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));
 
         return $q.all([
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
-          NstSvcPlaceFactory.getNotificationOption(vm.placeId)
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
+          NstSvcPlaceFactory.getNotificationOption(vm.placeId),
+          NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred'),
+          NstSvcPlaceFactory.getBookmarkedPlaces('_starred')
         ]);
       }).then(function(values) {
         vm.hasRemoveAccess = values[0];
@@ -68,6 +73,8 @@
         vm.hasAddMembersAccess = values[3];
         vm.hasSeeMembersAccess = values[4];
         vm.options.notification = values[5];
+        vm.options.bookmark = values[6];
+        vm.options.bookmark1 = values[7];
 
         $log.debug(NstUtility.string.format('Place "{0}" settings retrieved successfully.', vm.place.name));
 
@@ -174,7 +181,22 @@
      * @return {type}  description
      */
     function allowedToLeave() {
-      return vm.teamates && vm.teamates.length > 1;
+
+      if (!vm.teamates){
+        return false;
+      }
+
+      var creators = vm.teamates.filter(function (member) {
+        return member.role === NST_PLACE_MEMBER_TYPE.CREATOR;
+      });
+
+
+      if (creators.length ===  0 || (creators.length === 1 && creators[0].id === NstSvcAuth.user.id)){
+        return false;
+      }
+
+      return true;
+
     }
 
     function hasAnyControlOverHere() {
@@ -305,7 +327,7 @@
     }
 
     function leave() {
-      NstSvcPlaceFactory.removeMember(vm.place.id, NstSvcAuth.user.id).then(function(result) {
+      NstSvcPlaceFactory.removeMember(vm.place.id, NstSvcAuth.user.id, true).then(function(result) {
         $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
         if (error instanceof NstPlaceOneCreatorLeftError){
@@ -348,6 +370,15 @@
     function setNotification() {
       NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.options.notification).then(function(result) {
         $log.debug(NstUtility.string.format('Place {0} notification setting changed to {1} successfully.', vm.place.id, vm.options.notification));
+      }).catch(function(error) {
+        $log.debug(error);
+      });
+    }
+
+
+    function setBookmark() {
+      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, '_starred', vm.options.bookmark).then(function(result) {
+        $log.debug(NstUtility.string.format('Place {0} bookmark setting changed to {1} successfully.', vm.place.id, vm.options.bookmark));
       }).catch(function(error) {
         $log.debug(error);
       });
@@ -422,84 +453,9 @@
     var tl = new TimelineLite({});
     var cp = document.getElementById("cp1");
     var nav = document.getElementsByTagName("nst-navbar")[0];
-    TweenLite.to(nav, 0.1, {
-      minHeight: 183,
-      maxHeight: 183,
-      height: 183,
-      ease: Power1.easeOut
-    });
     $timeout(function () {
       $rootScope.navView = false
     });
-    vm.bodyScrollConf = {
-      axis: 'y',
-      callbacks: {
-        whileScrolling: function () {
-          var t = -this.mcs.top;
-          //$timeout(function () { $rootScope.navView = t > 55; });
-          //console.log(tl);
-          tl.kill({
-            y: true
-          }, cp);
-          TweenLite.to(cp, 0.5, {
-            y: t,
-            ease: Power2.easeOut,
-            force3D: true
-          });
-          if (t > 55 && !$rootScope.navView) {
-            //tl.kill({minHeight:true,maxHeight:true}, nav);
-            TweenLite.to(nav, 0.1, {
-              minHeight: 131,
-              maxHeight: 131,
-              height: 131,
-              ease: Power1.easeOut
-            });
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          } else if (t < 55 && $rootScope.navView) {
-            TweenLite.to(nav, 0.1, {
-              minHeight: 183,
-              maxHeight: 183,
-              height: 183,
-              ease: Power1.easeOut
-            });
-            $timeout(function () {
-              $rootScope.navView = t > 55;
-            });
-          }
-
-          //tl.lagSmoothing(200, 20);
-          tl.play();
-          // $("#content-plus").stop().animate(
-          //   {marginTop:t}, {duration:1});
-          // TweenMax.to("#cp1", .001, {
-          //   y: t, ease:SlowMo.ease.config(0.7, 0.7, true)
-          // });
-          //TweenMax.lagSmoothing(500, 33);
-
-
-          //   var func = function () {
-          //     console.log(t);
-          //     $("#content-plus").animate(
-          //       {marginTop:t}, {duration:1, easing:"easeOutStrong"});
-          //   };
-          //   var debounced = _.debounce(func, 250, { 'maxWait': 1000 });
-          //   if ( t > 0) {
-          //     debounced();
-          //   } else if(t == 0){
-          //   $("#content-plus").stop().css({
-          //     marginTop: 0
-          //   });
-          // }
-        },
-        onTotalScroll: function () {
-          vm.loadMore();
-        },
-        onTotalScrollOffset: 10,
-        alwaysTriggerOffsets: false
-      }
-    };
 
   }
 })();

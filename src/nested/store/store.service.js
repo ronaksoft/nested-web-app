@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.file')
     .service('NstSvcStore', NstSvcStore);
 
   function NstSvcStore($q, $http, $log,

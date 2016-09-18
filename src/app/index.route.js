@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web')
     .config(routerConfig);
 
   /** @ngInject */
@@ -24,6 +24,13 @@
         templateUrl: 'app/user/register/main.html',
         controller: 'RegisterController',
         controllerAs: 'ctlRegister'
+      })
+
+      .state('recover', {
+        url: '/recover',
+        templateUrl: 'app/user/reset-password/main.html',
+        controller: 'ResetPasswordController',
+        controllerAs: 'ctlRecoverAcc'
       })
 
       .state('register-with-phone', {
@@ -67,9 +74,41 @@
 
       .state('profile', {
         url: '/profile',
-        templateUrl: 'app/pages/account/profile/edit/main.html',
+        templateUrl: 'app/pages/account/profile-edit/profile-edit.html',
         controller: 'ProfileEditController',
-        controllerAs: 'ctlProfileEdit'
+        controllerAs: 'ctlProfileEdit',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
+      })
+      .state('change-password', {
+        url: '/change-password',
+        templateUrl: 'app/pages/account/change-password/change-password.html',
+        controller: 'ChangePasswordController',
+        controllerAs: 'ctlPass',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
       })
 
       /*****************************
@@ -80,7 +119,21 @@
         url: '/compose',
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
+
       })
       .state('place-compose', {
         url: '/compose/:placeId',
@@ -89,7 +142,20 @@
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
       })
       .state('compose-forward', {
         url: '/forward/:postId',
@@ -98,7 +164,20 @@
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
       })
       .state('compose-reply-all', {
         url: '/reply/:postId',
@@ -107,7 +186,20 @@
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
       })
       .state('compose-reply-sender', {
         url: '/reply/:postId/sender',
@@ -116,7 +208,20 @@
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
+        controllerAs: 'ctlCompose',
+        resolve: {
+          PreviousState: [
+            "$state",
+            function ($state) {
+              var currentStateData = {
+                Name: $state.current.name,
+                Params: $state.params,
+                URL: $state.href($state.current.name, $state.params)
+              };
+              return currentStateData;
+            }
+          ]
+        },
       })
 
       /*****************************

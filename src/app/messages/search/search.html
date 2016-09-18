@@ -1,6 +1,4 @@
-<div class="nst-content _tr" id="content-wrapper" ng-scrollbars ng-scrollbars-config="ctlSearch.bodyScrollConf"
-     onscroll="angular.element(this).scope().ctlSearch.scroll(event);angular.element(this).scope().ctlApp.scroll(event)"
-     ng-swipe-left="">
+<div class="nst-content _tr" id="content-wrapper">
   <section class="content nst-marginbtm-28">
 
     <!-- <ui-select multiple tagging class="" data-ng-model="ctlSearch.queryItems" on-select="ctlSearch.selectSuggestedItem();">
@@ -22,9 +20,9 @@
     <!-- <input type="input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
     <button type="button" ng-click="ctlSearch.search(ctlSearch.queryString);">Search</button> -->
     <div class="top-section">
+      <button class="search-clear" type="button" ng-click="ctlSearch.backToPlace();">×</button>
       <div class="search-input-group">
-        <button class="search-clear" type="button" ng-click="ctlSearch.clearSearchQuery();">×</button>
-        <input type="text" class="search-input" ng-model="ctlSearch.queryString"
+        <input  type="text" nst-mention class="search-input" ng-model="ctlSearch.queryString"
                ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
         <button type="button" class="search-button" ng-click="ctlSearch.search(ctlSearch.queryString);">
           <div class="icon-search-rotated-white"></div>

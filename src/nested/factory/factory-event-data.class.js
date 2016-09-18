@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .factory('NstFactoryEventData', NstFactoryEventData);
 
   /** @ngInject */
@@ -13,9 +13,6 @@
      * @constructor
      */
     function FactoryEventData(object) {
-      if (!object) {
-        throw new Error('Could not find object.');
-      }
       this.detail = object;
     }
 

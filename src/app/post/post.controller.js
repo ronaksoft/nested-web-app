@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .controller('PostController', PostController);
 
   /** @ngInject */
@@ -35,6 +35,7 @@
       vm.post = vmPost;
       if (vm.post.comments) {
         vm.comments = vm.post.comments;
+        vm.scrollToNewComment = vm.comments.length;
       }
     }
     vm.postId = $stateParams.postId || postId;
@@ -68,10 +69,16 @@
 
     function loadComments() {
       vm.commentSettings.date = getDateOfOldestComment(vm.postModel);
+      var commentCount = vm.comments.length;
 
       return reqGetComments(vm.postModel, vm.commentSettings).then(function (comments) {
         vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
-        vm.scrolling = true;
+        if (commentCount == 0){
+            vm.scrollToNewComment = vm.comments.length;
+        }else{
+          vm.scrollToNewComment = false;
+        }
+        // vm.scrolling = true;
       }).catch(function (error) {
         // TODO: create a service that handles errors
         // and knows what to do when an error occurs
@@ -84,20 +91,29 @@
      * @param  {Event}  event   keypress event handler
      */
     function sendComment(event) {
-      if (!sendKeyIsPressed(event)) {
+
+      //var cm = event.currentTarget.innerText;
+      var cm = event.currentTarget.value;
+
+      var element = angular.element(event.target);
+      if (!sendKeyIsPressed(event) || element.attr("mention") === "true") {
         return;
       }
 
-      var body = extractCommentBody(event);
+      // if (!sendKeyIsPressed(event)) {
+      //   return;
+      // }
+
+      var body = extractCommentBody(cm);
       if (0 == body.length) {
         return;
       }
 
       vm.nextComment = "";
-
       reqAddComment(vm.postModel, body).then(function(comment) {
         // TODO: notify
         pushComment(comment);
+        vm.scrollToNewComment = vm.comments.length;
         event.currentTarget.value = '';
         vm.scrolling = $scope.unscrolled && true;
       }).catch(function(error) {
@@ -115,8 +131,11 @@
      * @param  {NstComment}  comment   the comment
      */
     function removeComment(comment) {
+      if (vm.status.commentRemoveProgress) {
+        return;
+      }
       reqRemoveComment(vm.postModel, comment).then(function(post) {
-        // TODO: Notify
+        NstUtility.collection.dropById(vm.comments, comment.id);
       }).catch(function(error) {
         // TODO: decide && show toastr
       });
@@ -150,7 +169,7 @@
 
 
         /**
-         * previewPlaces - preview the places that have delete access and let the user to chose one
+         * previewPlaces - preview the places that have delete access and let the user to choose one
          *
          * @param  {type} places list of places to be shown
          */
@@ -445,8 +464,8 @@
      *
      * @return {string}       refined comment
      */
-    function extractCommentBody(event) {
-      return event.currentTarget.value.trim();
+    function extractCommentBody(cm) {
+      return cm.trim();
     }
 
     function findOldestComment(post) {
@@ -467,9 +486,13 @@
     }
 
     function allowToRemoveComment(comment) {
+      if (comment && comment.id && vm.user && vm.user.id) {
+        var now = Date.now();
+        return comment.sender.username === vm.user.id
+        && ((now - comment.date) < 20 * 60 * 1e3);
+      }
+
       return false;
-      return comment.sender.username === vm.user.id
-        && (Date.now() - comment.date < 20 * 60 * 1e3);
     }
   }
 })();

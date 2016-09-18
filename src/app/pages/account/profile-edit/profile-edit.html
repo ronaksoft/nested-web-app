@@ -1,0 +1,61 @@
+<nst-navbar controls="ctlProfileEdit.controls" nav-title="Profile" page="ctlApp.page" ready-to-show="true" class="second-view"></nst-navbar>
+
+<div class="nst-content second-view" id="content-wrapper" page-change="ctlProfileEdit.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+  <section class="content _bgwhite">
+    <div class="navbarillu"></div>
+    <div class="panel-profile-setting">
+      <div class="_fw upload-photo-container">
+        <div class="_ma upload-photo">
+          <label for="logo">
+            <img ng-show="!ctlProfileEdit.uploadedImage && ctlProfileEdit.model.picture.url"  ng-src="{{ctlProfileEdit.model.picture.url}}">
+            <img ng-show="ctlProfileEdit.uploadedImage" ng-src="{{ctlProfileEdit.model.picture.url}}">
+            <img ng-if="!ctlProfileEdit.model.picture.url && !ctlProfileEdit.uploadedImage" initials="ctlProfileEdit.model.fullName" data-width="size" data-height="size" data-radius="64" data-word-count="2" data-font-size="16">
+          </label>
+          <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlProfileEdit.setImage(event)">
+          <div class="probut">
+            <div ng-if="ctlProfileEdit.model.picture.url" class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImage()" role="button"></div>
+            <label for="logo" class="add-photo-hover"></label>
+          </div>
+        </div>
+      </div>
+      <img-crop ng-if="ctlProfileEdit.uploadedImage" style="height: 80px; display: none" image="ctlProfileEdit.model.picture.uploaded" result-image="ctlProfileEdit.model.picture.url" result-image-quality="1"></img-crop>
+
+      <div class="inner-panel _ma">
+        <div class="_tac profile-name">{{ctlProfileEdit.model.fullName}}</div>
+        <div class="_tac nst-mood-storm profile-id">@{{ctlProfileEdit.model.id}}</div>
+        <div class="text-center">
+          <a class="_tac nst-marginbtm-32 changePassLink" ui-sref="change-password">Change Password</a>
+        </div>
+        <form ng-submit="ctlProfileEdit.save(profileForm.$valid);" name="profileForm" novalidate>
+          <div class="form-group" ng-class="{ 'has-error' : profileForm.firstName.$invalid && ctlProfileEdit.submitted}">
+            <label for="firstName" ng-if="profileForm.firstName.$valid || !ctlProfileEdit.submitted">First name</label>
+            <label class="error-message" ng-if="profileForm.firstName.$error.required && ctlProfileEdit.submitted">First name is required</label>
+            <input name="firstName" class="form-control" type="text" data-ng-model="ctlProfileEdit.model.firstName" required/>
+          </div>
+          <div class="form-group" ng-class="{ 'has-error' : profileForm.lastName.$invalid && ctlProfileEdit.submitted}">
+            <label for="lastName" ng-if="profileForm.lastName.$valid || !ctlProfileEdit.submitted">Last Name</label>
+            <label for="lastName" ng-if="profileForm.lastName.$error.required && ctlProfileEdit.submitted">Last name is required</label>
+            <input name="lastName" class="form-control" type="text" data-ng-model="ctlProfileEdit.model.lastName" required/>
+          </div>
+          <div class="form-group">
+            <label for="phone">Mobile phone</label>
+            <input class=" _fw" name="phone" international-phone-number default-country="IR" country="ctlProfileEdit.model.country" data-ng-model="ctlProfileEdit.model.phone" disabled/>
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select name="gender" ng-model="ctlProfileEdit.model.gender" ng-options="gender.key as gender.title for gender in ctlProfileEdit.genders" class="form-control" disabled/>
+          </div>
+          <div class="form-group">
+            <label for="dateOfBirth">Date of Birth</label>
+            <input name="dateOfBirth" class="select-birthday" ng-model="ctlProfileEdit.model.dateOfBirth" rsmdatedropdowns/>
+          </div>
+          <div class="form-action">
+            <button type="submit" class="butn-green _fw">Save & Exit</button>
+          </div>
+        </form>
+
+      </div>
+      <!-- <div class="restplace _df _fh"></div> -->
+    </div>
+  </section>
+</div>

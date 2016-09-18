@@ -1,174 +1,31 @@
-
 /**
   **********************************************************
   *     Nested Classes - Page Specific - Events  *
   **********************************************************
  */
-.eventsody {
- min-height: 100%;
-}
-.moreevent {
-  height: 50px;
-}
-.morerow {
-  display: table-cell;
-  vertical-align: bottom;
-  min-height: 15px;
+.eventsbody {
+  min-height: 100%;
 }
 
-#EventList .msg a {
-  color: $color-sense-wire;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-#EventList.msg a:visited {
-  color: $color-sense-wire;
-}
-
-.nst-event-pic {
-  width: 16px;
-  height: 16px;
-  background-image: url('../assets/icons/eventicon.png');
-  background-position: 0 -2px;
-  background-repeat: no-repeat;
-}
-
-.decline {
-  background-color: $color-white;
-  border-color: $color-calm;
-  border-radius: 5px;
-  padding: 0px;
-  color: $color-storm;
-  display: inline-block;
-  font-size: $font-size-small;
-  height: 22px;
-  width: 80px;
-}
-
-.accept {
-  background-color: $color-sense;
-  border-color: $color-calm;
-  border-radius: 5px;
-  padding: 0px;
-  color: $color-white;
-  display: inline-block;
-  font-size: $font-size-small;
-  height: 22px;
-  width: 80px;
-}
-
-.headlineicon {
-  width: 16px;
-  height: 16px;
-  background-image: url('../assets/icons/headlineicon.svg');
-  background-position: 0 0px;
-  background-repeat: no-repeat;
-}
-
-.headlineicon-green {
-  width: 24px;
-  height: 24px;
-  background-image: url('../assets/icons/actionbuttons_compose_24.png');
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
-.event-group-time {
-  //margin-top: 15px;
-  width: 100%
-}
-
-.event-group-time:hover {
-  background-color: $color-white !important;
-}
-
-.event-group-time .msg,
-.event-group-time .time,
-.event-group-time .places,
-.event-group-time .sender {
-  border-bottom: none !important;
-}
-
-.daily-time p {
-  margin-left: 10px;
-  margin-top: 15px;
-
-}
-
-// TODO: color should change
-#EventList {
-  width: 100%;
-  height: auto;
-  flex: none;
-}
 .actdate {
   min-height: 25px;
-  margin-left: 8px;
-  width: 100%;
-}
-#EventList .ico {
-  display: block;
-  float: left;
-  width: 40px;
   padding-left: 8px;
-  vertical-align: top;
-}
-
-.evrow {
-  position: relative;
-  display: flex;
-  margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
-  padding: 0 5px;
-  min-width: 600px;
   width: 100%;
-  animation: appearence .2s linear;
-}
-
-@keyframes recent-event {
-  0% {
-    background-color: $color-white;
-  }
-  100% {
-    background-color: #E7FBF0;
-  }
-}
-@keyframes seen-event {
-  0%, 25%, 50% {
-    background-color: #E7FBF0;
-  }
-  100% {
-    background-color: $color-white;
-  }
-}
-
-.evrow.recent {
-  background-color: #E7FBF0;
-}
-.evrow.seen {
-  animation:         seen-event 3s ease-out;
-}
-
-#EventList .evrow:hover {
-  background-color: #E7FBF0;
-}
-
-#EventList .evrow:hover .time{
-  background-color: #E7FBF0;
 }
 
 .actcon {
-  border-bottom: 1px solid #ced9d3;
+  border-bottom: 1px solid $color-breeze;
   padding: 6px 5px;
-  min-width:400px;
+  //min-width:400px;
   width: 100%;
   float: left;
   display: inline-flex;
   animation: app-tr .5s ease-out;
+  & > *{
+    animation: off-right .1s ease-out;
+  }
 }
-.actcon > *{
-  animation: off-right .1s ease-out;
-}
+
 .actdes {
   cursor: default;
   min-width: 200px;
@@ -176,296 +33,124 @@
   position: relative;
   padding-top: 1px;
 }
-
-#EventList .sender {
-  float: left;
-  display: block;
-  width: calc(100% - 40px);
-  vertical-align: top;
-  margin-top: 5px;
-  font-size: small;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: keep-all;
-  white-space: nowrap;
+.placeactsico {
+  margin-top: 8px;
+  border-radius: 50%;
 }
-
-#EventList .sender img {
-  margin-left: 2px;
-  margin-right: 4px;
-  border-radius: 16px;
-}
-
-#EventList .sender span {
-  line-height: 24px;
-  vertical-align: baseline;
-}
-
-#EventList .msg {
+#EventList {
   width: 100%;
-  overflow: hidden;
-  flex-direction: column;
-  padding-left: 10px;
+  height: auto;
+  flex: none;
+  .evrow {
+    position: relative;
+    display: flex;
+    margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
+    padding: 0 5px;
+    width: 100%;
+    &:hover{
+      background-color: #E7FBF0;
+    }
+    &.hot {
+      background-color: $hot-bg-color;
+      overflow-y: hidden;
+      &.ng-enter {
+        animation: activity-item-hot 0.64s ease-in-out forwards;
+      }
+    }
+    &.seen {
+      background: inherit;
+      animation: activity-item-normal 0.64s 3s ease-out backwards;
+    }
+  }
+  .ico {
+    display: block;
+    float: left;
+    width: 16px;
+    padding-left: 8px;
+    vertical-align: top;
+  }
+  .sender {
+    display: inline-flex;
+    width: calc(100% - 40px);
+    vertical-align: top;
+    margin-top: 5px;
+    font-size: small;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    white-space: nowrap;
+    > div:first-child {
+      margin-left: 2px;
+      margin-right: 4px;
+    }
+    span {
+      line-height: 24px;
+      vertical-align: baseline;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .msg {
+    width: 100%;
+    overflow: hidden;
+    flex-direction: column;
+    padding-left: 10px;
+    .subject {
+      display: flex;
+      font-weight: bold;
+      line-height: 24px;
+      .nst-mood-simple {
+        font-size: $font-size-small;
+        font-weight: 400;
+      }
+    }
+    a {
+      color: $color-sense-wire;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &:visited {
+        color: $color-sense-wire;
+      }
+    }
+    .bod {
+      color: gray;
+    }
+    .nst-mood-simple {
+      white-space: nowrap
+    }
+  }
+  .places {
+    display: flex;
+    flex:none;
+    max-width: 100%;
+    margin-left: 3px;
+    height: 16px;
+    direction: rtl;
+    font-size: $font-size-xsmall;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    top: 4px;
+    padding: 0 5px;
+  }
+  .time {
+    vertical-align: baseline;
+    float: left;
+    min-width: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    color: $color-solid-60;
+    flex: none;
+    margin-top: 4px;
+    span {
+      font-size: $font-size-xsmall;
+    }
+  }
 }
-.subject .nst-mood-simple {
-  font-size: $font-size-small;
-  font-weight: 400;
-}
-#EventList .msg .subject {
-  display: flex;
-  font-weight: bold;
-  line-height: 24px;
-}
+
 .post {
   color: $color-solid!important;
   font-weight: 550;
-}
-#EventList .msg .bod {
-  color: gray;
-}
-#EventList .msg .nst-mood-simple {
-  white-space: nowrap
-}
-
-#EventList .places {
-  display: flex;
-  flex:none;
-  max-width: 100%;
-  margin-left: 3px;
-  height: 16px;
-  direction: rtl;
-  font-size: $font-size-xsmall;
-  justify-content: flex-start;
-  align-items: center;
-  position: relative;
-  top: 4px;
-  padding: 0 5px;
-}
-#EventList .time {
-  vertical-align: baseline;
-  float: left;
-  min-width: 50px;
-  width: 50px;
-  display: flex;
-  justify-content: center;
-  color: $color-solid-60;
-  flex: none;
-  margin-top: 4px;
-  span {
-    font-size: 11px;
-  }
-}
-#EventList #time-of-event {
-  width: 400px;
-}
-
-.more-tag {
-  background-color: #8AEBB4;
-  margin-left: 5px;
-  cursor: pointer;
-  border-radius: 32px;
-  white-space: nowrap;
-  height: 16px;
-  line-height: 16px;
-  flex : none;
-  color: #476152;
-  padding: 0px 8px 2px 8px;
-  font-size: $font-size-xsmall;
-  align-self: center;
-}
-.more-tag:hover {
-  color: $color-white;
-  background-color: #476152;
-}
-
-#EventList.collapse .msg .bod {
-  display: none;
-}
-
-#EventList.collapse .msg .attachments {
-  display: none;
-}
-
-.msg .headlineicon {
-  //margin-top: 2px;
-}
-
-#load-more-events {
-  cursor: pointer;
-}
-
-.attachment-badge-bar {
-  background-color: $color-breeze-50;
-  border-radius: 5px;
-  display: inline-block;
-  padding-left: 5px;
-  padding-right: 8px;
-  overflow: hidden;
-}
-
-//
-//.attachment-badge-doc {
-//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-//  background-position: 0 0px;
-//  margin-top: 4px;
-//}
-//
-//.attachment-badge-img {
-//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-//  width: 24px;
-//  height: 10px;
-//  background-position: 0 -10px;
-//  margin-top: 4px;
-//
-//}
-//
-//.attachment-badge-pdf {
-//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-//  width: 24px;
-//  height: 10px;
-//  background-position: 0 -20px;
-//  margin-top: 4px;
-//}
-//
-//.attachment-badge-file {
-//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-//  width: 24px;
-//  height: 10px;
-//  background-position: 0 -30px;
-//  margin-top: 4px;
-//}
-//
-//.attachment-badge-zip {
-//  background: url('../assets/icons/attachment_badge2.png') no-repeat;
-//  width: 24px;
-//  height: 10px;
-//  background-position: 0 -40px;
-//  margin-top: 4px;
-//}
-
-#content {
-  background-color: $color-sense;
-}
-
-.nst-event-name {
-  width: 128px;
-  vertical-align: top;
-  font-size: $font-size-small;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: keep-all;
-  white-space: nowrap;
-}
-
-.nst-green-tag {
-  display: inline-block;
-  background-color: #89EBB4;
-  border-radius: 10px;
-  margin: 1px;
-  padding: 1px 5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: keep-all;
-  white-space: nowrap;
-  max-width: 100px;
-}
-
-
-.title-bar-hr {
-  width: 96%;
-  float: right;
-  margin: 0;
-}
-.margin-top-6 {
-  margin-top: -6px;
-}
-.margin-top-20 {
-  margin-top:20px;
-}
-.title-bar-holder {
-  min-width: 500px;
-  width: 100%;
-  float: left;
-}
-
-.logo-bar {
-  //width: 56px;
-  //margin: 16px;
-  width: 64px;
-  margin: 0 8px;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-}
-$spacing: 14px;
-.resizable {
-  position: relative;
-  &.no-transition {
-    transition: none !important;
-}
-}
-
-.rg-right, .rg-left, .rg-top, .rg-bottom {
-  display: block;
-  width: $spacing; height: $spacing; line-height: $spacing;
-  position: absolute;
-  z-index: 1;
-  @include user-select(none);
-  span {
-    position: absolute;
-    box-sizing: border-box;
-    display: block;
-    border: 1px solid #ccc;
-  }
-}
-.rg-right, .rg-left {
-  span {
-    border-width: 0 0;
-    top: 50%; margin-top: -10px;
-    margin: -10px 0 0 $spacing/4;
-    height: 20px;
-    width: $spacing/2;
-  }
-}
-.rg-top, .rg-bottom {
-  span {
-    border-width: 1px 0;
-    left: 50%;
-    margin: $spacing/4 0 0 -10px;
-    width: 20px;
-    height: $spacing/2;
-  }
-}
-.rg-right   {
-  cursor: col-resize;
-  height: 100%;
-  right: 0;
-  top: 0;
-  margin-right: -6px;
-}
-
-.members-status-nav {
-  width: 110px;
-  margin-top: 24px;
-}
-.title-att {
-  //margin-top: 100%;
-  padding-top: 100%;
-  font-weight: 500;
-}
-.title-bar {
-  height: 80px;
-}
-
-.title-bar .name span{
-  align-items: center;
-  //padding-top: 10px;
-}
-.title-bar .name{
-  justify-content: center;
-}
-.title-bar .name a{
-  align-items: flex-end;
-  font-size: 32px;
-  font-weight: 100;
 }
