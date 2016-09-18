@@ -12,6 +12,14 @@ input[type='text'], input[type='password'], input[type='tel'] {
   padding-left: 10px;
 }
 
+.intl-tel-input .selected-flag {
+  width: 45px;
+}
+
+.intl-tel-input .selected-flag .arrow {
+  display: none;
+}
+
 input[type="checkbox"] {
   max-width: 1px;
 }
