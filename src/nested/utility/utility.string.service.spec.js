@@ -5,16 +5,14 @@ describe('NstUtilString', function () {
     NstUtilString = _NstUtilString_;
   }));
 
-  describe('format()', function () {
+  describe('format(text [,arguments])', function () {
     it('should return the same text if any parameter is not provided', function () {
       var text = "Hello {0}";
       var result = NstUtilString.format(text);
 
       expect(result).to.be.equal(text);
     });
-  });
 
-  describe('format()', function () {
     it('should replace all occurrence', function () {
       var text = "Welcome {0}, What do you want {0}?";
       var result = NstUtilString.format(text, "John");
@@ -22,9 +20,7 @@ describe('NstUtilString', function () {
 
       expect(result).to.be.equal(expected);
     });
-  });
 
-  describe('format()', function () {
     it('should skip extra parameters', function () {
       var text = "Welcome {0}, What do you want {1}?";
       var result = NstUtilString.format(text, "John", "Brad", "Mike", "Tom", "Todd");
@@ -32,9 +28,7 @@ describe('NstUtilString', function () {
 
       expect(result).to.be.equal(expected);
     });
-  });
 
-  describe('format()', function () {
     it('should replace items of an array', function () {
       var text = "Welcome {0}, What do you want {1}?";
       var result = NstUtilString.format(text, ["John", "Fred"]);
@@ -42,9 +36,7 @@ describe('NstUtilString', function () {
 
       expect(result).to.be.equal(expected);
     });
-  });
 
-  describe('format()', function () {
     it('should not replace blocks with wrong index', function () {
       var text = "Welcome {0}, What do you want {3}?";
       var result = NstUtilString.format(text, ["John", "Fred"]);
@@ -53,4 +45,5 @@ describe('NstUtilString', function () {
       expect(result).to.be.equal(expected);
     });
   });
+
 });
