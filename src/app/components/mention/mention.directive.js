@@ -27,7 +27,7 @@
               startWithSpace: true,
               limit:5, 
               displayTpl:scope.tplUrl,
-              callbacks : {
+              callbacks : {    
                   beforeInsert:function (value, $li){
                   var elm = angular.element($li);
                   return '@' + elm.attr('data-id');
@@ -36,7 +36,7 @@
                       var searchSettings = {
                            query : query,
                            limit : 5,
-                      };
+                       };
                       NstSvcUserFactory.search(searchSettings).then(function (users) {
                           var items = [];
                           _.map(users, function (item) {
@@ -48,14 +48,10 @@
                                                     })
                                             });
                           callback(items);
-                          console.log(JSON.stringify(items[0]));
-                      console.log(items);
                       }).catch(function (error) {
-                         // decide for error 
-                      });
-                     
+                      }); 
+                   }
                 }
-              }
               })
           
 
@@ -72,7 +68,6 @@
                           return '#' + elm.attr('data-id');
                       },
                     remoteFilter : function (query, callback) {
-                       console.log('hi');
                        var searchSettings = {
                            query : query.query,
                            limit : 5,
@@ -87,17 +82,17 @@
                                                 name : obj.name,
                                                 avatar : obj.avatar
                                                  })
-                                  });
+                                      });
+                        
                              callback(items);
-                             console.log(items);
                       }).catch(function (error) {
                       });
                      
-                }
+                   }
               }})
 
             }
           }
-    })
+      })
        
 })();
