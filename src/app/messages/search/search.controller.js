@@ -63,7 +63,7 @@
     function searchOnEnterKeyPressed(e, queryString) {
 
       var element = angular.element(event.target);
-      if (!sendKeyIsPressed(event) || element.attr("mention") === "true") {
+      if (!queryString || !sendKeyIsPressed(event) || element.attr("mention") === "true") {
         return;
       }
       // if (!sendKeyIsPressed(e) || !queryString) {
