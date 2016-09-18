@@ -469,6 +469,11 @@
     }
 
     function reqPlaceExist(placeId) {
+
+      if ($stateParams.placeId !== NST_DEFAULT.STATE_PARAM){
+        placeId = [$stateParams.placeId, placeId].join('.');
+      }
+
       setLoadingDisplay(true);
 
       return NstSvcPlaceFactory.placeIdServerCheck(placeId).then(function (exists) {
