@@ -14,6 +14,7 @@
       'ronak.nested.web.components.image',
       'ronak.nested.web.components.attachment',
       'ronak.nested.web.components.mention',
-      'ronak.nested.web.components.utility'
+      'ronak.nested.web.components.utility',
+      'ronak.nested.web.components.file'
     ]);
 })();

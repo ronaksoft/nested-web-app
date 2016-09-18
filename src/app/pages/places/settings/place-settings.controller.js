@@ -431,31 +431,5 @@
       return vm.participants && vm.participants.length > 0;
     }
 
-
-    // FIXME some times it got a problem ( delta causes )
-    vm.preventParentScroll = function (event) {
-      var element = event.currentTarget;
-      var delta = event.wheelDelta;
-      if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
-        event.preventDefault();
-      }
-    };
-
-    vm.recentScrollConf = {
-      axis: 'y',
-      mouseWheel: {
-        preventDefault: true
-      }
-    };
-
-
-    // FIXME: NEEDS REWRITE COMPLETELY
-    var tl = new TimelineLite({});
-    var cp = document.getElementById("cp1");
-    var nav = document.getElementsByTagName("nst-navbar")[0];
-    $timeout(function () {
-      $rootScope.navView = false
-    });
-
   }
 })();

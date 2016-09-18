@@ -21,7 +21,7 @@
       if (userModel instanceof NstTinyUser || userModel instanceof NstUser) {
         this.id = userModel.getId();
         this.name = userModel.getFullName();
-        this.avatar = userModel.getPicture().getThumbnail(32).getUrl().view;
+        this.avatar = userModel.getPicture().getThumbnail(32).getUrl().view || '/assets/icons/absents_place.svg';
       }
     }
 

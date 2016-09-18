@@ -2,18 +2,18 @@
     'use strict';
  angular
      .module('ronak.nested.web.components.mention')
-     .directive('nstMention', function ($timeout , NstSvcUserFactory, NstSvcPlaceFactory, NstVmUser, NstVmPlace) {
+     .directive('nstMention', function ($rootScope, $timeout, NstSvcUserFactory, NstSvcPlaceFactory, NstVmUser, NstVmPlace) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
 
-          element.on("hidden.atwho", function(event, flag, query) {
-            $timeout(function(){
+          element.on("hidden.atwho", function (event, flag, query) {
+            $timeout(function () {
               element.attr("mention", false);
-            },200);
+            }, 200);
           });
 
-          element.on("shown.atwho", function(event, flag, query) {
+          element.on("shown.atwho", function (event, flag, query) {
             element.attr("mention", true);
           });
 
@@ -91,8 +91,14 @@
                    }
               }})
 
-            }
-          }
-      })
+
+          //remove useless atwho-container tag after change a state
+            $rootScope.$on('$stateChangeSuccess', function () {
+              angular.element(".atwho-container").remove();
+            });
+
+        }
+      }
+    })
 
 })();
