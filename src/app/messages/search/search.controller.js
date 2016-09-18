@@ -13,7 +13,6 @@
     var limit = 8;
     var skip = 0;
 
-
     vm.reachedTheEnd = false;
     vm.loading = false;
     vm.loadMessageError = false;
@@ -62,9 +61,14 @@
     }
 
     function searchOnEnterKeyPressed(e, queryString) {
-      if (!sendKeyIsPressed(e) || !queryString) {
+
+      var element = angular.element(event.target);
+      if (!queryString || !sendKeyIsPressed(event) || element.attr("mention") === "true") {
         return;
       }
+      // if (!sendKeyIsPressed(e) || !queryString) {
+      //   return;
+      // }
 
       search(queryString);
     }
