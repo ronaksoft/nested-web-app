@@ -38,7 +38,7 @@
       'lodash',
       'momentjs',
       'cfp.hotkeys',
-      'ngAnimate',
-      'mentio',
+      'ngImgCrop',
+      'ngAnimate'
     ]);
 })();

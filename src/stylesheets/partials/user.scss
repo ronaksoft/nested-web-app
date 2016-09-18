@@ -1,0 +1,34 @@
+/*************************
+ *    User Initials & avatars
+ *************************/
+
+* [class *= "account-initials-"] {
+  margin-right: 8px;
+  flex: none;
+  justify-content: center;
+}
+
+@for $i from 1 through 32 {
+  .account-initials-#{$i * 8} {
+    width: #{$i * 8}px;
+    height: #{$i * 8}px;
+    border-radius: 50%;
+    line-height: #{$i * 8 - 1}px;
+    text-align: center;
+    font-size: #{$i * 3}px;
+    font-weight: normal;
+    background-color: $color-solid-30;
+    vertical-align: top;
+  }
+}
+.post-card-user-avatar {
+  @include avatar(40px,32px);
+}
+
+.post-comment-user-avatar {
+  @include avatar(40px,24px);
+}
+
+.place-member-user-avatar {
+  @include avatar(80px,48px);
+}

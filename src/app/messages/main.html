@@ -6,6 +6,7 @@
             ready-to-show="ctlMessages.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
 
 <div class="nst-content _tr" id="content-wrapper">
+  <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
@@ -18,19 +19,16 @@
       </div>
     </div>
 
-    <!--<nst-quick-message data-ng-if="ctlMessages.viewSetting.quickMessage && ctlMessages.currentPlaceId"-->
-                       <!--place-id="ctlMessages.currentPlaceId"></nst-quick-message>-->
-   <!--<div class="new-post-badge-area" ng-if="ctlMessages.hasNewMessages()">-->
-     <!--<button class="btn new-post-badge" data-tooltip-placement="top" data-uib-tooltip="{{ctlMessages.newMessages.length == 1 ? 'A new message' : ctlMessages.newMessages.length + ' new messages'}}" ng-click="ctlMessages.showNewMessages();">-->
-       <!--<span class="badge-counter">+{{ctlMessages.getNewMessagesCount()}}</span>-->
-     <!--</button>-->
-   <!--</div>-->
     <div class="post-area">
-      <div id="new-post"  ng-show="ctlMessages.hasNewMessages()">
+      <div id="new-post"  ng-show="ctlMessages.hasNewMessages">
         <i ng-click="ctlMessages.showNewMessages('no','content-wrapper');"></i>
         <a ng-click="ctlMessages.showNewMessages('yes','content-wrapper');" ng-if="ctlMessages.getNewMessagesCount() > 1">{{ctlMessages.getNewMessagesCount()}} New Messages</a>
         <a ng-click="ctlMessages.showNewMessages('yes','content-wrapper');" ng-if="ctlMessages.getNewMessagesCount() < 2">One New Message</a>
       </div>
+      <post-card ng-if="ctlMessages.hotMessages.length > 0" class="hot" data-ng-repeat="msg in ctlMessages.hotMessages track by msg.id" post="msg"
+                 settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode"></post-card>
+      <hr ng-if="ctlMessages.hotMessages.length > 0" class="hot-message-separator">
+
       <post-card class="_fw" data-ng-repeat="msg in ctlMessages.messages track by msg.id" post="msg"
                  settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode"></post-card>
     </div>
@@ -65,8 +63,7 @@
   </section>
   <div class="content-plus"></div>
   <div class="content-plus" id="content-plus" ng-if="!ctlMessages.isBookmarkMode">
-    <div id="cp1" ng-scrollbars ng-scrollbars-config="ctlApp.customScrollPreventConfig"
-         onwheel="angular.element(this).scope().ctlMessages.preventParentScroll(event)">
+    <div id="cp1" nst-scrollbar>
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
     </div>

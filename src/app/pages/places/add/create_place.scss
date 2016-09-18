@@ -17,8 +17,8 @@
 }
 .head {
   padding-left: 8px;
-  font-size: 12px;
-  color: #a6b9af;
+  font-size: $font-size-small;
+  color: $color-wind;
   margin-bottom: 26px;
 }
 .head a{
@@ -78,9 +78,7 @@
 .upload-photo{
   vertical-align: middle;
   text-align: center;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  @include center-block();
   position: relative;
   width: 120px;
   height: 120px;

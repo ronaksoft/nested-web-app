@@ -13,27 +13,20 @@
 
           <div class="_df _fw input-select-match">
             <ui-select page-change-element minimum-input-length="4" multiple limit="10"  class="address-input _dib"
-                       id="input-compose-to" tagging="ctlCompose.search.tagger"
+                       id="input-compose-to"
                        data-ng-model="ctlCompose.model.recipients">
               <ui-select-match placeholder="Type place name or email address...">
                 <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
               </ui-select-match>
               <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
                                  refresh-delay="0"
-                                 minimum-input-length="4"
-                                 ui-disable-choice="!place.id"
                                  repeat="place as place in (ctlCompose.search.results | filter: $select.search ) track by place.id">
-                <div ng-if="place.id">
-                  <img class="account-initials-32" ng-src="{{place.avatar}}"/>
-                  <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
-                  <br/>
-                  <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
-                </div>
-                <div ng-if="!place.id">
-                  <span ng-if="ctlCompose.search.results.length === 0">Searching for</span>
-                  <span ng-if="ctlCompose.search.results.length > 0">Result for</span>
-                  <b>{{place.name}}</b>
-                </div>
+
+                <img class="account-initials-32" ng-src="{{place.avatar}}"/>
+                <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
+                <br/>
+                <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
+
               </ui-select-choices>
             </ui-select>
           </div>

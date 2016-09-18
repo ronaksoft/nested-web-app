@@ -22,7 +22,7 @@
 
 .room-name {
   min-height: 152px;
-  background-color: white;
+  background-color: $color-white;
   padding: 0 8px;
 }
 
@@ -72,13 +72,13 @@
   background-color: $color-white;
 }
 
-.teammates-panel .account-initials-48 {
-  margin: 6px 0px 6px 12px;
-}
 
 .teammates-panel {
   display: inline-flex;
   height: 50px;
+  > div:first-child {
+    margin: 6px 0 6px 12px;
+  }
 }
 .teammates-panel:after {
   /* Prevent wrapper from shrinking height,
@@ -273,8 +273,8 @@
   width: 48px;
   height: 28px;
   background-color: $color-sense;
-  border: 1px solid #00B45A;
-  color: white;
+  border: 1px solid $color-sense-wire;
+  color: $color-white;
   display: inline-flex;
   justify-content: center;
   border-radius: 5px;

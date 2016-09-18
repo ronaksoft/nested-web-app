@@ -35,6 +35,7 @@
       vm.post = vmPost;
       if (vm.post.comments) {
         vm.comments = vm.post.comments;
+        vm.scrollToNewComment = vm.comments.length;
       }
     }
     vm.postId = $stateParams.postId || postId;
@@ -73,7 +74,7 @@
       return reqGetComments(vm.postModel, vm.commentSettings).then(function (comments) {
         vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
         if (commentCount == 0){
-          vm.scrollToNewComment = commentCount;
+            vm.scrollToNewComment = vm.comments.length;
         }else{
           vm.scrollToNewComment = false;
         }
@@ -168,7 +169,7 @@
 
 
         /**
-         * previewPlaces - preview the places that have delete access and let the user to chose one
+         * previewPlaces - preview the places that have delete access and let the user to choose one
          *
          * @param  {type} places list of places to be shown
          */
