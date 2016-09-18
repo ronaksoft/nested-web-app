@@ -13,6 +13,7 @@
       'ronak.nested.web.components.text',
       'ronak.nested.web.components.image',
       'ronak.nested.web.components.attachment',
-      'ronak.nested.web.components.mention'
+      'ronak.nested.web.components.mention',
+      'ronak.nested.web.components.file'
     ]);
 })();
