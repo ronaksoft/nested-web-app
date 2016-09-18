@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .constant('NST_TERM_COMPOSE_PREFIX', {
       FORWARD: 'Fwd: ',
       REPLY: 'Re: '

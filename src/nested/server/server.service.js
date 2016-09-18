@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.data')
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */

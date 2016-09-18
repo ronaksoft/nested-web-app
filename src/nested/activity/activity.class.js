@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  angular.module('nested').factory('NstActivity', NstActivity);
+  angular.module('ronak.nested.web.activity').factory('NstActivity', NstActivity);
 
   function NstActivity(NstModel) {
     /**

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
   function NstSvcUserFactory($q, md5,

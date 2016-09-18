@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
@@ -456,8 +456,6 @@
 
       return defer.promise;
     }
-
-    console.log($scope);
   }
 
 })();

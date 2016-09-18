@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .constant('NST_USER_FACTORY_EVENT', {
       PICTURE_UPDATED : 'picture_updated',
       PICTURE_REMOVED : 'picture_removed',

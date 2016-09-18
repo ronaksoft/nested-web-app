@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.file')
     .service('NstSvcDownloadTokenStorage', NstSvcDownloadTokenStorage);
 
   /** @ngInject */

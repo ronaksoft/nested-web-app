@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('nested')
+  angular.module('ronak.nested.web.components.text')
     .directive('ellipsis', ellipsis);
 
   function ellipsis() {

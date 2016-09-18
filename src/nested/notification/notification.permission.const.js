@@ -1,7 +1,7 @@
 (function () {
 
   'use strict';
-  angular.module('nested').constant('NST_PERMISSION_NOTIFICATION', {
+  angular.module('ronak.nested.web.components.notification').constant('NST_PERMISSION_NOTIFICATION', {
     DEFAULT: 'default',
     GRANTED: 'granted',
     DENIED: 'denied',

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.navbar')
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
@@ -101,7 +101,9 @@
     }
 
     function search(query, event) {
-      if (!sendKeyIsPressed(event) || !query) {
+
+      var element = angular.element(event.target);
+      if (!sendKeyIsPressed(event) || !query || element.attr("mention") === "true") {
         return;
       }
       var searchQury = new NstSearchQuery(query);

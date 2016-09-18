@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .factory('NstVmMemberItem', NstVmMemberItem);
 
   function NstVmMemberItem(NstUser, NstTinyUser, NstInvitation) {

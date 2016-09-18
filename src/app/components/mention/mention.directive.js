@@ -1,19 +1,19 @@
 (function (){
     'use strict';
  angular
-     .module('nested')
-     .directive('nstMention', function ($timeout , NstSvcUserFactory, NstSvcPlaceFactory, NstVmUser, NstVmPlace) {
+     .module('ronak.nested.web.components.mention')
+     .directive('nstMention', function ($rootScope, $timeout, NstSvcUserFactory, NstSvcPlaceFactory, NstVmUser, NstVmPlace) {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
 
-          element.on("hidden.atwho", function(event, flag, query) {
-            $timeout(function(){
+          element.on("hidden.atwho", function (event, flag, query) {
+            $timeout(function () {
               element.attr("mention", false);
-            },200);
+            }, 200);
           });
 
-          element.on("shown.atwho", function(event, flag, query) {
+          element.on("shown.atwho", function (event, flag, query) {
             element.attr("mention", true);
           });
 
@@ -25,9 +25,9 @@
               searchKey:"name",
               maxLen: 10,
               startWithSpace: true,
-              limit:5, 
+              limit:5,
               displayTpl:scope.tplUrl,
-              callbacks : {    
+              callbacks : {
                   beforeInsert:function (value, $li){
                   var elm = angular.element($li);
                   return '@' + elm.attr('data-id');
@@ -49,20 +49,20 @@
                                             });
                           callback(items);
                       }).catch(function (error) {
-                      }); 
+                      });
                    }
                 }
               })
-          
+
 
             .atwho({
-                    at:"#", 
+                    at:"#",
                     searchKey:"name",
                     maxLen: 10,
                     startWithSpace: true,
                     limit:5,
                     displayTpl:scope.tplUrl,
-                    callbacks : {        
+                    callbacks : {
                           beforeInsert:function (value, $li){
                           var elm = angular.element($li);
                           return '#' + elm.attr('data-id');
@@ -76,23 +76,29 @@
                            var items = [];
                          _.map(places, function (item) {
                                             var obj =  new NstVmPlace(item);
-                            
+
                                        items.push({
                                                 id : obj.id,
                                                 name : obj.name,
                                                 avatar : obj.avatar
                                                  })
                                       });
-                        
+
                              callback(items);
                       }).catch(function (error) {
                       });
-                     
+
                    }
               }})
 
-            }
-          }
-      })
-       
+
+          //remove useless atwho-container tag after change a state
+            $rootScope.$on('$stateChangeSuccess', function () {
+              angular.element(".atwho-container").remove();
+            });
+
+        }
+      }
+    })
+
 })();

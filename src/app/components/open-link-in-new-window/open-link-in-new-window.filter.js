@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components')
     .filter('openLinkInNewWindow', function () {
       return function (toParse) {
         return !toParse ? '' : toParse.replace(/<a(.*?)>(.*?)<\/a>/g, function (input) {

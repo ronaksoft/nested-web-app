@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.text')
     .filter('emoji', function ($sce, emoji) {
       return function (toParse) {
         if (!toParse) {
