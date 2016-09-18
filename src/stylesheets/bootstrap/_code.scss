@@ -51,8 +51,6 @@ pre {
   border: medium none;
   border-radius: $border-radius-base;
   white-space: pre-wrap;
-  overflow: hidden;
-
   // Account for some code outputs that place code tags in pre tags
   code {
     padding: 0;
