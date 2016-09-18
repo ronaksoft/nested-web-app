@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .constant('NST_AUTH_STORAGE_KEY', {
       USER: 'user',
       REMEMBER: 'remember_me'

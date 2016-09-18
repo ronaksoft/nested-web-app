@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.activity')
     .directive('recentActivityItem', RecentActivityItem);
 
   /**
@@ -26,11 +26,11 @@
           case NST_EVENT_ACTION.MEMBER_ADD:
             scope.tplUrl = 'app/messages/partials/activity/member-add-row.html';
             break;
-          
+
           case NST_EVENT_ACTION.MEMBER_REMOVE:
             scope.tplUrl = 'app/messages/partials/activity/member-remove-row.html';
             break;
-          
+
           case NST_EVENT_ACTION.MEMBER_INVITE:
             scope.tplUrl = 'app/messages/partials/activity/invite-row.html';
             break;

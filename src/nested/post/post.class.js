@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.models')
     .factory('NstPost', NstPost);
 
   function NstPost($q, _, NST_ATTACHMENT_STATUS, NstTinyPost, NstAttachment) {

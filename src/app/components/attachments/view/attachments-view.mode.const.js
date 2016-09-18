@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.attachment')
     .constant('NST_ATTACHMENTS_VIEW_MODE', {
       AUTO: 'auto',
       BADGE: 'badge',

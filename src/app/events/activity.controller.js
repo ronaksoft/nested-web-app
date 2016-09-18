@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.activity')
     .controller('ActivityController', ActivityController);
 
   /** @ngInject */
@@ -298,8 +298,6 @@
         vm.acts.thisYear.thisMonth.today.hasAnyItem = true;
       }
     }
-
-    console.log($scope);
 
   }
 })();

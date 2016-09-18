@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.models')
     .factory('NstLocalResource', NstLocalResource);
 
   /** @ngInject */
@@ -21,7 +21,7 @@
        * @type {undefined|String}
        */
       this.id = undefined;
-      
+
       /**
        * Resource URI
        *
@@ -47,7 +47,7 @@
           case 'id':
             this.setUri(event.detail.newValue);
             break;
-          
+
           case 'uri':
             this.refreshUrls();
             break;

@@ -2,13 +2,13 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.place')
     .controller('PlaceLeaveConfirmController', PlaceLeaveConfirmController);
 
   /** @ngInject */
   function PlaceLeaveConfirmController(selectedPlace) {
     var vm = this;
-    
+
     vm.place = selectedPlace;
   }
 })();

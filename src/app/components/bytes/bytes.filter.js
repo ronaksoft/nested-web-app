@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.file')
     .filter('bytes', function () {
       return function (bytes, precision) {
         if (bytes === 0) return '0';
