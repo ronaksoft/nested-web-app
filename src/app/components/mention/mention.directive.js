@@ -1,7 +1,7 @@
 (function (){
     'use strict';
  angular
-     .module('nested')
+     .module('ronak.nested.web.components.mention')
      .directive('nstMention', function ($timeout , NstSvcUserFactory, NstSvcPlaceFactory, NstVmUser, NstVmPlace) {
     return {
         restrict: 'A',
@@ -25,9 +25,9 @@
               searchKey:"name",
               maxLen: 10,
               startWithSpace: true,
-              limit:5, 
+              limit:5,
               displayTpl:scope.tplUrl,
-              callbacks : {    
+              callbacks : {
                   beforeInsert:function (value, $li){
                   var elm = angular.element($li);
                   return '@' + elm.attr('data-id');
@@ -49,20 +49,20 @@
                                             });
                           callback(items);
                       }).catch(function (error) {
-                      }); 
+                      });
                    }
                 }
               })
-          
+
 
             .atwho({
-                    at:"#", 
+                    at:"#",
                     searchKey:"name",
                     maxLen: 10,
                     startWithSpace: true,
                     limit:5,
                     displayTpl:scope.tplUrl,
-                    callbacks : {        
+                    callbacks : {
                           beforeInsert:function (value, $li){
                           var elm = angular.element($li);
                           return '#' + elm.attr('data-id');
@@ -76,23 +76,23 @@
                            var items = [];
                          _.map(places, function (item) {
                                             var obj =  new NstVmPlace(item);
-                            
+
                                        items.push({
                                                 id : obj.id,
                                                 name : obj.name,
                                                 avatar : obj.avatar
                                                  })
                                       });
-                        
+
                              callback(items);
                       }).catch(function (error) {
                       });
-                     
+
                    }
               }})
 
             }
           }
       })
-       
+
 })();

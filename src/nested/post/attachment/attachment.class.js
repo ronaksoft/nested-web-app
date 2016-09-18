@@ -1,7 +1,8 @@
 (function() {
   'use strict';
 
-  angular.module('nested').factory('NstAttachment', NstAttachment);
+  angular.module('ronak.nested.web.models')
+  .factory('NstAttachment', NstAttachment);
 
   function NstAttachment(NST_ATTACHMENT_STATUS, NstModel, NstUser, NstPicture, NstLocalResource) {
     Attachment.prototype = new NstModel();

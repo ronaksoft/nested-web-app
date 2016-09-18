@@ -1,7 +1,7 @@
 (function () {
 
   'use strict';
-  angular.module('nested').constant('NST_SRV_ERROR', {
+  angular.module('ronak.nested.web.data').constant('NST_SRV_ERROR', {
     UNKNOWN: 0,
     ACCESS_DENIED: 1,
     UNAVAILABLE: 2,

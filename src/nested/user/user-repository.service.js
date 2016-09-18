@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .service('NestedUserRepoService', function ($q, NstSvcServer) {
       function UserRepoService(repo) {
         this.repo = repo || {};

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.text')
     .directive('emoji', function ($compile, $templateRequest, emoji) {
       return {
         restrict: 'AE',

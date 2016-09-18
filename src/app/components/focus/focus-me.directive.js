@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components')
     .directive('focusMe', function($timeout) {
       return {
         scope: { trigger: '@focusMe' },

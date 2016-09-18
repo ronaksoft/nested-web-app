@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.place')
     .factory('NstPlaceCreatorOfParentError', NstPlaceCreatorOfParentError);
   // @NOTE : Imagine place A that has place B inside. You can not remove a user
   //         from place B until is creator of the top-level place (A). The user

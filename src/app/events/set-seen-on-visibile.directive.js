@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.activity')
     .directive('setSeenOnVisible', function (moment) {
       return {
         restrict: 'A',

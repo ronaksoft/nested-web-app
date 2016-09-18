@@ -1,7 +1,7 @@
 (function () {
 
   'use strict';
-  angular.module('nested').constant('NST_SRV_EVENT', {
+  angular.module('ronak.nested.web.data').constant('NST_SRV_EVENT', {
     MESSAGE: '__message',
     INITIALIZE: '__initialize',
     AUTHORIZE: '__authorize',

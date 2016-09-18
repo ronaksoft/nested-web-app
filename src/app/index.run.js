@@ -2,14 +2,14 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.main')
     .run(runBlock);
 
   /** @ngInject */
   function runBlock($rootScope, $uibModal, $timeout,$interval,
                     ngProgressFactory,
                     NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
-                    NstSvcAuth, NstSvcLoader, NstSvcPlaceInvitationFriend, NstSvcPlaceAuthFriend, NstSvcPostCommentFriend) {
+                    NstSvcAuth, NstSvcLoader) {
     $rootScope.now = function () {
       return new Date();
     };

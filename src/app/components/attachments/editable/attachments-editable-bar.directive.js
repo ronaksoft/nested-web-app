@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsEditableBar', AttachmentsEditableBar);
 
   function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE) {

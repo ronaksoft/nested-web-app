@@ -1,7 +1,8 @@
 (function() {
   'use strict';
 
-  angular.module('nested').factory('NstComment', NstComment);
+  angular.module('ronak.nested.web.models')
+  .factory('NstComment', NstComment);
 
   function NstComment(NstTinyComment) {
     Comment.prototype = new NstTinyComment();

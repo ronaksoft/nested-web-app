@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .constant('NST_USER_ACCESS', {
       REMOVE: 'URM'
     })

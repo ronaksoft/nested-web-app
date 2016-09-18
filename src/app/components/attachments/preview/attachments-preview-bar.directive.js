@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
   function AttachmentsPreviewBar(NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER) {

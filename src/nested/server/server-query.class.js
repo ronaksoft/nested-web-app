@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.data')
     .factory('NstServerQuery', NstServerQuery);
 
   /** @ngInject */

@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.main')
     .constant('moment', moment)
     .constant('NST_DEFAULT', {
       STATE: 'messages',

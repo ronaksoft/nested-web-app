@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.place')
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q, $log,

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.text')
     .directive('contenteditable', function() {
     var obj = {
       restrict:'A',

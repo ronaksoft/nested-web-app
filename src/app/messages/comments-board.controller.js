@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .controller('CommentsBoardController', CommentsBoardController);
 
   function CommentsBoardController($rootScope, $scope, $stateParams, $log, $q, $timeout) {

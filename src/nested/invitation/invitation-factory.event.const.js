@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .constant('NST_INVITATION_FACTORY_EVENT', {
       ADD: 'add',
       ACCEPT: 'accept',

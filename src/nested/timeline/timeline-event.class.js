@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.activity')
     .constant('EVENT_ACTIONS', {
       MEMBER_ADD: 1,
       MEMBER_REMOVE: 2, //-- Done
