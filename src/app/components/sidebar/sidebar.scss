@@ -496,29 +496,36 @@ ul ul > li:last-child > .side-place-item-inner{
     }
   }
 }
+.side-place-wrapper {
+  > ul {
 
-.side-place-wrapper > div > div > ul > li > ul > li:last-child > ul{
+  }
+}
+
+//the first li's are grand places ~ dont need lines
+
+.side-place-wrapper > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type{
     div {
       border: none;
     }
   }
 }
-.side-place-wrapper > div > div > ul > li > ul > li > ul > li:last-child > ul{
+.side-place-wrapper > ul > li > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type + .lines{
     div {
       border: none;
     }
   }
 }
-.side-place-wrapper > div > div > ul > li > ul > li > ul > li > ul > li:last-child > ul{
+.side-place-wrapper > ul > li > ul > li > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type + .lines + .lines{
     div {
       border: none;
     }
   }
 }
-.side-place-wrapper > div > div > ul > li > ul > li > ul > li > ul > li > ul > li:last-child > ul{
+.side-place-wrapper > ul > li > ul > li > ul > li > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type + .lines + .lines + .lines{
     div {
       border: none;
@@ -528,12 +535,12 @@ ul ul > li:last-child > .side-place-item-inner{
 .lines:last-of-type {
   .box1 {
     border-bottom: solid;
-    border-width: .5px;
+    border-width: 1px;
     border-color: $color-breeze;
   }
   .box4 {
     border-top: solid;
-    border-width: .5px;
+    border-width: 1px;
     border-color: $color-breeze;
   }
 }
@@ -589,25 +596,25 @@ ul ul li:last-child{
 .box1 {
   border-left: solid;
   border-bottom: none;
-  border-width: .5px;
+  border-width: 1px;
   border-color: $color-breeze;
 }
 .box2 {
   border-right: solid;
   border-bottom: none;
-  border-width: .5px;
+  border-width: 1px;
   border-color: $color-breeze;
 }
 .box3 {
   border-top: none;
   border-right: solid;
-  border-width: .5px;
+  border-width: 1px;
   border-color: $color-breeze;
 }
 .box4 {
   border-left: solid;
   border-top: none;
-  border-width: .5px;
+  border-width: 1px;
   border-color: $color-breeze;
 }
 .side-place-name {

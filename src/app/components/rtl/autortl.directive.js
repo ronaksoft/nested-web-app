@@ -117,17 +117,11 @@
             ];
             str = str.replace(new RegExp(emojiRanges.join('|'), 'g'), '');
             str = str.trim();
-            console.log(str);
             str = str.substring(0, 1);
             if (persianRex.rtl.test(str)) {
               return element.attr("dir","rtl");
             }
           }
-
-          // var charCode = str.charCodeAt(0);
-          // if (charCode > 1300 && 1700 > charCode) {
-          //   return element.attr("dir","rtl");
-          // }
         }
 
         scope.$watch(function(){

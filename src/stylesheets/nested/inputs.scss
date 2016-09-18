@@ -12,11 +12,6 @@ input[type='text'], input[type='password'], input[type='tel'] {
   padding-left: 10px;
 }
 
-input[type='file'],
-input[type="checkbox"] {
-  display: none;
-}
-
 input[type="checkbox"] {
   max-width: 1px;
 }
