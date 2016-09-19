@@ -41,6 +41,7 @@
     vm.revealHotMessage = false;
     vm.getNewMessagesCount = getNewMessagesCount;
     vm.showNewMessages = showNewMessages;
+    vm.dismissNewMessage = dismissNewMessage;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
