@@ -144,13 +144,6 @@
      ***** Controller Methods ****
      *****************************/
 
-    vm.customScrollPreventConfig = {
-      axis: 'y',
-      mouseWheel: {
-        preventDefault: true
-      }
-    };
-
     // TODO should read from cache
     $rootScope.navView = false;
     $scope.topNavOpen = false;
@@ -161,26 +154,30 @@
     var scrollValue = 0;
     var scrollTimeout = false;
     $(window).scroll(function (event) {
+      if($(window).scrollLeft() > 0 ){
+        console.log("left");
+        return
+      }
       var t = event.currentTarget.scrollY;
+      if (t > 55 && !$rootScope.navView && vm.scrolled > 0) {
+        $timeout(function () {
+          return $rootScope.navView = t > 55;
+        });
+      } else if (t < 55 && $rootScope.navView) {
+        $timeout(function () {
+          return $rootScope.navView = t > 55;
+        });
+      }
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(function(){
         vm.scrolled = $(document).scrollTop() - scrollValue;
         scrollValue = $(document).scrollTop();
         if (vm.scrolled < -5 && $rootScope.navView) {
           $timeout(function () {
-            $rootScope.navView = false;
+            return $rootScope.navView = false;
           });
         }
       }, 10);
-      if (t > 55 && !$rootScope.navView && vm.scrolled > 0) {
-        $timeout(function () {
-          $rootScope.navView = t > 55;
-        });
-      } else if (t < 55 && $rootScope.navView) {
-        $timeout(function () {
-          $rootScope.navView = t > 55;
-        });
-      }
     });
 
     /*****************************

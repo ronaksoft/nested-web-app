@@ -78,6 +78,11 @@
     top: 0;
     transform: translate3d(0,0,0);
     width: calc(100% - 272px);
+    &:before,
+    &::after{
+      content: " ";
+      display: table
+    }
   }
   .maincontainer.sidetiny {
     nst-navbar{

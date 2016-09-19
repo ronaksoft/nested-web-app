@@ -147,7 +147,7 @@ a {
 nst-navbar {
   height: 183px;
   width: 100%;
-  transition: $animation-dur;
+  transition: transform $animation-dur ease-in-out;
   align-self: flex-start;
   position: fixed;
   display: flex;
@@ -155,6 +155,7 @@ nst-navbar {
   top: 0;
   right: 0;
   z-index: 55;
+  will-change: transform;
 }
 
 .navbarillu {
