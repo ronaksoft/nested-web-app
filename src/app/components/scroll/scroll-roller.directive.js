@@ -11,7 +11,7 @@
     };
 
     return {
-      restrict : 'A',
+      restrict : 'EA',
       scope : {
         rollUpward : '=',
         rollDownward : '=',
@@ -37,7 +37,7 @@
       var settings = _.defaults(customSettings, defaultSettings);
 
       var container = $($attrs.container || 'html, body');
-    
+
       $scope.$watch('rollUpward', function (newValue, oldValue) {
         if (newValue) {
           if (settings.animated) {

@@ -5,7 +5,7 @@
             nav-picture-class="{{ !ctlMessages.currentPlace.id? ctlMessages.navIconClass : '' }}"
             ready-to-show="ctlMessages.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
 
-<div class="nst-content _tr" id="content-wrapper" scroll-roller roll-upward="ctlMessages.revealHotMessage">
+<div class="nst-content _tr" id="content-wrapper">
   <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
@@ -70,3 +70,4 @@
 
   </div>
 </div>
+<scroll-roller roll-upward="ctlMessages.revealHotMessage"></scroll-roller>
