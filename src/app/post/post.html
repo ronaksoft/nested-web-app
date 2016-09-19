@@ -67,13 +67,9 @@
         </div>
       </div>
       <div class="_df _fw _di">
-        <div ng-if="ctlPost.post.contentType !== 'text/plain'" class="_fw _wrb"
+        <div class="_fw _wrb"
              auto-dir="{{ctlPost.post.body}}"
              data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
-        </div>
-        <div ng-if="ctlPost.post.contentType === 'text/plain'" class="_fw _wrb"
-             auto-dir="{{ctlPost.post.body}}">
-          <pre data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji "></pre>
         </div>
       </div>
     </div>

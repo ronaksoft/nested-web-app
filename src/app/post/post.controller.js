@@ -284,6 +284,36 @@
     (function () {
       reqGetPost(vm.postId).then(function (post) {
         vm.postModel = post;
+        if (vm.postModel.contentType === 'text/plain'){
+          //Convert Plain-text to the Html
+          var charEncodings = {
+            "\t": "&nbsp;&nbsp;&nbsp;&nbsp;",
+            " ": "&nbsp;",
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            "\n": "<br />",
+            "\r": "<br />"
+          };
+          var space = /[\t ]/;
+          var noWidthSpace = "&#8203;";
+          vm.postModel.body = vm.postModel.body.replace(/\r\n/g, "\n");  // avoid adding two <br /> tags
+          var html = "";
+          var lastChar = "";
+          for (var i in vm.postModel.body)
+          {
+            var char = vm.postModel.body[i];
+            var charCode = vm.postModel.body.charCodeAt(i);
+            if (space.test(char) && !space.test(lastChar) && space.test(vm.postModel.body[i + 1] || ""))
+            {
+              html += noWidthSpace;
+            }
+            html += char in charEncodings ? charEncodings[char] :
+              charCode > 127 ? "&#" + charCode + ";" : char;
+            lastChar = char;
+          }
+          vm.postModel.body = html
+        }
         vm.post = mapPost(vm.postModel);
         if (vm.post.comments) {
           vm.comments = vm.post.comments;
