@@ -5,7 +5,7 @@
             nav-picture-class="{{ !ctlMessages.currentPlace.id? ctlMessages.navIconClass : '' }}"
             ready-to-show="ctlMessages.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
 
-<div class="nst-content _tr" id="content-wrapper">
+<div class="nst-content _tr" id="content-wrapper" scroll-roller roll-upward="ctlMessages.revealHotMessage">
   <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
@@ -21,9 +21,9 @@
 
     <div class="post-area">
       <div id="new-post"  ng-show="ctlMessages.hasNewMessages">
-        <i ng-click="ctlMessages.showNewMessages('no','content-wrapper');"></i>
-        <a ng-click="ctlMessages.showNewMessages('yes','content-wrapper');" ng-if="ctlMessages.getNewMessagesCount() > 1">{{ctlMessages.getNewMessagesCount()}} New Messages</a>
-        <a ng-click="ctlMessages.showNewMessages('yes','content-wrapper');" ng-if="ctlMessages.getNewMessagesCount() < 2">One New Message</a>
+        <i ng-click="ctlMessages.dismissNewMessage();"></i>
+        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.getNewMessagesCount() > 1">{{ctlMessages.getNewMessagesCount()}} New Messages</a>
+        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.getNewMessagesCount() < 2">One New Message</a>
       </div>
       <post-card ng-if="ctlMessages.hotMessages.length > 0" class="hot" data-ng-repeat="msg in ctlMessages.hotMessages track by msg.id" post="msg"
                  settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode"></post-card>
