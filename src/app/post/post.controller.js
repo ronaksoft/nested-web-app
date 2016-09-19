@@ -286,33 +286,12 @@
         vm.postModel = post;
         if (vm.postModel.contentType === 'text/plain'){
           //Convert Plain-text to the Html
-          var charEncodings = {
-            "\t": "&nbsp;&nbsp;&nbsp;&nbsp;",
-            " ": "&nbsp;",
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            "\n": "<br />",
-            "\r": "<br />"
-          };
-          var space = /[\t ]/;
-          var noWidthSpace = "&#8203;";
-          vm.postModel.body = vm.postModel.body.replace(/\r\n/g, "\n");  // avoid adding two <br /> tags
-          var html = "";
-          var lastChar = "";
-          for (var i in vm.postModel.body)
-          {
-            var char = vm.postModel.body[i];
-            var charCode = vm.postModel.body.charCodeAt(i);
-            if (space.test(char) && !space.test(lastChar) && space.test(vm.postModel.body[i + 1] || ""))
-            {
-              html += noWidthSpace;
-            }
-            html += char in charEncodings ? charEncodings[char] :
-              charCode > 127 ? "&#" + charCode + ";" : char;
-            lastChar = char;
-          }
-          vm.postModel.body = html
+          vm.postModel.body = vm.postModel.body.replace(/\t/g, '    ')
+            .replace(/  /g, '&nbsp; ')
+            .replace(/  /g, ' &nbsp;') // second pass
+            // handles odd number of spaces, where we
+            // end up with "&nbsp;" + " " + " "
+            .replace(/\r\n|\n|\r/g, '<br />');
         }
         vm.post = mapPost(vm.postModel);
         if (vm.post.comments) {
