@@ -75,7 +75,16 @@
         // contextmenu_never_use_native: true,
         toolbar: 'bold italic underline strikethrough | alignleft aligncenter aligncenter alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
         skin: 'lightgray',
-        theme : 'modern'
+        theme : 'modern',
+        setup: function (editor) {
+          editor.on('init', function (e) {
+            $scope.activeEditorElement = e.target.contentDocument.activeElement;
+          });
+          editor.on('keydown', function(e) {
+            if(e.keyCode == 13 && $(editor.contentDocument.activeElement).atwho('isSelecting'))
+              return false
+          })
+        }
       }
     };
 
