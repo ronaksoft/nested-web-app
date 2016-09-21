@@ -81,12 +81,10 @@ a.normal-badge {
     cursor: pointer;
   }
   i {
-    width: 16px;
     height: 16px;
-    //filter: hue-rotate(220deg) saturate(5);
-    mask: url('../assets/icons/close.svg') no-repeat 100% 100%;
-    mask-size: cover;
-    background-color: $color-white;
+    color: $color-white;
+    font-style: normal;
+    font-weight: 600;
   }
   &:hover {
     cursor: pointer;

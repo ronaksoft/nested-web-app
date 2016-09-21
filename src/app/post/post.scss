@@ -43,6 +43,7 @@
     min-height: calc(100vh - 400px);
     min-width: calc(100% - 320px);
     width: 70%;
+    padding: 20px 20px;
   }
   #Comments {
     padding: 5px;
@@ -177,12 +178,6 @@
 
 .profile-post-view {
   width: 40px;
-}
-
-.msg-post-view {
-  padding-left: 30px;
-  padding-right: 10px;
-  padding-top: 20px;
 }
 .cmt-post-view {
   padding-right: 5px;

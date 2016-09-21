@@ -284,6 +284,15 @@
     (function () {
       reqGetPost(vm.postId).then(function (post) {
         vm.postModel = post;
+        if (vm.postModel.contentType === 'text/plain'){
+          //Convert Plain-text to the Html
+          vm.postModel.body = vm.postModel.body.replace(/\t/g, '    ')
+            .replace(/  /g, '&nbsp; ')
+            .replace(/  /g, ' &nbsp;') // second pass
+            // handles odd number of spaces, where we
+            // end up with "&nbsp;" + " " + " "
+            .replace(/\r\n|\n|\r/g, '<br />');
+        }
         vm.post = mapPost(vm.postModel);
         if (vm.post.comments) {
           vm.comments = vm.post.comments;
