@@ -63,8 +63,9 @@
   nst-navbar{
     top: 0;
     transform: translate3d(0,0,0);
-    width: calc(100% - 272px);
-    transition: width .3s ease;
+    //width: calc(100% - 272px);
+    left: $sidebar-width;
+    transition: all .3s ease;
   }
   .maincontainer {
     height: 100%;
@@ -75,7 +76,8 @@
     }
     &.sidetiny {
       nst-navbar{
-        width: calc(100% - 76px);
+        //width: calc(100% - 76px);
+        left: $sidebar-width-tiny;
       }
     }
   }
