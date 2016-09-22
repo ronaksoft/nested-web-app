@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.components.nativeIntegrate')
+    .module('ronak.nested.web.main')
     .directive('appBanner', appBanner);
 
   function appBanner() {
