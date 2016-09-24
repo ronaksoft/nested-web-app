@@ -56,8 +56,9 @@ input[type="checkbox"] {
   line-height: normal;
 }
 
-input[type="file"] {
-  display: block;
+input[type="file"],
+input[type="checkbox"]{
+  display: none;
 }
 
 // Make range inputs behave like textual form controls

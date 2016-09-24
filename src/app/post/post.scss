@@ -43,6 +43,7 @@
     min-height: calc(100vh - 400px);
     min-width: calc(100% - 320px);
     width: 70%;
+    padding: 20px 20px;
   }
   #Comments {
     padding: 5px;
@@ -119,6 +120,10 @@
   }
   .closebut{
     align-self: flex-start;
+
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
 
@@ -174,12 +179,6 @@
 .profile-post-view {
   width: 40px;
 }
-
-.msg-post-view {
-  padding-left: 30px;
-  padding-right: 10px;
-  padding-top: 20px;
-}
 .cmt-post-view {
   padding-right: 5px;
 }
@@ -217,7 +216,7 @@
 
 .comment-msg {
   margin-bottom: 83px;
-  justify-content: space-between;
+  justify-content: inherit;
   div:last-child {
     flex-grow: 1!important;
   }
