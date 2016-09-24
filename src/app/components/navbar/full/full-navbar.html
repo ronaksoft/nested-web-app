@@ -33,10 +33,10 @@
             <div ng-click="ctlFullNavbar.srch('inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
-          <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
+          <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('messages')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
             Messages
           </a>
-          <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
+          <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
             Activity
           </a>
           <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}" ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">
@@ -96,3 +96,4 @@
     <div class="content-plus"></div>
   </div>
 </div>
+<scroll-roller roll-upward="ctlFullNavbar.rollToTop"></scroll-roller>
