@@ -15,9 +15,9 @@
             appendMention(element)
           }
 
-          scope.tplUrl = "<li data-id='${id}' class='_difv'><img src='${avatar}' class='account-initials-32 mCS_img_loaded _df'><div class='_difv'><span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name'>  ${name}</span><span class='_df nst-mood-storm nst-font-small'>${id}</span></div></li>";
-
           function appendMention(element) {
+
+            var tplUrl = "<li data-id='${id}' class='_difv'><img src='${avatar}' class='account-initials-32 mCS_img_loaded _df'><div class='_difv'><span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name'>  ${name}</span><span class='_df nst-mood-storm nst-font-small'>${id}</span></div></li>";
 
             element.on("hidden.atwho", function (event, flag, query) {
               $timeout(function () {
@@ -36,7 +36,7 @@
                 maxLen: 10,
                 startWithSpace: true,
                 limit: 5,
-                displayTpl: scope.tplUrl,
+                displayTpl: tplUrl,
                 callbacks: {
                   beforeInsert: function (value, $li) {
                     var elm = angular.element($li);
@@ -71,7 +71,7 @@
                 maxLen: 10,
                 startWithSpace: true,
                 limit: 5,
-                displayTpl: scope.tplUrl,
+                displayTpl: tplUrl,
                 callbacks: {
                   beforeInsert: function (value, $li) {
                     var elm = angular.element($li);
