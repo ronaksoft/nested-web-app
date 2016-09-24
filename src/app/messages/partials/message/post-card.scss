@@ -119,6 +119,9 @@ h3 {
   font-size: 24px;
   line-height: 29px;
   word-break: break-all;
+  &:hover{
+    cursor: pointer;
+  }
 }
 .post-card .post-attachments{
   //height: 66px;
@@ -200,7 +203,7 @@ h3 {
     height: 32px;
     align-items: center;
     border-radius: 5px;
-    padding: 0 8px;
+    padding: 5px 8px;
     font-size: $font-size-small;
     border: solid 1px rgba(0,0,0,.2);
   }

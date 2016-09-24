@@ -119,6 +119,10 @@
   }
   .closebut{
     align-self: flex-start;
+
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
 
@@ -217,7 +221,7 @@
 
 .comment-msg {
   margin-bottom: 83px;
-  justify-content: space-between;
+  justify-content: inherit;
   div:last-child {
     flex-grow: 1!important;
   }
