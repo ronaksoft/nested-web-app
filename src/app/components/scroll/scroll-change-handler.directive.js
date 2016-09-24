@@ -26,7 +26,7 @@
           }
 
           if (_.isFunction(vm.reachedBottom)) {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            if ((window.innerHeight + window.scrollY) / document.body.offsetHeight >= 0.85) {
               vm.reachedBottom(data.event);
             }
           }
