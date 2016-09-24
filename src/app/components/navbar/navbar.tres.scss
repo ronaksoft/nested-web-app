@@ -1,9 +1,4 @@
 @media screen and (max-width: $screen-md){
-  nst-navbar {
-    height: $navbar-height;
-    min-height: $navbar-height;
-    transition: $animation-dur ease;
-  }
   .maincontainer.navtiny {
     #new-post {
       top: 135px;
@@ -37,7 +32,6 @@
     }
   }
   .nst-navbar{
-    transition: $animation-dur ease;
     margin-top: 67px;
     height: 126px;
     top: 0;
@@ -66,6 +60,13 @@
   }
 }
 @media screen and (min-width: $screen-md){
+  nst-navbar{
+    top: 0;
+    transform: translate3d(0,0,0);
+    //width: calc(100% - 272px);
+    left: $sidebar-width;
+    transition: all .3s ease;
+  }
   .maincontainer {
     height: 100%;
     &.navtiny {
@@ -73,22 +74,14 @@
         transform: translate3d(0,-117px,0);
       }
     }
-  }
-  nst-navbar{
-    top: 0;
-    transform: translate3d(0,0,0);
-    width: calc(100% - 272px);
-  }
-  .maincontainer.sidetiny {
-    nst-navbar{
-      top: 0;
-      width: calc(100% - 76px);
+    &.sidetiny {
+      nst-navbar{
+        //width: calc(100% - 76px);
+        left: $sidebar-width-tiny;
+      }
     }
   }
-  .nst-topnav{
-    display: none;
-  }
-  #top-nav-container {
+  .nst-topnav,#top-nav-container{
     display: none;
   }
 }

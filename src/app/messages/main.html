@@ -20,8 +20,8 @@
     </div>
 
     <div class="post-area">
-      <div id="new-post"  ng-show="ctlMessages.hasNewMessages">
-        <i ng-click="ctlMessages.showNewMessages('no','content-wrapper');"></i>
+      <div id="new-post" ng-show="ctlMessages.hasNewMessages">
+        <i ng-click="ctlMessages.showNewMessages('no','content-wrapper');">X</i>
         <a ng-click="ctlMessages.showNewMessages('yes','content-wrapper');" ng-if="ctlMessages.getNewMessagesCount() > 1">{{ctlMessages.getNewMessagesCount()}} New Messages</a>
         <a ng-click="ctlMessages.showNewMessages('yes','content-wrapper');" ng-if="ctlMessages.getNewMessagesCount() < 2">One New Message</a>
       </div>
