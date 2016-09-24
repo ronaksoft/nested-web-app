@@ -1,0 +1,17 @@
+<div class="actdes">
+  <div class="ico">
+    <div class="ei-member-invite"></div>
+  </div>
+  <div class="sender" data-ng-include="'app/events/partials/activity-common-actor.html'" data-ng-init="actor = act.actor"></div>
+</div>
+<div class="actcon">
+  <div class="msg">
+    <span class="nst-mood-simple">invited </span>
+    <a class="account" href="#" data-ng-bind="act.member.name"></a>
+    <span> to </span>
+    <a class="place" href="#/activity/{{act.member.id}}">{{act.place.name}}</a>
+    <!--<span> as </span><a class="account" href="#" data-ng-bind="act.member.type"></a>-->
+  </div>
+  <div class="places"></div>
+  <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
+</div>

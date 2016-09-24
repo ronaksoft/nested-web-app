@@ -5,7 +5,7 @@
   **********************************************************
  */
 .eventsody {
- height: 100%;
+ min-height: 100%;
 }
 .moreevent {
   height: 50px;
@@ -102,7 +102,11 @@
   height: auto;
   flex: none;
 }
-
+.actdate {
+  min-height: 25px;
+  margin-left: 8px;
+  width: 100%;
+}
 #EventList .ico {
   display: block;
   float: left;
@@ -116,7 +120,7 @@
   display: flex;
   margin: 0; // Horizontal Margin makes horizontal scrollbar appear!
   padding: 0 5px;
-  min-width: 782px;
+  min-width: 600px;
   width: 100%;
   animation: appearence .2s linear;
 }
@@ -128,7 +132,6 @@
   100% {
     background-color: #E7FBF0;
   }
-
 }
 @keyframes seen-event {
   0%, 25%, 50% {
@@ -143,9 +146,6 @@
   background-color: #E7FBF0;
 }
 .evrow.seen {
-  -webkit-animation: seen-event 3s ease-out;
-  -moz-animation:    seen-event 3s ease-out;
-  -o-animation:      seen-event 3s ease-out;
   animation:         seen-event 3s ease-out;
 }
 
@@ -159,21 +159,22 @@
 
 .actcon {
   border-bottom: 1px solid #ced9d3;
-  padding: 10px 5px;
+  padding: 6px 5px;
   min-width:400px;
   width: 100%;
   float: left;
   display: inline-flex;
   animation: app-tr .5s ease-out;
 }
-.actcon *{
+.actcon > *{
   animation: off-right .1s ease-out;
 }
 .actdes {
   cursor: default;
-  min-width: 215px;
+  min-width: 200px;
   float: left;
   position: relative;
+  padding-top: 6px;
 }
 
 #EventList .sender {
@@ -196,7 +197,7 @@
 }
 
 #EventList .sender span {
-  line-height: 32px;
+  line-height: 24px;
   vertical-align: baseline;
 }
 
@@ -204,6 +205,8 @@
   width: 100%;
   overflow: hidden;
   flex-direction: column;
+  padding-left: 10px;
+  
 }
 .subject .nst-mood-simple {
   font-size: $font-size-small;
@@ -218,8 +221,7 @@
   color: $color-solid!important;
   font-weight: 550;
 }
-#EventList .msg .body {
-  display: flex;
+#EventList .msg .bod {
   color: gray;
 }
 #EventList .msg .nst-mood-simple {
@@ -237,43 +239,47 @@
   justify-content: flex-start;
   align-items: center;
   position: relative;
-  top:4px
+  top: 4px;
+  padding: 0 5px;
 }
 #EventList .time {
+  vertical-align: baseline;
   float: left;
-  min-width: 60px;
-  width: 60px;
+  min-width: 50px;
+  width: 50px;
   display: flex;
   justify-content: center;
   color: $color-solid-60;
   flex: none;
+  margin-top: 4px;
+  span {
+    font-size: 11px;
+  }
 }
 #EventList #time-of-event {
   width: 400px;
 }
 
 .more-tag {
-  background-color: $color-solid;
-  text-align: center;
-  left:5px;
+  background-color: #8AEBB4;
+  margin-left: 5px;
   cursor: pointer;
-  border-radius: 40px;
+  border-radius: 32px;
   white-space: nowrap;
-  line-height: 13px;
-  flex:none;
-}
-.more-tag a{
-  color: $color-white;
+  height: 16px;
+  line-height: 16px;
+  flex : none;
+  color: #476152;
+  padding: 3px 8px 2px 8px;
   font-size: $font-size-xsmall;
-  white-space: nowrap;
-  padding: 2px 8px;
-  line-height: 13px;
+  align-self: center;
 }
 .more-tag:hover {
   color: $color-white;
+  background-color: #476152;
 }
 
-#EventList.collapse .msg .body {
+#EventList.collapse .msg .bod {
   display: none;
 }
 
@@ -384,9 +390,13 @@
 }
 
 .logo-bar {
-  width: 56px;
-  margin: 16px;
+  //width: 56px;
+  //margin: 16px;
+  width: 64px;
+  margin: 0 8px;
   flex: none;
+  align-items: center;
+  justify-content: center;
 }
 $spacing: 14px;
 .resizable {
@@ -450,11 +460,13 @@ $spacing: 14px;
 
 .title-bar .name span{
   align-items: center;
+  //padding-top: 10px;
 }
 .title-bar .name{
   justify-content: center;
 }
 .title-bar .name a{
   align-items: flex-end;
-  font-size: 20px;
+  font-size: 32px;
+  font-weight: 100;
 }

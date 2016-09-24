@@ -1,0 +1,328 @@
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Place-option *
+  **********************************************************
+ */
+#place-settings {
+  & > hr {
+    width: 96%;
+  }
+}
+.place-actions {
+  height: 30px;
+  align-items: center;
+  margin: .7em 8px 0 8px;
+  a {
+    align-items: center;
+  }
+}
+.delete-button {
+  margin: 0 30px;
+}
+
+.room-name {
+  min-height: 152px;
+  background-color: white;
+  padding: 0 8px;
+}
+
+.room-pic {
+  margin-left: 3px;
+  margin-top: 30px;
+}
+//---------------------------------
+.options {
+  height: auto;
+  padding: 0 8px;
+}
+.optionrow {
+  height: 45px;
+  //margin-top: 20px;
+}
+.tittle-option {
+  padding-left: 5px;
+}
+
+.nst-options .nst-eye {
+  margin-left: 7px;
+}
+
+.nst-place-privacy,.nst-teammates,.nst-options,.place-option-members {
+  background-color: $color-white;
+  padding: 10px 0;
+}
+.nst-teammates,.options,.place-option-members {
+  width: 100%;
+}
+
+.user {
+  height: 70px;
+}
+
+.place-option-members > ._dt {
+  //width: 800px;
+}
+.nst-teammates {
+}
+.teammate-name {
+  width: 270px;
+}
+
+.place-option-members {
+  background-color: $color-white;
+}
+
+.teammates-panel .account-initials-48 {
+  margin: 6px 0px 6px 12px;
+}
+
+.teammates-panel {
+  display: inline-flex;
+  height: 50px;
+}
+.teammates-panel:after {
+  /* Prevent wrapper from shrinking height,
+  see http://www.positioniseverything.net/easyclearing.html */
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  flex-direction: row;
+}
+#place-option-hld .nst-mood-simple {
+  position: relative;
+  top: -8px;
+}
+.poti {
+  width: 80px;
+}
+.potn {
+  padding-top: 10px;
+  width: 100%;
+  min-width:150px;
+}
+
+.potm {
+  width: 20px;
+  align-items: center;
+  right: 0;
+}
+.role-icon {
+  margin-right: 3px;
+  margin-left: 3px
+}
+
+.room-name h5 {
+  //padding-top: 45px;
+}
+
+.option-hld {
+  width: 400px;
+  padding-top: 5px;
+}
+
+.switch-panel {
+  padding-right: 10px;
+  align-items: center;
+}
+
+.add-panel {
+  margin-top: 38px;
+}
+
+.add-panel > div {
+  margin-top: -9px;
+}
+
+#switch-option input[type="checkbox"] + label {
+  display: inline-block;
+  background: url('../assets/icons/viewswitch.png') no-repeat;
+  height: 15px;
+  min-width: 48px;
+  padding: 0 0 0 17px;
+}
+
+#switch-option input[type="checkbox"]:checked + label {
+  background-position: 0 -15px;
+}
+
+.switch-option {
+  background-color: $color-sense;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 0px;
+  border: 2px solid $color-sense;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 0px;
+  width: 60px;
+  height: 14px;
+  text-align: center;
+  color: $color-white;
+  font-size: $font-size-small;
+  line-height: 10px;
+}
+
+.switch-option-right {
+  background-color: $color-white;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 8px;
+  border: 2px solid $color-sense;
+  width: 60px;
+  height: 14px;
+  margin-left: -4px;
+  color: $color-solid;
+  font-size: $font-size-small;
+  text-align: center;
+  line-height: 10px;
+}
+
+.switch-option-off {
+  background-color: $color-white;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 0px;
+  border: 2px solid $color-sense;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 0px;
+  width: 60px;
+  height: 14px;
+  text-align: center;
+  color: $color-solid;
+  font-size: $font-size-small;
+  line-height: 10px;
+}
+
+.switch-option-right-off {
+  background-color: $color-sense;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 8px;
+  border: 2px solid $color-sense;
+  width: 60px;
+  height: 14px;
+  margin-left: -4px;
+  color: $color-white;
+  font-size: $font-size-small;
+  text-align: center;
+  line-height: 10px;
+}
+
+
+.add-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/actionbuttons_place_24.png');
+  background-position: 0 -96px;
+  background-repeat: no-repeat;
+}
+
+.menuicon-remove {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/menuicon.svg');
+  background-position: 0 0px;
+  background-repeat: no-repeat;
+}
+
+
+[class*="menuicon-create"] {
+  width: 24px;
+  height: 24px;
+  background-image: url('../assets/icons/menuicon.svg');
+  background-position: 0 -24px;
+  background-repeat: no-repeat;
+}
+
+.menuicon-create-transform {
+  transform: rotate(180deg);
+}
+
+#popup-plc-options {
+  background-color: $color-sense-5;
+  width: 168px;
+  border: 1px solid $color-sense;
+  padding: 10px;
+}
+
+.nst-nav-butn-breeze {
+  border: 1px solid $color-breeze;
+  color: $color-storm;
+  height: 22px;
+  line-height: 22px;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: $font-size-medium;
+  margin-top: 8px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.nst-nav-butn-breeze:hover {
+  color: $color-storm;
+}
+.back-butn{
+  width: 50px
+}
+.editable-input.editable-has-buttons {
+  height: 28px;
+  border-color: $color-sense;
+}
+.editable-buttons button{
+  width: 48px;
+  height: 28px;
+  background-color: $color-sense;
+  border: 1px solid #00B45A;
+  color: white;
+  display: inline-flex;
+  justify-content: center;
+  border-radius: 5px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.editable-buttons button:last-of-type{
+  border: 1px solid $color-breeze;
+  color: $color-storm;
+  width: 64px;
+  height: 28px;
+  border-radius: 5px;
+  line-height: 22px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  display: inline-flex;
+  justify-content: center;
+  background-color: $color-white;
+}
+
+.modal-add-input {
+  width: calc(100% - 50px)!important;
+}
+.wngbot {
+  height: 100px;
+  align-items: center;
+}
+.wngbot .switch{
+  width: 200px;
+}
+.wngbot .switch .noton{
+  font-size: $font-size-h6;
+  font-weight: 900;
+}
+.wngbot .switch .on{
+  font-size: $font-size-h6;
+  font-weight: 500;
+
+}
+.nst-description {
+  background-color: $color-breeze-50;
+  font-size: $font-size-small;
+  height: 30px;
+  border-radius: 4px;
+  padding: 4px 0 0 4px;
+}
+.optionrow div:first-child {
+  min-width: 24px;
+}

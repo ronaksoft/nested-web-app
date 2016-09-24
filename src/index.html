@@ -1,48 +1,164 @@
 <!doctype html>
 <html ng-app="nested">
-  <head>
-    <meta charset="utf-8">
-    <title>nested</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <base href="/" target="{{target}}">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<head>
+  <meta charset="utf-8">
+  <title>nested</title>
+  <meta name="description" content="">
+  <meta name="viewport"
+        content="width=device-width,maximum-scale=1.2,initial-scale=1.0,minimum-scale=1.0,user-scalable=yes,shrink-to-fit=no">
+  <base href="/">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- run `gulp inject` to automatically populate bower styles dependencies -->
-    <!-- endbower -->
-    <!-- endbuild -->
+  <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+  <!-- bower:css -->
+  <!-- run `gulp inject` to automatically populate bower styles dependencies -->
+  <!-- endbower -->
+  <!-- endbuild -->
 
-    <!-- build:css({.tmp/serve,src}) styles/app.css -->
-    <!-- inject:css -->
-    <!-- css files will be automatically insert here -->
-    <!-- endinject -->
-    <!-- endbuild -->
-  </head>
-  <body>
-    <div class="maincontainer">
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+  <!-- build:css({.tmp/serve,src}) styles/app.css -->
+  <!-- inject:css -->
+  <!-- css files will be automatically insert here -->
+  <!-- endinject -->
+  <!-- endbuild -->
+  <style id="initial-loading-style">
+    .loading-container{
+      position: fixed;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #FAFAFA;
+      z-index: 9999;
+    }
+    .loading-text {
+      font-size: 20px;
+      color: #104710;
+    }
 
-    <div ui-view class="_fh _fw"></div>
+    .loading-text:after {
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: bottom;
+      -webkit-animation: ellipsis steps(4,end) 1600ms infinite;
+      animation: ellipsis steps(4,end) 1600ms infinite;
+      content: "\2026"; /* ascii code for the ellipsis character */
+      width: 0px;
+    }
+    .slider{
+      position: relative;
+      width: 250px;
+      height: 4px;
+      margin-top: -30px;
+      overflow: hidden;
+    }
+    .line{
+      position: absolute;
+      background: #14d769;
+      width: 250px;
+      height: 4px;
+      overflow: hidden;
+    }
+    .break{
+      position: absolute;
+      background: #fafafa;
+      width: 6px;
+      height: 4px;
+    }
 
-    <!-- build:js(src) scripts/vendor.js -->
-    <!-- bower:js -->
-    <!-- run `gulp inject` to automatically populate bower script dependencies -->
-    <!-- endbower -->
-    <!-- endbuild -->
+    .dot1{ animation: loading 2s infinite;}
+    .dot2{ animation: loading 2s 0.5s infinite; }
+    .dot3{ animation: loading 2s 1s infinite; }
 
-    <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
-    <!-- inject:js -->
-    <!-- js files will be automatically insert here -->
-    <!-- endinject -->
+    @keyframes loading {
+      from { left: 0; }
+      to { left: 250px; }
+    }
 
-    <!-- inject:partials -->
-    <!-- angular templates will be automatically converted in js and inserted here -->
-    <!-- endinject -->
-    <!-- endbuild -->
+    @keyframes ellipsis {
+      to {
+        width: 1.15em;
+      }
+    }
+
+    @-webkit-keyframes ellipsis {
+      to {
+        width: 1.15em;
+      }
+    }
+  </style>
+</head>
+<body dir="ltr">
+<div class="body" ng-controller="AppController as ctlApp">
+
+  <!--Initial loading part-->
+  <div nst-show-effect data-show="{{ctlApp.showLoadingScreen}}" jq-options="{type:'fade', duration:400, delay:500}"
+       data-show="ctlApp.showLoadingScreen"
+       class="loading-container">
+    <div>
+      <div style="height: 130px">
+        <svg width="60" height="60" viewBox="0 0 120 120">
+          <defs><style>.a{isolation:isolate;}.b{fill:#14d769;}.c{mix-blend-mode:multiply;fill:url(#a);}</style>
+            <radialGradient id="a" cx="60" cy="74.93" r="59.94" gradientTransform="translate(120 131.12) rotate(180) scale(1 0.75)" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#00f0ff"/>
+              <stop offset="0.17" stop-color="#00f0ff" stop-opacity="0.78"/><stop offset="0.4" stop-color="#00f0ff" stop-opacity="0.5"/>
+              <stop offset="0.6" stop-color="#00f0ff" stop-opacity="0.29"/><stop offset="0.78" stop-color="#00f0ff" stop-opacity="0.13"/>
+              <stop offset="0.92" stop-color="#00f0ff" stop-opacity="0.04"/><stop offset="1" stop-color="#00f0ff" stop-opacity="0"/>
+            </radialGradient></defs><title>_Nested</title><g class="a">
+          <path class="b" d="M60,11.55l45,26a10,10,0,0,1,5,8.66V74.64a30.08,30.08,0,0,1-15,26,70,70,0,0,1-70,0,30.08,30.08,0,0,1-15-26V46.19a10,10,0,0,1,5-8.66l45-26M60,0L10,28.87A20,20,0,0,0,0,46.19V74.64a40,40,0,0,0,20,34.64h0a80,80,0,0,0,80,0h0a40,40,0,0,0,20-34.64V46.19a20,20,0,0,0-10-17.32L60,0h0Z"/>
+          <path class="b" d="M60,120a80,80,0,0,1-40-10.72A40,40,0,0,1,0,74.64V46.19a19.91,19.91,0,0,1,.73-5.35L60,75.06l59.27-34.22a19.91,19.91,0,0,1,.73,5.35V74.64a40,40,0,0,1-20,34.64A80,80,0,0,1,60,120Z"/><path class="c" d="M60,75.06l59.27-34.22a19.91,19.91,0,0,1,.73,5.35V74.64a40,40,0,0,1-20,34.64A80,80,0,0,1,60,120"/>
+          </g>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="180" height="60" viewBox="0 0 320 120" style="margin-left: 10px;">
+          <defs><style>.j{fill:#14d769;}</style></defs>
+          <path class="j" d="M282.71,82.83c1.1,11.15,5.72,13.66,11.45,13.66,5.07,0,9.94-1.61,13.21-4.47,4.72-7.28,4.77-22.39,3.92-44.64-0.7-18.18-2.81-27-17.82-28.57,0.7-4.37,1.05-6.53,5.82-6.17,16.57,1.1,20,19,20.33,31.43,0.7,25.15,1.51,44.64-8,53.72-4.62,4.42-11.4,6.28-18.38,6.28-8.94,0-17.12-2.91-19-19.93-1.76-16,.9-28.82,7.23-34.84a25.72,25.72,0,0,1,18.07-7.13,37.17,37.17,0,0,1,14.16,3.26l-0.25,7.73a31,31,0,0,0-14-3.36,21.26,21.26,0,0,0-13,4.22c-4.37,6.68-4.67,18.68-3.72,28.82M74.43,78.22c14.36,1.25,26.26-1.56,32.08-7,4.42-4.12,5.17-10.39,4.62-15.56-1.05-9.24-9-13.3-17.67-13.46-8.84-.15-14.46,2.66-19,7-6.93,6.48-9.34,19.23-7.88,32.54,1.76,15.92,10.19,22.39,21.94,22.54A57.4,57.4,0,0,0,107,100.91c4.27-1.51,4.57-4.47,3-9.14-10.54,3.11-16.87,4-22.69,3.92-7.63-1.31-11-5.82-12.25-17.07-1-8.49.55-17.62,4.07-24.15A20.58,20.58,0,0,1,92.31,50.2c6.17,0.1,9.39,2.61,9.94,6.83a15.09,15.09,0,0,1-1.1,8.69c-6.58,4.77-17.87,6-27.16,5Zm96.48-27.39h36.85l0.5-6.83H171.42Zm18.7-11.68c0-2.91-.1-5.72-0.25-7.48a3.2,3.2,0,0,0-3.46-3.16c-1.41,0-3.56.15-5.37,0.35,0.5,3.46.7,11.8,0.7,26.31-0.1,11.4,0,29.92.5,36,0.5,6.63,3.26,13,12.65,13a31.87,31.87,0,0,0,11.3-2.21c3.26-1.46,3.46-4.22,2-8.39a46.94,46.94,0,0,1-12.85,2.66c-3.41-.25-4.47-3.11-4.77-7.13-0.45-6.88-.45-41.77-0.45-50M160.14,53.31c2.06-5,1-8.74-3.56-9.94a45.45,45.45,0,0,0-11-1.21c-5.07.25-11.7,1.46-16.07,5.67a16.13,16.13,0,0,0-4.52,13.05c1.41,17.22,28.17,13.46,29.17,25.86a9.85,9.85,0,0,1-2.06,7.33,33.56,33.56,0,0,1-10.29,1.51A51,51,0,0,1,125.29,93c-1.31,5.12-1.46,8.23,2.41,9.64,3.31,1.25,9.29,1.71,14,1.51,7.83-.35,13.2-1.61,17.07-5.62,2.61-2.66,4.67-8.08,4.22-13.81-1.56-19-28.52-15.16-29.32-25.51a10.56,10.56,0,0,1,1.51-6.68,32.31,32.31,0,0,1,10.49-1.71,50.75,50.75,0,0,1,14.51,2.46m64.63,24.9c14.41,1.25,26.26-1.56,32.13-7,4.42-4.12,5.12-10.39,4.57-15.56-1-9.24-9-13.3-17.62-13.46-8.84-.15-14.46,2.66-19.08,7-6.88,6.48-9.29,19.23-7.83,32.54,1.76,15.92,10.19,22.39,21.94,22.54a56.88,56.88,0,0,0,18.48-3.31c4.32-1.51,4.62-4.47,3-9.14-10.54,3.11-16.87,4-22.64,3.92-7.63-1.31-11-5.82-12.25-17.07-1-8.49.55-17.62,4.07-24.15a20.44,20.44,0,0,1,13.1-4.27c6.23,0.1,9.39,2.61,10,6.83a16,16,0,0,1-1.11,8.69c-6.63,4.77-17.87,6-27.21,5Zm-210-23.08c6.72-2.31,15.5-3.86,19.62-3.71,6.27,1.81,8,6.32,8.08,22.08v29.4a1.77,1.77,0,0,0,1.81,1.61c1.91,0,5.07-.3,7-0.5V73.85c0-15.8.3-31.21-16.51-31.21C26.82,42.64,16.34,46,6,50.22V102.9a1.77,1.77,0,0,0,1.81,1.61c1.91,0,5-.3,7-0.5V55.13"/>
+        </svg>
+      </div>
+      <div class="slider">
+        <div class="line"></div>
+        <div class="break dot1"></div>
+        <div class="break dot2"></div>
+        <div class="break dot3"></div>
+      </div>
     </div>
-  </body>
+  </div>
+  <!--End loading-->
+
+  <!--[if lt IE 10]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div ng-if="ctlApp.loginView" ui-view class="_fh _fw ng-class:{'_oh': topNavOpen}"></div>
+  <div ng-if="!ctlApp.loginView" class="_fh _fw ng-class:{'_oh': topNavOpen}">
+    <div
+      class="maincontainer _fw"
+      ng-class="{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
+      <nst-sidebar
+        collapsed="ctlApp.viewSettings.sidebar.collapsed"
+        class="_fn _fh">
+      </nst-sidebar>
+      <div class="nst-container" ui-view></div>
+    </div>
+  </div>
+
+  <disconnect-message data-disconnect="ctlApp.disconected" />
+  <!-- build:js(src) scripts/vendor.js -->
+  <!-- bower:js -->
+  <!-- run `gulp inject` to automatically populate bower script dependencies -->
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:js({.tmp/serve/config,.tmp/serve,.tmp/partials,src}) scripts/app.js -->
+  <!-- inject:js -->
+  <!-- js files will be automatically insert here -->
+  <!-- endinject -->
+
+  <!-- inject:partials -->
+  <!-- angular templates will be automatically converted in js and inserted here -->
+  <!-- endinject -->
+  <!-- endbuild -->
+</div>
+</body>
 </html>

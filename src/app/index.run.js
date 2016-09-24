@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,17 +6,13 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $interval, $uibModal,
+  function runBlock($rootScope, $uibModal, $timeout,$interval,
                     ngProgressFactory,
-                    UNREGISTER_REASON, AUTH_EVENTS, AuthService, LoaderService, LOADER_EVENTS) {
-    $rootScope.rexExt = /(?:\.([^.]+))?$/;
-
+                    NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
+                    NstSvcAuth, NstSvcLoader, NstSvcPlaceInvitationFriend, NstSvcPlaceAuthFriend, NstSvcPostCommentFriend) {
     $rootScope.now = function () {
       return new Date();
-    }
-    // $interval(function () {
-    //   $rootScope.now.setTime(Date.now());
-    // }, 1000);
+    };
 
     $rootScope.progress = {
       bar: ngProgressFactory.createInstance(),
@@ -38,11 +34,11 @@
     $rootScope.progress.bar.setHeight('5px');
     // $rootScope.progress.bar.setColor('#14D766');
 
-    LoaderService.addEventListener(LOADER_EVENTS.INJECTED, function () {
+    NstSvcLoader.addEventListener(NST_LOADER_EVENT.INJECTED, function () {
       $rootScope.progress.fn.start();
     });
 
-    LoaderService.addEventListener(LOADER_EVENTS.FINISHED, function (event) {
+    NstSvcLoader.addEventListener(NST_LOADER_EVENT.FINISHED, function (event) {
       if (event.detail.rejected > 0) {
         $rootScope.progress.fn.reset();
       } else {
@@ -52,23 +48,47 @@
 
     $rootScope.modals = {};
 
-    AuthService.addEventListener(AUTH_EVENTS.UNAUTHORIZE, function (event) {
-      if (!$rootScope.modals['unauthorized'] && UNREGISTER_REASON.DISCONNECT == event.detail.reason) {
-        $rootScope.modals['unauthorized'] = $uibModal.open({
-          animation: false,
-          templateUrl: 'app/unauthorized/unauthorized.html',
-          controller: 'UnauthorizedController',
-          size: 'sm'
-        });
-      }
-    });
+    //Config Tiny-MCE base url
+    if (NST_CONFIG.TINY_MCE_ASSETS_PATH) {
+      tinyMCE.baseURL = NST_CONFIG.TINY_MCE_ASSETS_PATH;
+    }
 
-    AuthService.addEventListener(AUTH_EVENTS.AUTHORIZE, function () {
-      if ($rootScope.modals['unauthorized']) {
-        $rootScope.modals['unauthorized'].close();
-        delete $rootScope.modals['unauthorized'];
-      }
-    });
+
+    // var timers = [];
+    // $rootScope.scrolling = function(e) {
+    //   if (e.currentTarget.scrollY + e.currentTarget.screen.availHeight > document.body.scrollHeight) {
+    //     console.log("scrolled")
+    //   }
+    //
+    //   timers.forEach(function(promises) {
+    //     $timeout.cancel(promises);
+    //   });
+    //   var $sidebar = $("#content-plus"),
+    //     topPadding = 150;
+    //
+    //   var timer = $timeout(
+    //     function() {
+    //       if (150 > e.currentTarget.scrollY > 0) {
+    //         $sidebar.stop().css({
+    //           marginTop: e.currentTarget.scrollY
+    //         });
+    //       } else if (e.currentTarget.scrollY > topPadding) {
+    //         $sidebar.stop().css({
+    //           marginTop: e.currentTarget.scrollY - 51
+    //         });
+    //       } else if (e.currentTarget.scrollY == 0){
+    //         $sidebar.stop().css({
+    //           marginTop: 0
+    //         });
+    //       }
+    //     },
+    //     50
+    //   );
+    //   timers.push(timer);
+    //   timer;
+    //   $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
+    // }
+
+
   }
-
 })();

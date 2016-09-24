@@ -1,0 +1,33 @@
+{
+  "NST_CONFIG": {
+    "APP_ID": "web-{{BUILD}}",
+    "LOG": {
+      "LEVEL": 1,
+      "GATEWAY": {
+        "TYPE": "http",
+        "OPTIONS": {
+          "METHOD": "POST",
+          "URL": "https://api.nested.me/log"
+        }
+      }
+    },
+    "SIGN_OUT_TARGET" : "https://nested.me",
+    "TINY_MCE_ASSETS_PATH" : "https://webapp.nested.me/scripts/",
+    "WEBSOCKET": {
+      "URL": "wss://cyrus.nested.me:443",
+      "TIMEOUT": 60000
+    },
+    "STORE": {
+      "URL": "https://xerxes.nested.me",
+      "TOKEN_EXPMS": 3550000
+    },
+    "PIONEER_INVITATION": {
+      "URL": "https://x.nested.me/send_invite.php"
+    },
+    "REGISTER" : {
+      "AJAX" : {
+        "URL" : "https://api.nested.me"
+      }
+    }
+  }
+}

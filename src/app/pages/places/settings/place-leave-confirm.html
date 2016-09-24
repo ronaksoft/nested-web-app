@@ -1,0 +1,20 @@
+<div id="delete-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw">Leaving
+        {{leaveCtrl.place.name}}</p>
+      <div class="_df" ng-click="$dismiss()"><img src="../assets/icons/close.svg"></div>
+    </div>
+    <div class="_difv _fw">
+      <p class="_df nst-mood-storm modal-detail">Do you want to leave "{{leaveCtrl.place.name}}" place?</p>
+      <div class="_difh _jcc">
+        <div class="butn-white _jcc _df" ng-click="$dismiss();">
+          <a class="_df">No</a>
+        </div>
+        <div class="butn-red _jcc _df" ng-click="$close();">
+          <a class="_df">Yes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

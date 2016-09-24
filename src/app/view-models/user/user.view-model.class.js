@@ -1,0 +1,30 @@
+(function () {
+  'use strict';
+
+  angular
+    .module('nested')
+    .factory('NstVmUser', NstVmUser);
+
+  function NstVmUser(NstTinyUser, NstUser) {
+    /**
+     * Creates an instance of NstVmUser
+     *
+     * @param {NstTinyUser|NstUser} userModel The User Model
+     *
+     * @constructor
+     */
+    function VmUser(userModel) {
+      this.id = '';
+      this.name = '';
+      this.avatar = '';
+      
+      if (userModel instanceof NstTinyUser || userModel instanceof NstUser) {
+        this.id = userModel.getId();
+        this.name = userModel.getFullName();
+        this.avatar = userModel.getPicture().getThumbnail(32).getUrl().view;
+      }
+    }
+
+    return VmUser;
+  }
+})();

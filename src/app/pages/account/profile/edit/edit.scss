@@ -1,0 +1,48 @@
+.upload-photo-container-setting {
+  height: 125px;
+}
+.panel-profile-setting {
+  padding: 50px 8px 8px 8px;
+  width: 574px;
+  text-decoration: none;
+  border: 1px $color-breeze;
+  //overflow-y: auto;
+}
+.panel-profile-setting .select-month {
+  width: 174px;
+}
+.panel-profile-setting .select-day {
+  width: 102px;
+  padding-left: 2px;
+}
+.panel-profile-setting .select-year {
+  width: 102px;
+  padding-left: 2px;
+}
+
+#nav-prof {
+display: none
+}
+
+.maincontainer.prof-hld {
+  .content-plus {
+    display: none;
+  }
+  .content {
+    width: 100%;
+    margin: auto;
+    max-width: 1058px;
+  }
+  #content-wrapper .content {
+    //height: calc(100vh - 180px );
+  }
+  #nav-prof {
+    display: flex;
+  }
+  .navbar-bottom {
+    display: none;
+    div {
+      align-items: center;
+    }
+  }
+}

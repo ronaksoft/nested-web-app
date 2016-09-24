@@ -1,0 +1,145 @@
+.attachments-preview-bar {
+  ul {
+    list-style: none;
+    li {
+      display: inline-block;
+    }
+  }
+  ul.thumbnail-bar {
+    li {
+      margin : 4px;
+      vertical-align: middle;
+    }
+    .attach-thumbnail {
+      height: 96px;
+      width: 96px;
+      display: inline-block;
+    }
+    .attach-thumbnail-default {
+      height: 96px;
+      width: 72px;
+      background: url('../assets/icons/attachment_card.svg') no-repeat;
+      background-position: 0px -288px;
+      background-size: cover;
+      padding: 20px 8px 6px 8px;
+      word-wrap: break-word;
+      font-size: $font-size-xsmall;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .attach-thumbnail-archive {
+      background-position: 0px -384px;
+    }
+    .attach-thumbnail-document {
+      background-position: 0px 0px;
+    }
+    .attach-thumbnail-pdf {
+      background-position: 0 -192px;
+    }
+    .attach-thumbnail-audio {
+      background-position: 0 -96px;
+    }
+    .attach-thumbnail-video {
+      background-position: 0 -96px;
+    }
+  }
+  ul.badge-bar {
+    li {
+      margin-right: 8px;
+      margin-bottom: 4px;
+    }
+    a.attach-badge-default {
+      .badge-extension {
+        display: inline-block;
+        line-height: 24px;
+        font-size: $font-size-xxsmall;
+        font-weight: bold;
+        border-radius: 6px 0 0 6px;
+        color: $color-white;
+        background-color: $color-storm;
+        padding: 0 4px;
+        min-width: 16px;
+        max-width: 48px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .badge-name {
+        display: inline-block;
+        line-height: 24px;
+        font-size: $font-size-xsmall;
+        min-width: 16px;
+        max-width: 172px;
+        border-radius: 0 6px 6px 0;
+        background-color: $color-breeze-50;
+        color: $color-solid;
+        padding: 0 6px;
+        margin-left: -3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    a.attach-badge-default:hover {
+      color: $color-white;
+      text-decoration: none;
+    }
+    .attach-badge-image {
+      .badge-extension {
+        background-color: #3CC882 !important;
+      }
+    }
+    .attach-badge-archive {
+      .badge-extension {
+        background-color: #5A28BE !important;
+      }
+    }
+    .attach-badge-document {
+      .badge-extension {
+        background-color: #148CF0 !important;
+      }
+    }
+    .attach-badge-video {
+      .badge-extension {
+        background-color: #3CC882 !important;
+      }
+    }
+    .attach-badge-audio {
+      .badge-extension {
+        background-color: #3CC882 !important;
+      }
+    }
+    .attach-badge-pdf {
+      .badge-extension {
+        background-color: #FA0032 !important;
+      }
+    }
+    .attach-badge-other {
+    }
+  }
+}
+.attachments-list {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 68px;
+  width: 100px;
+  opacity: 0;
+}
+.attachments-list:hover {
+  opacity: .85;
+  transition: .3s;
+}
+.downloadprogress {
+  position: absolute;
+  display: flex;
+  width: 32px;
+  height: 32px;
+  left: 48%;
+  top: 45%;
+  z-index: 20;
+}
+.img-thumb-view {
+  filter: blur(2px);
+  opacity: .8;
+}

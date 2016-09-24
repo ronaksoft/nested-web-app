@@ -1,0 +1,110 @@
+<div  data-ng-init="mimeSpl = attachment.mimeType.split('/')" data-ng-switch="mimeSpl[0]">
+
+  <div>
+    <div class="_pa image-box-preview _fh">
+      <div class="image-preview _df _fh">
+        <!--Image-->
+        <!--image/*-->
+        <img data-ng-switch-when="image" class="nst-preview-pic-mode" src="{{attachment.download.url}}" onload="angular.element(this).scope().attLoad.success();" onerror="angular.element(this).scope().attLoad.fail(angular.element(this).scope().attachment);"/>
+
+        <!--Audio-->
+        <!--audio/*-->
+        <videogular data-ng-switch-when="audio" class="_hf audioplayer" data-ng-init="ad = [{}]; ad[0]['src'] = attachment.download.url; ad[0]['type'] = attachment.mimeType;">
+          <vg-media data-vg-src="ad" ></vg-media>
+
+          <vg-controls>
+            <vg-play-pause-button></vg-play-pause-button>
+            <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+            <vg-scrub-bar>
+              <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            </vg-scrub-bar>
+            <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+            <vg-volume>
+              <vg-mute-button></vg-mute-button>
+            </vg-volume>
+          </vg-controls>
+        </videogular>
+
+        <!--Video-->
+        <!--video/*-->
+        <videogular data-ng-switch-when="video" class="_fw" data-ng-init="vg = [{}]; vg[0]['src'] = attachment.download.url; vg[0]['type'] = attachment.mimeType;">
+          <vg-media vg-src="attachment.download.url" vg-native-controls="true" vg-preload="none"></vg-media>
+          <vg-buffering></vg-buffering>
+        </videogular>
+
+        <!--Document-->
+        <!--text/*-->
+        <div data-ng-switch-when="text" class="att-exp-text-large-">
+          <div class="_tac _fw _dibp title-att color-doc nst-font-large">DOC</div>
+        </div>
+
+        <!--application/*-->
+        <div data-ng-switch-when="application" data-ng-switch="mimeSpl[1]">
+          <!--PDF-->
+          <!--application/pdf-->
+          <div data-ng-switch-when="pdf" data-ng-controller="AttachmentPdfController">
+            <div class="att-exp-application-pdf-large">
+            <div class="_tac _fw _dibp title-att nst-mood-lively nst-font-large">PDF</div>
+            <!--<ng-pdf template-url="app/post/partials/attachment/pdf_viewer.html" url="attachment.download.url"></ng-pdf>-->
+            </div>
+          </div>
+
+          <!--Archive-->
+          <div data-ng-switch-when="zip" class="att-exp-application-zip-large">
+            <div class="_tac _fw _dibp title-att color-zip nst-font-large">ZIP</div>
+          </div>
+
+
+          <div data-ng-switch-when="x-rar-compressed" class="att-exp-application-x-rar-compressed">
+            <div class="_tac _fw _dibp title-att color-zip nst-font-large">RAR</div>
+          </div>
+
+          <!--Document-->
+          <div data-ng-switch-when="rtf" class="att-exp-text-large-">
+            <div class="_tac _fw _dibp title-att color-zip nst-font-large">DOC</div>
+          </div>
+
+          <div data-ng-switch-when="msword" class="att-exp-application-msword-large">
+            <div class="_tac _fw _dibp title-att color-doc  nst-font-large">DOCX</div>
+          </div>
+
+          <div data-ng-switch-when="vnd.openxmlformats-officedocument.wordprocessingml.document" class="att-exp-text-large-">
+            <div class="_tac _fw _dibp title-att color-zip nst-font-large">DOC</div>
+          </div>
+
+          <!--Other-->
+          <!--<iframe data-ng-switch-default class="_fw" src="{{attachment.download.url}}"></iframe>-->
+          <div data-ng-switch-default class="att-exp-application-large-">
+            <div class="_tac _fw _dibp title-att color-file nst-font-large">File</div>
+          </div>
+        </div>
+
+        <!--*/*-->
+        <!--Other - Unknown-->
+        <!--<iframe data-ng-switch-default class="att-exp-" src="{{attachment.download.url}}"></iframe>-->
+        <div data-ng-switch-default class="att-exp-application-large-">
+          <div class="_tac _fw _dibp title-att color-file nst-font-large">File</div>
+        </div>
+      </div>
+      <div class="_fw _dif nst-preview-footer">
+        <div class="_fw">
+          <p class="nst-font-large filename-p">{{attachment.filename}}</p><br>
+          <p class="nst-font-small nst-mood-storm">{{attachment.size | bytes:0}}</p>
+        </div>
+        <div class="_fw">
+          <div dir="rtl" class="_difh _fw attachcontrols">
+            <div class="_df nst-nav-butn-breeze _jcc" data-ng-if="attachment.post.attachments.length > 1">
+              <div data-ng-click="nextAtt()" class="_df nst-arrow-rotated-270"></div>
+              <div data-ng-click="prvAtt()" class="_df nst-arrow-rotated-90"></div>
+            </div>
+
+
+            <div class="_df nst-nav-butn-breeze"><a href="" data-ng-click="download(attachment)" class="nst-mood-storm">Download</a></div>
+            <div class="_df nst-nav-butn-breeze"><a href="" class="nst-mood-storm">Open in Browser</a></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

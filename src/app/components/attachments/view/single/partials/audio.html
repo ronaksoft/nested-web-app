@@ -1,0 +1,12 @@
+<div class="nst-preview-pic-mode" ng-if="attachment.isDownloaded">
+  <audio controls>
+    <source data-ng-src="attachment.url">
+    Your browser does not support the audio element.
+  </audio>
+</div>
+
+<div ng-if="!attachment.isDownloaded" class="nst-preview-pic-mode">
+  <div class="downloadprogress">
+    <div ng-progressbar="{{attachment.downloadedRatio}}" progressbar-mode="circle"></div>
+  </div>
+</div>

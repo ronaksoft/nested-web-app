@@ -1,0 +1,338 @@
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Places *
+  **********************************************************
+ */
+
+.option-add-icon-plc {
+  width: 24px;
+  height: 24px;
+  background-image: url("../assets/icons/actionbuttons_place.svg");
+  background-position: 0 -48px;
+  background-repeat: no-repeat;
+}
+
+#AllPlaces {
+  min-width: 574px;
+  overflow-y: scroll;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.placearrow {
+  width: 40px;
+}
+ul.top-nav-places li div div:only-of-type{
+  animation: appearence .4s ease-in;
+}
+ul.top-nav-places li div div:nth-child(2){
+  animation: appearence .2s ease-in;
+}
+ul.top-nav-places li div div:nth-child(2) img,.top-nav-places li div div:nth-child(2) div{
+  animation: grow-full .1s ease-in;
+}
+ul.top-nav-places {
+  overflow-y: auto;
+  border-bottom: 1px solid $color-calm;
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  flex:1 0 auto;
+  ul {
+    border-bottom: 1px solid $color-calm;
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    flex:1 0 auto;
+    list-style: none;
+    padding-left: 25px;
+    li {
+      animation: appearence .1s ease-in;
+    }
+  }
+}
+
+.placerow:hover {
+  background-color: $color-sense-5;
+}
+
+.top-nav-places > div:hover:last-child {
+  //background-color: $color-white;
+}
+
+.top-nav-places .logo {
+  width: 48px;
+  margin-left: 16px;
+  flex: none;
+  justify-content: center;
+  align-items: center;
+}
+
+
+[class*=role-icon-]  {
+  background: url('../assets/icons/roleicon.svg') no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.role-icon-green {
+  background-position: 0 -24px;
+}
+.role-icon-gray {
+  background-position: 0 -48px;
+}
+.role-icon-key-wait{
+  background-position: 0 -72px;
+}
+.role-icon-avatar-wait{
+  background-position: 0 -96px;
+}
+
+
+[class*=role-icons-]  {
+  background: url('../assets/icons/roleicons.svg') no-repeat;
+  width: 16px;
+  height: 16px;
+}
+
+.role-icons-key {
+  background-position: 0 -16px;
+}
+
+.role-icons-avatar {
+  background-position: 0 -32px;
+}
+
+.role-icons-key-wait {
+  background-position: 0 -48px;
+}
+
+.role-icons-avatar-wait {
+  background-position: 0 -64px;
+}
+
+
+[class*=nst-deactive-ico-]{
+  background: url('../assets/icons/placeicon.svg') no-repeat;
+  height: 24px;
+  min-width: 24px;
+}
+
+.nst-deactive-ico-atsign {
+  background-position: 0px -48px;
+}
+
+.nst-deactive-ico-lock {
+  background-position: 0px -24px;
+}
+
+.nst-deactive-ico-search {
+  background-position: 0px -72px;
+}
+
+[class*=nst-active-ico-]{
+  background: url('../assets/icons/placeicon_24.png') no-repeat;
+  height: 24px;
+  min-width: 24px;
+}
+
+.nst-active-ico-atsign {
+  background-position: 0px -48px;
+}
+
+.nst-active-ico-eye {
+  background-position: 0px -24px;
+}
+
+.nst-active-ico-search {
+  background-position: 0px -72px;
+}
+
+.nst-more-badge {
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
+  height: 32px;
+  width: 32px;
+}
+.nst-option-badge {
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
+  background-position: 0 -32px;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
+.nst-act-badge {
+  background: url('../assets/icons/nst-more-badge.svg') no-repeat;
+  background-position: 0 -64px;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
+._dtc .nst-more-badge {
+  width: 48px;
+  height: 32px;
+}
+
+[class*=nst-place-icon-]{
+  background: url('../assets/icons/placeicon.svg') no-repeat;
+  height: 24px;
+  width: 24px;
+}
+
+.nst-place-icon-shown {
+  background-position: 0px -96px;
+}
+
+.nst-place-icon-notif {
+  background-position: 0px -120px;
+}
+
+.nst-place-icon-lock {
+  background-position: 0px -24px;
+}
+
+.nst-place-icon-print {
+  background-position: 0px 0px;
+
+}
+.nst-place-icon-search{
+  background-position: 0px -72px;
+}
+.nst-place-icon-email{
+  background-position: 0px -48px;
+}
+
+.nst-arrow {
+  background: url('../assets/icons/arrow.svg') no-repeat;
+  height: 25px;
+  width: 16px;
+  padding: 0 0 0 5px;
+  background-position: center center;
+  background-size: contain;
+  cursor: pointer;
+}
+
+[class*=nst-arrow-]{
+  background: url('../assets/icons/arrow.svg') no-repeat;
+  height: 16px;
+  width: 16px;
+  cursor: pointer;
+  background-size: cover;
+}
+.nst-arrow-rotated {
+  background-position: center center;
+  transform: rotate(180deg);
+}
+
+.nst-arrow-rotated-90 {
+  transform: rotate(90deg);
+}
+
+.nst-arrow-rotated-270 {
+  transform: rotate(270deg);
+}
+
+.nst-menu-arrow {
+  background: url('../assets/icons/menu_arrow_16.png') no-repeat;
+  height: 12px;
+  width: 12px;
+  background-position: center center;
+  cursor: pointer;
+}
+
+.arrow {
+  width: 15px;
+}
+
+.arrow-places {
+  width: 25px;
+  vertical-align: middle;
+}
+
+.nst-more {
+  width: 80px;
+  flex: none;
+  justify-content: center;
+}
+.no-animation {
+  animation: none!important;
+}
+.no-animation *{
+  animation: none!important;
+}
+.empty-space {
+  width: 24px;
+  height: 24px;
+}
+
+.nst-more-members {
+  min-width: 30px;
+  height: 30px;
+  float: right;
+  line-height: 28px;
+  text-align: center;
+  font-size: $font-size-small;
+  color: $color-storm;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.nst-no-more-members {
+  min-width: 30px;
+  height: 30px;
+  float: right;
+  line-height: 28px;
+  text-align: center;
+  font-size: $font-size-small;
+  color: $color-storm;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.restplace {
+  background-color: white;
+  min-height: 300px;
+}
+.restplace:hover {
+  background-color: white;
+}
+
+.arrow-holder-places {
+  height: 64px;
+}
+
+.label-position-places {
+  margin-left: 5px;
+  margin-top: 20px;
+}
+
+.name h5 {
+  //color: #000000;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
+}
+.placerow {
+  flex-direction: row;
+  height: 64px;
+  background-color: $color-white;
+  position: relative;
+  border-bottom: 1px solid $color-calm;
+  .option-add-icon-plc {
+    width: 42px;
+    height: 42px;
+    background-position: 0 -84px;
+    background-size: cover;
+  }
+}
+.properties {
+  width: 100px;
+  flex:none;
+}
+.ico {
+  min-width: 30px;
+  padding-top: 4px;
+  justify-content: center;
+}
+.lineee{
+  margin: 0;
+}

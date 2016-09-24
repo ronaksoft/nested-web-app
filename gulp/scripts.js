@@ -19,10 +19,21 @@ gulp.task('scripts', function() {
 });
 
 function buildScripts() {
+  var config = gulp.src([
+    path.join(conf.paths.conf, '/*.json')
+  ]).pipe(
+    $.ngConfig('nested.config')
+  ).pipe(
+    $.replace('{{BUILD}}', '3.0.0-alpha')
+  ).pipe(
+    gulp.dest(path.join(conf.paths.tmp, '/serve/config'))
+  );
+
   return gulp.src([
     path.join(conf.paths.src, '/app/**/*.js'),
-    path.join(conf.paths.src, '/nested/**/*.js')
+    path.join(conf.paths.src, '/nested/**/*.js'),
+    path.join(conf.paths.tmp, '/serve/config/*.js')
   ]).pipe($.eslint())
     .pipe($.eslint.format())
-    .pipe($.size())
-};
+    .pipe($.size());
+}

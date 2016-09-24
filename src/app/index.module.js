@@ -3,10 +3,9 @@
 
   angular
     .module('nested', [
-      'ngAnimate',
+      'nested.config',
       'ngCookies',
       'ngTouch',
-      'angularResizable',
       'ui.select',
       'ngSanitize',
       'ngMessages',
@@ -15,6 +14,7 @@
       'ngResource',
       'ngWebSocket',
       'ngCordova',
+      'ngScrollbars',
       'PlPush',
       'angular-web-notification',
       'LocalStorageModule',
@@ -23,7 +23,6 @@
       'ui.router',
       'ui.bootstrap',
       'toastr',
-      'pdf',
       'internationalPhoneNumber',
       'rorymadden.date-dropdowns',
       'com.2fdevs.videogular',
@@ -33,9 +32,10 @@
       'ui.tinymce',
       'hc.marked',
       'xeditable',
-      // 'unsavedChanges',
       'ngProgress',
       'ngDroplet',
-      'lodash'
+      'lodash',
+      'momentjs',
+      'cfp.hotkeys'
     ]);
 })();

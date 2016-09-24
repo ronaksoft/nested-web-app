@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider, toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider) {
+  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, ScrollBarsProvider) {
 
     localStorageServiceProvider
       .setPrefix('nested');
@@ -19,25 +19,45 @@
     $locationProvider.hashPrefix('');
 
     // International Phone Directive
-    ipnConfig.defaultCountry = 'ir';
-    ipnConfig.preferredCountries = ['ir', 'pl'];
+    ipnConfig.defaultCountry = 'us';
+    // ipnConfig.preferredCountries = ['ir', 'pl'];
 
     // Markdown Configs
     markedProvider.setOptions({
       sanitize: true
     });
     markedProvider.setRenderer({
-      heading: function (text, level) {
+      link: function(href, title, text) {
+        return "<a href='" + href + "'" + (title ? " title='" + title + "'" : '') + " target='_blank'>" + text + "</a>";
+      },
+      heading: function (text) {
         return '<strong>' + text + '</strong>';
+      },
+      paragraph: function (text) {
+        return text;
       }
     });
 
     // Set options third-party lib
     toastrConfig.allowHtml = true;
-    toastrConfig.timeOut = 3000;
+    toastrConfig.timeOut = 5000;
     toastrConfig.positionClass = 'toast-top-right';
-    toastrConfig.preventDuplicates = true;
+    toastrConfig.preventOpenDuplicates = true;
     toastrConfig.progressBar = true;
-  }
 
+    // Scrollbars
+    ScrollBarsProvider.defaults = {
+      theme: 'minimal-dark',
+      scrollInertia: 150,
+      advanced: {
+        updateOnContentResize: true
+      },
+      autoHideScrollbar: true
+    };
+
+    //config emojiOne
+    emojione.imageType = 'svg';
+    emojione.sprites = true;
+    emojione.imagePathSVGSprites = './../bower_components/emojione/assets/sprites/emojione.sprites.svg';
+  }
 })();

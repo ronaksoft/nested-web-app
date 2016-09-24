@@ -1,0 +1,49 @@
+<div class="nst-topnav _difh ng-class:{ 'bg-hur': topNavOpen }">
+  <div class="_fw _df">
+    <div ng-class="topNavOpen ? '_pr icon icon-top close-icon' : '_pr icon icon-top hamburger-icon'" ng-click="topNavOpen = !topNavOpen">
+      <i ng-if="ctlMiniNavbar.invitations.length > 0 && !topNavOpen" class="badge-invite">{{ctlMiniNavbar.invitations.length}}</i>
+    </div>
+  </div>
+  <div class="_fw _jcc _df">
+    <a href="#/"><div id="Logo-white"></div></a>
+  </div>
+  <div class="_fw _df">
+    <a ng-show="!topNavOpen" href="{{ctlMiniNavbar.urls.compose}}"><div class="icon icon-top comp-icon _df"></div></a>
+    <a ng-show="topNavOpen" href="#/profile"><div class="icon icon-top profile-icon _df"></div></a>
+    <a ng-show="topNavOpen" href="#/signout"><div class="icon icon-top signout-icon _df"></div></a>
+  </div>
+</div>
+<div id="top-nav-container" ng-show="topNavOpen" ng-scrollbars>
+  <div class="top-nav-actions _difh _fw">
+    <a href="{{ctlMiniNavbar.urls.unfiltered}}" class="_df">
+      <div class="top-nav-action">
+        <div class="icon icon-top-action icon-top-all-place"></div>
+      </div>
+      <span class="_df">All Places</span>
+    </a>
+    <!--<a href="{{ctlMiniNavbar.urls.bookmarks}}"><div class="top-nav-action"><div class="icon icon-top-action icon-top-bookmarks"></div></div><span class="_df">Bookmarks</span></a>-->
+    <a href="{{ctlMiniNavbar.urls.sent}}"><div class="top-nav-action"><div class="icon icon-top-action icon-top-sent"></div></div><span class="_df">Sent</span></a>
+  </div>
+  <ul class="top-nav-places _difh _fw" data-ng-if="ctlMiniNavbar.invitations.length > 0">
+    <li data-ng-repeat="invite in ctlMiniNavbar.invitations"
+        data-ng-include="'app/components/navbar/mini/invites.html'" data-ng-init="invite = invite"  ng-click="ctlMiniNavbar.invitation.showModal(invite.id)"></li>
+  </ul>
+  <ul class="top-nav-places _difh _fw">
+    <li class="_difc _fw placerow">
+      <div class="logo _df">
+        <div class="option-add-icon-plc"></div>
+      </div>
+      <a class="name _df _fw" href="{{ctlMiniNavbar.urls.placeAdd}}">
+        <div class="name _df _fw">
+          <div class="_difh">
+            <div class="_difv _fw">
+              <h4 class="_df"><b>Create Grand place</b></h4>
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    <li data-ng-repeat="place in ctlMiniNavbar.places"
+        data-ng-include="'app/components/navbar/mini/place.html'" data-ng-init="place = place"></li>
+  </ul>
+</div>

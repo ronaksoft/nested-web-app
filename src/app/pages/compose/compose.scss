@@ -1,0 +1,425 @@
+/**
+  *********************************************************
+  *     Nested Classes -  compose  *
+  *********************************************************
+ */
+
+#Composebutns a {
+  text-align: right;
+  background-color: #14D769;
+  border: 1px solid #00B45A;
+  border-radius: 5px;
+  padding: 5px 20px;
+  color: white;
+  display: inline-block;
+  font-size: medium;
+  margin: 2px;
+  cursor: pointer;
+}
+
+#ComposeContainer {
+  width: 800px;
+  background-color: white;
+  padding: 5px;
+  vertical-align: top ;
+}
+
+#ComposeContainer input[type='text'] {
+  outline: none;
+  padding: 10px;
+}
+
+#ComposeContainer .seprator {
+  border-bottom: 1px solid #c0c0c0 ;
+  vertical-align: middle;
+}
+
+#ComposeContainer .seprator > div {
+  display: inline-block;
+}
+
+#ComposeContainer #Subject {
+  display: block ;
+  height: 64px;
+  width: 100%;
+  font-size: medium;
+  border: none;
+}
+
+#ComposeContainer #To {
+  height: 32px;
+  border: none;
+  min-width: 250px;
+}
+
+#ComposeContainer .place {
+  display: inline-block;
+  background-color: #B8F3D2;
+  border-radius: 6px;
+  padding: 3px;
+  margin: 1px;
+}
+
+#ComposeContainer textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 400px;
+  border: none;
+  outline: none;
+  padding: 10px;
+}
+
+#ComposeContainer #Toolbar {display: block;}
+#ComposeContainer #Toolbar .butn {
+  padding: 4px;
+  cursor: pointer;
+}
+
+#ComposeContainer #Toolbar #Attachment {
+  margin: 5px;
+  width: 24px;
+  height: 24px;
+  background-image: url('/res/ico/attachment_icon_m.png');
+  background-size: contain;
+}
+
+div.att-item {
+  width: 72px;
+  height: 96px;
+  margin: 5px;
+  vertical-align: middle;
+  position: relative;
+  float: left;
+}
+
+.att-item > span.filename {
+  position: absolute;
+  top: 40px;
+  left: 2px;
+  right: 2px;
+  word-break: keep-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 10px;
+  color: gray;
+  overflow: hidden;
+}
+
+.att-item.inprogress {
+  opacity: 0.3 ;
+}
+
+/**
+  **********************************************************
+  *    Text Angular Overrides
+  **********************************************************
+ */
+
+.ui-select-multiple.ui-select-bootstrap {
+  width: 100%;
+  border: none;
+  box-shadow: none;
+}
+
+.butn-toolbar > .butn-group {
+  padding: 5px;
+}
+
+.nst-compose-message .butn {
+  background-color: $color-white;
+  color: $color-solid;
+  border: 0px solid $color-storm;
+}
+.nst-compose-message .butn.active {
+  background-color: $color-white;
+  color: $color-sense-wire;
+}
+.ta-scroll-window.form-control {
+  height :100%;
+  border: none;
+  padding: 5px;
+}
+.form-control {
+  box-shadow: none;
+}
+.ta-root.focussed > .ta-scroll-window.form-control {
+  border: none;
+  height: 100%;
+
+}
+
+.butn-default.active {
+  background-color: $color-sense;
+  text-shadow: none;
+  box-shadow: none;
+
+}
+
+/**
+  **********************************************************
+  *     Nested Classes - Page Specific - Compose *
+  **********************************************************
+ */
+
+.content iframe {
+  height: calc(100vh - 390px)!important;
+}
+
+#compose-body {
+  //background-color: $color-white;
+  //margin: 0px auto;
+  padding: 0px 208px;
+  width: 100%;
+  height: 100%;
+}
+
+.compose-input {
+  //margin-top: 20px;
+  height: 60px;
+  border: none;
+  padding-left: 16px;
+  font-size: $font-size-xlarge;
+  line-height: 60px;
+  &::-webkit-input-placeholder {
+    line-height: 60px;
+  }
+  &::-moz-placeholder {
+    line-height: 60px;
+  }
+  &:-ms-input-placeholder {
+    line-height: 60px;
+  }
+}
+
+.address-input {
+  width: 90%;
+  height: 40px;
+  border: none;
+  padding-left: 8px;
+}
+#compose-body span {
+  padding-left: 8px;
+}
+
+#compose-body hr {
+  width: 98%;
+  margin: auto;
+}
+
+.nst-attach-upload {
+  text-align: center;
+  min-width: 150px;
+  padding: 3px 10px;
+  background-color: $color-fillbox;
+  border-radius: 6px;
+  line-height: 15px;
+  font-size: $font-size-small;
+}
+.nst-attach-con{
+  position: relative;
+  bottom:-20px;
+  display: block;
+  align-self: flex-end;
+  width: 196px;
+  margin: 0 8px;
+
+}
+.nomargin {
+  margin-bottom: 0;
+}
+.ta-scroll-window {
+  border-top: 1px solid #eeeeee!important;
+}
+.ta-root.focussed > .ta-scroll-window.form-control {
+  box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.075), 0 0 0 rgba(102, 175, 233, 0.6);
+}
+.ta-root .ta-scroll-window .ng-empty p::before {
+  content:'Your message Goes here ...';
+  color: $color-solid-30;
+
+}
+.ta-root.focussed .ta-scroll-window .ng-empty p::before {
+  content:'';
+}
+.ta-root.focussed .ta-scroll-window .ng-valid::before {
+  content:'';
+}
+.attachlist {
+
+}
+.nst-attach-area {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.nst-attach img {
+  vertical-align: inherit;
+}
+
+.nst-attach .headlineicon-green {
+  margin: 12px;
+}
+
+.nst-attach-bar {
+  width: 94%;
+  background-color: $color-fillbox;
+  margin-left: 10px;
+  margin-top: 8px;
+}
+
+//.nst-compose-message {
+//
+//}
+
+.compose-message-input {
+  height: 100px;
+  border: none;
+  width: 100%;
+  padding-left: 8px;
+}
+
+.nst-compose-message p {
+  padding: 10px;
+}
+
+.butn-send-compose{
+  width: 48px;
+  height: 24px;
+  background-color: $color-sense;
+  border: 1px solid #00B45A;
+  padding-top: 2px;
+  color: white;
+  display: inline-block;
+  border-radius: 5px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  margin: 8px 0;
+  line-height: 22px;
+}
+.butn-send-compose:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+}
+.butn-send-compose:hover {
+  color: white;
+}
+
+.butn-back-compose {
+  border: 1px solid $color-breeze;
+  color: $color-storm;
+  width: 64px;
+  height: 24px;
+  padding-top: 2px;
+  display: inline-block;
+  border-radius: 5px;
+  line-height: 22px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  margin: 8px 0;
+  text-align: center;
+}
+.butn-back-compose:hover {
+  color: $color-storm;
+}
+
+#img-attach {
+  height: 96px;
+  margin-top: -96px;
+}
+
+.input-select-match {
+  width: 98%;
+}
+.sto {
+  padding: 0 16px;
+}
+.butn-group{
+  //width: 100%;
+}
+.mce-panel {
+  border: none!important;
+  background-color: transparent!important;
+}
+.mce-widget {
+  border: none!important;
+  background-color: white!important;
+}
+.mce-container, .mce-container{
+  background: white!important;
+}
+
+.mce-primary {
+  @extend .butn-sense;
+  color: $color-white!important;
+  background-color: $color-sense!important;
+}
+.ui-select-bootstrap > .ui-select-choices {
+  max-height: 400px
+}
+.mce-menu-item:hover{
+  background-color: $color-sense!important;
+}
+.droplet {
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin: auto;
+  //height: 100%;
+  //width: 100%;
+  z-index: -10;
+}
+
+.event-dragover .droplet {
+  background-color: #E7ECE9;
+  opacity: .5;
+  z-index: 20;
+  width: calc(100% - 416px);
+  max-width: 1504px;
+  min-width: 404px;
+}
+.event-dragleave .droplet {
+  background-color: #E7ECE9;
+  opacity: .5;
+  z-index: 20;
+  height: 100%;
+  animation: fadeoutcom .5s;
+  animation-fill-mode: forwards;
+  animation-delay: 1s;
+  width: calc(100% - 416px);
+  max-width: 1504px;
+  min-width: 404px;
+}
+.event-dragenter .droplet {
+  background-color: #E7ECE9;
+  opacity: .5;
+  z-index: 20;
+  height: 100%;
+  width: calc(100% - 416px);
+  max-width: 1504px;
+  min-width: 404px;
+}
+.event-drop .droplet {
+  background-color: #E7ECE9;
+  opacity: .5;
+  z-index: -10;
+  height: 100%;
+  width: calc(100% - 416px);
+  max-width: 1504px;
+  min-width: 404px;
+}
+.event-dragover .droplet:after {
+  content: "Drop files ...";
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: inline-block;
+  position: relative;
+  z-index: 556;
+  color: black;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 400px;
+  text-align: center;
+}

@@ -28,10 +28,13 @@ gulp.task('watch', ['inject'], function () {
 
   gulp.watch([
     path.join(conf.paths.src, '/app/**/*.js'),
-    path.join(conf.paths.src, '/nested/**/*.js')
+    path.join(conf.paths.src, '/nested/**/*.js'),
+    path.join(conf.paths.conf, '/development.json')
   ], function(event) {
     if(isOnlyChange(event)) {
-      gulp.start('scripts-reload');
+      // Move bundling one level up
+      // gulp.start('scripts-reload');
+      gulp.start('inject-reload');
     } else {
       gulp.start('inject-reload');
     }

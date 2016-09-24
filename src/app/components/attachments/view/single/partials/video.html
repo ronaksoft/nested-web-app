@@ -1,0 +1,16 @@
+<div class="nst-preview-pic-mode" ng-if="attachment.isDownloaded">
+  <videogular class="">
+    <vg-media vg-src="attachment.url" vg-native-controls="true" vg-preload="none"></vg-media>
+    <vg-buffering></vg-buffering>
+  </videogular>
+</div>
+
+<div ng-if="!attachment.isDownloaded" class="nst-preview-pic-mode">
+  <img ng-if="attachment.hasThumbnail" class="_oph" src="{{attachment.thumbnail}}" />
+  <div ng-if="!attachment.hasThumbnail" class="att-exp-application-large-">
+    <div class="_tac _fw _dibp title-att color-doc nst-font-large">{{attachment.extension}}</div>
+  </div>
+  <div class="downloadprogress">
+    <div ng-progressbar="{{attachment.downloadedRatio}}" progressbar-mode="circle"></div>
+  </div>
+</div>

@@ -11,11 +11,6 @@
 
 }
 #PostView {
-  //top: 0;
-  //top: 0;
-  //left: 0;
-  //bottom: 0;
-  //right: 0;
   overflow: hidden;
   border: 1px solid $color-breeze;
   border-radius: 8px;
@@ -24,61 +19,38 @@
 }
 #PostView {
   animation: appearence .3s ease-out;
-  // height: 640px;
-  //box-shadow: 0 0 16px 0 rgba(71, 97, 82, 0.15);
 }
 .modal.ng-leave {
   animation: appearence .2s ease-out reverse;
 }
-.modal.ng-leave.ng-leave-active {
 
-}
-
-.post-nav-left {
-  min-width: 500px;
-  padding-left: 16px;
-  padding-top: 18px;
+.post-nav-top {
+  align-items: center;
+  padding: 16px 16px 0 8px;
+  min-height: 60px;
   overflow: hidden;
 }
 
-.post-nav-left p {
+.post-nav-top p {
   overflow: hidden;
   word-break: break-all;
   font-size: $font-size-xlarge;
   text-overflow: ellipsis;
-  line-height: 1.1em;
+  line-height: 30px;
   padding-bottom: 5px;
 }
-
-.post-nav-left-bottom {
-  float: left;
-  min-height: 40px;
-  min-width: 500px;
-  padding-left: 16px;
+.post-nav-top .time {
+  margin: 0 4px;
+  align-self: flex-start;
+}
+.post-nav-top .closebut{
+  align-self: flex-start;
+}
+.post-nav-bot {
   align-items: center;
-}
-
-.post-nav-left-bottom p {
-  //padding-top: 8px;
-}
-
-.post-nav-right {
-  width: 340px;
-  padding-top: 18px;
-  max-width: 200px;
-}
-.post-nav-right > div{
-  display: flex;
-  width: 33.3%;
-  justify-content: flex-end;
-}
-.post-nav-right > div > img{
-  width: 24px;
-  height: 24px;
-  margin-right: 5px;
-}
-.post-nav-right-bottom {
-  min-width: 305px;
+  height: 40px;
+  padding: 0 16px 0 8px;
+  overflow: hidden;
 }
 
 [class*="action-button-post-"]{
@@ -122,14 +94,17 @@
 .panel-action li {
   width: 100px;
   margin: auto;
+  flex: none;
 }
 .panel-action li span:last-child {
   vertical-align: bottom;
 }
 
 .time-post-view {
-  width: 110px;
+  max-width: 110px;
   font-size: $font-size-small;
+  justify-content: flex-end;
+  padding-right: 5px;
 }
 
 .profile-post-view {
@@ -161,24 +136,6 @@
   margin-left: 4px;
   flex: none;
 }
-
-#PostView .top-space {
-  height: 10%;
-}
-
-#PostView .bottom-space {
-  height: 10%;
-}
-
-#PostView .left-space {
-  width: 10%;
-}
-
-#PostView .right-space {
-  width: 10%;
-}
-
-
 
 #PostView .main-body .left-column {
 }
@@ -220,64 +177,11 @@
   font-size: $font-size-small;
 }
 
-#PostView #SenderIco {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-}
-
-#PostView #SenderIco img {
-  border-radius: 16px;
-}
-
-#PostView #SenderName {
-  display: inline-block;
-}
-
-#PostView #Targets {
-  margin: 5px 1px;
-}
-
-#PostView #Targets div {
-  display: inline-block;
-  background-color: $color-sense-wire;
-  border-radius: 10px;
-  margin: 1px;
-  padding: 1px 5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: keep-all;
-  white-space: nowrap;
-  max-width: 300px;
-}
-
-#PostView #Toolbar {
-  bottom: 0px;
-  right: 0px;
-}
-
-#PostView #Toolbar ul {
-  list-style: none;
-  float: right;
-}
-
-#PostView #Toolbar li {
-  display: inline-block;
-  margin: 2px 15px;
-}
-
-#PostView #Toolbar li img {
-  float: right;
-}
-
-#PostView #Toolbar li span {
-  line-height: 24px;
-  color: gray;
-}
-
 #PostView #Content {
   vertical-align: top;
-  overflow: auto;
+  min-height: calc(100vh - 400px);
+  min-width: calc(100% - 320px);
+  width: 70%;
 }
 
 #PostView #PostBody {
@@ -287,7 +191,8 @@
 
 #PostView #Comments {
   padding: 5px;
-  width: 320px;
+  max-width: 320px;
+  width: 30%;
   flex:none;
   background-color: rgb(247, 250, 249);
   border-radius: 6px;
@@ -305,7 +210,7 @@
   float: left;
 }
 
-#PostView .NewComment #CommentSendBtn {
+#PostView .NewComment #CommentSendbutn {
   background-color: $color-sense;
   border: none;
   border-radius: 5px;
@@ -341,13 +246,16 @@
 #PostView #CommentList .comment:hover {
   background-color: #E7FBF0;
 }
-
+#Comments .mCustomScrollbar {
+  margin-bottom: 90px;
+}
 .comment-input{
   position: absolute;
   bottom: 0;
-  max-height: 90px;
-  min-height: 89px;
-  width: 310px;
+  max-height: 65px;
+  min-height: 64px;
+  width: 29%;
+  max-width: 318px;
   margin: 10px 5px;
   right: 2px;
   //flex: 1;
@@ -357,11 +265,9 @@
   top: 4px;
 }
 .comment-msg {
-  overflow-y: auto;
-  overflow-x: hidden;
   justify-content: space-between;
   //flex: 1;
-  margin-bottom: 110px;
+  //margin-bottom: 110px;
 }
 
 .actor-name {
@@ -371,11 +277,22 @@
   white-space: nowrap;
   flex: none;
 }
+
 .actor-name span{
   text-overflow: ellipsis;
 }
+
 .badges {
-  padding-left: 25px;
+  margin:0 15px;
+  max-width: calc(100% - 250px);
+  min-width: 100px;
+  div div {
+    display: inline-flex;
+    flex-direction: row;
+  }
+  .mCSB_container {
+    width: auto !important;
+  }
 }
 .image-preview {
   background-color: rgba(240, 245, 242,0.7);
@@ -392,13 +309,6 @@
   object-fit: contain;
   padding-bottom: 10px;
 }
-.nst-preview-pic-mode {
-  //position: relative;
-  //bottom: 68px;
-  //top: 0;
-
-
-}
 
 .nst-preview-footer {
   position: absolute;
@@ -411,13 +321,9 @@
   padding-left: 10px;
 }
 
-.padding-l-16 {
-  padding-left: 16px;
-}
-
 .image-box-preview {
-  left: 0px;
-  right: 0px;
+  left: 0;
+  right: 0;
   border-radius: 6px;
   min-height: 240px;
   min-width: 240px;
@@ -427,17 +333,17 @@
 .file-preview {
   height: 550px;
 }
-.nst-preview-footer .nst-nav-btn-breeze,
-.nst-arrow-rotated-270,.nst-arrow-rotated-90{
+.nst-preview-footer .nst-nav-butn-breeze,
+#PostView .nst-arrow-rotated-270,#PostView .nst-arrow-rotated-90{
   height: 30px;
   flex: none;
 }
-.nst-preview-footer .nst-nav-btn-breeze{
+.nst-preview-footer .nst-nav-butn-breeze{
   align-items: center;
   margin:0 8px;
   padding: 2px 6px;
 }
-.nst-arrow-rotated-270,.nst-arrow-rotated-90{
+#PostView .nst-arrow-rotated-270,#PostView .nst-arrow-rotated-90{
   width: 15px;
   height: 30px;
   justify-content: center;
@@ -462,7 +368,7 @@
   justify-content: flex-end;
 }
 
-.btn-send-comment{
+.butn-send-comment{
   width: 48px;
   height: 24px;
   background-color: $color-sense;
@@ -479,10 +385,29 @@
 .comment-input .nst-mood-simple {
   margin-right: 10px;
 }
+.nst-preview-pic-mode {
+  max-width: 100%;
+  max-height: calc(100vh - 244px);
+  min-height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > * {
+    max-height: calc(100vh - 244px);
+    flex: none;
+  }
+  & > img {
+    width: 100%;
+    object-fit: contain;
+  }
+}
 
 .filename-p {
   padding-top: 22px;
   padding-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .audioplayer{
   height: 50px;
@@ -501,5 +426,6 @@
 .attachcontrols {
   border: black;
   align-items: center;
-  height: 68px
+  height: 68px;
+  width: 300px;
 }
