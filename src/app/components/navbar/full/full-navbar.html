@@ -36,6 +36,12 @@
           <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('messages')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
             Messages
           </a>
+          <a ui-sref="files()" ng-if="!ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isPlaceFiles ? 'active' : ''}}">
+            Files
+          </a>
+          <a ui-sref="place-files({placeId:ctlFullNavbar.placeId})" ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isPlaceFiles ? 'active' : ''}}">
+            Files
+          </a>
           <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
             Activity
           </a>

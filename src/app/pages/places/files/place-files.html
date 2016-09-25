@@ -1,0 +1,24 @@
+<nst-navbar data-ng-model="navbar" place-id="{{::ctlFiles.place.id}}" nav-title="{{ctlFiles.place.id?ctlFiles.place.name:'All Places'}}" nav-picture-url="{{ctlFiles.place.id ? ctlFiles.place.picture.thumbnails.x64.url.view : '' }}" nav-picture-class="{{ !ctlFiles.place.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlFiles.placeLoaded" page="ctlApp.page"></nst-navbar>
+
+<div class="nst-content _tr" id="content-wrapper">
+
+
+  <section class="content _bgwhite _fh" id="place-settings">
+    <div class="navbarillu"></div>
+     <div>All Files</div>
+      <div class="ico"></div>
+    <input type="text" class="search-input" placeholder="Find files in this place"/>
+    <div class="ico"></div>
+    <ul>
+      <li>File Name</li>
+      <li>Size</li>
+      <li>Received Data</li>
+    </ul>
+    <hr>
+    </section>
+    </div>
+
+
+
+
+

@@ -317,6 +317,30 @@
       })
 
       /*****************************
+       *****   Files Routes    ****
+       *****************************/
+
+      .state('files', {
+        url: '/files',
+        params: {
+          placeId: NST_DEFAULT.STATE_PARAM
+        },
+        templateUrl: 'app/pages/places/files/place-files.html',
+        controller: 'PlaceFilesController',
+        controllerAs: 'ctlFiles'
+      })
+
+      .state('place-files', {
+        url: '/places/:placeId/files',
+        params: {
+          placeId: NST_DEFAULT.STATE_PARAM
+        },
+        templateUrl: 'app/pages/places/files/place-files.html',
+        controller: 'PlaceFilesController',
+        controllerAs: 'ctlFiles'
+      })
+
+      /*****************************
        *****  Messages Routes   ****
        *****************************/
 

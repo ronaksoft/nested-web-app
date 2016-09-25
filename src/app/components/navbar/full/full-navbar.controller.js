@@ -18,6 +18,7 @@
     vm.getPlaceId = getPlaceId;
     vm.getMessagesUrl = getMessagesUrl;
     vm.getActivityUrl = getActivityUrl;
+    vm.getFilesUrl = getFilesUrl;
     vm.getSettingsUrl = getSettingsUrl;
     vm.search = search;
     vm.rollUpward = rollUpward;
@@ -65,6 +66,13 @@
         return $state.href('place-messages', { placeId : vm.getPlaceId() });
       } else {
         return $state.href('messages');
+      }
+    }
+    function getFilesUrl() {
+      if (hasPlace()) {
+        return $state.href('place-Files', { placeId : vm.getPlaceId() });
+      } else {
+        return '';
       }
     }
     function getActivityUrl() {
