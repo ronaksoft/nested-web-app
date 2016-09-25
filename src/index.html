@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="nested">
+<html ng-app="ronak.nested.web">
 <head>
   <meta charset="utf-8">
   <title>nested</title>
@@ -7,6 +7,7 @@
   <meta name="viewport"
         content="width=device-width,maximum-scale=1.2,initial-scale=1.0,minimum-scale=1.0,user-scalable=yes,shrink-to-fit=no">
   <base href="/">
+  <meta name="apple-itunes-app" content="app-id=1121544622">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
   <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
@@ -132,7 +133,7 @@
     your browser</a> to improve your experience.</p>
   <![endif]-->
   <div ng-if="ctlApp.loginView" ui-view class="nst-mood-sense-5 _fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen}"></div>
-  <div ng-if="!ctlApp.loginView" class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen}">
+  <div ng-if="!ctlApp.loginView" class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen,'show-mob-app': !userAppNoticed}">
     <div
       class="maincontainer _fw"
       ng-class="{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">

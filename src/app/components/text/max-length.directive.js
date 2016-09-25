@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.text')
     .directive('maxLength', maxLengthHighlight);
 
   function maxLengthHighlight() {
@@ -64,7 +64,6 @@
         }
 
         function placeCaretAtPos(el,pos) {
-          console.log(el.children().children(),pos);
           el.children().children().caret(pos);
         }
 

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.place')
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
@@ -57,11 +57,11 @@
         $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));
 
         return $q.all([
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-          NstSvcAuth.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
           NstSvcPlaceFactory.getNotificationOption(vm.placeId),
           NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred'),
           NstSvcPlaceFactory.getBookmarkedPlaces('_starred')
@@ -430,32 +430,6 @@
     function hasAnyParticipant() {
       return vm.participants && vm.participants.length > 0;
     }
-
-
-    // FIXME some times it got a problem ( delta causes )
-    vm.preventParentScroll = function (event) {
-      var element = event.currentTarget;
-      var delta = event.wheelDelta;
-      if ((element.scrollTop === (element.scrollHeight - element.clientHeight) && delta < 0) || (element.scrollTop === 0 && delta > 0)) {
-        event.preventDefault();
-      }
-    };
-
-    vm.recentScrollConf = {
-      axis: 'y',
-      mouseWheel: {
-        preventDefault: true
-      }
-    };
-
-
-    // FIXME: NEEDS REWRITE COMPLETELY
-    var tl = new TimelineLite({});
-    var cp = document.getElementById("cp1");
-    var nav = document.getElementsByTagName("nst-navbar")[0];
-    $timeout(function () {
-      $rootScope.navView = false
-    });
 
   }
 })();

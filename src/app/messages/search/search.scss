@@ -37,6 +37,7 @@
       display: block;
       background-color: transparent;
       border: 0;
+      padding : 10px;
       &:focus ~ div {
         background-color: $color-calm;
 

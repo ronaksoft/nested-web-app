@@ -1,0 +1,13 @@
+@media screen and (max-width: $screen-sm){
+  .evrow {
+    flex-wrap: wrap;
+    flex-direction: column;
+    .actcon {
+      flex-wrap: wrap;
+      flex-direction: column;
+      .places {
+        direction: ltr!important;
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+/**
+  *********************************************************
+  *     Nested Classes -   * ngProgress
+  *********************************************************
+*/
+#ngProgress {
+  background: linear-gradient(to right, rgba(20,215,105,1),rgba(20,215,105,1),rgba(20,215,105,0) );
+  color: rgba(20,215,105,.5)!important;
+  //color: black!important;
+  //opacity: .9!important;
+  background-color: transparent!important;
+}
+
+.progress-bar {
+  background-color: $color-solid-60;
+}
+.progress-bar-success {
+  background-color: $color-sense;
+}

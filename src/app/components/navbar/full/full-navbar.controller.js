@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.navbar')
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
@@ -20,6 +20,8 @@
     vm.getActivityUrl = getActivityUrl;
     vm.getSettingsUrl = getSettingsUrl;
     vm.search = search;
+    vm.rollUpward = rollUpward;
+    vm.rollToTop = false;
 
 
     vm.srch = function srch(el) {
@@ -89,6 +91,11 @@
       return false;
     }
 
+    function rollUpward(page) {
+      if (page === $state.current.name) {
+        vm.rollToTop = true;
+      }
+    }
 
     /**
      * sendKeyIsPressed - check whether the pressed key is Enter or not
@@ -101,7 +108,9 @@
     }
 
     function search(query, event) {
-      if (!sendKeyIsPressed(event) || !query) {
+
+      var element = angular.element(event.target);
+      if (!sendKeyIsPressed(event) || !query || element.attr("mention") === "true") {
         return;
       }
       var searchQury = new NstSearchQuery(query);

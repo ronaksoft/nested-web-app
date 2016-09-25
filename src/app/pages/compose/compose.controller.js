@@ -2,13 +2,13 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,PreviousState,
-                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
+                             NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
@@ -24,6 +24,7 @@
     vm.model = {
       recipients: [],
       attachments: [],
+      attachfiles: {},
       subject: '',
       body: '',
       forwardedFrom: null,
@@ -73,9 +74,18 @@
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,
-        toolbar: 'bold italic underline strikethrough | alignleft aligncenter aligncenter alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
+        toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
         skin: 'lightgray',
-        theme : 'modern'
+        theme : 'modern',
+        setup: function (editor) {
+          editor.on('init', function (e) {
+            $scope.activeEditorElement = e.target.contentDocument.activeElement;
+          });
+          editor.on('keydown', function(e) {
+            if(e.keyCode == 13 && $(editor.contentDocument.activeElement).atwho('isSelecting'))
+              return false
+          })
+        }
       }
     };
 
@@ -165,7 +175,24 @@
       }
       event.currentTarget.value = "";
     };
+    $scope.interface = {};
 
+    // Listen for when the interface has been configured.
+    $scope.$on('$dropletReady', function whenDropletReady() {
+      vm.model.attachfiles.allowedExtensions([/.+/]);
+      vm.model.attachfiles.useArray(false);
+
+    });
+    $scope.$on('$dropletFileAdded', function startupload() {
+
+      var files = vm.model.attachfiles.getFiles(vm.model.attachfiles.FILE_TYPES.VALID);
+      for (var i = 0; i < files.length; i++) {
+        vm.attachments.attach(files[i].file).then(function (request) {});
+        files[i].deleteFile();
+      }
+    });
+
+    //Todo : not injected in project and is out of game :D
     vm.attachments.fileDropped = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
@@ -651,7 +678,7 @@
 
     $scope.deleteAttachment = function (attachment) {
       new $q(function (resolve, reject) {
-        if (attachment.status === ATTACHMENT_STATUS.UPLOADING) {
+        if (attachment.status === NST_ATTACHMENT_STATUS.UPLOADING) {
           // abort the pending upload request
           attachment.cancelUpload();
           resolve(attachment);

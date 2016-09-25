@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.place')
     .factory('NstPlaceOneCreatorLeftError', NstPlaceOneCreatorLeftError);
 
   /** @ngInject */

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .factory('NstFactoryError', NstFactoryError);
 
   /** @ngInject */
@@ -18,7 +18,7 @@
      */
     function FactoryError(query, message, code, previous) {
       this.query = query;
-      
+
       NstError.call(this, message, code, previous);
     }
 

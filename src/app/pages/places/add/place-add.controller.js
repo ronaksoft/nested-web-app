@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.place')
     .controller('PlaceAddController', PlaceAddController);
 
   /** @ngInject */
@@ -469,6 +469,11 @@
     }
 
     function reqPlaceExist(placeId) {
+
+      if ($stateParams.placeId !== NST_DEFAULT.STATE_PARAM){
+        placeId = [$stateParams.placeId, placeId].join('.');
+      }
+
       setLoadingDisplay(true);
 
       return NstSvcPlaceFactory.placeIdServerCheck(placeId).then(function (exists) {

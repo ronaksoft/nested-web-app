@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .controller('ProfileEditController', ProfileEditController);
 
   /** @ngInject */
@@ -25,7 +25,7 @@
     vm.status = {
       saveInProgress: false
     };
-
+    
     vm.controls = {
       left: [
         new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, null, function () {
@@ -77,7 +77,6 @@
       vm.model.picture.id = '';
       vm.model.picture.uploadedFile = element.files[0];
       vm.model.picture.uploadedFileName = element.files[0].name;
-      console.log(vm.model.picture.uploadedFileName.name);
       vm.model.picture.remove = false;
 
       reader.onload = function(event) {

@@ -22,7 +22,7 @@ function buildScripts() {
   var config = gulp.src([
     path.join(conf.paths.conf, '/*.json')
   ]).pipe(
-    $.ngConfig('nested.config')
+    $.ngConfig('ronak.nested.web.config')
   ).pipe(
     $.replace('{{BUILD}}', '3.0.0-alpha')
   ).pipe(

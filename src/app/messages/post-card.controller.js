@@ -2,13 +2,14 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
   function PostCardController($state, $log, $timeout,
                               _,
                               NST_POST_EVENT, NST_COMMENT_EVENT,
                               NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
+
     var vm = this;
     var commentBoardMin = 3;
     var commentBoardMax = 99;
@@ -31,6 +32,7 @@
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
 
+
     function reply() {
       $debug.log('Is not implemented yet!')
     }
@@ -41,10 +43,12 @@
      * @param  {Event}  e   keypress event handler
      */
     function sendComment(e) {
-      if (!sendKeyIsPressed(e)) {
+
+      var element = angular.element(e.target);
+      if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-
+      
       var body = extractCommentBody(e);
       if (body.length === 0) {
         return;

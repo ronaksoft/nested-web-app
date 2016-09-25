@@ -15,9 +15,9 @@
         </div>
       </div>
 
-      <div class="navbar-bottom" data-ng-if="!ctlFullNavbar.controls">
+      <div class="navbar-bottom _fw" data-ng-if="!ctlFullNavbar.controls">
         <div id="inputsearch" class="has-feedback _fw">
-          <input class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.title : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
+          <input type="text" nst-mention class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.title : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
           <i ng-click="ctlFullNavbar.srch('inputsearch');"
              class="_pa _left icon-close-search form-control-feedback"></i>
           <!--<div class="search-part1">
@@ -33,10 +33,10 @@
             <div ng-click="ctlFullNavbar.srch('inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
           </div>
 
-          <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
+          <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('messages')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
             Messages
           </a>
-          <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
+          <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
             Activity
           </a>
           <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}" ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">
@@ -45,7 +45,7 @@
       </div>
       </div>
 
-      <div class="navbar-bottom" data-ng-if="ctlFullNavbar.controls">
+      <div class="navbar-bottom _fw" data-ng-if="ctlFullNavbar.controls">
         <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
           <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
              href="{{control.url}}" data-ng-click="control.fn()">
@@ -96,3 +96,4 @@
     <div class="content-plus"></div>
   </div>
 </div>
+<scroll-roller roll-upward="ctlFullNavbar.rollToTop"></scroll-roller>

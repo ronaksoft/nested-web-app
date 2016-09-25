@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .factory('NstVmMessage', NstVmMessage);
 
   function NstVmMessage(NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth) {

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.text')
     .directive('autoDir', autoDirDetector);
 
   function autoDirDetector() {
@@ -110,17 +110,18 @@
           }
 
           function decideRtl(str) {
+            var emojiRanges = [
+              '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
+              '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
+              '\ud83d[\ude80-\udeff]'  // U+1F680 to U+1F6FF
+            ];
+            str = str.replace(new RegExp(emojiRanges.join('|'), 'g'), '');
             str = str.trim();
             str = str.substring(0, 1);
             if (persianRex.rtl.test(str)) {
               return element.attr("dir","rtl");
             }
           }
-
-          // var charCode = str.charCodeAt(0);
-          // if (charCode > 1300 && 1700 > charCode) {
-          //   return element.attr("dir","rtl");
-          // }
         }
 
         scope.$watch(function(){

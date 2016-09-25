@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .constant('NST_FILE_TYPE', {
       IMAGE: 'image',
       ARCHIVE: 'archive',

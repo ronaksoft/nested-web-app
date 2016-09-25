@@ -1,6 +1,6 @@
 'use strict';
 angular
-  .module('nested')
+  .module('ronak.nested.web.components.notification')
   .service('NstSvcNotification', NstSvcNotification);
 /** @ngInject */
 function NstSvcNotification($q, $window, _,

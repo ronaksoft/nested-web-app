@@ -50,17 +50,6 @@
         <li class="side-place-item" data-ng-repeat="place in ctlSidebar.places"
             data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
 
-        <!--TODO: Make ng-scrollbars to be updated after content is loaded and then uncomment below-->
-        <!--<li class="side-place-item" data-ng-if="ctlSidebar.urls.placeAdd">-->
-          <!--<div class="side-place-item-inner">-->
-            <!--<a href="{{ctlSidebar.urls.placeAdd}}" class="_fw">-->
-              <!--<div class="side-place-item-image">-->
-                <!--<img class="account-initials-40" style="border-color: rgba(0, 0, 0, 0); background-color:rgba(0,0,0,0.05); background-image: url('/assets/icons/actionbuttons_place.svg'); background-position: 0 -76px; background-size: cover;"/>-->
-              <!--</div>-->
-              <!--<span class="_fw" data-ellipsis="'Create Grand Place'" data-ng-show="!ctlSidebar.collapsed">Create Grand Place</span>-->
-            <!--</a>-->
-          <!--</div>-->
-        <!--</li>-->
       </ul>
       <a href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
       <div class="create-place _fw">
@@ -90,7 +79,7 @@
       </a>
       <a class="_fw">
         <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
-          <div class="sidebar-user-avatar">
+          <div class="post-card-user-avatar">
           <img ng-if="!ctlSidebar.user.avatar" class="account-initials-32"
                initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
                data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
