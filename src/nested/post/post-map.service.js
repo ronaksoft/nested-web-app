@@ -30,6 +30,15 @@
       var postPlaces = post.places;
       var firstPlace = _.first(postPlaces);
 
+      if (post.contentType === 'text/plain'){
+        //Convert Plain-text to the Html
+        post.body = post.body.replace(/\t/g, '    ')
+          .replace(/  /g, '&nbsp; ')
+          .replace(/  /g, ' &nbsp;') // second pass
+          // handles odd number of spaces, where we
+          // end up with "&nbsp;" + " " + " "
+          .replace(/\r\n|\n|\r/g, '<br />');
+      }
       return {
         id: post.id,
         sender: mapSender(post.sender),

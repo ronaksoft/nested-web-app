@@ -10,9 +10,6 @@
                     ngProgressFactory,
                     NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
                     NstSvcAuth, NstSvcLoader) {
-    $rootScope.now = function () {
-      return new Date();
-    };
 
     $rootScope.progress = {
       bar: ngProgressFactory.createInstance(),

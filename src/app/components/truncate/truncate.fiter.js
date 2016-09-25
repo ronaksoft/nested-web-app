@@ -10,6 +10,7 @@
     })
     .filter('truncate', function () {
       return function (content) {
+
         var maxCharacters = 250;
 
         if (content == null) return "";

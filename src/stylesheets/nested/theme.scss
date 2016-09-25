@@ -60,6 +60,7 @@
   flex-shrink: inherit;
   flex-grow: inherit;
   position: relative;
+  transition: $animation-dur;
 }
 
 #content-wrapper {

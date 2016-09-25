@@ -20,6 +20,8 @@
     vm.getActivityUrl = getActivityUrl;
     vm.getSettingsUrl = getSettingsUrl;
     vm.search = search;
+    vm.rollUpward = rollUpward;
+    vm.rollToTop = false;
 
 
     vm.srch = function srch(el) {
@@ -89,6 +91,11 @@
       return false;
     }
 
+    function rollUpward(page) {
+      if (page === $state.current.name) {
+        vm.rollToTop = true;
+      }
+    }
 
     /**
      * sendKeyIsPressed - check whether the pressed key is Enter or not

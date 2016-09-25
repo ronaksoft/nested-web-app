@@ -357,7 +357,7 @@ angular.module('ui.bootstrap.tooltip', ['ui.bootstrap.position', 'ui.bootstrap.s
               }
 
               openedTooltips.remove(ttScope);
-              
+
               if (tooltipLinkedScope) {
                 tooltipLinkedScope.$destroy();
                 tooltipLinkedScope = null;
@@ -1413,7 +1413,7 @@ angular.module('ui.bootstrap.popover', ['ui.bootstrap.tooltip'])
 })
 
 .directive('uibPopoverTemplate', ['$uibTooltip', function($uibTooltip) {
-  return $uibTooltip('uibPopoverTemplate', 'popover', 'click', {
+  return $uibTooltip('uibPopoverTemplate', 'popover', 'outsideClick', {
     useContentExp: true
   });
 }])
@@ -1427,7 +1427,7 @@ angular.module('ui.bootstrap.popover', ['ui.bootstrap.tooltip'])
 })
 
 .directive('uibPopoverHtml', ['$uibTooltip', function($uibTooltip) {
-  return $uibTooltip('uibPopoverHtml', 'popover', 'click', {
+  return $uibTooltip('uibPopoverHtml', 'popover', 'outsideClick', {
     useContentExp: true
   });
 }])
@@ -1441,7 +1441,7 @@ angular.module('ui.bootstrap.popover', ['ui.bootstrap.tooltip'])
 })
 
 .directive('uibPopover', ['$uibTooltip', function($uibTooltip) {
-  return $uibTooltip('uibPopover', 'popover', 'click');
+  return $uibTooltip('uibPopover', 'popover', 'outsideClick');
 }]);
 
 angular.module('ui.bootstrap.modal', ['ui.bootstrap.stackedMap', 'ui.bootstrap.position'])
