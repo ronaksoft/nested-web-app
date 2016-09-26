@@ -9,8 +9,9 @@
   <div class="msg" nst-post-modal post="act.post">
     <div class="subject">
       <span data-ng-if="event.post.attachments.length > 0" class="headlineicon _vam margin-top-5 _tac _dib"></span>
-      <a class="nst-mood-solid post" href="#/post/{{::act.post.id}}"
-         data-ng-bind-html="act.post.subject || '<i>No Subject</i>' | emoji"></a>
+      <span class="nst-mood-solid post"
+         data-ng-bind-html="act.post.subject || '<i>No Subject</i>' | emoji">
+      </span>
     </div>
     <div data-ng-show="extended" class="_wrb bod"
          data-ng-bind-html="(act.post.body | preview | truncate | emoji) || '<i>Empty Message</i>'"></div>
