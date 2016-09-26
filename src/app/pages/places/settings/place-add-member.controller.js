@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlaceAddMemberController($location, $scope, $log,
-    NstSvcServer, NstSvcAuth, NestedUser, NstSvcUserFactory,
+    NstSvcServer, NstSvcAuth, NstSvcUserFactory,
     NST_PLACE_MEMBER_TYPE,
     chosenRole, currentPlace) {
     var vm = this;
