@@ -18,14 +18,14 @@
      *****************************/
 
     vm.user = new NstVmUser(NstSvcAuth.getUser());
-    vm.revealNewComment = true;
+    vm.revealNewComment = false;
     vm.comments = [];
     vm.commentSettings = {
       date: Date.now(),
       limit: 10
     };
     vm.placesWithRemoveAccess = [];
-    
+
     vm.postModel = undefined;
     vm.post = undefined;
     if (vmPost) {
@@ -72,6 +72,7 @@
         vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
         if (commentCount == 0){
             vm.scrollToNewComment = vm.comments.length;
+            vm.revealNewComment = true;
         }else{
           vm.scrollToNewComment = false;
         }
@@ -427,7 +428,6 @@
     NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function (event) {
       if (vm.postId == event.detail.postId) {
         pushComment(event.detail.comment);
-        vm.revealNewComment = true;
       }
     });
 
@@ -493,6 +493,10 @@
 
       return false;
     }
+
+    $timeout(function () {
+      vm.revealNewComment = true;
+    });
 
   }
 })();
