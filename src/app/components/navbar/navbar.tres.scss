@@ -58,6 +58,9 @@
     }
 
   }
+  nst-navbar{
+    width: 100%;
+  }
 }
 @media screen and (min-width: $screen-md){
   nst-navbar{
@@ -76,8 +79,9 @@
     }
     &.sidetiny {
       nst-navbar{
+        width: 100%
         //width: calc(100% - 76px);
-        left: $sidebar-width-tiny;
+        //left: $sidebar-width-tiny;
       }
     }
   }
