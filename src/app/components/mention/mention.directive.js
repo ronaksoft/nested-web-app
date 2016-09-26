@@ -17,6 +17,9 @@
 
           function appendMention(element) {
 
+            var activeHashtag = attrs.nstMention ? attrs.nstMention.indexOf("#") > -1 ? true : false : true;
+            var activeAtsign = attrs.nstMention ? attrs.nstMention.indexOf("@") > -1 ? true : false : true;
+
             var tplUrl = "<li data-id='${id}' class='_difv'><img src='${avatar}' class='account-initials-32 mCS_img_loaded _df'><div class='_difv'><span class='_df list-unstyled text-centerteammate-name  nst-mood-solid text-name'>  ${name}</span><span class='_df nst-mood-storm nst-font-small'>${id}</span></div></li>";
 
             element.on("hidden.atwho", function (event, flag, query) {
@@ -29,8 +32,9 @@
               element.attr("mention", true);
             });
 
-            element
-              .atwho({
+            if (activeAtsign)
+              element
+                .atwho({
                 at: "@",
                 searchKey: "name",
                 maxLen: 10,
@@ -64,8 +68,9 @@
                 }
               })
 
-
-              .atwho({
+            if (activeHashtag)
+              element
+                .atwho({
                 at: "#",
                 searchKey: "name",
                 maxLen: 10,

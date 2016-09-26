@@ -6,7 +6,8 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider, $animateProvider) {
+  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider,
+                  $animateProvider, uiSelectConfig) {
 
     localStorageServiceProvider
       .setPrefix('ronak.nested.web');
@@ -51,5 +52,10 @@
     emojione.imagePathSVGSprites = './../bower_components/emojione/assets/sprites/emojione.sprites.svg';
 
     $animateProvider.classNameFilter(/use-ng-animate/);
+
+
+    //Config ui-select-choices
+    // force to open in down
+    uiSelectConfig.dropdownPosition = 'down';
   }
 })();
