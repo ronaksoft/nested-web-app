@@ -1,22 +1,118 @@
 <nst-navbar data-ng-model="navbar" place-id="{{::ctlFiles.place.id}}" nav-title="{{ctlFiles.place.id?ctlFiles.place.name:'All Places'}}" nav-picture-url="{{ctlFiles.place.id ? ctlFiles.place.picture.thumbnails.x64.url.view : '' }}" nav-picture-class="{{ !ctlFiles.place.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlFiles.placeLoaded" page="ctlApp.page"></nst-navbar>
 
-<div class="nst-content _tr" id="content-wrapper">
-
+ <div class="nst-content _tr" id="content-wrapper">
 
   <section class="content _bgwhite _fh" id="place-settings">
     <div class="navbarillu"></div>
-     <div>All Files</div>
-      <div class="ico"></div>
-    <input type="text" class="search-input" placeholder="Find files in this place"/>
-    <div class="ico"></div>
-    <ul>
-      <li>File Name</li>
-      <li>Size</li>
-      <li>Received Data</li>
-    </ul>
-    <hr>
+    <hr ng-if="ctlSettings.hasAnyControlOverHere();">
+    <section class="list-inline _df">
+      <ul class="list-inline _df post-nav-top _difh _fw">
+        <li><h3>All Files</h3>
+        </li>
+        <li><span class="files-input-group _fw"><label class=" icon files-arrow"  role="button"></label></span></li>
+      </ul>
+      <div class="_df _fn">
+        <input type="text" class="files-input" placeholder="Find files in this place"/>
+      </div>
+      <button type="button" class="files-search-button">
+        <div class="icon-search-rotated-white"></div>
+      </button>
     </section>
+    <div class="file-list">
+      <div class="file-list-header">
+        <div class="header-name">Name</div>
+        <div class="header-size">Size</div>
+        <div class="header-date"><strong>Received Date</strong></div>
+      </div>
+    <hr>
+    <div class="options">
+      <div class="nst-options col-xs-12">
+        <div class="file-list-container">
+        <div class="file-list-item">
+          <div class="_df"><i class=" nst-place-icon-print_df"></i></div>
+          <div class="item-name">Nested Story.pdf</div>
+          <div class="item-size">18.9 MB</div>
+          <div class="item-date">JUL 21, 2016</div>
+         <div class="item-time"> 13:13</div>
+        </div>
+        </div>
+        </div>
+        <hr>
+      <div class="nst-options col-xs-12">
+        <div class="file-list-container">
+          <div class="file-list-item">
+            <div class="_df"><i class="nst-place-icon-print _df"></i></div>
+            <div class="item-name">Nested Story.pdf</div>
+            <div class="item-size">18.9 MB</div>
+            <div class="item-date">JUL 21, 2016</div>
+            <div class="item-time"> 13:13</div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="nst-place-privacy col-xs-12">
+        <div class="_difc _fw optionrow">
+          <div class="_df switch">
+          </div>
+        </div>
+        <div class="_difc _fw optionrow">
+          <div class="_df switch">
+          </div>
+        </div>
+        <div class="nst-teammates _dib" ng-if="ctlSettings.hasSeeMembersAccess">
+          <h5 class="tittle-option _di">Teammates</h5>
+          <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di  _fr" data-ng-click="ctlSettings.addMember()">
+            <span ng-if="ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Add Teammate</span>
+            <span ng-if="!ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Add from Teammates</span>
+            <div class="add-icon _dib"></div>
+          </div>
+          <hr>
+          <h5 ng-if="!ctlSettings.hasAnyTeamate()" class="nst-mood-storm">
+            There are no teamates here yet.
+          </h5>
+          <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user"
+                                 data-ng-repeat="member in ctlSettings.teamates"
+                                 member="member" place="ctlSettings.place"
+                                 has-remove-access="ctlSettings.hasRemoveAccess"
+                                 has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember"
+                                 role="member.state"/>
+        </div><!--/nst-teammates-->
+
+        <div class="place-option-members _dib" ng-if="ctlSettings.hasSeeMembersAccess">
+          <h5 class="title-option _di">Participants</h5>
+          <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di _fr"
+               data-ng-click="ctlSettings.inviteParticipant()">
+            <span class="nst-mood-simple _dib _vat">Invite participants</span>
+            <div class="add-icon _dib"></div>
+          </div>
+          <hr>
+          <h5 ng-if="!ctlSettings.hasAnyParticipant()" class="nst-mood-storm">
+            There are no participants here yet.
+          </h5>
+          <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6"
+                                 data-ng-repeat="member in ctlSettings.participants"
+                                 member="member" place="ctlSettings.place"
+                                 has-remove-access="ctlSettings.hasRemoveAccess"
+                                 has-control-access="ctlSettings.hasControlAccess" role="member.state"/>
+
+        </div>
+        <div class="restplace _df _fh"></div>
+      </div>
     </div>
+  </section>
+
+  <div class="content-plus">
+  </div>
+  <div class="content-plus" id="content-plus">
+    <div id="cp1">
+      <!--FIXME:: use only one of place/place-id -->
+      <nst-recent-activity place-id="ctlSettings.placeId" place="ctlSettings.placeId" count="10"/>
+    </div>
+
+  </div>
+
+</div>
+
 
 
 

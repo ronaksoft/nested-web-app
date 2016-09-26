@@ -1,0 +1,114 @@
+h3{
+  margin-top:11px;
+}
+.files-input-group{
+  display: flex;
+  height: 30px;
+  margin: 20px 0 0 0;
+}
+.files-arrow {
+  background: url('../assets/icons/arrow.svg') no-repeat;
+  display: inline;
+  border: 0;
+  left: 0;
+  padding: 3px 10px 3px 10px;
+  font-weight: 100;
+  cursor: pointer;
+}
+
+.files-input {
+  display:flex;
+  margin-top: 7px;
+  width:300px;
+  height: 30px;
+  margin: 23px 0px 0px 0px;
+
+}
+.list-inline ul{
+  height: 20px;
+  margin-top:10px;
+}
+
+.file-list {
+  .file-list-header {
+    display: flex;
+    margin-top:25px;
+    .header-name {
+      flex-grow: 1;
+      color: #C8C8C8;
+      font-size: 15px;
+      font-weight: 200;
+      &:hover {
+        color: black;
+      }
+    }
+    .header-date {
+      width: 128px;
+      color: #C8C8C8;
+      font-size: 15px;
+      font-weight: 200;
+      &:hover {
+        color: black;
+      }
+    }
+    .header-size {
+      width: 100px;
+      color: #C8C8C8;
+      font-size: 15px;
+      font-weight: 200;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+
+  .file-list-container {
+    .file-list-item {
+      display: flex;
+      .item-name {
+        width: auto;
+        font-size: 15px;
+        font-weight: 100;
+        flex-grow: 1;
+      }
+      .item-date {
+        width: 93px;
+        font-size: 15px;
+        font-weight: 100;
+      }
+      .item-size {
+        width: 110px;
+        font-size: 15px;
+        font-weight: 100;
+      }
+      .item-time {
+        width: 30px;
+        color: #C8C8C8;
+        font-size: 15px;
+        font-weight: 100;
+      }
+    }
+
+  }
+}
+
+.files-search-button {
+  order: 3;
+  width: 70px;
+  margin-top:23px;
+  height: 40px;
+  background-color: $color-breeze;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  border: 0;
+  position: relative;
+  right: 2px;
+  &:hover {
+    background-color: $color-sense;
+    cursor: pointer;
+  }
+  &:active {
+    background-color: $color-sense-wire;
+  }
+}
+
