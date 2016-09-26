@@ -301,6 +301,9 @@
             comments : vm.comments
           }
         }));
+        $timeout(function () {
+          vm.revealNewComment = true;
+        });
       });
     })();
 
@@ -494,9 +497,9 @@
       return false;
     }
 
-    $timeout(function () {
-      vm.revealNewComment = true;
-    });
+    // $timeout(function () {
+    //   vm.revealNewComment = true;
+    // });
 
   }
 })();
