@@ -6,7 +6,7 @@
     .factory('NstStorage', NstStorage);
 
   /** @ngInject */
-  function NstStorage($cacheFactory, $cookies,
+  function NstStorage($cacheFactory, $cookies, $log,
                       localStorageService,
                       NST_STORAGE_TYPE, NST_STORAGE_EVENT,
                       NstSvcRandomize,
@@ -37,10 +37,12 @@
         case NST_STORAGE_TYPE.LOCAL:
         case NST_STORAGE_TYPE.SESSION:
           this.cache.set = function (key, value) {
-            return localStorageService.set(storage.id + '.' + key, value);
+            var serializedValue = storage.serialize(value);
+            return localStorageService.set(storage.id + '.' + key, serializedValue);
           };
           this.cache.get = function (key) {
-            return localStorageService.get(storage.id + '.' + key);
+            var serializedValue = localStorageService.get(storage.id + '.' + key);
+            return storage.deserialize(serializedValue);
           };
           this.cache.remove = function (key) {
             return localStorageService.remove(storage.id + '.' + key);
@@ -209,6 +211,24 @@
     Storage.prototype.isValidObject = function (object) {
       return true;
     };
+
+    Storage.prototype.serialize = function (obj) {
+      return JSON.stringify(obj);
+    }
+
+    Storage.prototype.deserialize = function (content) {
+      var obj = null;
+      try {
+        var obj = JSON.parse(content);
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          $log.debug('An error occured in parsing JSON', error);
+        }
+      }
+      return obj;
+    }
+
+
 
     return Storage;
   }

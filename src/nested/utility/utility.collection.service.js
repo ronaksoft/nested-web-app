@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.components')
+    .module('ronak.nested.web.components.utility')
     .service('NstUtilCollection', NstUtilCollection);
 
   /** @ngInject */

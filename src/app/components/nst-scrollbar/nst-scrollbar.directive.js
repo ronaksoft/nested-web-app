@@ -134,14 +134,18 @@
       $scope.$watch('goUpward', function (newValue, oldValue) {
         if (newValue) {
           if (settings.scrollAnimate) {
+            Ps.update(container);
             $(container).animate({
               scrollTop : 0
-            }, settings.scrollSpeed, 'swing', function () {
+            }, settings.scrollSpeed, 'linear', function () {
               Ps.update(container);
+              $scope.goUpward = false;
             });
           } else {
+            Ps.update(container);
             jContainer.scrollTop(0);
             Ps.update(container);
+            $scope.goUpward = false;
           }
         }
       });
@@ -149,14 +153,18 @@
       $scope.$watch('goDownward', function (newValue, oldValue) {
         if (newValue) {
           if (settings.scrollAnimate) {
+            Ps.update(container);
             $(container).animate({
               scrollTop : jContainer.prop('scrollHeight')
-            }, settings.scrollSpeed, 'swing', function () {
+            }, settings.scrollSpeed, 'linear', function () {
               Ps.update(container);
+              $scope.goDownward = false;
             });
           } else {
+            Ps.update(container);
             jContainer.scrollTop(jContainer.prop('scrollHeight'));
             Ps.update(container);
+            $scope.goDownward = false;
           }
 
         }
