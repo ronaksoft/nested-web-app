@@ -25,6 +25,11 @@
     vm.selectedPostId = null;
     vm.currentPlaceId = null;
 
+    vm.toggleContentPreview = toggleContentPreview;
+    vm.toggleAttachmentsPreview = toggleAttachmentsPreview;
+    vm.toggleCommentsPreview = toggleCommentsPreview;
+    vm.toggleQuickMessagePreview = toggleQuickMessagePreview;
+
     (function() {
       vm.loading = true;
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
@@ -43,6 +48,7 @@
       if (vm.currentPlaceId) {
         setPlace(vm.currentPlaceId).then(function(place) {
           if (place) {
+            vm.currentPlaceLoaded = true;
             $q.all([loadViewSetting(), loadMessages()]).then(function () {
               vm.loading = false;
             }).catch(function () {
@@ -54,6 +60,7 @@
           $log.debug(error);
         });
       } else {
+        vm.currentPlaceLoaded = true;
         $q.all([loadViewSetting(), loadMessages()]).then(function () {
           vm.loading = false;
         }).catch(function (error) {
@@ -61,6 +68,8 @@
           $log.debug(error);
         });
       }
+
+      setNavbarProperties();
     })();
 
     function loadMessages() {
@@ -138,7 +147,30 @@
       NstSvcMessagesSettingStorage.set(key, bool ? 'show' : 'hide');
     }
 
+    function setNavbarProperties() {
+      vm.navTitle = 'All Places';
+      vm.navIconClass = 'icon-nav icon-all-places';
+    }
 
+    function toggleContentPreview() {
+      vm.viewSetting.content = !vm.viewSetting.content;
+      setSettingItem(NST_MESSAGES_VIEW_SETTING.CONTENT, vm.viewSetting.content);
+    }
+
+    function toggleCommentsPreview() {
+      vm.viewSetting.comments = !vm.viewSetting.comments;
+      setSettingItem(NST_MESSAGES_VIEW_SETTING.COMMENTS, vm.viewSetting.comments);
+    }
+
+    function toggleAttachmentsPreview() {
+      vm.viewSetting.attachments = !vm.viewSetting.attachments;
+      setSettingItem(NST_MESSAGES_VIEW_SETTING.ATTACHMENTS, vm.viewSetting.attachments);
+    }
+
+    function toggleQuickMessagePreview() {
+      vm.viewSetting.quickMessage = !vm.viewSetting.quickMessage;
+      setSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE, vm.viewSetting.quickMessage);
+    }
   }
 
 })();
