@@ -9,7 +9,7 @@
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
-      <div ng-mouseenter="popoverSetShow = true;popoverSortShow = false"  class="iconsblock popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSetShow">
+      <div ng-mouseenter="popoverSetShow = true;popoverSortShow = false"  class="iconsblock popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSetShow" ng-init="ctl = ctlChain">
         <div class="icon icon-viewicon- "></div>
       </div>
     </div>
