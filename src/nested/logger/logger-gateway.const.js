@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common.log')
     .constant('NST_LOGGER_GATEWAY', {
       BASIC: 'basic',
       CONSOLE: 'console',

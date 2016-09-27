@@ -1,7 +1,7 @@
 (function () {
 
   'use strict';
-  angular.module('nested').constant('NST_SRV_MESSAGE', {
+  angular.module('ronak.nested.web.data').constant('NST_SRV_MESSAGE', {
     INITIALIZE: 'hi'
   });
 })();

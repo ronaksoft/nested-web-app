@@ -1,0 +1,52 @@
+.maincontainer.navtiny {
+  #content-plus {
+    top: 96px;
+  }
+  #new-post {
+    top:102px;
+  }
+}
+.maincontainer.sidetiny {
+  .sidebar{
+    width: $sidebar-width-tiny;
+    .side-top {
+      width: $sidebar-width-tiny;
+      #compose {
+        width: 54px;
+      }
+    }
+    .side-profile {
+      width: $sidebar-width-tiny;
+      padding: 0;
+      display: inline-flex;
+      //flex-direction: column-reverse;
+      align-items: center;
+      transition: $animation-dur;
+      & > a > div {
+        justify-content: center;
+        padding: 0;
+        transition: .1s;
+        & > img {
+          //margin-left: 22px;
+          transition: $animation-dur;
+        }
+      }
+      a {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  //hidden unwanted elements in tiny sidebar
+  .lines,.side-menu-item .item,.onlyExpand {
+    width : 0;
+    margin: 0;
+    padding: 0;
+    flex: none;
+    overflow: hidden;
+    transition: $animation-dur;
+    a{
+      white-space: nowrap;
+    }
+  }
+}

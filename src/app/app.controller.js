@@ -2,20 +2,19 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.main')
     .controller('AppController', AppController);
 
   /** @ngInject */
-  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log,
+  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
                          hotkeys,
                          NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
-                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcPlaceFactory, NstSvcModal,
+                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal,
 						 NstObject) {
     var vm = this;
 
     vm.loginView = true;
     vm.showLoadingScreen = true;
-    vm.isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
 
 
 
@@ -73,34 +72,19 @@
 
 
     $rootScope.$on('show-login-view', function () {
-      if (!NstSvcAuth.isInAuthorization()){
-        vm.loginView = true;
-      }else{
-        vm.loginView = false;
-      }
+      vm.loginView = true;
     });
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
       var reason = event.detail.reason;
       if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
-        vm.loginView = true;
+        getValidState($state.current, $state.params);
       }
     });
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-      var reason = event.detail.reason;
-      if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
-        vm.loginView = false;
-      }
+      getValidState($state.current, $state.params);
     });
-
-    // $rootScope.$watch(function () {
-    //   return NstSvcAuth.isInAuthorization();
-    // }, function () {
-    //   if (!vm.disconected) {
-    //     vm.loginView = !NstSvcAuth.isInAuthorization();
-    //   }
-    // });
 
 
     /*****************************
@@ -136,6 +120,13 @@
      ***** Controller Methods ****
      *****************************/
 
+    vm.customScrollPreventConfig = {
+      axis: 'y',
+      mouseWheel: {
+        preventDefault: true
+      }
+    };
+
     // TODO should read from cache
     $rootScope.navView = false;
     $scope.topNavOpen = false;
@@ -143,22 +134,30 @@
       $scope.topNavOpen = newValue;
     });
 
-    vm.scroll = function (event) {
-      var t = event.target.scrollTop;
-      $timeout(function () {
-        $rootScope.navView = t > 55
-      });
-
-      if (t > 0) {
-        $("#content-plus").stop().css({
-          marginTop: t
+    var scrollValue = 0;
+    var scrollTimeout = false;
+    $(window).scroll(function (event) {
+      var t = event.currentTarget.scrollY;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(function(){
+        vm.scrolled = $(document).scrollTop() - scrollValue;
+        scrollValue = $(document).scrollTop();
+        if (vm.scrolled < -5 && $rootScope.navView) {
+          $timeout(function () {
+            $rootScope.navView = false;
+          });
+        }
+      }, 10);
+      if (t > 55 && !$rootScope.navView && vm.scrolled > 0) {
+        $timeout(function () {
+          $rootScope.navView = t > 55;
         });
-      } else if (t == 0) {
-        $("#content-plus").stop().css({
-          marginTop: 0
+      } else if (t < 55 && $rootScope.navView) {
+        $timeout(function () {
+          $rootScope.navView = t > 55;
         });
       }
-    };
+    });
 
     /*****************************
      *****  Controller Logic  ****
@@ -181,16 +180,17 @@
     function getValidState(toState, toParams) {
       var toPublicState = NST_PUBLIC_STATE.indexOf(toState.name) > -1;
 
-      if (NstSvcAuth.isInAuthorization()) {
 
+      if (NstSvcAuth.isInAuthorization()) {
         if (toPublicState) {
+          vm.loginView = true;
           return {
             name: NST_DEFAULT.STATE,
             params: {}
           };
         }
       } else if (!toPublicState) {
-        vm.loginView = true;
+        vm.loginView = false;
         if (toState.name) {
           return {
             name: 'signin-back',
@@ -202,6 +202,8 @@
             }
           };
         } else {
+
+          vm.loginView = true;
           return {
             name: 'signin',
             params: {}
@@ -286,54 +288,59 @@
       }
     });
 
+    if ($injector.has('NstSvcPlaceFactory')){
+      var NstSvcPlaceFactory = $injector.get('NstSvcPlaceFactory');
+      $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
-
-        NstSvcPlaceFactory.get(toParams.placeId).then(function (place) {
-          return NstSvcPlaceFactory.hasAccess(toParams.placeId, NST_PLACE_ACCESS.READ).then(function (has) {
-            return $q(function (res, rej) {
-              if (!has) {
-                rej(new NstFactoryError(null, "", NST_SRV_ERROR.ACCESS_DENIED));
-              }
+          NstSvcPlaceFactory.get(toParams.placeId).then(function (place) {
+            return NstSvcPlaceFactory.hasAccess(toParams.placeId, NST_PLACE_ACCESS.READ).then(function (has) {
+              return $q(function (res, rej) {
+                if (!has) {
+                  rej(new NstFactoryError(null, "", NST_SRV_ERROR.ACCESS_DENIED));
+                }
+              });
             });
+          }).catch(function (error) {
+            if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
+              NstSvcModal.error('Does not exist!', 'We are sorry, but the place you are looking for can not be found!').catch(function () {
+                // This handles dismissed modal
+                return $q(function (res) {
+                  res(false);
+                });
+              }).then(function () {
+                if (fromState.name) {
+                  $state.go(fromState.name, fromParams);
+                } else {
+                  $state.go(NST_DEFAULT.STATE);
+                }
+              });
+            } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
+              NstSvcModal.error('Access denied', 'You don\'t have access permissions for this Place.').catch(function () {
+                // This handles dismissed modal
+                return $q(function (res) {
+                  res(false);
+                });
+              }).then(function () {
+                if (fromState.name) {
+                  $state.go(fromState.name, fromParams);
+                } else {
+                  $state.go(NST_DEFAULT.STATE);
+                }
+              });
+            }
           });
-        }).catch(function (error) {
-          if (error.getCode() === NST_SRV_ERROR.UNAVAILABLE) {
-            NstSvcModal.error('Does not exist!', 'We are sorry, but the place you are looking for can not be found!').catch(function () {
-              // This handles dismissed modal
-              return $q(function (res) {
-                res(false);
-              });
-            }).then(function () {
-              if (fromState.name) {
-                $state.go(fromState.name, fromParams);
-              } else {
-                $state.go(NST_DEFAULT.STATE);
-              }
-            });
-          } else if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            NstSvcModal.error('Access denied!', 'You are not allowed to be here!').catch(function () {
-              // This handles dismissed modal
-              return $q(function (res) {
-                res(false);
-              });
-            }).then(function () {
-              if (fromState.name) {
-                $state.go(fromState.name, fromParams);
-              } else {
-                $state.go(NST_DEFAULT.STATE);
-              }
-            });
-          }
-        });
-      }
-    });
+        }
+      });
+    }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
-      if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER).indexOf(toState.name) > -1) {
+      //FIXMS:: check public pages in getValidState function
+      if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER.concat(NST_PAGE.RECOVER)).indexOf(toState.name) > -1) {
         vm.loginView = true;
+      }else{
+        vm.loginView = false;
       }
     });
   }

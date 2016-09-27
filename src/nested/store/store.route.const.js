@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.file')
     .constant('NST_STORE_ROUTE', {
       DOWNLOAD: 'download',
       VIEW: 'view',

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .factory('NstRequest', NstRequest);
 
   function NstRequest($q, NST_OBJECT_EVENT, NST_REQ_STATUS, NST_RES_STATUS, NstObservableObject, NstResponse) {

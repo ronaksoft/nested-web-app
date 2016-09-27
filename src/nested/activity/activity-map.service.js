@@ -1,11 +1,11 @@
 (function () {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.activity')
     .service('NstSvcActivityMap', NstSvcActivityMap);
 
   /** @ngInject */
-  function NstSvcActivityMap(NstSvcAttachmentMap) {
+  function NstSvcActivityMap( moment, NstSvcAttachmentMap) {
 
     var service = {
       toRecentActivity: toRecentActivity,
@@ -97,6 +97,7 @@
 
     }
 
+
     /**
      * mapActivities - map a list of activities to a hierarchal form by date
      *
@@ -104,211 +105,30 @@
      * @return {Object}              a hierarchal form of activities
      */
     function toActivityItems(acts) {
-      _.forEach(acts, function (act) {
-        act.date = moment(act.date);
-      });
-      var result = {
-        // min: null,
-        // max: null,
-        otherYears: {},
-        thisYear: {},
-        hasAnyItem: false,
-        otherYearsHasAnyItem: false
-      };
-      var currentYearStart = moment().startOf('year');
-      var currentMonthStart = moment().startOf('month');
-
-      if (!acts || acts.length === 0) {
-        return result;
-      }
-
-      result.hasAnyItem = true;
-
-      // result.min = moment.min(_.map(acts, 'date'));
-      // result.max = moment.max(_.map(acts, 'date'));
-
-      var thisYearActs = _.filter(acts, function (act) {
-        return act.date.isAfter(currentYearStart);
-      });
-
-      var thisMonthActs = _.filter(thisYearActs, function (act) {
-        return act.date.isAfter(currentMonthStart);
-      });
-
-      var otherMontsActs = _.differenceBy(thisYearActs, thisMonthActs, 'id');
-
-      result.thisYear = {
-        // min: moment().startOf('year'),
-        // max: moment().endOf('year'),
-        thisMonth: mapThisMonthActs(thisMonthActs),
-        otherMonths: groupByMonth(otherMontsActs),
-        hasAnyItem: thisYearActs.length > 0,
-        otherMonthsHasAnyItem: otherMontsActs.length > 0
-      };
-
-      var otherYearsActs = _.differenceBy(acts, thisYearActs, 'id');
-
-      result.otherYearsHasAnyItem = otherYearsActs.length > 0;
-
-      result.otherYears = groupByYear(otherYearsActs);
-
-      return result;
-    }
-
-    /**
-     * groupByYear - group a list of activities by year
-     *
-     * @param  {NstActivity}  acts   list of activities
-     * @return {Object}              pairs of year and activity list, consider year as key
-     */
-    function groupByYear(acts) {
-      var years = [];
-
-      if (!acts || acts.length === 0) {
-        return years;
-      }
-
-      // there are some activities of past years
-      var yearGroups = _.groupBy(acts, function (act) {
-        return act.date.year();
-      });
-      _.forIn(yearGroups, function (yearActs, year) {
-        var yearMoment = yearActs[0].date;
-
-        // var min = yearMoment.startOf('year');
-        // var max = yearMoment.endOf('year');
-
-        years.push({
-          // min: min,
-          // max: max,
-          date: yearMoment.clone().startOf('year').format('YYYY'),
-          items: mapActivityItems(sortActivities(yearActs))
-        });
-      });
-
-      return years;
-    }
-
-    /**
-     * groupByMonth - group a list of activities by month
-     *
-     * @param  {NstActivity[]}  acts   list of activities
-     * @return {Object}                pairs of month and activity list, consider month as key
-     */
-    function groupByMonth(acts) {
-      var months = [];
-
-      if (!acts || acts.length === 0) {
-        return months;
-      }
-      var monthGroups = _.groupBy(acts, function (act) {
-        return act.date.month();
-      });
-
-      _.forIn(monthGroups, function (monthActs, month) {
-        var monthMoment = monthActs[0].date;
-        // var max = monthMoment.endOf('month');
-        // var min = monthMoment.startOf('month');
-
-        months.push({
-          // min: min,
-          // max: max,
-          date: monthMoment.clone().startOf('month').format('MMM YYYY'),
-          items: mapActivityItems(sortActivities(monthActs))
-        });
-      });
-
-      return months;
-    }
-
-    /**
-     * mapThisMonthActs - description
-     *
-     * @param  {NstActivity[]}  acts   list of activities
-     * @return {Object}                model contains today and the older days activities
-     */
-    function mapThisMonthActs(acts) {
-      var result = {
-        // min: null,
-        // max: null,
-        today: {},
-        otherDays: {},
-        hasAnyItem: false,
-        otherDaysHasAnyItem: false
-      };
-
-      if (!acts || acts.length === 0) {
-        return result;
-      }
-
-      result.hasAnyItem = true;
-
       var todayStart = moment().startOf('day');
-      // result.min = moment().startOf('month');
-      // result.max = moment().endOf('month');
+      var thisMonthStart = moment().startOf('month');
+      var thisYearStart =  moment().startOf('year');
 
-      var todayActs = _.filter(acts, function (act) {
-        return act.date.isAfter(todayStart);
-      });
+      return _.chain(acts).groupBy(function (activity) {
+        if (!moment.isMoment(activity.date)){
+          activity.date = moment(activity.date);
+        }
 
-      result.today = {
-        // min: todayStart,
-        // max: moment().endOf('day'),
-        items: mapActivityItems(sortActivities(todayActs)),
-        hasAnyItem: todayActs.length > 0
-      };
-
-      var otherDaysActs = _.differenceBy(acts, todayActs, 'id');
-
-      result.otherDaysHasAnyItem = otherDaysActs.length > 0;
-
-      result.otherDays = groupByDay(otherDaysActs);
-
-      return result;
-    }
-
-    /**
-     * groupByDay - group a list of activities by day
-     *
-     * @param  {NstActivity[]}  acts  list of activities
-     * @return {Object}               pairs of day and activity list, consider day as key
-     */
-    function groupByDay(acts) {
-      var days = [];
-
-      if (!acts || acts.length === 0) {
-        return days;
-      }
-
-      var dayGroups = _.groupBy(acts, function (act) {
-        return act.date.date();
-      });
-
-      _.forInRight(dayGroups, function (dayActs, day) {
-        var dayMoment = dayActs[0].date;
-
-        // var min = dayMoment.startOf('day');
-        // var max = dayMoment.endOf('day');
-
-        days.push({
-          // min : min,
-          // max : max,
-          date: dayMoment.clone().startOf('day').format('DD MMM'),
-          items: mapActivityItems(sortActivities(dayActs))
-        });
-
-      });
-
-      return days;
-    }
-
-    function mapActivityItems(activities) {
-      var items = _.map(activities, function (item) {
-
-        return toActivityItem(item);
-      });
-
-      return items;
+        if (activity.date.isAfter(todayStart)) {
+          return "Today";
+        } else if (activity.date.isAfter(thisMonthStart)) {
+          return activity.date.clone().startOf('day').format("DD MMM");
+        } else if (activity.date.isAfter(thisYearStart)) {
+          return activity.date.clone().startOf('month').format("MMM YYYY");
+        } else {
+          return activity.date.clone().startOf('year').format("YYYY");
+        }
+      }).map(function (activities, date) {
+        return {
+          date : date,
+          items : _.map(activities, toActivityItem)
+        };
+      }).value();
     }
 
     function mapActivityMember(activity) {
@@ -380,7 +200,7 @@
       return {
         id: activity.place.id,
         name: activity.place.name,
-        picture: activity.place.picture.thumbnails.x64.url.download,
+        picture: activity.place.picture.id ? activity.place.picture.thumbnails.x64.url.download : '',
         hasParent: !!activity.place.parent,
         parent: mapParentPlace(activity)
       };

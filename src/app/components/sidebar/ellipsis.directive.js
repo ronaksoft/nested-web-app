@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('nested')
+  angular.module('ronak.nested.web.components.text')
     .directive('ellipsis', ellipsis);
 
   function ellipsis() {
@@ -21,7 +21,7 @@
 
     function link(scope, element, attrs) {
       /**
-       * postPreview - preview the places that have delete access and let the user to chose one
+       * postPreview - preview the places that have delete access and let the user to choose one
        *
        * @param  {type} places list of places to be shown
        */

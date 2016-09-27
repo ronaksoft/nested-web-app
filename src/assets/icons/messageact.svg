@@ -1,1 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="60" viewBox="0 0 20 60"><defs><style>.a,.b,.c{fill:none;stroke:#869d91;}.a,.b{stroke-linecap:square;}.a{stroke-linejoin:bevel;}.b,.c{stroke-miterlimit:10;}</style></defs><title>Source</title><polyline class="a" points="9.2 55.17 10 59.33 10.8 55.17"/><polyline class="b" points="9.2 55.17 7.92 48.5 2.5 48.5 10 41 17.5 48.5 12.08 48.5 10.8 55.17"/><path class="c" d="M12,30a1.73,1.73,0,0,1-2,2,1.73,1.73,0,0,1-2-2,1.73,1.73,0,0,1,2-2A1.73,1.73,0,0,1,12,30Zm-2,4a1.73,1.73,0,0,0-2,2,1.73,1.73,0,0,0,2,2,1.73,1.73,0,0,0,2-2A1.73,1.73,0,0,0,10,34Zm0-12a1.73,1.73,0,0,0-2,2,1.73,1.73,0,0,0,2,2,1.73,1.73,0,0,0,2-2A1.73,1.73,0,0,0,10,22Z"/><path class="b" d="M8.58,7.08c4.42,0,9.33,2.21,9.33,10.17,0-4.64-4.92-5.58-9.33-5.58V17.5L1.08,10l7.5-7.5V7.08Z"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-245 217 20 80" style="enable-background:new -245 217 20 80;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#869D91;stroke-linecap:square;stroke-linejoin:bevel;}
+	.st1{fill:none;stroke:#869D91;stroke-linecap:square;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#869D91;stroke-miterlimit:10;}
+</style>
+<title>Source</title>
+<polyline class="st0" points="-235.8,271.2 -235,275.3 -234.2,271.2 "/>
+<polyline class="st1" points="-235.8,271.2 -237.1,264.5 -242.5,264.5 -235,257 -227.5,264.5 -232.9,264.5 -234.2,271.2 "/>
+<path class="st2" d="M-233,246c0.2,0.9-0.5,1.8-1.4,2c-0.2,0-0.4,0-0.6,0c-0.9,0.2-1.8-0.5-2-1.4c0-0.2,0-0.4,0-0.6
+	c-0.2-0.9,0.5-1.8,1.4-2c0.2,0,0.4,0,0.6,0c0.9-0.2,1.8,0.5,2,1.4C-233,245.6-233,245.8-233,246z M-235,250c-0.9-0.2-1.8,0.5-2,1.4
+	c0,0.2,0,0.4,0,0.6c-0.2,0.9,0.5,1.8,1.4,2c0.2,0,0.4,0,0.6,0c0.9,0.2,1.8-0.5,2-1.4c0-0.2,0-0.4,0-0.6c0.2-0.9-0.5-1.8-1.4-2
+	C-234.6,250-234.8,250-235,250z M-235,238c-0.9-0.2-1.8,0.5-2,1.4c0,0.2,0,0.4,0,0.6c-0.2,0.9,0.5,1.8,1.4,2c0.2,0,0.4,0,0.6,0
+	c0.9,0.2,1.8-0.5,2-1.4c0-0.2,0-0.4,0-0.6c0.2-0.9-0.5-1.8-1.4-2C-234.6,238-234.8,238-235,238z"/>
+<path class="st1" d="M-235.9,223.1c4.4,0,9.3,2.2,9.3,10.2c0-4.6-4.9-5.6-9.3-5.6v5.8l-7.5-7.5l7.5-7.5V223.1z"/>
+<polyline id="XMLID_23_" class="st2" points="-241.5,287 -241.5,293.5 -235,293.5 "/>
+<polyline id="XMLID_1_" class="st2" points="-228.5,287 -228.5,280.5 -235,280.5 "/>
+</svg>

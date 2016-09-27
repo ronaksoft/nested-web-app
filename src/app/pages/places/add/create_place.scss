@@ -17,8 +17,8 @@
 }
 .head {
   padding-left: 8px;
-  font-size: 12px;
-  color: #a6b9af;
+  font-size: $font-size-small;
+  color: $color-wind;
   margin-bottom: 26px;
 }
 .head a{
@@ -30,30 +30,33 @@
 .inner-panel input[type=submit]{
   margin-top: -10px;
 }
-.upload-photo:hover .probut {
+.upload-photo:hover .remove-photo-hover {
   display: flex;
 }
 .probut {
-  display: none;
+  display: flex;
   position: absolute;
-  height: 20px;
+  height: 32px;
   width: 100%;
-  bottom: 25px;
+  bottom: 0;
 }
 .add-photo-hover {
   background: url("../assets/icons/hovers.svg") no-repeat;
-  background-position: 0 -24px;
-  width: 24px;
-  height: 24px;
+  background-position: 0 -32px;
+  background-size: cover;
+  width: 32px;
+  height: 32px;
   position: absolute;
-  left: 10px;
+  right: 0;
 }
 .remove-photo-hover {
   background: url("../assets/icons/hovers.svg") no-repeat;
-  width: 24px;
-  height: 24px;
+  background-size: cover;
+  width: 32px;
+  height: 32px;
   position: absolute;
-  right: 10px;
+  left: 0;
+  display: none;
 }
 .arrow-right {
   transform: rotate(270deg);
@@ -65,19 +68,18 @@
   margin-top: 4px;
 }
 .upload-photo img{
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
+  width: 128px;
+  height: 128px;
+  border-radius: 100%;
 }
 .upload-photo-container {
-  height: 120px;
+  height: 140px;
 }
 .upload-photo{
   vertical-align: middle;
   text-align: center;
-  display: table-cell;
+  @include center-block();
   position: relative;
-  left: 220px;
   width: 120px;
   height: 120px;
   border-radius: 50%;

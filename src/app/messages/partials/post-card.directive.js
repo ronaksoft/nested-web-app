@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .directive('postCard', PostItem);
 
   /** @ngInject */
@@ -17,7 +17,8 @@
       bindToController: {
         post: '=post',
         viewSetting: '=settings',
-        thisPlace: '=postinplace'
+        thisPlace: '=postinplace',
+        hideComments: '=hideComments'
       }
     };
   }

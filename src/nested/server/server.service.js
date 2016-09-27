@@ -2,19 +2,21 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.data')
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer($websocket, $q, $timeout,
+  function NstSvcServer($websocket, $q, $timeout, $interval,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
-                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_SRV_EVENT, NST_SRV_MESSAGE,
-                        NstSvcRandomize, NstSvcLogger,
+                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
+                        NST_SRV_EVENT, NST_SRV_MESSAGE, NST_SRV_PING_PONG,
+                        NstSvcRandomize, NstSvcLogger, NstSvcTry,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
         streamTimeout: 500,
         requestTimeout: 1000,
+        maxRetries : 16,
         meta: {}
       };
 
@@ -27,6 +29,10 @@
       this.authorized = false;
       this.queue = {};
 
+      this.pingPongInterval = {};
+      this.pingPongStatus = false;
+      this.pingPongStack = [];
+
       this.stream = $websocket(url);
       this.stream.maxTimeout = this.configs.streamTimeout;
       this.stream.reconnectIfNotNormalClose = true;
@@ -35,6 +41,9 @@
 
       this.stream.onOpen(function (event) {
         NstSvcLogger.debug2('WS | Opened:', event, this);
+
+        // TODO:: Uncomment me after ping handled by server
+        // this.startPingPong();
       }.bind(this));
 
       // Orphan Router
@@ -153,52 +162,67 @@
         this.setSesKey(event.detail.response.getData()._sk.$oid);
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.AUTHORIZE));
       });
+
+
     }
 
     Server.prototype = new NstObservableObject();
     Server.prototype.constructor = Server;
 
     Server.prototype.request = function (action, data, timeout) {
-      var reqId = this.genQueueId(action, data);
+      var service = this;
       var payload = angular.extend(data || {}, {
         cmd: action
       });
-      var rawData = {
-        type: 'q',
-        _reqid: reqId,
-        data: payload
-      };
-      var request = new NstRequest(action, rawData);
-      this.queue[reqId] = {
-        request: request,
-        timeoutPromise: undefined,
-        listenerId: undefined
-      };
+      var retryablePromise = NstSvcTry.do(function () {
 
-      timeout = angular.isNumber(timeout) ? timeout : this.getConfigs().requestTimeout;
+        var reqId = service.genQueueId(action, data);
+        var rawData = {
+          type: 'q',
+          _reqid: reqId,
+          data: payload
+        };
+        var request = new NstRequest(action, rawData);
+        service.queue[reqId] = {
+          request: request,
+          timeoutPromise: undefined,
+          listenerId: undefined
+        };
+
+        timeout = angular.isNumber(timeout) ? timeout : service.getConfigs().requestTimeout;
+
+        return service.enqueueToSend(reqId, timeout).getPromise();
+      }, shouldStopTrying, service.getConfigs().maxRetries);
+
 
       // TODO: Return the request itself
-      return this.enqueueToSend(reqId, timeout).getPromise().then(function (response) {
+      return retryablePromise.then(function (response) {
         var deferred = $q.defer();
 
         // TODO: Resolve with response itself
-        deferred.resolve(response.getData(), request);
+        deferred.resolve(response.getData());
 
         return deferred.promise;
       }).catch(function (response) {
         var deferred = $q.defer();
         NstSvcLogger.debug2('WS | Response: ', response);
-
+        // TODO: retry here by creating a new request
         deferred.reject(new NstServerError(
           new NstServerQuery(action, data),
-          response.getData().message,
+          response.getData().items,
           response.getData().err_code,
           response.getData()
-        ), request);
+        ));
 
         return deferred.promise;
       });
     };
+
+    function shouldStopTrying(response) {
+      var errorCode = response.data.err_code;
+
+      return errorCode !== NST_SRV_ERROR.TIMEOUT;
+    }
 
     Server.prototype.enqueueToSend = function (reqId, timeout) {
       var qItem = this.queue[reqId];
@@ -323,8 +347,63 @@
       return this.getSesSecret();
     };
 
+    Server.prototype.startPingPong = function (){
+
+      if (this.getPingPongStatus() && this.getPingPongInterval()) return;
+
+      this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.CONNECT));
+      this.setPingPongStatus(true);
+      var service = this;
+
+      var interval = $interval(function () {
+
+        service.pingPongStack.push({
+          response : false,
+          date : Date.now()
+        });
+
+        NstSvcLogger.debug2('WS | PING:', Date.now());
+
+        service.request(NST_SRV_PING_PONG.COMMAND,null, NST_SRV_PING_PONG.INTERVAL_TIMEOUT).then(function (data) {
+          NstSvcLogger.debug2('WS | PONG:', data);
+          service.pingPongStack = [];
+
+        }).catch(function (reason) {
+          NstSvcLogger.debug2('WS | PONG:', reason);
+
+          var failedPings = service.pingPongStack.filter(function (obj) {
+            return !obj.response;
+          });
+
+          NstSvcLogger.debug2('WS | FAILED PING/PONG', failedPings.length);
+
+          if (failedPings.length >= NST_SRV_PING_PONG.MAX_FAILED_PING
+            && service.getPingPongStatus()){
+            NstSvcLogger.debug2('WS | DISCONNECTED');
+            service.stopPingPong();
+          }
+
+        })
+
+      }, NST_SRV_PING_PONG.INTERVAL_TIME);
+
+      this.setPingPongInterval(interval);
+
+    };
+
+    Server.prototype.stopPingPong = function () {
+      NstSvcLogger.debug2('WS | STOP PING/PONG');
+      var interval = this.getPingPongInterval();
+      $interval.cancel(interval);
+      this.setPingPongStatus(false);
+      this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.DISCONNECT));
+      this.stream.close();
+      this.stream.reconnect();
+    };
+
     return new Server(NST_CONFIG.WEBSOCKET.URL, {
       requestTimeout: NST_CONFIG.WEBSOCKET.TIMEOUT,
+      maxRetries : NST_CONFIG.WEBSOCKET.REQUEST_MAX_RETRY_TIMES,
       meta: {
         app_id: NST_CONFIG.APP_ID
       }

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.place')
     .controller('PlaceAddController', PlaceAddController);
 
   /** @ngInject */
@@ -108,7 +108,7 @@
         cancel.$destroy();
         $state.go(toState.name, toParams);
       } else {
-        if (!$rootScope.modals['leave-confirm']) {
+//      if (!$rootScope.modals['leave-confirm']) {
           $rootScope.modals['leave-confirm'] = $uibModal.open({
             animation: false,
             templateUrl: 'app/modals/leave-confirm/main.html',
@@ -124,7 +124,7 @@
             cancel.$destroy();
             $state.go(toState.name, toParams);
           });
-        }
+//        }
       }
     };
 
@@ -352,7 +352,7 @@
         vm.model.saved = true;
 
         toastr.success('Place ' + place.getName() + '#' + place.getId() + ' has been successfully created.', 'Place Added');
-        $state.go('place-settings', { placeId: place.getId() });
+        $state.go('place-settings', { placeId : place.getId() });
 
         return $q(function (res) {
           res(place);
@@ -469,6 +469,11 @@
     }
 
     function reqPlaceExist(placeId) {
+
+      if ($stateParams.placeId !== NST_DEFAULT.STATE_PARAM){
+        placeId = [$stateParams.placeId, placeId].join('.');
+      }
+
       setLoadingDisplay(true);
 
       return NstSvcPlaceFactory.placeIdServerCheck(placeId).then(function (exists) {
@@ -489,9 +494,7 @@
     function reqHasAddAccess(id) {
       vm.status.accessCheckProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcPlaceFactory.hasAccess(id, NST_PLACE_ACCESS.ADD_PLACE);
-      })).then(function (has) {
+      return NstSvcLoader.inject(NstSvcPlaceFactory.hasAccess(id, NST_PLACE_ACCESS.ADD_PLACE)).then(function (has) {
         vm.status.accessCheckProgress = false;
 
         return $q(function (res) {

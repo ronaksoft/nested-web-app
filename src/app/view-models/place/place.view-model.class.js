@@ -2,9 +2,9 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .factory('NstVmPlace', NstVmPlace);
-
+  // TODO: Why a view-model injects $state!!??
   function NstVmPlace($state, NstTinyPlace, NstPlace) {
     /**
      * Creates an instance of NstVmPlace
@@ -29,12 +29,14 @@
 
         if (placeModel instanceof NstPlace) {
           for (var k in placeModel.getChildren()) {
-            this.children.push(new VmPlace(placeModel.getChildren()[k], this.depth + 1));
+            if ('length' !== k) {
+              this.children.push(new VmPlace(placeModel.getChildren()[k], this.depth + 1));
+            }
           }
         }
       }
     }
-
+    // TODO: It should not be here!!!
     function getPlaceFilteredState() {
       var state = 'place-messages';
 

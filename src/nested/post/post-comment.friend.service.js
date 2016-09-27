@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .service('NstSvcPostCommentFriend', NstSvcPostCommentFriend);
 
   function NstSvcPostCommentFriend(NST_COMMENT_EVENT,

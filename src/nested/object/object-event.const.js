@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .constant('NST_OBJECT_EVENT', {
       CHANGE: 'change'
     });

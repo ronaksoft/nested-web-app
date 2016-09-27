@@ -1,9 +1,9 @@
-<nst-navbar controls="ctlCompose.controls" place="ctlCompose.place" page="ctlApp.page" class="second-view"></nst-navbar>
+<nst-navbar controls="ctlCompose.controls" page="ctlApp.page" nav-title="Compose" ready-to-show="true" class="second-view"></nst-navbar>
 
-<div class="nst-content _tr second-view" id="content-wrapper" ng-scrollbars page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+<div class="nst-content _tr second-view" id="content-wrapper" page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
   <section class="content _bgwhite">
     <div class="navbarillu"></div>
-    <div class="_fw" ng-model="attachfiles" data-droplet>
+    <div class="_fw" ng-model="ctlCompose.model.attachfiles" data-droplet >
       <div class="droplet"></div>
       <section class="first-child">
         <div class="_difc _fw">
@@ -12,16 +12,21 @@
           </div>
 
           <div class="_df _fw input-select-match">
-            <ui-select page-change-element multiple class="address-input _dib" id="input-compose-to" tagging="ctlCompose.search.tagger" data-ng-model="ctlCompose.model.recipients">
+            <ui-select page-change-element minimum-input-length="4" multiple limit="10"  class="address-input _dib"
+                       id="input-compose-to"
+                       data-ng-model="ctlCompose.model.recipients">
               <ui-select-match placeholder="Type place name or email address...">
                 <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
               </ui-select-match>
-              <ui-select-choices refresh="ctlCompose.search.fn($select.search)" refresh-delay="0"
-                                 repeat="place in (ctlCompose.search.results | filter: $select.search) track by place.id">
+              <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
+                                 refresh-delay="0"
+                                 repeat="place as place in (ctlCompose.search.results | filter: $select.search ) track by place.id">
+
                 <img class="account-initials-32" ng-src="{{place.avatar}}"/>
                 <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
                 <br/>
                 <span class="nst-font-10 _vat margin-l-50">{{place.id}}</span>
+
               </ui-select-choices>
             </ui-select>
           </div>
@@ -31,7 +36,7 @@
       <hr/>
       <section class="_difc _fw">
         <div class="_df _fw input-select-match">
-          <input page-change-element class="compose-input _fw" name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject"/>
+          <input class="compose-input _fw" page-change-element  name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject" auto-dir="{{ctlCompose.model.subject}}">
         </div>
       </section>
       <hr data-ng-show="attachshow"/>
@@ -58,7 +63,8 @@
 
       <section class="nst-compose-message">
         <div>
-          <textarea page-change-element ui-tinymce="ctlCompose.configs.tinymce" placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"></textarea>
+          <textarea  nst-mention="#" page-change-element ui-tinymce="ctlCompose.configs.tinymce"
+                     placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"></textarea>
         </div>
       </section>
     </div>

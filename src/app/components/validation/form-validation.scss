@@ -1,0 +1,10 @@
+.form-group.has-error {
+  .error-message, label {
+    color: $color-force-wire;
+  }
+  input, input:focus {
+    border: 2px solid $color-force-wire;
+    box-shadow: none;
+    color: $color-force-wire;
+  }
+}

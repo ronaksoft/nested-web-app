@@ -2,14 +2,14 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.sidebar')
     .controller('SidebarController', SidebarController);
 
   /** @ngInject */
   function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT,
+                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
     $log.debug(vm.stat);
@@ -99,7 +99,6 @@
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
-
       fixPlaceUrl();
     });
 
@@ -250,15 +249,15 @@
     }
 
     function getMyPlaces() {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPlaceFactory.getMyTinyPlaces(); }));
+      return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
     }
 
     function getInvitation(id) {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcInvitationFactory.get(id); }));
+      return NstSvcLoader.inject(NstSvcInvitationFactory.get(id));
     }
 
     function getInvitations() {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcInvitationFactory.getAll(); }));
+      return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
     }
 
     /*****************************
@@ -329,42 +328,32 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
-      var vmPlace = _.find(vm.places, { id: event.detail.id });
-
-      if (!vmPlace) {
-        // TODO: Highlight Newly Added Place
-        vm.places.push(mapPlace(event.detail.place));
-      }
+      NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(event.detail.place));
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
-      var place = event.detail.place;
-      var parentPlace = event.detail.parentPlace;
-      var parentPlacesIds = String(parentPlace.getId()).split(NST_DELIMITERS.PLACE_ID);
-      var collection = vm.places;
-      var lastVisibleVmPlace = undefined;
+      NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(event.detail.place));
+    });
 
-      for (var k in parentPlacesIds) {
-        var ptrVmPlaceId = parentPlacesIds.slice(0, k + 1);
-        var ptrVmPlace = _.find(collection, { id: ptrVmPlaceId });
-        if (ptrVmPlace) {
-          if (!lastVisibleVmPlace) {
-            lastVisibleVmPlace = ptrVmPlace;
-          } else {
-            // TODO: ??
-          }
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
+      NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
+    });
 
-          if (ptrVmPlaceId == parentPlace.id) {
-            // TODO: Highlight last not-collapsed ancestor: lastVisibleVmPlace
-            ptrVmPlace.children.push(mapPlace(place));
-            break;
-          }
+    NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
+      vm.user = mapUser(event.detail);
+    });
 
-          collection = ptrVmPlace.children;
-        } else {
-          return;
-        }
+    NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
+      vm.user.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
+
+      var place = _.find(vm.places, { id : NstSvcAuth.user.id });
+      if (place) {
+        place.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
       }
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, function (event) {
+      NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {

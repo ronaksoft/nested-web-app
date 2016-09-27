@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance,
+  function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
                           _, toastr,
                           NST_COMMENT_EVENT, NST_POST_EVENT,
                           NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
@@ -18,16 +18,13 @@
      *****************************/
 
     vm.user = new NstVmUser(NstSvcAuth.getUser());
-
+    vm.revealNewComment = false;
     vm.comments = [];
     vm.commentSettings = {
       date: Date.now(),
       limit: 10
     };
     vm.placesWithRemoveAccess = [];
-    vm.scrollbarConfig = {
-
-    };
 
     vm.postModel = undefined;
     vm.post = undefined;
@@ -35,6 +32,7 @@
       vm.post = vmPost;
       if (vm.post.comments) {
         vm.comments = vm.post.comments;
+        vm.scrollToNewComment = vm.comments.length;
       }
     }
     vm.postId = $stateParams.postId || postId;
@@ -68,10 +66,17 @@
 
     function loadComments() {
       vm.commentSettings.date = getDateOfOldestComment(vm.postModel);
+      var commentCount = vm.comments.length;
 
       return reqGetComments(vm.postModel, vm.commentSettings).then(function (comments) {
         vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
-        vm.scrolling = true;
+        if (commentCount == 0){
+            vm.scrollToNewComment = vm.comments.length;
+            vm.revealNewComment = true;
+        }else{
+          vm.scrollToNewComment = false;
+        }
+        // vm.scrolling = true;
       }).catch(function (error) {
         // TODO: create a service that handles errors
         // and knows what to do when an error occurs
@@ -84,22 +89,32 @@
      * @param  {Event}  event   keypress event handler
      */
     function sendComment(event) {
-      if (!sendKeyIsPressed(event)) {
+
+      //var cm = event.currentTarget.innerText;
+      var cm = event.currentTarget.value;
+
+      var element = angular.element(event.target);
+      if (!sendKeyIsPressed(event) || element.attr("mention") === "true") {
         return;
       }
 
-      var body = extractCommentBody(event);
+      // if (!sendKeyIsPressed(event)) {
+      //   return;
+      // }
+
+      var body = extractCommentBody(cm);
       if (0 == body.length) {
         return;
       }
 
       vm.nextComment = "";
-
       reqAddComment(vm.postModel, body).then(function(comment) {
         // TODO: notify
         pushComment(comment);
+        vm.scrollToNewComment = vm.comments.length;
         event.currentTarget.value = '';
         vm.scrolling = $scope.unscrolled && true;
+        vm.revealNewComment = true;
       }).catch(function(error) {
         vm.nextComment = body;
         // TODO: decide && show toastr
@@ -115,8 +130,11 @@
      * @param  {NstComment}  comment   the comment
      */
     function removeComment(comment) {
+      if (vm.status.commentRemoveProgress) {
+        return;
+      }
       reqRemoveComment(vm.postModel, comment).then(function(post) {
-        // TODO: Notify
+        NstUtility.collection.dropById(vm.comments, comment.id);
       }).catch(function(error) {
         // TODO: decide && show toastr
       });
@@ -150,7 +168,7 @@
 
 
         /**
-         * previewPlaces - preview the places that have delete access and let the user to chose one
+         * previewPlaces - preview the places that have delete access and let the user to choose one
          *
          * @param  {type} places list of places to be shown
          */
@@ -201,7 +219,7 @@
                 $log.debug(error);
               });
 
-              toastr.success(NstUtility.string.format('The post is removed from {0}.', place.name));
+              toastr.success(NstUtility.string.format('The post has been removed from {0}.', place.name));
 
               $rootScope.$broadcast('post-removed', {
                 postId : post.id,
@@ -283,6 +301,9 @@
             comments : vm.comments
           }
         }));
+        $timeout(function () {
+          vm.revealNewComment = true;
+        });
       });
     })();
 
@@ -300,9 +321,7 @@
     function reqAddComment(post, text) {
       vm.status.commentSendProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcCommentFactory.addComment(post, text)
-      }, undefined, 3)).then(function (comment) {
+      return NstSvcLoader.inject(NstSvcCommentFactory.addComment(post, text)).then(function (comment) {
         vm.status.commentSendProgress = false;
 
         return $q(function (res) {
@@ -320,9 +339,7 @@
     function reqRemoveComment(post, comment) {
       vm.status.commentRemoveProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcCommentFactory.removeComment(post, comment);
-      })).then(function (post) {
+      return NstSvcLoader.inject(NstSvcCommentFactory.removeComment(post, comment)).then(function (post) {
         vm.status.commentRemoveProgress = false;
 
         return $q(function (res) {
@@ -340,9 +357,7 @@
     function reqGetPost(id) {
       vm.status.postLoadProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcPostFactory.get(id);
-      })).then(function (post) {
+      return NstSvcLoader.inject(NstSvcPostFactory.get(id)).then(function (post) {
         vm.status.postLoadProgress = false;
 
         return $q(function (res) {
@@ -360,9 +375,7 @@
     function reqGetComments(post, settings) {
       vm.status.commentLoadProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcCommentFactory.retrieveComments(post, settings);
-      })).then(function (comments) {
+      return NstSvcLoader.inject(NstSvcCommentFactory.retrieveComments(post, settings)).then(function (comments) {
         vm.status.commentLoadProgress = false;
         // the conditions says maybe there are more comments that the limit
         vm.status.hasMoreComments = comments.length >= settings.limit;
@@ -453,8 +466,8 @@
      *
      * @return {string}       refined comment
      */
-    function extractCommentBody(event) {
-      return event.currentTarget.value.trim();
+    function extractCommentBody(cm) {
+      return cm.trim();
     }
 
     function findOldestComment(post) {
@@ -475,9 +488,18 @@
     }
 
     function allowToRemoveComment(comment) {
+      if (comment && comment.id && vm.user && vm.user.id) {
+        var now = Date.now();
+        return comment.sender.username === vm.user.id
+        && ((now - comment.date) < 20 * 60 * 1e3);
+      }
+
       return false;
-      return comment.sender.username === vm.user.id
-        && (Date.now() - comment.date < 20 * 60 * 1e3);
     }
+
+    // $timeout(function () {
+    //   vm.revealNewComment = true;
+    // });
+
   }
 })();

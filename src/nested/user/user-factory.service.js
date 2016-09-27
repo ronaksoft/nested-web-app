@@ -2,17 +2,20 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
-  function NstSvcUserFactory($q,
+  function NstSvcUserFactory($q, md5,
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
-                             NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser) {
+                             NST_USER_FACTORY_EVENT,
+                             NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
     function UserFactory() {
       this.requests = {
         get: {},
         getTiny: {},
-        remove: {}
+        remove: {},
+        removePicture : {},
+        updatePicture : {}
       };
     }
 
@@ -34,21 +37,24 @@
      *
      * @returns {Promise}
      */
-    UserFactory.prototype.get = function (id) {
+    UserFactory.prototype.get = function (id, force) {
       var factory = this;
+      id = id || 'me';
 
       if (!this.requests.get[id]) {
         var query = new NstFactoryQuery(id);
 
         // FIXME: Check whether if request should be removed on resolve/reject
         this.requests.get[id] = $q(function (resolve, reject) {
-          var place = NstSvcUserStorage.get(query.id);
-          if (place) {
-            resolve(place);
+          var user = NstSvcUserStorage.get(query.id);
+          if (user && !force) {
+            resolve(user);
           } else {
-            NstSvcServer.request('account/get_info', {
-              account_id: query.id
-            }).then(function (userData) {
+            var requestData = {};
+            if (id !== 'me') {
+              requestData.account_id = query.id;
+            }
+            NstSvcServer.request('account/get_info', requestData).then(function (userData) {
               var user = factory.parseUser(userData.info);
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
@@ -143,6 +149,51 @@
       return this;
     };
 
+    UserFactory.prototype.updateProfile = function (user) {
+      var deferred = $q.defer();
+      var factory = this;
+
+      var params = {
+        fname: user.getFirstName(),
+        lname: user.getLastName(),
+        dob : user.getDateOfBirth(),
+        gender : user.getGender()
+      };
+
+      var query = new NstFactoryQuery(user.getId(), params);
+
+      NstSvcServer.request('account/update', params).then(function (result) {
+        factory.set(user);
+        factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
+        deferred.resolve(user);
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      });
+
+      return deferred.promise;
+    }
+
+    UserFactory.prototype.changePassword = function (oldPassword, newPassword) {
+      var deferred = $q.defer();
+      var factory = this;
+
+      var query = new NstFactoryQuery(null, {
+        oldPassword : oldPassword,
+        newPassword : newPassword
+      });
+
+      NstSvcServer.request('account/set_password', {
+        old_pass : md5.createHash(oldPassword),
+        new_pass : md5.createHash(newPassword)
+      }).then(function (result) {
+        deferred.resolve();
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      });
+
+      return deferred.promise;
+    }
+
     UserFactory.prototype.save = function (user) {
       var factory = this;
 
@@ -172,7 +223,9 @@
         // TODO: Add Phone Number, Country
         var params = {
           fname: user.getFirstName(),
-          lname: user.getLastName()
+          lname: user.getLastName(),
+          dob : user.getDateOfBirth(),
+          gender : user.getGender()
         };
 
         var query = new NstFactoryQuery(user.getId(), params);
@@ -202,20 +255,32 @@
       }
     };
 
-    // TODO: Move to Auth Service
     UserFactory.prototype.updatePicture = function (uid) {
-      // TODO: Enqueue requests
-      // TODO: Reject with factory error
-      // TODO: Dispatch event
-      return NstSvcServer.request('account/set_picture', { universal_id: uid });
+      var deferred = $q.defer();
+      var factory = this;
+
+      NstSvcServer.request('account/set_picture', { universal_id : uid }).then(function (result) {
+        factory.get(null, true).then(function (user) {
+          factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
+          deferred.resolve(uid);
+        }).catch(deferred.reject);
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
     };
 
-    // TODO: Move to Auth Service
     UserFactory.prototype.removePicture = function () {
-      // TODO: Enqueue requests
-      // TODO: Reject with factory error
-      // TODO: Dispatch event
-      return NstSvcServer.request('account/remove_picture');
+      var deferred = $q.defer();
+      var factory = this;
+      NstSvcServer.request('account/remove_picture').then(function (result) {
+        factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, new NstFactoryEventData()));
+        deferred.resolve();
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
+      });
+      return deferred.promise;
     };
 
     UserFactory.prototype.remove = function (id) {
@@ -289,6 +354,8 @@
       user.setLastName(userData.lname);
       user.setPhone(userData.phone);
       user.setCountry(userData.country);
+      user.setDateOfBirth(userData.dob);
+      user.setGender(userData.gender);
 
       if (angular.isObject(userData.picture)) {
         user.setPicture(userData.picture);

@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.file')
     .service('NstSvcFileType', NstSvcFileType);
 
   /** @ngInject */
@@ -74,7 +74,13 @@
         return '';
       }
 
-      return fileName.substr(_.lastIndexOf(fileName, '.'));
+      var index = _.lastIndexOf(fileName, '.');
+
+      if (index === -1) {
+        return '';
+      }
+
+      return fileName.substr(index + 1);
     }
 
     function removeSuffix(fileName) {
@@ -82,7 +88,13 @@
         return '';
       }
 
-      return fileName.substr(0, _.lastIndexOf(fileName, '.'));
+      var index = _.lastIndexOf(fileName, '.');
+
+      if (index === -1) {
+        return fileName;
+      }
+
+      return fileName.substr(0, index);
     }
   }
 })();

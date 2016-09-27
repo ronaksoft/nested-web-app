@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="nested">
+<html ng-app="ronak.nested.web">
 <head>
   <meta charset="utf-8">
   <title>nested</title>
@@ -7,6 +7,7 @@
   <meta name="viewport"
         content="width=device-width,maximum-scale=1.2,initial-scale=1.0,minimum-scale=1.0,user-scalable=yes,shrink-to-fit=no">
   <base href="/">
+  <meta name="apple-itunes-app" content="app-id=1121544622">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
   <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
@@ -23,8 +24,8 @@
   <style id="initial-loading-style">
     .loading-container{
       position: fixed;
-      left: 0px;
-      top: 0px;
+      left: 0;
+      top: 0;
       width: 100%;
       height: 100%;
       display: flex;
@@ -45,7 +46,7 @@
       -webkit-animation: ellipsis steps(4,end) 1600ms infinite;
       animation: ellipsis steps(4,end) 1600ms infinite;
       content: "\2026"; /* ascii code for the ellipsis character */
-      width: 0px;
+      width: 0;
     }
     .slider{
       position: relative;
@@ -90,8 +91,9 @@
     }
   </style>
 </head>
-<body dir="ltr">
-<div class="body" ng-controller="AppController as ctlApp">
+<body dir="ltr"  ng-controller="AppController as ctlApp">
+  <scroll-change-observer />
+<div class="body">
 
   <!--Initial loading part-->
   <div nst-show-effect data-show="{{ctlApp.showLoadingScreen}}" jq-options="{type:'fade', duration:400, delay:500}"
@@ -130,20 +132,20 @@
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
   <![endif]-->
-  <div ng-if="ctlApp.loginView" ui-view class="_fh _fw ng-class:{'_oh': topNavOpen}"></div>
-  <div ng-if="!ctlApp.loginView" class="_fh _fw ng-class:{'_oh': topNavOpen}">
+  <div ng-if="ctlApp.loginView" ui-view class="nst-mood-sense-5 _fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen}"></div>
+  <div ng-if="!ctlApp.loginView" class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen,'show-mob-app': !userAppNoticed}">
     <div
       class="maincontainer _fw"
       ng-class="{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
       <nst-sidebar
         collapsed="ctlApp.viewSettings.sidebar.collapsed"
-        class="_fn _fh">
+        class="_fn _fh ng-animate-disabled">
       </nst-sidebar>
       <div class="nst-container" ui-view></div>
     </div>
   </div>
 
-  <disconnect-message data-disconnect="ctlApp.disconected" />
+  <disconnect-message data-disconnect="ctlApp.disconected" ></disconnect-message>
   <!-- build:js(src) scripts/vendor.js -->
   <!-- bower:js -->
   <!-- run `gulp inject` to automatically populate bower script dependencies -->

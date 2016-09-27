@@ -1,0 +1,152 @@
+.nst-content-body {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  min-height: calc(100% - 50px);
+  z-index: 10;
+  height: 100%;
+}
+.body {
+  //border-right: 1px solid $color-calm;
+  //border-left: 1px solid $color-calm;
+  //max-width: 1920px;
+  //min-width: 990px;
+  //height: 100%;
+  width: 100%;
+  z-index: -100;
+}
+.maincontainer {
+  display: flex;
+  flex-direction: row;
+  z-index: -99;
+}
+.nst-container {
+  background-color: $color-bg-nested;
+  transition: $animation-dur;
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+  //overflow-y: auto;
+  //  overflow-y: initial;
+  //scroll-behavior: smooth;
+  z-index: 1;
+}
+
+.nst-container:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  flex-direction: row;
+}
+
+.nst-content {
+  display: inline-flex;
+  justify-content: center;
+  flex-flow: row;
+  flex-shrink: inherit;
+  flex-grow: inherit;
+  //margin-right: auto;
+  //margin-left: auto;
+  width: 100%;
+}
+
+.content {
+  width: 686px;
+  display: inline-flex;
+  flex: none;
+  flex-direction: column;
+  flex-shrink: inherit;
+  flex-grow: inherit;
+  position: relative;
+  transition: $animation-dur;
+}
+
+#content-wrapper {
+  //margin-top: 182px;
+  //min-height: calc(100% - 183px);
+  min-height: 100vh;
+  //height: 100%;
+  clear: both;
+  justify-content: center;
+  display: flex;
+  align-self: flex-end;
+  //overflow-x: hidden;
+  overflow-y: auto;
+  overflow-y: initial;
+}
+
+.second-view {
+  .content-plus {
+    display: none;
+  }
+  .content {
+    width: 100%;
+    @include center-block();
+    max-width: 1058px;
+    min-height: 100%;
+  }
+  #content-wrapper .content {
+    //max-height: calc(100vh - 183px );
+  }
+  #nav-com {
+    display: flex;
+  }
+  .navbar-bottom {
+    div {
+      align-items: center;
+    }
+  }
+}
+
+a {
+  color: $color-sense-wire;
+}
+.a {
+  color: $color-sense;
+  text-decoration: none;
+}
+.a-hover:hover {
+  color: $color-sense;
+}
+
+.hovercolor:hover {
+  background-color: $color-sense-5;
+}
+
+.spansetting {
+  height: 30px;
+  padding: 5px 10px;
+}
+
+hr {
+  margin-top: .7em;
+  margin-bottom: .7em;
+}
+.first-child {
+  margin-top: 20px;
+}
+
+/**
+  *********************************
+  *     List items  *
+  *********************************
+*/
+
+.list-items {
+  height: 30px;
+  padding: 5px 10px;
+  width: 100%;
+  color: $color-hurricane;
+  &.active {
+    background-color: $color-sense-5;
+    color: $color-solid;
+    border-bottom-left-radius: 5px;
+  }
+  &:hover {
+    background-color: $color-sense-5;
+    color: $color-solid;
+    border-bottom-left-radius: 5px;
+  }
+}

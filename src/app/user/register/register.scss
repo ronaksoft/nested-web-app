@@ -3,12 +3,10 @@
   *     Nested Classes - Page Specific - Register  *
   ********************************************************
  */
-._dn { display: none }
-.visibility-hidden {visibility: hidden;}
 
 #panel-register{
-  width: 352px;
-  padding: 24px 16px 24px 16px;
+  width: 358px;
+  padding: 24px 16px 16px 16px;
   line-height: 1.25;
   font-size: $font-size-xsmall;
   font-family: $font-family-eng-reg;
@@ -16,6 +14,14 @@
 
 }
 
+.select-birthday {
+  background-color: #eaffea;
+  width: 100%;
+  height: 38px;
+  option:hover {
+    background-color: #ccffe6;
+  }
+}
 #panel-register .tooltip-inner {
   width: 240px;
   height: 96px;
@@ -59,6 +65,11 @@
   //border: 1px solid $color-force;
 }
 //-------------------------------------------------//
+.phone-input {
+  height: 38px;
+  border : 1px solid $color-grey;
+  border-radius: $panel-border-radius;
+}
 .register-name-table {
   border-collapse: separate;
 }
@@ -71,6 +82,15 @@
 .register-name-cell-right {
   padding-left: 2px;
 }
+
+#panel-register .arrow {
+  display: none;
+}
+.flag-dropdown {
+  background: url("../assets/icons/inputform.svg") no-repeat;
+  background-position: 90% -124px;
+  width: 50px;
+  }
 
 #panel-register .intl-tel-input .selected-flag .arrow {
   position: relative;
@@ -99,7 +119,7 @@
   background-color: inherit;
 }
 .select-birthday option {
-  color: black;
+  color: $color-solid;
   height: 40px;
   text-align: center;
   background-color: $color-sense-5;
@@ -147,7 +167,7 @@
   text-align: center;
   width: 100%;
   height: 40px;
-  font-size: 14px;
+  font-size: $font-size-medium;
   background-color: transparent;
   color: $color-solid-30;
   border: 1px solid $color-breeze;
@@ -169,7 +189,7 @@
 }
 
 #panel-register .agreement-text a {
-  font-size: 10px;
+  font-size: $font-size-xxsmall;
 }
 
 #confirm p {
@@ -216,7 +236,7 @@
 
 .input-force {
   border: 1px solid $color-force-wire;
-  border-radius: 6px;
+  border-radius: $border-radius-large;
   .p{
     color: $color-force-wire;
   }
@@ -253,16 +273,6 @@
     }
   }
 
-  @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
 //--------Overlay-----------
 
 
@@ -295,4 +305,15 @@
 .confirm-bx > div {
 padding: 12px 16px;
 text-align: right;
+}
+
+.nstbtn {
+  height: 40px;
+}
+.react-btn {
+  height: 36px;
+  width : 154px;
+}
+.lftbtn {
+  margin-right: 16px;
 }

@@ -2,10 +2,10 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.common')
     .factory('NstVmCommentItem', NstVmCommentItem);
 
-  function NstVmCommentItem(NstTinyUser, NstVmCommentSender) {
+  function NstVmCommentItem(moment, NstTinyUser, NstVmCommentSender) {
 
     function VmCommentItem(model, noMoment) {
       this.id = model.id;

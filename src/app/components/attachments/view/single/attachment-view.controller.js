@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components.attachment')
     .controller('AttachmentViewController', AttachmentViewController);
 
   function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
@@ -131,9 +131,7 @@
     function reqGetPost(id) {
       vm.status.postLoadProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcPostFactory.get(id);
-      })).then(function (post) {
+      return NstSvcLoader.inject(NstSvcPostFactory.get(id)).then(function (post) {
         vm.status.postLoadProgress = false;
 
         return $q(function (res) {
@@ -151,9 +149,7 @@
     function reqDownloadToken(id, postId) {
       vm.status.tokenLoadProgress = true;
 
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcAttachmentFactory.getDownloadToken(postId, id);
-      })).then(function (token) {
+      return NstSvcLoader.inject(NstSvcAttachmentFactory.getDownloadToken(postId, id)).then(function (token) {
         vm.status.tokenLoadProgress = false;
 
         return $q(function (res) {

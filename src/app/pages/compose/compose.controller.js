@@ -2,13 +2,13 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
-                             _, toastr,
-                             ATTACHMENT_STATUS, NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
+                             _, toastr,PreviousState,
+                             NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
@@ -17,9 +17,14 @@
      *** Controller Properties ***
      *****************************/
 
+    $timeout(function () {
+      $rootScope.navView = false
+    });
+
     vm.model = {
       recipients: [],
       attachments: [],
+      attachfiles: {},
       subject: '',
       body: '',
       forwardedFrom: null,
@@ -32,7 +37,7 @@
     };
 
     vm.search = {
-      results: []
+      results: [],
     };
 
     vm.attachments = {
@@ -69,9 +74,18 @@
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,
-        toolbar: 'bold italic underline strikethrough | alignleft aligncenter aligncenter alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
+        toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
         skin: 'lightgray',
-        theme : 'modern'
+        theme : 'modern',
+        setup: function (editor) {
+          editor.on('init', function (e) {
+            $scope.activeEditorElement = e.target.contentDocument.activeElement;
+          });
+          editor.on('keydown', function(e) {
+            if(e.keyCode == 13 && $(editor.contentDocument.activeElement).atwho('isSelecting'))
+              return false
+          })
+        }
       }
     };
 
@@ -84,11 +98,35 @@
     };
 
     vm.search.fn = function (query) {
-      return NstSvcPlaceFactory.search(query).then(function (places) {
-        vm.search.results = places.map(function (place) {
-          return new NstVmPlace(place);
-        });
+
+      var initPlace = NstSvcPlaceFactory.parseTinyPlace({
+        _id: query,
+        name: query
       });
+
+      if(query.length)
+        vm.search.results = [new NstVmPlace(initPlace)];
+
+
+      return NstSvcPlaceFactory.search(query).then(function (places) {
+        vm.search.results = [];
+        places.map(function (place) {
+          if (place && vm.model.recipients.filter(function (obj) {
+              return ( obj.id === place.id);
+            }).length === 0) {
+            if (place.id === query) {
+              initPlace = new NstVmPlace(place);
+            } else {
+              vm.search.results.push(new NstVmPlace(place));
+            }
+          }
+        });
+
+        if (initPlace.id)
+          vm.search.results.unshift(initPlace);
+
+      });
+
     };
 
     vm.search.tagger = function (text) {
@@ -103,21 +141,20 @@
           id: text,
           name: text,
           data: NstSvcPlaceFactory.getTiny(text).then(function (place) {
-            $timeout(function () {
+            // $timeout(function () {
               tag.name = place.getName();
               tag.data = place;
-            });
+            // });
           }).catch(function () {
-            $timeout(function () {
+            // $timeout(function () {
               tag.isTag = false;
               tag.data = NstSvcPlaceFactory.parseTinyPlace({ _id: text });
-            });
+            // });
           })
         });
-
         return tag;
       } else if (isEmail) {
-        return new NstVmSelectTag({
+        var tag = new NstVmSelectTag({
           id: text,
           name: text,
           data: new NstRecipient({
@@ -126,9 +163,9 @@
             name: text
           })
         });
+        return tag;
       }
-
-      return false;
+      return {isTag : false, name: text};
     };
 
     vm.attachments.fileSelected = function (event) {
@@ -138,7 +175,24 @@
       }
       event.currentTarget.value = "";
     };
+    $scope.interface = {};
 
+    // Listen for when the interface has been configured.
+    $scope.$on('$dropletReady', function whenDropletReady() {
+      vm.model.attachfiles.allowedExtensions([/.+/]);
+      vm.model.attachfiles.useArray(false);
+
+    });
+    $scope.$on('$dropletFileAdded', function startupload() {
+
+      var files = vm.model.attachfiles.getFiles(vm.model.attachfiles.FILE_TYPES.VALID);
+      for (var i = 0; i < files.length; i++) {
+        vm.attachments.attach(files[i].file).then(function (request) {});
+        files[i].deleteFile();
+      }
+    });
+
+    //Todo : not injected in project and is out of game :D
     vm.attachments.fileDropped = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
@@ -386,7 +440,9 @@
             post.setRecipients(recipients);
             post.setPlaces(places);
 
-            NstSvcPostFactory.send(post).then(deferred.resolve).catch(function (error) { deferred.reject([error]); });
+            NstSvcPostFactory.send(post).then(function (response) {
+              deferred.resolve(response);
+            }).catch(function (error) { deferred.reject([error]); });
           } else {
             deferred.reject(vm.model.errors);
           }
@@ -400,7 +456,21 @@
         // TODO: Check if one or more places failed
 
         toastr.success('Your message has been successfully sent.', 'Message Sent');
-        $state.go('messages-sent');
+
+        if(response.noPermitPlaces.length > 0){
+          var text = NstUtility.string.format('Your message hasn\'t been successfully sent to {0}', response.noPermitPlaces.join(','));
+          toastr.warning(text, 'Message doesn\'t Sent');
+        }
+
+        if (PreviousState.Name === "") {
+          if ($stateParams.placeId) {
+            $state.go('place-messages', {placeId: $stateParams.placeId});
+          } else {
+            $state.go(NST_DEFAULT.STATE);
+          }
+        } else {
+          $state.go(PreviousState.Name, PreviousState.Params);
+        }
 
         return $q(function (res) {
           res(response);
@@ -418,17 +488,18 @@
         return $q(function (res, rej) {
           rej(errors);
         });
+
       }));
     };
     vm.controls.right.push(new NstVmNavbarControl('Send', NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-      $log.debug('Compose | Leaving Page');
+     $log.debug('Compose | Leaving Page');
       if (vm.model.saved || !vm.model.isModified()) {
         cancel.$destroy();
         $state.go(toState.name, toParams);
       } else {
-        if (!$rootScope.modals['leave-confirm']) {
+//        if (!$rootScope.modals['leave-confirm']) {
           $rootScope.modals['leave-confirm'] = $uibModal.open({
             animation: false,
             templateUrl: 'app/modals/leave-confirm/main.html',
@@ -439,15 +510,13 @@
 
             }
           });
-
           $rootScope.modals['leave-confirm'].result.then(function () {
             cancel.$destroy();
             $state.go(toState.name, toParams);
           });
-        }
+//        }
       }
     };
-
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -574,8 +643,8 @@
      *****************************/
 
     function getPlace(id) {
-      return NstSvcLoader.inject(NstSvcTry.do(function () {
-        return NstSvcPlaceFactory.get(id).catch(function (error) {
+      return NstSvcLoader.inject(
+         NstSvcPlaceFactory.get(id).catch(function (error) {
           var deferred = $q.defer();
 
           switch (error.getPrevious().getCode()) {
@@ -591,8 +660,8 @@
           }
 
           return deferred.promise;
-        });
-      }));
+        })
+      );
     }
 
     function getPost(id) {
@@ -609,7 +678,7 @@
 
     $scope.deleteAttachment = function (attachment) {
       new $q(function (resolve, reject) {
-        if (attachment.status === ATTACHMENT_STATUS.UPLOADING) {
+        if (attachment.status === NST_ATTACHMENT_STATUS.UPLOADING) {
           // abort the pending upload request
           attachment.cancelUpload();
           resolve(attachment);

@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.user')
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NstSvcAuth, NstHttp) {
+  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp) {
     var vm = this;
 
 
@@ -20,28 +20,97 @@
 
 
     vm.patterns = {
-      password : {
-        letters : /(?=.*[A-Z])(?=.*[a-z])/,
-        symbolOrNumber: /(?=.*[\d~!@#\$%\^&\*\(\)\-_=\+\|\{\}\[\]\?\.])/,
-      },
-      tooltipAlert : {
-        wordbgn : /^[a-zA-Z]/,
-        //Todo :: check for '--'
-        nodbldash : /^(?!.*--)/,
-        noenddash : /^(?:-?[a-zA-Z0-9-]+)*$/
-      },
+      // password : NST_PATTERN.PASSWORD,
+
       username : {
-        general : /^[a-zA-Z](?!.*--)[a-zA-Z0-9-]{4,30}[^-]$/,
+        general : NST_PATTERN.USERNAME
       }
     };
 
+    vm.tooltipPasswordAlert = {
+      letters : /(?=.*[A-Z])(?=.*[a-z])/,
+      symbolOrNumber: /(?=.*[\d~!@#\$%\^&\*\(\)\-_=\+\|\{\}\[\]\?\.])/
+    };
 
-    vm.patterns.password.all = new RegExp(vm.patterns.password.letters.source + vm.patterns.password.symbolOrNumber.source);
+
 
     vm.checkWithServer = false;
 
     vm.avaiablity = false;
 
+
+
+    vm.clearPassError = function (val) {
+      if (val && val.length > 0) {
+        vm.requiredPassword = false;
+      }
+      else {
+        vm.requiredPassword = true;
+        return;
+      }
+    };
+
+
+    vm.clearUserError = function (val) {
+      if (val && val.length > 0) {
+        vm.requiredUser = false;
+      }
+      else {
+        vm.requiredUser = true;
+        return;
+      }
+    };
+
+
+    vm.clearFnameError = function (val) {
+      if (val && val.length > 0) {
+        vm.requiredFirstname = false;
+      }
+      else {
+        vm.requiredFirstname = true;
+        return;
+      }
+    };
+
+    vm.clearLnameError = function (val) {
+      if (val && val.length > 0) {
+        vm.requiredLastname = false;
+      }
+      else {
+        vm.requiredLastname = true;
+        return;
+      }
+    };
+
+    vm.clearGenderError = function (val) {
+      if (val && val.length > 0) {
+        vm.hasNotGender = false;
+      }
+      else {
+        vm.hasNotGender = true;
+        return;
+      }
+    };
+
+    vm.clearBdayError = function (val) {
+      if (val) {
+        vm.hasNotBirth = false;
+      }
+      else {
+        vm.hasNotBirth = true;
+        return;
+      }
+    };
+
+    vm.clearAgreementError = function (val) {
+      if (val && val.length > 0) {
+        vm.acceptAgreement = false;
+      }
+      else {
+        vm.acceptAgreement = true;
+        return;
+      }
+    };
 
 
 
@@ -174,19 +243,25 @@
           vm.requiredPassword= false;
         }
 
-        if(vm.firstname === undefined){
+        if(vm.fname === undefined){
           vm.requiredFirstname = true;
         }else{
           vm.requiredFirstname= false;
         }
 
-      if(vm.lastname === undefined){
+      if(vm.lname === undefined){
         vm.requiredLastname = true;
       }else{
         vm.requiredLastname= false;
       }
 
-        if (vm.hasNotBirth || vm.hasNotGender || !vm.password || !vm.username || vm.requiredLastname || vm.requiredFirstname || vm.acceptAgreement) return false;
+        if (vm.hasNotBirth ||
+          vm.hasNotGender ||
+          !vm.password ||
+          !vm.username ||
+          vm.requiredLastname ||
+          vm.requiredFirstname ||
+          !vm.acceptAgreement) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
@@ -292,4 +367,3 @@
 
   }
 })();
-

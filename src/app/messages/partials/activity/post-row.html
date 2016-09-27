@@ -5,14 +5,14 @@
 <div class="colomn" nst-post-modal post="act.post">
   <div class="_difh top">
     <div class="sender _fw _df">
-      <a>{{act.actor.name}}</a> <span>&nbsp;@{{act.actor.id}}</span>
+      <a>{{::act.actor.name}}</a> <span>&nbsp;@{{::act.actor.id}}</span>
     </div>
     <div class="_df _fn">
-      <span>{{act.date | date : 'passed'}}</span>
+      <span>{{act.date | passed }}</span>
     </div>
     <div class="ei-mail-unread _df _fn"></div>
   </div>
   <div class="_df">
-    <p><span>Posted</span>&nbsp;<mark data-ng-bind-html="act.post.subject | emoji"></mark></p>
+    <p><span>Sent</span>&nbsp;<mark data-ng-bind-html="act.post.subject | emoji"></mark></p>
   </div>
 </div>

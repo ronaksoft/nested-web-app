@@ -1,0 +1,193 @@
+#popover-badge.popover{
+  border-radius: 206px;
+  bow-shadow: unset;
+}
+#popover-badge .popover-content{
+  padding:0;
+}
+
+#popover-badge .popover-content:hover {
+  background-color: $color-sense-50;
+}
+
+.navbar-popover {
+  margin-left: 20px;
+  margin-top: -6px;
+  direction: ltr;
+}
+.places .popover {
+  direction: ltr;
+}
+
+#menu.popover-content {
+  padding: 0;
+}
+
+#menu.popup-panel {
+  max-width: 238px;
+  margin: 0;
+  padding: 0;
+}
+
+.popover-white + .popover {
+  max-width: 320px;
+  min-width: 319px;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  z-index: 35;
+  background: $color-white;
+}
+.popover-green + .popover {
+  background: $color-sense-5;
+  border-color: $color-sense-50;
+  li {
+    padding: 8px;
+  }
+  li:hover {
+    background-color: $color-sense-50;
+  }
+}
+
+.popover-green + .popover.bottom > .arrow {
+  border-bottom-color: $color-sense-wire;
+}
+
+.popover-green + .popover.bottom > .arrow:after {
+  border-bottom-color: $color-sense-5;
+}
+
+.popover.bottom > .arrow {
+  border-bottom-color: #ccc;
+}
+
+.popover.bottom > .arrow:after {
+  border-bottom-color: $color-white;
+  left: 0;
+}
+.popover-white-nst-activity-places + .popover {
+  background: $color-white;
+  border-color: $color-breeze;
+  position: absolute;
+  z-index: 35;
+  padding: 0;
+  width: 320px;
+  //max-height: 200px;
+  //overflow-y: auto;
+  .popover-content {
+    padding: 8px 0;
+  }
+}
+
+.popover-white-nst-filter + .popover {
+  background: $color-white;
+  border-color: $color-breeze;
+  position: absolute;
+  top: 1px !important;
+  left: auto !important;
+  right: 50px;
+  z-index: 36;
+  padding: 0;
+  width: 210px;
+}
+
+.popover-white-nst-msg + .popover {
+  max-width: 320px;
+  min-width: 319px;
+  max-height: 150px;
+  overflow-y: auto;
+  position: absolute;
+  top:-11px!important;
+  left:auto!important;
+  right:-1px;
+  z-index: 35;
+  background: $color-white;
+  .popover-inner {
+    //padding: 8px 4px;
+    max-height: 145px;
+    overflow-y: hidden;
+  }
+  .popover-content {
+    max-height: 145px;
+    overflow-y: hidden;
+  }
+}
+
+.popover-white-nst-setting + .popover {
+  background: $color-white;
+  border-color: $color-breeze;
+  position: absolute;
+  top: 1px !important;
+  left: auto !important;
+  right: 0;
+  z-index: 37;
+  padding: 0;
+  width: 210px;
+}
+
+.popover-white-nst-sort + .popover{
+  background: $color-white;
+  border-color: $color-breeze;
+  position: absolute;
+  top: 1px !important;
+  left: auto !important;
+  right: 50px;
+  z-index: 36;
+  width: 210px;
+}
+
+
+.ul-popover li {
+  height: 30px;
+  width: 206px;
+  color: $color-storm;
+}
+
+.ul-popover label {
+  width: 300px;
+  float: left;
+}
+
+.ul-popover li:hover {
+  background-color: $color-sense-5;
+  color: $color-solid;
+}
+
+.line-f {
+  height: 1px;
+  background-color: $color-breeze-50;
+  width: 100%;
+  position: absolute;
+}
+.line-popover {
+  height: 1px;
+  background-color: $color-breeze-50;
+  margin: 5px 0;
+  width: 100%;
+}
+
+label.setting  {
+  display: inline-block;
+  background: url('../assets/icons/controls.svg') right 0 no-repeat;
+  height: 16px;
+  min-width: 17px;
+  padding: 0 17px 0 0!important;
+  font-size: $font-size-small;
+}
+
+input[type="checkbox"]:checked + label.setting {
+  background: url('../assets/icons/controls.svg') right  -16px no-repeat
+}
+
+.popup-panel {
+  margin-top: 24px;
+  span {
+    color: $color-breeze;
+    font-size: $font-size-xxsmall;
+  }
+}
+#popup-msg-badge {
+   //margin-top: 20px;
+   max-height: 150px;
+   overflow-y: auto;
+ }

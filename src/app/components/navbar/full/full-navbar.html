@@ -2,117 +2,50 @@
 <div class="nst-navbar">
   <div class="nst-content _tr">
     <div class="content">
-      <div class="navbar-top _df" data-ng-switch="ctlFullNavbar.page.state.current.group">
-        <div class="title-bar _difh _fw" data-ng-switch-when="COMPOSE">
-          <div class="logo-bar _df">
-            <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-compose"></div>
-            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.getPlacePicture()}}"/>
+      <div class="navbar-top _df">
+        <div class="title-bar _difh _fw" ng-show="ctlFullNavbar.readyToShow">
+          <div class="logo-bar _df" ng-if="ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass">
+            <div data-ng-if="ctlFullNavbar.pictureClass" class="icon {{ctlFullNavbar.pictureClass}}"></div>
+            <img ng-if="ctlFullNavbar.pictureUrl" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
           </div>
           <div class="name _fw _difv _jcc">
-            <a class="_df _tr" data-ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceName()}}</a>
-            <a class="_df _tr" data-ng-if="!ctlFullNavbar.hasPlace()">Compose</a>
+            <a class="_df _tr">{{ctlFullNavbar.title}}</a>
             <span class="nst-mood-storm _df _tr" data-ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceId()}}@nested.me</span>
-          </div>
-        </div>
-
-        <div class="title-bar _difh _fw" data-ng-switch-default>
-          <div class="logo-bar _df">
-            <div data-ng-if="!ctlFullNavbar.hasPlace()" class="icon icon-nav icon-all-place"></div>
-            <img data-ng-if="ctlFullNavbar.hasPlace()" class="account-initials-64 _tr" ng-src="{{ctlFullNavbar.getPlacePicture()}}"/>
-          </div>
-          <div class="name _fw _difv _jcc">
-            <a class="_df _tr">{{ctlFullNavbar.getPlaceName()}}</a>
-            <span class="nst-mood-storm _df _tr" ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceId()}}@nested.me</span>
           </div>
         </div>
       </div>
 
-      <div class="navbar-bottom" data-ng-if="!ctlFullNavbar.controls">
-        <div ng-click="srch('overlay', 'inputsearch');" id="overlay"></div>
-        <div class="_difh _fh">
-          <div class="menu-links-search _df">
-            <div ng-click="srch('overlay', 'inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
-          </div>
-
-          <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
-            Messages
-          </a>
-          <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
-            Activity
-          </a>
-          <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}" ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">
-            Settings
-          </a>
-        </div>
-        <div id="inputsearch" class="form-group has-feedback input-border _fw">
-          <input class="form-control" placeholder="Search in Ronak Software Group..." type="text" focus-me/>
-          <i ng-click="srch('overlay', 'inputsearch');" id="action-search"
+      <div class="navbar-bottom _fw" data-ng-if="!ctlFullNavbar.controls">
+        <div id="inputsearch" class="has-feedback _fw">
+          <input type="text" nst-mention class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.title : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
+          <i ng-click="ctlFullNavbar.srch('inputsearch');"
              class="_pa _left icon-close-search form-control-feedback"></i>
-          <div class="search-part1">
-            <ul class="list-unstyled">
-              <li>
-                <div class=" _df _dib _vam">
-                  <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _tr" data-word-count="2"
-                       data-font-size="16"/>
-                </div>
-                 <span class="_df _tr _dib">Mus</span>
-              </li>
-
-              <li>
-                <div class=" _df _dib _vam">
-                  <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _tr" data-word-count="2"
-                       data-font-size="16"/>
-                </div>
-                <span class="_df _tr _dib">Musically</span>
-              </li>
-              <li>
-                <div class=" _df _dib _vam">
-                  <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _tr" data-word-count="2"
-                       data-font-size="16"/>
-                </div>
-                <div class="name _fw _difv _jcc _di">
-                  <div class="_dib">
-                    <i class="_df _tr _dib">from</i>
-                    <span class="_df _tr _dib nst-mood-cheerful">Ehsan Nouredin Musa</span>
-                    <span class="nst-mood-storm _df _tr _dib" data-ng-bind="events.place.id + '@ehsannm'"></span>
-                  </div>
-                </div>
-              </li>
-            </ul>
+          <!--<div class="search-part1">
           </div>
 
           <div class="line-f _fw"></div>
 
           <div class="search-part2">
-            <ul class="list-unstyled">
-              <li>
-                <div class=" _df _dib _vam">
-                  <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _tr" data-word-count="2"
-                       data-font-size="16"/>
-                </div>
-                 <span class="_df _tr _dib">search
-                   <span class="_df _tr _dib nst-mood-cheerful">Mus</span>
-                   in users...
-                  </span>
-              </li>
-
-              <li>
-                <div class=" _df _dib _vam">
-                  <img initials="events.place.name" data-url="events.place.picture.x64.url" data-width="32" data-height="32" data-radius="16" class="account-initials-32 _tr" data-word-count="2"
-                       data-font-size="16"/>
-                </div>
-                <span class="_df _tr _dib">search
-                <span class="_df _tr _dib nst-mood-cheerful">Mus</span>
-                in other places...
-                </span>
-               </li>
-            </ul>
-
-          </div>
+          </div>-->
         </div>
+        <div class="_difh _fh _fw">
+          <div class="menu-links-search _df">
+            <div ng-click="ctlFullNavbar.srch('inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
+          </div>
+
+          <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('messages')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
+            Messages
+          </a>
+          <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
+            Activity
+          </a>
+          <a ng-href="{{ctlFullNavbar.getSettingsUrl()}}" ng-if="ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isPlaceSettings ? 'active' : ''}}">
+            Settings
+          </a>
+      </div>
       </div>
 
-      <div class="navbar-bottom" data-ng-if="ctlFullNavbar.controls">
+      <div class="navbar-bottom _fw" data-ng-if="ctlFullNavbar.controls">
         <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
           <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
              href="{{control.url}}" data-ng-click="control.fn()">
@@ -163,3 +96,4 @@
     <div class="content-plus"></div>
   </div>
 </div>
+<scroll-roller roll-upward="ctlFullNavbar.rollToTop"></scroll-roller>

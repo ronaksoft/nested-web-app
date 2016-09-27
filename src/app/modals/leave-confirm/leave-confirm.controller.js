@@ -2,10 +2,10 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.components')
     .controller('LeaveConfirmController', LeaveConfirmController);
 
-  function LeaveConfirmController($uibModalInstance) {
+  function LeaveConfirmController($uibModalInstance,$uibModalStack) {
     var vm = this;
 
     vm.ok = function () {
@@ -13,7 +13,7 @@
     };
 
     vm.cancel = function () {
-      $uibModalInstance.dismiss();
+      $uibModalStack.dismissAll();
     };
   }
 })();

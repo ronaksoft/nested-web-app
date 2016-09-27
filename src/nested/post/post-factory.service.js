@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('nested')
+    .module('ronak.nested.web.message')
     .service('NstSvcPostFactory', NstSvcPostFactory);
 
   /** @ngInject */
@@ -55,9 +55,11 @@
     PostFactory.prototype.getSentMessages = getSentMessages;
     PostFactory.prototype.getMessages = getMessages;
     PostFactory.prototype.getPlaceMessages = getPlaceMessages;
+    PostFactory.prototype.getBookmarksMessages = getBookmarksMessages;
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.parseMessage = parseMessage;
     PostFactory.prototype.getMessage = getMessage;
+    PostFactory.prototype.search = search;
 
     return new PostFactory();
 
@@ -159,7 +161,7 @@
       NstSvcServer.request('post/add', params).then(function(response) {
         post.setId(response.post_id.$oid);
 
-        deferred.resolve(post);
+        deferred.resolve({post : post ,noPermitPlaces : response.no_permit_places},response.no_permit_places);
       }).catch(deferred.reject);
 
       return deferred.promise;
@@ -488,39 +490,8 @@
           promises.push(allComments);
         }
 
-        // TODO: Use ReplyToId instead
-        if (data.reply_to) {
-          promises.push(get(data.reply_to.$oid).catch(function(error) {
-            return parsePost({
-              _id: {
-                $oid: data.reply_to.$oid
-              }
-            });
-          }).then(function(relPost) {
-            message.setReplyTo(relPost);
-
-            return $q(function(res) {
-              res(relPost);
-            });
-          }));
-        }
-
-        // TODO: Use ForwardFromId instead
-        if (data.forward_from) {
-          promises.push(get(data.forward_from.$oid).catch(function(error) {
-            return parsePost({
-              _id: {
-                $oid: data.forward_from.$oid
-              }
-            });
-          }).then(function(relPost) {
-            message.setForwardFrom(relPost);
-
-            return $q(function(res) {
-              res(relPost);
-            });
-          }));
-        }
+        message.setReplyToId(data.reply_to ? data.reply_to.$oid : null);
+        message.setForwardFromId(data.forward_from ? data.forward_from.$oid : null);
 
         $q.all(promises).then(function() {
           defer.resolve(message);
@@ -616,6 +587,38 @@
       return defer.promise;
     }
 
+    function getBookmarksMessages(setting, bookmarkId) {
+
+      var defer = $q.defer();
+
+      bookmarkId = bookmarkId || "_starred";
+
+      var options = {
+        limit: setting.limit,
+        before: setting.date,
+        bookmark_id: bookmarkId
+      };
+
+      if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
+        options.by_update = true;
+      }
+
+      NstSvcServer.request('account/get_bookmarked_posts', options).then(function(data) {
+        var messagePromises = _.map(data.posts.posts, parseMessage);
+        $q.all(messagePromises).then(function(messages) {
+          _.forEach(messages, function(item) {
+            NstSvcPostStorage.set(item.id, item);
+          });
+          defer.resolve(messages);
+        });
+      }).catch(function(error) {
+        // TODO: format the error and throw it
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
     function getMessage(id) {
       var defer = $q.defer();
 
@@ -626,6 +629,28 @@
 
         defer.resolve(message);
       }).catch(defer.reject);
+
+      return defer.promise;
+    }
+
+    function search(queryString, limit, skip) {
+      var defer = $q.defer();
+      var query = new NstFactoryQuery(null, {
+        query : queryString,
+        limit : limit,
+        skip : skip
+      });
+
+      NstSvcServer.request('post/search', {
+        keywords : queryString,
+        limit : limit || 8,
+        skip : skip || 0,
+      }).then(function (result) {
+        var postPromises = _.map(result.posts.posts, parseMessage);
+        $q.all(postPromises).then(defer.resolve).catch(defer.reject);
+      }).catch(function (error) {
+        defer.reject(new NstFactoryError(query, '', error.getCode(), error));
+      });
 
       return defer.promise;
     }

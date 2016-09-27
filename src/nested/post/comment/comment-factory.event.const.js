@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('nested')
+    .module('ronak.nested.web.comment')
     .constant('NST_COMMENT_EVENT', {
       ADD: 'post-comment-added',
       REMOVE: 'post-comment-removed'
