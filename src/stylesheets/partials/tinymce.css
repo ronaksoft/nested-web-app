@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'YekanBakh';
+  src: url('../fonts/YekanBakhNested-Regular.eot'); /* IE9 Compat Modes */
+  src: url('../fonts/YekanBakhNested-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('../fonts/YekanBakhNested-Regular.woff2') format('woff2'), /* Super Modern Browsers */
+  url('../fonts/YekanBakhNested-Regular.woff') format('woff'), /* Pretty Modern Browsers */
+  url('../fonts/YekanBakhNested-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+  url('../fonts/YekanBakhNested-Regular.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+body{
+  font-family: 'YekanBakh';
+}

@@ -135,6 +135,9 @@
 .content iframe {
   height: calc(100vh - 470px)!important;
   min-height: 100px;
+  body {
+    font-family: $font-family-per-reg;
+  }
 }
 
 .compose-input {
