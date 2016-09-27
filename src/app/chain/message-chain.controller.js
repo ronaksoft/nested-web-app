@@ -22,6 +22,8 @@
     vm.messages = [];
     vm.myPlaceIds = [];
     vm.loading = false;
+    vm.selectedPostId = null;
+    vm.currentPlaceId = null;
 
     (function() {
       vm.loading = true;
@@ -32,10 +34,10 @@
       }
 
       if (!$stateParams.postId || $stateParams.postId === NST_DEFAULT.STATE_PARAM) {
-        vm.postId = null;
+        vm.selectedPostId = null;
         return false;
       } else {
-        vm.postId = $stateParams.postId;
+        vm.selectedPostId = $stateParams.postId;
       }
 
       if (vm.currentPlaceId) {
@@ -63,7 +65,7 @@
 
     function loadMessages() {
       return $q(function (resolve, reject) {
-        NstSvcPostFactory.getChainMessages(vm.postId).then(function(messages) {
+        NstSvcPostFactory.getChainMessages(vm.selectedPostId).then(function(messages) {
           vm.messages = mapMessages(messages);
           console.log('final', vm.messages);
           resolve(vm.messages);
