@@ -67,7 +67,6 @@
       return $q(function (resolve, reject) {
         NstSvcPostFactory.getChainMessages(vm.selectedPostId).then(function(messages) {
           vm.messages = mapMessages(messages);
-          console.log('final', vm.messages);
           resolve(vm.messages);
         }).catch(reject);
       });

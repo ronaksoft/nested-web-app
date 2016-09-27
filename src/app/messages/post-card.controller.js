@@ -20,7 +20,6 @@
 
     vm.newCommentsCount = 0;
     vm.myAlreadyCountedIds = [];
-    vm.reply = reply;
     vm.sendComment = sendComment;
 
     vm.hasOlderComments = true;
@@ -32,10 +31,6 @@
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
 
-
-    function reply() {
-      $debug.log('Is not implemented yet!')
-    }
 
     /**
      * send - add the comment to the list of the post comments
@@ -203,19 +198,33 @@
 
     // initializing
     (function () {
+
       vm.hasOlderComments = vm.post.commentsCount && vm.post.comments  ? vm.post.commentsCount > vm.post.comments.length : false;
 
-      vm.urls = {
-        reply_all: $state.href('compose-reply-all', {
-          postId: vm.post.id
-        }),
-        reply_sender: $state.href('compose-reply-sender', {
-          postId: vm.post.id
-        }),
-        forward: $state.href('compose-forward', {
-          postId: vm.post.id
-        })
-      };
+      vm.urls = {};
+      vm.urls['reply_all'] = $state.href('compose-reply-all', {
+        postId: vm.post.id
+      });
+
+      vm.urls['reply_sender'] = $state.href('compose-reply-sender', {
+        postId: vm.post.id
+      });
+
+      vm.urls['forward'] = $state.href('compose-forward', {
+        postId: vm.post.id
+      });
+
+      if (vm.thisPlace) {
+        vm.urls['chain'] = $state.href('place-message-chain', {
+          placeId : vm.thisPlace,
+          postId : vm.post.id
+        });
+      } else {
+        vm.urls['chain'] = $state.href('message-chain', {
+          postId : vm.post.id
+        });
+      }
+
     })();
 
   }
