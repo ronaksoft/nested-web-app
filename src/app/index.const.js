@@ -4,7 +4,6 @@
 
   angular
     .module('ronak.nested.web.main')
-    .constant('moment', moment)
     .constant('NST_DEFAULT', {
       STATE: 'messages',
       STATE_PARAM: '_'

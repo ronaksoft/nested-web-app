@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.date')
-    .filter('passed', function() {
+    .filter('passed', function(moment) {
 
       var dateFilter = function(date) {
         if (!moment.isMoment(date)) {
