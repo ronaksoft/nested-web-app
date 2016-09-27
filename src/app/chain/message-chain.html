@@ -9,56 +9,15 @@
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
-      <!-- <div ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSortShow">
-        <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort == 'latest-messages' ? 'Latest Messages' : 'Latest Activity'}}</span>
-        <div class="icon icon-viewicon-sort _df" ></div>
-      </div> -->
       <div ng-mouseenter="popoverSetShow = true;popoverSortShow = false"  class="iconsblock popover-white-nst-setting" uib-popover-template="'app/messages/partials/popovers/setting_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSetShow">
         <div class="icon icon-viewicon- "></div>
       </div>
     </div>
 
-    <div class="post-area">
-      <!-- <div id="new-post"  ng-show="ctlMessages.hasNewMessages">
-        <i ng-click="ctlMessages.dismissNewMessage();"></i>
-        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.getNewMessagesCount() > 1">{{ctlMessages.getNewMessagesCount()}} New Messages</a>
-        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.getNewMessagesCount() < 2">One New Message</a>
-      </div> -->
-      <!-- <post-card ng-if="ctlMessages.hotMessages.length > 0" class="hot" data-ng-repeat="msg in ctlMessages.hotMessages track by msg.id" post="msg"
-                 settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode"></post-card>
-      <hr ng-if="ctlMessages.hotMessages.length > 0" class="hot-message-separator"> -->
-
-      <post-card class="_fw" data-ng-repeat="msg in ctlChain.messages track by msg.id" post="msg"
+    <div class="post-area chain-view">
+      <post-card data-ng-repeat="msg in ctlChain.messages track by msg.id" post="msg" class="_fw ng-class:{'forward-card': msg.isForwarded}"
                  settings="ctlChain.viewSetting" postinplace="ctlChain.currentPlaceId" hide-comments="ctlChain.isSentMode"></post-card>
     </div>
-    <!-- <div class="text-center nst-margin-24" ng-if="ctlMessages.tryAgainToLoadMore">
-      <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore()">
-        {{ctlMessages.cache.length === 0 ? "Click here to load messages!" : "Load More..."}}
-      </a>
-    </div>
-
-    <div class="nst-margin-24"
-         ng-if="ctlMessages.reachedTheEnd || ctlMessages.noMessages || ctlMessages.loadMessageError">
-      <p class="text-center nst-mood-storm" ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd">
-        There are no more messages!
-      </p>
-      <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages">
-        Be the first who writes something here...
-      </p>
-      <p class="text-center nst-mood-storm" ng-if="ctlMessages.loadMessageError">
-        An error has occurred. Please
-        <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore(true)">
-          try again...
-        </a>
-      </p>
-    </div>
-    <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlMessages.loading">
-      <div class="col-xs-6">
-        <div class="nst-loading nst-loading-size-16  _fr"></div>
-      </div>
-      <div class="col-xs-6 nst-marginbtm-4">Loading...</div>
-    </div>
-    <div class="nst-marginbtm-32"></div> -->
   </section>
   <div class="content-plus"></div>
   <div class="content-plus" id="content-plus">

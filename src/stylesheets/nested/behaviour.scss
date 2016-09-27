@@ -36,6 +36,9 @@
       }
     }
   }
+  nst-navbar {
+    left: $sidebar-width-tiny;
+  }
 
   //hidden unwanted elements in tiny sidebar
   .lines,.side-menu-item .item,.onlyExpand {

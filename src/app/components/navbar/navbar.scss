@@ -130,6 +130,7 @@
 a {
   color: $color-storm;
 }
+
 nst-navbar {
   width: 100%;
   height: $navbar-height;
@@ -142,6 +143,7 @@ nst-navbar {
   top: 0;
   right: 0;
   z-index: 55;
+  left: 0;
 }
 
 .nst-navbar {
