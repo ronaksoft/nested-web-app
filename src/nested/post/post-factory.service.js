@@ -673,7 +673,6 @@
           }
         });
         $q.all(messagePromises).then(function (messages) {
-          console.log('foo', messages);
           deferred.resolve(messages);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));

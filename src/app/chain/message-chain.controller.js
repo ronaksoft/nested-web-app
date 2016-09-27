@@ -64,8 +64,8 @@
     function loadMessages() {
       return $q(function (resolve, reject) {
         NstSvcPostFactory.getChainMessages(vm.postId).then(function(messages) {
-          console.log(messages);
           vm.messages = mapMessages(messages);
+          console.log('final', vm.messages);
           resolve(vm.messages);
         }).catch(reject);
       });
@@ -90,17 +90,21 @@
     }
 
     function mapMessages(messages) {
-      return _.map(messages, function (message) {
+      return _.reduce(messages, function (memo, message, number, array) {
         if (message.id) {
-          return mapMessage(message);
+          memo.push(mapMessage(message));
+        } else {
+          var previous = array[number - 1];
+          if (previous && previous.id) {
+            memo.push({
+                id : _.uniqueId('forbidden_'),
+                forbidden : true
+            });
+          }
         }
 
-        return {
-          id : _.uniqueId('forbidden_'),
-          forbidden : true
-        };
-
-      });
+        return memo;
+      }, []);
     }
 
     function setPlace(id) {
