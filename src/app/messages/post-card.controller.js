@@ -48,7 +48,7 @@
       if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-      
+
       var body = extractCommentBody(e);
       if (body.length === 0) {
         return;
@@ -203,7 +203,7 @@
 
     // initializing
     (function () {
-      vm.hasOlderComments = vm.post.commentsCount > vm.post.comments.length;
+      vm.hasOlderComments = vm.post.commentsCount && vm.post.comments  ? vm.post.commentsCount > vm.post.comments.length : false;
 
       vm.urls = {
         reply_all: $state.href('compose-reply-all', {

@@ -663,8 +663,17 @@
       NstSvcServer.request('post/get_chain', {
         post_id : id
       }).then(function (data) {
-        var messagePromises = _.map(data.posts, parseMessage);
+        var messagePromises = _.map(data.posts, function (post) {
+          if (_.isObject(post) && post._id) {
+            return parseMessage(post);
+          } else if (_.isString(post) && post === "NO ACCESS TO POST") {
+            return $q.resolve({
+              id : null,
+            });
+          }
+        });
         $q.all(messagePromises).then(function (messages) {
+          console.log('foo', messages);
           deferred.resolve(messages);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
