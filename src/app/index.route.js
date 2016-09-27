@@ -12,13 +12,6 @@
        *****   Public Routes    ****
        *****************************/
 
-      // .state('intro', {
-      //   url: '/',
-      //   templateUrl: 'app/pages/intro/main.html',
-      //   controller: 'IntroController',
-      //   controllerAs: 'ctlIntro'
-      // })
-
       .state('register', {
         url: '/register',
         templateUrl: 'app/user/register/main.html',
@@ -260,6 +253,34 @@
         templateUrl: 'app/post/post.html',
         controller: 'PostController',
         controllerAs: 'ctlPost'
+      })
+      .state('place-post', {
+        url: '/place/:placeId/message/:postId',
+        params: {
+          postId: NST_DEFAULT.STATE_PARAM,
+          post: {}
+        },
+        templateUrl: 'app/post/post.html',
+        controller: 'PostController',
+        controllerAs: 'ctlPost'
+      })
+      .state('message-chain', {
+        url: '/message/:postId/chain',
+        params: {
+          postId: NST_DEFAULT.STATE_PARAM,
+        },
+        templateUrl: 'app/chain/message-chain.html',
+        controller: 'MessageChainController',
+        controllerAs: 'ctlChain'
+      })
+      .state('place-message-chain', {
+        url: '/place/:placeId/message/:postId/chain',
+        params: {
+          postId: NST_DEFAULT.STATE_PARAM,
+        },
+        templateUrl: 'app/chain/message-chain.html',
+        controller: 'MessageChainController',
+        controllerAs: 'ctlChain'
       })
 
       /*****************************
