@@ -60,6 +60,7 @@
     PostFactory.prototype.parseMessage = parseMessage;
     PostFactory.prototype.getMessage = getMessage;
     PostFactory.prototype.search = search;
+    PostFactory.prototype.getChainMessages = getChainMessages;
 
     return new PostFactory();
 
@@ -655,5 +656,24 @@
       return defer.promise;
     }
 
+    function getChainMessages(id) {
+      var query = new NstFactoryQuery(id);
+      var deferred = $q.defer();
+
+      NstSvcServer.request('post/get_chain', {
+        post_id : id
+      }).then(function (data) {
+        var messagePromises = _.map(data.posts, parseMessage);
+        $q.all(messagePromises).then(function (messages) {
+          deferred.resolve(messages);
+        }).catch(function (error) {
+          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      });
+
+      return deferred.promise;
+    }
   }
 })();

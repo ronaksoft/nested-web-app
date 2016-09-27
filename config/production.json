@@ -1,33 +1,29 @@
 {
   "NST_CONFIG": {
-    "APP_ID": "web-{{BUILD}}",
+    "APP_ID": "web-dev-{{BUILD}}",
     "LOG": {
-      "LEVEL": 1,
+      "LEVEL": 3,
       "GATEWAY": {
-        "TYPE": "http",
-        "OPTIONS": {
-          "METHOD": "POST",
-          "URL": "https://api.nested.me/log"
-        }
+        "TYPE": "console",
+        "OPTIONS": {}
       }
     },
-    "SIGN_OUT_TARGET" : "https://nested.me",
-    "TINY_MCE_ASSETS_PATH" : "https://webapp.nested.me/scripts/",
+    "SIGN_OUT_TARGET" : "/#",
     "WEBSOCKET": {
-      "URL": "wss://cyrus.nested.me:443",
-      "TIMEOUT": 60000,
-      "REQUEST_MAX_RETRY_TIMES" : 16
+      "URL": "ws://cyrus.nested.ronaksoftware.com",
+      "TIMEOUT": 30000,
+      "REQUEST_MAX_RETRY_TIMES" : 4
     },
     "STORE": {
-      "URL": "https://xerxes.nested.me",
+      "URL": "http://xerxes.nested.ronaksoftware.com",
       "TOKEN_EXPMS": 3550000
     },
     "PIONEER_INVITATION": {
-      "URL": "https://x.nested.me/send_invite.php"
+      "URL": "http://x.nested.ronaksoftware.com/send_invite.php"
     },
     "REGISTER" : {
       "AJAX" : {
-        "URL" : "https://api.nested.me"
+        "URL" : "http://api.nested.ronaksoftware.com"
       }
     }
   }

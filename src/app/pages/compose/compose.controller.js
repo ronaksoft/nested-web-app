@@ -24,6 +24,7 @@
     vm.model = {
       recipients: [],
       attachments: [],
+      attachfiles: {},
       subject: '',
       body: '',
       forwardedFrom: null,
@@ -75,7 +76,16 @@
         // contextmenu_never_use_native: true,
         toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
         skin: 'lightgray',
-        theme : 'modern'
+        theme : 'modern',
+        setup: function (editor) {
+          editor.on('init', function (e) {
+            $scope.activeEditorElement = e.target.contentDocument.activeElement;
+          });
+          editor.on('keydown', function(e) {
+            if(e.keyCode == 13 && $(editor.contentDocument.activeElement).atwho('isSelecting'))
+              return false
+          })
+        }
       }
     };
 
@@ -165,7 +175,24 @@
       }
       event.currentTarget.value = "";
     };
+    $scope.interface = {};
 
+    // Listen for when the interface has been configured.
+    $scope.$on('$dropletReady', function whenDropletReady() {
+      vm.model.attachfiles.allowedExtensions([/.+/]);
+      vm.model.attachfiles.useArray(false);
+
+    });
+    $scope.$on('$dropletFileAdded', function startupload() {
+
+      var files = vm.model.attachfiles.getFiles(vm.model.attachfiles.FILE_TYPES.VALID);
+      for (var i = 0; i < files.length; i++) {
+        vm.attachments.attach(files[i].file).then(function (request) {});
+        files[i].deleteFile();
+      }
+    });
+
+    //Todo : not injected in project and is out of game :D
     vm.attachments.fileDropped = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {

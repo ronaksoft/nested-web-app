@@ -6,6 +6,6 @@
 
   /** @ngInject */
   function NstSvcActivitySettingStorage(NST_STORAGE_TYPE, NstStorage) {
-    return new NstStorage(NST_STORAGE_TYPE.LOCAL, 'activity_setting');
+    return new NstStorage(NST_STORAGE_TYPE.LOCAL, 'activity.settings');
   }
 })();

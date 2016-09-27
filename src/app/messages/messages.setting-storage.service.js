@@ -6,6 +6,6 @@
 
   /** @ngInject */
   function NstSvcMessagesSettingStorage(NST_STORAGE_TYPE, NstStorage) {
-    return new NstStorage(NST_STORAGE_TYPE.LOCAL, 'messages_setting');
+    return new NstStorage(NST_STORAGE_TYPE.LOCAL, 'messages.settings');
   }
 })();

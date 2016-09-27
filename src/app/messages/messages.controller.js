@@ -7,6 +7,7 @@
 
   /** @ngInject */
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state, $interval, $scope,
+                              moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility, NstSvcAuth,
                               NstSvcMessagesSettingStorage,
@@ -25,7 +26,7 @@
       sortOptionStorageKey = 'sort-option';
 
     vm.messages = [];
-    vm.newMessages = [];
+    vm.hotMessageStorage = [];
     vm.hotMessages = [];
     vm.cache = [];
     vm.hasNewMessages = false;
@@ -37,8 +38,11 @@
     vm.noMessages = false;
     vm.loading = false;
     vm.loadMessageError = false;
+    // Reveals hot message when user wants to show new messages
+    vm.revealHotMessage = false;
     vm.getNewMessagesCount = getNewMessagesCount;
     vm.showNewMessages = showNewMessages;
+    vm.dismissNewMessage = dismissNewMessage;
 
     vm.messagesSetting = {
       limit: DEFAULT_MESSAGES_COUNT,
@@ -110,7 +114,7 @@
             }).length > 0){
               var item = mapMessage(newMessage);
               item.isHot = true;
-              vm.newMessages.unshift(item);
+              vm.hotMessageStorage.unshift(item);
               vm.hasNewMessages = true;
           }
           return;
@@ -120,7 +124,7 @@
           if (!_.some(vm.messages, { id : newMessage.id })){
             var item = mapMessage(newMessage);
             item.isHot = true;
-            vm.newMessages.unshift(item);
+            vm.hotMessageStorage.unshift(item);
             vm.hasNewMessages = true;
           }
         }
@@ -381,7 +385,7 @@
     }
 
     function getNewMessagesCount() {
-      return vm.newMessages.length;
+      return vm.hotMessageStorage.length;
     }
 
     function readSettingItem(key) {
@@ -394,27 +398,26 @@
       NstSvcMessagesSettingStorage.set(key, bool ? 'show' : 'hide');
     }
 
-    function showNewMessages(ans,wrapper) {
-      if (ans == "yes") {
-        //clear hot items
-        _.forEachRight(vm.hotMessages, function (item) {
-          insertMessage(vm.messages, item);
-        });
+    function showNewMessages() {
+      //clear previouly hot items
+      _.forEachRight(vm.hotMessages, function (item) {
+        insertMessage(vm.messages, item);
+      });
 
-        vm.hotMessages.length = 0;
-        //push newMessages to hotMessages
-        _.forEachRight(vm.newMessages, function (item) {
-          insertMessage(vm.hotMessages, item);
-        });
+      vm.hotMessages.length = 0;
+      //push hotMessageStorage to hotMessages
+      _.forEachRight(vm.hotMessageStorage, function (item) {
+        insertMessage(vm.hotMessages, item);
+      });
 
-        vm.newMessages.length = 0;
-
-        $('#wrapper').mCustomScrollbar("scrollTo","top",{
-          scrollEasing:"easeOut"
-        });
-      }
-
+      vm.hotMessageStorage.length = 0;
       vm.hasNewMessages = false;
+      vm.revealHotMessage = true;
+    }
+
+    function dismissNewMessage() {
+      vm.hasNewMessages = false;
+      vm.revealHotMessage = false;
     }
 
     function insertMessage(list, item) {

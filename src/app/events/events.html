@@ -24,43 +24,15 @@
 
     <section class="_fw nst-content-body _bgwhite">
       <div class="_fw eventsbody _bgwhite" id="EventList" set-seen-on-visible>
-        <div class="actdate" ng-if="ctlActivity.acts.thisYear.thisMonth.today.hasAnyItem">
+        <div class="actdate" ng-repeat="group in ctlActivity.activities track by group.date">
           <p class="nst-mood-simple">
-            <span class="">Today</span>
+            {{::group.date}}
           </p>
-        </div>
-        <activity-item place="ctlActivity.currentPlace"
-                       data-ng-repeat="act in ctlActivity.acts.thisYear.thisMonth.today.items" model="act"
-                       extended="ctlActivity.expanded"></activity-item>
+          <activity-item place="ctlActivity.currentPlace"
+                         data-ng-repeat="activity in group.items track by activity.id" model="activity"
+                         extended="ctlActivity.expanded"></activity-item>
 
-        <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.thisMonth.otherDays">
-          <div class="actdate">
-            <p class="nst-mood-simple">
-              <span class="ng-binding ng-scope">{{::value.date}}</span>
-            </p>
-          </div>
-          <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
-                         extended="ctlActivity.expanded"></activity-item>
         </div>
-        <div data-ng-repeat="(key, value) in ctlActivity.acts.thisYear.otherMonths">
-          <div class="actdate">
-            <p class="nst-mood-simple">
-              <span class="ng-binding ng-scope">{{::value.date}}</span>
-            </p>
-          </div>
-          <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
-                         extended="ctlActivity.expanded"></activity-item>
-        </div>
-        <div data-ng-repeat="(key, value) in ctlActivity.acts.otherYears">
-          <div class="actdate">
-            <p class="nst-mood-simple">
-              <span class="ng-binding ng-scope">{{::value.date}}</span>
-            </p>
-          </div>
-          <activity-item place="ctlActivity.currentPlace" data-ng-repeat="act in value.items" model="act"
-                         extended="ctlActivity.expanded"></activity-item>
-        </div>
-
       </div>
 
       <div class="nst-marginbtm-48 text-center">

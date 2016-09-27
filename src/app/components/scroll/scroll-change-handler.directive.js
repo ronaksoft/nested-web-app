@@ -26,7 +26,7 @@
           }
 
           if (_.isFunction(vm.reachedBottom)) {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            if (document.body.offsetHeight- (window.innerHeight + window.scrollY)  <= 500) {
               vm.reachedBottom(data.event);
             }
           }

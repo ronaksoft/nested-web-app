@@ -84,3 +84,6 @@ select {
 iframe {
   border: none;
 }
+[ng-click],[data-ng-click],[onclick]{
+  cursor: pointer;
+}
