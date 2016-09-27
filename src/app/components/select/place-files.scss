@@ -1,5 +1,5 @@
 h3{
-  margin-top:11px;
+  margin-top:1px;
 }
 .files-arrow {
   background: url('../assets/icons/arrow.svg') no-repeat;
@@ -14,7 +14,7 @@ h3{
 .files-input {
   display:flex;
   margin-top: 7px;
-  width:300px;
+  width:200px;
   height: 30px;
   margin: 23px 0px 0px 0px;
 
@@ -24,10 +24,11 @@ h3{
   margin-top:10px;
 }
 
+
 .file-list {
   .file-list-header {
     display: flex;
-    margin-top:25px;
+    margin-top: 25px;
     .header-name {
       flex-grow: 1;
       color: #C8C8C8;
@@ -38,7 +39,7 @@ h3{
       }
     }
     .header-date {
-      width: 128px;
+      width: 140px;
       color: #C8C8C8;
       font-size: 15px;
       font-weight: 200;
@@ -47,7 +48,7 @@ h3{
       }
     }
     .header-size {
-      width: 100px;
+      width: 114px;
       color: #C8C8C8;
       font-size: 15px;
       font-weight: 200;
@@ -56,34 +57,37 @@ h3{
       }
     }
   }
+  ul {
+    list-style-type: none;
+    .file-list-container {
+      height:20px;
+      .file-list-item {
+        display: flex;
+        .item-name {
+          width: auto;
+          font-size: 15px;
+          font-weight: 100;
+          flex-grow: 1;
+        }
+        .item-date {
+          width: 110px;
+          font-size: 15px;
+          font-weight: 100;
+        }
+        .item-size {
+          width: 95px;
+          font-size: 15px;
+          font-weight: 100;
+        }
+        .item-time {
+          width: 40px;
+          color: #C8C8C8;
+          font-size: 15px;
+          font-weight: 100;
+        }
+      }
 
-  .file-list-container {
-    .file-list-item {
-      display: flex;
-      .item-name {
-        width: auto;
-        font-size: 15px;
-        font-weight: 100;
-        flex-grow: 1;
-      }
-      .item-date {
-        width: 93px;
-        font-size: 15px;
-        font-weight: 100;
-      }
-      .item-size {
-        width: 110px;
-        font-size: 15px;
-        font-weight: 100;
-      }
-      .item-time {
-        width: 30px;
-        color: #C8C8C8;
-        font-size: 15px;
-        font-weight: 100;
-      }
     }
-
   }
 }
 
@@ -105,5 +109,9 @@ h3{
   &:active {
     background-color: $color-sense-wire;
   }
+}
+.files-icon{
+  margin-top: 1px!important;
+
 }
 

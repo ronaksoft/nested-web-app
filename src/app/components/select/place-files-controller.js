@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.place')
+    .module('ronak.nested.web.components')
     .controller('PlaceFilesController', PlaceFilesController);
 
   /** @ngInject */
@@ -12,6 +12,16 @@
                               NstSvcMessagesSettingStorage,
                               NstSvcPostMap) {
     var vm = this;
+    vm.items = [
+      {Name: 'Nested Story.pdf' , Size:'18.9' },
+      {Name: 'Nested Story.pdf' ,  Size:'18.9'},
+      {Name: 'First Blog Piece.doc' , Size:'18.9'}
+    ]
+    
+    
+    vm.onSelect = function (fileIds) {
+      console.log(fileIds);
+    }
 
 
 

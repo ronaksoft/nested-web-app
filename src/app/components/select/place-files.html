@@ -1,0 +1,78 @@
+<nst-navbar data-ng-model="navbar" place-id="{{::ctlFiles.place.id}}"
+            nav-title="{{ctlFiles.place.id?ctlFiles.place.name:'All Places'}}"
+            nav-picture-url="{{ctlFiles.place.id ? ctlFiles.place.picture.thumbnails.x64.url.view : '' }}"
+            nav-picture-class="{{ !ctlFiles.place.id? 'icon-nav icon-all-place' : '' }}"
+            ready-to-show="ctlFiles.placeLoaded" page="ctlApp.page"></nst-navbar>
+
+<div class="nst-content _tr" id="content-wrapper">
+
+  <section class="content _bgwhite _fh" id="place-settings">
+    <div class="navbarillu"></div>
+    <hr ng-if="ctlSettings.hasAnyControlOverHere();">
+    <section class="list-inline _df">
+      <ul class="list-inline _df post-nav-top _difh _fw">
+        <li><h3>All Files</h3>
+        </li>
+        <li><span class="files-input-group _fw"><label class=" icon files-arrow" role="button"></label></span></li>
+      </ul>
+      <div class="_df _fn">
+        <input type="text" class="files-input" placeholder="Find files in this place"/>
+      </div>
+      <button type="button" class="files-search-button">
+        <div class="icon-search-rotated-white"></div>
+      </button>
+    </section>
+    <div class="file-list">
+      <div class="file-list-header">
+        <div class="header-name">Name</div>
+        <div class="header-size">Size</div>
+        <div class="header-date"><strong>Received Date</strong></div>
+      </div>
+      <hr>
+      <ul class="options" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
+          selector="li.file-list-container">
+        <li class="file-list-container col-xs-12" fid="1">
+          <div class="file-list-item">
+            <div class="ico">
+              <div class="ei-mail-unread files-icon"></div>
+            </div>
+            <div class="item-name">Nested Story.pdf</div>
+            <div class="item-size">18.9 MB</div>
+            <div class="item-date">JUL 21, 2016</div>
+            <div class="item-time"> 13:13</div>
+          </div>
+        </li>
+
+        <li class="file-list-container col-xs-12" fid="2">
+          <div class="file-list-container">
+            <div class="file-list-item">
+              <div class="ico">
+                <div class="ei-mail-unread files-icon"></div>
+              </div>
+              <div class="item-name">Nested Story.pdf</div>
+              <div class="item-size">18.9 MB</div>
+              <div class="item-date">JUL 21, 2016</div>
+              <div class="item-time"> 13:13</div>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+      <hr>
+      <div class="_difc _fw optionrow">
+        <div class="_df switch">
+        </div>
+      </div>
+  </section>
+  <div class="content-plus">
+  </div>
+  <div class="content-plus" id="content-plus">
+    <div id="cp1">
+      <!--FIXME:: use only one of place/place-id -->
+      <nst-recent-activity place-id="ctlSettings.placeId" place="ctlSettings.placeId" count="10"/>
+    </div>
+
+  </div>
+
+</div>
+
