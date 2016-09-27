@@ -94,10 +94,10 @@
         if (message.id) {
           return mapMessage(message);
         }
-        
+
         return {
           id : _.uniqueId('forbidden_'),
-          forbidden : false
+          forbidden : true
         };
 
       });
