@@ -1,4 +1,4 @@
-<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed}" ng-if="ctlPostCard.post.id">
+<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed}" ng-if="!ctlPostCard.post.forbidden">
   <!-- ng-if="!ctlPostCard.thisPlace" -->
   <section class="post-card-badge" ng-init="firstPlace = ctlPostCard.post.getFirstPlace()">
     <a class="margin-r-5" data-ng-if="firstPlace" href="#/places/{{::firstPlace.id}}/messages">{{::firstPlace.name}}</a>
@@ -8,11 +8,11 @@
        data-popover-trigger="outsideClick">+{{ctlPostCard.post.getAllPlacesCount()-1}}</a>
   </section>
   <section class="post-head _difh">
-    <div class="_difc">
+    <a class="_difc" href="{{ctlPostCard.urls.chain}}">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
       <div ng-if="ctlPostCard.post.isForwarded" class="icon icon-post-head icon-fwd"></div>
       <div ng-if="ctlPostCard.post.isReplyed" class="icon icon-post-head icon-replied"></div>
-    </div>
+    </a>
     <div class="img _df">
       <div class="post-card-user-avatar">
         <img initials="ctlPostCard.post.sender.name" data-url="ctlPostCard.post.sender.avatar" data-width="32"
@@ -71,7 +71,7 @@
     </div>
   </section>
 </div>
-<section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments && !ctlPostCard.hideComments && ctlPostCard.post.id">
+<section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments && !ctlPostCard.hideComments && !ctlPostCard.post.forbidden">
   <div  class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
     <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()">Older comments...</a>
     <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()">Roll up</a>
@@ -83,7 +83,7 @@
            ng-disabled="ctlPostCard.isSendingComment" max-length="1024"/>
   </div>
 </section>
-<div class="no-permision" ng-if="!ctlPostCard.post.id">
-  <div>no permision</div>
+<div class="no-permission" ng-if="ctlPostCard.post.forbidden">
+  <div class="forbidden-icon"><div></div><div></div></div> No Permission
 </div>
 <div class="post-card-wire"></div>

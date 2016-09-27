@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="48" viewBox="0 0 16 48">
   <defs>
-    <style>.a{fill:none;stroke:#476152;stroke-linecap:round;stroke-linejoin:round;}.b{fill:#a6b9af;}</style>
+    <style>.a{fill:none;stroke:#476152;stroke-linecap:round;stroke-linejoin:round;}.b{fill:#283CD2;}</style>
   </defs>
   <path class="a" d="M10.73,4.15l-6,6a1,1,0,1,0,1.41,1.41l6-6A2,2,0,0,0,9.32,2.73l-6,6A3,3,0,0,0,7.56,13l6-6"/>
   <polygon class="b" points="8 33 1.86 39.5 6.13 39.5 7.63 48 10.13 39.5 14.13 39.5 8 33"/>

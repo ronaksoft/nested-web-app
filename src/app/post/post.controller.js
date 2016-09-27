@@ -35,7 +35,7 @@
         vm.scrollToNewComment = vm.comments.length;
       }
     }
-    vm.postId = $stateParams.postId || postId;
+    vm.postId = postId || $stateParams.postId;
 
     vm.status = {
       postLoadProgress: false,

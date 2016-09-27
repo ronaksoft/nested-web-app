@@ -143,10 +143,17 @@
 .icon-post-head {
   background-image: url("../assets/icons/headlineicon.svg");
   background-repeat: no-repeat;
-  margin: 0 5px;
   background-size: cover;
   width: 16px;
   height: 16px;
+  position: relative;
+  left: 5px;
+}
+.forward-card .icon-post-head {
+  background-image: url("../assets/icons/headlineicon-forward.svg");
+}
+.reply-card .icon-post-head {
+  background-image: url("../assets/icons/headlineicon-reply.svg");
 }
 .icon-attached {
   background-position: 0 0;

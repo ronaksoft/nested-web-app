@@ -38,7 +38,7 @@
   z-index: 35;
   background: $color-white;
 }
-.popover-green + .popover {
+.popover-green + .popover, .popover-green + div + .popover{
   background: $color-sense-5;
   border-color: $color-sense-50;
   li {
@@ -131,7 +131,7 @@
   position: absolute;
   top: 1px !important;
   left: auto !important;
-  right: 50px;
+  right: 43px;
   z-index: 36;
   width: 210px;
 }

@@ -3,25 +3,30 @@
   *    Drag drop compose
   **********************************************************
  */
+@keyframes dragDrop {
+  from { z-index: -990;}
+  to { z-index: 1203;}
+}
 .droplet {
-  position: absolute;
+  position: fixed;
   right: 0;
   left: 0;
-  margin: auto;
-  //height: 100%;
-  //width: 100%;
-  z-index: -10;
+  top: 0;
+  height: 100%;
+  z-index: -990;
+  background-color: transparent;
+  transition: .3s;
 }
 
 .event-dragover .droplet {
   background-color: rgba(71,97,82,.1);
   opacity: .87;
-  z-index: 123;
   width: 100%;
   height: 100%;
-  top:0;
+  top: 0;
   left: 0;
   position: fixed;
+  z-index: 1200;
 }
 
 .event-dragover .droplet:after {
@@ -31,7 +36,7 @@
   pointer-events: none;
   display: inline-block;
   position: relative;
-  z-index: 556;
+  z-index: 9999;
   color: $color-hurricane;
   text-decoration: none;
   font-weight: normal;
@@ -42,35 +47,27 @@
   box-sizing: border-box;
 }
 .event-dragleave .droplet {
-  background-color: #E7ECE9;
+  background-color: transparent;
   opacity: .5;
-  z-index: 20;
+  z-index: -990;
   height: 100%;
-  animation: fadeoutcom .5s;
+  animation: dragDrop 2s;
   animation-fill-mode: forwards;
+  animation-direction: reverse;
   animation-delay: 1s;
-  width: calc(100% - 416px);
-  max-width: 1504px;
-  min-width: 404px;
 }
-.event-dragenter .droplet {
-  background-color: #E7ECE9;
-  opacity: .5;
-  z-index: 20;
-  height: 100%;
-  width: calc(100% - 416px);
-  max-width: 1504px;
-  min-width: 404px;
-}
-.event-drop .droplet {
-  background-color: #E7ECE9;
-  opacity: .5;
-  z-index: -10;
-  height: 100%;
-  width: calc(100% - 416px);
-  max-width: 1504px;
-  min-width: 404px;
-}
+//.event-dragenter .droplet {
+//  background-color: #E7ECE9;
+//  opacity: .5;
+//  height: 100%;
+//  animation: dragDrop .1s;
+//}
+//.event-drop .droplet {
+//  background-color: transparent;
+//  opacity: .5;
+//  z-index: -990;
+//  height: 100%;
+//}
 
 /**
   **********************************************************
@@ -139,7 +136,7 @@
  */
 
 .content iframe {
-  height: calc(100vh - 390px)!important;
+  height: calc(100vh - 470px)!important;
   min-height: 100px;
 }
 
