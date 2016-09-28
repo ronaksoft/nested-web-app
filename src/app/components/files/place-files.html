@@ -11,9 +11,11 @@
     <hr ng-if="ctlSettings.hasAnyControlOverHere();">
     <section class="list-inline _df">
       <ul class="list-inline _df post-nav-top _difh _fw">
-        <li><h3>All Files</h3>
+        <li>
+          <h3 ng-show="ctlFiles.filesCount == 0">All Files</h3>
+          <h3 ng-show="ctlFiles.filesCount > 0" class="selected-files-count">{{ctlFiles.filesCount}}{{filesCount}}<span> Files</span>{{ctlFiles.filesSize}}{{filesSize}}</h3>
         </li>
-        <li><span class="files-input-group _fw"><label class=" icon files-arrow" role="button"></label></span></li>
+        <li><span  ng-show="ctlFiles.filesCount == 0" class="files-input-group _fw"><label class=" icon files-arrow" role="button"></label></span></li>
       </ul>
       <div class="_df _fn">
         <input type="text" class="files-input" placeholder="Find files in this place"/>
@@ -24,9 +26,11 @@
     </section>
     <div class="file-list">
       <div class="file-list-header">
-        <div class="header-name">Name</div>
-        <div class="header-size">Size</div>
-        <div class="header-date"><strong>Received Date</strong></div>
+        <div class="header-name" ng-show="ctlFiles.filesCount == 0"><span>Name</span></div>
+        <div  ng-show="ctlFiles.filesCount > 0" id="header-download"><span class="action-button-post-forward _dib"></span><span>Download</span></div>
+        <div  ng-show="ctlFiles.filesCount > 0" id="header-send-to"><span class="action-button-post-forward _dib"></span><span>Send To</span></div>
+        <div class="header-size" ng-show="ctlFiles.filesCount == 0"><span>Size</span></div>
+        <div class="header-date" ng-show="ctlFiles.filesCount == 0"><strong>Received Date</strong></div>
       </div>
       <hr>
       <ul class="options" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
@@ -42,7 +46,6 @@
             <div class="item-time"> 13:13</div>
           </div>
         </li>
-
         <li class="file-list-container col-xs-12" fid="2">
           <div class="file-list-container">
             <div class="file-list-item">
@@ -56,9 +59,7 @@
             </div>
           </div>
         </li>
-
       </ul>
-      <hr>
       <div class="_difc _fw optionrow">
         <div class="_df switch">
         </div>

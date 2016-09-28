@@ -12,22 +12,25 @@
                               NstSvcMessagesSettingStorage,
                               NstSvcPostMap) {
     var vm = this;
-    vm.items = [
-      {Name: 'Nested Story.pdf' , Size:'18.9' },
-      {Name: 'Nested Story.pdf' ,  Size:'18.9'},
-      {Name: 'First Blog Piece.doc' , Size:'18.9'}
-    ]
-    
-    
+
     vm.onSelect = function (fileIds) {
       console.log(fileIds);
+      vm.demo();
     }
+    vm.filesCount = 0 ;
+
+    vm.demo = function () {
+
+      var selectableElement = $('ul.options');
+
+      $timeout(function () {
+        vm.filesCount = selectableElement.finderSelect('selected').length;
+      });
+      vm.filesCount = selectableElement.finderSelect('selected').length;
+      console.log(vm.filesCount);
 
 
-
-
-
-
+    }
 
   }
 

@@ -325,7 +325,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/pages/components/select/place-files.html',
+        templateUrl: 'app/components/files/place-files.html',
         controller: 'PlaceFilesController',
         controllerAs: 'ctlFiles'
       })
@@ -335,7 +335,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/pages/components/select/place-files.html',
+        templateUrl: 'app/components/files/place-files.html',
         controller: 'PlaceFilesController',
         controllerAs: 'ctlFiles'
       })

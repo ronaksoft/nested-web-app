@@ -11,6 +11,20 @@ h3{
   cursor: pointer;
 }
 
+#header-download {
+  color: $color-sense;
+  font-size: 15px;
+  font-weight: 100;
+  cursor: pointer;
+
+}
+#header-send-to{
+  color: $color-sense;
+  font-size: 15px;
+  font-weight: 100;
+  margin-left: 40px;
+  cursor: pointer;
+}
 .files-input {
   display:flex;
   margin-top: 7px;
@@ -29,6 +43,9 @@ h3{
   .file-list-header {
     display: flex;
     margin-top: 25px;
+    &:hover {
+      color: black;
+    }
     .header-name {
       flex-grow: 1;
       color: #C8C8C8;
@@ -60,7 +77,8 @@ h3{
   ul {
     list-style-type: none;
     .file-list-container {
-      height:20px;
+      height:50px;
+      margin-top: 10px;
       .file-list-item {
         display: flex;
         .item-name {
