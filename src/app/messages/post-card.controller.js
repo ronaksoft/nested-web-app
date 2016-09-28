@@ -202,25 +202,25 @@
       vm.hasOlderComments = vm.post.commentsCount && vm.post.comments  ? vm.post.commentsCount > vm.post.comments.length : false;
 
       vm.urls = {};
-      vm.urls['reply_all'] = $state.href('compose-reply-all', {
+      vm.urls['reply_all'] = $state.href('app.compose-reply-all', {
         postId: vm.post.id
       });
 
-      vm.urls['reply_sender'] = $state.href('compose-reply-sender', {
+      vm.urls['reply_sender'] = $state.href('app.compose-reply-sender', {
         postId: vm.post.id
       });
 
-      vm.urls['forward'] = $state.href('compose-forward', {
+      vm.urls['forward'] = $state.href('app.compose-forward', {
         postId: vm.post.id
       });
 
       if (vm.thisPlace) {
-        vm.urls['chain'] = $state.href('place-message-chain', {
+        vm.urls['chain'] = $state.href('app.place-message-chain', {
           placeId : vm.thisPlace,
           postId : vm.post.id
         });
       } else {
-        vm.urls['chain'] = $state.href('message-chain', {
+        vm.urls['chain'] = $state.href('app.message-chain', {
           postId : vm.post.id
         });
       }

@@ -153,53 +153,10 @@
       })
 
       /*****************************
-       *****     Post Routes    ****
-       *****************************/
-
-      .state('app.post', {
-        url: '/message/:postId',
-        params: {
-          postId: NST_DEFAULT.STATE_PARAM,
-          post: {}
-        },
-        templateUrl: 'app/post/post.html',
-        controller: 'PostController',
-        controllerAs: 'ctlPost'
-      })
-      .state('app.place-post', {
-        url: '/place/:placeId/message/:postId',
-        params: {
-          postId: NST_DEFAULT.STATE_PARAM,
-          post: {}
-        },
-        templateUrl: 'app/post/post.html',
-        controller: 'PostController',
-        controllerAs: 'ctlPost'
-      })
-      .state('app.message-chain', {
-        url: '/message/:postId/chain',
-        params: {
-          postId: NST_DEFAULT.STATE_PARAM,
-        },
-        templateUrl: 'app/chain/message-chain.html',
-        controller: 'MessageChainController',
-        controllerAs: 'ctlChain'
-      })
-      .state('app.place-message-chain', {
-        url: '/place/:placeId/message/:postId/chain',
-        params: {
-          postId: NST_DEFAULT.STATE_PARAM,
-        },
-        templateUrl: 'app/chain/message-chain.html',
-        controller: 'MessageChainController',
-        controllerAs: 'ctlChain'
-      })
-
-      /*****************************
        *****  Activity Routes   ****
        *****************************/
 
-      .state('app.app.activity', {
+      .state('app.activity', {
         url: '/activity',
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
@@ -247,75 +204,6 @@
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity'
-      })
-
-      /*****************************
-       *****  Messages Routes   ****
-       *****************************/
-
-      .state('app.messages', {
-        url: '/messages',
-        templateUrl: 'app/messages/main.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages'
-      })
-      .state('app.messages-bookmarks', {
-        url: '/messages/bookmarks',
-        templateUrl: 'app/messages/main.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages'
-      })
-      .state('app.messages-bookmarks-sorted', {
-        url: '/messages/bookmarks/:sort',
-        params: {
-          sort: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/messages/main.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages'
-      })
-      .state('app.messages-sent', {
-        url: '/messages/sent',
-        templateUrl: 'app/messages/main.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages'
-      })
-      .state('app.messages-sent-sorted', {
-        url: '/messages/sent/:sort',
-        params: {
-          sort: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/messages/main.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages'
-      })
-      .state('app.messages-sorted', {
-        url: '/messages/:sort',
-        params: {
-          sort: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/messages/main.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages'
-      })
-      .state('app.place-messages', {
-        url: '/places/:placeId/messages',
-        params: {
-          placeId: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/messages/main.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages'
-      })
-      .state('app.place-messages-sorted', {
-        url: '/places/:placeId/messages/:sort',
-        params: {
-          placeId: NST_DEFAULT.STATE_PARAM,
-          sort: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/messages/main.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages'
       })
 
       /*****************************

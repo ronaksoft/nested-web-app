@@ -155,15 +155,15 @@
     // TODO: Move these to Common Service
 
     function getUnfilteredState() {
-      var state = 'messages';
+      var state = 'app.messages';
       switch ($state.current.name) {
-        case 'activity':
-        case 'activity-bookmarks':
-        case 'activity-bookmarks-filtered':
-        case 'activity-filtered':
-        case 'place-activity':
-        case 'place-activity-filtered':
-          state = 'activity';
+        case 'app.activity':
+        case 'app.activity-bookmarks':
+        case 'app.activity-bookmarks-filtered':
+        case 'app.activity-filtered':
+        case 'app.place-activity':
+        case 'app.place-activity-filtered':
+          state = 'app.activity';
           break;
       }
 
@@ -171,27 +171,27 @@
     }
 
     function getPlaceFilteredState() {
-      var state = 'place-messages';
+      var state = 'app.place-messages';
 
       if ($state.current.name.indexOf('activity') > -1) {
-        state = 'place-activity';
+        state = 'app.place-activity';
       } else if ($state.current.name.indexOf('compose') > -1) {
-        state = 'place-compose';
+        state = 'app.place-compose';
       } else if ($state.current.name.indexOf('settings') > -1) {
-        state = 'place-settings';
+        state = 'app.place-settings';
       }
 
       return state;
     }
 
     function getComposeState() {
-      var state = 'compose';
+      var state = 'app.compose';
       switch ($state.current.name) {
-        case 'place-activity':
-        case 'place-activity-sorted':
-        case 'place-messages':
-        case 'place-messages-filtered':
-          state = 'place-compose';
+        case 'app.place-activity':
+        case 'app.place-activity-sorted':
+        case 'app.place-messages':
+        case 'app.place-messages-filtered':
+          state = 'app.place-compose';
           break;
       }
 
@@ -199,15 +199,15 @@
     }
 
     function getBookmarksState() {
-      var state = 'messages-bookmarks';
+      var state = 'app.messages-bookmarks';
       switch ($state.current.name) {
-        case 'activity':
-        case 'activity-bookmarks':
-        case 'activity-bookmarks-filtered':
-        case 'activity-filtered':
-        case 'place-activity':
-        case 'place-activity-filtered':
-          state = 'activity-bookmarks';
+        case 'app.activity':
+        case 'app.activity-bookmarks':
+        case 'app.activity-bookmarks-filtered':
+        case 'app.activity-filtered':
+        case 'app.place-activity':
+        case 'app.place-activity-filtered':
+          state = 'app.activity-bookmarks';
           break;
       }
 
@@ -215,13 +215,13 @@
     }
 
     function getSentState() {
-      var state = 'messages-sent';
+      var state = 'app.messages-sent';
       switch ($state.current.name) {
-        case 'messages-sorted':
-        case 'messages-sent-sorted':
-        case 'messages-bookmarks-sorted':
-        case 'place-messages-sorted':
-          state = 'messages-sent-sorted';
+        case 'app.messages-sorted':
+        case 'app.messages-sent-sorted':
+        case 'app.messages-bookmarks-sorted':
+        case 'app.place-messages-sorted':
+          state = 'app.messages-sent-sorted';
           break;
       }
 
@@ -229,7 +229,7 @@
     }
 
     function getPlaceAddState() {
-      return 'place-add';
+      return 'app.place-add';
     }
 
     /*****************************

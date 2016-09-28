@@ -6,8 +6,8 @@
 </div>
 <div class="actcon">
   <div class="msg">
-    <span data-ng-if="act.member.id == act.actor.id" class="nst-mood-simple">left <a class="place" ng-if="!act.inSpecificPlace" ui-sref="place-activity({placeId : act.place.id})">{{::act.place.name}}</a></span>
-    <span data-ng-if="act.member.id != act.actor.id" class="nst-mood-simple">removed <strong>{{::act.member.name}}</strong> from <a class="place" ui-sref="place-activity({placeId : act.place.id})"></span>
+    <span data-ng-if="act.member.id == act.actor.id" class="nst-mood-simple">left <a class="place" ng-if="!act.inSpecificPlace" ui-sref="app.place-activity({placeId : act.place.id})">{{::act.place.name}}</a></span>
+    <span data-ng-if="act.member.id != act.actor.id" class="nst-mood-simple">removed <strong>{{::act.member.name}}</strong> from <a class="place" ui-sref="app.place-activity({placeId : act.place.id})"></span>
   </div>
   <div class="places"></div>
   <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
