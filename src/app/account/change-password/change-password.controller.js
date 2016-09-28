@@ -14,7 +14,7 @@
 
     vm.controls = {
       left: [
-        new NstVmNavbarControl('Back to Profile', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('profile'))
+        new NstVmNavbarControl('Back to Profile', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('app.profile'))
       ],
       right: []
     };

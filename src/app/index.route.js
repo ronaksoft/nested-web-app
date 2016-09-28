@@ -17,49 +17,6 @@
       })
 
       /*****************************
-       *****    User Routes     ****
-       *****************************/
-
-      .state('app.profile', {
-        url: '/profile',
-        templateUrl: 'app/pages/account/profile-edit/profile-edit.html',
-        controller: 'ProfileEditController',
-        controllerAs: 'ctlProfileEdit',
-        resolve: {
-          PreviousState: [
-            "$state",
-            function ($state) {
-              var currentStateData = {
-                Name: $state.current.name,
-                Params: $state.params,
-                URL: $state.href($state.current.name, $state.params)
-              };
-              return currentStateData;
-            }
-          ]
-        },
-      })
-      .state('app.change-password', {
-        url: '/change-password',
-        templateUrl: 'app/pages/account/change-password/change-password.html',
-        controller: 'ChangePasswordController',
-        controllerAs: 'ctlPass',
-        resolve: {
-          PreviousState: [
-            "$state",
-            function ($state) {
-              var currentStateData = {
-                Name: $state.current.name,
-                Params: $state.params,
-                URL: $state.href($state.current.name, $state.params)
-              };
-              return currentStateData;
-            }
-          ]
-        },
-      })
-
-      /*****************************
        *****   Compose Routes   ****
        *****************************/
 

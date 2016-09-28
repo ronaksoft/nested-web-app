@@ -16,10 +16,6 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
 
-    console.log('here in app');
-
-
-
     /*****************************
      *****  Configure TrackJs  ****
      *****************************/
