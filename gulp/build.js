@@ -86,7 +86,7 @@ gulp.task('fonts', function () {
 
 gulp.task('tinymce', function () {
   return gulp.src(['src/stylesheets/partials/tinymce.css'])
-  .pipe(gulp.dest(path.join(conf.paths.relDist, '/stylesheets/css/')));
+  .pipe(gulp.dest(conf.paths.relDist + '/styles/'));
 });
 
 gulp.task('other', function () {

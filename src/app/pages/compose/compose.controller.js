@@ -71,7 +71,7 @@
         browser_spellcheck: true,
         selector: 'textarea',
         height : 200,
-        content_css : "/Stylesheets/tinymce.css",
+        content_css : "../styles/tinymce.css",
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,
