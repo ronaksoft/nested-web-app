@@ -16,6 +16,8 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
 
+    console.log('here in app');
+
 
 
     /*****************************
@@ -102,7 +104,7 @@
       combo: 'c',
       description: 'compose state',
       callback: function () {
-        $state.go('place-compose');
+        $state.go('app.place-compose');
       }
     });
     /*****************************
@@ -190,7 +192,7 @@
         vm.loginView = false;
         if (toState.name) {
           return {
-            name: 'signin-back',
+            name: 'public.signin-back',
             params: {
               back: $window.encodeURIComponent(angular.toJson({
                 name: toState.name,

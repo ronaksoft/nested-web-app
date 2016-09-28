@@ -7,65 +7,20 @@
 
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider, NST_DEFAULT) {
+
     $stateProvider
-      /*****************************
-       *****   Public Routes    ****
-       *****************************/
-
-      .state('register', {
-        url: '/register',
-        templateUrl: 'app/user/register/main.html',
-        controller: 'RegisterController',
-        controllerAs: 'ctlRegister'
-      })
-
-      .state('recover', {
-        url: '/recover',
-        templateUrl: 'app/user/reset-password/main.html',
-        controller: 'ResetPasswordController',
-        controllerAs: 'ctlRecoverAcc'
-      })
-
-      .state('register-with-phone', {
-        url: '/register/phone/:phone',
-        params: {
-          phone: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/user/register/main.html',
-        controller: 'RegisterController',
-        controllerAs: 'ctlRegister'
-      })
-
-      /*****************************
-       *****     Auth Routes    ****
-       *****************************/
-
-      .state('signin', {
-        url: '/signin',
-        templateUrl: 'app/user/login/main.html',
-        controller: 'LoginController',
-        controllerAs: 'ctlLogin'
-      })
-      .state('signin-back', {
-        url: '/signin/:back',
-        params: {
-          back: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/user/login/main.html',
-        controller: 'LoginController',
-        controllerAs: 'ctlLogin'
-      })
-      .state('signout', {
-        url: '/signout',
-        controller: 'LogoutController',
-        controllerAs: 'ctlLogout'
+      .state('app', {
+        abstract : true,
+        templateUrl : 'app/app-layout.html',
+        controller : 'AppController',
+        controllerAs : 'ctlApp'
       })
 
       /*****************************
        *****    User Routes     ****
        *****************************/
 
-      .state('profile', {
+      .state('app.profile', {
         url: '/profile',
         templateUrl: 'app/pages/account/profile-edit/profile-edit.html',
         controller: 'ProfileEditController',
@@ -84,7 +39,7 @@
           ]
         },
       })
-      .state('change-password', {
+      .state('app.change-password', {
         url: '/change-password',
         templateUrl: 'app/pages/account/change-password/change-password.html',
         controller: 'ChangePasswordController',
@@ -108,7 +63,7 @@
        *****   Compose Routes   ****
        *****************************/
 
-      .state('compose', {
+      .state('app.compose', {
         url: '/compose',
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
@@ -128,7 +83,7 @@
         },
 
       })
-      .state('place-compose', {
+      .state('app.place-compose', {
         url: '/compose/:placeId',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
@@ -150,7 +105,7 @@
           ]
         },
       })
-      .state('compose-forward', {
+      .state('app.compose-forward', {
         url: '/forward/:postId',
         params: {
           postId: NST_DEFAULT.STATE_PARAM
@@ -172,7 +127,7 @@
           ]
         },
       })
-      .state('compose-reply-all', {
+      .state('app.compose-reply-all', {
         url: '/reply/:postId',
         params: {
           postId: NST_DEFAULT.STATE_PARAM
@@ -194,7 +149,7 @@
           ]
         },
       })
-      .state('compose-reply-sender', {
+      .state('app.compose-reply-sender', {
         url: '/reply/:postId/sender',
         params: {
           postId: NST_DEFAULT.STATE_PARAM
@@ -221,7 +176,7 @@
        *****   Places Routes    ****
        *****************************/
 
-      .state('place-settings', {
+      .state('app.place-settings', {
         url: '/places/:placeId/settings',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
@@ -230,7 +185,7 @@
         controller: 'PlaceSettingsController',
         controllerAs: 'ctlSettings'
       })
-      .state('place-add', {
+      .state('app.place-add', {
         url: '/places/:placeId/add',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
@@ -244,7 +199,7 @@
        *****     Post Routes    ****
        *****************************/
 
-      .state('post', {
+      .state('app.post', {
         url: '/message/:postId',
         params: {
           postId: NST_DEFAULT.STATE_PARAM,
@@ -254,7 +209,7 @@
         controller: 'PostController',
         controllerAs: 'ctlPost'
       })
-      .state('place-post', {
+      .state('app.place-post', {
         url: '/place/:placeId/message/:postId',
         params: {
           postId: NST_DEFAULT.STATE_PARAM,
@@ -264,7 +219,7 @@
         controller: 'PostController',
         controllerAs: 'ctlPost'
       })
-      .state('message-chain', {
+      .state('app.message-chain', {
         url: '/message/:postId/chain',
         params: {
           postId: NST_DEFAULT.STATE_PARAM,
@@ -273,7 +228,7 @@
         controller: 'MessageChainController',
         controllerAs: 'ctlChain'
       })
-      .state('place-message-chain', {
+      .state('app.place-message-chain', {
         url: '/place/:placeId/message/:postId/chain',
         params: {
           postId: NST_DEFAULT.STATE_PARAM,
@@ -287,19 +242,19 @@
        *****  Activity Routes   ****
        *****************************/
 
-      .state('activity', {
+      .state('app.app.activity', {
         url: '/activity',
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity'
       })
-      .state('activity-bookmarks', {
+      .state('app.activity-bookmarks', {
         url: '/activity/bookmarks',
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity'
       })
-      .state('activity-bookmarks-filtered', {
+      .state('app.activity-bookmarks-filtered', {
         url: '/activity/bookmarks/:filter',
         params: {
           filter: NST_DEFAULT.STATE_PARAM
@@ -308,7 +263,7 @@
         controller: 'ActivityController',
         controllerAs: 'ctlActivity'
       })
-      .state('activity-filtered', {
+      .state('app.activity-filtered', {
         url: '/activity/:filter',
         params: {
           filter: NST_DEFAULT.STATE_PARAM
@@ -317,7 +272,7 @@
         controller: 'ActivityController',
         controllerAs: 'ctlActivity'
       })
-      .state('place-activity', {
+      .state('app.place-activity', {
         url: '/places/:placeId/activity',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
@@ -326,7 +281,7 @@
         controller: 'ActivityController',
         controllerAs: 'ctlActivity'
       })
-      .state('place-activity-filtered', {
+      .state('app.place-activity-filtered', {
         url: '/places/:placeId/activity/:filter',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM,
@@ -341,19 +296,19 @@
        *****  Messages Routes   ****
        *****************************/
 
-      .state('messages', {
+      .state('app.messages', {
         url: '/messages',
         templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
-      .state('messages-bookmarks', {
+      .state('app.messages-bookmarks', {
         url: '/messages/bookmarks',
         templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
-      .state('messages-bookmarks-sorted', {
+      .state('app.messages-bookmarks-sorted', {
         url: '/messages/bookmarks/:sort',
         params: {
           sort: NST_DEFAULT.STATE_PARAM
@@ -362,13 +317,13 @@
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
-      .state('messages-sent', {
+      .state('app.messages-sent', {
         url: '/messages/sent',
         templateUrl: 'app/messages/main.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
-      .state('messages-sent-sorted', {
+      .state('app.messages-sent-sorted', {
         url: '/messages/sent/:sort',
         params: {
           sort: NST_DEFAULT.STATE_PARAM
@@ -377,7 +332,7 @@
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
-      .state('messages-sorted', {
+      .state('app.messages-sorted', {
         url: '/messages/:sort',
         params: {
           sort: NST_DEFAULT.STATE_PARAM
@@ -386,7 +341,7 @@
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
-      .state('place-messages', {
+      .state('app.place-messages', {
         url: '/places/:placeId/messages',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
@@ -395,7 +350,7 @@
         controller: 'MessagesController',
         controllerAs: 'ctlMessages'
       })
-      .state('place-messages-sorted', {
+      .state('app.place-messages-sorted', {
         url: '/places/:placeId/messages/:sort',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM,
@@ -410,7 +365,7 @@
        *****   Search Routes    ****
        *****************************/
 
-      .state('search', {
+      .state('app.search', {
         url: '/search/:query',
         params: {
           query: NST_DEFAULT.STATE_PARAM

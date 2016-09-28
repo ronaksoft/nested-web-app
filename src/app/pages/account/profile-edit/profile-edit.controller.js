@@ -232,7 +232,7 @@
     }
 
     function changePassword() {
-      $state.go('change-password');
+      $state.go('app.change-password');
     }
   }
 })();

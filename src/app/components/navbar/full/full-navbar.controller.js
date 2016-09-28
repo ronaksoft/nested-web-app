@@ -119,7 +119,7 @@
         searchQury.addPlace(getPlaceId());
       }
 
-      $state.go('search', { query : NstSearchQuery.encode(searchQury.toString()) });
+      $state.go('app.search', { query : NstSearchQuery.encode(searchQury.toString()) });
     }
 
     $scope.$watch('topNavOpen',function (newValue,oldValue) {

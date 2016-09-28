@@ -464,7 +464,7 @@
 
         if (PreviousState.Name === "") {
           if ($stateParams.placeId) {
-            $state.go('place-messages', {placeId: $stateParams.placeId});
+            $state.go('app.place-messages', {placeId: $stateParams.placeId});
           } else {
             $state.go(NST_DEFAULT.STATE);
           }
@@ -525,7 +525,7 @@
       case 'place-compose':
         if ($stateParams.placeId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.placeId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPlace($stateParams.placeId).then(function (place) {
               // FIXME: Push Compose Recipient View Model Instead
@@ -543,7 +543,7 @@
       case 'compose-forward':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
@@ -563,7 +563,7 @@
       case 'compose-reply-all':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
@@ -585,7 +585,7 @@
       case 'compose-reply-sender':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;

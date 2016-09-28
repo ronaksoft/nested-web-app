@@ -127,12 +127,12 @@
 
     function applyFilter(filter) {
       if (vm.activitySettings.placeId) {
-        $state.go('place-activity-filtered', {
+        $state.go('app.place-activity-filtered', {
           placeId: vm.activitySettings.placeId,
           filter: filter
         }, { notify : false });
       } else {
-        $state.go('activity-filtered', {
+        $state.go('app.activity-filtered', {
           filter: filter
         }, { notify : false });
       }
