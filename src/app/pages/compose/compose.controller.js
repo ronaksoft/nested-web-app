@@ -71,7 +71,18 @@
         browser_spellcheck: true,
         selector: 'textarea',
         height : 200,
-        content_css : "../styles/tinymce.css",
+        //content_css : "../styles/tinymce.css",
+        content_style : "@font-face {font-family: 'OpenSans';" +
+        "src: url('../assets/fonts/OpenSans/OpenSans-Regular.woff2') format('woff2')," +
+        "url('../assets/fonts/OpenSans/OpenSans-Regular.woff') format('woff')," +
+        "url('../assets/fonts/OpenSans/OpenSans-Regular.ttf')  format('truetype')," +
+        "url('../assets/fonts/OpenSans/OpenSans-Regular.svg#svgFontName') format('svg');}" +
+        "@font-face {font-family: 'YekanBakh';" +
+        "src: url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2') format('woff2')," +
+        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff')," +
+        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype')," +
+        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
+        "body{font-family: 'YekanBakh','OpenSans'!important;}",
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,

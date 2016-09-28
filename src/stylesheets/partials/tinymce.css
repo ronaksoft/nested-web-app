@@ -1,10 +1,10 @@
-@font-face {
-  font-family: 'YekanBakh';
-  src: url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2') format('woff2'), /* Super Modern Browsers */
-  url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff'), /* Pretty Modern Browsers */
-  url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
-  url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg'); /* Legacy iOS */
-}
-body{
-  font-family: 'YekanBakh','OpenSans';
-}
+/*@font-face {*/
+  /*font-family: 'YekanBakh';*/
+  /*src: url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2') format('woff2'), !* Super Modern Browsers *!*/
+  /*url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff'), !* Pretty Modern Browsers *!*/
+  /*url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype'), !* Safari, Android, iOS *!*/
+  /*url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg'); !* Legacy iOS *!*/
+/*}*/
+/*body{*/
+  /*font-family: 'YekanBakh','OpenSans';*/
+/*}*/
