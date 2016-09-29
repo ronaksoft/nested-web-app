@@ -6,36 +6,35 @@
 
 <div class="nst-content _tr" id="content-wrapper">
 
-  <section class="content _bgwhite _fh" id="place-settings">
+  <section class="content _bgwhite _fh">
     <div class="navbarillu"></div>
     <hr ng-if="ctlSettings.hasAnyControlOverHere();">
     <section class="list-inline _df">
       <ul class="list-inline _df post-nav-top _difh _fw">
         <li>
-          <h3 ng-show="ctlFiles.filesCount == 0">All Files</h3>
-          <h3 ng-show="ctlFiles.filesCount > 0" class="selected-files-count">{{ctlFiles.filesCount}}{{filesCount}}<span> Files</span>{{ctlFiles.filesSize}}{{filesSize}}</h3>
+          <p ng-show="ctlFiles.filesCount == 0">All Files</p>
+          <p ng-show="ctlFiles.filesCount > 0" class="selected-files-count">{{ctlFiles.filesCount}}{{filesCount}}<span> Files</span>{{ctlFiles.filesSize}}{{filesSize}}</p>
         </li>
         <li><span  ng-show="ctlFiles.filesCount == 0" class="files-input-group _fw"><label class=" icon files-arrow" role="button"></label></span></li>
       </ul>
       <div class="_df _fn">
         <input type="text" class="files-input" placeholder="Find files in this place"/>
       </div>
-      <button type="button" class="files-search-button">
         <div class="icon-search-rotated-white"></div>
       </button>
     </section>
     <div class="file-list">
       <div class="file-list-header">
-        <div class="header-name" ng-show="ctlFiles.filesCount == 0"><span>Name</span></div>
-        <div  ng-show="ctlFiles.filesCount > 0" id="header-download"><span class="action-button-post-forward _dib"></span><span>Download</span></div>
-        <div  ng-show="ctlFiles.filesCount > 0" id="header-send-to"><span class="action-button-post-forward _dib"></span><span>Send To</span></div>
+        <div class="header-name" ng-show="ctlFiles.filesCount == 0"><span>File Name</span></div>
+        <div  ng-show="ctlFiles.filesCount > 0" id="header-download"><span class="_dib"></span><span>Download</span></div>
+        <div  ng-show="ctlFiles.filesCount > 0" id="header-send-to"><span class="_dib"></span><span>Send to</span></div>
         <div class="header-size" ng-show="ctlFiles.filesCount == 0"><span>Size</span></div>
         <div class="header-date" ng-show="ctlFiles.filesCount == 0"><strong>Received Date</strong></div>
       </div>
       <hr>
-      <ul class="options" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
+      <ul class="files-types" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
           selector="li.file-list-container">
-        <li class="file-list-container col-xs-12" fid="1">
+        <li class="file-list-container" fid="1">
           <div class="file-list-item">
             <div class="ico">
               <div class="ei-mail-unread files-icon"></div>
@@ -46,7 +45,7 @@
             <div class="item-time"> 13:13</div>
           </div>
         </li>
-        <li class="file-list-container col-xs-12" fid="2">
+        <li class="file-list-container" fid="2">
           <div class="file-list-container">
             <div class="file-list-item">
               <div class="ico">

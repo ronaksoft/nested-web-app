@@ -18,12 +18,11 @@
           }
 
           var selectedArray = [];
-          
+
           // Append finder to element
           var selectable = seletableElement.finderSelect({children : scope.selector});
 
           var countSelected = function () {
-            console.log(1234);
             $timeout(function () {
               scope.filesCount = seletableElement.finderSelect('selected').length;
             });
@@ -36,7 +35,6 @@
           // };
           selectable.finderSelect('addHook','highlight:after', function(el) {
             el.children(".selected").each(function (i,e) {
-              console.log('hey');
               selectedArray.push($(e).attr(scope.selectAttr))
             });
             if (scope.onSelect) {
@@ -44,6 +42,15 @@
               scope.onSelect(selectedArray);
             }
 
+          });
+
+          scope.$watch($(e).attr(scope.selectAttr), function (newValue) {
+            if (newValue) {
+              console.log('newValue');
+              selectable.addClass(controller.selectedClass);
+            } else {
+              selectable.removeClass(controller.selectedClass);
+            }
           });
 
         }

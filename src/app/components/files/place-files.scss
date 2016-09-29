@@ -1,86 +1,102 @@
-h3{
-  margin-top:1px;
-}
-.files-arrow {
-  background: url('../assets/icons/arrow.svg') no-repeat;
-  display: inline;
-  border: 0;
-  left: 0;
-  padding: 3px 10px 3px 10px;
-  font-weight: 100;
-  cursor: pointer;
-}
-
-#header-download {
-  color: $color-sense;
-  font-size: 15px;
-  font-weight: 100;
-  cursor: pointer;
-
-}
-#header-send-to{
-  color: $color-sense;
-  font-size: 15px;
-  font-weight: 100;
-  margin-left: 40px;
-  cursor: pointer;
-}
-.files-input {
-  display:flex;
-  margin-top: 7px;
-  width:200px;
-  height: 30px;
-  margin: 23px 0px 0px 0px;
-
-}
 .list-inline ul{
+  display: flex;
+  width: 703px;
   height: 20px;
   margin-top:10px;
-}
 
+  p{
+    margin-top:1px;
+    flex-grow: 1;
+    font-size: 32px;
+    font-weight:300;
+    color:$color-solid;
+    text-align: left;
+    margin-left: 8px;
+
+  }
+  .files-arrow {
+    background: url('../assets/icons/arrow.svg') no-repeat;
+    display: inline;
+    border: 0;
+    left: 0;
+    padding: 5px 10px 3px 10px;
+    cursor: pointer;
+    margin-left: 7px;
+    color: #869D91;
+    &:hover{
+      color:$color-solid;
+    }
+  }
+}
 
 .file-list {
   .file-list-header {
     display: flex;
     margin-top: 25px;
     &:hover {
-      color: black;
+      color: $color-solid;
     }
     .header-name {
       flex-grow: 1;
       color: #C8C8C8;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 200;
+      margin-left: 8px;
       &:hover {
-        color: black;
+        color:$color-solid;
       }
     }
     .header-date {
-      width: 140px;
+      width: 137px;
       color: #C8C8C8;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 200;
       &:hover {
-        color: black;
+        color:$color-solid;
       }
     }
     .header-size {
-      width: 114px;
+      width: 79px;
       color: #C8C8C8;
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 200;
       &:hover {
-        color: black;
+        color:$color-solid;
       }
+    }
+    #header-download {
+      color: $color-sense;
+      margin-left: 15px;
+      font-size: 13px;
+      font-weight: 100;
+      cursor: pointer;
+    }
+    #header-send-to{
+      color: $color-sense;
+      font-size: 13px;
+      font-weight: 100;
+      margin-left: 40px;
+      cursor: pointer;
     }
   }
   ul {
     list-style-type: none;
+    box-sizing: border-box;
+    height: 500px;
+    .files-types{
+      width:100%;
+      padding:0;
+    }
     .file-list-container {
-      height:50px;
-      margin-top: 10px;
+      height:64px;
+      margin-top: 1px;
+      }
       .file-list-item {
         display: flex;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0 10px 0 8px;
         .item-name {
           width: auto;
           font-size: 15px;
@@ -88,48 +104,51 @@ h3{
           flex-grow: 1;
         }
         .item-date {
-          width: 110px;
-          font-size: 15px;
+          width: 86px;
+          font-size: 13px;
           font-weight: 100;
+          color: #C8C8C8;
         }
         .item-size {
-          width: 95px;
-          font-size: 15px;
+          width: 81px;
+          font-size: 13px;
           font-weight: 100;
+          color: #C8C8C8;
         }
         .item-time {
           width: 40px;
           color: #C8C8C8;
-          font-size: 15px;
+          font-size: 13px;
           font-weight: 100;
+        }
+        .files-icon{
+          margin-top: 1px!important;
+
         }
       }
 
     }
   }
-}
 
-.files-search-button {
-  order: 3;
-  width: 70px;
-  margin-top:23px;
-  height: 40px;
-  background-color: $color-breeze;
-  border-bottom-right-radius: 4px;
-  border-top-right-radius: 4px;
+.files-input {
+  display: flex;
+  margin-top: 30px;
+  width: 173px !important;
+  height: 26px !important;
+  margin: 28px 0 0 0;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+div.files-input{
+  margin-right: 12px;
+}
+li.selected{
+  background-color: #E7FBf0;
+  border-bottom: none;
+}
+hr{
+  margin-top: 9px;
+  margin-bottom: 0;
   border: 0;
-  position: relative;
-  right: 2px;
-  &:hover {
-    background-color: $color-sense;
-    cursor: pointer;
-  }
-  &:active {
-    background-color: $color-sense-wire;
-  }
-}
-.files-icon{
-  margin-top: 1px!important;
-
 }
 

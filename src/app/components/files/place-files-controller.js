@@ -21,7 +21,7 @@
 
     vm.demo = function () {
 
-      var selectableElement = $('ul.options');
+      var selectableElement = $('ul.files-types');
 
       $timeout(function () {
         vm.filesCount = selectableElement.finderSelect('selected').length;
