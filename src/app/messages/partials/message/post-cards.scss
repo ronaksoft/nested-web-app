@@ -43,19 +43,18 @@
       width: 42px;
       justify-content: flex-start;
       margin-left: 10px;
+      margin-right: 4px;
     }
     h4 {
       margin: 0;
       font-size: 13px;
       font-weight: 400;
-      cursor: default;
-      //@include text-hover()
+      @include text-hover()
     }
   }
   span{
     font-size: $font-size-xsmall;
-    cursor: default;
-    //@include text-hover()
+    @include text-hover()
   }
   .post-body{
     font-size: 13px;
@@ -72,9 +71,8 @@
   }
   hr {
     width: calc(100% - 20px);
-    margin-left: auto;
-    margin-right: auto;
     border-color: $color-calm;
+    margin: 12px auto;
   }
   .post-card-badge {
     background-color: transparent;
@@ -178,14 +176,15 @@ h3 {
   z-index: 10;
   transition-duration: $animation-dur;
   overflow: hidden;
+  > *:first-child {
+    margin-top: 8px;
+  }
 }
+
 .post-card-comments {
   align-items: flex-start;
   padding: 8px 8px 0 8px;
   transition: 500ms;
-  &:first-of-type {
-    margin-top: 8px;
-  }
   &:hover {
     background-color: $color-hover-comment;
   }
