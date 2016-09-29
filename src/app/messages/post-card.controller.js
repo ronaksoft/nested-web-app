@@ -6,7 +6,7 @@
     .controller('PostCardController', PostCardController)
 
   function PostCardController($state, $log, $timeout,
-                              _,
+                              _, moment,
                               NST_POST_EVENT, NST_COMMENT_EVENT,
                               NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
 
