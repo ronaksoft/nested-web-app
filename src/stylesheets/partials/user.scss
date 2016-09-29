@@ -21,14 +21,15 @@
     vertical-align: top;
   }
 }
-.post-card-user-avatar {
-  @include avatar(40px,38px);
-}
-
-.post-comment-user-avatar {
+.user-avatar-24 {
   @include avatar(40px,24px);
 }
-
-.place-member-user-avatar {
+.user-avatar-32 {
+  @include avatar(40px,32px);
+}
+.user-avatar-38 {
+  @include avatar(40px,38px);
+}
+.user-avatar-48 {
   @include avatar(80px,48px);
 }
