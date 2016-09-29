@@ -8,11 +8,11 @@
        data-popover-trigger="outsideClick">+{{ctlPostCard.post.getAllPlacesCount()-1}}</a>
   </section>
   <section class="post-head _difh">
-    <a class="_difc" href="{{ctlPostCard.urls.chain}}">
+    <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
-      <div ng-if="ctlPostCard.post.isForwarded" class="icon icon-post-head icon-fwd"></div>
-      <div ng-if="ctlPostCard.post.isReplyed" class="icon icon-post-head icon-replied"></div>
-    </a>
+      <a ng-if="ctlPostCard.post.isForwarded" class="icon icon-post-head icon-fwd" href="{{ctlPostCard.urls.chain}}"></a>
+      <a ng-if="ctlPostCard.post.isReplyed" class="icon icon-post-head icon-replied" href="{{ctlPostCard.urls.chain}}"></a>
+    </div>
     <div class="img _df">
       <div class="post-card-user-avatar">
         <img initials="ctlPostCard.post.sender.name" data-url="ctlPostCard.post.sender.avatar" data-width="32"

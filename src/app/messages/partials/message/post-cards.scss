@@ -21,7 +21,7 @@
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 20;
   background-color: $color-white;
-  overflow: hidden;
+  overflow: visible;
   transition: all $animation-dur;
   &:hover {
     box-shadow: 0 8px 16px rgba(0,0,0,0.2)
@@ -48,12 +48,14 @@
       margin: 0;
       font-size: 13px;
       font-weight: 400;
-      @include text-hover()
+      cursor: default;
+      //@include text-hover()
     }
   }
   span{
     font-size: $font-size-xsmall;
-    @include text-hover()
+    cursor: default;
+    //@include text-hover()
   }
   .post-body{
     font-size: 13px;
