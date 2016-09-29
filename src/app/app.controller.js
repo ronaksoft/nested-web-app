@@ -135,25 +135,25 @@
         return
       }
       var t = event.currentTarget.scrollY;
-      if (t > 55 && !$rootScope.navView && vm.scrolled > 0) {
+      if (t > 55 && !$rootScope.navView) {
         $timeout(function () {
           return $rootScope.navView = t > 55;
         });
-      } else if (t < 55 && $rootScope.navView) {
+      } else if (t < 56 && $rootScope.navView) {
         $timeout(function () {
           return $rootScope.navView = t > 55;
         });
       }
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(function(){
-        vm.scrolled = $(document).scrollTop() - scrollValue;
-        scrollValue = $(document).scrollTop();
-        if (vm.scrolled < -5 && $rootScope.navView) {
-          $timeout(function () {
-            return $rootScope.navView = false;
-          });
-        }
-      }, 10);
+      // clearTimeout(scrollTimeout);
+      // scrollTimeout = setTimeout(function(){
+      //   vm.scrolled = $(document).scrollTop() - scrollValue;
+      //   scrollValue = $(document).scrollTop();
+      //   if (vm.scrolled < -5 && $rootScope.navView) {
+      //     $timeout(function () {
+      //       return $rootScope.navView = false;
+      //     });
+      //   }
+      // }, 10);
     });
 
     /*****************************
