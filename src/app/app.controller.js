@@ -39,8 +39,6 @@
     //     trackJs.configure(newConfigs);
     // }
 
-
-
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
       if (!vm.disconected) {
         vm.disconected = true;

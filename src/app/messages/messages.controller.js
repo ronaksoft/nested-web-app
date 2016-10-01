@@ -116,6 +116,7 @@
               item.isHot = true;
               vm.hotMessageStorage.unshift(item);
               vm.hasNewMessages = true;
+              $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
           return;
         }
@@ -126,6 +127,7 @@
             item.isHot = true;
             vm.hotMessageStorage.unshift(item);
             vm.hasNewMessages = true;
+            $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
         }
 
@@ -413,6 +415,8 @@
       vm.hotMessageStorage.length = 0;
       vm.hasNewMessages = false;
       vm.revealHotMessage = true;
+
+      $rootScope.$emit('unseen-activity-clear');
     }
 
     function dismissNewMessage() {
