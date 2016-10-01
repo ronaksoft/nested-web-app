@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,32 +6,40 @@
     .controller('PlaceFilesController', PlaceFilesController);
 
   /** @ngInject */
-  function PlaceFilesController($rootScope, $q, $stateParams, $log, $timeout, $state, $interval, $scope,
-                              NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility, NstSvcAuth,
-                              NstSvcMessagesSettingStorage,
-                              NstSvcPostMap) {
+  function PlaceFilesController(_) {
     var vm = this;
+    vm.selectedFiles = [];
 
-    vm.onSelect = function (fileIds) {
-      console.log(fileIds);
-      vm.demo();
-    }
-    vm.filesCount = 0 ;
+    vm.files = [
+      {id: 1,type: 'pdf', size: 18.9},
+      {id: 2,type: 'mp3', size: 24.9},
+      {id: 3,type: 'rar', size: 26.9},
+      {id: 4,type: 'doc', size: 28.9}
+    ];
 
-    vm.demo = function () {
+    vm.onSelect = function (fileIds,el) {
+      console.log(fileIds,el)
+      var selectedFiles = [];
+      for (var i = 0; i < fileIds.length; i ++){
+         var fileObj = vm.files.filter(function (file) {
+          return file.id === parseInt(fileIds[i]);
+        });
+        if (fileObj.length === 1){
+          selectedFiles.push(fileObj[0]);
+        }
+      }
+      vm.selectedFiles = selectedFiles;
+    };
 
-      var selectableElement = $('ul.files-types');
 
-      $timeout(function () {
-        vm.filesCount = selectableElement.finderSelect('selected').length;
+     vm.totalSelectedFileSize = function() {
+      var total = 0;
+      vm.selectedFiles.map(function (file) {
+        total += file.size;
       });
-      vm.filesCount = selectableElement.finderSelect('selected').length;
-      console.log(vm.filesCount);
-
-
+      console.log(total);
+      return total;
     }
 
   }
-
 })();
