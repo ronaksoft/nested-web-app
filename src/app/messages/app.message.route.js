@@ -9,7 +9,7 @@
   function routerConfig($stateProvider, $urlRouterProvider, NST_DEFAULT) {
     $stateProvider
     .state('app.message', {
-      url: '/messages/:postId',
+      url: '/message/:postId',
       params: {
         postId: NST_DEFAULT.STATE_PARAM,
         post: {}
@@ -22,7 +22,7 @@
       }
     })
     .state('app.place-message', {
-      url: '/place/:placeId/messages/:postId',
+      url: '/place/:placeId/message/:postId',
       params: {
         postId: NST_DEFAULT.STATE_PARAM,
         post: {}
@@ -35,7 +35,7 @@
       }
     })
     .state('app.message-chain', {
-      url: '/messages/:postId/chain',
+      url: '/message/:postId/chain',
       params: {
         postId: NST_DEFAULT.STATE_PARAM,
       },
@@ -47,7 +47,7 @@
       }
     })
     .state('app.place-message-chain', {
-      url: '/place/:placeId/messages/:postId/chain',
+      url: '/place/:placeId/message/:postId/chain',
       params: {
         postId: NST_DEFAULT.STATE_PARAM,
       },
