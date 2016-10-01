@@ -11,9 +11,6 @@
                            NstSvcLoader, NstSvcAuth) {
     var vm = this;
 
-    $rootScope.$broadcast('show-login-view');
-
-
     /*****************************
      *** Controller Properties ***
      *****************************/

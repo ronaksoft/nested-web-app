@@ -69,20 +69,16 @@
      *****************************/
 
 
-    $rootScope.$on('show-login-view', function () {
-      vm.loginView = true;
-    });
+    // NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
+    //   var reason = event.detail.reason;
+    //   if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
+    //     getValidState($state.current, $state.params);
+    //   }
+    // });
 
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
-      var reason = event.detail.reason;
-      if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
-        getValidState($state.current, $state.params);
-      }
-    });
-
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-      getValidState($state.current, $state.params);
-    });
+    // NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
+    //   getValidState($state.current, $state.params);
+    // });
 
 
     /*****************************

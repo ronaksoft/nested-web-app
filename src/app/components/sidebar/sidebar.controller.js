@@ -122,9 +122,7 @@
 
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      console.log('state changed successfully');
       if (toState.options && toState.options.primary) {
-        console.log('state is primary');
         fixUrls();
       }
     });
@@ -151,7 +149,6 @@
         if ($state.current.params && $state.current.params.placeId) {
           place.href = $state.href($state.current.name, Object.assign({}, $stateParams, {placeId: place.id}));
         } else {
-          console.log('state group is:', $state.current.options.group);
           switch ($state.current.options.group) {
             case 'file':
               place.href = $state.href('app.place-messages', { placeId : place.id });

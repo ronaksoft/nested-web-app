@@ -158,31 +158,7 @@
       });
 
       setNavbarProperties();
-
-      // $rootScope.onSideItemClick = onSideItemClick;
-      $rootScope.getSideItemLink = getSideItemLink;
     })();
-
-    function onSideItemClick(placeId) {
-      console.log('from messages :', placeId);
-    }
-
-    function getSideItemLink(placeId) {
-      if ($state.current.stateParams && $state.current.stateParams.placeId) {
-        var params = _.clone($state.current.stateParams);
-        params.placeId = placeId;
-
-        return $state.href($state.current.name, params);
-      } else {
-        if ($state.current.group === 'activity') {
-          return $state.href('app.place-activity', { placeId : placeId });
-        } else if ($state.current.group === 'settings') {
-          return $state.href('app.place-settings', { placeId : placeId });
-        }
-
-        return $state.href('app.place-messages', { placeId : placeId });
-      }
-    }
 
     function setNavbarProperties() {
       vm.navTitle = 'All Places';
@@ -484,9 +460,6 @@
       return defer.promise;
     }
 
-    $rootScope.$broadcast('page-initialized', {
-      onSideItemClick : onSideItemClick
-    });
   }
 
 })();
