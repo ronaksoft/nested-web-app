@@ -6,7 +6,7 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery) {
+  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery, NST_DEFAULT) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -91,8 +91,8 @@
       return false;
     }
 
-    function rollUpward(page) {
-      if (page === $state.current.name) {
+    function rollUpward(group) {
+      if (group === $state.current.group) {
         vm.rollToTop = true;
       }
     }

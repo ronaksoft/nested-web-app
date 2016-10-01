@@ -13,7 +13,7 @@
       controller: 'SidebarController',
       controllerAs: 'ctlSidebar',
       bindToController: {
-        collapsed: '='
+        collapsed: '=',
       }
     };
   }

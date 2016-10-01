@@ -24,7 +24,7 @@
          class="_df _pr more-tag popover-white-nst-activity-places">
       {{::act.post.otherPlacesCount}}+
     </a>
-    <a class="small-badge _df _pr" ui-sref="place-activity({placeId : act.post.firstPlace.id})">{{::act.post.firstPlace.name}}</a>
+    <a class="small-badge _df _pr" ui-sref="app.place-activity({placeId : act.post.firstPlace.id})">{{::act.post.firstPlace.name}}</a>
   </div>
   <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
 </div>

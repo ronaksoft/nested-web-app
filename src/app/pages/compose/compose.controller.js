@@ -9,7 +9,7 @@
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,PreviousState,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
-                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
+                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
 
@@ -92,6 +92,8 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
+
+    NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
     vm.configs.tinymce.onChange = function (event) {
       // Put logic here for keypress and cut/paste changes
@@ -522,7 +524,7 @@
      *****************************/
 
     switch ($state.current.name) {
-      case 'place-compose':
+      case 'app.place-compose':
         if ($stateParams.placeId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.placeId) {
             $state.go('app.compose');
@@ -540,7 +542,7 @@
         }
         break;
 
-      case 'compose-forward':
+      case 'app.compose-forward':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
             $state.go('app.compose');
@@ -560,7 +562,7 @@
         }
         break;
 
-      case 'compose-reply-all':
+      case 'app.compose-reply-all':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
             $state.go('app.compose');
@@ -582,7 +584,7 @@
         }
         break;
 
-      case 'compose-reply-sender':
+      case 'app.compose-reply-sender':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
             $state.go('app.compose');
@@ -629,6 +631,31 @@
           }
         }
         break;
+    }
+
+    function addRecipients(placeId) {
+      var deferred = $q.defer();
+
+      var tag = _.find(vm.model.recipients, function (item) {
+        return item.id === placeId;
+      });
+
+      if (tag) {
+        deferred.resolve(tag);
+      } else {
+        getPlace(placeId).then(function (place) {
+          var tag = new NstVmSelectTag({
+            id: place.getId(),
+            name: place.getName(),
+            data: place
+          });
+
+          vm.model.recipients.push(tag);
+          deferred.resolve(tag);
+        }).catch(deferred.reject);
+      }
+
+      return deferred.promise;
     }
 
     NstSvcLoader.finished().then(function () {
@@ -696,5 +723,13 @@
         });
       });
     };
+
+    function onPlaceSelected(placeId) {
+      addRecipients(placeId);
+    }
+
+    $scope.$on('$destroy', function () {
+      NstSvcSidebar.removeOnItemClick();
+    });
   }
 })();

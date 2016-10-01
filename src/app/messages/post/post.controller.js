@@ -257,7 +257,7 @@
         function confirmOnDelete(post, place) {
           var modal = $uibModal.open({
             animation: false,
-            templateUrl: 'app/post/post.delete.html',
+            templateUrl: 'app/messages/post/post.delete.html',
             controller: 'postDeleteController',
             controllerAs: 'vm',
             size: 'sm',

@@ -38,7 +38,10 @@
             }
           ]
         },
-
+        options : {
+          group : 'compose',
+          primary : true
+        }
       })
       .state('app.place-compose', {
         url: '/compose/:placeId',
@@ -61,6 +64,10 @@
             }
           ]
         },
+        options : {
+          group : 'compose',
+          primary : true
+        }
       })
       .state('app.compose-forward', {
         url: '/forward/:postId',
@@ -83,6 +90,10 @@
             }
           ]
         },
+        options : {
+          group : 'compose',
+          primary : true
+        }
       })
       .state('app.compose-reply-all', {
         url: '/reply/:postId',
@@ -105,6 +116,10 @@
             }
           ]
         },
+        options : {
+          group : 'compose',
+          primary : true
+        }
       })
       .state('app.compose-reply-sender', {
         url: '/reply/:postId/sender',
@@ -127,6 +142,10 @@
             }
           ]
         },
+        options : {
+          group : 'compose',
+          primary : true
+        }
       })
 
       /*****************************
@@ -140,7 +159,11 @@
         },
         templateUrl: 'app/pages/places/settings/place-settings.html',
         controller: 'PlaceSettingsController',
-        controllerAs: 'ctlSettings'
+        controllerAs: 'ctlSettings',
+        options : {
+          primary : true,
+          group : 'settings'
+        }
       })
       .state('app.place-add', {
         url: '/places/:placeId/add',
@@ -149,7 +172,10 @@
         },
         templateUrl: 'app/pages/places/add/main.html',
         controller: 'PlaceAddController',
-        controllerAs: 'ctlPlaceAdd'
+        controllerAs: 'ctlPlaceAdd',
+        options : {
+          group : 'settings'
+        }
       })
 
       /*****************************
@@ -160,13 +186,21 @@
         url: '/activity',
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
-        controllerAs: 'ctlActivity'
+        controllerAs: 'ctlActivity',
+        options : {
+          primary : true,
+          group : 'activity'
+        }
       })
       .state('app.activity-bookmarks', {
         url: '/activity/bookmarks',
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
-        controllerAs: 'ctlActivity'
+        controllerAs: 'ctlActivity',
+        options : {
+          primary : true,
+          group : 'activity'
+        }
       })
       .state('app.activity-bookmarks-filtered', {
         url: '/activity/bookmarks/:filter',
@@ -175,7 +209,11 @@
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
-        controllerAs: 'ctlActivity'
+        controllerAs: 'ctlActivity',
+        options : {
+          primary : true,
+          group : 'activity'
+        }
       })
       .state('app.activity-filtered', {
         url: '/activity/:filter',
@@ -184,7 +222,11 @@
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
-        controllerAs: 'ctlActivity'
+        controllerAs: 'ctlActivity',
+        options : {
+          primary : true,
+          group : 'activity'
+        }
       })
       .state('app.place-activity', {
         url: '/places/:placeId/activity',
@@ -193,7 +235,11 @@
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
-        controllerAs: 'ctlActivity'
+        controllerAs: 'ctlActivity',
+        options : {
+          primary : true,
+          group : 'activity'
+        }
       })
       .state('app.place-activity-filtered', {
         url: '/places/:placeId/activity/:filter',
@@ -203,7 +249,11 @@
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
-        controllerAs: 'ctlActivity'
+        controllerAs: 'ctlActivity',
+        options : {
+          primary : true,
+          group : 'activity'
+        }
       })
 
       /*****************************
@@ -217,7 +267,10 @@
         },
         templateUrl: 'app/messages/search/search.html',
         controller: 'SearchController',
-        controllerAs: 'ctlSearch'
+        controllerAs: 'ctlSearch',
+        options : {
+          group : 'message'
+        }
       });
 
     $urlRouterProvider.otherwise('/signin');
