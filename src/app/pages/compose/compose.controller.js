@@ -724,8 +724,15 @@
       });
     };
 
-    function onPlaceSelected(placeId) {
-      addRecipients(placeId);
+    function onPlaceSelected(place) {
+      // addRecipients(placeId);
+      if (!_.some(vm.model.recipients, { id : place.id })) {
+        vm.model.recipients.push(new NstVmSelectTag({
+          id : place.id,
+          name : place.name,
+          data : new NstTinyPlace(place)
+        }));
+      }
     }
 
     $scope.$on('$destroy', function () {

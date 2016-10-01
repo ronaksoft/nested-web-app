@@ -85,10 +85,13 @@
       });
     };
 
-    function onPlaceClick(event, placeId) {
+    function onPlaceClick(event, place) {
       if (NstSvcSidebar.onItemClick) {
         event.preventDefault();
-        NstSvcSidebar.onItemClick(placeId);
+        NstSvcSidebar.onItemClick({
+          id : place.id,
+          name : place.name
+        });
       }
     }
 
