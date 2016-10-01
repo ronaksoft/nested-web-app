@@ -92,7 +92,7 @@
     }
 
     function rollUpward(group) {
-      if (group === $state.current.group) {
+      if (group === $state.current.options.group) {
         vm.rollToTop = true;
       }
     }
