@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function ProfileEditController($scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
-    toastr, PreviousState,
+    toastr, PreviousState, moment,
     NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
     NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility ) {
     var vm = this;
@@ -25,7 +25,7 @@
     vm.status = {
       saveInProgress: false
     };
-    
+
     vm.controls = {
       left: [
         new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, null, function () {
