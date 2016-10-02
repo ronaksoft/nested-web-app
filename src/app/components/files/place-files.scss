@@ -1,4 +1,4 @@
-  .list-inline ul {
+.list-inline ul {
   display: flex;
   width: 703px;
   height: 20px;
@@ -48,7 +48,7 @@
       }
     }
     .header-date {
-      width: 137px;
+      width: 144px;
       color: #C8C8C8;
       font-size: 13px;
       font-weight: 200;
@@ -69,7 +69,7 @@
     }
     #header-download {
       color: $color-sense-wire;
-      margin-left: 15px;
+      margin-left: 16px;
       font-size: 13px;
       font-weight: 100;
       cursor: pointer;
@@ -89,19 +89,22 @@
     box-sizing: border-box;
     height: 500px;
     .files-types {
-      width: 100%;
-      padding: 0!important;
+      padding: 0 !important;
     }
     .file-list-container {
       height: 64px;
-      border-bottom: 1px solid #f0f0f0;
     }
     .file-list-item {
       display: flex;
+      width: calc(100% - 80px);
+      float: right;
       position: relative;
       top: 50%;
       transform: translateY(-50%);
-      margin: 0 10px 0 8px;
+      margin-left: 16px;
+      border-bottom: 1px solid #f0f0f0;
+      padding: 20px 0;
+      box-sizing: border-box;
       .item-name {
         width: auto;
         font-size: 15px;
@@ -109,68 +112,68 @@
         flex-grow: 1;
       }
       .item-date {
-        width: 88px;
+        width: 128px;
         font-size: 13px;
         font-weight: 100;
         color: #476152;
-        text-align: right;
+        margin-right: 16px;
       }
       .item-size {
         width: 80px;
         font-size: 13px;
         font-weight: 100;
-        color:#476152 ;
-        text-align: right;
+        color: #476152;
       }
-      .item-time {
-        width: 40px;
+      #files-time {
         color: #C8C8C8;
-        font-size: 13px;
-        font-weight: 100;
-        margin-right: 16px;
-        text-align: right;
-      }
-      .files-icon {
-        margin-top: 1px !important;
       }
     }
   }
 }
-  .files-input {
+
+.files-input {
   display: flex;
-  margin-top: 30px;
-  width: 173px !important;
-  height: 26px !important;
+  width: 173px!important;
+  height: 26px!important;
   margin: 28px 0 0 0;
   padding-right: 8px;
   padding-left: 8px;
 }
 
- div.files-input {
+div.files-input {
   margin-right: 12px;
 }
 
-  li.j-selected {
-  background-color: ($color-sense, .1);
+li.j-selected {
+  background-color: $color-sense-5;
   border-bottom: none;
- }
+}
 
- hr {
+hr {
   margin-top: 0;
   margin-bottom: 0;
   border: 0;
- }
+}
 
-.total-files-size{
+.total-files-size {
   font-size: 14px;
   color: #808080;
   margin-left: 10px;
 }
-  li.file-list-container {
-    position: relative;
-    &:hover {
-      background-color: $color-sense-5;
-    }
+
+li.file-list-container {
+  position: relative;
+  &:hover {
+    background-color: $color-sense-5;
   }
+}
+
+.files-types-images {
+  cursor: default;
+  min-width: 80px;
+  float: left;
+  position: relative;
+  padding-top: 1px;
+}
 
 
