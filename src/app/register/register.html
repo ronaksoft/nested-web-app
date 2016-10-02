@@ -97,7 +97,7 @@
                  ng-class="{'form-control': !ctlRegister.requiredUser || !registrationForm.username.$error.required || !registrationForm.username.$touched,'form-control-error': ctlRegister.requiredUser || (registrationForm.username.$error.pattern && registrationForm.username.$touched)}"
                  ng-pattern="ctlRegister.patterns.username.general" uib-tooltip-class="tooltip" tooltip-trigger="none"
                  tooltip-is-open="registrationForm.username.$error.pattern && registrationForm.username.$touched"
-                 uib-tooltip-template="'app/user/register/tip_username.html'" ngMinlength="5" ngMaxlength="32"
+                 uib-tooltip-template="'app/register/tip_username.html'" ngMinlength="5" ngMaxlength="32"
                  ng-minlength="5" ng-maxlength="32"
                  name="username" type="text" ng-model="ctlRegister.username" tabindex="1"
                  ng-change="ctlRegister.checkUser(ctlRegister.username);ctlRegister.clearUserError(ctlRegister.username)"
