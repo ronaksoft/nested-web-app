@@ -1,0 +1,11 @@
+// Text overflow
+// Requires inline-block or block for proper styling
+
+@mixin text-hover() {
+  color: $color-grey-text;
+  //transition: color $animation-dur;
+  cursor: default;
+  &:hover {
+    //color: $color-solid;
+  }
+}

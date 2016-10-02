@@ -1,6 +1,6 @@
 .maincontainer.navtiny {
   #content-plus {
-    top: 96px;
+    transform: translateY(96px);
   }
   #new-post {
     top:102px;
@@ -35,6 +35,9 @@
         white-space: nowrap;
       }
     }
+  }
+  nst-navbar {
+    left: $sidebar-width-tiny;
   }
 
   //hidden unwanted elements in tiny sidebar
