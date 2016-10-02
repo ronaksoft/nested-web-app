@@ -23,7 +23,7 @@
         scope.openPostModal = function (vmPost) {
           var modal = $uibModal.open({
             animation: false,
-            templateUrl: 'app/post/post.html',
+            templateUrl: 'app/messages/post/post.html',
             controller: 'PostController',
             controllerAs: 'ctlPost',
             size: 'mlg',

@@ -16,8 +16,6 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
 
-
-
     /*****************************
      *****  Configure TrackJs  ****
      *****************************/
@@ -40,8 +38,6 @@
     //   if (trackJs !== undefined)
     //     trackJs.configure(newConfigs);
     // }
-
-
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
       if (!vm.disconected) {
@@ -71,20 +67,16 @@
      *****************************/
 
 
-    $rootScope.$on('show-login-view', function () {
-      vm.loginView = true;
-    });
+    // NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
+    //   var reason = event.detail.reason;
+    //   if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
+    //     getValidState($state.current, $state.params);
+    //   }
+    // });
 
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
-      var reason = event.detail.reason;
-      if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
-        getValidState($state.current, $state.params);
-      }
-    });
-
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-      getValidState($state.current, $state.params);
-    });
+    // NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
+    //   getValidState($state.current, $state.params);
+    // });
 
 
     /*****************************
@@ -102,7 +94,7 @@
       combo: 'c',
       description: 'compose state',
       callback: function () {
-        $state.go('place-compose');
+        $state.go('app.place-compose');
       }
     });
     /*****************************
@@ -190,7 +182,7 @@
         vm.loginView = false;
         if (toState.name) {
           return {
-            name: 'signin-back',
+            name: 'public.signin-back',
             params: {
               back: $window.encodeURIComponent(angular.toJson({
                 name: toState.name,

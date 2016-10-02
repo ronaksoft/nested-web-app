@@ -6,13 +6,12 @@
     .controller('SidebarController', SidebarController);
 
   /** @ngInject */
-  function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log,
+  function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory,
+                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
-    $log.debug(vm.stat);
 
     /*****************************
      *** Controller Properties ***
@@ -22,6 +21,7 @@
     vm.stateParams = $stateParams;
     vm.invitation = {};
     vm.places = [];
+    vm.onPlaceClick = onPlaceClick;
 
 
     /*****************************
@@ -85,6 +85,16 @@
       });
     };
 
+    function onPlaceClick(event, place) {
+      if (NstSvcSidebar.onItemClick) {
+        event.preventDefault();
+        NstSvcSidebar.onItemClick({
+          id : place.id,
+          name : place.name
+        });
+      }
+    }
+
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -99,7 +109,7 @@
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
-      fixPlaceUrl();
+      fixUrls();
     });
 
 
@@ -107,19 +117,21 @@
      *****    Change urls   ****
      *****************************/
 
-    $scope.$watch(function () {
-      return $state.current.name;
-    },function () {
-      fixPlaceUrl();
-    });
+    // $scope.$watch(function () {
+    //   return $state.current.name;
+    // },function () {
+    //   fixPlaceUrl();
+    // });
 
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      fixPlaceUrl();
+      if (toState.options && toState.options.primary) {
+        fixUrls();
+      }
     });
 
 
-    function fixPlaceUrl() {
+    function fixUrls() {
 
       vm.urls = {
         unfiltered: $state.href(getUnfilteredState()),
@@ -129,17 +141,34 @@
         placeAdd: $state.href(getPlaceAddState(), { placeId: NST_DEFAULT.STATE_PARAM }),
         subplaceAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
       };
+
       mapPlacesUrl(vm.places);
     };
 
     function mapPlacesUrl(places) {
-      var currentPlace = $state.current;
+
       places.map(function (place) {
 
         if ($state.current.params && $state.current.params.placeId) {
-          place.href = $state.href(currentPlace.name, Object.assign({}, $stateParams, {placeId: place.id}));
-        }else{
-          place.href = place.url;
+          place.href = $state.href($state.current.name, Object.assign({}, $stateParams, {placeId: place.id}));
+        } else {
+          switch ($state.current.options.group) {
+            case 'file':
+              place.href = $state.href('app.place-messages', { placeId : place.id });
+              break;
+            case 'activity':
+              place.href = $state.href('app.place-activity', { placeId : place.id });
+              break;
+            case 'settings':
+              place.href = $state.href('app.place-settings', { placeId : place.id });
+              break;
+            case 'compose':
+              place.href = $state.href('app.place-compose', { placeId : place.id });
+              break;
+            default:
+              place.href = $state.href('app.place-messages', { placeId : place.id });
+              break;
+          }
         }
 
         if (place.children) mapPlacesUrl(place.children);
@@ -155,15 +184,10 @@
     // TODO: Move these to Common Service
 
     function getUnfilteredState() {
-      var state = 'messages';
-      switch ($state.current.name) {
+      var state = 'app.messages';
+      switch ($state.current.options.group) {
         case 'activity':
-        case 'activity-bookmarks':
-        case 'activity-bookmarks-filtered':
-        case 'activity-filtered':
-        case 'place-activity':
-        case 'place-activity-filtered':
-          state = 'activity';
+          state = 'app.activity';
           break;
       }
 
@@ -171,43 +195,37 @@
     }
 
     function getPlaceFilteredState() {
-      var state = 'place-messages';
+      var state = 'app.place-messages';
 
-      if ($state.current.name.indexOf('activity') > -1) {
-        state = 'place-activity';
-      } else if ($state.current.name.indexOf('compose') > -1) {
-        state = 'place-compose';
-      } else if ($state.current.name.indexOf('settings') > -1) {
-        state = 'place-settings';
-      }
-
-      return state;
-    }
-
-    function getComposeState() {
-      var state = 'compose';
-      switch ($state.current.name) {
-        case 'place-activity':
-        case 'place-activity-sorted':
-        case 'place-messages':
-        case 'place-messages-filtered':
-          state = 'place-compose';
+      switch ($state.current.options.group) {
+        case 'activity':
+          state = 'app.place-activity';
+          break;
+        case 'settings':
+          state = 'app.place-settings';
+          break;
+        case 'compose':
+          state = 'app.place-compose';
           break;
       }
 
       return state;
     }
 
+    function getComposeState() {
+      if ($state.current.params && $state.current.params.placeId) {
+        return 'app.place-compose';
+      }
+
+      return 'app.compose';
+    }
+
     function getBookmarksState() {
-      var state = 'messages-bookmarks';
-      switch ($state.current.name) {
+      var state = 'app.messages-bookmarks';
+
+      switch ($state.current.options.group) {
         case 'activity':
-        case 'activity-bookmarks':
-        case 'activity-bookmarks-filtered':
-        case 'activity-filtered':
-        case 'place-activity':
-        case 'place-activity-filtered':
-          state = 'activity-bookmarks';
+          state = 'app.activity-bookmarks';
           break;
       }
 
@@ -215,21 +233,11 @@
     }
 
     function getSentState() {
-      var state = 'messages-sent';
-      switch ($state.current.name) {
-        case 'messages-sorted':
-        case 'messages-sent-sorted':
-        case 'messages-bookmarks-sorted':
-        case 'place-messages-sorted':
-          state = 'messages-sent-sorted';
-          break;
-      }
-
-      return state;
+      return 'app.messages-sent';
     }
 
     function getPlaceAddState() {
-      return 'place-add';
+      return 'app.place-add';
     }
 
     /*****************************
@@ -282,6 +290,11 @@
       return Object.keys(placeModels).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
         var placeModel = placeModels[k];
         var place = mapPlace(placeModel, depth);
+
+        if (vm.getSideItemLink) {
+          place.href = vm.getSideItemLink(place.id);
+        }
+
         place.isCollapsed = true;
         place.isActive = false;
         if (vm.stateParams.placeIdSplitted) {

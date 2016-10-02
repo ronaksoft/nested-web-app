@@ -127,12 +127,12 @@
 
     function applyFilter(filter) {
       if (vm.activitySettings.placeId) {
-        $state.go('place-activity-filtered', {
+        $state.go('app.place-activity-filtered', {
           placeId: vm.activitySettings.placeId,
           filter: filter
         }, { notify : false });
       } else {
-        $state.go('activity-filtered', {
+        $state.go('app.activity-filtered', {
           filter: filter
         }, { notify : false });
       }
@@ -253,17 +253,17 @@
     function generateUrls() {
       if (vm.activitySettings.placeId) {
         vm.urls.filters = {
-          all: $state.href('place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.ALL }),
-          messages: $state.href('place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.MESSAGES }),
-          comments: $state.href('place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.COMMENTS }),
-          logs: $state.href('place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.LOGS })
+          all: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.ALL }),
+          messages: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.MESSAGES }),
+          comments: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.COMMENTS }),
+          logs: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.LOGS })
         };
       } else {
         vm.urls.filters = {
-          all: $state.href('activity-filtered', {filter: NST_ACTIVITY_FILTER.ALL }),
-          messages: $state.href('activity-filtered', {filter: NST_ACTIVITY_FILTER.MESSAGES }),
-          comments: $state.href('activity-filtered', {filter: NST_ACTIVITY_FILTER.COMMENTS }),
-          logs: $state.href('activity-filtered', {filter: NST_ACTIVITY_FILTER.LOGS })
+          all: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.ALL }),
+          messages: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.MESSAGES }),
+          comments: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.COMMENTS }),
+          logs: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.LOGS })
         };
       }
     }

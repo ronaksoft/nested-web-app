@@ -11,7 +11,7 @@
 
     vm.signout = function () {
       $rootScope.modals['disconnected'].close();
-      $state.go('signout');
+      $state.go('public.signout');
     };
   }
 })();

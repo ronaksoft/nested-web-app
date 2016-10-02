@@ -352,7 +352,7 @@
         vm.model.saved = true;
 
         toastr.success('Place ' + place.getName() + '#' + place.getId() + ' has been successfully created.', 'Place Added');
-        $state.go('place-settings', { placeId : place.getId() });
+        $state.go('app.place-settings', { placeId : place.getId() });
 
         return $q(function (res) {
           res(place);

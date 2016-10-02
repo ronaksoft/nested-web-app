@@ -116,6 +116,7 @@
               item.isHot = true;
               vm.hotMessageStorage.unshift(item);
               vm.hasNewMessages = true;
+              $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
           return;
         }
@@ -126,6 +127,7 @@
             item.isHot = true;
             vm.hotMessageStorage.unshift(item);
             vm.hasNewMessages = true;
+            $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
         }
 
@@ -179,16 +181,16 @@
 
     function getMessages() {
       switch ($state.current.name) {
-        case 'place-messages':
-        case 'place-messages-sorted':
+        case 'app.place-messages':
+        case 'app.place-messages-sorted':
           return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlace.id);
 
-        case 'messages-sent':
-        case 'messages-sent-sorted':
+        case 'app.messages-sent':
+        case 'app.messages-sent-sorted':
           return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
 
-        case 'messages-bookmarks':
-        case 'messages-bookmarks-sorted':
+        case 'app.messages-bookmarks':
+        case 'app.messages-bookmarks-sorted':
           return NstSvcPostFactory.getBookmarksMessages(vm.messagesSetting);
 
         default:
@@ -365,19 +367,19 @@
       };
 
       if (vm.currentPlaceId) {
-        vm.urls.latestActivity = $state.href('place-messages-sorted', {
+        vm.urls.latestActivity = $state.href('app.place-messages-sorted', {
           placeId: vm.currentPlaceId,
           sort: NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
         });
-        vm.urls.latestMessages = $state.href('place-messages-sorted', {
+        vm.urls.latestMessages = $state.href('app.place-messages-sorted', {
           placeId: vm.currentPlaceId,
           sort: NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES
         });
       } else {
-        vm.urls.latestActivity = $state.href('messages-sorted', {
+        vm.urls.latestActivity = $state.href('app.messages-sorted', {
           sort: NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY
         });
-        vm.urls.latestMessages = $state.href('messages-sorted', {
+        vm.urls.latestMessages = $state.href('app.messages-sorted', {
           sort: NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES
         });
       }
@@ -413,6 +415,8 @@
       vm.hotMessageStorage.length = 0;
       vm.hasNewMessages = false;
       vm.revealHotMessage = true;
+
+      $rootScope.$emit('unseen-activity-clear');
     }
 
     function dismissNewMessage() {
@@ -427,8 +431,8 @@
     }
 
     function isBookMark() {
-      if ($state.current.name == 'messages-bookmarks' ||
-        $state.current.name == 'messages-bookmarks-sorted'){
+      if ($state.current.name == 'app.messages-bookmarks' ||
+        $state.current.name == 'app.messages-bookmarks-sorted'){
         vm.isBookmarkMode = true;
         return true;
       }
@@ -459,6 +463,7 @@
 
       return defer.promise;
     }
+
   }
 
 })();

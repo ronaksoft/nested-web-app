@@ -7,11 +7,10 @@
 
   /** @ngInject */
   function ProfileEditController($scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
-    toastr, PreviousState,
+    toastr,
     NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
     NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility ) {
     var vm = this;
-
 
     /*****************************
      *** Controller Properties ***
@@ -25,13 +24,9 @@
     vm.status = {
       saveInProgress: false
     };
-    
+
     vm.controls = {
-      left: [
-        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON, null, function () {
-          $state.go(NST_DEFAULT.STATE);
-        })
-      ],
+      left: [],
       right: []
     };
 
@@ -236,7 +231,7 @@
     }
 
     function changePassword() {
-      $state.go('change-password');
+      $state.go('app.change-password');
     }
   }
 })();
