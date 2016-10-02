@@ -18,7 +18,7 @@
     vm.getPlaceId = getPlaceId;
     vm.getMessagesUrl = getMessagesUrl;
     vm.getActivityUrl = getActivityUrl;
-    vm.getFilesUrl = getFilesUrl;
+    // vm.getFilesUrl = getFilesUrl;
     vm.getSettingsUrl = getSettingsUrl;
     vm.search = search;
     vm.rollUpward = rollUpward;
@@ -68,13 +68,13 @@
         return $state.href('messages');
       }
     }
-    function getFilesUrl() {
-      if (hasPlace()) {
-        return $state.href('place-Files', { placeId : vm.getPlaceId() });
-      } else {
-        return '';
-      }
-    }
+    // function getFilesUrl() {
+    //   if (hasPlace()) {
+    //     return $state.href('place-Files', { placeId : vm.getPlaceId() });
+    //   } else {
+    //     return '';
+    //   }
+    // }
     function getActivityUrl() {
       if (hasPlace()) {
         return $state.href('place-activity', { placeId : vm.getPlaceId() });

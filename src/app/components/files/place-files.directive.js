@@ -17,7 +17,7 @@
           }
 
           var selectedArray = [];
-          
+
           seletableElement.selectonic
           ({
             multi: true,
