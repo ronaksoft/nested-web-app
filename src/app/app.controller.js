@@ -110,7 +110,7 @@
      *****************************/
 
     vm.viewSettings = {
-      sidebar: {collapsed: false},
+      sidebar: {collapsed: true},
       navbar: {collapsed: false}
     };
 

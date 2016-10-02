@@ -3,17 +3,18 @@
     <div class="side-top">
       <div class="nested-logo">
         <a ui-sref="messages()">
-          <div id="Logo"></div>
+          <div id="Logo-white"></div>
         </a>
       </div>
-      <div class="compose"  data-uib-tooltip="Compose" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-        <a class="butn-green onlyExpand _tr" id="compose" href="{{ctlSidebar.urls.compose}}">
-          <div class="icon icon-side icon-compose _df"></div><div class="onlyExpand _df">Compose</div>
-        </a>
-      </div>
-    </div>
-    <div class="side-place-wrapper _fw" nst-scrollbar>
+      <a class="compose"  data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <div class="icon icon-side icon-compose _df"></div>
+      </a>
       <div class="side-menu">
+        <div class="side-menu-item">
+          <a href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+            <div class="icon icon-solid icon-side icon-bookmarks"></div>
+            <span class="item _fw" ng-show="!ctlSidebar.collapsed">Bookmarks</span></a>
+        </div>
         <div class="side-menu-item" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <a href="{{ctlSidebar.urls.unfiltered}}">
             <div class="icon icon-solid icon-side icon-all-place _df"></div>
@@ -21,17 +22,15 @@
           </a>
         </div>
         <div class="side-menu-item">
-          <a href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-            <div class="icon icon-solid icon-side icon-bookmarks"></div>
-            <span class="item _fw" ng-show="!ctlSidebar.collapsed">Bookmarks</span></a></div>
-        <div class="side-menu-item">
           <a href="{{ctlSidebar.urls.sent}}" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
             <div class="icon icon-solid icon-side icon-sent"></div>
             <span class="item _fw" ng-show="!ctlSidebar.collapsed">Sent</span>
           </a>
         </div>
       </div>
-      <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0">
+    </div>
+    <div class="side-place-wrapper _fw" nst-scrollbar>
+      <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 && false">
         <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
           <div class="side-place-invite-item-inner active"  data-uib-tooltip="{{invitaion.place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
@@ -61,23 +60,21 @@
       </a>
     </div>
     <div class="side-profile">
-      <a class="_fw" ng-show="profileMenu" href="#/profile">
-        <div class="_difh _fw">
-          <li class="profile-menu-edit-profile _df _fn"></li>
-          <li class="_df nst-mood-solid a-hover _fw fade-animation" ng-show="!ctlSidebar.collapsed">
-            <span class="nst-mood-solid _difh _fw">Edit My profile</span>
-          </li>
-        </div>
+      <a class="_fw _difh" href="#/profile">
+        <li class="profile-menu-mentions _df _fn"></li>
+        <li class="_df nst-mood-solid a-hover _fw fade-animation" ng-show="!ctlSidebar.collapsed">
+          <span class="nst-mood-solid _difh _fw">Edit My profile</span>
+        </li>
       </a>
-      <a class="_fw" ng-show="profileMenu" href="#/signout">
+      <a class="_fw _difh" href="#/edit-profile">
+        <li class="profile-menu-setting _df _fn"></li>
+      </a>
+      <a class="_fw" href="#/signout">
         <div class="_difh _fw">
           <li class="profile-menu-signout _df _fn"></li>
-          <li class="_df a-hover fade-animation _fw" ng-show="!ctlSidebar.collapsed">
-            <span class="nst-mood-solid _difh _fw">Sign out</span>
-          </li>
         </div>
       </a>
-      <a class="_fw">
+      <!--<a class="_fw">
         <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
           <div class="user-avatar-32">
           <img ng-if="!ctlSidebar.user.avatar" class="account-initials-32"
@@ -91,13 +88,100 @@
             <div class="icon icon-solid icon-more"></div>
           </div>
         </div>
-      </a>
-      <a class="_fw">
-        <div class="_df _fn _fw _jcc" ng-click="ctlSidebar.collapsed =! ctlSidebar.collapsed">
-          <div ng-class="{'nst-arrow-rotated-90' : !ctlSidebar.collapsed,'nst-arrow-rotated-270' : ctlSidebar.collapsed}" class="nst-arrow-rotated-90"></div>
-        </div>
-        </a>
+      </a>-->
     </div>
   </div>
   <div class="sidebar-border"></div>
+  <div class="sidebar-plus-wrapper">
+    <div class="side-top">
+      <div class="nested-logo">
+        <a ui-sref="messages()">
+          <div id="Logo-white"></div>
+        </a>
+      </div>
+      <a class="compose"  data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <div class="icon icon-side icon-compose _df"></div>
+      </a>
+      <div class="side-menu">
+        <div class="side-menu-item">
+          <a href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+            <div class="icon icon-solid icon-side icon-bookmarks"></div>
+            <span class="item _fw" ng-show="!ctlSidebar.collapsed">Bookmarks</span></a>
+        </div>
+        <div class="side-menu-item" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+          <a href="{{ctlSidebar.urls.unfiltered}}">
+            <div class="icon icon-solid icon-side icon-all-place _df"></div>
+            <span class="item _df _fw fade-animation" ng-show="!ctlSidebar.collapsed">All Places</span>
+          </a>
+        </div>
+        <div class="side-menu-item">
+          <a href="{{ctlSidebar.urls.sent}}" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+            <div class="icon icon-solid icon-side icon-sent"></div>
+            <span class="item _fw" ng-show="!ctlSidebar.collapsed">Sent</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="side-place-wrapper _fw" nst-scrollbar>
+      <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0">
+        <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
+          <div class="side-place-invite-item-inner active"  data-uib-tooltip="{{invitaion.place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
+              <div class="side-place-item-image">
+                <img class="account-initials-40" ng-src="{{invitaion.place.avatar}}"/>
+              </div>
+              <div class="_fw _difv _oh">
+                <span class="onlyExpand nst-font-small nst-mood-pending-fill">You've been invited to</span>
+                <span data-ellipsis="invitaion.place.name" class="invitation-name onlyExpand nst-mood-pending _txe _fw" style="color: #3296FF;">{{invitaion.place.name}}</span>
+              </div>
+            </a>
+          </div>
+        </li>
+      </ul>
+      <ul class="side-place">
+        <li class="side-place-item" data-ng-repeat="place in ctlSidebar.places"
+            data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
+
+      </ul>
+      <a href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <div class="create-place _fw">
+          <div>
+            <span ng-if="!ctlSidebar.collapsed">+ Create New Grand Place</span>
+            <span ng-if="ctlSidebar.collapsed">+</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="side-profile">
+      <a class="_fw _difh" href="#/profile">
+        <li class="profile-menu-mentions _df _fn"></li>
+        <li class="_df nst-mood-solid a-hover _fw fade-animation" ng-show="!ctlSidebar.collapsed">
+          <span class="nst-mood-solid _difh _fw">Edit My profile</span>
+        </li>
+      </a>
+      <a class="_fw _difh" href="#/edit-profile">
+        <li class="profile-menu-setting _df _fn"></li>
+      </a>
+      <a class="_fw" href="#/signout">
+        <div class="_difh _fw">
+          <li class="profile-menu-signout _df _fn"></li>
+        </div>
+      </a>
+      <!--<a class="_fw">
+        <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
+          <div class="user-avatar-32">
+          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-32"
+               initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
+               data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
+          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}" class="account-initials-32"/></div>
+          <div class="_fw _df fade-animation" ng-show="!ctlSidebar.collapsed">
+            <span>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm sm">@{{ctlSidebar.user.id}}</span> </span>
+          </div>
+          <div class="_df _fn fade-animation" ng-show="!ctlSidebar.collapsed">
+            <div class="icon icon-solid icon-more"></div>
+          </div>
+        </div>
+      </a>-->
+    </div>
+  </div>
 </div>
