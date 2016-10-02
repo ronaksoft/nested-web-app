@@ -76,7 +76,7 @@
     function search(queryString) {
       vm.messages.length = 0;
       var query = new NstSearchQuery(queryString);
-      $state.go('search', { query : NstSearchQuery.encode(queryString) } , { notify : false }).then(function (newState) {
+      $state.go('app.search', { query : NstSearchQuery.encode(queryString) } , { notify : false }).then(function (newState) {
         skip = 0;
         searchMessages(query.toString());
       });
@@ -118,7 +118,7 @@
 
     function backToPlace() {
       if (vm.refererPlaceId){
-        $state.go('place-messages', { placeId : vm.refererPlaceId});
+        $state.go('app.place-messages', { placeId : vm.refererPlaceId});
       } else {
         $state.go(NST_DEFAULT.STATE);
       }

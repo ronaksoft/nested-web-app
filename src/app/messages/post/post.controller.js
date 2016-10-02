@@ -47,9 +47,9 @@
     };
 
     vm.urls = {
-      reply_all: $state.href('compose-reply-all', { postId: vm.postId }),
-      reply_sender: $state.href('compose-reply-sender', { postId: vm.postId }),
-      forward: $state.href('compose-forward', { postId: vm.postId })
+      reply_all: $state.href('app.compose-reply-all', { postId: vm.postId }),
+      reply_sender: $state.href('app.compose-reply-sender', { postId: vm.postId }),
+      forward: $state.href('app.compose-forward', { postId: vm.postId })
     };
 
 
@@ -257,7 +257,7 @@
         function confirmOnDelete(post, place) {
           var modal = $uibModal.open({
             animation: false,
-            templateUrl: 'app/post/post.delete.html',
+            templateUrl: 'app/messages/post/post.delete.html',
             controller: 'postDeleteController',
             controllerAs: 'vm',
             size: 'sm',

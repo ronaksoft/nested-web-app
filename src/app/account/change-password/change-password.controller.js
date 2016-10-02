@@ -14,7 +14,7 @@
 
     vm.controls = {
       left: [
-        new NstVmNavbarControl('Back', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
+        new NstVmNavbarControl('Back to Profile', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('app.profile'))
       ],
       right: []
     };
@@ -38,7 +38,7 @@
         NstSvcLoader.inject(changePasswordPromise);
         changePasswordPromise.then(function(result) {
           toastr.success('Your pasword changed successfully.')
-          $state.go('profile');
+          $state.go('app.profile');
         }).catch(function(error) {
           if (error.code === NST_SRV_ERROR.INVALID) {
             var message = _.first(error.message);

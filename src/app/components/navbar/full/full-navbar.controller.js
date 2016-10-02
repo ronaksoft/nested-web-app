@@ -6,7 +6,7 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery) {
+  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery, NST_DEFAULT) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -62,37 +62,37 @@
 
     function getMessagesUrl() {
       if (hasPlace()) {
-        return $state.href('place-messages', { placeId : vm.getPlaceId() });
+        return $state.href('app.place-messages', { placeId : vm.getPlaceId() });
       } else {
-        return $state.href('messages');
+        return $state.href('app.messages');
       }
     }
     function getActivityUrl() {
       if (hasPlace()) {
-        return $state.href('place-activity', { placeId : vm.getPlaceId() });
+        return $state.href('app.place-activity', { placeId : vm.getPlaceId() });
       } else {
-        return $state.href('activity');
+        return $state.href('app.activity');
       }
     }
     function getSettingsUrl() {
       if (hasPlace()) {
-        return $state.href('place-settings', { placeId : vm.getPlaceId() });
+        return $state.href('app.place-settings', { placeId : vm.getPlaceId() });
       } else {
         return '';
       }
     }
 
     function isBookMark() {
-      if ($state.current.name == 'messages-bookmarks' ||
-        $state.current.name == 'messages-bookmarks-sorted'){
+      if ($state.current.name == 'app.messages-bookmarks' ||
+        $state.current.name == 'app.messages-bookmarks-sorted'){
         vm.isBookmarkMode = true;
         return true;
       }
       return false;
     }
 
-    function rollUpward(page) {
-      if (page === $state.current.name) {
+    function rollUpward(group) {
+      if (group === $state.current.options.group) {
         vm.rollToTop = true;
       }
     }
@@ -119,7 +119,7 @@
         searchQury.addPlace(getPlaceId());
       }
 
-      $state.go('search', { query : NstSearchQuery.encode(searchQury.toString()) });
+      $state.go('app.search', { query : NstSearchQuery.encode(searchQury.toString()) });
     }
 
     $scope.$watch('topNavOpen',function (newValue,oldValue) {
