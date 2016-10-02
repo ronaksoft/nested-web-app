@@ -6,7 +6,7 @@
     .controller('PostCardController', PostCardController)
 
   function PostCardController($state, $log, $timeout,
-                              _,
+                              _, moment,
                               NST_POST_EVENT, NST_COMMENT_EVENT,
                               NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
 
@@ -20,7 +20,6 @@
 
     vm.newCommentsCount = 0;
     vm.myAlreadyCountedIds = [];
-    vm.reply = reply;
     vm.sendComment = sendComment;
 
     vm.hasOlderComments = true;
@@ -33,10 +32,6 @@
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
 
 
-    function reply() {
-      $debug.log('Is not implemented yet!')
-    }
-
     /**
      * send - add the comment to the list of the post comments
      *
@@ -48,7 +43,7 @@
       if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-      
+
       var body = extractCommentBody(e);
       if (body.length === 0) {
         return;
@@ -203,19 +198,33 @@
 
     // initializing
     (function () {
-      vm.hasOlderComments = vm.post.commentsCount > vm.post.comments.length;
 
-      vm.urls = {
-        reply_all: $state.href('compose-reply-all', {
-          postId: vm.post.id
-        }),
-        reply_sender: $state.href('compose-reply-sender', {
-          postId: vm.post.id
-        }),
-        forward: $state.href('compose-forward', {
-          postId: vm.post.id
-        })
-      };
+      vm.hasOlderComments = vm.post.commentsCount && vm.post.comments  ? vm.post.commentsCount > vm.post.comments.length : false;
+
+      vm.urls = {};
+      vm.urls['reply_all'] = $state.href('app.compose-reply-all', {
+        postId: vm.post.id
+      });
+
+      vm.urls['reply_sender'] = $state.href('app.compose-reply-sender', {
+        postId: vm.post.id
+      });
+
+      vm.urls['forward'] = $state.href('app.compose-forward', {
+        postId: vm.post.id
+      });
+
+      if (vm.thisPlace) {
+        vm.urls['chain'] = $state.href('app.place-message-chain', {
+          placeId : vm.thisPlace,
+          postId : vm.post.id
+        });
+      } else {
+        vm.urls['chain'] = $state.href('app.message-chain', {
+          postId : vm.post.id
+        });
+      }
+
     })();
 
   }

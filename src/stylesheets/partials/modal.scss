@@ -118,6 +118,11 @@ body.modal-open {
 .modal-add {
   border-bottom: 1px solid $color-calm;
   margin: 10px 0;
+  .butn-green-nav {
+    margin: 0;
+    position: relative;
+    right: 20px;
+  }
 }
 .ui-select-choices-row > img {
   width: 40px;
@@ -168,6 +173,7 @@ body.modal-open {
 .modal-add input {
   border: none;
   padding: 5px 0;
+  min-height: 32px;
 }
 .modal-content {
   background-color: $color-white!important;

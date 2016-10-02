@@ -3,25 +3,32 @@
   *    Drag drop compose
   **********************************************************
  */
+@keyframes dragDrop {
+  from {
+    opacity: .87;
+    visibility: visible;
+  }
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
 .droplet {
-  position: absolute;
+  position: fixed;
   right: 0;
   left: 0;
-  margin: auto;
-  //height: 100%;
-  //width: 100%;
-  z-index: -10;
+  top: 0;
+  height: 100%;
+  background-color: rgba(71,97,82,.1);
+  transition: .3s;
+  z-index: 120;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .event-dragover .droplet {
-  background-color: rgba(71,97,82,.1);
   opacity: .87;
-  z-index: 123;
-  width: 100%;
-  height: 100%;
-  top:0;
-  left: 0;
-  position: fixed;
+  visibility: visible;
 }
 
 .event-dragover .droplet:after {
@@ -31,7 +38,7 @@
   pointer-events: none;
   display: inline-block;
   position: relative;
-  z-index: 556;
+  z-index: 9999;
   color: $color-hurricane;
   text-decoration: none;
   font-weight: normal;
@@ -42,41 +49,31 @@
   box-sizing: border-box;
 }
 .event-dragleave .droplet {
-  background-color: #E7ECE9;
-  opacity: .5;
-  z-index: 20;
-  height: 100%;
-  animation: fadeoutcom .5s;
+  animation: dragDrop 2s;
+  animation-delay: 10s;
   animation-fill-mode: forwards;
-  animation-delay: 1s;
-  width: calc(100% - 416px);
-  max-width: 1504px;
-  min-width: 404px;
 }
-.event-dragenter .droplet {
-  background-color: #E7ECE9;
-  opacity: .5;
-  z-index: 20;
-  height: 100%;
-  width: calc(100% - 416px);
-  max-width: 1504px;
-  min-width: 404px;
-}
-.event-drop .droplet {
-  background-color: #E7ECE9;
-  opacity: .5;
-  z-index: -10;
-  height: 100%;
-  width: calc(100% - 416px);
-  max-width: 1504px;
-  min-width: 404px;
-}
+//.event-dragenter .droplet {
+//  background-color: #E7ECE9;
+//  opacity: .5;
+//  height: 100%;
+//  animation: dragDrop .1s;
+//}
+//.event-drop .droplet {
+//  background-color: transparent;
+//  opacity: .5;
+//  z-index: -990;
+//  height: 100%;
+//}
 
 /**
   **********************************************************
   *    Tiny mce Overrides
   **********************************************************
 */
+.mce-container, .mce-container *, .mce-widget, .mce-widget *, .mce-reset {
+  font-family: $font-family-per-reg, $font-family-eng-reg!important;
+}
 
 .mce-panel {
   border: none!important;
@@ -139,8 +136,11 @@
  */
 
 .content iframe {
-  height: calc(100vh - 390px)!important;
+  height: calc(100vh - 470px)!important;
   min-height: 100px;
+  body {
+    font-family: $font-family-per-reg;
+  }
 }
 
 .compose-input {

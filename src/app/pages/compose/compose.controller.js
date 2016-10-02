@@ -9,7 +9,7 @@
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,PreviousState,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
-                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
+                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
 
@@ -71,6 +71,18 @@
         browser_spellcheck: true,
         selector: 'textarea',
         height : 200,
+        //content_css : "../styles/tinymce.css",
+        content_style : "@font-face {font-family: 'OpenSans';" +
+        "src: url('../assets/fonts/OpenSans/OpenSans-Regular.woff2') format('woff2')," +
+        "url('../assets/fonts/OpenSans/OpenSans-Regular.woff') format('woff')," +
+        "url('../assets/fonts/OpenSans/OpenSans-Regular.ttf')  format('truetype')," +
+        "url('../assets/fonts/OpenSans/OpenSans-Regular.svg#svgFontName') format('svg');}" +
+        "@font-face {font-family: 'YekanBakh';" +
+        "src: url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2') format('woff2')," +
+        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff')," +
+        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype')," +
+        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
+        "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 14pt!important;}",
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,
@@ -92,6 +104,8 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
+
+    NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
     vm.configs.tinymce.onChange = function (event) {
       // Put logic here for keypress and cut/paste changes
@@ -464,7 +478,7 @@
 
         if (PreviousState.Name === "") {
           if ($stateParams.placeId) {
-            $state.go('place-messages', {placeId: $stateParams.placeId});
+            $state.go('app.place-messages', {placeId: $stateParams.placeId});
           } else {
             $state.go(NST_DEFAULT.STATE);
           }
@@ -522,10 +536,10 @@
      *****************************/
 
     switch ($state.current.name) {
-      case 'place-compose':
+      case 'app.place-compose':
         if ($stateParams.placeId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.placeId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPlace($stateParams.placeId).then(function (place) {
               // FIXME: Push Compose Recipient View Model Instead
@@ -540,10 +554,10 @@
         }
         break;
 
-      case 'compose-forward':
+      case 'app.compose-forward':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
@@ -560,10 +574,10 @@
         }
         break;
 
-      case 'compose-reply-all':
+      case 'app.compose-reply-all':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
@@ -582,10 +596,10 @@
         }
         break;
 
-      case 'compose-reply-sender':
+      case 'app.compose-reply-sender':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
@@ -629,6 +643,31 @@
           }
         }
         break;
+    }
+
+    function addRecipients(placeId) {
+      var deferred = $q.defer();
+
+      var tag = _.find(vm.model.recipients, function (item) {
+        return item.id === placeId;
+      });
+
+      if (tag) {
+        deferred.resolve(tag);
+      } else {
+        getPlace(placeId).then(function (place) {
+          var tag = new NstVmSelectTag({
+            id: place.getId(),
+            name: place.getName(),
+            data: place
+          });
+
+          vm.model.recipients.push(tag);
+          deferred.resolve(tag);
+        }).catch(deferred.reject);
+      }
+
+      return deferred.promise;
     }
 
     NstSvcLoader.finished().then(function () {
@@ -696,5 +735,20 @@
         });
       });
     };
+
+    function onPlaceSelected(place) {
+      // addRecipients(placeId);
+      if (!_.some(vm.model.recipients, { id : place.id })) {
+        vm.model.recipients.push(new NstVmSelectTag({
+          id : place.id,
+          name : place.name,
+          data : new NstTinyPlace(place)
+        }));
+      }
+    }
+
+    $scope.$on('$destroy', function () {
+      NstSvcSidebar.removeOnItemClick();
+    });
   }
 })();
