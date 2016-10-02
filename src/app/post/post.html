@@ -75,8 +75,8 @@
     </div>
 
     <div id="Comments" class="_df _vat">
-      <!-- scroll-me="ctlPost.scrollToNewComment" -->
-      <div class="comment-msg _difv _fw" nst-scrollbar go-downward="true">
+      <!-- @FIXME : Use a proper animation to go downward -->
+      <div class="comment-msg _difv _fw" nst-scrollbar scroll-animate="false" go-downward="ctlPost.revealNewComment">
         <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
           <a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
         </div>

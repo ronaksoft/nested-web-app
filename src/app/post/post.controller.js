@@ -6,7 +6,7 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance,
+  function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
                           _, toastr,
                           NST_COMMENT_EVENT, NST_POST_EVENT,
                           NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
@@ -18,16 +18,13 @@
      *****************************/
 
     vm.user = new NstVmUser(NstSvcAuth.getUser());
-
+    vm.revealNewComment = false;
     vm.comments = [];
     vm.commentSettings = {
       date: Date.now(),
       limit: 10
     };
     vm.placesWithRemoveAccess = [];
-    vm.scrollbarConfig = {
-
-    };
 
     vm.postModel = undefined;
     vm.post = undefined;
@@ -75,6 +72,7 @@
         vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
         if (commentCount == 0){
             vm.scrollToNewComment = vm.comments.length;
+            vm.revealNewComment = true;
         }else{
           vm.scrollToNewComment = false;
         }
@@ -116,6 +114,7 @@
         vm.scrollToNewComment = vm.comments.length;
         event.currentTarget.value = '';
         vm.scrolling = $scope.unscrolled && true;
+        vm.revealNewComment = true;
       }).catch(function(error) {
         vm.nextComment = body;
         // TODO: decide && show toastr
@@ -302,6 +301,9 @@
             comments : vm.comments
           }
         }));
+        $timeout(function () {
+          vm.revealNewComment = true;
+        });
       });
     })();
 
@@ -494,5 +496,10 @@
 
       return false;
     }
+
+    // $timeout(function () {
+    //   vm.revealNewComment = true;
+    // });
+
   }
 })();
