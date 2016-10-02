@@ -249,11 +249,12 @@
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
-	controllerAs: 'ctlActivity',
+	      controllerAs: 'ctlActivity',
         options : {
           primary : true,
           group : 'activity'
         }
+      })
 
       /*****************************
        *****   Files Routes    ****
@@ -264,7 +265,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/components/files/place-files.html',
+        templateUrl: 'app/pages/places/files/place-files.html',
         controller: 'PlaceFilesController',
         controllerAs: 'ctlFiles'
       })
@@ -274,7 +275,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/components/files/place-files.html',
+        templateUrl: 'app/pages/places/files/place-files.html',
         controller: 'PlaceFilesController',
         controllerAs: 'ctlFiles'
       })

@@ -12,6 +12,7 @@
       <ul class="list-inline _df post-nav-top _difh _fw">
         <li>
           <p ng-show="ctlFiles.selectedFiles.length  == 0">All Files</p>
+          <!--//TODO:Add size filter// -->
           <p ng-show="ctlFiles.selectedFiles.length  > 0">{{ctlFiles.selectedFiles.length }}<span> Files</span><span
             class="total-files-size">{{ctlFiles.totalSelectedFileSize()}} MB</span></p>
         </li>
@@ -44,23 +45,22 @@
             <div class="item-size">{{item.size}} MB</div>
             <div class="item-date">JUL 21, 2016<span id="files-time"> 13:13</span></div>
           </div>
-    </div>
-    </li>
-    </ul>
+         </li>
+      </ul>
     <div class="_difc _fw optionrow">
       <div class="_df switch">
       </div>
     </div>
+      </div>
   </section>
   <div class="content-plus">
   </div>
   <div class="content-plus" id="content-plus">
     <div id="cp1">
       <!--FIXME:: use only one of place/place-id -->
-      <nst-recent-activity place-id="ctlSettings.placeId" place="ctlSettings.placeId" count="10"/>
+      <nst-recent-activity place-id="ctlFiles.placeId" place="ctlFiles.placeId" count="10"/>
     </div>
 
   </div>
-
 </div>
 

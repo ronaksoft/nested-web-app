@@ -18,7 +18,6 @@
     ];
 
     vm.onSelect = function (fileIds, el) {
-      console.log(fileIds, el)
       var selectedFiles = [];
       for (var i = 0; i < fileIds.length; i++) {
         var fileObj = vm.files.filter(function (file) {

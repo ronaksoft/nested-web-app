@@ -18,8 +18,7 @@
 
           var selectedArray = [];
 
-          seletableElement.selectonic
-          ({
+          seletableElement.selectonic({
             multi: true,
             mouseMode: "standard",
             keyboard: true,
