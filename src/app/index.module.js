@@ -5,6 +5,8 @@
     .module('ronak.nested.web', [
       'ronak.nested.web.main',
       'ronak.nested.web.common',
+      'ronak.nested.web.register',
+      'ronak.nested.web.authenticate',
       'ronak.nested.web.message',
       'ronak.nested.web.comment',
       'ronak.nested.web.components',

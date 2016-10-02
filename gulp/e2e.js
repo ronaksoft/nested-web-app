@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var http = require('http');
-var connect = require('connect');
+var connect = require('gulp-connect');
 var serveStatic = require('serve-static');
 var selenium = require('selenium-standalone');
 var webdriver = require('gulp-webdriver');

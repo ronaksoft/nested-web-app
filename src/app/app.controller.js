@@ -16,8 +16,6 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
 
-
-
     /*****************************
      *****  Configure TrackJs  ****
      *****************************/
@@ -40,8 +38,6 @@
     //   if (trackJs !== undefined)
     //     trackJs.configure(newConfigs);
     // }
-
-
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
       if (!vm.disconected) {
@@ -71,20 +67,16 @@
      *****************************/
 
 
-    $rootScope.$on('show-login-view', function () {
-      vm.loginView = true;
-    });
+    // NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
+    //   var reason = event.detail.reason;
+    //   if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
+    //     getValidState($state.current, $state.params);
+    //   }
+    // });
 
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.UNAUTHORIZE, function (event) {
-      var reason = event.detail.reason;
-      if (NST_UNREGISTER_REASON.DISCONNECT !== reason) {
-        getValidState($state.current, $state.params);
-      }
-    });
-
-    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-      getValidState($state.current, $state.params);
-    });
+    // NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
+    //   getValidState($state.current, $state.params);
+    // });
 
 
     /*****************************
@@ -102,7 +94,7 @@
       combo: 'c',
       description: 'compose state',
       callback: function () {
-        $state.go('place-compose');
+        $state.go('app.place-compose');
       }
     });
     /*****************************
@@ -120,13 +112,6 @@
      ***** Controller Methods ****
      *****************************/
 
-    vm.customScrollPreventConfig = {
-      axis: 'y',
-      mouseWheel: {
-        preventDefault: true
-      }
-    };
-
     // TODO should read from cache
     $rootScope.navView = false;
     $scope.topNavOpen = false;
@@ -137,26 +122,30 @@
     var scrollValue = 0;
     var scrollTimeout = false;
     $(window).scroll(function (event) {
+      if($(window).scrollLeft() > 0 ){
+        console.log("left");
+        return
+      }
       var t = event.currentTarget.scrollY;
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(function(){
-        vm.scrolled = $(document).scrollTop() - scrollValue;
-        scrollValue = $(document).scrollTop();
-        if (vm.scrolled < -5 && $rootScope.navView) {
-          $timeout(function () {
-            $rootScope.navView = false;
-          });
-        }
-      }, 10);
-      if (t > 55 && !$rootScope.navView && vm.scrolled > 0) {
+      if (t > 55 && !$rootScope.navView) {
         $timeout(function () {
-          $rootScope.navView = t > 55;
+          return $rootScope.navView = t > 55;
         });
-      } else if (t < 55 && $rootScope.navView) {
+      } else if (t < 56 && $rootScope.navView) {
         $timeout(function () {
-          $rootScope.navView = t > 55;
+          return $rootScope.navView = t > 55;
         });
       }
+      // clearTimeout(scrollTimeout);
+      // scrollTimeout = setTimeout(function(){
+      //   vm.scrolled = $(document).scrollTop() - scrollValue;
+      //   scrollValue = $(document).scrollTop();
+      //   if (vm.scrolled < -5 && $rootScope.navView) {
+      //     $timeout(function () {
+      //       return $rootScope.navView = false;
+      //     });
+      //   }
+      // }, 10);
     });
 
     /*****************************
@@ -193,7 +182,7 @@
         vm.loginView = false;
         if (toState.name) {
           return {
-            name: 'signin-back',
+            name: 'public.signin-back',
             params: {
               back: $window.encodeURIComponent(angular.toJson({
                 name: toState.name,

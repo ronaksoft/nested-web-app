@@ -92,6 +92,7 @@
     }
 
     PlaceFactory.prototype = new NstObservableObject();
+    
     PlaceFactory.prototype.constructor = PlaceFactory;
 
     PlaceFactory.prototype.has = function (id) {
@@ -772,7 +773,6 @@
 
     };
 
-
     PlaceFactory.prototype.getBookmarkOption = function (id, bookmarkId) {
       var factory = this;
 
@@ -1378,7 +1378,6 @@
       updatePlace(tree, place);
     }
 
-
     /**
      * addPlace - Finds parent of a place and puts the place in its children
      *
@@ -1417,8 +1416,6 @@
 
       return false;
     }
-
-
 
     function updatePlace(places, place, depth) {
       if (!_.isArray(places) || places.length === 0) {
