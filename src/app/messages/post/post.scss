@@ -19,10 +19,11 @@
   #PostBody {
     border: none;
     overflow: auto;
+    font-size: 14pt;
   }
   #PostTime {
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
     text-align: right;
     vertical-align: top;
     line-height: 32px;

@@ -4,8 +4,14 @@
   **********************************************************
  */
 @keyframes dragDrop {
-  from { z-index: -990;}
-  to { z-index: 1203;}
+  from {
+    opacity: .87;
+    visibility: visible;
+  }
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
 }
 .droplet {
   position: fixed;
@@ -13,20 +19,16 @@
   left: 0;
   top: 0;
   height: 100%;
-  z-index: -990;
-  background-color: transparent;
+  background-color: rgba(71,97,82,.1);
   transition: .3s;
+  z-index: 120;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .event-dragover .droplet {
-  background-color: rgba(71,97,82,.1);
   opacity: .87;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  position: fixed;
-  z-index: 1200;
+  visibility: visible;
 }
 
 .event-dragover .droplet:after {
@@ -47,14 +49,9 @@
   box-sizing: border-box;
 }
 .event-dragleave .droplet {
-  background-color: transparent;
-  opacity: .5;
-  z-index: -990;
-  height: 100%;
   animation: dragDrop 2s;
+  animation-delay: 10s;
   animation-fill-mode: forwards;
-  animation-direction: reverse;
-  animation-delay: 1s;
 }
 //.event-dragenter .droplet {
 //  background-color: #E7ECE9;
@@ -74,6 +71,9 @@
   *    Tiny mce Overrides
   **********************************************************
 */
+.mce-container, .mce-container *, .mce-widget, .mce-widget *, .mce-reset {
+  font-family: $font-family-per-reg, $font-family-eng-reg!important;
+}
 
 .mce-panel {
   border: none!important;
@@ -138,6 +138,9 @@
 .content iframe {
   height: calc(100vh - 470px)!important;
   min-height: 100px;
+  body {
+    font-family: $font-family-per-reg;
+  }
 }
 
 .compose-input {

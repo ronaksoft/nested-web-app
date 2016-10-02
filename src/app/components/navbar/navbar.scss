@@ -152,7 +152,7 @@ nst-navbar {
   justify-content: center;
   z-index: 50;
   width: 100%;
-  transition: $animation-dur;
+  transition: all $animation-dur;
   right: 0;
   top: 68px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);

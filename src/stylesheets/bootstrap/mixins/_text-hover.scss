@@ -3,8 +3,9 @@
 
 @mixin text-hover() {
   color: $color-grey-text;
-  transition: color $animation-dur;
+  //transition: color $animation-dur;
+  cursor: default;
   &:hover {
-    color: $color-solid;
+    //color: $color-solid;
   }
 }

@@ -21,7 +21,7 @@
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
   z-index: 20;
   background-color: $color-white;
-  overflow: hidden;
+  overflow: visible;
   transition: all $animation-dur;
   &:hover {
     box-shadow: 0 8px 16px rgba(0,0,0,0.2)
@@ -43,6 +43,7 @@
       width: 42px;
       justify-content: flex-start;
       margin-left: 10px;
+      margin-right: 4px;
     }
     h4 {
       margin: 0;
@@ -70,9 +71,8 @@
   }
   hr {
     width: calc(100% - 20px);
-    margin-left: auto;
-    margin-right: auto;
     border-color: $color-calm;
+    margin: 12px auto;
   }
   .post-card-badge {
     background-color: transparent;
@@ -174,16 +174,18 @@ h3 {
   border: solid 1px $color-border;
   border-top-width: 0;
   z-index: 10;
+  border-radius: 0 0 4px 4px;
   transition-duration: $animation-dur;
   overflow: hidden;
+  > *:first-child {
+    margin-top: 8px;
+  }
 }
+
 .post-card-comments {
   align-items: flex-start;
   padding: 8px 8px 0 8px;
   transition: 500ms;
-  &:first-of-type {
-    margin-top: 8px;
-  }
   &:hover {
     background-color: $color-hover-comment;
   }
