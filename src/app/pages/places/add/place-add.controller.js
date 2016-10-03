@@ -41,8 +41,12 @@
       privacy: {
         email: false,
         locked: true,
-        receptive: false,
+        receptive: 'off',
         search: false
+      },
+      policy:{
+        add_member : 'creators',
+        add_place : 'creators',
       },
       errors: [],
       modified: false,
@@ -280,9 +284,10 @@
               place.setName(vm.model.name);
               place.setDescription(vm.model.description);
               place.getPrivacy().setLocked(vm.model.privacy.locked);
-              place.getPrivacy().setEmail(vm.model.privacy.email);
               place.getPrivacy().setReceptive(vm.model.privacy.receptive);
               place.getPrivacy().setSearch(vm.model.privacy.search);
+              place.getPolicy().setAddPlace(vm.model.policy.add_place);
+              place.getPolicy().setAddMember(vm.model.policy.add_member);
 
               return reqCreatePlace(place).catch(function (fault) {
                 var deferred = $q.defer();
@@ -352,7 +357,7 @@
         vm.model.saved = true;
 
         toastr.success('Place ' + place.getName() + '#' + place.getId() + ' has been successfully created.', 'Place Added');
-        $state.go('place-settings', { placeId : place.getId() });
+        $state.go('app.place-settings', { placeId : place.getId() });
 
         return $q(function (res) {
           res(place);

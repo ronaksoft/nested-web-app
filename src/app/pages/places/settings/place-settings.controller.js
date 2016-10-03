@@ -28,6 +28,7 @@
     vm.hasSeeMembersAccess = null;
 
     vm.updatePrivacy = updatePrivacy;
+    vm.updatePolicy = updatePolicy;
     vm.setNotification = setNotification;
     vm.setBookmark = setBookmark;
     vm.update = update;
@@ -353,6 +354,16 @@
         vm.place.privacy[name] = value;
       }
       update('privacy', vm.place.privacy);
+    }
+
+    function updatePolicy(name, value) {
+      if (name && value &&
+        vm.place.policy[name] !== value) {
+        vm.place.policy[name] = value;
+      }else{
+        return;
+      }
+      update('policy', vm.place.policy);
     }
 
     function update(property, value) {

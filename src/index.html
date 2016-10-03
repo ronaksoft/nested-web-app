@@ -91,10 +91,9 @@
     }
   </style>
 </head>
-<body dir="ltr"  ng-controller="AppController as ctlApp">
-  <scroll-change-observer />
+<body dir="ltr">
 <div class="body">
-
+<nst-unseen-activity></nst-unseen-activity>
   <!--Initial loading part-->
   <div nst-show-effect data-show="{{ctlApp.showLoadingScreen}}" jq-options="{type:'fade', duration:400, delay:500}"
        data-show="ctlApp.showLoadingScreen"
@@ -132,18 +131,9 @@
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
   <![endif]-->
-  <div ng-if="ctlApp.loginView" ui-view class="nst-mood-sense-5 _fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen}"></div>
-  <div ng-if="!ctlApp.loginView" class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen,'show-mob-app': !userAppNoticed}">
-    <div
-      class="maincontainer _fw"
-      ng-class="{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
-      <nst-sidebar
-        collapsed="ctlApp.viewSettings.sidebar.collapsed"
-        class="_fn _fh ng-animate-disabled">
-      </nst-sidebar>
-      <div class="nst-container" ui-view></div>
-    </div>
-  </div>
+  <div ui-view></div>
+
+
 
   <disconnect-message data-disconnect="ctlApp.disconected" ></disconnect-message>
   <!-- build:js(src) scripts/vendor.js -->
