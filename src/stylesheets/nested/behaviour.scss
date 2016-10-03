@@ -9,12 +9,6 @@
 .maincontainer.sidetiny {
   .sidebar{
     width: $sidebar-width-tiny;
-    .side-top {
-      width: $sidebar-width-tiny;
-      #compose {
-        width: 54px;
-      }
-    }
     .side-profile {
       width: $sidebar-width-tiny;
       padding: 0;
