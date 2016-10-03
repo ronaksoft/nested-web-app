@@ -92,7 +92,7 @@
     }
 
     PlaceFactory.prototype = new NstObservableObject();
-    
+
     PlaceFactory.prototype.constructor = PlaceFactory;
 
     PlaceFactory.prototype.has = function (id) {
@@ -1376,6 +1376,57 @@
 
     PlaceFactory.prototype.updatePlaceInTree = function (tree, place) {
       updatePlace(tree, place);
+    }
+
+    PlaceFactory.prototype.getGrandPlaces = function () {
+      var deferred = $q.defer();
+
+      NstSvcServer.request('account/get_my_places', {}).then(function (data) {
+        if (data && _.isArray(data.places) && !_.isEmpty(data.places)) {
+          deferred.resolve(_.map(data.places, function (place) {
+            return new NstTinyPlace(place);
+          }));
+        } else {
+          deferred.resolve([]);
+        }
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+    }
+
+    PlaceFactory.prototype.getGrandPlaceChildren = function (grandPlaceId) {
+      var deferred = $q.defer();
+      var places = [];
+      var starredPlaces = [];
+
+      NstSvcServer.request('place/get_sub_places', {
+        place_id : grandPlaceId
+      }).then(function (data) {
+        console.log('subplaces', data);
+
+        if (_.isArray(data.places) && !_.isEmpty(data.places)) {
+          places = data.places;
+        }
+
+        return NstSvcServer.request('bookmark/get_places', {
+          bookmark_id : '_starred'
+        });
+      }).then(function (data) {
+        console.log('bookmark', data);
+        starredPlaces = data.places;
+        deferred.resolve(_.map(places, function (place) {
+          var model = new NstTinyPlace(place);
+          model.isStarred = _.includes(starredPlaces, place.id);
+
+          return model;
+        }));
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
     }
 
     /**

@@ -40,6 +40,10 @@
        *****      Ancestors     ****
        *****************************/
 
+       this.unreadCount = undefined;
+
+       this.totalMessagesCount = undefined;
+
       /**
        * Place's parent
        *
