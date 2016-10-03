@@ -721,36 +721,37 @@ ul ul li:last-child{
             width: calc(100% - 8px);
             margin-left: 8px;
           }
+          .place-item-inner {
+            margin-top: 4px;
+          }
         }
       }
     }
     .place-item-inner {
       margin-left: 4px;
-      min-height: 40px;
       display: flex;
       align-items: center;
       flex-direction: row;
       transition: all $animation-dur;
-      color: #869D91;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 17px;
-      word-wrap: break-word;
-      &:hover {
-        background-color: #E7FBF0;;
-        border-radius: 3px;
-        a {
-          color: $color-solid;
-        }
-      }
       a {
+        min-height: 40px;
         transition: all $animation-dur;
+        color: #869D91;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 40px;
+        word-wrap: break-word;
         padding-left: 4px;
         display: flex;
         b {
           color: #476152;
           font-weight: 700;
         }
+      }
+      a:hover {
+        background-color: #E7FBF0;;
+        border-radius: 3px;
+        color: $color-solid;
       }
       span {
         display: flex;
