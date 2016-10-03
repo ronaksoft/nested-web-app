@@ -703,23 +703,29 @@ ul ul li:last-child{
     }
   }
   .places {
-    padding: 0 10px;
+    padding: 0 5px;
     ul {
       width: 100%;
       list-style: none;
       display: flex;
       flex-direction: column;
       li {
+        //padding-left: 3px;
+        display: flex;
+        flex-direction: column;
         ul {
           border-left: 1px solid $color-wind;
-          padding-left: 12px;
-          .place-item-inner{
-            padding-left: 8px;
+          margin-left: 8px;
+          width: calc(100% - 8px);
+          ul {
+            width: calc(100% - 8px);
+            margin-left: 8px;
           }
         }
       }
     }
     .place-item-inner {
+      margin-left: 4px;
       min-height: 40px;
       display: flex;
       align-items: center;
@@ -731,13 +737,30 @@ ul ul li:last-child{
       line-height: 17px;
       word-wrap: break-word;
       &:hover {
-        background-color: $color-sense;
+        background-color: #E7FBF0;;
         border-radius: 3px;
-        color: black;
+        a {
+          color: $color-solid;
+        }
+      }
+      a {
+        transition: all $animation-dur;
+        padding-left: 4px;
+        display: flex;
+        b {
+          color: #476152;
+          font-weight: 700;
+        }
+      }
+      span {
+        display: flex;
+        padding-right: 10px;
+        label {
+          width: 12px;
+          height: 12px;
+        }
       }
     }
-    a {
 
-    }
   }
 }

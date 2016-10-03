@@ -108,25 +108,32 @@
       <h4>My Places</h4>
       <ul>
         <li>
-          <div class="place-item-inner"><a>Ronak Software Group <span>1</span></a></div>
+          <div class="place-item-inner"><a>Ronak Software Group <b>1</b></a></div>
         </li>
         <li>
           <ul>
             <li>
-              <div class="place-item-inner"><a>Design</a></div>
+              <div class="place-item-inner">
+                <a class="_fw">Design</a>
+                <span data-ng-if="true" class="e2-arrow _df">
+                  <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"
+                         data-ng-click="place.isCollapsed =! place.isCollapsed">
+                  </label>
+                </span>
+              </div>
             </li>
             <li>
               <ul>
                 <li>
-                  <div class="place-item-inner">Design Request</div>
+                  <div class="place-item-inner"><a>Design Request</a></div>
                 </li>
               </ul>
             </li>
             <li>
-              <div class="place-item-inner"><a>Copywriting 1</a></div>
+              <div class="place-item-inner"><a>Copywriting <b>1</b></a></div>
             </li>
             <li>
-              <div class="place-item-inner"><a>Kitchen 16</a></div>
+              <div class="place-item-inner"><a>Kitchen <b>16</b></a></div>
             </li>
           </ul>
         </li>
