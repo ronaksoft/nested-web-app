@@ -1,29 +1,38 @@
 <div class="sidebar _df">
   <div class="sidebar-wrapper">
     <div class="side-top">
-      <div class="nested-logo">
+      <div class="nested-logo detailed">
         <a ui-sref="app.messages()">
           <div id="Logo-white"></div>
         </a>
+        <a ui-sref="app.messages()">
+          <div id="Logo-type-white"></div>
+        </a>
       </div>
-      <a class="compose"  data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-        <div class="icon icon-side icon-compose _df"></div>
+      <a class="detailed"  data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <div>
+          <div class="compose"><div class="icon icon-side icon-compose _df"></div></div>
+        </div>
+        <h2>Compose</h2>
       </a>
       <div class="side-menu">
-        <div class="side-menu-item">
+        <div class="side-menu-item detailed">
           <a href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
             <div class="icon icon-solid icon-side icon-bookmarks"></div>
           </a>
+          <a>Favorite Places Feed</a>
         </div>
-        <div class="side-menu-item" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <div class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <a href="{{ctlSidebar.urls.unfiltered}}">
             <div class="icon icon-solid icon-side icon-all-place _df"></div>
           </a>
+          <a>All Places Feed</a>
         </div>
-        <div class="side-menu-item">
+        <div class="side-menu-item detailed">
           <a href="{{ctlSidebar.urls.sent}}" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
             <div class="icon icon-solid icon-side icon-sent"></div>
           </a>
+          <a>Favorite Places Feed</a>
         </div>
       </div>
     </div>
@@ -61,14 +70,23 @@
       <div class="shadow-bot"></div>
     </div>
     <div class="side-profile">
-      <a class="_fw _difh" href="#/profile">
-        <li class="profile-menu-mentions _df _fn"></li>
+      <div class="detailed" href="#/profile">
+        <div>
+          <i class="profile-menu-mentions"></i>
+        </div>
+        <div>Mention</div>
+      </div>
+      <a class="detailed" href="#/edit-profile">
+        <div>
+          <i class="profile-menu-setting"></i>
+        </div>
+        <div>Profile & Settings</div>
       </a>
-      <a class="_fw _difh" href="#/edit-profile">
-        <li class="profile-menu-setting _df _fn"></li>
-      </a>
-      <a class="_fw _difh" href="#/signout">
-        <li class="profile-menu-signout _df _fn"></li>
+      <a class="detailed" href="#/signout">
+        <div>
+          <i class="profile-menu-signout"></i>
+        </div>
+        <div>Log out</div>
       </a>
       <!--<a class="_fw">
         <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
@@ -183,7 +201,5 @@
       </div>
     </div>
   </div>
-  <div class="sidebar-details">
-    asdasd
-  </div>
+  <div class="sidebar-detail"></div>
 </div>
