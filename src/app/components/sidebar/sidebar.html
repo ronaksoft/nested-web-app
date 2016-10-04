@@ -27,34 +27,38 @@
         </div>
       </div>
     </div>
-    <div class="side-place-wrapper _fw" nst-scrollbar>
-      <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 && false">
-        <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
-          <div class="side-place-invite-item-inner active"  data-uib-tooltip="{{invitaion.place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
-              <div class="side-place-item-image">
-                <img class="account-initials-40" ng-src="{{invitaion.place.avatar}}"/>
-              </div>
-              <div class="_fw _difv _oh">
-                <span class="onlyExpand nst-font-small nst-mood-pending-fill">You've been invited to</span>
-                <span data-ellipsis="invitaion.place.name" class="invitation-name onlyExpand nst-mood-pending _txe _fw" style="color: #3296FF;">{{invitaion.place.name}}</span>
-              </div>
-            </a>
-          </div>
-        </li>
-      </ul>
-      <ul class="side-place">
-        <li class="side-place-item" data-ng-repeat="place in ctlSidebar.places"
-            data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
+    <div class="side-place-wrapper _fw">
+      <div class="shadow-top"></div>
+      <div class="places" nst-scrollbar>
+        <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 && false">
+          <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
+            <div class="side-place-invite-item-inner active"  data-uib-tooltip="{{invitaion.place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+              <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
+                <div class="side-place-item-image">
+                  <img class="account-initials-40" ng-src="{{invitaion.place.avatar}}"/>
+                </div>
+                <div class="_fw _difv _oh">
+                  <span class="onlyExpand nst-font-small nst-mood-pending-fill">You've been invited to</span>
+                  <span data-ellipsis="invitaion.place.name" class="invitation-name onlyExpand nst-mood-pending _txe _fw" style="color: #3296FF;">{{invitaion.place.name}}</span>
+                </div>
+              </a>
+            </div>
+          </li>
+        </ul>
+        <ul class="side-place">
+          <li class="side-place-item" data-ng-repeat="place in ctlSidebar.places"
+              data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
 
-      </ul>
-      <a href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="true" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-      <div class="create-place _fw">
-        <div>
-          <span>+</span>
-        </div>
+        </ul>
+        <a href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="true" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+          <div class="create-place _fw">
+            <div>
+              <span>+</span>
+            </div>
+          </div>
+        </a>
       </div>
-      </a>
+      <div class="shadow-bot"></div>
     </div>
     <div class="side-profile">
       <a class="_fw _difh" href="#/profile">
@@ -110,9 +114,9 @@
       <h4>Places</h4>
       <ul>
         <li>
-          <div class="place-item-inner"><a>Ronak Software Group <b>1</b></a></div>
-        </li>
-        <li>
+          <div class="place-item-inner">
+            <a>Ronak Software Group <b>1</b></a>
+          </div>
           <ul>
             <li>
               <div class="place-item-inner">
@@ -123,8 +127,6 @@
                   </label>
                 </span>
               </div>
-            </li>
-            <li>
               <ul data-ng-hide="ctlSidebar.nnnsss">
                 <li>
                   <div class="place-item-inner">
@@ -175,7 +177,13 @@
                data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
           <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
         </div>
+        <svg>
+          <use xlink:href="/assets/icons/nst-24.svg#fav24"></use>
+        </svg>
       </div>
     </div>
+  </div>
+  <div class="sidebar-details">
+    asdasd
   </div>
 </div>

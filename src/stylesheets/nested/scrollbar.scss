@@ -4,7 +4,7 @@
 .ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
   background-color: #999;}
 .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
-  background-color: transparent;}
+  background-color: transparent!important;}
 .ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
   background-color: #999;}
 .ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
@@ -19,7 +19,7 @@
 .ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
   background-color: #999;}
 .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
-  background-color: transparent;}
+  background-color: transparent!important;}
 .ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
   background-color: #999;}
 
@@ -30,6 +30,6 @@
 .ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
   background-color: #999;}
 .ps-container:hover > .ps-scrollbar-y-rail:hover {
-  background-color: transparent;}
+  background-color: transparent!important;}
 .ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
   background-color: #999;}
