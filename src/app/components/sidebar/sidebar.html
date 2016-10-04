@@ -83,7 +83,7 @@
       </a>-->
     </div>
   </div>
-  <div class="sidebar-border"></div>
+  <!--<div class="sidebar-border"></div>-->
   <div class="sidebar-plus-wrapper">
     <div class="side-profile-block">
       <div class="user-detail">
@@ -95,17 +95,19 @@
              data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
         <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
       </div>
+      <div class="side-stats">
+        <div class="unread">
+          <a class="_fw _df">Unread</a><span class="_fn _df">18</span>
+        </div>
+      </div>
     </div>
     <div class="side-stats">
-      <div class="unread">
-        <a class="_fw _df">Unread</a><span class="_fn _df">18</span>
-      </div>
       <div class="totalmsg">
         <a class="_fw _df">Total Messages</a><span class="_fn _df">3,685</span>
       </div>
     </div>
     <div class="places">
-      <h4>My Places</h4>
+      <h4>Places</h4>
       <ul>
         <li>
           <div class="place-item-inner"><a>Ronak Software Group <b>1</b></a></div>
@@ -116,16 +118,20 @@
               <div class="place-item-inner">
                 <a class="_fw">Design</a>
                 <span data-ng-if="true" class="e2-arrow _df">
-                  <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}"
-                         data-ng-click="place.isCollapsed =! place.isCollapsed">
+                  <label class="arrow-holder-nav {{ctlSidebar.nnnsss ? 'nst-arrow' : 'nst-arrow-rotated'}}"
+                         data-ng-click="ctlSidebar.nnnsss =! ctlSidebar.nnnsss">
                   </label>
                 </span>
               </div>
             </li>
             <li>
-              <ul>
+              <ul data-ng-hide="ctlSidebar.nnnsss">
                 <li>
-                  <div class="place-item-inner"><a>Design Request</a></div>
+                  <div class="place-item-inner">
+                    <div class="filler"></div>
+                    <div class="icon icon-solid icon-side icon-sent"></div>
+                    <a>Design Request</a>
+                  </div>
                 </li>
               </ul>
             </li>
@@ -133,7 +139,10 @@
               <div class="place-item-inner"><a>Copywriting <b>1</b></a></div>
             </li>
             <li>
-              <div class="place-item-inner"><a>Kitchen <b>16</b></a></div>
+              <div class="place-item-inner">
+                <div class="filler"></div>
+                <a>Kitchen <b>16</b></a>
+              </div>
             </li>
           </ul>
         </li>
@@ -141,6 +150,32 @@
     </div>
     <div class="teammates">
       <h4>4 Teammates</h4>
+      <div class="avatars">
+        <div class="user-avatar-28">
+          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-28"
+               initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
+               data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
+          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
+        </div>
+        <div class="user-avatar-28">
+          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-28"
+               initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
+               data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
+          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
+        </div>
+        <div class="user-avatar-28">
+          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-28"
+               initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
+               data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
+          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
+        </div>
+        <div class="user-avatar-28">
+          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-28"
+               initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
+               data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
+          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
+        </div>
+      </div>
     </div>
   </div>
 </div>

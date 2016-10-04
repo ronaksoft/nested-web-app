@@ -1,27 +1,35 @@
-.mCustomScrollBox {
-  width: 100%;
+//scrollbar style
+.ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+  background-color: #eee;}
+.ps-container.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: #999;}
+.ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+  background-color: transparent;}
+.ps-container.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: #999;}
+.ps-container > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: #aaa;}
+.ps-container > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: #aaa;
 }
-.mCSB_scrollTools_vertical {
-  display: block!important;
-}
-#content-wrapper>.mCustomScrollBox>.mCSB_container {
-  justify-content: center;
-  display: flex;
-  width: 100%!important;
-  min-height: 100%;
-}
-.mCSB_scrollTools {
-  width: 4px;
-  right: 2px!important;
-  z-index: 555;
-}
-#mCSB_3_scrollbar_vertical {
-  right: 4px;
-  z-index: 20;
-}
-.mCSB_2_scrollbar_vertical {
-  z-index: 555;
-}
-.mCSB_container {
-  width: 100%!important;
-}
+
+// scrollbar hover
+.ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail {
+  background-color: #eee;}
+.ps-container:hover.ps-in-scrolling.ps-x > .ps-scrollbar-x-rail > .ps-scrollbar-x {
+  background-color: #999;}
+.ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail {
+  background-color: transparent;}
+.ps-container:hover.ps-in-scrolling.ps-y > .ps-scrollbar-y-rail > .ps-scrollbar-y {
+  background-color: #999;}
+
+
+//rail hover
+.ps-container:hover > .ps-scrollbar-x-rail:hover {
+  background-color: #eee;}
+.ps-container:hover > .ps-scrollbar-x-rail:hover > .ps-scrollbar-x {
+  background-color: #999;}
+.ps-container:hover > .ps-scrollbar-y-rail:hover {
+  background-color: transparent;}
+.ps-container:hover > .ps-scrollbar-y-rail:hover > .ps-scrollbar-y {
+  background-color: #999;}

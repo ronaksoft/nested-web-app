@@ -33,3 +33,6 @@
 .user-avatar-48 {
   @include avatar(80px,48px);
 }
+.user-avatar-28 {
+  @include avatar(32px,28px);
+}
