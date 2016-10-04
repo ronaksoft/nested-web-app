@@ -4,11 +4,8 @@
     "LOG": {
       "LEVEL": 1,
       "GATEWAY": {
-        "TYPE": "http",
-        "OPTIONS": {
-          "METHOD": "POST",
-          "URL": "http://api.nested.ronaksoftware.com/log"
-        }
+        "TYPE": "console",
+        "OPTIONS": {}
       }
     },
     "SIGN_OUT_TARGET" : "http://webapp.nested.ronaksoftware.com",

@@ -6,7 +6,7 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q, $log,
-                              NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT,
+                              NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_PLACE_POLICY,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage,
                               NstObservableObject, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
@@ -456,7 +456,6 @@
 
     PlaceFactory.prototype.save = function (place) {
       var factory = this;
-
       if (place.isNew()) {
         var deferred = $q.defer();
 
@@ -492,6 +491,7 @@
 
           newPlace.setDescription(place.getDescription());
           newPlace.setPrivacy(place.getPrivacy());
+          newPlace.setPolicy(place.getPolicy());
           var promises = [
             factory.save(newPlace)
           ];
@@ -550,8 +550,10 @@
           // place_pic: place.getPicture().getOrg().getId(),
           'privacy.locked': place.getPrivacy().getLocked(),
           'privacy.receptive': place.getPrivacy().getReceptive(),
-          'privacy.email': place.getPrivacy().getEmail(),
-          'privacy.search': place.getPrivacy().getSearch()
+          // 'privacy.email': place.getPrivacy().getEmail(),
+          'privacy.search': place.getPrivacy().getSearch(),
+          'policy.add_member' : place.getPolicy().getAddMember(),
+          'policy.add_place' : place.getPolicy().getAddPlace(),
         };
 
         var query = new NstFactoryQuery(place.getId(), params);
@@ -1271,10 +1273,17 @@
 
       if (angular.isObject(placeData.privacy)) {
         place.setPrivacy({
-          email: placeData.privacy.email,
           locked: placeData.privacy.locked,
           receptive: placeData.privacy.receptive,
           search: placeData.privacy.search
+        });
+      }
+
+
+      if (angular.isObject(placeData.policy)) {
+        place.setPolicy({
+          add_place: placeData.policy.add_place,
+          add_member: placeData.policy.add_member,
         });
       }
 
@@ -1285,7 +1294,6 @@
       if (placeData.role) {
         this.setRoleOnPlace(place.getId(), placeData.role);
       }
-
       return place;
     };
 

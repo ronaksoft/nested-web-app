@@ -76,48 +76,36 @@
           <!--</div>-->
           <!--<div class="notice-bar">Parent members Can't view Inside The Place. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>-->
           <div class="_difc _fw">
-            <div class="_df"><label for="sw-receptive"><i class="nst-print _df"></i></label></div>
-            <div class="_df _fw"><label for="sw-receptive"><h6>Receiving</h6></label></div>
+            <div class="_df"><label><i class="nst-print _df"></i></label></div>
+            <div class="_df _fw"><label><h6>Receiving</h6></label></div>
             <div class="_df switch">
-              <input page-change-element type="checkbox" id="sw-receptive" class="inpsw" name="not"
-                     data-ng-model="ctlPlaceAdd.model.privacy.receptive">
-              <label for="sw-receptive"
-                     data-ng-click="ctlPlaceAdd.model.privacy.receptive && $event.preventDefault();">
-                <div class="labtxt _fw">ON</div>
+              <!--<input type="checkbox" data-ng-disabled="!ctlPlaceAdd.hasControlAccess" id="sw-receptive" class="inpsw"-->
+              <!--name="receptive" data-ng-model="ctlPlaceAdd.place.privacy.receptive"-->
+              <!--ng-change="ctlPlaceAdd.updatePrivacy()"/>-->
+              <label data-ng-click="ctlPlaceAdd.model.privacy.receptive = 'off' ">
+                <div class="labtxt " ng-class="{'butn-green' : ctlPlaceAdd.model.privacy.receptive === 'off'}">off</div>
               </label>
-              <label for="sw-receptive"
-                     data-ng-click="!ctlPlaceAdd.model.privacy.receptive && $event.preventDefault();">
-                <div class="labtxt _fw">OFF</div>
+              <br/>
+              <label data-ng-click="ctlPlaceAdd.model.privacy.receptive = 'internal' ">
+                <div class="labtxt " ng-class="{'butn-green' : ctlPlaceAdd.model.privacy.receptive === 'internal'}">internal</div>
+              </label>
+              <br/>
+              <label data-ng-click="ctlPlaceAdd.model.privacy.receptive = 'external'  ">
+                <div class="labtxt " ng-class="{'butn-green' : ctlPlaceAdd.model.privacy.receptive === 'external'}">external</div>
               </label>
             </div>
           </div>
           <div class="notice-bar" ng-if="!ctlPlaceAdd.model.privacy.receptive">Place will not receive messages from anyone. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
           <div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.receptive">Receive messages from everyone, even those who aren't members of this Place. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
-          <div class="_difc _fw">
-            <div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>
-            <div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>
-            <div class="_df switch">
-              <input page-change-element type="checkbox" id="sw-email" class="inpsw" name="not"
-                     data-ng-model="ctlPlaceAdd.model.privacy.email"
-                     data-ng-disabled="!ctlPlaceAdd.model.privacy.receptive">
-              <label for="sw-email" data-ng-click="ctlPlaceAdd.model.privacy.email && $event.preventDefault();">
-                <div class="labtxt _fw">ON</div>
-              </label>
-              <label for="sw-email" data-ng-click="!ctlPlaceAdd.model.privacy.email && $event.preventDefault();">
-                <div class="labtxt _fw">OFF</div>
-              </label>
-            </div>
-          </div>
-          <div class="notice-bar" ng-if="!ctlPlaceAdd.model.privacy.receptive">Disabled until "Receiving" off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
-          <div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.receptive && ctlPlaceAdd.model.privacy.email">Nested address can receive emails from everyone, even those outside of Nested. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
-          <div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.receptive && !ctlPlaceAdd.model.privacy.email">Nested address cannot receive emails. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+
+
           <div class="_difc _fw">
             <div class="_df"><label for="sw-search"><i class="nst-search _df"></i></label></div>
             <div class="_df _fw"><label for="sw-search"><h6>Search</h6></label></div>
             <div class="_df switch">
               <input page-change-element type="checkbox" id="sw-search" class="inpsw" name="not"
                      data-ng-model="ctlPlaceAdd.model.privacy.search"
-                     data-ng-disabled="!ctlPlaceAdd.model.privacy.receptive">
+                     data-ng-disabled="ctlPlaceAdd.model.privacy.receptive === 'off'">
               <label for="sw-search" data-ng-click="ctlPlaceAdd.model.privacy.search && $event.preventDefault();">
                 <div class="labtxt _fw">ON</div>
               </label>
@@ -126,9 +114,62 @@
               </label>
             </div>
           </div>
+
           <div class="notice-bar" ng-if="!ctlPlaceAdd.model.privacy.receptive">Disabled until "Receptive" off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
           <div class="notice-bar" ng-if="!ctlPlaceAdd.model.privacy.search && ctlPlaceAdd.model.privacy.receptive">Place cannot be found by searching within Nested. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
           <div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.search && ctlPlaceAdd.model.privacy.receptive">Anyone in Nested can search and find this place.<a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
+
+          <!---->
+          <!--<div class="_difc _fw">-->
+            <!--<div class="_df"><label for="sw-email"><i class="nst-atsign _df"></i></label></div>-->
+            <!--<div class="_df _fw"><label for="sw-email"><h6>Email</h6></label></div>-->
+            <!--<div class="_df switch">-->
+              <!--<input page-change-element type="checkbox" id="sw-email" class="inpsw" name="not"-->
+                     <!--data-ng-model="ctlPlaceAdd.model.privacy.email"-->
+                     <!--data-ng-disabled="!ctlPlaceAdd.model.privacy.receptive">-->
+              <!--<label for="sw-email" data-ng-click="ctlPlaceAdd.model.privacy.email && $event.preventDefault();">-->
+                <!--<div class="labtxt _fw">ON</div>-->
+              <!--</label>-->
+              <!--<label for="sw-email" data-ng-click="!ctlPlaceAdd.model.privacy.email && $event.preventDefault();">-->
+                <!--<div class="labtxt _fw">OFF</div>-->
+              <!--</label>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="notice-bar" ng-if="!ctlPlaceAdd.model.privacy.receptive">Disabled until "Receiving" off. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>-->
+          <!--<div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.receptive && ctlPlaceAdd.model.privacy.email">Nested address can receive emails from everyone, even those outside of Nested. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>-->
+          <!--<div class="notice-bar" ng-if="ctlPlaceAdd.model.privacy.receptive && !ctlPlaceAdd.model.privacy.email">Nested address cannot receive emails. <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>-->
+          <!---->
+
+          <div class="_difc _fw optionrow">
+            <div class="_df _fw"><label for="sw-addMember"><h6>Add Member</h6></label></div>
+            <div class="_df switch">
+              <input type="checkbox"
+                     id="sw-addMember" class="inpsw" name="addMember"
+                     data-ng-checked="ctlPlaceAdd.model.policy.add_member === 'creators'"/>
+              <label data-ng-click="ctlPlaceAdd.model.policy.add_member = 'creators'">
+                <div class="labtxt _fw">creators</div>
+              </label>
+              <label data-ng-click="ctlPlaceAdd.model.policy.add_member = 'everyone'">
+                <div class="labtxt _fw">everyone</div>
+              </label>
+            </div>
+          </div>
+
+          <div class="_difc _fw optionrow">
+            <div class="_df _fw"><label for="sw-addPlace"><h6>Add place</h6></label></div>
+            <div class="_df switch">
+              <input type="checkbox"
+                     id="sw-addPlace" class="inpsw" name="addPlace"
+                     data-ng-checked="ctlPlaceAdd.model.policy.add_place === 'creators'"/>
+              <label  data-ng-click="ctlPlaceAdd.model.policy.add_place = 'creators'">
+                <div class="labtxt _fw">creators</div>
+              </label>
+              <label  data-ng-click="ctlPlaceAdd.model.policy.add_place = 'everyone'">
+                <div class="labtxt _fw">everyone</div>
+              </label>
+            </div>
+          </div>
+
           <!--<div>-->
           <!--<button class="butn  butn-sense _fw" data-ng-click="ctlPlaceAdd.create()">Create Place</button>-->
           <!--</div>-->
