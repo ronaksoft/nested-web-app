@@ -18,7 +18,7 @@
       var parentsStack = [];
 
       var setSuperUserLevel = function (subPlace) {
-        var id = subPlace._id;
+        var id = subPlace.id;
         subPlace.children =  [];
 
         for (var i = parentsStack.length -1 ; i > -1; i--) {
@@ -36,7 +36,7 @@
 
       var setLevel = function (subPlace){
         subPlace = setSuperUserLevel(subPlace);
-        parentsStack.push(subPlace._id);
+        parentsStack.push(subPlace.id);
       };
 
 
@@ -48,7 +48,7 @@
           }else{
 
             places.filter(function(place){
-              return place._id === places[i].parent;
+              return place.id === places[i].parent;
             })[0].children.unshift(places[i]);
 
           }
@@ -58,16 +58,13 @@
       };
 
 
-      var sorteedPlaces = _.sortBy(places,['_id']);
+      var sorteedPlaces = _.sortBy(places,['id']);
 
       _.forEach(sorteedPlaces, setLevel);
 
-      console.log(3333, breedPlaces(sorteedPlaces));
       return breedPlaces(sorteedPlaces);
 
     }
-
-
 
 
   }

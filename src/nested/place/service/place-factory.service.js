@@ -1359,7 +1359,7 @@
 
     PlaceFactory.prototype.getChildTree = function (grandPlace, children) {
         var mapper = new NstSvcPlaceMap();
-        mapper.toTree(children);
+        mapper.toTree(grandPlace, children);
     };
 
     PlaceFactory.prototype.filterPlacesByAccessCode = function (places, code) {
@@ -1417,8 +1417,6 @@
       NstSvcServer.request('place/get_sub_places', {
         place_id : grandPlaceId
       }).then(function (data) {
-        console.log('subplaces', NstSvcPlaceMap.toTree(data.places));
-
         if (_.isArray(data.places) && !_.isEmpty(data.places)) {
           places = data.places;
 
@@ -1428,7 +1426,6 @@
           bookmark_id : '_starred'
         });
       }).then(function (data) {
-        console.log('bookmark', data);
         starredPlaces = data.places;
         deferred.resolve(_.map(places, function (place) {
           var model = new NstTinyPlace(place);

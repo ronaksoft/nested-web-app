@@ -6,14 +6,15 @@
     .controller('SidebarPlaceInfoController', SidebarPlaceInfoController);
 
   /** @ngInject */
-  function SidebarPlaceInfoController($q, $state, $stateParams, NstSvcLogger, NstSvcPlaceFactory,
+  function SidebarPlaceInfoController($q, $scope , $state, $stateParams, NstSvcLogger, NstSvcPlaceFactory,NstSvcPlaceMap,
     NST_DEFAULT, NstVmPlace) {
     var vm = this;
     vm.loading = false;
 
-    // Initializing
-    (function() {
+
+    function Initializing() {
       vm.loading = true;
+      vm.children = [];
 
       if (!stateParamIsProvided($stateParams.placeId)) {
         NstSvcLogger.info('Could not find placeId parameter in state url');
@@ -30,8 +31,13 @@
       }).finally(function () {
         vm.loading = false;
       });
+    };
 
-    })();
+    $scope.$watch(function () {
+      return $stateParams.placeId.split('.')[0]
+    },function () {
+      Initializing();
+    });
 
     function findGrandPlaceId(placeId) {
       return _.first(_.split(placeId, "."));
@@ -44,12 +50,13 @@
     function getGrandPlaceChildren(grandPlaceId) {
       var deferred = $q.defer();
       NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
-        deferred.resolve(_.map(places, function (place) {
+        var placesList =_.map(places, function (place) {
           var model = new NstVmPlace(place);
           model.href = $state.href('app.place-messages', { placeId : place.id });
-
           return model;
-        }));
+        });
+
+        deferred.resolve(NstSvcPlaceMap.toTree(placesList));
 
       }).catch(deferred.reject);
 
