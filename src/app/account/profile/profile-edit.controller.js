@@ -9,7 +9,7 @@
   function ProfileEditController($scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
     toastr, moment,
     NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
-    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility ) {
+    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility) {
     var vm = this;
 
     /*****************************

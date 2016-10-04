@@ -154,7 +154,7 @@
         } else {
           switch ($state.current.options.group) {
             case 'file':
-              place.href = $state.href('app.place-messages', { placeId : place.id });
+              place.href = $state.href('app.place-files', { placeId : place.id });
               break;
             case 'activity':
               place.href = $state.href('app.place-activity', { placeId : place.id });

@@ -419,15 +419,7 @@ ul ul .side-place-item-image {
 .side-place .side-place .side-place-item-inner > a:first-child {
   width: auto;
 }
-.side-place-item .e2-arrow {
-  width: 16px;
-  flex: none;
-  margin-right: 12px;
-  opacity: 1;
-  label {
-    transition: .2s;
-  }
-}
+
 .maincontainer.sidetiny .e2-arrow label {
   opacity: .2;
 }
@@ -848,6 +840,7 @@ ul ul li:last-child{
       }
     }
     .place-item-inner {
+      width: 100%;
       margin-left: 8px;
       display: flex;
       align-items: center;
