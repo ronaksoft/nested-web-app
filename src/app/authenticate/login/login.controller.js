@@ -72,9 +72,7 @@
             break;
         }
 
-        $timeout(function () {
-          vm.message.fill = false;
-        }, 5000);
+
       });
     };
   }

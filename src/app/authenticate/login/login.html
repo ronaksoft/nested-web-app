@@ -21,7 +21,7 @@
             </div>
 
             <div class="form-group">
-              <input data-ng-disabled="ctlLogin.progress" class="butn-green butn-lg butn-login" type="submit" value="Sign in">
+              <input data-ng-disabled="ctlLogin.progress" class="butn-green butn-lg butn-login" value="Sign in" type="submit"/>
             </div>
 
             <div class="row nst-vb">
@@ -35,7 +35,7 @@
           </fieldset>
         </form>
 
-        <div data-ng-if="ctlLogin.message.fill" class="{{ctlLogin.message.class}} _fw _tac" data-ng-bind="ctlLogin.message.text"></div>
+        <div data-ng-if="ctlLogin.message.fill" class="{{ctlLogin.message.class}} _fw _tac testing_err" data-ng-bind="ctlLogin.message.text"></div>
       </div>
     </div>
   </div>
