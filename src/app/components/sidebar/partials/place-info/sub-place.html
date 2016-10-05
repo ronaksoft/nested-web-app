@@ -1,0 +1,16 @@
+<div class="place-item-inner">
+  <div class="filler"></div>
+  <div ng-if="place.isStarred" class="icon icon-solid icon-side icon-sent"></div>
+  <a href="{{place.href}}">{{ place.name }}<b>{{place.level}}</b></a>
+  <span ng-if="place.children.length > 0" class="e2-arrow _df">
+    <label class="arrow-holder-nav {{place.collapse ? 'nst-arrow' : 'nst-arrow-rotated'}}"
+           data-ng-click="place.collapse =! place.collapse">
+    </label>
+  </span>
+</div>
+<ul ng-if="place.children.length > 0 && place.collapse" >
+  <li class="side-place-item" ng-repeat="child in place.children"
+      data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'" onload="place = child">
+  </li>
+</ul>
+
