@@ -35,7 +35,7 @@
   flex-direction: column;
   width: $sidebar-width-tiny;
   background-color: $sidebar-color;
-  overflow-x: visible;
+  overflow-x: hidden;
   position: relative;
   flex: none;
   & > div {
@@ -108,13 +108,9 @@
   }
   //sidebar animation on hovering sidebar
   &:hover {
-    animation: side-anim-detail .1s linear $sidebar-delay forwards;
-    .sidebar-detail {
-      //animation: name duration timing-function delay iteration-count direction fill-mode play-state;
-      animation: appearence $sidebar-app-dur linear $sidebar-delay forwards;
-    }
+    animation: side-anim-detail $sidebar-app-dur linear $sidebar-delay forwards;
     .side-place-wrapper {
-      animation: side-anim-places $sidebar-place-move linear $sidebar-scroll-move forwards;
+      //animation: side-anim-places $sidebar-place-move linear $sidebar-scroll-move forwards;
     }
     .detailed {
       > *:last-child {
@@ -159,17 +155,6 @@
   position: absolute;
   background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,.4));
   background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,.4) 100%);
-}
-.sidebar-detail {
-  background-color: $sidebar-color;
-  position: absolute;
-  will-change: opacity;
-  opacity: 0;
-  top: 0;
-  bottom: 0;
-  left: $sidebar-width-tiny;
-  width: $sidebar-width - $sidebar-width-tiny;
-  z-index: 0;
 }
 .side-top {
   z-index: 15;
@@ -310,7 +295,7 @@
   overflow: hidden;
   display: flex;
   justify-content: center;
-  width: $sidebar-width-tiny;
+  width: 100%;
   //transform: scaleX($sidebar-width-tiny/$sidebar-width);
   .places{
     position: relative;
@@ -476,22 +461,6 @@
     border-radius: 4px;
   }
 }
-.maincontainer.sidetiny .side-place-item-image {
-  @include avatar(46px,40px);
-}
-.maincontainer.sidetiny ul ul .side-place-item-image {
-  @include avatar(46px,32px);
-  img {
-    margin-right: 0;
-  }
-}
-ul ul .side-place-item-image {
-  @include avatar(46px,32px);
-  img {
-    margin-right: 0;
-  }
-}
-
 .side-place-name a {
   margin-left: 4px;
 }
@@ -779,7 +748,9 @@ ul ul li:last-child{
 
 
 .sidebar-plus-wrapper {
-  position: relative;
+  position: absolute;
+  right: 0;
+  top:0;
   z-index: 3;
   display: inline-flex;
   flex-direction: column;

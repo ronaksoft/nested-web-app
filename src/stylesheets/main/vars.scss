@@ -85,10 +85,10 @@ $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
 }
 @keyframes side-anim-detail {
   0% {
-    overflow-x: hidden;
+    width: $sidebar-width-tiny;
   }
   100% {
-    overflow-x: visible;
+    width: $sidebar-width;
     z-index: 4;
   }
 }

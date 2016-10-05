@@ -17,7 +17,6 @@
      *** Controller Properties ***
      *****************************/
 
-
     vm.stateParams = $stateParams;
     vm.invitation = {};
     vm.places = [];
@@ -112,12 +111,35 @@
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
 
-      vm.selectedGrandPlace = _.find(vm.places, function (place) {
-        return place.id === $stateParams.placeId.split('.')[0];
-      });
+      if ($stateParams.placeId) {
+        vm.selectedGrandPlace = _.find(vm.places, function (place) {
+          return place.id === $stateParams.placeId.split('.')[0];
+        });
+      }
 
       fixUrls();
     });
+
+    $rootScope.$on('$stateChangeSuccess',function(){
+      console.log('$stateParams.placeId',$stateParams.placeId)
+      if ($stateParams.placeId){
+        if (vm.selectedGrandPlace && $stateParams.placeId.split('.')[0] !== vm.selectedGrandPlace.id ){
+          vm.selectedGrandPlace = _.find(vm.places, function (place) {
+            return place.id === $stateParams.placeId.split('.')[0];
+          });
+        }else{
+          vm.selectedGrandPlace = _.find(vm.places, function (place) {
+            return place.id === $stateParams.placeId.split('.')[0];
+          });
+        }
+      }else{
+        if (vm.selectedGrandPlace){
+          vm.selectedGrandPlace = null;
+        }
+      }
+    });
+
+
 
 
     /*****************************

@@ -102,7 +102,7 @@
      *****************************/
 
     vm.viewSettings = {
-      sidebar: {collapsed: false},
+      sidebar: {collapsed: true},
       navbar: {collapsed: false}
     };
 
@@ -324,6 +324,11 @@
     }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      if (toParams.placeId){
+        vm.viewSettings.sidebar.collapsed = false;
+      }else{
+        vm.viewSettings.sidebar.collapsed = true ;
+      }
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
       //FIXMS:: check public pages in getValidState function
       if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER.concat(NST_PAGE.RECOVER)).indexOf(toState.name) > -1) {

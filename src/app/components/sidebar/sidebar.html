@@ -8,7 +8,7 @@
         <a ui-sref="app.messages()">
           <div id="Logo-type-white"></div>
         </a>
-      </div>
+      </div>{{ctlSidebar.collapsed}}
       <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <div>
           <div class="compose">
@@ -115,7 +115,7 @@
           Mention
         </div>
       </a>
-      <a class="detailed" href="#/edit-profile">
+      <a class="detailed" href="#/profile">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
@@ -147,10 +147,9 @@
         </div>
       </a>-->
     </div>
-    <div class="sidebar-detail"></div>
   </div>
   <!--<div class="sidebar-border"></div>-->
-  <div class="sidebar-plus-wrapper">
+  <div class="sidebar-plus-wrapper" ng-show="ctlSidebar.selectedGrandPlace">
     <div class="side-profile-block">
       <div class="user-detail">
         <a>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm sm">{{ctlSidebar.user.id}}@nested.me</span> </a>

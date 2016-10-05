@@ -17,12 +17,7 @@
       vm.loading = true;
       vm.children = [];
 
-      if (!stateParamIsProvided($stateParams.placeId)) {
-        NstSvcLogger.info('Could not find placeId parameter in state url');
-        return;
-      }
-
-      var grandPlaceId = $scope.ctlPlaceInfo.grandPlace.id;
+      var grandPlaceId = vm.grandPlace.id;
       getGrandPlaceChildren(grandPlaceId).then(function (places) {
         vm.children = places;
       }).catch(function (error) {
@@ -41,13 +36,13 @@
 
 
     $scope.$watch(function () {
-      if ($scope.ctlPlaceInfo.grandPlace) {
-        return $scope.ctlPlaceInfo.grandPlace.id;
+      if (vm.grandPlace) {
+        return vm.grandPlace.id;
       }else{
         return false
       }
     },function () {
-      if ($scope.ctlPlaceInfo.grandPlace) {
+      if (vm.grandPlace) {
         Initializing();
       }
     });
