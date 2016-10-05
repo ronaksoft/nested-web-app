@@ -1,5 +1,5 @@
 .sidebar {
-  position: fixed;
+  //position: fixed;
   left: 0;
   bottom: 0;
   top: 0;
@@ -36,6 +36,7 @@
   width: $sidebar-width-tiny;
   background-color: $sidebar-color;
   overflow-x: visible;
+  position: relative;
   flex: none;
   & > div {
     transition: $animation-dur;
@@ -762,6 +763,7 @@ ul ul li:last-child{
 
 
 .sidebar-plus-wrapper {
+  position: relative;
   z-index: 3;
   display: inline-flex;
   flex-direction: column;
@@ -782,6 +784,7 @@ ul ul li:last-child{
     letter-spacing: -1px;
     margin-bottom: 0;
     transition: all $animation-dur;
+    flex: none;
     &:hover {
       color: $color-solid;
     }
@@ -895,8 +898,8 @@ ul ul li:last-child{
     }
   }
   .places {
-    max-height: calc(100% - 303px);
-    min-height: calc(100% - 304px);
+    max-height: calc(100vh - 303px);
+    min-height: calc(100vh - 304px);
     padding-right: 8px;
     z-index: 3;
     position: relative;

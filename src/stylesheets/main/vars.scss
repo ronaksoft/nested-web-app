@@ -67,10 +67,12 @@ $sidebar-width-plus: $sidebar-width - $sidebar-width-tiny;
 $sidebar-color: #141414;
 $sidebar-bg-hover-color: #000;
 $sidebar-place-bg-hover-color: #F0F0F0;
+
+
 $sidebar-delay: 3s;
 $sidebar-app-dur: $animation-dur;
 $sidebar-scroll-move: $sidebar-delay/2;
-$sidebar-place-move: $sidebar-delay + $sidebar-app-dur - $sidebar-scroll-move;
+$sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
 
 /**
   *********************************
@@ -86,7 +88,7 @@ $sidebar-place-move: $sidebar-delay + $sidebar-app-dur - $sidebar-scroll-move;
     overflow-x: hidden;
   }
   100% {
-    overflow-x: visible!important;
+    overflow-x: visible;
     z-index: 4;
   }
 }
