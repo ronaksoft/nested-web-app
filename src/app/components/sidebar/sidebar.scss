@@ -172,6 +172,9 @@
   display: flex;
   align-items: center;
 }
+.nested-logo.detailed:hover {
+  background-color: transparent;
+}
 #Logo {
   background: url("../assets/icons/NestedLogo.svg") no-repeat;
   background-size: contain;

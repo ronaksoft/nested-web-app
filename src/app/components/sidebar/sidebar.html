@@ -22,30 +22,30 @@
         </div>
       </a>
       <div class="side-menu">
-        <div class="side-menu-item detailed">
-          <a href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}">
+          <span data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
             </svg>
-          </a>
-          <a>Favorite Places Feed</a>
-        </div>
-        <div class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-          <a href="{{ctlSidebar.urls.unfiltered}}">
+          </span>
+          <span>Favorite Places Feed</span>
+        </a>
+        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+          <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
             </svg>
-          </a>
-          <a>All Places Feed</a>
-        </div>
-        <div class="side-menu-item detailed">
-          <a href="{{ctlSidebar.urls.sent}}" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+          </span>
+          <span>All Places Feed</span>
+        </a>
+        <a class="side-menu-item detailed">
+          <span data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
             </svg>
-          </a>
-          <a>Favorite Places Feed</a>
-        </div>
+          </span>
+          <span>Favorite Places Feed</span>
+        </a>
       </div>
     </div>
     <div class="side-place-wrapper _fw">
