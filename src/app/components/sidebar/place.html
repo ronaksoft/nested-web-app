@@ -1,16 +1,14 @@
-<div class="side-place-item-inner detailed">
-  <a href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw">
-    <div ng-if="place.avatar" class="side-place-item-image">
-      <img class="" ng-src="{{place.avatar}}"/>
-    </div>
-  </a>
+<a href="{{place.href}}" class="side-place-item-inner detailed" ng-click="ctlSidebar.onPlaceClick($event,place);">
+  <div ng-if="place.avatar" class="side-place-item-image">
+    <img class="" ng-src="{{place.avatar}}"/>
+  </div>
   <div>
-    <a href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis="place.name">
+    <p href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis="place.name">
       {{place.name}}
-    </a>
+    </p>
     <span>{{::place.id}}@nested.me</span>
   </div>
-</div>
+</a>
 <ul class="side-place" data-ng-if="place.children.length > 0" data-ng-show="false">
   <li class="side-place-item" data-ng-repeat="child in place.children"
       data-ng-include="'app/components/sidebar/subplace.html'" onload="place = child" ></li>
