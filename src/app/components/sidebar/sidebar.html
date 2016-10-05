@@ -71,15 +71,13 @@
               data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
 
       </ul>
-      <a href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-      <div class="create-place _fw detailed">
-        <div>
-          <span>+</span>
-        </div>
-        <div>
-          <span>Create New Grand Place</span>
-        </div>
-      </div>
+      <a class="create-place _fw detailed" href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <span>
+          +
+        </span>
+        <span>
+          Create New Grand Place
+        </span>
       </a>
     </div>
     <div class="side-access">

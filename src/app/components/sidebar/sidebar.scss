@@ -1,5 +1,5 @@
 .sidebar {
-  //position: fixed;
+  position: fixed;
   left: 0;
   bottom: 0;
   top: 0;
@@ -68,14 +68,12 @@
       width: $sidebar-width - $sidebar-width-tiny;
       white-space: nowrap;
       justify-content: flex-start;
-      color: $color-white;
       font-size: 14px;
       font-weight: 400;
       align-items: center;
       display: flex;
       padding-left: 8px;
       a,span {
-        color: $color-white;
         display: flex;
       }
     }
@@ -124,10 +122,24 @@
   .side-menu-item.detailed,
   .side-access .detailed,
   .detailed#compoese,
+  .create-place.detailed,
   .side-place-item-inner.detailed > *:last-child{
-    opacity: .5;
+    color: rgba(255,255,255,.5);
+    svg {
+      fill: rgba(255,255,255,.5);
+      transition: all $animation-dur;
+    }
+    a, span {
+      color: rgba(255,255,255,.5);
+    }
     &:hover {
-      opacity: 1;
+      color: rgba(255,255,255,1);
+      a, span {
+        color: rgba(255,255,255,1);
+      }
+      svg {
+        fill: rgba(255,255,255,1);
+      }
     }
   }
 }
