@@ -1,6 +1,7 @@
 <a href="{{place.href}}" class="side-place-item-inner detailed" ng-click="ctlSidebar.onPlaceClick($event,place);">
   <div ng-if="place.avatar" class="side-place-item-image">
     <img class="" ng-src="{{place.avatar}}"/>
+    <div class="notif" ng-if="place.unreadPosts > 0">{{place.unreadPosts}}</div>
   </div>
   <div>
     <p href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis="place.name">

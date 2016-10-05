@@ -84,13 +84,6 @@
      *****************************/
 
     hotkeys.add({
-      combo: 'space',
-      description: 'collapse or expand sidebar',
-      callback: function () {
-        vm.viewSettings.sidebar.collapsed = !vm.viewSettings.sidebar.collapsed;
-      }
-    });
-    hotkeys.add({
       combo: 'c',
       description: 'compose state',
       callback: function () {
@@ -207,6 +200,13 @@
     }
 
     function getActivePages(state, params, previousState, previousParams) {
+
+      if(params && params.placeId){
+        vm.viewSettings.sidebar.collapsed = false;
+      }else {
+        vm.viewSettings.sidebar.collapsed = true;
+      }
+
       var pages = Object.keys(NST_PAGE);
       var page = {
         state: {
@@ -324,11 +324,6 @@
     }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      if (toParams.placeId){
-        vm.viewSettings.sidebar.collapsed = false;
-      }else{
-        vm.viewSettings.sidebar.collapsed = true ;
-      }
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
       //FIXMS:: check public pages in getValidState function
       if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER.concat(NST_PAGE.RECOVER)).indexOf(toState.name) > -1) {

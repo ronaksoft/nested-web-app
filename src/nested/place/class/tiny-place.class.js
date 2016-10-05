@@ -40,7 +40,7 @@
        *****      Ancestors     ****
        *****************************/
 
-       this.unreadCount = undefined;
+       this.unread_posts = undefined;
 
        this.totalMessagesCount = undefined;
 

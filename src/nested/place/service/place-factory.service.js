@@ -1164,6 +1164,7 @@
 
       place.setNew(false);
       place.setId(placeData._id);
+      place.setUnreadPosts(placeData.unread_posts);
       place.setName(placeData.name);
 
       if (angular.isObject(placeData.picture)) {
@@ -1223,6 +1224,7 @@
 
       place.setNew(false);
       place.setId(placeData._id);
+      place.setUnreadPosts(placeData.unread_posts);
       place.setName(placeData.name);
       place.setDescription(placeData.description);
 
@@ -1390,6 +1392,32 @@
     PlaceFactory.prototype.updatePlaceInTree = function (tree, place) {
       updatePlace(tree, place);
     }
+
+    PlaceFactory.prototype.getSubPlaceUnreadPosts = function (places) {
+      if (!_.isArray(places)) {
+        throw "Places is not Array"
+      }
+
+      var deferred = $q.defer();
+
+      NstSvcServer.request('place/count_unread_posts', {
+        'place_ids' : places.join(',')
+      }).then(function (data) {
+        console.log(data)
+        // if (data && _.isArray(data.places) && !_.isEmpty(data.places)) {
+        //   deferred.resolve(_.map(data.places, function (place) {
+        //     return new NstTinyPlace(place);
+        //   }));
+        // } else {
+        //   deferred.resolve([]);
+        // }
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+    };
+
 
     PlaceFactory.prototype.getGrandPlaces = function () {
       var deferred = $q.defer();

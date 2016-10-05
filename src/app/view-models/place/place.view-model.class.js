@@ -20,7 +20,7 @@
       this.avatar = '';
       this.depth = depth || 0;
       this.children = [];
-      this.unreadCount = 0;
+      this.unreadPosts = 0;
       this.totalMessagesCount = 0;
       this.isStarred = false;
 
@@ -29,7 +29,7 @@
         this.name = placeModel.getName();
         this.url = $state.href(getPlaceFilteredState(), { placeId: placeModel.getId() });
         this.avatar = placeModel.getPicture().getId() ? placeModel.getPicture().getThumbnail(32).getUrl().view : '/assets/icons/absents_place.svg';
-        this.unreadCount = placeModel.getUnreadCount();
+        this.unreadPosts = placeModel.getUnreadPosts();
         this.totalMessagesCount = placeModel.getTotalMessagesCount();
 
         if (placeModel instanceof NstPlace) {
