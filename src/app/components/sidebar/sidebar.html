@@ -11,26 +11,38 @@
       </div>
       <a class="detailed"  data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <div>
-          <div class="compose"><div class="icon icon-side icon-compose _df"></div></div>
+          <div class="compose">
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn32.svg#Wcompose"></use>
+            </svg>
+          </div>
         </div>
-        <h2>Compose</h2>
+        <div>
+          <span>Compose</span>
+        </div>
       </a>
       <div class="side-menu">
         <div class="side-menu-item detailed">
           <a href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-            <div class="icon icon-solid icon-side icon-bookmarks"></div>
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
+            </svg>
           </a>
           <a>Favorite Places Feed</a>
         </div>
         <div class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <a href="{{ctlSidebar.urls.unfiltered}}">
-            <div class="icon icon-solid icon-side icon-all-place _df"></div>
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
+            </svg>
           </a>
           <a>All Places Feed</a>
         </div>
         <div class="side-menu-item detailed">
           <a href="{{ctlSidebar.urls.sent}}" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-            <div class="icon icon-solid icon-side icon-sent"></div>
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
+            </svg>
           </a>
           <a>Favorite Places Feed</a>
         </div>
@@ -39,7 +51,7 @@
     <div class="side-place-wrapper _fw">
       <div class="shadow-top"></div>
       <div class="places" nst-scrollbar>
-        <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 && false">
+        <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 ">
           <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
             <div class="side-place-invite-item-inner active"  data-uib-tooltip="{{invitaion.place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
               <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
@@ -60,15 +72,17 @@
 
       </ul>
       <a href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-      <div class="create-place _fw">
+      <div class="create-place _fw detailed">
         <div>
-          <span ng-if="!ctlSidebar.collapsed">+ Create New Grand Place</span>
-          <span ng-if="ctlSidebar.collapsed">+</span>
+          <span>+</span>
+        </div>
+        <div>
+          <span>Create New Grand Place</span>
         </div>
       </div>
       </a>
     </div>
-    <div class="side-profile">
+    <div class="side-access">
       <a class="_fw" ng-show="profileMenu" href="#/profile">
         <div class="_difh _fw">
           <li class="profile-menu-edit-profile _df _fn"></li>
@@ -89,22 +103,28 @@
       </div>
       <div class="shadow-bot"></div>
     </div>
-    <div class="side-profile">
+    <div class="side-access">
       <div class="detailed" href="#/profile">
         <div>
-          <i class="profile-menu-mentions"></i>
+          <svg id="mentions">
+            <use xlink:href="/assets/icons/nst-icn32.svg#W_"></use>
+          </svg>
         </div>
         <div>Mention</div>
       </div>
       <a class="detailed" href="#/edit-profile">
         <div>
-          <i class="profile-menu-setting"></i>
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
+          </svg>
         </div>
         <div>Profile & Settings</div>
       </a>
       <a class="detailed" href="#/signout">
         <div>
-          <i class="profile-menu-signout"></i>
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>
+          </svg>
         </div>
         <div>Log out</div>
       </a>

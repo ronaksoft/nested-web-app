@@ -11,10 +11,6 @@
   > div {
     transition: $animation-dur;
   }
-  svg {
-    width: 24px;
-    height: 24px;
-  }
 }
 .sidebar-wrapper {
   z-index: 2;
@@ -50,12 +46,40 @@
       color: $color-white;
       font-size: 14px;
       font-weight: 400;
+      align-items: center;
+      display: flex;
       a,span {
-        color: $color-white
+        color: $color-white;
+        display: flex;
       }
     }
     &:hover {
       opacity: 1;
+    }
+  }
+  .side-place-item-inner.detailed {
+    > *:last-child {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      > a {
+        display: flex;
+        line-height: 19px;
+        font-size: 16px;
+      }
+      > span {
+        line-height: 16px;
+        font-size: 13px;
+        opacity: 0.25;
+      }
+    }
+  }
+  .side-menu-item.detailed {
+    > *:last-child {
+      line-height: 19px;
+      font-size: 16px;
+      font-weight: 700;
     }
   }
   &:hover {
@@ -135,6 +159,12 @@
   height: 48px;
   width: 48px;
   border-radius: 40px;
+  svg {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    fill: $color-white;
+  }
 }
 
 #compose {
@@ -181,6 +211,12 @@
     flex-direction: row;
     width: 100%;
     justify-content: center;
+  }
+  svg {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    fill: white;
   }
 }
 
@@ -447,12 +483,12 @@ ul ul .side-place-item-image {
     text-align: center;
   }
   div:hover {
-    background-color: rgba(71,97,82,.1);
-    border-radius: 10px;
+    //background-color: rgba(71,97,82,.1);
+    //border-radius: 10px;
   }
 }
 
-.side-profile {
+.side-access {
   z-index: 4;
   position: fixed;
   width: $sidebar-width;
@@ -480,19 +516,28 @@ ul ul .side-place-item-image {
       background-color: $sidebar-bg-hover-color;
     }
   }
+  svg {
+    fill: $color-white;
+    width: 24px;
+    height: 24px;
+  }
+  svg#mentions {
+    width: 32px;
+    height: 32px;
+  }
 }
-.side-profile span{
+.side-access span{
   color: $color-solid;
   line-height: 1em;
 }
-.side-profile span.sm{
+.side-access span.sm{
   font-size: $font-size-small;
   color: $color-storm;
 }
-.side-profile .icon{
+.side-access .icon{
   filter: contrast(1) grayscale(100%);
 }
-.side-profile + .popover {
+.side-access + .popover {
   top: calc(100% - 150px)!important;
   & * {
     animation-duration: .1s;
