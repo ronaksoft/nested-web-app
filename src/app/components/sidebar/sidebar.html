@@ -115,7 +115,7 @@
           Mention
         </div>
       </a>
-      <a class="detailed" href="#/edit-profile">
+      <a class="detailed" href="#/profile">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
@@ -147,10 +147,9 @@
         </div>
       </a>-->
     </div>
-    <div class="sidebar-detail"></div>
   </div>
   <!--<div class="sidebar-border"></div>-->
-  <div class="sidebar-plus-wrapper">
+  <div class="sidebar-plus-wrapper" ng-show="ctlSidebar.selectedGrandPlace">
     <div class="side-profile-block">
       <div class="user-detail">
         <a>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm sm">{{ctlSidebar.user.id}}@nested.me</span> </a>

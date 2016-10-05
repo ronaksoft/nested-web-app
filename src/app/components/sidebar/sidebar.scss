@@ -35,7 +35,7 @@
   flex-direction: column;
   width: $sidebar-width-tiny;
   background-color: $sidebar-color;
-  overflow-x: visible;
+  overflow-x: hidden;
   flex: none;
   & > div {
     transition: $animation-dur;
@@ -106,13 +106,15 @@
   }
   //sidebar animation on hovering sidebar
   &:hover {
-    animation: side-anim-detail .1s linear $sidebar-delay forwards;
+    //animation: side-anim-detail .1s linear $sidebar-delay forwards;
+    width: $sidebar-width;
     .sidebar-detail {
       //animation: name duration timing-function delay iteration-count direction fill-mode play-state;
       animation: appearence $sidebar-app-dur linear $sidebar-delay forwards;
     }
     .side-place-wrapper {
-      animation: side-anim-places $sidebar-place-move linear $sidebar-scroll-move forwards;
+      width: 100%;
+      //animation: side-anim-places $sidebar-place-move linear $sidebar-scroll-move forwards;
     }
     .detailed {
       > *:last-child {
