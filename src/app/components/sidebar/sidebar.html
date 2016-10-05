@@ -9,7 +9,7 @@
           <div id="Logo-type-white"></div>
         </a>
       </div>
-      <a class="detailed"  data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+      <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <div>
           <div class="compose">
             <svg>
@@ -50,7 +50,7 @@
     </div>
     <div class="side-place-wrapper _fw">
       <div class="shadow-top"></div>
-      <div class="places" nst-scrollbar>
+      <div class="places" nst-scrollbar suppress-scroll-x="true">
         <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 ">
           <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
             <div class="side-place-invite-item-inner active"  data-uib-tooltip="{{invitaion.place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
@@ -109,8 +109,11 @@
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#W_"></use>
           </svg>
+          <div class="notif">999</div>
         </div>
-        <div>Mention</div>
+        <div>
+          Mention
+        </div>
       </a>
       <a class="detailed" href="#/edit-profile">
         <div>

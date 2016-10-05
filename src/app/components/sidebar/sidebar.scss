@@ -11,6 +11,23 @@
   > div {
     transition: $animation-dur;
   }
+  .notif {
+    height: 20px;
+    color: $color-white;
+    background-color: rgb(255, 0, 20);
+    border-radius: 10px;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    border-color: #800000;
+    line-height: 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    top: 0;
+    right: 6px;
+    padding: 0 8px;
+  }
 }
 .sidebar-wrapper {
   z-index: 2;
@@ -29,8 +46,12 @@
     flex-direction: row;
     display: inline-flex;
     width: 100%;
-    opacity: .5;
     transition: all $animation-dur;
+    &:hover {
+      transition-duration: $animation-dur;
+      transition-timing-function: ease;
+      background-color: $sidebar-bg-hover-color;
+    }
     > * {
       flex: none;
     }
@@ -38,6 +59,9 @@
       width: $sidebar-width-tiny;
       justify-content: center;
       display: flex;
+      position: relative;
+      align-items: center;
+      height: 100%;
     }
     > *:last-child {
       width: $sidebar-width - $sidebar-width-tiny;
@@ -48,13 +72,12 @@
       font-weight: 400;
       align-items: center;
       display: flex;
+      padding-left: 8px;
+      opacity: 0;
       a,span {
         color: $color-white;
         display: flex;
       }
-    }
-    &:hover {
-      opacity: 1;
     }
   }
   .side-place-item-inner.detailed {
@@ -82,9 +105,30 @@
       font-weight: 700;
     }
   }
+  //sidebar animation on hovering sidebar
   &:hover {
-    overflow-x: visible;
-    z-index: 4;
+    animation: side-anim-detail .1s linear $sidebar-delay forwards;
+    .sidebar-detail {
+      //animation: name duration timing-function delay iteration-count direction fill-mode play-state;
+      animation: appearence $sidebar-app-dur linear $sidebar-delay forwards;
+    }
+    .side-place-wrapper {
+      animation: side-anim-places $sidebar-place-move linear $sidebar-scroll-move forwards;
+    }
+    .detailed {
+      > *:last-child {
+        animation: appearence $sidebar-app-dur linear 1.3s forwards;
+      }
+    }
+  }
+  .side-menu-item.detailed,
+  .side-access .detailed,
+  .detailed#compoese,
+  .side-place-item-inner.detailed > *:last-child{
+    opacity: .5;
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 .sidebar-border {
@@ -104,6 +148,8 @@
 .sidebar-detail {
   background-color: $sidebar-color;
   position: absolute;
+  will-change: opacity;
+  opacity: 0;
   top: 0;
   bottom: 0;
   left: $sidebar-width-tiny;
@@ -227,14 +273,6 @@
   font-weight: 200;
   margin-left: 3px;
   cursor: pointer;
-  transition: $animation-dur;
-}
-.side-menu-item:hover{
-
-  background-color: $sidebar-bg-hover-color;
-  transition-duration: $animation-dur;
-  transition-property: all;
-  transition-timing-function: ease;
 }
 .side-menu-item:active {
 }
@@ -253,12 +291,14 @@
   overflow: hidden;
   display: flex;
   justify-content: center;
-  width: $sidebar-width;
+  width: $sidebar-width-tiny;
+  //transform: scaleX($sidebar-width-tiny/$sidebar-width);
   .places{
     position: relative;
     overflow: auto;
     z-index: 3;
     width: 100%;
+    justify-content: flex-start;
     padding: 16px 0;
   }
   .shadow-top {
@@ -504,16 +544,13 @@ ul ul .side-place-item-image {
   a {
     align-items: center;
     justify-content: center;
-    height: 48px;
-    transition: $animation-dur;
+    height: 40px;
     & > img {
       //margin-left: 22px;
       transition: $animation-dur;
     }
-    &:hover {
-      transition-duration: $animation-dur;
-      transition-timing-function: ease;
-      background-color: $sidebar-bg-hover-color;
+    &:first-child {
+      height: 48px;
     }
   }
   svg {

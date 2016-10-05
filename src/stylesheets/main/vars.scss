@@ -67,6 +67,10 @@ $sidebar-width-plus: $sidebar-width - $sidebar-width-tiny;
 $sidebar-color: #141414;
 $sidebar-bg-hover-color: #000;
 $sidebar-place-bg-hover-color: #F0F0F0;
+$sidebar-delay: 3s;
+$sidebar-app-dur: $animation-dur;
+$sidebar-scroll-move: $sidebar-delay/2;
+$sidebar-place-move: $sidebar-delay + $sidebar-app-dur - $sidebar-scroll-move;
 
 /**
   *********************************
@@ -76,6 +80,31 @@ $sidebar-place-bg-hover-color: #F0F0F0;
 @keyframes appearence {
   from {opacity: 0;}
   to {opacity: 1;}
+}
+@keyframes side-anim-detail {
+  from {
+    overflow: hidden;
+  }
+  to {
+    overflow: visible;
+    z-index: 4;
+  }
+}
+@keyframes side-anim {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes side-anim-places {
+  from {
+    width: $sidebar-width-tiny;
+  }
+  to {
+    width: $sidebar-width;
+  }
 }
 @keyframes appearenceOp {
   from {opacity: 0;}
