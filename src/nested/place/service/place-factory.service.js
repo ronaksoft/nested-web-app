@@ -1429,8 +1429,7 @@
         starredPlaces = data.places;
         deferred.resolve(_.map(places, function (place) {
           var model = new NstTinyPlace(place);
-          model.isStarred = _.includes(starredPlaces, place.id);
-
+          model.isStarred = _.includes(starredPlaces, model.id);
           return model;
         }));
       }).catch(function (error) {

@@ -14,7 +14,7 @@
       bindToController : true,
       link: link,
       scope: {
-        place : '=',
+        grandPlace : '='
       }
     };
 

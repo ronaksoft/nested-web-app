@@ -92,6 +92,8 @@
           id : place.id,
           name : place.name
         });
+      }else{
+        vm.selectedGrandPlace = place;
       }
     }
 
@@ -109,6 +111,11 @@
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
+
+      vm.selectedGrandPlace = _.find(vm.places, function (place) {
+        return place.id === $stateParams.placeId.split('.')[0];
+      });
+
       fixUrls();
     });
 
@@ -341,7 +348,12 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
-      NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(event.detail.place));
+      var place = mapPlace(event.detail.place);
+      if (place.id === $stateParams.placeId){
+        vm.selectedGrandPlace = mapPlace(event.detail.place);
+      }
+      NstSvcPlaceFactory.addPlaceToTree(vm.places, place);
+
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
@@ -350,6 +362,10 @@
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
       NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
+      var place = mapPlace(event.detail.place);
+      if (place.id === $stateParams.placeId){
+        vm.selectedGrandPlace = mapPlace(event.detail.place);
+      }
     });
 
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {

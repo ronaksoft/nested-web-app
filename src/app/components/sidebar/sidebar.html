@@ -153,10 +153,10 @@
         <a>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm sm">{{ctlSidebar.user.id}}@nested.me</span> </a>
       </div>
       <div class="user-avatar">
-        <img ng-if="!ctlSidebar.user.avatar" class="account-initials-32"
-             initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
+        <img ng-if="!ctlSidebar.selectedGrandPlace.avatar" class="account-initials-32"
+             initials="ctlSidebar.selectedGrandPlace.name" data-url="ctlSidebar.selectedGrandPlace.avatar"
              data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
-        <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
+        <img ng-if="ctlSidebar.selectedGrandPlace.avatar" ng-src="{{ctlSidebar.selectedGrandPlace.avatar}}"/>
       </div>
       <div class="side-stats">
         <div class="unread">
@@ -171,7 +171,7 @@
     </div>
     <div class="places">
       <h4>Places</h4>
-      <nst-sidebar-place-info></nst-sidebar-place-info>
+      <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace"></nst-sidebar-place-info>
       <!--<ul>-->
         <!--<li>-->
           <!--<div class="place-item-inner">-->

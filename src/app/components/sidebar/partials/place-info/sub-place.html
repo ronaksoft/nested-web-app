@@ -10,7 +10,7 @@
 </div>
 <ul ng-if="place.children.length > 0 && place.collapse" >
   <li class="side-place-item" ng-repeat="child in place.children"
-      data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'" onload="place = child">
+      data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'" onload="place = child"
+      ng-init="currentPlaceId = currentPlaceId">
   </li>
 </ul>
-

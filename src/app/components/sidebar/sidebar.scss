@@ -878,7 +878,7 @@ ul ul li:last-child{
           }
         }
         &:last-child {
-          .filler {
+          >div>.filler {
             visibility: visible;
           }
         }
