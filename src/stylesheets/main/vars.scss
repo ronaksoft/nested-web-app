@@ -69,8 +69,8 @@ $sidebar-bg-hover-color: #000;
 $sidebar-place-bg-hover-color: #F0F0F0;
 
 
-$sidebar-delay: 3s;
-$sidebar-app-dur: $animation-dur;
+$sidebar-delay: 1s;
+$sidebar-app-dur: 100ms;
 $sidebar-scroll-move: $sidebar-delay/2;
 $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
 
