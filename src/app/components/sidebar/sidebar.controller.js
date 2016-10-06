@@ -28,6 +28,7 @@
      *****************************/
 
     vm.range = function (num) {
+      console.log(num)
       var seq = [];
       for (var i = 0; i < num; i++) {
         seq.push(i);

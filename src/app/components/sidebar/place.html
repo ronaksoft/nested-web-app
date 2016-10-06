@@ -10,7 +10,7 @@
     <span>{{::place.id}}@nested.me</span>
   </div>
 </a>
-<ul class="side-place" data-ng-if="place.children.length > 0" data-ng-show="false">
+<ul class="side-place" data-ng-if="place.children.length > 0 && false">
   <li class="side-place-item" data-ng-repeat="child in place.children"
       data-ng-include="'app/components/sidebar/subplace.html'" onload="place = child" ></li>
 </ul>
