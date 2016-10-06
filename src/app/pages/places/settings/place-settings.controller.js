@@ -6,11 +6,11 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $rootScope, $stateParams, $q, $uibModal, $log, $state, toastr, $timeout,
+  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
     NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_DEFAULT,
-    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl, NstSvcInvitationFactory,
+    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
-    NstPlace, NstPicture, NstVmMemberItem) {
+    NstVmMemberItem) {
     var vm = this;
 
     /*****************************
@@ -26,6 +26,7 @@
     vm.hasControlAccess = null;
     vm.hasAddMembersAccess = null;
     vm.hasSeeMembersAccess = null;
+    vm.isSearchEnabled = true;
 
     vm.updatePrivacy = updatePrivacy;
     vm.updatePolicy = updatePolicy;
@@ -33,17 +34,16 @@
     vm.setBookmark = setBookmark;
     vm.update = update;
     vm.addMember = addMember;
-    vm.inviteParticipant = inviteParticipant;
     vm.loadImage = loadImage;
     vm.confirmToLock = confirmToLock;
     vm.confirmToLeave = confirmToLeave;
     vm.confirmToRemove = confirmToRemove;
     vm.hasAnyTeamate = hasAnyTeamate;
-    vm.hasAnyParticipant = hasAnyParticipant;
     vm.allowedToAddSubPlace = allowedToAddSubPlace;
     vm.allowedToDelete = allowedToDelete;
     vm.allowedToLeave = allowedToLeave;
     vm.hasAnyControlOverHere = hasAnyControlOverHere;
+    vm.setReceptive = setReceptive;
 
     (function() {
       $log.debug('Initializing of PlaceSettingsController just started...');
@@ -52,9 +52,10 @@
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
+        console.log(vm.place);
         vm.placeLoaded = true;
-        vm.isGrandPlace = !vm.place.parent || !vm.place.parent.id;
-
+        vm.isGrandPlace = (!place.parent) && (place.grandParent.id === place.id);
+        vm.isSearchEnabled = vm.place.privacy.receptive !== 'off';
         $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));
 
         return $q.all([
@@ -64,8 +65,7 @@
           NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
           NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
           NstSvcPlaceFactory.getNotificationOption(vm.placeId),
-          NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred'),
-          NstSvcPlaceFactory.getBookmarkedPlaces('_starred')
+          NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred')
         ]);
       }).then(function(values) {
         vm.hasRemoveAccess = values[0];
@@ -75,9 +75,8 @@
         vm.hasSeeMembersAccess = values[4];
         vm.options.notification = values[5];
         vm.options.bookmark = values[6];
-        vm.options.bookmark1 = values[7];
 
-        $log.debug(NstUtility.string.format('Place "{0}" settings retrieved successfully.', vm.place.name));
+        $log.debug(NstUtility.string.format('Place "{0}" settings have been retrieved successfully.', vm.place.name));
 
         return vm.hasSeeMembersAccess ?
           NstSvcPlaceFactory.getMembers(vm.placeId) :
@@ -91,37 +90,24 @@
           return new NstVmMemberItem(member, 'key_holder');
         }));
 
-        vm.participants = _.map(members.knownGuests, function (member) {
-          return new NstVmMemberItem(member, 'known_guest');
-        });
-
-        $log.debug(NstUtility.string.format('Place "{0}" has {1} creator(s), {2} key holder(s) and {3} known guest(s).',
+        $log.debug(NstUtility.string.format('Place "{0}" has {1} creator(s), {2} key holder(s).',
           vm.place.name,
           members.creators ? members.creators.length : 0,
-          members.keyHolders ? members.keyHolders.length : 0,
-          members.knownGuests ? members.knownGuests.length : 0
+          members.keyHolders ? members.keyHolders.length : 0
         ));
 
-        // A known guest is not allowed to see other members that their invitation is still pending
-        var allowedToSeePendings = !(vm.place.id === NstSvcAuth.user.id);
-
-        return allowedToSeePendings ? NstSvcInvitationFactory.getPlacePendingInvitations(vm.placeId) :
-          $q(function(resolve) {
-            resolve({});
-          });
+        // Only The one who is allowed to add member can see pending invitations
+        return vm.hasAddMembersAccess
+          ? NstSvcInvitationFactory.getPlacePendingInvitations(vm.placeId)
+          : $q.resolve({});
       }).then(function(pendings) {
         vm.teamates = _.concat(vm.teamates, _.map(pendings.pendingKeyHolders, function (invitation) {
           return new NstVmMemberItem(invitation, 'pending_key_holder');
         }));
 
-        vm.participants = _.concat(vm.participants, _.map(pendings.pendingKnownGuests, function (invitation) {
-          return new NstVmMemberItem(invitation, 'pending_known_guest');
-        }));
-
-        $log.debug(NstUtility.string.format('Place "{0}" has {1} pending key holder(s) and {2} pending known guest(s).',
+        $log.debug(NstUtility.string.format('Place "{0}" has {1} pending key holder(s).',
           vm.place.name,
-          pendings.pendingKeyHolders ? pendings.pendingKeyHolders.length : 0,
-          pendings.pendingKnownGuests ? pendings.pendingKnownGuests.length : 0
+          pendings.pendingKeyHolders ? pendings.pendingKeyHolders.length : 0
         ));
 
       }).catch(function(error) {
@@ -148,13 +134,6 @@
               vm.teamates.splice(memberIndex, 1);
             }
             break;
-          case NST_PLACE_MEMBER_TYPE.KNOWN_GUEST:
-          case 'pending_' + NST_PLACE_MEMBER_TYPE.KNOWN_GUEST:
-            var memberIndex = _.findIndex(vm.participants, { id : data.member.id });
-            if (memberIndex > -1) {
-              vm.participants.splice(memberIndex, 1);
-            }
-            break;
           default:
             $log.debug(NstUtility.string.format('Can not remove the member, Because her role is "{0}" which was not expected!', data.previousRole));
             break;
@@ -168,11 +147,9 @@
       return vm.hasAddPlaceAccess;
     }
 
-
     function allowedToDelete() {
       return vm.hasRemoveAccess && vm.place.children.length === 0;
     }
-
 
     /**
      * allowedToLeave - Check if the user is allowed to leave the place
@@ -255,8 +232,6 @@
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
                 vm.teamates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
-              } else if (result.role === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
-                vm.participants.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
               }
             }
           });
@@ -268,10 +243,6 @@
 
     function addMember() {
       showAddModal(NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
-    }
-
-    function inviteParticipant() {
-      showAddModal(NST_PLACE_MEMBER_TYPE.KNOWN_GUEST);
     }
 
     function confirmToLock(event) {
@@ -386,7 +357,6 @@
       });
     }
 
-
     function setBookmark() {
       NstSvcPlaceFactory.setBookmarkOption(vm.placeId, '_starred', vm.options.bookmark).then(function(result) {
         $log.debug(NstUtility.string.format('Place {0} bookmark setting changed to {1} successfully.', vm.place.id, vm.options.bookmark));
@@ -438,8 +408,21 @@
       return vm.teamates && vm.teamates.length > 0;
     }
 
-    function hasAnyParticipant() {
-      return vm.participants && vm.participants.length > 0;
+    function setReceptive(value) {
+      vm.place.privacy.receptive = value;
+
+      switch (value) {
+        case 'off':
+        vm.place.privacy.search = false;
+        vm.isSearchEnabled = false;
+        break;
+        case 'internal':
+        case 'external':
+        vm.isSearchEnabled = true;
+        break;
+      }
+
+      update('privacy', vm.place.privacy);
     }
 
   }

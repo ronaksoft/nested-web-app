@@ -1,0 +1,11 @@
+<div class="teammates">
+  <h4 ng-click="ctlTeamates.toggleMode();">4 Teammates</h4>
+  <div class="avatars">
+    <div class="user-avatar-28" ng-repeat="teamate in ctlTeamates.teamates | limitTo : ctlTeamates.limit track by teamate.id" data-tooltip-placement="top" data-uib-tooltip="{{::teamate.name}}">
+      <img ng-src="{{teamate.avatar}}" class="ng-scope">
+    </div>
+    <svg ng-if="ctlTeamates.hasSeeMembersAccess" ng-click="ctlTeamates.addMember()">
+      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-24.svg#fav24"></use>
+    </svg>
+  </div>
+</div>

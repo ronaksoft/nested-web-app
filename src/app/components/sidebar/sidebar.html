@@ -212,37 +212,6 @@
         <!--</li>-->
       <!--</ul>-->
     </div>
-    <div class="teammates">
-      <h4>4 Teammates</h4>
-      <div class="avatars">
-        <div class="user-avatar-28">
-          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-28"
-               initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
-               data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
-          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
-        </div>
-        <div class="user-avatar-28">
-          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-28"
-               initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
-               data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
-          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
-        </div>
-        <div class="user-avatar-28">
-          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-28"
-               initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
-               data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
-          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
-        </div>
-        <div class="user-avatar-28">
-          <img ng-if="!ctlSidebar.user.avatar" class="account-initials-28"
-               initials="ctlSidebar.user.name" data-url="ctlSidebar.user.avatar"
-               data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
-          <img ng-if="ctlSidebar.user.avatar" ng-src="{{ctlSidebar.user.avatar}}"/>
-        </div>
-        <svg>
-          <use xlink:href="/assets/icons/nst-24.svg#fav24"></use>
-        </svg>
-      </div>
-    </div>
+    <nst-place-teamates-sidebar grand-place="ctlSidebar.selectedGrandPlace"></nst-place-teamates-sidebar>
   </div>
 </div>

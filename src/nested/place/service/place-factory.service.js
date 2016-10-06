@@ -872,15 +872,15 @@
 
     PlaceFactory.prototype.addUser = function (place, role, user) {
       var factory = this;
-      var id = place.getId() + '-' + user.getId() + '-' + role;
+      var id = place.id + '-' + user.id + '-' + role;
 
       if (!this.requests.addMember[id]) {
         var defer = $q.defer();
         var query = new NstFactoryQuery(id);
 
         NstSvcServer.request('place/invite_member', {
-          place_id: place.getId(),
-          member_id: user.getId(),
+          place_id: place.id,
+          member_id: user.id,
           role: role
         }).then(function (result) {
           defer.resolve(result.invite_id.$oid);
@@ -975,7 +975,6 @@
           defer.resolve({
             creators : _.map(data.creators, NstSvcUserFactory.parseTinyUser),
             keyHolders : _.map(data.key_holders, NstSvcUserFactory.parseTinyUser),
-            knownGuests : _.map(data.known_guests, NstSvcUserFactory.parseTinyUser),
           });
 
           $log.debug('Place Factory | Member Retrieve Response: ', data);
