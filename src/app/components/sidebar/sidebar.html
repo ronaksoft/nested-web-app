@@ -53,17 +53,15 @@
       <div class="places" nst-scrollbar suppress-scroll-x="true">
         <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 ">
           <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
-            <div class="side-place-invite-item-inner active"  data-uib-tooltip="{{invitaion.place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-              <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
-                <div class="side-place-item-image">
-                  <img class="account-initials-40" ng-src="{{invitaion.place.avatar}}"/>
-                </div>
-                <div class="_fw _difv _oh">
-                  <span class="onlyExpand nst-font-small nst-mood-pending-fill">You've been invited to</span>
-                  <span data-ellipsis="invitaion.place.name" class="invitation-name onlyExpand nst-mood-pending _txe _fw" style="color: #3296FF;">{{invitaion.place.name}}</span>
-                </div>
-              </a>
-            </div>
+            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="side-place-invite-item-inner active detailed">
+              <div class="side-place-item-image">
+                <img class="" ng-src="{{invitaion.place.avatar}}"/>
+              </div>
+              <div class="_difv">
+                <p class="_fw nst-font-small nst-mood-pending-fill" data-ellipsis="place.name">You've been invited to</p>
+                <span data-ellipsis="invitaion.place.name" class="invitation-name _txe _fw" data-ng-bind="::invitaion.place.name"></span>
+              </div>
+            </a>
           </li>
         </ul>
         <ul class="side-place">
