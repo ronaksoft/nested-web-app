@@ -52,7 +52,6 @@
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
-        console.log(vm.place);
         vm.placeLoaded = true;
         vm.isGrandPlace = (!place.parent) && (place.grandParent.id === place.id);
         vm.isSearchEnabled = vm.place.privacy.receptive !== 'off';

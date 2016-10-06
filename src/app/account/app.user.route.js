@@ -12,38 +12,18 @@
       templateUrl: 'app/account/profile/profile-edit.html',
       controller: 'ProfileEditController',
       controllerAs: 'ctlProfileEdit',
-      // resolve: {
-      //   PreviousState: [
-      //     "$state",
-      //     function ($state) {
-      //       var currentStateData = {
-      //         Name: $state.current.name,
-      //         Params: $state.params,
-      //         URL: $state.href($state.current.name, $state.params)
-      //       };
-      //       return currentStateData;
-      //     }
-      //   ]
-      // },
+      options : {
+        group : 'profile'
+      }
     })
     .state('app.change-password', {
       url: '/change-password',
       templateUrl: 'app/account/change-password/change-password.html',
       controller: 'ChangePasswordController',
       controllerAs: 'ctlPass',
-      // resolve: {
-      //   PreviousState: [
-      //     "$state",
-      //     function ($state) {
-      //       var currentStateData = {
-      //         Name: $state.current.name,
-      //         Params: $state.params,
-      //         URL: $state.href($state.current.name, $state.params)
-      //       };
-      //       return currentStateData;
-      //     }
-      //   ]
-      // },
+      options : {
+        group : 'profile'
+      }
     });
 
   }

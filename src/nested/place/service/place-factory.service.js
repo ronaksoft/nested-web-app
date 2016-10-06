@@ -1162,7 +1162,6 @@
       if (!angular.isObject(placeData)) {
         return place;
       }
-      console.log(placeData);
       place.setNew(false);
       place.setId(placeData._id);
       place.setUnreadPosts(placeData.unread_posts);
@@ -1171,7 +1170,7 @@
       }
 
       place.setName(placeData.name);
-      
+
       if (angular.isObject(placeData.picture)) {
         place.setPicture(placeData.picture);
       }
