@@ -125,6 +125,7 @@
   .side-access .detailed,
   .detailed#compoese,
   .create-place.detailed,
+  .side-place-invite-item-inner.detailed,
   .side-place-item-inner.detailed{
     color: rgba(255,255,255,.5);
     svg {
@@ -395,24 +396,21 @@
   flex: none;
   flex-direction: row;
   cursor: pointer;
-  background-color: #3296FF;
-  opacity: .8;
+  background-color: rgba(50, 150, 255,.5);
+  //opacity: .8;
   transition: all $animation-dur ease;
   span {
     line-height: 19px;
-    color: $color-white;
     font-size: 16px;
     font-weight: 700;
   }
   p > span {
     line-height: 16px;
-    color: $color-white;
     font-size: 13px;
     font-weight: 300;
   }
 }
 .side-place-invite-item-inner:hover{
-  opacity: 1;
   background-color: #3296FF!important;
 }
 .maincontainer.sidetiny {
@@ -469,7 +467,7 @@
   margin-left: 4px;
 }
 .side-place-item a {
-  color: $color-hurricane;
+  //color: $color-hurricane;
   font-weight: $font-wight-regular;
 }
 .side-place-item-inner > a:first-child {
