@@ -583,7 +583,7 @@ dl {
   margin: 0;
 }
 
-ul ul > li:last-child > .side-place-item-inner{
+ul ul > li:last-child > .place-item-inner{
   .lines:last-of-type {
     .box3 {
       border-right: none;
@@ -593,44 +593,32 @@ ul ul > li:last-child > .side-place-item-inner{
     }
   }
 }
-.side-place-wrapper {
-  > ul {
-
-  }
-}
 
 //the first li's are grand places ~ dont need lines
 
-.side-place-wrapper > ul > li > ul > li:last-child > ul{
+.side-place > li > ul > li:last-child > ul{
   li .lines:first-of-type{
     div {
       border: none;
     }
   }
 }
-.side-place-wrapper > ul > li > ul > li > ul > li:last-child > ul{
+.side-place > li > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type + .lines{
     div {
       border: none;
     }
   }
 }
-.side-place-wrapper > ul > li > ul > li > ul > li > ul > li:last-child > ul{
+.side-place > li > ul > li > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type + .lines + .lines{
     div {
       border: none;
     }
   }
 }
-.side-place-wrapper > ul > li > ul > li > ul > li > ul > li > ul > li:last-child > ul{
+.side-place > li > ul > li > ul > li > ul > li > ul > li:last-child > ul{
   li .lines:first-of-type + .lines + .lines + .lines{
-    div {
-      border: none;
-    }
-  }
-}
-.side-place-wrapper > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li:last-child > ul{
-  li .lines:first-of-type + .lines + .lines + .lines + .lines{
     div {
       border: none;
     }
@@ -638,63 +626,16 @@ ul ul > li:last-child > .side-place-item-inner{
 }
 .lines:last-of-type {
   .box1 {
-    border-bottom: solid;
+    //border-bottom: solid;
     border-width: 1px;
     border-color: $color-breeze;
   }
   .box4 {
-    border-top: solid;
+    //border-top: solid;
     border-width: 1px;
     border-color: $color-breeze;
   }
 }
-
-
-/*
-
-ul ul li:last-child{
-   li .lines:first-of-type {
-    .box1 {
-      border: none;
-    }
-    .box2 {
-      border: none;
-    }
-    .box3 {
-      border: none;
-    }
-    .box4 {
-      border: none;
-    }
-  }
-  .lines:last-of-type {
-    .box1 {
-      border-bottom: solid;
-      border-left: solid;
-      border-width: .5px;
-      border-color: $color-breeze;
-    }
-    .box2 {
-      border-right: solid;
-      border-width: .5px;
-      border-color: $color-breeze;
-    }
-    .box3 {
-      border-right: solid;
-      border-width: .5px;
-      border-color: $color-breeze;
-    }
-    .box4 {
-      border-top: solid;
-      border-left: solid;
-      border-width: .5px;
-      border-color: $color-breeze;
-    }
-  }
-}
-
-
-*/
 
 
 .box1 {
@@ -729,10 +670,12 @@ ul ul li:last-child{
 }
 .lines {
   display: inline-block;
-  width: 12px;
-  height: 43px;
+  width: 16px;
+  height: 100%;
   //height: 100%;
   flex: none;
+  position: absolute;
+  left: -16px;
 }
 .lines div{
   float: left;
@@ -919,11 +862,11 @@ ul ul li:last-child{
         display: flex;
         flex-direction: column;
         ul {
-          border-left: 1px solid $color-wind;
+          //border-left: 1px solid $color-wind;
           margin-left: 16px;
           width: calc(100% - 16px);
           .place-item-inner {
-            margin-top: 4px;
+            //margin-top: 4px;
           }
         }
         &:last-child {
@@ -934,7 +877,7 @@ ul ul li:last-child{
       }
     }
     .place-item-inner {
-      width: 100%;
+      width: calc(100% - 8px);
       margin-left: 8px;
       display: flex;
       align-items: center;
@@ -977,12 +920,12 @@ ul ul li:last-child{
       }
       .icon {
         position: absolute;
-        left: 0;
+        left: -16px;
         top: 50%;
         margin: 0;
         width: 16px;
         height: 16px;
-        transform: translate3d(-12px,-50%,0);
+        transform: translate3d(0,-50%,0);
       }
       .filler {
         width: 8px;

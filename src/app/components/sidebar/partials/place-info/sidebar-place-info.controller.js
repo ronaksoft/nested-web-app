@@ -11,6 +11,15 @@
     var vm = this;
     vm.loading = false;
 
+    vm.range = function (num) {
+      var seq = [];
+      for (var i = 0; i < num; i++) {
+        seq.push(i);
+      }
+
+      return seq;
+    };
+
 
     function Initializing() {
 

@@ -1,5 +1,10 @@
 <div class="place-item-inner">
-  <div class="filler"></div>
+  <dl data-ng-repeat="i in ctlPlaceInfo.range(place.level + 1)" class="lines">
+    <div class="box2"></div>
+    <div class="box1"></div>
+    <div class="box3"></div>
+    <div class="box4"></div>
+  </dl>
   <svg class="icon" ng-if="place.isStarred">
     <use xlink:href="/assets/icons/nst-icn16.svg#_Group_"></use>
   </svg>
@@ -12,7 +17,7 @@
   <div class="icon icon-solid icon-side icon-sent"></div>
   <a href="{{place.href}}">{{ place.name }}<b>{{place.level}}</b></a>
   <span ng-if="place.children.length > 0" class="e2-arrow _df">
-    <label class="arrow-holder-nav {{place.collapse ? 'nst-arrow' : 'nst-arrow-rotated'}}"
+    <label class="arrow-holder-nav {{!place.collapse ? 'nst-arrow' : 'nst-arrow-rotated'}}"
            data-ng-click="place.collapse =! place.collapse">
     </label>
   </span>
