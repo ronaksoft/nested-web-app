@@ -92,22 +92,20 @@
         <div class="_difc _fw optionrow">
           <div class="_df"><label ><i class="nst-place-icon-print _df"></i></label></div>
           <div class="_df _fw"><label ><h5>Receiving</h5></label></div>
-          <div class="_df ">
-            <!--<input type="checkbox" data-ng-disabled="!ctlSettings.hasControlAccess" id="sw-receptive" class="inpsw"-->
-                   <!--name="receptive" data-ng-model="ctlSettings.place.privacy.receptive"-->
-                   <!--ng-change="ctlSettings.updatePrivacy()"/>-->
-            <label data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','off') && $event.preventDefault();">
-              <div class="labtxt " ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'off'}">off</div>
+          <form class="_df switch">
+            <input id="off" type="radio" name="Receiving" ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'off'}">
+            <label for="off" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','off') && $event.preventDefault();">
+              <div class="labtxt _fw">Off</div>
             </label>
-            <br/>
-            <label data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','internal') && $event.preventDefault();">
-              <div class="labtxt " ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'internal'}">internal</div>
+            <input id="internal" type="radio" name="Receiving" ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'internal'}">
+            <label for="internal" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','internal') && $event.preventDefault();">
+              <div class="labtxt _fw">Team</div>
             </label>
-            <br/>
-            <label data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive', 'external')  && $event.preventDefault();">
-              <div class="labtxt " ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'external'}">external</div>
+            <input id="external" type="radio" name="Receiving" ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'external'}">
+            <label for="external" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive', 'external')  && $event.preventDefault();">
+              <div class="labtxt _fw">All</div>
             </label>
-          </div>
+          </form>
         </div>
         <!--<div class="nst-description _df _fw">
           <div class="nst-description" ng-if="ctlSettings.place.privacy.receptive">Place is open for receiving messages

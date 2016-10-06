@@ -22,8 +22,8 @@
         </div>
       </a>
       <div class="side-menu">
-        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}">
-          <span data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+          <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
             </svg>
@@ -38,8 +38,8 @@
           </span>
           <span>All Places Feed</span>
         </a>
-        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed">
-          <span data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+          <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
             </svg>
@@ -73,8 +73,9 @@
       </ul>
       <a class="create-place _fw detailed" href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <span>
-          <svg>
+          <svg id="addIcon" morph-svg first-id="sq40dashed" second-id="sq40">
             <use xlink:href="/assets/icons/nst-add40.svg#sq40dashed"></use>
+            <use xlink:href="/assets/icons/nst-add40.svg#sq40"></use>
           </svg>
         </span>
         <span>

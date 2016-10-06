@@ -256,6 +256,7 @@
 .switch {
   min-width: 128px;
   display: inline-flex;
+  position: relative;
 }
 
 .switch label{
@@ -358,31 +359,88 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   *********************************
 */
 
-input[type="radio"] {
-  opacity: 0;
-  height: 16px;
-  width: 16px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
+.switch {
+  input[type="radio"] {
+    opacity: 0;
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    visibility:hidden;
+    & + label {
+      background: none;
+      position: relative;
+      padding: 0;
+    }
+  }
 }
 
-input[type="radio"] + label {
-  background: url('../assets/icons/controls.svg') no-repeat;
-  height: 16px;
-  width: 16px;
-  background-position: 0px -48px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  padding-left: 22px;
+
+.labtxt{
+  text-align: center;
+  line-height: 22px;
 }
 
-input[type="radio"]:checked + label {
-  background: url('../assets/icons/controls.svg') no-repeat;
-  background-position: 0px -64px;
-  height: 16px;
-  width: 17px;
+.switch {
+  min-width: 128px;
+  display: inline-flex;
+  flex-direction: row;
+  position: relative;
+  label{
+    width: 100%;
+    display: flex;
+    height: 24px;
+    font-size: $font-size-small;
+    cursor: pointer;
+    text-align: center;
+    border-width:1px;
+    border-style:solid;
+    border-right-width: 0;
+    border-left-width: 0;
+    border-color: $color-breeze;
+    padding: 0 0;
+    color : $color-wind;
+    background: none;
+    box-sizing: border-box;
+    border-radius: 0;
+    // On: Value = 0;
+    &:first-of-type {
+      border-left-width: 1px;
+      border-bottom-left-radius: 20px;
+      border-top-left-radius: 20px;
+    }
+    // Off: Value = 0;
+    &:last-of-type {
+      border-right-width: 1px;
+      border-bottom-right-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+  }
+
+
+  input[type="radio"] + label  {
+    box-sizing: border-box;
+    border-color: $color-breeze;
+    background: none;
+    color : $color-wind;
+  }
+
+  input[type="radio"]:checked + label {
+    background-color: $color-sense;
+    border-color: $color-sense;
+    color: $color-white;
+    box-sizing: border-box;
+  }
+
+  //disabled radio button
+  input[type="radio"]:disabled + label  {
+    color: $color-breeze;
+  }
+  input[type="radio"][disabled]:checked  + label  {
+    background-color: $color-breeze;
+    border-color: $color-breeze;;
+    color: $color-wind;
+  }
 }

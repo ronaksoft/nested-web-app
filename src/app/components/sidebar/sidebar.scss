@@ -518,6 +518,11 @@
     height: 40px;
     fill: $color-white;
   }
+  #addIcon:hover {
+    use:last-child {
+      animation: svgadd 1s ease forwards;
+    }
+  }
 }
 
 .side-access {
