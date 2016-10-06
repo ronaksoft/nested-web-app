@@ -518,8 +518,8 @@
     height: 40px;
     fill: $color-white;
   }
-  #addIcon:hover {
-    use:last-child {
+  &:hover {
+    #addIcon use:first-child {
       animation: svgadd 1s ease forwards;
     }
   }
