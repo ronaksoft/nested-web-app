@@ -83,6 +83,16 @@ $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
   from {opacity: 0;}
   to {opacity: 1;}
 }
+@keyframes svgadd {
+  from {
+    opacity: 1;
+    //transform: rotateZ(0deg);
+  }
+  to {
+    opacity: 0;
+    //transform: rotateZ(45deg);
+  }
+}
 @keyframes side-anim-detail {
   0% {
     width: $sidebar-width-tiny;

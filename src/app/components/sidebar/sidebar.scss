@@ -140,7 +140,7 @@
         color: rgba(255,255,255,1);
       }
       svg {
-        //fill: rgba(255,255,255,1);
+        fill: rgba(255,255,255,1);
       }
     }
   }
@@ -517,6 +517,11 @@
     width: 40px;
     height: 40px;
     fill: $color-white;
+  }
+  #addIcon:hover {
+    use:last-child {
+      animation: svgadd 1s ease forwards;
+    }
   }
 }
 
