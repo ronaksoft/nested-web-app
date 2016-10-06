@@ -78,6 +78,11 @@ module.exports = function () {
     checkbox.click();
   });
 
+  this.Given(/^I Click Link by Partial Text "([^"]*)"$/, function (partial) {
+    var linkText = element(By.partialLinkText(partial));
+    linkText.click();
+  });
+
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
     return browser.getTitle().then(function (title) {
       assert.equal(title, expectedPageTitle, ' title is "' + title + '" but should be "' + expectedPageTitle);
