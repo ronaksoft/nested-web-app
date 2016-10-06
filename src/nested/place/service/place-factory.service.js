@@ -872,15 +872,15 @@
 
     PlaceFactory.prototype.addUser = function (place, role, user) {
       var factory = this;
-      var id = place.getId() + '-' + user.getId() + '-' + role;
+      var id = place.id + '-' + user.id + '-' + role;
 
       if (!this.requests.addMember[id]) {
         var defer = $q.defer();
         var query = new NstFactoryQuery(id);
 
         NstSvcServer.request('place/invite_member', {
-          place_id: place.getId(),
-          member_id: user.getId(),
+          place_id: place.id,
+          member_id: user.id,
           role: role
         }).then(function (result) {
           defer.resolve(result.invite_id.$oid);
@@ -962,20 +962,21 @@
       });
     };
 
-    PlaceFactory.prototype.getMembers = function (id) {
+    PlaceFactory.prototype.getMembers = function (id, limit) {
       var factory = this;
+      limit = limit || 64;
 
       if (!this.requests.getMembers[id]) {
         var defer = $q.defer();
-        var query = new NstFactoryQuery(id);
+        var query = new NstFactoryQuery(id, { limit : limit });
 
         NstSvcServer.request('place/get_members', {
-          place_id: id
+          place_id: id,
+          limit : limit
         }).then(function (data) {
           defer.resolve({
             creators : _.map(data.creators, NstSvcUserFactory.parseTinyUser),
             keyHolders : _.map(data.key_holders, NstSvcUserFactory.parseTinyUser),
-            knownGuests : _.map(data.known_guests, NstSvcUserFactory.parseTinyUser),
           });
 
           $log.debug('Place Factory | Member Retrieve Response: ', data);
@@ -1161,11 +1162,16 @@
       if (!angular.isObject(placeData)) {
         return place;
       }
-
+      console.log(placeData);
       place.setNew(false);
       place.setId(placeData._id);
-      place.setName(placeData.name);
+      place.setUnreadPosts(placeData.unread_posts);
+      if (placeData.counters) {
+        place.setTotalPosts(placeData.counters.posts);
+      }
 
+      place.setName(placeData.name);
+      
       if (angular.isObject(placeData.picture)) {
         place.setPicture(placeData.picture);
       }
@@ -1223,6 +1229,7 @@
 
       place.setNew(false);
       place.setId(placeData._id);
+      place.setUnreadPosts(placeData.unread_posts);
       place.setName(placeData.name);
       place.setDescription(placeData.description);
 
@@ -1390,6 +1397,32 @@
     PlaceFactory.prototype.updatePlaceInTree = function (tree, place) {
       updatePlace(tree, place);
     }
+
+    PlaceFactory.prototype.getSubPlaceUnreadPosts = function (places) {
+      if (!_.isArray(places)) {
+        throw "Places is not Array"
+      }
+
+      var deferred = $q.defer();
+
+      NstSvcServer.request('place/count_unread_posts', {
+        'place_ids' : places.join(',')
+      }).then(function (data) {
+        console.log(data)
+        // if (data && _.isArray(data.places) && !_.isEmpty(data.places)) {
+        //   deferred.resolve(_.map(data.places, function (place) {
+        //     return new NstTinyPlace(place);
+        //   }));
+        // } else {
+        //   deferred.resolve([]);
+        // }
+      }).catch(function (error) {
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+    };
+
 
     PlaceFactory.prototype.getGrandPlaces = function () {
       var deferred = $q.defer();

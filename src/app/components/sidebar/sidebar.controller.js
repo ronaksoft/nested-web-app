@@ -121,7 +121,6 @@
     });
 
     $rootScope.$on('$stateChangeSuccess',function(){
-      console.log('$stateParams.placeId',$stateParams.placeId)
       if ($stateParams.placeId){
         if (vm.selectedGrandPlace && $stateParams.placeId.split('.')[0] !== vm.selectedGrandPlace.id ){
           vm.selectedGrandPlace = _.find(vm.places, function (place) {

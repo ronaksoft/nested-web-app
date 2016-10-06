@@ -273,33 +273,18 @@
         var defer = $q.defer();
         var query = new NstFactoryQuery(placeId);
 
-        // TODO: Ask server to merge these 2 request
-        $q.all([
           NstSvcServer.request('place/get_pending_invitations', {
             place_id: placeId,
             member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER
-          }),
-          NstSvcServer.request('place/get_pending_invitations', {
-            place_id: placeId,
-            member_type : NST_PLACE_MEMBER_TYPE.KNOWN_GUEST
-          })
-        ]).then(function (result) {
+          }).then(function (result) {
 
-          var keyHolders = _.map(result[0].invitations, function (invitation) {
-            return factory.parseInvitation(invitation);
-          });
-
-          var knownGuests = _.map(result[1].invitations, function (invitation) {
+          var keyHolders = _.map(result.invitations, function (invitation) {
             return factory.parseInvitation(invitation);
           });
 
           var data = {};
           $q.all(keyHolders).then(function (keyholderInvitations) {
             data.pendingKeyHolders = keyholderInvitations;
-
-            return $q.all(knownGuests);
-          }).then(function (knownGuestInvitations) {
-            data.pendingKnownGuests = knownGuestInvitations;
 
             defer.resolve(data);
           }).catch(defer.reject);
