@@ -40,9 +40,9 @@
        *****      Ancestors     ****
        *****************************/
 
-       this.unread_posts = undefined;
+       this.unreadPosts = undefined;
 
-       this.totalMessagesCount = undefined;
+       this.totalPosts = undefined;
 
       /**
        * Place's parent

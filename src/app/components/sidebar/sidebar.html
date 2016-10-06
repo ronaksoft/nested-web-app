@@ -153,7 +153,7 @@
   <div class="sidebar-plus-wrapper" ng-show="ctlSidebar.selectedGrandPlace">
     <div class="side-profile-block">
       <div class="user-detail">
-        <a>{{ctlSidebar.user.name}}<br><span class="nst-mood-storm sm">{{ctlSidebar.user.id}}@nested.me</span> </a>
+        <a>{{ctlSidebar.selectedGrandPlace.name}}<br><span class="nst-mood-storm sm">{{ctlSidebar.selectedGrandPlace.id}}@nested.me</span> </a>
       </div>
       <div class="user-avatar">
         <img ng-if="!ctlSidebar.selectedGrandPlace.avatar" class="account-initials-32"
@@ -169,7 +169,7 @@
     </div>
     <div class="side-stats">
       <div class="totalmsg">
-        <a class="_fw _df">Total Messages</a><span class="_fn _df">3,685</span>
+        <a class="_fw _df">Total Messages</a><span class="_fn _df">{{ctlSidebar.selectedGrandPlace.totalPosts || 0}}</span>
       </div>
     </div>
     <div class="places">

@@ -21,7 +21,7 @@
       this.depth = depth || 0;
       this.children = [];
       this.unreadPosts = 0;
-      this.totalMessagesCount = 0;
+      this.totalPosts = 0;
       this.isStarred = false;
 
       if (placeModel instanceof NstTinyPlace || placeModel instanceof NstPlace) {
@@ -30,7 +30,7 @@
         this.url = $state.href(getPlaceFilteredState(), { placeId: placeModel.getId() });
         this.avatar = placeModel.getPicture().getId() ? placeModel.getPicture().getThumbnail(32).getUrl().view : '/assets/icons/absents_place.svg';
         this.unreadPosts = placeModel.getUnreadPosts();
-        this.totalMessagesCount = placeModel.getTotalMessagesCount();
+        this.totalPosts = placeModel.getTotalPosts();
 
         if (placeModel instanceof NstPlace) {
           for (var k in placeModel.getChildren()) {
