@@ -752,7 +752,8 @@ ul ul li:last-child{
 .sidebar-plus-wrapper {
   position: absolute;
   right: 0;
-  top:0;
+  top: 0;
+  bottom: 0;
   z-index: 3;
   display: inline-flex;
   flex-direction: column;
@@ -774,8 +775,22 @@ ul ul li:last-child{
     margin-bottom: 0;
     transition: all $animation-dur;
     flex: none;
+    position: relative;
     &:hover {
       color: $color-solid;
+      svg {
+        opacity: 1;
+      }
+    }
+    svg {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      opacity: 0;
+      transition: all $animation-dur;
     }
   }
   .side-profile-block{
@@ -839,6 +854,7 @@ ul ul li:last-child{
     justify-content: center;
     //height: 100px;
     z-index: 4;
+    flex: none;
     > div {
       padding: 0 15px;
       width: 100%;
@@ -888,10 +904,11 @@ ul ul li:last-child{
   }
   .places {
     max-height: calc(100vh - 303px);
-    min-height: calc(100vh - 304px);
+    //min-height: calc(100vh - 304px);
     padding-right: 8px;
     z-index: 3;
     position: relative;
+    flex: 1;
     ul {
       width: 100%;
       list-style: none;
@@ -983,22 +1000,27 @@ ul ul li:last-child{
   }
   .teammates {
     border-top: 1px solid $color-breeze;
-    height: 94px;
+    //height: 94px;
     display: flex;
     flex-direction: column;
     flex: none;
     .avatars {
       display: flex;
       flex-direction: row;
-      margin: 16px;
+      margin: 15px;
       flex: none;
+      flex-wrap: wrap;
       div.user-avatar-28 {
-        margin-right: 2px;
+        margin: 2px;
       }
       img {
         width: 28px;
         height: 28px;
         border-radius: 28px;
+      }
+      svg {
+        width: 24px;
+        height: 24px;
       }
     }
   }
