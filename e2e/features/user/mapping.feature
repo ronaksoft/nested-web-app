@@ -14,64 +14,57 @@ Feature: User: mapping
 
   Scenario:
     Given I Click Link by Partial Text "Activity"
-    When I wait 5s
+    When I Wait till line loader hide
+    Then should the title of the place be "All Places"
 
   Scenario:
     Given I Click Link by Partial Text "Sent"
-    When I wait 5s
+    When I Wait till line loader hide
+    Then should the title of the place be "All Places"
+
 
   Scenario:
     Given I Click Link by Partial Text "Bookmark"
-    When I wait 5s
+    When I Wait till line loader hide
+    Then should the title of the place be "Bookmarks"
 
   Scenario:
-    Given I Click Link by Partial Text "All Places"
-    When I wait 5s
+    Given I Click Link by Partial Text "Sent"
+    When I Wait till line loader hide
+    Then should the title of the place be "All Places"
 
   Scenario:
     Given I Click Link by Partial Text "test mapping"
-    When I wait 5s
+    When I Wait till line loader hide
+    Then should the title of the place be "test mapping"
 
   Scenario:
     Given I Click Link by Partial Text "Setting"
-    When I wait 5s
+    When I Wait till line loader hide
     Given I Click Link by Partial Text "Add a sub-place"
-    When I wait 5s
+    When I Wait till line loader hide
     Given I Click Link by Partial Text "Discard"
-    When I wait 5s
-
-  Scenario:
+    When I Wait till line loader hide
     Given I Click Link by Partial Text "Delete"
-    When I wait 5s
+    When I Wait till line loader hide
     Given I Click Link by Partial Text "Cancel"
-    When I wait 5s
-
-  Scenario:
+    When I Wait till line loader hide
     Given I Click Link by Partial Text "Activity"
-    When I wait 5s
+    When I Wait till line loader hide
 
   Scenario:
     Given I Click Link by Partial Text "Create New Grand Place"
-    When I wait 5s
+    When I Wait till line loader hide
     Given I Click Link by Partial Text "Discard"
-    When I wait 5s
+    When I Wait till line loader hide
 
   Scenario:
     Given I Click Link by Partial Text "Compose"
-    When I wait 5s
+    When I Wait till line loader hide
     Given I Click Link by Partial Text "Discard"
-    When I wait 5s
+    When I Wait till line loader hide
     Given I Click Link by Partial Text "@test-mapping"
-    When I wait 5s
-    Given I Click Link by Partial Text "Edit My profile"
-    When I wait 5s
-    Given I Click Link by Partial Text "Change Password"
-    When I wait 5s
-    Given I Click Link by Partial Text "Back to Profile"
-    When I wait 5s
-    Given I Press "Save & Exit"
-    When I wait 5s
-    Given I Click Link by Partial Text "All Places"
-    When I wait 5s
-    Given I Click Link by Partial Text "Sign out"
-    When I wait 5s
+    When I wait 10s
+    When I wait 10s
+    When I wait 10s
+
