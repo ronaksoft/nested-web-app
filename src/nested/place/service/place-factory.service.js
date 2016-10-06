@@ -962,15 +962,17 @@
       });
     };
 
-    PlaceFactory.prototype.getMembers = function (id) {
+    PlaceFactory.prototype.getMembers = function (id, limit) {
       var factory = this;
+      limit = limit || 64;
 
       if (!this.requests.getMembers[id]) {
         var defer = $q.defer();
-        var query = new NstFactoryQuery(id);
+        var query = new NstFactoryQuery(id, { limit : limit });
 
         NstSvcServer.request('place/get_members', {
-          place_id: id
+          place_id: id,
+          limit : limit
         }).then(function (data) {
           defer.resolve({
             creators : _.map(data.creators, NstSvcUserFactory.parseTinyUser),

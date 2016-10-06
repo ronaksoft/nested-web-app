@@ -12,11 +12,12 @@
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE) {
     var vm = this;
 
-    (function () {
+    (function() {
       vm.mode = 'collapsed';
       vm.limit = 0;
       vm.hasAddMembersAccess = false;
       vm.hasSeeMembersAccess = false;
+      vm.loading = false;
 
     })();
 
@@ -29,9 +30,9 @@
     vm.addMember = addMember;
     vm.toggleMode = toggleMode;
 
-    $scope.$watch(function () {
+    $scope.$watch(function() {
       return vm.grandPlace;
-    }, function (newValue, oldValue) {
+    }, function(newValue, oldValue) {
       if (newValue) {
         initialize();
       }
@@ -41,6 +42,7 @@
       if (!vm.grandPlace) {
         return;
       }
+      vm.loading = true;
 
       $q.all([
         NstSvcPlaceFactory.hasAccess(vm.grandPlace.id, NST_PLACE_ACCESS.ADD_MEMBERS),
@@ -51,29 +53,30 @@
         vm.hasSeeMembersAccess = values[1];
 
         if (vm.mode = 'collapsed') {
-          if (vm.hasAddMembersAccess) {
-            vm.limit = 4;
-          } else {
-            vm.limit = 5;
-          }
+          collapse();
         }
 
-        return vm.hasSeeMembersAccess ? NstSvcPlaceFactory.getMembers(vm.grandPlace.id) : $q.resolve({
-          keyHolders : [],
-          creators : []
-        });
-      }).then(function(members) {
-        vm.teamates = _.concat(_.map(members.creators, function (member) {
-          return new NstVmMemberItem(member, 'creator');
-        }), _.map(members.keyHolders, function (member) {
-          return new NstVmMemberItem(member, 'key_holder');
-        }));
-
+        return findMembers();
       }).catch(function(error) {
         $log.debug(error);
+      }).finally(function () {
+        vm.loading = false;
       });
 
     };
+
+    function expand() {
+      vm.limit = 64;
+      findMembers();
+    }
+
+    function collapse() {
+      if (vm.hasAddMembersAccess) {
+        vm.limit = 4;
+      } else {
+        vm.limit = 5;
+      }
+    }
 
     function showAddModal(role) {
 
@@ -142,18 +145,33 @@
 
     function toggleMode() {
       if (vm.mode === 'collapsed') {
+        expand();
         vm.mode = 'expanded';
-        vm.limit = 64;
-
       } else {
+        collapse();
         vm.mode = 'collapsed';
-        if (vm.hasAddMembersAccess) {
-          vm.limit = 4;
-        } else {
-          vm.limit = 5;
-        }
       }
 
+    }
+
+    function findMembers() {
+      if (vm.hasSeeMembersAccess) {
+        vm.loading = true;
+        NstSvcPlaceFactory.getMembers(vm.grandPlace.id, vm.limit).then(function(members) {
+          vm.teamates = _.concat(_.map(members.creators, function(member) {
+            return new NstVmMemberItem(member, 'creator');
+          }), _.map(members.keyHolders, function(member) {
+            return new NstVmMemberItem(member, 'key_holder');
+          }));
+        }).finally(function () {
+          vm.loading = false;
+        });
+      } else {
+        vm.teamates = {
+          keyHolders: [],
+          creators: []
+        };
+      }
     }
   }
 })();
