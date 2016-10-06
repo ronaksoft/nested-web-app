@@ -35,20 +35,14 @@ Feature: User: mapping
   Scenario:
     Given I Click Link by Partial Text "Setting"
     When I wait 5s
-
-  Scenario:
     Given I Click Link by Partial Text "Add a sub-place"
     When I wait 5s
-
-  Scenario:
     Given I Click Link by Partial Text "Discard"
     When I wait 5s
 
   Scenario:
     Given I Click Link by Partial Text "Delete"
     When I wait 5s
-
-  Scenario:
     Given I Click Link by Partial Text "Cancel"
     When I wait 5s
 
@@ -57,11 +51,27 @@ Feature: User: mapping
     When I wait 5s
 
   Scenario:
-    Given I Click Link by Partial Text ""
+    Given I Click Link by Partial Text "Create New Grand Place"
+    When I wait 5s
+    Given I Click Link by Partial Text "Discard"
     When I wait 5s
 
-
-#
-#  Scenario:
-#    Given I Click Link by Partial Text "Create New Grand Place"
-#    When I wait 5s
+  Scenario:
+    Given I Click Link by Partial Text "Compose"
+    When I wait 5s
+    Given I Click Link by Partial Text "Discard"
+    When I wait 5s
+    Given I Click Link by Partial Text "@test-mapping"
+    When I wait 5s
+    Given I Click Link by Partial Text "Edit My profile"
+    When I wait 5s
+    Given I Click Link by Partial Text "Change Password"
+    When I wait 5s
+    Given I Click Link by Partial Text "Back to Profile"
+    When I wait 5s
+    Given I Press "Save & Exit"
+    When I wait 5s
+    Given I Click Link by Partial Text "All Places"
+    When I wait 5s
+    Given I Click Link by Partial Text "Sign out"
+    When I wait 5s
