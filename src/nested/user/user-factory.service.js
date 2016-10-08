@@ -413,6 +413,17 @@
       return defer.promise;
     };
 
+    UserFactory.prototype.getMentions = function () {
+      var defer = $q.defer();
+
+      NstSvcServer.request('account/get_mentions').then(function (data) {
+
+        defer.resolve(data.mentions);
+      }).catch(defer.reject);
+
+      return defer.promise;
+    }
+    
     return new UserFactory();
   }
 })();

@@ -107,10 +107,12 @@
       }
     }
 
-    $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
+    $q.all([getUser(), getMyPlaces(), getInvitations(), getMentions()]).then(function (resolvedSet) {
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
+      console.log(resolvedSet[3]);
+      vm.mentionsCount = resolvedSet[3].length;
 
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
@@ -267,6 +269,10 @@
 
     function getPlaceAddState() {
       return 'app.place-add';
+    }
+
+    function getMentions() {
+      return NstSvcUserFactory.getMentions();
     }
 
     /*****************************
