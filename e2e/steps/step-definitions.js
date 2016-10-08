@@ -83,6 +83,13 @@ module.exports = function () {
     linkText.click();
   });
 
+
+  this.Given(/^I Click Sidebar Place Name "([^"]*)"$/, function (sidebarPlaceName) {
+    var sidebarList = browser.findElement(by.className('side-place-item-inner'));
+    expect(sidebarList.getText()).toBe(sidebarPlaceName);
+    sidebarList.click();
+  });
+
   this.When(/^I Wait till line loader hide$/, function () {
     element(By.css('div[style="width: 0%;"]'));
     return;
@@ -105,6 +112,7 @@ module.exports = function () {
       assert.equal(title.trim(), expectedTitle, ' title is "' + title + '" but should be "' + expectedTitle);
     });
   });
+
 
   this.Then(/^should the title1 be "([^"]*)"$/, function (expectedTitle1) {
     element(by.css('.testing-title1')).getText().then(function (title) {
