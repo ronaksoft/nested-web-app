@@ -1167,7 +1167,9 @@
       place.setUnreadPosts(placeData.unread_posts);
       if (placeData.counters) {
         place.setTotalPosts(placeData.counters.posts);
+        place.setTeamatesCount(placeData.counters.key_holders + placeData.counters.creators);
       }
+
 
       place.setName(placeData.name);
 
