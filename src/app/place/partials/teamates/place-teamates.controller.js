@@ -43,7 +43,6 @@
         return;
       }
       vm.loading = true;
-      console.log(vm.grandPlace);
 
       $q.all([
         NstSvcPlaceFactory.hasAccess(vm.grandPlace.id, NST_PLACE_ACCESS.ADD_MEMBERS),

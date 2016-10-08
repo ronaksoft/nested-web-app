@@ -111,7 +111,6 @@
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
-      console.log(resolvedSet[3]);
       vm.mentionsCount = resolvedSet[3].length;
 
       if ($stateParams.placeId) {
