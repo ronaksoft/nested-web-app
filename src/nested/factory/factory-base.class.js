@@ -5,9 +5,9 @@
     .module('ronak.nested.web.common')
     .factory('NstBaseFactory', NstBaseFactory);
 
-  function NstBaseFactory(NstObservableObject) {
+  function NstBaseFactory(NstObservableObject, $q) {
     function BaseFactory() {
-      this.requests = [];
+      BaseFactory.requests = {};
     }
 
     BaseFactory.prototype = new NstObservableObject();
@@ -18,42 +18,47 @@
       watch : watch
     };
 
-    function hold(name, id, callback) {
-      if (!BaseFactory.requests[name]) {
-        BaseFactory.requests[name] = {};
+    function hold(key, callback) {
+      if (BaseFactory.requests[key]) {
+        return BaseFactory.requests[key];
       }
 
-      if (BaseFactory.requests[name][id]) {
-        return BaseFactory.requests[name][id];
-      }
-
-      BaseFactory.requests[name][id] = callback.then(function (result) {
-        release(name, id);
-
-        return $q.resolve(result);
-      }).catch(function (error) {
-        release(name, id);
-
-        return $q.reject(error);
+      BaseFactory.requests[key] = $q(function (resolve, reject) {
+        callback().then(resolve).catch(reject).finally(function () {
+          release(key);
+        });
       });
+
+      return BaseFactory.requests[key];
     }
 
-    function release(name, id) {
-      if (_.isObject(his.requests[name])) {
-        if (!_.isUndefined(BaseFactory.requests[name][id])) {
-          delete BaseFactory.requests[name][id];
+    function release(key) {
+      if (_.isObject(BaseFactory.requests[key])) {
+        if (!_.isUndefined(BaseFactory.requests[key])) {
+          delete BaseFactory.requests[key];
         }
       }
     }
 
-    function watch(id, callback) {
+    function watch(callback, name, id) {
       if (!_.isFunction(callback)) {
         throw 'The provided callback is not a function';
       }
 
-      return hold(callback.name, id, callback);
+      var key = generateRequestKey(name, id);
+
+      return hold(key, callback);
     }
 
     return BaseFactory;
+  }
+
+  function generateRequestKey(name, id) {
+    var key = name;
+    if (id) {
+      key = key + "-" + id;
+    }
+
+    return key;
   }
 })();

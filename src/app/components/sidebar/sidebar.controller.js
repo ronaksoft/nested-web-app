@@ -9,7 +9,7 @@
   function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
+                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
 
@@ -141,19 +141,9 @@
       }
     });
 
-
-
-
     /*****************************
      *****    Change urls   ****
      *****************************/
-
-    // $scope.$watch(function () {
-    //   return $state.current.name;
-    // },function () {
-    //   fixPlaceUrl();
-    // });
-
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       if (toState.options && toState.options.primary) {
@@ -272,7 +262,7 @@
     }
 
     function getMentions() {
-      return NstSvcUserFactory.getMentions();
+      return NstSvcMentionFactory.getMentions();
     }
 
     /*****************************
