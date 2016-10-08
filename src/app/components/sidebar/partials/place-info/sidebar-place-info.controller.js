@@ -6,8 +6,8 @@
     .controller('SidebarPlaceInfoController', SidebarPlaceInfoController);
 
   /** @ngInject */
-  function SidebarPlaceInfoController($q, $scope , $state, $stateParams, NstSvcLogger, NstSvcPlaceFactory,NstSvcPlaceMap,
-                                      NST_PLACE_FACTORY_EVENT,NST_DEFAULT, NstVmPlace) {
+  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, NstSvcLogger, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap,
+                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace) {
     var vm = this;
     vm.loading = false;
 
@@ -85,6 +85,8 @@
           return model;
         });
 
+        fillPlacesNotifCountObject(placesList);
+        getPlaceUnreadCounts();
         deferred.resolve(NstSvcPlaceMap.toTree(placesList, $stateParams.placeId));
 
       }).catch(deferred.reject);
@@ -92,6 +94,29 @@
       return deferred.promise;
     }
 
+
+    /*****************************
+     *****   Notifs Counters  ****
+     *****************************/
+    vm.placesNotifCountObject = {};
+
+    function fillPlacesNotifCountObject(places) {
+      _.each(places, function (place) {
+        if (place)
+          vm.placesNotifCountObject[place.id] = place.unreadPosts || 0;
+      });
+      vm.placesNotifCountObject[vm.grandPlace.id] = 0;
+    }
+
+    function getPlaceUnreadCounts() {
+      var placeIds = _.keys(vm.placesNotifCountObject);
+      NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds)
+        .then(function(places){
+          _.each(places, function (value, placeId) {
+            vm.placesNotifCountObject[placeId] = value;
+          })
+        });
+    }
 
     /*****************************
      *****  Event Listeners   ****
@@ -118,6 +143,10 @@
     });
 
 
+
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
+      getPlaceUnreadCounts();
+    });
 
   }
 })();

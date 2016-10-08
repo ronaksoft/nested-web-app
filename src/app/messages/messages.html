@@ -22,8 +22,8 @@
     <div class="post-area">
       <div id="new-post"  ng-show="ctlMessages.hasNewMessages">
         <i ng-click="ctlMessages.dismissNewMessage();"></i>
-        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.getNewMessagesCount() > 1">{{ctlMessages.getNewMessagesCount()}} New Messages</a>
-        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.getNewMessagesCount() < 2">One New Message</a>
+        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}} New Messages</a>
+        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2">One New Message</a>
       </div>
       <post-card ng-if="ctlMessages.hotMessages.length > 0" class="hot" data-ng-repeat="msg in ctlMessages.hotMessages track by msg.id" post="msg"
                  settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode"></post-card>
