@@ -107,7 +107,7 @@
   position: fixed;
   margin-left: 356px;
   top: 0;
-  transform: translateY(183px);
+  transform: translateY($navbar-height + 10px);
   Left: 50%;
   will-change: transform;
 }

@@ -112,23 +112,23 @@
       $scope.topNavOpen = newValue;
     });
 
-    var scrollValue = 0;
-    var scrollTimeout = false;
-    $(window).scroll(function (event) {
-      if($(window).scrollLeft() > 0 ){
-        console.log("left");
-        return
-      }
-      var t = event.currentTarget.scrollY;
-      if (t > 55 && !$rootScope.navView) {
-        $timeout(function () {
-          return $rootScope.navView = t > 55;
-        });
-      } else if (t < 56 && $rootScope.navView) {
-        $timeout(function () {
-          return $rootScope.navView = t > 55;
-        });
-      }
+    // var scrollValue = 0;
+    // var scrollTimeout = false;
+    //$(window).scroll(function (event) {
+      // if($(window).scrollLeft() > 0 ){
+      //   console.log("left");
+      //   return
+      // }
+      // var t = event.currentTarget.scrollY;
+      // if (t > 55 && !$rootScope.navView) {
+      //   $timeout(function () {
+      //     return $rootScope.navView = t > 55;
+      //   });
+      // } else if (t < 56 && $rootScope.navView) {
+      //   $timeout(function () {
+      //     return $rootScope.navView = t > 55;
+      //   });
+      // }
       // clearTimeout(scrollTimeout);
       // scrollTimeout = setTimeout(function(){
       //   vm.scrolled = $(document).scrollTop() - scrollValue;
@@ -139,7 +139,7 @@
       //     });
       //   }
       // }, 10);
-    });
+    //});
 
     /*****************************
      *****  Controller Logic  ****
