@@ -84,16 +84,22 @@ module.exports = function () {
   });
 
 
-  this.Given(/^I Click Sidebar Place Name "([^"]*)"$/, function (sidebarPlaceName) {
-    var sidebarList = browser.findElement(by.className('side-place-item-inner'));
-    expect(sidebarList.getText()).toBe(sidebarPlaceName);
-    sidebarList.click();
-  });
+// this.Given(/^I Click Sidebar Place Name "([^"]*)"$/, function (sidebarPlaceName) {
+// var sidebarList = browser.findElement(by.className('side-place-item-inner'));
+// expect(sidebarList.getText()).toBe(sidebarPlaceName);
+// sidebarList.click();
+// });
 
   this.When(/^I Wait till line loader hide$/, function () {
     element(By.css('div[style="width: 0%;"]'));
     return;
   });
+
+  this.Given(/^I Click Search Button$/, function () {
+    element(By.css('div[style="max-width: 0px;"]'));
+    return;
+  });
+
 
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
     return browser.getTitle().then(function (title) {
