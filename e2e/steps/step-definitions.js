@@ -73,11 +73,6 @@ module.exports = function () {
     option.click();
   });
 
-  this.When(/^I Wait till line loader hide$/, function () {
-    element(By.css('div[style="width: 0%;"]'));
-    return;
-  });
-
   this.Given(/^I Click label by for "([^"]*)"$/, function (itsFor) {
     var checkbox = element(By.css('label[for="' + itsFor + '"]'));
     checkbox.click();
@@ -86,6 +81,11 @@ module.exports = function () {
   this.Given(/^I Click Link by Partial Text "([^"]*)"$/, function (partial) {
     var linkText = element(By.partialLinkText(partial));
     linkText.click();
+  });
+
+  this.When(/^I Wait till line loader hide$/, function () {
+    element(By.css('div[style="width: 0%;"]'));
+    return;
   });
 
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {

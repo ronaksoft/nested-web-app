@@ -19,9 +19,8 @@ Feature: User: mapping
 
   Scenario:
     Given I Click Link by Partial Text "Sent"
-    When I Wait till line loader hide
+    When  I Wait till line loader hide
     Then should the title of the place be "All Places"
-
 
   Scenario:
     Given I Click Link by Partial Text "Bookmark"
@@ -29,14 +28,16 @@ Feature: User: mapping
     Then should the title of the place be "Bookmarks"
 
   Scenario:
+    Given I Click Link by Partial Text "All Places"
+    When I Wait till line loader hide
     Given I Click Link by Partial Text "Sent"
     When I Wait till line loader hide
-    Then should the title of the place be "All Places"
+    Then I Click Link by Partial Text "All Places"
 
   Scenario:
     Given I Click Link by Partial Text "test mapping"
     When I Wait till line loader hide
-    Then should the title of the place be "test mapping"
+    Then I Click Link by Partial Text "test mapping"
 
   Scenario:
     Given I Click Link by Partial Text "Setting"
@@ -45,10 +46,14 @@ Feature: User: mapping
     When I Wait till line loader hide
     Given I Click Link by Partial Text "Discard"
     When I Wait till line loader hide
+
+  Scenario:
     Given I Click Link by Partial Text "Delete"
     When I Wait till line loader hide
     Given I Click Link by Partial Text "Cancel"
     When I Wait till line loader hide
+
+  Scenario:
     Given I Click Link by Partial Text "Activity"
     When I Wait till line loader hide
 
@@ -64,7 +69,9 @@ Feature: User: mapping
     Given I Click Link by Partial Text "Discard"
     When I Wait till line loader hide
     Given I Click Link by Partial Text "@test-mapping"
-    When I wait 10s
-    When I wait 10s
-    When I wait 10s
 
+
+#
+#  Scenario:
+#    Given I Click Link by Partial Text "Create New Grand Place"
+#    When I wait 5s
