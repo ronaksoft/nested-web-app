@@ -5,16 +5,15 @@
     <div class="box3"></div>
     <div class="box4"></div>
   </dl>
-  <svg class="icon" ng-if="place.isStarred">
-    <use xlink:href="/assets/icons/nst-icn16.svg#_Group_"></use>
-  </svg>
-  <svg class="icon" ng-if="!place.isLock">
+  <svg class="icon" ng-if="!place.isLock && !place.isStarred">
     <use xlink:href="/assets/icons/nst-icn16.svg#openplace"></use>
   </svg>
-  <svg class="icon" ng-if="place.isLock">
+  <svg class="icon" ng-if="place.isLock && !place.isStarred">
     <use xlink:href="/assets/icons/nst-icn16.svg#closeplace"></use>
   </svg>
-  <div class="icon icon-solid icon-side icon-sent"></div>
+  <svg class="icon" ng-if="place.isStarred">
+    <use xlink:href="/assets/icons/nst-icn16.svg#favplace"></use>
+  </svg>
   <a href="{{place.href}}">{{ place.name }}<b>{{place.level}}</b></a>
   <span ng-if="place.children.length > 0" class="e2-arrow _df">
     <label class="arrow-holder-nav {{!place.collapse ? 'nst-arrow' : 'nst-arrow-rotated'}}"
