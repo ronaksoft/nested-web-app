@@ -413,20 +413,6 @@
       return defer.promise;
     };
 
-    UserFactory.prototype.getMentions = function (skip, limit) {
-      var defer = $q.defer();
-
-      NstSvcServer.request('account/get_mentions', {
-        skip : skip || 0,
-        limit : limit || 12
-      }).then(function (data) {
-        
-        defer.resolve(data.mentions);
-      }).catch(defer.reject);
-
-      return defer.promise;
-    }
-
     return new UserFactory();
   }
 })();

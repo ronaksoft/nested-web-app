@@ -25,6 +25,12 @@
       this.sender = undefined;
 
       this.date = undefined;
+
+      NstModel.call(this);
+
+      if (data) {
+        this.fill(data);
+      }
     }
 
     Mention.prototype = new NstModel();
