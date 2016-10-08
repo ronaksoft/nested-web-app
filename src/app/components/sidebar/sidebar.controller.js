@@ -110,6 +110,7 @@
     $q.all([getUser(), getMyPlaces(), getInvitations(), getMentions()]).then(function (resolvedSet) {
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
+      console.log(vm.places);
       vm.invitations = mapInvitations(resolvedSet[2]);
       vm.mentionsCount = resolvedSet[3].length;
 

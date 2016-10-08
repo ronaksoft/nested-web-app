@@ -1231,6 +1231,8 @@
       place.setNew(false);
       place.setId(placeData._id);
       place.setUnreadPosts(placeData.unread_posts);
+      place.setTotalPosts(placeData.counters.posts);
+      place.setTeamatesCount(placeData.counters.key_holders + placeData.counters.creators);
       place.setName(placeData.name);
       place.setDescription(placeData.description);
 
