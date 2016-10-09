@@ -38,6 +38,4 @@
 #    Given I Press "Finish"
 #    When I wait 10s
 #    Then should the title of the place be "All Places"
-#
-#
-#
+

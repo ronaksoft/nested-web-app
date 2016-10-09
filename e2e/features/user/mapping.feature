@@ -38,7 +38,7 @@
 #    Then should the title of the place be "All Places"
 
 #   Scenario: test mapping of a place page
-#   Given I Click Sidebar Place Name "test-mapping@nested.me"
+#   Given I Click Link by Partial Text "test-mapping@nested.me"
 #   When I Wait till line loader hide
 #   When I wait 2s
 #   Then should the title of the place be "test mapping"
@@ -62,7 +62,7 @@
 #  When I wait 10s
 #  When I Wait till line loader hide
 
-# Scenario: Create a place mapping
+# Scenario: Create a place mapping and compose
 #    Given I Click Link by Partial Text "Activity"
 #    When I Wait till line loader hide
 #    Given I Click Link by Partial Text "Create New Grand Place"
@@ -71,6 +71,8 @@
 #    When I Wait till line loader hide
 #    Given I Click Link by Partial Text "Compose"
 #    When I Wait till line loader hide
+#    Then should the title of the place be "Compose"
+#    When I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When I Wait till line loader hide
 #    Then should the title of the place be "All Places"

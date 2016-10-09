@@ -3,21 +3,39 @@
 #  I should be able to search
 #
 #  Scenario: Sign in
+#    When I wait 2s
 #    Given I go to the page "/login"
+#    When I wait 2s
 #    Given I fill "Username" with "test-mapping"
+#    When I wait 2s
 #    Given I fill "Password" with "123456"
+#    When I wait 2s
 #    Given I Press "Sign in"
+#    When I wait 2s
 #    Then should the title of the place be "All Places"
-
-# Scenario: Search
-# Given I Click id Button
-# Given I fill "Search in test mapping" with "test mapping"
-# When I Click Close Icon
-# Then should the Search Input hide
-
-
-# Scenario:
-# Given I Click Search Button
-# Given I fill "Search in test mapping" with "Welcome"
-# When I press enter
-# Then should go to search page with results of Welcome
+#
+#  Scenario: Search in nav-bar
+#    Given I Click id "test-search"
+#    When I wait 2s
+#    Given I fill "Search in all places" with "welcome"
+#    When I wait 2s
+#    Given I press enter
+#    When I wait 2s
+#    Then should go to the page "/search/welcome"
+##    Then should the url of the page be "/search/welcome"
+#
+#  Scenario: Search in search page
+#    Given I fill id "clear" with "welcome"
+#    When I wait 5s
+#    Given I clear input by id "clear"
+#    When I wait 5s
+#    Given I fill id "clear" with "welcome"
+#    When I wait 5s
+#    Given I press enter
+#    When I wait 5s
+#    Given I Click id "button-search"
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
+#
+#
+#
