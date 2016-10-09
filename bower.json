@@ -38,13 +38,19 @@
     "ng-img-crop": "ngImgCrop#^0.3.2",
     "perfect-scrollbar": "^0.6.12",
     "At.js": "jquery.atwho#^1.5.1",
-    "svg4everybody": "svg4everybody-yeoman#^1.0.1",
-    "gsap": "^1.19.0"
+    "gsap": "^1.19.0",
+    "scrollmagic": "^2.0.5"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"
   },
   "overrides": {
+    "scrollmagic":{
+      "main" : [
+        "scrollmagic/uncompressed/ScrollMagic.js",
+        "scrollmagic/uncompressed/plugins/animation.gsap.js"
+      ]
+    },
     "font-awesome": {
       "main": [
         "less/font-awesome.less",

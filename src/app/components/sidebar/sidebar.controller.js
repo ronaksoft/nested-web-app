@@ -114,6 +114,7 @@
       fillPlacesNotifCountObject(vm.places);
 
       vm.invitations = mapInvitations(resolvedSet[2]);
+      vm.mentionsCount = resolvedSet[3].length;
 
 
       vm.mentionsCount = resolvedSet[3].length;
@@ -138,24 +139,17 @@
             return place.id === $stateParams.placeId.split('.')[0];
           });
         }
-      } else {
-        if (vm.selectedGrandPlace) {
+        vm.showTeamates = vm.selectedGrandPlace.id !== NstSvcAuth.user.id;
+      }else{
+        if (vm.selectedGrandPlace){
           vm.selectedGrandPlace = null;
         }
       }
     });
 
-
     /*****************************
      *****    Change urls   ****
      *****************************/
-
-    // $scope.$watch(function () {
-    //   return $state.current.name;
-    // },function () {
-    //   fixPlaceUrl();
-    // });
-
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       if (toState.options && toState.options.primary) {
@@ -168,11 +162,11 @@
 
       vm.urls = {
         unfiltered: $state.href(getUnfilteredState()),
-        compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
+        compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
         bookmarks: $state.href(getBookmarksState()),
         sent: $state.href(getSentState()),
-        placeAdd: $state.href(getPlaceAddState(), {placeId: NST_DEFAULT.STATE_PARAM}),
-        subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
+        placeAdd: $state.href(getPlaceAddState(), { placeId: NST_DEFAULT.STATE_PARAM }),
+        subplaceAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
       };
 
       mapPlacesUrl(vm.places);
@@ -274,7 +268,7 @@
     }
 
     function getMentions() {
-      return NstSvcUserFactory.getMentions();
+      return NstSvcMentionFactory.getMentions();
     }
 
     /*****************************
