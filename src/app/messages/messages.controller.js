@@ -77,6 +77,7 @@
 
       if (vm.currentPlaceId) {
         setPlace(vm.currentPlaceId).then(function (place) {
+          console.log(place);
           if (place) {
             return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
               $log.debug(error);

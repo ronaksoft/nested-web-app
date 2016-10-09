@@ -19,6 +19,7 @@
         pictureUrl : '@navPictureUrl',
         pictureClass : '@navPictureClass',
         title : '@navTitle',
+        description : '@',
         placeId : '@',
         readyToShow : '='
       },
