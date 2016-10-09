@@ -10,7 +10,7 @@
                           _, toastr,
                           NST_COMMENT_EVENT, NST_POST_EVENT,
                           NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
-                          NstVmUser, vmPost, postId) {
+                          NstVmUser, postModel, postId) {
     var vm = this;
 
     /*****************************
@@ -28,8 +28,8 @@
 
     vm.postModel = undefined;
     vm.post = undefined;
-    if (vmPost) {
-      vm.post = vmPost;
+    if (postModel) {
+      vm.post = postModel;
       if (vm.post.comments) {
         vm.comments = vm.post.comments;
         vm.scrollToNewComment = vm.comments.length;

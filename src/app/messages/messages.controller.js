@@ -160,6 +160,10 @@
       });
 
       setNavbarProperties();
+
+      if ($stateParams.postId) {
+        $state.go('app.message', { postId : $stateParams.postId } , { notify : false });
+      }
     })();
 
     function setNavbarProperties() {
