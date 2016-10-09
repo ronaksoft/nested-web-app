@@ -134,6 +134,7 @@
             return place.id === $stateParams.placeId.split('.')[0];
           });
         }
+        vm.showTeamates = vm.selectedGrandPlace.id !== NstSvcAuth.user.id;
       }else{
         if (vm.selectedGrandPlace){
           vm.selectedGrandPlace = null;
