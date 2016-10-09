@@ -249,11 +249,8 @@
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
-	      controllerAs: 'ctlActivity',
-        options : {
-          primary : true,
-          group : 'activity'
-        }
+        controllerAs: 'ctlActivity',
+	
       })
 
       /*****************************
@@ -265,7 +262,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/pages/places/files/place-files.html',
+        templateUrl: 'app/components/files/place-files.html',
         controller: 'PlaceFilesController',
         controllerAs: 'ctlFiles'
       })
@@ -275,9 +272,18 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/pages/places/files/place-files.html',
+        templateUrl: 'app/components/files/place-files.html',
         controller: 'PlaceFilesController',
         controllerAs: 'ctlFiles'
+      })
+
+   ===
+        controllerAs: 'ctlActivity',
+        options : {
+          primary : true,
+          group : 'activity'
+        }
+>>>>>>> 5b080c342b20650eaab7e2fbe69583936ee9fc4d
       })
 
       /*****************************

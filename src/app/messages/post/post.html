@@ -7,7 +7,7 @@
         <i>No Subject</i>
       </p>
       <div class="time nst-mood-storm _fn">{{ctlPost.post.date | date : 'long'}}</div>
-      <div class="closebut" ng-click="$close(result)">
+      <div class="closebut" ng-click="$close(result)" id="test-post-view-close">
         <img src="../assets/icons/close.svg"/>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <span class="actor-name nst-mood-cheerful _df">{{ctlPost.post.sender.name}}</span>
       <span class="margin-l-5 nst-mood-storm">to</span>
       <div class="badges _df _fw">
-        <div class="large-badge _df" data-ng-repeat="place in ctlPost.post.allPlaces">
+        <div class="large-badge _df" data-ng-repeat="place in ctlPost.post.allPlaces" id="test-post-badge">
           <a class="_di _fl" href="/#/places/{{place.id}}/messages">
             {{place.name}}
           </a>
@@ -34,15 +34,15 @@
             </a>
           </li>
           <li>
-            <a href="{{ctlPost.urls.forward}}">
-              <span class="nst-mood-solid _dib">Forward</span>
+            <a href="{{ctlPost.urls.forward}}" id="test-post-view-forward">
+              <span class="nst-mood-solid _dib" >Forward</span>
               <span class="action-button-post-forward  _dib"></span>
             </a>
           </li>
 
           <li>
             <div class="popover-white-nst-activity-places cursor-pointer" uib-popover-template="'app/messages/post/reply.html'"
-                 ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" popover-trigger="outsideClick">
+                 ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" popover-trigger="outsideClick" id="test-post-view-reply">
               <span class="nst-mood-solid _dib">Reply</span>
               <span class="action-button-post- _dib"></span>
             </div>
