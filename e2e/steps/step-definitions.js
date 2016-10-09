@@ -33,6 +33,11 @@ module.exports = function () {
     return browser.wait(EC.invisibilityOf(element(By.css('.loading-container'))), 50000);
   });
 
+  this.When(/^I Wait till line loader hide$/, function () {
+    element(By.css('div[style="width: 0%;"]'));
+    return;
+  });
+
   this.Given(/^Wait to see the "([^"]*)" title$/, function (title) {
     browser.ignoreSynchronization = true;
     return browser.wait(function () {
@@ -83,22 +88,22 @@ module.exports = function () {
     linkText.click();
   });
 
+  // this.Given(/^I Click Sidebar Place Name "([^"]*)"$/, function (sidebarPlaceName) {
+  //   var sidebarList = browser.findElement(by.className('side-place-item-inner'));
+  //   expect(sidebarList.getText()).toBe(sidebarPlaceName);
+  //   sidebarList.click();
+  // });
 
-// this.Given(/^I Click Sidebar Place Name "([^"]*)"$/, function (sidebarPlaceName) {
-// var sidebarList = browser.findElement(by.className('side-place-item-inner'));
-// expect(sidebarList.getText()).toBe(sidebarPlaceName);
-// sidebarList.click();
-// });
+  // this.Given(/^I Click Place Badge of Postcards "([^"]*)"$/, function (placeBadge) {
+  //   var postcardPlaceBadge = browser.findElement(by.className('margin-r-5'));
+  //   expect(postcardPlaceBadge.getText()).toBe(placeBadge);
+  //   postcardPlaceBadge.click();
+  // });
 
-  this.When(/^I Wait till line loader hide$/, function () {
-    element(By.css('div[style="width: 0%;"]'));
-    return;
-  });
-
-  this.Given(/^I Click Search Button$/, function () {
-    element(By.css('div[style="max-width: 0px;"]'));
-    return;
-  });
+  // this.Given(/^I Click Search Button$/, function () {
+  //   element(By.css('div[style="max-width: 0px;"]'));
+  //   return;
+  // });
 
 
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
