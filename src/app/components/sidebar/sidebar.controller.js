@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular
@@ -118,12 +118,12 @@
 
 
       vm.mentionsCount = resolvedSet[3].length;
+
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
           return place.id === $stateParams.placeId.split('.')[0];
         });
       }
-
 
       fixUrls();
     });
@@ -146,17 +146,9 @@
       }
     });
 
-
     /*****************************
      *****    Change urls   ****
      *****************************/
-
-    // $scope.$watch(function () {
-    //   return $state.current.name;
-    // },function () {
-    //   fixPlaceUrl();
-    // });
-
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       if (toState.options && toState.options.primary) {

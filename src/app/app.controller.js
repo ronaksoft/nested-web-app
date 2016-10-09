@@ -16,6 +16,10 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
 
+    if ($state.current.name === 'app.message') {
+      $state.go('app.messages', { postId : $stateParams.postId });
+    }
+
     /*****************************
      *****  Configure TrackJs  ****
      *****************************/

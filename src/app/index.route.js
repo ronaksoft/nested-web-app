@@ -13,7 +13,10 @@
         abstract : true,
         templateUrl : 'app/app-layout.html',
         controller : 'AppController',
-        controllerAs : 'ctlApp'
+        controllerAs : 'ctlApp',
+        params : {
+          postId : null,
+        }
       })
 
       /*****************************
@@ -277,4 +280,3 @@
   }
 
 })();
-
