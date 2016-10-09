@@ -169,15 +169,6 @@
           group: 'message'
         }
       })
-      .state('app.place-messages-unread', {
-        url: '/places/:placeId/unread',
-        templateUrl: 'app/messages/messages.html',
-        controller: 'MessagesController',
-        controllerAs: 'ctlMessages',
-        options : {
-          group : 'message'
-        }
-      })
       .state('app.place-messages-sorted', {
         url: '/places/:placeId/messages/:sort',
         params: {
