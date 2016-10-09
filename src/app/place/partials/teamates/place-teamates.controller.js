@@ -167,10 +167,7 @@
           vm.loading = false;
         });
       } else {
-        vm.teamates = {
-          keyHolders: [],
-          creators: []
-        };
+        vm.teamates = [];
       }
     }
 
