@@ -6,8 +6,8 @@
     .controller('SidebarPlaceInfoController', SidebarPlaceInfoController);
 
   /** @ngInject */
-  function SidebarPlaceInfoController($q, $scope , $state, $stateParams, NstSvcLogger, NstSvcPlaceFactory,NstSvcPlaceMap,
-                                      NST_PLACE_FACTORY_EVENT,NST_DEFAULT, NstVmPlace) {
+  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, NstSvcLogger, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap,
+                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace) {
     var vm = this;
     vm.loading = false;
 
@@ -34,7 +34,7 @@
       }).finally(function () {
         vm.loading = false;
       });
-    };
+    }
 
 
     $scope.$watch(function () {
@@ -85,11 +85,52 @@
           return model;
         });
 
+        fillPlacesBookmarkObject(placesList);
+        fillPlacesNotifCountObject(placesList);
+        getPlaceUnreadCounts();
+
         deferred.resolve(NstSvcPlaceMap.toTree(placesList, $stateParams.placeId));
 
       }).catch(deferred.reject);
 
       return deferred.promise;
+    }
+
+
+    /*****************************
+     *****   Notifs Counters  ****
+     *****************************/
+    vm.placesNotifCountObject = {};
+
+    function fillPlacesNotifCountObject(places) {
+      _.each(places, function (place) {
+        if (place)
+          vm.placesNotifCountObject[place.id] = place.unreadPosts || 0;
+      });
+      vm.placesNotifCountObject[vm.grandPlace.id] = 0;
+    }
+
+    function getPlaceUnreadCounts() {
+      var placeIds = _.keys(vm.placesNotifCountObject);
+      NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds)
+        .then(function(places){
+          _.each(places, function (value, placeId) {
+            vm.placesNotifCountObject[placeId] = value;
+          })
+        });
+    }
+
+
+    /*****************************
+     *****   Handel Bookmark  ****
+     *****************************/
+    vm.placesBookmarkObject = {};
+
+    function fillPlacesBookmarkObject(places) {
+      _.each(places, function (place) {
+        if (place)
+          vm.placesBookmarkObject[place.id] = place.isStarred || false;
+      });
     }
 
 
@@ -118,6 +159,25 @@
     });
 
 
+
+    NstSvcPlaceFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
+      getPlaceUnreadCounts();
+    });
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
+      vm.placesBookmarkObject[e.detail.id] = true;
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
+      vm.placesBookmarkObject[e.detail.id] = false;
+    });
+
+
+
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+      getPlaceUnreadCounts();
+    });
 
   }
 })();

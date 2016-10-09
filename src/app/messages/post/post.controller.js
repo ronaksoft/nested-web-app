@@ -358,6 +358,9 @@
       vm.status.postLoadProgress = true;
 
       return NstSvcLoader.inject(NstSvcPostFactory.get(id)).then(function (post) {
+
+
+        NstSvcPostFactory.read([id]);
         vm.status.postLoadProgress = false;
 
         return $q(function (res) {
