@@ -22,17 +22,17 @@
   }
 }
 .user-avatar-24 {
-  @include avatar(40px,24px);
+  @include avatar(40px,24px,1010px);
 }
 .user-avatar-32 {
-  @include avatar(40px,32px);
+  @include avatar(40px,32px,1010px);
 }
 .user-avatar-38 {
-  @include avatar(40px,38px);
+  @include avatar(40px,38px,1010px);
 }
 .user-avatar-48 {
-  @include avatar(80px,48px);
+  @include avatar(80px,48px,1010px);
 }
 .user-avatar-28 {
-  @include avatar(32px,28px);
+  @include avatar(32px,28px,1010px);
 }
