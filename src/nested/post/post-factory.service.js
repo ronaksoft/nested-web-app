@@ -58,6 +58,7 @@
 
     PostFactory.prototype.has = has;
     PostFactory.prototype.get = get;
+    PostFactory.prototype.read = read;
     PostFactory.prototype.set = set;
     PostFactory.prototype.send = send;
     PostFactory.prototype.remove = remove;
@@ -67,6 +68,7 @@
     PostFactory.prototype.getMessages = getMessages;
     PostFactory.prototype.getPlaceMessages = getPlaceMessages;
     PostFactory.prototype.getBookmarksMessages = getBookmarksMessages;
+    PostFactory.prototype.getUnreadMessages = getUnreadMessages ;
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.parseMessage = parseMessage;
     PostFactory.prototype.getMessage = getMessage;
@@ -86,7 +88,7 @@
      *
      * @returns {Promise}      the post
      */
-    function get(id) {
+    function get(id, markAsRead) {
       var defer = $q.defer();
 
       var query = new NstFactoryQuery(id);
@@ -99,7 +101,8 @@
           defer.resolve(post);
         } else {
           NstSvcServer.request('post/get', {
-            post_id: query.id
+            post_id: query.id,
+            mark_read : markAsRead ? markAsRead : false
           }).then(function (data) {
             parsePost(data.post).then(function (post) {
               NstSvcPostStorage.set(query.id, post);
@@ -111,6 +114,57 @@
             defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
         }
+      }
+
+      return defer.promise;
+    }
+
+
+    /**
+     * anonymous function - retrieve a post by id and store in the related cache storage
+     *
+     * @param  {int}      id  a post id
+     *
+     * @returns {Promise}      the post
+     */
+    function read(id) {
+
+      var factory = this;
+      var defer = $q.defer();
+
+      var query = new NstFactoryQuery(id);
+      var ids;
+
+      if (!id) {
+        throw "Post id is not define!";
+      }else{
+        ids = id;
+      }
+      if (_.isArray(id) && id.length === 0) {
+        throw "Post id is not define!";
+      }else {
+        ids = id.join(",")
+      }
+
+
+      if (!query.id) {
+        defer.resolve(null);
+      } else {
+        NstSvcServer.request('post/mark_as_read', {
+          post_id: ids,
+        }).then(function (data) {
+
+            factory.dispatchEvent(new CustomEvent(
+              NST_POST_FACTORY_EVENT.READ,
+              new NstFactoryEventData(id)
+            ));
+
+          defer.resolve(true);
+
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+
       }
 
       return defer.promise;
@@ -630,6 +684,74 @@
 
       return defer.promise;
     }
+
+    function getBookmarksMessages(setting, bookmarkId) {
+
+        var defer = $q.defer();
+
+        bookmarkId = bookmarkId || "_starred";
+
+        var options = {
+          limit: setting.limit,
+          before: setting.date,
+          bookmark_id: bookmarkId
+        };
+
+        if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
+          options.by_update = true;
+        }
+
+        NstSvcServer.request('account/get_bookmarked_posts', options).then(function (data) {
+          var messagePromises = _.map(data.posts.posts, parseMessage);
+          $q.all(messagePromises).then(function (messages) {
+            _.forEach(messages, function (item) {
+              NstSvcPostStorage.set(item.id, item);
+            });
+            defer.resolve(messages);
+          });
+        }).catch(function (error) {
+          // TODO: format the error and throw it
+          defer.reject(error);
+        });
+
+        return defer.promise;
+      }
+
+
+    function getUnreadMessages(setting, places, subs) {
+
+      if (!_.isArray(places))
+        throw "Places must be an Array.";
+
+      var defer = $q.defer();
+
+      var options = {
+        limit: setting.limit,
+        before: setting.date,
+        place_id: places.join(","),
+        subs : subs ? subs : false
+      };
+
+      if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
+        options.by_update = true;
+      }
+
+      NstSvcServer.request('place/get_unread_posts', options).then(function (data) {
+        var messagePromises = _.map(data.posts.posts, parseMessage);
+        $q.all(messagePromises).then(function (messages) {
+          _.forEach(messages, function (item) {
+            NstSvcPostStorage.set(item.id, item);
+          });
+          defer.resolve(messages);
+        });
+      }).catch(function (error) {
+        // TODO: format the error and throw it
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
 
     function getMessage(id) {
       var defer = $q.defer();

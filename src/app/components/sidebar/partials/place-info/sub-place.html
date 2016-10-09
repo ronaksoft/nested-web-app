@@ -5,13 +5,13 @@
     <div class="box3"></div>
     <div class="box4"></div>
   </dl>
-  <svg class="icon" ng-if="!place.isLock && !place.isStarred">
+  <svg class="icon" ng-if="!place.isLock && !ctlPlaceInfo.placesBookmarkObject[place.id]">
     <use xlink:href="/assets/icons/nst-icn16.svg#openplace"></use>
   </svg>
-  <svg class="icon" ng-if="place.isLock && !place.isStarred">
+  <svg class="icon" ng-if="place.isLock && !ctlPlaceInfo.placesBookmarkObject[place.id]">
     <use xlink:href="/assets/icons/nst-icn16.svg#closeplace"></use>
   </svg>
-  <svg class="icon" ng-if="place.isStarred">
+  <svg class="icon" ng-if="ctlPlaceInfo.placesBookmarkObject[place.id]">
     <use xlink:href="/assets/icons/nst-icn16.svg#favplace"></use>
   </svg>
   <a href="{{place.href}}">{{ place.name }}

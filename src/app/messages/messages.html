@@ -43,8 +43,11 @@
       <p class="text-center nst-mood-storm" ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd">
         There are no more messages!
       </p>
-      <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages">
+      <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && !ctlMessages.isUnreadMode">
         Be the first who writes something here...
+      </p>
+      <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && ctlMessages.isUnreadMode">
+        You have any unread post.
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.loadMessageError">
         An error has occurred. Please

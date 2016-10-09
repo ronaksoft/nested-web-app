@@ -6,10 +6,11 @@
     .controller('SidebarController', SidebarController);
 
   /** @ngInject */
-  function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
+  function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT,NstSvcMentionFactory,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,NST_POST_FACTORY_EVENT,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT,
+                             NstSvcLoader, NstSvcTry, NstSvcAuth,
+                             NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
 
@@ -114,7 +115,6 @@
       fillPlacesNotifCountObject(vm.places);
 
       vm.invitations = mapInvitations(resolvedSet[2]);
-      vm.mentionsCount = resolvedSet[3].length;
 
 
       vm.mentionsCount = resolvedSet[3].length;
@@ -139,17 +139,24 @@
             return place.id === $stateParams.placeId.split('.')[0];
           });
         }
-        vm.showTeamates = vm.selectedGrandPlace.id !== NstSvcAuth.user.id;
-      }else{
-        if (vm.selectedGrandPlace){
+      } else {
+        if (vm.selectedGrandPlace) {
           vm.selectedGrandPlace = null;
         }
       }
     });
 
+
     /*****************************
      *****    Change urls   ****
      *****************************/
+
+    // $scope.$watch(function () {
+    //   return $state.current.name;
+    // },function () {
+    //   fixPlaceUrl();
+    // });
+
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       if (toState.options && toState.options.primary) {
@@ -162,11 +169,11 @@
 
       vm.urls = {
         unfiltered: $state.href(getUnfilteredState()),
-        compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
+        compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
         bookmarks: $state.href(getBookmarksState()),
         sent: $state.href(getSentState()),
-        placeAdd: $state.href(getPlaceAddState(), { placeId: NST_DEFAULT.STATE_PARAM }),
-        subplaceAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
+        placeAdd: $state.href(getPlaceAddState(), {placeId: NST_DEFAULT.STATE_PARAM}),
+        subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
       };
 
       mapPlacesUrl(vm.places);
@@ -441,6 +448,11 @@
 
 
     NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
+      getGrandPlaceUnreadCounts();
+    });
+
+
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
       getGrandPlaceUnreadCounts();
     });
   }

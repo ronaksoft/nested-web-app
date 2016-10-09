@@ -8,6 +8,8 @@
       UPDATE : 'update',
       REMOVE: 'remove',
       PICTURE_CHANGE: 'pic-change',
-      PRIVACY_CHANGE: 'privacy-change'
+      PRIVACY_CHANGE: 'privacy-change',
+      BOOKMARK_ADD: 'BOOKMARK_ADD',
+      BOOKMARK_REMOVE: 'BOOKMARK_REMOVE',
     });
 })();

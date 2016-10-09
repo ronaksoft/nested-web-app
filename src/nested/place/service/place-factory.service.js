@@ -824,6 +824,12 @@
           place_id: id,
           bookmark_id: bookmarkId,
         }).then(function () {
+          factory.dispatchEvent(new CustomEvent(
+            value ? NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD : NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE,
+            new NstFactoryEventData(
+              {id: id}
+            )
+          ));
           defer.resolve(true);
         }).catch(function (error) {
           defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -1395,35 +1401,10 @@
 
     PlaceFactory.prototype.addPlaceToTree = function (tree, place) {
       addPlace(tree, place);
-    }
+    };
 
     PlaceFactory.prototype.updatePlaceInTree = function (tree, place) {
       updatePlace(tree, place);
-    }
-
-    PlaceFactory.prototype.getSubPlaceUnreadPosts = function (places) {
-      if (!_.isArray(places)) {
-        throw "Places is not Array"
-      }
-
-      var deferred = $q.defer();
-
-      NstSvcServer.request('place/count_unread_posts', {
-        'place_ids': places.join(',')
-      }).then(function (data) {
-        console.log(data)
-        // if (data && _.isArray(data.places) && !_.isEmpty(data.places)) {
-        //   deferred.resolve(_.map(data.places, function (place) {
-        //     return new NstTinyPlace(place);
-        //   }));
-        // } else {
-        //   deferred.resolve([]);
-        // }
-      }).catch(function (error) {
-        deferred.reject(error);
-      });
-
-      return deferred.promise;
     };
 
 
@@ -1488,7 +1469,7 @@
       }
 
       NstSvcServer.request('place/count_unread_posts', {
-        "place_ids": placesId.join(","),
+        "place_id": placesId.join(","),
         "subs": subs ? true : false
       })
         .then(function (data) {
