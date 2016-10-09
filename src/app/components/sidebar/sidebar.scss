@@ -123,6 +123,7 @@
   }
   .side-menu-item.detailed,
   .side-access .detailed,
+  .side-place-invite-item-inner.detailed,
   .detailed#compoese,
   .create-place.detailed,
   .side-place-item-inner.detailed{
@@ -395,8 +396,7 @@
   flex: none;
   flex-direction: row;
   cursor: pointer;
-  background-color: #3296FF;
-  opacity: .8;
+  background-color: rgba(50,150,255,.8);
   transition: all $animation-dur ease;
   span {
     line-height: 19px;
@@ -412,8 +412,7 @@
   }
 }
 .side-place-invite-item-inner:hover{
-  opacity: 1;
-  background-color: #3296FF!important;
+  background-color: rgba(50,150,255,1)!important;
 }
 .maincontainer.sidetiny {
   .side-place-item-inner,.side-place-invite-item-inner {
@@ -457,13 +456,7 @@
 }
 
 .side-place-item-image {
-
-
-  img{
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
-  }
+  @include avatar(72px,40px,6px);
 }
 .side-place-name a {
   margin-left: 4px;

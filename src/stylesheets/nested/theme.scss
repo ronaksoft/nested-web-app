@@ -84,6 +84,7 @@
   .content {
     width: 100%;
     @include center-block();
+    display: flex;
     max-width: 1058px;
     min-height: 100%;
   }

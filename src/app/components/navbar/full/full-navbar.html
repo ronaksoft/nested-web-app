@@ -2,11 +2,9 @@
 <div class="nst-navbar">
   <div class="nst-content _tr">
     <div class="content">
-      <div class="place-logo">
-        <div ng-if="ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass">
+      <div class="place-logo"  ng-if="ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass">
           <div data-ng-if="ctlFullNavbar.pictureClass" class="icon {{ctlFullNavbar.pictureClass}}"></div>
           <img ng-if="ctlFullNavbar.pictureUrl" class="_tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
-        </div>
       </div>
       <div class="place-info _difv">
         <cite>{{ctlFullNavbar.title}}</cite>
