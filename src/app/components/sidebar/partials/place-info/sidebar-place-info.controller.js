@@ -112,12 +112,13 @@
 
     function getPlaceUnreadCounts() {
       var placeIds = _.keys(vm.placesNotifCountObject);
-      NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds)
-        .then(function(places){
-          _.each(places, function (value, placeId) {
-            vm.placesNotifCountObject[placeId] = value;
-          })
-        });
+      if (placeIds.length > 0)
+        NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds)
+          .then(function(places){
+            _.each(places, function (value, placeId) {
+              vm.placesNotifCountObject[placeId] = value;
+            })
+          });
     }
 
 

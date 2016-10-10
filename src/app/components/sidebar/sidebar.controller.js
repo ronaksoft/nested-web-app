@@ -115,8 +115,7 @@
 
       vm.invitations = mapInvitations(resolvedSet[2]);
 
-      vm.mentions = resolvedSet[3]
-      vm.mentionsCount = vm.mentions.length;
+      vm.mentionsCount = resolvedSet[3].length;
 
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
@@ -358,12 +357,13 @@
 
     function getGrandPlaceUnreadCounts() {
       var placeIds = _.keys(vm.placesNotifCountObject);
-      NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds,true)
-        .then(function(places){
-          _.each(places, function (value, placeId) {
-            vm.placesNotifCountObject[placeId] = value;
-          })
-        });
+      if (placeIds.length > 0)
+        NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds,true)
+          .then(function(places){
+            _.each(places, function (value, placeId) {
+              vm.placesNotifCountObject[placeId] = value;
+            })
+          });
     }
 
 

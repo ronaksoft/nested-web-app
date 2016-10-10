@@ -13,12 +13,12 @@
         templateUrl: 'app/mention/mentions.html',
         controller: 'MentionsController',
         controllerAs: 'ctlMentions',
-        params : {
-          mentions : {
-            array : true,
-            value : []
-          }
-        },
+        // params : {
+        //   mentions : {
+        //     array : true,
+        //     value : []
+        //   }
+        // },
         options: {
           group: 'mention'
         }
