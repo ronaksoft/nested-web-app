@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout,
+  function PostCardController($state, $log, $timeout, $rootScope,
                               _, moment,
                               NST_POST_EVENT, NST_COMMENT_EVENT,
                               NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
@@ -164,9 +164,17 @@
       if (e.detail.postId === vm.post.id) {
         vm.post.commentsCount += vm.newCommentsCount;
         vm.newCommentsCount = 0;
-        if (e.detail.comments && e.detail.comments.length > 0) {
-          vm.post.comments = e.detail.comments;
+      }
+    });
+
+    $rootScope.$on('post-modal-closed', function (event, data) {
+      if (data.postId === vm.post.id) {
+        event.preventDefault();
+        if (data.comments && data.comments.length > 0) {
+          vm.post.comments = _.clone(data.comments);
         }
+        vm.post.commentsCount = data.totalCommentsCount;
+        vm.newCommentsCount = 0;
       }
     });
 

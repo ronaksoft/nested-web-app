@@ -24,7 +24,6 @@
         readyToShow : '='
       },
       link: function (scope, element, attrs) {
-        console.log($(element).children().find( "p" )[0]);
         // create a scene
         var controller = new ScrollMagic.Controller();
 
