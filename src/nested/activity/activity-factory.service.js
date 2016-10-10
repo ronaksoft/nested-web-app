@@ -191,7 +191,6 @@
         var defer = $q.defer();
 
         var activity = new NstActivity();
-        $log.debug('recieved activity is :', data);
 
         activity.id = data._id.$oid;
         activity.type = data.action;
