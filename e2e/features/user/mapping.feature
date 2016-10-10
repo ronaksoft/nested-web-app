@@ -176,7 +176,7 @@
 #    When  I wait 5s
 #    Then should the title of the place be "All Places"
 
-#  Scenario: Postcard Badge
+#  Scenario: Postcard
 #    When I wait 5s
 #    Given I Click id "test-post-card-badge"
 #    When I Wait till line loader hide
@@ -188,12 +188,6 @@
 #    When  I wait 5s
 #    Given I Click Link by Partial Text "ronaksoft"
 #    When I Wait till line loader hide
-#    When  I wait 5s
-#    When I wait 5s
-#    Then should the title of the place be "Ronak Software Group"
-#
-#
-#  Scenario: Postcard Comments mapping
 #    When I wait 5s
 #    Given I Click Link by Partial Text "All Places"
 #    When I wait 5s
@@ -261,7 +255,7 @@
 #    When  I wait 5s
 #    Then should the title of the place be "All Places"
 #
-#  Scenario: Post view place badge
+#  Scenario: Post view
 #    When  I wait 5s
 #    Given I Click Link by Partial Text "Bookmarks"
 #    When I Wait till line loader hide
@@ -274,9 +268,6 @@
 #    When I wait 5s
 ##    //Given I Click Link by Partial Text "Return"//
 #    When I wait 5s
-#    Then should the title of the place be "test mapping"
-#
-#  Scenario: Post-view Comment
 #    When  I wait 5s
 #    Given I Click Link by Partial Text "All Places"
 #    When  I wait 5s
