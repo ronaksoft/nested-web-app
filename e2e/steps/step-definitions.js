@@ -53,6 +53,10 @@ module.exports = function () {
     input.sendKeys(value);
   });
 
+  this.Given(/^I fill textarea by "([^"]*)" with "([^"]*)"$/, function (placeholder, value) {
+    var textarea = element(By.css('textarea[placeholder="' + placeholder + '"]'));
+    textarea.sendKeys(value);
+  });
 
   this.Given(/^I press enter$/, function () {
     var enter = browser.actions().sendKeys(protractor.Key.ENTER);
