@@ -500,9 +500,12 @@
       return false;
     }
 
-    // $timeout(function () {
-    //   vm.revealNewComment = true;
-    // });
-
+    $uibModalInstance.result.finally(function () {
+      $rootScope.$broadcast('post-modal-closed', {
+        postId: vm.post.id,
+        comments: vm.comments,
+        totalCommentsCount: vm.postModel.counters.comment || vm.comments.length
+      });
+    });
   }
 })();
