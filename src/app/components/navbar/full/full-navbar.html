@@ -19,7 +19,7 @@
         <div id="inputsearch" class="has-feedback _fw">
           <input type="text" nst-mention class="form-control" placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.title : 'all places'}}" type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"/>
           <i ng-click="ctlFullNavbar.srch('inputsearch');"
-             class="_pa _left icon-close-search form-control-feedback"></i>
+             class="_pa _left icon-close-search form-control-feedback" id="test-search-clear"></i>
           <!--<div class="search-part1">
           </div>
 
@@ -30,7 +30,7 @@
         </div>
         <div class="_difh _fh _fw">
           <div class="menu-links-search _df">
-            <div ng-click="ctlFullNavbar.srch('inputsearch');" class="icon cursor-pointer icon-search-rotated _dib"></div>
+            <div ng-click="ctlFullNavbar.srch('inputsearch');" class="icon cursor-pointer icon-search-rotated _dib" id="test-search"></div>
           </div>
 
           <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
