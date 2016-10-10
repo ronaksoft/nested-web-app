@@ -1,0 +1,21 @@
+.mentions-container {
+  list-style: none;
+  .mention-item {
+    display: flex;
+    border-bottom: 1px solid #ced9d3;
+    padding: 8px 4px 4px 4px;
+    cursor: pointer;
+    &:hover {
+      background-color: #E7FBF0;
+    }
+    .sender {
+      flex-grow: 1;
+    }
+    .written {
+      flex-grow: 2;
+    }
+    .time {
+      flex-grow: 1;
+    }
+  }
+}

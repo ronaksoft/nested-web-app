@@ -116,8 +116,8 @@
 
       vm.invitations = mapInvitations(resolvedSet[2]);
 
-
-      vm.mentionsCount = resolvedSet[3].length;
+      vm.mentions = resolvedSet[3]
+      vm.mentionsCount = vm.mentions.length;
 
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
