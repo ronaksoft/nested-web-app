@@ -33,29 +33,16 @@
   }
   nst-navbar{
     top: $topnav-height;
+    left: 0;
+  }
+  .navbarillu {
+    height: $navbar-height + $topnav-height;
   }
 }
 @media screen and (min-width: $screen-md){
   nst-navbar{
     top: 0;
-    transform: translate3d(0,0,0);
-    //width: calc(100% - 272px);
-    left: $sidebar-width;
     transition: all .3s ease;
-  }
-  .maincontainer {
-    height: 100%;
-    &.navtiny {
-      nst-navbar {
-        transform: translate3d(0,-117px,0);
-      }
-    }
-    &.sidetiny {
-      nst-navbar{
-        //width: calc(100% - 76px);
-        //left: $sidebar-width-tiny;
-      }
-    }
   }
   .nst-topnav,#top-nav-container{
     display: none;
