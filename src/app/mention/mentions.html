@@ -1,0 +1,26 @@
+<nst-navbar controls="ctlMentions.controls" nav-title="Mentions" page="ctlApp.page" ready-to-show="true" class="second-view"></nst-navbar>
+
+<div class="nst-content second-view" id="content-wrapper">
+  <section class="content _bgwhite">
+    <div class="navbarillu"></div>
+    <div class="panel-profile-setting">
+      <ul class="mentions-container">
+        <li class="mention-item" ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.post.id })" nst-post-modal post="mention.post">
+          <div class="sender">
+            <a>
+              {{ ::mention.sender.fullName }}
+            </a>
+          </div>
+          <div class="written">
+            <p>
+              <i>{{mention.comment.body | truncate}}</i> on <b>{{mention.post.subject | truncate}}</b>
+            </p>
+          </div>
+          <div class="time">
+            {{mention.date | passed}}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>

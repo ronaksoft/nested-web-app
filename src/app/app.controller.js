@@ -16,6 +16,8 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
 
+
+    // Redirects to messages if the app is initializing with "app.message" route
     if ($state.current.name === 'app.message') {
       $state.go('app.messages', { postId : $stateParams.postId });
     }
@@ -62,7 +64,7 @@
 
     // calls $digest every 1 sec to update elapsed times.
     $interval(function () {
-      $log.debug('AppController calls $digest to update passed times every 1 min.');
+      NstSvcLogger.info('AppController calls $digest to update passed times every 1 min.');
     }, 60 * 1000);
 
 
