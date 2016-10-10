@@ -63,10 +63,16 @@
     margin-left: 272px;
     width: calc(100% - 272px);
   }
+  nst-navbar {
+    left: $sidebar-width;
+  }
   .maincontainer.sidetiny {
     .nst-container{
       margin-left: 76px;
       width: calc(100% - 76px );
+    }
+    nst-navbar {
+      left: $sidebar-width-tiny;
     }
   }
   .nst-topnav{

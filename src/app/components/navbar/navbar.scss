@@ -12,7 +12,7 @@
   top: 0;
   right: 0;
   left: 0;
-  height: 68px;
+  height: $topnav-height;
   background-color: $color-sense;
   z-index: 52;
   transition: background-color $animation-dur ease-in;
@@ -39,7 +39,7 @@
   right: 0;
   left: 0;
   bottom: 0;
-  top: 68px;
+  top: $topnav-height;
   height: calc(100% - 68px);
   background-color: $color-breeze-50;
   padding: 8px 0;
@@ -118,7 +118,6 @@ nst-navbar {
   top: 0;
   right: 0;
   z-index: 55;
-  left: 0;
 }
 
 .nst-navbar {
@@ -149,6 +148,7 @@ nst-navbar {
     height: 100%;
     position: relative;
     flex-direction: column;
+    overflow-y: hidden;
     > * {
       display: flex;
       flex: none;
