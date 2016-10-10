@@ -8,16 +8,16 @@
       </div>
       <div class="place-info _difv">
         <cite>{{ctlFullNavbar.title}}</cite>
-        <h3>{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
+        <h3 ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
         <p>{{ctlFullNavbar.description}}</p>
         <div class="navigation" ng-if="!ctlFullNavbar.controls">
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
               Messages
             </a>
-            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isFiles ? 'active' : ''}}">
+            <!-- <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isFiles ? 'active' : ''}}">
               Files
-            </a>
+            </a> -->
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
               Activity
             </a>
