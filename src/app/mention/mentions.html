@@ -13,7 +13,7 @@
           </div>
           <div class="written">
             <p>
-              wrote {{::mention.comment.body}} on {{::mention.post.subject}}
+              <i>{{mention.comment.body | truncate}}</i> on <b>{{mention.post.subject | truncate}}</b>
             </p>
           </div>
           <div class="time">

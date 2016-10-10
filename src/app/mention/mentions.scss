@@ -10,12 +10,21 @@
     }
     .sender {
       flex-grow: 1;
+      flex-shrink: 0;
+      max-width: 96px;
+      padding: 4px;
     }
     .written {
-      flex-grow: 2;
+      flex-grow: 4;
+      padding: 4px;
+      flex-shrink: 1;
     }
     .time {
       flex-grow: 1;
+      flex-shrink: 0;
+      padding: 4px;
+      max-width: 62px;
+      word-wrap: break-word;
     }
   }
 }

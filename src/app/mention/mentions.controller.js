@@ -9,10 +9,13 @@
     $log,
     NstSvcMentionFactory) {
     var vm = this;
+
     vm.controls = {
       left: [],
       right: []
     };
+
+    vm.markAllSeen = markAllSeen;
 
     (function() {
 
@@ -26,6 +29,11 @@
       }
 
     })();
+
+    function markAllSeen() {
+
+    }
+
   }
 
 })();
