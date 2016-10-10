@@ -51,7 +51,6 @@
           previousState : [
             "$state",
             function ($state) {
-              console.log($state);
               var current = {
                 name : $state.current.name,
                 params : $state.params,

@@ -65,7 +65,6 @@
     vm.hasRemoveAccess = hasRemoveAccess;
 
     function loadComments() {
-      console.log('loading comments');
       vm.commentSettings.date = getDateOfOldestComment(vm.postModel);
       var commentCount = vm.comments.length;
 
@@ -282,7 +281,6 @@
      *****************************/
 
     (function () {
-      console.log('initilizing the page');
       reqGetPost(vm.postId).then(function (post) {
         vm.postModel = post;
         vm.post = mapPost(vm.postModel);
