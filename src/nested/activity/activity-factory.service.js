@@ -6,10 +6,10 @@
 
   /** @ngInject */
   function NstSvcActivityFactory($q, $log,
-    _, moment,
+    _,
     NST_ACTIVITY_FILTER, NST_SRV_EVENT, NST_ACTIVITY_FACTORY_EVENT,
-    NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory,
-    NstObservableObject, NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstAttachment, NstFactoryEventData) {
+    NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory,
+    NstBaseFactory, NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstFactoryEventData) {
 
     function ActivityFactory() {
       var that = this;
@@ -26,7 +26,7 @@
       });
     }
 
-    ActivityFactory.prototype = new NstObservableObject();
+    ActivityFactory.prototype = new NstBaseFactory();
     ActivityFactory.prototype.constructor = ActivityFactory;
 
     ActivityFactory.prototype.get = get;
@@ -34,7 +34,8 @@
     ActivityFactory.prototype.parseActivity  = parseActivity;
     ActivityFactory.prototype.parseActivityEvent  = parseActivityEvent;
 
-    return new ActivityFactory();
+    var factory = new ActivityFactory();
+    return factory;
 
     function parseActivity(data) {
       var defer = $q.defer();
@@ -288,23 +289,26 @@
     }
 
     function getAll(settings) {
-      var defer = $q.defer();
+      return factory.sentinel.watch(function() {
 
-      NstSvcServer.request('timeline/get_events', {
-        limit: settings.limit,
-        before: settings.date,
-        filter: settings.filter
-      }).then(function(data) {
+        var deferred = $q.defer();
 
-        var activities = _.map(data.events, parseActivity);
+        NstSvcServer.request('timeline/get_events', {
+          limit: settings.limit,
+          before: settings.date,
+          filter: settings.filter
+        }).then(function(data) {
 
-        $q.all(activities).then(function(values) {
-          defer.resolve(values);
-        }).catch(defer.reject);
+          var activities = _.map(data.events, parseActivity);
 
-      }).catch(defer.reject);
+          $q.all(activities).then(function(values) {
+            deferred.resolve(values);
+          }).catch(deferred.reject);
 
-      return defer.promise;
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, 'getAll');
     }
 
     function getRecent(settings) {
@@ -318,28 +322,30 @@
     }
 
     function getByPlace(settings) {
+      return factory.sentinel.watch(function() {
+        var defer = $q.defer();
 
-      if (!settings.placeId) {
-        throw 'Could not find the place id.';
-      }
+        if (!settings.placeId) {
+          defer.reject(new Error('Could not find the place id.'));
+        } else {
 
-      var defer = $q.defer();
+          NstSvcServer.request('timeline/get_events', {
+            limit: settings.limit,
+            before: settings.date,
+            place_id: settings.placeId,
+            filter: settings.filter
+          }).then(function(data) {
+            var activities = _.map(data.events, parseActivity);
 
-      NstSvcServer.request('timeline/get_events', {
-        limit: settings.limit,
-        before: settings.date,
-        place_id: settings.placeId,
-        filter: settings.filter
-      }).then(function(data) {
-        var activities = _.map(data.events, parseActivity);
+            $q.all(activities).then(function(values) {
+              defer.resolve(values);
+            }).catch(defer.reject);
 
-        $q.all(activities).then(function(values) {
-          defer.resolve(values);
-        }).catch(defer.reject);
+          }).catch(defer.reject);
+        }
 
-      }).catch(defer.reject);
-
-      return defer.promise;
+        return defer.promise;
+      }, 'getByPlace', settings.placeId);
     }
   }
 })();
