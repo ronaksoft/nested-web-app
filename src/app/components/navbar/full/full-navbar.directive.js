@@ -38,7 +38,7 @@
           .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));
 
         // build scene
-        var scene = new ScrollMagic.Scene({duration: 72, offset: 1})
+        var scene = new ScrollMagic.Scene({duration: 72, offset: 150})
           .setTween([tween,tween2,tween3])
           .addTo(controller);
       }
