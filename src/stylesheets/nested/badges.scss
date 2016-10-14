@@ -62,7 +62,7 @@ a.normal-badge {
   right: auto;
   left: 50%;
   transform: translateX(-50%);
-  top: 189px;
+  top: $navbar-height + 40px;
   width: 162px;
   height: 32px;
   background-color: $color-force-wire;

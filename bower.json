@@ -45,8 +45,8 @@
     "angular-mocks": "~1.5.6"
   },
   "overrides": {
-    "scrollmagic":{
-      "main" : [
+    "scrollmagic": {
+      "main": [
         "scrollmagic/uncompressed/ScrollMagic.js",
         "scrollmagic/uncompressed/plugins/animation.gsap.js"
       ]

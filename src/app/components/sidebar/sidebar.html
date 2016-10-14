@@ -149,15 +149,15 @@
   </div>
   <!--<div class="sidebar-border"></div>-->
   <div class="sidebar-plus-wrapper" ng-show="ctlSidebar.selectedGrandPlace">
-    <div class="side-profile-block">
-      <div class="user-detail">
+    <div class="side-profile-block" bg-check="{{ctlSidebar.selectedGrandPlace.avatar}}">
+      <div class="user-detail txt">
         <a>{{ctlSidebar.selectedGrandPlace.name}}<br><span class="nst-mood-storm sm">{{ctlSidebar.selectedGrandPlace.id}}@nested.me</span> </a>
       </div>
       <div class="user-avatar">
+        <img ng-if="ctlSidebar.selectedGrandPlace.avatar" ng-src="{{ctlSidebar.selectedGrandPlace.avatar}}"/>
         <img ng-if="!ctlSidebar.selectedGrandPlace.avatar" class="account-initials-32"
              initials="ctlSidebar.selectedGrandPlace.name" data-url="ctlSidebar.selectedGrandPlace.avatar"
              data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
-        <img ng-if="ctlSidebar.selectedGrandPlace.avatar" ng-src="{{ctlSidebar.selectedGrandPlace.avatar}}"/>
       </div>
       <div class="side-stats">
         <div class="unread">
