@@ -23,9 +23,7 @@
 #    When I wait 5s
 #    Given I fill "Enter new password" with "111111"
 #    Given I fill "Confirm new password" with "111111"
-#    When I wait 10s
-#    When I wait 5s
+#    When I wait 2s
 #    Given I Press "Continue"
+#    Then Wait to see success-msg
 #    When I wait 10s
-#    Then should the title of the place be "All Places"
-#

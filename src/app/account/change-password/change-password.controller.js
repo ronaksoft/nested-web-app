@@ -37,7 +37,7 @@
         var changePasswordPromise = NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword);
         NstSvcLoader.inject(changePasswordPromise);
         changePasswordPromise.then(function(result) {
-          toastr.success('Your pasword changed successfully.')
+          toastr.success('Your password changed successfully.')
           $state.go('app.profile');
         }).catch(function(error) {
           if (error.code === NST_SRV_ERROR.INVALID) {
