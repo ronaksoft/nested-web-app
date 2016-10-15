@@ -25,16 +25,18 @@
       link: function (scope, element, attrs) {
         // create a scene
         var controller = new ScrollMagic.Controller();
+        var tween,tween2,tween3;
+        tween = tween2 = tween3 = new TimelineLite();
 
         // create tween
-        var tween = new TimelineLite()
+        if (element) tween = new TimelineLite()
           .add(TweenLite.to($(element), 1, {css:{height:'88px'}, ease:Linear.easeNone}));
 
-        var tween2 = new TimelineLite()
-          .add(TweenLite.to($(element).children().find( "h3" )[0], 1, {css:{color:'transparent'}, ease:Power4.easeOut}));
+        if ($(element).children().find( "h3" ).length > 0) { tween2 = new TimelineLite()
+          .add(TweenLite.to($(element).children().find( "h3" )[0], 1, {css:{color:'transparent'}, ease:Power4.easeOut}));}
 
-        var tween3 = new TimelineLite()
-          .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));
+        if ($("#content-plus").children().length > 0) {tween3 = new TimelineLite()
+          .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));}
 
         // build scene
         var scene = new ScrollMagic.Scene({duration: 72, offset: 1})
