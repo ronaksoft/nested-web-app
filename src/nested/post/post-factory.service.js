@@ -669,7 +669,7 @@
         options.by_update = true;
       }
 
-      NstSvcServer.request('account/get_bookmarked_posts', options).then(function (data) {
+      NstSvcServer.request('bookmark/get_posts', options).then(function (data) {
         var messagePromises = _.map(data.posts.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
@@ -701,7 +701,7 @@
           options.by_update = true;
         }
 
-        NstSvcServer.request('account/get_bookmarked_posts', options).then(function (data) {
+        NstSvcServer.request('bookmark/get_posts', options).then(function (data) {
           var messagePromises = _.map(data.posts.posts, parseMessage);
           $q.all(messagePromises).then(function (messages) {
             _.forEach(messages, function (item) {
