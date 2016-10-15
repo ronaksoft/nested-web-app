@@ -1,7 +1,7 @@
 @media screen and (max-width: $screen-md){
   .maincontainer.navtiny {
     #new-post {
-      top: 135px;
+      top: $navbar-height + $topnav-height ;
     }
     .nst-navbar{
       //top: -66px;
