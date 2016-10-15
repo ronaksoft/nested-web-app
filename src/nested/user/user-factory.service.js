@@ -400,7 +400,7 @@
       };
 
       settings = _.defaults(settings, defaultSettings);
-      NstSvcServer.request('account/search', {
+      NstSvcServer.request('search/accounts', {
         keyword: settings.query,
         place_id: settings.placeId,
         role: settings.role,

@@ -860,7 +860,7 @@
       var deferred = $q.defer();
       var query = new NstFactoryQuery(keyword);
 
-      NstSvcServer.request('place/search', {keyword: keyword}).then(function (response) {
+      NstSvcServer.request('search/places', {keyword: keyword}).then(function (response) {
         var places = [];
         for (var k in response.places) {
           var place = factory.parseTinyPlace(response.places[k]);
