@@ -726,6 +726,12 @@
           place_id: id,
           state: !!value
         }).then(function () {
+          factory.dispatchEvent(new CustomEvent(
+            value ? NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON : NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF,
+            new NstFactoryEventData(
+              {id: id}
+            )
+          ));
           defer.resolve(true);
         }).catch(function (error) {
           defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -825,7 +831,7 @@
           bookmark_id: bookmarkId,
         }).then(function () {
           factory.dispatchEvent(new CustomEvent(
-            value ? NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD : NS,
+            value ? NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD : NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE,
             new NstFactoryEventData(
               {id: id}
             )

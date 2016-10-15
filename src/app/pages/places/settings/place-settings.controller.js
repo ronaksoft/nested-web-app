@@ -357,7 +357,6 @@
     }
 
     function setBookmark() {
-      var factory = this;
       NstSvcPlaceFactory.setBookmarkOption(vm.placeId, '_starred', vm.options.bookmark).then(function(result) {
         $log.debug(NstUtility.string.format('Place {0} bookmark setting changed to {1} successfully.', vm.place.id, vm.options.bookmark));
       }).catch(function(error) {

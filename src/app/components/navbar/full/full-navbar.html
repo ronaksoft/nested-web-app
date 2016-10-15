@@ -8,7 +8,7 @@
       </div>
       <div class="place-info _difv">
         <cite>{{ctlFullNavbar.title}}</cite>
-        <h3 ng-if="ctlFullNavbar.hasPlace()">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
+        <h3 id="place-address">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
         <p>{{ctlFullNavbar.description}}</p>
         <div class="navigation" ng-if="!ctlFullNavbar.controls">
           <nav>
@@ -88,11 +88,11 @@
              <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
              <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
            </svg>
-           <svg>
+           <svg ng-click="ctlFullNavbar.toggleBookmark()" ng-class="{active : ctlFullNavbar.isBookmarked}">
              <use xlink:href="/assets/icons/nst-icn24.svg#Wfav"></use>
            </svg>
-           <svg class="svg-hover morphed">
-             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff"></use>
+           <svg class="svg-hover morphed" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{active : ctlFullNavbar.notificationStatus}">
+             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff" ></use>
              <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifon"></use>
            </svg>
          </div>
