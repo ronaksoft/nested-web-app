@@ -8,16 +8,16 @@
       </div>
       <div class="place-info _difv">
         <cite>{{ctlFullNavbar.title}}</cite>
-        <h3>{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
-        <p>This is your personal place like as an inbox. You can change place description in the place settings (access from top-right menu)</p>
-        <div class="navigation">
+        <h3 id="place-address">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
+        <p>{{ctlFullNavbar.description}}</p>
+        <div class="navigation" ng-if="!ctlFullNavbar.controls">
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
               Messages
             </a>
-            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isFiles ? 'active' : ''}}">
+            <!-- <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isFiles ? 'active' : ''}}">
               Files
-            </a>
+            </a> -->
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
               Activity
             </a>
@@ -33,16 +33,66 @@
             <i class="icon cursor-pointer icon-search-rotated"></i>
            </div>
          </div>
+        <div class="navigation" ng-if="ctlFullNavbar.controls">
+          <nav>
+            <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
+              <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
+                 href="{{control.url}}" data-ng-click="control.fn()">
+                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+               </a>
+              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm"
+                 href="{{ctlFullNavbar.page.state.previous.url}}" data-ng-click="control.fn()">
+                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+               </a>
+              <label data-ng-switch-when="button-label" class="butn-white-nav nst-mood-storm"
+                     data-ng-click="control.fn()" for="{{control.data.id}}">
+                     <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                     <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+              </label>
+              <a data-ng-switch-when="button-success" class="butn-green-nav"
+                 href="{{control.url}}" data-ng-click="control.fn()">
+                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+               </a>
+            </div>
+
+            <div class="_df _fn" data-ng-repeat="control in ctlFullNavbar.controls.right" data-ng-switch="control.type">
+              <a data-ng-switch-when="button" class="_fr butn-white-nav nst-mood-storm"
+                 href="{{control.url}}" data-ng-click="control.fn()">
+                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+               </a>
+              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm"
+                 href="{{ctlFullNavbar.page.state.previous.url}}" data-ng-click="control.fn()">
+                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+               </a>
+              <label data-ng-switch-when="button-label" class="_fr butn-white-nav nst-mood-storm"
+                     data-ng-click="control.fn()" for="{{control.data.id}}">
+                     <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                     <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+              </label>
+              <a data-ng-switch-when="button-success" class="_fr butn-green-nav"
+                 href="{{control.url}}" data-ng-click="control.fn()">
+                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+               </a>
+            </div>
+          </nav>
+         </div>
+
          <div class="nav-access">
            <svg class="svg-hover morphed">
              <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
              <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
            </svg>
-           <svg>
+           <svg ng-click="ctlFullNavbar.toggleBookmark()" ng-class="{active : ctlFullNavbar.isBookmarked}">
              <use xlink:href="/assets/icons/nst-icn24.svg#Wfav"></use>
            </svg>
-           <svg class="svg-hover morphed">
-             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff"></use>
+           <svg class="svg-hover morphed" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{active : ctlFullNavbar.notificationStatus}">
+             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff" ></use>
              <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifon"></use>
            </svg>
          </div>

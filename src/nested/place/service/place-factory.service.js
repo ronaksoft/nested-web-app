@@ -726,6 +726,12 @@
           place_id: id,
           state: !!value
         }).then(function () {
+          factory.dispatchEvent(new CustomEvent(
+            value ? NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON : NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF,
+            new NstFactoryEventData(
+              {id: id}
+            )
+          ));
           defer.resolve(true);
         }).catch(function (error) {
           defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -860,7 +866,7 @@
       var deferred = $q.defer();
       var query = new NstFactoryQuery(keyword);
 
-      NstSvcServer.request('place/search', {keyword: keyword}).then(function (response) {
+      NstSvcServer.request('search/places', {keyword: keyword}).then(function (response) {
         var places = [];
         for (var k in response.places) {
           var place = factory.parseTinyPlace(response.places[k]);
@@ -1237,8 +1243,8 @@
       place.setNew(false);
       place.setId(placeData._id);
       place.setUnreadPosts(placeData.unread_posts);
-      place.setTotalPosts(placeData.counters.posts);
-      place.setTeamatesCount(placeData.counters.key_holders + placeData.counters.creators);
+      // place.setTotalPosts(placeData.counters.posts);
+      // place.setTeamatesCount(placeData.counters.key_holders + placeData.counters.creators);
       place.setName(placeData.name);
       place.setDescription(placeData.description);
 

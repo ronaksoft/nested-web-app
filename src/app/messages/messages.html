@@ -3,7 +3,9 @@
             nav-title="{{ctlMessages.currentPlace.id?ctlMessages.currentPlace.name: ctlMessages.navTitle}}"
             nav-picture-url="{{ctlMessages.currentPlace.id ? ctlMessages.currentPlace.picture.thumbnails.x64.url.view : '' }}"
             nav-picture-class="{{ !ctlMessages.currentPlace.id? ctlMessages.navIconClass : '' }}"
-            ready-to-show="ctlMessages.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
+            ready-to-show="ctlMessages.currentPlaceLoaded"
+            page="ctlApp.page"
+            description="{{ctlMessages.currentPlace.id ? ctlMessages.currentPlace.description : ''}}"></nst-navbar>
 
 <div class="nst-content _tr" id="content-wrapper">
   <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>

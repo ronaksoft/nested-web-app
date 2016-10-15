@@ -2,5 +2,5 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.components.sidebar', [ ]);
+    .module('ronak.nested.web.components.sidebar', [ 'ui.bootstrap' ]);
 })();

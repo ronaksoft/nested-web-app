@@ -80,7 +80,6 @@
           if (place) {
             return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
               $log.debug(error);
-              vm.loadMessageError = true;
             });
           }
         }).catch(function (error) {
@@ -91,7 +90,6 @@
         vm.currentPlaceLoaded = true;
         NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
           $log.debug(error);
-          vm.loadMessageError = true;
         });
       }
 
