@@ -8,28 +8,18 @@ module.exports = function () {
   this.Given(/^I go to the page "([^"]*)"$/, function (url) {
     browser.get(browser.baseUrl + url);
   });
-  // this.Given(/^I Click Place Badge of Postcards "([^"]*)"$/, function (placeBadge) {
-  //   var postcardPlaceBadge = browser.findElement(by.className('margin-r-5'));
-  //   expect(postcardPlaceBadge.getText()).toBe(placeBadge);
-  //   postcardPlaceBadge.click();
-  // });
-  //
-  // this.Given(/^I Click Search Button$/, function () {
-  //   element(By.css('div[style="max-width: 0px;"]'));
-  //   return;
-  // });
-  //
 
-  this.When(/^I wait 10s$/, function () {
-    browser.ignoreSynchronization = true;
-    return browser.sleep(10000);
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
     return browser.getTitle().then(function (title) {
       assert.equal(title, expectedPageTitle, ' title is "' + title + '" but should be "' + expectedPageTitle);
     });
   });
 
-  });
+
+  this.When(/^I wait 10s$/, function () {
+    browser.ignoreSynchronization = true;
+    return browser.sleep(10000);
+    });
 
   this.When(/^I wait 5s$/, function () {
     browser.ignoreSynchronization = true;
@@ -119,6 +109,15 @@ module.exports = function () {
     clearInput.clear();
   });
 
+  this.Given(/^I clear input by name "([^"]*)"$/, function (clearing) {
+    var clearInput = element(By.css('input[name="' + clearing + '"]'));
+    clearInput.clear();
+  });
+
+  this.Given(/^I fill input by name "([^"]*)" with "([^"]*)"$/, function (name, value) {
+    var input = element(By.css('input[name="' + name + '"]'));
+    input.sendKeys(value);
+  });
 
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
     return browser.getTitle().then(function (title) {
@@ -145,6 +144,18 @@ module.exports = function () {
     });
   });
 
+  this.Then(/^should the reg-title be "([^"]*)"$/, function (expectedRegTitle) {
+    element(by.css('.testing-registration-step2')).getText().then(function (title) {
+      assert.equal(title.trim(), expectedRegTitle, ' title is "' + title + '" but should be "' + expectedRegTitle);
+    });
+  });
+
+  this.Then(/^should the reg2-title be "([^"]*)"$/, function (expectedReg2Title) {
+    element(by.css('.testing-registration-step3')).getText().then(function (title) {
+      assert.equal(title.trim(), expectedReg2Title, ' title is "' + title + '" but should be "' + expectedReg2Title);
+    });
+  });
+
   this.Then(/^should see "([^"]*)" error message$/, function (expectedError) {
     return element(By.css(".testing_err")).getText().then(function (error) {
       return assert.equal(error.trim(), expectedError, ' error is "' + error + '" but should be "' + expectedError);
@@ -156,17 +167,19 @@ module.exports = function () {
   this.Then(/^should go to the page "([^"]*)"$/, function (url) {
     browser.get(browser.baseUrl + url);
   });
-  this.Then(/^should the title of the place be "([^"]*)"$/, function (expectedPlaceTitle) {
-    element(By.css(".navbar-top .name")).getText().then(function (title) {
-      assert.equal(title.trim(), expectedPlaceTitle, ' title is "' + title + '" but should be "' + expectedPlaceTitle);
-    });
-  });
 
   this.Then(/^should the message be "([^"]*)"$/, function (expectedMessage) {
     element(By.css(".toast-message")).getText().then(function (title) {
       assert.equal(title.trim(), expectedMessage, ' title is "' + title + '" but should be "' + expectedMessage);
     });
   });
+
+  this.When(/^Wait to see success-msg$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.toast-success'))), 50000);
+  });
+
 //------------url selectors----------------//
   this.Then(/^should the current url be "([^"]*)"$/, function (expectedUrl) {
     var checkUrl = function (expectedUrl) {
@@ -186,27 +199,7 @@ module.exports = function () {
       assert.equal(wrongUrl.trim(), expectedUrl, ' title is "' + wrongUrl + '" but should be "' + expectedUrl);
     });
   });
-
-  this.Then(/^should the title be "([^"]*)"$/, function (expectedTitle) {
-    element(by.css('.testing-title')).getText().then(function (title) {
-      assert.equal(title.trim(), expectedTitle, ' title is "' + title + '" but should be "' + expectedTitle);
-    });
-  });
-
-
-  this.Then(/^should the title1 be "([^"]*)"$/, function (expectedTitle1) {
-    element(by.css('.testing-title1')).getText().then(function (title) {
-      assert.equal(title.trim(), expectedTitle1, ' title is "' + title + '" but should be "' + expectedTitle1);
-    });
-  });
-
-  this.Then(/^should see "([^"]*)" error message$/, function (expectedError) {
-    return element(By.css(".testing_err")).getText().then(function (error) {
-      return assert.equal(error.trim(), expectedError, ' error is "' + error + '" but should be "' + expectedError);
-    }).catch(function () {
-      return assert.ok(false, 'Can not find message!')
-    });
-  });
+//-------------------------------------------//
 
   this.Then(/^the message have to be "([^"]*)"$/, function (expectedMessage) {
     element(By.css(".toast-message .toast-success")).getText().then(function (no) {
@@ -218,16 +211,43 @@ module.exports = function () {
 //---------------------attach files---------------------------------//
 
   this.Given(/^I Attach dog-png$/, function () {
-
     var path = require('path');
     var process = require('process');
-
     var fileToUpload = './e2e/assets/dog.png',
       absolutePath = path.resolve(process.cwd(), fileToUpload);
-      console.log(absolutePath)
     element(by.css('input[type="file"]')).sendKeys(absolutePath);
+  });
 
+  this.Given(/^I Attach Bill$/, function () {
+    var path = require('path');
+    var process = require('process');
+    var fileToUpload = './e2e/assets/Bill.png',
+      absolutePath = path.resolve(process.cwd(), fileToUpload);
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
+  });
 
+  this.Given(/^I Attach Steve$/, function () {
+    var path = require('path');
+    var process = require('process');
+    var fileToUpload = './e2e/assets/steve.jpg',
+      absolutePath = path.resolve(process.cwd(), fileToUpload);
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
+  });
+
+  this.Given(/^I Attach cat-png$/, function () {
+    var path = require('path');
+    var process = require('process');
+    var fileToUpload = './e2e/assets/cat.png',
+      absolutePath = path.resolve(process.cwd(), fileToUpload);
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
+  });
+
+  this.Given(/^I Attach music$/, function () {
+    var path = require('path');
+    var process = require('process');
+    var fileToUpload = './e2e/assets/no5.mp3',
+      absolutePath = path.resolve(process.cwd(), fileToUpload);
+    element(by.css('input[type="file"]')).sendKeys(absolutePath);
   });
 
 //------------------------------------------------------------------//

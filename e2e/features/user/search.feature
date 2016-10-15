@@ -20,7 +20,8 @@
 #    Given I fill "Search in all places" with "welcome"
 #    When I wait 5s
 #    Given I press enter
-#    When I wait 5s
+#    When I wait 2s
+#    Given I press enter
 #    When I wait 5s
 #    Given I clear input by id "clear"
 #    When I wait 5s

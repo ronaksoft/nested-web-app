@@ -26,7 +26,7 @@
 #    When I wait 10s
 #    Then should the title of the place be "All Places"
 #
-#  Scenario: edit profiel
+#  Scenario: edit profile
 #    Given I Click Link by Partial Text "@test1"
 #    When I Wait till line loader hide
 #    When I wait 2s
@@ -50,6 +50,10 @@
 #
 #   Scenario: edit profile
 #     When I wait 5s
+#     Given I Attach Steve
+#     When I wait 5s
+#     Given I Attach Bill
+#     When I Wait till line loader hide
 #     Given I clear input by name "firstName"
 #     When I wait 2s
 #     Given I fill input by name "firstName" with "test2"
