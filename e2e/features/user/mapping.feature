@@ -13,7 +13,7 @@
 #    Given I Press "Sign in"
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
-
+#
 #  Scenario: Activity page mapping
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Activity"
@@ -126,7 +126,7 @@
 #    When I Wait till line loader hide
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
-
+#
 #  Scenario: Postcard Reply all mapping
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Messages"
@@ -175,7 +175,7 @@
 #    When I Wait till line loader hide
 #    When  I wait 5s
 #    Then should the title of the place be "All Places"
-
+#
 #  Scenario: Postcard
 #    When I wait 5s
 #    Given I Click id "test-post-card-badge"
@@ -311,12 +311,12 @@
 #    When I wait 5s
 #    Given I Click label by for "comments"
 #    Then should the title of the place be "All Places"
-
-
-
-
-
-
-
-
-
+#
+#
+#
+#
+#
+#
+#
+#
+#
