@@ -444,8 +444,7 @@
       }
       return false;
     }
-
-
+    
     function fillPlaceIds(container, list) {
       if (_.isObject(container) && _.keys(container).length > 1) {
         _.forIn(container, function (item) {
