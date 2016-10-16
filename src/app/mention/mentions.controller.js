@@ -5,7 +5,7 @@
     .module('ronak.nested.web.mention')
     .controller('MentionsController', MentionsController);
 
-  function MentionsController($q, $stateParams, $log, NstSvcMentionFactory, NstVmMention, NstSvcAuth) {
+  function MentionsController($q, $state, $stateParams, $log, NstSvcMentionFactory, NstVmMention, NstSvcAuth) {
     var vm = this;
     var pageItemsCount = 12;
     vm.mentions = [];
@@ -16,6 +16,7 @@
 
     vm.markAllSeen = markAllSeen;
     vm.loadMore = loadMore;
+    vm.viewPost = viewPost;
 
     (function() {
       loadMentions(0, pageItemsCount);
@@ -34,7 +35,7 @@
 
     function markAllItemsAsSeen(items) {
       _.forEach(items, function (item) {
-        item.seen = true;
+        item.isSeen = true;
       });
     }
 
@@ -43,6 +44,7 @@
 
       NstSvcMentionFactory.getMentions(skip, limit).then(function(mentions) {
         vm.mentions = _.concat(vm.mentions, _.map(mentions, mapMention));
+        console.log(vm.mentions);
         deferred.resolve(vm.mentions);
       }).catch(function(error) {
         $log.error(error);
@@ -59,6 +61,23 @@
     function loadMore() {
       var skip = vm.mentions.length;
       return loadMentions(skip, pageItemsCount);
+    }
+
+    function viewPost(mention, $event) {
+      $event.preventDefault();
+
+      if (!mention.isSeen) {
+        NstSvcMentionFactory.markAsSeen(mention.id).then(function () {
+          markAllItemsAsSeen([mention]);
+        }).catch(function (error) {
+          console.log(error);
+        }).finally(function () {
+          $state.go('app.message', { postId : mention.postId }, { notify : false });
+        });
+      } else {
+        $state.go('app.message', { postId : mention.postId }, { notify : false });
+      }
+
     }
   }
 

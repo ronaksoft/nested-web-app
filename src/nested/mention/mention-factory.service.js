@@ -93,14 +93,13 @@
       var deferred = $q.defer();
 
       mention.id = data._id;
-      mention.isSeen = data.seen;
+      mention.isSeen = data.read;
       mention.date = new Date(data.timestamp);
 
       mention.commentId = data.comment_id.$oid;
       mention.postId = data.post_id.$oid;
       mention.senderId = data.sender_id;
       mention.mentionedId = data.mentioned_id;
-      mention.seen = data.seen;
 
       var senderPromise = NstSvcUserFactory.get(mention.senderId);
       var mentionedPromise = NstSvcUserFactory.get(mention.mentionedId);
