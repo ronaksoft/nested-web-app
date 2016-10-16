@@ -9,7 +9,7 @@
   function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
                           _, toastr, moment,
                           NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS,
-                          NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
+                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
                           NstTinyComment, NstVmUser, postModel, postId) {
     var vm = this;
 
