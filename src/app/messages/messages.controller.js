@@ -31,6 +31,8 @@
     vm.cache = [];
     vm.hasNewMessages = false;
     vm.myPlaceIds = [];
+    vm.initialPostId = $stateParams.postId;
+    $stateParams.postId= null;
 
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
@@ -156,7 +158,7 @@
       setNavbarProperties();
 
       if ($stateParams.postId) {
-        $state.go('app.message', { postId : $stateParams.postId } , { notify : false });
+        $state.go('app.message', { postId : vm.initialPostId } , { notify : false });
       }
     })();
 
