@@ -103,8 +103,6 @@
       temp.status = NST_COMMENT_SEND_STATUS.PROGRESS;
       temp.isTemp = true;
 
-      console.log('temp comment before save', temp);
-
       pushComment(temp);
       vm.revealNewComment = true;
 
@@ -133,16 +131,13 @@
     }
 
     function markCommentSent(tempCommentId, comment) {
-      console.log('mark as success');
       var temp = _.find(vm.comments, { id : tempCommentId });
-      console.log(temp);
       if (temp) {
         temp.isTemp = false;
         temp.status = NST_COMMENT_SEND_STATUS.SUCCESS;
         temp.id = comment.id;
         temp.date = comment.date;
         moveToHead(temp);
-        console.log(vm.comments);
       }
     }
 
@@ -156,9 +151,7 @@
     }
 
     function markCommentFailed(tempCommentId) {
-      console.log('mark as fail');
       var temp = _.find(vm.comments, { id : tempCommentId });
-      console.log('found temp', temp);
       if (temp) {
         temp.status = NST_COMMENT_SEND_STATUS.FAIL;
       }

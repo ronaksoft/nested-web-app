@@ -5,7 +5,7 @@
     .module('ronak.nested.web.mention')
     .controller('MentionsController', MentionsController);
 
-  function MentionsController($q, $state, $stateParams, $log, NstSvcMentionFactory, NstVmMention, NstSvcAuth) {
+  function MentionsController($q, $state, $stateParams, $log, NstSvcMentionFactory, NstVmMention, NstSvcAuth, NstSvcLogger) {
     var vm = this;
     var pageItemsCount = 12;
     vm.mentions = [];
@@ -44,7 +44,6 @@
 
       NstSvcMentionFactory.getMentions(skip, limit).then(function(mentions) {
         vm.mentions = _.concat(vm.mentions, _.map(mentions, mapMention));
-        console.log(vm.mentions);
         deferred.resolve(vm.mentions);
       }).catch(function(error) {
         $log.error(error);
@@ -70,7 +69,7 @@
         NstSvcMentionFactory.markAsSeen(mention.id).then(function () {
           markAllItemsAsSeen([mention]);
         }).catch(function (error) {
-          console.log(error);
+          NstSvcLogger.error(error);
         }).finally(function () {
           $state.go('app.message', { postId : mention.postId }, { notify : false });
         });

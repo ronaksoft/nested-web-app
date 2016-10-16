@@ -6,10 +6,14 @@
     .service('NstSvcMentionFactory', NstSvcMentionFactory);
 
   function NstSvcMentionFactory($q,
-    NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory,
-    NstBaseFactory, NstFactoryQuery, NstFactoryError, NstMention) {
+    NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
+    NstBaseFactory, NstFactoryQuery, NstFactoryError, NstMention, NstFactoryEventData,
+    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT) {
     function MentionFactory() {
-
+      var that = this;
+      NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
+        that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(NstSvcAuth.user.unreadMentionsCount)));
+      });
     }
 
     MentionFactory.prototype = new NstBaseFactory();
