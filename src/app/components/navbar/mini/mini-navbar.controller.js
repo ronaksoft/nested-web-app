@@ -8,7 +8,7 @@
   /** @ngInject */
   function MiniNavbarController($q, $state, $stateParams, $uibModal, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
-                                NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                                NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                                 NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
     // $scope.$watch('place', function (newValue, oldValue) {
