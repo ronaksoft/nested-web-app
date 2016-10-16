@@ -242,7 +242,8 @@ nst-navbar {
         margin-left: 6px;
         fill: $color-wind;
         transition: all .3s;
-        &.active {
+        &.active,
+        &:hover {
           fill: $color-sense !important;
         }
       }

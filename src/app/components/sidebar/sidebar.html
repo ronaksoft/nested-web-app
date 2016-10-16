@@ -9,8 +9,8 @@
           <div id="Logo-type-white"></div>
         </a>
       </div>
-      <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-        <div>
+      <a class="detailed" href="{{ctlSidebar.urls.compose}}">
+        <div  id="compoese" data-uib-tooltip="Compose"  data-tooltip-enable="{{ctlSidebar.detailed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <div class="compose">
             <svg>
               <use xlink:href="/assets/icons/nst-icn32.svg#Wcompose"></use>
@@ -22,7 +22,7 @@
         </div>
       </a>
       <div class="side-menu">
-        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.detailed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
@@ -30,7 +30,7 @@
           </span>
           <span>Favorite Places Feed</span>
         </a>
-        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.detailed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
@@ -38,7 +38,7 @@
           </span>
           <span>All Places Feed</span>
         </a>
-        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.detailed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
