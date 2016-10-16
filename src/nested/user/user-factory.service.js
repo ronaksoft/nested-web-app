@@ -357,6 +357,11 @@
       user.setDateOfBirth(userData.dob);
       user.setGender(userData.gender);
 
+      if (_.isObject(userData.counters)) {
+        user.setTotalMentionsCount(userData.counters.total_mentions);
+        user.setUnreadMentionsCount(userData.counters.unread_mentions);
+      }
+
       if (angular.isObject(userData.picture)) {
         user.setPicture(userData.picture);
       }

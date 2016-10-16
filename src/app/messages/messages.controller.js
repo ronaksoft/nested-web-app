@@ -9,7 +9,7 @@
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state, $interval, $scope,
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility, NstSvcAuth,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstUtility, NstSvcAuth,
                               NstSvcMessagesSettingStorage,
                               NstSvcPostMap) {
 
@@ -446,8 +446,7 @@
       }
       return false;
     }
-
-
+    
     function fillPlaceIds(container, list) {
       if (_.isObject(container) && _.keys(container).length > 1) {
         _.forIn(container, function (item) {

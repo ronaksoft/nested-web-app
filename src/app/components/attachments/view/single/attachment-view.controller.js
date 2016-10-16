@@ -8,7 +8,7 @@
   function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
                                     hotkeys,
 									NST_FILE_TYPE,
-                                    NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
+                                    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
                                     NstHttp,
                                     postId, vmAttachment, vmAttachments) {
     var vm = this;

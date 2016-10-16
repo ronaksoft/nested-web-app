@@ -62,6 +62,20 @@
        */
       this.gender = undefined;
 
+
+      /**
+       * Number of times the user was mentioned
+       * @type {undefined|Number}
+       */
+      this.totalMentionsCount = undefined;
+
+
+      /**
+       * Number of unread mentions
+       * @type {undefined|Number}
+       */
+      this.unreadMentionsCount = undefined;
+
       NstTinyUser.call(this);
 
       if (data) {

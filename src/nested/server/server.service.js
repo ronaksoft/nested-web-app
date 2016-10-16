@@ -215,24 +215,17 @@
 
       // TODO: Return the request itself
       return retryablePromise.then(function (response) {
-        var deferred = $q.defer();
-
         // TODO: Resolve with response itself
-        deferred.resolve(response.getData());
-
-        return deferred.promise;
+        return $q.resolve(response.getData());
       }).catch(function (response) {
-        var deferred = $q.defer();
         NstSvcLogger.debug2('WS | Response: ', response);
         // TODO: retry here by creating a new request
-        deferred.reject(new NstServerError(
+        return $q.reject(new NstServerError(
           new NstServerQuery(action, data),
           response.getData().items,
           response.getData().err_code,
           response.getData()
         ));
-
-        return deferred.promise;
       });
     };
 
@@ -243,6 +236,7 @@
     }
 
     Server.prototype.enqueueToSend = function (reqId, timeout) {
+      console.log('server reqId', reqId);
       var qItem = this.queue[reqId];
 
       if (qItem && !qItem.request.isFinished()) {
@@ -317,10 +311,7 @@
         return result;
       }
 
-      var deferred = $q.defer();
-      deferred.reject();
-
-      return deferred.promise;
+      return $q.reject();
     };
 
     Server.prototype.send = function (request) {

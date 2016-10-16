@@ -6,10 +6,14 @@
     .service('NstSvcMentionFactory', NstSvcMentionFactory);
 
   function NstSvcMentionFactory($q,
-    NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory,
-    NstBaseFactory, NstFactoryQuery, NstFactoryError, NstMention) {
+    NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
+    NstBaseFactory, NstFactoryQuery, NstFactoryError, NstMention, NstFactoryEventData,
+    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT) {
     function MentionFactory() {
-
+      var that = this;
+      NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
+        that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(NstSvcAuth.user.unreadMentionsCount)));
+      });
     }
 
     MentionFactory.prototype = new NstBaseFactory();
@@ -17,6 +21,7 @@
 
     MentionFactory.prototype.getMentions = getMentions;
     MentionFactory.prototype.getMentionsCount = getMentionsCount;
+    MentionFactory.prototype.markAsSeen = markAsSeen;
 
     return new MentionFactory();
 
@@ -46,9 +51,10 @@
         var defer = $q.defer();
 
         NstSvcServer.request('account/get_mentions', {
-          show_data: false
+          limit : 1,
+          skip : 1,
         }).then(function(data) {
-          var count = data.total_unreads || 0;
+          var count = data.unread_mentions || 0;
           defer.resolve(count);
         }).catch(defer.reject);
 
@@ -56,6 +62,28 @@
       }, "getMentionsCount");
     }
 
+    function markAsSeen(mentionsIds) {
+      return this.sentinel.watch(function () {
+        var defer = $q.defer();
+
+        var ids = "";
+        if (_.isString(mentionsIds)) {
+          ids = mentionsIds;
+        } else if (_.isArray(mentionsIds)) {
+          ids = _.join(mentionsIds, ",");
+        } else {
+          ids = "all";
+        }
+
+        NstSvcServer.request('account/update_mention_read_status', {
+          mention_id : ids
+        }).then(function(data) {
+          defer.resolve();
+        }).catch(defer.reject);
+
+        return defer.promise;
+      }, "markAsSeen");
+    }
 
     /*****************
      **    Parse    **
@@ -69,7 +97,7 @@
       var deferred = $q.defer();
 
       mention.id = data._id;
-      mention.isSeen = data.seen;
+      mention.isSeen = data.read;
       mention.date = new Date(data.timestamp);
 
       mention.commentId = data.comment_id.$oid;

@@ -25,6 +25,7 @@
 
       BaseFactory.requests[key] = $q(function (resolve, reject) {
         callback().then(resolve).catch(reject).finally(function () {
+          console.log('key',key);
           release(key);
         });
       });
