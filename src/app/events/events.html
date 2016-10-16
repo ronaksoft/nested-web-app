@@ -11,14 +11,14 @@
            data-popover-placement="bottom-center"
            popover-trigger="outsideClick" popover-is-open="filterPopoverShow">
         <span class="nst-mood-storm _df">{{::ctlActivity.filterDictionary[ctlActivity.activitySettings.filter]}}</span>
-        <div class="icon icon-viewicon-filter _df"></div>
+        <div class="icon icon-viewicon-filter _df" id="test-select-filter"></div>
       </div>
       <div class="iconsblock popover-white-nst-setting"
            ng-mouseenter="filterPopoverShow = false;popoverSettingShow = true"
            uib-popover-template="'app/events/partials/popovers/setting_popover.html'"
            data-popover-placement="bottom-center"
            popover-trigger="outsideClick" popover-is-open="popoverSettingShow">
-        <div class="icon icon-viewicon- _pa"></div>
+        <div class="icon icon-viewicon- _pa" id="test-setting-filter"></div>
       </div>
     </div>
 
