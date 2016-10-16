@@ -76,6 +76,7 @@
       mention.postId = data.post_id.$oid;
       mention.senderId = data.sender_id;
       mention.mentionedId = data.mentioned_id;
+      mention.seen = data.seen;
 
       var senderPromise = NstSvcUserFactory.get(mention.senderId);
       var mentionedPromise = NstSvcUserFactory.get(mention.mentionedId);

@@ -8,23 +8,25 @@
   /** @ngInject */
   function NstMention(NstModel) {
     function Mention(data) {
-      this.id = undefined;
+      this.id = null;
 
-      this.commentId = undefined;
-      this.comment = undefined;
+      this.commentId = null;
+      this.comment = null;
 
-      this.mentionedId = undefined;
-      this.mentioned = undefined;
+      this.mentionedId = null;
+      this.mentioned = null;
 
-      this.postId = undefined;
-      this.post = undefined;
+      this.postId = null;
+      this.post = null;
 
-      this.isSeen = undefined;
+      this.isSeen = null;
 
-      this.senderId = undefined;
-      this.sender = undefined;
+      this.senderId = null;
+      this.sender = null;
 
-      this.date = undefined;
+      this.date = null;
+
+      this.seen = null;
 
       NstModel.call(this);
 
