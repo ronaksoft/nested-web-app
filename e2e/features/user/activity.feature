@@ -23,14 +23,16 @@ Feature: User: Activity
 
   Scenario: Activity 2
     When I wait 5s
-    Given I Click id "activity-badge"
+    Given I Click Link by Partial Text "Help"
     When I Wait till line loader hide
     When I wait 5s
     Then should the title of the place be "All Places"
 
-#  Scenario: Activity 3
-#    When I wait 5s
-
+  Scenario: Activity 3
+    When I wait 5s
+    Given I Click Link by Partial Text "4"
+    When I Wait till line loader hide
+    When I wait 5s
 
 
 
