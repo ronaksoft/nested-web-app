@@ -1179,7 +1179,7 @@
       place.setUnreadPosts(placeData.unread_posts);
       if (placeData.counters) {
         place.setTotalPosts(placeData.counters.posts);
-        place.setTeamatesCount(placeData.counters.key_holders + placeData.counters.creators);
+        place.setTeammatesCount(placeData.counters.key_holders + placeData.counters.creators);
       }
 
 
@@ -1244,7 +1244,7 @@
       place.setId(placeData._id);
       place.setUnreadPosts(placeData.unread_posts);
       // place.setTotalPosts(placeData.counters.posts);
-      // place.setTeamatesCount(placeData.counters.key_holders + placeData.counters.creators);
+      // place.setTeammatesCount(placeData.counters.key_holders + placeData.counters.creators);
       place.setName(placeData.name);
       place.setDescription(placeData.description);
 

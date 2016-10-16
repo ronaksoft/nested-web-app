@@ -3,10 +3,10 @@
 
   angular
     .module('ronak.nested.web.place')
-    .controller('placeTeamatesController', placeTeamatesController);
+    .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
-  function placeTeamatesController($scope, $q, $log, $uibModal, toastr,
+  function placeTeammatesController($scope, $q, $log, $uibModal, toastr,
     NstSvcPlaceFactory, NstUtility,NstSvcAuth,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE) {
@@ -18,7 +18,7 @@
     vm.hasSeeMembersAccess = false;
     vm.loading = false;
     vm.showTemmate = true;
-    vm.teamates = [];
+    vm.teammates = [];
 
 
     initialize();
@@ -56,6 +56,7 @@
         vm.hasSeeMembersAccess = values[1];
 
         if (vm.mode = 'collapsed') {
+          console.log("vm |" , vm)
           collapse();
         }
 
@@ -70,12 +71,15 @@
 
     };
 
+
     function expand() {
       vm.limit = 64;
+      vm.onCollapse(false);
       findMembers();
     }
 
     function collapse() {
+      vm.onCollapse(true);
       if (vm.hasAddMembersAccess) {
         vm.limit = 4;
       } else {
@@ -134,7 +138,7 @@
           _.forEach(values, function(result) {
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-                vm.teamates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
+                // vm.teammates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
               }
             }
           });
@@ -156,26 +160,24 @@
         collapse();
         vm.mode = 'collapsed';
       }
-
     }
 
     function findMembers() {
       if (vm.hasSeeMembersAccess) {
         vm.loading = true;
         NstSvcPlaceFactory.getMembers(vm.grandPlace.id, vm.limit).then(function(members) {
-          vm.teamates = _.concat(_.map(members.creators, function(member) {
+          vm.teammates = _.concat(_.map(members.creators, function(member) {
             return new NstVmMemberItem(member, 'creator');
           }), _.map(members.keyHolders, function(member) {
             return new NstVmMemberItem(member, 'key_holder');
           }));
-          console.log("get_members", vm.teamates);
           vm.showTemmate = true;
         }).finally(function () {
           vm.loading = false;
         });
       } else {
         vm.showTemmate = false;
-        vm.teamates = [];
+        vm.teammates = [];
       }
     }
 

@@ -44,7 +44,7 @@
 
        this.totalPosts = undefined;
 
-       this.teamatesCount = undefined;
+       this.teammatesCount = undefined;
 
       /**
        * Place's parent

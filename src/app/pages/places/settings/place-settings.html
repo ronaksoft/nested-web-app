@@ -191,11 +191,11 @@
             <div class="add-icon _dib"></div>
           </div>
           <hr>
-          <h5 ng-if="!ctlSettings.hasAnyTeamate()" class="nst-mood-storm">
-            There are no teamates here yet.
+          <h5 ng-if="!ctlSettings.hasAnyTeammate()" class="nst-mood-storm">
+            There are no teammates here yet.
           </h5>
           <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user"
-                                 data-ng-repeat="member in ctlSettings.teamates"
+                                 data-ng-repeat="member in ctlSettings.teammates"
                                  member="member" place="ctlSettings.place"
                                  has-remove-access="ctlSettings.hasRemoveAccess"
                                  has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember"

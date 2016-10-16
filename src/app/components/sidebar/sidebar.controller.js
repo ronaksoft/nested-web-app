@@ -22,7 +22,7 @@
     vm.invitation = {};
     vm.places = [];
     vm.onPlaceClick = onPlaceClick;
-
+    vm.togglePlace = togglePlace;
 
     /*****************************
      ***** Controller Methods ****
@@ -143,6 +143,10 @@
         }
       }
     });
+
+    function togglePlace(status) {
+      vm.showPlaces = status;
+    };
 
     /*****************************
      *****    Change urls   ****

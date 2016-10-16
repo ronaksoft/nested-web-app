@@ -13,11 +13,11 @@
     var vm = this;
     var defaultSearchResultCount = 9;
 
-    vm.isTeamateMode = true;
+    vm.isTeammateMode = true;
     vm.isGrandPlace = true;
 
     if (chosenRole === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
-      vm.isTeamateMode = false;
+      vm.isTeammateMode = false;
     }
 
     if (!currentPlace.parent || !currentPlace.parent.id){

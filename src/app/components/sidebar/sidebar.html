@@ -9,7 +9,9 @@
           <div id="Logo-type-white"></div>
         </a>
       </div>
-      <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+      <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}"
+         data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true"
+         data-tooltip-placement="right auto">
         <div>
           <div class="compose">
             <svg>
@@ -22,7 +24,9 @@
         </div>
       </a>
       <div class="side-menu">
-        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}"
+           data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}"
+           data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
@@ -171,12 +175,12 @@
         <a class="_fw _df">Total Messages</a><span class="_fn _df">{{ctlSidebar.selectedGrandPlace.totalPosts || 0}}</span>
       </div>
     </div>
-    <div class="places">
+    <div class="places" ng-show="ctlSidebar.showPlaces">
       <h4>Places</h4>
       <div nst-scrollbar suppress-scroll-x="true"  class="places-list">
         <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace"></nst-sidebar-place-info>
       </div>
     </div>
-    <nst-place-teamates-sidebar grand-place="ctlSidebar.selectedGrandPlace"></nst-place-teamates-sidebar>
+    <nst-place-teammates-sidebar grand-place="ctlSidebar.selectedGrandPlace" on-collapse="ctlSidebar.togglePlace"></nst-place-teammates-sidebar>
   </div>
 </div>
