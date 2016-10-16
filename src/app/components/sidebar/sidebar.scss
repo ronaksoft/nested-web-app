@@ -859,6 +859,12 @@ ul ul > li:last-child > .place-item-inner{
     z-index: 3;
     position: relative;
     flex: 1;
+    overflow: hidden;
+
+    .places-list {
+      max-height: calc(100vh - 353px);
+    }
+
     ul {
       width: 100%;
       list-style: none;
@@ -952,10 +958,12 @@ ul ul > li:last-child > .place-item-inner{
   }
   .teammates {
     border-top: 1px solid $color-breeze;
-    //height: 94px;
+    height: 94px;
     display: flex;
     flex-direction: column;
     flex: none;
+    //background-color: #fff;
+    z-index: 4;
     .avatars {
       display: flex;
       flex-direction: row;
