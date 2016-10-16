@@ -12,15 +12,14 @@
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE) {
     var vm = this;
 
-    (function() {
-      vm.mode = 'collapsed';
-      vm.limit = 0;
-      vm.hasAddMembersAccess = false;
-      vm.hasSeeMembersAccess = false;
-      vm.loading = false;
-      vm.showTemmate = true;
+    vm.mode = 'collapsed';
+    vm.limit = 0;
+    vm.hasAddMembersAccess = false;
+    vm.hasSeeMembersAccess = false;
+    vm.loading = false;
+    vm.showTemmate = true;
+    vm.teamates = [];
 
-    })();
 
     initialize();
 
@@ -35,7 +34,10 @@
       return vm.grandPlace;
     }, function(newValue, oldValue) {
       if (newValue) {
+        console.log("newValue", newValue);
         initialize();
+      }else{
+        vm.showTemmate = false;
       }
     });
 
@@ -59,7 +61,7 @@
 
         vm.showTemmate = (vm.grandPlace.id !== NstSvcAuth.user.id);
 
-        return findMembers();
+        findMembers();
       }).catch(function(error) {
         $log.debug(error);
       }).finally(function () {
@@ -166,10 +168,13 @@
           }), _.map(members.keyHolders, function(member) {
             return new NstVmMemberItem(member, 'key_holder');
           }));
+          console.log("get_members", vm.teamates);
+          vm.showTemmate = true;
         }).finally(function () {
           vm.loading = false;
         });
       } else {
+        vm.showTemmate = false;
         vm.teamates = [];
       }
     }

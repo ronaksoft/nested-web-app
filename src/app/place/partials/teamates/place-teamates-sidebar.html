@@ -1,11 +1,12 @@
-<div class="teammates">
-  <h4 class="">{{ctlTeamates.grandPlace.teamatesCount || 0}} Teammates
+<div class="teammates" ng-show="ctlTeamates.teamates.length > 0">
+  <h4 class="">{{ctlTeamates.teamates.length }} Teammates
     <svg ng-click="ctlTeamates.toggleMode();">
       <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
     </svg>
   </h4>
   <div class="avatars">
-    <div class="user-avatar-28" ng-repeat="teamate in ctlTeamates.teamates | limitTo : ctlTeamates.limit track by teamate.id" data-tooltip-placement="top" data-uib-tooltip="{{::teamate.name}}">
+    <div class="user-avatar-28" ng-repeat="teamate in ctlTeamates.teamates | limitTo : ctlTeamates.limit track by teamate.id"
+         data-tooltip-placement="top" data-uib-tooltip="{{::teamate.name}}">
       <img ng-src="{{teamate.avatar}}" class="ng-scope">
     </div>
     <svg ng-if="ctlTeamates.hasSeeMembersAccess" ng-click="ctlTeamates.addMember()">
