@@ -325,9 +325,9 @@
       reqGetPost(vm.postId).then(function (post) {
         vm.postModel = post;
         vm.post = mapPost(vm.postModel);
-        if (vm.post.comments) {
-          vm.comments = vm.post.comments;
-        }
+        // if (vm.post.comments) {
+        //   vm.comments = vm.post.comments;
+        // }
 
         return NstSvcPlaceFactory.filterPlacesByRemovePostAccess(post.places);
       }).then(function (placesWithRemoveAccess) {
