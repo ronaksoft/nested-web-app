@@ -107,7 +107,7 @@
       }
     }
 
-    $q.all([getUser(), getMyPlaces(), getInvitations(), getMentions()]).then(function (resolvedSet) {
+    $q.all([getUser(), getMyPlaces(), getInvitations(), getMentionsCount()]).then(function (resolvedSet) {
       vm.user = mapUser(resolvedSet[0]);
 
       vm.places = mapPlaces(resolvedSet[1]);
@@ -115,8 +115,7 @@
 
       vm.invitations = mapInvitations(resolvedSet[2]);
 
-      vm.mentionsCount = resolvedSet[3].length;
-
+      vm.mentionsCount = resolvedSet[3];
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
           return place.id === $stateParams.placeId.split('.')[0];
@@ -264,8 +263,8 @@
       return 'app.place-add';
     }
 
-    function getMentions() {
-      return NstSvcMentionFactory.getMentions();
+    function getMentionsCount() {
+      return NstSvcMentionFactory.getMentionsCount();
     }
 
     /*****************************
@@ -343,6 +342,12 @@
       return invitationModels.map(mapInvitation);
     }
 
+    function mapMentions(mentions) {
+      var currentUserId = NstSvcAuth.user.id;
+      return _.map(mentions, function (item) {
+        return new NstVmMention(item, currentUserId);
+      });
+    }
     /*****************************
      *****   Notifs Counters  ****
      *****************************/
