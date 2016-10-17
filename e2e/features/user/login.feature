@@ -1,6 +1,6 @@
-#Feature: User: login
-#  As a user of Nested
-#  I should be able to go to Login page and login
+Feature: User: login
+  As a user of Nested
+  I should be able to go to Login page and login
 #
 #  Scenario: Login user with invalid username
 #    Given I go to the page "/login"
@@ -19,7 +19,7 @@
 #    When I wait 10s
 #    Then should see "Invalid Username or Password" error message
 #
-#  Scenario: Login user with true info
+#  Scenario: Login user with true info 1
 #    Given I fill "Username" with "test1"
 #    Given I fill "Password" with "111111"
 #    Given I Press "Sign in"
@@ -82,3 +82,26 @@
 #     When I Wait till line loader hide
 #     When I wait 5s
 #     Then should the current url be "/signin"
+
+  Scenario: Sign in
+    When I wait 2s
+    Given I go to the page "/login"
+    When I wait 2s
+    Given I fill "Username" with "test-mapping"
+    When I wait 2s
+    Given I fill "Password" with "123456"
+    When I wait 2s
+    Given I Press "Sign in"
+    When I wait 2s
+    Then should the title of the place be "All Places"
+
+
+  Scenario: Exit error in Edit
+    Given I Click Link by Partial Text "@test-mapping"
+    When I Wait till line loader hide
+    When I wait 5s
+    Given I Click Link by Partial Text "Edit My profile"
+    When I Wait till line loader hide
+    When I wait 5s
+    Given I Press "Save & Exit"
+
