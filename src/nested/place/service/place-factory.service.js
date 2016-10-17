@@ -1247,6 +1247,11 @@
       // place.setTeammatesCount(placeData.counters.key_holders + placeData.counters.creators);
       place.setName(placeData.name);
       place.setDescription(placeData.description);
+      if (placeData.counters) {
+        place.setTotalPosts(placeData.counters.posts);
+        place.setTeammatesCount(placeData.counters.key_holders + placeData.counters.creators);
+      }
+
 
       if (angular.isObject(placeData.picture)) {
         place.setPicture(placeData.picture);
