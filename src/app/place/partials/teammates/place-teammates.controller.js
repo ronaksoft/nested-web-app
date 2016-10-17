@@ -56,7 +56,6 @@
         vm.hasSeeMembersAccess = values[1];
 
         if (vm.mode = 'collapsed') {
-          console.log("vm |" , vm)
           collapse();
         }
 
