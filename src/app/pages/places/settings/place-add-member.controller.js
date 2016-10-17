@@ -14,7 +14,7 @@
     var defaultSearchResultCount = 9;
 
     vm.isTeammateMode = true;
-    vm.isGrandPlace = true;
+    vm.isGrandPlace = false;
 
     if (chosenRole === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
       vm.isTeammateMode = false;
