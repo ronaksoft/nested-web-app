@@ -29,11 +29,6 @@
     padding: 0 8px;
   }
 }
-.sidebar.expanded {
-  .sidebar-wrapper {
-    width: $sidebar-width
-  }
-}
 .sidebar-wrapper {
   z-index: 4;
   display: inline-flex;
@@ -44,7 +39,7 @@
   position: relative;
   flex: none;
   & > div {
-    transition: $animation-dur;
+    //transition: $animation-dur;
   }
   .detailed {
     justify-content: flex-start;
@@ -112,20 +107,20 @@
     }
   }
   //sidebar animation on hovering sidebar
-  &:hover {
-    animation: side-anim-detail $sidebar-app-dur linear $sidebar-delay forwards;
-    .side-place-wrapper {
-      //animation: side-anim-places $sidebar-place-move linear $sidebar-scroll-move forwards;
-    }
-    .detailed {
-      > *:last-child {
-        //animation: appearence $sidebar-app-dur linear 1.3s forwards;
-      }
-    }
-    .side-access {
-      animation: side-anim-detail $sidebar-app-dur linear $sidebar-delay forwards;
-    }
-  }
+  //&:hover {
+  //  animation: side-anim-detail $sidebar-app-dur linear $sidebar-delay forwards;
+  //  .side-place-wrapper {
+  //    //animation: side-anim-places $sidebar-place-move linear $sidebar-scroll-move forwards;
+  //  }
+  //  .detailed {
+  //    > *:last-child {
+  //      //animation: appearence $sidebar-app-dur linear 1.3s forwards;
+  //    }
+  //  }
+  //  .side-access {
+  //    animation: side-anim-detail $sidebar-app-dur linear $sidebar-delay forwards;
+  //  }
+  //}
   .side-menu-item.detailed,
   .side-access .detailed,
   .side-place-invite-item-inner.detailed,
@@ -140,7 +135,7 @@
     a, span {
       color: rgba(255,255,255,.5);
     }
-    &:hover {
+    &:hover,&.isSelected {
       color: rgba(255,255,255,1);
       a, span {
         color: rgba(255,255,255,1);
@@ -149,6 +144,12 @@
         fill: rgba(255,255,255,1);
       }
     }
+  }
+}
+
+.sidebar.expanded {
+  .sidebar-wrapper {
+    width: $sidebar-width
   }
 }
 .sidebar-border {
@@ -242,7 +243,7 @@
     margin: 0 6px 0 0;
   }
 }
-.compose:hover,.compose:hover{
+.compose:hover,.compose.isSelected{
   color: $color-white;
   box-shadow: 0 2px 12px 6px rgba(0,0,0,.4);
   background-color: $color-sense;
@@ -866,6 +867,9 @@ ul ul > li:last-child > .place-item-inner{
 
     .places-list {
       max-height: calc(100vh - 353px);
+      >ul {
+        padding-left: 16px;
+      }
     }
 
     ul {
@@ -918,7 +922,7 @@ ul ul > li:last-child > .place-item-inner{
           font-weight: 700;
         }
       }
-      a:hover {
+      a:hover,a.isSelected {
         background-color: $sidebar-place-bg-hover-color;
         border-radius: 3px;
         color: $color-solid;

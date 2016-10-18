@@ -6,7 +6,7 @@
     .directive('nstNavbar', Navbar);
 
   /** @ngInject */
-  function Navbar() {
+  function Navbar($rootScope) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/navbar/full/full-navbar.html',
@@ -25,8 +25,8 @@
       link: function (scope, element, attrs) {
         // create a scene
         var controller = new ScrollMagic.Controller();
-        var tween,tween2,tween3;
-        tween = tween2 = tween3 = new TimelineLite();
+        var tween,tween2,tween3,tween4;
+        tween = tween2 = tween3 = tween4 = new TimelineLite();
 
         // create tween
         if (element) tween = new TimelineLite()
@@ -37,10 +37,13 @@
 
         if ($("#content-plus").children().length > 0) {tween3 = new TimelineLite()
           .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));}
+        console.log($("#new-post"));
+        if ($("#new-post").length > 0) {tween4 = new TimelineLite()
+          .add(TweenLite.to($("#new-post"), 1, {css:{top:'128px'}, ease:Linear.easeNone}));}
 
         // build scene
         var scene = new ScrollMagic.Scene({duration: 72, offset: 1})
-          .setTween([tween,tween2,tween3])
+          .setTween([tween,tween2,tween3,tween4])
           .addTo(controller);
       }
     };
