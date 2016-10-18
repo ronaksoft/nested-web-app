@@ -236,7 +236,6 @@
     }
 
     Server.prototype.enqueueToSend = function (reqId, timeout) {
-      console.log('server reqId', reqId);
       var qItem = this.queue[reqId];
 
       if (qItem && !qItem.request.isFinished()) {

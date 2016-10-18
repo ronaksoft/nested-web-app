@@ -23,6 +23,7 @@
     vm.places = [];
     vm.onPlaceClick = onPlaceClick;
     vm.togglePlace = togglePlace;
+    vm.isOpen = false;
 
     /*****************************
      ***** Controller Methods ****
@@ -86,7 +87,6 @@
     };
 
     vm.showAddPlaceModal = function (grandPlace) {
-      console.log('modal');
         // Show User the invitation Decide Modal
         $uibModal.open({
           animation: false,
@@ -183,7 +183,6 @@
         compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
         bookmarks: $state.href(getBookmarksState()),
         sent: $state.href(getSentState()),
-        placeAdd : vm.showAddPlaceModal(),
         subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
       };
 
