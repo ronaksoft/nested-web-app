@@ -147,13 +147,23 @@ post-card {
 h3 {
   font-weight: 100;
 }
-.post-card .post-subject h3{
-  margin: 8px 0;
-  font-size: 24px;
-  line-height: 29px;
-  word-break: break-all;
-  &:hover{
-    cursor: pointer;
+.post-card .post-subject{
+  .unread-badge-holder {
+    visibility: hidden;
+    margin: 8px 4px 8px 0;
+    width: 12px;
+    color: #14D769;
+    line-height: 29px;
+    font-size: 18px;
+  }
+  h3 {
+    margin: 8px 0;
+    font-size: 24px;
+    line-height: 29px;
+    word-break: break-all;
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
 .post-card .post-attachments{
@@ -162,6 +172,16 @@ h3 {
   align-items: center;
   ul {
     list-style: none;
+  }
+}
+.post-card.unread{
+  .post-subject h3, .post-body {
+    font-weight: bold;
+  }
+  .post-subject {
+    .unread-badge-holder {
+      visibility: visible;
+    }
   }
 }
 .post-card-comment{

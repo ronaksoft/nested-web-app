@@ -141,6 +141,14 @@ nst-navbar {
     img {
       filter: alpha(opacity=10);
     }
+    &::after {
+      top: 0;
+      transform: translateY(0)
+    }
+  }
+  .icon-logo {
+    height: 100%;
+    justify-content: center;
   }
   .place-info {
     display: inline-flex;
@@ -241,7 +249,8 @@ nst-navbar {
         margin-left: 6px;
         fill: $color-wind;
         transition: all .3s;
-        &.active {
+        &.active,
+        &:hover {
           fill: $color-sense !important;
         }
       }

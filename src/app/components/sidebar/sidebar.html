@@ -1,4 +1,4 @@
-<div class="sidebar _df">
+<div class="sidebar _df" ng-class="{ 'expanded' : ctlSidebar.isInDetailMode }">
   <div class="sidebar-wrapper">
     <div class="side-top">
       <div class="nested-logo detailed">
@@ -9,7 +9,10 @@
           <div id="Logo-type-white"></div>
         </a>
       </div>
-      <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+      <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}"
+         data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true"
+         data-tooltip-placement="right auto"
+         nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.compose}}">
         <div>
           <div class="compose">
             <svg>
@@ -22,7 +25,9 @@
         </div>
       </a>
       <div class="side-menu">
-        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}"
+           data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}"
+           data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.bookmarks}}">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
@@ -30,7 +35,7 @@
           </span>
           <span>Favorite Places Feed</span>
         </a>
-        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
@@ -38,7 +43,7 @@
           </span>
           <span>All Places Feed</span>
         </a>
-        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.sent}}">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
@@ -69,7 +74,7 @@
               data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
 
       </ul>
-      <a class="create-place _fw detailed" href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+      <a class="create-place _fw detailed" ng-click="ctlSidebar.showAddPlaceModal()" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <span>
           <svg id="addIcon" morph-svg first-id="sq40dashed" second-id="sq40">
             <use xlink:href="/assets/icons/nst-add40.svg#sq40"></use>
@@ -93,7 +98,7 @@
         </div>
       </a>
         <a href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Place" data-tooltip-enable="true" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-          <div class="create-place _fw">
+          <div ng-click="ctlSidebar.showAddPlaceModal()" class="create-place _fw">
             <div>
               <span>+</span>
             </div>
@@ -103,7 +108,7 @@
       <div class="shadow-bot"></div>
     </div>
     <div class="side-access">
-      <a class="detailed" ui-sref="app.mentions">
+      <a class="detailed" ui-sref="app.mentions" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" >
         <div>
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#W_"></use>
@@ -114,7 +119,7 @@
           Mention
         </div>
       </a>
-      <a class="detailed" href="#/profile">
+      <a class="detailed" href="#/profile" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
@@ -122,7 +127,7 @@
         </div>
         <div>Profile & Settings</div>
       </a>
-      <a class="detailed" href="#/signout">
+      <a class="detailed" href="#/signout" >
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>
@@ -171,47 +176,12 @@
         <a class="_fw _df">Total Messages</a><span class="_fn _df">{{ctlSidebar.selectedGrandPlace.totalPosts || 0}}</span>
       </div>
     </div>
-    <div class="places">
+    <div class="places" ng-show="ctlSidebar.showPlaces">
       <h4>Places</h4>
-      <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace"></nst-sidebar-place-info>
-      <!--<ul>-->
-        <!--<li>-->
-          <!--<div class="place-item-inner">-->
-            <!--<a>Ronak Software Group <b>1</b></a>-->
-          <!--</div>-->
-          <!--<ul>-->
-            <!--<li>-->
-              <!--<div class="place-item-inner">-->
-                <!--<a class="_fw">Design</a>-->
-                <!--<span data-ng-if="true" class="e2-arrow _df">-->
-                  <!--<label class="arrow-holder-nav {{ctlSidebar.nnnsss ? 'nst-arrow' : 'nst-arrow-rotated'}}"-->
-                         <!--data-ng-click="ctlSidebar.nnnsss =! ctlSidebar.nnnsss">-->
-                  <!--</label>-->
-                <!--</span>-->
-              <!--</div>-->
-              <!--<ul data-ng-hide="ctlSidebar.nnnsss">-->
-                <!--<li>-->
-                  <!--<div class="place-item-inner">-->
-                    <!--<div class="filler"></div>-->
-                    <!--<div class="icon icon-solid icon-side icon-sent"></div>-->
-                    <!--<a>Design Request</a>-->
-                  <!--</div>-->
-                <!--</li>-->
-              <!--</ul>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<div class="place-item-inner"><a>Copywriting <b>1</b></a></div>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<div class="place-item-inner">-->
-                <!--<div class="filler"></div>-->
-                <!--<a>Kitchen <b>16</b></a>-->
-              <!--</div>-->
-            <!--</li>-->
-          <!--</ul>-->
-        <!--</li>-->
-      <!--</ul>-->
+      <div nst-scrollbar suppress-scroll-x="true"  class="places-list">
+        <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace"></nst-sidebar-place-info>
+      </div>
     </div>
-    <nst-place-teamates-sidebar ng-if="ctlSidebar.showTeamates" grand-place="ctlSidebar.selectedGrandPlace"></nst-place-teamates-sidebar>
+    <nst-place-teammates-sidebar grand-place="ctlSidebar.selectedGrandPlace" on-collapse="ctlSidebar.togglePlace"></nst-place-teammates-sidebar>
   </div>
 </div>

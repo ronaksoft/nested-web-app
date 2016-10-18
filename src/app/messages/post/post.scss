@@ -182,6 +182,13 @@
 }
 .cmt-post-view {
   padding-right: 5px;
+  .sending, .failed {
+    color : rgba(51, 51, 51, 0.50);
+  }
+  .retry-link {
+    color: #FF0014;
+    cursor: pointer;
+  }
 }
 
 .comment-input {

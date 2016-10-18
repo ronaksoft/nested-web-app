@@ -8,8 +8,8 @@
   /** @ngInject */
   function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT,
+                             NstSvcLoader, NstSvcAuth,
                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
@@ -22,7 +22,8 @@
     vm.invitation = {};
     vm.places = [];
     vm.onPlaceClick = onPlaceClick;
-
+    vm.togglePlace = togglePlace;
+    vm.isOpen = false;
 
     /*****************************
      ***** Controller Methods ****
@@ -85,6 +86,23 @@
       });
     };
 
+    vm.showAddPlaceModal = function (grandPlace) {
+        // Show User the invitation Decide Modal
+        $uibModal.open({
+          animation: false,
+          size: 'lg-white',
+          templateUrl: 'app/components/modal/add-place/create-team.html',
+          controller: 'PlaceAddController',
+          controllerAs: 'ctrlCreate',
+          resolve: {
+            argv: {
+            }
+          }
+        }).result.then(function (result) {
+
+        });
+      };
+
     function onPlaceClick(event, place) {
       if (NstSvcSidebar.onItemClick) {
         event.preventDefault();
@@ -107,7 +125,7 @@
       }
     }
 
-    $q.all([getUser(), getMyPlaces(), getInvitations(), getMentions()]).then(function (resolvedSet) {
+    $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
       vm.user = mapUser(resolvedSet[0]);
 
       vm.places = mapPlaces(resolvedSet[1]);
@@ -115,8 +133,7 @@
 
       vm.invitations = mapInvitations(resolvedSet[2]);
 
-      vm.mentionsCount = resolvedSet[3].length;
-
+      vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
           return place.id === $stateParams.placeId.split('.')[0];
@@ -144,6 +161,10 @@
       }
     });
 
+    function togglePlace(status) {
+      vm.showPlaces = status;
+    };
+
     /*****************************
      *****    Change urls   ****
      *****************************/
@@ -162,7 +183,6 @@
         compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
         bookmarks: $state.href(getBookmarksState()),
         sent: $state.href(getSentState()),
-        placeAdd: $state.href(getPlaceAddState(), {placeId: NST_DEFAULT.STATE_PARAM}),
         subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
       };
 
@@ -264,9 +284,6 @@
       return 'app.place-add';
     }
 
-    function getMentions() {
-      return NstSvcMentionFactory.getMentions();
-    }
 
     /*****************************
      *****    Fetch Methods   ****
@@ -343,6 +360,12 @@
       return invitationModels.map(mapInvitation);
     }
 
+    function mapMentions(mentions) {
+      var currentUserId = NstSvcAuth.user.id;
+      return _.map(mentions, function (item) {
+        return new NstVmMention(item, currentUserId);
+      });
+    }
     /*****************************
      *****   Notifs Counters  ****
      *****************************/
@@ -446,5 +469,10 @@
     NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
       getGrandPlaceUnreadCounts();
     });
+
+    NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.UPDATE, function (event) {
+      vm.mentionsCount = event.detail;
+    });
+
   }
 })();

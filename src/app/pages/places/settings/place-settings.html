@@ -93,15 +93,15 @@
           <div class="_df"><label ><i class="nst-place-icon-print _df"></i></label></div>
           <div class="_df _fw"><label ><h5>Receiving</h5></label></div>
           <form class="_df switch">
-            <input id="off" type="radio" name="Receiving" ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'off'}">
+            <input id="off" type="radio" name="Receiving" data-ng-checked="!ctlSettings.place.privacy || ctlSettings.place.privacy.receptive === 'off'">
             <label for="off" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','off') && $event.preventDefault();">
               <div class="labtxt _fw">Off</div>
             </label>
-            <input id="internal" type="radio" name="Receiving" ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'internal'}">
+            <input id="internal" type="radio" name="Receiving" data-ng-checked="ctlSettings.place.privacy.receptive === 'internal'">
             <label for="internal" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','internal') && $event.preventDefault();">
               <div class="labtxt _fw">Team</div>
             </label>
-            <input id="external" type="radio" name="Receiving" ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'external'}">
+            <input id="external" type="radio" name="Receiving" data-ng-checked="ctlSettings.place.privacy.receptive === 'external'">
             <label for="external" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive', 'external')  && $event.preventDefault();">
               <div class="labtxt _fw">All</div>
             </label>
@@ -147,7 +147,7 @@
             ??
             </label>
           </div>
-          <div class="_df _fw"><label for="sw-addMember"><h5>Add Member</h5></label></div>
+          <div class="_df _fw"><label for="sw-addMember"><h5>Add Key holder</h5></label></div>
           <div class="_df switch">
             <input type="checkbox"
                    data-ng-disabled="!ctlSettings.hasControlAccess"
@@ -155,7 +155,7 @@
                    data-ng-checked="ctlSettings.place.policy.add_member === 'creators'"
                    value="creators"/>
             <label data-ng-click="ctlSettings.updatePolicy('add_member' ,'creators') && $event.preventDefault();">
-              <div class="labtxt _fw">creators</div>
+              <div class="labtxt _fw">masters</div>
             </label>
             <label data-ng-click="ctlSettings.updatePolicy('add_member' ,'everyone') && $event.preventDefault();">
               <div class="labtxt _fw">everyone</div>
@@ -176,7 +176,7 @@
                    id="sw-addPlace" class="inpsw" name="addPlace"
                    data-ng-checked="ctlSettings.place.policy.add_place === 'creators'"/>
             <label  data-ng-click="ctlSettings.updatePolicy('add_place' ,'creators') &&  $event.preventDefault();">
-              <div class="labtxt _fw">creators</div>
+              <div class="labtxt _fw">masters</div>
             </label>
             <label  data-ng-click="ctlSettings.updatePolicy('add_place' ,'everyone') && $event.preventDefault();">
               <div class="labtxt _fw">everyone</div>
@@ -184,18 +184,18 @@
           </div>
         </div>
         <div class="nst-teammates _dib" ng-if="ctlSettings.hasSeeMembersAccess">
-          <h5 class="tittle-option _di">Teammates</h5>
+          <h5 class="tittle-option _di">Members</h5>
           <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di  _fr" data-ng-click="ctlSettings.addMember()">
-            <span ng-if="ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Invite Teammate</span>
-            <span ng-if="!ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Add from Teammates</span>
+            <span ng-if="ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Invite Member</span>
+            <span ng-if="!ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Add from Members</span>
             <div class="add-icon _dib"></div>
           </div>
           <hr>
-          <h5 ng-if="!ctlSettings.hasAnyTeamate()" class="nst-mood-storm">
-            There are no teamates here yet.
+          <h5 ng-if="!ctlSettings.hasAnyTeammate()" class="nst-mood-storm">
+            There are no teammates here yet.
           </h5>
           <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user"
-                                 data-ng-repeat="member in ctlSettings.teamates"
+                                 data-ng-repeat="member in ctlSettings.teammates"
                                  member="member" place="ctlSettings.place"
                                  has-remove-access="ctlSettings.hasRemoveAccess"
                                  has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember"

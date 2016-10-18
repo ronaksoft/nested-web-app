@@ -7,10 +7,10 @@
 
   /** @ngInject */
   function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
-                          _, toastr,
-                          NST_COMMENT_EVENT, NST_POST_EVENT,
-                          NstSvcAuth, NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
-                          NstVmUser, postModel, postId) {
+                          _, toastr, moment,
+                          NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS,
+                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
+                          NstTinyComment, NstVmUser, postModel, postId) {
     var vm = this;
 
     /*****************************
@@ -32,14 +32,12 @@
       vm.post = postModel;
       if (vm.post.comments) {
         vm.comments = vm.post.comments;
-        vm.scrollToNewComment = vm.comments.length;
       }
     }
     vm.postId = postId || $stateParams.postId;
 
     vm.status = {
       postLoadProgress: false,
-      commentSendProgress: false,
       commentRemoveProgress: false,
       commentLoadProgress: false,
       hasMoreComments: false,
@@ -63,6 +61,7 @@
     vm.allowToRemoveComment = allowToRemoveComment;
     vm.removePost = removePost;
     vm.hasRemoveAccess = hasRemoveAccess;
+    vm.resend = resend;
 
     function loadComments() {
       vm.commentSettings.date = getDateOfOldestComment(vm.postModel);
@@ -71,10 +70,7 @@
       return reqGetComments(vm.postModel, vm.commentSettings).then(function (comments) {
         vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
         if (commentCount == 0){
-            vm.scrollToNewComment = vm.comments.length;
             vm.revealNewComment = true;
-        }else{
-          vm.scrollToNewComment = false;
         }
         // vm.scrolling = true;
       }).catch(function (error) {
@@ -98,29 +94,67 @@
         return;
       }
 
-      // if (!sendKeyIsPressed(event)) {
-      //   return;
-      // }
-
       var body = extractCommentBody(cm);
       if (0 == body.length) {
         return;
       }
 
+      var temp = mapComment(createCommentModel(body));
+      temp.status = NST_COMMENT_SEND_STATUS.PROGRESS;
+      temp.isTemp = true;
+
+      pushComment(temp);
+      vm.revealNewComment = true;
+
+
       vm.nextComment = "";
-      reqAddComment(vm.postModel, body).then(function(comment) {
+      addComment(vm.postModel, body).then(function(comment) {
         // TODO: notify
-        pushComment(comment);
-        vm.scrollToNewComment = vm.comments.length;
-        event.currentTarget.value = '';
-        vm.scrolling = $scope.unscrolled && true;
+        markCommentSent(temp.id, comment);
         vm.revealNewComment = true;
+        event.currentTarget.value = '';
       }).catch(function(error) {
-        vm.nextComment = body;
+        markCommentFailed(temp.id);
         // TODO: decide && show toastr
       });
 
       return false;
+    }
+
+    function createCommentModel(body) {
+      return new NstTinyComment({
+        id : _.uniqueId('temp_'),
+        body : body,
+        date : moment(),
+        sender : NstSvcAuth.user,
+      });
+    }
+
+    function markCommentSent(tempCommentId, comment) {
+      var temp = _.find(vm.comments, { id : tempCommentId });
+      if (temp) {
+        temp.isTemp = false;
+        temp.status = NST_COMMENT_SEND_STATUS.SUCCESS;
+        temp.id = comment.id;
+        temp.date = comment.date;
+        moveToHead(temp);
+      }
+    }
+
+    function moveToHead(comment) {
+      var index = _.findIndex(vm.comments, { id : comment.id });
+      if (index > 0) {
+        var item = vm.comments[index];
+        vm.comments.splice(index, 1);
+        pushComment(item);
+      }
+    }
+
+    function markCommentFailed(tempCommentId) {
+      var temp = _.find(vm.comments, { id : tempCommentId });
+      if (temp) {
+        temp.status = NST_COMMENT_SEND_STATUS.FAIL;
+      }
     }
 
     /**
@@ -318,22 +352,16 @@
      *****   Request Methods  ****
      *****************************/
 
-    function reqAddComment(post, text) {
-      vm.status.commentSendProgress = true;
+    function addComment(post, text) {
+      var deferred = $q.defer();
 
-      return NstSvcLoader.inject(NstSvcCommentFactory.addComment(post, text)).then(function (comment) {
-        vm.status.commentSendProgress = false;
-
-        return $q(function (res) {
-          res(comment);
-        });
+      NstSvcLoader.inject(NstSvcCommentFactory.addComment(post, text)).then(function (comment) {
+          deferred.resolve(comment);
       }).catch(function (error) {
-        vm.status.commentSendProgress = false;
-
-        return $q(function (res, rej) {
-          rej(error);
-        });
+        deferred.reject(error);
       });
+
+      return deferred.promise;
     }
 
     function reqRemoveComment(post, comment) {
@@ -395,6 +423,20 @@
       });
     }
 
+    function resend(model) {
+      model.status = NST_COMMENT_SEND_STATUS.PROGRESS;
+      model.isTemp = true;
+      addComment(vm.postModel, model.body).then(function(comment) {
+        // TODO: notify
+        markCommentSent(model.id, comment);
+        event.currentTarget.value = '';
+        vm.revealNewComment = true;
+      }).catch(function(error) {
+        markCommentFailed(model.id);
+        // TODO: decide && show toastr
+      });
+    }
+
     /*****************************
      *****     Map Methods    ****
      *****************************/
@@ -419,12 +461,16 @@
      *****    Push Methods    ****
      *****************************/
 
-    function pushComment(commentModel) {
-      var alreadyPushed = _.find(vm.comments, { id: commentModel.id });
+    function pushComment(model) {
+      var alreadyPushed = _.some(vm.comments, { id: model.id });
 
       if (!alreadyPushed) {
-        vm.comments.push(mapComment(commentModel));
+        vm.comments.push(model);
       }
+    }
+
+    function pushTempComment(tempComment) {
+      vm.comments.push(tempComment);
     }
 
     /*****************************
@@ -433,7 +479,11 @@
 
     NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function (event) {
       if (vm.postId == event.detail.postId) {
-        pushComment(event.detail.comment);
+        if (NstSvcAuth.user.id === event.detail.comment.sender.id && _.some(vm.comments, { body : event.detail.comment.body })) {
+          return false;
+        } else {
+          pushComment(mapComment(event.detail.comment));
+        }
       }
     });
 

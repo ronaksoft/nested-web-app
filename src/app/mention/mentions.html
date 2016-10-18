@@ -5,16 +5,19 @@
     <div class="navbarillu"></div>
     <div class="panel-profile-setting">
       <ul class="mentions-container">
-        <li class="mention-item" ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.post.id })" nst-post-modal post="mention.post">
+        <li class="mention-item" ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.postId })" ng-click="ctlMentions.viewPost(mention, $event);">
           <div class="sender">
             <a>
-              {{ ::mention.sender.fullName }}
+              {{ ::mention.name }}:
             </a>
           </div>
-          <div class="written">
+          <div class="written" ng-if="mention.mode == 'comment'">
             <p>
-              <i>{{mention.comment.body | truncate}}</i> on <b>{{mention.post.subject | truncate}}</b>
+              <i>{{mention.commentBody | truncate}}</i>
             </p>
+          </div>
+          <div class="written" ng-if="mention.mode == 'post'">
+            <p> mentioned you on <i>{{mention.postSubject | truncate}}</i></p>
           </div>
           <div class="time">
             {{mention.date | passed}}
@@ -22,5 +25,8 @@
         </li>
       </ul>
     </div>
+    <a href ng-click="ctlMentions.loadMore()">Show more</a>
+    <br>
+    <a href ng-click="ctlMentions.markAllSeen()">Mark all as seen</a>
   </section>
 </div>

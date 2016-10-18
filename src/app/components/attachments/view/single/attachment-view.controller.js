@@ -8,7 +8,7 @@
   function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
                                     hotkeys,
 									NST_FILE_TYPE,
-                                    NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
+                                    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
                                     NstHttp,
                                     postId, vmAttachment, vmAttachments) {
     var vm = this;
@@ -239,7 +239,7 @@
       }).then(function (attachment) {
         var deferred = $q.defer();
 
-        vm.attachments.downloader.http = new NstHttp(attachment.getResource().getUrl().view + '/' + attachment.getFilename());
+        vm.attachments.downloader.http = new NstHttp(attachment.getResource().getUrl().view);
         vm.attachments.downloader.request = vm.attachments.downloader.http.downloadWithProgress(function (event) {
           if (event.lengthComputable) {
             vm.attachments.current.downloadedSize = event.loaded;

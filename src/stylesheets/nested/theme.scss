@@ -131,9 +131,14 @@ hr {
 }
 .svg-hover {
   transition: all .2s;
-  &.morphed:hover use:first-child {
-    display: none;
+  &:hover{
+    fill: $color-sense ;
   }
+  &.morphed:hover use:first-child,
+  &.active use:first-child{
+    display: none!important;
+  }
+
 }
 
 /**
