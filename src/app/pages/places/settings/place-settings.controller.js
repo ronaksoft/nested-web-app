@@ -202,13 +202,14 @@
         $q.all(_.map(selectedUsers, function(user) {
 
           return $q(function(resolve, reject) {
-            NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
+            var command  = vm.isGrandPlace ? 'inviteUser' : 'addUser';
+            NstSvcPlaceFactory[command](vm.place, role, user).then(function(invitationId) {
 
               $log.debug(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
               resolve({
                 user: user,
                 role: role,
-                invitationId: invitationId
+                invitationId: vm.isGrandPlace ? invitationId : -1,
               });
             }).catch(function(error) {
               // FIXME: Why cannot catch the error!
@@ -230,7 +231,8 @@
           _.forEach(values, function(result) {
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-                vm.teammates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
+                var rolePrefix = vm.isGrandPlace ? 'pending_' : '';
+                vm.teammates.push(new NstVmMemberItem(result.user, rolePrefix + result.role));
               }
             }
           });

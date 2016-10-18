@@ -121,6 +121,7 @@
                <!--ng-model="ctlPost.nextComment" auto-dir="{{ctlPost.nextComment}}" max-length="5"-->
                <!--aria-expanded="false" class="_fw comment-box _wrb"><p></p></div>-->
           <textarea type="text" nst-mention class="_df _fw" cols="32"
+                    post-id="{{ctlPost.post.id}}"
                     data-ng-disabled="ctlPost.status.commentSendInProgress"
                     data-ng-model="ctlPost.nextComment"
                     ng-keyup="ctlPost.sendComment($event)"

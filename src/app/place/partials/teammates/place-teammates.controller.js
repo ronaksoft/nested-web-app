@@ -108,7 +108,7 @@
         $q.all(_.map(selectedUsers, function(user) {
 
           return $q(function(resolve, reject) {
-            NstSvcPlaceFactory.addUser(vm.grandPlace, role, user).then(function(invitationId) {
+            NstSvcPlaceFactory.inviteUser(vm.grandPlace, role, user).then(function(invitationId) {
               toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.grandPlace.id));
               $log.debug(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.grandPlace.id));
               resolve({

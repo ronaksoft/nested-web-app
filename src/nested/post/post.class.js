@@ -66,7 +66,7 @@
       // TODO: add this in all parse functions
       this.wipeAccess = false;
 
-      this.isSeen = null;
+      this.isRead = null;
 
       NstTinyPost.call(this, model);
 

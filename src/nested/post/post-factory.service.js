@@ -477,8 +477,8 @@
         message.setCounters(data.counters || message.counters);
         message.setInternal(data.internal);
         message.setDate(new Date(data.timestamp));
-        // TODO: Make sure data.read is correct
-        message.setIsSeen(!data.read);
+
+        message.setIsRead(data.post_read);
 
         if (data.last_update) {
           message.setUpdatedDate(new Date(data.last_update));
