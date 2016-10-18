@@ -36,17 +36,15 @@
                   $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
                 });
               });
+            } else {
+              jElement.on('click', function(event) {
+                if ($scope.toggleAgentSwitch) {
+                  $scope.$apply(function () {
+                    $scope.toggleAgentSwitch = false;
+                  });
+                }
+              });
             }
-            // The below lines toggles sidebar on clicking on another item
-            // else {
-            //   jElement.on('click', function(event) {
-            //     if ($scope.toggleAgentSwitch) {
-            //       $scope.$apply(function () {
-            //         $scope.toggleAgentSwitch = false;
-            //       });
-            //     }
-            //   });
-            // }
           }
         }
       }
