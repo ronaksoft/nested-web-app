@@ -3,24 +3,23 @@
 
   angular
     .module('ronak.nested.web.place')
-    .controller('placeTeamatesController', placeTeamatesController);
+    .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
-  function placeTeamatesController($scope, $q, $log, $uibModal, toastr,
+  function placeTeammatesController($scope, $q, $log, $uibModal, toastr,
     NstSvcPlaceFactory, NstUtility,NstSvcAuth,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE) {
     var vm = this;
 
-    (function() {
-      vm.mode = 'collapsed';
-      vm.limit = 0;
-      vm.hasAddMembersAccess = false;
-      vm.hasSeeMembersAccess = false;
-      vm.loading = false;
-      vm.showTemmate = true;
+    vm.mode = 'collapsed';
+    vm.limit = 0;
+    vm.hasAddMembersAccess = false;
+    vm.hasSeeMembersAccess = false;
+    vm.loading = false;
+    vm.showTemmate = true;
+    vm.teammates = [];
 
-    })();
 
     initialize();
 
@@ -35,7 +34,10 @@
       return vm.grandPlace;
     }, function(newValue, oldValue) {
       if (newValue) {
+        console.log("newValue", newValue);
         initialize();
+      }else{
+        vm.showTemmate = false;
       }
     });
 
@@ -59,7 +61,7 @@
 
         vm.showTemmate = (vm.grandPlace.id !== NstSvcAuth.user.id);
 
-        return findMembers();
+        findMembers();
       }).catch(function(error) {
         $log.debug(error);
       }).finally(function () {
@@ -68,12 +70,15 @@
 
     };
 
+
     function expand() {
       vm.limit = 64;
+      vm.onCollapse(false);
       findMembers();
     }
 
     function collapse() {
+      vm.onCollapse(true);
       if (vm.hasAddMembersAccess) {
         vm.limit = 4;
       } else {
@@ -132,7 +137,7 @@
           _.forEach(values, function(result) {
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-                vm.teamates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
+                // vm.teammates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
               }
             }
           });
@@ -154,23 +159,24 @@
         collapse();
         vm.mode = 'collapsed';
       }
-
     }
 
     function findMembers() {
       if (vm.hasSeeMembersAccess) {
         vm.loading = true;
         NstSvcPlaceFactory.getMembers(vm.grandPlace.id, vm.limit).then(function(members) {
-          vm.teamates = _.concat(_.map(members.creators, function(member) {
+          vm.teammates = _.concat(_.map(members.creators, function(member) {
             return new NstVmMemberItem(member, 'creator');
           }), _.map(members.keyHolders, function(member) {
             return new NstVmMemberItem(member, 'key_holder');
           }));
+          vm.showTemmate = true;
         }).finally(function () {
           vm.loading = false;
         });
       } else {
-        vm.teamates = [];
+        vm.showTemmate = false;
+        vm.teammates = [];
       }
     }
 

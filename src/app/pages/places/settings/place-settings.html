@@ -93,15 +93,15 @@
           <div class="_df"><label ><i class="nst-place-icon-print _df"></i></label></div>
           <div class="_df _fw"><label ><h5>Receiving</h5></label></div>
           <form class="_df switch">
-            <input id="off" type="radio" name="Receiving" ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'off'}">
+            <input id="off" type="radio" name="Receiving" data-ng-chacked="ctlSettings.place.privacy.receptive === 'off'">
             <label for="off" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','off') && $event.preventDefault();">
               <div class="labtxt _fw">Off</div>
             </label>
-            <input id="internal" type="radio" name="Receiving" ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'internal'}">
+            <input id="internal" type="radio" name="Receiving" data-ng-chacked="ctlSettings.place.privacy.receptive === 'internal'">
             <label for="internal" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','internal') && $event.preventDefault();">
               <div class="labtxt _fw">Team</div>
             </label>
-            <input id="external" type="radio" name="Receiving" ng-class="{'butn-green' : ctlSettings.place.privacy.receptive === 'external'}">
+            <input id="external" type="radio" name="Receiving" data-ng-checked="ctlSettings.place.privacy.receptive === 'external'">
             <label for="external" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive', 'external')  && $event.preventDefault();">
               <div class="labtxt _fw">All</div>
             </label>
@@ -191,11 +191,11 @@
             <div class="add-icon _dib"></div>
           </div>
           <hr>
-          <h5 ng-if="!ctlSettings.hasAnyTeamate()" class="nst-mood-storm">
-            There are no teamates here yet.
+          <h5 ng-if="!ctlSettings.hasAnyTeammate()" class="nst-mood-storm">
+            There are no teammates here yet.
           </h5>
           <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user"
-                                 data-ng-repeat="member in ctlSettings.teamates"
+                                 data-ng-repeat="member in ctlSettings.teammates"
                                  member="member" place="ctlSettings.place"
                                  has-remove-access="ctlSettings.hasRemoveAccess"
                                  has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember"

@@ -9,7 +9,7 @@
   function PlaceAddController($q, $timeout, $rootScope, $uibModal, $state, $stateParams, $log,
                               toastr,
                               NST_DEFAULT, NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_PLACE_ACCESS, NST_PATTERN,
-                              NstSvcStore, NstUtility, NstSvcLoader, NstSvcTry, NstSvcPlaceFactory,
+                              NstSvcStore, NstUtility, NstSvcLoader, NstSvcPlaceFactory,
                               NstVmNavbarControl) {
     var vm = this;
     var ABSENT_PICTURE = '/assets/icons/absents_place.svg';

@@ -8,9 +8,9 @@
   /** @ngInject */
   function NstSvcServer($websocket, $q, $timeout, $interval,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
-                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
+                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS,  NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE, NST_SRV_PING_PONG,
-                        NstSvcRandomize, NstSvcLogger, NstSvcTry,
+                        NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcPingPong,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
@@ -29,9 +29,6 @@
       this.authorized = false;
       this.queue = {};
 
-      this.pingPongInterval = {};
-      this.pingPongStatus = false;
-      this.pingPongStack = [];
 
       this.stream = $websocket(url);
       this.stream.maxTimeout = this.configs.streamTimeout;
@@ -39,11 +36,13 @@
 
       NstObservableObject.call(this);
 
+      this.pingPong = new NstSvcPingPong(this.stream);
+
       this.stream.onOpen(function (event) {
         NstSvcLogger.debug2('WS | Opened:', event, this);
 
         // TODO:: Uncomment me after ping handled by server
-        // this.startPingPong();
+        this.pingPong.start();
       }.bind(this));
 
       // Orphan Router
@@ -52,6 +51,13 @@
           NstSvcLogger.debug2('WS | Empty Orphan Message:', ws);
 
           return;
+        }
+
+
+        //Checking for pong message
+        if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
+          this.pingPong.getPong(ws.data);
+          return false;
         }
 
         var data = angular.fromJson(ws.data);
@@ -88,6 +94,14 @@
 
           return;
         }
+
+
+        //Checking for pong message
+        if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
+          this.pingPong.getPong(ws.data);
+          return false;
+        }
+
 
         var data = angular.fromJson(ws.data);
 
@@ -169,6 +183,10 @@
     Server.prototype = new NstObservableObject();
     Server.prototype.constructor = Server;
 
+    Server.prototype.request = function () {
+      var service = this;
+    };
+
     Server.prototype.request = function (action, data, timeout) {
       var service = this;
       var payload = angular.extend(data || {}, {
@@ -197,24 +215,17 @@
 
       // TODO: Return the request itself
       return retryablePromise.then(function (response) {
-        var deferred = $q.defer();
-
         // TODO: Resolve with response itself
-        deferred.resolve(response.getData());
-
-        return deferred.promise;
+        return $q.resolve(response.getData());
       }).catch(function (response) {
-        var deferred = $q.defer();
         NstSvcLogger.debug2('WS | Response: ', response);
         // TODO: retry here by creating a new request
-        deferred.reject(new NstServerError(
+        return $q.reject(new NstServerError(
           new NstServerQuery(action, data),
           response.getData().items,
           response.getData().err_code,
           response.getData()
         ));
-
-        return deferred.promise;
       });
     };
 
@@ -225,6 +236,7 @@
     }
 
     Server.prototype.enqueueToSend = function (reqId, timeout) {
+      console.log('server reqId', reqId);
       var qItem = this.queue[reqId];
 
       if (qItem && !qItem.request.isFinished()) {
@@ -299,10 +311,7 @@
         return result;
       }
 
-      var deferred = $q.defer();
-      deferred.reject();
-
-      return deferred.promise;
+      return $q.reject();
     };
 
     Server.prototype.send = function (request) {
@@ -345,60 +354,6 @@
 
     Server.prototype.getSessionSecret = function () {
       return this.getSesSecret();
-    };
-
-    Server.prototype.startPingPong = function (){
-
-      if (this.getPingPongStatus() && this.getPingPongInterval()) return;
-
-      this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.CONNECT));
-      this.setPingPongStatus(true);
-      var service = this;
-
-      var interval = $interval(function () {
-
-        service.pingPongStack.push({
-          response : false,
-          date : Date.now()
-        });
-
-        NstSvcLogger.debug2('WS | PING:', Date.now());
-
-        service.request(NST_SRV_PING_PONG.COMMAND,null, NST_SRV_PING_PONG.INTERVAL_TIMEOUT).then(function (data) {
-          NstSvcLogger.debug2('WS | PONG:', data);
-          service.pingPongStack = [];
-
-        }).catch(function (reason) {
-          NstSvcLogger.debug2('WS | PONG:', reason);
-
-          var failedPings = service.pingPongStack.filter(function (obj) {
-            return !obj.response;
-          });
-
-          NstSvcLogger.debug2('WS | FAILED PING/PONG', failedPings.length);
-
-          if (failedPings.length >= NST_SRV_PING_PONG.MAX_FAILED_PING
-            && service.getPingPongStatus()){
-            NstSvcLogger.debug2('WS | DISCONNECTED');
-            service.stopPingPong();
-          }
-
-        })
-
-      }, NST_SRV_PING_PONG.INTERVAL_TIME);
-
-      this.setPingPongInterval(interval);
-
-    };
-
-    Server.prototype.stopPingPong = function () {
-      NstSvcLogger.debug2('WS | STOP PING/PONG');
-      var interval = this.getPingPongInterval();
-      $interval.cancel(interval);
-      this.setPingPongStatus(false);
-      this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.DISCONNECT));
-      this.stream.close();
-      this.stream.reconnect();
     };
 
     return new Server(NST_CONFIG.WEBSOCKET.URL, {

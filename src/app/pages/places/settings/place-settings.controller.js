@@ -38,7 +38,7 @@
     vm.confirmToLock = confirmToLock;
     vm.confirmToLeave = confirmToLeave;
     vm.confirmToRemove = confirmToRemove;
-    vm.hasAnyTeamate = hasAnyTeamate;
+    vm.hasAnyTeammate = hasAnyTeammate;
     vm.allowedToAddSubPlace = allowedToAddSubPlace;
     vm.allowedToDelete = allowedToDelete;
     vm.allowedToLeave = allowedToLeave;
@@ -83,7 +83,7 @@
             resolve({});
           });
       }).then(function(members) {
-        vm.teamates = _.concat(_.map(members.creators, function (member) {
+        vm.teammates = _.concat(_.map(members.creators, function (member) {
           return new NstVmMemberItem(member, 'creator');
         }), _.map(members.keyHolders, function (member) {
           return new NstVmMemberItem(member, 'key_holder');
@@ -100,7 +100,7 @@
           ? NstSvcInvitationFactory.getPlacePendingInvitations(vm.placeId)
           : $q.resolve({});
       }).then(function(pendings) {
-        vm.teamates = _.concat(vm.teamates, _.map(pendings.pendingKeyHolders, function (invitation) {
+        vm.teammates = _.concat(vm.teammates, _.map(pendings.pendingKeyHolders, function (invitation) {
           return new NstVmMemberItem(invitation, 'pending_key_holder');
         }));
 
@@ -128,9 +128,9 @@
           case NST_PLACE_MEMBER_TYPE.CREATOR:
           case NST_PLACE_MEMBER_TYPE.KEY_HOLDER:
           case 'pending_' + NST_PLACE_MEMBER_TYPE.KEY_HOLDER:
-            var memberIndex = _.findIndex(vm.teamates, { id : data.member.id });
+            var memberIndex = _.findIndex(vm.teammates, { id : data.member.id });
             if (memberIndex > -1) {
-              vm.teamates.splice(memberIndex, 1);
+              vm.teammates.splice(memberIndex, 1);
             }
             break;
           default:
@@ -159,11 +159,11 @@
      */
     function allowedToLeave() {
 
-      if (!vm.teamates){
+      if (!vm.teammates){
         return false;
       }
 
-      var creators = vm.teamates.filter(function (member) {
+      var creators = vm.teammates.filter(function (member) {
         return member.role === NST_PLACE_MEMBER_TYPE.CREATOR;
       });
 
@@ -230,7 +230,7 @@
           _.forEach(values, function(result) {
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-                vm.teamates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
+                vm.teammates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
               }
             }
           });
@@ -403,8 +403,8 @@
       $log.debug(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
     }
 
-    function hasAnyTeamate() {
-      return vm.teamates && vm.teamates.length > 0;
+    function hasAnyTeammate() {
+      return vm.teammates && vm.teammates.length > 0;
     }
 
     function setReceptive(value) {
