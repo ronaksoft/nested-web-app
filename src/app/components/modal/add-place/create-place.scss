@@ -1,10 +1,10 @@
 .modal-lg-white {
-  max-width: 480px;
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
   display: flex;
   position: absolute;
-  background-color: rgba(255,255,255,.9);
-  margin: 80px auto;
+  background-color: #FAFAFA;
+  padding: 80px;
   .modal-content {
     flex: 1;
     position: relative;
@@ -92,6 +92,20 @@
         right: 12px;
         left: auto;
       }
+      input {
+        background-color: transparent;
+        border-color: transparent;
+        border-width: 2px;
+      }
+      input:hover {
+        background-color: $color-white;
+        border-color: $color-border;
+      }
+
+      input:focus {
+        background-color: $color-white;
+        border-color: $color-solid;
+      }
     }
     select {
       background: #F5F5F5;
@@ -118,7 +132,9 @@
   }
 }
 #create-place {
-  width: 100%;
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
   height: auto;
   position: relative;
   .placeID {
@@ -129,8 +145,7 @@
     width: 100%;
     margin-bottom: 32px;
     box-sizing: border-box;
-    border: solid 2px $color-white;
-    background-color: $color-white;
+    border: solid 2px transparent;
     border-radius: 10px;
     padding-bottom: 12px;
     transition: all .2s ease;
@@ -164,6 +179,7 @@
       opacity: 0.8;
     }
     &:hover {
+      background-color: $color-white;
       box-shadow:0 2px 8px rgba(0,0,0,0.15);
       .icn {
         opacity: 1;
@@ -176,7 +192,7 @@
   }
   .select-box-step2 {
     width: 100%;
-    margin-bottom: 32px;
+    margin-bottom: 12px;
     box-sizing: border-box;
     border: dashed 2px $color-wind;
     padding: 0 12px;
@@ -278,6 +294,8 @@
   align-items: center;
   justify-content: center;
   position: fixed;
+  top: 70px;
+  right: 70px;
   img {
     width: 32px;
     height: 32px;
