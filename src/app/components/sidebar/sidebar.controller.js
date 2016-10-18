@@ -85,6 +85,24 @@
       });
     };
 
+    vm.showAddPlaceModal = function (grandPlace) {
+      console.log('modal');
+        // Show User the invitation Decide Modal
+        $uibModal.open({
+          animation: false,
+          size: 'lg-white',
+          templateUrl: 'app/components/modal/add-place/create-team.html',
+          controller: 'PlaceAddController',
+          controllerAs: 'ctrlCreate',
+          resolve: {
+            argv: {
+            }
+          }
+        }).result.then(function (result) {
+
+        });
+      };
+
     function onPlaceClick(event, place) {
       if (NstSvcSidebar.onItemClick) {
         event.preventDefault();
@@ -165,7 +183,7 @@
         compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
         bookmarks: $state.href(getBookmarksState()),
         sent: $state.href(getSentState()),
-        placeAdd: $state.href(getPlaceAddState(), {placeId: NST_DEFAULT.STATE_PARAM}),
+        placeAdd : vm.showAddPlaceModal(),
         subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
       };
 
