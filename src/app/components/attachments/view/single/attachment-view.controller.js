@@ -239,7 +239,7 @@
       }).then(function (attachment) {
         var deferred = $q.defer();
 
-        vm.attachments.downloader.http = new NstHttp(attachment.getResource().getUrl().view + '/' + attachment.getFilename());
+        vm.attachments.downloader.http = new NstHttp(attachment.getResource().getUrl().view);
         vm.attachments.downloader.request = vm.attachments.downloader.http.downloadWithProgress(function (event) {
           if (event.lengthComputable) {
             vm.attachments.current.downloadedSize = event.loaded;

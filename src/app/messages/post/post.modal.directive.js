@@ -21,7 +21,9 @@
 
       function link(scope) {
         scope.openPostModal = function (vmPost) {
-
+          if (scope.post){
+            scope.post.isRead = true;
+          }
           $state.go('app.message', { postId : vmPost.id, model : vmPost }, { notify : false});
         }
       }

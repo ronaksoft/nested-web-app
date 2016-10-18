@@ -23,6 +23,7 @@
         getMembers: {},
         getNotif: {},
         isMine: {},
+        inviteUser: {},
         addMember: {},
         setNotification: {},
         getBookmark: {},
@@ -882,6 +883,7 @@
       return deferred.promise;
     };
 
+
     PlaceFactory.prototype.addUser = function (place, role, user) {
       var factory = this;
       var id = place.id + '-' + user.id + '-' + role;
@@ -890,12 +892,12 @@
         var defer = $q.defer();
         var query = new NstFactoryQuery(id);
 
-        NstSvcServer.request('place/invite_member', {
+        NstSvcServer.request('place/add_member', {
           place_id: place.id,
           member_id: user.id,
           role: role
         }).then(function (result) {
-          defer.resolve(result.invite_id.$oid);
+          defer.resolve(user);
         }).catch(function (error) {
           defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           $log.debug(error);
@@ -914,6 +916,45 @@
       }).catch(function () {
         var args = arguments;
         delete factory.requests.addMember[id];
+
+        return $q(function (res, rej) {
+          rej.apply(null, args);
+        });
+      });
+    };
+
+    PlaceFactory.prototype.inviteUser = function (place, role, user) {
+      var factory = this;
+      var id = place.id + '-' + user.id + '-' + role;
+
+      if (!this.requests.inviteUser[id]) {
+        var defer = $q.defer();
+        var query = new NstFactoryQuery(id);
+
+        NstSvcServer.request('place/invite_member', {
+          place_id: place.id,
+          member_id: user.id,
+          role: role
+        }).then(function (result) {
+          defer.resolve(result.invite_id.$oid);
+        }).catch(function (error) {
+          defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          $log.debug(error);
+        });
+
+        this.requests.inviteUser[id] = defer.promise;
+      }
+
+      return this.requests.inviteUser[id].then(function () {
+        var args = arguments;
+        delete factory.requests.inviteUser[id];
+
+        return $q(function (res) {
+          res.apply(null, args);
+        });
+      }).catch(function () {
+        var args = arguments;
+        delete factory.requests.inviteUser[id];
 
         return $q(function (res, rej) {
           rej.apply(null, args);

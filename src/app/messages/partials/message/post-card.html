@@ -1,4 +1,4 @@
-<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isSeen }" ng-if="!ctlPostCard.post.forbidden">
+<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isRead }" ng-if="!ctlPostCard.post.forbidden">
   <!-- ng-if="!ctlPostCard.thisPlace" -->
   <section class="post-card-badge" ng-init="firstPlace = ctlPostCard.post.getFirstPlace()">
     <a class="margin-r-5" data-ng-if="firstPlace" href="#/places/{{::firstPlace.id}}/messages">{{::firstPlace.name}}</a>
@@ -79,7 +79,7 @@
   </div>
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"></comments-board>
   <div class="post-card-comment-input _df">
-    <input type="text" nst-mention data-ng-model="ctlPostCard.post.newComment"  auto-dir="{{ctlPostCard.post.newComment}}"
+    <input type="text" nst-mention post-id="{{ctlPostCard.post.id}}" data-ng-model="ctlPostCard.post.newComment"  auto-dir="{{ctlPostCard.post.newComment}}"
            class="_fw" placeholder="write your comment ..." ng-keyup="ctlPostCard.sendComment($event)"
            ng-disabled="ctlPostCard.isSendingComment" max-length="1024"/>
   </div>
