@@ -3,7 +3,8 @@
   height: 100%;
   display: flex;
   position: absolute;
-  background-color: #FAFAFA;
+  background-color: $color-bg;
+  opacity: 0.98;
   padding: 80px;
   .modal-content {
     flex: 1;
