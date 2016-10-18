@@ -6,10 +6,11 @@
     .controller('PlaceAddMemberController', PlaceAddMemberController);
 
   /** @ngInject */
-  function PlaceAddMemberController($location, $scope, $log,
-    NstSvcServer, NstSvcAuth, NstSvcUserFactory,
-    NST_PLACE_MEMBER_TYPE,
-    chosenRole, currentPlace) {
+  function PlaceAddMemberController($scope, $log,
+                                    NST_USER_SEARCH_AREA,
+                                    NstSvcUserFactory,
+                                    NST_PLACE_MEMBER_TYPE,
+                                    chosenRole, currentPlace) {
     var vm = this;
     var defaultSearchResultCount = 9;
 
@@ -38,11 +39,18 @@
         limit : calculateSearchLimit()
       };
 
-      NstSvcUserFactory.search(settings).then(function (users) {
-        vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
-      }).catch(function (error) {
-        $log.debug(error);
-      });
+      if(!query){
+        vm.users = [];
+        return;
+      }
+
+      NstSvcUserFactory.search(settings, vm.isGrandPlace ?  NST_USER_SEARCH_AREA.ACCOUNTS :  NST_USER_SEARCH_AREA.ADD)
+        .then(function (users) {
+          vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
+        })
+        .catch(function (error) {
+          $log.debug(error);
+        });
     }
 
     function add() {

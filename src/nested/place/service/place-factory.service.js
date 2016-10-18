@@ -23,7 +23,7 @@
         getMembers: {},
         getNotif: {},
         isMine: {},
-        inviteMember: {},
+        inviteUser: {},
         addMember: {},
         setNotification: {},
         getBookmark: {},

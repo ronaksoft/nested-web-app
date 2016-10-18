@@ -6,7 +6,7 @@
     "angular": "~1.5.7",
     "angular-cookies": "~1.5.6",
     "angular-sanitize": "~1.5.6",
-    "angular-websocket": "~1.1.0",
+    "angular-websocket": "~2.0.0",
     "angular-ui-router": "~0.2.18",
     "angular-toastr": "~1.7.0",
     "angular-md5": "^0.1.10",

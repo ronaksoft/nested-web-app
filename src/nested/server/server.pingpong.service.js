@@ -66,6 +66,8 @@
         pongTime : Date.now()
       });
 
+      NstSvcLogger.debug2("WS PINGPONG | delay : " + (Date.now() - parseInt(pong.split("/")[1])));
+
       if(!this.getPingPongStatus()){
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.RECONNECT));
       }
