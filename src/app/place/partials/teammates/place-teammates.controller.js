@@ -34,7 +34,6 @@
       return vm.grandPlace;
     }, function(newValue, oldValue) {
       if (newValue) {
-        console.log("newValue", newValue);
         initialize();
       }else{
         vm.showTemmate = false;
