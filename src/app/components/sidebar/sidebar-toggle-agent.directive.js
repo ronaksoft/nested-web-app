@@ -19,7 +19,6 @@
           jElement.off('click');
           if ($attrs.href && isCurrentViewLink($attrs.href)) {
             jElement.on('click', function(event) {
-              console.log($scope.toggleAgentSwitch);
               $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
             });
           }
