@@ -17,10 +17,18 @@
         $rootScope.$on('$stateChangeSuccess', function() {
 
           jElement.off('click');
-          if ($attrs.href && isCurrentViewLink($attrs.href)) {
-            jElement.on('click', function(event) {
-              $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
-            });
+          if ($attrs.href) {
+            if (isCurrentViewLink($attrs.href)) {
+              jElement.on('click', function(event) {
+                $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
+                console.log('toggling');
+              });
+            } else {
+              jElement.on('click', function(event) {
+                console.log('setting false');
+                $scope.toggleAgentSwitch = false;
+              });
+            }
           }
         });
       }
