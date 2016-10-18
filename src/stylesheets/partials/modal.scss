@@ -186,6 +186,9 @@ body.modal-open {
     &:hover {
       background-color: #E1F5FF;
       border-radius: 2px;
+      .det p {
+        text-decoration: underline;
+      }
     }
   }
   .devider {
