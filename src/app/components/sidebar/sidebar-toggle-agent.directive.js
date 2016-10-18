@@ -20,13 +20,17 @@
           if ($attrs.href) {
             if (isCurrentViewLink($attrs.href)) {
               jElement.on('click', function(event) {
-                $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
-                console.log('toggling');
+                $timeout(function () {
+                  $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
+                  console.log('toggling');
+                });
               });
             } else {
               jElement.on('click', function(event) {
-                console.log('setting false');
-                $scope.toggleAgentSwitch = false;
+                $timeout(function () {
+                  console.log('setting false');
+                  $scope.toggleAgentSwitch = false;
+                });
               });
             }
           }
