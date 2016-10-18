@@ -24,6 +24,9 @@
       createInProgress: false
     };
 
+    vm.step1 = true;
+    vm.step2 = false;
+
     vm.model = {
       parentId: '',
       id: '',
@@ -94,6 +97,7 @@
       reader.readAsDataURL(vm.model.picture.file);
     };
 
+
     vm.removeImg = function () {
       if (vm.model.picture.request) {
         NstSvcStore.cancelUpload(vm.model.picture.request);
@@ -113,21 +117,21 @@
         $state.go(toState.name, toParams);
       } else {
 //      if (!$rootScope.modals['leave-confirm']) {
-          $rootScope.modals['leave-confirm'] = $uibModal.open({
-            animation: false,
-            templateUrl: 'app/modals/leave-confirm/main.html',
-            controller: 'LeaveConfirmController',
-            controllerAs: 'ctlLeaveConfirm',
-            size: 'sm',
-            resolve: {
+        $rootScope.modals['leave-confirm'] = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/modals/leave-confirm/main.html',
+          controller: 'LeaveConfirmController',
+          controllerAs: 'ctlLeaveConfirm',
+          size: 'sm',
+          resolve: {
 
-            }
-          });
+          }
+        });
 
-          $rootScope.modals['leave-confirm'].result.then(function () {
-            cancel.$destroy();
-            $state.go(toState.name, toParams);
-          });
+        $rootScope.modals['leave-confirm'].result.then(function () {
+          cancel.$destroy();
+          $state.go(toState.name, toParams);
+        });
 //        }
       }
     };

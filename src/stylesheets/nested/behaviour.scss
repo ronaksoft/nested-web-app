@@ -3,7 +3,7 @@
     transform: translateY(96px);
   }
   #new-post {
-    top:102px;
+    top: $navbar-height - 40px;
   }
 }
 .maincontainer.sidetiny {
@@ -23,9 +23,6 @@
         white-space: nowrap;
       }
     }
-  }
-  nst-navbar {
-    left: $sidebar-width-tiny;
   }
 
   //hidden unwanted elements in tiny sidebar

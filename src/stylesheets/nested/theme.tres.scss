@@ -17,7 +17,7 @@
     width: calc(100% - 32px);
   }
   #new-post {
-    top: 198px;
+    top: $navbar-height;
   }
 
   .maincontainer {
@@ -42,7 +42,7 @@
     left:280px!important;
   }
   .sidebar{
-    display: none;
+    display: none!important;
   }
   .sidebar-border {
     display: none;
@@ -63,10 +63,16 @@
     margin-left: 272px;
     width: calc(100% - 272px);
   }
+  nst-navbar {
+    left: $sidebar-width;
+  }
   .maincontainer.sidetiny {
     .nst-container{
       margin-left: 76px;
       width: calc(100% - 76px );
+    }
+    nst-navbar {
+      left: $sidebar-width-tiny;
     }
   }
   .nst-topnav{

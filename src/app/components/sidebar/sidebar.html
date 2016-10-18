@@ -9,8 +9,8 @@
           <div id="Logo-type-white"></div>
         </a>
       </div>
-      <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-        <div>
+      <a class="detailed" href="{{ctlSidebar.urls.compose}}">
+        <div  id="compoese" data-uib-tooltip="Compose"  data-tooltip-enable="{{ctlSidebar.detailed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <div class="compose">
             <svg>
               <use xlink:href="/assets/icons/nst-icn32.svg#Wcompose"></use>
@@ -22,7 +22,7 @@
         </div>
       </a>
       <div class="side-menu">
-        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.detailed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
@@ -30,7 +30,7 @@
           </span>
           <span>Favorite Places Feed</span>
         </a>
-        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.detailed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
@@ -38,7 +38,7 @@
           </span>
           <span>All Places Feed</span>
         </a>
-        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.detailed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
@@ -93,7 +93,7 @@
         </div>
       </a>
         <a href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="true" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-          <div class="create-place _fw">
+          <div ng-click="ctlSidebar.showAddPlaceModal()" class="create-place _fw">
             <div>
               <span>+</span>
             </div>
@@ -103,12 +103,12 @@
       <div class="shadow-bot"></div>
     </div>
     <div class="side-access">
-      <a class="detailed" href="#/profile">
+      <a class="detailed" ui-sref="app.mentions">
         <div>
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#W_"></use>
           </svg>
-          <div class="notif">999</div>
+          <div class="notif" ng-if="ctlSidebar.mentionsCount">{{ctlSidebar.mentionsCount}}</div>
         </div>
         <div>
           Mention
@@ -149,19 +149,20 @@
   </div>
   <!--<div class="sidebar-border"></div>-->
   <div class="sidebar-plus-wrapper" ng-show="ctlSidebar.selectedGrandPlace">
-    <div class="side-profile-block">
-      <div class="user-detail">
+    <div class="side-profile-block" bg-check="{{ctlSidebar.selectedGrandPlace.avatar}}">
+      <div class="user-detail txt">
         <a>{{ctlSidebar.selectedGrandPlace.name}}<br><span class="nst-mood-storm sm">{{ctlSidebar.selectedGrandPlace.id}}@nested.me</span> </a>
       </div>
       <div class="user-avatar">
+        <img ng-if="ctlSidebar.selectedGrandPlace.avatar" ng-src="{{ctlSidebar.selectedGrandPlace.avatar}}"/>
         <img ng-if="!ctlSidebar.selectedGrandPlace.avatar" class="account-initials-32"
              initials="ctlSidebar.selectedGrandPlace.name" data-url="ctlSidebar.selectedGrandPlace.avatar"
              data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
-        <img ng-if="ctlSidebar.selectedGrandPlace.avatar" ng-src="{{ctlSidebar.selectedGrandPlace.avatar}}"/>
       </div>
       <div class="side-stats">
         <div class="unread">
-          <a class="_fw _df">Unread</a><span class="_fn _df">{{ctlSidebar.selectedGrandPlace.unreadPosts || 0}}</span>
+          <a class="_fw _df" ui-sref="app.place-messages-unread({placeId: ctlSidebar.selectedGrandPlace.id})">Unread</a>
+          <span class="_fn _df">{{ctlSidebar.placesNotifCountObject[ctlSidebar.selectedGrandPlace.id] || 0}}</span>
         </div>
       </div>
     </div>
@@ -211,6 +212,6 @@
         <!--</li>-->
       <!--</ul>-->
     </div>
-    <nst-place-teamates-sidebar grand-place="ctlSidebar.selectedGrandPlace"></nst-place-teamates-sidebar>
+    <nst-place-teamates-sidebar ng-if="ctlSidebar.showTeamates" grand-place="ctlSidebar.selectedGrandPlace"></nst-place-teamates-sidebar>
   </div>
 </div>

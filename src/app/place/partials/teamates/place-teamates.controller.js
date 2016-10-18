@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function placeTeamatesController($scope, $q, $log, $uibModal, toastr,
-    NstSvcPlaceFactory, NstUtility,
+    NstSvcPlaceFactory, NstUtility,NstSvcAuth,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE) {
     var vm = this;
@@ -18,6 +18,7 @@
       vm.hasAddMembersAccess = false;
       vm.hasSeeMembersAccess = false;
       vm.loading = false;
+      vm.showTemmate = true;
 
     })();
 
@@ -55,6 +56,8 @@
         if (vm.mode = 'collapsed') {
           collapse();
         }
+
+        vm.showTemmate = (vm.grandPlace.id !== NstSvcAuth.user.id);
 
         return findMembers();
       }).catch(function(error) {
@@ -167,11 +170,9 @@
           vm.loading = false;
         });
       } else {
-        vm.teamates = {
-          keyHolders: [],
-          creators: []
-        };
+        vm.teamates = [];
       }
     }
+
   }
 })();

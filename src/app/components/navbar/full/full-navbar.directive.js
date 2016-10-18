@@ -21,6 +21,27 @@
         title : '@navTitle',
         placeId : '@',
         readyToShow : '='
+      },
+      link: function (scope, element, attrs) {
+        // create a scene
+        var controller = new ScrollMagic.Controller();
+        var tween,tween2,tween3;
+        tween = tween2 = tween3 = new TimelineLite();
+
+        // create tween
+        if (element) tween = new TimelineLite()
+          .add(TweenLite.to($(element), 1, {css:{height:'88px'}, ease:Linear.easeNone}));
+
+        if ($(element).children().find( "h3" ).length > 0) { tween2 = new TimelineLite()
+          .add(TweenLite.to($(element).children().find( "h3" )[0], 1, {css:{color:'transparent'}, ease:Power4.easeOut}));}
+
+        if ($("#content-plus").children().length > 0) {tween3 = new TimelineLite()
+          .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));}
+
+        // build scene
+        var scene = new ScrollMagic.Scene({duration: 72, offset: 1})
+          .setTween([tween,tween2,tween3])
+          .addTo(controller);
       }
     };
   }

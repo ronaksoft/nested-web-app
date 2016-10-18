@@ -22,6 +22,7 @@
       this.children = [];
       this.unreadPosts = 0;
       this.totalPosts = 0;
+      this.teamatesCount = 0;
       this.isStarred = false;
 
       if (placeModel instanceof NstTinyPlace || placeModel instanceof NstPlace) {
@@ -31,6 +32,7 @@
         this.avatar = placeModel.getPicture().getId() ? placeModel.getPicture().getThumbnail(32).getUrl().view : '/assets/icons/absents_place.svg';
         this.unreadPosts = placeModel.getUnreadPosts();
         this.totalPosts = placeModel.getTotalPosts();
+        this.teamatesCount = placeModel.getTeamatesCount();
 
         if (placeModel instanceof NstPlace) {
           for (var k in placeModel.getChildren()) {

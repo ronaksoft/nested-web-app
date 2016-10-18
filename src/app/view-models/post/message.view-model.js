@@ -97,7 +97,7 @@
       return {
         id: place.id,
         name: place.name,
-        picture: place.getPicture().getThumbnail(64).getUrl().view || '/assets/icons/absents_place.svg'
+        picture: place.picture.id ? place.picture.thumbnails.x64.url.view : '/assets/icons/absents_place.svg'
       };
     }
   }

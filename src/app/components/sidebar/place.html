@@ -1,7 +1,7 @@
 <a href="{{place.href}}" class="side-place-item-inner detailed" ng-click="ctlSidebar.onPlaceClick($event,place);">
   <div ng-if="place.avatar" class="side-place-item-image">
     <img class="" ng-src="{{place.avatar}}"/>
-    <div class="notif" ng-if="place.unreadPosts > 0">{{place.unreadPosts}}</div>
+    <div class="notif" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">{{ctlSidebar.placesNotifCountObject[place.id]}}</div>
   </div>
   <div>
     <p href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis="place.name">
@@ -10,7 +10,4 @@
     <span>{{::place.id}}@nested.me</span>
   </div>
 </a>
-<ul class="side-place" data-ng-if="place.children.length > 0 && false">
-  <li class="side-place-item" data-ng-repeat="child in place.children"
-      data-ng-include="'app/components/sidebar/subplace.html'" onload="place = child" ></li>
-</ul>
+

@@ -6,7 +6,7 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery, NST_DEFAULT) {
+  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery, NST_DEFAULT,NstSvcPlaceFactory, NST_PLACE_FACTORY_EVENT) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -22,6 +22,9 @@
     vm.search = search;
     vm.rollUpward = rollUpward;
     vm.rollToTop = false;
+    vm.place = null;
+    vm.toggleBookmark = toggleBookmark;
+    vm.toggleNotification = toggleNotification;
 
 
     vm.srch = function srch(el) {
@@ -81,7 +84,11 @@
         return '';
       }
     }
-
+    function rollUpward(group) {
+      if (group === $state.current.options.group) {
+        vm.rollToTop = true;
+      }
+    }
     function isBookMark() {
       if ($state.current.name == 'app.messages-bookmarks' ||
         $state.current.name == 'app.messages-bookmarks-sorted'){
@@ -91,10 +98,22 @@
       return false;
     }
 
-    function rollUpward(group) {
-      if (group === $state.current.options.group) {
-        vm.rollToTop = true;
-      }
+    function toggleBookmark() {
+      vm.isBookmarked = !vm.isBookmarked;
+      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, '_starred', vm.isBookmarked).then(function(result) {
+
+      }).catch(function(error) {
+        vm.isBookmarked = !vm.isBookmarked;
+      });
+    }
+
+    function toggleNotification() {
+      vm.notificationStatus= !vm.notificationStatus;
+      NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.notificationStatus).then(function(result) {
+
+      }).catch(function(error) {
+        vm.notificationStatus = !vm.notificationStatus;
+      });
     }
 
     /**
@@ -122,8 +141,46 @@
       $state.go('app.search', { query : NstSearchQuery.encode(searchQury.toString()) });
     }
 
+
+    $scope.$watch(
+      function () {
+        return vm.placeId
+      },function () {
+        if (vm.placeId) {
+          NstSvcPlaceFactory.getBookmarkedPlaces()
+            .then(function (bookmaks) {
+              if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
+            });
+
+          NstSvcPlaceFactory.getNotificationOption(vm.placeId)
+            .then(function (status) {
+              vm.notificationStatus = status;
+            })
+        }
+      }
+    );
+
     $scope.$watch('topNavOpen',function (newValue,oldValue) {
       $rootScope.topNavOpen = newValue;
+    });
+
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
+      if (e.detail.id === vm.placeId) vm.isBookmarked = true;
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
+      if (e.detail.id === vm.placeId) vm.isBookmarked = false;
+    });
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
+      if (e.detail.id === vm.placeId) vm.notificationStatus= true;
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
+      if (e.detail.id === vm.placeId) vm.notificationStatus= false;
     });
   }
 })();

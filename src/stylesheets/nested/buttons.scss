@@ -377,12 +377,6 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   }
 }
 
-
-.labtxt{
-  text-align: center;
-  line-height: 22px;
-}
-
 .switch {
   min-width: 128px;
   display: inline-flex;
@@ -442,5 +436,64 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     background-color: $color-breeze;
     border-color: $color-breeze;;
     color: $color-wind;
+  }
+}
+
+
+.place-switch {
+  width: 80px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: $color-sense;
+  display: inline-flex;
+  flex-direction: row;
+  input + label,
+  input + label + label{
+    color: $color-white;
+    display: flex;
+    height: 100%;
+    position: relative;
+    margin: 0;
+    width: 50%;
+    align-items: center;
+    font-weight: 400;
+    .circle {
+      position: absolute;
+      top: 4px;
+      width: 24px;
+      height: 24px;
+      background: $color-white;
+      border-radius: 50px;
+    }
+  }
+  input + label:first-of-type {
+    color: $color-sense;
+    div {
+      left: 4px;
+      display: flex;
+    }
+  }
+  input + label + label {
+    color: $color-white;
+    justify-content: flex-start;
+    div {
+      display: none;
+    }
+  }
+  input[checked] + label {
+  }
+  input[checked] + label:first-of-type {
+    color: $color-white;
+    justify-content: flex-end;
+    div {
+      display: none;
+    }
+  }
+  input[checked] + label + label {
+    color: $color-sense;
+    div {
+      right: 4px;
+      display: flex;
+    }
   }
 }

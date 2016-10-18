@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
-    NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_DEFAULT,
+    NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
     NstVmMemberItem) {
@@ -52,7 +52,6 @@
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
-        console.log(vm.place);
         vm.placeLoaded = true;
         vm.isGrandPlace = (!place.parent) && (place.grandParent.id === place.id);
         vm.isSearchEnabled = vm.place.privacy.receptive !== 'off';
@@ -424,6 +423,24 @@
 
       update('privacy', vm.place.privacy);
     }
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
+      if (e.detail.id === vm.placeId) vm.options.bookmark = true;
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
+      if (e.detail.id === vm.placeId) vm.options.bookmark = false;
+    });
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
+      if (e.detail.id === vm.placeId) vm.options.notification = true;
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
+      if (e.detail.id === vm.placeId) vm.options.notification = false;
+    });
 
   }
 })();

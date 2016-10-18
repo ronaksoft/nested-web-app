@@ -7,7 +7,7 @@
   height: 100%;
   flex: none;
   transition: $animation-dur;
-  z-index: 5;
+  z-index: 56;
   > div {
     transition: $animation-dur;
   }
@@ -123,9 +123,9 @@
   }
   .side-menu-item.detailed,
   .side-access .detailed,
+  .side-place-invite-item-inner.detailed,
   .detailed#compoese,
   .create-place.detailed,
-  .side-place-invite-item-inner.detailed,
   .side-place-item-inner.detailed{
     color: rgba(255,255,255,.5);
     svg {
@@ -396,22 +396,23 @@
   flex: none;
   flex-direction: row;
   cursor: pointer;
-  background-color: rgba(50, 150, 255,.5);
-  //opacity: .8;
+  background-color: rgba(50,150,255,.8);
   transition: all $animation-dur ease;
   span {
     line-height: 19px;
+    color: $color-white;
     font-size: 16px;
     font-weight: 700;
   }
   p > span {
     line-height: 16px;
+    color: $color-white;
     font-size: 13px;
     font-weight: 300;
   }
 }
 .side-place-invite-item-inner:hover{
-  background-color: #3296FF!important;
+  background-color: rgba(50,150,255,1)!important;
 }
 .maincontainer.sidetiny {
   .side-place-item-inner,.side-place-invite-item-inner {
@@ -455,13 +456,7 @@
 }
 
 .side-place-item-image {
-
-
-  img{
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
-  }
+  @include avatar(72px,40px,6px);
 }
 .side-place-name a {
   margin-left: 4px;
@@ -782,11 +777,21 @@ ul ul > li:last-child > .place-item-inner{
         line-height: 24px;
         font-size: 24px;
         font-weight: 300;
+        transition: all 2s;
         span {
+          transition: all 2s;
           color: $color-solid;
           font-size: 12px;
           line-height: 14px;
           font-weight: 400;
+        }
+      }
+    }
+    &.dark .user-detail{
+      a {
+        color: $color-white;
+        span {
+          color: $color-white;
         }
       }
     }

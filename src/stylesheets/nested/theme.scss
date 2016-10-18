@@ -84,6 +84,7 @@
   .content {
     width: 100%;
     @include center-block();
+    display: flex;
     max-width: 1058px;
     min-height: 100%;
   }
@@ -127,6 +128,17 @@ hr {
 }
 .first-child {
   margin-top: 20px;
+}
+.svg-hover {
+  transition: all .2s;
+  &:hover{
+    fill: $color-sense ;
+  }
+  &.morphed:hover use:first-child,
+  &.active use:first-child{
+    display: none!important;
+  }
+
 }
 
 /**

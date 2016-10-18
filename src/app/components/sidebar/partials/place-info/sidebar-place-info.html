@@ -1,7 +1,8 @@
 <ul class="side-place">
   <li class="side-place-item">
     <div class="place-item-inner">
-      <a href="{{ctlPlaceInfo.grandPlace.href}}">{{ ctlPlaceInfo.grandPlace.name }}</a>
+      <a href="{{ctlPlaceInfo.grandPlace.href}}">{{ ctlPlaceInfo.grandPlace.name }}
+        <b ng-if="ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id]}}</b></a>
     </div>
     <ul>
       <li class="side-place-item" ng-repeat="place in ctlPlaceInfo.children"

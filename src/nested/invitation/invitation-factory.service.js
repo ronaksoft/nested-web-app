@@ -203,7 +203,7 @@
       if (!data){
         defer.resolve(invitation);
       } else {
-        invitation.setId(data._id.$oid);
+        invitation.setId(data._id);
         invitation.setRole(data.role);
 
         var invitee = NstSvcUserFactory.parseTinyUser();

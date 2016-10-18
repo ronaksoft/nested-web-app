@@ -23,9 +23,6 @@
       this.description = undefined;
 
 
-      this.unread_posts = undefined;
-
-
       /**
        * Place's privacy
        *

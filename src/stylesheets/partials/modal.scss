@@ -1,15 +1,12 @@
 body.modal-open {
   .modal {
-    height: auto;
+    height: 100%;
     min-height: 100vh;
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
     bottom: 0;
-    overflow: auto;
-    min-width: 600px;
-    padding: 80px 0;
     display: flex!important;
     justify-content: center;
     align-items: center;
@@ -70,15 +67,18 @@ body.modal-open {
 
 .modal-dialog {
   height: 100%;
+  margin: 0;
+  overflow-y: visible;
+  height: 100%;
+  .modal-content {
+    //padding: 80px 0;
+  }
 }
 
 .modal.in .modal-dialog{
   border-radius: $border-radius-large;
 }
 
-.modal-dialog .modal-content {
-  height: 100%;
-}
 
 .modal-xlg, .modal-mlg {
   width: auto;
@@ -175,6 +175,6 @@ body.modal-open {
   padding: 5px 0;
   min-height: 32px;
 }
-.modal-content {
+.modal-sm {
   background-color: $color-white!important;
 }

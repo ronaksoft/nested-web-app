@@ -8,8 +8,9 @@
   /** @ngInject */
   function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT,
+                             NstSvcLoader, NstSvcTry, NstSvcAuth,
+                             NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
 
@@ -28,7 +29,6 @@
      *****************************/
 
     vm.range = function (num) {
-      console.log(num)
       var seq = [];
       for (var i = 0; i < num; i++) {
         seq.push(i);
@@ -68,7 +68,7 @@
 
           if (result) { // Accept the Invitation
             return vm.invitation.accept(id).then(function (invitation) {
-              var vmPlace = _.find(vm.places, { id: invitation.getPlace().getId() });
+              var vmPlace = _.find(vm.places, {id: invitation.getPlace().getId()});
 
               if (!vmPlace) {
                 vmPlace = mapPlace(invitation.getPlace());
@@ -76,7 +76,7 @@
                 vm.places.push(vmPlace);
               }
 
-              $state.go(getPlaceFilteredState(), { placeId: vmPlace.id });
+              $state.go(getPlaceFilteredState(), {placeId: vmPlace.id});
             });
           } else { // Decline the Invitation
             return vm.invitation.decline(id);
@@ -85,14 +85,32 @@
       });
     };
 
+    vm.showAddPlaceModal = function (grandPlace) {
+      console.log('modal');
+        // Show User the invitation Decide Modal
+        $uibModal.open({
+          animation: false,
+          size: 'lg-white',
+          templateUrl: 'app/components/modal/add-place/create-team.html',
+          controller: 'PlaceAddController',
+          controllerAs: 'ctrlCreate',
+          resolve: {
+            argv: {
+            }
+          }
+        }).result.then(function (result) {
+
+        });
+      };
+
     function onPlaceClick(event, place) {
       if (NstSvcSidebar.onItemClick) {
         event.preventDefault();
         NstSvcSidebar.onItemClick({
-          id : place.id,
-          name : place.name
+          id: place.id,
+          name: place.name
         });
-      }else{
+      } else {
         vm.selectedGrandPlace = place;
       }
     }
@@ -109,9 +127,13 @@
 
     $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
       vm.user = mapUser(resolvedSet[0]);
+
       vm.places = mapPlaces(resolvedSet[1]);
+      fillPlacesNotifCountObject(vm.places);
+
       vm.invitations = mapInvitations(resolvedSet[2]);
 
+      vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
           return place.id === $stateParams.placeId.split('.')[0];
@@ -121,37 +143,27 @@
       fixUrls();
     });
 
-    $rootScope.$on('$stateChangeSuccess',function(){
-      if ($stateParams.placeId){
-        if (vm.selectedGrandPlace && $stateParams.placeId.split('.')[0] !== vm.selectedGrandPlace.id ){
+    $rootScope.$on('$stateChangeSuccess', function () {
+      if ($stateParams.placeId) {
+        if (vm.selectedGrandPlace && $stateParams.placeId.split('.')[0] !== vm.selectedGrandPlace.id) {
           vm.selectedGrandPlace = _.find(vm.places, function (place) {
             return place.id === $stateParams.placeId.split('.')[0];
           });
-        }else{
+        } else {
           vm.selectedGrandPlace = _.find(vm.places, function (place) {
             return place.id === $stateParams.placeId.split('.')[0];
           });
         }
-      }else{
-        if (vm.selectedGrandPlace){
+      } else {
+        if (vm.selectedGrandPlace) {
           vm.selectedGrandPlace = null;
         }
       }
     });
 
-
-
-
     /*****************************
      *****    Change urls   ****
      *****************************/
-
-    // $scope.$watch(function () {
-    //   return $state.current.name;
-    // },function () {
-    //   fixPlaceUrl();
-    // });
-
 
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       if (toState.options && toState.options.primary) {
@@ -164,11 +176,11 @@
 
       vm.urls = {
         unfiltered: $state.href(getUnfilteredState()),
-        compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
+        compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
         bookmarks: $state.href(getBookmarksState()),
         sent: $state.href(getSentState()),
-        placeAdd: $state.href(getPlaceAddState(), { placeId: NST_DEFAULT.STATE_PARAM }),
-        subplaceAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
+        placeAdd : vm.showAddPlaceModal(),
+        subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
       };
 
       mapPlacesUrl(vm.places);
@@ -183,19 +195,19 @@
         } else {
           switch ($state.current.options.group) {
             case 'file':
-              place.href = $state.href('app.place-files', { placeId : place.id });
+              place.href = $state.href('app.place-files', {placeId: place.id});
               break;
             case 'activity':
-              place.href = $state.href('app.place-activity', { placeId : place.id });
+              place.href = $state.href('app.place-activity', {placeId: place.id});
               break;
             case 'settings':
-              place.href = $state.href('app.place-settings', { placeId : place.id });
+              place.href = $state.href('app.place-settings', {placeId: place.id});
               break;
             case 'compose':
-              place.href = $state.href('app.place-compose', { placeId : place.id });
+              place.href = $state.href('app.place-compose', {placeId: place.id});
               break;
             default:
-              place.href = $state.href('app.place-messages', { placeId : place.id });
+              place.href = $state.href('app.place-messages', {placeId: place.id});
               break;
           }
         }
@@ -269,6 +281,7 @@
       return 'app.place-add';
     }
 
+
     /*****************************
      *****    Fetch Methods   ****
      *****************************/
@@ -316,7 +329,9 @@
     function mapPlaces(placeModels, depth) {
       depth = depth || 0;
 
-      return Object.keys(placeModels).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
+      return Object.keys(placeModels).filter(function (k) {
+        return 'length' !== k;
+      }).map(function (k, i, arr) {
         var placeModel = placeModels[k];
         var place = mapPlace(placeModel, depth);
 
@@ -341,6 +356,36 @@
     function mapInvitations(invitationModels) {
       return invitationModels.map(mapInvitation);
     }
+
+    function mapMentions(mentions) {
+      var currentUserId = NstSvcAuth.user.id;
+      return _.map(mentions, function (item) {
+        return new NstVmMention(item, currentUserId);
+      });
+    }
+    /*****************************
+     *****   Notifs Counters  ****
+     *****************************/
+    vm.placesNotifCountObject = {};
+
+    function fillPlacesNotifCountObject(places) {
+      _.each(places, function (place) {
+        if (place)
+          vm.placesNotifCountObject[place.id] = place.unreadPosts;
+      });
+    }
+
+    function getGrandPlaceUnreadCounts() {
+      var placeIds = _.keys(vm.placesNotifCountObject);
+      if (placeIds.length > 0)
+        NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds,true)
+          .then(function(places){
+            _.each(places, function (value, placeId) {
+              vm.placesNotifCountObject[placeId] = value;
+            })
+          });
+    }
+
 
     /*****************************
      *****    Push Methods    ****
@@ -371,10 +416,11 @@
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
       var place = mapPlace(event.detail.place);
-      if (place.id === $stateParams.placeId){
+      if (place.id === $stateParams.placeId) {
         vm.selectedGrandPlace = mapPlace(event.detail.place);
       }
       NstSvcPlaceFactory.addPlaceToTree(vm.places, place);
+      vm.placesNotifCountObject.push(place.id);
 
     });
 
@@ -385,7 +431,7 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
       NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
       var place = mapPlace(event.detail.place);
-      if (place.id === $stateParams.placeId){
+      if (place.id === $stateParams.placeId) {
         vm.selectedGrandPlace = mapPlace(event.detail.place);
       }
     });
@@ -397,7 +443,7 @@
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
       vm.user.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
 
-      var place = _.find(vm.places, { id : NstSvcAuth.user.id });
+      var place = _.find(vm.places, {id: NstSvcAuth.user.id});
       if (place) {
         place.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
       }
@@ -409,6 +455,20 @@
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
       NstSvcPlaceFactory.removePlaceFromTree(vm.places, event.detail, null);
+    });
+
+
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
+      getGrandPlaceUnreadCounts();
+    });
+
+
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+      getGrandPlaceUnreadCounts();
+    });
+
+    NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.UPDATE, function (event) {
+      vm.mentionsCount = event.detail;
     });
 
   }

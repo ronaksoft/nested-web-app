@@ -1,0 +1,32 @@
+<nst-navbar controls="ctlMentions.controls" nav-title="Mentions" page="ctlApp.page" ready-to-show="true" class="second-view"></nst-navbar>
+
+<div class="nst-content second-view" id="content-wrapper">
+  <section class="content _bgwhite">
+    <div class="navbarillu"></div>
+    <div class="panel-profile-setting">
+      <ul class="mentions-container">
+        <li class="mention-item" ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.postId })" ng-click="ctlMentions.viewPost(mention, $event);">
+          <div class="sender">
+            <a>
+              {{ ::mention.name }}:
+            </a>
+          </div>
+          <div class="written" ng-if="mention.mode == 'comment'">
+            <p>
+              <i>{{mention.commentBody | truncate}}</i>
+            </p>
+          </div>
+          <div class="written" ng-if="mention.mode == 'post'">
+            <p> mentioned you on <i>{{mention.postSubject | truncate}}</i></p>
+          </div>
+          <div class="time">
+            {{mention.date | passed}}
+          </div>
+        </li>
+      </ul>
+    </div>
+    <a href ng-click="ctlMentions.loadMore()">Show more</a>
+    <br>
+    <a href ng-click="ctlMentions.markAllSeen()">Mark all as seen</a>
+  </section>
+</div>

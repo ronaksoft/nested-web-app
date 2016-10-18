@@ -357,6 +357,11 @@
       user.setDateOfBirth(userData.dob);
       user.setGender(userData.gender);
 
+      if (_.isObject(userData.counters)) {
+        user.setTotalMentionsCount(userData.counters.total_mentions);
+        user.setUnreadMentionsCount(userData.counters.unread_mentions);
+      }
+
       if (angular.isObject(userData.picture)) {
         user.setPicture(userData.picture);
       }
@@ -400,7 +405,7 @@
       };
 
       settings = _.defaults(settings, defaultSettings);
-      NstSvcServer.request('account/search', {
+      NstSvcServer.request('search/accounts', {
         keyword: settings.query,
         place_id: settings.placeId,
         role: settings.role,
