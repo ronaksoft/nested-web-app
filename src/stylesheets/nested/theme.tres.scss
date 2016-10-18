@@ -90,6 +90,9 @@
     display: none;
     height: 0!important;
   }
+  .modal-lg-white {
+    padding: 16px!important;
+  }
 }
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){
   .maincontainer.sidetiny{

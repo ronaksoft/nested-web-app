@@ -191,6 +191,7 @@
     &.selected {
       box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
       border: solid 2px $color-sense;
+      background-color: $color-white;
     }
   }
   .select-box-step2 {

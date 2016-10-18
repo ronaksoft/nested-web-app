@@ -9,9 +9,10 @@
     return {
       restrict: 'A',
       link : function (scope ,element, attrs) {
-        console.log("sss");
+        var el = angular.element(element);
+        console.log("sss",el.parent().children().hasClass('selected'));
         $(element).click(function () {
-          $(element).toggleClass('selected')
+          $(element).toggleClass('selected');
         });
       }
     };
