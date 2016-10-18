@@ -56,8 +56,9 @@
     //overflow: hidden;
   }
   .modal-mlg {
-    margin: 0 80px;
+    margin: 80px;
     width: calc(100% - 160px);
+    height: calc(100% - 160px)!important;
   }
   .nst-container{
     margin-left: 272px;
@@ -88,6 +89,9 @@
   .content-plus{
     display: none;
     height: 0!important;
+  }
+  .modal-lg-white {
+    padding: 16px!important;
   }
 }
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){
