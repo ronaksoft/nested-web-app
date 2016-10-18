@@ -867,6 +867,9 @@ ul ul > li:last-child > .place-item-inner{
 
     .places-list {
       max-height: calc(100vh - 353px);
+      >ul {
+        padding-left: 16px;
+      }
     }
 
     ul {
