@@ -135,7 +135,7 @@
     a, span {
       color: rgba(255,255,255,.5);
     }
-    &:hover {
+    &:hover,&.isSelected {
       color: rgba(255,255,255,1);
       a, span {
         color: rgba(255,255,255,1);
@@ -243,7 +243,7 @@
     margin: 0 6px 0 0;
   }
 }
-.compose:hover,.compose:hover{
+.compose:hover,.compose.isSelected{
   color: $color-white;
   box-shadow: 0 2px 12px 6px rgba(0,0,0,.4);
   background-color: $color-sense;
@@ -919,7 +919,7 @@ ul ul > li:last-child > .place-item-inner{
           font-weight: 700;
         }
       }
-      a:hover {
+      a:hover,a.isSelected {
         background-color: $sidebar-place-bg-hover-color;
         border-radius: 3px;
         color: $color-solid;
