@@ -20,13 +20,12 @@
         }, function (newValue, oldValue) {
           if (newValue) {
             setClickBehaviour();
-          } else {
-            $rootScope.$on('$stateChangeSuccess', function() {
-              setClickBehaviour();
-            });
           }
         });
 
+        $rootScope.$on('$stateChangeSuccess', function() {
+          setClickBehaviour();
+        });
 
         function setClickBehaviour() {
           jElement.off('click');
