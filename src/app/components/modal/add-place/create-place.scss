@@ -297,8 +297,15 @@
   position: fixed;
   top: 70px;
   right: 70px;
-  img {
+  border-radius: 24px;
+  transition: all $animation-dur;
+  svg {
+    transform: rotateZ(45deg);
     width: 32px;
     height: 32px;
+  }
+  &:hover {
+    box-shadow : 0 10px 10px rgba(0,0,0,.15);
+    background-color: $color-white;
   }
 }
