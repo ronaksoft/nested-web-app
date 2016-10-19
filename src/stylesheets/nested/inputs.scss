@@ -85,9 +85,12 @@ a .ui-select-choises-row-inner {
 select {
   transition-duration: 0.2s;
   transition-timing-function: ease;
-  background: linear-gradient(to bottom,$color-white ,$color-white-smoke 100%);
+  background: linear-gradient(to bottom,$color-white ,$color-light-cloud 100%);
   border-style: solid;
   border-width: 1px;
   border-color: $color-breeze;
   border-radius: 4px;
+  &:hover {
+    background: white;
+  }
 }

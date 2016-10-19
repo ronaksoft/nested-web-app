@@ -480,16 +480,16 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
       display: none;
     }
   }
-  input[checked] + label {
+  input[type="checkbox"]:checked + label {
   }
-  input[checked] + label:first-of-type {
+  input[type="checkbox"]:checked + label:first-of-type {
     color: $color-white;
     justify-content: flex-end;
     div {
       display: none;
     }
   }
-  input[checked] + label + label {
+  input[type="checkbox"]:checked  + label + label {
     color: $color-sense;
     div {
       right: 4px;
