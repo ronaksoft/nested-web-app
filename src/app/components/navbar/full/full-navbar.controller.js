@@ -6,7 +6,7 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery, NST_DEFAULT,NstSvcPlaceFactory, NST_PLACE_FACTORY_EVENT) {
+  function FullNavbarController($scope, $rootScope, $uibModal, NstSvcAuth, $state, NstSearchQuery, NST_DEFAULT,NstSvcPlaceFactory, NST_PLACE_FACTORY_EVENT) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -52,6 +52,24 @@
       } else {
         open()
       }
+    };
+
+    vm.showSettingsModal = function () {
+      // Show plce settings
+      $uibModal.open({
+        animation: false,
+        size: 'lg-white',
+        templateUrl: 'app/place/place-settings/settings.html',
+        controller: 'PlaceSettingsController',
+        controllerAs: 'ctlSettings',
+        resolve: {
+          tempPlaceId : function (){
+            return "ronaksoft";
+          }
+        }
+      }).result.then(function (result) {
+
+      });
     };
 
     function getPlaceId() {

@@ -1,0 +1,194 @@
+#place-settings {
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  position: relative;
+  flex-direction: column;
+  .place-name {
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+    .pic {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      flex: none;
+    }
+    .det {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      h3 {
+        font-size: 32px;
+        color: $color-solid;
+        letter-spacing: -1px;
+        font-weight: 700;
+      }
+      h5 {
+        line-height: 19px;
+        color: $color-solid;
+        font-size: 16px;
+      }
+    }
+  }
+  .place-des {
+    display: flex;
+    width: 100%;
+    p {
+      color: #869D91;
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+  .select-box {
+    width: 100%;
+    margin-bottom: 32px;
+    box-sizing: border-box;
+    border: solid 2px transparent;
+    border-radius: 10px;
+    padding-bottom: 12px;
+    transition: all .2s ease;
+    .desc {
+      h3 {
+        letter-spacing: -1px;
+        line-height: 24px;
+        font-size: 20px;
+        font-weight: 700;
+      }
+      p {
+        color: $color-solid;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+      }
+      aside {
+        color: #869D91;
+        font-size: 14px;
+        line-height: 17px;
+        word-wrap: break-word;
+      }
+    }
+    .icn {
+      width: 120px;
+      height: 100%;
+      display: flex;
+      flex: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.8;
+      img {
+        width: 120px;
+        height: 100%;
+      }
+    }
+    &:hover {
+      background-color: $color-white;
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      .icn {
+        opacity: 1;
+      }
+    }
+    &.selected {
+      box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+      border: solid 2px $color-sense;
+      background-color: $color-white;
+    }
+  }
+  .select-box-step2 {
+    width: 100%;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+    border: dashed 2px $color-wind;
+    padding: 0 12px;
+    background-color: $color-white;
+    border-radius: 10px;
+    transition: all .2s ease;
+    color: $color-solid;
+    h3 {
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: -1px;
+      font-weight: 700;
+      color: $color-solid;
+      margin: 12px 0;
+      i {
+        font-size: 16px;
+        color: #808080;
+        font-weight: 400;
+        line-height: 19px;
+        font-style: normal;
+      }
+    }
+    p {
+      line-height: 19px;
+      font-size: 16px;
+      font-weight: 400;
+      color: $color-solid;
+      opacity: .5;
+    }
+    aside {
+      color: #869D91;
+      font-size: 14px;
+      line-height: 17px;
+      word-wrap: break-word;
+      display: inline-flex;
+      flex-direction: row;
+      padding: 0;
+      align-items: center;
+      display: none;
+      p {
+        flex: 1;
+        display: flex;
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+    &:hover {
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      border-color: transparent;
+      p {
+        opacity: 1;
+      }
+    }
+    &.selected {
+      border: solid 2px $color-sense;
+      p {
+        opacity: 1;
+      }
+      aside {
+        display: inline-flex;
+      }
+    }
+  }
+  .option-row {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    p {
+      line-height: 19px;
+      font-size: 16px;
+      font-weight: 400;
+      display: flex;
+      flex: 1;
+      color: $color-solid;
+    }
+    select {
+      flex: none;
+    }
+    input[type="checkbox"] + label {
+      display: inline-block;
+      background: url('../assets/icons/controls.svg') no-repeat;
+      height: 16px;
+      min-width: 17px;
+      padding: 0 0 0 17px;
+      color: $color-storm;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+    }
+    input[type="checkbox"]:checked + label {
+      background-position: 0 -16px;
+    }
+  }
+}
