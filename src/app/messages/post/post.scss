@@ -53,9 +53,8 @@
     flex:none;
     background-color: rgb(247, 250, 249);
     border-radius: $border-radius-large;
-    .mCustomScrollbar {
-      margin-bottom: 90px;
-    }
+    display: flex;
+    flex-direction: column;
   }
   .NewComment {
     padding: 5px;
@@ -192,15 +191,12 @@
 }
 
 .comment-input {
-  position: absolute;
   bottom: 0;
-  max-height: 65px;
-  min-height: 64px;
-  width: 29%;
-  max-width: 318px;
-  margin: 10px 5px;
-  right: 2px;
-  //flex: 1;
+  height: 65px;
+  width: 100%;
+  padding: 0 5px;
+  margin: 10px 0;
+  flex: none;
   span {
     position: relative;
     top: 4px;
@@ -223,7 +219,8 @@
 }
 
 .comment-msg {
-  margin-bottom: 83px;
+  display: flex;
+  flex: 1;
   justify-content: inherit;
   div:last-child {
     flex-grow: 1!important;

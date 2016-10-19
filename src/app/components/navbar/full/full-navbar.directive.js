@@ -24,7 +24,12 @@
       },
       link: function (scope, element, attrs) {
         // create a scene
-        var controller = new ScrollMagic.Controller();
+        var controller = new ScrollMagic.Controller({
+          container: "body",
+          globalSceneOptions: {
+            triggerHook: "onLeave"
+          }
+        });
         var tween,tween2,tween3,tween4;
         tween = tween2 = tween3 = tween4 = new TimelineLite();
 
@@ -37,12 +42,12 @@
 
         if ($("#content-plus").children().length > 0) {tween3 = new TimelineLite()
           .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));}
-        console.log($("#new-post"));
+
         if ($("#new-post").length > 0) {tween4 = new TimelineLite()
           .add(TweenLite.to($("#new-post"), 1, {css:{top:'128px'}, ease:Linear.easeNone}));}
 
         // build scene
-        var scene = new ScrollMagic.Scene({duration: 72, offset: 1})
+        var scene = new ScrollMagic.Scene({duration: 80, offset: 1})
           .setTween([tween,tween2,tween3,tween4])
           .addTo(controller);
       }

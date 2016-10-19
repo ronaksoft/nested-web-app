@@ -119,6 +119,7 @@ nst-navbar {
   right: 0;
   z-index: 55;
   width: calc(100% - 272px);
+  will-change: height;
 }
 
 .nst-navbar {

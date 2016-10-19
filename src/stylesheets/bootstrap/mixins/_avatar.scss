@@ -6,8 +6,6 @@
   justify-content: center;
   position: relative;
   flex: none;
-  height: 100%;
-  flex: none;
   border-radius: $avatarRad;
   &::after {
     left: ($boxWidth - $avatarWidth) / 2;
