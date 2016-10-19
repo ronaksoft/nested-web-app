@@ -36,13 +36,13 @@
 
       NstObservableObject.call(this);
 
-      this.pingPong = new NstSvcPingPong(this.stream);
+      // this.pingPong = new NstSvcPingPong(this.stream);
 
       this.stream.onOpen(function (event) {
         NstSvcLogger.debug2('WS | Opened:', event, this);
 
         // TODO:: Uncomment me after ping handled by server
-        this.pingPong.start();
+        // this.pingPong.start();
       }.bind(this));
 
       // Orphan Router
@@ -55,10 +55,10 @@
 
 
         //Checking for pong message
-        if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
-          this.pingPong.getPong(ws.data);
-          return false;
-        }
+        // if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
+        //   this.pingPong.getPong(ws.data);
+        //   return false;
+        // }
 
         var data = angular.fromJson(ws.data);
         NstSvcLogger.debug2('WS | Message:', data);
@@ -97,10 +97,10 @@
 
 
         //Checking for pong message
-        if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
-          this.pingPong.getPong(ws.data);
-          return false;
-        }
+        // if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
+        //   this.pingPong.getPong(ws.data);
+        //   return false;
+        // }
 
 
         var data = angular.fromJson(ws.data);
