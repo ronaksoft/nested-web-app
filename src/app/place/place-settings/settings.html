@@ -29,7 +29,9 @@
   </div>
   <p>Receiving</p>
   <div class="recive-set">
-    <a>Everyone<span>(including email)</span></a>
+    <div class="_difh _fw _aic">
+      <p>Everyone<span>&nbsp;(including email)&nbsp;</span></p><a>change</a>
+    </div>
     <p>Only Keyholders can send messages to this Place.</p>
     <div class="src-res">
       <p>Show in public search results?</p>
@@ -86,11 +88,10 @@
         <div data-ng-switch-when="pending_known_guest" class="role-icons-avatar-wait role-icon"></div>
         <div data-ng-switch-default class="role-icons-avatar role-icon"></div>
       </div>
-      <div class="_df potm" ng-if="hasRemoveAccess || hasControlAccess">
-        <a href="">
-          <div class="nst-more-badge popover-green no-animation"  data-tooltip-placement="left auto" data-uib-tooltip="more option" data-popover-placement="bottom-right auto" id="active-test" uib-popover-template="'app/pages/places/settings/place-member-item-options.html'" popover-trigger="outsideClick"></div>
-        </a>
-      </div>
+      <svg class="svg-hover morphed">
+        <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+        <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
+      </svg>
     </div>
   </div>
 </div>

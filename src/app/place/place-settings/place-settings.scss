@@ -49,7 +49,7 @@
     width: 100%;
     display: inline-flex;
     flex-direction: column;
-    a {
+    p {
       font-size: 18px;
       color: $color-solid;
       font-weight: 700;
@@ -57,6 +57,19 @@
         font-size: 14px;
         font-weight: 400;
         line-height: 17px;
+      }
+    }
+    a{
+      opacity: 0;
+      color: #00B45A;
+      font-size: 15px;
+      font-weight: 400;
+      text-decoration: underline;
+      transition: all $animation-dur;
+    }
+    &:hover {
+      a {
+        opacity: 1;
       }
     }
     p {
@@ -81,7 +94,7 @@
     width: 100%;
     margin-bottom: 12px;
     box-sizing: border-box;
-    border: dashed 2px $color-wind;
+    border: dashed 1px $color-wind;
     padding: 0 12px;
     border-radius: 10px;
     transition: all .2s ease;
@@ -146,23 +159,29 @@
     .name {
       display: inline-flex;
       flex-direction: column;
-      font-weight: 400;
       flex: 1;
       padding-left: 8px;
       p {
         font-size: 16px;
         color: $color-solid;
         margin: 0;
+        font-weight: 400;
       }
       span {
         color: #00B45A;
         font-size: 14px;
+        font-weight: 400;
       }
     }
     .role {
       display: flex;
       align-items: center;
       flex: none;
+      svg {
+        width: 24px;
+        height: 24px;
+        fill: $color-solid;
+      }
     }
   }
   .option-row {
