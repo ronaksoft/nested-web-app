@@ -1,7 +1,11 @@
 <ul class="side-place">
   <li class="side-place-item">
     <div class="place-item-inner">
-      <a href="{{ctlPlaceInfo.grandPlace.href}}">{{ ctlPlaceInfo.grandPlace.name }}
+
+      <svg class="icon" ng-if="ctlPlaceInfo.placesBookmarkObject[ctlPlaceInfo.grandPlace.id]">
+        <use xlink:href="/assets/icons/nst-icn16.svg#favplace"></use>
+      </svg>
+      <a href="{{ctlPlaceInfo.grandPlace.href}}">Home
         <b ng-if="ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id]}}</b></a>
     </div>
     <ul>
