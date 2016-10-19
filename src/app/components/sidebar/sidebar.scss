@@ -463,7 +463,7 @@
 }
 
 .side-place-item-image {
-  @include avatar(72px,40px,6px);
+  @include avatar(72px,40px,10%);
 }
 .side-place-name a {
   margin-left: 4px;

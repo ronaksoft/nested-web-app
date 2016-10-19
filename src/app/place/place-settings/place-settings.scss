@@ -14,21 +14,25 @@
       height: 80px;
       display: flex;
       flex: none;
+      @include avatar(80px,80px,0);
     }
     .det {
       display: flex;
       flex: 1;
       flex-direction: column;
+      padding-left: 16px;
       h3 {
         font-size: 32px;
         color: $color-solid;
         letter-spacing: -1px;
         font-weight: 700;
+        margin: 8px 0;
       }
       h5 {
         line-height: 19px;
         color: $color-solid;
         font-size: 16px;
+        margin: 0;
       }
     }
   }
@@ -41,112 +45,74 @@
       font-weight: 400;
     }
   }
-  .select-box {
+  .recive-set {
     width: 100%;
-    margin-bottom: 32px;
-    box-sizing: border-box;
-    border: solid 2px transparent;
-    border-radius: 10px;
-    padding-bottom: 12px;
-    transition: all .2s ease;
-    .desc {
-      h3 {
-        letter-spacing: -1px;
-        line-height: 24px;
-        font-size: 20px;
-        font-weight: 700;
-      }
-      p {
-        color: $color-solid;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-      }
-      aside {
-        color: #869D91;
+    display: inline-flex;
+    flex-direction: column;
+    a {
+      font-size: 18px;
+      color: $color-solid;
+      font-weight: 700;
+      span {
         font-size: 14px;
+        font-weight: 400;
         line-height: 17px;
-        word-wrap: break-word;
       }
     }
-    .icn {
-      width: 120px;
-      height: 100%;
-      display: flex;
-      flex: none;
-      justify-content: center;
+    p {
+      color: rgba(0,0,0,.5);
+      font-size: 13px;
+      font-weight: 400;
+    }
+    .src-res {
+      display: inline-flex;
+      flex-direction: row;
       align-items: center;
-      opacity: 0.8;
-      img {
-        width: 120px;
-        height: 100%;
+      p {
+        display: flex;
+        flex: 1;
+        color: #000000;
+        font-weight: 400;
+        margin: 0;
       }
-    }
-    &:hover {
-      background-color: $color-white;
-      box-shadow:0 2px 8px rgba(0,0,0,0.15);
-      .icn {
-        opacity: 1;
-      }
-    }
-    &.selected {
-      box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
-      border: solid 2px $color-sense;
-      background-color: $color-white;
     }
   }
-  .select-box-step2 {
+  .select-box2 {
     width: 100%;
     margin-bottom: 12px;
     box-sizing: border-box;
     border: dashed 2px $color-wind;
     padding: 0 12px;
-    background-color: $color-white;
     border-radius: 10px;
     transition: all .2s ease;
     color: $color-solid;
-    h3 {
-      font-size: 20px;
-      line-height: 24px;
-      letter-spacing: -1px;
-      font-weight: 700;
-      color: $color-solid;
-      margin: 12px 0;
-      i {
-        font-size: 16px;
-        color: #808080;
-        font-weight: 400;
-        line-height: 19px;
-        font-style: normal;
-      }
-    }
+    height: 52px;
+    align-items: center;
     p {
-      line-height: 19px;
-      font-size: 16px;
-      font-weight: 400;
-      color: $color-solid;
-      opacity: .5;
+      line-height: 22px;
+      font-size: 18px;
+      color: #00B45A;
+      font-weight: 700;
     }
-    aside {
-      color: #869D91;
-      font-size: 14px;
-      line-height: 17px;
-      word-wrap: break-word;
-      display: inline-flex;
-      flex-direction: row;
-      padding: 0;
+    .add {
+      width: 48px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
       align-items: center;
-      display: none;
-      p {
-        flex: 1;
-        display: flex;
-        font-size: 14px;
-        font-weight: 400;
+      svg {
+        width: 20px;
+        height: 20px;
+        transform-origin: center center;
+        transform: scale(2,2);
+        fill: #00B45A;
       }
     }
     &:hover {
       box-shadow:0 2px 8px rgba(0,0,0,0.15);
       border-color: transparent;
+      background-color: $color-white;
+
       p {
         opacity: 1;
       }
@@ -156,9 +122,47 @@
       p {
         opacity: 1;
       }
-      aside {
-        display: inline-flex;
+    }
+  }
+  .user-item {
+    height: 56px;
+    width: 100%;
+    transition: all $animation-dur;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    &:hover {
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      background-color: $color-white;
+    }
+    .logo {
+      display: flex;
+      flex: none;
+      @include avatar(48px,48px,500px)
+    }
+    .name {
+      display: inline-flex;
+      flex-direction: column;
+      font-weight: 400;
+      flex: 1;
+      padding-left: 8px;
+      p {
+        font-size: 16px;
+        color: $color-solid;
+        margin: 0;
       }
+      span {
+        color: #00B45A;
+        font-size: 14px;
+      }
+    }
+    .role {
+      display: flex;
+      align-items: center;
+      flex: none;
     }
   }
   .option-row {
