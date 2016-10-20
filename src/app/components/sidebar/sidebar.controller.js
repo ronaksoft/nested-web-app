@@ -91,12 +91,11 @@
         $uibModal.open({
           animation: false,
           size: 'lg-white',
-          templateUrl: 'app/components/modal/add-place/create-team.html',
-          controller: 'PlaceAddController',
-          controllerAs: 'ctrlCreate',
+          templateUrl: 'app/place/create/create-team.html',
+          controller: 'PlaceCreateController',
+          controllerAs: 'ctlCreate',
           resolve: {
-            argv: {
-            }
+
           }
         }).result.then(function (result) {
 
