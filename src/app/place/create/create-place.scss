@@ -78,7 +78,9 @@
       color: #869D91;
       font-size: 16px;
       font-weight: 400;
-      padding: 6px 6px 6px 58px;
+      min-height: 28px;
+      width: 100%;
+      margin-bottom: 10px;
     }
     .field{
       position: relative;
@@ -88,14 +90,6 @@
         color: #A6B9AF;
         font-size: 16px;
         font-weight: 400;
-        position: absolute;
-        left: 12px;
-        top: calc(50% - 5px);
-        transform: translateY(-50%);
-      }
-      span:last-of-type {
-        right: 12px;
-        left: auto;
       }
       input {
         background-color: transparent;

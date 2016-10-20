@@ -6,7 +6,7 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($q, $stateParams, NST_DEFAULT) {
+  function PlaceCreateController($q, $stateParams, $uibModal, NST_DEFAULT) {
 
     var vm = this;
     vm.hasGrandPlace = undefined;
@@ -42,6 +42,21 @@
     vm.setReceivingOff = setReceivingOff;
     vm.setReceivingMembers = setReceivingMembers;
     vm.setReceivingEveryone = setReceivingEveryone;
+
+    vm.changeID = function (placeId) {
+      console.log(placeId);
+      // change place ID
+      $uibModal.open({
+        animation: false,
+        size: 'sm',
+        templateUrl: 'app/place/create/change-id.html',
+        resolve: {
+
+        }
+      }).result.then(function (result) {
+
+      });
+    };
 
     (function () {
       if (stateParamIsProvided($stateParams.placeId)) {

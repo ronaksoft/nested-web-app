@@ -72,6 +72,22 @@
       });
     };
 
+    vm.showAddSubplaceModal = function (grandPlace) {
+      // Show User the invitation Decide Modal
+      $uibModal.open({
+        animation: false,
+        size: 'lg-white',
+        templateUrl: 'app/place/create/create-team.html',
+        controller: 'PlaceCreateController',
+        controllerAs: 'ctlCreate',
+        resolve: {
+
+        }
+      }).result.then(function (result) {
+
+      });
+    };
+
     function getPlaceId() {
       return vm.placeId;
     }
