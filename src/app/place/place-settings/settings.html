@@ -12,7 +12,7 @@
     <div class="det">
       <h3 data-ng-if="ctlSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name"
           editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.update('name', $data)">
-        {{ctlSettings.place.name || 'empty'}}</h3>
+        {{ctlSettings.place.name || 'empty'}}<a class="change-button">change</a></h3>
       <h3 data-ng-if="!ctlSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name">
         {{ctlSettings.place.name || 'empty'}}</h3>
 
@@ -30,7 +30,7 @@
   <p>Receiving</p>
   <div class="recive-set">
     <div class="_difh _fw _aic">
-      <p>Everyone<span>&nbsp;(including email)&nbsp;</span></p><a>change</a>
+      <p>Everyone<span>&nbsp;(including email)&nbsp;</span></p><a class="change-button">change</a>
     </div>
     <p>Only Keyholders can send messages to this Place.</p>
     <div class="src-res">
@@ -41,7 +41,6 @@
           <div class="circle"></div>
         </label>
         <label for="pub-res"><b>OFF</b></label>
-
       </div>
     </div>
   </div>
@@ -61,8 +60,8 @@
       </select>
     </div>
   </div>
-  <p>Keyholders</p>
-  <div class="select-box2 _difh">
+  <p data-ng-if="ctlSettings.hasSeeMembersAccess">Keyholders</p>
+  <div class="select-box2 _difh" data-ng-if="ctlSettings.hasSeeMembersAccess">
     <div class="add">
       <svg>
         <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
@@ -70,29 +69,12 @@
     </div>
     <p>Add Keyholders</p>
   </div>
-  <div class="user-item" data-ng-repeat="member in ctlSettings.teammates">
-    <div class="logo">
-      <img initials="member.name" data-url="member.avatar" data-width="48" data-height="48" data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
-    </div>
-    <div class="name">
-      <p>{{member.name}}</p>
-      <span>@{{member.id}}</span>
-    </div>
-    <div class="role">
-      Keyholder (Master)
-      <div data-ng-switch="member.role" class="_fn">
-        <div data-ng-switch-when="creator" class="role-icons-crown role-icon"></div>
-        <div data-ng-switch-when="key_holder" class="role-icons-key role-icon"></div>
-        <div data-ng-switch-when="pending_key_holder" class="role-icons-key-wait role-icon"></div>
-        <div data-ng-switch-when="pending_known_guest" class="role-icons-avatar-wait role-icon"></div>
-        <div data-ng-switch-default class="role-icons-avatar role-icon"></div>
-      </div>
-      <svg class="svg-hover morphed">
-        <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
-        <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
-      </svg>
-    </div>
-  </div>
+  <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="user-item"
+                         data-ng-repeat="member in ctlSettings.teammates"
+                         member="member" place="ctlSettings.place"
+                         has-remove-access="ctlSettings.hasRemoveAccess"
+                         has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember"
+                         role="member.state"/>
 </div>
 <div class="close-modal" ng-click="$close(result)">
   <svg>

@@ -23,58 +23,58 @@
         <div class="butn-green-nav" data-ng-if="addMemberCtrl.isTeammateMode" data-ng-click="addMemberCtrl.add();">Add</div>
       </div>
     <div class="modal-body">
-      <p class="_fw" data-ng-if="addMemberCtrl.users < 1">Import Contacts:</p>
+      <p class="_fw">Import Contacts:</p>
       <p data-ng-if="addMemberCtrl.users > 0">You can use a collective method for add Keyholders:</p>
       <div class="_fw suggests">
-        <a class="_difh item" data-ng-if="addMemberCtrl.users < 1">
-          <div class="item-logo">
-            <img src="/assets/icons/gmail.png">
-          </div>
-          <div class="_difv det">
-            <p>Google</p>
-            <span>Import contacts from a Google account.</span>
-          </div>
-        </a>
-        <div class="devider" data-ng-if="addMemberCtrl.users < 1"></div>
-        <a class="_difh item" data-ng-if="addMemberCtrl.users < 1">
-          <div>
-            <div class="item-logo">
-              <img src="/assets/icons/gmail.png">
-            </div>
-          </div>
-          <div class="_difv det">
-            <p>Google</p>
-            <span>Import contacts from a Google account.</span>
-          </div>
-        </a>
-        <a class="_difh item" data-ng-if="addMemberCtrl.users < 1">
-          <div class="item-logo">
-            <img src="/assets/icons/gmail.png">
-          </div>
-          <div class="_difv det">
-            <p>Google</p>
-            <span>Import contacts from a Google account.</span>
-          </div>
-        </a>
-        <div class="devider" data-ng-if="addMemberCtrl.users < 1"></div>
-        <a class="_difh item" data-ng-if="addMemberCtrl.users < 1">
-          <div>
-            <div class="item-logo">
-              <img src="/assets/icons/gmail.png">
-            </div>
-          </div>
-          <div class="_difv det">
-            <p>Google</p>
-            <span>Import contacts from a Google account.</span>
-          </div>
-        </a>
+        <!--<a class="_difh item" data-ng-if="addMemberCtrl.users < 1">-->
+          <!--<div class="item-logo">-->
+            <!--<img src="/assets/icons/gmail.png">-->
+          <!--</div>-->
+          <!--<div class="_difv det">-->
+            <!--<p>Google</p>-->
+            <!--<span>Import contacts from a Google account.</span>-->
+          <!--</div>-->
+        <!--</a>-->
+        <!--<div class="devider" data-ng-if="addMemberCtrl.users < 1"></div>-->
+        <!--<a class="_difh item" data-ng-if="addMemberCtrl.users < 1">-->
+          <!--<div>-->
+            <!--<div class="item-logo">-->
+              <!--<img src="/assets/icons/gmail.png">-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="_difv det">-->
+            <!--<p>Google</p>-->
+            <!--<span>Import contacts from a Google account.</span>-->
+          <!--</div>-->
+        <!--</a>-->
+        <!--<a class="_difh item" data-ng-if="addMemberCtrl.users < 1">-->
+          <!--<div class="item-logo">-->
+            <!--<img src="/assets/icons/gmail.png">-->
+          <!--</div>-->
+          <!--<div class="_difv det">-->
+            <!--<p>Google</p>-->
+            <!--<span>Import contacts from a Google account.</span>-->
+          <!--</div>-->
+        <!--</a>-->
+        <!--<div class="devider" data-ng-if="addMemberCtrl.users < 1"></div>-->
+        <!--<a class="_difh item" data-ng-if="addMemberCtrl.users < 1">-->
+          <!--<div>-->
+            <!--<div class="item-logo">-->
+              <!--<img src="/assets/icons/gmail.png">-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="_difv det">-->
+            <!--<p>Google</p>-->
+            <!--<span>Import contacts from a Google account.</span>-->
+          <!--</div>-->
+        <!--</a>-->
       </div>
     </div>
       <div data-ng-if="!addMemberCtrl.isTeammateMode" class="nst-modal-footer _df _fw">
           <!--<p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place ,<a class="nst-mood-cheerful">invite them as a member</a>.</p>-->
           <p>Add Keyholders to Design Request from "Ronak Software Group" Members.</p>
       </div>
-      <div data-ng-if="addMemberCtrl.isTeammateMode && addMemberCtrl.users < 1" class="nst-modal-footer _df _fw">
+      <div data-ng-if="addMemberCtrl.isTeammateMode" class="nst-modal-footer _df _fw">
           <p>Invite peoples to Ronak Software Group by search them or enter their emails or phone number.</p>
       </div>
   </div>

@@ -449,6 +449,11 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   flex-direction: row;
   position: relative;
   cursor: grab;
+  &:hover {
+    .circle {
+      box-shadow: 0 4px 8px #CCCCCC;
+    }
+  }
   // OFF
   input + label,
   input + label + label{
@@ -459,6 +464,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     width: 50%;
     align-items: center;
     transition: all $animation-dur;
+    border: 1px solid #F0F0F0;
     b {
       color: $color-solid-30;
       font-weight: 400;
@@ -469,6 +475,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     justify-content: flex-end;
     border-top-left-radius: 16px;
     border-bottom-left-radius: 16px;
+    border-right-width: 0;
     b {
       opacity: 0;
     }
@@ -488,6 +495,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     justify-content: flex-start;
     border-top-right-radius: 16px;
     border-bottom-right-radius: 16px;
+    border-left-width: 0;
     b {
       opacity: 1;
       color: rgba(0,0,0,.5);
@@ -497,6 +505,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   // ON
   input[type="checkbox"]:checked + label  {
     .circle {
+      background-color: #F0F0F0;
       left: 52px;
     }
   }
@@ -504,14 +513,17 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   input[type="checkbox"]:checked + label,
   input[type="checkbox"]:checked + label + label {
     background-color: $color-sense;
+    border: 1px solid $color-sense-wire;
   }
   input[type="checkbox"]:checked + label {
+    border-right-width: 0;
     b {
       opacity: 1;
       color: rgba(255,255,255,1);
     }
   }
   input[type="checkbox"]:checked  + label + label {
+    border-left-width: 0;
     color: rgba(20,215,105,0);
     b {
       opacity: 0;
@@ -525,12 +537,25 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   input[disabled]:checked + label + label,
   input[disabled] + label + label{
     background-color: #E6E6E6;
+    border-color: rgba(120,120,120,.2);
     b {
       color: rgba(0,0,0,.2);
     }
     .circle {
       background-color: #FAFAFA;
+      box-shadow: none;
     }
   }
 
+}
+
+.change-button {
+  color: $color-sense-wire;
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: underline;
+  transition: all $animation-dur;
+  &:hover {
+    color: $color-sense-wire;
+  }
 }

@@ -15,6 +15,7 @@
     position: relative;
     box-shadow: none;
     border: none;
+    background-color: transparent;
     h2 {
       color: #000000;
       letter-spacing: -1px;
@@ -115,10 +116,6 @@
       font-weight: 400;
       padding: 0 8px;
     }
-  }
-  *::selection {
-    color: #FFFFFF;
-    background: #14D769;
   }
 }
 #create-place {
