@@ -444,12 +444,24 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   width: 80px;
   height: 32px;
   border-radius: 16px;
-  background-color: $color-sense;
+  //background-color: $color-sense;
   display: inline-flex;
   flex-direction: row;
+  position: relative;
+  .circle {
+    position: absolute;
+    top: 4px;
+    width: 24px;
+    height: 24px;
+    background: rgba(0,0,0,.1);
+    border-radius: 50px;
+    display: flex;
+    transition: all $animation-dur;
+  }
   input + label,
   input + label + label{
-    color: $color-white;
+    background-color: $color-white;
+    color: $color-solid-30;
     display: flex;
     height: 100%;
     position: relative;
@@ -457,43 +469,38 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     width: 50%;
     align-items: center;
     font-weight: 400;
-    .circle {
-      position: absolute;
-      top: 4px;
-      width: 24px;
-      height: 24px;
-      background: $color-white;
-      border-radius: 50px;
-    }
   }
-  input + label:first-of-type {
-    color: $color-sense;
-    div {
-      left: 4px;
-      display: flex;
-    }
+  input + label + label + .circle {
+    left: 4px;
+    right: auto;
+  }
+  input[type="checkbox"]:checked + label + label + .circle {
+    right: 4px;
+    left: auto;
+  }
+  input + label {
+    color: $color-white;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
   }
   input + label + label {
-    color: $color-white;
+    color: rgba(0,0,0,.5);
     justify-content: flex-start;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
     div {
       display: none;
     }
+  }
+  input[type="checkbox"]:checked + label,
+  input[type="checkbox"]:checked + label + label {
+    background-color: $color-sense;
   }
   input[type="checkbox"]:checked + label {
-  }
-  input[type="checkbox"]:checked + label:first-of-type {
     color: $color-white;
     justify-content: flex-end;
-    div {
-      display: none;
-    }
   }
   input[type="checkbox"]:checked  + label + label {
     color: $color-sense;
-    div {
-      right: 4px;
-      display: flex;
-    }
   }
 }

@@ -165,7 +165,6 @@ nst-navbar {
     position: absolute;
     right: 0;
     flex-direction: column;
-    overflow-y: hidden;
     > * {
       display: flex;
       flex: none;
@@ -351,3 +350,8 @@ nst-navbar {
 #inputsearch .line-f {
   left:0;
 }
+
+._ac{
+  align-items: center;
+}
+
