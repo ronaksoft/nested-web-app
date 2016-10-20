@@ -19,10 +19,10 @@
       name: null,
       parentId: null,
       privacy: {
-        email: null,
+        email: true,
         locked: null,
         receptive: null,
-        search: null,
+        search: false,
         addPost: vm.memberOptions[0].key
       },
       policy: {
@@ -67,8 +67,9 @@
         vm.hasGrandPlace = false;
         vm.place.parentId = null;
       }
+      vm.isCreateGrandPlaceMode = !vm.hasGrandPlace;
+      vm.receivingMode = 'everyone';
 
-      vm.isCreateTeamMode = !vm.hasGrandPlace;
     })();
 
 
