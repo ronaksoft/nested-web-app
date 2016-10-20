@@ -5,7 +5,10 @@
       <div class="_df" ng-click="$close(result)"><img src="../assets/icons/close.svg"></div>
     </div>
     <div class="_difv _fw">
-      as
+      <input class="form-control"
+             type="text" ng-change="ctlCreate.checkIdAvailability(ctlCreate.place.tempId);"
+             data-ng-model="ctlCreate.place.tempId"/>
+      <div class="butn-green" ng-click="$close('ok')" style="width: 100%;margin-top: 10px">Save</div>
     </div>
   </div>
 </div>

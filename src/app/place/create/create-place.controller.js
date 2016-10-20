@@ -6,7 +6,7 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($q, $stateParams, $uibModal, NST_DEFAULT) {
+  function PlaceCreateController($scope, $q, $stateParams, $uibModal, NST_DEFAULT) {
 
     var vm = this;
     vm.hasGrandPlace = undefined;
@@ -44,17 +44,18 @@
     vm.setReceivingEveryone = setReceivingEveryone;
 
     vm.changeID = function (placeId) {
-      console.log(placeId);
+      vm.place.tempId = vm.place.id;
       // change place ID
       $uibModal.open({
         animation: false,
         size: 'sm',
         templateUrl: 'app/place/create/change-id.html',
-        resolve: {
-
-        }
+        scope: $scope
       }).result.then(function (result) {
-
+        if(result == 'ok')
+          vm.place.id = vm.place.tempId;
+      }).catch(function (reason) {
+        console.log(reason)
       });
     };
 
