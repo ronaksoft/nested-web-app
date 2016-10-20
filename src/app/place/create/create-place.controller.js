@@ -6,10 +6,14 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($q, $stateParams) {
+  function PlaceCreateController($q, $stateParams, NST_DEFAULT) {
 
     var vm = this;
     vm.hasGrandPlace = undefined;
+    vm.memberOptions = [
+      { key : 'creator', name : 'Master Keyholders Only' },
+      { key : 'everyone', name : 'All Keyholders' }
+    ];
     vm.place = {
       id: null,
       name: null,
@@ -18,14 +22,15 @@
         email: null,
         locked: null,
         receptive: null,
-        search: null
+        search: null,
+        addPost: vm.memberOptions[0]
       },
       policy: {
-        add_member: null,
-        add_place: null,
+        addMember: vm.memberOptions[0],
+        addPlace: vm.memberOptions[0],
       },
-      favorite : null,
-      notification: null
+      favorite : true,
+      notification: false
     };
     vm.placeIdIsAvailable = null;
     vm.placeIdChecking = null;
@@ -34,6 +39,9 @@
     vm.setPlaceOpen = setPlaceOpen;
     vm.setPlaceClosed = setPlaceClosed;
     vm.setId = setId;
+    vm.setReceivingOff = setReceivingOff;
+    vm.setReceivingMembers = setReceivingMembers;
+    vm.setReceivingEveryone = setReceivingEveryone;
 
     (function () {
       if (stateParamIsProvided($stateParams.placeId)) {
@@ -60,27 +68,24 @@
       vm.isOpenPlace = false;
     }
 
-    function setReceivingOff(addPost) {
+    function setReceivingOff() {
       vm.receivingMode = 'off';
 
       vm.place.privacy.receptive = false;
       vm.place.privacy.search = false;
-      vm.place.privacy.addPost = addPost;
     }
 
-    function setReceivingMembers(search) {
+    function setReceivingMembers() {
       vm.receivingMode = 'members';
 
       vm.place.privacy.receptive = 'internal';
-      vm.place.privacy.search = search;
       vm.place.privacy.addPost = 'everyone';
     }
 
-    function setReceivingEveryone(search) {
+    function setReceivingEveryone() {
       vm.receivingMode = 'everyone';
 
       vm.place.privacy.receptive = 'external';
-      vm.place.privacy.search = search;
       vm.place.privacy.addPost = 'everyone';
     }
 
