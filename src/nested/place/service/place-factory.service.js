@@ -1534,6 +1534,8 @@
       return deferred.promise;
     };
 
+    PlaceFactory.prototype.isIdAvailable = isIdAvailable;
+
     /**
      * addPlace - Finds parent of a place and puts the place in its children
      *
@@ -1644,6 +1646,17 @@
       return false;
     }
 
+    function isIdAvailable(id) {
+      var deferred = $q.defer();
+
+      NstSvcServer.request('place/exists', {
+        place_id : id
+      }).then(function (data) {
+        deferred.resolve(!data.exists);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
 
     return new PlaceFactory();
   }
