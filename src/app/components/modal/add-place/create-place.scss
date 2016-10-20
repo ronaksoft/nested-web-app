@@ -1,6 +1,4 @@
 .modal-lg-white {
-  width: 100%;
-  height: 100%;
   display: flex;
   position: absolute;
   background-color: $color-bg;
@@ -8,10 +6,12 @@
   padding: 80px;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  transform: none!important;
   overflow-y: auto;
   margin: 0;
   .modal-content {
-    flex: 1;
     position: relative;
     box-shadow: none;
     border: none;
@@ -289,20 +289,20 @@
   }
 }
 .close-modal {
+  position: fixed;
   width: 48px;
   height: 48px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  position: fixed;
+  align-items: center;
   top: 56px;
   right: 56px;
   border-radius: 24px;
   transition: all $animation-dur;
   svg {
-    transform: rotateZ(45deg);
     width: 32px;
     height: 32px;
+    transform: rotateZ(45deg);
   }
   &:hover {
     box-shadow : 0 10px 10px rgba(0,0,0,.15);
