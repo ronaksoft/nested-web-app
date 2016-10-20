@@ -42,6 +42,7 @@
     vm.setReceivingOff = setReceivingOff;
     vm.setReceivingMembers = setReceivingMembers;
     vm.setReceivingEveryone = setReceivingEveryone;
+    vm.save = save;
 
     vm.changeID = function (placeId) {
       vm.place.tempId = vm.place.id;
@@ -157,7 +158,7 @@
     }
 
     function createPlace(model) {
-      NstSvcPlaceFactory.save(place).then(function (result) {
+      NstSvcPlaceFactory.save(model).then(function (result) {
         continueToPlaceSettings(place.id);
       }).catch(function (error) {
         NstSvcLogger.error(error);

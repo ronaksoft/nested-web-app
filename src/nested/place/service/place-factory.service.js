@@ -454,7 +454,7 @@
         });
       });
     };
-
+    
     PlaceFactory.prototype.save = function (place) {
       var factory = this;
       if (place.isNew()) {
@@ -463,12 +463,10 @@
         var params = {
           place_id: place.getId(),
           place_name: place.getName(),
-          // place_desc: place.getDescription(),
-          // place_pic: place.getPicture().getOrg().getId(),
-          // 'privacy.locked': place.getPrivacy().getLocked(),
-          // 'privacy.receptive': place.getPrivacy().getReceptive(),
-          // 'privacy.email': place.getPrivacy().getEmail(),
-          // 'privacy.search': place.getPrivacy().getSearch()
+          'privacy.locked': place.getPrivacy().getLocked(),
+          'privacy.receptive': place.getPrivacy().getReceptive(),
+          'privacy.email': place.getPrivacy().getEmail(),
+          'privacy.search': place.getPrivacy().getSearch()
         };
 
         if (place.getParent() && place.getParent().getId()) {

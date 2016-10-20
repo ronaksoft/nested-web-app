@@ -100,7 +100,7 @@
         <input type="checkbox" id="notification" ng-model="ctlCreate.place.notification">
         <label for="notification">Turn on notification for this place.</label>
       </div>
-      <button>Create Place</button>
+      <button ng-click="ctlCreate.save();">Create Place</button>
     </div>
 </div>
 <div class="close-modal" ng-click="$close(result)">
