@@ -95,6 +95,9 @@ body.modal-open {
   max-width: 1200px;
   display: flex;
   align-items: center;
+  .modal-content {
+    height: 100%
+  }
 }
 
 .modal-sm {
@@ -232,7 +235,7 @@ body.modal-open {
 }
 .modal-add .ui-select-choices-row.active > a,
 .modal-add .ui-select-choices-row.active > a:hover{
-  background-color: $color-sense-5 ;
+  background-color: transparent!important;
   color: $color-solid;
   border-radius: 10px;
 }

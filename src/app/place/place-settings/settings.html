@@ -1,0 +1,99 @@
+<div id="place-settings">
+  <div class="place-name">
+    <label for="logo" class="pic">
+      <img data-ng-if="ctlSettings.logoFile || ctlSettings.place.picture.thumbnails.x64.url.download"
+           ng-src="{{ctlSettings.logoUrl || ctlSettings.place.picture.thumbnails.x64.url.download}}"/>
+      <img data-ng-if="!ctlSettings.place.picture.thumbnails.x64.url.download && !ctlSettings.logoFile"
+           src="/assets/icons/absents_place.svg"/>
+    </label>
+    <input id="logo" data-ng-disabled="!ctlSettings.hasControlAccess" type="file" name="logo" accept="image/*"
+           onchange="angular.element(this).scope().ctlSettings.loadImage(event)"/>
+
+    <div class="det">
+      <h3 data-ng-if="ctlSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name"
+          editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.update('name', $data)">
+        {{ctlSettings.place.name || 'empty'}}</h3>
+      <h3 data-ng-if="!ctlSettings.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name">
+        {{ctlSettings.place.name || 'empty'}}</h3>
+
+      <h5 class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place ID">{{ctlSettings.place.id
+        + '@nested.me'}}</h5>
+    </div>
+  </div>
+  <div class="place-des">
+    <p data-ng-if="ctlSettings.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto"
+        data-uib-tooltip="Place description" editable-text="ctlSettings.place.description"
+        onbeforesave="ctlSettings.update('description', $data)">{{ctlSettings.place.description || 'empty'}}</p>
+    <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description"
+        data-ng-if="!ctlSettings.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</p>
+  </div>
+  <p>Receiving</p>
+  <div class="recive-set">
+    <div class="_difh _fw _aic">
+      <p>Everyone<span>&nbsp;(including email)&nbsp;</span></p><a>change</a>
+    </div>
+    <p>Only Keyholders can send messages to this Place.</p>
+    <div class="src-res">
+      <p>Show in public search results?</p>
+      <div class="place-switch">
+        <input type="checkbox" name="checkbox_id" id="pub-res" value="value" checked="checked">
+        <label for="pub-res">ON</label>
+        <label for="pub-res">OFF</label>
+        <div class="circle"></div>
+      </div>
+    </div>
+  </div>
+  <div class="_difh _fw">
+    <div class="_fw _difv">
+      <p>Create Subplace Access</p>
+      <select>
+        <option value="Creators">Creators Only</option>
+        <option value="Creators">Creators & Members</option>
+      </select>
+    </div>
+    <div class="_fw _difv">
+      <p>Create Subplace Access</p>
+      <select>
+        <option value="Creators">Creators Only</option>
+        <option value="Creators">Creators & Members</option>
+      </select>
+    </div>
+  </div>
+  <p>Keyholders</p>
+  <div class="select-box2 _difh">
+    <div class="add">
+      <svg>
+        <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
+      </svg>
+    </div>
+    <p>Add Keyholders</p>
+  </div>
+  <div class="user-item" data-ng-repeat="member in ctlSettings.teammates">
+    <div class="logo">
+      <img initials="member.name" data-url="member.avatar" data-width="48" data-height="48" data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
+    </div>
+    <div class="name">
+      <p>{{member.name}}</p>
+      <span>@{{member.id}}</span>
+    </div>
+    <div class="role">
+      Keyholder (Master)
+      <div data-ng-switch="member.role" class="_fn">
+        <div data-ng-switch-when="creator" class="role-icons-crown role-icon"></div>
+        <div data-ng-switch-when="key_holder" class="role-icons-key role-icon"></div>
+        <div data-ng-switch-when="pending_key_holder" class="role-icons-key-wait role-icon"></div>
+        <div data-ng-switch-when="pending_known_guest" class="role-icons-avatar-wait role-icon"></div>
+        <div data-ng-switch-default class="role-icons-avatar role-icon"></div>
+      </div>
+      <svg class="svg-hover morphed">
+        <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+        <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
+      </svg>
+    </div>
+  </div>
+</div>
+<div class="close-modal" ng-click="$close(result)">
+  <svg>
+    <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
+  </svg>
+</div>

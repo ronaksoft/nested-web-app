@@ -65,7 +65,7 @@
     width: calc(100% - 272px);
   }
   nst-navbar {
-    left: $sidebar-width;
+    width: calc(100% - 272px);
   }
   .maincontainer.sidetiny {
     .nst-container{
@@ -73,7 +73,7 @@
       width: calc(100% - 76px );
     }
     nst-navbar {
-      left: $sidebar-width-tiny;
+      width: calc(100% - 72px);
     }
   }
   .nst-topnav{
@@ -91,7 +91,7 @@
     height: 0!important;
   }
   .modal-lg-white {
-    padding: 16px!important;
+
   }
 }
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){

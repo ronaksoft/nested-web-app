@@ -191,3 +191,49 @@ input[type="checkbox"]:checked + label.setting {
    max-height: 150px;
    overflow-y: auto;
  }
+
+
+.popover-green + .popover, .popover-green + div + .popover{
+  background: $color-sense-5;
+  border-color: $color-sense-50;
+  li {
+    padding: 8px;
+  }
+  li:hover {
+    background-color: $color-sense-50;
+  }
+}
+
+
+//mention popover
+.mentions {
+  width: 286px;
+  height: 456px;
+  z-index: 1029;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  //position: absolute;
+  //z-index: 35;
+  background-color: $color-white;
+  border: 1px solid #CED9D3;
+  border-radius: 4px;
+  .popover-content,.popover-inner {
+    height: 100%;
+  }
+  > .arrow {
+    width: 16px!important;
+    height: 16px!important;
+    border-style: solid;
+    border-color: #CED9D3;
+    background-color: $color-white;
+    margin: 0!important;
+    display: flex!important;
+    top: 50%;
+    transform: translateY(-50%) rotateZ(-45deg);
+    left: -6px!important;
+    border-width: 1px 0 0 1px!important;
+    z-index: 0;
+  }
+  > .popover-inner {
+    z-index: 2;
+  }
+}

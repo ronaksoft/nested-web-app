@@ -50,6 +50,8 @@
   //margin-right: auto;
   //margin-left: auto;
   width: 100%;
+  overflow-y: auto;
+  overflow-y: initial;
 }
 
 .content {
@@ -131,12 +133,21 @@ hr {
 }
 .svg-hover {
   transition: all .2s;
+  use:first-child{
+    display: none;
+  }
   &:hover{
     fill: $color-sense ;
+    use:first-child{
+      display: flex;
+    }
+    use:last-child{
+      display: none;
+    }
   }
   &.morphed:hover use:first-child,
   &.active use:first-child{
-    display: none!important;
+    display: flex!important;
   }
 
 }

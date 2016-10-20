@@ -33,17 +33,13 @@
   }
   nst-navbar{
     top: $topnav-height;
-    left: 0;
+    width: 100%;
   }
   .navbarillu {
     height: $navbar-height + $topnav-height;
   }
 }
 @media screen and (min-width: $screen-md){
-  nst-navbar{
-    top: 0;
-    transition: all .3s ease;
-  }
   .nst-topnav,#top-nav-container{
     display: none;
   }

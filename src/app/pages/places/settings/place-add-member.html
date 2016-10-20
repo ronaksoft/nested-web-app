@@ -1,8 +1,8 @@
 <div id="add-view">
   <div class="_difv _fw">
       <div class="_difh modal-add">
-        <h5 class="_df _fw" data-ng-if="!addMemberCtrl.isGrandPlace">Add Member</h5>
-        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isGrandPlace">Invite Teammate</h5>
+        <h5 class="_df _fw" data-ng-if="!addMemberCtrl.isGrandPlace">Add Key holder</h5>
+        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isGrandPlace">Invite Member</h5>
         <!--<div class="_df" ng-click="$dismiss();"><img src="../assets/icons/close.svg" class="closebut"></div>-->
       </div>
       <div class="_difh _fw modal-add">
@@ -24,7 +24,7 @@
       </div>
     <div class="modal-body">
       <p class="_fw" data-ng-if="addMemberCtrl.users < 1">Import Contacts:</p>
-      <p data-ng-if="addMemberCtrl.users > 0">You can use a collective method for add members:</p>
+      <p data-ng-if="addMemberCtrl.users > 0">You can use a collective method for add key holders:</p>
       <div class="_fw suggests">
         <a class="_difh item" data-ng-if="addMemberCtrl.users < 1">
           <div class="item-logo">
@@ -72,7 +72,7 @@
     </div>
       <div data-ng-if="!addMemberCtrl.isTeammateMode" class="nst-modal-footer _df _fw">
           <!--<p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place ,<a class="nst-mood-cheerful">invite them as a member</a>.</p>-->
-          <p>Add Members to Design Request from "Ronak Software Group" Teammates.</p>
+          <p>Add Key holders to Design Request from "Ronak Software Group" Members.</p>
       </div>
       <div data-ng-if="addMemberCtrl.isTeammateMode && addMemberCtrl.users < 1" class="nst-modal-footer _df _fw">
           <p>Invite peoples to Ronak Software Group by search them or enter their emails or phone number.</p>
