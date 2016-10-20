@@ -6,7 +6,7 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($q, $stateParams, $uibModal, NST_DEFAULT) {
+  function PlaceCreateController($q, $stateParams, $state, NST_DEFAULT, NstSvcPlaceFactory, NstUtility, $uibModal) {
 
     var vm = this;
     vm.hasGrandPlace = undefined;
@@ -23,11 +23,11 @@
         locked: null,
         receptive: null,
         search: null,
-        addPost: vm.memberOptions[0]
+        addPost: vm.memberOptions[0].key
       },
       policy: {
-        addMember: vm.memberOptions[0],
-        addPlace: vm.memberOptions[0],
+        addMember: vm.memberOptions[0].key,
+        addPlace: vm.memberOptions[0].key,
       },
       favorite : true,
       notification: false
@@ -38,7 +38,7 @@
     vm.isClosedPlace = null;
     vm.setPlaceOpen = setPlaceOpen;
     vm.setPlaceClosed = setPlaceClosed;
-    vm.setId = setId;
+    vm.setId = _.debounce(setId, 1024);
     vm.setReceivingOff = setReceivingOff;
     vm.setReceivingMembers = setReceivingMembers;
     vm.setReceivingEveryone = setReceivingEveryone;
@@ -117,20 +117,25 @@
     }
 
     function checkIdAvailability(id) {
-      // return NstSvcPlaceFactory.idIsAvailable(id);
-      return $q.resolve(true);
+      return NstSvcPlaceFactory.isIdAvailable(id);
+      // return $q.resolve(true);
     }
 
     function setId(name) {
-      var id = _.kebabCase(name);
+      var id = _.kebabCase(name.substr(0,36));
       vm.placeIdChecking = true;
-      checkIdAvailability(id).then(function (result) {
-        vm.place.id = id;
-        vm.placeIdIsAvailable = true;
+      checkIdAvailability(id).then(function (available) {
+        if (available) {
+          vm.place.id = id;
+          vm.placeIdIsAvailable = true;
+        } else {
+          setId(NstUtility.string.format("{0}-{1}", name, _.random(1,9999)));
+        }
       }).catch(function (error) {
-        vm.placeIdIsAvailable = false;
+
         NstSvcLogger.error(error);
       }).finally(function () {
+        vm.placeIdIsAvailable = false;
         vm.placeIdChecking = false;
       });
     }
