@@ -55,13 +55,11 @@
           <aside>
             <p>Show in the Members search results?</p>
             <div class="place-switch">
-              <input type="checkbox" name="checkbox_id" id="src-res" value="value">
-              <label for="src-res">ON
+              <input type="checkbox" name="checkbox_id" id="pub-res" value="value">
+              <label for="pub-res"><b>ON</b>
                 <div class="circle"></div>
               </label>
-              <label for="src-res">OFF
-                <div class="circle"></div>
-              </label>
+              <label for="pub-res"><b>OFF</b></label>
             </div>
           </aside>
       </div>
@@ -71,14 +69,13 @@
           <aside>
             <p>Show in the public search results?</p>
             <div class="place-switch">
-              <input type="checkbox" name="checkbox_id" id="pub-res" value="value" checked>
-              <label for="pub-res">ON
+              <input type="checkbox" name="checkbox_id" id="res" value="value">
+              <label for="res"><b>ON</b>
                 <div class="circle"></div>
               </label>
-              <label for="pub-res">OFF
-                <div class="circle"></div>
-              </label>
-            </div></aside>
+              <label for="res"><b>OFF</b></label>
+            </div>
+          </aside>
       </div>
       <p ng-if="ctlCreate.isClosedPlace">Place Privacies</p>
       <div class="option-row" ng-if="ctlCreate.isClosedPlace">
