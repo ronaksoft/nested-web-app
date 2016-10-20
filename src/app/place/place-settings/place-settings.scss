@@ -27,6 +27,14 @@
         letter-spacing: -1px;
         font-weight: 700;
         margin: 8px 0;
+        a {
+          opacity: 0;
+        }
+        &:hover {
+          a {
+            opacity: 1;
+          }
+        }
       }
       h5 {
         line-height: 19px;
@@ -61,11 +69,6 @@
     }
     a{
       opacity: 0;
-      color: #00B45A;
-      font-size: 15px;
-      font-weight: 400;
-      text-decoration: underline;
-      transition: all $animation-dur;
     }
     &:hover {
       a {

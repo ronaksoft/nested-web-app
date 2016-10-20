@@ -43,6 +43,10 @@ body {
   }
 }
 
+*::selection {
+  color: rgba(255,255,255,1);
+  background: rgba(0,0,0,1);
+}
 
 a,a:focus{
   outline-width:0;

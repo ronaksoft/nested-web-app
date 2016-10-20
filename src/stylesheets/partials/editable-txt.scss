@@ -7,3 +7,21 @@
 .editable-click:hover{
   color: $color-sense-wire;
 }
+.editable-buttons {
+  button {
+    padding: 0 15%
+  }
+  button:first-of-type {
+    margin: 0 10px 0 0!important;
+    width: calc(50% - 10px)!important;
+  }
+  button:last-of-type {
+    margin: 0 0 0 10px!important;
+    width: calc(50% - 10px)!important;
+  }
+}
+.editable-controls{
+  width: 100%;
+  display: inline-flex;
+  flex-direction: column;
+}

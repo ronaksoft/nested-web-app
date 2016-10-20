@@ -64,7 +64,7 @@
         controllerAs: 'ctlSettings',
         resolve: {
           tempPlaceId : function (){
-            return "ronaksoft";
+            return "sport";
           }
         }
       }).result.then(function (result) {
