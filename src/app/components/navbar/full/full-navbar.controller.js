@@ -25,6 +25,7 @@
     vm.place = null;
     vm.toggleBookmark = toggleBookmark;
     vm.toggleNotification = toggleNotification;
+    vm.openCreateSubplaceModal = openCreateSubplaceModal;
 
 
     vm.srch = function srch(el) {
@@ -72,20 +73,10 @@
       });
     };
 
-    vm.showAddSubplaceModal = function (grandPlace) {
-      // Show User the invitation Decide Modal
-      $uibModal.open({
-        animation: false,
-        size: 'lg-white',
-        templateUrl: 'app/place/create/create-team.html',
-        controller: 'PlaceCreateController',
-        controllerAs: 'ctlCreate',
-        resolve: {
-
-        }
-      }).result.then(function (result) {
-
-      });
+    function openCreateSubplaceModal ($event) {
+      $event.preventDefault();
+      console.log('prevented');
+      $state.go('app.place-create', { placeId : getPlaceId() } , { notify : false });
     };
 
     function getPlaceId() {

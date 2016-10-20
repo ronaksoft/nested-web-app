@@ -84,13 +84,17 @@
         options: {
           group: 'message'
         }
-      }).state('app.messages', {
+      })
+      .state('app.messages', {
         url: '/messages',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
         params : {
-          postId : null
+          postId : null,
+          placeId : null,
+          openPostView : null,
+          openCreatePlace : null
         },
         options: {
           primary: true,
@@ -159,7 +163,8 @@
       .state('app.place-messages', {
         url: '/places/:placeId/messages',
         params: {
-          placeId: NST_DEFAULT.STATE_PARAM
+          placeId : NST_DEFAULT.STATE_PARAM,
+          openCreatePlace : null
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',

@@ -18,8 +18,16 @@
 
 
     // Redirects to messages if the app is initializing with "app.message" route
+    console.log('$state.current from app', $state.current);
+    console.log('$state.current from app', $stateParams);
     if ($state.current.name === 'app.message') {
-      $state.go('app.messages', { postId : $stateParams.postId });
+      $state.go('app.messages', { postId : $stateParams.postId, openPostView : true });
+    } else if ($state.current.name === 'app.place-create') {
+      if ($stateParams.placeId) {
+        $state.go('app.place-messages', { placeId : $stateParams.placeId, openCreatePlace : true });
+      } else {
+        $state.go('app.messages', { placeId : $stateParams.placeId, openCreatePlace : true });
+      }
     }
 
     /*****************************

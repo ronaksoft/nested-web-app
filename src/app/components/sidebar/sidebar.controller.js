@@ -24,6 +24,7 @@
     vm.onPlaceClick = onPlaceClick;
     vm.togglePlace = togglePlace;
     vm.isOpen = false;
+    vm.openCreatePlaceModal = openCreatePlaceModal;
 
     /*****************************
      ***** Controller Methods ****
@@ -86,22 +87,6 @@
       });
     };
 
-    vm.showAddPlaceModal = function (grandPlace) {
-        // Show User the invitation Decide Modal
-        $uibModal.open({
-          animation: false,
-          size: 'lg-white',
-          templateUrl: 'app/place/create/create-team.html',
-          controller: 'PlaceCreateController',
-          controllerAs: 'ctlCreate',
-          resolve: {
-
-          }
-        }).result.then(function (result) {
-
-        });
-      };
-
     function onPlaceClick(event, place) {
       if (NstSvcSidebar.onItemClick) {
         event.preventDefault();
@@ -114,6 +99,10 @@
       }
     }
 
+    function openCreatePlaceModal($event) {
+      $event.preventDefault();
+      $state.go('app.place-create', {  } , { notify : false });
+    }
     /*****************************
      *****  Controller Logic  ****
      *****************************/

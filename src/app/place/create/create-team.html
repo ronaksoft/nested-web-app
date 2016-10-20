@@ -1,4 +1,4 @@
-<div id="create-place" ng-init="ctlCreate.step1 = true;">
+<div id="create-place" ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode && true; ctlCreate.step2 = !ctlCreate.step1">
   <div class="_difv" ng-if="ctlCreate.step1">
     <h2 class="_df">Create a Place</h2>
     <p>Choose a Place Type:</p>

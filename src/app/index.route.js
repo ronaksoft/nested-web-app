@@ -158,7 +158,8 @@
       .state('app.place-settings', {
         url: '/places/:placeId/settings',
         params: {
-          placeId: NST_DEFAULT.STATE_PARAM
+          placeId: NST_DEFAULT.STATE_PARAM,
+          openCreatePlace : null
         },
         templateUrl: 'app/pages/places/settings/place-settings.html',
         controller: 'PlaceSettingsController',
@@ -179,6 +180,50 @@
         options : {
           group : 'settings'
         }
+      })
+      .state('app.place-create', {
+        url: '/places/:placeId/create',
+        params: {
+          placeId: NST_DEFAULT.STATE_PARAM
+        },
+        options : {
+          group : 'settings'
+        },
+        onEnter: ['$stateParams', '$state', '$uibModal', 'previousState', function($stateParams, $state, $uibModal, previousState) {
+          var modal = $uibModal.open({
+            animation: false,
+            size: 'lg-white',
+            templateUrl: 'app/place/create/create-team.html',
+            controller: 'PlaceCreateController',
+            controllerAs: 'ctlCreate'
+          }).result.then(function() {
+            if (previousState.name) {
+              $state.go(previousState.name, previousState.params, { notify : false });
+            }
+          }, function() {
+            if (previousState.name) {
+              $state.go(previousState.name, previousState.params, { notify : false });
+            }
+          });
+        }],
+        onExit: function($uibModalStack) {
+          if ($uibModalStack) {
+            $uibModalStack.dismissAll();
+          }
+        },
+        resolve: {
+          previousState : [
+            "$state",
+            function ($state) {
+              var current = {
+                name : $state.current.name,
+                params : $state.params,
+                url : $state.href($state.current.name, $state.params)
+              };
+              return current;
+            }
+          ]
+        },
       })
 
       /*****************************

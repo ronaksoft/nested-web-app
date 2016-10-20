@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
-    NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, tempPlaceId,
+    NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
     NstVmMemberItem) {
@@ -48,8 +48,8 @@
     (function() {
       $log.debug('Initializing of PlaceSettingsController just started...');
       vm.place = {};
-      //vm.placeId = $stateParams.placeId;
-      vm.placeId = tempPlaceId;
+      vm.placeId = $stateParams.placeId;
+      // vm.placeId = tempPlaceId;
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
