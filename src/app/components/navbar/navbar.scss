@@ -120,6 +120,10 @@ nst-navbar {
   z-index: 55;
   width: calc(100% - 272px);
   will-change: height;
+  transform-origin: top;
+  * {
+    transform-origin: top;
+  }
 }
 
 .nst-navbar {
