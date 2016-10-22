@@ -5,7 +5,7 @@
       <svg class="icon" ng-if="ctlPlaceInfo.placesBookmarkObject[ctlPlaceInfo.grandPlace.id]">
         <use xlink:href="/assets/icons/nst-icn16.svg#favplace"></use>
       </svg>
-      <a href="{{ctlPlaceInfo.grandPlace.href}}">Home
+      <a href="{{ctlPlaceInfo.grandPlace.href}}" ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == ctlPlaceInfo.grandPlace.id }">Home
         <b ng-if="ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id]}}</b></a>
     </div>
     <ul>
@@ -16,6 +16,3 @@
     </ul>
   </li>
 </ul>
-
-
-

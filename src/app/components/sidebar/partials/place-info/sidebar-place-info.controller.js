@@ -10,6 +10,7 @@
                                       NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace) {
     var vm = this;
     vm.loading = false;
+    vm.currentPlaceId = $stateParams.placeId;
 
     vm.range = function (num) {
       var seq = [];
@@ -78,6 +79,7 @@
     function getGrandPlaceChildren(grandPlaceId) {
       var deferred = $q.defer();
       NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
+
         var placesList =_.map(places, function (place) {
           var model = new NstVmPlace(place);
           model.isStarred = place.isStarred;

@@ -49,7 +49,7 @@
     display: inline-flex;
     width: 100%;
     transition: all $animation-dur;
-    &:hover {
+    &:hover, &.isSelected {
       transition-duration: $animation-dur;
       transition-timing-function: ease;
       background-color: $sidebar-bg-hover-color;

@@ -14,7 +14,7 @@
   <svg class="icon" ng-if="ctlPlaceInfo.placesBookmarkObject[place.id]">
     <use xlink:href="/assets/icons/nst-icn16.svg#favplace"></use>
   </svg>
-  <a href="{{place.href}}">{{ place.name }}
+  <a href="{{place.href}}" ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == place.id }">{{ place.name }}
     <b ng-if="ctlPlaceInfo.placesNotifCountObject[place.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[place.id]}}</b></a>
   <span ng-if="place.children.length > 0" class="e2-arrow _df">
     <label class="arrow-holder-nav {{!place.collapse ? 'nst-arrow' : 'nst-arrow-rotated'}}"
