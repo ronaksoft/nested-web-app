@@ -6,7 +6,7 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($scope, $q, $stateParams, $state, NST_DEFAULT, NstSvcPlaceFactory, NstUtility, $uibModal) {
+  function PlaceCreateController($scope, $q, $stateParams, $state, NST_DEFAULT, NstSvcPlaceFactory, NstUtility, $uibModal, NST_PLACE_ACCESS, NstSvcLogger) {
 
     var vm = this;
     vm.hasGrandPlace = undefined;
@@ -173,7 +173,8 @@
     }
 
     function createPlace(model) {
-      NstSvcPlaceFactory.save(model).then(function (result) {
+      NstSvcPlaceFactory.create(model).then(function (place) {
+        console.log(place);
         continueToPlaceSettings(place.id);
       }).catch(function (error) {
         NstSvcLogger.error(error);
@@ -185,6 +186,7 @@
     }
 
     function continueToPlaceSettings(placeId) {
+      console.log(placeId);
       $state.go('app.place-settings', { placeId : placeId });
     }
   }
