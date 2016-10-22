@@ -277,6 +277,12 @@ nst-navbar {
   height: $navbar-height;
   flex: none
 }
+.setting-icon-nav{
+  display: flex;
+  height: 24px!important;
+  width: 24px!important;
+  margin-left: 0!important;
+}
 .menu-links {
   display: inline;
   //left: 35px;

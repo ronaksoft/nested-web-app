@@ -8,8 +8,8 @@
       </div>
       <div class="desc">
         <h3>Close Place</h3>
-        <p>Only Key holders can view place contents.</p>
-        <aside>you can invite Key holders from your Members after creating the place.</aside>
+        <p>Only Keyholders can view place contents.</p>
+        <aside>you can invite Keyholders from your Members after creating the place.</aside>
       </div>
     </div>
     <div class="select-box _difh" ng-click="ctlCreate.setPlaceOpen();" ng-class="{ selected : ctlCreate.isOpenPlace }">
@@ -18,8 +18,8 @@
       </div>
       <div class="desc">
         <h3>Open Place</h3>
-        <p>All Members can view place contents. but just Key holders can contribute in the place.</p>
-        <aside>you can invite Key holders from your Members after creating the place.</aside>
+        <p>All Members can view place contents. but just Keyholders can contribute in the place.</p>
+        <aside>you can invite Keyholders from your Members after creating the place.</aside>
       </div>
     </div>
     <button ng-click="ctlCreate.step1 = false ;ctlCreate.step2 = true ;" ng-disabled="!ctlCreate.isOpenPlace && !ctlCreate.isClosedPlace">Next</button>
@@ -43,9 +43,9 @@
       <p ng-if="ctlCreate.isClosedPlace">Receiving</p>
       <div class="select-box-step2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();" ng-class="{ selected : ctlCreate.receivingMode == 'off'}">
           <h3>Off</h3>
-          <p>Just key holders can communicate in the place.</p>
+          <p>Just Keyholders can communicate in the place.</p>
           <aside>
-            <p>Which kind of key holders can be contribute in the place?</p>
+            <p>Which kind of Keyholders can be contribute in the place?</p>
             <select ng-model="ctlCreate.place.privacy.addPost" ng-options="member.key as member.name for member in ctlCreate.memberOptions">
             </select>
           </aside>
@@ -81,14 +81,14 @@
       <p ng-if="ctlCreate.isClosedPlace">Place Privacies</p>
       <div class="option-row" ng-if="ctlCreate.isClosedPlace">
         <p>
-          Who can add key holders?
+          Who can add Keyholders?
         </p>
         <select ng-model="ctlCreate.place.policy.addMember" ng-options="member.key as member.name for member in ctlCreate.memberOptions">
         </select>
       </div>
       <div class="option-row" ng-if="ctlCreate.isClosedPlace">
         <p>
-          Who can create sub-place?
+          Who can create subplace?
         </p>
         <select ng-model="ctlCreate.place.policy.addPlace" ng-options="member.key as member.name for member in ctlCreate.memberOptions">
         </select>

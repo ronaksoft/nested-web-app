@@ -9,6 +9,9 @@
   function PlaceCreateController($scope, $q, $stateParams, $state, NST_DEFAULT, NstSvcPlaceFactory, NstUtility, $uibModal, NST_PLACE_ACCESS, NstSvcLogger) {
 
     var vm = this;
+
+    var placeIdRegex = /^[A-Za-z][A-Za-z0-9-]*$/;
+
     vm.hasGrandPlace = undefined;
     vm.memberOptions = [
       { key : 'creator', name : 'Master Keyholders Only' },
@@ -43,22 +46,7 @@
     vm.setReceivingMembers = setReceivingMembers;
     vm.setReceivingEveryone = setReceivingEveryone;
     vm.save = save;
-
-    vm.changeID = function (placeId) {
-      vm.place.tempId = vm.place.id;
-      // change place ID
-      $uibModal.open({
-        animation: false,
-        size: 'sm',
-        templateUrl: 'app/place/create/change-id.html',
-        scope: $scope
-      }).result.then(function (result) {
-        if(result == 'ok')
-          vm.place.id = vm.place.tempId;
-      }).catch(function (reason) {
-        console.log(reason)
-      });
-    };
+    vm.changeId = changeId;
 
     (function () {
       if (stateParamIsProvided($stateParams.placeId)) {
@@ -73,6 +61,21 @@
 
     })();
 
+    function changeId(placeId) {
+      vm.place.tempId = vm.place.id;
+      // change place ID
+      $uibModal.open({
+        animation: false,
+        size: 'sm',
+        templateUrl: 'app/place/create/change-id.html',
+        scope: $scope
+      }).result.then(function (result) {
+        if(result == 'ok')
+          vm.place.id = vm.place.tempId;
+      }).catch(function (reason) {
+        console.log(reason)
+      });
+    };
 
     function setPlaceOpen() {
       vm.place.privacy.locked = false;
@@ -120,7 +123,11 @@
     }
 
     function setId(name) {
-      vm.place.id = generateId(name);
+      var newId = generateId(name, vm.place.id);
+      if (newId !== vm.place.id) {
+        vm.place.id = newId;
+      }
+
       checkIdAvailabilityLazily(vm.place.id);
     }
 
@@ -148,10 +155,17 @@
       return deferred.promise;
     }
 
-    function generateId(name) {
-      var id = _.kebabCase(name.substr(0,36));
+    function generateId(name, previousId) {
+      var camelCaseName = _.camelCase(name);
 
-      return id;
+      // only accepts en numbers and alphabets
+      if (placeIdRegex.test(camelCaseName)) {
+        return _.kebabCase(name.substr(0,36));
+      } else if (!vm.place.id) {
+        return _.random(99999,999999).toString();
+      }
+
+      return previousId;
     }
 
     function generateUinqueId(id) {
