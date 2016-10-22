@@ -38,7 +38,7 @@
     vm.isClosedPlace = null;
     vm.setPlaceOpen = setPlaceOpen;
     vm.setPlaceClosed = setPlaceClosed;
-    vm.setId = _.debounce(setId, 1024);
+    vm.setId = setId;
     vm.setReceivingOff = setReceivingOff;
     vm.setReceivingMembers = setReceivingMembers;
     vm.setReceivingEveryone = setReceivingEveryone;
@@ -121,20 +121,23 @@
       return !!parameter && parameter !== NST_DEFAULT.STATE_PARAM;
     }
 
-    function checkIdAvailability(id) {
-      return NstSvcPlaceFactory.isIdAvailable(id);
-      // return $q.resolve(true);
+    function setId(name) {
+      vm.place.id = generateId(name);
+      checkIdAvailabilityLazily(vm.place.id);
     }
 
-    function setId(name) {
-      var id = _.kebabCase(name.substr(0,36));
+    var checkIdAvailabilityLazily = _.debounce(checkIdAvailability, 640);
+
+    function checkIdAvailability(id, deferred) {
+      var deferred = deferred || $q.defer();
+
       vm.placeIdChecking = true;
-      checkIdAvailability(id).then(function (available) {
+      NstSvcPlaceFactory.isIdAvailable(id).then(function (available) {
         if (available) {
           vm.place.id = id;
           vm.placeIdIsAvailable = true;
         } else {
-          setId(NstUtility.string.format("{0}-{1}", name, _.random(1,9999)));
+          checkIdAvailability(generateUinqueId(id), deferred);
         }
       }).catch(function (error) {
 
@@ -143,6 +146,18 @@
         vm.placeIdIsAvailable = false;
         vm.placeIdChecking = false;
       });
+
+      return deferred.promise;
+    }
+
+    function generateId(name) {
+      var id = _.kebabCase(name.substr(0,36));
+
+      return id;
+    }
+
+    function generateUinqueId(id) {
+      return NstUtility.string.format("{0}-{1}", id, _.random(1,9999));
     }
 
     function save() {
