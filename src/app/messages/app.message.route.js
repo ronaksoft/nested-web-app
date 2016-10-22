@@ -32,13 +32,11 @@
                 return $stateParams.model;
               }
             }
-          }).result.then(function() {
+          }).result.catch(function() {
             if (previousState.name) {
               $state.go(previousState.name, previousState.params, { notify : false });
-            }
-          }, function() {
-            if (previousState.name) {
-              $state.go(previousState.name, previousState.params, { notify : false });
+            } else {
+              $state.go(NST_DEFAULT.STATE);
             }
           });
         }],
@@ -90,12 +88,6 @@
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
-        params : {
-          postId : null,
-          placeId : null,
-          openPostView : null,
-          openCreatePlace : null
-        },
         options: {
           primary: true,
           group: 'message'
@@ -164,7 +156,6 @@
         url: '/places/:placeId/messages',
         params: {
           placeId : NST_DEFAULT.STATE_PARAM,
-          openCreatePlace : null
         },
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',

@@ -71,8 +71,6 @@
       vm.isCreateGrandPlaceMode = !vm.hasGrandPlace;
       vm.receivingMode = 'everyone';
 
-      // to prevent opening the modal again
-      $stateParams.openCreatePlace = false;
     })();
 
 

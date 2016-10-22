@@ -155,13 +155,6 @@
 
       setNavbarProperties();
 
-      if ($stateParams.openPostView) {
-        $state.go('app.message', { postId : vm.initialPostId } , { notify : false });
-        $stateParams.openPostView = false;
-      } else if ($stateParams.openCreatePlace) {
-        $state.go('app.place-create', { placeId : $stateParams.placeId } , { notify : false });
-        $stateParams.openCreatePlace = false;
-      }
     })();
 
     function setNavbarProperties() {

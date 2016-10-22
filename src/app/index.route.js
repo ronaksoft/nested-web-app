@@ -13,10 +13,7 @@
         abstract : true,
         templateUrl : 'app/app-layout.html',
         controller : 'AppController',
-        controllerAs : 'ctlApp',
-        params : {
-          postId : null,
-        }
+        controllerAs : 'ctlApp'
       })
 
       /*****************************
@@ -159,7 +156,6 @@
         url: '/places/:placeId/settings',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM,
-          openCreatePlace : null
         },
         templateUrl: 'app/pages/places/settings/place-settings.html',
         controller: 'PlaceSettingsController',
@@ -196,13 +192,11 @@
             templateUrl: 'app/place/create/create-team.html',
             controller: 'PlaceCreateController',
             controllerAs: 'ctlCreate'
-          }).result.then(function() {
+          }).result.catch(function() {
             if (previousState.name) {
               $state.go(previousState.name, previousState.params, { notify : false });
-            }
-          }, function() {
-            if (previousState.name) {
-              $state.go(previousState.name, previousState.params, { notify : false });
+            } else {
+              $state.go(NST_DEFAULT.STATE)
             }
           });
         }],
