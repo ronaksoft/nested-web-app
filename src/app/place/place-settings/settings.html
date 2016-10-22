@@ -30,7 +30,7 @@
   <p>Receiving</p>
   <div class="recive-set">
     <div class="_difh _fw _aic">
-      <p>Everyone<span>&nbsp;(including email)&nbsp;</span></p><a class="change-button">change</a>
+      <p><strong>Everyone</strong><span>&nbsp;(including email)&nbsp;</span></p><a class="change-button">change</a>
     </div>
     <p>Only Keyholders can send messages to this Place.</p>
     <div class="src-res">
@@ -48,19 +48,19 @@
     <div class="_fw _difv">
       <p>Create Subplace Access</p>
       <select>
-        <option value="Creators">Creators Only</option>
-        <option value="Creators">Creators & Members</option>
+        <option value="Creators">Master Keyholders Only</option>
+        <option value="Creators">Master Keyholders & Members</option>
       </select>
     </div>
     <div class="_fw _difv">
-      <p>Create Subplace Access</p>
+      <p>Add Keyholder Access</p>
       <select>
-        <option value="Creators">Creators Only</option>
-        <option value="Creators">Creators & Members</option>
+        <option value="Creators">All Keyholders</option>
+        <option value="Creators">Master Keyholders & Members</option>
       </select>
     </div>
   </div>
-  <p data-ng-if="ctlSettings.hasSeeMembersAccess">Keyholders</p>
+  <p data-ng-if="ctlSettings.hasSeeMembersAccess">Keyholders (master)</p>
   <div class="select-box2 _difh" data-ng-if="ctlSettings.hasSeeMembersAccess">
     <div class="add">
       <svg>
