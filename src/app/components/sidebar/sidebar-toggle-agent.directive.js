@@ -36,15 +36,17 @@
                   $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
                 });
               });
-            } else {
-              jElement.on('click', function(event) {
-                if ($scope.toggleAgentSwitch) {
-                  $scope.$apply(function () {
-                    $scope.toggleAgentSwitch = false;
-                  });
-                }
-              });
             }
+            // @NOTE : The else block closes the sidebar on chosing another item
+            // else {
+            //   jElement.on('click', function(event) {
+            //     if ($scope.toggleAgentSwitch) {
+            //       $scope.$apply(function () {
+            //         $scope.toggleAgentSwitch = false;
+            //       });
+            //     }
+            //   });
+            // }
           }
         }
       }

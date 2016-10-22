@@ -454,7 +454,7 @@
         });
       });
     };
-    
+
     PlaceFactory.prototype.save = function (place) {
       var factory = this;
       if (place.isNew()) {
@@ -573,6 +573,35 @@
         });
       }
     };
+
+    PlaceFactory.prototype.create = function (model) {
+      var service = this;
+      var deferred = $q.defer();
+      var params = {
+        'place_id' : model.id,
+        'place_name' : model.name,
+        'parent_id' : model.parentId,
+        'privacy.email' : model.privacy.email,
+        'privacy.locked' : model.privacy.locked,
+        'privacy.receptive' : model.privacy.receptive,
+        'privacy.search' : model.privacy.search,
+        'privacy.add_post' : model.privacy.addPost,
+        'policy.add_member' : model.policy.addMember,
+        'policy.add_place': model.policy.addPlace
+      };
+
+      NstSvcServer.request('place/add', params).then(function (data) {
+        console.log(data);
+        service.get(data.place._id).then(function (place) {
+          deferred.resolve(place);
+        }).catch(deferred.reject);
+      }).catch(function (error) {
+        // TODO: log the error and return a meaningfull error to controller
+        deferred.reject(error);
+      });
+
+      return deferred.promise;
+    }
 
     PlaceFactory.prototype.updatePicture = function (id, uid) {
       var factory = this;

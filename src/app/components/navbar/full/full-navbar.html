@@ -3,16 +3,16 @@
   <div class="nst-content _tr">
     <div class="content">
       <div class="icon-logo"  ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
-          <div class="icon {{ctlFullNavbar.pictureClass}}"></div>
+          <div class="icon reverse {{ctlFullNavbar.pictureClass}}"></div>
       </div>
       <div class="place-logo"  ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureUrl">
           <img class="_tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
       </div>
       <div class="place-info _difv">
-        <cite>{{ctlFullNavbar.title}}</cite>
-        <h3 id="place-address">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
+        <cite class="reverse">{{ctlFullNavbar.title}}</cite>
+        <h3 class="reverse" id="place-address">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
         <p>{{ctlFullNavbar.description}}</p>
-        <div class="navigation" ng-if="!ctlFullNavbar.controls">
+        <div class="navigation reverse-move" ng-if="!ctlFullNavbar.controls">
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
               Messages

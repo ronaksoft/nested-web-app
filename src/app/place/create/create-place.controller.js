@@ -6,9 +6,12 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($scope, $q, $stateParams, $state, NST_DEFAULT, NstSvcPlaceFactory, NstUtility, $uibModal) {
+  function PlaceCreateController($scope, $q, $stateParams, $state, NST_DEFAULT, NstSvcPlaceFactory, NstUtility, $uibModal, NST_PLACE_ACCESS, NstSvcLogger) {
 
     var vm = this;
+
+    var placeIdRegex = /^[A-Za-z][A-Za-z0-9-]*$/;
+
     vm.hasGrandPlace = undefined;
     vm.memberOptions = [
       { key : 'creator', name : 'Master Keyholders Only' },
@@ -38,27 +41,12 @@
     vm.isClosedPlace = null;
     vm.setPlaceOpen = setPlaceOpen;
     vm.setPlaceClosed = setPlaceClosed;
-    vm.setId = _.debounce(setId, 1024);
+    vm.setId = setId;
     vm.setReceivingOff = setReceivingOff;
     vm.setReceivingMembers = setReceivingMembers;
     vm.setReceivingEveryone = setReceivingEveryone;
     vm.save = save;
-
-    vm.changeID = function (placeId) {
-      vm.place.tempId = vm.place.id;
-      // change place ID
-      $uibModal.open({
-        animation: false,
-        size: 'sm',
-        templateUrl: 'app/place/create/change-id.html',
-        scope: $scope
-      }).result.then(function (result) {
-        if(result == 'ok')
-          vm.place.id = vm.place.tempId;
-      }).catch(function (reason) {
-        console.log(reason)
-      });
-    };
+    vm.changeId = changeId;
 
     (function () {
       if (stateParamIsProvided($stateParams.placeId)) {
@@ -75,6 +63,21 @@
       $stateParams.openCreatePlace = false;
     })();
 
+    function changeId(placeId) {
+      vm.place.tempId = vm.place.id;
+      // change place ID
+      $uibModal.open({
+        animation: false,
+        size: 'sm',
+        templateUrl: 'app/place/create/change-id.html',
+        scope: $scope
+      }).result.then(function (result) {
+        if(result == 'ok')
+          vm.place.id = vm.place.tempId;
+      }).catch(function (reason) {
+        console.log(reason)
+      });
+    };
 
     function setPlaceOpen() {
       vm.place.privacy.locked = false;
@@ -121,20 +124,27 @@
       return !!parameter && parameter !== NST_DEFAULT.STATE_PARAM;
     }
 
-    function checkIdAvailability(id) {
-      return NstSvcPlaceFactory.isIdAvailable(id);
-      // return $q.resolve(true);
+    function setId(name) {
+      var newId = generateId(name, vm.place.id);
+      if (newId !== vm.place.id) {
+        vm.place.id = newId;
+      }
+
+      checkIdAvailabilityLazily(vm.place.id);
     }
 
-    function setId(name) {
-      var id = _.kebabCase(name.substr(0,36));
+    var checkIdAvailabilityLazily = _.debounce(checkIdAvailability, 640);
+
+    function checkIdAvailability(id, deferred) {
+      var deferred = deferred || $q.defer();
+
       vm.placeIdChecking = true;
-      checkIdAvailability(id).then(function (available) {
+      NstSvcPlaceFactory.isIdAvailable(id).then(function (available) {
         if (available) {
           vm.place.id = id;
           vm.placeIdIsAvailable = true;
         } else {
-          setId(NstUtility.string.format("{0}-{1}", name, _.random(1,9999)));
+          checkIdAvailability(generateUinqueId(id), deferred);
         }
       }).catch(function (error) {
 
@@ -143,6 +153,25 @@
         vm.placeIdIsAvailable = false;
         vm.placeIdChecking = false;
       });
+
+      return deferred.promise;
+    }
+
+    function generateId(name, previousId) {
+      var camelCaseName = _.camelCase(name);
+
+      // only accepts en numbers and alphabets
+      if (placeIdRegex.test(camelCaseName)) {
+        return _.kebabCase(name.substr(0,36));
+      } else if (!vm.place.id) {
+        return _.random(99999,999999).toString();
+      }
+
+      return previousId;
+    }
+
+    function generateUinqueId(id) {
+      return NstUtility.string.format("{0}-{1}", id, _.random(1,9999));
     }
 
     function save() {
@@ -158,7 +187,8 @@
     }
 
     function createPlace(model) {
-      NstSvcPlaceFactory.save(model).then(function (result) {
+      NstSvcPlaceFactory.create(model).then(function (place) {
+        console.log(place);
         continueToPlaceSettings(place.id);
       }).catch(function (error) {
         NstSvcLogger.error(error);
@@ -170,6 +200,7 @@
     }
 
     function continueToPlaceSettings(placeId) {
+      console.log(placeId);
       $state.go('app.place-settings', { placeId : placeId });
     }
   }

@@ -35,6 +35,7 @@
             <span ng-if="ctlCreate.hasGrandPlace">{{ctlCreate.place.parentId}}.</span>
             {{ctlCreate.place.id.length > 0 ? ctlCreate.place.id : 'marketing-development'}}
             <span>@nested.me</span>
+            <div ng-if="ctlCreate.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
           </div>
         </div>
         <aside>The place will be identify by this unique address. choose wisely you <b>can't</b> change the PlaceID after creating place.</aside>
