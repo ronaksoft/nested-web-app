@@ -14,8 +14,8 @@
     <div data-ng-switch-when="pending_known_guest" class="role-icons-avatar-wait role-icon"></div>
     <div data-ng-switch-default class="role-icons-avatar role-icon"></div>
   </div>
-  <div data-popover-placement="auto left-top" id="active-test" uib-popover-template="'app/pages/places/settings/place-member-item-options.html'">
-  <svg class="svg-hover morphed popover-green"  ng-if="memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess" data-popover-placement="auto left-top" id="active-test" uib-popover-template="'app/pages/places/settings/place-member-item-options.html'">
+  <div class="svg-hover morphed popover-green cursor-pointer margin-r_5 icon-rp _df popover-white-nst-activity-places" data-popover-placement="auto left-top" id="active-test" uib-popover-template="'app/pages/places/settings/place-member-item-options.html'" popover-append-to-body="false"  popover-trigger="focus">
+  <svg ng-if="memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess">
     <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
     <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
   </svg>
