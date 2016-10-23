@@ -13,7 +13,7 @@
   <a class="_df  list-items _aic" href="{{ctlFullNavbar.urls.Leave}}">
     <div class="option-delete-icon"></div>
     <span>Leave</span></a>
-  <a class="_df list-items _aic" href="{{ctlFullNavbar.urls.Add}}" ng-if="ctlFullNavbar.allowedToAddMember">
+  <a class="_df list-items _aic" ng-click="ctlFullNavbar.openAddMemberModal($event);" ng-if="ctlFullNavbar.allowedToAddMember">
     <div class="add-icon"></div>
     <span>Add Member</span></a>
 </div>

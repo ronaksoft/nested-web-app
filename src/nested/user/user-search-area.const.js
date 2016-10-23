@@ -4,8 +4,8 @@
   angular
     .module('ronak.nested.web.user')
     .constant('NST_USER_SEARCH_AREA', {
-      ACCOUNTS: '',
-      ADD : '_add',
-      MENTION : '_mention'
+      ACCOUNTS: '_for_member',
+      ADD : '_for_key_holder',
+      MENTION : '_for_mention'
     })
 })();
