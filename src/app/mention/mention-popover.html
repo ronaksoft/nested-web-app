@@ -1,7 +1,6 @@
 <div class="mention-wrp" ng-controller="MentionsController as ctlMentions">
   <div class="subject">
     <a>Mentions</a>
-    <div>icon</div>
   </div>
   <ul>
     <li ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.postId })" ng-click="ctlMentions.viewPost(mention, $event);">
@@ -21,6 +20,7 @@
       </div>
     </li>
   </ul>
-  <div class="more-mentions">
+  <div class="more-mentions" ng-click="ctlMentions.markAllSeen()">
+    Mark All as Read
   </div>
 </div>
