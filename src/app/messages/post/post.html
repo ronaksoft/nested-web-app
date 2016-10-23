@@ -75,6 +75,15 @@
     </div>
 
     <div id="Comments" class="_df _vat">
+      <div class="recent-container _fw _df _jcc _fn" ng-if="ctlPost.status.commentLoadProgress">
+        <div class="nst-mood-cheerful no-gutter nst-margin-24">
+          <div class="_fw">
+            <div class="nst-loading nst-loading-size-4 _fl"></div>
+            <span>&nbsp;</span>
+            <div class="nst-font-xsmall _fr nst-marginbtm-4">Loading...</div>
+          </div>
+        </div>
+      </div>
       <!-- @FIXME : Use a proper animation to go downward -->
       <div class="comment-msg _difv _fw" nst-scrollbar scroll-animate="false" go-downward="ctlPost.revealNewComment">
         <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">

@@ -25,9 +25,18 @@
     <button ng-click="ctlCreate.step1 = false ;ctlCreate.step2 = true ;" ng-disabled="!ctlCreate.isOpenPlace && !ctlCreate.isClosedPlace">Next</button>
   </div>
   <div class="_difv" ng-if="ctlCreate.step2">
-      <h2 class="_df">Create a Place <span ng-if="ctlCreate.isClosedPlace">&nbsp;(Closed Place)</span><span ng-if="ctlCreate.isOpenPlace">&nbsp;(Open Place)</span></h2>
-      <label for="PlaceName">Place Name</label>
-      <input type="text" id="PlaceName" tabindex="1" ng-model="ctlCreate.place.name" placeholder="Marketing Development" ng-change="ctlCreate.setId(ctlCreate.place.name);">
+
+    <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate>
+      <h2 class="_df">Create a Place
+        <span ng-if="ctlCreate.isClosedPlace">&nbsp;(Closed Place)</span>
+        <span ng-if="ctlCreate.isOpenPlace">&nbsp;(Open Place)</span>
+      </h2>
+      <div class="form-group" ng-class="{ 'has-error' : placeForm.placeName.$invalid && ctlCreate.submitted}">
+        <label for="placeName" ng-if="placeForm.placeName.$valid || !ctlCreate.submitted">Place name</label>
+        <label class="error-message" ng-if="placeForm.placeName.$error.required && ctlCreate.submitted">Place name is required</label>
+        <input name="placeName" class="form-control" type="text" ng-model="ctlCreate.place.name" ng-change="ctlCreate.setId(ctlCreate.place.name);" placeholder="Marketing Development" required/>
+      </div>
+
       <label for="PlaceID">Place ID</label>
       <div class="placeID">
         <div class="field">

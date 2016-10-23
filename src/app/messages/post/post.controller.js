@@ -25,7 +25,6 @@
       limit: 10
     };
     vm.placesWithRemoveAccess = [];
-
     vm.postModel = undefined;
     vm.post = undefined;
     if (postModel) {
@@ -39,11 +38,10 @@
     vm.status = {
       postLoadProgress: false,
       commentRemoveProgress: false,
-      commentLoadProgress: false,
+      commentLoadProgress: true,
       hasMoreComments: false,
       ready: false
     };
-
     vm.urls = {
       reply_all: $state.href('app.compose-reply-all', { postId: vm.postId }),
       reply_sender: $state.href('app.compose-reply-sender', { postId: vm.postId }),
