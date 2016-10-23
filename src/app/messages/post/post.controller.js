@@ -55,6 +55,9 @@
     vm.allowToRemoveComment = allowToRemoveComment;
     vm.removePost = removePost;
     vm.resend = resend;
+    vm.forward = forward;
+    vm.replyAll = replyAll;
+    vm.replySender = replySender;
 
     (function () {
 
@@ -308,6 +311,24 @@
 
           return modal.result;
         }
+    }
+
+    function forward($event) {
+      $event.preventDefault();
+      $uibModalInstance.close();
+      $state.go('app.compose-forward', { postId: vm.postId });
+    }
+
+    function replyAll($event) {
+      $event.preventDefault();
+      $uibModalInstance.close();
+      $state.go('app.compose-reply-all', { postId: vm.postId });
+    }
+
+    function replySender($event) {
+      $event.preventDefault();
+      $uibModalInstance.close();
+      $state.go('app.compose-reply-sender', { postId: vm.postId });
     }
 
     /*****************************
