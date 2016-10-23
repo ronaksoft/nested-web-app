@@ -93,6 +93,7 @@
       }
     }
   }
+
   .select-box2 {
     width: 100%;
     margin-bottom: 12px;
@@ -139,6 +140,14 @@
         opacity: 1;
       }
     }
+  }
+
+  .recive-set.preview {
+    &.select-box-step2.selected{
+      background: none;
+      border:none
+    }
+
   }
   .user-item {
     height: 56px;

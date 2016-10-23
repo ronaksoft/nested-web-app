@@ -6,7 +6,7 @@
   <span>@{{memberCtrl.member.id}}</span>
 </div>
 <div class="role">
-  Keyholder (Master)
+  Keyholder <span ng-if="memberCtrl.member.role === 'creator'">(Master)</span>
   <div data-ng-switch="memberCtrl.member.role" class="_fn">
     <div data-ng-switch-when="creator" class="role-icons-crown role-icon"></div>
     <div data-ng-switch-when="key_holder" class="role-icons-key role-icon"></div>

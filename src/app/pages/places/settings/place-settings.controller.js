@@ -28,6 +28,7 @@
     vm.hasSeeMembersAccess = null;
     vm.isSearchEnabled = true;
 
+
     vm.updatePrivacy = updatePrivacy;
     vm.updatePolicy = updatePolicy;
     vm.setNotification = setNotification;
@@ -44,6 +45,10 @@
     vm.allowedToLeave = allowedToLeave;
     vm.hasAnyControlOverHere = hasAnyControlOverHere;
     vm.setReceptive = setReceptive;
+    vm.setReceivingEveryone = setReceivingEveryone;
+    vm.setReceivingMembers = setReceivingMembers;
+    vm.setReceivingOff = setReceivingOff;
+
 
     (function() {
       $log.debug('Initializing of PlaceSettingsController just started...');
@@ -332,9 +337,7 @@
     function updatePolicy(name, value) {
       if (name && value &&
         vm.place.policy[name] !== value) {
-        vm.place.policy[name] = value;
-      }else{
-        return;
+        vm.place.policy[name] = value
       }
       update('policy', vm.place.policy);
     }
@@ -424,6 +427,31 @@
         break;
       }
 
+      update('privacy', vm.place.privacy);
+    }
+
+
+    function setReceivingOff() {
+      vm.receivingMode = 'off';
+
+      vm.place.privacy.receptive = 'off';
+      vm.place.privacy.search = false;
+      update('privacy', vm.place.privacy);
+    }
+
+    function setReceivingMembers() {
+      vm.receivingMode = 'members';
+
+      vm.place.privacy.receptive = 'internal';
+      vm.place.privacy.addPost = 'everyone';
+      update('privacy', vm.place.privacy);
+    }
+
+    function setReceivingEveryone() {
+      vm.receivingMode = 'everyone';
+
+      vm.place.privacy.receptive = 'external';
+      vm.place.privacy.addPost = 'everyone';
       update('privacy', vm.place.privacy);
     }
 

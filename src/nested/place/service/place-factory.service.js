@@ -552,6 +552,7 @@
           // 'privacy.email': place.getPrivacy().getEmail(),
           'privacy.search': place.getPrivacy().getSearch(),
           'policy.add_member': place.getPolicy().getAddMember(),
+          'policy.add_post': place.getPolicy().getAddPost(),
           'policy.add_place': place.getPolicy().getAddPlace(),
         };
 
@@ -591,7 +592,6 @@
       };
 
       NstSvcServer.request('place/add', params).then(function (data) {
-        console.log(data);
         service.get(data.place._id).then(function (place) {
           deferred.resolve(place);
         }).catch(deferred.reject);
@@ -1379,6 +1379,7 @@
         place.setPolicy({
           add_place: placeData.policy.add_place,
           add_member: placeData.policy.add_member,
+          add_post: placeData.policy.add_post
         });
       }
 

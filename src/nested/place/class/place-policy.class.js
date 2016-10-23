@@ -28,6 +28,13 @@
        */
       this.add_member = NST_PLACE_POLICY.CREATOR;
 
+      /**
+       * Who can send post in a place
+       *
+       * @type {'everyone' | 'creators'}
+       */
+      this.add_post = NST_PLACE_POLICY.CREATOR;
+
       NstModel.call(this);
 
       if (data) {

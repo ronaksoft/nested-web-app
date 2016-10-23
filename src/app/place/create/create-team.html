@@ -7,7 +7,7 @@
         <img src="/assets/icons/close-place.png">
       </div>
       <div class="desc">
-        <h3>Close Place</h3>
+        <h3>Closed Place</h3>
         <p>Only Keyholders can view place contents.</p>
         <aside>you can invite Keyholders from your Members after creating the place.</aside>
       </div>
@@ -25,7 +25,7 @@
     <button ng-click="ctlCreate.step1 = false ;ctlCreate.step2 = true ;" ng-disabled="!ctlCreate.isOpenPlace && !ctlCreate.isClosedPlace">Next</button>
   </div>
   <div class="_difv" ng-if="ctlCreate.step2">
-      <h2 class="_df">Create a Place <span ng-if="ctlCreate.isClosedPlace">&nbsp;(Close Place)</span><span ng-if="ctlCreate.isOpenPlace">&nbsp;(Open Place)</span></h2>
+      <h2 class="_df">Create a Place <span ng-if="ctlCreate.isClosedPlace">&nbsp;(Closed Place)</span><span ng-if="ctlCreate.isOpenPlace">&nbsp;(Open Place)</span></h2>
       <label for="PlaceName">Place Name</label>
       <input type="text" id="PlaceName" tabindex="1" ng-model="ctlCreate.place.name" placeholder="Marketing Development" ng-change="ctlCreate.setId(ctlCreate.place.name);">
       <label for="PlaceID">Place ID</label>
