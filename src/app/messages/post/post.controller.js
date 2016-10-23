@@ -9,8 +9,8 @@
   function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
                           _, toastr, moment,
                           NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS,
-                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility,
-                          NstTinyComment, NstVmUser, postModel, postId) {
+                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger,
+                          NstTinyComment, NstVmUser, selectedPostId) {
     var vm = this;
 
     /*****************************
@@ -24,23 +24,19 @@
       date: Date.now(),
       limit: 10
     };
+    vm.hasMoreComments = null;
+    vm.hasRemoveAccess = null;
     vm.placesWithRemoveAccess = [];
-    vm.postModel = undefined;
-    vm.post = undefined;
-    if (postModel) {
-      vm.post = postModel;
-      if (vm.post.comments) {
-        vm.comments = vm.post.comments;
-      }
-    }
-    vm.postId = postId || $stateParams.postId;
+    vm.post = null;
+    vm.postId = selectedPostId || $stateParams.postId;
 
     vm.status = {
-      postLoadProgress: false,
-      commentRemoveProgress: false,
-      commentLoadProgress: true,
-      hasMoreComments: false,
-      ready: false
+      postLoadProgress: null,
+      commentRemoveProgress: null,
+      commentLoadProgress: null,
+      markAsReadProgress : null,
+      postIsRed : null,
+      ready: null
     };
     vm.urls = {
       reply_all: $state.href('app.compose-reply-all', { postId: vm.postId }),
@@ -55,27 +51,42 @@
 
     vm.sendComment = sendComment;
     vm.removeComment = removeComment;
-    vm.loadMoreComments = loadComments;
+    vm.loadMoreComments = loadMoreComments;
     vm.allowToRemoveComment = allowToRemoveComment;
     vm.removePost = removePost;
-    vm.hasRemoveAccess = hasRemoveAccess;
     vm.resend = resend;
 
-    function loadComments() {
-      vm.commentSettings.date = getDateOfOldestComment(vm.postModel);
-      var commentCount = vm.comments.length;
+    (function () {
 
-      return reqGetComments(vm.postModel, vm.commentSettings).then(function (comments) {
-        vm.comments = reorderComments(_.uniqBy(mapComments(comments).concat(vm.comments), 'id'));
-        if (commentCount == 0){
-            vm.revealNewComment = true;
-        }
-        // vm.scrolling = true;
+      loadPost(vm.postId).then(function (result) {
+        vm.post = mapPost(result.post);
+        vm.hasRemoveAccess = result.hasRemoveAccess;
+        vm.placesWithRemoveAccess = result.placesWithRemoveAccess;
+        vm.hasMoreComments = result.hasMoreComments;
+
+        return loadComments(result.post.id, vm.commentSettings);
+      }).then(function (result) {
+        vm.comments = mapComments(result.comments);
+        vm.hasMoreComments = vm.hasMoreComments || result.maybeMoreComments;
+
+        return isPostRead(vm.post) ? $q.resolve(true) : markPostAsRead(vm.postId);
+      }).then(function (result) {
+        vm.status.ready = true;
+        vm.revealNewComment = true;
+
+        NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
+          detail: {
+            postId : vm.post.id,
+            comments : vm.comments
+          }
+        }));
       }).catch(function (error) {
-        // TODO: create a service that handles errors
-        // and knows what to do when an error occurs
+        NstSvcLogger.error(error);
       });
-    }
+
+    })();
+
+
 
     /**
      * sendComment - add the comment to the list of the post comments
@@ -106,7 +117,7 @@
 
 
       vm.nextComment = "";
-      addComment(vm.postModel, body).then(function(comment) {
+      addComment(vm.post.id, body).then(function(comment) {
         // TODO: notify
         markCommentSent(temp.id, comment);
         vm.revealNewComment = true;
@@ -172,15 +183,6 @@
       });
     }
 
-    /**
-     * hasRemoveAccess - the post has any place with delete access
-     *
-     * @param  {NstPost} post  current post
-     * @return {type}             true if there is any place with delete access
-     */
-    function hasRemoveAccess(post) {
-      return post.haveAnyPlaceWithDeleteAccess();
-    }
 
     /**
      * removePost - remove the post from the places that the user selects
@@ -312,33 +314,6 @@
      *****  Controller Logic  ****
      *****************************/
 
-    (function () {
-      reqGetPost(vm.postId).then(function (post) {
-        vm.postModel = post;
-        vm.post = mapPost(vm.postModel);
-        // if (vm.post.comments) {
-        //   vm.comments = vm.post.comments;
-        // }
-
-        return NstSvcPlaceFactory.filterPlacesByRemovePostAccess(post.places);
-      }).then(function (placesWithRemoveAccess) {
-        vm.placesWithRemoveAccess = placesWithRemoveAccess;
-
-        return loadComments();
-      }).then(function () {
-        vm.status.ready = true;
-        NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
-          detail: {
-            postId : vm.post.id,
-            comments : vm.comments
-          }
-        }));
-        $timeout(function () {
-          vm.revealNewComment = true;
-        });
-      });
-    })();
-
     $scope.unscrolled = true;
     vm.checkScroll = function(event) {
       var element = event.target;
@@ -380,51 +355,85 @@
       });
     }
 
-    function reqGetPost(id) {
+    function loadPost(id) {
+      var deferred = $q.defer();
+      var result = {
+        post : null,
+        placesWithRemoveAccess : [],
+        hasRemoveAccess : null,
+        hasMoreComments : null
+      };
       vm.status.postLoadProgress = true;
 
-      return NstSvcLoader.inject(NstSvcPostFactory.get(id)).then(function (post) {
+      NstSvcPostFactory.get(id).then(function (post) {
+        result.post = post;
+        result.hasMoreComments = post.counters.comments > vm.commentSettings.limit;
 
+        return NstSvcPlaceFactory.filterPlacesByRemovePostAccess(post.places);
+      }).then(function (placesWithRemoveAccess) {
+        result.placesWithRemoveAccess = placesWithRemoveAccess;
+        result.hasRemoveAccess = placesWithRemoveAccess && placesWithRemoveAccess.length > 0;
 
-        NstSvcPostFactory.read([id]);
+        deferred.resolve(result);
+      }).catch(deferred.reject).finally(function () {
         vm.status.postLoadProgress = false;
-
-        return $q(function (res) {
-          res(post);
-        });
-      }).catch(function (error) {
-        vm.status.postLoadProgress = false;
-
-        return $q(function (res, rej) {
-          rej(error);
-        });
       });
+
+      return deferred.promise;
     }
 
-    function reqGetComments(post, settings) {
+    function markPostAsRead(id) {
+      var deferred = $q.defer();
+
+      vm.status.markAsReadProgress = true;
+      NstSvcPostFactory.read([id]).then(function (result) {
+        vm.status.postIsRed = true;
+        deferred.resolve(true);
+      }).catch(deferred.reject).finally(function () {
+        vm.status.markAsReadProgress = false;
+      });
+
+      return deferred.promise;
+    }
+
+    function isPostRead(post) {
+      return post.isRead;
+    }
+
+    function loadComments(postId, settings) {
+      var deferred = $q.defer();
+      var result = {
+        comments : [],
+        maybeMoreComments : null
+      };
       vm.status.commentLoadProgress = true;
+      NstSvcCommentFactory.retrieveComments(postId, settings).then(function (comments) {
+        result.comments = comments;
+        result.maybeMoreComments = (comments.length === settings.limit);
 
-      return NstSvcLoader.inject(NstSvcCommentFactory.retrieveComments(post, settings)).then(function (comments) {
+        deferred.resolve(result);
+      }).catch(deferred.reject).finally(function () {
         vm.status.commentLoadProgress = false;
-        // the conditions says maybe there are more comments that the limit
-        vm.status.hasMoreComments = comments.length >= settings.limit;
+      });
 
-        return $q(function (res) {
-          res(comments);
-        });
+      return deferred.promise;
+    }
+
+    function loadMoreComments() {
+      vm.commentSettings.date = getDateOfOldestComment(vm.comments);
+      loadComments(vm.post.id, vm.commentSettings).then(function (result) {
+        var olderComments = mapComments(result.comments);
+        vm.comments.unshift.apply(vm.comments, olderComments);
+        vm.hasMoreComments = result.maybeMoreComments;
       }).catch(function (error) {
-        vm.status.commentLoadProgress = false;
-
-        return $q(function (res, rej) {
-          rej(error);
-        });
+        NstSvcLogger.error(error);
       });
     }
 
     function resend(model) {
       model.status = NST_COMMENT_SEND_STATUS.PROGRESS;
       model.isTemp = true;
-      addComment(vm.postModel, model.body).then(function(comment) {
+      addComment(vm.post, model.body).then(function(comment) {
         // TODO: notify
         markCommentSent(model.id, comment);
         event.currentTarget.value = '';
@@ -495,9 +504,6 @@
      *****   Other Methods    ****
      *****************************/
 
-     function hasRemoveAccess () {
-       return vm.placesWithRemoveAccess && vm.placesWithRemoveAccess.length > 0;
-     }
 
     /**
      * sendKeyIsPressed - check whether the pressed key is Enter or not
@@ -521,12 +527,12 @@
       return cm.trim();
     }
 
-    function findOldestComment(post) {
-      return _.first(_.orderBy(post.comments, 'date'));
+    function findOldestComment(comments) {
+      return _.first(_.orderBy(comments, 'date'));
     }
 
-    function getDateOfOldestComment(post) {
-      var oldest = findOldestComment(post);
+    function getDateOfOldestComment(comments) {
+      var oldest = findOldestComment(comments);
       var date = null;
       if (oldest) {
         date = oldest.date;

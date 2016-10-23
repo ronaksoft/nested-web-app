@@ -591,7 +591,6 @@
       };
 
       NstSvcServer.request('place/add', params).then(function (data) {
-        console.log(data);
         service.get(data.place._id).then(function (place) {
           deferred.resolve(place);
         }).catch(deferred.reject);
