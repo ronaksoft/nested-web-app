@@ -43,25 +43,53 @@
         <label for="pub-res"><b>OFF</b></label>
       </div>
     </div>
+    <div class="select-box-step2" ng-click="ctlSettings.setReceivingEveryone();"
+         ng-if="ctlSettings.place.privacy.receptive === 'external' || ctlSettings.changeReceptiveMode"
+         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external'}">
+      <h3>Everyone <i>(also email)</i>
+        <a ng-click="ctlSettings.changeReceptiveMode = true"
+           ng-if="!ctlSettings.changeReceptiveMode"
+           class="change-button"> change</a>
+      </h3>
+      <p>Everyone can send their messages to the place.</p>
+      <aside>
+        <p>Show in the public search results?</p>
+        <div class="place-switch">
+          <input type="checkbox" name="checkbox_id" id="res" value="value"
+                 data-ng-checked="ctlSettings.isSearchEnabled"
+                 data-ng-model="ctlSettings.place.privacy.search"
+                 ng-change="ctlSettings.updatePrivacy()">
+          <label for="res"><b>ON</b>
+            <div class="circle"></div>
+          </label>
+          <label for="res"><b>OFF</b></label>
+        </div>
+      </aside>
+    </div>
   </div>
   <div class="_difh _fw">
     <div class="_fw _difv">
       <p>Create Subplace Access</p>
-      <select>
-        <option value="Master Keyholders Only">Master Keyholders Only</option>
-        <option value="Master Keyholders & Members">Master Keyholders & Members</option>
+      <select data-ng-disabled="ctlSettings.place.privacy.receptive === 'off' "
+              data-ng-model="ctlSettings.place.policy.add_place"
+              data-ng-change="ctlSettings.updatePolicy()">
+        <option value="creators">Master Keyholders Only</option>
+        <option value="everyone">Master Keyholders & Members</option>
       </select>
     </div>
     <div class="_fw _difv">
       <p>Add Keyholder Access</p>
-      <select>
-        <option value="All Keyholders">All Keyholders</option>
-        <option value="Master Keyholders & Members">Master Keyholders & Members</option>
+      <select data-ng-model="ctlSettings.place.policy.add_member"
+              data-ng-change="ctlSettings.updatePolicy()">
+        <option value="everyone">All Keyholders</option>
+        <option value="creators">Master Keyholders & Members</option>
       </select>
     </div>
   </div>
   <p data-ng-if="ctlSettings.hasSeeMembersAccess">Keyholders</p>
-  <div class="select-box2 _difh" data-ng-if="ctlSettings.hasSeeMembersAccess">
+  <div class="select-box2 _difh"
+       data-ng-if="ctlSettings.hasSeeMembersAccess"
+       data-ng-click="ctlSettings.addMember()">
     <div class="add">
       <svg>
         <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>

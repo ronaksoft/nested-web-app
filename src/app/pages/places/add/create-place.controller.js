@@ -292,6 +292,7 @@
               place.getPrivacy().setSearch(vm.model.privacy.search);
               place.getPolicy().setAddPlace(vm.model.policy.add_place);
               place.getPolicy().setAddMember(vm.model.policy.add_member);
+              place.getPolicy().setAddPost(vm.model.policy.add_post);
 
               return reqCreatePlace(place).catch(function (fault) {
                 var deferred = $q.defer();

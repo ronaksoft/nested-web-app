@@ -1,12 +1,13 @@
 <div class="logo">
-  <img initials="memberCtrl.member.name" data-url="memberCtrl.member.avatar" data-width="48" data-height="48" data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
+  <img initials="memberCtrl.member.name" data-url="memberCtrl.member.avatar" data-width="48" data-height="48"
+       data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
 </div>
 <div class="name">
   <p>{{memberCtrl.member.name}}</p>
   <span>@{{memberCtrl.member.id}}</span>
 </div>
 <div class="role">
-  <span>Keyholder</span>
+  Keyholder <span ng-if="memberCtrl.member.role === 'creator'">(Master)</span>
   <div data-ng-switch="memberCtrl.member.role" class="_fn">
     <div data-ng-switch-when="creator" class="role-icons-crown role-icon"></div>
     <div data-ng-switch-when="key_holder" class="role-icons-key role-icon"></div>
