@@ -27,7 +27,7 @@
       </div>
       <div class="panel-action _fn">
         <ul class="list-inline _df">
-          <li ng-if="ctlPost.hasRemoveAccess()">
+          <li ng-if="ctlPost.hasRemoveAccess">
             <a href="" ng-click="ctlPost.removePost(ctlPost.post);">
               <span class="nst-mood-solid _dib">Delete</span>
               <span class="action-button-post-delete _dib"></span>
@@ -86,7 +86,7 @@
       </div>
       <!-- @FIXME : Use a proper animation to go downward -->
       <div class="comment-msg _difv _fw" nst-scrollbar scroll-animate="false" go-downward="ctlPost.revealNewComment">
-        <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
+        <div data-ng-if="ctlPost.hasMoreComments && !ctlPost.status.commentLoadProgress" class="_fw text-center">
           <a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
         </div>
         <div data-ng-repeat="comment in ctlPost.comments" class="_fw _difh NewComment">
@@ -114,7 +114,7 @@
       <div class="comment-input _difh" ng-show="commentInput">
         <div class="_difv _pr _fn">
           <div class="user-avatar-32">
-          <img initials="ctlPost.user.name" data-url="ctlPost.user.avatar" data-width="32" data-height="32"
+          <img initials="ctlPost.user.name" ng-src="ctlPost.user.avatar" data-width="32" data-height="32"
                data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
           </div>
           <span data-ng-show="512 - ctlPost.nextComment.length < 30"

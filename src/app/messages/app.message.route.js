@@ -25,7 +25,7 @@
             controllerAs: 'ctlPost',
             size: 'mlg',
             resolve: {
-              postId: function () {
+              selectedPostId: function () {
                 return $stateParams.postId;
               },
               postModel : function () {

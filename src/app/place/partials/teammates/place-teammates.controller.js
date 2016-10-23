@@ -98,7 +98,6 @@
             return role;
           },
           currentPlace: function() {
-            console.log(vm.grandPlace);
             return vm.grandPlace;
           }
         }
