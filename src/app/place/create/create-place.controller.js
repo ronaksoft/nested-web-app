@@ -172,7 +172,13 @@
       return NstUtility.string.format("{0}-{1}", id, _.random(1,9999));
     }
 
-    function save() {
+    function save(isValid) {
+      vm.submitted = true;
+
+      if (!isValid) {
+        return;
+      }
+
       if (vm.hasGrandPlace) {
         hasAccessToAdd(vm.place.parentId).then(function (result) {
           createPlace(vm.place);
