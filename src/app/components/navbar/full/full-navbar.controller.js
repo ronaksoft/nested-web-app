@@ -6,7 +6,11 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, $uibModal, NstSvcAuth, $state, NstSearchQuery, NST_DEFAULT,NstSvcPlaceFactory, NST_PLACE_FACTORY_EVENT) {
+  function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
+    toastr, NstUtility,
+    NstSvcAuth, NstSvcLogger,
+    NstSearchQuery, NstSvcPlaceFactory,
+    NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -26,6 +30,7 @@
     vm.toggleBookmark = toggleBookmark;
     vm.toggleNotification = toggleNotification;
     vm.openCreateSubplaceModal = openCreateSubplaceModal;
+    vm.openAddMemberModal = openAddMemberModal;
 
 
     vm.srch = function srch(el) {
@@ -75,9 +80,76 @@
 
     function openCreateSubplaceModal ($event) {
       $event.preventDefault();
-      console.log('prevented');
       $state.go('app.place-create', { placeId : getPlaceId() } , { notify : false });
     };
+
+    function openAddMemberModal($event) {
+      $event.preventDefault();
+      NstSvcPlaceFactory.get(vm.getPlaceId()).then(function (place) {
+        vm.place = place;
+        var role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+        var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/pages/places/settings/place-add-member.html',
+          controller: 'PlaceAddMemberController',
+          controllerAs: 'addMemberCtrl',
+          size: 'sm',
+          resolve: {
+            chosenRole: function() {
+              return role;
+            },
+            currentPlace: function() {
+              return vm.place;
+            }
+          }
+        });
+
+        modal.result.then(function(selectedUsers) {
+          $q.all(_.map(selectedUsers, function(user) {
+
+            return $q(function(resolve, reject) {
+              NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
+                toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+                NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+                resolve({
+                  user: user,
+                  role: role,
+                  invitationId: invitationId
+                });
+              }).catch(function(error) {
+                // FIXME: Why cannot catch the error!
+                if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
+                  toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: null,
+                    duplicate: true
+                  });
+                } else {
+                  reject(error);
+                }
+              });
+            });
+
+          })).then(function(values) {
+            _.forEach(values, function(result) {
+              if (!result.duplicate) {
+                if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
+                  // vm.teammates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
+                }
+              }
+            });
+          }).catch(function(error) {
+            NstSvcLogger.error(error);
+          });
+        });
+      }).catch(function (error) {
+        NstSvcLogger.error(error);
+      });
+
+    }
 
     function getPlaceId() {
       return vm.placeId;
@@ -180,7 +252,16 @@
           NstSvcPlaceFactory.getNotificationOption(vm.placeId)
             .then(function (status) {
               vm.notificationStatus = status;
-            })
+            });
+
+          $q.all([
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE)]).then(function (resultSet) {
+              vm.allowedToAddMember = resultSet[0];
+              vm.allowedToAddPlace = resultSet[1];
+            }).catch(function (error) {
+              NstSvcLogger.error(error);
+            });
         }
       }
     );
