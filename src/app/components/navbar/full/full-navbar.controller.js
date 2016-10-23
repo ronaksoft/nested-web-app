@@ -6,7 +6,10 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, $uibModal, NstSvcAuth, $state, NstSearchQuery, NST_DEFAULT,NstSvcPlaceFactory, NST_PLACE_FACTORY_EVENT) {
+  function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
+    NstSvcAuth, NstSvcLogger,
+    NstSearchQuery, NstSvcPlaceFactory,
+    NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -180,7 +183,17 @@
           NstSvcPlaceFactory.getNotificationOption(vm.placeId)
             .then(function (status) {
               vm.notificationStatus = status;
-            })
+            });
+
+          $q.all([
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE)]).then(function (resultSet) {
+              console.log('resolve', resultSet);
+              vm.allowedToAddMember = resultSet[0];
+              vm.allowedToAddPlace = resultSet[1];
+            }).catch(function (error) {
+              NstSvcLogger.error(error);
+            });
         }
       }
     );
