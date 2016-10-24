@@ -51,25 +51,21 @@
 
       vm.isSendingComment = true;
 
-      NstSvcPostFactory.get(vm.post.id).then(function(post) {
-        NstSvcCommentFactory.addComment(post, body).then(function (comment) {
-          if (!_.some(vm.post.comments, { id : comment.id })) {
-            vm.commentBoardLimit++;
-            vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
-          }
+      NstSvcCommentFactory.addComment(vm.post.id, body).then(function (comment) {
+        if (!_.some(vm.post.comments, { id : comment.id })) {
+          vm.commentBoardLimit++;
+          vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
+        }
 
-          e.currentTarget.value = '';
-          vm.isSendingComment = false;
-          $timeout(function () {
-            e.currentTarget.focus();
-          },10)
-        }).catch(function (error) {
-          $log.debug(error);
-        });
-      }).catch(function (error) {
+        e.currentTarget.value = '';
         vm.isSendingComment = false;
+        $timeout(function () {
+          e.currentTarget.focus();
+        },10)
+      }).catch(function (error) {
         $log.debug(error);
       });
+
       return false;
     }
 
@@ -102,7 +98,6 @@
       vm.commentBoardLimit = commentBoardMax;
       vm.commentBoardIsRolled = false;
     }
-
 
     function findOldestComment(post) {
       return _.first(_.orderBy(post.comments, 'date'));
