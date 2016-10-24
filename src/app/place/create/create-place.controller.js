@@ -36,6 +36,7 @@
       notification: false
     };
     vm.placeIdIsAvailable = null;
+    vm.hasRandomId = null;
     vm.placeIdChecking = null;
     vm.isOpenPlace = null;
     vm.isClosedPlace = null;
@@ -127,9 +128,9 @@
       var newId = generateId(name, vm.place.id);
       if (newId !== vm.place.id) {
         vm.place.id = newId;
+        vm.placeIdIsAvailable = false;
+        checkIdAvailabilityLazily(vm.place.id);
       }
-
-      checkIdAvailabilityLazily(vm.place.id);
     }
 
     var checkIdAvailabilityLazily = _.debounce(checkIdAvailability, 640);
@@ -161,16 +162,18 @@
 
       // only accepts en numbers and alphabets
       if (placeIdRegex.test(camelCaseName)) {
+        vm.hasRandomId = false;
         return _.kebabCase(name.substr(0,36));
-      } else if (!vm.place.id) {
-        return _.random(99999,999999).toString();
+      } else if (!vm.hasRandomId) {
+        vm.hasRandomId = true;
+        return generateUinqueId("place");
       }
 
       return previousId;
     }
 
     function generateUinqueId(id) {
-      return NstUtility.string.format("{0}-{1}", id, _.random(1,9999));
+      return NstUtility.string.format("{0}-{1}", id, _.padStart(_.random(999,9999), 5, "0"));
     }
 
     function save(isValid) {
