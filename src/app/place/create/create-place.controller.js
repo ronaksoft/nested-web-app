@@ -173,7 +173,7 @@
     }
 
     function generateUinqueId(id) {
-      return NstUtility.string.format("{0}-{1}", id, _.padStart(_.random(999,9999), 5, "0"));
+      return NstUtility.string.format("{0}-{1}", id, _.padStart(_.random(99,9999), 4, "0"));
     }
 
     function save(isValid) {
