@@ -32,7 +32,7 @@
         <span ng-if="ctlCreate.isOpenPlace">&nbsp;(Open Place)</span>
       </h2>
       <div class="form-group" ng-class="{ 'has-error' : placeForm.placeName.$invalid && ctlCreate.submitted}">
-        <label for="placeName" ng-if="placeForm.placeName.$valid || !ctlCreate.submitted">Place name</label>
+        <labe ng-if="placeForm.placeName.$valid || !ctlCreate.submitted">Place name</labe>
         <label class="error-message" ng-if="placeForm.placeName.$error.required && ctlCreate.submitted">Place name is required</label>
         <input name="placeName" class="form-control" type="text" ng-model="ctlCreate.place.name" ng-change="ctlCreate.setId(ctlCreate.place.name);" placeholder="Marketing Development" required/>
       </div>

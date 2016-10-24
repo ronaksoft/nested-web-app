@@ -8,9 +8,9 @@
   /** @ngInject */
   function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
     toastr, NstUtility,
-    NstSvcAuth, NstSvcLogger,
-    NstSearchQuery, NstSvcPlaceFactory,
-    NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR) {
+                                NstSvcAuth, NstSvcLogger,
+                                NstSearchQuery, NstSvcPlaceFactory,
+                                NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -32,6 +32,7 @@
     vm.openCreateSubplaceModal = openCreateSubplaceModal;
     vm.openAddMemberModal = openAddMemberModal;
 
+    vm.confirmToLeave = confirmToLeave;
 
     vm.srch = function srch(el) {
       var ele = $('#' + el);
@@ -270,6 +271,37 @@
       $rootScope.topNavOpen = newValue;
     });
 
+
+    function confirmToLeave() {
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/pages/places/settings/place-leave-confirm.html',
+        size: 'sm',
+        controller : 'PlaceLeaveConfirmController',
+        controllerAs : 'leaveCtrl',
+        resolve : {
+          selectedPlace: function () {
+            return vm.title;
+          }
+        }
+      }).result.then(function() {
+        leave();
+      });
+    }
+
+    function leave() {
+      NstSvcPlaceFactory.removeMember(vm.getPlaceId(), NstSvcAuth.user.id, true).then(function(result) {
+        $state.go(NST_DEFAULT.STATE);
+      }).catch(function(error) {
+        if (error instanceof NstPlaceOneCreatorLeftError){
+          toastr.error('You are the only creator of the place!');
+        } else if (error instanceof NstPlaceCreatorOfParentError) {
+          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are creator of the top-level place ({0}).', vm.place.parent.name));
+        }
+        $log.debug(error);
+      });
+
+    }
 
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {

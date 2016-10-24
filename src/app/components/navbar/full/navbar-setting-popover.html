@@ -10,7 +10,7 @@
      ng-click="ctlFullNavbar.openCreateSubplaceModal($event)" ng-if="ctlFullNavbar.allowedToAddPlace">
     <div class="add-icon"></div>
     <span>Add Subplace</span></a>
-  <a class="_df  list-items _aic" href="{{ctlFullNavbar.urls.Leave}}">
+  <a class="_df  list-items _aic" ng-click="ctlFullNavbar.confirmToLeave()">
     <div class="option-delete-icon"></div>
     <span>Leave</span></a>
   <a class="_df list-items _aic" ng-click="ctlFullNavbar.openAddMemberModal($event);" ng-if="ctlFullNavbar.allowedToAddMember">
