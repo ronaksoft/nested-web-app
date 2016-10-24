@@ -16,6 +16,7 @@
       scope: {
         controls: '=',
         page: '=',
+        showPlaceId : '=',
         pictureUrl : '@navPictureUrl',
         pictureClass : '@navPictureClass',
         title : '@navTitle',
