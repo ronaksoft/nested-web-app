@@ -350,6 +350,7 @@
           if (place && place.id) {
             vm.currentPlace = place;
             vm.currentPlaceLoaded = true;
+            vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
           }
           defer.resolve(vm.currentPlace);
         }).catch(function (error) {

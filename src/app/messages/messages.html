@@ -1,5 +1,5 @@
 <nst-navbar data-ng-model="navbar"
-            place-id="{{::ctlMessages.currentPlace.id}}"
+            place-id="{{ctlMessages.showPlaceId ? ctlMessages.currentPlace.id : ''}}"
             nav-title="{{ctlMessages.currentPlace.id?ctlMessages.currentPlace.name: ctlMessages.navTitle}}"
             nav-picture-url="{{ctlMessages.currentPlace.id ? ctlMessages.currentPlace.picture.thumbnails.x64.url.view : '' }}"
             nav-picture-class="{{ !ctlMessages.currentPlace.id? ctlMessages.navIconClass : '' }}"
