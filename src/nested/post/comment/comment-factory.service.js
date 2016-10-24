@@ -8,7 +8,7 @@
   function NstSvcCommentFactory($q, $log,
     _,
     NST_COMMENT_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentStorage,
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore,
     NstFactoryEventData, NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
