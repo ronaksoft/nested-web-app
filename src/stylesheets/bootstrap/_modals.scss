@@ -61,6 +61,8 @@
 }
 
 .modal-buttons {
+  display: inline-flex;
+  flex-direction: row;
   justify-content: flex-end;
   height: 32px;
   font-weight:400;
