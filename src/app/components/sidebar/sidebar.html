@@ -10,7 +10,7 @@
         </a>
       </div>
       <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}"
-         data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true"
+         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
          data-tooltip-placement="right auto"
          nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.compose}}">
         <div>
@@ -26,7 +26,7 @@
       </a>
       <div class="side-menu">
         <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}"
-           data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}"
+           data-uib-tooltip="Bookmarks" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.bookmarks}}">
           <span>
             <svg>
@@ -35,7 +35,7 @@
           </span>
           <span>Favorite Places Feed</span>
         </a>
-        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
+        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
@@ -43,7 +43,7 @@
           </span>
           <span>All Places Feed</span>
         </a>
-        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.sent}}">
+        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.sent}}">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
@@ -74,7 +74,7 @@
               data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
 
       </ul>
-      <a class="create-place _fw detailed" ui-sref="app.place-create" ng-click="ctlSidebar.openCreatePlaceModal($event);" data-uib-tooltip="Create New Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+      <a class="create-place _fw detailed" ui-sref="app.place-create" ng-click="ctlSidebar.openCreatePlaceModal($event);" data-uib-tooltip="Create New Place" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <span>
           <svg id="addIcon" morph-svg first-id="sq40dashed" second-id="sq40">
             <use xlink:href="/assets/icons/nst-add40.svg#sq40"></use>
@@ -94,7 +94,11 @@
          data-popover-placement="auto right-top"
          data-popover-class="mentions"
          data-popover-append-to-body="false"
-         data-popover-trigger="click">
+         data-popover-trigger="click"
+         data-uib-tooltip="Mentions"
+         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
+         data-tooltip-append-to-body="true"
+         data-tooltip-placement="right auto">
         <div>
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#W_"></use>
@@ -105,7 +109,10 @@
           Mention
         </div>
       </a>
-      <a class="detailed" href="#/profile" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode">
+      <a class="detailed" href="#/profile" nst-sidebar-toggle-agent
+         toggle-agent-switch="ctlSidebar.isInDetailMode" data-uib-tooltip="Profile & Settings"
+         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
+         data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
@@ -113,7 +120,9 @@
         </div>
         <div>Profile & Settings</div>
       </a>
-      <a class="detailed" href="#/signout" >
+      <a class="detailed" href="#/signout"  data-uib-tooltip="Log out"
+         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
+         data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>
