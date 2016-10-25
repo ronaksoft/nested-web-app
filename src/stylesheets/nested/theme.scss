@@ -134,9 +134,22 @@ hr {
 .svg-hover {
   transition: all .2s;
   use:first-child{
+    display: flex;
+  }
+  use:last-child{
     display: none;
   }
-  &:hover{
+  &:hover,
+  &.morphed{
+    fill: $color-sense ;
+    use:first-child{
+      display: none;
+    }
+    use:last-child{
+      display: flex;
+    }
+  }
+  &.morphed:hover{
     fill: $color-sense ;
     use:first-child{
       display: flex;
@@ -144,10 +157,6 @@ hr {
     use:last-child{
       display: none;
     }
-  }
-  &.morphed:hover use:first-child,
-  &.active use:first-child{
-    display: flex!important;
   }
 
 }

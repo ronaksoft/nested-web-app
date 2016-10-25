@@ -1,7 +1,7 @@
 <nst-mini-navbar></nst-mini-navbar>
 <div class="nst-navbar">
   <div class="nst-content _tr">
-    <div class="content">
+    <div class="content _pr">
       <div class="icon-logo"  ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
           <div class="icon reverse {{ctlFullNavbar.pictureClass}}"></div>
       </div>
@@ -82,23 +82,23 @@
           </nav>
          </div>
 
-         <div class="nav-access" ng-if="ctlFullNavbar.hasPlace()">
-           <div class="cursor-pointer margin-r_5 icon-rp _df popover-white-nst-activity-places" popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"
-                popover-popup-close-delay="100" popover-trigger="focus" popover-placement="auto bottom-right">
-           <svg  class="svg-hover morphed">
-             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
-             <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
-           </svg>
-           </div>
-           <svg ng-click="ctlFullNavbar.toggleBookmark()" ng-class="{active : ctlFullNavbar.isBookmarked}">
-             <use xlink:href="/assets/icons/nst-icn24.svg#Wfav"></use>
-           </svg>
-           <svg class="svg-hover morphed" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{active : ctlFullNavbar.notificationStatus}">
-             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff" ></use>
-             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifon"></use>
-           </svg>
-         </div>
-       </div>
+      </div>
+      <div class="nav-access" ng-if="ctlFullNavbar.hasPlace()">
+        <div class="cursor-pointer margin-r_5 icon-rp _df popover-white-nst-activity-places" popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"
+             popover-popup-close-delay="100" popover-trigger="focus" popover-placement="auto bottom-right">
+          <svg  class="svg-hover">
+            <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+          </svg>
+        </div>
+        <svg ng-click="ctlFullNavbar.toggleBookmark()" ng-class="{morphed : ctlFullNavbar.isBookmarked}">
+          <use xlink:href="/assets/icons/nst-icn24.svg#Wfav"></use>
+        </svg>
+        <svg class="svg-hover" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{morphed : ctlFullNavbar.notificationStatus}">
+          <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff" ></use>
+          <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifon"></use>
+        </svg>
+      </div>
 
 
        <!--<div class="navbar-top _df">-->
