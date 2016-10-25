@@ -357,7 +357,7 @@
         }
       });
 
-    $urlRouterProvider.otherwise('/signin');
+    $urlRouterProvider.otherwise('/messages');
   }
 
 })();

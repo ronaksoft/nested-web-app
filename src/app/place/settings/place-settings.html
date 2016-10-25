@@ -1,3 +1,8 @@
+<div class="close-modal" ng-click="$dismiss()">
+  <svg>
+    <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
+  </svg>
+</div>
 <div id="place-settings">
   <div class="place-name">
     <label for="logo" class="pic">
@@ -16,7 +21,7 @@
       <h3 data-ng-if="!ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name">
         {{ctlSettings.place.name || 'empty'}}</h3>
 
-      <h5 class="nst-mood-storm" data-tooltip-placement="left auto" data-uib-tooltip="Place ID">{{ctlSettings.place.id
+      <h5 class="nst-mood-storm" >{{ctlSettings.place.id
         + '@nested.me'}}</h5>
     </div>
   </div>
@@ -26,6 +31,7 @@
        onbeforesave="ctlSettings.update('description', $data)">{{ctlSettings.place.description || 'empty'}}</p>
     <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description"
        data-ng-if="!ctlSettings.accesses.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</p>
+
   </div>
   <p ng-if="ctlSettings.isClosedPlace">Receiving</p>
   <div ng-if="ctlSettings.isClosedPlace" class="recive-set" ng-class="{'preview' : !ctlSettings.changeReceptiveMode}">
@@ -47,7 +53,7 @@
           data-ng-change="ctlSettings.updatePolicy()"
           ng-model="ctlSettings.place.policy.add_post">
           <option value="creators">Master Keyholders Only</option>
-          <option value="everyone">Master Keyholders & Members</option>
+          <option value="everyone">All Keyholders</option>
         </select>
       </aside>
     </div>
@@ -101,20 +107,20 @@
   </div>
   <div class="_difh _fw">
     <div class="_fw _difv" ng-if="ctlSettings.isClosedPlace">
-      <p>Create Subplace Access</p>
+      <p>Who Can Create Subplace?</p>
       <select data-ng-disabled="ctlSettings.place.privacy.receptive === 'off' "
               data-ng-model="ctlSettings.place.policy.add_place"
               data-ng-change="ctlSettings.updatePolicy()">
         <option value="creators">Master Keyholders Only</option>
-        <option value="everyone">Master Keyholders & Members</option>
+        <option value="everyone">All Keyholders</option>
       </select>
     </div>
     <div class="_fw _difv" ng-if="!ctlSettings.isGrandPlace">
-      <p>Add Keyholder Access</p>
+      <p>Who Can Add Keyholder?</p>
       <select data-ng-model="ctlSettings.place.policy.add_member"
               data-ng-change="ctlSettings.updatePolicy()">
-        <option value="everyone">All Keyholders</option>
-        <option value="creators">Master Keyholders & Members</option>
+        <option value="everyone">Master Keyholders Only</option>
+        <option value="creators">All Keyholders</option>
       </select>
     </div>
   </div>
@@ -135,9 +141,4 @@
                          has-remove-access="ctlSettings.accesses.hasRemoveAccess"
                          has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
                          role="member.state"/>
-</div>
-<div class="close-modal" ng-click="$dismiss()">
-  <svg>
-    <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
-  </svg>
 </div>

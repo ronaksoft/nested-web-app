@@ -30,7 +30,7 @@
         setBookmark: {},
         setPicture: {},
         removeMember: {},
-        remove: {}
+        remove: {},
       };
 
       NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
@@ -1562,6 +1562,13 @@
       return deferred.promise;
     };
 
+    PlaceFactory.prototype.flush = function () {
+      NstSvcPlaceStorage.flush();
+      NstSvcTinyPlaceStorage.flush();
+      NstSvcMyPlaceIdStorage.flush();
+      NstSvcPlaceRoleStorage.flush();
+    };
+
     PlaceFactory.prototype.isIdAvailable = isIdAvailable;
 
     /**
@@ -1641,6 +1648,8 @@
       var childId = getChildId(originalId, parentId);
       removePlace(parent.children, originalId, childId);
     }
+
+
 
     /**
      * getChildId - Finds the next childId by matching the parentId and originalId
