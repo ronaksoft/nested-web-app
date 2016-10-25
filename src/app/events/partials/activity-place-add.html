@@ -15,7 +15,7 @@
         {{::act.inSpecificPlace == act.place.parent.id  ? "here" : act.place.name}}
       </a>
       <span data-ng-if="act.place.hasParent">
-        <span class="nst-mood-simple">&nbsp;nested in</span>
+        <span class="nst-mood-simple">&nbsp;in</span>
         <a ui-sref="app.place-messages({placeId: act.place.parent.id})">{{::act.inSpecificPlace ? "here" : act.place.parent.name}}</a>
       </span>
     </div>
