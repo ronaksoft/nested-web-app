@@ -371,9 +371,12 @@
       if (placeIds.length > 0)
         NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds,true)
           .then(function(places){
+            var totalUnread = 0;
             _.each(places, function (value, placeId) {
               vm.placesNotifCountObject[placeId] = value;
-            })
+              totalUnread += value;
+            });
+            $rootScope.$emit('unseen-activity-notify', totalUnread);
           });
     }
 

@@ -111,7 +111,6 @@
             }).length > 0){
               vm.hotMessageStorage.unshift(newMessage);
               vm.hasNewMessages = true;
-              $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
           return;
         }
@@ -121,7 +120,6 @@
           if (!_.some(vm.messages, { id : newMessage.id })){
             vm.hotMessageStorage.unshift(newMessage);
             vm.hasNewMessages = true;
-            $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
         }
 
