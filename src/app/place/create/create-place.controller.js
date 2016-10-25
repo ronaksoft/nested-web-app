@@ -63,7 +63,6 @@
     })();
 
     function changeId(placeId) {
-      console.log(placeId)
       vm.place.tempId = vm.place.id;
       // change place ID
       $uibModal.open({
@@ -77,7 +76,7 @@
       }).catch(function (reason) {
         console.log(reason)
       });
-    };
+    }
 
     function setPlaceOpen() {
       vm.place.privacy.locked = false;
