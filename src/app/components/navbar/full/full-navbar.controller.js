@@ -32,6 +32,7 @@
     vm.toggleNotification = toggleNotification;
     vm.openCreateSubplaceModal = openCreateSubplaceModal;
     vm.openAddMemberModal = openAddMemberModal;
+    vm.openSettingsModal = openSettingsModal;
 
     vm.confirmToLeave = confirmToLeave;
 
@@ -60,24 +61,6 @@
       } else {
         open()
       }
-    };
-
-    vm.showSettingsModal = function () {
-      // Show plce settings
-      $uibModal.open({
-        animation: false,
-        size: 'lg-white',
-        templateUrl: 'app/place/place-settings/settings.html',
-        controller: 'PlaceSettingsController',
-        controllerAs: 'ctlSettings',
-        resolve: {
-          tempPlaceId : function (){
-            return "sport";
-          }
-        }
-      }).result.then(function (result) {
-
-      });
     };
 
     function openCreateSubplaceModal ($event) {
@@ -309,6 +292,11 @@
         $log.debug(error);
       });
 
+    }
+
+    function openSettingsModal($event) {
+      $event.preventDefault();
+      $state.go('app.place-settings', { placeId : getPlaceId() }, { notify : false });
     }
 
 

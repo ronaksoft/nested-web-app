@@ -1,5 +1,5 @@
 <div>
-  <a class="_df list-items _aic" ng-click="ctlFullNavbar.showSettingsModal()">
+  <a class="_df list-items _aic" ui-sref="app.place-settings({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openSettingsModal($event)">
     <div>
       <svg class="setting-icon-nav">
         <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
