@@ -35,7 +35,6 @@
   flex-direction: column;
   width: $sidebar-width-tiny;
   background-color: $sidebar-color;
-  overflow-x: hidden;
   position: relative;
   flex: none;
   transition: all $animation-dur;
@@ -52,7 +51,19 @@
     &:hover, &.isSelected {
       transition-duration: $animation-dur;
       transition-timing-function: ease;
-      background-color: $sidebar-bg-hover-color;
+      background:$color-solid;
+    }
+    &.isSelected {
+      &:after {
+        content: "";
+        position: absolute;
+        height: 16px;
+        width: 16px;
+        top: 50%;
+        right: -8px;
+        background: url("../assets/icons/otr-tri.svg") no-repeat;
+        //transform: rotate(-90deg);
+      }
     }
     > * {
       flex: none;
@@ -172,8 +183,9 @@
   display: inline-flex;
   flex-direction: column;
   flex: none;
+  overflow-x: hidden;
   //background: linear-gradient(to bottom, rgb(255,255,255), $color-calm);
-  width: $sidebar-width;
+  width: 100%;
   transition: $animation-dur;
   border-bottom: 1px solid rgba(255,255,255,.05);
 }
@@ -303,7 +315,6 @@
   max-height: 100%;
   //min-height: calc(100vh - 210px);
   position: relative;
-  overflow: hidden;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -531,8 +542,7 @@
 
 .side-access {
   position: relative;
-  width: $sidebar-width-tiny;
-  display: flex;
+  width: 100%;
   flex: none;
   //background-color: #e7ece9;
   //height: 180px;
@@ -905,14 +915,14 @@ ul ul > li:last-child > .place-item-inner{
       transition: all $animation-dur;
       position: relative;
       a {
-        height: 32px;
+        @extend ._txe;
+        min-height: 32px;
         transition: all $animation-dur;
         color: #869D91;
         font-weight: 400;
         font-size: 14px;
         line-height: 32px;
-        word-wrap: break-word;
-        padding-left: 8px;
+        padding: 0 8px;
         display: flex;
         width: 100%;
         margin-top: 4px;
@@ -991,6 +1001,21 @@ ul ul > li:last-child > .place-item-inner{
       label {
         width: 24px;
         height: 24px;
+      }
+    }
+    .sidebar-add-member {
+      width: 28px;
+      height: 28px;
+      border-radius: 14px;
+      border: 1px solid $color-sense;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        display: flex;
+        width: 20px;
+        height: 20px;
+        fill: $color-sense;
       }
     }
   }

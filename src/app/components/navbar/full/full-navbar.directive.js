@@ -38,8 +38,11 @@
         if (element) tween = new TimelineLite()
           .add(TweenLite.to($(element), 1, {css:{height:'88px'}, ease:Linear.easeNone}));
 
+
         if ($(element).children().find( "h3" ).length > 0) { tween2 = new TimelineLite()
-          .add(TweenLite.to($(element).children().find( "h3" )[0], 1, {css:{color:'transparent'}, ease:Power4.easeOut}));}
+          .add(TweenLite.to($(element).children().find( "h3" )[0], 1, {css:{color:'transparent'}, ease:Power4.easeOut}));
+
+        }
 
         if ($("#content-plus").children().length > 0) {tween3 = new TimelineLite()
           .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));}
