@@ -206,9 +206,8 @@
           var query = new NstFactoryQuery(comment.id, {
             postId: post.id
           });
-
           NstSvcServer.request('post/remove_comment', {
-            post_id: query.postId,
+            post_id: post.id,
             comment_id: query.id
           }).then(function(data) {
             post.removeComment(comment);

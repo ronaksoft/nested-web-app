@@ -62,6 +62,7 @@
     (function () {
 
       loadPost(vm.postId).then(function (result) {
+        vm.postModel = result.post;
         vm.post = mapPost(result.post);
         vm.hasRemoveAccess = result.hasRemoveAccess;
         vm.placesWithRemoveAccess = result.placesWithRemoveAccess;
