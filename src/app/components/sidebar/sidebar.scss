@@ -60,6 +60,7 @@
         height: 16px;
         width: 16px;
         top: 50%;
+        transform: translateY(-50%);
         right: -8px;
         background: url("../assets/icons/otr-tri.svg") no-repeat;
         //transform: rotate(-90deg);
@@ -555,6 +556,7 @@
     align-items: center;
     justify-content: center;
     height: 40px;
+    overflow-x: hidden;
     & > img {
       //margin-left: 22px;
       transition: $animation-dur;
