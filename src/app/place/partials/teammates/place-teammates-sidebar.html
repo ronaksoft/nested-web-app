@@ -12,8 +12,9 @@
     </div>
     <div class="user-avatar-28" ng-if="ctlTeammates.hasSeeMembersAccess" ng-click="ctlTeammates.addMember()"
          data-tooltip-placement="top" data-uib-tooltip="Add">
-      <img initials="'+'" data-url="teammate.avatar" data-width="28" data-height="28"
-           data-radius="14" class="account-initials-28 _df" data-word-count="2" data-font-size="11"/>
+      <svg>
+        <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
+      </svg>
     </div>
     <!--<svg ng-if="ctlTeammates.hasSeeMembersAccess" ng-click="ctlTeammates.addMember()">-->
       <!--<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/nst-24.svg#fav24"></use>-->

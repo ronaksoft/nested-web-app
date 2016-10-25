@@ -446,6 +446,7 @@
         var olderComments = mapComments(result.comments);
         vm.comments.unshift.apply(vm.comments, olderComments);
         vm.hasMoreComments = result.maybeMoreComments;
+        vm.revealNewComment = true;
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });
