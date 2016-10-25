@@ -208,7 +208,8 @@ input[type="checkbox"]:checked + label.setting {
 //mention popover
 .mentions {
   width: 286px;
-  height: 456px;
+  max-height: 480px;
+  height: auto;
   z-index: 1029;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   //position: absolute;
