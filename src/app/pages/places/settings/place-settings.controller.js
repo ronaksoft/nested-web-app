@@ -8,7 +8,7 @@
   /** @ngInject */
   function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
     NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT,
-    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory,
+    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcLogger,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
     NstVmMemberItem) {
     var vm = this;
@@ -21,30 +21,22 @@
       notification: null,
       bookmark : null
     };
-    vm.hasRemoveAccess = null;
-    vm.hasAddPlaceAccess = null;
-    vm.hasControlAccess = null;
-    vm.hasAddMembersAccess = null;
-    vm.hasSeeMembersAccess = null;
-    vm.isSearchEnabled = true;
+    vm.accesses = {
+      hasRemoveAccess : null,
+      hasAddPlaceAccess : null,
+      hasControlAccess : null,
+      hasAddMembersAccess : null,
+      hasSeeMembersAccess : null
+    };
+
+    vm.placeLoadProgress = false;
+    vm.teammatesLoadProgress = false;
 
 
-    vm.updatePrivacy = updatePrivacy;
-    vm.updatePolicy = updatePolicy;
     vm.setNotification = setNotification;
     vm.setBookmark = setBookmark;
-    vm.update = update;
     vm.addMember = addMember;
     vm.loadImage = loadImage;
-    vm.confirmToLock = confirmToLock;
-    vm.confirmToLeave = confirmToLeave;
-    vm.confirmToRemove = confirmToRemove;
-    vm.hasAnyTeammate = hasAnyTeammate;
-    vm.allowedToAddSubPlace = allowedToAddSubPlace;
-    vm.allowedToDelete = allowedToDelete;
-    vm.allowedToLeave = allowedToLeave;
-    vm.hasAnyControlOverHere = hasAnyControlOverHere;
-    vm.setReceptive = setReceptive;
     vm.setReceivingEveryone = setReceivingEveryone;
     vm.setReceivingMembers = setReceivingMembers;
     vm.setReceivingOff = setReceivingOff;
@@ -52,71 +44,21 @@
 
     (function() {
       $log.debug('Initializing of PlaceSettingsController just started...');
-      vm.place = {};
+
+      vm.place = null;
       vm.placeId = $stateParams.placeId;
-      // vm.placeId = tempPlaceId;
       vm.user = NstSvcAuth.user;
-      NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
-        vm.place = place;
-        vm.placeLoaded = true;
-        vm.isGrandPlace = (!place.parent) && (place.grandParent.id === place.id);
-        vm.isSearchEnabled = vm.place.privacy.receptive !== 'off';
-        $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));
 
-        return $q.all([
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
-          NstSvcPlaceFactory.getNotificationOption(vm.placeId),
-          NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred')
-        ]);
-      }).then(function(values) {
-        vm.hasRemoveAccess = values[0];
-        vm.hasAddPlaceAccess = values[1];
-        vm.hasControlAccess = values[2];
-        vm.hasAddMembersAccess = values[3];
-        vm.hasSeeMembersAccess = values[4];
-        vm.options.notification = values[5];
-        vm.options.bookmark = values[6];
+      loadPlace(vm.placeId).then(function (result) {
+        vm.place = result.place;
+        vm.accesses = result.accesses;
 
-        $log.debug(NstUtility.string.format('Place "{0}" settings have been retrieved successfully.', vm.place.name));
+        return loadTeammates(vm.placeId, vm.accesses.hasSeeMembersAccess, vm.accesses.hasControlAccess);
+      }).then(function (result) {
 
-        return vm.hasSeeMembersAccess ?
-          NstSvcPlaceFactory.getMembers(vm.placeId) :
-          $q(function(resolve) {
-            resolve({});
-          });
-      }).then(function(members) {
-        vm.teammates = _.concat(_.map(members.creators, function (member) {
-          return new NstVmMemberItem(member, 'creator');
-        }), _.map(members.keyHolders, function (member) {
-          return new NstVmMemberItem(member, 'key_holder');
-        }));
-
-        $log.debug(NstUtility.string.format('Place "{0}" has {1} creator(s), {2} key holder(s).',
-          vm.place.name,
-          members.creators ? members.creators.length : 0,
-          members.keyHolders ? members.keyHolders.length : 0
-        ));
-
-        // Only The one who is allowed to add member can see pending invitations
-        return vm.hasAddMembersAccess
-          ? NstSvcInvitationFactory.getPlacePendingInvitations(vm.placeId)
-          : $q.resolve({});
-      }).then(function(pendings) {
-        vm.teammates = _.concat(vm.teammates, _.map(pendings.pendingKeyHolders, function (invitation) {
-          return new NstVmMemberItem(invitation, 'pending_key_holder');
-        }));
-
-        $log.debug(NstUtility.string.format('Place "{0}" has {1} pending key holder(s).',
-          vm.place.name,
-          pendings.pendingKeyHolders ? pendings.pendingKeyHolders.length : 0
-        ));
-
+        vm.teammates = result.teammates;
       }).catch(function(error) {
-        $log.debug(error);
+        NstSvcLogger.error(error);
       });
 
       $scope.$on('member-promoted', function (event, data) {
@@ -148,42 +90,94 @@
 
     })();
 
-    function allowedToAddSubPlace() {
-      return vm.hasAddPlaceAccess;
+    function loadPlace(id) {
+      var deferred = $q.defer(),
+          result = {
+            place : null,
+            accesses : {}
+          };
+
+      vm.placeLoadProgress = true;
+      NstSvcPlaceFactory.get(id).then(function(place) {
+        result.place = place;
+        console.log(place);
+        $log.debug(NstUtility.string.format('Place {0} was found.', result.place.id));
+        initializeStates(place);
+
+        return $q.all([
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
+          // NstSvcPlaceFactory.getNotificationOption(vm.placeId),
+          // NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred')
+        ]);
+      }).then(function(resolvedSet) {
+
+        result.accesses.hasRemoveAccess = resolvedSet[0];
+        result.accesses.hasAddPlaceAccess = resolvedSet[1];
+        result.accesses.hasControlAccess = resolvedSet[2];
+        result.accesses.hasAddMembersAccess = resolvedSet[3];
+        result.accesses.hasSeeMembersAccess = resolvedSet[4];
+        // result.place.notification = resolvedSet[5];
+        // result.place.bookmark = resolvedSet[6];
+
+        $log.debug(NstUtility.string.format('Place "{0}" settings have been retrieved successfully.', result.place.id));
+        vm.placeLoadProgress = false;
+
+        deferred.resolve(result);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
     }
 
-    function allowedToDelete() {
-      return vm.hasRemoveAccess && vm.place.children.length === 0;
-    }
+    function loadTeammates(id, accessToSeeMembers, accessToSeePendings) {
+      var deferred = $q.defer(),
+          result = {
+            teammates : []
+          };
 
-    /**
-     * allowedToLeave - Check if the user is allowed to leave the place
-     * If the user is the only creator of the place, Leaving is not possible and the place should be removed
-     *
-     *
-     * @return {type}  description
-     */
-    function allowedToLeave() {
+      if (!accessToSeeMembers) {
+        deferred.resolve(result);
+      } else {
+        vm.teammatesLoadProgress = true;
+        NstSvcPlaceFactory.getMembers(id).then(function (members) {
 
-      if (!vm.teammates){
-        return false;
+          result.teammates = _.concat(_.map(members.creators, function (member) {
+            return new NstVmMemberItem(member, 'creator');
+          }), _.map(members.keyHolders, function (member) {
+            return new NstVmMemberItem(member, 'key_holder');
+          }));
+
+          NstSvcLogger.info(NstUtility.string.format('Place "{0}" has {1} creator(s), {2} key holder(s).',
+            id,
+            members.creators ? members.creators.length : 0,
+            members.keyHolders ? members.keyHolders.length : 0
+          ));
+
+          return accessToSeePendings ? NstSvcInvitationFactory.getPlacePendingInvitations(vm.placeId) : $q.resolve(null);
+        }).then(function (pendings) {
+          if (pendings) {
+            result.teammates = _.concat(result.teammates, _.map(pendings.pendingKeyHolders, function (invitation) {
+              return new NstVmMemberItem(invitation, 'pending_key_holder');
+            }));
+
+            NstSvcLogger.info(NstUtility.string.format('Place "{0}" has {1} pending key holder(s).',
+              id,
+              pendings.pendingKeyHolders ? pendings.pendingKeyHolders.length : 0
+            ));
+          } else {
+            NstSvcLogger.info(NstUtility.string.format('Place "{0}" has not any pending key holders.', id));
+          }
+
+          vm.teammatesLoadProgress = false;
+          deferred.resolve(result);
+
+        }).catch(deferred.reject);
       }
 
-      var creators = vm.teammates.filter(function (member) {
-        return member.role === NST_PLACE_MEMBER_TYPE.CREATOR;
-      });
-
-
-      if (creators.length ===  0 || (creators.length === 1 && creators[0].id === NstSvcAuth.user.id)){
-        return false;
-      }
-
-      return true;
-
-    }
-
-    function hasAnyControlOverHere() {
-      return allowedToDelete() || allowedToLeave() || allowedToAddSubPlace();
+      return deferred.promise;
     }
 
     function showAddModal(role) {
@@ -252,80 +246,6 @@
       showAddModal(NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
     }
 
-    function confirmToLock(event) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      $uibModal.open({
-        animation: false,
-        templateUrl: 'app/pages/places/settings/place-lock-warning.html',
-        size: 'sm'
-      }).result.then(function(result) {
-        updatePrivacy('locked', !vm.place.privacy.getLocked());
-      });
-
-      return false;
-    }
-
-    function confirmToRemove() {
-
-      $scope.deleteValidated = false;
-      $scope.nextStep = false;
-
-      var modal = $uibModal.open({
-          animation: false,
-          templateUrl: 'app/pages/places/settings/place-delete.html',
-          controller : 'PlaceRemoveConfirmController',
-          controllerAs : 'removeCtrl',
-          size: 'sm',
-          resolve: {
-            selectedPlace : function () {
-              return vm.place;
-            }
-          }
-        }).result.then(function(confirmResult) {
-          remove();
-        });
-    }
-
-    function confirmToLeave() {
-      $uibModal.open({
-        animation: false,
-        templateUrl: 'app/pages/places/settings/place-leave-confirm.html',
-        size: 'sm',
-        controller : 'PlaceLeaveConfirmController',
-        controllerAs : 'leaveCtrl',
-        resolve : {
-          selectedPlace: function () {
-            return vm.place;
-          }
-        }
-      }).result.then(function() {
-        leave();
-      });
-    }
-
-    function leave() {
-      NstSvcPlaceFactory.removeMember(vm.place.id, NstSvcAuth.user.id, true).then(function(result) {
-        $state.go(NST_DEFAULT.STATE);
-      }).catch(function(error) {
-        if (error instanceof NstPlaceOneCreatorLeftError){
-          toastr.error('You are the only creator of the place!');
-        } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are creator of the top-level place ({0}).', vm.place.parent.name));
-        }
-        $log.debug(error);
-      });
-
-    }
-
-    function remove() {
-      NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
-        $state.go(NST_DEFAULT.STATE);
-      }).catch(function(error) {
-        $log.debug(error);
-      });
-    }
 
     function updatePrivacy(name, value) {
       if (name && value) {
@@ -413,24 +333,6 @@
       return vm.teammates && vm.teammates.length > 0;
     }
 
-    function setReceptive(value) {
-      vm.place.privacy.receptive = value;
-
-      switch (value) {
-        case 'off':
-        vm.place.privacy.search = false;
-        vm.isSearchEnabled = false;
-        break;
-        case 'internal':
-        case 'external':
-        vm.isSearchEnabled = true;
-        break;
-      }
-
-      update('privacy', vm.place.privacy);
-    }
-
-
     function setReceivingOff() {
       vm.receivingMode = 'off';
 
@@ -455,6 +357,11 @@
       update('privacy', vm.place.privacy);
     }
 
+    function initializeStates(place) {
+      vm.isClosedPlace = place.privacy.locked;
+      vm.isOpenPlace = !place.privacy.locked;
+      vm.isGrandPlace = (!place.parent) && (place.grandParent.id === place.id);
+    }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
       if (e.detail.id === vm.placeId) vm.options.bookmark = true;
