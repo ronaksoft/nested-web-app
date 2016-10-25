@@ -157,17 +157,19 @@ nst-navbar {
   .icon-logo {
     height: calc(100% - 16px);
     top : 16px;
-    position: absolute;
+    position: relative;
+    flex: none;
+    width: 72px;
     justify-content: center;
   }
   .place-info {
     display: inline-flex;
     flex: 1;
+    width: 100%;
     height: calc(100% - 16px);
-    width: calc(100% - 72px);
     top : 16px;
     overflow: hidden;
-    position: absolute;
+    position: relative;
     right: 0;
     flex-direction: column;
     > * {
