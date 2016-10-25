@@ -1,0 +1,66 @@
+<nst-navbar data-ng-model="navbar" place-id="{{::ctlFiles.place.id}}"
+            nav-title="{{ctlFiles.place.id?ctlFiles.place.name:'All Places'}}"
+            nav-picture-url="{{ctlFiles.place.id ? ctlFiles.place.picture.thumbnails.x64.url.view : '' }}"
+            nav-picture-class="{{ !ctlFiles.place.id? 'icon-nav icon-all-place' : '' }}"
+            ready-to-show="ctlFiles.placeLoaded" page="ctlApp.page"></nst-navbar>
+
+<div class="nst-content _tr" id="content-wrapper">
+
+  <section class="content _bgwhite _fh">
+    <div class="navbarillu"></div>
+    <section class="list-inline _df">
+      <ul class="list-inline _df post-nav-top _difh _fw">
+        <li>
+          <p ng-show="ctlFiles.selectedFiles.length  == 0">All Files</p>
+          <!--//TODO:Add size filter// -->
+          <p ng-show="ctlFiles.selectedFiles.length  > 0">{{ctlFiles.selectedFiles.length }}<span> Files</span><span
+            class="total-files-size">{{ctlFiles.totalSelectedFileSize()}} MB</span></p>
+        </li>
+        <li><span ng-show="ctlFiles.selectedFiles.length  == 0" class="files-input-group _fw"><label
+          class=" icon files-arrow" role="button"></label></span></li>
+      </ul>
+      <div class="_df _fn">
+        <input type="text" class="files-input" placeholder="Find files in this place"/>
+      </div>
+      <div class="icon-search-rotated-white"></div>
+      <hr>
+    </section>
+    <div class="file-list">
+      <div class="file-list-header">
+        <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0"><span>File Name</span></div>
+        <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-download"><span
+          class="_dib"></span><span>Download</span></div>
+        <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-send-to"><span
+          class="_dib"></span><span>Send to</span></div>
+        <div class="header-size" ng-show="ctlFiles.selectedFiles.length == 0"><span>Size</span></div>
+        <div class="header-date" ng-show="ctlFiles.selectedFiles.length == 0"><strong>Received Date</strong></div>
+      </div>
+      <hr>
+      <ul class="files-types" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
+          selector="li.file-list-container">
+        <li class="file-list-container" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
+          <div class="files-types-images"></div>
+          <div class="file-list-item">
+            <div class="item-name"><span>Nested Story.</span>{{item.type}}</div>
+            <div class="item-size">{{item.size}} MB</div>
+            <div class="item-date">JUL 21, 2016<span id="files-time"> 13:13</span></div>
+          </div>
+        </li>
+      </ul>
+      <div class="_difc _fw optionrow">
+        <div class="_df switch">
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="content-plus">
+  </div>
+  <div class="content-plus" id="content-plus">
+    <div id="cp1">
+      <!--FIXME:: use only one of place/place-id -->
+      <nst-recent-activity place-id="ctlFiles.placeId" place="ctlFiles.placeId" count="10"/>
+    </div>
+
+  </div>
+</div>
+

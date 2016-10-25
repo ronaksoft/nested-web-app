@@ -38,6 +38,7 @@
     "ng-img-crop": "ngImgCrop#^0.3.2",
     "perfect-scrollbar": "^0.6.12",
     "At.js": "jquery.atwho#^1.5.1",
+    "selectonic": "^0.6.3",
     "gsap": "^1.19.0",
     "scrollmagic": "^2.0.5"
   },
