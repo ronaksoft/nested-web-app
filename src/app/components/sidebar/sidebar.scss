@@ -905,14 +905,14 @@ ul ul > li:last-child > .place-item-inner{
       transition: all $animation-dur;
       position: relative;
       a {
-        height: 32px;
+        @extend ._txe;
+        min-height: 32px;
         transition: all $animation-dur;
         color: #869D91;
         font-weight: 400;
         font-size: 14px;
         line-height: 32px;
-        word-wrap: break-word;
-        padding-left: 8px;
+        padding: 0 8px;
         display: flex;
         width: 100%;
         margin-top: 4px;
