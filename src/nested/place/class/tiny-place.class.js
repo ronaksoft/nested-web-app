@@ -40,6 +40,12 @@
        *****      Ancestors     ****
        *****************************/
 
+       this.unreadPosts = undefined;
+
+       this.totalPosts = undefined;
+
+       this.teammatesCount = undefined;
+
       /**
        * Place's parent
        *

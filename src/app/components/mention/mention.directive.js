@@ -2,7 +2,10 @@
   'use strict';
   angular
     .module('ronak.nested.web.components.mention')
-    .directive('nstMention', function ($rootScope, $timeout, NstSvcUserFactory, NstSvcPlaceFactory, NstVmUser, NstVmPlace) {
+    .directive('nstMention', function ($rootScope, $timeout,
+                                       NST_USER_SEARCH_AREA,
+                                       NstSvcUserFactory, NstSvcPlaceFactory,
+                                       NstVmUser, NstVmPlace) {
       return {
         restrict: 'A',
         link: function (scope, element, attrs) {
@@ -51,7 +54,10 @@
                       query: query,
                       limit: 5,
                     };
-                    NstSvcUserFactory.search(searchSettings).then(function (users) {
+                    if (attrs.postId){
+                      searchSettings.postId =  attrs.postId;
+                    }
+                    NstSvcUserFactory.search(searchSettings, attrs.postId ? NST_USER_SEARCH_AREA.MENTION : NST_USER_SEARCH_AREA.ACCOUNTS).then(function (users) {
                       var items = [];
                       _.map(users, function (item) {
                         var obj = new NstVmUser(item);
@@ -66,7 +72,7 @@
                     });
                   }
                 }
-              })
+              });
 
             if (activeHashtag)
               element

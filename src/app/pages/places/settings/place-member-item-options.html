@@ -1,11 +1,11 @@
 <ul class="list-unstyled">
-  <li ng-if="memberCtrl.hasRemoveAccess" ng-click="memberCtrl.remove();">
+  <li ng-if="memberCtrl.hasRemoveAccess" ng-click="memberCtrl.remove();" class="_df list-items _aic">
     <i class="menuicon-remove _dib"></i><span class="_dib nst-mood-simple _vat">Remove</span>
   </li>
-  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'key_holder'" ng-click="memberCtrl.promote();">
+  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'key_holder'" ng-click="memberCtrl.promote();" class="_df list-items _aic">
     <i class="_dib menuicon-create"></i><span class="_dib nst-mood-simple _vat">Promote</span>
   </li>
-  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'creator'" ng-click="memberCtrl.demote();">
+  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'creator'" ng-click="memberCtrl.demote();" class="_df list-items _aic">
     <i class="_dib menuicon-create-transform"></i><span class="_dib nst-mood-simple _vat">Demote</span>
   </li>
 </ul>

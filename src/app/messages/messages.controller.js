@@ -9,7 +9,7 @@
   function MessagesController($rootScope, $q, $stateParams, $log, $timeout, $state, $interval, $scope,
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstSvcTry, NstUtility, NstSvcAuth,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstUtility, NstSvcAuth,
                               NstSvcMessagesSettingStorage,
                               NstSvcPostMap) {
 
@@ -40,7 +40,6 @@
     vm.loadMessageError = false;
     // Reveals hot message when user wants to show new messages
     vm.revealHotMessage = false;
-    vm.getNewMessagesCount = getNewMessagesCount;
     vm.showNewMessages = showNewMessages;
     vm.dismissNewMessage = dismissNewMessage;
 
@@ -58,6 +57,7 @@
 
 
     (function () {
+      isUnread();
       vm.isSentMode = 'messages-sent' === $state.current.name;
 
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
@@ -80,7 +80,6 @@
           if (place) {
             return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
               $log.debug(error);
-              vm.loadMessageError = true;
             });
           }
         }).catch(function (error) {
@@ -91,7 +90,6 @@
         vm.currentPlaceLoaded = true;
         NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
           $log.debug(error);
-          vm.loadMessageError = true;
         });
       }
 
@@ -106,26 +104,22 @@
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
         var newMessage = e.detail;
 
-
         if (isBookMark()){
           if (!_.some(vm.messages, { id : newMessage.id }) &&
-            _.intersectionWith(vm.bookmarkedPlaces, newMessage.getPlaces(), function (a, b) {
-              return a == b.getId()
+            _.intersectionWith(vm.bookmarkedPlaces, newMessage.places , function (a, b) {
+              return a == b
             }).length > 0){
-              var item = mapMessage(newMessage);
-              item.isHot = true;
-              vm.hotMessageStorage.unshift(item);
+              vm.hotMessageStorage.unshift(newMessage);
               vm.hasNewMessages = true;
               $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
           return;
         }
 
-        if (!vm.currentPlaceId || newMessage.belongsToPlace(vm.currentPlaceId)) {
+
+        if (!vm.currentPlaceId  || _.includes(newMessage.places, vm.currentPlaceId)) {
           if (!_.some(vm.messages, { id : newMessage.id })){
-            var item = mapMessage(newMessage);
-            item.isHot = true;
-            vm.hotMessageStorage.unshift(item);
+            vm.hotMessageStorage.unshift(newMessage);
             vm.hasNewMessages = true;
             $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
@@ -160,6 +154,7 @@
       });
 
       setNavbarProperties();
+
     })();
 
     function setNavbarProperties() {
@@ -192,6 +187,11 @@
         case 'app.messages-bookmarks':
         case 'app.messages-bookmarks-sorted':
           return NstSvcPostFactory.getBookmarksMessages(vm.messagesSetting);
+
+        case 'app.place-messages-unread':
+        case 'app.place-messages-unread':
+          return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlace.id.split(".")[0]], true);
+
 
         default:
           return NstSvcPostFactory.getMessages(vm.messagesSetting);
@@ -350,6 +350,7 @@
           if (place && place.id) {
             vm.currentPlace = place;
             vm.currentPlaceLoaded = true;
+            vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
           }
           defer.resolve(vm.currentPlace);
         }).catch(function (error) {
@@ -386,10 +387,6 @@
 
     }
 
-    function getNewMessagesCount() {
-      return vm.hotMessageStorage.length;
-    }
-
     function readSettingItem(key) {
       var value = NstSvcMessagesSettingStorage.get(key);
 
@@ -401,20 +398,18 @@
     }
 
     function showNewMessages() {
-      //clear previouly hot items
-      _.forEachRight(vm.hotMessages, function (item) {
-        insertMessage(vm.messages, item);
-      });
-
-      vm.hotMessages.length = 0;
-      //push hotMessageStorage to hotMessages
-      _.forEachRight(vm.hotMessageStorage, function (item) {
-        insertMessage(vm.hotMessages, item);
-      });
-
-      vm.hotMessageStorage.length = 0;
-      vm.hasNewMessages = false;
+      vm.cache = [];
+      vm.messages = [];
       vm.revealHotMessage = true;
+      vm.loading = true;
+      getAccessableMessages().then(function () {
+        vm.hotMessages = [];
+        vm.hotMessageStorage = [];
+        vm.hasNewMessages = false;
+      }).catch(function () {
+        vm.hasNewMessages = true;
+      });
+
 
       $rootScope.$emit('unseen-activity-clear');
     }
@@ -434,6 +429,15 @@
       if ($state.current.name == 'app.messages-bookmarks' ||
         $state.current.name == 'app.messages-bookmarks-sorted'){
         vm.isBookmarkMode = true;
+        return true;
+      }
+      return false;
+    }
+
+    function isUnread() {
+      if ($state.current.name == 'app.place-messages-unread' ||
+        $state.current.name == 'app.place-messages-unread-sorted'){
+        vm.isUnreadMode = true;
         return true;
       }
       return false;

@@ -11,10 +11,8 @@
     function Comment(model) {
 
       this.post = null;
-      this.date = null;
       this.attach = null;
       this.contentType = "text/plain";
-      this.sender = null;
       this.removed = false;
 
       NstTinyComment.call(this, model);

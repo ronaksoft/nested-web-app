@@ -71,14 +71,11 @@
   *    Tiny mce Overrides
   **********************************************************
 */
-.mce-container, .mce-container *, .mce-widget, .mce-widget *, .mce-reset {
-  font-family: $font-family-per-reg, $font-family-eng-reg!important;
-}
-
 .mce-panel {
   border: none!important;
   background-color: transparent!important;
 }
+
 .mce-widget {
   border: none!important;
   background-color: $color-white!important;

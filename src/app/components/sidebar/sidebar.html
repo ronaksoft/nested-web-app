@@ -1,83 +1,127 @@
-<div class="sidebar _df">
+<div class="sidebar _df" ng-class="{ 'expanded' : ctlSidebar.isInDetailMode }" nst-sidebar-revert-mouse-leave="ctlSidebar.isInDetailMode" leave-delay="1000">
   <div class="sidebar-wrapper">
     <div class="side-top">
-      <div class="nested-logo">
+      <div class="nested-logo detailed">
         <a ui-sref="app.messages()">
-          <div id="Logo"></div>
+          <div id="Logo-white"></div>
+        </a>
+        <a ui-sref="app.messages()">
+          <div id="Logo-type-white"></div>
         </a>
       </div>
-      <div class="compose"  data-uib-tooltip="Compose" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-        <a class="butn-green onlyExpand _tr" id="compose" href="{{ctlSidebar.urls.compose}}">
-          <div class="icon icon-side icon-compose _df"></div><div class="onlyExpand _df">Compose</div>
+      <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}"
+         data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true"
+         data-tooltip-placement="right auto"
+         nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.compose}}">
+        <div>
+          <div class="compose">
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn32.svg#Wcompose"></use>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <span>Compose</span>
+        </div>
+      </a>
+      <div class="side-menu">
+        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}"
+           data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}"
+           data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.bookmarks}}">
+          <span>
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
+            </svg>
+          </span>
+          <span>Favorite Places Feed</span>
+        </a>
+        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
+          <span>
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
+            </svg>
+          </span>
+          <span>All Places Feed</span>
+        </a>
+        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.sent}}">
+          <span>
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
+            </svg>
+          </span>
+          <span>Sent</span>
         </a>
       </div>
     </div>
-    <div class="side-place-wrapper _fw" nst-scrollbar>
-      <div class="side-menu">
-        <div class="side-menu-item" data-uib-tooltip="All Places" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-          <a href="{{ctlSidebar.urls.unfiltered}}">
-            <div class="icon icon-solid icon-side icon-all-place _df"></div>
-            <span class="item _df _fw fade-animation" ng-show="!ctlSidebar.collapsed">All Places</span>
-          </a>
-        </div>
-        <div class="side-menu-item">
-          <a href="{{ctlSidebar.urls.bookmarks}}" data-uib-tooltip="Bookmarks" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-            <div class="icon icon-solid icon-side icon-bookmarks"></div>
-            <span class="item _fw" ng-show="!ctlSidebar.collapsed">Bookmarks</span></a></div>
-        <div class="side-menu-item">
-          <a href="{{ctlSidebar.urls.sent}}" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-            <div class="icon icon-solid icon-side icon-sent"></div>
-            <span class="item _fw" ng-show="!ctlSidebar.collapsed">Sent</span>
-          </a>
-        </div>
-      </div>
-      <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0">
-        <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
-          <div class="side-place-invite-item-inner active"  data-uib-tooltip="{{invitaion.place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="_fw">
+    <div class="side-place-wrapper _fw">
+      <div class="shadow-top"></div>
+      <div class="places" nst-scrollbar suppress-scroll-x="true">
+        <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 ">
+          <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
+            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="side-place-invite-item-inner active detailed">
               <div class="side-place-item-image">
-                <img class="account-initials-40" ng-src="{{invitaion.place.avatar}}"/>
+                <img class="" ng-src="{{invitaion.place.avatar}}"/>
               </div>
-              <div class="_fw _difv _oh">
-                <span class="onlyExpand nst-font-small nst-mood-pending-fill">You've been invited to</span>
-                <span data-ellipsis="invitaion.place.name" class="invitation-name onlyExpand nst-mood-pending _txe _fw" style="color: #3296FF;">{{invitaion.place.name}}</span>
+              <div class="_difv">
+                <p class="_fw nst-font-small nst-mood-pending-fill" data-ellipsis="place.name">You've been invited to</p>
+                <span data-ellipsis="invitaion.place.name" class="invitation-name _txe _fw" data-ng-bind="::invitaion.place.name"></span>
               </div>
             </a>
-          </div>
-        </li>
-      </ul>
-      <ul class="side-place">
-        <li class="side-place-item" data-ng-repeat="place in ctlSidebar.places"
-            data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
+          </li>
+        </ul>
+        <ul class="side-place">
+          <li class="side-place-item" data-ng-repeat="place in ctlSidebar.places"
+              data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
 
       </ul>
-      <a href="{{ctlSidebar.urls.placeAdd}}" data-uib-tooltip="Create New Grand Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
-      <div class="create-place _fw">
-        <div>
-          <span ng-if="!ctlSidebar.collapsed">+ Create New Grand Place</span>
-          <span ng-if="ctlSidebar.collapsed">+</span>
-        </div>
-      </div>
+      <a class="create-place _fw detailed" ui-sref="app.place-create" ng-click="ctlSidebar.openCreatePlaceModal($event);" data-uib-tooltip="Create New Place" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+        <span>
+          <svg id="addIcon" morph-svg first-id="sq40dashed" second-id="sq40">
+            <use xlink:href="/assets/icons/nst-add40.svg#sq40"></use>
+            <use xlink:href="/assets/icons/nst-add40.svg#sq40dashed"></use>
+          </svg>
+        </span>
+        <span>
+          Create New Place
+        </span>
       </a>
     </div>
-    <div class="side-profile">
-      <a class="_fw" ng-show="profileMenu" href="#/profile">
-        <div class="_difh _fw">
-          <li class="profile-menu-edit-profile _df _fn"></li>
-          <li class="_df nst-mood-solid a-hover _fw fade-animation" ng-show="!ctlSidebar.collapsed">
-            <span class="nst-mood-solid _difh _fw">Edit My profile</span>
-          </li>
+    <div class="shadow-bot"></div>
+    </div>
+    <div class="side-access">
+      <a class="detailed popover-mentions"
+         data-uib-popover-template="'app/mention/mention-popover.html'"
+         data-popover-placement="auto right-top"
+         data-popover-class="mentions"
+         data-popover-append-to-body="true"
+         data-popover-trigger="click">
+        <div>
+          <svg id="mentions">
+            <use xlink:href="/assets/icons/nst-icn32.svg#W_"></use>
+          </svg>
+          <div class="notif" ng-if="ctlSidebar.mentionsCount">{{ctlSidebar.mentionsCount}}</div>
+        </div>
+        <div>
+          Mention
         </div>
       </a>
-      <a class="_fw" ng-show="profileMenu" href="#/signout">
-        <div class="_difh _fw">
-          <li class="profile-menu-signout _df _fn"></li>
-          <li class="_df a-hover fade-animation _fw" ng-show="!ctlSidebar.collapsed">
-            <span class="nst-mood-solid _difh _fw">Sign out</span>
-          </li>
+      <a class="detailed" href="#/profile" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode">
+        <div>
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
+          </svg>
         </div>
+        <div>Profile & Settings</div>
       </a>
-      <a class="_fw">
+      <a class="detailed" href="#/signout" >
+        <div>
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>
+          </svg>
+        </div>
+        <div>Log out</div>
+      </a>
+      <!--<a class="_fw">
         <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
           <div class="user-avatar-32">
           <img ng-if="!ctlSidebar.user.avatar" class="account-initials-32"
@@ -91,13 +135,39 @@
             <div class="icon icon-solid icon-more"></div>
           </div>
         </div>
-      </a>
-      <a class="_fw">
-        <div class="_df _fn _fw _jcc" ng-click="ctlSidebar.collapsed =! ctlSidebar.collapsed">
-          <div ng-class="{'nst-arrow-rotated-90' : !ctlSidebar.collapsed,'nst-arrow-rotated-270' : ctlSidebar.collapsed}" class="nst-arrow-rotated-90" id="arrow"></div>
-        </div>
-        </a>
+      </a>-->
     </div>
   </div>
-  <div class="sidebar-border"></div>
+  <!--<div class="sidebar-border"></div>-->
+  <div class="sidebar-plus-wrapper" ng-show="ctlSidebar.selectedGrandPlace">
+    <div class="side-profile-block" bg-check="{{ctlSidebar.selectedGrandPlace.avatar}}">
+      <div class="user-detail txt">
+        <a>{{ctlSidebar.selectedGrandPlace.name}}</a>
+      </div>
+      <div class="user-avatar">
+        <img ng-if="ctlSidebar.selectedGrandPlace.avatar" ng-src="{{ctlSidebar.selectedGrandPlace.avatar}}"/>
+        <img ng-if="!ctlSidebar.selectedGrandPlace.avatar" class="account-initials-32"
+             initials="ctlSidebar.selectedGrandPlace.name" data-url="ctlSidebar.selectedGrandPlace.avatar"
+             data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
+      </div>
+      <div class="side-stats">
+        <div class="unread">
+          <a class="_fw _df" ui-sref="app.place-messages-unread({placeId: ctlSidebar.selectedGrandPlace.id})">Unread</a>
+          <span class="_fn _df">{{ctlSidebar.placesNotifCountObject[ctlSidebar.selectedGrandPlace.id] || 0}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="side-stats">
+      <div class="totalmsg">
+        <a class="_fw _df">Total Messages</a><span class="_fn _df">{{ctlSidebar.selectedGrandPlace.totalPosts || 0}}</span>
+      </div>
+    </div>
+    <div class="places" ng-show="ctlSidebar.showPlaces">
+      <h4>Places</h4>
+      <div nst-scrollbar suppress-scroll-x="true"  class="places-list">
+        <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace"></nst-sidebar-place-info>
+      </div>
+    </div>
+    <nst-place-teammates-sidebar grand-place="ctlSidebar.selectedGrandPlace" on-collapse="ctlSidebar.togglePlace"></nst-place-teammates-sidebar>
+  </div>
 </div>

@@ -16,6 +16,7 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
 
+
     /*****************************
      *****  Configure TrackJs  ****
      *****************************/
@@ -58,7 +59,7 @@
 
     // calls $digest every 1 sec to update elapsed times.
     $interval(function () {
-      $log.debug('AppController calls $digest to update passed times every 1 min.');
+      NstSvcLogger.info('AppController calls $digest to update passed times every 1 min.');
     }, 60 * 1000);
 
 
@@ -84,13 +85,6 @@
      *****************************/
 
     hotkeys.add({
-      combo: 'space',
-      description: 'collapse or expand sidebar',
-      callback: function () {
-        vm.viewSettings.sidebar.collapsed = !vm.viewSettings.sidebar.collapsed;
-      }
-    });
-    hotkeys.add({
       combo: 'c',
       description: 'compose state',
       callback: function () {
@@ -102,7 +96,7 @@
      *****************************/
 
     vm.viewSettings = {
-      sidebar: {collapsed: false},
+      sidebar: {collapsed: true},
       navbar: {collapsed: false}
     };
 
@@ -119,23 +113,23 @@
       $scope.topNavOpen = newValue;
     });
 
-    var scrollValue = 0;
-    var scrollTimeout = false;
-    $(window).scroll(function (event) {
-      if($(window).scrollLeft() > 0 ){
-        console.log("left");
-        return
-      }
-      var t = event.currentTarget.scrollY;
-      if (t > 55 && !$rootScope.navView) {
-        $timeout(function () {
-          return $rootScope.navView = t > 55;
-        });
-      } else if (t < 56 && $rootScope.navView) {
-        $timeout(function () {
-          return $rootScope.navView = t > 55;
-        });
-      }
+    // var scrollValue = 0;
+    // var scrollTimeout = false;
+    //$(window).scroll(function (event) {
+      // if($(window).scrollLeft() > 0 ){
+      //   console.log("left");
+      //   return
+      // }
+      // var t = event.currentTarget.scrollY;
+      // if (t > 55 && !$rootScope.navView) {
+      //   $timeout(function () {
+      //     return $rootScope.navView = t > 55;
+      //   });
+      // } else if (t < 56 && $rootScope.navView) {
+      //   $timeout(function () {
+      //     return $rootScope.navView = t > 55;
+      //   });
+      // }
       // clearTimeout(scrollTimeout);
       // scrollTimeout = setTimeout(function(){
       //   vm.scrolled = $(document).scrollTop() - scrollValue;
@@ -146,7 +140,7 @@
       //     });
       //   }
       // }, 10);
-    });
+    //});
 
     /*****************************
      *****  Controller Logic  ****
@@ -207,6 +201,13 @@
     }
 
     function getActivePages(state, params, previousState, previousParams) {
+
+      if(params && params.placeId){
+        vm.viewSettings.sidebar.collapsed = false;
+      }else {
+        vm.viewSettings.sidebar.collapsed = true;
+      }
+
       var pages = Object.keys(NST_PAGE);
       var page = {
         state: {

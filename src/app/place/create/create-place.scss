@@ -1,0 +1,305 @@
+.modal-lg-white {
+  display: flex;
+  position: absolute;
+  background-color: $color-bg;
+  opacity: 0.98;
+  padding: 80px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: none!important;
+  overflow-y: auto;
+  margin: 0;
+  .modal-content {
+    position: relative;
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+    h2 {
+      color: #000000;
+      letter-spacing: -1px;
+      line-height: 38px;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 32px 0;
+      span {
+        font-size: 24px;
+        font-weight: 400;
+      }
+    }
+    p,& > label {
+      line-height: 13px;
+      color: #869D91;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 16px 0;
+    }
+    button {
+      width: 100%;
+      transition: .2s all ease;
+      border: 1px solid $color-sense-wire;
+      background-color: $color-sense;
+      border-radius: 4px;
+      margin: 32px 0;
+      line-height: 30px;
+      color: $color-white;
+      font-size: 18px;
+      font-weight: 700;
+      &:disabled {
+        opacity: 0.5;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+        filter: alpha(opacity=50);
+      }
+    }
+    input {
+      width: 100%;
+      min-height: 28px;
+      color: $color-grey;
+      font-size: 16px;
+      font-weight: 400;
+      padding: 6px;
+      transition: all .2s;
+      margin-bottom: 10px;
+      &:focus {
+        border: 2px solid $color-solid;
+        color: $color-solid;
+      }
+    }
+    aside{
+      width: 100%;
+      line-height: 16px;
+      color: #476152;
+      font-size: 13px;
+      font-weight: 400;
+      padding: 0 10px;
+      margin-top: 8px;
+    }
+    #PlaceID {
+      color: #869D91;
+      font-size: 16px;
+      font-weight: 400;
+      min-height: 28px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .field{
+      position: relative;
+      width: 100%;
+      span {
+        line-height: 28px;
+        color: #A6B9AF;
+        font-size: 16px;
+        font-weight: 400;
+      }
+      input {
+        background-color: transparent;
+        border-color: transparent;
+        border-width: 2px;
+      }
+      input:hover {
+        background-color: $color-white;
+        border-color: $color-border;
+      }
+
+      input:focus {
+        background-color: $color-white;
+        border-color: $color-solid;
+      }
+    }
+    select {
+      line-height: 40px;
+      color: $color-solid;
+      font-size: 16px;
+      width: 204px;
+      height: 40px;
+      font-weight: 400;
+      padding: 0 8px;
+    }
+  }
+}
+#create-place {
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  position: relative;
+  form .placeID {
+    background-color: $color-calm;
+    margin-bottom: 16px;
+  }
+  .select-box {
+    width: 100%;
+    margin-bottom: 32px;
+    box-sizing: border-box;
+    border: solid 2px transparent;
+    border-radius: 10px;
+    padding-bottom: 12px;
+    transition: all .2s ease;
+    cursor: pointer;
+    .desc {
+      h3 {
+        letter-spacing: -1px;
+        line-height: 24px;
+        font-size: 20px;
+        font-weight: 700;
+      }
+      p {
+        color: $color-solid;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+      }
+      aside {
+        color: #869D91;
+        font-size: 14px;
+        line-height: 17px;
+        word-wrap: break-word;
+      }
+    }
+    .icn {
+      width: 120px;
+      height: 100%;
+      display: flex;
+      flex: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.8;
+      img {
+        width: 120px;
+        height: 100%;
+      }
+    }
+    &:hover {
+      background-color: $color-white;
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      .icn {
+        opacity: 1;
+      }
+    }
+    &.selected {
+      box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+      border: solid 2px $color-sense;
+      background-color: $color-white;
+    }
+  }
+  .option-row {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    p {
+      line-height: 19px;
+      font-size: 16px;
+      font-weight: 400;
+      display: flex;
+      flex: 1;
+      color: $color-solid;
+    }
+    select {
+      flex: none;
+    }
+    input[type="checkbox"] + label {
+      display: inline-block;
+      background: url('../assets/icons/controls.svg') no-repeat;
+      height: 16px;
+      min-width: 17px;
+      padding: 0 0 0 17px;
+      color: $color-storm;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+    }
+    input[type="checkbox"]:checked + label {
+      background-position: 0 -16px;
+    }
+  }
+}
+
+.select-box-step2 {
+  width: 100%;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  border: dashed 2px $color-wind;
+  padding: 0 12px;
+  background-color: $color-white;
+  border-radius: 10px;
+  transition: all .2s ease;
+  color: $color-solid;
+  h3 {
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -1px;
+    font-weight: 700;
+    color: $color-solid;
+    margin: 12px 0;
+    i {
+      font-size: 16px;
+      color: #808080;
+      font-weight: 400;
+      line-height: 19px;
+      font-style: normal;
+    }
+  }
+  p {
+    line-height: 19px;
+    font-size: 16px;
+    font-weight: 400;
+    color: $color-solid;
+    opacity: .5;
+  }
+  aside {
+    color: #869D91;
+    font-size: 14px;
+    line-height: 17px;
+    word-wrap: break-word;
+    display: inline-flex;
+    flex-direction: row;
+    padding: 0;
+    align-items: center;
+    display: none;
+    p {
+      flex: 1;
+      display: flex;
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+  &:hover {
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+    border-color: transparent;
+    p {
+      opacity: 1;
+    }
+  }
+  &.selected {
+    border: solid 2px $color-sense;
+    p {
+      opacity: 1;
+    }
+    aside {
+      display: inline-flex;
+    }
+  }
+}
+
+.close-modal {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 56px;
+  right: 56px;
+  border-radius: 24px;
+  transition: all $animation-dur;
+  svg {
+    width: 32px;
+    height: 32px;
+    transform: rotateZ(45deg);
+  }
+  &:hover {
+    box-shadow : 0 10px 10px rgba(0,0,0,.15);
+    background-color: $color-white;
+  }
+}
