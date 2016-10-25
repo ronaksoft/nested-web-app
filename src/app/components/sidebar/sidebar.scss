@@ -52,7 +52,19 @@
     &:hover, &.isSelected {
       transition-duration: $animation-dur;
       transition-timing-function: ease;
-      background-color: $sidebar-bg-hover-color;
+      background:$color-solid;
+    }
+    &.isSelected {
+      &:after {
+        content: "";
+        position: absolute;
+        height: 8px;
+        width: 8px;
+        top: 50%;
+        right: -1px;
+        background: url("../assets/icons/triangle.svg") no-repeat;
+        transform: rotate(-90deg);
+      }
     }
     > * {
       flex: none;
