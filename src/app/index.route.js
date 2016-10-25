@@ -169,7 +169,7 @@
             controller: 'PlaceSettingsController',
             controllerAs: 'ctlSettings'
           }).result.catch(function() {
-            if (previousState.name) {
+            if (previousState.name && previousState.name !== 'app.place-create') {
               $state.go(previousState.name, previousState.params, { notify : false });
             } else {
               $state.go(NST_DEFAULT.STATE)
