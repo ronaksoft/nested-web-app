@@ -6,7 +6,7 @@
 </div>
 <div class="actcon">
   <div class="msg" nst-post-modal post="act.post">
-    <div class="subject">
+    <div class="subject" id="comment-modal">
       <span class="nst-mood-simple">commented on:</span>&nbsp;
       <span class="nst-mood-solid post" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)" data-ng-bind-html="act.post.subject || '<i>No Subject</i>' | emoji"></span>
     </div>

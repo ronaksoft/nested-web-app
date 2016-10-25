@@ -3,19 +3,6 @@ var assert = require('assert'),
 
 module.exports = function () {
 
-  this.setDefaultTimeout(600 * 1000);
-
-  this.Given(/^I go to the page "([^"]*)"$/, function (url) {
-    browser.get(browser.baseUrl + url);
-  });
-
-  this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
-    return browser.getTitle().then(function (title) {
-      assert.equal(title, expectedPageTitle, ' title is "' + title + '" but should be "' + expectedPageTitle);
-    });
-  });
-
-
   this.When(/^I wait 10s$/, function () {
     browser.ignoreSynchronization = true;
     return browser.sleep(10000);
@@ -42,6 +29,12 @@ module.exports = function () {
   this.When(/^I Wait till line loader hide$/, function () {
     element(By.css('div[style="width: 0%;"]'));
     return;
+  });
+
+  this.setDefaultTimeout(600 * 1000);
+
+  this.Given(/^I go to the page "([^"]*)"$/, function (url) {
+    browser.get(browser.baseUrl + url);
   });
 
   this.Given(/^Wait to see the "([^"]*)" title$/, function (title) {
@@ -124,6 +117,7 @@ module.exports = function () {
       assert.equal(title, expectedPageTitle, ' title is "' + title + '" but should be "' + expectedPageTitle);
     });
   });
+
 
   this.Then(/^should the title of the place be "([^"]*)"$/, function (expectedPlaceTitle) {
     element(By.css(".navbar-top .name")).getText().then(function (title) {

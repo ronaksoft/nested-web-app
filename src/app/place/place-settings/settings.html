@@ -51,7 +51,7 @@
           data-ng-change="ctlSettings.updatePolicy()"
           ng-model="ctlSettings.place.policy.add_post">
           <option value="creators">Master Keyholders Only</option>
-          <option value="everyone">Master Keyholders & Members</option>
+          <option value="everyone">All Keyholders</option>
         </select>
       </aside>
     </div>
@@ -105,20 +105,20 @@
   </div>
   <div class="_difh _fw">
     <div class="_fw _difv">
-      <p>Create Subplace Access</p>
+      <p>Who Can Create Subplace?</p>
       <select data-ng-disabled="ctlSettings.place.privacy.receptive === 'off' "
               data-ng-model="ctlSettings.place.policy.add_place"
               data-ng-change="ctlSettings.updatePolicy()">
         <option value="creators">Master Keyholders Only</option>
-        <option value="everyone">Master Keyholders & Members</option>
+        <option value="everyone">All Keyholders</option>
       </select>
     </div>
     <div class="_fw _difv">
-      <p>Add Keyholder Access</p>
+      <p>Who Can Add Keyholder?</p>
       <select data-ng-model="ctlSettings.place.policy.add_member"
               data-ng-change="ctlSettings.updatePolicy()">
-        <option value="everyone">All Keyholders</option>
-        <option value="creators">Master Keyholders & Members</option>
+        <option value="everyone">Master Keyholders Only</option>
+        <option value="creators">All Keyholders</option>
       </select>
     </div>
   </div>
