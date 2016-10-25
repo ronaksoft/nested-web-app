@@ -58,12 +58,12 @@
       &:after {
         content: "";
         position: absolute;
-        height: 8px;
-        width: 8px;
+        height: 16px;
+        width: 16px;
         top: 50%;
-        right: -1px;
-        background: url("../assets/icons/triangle.svg") no-repeat;
-        transform: rotate(-90deg);
+        right: -8px;
+        background: url("../assets/icons/otr-tri.svg") no-repeat;
+        //transform: rotate(-90deg);
       }
     }
     > * {
@@ -1002,6 +1002,21 @@ ul ul > li:last-child > .place-item-inner{
       label {
         width: 24px;
         height: 24px;
+      }
+    }
+    .sidebar-add-member {
+      width: 28px;
+      height: 28px;
+      border-radius: 14px;
+      border: 1px solid $color-sense;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        display: flex;
+        width: 20px;
+        height: 20px;
+        fill: $color-sense;
       }
     }
   }
