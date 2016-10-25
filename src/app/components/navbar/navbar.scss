@@ -264,7 +264,17 @@ nst-navbar {
         margin-left: 6px;
         fill: $color-wind;
         transition: all .3s;
-        &.active,
+        //&.active {
+        //  use:first-of-type {
+        //    display: flex;
+        //  }
+        //}
+        //&.active:hover {
+        //  use:first-of-type {
+        //    display: none;
+        //  }
+        //}
+        &.morphed,
         &:hover {
           fill: $color-sense !important;
         }
