@@ -209,6 +209,7 @@ input[type="checkbox"]:checked + label.setting {
 .mentions {
   width: 286px;
   max-height: 480px;
+  min-height: 200px;
   transition: height $animation-dur;
   height: auto;
   z-index: 1029;
