@@ -1,3 +1,8 @@
+<div class="close-modal" ng-click="$close(result)">
+  <svg>
+    <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
+  </svg>
+</div>
 <div id="place-settings">
   <div class="place-name">
     <label for="logo" class="pic">
@@ -10,7 +15,7 @@
            onchange="angular.element(this).scope().ctlSettings.loadImage(event)"/>
 
     <div class="det">
-      <h3 data-ng-if="ctlSettings.hasControlAccess" 
+      <h3 data-ng-if="ctlSettings.hasControlAccess"
           editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.update('name', $data)">
         {{ctlSettings.place.name || 'empty'}}<a class="change-button">change</a></h3>
       <h3 data-ng-if="!ctlSettings.hasControlAccess" >
@@ -134,9 +139,4 @@
                          has-remove-access="ctlSettings.hasRemoveAccess"
                          has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember"
                          role="member.state"/>
-</div>
-<div class="close-modal" ng-click="$close(result)">
-  <svg>
-    <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
-  </svg>
 </div>
