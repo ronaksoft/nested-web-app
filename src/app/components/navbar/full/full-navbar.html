@@ -10,7 +10,7 @@
       </div>
       <div class="place-info _difv">
         <cite>{{ctlFullNavbar.title}}</cite>
-        <h3 id="place-address" ng-if="ctlFullNavbar.showPlaceId">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
+        <h3 id="place-address" data-ng-show="ctlFullNavbar.showPlaceId">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
         <p>{{ctlFullNavbar.description}}</p>
         <div class="navigation" ng-if="!ctlFullNavbar.controls">
           <nav>
