@@ -977,7 +977,7 @@ ul ul > li:last-child > .place-item-inner{
   }
   .teammates {
     border-top: 1px solid $color-breeze;
-    height: 94px;
+    min-height: 94px;
     display: flex;
     flex-direction: column;
     flex: none;
@@ -1013,6 +1013,7 @@ ul ul > li:last-child > .place-item-inner{
       display: flex;
       justify-content: center;
       align-items: center;
+      margin: 2px 0;
       svg {
         display: flex;
         width: 20px;
