@@ -7,6 +7,7 @@
 
   function NstSvcUserFactory($q, md5,
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
+                             NST_USER_SEARCH_AREA,
                              NST_USER_FACTORY_EVENT,
                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
     function UserFactory() {
@@ -357,6 +358,11 @@
       user.setDateOfBirth(userData.dob);
       user.setGender(userData.gender);
 
+      if (_.isObject(userData.counters)) {
+        user.setTotalMentionsCount(userData.counters.total_mentions);
+        user.setUnreadMentionsCount(userData.counters.unread_mentions);
+      }
+
       if (angular.isObject(userData.picture)) {
         user.setPicture(userData.picture);
       }
@@ -388,7 +394,12 @@
       return new NstUser(model);
     };
 
-    UserFactory.prototype.search = function (settings) {
+    UserFactory.prototype.search = function (settings, area) {
+
+      if (area === undefined){
+        throw "Define search area";
+      }
+
       var factory = this;
       var defer = $q.defer();
 
@@ -399,13 +410,28 @@
         role : null
       };
 
-      settings = _.defaults(settings, defaultSettings);
-      NstSvcServer.request('account/search', {
+      var params = {
         keyword: settings.query,
-        place_id: settings.placeId,
         role: settings.role,
         limit: settings.limit
-      }).then(function (data) {
+      };
+
+      if(area === NST_USER_SEARCH_AREA.ADD){
+        if (!settings.placeId){
+          throw "Define place id for search in teammate users";
+        }
+        params.place_id = settings.placeId;
+      }
+
+      if(area === NST_USER_SEARCH_AREA.MENTION){
+        if (!settings.postId){
+          throw "Define post id for search in post users";
+        }
+        params.post_id = settings.postId;
+      }
+
+      settings = _.defaults(settings, defaultSettings);
+      NstSvcServer.request('search/accounts' + area, params).then(function (data) {
         var users = _.map(data.accounts, factory.parseTinyUser);
         defer.resolve(users);
       }).catch(defer.reject);

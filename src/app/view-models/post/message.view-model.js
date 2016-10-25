@@ -23,6 +23,7 @@
       this.commentsCount = 0;
 
       this.firstPlace = null;
+      this.isRead = null;
 
       this.getAllPlacesCount = function () {
         return this.allPlaces.length;
@@ -55,6 +56,7 @@
         this.isForwarded = !!post.forwardFromId;
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
         this.allPlaces = _.map(post.places, mapPlace);
+        this.isRead = post.isRead;
 
         // Sort places with the priorities listed here:
         // 1. The place with the given Id (My personal place or any from my places list)
@@ -97,7 +99,7 @@
       return {
         id: place.id,
         name: place.name,
-        picture: place.getPicture().getThumbnail(64).getUrl().view || '/assets/icons/absents_place.svg'
+        picture: place.picture.id ? place.picture.thumbnails.x64.url.view : '/assets/icons/absents_place.svg'
       };
     }
   }

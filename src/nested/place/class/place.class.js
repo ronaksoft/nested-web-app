@@ -22,6 +22,7 @@
        */
       this.description = undefined;
 
+
       /**
        * Place's privacy
        *

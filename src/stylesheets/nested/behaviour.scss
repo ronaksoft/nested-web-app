@@ -3,41 +3,26 @@
     transform: translateY(96px);
   }
   #new-post {
-    top:102px;
+    top: $navbar-height - 40px;
   }
 }
 .maincontainer.sidetiny {
   .sidebar{
     width: $sidebar-width-tiny;
-    .side-top {
-      width: $sidebar-width-tiny;
-      #compose {
-        width: 54px;
-      }
-    }
-    .side-profile {
+    .side-access {
       width: $sidebar-width-tiny;
       padding: 0;
       display: inline-flex;
       //flex-direction: column-reverse;
       align-items: center;
-      transition: $animation-dur;
       & > a > div {
-        justify-content: center;
+        //justify-content: center;
         padding: 0;
-        transition: .1s;
-        & > img {
-          //margin-left: 22px;
-          transition: $animation-dur;
-        }
       }
       a {
         white-space: nowrap;
       }
     }
-  }
-  nst-navbar {
-    left: $sidebar-width-tiny;
   }
 
   //hidden unwanted elements in tiny sidebar

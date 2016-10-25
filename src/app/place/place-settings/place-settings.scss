@@ -1,0 +1,229 @@
+#place-settings {
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  position: relative;
+  flex-direction: column;
+  .place-name {
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+    .pic {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      flex: none;
+      @include avatar(80px,80px,0);
+    }
+    .det {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding-left: 16px;
+      h3 {
+        font-size: 32px;
+        color: $color-solid;
+        letter-spacing: -1px;
+        font-weight: 700;
+        margin: 8px 0;
+        a {
+          opacity: 0;
+        }
+        &:hover {
+          a {
+            opacity: 1;
+          }
+        }
+      }
+      h5 {
+        line-height: 19px;
+        color: $color-solid;
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+  }
+  .place-des {
+    display: flex;
+    width: 100%;
+    p {
+      color: #869D91;
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+  .recive-set {
+    width: 100%;
+    display: inline-flex;
+    flex-direction: column;
+    p {
+      font-size: 18px;
+      color: $color-solid;
+      font-weight: 700;
+      span {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 17px;
+      }
+    }
+    a{
+      opacity: 0;
+    }
+    &:hover {
+      a {
+        opacity: 1;
+      }
+    }
+    p {
+      color: rgba(0,0,0,.5);
+      font-size: 13px;
+      font-weight: 400;
+    }
+    .src-res {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      p {
+        display: flex;
+        flex: 1;
+        color: #000000;
+        font-weight: 400;
+        margin: 0;
+      }
+    }
+  }
+
+  .select-box2 {
+    width: 100%;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+    border: dashed 1px $color-wind;
+    padding: 0 12px;
+    border-radius: 10px;
+    transition: all .2s ease;
+    color: $color-solid;
+    height: 52px;
+    align-items: center;
+    p {
+      line-height: 22px;
+      font-size: 18px;
+      color: #00B45A;
+      font-weight: 700;
+    }
+    .add {
+      width: 48px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        width: 20px;
+        height: 20px;
+        transform-origin: center center;
+        transform: scale(2,2);
+        fill: #00B45A;
+      }
+    }
+    &:hover {
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      border-color: transparent;
+      background-color: $color-white;
+
+      p {
+        opacity: 1;
+      }
+    }
+    &.selected {
+      border: solid 2px $color-sense;
+      p {
+        opacity: 1;
+      }
+    }
+  }
+
+  .recive-set.preview {
+    &.select-box-step2.selected{
+      background: none;
+      border:none
+    }
+
+  }
+  .user-item {
+    height: 56px;
+    width: 100%;
+    transition: all $animation-dur;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    &:hover {
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      background-color: $color-white;
+    }
+    .logo {
+      display: flex;
+      flex: none;
+      @include avatar(48px,48px,500px)
+    }
+    .name {
+      display: inline-flex;
+      flex-direction: column;
+      flex: 1;
+      padding-left: 8px;
+      p {
+        font-size: 16px;
+        color: $color-solid;
+        margin: 0;
+        font-weight: 400;
+      }
+      span {
+        color: #00B45A;
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+    .role {
+      display: flex;
+      align-items: center;
+      flex: none;
+      svg {
+        width: 24px;
+        height: 24px;
+        fill: $color-solid;
+      }
+    }
+  }
+  .option-row {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    p {
+      line-height: 19px;
+      font-size: 16px;
+      font-weight: 400;
+      display: flex;
+      flex: 1;
+      color: $color-solid;
+    }
+    select {
+      flex: none;
+    }
+    input[type="checkbox"] + label {
+      display: inline-block;
+      background: url('../assets/icons/controls.svg') no-repeat;
+      height: 16px;
+      min-width: 17px;
+      padding: 0 0 0 17px;
+      color: $color-storm;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+    }
+    input[type="checkbox"]:checked + label {
+      background-position: 0 -16px;
+    }
+  }
+}

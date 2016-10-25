@@ -6,7 +6,11 @@
     .controller('FullNavbarController', FullNavbarController);
 
   /** @ngInject */
-  function FullNavbarController($scope, $rootScope, NstSvcAuth, $state, NstSearchQuery, NST_DEFAULT) {
+  function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
+    toastr, NstUtility,
+                                NstSvcAuth, NstSvcLogger,
+                                NstSearchQuery, NstSvcPlaceFactory,
+                                NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -23,7 +27,13 @@
     vm.search = search;
     vm.rollUpward = rollUpward;
     vm.rollToTop = false;
+    vm.place = null;
+    vm.toggleBookmark = toggleBookmark;
+    vm.toggleNotification = toggleNotification;
+    vm.openCreateSubplaceModal = openCreateSubplaceModal;
+    vm.openAddMemberModal = openAddMemberModal;
 
+    vm.confirmToLeave = confirmToLeave;
 
     vm.srch = function srch(el) {
       var ele = $('#' + el);
@@ -51,6 +61,97 @@
         open()
       }
     };
+
+    vm.showSettingsModal = function () {
+      // Show plce settings
+      $uibModal.open({
+        animation: false,
+        size: 'lg-white',
+        templateUrl: 'app/place/place-settings/settings.html',
+        controller: 'PlaceSettingsController',
+        controllerAs: 'ctlSettings',
+        resolve: {
+          tempPlaceId : function (){
+            return "sport";
+          }
+        }
+      }).result.then(function (result) {
+
+      });
+    };
+
+    function openCreateSubplaceModal ($event) {
+      $event.preventDefault();
+      $state.go('app.place-create', { placeId : getPlaceId() } , { notify : false });
+    };
+
+    function openAddMemberModal($event) {
+      $event.preventDefault();
+      NstSvcPlaceFactory.get(vm.getPlaceId()).then(function (place) {
+        vm.place = place;
+        var role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
+        var modal = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/pages/places/settings/place-add-member.html',
+          controller: 'PlaceAddMemberController',
+          controllerAs: 'addMemberCtrl',
+          size: 'sm',
+          resolve: {
+            chosenRole: function() {
+              return role;
+            },
+            currentPlace: function() {
+              return vm.place;
+            }
+          }
+        });
+
+        modal.result.then(function(selectedUsers) {
+          $q.all(_.map(selectedUsers, function(user) {
+
+            return $q(function(resolve, reject) {
+              NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
+                toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+                NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+                resolve({
+                  user: user,
+                  role: role,
+                  invitationId: invitationId
+                });
+              }).catch(function(error) {
+                // FIXME: Why cannot catch the error!
+                if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
+                  toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: null,
+                    duplicate: true
+                  });
+                } else {
+                  reject(error);
+                }
+              });
+            });
+
+          })).then(function(values) {
+            _.forEach(values, function(result) {
+              if (!result.duplicate) {
+                if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
+                  // vm.teammates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
+                }
+              }
+            });
+          }).catch(function(error) {
+            NstSvcLogger.error(error);
+          });
+        });
+      }).catch(function (error) {
+        NstSvcLogger.error(error);
+      });
+
+    }
 
     function getPlaceId() {
       return vm.placeId;
@@ -89,7 +190,11 @@
         return '';
       }
     }
-
+    function rollUpward(group) {
+      if (group === $state.current.options.group) {
+        vm.rollToTop = true;
+      }
+    }
     function isBookMark() {
       if ($state.current.name == 'app.messages-bookmarks' ||
         $state.current.name == 'app.messages-bookmarks-sorted'){
@@ -99,10 +204,22 @@
       return false;
     }
 
-    function rollUpward(group) {
-      if (group === $state.current.options.group) {
-        vm.rollToTop = true;
-      }
+    function toggleBookmark() {
+      vm.isBookmarked = !vm.isBookmarked;
+      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, '_starred', vm.isBookmarked).then(function(result) {
+
+      }).catch(function(error) {
+        vm.isBookmarked = !vm.isBookmarked;
+      });
+    }
+
+    function toggleNotification() {
+      vm.notificationStatus= !vm.notificationStatus;
+      NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.notificationStatus).then(function(result) {
+
+      }).catch(function(error) {
+        vm.notificationStatus = !vm.notificationStatus;
+      });
     }
 
     /**
@@ -130,8 +247,86 @@
       $state.go('app.search', { query : NstSearchQuery.encode(searchQury.toString()) });
     }
 
+
+    $scope.$watch(
+      function () {
+        return vm.placeId
+      },function () {
+        if (vm.placeId) {
+          NstSvcPlaceFactory.getBookmarkedPlaces()
+            .then(function (bookmaks) {
+              if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
+            });
+
+          NstSvcPlaceFactory.getNotificationOption(vm.placeId)
+            .then(function (status) {
+              vm.notificationStatus = status;
+            });
+
+          $q.all([
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE)]).then(function (resultSet) {
+              vm.allowedToAddMember = resultSet[0];
+              vm.allowedToAddPlace = resultSet[1];
+            }).catch(function (error) {
+              NstSvcLogger.error(error);
+            });
+        }
+      }
+    );
+
     $scope.$watch('topNavOpen',function (newValue,oldValue) {
       $rootScope.topNavOpen = newValue;
+    });
+
+
+    function confirmToLeave() {
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/pages/places/settings/place-leave-confirm.html',
+        size: 'sm',
+        controller : 'PlaceLeaveConfirmController',
+        controllerAs : 'leaveCtrl',
+        resolve : {
+          selectedPlace: function () {
+            return vm.title;
+          }
+        }
+      }).result.then(function() {
+        leave();
+      });
+    }
+
+    function leave() {
+      NstSvcPlaceFactory.removeMember(vm.getPlaceId(), NstSvcAuth.user.id, true).then(function(result) {
+        $state.go(NST_DEFAULT.STATE);
+      }).catch(function(error) {
+        if (error instanceof NstPlaceOneCreatorLeftError){
+          toastr.error('You are the only creator of the place!');
+        } else if (error instanceof NstPlaceCreatorOfParentError) {
+          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are creator of the top-level place ({0}).', vm.place.parent.name));
+        }
+        $log.debug(error);
+      });
+
+    }
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
+      if (e.detail.id === vm.placeId) vm.isBookmarked = true;
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
+      if (e.detail.id === vm.placeId) vm.isBookmarked = false;
+    });
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
+      if (e.detail.id === vm.placeId) vm.notificationStatus= true;
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
+      if (e.detail.id === vm.placeId) vm.notificationStatus= false;
     });
   }
 })();

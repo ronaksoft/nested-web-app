@@ -1,0 +1,30 @@
+<div class="place-item-inner">
+  <dl data-ng-repeat="i in ctlPlaceInfo.range(place.level + 1)" class="lines">
+    <div class="box2"></div>
+    <div class="box1"></div>
+    <div class="box3"></div>
+    <div class="box4"></div>
+  </dl>
+  <svg class="icon" ng-if="!place.isLock && !ctlPlaceInfo.placesBookmarkObject[place.id]">
+    <use xlink:href="/assets/icons/nst-icn16.svg#openplace"></use>
+  </svg>
+  <svg class="icon" ng-if="place.isLock && !ctlPlaceInfo.placesBookmarkObject[place.id]">
+    <use xlink:href="/assets/icons/nst-icn16.svg#closeplace"></use>
+  </svg>
+  <svg class="icon" ng-if="ctlPlaceInfo.placesBookmarkObject[place.id]">
+    <use xlink:href="/assets/icons/nst-icn16.svg#favplace"></use>
+  </svg>
+  <a href="{{place.href}}" ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == place.id }">{{ place.name }}
+    <b ng-if="ctlPlaceInfo.placesNotifCountObject[place.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[place.id]}}</b></a>
+  <span ng-if="place.children.length > 0" class="e2-arrow _df">
+    <label class="arrow-holder-nav {{!place.collapse ? 'nst-arrow' : 'nst-arrow-rotated'}}"
+           data-ng-click="place.collapse =! place.collapse">
+    </label>
+  </span>
+</div>
+<ul ng-if="place.children.length > 0 && place.collapse" >
+  <li class="side-place-item" ng-repeat="child in place.children"
+      data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'" onload="place = child"
+      ng-init="currentPlaceId = currentPlaceId">
+  </li>
+</ul>

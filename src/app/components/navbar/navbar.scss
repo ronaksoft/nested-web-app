@@ -4,27 +4,6 @@
   ***************************************************************
 */
 
-.nav-width-ul {
-  display: inline-block;
-  margin-top: 0;
-  width: calc(100% - 250px);
-
-}
-.nav-width-ul-compose {
-  display: inline-block;
-  margin-top: 0;
-  width: 100%;
-}
-
-.nav > li > a {
-  position: relative;
-  display: block;
-  padding: 22px 16px 22px 16px;
-}
-
-.nav > ul a {
-  padding: 22px 16px 22px 16px;
-}
 .nst-topnav {
   width: 100%;
   display: flex;
@@ -33,7 +12,7 @@
   top: 0;
   right: 0;
   left: 0;
-  height: 68px;
+  height: $topnav-height;
   background-color: $color-sense;
   z-index: 52;
   transition: background-color $animation-dur ease-in;
@@ -60,7 +39,7 @@
   right: 0;
   left: 0;
   bottom: 0;
-  top: 68px;
+  top: $topnav-height;
   height: calc(100% - 68px);
   background-color: $color-breeze-50;
   padding: 8px 0;
@@ -133,16 +112,18 @@ a {
 
 nst-navbar {
   height: $navbar-height;
-  min-height: $navbar-height;
-  transition: $animation-dur ease;
+  transition: all $animation-dur;
   align-self: flex-start;
   position: fixed;
-  display: flex;
-  flex: none;
   top: 0;
   right: 0;
   z-index: 55;
-  left: 0;
+  width: calc(100% - 272px);
+  will-change: height;
+  transform-origin: top;
+  * {
+    transform-origin: top;
+  }
 }
 
 .nst-navbar {
@@ -153,51 +134,174 @@ nst-navbar {
   z-index: 50;
   width: 100%;
   transition: all $animation-dur;
-  right: 0;
-  top: 68px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  .content {
+    flex-direction: row;
+    padding-top: 16px;
+  }
+  .place-logo {
+    height: calc(100% - 16px);
+    top : 0;
+    position: absolute;
+    justify-content: center;
+    @include avatar(72px,56px,6px);
+    img {
+      filter: alpha(opacity=10);
+    }
+    &::after {
+      top: 0;
+      transform: translateY(0)
+    }
+  }
+  .icon-logo {
+    height: calc(100% - 16px);
+    top : 16px;
+    position: absolute;
+    justify-content: center;
+  }
+  .place-info {
+    display: inline-flex;
+    flex: 1;
+    height: calc(100% - 16px);
+    width: calc(100% - 72px);
+    top : 16px;
+    position: absolute;
+    right: 0;
+    flex-direction: column;
+    > * {
+      display: flex;
+      flex: none;
+      width: 100%;
+    }
+    cite {
+      color: $color-solid;
+      letter-spacing: -1px;
+      line-height: 29px;
+      font-size: 24px;
+      font-weight: 700;
+      font-style: normal;
+      background-color: $color-white;
+      z-index: 2;
+    }
+    h3 {
+      color: $color-solid;
+      line-height: 16px;
+      font-size: 13px;
+      font-weight: 400;
+      margin: 0;
+      background: linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,1));
+      background: -webkit-linear-gradient(bottom, rgba(255,255,250,0) 0%,rgba(255,255,255,1) 100%);
+      z-index: 2;
+    }
+    p {
+      color: #869D91;
+      line-height: 16px;
+      font-size: 13px;
+      font-weight: 400;
+      margin: 16px 0 48px 0;
+      position: absolute;
+      bottom: 0;
+    }
+    .navigation {
+      position: absolute;
+      background-color: $color-white;
+      display: inline-flex;
+      flex-direction: row;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      height: 42px;
+      nav {
+        display: inline-flex;
+        flex: 1;
+        flex-direction: row;
+      }
+      .search {
+        flex: none;
+        align-items: center;
+        display: flex;
+        input {
+          color: #C8C8C8;
+          font-size: 12px;
+          font-weight: 400;
+          background-color: #FFFFFF;
+          border-radius: 4px;
+          width: 189px;
+          height: 30px;
+          padding: 2px 20px 2px 8px;
+          transition: width $animation-dur;
+          &:focus {
+            border-color: $color-border;
+            box-shadow: none;
+            width: 250px;
+          }
+        }
+        i {
+          position: absolute;
+          right: 4px;
+          background-color: $color-white;
+          background-size: cover;
+          width: 16px;
+          height: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+    .nav-access {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 40px;
+      display: inline-flex;
+      flex-direction: row-reverse;
+      z-index: 12;
+      svg {
+        display: flex;
+        height: 32px;
+        width: 32px;
+        margin-left: 6px;
+        fill: $color-wind;
+        transition: all .3s;
+        &.active,
+        &:hover {
+          fill: $color-sense !important;
+        }
+      }
+    }
+  }
 }
 .navbarillu {
   width: 100%;
-  height: 183px;
+  height: $navbar-height;
   flex: none
 }
-.navbar-top {
-  height: 117px;
-  transition: $animation-dur;
-  align-items: center;
-  a {
-    color: $color-solid;
-    font-weight: 100;
-  }
+.setting-icon-nav{
+  display: flex;
+  height: 24px!important;
+  width: 24px!important;
+  margin-left: 0!important;
 }
-
-.navbar-bottom {
-  height: 66px;
-  display: inline-flex;
-  flex-direction: row;
-  font-weight: 100;
-  font-size: 24px;
-}
-
 .menu-links {
   display: inline;
   //left: 35px;
 }
 
 .menu-links-butn {
-  width: 120px;
+  width: 90px;
   color: $color-storm;
-  font-size: 24px;
-  line-height: 24px;
+  line-height: 22px;
   text-align: center;
   cursor: pointer;
   left: 120px;
   align-items: center;
   justify-content: center;
+  font-size: 18px;
+  font-weight: 400;
   &.active {
-    border-bottom: 2px solid $color-sense ;
-    color: $color-solid;
+    border-bottom: 3px solid $color-sense ;
+    color: $color-sense-wire;
   }
 }
 
@@ -215,7 +319,7 @@ nst-navbar {
   border-bottom: 1px solid $color-white;
 }
 
-.menu-links .li-hover:hover, .selected {
+.menu-links .li-hover:hover{
   border-bottom: 2px solid $color-sense;
   margin-top: 4px;
 }
@@ -230,21 +334,6 @@ nst-navbar {
 .menu-links-search .icon-close {
   z-index: 2;
   right: -620px;
-}
-
-._left {
-  left: 0;
-}
-
-._right {
-  right: 0;
-}
-
-.search-part1 {
-  padding-bottom: 10px;
-}
-.search-part2 {
-  padding-top: 10px;
 }
 #inputsearch {
   max-width: 0;
@@ -271,3 +360,5 @@ nst-navbar {
 #inputsearch .line-f {
   left:0;
 }
+
+

@@ -4,7 +4,7 @@
     angular.module('ronak.nested.web.message')
       .directive('nstPostModal', PostModal);
 
-    function PostModal($uibModal) {
+    function PostModal($uibModal, $state) {
       var directive = {
         link: link,
         template: function(element) {
@@ -21,23 +21,10 @@
 
       function link(scope) {
         scope.openPostModal = function (vmPost) {
-          var modal = $uibModal.open({
-            animation: false,
-            templateUrl: 'app/messages/post/post.html',
-            controller: 'PostController',
-            controllerAs: 'ctlPost',
-            size: 'mlg',
-            resolve: {
-              vmPost: function () {
-                return vmPost;
-              },
-              postId: function () {
-                return vmPost.id
-              }
-            }
-          });
-
-          return modal.result;
+          if (scope.post){
+            scope.post.isRead = true;
+          }
+          $state.go('app.message', { postId : vmPost.id, model : vmPost }, { notify : false});
         }
       }
 

@@ -50,6 +50,8 @@
   //margin-right: auto;
   //margin-left: auto;
   width: 100%;
+  overflow-y: auto;
+  overflow-y: initial;
 }
 
 .content {
@@ -84,6 +86,7 @@
   .content {
     width: 100%;
     @include center-block();
+    display: flex;
     max-width: 1058px;
     min-height: 100%;
   }
@@ -127,6 +130,26 @@ hr {
 }
 .first-child {
   margin-top: 20px;
+}
+.svg-hover {
+  transition: all .2s;
+  use:first-child{
+    display: none;
+  }
+  &:hover{
+    fill: $color-sense ;
+    use:first-child{
+      display: flex;
+    }
+    use:last-child{
+      display: none;
+    }
+  }
+  &.morphed:hover use:first-child,
+  &.active use:first-child{
+    display: flex!important;
+  }
+
 }
 
 /**

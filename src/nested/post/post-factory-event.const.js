@@ -5,6 +5,7 @@
     .module('ronak.nested.web.message')
     .constant('NST_POST_FACTORY_EVENT', {
       ADD: 'add',
-      REMOVE: 'remove'
+      REMOVE: 'remove',
+      READ: 'read'
     });
 })();

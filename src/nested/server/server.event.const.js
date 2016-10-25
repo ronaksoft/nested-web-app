@@ -10,6 +10,7 @@
     ERROR: '__error',
     TIMELINE: '__timeline',
     DISCONNECT: 'DISCONNECT',
-    CONNECT: 'CONNECT'
+    CONNECT: 'CONNECT',
+    RECONNECT: 'RECONNECT'
   });
 })();

@@ -17,7 +17,7 @@
     width: calc(100% - 32px);
   }
   #new-post {
-    top: 198px;
+    top: $navbar-height;
   }
 
   .maincontainer {
@@ -42,7 +42,7 @@
     left:280px!important;
   }
   .sidebar{
-    display: none;
+    display: none!important;
   }
   .sidebar-border {
     display: none;
@@ -56,17 +56,24 @@
     //overflow: hidden;
   }
   .modal-mlg {
-    margin: 0 80px;
+    margin: 80px;
     width: calc(100% - 160px);
+    height: calc(100% - 160px)!important;
   }
   .nst-container{
     margin-left: 272px;
+    width: calc(100% - 272px);
+  }
+  nst-navbar {
     width: calc(100% - 272px);
   }
   .maincontainer.sidetiny {
     .nst-container{
       margin-left: 76px;
       width: calc(100% - 76px );
+    }
+    nst-navbar {
+      width: calc(100% - 72px);
     }
   }
   .nst-topnav{
@@ -82,6 +89,9 @@
   .content-plus{
     display: none;
     height: 0!important;
+  }
+  .modal-lg-white {
+
   }
 }
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){

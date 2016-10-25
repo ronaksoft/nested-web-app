@@ -7,7 +7,7 @@
         <i>No Subject</i>
       </p>
       <div class="time nst-mood-storm _fn">{{ctlPost.post.date | date : 'long'}}</div>
-      <div class="closebut" ng-click="$close(result)" id="test-post-view-close">
+      <div class="closebut" ng-click="$dismiss()">
         <img src="../assets/icons/close.svg"/>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <span class="actor-name nst-mood-cheerful _df">{{ctlPost.post.sender.name}}</span>
       <span class="margin-l-5 nst-mood-storm">to</span>
       <div class="badges _df _fw">
-        <div class="large-badge _df" data-ng-repeat="place in ctlPost.post.allPlaces" id="test-post-badge">
+        <div class="large-badge _df" data-ng-repeat="place in ctlPost.post.allPlaces">
           <a class="_di _fl" href="/#/places/{{place.id}}/messages">
             {{place.name}}
           </a>
@@ -27,22 +27,22 @@
       </div>
       <div class="panel-action _fn">
         <ul class="list-inline _df">
-          <li ng-if="ctlPost.hasRemoveAccess()">
+          <li ng-if="ctlPost.hasRemoveAccess">
             <a href="" ng-click="ctlPost.removePost(ctlPost.post);">
               <span class="nst-mood-solid _dib">Delete</span>
               <span class="action-button-post-delete _dib"></span>
             </a>
           </li>
           <li>
-            <a href="{{ctlPost.urls.forward}}" id="test-post-view-forward">
-              <span class="nst-mood-solid _dib" >Forward</span>
+            <a href="{{ctlPost.urls.forward}}" ng-click="ctlPost.forward($event);">
+              <span class="nst-mood-solid _dib">Forward</span>
               <span class="action-button-post-forward  _dib"></span>
             </a>
           </li>
 
           <li>
             <div class="popover-white-nst-activity-places cursor-pointer" uib-popover-template="'app/messages/post/reply.html'"
-                 ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" popover-trigger="outsideClick" id="test-post-view-reply">
+                 ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" popover-trigger="outsideClick">
               <span class="nst-mood-solid _dib">Reply</span>
               <span class="action-button-post- _dib"></span>
             </div>
@@ -75,9 +75,18 @@
     </div>
 
     <div id="Comments" class="_df _vat">
+      <div class="recent-container _fw _df _jcc _fn" ng-if="ctlPost.status.commentLoadProgress">
+        <div class="nst-mood-cheerful no-gutter nst-margin-24">
+          <div class="_fw">
+            <div class="nst-loading nst-loading-size-4 _fl"></div>
+            <span>&nbsp;</span>
+            <div class="nst-font-xsmall _fr nst-marginbtm-4">Loading...</div>
+          </div>
+        </div>
+      </div>
       <!-- @FIXME : Use a proper animation to go downward -->
       <div class="comment-msg _difv _fw" nst-scrollbar scroll-animate="false" go-downward="ctlPost.revealNewComment">
-        <div data-ng-if="ctlPost.status.hasMoreComments" class="_fw text-center">
+        <div data-ng-if="ctlPost.hasMoreComments && !ctlPost.status.commentLoadProgress" class="_fw text-center">
           <a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
         </div>
         <div data-ng-repeat="comment in ctlPost.comments" class="_fw _difh NewComment">
@@ -95,8 +104,9 @@
                    data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
             </div>
             <div class="_fw _wrb cmt-post-view" auto-dir="{{comment.body}}">
-              <span ng-bind-html="comment.body | emoji"></span>
-              <a href data-ng-if="ctlPost.allowToRemoveComment(comment);" ng-click="ctlPost.removeComment(comment);" class="nst-mood-storm nst-font-small" >&nbsp;&nbsp;delete </a>
+              <span ng-bind-html="comment.body | emoji" ng-class="{ 'sending' : comment.status == 'progress', 'failed' : comment.status == 'fail' }"></span>&nbsp;&nbsp;
+              <a href data-ng-if="!comment.isTemp && ctlPost.allowToRemoveComment(comment)" ng-click="ctlPost.removeComment(comment);" class="nst-mood-storm nst-font-small" >delete</a>
+              <!-- <a href data-ng-if="comment.isTemp && comment.status == 'fail'" ng-click="ctlPost.resend(comment);" class="nst-mood-storm nst-font-small retry-link" >retry</a> -->
             </div>
           </div>
         </div>
@@ -120,6 +130,7 @@
                <!--ng-model="ctlPost.nextComment" auto-dir="{{ctlPost.nextComment}}" max-length="5"-->
                <!--aria-expanded="false" class="_fw comment-box _wrb"><p></p></div>-->
           <textarea type="text" nst-mention class="_df _fw" cols="32"
+                    post-id="{{ctlPost.post.id}}"
                     data-ng-disabled="ctlPost.status.commentSendInProgress"
                     data-ng-model="ctlPost.nextComment"
                     ng-keyup="ctlPost.sendComment($event)"

@@ -6,11 +6,11 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $rootScope, $stateParams, $q, $uibModal, $log, $state, toastr, $timeout,
-    NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_NAVBAR_CONTROL_TYPE, NST_DEFAULT,
-    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstVmNavbarControl, NstSvcInvitationFactory,
+  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
+    NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT,
+    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
-    NstPlace, NstPicture, NstVmMemberItem) {
+    NstVmMemberItem) {
     var vm = this;
 
     /*****************************
@@ -26,6 +26,8 @@
     vm.hasControlAccess = null;
     vm.hasAddMembersAccess = null;
     vm.hasSeeMembersAccess = null;
+    vm.isSearchEnabled = true;
+
 
     vm.updatePrivacy = updatePrivacy;
     vm.updatePolicy = updatePolicy;
@@ -33,28 +35,32 @@
     vm.setBookmark = setBookmark;
     vm.update = update;
     vm.addMember = addMember;
-    vm.inviteParticipant = inviteParticipant;
     vm.loadImage = loadImage;
     vm.confirmToLock = confirmToLock;
     vm.confirmToLeave = confirmToLeave;
     vm.confirmToRemove = confirmToRemove;
-    vm.hasAnyTeamate = hasAnyTeamate;
-    vm.hasAnyParticipant = hasAnyParticipant;
+    vm.hasAnyTeammate = hasAnyTeammate;
     vm.allowedToAddSubPlace = allowedToAddSubPlace;
     vm.allowedToDelete = allowedToDelete;
     vm.allowedToLeave = allowedToLeave;
     vm.hasAnyControlOverHere = hasAnyControlOverHere;
+    vm.setReceptive = setReceptive;
+    vm.setReceivingEveryone = setReceivingEveryone;
+    vm.setReceivingMembers = setReceivingMembers;
+    vm.setReceivingOff = setReceivingOff;
+
 
     (function() {
       $log.debug('Initializing of PlaceSettingsController just started...');
       vm.place = {};
       vm.placeId = $stateParams.placeId;
+      // vm.placeId = tempPlaceId;
       vm.user = NstSvcAuth.user;
       NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         vm.place = place;
         vm.placeLoaded = true;
-        vm.isGrandPlace = !vm.place.parent || !vm.place.parent.id;
-
+        vm.isGrandPlace = (!place.parent) && (place.grandParent.id === place.id);
+        vm.isSearchEnabled = vm.place.privacy.receptive !== 'off';
         $log.debug(NstUtility.string.format('Place {0} was found.', vm.place.name));
 
         return $q.all([
@@ -64,8 +70,7 @@
           NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
           NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
           NstSvcPlaceFactory.getNotificationOption(vm.placeId),
-          NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred'),
-          NstSvcPlaceFactory.getBookmarkedPlaces('_starred')
+          NstSvcPlaceFactory.getBookmarkOption(vm.placeId, '_starred')
         ]);
       }).then(function(values) {
         vm.hasRemoveAccess = values[0];
@@ -75,9 +80,8 @@
         vm.hasSeeMembersAccess = values[4];
         vm.options.notification = values[5];
         vm.options.bookmark = values[6];
-        vm.options.bookmark1 = values[7];
 
-        $log.debug(NstUtility.string.format('Place "{0}" settings retrieved successfully.', vm.place.name));
+        $log.debug(NstUtility.string.format('Place "{0}" settings have been retrieved successfully.', vm.place.name));
 
         return vm.hasSeeMembersAccess ?
           NstSvcPlaceFactory.getMembers(vm.placeId) :
@@ -85,43 +89,30 @@
             resolve({});
           });
       }).then(function(members) {
-        vm.teamates = _.concat(_.map(members.creators, function (member) {
+        vm.teammates = _.concat(_.map(members.creators, function (member) {
           return new NstVmMemberItem(member, 'creator');
         }), _.map(members.keyHolders, function (member) {
           return new NstVmMemberItem(member, 'key_holder');
         }));
 
-        vm.participants = _.map(members.knownGuests, function (member) {
-          return new NstVmMemberItem(member, 'known_guest');
-        });
-
-        $log.debug(NstUtility.string.format('Place "{0}" has {1} creator(s), {2} key holder(s) and {3} known guest(s).',
+        $log.debug(NstUtility.string.format('Place "{0}" has {1} creator(s), {2} key holder(s).',
           vm.place.name,
           members.creators ? members.creators.length : 0,
-          members.keyHolders ? members.keyHolders.length : 0,
-          members.knownGuests ? members.knownGuests.length : 0
+          members.keyHolders ? members.keyHolders.length : 0
         ));
 
-        // A known guest is not allowed to see other members that their invitation is still pending
-        var allowedToSeePendings = !(vm.place.id === NstSvcAuth.user.id);
-
-        return allowedToSeePendings ? NstSvcInvitationFactory.getPlacePendingInvitations(vm.placeId) :
-          $q(function(resolve) {
-            resolve({});
-          });
+        // Only The one who is allowed to add member can see pending invitations
+        return vm.hasAddMembersAccess
+          ? NstSvcInvitationFactory.getPlacePendingInvitations(vm.placeId)
+          : $q.resolve({});
       }).then(function(pendings) {
-        vm.teamates = _.concat(vm.teamates, _.map(pendings.pendingKeyHolders, function (invitation) {
+        vm.teammates = _.concat(vm.teammates, _.map(pendings.pendingKeyHolders, function (invitation) {
           return new NstVmMemberItem(invitation, 'pending_key_holder');
         }));
 
-        vm.participants = _.concat(vm.participants, _.map(pendings.pendingKnownGuests, function (invitation) {
-          return new NstVmMemberItem(invitation, 'pending_known_guest');
-        }));
-
-        $log.debug(NstUtility.string.format('Place "{0}" has {1} pending key holder(s) and {2} pending known guest(s).',
+        $log.debug(NstUtility.string.format('Place "{0}" has {1} pending key holder(s).',
           vm.place.name,
-          pendings.pendingKeyHolders ? pendings.pendingKeyHolders.length : 0,
-          pendings.pendingKnownGuests ? pendings.pendingKnownGuests.length : 0
+          pendings.pendingKeyHolders ? pendings.pendingKeyHolders.length : 0
         ));
 
       }).catch(function(error) {
@@ -143,16 +134,9 @@
           case NST_PLACE_MEMBER_TYPE.CREATOR:
           case NST_PLACE_MEMBER_TYPE.KEY_HOLDER:
           case 'pending_' + NST_PLACE_MEMBER_TYPE.KEY_HOLDER:
-            var memberIndex = _.findIndex(vm.teamates, { id : data.member.id });
+            var memberIndex = _.findIndex(vm.teammates, { id : data.member.id });
             if (memberIndex > -1) {
-              vm.teamates.splice(memberIndex, 1);
-            }
-            break;
-          case NST_PLACE_MEMBER_TYPE.KNOWN_GUEST:
-          case 'pending_' + NST_PLACE_MEMBER_TYPE.KNOWN_GUEST:
-            var memberIndex = _.findIndex(vm.participants, { id : data.member.id });
-            if (memberIndex > -1) {
-              vm.participants.splice(memberIndex, 1);
+              vm.teammates.splice(memberIndex, 1);
             }
             break;
           default:
@@ -168,11 +152,9 @@
       return vm.hasAddPlaceAccess;
     }
 
-
     function allowedToDelete() {
       return vm.hasRemoveAccess && vm.place.children.length === 0;
     }
-
 
     /**
      * allowedToLeave - Check if the user is allowed to leave the place
@@ -183,11 +165,11 @@
      */
     function allowedToLeave() {
 
-      if (!vm.teamates){
+      if (!vm.teammates){
         return false;
       }
 
-      var creators = vm.teamates.filter(function (member) {
+      var creators = vm.teammates.filter(function (member) {
         return member.role === NST_PLACE_MEMBER_TYPE.CREATOR;
       });
 
@@ -226,13 +208,14 @@
         $q.all(_.map(selectedUsers, function(user) {
 
           return $q(function(resolve, reject) {
-            NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
+            var command  = vm.isGrandPlace ? 'inviteUser' : 'addUser';
+            NstSvcPlaceFactory[command](vm.place, role, user).then(function(invitationId) {
 
               $log.debug(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
               resolve({
                 user: user,
                 role: role,
-                invitationId: invitationId
+                invitationId: vm.isGrandPlace ? invitationId : -1,
               });
             }).catch(function(error) {
               // FIXME: Why cannot catch the error!
@@ -254,9 +237,8 @@
           _.forEach(values, function(result) {
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-                vm.teamates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
-              } else if (result.role === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
-                vm.participants.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
+                var rolePrefix = vm.isGrandPlace ? 'pending_' : '';
+                vm.teammates.push(new NstVmMemberItem(result.user, rolePrefix + result.role));
               }
             }
           });
@@ -268,10 +250,6 @@
 
     function addMember() {
       showAddModal(NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
-    }
-
-    function inviteParticipant() {
-      showAddModal(NST_PLACE_MEMBER_TYPE.KNOWN_GUEST);
     }
 
     function confirmToLock(event) {
@@ -359,9 +337,7 @@
     function updatePolicy(name, value) {
       if (name && value &&
         vm.place.policy[name] !== value) {
-        vm.place.policy[name] = value;
-      }else{
-        return;
+        vm.place.policy[name] = value
       }
       update('policy', vm.place.policy);
     }
@@ -385,7 +361,6 @@
         $log.debug(error);
       });
     }
-
 
     function setBookmark() {
       NstSvcPlaceFactory.setBookmarkOption(vm.placeId, '_starred', vm.options.bookmark).then(function(result) {
@@ -434,13 +409,69 @@
       $log.debug(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
     }
 
-    function hasAnyTeamate() {
-      return vm.teamates && vm.teamates.length > 0;
+    function hasAnyTeammate() {
+      return vm.teammates && vm.teammates.length > 0;
     }
 
-    function hasAnyParticipant() {
-      return vm.participants && vm.participants.length > 0;
+    function setReceptive(value) {
+      vm.place.privacy.receptive = value;
+
+      switch (value) {
+        case 'off':
+        vm.place.privacy.search = false;
+        vm.isSearchEnabled = false;
+        break;
+        case 'internal':
+        case 'external':
+        vm.isSearchEnabled = true;
+        break;
+      }
+
+      update('privacy', vm.place.privacy);
     }
+
+
+    function setReceivingOff() {
+      vm.receivingMode = 'off';
+
+      vm.place.privacy.receptive = 'off';
+      vm.place.privacy.search = false;
+      update('privacy', vm.place.privacy);
+    }
+
+    function setReceivingMembers() {
+      vm.receivingMode = 'members';
+
+      vm.place.privacy.receptive = 'internal';
+      vm.place.privacy.addPost = 'everyone';
+      update('privacy', vm.place.privacy);
+    }
+
+    function setReceivingEveryone() {
+      vm.receivingMode = 'everyone';
+
+      vm.place.privacy.receptive = 'external';
+      vm.place.privacy.addPost = 'everyone';
+      update('privacy', vm.place.privacy);
+    }
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
+      if (e.detail.id === vm.placeId) vm.options.bookmark = true;
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
+      if (e.detail.id === vm.placeId) vm.options.bookmark = false;
+    });
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
+      if (e.detail.id === vm.placeId) vm.options.notification = true;
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_OFF, function (e) {
+      if (e.detail.id === vm.placeId) vm.options.notification = false;
+    });
 
   }
 })();
