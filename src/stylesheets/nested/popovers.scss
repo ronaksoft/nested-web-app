@@ -187,9 +187,9 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 #popup-msg-badge {
-   //margin-top: 20px;
-   max-height: 150px;
-   overflow-y: auto;
+  overflow-y: auto;
+  height: 100%;
+  max-height: 190px;
  }
 
 
