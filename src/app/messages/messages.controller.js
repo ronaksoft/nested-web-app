@@ -111,7 +111,6 @@
             }).length > 0){
               vm.hotMessageStorage.unshift(newMessage);
               vm.hasNewMessages = true;
-              $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
           return;
         }
@@ -121,7 +120,6 @@
           if (!_.some(vm.messages, { id : newMessage.id })){
             vm.hotMessageStorage.unshift(newMessage);
             vm.hasNewMessages = true;
-            $rootScope.$emit('unseen-activity-notify', vm.hotMessageStorage.length);
           }
         }
 
@@ -175,10 +173,11 @@
     }
 
     function getMessages() {
+      console.log(vm.currentPlace);
       switch ($state.current.name) {
         case 'app.place-messages':
         case 'app.place-messages-sorted':
-          return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlace.id);
+          return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlaceId);
 
         case 'app.messages-sent':
         case 'app.messages-sent-sorted':
@@ -190,7 +189,7 @@
 
         case 'app.place-messages-unread':
         case 'app.place-messages-unread':
-          return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlace.id.split(".")[0]], true);
+          return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlaceId.split(".")[0]], true);
 
 
         default:

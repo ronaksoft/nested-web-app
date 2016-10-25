@@ -157,25 +157,43 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM,
         },
-        templateUrl: 'app/pages/places/settings/place-settings.html',
-        controller: 'PlaceSettingsController',
-        controllerAs: 'ctlSettings',
         options : {
           primary : true,
           group : 'settings'
-        }
-      })
-      .state('app.place-add', {
-        url: '/places/:placeId/add',
-        params: {
-          placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/pages/places/add/main.html',
-        controller: 'PlaceAddController',
-        controllerAs: 'ctlPlaceAdd',
-        options : {
-          group : 'settings'
-        }
+        onEnter: ['$stateParams', '$state', '$uibModal', 'previousState', function($stateParams, $state, $uibModal, previousState) {
+          var modal = $uibModal.open({
+            animation: false,
+            size: 'lg-white',
+            templateUrl: 'app/place/settings/place-settings.html',
+            controller: 'PlaceSettingsController',
+            controllerAs: 'ctlSettings'
+          }).result.catch(function() {
+            if (previousState.name && previousState.name !== 'app.place-create') {
+              $state.go(previousState.name, previousState.params, { notify : false });
+            } else {
+              $state.go(NST_DEFAULT.STATE)
+            }
+          });
+        }],
+        onExit: function($uibModalStack) {
+          if ($uibModalStack) {
+            $uibModalStack.dismissAll();
+          }
+        },
+        resolve: {
+          previousState : [
+            "$state",
+            function ($state) {
+              var current = {
+                name : $state.current.name,
+                params : $state.params,
+                url : $state.href($state.current.name, $state.params)
+              };
+              return current;
+            }
+          ]
+        },
       })
       .state('app.place-create', {
         url: '/places/:placeId/create',
@@ -339,7 +357,7 @@
         }
       });
 
-    $urlRouterProvider.otherwise('/signin');
+    $urlRouterProvider.otherwise('/messages');
   }
 
 })();
