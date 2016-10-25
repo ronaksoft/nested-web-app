@@ -72,14 +72,16 @@
           }
         }
         p {
-          word-break: break-all;
           color: #808080;
           font-size: $font-size-xsmall;
+          @extend ._wrb;
           //line-height: 13px;
           //font-weight: 400;
           span {
             font-style: italic;
+            white-space: normal;
             font-size: $font-size-xsmall;
+            @extend ._wrb;
           }
         }
       }
