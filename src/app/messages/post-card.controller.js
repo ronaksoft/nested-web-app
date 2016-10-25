@@ -134,11 +134,9 @@
     function loadMoreComments() {
       var date = getDateOfOldestComment(vm.post);
 
-      NstSvcPostFactory.get(vm.post.id).then(function (post) {
-        return NstSvcCommentFactory.retrieveComments(post, {
+      NstSvcCommentFactory.retrieveComments(vm.post.id, {
           date : date,
           limit : commentsSettings.limit
-        });
       }).then(function (comments) {
         vm.hasOlderComments = comments.length >= commentsSettings.limit;
         var commentItems = _.orderBy(_.map(comments, NstSvcCommentMap.toMessageComment), 'date', 'asc');
