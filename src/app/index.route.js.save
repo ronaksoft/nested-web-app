@@ -155,7 +155,7 @@
       .state('app.place-settings', {
         url: '/places/:placeId/settings',
         params: {
-          placeId: NST_DEFAULT.STATE_PARAM,
+          placeId: NST_DEFAULT.STATE_PARAM
         },
         templateUrl: 'app/pages/places/settings/place-settings.html',
         controller: 'PlaceSettingsController',
@@ -176,48 +176,6 @@
         options : {
           group : 'settings'
         }
-      })
-      .state('app.place-create', {
-        url: '/places/:placeId/create',
-        params: {
-          placeId: NST_DEFAULT.STATE_PARAM
-        },
-        options : {
-          group : 'settings'
-        },
-        onEnter: ['$stateParams', '$state', '$uibModal', 'previousState', function($stateParams, $state, $uibModal, previousState) {
-          var modal = $uibModal.open({
-            animation: false,
-            size: 'lg-white',
-            templateUrl: 'app/place/create/create-team.html',
-            controller: 'PlaceCreateController',
-            controllerAs: 'ctlCreate'
-          }).result.catch(function() {
-            if (previousState.name) {
-              $state.go(previousState.name, previousState.params, { notify : false });
-            } else {
-              $state.go(NST_DEFAULT.STATE)
-            }
-          });
-        }],
-        onExit: function($uibModalStack) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        },
-        resolve: {
-          previousState : [
-            "$state",
-            function ($state) {
-              var current = {
-                name : $state.current.name,
-                params : $state.params,
-                url : $state.href($state.current.name, $state.params)
-              };
-              return current;
-            }
-          ]
-        },
       })
 
       /*****************************
@@ -291,11 +249,8 @@
         },
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
-	      controllerAs: 'ctlActivity',
-        options : {
-          primary : true,
-          group : 'activity'
-        }
+        controllerAs: 'ctlActivity',
+	
       })
 
       /*****************************
@@ -307,7 +262,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/pages/places/files/place-files.html',
+        templateUrl: 'app/components/files/place-files.html',
         controller: 'PlaceFilesController',
         controllerAs: 'ctlFiles'
       })
@@ -317,9 +272,18 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/pages/places/files/place-files.html',
+        templateUrl: 'app/components/files/place-files.html',
         controller: 'PlaceFilesController',
         controllerAs: 'ctlFiles'
+      })
+
+   ===
+        controllerAs: 'ctlActivity',
+        options : {
+          primary : true,
+          group : 'activity'
+        }
+>>>>>>> 5b080c342b20650eaab7e2fbe69583936ee9fc4d
       })
 
       /*****************************
