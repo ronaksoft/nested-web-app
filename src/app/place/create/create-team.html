@@ -1,3 +1,8 @@
+<div class="close-modal" ng-click="$dismiss()">
+  <svg>
+    <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
+  </svg>
+</div>
 <div id="create-place"
      ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode && true; ctlCreate.step2 = !ctlCreate.step1">
   <div class="_difv" ng-if="ctlCreate.step1">
@@ -128,8 +133,4 @@
     </form>
   </div>
 </div>
-<div class="close-modal" ng-click="$dismiss()">
-  <svg>
-    <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
-  </svg>
-</div>
+
