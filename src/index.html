@@ -132,10 +132,14 @@
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
   <![endif]-->
-  <div ui-view></div>
 
-  <disconnect-message data-disconnect="ctlApp.disconnected" ></disconnect-message>
-  <!-- build:js(src) scripts/vendor.js -->
+  <!--if js disabled on browser-->
+  <noscript>Sorry! Your browser does not support JavaScript, or it has been disabled!</noscript>
+
+    <div ui-view></div>
+
+    <disconnect-message data-disconnect="ctlApp.disconnected" ></disconnect-message>
+    <!-- build:js(src) scripts/vendor.js -->
   <!-- bower:js -->
   <!-- run `gulp inject` to automatically populate bower script dependencies -->
   <!-- endbower -->
