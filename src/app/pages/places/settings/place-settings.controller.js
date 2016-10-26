@@ -6,7 +6,7 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $log, $state, toastr,
+  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr,
     NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcLogger,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
@@ -16,7 +16,10 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-
+     vm.memberOptions = {
+       'creators' : 'Master Keyholders Only',
+       'everyone' : 'All Keyholders'
+     };
     vm.options = {
       notification: null,
       bookmark : null
@@ -32,18 +35,19 @@
     vm.placeLoadProgress = false;
     vm.teammatesLoadProgress = false;
 
-
-    vm.setNotification = setNotification;
-    vm.setBookmark = setBookmark;
     vm.addMember = addMember;
     vm.loadImage = loadImage;
     vm.setReceivingEveryone = setReceivingEveryone;
     vm.setReceivingMembers = setReceivingMembers;
     vm.setReceivingOff = setReceivingOff;
+    vm.updateAddPlacePolicy = updateAddPlacePolicy;
+    vm.updateAddMemberPolicy = updateAddMemberPolicy;
+    vm.updateAddPostPolicy = updateAddPostPolicy;
+    vm.updateSearchPrivacy = updateSearchPrivacy;
 
 
     (function() {
-      $log.debug('Initializing of PlaceSettingsController just started...');
+      NstSvcLogger.info('Initializing of PlaceSettingsController just started...');
 
       vm.place = null;
       vm.placeId = $stateParams.placeId;
@@ -82,7 +86,7 @@
             }
             break;
           default:
-            $log.debug(NstUtility.string.format('Can not remove the member, Because her role is "{0}" which was not expected!', data.previousRole));
+            NstSvcLogger.error(NstUtility.string.format('Can not remove the member, Because her role is "{0}" which was not expected!', data.previousRole));
             break;
 
         }
@@ -101,7 +105,7 @@
       NstSvcPlaceFactory.get(id).then(function(place) {
         result.place = place;
         console.log(place);
-        $log.debug(NstUtility.string.format('Place {0} was found.', result.place.id));
+        NstSvcLogger.info(NstUtility.string.format('Place {0} was found.', result.place.id));
         initializeStates(place);
 
         return $q.all([
@@ -123,7 +127,7 @@
         // result.place.notification = resolvedSet[5];
         // result.place.bookmark = resolvedSet[6];
 
-        $log.debug(NstUtility.string.format('Place "{0}" settings have been retrieved successfully.', result.place.id));
+        NstSvcLogger.info(NstUtility.string.format('Place "{0}" settings have been retrieved successfully.', result.place.id));
         vm.placeLoadProgress = false;
 
         deferred.resolve(result);
@@ -205,7 +209,7 @@
             var command  = vm.isGrandPlace ? 'inviteUser' : 'addUser';
             NstSvcPlaceFactory[command](vm.place, role, user).then(function(invitationId) {
 
-              $log.debug(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+              NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
               resolve({
                 user: user,
                 role: role,
@@ -214,7 +218,7 @@
             }).catch(function(error) {
               // FIXME: Why cannot catch the error!
               if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                $log.debug(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                NstSvcLogger.warn(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
                 resolve({
                   user: user,
                   role: role,
@@ -237,7 +241,7 @@
             }
           });
         }).catch(function(error) {
-          $log.debug(error);
+          NstSvcLogger.error(error);
         });
       });
     }
@@ -246,48 +250,14 @@
       showAddModal(NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
     }
 
-
-    function updatePrivacy(name, value) {
-      if (name && value) {
-        vm.place.privacy[name] = value;
+    function update(model) {
+      if (model) {
+        NstSvcPlaceFactory.update(vm.place.id, model).then(function(result) {
+          NstSvcLogger.info(NstUtility.string.format('Place {0} information updated successfully.', vm.place.id));
+        }).catch(function(error) {
+          NstSvcLogger.error(error);
+        });
       }
-      update('privacy', vm.place.privacy);
-    }
-
-    function updatePolicy(name, value) {
-      if (name && value &&
-        vm.place.policy[name] !== value) {
-        vm.place.policy[name] = value
-      }
-      update('policy', vm.place.policy);
-    }
-
-    function update(property, value) {
-      if (property && value) {
-        vm.place[property] = value;
-      }
-
-      NstSvcPlaceFactory.save(vm.place).then(function(result) {
-        $log.debug(NstUtility.string.format('Place {0} information updated successfully.', vm.place.id));
-      }).catch(function(error) {
-        $log.debug(error);
-      });
-    }
-
-    function setNotification() {
-      NstSvcPlaceFactory.setNotificationOption(vm.placeId, vm.options.notification).then(function(result) {
-        $log.debug(NstUtility.string.format('Place {0} notification setting changed to {1} successfully.', vm.place.id, vm.options.notification));
-      }).catch(function(error) {
-        $log.debug(error);
-      });
-    }
-
-    function setBookmark() {
-      NstSvcPlaceFactory.setBookmarkOption(vm.placeId, '_starred', vm.options.bookmark).then(function(result) {
-        $log.debug(NstUtility.string.format('Place {0} bookmark setting changed to {1} successfully.', vm.place.id, vm.options.bookmark));
-      }).catch(function(error) {
-        $log.debug(error);
-      });
     }
 
     function loadImage(event) {
@@ -299,7 +269,7 @@
 
         var reader = new FileReader();
         reader.onload = function(readEvent) {
-          $log.debug('The picture is loaded locally and going to be sent to server.');
+          NstSvcLogger.info('The picture is loaded locally and going to be sent to server.');
           vm.logoUrl = readEvent.target.result;
 
           // upload the picture
@@ -311,9 +281,9 @@
             vm.place.getPicture().setThumbnail(64, vm.place.getPicture().getOrg());
             vm.place.getPicture().setThumbnail(128, vm.place.getPicture().getOrg());
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function(result) {
-              $log.debug(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
+              NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
             }).catch(function(error) {
-              $log.debug(error);
+              NstSvcLogger.error(error);
             })
           });
         };
@@ -326,7 +296,7 @@
       vm.logoUploadedSize = event.loaded;
       vm.logoUploadedRatio = Number(event.loaded / event.total).toFixed(4);
 
-      $log.debug(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
+      NstSvcLogger.error(NstUtility.string.format('Upload progress : {0}%', vm.logoUploadedRatio));
     }
 
     function hasAnyTeammate() {
@@ -334,27 +304,55 @@
     }
 
     function setReceivingOff() {
-      vm.receivingMode = 'off';
+      if ('off' !== vm.place.privacy.receptive) {
+        vm.place.privacy.receptive = 'off';
+        vm.place.privacy.search = false;
 
-      vm.place.privacy.receptive = 'off';
-      vm.place.privacy.search = false;
-      update('privacy', vm.place.privacy);
+        update({
+          'privacy.receptive' : vm.place.privacy.receptive,
+          'privacy.search' : vm.place.privacy.search
+        });
+      }
     }
 
     function setReceivingMembers() {
-      vm.receivingMode = 'members';
+      if ('internal' !== vm.place.privacy.receptive) {
+        vm.place.privacy.receptive = 'internal';
+        vm.place.privacy.add_post = 'everyone';
 
-      vm.place.privacy.receptive = 'internal';
-      vm.place.privacy.addPost = 'everyone';
-      update('privacy', vm.place.privacy);
+        update({
+          'privacy.receptive' : vm.place.privacy.receptive,
+          'policy.add_post' : vm.place.privacy.add_post
+        });
+      }
     }
 
     function setReceivingEveryone() {
-      vm.receivingMode = 'everyone';
+      if ('external' !== vm.place.privacy.receptive) {
+        vm.place.privacy.receptive = 'external';
+        // vm.place.privacy.search = false;
 
-      vm.place.privacy.receptive = 'external';
-      vm.place.privacy.addPost = 'everyone';
-      update('privacy', vm.place.privacy);
+        update({
+          'privacy.receptive' : vm.place.privacy.receptive,
+          'policy.add_post' : vm.place.privacy.add_post
+        });
+      }
+    }
+
+    function updateAddPlacePolicy() {
+      update({ 'policy.add_place' : vm.place.policy.add_place });
+    }
+
+    function updateAddMemberPolicy() {
+      update({ 'policy.add_member' : vm.place.policy.add_member });
+    }
+
+    function updateAddPostPolicy() {
+      update({ 'policy.add_post' : vm.place.policy.add_post });
+    }
+
+    function updateSearchPrivacy() {
+      update({ 'privacy.search' : vm.place.privacy.search });
     }
 
     function initializeStates(place) {
@@ -370,7 +368,6 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
       if (e.detail.id === vm.placeId) vm.options.bookmark = false;
     });
-
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
       if (e.detail.id === vm.placeId) vm.options.notification = true;

@@ -593,12 +593,42 @@
 
       NstSvcServer.request('place/add', params).then(function (data) {
         service.get(data.place._id).then(function (place) {
+
+          if (place.parentId) {
+            service.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.SUB_ADD, {detail: {id: place.id, place: place}}));
+          } else {
+            service.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.ROOT_ADD, {detail: {id: place.id, place: place}}));
+          }
+
           deferred.resolve(place);
         }).catch(deferred.reject);
       }).catch(function (error) {
         // TODO: log the error and return a meaningfull error to controller
         deferred.reject(error);
       });
+
+      return deferred.promise;
+    }
+
+    PlaceFactory.prototype.update = function (placeId, model) {
+      var service = this;
+      var deferred = $q.defer();
+
+      var query = new NstFactoryQuery(placeId, model);
+      var params = model;
+      model.place_id = placeId;
+
+      NstSvcServer.request('place/update', params).then(function (result) {
+
+        NstSvcPlaceStorage.remove(placeId);
+        NstSvcTinyPlaceStorage.remove(placeId);
+
+        service.dispatchEvent(new CustomEvent(
+          NST_PLACE_FACTORY_EVENT.UPDATE,
+          {detail: {id: placeId}}
+        ));
+
+      }).catch(deferred.reject);
 
       return deferred.promise;
     }
