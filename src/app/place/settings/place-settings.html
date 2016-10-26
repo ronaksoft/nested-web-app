@@ -36,8 +36,9 @@
   <p ng-if="ctlSettings.isClosedPlace">Receiving</p>
   <div ng-if="ctlSettings.isClosedPlace" class="recive-set" ng-class="{'preview' : !ctlSettings.changeReceptiveMode}">
     <div class="select-box-step2"
+         ng-if="ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off'"
          ng-click="ctlSettings.setReceivingOff();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off'}">
+         ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }">
       <h3>Off</h3>
       <div class="_difh _fw _aic">
         <p>Just Keyholders can communicate in the place.</span></p>
@@ -45,21 +46,25 @@
       <p></p>
       <aside>
         <p>Which kind of Keyholders can be contribute in the place?</p>
-        <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post">
+        <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">
           <option value="creators">{{::ctlSettings.memberOptions['creators']}}</option>
           <option value="everyone">{{::ctlSettings.memberOptions['everyone']}}</option>
         </select>
+        <p ng-if="!ctlSettings.accesses.hasControlAccess">
+          {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_post]}}
+        </p>
       </aside>
     </div>
     <div class="select-box-step2"
+         ng-if="ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal'"
          ng-click="ctlSettings.setReceivingMembers();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal'}">
+         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', disabled : !ctlSettings.accesses.hasControlAccess}">
       <h3>Members Only</h3>
       <p>All Members can send messages to the place.</p>
       <aside>
         <p>Show in the Members search results?</p>
         <div class="place-switch">
-          <input type="checkbox" name="checkbox_id" id="receiving-members-search" value="value"
+          <input type="checkbox" name="checkbox_id" id="receiving-members-search" value="value" ng-disabled="!ctlSettings.accesses.hasControlAccess"
                  data-ng-model="ctlSettings.place.privacy.search"
                  ng-change="ctlSettings.updateSearchPrivacy()">
           <label for="receiving-members-search">
@@ -73,14 +78,15 @@
       </aside>
     </div>
     <div class="select-box-step2"
+         ng-if="ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external'"
          ng-click="ctlSettings.setReceivingEveryone();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external'}">
+         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', disabled : !ctlSettings.accesses.hasControlAccess}">
       <h3>Everyone <i>(also email)</i></h3>
       <p>Everyone can send their messages to the place.</p>
       <aside>
         <p>Show in the public search results?</p>
         <div class="place-switch">
-          <input type="checkbox" name="checkbox_id" id="receiving-everyone-search" value="value"
+          <input type="checkbox" name="checkbox_id" id="receiving-everyone-search" ng-disabled="!ctlSettings.accesses.hasControlAccess"
                  data-ng-model="ctlSettings.place.privacy.search"
                  ng-change="ctlSettings.updateSearchPrivacy()">
           <label for="receiving-everyone-search">
