@@ -58,17 +58,20 @@
     display: inline-flex;
     flex-direction: column;
     list-style: none;
+    flex: 1;
+    min-height: 140px;
+    transition: height $animation-dur;
     li {
       display: inline-flex;
       flex-direction: column;
       width: 100%;
     }
-    flex:1;
     .item-inner {
       width: 100%;
       display: inline-flex;
       flex-direction: row;
       transition: all $animation-dur;
+      min-height: 48px;
       .user-avatar-24 {
         height: 32px;
         align-items: center;
@@ -142,6 +145,7 @@
     justify-content: center;
     border-top: 1px solid $color-breeze;
     position: relative;
+    transition: all $animation-dur;
 
   }
 }
