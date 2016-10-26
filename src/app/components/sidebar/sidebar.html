@@ -1,14 +1,14 @@
 <div class="sidebar _df" ng-class="{ 'expanded' : ctlSidebar.isInDetailMode }" nst-sidebar-revert-mouse-leave="ctlSidebar.isInDetailMode" leave-delay="1000">
   <div class="sidebar-wrapper">
     <div class="side-top">
-      <div class="nested-logo detailed">
-        <a ui-sref="app.messages()">
+      <a class="nested-logo detailed" ui-sref="app.messages()">
+        <div>
           <div id="Logo-white"></div>
-        </a>
-        <a ui-sref="app.messages()">
-          <div id="Logo-type-white"></div>
-        </a>
-      </div>
+        </div>
+        <div ui-sref="app.messages()">
+          <div id="Logo-type-white"></div><i>__version__</i>
+        </div>
+      </a>
       <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
          data-tooltip-placement="right auto"
