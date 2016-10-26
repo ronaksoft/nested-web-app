@@ -1,0 +1,53 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 18">
+  <rect width="32" height="18" rx="3" ry="3" style="fill: none"/>
+  <g>
+    <g>
+      <path d="M-986.84,1556.33c0-2,0-3.63-3-3.63s-3,1.62-3,3.63" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+      <path d="M-992.36,1551.27c0,2.12,1.15,3.2,2.56,3.2s2.56-1.08,2.56-3.2-1.15-2.56-2.56-2.56S-992.36,1549.15-992.36,1551.27Z" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+    </g>
+    <g>
+      <path d="M-986.84,1556.33c0-2,0-3.63-3-3.63s-3,1.62-3,3.63" transform="translate(995 -1543.5)" style="fill: #fff;stroke: gray;stroke-linecap: round;stroke-linejoin: round"/>
+      <path d="M-992.36,1551.27c0,2.12,1.15,3.2,2.56,3.2s2.56-1.08,2.56-3.2-1.15-2.56-2.56-2.56S-992.36,1549.15-992.36,1551.27Z" transform="translate(995 -1543.5)" style="fill: #fff;stroke: gray;stroke-miterlimit: 10"/>
+    </g>
+  </g>
+  <g>
+    <g>
+      <path d="M-981.3,1557.26c0-2.5,0-4.53-3.7-4.53s-3.7,2-3.7,4.53" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+      <path d="M-988.2,1550.93c0,2.65,1.43,4,3.2,4s3.2-1.35,3.2-4-1.43-3.2-3.2-3.2S-988.2,1548.28-988.2,1550.93Z" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+    </g>
+    <g>
+      <path d="M-981.3,1557.26c0-2.5,0-4.53-3.7-4.53s-3.7,2-3.7,4.53" transform="translate(995 -1543.5)" style="fill: #fff;stroke: #404040;stroke-linecap: round;stroke-linejoin: round"/>
+      <path d="M-988.2,1550.93c0,2.65,1.43,4,3.2,4s3.2-1.35,3.2-4-1.43-3.2-3.2-3.2S-988.2,1548.28-988.2,1550.93Z" transform="translate(995 -1543.5)" style="fill: #fff;stroke: #404040;stroke-miterlimit: 10"/>
+    </g>
+  </g>
+  <g>
+    <g>
+      <path d="M-971.16,1556.33c0-2,0-3.63,3-3.63s3,1.62,3,3.63" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+      <path d="M-965.64,1551.27c0,2.12-1.15,3.2-2.56,3.2s-2.56-1.08-2.56-3.2,1.15-2.56,2.56-2.56S-965.64,1549.15-965.64,1551.27Z" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+    </g>
+    <g>
+      <path d="M-971.16,1556.33c0-2,0-3.63,3-3.63s3,1.62,3,3.63" transform="translate(995 -1543.5)" style="fill: #fff;stroke: gray;stroke-linecap: round;stroke-linejoin: round"/>
+      <path d="M-965.64,1551.27c0,2.12-1.15,3.2-2.56,3.2s-2.56-1.08-2.56-3.2,1.15-2.56,2.56-2.56S-965.64,1549.15-965.64,1551.27Z" transform="translate(995 -1543.5)" style="fill: #fff;stroke: gray;stroke-miterlimit: 10"/>
+    </g>
+  </g>
+  <g>
+    <g>
+      <path d="M-976.7,1557.26c0-2.5,0-4.53,3.7-4.53s3.7,2,3.7,4.53" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+      <path d="M-969.8,1550.93c0,2.65-1.43,4-3.2,4s-3.2-1.35-3.2-4,1.43-3.2,3.2-3.2S-969.8,1548.28-969.8,1550.93Z" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+    </g>
+    <g>
+      <path d="M-976.7,1557.26c0-2.5,0-4.53,3.7-4.53s3.7,2,3.7,4.53" transform="translate(995 -1543.5)" style="fill: #fff;stroke: #404040;stroke-linecap: round;stroke-linejoin: round"/>
+      <path d="M-969.8,1550.93c0,2.65-1.43,4-3.2,4s-3.2-1.35-3.2-4,1.43-3.2,3.2-3.2S-969.8,1548.28-969.8,1550.93Z" transform="translate(995 -1543.5)" style="fill: #fff;stroke: #404040;stroke-miterlimit: 10"/>
+    </g>
+  </g>
+  <g>
+    <g>
+      <path d="M-983.63,1557.17c0,1.56,1.52,2.83,4.63,2.83s4.63-1.27,4.63-2.83c0-3.13,0-5.67-4.63-5.67S-983.63,1554-983.63,1557.17Z" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+      <path d="M-983,1549.25c0,3.31,1.79,5,4,5s4-1.69,4-5-1.79-4-4-4S-983,1545.94-983,1549.25Z" transform="translate(995 -1543.5)" style="fill: none;stroke: #fff;stroke-width: 3px"/>
+    </g>
+    <g>
+      <path d="M-983.63,1557.17c0,1.56,1.52,2.83,4.63,2.83s4.63-1.27,4.63-2.83c0-3.13,0-5.67-4.63-5.67S-983.63,1554-983.63,1557.17Z" transform="translate(995 -1543.5)" style="fill: #fff;stroke: #000;stroke-miterlimit: 10;stroke-width: 1.0035081495123683px"/>
+      <path d="M-983,1549.25c0,3.31,1.79,5,4,5s4-1.69,4-5-1.79-4-4-4S-983,1545.94-983,1549.25Z" transform="translate(995 -1543.5)" style="fill: #fff;stroke: #000;stroke-miterlimit: 10"/>
+    </g>
+  </g>
+</svg>
