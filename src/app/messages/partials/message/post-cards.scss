@@ -139,6 +139,9 @@ post-card {
 
 .more-place-row {
   padding: 4px 8px;
+  &:last-child {
+    margin-bottom: 8px;
+  }
 }
 h3 {
   font-weight: 100;
