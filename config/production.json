@@ -4,11 +4,8 @@
     "LOG": {
       "LEVEL": 3,
       "GATEWAY": {
-        "TYPE": "http",
-        "OPTIONS": {
-          "METHOD": "POST",
-          "URL": "https://api.nested.me/log"
-        }
+        "TYPE": "console",
+        "OPTIONS": {}
       }
     },
     "SIGN_OUT_TARGET": "https://nested.me",
