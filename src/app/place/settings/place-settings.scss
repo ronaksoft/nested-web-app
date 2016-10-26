@@ -28,6 +28,7 @@
         font-weight: 700;
         margin: 8px 0;
         a {
+          transition: opacity $animation-dur;
           opacity: 0;
         }
         &:hover {
