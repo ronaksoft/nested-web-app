@@ -237,5 +237,6 @@ input[type="checkbox"]:checked + label.setting {
   }
   > .popover-inner {
     z-index: 2;
+    max-height: 480px;
   }
 }
