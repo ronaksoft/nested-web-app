@@ -2,7 +2,7 @@
   list-style: none;
   .mention-item {
     display: flex;
-    border-bottom: 1px solid #ced9d3;
+    border-bottom: 1px solid $color-breeze;
     padding: 8px 4px 4px 4px;
     cursor: pointer;
     &:hover {
@@ -36,7 +36,7 @@
   .subject {
     height: 47px;
     width: 100%;
-    background: linear-gradient(to bottom,#F0F5F2 ,#FFFFFF 100%);
+    background: linear-gradient(to bottom,$color-fillbox ,$color-white 100%);
     display: inline-flex;
     flex-direction: row;
     align-items: center;
@@ -44,7 +44,7 @@
     a {
       display: flex;
       flex: 1;
-      color: #869D91;
+      color: $color-storm;
       font-size: 14px;
       font-weight: 400;
       font-style: normal;
@@ -58,17 +58,20 @@
     display: inline-flex;
     flex-direction: column;
     list-style: none;
+    flex: 1;
+    min-height: 140px;
+    transition: height $animation-dur;
     li {
       display: inline-flex;
       flex-direction: column;
       width: 100%;
     }
-    flex:1;
     .item-inner {
       width: 100%;
       display: inline-flex;
       flex-direction: row;
       transition: all $animation-dur;
+      min-height: 48px;
       .user-avatar-24 {
         height: 32px;
         align-items: center;
@@ -98,7 +101,7 @@
           right: 5px;
           bottom: 0;
           line-height: 21px;
-          color: #00B45A;
+          color: $color-sense-wire;
           text-align: right;
           font-weight: 400;
           transition: all $animation-dur;
@@ -114,7 +117,7 @@
         }
       }
       &.seen {
-        background-color: #f5f5f5;
+        background-color: $color-light-cloud;
         div,p {
           transition: all $animation-dur;
           opacity: .5;
@@ -133,15 +136,16 @@
     }
   }
   .more-mentions {
-    background: linear-gradient(to bottom,#FFFFFF ,#F0F5F2 100%);
+    background: linear-gradient(to bottom,$color-white ,$color-calm 100%);
     height: 39px;
     width: 100%;
     display: flex;
     flex: none;
     align-items: center;
     justify-content: center;
-    border-top: 1px solid #CED9D3;
+    border-top: 1px solid $color-breeze;
     position: relative;
+    transition: all $animation-dur;
 
   }
 }

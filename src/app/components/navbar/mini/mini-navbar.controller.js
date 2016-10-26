@@ -133,6 +133,11 @@
       return state;
     }
 
+    function openCreatePlaceModal($event) {
+      $event.preventDefault();
+      $state.go('app.place-create', {  } , { notify : false });
+    }
+
     function getComposeState() {
       var state = 'app.compose';
       switch ($state.current.name) {
