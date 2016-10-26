@@ -159,14 +159,17 @@ body.modal-open {
     width: 48%;
     height: 50px;
     transition: all .3s;
+    cursor: pointer;
     .item-logo {
-      width: 50px;
-      height: 50px;
+      width: 64px;
+      height: 100%;
       display: flex;
+      justify-content: center;
+      align-items: center;
       flex: none;
       img {
-        width: 100%;
-        height: 100%;
+        width: 48px;
+        height: auto;
       }
     }
     .det {
@@ -182,16 +185,61 @@ body.modal-open {
       span {
         font-size: 13px;
         line-height: 16px;
-        color: #808080;
+        color: $color-grey-text;
         font-weight: 400;
+        strong {
+          color: $color-solid;
+        }
       }
     }
     &:hover {
-      background-color: #E1F5FF;
+      background-color: #E8FBF0;
       border-radius: 2px;
       .det p {
         text-decoration: underline;
       }
+    }
+  }
+  .item.invite {
+    .item-logo {
+      width: 48px;
+      img {
+        width: 32px;
+        height: auto;
+      }
+    }
+    .det {
+      p {
+        font-size: 16px;
+        line-height: 19px;
+        color: #143C82;
+        font-weight: 400;
+        margin: 0;
+      }
+    }
+    &:hover {
+      background-color: $color-bg-pending-hover;
+    }
+  }
+  .item.add {
+    height: 72px;
+    .item-logo {
+      width: 64px;
+      img {
+        width: 48px;
+        height: auto;
+      }
+    }
+    .det {
+      p {
+        line-height: 19px;
+        font-size: 16px;
+        color: $color-sense-wire;
+        font-weight: 400;
+      }
+    }
+    &:hover {
+      background-color: #E8FBF0;
     }
   }
   .devider {
