@@ -94,4 +94,7 @@ select {
   &:hover {
     background: url("../assets/icons/inputform.svg") no-repeat 98% -124px,white;
   }
+  &:focus {
+    outline: none;
+  }
 }

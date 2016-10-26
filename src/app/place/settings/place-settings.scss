@@ -141,6 +141,10 @@
         opacity: 1;
       }
     }
+    &.disabled {
+      border: solid 2px $color-solid-60;
+      box-shadow: none;
+    }
   }
 
   .recive-set.preview {
