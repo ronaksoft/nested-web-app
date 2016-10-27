@@ -111,6 +111,7 @@
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
+      fixUrls();
     });
 
     /*****************************
@@ -131,6 +132,11 @@
       }
 
       return state;
+    }
+
+    function openCreatePlaceModal($event) {
+      $event.preventDefault();
+      $state.go('app.place-create', {  } , { notify : false });
     }
 
     function getComposeState() {
@@ -243,6 +249,64 @@
 
     function mapInvitations(invitationModels) {
       return invitationModels.map(mapInvitation);
+    }
+
+
+
+    /*****************************
+     *****    Change urls   ****
+     *****************************/
+
+    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      if (toState.options && toState.options.primary) {
+        fixUrls();
+      }
+    });
+
+
+    function fixUrls() {
+
+      vm.urls = {
+        unfiltered: $state.href(getUnfilteredState()),
+        compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
+        bookmarks: $state.href(getBookmarksState()),
+        sent: $state.href(getSentState()),
+        subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
+      };
+
+      mapPlacesUrl(vm.places);
+    }
+
+    function mapPlacesUrl(places) {
+
+      places.map(function (place) {
+
+        if ($state.current.params && $state.current.params.placeId) {
+          place.href = $state.href($state.current.name, Object.assign({}, $stateParams, {placeId: place.id}));
+        } else {
+          switch ($state.current.options.group) {
+            case 'file':
+              place.href = $state.href('app.place-files', {placeId: place.id});
+              break;
+            case 'activity':
+              place.href = $state.href('app.place-activity', {placeId: place.id});
+              break;
+            case 'settings':
+              place.href = $state.href('app.place-settings', {placeId: place.id});
+              break;
+            case 'compose':
+              place.href = $state.href('app.place-compose', {placeId: place.id});
+              break;
+            default:
+              place.href = $state.href('app.place-messages', {placeId: place.id});
+              break;
+          }
+        }
+
+        if (place.children) mapPlacesUrl(place.children);
+
+        return place;
+      })
     }
 
     /*****************************

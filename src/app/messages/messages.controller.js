@@ -165,7 +165,7 @@
         vm.navIconClass = 'icon-nav icon-top-bookmarks';
       }
 
-      if (vm.isSentMode){
+      if (isSent()){
         vm.navTitle = 'Sent';
         vm.navIconClass = 'icon-nav icon-top-sent';
       }
@@ -427,6 +427,15 @@
       if ($state.current.name == 'app.messages-bookmarks' ||
         $state.current.name == 'app.messages-bookmarks-sorted'){
         vm.isBookmarkMode = true;
+        return true;
+      }
+      return false;
+    }
+
+    function isSent() {
+      if ($state.current.name == 'app.messages-sent' ||
+        $state.current.name == 'app.messages-sent-sorted'){
+        vm.isSentMode = true;
         return true;
       }
       return false;

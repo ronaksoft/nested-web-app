@@ -555,7 +555,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   font-size: 15px;
   font-weight: 400;
   text-decoration: underline;
-  transition: all $animation-dur;
+  transition: color $animation-dur;
   &:hover {
     color: $color-sense-wire;
   }

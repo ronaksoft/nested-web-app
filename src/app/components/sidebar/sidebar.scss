@@ -213,6 +213,10 @@
   height: 32px;
   width: 32px;
   margin: auto;
+  i {
+    padding-bottom: 12px;
+    align-self: flex-end;
+  }
 }
 #Logo-type-white {
   background: url("../assets/icons/NestedTypeW.svg") no-repeat;
@@ -259,7 +263,8 @@
 }
 .compose:hover,.compose.isSelected{
   color: $color-white;
-  box-shadow: 0 2px 12px 6px rgba(0,0,0,.4);
+  box-shadow: inset 0 -1px 1px rgba(0,0,0,.5), /*bottom internal shadow*/
+  inset 0 1px 1px rgba(255,255,255,.5); /*top internal highlight*/
   background-color: $color-sense;
   transition-duration: $animation-dur;
   transition-property: all;
@@ -689,6 +694,7 @@ ul ul > li:last-child > .place-item-inner{
   flex: none;
   position: absolute;
   left: -16px;
+  top: 0;
 }
 .lines div{
   float: left;
