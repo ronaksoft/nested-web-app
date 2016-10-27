@@ -21,7 +21,8 @@
         pictureClass : '@navPictureClass',
         title : '@navTitle',
         placeId : '@',
-        readyToShow : '='
+        readyToShow : '=',
+        placeDescription : '@'
       },
       link: function (scope, element, attrs) {
         // create a scene

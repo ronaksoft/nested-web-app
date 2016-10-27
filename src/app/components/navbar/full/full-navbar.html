@@ -11,7 +11,7 @@
       <div class="place-info _difv">
         <cite>{{ctlFullNavbar.title}}</cite>
         <h3 id="place-address" ng-show="ctlFullNavbar.showPlaceId">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
-        <p ng-show="ctlFullNavbar.showPlaceId">{{ctlFullNavbar.description}}</p>
+        <span class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</span>
         <div class="navigation" ng-if="!ctlFullNavbar.controls">
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
@@ -41,7 +41,7 @@
                  <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
                </a>
               <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm"
-                 href="{{ctlFullNavbar.page.state.previous.url}}" data-ng-click="control.fn()">
+                  href="{{ctlFullNavbar.page.state.previous.url}}" data-ng-click="control.fn($event)">
                  <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
                  <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
                </a>

@@ -16,7 +16,7 @@
 
     <div class="det">
       <h3 data-ng-if="ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true"
-          editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.update('name', $data)">
+          editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.updateName($data);">
         {{ctlSettings.place.name || 'empty'}}<a class="change-button">change</a></h3>
       <h3 data-ng-if="!ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true">
         {{ctlSettings.place.name || 'empty'}}</h3>
@@ -28,7 +28,7 @@
   <div class="place-des">
     <p data-ng-if="ctlSettings.accesses.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto" data-tooltip-append-to-body="true"
        data-uib-tooltip="Place description" editable-text="ctlSettings.place.description"
-       onbeforesave="ctlSettings.update('description', $data)">{{ctlSettings.place.description || 'empty'}}</p>
+       onbeforesave="ctlSettings.updateDescription($data);">{{ctlSettings.place.description || 'empty'}}</p>
     <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description"
        data-ng-if="!ctlSettings.accesses.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</p>
 
@@ -144,4 +144,8 @@
                          has-remove-access="ctlSettings.accesses.hasRemoveAccess"
                          has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
                          role="member.state"/>
+  <div class="_fw _tac margin-b-15">
+    <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();">Load more</a>
+    <span class="nst-mood-cheerful" ng-if="ctlSettings.teammatesLoadProgress">Loading...</span>
+  </div>
 </div>
