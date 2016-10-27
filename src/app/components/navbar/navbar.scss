@@ -121,6 +121,9 @@ nst-navbar {
   width: calc(100% - 272px);
   will-change: height;
   transform-origin: top;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transform: matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,0,1,1);
   * {
     transform-origin: top;
   }
