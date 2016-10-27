@@ -95,7 +95,7 @@
       return {
         id: place.id,
         name: place.name,
-        picture: place.picture.id ? place.getPicture().getThumbnail(64).getUrl().view : ''
+        picture: place.picture.id ? place.getPicture().getThumbnail(64).getUrl().view : '/assets/icons/absents_place.svg'
       };
     }
 
