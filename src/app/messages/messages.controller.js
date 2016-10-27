@@ -173,7 +173,6 @@
     }
 
     function getMessages() {
-      console.log(vm.currentPlace);
       switch ($state.current.name) {
         case 'app.place-messages':
         case 'app.place-messages-sorted':

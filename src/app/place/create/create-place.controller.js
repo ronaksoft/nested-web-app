@@ -74,7 +74,7 @@
         if(result == 'ok')
           vm.place.id = vm.place.tempId;
       }).catch(function (reason) {
-        console.log(reason)
+        NstSvcLogger.error(reason)
       });
     }
 
