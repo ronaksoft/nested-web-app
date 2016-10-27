@@ -51,11 +51,12 @@
       font-weight: 400;
       @include text-hover()
     }
+    span{
+      font-size: $font-size-xsmall;
+      @include text-hover()
+    }
   }
-  span{
-    font-size: $font-size-xsmall;
-    @include text-hover()
-  }
+
   .post-body{
     font-size: 13px;
     color: #808080;
