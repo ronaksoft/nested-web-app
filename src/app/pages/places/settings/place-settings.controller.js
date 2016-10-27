@@ -54,6 +54,8 @@
     vm.updateAddPostPolicy = updateAddPostPolicy;
     vm.updateSearchPrivacy = updateSearchPrivacy;
     vm.loadMoreTeammates = loadMoreTeammates;
+    vm.updateName = updateName;
+    vm.updateDescription = updateDescription;
 
 
     (function() {
@@ -431,6 +433,16 @@
       vm.isClosedPlace = place.privacy.locked;
       vm.isOpenPlace = !place.privacy.locked;
       vm.isGrandPlace = (!place.parent) && (place.grandParent.id === place.id);
+    }
+
+    function updateName(value) {
+      vm.place.name = value;
+      update({ 'place_name' : vm.place.name });
+    }
+
+    function updateDescription(value) {
+      vm.place.description = value;
+      update({ 'place_desc' : vm.place.description });
     }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
