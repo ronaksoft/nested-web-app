@@ -1040,7 +1040,7 @@
           $log.debug('Place Factory | Member Remove Response: ', result);
         }).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            if (error.previous.items[0] === 'only_one_creator') {
+            if (error.previous.items[0] === 'last_creator') {
               defer.reject(new NstPlaceOneCreatorLeftError(error));
             } else if (error.previous.items[0] === 'parent_creator') {
               defer.reject(new NstPlaceCreatorOfParentError(error));
