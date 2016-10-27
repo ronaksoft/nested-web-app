@@ -161,7 +161,7 @@
 
 
       if (isBookMark()) {
-        vm.navTitle = 'Bookmarks';
+        vm.navTitle = 'Favorite places';
         vm.navIconClass = 'icon-nav icon-top-bookmarks';
       }
 
