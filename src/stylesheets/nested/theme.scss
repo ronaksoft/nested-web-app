@@ -131,6 +131,7 @@ hr {
 .first-child {
   margin-top: 20px;
 }
+
 .svg-hover {
   transition: all .2s;
   use:first-child{
@@ -152,10 +153,10 @@ hr {
   &.morphed:hover{
     fill: $color-sense ;
     use:first-child{
-      display: flex;
+      display: none;
     }
     use:last-child{
-      display: none;
+      display: flex;
     }
   }
 

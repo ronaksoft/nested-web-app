@@ -225,7 +225,7 @@ nst-navbar {
           color: #C8C8C8;
           font-size: 12px;
           font-weight: 400;
-          background-color: #FFFFFF;
+          background-color: $color-white;
           border-radius: 4px;
           width: 189px;
           height: 30px;
@@ -235,6 +235,7 @@ nst-navbar {
             border-color: $color-border;
             box-shadow: none;
             width: 250px;
+            color: $color-solid;
           }
         }
         i {
