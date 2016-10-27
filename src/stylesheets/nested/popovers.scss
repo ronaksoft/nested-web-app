@@ -212,6 +212,8 @@ input[type="checkbox"]:checked + label.setting {
   transition: height $animation-dur;
   height: auto;
   z-index: 1029;
+  top: auto!important;
+  bottom: 80px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   //position: absolute;
   //z-index: 35;
