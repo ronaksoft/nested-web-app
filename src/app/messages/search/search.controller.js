@@ -92,6 +92,7 @@
       vm.reachedTheEnd = false;
 
       NstSvcPostFactory.search(queryString, limit, skip).then(function (posts) {
+        console.log(posts);
         var olderMessages = _.map(posts, NstSvcPostMap.toSearchMessageItem);
         _.forEach(olderMessages, function (message) {
           if (!_.some(vm.messages, { id : message.id })){

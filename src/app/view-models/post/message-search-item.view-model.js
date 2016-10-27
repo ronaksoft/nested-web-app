@@ -21,6 +21,7 @@
       this.isReplyed  = null;
       this.isForwarded = null;
       this.commentsCount = 0;
+      this.isRead = null;
 
       this.getFirstPlace = function () {
         return _.first(this.getOtherPlaces());
@@ -60,6 +61,7 @@
         this.isReplyed = !!post.replyToId;
         this.isForwarded = !!post.forwardFromId;
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
+        this.isRead = post.isRead;
       }
     }
 

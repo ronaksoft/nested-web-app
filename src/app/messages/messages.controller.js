@@ -259,6 +259,7 @@
             });
 
             if (hasData.length === 0) {
+              console.log(messages[i]);
                 vm.messages.push(mapMessage(messages[i]));
             } else {
               // Todo :: remove this line after fixed by server
