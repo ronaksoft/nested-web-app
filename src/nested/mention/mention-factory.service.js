@@ -63,6 +63,7 @@
     }
 
     function markAsSeen(mentionsIds) {
+      var factory = this;
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
@@ -78,6 +79,9 @@
         NstSvcServer.request('account/update_mention_read_status', {
           mention_id : ids
         }).then(function(data) {
+          factory.getMentionsCount().then(function (count) {
+            factory.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
+          }).catch(defer.reject);
           defer.resolve();
         }).catch(defer.reject);
 

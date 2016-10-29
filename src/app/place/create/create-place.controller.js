@@ -74,7 +74,7 @@
         if(result == 'ok')
           vm.place.id = vm.place.tempId;
       }).catch(function (reason) {
-        console.log(reason)
+        NstSvcLogger.error(reason)
       });
     }
 
@@ -207,7 +207,7 @@
 
     function continueToPlaceSettings(placeId) {
       $uibModalInstance.close();
-      $state.go('app.place-settings', { placeId : placeId });
+      $state.go('app.place-messages', { placeId : placeId });
     }
   }
 })();

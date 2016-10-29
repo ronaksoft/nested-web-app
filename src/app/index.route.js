@@ -172,7 +172,7 @@
             if (previousState.name && previousState.name !== 'app.place-create') {
               $state.go(previousState.name, previousState.params, { notify : false });
             } else {
-              $state.go(NST_DEFAULT.STATE)
+              $state.go('app.place-messages', { placeId : $stateParams.placeId });
             }
           });
         }],

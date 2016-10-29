@@ -8,9 +8,10 @@
   /** @ngInject */
   function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
     toastr, NstUtility,
-                                NstSvcAuth, NstSvcLogger,
-                                NstSearchQuery, NstSvcPlaceFactory,
-                                NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR) {
+    NstSvcAuth, NstSvcLogger,
+    NstSearchQuery, NstSvcPlaceFactory,
+    NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
+    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError) {
     var vm = this;
     /*****************************
      *** Controller Properties ***
@@ -33,35 +34,9 @@
     vm.openCreateSubplaceModal = openCreateSubplaceModal;
     vm.openAddMemberModal = openAddMemberModal;
     vm.openSettingsModal = openSettingsModal;
+    vm.confirmToRemove = confirmToRemove;
 
     vm.confirmToLeave = confirmToLeave;
-
-    vm.srch = function srch(el) {
-      var ele = $('#' + el);
-      var eleInp = ele.find('input');
-      var elePrv = ele.next();
-      var openStat = function () {
-        return ele[0].clientWidth > 0
-      };
-      function open() {
-        ele.stop().animate({
-          maxWidth : 1000
-        },300);
-        eleInp.focus();
-      }
-      function close() {
-        ele.stop().animate({
-          maxWidth : 0
-        },100);
-        eleInp.val("");
-      }
-      elePrv.stop().fadeToggle('slow','swing');
-      if (openStat()) {
-        close()
-      } else {
-        open()
-      }
-    };
 
     function openCreateSubplaceModal ($event) {
       $event.preventDefault();
@@ -248,9 +223,11 @@
 
           $q.all([
             NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE)]).then(function (resultSet) {
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE)]).then(function (resultSet) {
               vm.allowedToAddMember = resultSet[0];
               vm.allowedToAddPlace = resultSet[1];
+              vm.allowedToRemovePlace = resultSet[2];
             }).catch(function (error) {
               NstSvcLogger.error(error);
             });
@@ -284,12 +261,13 @@
       NstSvcPlaceFactory.removeMember(vm.getPlaceId(), NstSvcAuth.user.id, true).then(function(result) {
         $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
+        console.log(error);
         if (error instanceof NstPlaceOneCreatorLeftError){
-          toastr.error('You are the only creator of the place!');
+          toastr.error('You are the only one left!');
         } else if (error instanceof NstPlaceCreatorOfParentError) {
           toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are creator of the top-level place ({0}).', vm.place.parent.name));
         }
-        $log.debug(error);
+        NstSvcLogger.error(error);
       });
 
     }
@@ -299,6 +277,43 @@
       $state.go('app.place-settings', { placeId : getPlaceId() }, { notify : false });
     }
 
+    function confirmToRemove() {
+
+      $scope.deleteValidated = false;
+      $scope.nextStep = false;
+
+      NstSvcPlaceFactory.get(vm.getPlaceId()).then(function (place) {
+        vm.place = place;
+        var modal = $uibModal.open({
+            animation: false,
+            templateUrl: 'app/pages/places/settings/place-delete.html',
+            controller : 'PlaceRemoveConfirmController',
+            controllerAs : 'removeCtrl',
+            size: 'sm',
+            resolve: {
+              selectedPlace : function () {
+                return vm.place;
+              }
+            }
+          }).result.then(function(confirmResult) {
+            remove();
+          });
+      }).catch(function (error) {
+        NstSvcLogger.error(error);
+      });
+
+
+    }
+
+    function remove() {
+      NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
+        toastr.success(NstUtility.string.format("Place {0} was removed successfully.", vm.place.name));
+        $state.go(NST_DEFAULT.STATE);
+      }).catch(function(error) {
+        toastr.error(NstUtility.string.format("An error happened while removing the place.", vm.place.name));
+        NstSvcLogger.error(error);
+      });
+    }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
       if (e.detail.id === vm.placeId) vm.isBookmarked = true;
@@ -307,7 +322,6 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
       if (e.detail.id === vm.placeId) vm.isBookmarked = false;
     });
-
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.NOTIFICATION_ON, function (e) {
       if (e.detail.id === vm.placeId) vm.notificationStatus= true;

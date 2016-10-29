@@ -178,7 +178,7 @@
         } else {
           defer.resolve({
             id: data.member_id,
-            fullName: data.invitee_name,
+            fullName: data.member_name || data.invitee_name,
             type: data.member_type
           });
         }

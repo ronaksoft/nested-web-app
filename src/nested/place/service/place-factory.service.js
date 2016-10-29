@@ -1040,7 +1040,7 @@
           $log.debug('Place Factory | Member Remove Response: ', result);
         }).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
-            if (error.previous.items[0] === 'only_one_creator') {
+            if (error.previous.items[0] === 'last_creator') {
               defer.reject(new NstPlaceOneCreatorLeftError(error));
             } else if (error.previous.items[0] === 'parent_creator') {
               defer.reject(new NstPlaceCreatorOfParentError(error));
@@ -1072,17 +1072,21 @@
       });
     };
 
-    PlaceFactory.prototype.getMembers = function (id, limit) {
+    PlaceFactory.prototype.getMembers = function (id, limit, skip) {
       var factory = this;
       limit = limit || 64;
 
       if (!this.requests.getMembers[id]) {
         var defer = $q.defer();
-        var query = new NstFactoryQuery(id, {limit: limit});
+        var query = new NstFactoryQuery(id, {
+          limit : limit,
+          skip : skip
+        });
 
         NstSvcServer.request('place/get_members', {
           place_id: id,
-          limit: limit
+          limit: limit,
+          skip : skip,
         }).then(function (data) {
           defer.resolve({
             creators: _.map(data.creators, NstSvcUserFactory.parseTinyUser),
@@ -1114,6 +1118,46 @@
         });
       });
     };
+
+    PlaceFactory.prototype.getCreators = function (id, limit, skip) {
+      var deferred = $q.defer();
+      var query = new NstFactoryQuery(id, {
+        limit : limit,
+        skip : skip
+      });
+
+      NstSvcServer.request('place/get_creators', {
+        place_id: id,
+        limit: limit,
+        skip : skip,
+      }).then(function (data) {
+        deferred.resolve(_.map(data.creators, NstSvcUserFactory.parseTinyUser));
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      });
+
+      return deferred.promise;
+    }
+
+    PlaceFactory.prototype.getKeyholders = function(id, limit, skip) {
+      var deferred = $q.defer();
+      var query = new NstFactoryQuery(id, {
+        limit : limit,
+        skip : skip
+      });
+
+      NstSvcServer.request('place/get_key_holders', {
+        place_id: id,
+        limit: limit,
+        skip : skip,
+      }).then(function (data) {
+        deferred.resolve(_.map(data.key_holders, NstSvcUserFactory.parseTinyUser));
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+      });
+
+      return deferred.promise;
+    }
 
     PlaceFactory.prototype.getRoleOnPlace = function (id, forceRequest) {
       var factory = this;
@@ -1341,14 +1385,8 @@
       place.setNew(false);
       place.setId(placeData._id);
       place.setUnreadPosts(placeData.unread_posts);
-      // place.setTotalPosts(placeData.counters.posts);
-      // place.setTeammatesCount(placeData.counters.key_holders + placeData.counters.creators);
       place.setName(placeData.name);
       place.setDescription(placeData.description);
-      if (placeData.counters) {
-        place.setTotalPosts(placeData.counters.posts);
-        place.setTeammatesCount(placeData.counters.key_holders + placeData.counters.creators);
-      }
 
 
       if (angular.isObject(placeData.picture)) {
@@ -1410,6 +1448,15 @@
           add_place: placeData.policy.add_place,
           add_member: placeData.policy.add_member,
           add_post: placeData.policy.add_post
+        });
+      }
+      if (angular.isObject(placeData.counters)) {
+        place.setCounters({
+          childs: placeData.counters.childs,
+          creators: placeData.counters.creators,
+          key_holders: placeData.counters.key_holders,
+          posts: placeData.counters.posts,
+          size: placeData.policy.add_post
         });
       }
 
