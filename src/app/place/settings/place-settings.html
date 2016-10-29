@@ -15,10 +15,10 @@
            onchange="angular.element(this).scope().ctlSettings.loadImage(event)"/>
 
     <div class="det">
-      <h3 data-ng-if="ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name"
-          editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.update('name', $data)">
+      <h3 data-ng-if="ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true"
+          editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.updateName($data);">
         {{ctlSettings.place.name || 'empty'}}<a class="change-button">change</a></h3>
-      <h3 data-ng-if="!ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name">
+      <h3 data-ng-if="!ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true">
         {{ctlSettings.place.name || 'empty'}}</h3>
 
       <h5 class="nst-mood-storm" >{{ctlSettings.place.id
@@ -26,81 +26,76 @@
     </div>
   </div>
   <div class="place-des">
-    <p data-ng-if="ctlSettings.accesses.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto"
+    <p data-ng-if="ctlSettings.accesses.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto" data-tooltip-append-to-body="true"
        data-uib-tooltip="Place description" editable-text="ctlSettings.place.description"
-       onbeforesave="ctlSettings.update('description', $data)">{{ctlSettings.place.description || 'empty'}}</p>
+       onbeforesave="ctlSettings.updateDescription($data);">{{ctlSettings.place.description || 'empty'}}</p>
     <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description"
        data-ng-if="!ctlSettings.accesses.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</p>
 
   </div>
   <p ng-if="ctlSettings.isClosedPlace">Receiving</p>
   <div ng-if="ctlSettings.isClosedPlace" class="recive-set" ng-class="{'preview' : !ctlSettings.changeReceptiveMode}">
-    <div class="select-box-step2" ng-click="ctlSettings.setReceivingOff();"
-         ng-if="ctlSettings.place.privacy.receptive === 'off' || ctlSettings.changeReceptiveMode"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off'}">
-      <h3>Off
-        <a ng-click="ctlSettings.changeReceptiveMode = true"
-           ng-if="!ctlSettings.changeReceptiveMode"
-           class="change-button"> change</a>
-      </h3>
+    <div class="select-box-step2"
+         ng-if="ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off'"
+         ng-click="ctlSettings.setReceivingOff();"
+         ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }">
+      <h3>Off</h3>
       <div class="_difh _fw _aic">
         <p>Just Keyholders can communicate in the place.</span></p>
       </div>
       <p></p>
       <aside>
         <p>Which kind of Keyholders can be contribute in the place?</p>
-        <select
-          data-ng-change="ctlSettings.updatePolicy()"
-          ng-model="ctlSettings.place.policy.add_post">
-          <option value="creators">Master Keyholders Only</option>
-          <option value="everyone">All Keyholders</option>
+        <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">
+          <option value="creators">{{::ctlSettings.memberOptions['creators']}}</option>
+          <option value="everyone">{{::ctlSettings.memberOptions['everyone']}}</option>
         </select>
+        <p ng-if="!ctlSettings.accesses.hasControlAccess">
+          {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_post]}}
+        </p>
       </aside>
     </div>
     <div class="select-box-step2"
-         ng-if="ctlSettings.place.privacy.receptive === 'internal' || ctlSettings.changeReceptiveMode"
+         ng-if="ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal'"
          ng-click="ctlSettings.setReceivingMembers();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal'}">
-      <h3>Members Only
-        <a ng-click="ctlSettings.changeReceptiveMode = true"
-           ng-if="!ctlSettings.changeReceptiveMode"
-           class="change-button"> change</a>
-      </h3>
+         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', disabled : !ctlSettings.accesses.hasControlAccess}">
+      <h3>Members Only</h3>
       <p>All Members can send messages to the place.</p>
       <aside>
         <p>Show in the Members search results?</p>
         <div class="place-switch">
-          <input type="checkbox" name="checkbox_id" id="pub-res" value="value"
-                 data-ng-checked="ctlSettings.isSearchEnabled"
+          <input type="checkbox" name="checkbox_id" id="receiving-members-search" value="value" ng-disabled="!ctlSettings.accesses.hasControlAccess"
                  data-ng-model="ctlSettings.place.privacy.search"
-                 ng-change="ctlSettings.updatePrivacy()">
-          <label for="pub-res"><b>ON</b>
+                 ng-change="ctlSettings.updateSearchPrivacy()">
+          <label for="receiving-members-search">
+            <b>Yes</b>
             <div class="circle"></div>
           </label>
-          <label for="pub-res"><b>OFF</b></label>
+          <label for="receiving-members-search">
+            <b>No</b>
+          </label>
         </div>
       </aside>
     </div>
-    <div class="select-box-step2" ng-click="ctlSettings.setReceivingEveryone();"
-         ng-if="ctlSettings.place.privacy.receptive === 'external' || ctlSettings.changeReceptiveMode"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external'}">
-      <h3>Everyone <i>(also email)</i>
-        <a ng-click="ctlSettings.changeReceptiveMode = true"
-           ng-if="!ctlSettings.changeReceptiveMode"
-           class="change-button"> change</a>
-      </h3>
+    <div class="select-box-step2"
+         ng-if="ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external'"
+         ng-click="ctlSettings.setReceivingEveryone();"
+         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', disabled : !ctlSettings.accesses.hasControlAccess}">
+      <h3>Everyone <i>(also email)</i></h3>
       <p>Everyone can send their messages to the place.</p>
       <aside>
         <p>Show in the public search results?</p>
         <div class="place-switch">
-          <input type="checkbox" name="checkbox_id" id="res" value="value"
-                 data-ng-checked="ctlSettings.isSearchEnabled"
+          <input type="checkbox" name="checkbox_id" id="receiving-everyone-search" ng-disabled="!ctlSettings.accesses.hasControlAccess"
                  data-ng-model="ctlSettings.place.privacy.search"
-                 ng-change="ctlSettings.updatePrivacy()">
-          <label for="res"><b>ON</b>
+                 ng-change="ctlSettings.updateSearchPrivacy()">
+          <label for="receiving-everyone-search">
+            <b>Yes</b>
             <div class="circle"></div>
           </label>
-          <label for="res"><b>OFF</b></label>
+          <label for="receiving-everyone-search">
+            <b>NO</b>
+          </label>
         </div>
       </aside>
     </div>
@@ -108,20 +103,28 @@
   <div class="_difh _fw">
     <div class="_fw _difv" ng-if="ctlSettings.isClosedPlace">
       <p>Who Can Create Subplace?</p>
-      <select data-ng-disabled="ctlSettings.place.privacy.receptive === 'off' "
+      <select ng-if="ctlSettings.accesses.hasControlAccess"
+              data-ng-disabled="ctlSettings.place.privacy.receptive === 'off' "
               data-ng-model="ctlSettings.place.policy.add_place"
-              data-ng-change="ctlSettings.updatePolicy()">
-        <option value="creators">Master Keyholders Only</option>
-        <option value="everyone">All Keyholders</option>
+              data-ng-change="ctlSettings.updateAddPlacePolicy()">
+              <option value="creators">{{::ctlSettings.memberOptions['creators']}}</option>
+              <option value="everyone">{{::ctlSettings.memberOptions['everyone']}}</option>
       </select>
+      <p ng-if="!ctlSettings.accesses.hasControlAccess">
+        {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_place]}}
+      </p>
     </div>
-    <div class="_fw _difv" ng-if="!ctlSettings.isGrandPlace">
+    <div class="_fw _difv">
       <p>Who Can Add Keyholder?</p>
-      <select data-ng-model="ctlSettings.place.policy.add_member"
-              data-ng-change="ctlSettings.updatePolicy()">
-        <option value="everyone">Master Keyholders Only</option>
-        <option value="creators">All Keyholders</option>
+      <select ng-if="ctlSettings.accesses.hasControlAccess"
+              data-ng-model="ctlSettings.place.policy.add_member"
+              data-ng-change="ctlSettings.updateAddMemberPolicy()">
+        <option value="creators">{{::ctlSettings.memberOptions['creators']}}</option>
+        <option value="everyone">{{::ctlSettings.memberOptions['everyone']}}</option>
       </select>
+      <p ng-if="!ctlSettings.accesses.hasControlAccess">
+        {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_member]}}
+      </p>
     </div>
   </div>
   <p data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">Keyholders</p>
@@ -141,4 +144,8 @@
                          has-remove-access="ctlSettings.accesses.hasRemoveAccess"
                          has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
                          role="member.state"/>
+  <div class="_fw _tac margin-b-15">
+    <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();">Load more</a>
+    <span class="nst-mood-cheerful" ng-if="ctlSettings.teammatesLoadProgress">Loading...</span>
+  </div>
 </div>

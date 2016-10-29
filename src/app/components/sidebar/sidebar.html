@@ -1,14 +1,14 @@
 <div class="sidebar _df" ng-class="{ 'expanded' : ctlSidebar.isInDetailMode }" nst-sidebar-revert-mouse-leave="ctlSidebar.isInDetailMode" leave-delay="1000">
   <div class="sidebar-wrapper">
     <div class="side-top">
-      <div class="nested-logo detailed">
-        <a ui-sref="app.messages()">
+      <a class="nested-logo detailed" ui-sref="app.messages()">
+        <div>
           <div id="Logo-white"></div>
-        </a>
-        <a ui-sref="app.messages()">
-          <div id="Logo-type-white"></div>
-        </a>
-      </div>
+        </div>
+        <div ui-sref="app.messages()">
+          <div id="Logo-type-white"></div><i>__version__</i>
+        </div>
+      </a>
       <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
          data-tooltip-placement="right auto"
@@ -26,7 +26,7 @@
       </a>
       <div class="side-menu">
         <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}"
-           data-uib-tooltip="Bookmarks" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
+           data-uib-tooltip="Favorite Places" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
            data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.bookmarks}}">
           <span>
             <svg>
@@ -91,14 +91,14 @@
     <div class="side-access">
       <a class="detailed popover-mentions"
          data-uib-popover-template="'app/mention/mention-popover.html'"
-         data-popover-placement="auto right-top"
+         data-popover-placement="right auto"
          data-popover-class="mentions"
          data-popover-append-to-body="false"
          data-popover-trigger="click"
          data-uib-tooltip="Mentions"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
          data-tooltip-append-to-body="true"
-         data-tooltip-placement="right auto">
+         data-tooltip-placement="right-top auto">
         <div>
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#W_"></use>

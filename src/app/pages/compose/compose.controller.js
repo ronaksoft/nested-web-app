@@ -54,7 +54,15 @@
 
     vm.controls = {
       left: [
-        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
+        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
+          // TODO: Fix navigating to previous state
+          $event.preventDefault();
+          if (!PreviousState.Name || _.includes(['app.compose', 'app.place-compose'], PreviousState.Name)) {
+            $state.go(NST_DEFAULT.STATE);
+          } else {
+            $state.go(PreviousState.Name, PreviousState.Params);
+          }
+        })
       ],
       right: [
         new NstVmNavbarControl('Attach', NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attachments.elementId })
@@ -82,7 +90,7 @@
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff')," +
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype')," +
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
-        "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 14pt!important;}",
+        "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 12pt!important;}",
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,

@@ -161,11 +161,11 @@
 
 
       if (isBookMark()) {
-        vm.navTitle = 'Bookmarks';
+        vm.navTitle = 'Favorite places';
         vm.navIconClass = 'icon-nav icon-top-bookmarks';
       }
 
-      if (vm.isSentMode){
+      if (isSent()){
         vm.navTitle = 'Sent';
         vm.navIconClass = 'icon-nav icon-top-sent';
       }
@@ -173,7 +173,6 @@
     }
 
     function getMessages() {
-      console.log(vm.currentPlace);
       switch ($state.current.name) {
         case 'app.place-messages':
         case 'app.place-messages-sorted':
@@ -428,6 +427,15 @@
       if ($state.current.name == 'app.messages-bookmarks' ||
         $state.current.name == 'app.messages-bookmarks-sorted'){
         vm.isBookmarkMode = true;
+        return true;
+      }
+      return false;
+    }
+
+    function isSent() {
+      if ($state.current.name == 'app.messages-sent' ||
+        $state.current.name == 'app.messages-sent-sorted'){
+        vm.isSentMode = true;
         return true;
       }
       return false;

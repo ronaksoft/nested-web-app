@@ -46,6 +46,8 @@
         length: 0
       };
 
+      this.counters = {};
+
       NstTinyPlace.call(this, data);
 
       if (data) {

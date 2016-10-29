@@ -187,9 +187,9 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 #popup-msg-badge {
-   //margin-top: 20px;
-   max-height: 150px;
-   overflow-y: auto;
+  overflow-y: auto;
+  height: 100%;
+  max-height: 190px;
  }
 
 
@@ -209,8 +209,11 @@ input[type="checkbox"]:checked + label.setting {
 .mentions {
   width: 286px;
   max-height: 480px;
+  transition: height $animation-dur;
   height: auto;
   z-index: 1029;
+  top: auto!important;
+  bottom: 80px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   //position: absolute;
   //z-index: 35;
@@ -236,5 +239,6 @@ input[type="checkbox"]:checked + label.setting {
   }
   > .popover-inner {
     z-index: 2;
+    max-height: 480px;
   }
 }

@@ -21,7 +21,8 @@
         pictureClass : '@navPictureClass',
         title : '@navTitle',
         placeId : '@',
-        readyToShow : '='
+        readyToShow : '=',
+        placeDescription : '@'
       },
       link: function (scope, element, attrs) {
         // create a scene
@@ -36,7 +37,7 @@
 
         // create tween
         if (element) tween = new TimelineLite()
-          .add(TweenLite.to($(element), 1, {css:{height:'88px'}, ease:Linear.easeNone}));
+          .add(TweenLite.to($(element), 1, {css:{height:'88px'}, ease:Linear.easeNone, force3D:true}));
 
 
         if ($(element).children().find( "h3" ).length > 0) { tween2 = new TimelineLite()

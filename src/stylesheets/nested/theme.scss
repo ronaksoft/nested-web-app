@@ -6,15 +6,7 @@
   z-index: 10;
   height: 100%;
 }
-.body {
-  //border-right: 1px solid $color-calm;
-  //border-left: 1px solid $color-calm;
-  //max-width: 1920px;
-  //min-width: 990px;
-  //height: 100%;
-  width: 100%;
-  z-index: -100;
-}
+
 .maincontainer {
   display: flex;
   flex-direction: row;
@@ -131,6 +123,7 @@ hr {
 .first-child {
   margin-top: 20px;
 }
+
 .svg-hover {
   transition: all .2s;
   use:first-child{
@@ -152,10 +145,10 @@ hr {
   &.morphed:hover{
     fill: $color-sense ;
     use:first-child{
-      display: flex;
+      display: none;
     }
     use:last-child{
-      display: none;
+      display: flex;
     }
   }
 

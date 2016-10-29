@@ -266,7 +266,7 @@
       return defer.promise;
     }
 
-    InvitationFactory.prototype.getPlacePendingInvitations = function (placeId) {
+    InvitationFactory.prototype.getPlacePendingInvitations = function (placeId, limit, skip) {
       var factory = this;
 
       if (!this.requests.getPendings[placeId]) {
@@ -275,18 +275,17 @@
 
           NstSvcServer.request('place/get_pending_invitations', {
             place_id: placeId,
-            member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER
+            member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER,
+            limit : limit,
+            skip : skip
           }).then(function (result) {
-
           var keyHolders = _.map(result.invitations, function (invitation) {
             return factory.parseInvitation(invitation);
           });
 
-          var data = {};
           $q.all(keyHolders).then(function (keyholderInvitations) {
-            data.pendingKeyHolders = keyholderInvitations;
 
-            defer.resolve(data);
+            defer.resolve(keyholderInvitations);
           }).catch(defer.reject);
 
 

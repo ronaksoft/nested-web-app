@@ -478,7 +478,7 @@
         message.setInternal(data.internal);
         message.setDate(new Date(data.timestamp));
 
-        message.setIsRead(data.post_read);
+        message.setIsRead(_.isUndefined(data.post_read) ? true : data.post_read);
 
         if (data.last_update) {
           message.setUpdatedDate(new Date(data.last_update));

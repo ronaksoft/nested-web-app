@@ -51,11 +51,12 @@
       font-weight: 400;
       @include text-hover()
     }
+    span{
+      font-size: $font-size-xsmall;
+      @include text-hover()
+    }
   }
-  span{
-    font-size: $font-size-xsmall;
-    @include text-hover()
-  }
+
   .post-body{
     font-size: 13px;
     color: #808080;
@@ -137,12 +138,11 @@ post-card {
   border-radius: 2px 0 0 2px;
 }
 
-#popup-msg-badge {
-  //margin-top: 20px;
-  max-height: 190px;
-}
 .more-place-row {
   padding: 4px 8px;
+  &:last-child {
+    margin-bottom: 8px;
+  }
 }
 h3 {
   font-weight: 100;
@@ -161,6 +161,7 @@ h3 {
     font-size: 24px;
     line-height: 29px;
     word-break: break-all;
+    width: 100%;
     &:hover{
       cursor: pointer;
     }
