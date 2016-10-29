@@ -280,19 +280,21 @@
         $q.all(_.map(selectedUsers, function(user) {
 
           return $q(function(resolve, reject) {
-            NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function(invitationId) {
-              toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
-              NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+            var command  = vm.isGrandPlace ? 'inviteUser' : 'addUser';
+            NstSvcPlaceFactory[command](vm.place, role, user).then(function(invitationId) {
+
+              NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.place.id));
+              toastr.success(NstUtility.string.format('User "{0}" has been {1} to Place "{2}" successfully.', user.id, vm.isGrandPlace ? 'invited' : 'added',vm.place.id));
               resolve({
                 user: user,
                 role: role,
-                invitationId: invitationId
+                invitationId: vm.isGrandPlace ? invitationId : -1,
               });
             }).catch(function(error) {
+              toastr.error(NstUtility.string.format('User "{0}" has not been {1} to Place "{2}".', user.id, vm.isGrandPlace ? 'invited' : 'added',vm.place.id));
               // FIXME: Why cannot catch the error!
               if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
-                NstSvcLogger.error(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                NstSvcLogger.warn(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
                 resolve({
                   user: user,
                   role: role,
