@@ -280,19 +280,19 @@
         $q.all(_.map(selectedUsers, function(user) {
 
           return $q(function(resolve, reject) {
-            var command  = vm.isGrandPlace ? 'inviteUser' : 'addUser';
-            NstSvcPlaceFactory[command](vm.place, role, user).then(function(invitationId) {
-
+            NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function(invitationId) {
+              toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
               NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
               resolve({
                 user: user,
                 role: role,
-                invitationId: vm.isGrandPlace ? invitationId : -1,
+                invitationId: invitationId
               });
             }).catch(function(error) {
               // FIXME: Why cannot catch the error!
               if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                NstSvcLogger.warn(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                NstSvcLogger.error(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
                 resolve({
                   user: user,
                   role: role,
@@ -356,8 +356,10 @@
             vm.place.getPicture().setThumbnail(128, vm.place.getPicture().getOrg());
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function(result) {
               NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
+              toastr.success("The place picture has been set successfully.");
             }).catch(function(error) {
               NstSvcLogger.error(error);
+              toastr.error("An error happened while updating the place picture.")
             })
           });
         };
