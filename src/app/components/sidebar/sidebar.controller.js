@@ -414,7 +414,7 @@
         vm.selectedGrandPlace = mapPlace(event.detail.place);
       }
       NstSvcPlaceFactory.addPlaceToTree(vm.places, place);
-      vm.placesNotifCountObject.push(place.id);
+      vm.placesNotifCountObject[place.id] = 0;
 
     });
 
