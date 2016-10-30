@@ -116,7 +116,9 @@
       font-weight: 400;
       padding: 0 22px 0 8px;
     }
+
   }
+
 }
 #create-place {
   width: 480px;
@@ -194,6 +196,7 @@
     select {
       flex: none;
     }
+
     input[type="checkbox"] + label {
       display: inline-block;
       background: url('../assets/icons/controls.svg') no-repeat;
@@ -207,6 +210,25 @@
     }
     input[type="checkbox"]:checked + label {
       background-position: 0 -16px;
+    }
+
+    input[type="radio"] + label {
+      display: inline-block;
+      background: url('../assets/icons/controls.svg') no-repeat;
+      background-position: 0 -48px;
+      height: 16px;
+      min-width: 17px;
+      padding: 0 0 0 17px;
+      color: $color-storm;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+    }
+    input[type="radio"]:checked + label {
+      background-position: 0 -64px;
+    }
+    input[type="radio"] {
+      display: none;
     }
   }
 }
