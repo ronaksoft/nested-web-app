@@ -46,19 +46,9 @@
 
        this.teammatesCount = undefined;
 
-      /**
-       * Place's parent
-       *
-       * @type {undefined|NstPlace}
-       */
-      this.parent = undefined;
+       this.parentId = undefined;
 
-      /**
-       * Place's grand place
-       *
-       * @type {undefined|NstPlace}
-       */
-      this.grandParent = undefined;
+       this.grandParentId = undefined;
 
       /*****************************
        *****      Descendant    ****
@@ -110,6 +100,18 @@
       });
       this.dispatchEvent(event);
     };
+
+    TinyPlace.prototype.isGrandPlace = function () {
+      return this.id === this.grandParentId && !this.parentId;
+    }
+
+    TinyPlace.prototype.hasParent = function () {
+      return !!this.parentId;
+    }
+
+    TinyPlace.prototype.hasGrandParent = function () {
+      return this.grandParentId && this.grandParentId !== this.id;
+    }
 
     return TinyPlace;
   }

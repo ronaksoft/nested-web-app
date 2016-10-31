@@ -129,24 +129,32 @@
         //TODO:: Handel me
       });
 
-      $rootScope.$on('post-removed', function (event, data) {
-        if (_.some(vm.messages, { id : data.postId })) {
-          var message = _.find(vm.messages, { id : data.postId });
-          // remove the place from the post's places
-          NstUtility.collection.dropById(message.allPlaces, data.placeId);
+      $rootScope.$on('post-removed', function(event, data) {
+        var message = _.find(vm.messages, {
+          id: data.postId
+        });
 
-          // remove the post if the user has not access to see it any more
-          NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces).then(function (places) {
-            if (_.isArray(places)) {
-              if (places.length === 0 || (vm.currentPlaceId && data.placeId == vm.currentPlaceId )) {
-                NstUtility.collection.dropById(vm.messages, data.postId);
-                return;
+        if (message) {
+
+          if (data.placeId) { // remove the post from the place
+            // remove the place from the post's places
+            NstUtility.collection.dropById(message.allPlaces, data.placeId);
+
+            // remove the post if the user has not access to see it any more
+            NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces).then(function(places) {
+              if (_.isArray(places)) {
+                if (places.length === 0 || (vm.currentPlaceId && data.placeId == vm.currentPlaceId)) {
+                  NstUtility.collection.dropById(vm.messages, data.postId);
+                  return;
+                }
               }
-            }
 
-          }).catch(function (error) {
-            $log.debug(error);
-          });
+            }).catch(function(error) {
+              $log.debug(error);
+            });
+          } else { //retract it
+            NstUtility.collection.dropById(vm.messages, message.id);
+          }
         }
 
       });
@@ -161,7 +169,7 @@
 
 
       if (isBookMark()) {
-        vm.navTitle = 'Favorite places';
+        vm.navTitle = 'Favorite Places';
         vm.navIconClass = 'icon-nav icon-top-bookmarks';
       }
 

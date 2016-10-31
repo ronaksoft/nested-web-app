@@ -436,7 +436,7 @@
     function initializeStates(place) {
       vm.isClosedPlace = place.privacy.locked;
       vm.isOpenPlace = !place.privacy.locked;
-      vm.isGrandPlace = (!place.parent) && (place.grandParent.id === place.id);
+      vm.isGrandPlace = (!place.parentId) && (place.grandParentId === place.id);
     }
 
     function updateName(value) {
