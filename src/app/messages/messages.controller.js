@@ -54,7 +54,7 @@
     vm.toggleAttachmentsPreview = toggleAttachmentsPreview;
     vm.toggleCommentsPreview = toggleCommentsPreview;
     vm.toggleQuickMessagePreview = toggleQuickMessagePreview;
-
+    vm.isBookMark = isBookMark();
 
     (function () {
       isUnread();

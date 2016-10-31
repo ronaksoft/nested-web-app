@@ -26,7 +26,7 @@
           </nav>
           <div class="search">
             <input type="text" nst-mention class="form-control"
-                   placeholder="Search in {{ctlFullNavbar.hasPlace() ? ctlFullNavbar.title : 'all places'}}"
+                   placeholder="Search {{ctlFullNavbar.hasPlace() ? ('in ' + ctlFullNavbar.title) : 'Places, users and messages...'}}"
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
                    ng-model="ctlFullNavbar.searchQuery"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
