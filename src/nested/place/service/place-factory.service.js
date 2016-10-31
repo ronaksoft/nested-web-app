@@ -993,7 +993,7 @@
           member_id: user.id,
           role: role
         }).then(function (result) {
-          defer.resolve(result.invite_id.$oid);
+          defer.resolve(result.invite_id ? result.invite_id.$oid : null);
         }).catch(function (error) {
           defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           $log.debug(error);
