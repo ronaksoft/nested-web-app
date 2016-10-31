@@ -283,13 +283,15 @@
             var command  = vm.isGrandPlace ? 'inviteUser' : 'addUser';
             NstSvcPlaceFactory[command](vm.place, role, user).then(function(invitationId) {
 
-              NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+              NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.place.id));
+              toastr.success(NstUtility.string.format('User "{0}" has been {1} to Place "{2}" successfully.', user.id, vm.isGrandPlace ? 'invited' : 'added',vm.place.id));
               resolve({
                 user: user,
                 role: role,
                 invitationId: vm.isGrandPlace ? invitationId : -1,
               });
             }).catch(function(error) {
+              toastr.error(NstUtility.string.format('User "{0}" has not been {1} to Place "{2}".', user.id, vm.isGrandPlace ? 'invited' : 'added',vm.place.id));
               // FIXME: Why cannot catch the error!
               if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
                 NstSvcLogger.warn(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
@@ -356,8 +358,10 @@
             vm.place.getPicture().setThumbnail(128, vm.place.getPicture().getOrg());
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function(result) {
               NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
+              toastr.success("The place picture has been set successfully.");
             }).catch(function(error) {
               NstSvcLogger.error(error);
+              toastr.error("An error happened while updating the place picture.")
             })
           });
         };
@@ -432,7 +436,7 @@
     function initializeStates(place) {
       vm.isClosedPlace = place.privacy.locked;
       vm.isOpenPlace = !place.privacy.locked;
-      vm.isGrandPlace = (!place.parent) && (place.grandParent.id === place.id);
+      vm.isGrandPlace = (!place.parentId) && (place.grandParentId === place.id);
     }
 
     function updateName(value) {

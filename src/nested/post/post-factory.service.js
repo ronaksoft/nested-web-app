@@ -8,7 +8,7 @@
   function NstSvcPostFactory($q, $log,
                              _,
                              NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData,
-                             NstFactoryError, NstFactoryQuery, NstPost, NstTinyPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NstObservableObject,
+                             NstFactoryError, NstFactoryQuery, NstPost, NstTinyPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NstBaseFactory,
                              NST_MESSAGES_SORT_OPTION, NST_POST_FACTORY_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION) {
 
     function PostFactory() {
@@ -53,7 +53,7 @@
       });
     }
 
-    PostFactory.prototype = new NstObservableObject();
+    PostFactory.prototype = new NstBaseFactory();
     PostFactory.prototype.constructor = PostFactory;
 
     PostFactory.prototype.has = has;
@@ -62,6 +62,7 @@
     PostFactory.prototype.set = set;
     PostFactory.prototype.send = send;
     PostFactory.prototype.remove = remove;
+    PostFactory.prototype.retract = retract;
     PostFactory.prototype.createPostModel = createPostModel;
     PostFactory.prototype.getWithComments = getWithComments;
     PostFactory.prototype.getSentMessages = getSentMessages;
@@ -75,7 +76,8 @@
     PostFactory.prototype.search = search;
     PostFactory.prototype.getChainMessages = getChainMessages;
 
-    return new PostFactory();
+    var factory = new PostFactory();
+    return factory;
 
     function has(id) {
       return !!NstSvcPostStorage.get(id);
@@ -177,12 +179,6 @@
         } else {
           NstSvcPostStorage.set(post.getId(), post);
         }
-      } else if (post instanceof NstTinyPost) {
-        // if (hasTiny(post.getId())) {
-        //   NstSvcTinyPostStorage.merge(post.getId(), post);
-        // } else {
-        //   NstSvcTinyPostStorage.set(post.getId(), post);
-        // }
       }
 
       return this;
@@ -269,6 +265,33 @@
       }.bind({
         query: query
       }));
+    }
+
+    function retract(id) {
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+        var query = new NstFactoryQuery(id);
+
+        get(query.id).then(function (post) {
+          if (post.wipeAccess) {
+
+            NstSvcServer.request('post/wipe', {
+              post_id : id
+            }).then(function (data) {
+              NstSvcPostStorage.remove(id);
+              deferred.resolve(true);
+            }).catch(function (error) {
+              deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+            });
+
+          } else {
+            deferred.reject(deferred.reject(new NstFactoryError(query, "NoWipeAccess")));
+          }
+        }).catch(deferred.reject);
+
+
+        return deferred.promise;
+      }, "retract", id);
     }
 
     /**
@@ -449,6 +472,8 @@
             });
           }));
         }
+
+        post.setWipeAccess(data.wipe_access);
 
         $q.all(promises).then(function () {
           defer.resolve(post);
