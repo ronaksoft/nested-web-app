@@ -35,6 +35,7 @@
     vm.openAddMemberModal = openAddMemberModal;
     vm.openSettingsModal = openSettingsModal;
     vm.confirmToRemove = confirmToRemove;
+    vm.leaveAccess = leaveAccess;
 
     vm.confirmToLeave = confirmToLeave;
 
@@ -255,6 +256,10 @@
       }).result.then(function() {
         leave();
       });
+    }
+
+    function leaveAccess() {
+      return NstSvcAuth.user.id !== vm.getPlaceId()
     }
 
     function leave() {
