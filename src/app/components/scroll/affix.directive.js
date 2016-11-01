@@ -13,10 +13,14 @@
         var win = angular.element($window);
         var topOffset = 0;
         var top = $element.offset().top;
-        var offLeft = ($('.content').offset().left);
+        var offLeft = $element.offset().left;
         var afterContent = 0;
-        var height = ($element.height());
-        var width = ($element.width());
+        var height = $element.height();
+        var width = $element.width();
+
+        var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+        var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
 
         if (!!$attrs.offsetTop ) {
           topOffset = $attrs.offsetTop;
@@ -29,15 +33,17 @@
         }
 
         function findLeftOffset () {
-          if ($attrs.parent == 'navbar') {
-            offLeft = $('nst-navbar').offset().left;
-          }else if ($attrs.parent == 'content'){
-            offLeft = $('.content').offset().left;
-            console.log(parseInt(offLeft) + parseInt(afterContent));
+          if ($attrs.parent == 'navbar' && (isChrome || isFirefox )) {
+            offLeft = parseInt($('nst-navbar').offset().left) + parseInt(parseInt(afterContent)) - parseInt($('.sidebar').offset().left);
+          }else if ($attrs.parent == 'navbar' && !(isChrome || isFirefox )){
+            offLeft = parseInt($('nst-navbar').offset().left) + parseInt(parseInt(afterContent));
+          }else if ($attrs.parent == 'content' && (isChrome || isFirefox )){
+            offLeft = parseInt($('.content').offset().left) + parseInt(parseInt(afterContent)) - parseInt($('.sidebar').offset().left);
+          }else if ($attrs.parent == 'content' && !(isChrome || isFirefox )){
+            offLeft = parseInt($('.content').offset().left) + parseInt(parseInt(afterContent));
           }
         }
         findLeftOffset();
-
 
         $scope.$watch(function () {
           return $('.content').offset().left
@@ -46,11 +52,11 @@
         });
 
         function affixElement() {
-          console.log('affix');
+          console.log(offLeft);
           if ($window.pageYOffset > topOffset) {
-            $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-            $element.css('left', parseInt(offLeft) + parseInt(afterContent) + 'px');
             $element.css('position', 'fixed');
+            $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
+            $element.css('left', offLeft + 'px');
             $element.css('width', width + 'px');
             $element.css('height', height + 'px');
           } else {
