@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,7 +6,7 @@
     .controller('SidebarController', SidebarController);
 
   /** @ngInject */
-  function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log, $rootScope,
+  function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT,
                              NstSvcLoader, NstSvcAuth,
@@ -101,8 +101,9 @@
 
     function openCreatePlaceModal($event) {
       $event.preventDefault();
-      $state.go('app.place-create', {  } , { notify : false });
+      $state.go('app.place-create', {}, {notify: false});
     }
+
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -123,7 +124,7 @@
 
       if (NstSvcAuth.user.unreadMentionsCount) {
         vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
-      }else{
+      } else {
         getMentionsCount();
       }
 
@@ -365,6 +366,7 @@
         return new NstVmMention(item, currentUserId);
       });
     }
+
     /*****************************
      *****   Notifs Counters  ****
      *****************************/
@@ -380,8 +382,8 @@
     function getGrandPlaceUnreadCounts() {
       var placeIds = _.keys(vm.placesNotifCountObject);
       if (placeIds.length > 0)
-        NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds,true)
-          .then(function(places){
+        NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds, true)
+          .then(function (places) {
             var totalUnread = 0;
             _.each(places, function (value, placeId) {
               vm.placesNotifCountObject[placeId] = value;
@@ -473,9 +475,7 @@
     });
 
     NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.UPDATE, function (event) {
-      if(event.detail) {
-        vm.mentionsCount = event.detail;
-      }
+      vm.mentionsCount = event.detail;
     });
 
     NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.NEW_MENTION, function (event) {
