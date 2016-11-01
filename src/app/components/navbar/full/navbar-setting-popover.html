@@ -15,7 +15,7 @@
     <div class="add-icon"></div>
     <span>Add Subplace</span>
   </a>
-  <a class="_df  list-items _aic" ng-click="ctlFullNavbar.confirmToLeave()">
+  <a class="_df  list-items _aic" ng-if="ctlFullNavbar.leaveAccess()" ng-click="ctlFullNavbar.confirmToLeave()">
     <div class="option-leave-icon"></div>
     <span>Leave</span>
   </a>

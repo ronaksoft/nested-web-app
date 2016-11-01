@@ -1,0 +1,19 @@
+<div id="delete-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw">{{ctlConfirm.title}}</p>
+      <div class="_df" ng-click="$dismiss()"><img src="../assets/icons/close.svg"></div>
+    </div>
+    <div class="_difv _fw">
+      <p class="_df nst-mood-storm modal-detail">{{ctlConfirm.message}}</p>
+      <div class="modal-buttons">
+        <div class="butn-white _jcc _df" ng-click="$dismiss();">
+          <a class="_df">{{ctlConfirm.buttons.no}}</a>
+        </div>
+        <div class="butn-red _jcc _df" ng-click="$close();">
+          <a class="_df">{{ctlConfirm.buttons.yes}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

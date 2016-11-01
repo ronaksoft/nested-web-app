@@ -8,7 +8,7 @@
   function NstSvcPlaceFactory($q, $log,
                               NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_PLACE_POLICY,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage,
-                              NstObservableObject, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap,
+                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
     function PlaceFactory() {
       var factory = this;
@@ -92,7 +92,7 @@
       });
     }
 
-    PlaceFactory.prototype = new NstObservableObject();
+    PlaceFactory.prototype = new NstBaseFactory();
 
     PlaceFactory.prototype.constructor = PlaceFactory;
 
@@ -578,6 +578,12 @@
     PlaceFactory.prototype.create = function (model) {
       var service = this;
       var deferred = $q.defer();
+      var fillMembers = {
+        none : 'none',
+        parent : '_parent',
+        grand : '_grand',
+      };
+
       var params = {
         'place_id' : model.id,
         'place_name' : model.name,
@@ -588,8 +594,10 @@
         'privacy.search' : model.privacy.search,
         'privacy.add_post' : model.privacy.addPost,
         'policy.add_member' : model.policy.addMember,
-        'policy.add_place': model.policy.addPlace
+        'policy.add_place': model.policy.addPlace,
+        'with_members' : fillMembers[model.fillMembers]
       };
+
 
       NstSvcServer.request('place/add', params).then(function (data) {
         service.get(data.place._id).then(function (place) {
@@ -993,7 +1001,7 @@
           member_id: user.id,
           role: role
         }).then(function (result) {
-          defer.resolve(result.invite_id.$oid);
+          defer.resolve(result.invite_id ? result.invite_id.$oid : null);
         }).catch(function (error) {
           defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           $log.debug(error);
@@ -1331,27 +1339,8 @@
         place.setPicture(placeData.picture);
       }
 
-      if (placeData.parent_id) {
-        var parent = NstSvcTinyPlaceStorage.get(placeData.parent_id) || NstSvcPlaceStorage.get(placeData.parent_id);
-        if (!parent) {
-          parent = this.parseTinyPlace({
-            _id: placeData.parent_id
-          });
-        }
-
-        place.setParent(parent);
-      }
-
-      if (placeData.grand_parent_id) {
-        var grandParent = NstSvcTinyPlaceStorage.get(placeData.grand_parent_id) || NstSvcPlaceStorage.get(placeData.grand_parent_id);
-        if (!grandParent) {
-          grandParent = this.parseTinyPlace({
-            _id: placeData.grand_parent_id
-          });
-        }
-
-        place.setGrandParent(grandParent);
-      }
+      place.setParentId(placeData.parent_id || null);
+      place.setGrandParentId(placeData.grand_parent_id || null);
 
       if (angular.isArray(placeData.childs)) {
         var children = {length: 0};
@@ -1393,27 +1382,8 @@
         place.setPicture(placeData.picture);
       }
 
-      if (placeData.parent_id) {
-        var parent = NstSvcPlaceStorage.get(placeData.parent_id) || NstSvcTinyPlaceStorage.get(placeData.parent_id);
-        if (!parent) {
-          parent = this.parseTinyPlace({
-            _id: placeData.parent_id
-          });
-        }
-
-        place.setParent(parent);
-      }
-
-      if (placeData.grand_parent_id) {
-        var grandParent = NstSvcPlaceStorage.get(placeData.grand_parent_id) || NstSvcTinyPlaceStorage.get(placeData.grand_parent_id);
-        if (!grandParent) {
-          grandParent = this.parseTinyPlace({
-            _id: placeData.grand_parent_id
-          });
-        }
-
-        place.setGrandParent(grandParent);
-      }
+      place.setParentId(placeData.parent_id || null);
+      place.setGrandParentId(placeData.grand_parent_id || null);
 
       if (angular.isArray(placeData.childs)) {
         var children = {length: 0};
@@ -1456,7 +1426,7 @@
           creators: placeData.counters.creators,
           key_holders: placeData.counters.key_holders,
           posts: placeData.counters.posts,
-          size: placeData.policy.add_post
+          size: placeData.counters.size
         });
       }
 
@@ -1564,7 +1534,6 @@
       updatePlace(tree, place);
     };
 
-
     PlaceFactory.prototype.getGrandPlaces = function () {
       var deferred = $q.defer();
 
@@ -1668,6 +1637,9 @@
       // set the root place as parent Id for the first time
       parentId = parentId || _.first(placeIdSlices);
       var parent = _.find(places, {id: parentId});
+      if (!parent) {
+        return false;
+      }
       // For example, if parentId='ronak' and placeId='ronak.dev.web' then trailingIds whould be ['dev', 'web']
       var trailingIds = _.difference(placeIdSlices, _.split(parentId, '.'));
       if (trailingIds.length > 0) {
@@ -1725,8 +1697,6 @@
       var childId = getChildId(originalId, parentId);
       removePlace(parent.children, originalId, childId);
     }
-
-
 
     /**
      * getChildId - Finds the next childId by matching the parentId and originalId

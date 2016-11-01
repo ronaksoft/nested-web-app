@@ -26,8 +26,7 @@
 
       var ajax = new NstHttp('/forgot/', {
         f: 'verify_phone',
-        phone: vm.phone,
-        uid: vm.uid
+        phone: vm.phone
       });
       ajax.get().then(function (data) {
         vm.getCodeRequest = false;
@@ -85,7 +84,6 @@
       var postData = new FormData();
       postData.append('f', 'reset_password');
       postData.append('vid', vm.vid);
-      postData.append('uid', vm.uid);
       postData.append('phone', vm.phone);
       postData.append('pass', md5.createHash(vm.password));
 
