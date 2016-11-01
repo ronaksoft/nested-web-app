@@ -15,6 +15,12 @@
         $element.css('position', 'fixed');
         $element.css('top', '45px');
         $element.css('left', offLeft + 'px');
+
+        $scope.$on('$routeChangeStart', function() {
+          $element.css('position', '');
+          $element.css('top', '');
+          $element.css('left', '');
+        });
       }
     };
   }

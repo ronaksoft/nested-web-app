@@ -8,6 +8,7 @@
   flex: none;
   transition: all .3s;
   z-index: 56;
+  transform: translateZ(0);
   > div {
     transition: $animation-dur;
   }

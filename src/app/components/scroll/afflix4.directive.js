@@ -12,7 +12,7 @@
       link: function ($scope, $element, $attrs) {
         var win = angular.element($window);
         var topOffset = 72;
-        var offLeft = ($element.offset().left);
+        var offLeft = ($('.content').offset().left);
         var offTop = ($element.offset().top);
         var width = ($element.width());
 
@@ -22,7 +22,7 @@
           if ($window.pageYOffset > topOffset) {
             $element.css('position', 'fixed');
             $element.css('top', offTop - 72 + 'px');
-            $element.css('left', offLeft + 'px');
+            $element.css('left', offLeft + 72 + 'px');
             $element.css('width', width + 'px');
           } else {
             $element.css('position', 'absolute');

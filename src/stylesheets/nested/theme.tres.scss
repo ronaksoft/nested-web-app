@@ -69,8 +69,8 @@
   }
   .maincontainer.sidetiny {
     .nst-container{
-      margin-left: 76px;
-      width: calc(100% - 76px );
+      margin-left: $sidebar-width-tiny;
+      width: calc(100% - 72px);
     }
     nst-navbar {
       //width: calc(100% - 72px);
