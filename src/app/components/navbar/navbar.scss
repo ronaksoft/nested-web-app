@@ -113,41 +113,57 @@ a {
 
 nst-navbar {
   height: $navbar-height;
-  transition: all $animation-dur;
+  //transition: all $animation-dur;
   align-self: flex-start;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
+  left: 0;
   z-index: 55;
-  width: calc(100% - 272px);
+  //width: calc(100% - 272px);
+  //width: 100%;
   will-change: height;
   transform-origin: top;
   transform-style: preserve-3d;
   //backface-visibility: hidden;
   //transform: matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,0,1,1);
-  * {
-    transform-origin: top;
+  .bg {
+    background-color: $color-white;
+    border-bottom: 1px solid $color-calm;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .shadow-top {
+    background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,1));
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 16px;
+    z-index: 1;
   }
 }
 
 .nst-navbar {
-  background-color: $color-white;
-  border-bottom: 1px solid $color-calm;
   height: 100%;
   justify-content: center;
   z-index: 50;
   width: 100%;
-  transition: all $animation-dur;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  //transition: all $animation-dur;
   display: flex;
   .content {
     flex-direction: row;
     padding-top: 16px;
+    position: relative;
   }
   .place-logo {
     height: calc(100% - 16px);
-    top : 0;
-    position: absolute;
+    //top : 16px;
+    position: relative;
     justify-content: center;
     @include avatar(72px,56px,6px);
     img {
@@ -159,24 +175,30 @@ nst-navbar {
     }
   }
   .icon-logo {
-    height: 100%;
-    position: relative;
+    height: auto;
+    position: absolute;
     flex: none;
     width: 72px;
+    left: 0;
+    top: 16px;
     justify-content: center;
   }
   .place-info {
     display: inline-flex;
     flex: 1;
-    width: 100%;
+    //width: 100%;
     overflow: hidden;
-    position: relative;
+    position: absolute;
     right: 0;
+    top: 16px;
+    bottom: 0;
+    left: 72px;
     flex-direction: column;
     > * {
       display: flex;
       flex: none;
       width: 100%;
+      position: absolute;
     }
     cite {
       color: $color-solid;
@@ -187,6 +209,7 @@ nst-navbar {
       font-style: normal;
       background-color: $color-white;
       z-index: 2;
+      top: 0;
     }
     h3 {
       color: $color-solid;
@@ -197,6 +220,7 @@ nst-navbar {
       background: linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,1));
       background: -webkit-linear-gradient(bottom, rgba(255,255,250,0) 0%,rgba(255,255,255,1) 100%);
       z-index: 2;
+      top: 29px;
     }
     p {
       color: #869D91;
@@ -206,6 +230,7 @@ nst-navbar {
       margin: 16px 0 48px 0;
       position: absolute;
       bottom: 0;
+      top: 40px;
     }
     .navigation {
       position: absolute;
@@ -214,7 +239,7 @@ nst-navbar {
       flex-direction: row;
       right: 0;
       left: 0;
-      bottom: 0;
+      bottom: 2px;
       height: 42px;
       nav {
         display: inline-flex;
