@@ -121,7 +121,12 @@
 
       vm.invitations = mapInvitations(resolvedSet[2]);
 
-      vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
+      if (NstSvcAuth.user.unreadMentionsCount) {
+        vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
+      }else{
+        getMentionsCount();
+      }
+
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
           return place.id === $stateParams.placeId.split('.')[0];
@@ -301,6 +306,12 @@
       return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
     }
 
+    function getMentionsCount() {
+      NstSvcLoader.inject(NstSvcMentionFactory.getMentionsCount()).then(function (count) {
+        vm.mentionsCount = count;
+      })
+    }
+
     /*****************************
      *****     Map Methods    ****
      *****************************/
@@ -462,7 +473,13 @@
     });
 
     NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.UPDATE, function (event) {
-      vm.mentionsCount = event.detail;
+      if(event.detail) {
+        vm.mentionsCount = event.detail;
+      }
+    });
+
+    NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.NEW_MENTION, function (event) {
+      vm.mentionsCount += 1;
     });
 
   }
