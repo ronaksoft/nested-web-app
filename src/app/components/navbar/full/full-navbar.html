@@ -4,14 +4,14 @@
   <div class="shadow-top" affixer parent="navbar"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
-      <div class="icon-logo" affixer top="16" parent="content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
+      <div class="icon-logo" affixer first-imp="true" top="16" parent="content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
           <div class="icon reverse {{ctlFullNavbar.pictureClass}}"></div>
       </div>
-      <div class="place-logo" affixer top="16" parent="content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureUrl">
+      <div class="place-logo" affixer first-imp="true" top="16" parent="content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureUrl">
           <img class="_tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
       </div>
       <div class="place-info _difv" >
-        <cite affixer top="16" parent="content" after-content="72" >{{ctlFullNavbar.title}}</cite>
+        <cite affixer first-imp="true" top="16" parent="content" after-content="72" >{{ctlFullNavbar.title}}</cite>
         <h3 affixeid id="place-address" ng-show="ctlFullNavbar.showPlaceId">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
         <p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>
         <div class="navigation" affixer parent="content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">

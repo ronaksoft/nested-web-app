@@ -51,6 +51,8 @@
           findLeftOffset();
         });
 
+
+
         function affixElement() {
           console.log(offLeft);
           if ($window.pageYOffset > topOffset) {
@@ -72,6 +74,15 @@
           win.unbind('scroll', affixElement);
         });
         win.bind('scroll', affixElement);
+
+        if (!!$attrs.firstImp ) {
+          $element.css('position', 'fixed');
+          $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
+          $element.css('left', offLeft + 'px');
+          $element.css('width', width + 'px');
+          $element.css('height', height + 'px');
+          return win.unbind('scroll', affixElement);
+        }
       }
     };
   }
