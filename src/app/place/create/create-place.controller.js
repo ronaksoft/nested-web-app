@@ -6,13 +6,14 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($scope, $q, $stateParams, $state, NST_DEFAULT, NstSvcPlaceFactory, NstUtility, $uibModal, $uibModalInstance, NST_PLACE_ACCESS, NstSvcLogger) {
+  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NstSvcPlaceFactory, NstUtility, $uibModal, $uibModalInstance, NST_PLACE_ACCESS, NstSvcLogger) {
 
     var vm = this;
 
     var placeIdRegex = /^[A-Za-z][A-Za-z0-9-]*$/;
 
-    vm.hasGrandPlace = undefined;
+    vm.hasParentPlace = null;
+    vm.hasGrandParent = null;
     vm.memberOptions = [
       { key : 'creator', name : 'Master Keyholders Only' },
       { key : 'everyone', name : 'All Keyholders' }
@@ -33,7 +34,8 @@
         addPlace: vm.memberOptions[0].key,
       },
       favorite : true,
-      notification: false
+      notification: false,
+      fillMembers : 'none'
     };
     vm.placeIdIsAvailable = null;
     vm.hasRandomId = null;
@@ -51,16 +53,43 @@
 
     (function () {
       if (stateParamIsProvided($stateParams.placeId)) {
-        vm.hasGrandPlace = true;
         vm.place.parentId = $stateParams.placeId;
+        loadParentPlace(vm.place.parentId).catch(function (error) {
+          toastr.error("An error happened while getting information of the parent place.");
+        });
       } else {
-        vm.hasGrandPlace = false;
+        vm.hasParentPlace = false;
         vm.place.parentId = null;
       }
-      vm.isCreateGrandPlaceMode = !vm.hasGrandPlace;
+      vm.isCreateGrandPlaceMode = !vm.hasParentPlace;
       vm.receivingMode = 'everyone';
 
     })();
+
+    function loadParentPlace(parentId) {
+      var deferred = $q.defer();
+
+      vm.parentLoadProgress = true;
+      NstSvcPlaceFactory.getTiny(parentId).then(function (place) {
+        if (place.isGrandPlace()) {
+          vm.hasGrandParent = true;
+          vm.grandPlace = place;
+          deferred.resolve(true);
+        } else {
+          vm.parentPlace = place;
+          vm.hasParentPlace = true;
+          NstSvcPlaceFactory.getTiny(vm.parentPlace.grandParentId).then(function (grandPlace) {
+            vm.hasGrandParent = true;
+            vm.grandPlace = grandPlace;
+            deferred.resolve(true);
+          }).catch(deferred.reject);
+        }
+      }).catch(deferred.reject).finally(function () {
+        vm.parentLoadProgress = false;
+      });
+
+      return deferred.promise;
+    }
 
     function changeId(placeId) {
       vm.place.tempId = vm.place.id;
@@ -182,7 +211,7 @@
         return;
       }
 
-      if (vm.hasGrandPlace) {
+      if (vm.hasParentPlace) {
         hasAccessToAdd(vm.place.parentId).then(function (result) {
           createPlace(vm.place);
         }).catch(function (error) {

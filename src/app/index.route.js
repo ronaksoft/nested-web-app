@@ -207,7 +207,7 @@
           var modal = $uibModal.open({
             animation: false,
             size: 'lg-white',
-            templateUrl: 'app/place/create/create-team.html',
+            templateUrl: 'app/place/create/place-create.html',
             controller: 'PlaceCreateController',
             controllerAs: 'ctlCreate'
           }).result.catch(function() {

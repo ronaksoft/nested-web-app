@@ -6,7 +6,7 @@
     .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
-  function placeTeammatesController($scope, $q, $log, $uibModal, toastr,
+  function placeTeammatesController($scope, $q, $uibModal, toastr,
     NstSvcPlaceFactory, NstUtility,NstSvcAuth,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE) {
@@ -62,7 +62,7 @@
 
         findMembers();
       }).catch(function(error) {
-        $log.debug(error);
+        NstSvcLogger.error(error);
       }).finally(function () {
         vm.loading = false;
       });
@@ -108,8 +108,8 @@
 
           return $q(function(resolve, reject) {
             NstSvcPlaceFactory.inviteUser(vm.grandPlace, role, user).then(function(invitationId) {
-              toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.grandPlace.id));
-              $log.debug(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.grandPlace.id));
+              toastr.success(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.grandPlace.id));
+              NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.grandPlace.id));
               resolve({
                 user: user,
                 role: role,
@@ -119,7 +119,7 @@
               // FIXME: Why cannot catch the error!
               if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
                 toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.grandPlace.id));
-                $log.debug(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.grandPlace.id));
+                NstSvcLogger.error(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.grandPlace.id));
                 resolve({
                   user: user,
                   role: role,
@@ -141,7 +141,7 @@
             }
           });
         }).catch(function(error) {
-          $log.debug(error);
+          NstSvcLogger.error(error);
         });
       });
     }

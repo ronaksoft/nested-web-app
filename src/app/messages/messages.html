@@ -48,7 +48,12 @@
         There are no more messages!
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && !ctlMessages.isUnreadMode">
-        Be the first who writes something here...
+        <span ng-if="!ctlMessages.isBookMark">
+          There are no posts here yet...
+        </span>
+        <span ng-if="ctlMessages.isBookMark">
+          You haven't favorited any Places yet...
+        </span>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && ctlMessages.isUnreadMode">
         You don't have any unread messages.

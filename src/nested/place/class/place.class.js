@@ -46,6 +46,20 @@
         length: 0
       };
 
+      /**
+       * Place's parent
+       *
+       * @type {undefined|NstPlace}
+       */
+      this.parent = undefined;
+
+      /**
+       * Place's grand place
+       *
+       * @type {undefined|NstPlace}
+       */
+      this.grandParent = undefined;
+
       this.counters = {};
 
       NstTinyPlace.call(this, data);
@@ -106,6 +120,14 @@
       }
       return this;
     };
+
+    Place.prototype.getTeammatesCount = function () {
+      if (!this.counters) {
+        return 0;
+      }
+
+      return this.counters.key_holders + this.counters.creators;
+    }
 
     return Place;
   }
