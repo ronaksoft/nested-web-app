@@ -142,8 +142,8 @@ nst-navbar {
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 16px;
+    right: 0;
+    height: 50px;
     z-index: 1;
   }
 }
@@ -155,6 +155,9 @@ nst-navbar {
   width: 100%;
   //transition: all $animation-dur;
   display: flex;
+  .nst-content {
+    z-index: 2;
+  }
   .content {
     flex-direction: row;
     padding-top: 16px;
@@ -190,7 +193,7 @@ nst-navbar {
     overflow: hidden;
     position: absolute;
     right: 0;
-    top: 16px;
+    top: 0;
     bottom: 0;
     left: 72px;
     flex-direction: column;
@@ -199,6 +202,14 @@ nst-navbar {
       flex: none;
       width: 100%;
       position: absolute;
+      //transition: all .001;
+    }
+    #filler {
+      background-color: $color-white;
+      width: 100%;
+      height: 16px!important;
+      position: absolute;
+      z-index: 4;
     }
     cite {
       color: $color-solid;
@@ -208,7 +219,7 @@ nst-navbar {
       font-weight: 700;
       font-style: normal;
       background-color: $color-white;
-      z-index: 2;
+      z-index: 3;
       top: 0;
     }
     h3 {
@@ -220,7 +231,7 @@ nst-navbar {
       background: linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,1));
       background: -webkit-linear-gradient(bottom, rgba(255,255,250,0) 0%,rgba(255,255,255,1) 100%);
       z-index: 2;
-      top: 29px;
+      top: 42px;
     }
     p {
       color: #869D91;
@@ -230,7 +241,7 @@ nst-navbar {
       margin: 16px 0 48px 0;
       position: absolute;
       bottom: 0;
-      top: 40px;
+      top: 64px;
     }
     .navigation {
       position: absolute;

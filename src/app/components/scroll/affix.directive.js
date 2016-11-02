@@ -17,6 +17,7 @@
         var afterContent = 0;
         var height = $element.height();
         var width = $element.width();
+        var dontSetWidth = $attrs.dontSetWidth || false;
 
         var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
         var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
@@ -32,6 +33,7 @@
           afterContent = $attrs.afterContent;
         }
 
+        //for create a fixed element we need a left parameter so we get it from hisself
         function findLeftOffset () {
           if ($attrs.parent == 'navbar' && (isChrome || isFirefox )) {
             offLeft = parseInt($('nst-navbar').offset().left) + parseInt(parseInt(afterContent)) - parseInt($('.sidebar').offset().left);
@@ -43,23 +45,14 @@
             offLeft = parseInt($('.content').offset().left) + parseInt(parseInt(afterContent));
           }
         }
-        findLeftOffset();
-
-        $scope.$watch(function () {
-          return $('.content').offset().left
-        },function (newVal,oldVal) {
-          findLeftOffset();
-        });
-
 
 
         function affixElement() {
-          console.log(offLeft);
           if ($window.pageYOffset > topOffset) {
             $element.css('position', 'fixed');
             $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
             $element.css('left', offLeft + 'px');
-            $element.css('width', width + 'px');
+            if(!dontSetWidth) $element.css('width', width + 'px');
             $element.css('height', height + 'px');
           } else {
             $element.css('position', 'absolute');
@@ -69,20 +62,49 @@
             $element.css('height', '');
           }
         }
+        function firstFixes() {
+          if (!!$attrs.firstImp ) {
+            $element.css('position', 'fixed');
+            $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
+            $element.css('left', offLeft + 'px');
+            $element.css('width', width + 'px');
+            $element.css('height', height + 'px');
+            return win.unbind('scroll', affixElement);
+          }
+        }
 
+
+
+        findLeftOffset();
+        win.bind('scroll', affixElement);
+        firstFixes();
+
+
+
+        //keep track user and change parameters
         $scope.$on('$routeChangeStart', function() {
           win.unbind('scroll', affixElement);
-        });
-        win.bind('scroll', affixElement);
+          findLeftOffset();
+          win.bind('scroll', affixElement);
+          firstFixes();
 
-        if (!!$attrs.firstImp ) {
-          $element.css('position', 'fixed');
-          $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-          $element.css('left', offLeft + 'px');
-          $element.css('width', width + 'px');
-          $element.css('height', height + 'px');
-          return win.unbind('scroll', affixElement);
-        }
+        });
+
+        win.on("resize", function () {
+          findLeftOffset();
+          win.unbind('scroll', affixElement);
+          win.bind('scroll', affixElement);
+          firstFixes();
+        });
+
+        $scope.$watch(function () {
+          return $('.content').offset().left
+        },function (newVal,oldVal) {
+          win.unbind('scroll', affixElement);
+          findLeftOffset();
+          win.bind('scroll', affixElement);
+          firstFixes();
+        });
       }
     };
   }
