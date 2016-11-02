@@ -53,6 +53,7 @@
 
     (function () {
       if (stateParamIsProvided($stateParams.placeId)) {
+        vm.hasParentPlace = true;
         vm.place.parentId = $stateParams.placeId;
         loadParentPlace(vm.place.parentId).catch(function (error) {
           toastr.error("An error happened while getting information of the parent place.");
