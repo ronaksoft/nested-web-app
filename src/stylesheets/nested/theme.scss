@@ -6,7 +6,6 @@
   z-index: 10;
   height: 100%;
 }
-
 .maincontainer {
   display: flex;
   flex-direction: row;
@@ -17,6 +16,7 @@
   transition: $animation-dur;
   display: inline-flex;
   flex-direction: column;
+  position: relative;
   width: 100%;
   //overflow-y: auto;
   //  overflow-y: initial;
@@ -25,12 +25,7 @@
 }
 
 .nst-container:after {
-  content: "";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-  flex-direction: row;
+
 }
 
 .nst-content {

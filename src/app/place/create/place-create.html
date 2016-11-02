@@ -106,7 +106,7 @@
       </div>
       <p ng-if="ctlCreate.isClosedPlace">Place Privacies</p>
       <div class="option-row" ng-if="ctlCreate.isClosedPlace">
-        <p>
+        <p class="_fw _df">
           Who can add Keyholders?
         </p>
         <select ng-model="ctlCreate.place.policy.addMember"
@@ -114,28 +114,28 @@
         </select>
       </div>
       <div class="option-row" ng-if="ctlCreate.isClosedPlace">
-        <p>
+        <p class="_fw _df">
           Who can create subplace?
         </p>
         <select ng-model="ctlCreate.place.policy.addPlace"
                 ng-options="member.key as member.name for member in ctlCreate.memberOptions">
         </select>
       </div>
-      <div class="option-row" ng-if="(ctlCreate.hasGrandParent || ctlCreate.hasParentPlace) && !ctlCreate.parentLoadProgress">
-        <p>
+      <div class="_difv nst-marginbtm-8" ng-if="(ctlCreate.hasGrandParent || ctlCreate.hasParentPlace) && !ctlCreate.parentLoadProgress">
+        <p class="create-label">
           Select group of members to be added to the place:
         </p>
         <ul class="list-unstyled">
           <li>
-            <input type="radio" id="fill-members-none" name="fillMembers" value="none" ng-model="ctlCreate.place.fillMembers">
+            <input class="create-place-radio" type="radio" id="fill-members-none" name="fillMembers" value="none" ng-model="ctlCreate.place.fillMembers">
             <label for="fill-members-none">None</label>
           </li>
           <li ng-if="ctlCreate.hasParentPlace">
-            <input type="radio" id="fill-members-parent" name="fillMembers" value="parent" ng-model="ctlCreate.place.fillMembers">
+            <input class="create-place-radio" type="radio" id="fill-members-parent" name="fillMembers" value="parent" ng-model="ctlCreate.place.fillMembers">
             <label for="fill-members-parent">All <b>{{::ctlCreate.parentPlace.name}}</b> keyholders ({{::ctlCreate.parentPlace.getTeammatesCount()}})</label>
           </li>
           <li ng-if="ctlCreate.hasGrandParent">
-            <input type="radio" id="fill-members-grand" name="fillMembers" value="grand" ng-model="ctlCreate.place.fillMembers">
+            <input class="create-place-radio" type="radio" id="fill-members-grand" name="fillMembers" value="grand" ng-model="ctlCreate.place.fillMembers">
             <label for="fill-members-grand">All <b>{{ctlCreate.grandPlace.name}}</b> members ({{::ctlCreate.grandPlace.getTeammatesCount()}})</label>
           </li>
         </ul>
@@ -144,11 +144,11 @@
 
       </div>
       <div class="option-row">
-        <input type="checkbox" id="favo" ng-model="ctlCreate.place.favorite">
+        <input class="create-place-checkbox" type="checkbox" id="favo" ng-model="ctlCreate.place.favorite">
         <label for="favo">Add to my favored places.</label>
       </div>
       <div class="option-row">
-        <input type="checkbox" id="notification" ng-model="ctlCreate.place.notification">
+        <input class="create-place-checkbox" type="checkbox" id="notification" ng-model="ctlCreate.place.notification">
         <label for="notification">Turn on notification for this place.</label>
       </div>
       <button type="submit">Create Place</button>

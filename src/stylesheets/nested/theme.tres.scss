@@ -19,7 +19,6 @@
   #new-post {
     top: $navbar-height;
   }
-
   .maincontainer {
     //height: 100%;
     //min-height: 100%;
@@ -65,15 +64,15 @@
     width: calc(100% - 272px);
   }
   nst-navbar {
-    width: calc(100% - 272px);
+    //width: calc(100% - 272px);
   }
   .maincontainer.sidetiny {
     .nst-container{
-      margin-left: 76px;
-      width: calc(100% - 76px );
+      margin-left: $sidebar-width-tiny;
+      width: calc(100% - 72px);
     }
     nst-navbar {
-      width: calc(100% - 72px);
+      //width: calc(100% - 72px);
     }
   }
   .nst-topnav{

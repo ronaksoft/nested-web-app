@@ -185,51 +185,50 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
-    p {
-      line-height: 19px;
-      font-size: 16px;
-      font-weight: 400;
-      display: flex;
-      flex: 1;
-      color: $color-solid;
-    }
     select {
       flex: none;
     }
+  }
+  p.create-label {
+    line-height: 19px;
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    flex: 1;
+    color: $color-solid;
+  }
+  .create-place-checkbox + label {
+    display: inline-block;
+    background: url('../assets/icons/controls.svg') no-repeat;
+    height: 16px;
+    min-width: 17px;
+    padding: 0 0 0 17px;
+    color: $color-storm;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .create-place-checkbox:checked + label {
+    background-position: 0 -16px;
+  }
 
-    input[type="checkbox"] + label {
-      display: inline-block;
-      background: url('../assets/icons/controls.svg') no-repeat;
-      height: 16px;
-      min-width: 17px;
-      padding: 0 0 0 17px;
-      color: $color-storm;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 17px;
-    }
-    input[type="checkbox"]:checked + label {
-      background-position: 0 -16px;
-    }
-
-    input[type="radio"] + label {
-      display: inline-block;
-      background: url('../assets/icons/controls.svg') no-repeat;
-      background-position: 0 -48px;
-      height: 16px;
-      min-width: 17px;
-      padding: 0 0 0 17px;
-      color: $color-storm;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 17px;
-    }
-    input[type="radio"]:checked + label {
-      background-position: 0 -64px;
-    }
-    input[type="radio"] {
-      display: none;
-    }
+  .create-place-radio + label {
+    display: inline-block;
+    background: url('../assets/icons/controls.svg') no-repeat;
+    background-position: 0 -48px;
+    height: 16px;
+    min-width: 17px;
+    padding: 0 0 0 17px;
+    color: $color-storm;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .create-place-radio:checked + label {
+    background-position: 0 -64px;
+  }
+  .create-place-radio {
+    display: none;
   }
 }
 
