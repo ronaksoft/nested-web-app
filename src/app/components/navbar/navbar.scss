@@ -154,6 +154,7 @@ nst-navbar {
   width: 100%;
   //transition: all $animation-dur;
   display: flex;
+  position: relative;
   .nst-content {
     z-index: 2;
   }

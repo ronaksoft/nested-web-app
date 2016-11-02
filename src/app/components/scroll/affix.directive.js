@@ -26,9 +26,12 @@
         if (!!$attrs.offsetTop ) {
           topOffset = $attrs.offsetTop;
         }
+
+
         if (!!$attrs.top ) {
-          top = $attrs.top;
+          top = top + parseInt($attrs.top);
         }
+
         if (!!$attrs.afterContent ) {
           afterContent = $attrs.afterContent;
         }

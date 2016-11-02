@@ -1,11 +1,13 @@
 @media screen and (max-width: $screen-md){
+  .nst-navbar {
+    top: 56px;
+  }
   .maincontainer.navtiny {
     #new-post {
       top: $navbar-height + $topnav-height ;
     }
-    .nst-navbar{
-      //top: -66px;
-      transform: translate3d(0,-66px,0);
+    .nst-navbar {
+      //transform: translate3d(0,-66px,0);
       //min-height: 132px;
       //max-height: 132px;
       //height: 132px;
