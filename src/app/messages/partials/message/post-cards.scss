@@ -119,6 +119,7 @@
     }
   }
 }
+
 post-card {
   display: flex;
   flex-direction: column;
@@ -129,13 +130,22 @@ post-card {
     }
   }
 }
+
 .post-card.forward-card {
-  border-left: 4px solid $color-forward;
+  border-left: 4px solid $color-calm;
   border-radius: 2px 0 0 2px;
+  transition: border-color $animation-dur;
+  &:hover {
+    border-left: 4px solid $color-forward;
+  }
 }
 .post-card.reply-card {
-  border-left: 4px solid $color-reply;
+  border-left: 4px solid $color-calm;
   border-radius: 2px 0 0 2px;
+  transition: border-color $animation-dur;
+  &:hover {
+    border-left: 4px solid $color-reply;
+  }
 }
 
 .more-place-row {
