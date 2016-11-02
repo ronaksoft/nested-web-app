@@ -9,7 +9,7 @@
   function runBlock($rootScope, $uibModal, $timeout,$interval, $state,
                     ngProgressFactory,
                     NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
-                    NstSvcAuth, NstSvcLoader) {
+                    NstSvcAuth, NstSvcLoader, NstSvcI18n) {
 
     $rootScope.progress = {
       bar: ngProgressFactory.createInstance(),
@@ -85,7 +85,10 @@
     //   timer;
     //   $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
     // }
-
+    console.log('dodo');
+    NstSvcI18n.addLocale("en-US", {
+      "foo" : "فو"
+    });
 
   }
 })();
