@@ -13,7 +13,7 @@
       <div class="place-info _difv" >
         <div id="filler" affixer first-imp="true" parent="content" after-content="72"></div>
         <cite affixer first-imp="true" top="16" parent="content" after-content="72">{{ctlFullNavbar.title}}</cite>
-        <h3 id="place-address" ng-show="true" affixer top="42" first-imp="true" top="16" parent="content" after-content="72">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
+        <h3 id="place-address" ng-show="ctlFullNavbar.showPlaceId" affixer top="42" first-imp="true" top="16" parent="content" after-content="72">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
         <p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>
         <div class="navigation" affixer parent="content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">
           <nav>
@@ -28,8 +28,12 @@
             </a>
           </nav>
           <div class="search">
-            <input type="text" nst-mention class="form-control"
-                   placeholder="Search {{ctlFullNavbar.hasPlace() ? ('in ' + ctlFullNavbar.title) : 'Places, users and messages...'}}"
+            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
+                   placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
+                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
+                   ng-model="ctlFullNavbar.searchQuery"/>
+            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
+                   placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
                    ng-model="ctlFullNavbar.searchQuery"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
