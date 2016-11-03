@@ -57,7 +57,7 @@
         new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
           // TODO: Fix navigating to previous state
           $event.preventDefault();
-          if (!PreviousState.Name || _.includes(['app.compose', 'app.place-compose'], PreviousState.Name)) {
+          if (!PreviousState.Name || _.includes(['app.compose', 'app.place-compose', 'app.message'], PreviousState.Name)) {
             $state.go(NST_DEFAULT.STATE);
           } else {
             $state.go(PreviousState.Name, PreviousState.Params);
