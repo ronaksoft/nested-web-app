@@ -13,18 +13,15 @@
         var win = angular.element($window);
         var topOffset = 0;
         var afterContent = 0;
+        var container = 'body';
         function applier() {
-          $element.css('position', '');
-          $element.css('top', '');
-          $element.css('left', '');
-          $element.css('width', '');
-          $element.css('height', '');
+          removeFix();
 
           var top = $element.offset().top;
           var offLeft = $element.offset().left;
 
-          var height = $element.height();
-          var width = $element.width();
+          var height = $element.outerHeight();
+          var width = $element.outerWidth();
           var dontSetWidth = $attrs.dontSetWidth || false;
 
           var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
@@ -34,6 +31,11 @@
           if (!!$attrs.offsetTop ) {
             topOffset = $attrs.offsetTop;
           }
+
+          if (!!$attrs.parent ) {
+            container = $attrs.parent;
+          }
+          console.log($element,$(container).offset());
 
           if (!!$attrs.top ) {
             top = top + parseInt($attrs.top);
@@ -49,29 +51,33 @@
 
           //for create a fixed element we need a left parameter so we get it from hisself
           function findLeftOffset () {
-            if (isChrome || isFirefox) {
-              offLeft = parseInt($($attrs.parent).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
-            }else if (!(isChrome || isFirefox )){
-              offLeft = parseInt($($attrs.parent).offset().left) + parseInt(afterContent);
-            }
+            offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
+            // if (isChrome || isFirefox) {
+            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
+            // }else if (!(isChrome || isFirefox )){
+            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
+            // }
+          }
+          function removeFix() {
+            $element.css('position', '');
+            $element.css('top', '');
+            $element.css('left', '');
+            $element.css('width', '');
+            $element.css('height', '');
           }
 
           var fixed = false;
 
           function affixElement() {
             if ($window.pageYOffset > topOffset && !fixed) {
-              if (!($element.css('position') == 'fixed')) $element.css('position', 'fixed');
+              $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
               $element.css('left', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', width + 'px');
               $element.css('height', height + 'px');
               fixed = true;
             } else if ($window.pageYOffset < topOffset && fixed) {
-              $element.css('position', 'absolute');
-              $element.css('top', '');
-              $element.css('left', '');
-              $element.css('width', '');
-              $element.css('height', '');
+              removeFix();
               fixed = false;
             }
           }
