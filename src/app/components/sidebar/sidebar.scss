@@ -8,6 +8,7 @@
   flex: none;
   transition: all .3s;
   z-index: 56;
+  transform: translateZ(0);
   > div {
     transition: $animation-dur;
   }
@@ -930,7 +931,7 @@ ul ul > li:last-child > .place-item-inner{
         font-size: 14px;
         line-height: 32px;
         padding: 0 8px;
-        display: flex;
+        display: block;
         width: 100%;
         margin-top: 4px;
         margin-bottom: 4px;
@@ -946,7 +947,7 @@ ul ul > li:last-child > .place-item-inner{
       }
       span {
         display: flex;
-        padding-right: 10px;
+        padding-right: 2px;
         position: absolute;
         right: 0;
         top: 50%;

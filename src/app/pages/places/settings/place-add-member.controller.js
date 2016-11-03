@@ -15,13 +15,14 @@
     var defaultSearchResultCount = 9;
 
     vm.isTeammateMode = true;
-    vm.isGrandPlace = false;
 
     if (chosenRole === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
       vm.isTeammateMode = false;
     }
 
-    if (!currentPlace.parent || !currentPlace.parent.id){
+    if (currentPlace.id.split('.').length > 1){
+      vm.isGrandPlace = false;
+    }else{
       vm.isGrandPlace = true;
     }
 

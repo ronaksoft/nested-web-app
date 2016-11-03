@@ -21,7 +21,7 @@
       <h3 data-ng-if="!ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true">
         {{ctlSettings.place.name || 'empty'}}</h3>
 
-      <h5 class="nst-mood-storm" >{{ctlSettings.place.id
+      <h5 class="nst-mood-storm" ng-if="ctlSettings.place.privacy.receptive == 'external'">{{ctlSettings.place.id
         + '@nested.me'}}</h5>
     </div>
   </div>
@@ -31,38 +31,50 @@
        onbeforesave="ctlSettings.updateDescription($data);">{{ctlSettings.place.description || 'empty'}}</p>
     <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description"
        data-ng-if="!ctlSettings.accesses.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</p>
-
   </div>
-  <p ng-if="ctlSettings.isClosedPlace">Receiving</p>
+  <p ng-if="ctlSettings.isClosedPlace">Who can post messages to this Place?</p>
   <div ng-if="ctlSettings.isClosedPlace" class="recive-set" ng-class="{'preview' : !ctlSettings.changeReceptiveMode}">
+    <!--Off-->
     <div class="select-box-step2"
-         ng-if="ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off'"
+         ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off')"
          ng-click="ctlSettings.setReceivingOff();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }">
-      <h3>Off</h3>
+      <h3 ng-if="!ctlSettings.isGrandPlace" >Only {{ctlSettings.place.name}} Members</h3>
+      <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace" >Members</h3>
+      <h3 ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace" >Only Me</h3>
+
+
       <div class="_difh _fw _aic">
-        <p>Just Keyholders can communicate in the place.</span></p>
+        <p ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">{{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "All Members"}} can post messages in this place.</p>
+        <p ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">No-one can post messages to your personal Place.</p>
+        <p ng-if="!ctlSettings.isGrandPlace">Only <b>{{ctlSettings.place.name }}</b> members can view Place contents.</p>
       </div>
+
       <p></p>
-      <aside>
-        <p>Which kind of Keyholders can be contribute in the place?</p>
+      <aside ng-if="!ctlSettings.isPersonalPlace">
+        <p>Which members can post messages to this Place?</p>
         <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">
-          <option value="creators">{{::ctlSettings.memberOptions['creators']}}</option>
-          <option value="everyone">{{::ctlSettings.memberOptions['everyone']}}</option>
+          <option value="creators">{{ctlSettings.place.name}} Managers</option>
+          <option value="everyone">{{ctlSettings.place.name}} Members</option>
         </select>
         <p ng-if="!ctlSettings.accesses.hasControlAccess">
           {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_post]}}
         </p>
       </aside>
     </div>
+    <!--Internal-->
     <div class="select-box-step2"
-         ng-if="ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal'"
+         ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal')"
          ng-click="ctlSettings.setReceivingMembers();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', disabled : !ctlSettings.accesses.hasControlAccess}">
-      <h3>Members Only</h3>
-      <p>All Members can send messages to the place.</p>
+      <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">Everyone</h3>
+      <h3 ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">Only Nested Users</h3>
+      <h3 ng-if="!ctlSettings.isGrandPlace">{{ ctlSettings.grandPlace.name }} Members</h3>
+      <p ng-if="!ctlSettings.isGrandPlace">All <b>{{ ctlSettings.grandPlace.name }}</b> Members can post messages to the place.</p>
+      <p ng-if="ctlSettings.isGrandPlace">Only Nested users can post messages to this Place.</p>
       <aside>
-        <p>Show in the Members search results?</p>
+        <p ng-if="ctlSettings.isGrandPlace">Show in the Members search results?</p>
+        <p ng-if="!ctlSettings.isGrandPlace">Show in the {{ ctlSettings.grandPlace.name }} Members search results?</p>
         <div class="place-switch">
           <input type="checkbox" name="checkbox_id" id="receiving-members-search" value="value" ng-disabled="!ctlSettings.accesses.hasControlAccess"
                  data-ng-model="ctlSettings.place.privacy.search"
@@ -77,8 +89,9 @@
         </div>
       </aside>
     </div>
+    <!--Everyone-->
     <div class="select-box-step2"
-         ng-if="ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external'"
+         ng-if="(!ctlSettings.isGrandPlace || ctlSettings.isPersonalPlace) && (ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external')"
          ng-click="ctlSettings.setReceivingEveryone();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', disabled : !ctlSettings.accesses.hasControlAccess}">
       <h3>Everyone <i>(also email)</i></h3>
@@ -100,34 +113,35 @@
       </aside>
     </div>
   </div>
-  <div class="_difh _fw">
+  <div class="_difh _fw" ng-if="!ctlSettings.isPersonalPlace">
     <div class="_fw _difv" ng-if="ctlSettings.isClosedPlace">
-      <p>Who Can Create Subplace?</p>
+      <p>Who can create a sub-place?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-disabled="ctlSettings.place.privacy.receptive === 'off' "
               data-ng-model="ctlSettings.place.policy.add_place"
               data-ng-change="ctlSettings.updateAddPlacePolicy()">
-              <option value="creators">{{::ctlSettings.memberOptions['creators']}}</option>
-              <option value="everyone">{{::ctlSettings.memberOptions['everyone']}}</option>
+        <option value="creators">{{ctlSettings.place.name}} Managers</option>
+        <option value="everyone">{{ctlSettings.place.name}} Members</option>
       </select>
       <p ng-if="!ctlSettings.accesses.hasControlAccess">
         {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_place]}}
       </p>
     </div>
     <div class="_fw _difv">
-      <p>Who Can Add Keyholder?</p>
+      <p ng-if="ctlSettings.isGrandPlace" >Who can invite Members? </p>
+      <p ng-if="!ctlSettings.isGrandPlace">Who Can Add Keyholder?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_member"
               data-ng-change="ctlSettings.updateAddMemberPolicy()">
-        <option value="creators">{{::ctlSettings.memberOptions['creators']}}</option>
-        <option value="everyone">{{::ctlSettings.memberOptions['everyone']}}</option>
+        <option value="creators">{{ctlSettings.place.name}} Managers</option>
+        <option value="everyone">{{ctlSettings.place.name}} Members</option>
       </select>
       <p ng-if="!ctlSettings.accesses.hasControlAccess">
         {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_member]}}
       </p>
     </div>
   </div>
-  <p data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">Keyholders</p>
+  <p data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">Members</p>
   <div class="select-box2 _difh"
        data-ng-if="ctlSettings.accesses.hasSeeMembersAccess"
        data-ng-click="ctlSettings.addMember()">
@@ -136,7 +150,7 @@
         <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
       </svg>
     </div>
-    <p>Add Keyholders</p>
+    <p>{{ctlSettings.isGrandPlace ? 'Invite Members' : 'Add Members'}} </p>
   </div>
   <nst-place-member-item data-ng-if="ctlSettings.accesses.hasSeeMembersAccess" class="user-item"
                          data-ng-repeat="member in ctlSettings.teammates"
