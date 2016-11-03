@@ -15,8 +15,8 @@
       </div>
       <div class="desc">
         <h3>Closed Place</h3>
-        <p>Only members can view place contents.</p>
-        <aside>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</aside>
+        <p>Only Keyholders can view Place contents.</p>
+        <aside>You can invite Keyholders from <b>{{ ctlCreate.grandPlace.name }}</b> Members after creating the place.</aside>
       </div>
     </div>
     <div class="select-box _difh" ng-click="ctlCreate.setPlaceOpen();" ng-class="{ selected : ctlCreate.isOpenPlace }">
@@ -25,8 +25,8 @@
       </div>
       <div class="desc">
         <h3>Open Place</h3>
-        <p>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can view place contents.</p>
-        <aside>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</aside>
+        <p>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can view place contents, but only Keyholders can post messages in the Place.</p>
+        <aside>You can invite Keyholders from <b>{{ ctlCreate.grandPlace.name }}</b> Members after creating the place.</aside>
       </div>
     </div>
     <button ng-click="ctlCreate.step1 = false ;ctlCreate.step2 = true ;"
@@ -81,7 +81,7 @@
         <h3 ng-if="!ctlCreate.isClosedPlace">{{ ctlCreate.grandPlace.name }} Members Only</h3>
         <h3 ng-if="ctlCreate.isClosedPlace">Only Nested Users</h3>
         <p ng-if="!ctlCreate.isClosedPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to the place.</p>
-        <p ng-if="ctlCreate.isClosedPlace">Only Nested users can post messages to <b>{{ctlCreate.place.name }}</b> place.</p>
+        <p ng-if="ctlCreate.isClosedPlace">All Nested users can post messages to <b>{{ctlCreate.place.name }}</b> place.</p>
         <aside>
           <p>Show in the Members search results?</p>
           <div class="place-switch">
