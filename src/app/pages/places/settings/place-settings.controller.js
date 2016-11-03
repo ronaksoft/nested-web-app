@@ -65,6 +65,10 @@
       vm.placeId = $stateParams.placeId;
       vm.user = NstSvcAuth.user;
 
+      if (vm.user.id === vm.placeId){
+        vm.isPersonalPlace = true;
+      }
+
       loadPlace(vm.placeId).then(function (result) {
         vm.place = result.place;
         vm.accesses = result.accesses;
@@ -123,6 +127,7 @@
         result.place = place;
         NstSvcLogger.info(NstUtility.string.format('Place {0} was found.', result.place.id));
         initializeStates(place);
+        setGrandPlace(place);
 
         return $q.all([
           NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
@@ -447,6 +452,12 @@
     function updateDescription(value) {
       vm.place.description = value;
       update({ 'place_desc' : vm.place.description });
+    }
+
+    function setGrandPlace(place) {
+      NstSvcPlaceFactory.get(place.grandParentId).then(function (grand) {
+        vm.grandPlace = grand;
+      })
     }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
