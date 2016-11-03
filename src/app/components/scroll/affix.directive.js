@@ -93,7 +93,6 @@
           }
 
 
-
           findLeftOffset();
           win.bind('scroll', affixElement);
           firstFixes();

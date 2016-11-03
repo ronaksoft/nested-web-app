@@ -15,7 +15,7 @@
         <cite affixer first-imp="true" top="16" parent=".content" after-content="72">{{ctlFullNavbar.title}}</cite>
         <h3 id="place-address" ng-show="ctlFullNavbar.showPlaceId" affixer first-imp="true" parent=".content" after-content="72">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
         <p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>
-        <div class="navigation" affixer parent=".content" offset-top="74" after-content="72" ng-if="!ctlFullNavbar.controls">
+        <div class="navigation" affixer parent=".content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
               Messages
@@ -39,7 +39,7 @@
             <i class="icon cursor-pointer icon-search-rotated"></i>
            </div>
          </div>
-        <div class="navigation" affixer parent=".content" offset-top="74" after-content="72" ng-if="ctlFullNavbar.controls">
+        <div class="navigation" affixer parent=".content" offset-top="72" after-content="72" ng-if="ctlFullNavbar.controls">
           <nav>
             <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
               <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"

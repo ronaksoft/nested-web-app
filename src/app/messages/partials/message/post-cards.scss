@@ -148,7 +148,7 @@
       padding: 0 8px;
     }
     .icon {
-      transition: all $animation-dur;
+      transition: opacity $animation-dur;
       margin: 0 4px;
       .re,
       .fw {
