@@ -57,7 +57,7 @@ a.normal-badge {
 }
 
 #new-post {
-  position: fixed;
+  position: absolute;
   z-index: 555;
   right: auto;
   left: 50%;
@@ -72,7 +72,7 @@ a.normal-badge {
   align-items: center;
   align-self: center;
   @include opacity(.85);
-  transition: $animation-dur;
+  //transition: $animation-dur;
   a {
     color: $color-white;
     font-size: $font-size-medium;

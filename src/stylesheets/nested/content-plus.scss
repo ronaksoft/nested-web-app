@@ -3,12 +3,14 @@
   flex-direction: column;
   width: 276px;
   z-index: 10;
-  bottom: 0;
+  top: 0;
+  max-height: 600px;
   margin-left: 16px;
   position: relative;
-  transition: all 0.2s;
+  left: 0;
+  //transition: all 0.2s;
   backface-visibility: hidden;
-  transform: translateZ(0) scale(1.0, 1.0);
+  //transform: translateZ(0) scale(1.0, 1.0);
   & > div {
     display: inline-flex;
     flex-direction: column;
@@ -16,7 +18,7 @@
     height: 380px;
     flex: none;
     overflow-y: auto;
-    margin-top: 32px;
+    margin-top: 175px;
     padding: 12px 0;
     z-index: 15;
     background-color: $color-white;
@@ -106,10 +108,11 @@
   }
 }
 #content-plus {
-  position: fixed;
-  margin-left: 356px;
+  position: absolute;
+  //margin-left: 356px;
   top: 0;
-  transform: translateY($navbar-height + 10px);
-  Left: 50%;
+  left: 0;
+  //transform: translateY($navbar-height + 10px);
+  //Left: 50%;
   will-change: transform;
 }

@@ -121,7 +121,9 @@
 
 }
 #create-place {
-  width: 480px;
+  max-width: 490px;
+  width: 100%;
+  padding: 0 5px;
   margin: 80px auto;
   height: auto;
   position: relative;
@@ -309,6 +311,7 @@
   right: 56px;
   border-radius: 24px;
   transition: all $animation-dur;
+  z-index: 2;
   svg {
     width: 32px;
     height: 32px;

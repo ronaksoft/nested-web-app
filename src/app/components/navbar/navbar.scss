@@ -135,6 +135,7 @@ nst-navbar {
     top: 0;
     width: 100%;
     height: 100%;
+    transform: translateZ(0);
   }
   .shadow-top {
     background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,1));

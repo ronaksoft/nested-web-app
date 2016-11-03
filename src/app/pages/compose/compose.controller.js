@@ -57,7 +57,7 @@
         new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
           // TODO: Fix navigating to previous state
           $event.preventDefault();
-          if (!PreviousState.Name || _.includes(['app.compose', 'app.place-compose'], PreviousState.Name)) {
+          if (!PreviousState.Name || _.includes(['app.compose', 'app.place-compose', 'app.message'], PreviousState.Name)) {
             $state.go(NST_DEFAULT.STATE);
           } else {
             $state.go(PreviousState.Name, PreviousState.Params);
@@ -90,6 +90,7 @@
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff')," +
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype')," +
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
+        "br(opacity:0}" +
         "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 12pt!important;}",
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",

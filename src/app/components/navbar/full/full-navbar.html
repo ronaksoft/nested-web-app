@@ -1,21 +1,21 @@
 <nst-mini-navbar></nst-mini-navbar>
 <div class="nst-navbar _tr">
-  <div class="bg" affixer offset-top="72" parent="navbar" dont-set-width="true"></div>
-  <div class="shadow-top" affixer parent="navbar" dont-set-width="true" first-imp="true"></div>
+  <div class="bg" affixer offset-top="72" parent="nst-navbar" dont-set-width="true"></div>
+  <div class="shadow-top" affixer parent="nst-navbar" dont-set-width="true" first-imp="true"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
-      <div class="icon-logo" affixer first-imp="true" parent="content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
+      <div class="icon-logo" affixer first-imp="true" parent=".content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
           <div class="icon reverse {{ctlFullNavbar.pictureClass}}"></div>
       </div>
-      <div class="place-logo" affixer first-imp="true" parent="content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureUrl">
+      <div class="place-logo" affixer first-imp="true" parent=".content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureUrl">
           <img class="_tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
       </div>
       <div class="place-info _difv" >
-        <div id="filler" affixer first-imp="true" parent="content" after-content="72"></div>
-        <cite affixer first-imp="true" top="16" parent="content" after-content="72">{{ctlFullNavbar.title}}</cite>
-        <h3 id="place-address" ng-show="ctlFullNavbar.showPlaceId" affixer first-imp="true" parent="content" after-content="72">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
+        <div id="filler" affixer first-imp="true" parent=".content" after-content="72"></div>
+        <cite affixer first-imp="true" top="16" parent=".content" after-content="72">{{ctlFullNavbar.title}}</cite>
+        <h3 id="place-address" ng-show="ctlFullNavbar.showPlaceId" affixer first-imp="true" parent=".content" after-content="72">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3>
         <p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>
-        <div class="navigation" affixer parent="content" offset-top="74" after-content="72" ng-if="!ctlFullNavbar.controls">
+        <div class="navigation" affixer parent=".content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
               Messages
@@ -39,7 +39,7 @@
             <i class="icon cursor-pointer icon-search-rotated"></i>
            </div>
          </div>
-        <div class="navigation" affixer parent="content" offset-top="74" after-content="72" ng-if="ctlFullNavbar.controls">
+        <div class="navigation" affixer parent=".content" offset-top="72" after-content="72" ng-if="ctlFullNavbar.controls">
           <nav>
             <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
               <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
@@ -90,7 +90,7 @@
          </div>
 
       </div>
-      <div class="nav-access" affixer parent="content" after-content="577" first-imp="true" ng-if="ctlFullNavbar.hasPlace()">
+      <div class="nav-access" affixer parent=".content" after-content="577" first-imp="true" ng-if="ctlFullNavbar.hasPlace()">
         <div class="cursor-pointer margin-r_5 icon-rp _df popover-white-nst-activity-places"
              popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"
              popover-popup-close-delay="100" popover-trigger="focus" popover-placement="auto bottom-right"

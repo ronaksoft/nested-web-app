@@ -254,7 +254,7 @@
     function loadMoreTeammates() {
       vm.teammatesLoadProgress = true;
       return loadTeammates(vm.placeId, vm.accesses.hasSeeMembersAccess, vm.accesses.hasControlAccess).then(function (teammates) {
-        vm.hasMoreTeammates = teammates.length === 0;
+        vm.hasMoreTeammates = teammates.length !== 0;
         vm.teammates.push.apply(vm.teammates, teammates);
       }).catch(function (error) {
         NstSvcLogger.error(error);
