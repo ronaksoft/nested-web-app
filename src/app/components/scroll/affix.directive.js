@@ -11,16 +11,18 @@
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
         var win = angular.element($window);
+        var topOffset = 0;
+        var afterContent = 0;
         function applier() {
           $element.css('position', '');
           $element.css('top', '');
           $element.css('left', '');
           $element.css('width', '');
           $element.css('height', '');
-          var topOffset = 0;
+
           var top = $element.offset().top;
           var offLeft = $element.offset().left;
-          var afterContent = 0;
+
           var height = $element.height();
           var width = $element.width();
           var dontSetWidth = $attrs.dontSetWidth || false;
@@ -41,33 +43,36 @@
             afterContent = $attrs.afterContent;
           }
 
+          if (!!$attrs.fixedTop ) {
+            top = parseInt($attrs.top);
+          }
+
           //for create a fixed element we need a left parameter so we get it from hisself
           function findLeftOffset () {
-            if ($attrs.parent == 'navbar' && (isChrome || isFirefox )) {
-              offLeft = parseInt($('nst-navbar').offset().left) + parseInt(parseInt(afterContent)) - parseInt($('.sidebar').offset().left);
-            }else if ($attrs.parent == 'navbar' && !(isChrome || isFirefox )){
-              offLeft = parseInt($('nst-navbar').offset().left) + parseInt(parseInt(afterContent));
-            }else if ($attrs.parent == 'content' && (isChrome || isFirefox )){
-              offLeft = parseInt($('.content').offset().left) + parseInt(parseInt(afterContent)) - parseInt($('.sidebar').offset().left);
-            }else if ($attrs.parent == 'content' && !(isChrome || isFirefox )){
-              offLeft = parseInt($('.content').offset().left) + parseInt(parseInt(afterContent));
+            if (isChrome || isFirefox) {
+              offLeft = parseInt($($attrs.parent).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
+            }else if (!(isChrome || isFirefox )){
+              offLeft = parseInt($($attrs.parent).offset().left) + parseInt(afterContent);
             }
           }
 
+          var fixed = false;
 
           function affixElement() {
-            if ($window.pageYOffset > topOffset) {
-              $element.css('position', 'fixed');
+            if ($window.pageYOffset > topOffset && !fixed) {
+              if (!($element.css('position') == 'fixed')) $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
               $element.css('left', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', width + 'px');
               $element.css('height', height + 'px');
-            } else {
+              fixed = true;
+            } else if ($window.pageYOffset < topOffset && fixed) {
               $element.css('position', 'absolute');
               $element.css('top', '');
               $element.css('left', '');
               $element.css('width', '');
               $element.css('height', '');
+              fixed = false;
             }
           }
           function firstFixes() {

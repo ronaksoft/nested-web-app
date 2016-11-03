@@ -96,21 +96,16 @@
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){
   .maincontainer.sidetiny{
     #new-post {
-      margin-left: 36px;
       transform: translateX(-50%);
     }
   }
-  #new-post {
-    margin-left: 138px;
-  }
+
 }
 @media screen and (min-width: $screen-lg){
   .maincontainer.sidetiny{
     #content-plus {
-      margin-left: 258px;
     }
     #new-post {
-      margin-left: -102px;
     }
   }
   #new-post {

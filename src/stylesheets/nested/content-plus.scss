@@ -106,10 +106,11 @@
   }
 }
 #content-plus {
-  position: fixed;
-  margin-left: 356px;
+  position: absolute;
+  //margin-left: 356px;
   top: 0;
-  transform: translateY($navbar-height + 10px);
-  Left: 50%;
+  left: 0;
+  //transform: translateY($navbar-height + 10px);
+  //Left: 50%;
   will-change: transform;
 }
