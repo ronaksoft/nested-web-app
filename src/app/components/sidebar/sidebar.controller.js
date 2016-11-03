@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,7 +6,7 @@
     .controller('SidebarController', SidebarController);
 
   /** @ngInject */
-  function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log, $rootScope,
+  function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT,
                              NstSvcLoader, NstSvcAuth,
@@ -101,8 +101,9 @@
 
     function openCreatePlaceModal($event) {
       $event.preventDefault();
-      $state.go('app.place-create', {  } , { notify : false });
+      $state.go('app.place-create', {}, {notify: false});
     }
+
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -121,7 +122,12 @@
 
       vm.invitations = mapInvitations(resolvedSet[2]);
 
-      vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
+      if (NstSvcAuth.user.unreadMentionsCount) {
+        vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
+      } else {
+        getMentionsCount();
+      }
+
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
           return place.id === $stateParams.placeId.split('.')[0];
@@ -301,6 +307,12 @@
       return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
     }
 
+    function getMentionsCount() {
+      NstSvcLoader.inject(NstSvcMentionFactory.getMentionsCount()).then(function (count) {
+        vm.mentionsCount = count;
+      })
+    }
+
     /*****************************
      *****     Map Methods    ****
      *****************************/
@@ -354,6 +366,7 @@
         return new NstVmMention(item, currentUserId);
       });
     }
+
     /*****************************
      *****   Notifs Counters  ****
      *****************************/
@@ -369,8 +382,8 @@
     function getGrandPlaceUnreadCounts() {
       var placeIds = _.keys(vm.placesNotifCountObject);
       if (placeIds.length > 0)
-        NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds,true)
-          .then(function(places){
+        NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds, true)
+          .then(function (places) {
             var totalUnread = 0;
             _.each(places, function (value, placeId) {
               vm.placesNotifCountObject[placeId] = value;
@@ -463,6 +476,10 @@
 
     NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.UPDATE, function (event) {
       vm.mentionsCount = event.detail;
+    });
+
+    NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.NEW_MENTION, function (event) {
+      vm.mentionsCount += 1;
     });
 
   }

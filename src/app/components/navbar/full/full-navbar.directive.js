@@ -6,7 +6,7 @@
     .directive('nstNavbar', Navbar);
 
   /** @ngInject */
-  function Navbar($rootScope) {
+  function Navbar($rootScope,$window) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/navbar/full/full-navbar.html',
@@ -24,7 +24,7 @@
         readyToShow : '=',
         placeDescription : '@'
       },
-      link: function (scope, element, attrs) {
+      link: function ($scope, $element, $attrs) {
         // create a scene
         var controller = new ScrollMagic.Controller({
           container: "body",
@@ -36,24 +36,24 @@
         tween = tween2 = tween3 = tween4 = new TimelineLite();
 
         // create tween
-        if (element) tween = new TimelineLite()
-          .add(TweenLite.to($(element), 1, {css:{height:'88px'}, ease:Linear.easeNone, force3D:true}));
+        // if (element) tween = new TimelineLite()
+        //   .add(TweenLite.to($(element), 1, {css:{height:'88px'}, ease:Linear.easeNone, force3D:true}));
 
 
-        if ($(element).children().find( "h3" ).length > 0) { tween2 = new TimelineLite()
-          .add(TweenLite.to($(element).children().find( "h3" )[0], 1, {css:{color:'transparent'}, ease:Power4.easeOut}));
+        if ($element.children().find( "h3" ).length > 0) { tween2 = new TimelineLite()
+          .add(TweenLite.to($element.children().find( "h3" )[0], 1, {css:{color:'transparent'}, ease:Power4.easeOut}));
 
         }
 
-        if ($("#content-plus").children().length > 0) {tween3 = new TimelineLite()
-          .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));}
-
-        if ($("#new-post").length > 0) {tween4 = new TimelineLite()
-          .add(TweenLite.to($("#new-post"), 1, {css:{top:'128px'}, ease:Linear.easeNone}));}
+        // if ($("#content-plus").children().length > 0) {tween3 = new TimelineLite()
+        //   .add(TweenLite.to($("#content-plus"), 1, {css:{transform:'translateY(98px)'}, ease:Linear.easeNone}));}
+        //
+        // if ($("#new-post").length > 0) {tween4 = new TimelineLite()
+        //   .add(TweenLite.to($("#new-post"), 1, {css:{top:'128px'}, ease:Linear.easeNone}));}
 
         // build scene
-        var scene = new ScrollMagic.Scene({duration: 80, offset: 1})
-          .setTween([tween,tween2,tween3,tween4])
+        var scene = new ScrollMagic.Scene({duration: 60, offset: 1})
+          .setTween([tween2])
           .addTo(controller);
       }
     };

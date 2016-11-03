@@ -79,6 +79,9 @@
 
           case NST_SRV_MESSAGE_TYPE.PUSH:
             switch (data.data.type) {
+              case NST_SRV_PUSH_TYPE.MENTION:
+                this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MENTION, { detail: data.data }));
+                break;
               case NST_SRV_PUSH_TYPE.TIMELINE_EVENT:
                 this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.TIMELINE, { detail: data.data }));
                 break;

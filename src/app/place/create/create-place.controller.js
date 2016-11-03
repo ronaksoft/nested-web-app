@@ -6,7 +6,8 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NstSvcPlaceFactory, NstUtility, $uibModal, $uibModalInstance, NST_PLACE_ACCESS, NstSvcLogger) {
+  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NstSvcAuth, NstSvcPlaceFactory,
+                                 NstUtility, $uibModal, $uibModalInstance, NST_PLACE_ACCESS, NstSvcLogger) {
 
     var vm = this;
 
@@ -15,7 +16,7 @@
     vm.hasParentPlace = null;
     vm.hasGrandParent = null;
     vm.memberOptions = [
-      { key : 'creator', name : 'Master Keyholders Only' },
+      { key : 'creators', name : 'Master Keyholders Only' },
       { key : 'everyone', name : 'All Keyholders' }
     ];
     vm.place = {
@@ -51,8 +52,16 @@
     vm.save = save;
     vm.changeId = changeId;
 
+    vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
+    if (vm.isPersonalPlace){
+      vm.isOpenPlace = false;
+      vm.isClosedPlace = true;
+    }
+
+
     (function () {
       if (stateParamIsProvided($stateParams.placeId)) {
+        vm.hasParentPlace = true;
         vm.place.parentId = $stateParams.placeId;
         loadParentPlace(vm.place.parentId).catch(function (error) {
           toastr.error("An error happened while getting information of the parent place.");
@@ -63,6 +72,13 @@
       }
       vm.isCreateGrandPlaceMode = !vm.hasParentPlace;
       vm.receivingMode = 'everyone';
+
+      if (vm.isClosedPlace){
+        vm.isCreateGrandPlaceMode = false;
+        vm.place.privacy.locked = true;
+        vm.isClosedPlace = true;
+        vm.isOpenPlace = false;
+      }
 
     })();
 

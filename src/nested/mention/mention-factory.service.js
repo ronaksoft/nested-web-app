@@ -7,13 +7,26 @@
 
   function NstSvcMentionFactory($q,
     NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
-    NstBaseFactory, NstFactoryQuery, NstFactoryError, NstMention, NstFactoryEventData,
-    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT) {
+    NstBaseFactory, NstMention, NstFactoryEventData,
+    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT) {
     function MentionFactory() {
       var that = this;
+      that.count = 0;
+
       NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-        that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(NstSvcAuth.user.unreadMentionsCount)));
+        if (NstSvcAuth.user.unreadMentionsCount){
+          that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(NstSvcAuth.user.unreadMentionsCount)));
+        }else{
+          that.getMentionsCount().then(function (count) {
+            that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
+          });
+        }
       });
+
+      NstSvcServer.addEventListener(NST_SRV_EVENT.MENTION, function () {
+        that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.NEW_MENTION, new NstFactoryEventData(that.count)));
+      });
+
     }
 
     MentionFactory.prototype = new NstBaseFactory();
@@ -47,6 +60,7 @@
     }
 
     function getMentionsCount() {
+      var that = this;
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
@@ -55,6 +69,7 @@
           skip : 1,
         }).then(function(data) {
           var count = data.unread_mentions || 0;
+          that.count = parseInt(count);
           defer.resolve(count);
         }).catch(defer.reject);
 
@@ -125,5 +140,7 @@
 
       return deferred.promise;
     }
+
+
   }
 })();
