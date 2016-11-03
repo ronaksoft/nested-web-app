@@ -43,10 +43,9 @@
            <div class="unread-badge-holder">●</div>
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject | emoji">
     </h3>
-    <h3 ng-if="ctlPostCard.post.subject.length < 1" class="nst-mood-breez"><i>No Subject</i></h3>
   </section>
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
-           post="ctlPostCard.post"
+           post="ctlPostCard.post"  nst-post-modal
            ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.viewSetting.content"
            auto-dir="{{::ctlPostCard.post.body}}">
     <span ng-bind-html="ctlPostCard.post.body | removeHTMLTags | truncate | emoji"></span>
