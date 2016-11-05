@@ -15,6 +15,7 @@
 
     vm.loginView = true;
     vm.showLoadingScreen = true;
+    $rootScope.stateHistory = [];
 
 
     /*****************************
@@ -325,6 +326,8 @@
     }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+
+      keepState(toState, toParams);
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
       //FIXMS:: check public pages in getValidState function
       if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER.concat(NST_PAGE.RECOVER)).indexOf(toState.name) > -1) {
@@ -333,5 +336,32 @@
         vm.loginView = false;
       }
     });
+
+    function keepState(state, params) {
+      $rootScope.stateHistory.push({
+        state : state,
+        params : params
+      });
+    }
+
+    function restoreLastState() {
+      var last = null;
+
+      while ($rootScope.stateHistory.length > 0) {
+        last = $rootScope.stateHistory.pop();
+        if (last.state.options && last.state.options.primary) {
+          return last;
+        }
+      }
+      return {
+        state : $state.get(NST_DEFAULT.STATE),
+        params : {}
+      };
+    }
+
+    $rootScope.goToLastState = function () {
+      var previous = restoreLastState();
+      $state.go(previous.state, previous.params);
+    }
   }
 })();
