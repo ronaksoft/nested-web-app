@@ -1,7 +1,8 @@
-<div class="_fw quick-message _fn">
+<!--<div class="_fw quick-message _fn">
   <form name="frmQuickMessage" data-ng-submit="ctlQuickMessage.model.submit($event)">
     <input class="_fw input input-title" name="subject" data-ng-disabled="ctlQuickMessage.model.saving" placeholder="Quick Message Title..."/>
     <input class="_fw input" name="body" data-ng-disabled="ctlQuickMessage.model.saving" placeholder="quick message text..."/>
     <input class="hidden" type="submit"/>
   </form>
-</div>
+</div>-->
+<div contenteditable id="input" ng-keyup="ctlQuickMessage.writeMsg($event)" select-non-editable="false" strip-br="true" strip-tags="true" placeholder="This is a sending message box to this place /n #first line will be message title else will be your message body to" class="_fw _fh" ng-model="ctlQuickMessage.message" auto-dir="{{ctlQuickMessage.message}}" aria-expanded="false" role="textbox" >This is subject <div>This is body</div></div>

@@ -62,6 +62,21 @@
       return vm.model.ready;
     };
 
+    vm.writeMsg = function(e) {
+
+
+      if (!e.currentTarget.firstChild) return
+
+      if(e.currentTarget.firstChild.nodeName.toLowerCase() != "#text")  {
+        angular.element(e.currentTarget.firstChild).replaceWith(angular.element(e.currentTarget.firstChild)[0].innerText)
+      }
+
+      if(e.which == '13'){
+        console.log($('#input').html());
+      }
+      
+    }
+
     vm.model.submit = function (event) {
       var form = event.currentTarget;
       vm.model.subject = form.elements['subject'].value;

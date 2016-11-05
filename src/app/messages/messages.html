@@ -29,6 +29,10 @@
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}} New Messages</a>
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2">One New Message</a>
       </div>
+      <div class="quick-message-wrp _fw">
+        <nst-quick-message class="quick-message _fw _bgwhite"></nst-quick-message>
+        <div class="post-card-wire"></div>
+      </div>
       <post-card ng-if="ctlMessages.hotMessages.length > 0" class="hot" data-ng-repeat="msg in ctlMessages.hotMessages track by msg.id" post="msg"
                  settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode"></post-card>
       <hr ng-if="ctlMessages.hotMessages.length > 0" class="hot-message-separator">
