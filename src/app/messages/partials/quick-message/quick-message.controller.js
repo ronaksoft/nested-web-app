@@ -63,15 +63,18 @@
     };
 
     vm.writeMsg = function(e) {
-      vm.completeMessage = e.currentTarget;
-
-      
 
       if (!e.currentTarget.firstChild) return
+      console.log(e.currentTarget.firstChild,e.currentTarget.firstChild.nodeName,angular.element(e.currentTarget.firstChild).text(),angular.element(e.currentTarget.firstChild).text().charCodeAt(0),angular.element(e.currentTarget.firstChild).text().length)
 
+
+      if (angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 ){
+        angular.element(e.currentTarget.firstChild).remove()
+      }
       if(e.currentTarget.firstChild.nodeName.toLowerCase() != "#text")  {
         angular.element(e.currentTarget.firstChild).replaceWith(angular.element(e.currentTarget.firstChild)[0].innerText)
       }
+
 
       vm.model.subject = angular.element(e.currentTarget.firstChild).text();
 

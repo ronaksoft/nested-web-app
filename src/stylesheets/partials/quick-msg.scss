@@ -8,13 +8,21 @@
   border: 1px solid $color-border;
   position: relative;
   min-height: 86px;
-    >div {
-      
+    [contenteditable]:first-child {
+      font-weight: 700;
       font-size: 22px;
       > div {
+        font-weight: 400;
         font-size: 16px;
       }
+      
     }
+    [contenteditable]:focus,
+    [contenteditable]:hover{
+        & + .quick-icons {
+          opacity: 1;    
+        }   
+      }
     textarea {
       border: none
     }
@@ -25,6 +33,8 @@
       right: 4px;
       bottom: 4px;
       height: 32px;
+      opacity: 0;
+      transition: opacity $animation-dur;
       div {
         height: 32px;
         width: 54px;

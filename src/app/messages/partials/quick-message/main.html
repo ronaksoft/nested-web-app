@@ -5,9 +5,9 @@
     <input class="hidden" type="submit"/>
   </form>
 </div>-->
-<div contenteditable id="input" ng-keyup="ctlQuickMessage.writeMsg($event)" select-non-editable="false" strip-br="true" strip-tags="true" placeholder="This is a sending message box to this place /n #first line will be message title else will be your message body to" class="_fw _fh" ng-model="ctlQuickMessage.message" auto-dir="{{ctlQuickMessage.message}}" aria-expanded="false" role="textbox" >This is subject <div>This is body</div></div>
+<div contenteditable tabindex="0" placeholder="sdasd" id="input" ng-keyup="ctlQuickMessage.writeMsg($event)" select-non-editable="false" strip-br="true" strip-tags="true" placeholder="This is a sending message box to this place /n #first line will be message title else will be your message body to" class="_fw _fh" ng-model="ctlQuickMessage.message" auto-dir="{{ctlQuickMessage.message}}" aria-expanded="false" role="textbox" >This is subject <div>This is body</div></div>
 
 <div class="quick-icons">
-  <div class="butn-white">Attach</div>
-  <div class="butn-green" ng-click="ctlQuickMessage.model.submit()">Send</div>
+  <div tabindex="0"  class="butn-white">Attach</div>
+  <div tabindex="0"  class="butn-green" ng-click="ctlQuickMessage.model.submit()">Send</div>
 </div>
