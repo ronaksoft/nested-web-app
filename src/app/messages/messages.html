@@ -14,7 +14,7 @@
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
-      <div ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSortShow" id="test-filter-sort">
+      <div ng-show="!ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSortShow" id="test-filter-sort">
         <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort == 'latest-messages' ? 'Latest Messages' : 'Latest Activity'}}</span>
         <div class="icon icon-viewicon-sort _df" ></div>
       </div>
