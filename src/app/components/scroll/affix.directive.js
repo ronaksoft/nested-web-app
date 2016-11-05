@@ -80,6 +80,9 @@
               fixed = false;
             }
           }
+
+          affixElement();
+
           function firstFixes() {
             if (!!$attrs.firstImp ) {
               $element.css('position', 'fixed');
