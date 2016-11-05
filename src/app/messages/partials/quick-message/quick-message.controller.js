@@ -63,7 +63,9 @@
     };
 
     vm.writeMsg = function(e) {
+      vm.completeMessage = e.currentTarget;
 
+      
 
       if (!e.currentTarget.firstChild) return
 
@@ -71,27 +73,36 @@
         angular.element(e.currentTarget.firstChild).replaceWith(angular.element(e.currentTarget.firstChild)[0].innerText)
       }
 
+      vm.model.subject = angular.element(e.currentTarget.firstChild).text();
+
       if(e.which == '13'){
-        console.log($('#input').html());
+        //console.log($('#input').html());
       }
       
     }
 
     vm.model.submit = function (event) {
-      var form = event.currentTarget;
-      vm.model.subject = form.elements['subject'].value;
-      vm.model.body = form.elements['body'].value;
+      var lines = [];
+      for (var i=0 ; i < $('#input').children().length ; i++){
+        console.log($('#input').children()[i].innerText);
+        lines[i] = $('#input').children()[i].innerText;
+      }
+      lines = lines.join('\n')
+      console.log(lines,vm.model.subject);
+      
+      //vm.model.subject = angular.element($('#input').firstChild)[0].innerText;
+      vm.model.body = lines;
 
       vm.send().then(function () {
-        form.elements['subject'].value = '';
-        form.elements['body'].value = '';
+        //form.elements['subject'].value = '';
+        //form.elements['body'].value = '';
         vm.model.subject = '';
         vm.model.body = '';
         vm.model.saved = false;
         vm.model.check();
       });
 
-      event.preventDefault();
+      //event.preventDefault();
 
       return false;
     };

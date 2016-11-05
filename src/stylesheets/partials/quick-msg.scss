@@ -6,15 +6,33 @@
   min-height: 86px;
   z-index: 10;
   border: 1px solid $color-border;
-  >div {
-    min-height: 86px;
-    font-size: 22px;
-    > div {
-      font-size: 16px;
+  position: relative;
+  min-height: 86px;
+    >div {
+      
+      font-size: 22px;
+      > div {
+        font-size: 16px;
+      }
     }
-  }
     textarea {
       border: none
+    }
+    .quick-icons {
+      position: absolute;
+      display: inline-flex;
+      flex-direction: row;
+      right: 4px;
+      bottom: 4px;
+      height: 32px;
+      div {
+        height: 32px;
+        width: 54px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        font-size: 12px;
+      }
     }
   }
 }
