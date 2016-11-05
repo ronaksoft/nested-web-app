@@ -351,8 +351,12 @@ nst-navbar {
   justify-content: center;
   font-size: 18px;
   font-weight: 400;
+  transition: color $animation-dur;
   &.active {
     border-bottom: 3px solid $color-sense ;
+    color: $color-sense-wire;
+  }
+  &:hover {
     color: $color-sense-wire;
   }
 }

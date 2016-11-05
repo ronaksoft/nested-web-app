@@ -13,7 +13,8 @@
 }
 .nst-container {
   background-color: $color-bg-nested;
-  transition: $animation-dur;
+  transition-property: width,margin-left;
+  transition-duration: $animation-dur;
   display: inline-flex;
   flex-direction: column;
   position: relative;
