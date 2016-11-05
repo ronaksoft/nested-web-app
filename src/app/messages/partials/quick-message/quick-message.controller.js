@@ -96,6 +96,7 @@
       vm.send().then(function () {
         //form.elements['subject'].value = '';
         //form.elements['body'].value = '';
+        $('#input').html('');
         vm.model.subject = '';
         vm.model.body = '';
         vm.model.saved = false;

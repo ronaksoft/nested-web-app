@@ -29,7 +29,7 @@
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}} New Messages</a>
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2">One New Message</a>
       </div>
-      <div class="quick-message-wrp _fw">
+      <div class="quick-message-wrp _fw" ng-if="ctlMessages.currentPlace.id">
         <nst-quick-message class="quick-message _fw _bgwhite"></nst-quick-message>
         <div class="post-card-wire"></div>
       </div>
