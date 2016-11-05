@@ -338,6 +338,11 @@
     });
 
     function keepState(state, params) {
+      // clear all tracked states if the route is primary
+      if (state.options && state.options.primary) {
+        $rootScope.stateHistory.length = 0;
+      }
+
       $rootScope.stateHistory.push({
         state : state,
         params : params
@@ -346,13 +351,15 @@
 
     function restoreLastState() {
       var last = null;
-
+      // restore to find a primary route
       while ($rootScope.stateHistory.length > 0) {
         last = $rootScope.stateHistory.pop();
         if (last.state.options && last.state.options.primary) {
           return last;
         }
       }
+
+      // retrun the default state if could not find any primary route
       return {
         state : $state.get(NST_DEFAULT.STATE),
         params : {}
