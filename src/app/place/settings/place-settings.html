@@ -39,23 +39,25 @@
          ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off')"
          ng-click="ctlSettings.setReceivingOff();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }">
-      <h3 ng-if="!ctlSettings.isGrandPlace" >Only {{ctlSettings.place.name}} Members</h3>
-      <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace" >Members</h3>
-      <h3 ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace" >Only Me</h3>
+      <h3 ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace" >Only "{{ctlSettings.place.name}}" {{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "Members"}}</h3>
+      <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace" >{{ ctlSettings.place.policy.add_post === 'creators' ? 'Managers' : 'Members'}}</h3>
+      <h3 ng-if="ctlSettings.isSubPersonalPlace" >Only Me</h3>
 
 
       <div class="_difh _fw _aic">
-        <p ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">{{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "All Members"}} can post messages in this place.</p>
-        <p ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">No-one can post messages to your personal Place.</p>
-        <p ng-if="!ctlSettings.isGrandPlace">Only <b>{{ctlSettings.place.name }}</b> members can view Place contents.</p>
+        <p ng-if="ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">{{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "All Members"}} can post messages in this place.</p>
+        <p ng-if="ctlSettings.isSubPersonalPlace">No-one can post messages to your personal Place.</p>
+        <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">
+          Only <b>{{ctlSettings.place.name }}</b> {{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "Members"}} can view Place contents.
+        </p>
       </div>
 
       <p></p>
-      <aside ng-if="!ctlSettings.isPersonalPlace">
+      <aside ng-if="!ctlSettings.isSubPersonalPlace">
         <p>Which members can post messages to this Place?</p>
         <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">
-          <option value="creators">{{ctlSettings.place.name}} Managers</option>
-          <option value="everyone">{{ctlSettings.place.name}} Members</option>
+          <option value="creators">Managers of {{ctlSettings.place.name}}</option>
+          <option value="everyone">Members of {{ctlSettings.place.name}}</option>
         </select>
         <p ng-if="!ctlSettings.accesses.hasControlAccess">
           {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_post]}}
@@ -64,7 +66,7 @@
     </div>
     <!--Internal-->
     <div class="select-box-step2"
-         ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal')"
+         ng-if="!ctlSettings.isGrandPlace  && !ctlSettings.isSubPersonalPlace && (ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal')"
          ng-click="ctlSettings.setReceivingMembers();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', disabled : !ctlSettings.accesses.hasControlAccess}">
       <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">Everyone</h3>
@@ -91,10 +93,10 @@
     </div>
     <!--Everyone-->
     <div class="select-box-step2"
-         ng-if="(!ctlSettings.isGrandPlace || ctlSettings.isPersonalPlace) && (ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external')"
+         ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external')"
          ng-click="ctlSettings.setReceivingEveryone();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', disabled : !ctlSettings.accesses.hasControlAccess}">
-      <h3>Everyone <i>(also email)</i></h3>
+      <h3>Everyone <i>(including email)</i></h3>
       <p>Everyone can send their messages to the place.</p>
       <aside>
         <p>Show in the public search results?</p>
@@ -113,15 +115,15 @@
       </aside>
     </div>
   </div>
-  <div class="_difh _fw" ng-if="!ctlSettings.isPersonalPlace">
+  <div class="_difh _fw" ng-if="!ctlSettings.isSubPersonalPlace">
     <div class="_fw _difv" ng-if="ctlSettings.isClosedPlace">
       <p>Who can create a sub-place?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-disabled="ctlSettings.place.privacy.receptive === 'off' "
               data-ng-model="ctlSettings.place.policy.add_place"
               data-ng-change="ctlSettings.updateAddPlacePolicy()">
-        <option value="creators">{{ctlSettings.place.name}} Managers</option>
-        <option value="everyone">{{ctlSettings.place.name}} Members</option>
+        <option value="creators">Managers of {{ctlSettings.place.name}}</option>
+        <option value="everyone">Members of {{ctlSettings.place.name}}</option>
       </select>
       <p ng-if="!ctlSettings.accesses.hasControlAccess">
         {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_place]}}
@@ -129,12 +131,12 @@
     </div>
     <div class="_fw _difv">
       <p ng-if="ctlSettings.isGrandPlace" >Who can invite Members? </p>
-      <p ng-if="!ctlSettings.isGrandPlace">Who Can Add Keyholder?</p>
+      <p ng-if="!ctlSettings.isGrandPlace">Who Can Add Members?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_member"
               data-ng-change="ctlSettings.updateAddMemberPolicy()">
-        <option value="creators">{{ctlSettings.place.name}} Managers</option>
-        <option value="everyone">{{ctlSettings.place.name}} Members</option>
+        <option value="creators">Managers of {{ctlSettings.place.name}}</option>
+        <option value="everyone">Members of {{ctlSettings.place.name}}</option>
       </select>
       <p ng-if="!ctlSettings.accesses.hasControlAccess">
         {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_member]}}

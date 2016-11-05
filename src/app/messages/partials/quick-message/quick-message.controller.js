@@ -81,7 +81,7 @@
       
     }
 
-    vm.model.submit = function (event) {
+    vm.model.submit = function () {
       var lines = [];
       for (var i=0 ; i < $('#input').children().length ; i++){
         console.log($('#input').children()[i].innerText);
@@ -92,6 +92,7 @@
       
       //vm.model.subject = angular.element($('#input').firstChild)[0].innerText;
       vm.model.body = lines;
+
 
       vm.send().then(function () {
         //form.elements['subject'].value = '';
