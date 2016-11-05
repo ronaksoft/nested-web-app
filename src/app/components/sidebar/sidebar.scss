@@ -6,7 +6,7 @@
   width: $sidebar-width;
   height: 100%;
   flex: none;
-  transition: all .3s;
+  transition: width .3s;
   z-index: 56;
   transform: translateZ(0);
   > div {
@@ -197,10 +197,6 @@
   width: 100%;
   display: flex;
   align-items: center;
-  i {
-    padding-bottom: 12px;
-    align-self: flex-end;
-  }
 }
 .nested-logo.detailed:hover {
   background-color: transparent;
@@ -225,6 +221,12 @@
   height: 40px;
   width: 90px;
 }
+#Logo-type-white + i {
+  display: flex;
+  padding-bottom: 6px;
+  align-self: flex-end;
+}
+
 .compose {
   z-index: 7;
   display: flex;
@@ -711,7 +713,6 @@ ul ul > li:last-child > .place-item-inner{
   border-color: $color-breeze;
 }
 
-
 .sidebar-plus-wrapper {
   position: absolute;
   right: 0;
@@ -724,6 +725,11 @@ ul ul > li:last-child > .place-item-inner{
   background-color: $color-white;
   box-shadow: -4px 0 12px rgba(0,0,0,0.5);
   overflow: hidden;
+  transition: all .3s;
+  &.ng-hide {
+    display: flex!important;
+    animation:0.5s appearence ease reverse; 
+  }
   & > div {
     transition: $animation-dur;
   }

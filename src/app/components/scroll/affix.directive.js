@@ -11,18 +11,17 @@
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
         var win = angular.element($window);
+        var topOffset = 0;
+        var afterContent = 0;
+        var container = 'body';
         function applier() {
-          $element.css('position', '');
-          $element.css('top', '');
-          $element.css('left', '');
-          $element.css('width', '');
-          $element.css('height', '');
-          var topOffset = 0;
+          removeFix();
+
           var top = $element.offset().top;
           var offLeft = $element.offset().left;
-          var afterContent = 0;
-          var height = $element.height();
-          var width = $element.width();
+
+          var height = $element.outerHeight();
+          var width = $element.outerWidth();
           var dontSetWidth = $attrs.dontSetWidth || false;
 
           var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
@@ -33,6 +32,10 @@
             topOffset = $attrs.offsetTop;
           }
 
+          if (!!$attrs.parent ) {
+            container = $attrs.parent;
+          }
+
           if (!!$attrs.top ) {
             top = top + parseInt($attrs.top);
           }
@@ -41,33 +44,40 @@
             afterContent = $attrs.afterContent;
           }
 
-          //for create a fixed element we need a left parameter so we get it from hisself
-          function findLeftOffset () {
-            if ($attrs.parent == 'navbar' && (isChrome || isFirefox )) {
-              offLeft = parseInt($('nst-navbar').offset().left) + parseInt(parseInt(afterContent)) - parseInt($('.sidebar').offset().left);
-            }else if ($attrs.parent == 'navbar' && !(isChrome || isFirefox )){
-              offLeft = parseInt($('nst-navbar').offset().left) + parseInt(parseInt(afterContent));
-            }else if ($attrs.parent == 'content' && (isChrome || isFirefox )){
-              offLeft = parseInt($('.content').offset().left) + parseInt(parseInt(afterContent)) - parseInt($('.sidebar').offset().left);
-            }else if ($attrs.parent == 'content' && !(isChrome || isFirefox )){
-              offLeft = parseInt($('.content').offset().left) + parseInt(parseInt(afterContent));
-            }
+          if (!!$attrs.fixedTop ) {
+            top = parseInt($attrs.top);
           }
 
+          //for create a fixed element we need a left parameter so we get it from hisself
+          function findLeftOffset () {
+            offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
+            // if (isChrome || isFirefox) {
+            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
+            // }else if (!(isChrome || isFirefox )){
+            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
+            // }
+          }
+          function removeFix() {
+            $element.css('position', '');
+            $element.css('top', '');
+            $element.css('left', '');
+            $element.css('width', '');
+            $element.css('height', '');
+          }
+
+          var fixed = false;
 
           function affixElement() {
-            if ($window.pageYOffset > topOffset) {
+            if ($window.pageYOffset > topOffset && !fixed) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
               $element.css('left', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', width + 'px');
               $element.css('height', height + 'px');
-            } else {
-              $element.css('position', 'absolute');
-              $element.css('top', '');
-              $element.css('left', '');
-              $element.css('width', '');
-              $element.css('height', '');
+              fixed = true;
+            } else if ($window.pageYOffset < topOffset && fixed) {
+              removeFix();
+              fixed = false;
             }
           }
           function firstFixes() {
@@ -80,7 +90,6 @@
               return win.unbind('scroll', affixElement);
             }
           }
-
 
 
           findLeftOffset();

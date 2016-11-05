@@ -422,11 +422,12 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
+      console.log(event);
       var place = mapPlace(event.detail.place);
       if (place.id === $stateParams.placeId) {
         vm.selectedGrandPlace = mapPlace(event.detail.place);
       }
-      NstSvcPlaceFactory.addPlaceToTree(vm.places, place);
+      vm.places.push(place);
       vm.placesNotifCountObject[place.id] = 0;
 
     });
