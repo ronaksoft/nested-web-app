@@ -73,22 +73,22 @@
       <span>+{{::ctlPostCard.newCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
-      <a href class="icon _df" nst-post-modal post="ctlPostCard.post"
-         data-uib-tooltip="View" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" id="test-post-view">
+      <a href="{{::ctlPostCard.urls.forward}}" class="icon _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" id="test-forward">
         <svg  class="svg-hover fw">
           <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
           <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
         </svg>
       </a>
-      <a href="{{::ctlPostCard.urls.forward}}" class="icon _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" id="test-forward">
+      <a id="test-reply" data-uib-popover-template="'app/messages/partials/popovers/reply.html'" class="cursor-pointer icon _df popover-white-nst-activity-places"
+           data-popover-placement="auto bottom-right" popover-trigger="outsideClick" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
         <svg  class="svg-hover re">
           <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
           <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
         </svg>
       </a>
-      <div class="cursor-pointer margin-r_5 icon _df popover-white-nst-activity-places" id="test-reply"
+      <div class="cursor-pointer margin-r_5 icon _df "
            data-uib-popover-template="'app/messages/partials/popovers/reply.html'"
-           data-popover-placement="auto top-right" popover-trigger="outsideClick" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+           data-popover-placement="auto top-right" popover-trigger="outsideClick" data-uib-tooltip="More Options" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
         <svg  class="svg-hover">
           <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
           <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
