@@ -24,7 +24,6 @@
         quickMessage: true
       },
       sortOptionStorageKey = 'sort-option';
-
     vm.messages = [];
     vm.hotMessageStorage = [];
     vm.hotMessages = [];
@@ -241,7 +240,7 @@
 
       return defer.promise;
     }
-
+    
     function getAccessableMessages() {
       var defer = $q.defer();
       vm.messagesSetting.date = getLastMessageTime();

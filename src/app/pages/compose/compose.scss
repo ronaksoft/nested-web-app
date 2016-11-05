@@ -16,7 +16,7 @@
 .droplet {
   position: fixed;
   right: 0;
-  left: 0;
+  left: 76px;
   top: 0;
   height: 100%;
   background-color: rgba(71,97,82,.1);
@@ -133,7 +133,7 @@
  */
 
 .content iframe {
-  height: calc(100vh - 470px)!important;
+  height: calc(100vh - 336px)!important;
   min-height: 100px;
   body {
     font-family: $font-family-per-reg;
@@ -208,4 +208,8 @@
 .ui-select-bootstrap > .ui-select-choices {
   padding: 0;
   max-height: 50vh
+}
+
+#mceu_24-body {
+  white-space: normal;
 }
