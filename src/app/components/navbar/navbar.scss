@@ -222,16 +222,19 @@ nst-navbar {
       z-index: 3;
       top: 0;
     }
+    #place-address {
+      background: linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,1));
+      background: -webkit-linear-gradient(bottom, rgba(255,255,250,0) 0%,rgba(255,255,255,1) 100%);
+      z-index: 2;
+      top: 42px;
+      height: 16px;
+    }
     h3 {
       color: $color-solid;
       line-height: 16px;
       font-size: 13px;
       font-weight: 400;
       margin: 0;
-      background: linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,1));
-      background: -webkit-linear-gradient(bottom, rgba(255,255,250,0) 0%,rgba(255,255,255,1) 100%);
-      z-index: 2;
-      top: 42px;
     }
     p {
       color: #869D91;
@@ -351,8 +354,12 @@ nst-navbar {
   justify-content: center;
   font-size: 18px;
   font-weight: 400;
+  transition: color $animation-dur;
   &.active {
     border-bottom: 3px solid $color-sense ;
+    color: $color-sense-wire;
+  }
+  &:hover {
     color: $color-sense-wire;
   }
 }

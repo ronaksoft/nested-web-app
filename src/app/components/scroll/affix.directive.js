@@ -35,7 +35,6 @@
           if (!!$attrs.parent ) {
             container = $attrs.parent;
           }
-          console.log($element,$(container).offset());
 
           if (!!$attrs.top ) {
             top = top + parseInt($attrs.top);
@@ -81,6 +80,9 @@
               fixed = false;
             }
           }
+
+          affixElement();
+
           function firstFixes() {
             if (!!$attrs.firstImp ) {
               $element.css('position', 'fixed');
