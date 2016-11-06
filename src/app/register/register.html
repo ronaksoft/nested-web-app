@@ -11,9 +11,19 @@
         <p class="nst-font-medium nst-marginbtm-48">
           For creating nested account please enter your phone number.
         </p>
-        <p class="nst-mood-storm nst-font-small">Mobile Phone</p>
-        <input name="mobileNumber" id="mobileNumber" international-phone-number
-               class="phone-input _fw" data-ng-model="ctlRegister.phone" autofocus/>
+
+        <p class="nst-mood-storm nst-font-small">Country</p>
+        <div class="nst-marginbtm-16">
+          <country-select placeholder="Select a country" initial-country="us" auto-locate selected-country-code="ctlRegister.countryCode"></country-select>
+        </div>
+        <!-- auto-locate on-selected="ctlRegister.changeCountry" selected-country-code="ctlRegister.countryCode" -->
+        <p class="nst-mood-storm nst-font-small">
+          Phone number
+        </p>
+        <div class="nst-marginbtm-16">
+          <input type="number" ng-model="ctlRegister.countryCode">
+          <input type="number" ng-model="ctlRegister.phone">
+        </div>
 
         <div class="nst-marginbtm-60">
         </div>

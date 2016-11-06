@@ -340,8 +340,6 @@
     };
 
 
-
-
     //Parse url and get params from url
     function getParameterByName(name) {
       var url = window.location.href;
@@ -363,7 +361,9 @@
       vm.step = "step1";
     }
 
-
+    $scope.$on('country-select-changed', function (event, data) {
+      vm.countryCode = data.code;
+    });
 
   }
 })();

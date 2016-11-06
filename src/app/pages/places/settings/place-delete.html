@@ -7,7 +7,7 @@
       </div>
     <div class="_difv _fw">
       <div ng-if="!nextStep" class="_fw _df">
-        <img data-ng-if="removeCtrl.place.picture.thumbnails.x64.url.download" class="account-initials-64" src="{{removeCtrl.place.picture.thumbnails.x64.url.download}}"/>
+        <img data-ng-if="removeCtrl.place.picture.thumbnails.x64.url.download" class="account-initials-64" ng-src="{{removeCtrl.place.picture.thumbnails.x64.url.download}}"/>
         <div data-ng-if="!removeCtrl.place.picture.thumbnails.x64.url.download" class="account-initials-64 _dib">{{removeCtrl.place.name | initials:2}}</div>
         <div class="_dib">
           <h4>{{removeCtrl.place.name || 'empty'}}</h4>
