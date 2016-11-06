@@ -251,7 +251,7 @@
         }
 
         if (error.code === NST_SRV_ERROR.LIMIT_REACHED){
-          toastr.error("Your limit for create place is reached.");
+          toastr.error("You cannot create any more Places.");
         }
       });
     }

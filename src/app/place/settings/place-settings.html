@@ -41,12 +41,13 @@
          ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }">
       <h3 ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace" >Only "{{ctlSettings.place.name}}" {{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "Members"}}</h3>
       <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace" >{{ ctlSettings.place.policy.add_post === 'creators' ? 'Managers' : 'Members'}}</h3>
-      <h3 ng-if="ctlSettings.isSubPersonalPlace" >Only Me</h3>
+      <h3 ng-if="ctlSettings.isSubPersonalPlace" >Only you</h3>
 
 
       <div class="_difh _fw _aic">
-        <p ng-if="ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">{{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "All Members"}} can post messages in this place.</p>
-        <p ng-if="ctlSettings.isSubPersonalPlace">No-one can post messages to your personal Place.</p>
+        <p ng-if="ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">
+          Only {{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "All Members"}} can post messages in this place.</p>
+        <p ng-if="ctlSettings.isSubPersonalPlace">Only you can post messages to this Place.</p>
         <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">
           Only <b>{{ctlSettings.place.name }}</b> {{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "Members"}} can view Place contents.
         </p>
@@ -72,10 +73,11 @@
       <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">Everyone</h3>
       <h3 ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">Only Nested Users</h3>
       <h3 ng-if="!ctlSettings.isGrandPlace">{{ ctlSettings.grandPlace.name }} Members</h3>
-      <p ng-if="!ctlSettings.isGrandPlace">All <b>{{ ctlSettings.grandPlace.name }}</b> Members can post messages to the place.</p>
+      <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">All <b>{{ ctlSettings.grandPlace.name }}</b> Members can post messages to the place.</p>
+      <p ng-if="!ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">Only you can view the contents of this Place.</p>
       <p ng-if="ctlSettings.isGrandPlace">Only Nested users can post messages to this Place.</p>
       <aside>
-        <p ng-if="ctlSettings.isGrandPlace">Show in the Members search results?</p>
+        <p ng-if="ctlSettings.isGrandPlace">Show in the search results?</p>
         <p ng-if="!ctlSettings.isGrandPlace">Show in the {{ ctlSettings.grandPlace.name }} Members search results?</p>
         <div class="place-switch">
           <input type="checkbox" name="checkbox_id" id="receiving-members-search" value="value" ng-disabled="!ctlSettings.accesses.hasControlAccess"
@@ -97,9 +99,10 @@
          ng-click="ctlSettings.setReceivingEveryone();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', disabled : !ctlSettings.accesses.hasControlAccess}">
       <h3>Everyone <i>(including email)</i></h3>
-      <p>Everyone can send their messages to the place.</p>
+      <p>Everyone can send their messages to "<b>{{ctlSettings.place.name ? ctlSettings.place.name  : '...'}}</b>" Place.
+        This includes messages sent from email platforms to your Nested address ({{ ctlSettings.place.id }}@nested.me).</p>
       <aside>
-        <p>Show in the public search results?</p>
+        <p>Show in the search results?</p>
         <div class="place-switch">
           <input type="checkbox" name="checkbox_id" id="receiving-everyone-search" ng-disabled="!ctlSettings.accesses.hasControlAccess"
                  data-ng-model="ctlSettings.place.privacy.search"
@@ -131,7 +134,7 @@
     </div>
     <div class="_fw _difv">
       <p ng-if="ctlSettings.isGrandPlace" >Who can invite Members? </p>
-      <p ng-if="!ctlSettings.isGrandPlace">Who Can Add Members?</p>
+      <p ng-if="!ctlSettings.isGrandPlace">Who can add Members?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_member"
               data-ng-change="ctlSettings.updateAddMemberPolicy()">
