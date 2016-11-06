@@ -21,9 +21,8 @@
       }
       
     }
-    [contenteditable]:focus,
-    [contenteditable]:hover{
-        & + .quick-icons {
+    [contenteditable]:not(:empty){
+        & + div >.quick-icons {
           opacity: 1;    
         }   
       }

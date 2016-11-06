@@ -120,6 +120,9 @@
         vm.model.subject = '';
         vm.model.body = '';
         vm.model.saved = false;
+        vm.attachments.viewModels = [];
+        vm.model.attachfiles = {};
+        vm.model.attachments = [];
         vm.model.check();
       });
 
@@ -146,6 +149,7 @@
             post.setSubject(vm.model.subject);
             post.setBody(vm.model.body);
             post.setContentType('text/plain');
+            post.setAttachments(vm.model.attachments);
             post.setPlaces([NstSvcPlaceFactory.parseTinyPlace({ _id: vm.placeId })]);
 
             NstSvcPostFactory.send(post).then(deferred.resolve).catch(function (error) { deferred.reject([error]); });
