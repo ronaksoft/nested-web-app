@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp) {
+  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q) {
     var vm = this;
 
 
@@ -37,7 +37,7 @@
     vm.checkWithServer = false;
 
     vm.avaiablity = false;
-
+    vm.validatePhone = validatePhone;
 
 
     vm.clearPassError = function (val) {
@@ -114,39 +114,69 @@
 
 
 
-    vm.submitPhoneNumber = function () {
+    vm.submitPhoneNumber = function (isValid) {
+      vm.submitted = true;
 
-      if(!vm.phone){
-        return false;
-      }else{
-        vm.step = "step1";
+      if (!isValid) {
+        return;
       }
 
-      vm.getCodeRequest = true;
-      vm.country = $("#mobileNumber").intlTelInput("getSelectedCountryData").iso2;
-
-
-      var ajax = new NstHttp('/register/', {
-        f: 'verify_phone',
-        phone: vm.phone
+      sendPhoneNumber(vm.phone).then(function (result) {
+        vm.verificationCode = result.verificationCode;
+        vm.verificationId = result.verificationId;
+      }).catch(function (error) {
+        console.log(error);
       });
-      ajax.get().then(function (data) {
-        vm.getCodeRequest = false;
-        if (data.status == "ok") {
-          if (data.code) vm.verificationCode = data.code;
-          vm.vid = data.vid;
-          vm.step = 'step2';
-        }else{
-          vm.step = 'step1';
-          toastr.error("Your number is not valid or already used!")
+
+    };
+
+    function sendPhoneNumber(phone) {
+      var deferred = $q.defer();
+
+      vm.phoneSubmitProgress = true;
+      new NstHttp('/register/', {
+        f: 'verify_phone',
+        phone: phone
+      }).get().then(function (data) {
+        if (data.status === 'ok') {
+          deferred.resolve({
+            verificationCode : data.code,
+            verificationId : data.vid
+          });
+        } else {
+          deferred.reject(data);
         }
       })
       .catch(function (error) {
-        vm.step = "step1";
-        vm.getCodeRequest = false;
-        toastr.error("Error in validation your phone number!")
-      })
-    };
+        deferred.reject(error);
+      }).finally(function () {
+        vm.phoneSubmitProgress = true;
+      });
+
+      return deferred.promise;
+    }
+
+    function validatePhone() {
+      if (!vm.phone) {
+        vm.phoneIsEmpty = true;
+        vm.phoneIsWrong = false;
+      } else if (!getPhoneIsValid(vm.countryId, vm.phone)) {
+        vm.phoneIsWrong = true;
+        vm.phoneIsEmpty = false;
+      } else {
+        vm.phoneIsWrong = false;
+        vm.phoneIsEmpty = false;
+      }
+      vm.phoneIsValid = !vm.phoneIsWrong && !vm.phoneIsEmpty;
+    }
+
+    function getPhoneIsValid(countryId, phone) {
+      try {
+        return phoneUtils.isValidNumber(phone.toString(), countryId);
+      } catch (e) {
+        return false;
+      }
+    }
 
 
     vm.resend = function(){
@@ -362,7 +392,16 @@
     }
 
     $scope.$on('country-select-changed', function (event, data) {
-      vm.countryCode = data.code;
+      if (data && data.code) {
+        vm.countryCode = data.code;
+        vm.countryId = data.id;
+
+        vm.countryIsValid = true;
+      } else {
+        vm.countryCode = vm.countryId = null;
+
+        vm.countryIsValid = false;
+      }
     });
 
   }

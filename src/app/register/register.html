@@ -1,8 +1,7 @@
 <div class="_fhw">
   <div class="nst-vc nst-mood-sense-5 ng-scope _fh">
     <div class="panel no-animation" id="panel-register">
-      <form novalidate name="firstStep" ng-show="ctlRegister.step === 'step1'" unsaved-warning-form
-            data-ng-submit="ctlRegister.submitPhoneNumber()">
+      <form novalidate ng-show="ctlRegister.step === 'step1'" ng-submit="ctlRegister.submitPhoneNumber(ctlRegister.phoneIsValid && ctlRegister.countryIsValid);">
         <div class="nst-vb no-gutter2 nst-marginbtm-48">
           <p class="col-xs-9 nst-font-xlarge">Create an Account</p>
           <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
@@ -12,26 +11,23 @@
           For creating nested account please enter your phone number.
         </p>
 
-        <p class="nst-mood-storm nst-font-small">Country</p>
-        <div class="nst-marginbtm-16">
-          <country-select placeholder="Select a country" initial-country="us" auto-locate selected-country-code="ctlRegister.countryCode"></country-select>
+        <div class="form-group" ng-class="{ 'has-error' : !ctlRegister.countryIsValid && ctlRegister.submitted}">
+          <label ng-if="ctlRegister.countryIsValid || !ctlRegister.submitted" class="nst-mood-storm nst-font-small">Country</label>
+          <label class="error-message" ng-if="!ctlRegister.countryIsValid && ctlRegister.submitted">Select your country</label>
+          <country-select placeholder="Select a country" initial-country="us" auto-locate selected-country-code="ctlRegister.countryCode" class="margin-t-5 _db"></country-select>
         </div>
-        <!-- auto-locate on-selected="ctlRegister.changeCountry" selected-country-code="ctlRegister.countryCode" -->
-        <p class="nst-mood-storm nst-font-small">
-          Phone number
-        </p>
-        <div class="nst-marginbtm-16 _difh _fw _pr border-number">
-          <i class="plus">+</i>
-          <input type="number" class="pre-number" ng-model="ctlRegister.countryCode">
-          <input type="number" class="number _fw" ng-model="ctlRegister.phone">
+        <div class="form-group nst-marginbtm-60" ng-class="{ 'has-error' : !ctlRegister.phoneIsValid && ctlRegister.submitted}">
+          <label class="nst-mood-storm nst-font-small" ng-if="ctlRegister.phoneIsValid || !ctlRegister.submitted">Phone number</label>
+          <label class="error-message" ng-if="ctlRegister.phoneIsEmpty && ctlRegister.submitted">Enter your phone number</label>
+          <label class="error-message" ng-if="ctlRegister.phoneIsWrong && ctlRegister.submitted">The provided phone number is not valid</label>
+          <div class="nst-marginbtm-16 _difh _fw _pr margin-t-5 border-number">
+            <i class="plus">+</i>
+            <input type="number" name="country_code" class="pre-number" ng-model="ctlRegister.countryCode" ng-change="ctlRegister.validatePhone();">
+            <input type="number" name="phone_number" class="number _fw" ng-model="ctlRegister.phone" ng-change="ctlRegister.validatePhone();">
+          </div>
         </div>
-
-        <div class="nst-marginbtm-60">
-        </div>
-        <div>
-          <input type="button" ng-disabled="!ctlRegister.phone || ctlRegister.getCodeRequest" data-ng-click="ctlRegister.submitPhoneNumber()"
-                 value="Next"
-                 class="butn-green butn-lg butn-login nstbtn">
+        <div class="form-action">
+          <input type="submit" value="Next" class="butn-green butn-lg butn-login nstbtn">
         </div>
 
       </form>
