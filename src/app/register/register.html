@@ -22,6 +22,7 @@
           <label class="error-message" ng-if="ctlRegister.phoneIsWrong && ctlRegister.submitted">The provided phone number is not valid</label>
           <div class="nst-marginbtm-16 _difh _fw _pr margin-t-5 border-number">
             <i class="plus">+</i>
+            <i class="sep">|</i>
             <input type="number" name="country_code" class="pre-number" ng-model="ctlRegister.countryCode" ng-change="ctlRegister.validatePhone();">
             <input type="number" name="phone_number" class="number _fw" ng-model="ctlRegister.phone" ng-change="ctlRegister.validatePhone();">
           </div>

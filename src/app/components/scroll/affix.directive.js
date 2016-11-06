@@ -13,104 +13,91 @@
         var win = angular.element($window);
         var topOffset = 0;
         var afterContent = 0;
-        var container = 'body';
+        var containerLeft = $('body').offset().left || 0;
         function applier() {
+          removeFix();
 
-          var top = $element.offset().top;
+          var top = $element.offset().top || 0;
           var offLeft = $element.offset().left || 0;
-          if ($element.offset() && $(container).offset()) {
+
+          var height = $element.outerHeight();
+          var width = $element.outerWidth();
+          var dontSetWidth = $attrs.dontSetWidth || false;
+
+          var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+          var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
 
-            //for create a fixed element we need a left parameter so we get it from hisself
-            function findLeftOffset() {
-              offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
-              // if (isChrome || isFirefox) {
-              //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
-              // }else if (!(isChrome || isFirefox )){
-              //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
-              // }
-            }
-
-            function removeFix() {
-              $element.css('position', '');
-              $element.css('top', '');
-              $element.css('left', '');
-              $element.css('width', '');
-              $element.css('height', '');
-            }
-
-            function affixElement() {
-              if ($window.pageYOffset > topOffset && !fixed) {
-                $element.css('position', 'fixed');
-                $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-                $element.css('left', offLeft + 'px');
-                if (!dontSetWidth) $element.css('width', width + 'px');
-                $element.css('height', height + 'px');
-                fixed = true;
-              } else if ($window.pageYOffset < topOffset && fixed) {
-                removeFix();
-                fixed = false;
-              }
-            }
-
-            function firstFixes() {
-              if (!!$attrs.firstImp) {
-                $element.css('position', 'fixed');
-                $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-                $element.css('left', offLeft + 'px');
-                $element.css('width', width + 'px');
-                $element.css('height', height + 'px');
-                return win.unbind('scroll', affixElement);
-              }
-            }
-
-
-
-            removeFix();
-
-
-            var top = $element.offset().top;
-            //var offLeft = $element.offset().left;
-
-            var height = $element.outerHeight();
-            var width = $element.outerWidth();
-            var dontSetWidth = $attrs.dontSetWidth || false;
-
-            var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-            var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-
-
-            if (!!$attrs.offsetTop) {
-              topOffset = $attrs.offsetTop;
-            }
-
-            if (!!$attrs.parent) {
-              container = $attrs.parent;
-            }
-
-            if (!!$attrs.top) {
-              top = top + parseInt($attrs.top);
-            }
-
-            if (!!$attrs.afterContent) {
-              afterContent = $attrs.afterContent;
-            }
-
-            if (!!$attrs.fixedTop) {
-              top = parseInt($attrs.top);
-            }
-
-            var fixed = false;
-
-            affixElement();
-
-
-
-            findLeftOffset();
-            win.bind('scroll', affixElement);
-            firstFixes();
+          if (!!$attrs.offsetTop ) {
+            topOffset = $attrs.offsetTop;
           }
 
+          if (!!$attrs.parent && $($attrs.parent).offset() ) {
+            containerLeft = $($attrs.parent).offset().left;
+          }
+
+          if (!!$attrs.top ) {
+            top = top + parseInt($attrs.top);
+          }
+
+          if (!!$attrs.afterContent ) {
+            afterContent = $attrs.afterContent;
+          }
+
+          if (!!$attrs.fixedTop ) {
+            top = parseInt($attrs.top);
+          }
+
+          //for create a fixed element we need a left parameter so we get it from hisself
+          function findLeftOffset () {
+            offLeft = parseInt(containerLeft) + parseInt(afterContent);
+            // if (isChrome || isFirefox) {
+            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
+            // }else if (!(isChrome || isFirefox )){
+            //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent);
+            // }
+          }
+          function removeFix() {
+            $element.css('position', '');
+            $element.css('top', '');
+            $element.css('left', '');
+            $element.css('width', '');
+            $element.css('height', '');
+          }
+
+          var fixed = false;
+
+          function affixElement() {
+            if ($window.pageYOffset > topOffset && !fixed) {
+              $element.css('position', 'fixed');
+              $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
+              $element.css('left', offLeft + 'px');
+              if(!dontSetWidth) $element.css('width', width + 'px');
+              $element.css('height', height + 'px');
+              fixed = true;
+            } else if ($window.pageYOffset < topOffset && fixed) {
+              removeFix();
+              fixed = false;
+            }
+          }
+
+          affixElement();
+
+          function firstFixes() {
+            if (!!$attrs.firstImp ) {
+              $element.css('position', 'fixed');
+              $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
+              $element.css('left', offLeft + 'px');
+              $element.css('width', width + 'px');
+              $element.css('height', height + 'px');
+              return win.unbind('scroll', affixElement);
+            }
+          }
+
+
+          findLeftOffset();
+          win.bind('scroll', affixElement);
+          firstFixes();
 
         }
         applier();

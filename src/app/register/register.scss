@@ -15,8 +15,8 @@
     height: 34px;
   }
   .border-number {
-    border-bottom: 1px solid $color-border;
-;
+    border: 1px solid $color-border;
+    border-radius: 4px;
   }
   input.pre-number {
     display: flex;
@@ -27,6 +27,8 @@
     border: none;
     font-size: 16px;
     font-weight: 500;
+    background-color: transparent;
+    border-right-width: 0!important;
     
   }
   input.number {
@@ -36,16 +38,25 @@
     border: none;
     font-size: 16px;
     font-weight: 500;
+    background-color: transparent;
+    border-left-width: 0!important;
   }
   i.plus{
       position: absolute;
-      height: 100%;
-      width: 16px;
       left: 6px;
       font-size: 16px;
       font-weight: 500;
       top: 7px;
       font-style: normal;
+    }
+  i.sep{
+      position: absolute;
+      left: 48px;
+      font-size: 20px;
+      font-weight: 200;
+      top: 4px;
+      font-style: normal;
+      color: $color-border;
     }
 }
 
