@@ -1,5 +1,5 @@
 <div>
-  <ui-select ng-model="$parent.selected" append-to-body="true" on-select="onSelect($item)">
+  <ui-select ng-model="$parent.selected" append-to-body="false" on-select="onSelect($item)">
     <ui-select-match placeholder="Select a country">
       <div class="country-item">
         <i class="iti-flag {{$select.selected.id}}"></i>

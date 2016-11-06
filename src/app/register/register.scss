@@ -11,7 +11,32 @@
   font-size: $font-size-xsmall;
   font-family: $font-family-eng-reg;
   align-self: center;
-
+  input {
+    height: 34px;
+  }
+  input.pre-number {
+    display: flex;
+    width: 48px;
+    height: 34px;
+    flex: none;
+    padding-left: 16px;
+    
+  }
+  i.plus{
+      position: absolute;
+      height: 100%;
+      width: 16px;
+      left: 6px;
+      font-size: 16px;
+      font-weight: 500;
+      top: 7px;
+      font-style: normal;
+    }
+  input.number {
+    display: flex;
+    flex: 1;
+    height: 34px;
+  }
 }
 
 .select-birthday {
@@ -46,7 +71,9 @@
   height: 40px;
   border-collapse: separate;
 }
-
+.ui-select-placeholder {
+  height: 34px!important;
+}
 //------------------------------//
 .select-month,
 .select-day,
