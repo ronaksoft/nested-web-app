@@ -14,13 +14,28 @@
   input {
     height: 34px;
   }
+  .border-number {
+    border-bottom: 1px solid $color-border;
+;
+  }
   input.pre-number {
     display: flex;
-    width: 48px;
+    width: 56px;
     height: 34px;
     flex: none;
     padding-left: 16px;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
     
+  }
+  input.number {
+    display: flex;
+    flex: 1;
+    height: 34px;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
   }
   i.plus{
       position: absolute;
@@ -32,11 +47,6 @@
       top: 7px;
       font-style: normal;
     }
-  input.number {
-    display: flex;
-    flex: 1;
-    height: 34px;
-  }
 }
 
 .select-birthday {
