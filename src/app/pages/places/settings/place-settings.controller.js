@@ -69,6 +69,11 @@
         vm.isPersonalPlace = true;
       }
 
+
+      if (vm.user.id === vm.placeId.split('.')[0]){
+        vm.isSubPersonalPlace = true;
+      }
+
       loadPlace(vm.placeId).then(function (result) {
         vm.place = result.place;
         vm.accesses = result.accesses;

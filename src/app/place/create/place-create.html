@@ -15,8 +15,8 @@
       </div>
       <div class="desc">
         <h3>Closed Place</h3>
-        <p>Only Keyholders can view Place contents.</p>
-        <aside>You can invite Keyholders from <b>{{ ctlCreate.grandPlace.name }}</b> Members after creating the place.</aside>
+        <p>Only Members can view Place contents.</p>
+        <aside>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</aside>
       </div>
     </div>
     <div class="select-box _difh" ng-click="ctlCreate.setPlaceOpen();" ng-class="{ selected : ctlCreate.isOpenPlace }">
@@ -25,8 +25,9 @@
       </div>
       <div class="desc">
         <h3>Open Place</h3>
-        <p>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can view place contents, but only Keyholders can post messages in the Place.</p>
-        <aside>You can invite Keyholders from <b>{{ ctlCreate.grandPlace.name }}</b> Members after creating the place.</aside>
+        <p ng-if="ctlCreate.isPersonalPlace">Only you can view the contents of this Place.</p>
+        <p ng-if="!ctlCreate.isPersonalPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can view Place contents.</p>
+        <aside>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</aside>
       </div>
     </div>
     <button ng-click="ctlCreate.step1 = false ;ctlCreate.step2 = true ;"
@@ -40,6 +41,11 @@
         <span ng-if="ctlCreate.isClosedPlace">&nbsp;(Closed Place)</span>
         <span ng-if="ctlCreate.isOpenPlace">&nbsp;(Open Place)</span>
       </h2>
+      <p class="nst-mood-storm margin-t-5" ng-if="ctlCreate.grandPlace">
+        {{ ctlCreate.isClosedPlace ?
+        'Only members can view Place contents.' :
+        ('All "' + ctlCreate.grandPlace.name + '" Members can view Place contents.')}}
+      </p>
       <div class="form-group" ng-class="{ 'has-error' : placeForm.placeName.$invalid && ctlCreate.submitted}">
         <labe ng-if="placeForm.placeName.$valid || !ctlCreate.submitted">Place name</labe>
         <label class="error-message" ng-if="placeForm.placeName.$error.required && ctlCreate.submitted">Place name is
@@ -58,32 +64,41 @@
             <div ng-if="ctlCreate.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
           </div>
         </div>
-        <aside>The place will be identify by this unique address. choose wisely you <b>can't</b> change the PlaceID
-          after creating place.
+        <aside>The Place will be identified by this unique address. You <b>can't</b> change the Place ID after creating the Place, so choose wisely!
         </aside>
       </div>
       <p ng-if="ctlCreate.isClosedPlace">Who can post messages to this Place?</p>
+      <!--off-->
       <div class="select-box-step2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();"
            ng-class="{ selected : ctlCreate.receivingMode == 'off'}">
-        <h3 ng-if="!ctlCreate.isClosedPlace">Only {{ctlCreate.place.name}} Members</h3>
-        <h3 ng-if="ctlCreate.isClosedPlace">Only Me</h3>
-        <p ng-if="!ctlCreate.isClosedPlace">Only <b>{{ctlCreate.place.name }}</b> members can view Place contents.</p>
-        <p ng-if="ctlCreate.isClosedPlace">No-one can post message to <b>{{ctlCreate.place.name }}</b> place.</p>
+
+        <h3 ng-if="ctlCreate.isClosedPlace">Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}" Members</h3>
+        <h3 ng-if="!ctlCreate.isClosedPlace">Only Members of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}"</h3>
+
+        <p ng-if="!ctlCreate.isClosedPlace">Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>"
+          Members can view Place contents.</p>
+        <p ng-if="ctlCreate.isClosedPlace">Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} can post message to
+          "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" place.</p>
         <aside>
           <p>Which kind of members can be contribute in the place?</p>
-          <select ng-model="ctlCreate.place.privacy.addPost"
-                  ng-options="member.key as member.name for member in ctlCreate.memberOptions">
+          <select ng-model="ctlCreate.place.privacy.addPost">
+            <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+            <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
           </select>
         </aside>
       </div>
+
+      <!--internal-->
       <div class="select-box-step2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingMembers();"
            ng-class="{ selected : ctlCreate.receivingMode == 'members'}">
-        <h3 ng-if="!ctlCreate.isClosedPlace">{{ ctlCreate.grandPlace.name }} Members Only</h3>
-        <h3 ng-if="ctlCreate.isClosedPlace">Only Nested Users</h3>
-        <p ng-if="!ctlCreate.isClosedPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to the place.</p>
-        <p ng-if="ctlCreate.isClosedPlace">All Nested users can post messages to <b>{{ctlCreate.place.name }}</b> place.</p>
+        <h3 ng-if="!ctlCreate.isClosedPlace">"{{ ctlCreate.grandPlace.name }}" Members</h3>
+        <h3 ng-if="ctlCreate.isClosedPlace">"{{ ctlCreate.grandPlace.name }}" Members</h3>
+        <p ng-if="!ctlCreate.isClosedPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to the
+          place.</p>
+        <p ng-if="ctlCreate.isClosedPlace">Only "{{ ctlCreate.grandPlace.name }}" Members can post messages to "<b>{{ctlCreate.place.name }}</b>"
+          Place.</p>
         <aside>
-          <p>Show in the Members search results?</p>
+          <p>Show in the search results?</p>
           <div class="place-switch">
             <input type="checkbox" name="checkbox_id" id="pub-res" value="value">
             <label for="pub-res"><b>ON</b>
@@ -93,12 +108,16 @@
           </div>
         </aside>
       </div>
+
+      <!--external-->
       <div class="select-box-step2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingEveryone();"
            ng-class="{ selected : ctlCreate.receivingMode == 'everyone'}">
-        <h3>Everyone <i>(also email)</i></h3>
-        <p>Everyone can send their messages to <b>{{ctlCreate.place.name }}</b> place.</p>
+        <h3>Everyone <i>(including email)</i></h3>
+        <p>Everyone can send their messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name  : '...'}}</b>" Place.
+          This includes messages sent from email platforms to your Nested address ({{ ctlCreate.place.id }}@nested.me).
+        </p>
         <aside>
-          <p>Show in the public search results?</p>
+          <p>Show in the search results?</p>
           <div class="place-switch">
             <input type="checkbox" name="checkbox_id" id="res" value="value">
             <label for="res"><b>ON</b>
@@ -110,14 +129,14 @@
       </div>
 
       <div ng-if="!ctlCreate.isPersonalPlace">
-        <p ng-if="ctlCreate.isClosedPlace">Place Privacy</p>
-        <div class="option-row" ng-if="ctlCreate.isClosedPlace">
+        <p>Place Privacy</p>
+        <div class="option-row">
           <p class="_fw _df">
-            Who can add members?
+            Who can add Members?
           </p>
           <select ng-model="ctlCreate.place.policy.addMember">
-            <option value="creators">{{ctlCreate.place.name}} Managers</option>
-            <option value="everyone">{{ctlCreate.place.name}} Members</option>
+            <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+            <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
           </select>
         </div>
         <div class="option-row" ng-if="ctlCreate.isClosedPlace">
@@ -125,32 +144,37 @@
             Who can create a sub-place?
           </p>
           <select ng-model="ctlCreate.place.policy.addPlace">
-              <option value="creators">{{ctlCreate.place.name}} Managers</option>
-              <option value="everyone">{{ctlCreate.place.name}} Members</option>
+            <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+            <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
           </select>
         </div>
-        <div class="_difv nst-marginbtm-8" ng-if="(ctlCreate.hasGrandParent || ctlCreate.hasParentPlace) && !ctlCreate.parentLoadProgress">
-        <p class="create-label">
-          Select group of members to be added to the place:
-        </p>
-        <ul class="list-unstyled">
-          <li>
-            <input class="create-place-radio" type="radio" id="fill-members-none" name="fillMembers" value="none" ng-model="ctlCreate.place.fillMembers">
-            <label for="fill-members-none">None</label>
-          </li>
-          <li ng-if="ctlCreate.hasParentPlace && ctlCreate.parentPlace.getTeammatesCount() > 1">
-            <input class="create-place-radio" type="radio" id="fill-members-parent" name="fillMembers" value="parent" ng-model="ctlCreate.place.fillMembers">
-            <label for="fill-members-parent">All <b>{{::ctlCreate.parentPlace.name}}</b> members ({{::ctlCreate.parentPlace.getTeammatesCount()}})</label>
-          </li>
-          <li ng-if="ctlCreate.hasGrandParent">
-            <input class="create-place-radio" type="radio" id="fill-members-grand" name="fillMembers" value="grand" ng-model="ctlCreate.place.fillMembers">
-            <label for="fill-members-grand">All <b>{{ctlCreate.grandPlace.name}}</b> members ({{::ctlCreate.grandPlace.getTeammatesCount()}})</label>
-          </li>
-        </ul>
+        <div class="_difv nst-marginbtm-8"
+             ng-if="(ctlCreate.hasGrandParent || ctlCreate.hasParentPlace) && !ctlCreate.parentLoadProgress">
+          <p class="create-label">
+            Select group of members to be added to the place:
+          </p>
+          <ul class="list-unstyled">
+            <li>
+              <input class="create-place-radio" type="radio" id="fill-members-none" name="fillMembers" value="none"
+                     ng-model="ctlCreate.place.fillMembers">
+              <label for="fill-members-none">None</label>
+            </li>
+            <li ng-if="ctlCreate.hasParentPlace && ctlCreate.parentPlace.getTeammatesCount() > 1">
+              <input class="create-place-radio" type="radio" id="fill-members-parent" name="fillMembers" value="parent"
+                     ng-model="ctlCreate.place.fillMembers">
+              <label for="fill-members-parent">All <b>{{::ctlCreate.parentPlace.name}}</b> Members
+                ({{::ctlCreate.parentPlace.getTeammatesCount()}})</label>
+            </li>
+            <li ng-if="ctlCreate.hasGrandParent">
+              <input class="create-place-radio" type="radio" id="fill-members-grand" name="fillMembers" value="grand"
+                     ng-model="ctlCreate.place.fillMembers">
+              <label for="fill-members-grand">All <b>{{ctlCreate.grandPlace.name}}</b> Members
+                ({{::ctlCreate.grandPlace.getTeammatesCount()}})</label>
+            </li>
+          </ul>
 
 
-
-      </div>
+        </div>
       </div>
       <div class="option-row">
         <input class="create-place-checkbox" type="checkbox" id="favo" ng-model="ctlCreate.place.favorite">

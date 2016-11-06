@@ -35,9 +35,10 @@
     vm.openAddMemberModal = openAddMemberModal;
     vm.openSettingsModal = openSettingsModal;
     vm.confirmToRemove = confirmToRemove;
-    vm.leaveAccess = leaveAccess;
+    vm.isPersonal = isPersonal;
 
     vm.confirmToLeave = confirmToLeave;
+
 
     function openCreateSubplaceModal ($event) {
       $event.preventDefault();
@@ -212,6 +213,7 @@
         return vm.placeId
       },function () {
         if (vm.placeId) {
+          vm.isGrandPlace = vm.placeId.split('.').length === 1;
           NstSvcPlaceFactory.getBookmarkedPlaces()
             .then(function (bookmaks) {
               if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
@@ -221,6 +223,19 @@
             .then(function (status) {
               vm.notificationStatus = status;
             });
+
+
+
+          if(vm.hasPlace && !vm.place) {
+            NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
+              vm.place = place;
+            });
+          }
+          if(vm.hasPlace) {
+            NstSvcPlaceFactory.get(vm.placeId.split('.')[0]).then(function (place) {
+              vm.grandPlace = place;
+            });
+          }
 
           $q.all([
             NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
@@ -258,7 +273,7 @@
       });
     }
 
-    function leaveAccess() {
+    function isPersonal() {
       return NstSvcAuth.user.id !== vm.getPlaceId()
     }
 

@@ -6,7 +6,8 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NstSvcAuth, NstSvcPlaceFactory,
+  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NST_SRV_ERROR,
+                                 NstSvcAuth, NstSvcPlaceFactory,
                                  NstUtility, $uibModal, $uibModalInstance, NST_PLACE_ACCESS, NstSvcLogger) {
 
     var vm = this;
@@ -53,10 +54,6 @@
     vm.changeId = changeId;
 
     vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
-    if (vm.isPersonalPlace){
-      vm.isOpenPlace = false;
-      vm.isClosedPlace = true;
-    }
 
 
     (function () {
@@ -79,6 +76,11 @@
         vm.isClosedPlace = true;
         vm.isOpenPlace = false;
       }
+      if (vm.isSubPersonalPlace){
+        vm.isOpenPlace = false;
+        vm.isClosedPlace = true;
+      }
+
 
     })();
 
@@ -243,6 +245,14 @@
         continueToPlaceSettings(place.id);
       }).catch(function (error) {
         NstSvcLogger.error(error);
+
+        if (error.message[0] === "place_id"){
+          toastr.error("You can not use this 'Place ID'.");
+        }
+
+        if (error.code === NST_SRV_ERROR.LIMIT_REACHED){
+          toastr.error("You cannot create any more Places.");
+        }
       });
     }
 
@@ -252,7 +262,7 @@
 
     function continueToPlaceSettings(placeId) {
       $uibModalInstance.close();
-      $state.go('app.place-messages', { placeId : placeId });
+      $state.go('app.place-settings', { placeId : placeId });
     }
   }
 })();
