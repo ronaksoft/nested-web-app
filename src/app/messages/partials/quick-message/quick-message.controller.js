@@ -5,7 +5,8 @@
     .module('ronak.nested.web.message')
     .controller('QuickMessageController', QuickMessageController);
 
-  function QuickMessageController($q, $log, toastr, NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory) {
+  function QuickMessageController($q, $log, $scope, toastr,
+    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS) {
     var vm = this;
 
     /*****************************
@@ -15,11 +16,23 @@
     vm.model = {
       subject: '',
       body: '',
+      attachments: [],
+      attachfiles: {},
       errors: [],
       modified: false,
       ready: false,
       saving: false,
       saved: false
+    };
+
+    vm.attachments = {
+      elementId: 'attach',
+      viewModels: [],
+      requests: {},
+      size: {
+        uploaded: 0,
+        total: 0
+      }
     };
 
     /*****************************
@@ -65,11 +78,14 @@
     vm.writeMsg = function(e) {
 
       if (!e.currentTarget.firstChild) return
-      console.log(e.currentTarget.firstChild,e.currentTarget.firstChild.nodeName,angular.element(e.currentTarget.firstChild).text(),angular.element(e.currentTarget.firstChild).text().charCodeAt(0),angular.element(e.currentTarget.firstChild).text().length)
 
 
-      if (angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 ){
-        angular.element(e.currentTarget.firstChild).remove()
+      
+      function removeEnterSubj() {
+        if (angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 ){
+        angular.element(e.currentTarget.firstChild).remove();
+        removeEnterSubj()
+        }
       }
       if(e.currentTarget.firstChild.nodeName.toLowerCase() != "#text")  {
         angular.element(e.currentTarget.firstChild).replaceWith(angular.element(e.currentTarget.firstChild)[0].innerText)
@@ -163,5 +179,156 @@
         });
       }));
     };
+
+
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
+    vm.attachments.fileSelected = function (event) {
+      var files = event.currentTarget.files;
+      for (var i = 0; i < files.length; i++) {
+        vm.attachments.attach(files[i]).then(function (request) {});
+      }
+      event.currentTarget.value = "";
+    };
+
+    vm.attachments.attach = function (file) {
+      var deferred = $q.defer();
+      var readyPromises = [];
+
+      $log.debug('Compose | File Attach: ', file);
+
+      // Create Attachment Model
+      var attachment = NstSvcAttachmentFactory.createAttachmentModel();
+      attachment.setSize(file.size);
+      attachment.setFilename(file.name);
+      attachment.setMimeType(file.type);
+      attachment.setUploadTime(file.lastModified);
+
+      // Add Attachment to Model
+      vm.attachments.size.total += file.size;
+      vm.model.attachments.push(attachment);
+      var type = NstSvcFileType.getType(attachment.getMimeType());
+
+      // Read Attachment
+      var reader = new FileReader();
+      var qRead = $q.defer();
+
+      reader.onload = function (event) {
+        var uri = event.target.result;
+        var resource = new NstLocalResource(uri);
+        attachment.setResource(resource);
+
+        // Load and Show Thumbnail
+        if (NST_FILE_TYPE.IMAGE == type) {
+          attachment.getPicture().setOrg(resource);
+          attachment.getPicture().setThumbnail(32, resource);
+          attachment.getPicture().setThumbnail(64, resource);
+          attachment.getPicture().setThumbnail(128, resource);
+        }
+
+        qRead.resolve(uri);
+      };
+      reader.readAsDataURL(file);
+
+      NstSvcLoader.inject(qRead.promise.then(function (uri) {
+        var deferred = $q.defer();
+
+        // Upload Attachment
+        var vmAttachment = NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
+        attachment.setId(vmAttachment.id);
+
+        var request = NstSvcStore.uploadWithProgress(file, function (event) {
+          if (event.lengthComputable) {
+            vmAttachment.uploadedSize = event.loaded;
+            vmAttachment.uploadedRatio = Number(event.loaded / event.total).toFixed(4);
+          }
+        });
+
+        vm.attachments.requests[attachment.getId()] = request;
+
+        request.sent().then(function () {
+          attachment.setStatus(NST_ATTACHMENT_STATUS.UPLOADING);
+          vm.attachments.viewModels.push(vmAttachment);
+        });
+
+        request.finished().then(function () {
+          // vm.attachments.size.total -= attachment.getSize();
+          delete vm.attachments.requests[attachment.getId()];
+        });
+
+        request.getPromise().then(function (response) {
+          var deferred = $q.defer();
+
+          attachment.setId(response.data.universal_id);
+          attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
+
+          vmAttachment.id = attachment.getId();
+          vmAttachment.isUploaded = true;
+          vmAttachment.uploadedSize = attachment.getSize();
+          vmAttachment.uploadedRatio = 1;
+
+          deferred.resolve(attachment);
+
+          return deferred.promise;
+        }).catch(function (error) {
+          $log.debug('Compose | Attach Upload Error: ', error);
+
+          deferred.reject(error);
+        }).then(function () {
+          deferred.resolve(request);
+        });
+
+        return deferred.promise;
+      })).then(deferred.resolve);
+
+      return deferred.promise;
+    };
+
+    vm.attachments.detach = function (vmAttachment) {
+      var id = vmAttachment.id;
+      var attachment = _.find(vm.model.attachments, { id: id });
+      $log.debug('Compose | Attachment Delete: ', id, attachment);
+
+      if (attachment && attachment.length !== 0) {
+        switch (attachment.getStatus()) {
+          case NST_ATTACHMENT_STATUS.UPLOADING:
+            var request = vm.attachments.requests[attachment.getId()];
+            if (request) {
+              NstSvcStore.cancelUpload(request);
+            }
+            break;
+        }
+
+        vm.model.attachments = vm.model.attachments.filter(function (v) { return id != v.id; });
+        vm.attachments.viewModels = vm.attachments.viewModels.filter(function (v) { return id != v.id; });
+        vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
+        vm.attachments.size.total -= attachment.getSize();
+      }else{
+        vm.model.attachments = [];
+      }
+    };
+
+    $scope.deleteAttachment = function (attachment) {
+      new $q(function (resolve, reject) {
+        if (attachment.status === NST_ATTACHMENT_STATUS.UPLOADING) {
+          // abort the pending upload request
+          attachment.cancelUpload();
+          resolve(attachment);
+        } else { // the store is uploaded and it should be removed from server
+          NstSvcAttachmentFactory.remove(attachment.id).then(function (result) {
+            resolve(attachment);
+          }).catch(reject);
+        }
+      }).then(function (attachment) {
+        $scope.compose.post.removeAttachment(attachment);
+        $timeout(function () {
+          if ($scope.compose.post.attachments.length === 0) {
+            $scope.showUploadProgress = false;
+          }
+        });
+      });
+    };
+
   }
 })();

@@ -8,7 +8,7 @@
   border: 1px solid $color-border;
   position: relative;
   min-height: 86px;
-  padding: 8px 12px;
+  padding: 8px 12px 2px 12px;
     [contenteditable] {
       font-weight: 600;
       font-size: 22px;
@@ -31,18 +31,19 @@
       border: none
     }
     .quick-icons {
-      position: absolute;
+      position: relative;
       display: inline-flex;
       flex-direction: row;
-      right: 4px;
-      bottom: 4px;
+      right: -4px;
+      bottom: 0;
       height: 32px;
       opacity: 0;
+      flex: none;
       transition: opacity $animation-dur;
       &:hover {
        opacity: 1;
-     }
-      div {
+      }
+      div,label {
         height: 32px;
         width: 54px;
         justify-content: center;
@@ -50,6 +51,13 @@
         display: flex;
         font-size: 12px;
       }
+    }
+    input {
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+      position: absolute;
+      z-index: -22
     }
   }
 }
