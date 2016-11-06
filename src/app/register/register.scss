@@ -14,32 +14,45 @@
   input {
     height: 34px;
   }
+  .btn-default-focus {
+    box-shadow: none;
+    outline: none;
+  }
   .border-number {
     border: 1px solid $color-border;
     border-radius: 4px;
   }
+  .has-error {
+    .border-number {
+      border-color: $color-force;
+    }
+    i.plus{
+      color: $color-force;
+    }
+  }
   input.pre-number {
     display: flex;
-    width: 56px;
+    width: 64px;
     height: 34px;
     flex: none;
-    padding-left: 16px;
+    padding-left: 20px;
     border: none;
     font-size: 16px;
     font-weight: 500;
     background-color: transparent;
-    border-right-width: 0!important;
+    border-width: 0!important;
     
   }
   input.number {
     display: flex;
     flex: 1;
     height: 34px;
+    padding-left: 16px;
     border: none;
     font-size: 16px;
     font-weight: 500;
     background-color: transparent;
-    border-left-width: 0!important;
+    border-width: 0!important;
   }
   i.plus{
       position: absolute;
@@ -51,7 +64,7 @@
     }
   i.sep{
       position: absolute;
-      left: 48px;
+      left: 62px;
       font-size: 20px;
       font-weight: 200;
       top: 4px;
