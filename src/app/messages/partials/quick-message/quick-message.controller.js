@@ -45,6 +45,24 @@
 
         modified = modified || model.subject.trim().length > 0;
         modified = modified || model.body.trim().length > 0;
+        modified = modified || model.recipients.length > 0;
+        modified = modified || model.attachments.length > 0;
+
+        return modified;
+      })(vm.model);
+
+      $log.debug('Compose | Model Modified? ', vm.model.modified);
+
+      return vm.model.modified;
+    };
+
+
+    vm.model.isModified = function () {
+      vm.model.modified = (function (model) {
+        var modified = false;
+
+        modified = modified || model.subject.trim().length > 0;
+        modified = modified || model.body.trim().length > 0;
 
         return modified;
       })(vm.model);
@@ -147,7 +165,7 @@
 
             var post = NstSvcPostFactory.createPostModel();
             post.setSubject(vm.model.subject);
-            post.setBody(vm.model.body);له
+            post.setBody(vm.model.body);
             post.setContentType('text/plain');
             post.setAttachments(vm.model.attachments);
             post.setPlaces([NstSvcPlaceFactory.parseTinyPlace({ _id: vm.placeId })]);
@@ -162,6 +180,11 @@
       })().then(function (response) {
         vm.model.saving = false;
         vm.model.saved = true;
+
+        if(response.noPermitPlaces.length > 0){
+          var text = NstUtility.string.format('Your message hasn\'t been successfully sent to {0}', response.noPermitPlaces.join(','));
+          toastr.warning(text, 'Message doesn\'t Sent');
+        }
 
         toastr.success('Your message has been successfully sent.', 'Message Sent');
 
@@ -188,6 +211,42 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
+    
+    vm.model.check = function () {
+      vm.model.isModified();
+
+      vm.model.errors = (function (model) {
+        var errors = [];
+
+        var atleastOne = model.subject.trim().length + model.body.trim().length + model.attachments.length > 0;
+
+        if (!atleastOne) {
+          errors.push({
+            name: 'mandatory',
+            message: 'One of Post Body, Subject or Attachment is Mandatory'
+          });
+        }
+
+
+        for (var k in model.attachments) {
+          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].getStatus()) {
+            errors.push({
+              name: 'attachments',
+              message: 'Attachment uploading has not been finished yet'
+            });
+          }
+        }
+
+        return errors;
+      })(vm.model);
+
+      $log.debug('Compose | Model Checked: ', vm.model.errors);
+      vm.model.ready = 0 == vm.model.errors.length;
+
+      return vm.model.ready;
+    };
+
+
     vm.attachments.fileSelected = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
