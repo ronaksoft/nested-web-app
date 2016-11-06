@@ -6,7 +6,7 @@
     .controller('QuickMessageController', QuickMessageController);
 
   function QuickMessageController($q, $log, $scope, toastr,
-    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS) {
+    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap) {
     var vm = this;
 
     /*****************************
@@ -121,11 +121,9 @@
     vm.model.submit = function () {
       var lines = [];
       for (var i=0 ; i < $('#input').children().length ; i++){
-        console.log($('#input').children()[i].innerText);
         lines[i] = $('#input').children()[i].innerText;
       }
       lines = lines.join('\n')
-      console.log(lines,vm.model.subject);
       
       //vm.model.subject = angular.element($('#input').firstChild)[0].innerText;
       vm.model.body = lines;
@@ -181,6 +179,11 @@
         vm.model.saving = false;
         vm.model.saved = true;
 
+        NstSvcPostFactory.get(response.post.id).then(function(res){
+          var msg = NstSvcPostMap.toMessage(res);
+          vm.addMessage(msg);
+        })
+
         if(response.noPermitPlaces.length > 0){
           var text = NstUtility.string.format('Your message hasn\'t been successfully sent to {0}', response.noPermitPlaces.join(','));
           toastr.warning(text, 'Message doesn\'t Sent');
@@ -211,6 +214,11 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
+
+    vm.addMessage = function (msg) {
+      $scope.$emit('post-quick',msg);
+      console.log(msg);
+    }
     
     vm.model.check = function () {
       vm.model.isModified();
