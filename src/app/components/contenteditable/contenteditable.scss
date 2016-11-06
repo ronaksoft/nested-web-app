@@ -1,12 +1,15 @@
 [contenteditable] p:empty {
   padding-top: 20px;
 }
-[contenteditable] p:empty:before{
+[contenteditable]:empty:before{
   content: attr(placeholder);
   display: block;
-  color: $color-breeze;
+  color: $color-wind;
   position: absolute;
   width: 100%;
   height: 100%;
   top: 10px;
+  font-size: 18px;
+  font-weight: 300;
+
 }

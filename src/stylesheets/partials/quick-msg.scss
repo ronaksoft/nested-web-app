@@ -8,12 +8,16 @@
   border: 1px solid $color-border;
   position: relative;
   min-height: 86px;
-    [contenteditable]:first-child {
-      font-weight: 700;
+  padding: 8px 12px;
+    [contenteditable] {
+      font-weight: 600;
       font-size: 22px;
+      line-height: 30px;
       > div {
         font-weight: 400;
         font-size: 16px;
+        line-height: 20px;
+        
       }
       
     }
@@ -35,6 +39,9 @@
       height: 32px;
       opacity: 0;
       transition: opacity $animation-dur;
+      &:hover {
+       opacity: 1;
+     }
       div {
         height: 32px;
         width: 54px;
