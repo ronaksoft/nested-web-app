@@ -6,8 +6,8 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider,  toastrConfig, ipnConfig, markedProvider, localStorageServiceProvider,
-                  $animateProvider, uiSelectConfig) {
+  function config($logProvider, $locationProvider,  toastrConfig, markedProvider, localStorageServiceProvider,
+                  $animateProvider) {
 
     localStorageServiceProvider
       .setPrefix('ronak.nested.web');
@@ -18,10 +18,6 @@
     // Omit # from routes
     // $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('');
-
-    // International Phone Directive
-    ipnConfig.defaultCountry = 'us';
-    // ipnConfig.preferredCountries = ['ir', 'pl'];
 
     // Markdown Configs
     markedProvider.setOptions({
@@ -56,6 +52,6 @@
 
     //Config ui-select-choices
     // force to open in down
-    uiSelectConfig.dropdownPosition = 'down';
+    // uiSelectConfig.dropdownPosition = 'down';
   }
 })();
