@@ -18,7 +18,7 @@
           removeFix();
 
           var top = $element.offset().top;
-          var offLeft = $element.offset().left;
+          var offLeft = $element.offset().left || 0;
 
           var height = $element.outerHeight();
           var width = $element.outerWidth();

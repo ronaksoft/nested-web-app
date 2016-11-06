@@ -147,7 +147,7 @@
 
             var post = NstSvcPostFactory.createPostModel();
             post.setSubject(vm.model.subject);
-            post.setBody(vm.model.body);
+            post.setBody(vm.model.body);له
             post.setContentType('text/plain');
             post.setAttachments(vm.model.attachments);
             post.setPlaces([NstSvcPlaceFactory.parseTinyPlace({ _id: vm.placeId })]);
