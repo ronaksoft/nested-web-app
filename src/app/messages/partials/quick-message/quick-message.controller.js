@@ -94,17 +94,16 @@
     };
 
     vm.writeMsg = function(e) {
-
       if (!e.currentTarget.firstChild) return
+      vm.textarea = e.currentTarget
 
-
-      
       function removeEnterSubj() {
-        if (angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 ){
+        if (angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>'){
         angular.element(e.currentTarget.firstChild).remove();
         removeEnterSubj()
         }
       }
+      removeEnterSubj()
       if(e.currentTarget.firstChild.nodeName.toLowerCase() != "#text")  {
         angular.element(e.currentTarget.firstChild).replaceWith(angular.element(e.currentTarget.firstChild)[0].innerText)
       }
@@ -119,15 +118,29 @@
     }
 
     vm.model.submit = function () {
+
       var lines = [];
-      for (var i=0 ; i < $('#input').children().length ; i++){
-        lines[i] = $('#input').children()[i].innerText;
+      var childs = $('#input').children();
+
+      for (var i=0 ; i < childs.length ; i++){
+
+        lines[i] = childs[i].innerText;
+        console.log(lines[i]);
+
       }
-      lines = lines.join('\n')
+      if (lines.length == 0) {
+
+        vm.model.body = vm.model.subject;
+        vm.model.subject = "";
+
+      }else {
+
+        vm.model.body = lines.join('\n');
+
+      }
+      
       
       //vm.model.subject = angular.element($('#input').firstChild)[0].innerText;
-      vm.model.body = lines;
-
 
       vm.send().then(function () {
         //form.elements['subject'].value = '';
