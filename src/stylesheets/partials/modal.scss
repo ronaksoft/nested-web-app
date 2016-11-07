@@ -87,7 +87,8 @@ body.modal-open {
 }
 
 .modal-mlg {
-  width: 100%;
+  width: calc(100% - 160px);
+  height: calc(100% - 160px);
   margin:  80px;
   max-width: 1600px;
   max-height: 1200px;
