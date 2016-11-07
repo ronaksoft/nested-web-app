@@ -126,7 +126,6 @@
         // TODO: notify
         markCommentSent(temp.id, comment);
         vm.revealNewComment = true;
-        event.currentTarget.value = '';
       }).catch(function(error) {
         markCommentFailed(temp.id);
         // TODO: decide && show toastr
@@ -588,7 +587,7 @@
       if (comment && comment.id && vm.user && vm.user.id) {
         var now = Date.now();
         return comment.sender.username === vm.user.id
-        && ((now - comment.date) < 20 * 60 * 1e3);
+        && ((now - comment.date) < 24 * 60  * 60 * 1e3);
       }
 
       return false;
