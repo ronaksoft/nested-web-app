@@ -120,12 +120,11 @@
     vm.model.submit = function () {
 
       var lines = [];
-      var childs = gi$('#input').children();
+      var childs = $('#input').children();
 
       for (var i=0 ; i < childs.length ; i++){
 
         lines[i] = childs[i].innerText;
-        console.log(lines[i]);
 
       }
       if (lines.length == 0) {
@@ -230,7 +229,6 @@
 
     vm.addMessage = function (msg) {
       $scope.$emit('post-quick',msg);
-      console.log(msg);
     }
     
     vm.model.check = function () {
