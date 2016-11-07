@@ -44,6 +44,7 @@
       <p class="nst-mood-storm margin-t-5" ng-if="ctlCreate.grandPlace">
         {{ ctlCreate.isClosedPlace ?
         'Only members can view Place contents.' :
+        ctlCreate.isPersonalPlace ? 'Only you can view the contents of this Place.' :
         ('All "' + ctlCreate.grandPlace.name + '" Members can view Place contents.')}}
       </p>
       <div class="form-group" ng-class="{ 'has-error' : placeForm.placeName.$invalid && ctlCreate.submitted}">

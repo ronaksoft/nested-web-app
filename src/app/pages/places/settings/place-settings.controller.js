@@ -17,8 +17,8 @@
      *** Controller Properties ***
      *****************************/
      vm.memberOptions = {
-       'creators' : 'Master Keyholders Only',
-       'everyone' : 'All Keyholders'
+       'creators' : 'Manager Only',
+       'everyone' : 'All members'
      };
     vm.options = {
       notification: null,

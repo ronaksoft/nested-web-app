@@ -416,12 +416,15 @@
         limit: settings.limit
       };
 
-      if(area === NST_USER_SEARCH_AREA.ADD){
+      if(area === NST_USER_SEARCH_AREA.ADD ||
+        area === NST_USER_SEARCH_AREA.INVITE){
         if (!settings.placeId){
-          throw "Define place id for search in teammate users";
+          throw "Define place id for search in users";
         }
+
         params.place_id = settings.placeId;
       }
+
 
       if(area === NST_USER_SEARCH_AREA.MENTION){
         if (!settings.postId){
