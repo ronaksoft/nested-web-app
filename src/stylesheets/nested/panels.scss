@@ -44,10 +44,10 @@
         border-color: $color-solid;
       }
     }
-    input:invalid {
-      border: 2px solid $color-force-wire;
-      color: $color-force-wire;
-    }
+    // input:invalid {
+    //   border: 2px solid $color-force-wire;
+    //   color: $color-force-wire;
+    // }
     .call-btn {
       border-style: solid;
       border-width: 1px;
