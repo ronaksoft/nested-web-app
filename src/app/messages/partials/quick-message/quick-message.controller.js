@@ -98,7 +98,7 @@
       vm.textarea = e.currentTarget
 
       function removeEnterSubj() {
-        if (angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>'){
+        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>') && e.currentTarget.children.length > 1 ){
         angular.element(e.currentTarget.firstChild).remove();
         removeEnterSubj()
         }
