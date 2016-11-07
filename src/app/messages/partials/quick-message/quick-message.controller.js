@@ -120,7 +120,7 @@
     vm.model.submit = function () {
 
       var lines = [];
-      var childs = $('#input').children();
+      var childs = gi$('#input').children();
 
       for (var i=0 ; i < childs.length ; i++){
 
