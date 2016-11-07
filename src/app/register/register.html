@@ -1,7 +1,7 @@
 <div class="_fhw">
   <div class="nst-vc nst-mood-sense-5 ng-scope _fh">
     <div class="panel no-animation" id="panel-register">
-      <form novalidate ng-show="ctlRegister.step === 'step1'" ng-submit="ctlRegister.submitPhoneNumber(ctlRegister.phoneIsValid && ctlRegister.countryIsValid);">
+      <form novalidate ng-show="ctlRegister.step === 1">
         <div class="nst-vb no-gutter2 nst-marginbtm-48">
           <p class="col-xs-9 nst-font-xlarge">Create an Account</p>
           <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
@@ -14,7 +14,7 @@
         <div class="form-group" ng-class="{ 'has-error' : !ctlRegister.countryIsValid && ctlRegister.submitted}">
           <label ng-if="ctlRegister.countryIsValid || !ctlRegister.submitted" class="nst-mood-storm nst-font-small">Country</label>
           <label class="error-message" ng-if="!ctlRegister.countryIsValid && ctlRegister.submitted">Select your country</label>
-          <country-select placeholder="Select a country" initial-country="us" auto-locate selected-country-code="ctlRegister.countryCode" class="margin-t-5 _db"></country-select>
+          <country-select placeholder="Select a country" auto-locate selected-country-code="ctlRegister.countryCode" class="margin-t-5 _db"></country-select>
         </div>
         <div class="form-group nst-marginbtm-60" ng-class="{ 'has-error' : !ctlRegister.phoneIsValid && ctlRegister.submitted}">
           <label class="nst-mood-storm nst-font-small" ng-if="ctlRegister.phoneIsValid || !ctlRegister.submitted">Phone number</label>
@@ -23,18 +23,17 @@
           <div class="nst-marginbtm-16 _difh _fw _pr margin-t-5 border-number">
             <i class="plus">+</i>
             <i class="sep">|</i>
-            <input type="number" name="country_code" class="pre-number" ng-model="ctlRegister.countryCode" ng-change="ctlRegister.validatePhone();">
-            <input type="number" name="phone_number" class="number _fw" ng-model="ctlRegister.phone" ng-change="ctlRegister.validatePhone();">
+            <input type="number" name="country_code" class="pre-number" max="9999" min="1" ng-model="ctlRegister.countryCode" ng-change="ctlRegister.validatePhone();">
+            <input type="number" name="phone_number" class="number _fw" min="1" ng-model="ctlRegister.phone" ng-change="ctlRegister.validatePhone();" autofocus>
           </div>
         </div>
         <div class="form-action">
-          <input type="submit" value="Next" class="butn-green butn-lg butn-login nstbtn">
+          <input type="submit" value="Next" class="butn-green butn-lg butn-login nstbtn" ng-click="ctlRegister.submitPhoneNumber(ctlRegister.phoneIsValid && ctlRegister.countryIsValid);">
         </div>
 
       </form>
 
-      <form ng-show="ctlRegister.step === 'step2'" novalidate name="registrationForm" unsaved-warning-form
-            ng-submit="ctlRegister.verifyCode()">
+      <form ng-show="ctlRegister.step === 2" name="phoneVerifyForm" ng-submit="ctlRegister.verify(phoneVerifyForm.$valid);" novalidate>
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-xs-9 nst-font-xlarge testing-registration-step2">Phone Verification</p>
         </div>
@@ -42,10 +41,10 @@
           We've sent a verification code via SMS to
         </div>
         <div class="nst-mood-cheerful text-center nst-font-medium nst-margin-20">
-          {{ctlRegister.phone}}
+          {{ctlRegister.getPhoneNumber()}}
         </div>
         <div class="text-center nst-font-medium nst-margin-20">
-          <a href="#">That's not me!</a>
+          <a href ng-click="ctlRegister.step = 1;">That's not me!</a>
         </div>
         <div class="nst-mood-storm nst-font-medium nst-margin-8">
           6-letter and digit verification code
@@ -61,7 +60,7 @@
                    ng-class="{'form-control':!secondstep.password.$error.required || !secondstep.password.$touched,
                       'form-control-error':secondstep.password.$error.required && secondstep.password.$touched}"
                    name="phone_code"
-                   ng-model="ctlRegister.verificationCode"/>
+                   ng-model="ctlRegister.verificationCode" autofocus/>
           </div>
         </div>
 
@@ -79,8 +78,7 @@
         </div>
       </form>
 
-      <form ng-show="ctlRegister.step === 'step3'" novalidate name="registrationForm" ng-submit="ctlRegister.register()"
-              unsaved-warning-form>
+      <form ng-show="ctlRegister.step === 3" novalidate name="registrationForm" ng-submit="ctlRegister.register()">
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge testing-registration-step3">Create an account</p>
           <a href="#" class="col-xs-3 text-right">
@@ -165,17 +163,18 @@
           <div class="nst-marginbtm-16" ng-if="!ctlRegister.hasNotGender">Gender</div>
           <div class="nst-mood-lively nst-marginbtm-16" ng-if="ctlRegister.hasNotGender">Gender Required</div>
         </div>
+
         <ul class="list-inline">
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-            <input id="female" type="radio" name="gender" value="female" data-ng-change="ctlRegister.clearGenderError(ctlRegister.gender)" ng-model="ctlRegister.gender" tabindex="5" required/>
+            <input id="female" type="radio" name="gender" class="create-place-radio" value="female" data-ng-change="ctlRegister.clearGenderError(ctlRegister.gender)" ng-model="ctlRegister.gender" tabindex="5" required/>
             <label for="female">Female</label>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-            <input id="male" type="radio" name="gender" value="male" data-ng-change="ctlRegister.clearGenderError(ctlRegister.gender)" ng-model="ctlRegister.gender" tabindex="6" required/>
+            <input id="male" type="radio" name="gender" value="male" class="create-place-radio" data-ng-change="ctlRegister.clearGenderError(ctlRegister.gender)" ng-model="ctlRegister.gender" tabindex="6" required/>
             <label for="male">Male</label>
           </li>
           <li class="col-md-3 col-sm-3 col-xs-3 col-lg-3">
-            <input id="other" type="radio" name="gender" value="other" data-ng-change="ctlRegister.clearGenderError(ctlRegister.gender)" ng-model="ctlRegister.gender" tabindex="7" required/>
+            <input id="other" type="radio" name="gender" value="other" class="create-place-radio" data-ng-change="ctlRegister.clearGenderError(ctlRegister.gender)" ng-model="ctlRegister.gender" tabindex="7" required/>
             <label for="other">Other</label>
           </li>
         </ul>
