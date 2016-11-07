@@ -315,26 +315,6 @@
     vm.register = function(event) {
         $scope.registrationForm.$setSubmitted();
 
-        if(vm.birth === undefined){
-          vm.hasNotBirth = true;
-        }else{
-          vm.hasNotBirth = false;
-        }
-
-        if(vm.agreement){
-          vm.acceptAgreement = true;
-        }else{
-          vm.acceptAgreement = false;
-        }
-
-
-
-        if(vm.gender === undefined){
-          vm.hasNotGender = true;
-        }else{
-          vm.hasNotGender = false;
-        }
-
         if(vm.username === undefined){
           vm.requiredUser = true;
         }else{
@@ -359,13 +339,11 @@
         vm.requiredLastname= false;
       }
 
-        if (vm.hasNotBirth ||
-          vm.hasNotGender ||
+      if (vm.hasNotGender ||
           !vm.password ||
           !vm.username ||
           vm.requiredLastname ||
-          vm.requiredFirstname ||
-          !vm.acceptAgreement) return false;
+          vm.requiredFirstname) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
@@ -387,10 +365,7 @@
         postData.append('pass', credentials.password);
         postData.append('fname', vm.fname);
         postData.append('lname', vm.lname);
-        postData.append('gender', vm.gender);
-        postData.append('agreement', vm.agreement);
-        postData.append('dob', dob.getFullYear() + "-" + pad(dob.getMonth() + 1) + "-" + pad(dob.getDay() + 1));
-
+        postData.append('email', vm.email);
 
         vm.registerProgress = true;
         var ajax = new NstHttp('/register/',postData);
@@ -473,6 +448,7 @@
 
         vm.countryIsValid = false;
       }
+      validatePhone();
     });
 
   }
