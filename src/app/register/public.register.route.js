@@ -16,7 +16,7 @@
     }).state('public.recover', {
                   url : '/recover',
            controller : 'ResetPasswordController',
-         controllerAs : 'ctlRecoverAcc',
+         controllerAs : 'ctlRecover',
           templateUrl : 'app/register/reset-password/reset-password.html'
     }).state('public.register-with-phone', {
                   url : '/register/phone/:phone',

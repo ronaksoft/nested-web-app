@@ -300,6 +300,11 @@
         });
     }
 
+
+    $scope.$on('post-quick',function(event,data){
+      vm.messages.unshift(data);
+    })
+
     function getLastMessageTime() {
 
       var last = _.last(vm.cache);

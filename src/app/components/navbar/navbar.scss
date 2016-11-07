@@ -303,12 +303,15 @@ nst-navbar {
     display: inline-flex;
     flex-direction: row-reverse;
     z-index: 12;
+    .tooltip {
+      white-space: nowrap;
+    }
     svg {
       display: flex;
       height: 32px;
       width: 32px;
       margin-left: 6px;
-      fill: $color-wind;
+      //fill: $color-wind;
       transition: all .3s;
       //&.active {
       //  use:first-of-type {
@@ -320,10 +323,7 @@ nst-navbar {
       //    display: none;
       //  }
       //}
-      &.morphed,
-      &:hover {
-        fill: $color-sense !important;
-      }
+    
     }
   }
 }

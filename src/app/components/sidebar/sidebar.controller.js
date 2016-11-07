@@ -422,7 +422,6 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
-      console.log(event);
       var place = mapPlace(event.detail.place);
       if (place.id === $stateParams.placeId) {
         vm.selectedGrandPlace = mapPlace(event.detail.place);
