@@ -23,12 +23,12 @@
           <div class="nst-marginbtm-16 _difh _fw _pr margin-t-5 border-number">
             <i class="plus">+</i>
             <i class="sep">|</i>
-            <input type="number" name="country_code" class="pre-number" max="9999" min="1" ng-model="ctlRegister.countryCode" ng-change="ctlRegister.validatePhone();">
-            <input type="number" name="phone_number" class="number _fw" min="1" ng-model="ctlRegister.phone" ng-change="ctlRegister.validatePhone();" autofocus>
+            <input type="number" name="country_code" class="pre-number" maxlength="4" minlength="1" ng-model="ctlRegister.countryCode" ng-change="ctlRegister.validatePhone();">
+            <input type="number" name="phone_number" class="number _fw" minlength="1" ng-model="ctlRegister.phone" ng-change="ctlRegister.validatePhone();" autofocus>
           </div>
         </div>
         <div class="form-action">
-          <input type="submit" value="Next" class="butn-green butn-lg butn-login nstbtn" ng-click="ctlRegister.submitPhoneNumber(ctlRegister.phoneIsValid && ctlRegister.countryIsValid);">
+          <input type="submit" value="{{ctlRegister.phoneSubmitProgress ? 'Submitting...' : 'Next'}}" class="butn-green butn-lg butn-login nstbtn" ng-click="ctlRegister.submitPhoneNumber(ctlRegister.phoneIsValid && ctlRegister.countryIsValid);" ng-disabled="ctlRegister.phoneSubmitProgress">
         </div>
 
       </form>
@@ -41,26 +41,21 @@
           We've sent a verification code via SMS to
         </div>
         <div class="nst-mood-cheerful text-center nst-font-medium nst-margin-20">
-          {{ctlRegister.getPhoneNumber()}}
+          +{{ctlRegister.getPhoneNumber()}}
         </div>
         <div class="text-center nst-font-medium nst-margin-20">
           <a href ng-click="ctlRegister.step = 1;">That's not me!</a>
         </div>
         <div class="nst-mood-storm nst-font-medium nst-margin-8">
-          6-letter and digit verification code
+          4-digits verification code
         </div>
         <p class="nst-mood-lively" data-ng-if="ctlRegister.verificationWrongCode">
           Wrong Code
         </p>
 
         <div class="nst-marginbtm-16">
-          <div class="form-group wrong-code" data-ng-model="show">
-            <input id="phone_code"
-                   maxlength="4"
-                   ng-class="{'form-control':!secondstep.password.$error.required || !secondstep.password.$touched,
-                      'form-control-error':secondstep.password.$error.required && secondstep.password.$touched}"
-                   name="phone_code"
-                   ng-model="ctlRegister.verificationCode" autofocus/>
+          <div class="form-group">
+            <input id="verification_code" maxlength="4" minlength="4" name="verification_code" class="form-control" ng-model="ctlRegister.verificationCode" required autofocus/>
           </div>
         </div>
 
@@ -72,8 +67,8 @@
         </div>
 
         <div class="text-center">
-          <input type="submit" value="Verify"
-                 ng-disabled="ctlRegister.verificationCode.length !== 4 || verification == 'start'"
+          <input type="submit" value="{{ctlRegister.callForVerificationProgress ? 'Verifing...' : 'Verify'}}"
+                 ng-disabled="ctlRegister.callForVerificationProgress || phoneVerifyForm.verification_code.$invalid"
                  class="butn-green butn-lg butn-login nstbtn">
         </div>
       </form>
@@ -207,7 +202,7 @@
             In order to use our services, you must agree to Nested Terms of Service.
           </div>
         </div>
-        <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="Finish">
+        <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="{{ ctlRegister.registerProgress ? 'Submitting...' : 'Finish' }}" ng-disabled="ctlRegister.registerProgress">
       </form>
     </div>
   </div>

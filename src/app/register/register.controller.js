@@ -42,8 +42,17 @@
     vm.previousStep = previousStep;
     vm.getPhoneNumber = getPhoneNumber;
 
-    (function () {
-      vm.step = 3;
+    (function() {
+      var phone = $stateParams.phone || getParameterByName('phone');
+      var code = $stateParams.code || getParameterByName('code');
+      if (phone && code) {
+        vm.phone = phone;
+        vm.countryCode = code;
+        vm.submitPhoneNumber();
+        vm.step = 2;
+      } else {
+        vm.step = 1;
+      }
 
     })();
 
@@ -124,7 +133,6 @@
 
     vm.submitPhoneNumber = function (isValid) {
       vm.submitted = true;
-      console.log(isValid);
 
       if (!isValid) {
         validatePhone();
@@ -162,12 +170,11 @@
         phone: phone
       });
       request.get().then(function (data) {
-        console.log(data);
         if (data.status === 'ok') {
           deferred.resolve({
             verificationId : data.vid
           });
-        } else if (data.status === 'err'){
+        } else if (data.status === 'err') {
           if (data.err_code === 5) {
             deferred.reject('phone_number_exists');
           } else {
@@ -178,14 +185,13 @@
       .catch(function (error) {
         deferred.reject(error);
       }).finally(function () {
-        vm.phoneSubmitProgress = true;
+        vm.phoneSubmitProgress = false;
       });
 
       return deferred.promise;
     }
 
     function validatePhone() {
-      console.log(vm.phone);
       if (!vm.phone) {
         vm.phoneIsEmpty = true;
         vm.phoneIsWrong = false;
@@ -255,10 +261,8 @@
       });
 
       request.get().then(function (response) {
-        console.log(response);
         deferred.resolve(true);
       }).catch(function (error) {
-        console.log(error);
         deferred.reject('unknown');
       }).finally(function () {
         vm.callForVerificationProgress = false;
@@ -285,14 +289,12 @@
 
       vm.callForVerificationProgress = true;
       request.get().then(function(response) {
-        console.log(response);
         if (response.status === 'ok') {
           deferred.resolve(true);
         } else {
           deferred.reject('unknown');
         }
       }).catch(function(error) {
-        console.log(error);
         deferred.reject('unknown');
       }).finally(function() {
         vm.callForVerificationProgress = false;
@@ -310,8 +312,9 @@
     }
 
 
-    vm.register = function(event){
+    vm.register = function(event) {
         $scope.registrationForm.$setSubmitted();
+
         if(vm.birth === undefined){
           vm.hasNotBirth = true;
         }else{
@@ -389,6 +392,7 @@
         postData.append('dob', dob.getFullYear() + "-" + pad(dob.getMonth() + 1) + "-" + pad(dob.getDay() + 1));
 
 
+        vm.registerProgress = true;
         var ajax = new NstHttp('/register/',postData);
 
         ajax.post().then(function (data) {
@@ -398,13 +402,19 @@
             }).catch(function () {
               return $state.go("signin");
             });
-          }else{
-            toastr.error("Error in create account!");
+          } else if (data.data.status === "err") {
+            if (data.data.err_code === 5 && data.data.items[0] === 'uid') {
+              toastr.warning("The username is already taken. Please try another one.")
+            } else {
+              toastr.error("Sorry, an error happened while creating your account, Please contact us.");
+            }
           }
         })
         .catch(function (error) {
-          toastr.error("Error in create account!");
-        })
+          toastr.error("An error happened while creating your account.");
+        }).finally(function () {
+          vm.registerProgress = false;
+        });
 
     };
 
@@ -451,16 +461,6 @@
       if (!results[2]) return '';
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-
-    //checking phone from get
-    // var phone = $stateParams.phone || getParameterByName('phone');
-    // if (phone){
-    //   vm.phone = phone;
-    //   vm.submitPhoneNumber();
-    //   vm.step = "step2";
-    // }else{
-    //   vm.step = "step1";
-    // }
 
     $scope.$on('country-select-changed', function (event, data) {
       if (data && data.code) {
