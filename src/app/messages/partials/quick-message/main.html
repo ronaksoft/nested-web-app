@@ -5,7 +5,7 @@
     <input class="hidden" type="submit"/>
   </form>
 </div>-->
-<div contenteditable tabindex="0" id="input" ng-keyup="ctlQuickMessage.writeMsg($event)" select-non-editable="false" strip-br="true" strip-tags="true" placeholder="First line is subject, else will be your message body tho" class="_fw _fh" ng-model="ctlQuickMessage.message" aria-expanded="false" role="textbox" auto-dir="{{ctlQuickMessage.model.subject}}"></div>{{::ctlQuickMessage.model.subject}}
+<div contenteditable tabindex="0" id="input" ng-keyup="ctlQuickMessage.writeMsg($event)" select-non-editable="false" strip-br="true" strip-tags="true" placeholder="Write your subject in the first line, and your message body below it." class="_fw _fh" ng-model="ctlQuickMessage.message" aria-expanded="false" role="textbox" auto-dir="{{ctlQuickMessage.model.subject}}"></div>{{::ctlQuickMessage.model.subject}}
 <div class="_fw _difh">
   <nst-attachments-editable-bar class="qm-mode _df _fw" mode="thumbnail" items="ctlQuickMessage.attachments.viewModels" on-item-delete="ctlQuickMessage.attachments.detach"></nst-attachments-editable-bar>
   <div class="quick-icons">
