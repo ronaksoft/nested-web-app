@@ -13,6 +13,7 @@
         var win = angular.element($window);
         var topOffset = 0;
         var afterContent = 0;
+        var applierTrigger = false;
         var containerLeft = $('body').offset().left || 0;
         function applier() {
           removeFix();
@@ -112,10 +113,16 @@
         });
 
         $scope.$watch(function () {
-          if ($('.content').offset())
-            return $('.content').offset().left
+
+          //bugfix for left of undiefiend on log out
+          if (!$('.content') || !$(".content").offset() || !$(".content").offset().left){
+              return false;
+          }else{
+              return $('.content').offset().left
+          }
         },function (newVal,oldVal) {
-          applier();
+          if(newVal)
+            applier();
         });
       }
     };
