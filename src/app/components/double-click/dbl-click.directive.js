@@ -16,9 +16,7 @@
         })
         function x() {
             var timer;
-            console.log($attrs['dblClick']);
             if ($attrs.dblClick == 'true') {
-                console.log('true ?')
                 $element.click(function(event) {
                     $timeout.cancel(timer);
                     event.preventDefault();
