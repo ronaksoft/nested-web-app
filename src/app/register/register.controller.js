@@ -56,7 +56,6 @@
 
     })();
 
-
     vm.clearPassError = function (val) {
       if (val && val.length > 0) {
         vm.requiredPassword = false;
@@ -67,7 +66,6 @@
       }
     };
 
-
     vm.clearUserError = function (val) {
       if (val && val.length > 0) {
         vm.requiredUser = false;
@@ -77,7 +75,6 @@
         return;
       }
     };
-
 
     vm.clearFnameError = function (val) {
       if (val && val.length > 0) {
@@ -128,8 +125,6 @@
         return;
       }
     };
-
-
 
     vm.submitPhoneNumber = function (isValid) {
       vm.submitted = true;
@@ -234,7 +229,6 @@
       return deferred.promise;
     }
 
-
     vm.resend = function(){
       resendVerificationCode(vm.verificationId, getPhoneNumber()).then(function () {
         toastr.success("Varification code has been sent again.");
@@ -310,7 +304,6 @@
         toastr.error('Sorry, an error happened while verifing the code.');
       });
     }
-
 
     vm.register = function(event) {
         $scope.registrationForm.$setSubmitted();
@@ -424,7 +417,6 @@
         timer;
       }
     };
-
 
     //Parse url and get params from url
     function getParameterByName(name) {

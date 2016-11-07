@@ -11,7 +11,7 @@
     var vm = this;
 
     (function() {
-      vm.step = 1;
+      vm.step = 3;
 
     })();
 
