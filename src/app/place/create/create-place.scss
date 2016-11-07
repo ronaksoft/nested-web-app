@@ -213,25 +213,6 @@
   .create-place-checkbox:checked + label {
     background-position: 0 -16px;
   }
-
-  .create-place-radio + label {
-    display: inline-block;
-    background: url('../assets/icons/controls.svg') no-repeat;
-    background-position: 0 -48px;
-    height: 16px;
-    min-width: 17px;
-    padding: 0 0 0 17px;
-    color: $color-storm;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-  }
-  .create-place-radio:checked + label {
-    background-position: 0 -64px;
-  }
-  .create-place-radio {
-    display: none;
-  }
 }
 
 .select-box-step2 {

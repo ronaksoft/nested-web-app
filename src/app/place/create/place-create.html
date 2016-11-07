@@ -155,18 +155,18 @@
           </p>
           <ul class="list-unstyled">
             <li>
-              <input class="create-place-radio" type="radio" id="fill-members-none" name="fillMembers" value="none"
+              <input class="green-radio " type="radio" id="fill-members-none" name="fillMembers" value="none"
                      ng-model="ctlCreate.place.fillMembers">
               <label for="fill-members-none">None</label>
             </li>
             <li ng-if="ctlCreate.hasParentPlace && ctlCreate.parentPlace.getTeammatesCount() > 1">
-              <input class="create-place-radio" type="radio" id="fill-members-parent" name="fillMembers" value="parent"
+              <input class="green-radio " type="radio" id="fill-members-parent" name="fillMembers" value="parent"
                      ng-model="ctlCreate.place.fillMembers">
               <label for="fill-members-parent">All <b>{{::ctlCreate.parentPlace.name}}</b> Members
                 ({{::ctlCreate.parentPlace.getTeammatesCount()}})</label>
             </li>
             <li ng-if="ctlCreate.hasGrandParent">
-              <input class="create-place-radio" type="radio" id="fill-members-grand" name="fillMembers" value="grand"
+              <input class="green-radio " type="radio" id="fill-members-grand" name="fillMembers" value="grand"
                      ng-model="ctlCreate.place.fillMembers">
               <label for="fill-members-grand">All <b>{{ctlCreate.grandPlace.name}}</b> Members
                 ({{::ctlCreate.grandPlace.getTeammatesCount()}})</label>
