@@ -33,7 +33,7 @@
               }
             }
           }).result.catch(function() {
-            $rootScope.goToLastState();
+            $rootScope.goToLastState(true);
           });
         }],
         onExit: function($uibModalStack) {

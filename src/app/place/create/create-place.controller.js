@@ -60,7 +60,7 @@
       if (stateParamIsProvided($stateParams.placeId)) {
         vm.hasParentPlace = true;
         vm.place.parentId = $stateParams.placeId;
-        loadParentPlace(vm.place.parentId).catch(function (error) {
+        loadParentPlace($stateParams.placeId.split('.')[0]).catch(function (error) {
           toastr.error("An error happened while getting information of the parent place.");
         });
       } else {
@@ -96,7 +96,7 @@
         } else {
           vm.parentPlace = place;
           vm.hasParentPlace = true;
-          NstSvcPlaceFactory.getTiny(vm.parentPlace.grandParentId).then(function (grandPlace) {
+          NstSvcPlaceFactory.getTiny(vm.parentId.split('.')[0]).then(function (grandPlace) {
             vm.hasGrandParent = true;
             vm.grandPlace = grandPlace;
             deferred.resolve(true);
