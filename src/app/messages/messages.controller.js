@@ -491,16 +491,20 @@
     }
 
     function getQuickMessageAccess() {
-      var defer = $q.defer;
+      var defer = $q.defer();
+
       if (!vm.currentPlace.id || vm.isSentMode || vm.isUnreadMode) {
         vm.quickMessageAccess = false;
         defer.resolve(false);
       }
+
       NstSvcPlaceFactory.hasAccess(vm.currentPlace.id, NST_PLACE_ACCESS.WRITE_POST)
         .then(function (has) {
           vm.quickMessageAccess = has;
           defer.resolve(has);
-        }).cache(defer.reject);
+        }).catch(function (){
+          defer.resolve(false);
+        });
 
       return defer.promise;
     }
