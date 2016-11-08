@@ -127,7 +127,7 @@
             $rootScope.goToLastState();
           });
         }],
-        onExit: function($uibModalStack) {
+        onExit: function($uibModalStack,$stateParams ,$state) {
           if ($uibModalStack) {
             $uibModalStack.dismissAll();
           }
