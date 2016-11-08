@@ -265,7 +265,7 @@
       return deferred.promise;
     }
 
-    vm.callMe = function () {
+    vm.callMe = function (){
       callForVerification(vm.verificationId, getPhoneNumber()).then(function () {
         toastr.success("We call you now.");
       }).catch(function () {
