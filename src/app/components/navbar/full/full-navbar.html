@@ -13,8 +13,7 @@
       <div class="place-info _difv" >
         <div id="filler" affixer first-imp="true" parent=".content" after-content="72"></div>
         <cite affixer first-imp="true" top="16" parent=".content" after-content="72">{{ctlFullNavbar.title}}</cite>
-        <div id="place-address" affixer first-imp="true" parent=".content" after-content="72"><h3 ng-show="ctlFullNavbar.showPlaceId">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3></div>
-
+        <div affixer first-imp="true" parent=".content" after-content="72"><h3 id="place-address" ng-show="ctlFullNavbar.showPlaceId">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3></div>
         <p class="nst-mood-storm margin-t-5" ng-if="ctlFullNavbar.place.id !== ctlFullNavbar.grandPlace.id">
           {{ ctlFullNavbar.place.getPrivacy().getLocked() ?
             'Only members can view place contents.' :
@@ -114,8 +113,8 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
           </svg>
         </div>
-        <div data-uib-tooltip="Turn {{!ctlFullNavbar.notificationStatus ? 'on' : 'off'}} notifications for this Place" data-tooltip-append-to-body="false"
-          data-tooltip-placement="left-top auto">
+        <div data-uib-tooltip="Turn notification {{!ctlFullNavbar.notificationStatus ? 'on' : 'off'}}" data-tooltip-append-to-body="false"
+          data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{morphed : ctlFullNavbar.notificationStatus}">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff" ></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifon"></use>

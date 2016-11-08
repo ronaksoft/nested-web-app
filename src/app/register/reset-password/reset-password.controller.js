@@ -6,12 +6,9 @@
     .controller('ResetPasswordController', ResetPasswordController);
 
   /** @ngInject */
-  function ResetPasswordController($scope, $state, $q, md5, toastr,
+  function ResetPasswordController($state, $q, md5, toastr,
     NST_DEFAULT, NstSvcAuth, NstHttp) {
     var vm = this;
-
-    vm.getPhoneNumber = getPhoneNumber;
-    vm.validatePhone = validatePhone;
 
     (function() {
       vm.step = 1;
@@ -54,15 +51,8 @@
       return deferred.promise;
     }
 
-    vm.submitNumber = function(isValid) {
-      vm.submitted = true;
-
-      if (!isValid) {
-        validatePhone();
-        return;
-      }
-
-      sendNumber(getPhoneNumber()).then(function(result) {
+    vm.submitNumber = function() {
+      sendNumber(vm.phone).then(function(result) {
         vm.verificationId = result.verificationId;
         nextStep();
       }).catch(function(reason) {
@@ -147,49 +137,6 @@
         toastr.error('Sorry, an error happened while reseting your password.');
       });
 
-    }
-
-    $scope.$on('country-select-changed', function (event, data) {
-      if (data && data.code) {
-        vm.countryCode = data.code;
-        vm.countryId = data.id;
-
-        vm.countryIsValid = true;
-      } else {
-        vm.countryId = null;
-
-        vm.countryIsValid = false;
-      }
-      validatePhone();
-    });
-
-    function validatePhone() {
-      if (!vm.phone) {
-        vm.phoneIsEmpty = true;
-        vm.phoneIsWrong = false;
-      } else if (!getPhoneIsValid(vm.countryId, vm.phone)) {
-        vm.phoneIsWrong = true;
-        vm.phoneIsEmpty = false;
-      } else {
-        vm.phoneIsWrong = false;
-        vm.phoneIsEmpty = false;
-      }
-      vm.phoneIsValid = !vm.phoneIsWrong && !vm.phoneIsEmpty;
-    }
-
-    function getPhoneIsValid(countryId, phone) {
-      try {
-        return phoneUtils.isValidNumber(phone.toString(), countryId);
-      } catch (e) {
-        return false;
-      }
-    }
-
-    function getPhoneNumber() {
-      if (vm.countryCode && vm.phone) {
-        return vm.countryCode.toString() + vm.phone.toString();
-      }
-       return "";
     }
 
   }
