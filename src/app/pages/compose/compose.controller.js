@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
-                             _, toastr,PreviousState,
+                             _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
@@ -57,11 +57,7 @@
         new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
           // TODO: Fix navigating to previous state
           $event.preventDefault();
-          if (!PreviousState.Name || _.includes(['app.compose', 'app.place-compose'], PreviousState.Name)) {
-            $state.go(NST_DEFAULT.STATE);
-          } else {
-            $state.go(PreviousState.Name, PreviousState.Params);
-          }
+          $rootScope.goToLastState();
         })
       ],
       right: [
@@ -90,6 +86,7 @@
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff')," +
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype')," +
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
+        "br(opacity:0}" +
         "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 12pt!important;}",
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
@@ -484,15 +481,7 @@
           toastr.warning(text, 'Message doesn\'t Sent');
         }
 
-        if (PreviousState.Name === "") {
-          if ($stateParams.placeId) {
-            $state.go('app.place-messages', {placeId: $stateParams.placeId});
-          } else {
-            $state.go(NST_DEFAULT.STATE);
-          }
-        } else {
-          $state.go(PreviousState.Name, PreviousState.Params);
-        }
+        $rootScope.goToLastState();
 
         return $q(function (res) {
           res(response);

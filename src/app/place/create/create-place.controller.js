@@ -6,7 +6,8 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NstSvcAuth, NstSvcPlaceFactory,
+  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NST_SRV_ERROR,
+                                 NstSvcAuth, NstSvcPlaceFactory,
                                  NstUtility, $uibModal, $uibModalInstance, NST_PLACE_ACCESS, NstSvcLogger) {
 
     var vm = this;
@@ -16,8 +17,8 @@
     vm.hasParentPlace = null;
     vm.hasGrandParent = null;
     vm.memberOptions = [
-      { key : 'creators', name : 'Master Keyholders Only' },
-      { key : 'everyone', name : 'All Keyholders' }
+      { key : 'creators', name : 'Managers Only' },
+      { key : 'everyone', name : 'All Members' }
     ];
     vm.place = {
       id: null,
@@ -53,17 +54,13 @@
     vm.changeId = changeId;
 
     vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
-    if (vm.isPersonalPlace){
-      vm.isOpenPlace = false;
-      vm.isClosedPlace = true;
-    }
 
 
     (function () {
       if (stateParamIsProvided($stateParams.placeId)) {
         vm.hasParentPlace = true;
         vm.place.parentId = $stateParams.placeId;
-        loadParentPlace(vm.place.parentId).catch(function (error) {
+        loadParentPlace($stateParams.placeId.split('.')[0]).catch(function (error) {
           toastr.error("An error happened while getting information of the parent place.");
         });
       } else {
@@ -79,6 +76,11 @@
         vm.isClosedPlace = true;
         vm.isOpenPlace = false;
       }
+      if (vm.isSubPersonalPlace){
+        vm.isOpenPlace = false;
+        vm.isClosedPlace = true;
+      }
+
 
     })();
 
@@ -94,7 +96,7 @@
         } else {
           vm.parentPlace = place;
           vm.hasParentPlace = true;
-          NstSvcPlaceFactory.getTiny(vm.parentPlace.grandParentId).then(function (grandPlace) {
+          NstSvcPlaceFactory.getTiny(vm.parentId.split('.')[0]).then(function (grandPlace) {
             vm.hasGrandParent = true;
             vm.grandPlace = grandPlace;
             deferred.resolve(true);
@@ -243,6 +245,14 @@
         continueToPlaceSettings(place.id);
       }).catch(function (error) {
         NstSvcLogger.error(error);
+
+        if (error.message[0] === "place_id"){
+          toastr.error("You can not use this 'Place ID'.");
+        }
+
+        if (error.code === NST_SRV_ERROR.LIMIT_REACHED){
+          toastr.error("You cannot create any more Places.");
+        }
       });
     }
 
@@ -252,7 +262,7 @@
 
     function continueToPlaceSettings(placeId) {
       $uibModalInstance.close();
-      $state.go('app.place-messages', { placeId : placeId });
+      $state.go('app.place-settings', { placeId : placeId });
     }
   }
 })();

@@ -16,9 +16,6 @@
 
     vm.isTeammateMode = true;
 
-    if (chosenRole === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
-      vm.isTeammateMode = false;
-    }
 
     if (currentPlace.id.split('.').length > 1){
       vm.isGrandPlace = false;
@@ -45,7 +42,7 @@
         return;
       }
 
-      NstSvcUserFactory.search(settings, vm.isGrandPlace ?  NST_USER_SEARCH_AREA.ACCOUNTS :  NST_USER_SEARCH_AREA.ADD)
+      NstSvcUserFactory.search(settings, vm.isGrandPlace ?  NST_USER_SEARCH_AREA.INVITE :  NST_USER_SEARCH_AREA.ADD)
         .then(function (users) {
           vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
         })

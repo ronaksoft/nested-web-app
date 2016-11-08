@@ -8,12 +8,18 @@
   .nst-content {
     padding: 0 10px;
   }
+  .modal .modal-mlg {
+    margin: 8px;
+    height: calc(100% - 16px);
+    width: calc(100% - 16px);
+  }
 }
 //max-width: 990px
 
 @media screen and (max-width: $screen-md){
   .modal-mlg {
-    margin: 0 16px;
+    margin: 16px;
+    height: calc(100% - 32px);
     width: calc(100% - 32px);
   }
   #new-post {
@@ -55,9 +61,9 @@
     //overflow: hidden;
   }
   .modal-mlg {
-    margin: 80px;
-    width: calc(100% - 160px);
-    height: calc(100% - 160px)!important;
+    //margin: 80px;
+    //width: calc(100% - 160px);
+    //height: calc(100% - 160px);
   }
   .nst-container{
     margin-left: 272px;
@@ -96,21 +102,16 @@
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){
   .maincontainer.sidetiny{
     #new-post {
-      margin-left: 36px;
       transform: translateX(-50%);
     }
   }
-  #new-post {
-    margin-left: 138px;
-  }
+
 }
 @media screen and (min-width: $screen-lg){
   .maincontainer.sidetiny{
     #content-plus {
-      margin-left: 258px;
     }
     #new-post {
-      margin-left: -102px;
     }
   }
   #new-post {

@@ -35,19 +35,17 @@
     }
     input {
       min-height: 26px;
-      color: #C0C0C0;
+      color: black;
       font-weight: 400;
       transition: $animation-dur;
-      border: 2px solid $color-breeze;
-      &:hover {
-        color: $color-solid;
-        border-color: $color-solid;
-      }
     }
-    input:invalid {
-      border: 2px solid $color-force-wire;
-      color: $color-force-wire;
+    input[type="button"]{
+      border-color: transparent;
     }
+    // input:invalid {
+    //   border: 2px solid $color-force-wire;
+    //   color: $color-force-wire;
+    // }
     .call-btn {
       border-style: solid;
       border-width: 1px;
@@ -98,3 +96,15 @@
     background-position: 0 -16px;
   }
 }
+.border-number {
+    border: 1px solid $color-border;
+    border-radius: 4px;
+  }
+  .has-error {
+    .border-number {
+      border-color: $color-force;
+    }
+    i.plus{
+      color: $color-force;
+    }
+  }

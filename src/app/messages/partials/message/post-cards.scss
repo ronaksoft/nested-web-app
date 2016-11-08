@@ -25,6 +25,21 @@
   transition: all $animation-dur;
   &:hover {
     //box-shadow: 0 8px 16px rgba(0,0,0,0.2)
+    .icon svg {
+      fill: black;
+    }
+    .icon svg.fw {
+      fill: $color-forward;
+    }
+    .icon svg.re {
+      fill: $color-reply;
+    }
+    .post-footer .icon {
+
+      svg {
+        opacity: 1;
+      }
+    }
   }
   ul{
     margin-left: 8px;
@@ -34,11 +49,26 @@
     width: 100%;
     padding: 0 12px;
   }
+  .icon {
+    fill: black;
+  }
   .post-head {
     height: 50px;
     align-items: center;
     flex: none;
     padding-left: 0;
+    .icon {
+      fill: black;
+      position: relative;
+      left: 5px;
+      svg {
+        width: 16px;
+        height: 16px;
+        use {
+          transform: scale(.8,.8);
+        }
+      }
+    }
     .img{
       width: 42px;
       justify-content: flex-start;
@@ -68,6 +98,14 @@
     span {
       color: #808080;
       margin-left: 0;
+    }
+
+    .unread-badge-holder {
+      display: none;
+      margin: 0 4px 0 0;
+      //todo:: don't use !important
+      color: #14D769;
+      font-size: 18px;
     }
   }
   hr {
@@ -117,6 +155,18 @@
       justify-content: flex-end;
       padding: 0 8px;
     }
+    .icon {
+      transition: opacity $animation-dur;
+      margin: 0 4px;
+      .re,
+      .fw {
+        opacity: 0;
+      }
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
   }
 }
 
@@ -162,7 +212,8 @@ h3 {
     visibility: hidden;
     margin: 8px 4px 8px 0;
     width: 12px;
-    color: #14D769;
+    //todo:: Use variable
+    color: #14D769 ;
     line-height: 29px;
     font-size: 18px;
   }
@@ -189,9 +240,16 @@ h3 {
   .post-subject h3, .post-body {
     font-weight: bold;
   }
+
   .post-subject {
     .unread-badge-holder {
       visibility: visible;
+    }
+  }
+
+  .post-body {
+    .unread-badge-holder {
+      display: block;
     }
   }
 }

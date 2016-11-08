@@ -10,8 +10,18 @@
   <section class="post-head _difh">
     <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
-      <a ng-if="ctlPostCard.post.isForwarded" class="icon icon-post-head icon-fwd" href="{{ctlPostCard.urls.chain}}"></a>
-      <a ng-if="ctlPostCard.post.isReplyed" class="icon icon-post-head icon-replied" href="{{ctlPostCard.urls.chain}}"></a>
+      <a ng-if="ctlPostCard.post.isForwarded" class="icon" href="{{ctlPostCard.urls.chain}}">
+        <svg  class="svg-hover fw">
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
+        </svg>
+      </a>
+      <a ng-if="ctlPostCard.post.isReplyed" class="icon" href="{{ctlPostCard.urls.chain}}">
+        <svg  class="svg-hover re">
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
+        </svg>
+      </a>
     </div>
     <div class="img _df">
       <div class="user-avatar-38">
@@ -33,12 +43,12 @@
            <div class="unread-badge-holder">●</div>
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject | emoji">
     </h3>
-    <h3 ng-if="ctlPostCard.post.subject.length < 1" class="nst-mood-breez"><i>No Subject</i></h3>
   </section>
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
-           post="ctlPostCard.post"
+           post="ctlPostCard.post"  nst-post-modal
            ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.viewSetting.content"
            auto-dir="{{::ctlPostCard.post.body}}">
+    <span ng-if="!ctlPostCard.post.subject" class="unread-badge-holder">●</span>
     <span ng-bind-html="ctlPostCard.post.body | removeHTMLTags | truncate | emoji"></span>
   </section>
   <section class="post-body" ng-if="ctlPostCard.post.body.length < 1 && ctlPostCard.ViewSetting.content"
@@ -64,11 +74,27 @@
       <span>+{{::ctlPostCard.newCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
-      <a href class="icon icon-post icon-open-link" nst-post-modal post="ctlPostCard.post" data-uib-tooltip="View" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" id="test-post-view"></a>
-      <a href="{{::ctlPostCard.urls.forward}}" class="icon icon-post icon-fw _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" id="test-forward"></a>
-      <div class="cursor-pointer margin-r_5 icon icon-post icon-rp _df popover-white-nst-activity-places" id="test-reply"
+      <a href="{{::ctlPostCard.urls.forward}}" class="icon _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" id="test-forward">
+        <svg  class="svg-hover fw">
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
+        </svg>
+      </a>
+      <a id="test-reply" data-uib-popover-template="'app/messages/partials/popovers/reply.html'" class="cursor-pointer icon _df popover-white-nst-activity-places"
+           data-popover-placement="auto bottom-right" popover-trigger="outsideClick" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+        <svg  class="svg-hover re">
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
+        </svg>
+      </a>
+      <div class="cursor-pointer margin-r_5 icon _df "
            data-uib-popover-template="'app/messages/partials/popovers/reply.html'"
-           data-popover-placement="auto top-right" popover-trigger="outsideClick" data-uib-tooltip="Reply" data-tooltip-append-to-body="true" data-tooltip-placement="auto top"></div>
+           data-popover-placement="auto top-right" popover-trigger="outsideClick" data-uib-tooltip="More Options" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+        <svg  class="svg-hover">
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
+          <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
+        </svg>
+      </div>
     </div>
   </section>
 </div>

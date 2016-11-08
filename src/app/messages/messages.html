@@ -14,7 +14,7 @@
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
-      <div ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSortShow" id="test-filter-sort">
+      <div ng-show="!ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'" data-popover-placement="bottom-center" popover-trigger="outsideClick" popover-is-open="popoverSortShow" id="test-filter-sort">
         <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort == 'latest-messages' ? 'Latest Messages' : 'Latest Activity'}}</span>
         <div class="icon icon-viewicon-sort _df" ></div>
       </div>
@@ -24,11 +24,15 @@
     </div>
 
     <div class="post-area">
-      <div id="new-post"  ng-show="ctlMessages.hasNewMessages">
+      <div id="new-post"  ng-show="ctlMessages.hasNewMessages" affixer parent=".content" offset-top="74" after-content="340">
         <i ng-click="ctlMessages.dismissNewMessage();"></i>
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}} New Messages</a>
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2">One New Message</a>
       </div>
+      <!--<div class="quick-message-wrp _fw" ng-if="ctlMessages.quickMessageAccess">-->
+        <!--<nst-quick-message class="quick-message _fw _bgwhite" place-id="ctlMessages.currentPlace.id"></nst-quick-message>-->
+        <!--<div class="post-card-wire"></div>-->
+      <!--</div>-->
       <post-card ng-if="ctlMessages.hotMessages.length > 0" class="hot" data-ng-repeat="msg in ctlMessages.hotMessages track by msg.id" post="msg"
                  settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode"></post-card>
       <hr ng-if="ctlMessages.hotMessages.length > 0" class="hot-message-separator">
@@ -73,12 +77,14 @@
     </div>
     <div class="nst-marginbtm-32"></div>
   </section>
-  <div class="content-plus"></div>
-  <div class="content-plus" id="content-plus" ng-if="!ctlMessages.isBookmarkMode">
-    <div id="cp1" nst-scrollbar>
+  <div class="content-plus illu">
+    <div id="cp1" nst-scrollbar ng-if="!ctlMessages.isBookmarkMode" affixer parent=".content-plus" offset-top="74" top="0" fixed-top="true">
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
     </div>
+  </div>
+  <div class="content-plus" id="content-plus" >
+
 
   </div>
 </div>

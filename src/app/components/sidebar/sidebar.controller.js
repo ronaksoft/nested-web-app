@@ -426,7 +426,7 @@
       if (place.id === $stateParams.placeId) {
         vm.selectedGrandPlace = mapPlace(event.detail.place);
       }
-      NstSvcPlaceFactory.addPlaceToTree(vm.places, place);
+      vm.places.push(place);
       vm.placesNotifCountObject[place.id] = 0;
 
     });

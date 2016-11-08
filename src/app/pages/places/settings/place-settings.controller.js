@@ -17,8 +17,8 @@
      *** Controller Properties ***
      *****************************/
      vm.memberOptions = {
-       'creators' : 'Master Keyholders Only',
-       'everyone' : 'All Keyholders'
+       'creators' : 'Manager Only',
+       'everyone' : 'All members'
      };
     vm.options = {
       notification: null,
@@ -67,6 +67,11 @@
 
       if (vm.user.id === vm.placeId){
         vm.isPersonalPlace = true;
+      }
+
+
+      if (vm.user.id === vm.placeId.split('.')[0]){
+        vm.isSubPersonalPlace = true;
       }
 
       loadPlace(vm.placeId).then(function (result) {
@@ -254,7 +259,7 @@
     function loadMoreTeammates() {
       vm.teammatesLoadProgress = true;
       return loadTeammates(vm.placeId, vm.accesses.hasSeeMembersAccess, vm.accesses.hasControlAccess).then(function (teammates) {
-        vm.hasMoreTeammates = teammates.length === 0;
+        vm.hasMoreTeammates = teammates.length !== 0;
         vm.teammates.push.apply(vm.teammates, teammates);
       }).catch(function (error) {
         NstSvcLogger.error(error);

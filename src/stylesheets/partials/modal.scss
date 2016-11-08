@@ -23,6 +23,7 @@ body.modal-open {
   padding: 10px;
   width: 800px;
   height: auto;
+  max-width: 100%;
 }
 
 #delete-view {
@@ -30,7 +31,7 @@ body.modal-open {
   border-radius: 8px;
   background-color: $color-white;
   padding: 15px;
-  width: 510px;
+  max-width: 510px;
   height: auto;
 }
 
@@ -81,16 +82,13 @@ body.modal-open {
 }
 
 
-.modal-xlg, .modal-mlg {
-  width: auto;
-}
-
 .modal-xlg {
   margin: 0 1%;
 }
 
 .modal-mlg {
-  width: 100%;
+  width: calc(100% - 160px);
+  height: calc(100% - 160px);
   margin:  80px;
   max-width: 1600px;
   max-height: 1200px;

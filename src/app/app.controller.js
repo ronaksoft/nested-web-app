@@ -15,6 +15,7 @@
 
     vm.loginView = true;
     vm.showLoadingScreen = true;
+    $rootScope.stateHistory = [];
 
 
     /*****************************
@@ -325,6 +326,8 @@
     }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+
+      keepState(toState, toParams);
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
       //FIXMS:: check public pages in getValidState function
       if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER.concat(NST_PAGE.RECOVER)).indexOf(toState.name) > -1) {
@@ -333,5 +336,45 @@
         vm.loginView = false;
       }
     });
+
+    function keepState(state, params) {
+      // clear all tracked states if the route is primary
+      if (state.options && state.options.primary) {
+        $rootScope.stateHistory.length = 0;
+      }
+
+      $rootScope.stateHistory.push({
+        state : state,
+        params : params
+      });
+    }
+
+    function restoreLastState() {
+      var last = null;
+      // restore to find a primary route
+      while ($rootScope.stateHistory.length > 0) {
+        last = $rootScope.stateHistory.pop();
+        if (last.state.options && last.state.options.primary) {
+          return last;
+        }
+      }
+
+      // return the default state if could not find any primary route
+      return {
+        default : true,
+        state : $state.get(NST_DEFAULT.STATE),
+        params : {}
+      };
+    }
+
+    $rootScope.goToLastState = function (disableNotify) {
+      var previous = restoreLastState();
+      if (disableNotify && !previous.state.default){
+        $state.go(previous.state.name, previous.params, {notify : false});
+      }else{
+        $state.go(previous.state.name, previous.params);
+      }
+
+    }
   }
 })();
