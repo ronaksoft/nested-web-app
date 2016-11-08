@@ -99,6 +99,14 @@
       color: #808080;
       margin-left: 0;
     }
+
+    .unread-badge-holder {
+      display: none;
+      margin: 0 4px 0 0;
+      //todo:: don't use !important
+      color: #14D769;
+      font-size: 18px;
+    }
   }
   hr {
     width: calc(100% - 20px);
@@ -204,7 +212,8 @@ h3 {
     visibility: hidden;
     margin: 8px 4px 8px 0;
     width: 12px;
-    color: #14D769;
+    //todo:: Use variable
+    color: #14D769 ;
     line-height: 29px;
     font-size: 18px;
   }
@@ -231,9 +240,16 @@ h3 {
   .post-subject h3, .post-body {
     font-weight: bold;
   }
+
   .post-subject {
     .unread-badge-holder {
       visibility: visible;
+    }
+  }
+
+  .post-body {
+    .unread-badge-holder {
+      display: block;
     }
   }
 }
