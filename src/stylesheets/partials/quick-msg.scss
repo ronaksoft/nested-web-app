@@ -9,11 +9,15 @@
   position: relative;
   min-height: 86px;
   padding: 8px 12px 2px 12px;
+
     [contenteditable] {
-      font-weight: 600;
-      font-size: 22px;
-      line-height: 30px;
-      margin-bottom: 8px;
+      //font-weight: 600;
+      //font-size: 22px;
+      //line-height: 30px;
+      //margin-bottom: 8px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
       > div {
         font-weight: 400;
         font-size: 16px;
@@ -21,6 +25,12 @@
 
       }
 
+    }
+    [contenteditable]::first-line {
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 30px;
+      margin-bottom: 8px;
     }
     [contenteditable]:not(:empty){
         & + div >.quick-icons {
