@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp) {
+  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q) {
     var vm = this;
 
 
@@ -37,8 +37,24 @@
     vm.checkWithServer = false;
 
     vm.avaiablity = false;
+    vm.validatePhone = validatePhone;
+    vm.nextStep = nextStep;
+    vm.previousStep = previousStep;
+    vm.getPhoneNumber = getPhoneNumber;
 
+    (function() {
+      var phone = $stateParams.phone || getParameterByName('phone');
+      var code = $stateParams.code || getParameterByName('code');
+      if (phone && code) {
+        vm.phone = phone;
+        vm.countryCode = code;
+        vm.submitPhoneNumber();
+        vm.step = 2;
+      } else {
+        vm.step = 1;
+      }
 
+    })();
 
     vm.clearPassError = function (val) {
       if (val && val.length > 0) {
@@ -50,7 +66,6 @@
       }
     };
 
-
     vm.clearUserError = function (val) {
       if (val && val.length > 0) {
         vm.requiredUser = false;
@@ -60,7 +75,6 @@
         return;
       }
     };
-
 
     vm.clearFnameError = function (val) {
       if (val && val.length > 0) {
@@ -112,124 +126,187 @@
       }
     };
 
+    vm.submitPhoneNumber = function (isValid) {
+      vm.submitted = true;
 
-
-    vm.submitPhoneNumber = function () {
-
-      if(!vm.phone){
-        return false;
-      }else{
-        vm.step = "step1";
+      if (!isValid) {
+        validatePhone();
+        return;
       }
 
-      vm.getCodeRequest = true;
-      vm.country = $("#mobileNumber").intlTelInput("getSelectedCountryData").iso2;
-
-
-      var ajax = new NstHttp('/register/', {
-        f: 'verify_phone',
-        phone: vm.phone
+      sendPhoneNumber(getPhoneNumber()).then(function (result) {
+        vm.verificationId = result.verificationId;
+        nextStep();
+      }).catch(function (error) {
+        if (error === 'phone_number_exists') {
+          vm.errorMessage = "Your phone number is already used!";
+        } else {
+          vm.errorMessage = "Sorry, an unknown error happened."
+        }
       });
-      ajax.get().then(function (data) {
-        vm.getCodeRequest = false;
-        if (data.status == "ok") {
-          if (data.code) vm.verificationCode = data.code;
-          vm.vid = data.vid;
-          vm.step = 'step2';
-        }else{
-          vm.step = 'step1';
-          toastr.error("Your number is not valid or already used!")
+
+    };
+
+    function nextStep() {
+      vm.step++;
+    }
+
+    function previousStep() {
+      if (vm.step > 1) {
+        vm.step--;
+      }
+    }
+
+    function sendPhoneNumber(phone) {
+      var deferred = $q.defer();
+      vm.phoneSubmitProgress = true;
+      var request = new NstHttp('/register/', {
+        f: 'verify_phone',
+        phone: phone
+      });
+      request.get().then(function (data) {
+        if (data.status === 'ok') {
+          deferred.resolve({
+            verificationId : data.vid
+          });
+        } else if (data.status === 'err') {
+          if (data.err_code === 5) {
+            deferred.reject('phone_number_exists');
+          } else {
+            deferred.reject('unknown')
+          }
         }
       })
       .catch(function (error) {
-        vm.step = "step1";
-        vm.getCodeRequest = false;
-        toastr.error("Error in validation your phone number!")
-      })
-    };
+        deferred.reject(error);
+      }).finally(function () {
+        vm.phoneSubmitProgress = false;
+      });
 
+      return deferred.promise;
+    }
+
+    function validatePhone() {
+      if (!vm.phone) {
+        vm.phoneIsEmpty = true;
+        vm.phoneIsWrong = false;
+      } else if (!getPhoneIsValid(vm.countryId, vm.phone)) {
+        vm.phoneIsWrong = true;
+        vm.phoneIsEmpty = false;
+      } else {
+        vm.phoneIsWrong = false;
+        vm.phoneIsEmpty = false;
+      }
+      vm.phoneIsValid = !vm.phoneIsWrong && !vm.phoneIsEmpty;
+    }
+
+    function getPhoneIsValid(countryId, phone) {
+      try {
+        return phoneUtils.isValidNumber(phone.toString(), countryId);
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function resendVerificationCode(verificationId, phoneNumber) {
+      var deferred = $q.defer();
+
+      vm.resendVerificationCodeProgress = true;
+      var request = new NstHttp('/register/', {
+        f: 'send_code_txt',
+        vid: verificationId,
+        phone: phoneNumber
+      });
+
+      request.get().then(function (response) {
+        deferred.resolve(true);
+      }).catch(function (error) {
+        deferred.reject('unknown');
+      }).finally(function () {
+        vm.resendVerificationCodeProgress = false;
+      });
+
+      return deferred.promise;
+    }
 
     vm.resend = function(){
-
-      var ajax = new NstHttp('/register/',
-      {
-        f: 'send_code_txt',
-            vid: vm.vid,
-            phone: vm.phone
-      })
-      ajax.get()
-      .then(function(data){
-        toastr.success("Varification code has been sent again.")
-      })
-      .catch(function(error){
-
-      })
+      resendVerificationCode(vm.verificationId, getPhoneNumber()).then(function () {
+        toastr.success("Varification code has been sent again.");
+      }).catch(function (error) {
+        toastr.error("An error happened while sending a new verification code.");
+      });
     }
 
-    vm.callMe = function (){
-      var ajax = new NstHttp('/register/',
-      {
+    function getPhoneNumber() {
+      if (vm.countryCode && vm.phone) {
+        return vm.countryCode.toString() + vm.phone.toString();
+      }
+       return "";
+    }
+
+    function callForVerification(verificationId, phoneNumber) {
+      var deferred = $q.defer();
+
+      vm.callForVerificationProgress = true;
+      var request = new NstHttp('/register/', {
         f: 'send_code_call',
-        vid: vm.vid,
-        phone: vm.phone
-      })
-      ajax.get()
-      .then(function(){
-        toastr.success("We call you now.")
-      })
-      .catch(function(error){
+        vid: verificationId,
+        phone: phoneNumber
+      });
 
-      })
+      request.get().then(function (response) {
+        deferred.resolve(true);
+      }).catch(function (error) {
+        deferred.reject('unknown');
+      }).finally(function () {
+        vm.callForVerificationProgress = false;
+      });
+
+      return deferred.promise;
     }
 
-    vm.verifyCode = function (){
-        vm.verification = 'start';
-
-         var ajax = new NstHttp('/register/',
-        {
-          f: 'verify_phone_code',
-          vid: vm.vid,
-          code: vm.verificationCode
-        });
-
-        ajax.get().then(function (data) {
-          if (data.status == 'ok') {
-            vm.step = 'step3';
-            vm.verificationWrongCode = false;
-          }
-          else {
-            vm.verificationWrongCode = true;
-          }
-          vm.verification = 'finished';
-
-        })
-        .catch(function (error) {
-          vm.verification = 'wrong';
-        });
+    vm.callMe = function () {
+      callForVerification(vm.verificationId, getPhoneNumber()).then(function () {
+        toastr.success("We call you now.");
+      }).catch(function () {
+        toastr.error("An error happened while trying to call you.");
+      });
     }
 
+    function verifyCode(verificationId, code) {
+      var deferred = $q.defer();
+      var request = new NstHttp('/register/', {
+        f: 'verify_phone_code',
+        vid: verificationId,
+        code: code
+      });
 
-    vm.register = function(event){
+      vm.callForVerificationProgress = true;
+      request.get().then(function(response) {
+        if (response.status === 'ok') {
+          deferred.resolve(true);
+        } else {
+          deferred.reject('unknown');
+        }
+      }).catch(function(error) {
+        deferred.reject('unknown');
+      }).finally(function() {
+        vm.callForVerificationProgress = false;
+      });
+
+      return deferred.promise;
+    }
+
+    vm.verify = function() {
+      verifyCode(vm.verificationId, vm.verificationCode).then(function() {
+        nextStep();
+      }).catch(function(error) {
+        toastr.error('Sorry, an error happened while verifing the code.');
+      });
+    }
+
+    vm.register = function(event) {
         $scope.registrationForm.$setSubmitted();
-        if(vm.birth === undefined){
-          vm.hasNotBirth = true;
-        }else{
-          vm.hasNotBirth = false;
-        }
-
-        if(vm.agreement){
-          vm.acceptAgreement = true;
-        }else{
-          vm.acceptAgreement = false;
-        }
-
-
-
-        if(vm.gender === undefined){
-          vm.hasNotGender = true;
-        }else{
-          vm.hasNotGender = false;
-        }
 
         if(vm.username === undefined){
           vm.requiredUser = true;
@@ -255,13 +332,11 @@
         vm.requiredLastname= false;
       }
 
-        if (vm.hasNotBirth ||
-          vm.hasNotGender ||
+      if (vm.hasNotGender ||
           !vm.password ||
           !vm.username ||
           vm.requiredLastname ||
-          vm.requiredFirstname ||
-          !vm.acceptAgreement) return false;
+          vm.requiredFirstname) return false;
 
         function pad(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
@@ -276,18 +351,16 @@
 
         var postData  = new FormData();
         postData.append('f', 'register');
-        postData.append('vid', vm.vid);
+        postData.append('vid', vm.verificationId);
         postData.append('phone', vm.phone);
         postData.append('country', vm.country);
         postData.append('uid', credentials.username);
         postData.append('pass', credentials.password);
         postData.append('fname', vm.fname);
         postData.append('lname', vm.lname);
-        postData.append('gender', vm.gender);
-        postData.append('agreement', vm.agreement);
-        postData.append('dob', dob.getFullYear() + "-" + pad(dob.getMonth() + 1) + "-" + pad(dob.getDay() + 1));
+        postData.append('email', vm.email);
 
-
+        vm.registerProgress = true;
         var ajax = new NstHttp('/register/',postData);
 
         ajax.post().then(function (data) {
@@ -297,13 +370,19 @@
             }).catch(function () {
               return $state.go("signin");
             });
-          }else{
-            toastr.error("Error in create account!");
+          } else if (data.data.status === "err") {
+            if (data.data.err_code === 5 && data.data.items[0] === 'uid') {
+              toastr.warning("The username is already taken. Please try another one.")
+            } else {
+              toastr.error("Sorry, an error happened while creating your account, Please contact us.");
+            }
           }
         })
         .catch(function (error) {
-          toastr.error("Error in create account!");
-        })
+          toastr.error("An error happened while creating your account.");
+        }).finally(function () {
+          vm.registerProgress = false;
+        });
 
     };
 
@@ -339,9 +418,6 @@
       }
     };
 
-
-
-
     //Parse url and get params from url
     function getParameterByName(name) {
       var url = window.location.href;
@@ -353,17 +429,19 @@
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    //checking phone from get
-    var phone = $stateParams.phone || getParameterByName('phone');
-    if (phone){
-      vm.phone = phone;
-      vm.submitPhoneNumber();
-      vm.step = "step2";
-    }else{
-      vm.step = "step1";
-    }
+    $scope.$on('country-select-changed', function (event, data) {
+      if (data && data.code) {
+        vm.countryCode = data.code;
+        vm.countryId = data.id;
 
+        vm.countryIsValid = true;
+      } else {
+        vm.countryId = null;
 
+        vm.countryIsValid = false;
+      }
+      validatePhone();
+    });
 
   }
 })();

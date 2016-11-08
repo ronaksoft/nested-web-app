@@ -17,8 +17,8 @@
     vm.hasParentPlace = null;
     vm.hasGrandParent = null;
     vm.memberOptions = [
-      { key : 'creators', name : 'Master Keyholders Only' },
-      { key : 'everyone', name : 'All Keyholders' }
+      { key : 'creators', name : 'Managers Only' },
+      { key : 'everyone', name : 'All Members' }
     ];
     vm.place = {
       id: null,
