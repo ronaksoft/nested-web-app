@@ -69,6 +69,12 @@
                 {detail: {id: tlData.child_id, parentPlace: parentPlace}}
               ));
             });
+
+            factory.dispatchEvent(new CustomEvent(
+              NST_PLACE_FACTORY_EVENT.UPDATE,
+              {detail: {id: tlData.child_id, parentPlace: parentPlace}}
+            ));
+
             break;
 
           case NST_EVENT_ACTION.PLACE_PRIVACY:

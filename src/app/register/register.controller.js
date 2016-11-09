@@ -306,7 +306,7 @@
     }
 
     vm.register = function(event) {
-        $scope.registrationForm.$setSubmitted();
+        // $scope.registrationForm.$setSubmitted();
 
         if(vm.username === undefined){
           vm.requiredUser = true;

@@ -359,16 +359,22 @@
         }
       }
 
-      // retrun the default state if could not find any primary route
+      // return the default state if could not find any primary route
       return {
+        default : true,
         state : $state.get(NST_DEFAULT.STATE),
         params : {}
       };
     }
 
-    $rootScope.goToLastState = function () {
+    $rootScope.goToLastState = function (disableNotify) {
       var previous = restoreLastState();
-      $state.go(previous.state, previous.params);
+      if (disableNotify && !previous.state.default){
+        $state.go(previous.state.name, previous.params, {notify : false});
+      }else{
+        $state.go(previous.state.name, previous.params);
+      }
+
     }
   }
 })();
