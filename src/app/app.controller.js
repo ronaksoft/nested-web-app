@@ -367,9 +367,10 @@
       };
     }
 
-    $rootScope.goToLastState = function (disableNotify) {
-      var previous = restoreLastState();
-      if (disableNotify && !previous.state.default){
+    $rootScope.goToLastState = function (disableNotify, defaultState) {
+      var previous = defaultState || restoreLastState();
+
+      if (disableNotify && !previous.default){
         $state.go(previous.state.name, previous.params, {notify : false});
       }else{
         $state.go(previous.state.name, previous.params);
