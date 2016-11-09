@@ -36,11 +36,11 @@
             <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
                    placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery"/>
+                   ng-model="ctlFullNavbar.searchQuery" id="search"/>
             <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
                    placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery"/>
+                   ng-model="ctlFullNavbar.searchQuery" id="search"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
            </div>
          </div>
