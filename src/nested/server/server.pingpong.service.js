@@ -80,6 +80,7 @@
     };
 
     PingPong.prototype.getPong = function (pong) {
+
       this.pongStack.push({
         cmd: pong,
         pingTime: pong.split("/")[1],
@@ -88,6 +89,7 @@
 
       NstSvcLogger.debug2("WS PINGPONG | delay : " + (Date.now() - parseInt(pong.split("/")[1])));
 
+      this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.CONNECT));
       if (!this.getPingPongStatus()) {
         this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.RECONNECT));
       }

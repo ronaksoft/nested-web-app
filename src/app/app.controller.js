@@ -21,7 +21,7 @@
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;
     });
-    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function (msg) {
+    NstSvcServer.addEventListener(NST_SRV_EVENT.CONNECT, function (msg) {
       vm.disconnected = false;
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
