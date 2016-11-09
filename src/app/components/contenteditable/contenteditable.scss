@@ -11,5 +11,8 @@
   top: 10px;
   font-size: 18px;
   font-weight: 300;
-
+  -moz-user-select: text;
+  -khtml-user-select: text;
+  -webkit-user-select: text;
+  -o-user-select: text;
 }

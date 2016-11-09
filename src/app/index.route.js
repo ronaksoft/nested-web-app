@@ -88,7 +88,6 @@
           placeId: NST_DEFAULT.STATE_PARAM,
         },
         options : {
-          primary : true,
           group : 'settings'
         },
         onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
@@ -99,7 +98,11 @@
             controller: 'PlaceSettingsController',
             controllerAs: 'ctlSettings'
           }).result.catch(function() {
-            $rootScope.goToLastState();
+            $rootScope.goToLastState(true, {
+              state : $state.get('app.place-messages'),
+              params : { placeId : $stateParams.placeId },
+              default : true
+            });
           });
         }],
         onExit: function($uibModalStack) {

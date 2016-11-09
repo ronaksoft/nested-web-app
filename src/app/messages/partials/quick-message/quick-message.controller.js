@@ -12,7 +12,7 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-    
+
     vm.model = {
       subject: '',
       body: '',
@@ -24,6 +24,7 @@
       saving: false,
       saved: false
     };
+    vm.fireFoxBodySet = false;
 
     vm.attachments = {
       elementId: 'attach',
@@ -94,28 +95,58 @@
     };
 
     vm.writeMsg = function(e) {
-      if (!e.currentTarget.firstChild) return
-      vm.textarea = e.currentTarget
+      if (!e.currentTarget.firstChild) return;
 
-      function removeEnterSubj() {
-        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>') && e.currentTarget.children.length > 1 ){
-        angular.element(e.currentTarget.firstChild).remove();
-        removeEnterSubj()
-        }
-      }
-      removeEnterSubj()
-      if(e.currentTarget.firstChild.nodeName.toLowerCase() != "#text")  {
-        angular.element(e.currentTarget.firstChild).replaceWith(angular.element(e.currentTarget.firstChild)[0].innerText)
-      }
+      vm.textarea = e.currentTarget;
+
+
+
+      analyseInIt();
+      backToStructure();
+
 
 
       vm.model.subject = angular.element(e.currentTarget.firstChild).text();
 
       if(e.which == '13'){
-        //console.log($('#input').html());
+
       }
-      
-    }
+
+      function analyseInIt() {
+
+        // no Enter or return at first char
+        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>') && e.currentTarget.children.length > 1 ){
+          angular.element(e.currentTarget.firstChild).remove();
+          return analyseInIt()
+        }
+
+      }
+
+      function backToStructure(){
+        //console.log('sssss',angular.element(e.currentTarget.firstChild)[0].nextSibling);
+
+        //maybe subjec contain two line in firefox case :(
+        vm.model.body = '';
+
+        if(angular.element(e.currentTarget.firstChild)[0].nextSibling)  {
+
+          //first enter pressed in ff
+          var el = angular.element(e.currentTarget.firstChild)[0].nextSibling;
+          setBody(el);
+          vm.fireFoxBodySet = true;
+        }
+
+        function setBody (el) {
+          vm.model.body = vm.model.body + '\n' + el.nextSibling.nodeValue;
+
+          //recursive for many lines ...
+          if(el.nextSibling.nextSibling && el.nextSibling.nextSibling.nextSibling && el.nextSibling.nextSibling.nextSibling.nextSibling){
+            return setBody(el.nextSibling.nextSibling)
+          }
+        }
+      }
+
+    };
 
     vm.model.submit = function () {
 
@@ -127,18 +158,19 @@
         lines[i] = childs[i].innerText;
 
       }
+
       if (lines.length == 0) {
 
-        vm.model.body = vm.model.subject;
+        if (!vm.fireFoxBodySet) vm.model.body = vm.model.subject;
         vm.model.subject = "";
 
       }else {
 
-        vm.model.body = lines.join('\n');
+        if (!vm.fireFoxBodySet)vm.model.body = lines.join('\n');
 
       }
-      
-      
+
+
       //vm.model.subject = angular.element($('#input').firstChild)[0].innerText;
 
       vm.send().then(function () {
@@ -230,7 +262,7 @@
     vm.addMessage = function (msg) {
       $scope.$emit('post-quick',msg);
     }
-    
+
     vm.model.check = function () {
       vm.model.isModified();
 
