@@ -36,7 +36,7 @@
 
       NstObservableObject.call(this);
 
-      this.pingPong = new NstSvcPingPong(this.stream);
+      this.pingPong = new NstSvcPingPong(this.stream, this);
 
       this.stream.onOpen(function (event) {
         NstSvcLogger.debug2('WS | Opened:', event, this);

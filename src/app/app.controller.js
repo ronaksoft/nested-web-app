@@ -15,11 +15,14 @@
 
     vm.loginView = true;
     vm.showLoadingScreen = true;
-    $rootScope.stateHistory = [];
+
 
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;
+    });
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function (msg) {
+      vm.disconnected = false;
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
       vm.disconnected = true;
@@ -35,6 +38,7 @@
       vm.disconnected = false;
 
     });
+
 
     // calls $digest every 1 sec to update elapsed times.
     $interval(function () {
@@ -181,9 +185,9 @@
 
     function getActivePages(state, params, previousState, previousParams) {
 
-      if (params && params.placeId) {
+      if(params && params.placeId){
         vm.viewSettings.sidebar.collapsed = false;
-      } else {
+      }else {
         vm.viewSettings.sidebar.collapsed = true;
       }
 
@@ -231,7 +235,7 @@
     }
 
     function capitalCase(name) {
-      return _.join(_.map(_.split(name, '_'), _.capitalize), '');
+      return _.join(_.map(_.split(name, '_'), _.capitalize),'');
     }
 
     /*****************************
@@ -257,7 +261,7 @@
       }
     });
 
-    if ($injector.has('NstSvcPlaceFactory')) {
+    if ($injector.has('NstSvcPlaceFactory')){
       var NstSvcPlaceFactory = $injector.get('NstSvcPlaceFactory');
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
@@ -304,26 +308,27 @@
     }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-
-      keepState(toState, toParams);
+      // console.log('changed');
+      // keepState(toState, toParams);
+      // console.log('changed', $rootScope.stateHistory);
       vm.page = getActivePages(toState, toParams, fromState, fromParams);
       //FIXMS:: check public pages in getValidState function
       if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER.concat(NST_PAGE.RECOVER)).indexOf(toState.name) > -1) {
         vm.loginView = true;
-      } else {
+      }else{
         vm.loginView = false;
       }
     });
 
     function keepState(state, params) {
       // clear all tracked states if the route is primary
-      if (state.options && state.options.primary) {
-        $rootScope.stateHistory.length = 0;
-      }
+      // if (state.options && state.options.primary) {
+      //   $rootScope.stateHistory.length = 0;
+      // }
 
       $rootScope.stateHistory.push({
-        state: state,
-        params: params
+        state : state,
+        params : params
       });
     }
 
@@ -333,23 +338,26 @@
       while ($rootScope.stateHistory.length > 0) {
         last = $rootScope.stateHistory.pop();
         if (last.state.options && last.state.options.primary) {
+          $rootScope.stateHistory.push(last);
           return last;
         }
       }
 
       // return the default state if could not find any primary route
       return {
-        default: true,
-        state: $state.get(NST_DEFAULT.STATE),
-        params: {}
+        default : true,
+        state : $state.get(NST_DEFAULT.STATE),
+        params : {}
       };
     }
 
     $rootScope.goToLastState = function (disableNotify, defaultState) {
+      console.log($rootScope.stateHistory);
       var previous = defaultState || restoreLastState();
 
-      if (disableNotify && !previous.default) {
-        $state.go(previous.state.name, previous.params, {notify: false});
+
+      if (disableNotify && !previous.default){
+        $state.go(previous.state.name, previous.params, {notify : false});
       } else {
         $state.go(previous.state.name, previous.params);
       }

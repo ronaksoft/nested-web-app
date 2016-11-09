@@ -11,9 +11,10 @@
                           NstSvcLogger,
                           NstObservableObject) {
 
-    function PingPong(stream) {
+    function PingPong(stream, server) {
 
       this.stream = stream;
+      this.server = server;
 
       this.pingStack = [];
       this.pongStack = [];
@@ -30,7 +31,7 @@
         if (Date.now() - service.lastPing > NST_SRV_PING_PONG.INTERVAL_TIME ||
           Date.now() - service.lastObserve > 3000) {
           console.log("timeout");
-          service.dispatchEvent(new CustomEvent(NST_SRV_EVENT.DISCONNECT));
+          service.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.DISCONNECT));
           service.setPingPongStatus(false);
           service.checkStatus(true);
         }
@@ -47,7 +48,7 @@
     PingPong.prototype.start = function () {
       if (this.getPingPongStatus() && this.getPingPongInterval()) return;
 
-      this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.CONNECT));
+      this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.CONNECT));
       this.setPingPongStatus(true);
       var service = this;
 
@@ -88,7 +89,7 @@
       NstSvcLogger.debug2("WS PINGPONG | delay : " + (Date.now() - parseInt(pong.split("/")[1])));
 
       if (!this.getPingPongStatus()) {
-        this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.RECONNECT));
+        this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.RECONNECT));
       }
       this.setPingPongStatus(true);
       this.pingStack = [];
@@ -99,7 +100,7 @@
       if ((this.pingStack.length > NST_SRV_PING_PONG.MAX_FAILED_PING) || force) {
         console.log("disconnect")
         this.setPingPongStatus(false);
-        this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.DISCONNECT));
+        this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.DISCONNECT));
         return false;
       }
     };
