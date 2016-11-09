@@ -42,9 +42,9 @@
     // }
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
-      if (!vm.disconected) {
-        vm.disconected = true;
-      }
+
+      vm.disconnected = true;
+
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
       // Hide and remove initial loading
@@ -53,8 +53,8 @@
         vm.showLoadingScreen = false;
       },2000);
 
-      if (vm.disconected) {
-        vm.disconected = false;
+      if (vm.disconnected) {
+        vm.disconnected = false;
       }
     });
 
