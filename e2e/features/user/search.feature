@@ -15,7 +15,7 @@
 #    Then should the title of the place be "All Places"
 #
 #  Scenario: Search 1
-#    Given I Click id "search"
+#    Given I Click id "search2"
 #    When I wait 5s
 #    Given I fill "Search Places, users and messages..." with "welcome"
 #    When I wait 5s

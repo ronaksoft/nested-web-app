@@ -93,6 +93,11 @@ module.exports = function () {
     pS.click();
   });
 
+  this.Given(/^I Click on "([^"]*)" in sidebar$/, function (destination) {
+    var pS = element(By.css('a[href="#/messages/'+ destination +'"]'));
+    pS.click();
+  });
+
   this.Given(/^I Click on sidebar by id "([^"]*)"$/, function (sidebarId) {
     var sId = element(By.css('#yum'));
     sId.click();
