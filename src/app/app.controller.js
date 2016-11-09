@@ -10,7 +10,7 @@
                          hotkeys,
                          NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
                          NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal,
-						 NstObject) {
+                         NstObject) {
     var vm = this;
 
     vm.loginView = true;
@@ -18,44 +18,22 @@
     $rootScope.stateHistory = [];
 
 
-    /*****************************
-     *****  Configure TrackJs  ****
-     *****************************/
-
-    //FIXME:: remove me after all errors defined and handled
-    // function configTracker() {
-    //   var newConfigs = {
-    //     version: NST_CONFIG.APP_ID,
-    //     console: {
-    //       // By default TrackJS will watch all console activity and include that information in the Telemetry Timeline
-    //       enabled: false,
-    //     }
-    //   };
-    //
-    //   if(NstSvcAuth.isAuthorized()){
-    //     newConfigs.userId = NstSvcAuth.getUser().getId();
-    //   }else{
-    //     newConfigs.userId = null;
-    //   }
-    //   if (trackJs !== undefined)
-    //     trackJs.configure(newConfigs);
-    // }
-
-    NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
-
+    NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;
-
+    });
+    NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
+      vm.disconnected = true;
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
       // Hide and remove initial loading
       // this is placed here to make sure the WS has been connected
-      $timeout(function (){
+      $timeout(function () {
         vm.showLoadingScreen = false;
-      },2000);
+      }, 2000);
 
-      if (vm.disconnected) {
-        vm.disconnected = false;
-      }
+
+      vm.disconnected = false;
+
     });
 
     // calls $digest every 1 sec to update elapsed times.
@@ -117,30 +95,30 @@
     // var scrollValue = 0;
     // var scrollTimeout = false;
     //$(window).scroll(function (event) {
-      // if($(window).scrollLeft() > 0 ){
-      //   console.log("left");
-      //   return
-      // }
-      // var t = event.currentTarget.scrollY;
-      // if (t > 55 && !$rootScope.navView) {
-      //   $timeout(function () {
-      //     return $rootScope.navView = t > 55;
-      //   });
-      // } else if (t < 56 && $rootScope.navView) {
-      //   $timeout(function () {
-      //     return $rootScope.navView = t > 55;
-      //   });
-      // }
-      // clearTimeout(scrollTimeout);
-      // scrollTimeout = setTimeout(function(){
-      //   vm.scrolled = $(document).scrollTop() - scrollValue;
-      //   scrollValue = $(document).scrollTop();
-      //   if (vm.scrolled < -5 && $rootScope.navView) {
-      //     $timeout(function () {
-      //       return $rootScope.navView = false;
-      //     });
-      //   }
-      // }, 10);
+    // if($(window).scrollLeft() > 0 ){
+    //   console.log("left");
+    //   return
+    // }
+    // var t = event.currentTarget.scrollY;
+    // if (t > 55 && !$rootScope.navView) {
+    //   $timeout(function () {
+    //     return $rootScope.navView = t > 55;
+    //   });
+    // } else if (t < 56 && $rootScope.navView) {
+    //   $timeout(function () {
+    //     return $rootScope.navView = t > 55;
+    //   });
+    // }
+    // clearTimeout(scrollTimeout);
+    // scrollTimeout = setTimeout(function(){
+    //   vm.scrolled = $(document).scrollTop() - scrollValue;
+    //   scrollValue = $(document).scrollTop();
+    //   if (vm.scrolled < -5 && $rootScope.navView) {
+    //     $timeout(function () {
+    //       return $rootScope.navView = false;
+    //     });
+    //   }
+    // }, 10);
     //});
 
     /*****************************
@@ -203,9 +181,9 @@
 
     function getActivePages(state, params, previousState, previousParams) {
 
-      if(params && params.placeId){
+      if (params && params.placeId) {
         vm.viewSettings.sidebar.collapsed = false;
-      }else {
+      } else {
         vm.viewSettings.sidebar.collapsed = true;
       }
 
@@ -253,7 +231,7 @@
     }
 
     function capitalCase(name) {
-      return _.join(_.map(_.split(name, '_'), _.capitalize),'');
+      return _.join(_.map(_.split(name, '_'), _.capitalize), '');
     }
 
     /*****************************
@@ -279,7 +257,7 @@
       }
     });
 
-    if ($injector.has('NstSvcPlaceFactory')){
+    if ($injector.has('NstSvcPlaceFactory')) {
       var NstSvcPlaceFactory = $injector.get('NstSvcPlaceFactory');
       $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         if (toParams.placeId && NST_DEFAULT.STATE_PARAM != toParams.placeId) {
@@ -332,7 +310,7 @@
       //FIXMS:: check public pages in getValidState function
       if (NST_PAGE.SIGNIN.concat(NST_PAGE.REGISTER.concat(NST_PAGE.RECOVER)).indexOf(toState.name) > -1) {
         vm.loginView = true;
-      }else{
+      } else {
         vm.loginView = false;
       }
     });
@@ -344,8 +322,8 @@
       }
 
       $rootScope.stateHistory.push({
-        state : state,
-        params : params
+        state: state,
+        params: params
       });
     }
 
@@ -361,18 +339,18 @@
 
       // return the default state if could not find any primary route
       return {
-        default : true,
-        state : $state.get(NST_DEFAULT.STATE),
-        params : {}
+        default: true,
+        state: $state.get(NST_DEFAULT.STATE),
+        params: {}
       };
     }
 
     $rootScope.goToLastState = function (disableNotify, defaultState) {
       var previous = defaultState || restoreLastState();
 
-      if (disableNotify && !previous.default){
-        $state.go(previous.state.name, previous.params, {notify : false});
-      }else{
+      if (disableNotify && !previous.default) {
+        $state.go(previous.state.name, previous.params, {notify: false});
+      } else {
         $state.go(previous.state.name, previous.params);
       }
 

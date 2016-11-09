@@ -62,7 +62,7 @@
           cmd: NST_SRV_PING_PONG.COMMAND + '/' + time,
           time: time,
           timeout: $timeout(function () {
-            service.checkStatus();
+            service.checkStatus(true);
           }, NST_SRV_PING_PONG.INTERVAL_TIMEOUT)
         });
 
