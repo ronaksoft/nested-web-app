@@ -55,7 +55,6 @@
       ]).then(function(values) {
 
         vm.place = values[0];
-        console.log(vm.place);
 
         vm.hasAddMembersAccess = values[1];
         vm.hasSeeMembersAccess = values[2];
