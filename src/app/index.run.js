@@ -86,6 +86,18 @@
     //   $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
     // }
 
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      console.log('lolo');
+      if (!$rootScope.stateHistory) {
+        $rootScope.stateHistory = [];
+      }
+
+      $rootScope.stateHistory.push({
+        state : toState,
+        params : toParams
+      });
+      console.log($rootScope.stateHistory);
+    });
 
   }
 })();
