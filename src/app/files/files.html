@@ -27,8 +27,6 @@
       <div class="_df _fn">
         <input type="text" class="files-input" placeholder="Find files in this place" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);"/>
       </div>
-      <div class="icon-search-rotated-white"></div>
-      <hr>
     </section>
     <div class="file-list">
       <div class="file-list-header">
@@ -40,10 +38,9 @@
         <div class="header-size" ng-show="ctlFiles.selectedFiles.length == 0"><span>Size</span></div>
         <div class="header-date" ng-show="ctlFiles.selectedFiles.length == 0"><strong>Received Date</strong></div>
       </div>
-      <hr>
       <ul class="files-types" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
           selector="li.file-list-container">
-        <li class="file-list-container" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
+        <li class="file-list-container _df" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
           <div class="files-types-images">
             <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}" />
             <div ng-if="!item.thumbnail" class="file-badge {{'file-badge-' + item.type }}">

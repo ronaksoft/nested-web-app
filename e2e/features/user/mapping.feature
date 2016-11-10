@@ -1,90 +1,90 @@
-Feature: User: mapping
-  As a user of Nested
-  I should be able to click on any clickable icons and go to the related page
-
-  Scenario: Sign in Mapping
-    When I wait 5s
-    Given I go to the page "/login"
-    When I wait 5s
-    Given I fill "Username" with "test-mapping"
-    When I wait 5s
-    Given I fill "Password" with "123456"
-    When I wait 5s
-    Given I Press "Sign in"
-    When I wait 5s
-    Then should the title of the place be "All Places"
-
-  Scenario: Activity page mapping
-    When I wait 5s
-    Given I Click Link by Partial Text "Activity"
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "All Places"
-
-  Scenario: Sent page mapping
-    When I wait 5s
-    When I wait 5s
-    Given I Click on "sent" in sidebar
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "Sent"
-
-  Scenario: Bookmark page mapping
-    When I wait 5s
-    Given I Click on "bookmarks" in sidebar
-    When I Wait till line loader hide
-    When I wait 2s
-    Then should the title of the place be "Favorite Places"
-
-  Scenario: Change page mapping
-    When I wait 5s
-    Given I Click on sidebar "messages"
-    When I Wait till line loader hide
-    When I wait 5s
-    Given I Click on "sent" in sidebar
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "Sent"
-
-  Scenario: test mapping of a place page
-    When I wait 5s
-    Given I Click on "sent" in sidebar
-    When I Wait till line loader hide
-    When I wait 5s
-    Given I Click Link by Partial Text "test-mapping@nested.me"
-    When I Wait till line loader hide
-    When I wait 2s
-    Then should the title of the place be "test mapping"
-
-  Scenario: Setting page mapping: create a sub-place 1
-    When I wait 5s
-    Given I Click id "navbar-popover"
-    When I wait 5s
-    Given I Click Link by Partial Text "Create a sub-place"
-    When I wait 5s
-    Given I Click id "close-create-place"
-    When I wait 5s
-    Given I Click id "navbar-popover"
-    When I wait 5s
-    Given I Click Link by Partial Text "Create a sub-place"
-    When I wait 5s
-    Given I fill "Marketing Development" with "test-sub-place"
-    When I wait 5s
-    Given I Click id "PlaceID"
-    When I wait 5s
-    Given I clear input by id "change-place-id"
-    When I wait 5s
-    Given I fill id "change-place-id" with "test12"
-    When I wait 5s
-    Given I Click id "change-save"
-    When I wait 5s
-    Given I Click label by for "notification"
-    When I wait 5s
-    Given I Click label by for "favo"
-    When I wait 5s
-    Given I Click id "submit-place"
-    When I wait 5s
-    When I wait 5s
+#Feature: User: mapping
+#  As a user of Nested
+#  I should be able to click on any clickable icons and go to the related page
+#
+#  Scenario: Sign in Mapping
+#    When I wait 5s
+#    Given I go to the page "/login"
+#    When I wait 5s
+#    Given I fill "Username" with "test-mapping"
+#    When I wait 5s
+#    Given I fill "Password" with "123456"
+#    When I wait 5s
+#    Given I Press "Sign in"
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
+#
+#  Scenario: Activity page mapping
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Activity"
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
+#
+#  Scenario: Sent page mapping
+#    When I wait 5s
+#    When I wait 5s
+#    Given I Click on "sent" in sidebar
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "Sent"
+#
+#  Scenario: Bookmark page mapping
+#    When I wait 5s
+#    Given I Click on "bookmarks" in sidebar
+#    When I Wait till line loader hide
+#    When I wait 2s
+#    Then should the title of the place be "Favorite Places"
+#
+#  Scenario: Change page mapping
+#    When I wait 5s
+#    Given I Click on sidebar "messages"
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Given I Click on "sent" in sidebar
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "Sent"
+#
+#  Scenario: test mapping of a place page
+#    When I wait 5s
+#    Given I Click on "sent" in sidebar
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Given I Click Link by Partial Text "test-mapping@nested.me"
+#    When I Wait till line loader hide
+#    When I wait 2s
+#    Then should the title of the place be "test mapping"
+#
+#  Scenario: Setting page mapping: create a sub-place 1
+#    When I wait 5s
+#    Given I Click id "navbar-popover"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Create a sub-place"
+#    When I wait 5s
+#    Given I Click id "close-create-place"
+#    When I wait 5s
+#    Given I Click id "navbar-popover"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Create a sub-place"
+#    When I wait 5s
+#    Given I fill "Marketing Development" with "test-sub-place"
+#    When I wait 5s
+#    Given I Click id "PlaceID"
+#    When I wait 5s
+#    Given I clear input by id "change-place-id"
+#    When I wait 5s
+#    Given I fill id "change-place-id" with "test12"
+#    When I wait 5s
+#    Given I Click id "change-save"
+#    When I wait 5s
+#    Given I Click label by for "notification"
+#    When I wait 5s
+#    Given I Click label by for "favo"
+#    When I wait 5s
+#    Given I Click id "submit-place"
+#    When I wait 5s
+#    When I wait 5s
 
 
 #    Given I Click Link by Partial Text "Discard"
