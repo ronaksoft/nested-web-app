@@ -36,7 +36,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack) {
+        onExit: function($uibModalStack, $state) {
           if ($uibModalStack) {
             $uibModalStack.dismissAll();
           }

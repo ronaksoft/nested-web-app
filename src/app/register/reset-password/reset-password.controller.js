@@ -122,14 +122,12 @@
       var request = new NstHttp('/forgot/', data);
       vm.resetPasswordProgress = true;
       request.post().then(function(result) {
-        console.log(result);
         if (result.data.status === "ok") {
           deferred.resolve(true);
         } else {
           deferred.reject('unknown');
         }
       }).catch(function(error) {
-        console.log(error);
         deferred.reject('unknown');
       }).finally(function() {
         vm.resetPasswordProgress = false;
