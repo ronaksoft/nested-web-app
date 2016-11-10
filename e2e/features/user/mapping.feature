@@ -74,7 +74,7 @@ Feature: User: mapping
     When I wait 5s
     Given I clear input by id "change-place-id"
     When I wait 5s
-    Given I fill id "change-place-id" with "test"
+    Given I fill id "change-place-id" with "test12"
     When I wait 5s
     Given I Click id "change-save"
     When I wait 5s
@@ -85,12 +85,6 @@ Feature: User: mapping
     Given I Click id "submit-place"
     When I wait 5s
     When I wait 5s
-
-
-  Scenario: Setting page mapping: create a sub-place 2
-    When I wait 5s
-
-
 
 
 #    Given I Click Link by Partial Text "Discard"
