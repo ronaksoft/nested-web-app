@@ -56,7 +56,8 @@ Feature: User: mapping
     When I wait 2s
     Then should the title of the place be "test mapping"
 
-  Scenario: Setting mapping page
+  Scenario: Setting page mapping: create a sub-place 1
+    When I wait 5s
     Given I Click id "navbar-popover"
     When I wait 5s
     Given I Click Link by Partial Text "Create a sub-place"
@@ -67,10 +68,30 @@ Feature: User: mapping
     When I wait 5s
     Given I Click Link by Partial Text "Create a sub-place"
     When I wait 5s
-    Given I fill "Marketing Development" with "test-place"
+    Given I fill "Marketing Development" with "test-sub-place"
     When I wait 5s
     Given I Click id "PlaceID"
     When I wait 5s
+    Given I clear input by id "change-place-id"
+    When I wait 5s
+    Given I fill id "change-place-id" with "test"
+    When I wait 5s
+    Given I Click id "change-save"
+    When I wait 5s
+    Given I Click label by for "notification"
+    When I wait 5s
+    Given I Click label by for "favo"
+    When I wait 5s
+    Given I Click id "submit-place"
+    When I wait 5s
+    When I wait 5s
+
+
+  Scenario: Setting page mapping: create a sub-place 2
+    When I wait 5s
+
+
+
 
 #    Given I Click Link by Partial Text "Discard"
 #    When I wait 5s
