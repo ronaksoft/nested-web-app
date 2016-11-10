@@ -197,7 +197,6 @@
 
         case 'app.place-messages-unread':
         case 'app.place-messages-unread':
-          console.log(vm.messagesSetting)
           return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlaceId.split(".")[0]], true);
 
 

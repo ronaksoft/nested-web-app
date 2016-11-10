@@ -28,6 +28,7 @@
         }
       }
     };
+
     $rootScope.progress.bar.setHeight('5px');
     // $rootScope.progress.bar.setColor('#14D766');
 
@@ -87,7 +88,6 @@
     // }
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      console.log('lolo');
       if (!$rootScope.stateHistory) {
         $rootScope.stateHistory = [];
       }
@@ -96,7 +96,7 @@
         state : toState,
         params : toParams
       });
-      console.log($rootScope.stateHistory);
+
     });
 
   }

@@ -352,9 +352,7 @@
     }
 
     $rootScope.goToLastState = function (disableNotify, defaultState) {
-      console.log($rootScope.stateHistory);
       var previous = defaultState || restoreLastState();
-
 
       if (disableNotify && !previous.default){
         $state.go(previous.state.name, previous.params, {notify : false});

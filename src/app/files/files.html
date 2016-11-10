@@ -1,12 +1,17 @@
-<nst-navbar data-ng-model="navbar" place-id="{{::ctlFiles.place.id}}"
-            nav-title="{{ctlFiles.place.id?ctlFiles.place.name:'All Places'}}"
-            nav-picture-url="{{ctlFiles.place.id ? ctlFiles.place.picture.thumbnails.x64.url.view : '' }}"
-            nav-picture-class="{{ !ctlFiles.place.id? 'icon-nav icon-all-place' : '' }}"
-            ready-to-show="ctlFiles.placeLoaded" page="ctlApp.page"></nst-navbar>
+<nst-navbar data-ng-model="navbar"
+            place-id="{{ctlFiles.currentPlace.id}}"
+            show-place-id="ctlFiles.showPlaceId"
+            nav-title="{{ctlFiles.currentPlace.id?ctlFiles.currentPlace.name: ctlFiles.navTitle}}"
+            nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.thumbnails.x64.url.view : '' }}"
+            nav-picture-class="{{ !ctlFiles.currentPlace.id? ctlFiles.navIconClass : '' }}"
+            ready-to-show="ctlFiles.currentPlaceLoaded"
+            ready-to-anime="true"
+            page="ctlApp.page"
+            place-description="{{ctlFiles.currentPlace.description}}"></nst-navbar>
 
 <div class="nst-content _tr" id="content-wrapper">
 
-  <section class="content _bgwhite _fh">
+  <section class="content nst-marginbtm-28 _bgwhite">
     <div class="navbarillu"></div>
     <section class="list-inline _df">
       <ul class="list-inline _df post-nav-top _difh _fw">
@@ -20,7 +25,7 @@
           class=" icon files-arrow" role="button"></label></span></li>
       </ul>
       <div class="_df _fn">
-        <input type="text" class="files-input" placeholder="Find files in this place"/>
+        <input type="text" class="files-input" placeholder="Find files in this place" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);"/>
       </div>
       <div class="icon-search-rotated-white"></div>
       <hr>
@@ -39,11 +44,16 @@
       <ul class="files-types" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
           selector="li.file-list-container">
         <li class="file-list-container" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
-          <div class="files-types-images"></div>
+          <div class="files-types-images">
+            <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}" />
+            <div ng-if="!item.thumbnail" class="file-badge {{'file-badge-' + item.type }}">
+              {{item.extension}}
+            </div>
+          </div>
           <div class="file-list-item">
-            <div class="item-name"><span>Nested Story.</span>{{item.type}}</div>
-            <div class="item-size">{{item.size}} MB</div>
-            <div class="item-date">JUL 21, 2016<span id="files-time"> 13:13</span></div>
+            <div class="item-name">{{item.name}}</div>
+            <div class="item-size">{{item.size | bytes}} </div>
+            <div class="item-date">{{item.date | date : 'long' }}</span></div>
           </div>
         </li>
       </ul>
@@ -53,14 +63,11 @@
       </div>
     </div>
   </section>
-  <div class="content-plus">
-  </div>
-  <div class="content-plus" id="content-plus">
-    <div id="cp1">
+  <div class="content-plus illu">
+    <div id="cp1" nst-scrollbar ng-if="!ctlFiles.isBookmarkMode" affixer parent=".content-plus" offset-top="74" top="0" fixed-top="true">
       <!--FIXME:: use only one of place/place-id -->
-      <nst-recent-activity place-id="ctlFiles.placeId" place="ctlFiles.placeId" count="10"/>
+      <nst-recent-activity place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"  count="10"/>
     </div>
-
   </div>
+  <div class="content-plus" id="content-plus" >
 </div>
-

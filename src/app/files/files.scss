@@ -167,11 +167,46 @@ li.file-list-container {
 }
 
 .files-types-images {
-  cursor: default;
-  min-width: 80px;
-  float: left;
-  position: relative;
-  padding-top: 1px;
+  img {
+    object-fit: cover;
+    width: 48px;
+    height: 48px;
+  }
 }
 
+.file-badge {
+  display : inline-block;
+  width : 50px;
+  height: 28px;
+  border: 1px solid $color-solid-30;
+  border-radius: 2px;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 20px;
+  padding: 4px;
+  font-size: $font-size-small;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: lighten($color-solid-60, 10);
+}
 
+.file-badge-pdf {
+  border-color: #FA0032;
+  background: linear-gradient(lighten(#FA0032, 40), $color-white);
+  color: #FA0032;
+}
+.file-badge-archive {
+  border-color: #5A28BE;
+  background: linear-gradient(lighten(#5A28BE, 40), $color-white);
+  color: #5A28BE;
+}
+.file-badge-document {
+  border-color: #148CF0;
+  background: linear-gradient(lighten(#148CF0, 40), $color-white);
+  color: #148CF0;
+}
+.file-badge-audio, .file-badge-video, .file-badge-image {
+  border-color: #3CC882;
+  background: linear-gradient(lighten(#3CC882, 40), $color-white);
+  color: #3CC882;
+}
