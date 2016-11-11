@@ -24,6 +24,10 @@
         line-height: 20px;
 
       }
+      &:before {
+        width: 490px;
+        max-width: 100%;
+      }
 
     }
     [contenteditable]::first-line {
@@ -51,7 +55,7 @@
       flex: none;
       transition: opacity $animation-dur;
       &:hover {
-       opacity: 1;
+       //opacity: 1;
       }
       div,label {
         height: 32px;

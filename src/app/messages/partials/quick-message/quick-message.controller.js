@@ -119,27 +119,52 @@
     };
 
     vm.model.submit = function () {
+      applyMove();
 
-      var firstChild = angular.element(vm.textarea.firstChild);
+      //TODO Clone element and play another scen to main element
+      var element = angular.element(vm.textarea);
 
-      vm.model.subject = firstChild.text();
-      firstChild.remove();
+      var elementFirstChild = angular.element(vm.textarea.firstChild);
+
+      vm.model.subject = elementFirstChild.text();
+      elementFirstChild.remove();
 
 
-      if ( angular.element(vm.textarea).children().length == 0 || ( angular.element(vm.textarea).children().length == 1 && angular.element(vm.textarea).children()[0].length == 0)) {
+      if ( element.children().length == 0 || ( element.children().length == 1 && element.children()[0].length == 0)) {
 
         vm.model.body = vm.model.subject;
         vm.model.subject = "";
 
       }else {
 
-        var str = angular.element(vm.textarea)[0].innerHTML;
+        var str = element[0].innerHTML;
         findBreak(str);
         vm.model.body = str;
 
       }
 
 
+      function applyMove() {
+        var tween2 = new TimelineLite()
+          .add(TweenLite.to($('nst-quick-message')[0], 1, {css:{opacity:'.3',transform: 'scale(0.9,0.9)'}, ease:Power4.easeOut}));
+        tween2
+      }
+      function declineMove() {
+        var tween1 = new TimelineLite()
+          .add(TweenLite.to($('nst-quick-message')[0], .2, {css:{opacity:'1',transform: 'scale(1,1)'}, ease:Power4.easeOut}));
+        tween1
+      }
+      function reverseMove() {
+        var tween2 = new TimelineLite()
+          .add(TweenLite.to($('nst-quick-message')[0], .2, {css:{opacity:'1',transform: 'scale(1,1)'}, ease:Power4.easeOut}));
+        tween2;
+        angular.element(vm.textarea).html('');
+        vm.model.subject = '';
+        vm.model.body = '';
+        vm.attachments.viewModels = [];
+        vm.model.attachfiles = {};
+        vm.model.attachments = [];
+      }
 
       function findBreak(str) {
         str = str.replace(/<br\s*[\/]?>/gi, "\n");
@@ -148,16 +173,11 @@
       }
 
       vm.send().then(function () {
-        //form.elements['subject'].value = '';
-        //form.elements['body'].value = '';
-        angular.element(vm.textarea).html('');
-        vm.model.subject = '';
-        vm.model.body = '';
-        vm.model.saved = false;
-        vm.attachments.viewModels = [];
-        vm.model.attachfiles = {};
-        vm.model.attachments = [];
         vm.model.check();
+        vm.model.saved = false;
+        reverseMove();
+      }).catch(function () {
+        declineMove();
       });
 
       //event.preventDefault();
