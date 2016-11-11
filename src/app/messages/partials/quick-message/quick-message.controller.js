@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('QuickMessageController', QuickMessageController);
 
-  function QuickMessageController($q, $log, $scope, toastr,
+  function QuickMessageController($q, $log, $scope, toastr, $window,
     NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap) {
     var vm = this;
 
@@ -99,84 +99,58 @@
 
       vm.textarea = e.currentTarget;
 
-
-
       analyseInIt();
-      backToStructure();
 
 
-
-      vm.model.subject = angular.element(e.currentTarget.firstChild).text();
-
-      if(e.which == '13'){
+      //console.log(vm.model.subject.length);
+      if(e.which == '13' && vm.model.subject.length == 0){
 
       }
 
       function analyseInIt() {
-
         // no Enter or return at first char
-        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>') && e.currentTarget.children.length > 1 ){
+        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>' || angular.element(e.currentTarget.firstChild).html() == '') && e.currentTarget.children.length > 1 ){
           angular.element(e.currentTarget.firstChild).remove();
           return analyseInIt()
         }
 
       }
 
-      function backToStructure(){
-        //console.log('sssss',angular.element(e.currentTarget.firstChild)[0].nextSibling);
-
-        //maybe subjec contain two line in firefox case :(
-        vm.model.body = '';
-
-        if(angular.element(e.currentTarget.firstChild)[0].nextSibling)  {
-
-          //first enter pressed in ff
-          var el = angular.element(e.currentTarget.firstChild)[0].nextSibling;
-          setBody(el);
-          vm.fireFoxBodySet = true;
-        }
-
-        function setBody (el) {
-          vm.model.body = vm.model.body + '\n' + el.nextSibling.nodeValue;
-
-          //recursive for many lines ...
-          if(el.nextSibling.nextSibling && el.nextSibling.nextSibling.nextSibling && el.nextSibling.nextSibling.nextSibling.nextSibling){
-            return setBody(el.nextSibling.nextSibling)
-          }
-        }
-      }
-
     };
 
     vm.model.submit = function () {
 
-      var lines = [];
-      var childs = $('#input').children();
+      var firstChild = angular.element(vm.textarea.firstChild);
 
-      for (var i=0 ; i < childs.length ; i++){
+      vm.model.subject = firstChild.text();
+      firstChild.remove();
 
-        lines[i] = childs[i].innerText;
 
-      }
+      if ( angular.element(vm.textarea).children().length == 0 || ( angular.element(vm.textarea).children().length == 1 && angular.element(vm.textarea).children()[0].length == 0)) {
 
-      if (lines.length == 0) {
-
-        if (!vm.fireFoxBodySet) vm.model.body = vm.model.subject;
+        vm.model.body = vm.model.subject;
         vm.model.subject = "";
 
       }else {
 
-        if (!vm.fireFoxBodySet)vm.model.body = lines.join('\n');
+        var str = angular.element(vm.textarea)[0].innerHTML;
+        findBreak(str);
+        vm.model.body = str;
 
       }
 
 
-      //vm.model.subject = angular.element($('#input').firstChild)[0].innerText;
+
+      function findBreak(str) {
+        str = str.replace(/<br\s*[\/]?>/gi, "\n");
+        str = str.replace(/<div\s*[\/]?>/gi, "\n");
+        str = str.replace(/<\/div>/gi, "");
+      }
 
       vm.send().then(function () {
         //form.elements['subject'].value = '';
         //form.elements['body'].value = '';
-        $('#input').html('');
+        angular.element(vm.textarea).html('');
         vm.model.subject = '';
         vm.model.body = '';
         vm.model.saved = false;
