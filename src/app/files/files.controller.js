@@ -116,7 +116,15 @@
     }
 
     function download(file) {
-
+      NstSvcFileFactory.getDownloadToken(file.id).then(function (token) {
+        var model = NstSvcFileFactory.getOne(file.id);
+        console.log(model);
+        model.getResource().setToken(token);
+        console.log(model);
+        // window.open(model, '_self');
+      }).catch(function (error) {
+        toastr.error('An error happened while preparing to download the file.');
+      });
     }
 
     // vm.onSelect = function (fileIds, el) {
