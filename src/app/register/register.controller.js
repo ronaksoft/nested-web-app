@@ -306,8 +306,8 @@
     }
 
     vm.register = function(event) {
-        // $scope.registrationForm.$setSubmitted();
 
+      //TODO: clean my validations
         if(vm.username === undefined){
           vm.requiredUser = true;
         }else{
