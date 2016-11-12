@@ -7,7 +7,7 @@
 
   function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
                                     hotkeys,
-									NST_FILE_TYPE,
+									                  NST_FILE_TYPE,
                                     NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
                                     NstHttp,
                                     postId, vmAttachment, vmAttachments) {
@@ -133,6 +133,13 @@
 
       return NstSvcLoader.inject(NstSvcPostFactory.get(id)).then(function (post) {
         vm.status.postLoadProgress = false;
+
+
+        NstSvcPostFactory.read([id]).then(function (result) {
+        }).catch(function (err) {
+          $log.debug('The delete confirmation was rejected')
+        });
+
 
         return $q(function (res) {
           res(post);

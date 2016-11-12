@@ -58,7 +58,8 @@
         commentsCount: post.counters.comments > -1 ? post.counters.comments : 0,
         isReplyed : !!post.replyToId,
         isForwarded : !!post.forwardFromId,
-        isRead : post.isRead
+        isRead : post.isRead,
+        wipeAccess : post.wipeAccess
       };
 
       /*****************************

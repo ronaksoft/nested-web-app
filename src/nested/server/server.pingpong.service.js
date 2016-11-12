@@ -28,10 +28,8 @@
       var service = this;
       $interval(function () {
 
-        if (Date.now() - service.lastPing > NST_SRV_PING_PONG.INTERVAL_TIME ||
-          Date.now() - service.lastObserve > 3000) {
-          console.log("timeout");
-          service.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.DISCONNECT));
+        if (Date.now() - service.lastObserve > NST_SRV_PING_PONG.INTERVAL_TIME) {
+          NstSvcLogger.debug2("WS PINGPONG | timeout ");
           service.setPingPongStatus(false);
           service.checkStatus(true);
         }
@@ -63,7 +61,7 @@
           cmd: NST_SRV_PING_PONG.COMMAND + '/' + time,
           time: time,
           timeout: $timeout(function () {
-            service.checkStatus(true);
+            service.checkStatus();
           }, NST_SRV_PING_PONG.INTERVAL_TIMEOUT)
         });
 

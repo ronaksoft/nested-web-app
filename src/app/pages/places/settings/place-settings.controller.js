@@ -84,7 +84,7 @@
           vm.accesses.hasControlAccess && vm.placeId !== NstSvcAuth.user.id);
       }).then(function (teammates) {
         vm.teammates = teammates;
-        vm.hasMoreTeammates = teammates.length >= vm.teammatesSettings.limit;
+        vm.hasMoreTeammates = vm.teammates.length < getPlaceMembersCount(vm.place);
       }).catch(function(error) {
         NstSvcLogger.error(error);
       }).finally(function () {
@@ -259,8 +259,8 @@
     function loadMoreTeammates() {
       vm.teammatesLoadProgress = true;
       return loadTeammates(vm.placeId, vm.accesses.hasSeeMembersAccess, vm.accesses.hasControlAccess).then(function (teammates) {
-        vm.hasMoreTeammates = teammates.length !== 0;
         vm.teammates.push.apply(vm.teammates, teammates);
+        vm.hasMoreTeammates = vm.teammates.length < getPlaceMembersCount(vm.place);
       }).catch(function (error) {
         NstSvcLogger.error(error);
       }).finally(function () {
@@ -463,6 +463,10 @@
       NstSvcPlaceFactory.get(place.grandParentId).then(function (grand) {
         vm.grandPlace = grand;
       })
+    }
+
+    function getPlaceMembersCount(place) {
+      return place.counters.key_holders + place.counters.creators;
     }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
