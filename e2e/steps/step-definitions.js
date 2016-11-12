@@ -31,6 +31,12 @@ module.exports = function () {
     return;
   });
 
+  this.When(/^Wait for Upload to be finished$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.invisibilityOf(element(By.css('div[progressbar-mode="circle"]'))), 50000);
+  });
+
   this.setDefaultTimeout(600 * 1000);
 
   this.Given(/^I go to the page "([^"]*)"$/, function (url) {
@@ -82,6 +88,16 @@ module.exports = function () {
     dropdown.click();
   });
 
+  this.Given(/^I Click on sidebar "([^"]*)"$/, function (destination) {
+    var pS = element(By.css('a[href="#/'+ destination +'"]'));
+    pS.click();
+  });
+
+  this.Given(/^I Click on sidebar by id "([^"]*)"$/, function (sidebarId) {
+    var sId = element(By.css('#yum'));
+    sId.click();
+  });
+
   this.Given(/^I Click Option by Label "([^"]*)"$/, function (label) {
     var option = element(By.css('option[label="' + label + '"]'));
     option.click();
@@ -120,7 +136,7 @@ module.exports = function () {
 
 
   this.Then(/^should the title of the place be "([^"]*)"$/, function (expectedPlaceTitle) {
-    element(By.css(".navbar-top .name")).getText().then(function (title) {
+    element(By.css('cite[class="ng-binding"]')).getText().then(function (title) {
       assert.equal(title.trim(), expectedPlaceTitle, ' title is "' + title + '" but should be "' + expectedPlaceTitle);
     });
   });
@@ -143,6 +159,7 @@ module.exports = function () {
       assert.equal(title.trim(), expectedRegTitle, ' title is "' + title + '" but should be "' + expectedRegTitle);
     });
   });
+
 
   this.Then(/^should the reg2-title be "([^"]*)"$/, function (expectedReg2Title) {
     element(by.css('.testing-registration-step3')).getText().then(function (title) {
@@ -174,25 +191,21 @@ module.exports = function () {
     return browser.wait(EC.visibilityOf(element(By.css('.toast-success'))), 50000);
   });
 
-//------------url selectors----------------//
-  this.Then(/^should the current url be "([^"]*)"$/, function (expectedUrl) {
-    var checkUrl = function (expectedUrl) {
-      return browser.getLocationAbsUrl()
-        .then(function(url){
-          if(url.indexOf(expectedUrl) > 0){
-            throw(url)
-          } else {
-            return url
-          }
-        })
-        .catch(function (url) {
-          return url
-        });
-    };
-    return browser.wait(checkUrl(expectedUrl), 15000).then(function (wrongUrl) {
-      assert.equal(wrongUrl.trim(), expectedUrl, ' title is "' + wrongUrl + '" but should be "' + expectedUrl);
+  this.Then(/^should see "([^"]*)"$/, function (text) {
+    element(by.css('.nst-font-xlarge _hf')).getText().then(function (title) {
+      assert.equal(title.trim(), text, ' title is "' + title + '" but should be "' + text);
     });
   });
+
+//------------url selectors----------------//
+
+  this.Then(/^Url Should Contains$/, function (urlc) {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.urlContains('messages'), 50000);
+    urlc(null, 'pending');
+  });
+
 //-------------------------------------------//
 
   this.Then(/^the message have to be "([^"]*)"$/, function (expectedMessage) {

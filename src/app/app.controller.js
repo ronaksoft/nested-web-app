@@ -10,52 +10,35 @@
                          hotkeys,
                          NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
                          NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal,
-						 NstObject) {
+                         NstObject) {
     var vm = this;
 
     vm.loginView = true;
     vm.showLoadingScreen = true;
 
 
-    /*****************************
-     *****  Configure TrackJs  ****
-     *****************************/
 
-    //FIXME:: remove me after all errors defined and handled
-    // function configTracker() {
-    //   var newConfigs = {
-    //     version: NST_CONFIG.APP_ID,
-    //     console: {
-    //       // By default TrackJS will watch all console activity and include that information in the Telemetry Timeline
-    //       enabled: false,
-    //     }
-    //   };
-    //
-    //   if(NstSvcAuth.isAuthorized()){
-    //     newConfigs.userId = NstSvcAuth.getUser().getId();
-    //   }else{
-    //     newConfigs.userId = null;
-    //   }
-    //   if (trackJs !== undefined)
-    //     trackJs.configure(newConfigs);
-    // }
-
+    NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
+      vm.disconnected = true;
+    });
+    NstSvcServer.addEventListener(NST_SRV_EVENT.CONNECT, function (msg) {
+      vm.disconnected = false;
+    });
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
-      if (!vm.disconected) {
-        vm.disconected = true;
-      }
+      vm.disconnected = true;
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
       // Hide and remove initial loading
       // this is placed here to make sure the WS has been connected
-      $timeout(function (){
+      $timeout(function () {
         vm.showLoadingScreen = false;
-      },2000);
+      }, 2000);
 
-      if (vm.disconected) {
-        vm.disconected = false;
-      }
+
+      vm.disconnected = false;
+
     });
+
 
     // calls $digest every 1 sec to update elapsed times.
     $interval(function () {
@@ -116,30 +99,30 @@
     // var scrollValue = 0;
     // var scrollTimeout = false;
     //$(window).scroll(function (event) {
-      // if($(window).scrollLeft() > 0 ){
-      //   console.log("left");
-      //   return
-      // }
-      // var t = event.currentTarget.scrollY;
-      // if (t > 55 && !$rootScope.navView) {
-      //   $timeout(function () {
-      //     return $rootScope.navView = t > 55;
-      //   });
-      // } else if (t < 56 && $rootScope.navView) {
-      //   $timeout(function () {
-      //     return $rootScope.navView = t > 55;
-      //   });
-      // }
-      // clearTimeout(scrollTimeout);
-      // scrollTimeout = setTimeout(function(){
-      //   vm.scrolled = $(document).scrollTop() - scrollValue;
-      //   scrollValue = $(document).scrollTop();
-      //   if (vm.scrolled < -5 && $rootScope.navView) {
-      //     $timeout(function () {
-      //       return $rootScope.navView = false;
-      //     });
-      //   }
-      // }, 10);
+    // if($(window).scrollLeft() > 0 ){
+    //   console.log("left");
+    //   return
+    // }
+    // var t = event.currentTarget.scrollY;
+    // if (t > 55 && !$rootScope.navView) {
+    //   $timeout(function () {
+    //     return $rootScope.navView = t > 55;
+    //   });
+    // } else if (t < 56 && $rootScope.navView) {
+    //   $timeout(function () {
+    //     return $rootScope.navView = t > 55;
+    //   });
+    // }
+    // clearTimeout(scrollTimeout);
+    // scrollTimeout = setTimeout(function(){
+    //   vm.scrolled = $(document).scrollTop() - scrollValue;
+    //   scrollValue = $(document).scrollTop();
+    //   if (vm.scrolled < -5 && $rootScope.navView) {
+    //     $timeout(function () {
+    //       return $rootScope.navView = false;
+    //     });
+    //   }
+    // }, 10);
     //});
 
     /*****************************
