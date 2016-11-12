@@ -126,28 +126,28 @@
       });
     }
 
-    // vm.onSelect = function (fileIds, el) {
-    //   var selectedFiles = [];
-    //   for (var i = 0; i < fileIds.length; i++) {
-    //     var fileObj = vm.files.filter(function (file) {
-    //       return file.id === parseInt(fileIds[i]);
-    //     });
-    //     if (fileObj.length === 1) {
-    //       selectedFiles.push(fileObj[0]);
-    //     }
-    //   }
-    //   vm.selectedFiles = selectedFiles;
-    // };
-    //
-    //
-    // vm.totalSelectedFileSize = function () {
-    //   var total = 0;
-    //   vm.selectedFiles.map(function (file) {
-    //     total += file.size;
-    //   });
-    //
-    //   return total;
-    // }
+    vm.onSelect = function (fileIds, el) {
+      var selectedFiles = [];
+      for (var i = 0; i < fileIds.length; i++) {
+        var fileObj = vm.files.filter(function (file) {
+          return file.id === parseInt(fileIds[i]);
+        });
+        if (fileObj.length === 1) {
+          selectedFiles.push(fileObj[0]);
+        }
+      }
+      vm.selectedFiles = selectedFiles;
+    };
+
+
+    vm.totalSelectedFileSize = function () {
+      var total = 0;
+      vm.selectedFiles.map(function (file) {
+        total += file.size;
+      });
+
+      return total;
+    }
 
   }
 })();

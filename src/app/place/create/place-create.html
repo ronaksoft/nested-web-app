@@ -1,4 +1,4 @@
-<div class="close-modal" ng-click="$dismiss()">
+<div class="close-modal" ng-click="$dismiss()" id="close-create-place">
   <svg>
     <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
   </svg>
@@ -185,7 +185,7 @@
         <input class="create-place-checkbox" type="checkbox" id="notification" ng-model="ctlCreate.place.notification">
         <label for="notification">Turn on notification for this place.</label>
       </div>
-      <button type="submit">Create Place</button>
+      <button type="submit" id="submit-place">Create Place</button>
     </form>
   </div>
 </div>
