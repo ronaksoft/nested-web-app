@@ -120,8 +120,7 @@
         var model = NstSvcFileFactory.getOne(file.id);
         console.log(model);
         model.getResource().setToken(token);
-        console.log(model);
-        // window.open(model, '_self');
+        window.open(model.resource.url.download, '_self');
       }).catch(function (error) {
         toastr.error('An error happened while preparing to download the file.');
       });

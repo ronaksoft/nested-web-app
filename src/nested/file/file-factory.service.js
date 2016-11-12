@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcFileFactory($q, _,
     NstSvcAuth, NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage,
-    NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken,
+    NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken, NstStoreResource,
     NST_FILE_TYPE) {
 
     function FileFactory() {
@@ -57,6 +57,7 @@
       file.setFilename(data.filename);
       file.setSize(data.size);
       file.setMimeType(data.mimetype);
+      file.setResource(new NstStoreResource(data._id));
 
       if (data.thumbs) {
         var picture = new NstPicture(undefined, data.thumbs);
