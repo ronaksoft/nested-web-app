@@ -185,27 +185,32 @@ li.file-list-container {
   text-overflow: ellipsis;
   overflow: hidden;
   color: lighten($color-solid-60, 10);
+  margin-top: 8px;
 }
 
 .file-badge-pdf {
   border-color: #FA0032;
   background: linear-gradient(lighten(#FA0032, 40), $color-white);
   color: #FA0032;
+  margin-top: 8px;
 }
 .file-badge-archive {
   border-color: #5A28BE;
   background: linear-gradient(lighten(#5A28BE, 40), $color-white);
   color: #5A28BE;
+  margin-top: 8px;
 }
 .file-badge-document {
   border-color: #148CF0;
   background: linear-gradient(lighten(#148CF0, 40), $color-white);
   color: #148CF0;
+  margin-top: 8px;
 }
 .file-badge-audio, .file-badge-video, .file-badge-image {
   border-color: #3CC882;
   background: linear-gradient(lighten(#3CC882, 40), $color-white);
   color: #3CC882;
+  margin-top: 8px;
 }
 
 .popover-files{
@@ -216,8 +221,8 @@ li.file-list-container {
 }
 
 .file-badge-popover {
-  display : inline-block;
-  width : 40px;
+  display: inline-block;
+  width: 40px;
   height: 25px;
   border: 1px solid $color-solid-30;
   border-radius: 2px;
@@ -229,7 +234,7 @@ li.file-list-container {
   text-overflow: ellipsis;
   overflow: hidden;
   color: lighten($color-solid-60, 10);
-  margin-right: 12px;
+  margin: 0 12px 0 0;
 }
 
 .popover.bottom {
