@@ -145,6 +145,9 @@ div.files-input {
 li.j-selected {
   background-color: rgba($color-sense, .2);
   border-bottom: none;
+  &:hover{
+    background-color: rgba($color-sense, .2)!important;
+  }
 }
 
 .total-files-size {
