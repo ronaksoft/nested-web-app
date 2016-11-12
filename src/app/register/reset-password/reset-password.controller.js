@@ -116,7 +116,7 @@
       var data = new FormData();
       data.append('f', 'reset_password');
       data.append('vid', verificationId);
-      data.append('phone', phone);
+      data.append('phone', getPhoneNumber());
       data.append('pass', password);
 
       var request = new NstHttp('/forgot/', data);
