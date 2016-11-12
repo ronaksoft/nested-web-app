@@ -164,28 +164,31 @@ li.file-list-container {
 
 .files-types-images {
   margin: 0 0 0 7px;
-  img {
-    object-fit: cover;
-    width: 45px;
-    height: 45px;
-  }
+}
+
+.file-badge, .file-thumbnail {
+  display : inline-block;
+  border: 1px solid $color-solid-30;
+  border-radius: 2px;
+  width : 50px;
 }
 
 .file-badge {
-  display : inline-block;
-  width : 50px;
-  height: 28px;
-  border: 1px solid $color-solid-30;
-  border-radius: 2px;
   text-align: center;
   text-transform: uppercase;
+  height: 28px;
   line-height: 20px;
   padding: 4px;
   font-size: $font-size-small;
   text-overflow: ellipsis;
   overflow: hidden;
   color: lighten($color-solid-60, 10);
-  margin-top: 8px;
+}
+
+.file-thumbnail {
+  object-fit: cover;
+  width: 48px;
+  height: 48px;
 }
 
 .file-badge-pdf {
