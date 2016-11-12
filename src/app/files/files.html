@@ -47,7 +47,7 @@
           selector="li.file-list-container">
         <li class="file-list-container _df" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
           <div class="files-types-images">
-            <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}" />
+            <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}" ng-click="ctlFiles.download(item);"/>
             <div ng-if="!item.thumbnail" class="file-badge {{'file-badge-' + item.type }}">
               {{item.extension}}
             </div>
