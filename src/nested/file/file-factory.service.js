@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-(function () {
-=======
 (function() {
->>>>>>> newlayout
   'use strict';
   angular
     .module('ronak.nested.web.file')
