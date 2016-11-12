@@ -102,6 +102,16 @@
           });
       }
 
+
+      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+        var message = _.find(vm.messages, {
+          id: e.detail[0]
+        });
+        if (message){
+          message.isRead = true;
+        }
+      });
+
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
         var newMessage = e.detail;
 
