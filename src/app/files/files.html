@@ -21,8 +21,13 @@
           <p ng-show="ctlFiles.selectedFiles.length  > 0">{{ctlFiles.selectedFiles.length }}<span> Files</span><span
             class="total-files-size">{{ctlFiles.totalSelectedFileSize()}} MB</span></p>
         </li>
-        <li><span ng-show="ctlFiles.selectedFiles.length  == 0" class="files-input-group _fw"><label
-          class=" icon files-arrow" role="button"></label></span></li>
+        <li>
+          <span ng-show="ctlFiles.selectedFiles.length  == 0" class="files-input-group _fw">
+          <label class="icon files-arrow" role="button-left" data-ng-click="" class="cursor-pointer margin-r_5 icon-rp _df popover-files"
+                 popover-append-to-body="false" uib-popover-template="'app/files/files-sort-popover.html'"
+                 popover-trigger="focus" popover-placement="auto bottom"
+                 data-uib-tooltip="Files Filter" data-tooltip-append-to-body="false"
+                 data-tooltip-placement="right-bottom"></label></span></li>
       </ul>
       <div class="_df _fn">
         <input type="text" class="files-input" placeholder="Find files in this place" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);"/>
