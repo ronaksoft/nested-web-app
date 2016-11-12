@@ -1,0 +1,75 @@
+<nst-navbar data-ng-model="navbar"
+            place-id="{{ctlFiles.currentPlace.id}}"
+            show-place-id="ctlFiles.showPlaceId"
+            nav-title="{{ctlFiles.currentPlace.id?ctlFiles.currentPlace.name: ctlFiles.navTitle}}"
+            nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.thumbnails.x64.url.view : '' }}"
+            nav-picture-class="{{ !ctlFiles.currentPlace.id? ctlFiles.navIconClass : '' }}"
+            ready-to-show="ctlFiles.currentPlaceLoaded"
+            ready-to-anime="true"
+            page="ctlApp.page"
+            place-description="{{ctlFiles.currentPlace.description}}"></nst-navbar>
+
+<div class="nst-content _tr" id="content-wrapper">
+
+  <section class="content nst-marginbtm-28 _bgwhite">
+    <div class="navbarillu"></div>
+    <section class="list-inline _df">
+      <ul class="list-inline _df post-nav-top _difh _fw">
+        <li>
+          <p ng-show="ctlFiles.selectedFiles.length  == 0">All Files</p>
+          <!--//TODO:Add size filter// -->
+          <p ng-show="ctlFiles.selectedFiles.length  > 0">{{ctlFiles.selectedFiles.length }}<span> Files</span><span
+            class="total-files-size">{{ctlFiles.totalSelectedFileSize()}} MB</span></p>
+        </li>
+        <li>
+          <span ng-show="ctlFiles.selectedFiles.length  == 0" class="files-input-group _fw">
+          <label class="icon files-arrow" role="button-left" class="cursor-pointer margin-r_5 icon-rp _df popover-files"
+                 popover-append-to-body="false" uib-popover-template="'app/files/files-sort-popover.html'"
+                 popover-trigger="focus" popover-placement="auto bottom"
+                 data-uib-tooltip="Files Filter" data-tooltip-append-to-body="false"
+                 data-tooltip-placement="right-bottom"></label></span></li>
+      </ul>
+      <div class="_df _fn">
+        <input type="text" class="files-input" placeholder="Find files in this place" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);"/>
+      </div>
+    </section>
+    <div class="file-list">
+      <div class="file-list-header">
+        <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0"><span>File Name</span></div>
+        <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-download"><span
+          class="_dib"></span><span>Download</span></div>
+        <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-send-to"><span
+          class="_dib"></span><span>Send to</span></div>
+        <div class="header-size" ng-show="ctlFiles.selectedFiles.length == 0"><span>Size</span></div>
+        <div class="header-date" ng-show="ctlFiles.selectedFiles.length == 0"><strong>Received Date</strong></div>
+      </div>
+      <ul class="files-types" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
+          selector="li.file-list-container">
+        <li class="file-list-container _df" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
+          <div class="files-types-images">
+            <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}" />
+            <div ng-if="!item.thumbnail" class="file-badge {{'file-badge-' + item.type }}">
+              {{item.extension}}
+            </div>
+          </div>
+          <div class="file-list-item">
+            <div class="item-name">{{item.name}}</div>
+            <div class="item-size">{{item.size | bytes}} </div>
+            <div class="item-date">{{item.date | date : 'long' }}</span></div>
+          </div>
+        </li>
+      </ul>
+      <div class="_difc _fw optionrow">
+        <div class="_df switch">
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="content-plus illu">
+    <div id="cp1" nst-scrollbar ng-if="!ctlFiles.isBookmarkMode" affixer parent=".content-plus" offset-top="74" top="0" fixed-top="true">
+      <!--FIXME:: use only one of place/place-id -->
+      <nst-recent-activity place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"  count="10"/>
+    </div>
+  </div>
+  <div class="content-plus" id="content-plus" >
+</div>

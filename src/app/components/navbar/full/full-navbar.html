@@ -26,9 +26,9 @@
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
               Messages
             </a>
-            <!-- <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isFiles ? 'active' : ''}}">
+            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isFiles ? 'active' : ''}}">
               Files
-            </a> -->
+            </a>
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
               Activity
             </a>
@@ -41,7 +41,7 @@
             <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
                    placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery"/>
+                   ng-model="ctlFullNavbar.searchQuery" id="search2"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
            </div>
          </div>
@@ -101,21 +101,21 @@
              popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"
              popover-popup-close-delay="100" popover-trigger="focus" popover-placement="auto bottom-right"
              data-uib-tooltip="More options" data-tooltip-append-to-body="false"
-             data-tooltip-placement="left-top auto">
+             data-tooltip-placement="bottom-right auto" id="navbar-popover">
           <svg  class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
           </svg>
         </div>
-        <div data-uib-tooltip="{{!ctlFullNavbar.isBookmarked ? 'Add to' : 'Remove from'}} favorite Places" data-tooltip-append-to-body="false"
-             data-tooltip-placement="left-top auto">
+        <div data-uib-tooltip="{{!ctlFullNavbar.isBookmarked ? 'Add to' : 'Remove from'}} favorite places" data-tooltip-append-to-body="false"
+             data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleBookmark()" ng-class="{morphed : ctlFullNavbar.isBookmarked}">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wfav"></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
           </svg>
         </div>
-        <div data-uib-tooltip="Turn {{!ctlFullNavbar.notificationStatus ? 'on' : 'off'}} notification for this place" data-tooltip-append-to-body="false"
-          data-tooltip-placement="left-top auto">
+        <div data-uib-tooltip="Turn notification {{!ctlFullNavbar.notificationStatus ? 'on' : 'off'}}" data-tooltip-append-to-body="false"
+          data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{morphed : ctlFullNavbar.notificationStatus}">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff" ></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifon"></use>

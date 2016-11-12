@@ -11,7 +11,6 @@
     "angular-toastr": "~1.7.0",
     "angular-md5": "^0.1.10",
     "moment": "~2.13.0",
-    "international-phone-number": "https://github.com/ronaksoft/international-phone-number.git#v0.0.17",
     "emojione": "^2.1.4",
     "videogular": "^1.4.3",
     "videogular-themes-default": "^1.4.3",
@@ -41,7 +40,8 @@
     "selectonic": "^0.6.3",
     "gsap": "^1.19.0",
     "scrollmagic": "^2.0.5",
-    "angular-contenteditable": "^0.3.8"
+    "angular-contenteditable": "^0.3.8",
+    "libphonenumber": "^0.9.4"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"

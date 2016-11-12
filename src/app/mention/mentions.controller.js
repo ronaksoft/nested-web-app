@@ -41,10 +41,11 @@
 
     function loadMentions(skip, limit) {
       var deferred = $q.defer();
-
+      vm.loading = true;
       NstSvcMentionFactory.getMentions(skip, limit).then(function(mentions) {
         vm.mentions = _.concat(vm.mentions, _.map(mentions, mapMention));
         deferred.resolve(vm.mentions);
+        vm.loading = false;
       }).catch(function(error) {
         $log.error(error);
         deferred.reject(error);

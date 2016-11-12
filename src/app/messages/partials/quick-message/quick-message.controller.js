@@ -6,13 +6,13 @@
     .controller('QuickMessageController', QuickMessageController);
 
   function QuickMessageController($q, $log, $scope, toastr,
-    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS) {
+    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap) {
     var vm = this;
 
     /*****************************
      *** Controller Properties ***
      *****************************/
-    
+
     vm.model = {
       subject: '',
       body: '',
@@ -24,6 +24,7 @@
       saving: false,
       saved: false
     };
+    vm.fireFoxBodySet = false;
 
     vm.attachments = {
       elementId: 'attach',
@@ -38,6 +39,24 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
+
+    vm.model.isModified = function () {
+      vm.model.modified = (function (model) {
+        var modified = false;
+
+        modified = modified || model.subject.trim().length > 0;
+        modified = modified || model.body.trim().length > 0;
+        modified = modified || model.recipients.length > 0;
+        modified = modified || model.attachments.length > 0;
+
+        return modified;
+      })(vm.model);
+
+      $log.debug('Compose | Model Modified? ', vm.model.modified);
+
+      return vm.model.modified;
+    };
+
 
     vm.model.isModified = function () {
       vm.model.modified = (function (model) {
@@ -76,42 +95,83 @@
     };
 
     vm.writeMsg = function(e) {
+      if (!e.currentTarget.firstChild) return;
 
-      if (!e.currentTarget.firstChild) return
+      vm.textarea = e.currentTarget;
 
 
-      
-      function removeEnterSubj() {
-        if (angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 ){
-        angular.element(e.currentTarget.firstChild).remove();
-        removeEnterSubj()
-        }
-      }
-      if(e.currentTarget.firstChild.nodeName.toLowerCase() != "#text")  {
-        angular.element(e.currentTarget.firstChild).replaceWith(angular.element(e.currentTarget.firstChild)[0].innerText)
-      }
+
+      analyseInIt();
+      backToStructure();
+
 
 
       vm.model.subject = angular.element(e.currentTarget.firstChild).text();
 
       if(e.which == '13'){
-        //console.log($('#input').html());
+
       }
-      
-    }
+
+      function analyseInIt() {
+
+        // no Enter or return at first char
+        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>') && e.currentTarget.children.length > 1 ){
+          angular.element(e.currentTarget.firstChild).remove();
+          return analyseInIt()
+        }
+
+      }
+
+      function backToStructure(){
+        //console.log('sssss',angular.element(e.currentTarget.firstChild)[0].nextSibling);
+
+        //maybe subjec contain two line in firefox case :(
+        vm.model.body = '';
+
+        if(angular.element(e.currentTarget.firstChild)[0].nextSibling)  {
+
+          //first enter pressed in ff
+          var el = angular.element(e.currentTarget.firstChild)[0].nextSibling;
+          setBody(el);
+          vm.fireFoxBodySet = true;
+        }
+
+        function setBody (el) {
+          vm.model.body = vm.model.body + '\n' + el.nextSibling.nodeValue;
+
+          //recursive for many lines ...
+          if(el.nextSibling.nextSibling && el.nextSibling.nextSibling.nextSibling && el.nextSibling.nextSibling.nextSibling.nextSibling){
+            return setBody(el.nextSibling.nextSibling)
+          }
+        }
+      }
+
+    };
 
     vm.model.submit = function () {
-      var lines = [];
-      for (var i=0 ; i < $('#input').children().length ; i++){
-        console.log($('#input').children()[i].innerText);
-        lines[i] = $('#input').children()[i].innerText;
-      }
-      lines = lines.join('\n')
-      console.log(lines,vm.model.subject);
-      
-      //vm.model.subject = angular.element($('#input').firstChild)[0].innerText;
-      vm.model.body = lines;
 
+      var lines = [];
+      var childs = $('#input').children();
+
+      for (var i=0 ; i < childs.length ; i++){
+
+        lines[i] = childs[i].innerText;
+
+      }
+
+      if (lines.length == 0) {
+
+        if (!vm.fireFoxBodySet) vm.model.body = vm.model.subject;
+        vm.model.subject = "";
+
+      }else {
+
+        if (!vm.fireFoxBodySet)vm.model.body = lines.join('\n');
+
+      }
+
+
+      //vm.model.subject = angular.element($('#input').firstChild)[0].innerText;
 
       vm.send().then(function () {
         //form.elements['subject'].value = '';
@@ -163,6 +223,16 @@
         vm.model.saving = false;
         vm.model.saved = true;
 
+        NstSvcPostFactory.get(response.post.id).then(function(res){
+          var msg = NstSvcPostMap.toMessage(res);
+          vm.addMessage(msg);
+        })
+
+        if(response.noPermitPlaces.length > 0){
+          var text = NstUtility.string.format('Your message hasn\'t been successfully sent to {0}', response.noPermitPlaces.join(','));
+          toastr.warning(text, 'Message doesn\'t Sent');
+        }
+
         toastr.success('Your message has been successfully sent.', 'Message Sent');
 
         return $q(function (res) {
@@ -188,6 +258,46 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
+
+    vm.addMessage = function (msg) {
+      $scope.$emit('post-quick',msg);
+    }
+
+    vm.model.check = function () {
+      vm.model.isModified();
+
+      vm.model.errors = (function (model) {
+        var errors = [];
+
+        var atleastOne = model.subject.trim().length + model.body.trim().length + model.attachments.length > 0;
+
+        if (!atleastOne) {
+          errors.push({
+            name: 'mandatory',
+            message: 'One of Post Body, Subject or Attachment is Mandatory'
+          });
+        }
+
+
+        for (var k in model.attachments) {
+          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].getStatus()) {
+            errors.push({
+              name: 'attachments',
+              message: 'Attachment uploading has not been finished yet'
+            });
+          }
+        }
+
+        return errors;
+      })(vm.model);
+
+      $log.debug('Compose | Model Checked: ', vm.model.errors);
+      vm.model.ready = 0 == vm.model.errors.length;
+
+      return vm.model.ready;
+    };
+
+
     vm.attachments.fileSelected = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {

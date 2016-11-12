@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   angular
@@ -6,100 +6,188 @@
     .controller('ResetPasswordController', ResetPasswordController);
 
   /** @ngInject */
-  function ResetPasswordController($state, md5, toastr,
-                                   NST_DEFAULT, NstSvcAuth, NstHttp) {
+  function ResetPasswordController($scope, $state, $q, md5, toastr,
+    NST_DEFAULT, NstSvcAuth, NstHttp) {
     var vm = this;
 
-    vm.step1 = true;
-    vm.step2 = false;
-    vm.step3 = false;
+    vm.getPhoneNumber = getPhoneNumber;
+    vm.validatePhone = validatePhone;
 
-    vm.submitNumber = function () {
+    (function() {
+      vm.step = 1;
 
-      if (!vm.phone) {
-        return false;
-      } else {
-        vm.step = "step1";
+    })();
+
+    function nextStep() {
+      vm.step++;
+    }
+
+    function previousStep() {
+      if (vm.step > 1) {
+        vm.step--;
+      }
+    }
+
+    function sendNumber(phoneNumber) {
+      var deferred = $q.defer();
+
+      var request = new NstHttp('/forgot/', {
+        f: 'verify_phone',
+        phone: phoneNumber
+      });
+      vm.submitNumberProgress = true;
+
+      request.get().then(function(data) {
+        if (data.status === "ok") {
+          deferred.resolve({
+            verificationId: data.vid
+          });
+        } else if (data.status === "err") {
+          deferred.reject('notfound');
+        }
+      }).catch(function(error) {
+        deferred.reject('unknown');
+      }).finally(function() {
+        vm.submitNumberProgress = false;
+      });
+
+      return deferred.promise;
+    }
+
+    vm.submitNumber = function(isValid) {
+      vm.submitted = true;
+
+      if (!isValid) {
+        validatePhone();
+        return;
       }
 
-      vm.getCodeRequest = true;
-
-      var ajax = new NstHttp('/forgot/', {
-        f: 'verify_phone',
-        phone: vm.phone
-      });
-      ajax.get().then(function (data) {
-        vm.getCodeRequest = false;
-        if (data.status == "ok") {
-          if (data.code) vm.verificationCode = data.code;
-          vm.vid = data.vid;
-          vm.step1 = false;
-          vm.step2 = true;
+      sendNumber(getPhoneNumber()).then(function(result) {
+        vm.verificationId = result.verificationId;
+        nextStep();
+      }).catch(function(reason) {
+        if (reason === 'notfound') {
+          toastr.error('Could not find your phone number.');
         } else {
-          vm.step1 = true;
-          vm.step2 = false;
-          toastr.error("Can not find Username or Phone number!")
+          toastr.error('Sorry, an error happened while trying to recover your password. Please contact us.');
         }
-      }).catch(function (error) {
-        vm.step1 = true;
-        vm.step2 = false;
-        vm.getCodeRequest = false;
-        toastr.error("Error in validation your Username or Phone number!")
       });
     };
 
-    vm.submitCode = function () {
+    function sendCode(verificationId, code) {
+      var deferred = $q.defer();
 
-      vm.verification = 'start';
-
-      var ajax = new NstHttp('/forgot/',
-        {
-          f: 'verify_phone_code',
-          vid: vm.vid,
-          code: vm.verificationCode
-        });
-
-      ajax.get().then(function (data) {
-        if (data.status == 'ok') {
-          vm.step2 = false;
-          vm.step3 = true;
-          vm.verificationWrongCode = false;
+      var request = new NstHttp('/forgot/', {
+        f: 'verify_phone_code',
+        vid: verificationId,
+        code: code
+      });
+      vm.codeVerificationProgress = true;
+      request.get().then(function(data) {
+        if (data.status === 'ok') {
+          deferred.resolve(true);
+        } else {
+          deferred.reject('wrong');
         }
-        else {
-          toastr.error("Code is not valid!");
-          vm.verificationWrongCode = true;
+      }).catch(function(error) {
+        deferred.reject('unknown');
+      }).finally(function() {
+        vm.codeVerificationProgress = false;
+      });
+
+      return deferred.promise;
+    }
+
+    vm.submitCode = function() {
+      sendCode(vm.verificationId, vm.verificationCode).then(function() {
+        nextStep();
+      }).catch(function(reason) {
+        if (reason === 'wrong') {
+          toastr.error('The provided code is wrong!');
+        } else {
+          toastr.error('Sorry, and error happend while verifing the code.');
         }
-        vm.verification = 'finished';
-
-      })
-        .catch(function (error) {
-          toastr.error("Error in validation code!");
-          vm.verification = 'wrong';
-        });
-
+      });
     };
 
-    vm.resetPass = function () {
+    function sendNewPassword(verificationId, phone, password) {
+      var deferred = $q.defer();
 
-      var postData = new FormData();
-      postData.append('f', 'reset_password');
-      postData.append('vid', vm.vid);
-      postData.append('phone', vm.phone);
-      postData.append('pass', md5.createHash(vm.password));
+      var data = new FormData();
+      data.append('f', 'reset_password');
+      data.append('vid', verificationId);
+      data.append('phone', phone);
+      data.append('pass', password);
 
-      var ajax = new NstHttp('/forgot/', postData);
-
-      ajax.post().then(function (data) {
-        if (data.data.status === "ok") {
-          $state.go(NST_DEFAULT.STATE);
-          toastr.success("Password changed successfully!");
+      var request = new NstHttp('/forgot/', data);
+      vm.resetPasswordProgress = true;
+      request.post().then(function(result) {
+        if (result.data.status === "ok") {
+          deferred.resolve(true);
         } else {
-          toastr.error("Error in recover password!");
+          deferred.reject('unknown');
         }
-      }).catch(function () {
-        toastr.error("Error in recover password!");
-      })
+      }).catch(function(error) {
+        deferred.reject('unknown');
+      }).finally(function() {
+        vm.resetPasswordProgress = false;
+      });
 
+      return deferred.promise;
+    }
+
+    vm.resetPass = function() {
+
+      sendNewPassword(vm.verificationId, vm.phone, md5.createHash(vm.password)).then(function(result) {
+        toastr.success("Your password changed successfully.");
+        $state.go('public.signin');
+      }).catch(function(reason) {
+        toastr.error('Sorry, an error happened while reseting your password.');
+      });
+
+    }
+
+    $scope.$on('country-select-changed', function (event, data) {
+      if (data && data.code) {
+        vm.countryCode = data.code;
+        vm.countryId = data.id;
+
+        vm.countryIsValid = true;
+      } else {
+        vm.countryId = null;
+
+        vm.countryIsValid = false;
+      }
+      validatePhone();
+    });
+
+    function validatePhone() {
+      if (!vm.phone) {
+        vm.phoneIsEmpty = true;
+        vm.phoneIsWrong = false;
+      } else if (!getPhoneIsValid(vm.countryId, vm.phone)) {
+        vm.phoneIsWrong = true;
+        vm.phoneIsEmpty = false;
+      } else {
+        vm.phoneIsWrong = false;
+        vm.phoneIsEmpty = false;
+      }
+      vm.phoneIsValid = !vm.phoneIsWrong && !vm.phoneIsEmpty;
+    }
+
+    function getPhoneIsValid(countryId, phone) {
+      try {
+        return phoneUtils.isValidNumber(phone.toString(), countryId);
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function getPhoneNumber() {
+      if (vm.countryCode && vm.phone) {
+        return vm.countryCode.toString() + vm.phone.toString();
+      }
+       return "";
     }
 
   }
