@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcFileFactory($q, _,
-    NstSvcAuth, NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage,
+    NstSvcAuth, NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage, NstSvcFileTokenStorage,
     NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken, NstStoreResource,
     NST_FILE_TYPE) {
 
@@ -78,20 +78,43 @@
 
       var deferred = $q.defer();
 
-      NstSvcServer.request('store/get_download_token', {
-        universal_id: fileId
-      }).then(function(data) {
-        var token = createToken(data.token);
+      var token = getValidStoredToken(fileId);
 
+      if (token) {
         deferred.resolve(token);
-      }).catch(function(error) {
-        var query = new NstFactoryQuery(fileId);
-        var factoryError = new NstFactoryError(query, error.message, error.code);
+      } else {
+        NstSvcServer.request('store/get_download_token', {
+          universal_id : fileId
+        }).then(function(data) {
+          storeToken(fileId, data.token);
+          deferred.resolve(createToken(data.token));
+        }).catch(function(error) {
+          var query = new NstFactoryQuery(fileId);
+          var factoryError = new NstFactoryError(query, error.message, error.code);
 
-        deferred.reject(factoryError);
-      });
+          deferred.reject(factoryError);
+        });
+      }
 
       return deferred.promise;
+    }
+
+    function getValidStoredToken(id) {
+      var rawToken = NstSvcFileTokenStorage.get(id);
+      if (rawToken) {
+        var token = createToken(rawToken);
+        if (!token.isExpired()) {
+          return token;
+        }
+      }
+
+      return null;
+    }
+
+    function storeToken(id, rawToken) {
+      NstSvcFileTokenStorage.remove(id);
+      console.log(rawToken);
+      NstSvcFileTokenStorage.set(id, rawToken);
     }
 
     function createToken(rawToken) {

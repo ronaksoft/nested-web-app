@@ -6,25 +6,86 @@
     .controller('AttachmentViewController', AttachmentViewController);
 
   function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
-                                    hotkeys,
-									NST_FILE_TYPE,
-                                    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
-                                    NstHttp,
-                                    postId, vmAttachment, vmAttachments) {
+    hotkeys, toastr,
+    NST_FILE_TYPE, NST_STORE_ROUTE,
+    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore,
+    NstHttp,
+    fileId, fileViewerItem, fileIds, fileViewerItems) {
+    // postId, vmAttachment, vmAttachments) {
     var vm = this;
+
+    vm.attachments = {
+      collection: [],
+      current: null,
+      tokenUpdater: undefined,
+      downloader: {
+        http: undefined,
+        request: undefined
+      }
+    };
+    vm.status = {
+      postLoadProgress: false,
+      tokenLoadProgress: false,
+      attachmentLoadProgress: false
+    };
+
+    vm.goNext = goNext;
+    vm.goPrevious = goPrevious;
+    vm.goTo = goTo;
+
+    (function () {
+
+      var selectedItemId = fileViewerItem ? fileViewerItem.id : fileId;
+      console.log('report : selected file', selectedItemId);
+      if (_.isArray(fileViewerItems) && fileViewerItems.length > 0) {
+        console.log('report : viewmodels', fileViewerItems);
+
+        if (!_.some(fileViewerItems, { id : selectedItemId })) {
+
+          loadFile(selectedItemId).then(function (file) {
+
+            vm.attachments.collection = _.concat(mapToFileViewerItem(file), fileViewerItems);
+            vm.attachments.current = vm.attachments.collection[0];
+
+            goTo(vm.attachments.current);
+          });
+
+        } else {
+
+          console.log('report : haha');
+          vm.attachments.collection = fileViewerItems;
+          vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId });
+
+          goTo(vm.attachments.current);
+        }
+
+      } else if (_.isArray(fileIds) && fileIds.length > 0) {
+
+        if (!_.some(fileIds, fileId)) {
+          fileIds.unshift(fileId);
+        }
+
+        loadFiles(fileIds).then(function (files) {
+          vm.attachments.collection = mapToFileViewerItems(files);
+          vm.attachments.current = vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId });
+
+          goTo(vm.attachments.current);
+        });
+      }
+    })();
 
     hotkeys.add({
       combo: 'right',
       description: 'compose state',
       callback: function() {
-        vm.goNext();
+        goNext();
       }
     });
     hotkeys.add({
       combo: 'left',
       description: 'compose state',
       callback: function() {
-        vm.goPrevious();
+        goPrevious();
       }
     });
 
@@ -32,56 +93,46 @@
      *** Controller Properties ***
      *****************************/
 
-    vm.status = {
-      postLoadProgress: false,
-      tokenLoadProgress: false,
-      attachmentLoadProgress: false
-    };
 
-    vm.post = undefined;
-    vm.postModel = undefined;
 
-    vm.attachments = {
-      collection: vmAttachments,
-      current: vmAttachment,
-      tokenUpdater: undefined,
-      downloader: {
-        http: undefined,
-        request: undefined
-      }
-    };
+    // vm.post = undefined;
+    // vm.postModel = undefined;
+
 
     /*****************************
      ***** Controller Methods ****
      *****************************/
 
-    vm.goNext = function () {
+
+    function goNext() {
       var currentKey = Number(_.findKey(vm.attachments.collection, { id: vm.attachments.current.id }));
       var nextKey = (currentKey + 1) % vm.attachments.collection.length;
 
-      return vm.goTo(vm.attachments.collection[nextKey]);
+      return goTo(vm.attachments.collection[nextKey]);
     };
 
-    vm.goPrevious = function () {
+
+    function goPrevious() {
       var currentKey = Number(_.findKey(vm.attachments.collection, { id: vm.attachments.current.id }));
       var nextKey = (vm.attachments.collection.length + currentKey - 1) % vm.attachments.collection.length;
 
-      return vm.goTo(vm.attachments.collection[nextKey]);
+      return goTo(vm.attachments.collection[nextKey]);
     };
 
-    vm.goTo = function (vmAttachment) {
+    function goTo(file) {
       var deferred = $q.defer();
-      vmAttachment = _.find(vm.attachments.collection, { id: vmAttachment.id });
 
-      if (!vmAttachment) {
+      var item = _.find(vm.attachments.collection, { id : file.id });
+
+      if (!item) {
         deferred.reject();
       }
 
-      if (vmAttachment.id == vm.attachments.current.id) {
+      if (item.id == vm.attachments.current.id) {
         deferred.resolve(vm.attachments.current);
       }
 
-      vm.attachments.current = vmAttachment;
+      vm.attachments.current = item;
       // Written in $timeout Just to update view
       $timeout(function () {
         if (vm.attachments.current.hasThumbnail) {
@@ -95,9 +146,9 @@
         loadToken(vm.attachments.current)
       ];
 
-      if (!vm.postModel) {
-        promises.push(loadPost());
-      }
+      // if (!vm.postModel && postId) {
+      //   promises.push(loadPost());
+      // }
 
       $q.all(promises).then(function (resolvedSet) {
         var token = resolvedSet[0];
@@ -114,8 +165,6 @@
      *****  Controller Logic  ****
      *****************************/
 
-    vm.goTo(vm.attachments.current);
-
     $uibModalInstance.result.catch(function () {
       return $q(function (res) {
         res(false);
@@ -128,28 +177,28 @@
      *****   Request Methods  ****
      *****************************/
 
-    function reqGetPost(id) {
-      vm.status.postLoadProgress = true;
+    // function reqGetPost(id) {
+    //   vm.status.postLoadProgress = true;
+    //
+    //   return NstSvcLoader.inject(NstSvcPostFactory.get(id)).then(function (post) {
+    //     vm.status.postLoadProgress = false;
+    //
+    //     return $q(function (res) {
+    //       res(post);
+    //     });
+    //   }).catch(function (error) {
+    //     vm.status.postLoadProgress = false;
+    //
+    //     return $q(function (res, rej) {
+    //       rej(error);
+    //     });
+    //   });
+    // }
 
-      return NstSvcLoader.inject(NstSvcPostFactory.get(id)).then(function (post) {
-        vm.status.postLoadProgress = false;
-
-        return $q(function (res) {
-          res(post);
-        });
-      }).catch(function (error) {
-        vm.status.postLoadProgress = false;
-
-        return $q(function (res, rej) {
-          rej(error);
-        });
-      });
-    }
-
-    function reqDownloadToken(id, postId) {
+    function reqDownloadToken(id) {
       vm.status.tokenLoadProgress = true;
 
-      return NstSvcLoader.inject(NstSvcAttachmentFactory.getDownloadToken(postId, id)).then(function (token) {
+      return NstSvcLoader.inject(NstSvcFileFactory.getDownloadToken(id)).then(function (token) {
         vm.status.tokenLoadProgress = false;
 
         return $q(function (res) {
@@ -168,13 +217,22 @@
      *****     Map Methods    ****
      *****************************/
 
-    function mapPost(postModel) {
-      return NstSvcPostMap.toMessage(postModel);
+    // function mapPost(postModel) {
+    //   return NstSvcPostMap.toMessage(postModel);
+    // }
+
+    // function mapAttachment(attachmentModel) {
+    //   return NstSvcAttachmentMap.toAttachmentItem(attachmentModel);
+    // }
+
+    function mapToFileViewerItem(file) {
+      return new NstVmFileViewerItem(file);
     }
 
-    function mapAttachment(attachmentModel) {
-      return NstSvcAttachmentMap.toAttachmentItem(attachmentModel);
+    function mapToFileViewerItems(files) {
+      return _.map(files, mapToFileViewerItem);
     }
+
 
     /*****************************
      *****    Push Methods    ****
@@ -217,7 +275,7 @@
 
       NstSvcLoader.inject(qToken.promise.then(function (token) {
         var deferred = $q.defer();
-        var attachment = _.find(vm.postModel.attachments, { id: vm.attachments.current.id });
+        var attachment = vm.postModel ? _.find(vm.postModel.attachments, { id: vm.attachments.current.id }) : vm.attachments.current;
 
         if (!attachment) {
           deferred.reject();
@@ -226,12 +284,7 @@
             vm.attachments.downloader.http.cancelDownload(vm.attachments.downloader.request);
           }
 
-          attachment.getResource().setToken(token);
-          $timeout(function () {
-            vm.attachments.current.urls.view = attachment.getResource().getUrl().view;
-            vm.attachments.current.urls.download = attachment.getResource().getUrl().download;
-            vm.attachments.current.urls.stream = attachment.getResource().getUrl().stream;
-          });
+          attachment.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, token, attachment.id);
           deferred.resolve(attachment);
         }
 
@@ -239,7 +292,7 @@
       }).then(function (attachment) {
         var deferred = $q.defer();
 
-        vm.attachments.downloader.http = new NstHttp(attachment.getResource().getUrl().view);
+        vm.attachments.downloader.http = new NstHttp(attachment.downloadUrl);
         vm.attachments.downloader.request = vm.attachments.downloader.http.downloadWithProgress(function (event) {
           if (event.lengthComputable) {
             vm.attachments.current.downloadedSize = event.loaded;
@@ -298,7 +351,7 @@
     }
 
     function loadToken(vmAttachment) {
-      return reqDownloadToken(vmAttachment.id, postId);
+      return reqDownloadToken(vmAttachment.id);
     }
 
     function loadPost() {
@@ -306,6 +359,36 @@
         vm.postModel = post;
         vm.post = mapPost(vm.postModel);
       });
+    }
+
+    function loadFiles(ids) {
+      var deferred = $q.defer();
+
+      vm.filesLoadProgress = true;
+      NstSvcFileFactory.get(ids).then(function (files) {
+        deferred.resolve(files);
+      }).catch(function (error) {
+        toastr.error('Sorry, an error happened while preparing to view the files.');
+      }).finally(function () {
+        vm.filesLoadProgress = false;
+      });
+
+      return deferred.promise;
+    }
+
+    function loadFile(id) {
+      var deferred = $q.defer();
+
+      vm.fileLoadProgress = true;
+      NstSvcFileFactory.get([id]).then(function (files) {
+        deferred.resolve(files[0]);
+      }).catch(function (error) {
+        toastr.error('Sorry, an error happened while preparing to view the files.');
+      }).finally(function () {
+        vm.fileLoadProgress = false;
+      });
+
+      return deferred.promise;
     }
   }
 })();

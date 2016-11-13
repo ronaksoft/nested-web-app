@@ -47,7 +47,7 @@
           selector="li.file-list-container">
         <li class="file-list-container _df" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
           <div class="files-types-images">
-            <a href ng-click="ctlFiles.download(item);">
+            <a href ng-click="ctlFiles.preview(item);">
               <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}" class="file-thumbnail"/>
               <div ng-if="!item.thumbnail" class="file-badge {{'file-badge-' + item.type }}">
                 {{item.extension}}
@@ -55,16 +55,20 @@
             </a>
           </div>
           <div class="file-list-item">
-            <div class="item-name">{{item.name}}</div>
+            <div class="item-name">
+              <a href ng-click="ctlFiles.preview(item);">
+                {{item.name}}
+              </a>
+            </div>
             <div class="item-size">{{item.size | bytes}} </div>
             <div class="item-date">{{item.date | date : 'long' }}</span></div>
           </div>
         </li>
       </ul>
-      <div class="_difc _fw optionrow">
-        <div class="_df switch">
-        </div>
-      </div>
+    </div>
+    <div class="text-center margin-top-10">
+      <button class="butn-white" ng-click="ctlFiles.previousPage()" ng-disabled="!ctlFiles.hasPreviousPage && !ctlFiles.filesLoadProgress">Previous</button>&nbsp;&nbsp;
+      <button class="butn-white" ng-click="ctlFiles.nextPage()" ng-disabled="!ctlFiles.hasNextPage && !ctlFiles.filesLoadProgress">Next</button>
     </div>
   </section>
   <div class="content-plus illu">
