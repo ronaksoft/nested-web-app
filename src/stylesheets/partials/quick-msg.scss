@@ -14,14 +14,14 @@
       //font-weight: 600;
       //font-size: 22px;
       //line-height: 30px;
-      //margin-bottom: 8px;
+      margin-bottom: 32px;
       font-weight: 400;
       font-size: 16px;
-      line-height: 20px;
+      line-height: 32px;
       > div {
         font-weight: 400;
         font-size: 16px;
-        line-height: 20px;
+        line-height: 26px;
 
       }
       &:before {
@@ -41,6 +41,10 @@
           opacity: 1;
         }
       }
+    [contenteditable] + div {
+      right: 10px;
+      bottom: 0;
+    }
     textarea {
       border: none
     }

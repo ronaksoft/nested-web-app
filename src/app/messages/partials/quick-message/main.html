@@ -6,7 +6,7 @@
   </form>
 </div>-->
 <div contentedit tabindex="0" id="input" ng-keyup="ctlQuickMessage.writeMsg($event)" placeholder="Write your subject in the first line, and your message body below it." class="_fw _fh" ng-model="ctlQuickMessage.message" aria-expanded="false" role="textbox" auto-dir="{{ctlQuickMessage.model.subject}}"></div>
-<div class="_fw _difh">
+<div class="_difh _pa _fw">
   <nst-attachments-editable-bar class="qm-mode _df _fw" mode="thumbnail" items="ctlQuickMessage.attachments.viewModels" on-item-delete="ctlQuickMessage.attachments.detach"></nst-attachments-editable-bar>
   <div class="quick-icons">
     <label tabindex="0" class="butn-white" for="attach">Attach</label>

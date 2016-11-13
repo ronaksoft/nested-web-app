@@ -19,23 +19,22 @@
           tags: null,
           pasteAsText: true,
           beforeInvokeElement: function () {
-            console.log('eve');
-            //this = Medium.Element
           },
           beforeInsertHtml: function () {
-            console.log('eve');
             //this = Medium.Html
           },
           beforeAddTag: function (tag, shouldFocus, isEditable, afterElement) {
           },
           keyContext: null,
           pasteEventHandler: function(e) {
-            console.log('ev');
             /*default paste event handler*/
           }
 
         });
-        return console.log('sss');
+        return;
+
+
+        //old one
         var oldVal;
         //Let's have spellcheck disabled by default
         !('spellcheck' in attrs) && attrs.$set('spellcheck','false');
