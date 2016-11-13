@@ -51,7 +51,7 @@
           filter : 'ALL',
           keyword : '',
           skip : 0,
-          limit : 6
+          limit : 12
         };
 
     vm.settings = {};
@@ -130,6 +130,10 @@
     }
 
     function preview(file) {
+
+      // NstSvcFileFactory.getDownloadToken(file.id).then(function (token) {
+      //   console.log(token);
+      // });
 
       $uibModal.open({
         animation: false,

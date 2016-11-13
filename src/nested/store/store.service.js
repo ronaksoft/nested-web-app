@@ -32,6 +32,9 @@
     Store.prototype.constructor = Store;
 
     Store.prototype.resolveUrl = function (route, universalId, token) {
+      if (!token) {
+        throw Error("Token is not provided.");
+      }
       var routeKey = Object.keys(NST_STORE_ROUTE).filter(function (k) { return route == NST_STORE_ROUTE[k]; }).pop();
       if (!(routeKey && universalId)) {
         return undefined;
@@ -42,7 +45,7 @@
         BASE_URL: this.url,
         SESSION_KEY: NstSvcServer.getSessionKey(),
         UNIVERSAL_ID: universalId,
-        TOKEN: token.getString() || ''
+        TOKEN: token.string || ''
       };
 
       for (var k in replace) {

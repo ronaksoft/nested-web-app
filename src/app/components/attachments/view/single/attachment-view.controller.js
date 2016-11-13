@@ -36,9 +36,7 @@
     (function () {
 
       var selectedItemId = fileViewerItem ? fileViewerItem.id : fileId;
-      console.log('report : selected file', selectedItemId);
       if (_.isArray(fileViewerItems) && fileViewerItems.length > 0) {
-        console.log('report : viewmodels', fileViewerItems);
 
         if (!_.some(fileViewerItems, { id : selectedItemId })) {
 
@@ -52,7 +50,6 @@
 
         } else {
 
-          console.log('report : haha');
           vm.attachments.collection = fileViewerItems;
           vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId });
 
@@ -284,7 +281,7 @@
             vm.attachments.downloader.http.cancelDownload(vm.attachments.downloader.request);
           }
 
-          attachment.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, token, attachment.id);
+          attachment.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, attachment.id, token);
           deferred.resolve(attachment);
         }
 
@@ -307,14 +304,14 @@
 
         vm.attachments.downloader.request.getPromise().then(function (response) {
           var reader = new FileReader();
-          var blob = new Blob([response.getData()], { type: attachment.getMimeType() });
+          var blob = new Blob([response.getData()], { type: attachment.mimeType });
           reader.onloadend = function(event) {
             var base64data = event.target.result;
 
             // Written in $timeout Just to update view
             $timeout(function () {
               // vm.attachments.current = mapAttachment(attachment);
-              vm.attachments.current.downloadedSize = attachment.getSize();
+              vm.attachments.current.downloadedSize = attachment.size;
               vm.attachments.current.downloadedRatio = 1;
               vm.attachments.current.isDownloaded = true;
               vm.attachments.current.url = base64data;
@@ -354,12 +351,12 @@
       return reqDownloadToken(vmAttachment.id);
     }
 
-    function loadPost() {
-      return reqGetPost(postId).then(function (post) {
-        vm.postModel = post;
-        vm.post = mapPost(vm.postModel);
-      });
-    }
+    // function loadPost() {
+    //   return reqGetPost(postId).then(function (post) {
+    //     vm.postModel = post;
+    //     vm.post = mapPost(vm.postModel);
+    //   });
+    // }
 
     function loadFiles(ids) {
       var deferred = $q.defer();
