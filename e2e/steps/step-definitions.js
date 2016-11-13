@@ -98,6 +98,11 @@ module.exports = function () {
     pS.click();
   });
 
+  this.Given(/^I Click on plus of "([^"]*)" in sidebar$/, function (destination) {
+    var pS = element(By.css('a[href="#/places/_/'+ destination +'"]'));
+    pS.click();
+  });
+
   this.Given(/^I Click on sidebar by id "([^"]*)"$/, function (sidebarId) {
     var sId = element(By.css('#yum'));
     sId.click();
@@ -105,6 +110,11 @@ module.exports = function () {
 
   this.Given(/^I Click Option by Label "([^"]*)"$/, function (label) {
     var option = element(By.css('option[label="' + label + '"]'));
+    option.click();
+  });
+
+  this.Given(/^I Click Option by value "([^"]*)"$/, function (value) {
+    var option = element(By.css('option[value="' + value + '"]'));
     option.click();
   });
 
