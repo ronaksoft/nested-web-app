@@ -68,13 +68,13 @@ Feature: User: mapping
     When I wait 5s
     Given I Click Link by Partial Text "Create a sub-place"
     When I wait 5s
-    Given I fill "Marketing Development" with "test-sub-place18"
+    Given I fill "Marketing Development" with "test-sub-place180"
     When I wait 5s
     Given I Click id "PlaceID"
     When I wait 5s
     Given I clear input by id "change-place-id"
     When I wait 5s
-    Given I fill id "change-place-id" with "test101"
+    Given I fill id "change-place-id" with "test500"
     When I wait 5s
     Given I Click id "change-save"
     When I wait 5s
@@ -82,9 +82,9 @@ Feature: User: mapping
     When I wait 5s
     Given I Click label by for "favo"
     When I wait 5s
-    Given I Click id "submit-place"
-    When I wait 5s
-#    Given I Click id "close-create-place"
+#    Given I Click id "submit-place"
+#    When I wait 5s
+    Given I Click id "close-create-place"
 
 
 #    Given I Click Link by Partial Text "Discard"
