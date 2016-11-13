@@ -183,6 +183,7 @@ li.file-list-container {
   text-overflow: ellipsis;
   overflow: hidden;
   color: lighten($color-solid-60, 10);
+  background: $color-white;
 }
 
 .file-thumbnail {

@@ -14,6 +14,7 @@
       this.size = null;
       this.date = null;
       this.thumbnail = null;
+      this.extension = null;
 
       if (model instanceof NstAttachment) {
         this.id = model.id;
