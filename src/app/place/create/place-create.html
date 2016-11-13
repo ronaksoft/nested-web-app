@@ -11,7 +11,9 @@
     <div class="select-box _difh" ng-click="ctlCreate.setPlaceClosed();"
          ng-class="{ selected : ctlCreate.isClosedPlace }">
       <div class="icn">
-        <img src="/assets/icons/close-place.png">
+        <svg>
+          <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
+        </svg>
       </div>
       <div class="desc">
         <h3>Closed Place</h3>
@@ -21,7 +23,9 @@
     </div>
     <div class="select-box _difh" ng-click="ctlCreate.setPlaceOpen();" ng-class="{ selected : ctlCreate.isOpenPlace }">
       <div class="icn">
-        <img src="/assets/icons/open-place.png">
+        <svg>
+          <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
+        </svg>
       </div>
       <div class="desc">
         <h3>Open Place</h3>
