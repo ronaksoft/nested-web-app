@@ -33,16 +33,16 @@ body {
 }
 
 
-* {
-  box-sizing: inherit;
-  vertical-align: inherit;
-  &:focus {
-    outline: none;
-  }
-  &:visited, &:link ,&:active, &:hover {
-    text-decoration: none !important;
-  }
-}
+//* {
+//  box-sizing: inherit;
+//  vertical-align: inherit;
+//  &:focus {
+//    outline: none;
+//  }
+//  &:visited, &:link ,&:active, &:hover {
+//    text-decoration: none !important;
+//  }
+//}
 
 *::selection {
   color: rgba(255,255,255,1);

@@ -29,7 +29,7 @@
     <p data-ng-if="ctlSettings.accesses.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto" data-tooltip-append-to-body="true"
        data-uib-tooltip="Place description" editable-text="ctlSettings.place.description"
        onbeforesave="ctlSettings.updateDescription($data);">{{ctlSettings.place.description || 'empty'}}</p>
-    <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description"
+    <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description" data-tooltip-append-to-body="true"
        data-ng-if="!ctlSettings.accesses.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</p>
   </div>
   <p ng-if="ctlSettings.isClosedPlace">Who can post messages to this Place?</p>
