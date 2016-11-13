@@ -13,7 +13,15 @@
       <div class="place-info _difv" >
         <div id="filler" affixer first-imp="true" parent=".content" after-content="72"></div>
         <cite affixer first-imp="true" top="16" parent=".content" after-content="72">{{ctlFullNavbar.title}}</cite>
-        <div affixer first-imp="true" parent=".content" after-content="72"><h3 id="place-address" ng-show="ctlFullNavbar.showPlaceId">{{ctlFullNavbar.getPlaceId()}}@nested.me</h3></div>
+        <h3 id="place-address" affixer first-imp="true" parent=".content" after-content="72">
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
+          </svg>
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn20.svg#everyone"></use>
+          </svg>
+          {{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.showPlaceId">@nested.me</span>
+        </h3>
         <p class="nst-mood-storm margin-t-5" ng-if="ctlFullNavbar.place.id !== ctlFullNavbar.grandPlace.id">
           {{ ctlFullNavbar.place.getPrivacy().getLocked() ?
             'Only members can view place contents.' :
