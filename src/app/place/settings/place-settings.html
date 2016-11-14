@@ -148,7 +148,7 @@
   </div>
   <p data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">Members</p>
   <div class="select-box2 _difh"
-       data-ng-if="ctlSettings.accesses.hasSeeMembersAccess"
+       data-ng-if="ctlSettings.accesses.hasAddMembersAccess"
        data-ng-click="ctlSettings.addMember()">
     <div class="add">
       <svg>
@@ -163,7 +163,7 @@
                          has-remove-access="ctlSettings.accesses.hasRemoveAccess"
                          has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
                          role="member.state" ></nst-place-member-item>
-  <div class="_fw _tac margin-b-15">
+  <div class="_fw _tac margin-b-15"  data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">
     <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();">Load more</a>
     <span class="nst-mood-cheerful" ng-if="ctlSettings.teammatesLoadProgress">Loading...</span>
   </div>

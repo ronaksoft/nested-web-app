@@ -6,7 +6,7 @@
     .directive('switchDrag', dragxaxis);
 
   /** @ngInject */
-  function dragxaxis() {
+  function dragxaxis($timeout) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -16,24 +16,29 @@
         var checkbox = $element.parent().parent().find('input');
 
 
-        Draggable.create($element, {
-          type:"x",
-          bounds:parent[0],
-          minX: 4,
-          onDrag : function (e) {
-              // if dragged towards right
-              if (Draggable.get($element).x > 32) {
-                checkbox.prop('checked', true);
-              } else {
-                checkbox.prop('checked', false);
+
+
+        $timeout(function () {
+          if (!checkbox.prop("disabled")) {
+            Draggable.create($element, {
+              type:"x",
+              bounds:{minX:4, maxX: 52},
+              onDrag : function (e) {
+                // if dragged towards right
+                if (Draggable.get($element).x > 32) {
+                  checkbox.prop('checked', true);
+                } else {
+                  checkbox.prop('checked', false);
+                }
+              },
+              onDragEnd:function() {
+                $element.css({transform: ''});
               }
-          },
-          onDragEnd:function() {
+            });
             $element.css({transform: ''});
           }
-        });
-        $element.css({transform: ''});
 
+        },2000);
 
 
       }
