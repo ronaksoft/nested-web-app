@@ -38,7 +38,7 @@
         vm.placeId = $stateParams.placeId;
         initialize();
       }else{
-        vm.showTemmate = false;
+        vm.showTeammate = false;
       }
     });
 
@@ -63,7 +63,7 @@
           collapse();
         }
 
-        vm.showTemmate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
+        vm.showTeammate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
 
         findMembers();
       }).catch(function(error) {

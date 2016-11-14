@@ -113,6 +113,7 @@
 
     function goTo(file) {
       var deferred = $q.defer();
+      vmAttachment = _.find(vm.attachments.collection, { id: vmAttachment.id });
 
       var item = _.find(vm.attachments.collection, { id : file.id });
 

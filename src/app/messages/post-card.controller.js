@@ -65,6 +65,12 @@
         $log.debug(error);
       });
 
+      if(!vm.post.postIsRed)
+        NstSvcPostFactory.read([vm.post.id]).then(function (result) {
+          vm.post.postIsRed = true;
+        }).catch(function (err) {
+          $log.debug('MARK AS READ :' + err);
+        });
       return false;
     }
 
