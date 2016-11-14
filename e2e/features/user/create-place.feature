@@ -23,13 +23,13 @@ Feature: User: login
     When I wait 5s
     Given I Click on plus of "create" in sidebar
     When I wait 5s
-    Given I fill "Marketing Development" with "test-create-place6"
+    Given I fill "Marketing Development" with "test-create-place10"
     When I wait 5s
     Given I Click id "PlaceID"
     When I wait 5s
     Given I clear input by id "change-place-id"
     When I wait 5s
-    Given I fill id "change-place-id" with "create6"
+    Given I fill id "change-place-id" with "create10"
     When I wait 5s
     Given I Click id "change-save"
     When I wait 5s
@@ -42,6 +42,8 @@ Feature: User: login
     When I wait 5s
     Given I Click id "submit-place"
     When I wait 5s
-    Given I Click id "close-create-place"
+    Given I Click id "close-setting-place"
     When I wait 5s
-    Then should the title of the place be "test-create-place6"
+    Then should the title of the place be "test-create-place10"
+
+  Scenario:
