@@ -1,15 +1,14 @@
+<dl ng-show="!ctlSidebar.collapsed" data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
+  <div class="box2"></div>
+  <div class="box1"></div>
+  <div class="box3"></div>
+  <div class="box4"></div>
+</dl>
 <div class="side-place-item-inner"  data-uib-tooltip="{{place.name}}" data-tooltip-enable="{{ctlSidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
   <a href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place.id);" class="_fn">
     <div class="side-place-item-image">
       <img class="account-initials-32" ng-src="{{place.avatar}}"/>
     </div>
-
-    <dl ng-show="!ctlSidebar.collapsed" data-ng-repeat="i in ctlSidebar.range(place.depth)" class="lines">
-      <div class="box2"></div>
-      <div class="box1"></div>
-      <div class="box3"></div>
-      <div class="box4"></div>
-    </dl>
   </a>
   <div class="_fw side-place-name fade-animation" ng-show="!ctlSidebar.collapsed">
     <a href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis="place.name">{{place.name}}</a>

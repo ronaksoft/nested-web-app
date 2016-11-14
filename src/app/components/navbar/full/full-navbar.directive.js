@@ -41,7 +41,7 @@
 
 
         if ($element.children().find( "h3" ).length > 0) { tween2 = new TimelineLite()
-          .add(TweenLite.to($element.children().find( "h3" )[0], 1, {css:{color:'transparent'}, ease:Power4.easeOut}));
+          .add(TweenLite.to($element.children().find( "h3" )[0], 1, {css:{color:'transparent',fill:'transparent',stroke:'transparent'}, ease:Power4.easeOut}));
 
         }
 
