@@ -273,7 +273,7 @@ body.modal-open {
     border: none;
     box-shadow: none;
     background-color: $color-white;
-    top: 70px;
+    top: calc(100% + 30px);
 
   }
   input {

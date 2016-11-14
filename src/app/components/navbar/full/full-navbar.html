@@ -34,10 +34,8 @@
           </svg>
           {{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@nested.me</span>
         </h3>
-        <p class="nst-mood-storm margin-t-5" ng-if="ctlFullNavbar.place.id === ctlFullNavbar.grandPlace.id">
-          {{ ctlFullNavbar.place.getPrivacy().getLocked() ?
-            'Only members can view place contents.' :
-            ('All "' + ctlFullNavbar.grandPlace.name + '" Members can view place contents.')}}
+        <p class="nst-mood-storm margin-t-5" ng-if="ctlFullNavbar.place.id == ctlFullNavbar.grandPlace.id">
+          {{ctlFullNavbar.place.description}}
         </p>
         <!--<p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>-->
         <div class="navigation" affixer parent=".content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">
