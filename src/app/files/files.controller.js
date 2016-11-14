@@ -6,8 +6,8 @@
     .controller('FilesController', FilesController);
 
   /** @ngInject */
-  function FilesController($stateParams, toastr, $uibModal, $state, $timeout,
-    NstSvcFileFactory, NstSvcAttachmentFactory,
+  function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q,
+    NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory,
     NstVmFile, NstVmFileViewerItem,
     NST_DEFAULT) {
     var vm = this;
@@ -45,11 +45,12 @@
     vm.nextPage = nextPage;
     vm.previousPage = previousPage;
     vm.onSelect = onSelect;
+    vm.compose = composeWithAttachments;
 
     vm.selectedFiles = [];
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
-    vm.compose = composeWithAttachments;
+    vm.currentPlaceId = null;
 
     var currentPlaceId,
         defaultSettings = {
@@ -75,10 +76,38 @@
         throw Error('Could not find Place Id.');
       }
 
-      currentPlaceId = $stateParams.placeId;
+      vm.currentPlaceId = $stateParams.placeId;
 
-      load();
+      setPlace(vm.currentPlaceId).then(function (place) {
+
+        load();
+      }).catch(function (error) {
+        toastr.error('Sorry, an error happened while getting the place.');
+      });
+
     })();
+
+    function setPlace(id) {
+      var defer = $q.defer();
+      vm.currentPlace = null;
+      if (!id) {
+        defer.reject(new Error('Could not find a place without Id.'));
+      } else {
+        NstSvcPlaceFactory.get(id).then(function (place) {
+          if (place && place.id) {
+            vm.currentPlace = place;
+            vm.currentPlaceLoaded = true;
+            vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
+          }
+          defer.resolve(vm.currentPlace);
+        }).catch(function (error) {
+          defer.reject(error);
+        });
+      }
+
+      return defer.promise;
+    }
+
 
     function search(keyword) {
       vm.settings.keyword = keyword;
