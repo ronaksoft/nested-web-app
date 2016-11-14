@@ -6,7 +6,7 @@
     .controller('ProfileEditController', ProfileEditController);
 
   /** @ngInject */
-  function ProfileEditController($scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
+  function ProfileEditController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
     toastr, moment,
     NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
     NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility) {
@@ -16,7 +16,7 @@
      *** Controller Properties ***
      *****************************/
 
-    vm.save = save;
+    vm.saveAndExit = saveAndExit;
     vm.removeImage = removeImage;
     vm.setImage = setImage;
     vm.changePassword = changePassword;
@@ -64,14 +64,15 @@
      ***** Controller Methods ****
      *****************************/
     vm.uploadedImage = false;
+
     function setImage(event) {
       vm.uploadedImage = true;
-      var element = event.currentTarget;
+      // var element = event.currentTarget;
       var reader = new FileReader();
 
       vm.model.picture.id = '';
-      vm.model.picture.uploadedFile = element.files[0];
-      vm.model.picture.uploadedFileName = element.files[0].name;
+      vm.model.picture.uploadedFile = event.currentTarget.files[0];
+      // vm.model.picture.uploadedFileName = element.files[0].name;
       vm.model.picture.remove = false;
 
       reader.onload = function(event) {
@@ -82,21 +83,21 @@
       reader.readAsDataURL(vm.model.picture.uploadedFile);
     }
 
-    $scope.$watch(function(){
-      return vm.model.picture.url;
-    },function () {
-      urltoFile(vm.model.picture.url, vm.model.picture.uploadedFileName, 'image/jpg')
-        .then(function(file){
-          vm.model.picture.file = file
-        })
-    });
-
-    function urltoFile(url, filename, mimeType){
-      return (fetch(url)
-          .then(function(res){return res.arrayBuffer();})
-          .then(function(buf){return new File([buf], filename, {type:mimeType});})
-      );
-    }
+    // $scope.$watch(function(){
+    //   return vm.model.picture.url;
+    // },function () {
+    //   urltoFile(vm.model.picture.url, vm.model.picture.uploadedFileName, 'image/jpg')
+    //     .then(function(file){
+    //       vm.model.picture.file = file
+    //     })
+    // });
+    //
+    // function urltoFile(url, filename, mimeType){
+    //   return (fetch(url)
+    //       .then(function(res){return res.arrayBuffer();})
+    //       .then(function(buf){return new File([buf], filename, {type:mimeType});})
+    //   );
+    // }
 
     function removeImage() {
       if (vm.model.picture.request) {
@@ -203,8 +204,8 @@
 
         vm.model.fullName = user.getFullName();
 
-        if (vm.model.picture.file) {
-          storePicture(vm.model.picture.file, vm.model).then(function(storeId) {
+        if (vm.model.picture.uploadedFile) {
+          storePicture(vm.model.picture.uploadedFile, vm.model).then(function(storeId) {
 
             return NstSvcUserFactory.updatePicture(storeId);
           }).then(function (pictureId) {
@@ -228,6 +229,15 @@
       }).catch(deferred.reject);
 
       return deferred.promise;
+    }
+
+    function saveAndExit(isValid) {
+      save(isValid).then(function (result) {
+        toastr.success("Your profile has been updated successfully.");
+        $rootScope.goToLastState();
+      }).catch(function (error) {
+        toastr.error("Sorry, an error occured while updating your profile.");
+      });
     }
 
     function changePassword() {

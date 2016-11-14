@@ -43,7 +43,7 @@
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
               Messages
             </a>
-            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isFiles ? 'active' : ''}}">
+            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isFiles ? 'active' : ''}}">
               Files
             </a>
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
