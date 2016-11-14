@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('QuickMessageController', QuickMessageController);
 
-  function QuickMessageController($q, $log, $scope, toastr, $window,
+  function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,
     NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap) {
     var vm = this;
 
@@ -444,6 +444,44 @@
         });
       });
     };
+
+    vm.resolveSet = false;
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, cancel) {
+
+      if(angular.element(vm.textarea).text().length > 1) {
+        vm.resolveSet = true;
+      }else {
+        vm.resolveSet = false;
+        return
+      }
+
+      if (vm.resolveSet) {
+        event.preventDefault();
+      }
+
+      if(angular.element(vm.textarea).text().length > 1){
+        $rootScope.modals['leave-confirm'] = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/modals/leave-confirm/main.html',
+          controller: 'LeaveConfirmController',
+          controllerAs: 'ctlLeaveConfirm',
+          size: 'sm',
+          resolve: {
+
+          }
+        });
+        $rootScope.modals['leave-confirm'].result.then(function () {
+          console.log('resolve');
+          vm.resolveSet = false;
+          angular.element(vm.textarea).html('');
+          $state.go(toState.name, toParams);
+        });
+      } else {
+        vm.resolveSet = false;
+      }
+
+    });
 
 
 
