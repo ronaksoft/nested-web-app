@@ -6,7 +6,7 @@
     .controller('FilesController', FilesController);
 
   /** @ngInject */
-  function FilesController($stateParams, toastr, $uibModal,
+  function FilesController($stateParams, toastr, $uibModal, $timeout,
     NstSvcFileFactory, NstSvcAttachmentFactory,
     NstVmFile, NstVmFileViewerItem,
     NST_DEFAULT) {
@@ -42,6 +42,8 @@
     vm.preview = preview;
     vm.nextPage = nextPage;
     vm.previousPage = previousPage;
+    vm.onSelect = onSelect;
+
     vm.selectedFiles = [];
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
@@ -175,28 +177,28 @@
       load();
     }
 
-    vm.onSelect = function (fileIds, el) {
-      var selectedFiles = [];
-      for (var i = 0; i < fileIds.length; i++) {
-        var fileObj = vm.files.filter(function (file) {
-          return file.id === parseInt(fileIds[i]);
+    function onSelect(fileIds, el) {
+      console.log('from controller : start')
+      // var selectedFiles = [];
+      // for (var i = 0; i < fileIds.length; i++) {
+      //   var fileObj = vm.files.filter(function (file) {
+      //     return file.id === fileIds[i];
+      //   });
+      //   if (fileObj.length === 1) {
+      //     selectedFiles.push(fileObj[0]);
+      //   }
+      // }
+      // vm.selectedFiles = selectedFiles;
+      $timeout(function () {
+        vm.selectedFiles = _.filter(vm.files, function (file) {
+          return _.includes(fileIds, file.id);
         });
-        if (fileObj.length === 1) {
-          selectedFiles.push(fileObj[0]);
-        }
-      }
-      vm.selectedFiles = selectedFiles;
-    };
 
-
-    vm.totalSelectedFileSize = function () {
-      var total = 0;
-      vm.selectedFiles.map(function (file) {
-        total += file.size;
+        var sizes = _.map(vm.selectedFiles, 'size');
+        vm.totalSelectedFileSize = _.sum(sizes);
       });
 
-      return total;
-    }
-
+      console.log('from controller : end');
+    };
   }
 })();

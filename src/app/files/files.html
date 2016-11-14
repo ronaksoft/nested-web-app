@@ -19,7 +19,7 @@
           <p ng-show="ctlFiles.selectedFiles.length  == 0">All Files</p>
           <!--//TODO:Add size filter// -->
           <p ng-show="ctlFiles.selectedFiles.length  > 0">{{ctlFiles.selectedFiles.length }}<span> Files</span><span
-            class="total-files-size">{{ctlFiles.totalSelectedFileSize()}} MB</span></p>
+            class="total-files-size">{{ctlFiles.totalSelectedFileSize | bytes}}</span></p>
         </li>
         <li>
           <span ng-show="ctlFiles.selectedFiles.length  == 0" class="files-input-group _fw">
