@@ -23,13 +23,13 @@
 #    When I wait 5s
 #    Given I Click on plus of "create" in sidebar
 #    When I wait 5s
-#    Given I fill "Marketing Development" with "test-create-place10"
+#    Given I fill "Marketing Development" with "test-create-place14"
 #    When I wait 5s
 #    Given I Click id "PlaceID"
 #    When I wait 5s
 #    Given I clear input by id "change-place-id"
 #    When I wait 5s
-#    Given I fill id "change-place-id" with "create10"
+#    Given I fill id "change-place-id" with "create14"
 #    When I wait 5s
 #    Given I Click id "change-save"
 #    When I wait 5s
@@ -44,7 +44,20 @@
 #    When I wait 5s
 #    Given I Click id "close-setting-place"
 #    When I wait 5s
-#    Then should the title of the place be "test-create-place10"
+#    Then should the title of the place be "test-create-place14"
 #
 #  Scenario: Delete grand place
+#    Given I Click on "create14" place
+#    When I wait 5s
+#    Given I Click id "navbar-popover"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Delete"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Delete Place"
+#    When I wait 5s
+#    Given I fill "Place Name" with "create14"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "DELETE"
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
 
