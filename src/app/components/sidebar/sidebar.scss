@@ -26,6 +26,7 @@
     font-size: 13px;
     font-weight: 600;
     top: 0;
+    //transform: translateY(-50%);
     right: 6px;
     padding: 0 8px;
   }
@@ -138,7 +139,6 @@
   .side-menu-item.detailed,
   .side-access .detailed,
   .side-place-invite-item-inner.detailed,
-  .detailed#compoese,
   .create-place.detailed,
   .side-place-item-inner.detailed{
     color: rgba(255,255,255,.5);
@@ -156,6 +156,18 @@
       }
       svg {
         fill: rgba(255,255,255,1);
+      }
+    }
+  }
+  .detailed#compoese{
+    color: rgba(255,255,255,.5);
+    a, span {
+      color: rgba(255,255,255,.5);
+    }
+    &:hover,&.isSelected {
+      color: rgba(255,255,255,1);
+      a, span {
+        color: rgba(255,255,255,1);
       }
     }
   }
@@ -692,11 +704,11 @@ ul ul > li:last-child > .place-item-inner{
 .lines {
   display: inline-block;
   width: 16px;
-  height: 100%;
+  height: 40px;
   //height: 100%;
   flex: none;
-  position: absolute;
-  left: -16px;
+  position: relative;
+  //left: -16px;
   top: 0;
 }
 .lines div{
@@ -728,7 +740,7 @@ ul ul > li:last-child > .place-item-inner{
   transition: all .3s;
   &.ng-hide {
     display: flex!important;
-    animation:0.5s appearence ease reverse; 
+    animation:0.5s appearence ease reverse;
   }
   & > div {
     transition: $animation-dur;
@@ -869,18 +881,20 @@ ul ul > li:last-child > .place-item-inner{
       z-index: 5;
       background-color: white;
       span {
-        color: #869D91;
+        color: $color-storm;
         font-size: 14px;
         font-weight: 300;
       }
+      a {
+        color: rgba(0,0,0,.5);
+      }
       &:hover {
-        a,span {color: $color-solid;transition: all .3s}
+        a,span {color: $color-solid;transition: color .3s}
       }
     }
   }
   .places {
     border-top: 1px solid $color-breeze;
-    max-height: calc(100vh - 303px);
     //min-height: calc(100vh - 304px);
     padding-right: 8px;
     z-index: 3;
@@ -889,7 +903,6 @@ ul ul > li:last-child > .place-item-inner{
     overflow: hidden;
 
     .places-list {
-      max-height: calc(100vh - 353px);
       height: 100%;
       >ul {
         padding-left: 16px;
@@ -904,13 +917,17 @@ ul ul > li:last-child > .place-item-inner{
       li {
         //padding-left: 3px;
         display: flex;
+        position: relative;
         flex-direction: column;
         ul {
           //border-left: 1px solid $color-wind;
-          margin-left: 16px;
-          width: calc(100% - 16px);
+          //padding-left: 16px;
+          width: calc(100% - 0);
           .place-item-inner {
-            //margin-top: 4px;
+            a {
+              position: relative;
+              left: -16px;
+            }
           }
         }
         &:last-child {
@@ -921,28 +938,32 @@ ul ul > li:last-child > .place-item-inner{
       }
     }
     .place-item-inner {
-      width: calc(100% - 8px);
-      margin-left: 8px;
+      width: 100%;
+      //padding-left: 8px;
       display: flex;
       align-items: center;
       flex-direction: row;
       transition: all $animation-dur;
       position: relative;
+      .place-item-inner {
+        left: -16px;
+      }
       a {
         @extend ._txe;
         min-height: 32px;
         transition: all $animation-dur;
-        color: #869D91;
+        color: $color-storm;
         font-weight: 400;
         font-size: 14px;
         line-height: 32px;
         padding: 0 8px;
         display: block;
-        width: 100%;
         margin-top: 4px;
         margin-bottom: 4px;
+        margin-right: -16px;
+        width: 100%;
         b {
-          color: #476152;
+          color: $color-hurricane;
           font-weight: 700;
         }
       }
@@ -950,12 +971,15 @@ ul ul > li:last-child > .place-item-inner{
         background-color: $sidebar-place-bg-hover-color;
         border-radius: 3px;
         color: $color-solid;
+        b {
+          color: $color-solid;
+        }
       }
       span {
         display: flex;
         padding-right: 2px;
         position: absolute;
-        right: 0;
+        right: 8px;
         top: 50%;
         transform: translateY(-30%);
         label {
@@ -965,13 +989,11 @@ ul ul > li:last-child > .place-item-inner{
         }
       }
       .icon {
-        position: absolute;
+        position: relative;
         left: -16px;
-        top: 50%;
         margin: 0;
         width: 16px;
         height: 16px;
-        transform: translate3d(0,-50%,0);
       }
       .filler {
         width: 8px;

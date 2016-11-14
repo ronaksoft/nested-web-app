@@ -3,40 +3,52 @@
   flex-direction: column;
   align-items: center;
   .quick-message {
-  min-height: 86px;
   z-index: 10;
   border: 1px solid $color-border;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
   position: relative;
   min-height: 86px;
   padding: 8px 12px 2px 12px;
-
+  display: inline-flex;
+  flex-direction: column;
     [contenteditable] {
-      //font-weight: 600;
-      //font-size: 22px;
-      //line-height: 30px;
-      //margin-bottom: 8px;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 20px;
-      > div {
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 20px;
-
-      }
-
-    }
-    [contenteditable]::first-line {
       font-weight: 600;
       font-size: 22px;
       line-height: 30px;
       margin-bottom: 8px;
+      @extend ._wrb;
+      display: block;
+      flex: 1;
+      color: $color-solid;
+      > div {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 26px;
+      }
+      &::first-line {
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 30px;
+        margin-bottom: 8px;
+        color: inherit;
+      }
+      &:before {
+        width: 490px;
+        max-width: 100%;
+        color: $color-solid;
+        opacity: .3;
+      }
+
     }
     [contenteditable]:not(:empty){
         & + div >.quick-icons {
           opacity: 1;
         }
       }
+    [contenteditable] + div {
+      right: 10px;
+      bottom: 0;
+    }
     textarea {
       border: none
     }
@@ -51,7 +63,7 @@
       flex: none;
       transition: opacity $animation-dur;
       &:hover {
-       opacity: 1;
+       //opacity: 1;
       }
       div,label {
         height: 32px;

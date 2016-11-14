@@ -2,7 +2,7 @@
   display: flex;
   position: absolute;
   background-color: $color-bg;
-  opacity: 0.98;
+  //opacity: 0.98;
   top: 0;
   left: 0;
   width: 100%;
@@ -55,7 +55,7 @@
     input {
       width: 100%;
       min-height: 28px;
-      color: $color-grey;
+      color: $color-solid;
       font-size: 16px;
       font-weight: 400;
       padding: 6px;
@@ -63,8 +63,10 @@
       margin-bottom: 10px;
       &:focus {
         border: 2px solid $color-solid;
-        color: $color-solid;
       }
+    }
+    input:placeholder-shown{
+      color: $color-grey
     }
     aside{
       width: 100%;
@@ -162,14 +164,15 @@
     }
     .icn {
       width: 120px;
-      height: 100%;
+      height: 120px;
       display: flex;
       flex: none;
       justify-content: center;
       align-items: center;
-      img {
-        width: 120px;
-        height: auto;
+      svg {
+        width: 20px;
+        height: 20px;
+        transform: scale(4,4)
       }
     }
     &:hover {

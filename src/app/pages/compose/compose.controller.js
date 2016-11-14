@@ -36,6 +36,20 @@
       saved: false
     };
 
+    (function () {
+      if ($stateParams.attachments && $stateParams.attachments.length > 0) {
+        var attachPromises = _.map($stateParams.attachments, function (item) {
+          return NstSvcAttachmentFactory.load(item);
+        });
+
+        $q.all(attachPromises).then(function (attachments) {
+          vm.model.attachments = attachments;
+        }).catch(function (error) {
+          toastr.error('An error happened while trying to attach with files.');
+        });
+      }
+    })();
+
     vm.search = {
       results: [],
     };
@@ -86,7 +100,7 @@
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff')," +
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype')," +
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
-        "br(opacity:0}" +
+        "br{opacity:0}" +
         "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 12pt!important;}",
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
@@ -194,31 +208,15 @@
       }
       event.currentTarget.value = "";
     };
-    $scope.interface = {};
 
-    // Listen for when the interface has been configured.
-    $scope.$on('$dropletReady', function whenDropletReady() {
-      vm.model.attachfiles.allowedExtensions([/.+/]);
-      vm.model.attachfiles.useArray(false);
+    $scope.$on('droppedAttach', function (event,files) {
 
-    });
-    $scope.$on('$dropletFileAdded', function startupload() {
-
-      var files = vm.model.attachfiles.getFiles(vm.model.attachfiles.FILE_TYPES.VALID);
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i].file).then(function (request) {});
         files[i].deleteFile();
       }
     });
 
-    //Todo : not injected in project and is out of game :D
-    vm.attachments.fileDropped = function (event) {
-      var files = event.currentTarget.files;
-      for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {});
-      }
-      event.currentTarget.value = "";
-    };
 
     vm.attachments.attach = function (file) {
       var deferred = $q.defer();

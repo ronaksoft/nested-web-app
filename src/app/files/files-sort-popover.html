@@ -1,27 +1,5 @@
 <div>
-  <a class="_df list-items _aic cursor-pointer">
-    <div class="file-badge-popover file-badge-archive">ALL
-    </div>
-    <span>All Files</span>
+  <a class="_df list-items _aic cursor-pointer" ng-repeat="fileType in ctlFiles.fileTypes" ui-sref="app.place-files({ placeId : ctlFiles.currentPlaceId, filter : fileType.label })">
+    <span class="capitalize">{{fileType.label}}</span>
   </a>
-  <a class="_df list-items _aic cursor-pointer">
-    <div class="file-badge-popover file-badge-document">DOC</div>
-    <span>Documents</span>
-  </a>
-  <a class="_df list-items _aic cursor-pointer">
-    <div class="file-badge-popover file-badge-image">IMG</div>
-    <span>Images</span>
-  </a>
-  <a class="_df  list-items _aic cursor-pointer">
-    <div class="file-badge-popover file-badge-audio">AUD</div>
-    <span>Audios</span>
-  </a>
-  <a class="_df  list-items _aic cursor-pointer">
-    <div class="file-badge-popover file-badge-video">VID</div>
-    <span>Videos</span>
-  </a>
-  <a class="_df  list-items _aic cursor-pointer">
-    <div class="file-badge-popover file-badge">OTH</div>
-    <span>Others</span>
-    </a>
 </div>

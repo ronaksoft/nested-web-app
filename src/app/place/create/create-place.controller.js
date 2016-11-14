@@ -36,7 +36,7 @@
         addPlace: vm.memberOptions[0].key,
       },
       favorite : true,
-      notification: false,
+      notification: true,
       fillMembers : 'none'
     };
     vm.placeIdIsAvailable = null;

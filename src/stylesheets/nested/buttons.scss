@@ -160,6 +160,11 @@
 .butn-white:hover a{
   color: $color-storm;
 }
+.butn-white:disabled {
+  opacity: .5;
+  background-color: $color-calm;
+  cursor: not-allowed;
+}
 
 /**
   *********************************
@@ -450,11 +455,6 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   flex-direction: row;
   position: relative;
   cursor: grab;
-  &:hover {
-    .circle {
-      box-shadow: 0 4px 8px #CCCCCC;
-    }
-  }
   // OFF
   input + label,
   input + label + label{
@@ -489,7 +489,11 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
       border-radius: 50px;
       display: flex;
       transition: all $animation-dur cubic-bezier(.25,.8,.25,1);
-      left: 4px;
+      left: 0;
+      transform: translateX(4px);
+      &:hover {
+        box-shadow: 0 4px 8px #CCCCCC;
+      }
     }
   }
   input + label + label {
@@ -507,7 +511,8 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   input[type="checkbox"]:checked + label  {
     .circle {
       background-color: #F0F0F0;
-      left: 52px;
+      //left: 52px;
+      transform: translateX(52px);
     }
   }
 
