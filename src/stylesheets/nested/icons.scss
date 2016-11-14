@@ -22,9 +22,6 @@
   background-image: url("../assets/icons/bookmarks.svg");
 }
 
-.icon-sent {
-  background-image: url("../assets/icons/3.svg");
-}
 
 .icon-add {
   background-image: url("../assets/icons/actionbuttons_place.svg");
@@ -38,24 +35,6 @@
   flex: none;
   width: 48px;
   height: 48px;
-}
-.icon-top-action {
-  background-image: url("../assets/icons/sidebaricon.svg");
-  background-repeat: no-repeat;
-  flex: none;
-  width: 48px;
-  height: 48px;
-}
-.icon-top-all-place {
-  background-position: 0 0px;
-}
-
-.icon-top-bookmarks {
-  background-position: 0 -48px;
-}
-
-.icon-top-sent {
-  background-position: 0 -96px;
 }
 .icon-top {
   fill: white;
