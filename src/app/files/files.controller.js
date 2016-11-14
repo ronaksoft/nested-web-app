@@ -6,7 +6,7 @@
     .controller('FilesController', FilesController);
 
   /** @ngInject */
-  function FilesController($stateParams, toastr, $uibModal, $state,
+  function FilesController($stateParams, toastr, $uibModal, $state, $timeout,
     NstSvcFileFactory, NstSvcAttachmentFactory,
     NstVmFile, NstVmFileViewerItem,
     NST_DEFAULT) {
@@ -44,6 +44,8 @@
     vm.preview = preview;
     vm.nextPage = nextPage;
     vm.previousPage = previousPage;
+    vm.onSelect = onSelect;
+
     vm.selectedFiles = [];
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
@@ -178,40 +180,15 @@
       load();
     }
 
-    vm.onSelect = function (fileIds, el) {
-      var selectedFiles = [];
-      for (var i = 0; i < fileIds.length; i++) {
-        var fileObj = vm.files.filter(function (file) {
-          return file.id === parseInt(fileIds[i]);
+    function onSelect(fileIds, el) {
+      $timeout(function () {
+        vm.selectedFiles = _.filter(vm.files, function (file) {
+          return _.includes(fileIds, file.id);
         });
-        if (fileObj.length === 1) {
-          selectedFiles.push(fileObj[0]);
-        }
-      }
-      vm.selectedFiles = selectedFiles;
-    };
 
-    vm.totalSelectedFileSize = function () {
-      var total = 0;
-      vm.selectedFiles.map(function (file) {
-        total += file.size;
+        vm.totalSelectedFileSize = _.sum(sizes);
       });
-
-      return total;
-    }
-
-    function composeWithAttachments(files) {
-      var attachmentIds = [];
-      if (_.isArray(files)) {
-        attachmentIds = _.map(files, 'id');
-      } else if (_.isObject(files) && files.id) {
-        attachmentIds.push(files.id);
-      }
-
-      if (attachmentIds.length > 0) {
-        $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : attachmentIds });
-      }
-    }
+    };
 
   }
 })();
