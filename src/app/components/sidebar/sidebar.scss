@@ -26,6 +26,7 @@
     font-size: 13px;
     font-weight: 600;
     top: 0;
+    //transform: translateY(-50%);
     right: 6px;
     padding: 0 8px;
   }
@@ -138,7 +139,6 @@
   .side-menu-item.detailed,
   .side-access .detailed,
   .side-place-invite-item-inner.detailed,
-  .detailed#compoese,
   .create-place.detailed,
   .side-place-item-inner.detailed{
     color: rgba(255,255,255,.5);
@@ -156,6 +156,18 @@
       }
       svg {
         fill: rgba(255,255,255,1);
+      }
+    }
+  }
+  .detailed#compoese{
+    color: rgba(255,255,255,.5);
+    a, span {
+      color: rgba(255,255,255,.5);
+    }
+    &:hover,&.isSelected {
+      color: rgba(255,255,255,1);
+      a, span {
+        color: rgba(255,255,255,1);
       }
     }
   }
@@ -869,12 +881,15 @@ ul ul > li:last-child > .place-item-inner{
       z-index: 5;
       background-color: white;
       span {
-        color: #869D91;
+        color: $color-storm;
         font-size: 14px;
         font-weight: 300;
       }
+      a {
+        color: rgba(0,0,0,.5);
+      }
       &:hover {
-        a,span {color: $color-solid;transition: all .3s}
+        a,span {color: $color-solid;transition: color .3s}
       }
     }
   }
@@ -937,7 +952,7 @@ ul ul > li:last-child > .place-item-inner{
         @extend ._txe;
         min-height: 32px;
         transition: all $animation-dur;
-        color: #869D91;
+        color: $color-storm;
         font-weight: 400;
         font-size: 14px;
         line-height: 32px;
@@ -948,7 +963,7 @@ ul ul > li:last-child > .place-item-inner{
         margin-right: -16px;
         width: 100%;
         b {
-          color: #476152;
+          color: $color-hurricane;
           font-weight: 700;
         }
       }
@@ -956,6 +971,9 @@ ul ul > li:last-child > .place-item-inner{
         background-color: $sidebar-place-bg-hover-color;
         border-radius: 3px;
         color: $color-solid;
+        b {
+          color: $color-solid;
+        }
       }
       span {
         display: flex;

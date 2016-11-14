@@ -55,7 +55,7 @@
     input {
       width: 100%;
       min-height: 28px;
-      color: $color-grey;
+      color: $color-solid;
       font-size: 16px;
       font-weight: 400;
       padding: 6px;
@@ -63,8 +63,10 @@
       margin-bottom: 10px;
       &:focus {
         border: 2px solid $color-solid;
-        color: $color-solid;
       }
+    }
+    input:placeholder-shown{
+      color: $color-grey
     }
     aside{
       width: 100%;

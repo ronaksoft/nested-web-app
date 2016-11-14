@@ -231,21 +231,22 @@ nst-navbar {
     }
     h3 {
       color: $color-solid;
-      line-height: 24px;
+      line-height: 28px;
       font-size: 13px;
       font-weight: 400;
       margin: 0;
       top: 60px;
-      height: 24px;
+      height: 28px!important;
       fill: $color-hurricane;
       svg {
         width: 20px;
+        margin: 4px 4px 4px 0;
         height: 20px;
         display: flex;
         flex: none;
       }
       span {
-        line-height: 24px;
+        line-height: 28px;
         font-size: 13px;
         font-weight: 400;
       }
