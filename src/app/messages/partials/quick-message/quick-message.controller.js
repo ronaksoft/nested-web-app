@@ -253,9 +253,17 @@
      ***** Controller Methods ****
      *****************************/
 
+    $scope.$on('droppedAttach', function startupload(files) {
+
+      for (var i = 0; i < files.length; i++) {
+        vm.attachments.attach(files[i].file).then(function (request) {});
+        files[i].deleteFile();
+      }
+    });
+
     vm.addMessage = function (msg) {
       $scope.$emit('post-quick',msg);
-    }
+    };
 
     vm.model.check = function () {
       vm.model.isModified();
@@ -437,6 +445,8 @@
         });
       });
     };
+
+
 
   }
 })();

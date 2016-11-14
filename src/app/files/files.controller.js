@@ -6,9 +6,9 @@
     .controller('FilesController', FilesController);
 
   /** @ngInject */
-  function FilesController($stateParams, toastr,
+  function FilesController($stateParams, toastr, $uibModal,
     NstSvcFileFactory, NstSvcAttachmentFactory,
-    NstVmFile,
+    NstVmFile, NstVmFileViewerItem,
     NST_DEFAULT) {
     var vm = this;
 
@@ -39,15 +39,19 @@
       }
     ];
     vm.search = _.debounce(search, 512);
-    vm.download = download;
+    vm.preview = preview;
+    vm.nextPage = nextPage;
+    vm.previousPage = previousPage;
     vm.selectedFiles = [];
+    vm.hasPreviousPage = false;
+    vm.hasNextPage = false;
 
     var currentPlaceId,
         defaultSettings = {
           filter : 'ALL',
           keyword : '',
           skip : 0,
-          limit : 24
+          limit : 6
         };
 
     vm.settings = {};
@@ -63,6 +67,7 @@
       }
 
       currentPlaceId = $stateParams.placeId;
+      vm.settings = defaultSettings;
 
       load();
     })();
@@ -98,14 +103,19 @@
     }
 
     function load() {
+      vm.filesLoadProgress = true;
       NstSvcFileFactory.get(currentPlaceId,
         vm.settings.filter,
         vm.settings.keyword,
         vm.settings.skip,
         vm.settings.limit).then(function (files) {
-        vm.files = mapFiles(files);
+          vm.files = mapFiles(files);
+          vm.hasNextPage = vm.files.length >= vm.settings.limit;
+          vm.hasPreviousPage = vm.settings.skip >= vm.settings.limit;
       }).catch(function (error) {
         toastr.error('An error happened while retreiving files.')
+      }).finally(function () {
+        vm.filesLoadProgress = false;
       });
     }
 
@@ -115,39 +125,74 @@
       });
     }
 
-    function download(file) {
-      NstSvcFileFactory.getDownloadToken(file.id).then(function (token) {
-        var model = NstSvcFileFactory.getOne(file.id);
-        console.log(model);
-        model.getResource().setToken(token);
-        window.open(model.resource.url.download, '_self');
-      }).catch(function (error) {
-        toastr.error('An error happened while preparing to download the file.');
-      });
+    function mapToFileViewerItem(fileViewModel) {
+      return new NstVmFileViewerItem(fileViewModel);
     }
 
-    // vm.onSelect = function (fileIds, el) {
-    //   var selectedFiles = [];
-    //   for (var i = 0; i < fileIds.length; i++) {
-    //     var fileObj = vm.files.filter(function (file) {
-    //       return file.id === parseInt(fileIds[i]);
-    //     });
-    //     if (fileObj.length === 1) {
-    //       selectedFiles.push(fileObj[0]);
-    //     }
-    //   }
-    //   vm.selectedFiles = selectedFiles;
-    // };
-    //
-    //
-    // vm.totalSelectedFileSize = function () {
-    //   var total = 0;
-    //   vm.selectedFiles.map(function (file) {
-    //     total += file.size;
-    //   });
-    //
-    //   return total;
-    // }
+    function preview(file) {
+
+      $uibModal.open({
+        animation: false,
+        templateUrl: 'app/components/attachments/view/single/main.html',
+        controller: 'AttachmentViewController',
+        controllerAs: 'ctlAttachmentView',
+        size: 'mlg',
+        resolve: {
+          fileViewerItem : function () {
+            return mapToFileViewerItem(file);
+          },
+          fileViewerItems : function () {
+            return _.map(vm.files, mapToFileViewerItem);
+          },
+          fileId : function () {
+            return null;
+          },
+          fileIds : function () {
+            return null;
+          }
+        }
+      });
+
+    }
+
+    function nextPage() {
+      vm.settings.skip += vm.settings.limit;
+
+      load();
+    }
+
+    function previousPage() {
+      if (vm.settings.skip >= vm.settings.limit) {
+        vm.settings.skip -= vm.settings.limit;
+      } else {
+        vm.settings.skip = 0;
+      }
+
+      load();
+    }
+
+    vm.onSelect = function (fileIds, el) {
+      var selectedFiles = [];
+      for (var i = 0; i < fileIds.length; i++) {
+        var fileObj = vm.files.filter(function (file) {
+          return file.id === parseInt(fileIds[i]);
+        });
+        if (fileObj.length === 1) {
+          selectedFiles.push(fileObj[0]);
+        }
+      }
+      vm.selectedFiles = selectedFiles;
+    };
+
+
+    vm.totalSelectedFileSize = function () {
+      var total = 0;
+      vm.selectedFiles.map(function (file) {
+        total += file.size;
+      });
+
+      return total;
+    }
 
   }
 })();

@@ -32,6 +32,7 @@
             $element.css({transform: ''});
           }
         });
+        $element.css({transform: ''});
 
 
 

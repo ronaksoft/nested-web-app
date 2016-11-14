@@ -124,7 +124,7 @@
 
     function getMessagesUrl() {
       if (hasPlace()) {
-        return $state.href('app.place-messages', { placeId : vm.getPlaceId() });
+        return $state.href('app.place-messages', {placeId: vm.getPlaceId()});
       } else {
         return $state.href('app.messages');
       }

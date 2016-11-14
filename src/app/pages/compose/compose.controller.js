@@ -194,17 +194,9 @@
       }
       event.currentTarget.value = "";
     };
-    $scope.interface = {};
 
-    // Listen for when the interface has been configured.
-    $scope.$on('$dropletReady', function whenDropletReady() {
-      vm.model.attachfiles.allowedExtensions([/.+/]);
-      vm.model.attachfiles.useArray(false);
+    $scope.$on('droppedAttach', function startupload(files) {
 
-    });
-    $scope.$on('$dropletFileAdded', function startupload() {
-
-      var files = vm.model.attachfiles.getFiles(vm.model.attachfiles.FILE_TYPES.VALID);
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i].file).then(function (request) {});
         files[i].deleteFile();

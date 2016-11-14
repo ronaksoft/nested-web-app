@@ -1,10 +1,3 @@
-<!--<div class="_fw quick-message _fn">
-  <form name="frmQuickMessage" data-ng-submit="ctlQuickMessage.model.submit($event)">
-    <input class="_fw input input-title" name="subject" data-ng-disabled="ctlQuickMessage.model.saving" placeholder="Quick Message Title..."/>
-    <input class="_fw input" name="body" data-ng-disabled="ctlQuickMessage.model.saving" placeholder="quick message text..."/>
-    <input class="hidden" type="submit"/>
-  </form>
-</div>-->
 <div contentedit tabindex="0" id="input" ng-keyup="ctlQuickMessage.writeMsg($event)" placeholder="Write your subject in the first line, and your message body below it." class="_fw _fh" ng-model="ctlQuickMessage.message" aria-expanded="false" role="textbox" auto-dir="{{ctlQuickMessage.model.subject}}"></div>
 <div class="_difh _pa _fw">
   <nst-attachments-editable-bar class="qm-mode _df _fw" mode="thumbnail" items="ctlQuickMessage.attachments.viewModels" on-item-delete="ctlQuickMessage.attachments.detach"></nst-attachments-editable-bar>

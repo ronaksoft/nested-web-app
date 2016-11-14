@@ -13,9 +13,10 @@
       },
       replace: true,
       link: function (scope) {
-        update(scope);
         scope.$watch('attachment', function () {
-          update(scope);
+          if (scope.attachment && scope.attachment.type) {
+            update(scope);
+          }
         });
       },
       template: '<div class="nst-preview-pic-mode" data-ng-include="tplUrl" data-ng-init="attachment = attachment"></div>'

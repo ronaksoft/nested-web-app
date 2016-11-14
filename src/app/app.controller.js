@@ -89,41 +89,9 @@
      ***** Controller Methods ****
      *****************************/
 
-    // TODO should read from cache
     $rootScope.navView = false;
-    $scope.topNavOpen = false;
-    $rootScope.$watch('topNavOpen', function (newValue, oldValue) {
-      $scope.topNavOpen = newValue;
-    });
 
-    // var scrollValue = 0;
-    // var scrollTimeout = false;
-    //$(window).scroll(function (event) {
-    // if($(window).scrollLeft() > 0 ){
-    //   console.log("left");
-    //   return
-    // }
-    // var t = event.currentTarget.scrollY;
-    // if (t > 55 && !$rootScope.navView) {
-    //   $timeout(function () {
-    //     return $rootScope.navView = t > 55;
-    //   });
-    // } else if (t < 56 && $rootScope.navView) {
-    //   $timeout(function () {
-    //     return $rootScope.navView = t > 55;
-    //   });
-    // }
-    // clearTimeout(scrollTimeout);
-    // scrollTimeout = setTimeout(function(){
-    //   vm.scrolled = $(document).scrollTop() - scrollValue;
-    //   scrollValue = $(document).scrollTop();
-    //   if (vm.scrolled < -5 && $rootScope.navView) {
-    //     $timeout(function () {
-    //       return $rootScope.navView = false;
-    //     });
-    //   }
-    // }, 10);
-    //});
+
 
     /*****************************
      *****  Controller Logic  ****
@@ -361,5 +329,24 @@
       }
 
     }
+
+    vm.addAttach = function (files) {
+      $scope.$broadcast('droppedAttach',files);
+    };
+
+    // Listen for when the dnd has been configured.
+    vm.attachfiles = {};
+    
+    $scope.$on('$dropletReady', function whenDropletReady() {
+      vm.attachfiles.allowedExtensions([/.+/]);
+      vm.attachfiles.useArray(false);
+
+    });
+    $scope.$on('$dropletFileAdded', function startupload() {
+
+      var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
+      vm.addAttach(files);
+    });
+    
   }
 })();
