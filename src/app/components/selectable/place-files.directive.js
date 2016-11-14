@@ -34,9 +34,9 @@
               }
             },
           });
+          // seletableElement.attr('nst-selectable').children('on');
         }
       }
     })
 
 })();
-

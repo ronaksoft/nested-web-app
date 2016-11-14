@@ -151,7 +151,7 @@
       var defer = $q.defer();
 
       NstSvcServer.request('attachment/get_info', {
-        attachment_id: id
+        universal_id: id
       }).then(function(response) {
         parseAttachment(response.attachment, post).then(defer.resolve).reject(defer.reject);
       }).catch(function(error) {

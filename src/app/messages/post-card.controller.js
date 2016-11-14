@@ -9,7 +9,6 @@
                               _, moment,
                               NST_POST_EVENT, NST_COMMENT_EVENT,
                               NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
-
     var vm = this;
     var commentBoardMin = 3;
     var commentBoardMax = 99;

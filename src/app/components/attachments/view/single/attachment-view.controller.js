@@ -61,7 +61,7 @@
           fileIds.unshift(fileId);
         }
 
-        loadFiles(fileIds).then(function (files) {
+        loadAllFiles(fileIds).then(function (files) {
           vm.attachments.collection = mapToFileViewerItems(files);
           vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId }) || fileViewerItem;
 
@@ -154,7 +154,7 @@
       return _.map(files, mapToFileViewerItem);
     }
 
-    function loadFiles(ids) {
+    function loadAllFiles(ids) {
       var deferred = $q.defer();
 
       vm.filesLoadProgress = true;
@@ -183,6 +183,5 @@
 
       return deferred.promise;
     }
-
   }
 })();
