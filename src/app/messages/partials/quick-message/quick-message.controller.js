@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('QuickMessageController', QuickMessageController);
 
-  function QuickMessageController($q, $log, $scope, toastr,
+  function QuickMessageController($q, $log, $scope, toastr, $window,
     NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap) {
     var vm = this;
 
@@ -99,91 +99,85 @@
 
       vm.textarea = e.currentTarget;
 
-
-
       analyseInIt();
-      backToStructure();
 
 
-
-      vm.model.subject = angular.element(e.currentTarget.firstChild).text();
-
-      if(e.which == '13'){
+      //console.log(vm.model.subject.length);
+      if(e.which == '13' && vm.model.subject.length == 0){
 
       }
 
       function analyseInIt() {
-
         // no Enter or return at first char
-        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>') && e.currentTarget.children.length > 1 ){
+        if ((angular.element(e.currentTarget.firstChild).text().charCodeAt(0) == 10 || angular.element(e.currentTarget.firstChild).html() == '<br>' || angular.element(e.currentTarget.firstChild).html() == '') && e.currentTarget.children.length > 1 ){
           angular.element(e.currentTarget.firstChild).remove();
           return analyseInIt()
         }
 
       }
 
-      function backToStructure(){
-        //console.log('sssss',angular.element(e.currentTarget.firstChild)[0].nextSibling);
-
-        //maybe subjec contain two line in firefox case :(
-        vm.model.body = '';
-
-        if(angular.element(e.currentTarget.firstChild)[0].nextSibling)  {
-
-          //first enter pressed in ff
-          var el = angular.element(e.currentTarget.firstChild)[0].nextSibling;
-          setBody(el);
-          vm.fireFoxBodySet = true;
-        }
-
-        function setBody (el) {
-          vm.model.body = vm.model.body + '\n' + el.nextSibling.nodeValue;
-
-          //recursive for many lines ...
-          if(el.nextSibling.nextSibling && el.nextSibling.nextSibling.nextSibling && el.nextSibling.nextSibling.nextSibling.nextSibling){
-            return setBody(el.nextSibling.nextSibling)
-          }
-        }
-      }
-
     };
 
     vm.model.submit = function () {
+      applyMove();
 
-      var lines = [];
-      var childs = $('#input').children();
+      //TODO Clone element and play another scen to main element
+      var element = angular.element(vm.textarea);
 
-      for (var i=0 ; i < childs.length ; i++){
+      var elementFirstChild = angular.element(vm.textarea.firstChild);
 
-        lines[i] = childs[i].innerText;
+      vm.model.subject = elementFirstChild.text();
+      elementFirstChild.remove();
 
-      }
 
-      if (lines.length == 0) {
+      if ( element.children().length == 0 || ( element.children().length == 1 && element.children()[0].length == 0)) {
 
-        if (!vm.fireFoxBodySet) vm.model.body = vm.model.subject;
+        vm.model.body = vm.model.subject;
         vm.model.subject = "";
 
       }else {
 
-        if (!vm.fireFoxBodySet)vm.model.body = lines.join('\n');
+        var str = element[0].innerHTML;
+        findBreak(str);
+        vm.model.body = str;
 
       }
 
 
-      //vm.model.subject = angular.element($('#input').firstChild)[0].innerText;
-
-      vm.send().then(function () {
-        //form.elements['subject'].value = '';
-        //form.elements['body'].value = '';
-        $('#input').html('');
+      function applyMove() {
+        var tween2 = new TimelineLite()
+          .add(TweenLite.to($('nst-quick-message')[0], 1, {css:{opacity:'.3',transform: 'scale(0.9,0.9)'}, ease:Power4.easeOut}));
+        tween2
+      }
+      function declineMove() {
+        var tween1 = new TimelineLite()
+          .add(TweenLite.to($('nst-quick-message')[0], .2, {css:{opacity:'1',transform: 'scale(1,1)'}, ease:Power4.easeOut}));
+        tween1
+      }
+      function reverseMove() {
+        var tween2 = new TimelineLite()
+          .add(TweenLite.to($('nst-quick-message')[0], .2, {css:{opacity:'1',transform: 'scale(1,1)'}, ease:Power4.easeOut}));
+        tween2;
+        angular.element(vm.textarea).html('');
         vm.model.subject = '';
         vm.model.body = '';
-        vm.model.saved = false;
         vm.attachments.viewModels = [];
         vm.model.attachfiles = {};
         vm.model.attachments = [];
+      }
+
+      function findBreak(str) {
+        str = str.replace(/<br\s*[\/]?>/gi, "\n");
+        str = str.replace(/<div\s*[\/]?>/gi, "\n");
+        str = str.replace(/<\/div>/gi, "");
+      }
+
+      vm.send().then(function () {
         vm.model.check();
+        vm.model.saved = false;
+        reverseMove();
+      }).catch(function () {
+        declineMove();
       });
 
       //event.preventDefault();
@@ -259,9 +253,16 @@
      ***** Controller Methods ****
      *****************************/
 
+    $scope.$on('droppedAttach', function (event,files) {
+      for (var i = 0; i < files.length; i++) {
+        vm.attachments.attach(files[i].file).then(function (request) {});
+        files[i].deleteFile();
+      }
+    });
+
     vm.addMessage = function (msg) {
       $scope.$emit('post-quick',msg);
-    }
+    };
 
     vm.model.check = function () {
       vm.model.isModified();
@@ -443,6 +444,8 @@
         });
       });
     };
+
+
 
   }
 })();
