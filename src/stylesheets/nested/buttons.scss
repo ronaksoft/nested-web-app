@@ -160,6 +160,11 @@
 .butn-white:hover a{
   color: $color-storm;
 }
+.butn-white:disabled {
+  opacity: .5;
+  background-color: $color-calm;
+  cursor: not-allowed;
+}
 
 /**
   *********************************
