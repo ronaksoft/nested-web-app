@@ -166,17 +166,17 @@
 
     function setNavbarProperties() {
       vm.navTitle = 'All Places';
-      vm.navIconClass = 'icon-nav icon-all-places';
+      vm.navIconClass = 'all-places';
 
 
       if (isBookMark()) {
         vm.navTitle = 'Favorite Places';
-        vm.navIconClass = 'icon-nav icon-top-bookmarks';
+        vm.navIconClass = 'bookmarks';
       }
 
       if (isSent()) {
         vm.navTitle = 'Sent';
-        vm.navIconClass = 'icon-nav icon-top-sent';
+        vm.navIconClass = 'sent';
       }
 
     }

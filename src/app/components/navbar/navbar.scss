@@ -186,6 +186,13 @@ nst-navbar {
     left: 0;
     top: 16px;
     justify-content: center;
+    display: flex;
+    svg {
+      display: flex;
+      width: 24px;
+      height: 24px;
+      transform: scale(2,2) translateY(6px);
+    }
   }
   .place-info {
     display: inline-flex;
