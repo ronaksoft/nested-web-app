@@ -472,7 +472,6 @@
           }
         });
         $rootScope.modals['leave-confirm'].result.then(function () {
-          console.log('resolve');
           vm.resolveSet = false;
           angular.element(vm.textarea).html('');
           $state.go(toState.name, toParams);

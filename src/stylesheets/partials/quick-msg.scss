@@ -18,23 +18,26 @@
       @extend ._wrb;
       display: block;
       flex: 1;
+      color: $color-solid;
       > div {
         font-weight: 400;
         font-size: 16px;
         line-height: 26px;
-        color: $color-solid;
+      }
+      &::first-line {
+        font-weight: 600;
+        font-size: 22px;
+        line-height: 30px;
+        margin-bottom: 8px;
+        color: inherit;
       }
       &:before {
         width: 490px;
         max-width: 100%;
+        color: $color-solid;
+        opacity: .3;
       }
 
-    }
-    [contenteditable]::first-line {
-      font-weight: 600;
-      font-size: 22px;
-      line-height: 30px;
-      margin-bottom: 8px;
     }
     [contenteditable]:not(:empty){
         & + div >.quick-icons {
