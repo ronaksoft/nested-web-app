@@ -53,6 +53,7 @@
       color: #869D91;
       font-size: 14px;
       font-weight: 400;
+      line-height: 18px;
     }
   }
   .recive-set {
@@ -63,6 +64,7 @@
       font-size: 18px;
       color: $color-solid;
       font-weight: 700;
+      line-height: 18px;
       span {
         font-size: 14px;
         font-weight: 400;
@@ -195,6 +197,7 @@
       display: flex;
       align-items: center;
       flex: none;
+      color:$color-wind;
       svg {
         width: 24px;
         height: 24px;
