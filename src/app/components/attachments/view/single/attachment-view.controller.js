@@ -61,7 +61,7 @@
           fileIds.unshift(fileId);
         }
 
-        loadFiles(fileIds).then(function (files) {
+        loadAllFiles(fileIds).then(function (files) {
           vm.attachments.collection = mapToFileViewerItems(files);
           vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId }) || fileViewerItem;
 
@@ -113,6 +113,7 @@
 
     function goTo(file) {
       var deferred = $q.defer();
+      vmAttachment = _.find(vm.attachments.collection, { id: vmAttachment.id });
 
       var item = _.find(vm.attachments.collection, { id : file.id });
 
@@ -153,7 +154,7 @@
       return _.map(files, mapToFileViewerItem);
     }
 
-    function loadFiles(ids) {
+    function loadAllFiles(ids) {
       var deferred = $q.defer();
 
       vm.filesLoadProgress = true;
@@ -182,6 +183,5 @@
 
       return deferred.promise;
     }
-
   }
 })();

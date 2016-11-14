@@ -1,4 +1,4 @@
-<div class="close-modal" ng-click="$dismiss()">
+<div class="close-modal" ng-click="$dismiss()" id="close-setting-place">
   <svg>
     <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
   </svg>
@@ -122,7 +122,6 @@
     <div class="_fw _difv" ng-if="ctlSettings.isClosedPlace">
       <p>Who can create a sub-place?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
-              data-ng-disabled="ctlSettings.place.privacy.receptive === 'off' "
               data-ng-model="ctlSettings.place.policy.add_place"
               data-ng-change="ctlSettings.updateAddPlacePolicy()">
         <option value="creators">Managers of {{ctlSettings.place.name}}</option>

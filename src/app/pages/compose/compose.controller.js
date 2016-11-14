@@ -36,6 +36,20 @@
       saved: false
     };
 
+    (function () {
+      if ($stateParams.attachments && $stateParams.attachments.length > 0) {
+        var attachPromises = _.map($stateParams.attachments, function (item) {
+          return NstSvcAttachmentFactory.load(item);
+        });
+
+        $q.all(attachPromises).then(function (attachments) {
+          vm.model.attachments = attachments;
+        }).catch(function (error) {
+          toastr.error('An error happened while trying to attach with files.');
+        });
+      }
+    })();
+
     vm.search = {
       results: [],
     };

@@ -22,6 +22,9 @@
 
       .state('app.compose', {
         url: '/compose',
+        params : {
+          attachments : []
+        },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose',
@@ -32,7 +35,8 @@
       .state('app.place-compose', {
         url: '/compose/:placeId',
         params: {
-          placeId: NST_DEFAULT.STATE_PARAM
+          placeId: NST_DEFAULT.STATE_PARAM,
+          attachments : []
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
@@ -44,7 +48,8 @@
       .state('app.compose-forward', {
         url: '/forward/:postId',
         params: {
-          postId: NST_DEFAULT.STATE_PARAM
+          postId: NST_DEFAULT.STATE_PARAM,
+          attachments : []
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
@@ -56,7 +61,8 @@
       .state('app.compose-reply-all', {
         url: '/reply/:postId',
         params: {
-          postId: NST_DEFAULT.STATE_PARAM
+          postId: NST_DEFAULT.STATE_PARAM,
+          attachments : []
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
@@ -68,7 +74,8 @@
       .state('app.compose-reply-sender', {
         url: '/reply/:postId/sender',
         params: {
-          postId: NST_DEFAULT.STATE_PARAM
+          postId: NST_DEFAULT.STATE_PARAM,
+          attachments : []
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
@@ -85,7 +92,7 @@
       .state('app.place-settings', {
         url: '/places/:placeId/settings',
         params: {
-          placeId: NST_DEFAULT.STATE_PARAM,
+          placeId: NST_DEFAULT.STATE_PARAM
         },
         options : {
           group : 'settings'

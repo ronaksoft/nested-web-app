@@ -6,8 +6,8 @@
     .controller('FilesController', FilesController);
 
   /** @ngInject */
-  function FilesController($stateParams, toastr, $uibModal,
-    NstSvcFileFactory, NstSvcAttachmentFactory,
+  function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q,
+    NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory,
     NstVmFile, NstVmFileViewerItem,
     NST_DEFAULT) {
     var vm = this;
@@ -19,32 +19,38 @@
       },
       {
         id : 'DOC',
-        label : 'document'
+        label : 'documents'
       },
       {
         id : 'IMG',
-        label : 'photo'
+        label : 'images'
       },
       {
         id : 'AUD',
-        label : 'audio'
+        label : 'audios'
       },
       {
         id : 'VID',
-        label : 'video'
+        label : 'videos'
       },
       {
         id : 'OTH',
         label : 'others'
       }
     ];
+
     vm.search = _.debounce(search, 512);
+    vm.filter = filter;
     vm.preview = preview;
     vm.nextPage = nextPage;
     vm.previousPage = previousPage;
+    vm.onSelect = onSelect;
+    vm.compose = composeWithAttachments;
+
     vm.selectedFiles = [];
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
+    vm.currentPlaceId = null;
 
     var currentPlaceId,
         defaultSettings = {
@@ -57,20 +63,51 @@
     vm.settings = {};
 
     (function () {
+      vm.currentPlaceId = $stateParams.placeId;
+      vm.selectedFileType = getSelectedFilter();
       vm.settings = {
-        filter : getFilterParameter() || defaultSettings.filter,
-        search : getSearchParameter() || defaultSettings.search
+        filter : vm.selectedFileType.id,
+        search : getSearchParameter() || defaultSettings.search,
+        skip : defaultSettings.skip,
+        limit : defaultSettings.limit
       };
 
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
         throw Error('Could not find Place Id.');
       }
 
-      currentPlaceId = $stateParams.placeId;
-      vm.settings = defaultSettings;
+      vm.currentPlaceId = $stateParams.placeId;
 
-      load();
+      setPlace(vm.currentPlaceId).then(function (place) {
+
+        load();
+      }).catch(function (error) {
+        toastr.error('Sorry, an error happened while getting the place.');
+      });
+
     })();
+
+    function setPlace(id) {
+      var defer = $q.defer();
+      vm.currentPlace = null;
+      if (!id) {
+        defer.reject(new Error('Could not find a place without Id.'));
+      } else {
+        NstSvcPlaceFactory.get(id).then(function (place) {
+          if (place && place.id) {
+            vm.currentPlace = place;
+            vm.currentPlaceLoaded = true;
+            vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
+          }
+          defer.resolve(vm.currentPlace);
+        }).catch(function (error) {
+          defer.reject(error);
+        });
+      }
+
+      return defer.promise;
+    }
+
 
     function search(keyword) {
       vm.settings.keyword = keyword;
@@ -79,18 +116,17 @@
     }
 
     function filter(filter) {
-      vm.settings.filter = filter;
-
+      vm.selectedFileType = filter;
+      vm.settings.filter = filter.id;
       load();
     }
 
-    function getFilterParameter() {
+    function getSelectedFilter() {
       var value = _.toLower($stateParams.filter);
-      if (_.some(vm.fileTypes, { label : value })) {
-        return value;
-      }
 
-      return null;
+      return _.find(vm.fileTypes, function (fileType) {
+        return _.toLower(fileType.label) === value;
+      }) || vm.fileTypes[0];
     }
 
     function getSearchParameter() {
@@ -175,27 +211,19 @@
       load();
     }
 
-    vm.onSelect = function (fileIds, el) {
-      var selectedFiles = [];
-      for (var i = 0; i < fileIds.length; i++) {
-        var fileObj = vm.files.filter(function (file) {
-          return file.id === parseInt(fileIds[i]);
+    function onSelect(fileIds, el) {
+      $timeout(function () {
+        vm.selectedFiles = _.filter(vm.files, function (file) {
+          return _.includes(fileIds, file.id);
         });
-        if (fileObj.length === 1) {
-          selectedFiles.push(fileObj[0]);
-        }
-      }
-      vm.selectedFiles = selectedFiles;
+
+        var sizes = _.map(vm.selectedFiles, 'size');
+        vm.totalSelectedFileSize = _.sum(sizes);
+      });
     };
 
-
-    vm.totalSelectedFileSize = function () {
-      var total = 0;
-      vm.selectedFiles.map(function (file) {
-        total += file.size;
-      });
-
-      return total;
+    function composeWithAttachments() {
+      $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : _.map(vm.selectedFiles, 'id') });
     }
 
   }
