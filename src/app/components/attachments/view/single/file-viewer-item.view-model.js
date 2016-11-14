@@ -18,6 +18,7 @@
       this.hasThumbnail = null;
       this.isDownloaded = false;
       this.downloadUrl = null;
+      this.viewUrl = null;
       this.mimeType = null;
       this.meta = {};
 

@@ -124,7 +124,8 @@
 
         getToken(file.id).then(function (token) {
           $timeout(function () {
-            vm.attachments.current.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, file.id, token);
+            vm.attachments.current.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, file.id, token);
+            vm.attachments.current.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, file.id, token);
           });
           deferred.resolve(item);
         }).catch(deferred.reject);
@@ -181,5 +182,6 @@
 
       return deferred.promise;
     }
+
   }
 })();
