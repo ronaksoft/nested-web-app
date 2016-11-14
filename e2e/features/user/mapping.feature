@@ -23,45 +23,74 @@
 #
 #  Scenario: Sent page mapping
 #    When I wait 5s
-#    Given I Click Link by Partial Text "Sent"
+#    When I wait 5s
+#    Given I Click on "sent" in sidebar
 #    When I Wait till line loader hide
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Sent"
 #
 #  Scenario: Bookmark page mapping
 #    When I wait 5s
-#    Given I Click Link by Partial Text "Bookmark"
+#    Given I Click on "bookmarks" in sidebar
 #    When I Wait till line loader hide
 #    When I wait 2s
-#    Then should the title of the place be "Bookmarks"
+#    Then should the title of the place be "Favorite Places"
 #
 #  Scenario: Change page mapping
 #    When I wait 5s
-#    Given I Click Link by Partial Text "All Places"
+#    Given I Click on sidebar "messages"
 #    When I Wait till line loader hide
 #    When I wait 5s
-#    Given I Click Link by Partial Text "Sent"
+#    Given I Click on "sent" in sidebar
 #    When I Wait till line loader hide
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Sent"
 #
-##  //Scenario: test mapping of a place page
-##    Given I Click Link by Partial Text "test-mapping@nested.me"
-##    When I Wait till line loader hide
-##    When I wait 2s
-##    Then should the title of the place be "test mapping"
-##
-##  Scenario: Setting mapping page
-##    Given I Click Link by Partial Text "Setting"
-##    When I Wait till line loader hide
-##    When I wait 5s
-##    Given I Click Link by Partial Text "Add a sub-place"
-##    When I Wait till line loader hide
-##    When I wait 5s
-##    Given I Click Link by Partial Text "Discard"
-##    When I wait 5s
-##    When I Wait till line loader hide
-##    Then should the title of the place be "test mapping"
+#  Scenario: test mapping of a place page
+#    When I wait 5s
+#    Given I Click on "sent" in sidebar
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Given I Click Link by Partial Text "test-mapping@nested.me"
+#    When I Wait till line loader hide
+#    When I wait 2s
+#    Then should the title of the place be "test mapping"
+#
+#  Scenario: Setting page mapping: create a sub-place 1
+#    When I wait 5s
+#    Given I Click id "navbar-popover"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Create a sub-place"
+#    When I wait 5s
+#    Given I Click id "close-create-place"
+#    When I wait 5s
+#    Given I Click id "navbar-popover"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Create a sub-place"
+#    When I wait 5s
+#    Given I fill "Marketing Development" with "test-sub-place"
+#    When I wait 5s
+#    Given I Click id "PlaceID"
+#    When I wait 5s
+#    Given I clear input by id "change-place-id"
+#    When I wait 5s
+#    Given I fill id "change-place-id" with "test12"
+#    When I wait 5s
+#    Given I Click id "change-save"
+#    When I wait 5s
+#    Given I Click label by for "notification"
+#    When I wait 5s
+#    Given I Click label by for "favo"
+#    When I wait 5s
+#    Given I Click id "submit-place"
+#    When I wait 5s
+#    When I wait 5s
+
+
+#    Given I Click Link by Partial Text "Discard"
+#    When I wait 5s
+#    When I Wait till line loader hide
+#    Then should the title of the place be "test mapping"
 ##
 ##  Scenario: Delete place
 ##    Given I Click Link by Partial Text "Delete"

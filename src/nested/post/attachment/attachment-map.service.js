@@ -5,7 +5,7 @@
     .service('NstSvcAttachmentMap', NstSvcAttachmentMap);
 
   /** @ngInject */
-  function NstSvcAttachmentMap(NST_ATTACHMENT_STATUS, NstSvcRandomize, NstSvcFileType, NstSvcAttachmentFactory) {
+  function NstSvcAttachmentMap(NST_ATTACHMENT_STATUS, NstVmFile, NstSvcRandomize, NstSvcFileType, NstSvcAttachmentFactory) {
     var service = {
       toAttachmentItem : toAttachmentItem,
       toEditableAttachmentItem: toEditableAttachmentItem
@@ -14,31 +14,7 @@
     return service;
 
     function toAttachmentItem(attachment) {
-      if (!attachment || !attachment.id) {
-        return {};
-      }
-
-      var model = {
-        id: attachment.getId(),
-        name: NstSvcFileType.removeSuffix(attachment.getFilename()),
-        isDownloaded: false,
-        downloadedSize: 0,
-        downloadedRatio: 0,
-        size: attachment.getSize(),
-        url: attachment.getResource().getUrl().view,
-        urls: {
-          view: attachment.getResource().getUrl().view,
-          download: attachment.getResource().getUrl().download,
-          stream: attachment.getResource().getUrl().stream
-        },
-        type: NstSvcFileType.getType(attachment.getMimeType()),
-        extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
-		meta: {},
-        thumbnail: attachment.hasThumbnail() ? attachment.getPicture().getLargestThumbnail().getUrl().view : null,
-        hasThumbnail: attachment.hasThumbnail()
-      };
-
-      return model;
+      return new NstVmFile(attachment);
     }
 
     function toEditableAttachmentItem(attachment, id) {

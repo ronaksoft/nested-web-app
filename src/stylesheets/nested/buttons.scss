@@ -489,7 +489,8 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
       border-radius: 50px;
       display: flex;
       transition: all $animation-dur cubic-bezier(.25,.8,.25,1);
-      left: 4px;
+      left: 0;
+      transform: translateX(4px);
     }
   }
   input + label + label {
@@ -507,7 +508,8 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   input[type="checkbox"]:checked + label  {
     .circle {
       background-color: #F0F0F0;
-      left: 52px;
+      //left: 52px;
+      transform: translateX(52px);
     }
   }
 

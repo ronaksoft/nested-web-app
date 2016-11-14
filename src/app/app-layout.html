@@ -1,5 +1,5 @@
 <!-- <div ui-view> -->
-  <div class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen,'show-mob-app': !userAppNoticed}">
+  <div class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen,'show-mob-app': !userAppNoticed}" data-droplet ng-model="ctlApp.attachfiles">
     <div class="maincontainer _fw" ng-class="{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
       <nst-sidebar
         collapsed="ctlApp.viewSettings.sidebar.collapsed"
@@ -8,6 +8,7 @@
       <scroll-change-observer></scroll-change-observer>
       <div class="nst-container _tr" ui-view></div>
     </div>
+    <div class="droplet"></div>
   </div>
 <disconnect-message data-disconnect="ctlApp.disconnected" ></disconnect-message>
 <!-- </div> -->

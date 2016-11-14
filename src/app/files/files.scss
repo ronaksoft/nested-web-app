@@ -1,17 +1,19 @@
 .list-inline ul {
   display: flex;
-  width: 703px;
-  height: 20px;
-  margin-top: 10px;
+  width: 100%;
+  padding:0;
+  margin-left:0;
+  margin-top: 28px;
   flex-grow: 1;
+  align-items: baseline;
 
   p {
-    margin-top: 1px;
     font-size: 32px;
     font-weight: 300;
     color: $color-solid;
     text-align: left;
-    margin-left: 16px;
+    margin: 0 0 0 16px;
+    padding: 0;
 
   }
   .files-arrow {
@@ -19,13 +21,10 @@
     display: inline;
     border: 0;
     left: 0;
-    padding: 5px 10px 3px 10px;
+    padding: 5px 10px 0 10px;
     cursor: pointer;
     margin-left: 7px;
     color: #869D91;
-    &:hover {
-      color: $color-solid;
-    }
   }
 }
 
@@ -43,6 +42,7 @@
       font-size: 13px;
       font-weight: 200;
       margin: 0 0 10px 16px;
+      cursor: default;
       &:hover {
         color: $color-solid;
       }
@@ -53,6 +53,7 @@
       font-size: 13px;
       font-weight: 200;
       margin-bottom: 10px;
+      cursor: default;
       &:hover {
         color: $color-solid;
       }
@@ -63,6 +64,7 @@
       font-size: 13px;
       font-weight: 200;
       margin-bottom: 10px;
+      cursor: default;
       &:hover {
         color: $color-solid;
       }
@@ -87,20 +89,17 @@
   ul {
     list-style-type: none;
     box-sizing: border-box;
-    height: 500px;
+    height: 100%;
     .files-types {
       padding: 0 !important;
     }
     .file-list-container {
-      height: 64px;
+      width:100%;
+      align-items: center;
     }
     .file-list-item {
       display: flex;
       width: calc(100% - 80px);
-      float: right;
-      position: relative;
-      top: 50%;
-      transform: translateY(-50%);
       margin-left: 16px;
       border-bottom: 1px solid #f0f0f0;
       padding: 20px 0;
@@ -108,7 +107,7 @@
       .item-name {
         width: auto;
         font-size: 15px;
-        font-weight: 100;
+        font-weight: 50;
         flex-grow: 1;
       }
       .item-date {
@@ -134,7 +133,7 @@
 .files-input {
   width: 173px!important;
   height: 26px!important;
-  margin: 28px 0 0 0;
+  margin: 28px 50px 0 0;
   padding-right: 8px;
   padding-left: 8px;
 }
@@ -145,12 +144,9 @@ div.files-input {
 li.j-selected {
   background-color: rgba($color-sense, .2);
   border-bottom: none;
-}
-
-hr {
-  margin-top: 0;
-  margin-bottom: 0;
-  //border: 0; ! OmG , Why ?! FIXME
+  &:hover{
+    background-color: rgba($color-sense, .2)!important;
+  }
 }
 
 .total-files-size {
@@ -160,24 +156,78 @@ hr {
 }
 
 li.file-list-container {
-  position: relative;
+  display: flex;
   &:hover {
     background-color: $color-sense-5;
   }
 }
 
 .files-types-images {
-  img {
-    object-fit: cover;
-    width: 48px;
-    height: 48px;
-  }
+  margin: 0 0 0 7px;
+}
+
+.file-badge, .file-thumbnail {
+  display : inline-block;
+  border: 1px solid $color-solid-30;
+  border-radius: 2px;
+  width : 50px;
 }
 
 .file-badge {
-  display : inline-block;
-  width : 50px;
+  text-align: center;
+  text-transform: uppercase;
   height: 28px;
+  line-height: 20px;
+  padding: 4px;
+  font-size: $font-size-small;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: lighten($color-solid-60, 10);
+  background: $color-white;
+}
+
+.file-thumbnail {
+  object-fit: cover;
+  width: 48px;
+  height: 48px;
+}
+
+.file-badge-pdf {
+  border-color: #FA0032;
+  background: linear-gradient(lighten(#FA0032, 40), $color-white);
+  color: #FA0032;
+  margin-top: 8px;
+}
+.file-badge-archive {
+  border-color: #5A28BE;
+  background: linear-gradient(lighten(#5A28BE, 40), $color-white);
+  color: #5A28BE;
+  margin-top: 8px;
+}
+.file-badge-document {
+  border-color: #148CF0;
+  background: linear-gradient(lighten(#148CF0, 40), $color-white);
+  color: #148CF0;
+  margin-top: 8px;
+}
+.file-badge-audio, .file-badge-video, .file-badge-image {
+  border-color: #3CC882;
+  background: linear-gradient(lighten(#3CC882, 40), $color-white);
+  color: #3CC882;
+  margin-top: 8px;
+}
+
+.popover-files{
+  width: 150px;
+  background: #FFFFFF;
+  border-color: #ced9d3;
+  padding: 8px 0;
+}
+
+.file-badge-popover {
+  display: inline-block;
+  width: 40px;
+  height: 25px;
   border: 1px solid $color-solid-30;
   border-radius: 2px;
   text-align: center;
@@ -188,25 +238,9 @@ li.file-list-container {
   text-overflow: ellipsis;
   overflow: hidden;
   color: lighten($color-solid-60, 10);
+  margin: 0 12px 0 0;
 }
 
-.file-badge-pdf {
-  border-color: #FA0032;
-  background: linear-gradient(lighten(#FA0032, 40), $color-white);
-  color: #FA0032;
-}
-.file-badge-archive {
-  border-color: #5A28BE;
-  background: linear-gradient(lighten(#5A28BE, 40), $color-white);
-  color: #5A28BE;
-}
-.file-badge-document {
-  border-color: #148CF0;
-  background: linear-gradient(lighten(#148CF0, 40), $color-white);
-  color: #148CF0;
-}
-.file-badge-audio, .file-badge-video, .file-badge-image {
-  border-color: #3CC882;
-  background: linear-gradient(lighten(#3CC882, 40), $color-white);
-  color: #3CC882;
+.popover.bottom {
+  margin-top: 0;
 }

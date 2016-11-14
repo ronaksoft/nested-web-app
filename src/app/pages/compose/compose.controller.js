@@ -194,31 +194,15 @@
       }
       event.currentTarget.value = "";
     };
-    $scope.interface = {};
 
-    // Listen for when the interface has been configured.
-    $scope.$on('$dropletReady', function whenDropletReady() {
-      vm.model.attachfiles.allowedExtensions([/.+/]);
-      vm.model.attachfiles.useArray(false);
+    $scope.$on('droppedAttach', function (event,files) {
 
-    });
-    $scope.$on('$dropletFileAdded', function startupload() {
-
-      var files = vm.model.attachfiles.getFiles(vm.model.attachfiles.FILE_TYPES.VALID);
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i].file).then(function (request) {});
         files[i].deleteFile();
       }
     });
 
-    //Todo : not injected in project and is out of game :D
-    vm.attachments.fileDropped = function (event) {
-      var files = event.currentTarget.files;
-      for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {});
-      }
-      event.currentTarget.value = "";
-    };
 
     vm.attachments.attach = function (file) {
       var deferred = $q.defer();
