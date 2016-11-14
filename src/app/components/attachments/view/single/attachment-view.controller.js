@@ -97,13 +97,17 @@
     };
 
     function goPrevious() {
-      var currentKey = Number(_.findKey(vm.attachments.collection, { id: vm.attachments.current.id }));
-      var nextKey = (vm.attachments.collection.length + currentKey - 1) % vm.attachments.collection.length;
+      var currentId = vm.attachments.current.id;
+      vm.attachments.current = { downloadUrl : '' };
+      $timeout(function () {
+        var currentKey = Number(_.findKey(vm.attachments.collection, { id: currentId }));
+        var nextKey = (vm.attachments.collection.length + currentKey - 1) % vm.attachments.collection.length;
 
-      goTo(vm.attachments.collection[nextKey]).then(function (item) {
-        vm.attachments.current = item;
-      }).catch(function (error) {
-        toastr.error('Sorry, an error happened while retrieving the previous file.');
+        goTo(vm.attachments.collection[nextKey]).then(function (item) {
+          vm.attachments.current = item;
+        }).catch(function (error) {
+          toastr.error('Sorry, an error happened while retrieving the previous file.');
+        });
       });
     };
 
@@ -116,11 +120,12 @@
         deferred.resolve(vm.attachments.current);
       } else {
 
-        item.downloadUrl = '';
         vm.attachments.current = item;
 
         getToken(file.id).then(function (token) {
-          item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, file.id, token);
+          $timeout(function () {
+            vm.attachments.current.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, file.id, token);
+          });
           deferred.resolve(item);
         }).catch(deferred.reject);
       }
