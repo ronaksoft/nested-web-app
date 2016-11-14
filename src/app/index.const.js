@@ -70,6 +70,9 @@
         'app.place-message-chain',
         'app.message-chain'
       ],
+      'FILES': [
+        'app.place-files'
+      ],
       'SEARCH': [
         'app.search'
       ]

@@ -52,8 +52,7 @@
     vm.hasNextPage = false;
     vm.currentPlaceId = null;
 
-    var currentPlaceId,
-        defaultSettings = {
+    var defaultSettings = {
           filter : 'ALL',
           keyword : '',
           skip : 0,
@@ -140,7 +139,7 @@
 
     function load() {
       vm.filesLoadProgress = true;
-      NstSvcFileFactory.get(currentPlaceId,
+      NstSvcFileFactory.get(vm.currentPlaceId,
         vm.settings.filter,
         vm.settings.keyword,
         vm.settings.skip,
