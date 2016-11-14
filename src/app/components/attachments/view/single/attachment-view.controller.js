@@ -6,11 +6,11 @@
     .controller('AttachmentViewController', AttachmentViewController);
 
   function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
-    hotkeys, toastr,
-    NST_FILE_TYPE, NST_STORE_ROUTE,
-    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore,
-    NstHttp,
-    fileId, fileViewerItem, fileIds, fileViewerItems) {
+                                    hotkeys, toastr,
+                                    NST_FILE_TYPE, NST_STORE_ROUTE,
+                                    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore,
+                                    NstHttp,
+                                    fileId, fileViewerItem, fileIds, fileViewerItems) {
     var vm = this;
 
     vm.attachments = {
@@ -113,7 +113,6 @@
 
     function goTo(file) {
       var deferred = $q.defer();
-      vmAttachment = _.find(vm.attachments.collection, { id: vmAttachment.id });
 
       var item = _.find(vm.attachments.collection, { id : file.id });
 
