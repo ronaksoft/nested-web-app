@@ -56,68 +56,6 @@
 #    When I wait 2s
 #    Then should the title of the place be "test mapping"
 #
-#  Scenario: Setting page mapping: create a sub-place 1
-#    When I wait 5s
-#    Given I Click id "navbar-popover"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Create a sub-place"
-#    When I wait 5s
-#    Given I Click id "close-create-place"
-#    When I wait 5s
-#    Given I Click id "navbar-popover"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Create a sub-place"
-#    When I wait 5s
-#    Given I fill "Marketing Development" with "test-sub-place180"
-#    When I wait 5s
-#    Given I Click id "PlaceID"
-#    When I wait 5s
-#    Given I clear input by id "change-place-id"
-#    When I wait 5s
-#    Given I fill id "change-place-id" with "test500"
-#    When I wait 5s
-#    Given I Click id "change-save"
-#    When I wait 5s
-#    Given I Click label by for "notification"
-#    When I wait 5s
-#    Given I Click label by for "favo"
-#    When I wait 5s
-#    Given I Click id "submit-place"
-#    When I wait 5s
-#    Given I Click id "close-create-place"
-
-
-#    Given I Click Link by Partial Text "Discard"
-#    When I wait 5s
-#    When I Wait till line loader hide
-#    Then should the title of the place be "test mapping"
-##
-##  Scenario: Delete place
-##    Given I Click Link by Partial Text "Delete"
-##    When I Wait till line loader hide
-##    When I wait 5s
-##    Given I Click Link by Partial Text "Cancel"
-##    When I wait 5s
-##    When I Wait till line loader hide
-##    Then should the title of the place be "test mapping"//
-#
-#  Scenario: Create a place mapping
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Activity"
-#    When I Wait till line loader hide
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Create New Grand Place"
-#    When I Wait till line loader hide
-#    When I wait 5s
-#    Then should the title of the place be "Add Place"
-#
-#  Scenario: Discard
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Discard"
-#    When I Wait till line loader hide
-#    When  I wait 2s
-#    Then should the title of the place be "All Places"
-#
 #  Scenario: Compose mapping
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Compose"
@@ -134,10 +72,10 @@
 #
 #  Scenario: Edit my profile mapping
 #    When I wait 5s
-#    Given I Click Link by Partial Text "@test-mapping"
+#     Given I Click on "create14" place
 #    When I Wait till line loader hide
 #    When I wait 5s
-#    Given I Click Link by Partial Text "Edit My profile"
+#    Given I Click on sidebar "Edit My profile"
 #    When I wait 5s
 #    Then should the title of the place be "Profile"
 #
@@ -151,7 +89,7 @@
 #    When I wait 5s
 #    Then should the title of the place be "Profile"
 #
-#    Given I Click Link by Partial Text "All Places"
+#    Scenario: I Click on sidebar "messages"
 #    When I Wait till line loader hide
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
