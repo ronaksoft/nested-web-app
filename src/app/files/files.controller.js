@@ -19,19 +19,19 @@
       },
       {
         id : 'DOC',
-        label : 'document'
+        label : 'documents'
       },
       {
         id : 'IMG',
-        label : 'photo'
+        label : 'images'
       },
       {
         id : 'AUD',
-        label : 'audio'
+        label : 'audios'
       },
       {
         id : 'VID',
-        label : 'video'
+        label : 'videos'
       },
       {
         id : 'OTH',
@@ -62,9 +62,13 @@
     vm.settings = {};
 
     (function () {
+      vm.currentPlaceId = $stateParams.placeId;
+      vm.selectedFileType = getSelectedFilter();
       vm.settings = {
-        filter : getFilterParameter() || defaultSettings.filter,
-        search : getSearchParameter() || defaultSettings.search
+        filter : vm.selectedFileType.id,
+        search : getSearchParameter() || defaultSettings.search,
+        skip : defaultSettings.skip,
+        limit : defaultSettings.limit
       };
 
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
@@ -72,7 +76,6 @@
       }
 
       currentPlaceId = $stateParams.placeId;
-      vm.settings = defaultSettings;
 
       load();
     })();
@@ -84,18 +87,17 @@
     }
 
     function filter(filter) {
-      vm.settings.filter = filter;
-
+      vm.selectedFileType = filter;
+      vm.settings.filter = filter.id;
       load();
     }
 
-    function getFilterParameter() {
+    function getSelectedFilter() {
       var value = _.toLower($stateParams.filter);
-      if (_.some(vm.fileTypes, { label : value })) {
-        return value;
-      }
 
-      return null;
+      return _.find(vm.fileTypes, function (fileType) {
+        return _.toLower(fileType.label) === value;
+      }) || vm.fileTypes[0];
     }
 
     function getSearchParameter() {
@@ -186,9 +188,14 @@
           return _.includes(fileIds, file.id);
         });
 
+        var sizes = _.map(vm.selectedFiles, 'size');
         vm.totalSelectedFileSize = _.sum(sizes);
       });
     };
+
+    function composeWithAttachments() {
+      $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : _.map(vm.selectedFiles, 'id') });
+    }
 
   }
 })();

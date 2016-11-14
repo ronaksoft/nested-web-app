@@ -25,21 +25,18 @@
             textSelection: true,
             keyboardMode: "select",
             select: function (event, ui) {
-              console.log('from directive : selected');
               selectedArray = [];
               seletableElement.selectonic("getSelected").each(function (i, e) {
                 selectedArray.push($(e).attr(scope.selectAttr))
               });
               if (scope.onSelect) {
-                console.log('from directive : calling function');
                 scope.onSelect(selectedArray);
               }
             },
           });
-          seletableElement.attr('nst-selectable').children('on');
+          // seletableElement.attr('nst-selectable').children('on');
         }
       }
     })
 
 })();
-
