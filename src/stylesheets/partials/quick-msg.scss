@@ -12,8 +12,8 @@
   display: inline-flex;
   flex-direction: column;
     [contenteditable] {
-      font-weight: 600;
-      font-size: 22px;
+      font-weight: 100;
+      font-size: 24px;
       line-height: 30px;
       margin-bottom: 8px;
       @extend ._wrb;
@@ -21,13 +21,13 @@
       flex: 1;
       color: $color-solid;
       > div {
+        font-size: 13px;
+        line-height: 125%;
         font-weight: 400;
-        font-size: 16px;
-        line-height: 26px;
       }
       &::first-line {
-        font-weight: 600;
-        font-size: 22px;
+        font-weight: 100;
+        font-size: 24px;
         line-height: 30px;
         margin-bottom: 8px;
         color: inherit;

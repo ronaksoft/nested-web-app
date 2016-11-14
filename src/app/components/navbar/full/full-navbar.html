@@ -5,7 +5,15 @@
   <div class="nst-content _tr">
     <div class="content _pr">
       <div class="icon-logo" affixer first-imp="true" parent=".content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
-          <div class="icon reverse {{ctlFullNavbar.pictureClass}}"></div>
+        <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'all-places'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
+        </svg>
+          <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'bookmarks'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
+        </svg>
+          <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'sent'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
+        </svg>
       </div>
       <div class="place-logo" affixer first-imp="true" parent=".content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureUrl">
           <img class="_tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
