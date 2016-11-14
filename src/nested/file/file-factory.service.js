@@ -113,7 +113,6 @@
 
     function storeToken(id, rawToken) {
       NstSvcFileTokenStorage.remove(id);
-      console.log(rawToken);
       NstSvcFileTokenStorage.set(id, rawToken);
     }
 

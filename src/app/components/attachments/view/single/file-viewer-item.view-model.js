@@ -18,6 +18,9 @@
       this.hasThumbnail = null;
       this.isDownloaded = false;
       this.downloadUrl = null;
+      this.viewUrl = null;
+      this.mimeType = null;
+      this.meta = {};
 
       if (model instanceof NstAttachment) {
 
@@ -29,6 +32,7 @@
         this.date = moment(model.uploadTime);
         this.hasThumbnail = model.hasThumbnail();
         this.thumbnail = model.hasThumbnail() ? model.picture.getThumbnail(32).url.view : '';
+        this.mimeType = model.mimeType;
 
       } else if (model instanceof NstVmFile) {
 
@@ -39,6 +43,7 @@
         this.size = model.size;
         this.date = model.date;
         this.thumbnail = model.thumbnail;
+        this.mimeType = model.mimeType;
 
       } else  {
         throw Error('Could not create a view-model from an unsupported type');
