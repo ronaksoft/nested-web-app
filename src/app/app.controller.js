@@ -330,13 +330,10 @@
 
     }
 
-    vm.addAttach = function (files) {
-      $scope.$broadcast('droppedAttach',files);
-    };
 
     // Listen for when the dnd has been configured.
     vm.attachfiles = {};
-    
+
     $scope.$on('$dropletReady', function whenDropletReady() {
       vm.attachfiles.allowedExtensions([/.+/]);
       vm.attachfiles.useArray(false);
@@ -345,8 +342,8 @@
     $scope.$on('$dropletFileAdded', function startupload() {
 
       var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
-      vm.addAttach(files);
+      $scope.$broadcast('droppedAttach',files);
     });
-    
+
   }
 })();

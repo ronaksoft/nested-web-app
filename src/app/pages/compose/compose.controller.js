@@ -195,7 +195,7 @@
       event.currentTarget.value = "";
     };
 
-    $scope.$on('droppedAttach', function startupload(files) {
+    $scope.$on('droppedAttach', function (event,files) {
 
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i].file).then(function (request) {});
@@ -203,14 +203,6 @@
       }
     });
 
-    //Todo : not injected in project and is out of game :D
-    vm.attachments.fileDropped = function (event) {
-      var files = event.currentTarget.files;
-      for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {});
-      }
-      event.currentTarget.value = "";
-    };
 
     vm.attachments.attach = function (file) {
       var deferred = $q.defer();
