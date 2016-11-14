@@ -26,7 +26,7 @@
         <div class="text-center">
           <a class="_tac nst-marginbtm-32 changePassLink" ui-sref="app.change-password">Change Password</a>
         </div>
-        <form ng-submit="ctlProfileEdit.save(profileForm.$valid);" name="profileForm" novalidate>
+        <form ng-submit="ctlProfileEdit.saveAndExit(profileForm.$valid);" name="profileForm" novalidate>
           <div class="form-group" ng-class="{ 'has-error' : profileForm.firstName.$invalid && ctlProfileEdit.submitted}">
             <label for="firstName" ng-if="profileForm.firstName.$valid || !ctlProfileEdit.submitted">First name</label>
             <label class="error-message" ng-if="profileForm.firstName.$error.required && ctlProfileEdit.submitted">First name is required</label>
