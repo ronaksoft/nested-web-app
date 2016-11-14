@@ -6,7 +6,7 @@
     .controller('FilesController', FilesController);
 
   /** @ngInject */
-  function FilesController($stateParams, toastr, $uibModal,
+  function FilesController($stateParams, toastr, $uibModal, $state,
     NstSvcFileFactory, NstSvcAttachmentFactory,
     NstVmFile, NstVmFileViewerItem,
     NST_DEFAULT) {
@@ -38,13 +38,16 @@
         label : 'others'
       }
     ];
+
     vm.search = _.debounce(search, 512);
+    vm.filter = filter;
     vm.preview = preview;
     vm.nextPage = nextPage;
     vm.previousPage = previousPage;
     vm.selectedFiles = [];
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
+    vm.compose = composeWithAttachments;
 
     var currentPlaceId,
         defaultSettings = {
@@ -188,7 +191,6 @@
       vm.selectedFiles = selectedFiles;
     };
 
-
     vm.totalSelectedFileSize = function () {
       var total = 0;
       vm.selectedFiles.map(function (file) {
@@ -196,6 +198,19 @@
       });
 
       return total;
+    }
+
+    function composeWithAttachments(files) {
+      var attachmentIds = [];
+      if (_.isArray(files)) {
+        attachmentIds = _.map(files, 'id');
+      } else if (_.isObject(files) && files.id) {
+        attachmentIds.push(files.id);
+      }
+
+      if (attachmentIds.length > 0) {
+        $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : attachmentIds });
+      }
     }
 
   }
