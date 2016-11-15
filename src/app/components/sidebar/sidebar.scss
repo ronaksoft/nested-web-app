@@ -912,7 +912,7 @@ ul ul > li:last-child > .place-item-inner{
     overflow: hidden;
 
     .places-list {
-      height: 100%;
+      max-height: calc(100% - 40px);
       >ul {
         padding-left: 16px;
       }
