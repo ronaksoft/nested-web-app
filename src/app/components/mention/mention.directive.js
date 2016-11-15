@@ -57,6 +57,9 @@
                     if (attrs.postId){
                       searchSettings.postId =  attrs.postId;
                     }
+                    if (attrs.placeId){
+                      searchSettings.placeId =  attrs.placeId;
+                    }
                     NstSvcUserFactory.search(searchSettings, attrs.postId ? NST_USER_SEARCH_AREA.MENTION : NST_USER_SEARCH_AREA.ACCOUNTS).then(function (users) {
                       var items = [];
                       _.map(users, function (item) {
