@@ -9,7 +9,8 @@
             page="ctlApp.page"
             place-description="{{ctlMessages.currentPlace.description}}"></nst-navbar>
 
-<div class="nst-content _tr" id="content-wrapper">
+<div class="nst-content _tr" id="content-wrapper" data-droplet ng-model="ctlMessages.attachfiles">
+  <div class="droplet"></div>
   <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
