@@ -56,6 +56,8 @@
     vm.isBookMark = isBookMark();
 
     vm.quickMessageAccess = false;
+    // Listen for when the dnd has been configured.
+    vm.attachfiles = {};
 
     (function () {
       isUnread();
@@ -511,6 +513,8 @@
       NstSvcPlaceFactory.hasAccess(vm.currentPlace.id, NST_PLACE_ACCESS.WRITE_POST)
         .then(function (has) {
           vm.quickMessageAccess = has;
+
+
           defer.resolve(has);
         }).catch(function (){
           defer.resolve(false);
@@ -518,6 +522,19 @@
 
       return defer.promise;
     }
+
+    $scope.$on('$dropletReady', function whenDropletReady() {
+      vm.attachfiles.allowedExtensions([/.+/]);
+      vm.attachfiles.useArray(false);
+
+    });
+
+    $scope.$on('$dropletFileAdded', function startupload() {
+
+      var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
+      $scope.$broadcast('droppedAttach',files);
+    });
+
 
 
   }

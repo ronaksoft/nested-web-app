@@ -87,19 +87,19 @@
           <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
         </svg>
       </a>
-      <div class="cursor-pointer margin-r_5 icon _df "
-           data-uib-popover-template="'app/messages/partials/popovers/reply.html'"
-           data-popover-placement="auto top-right" popover-trigger="outsideClick" data-uib-tooltip="More Options" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
-        <svg  class="svg-hover">
-          <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
-          <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
-        </svg>
-      </div>
+      <!--<div class="cursor-pointer margin-r_5 icon _df "-->
+           <!--data-uib-popover-template="'app/messages/partials/popovers/reply.html'"-->
+           <!--data-popover-placement="auto top-right" popover-trigger="outsideClick" data-uib-tooltip="More Options" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">-->
+        <!--<svg  class="svg-hover">-->
+          <!--<use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>-->
+          <!--<use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>-->
+        <!--</svg>-->
+      <!--</div>-->
     </div>
   </section>
 </div>
 <section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments && !ctlPostCard.hideComments && !ctlPostCard.post.forbidden">
-  <div  class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
+  <div class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
     <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()">Older comments...</a>
     <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()">Roll up</a>
   </div>
