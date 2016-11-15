@@ -47,13 +47,13 @@
     "angular-mocks": "~1.5.6"
   },
   "overrides": {
-    "Medium.js" : {
+    "Medium.js": {
       "main": [
         "medium.js",
         "medium.css"
       ]
     },
-    "gsap" : {
+    "gsap": {
       "main": [
         "src/minified/TweenMax.min.js",
         "src/minified/utils/Draggable.min.js"

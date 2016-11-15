@@ -35,6 +35,14 @@ body.modal-open {
   max-width: 100%;
   height: auto;
 }
+#change-view {
+  border: 1px solid $color-breeze;
+  border-radius: 8px;
+  background-color: $color-white;
+  padding: 15px;
+  max-width: 100%;
+  height: auto;
+}
 
 .modal-content {
   width: 100%;
@@ -103,6 +111,7 @@ body.modal-open {
 .modal-sm {
   width: auto!important;
   height: auto!important;
+  max-width: 100%;
   vertical-align: middle;
   max-height: 100%;
 }

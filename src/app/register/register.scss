@@ -18,7 +18,7 @@
     box-shadow: none;
     outline: none;
   }
-  
+
 }
 
 .select-birthday {
@@ -41,12 +41,11 @@
   top: 2.99px;
 }
 #panel-register .tooltip-arrow {
- transform: scale(2.4);
-}
-#panel-register .tooltip-inner,
-.tooltip-arrow {
-  opacity: 0.95;
+  transform: scale(2.4);
   margin-top: -5px;
+}
+#panel-register .tooltip-inner {
+  opacity: 0.95;
 }
 .input-mob{
   width: 100%;

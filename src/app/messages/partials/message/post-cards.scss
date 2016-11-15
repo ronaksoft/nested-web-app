@@ -130,6 +130,10 @@
       padding: 2px 8px 5px 8px;
       background-color: $color-wind;
       z-index: 36;
+      max-width: 96px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     & > a:first-child{
       z-index: 32;
