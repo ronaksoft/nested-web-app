@@ -17,7 +17,7 @@
       <p ng-if="!nextStep" class="_df nst-mood-storm modal-detail">By deleting place, all place data & messages will be erased permanently. Are you really sure?</p>
       <div ng-if="nextStep" class="_fw _difv _jcc nst-mood-storm modal-detail">
         <span class="df nst-mood-storm small">Enter your place id</span>
-        <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place Name" focus-me>
+        <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place ID" focus-me>
         </input>
         <span class="_df">To confirm and delete the place, please type the place ID:</span><a class="_df">{{removeCtrl.place.id}}</a>
       </div>
