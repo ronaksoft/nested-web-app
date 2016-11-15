@@ -45,7 +45,7 @@
 #    Given I Click id "close-setting-place"
 #    When I wait 5s
 #    Then should the title of the place be "test-create-place14"
-
+#
 #  Scenario: Setting page 2
 #    Given I Click on "create14" place
 #    When I wait 5s
@@ -57,5 +57,5 @@
 #    When I wait 5s
 #    Given I Click id "place-name"
 #    When I wait 5s
-
-
+#
+#
