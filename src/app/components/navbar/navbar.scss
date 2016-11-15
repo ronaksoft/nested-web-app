@@ -220,6 +220,7 @@ nst-navbar {
     }
     cite {
       color: $color-solid;
+      display: block;
       letter-spacing: -1px;
       line-height: 29px;
       font-size: 24px;
@@ -228,6 +229,9 @@ nst-navbar {
       background-color: $color-white;
       z-index: 3;
       top: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     #place-address {
       background: linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,1));
