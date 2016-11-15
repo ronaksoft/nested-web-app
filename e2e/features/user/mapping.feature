@@ -1,98 +1,98 @@
-Feature: User: mapping
-  As a user of Nested
-  I should be able to click on any clickable icons and go to the related page
-
-  Scenario: Sign in Mapping
-    When I wait 5s
-    Given I go to the page "/login"
-    When I wait 5s
-    Given I fill "Username" with "test-mapping"
-    When I wait 5s
-    Given I fill "Password" with "123456"
-    When I wait 5s
-    Given I Press "Sign in"
-    When I wait 5s
-    Then should the title of the place be "All Places"
-
-  Scenario: Activity page mapping
-    When I wait 5s
-    Given I Click Link by Partial Text "Activity"
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "All Places"
-
-  Scenario: Sent page mapping
-    When I wait 5s
-    When I wait 5s
-    Given I Click on "sent" in sidebar
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "Sent"
-
-  Scenario: Bookmark page mapping
-    When I wait 5s
-    Given I Click on "bookmarks" in sidebar
-    When I Wait till line loader hide
-    When I wait 2s
-    Then should the title of the place be "Favorite Places"
-
-  Scenario: Change page mapping
-    When I wait 5s
-    Given I Click on sidebar "messages"
-    When I Wait till line loader hide
-    When I wait 5s
-    Given I Click on "sent" in sidebar
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "Sent"
-
-  Scenario: test mapping of a place page
-    When I wait 5s
-    Given I Click on "sent" in sidebar
-    When I Wait till line loader hide
-    When I wait 5s
-    Given I Click Link by Partial Text "test-mapping@nested.me"
-    When I Wait till line loader hide
-    When I wait 2s
-    Then should the title of the place be "test mapping"
-
-  Scenario: Compose mapping
-    When I wait 5s
-    Given I Click Link by Partial Text "Compose"
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "Compose"
-
-  Scenario: Discard Compose mapping
-    When I wait 5s
-    Given I Click Link by Partial Text "Discard"
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "All Places"
-
-  Scenario: Edit my profile mapping
-    When I wait 5s
-     Given I Click on "create14" place
-    When I Wait till line loader hide
-    When I wait 5s
-    Given I Click on sidebar "Edit My profile"
-    When I wait 5s
-    Then should the title of the place be "Profile"
-
-  Scenario: Change password mapping
-    When I wait 5s
-    Given I Click Link by Partial Text "Change Password"
-    When I Wait till line loader hide
-    When I wait 5s
-    Given I Click Link by Partial Text "Back"
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "Profile"
-
-    Scenario: I Click on sidebar "messages"
-    When I Wait till line loader hide
-    When I wait 5s
-    Then should the title of the place be "All Places"
+#Feature: User: mapping
+#  As a user of Nested
+#  I should be able to click on any clickable icons and go to the related page
+#
+#  Scenario: Sign in Mapping
+#    When I wait 5s
+#    Given I go to the page "/login"
+#    When I wait 5s
+#    Given I fill "Username" with "test-mapping"
+#    When I wait 5s
+#    Given I fill "Password" with "123456"
+#    When I wait 5s
+#    Given I Press "Sign in"
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
+#
+#  Scenario: Activity page mapping
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Activity"
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
+#
+#  Scenario: Sent page mapping
+#    When I wait 5s
+#    When I wait 5s
+#    Given I Click on "sent" in sidebar
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "Sent"
+#
+#  Scenario: Bookmark page mapping
+#    When I wait 5s
+#    Given I Click on "bookmarks" in sidebar
+#    When I Wait till line loader hide
+#    When I wait 2s
+#    Then should the title of the place be "Favorite Places"
+#
+#  Scenario: Change page mapping
+#    When I wait 5s
+#    Given I Click on sidebar "messages"
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Given I Click on "sent" in sidebar
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "Sent"
+#
+#  Scenario: test mapping of a place page
+#    When I wait 5s
+#    Given I Click on "sent" in sidebar
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Given I Click Link by Partial Text "test-mapping@nested.me"
+#    When I Wait till line loader hide
+#    When I wait 2s
+#    Then should the title of the place be "test mapping"
+#
+#  Scenario: Compose mapping
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Compose"
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "Compose"
+#
+#  Scenario: Discard Compose mapping
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Discard"
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
+#
+#  Scenario: Edit my profile mapping
+#    When I wait 5s
+#     Given I Click on "create14" place
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Given I Click on sidebar "Edit My profile"
+#    When I wait 5s
+#    Then should the title of the place be "Profile"
+#
+#  Scenario: Change password mapping
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Change Password"
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Back"
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "Profile"
+#
+#    Scenario: I Click on sidebar "messages"
+#    When I Wait till line loader hide
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
 #
 #  Scenario: Postcard Reply all mapping
 #    When I wait 5s
@@ -202,7 +202,7 @@ Feature: User: mapping
 #    Given I Click id "test-post-view"
 #    When I Wait till line loader hide
 #    When I wait 5s
-#    Given I Click id "test-post-view-close"
+#    Given I Click id "post-view-close"
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
 #

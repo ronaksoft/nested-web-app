@@ -39,7 +39,7 @@
     </div>
   </section>
   <section ng-if="ctlPostCard.post.subject.length > 0" class="post-subject" nst-post-modal post="ctlPostCard.post"
-           auto-dir="{{::ctlPostCard.post.subject}}">
+           auto-dir="{{::ctlPostCard.post.subject}}" id="post-view">
            <div class="unread-badge-holder">●</div>
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject | emoji">
     </h3>
