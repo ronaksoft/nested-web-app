@@ -3,12 +3,12 @@
     <div class="panel no-animation" id="panel-register">
       <form novalidate ng-if="ctlRegister.step === 1" class="use-ng-animate register-step">
         <div class="nst-vb no-gutter2 nst-marginbtm-48">
-          <p class="col-xs-9 nst-font-xlarge">Create an Account</p>
+          <p class="col-xs-9 nst-font-xlarge">Create an account</p>
           <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
             in</a></p>
         </div>
         <p class="nst-font-medium nst-marginbtm-48">
-          For creating nested account please enter your phone number.
+          To creating a Nested account, please enter your phone number.
         </p>
 
         <div class="form-group" ng-class="{ 'has-error' : !ctlRegister.countryIsValid && ctlRegister.submitted}">
@@ -75,12 +75,12 @@
 
       <form ng-if="ctlRegister.step === 3" novalidate name="registrationForm" ng-submit="ctlRegister.register()" class="use-ng-animate register-step">
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
-          <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge testing-registration-step3">Create an account</p>
+          <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge testing-registration-step3">Create a profile</p>
           <a href="#" class="col-xs-3 text-right">
             <img src="assets/icons/NestedLogo.svg" width="32" height="32">
           </a>
         </div>
-        <div class="nst-marginbtm-8 _dib" ng-if="!ctlRegister.requiredUser">Enter your username :</div>
+        <div class="nst-marginbtm-8 _dib" ng-if="!ctlRegister.requiredUser">Choose your username :</div>
         <div class="nst-mood-lively nst-marginbtm-8 _dib"
              ng-if="ctlRegister.requiredUser">Username is required
         </div>
@@ -160,7 +160,7 @@
         </div>
 
         <div class="_db nst-marginbtm-16 agreement-text ">
-          By creating a Nested account, you agree to our <a href="https://help.nested.me/terms/index.html" class="nst-mood-cheerful">terms and conditions</a>.
+          By proceeding to create a Nested account, you are agreeing to our <a href="https://help.nested.me/terms/index.html" class="nst-mood-cheerful">Terms and Conditions</a>.
         </div>
         <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="{{ ctlRegister.registerProgress ? 'Submitting...' : 'Finish' }}" ng-disabled="ctlRegister.registerProgress" />
       </form>
