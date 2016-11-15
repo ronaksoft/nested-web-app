@@ -15,7 +15,7 @@
            onchange="angular.element(this).scope().ctlSettings.loadImage(event)"/>
 
     <div class="det">
-      <h3 data-ng-if="ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true"
+      <h3 id="place-name" data-ng-if="ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true"
           editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.updateName($data);">
         {{ctlSettings.place.name || 'empty'}}<a class="change-button">change</a></h3>
       <h3 data-ng-if="!ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true">

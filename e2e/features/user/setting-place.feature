@@ -1,6 +1,6 @@
 #Feature: User: login
 #  As a user of Nested
-#  I should be able to create a new place
+#  I should be able to change setting of my places
 #
 #  Scenario: Login user with invalid username
 #
@@ -14,7 +14,7 @@
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
 #
-#  Scenario: Create a place from sidebar
+#  Scenario: Create a place from sidebar 1
 #
 #    Given I Click on plus of "create" in sidebar
 #    When I Wait till line loader hide
@@ -45,9 +45,8 @@
 #    Given I Click id "close-setting-place"
 #    When I wait 5s
 #    Then should the title of the place be "test-create-place14"
-#
-#
-#  Scenario: Setting page
+
+#  Scenario: Setting page 2
 #    Given I Click on "create14" place
 #    When I wait 5s
 #    Given I Click id "navbar-popover"
@@ -58,20 +57,5 @@
 #    When I wait 5s
 #    Given I Click id "place-name"
 #    When I wait 5s
-#
-#
-#  Scenario: Delete grand place
-#    Given I Click on "create14" place
-#    When I wait 5s
-#    Given I Click id "navbar-popover"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Delete"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Delete Place"
-#    When I wait 5s
-#    Given I fill "Place Name" with "create14"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "DELETE"
-#    When I wait 5s
-#    Then should the title of the place be "All Places"
-#
+
+

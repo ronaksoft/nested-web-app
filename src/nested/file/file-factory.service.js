@@ -33,7 +33,7 @@
         NstSvcServer.request('store/get_files', {
           place_id: placeId,
           filter: filter || null,
-          keyword: keyword || '',
+          filename: keyword || '',
           skip: skip || 0,
           limit: limit || 16
         }).then(function(data) {

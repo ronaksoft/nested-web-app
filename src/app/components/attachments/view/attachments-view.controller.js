@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentsViewController', AttachmentsViewController);
 
-  function AttachmentsViewController($uibModal, NstVmFileViewerItem) {
+  function AttachmentsViewController($uibModal, NstSvcPostFactory, NstVmFileViewerItem) {
     var vm = this;
 
     /*****************************
@@ -20,6 +20,12 @@
      }
 
     vm.open = function (vmAttachment, vmAttachments) {
+
+      if(vm.postId)
+        NstSvcPostFactory.read([vm.postId]).then(function (result) {
+        }).catch(function (err) {
+        });
+
       var modal = $uibModal.open({
         animation: false,
         templateUrl: 'app/components/attachments/view/single/main.html',

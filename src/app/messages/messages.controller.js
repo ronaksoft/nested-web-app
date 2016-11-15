@@ -314,8 +314,9 @@
 
 
     $scope.$on('post-quick', function (event, data) {
+      data.isRead = true;
       vm.messages.unshift(data);
-    })
+    });
 
     function getLastMessageTime() {
 

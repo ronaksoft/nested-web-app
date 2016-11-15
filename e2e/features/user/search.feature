@@ -32,5 +32,5 @@
 #    Given I Click id "clear-button"
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
-
-
+#
+#
