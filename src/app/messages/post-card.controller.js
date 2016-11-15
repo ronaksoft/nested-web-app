@@ -129,6 +129,7 @@
     }
 
     function canShowOlderComments() {
+      console.log(vm.hasOlderComments , vm.commentBoardIsRolled)
       return vm.hasOlderComments || vm.commentBoardIsRolled === true;
     }
 

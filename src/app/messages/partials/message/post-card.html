@@ -99,7 +99,7 @@
   </section>
 </div>
 <section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments && !ctlPostCard.hideComments && !ctlPostCard.post.forbidden">
-  <div  class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
+  <div  class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">{{ctlPostCard.canShowOlderComments()}}
     <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()">Older comments...</a>
     <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()">Roll up</a>
   </div>
