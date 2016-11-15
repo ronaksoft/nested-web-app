@@ -31,7 +31,8 @@ body.modal-open {
   border-radius: 8px;
   background-color: $color-white;
   padding: 15px;
-  max-width: 510px;
+  width: 510px;
+  max-width: 100%;
   height: auto;
 }
 
