@@ -150,10 +150,10 @@
     function load(id, post) {
       var defer = $q.defer();
 
-      NstSvcServer.request('attachment/get_info', {
-        universal_id: id
+      NstSvcServer.request('store/get_file_info', {
+        universal_ids: id
       }).then(function(response) {
-        parseAttachment(response.attachment, post).then(defer.resolve).reject(defer.reject);
+        parseAttachment(response.info, post).then(defer.resolve).reject(defer.reject);
       }).catch(function(error) {
         var query = new NstFactoryQuery(id);
         defer.reject(new NstFactoryError(query, error.message, error.code));
