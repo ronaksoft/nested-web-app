@@ -330,10 +330,17 @@
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
         toastr.success(NstUtility.string.format("Place {0} was removed successfully.", vm.place.name));
-        $state.go(NST_DEFAULT.STATE);
+        if (vm.place.parentId) {
+          $state.go('app.place-messages', { placeId : vm.place.parentId });
+        } else {
+          $state.go(NST_DEFAULT.STATE);
+        }
       }).catch(function(error) {
-        toastr.error(NstUtility.string.format("An error happened while removing the place.", vm.place.name));
-        NstSvcLogger.error(error);
+        if (error.code === 1 && error.message[0] === "place has child") {
+          toastr.warning("You have to remove all children before removing the place.");
+        } else {
+          toastr.error(NstUtility.string.format("An error happened while removing the place.", vm.place.name));
+        }
       });
     }
 
