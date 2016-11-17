@@ -7,12 +7,12 @@
 
   /** @ngInject */
   function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state, $timeout,
-                              toastr, _, moment,
-                              NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
-                              NstSvcActivityMap,
-                              NstSvcActivitySettingStorage,
-                              NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
-                              NstActivity, NstPlace, NstInvitation) {
+    toastr, _, moment,
+    NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
+    NstSvcActivityMap,
+    NstSvcActivitySettingStorage,
+    NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer,
+    NstActivity, NstPlace, NstInvitation) {
 
     var vm = this;
 
@@ -151,6 +151,26 @@
       });
     }
 
+    function loadAfter(date) {
+      vm.loading = true;
+      vm.tryAgainToLoadMore = false;
+
+      NstSvcActivityFactory.getAfter({
+        placeId : vm.activitySettings.placeId,
+        date : date,
+        limit : vm.activitySettings.limit
+      }).then(function(activities) {
+        putInActivities(activities);
+        vm.loading = false;
+        vm.tryAgainToLoadMore = false;
+
+      }).catch(function(error) {
+        vm.loading = false;
+        vm.tryAgainToLoadMore = true;
+        $log.debug(error);
+      });
+    }
+
     /**********************
      ** Helper Functions **
      **********************/
@@ -196,7 +216,7 @@
         } else {
           vm.reachedTheEnd = false;
           setLastActivityDate(activities);
-          mergeWithOtherActivities(activities);
+          mergeWithActivities(activities);
         }
         vm.loading = false;
         vm.tryAgainToLoadMore = false;
@@ -209,7 +229,7 @@
 
     }
 
-    function mergeWithOtherActivities(activities) {
+    function mergeWithActivities(activities) {
       var activityGroups = mapActivities(activities);
       _.forEach(activityGroups, function (targetGroup) {
         var sourceGroup = _.find(vm.activities, { date : targetGroup.date });
@@ -217,6 +237,22 @@
           sourceGroup.items.push.apply(sourceGroup.items, targetGroup.items);
         } else { // add
           vm.activities.push(targetGroup);
+        }
+      });
+    }
+
+    function putInActivities(activities) {
+      var activityGroups = mapActivities(activities);
+      _.forEachRight(activityGroups, function (targetGroup) {
+        var sourceGroup = _.find(vm.activities, { date : targetGroup.date });
+        if (sourceGroup) { // merge
+          _.forEach(targetGroup.items, function (item) {
+            if (!_.some(sourceGroup.items, { id : item.id })) {
+              sourceGroup.items.unshift(item);
+            }
+          });
+        } else { // add
+          vm.activities.unshift(targetGroup);
         }
       });
     }
@@ -277,6 +313,23 @@
       }
     });
 
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      loadAfter(getRecentActivityTime());
+    });
+
+    function getRecentActivityTime() {
+      var date = moment().subtract(10, 'minute');
+
+      if (vm.activities.length > 0) {
+        var latestActivity = _.head(vm.activities[0].items);
+        if (latestActivity) {
+          date = latestActivity.date;
+        }
+      }
+
+      return date.valueOf();
+    }
+
     function activityBelongsToPlace(activity) {
       if (!vm.activitySettings.placeId) {
         return true;
@@ -302,7 +355,9 @@
         vm.activities.unshift(today);
       }
 
-      today.items.unshift(activity);
+      if (!_.some(today.items, { id : activity.id })) {
+        today.items.unshift(activity);
+      }
     }
 
   }

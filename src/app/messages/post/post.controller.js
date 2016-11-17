@@ -8,8 +8,8 @@
   /** @ngInject */
   function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
                           _, toastr, moment,
-                          NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS,
-                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal,
+                          NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS, NST_SRV_EVENT,
+                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal, NstSvcServer,
                           NstTinyComment, NstVmUser, selectedPostId) {
     var vm = this;
 
@@ -537,6 +537,11 @@
       if (vm.postId == event.detail.postId) {
 
       }
+    });
+
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      NstSvcLogger.debug('Retrieving new comments right after reconnecting.');
+      loadMoreComments();
     });
 
     /*****************************

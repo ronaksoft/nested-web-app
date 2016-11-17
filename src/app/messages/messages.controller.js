@@ -104,7 +104,6 @@
           });
       }
 
-
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
         var message = _.find(vm.messages, {
           id: e.detail[0]
@@ -141,6 +140,13 @@
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
         //TODO:: Handel me
       });
+
+      // NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      //   if (vm.messages[0]) {
+      //     var latestActivity = _.head(vm.activities[0].items);
+      //     loadAfter(latestActivity.date.valueOf());
+      //   }
+      // });
 
       $rootScope.$on('post-removed', function (event, data) {
         var message = _.find(vm.messages, {
@@ -534,8 +540,6 @@
       var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
       $scope.$broadcast('droppedAttach',files);
     });
-
-
 
   }
 
