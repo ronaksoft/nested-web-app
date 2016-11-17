@@ -463,7 +463,7 @@
         var olderComments = mapComments(result.comments);
         vm.comments.unshift.apply(vm.comments, olderComments);
         vm.hasMoreComments = result.maybeMoreComments;
-        vm.revealNewComment = true;
+        vm.revealOlderComments = true;
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });
@@ -586,7 +586,7 @@
       }
       date.setMilliseconds(date.getMilliseconds() - 1);
 
-      return date.valueOf();
+      return NstUtility.date.toUnix(date);
     }
 
     function allowToRemoveComment(comment) {

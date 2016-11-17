@@ -11,7 +11,7 @@
     NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
     NstSvcActivityMap,
     NstSvcActivitySettingStorage,
-    NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer,
+    NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer, NstUtility,
     NstActivity, NstPlace, NstInvitation) {
 
     var vm = this;
@@ -259,13 +259,9 @@
 
     function setLastActivityDate(activities) {
       var last = _.last(activities);
-      if (!last) {
-        vm.activitySettings.date = moment().valueOf();
-      } else if (moment.isMoment(last.date)) {
-        vm.activitySettings.date = last.date.valueOf();
-      } else {
-        vm.activitySettings.date = last.date.getTime();
-      }
+      var lastDate = !!last ? last.date : moment();
+
+      vm.activitySettings.date = NstUtility.date.toUnix(lastDate);
     }
 
     function loadInvitations() {
@@ -327,7 +323,7 @@
         }
       }
 
-      return date.valueOf();
+      return NstUtility.date.toUnix(date);
     }
 
     function activityBelongsToPlace(activity) {

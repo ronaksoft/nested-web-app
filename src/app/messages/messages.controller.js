@@ -141,13 +141,6 @@
         //TODO:: Handel me
       });
 
-      // NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
-      //   if (vm.messages[0]) {
-      //     var latestActivity = _.head(vm.activities[0].items);
-      //     loadAfter(latestActivity.date.valueOf());
-      //   }
-      // });
-
       $rootScope.$on('post-removed', function (event, data) {
         var message = _.find(vm.messages, {
           id: data.postId

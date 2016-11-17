@@ -87,7 +87,7 @@
         </div>
       </div>
       <!-- @FIXME : Use a proper animation to go downward -->
-      <div class="comment-msg _difv _fw" nst-scrollbar scroll-animate="false" go-downward="ctlPost.revealNewComment">
+      <div class="comment-msg _difv _fw" nst-scrollbar scroll-animate="false" go-downward="ctlPost.revealNewComment" go-upward="ctlPost.revealOlderComments">
         <div data-ng-if="ctlPost.hasMoreComments && !ctlPost.status.commentLoadProgress" class="_fw text-center">
           <a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
         </div>
