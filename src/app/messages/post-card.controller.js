@@ -169,7 +169,7 @@
       if (data.postId === vm.post.id) {
         event.preventDefault();
         if (data.comments && data.comments.length > 0) {
-          vm.post.comments = _.clone(data.comments);
+          vm.post.comments = data.comments;
         }
         vm.post.commentsCount = data.totalCommentsCount;
         vm.newCommentsCount = 0;

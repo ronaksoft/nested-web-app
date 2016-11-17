@@ -473,7 +473,7 @@
       model.status = NST_COMMENT_SEND_STATUS.PROGRESS;
       model.isTemp = true;
       addComment(vm.post, model.body).then(function(comment) {
-        // TODO: notify
+        vm.postModel.addToCommentsCount(1);
         markCommentSent(model.id, comment);
         event.currentTarget.value = '';
         vm.revealNewComment = true;
@@ -529,6 +529,7 @@
           return false;
         } else {
           pushComment(mapComment(event.detail.comment));
+          vm.postModel.addToCommentsCount(1);
         }
       }
     });
@@ -601,8 +602,8 @@
     $uibModalInstance.result.finally(function () {
       $rootScope.$broadcast('post-modal-closed', {
         postId: vm.post.id,
-        comments: vm.comments,
-        totalCommentsCount: vm.postModel.counters.comment || vm.comments.length
+        comments: _.tail(vm.comments, vm.comments.length - 3),
+        totalCommentsCount: vm.postModel.counters.comments
       });
     });
   }
