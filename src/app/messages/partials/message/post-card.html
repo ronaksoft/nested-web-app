@@ -67,11 +67,11 @@
     <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
       <span ng-if="!ctlPostCard.post.hasAnyComment()">No comment</span>
       <span ng-if="ctlPostCard.post.commentsCount == 1">One comment</span>
-      <span ng-if="ctlPostCard.post.commentsCount > 1">{{::ctlPostCard.post.commentsCount}} comments</span>
+      <span ng-if="ctlPostCard.post.commentsCount > 1">{{ctlPostCard.post.commentsCount}} comments</span>
     </a>
     <a ng-if="ctlPostCard.newCommentsCount > 0 " class="new-comments-count" nst-post-modal post="ctlPostCard.post"
              auto-dir="{{::ctlPostCard.post.subject}}">
-      <span>+{{::ctlPostCard.newCommentsCount}}</span>
+      <span>+{{ctlPostCard.newCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
       <a href="{{::ctlPostCard.urls.forward}}" class="icon _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" id="test-forward">

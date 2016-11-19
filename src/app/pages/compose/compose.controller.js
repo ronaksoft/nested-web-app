@@ -38,15 +38,15 @@
 
     (function () {
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
-        var attachPromises = _.map($stateParams.attachments, function (item) {
-          return NstSvcAttachmentFactory.load(item);
-        });
-
-        $q.all(attachPromises).then(function (attachments) {
+        NstSvcAttachmentFactory.load($stateParams.attachments).then(function (attachments) {
           vm.model.attachments = attachments;
+          vm.attachments.viewModels = _.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
+          vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
+          vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
         }).catch(function (error) {
           toastr.error('An error happened while trying to attach with files.');
         });
+
       }
     })();
 
