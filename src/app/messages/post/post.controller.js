@@ -463,7 +463,6 @@
         var olderComments = mapComments(result.comments);
         vm.comments.unshift.apply(vm.comments, olderComments);
         vm.hasMoreComments = result.maybeMoreComments;
-        vm.revealOlderComments = true;
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });
