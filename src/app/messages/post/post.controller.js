@@ -8,8 +8,8 @@
   /** @ngInject */
   function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
                           _, toastr, moment,
-                          NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS,
-                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal,
+                          NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS, NST_SRV_EVENT,
+                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal, NstSvcServer,
                           NstTinyComment, NstVmUser, selectedPostId) {
     var vm = this;
 
@@ -463,7 +463,6 @@
         var olderComments = mapComments(result.comments);
         vm.comments.unshift.apply(vm.comments, olderComments);
         vm.hasMoreComments = result.maybeMoreComments;
-        vm.revealNewComment = true;
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });
@@ -473,7 +472,7 @@
       model.status = NST_COMMENT_SEND_STATUS.PROGRESS;
       model.isTemp = true;
       addComment(vm.post, model.body).then(function(comment) {
-        // TODO: notify
+        vm.postModel.addToCommentsCount(1);
         markCommentSent(model.id, comment);
         event.currentTarget.value = '';
         vm.revealNewComment = true;
@@ -529,6 +528,7 @@
           return false;
         } else {
           pushComment(mapComment(event.detail.comment));
+          vm.postModel.addToCommentsCount(1);
         }
       }
     });
@@ -537,6 +537,11 @@
       if (vm.postId == event.detail.postId) {
 
       }
+    });
+
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      NstSvcLogger.debug('Retrieving new comments right after reconnecting.');
+      loadMoreComments();
     });
 
     /*****************************
@@ -580,7 +585,7 @@
       }
       date.setMilliseconds(date.getMilliseconds() - 1);
 
-      return date.valueOf();
+      return NstUtility.date.toUnix(date);
     }
 
     function allowToRemoveComment(comment) {
@@ -596,8 +601,8 @@
     $uibModalInstance.result.finally(function () {
       $rootScope.$broadcast('post-modal-closed', {
         postId: vm.post.id,
-        comments: vm.comments,
-        totalCommentsCount: vm.postModel.counters.comment || vm.comments.length
+        comments: _.tail(vm.comments, vm.comments.length - 3),
+        totalCommentsCount: vm.postModel.counters.comments
       });
     });
   }

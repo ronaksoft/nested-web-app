@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function SidebarPlaceInfoController($q, $scope, $state, $stateParams, NstSvcLogger, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap,
-                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace) {
+                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT) {
     var vm = this;
     vm.loading = false;
     vm.currentPlaceId = $stateParams.placeId;
@@ -182,5 +182,9 @@
       getPlaceUnreadCounts();
     });
 
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      NstSvcLogger.debug('Retrieving sub-places count right after reconnecting.');
+      getPlaceUnreadCounts();
+    });
   }
 })();

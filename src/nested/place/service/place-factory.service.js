@@ -1748,6 +1748,30 @@
       return deferred.promise;
     }
 
+    function getIndentLevel(placeId) {
+      if (_.isString(placeId)){
+        return _.split(placeId, ".").length - 1;
+      }
+
+      return 0;
+    }
+
+    function getParentId(childId, level) {
+      if (_.isString(placeId)) {
+        level = level || 1;
+        var parentId = childId;
+        for (var i = level; i > 0; i--) {
+          lastIndex = _.lastIndexOf(parentId, '.');
+          if (lastIndex === -1) {
+            return parentId;
+          }
+          parentId = parentId.substring(0, lastIndexOf);
+        }
+      }
+
+      return null;
+    }
+
     return new PlaceFactory();
   }
 })();

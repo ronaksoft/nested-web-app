@@ -139,9 +139,9 @@
         nextStep();
       }).catch(function (error) {
         if (error === 'phone_number_exists') {
-          vm.errorMessage = "Your phone number is already used!";
+          toastr.error("We found an account with your phone number. If you forgot your password, try to recover it or contact us for any help.");
         } else {
-          vm.errorMessage = "Sorry, an unknown error happened."
+          toastr.error("Sorry, an unknown error happened.");
         }
       });
 
