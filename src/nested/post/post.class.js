@@ -157,7 +157,9 @@
       });
     };
 
-
+    Post.prototype.addToCommentsCount = function (count) {
+      this.counters.comments += count || 0;
+    }
 
     return Post;
   }

@@ -6,9 +6,9 @@
     .controller('PostCardController', PostCardController)
 
   function PostCardController($state, $log, $timeout, $rootScope,
-                              _, moment,
-                              NST_POST_EVENT, NST_COMMENT_EVENT,
-                              NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
+    _, moment,
+    NST_POST_EVENT, NST_COMMENT_EVENT,
+    NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility) {
     var vm = this;
     var commentBoardMin = 3;
     var commentBoardMax = 99;
@@ -117,7 +117,7 @@
         date = post.date;
       }
 
-      return moment(date).subtract(1, 'ms').valueOf();
+      return NstUtility.date.toUnix(moment(date).subtract(1, 'ms'));
     }
 
     function showOlderComments() {
@@ -169,7 +169,7 @@
       if (data.postId === vm.post.id) {
         event.preventDefault();
         if (data.comments && data.comments.length > 0) {
-          vm.post.comments = _.clone(data.comments);
+          vm.post.comments = data.comments;
         }
         vm.post.commentsCount = data.totalCommentsCount;
         vm.newCommentsCount = 0;

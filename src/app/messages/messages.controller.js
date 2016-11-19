@@ -104,7 +104,6 @@
           });
       }
 
-
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
         var message = _.find(vm.messages, {
           id: e.detail[0]
@@ -534,8 +533,6 @@
       var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
       $scope.$broadcast('droppedAttach',files);
     });
-
-
 
   }
 

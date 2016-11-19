@@ -8,8 +8,8 @@
   /** @ngInject */
   function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT,
-                             NstSvcLoader, NstSvcAuth,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
+                             NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger,
                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
@@ -481,6 +481,19 @@
     NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.NEW_MENTION, function (event) {
       vm.mentionsCount += 1;
     });
+
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      NstSvcLogger.debug('Retrieving mentions count right after reconnecting.');
+      getMentionsCount();
+      NstSvcLogger.debug('Retrieving the grand place unreads count right after reconnecting.');
+      getGrandPlaceUnreadCounts();
+      NstSvcLogger.debug('Retrieving invitations right after reconnecting.');
+      getInvitations().then(function (result) {
+        vm.invitations = mapInvitations(result);
+      });
+
+    });
+
 
   }
 })();

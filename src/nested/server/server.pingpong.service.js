@@ -88,7 +88,7 @@
       NstSvcLogger.debug2("WS PINGPONG | delay : " + (Date.now() - parseInt(pong.split("/")[1])));
 
       this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.CONNECT));
-      if (!this.getPingPongStatus()) {
+      if (!this.pingPongStatus) {
         this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.RECONNECT));
       }
       this.setPingPongStatus(true);
@@ -97,9 +97,9 @@
     };
 
     PingPong.prototype.checkStatus = function (force) {
-      if ((this.pingStack.length > NST_SRV_PING_PONG.MAX_FAILED_PING) || force) {
+      if ((this.pingStack.length >= NST_SRV_PING_PONG.MAX_FAILED_PING) || force) {
         console.log("disconnect")
-        this.setPingPongStatus(false);
+        this.pingPongStatus= false;
         this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.DISCONNECT));
         return false;
       }
