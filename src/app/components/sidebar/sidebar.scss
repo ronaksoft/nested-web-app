@@ -105,7 +105,7 @@
       > a {
         display: flex;
         line-height: 19px;
-        font-size: 16px;
+        @extend .nst-font-large;
       }
       > span {
         line-height: 16px;
@@ -117,7 +117,7 @@
   .side-menu-item.detailed {
     > *:last-child {
       line-height: 19px;
-      font-size: 16px;
+      @extend .nst-font-large;
       font-weight: 700;
     }
   }
@@ -439,7 +439,7 @@
   span {
     line-height: 19px;
     color: $color-white;
-    font-size: 16px;
+    @extend .nst-font-large;
     font-weight: 700;
   }
   p > span {

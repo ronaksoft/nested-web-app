@@ -56,17 +56,11 @@
       width: 100%;
       min-height: 28px;
       color: $color-solid;
-      font-size: 16px;
+      @extend .nst-font-large;
       font-weight: 400;
       padding: 6px;
       transition: all .2s;
       margin-bottom: 10px;
-      &:focus {
-        border: 2px solid $color-solid;
-      }
-    }
-    input:placeholder-shown{
-      color: $color-grey
     }
     aside{
       width: 100%;
@@ -79,7 +73,7 @@
     }
     #PlaceID {
       color: #869D91;
-      font-size: 16px;
+      @extend .nst-font-large;
       font-weight: 400;
       min-height: 28px;
       width: 100%;
@@ -91,7 +85,7 @@
       span {
         line-height: 28px;
         color: #A6B9AF;
-        font-size: 16px;
+        @extend .nst-font-large;
         font-weight: 400;
       }
       input {
@@ -112,7 +106,7 @@
     select {
       line-height: 40px;
       color: $color-solid;
-      font-size: 16px;
+      @extend .nst-font-large;
       width: 204px;
       height: 40px;
       font-weight: 400;
@@ -152,7 +146,7 @@
       p {
         color: $color-solid;
         font-weight: 400;
-        font-size: 16px;
+        @extend .nst-font-large;
         line-height: 19px;
       }
       aside {
@@ -196,7 +190,7 @@
   }
   p.create-label {
     line-height: 19px;
-    font-size: 16px;
+    @extend .nst-font-large;
     font-weight: 400;
     display: flex;
     flex: 1;
@@ -236,7 +230,7 @@
     color: $color-solid;
     margin: 12px 0;
     i {
-      font-size: 16px;
+      @extend .nst-font-large;
       color: #808080;
       font-weight: 400;
       line-height: 19px;
@@ -245,7 +239,7 @@
   }
   p {
     line-height: 19px;
-    font-size: 16px;
+    @extend .nst-font-large;
     font-weight: 400;
     color: $color-solid;
     opacity: .5;

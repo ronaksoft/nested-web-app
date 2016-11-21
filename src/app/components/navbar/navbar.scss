@@ -295,7 +295,6 @@ nst-navbar {
         align-items: center;
         display: flex;
         input {
-          color: #C8C8C8;
           @extend .nst-font-small;
           font-weight: 400;
           background-color: $color-white;
@@ -306,9 +305,8 @@ nst-navbar {
           transition: width $animation-dur;
           &:focus {
             border-color: $color-border;
-            box-shadow: none;
             width: 250px;
-            color: $color-solid;
+            box-shadow: none;
           }
         }
         i {

@@ -29,4 +29,12 @@
     <rect id="empty16" width="24" height="24" style="fill: none"/>
     <polygon points="21 11 21 13 13 13 13 21 11 21 11 13 3 13 3 11 11 11 11 3 13 3 13 11 21 11"/>
   </g>
+  <g id="fwd">
+    <rect id="empty24-6" data-name="empty24" width="24" height="24" style="fill: none"/>
+    <path id="_Compound_Path_" data-name="&lt;Compound Path&gt;" d="M12.5,1.54,3,11H9.48L12,22H13l2.57-11H22Z"/>
+  </g>
+  <g id="re">
+    <rect id="empty24-7" data-name="empty24" width="24" height="24" style="fill: none"/>
+    <path d="M12,20.71,2.54,11.25,12,1.79V8.14c4,.22,9.9,3.12,9.9,10.38h0v1.25h-1V18.52C20.9,14.67,15,14.06,12,14Z"/>
+  </g>
 </svg>

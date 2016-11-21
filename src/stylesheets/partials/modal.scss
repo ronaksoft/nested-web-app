@@ -152,7 +152,7 @@ body.modal-open {
   flex-direction: column;
   display: inline-flex;
   > p {
-    font-size: 16px;
+    @extend .nst-font-large;
     line-height: 19px;
     color: $color-grey;
     font-weight: 400;
@@ -185,7 +185,7 @@ body.modal-open {
       flex: 1;
       justify-content: center;
       p {
-        font-size: 16px;
+        @extend .nst-font-large;
         line-height: 19px;
         color: #143C82;
         font-weight: 400;
@@ -219,7 +219,7 @@ body.modal-open {
     }
     .det {
       p {
-        font-size: 16px;
+        @extend .nst-font-large;
         line-height: 19px;
         color: #143C82;
         font-weight: 400;
@@ -242,7 +242,7 @@ body.modal-open {
     .det {
       p {
         line-height: 19px;
-        font-size: 16px;
+        @extend .nst-font-large;
         color: $color-sense-wire;
         font-weight: 400;
       }
@@ -298,8 +298,7 @@ body.modal-open {
 }
 .modal-add h5 {
   margin-top: 0;
-  font-size: $font-size-xlarge;
-  font-size: 22px;
+  @extend .nst-font-xlarge;
   line-height: 26px;
   letter-spacing: -1px;
   font-weight: 700;

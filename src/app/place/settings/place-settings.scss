@@ -41,7 +41,7 @@
       h5 {
         line-height: 19px;
         color: $color-solid;
-        font-size: 16px;
+        @extend .nst-font-large;
         margin: 0;
       }
     }
@@ -182,7 +182,7 @@
       flex: 1;
       padding-left: 8px;
       p {
-        font-size: 16px;
+        @extend .nst-font-large;
         color: $color-solid;
         margin: 0;
         font-weight: 400;
@@ -211,7 +211,7 @@
     align-items: center;
     p {
       line-height: 19px;
-      font-size: 16px;
+      @extend .nst-font-large;
       font-weight: 400;
       display: flex;
       flex: 1;

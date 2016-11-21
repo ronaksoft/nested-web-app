@@ -1,19 +1,28 @@
 input[type="text"],
 input[type="password"] {
   height: 40px;
+  padding: 3px 3px 3px 10px;
 }
-
-input[type='text'], input[type='password'], input[type='tel'] {
-  outline: none ;
+input {
+  outline: none;
   border: 1px solid $color-border;
+  color: $input-color;
+  transition: all $animation-dur ease;
   border-radius: 4px;
-  padding: 3px;
   box-shadow: none;
-  padding-left: 10px;
   &:focus:not(:hover) {
     box-shadow: none;
   }
+  &:focus {
+    border: 2px solid $color-solid;
+    box-shadow: none;
+  }
 }
+
+input:placeholder-shown{
+  color: $color-grey
+}
+
 
 input[type="checkbox"] {
   max-width: 1px;
@@ -97,7 +106,7 @@ input.pre-number {
     height: 34px;
     flex: none;
     padding-left: 20px;
-    font-size: 16px;
+    @extend .nst-font-large;
     font-weight: 500;
     background-color: transparent;
     border: 2px solid transparent;
@@ -108,7 +117,7 @@ input.number {
   flex: 1;
   height: 34px;
   padding-left: 16px;
-  font-size: 16px;
+  @extend .nst-font-large;
   font-weight: 500;
   background-color: transparent;
   border: 2px solid transparent;
@@ -116,7 +125,7 @@ input.number {
 i.plus{
     position: absolute;
     left: 6px;
-    font-size: 16px;
+    @extend .nst-font-large;
     font-weight: 500;
     top: 7px;
     font-style: normal;
