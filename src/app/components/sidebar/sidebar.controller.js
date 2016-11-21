@@ -263,7 +263,8 @@
 
       switch ($state.current.options.group) {
         case 'activity':
-          state = 'app.activity-favorites';
+          //todo: favorite activities ( if someday API created ) should start from here ...
+          state = 'app.messages-favorites';
           break;
       }
 
