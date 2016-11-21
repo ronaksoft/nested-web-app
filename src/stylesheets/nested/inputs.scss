@@ -2,19 +2,21 @@ input[type="text"],
 input[type="password"] {
   height: 40px;
   padding: 3px 3px 3px 10px;
+  border: 1px solid $color-border;
+  color: $input-color;
+  border-radius: 4px;
+  &:focus {
+    border: 2px solid $color-solid;
+  }
 }
 input {
   outline: none;
-  border: 1px solid $color-border;
-  color: $input-color;
   transition: all $animation-dur ease;
-  border-radius: 4px;
   box-shadow: none;
   &:focus:not(:hover) {
     box-shadow: none;
   }
   &:focus {
-    border: 2px solid $color-solid;
     box-shadow: none;
   }
 }
@@ -24,6 +26,11 @@ input:placeholder-shown{
 }
 
 
+input[type="submit"] {
+  &:focus {
+    //border-color: inherit;
+  }
+}
 input[type="checkbox"] {
   max-width: 1px;
 }
