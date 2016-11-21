@@ -202,8 +202,8 @@
         case 'app.messages-sent-sorted':
           return NstSvcPostFactory.getSentMessages(vm.messagesSetting);
 
-        case 'app.messages-bookmarks':
-        case 'app.messages-bookmarks-sorted':
+        case 'app.messages-favorites':
+        case 'app.messages-favorites-sorted':
           return NstSvcPostFactory.getBookmarksMessages(vm.messagesSetting);
 
         case 'app.place-messages-unread':
@@ -450,8 +450,8 @@
     }
 
     function isBookMark() {
-      if ($state.current.name == 'app.messages-bookmarks' ||
-        $state.current.name == 'app.messages-bookmarks-sorted') {
+      if ($state.current.name == 'app.messages-favorites' ||
+        $state.current.name == 'app.messages-favorites-sorted') {
         vm.isBookmarkMode = true;
         return true;
       }

@@ -158,8 +158,8 @@
       }
     }
     function isBookMark() {
-      if ($state.current.name == 'app.messages-bookmarks' ||
-        $state.current.name == 'app.messages-bookmarks-sorted'){
+      if ($state.current.name == 'app.messages-favorites' ||
+        $state.current.name == 'app.messages-favorites-sorted'){
         vm.isBookmarkMode = true;
         return true;
       }

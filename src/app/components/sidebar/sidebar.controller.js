@@ -259,11 +259,11 @@
     }
 
     function getBookmarksState() {
-      var state = 'app.messages-bookmarks';
+      var state = 'app.messages-favorites';
 
       switch ($state.current.options.group) {
         case 'activity':
-          state = 'app.activity-bookmarks';
+          state = 'app.activity-favorites';
           break;
       }
 
