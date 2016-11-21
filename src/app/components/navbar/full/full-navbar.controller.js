@@ -283,7 +283,6 @@
       NstSvcPlaceFactory.removeMember(vm.getPlaceId(), NstSvcAuth.user.id, true).then(function(result) {
         $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
-        console.log(error);
         if (error instanceof NstPlaceOneCreatorLeftError){
           toastr.error('You are the only one left!');
         } else if (error instanceof NstPlaceCreatorOfParentError) {
