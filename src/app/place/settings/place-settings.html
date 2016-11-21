@@ -32,10 +32,10 @@
     <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description" data-tooltip-append-to-body="true"
        data-ng-if="!ctlSettings.accesses.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</p>
   </div>
-  <p ng-if="ctlSettings.isClosedPlace">Who can post messages to this Place?</p>
+  <p class="input-lab" ng-if="ctlSettings.isClosedPlace">Who can post messages to this Place?</p>
   <div ng-if="ctlSettings.isClosedPlace" class="recive-set" ng-class="{'preview' : !ctlSettings.changeReceptiveMode}">
     <!--Off-->
-    <div class="select-box-step2"
+    <div class="select-box2"
          ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off')"
          ng-click="ctlSettings.setReceivingOff();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }">
@@ -66,7 +66,7 @@
       </aside>
     </div>
     <!--Internal-->
-    <div class="select-box-step2"
+    <div class="select-box2"
          ng-if="!ctlSettings.isGrandPlace  && !ctlSettings.isSubPersonalPlace && (ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal')"
          ng-click="ctlSettings.setReceivingMembers();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', disabled : !ctlSettings.accesses.hasControlAccess}">
@@ -94,7 +94,7 @@
       </aside>
     </div>
     <!--Everyone-->
-    <div class="select-box-step2"
+    <div class="select-box2"
          ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external')"
          ng-click="ctlSettings.setReceivingEveryone();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', disabled : !ctlSettings.accesses.hasControlAccess}">
@@ -120,7 +120,7 @@
   </div>
   <div class="_difh _fw" ng-if="!ctlSettings.isSubPersonalPlace">
     <div class="_fw _difv" ng-if="ctlSettings.isClosedPlace">
-      <p>Who can create a sub-place?</p>
+      <p class="input-lab">Who can create a sub-place?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_place"
               data-ng-change="ctlSettings.updateAddPlacePolicy()">
@@ -132,8 +132,8 @@
       </p>
     </div>
     <div class="_fw _difv">
-      <p ng-if="ctlSettings.isGrandPlace" >Who can invite Members? </p>
-      <p ng-if="!ctlSettings.isGrandPlace">Who can add Members?</p>
+      <p class="input-lab" ng-if="ctlSettings.isGrandPlace" >Who can invite Members? </p>
+      <p class="input-lab" ng-if="!ctlSettings.isGrandPlace">Who can add Members?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_member"
               data-ng-change="ctlSettings.updateAddMemberPolicy()">
@@ -145,7 +145,7 @@
       </p>
     </div>
   </div>
-  <p data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">Members</p>
+  <p class="input-lab" data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">Members</p>
   <div class="select-box2 _difh"
        data-ng-if="ctlSettings.accesses.hasAddMembersAccess"
        data-ng-click="ctlSettings.addMember()">
@@ -154,7 +154,7 @@
         <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
       </svg>
     </div>
-    <p>{{ctlSettings.isGrandPlace ? 'Invite Members' : 'Add Members'}} </p>
+    <h4>{{ctlSettings.isGrandPlace ? 'Invite Members' : 'Add Members'}} </h4>
   </div>
   <nst-place-member-item data-ng-if="ctlSettings.accesses.hasSeeMembersAccess" class="user-item"
                          data-ng-repeat="member in ctlSettings.teammates"

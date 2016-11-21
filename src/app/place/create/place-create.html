@@ -7,7 +7,7 @@
      ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode && !ctlCreate.isPersonalPlace; ctlCreate.step2 = !ctlCreate.step1">
   <div class="_difv" ng-if="ctlCreate.step1">
     <h2 class="_df">Create a Place</h2>
-    <p>Choose a Place Type:</p>
+    <p class="input-lab">Choose a Place Type:</p>
     <div class="select-box _difh" ng-click="ctlCreate.setPlaceClosed();"
          ng-class="{ selected : ctlCreate.isClosedPlace }">
       <div class="icn">
@@ -52,14 +52,14 @@
         ('All "' + ctlCreate.grandPlace.name + '" Members can view Place contents.')}}
       </p>
       <div class="form-group" ng-class="{ 'has-error' : placeForm.placeName.$invalid && ctlCreate.submitted}">
-        <labe ng-if="placeForm.placeName.$valid || !ctlCreate.submitted">Place name</labe>
+        <label class="input-lab" ng-if="placeForm.placeName.$valid || !ctlCreate.submitted">Place name</label>
         <label class="error-message" ng-if="placeForm.placeName.$error.required && ctlCreate.submitted">Place name is
           required</label>
         <input name="placeName" class="form-control" type="text" ng-model="ctlCreate.place.name"
                ng-change="ctlCreate.setId(ctlCreate.place.name);" placeholder="Marketing Development" required/>
       </div>
 
-      <label for="PlaceID">Place ID</label>
+      <label class="input-lab" for="PlaceID">Place ID</label>
       <div class="placeID">
         <div class="field">
           <div id="PlaceID" tabindex="2" ng-click="ctlCreate.changeId(ctlCreate.place.id)">
@@ -72,9 +72,9 @@
         <aside>The Place will be identified by this unique address. You <b>can't</b> change the Place ID after creating the Place, so choose wisely!
         </aside>
       </div>
-      <p ng-if="ctlCreate.isClosedPlace">Who can post messages to this Place?</p>
+      <p class="input-lab" ng-if="ctlCreate.isClosedPlace">Who can post messages to this Place?</p>
       <!--off-->
-      <div class="select-box-step2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();"
+      <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();"
            ng-class="{ selected : ctlCreate.receivingMode == 'off'}">
 
         <h3 ng-if="ctlCreate.isClosedPlace">Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}" Members</h3>
@@ -94,7 +94,7 @@
       </div>
 
       <!--internal-->
-      <div class="select-box-step2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingMembers();"
+      <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingMembers();"
            ng-class="{ selected : ctlCreate.receivingMode == 'members'}">
         <h3 ng-if="!ctlCreate.isClosedPlace">"{{ ctlCreate.grandPlace.name }}" Members</h3>
         <h3 ng-if="ctlCreate.isClosedPlace">"{{ ctlCreate.grandPlace.name }}" Members</h3>
@@ -115,7 +115,7 @@
       </div>
 
       <!--external-->
-      <div class="select-box-step2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingEveryone();"
+      <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingEveryone();"
            ng-class="{ selected : ctlCreate.receivingMode == 'everyone'}">
         <h3>Everyone <i>(including email)</i></h3>
         <p>Everyone can send their messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name  : '...'}}</b>" Place.
@@ -134,9 +134,9 @@
       </div>
 
       <div ng-if="!ctlCreate.isPersonalPlace">
-        <p>Place Privacy</p>
+        <p class="input-lab">Place Privacy</p>
         <div class="option-row">
-          <p class="_fw _df">
+          <p class="_fw _df option-des">
             Who can add Members?
           </p>
           <select ng-model="ctlCreate.place.policy.addMember">
@@ -145,7 +145,7 @@
           </select>
         </div>
         <div class="option-row" ng-if="ctlCreate.isClosedPlace">
-          <p class="_fw _df">
+          <p class="_fw _df option-des">
             Who can create a sub-place?
           </p>
           <select ng-model="ctlCreate.place.policy.addPlace">
