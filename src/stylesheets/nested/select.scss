@@ -17,6 +17,7 @@
     color: $color-solid;
     margin: 12px 0;
     svg {
+      display: none;
       width: 16px;
       height: 16px;
       fill : $color-sense-wire;
@@ -95,6 +96,9 @@
     }
     aside {
       display: inline-flex;
+    }
+    svg {
+      display: inline-block;
     }
   }
   &.disabled {
