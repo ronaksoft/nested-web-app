@@ -143,6 +143,16 @@
         fill: $color-solid;
       }
     }
+    .invited {
+      .name {
+        p {
+          color: $color-bg-pending;
+        }
+      }
+      .role {
+        color:$color-bg-pending;
+      }
+    }
   }
   .option-row {
     display: inline-flex;
