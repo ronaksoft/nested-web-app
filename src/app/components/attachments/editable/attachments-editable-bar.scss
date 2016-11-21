@@ -224,7 +224,7 @@
         }
         .attach-ext {
           color: $color-sense;
-          font-size: 12px;
+          @extend
           line-height: 12px;
           height: 12px;
           white-space: nowrap;

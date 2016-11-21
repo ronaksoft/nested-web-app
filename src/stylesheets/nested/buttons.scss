@@ -576,7 +576,7 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
     padding: 0 0 0 17px;
     color: $color-storm;
     font-weight: 400;
-    font-size: 14px;
+    @extend .nst-font-medium;
     line-height: 17px;
   }
   .green-radio:checked + label {

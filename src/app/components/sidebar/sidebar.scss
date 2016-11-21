@@ -83,7 +83,7 @@
       width: $sidebar-width - $sidebar-width-tiny;
       white-space: nowrap;
       justify-content: flex-start;
-      font-size: 14px;
+      @extend .nst-font-medium;
       font-weight: 400;
       align-items: center;
       display: flex;
@@ -829,7 +829,7 @@ ul ul > li:last-child > .place-item-inner{
         span {
           transition: all 2s;
           color: $color-solid;
-          font-size: 12px;
+          @extend .nst-font-small;
           line-height: 14px;
           font-weight: 400;
         }
@@ -884,14 +884,14 @@ ul ul > li:last-child > .place-item-inner{
     }
     .totalmsg {
       color: $color-wind;
-      font-size: 14px;
+      @extend .nst-font-medium;
       font-weight: 300;
       line-height: 42px;
       z-index: 5;
       background-color: white;
       span {
         color: $color-storm;
-        font-size: 14px;
+        @extend .nst-font-medium;
         font-weight: 300;
       }
       a {
@@ -963,7 +963,7 @@ ul ul > li:last-child > .place-item-inner{
         transition: all $animation-dur;
         color: $color-storm;
         font-weight: 400;
-        font-size: 14px;
+        @extend .nst-font-medium;
         line-height: 32px;
         padding: 0 8px;
         display: block;

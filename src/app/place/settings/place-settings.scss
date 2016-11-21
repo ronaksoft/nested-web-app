@@ -51,7 +51,7 @@
     width: 100%;
     p {
       color: #869D91;
-      font-size: 14px;
+      @extend .nst-font-medium;
       font-weight: 400;
       line-height: 18px;
     }
@@ -66,7 +66,7 @@
       font-weight: 700;
       line-height: 18px;
       span {
-        font-size: 14px;
+        @extend .nst-font-medium;
         font-weight: 400;
         line-height: 17px;
       }
@@ -189,7 +189,7 @@
       }
       span {
         color: #00B45A;
-        font-size: 14px;
+        @extend .nst-font-medium;
         font-weight: 400;
       }
     }
@@ -228,7 +228,7 @@
       padding: 0 0 0 17px;
       color: $color-storm;
       font-weight: 400;
-      font-size: 14px;
+      @extend .nst-font-medium;
       line-height: 17px;
     }
     input[type="checkbox"]:checked + label {

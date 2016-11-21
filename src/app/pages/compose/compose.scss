@@ -42,11 +42,7 @@
   background-color: $color-sense!important;
 }
 
-.ui-select-multiple.ui-select-bootstrap {
-  width: 100%;
-  border: none;
-  box-shadow: none;
-}
+
 
 .butn-toolbar > .butn-group {
   padding: 5px;
@@ -62,9 +58,6 @@
       color: $color-sense-wire;
     }
   }
-}
-.form-control {
-  box-shadow: none;
 }
 
 .butn-default.active {
@@ -82,10 +75,7 @@
 
 .content iframe {
   height: calc(100vh - 336px)!important;
-  min-height: 100px;
-  body {
-    font-family: $font-family-per-reg;
-  }
+  min-height: 100px
 }
 
 .compose-input {
@@ -130,9 +120,6 @@
   width: 196px;
   margin: 0 8px;
 
-}
-.nomargin {
-  margin-bottom: 0;
 }
 
 .compose-message-input {

@@ -353,7 +353,7 @@ h3 {
   width: 114px;
   font-weight: 400;
   color: #FFFFFF;
-  font-size: 12px;
+  @extend .nst-font-small;
   border-radius: 24px;
   height: 24px;
   text-align: center;

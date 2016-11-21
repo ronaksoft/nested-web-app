@@ -150,7 +150,7 @@ li.j-selected {
 }
 
 .total-files-size {
-  font-size: 14px;
+  @extend .nst-font-medium;
   color: #808080;
   margin-left: 10px;
 }

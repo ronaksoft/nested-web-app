@@ -296,7 +296,7 @@ nst-navbar {
         display: flex;
         input {
           color: #C8C8C8;
-          font-size: 12px;
+          @extend .nst-font-small;
           font-weight: 400;
           background-color: $color-white;
           border-radius: 4px;

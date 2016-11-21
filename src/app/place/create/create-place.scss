@@ -157,7 +157,7 @@
       }
       aside {
         color: #869D91;
-        font-size: 14px;
+        @extend .nst-font-medium;
         line-height: 17px;
         word-wrap: break-word;
       }
@@ -210,7 +210,7 @@
     padding: 0 0 0 17px;
     color: $color-storm;
     font-weight: 400;
-    font-size: 14px;
+    @extend .nst-font-medium;
     line-height: 17px;
   }
   .create-place-checkbox:checked + label {
@@ -252,7 +252,7 @@
   }
   aside {
     color: #869D91;
-    font-size: 14px;
+    @extend .nst-font-medium;
     line-height: 17px;
     word-wrap: break-word;
     flex-direction: row;
@@ -262,7 +262,7 @@
     p {
       flex: 1;
       display: flex;
-      font-size: 14px;
+      @extend .nst-font-medium;
       font-weight: 400;
     }
   }
