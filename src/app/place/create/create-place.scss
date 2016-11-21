@@ -55,6 +55,15 @@
       transition: all .2s;
       margin-bottom: 10px;
     }
+    aside{
+      width: 100%;
+      line-height: 16px;
+      color: #476152;
+      font-size: 13px;
+      font-weight: 400;
+      padding: 0 10px;
+      margin-top: 8px;
+    }
     #PlaceID {
       color: #869D91;
       @extend .nst-font-large;
@@ -88,6 +97,7 @@
         border-color: $color-solid;
       }
     }
+
     select {
       line-height: 40px;
       color: $color-solid;
