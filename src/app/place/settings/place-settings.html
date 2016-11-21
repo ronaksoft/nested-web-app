@@ -98,7 +98,10 @@
          ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external')"
          ng-click="ctlSettings.setReceivingEveryone();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', disabled : !ctlSettings.accesses.hasControlAccess}">
-      <h3>Everyone <i>(including email)</i></h3>
+      <h3>
+        <svg>
+          <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+        </svg>Everyone <i>(including email)</i></h3>
       <p>Everyone can send their messages to "<b>{{ctlSettings.place.name ? ctlSettings.place.name  : '...'}}</b>" Place.
         This includes messages sent from email platforms to your Nested address ({{ ctlSettings.place.id }}@nested.me).</p>
       <aside>

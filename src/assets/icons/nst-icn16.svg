@@ -23,4 +23,8 @@
     <rect id="empty16-4" data-name="empty16" width="16" height="16" style="fill: none"/>
     <path d="M8,14.21,1.29,7.5,8,.79V5.27a6.94,6.94,0,0,1,6.6,7.08v.5h-1v-.5C13.6,10,9.79,9.56,8,9.51Z"/>
   </g>
+  <g id="tick">
+    <rect id="empty16-5" data-name="empty16" width="16" height="16" style="fill: none"/>
+    <polygon points="7 11.91 3.79 8.71 5.21 7.29 7 9.09 11.29 4.79 12.71 6.21 7 11.91"/>
+  </g>
 </svg>

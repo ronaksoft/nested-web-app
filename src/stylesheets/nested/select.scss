@@ -16,6 +16,13 @@
     font-weight: 700;
     color: $color-solid;
     margin: 12px 0;
+    svg {
+      width: 16px;
+      height: 16px;
+      fill : $color-sense-wire;
+      border-radius: 8px;
+      border: 1px solid $color-sense-wire;
+    }
     i {
       @extend .nst-font-large;
       color: #808080;
