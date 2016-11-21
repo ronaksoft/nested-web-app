@@ -19,14 +19,14 @@
 
         requests[key] = $q(function(resolve, reject) {
           callback().then(resolve).catch(reject).finally(function() {
-            release(key);
+            self.release(key);
           });
         });
 
         return requests[key];
       }
 
-      this.release = function(key) {
+      self.release = function(key) {
         if (_.isObject(requests[key])) {
           if (!_.isUndefined(requests[key])) {
             delete requests[key];
@@ -34,7 +34,7 @@
         }
       }
 
-      this.watch = function(callback, name, id) {
+      self.watch = function(callback, name, id) {
         if (!_.isFunction(callback)) {
           throw 'The provided callback is not a function';
         }
