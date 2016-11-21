@@ -70,9 +70,9 @@
           $q.all(_.map(selectedUsers, function(user) {
 
             return $q(function(resolve, reject) {
-              NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
-                toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
-                NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+              joinUser(vm.place, role, user).then(function(invitationId) {
+                toastr.success(NstUtility.string.format('User "{0}" was {1} to Place "{2}" successfully.', user.id, vm.place.isGrandPlace() ? 'invited' : 'added', vm.place.id));
+                NstSvcLogger.info(NstUtility.string.format('User "{0}" was {1} to Place "{2}" successfully.', user.id, vm.place.isGrandPlace() ? 'invited' : 'added', vm.place.id));
                 resolve({
                   user: user,
                   role: role,
@@ -81,8 +81,8 @@
               }).catch(function(error) {
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
-                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                  toastr.warning(NstUtility.string.format('User "{0}" was previously {1} to Place "{2}".', vm.place.isGrandPlace() ? 'invited' : 'added', user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously {1} to Place "{2}".', vm.place.isGrandPlace() ? 'invited' : 'added', user.id, vm.place.id));
                   resolve({
                     user: user,
                     role: role,
@@ -111,6 +111,14 @@
         NstSvcLogger.error(error);
       });
 
+    }
+
+    function joinUser(place, role, user) {
+      if (place.isGrandPlace()) {
+        return NstSvcPlaceFactory.inviteUser(place, role, user);
+      } else {
+        return NstSvcPlaceFactory.addUser(place, role, user);
+      }
     }
 
     function getPlaceId() {
