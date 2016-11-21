@@ -905,13 +905,13 @@ ul ul > li:last-child > .place-item-inner{
   .places {
     border-top: 1px solid $color-breeze;
     //min-height: calc(100vh - 304px);
-    padding-right: 8px;
     z-index: 3;
     position: relative;
     flex: 1;
     overflow: hidden;
 
     .places-list {
+      padding-right: 8px;
       max-height: calc(100% - 40px);
       >ul {
         padding-left: 16px;
