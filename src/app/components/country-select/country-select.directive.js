@@ -39,7 +39,9 @@
 
         $scope.$watch('selectedCountryCode', function (newValue, oldValue) {
           if (newValue) {
-            setSelectedCountryByCode(newValue);
+            if (!$scope.selected || ($scope.selected && $scope.selected.code !== _.toNumber(newValue))) {
+              setSelectedCountryByCode(newValue);
+            }
           }
         });
 
@@ -59,14 +61,14 @@
         }
 
         function setSelectedCountryByCode(code) {
-          $scope.selected = _.find($scope.countries, { code : code });
+          $scope.selected = _.find($scope.countries, { code : _.toNumber(code) });
         }
       }
 
     };
 
     function geoIpLookup(callback) {
-      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+      $.get("https://ipinfo.io", function() {}, "jsonp").always(function(resp) {
         var countryCode = (resp && resp.country) ? resp.country : "";
         callback(countryCode);
       });
