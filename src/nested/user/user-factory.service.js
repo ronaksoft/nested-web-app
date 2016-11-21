@@ -421,10 +421,11 @@
         if (!settings.placeId){
           throw "Define place id for search in users";
         }
-
-        params.place_id = settings.placeId;
       }
 
+      if(settings.placeId){
+        params.place_id = settings.placeId;
+      }
 
       if(area === NST_USER_SEARCH_AREA.MENTION){
         if (!settings.postId){

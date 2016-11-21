@@ -121,6 +121,17 @@
       } else {
 
         vm.attachments.current = item;
+        // if (NST_FILE_TYPE.IMAGE == vm.attachments.current.type) {
+        //   EXIF.getData({ src: base64data }, function () {
+        //     if (this.exifdata || this.iptcdata) {
+        //       vm.attachments.current.meta.exif = this.exifdata || {};
+        //       vm.attachments.current.meta.iptc = this.iptcdata || {};
+        //
+        //       var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
+        //       vm.attachments.collection[key] = vm.attachments.current;
+        //     }
+        //   });
+        // }
 
         getToken(file.id).then(function (token) {
           $timeout(function () {

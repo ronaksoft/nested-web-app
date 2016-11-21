@@ -11,7 +11,7 @@
     NST_FILE_TYPE) {
 
     function FileFactory() {
-
+      NstBaseFactory.call(this);
     }
 
     FileFactory.prototype = new NstBaseFactory();
@@ -26,7 +26,6 @@
     return factory;
 
     function get(placeId, filter, keyword, skip, limit) {
-
       return factory.sentinel.watch(function() {
         var deferred = $q.defer();
 

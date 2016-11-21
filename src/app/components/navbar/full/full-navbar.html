@@ -22,22 +22,22 @@
         <div id="filler" affixer first-imp="true" parent=".content" after-content="72"></div>
         <cite affixer first-imp="true" top="16" parent=".content" after-content="72" fit-text>{{ctlFullNavbar.title}}</cite>
         <h3 id="place-address" affixer first-imp="true" parent=".content" after-content="72">
-          <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.place.privacy.locked">
+          <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && !ctlFullNavbar.place.privacy.locked">
             <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
           </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.locked">
+          <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && ctlFullNavbar.place.privacy.locked">
             <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
           </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.policy.add_post == 'creators'">
+          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' &&  ctlFullNavbar.place.policy.add_post == 'creators'">
             <use xlink:href="/assets/icons/nst-icn20.svg#manager"></use>
           </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.policy.add_post == 'manager member'">
+          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' && ctlFullNavbar.place.policy.add_post == 'everyone'">
             <use xlink:href="/assets/icons/nst-icn20.svg#manager_member"></use>
           </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.policy.add_post == 'member'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#member"></use>
+          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'internal'">
+            <use xlink:href="/assets/icons/nst-icn20.svg#team"></use>
           </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.policy.add_post  == 'everyone'">
+          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">
             <use xlink:href="/assets/icons/nst-icn20.svg#everyone"></use>
           </svg>
           {{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@nested.me</span>
@@ -60,10 +60,12 @@
           </nav>
           <div class="search">
             <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
+                   place-id="{{ctlFullNavbar.placeId}}"
                    placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
                    ng-model="ctlFullNavbar.searchQuery"/>
             <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
+                   place-id="{{ctlFullNavbar.placeId}}"
                    placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
                    ng-model="ctlFullNavbar.searchQuery" id="search2"/>
