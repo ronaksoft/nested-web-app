@@ -286,7 +286,7 @@
         if (error instanceof NstPlaceOneCreatorLeftError){
           toastr.error('You are the only one left!');
         } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are creator of the top-level place ({0}).', vm.place.parent.name));
+          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are the creator of the top-level place ({0}).', vm.place.parent.name));
         }
         NstSvcLogger.error(error);
       });

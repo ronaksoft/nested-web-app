@@ -601,9 +601,9 @@
         });
 
         NstSvcServer.request('place/add_member', {
-          place_id: query.placeId,
-          member_id: query.userId,
-          role: query.role
+          place_id: query.data.placeId,
+          member_id: query.data.userId,
+          role: query.data.role
         }).then(function(result) {
           deferred.resolve(user);
         }).catch(function(error) {
@@ -628,9 +628,9 @@
         });
 
         NstSvcServer.request('place/add_member', {
-          place_id: query.placeId,
-          member_id: query.userId,
-          role: query.role
+          place_id: query.data.placeId,
+          member_id: query.data.userId,
+          role: query.data.role
         }).then(function(result) {
           deferred.resolve(user);
         }).catch(function(error) {
@@ -653,8 +653,8 @@
         });
 
         NstSvcServer.request('place/remove_member', {
-          place_id: query.placeId,
-          member_id: query.memberId
+          place_id: query.data.placeId,
+          member_id: query.data.memberId
         }).then(function(result) {
           if (currentUser) { // current user wants to leave the place
             factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(placeId)));
@@ -1026,8 +1026,8 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('place/promote_member', {
-          place_id: query.placeId,
-          member_id: query.memberId
+          place_id: query.data.placeId,
+          member_id: query.data.memberId
         }).then(function(result) {
           deferred.resolve();
         }).catch(function(error) {
@@ -1049,8 +1049,8 @@
         var deferred = $q.defer();
 
         NstSvcServer.request('place/demote_member', {
-          place_id: query.placeId,
-          member_id: query.memberId
+          place_id: query.data.placeId,
+          member_id: query.data.memberId
         }).then(function(result) {
           deferred.resolve();
         }).catch(function(error) {
