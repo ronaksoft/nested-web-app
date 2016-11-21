@@ -78,15 +78,12 @@
     </div>
     <div class="nst-marginbtm-32"></div>
   </section>
-  <div class="content-plus illu">
+  <div class="content-plus illu" ng-show="!ctlMessages.isBookmarkMode">
     <div id="cp1" nst-scrollbar ng-if="!ctlMessages.isBookmarkMode" affixer parent=".content-plus" offset-top="74" top="0" fixed-top="true">
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
     </div>
   </div>
-  <div class="content-plus" id="content-plus" >
-
-
-  </div>
+  <div class="content-plus" id="content-plus"></div>
 </div>
 <scroll-roller roll-upward="ctlMessages.revealHotMessage"></scroll-roller>
