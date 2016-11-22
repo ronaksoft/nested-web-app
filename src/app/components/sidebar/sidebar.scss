@@ -287,7 +287,8 @@
 }
 .side-menu {
   //height: 180px;
-  padding: 12px 0;
+  padding-top: 12px;
+  padding-bottom: 8px;
   display: flex;
   flex: none;
   flex-direction: column;
@@ -915,6 +916,9 @@ ul ul > li:last-child > .place-item-inner{
       max-height: calc(100% - 40px);
       >ul {
         padding-left: 16px;
+        >li > div > svg {
+          position: absolute!important;
+        }
       }
     }
 

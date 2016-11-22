@@ -93,11 +93,13 @@
         <p ng-if="ctlCreate.isClosedPlace">Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} can post message to
           "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" place.</p>
         <aside>
-          <p>Which kind of members can be contribute in the place?</p>
-          <select ng-model="ctlCreate.place.privacy.addPost">
-            <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-            <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-          </select>
+          <p class="f4">Which kind of members can be contribute in the place?</p>
+          <div class="_df f1">
+            <select ng-model="ctlCreate.place.privacy.addPost">
+              <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+            </select>
+          </div>
         </aside>
       </div>
 
@@ -156,22 +158,26 @@
       <div ng-if="!ctlCreate.isPersonalPlace">
         <p class="input-lab">Place Privacy</p>
         <div class="option-row">
-          <p class="_fw _df option-des">
+          <p class="f4 _fw _df option-des">
             Who can add Members?
           </p>
-          <select ng-model="ctlCreate.place.policy.addMember">
-            <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-            <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-          </select>
+          <div class="_df f1">
+            <select ng-model="ctlCreate.place.policy.addMember">
+              <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+            </select>
+          </div>
         </div>
         <div class="option-row" ng-if="ctlCreate.isClosedPlace">
-          <p class="_fw _df option-des">
+          <p class="f4 _fw _df option-des">
             Who can create a sub-place?
           </p>
-          <select ng-model="ctlCreate.place.policy.addPlace">
-            <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-            <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-          </select>
+          <div class="_df f1">
+            <select ng-model="ctlCreate.place.policy.addPlace">
+              <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+            </select>
+          </div>
         </div>
         <div class="_difv nst-marginbtm-8"
              ng-if="(ctlCreate.hasGrandParent || ctlCreate.hasParentPlace) && !ctlCreate.parentLoadProgress">

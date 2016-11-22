@@ -67,11 +67,13 @@
 
       <p></p>
       <aside ng-if="!ctlSettings.isSubPersonalPlace">
-        <p>Which members can post messages to this Place?</p>
-        <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">
-          <option value="creators">Managers of {{ctlSettings.place.name}}</option>
-          <option value="everyone">Members of {{ctlSettings.place.name}}</option>
-        </select>
+        <p class="_df f4">Which members can post messages to this Place?</p>
+        <div class="_df f1">
+          <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">
+            <option value="creators">Managers of {{ctlSettings.place.name}}</option>
+            <option value="everyone">Members of {{ctlSettings.place.name}}</option>
+          </select>
+        </div>
         <p ng-if="!ctlSettings.accesses.hasControlAccess">
           {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_post]}}
         </p>
@@ -90,10 +92,10 @@
         <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
         </svg>Only Nested Users</h3>
-      <h3 ng-if="!ctlSettings.isGrandPlace">{{ ctlSettings.grandPlace.name }}
+      <h3 ng-if="!ctlSettings.isGrandPlace">
         <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
-        </svg>Members</h3>
+        </svg>{{ ctlSettings.grandPlace.name }}Members</h3>
       <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">All <b>{{ ctlSettings.grandPlace.name }}</b> Members can post messages to the place.</p>
       <p ng-if="!ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">Only you can view the contents of this Place.</p>
       <p ng-if="ctlSettings.isGrandPlace">Only Nested users can post messages to this Place.</p>
