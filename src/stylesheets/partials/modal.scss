@@ -24,6 +24,19 @@ body.modal-open {
   width: 800px;
   height: auto;
   max-width: 100%;
+  .butn-green {
+    padding: 5px 16px;
+    margin: 0;
+    position: relative;
+    right: 20px;
+    width: auto;
+    line-height: 25px;
+    height: 32px;
+  }
+  input.ui-select-search {
+    max-width: 715px;
+    width: auto!important;
+  }
 }
 
 #delete-view {
