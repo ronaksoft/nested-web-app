@@ -63,7 +63,6 @@
     function checkUserLimitPlace() {
       var previusUsers = currentPlace.counters.creators + currentPlace.counters.key_holders;
       vm.limit = 255 - previusUsers;
-      console.log(vm.limit);
     }
   }
 })();
