@@ -40,7 +40,7 @@
          ng-click="ctlSettings.setReceivingOff();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }">
       <h3 ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace" >
-        <svg>
+        <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
         </svg>Only "{{ctlSettings.place.name}}" {{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "Members"}}
       </h3>

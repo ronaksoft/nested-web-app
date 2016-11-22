@@ -1,11 +1,11 @@
 .select-box2 {
   width: 100%;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   box-sizing: border-box;
   border: dashed 1px $color-wind;
   padding: 0 12px;
   border-radius: 10px;
-  transition: all .2s ease;
+  transition: all $animation-dur ease;
   color: $color-solid;
   min-height: 52px;
   align-items: center;
@@ -16,14 +16,6 @@
     font-weight: 700;
     color: $color-solid;
     margin: 12px 0;
-    svg {
-      display: none;
-      width: 16px;
-      height: 16px;
-      fill : $color-sense-wire;
-      border-radius: 8px;
-      border: 1px solid $color-sense-wire;
-    }
     i {
       @extend .nst-font-large;
       color: #808080;
@@ -84,6 +76,7 @@
     box-shadow:0 2px 8px rgba(0,0,0,0.15);
     border-color: transparent;
     background-color: $color-white;
+    transform: scale(1.1,1.1);
     p {
       opacity: 1;
     }
@@ -96,9 +89,6 @@
     }
     aside {
       display: inline-flex;
-    }
-    svg {
-      display: inline-block;
     }
   }
   &.disabled {

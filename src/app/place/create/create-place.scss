@@ -22,7 +22,7 @@
       line-height: 38px;
       font-size: 32px;
       font-weight: 700;
-      margin: 32px 0;
+      margin: 24px 0;
       span {
         font-size: 24px;
         font-weight: 400;
@@ -34,7 +34,7 @@
       border: 1px solid $color-sense-wire;
       background-color: $color-sense;
       border-radius: 4px;
-      margin: 32px 0;
+      margin: 24px 0;
       line-height: 30px;
       color: $color-white;
       font-size: 18px;
@@ -61,8 +61,7 @@
       color: #476152;
       font-size: 13px;
       font-weight: 400;
-      padding: 0 10px;
-      margin-top: 8px;
+      padding: 8px 12px;
     }
     #PlaceID {
       color: #869D91;
@@ -70,8 +69,7 @@
       font-weight: 400;
       min-height: 28px;
       width: 100%;
-      margin-bottom: 10px;
-      padding-left: 10px;
+      padding: 10px;
     }
     .field{
       position: relative;
@@ -192,8 +190,9 @@
     padding: 0 0 0 17px;
     color: $color-storm;
     font-weight: 400;
+    margin: 0;
     @extend .nst-font-medium;
-    line-height: 17px;
+    line-height: 20px;
   }
   .create-place-checkbox:checked + label {
     background-position: 0 -16px;
@@ -228,8 +227,8 @@
   color: $color-storm;
   font-size: 13px;
   font-weight: 700;
-  margin-top: 16px;
-  margin-bottom: 5px;
+  padding-top: 16px;
+  margin-bottom: 8px;
 }
 .option-des {
   line-height: 19px;
@@ -238,4 +237,5 @@
   display: flex;
   flex: 1;
   color: $color-solid;
+  margin-bottom: 0;
 }

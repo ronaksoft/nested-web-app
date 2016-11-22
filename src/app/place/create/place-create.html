@@ -77,8 +77,16 @@
       <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();"
            ng-class="{ selected : ctlCreate.receivingMode == 'off'}">
 
-        <h3 ng-if="ctlCreate.isClosedPlace">Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}" Members</h3>
-        <h3 ng-if="!ctlCreate.isClosedPlace">Only Members of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}"</h3>
+        <h3 ng-if="ctlCreate.isClosedPlace">
+          <svg class="tick">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+          </svg>Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}" Members
+        </h3>
+        <h3 ng-if="!ctlCreate.isClosedPlace">
+          <svg class="tick">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+          </svg>Only Members of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}"
+        </h3>
 
         <p ng-if="!ctlCreate.isClosedPlace">Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>"
           Members can view Place contents.</p>
@@ -96,8 +104,16 @@
       <!--internal-->
       <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingMembers();"
            ng-class="{ selected : ctlCreate.receivingMode == 'members'}">
-        <h3 ng-if="!ctlCreate.isClosedPlace">"{{ ctlCreate.grandPlace.name }}" Members</h3>
-        <h3 ng-if="ctlCreate.isClosedPlace">"{{ ctlCreate.grandPlace.name }}" Members</h3>
+        <h3 ng-if="!ctlCreate.isClosedPlace">
+          <svg class="tick">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+          </svg>"{{ ctlCreate.grandPlace.name }}" Members
+        </h3>
+        <h3 ng-if="ctlCreate.isClosedPlace">
+          <svg class="tick">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+          </svg>"{{ ctlCreate.grandPlace.name }}" Members
+        </h3>
         <p ng-if="!ctlCreate.isClosedPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to the
           place.</p>
         <p ng-if="ctlCreate.isClosedPlace">Only "{{ ctlCreate.grandPlace.name }}" Members can post messages to "<b>{{ctlCreate.place.name }}</b>"
@@ -117,7 +133,11 @@
       <!--external-->
       <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingEveryone();"
            ng-class="{ selected : ctlCreate.receivingMode == 'everyone'}">
-        <h3>Everyone <i>(including email)</i></h3>
+        <h3>
+          <svg class="tick">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+          </svg>Everyone <i>(including email)</i>
+        </h3>
         <p>Everyone can send their messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name  : '...'}}</b>" Place.
           This includes messages sent from email platforms to your Nested address ({{ ctlCreate.place.id }}@nested.me).
         </p>
