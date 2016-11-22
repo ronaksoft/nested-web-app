@@ -111,7 +111,7 @@
   hr {
     width: calc(100% - 20px);
     border-color: $color-calm;
-    margin: 12px auto;
+    margin: 12px auto 0 auto;
   }
   .post-card-badge {
     background-color: transparent;
@@ -392,7 +392,7 @@ h3 {
   height: 100%;
   border: none;
   background-color: $color-calm;
-  border-radius: 2px 0 0 2px;
+  border-radius: 1px 0 0 1px;
   transition: background-color $animation-dur;
   display: none;
 }
