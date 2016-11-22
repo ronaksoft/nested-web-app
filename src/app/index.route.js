@@ -158,8 +158,8 @@
           group : 'activity'
         }
       })
-      .state('app.activity-bookmarks', {
-        url: '/activity/bookmarks',
+      .state('app.activity-favorites', {
+        url: '/activity/favorites',
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity',
@@ -168,8 +168,8 @@
           group : 'activity'
         }
       })
-      .state('app.activity-bookmarks-filtered', {
-        url: '/activity/bookmarks/:filter',
+      .state('app.activity-favorites-filtered', {
+        url: '/activity/favorites/:filter',
         params: {
           filter: NST_DEFAULT.STATE_PARAM
         },

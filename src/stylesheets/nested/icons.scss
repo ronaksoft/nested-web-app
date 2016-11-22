@@ -388,3 +388,21 @@
   background: url('../assets/icons/1.svg') no-repeat;
   background-position: 0 0;
 }
+
+
+.tick {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  fill : $color-white;
+  border-radius: 8px;
+  border: 1px solid $color-border;
+  background-color: $color-white;
+  box-sizing: content-box;
+  margin-right: 8px;
+}
+.selected .tick {
+  fill: $color-white;
+  background-color: $color-sense-wire;
+  border-color: $color-sense-wire;
+}

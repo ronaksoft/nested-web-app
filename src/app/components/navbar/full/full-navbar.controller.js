@@ -18,6 +18,7 @@
      *****************************/
 
     isBookMark();
+    isSent();
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
@@ -185,9 +186,18 @@
       }
     }
     function isBookMark() {
-      if ($state.current.name == 'app.messages-bookmarks' ||
-        $state.current.name == 'app.messages-bookmarks-sorted'){
+      if ($state.current.name == 'app.messages-favorites' ||
+        $state.current.name == 'app.messages-favorites-sorted'){
         vm.isBookmarkMode = true;
+        return true;
+      }
+      return false;
+    }
+
+    function isSent() {
+      if ($state.current.name == 'app.messages-sent' ||
+        $state.current.name == 'app.messages-sent-sorted') {
+        vm.isSentMode = true;
         return true;
       }
       return false;

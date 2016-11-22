@@ -39,7 +39,11 @@
         <!-- <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-download"><span
           class="_dib"></span><span>Download</span></div> -->
         <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-send-to">
-          <span class="_dib"></span><span ng-click="ctlFiles.compose();">Send to</span>
+          <span class="_dib">
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
+            </svg>
+          </span><span ng-click="ctlFiles.compose();">Send to</span>
         </div>
         <div class="header-size" ng-show="ctlFiles.selectedFiles.length == 0"><span>Size</span></div>
         <div class="header-date" ng-show="ctlFiles.selectedFiles.length == 0"><strong>Received Date</strong></div>
