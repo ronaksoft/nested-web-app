@@ -44,7 +44,24 @@
   background-image: url("../assets/icons/smallscreenhandlers.svg");
   background-repeat: no-repeat;
 }
+.icon-top-action {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-repeat: no-repeat;
+  flex: none;
+  width: 48px;
+  height: 48px;
+}
+.icon-top-all-place {
+  background-position: 0 0px;
+}
 
+.icon-top-bookmarks {
+  background-position: 0 -48px;
+}
+
+.icon-top-sent {
+  background-position: 0 -96px;
+}
 .hamburger-icon {
   background-position: 0 0;
 }
