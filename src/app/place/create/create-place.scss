@@ -29,16 +29,13 @@
       }
     }
     button {
-      width: 100%;
+      width: 100%!important;
       transition: .2s all ease;
-      border: 1px solid $color-sense-wire;
-      background-color: $color-sense;
-      border-radius: 4px;
       margin: 24px 0;
       line-height: 30px;
-      color: $color-white;
       font-size: 18px;
       font-weight: 700;
+      @extend .butn-green;
       &:disabled {
         opacity: 0.5;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
@@ -119,58 +116,6 @@
   form .placeID {
     background-color: $color-calm;
     margin-bottom: 32px;
-  }
-  .select-box {
-    width: 100%;
-    margin-bottom: 32px;
-    box-sizing: border-box;
-    border: solid 2px transparent;
-    border-radius: 10px;
-    padding-bottom: 12px;
-    transition: all .2s ease;
-    cursor: pointer;
-    .desc {
-      h3 {
-        letter-spacing: -1px;
-        line-height: 24px;
-        font-size: 20px;
-        font-weight: 700;
-      }
-      p {
-        color: $color-solid;
-        font-weight: 400;
-        @extend .nst-font-large;
-        line-height: 19px;
-      }
-      aside {
-        color: #869D91;
-        @extend .nst-font-medium;
-        line-height: 17px;
-        word-wrap: break-word;
-      }
-    }
-    .icn {
-      width: 120px;
-      height: 120px;
-      display: flex;
-      flex: none;
-      justify-content: center;
-      align-items: center;
-      svg {
-        width: 20px;
-        height: 20px;
-        transform: scale(4,4)
-      }
-    }
-    &:hover {
-      background-color: $color-white;
-      box-shadow:0 2px 8px rgba(0,0,0,0.15);
-    }
-    &.selected {
-      box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
-      border: solid 2px $color-sense;
-      background-color: $color-white;
-    }
   }
   .option-row {
     display: inline-flex;

@@ -18,7 +18,7 @@
       <div class="desc">
         <h3>Closed Place</h3>
         <p>Only Members can view Place contents.</p>
-        <aside>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</aside>
+        <span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>
       </div>
     </div>
     <div class="select-box _difh" ng-click="ctlCreate.setPlaceOpen();" ng-class="{ selected : ctlCreate.isOpenPlace }">
@@ -31,7 +31,7 @@
         <h3>Open Place</h3>
         <p ng-if="ctlCreate.isPersonalPlace">Only you can view the contents of this Place.</p>
         <p ng-if="!ctlCreate.isPersonalPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can view Place contents.</p>
-        <aside>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</aside>
+        <span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>
       </div>
     </div>
     <button ng-click="ctlCreate.step1 = false ;ctlCreate.step2 = true ;"
