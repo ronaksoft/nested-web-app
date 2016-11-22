@@ -103,8 +103,6 @@
       });
 
       NstBaseFactory.call(this);
-
-      console.log('PlaceFactory',this);
     }
 
     PlaceFactory.prototype = new NstBaseFactory();
