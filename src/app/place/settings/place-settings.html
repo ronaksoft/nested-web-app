@@ -38,7 +38,7 @@
     <div class="select-box-step2"
          ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off')"
          ng-click="ctlSettings.setReceivingOff();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }">
+         ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }" id="post-access-box">
       <h3 ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace" >Only "{{ctlSettings.place.name}}" {{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "Members"}}</h3>
       <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace" >{{ ctlSettings.place.policy.add_post === 'creators' ? 'Managers' : 'Members'}}</h3>
       <h3 ng-if="ctlSettings.isSubPersonalPlace" >Only you</h3>
@@ -148,7 +148,7 @@
   <p data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">Members</p>
   <div class="select-box2 _difh"
        data-ng-if="ctlSettings.accesses.hasAddMembersAccess"
-       data-ng-click="ctlSettings.addMember()">
+       data-ng-click="ctlSettings.addMember()" id="setting-invite">
     <div class="add">
       <svg>
         <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>

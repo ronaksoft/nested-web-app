@@ -46,20 +46,6 @@
 #    When I wait 5s
 #    Then should the title of the place be "test-create-place14"
 #
-#
-#  Scenario: Setting page
-#    Given I Click on "create14" place
-#    When I wait 5s
-#    Given I Click id "navbar-popover"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Place Settings"
-#    When I wait 5s
-#    Given I Attach Steve
-#    When I wait 5s
-#    Given I Click id "place-name"
-#    When I wait 5s
-#
-#
 #  Scenario: Delete grand place
 #    Given I Click on "create14" place
 #    When I wait 5s

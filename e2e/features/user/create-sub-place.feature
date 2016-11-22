@@ -57,6 +57,3 @@
 #    Given I Click id "close-create-place"
 #
 #  Scenario: Delete a sub-place of personal place
-#
-#
-#

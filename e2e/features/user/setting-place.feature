@@ -55,7 +55,21 @@
 #    When I wait 5s
 #    Given I Attach Steve
 #    When I wait 5s
-#    Given I Click id "place-name"
+#    Given I Click id "post-access-box"
 #    When I wait 5s
+#    Given I Click Option by value "managers"
+#    When I wait 5s
+#    Given I Click id "setting-invite"
+#    When I wait 5s
+#    Given I fill "Name, email or phone number  ..." with "shayestehn"
+#    When I wait 5s
+#    Given I press enter
+#    When I wait 5s
+#    Given I Click id "invite"
+#    When I wait 5s
+#    Given I Click id "active-test"
+#    When I wait 5s
+#
+#
 #
 #
