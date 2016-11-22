@@ -45,12 +45,12 @@
         </svg>Only "{{ctlSettings.place.name}}" {{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "Members"}}
       </h3>
       <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace" >
-        <svg>
+        <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
         </svg>{{ ctlSettings.place.policy.add_post === 'creators' ? 'Managers' : 'Members'}}
       </h3>
       <h3 ng-if="ctlSettings.isSubPersonalPlace" >
-        <svg>
+        <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
         </svg>Only you
       </h3>
@@ -83,15 +83,15 @@
          ng-click="ctlSettings.setReceivingMembers();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', disabled : !ctlSettings.accesses.hasControlAccess}">
       <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">
-        <svg>
-        <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+        <svg class="tick">
+          <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
         </svg>Everyone</h3>
       <h3 ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">
-        <svg>
+        <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
         </svg>Only Nested Users</h3>
       <h3 ng-if="!ctlSettings.isGrandPlace">{{ ctlSettings.grandPlace.name }}
-        <svg>
+        <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
         </svg>Members</h3>
       <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">All <b>{{ ctlSettings.grandPlace.name }}</b> Members can post messages to the place.</p>
@@ -120,7 +120,7 @@
          ng-click="ctlSettings.setReceivingEveryone();"
          ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', disabled : !ctlSettings.accesses.hasControlAccess}">
       <h3>
-        <svg>
+        <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
         </svg>Everyone <i>(including email)</i></h3>
       <p>Everyone can send their messages to "<b>{{ctlSettings.place.name ? ctlSettings.place.name  : '...'}}</b>" Place.
@@ -142,8 +142,8 @@
       </aside>
     </div>
   </div>
-  <div class="_difh _fw" ng-if="!ctlSettings.isSubPersonalPlace">
-    <div class="_fw _difv" ng-if="ctlSettings.isClosedPlace">
+  <div class="_difh _fw margin-b-16" ng-if="!ctlSettings.isSubPersonalPlace">
+    <div class="f4 _fw _difv" ng-if="ctlSettings.isClosedPlace">
       <p class="input-lab">Who can create a sub-place?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_place"
@@ -155,7 +155,8 @@
         {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_place]}}
       </p>
     </div>
-    <div class="_fw _difv">
+    <div class="f1"></div>
+    <div class="f4 _fw _difv">
       <p class="input-lab" ng-if="ctlSettings.isGrandPlace" >Who can invite Members? </p>
       <p class="input-lab" ng-if="!ctlSettings.isGrandPlace">Who can add Members?</p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
