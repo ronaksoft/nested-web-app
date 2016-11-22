@@ -185,23 +185,6 @@ post-card {
   }
 }
 
-.post-card.forward-card {
-  border-left: 4px solid $color-calm;
-  border-radius: 2px 0 0 2px;
-  transition: border-color $animation-dur;
-  &:hover {
-    border-left: 4px solid $color-forward;
-  }
-}
-.post-card.reply-card {
-  border-left: 4px solid $color-calm;
-  border-radius: 2px 0 0 2px;
-  transition: border-color $animation-dur;
-  &:hover {
-    border-left: 4px solid $color-reply;
-  }
-}
-
 .more-place-row {
   padding: 4px 8px;
   &:last-child {
@@ -398,5 +381,38 @@ h3 {
       border-width: 0px 0px 0px 2px;
     }
 
+  }
+}
+
+.chain {
+  top: 0;
+  left: 0;
+  width: 4px;
+  position: absolute;
+  height: 100%;
+  border: none;
+  background-color: $color-calm;
+  border-radius: 2px 0 0 2px;
+  transition: background-color $animation-dur;
+  display: none;
+}
+.post-card.forward-card {
+  .chain {
+    display: block;
+  }
+  &:hover {
+    .chain {
+      background-color: $color-forward;
+    }
+  }
+}
+.post-card.reply-card {
+  .chain {
+    display: block;
+  }
+  &:hover {
+    .chain {
+      background-color: $color-reply;
+    }
   }
 }
