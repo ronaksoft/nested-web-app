@@ -12,13 +12,13 @@
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
       <a ng-if="ctlPostCard.post.isForwarded" class="icon" href="{{ctlPostCard.urls.chain}}">
         <svg  class="svg-hover fw">
-          <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
+          <use xlink:href="/assets/icons/nst-icn20.svg#fws"></use>
           <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
         </svg>
       </a>
       <a ng-if="ctlPostCard.post.isReplyed" class="icon" href="{{ctlPostCard.urls.chain}}">
         <svg  class="svg-hover re">
-          <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
+          <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
           <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
         </svg>
       </a>
@@ -97,6 +97,7 @@
       <!--</div>-->
     </div>
   </section>
+  <vr class="chain"></vr>
 </div>
 <section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments && !ctlPostCard.hideComments && !ctlPostCard.post.forbidden">
   <div class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">

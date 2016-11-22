@@ -46,7 +46,7 @@
       display: flex;
       flex: 1;
       color: $color-storm;
-      font-size: 14px;
+      @extend .nst-font-medium;
       font-weight: 400;
       font-style: normal;
     }

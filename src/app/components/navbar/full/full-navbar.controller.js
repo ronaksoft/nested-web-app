@@ -18,6 +18,7 @@
      *****************************/
 
     isBookMark();
+    isSent();
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
@@ -68,31 +69,58 @@
 
         modal.result.then(function(selectedUsers) {
           $q.all(_.map(selectedUsers, function(user) {
-
             return $q(function(resolve, reject) {
-              NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
-                toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
-                NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
-                resolve({
-                  user: user,
-                  role: role,
-                  invitationId: invitationId
-                });
-              }).catch(function(error) {
-                // FIXME: Why cannot catch the error!
-                if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
-                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+              if (vm.isGrandPlace) {
+
+                NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
+                  toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
                   resolve({
                     user: user,
                     role: role,
-                    invitationId: null,
-                    duplicate: true
+                    invitationId: invitationId
                   });
-                } else {
-                  reject(error);
-                }
-              });
+                }).catch(function (error) {
+                  // FIXME: Why cannot catch the error!
+                  if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
+                    toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                    resolve({
+                      user: user,
+                      role: role,
+                      invitationId: null,
+                      duplicate: true
+                    });
+                  } else {
+                    reject(error);
+                  }
+                });
+
+              }else{
+                NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
+                  toastr.success(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: invitationId
+                  });
+                }).catch(function(error) {
+                  // FIXME: Why cannot catch the error!
+                  if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
+                    toastr.warning(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.place.id));
+                    resolve({
+                      user: user,
+                      role: role,
+                      invitationId: null,
+                      duplicate: true
+                    });
+                  } else {
+                    reject(error);
+                  }
+                });
+              }
             });
 
           })).then(function(values) {
@@ -158,9 +186,18 @@
       }
     }
     function isBookMark() {
-      if ($state.current.name == 'app.messages-bookmarks' ||
-        $state.current.name == 'app.messages-bookmarks-sorted'){
+      if ($state.current.name == 'app.messages-favorites' ||
+        $state.current.name == 'app.messages-favorites-sorted'){
         vm.isBookmarkMode = true;
+        return true;
+      }
+      return false;
+    }
+
+    function isSent() {
+      if ($state.current.name == 'app.messages-sent' ||
+        $state.current.name == 'app.messages-sent-sorted') {
+        vm.isSentMode = true;
         return true;
       }
       return false;

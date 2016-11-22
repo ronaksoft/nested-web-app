@@ -122,8 +122,8 @@
       var state = 'app.messages';
       switch ($state.current.name) {
         case 'app.activity':
-        case 'app.activity-bookmarks':
-        case 'app.activity-bookmarks-filtered':
+        case 'app.activity-favorites':
+        case 'app.activity-favorites-filtered':
         case 'app.activity-filtered':
         case 'app.place-activity':
         case 'app.place-activity-filtered':
@@ -154,15 +154,15 @@
     }
 
     function getBookmarksState() {
-      var state = 'app.messages-bookmarks';
+      var state = 'app.messages-favorites';
       switch ($state.current.name) {
         case 'app.activity':
-        case 'app.activity-bookmarks':
-        case 'app.activity-bookmarks-filtered':
+        case 'app.activity-favorites':
+        case 'app.activity-favorites-filtered':
         case 'app.activity-filtered':
         case 'app.place-activity':
         case 'app.place-activity-filtered':
-          state = 'app.activity-bookmarks';
+          state = 'app.activity-favorites';
           break;
       }
 
@@ -174,7 +174,7 @@
       switch ($state.current.name) {
         case 'app.messages-sorted':
         case 'app.messages-sent-sorted':
-        case 'app.messages-bookmarks-sorted':
+        case 'app.messages-favorites-sorted':
         case 'app.place-messages-sorted':
           state = 'app.messages-sent-sorted';
           break;
