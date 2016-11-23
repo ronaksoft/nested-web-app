@@ -233,10 +233,6 @@
 
     })();
 
-    vm.prevent = function (e) {
-      return e.stopPropagation()
-    }
-
   }
 
 })();
