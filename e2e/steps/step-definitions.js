@@ -118,11 +118,6 @@ module.exports = function () {
     option.click();
   });
 
-  this.Given(/^I Click Option by value "([^"]*)"$/, function (value) {
-    var option = element(By.css('option[value="' + value + '"]'));
-    option.click();
-  });
-
   this.Given(/^I Click label by for "([^"]*)"$/, function (itsFor) {
     var checkbox = element(By.css('label[for="' + itsFor + '"]'));
     checkbox.click();

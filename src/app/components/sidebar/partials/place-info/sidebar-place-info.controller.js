@@ -28,6 +28,15 @@
       vm.children = [];
 
       var grandPlaceId = vm.grandPlace.id;
+
+      NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
+        if (list.filter(function (obj) {
+            return obj === vm.grandPlace.id
+          }).length === 1) {
+          vm.placesBookmarkObject[vm.grandPlace.id] = true;
+        }
+      });
+
       getGrandPlaceChildren(grandPlaceId).then(function (places) {
         vm.children = places;
       }).catch(function (error) {
