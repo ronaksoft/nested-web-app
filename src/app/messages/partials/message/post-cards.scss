@@ -154,6 +154,9 @@
     a{
       font-size: $font-size-small;
       color: $color-solid-30;
+      span {
+        color: $color-solid;
+      }
     }
     .post-icons{
       justify-content: flex-end;

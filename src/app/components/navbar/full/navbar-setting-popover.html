@@ -15,12 +15,20 @@
     <span>{{ctlFullNavbar.isGrandPlace ? 'Invite' : 'Add '}} Members</span>
   </a>
   <a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'open')" ng-if="ctlFullNavbar.allowedToAddPlace">
-    <div class="add-icon"></div>
+    <div>
+      <svg class="setting-icon-nav">
+        <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
+      </svg>
+    </div>
     <span>Create a open sub-place</span>
   </a>
   <a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'close')" ng-if="ctlFullNavbar.allowedToAddPlace">
-    <div class="add-icon"></div>
-    <span>Create a close sub-place</span>
+    <div>
+      <svg class="setting-icon-nav">
+        <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
+      </svg>
+    </div>
+    <span>Create a closed sub-place</span>
   </a>
   <a class="_df  list-items _aic" ng-if="ctlFullNavbar.isPersonal()" ng-click="ctlFullNavbar.confirmToLeave()">
     <div class="option-leave-icon"></div>
