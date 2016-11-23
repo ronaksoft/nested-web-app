@@ -43,10 +43,24 @@ body.modal-open {
   border: 1px solid $color-breeze;
   border-radius: 6px;
   background-color: $color-white;
-  padding: 15px;
+  padding: 24px;
   width: 510px;
   max-width: 100%;
   height: auto;
+  .butn-white {
+    width: 125px;
+    height: 32px;
+    align-items: center;
+  }
+  .butn-red{
+    align-items: center;
+    width: 128px;
+  }
+  .closebut {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
 }
 #change-view {
   border: 1px solid $color-breeze;
