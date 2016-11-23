@@ -36,8 +36,11 @@
     margin-bottom: 8px;
   }
   input,select {
-    margin-bottom: 12px;
+    //margin: 12px 0;
     height: 40px;
+  }
+  .butn-green {
+    margin-top: 8px;
   }
   input:disabled {
     background-color: $color-calm;
