@@ -159,12 +159,6 @@
       justify-content: flex-end;
       //padding: 0 8px;
       height: 100%;
-      #test-reply:hover {
-        background-color: rgba(40,60,210,.1);
-      }
-      #test-forward:hover {
-        background-color: rgba(30,220,150,.1);
-      }
     }
     .icon {
       width: 40px;
@@ -173,6 +167,16 @@
       align-items: center;
       transition: opacity $animation-dur;
       //margin: 0 4px;
+      >div {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+          background-color: rgba(40,60,210,.1);
+        }
+      }
       .re,
       .fw {
         opacity: 0;

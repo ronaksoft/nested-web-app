@@ -74,24 +74,30 @@
     </a>
     <div class="post-icons _fw _df">
       <a id="test-forward" href="{{::ctlPostCard.urls.forward}}" ng-click="ctlPostCard.prevent($event)" class="icon _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
-        <svg  class="svg-hover fw">
+        <div>
+          <svg  class="svg-hover fw">
           <use xlink:href="/assets/icons/nst-icn20.svg#fwd"></use>
           <use xlink:href="/assets/icons/nst-icn20.svg#fwd"></use>
-        </svg>
+          </svg>
+        </div>
       </a>
-      <a id="test-reply" class="icon _df"  ng-click="ctlPostCard.prevent($event)" data-uib-tooltip="Reply to all" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
-        <svg class="svg-hover re">
-          <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
-          <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
-        </svg>
+      <a id="test-reply" class="icon _df" href="{{ctlPostCard.urls.reply_all}}" ng-click="ctlPostCard.prevent($event)" data-uib-tooltip="Reply to all" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+        <div>
+          <svg class="svg-hover re">
+            <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
+            <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
+          </svg>
+        </div>
       </a>
       <div ng-click="ctlPostCard.prevent($event)" class="cursor-pointer margin-r_5 icon _df popover-white-nst-activity-places"
            data-uib-popover-template="'app/messages/partials/popovers/reply.html'"
            data-popover-placement="auto top-right" data-uib-tooltip="More Options" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
-        <svg  class="svg-hover">
-          <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
-          <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
-        </svg>
+        <div>
+          <svg  class="svg-hover">
+            <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
+            <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
+          </svg>
+        </div>
       </div>
     </div>
   </section>
