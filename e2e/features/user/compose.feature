@@ -27,8 +27,7 @@
 #    When I wait 5s
 #    When Wait for Upload to be finished
 #    Given I fill "Add a Subject ..." with "testing-compose"
-#    Given I Click id "tinymce"
-#    Given I fill id "tinymce" with "yo grabbing tinymce is working"
+#    When I wait 5s
 #    Given I Click Link by Partial Text "Send"
 #    When Wait to see success-msg
 #    When I wait 2s

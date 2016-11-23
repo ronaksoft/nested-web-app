@@ -76,8 +76,8 @@
           group: 'message'
         }
       })
-      .state('app.messages-bookmarks', {
-        url: '/messages/bookmarks',
+      .state('app.messages-favorites', {
+        url: '/messages/favorites',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
@@ -86,8 +86,8 @@
           group: 'message'
         }
       })
-      .state('app.messages-bookmarks-sorted', {
-        url: '/messages/bookmarks/:sort',
+      .state('app.messages-favorites-sorted', {
+        url: '/messages/favorites/:sort',
         params: {
           sort: NST_DEFAULT.STATE_PARAM
         },

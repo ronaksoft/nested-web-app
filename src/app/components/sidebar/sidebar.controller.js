@@ -259,11 +259,12 @@
     }
 
     function getBookmarksState() {
-      var state = 'app.messages-bookmarks';
+      var state = 'app.messages-favorites';
 
       switch ($state.current.options.group) {
         case 'activity':
-          state = 'app.activity-bookmarks';
+          //todo: favorite activities ( if someday API created ) should start from here ...
+          state = 'app.messages-favorites';
           break;
       }
 

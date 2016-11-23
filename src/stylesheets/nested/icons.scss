@@ -44,7 +44,24 @@
   background-image: url("../assets/icons/smallscreenhandlers.svg");
   background-repeat: no-repeat;
 }
+.icon-top-action {
+  background-image: url("../assets/icons/sidebaricon.svg");
+  background-repeat: no-repeat;
+  flex: none;
+  width: 48px;
+  height: 48px;
+}
+.icon-top-all-place {
+  background-position: 0 0px;
+}
 
+.icon-top-bookmarks {
+  background-position: 0 -48px;
+}
+
+.icon-top-sent {
+  background-position: 0 -96px;
+}
 .hamburger-icon {
   background-position: 0 0;
 }
@@ -370,4 +387,22 @@
 .profile-menu-signout {
   background: url('../assets/icons/1.svg') no-repeat;
   background-position: 0 0;
+}
+
+
+.tick {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  fill : $color-white;
+  border-radius: 8px;
+  border: 1px solid $color-border;
+  background-color: $color-white;
+  box-sizing: content-box;
+  margin-right: 8px;
+}
+.selected .tick {
+  fill: $color-white;
+  background-color: $color-sense-wire;
+  border-color: $color-sense-wire;
 }

@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstBaseFactory', NstBaseFactory);
 
-  function NstBaseFactory(NstObservableObject, $q) {
+  function NstBaseFactory(NstObservableObject, $q, NstSvcLogger) {
     function BaseFactory() {
 
 
@@ -24,7 +24,7 @@
         });
 
         return requests[key];
-      }
+      };
 
       self.release = function(key) {
         if (_.isObject(requests[key])) {
@@ -46,7 +46,7 @@
 
       this.sentinel = {
         watch: self.watch
-      };
+      }
 
     }
 

@@ -33,6 +33,12 @@
     display: flex;
     margin-top: 25px;
     border-bottom: 1px solid #f0f0f0;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: $color-sense-wire;
+    }
     &:hover {
       color: $color-solid;
     }
@@ -150,7 +156,7 @@ li.j-selected {
 }
 
 .total-files-size {
-  font-size: 14px;
+  @extend .nst-font-medium;
   color: #808080;
   margin-left: 10px;
 }
