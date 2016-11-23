@@ -158,6 +158,9 @@
         color: $color-solid;
       }
     }
+    .svg-scale {
+      transform: scale(.8,.8);
+    }
     .post-icons{
       justify-content: flex-end;
       //padding: 0 8px;
