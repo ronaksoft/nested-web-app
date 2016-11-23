@@ -11,7 +11,7 @@
     <li ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.postId })" ng-click="ctlMentions.viewPost(mention, $event);">
       <div class="item-inner ng-class:{'seen' : mention.isSeen}">
         <div class="user-avatar-24">
-          <img src="{{mention.avatar}}">
+          <img ng-src="{{mention.avatar}}">
         </div>
         <div class="mention">
           <p>
