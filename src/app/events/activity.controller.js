@@ -206,7 +206,6 @@
 
       vm.loading = true;
       vm.tryAgainToLoadMore = false;
-
       NstSvcActivityFactory.get(vm.activitySettings).then(function(activities) {
         if (activities.length === 0 && !vm.activities.length === 0) {
           vm.reachedTheEnd = false;

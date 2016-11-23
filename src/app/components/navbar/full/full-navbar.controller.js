@@ -74,6 +74,7 @@
         modal.result.then(function(selectedUsers) {
           $q.all(_.map(selectedUsers, function(user) {
             return $q(function(resolve, reject) {
+
               if (vm.isGrandPlace) {
 
                 NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
@@ -104,6 +105,7 @@
                 NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
                   toastr.success(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
                   NstSvcLogger.info(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
+
                   resolve({
                     user: user,
                     role: role,
@@ -143,6 +145,14 @@
         NstSvcLogger.error(error);
       });
 
+    }
+
+    function joinUser(place, role, user) {
+      if (place.isGrandPlace()) {
+        return NstSvcPlaceFactory.inviteUser(place, role, user);
+      } else {
+        return NstSvcPlaceFactory.addUser(place, role, user);
+      }
     }
 
     function getPlaceId() {
@@ -324,11 +334,10 @@
       NstSvcPlaceFactory.removeMember(vm.getPlaceId(), NstSvcAuth.user.id, true).then(function(result) {
         $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
-        console.log(error);
         if (error instanceof NstPlaceOneCreatorLeftError){
           toastr.error('You are the only one left!');
         } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are creator of the top-level place ({0}).', vm.place.parent.name));
+          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are the creator of the top-level place ({0}).', vm.place.parent.name));
         }
         NstSvcLogger.error(error);
       });

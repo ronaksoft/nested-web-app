@@ -9,7 +9,7 @@
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
-                             NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar,
+                             NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
 
@@ -318,15 +318,13 @@
             }
             break;
         }
-
-        vm.model.attachments = vm.model.attachments.filter(function (v) { return id != v.id; });
-        vm.attachments.viewModels = vm.attachments.viewModels.filter(function (v) { return id != v.id; });
-        vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
-        vm.attachments.size.total -= attachment.getSize();
-      }else{
-        vm.model.attachments = [];
       }
-    };
+
+      NstUtility.collection.dropById(vm.model.attachments, id);
+      NstUtility.collection.dropById(vm.attachments.viewModels, id);
+      vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
+      vm.attachments.size.total -= attachment.getSize();
+    }
 
     vm.model.isModified = function () {
       vm.model.modified = (function (model) {

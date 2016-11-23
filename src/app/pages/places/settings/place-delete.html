@@ -25,7 +25,7 @@
         <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
           <div class="butn-white _jcc _df" ng-click="$dismiss();"><a class="_df">Cancel</a></div>
           <div ng-hide="nextStep" class="butn-red _jcc _df" ng-click="nextStep =! nextStep; focusInput=true"><a class="_df">Delete Place</a></div>
-         <div ng-if="nextStep" data-ng-disabled="!removeCtrl.validateInput()" class="butn-red _jcc _df" ng-click="$close();"><a class="_df">DELETE</a></div>
+         <button ng-if="nextStep" data-ng-disabled="!removeCtrl.validateInput()" class="butn-red _jcc _df" ng-click="$close();"><a class="_df">DELETE</a></button>
         </div>
       </div>
 

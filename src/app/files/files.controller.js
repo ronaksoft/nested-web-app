@@ -93,7 +93,6 @@
         defer.reject(new Error('Could not find a place without Id.'));
       } else {
         NstSvcPlaceFactory.get(id).then(function (place) {
-          console.log('haha', place);
           if (place && place.id) {
             vm.currentPlace = place;
             vm.currentPlaceLoaded = true;
@@ -144,7 +143,6 @@
         vm.settings.keyword,
         vm.settings.skip,
         vm.settings.limit).then(function (files) {
-          console.log('haha', files);
           vm.files = mapFiles(files);
           vm.hasNextPage = vm.files.length >= vm.settings.limit;
           vm.hasPreviousPage = vm.settings.skip >= vm.settings.limit;
