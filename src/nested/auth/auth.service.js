@@ -19,11 +19,6 @@
       this.lastSessionKey = null;
       this.lastSessionSecret = null;
       this.remember = NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.REMEMBER) || false;
-      $cookies.put('user', JSON.stringify({
-        id : user.id,
-        name : user.fullName,
-        avatar : user.picture.thumbnails.x64.url.view
-      }));
 
       NstObservableObject.call(this);
 
@@ -78,6 +73,11 @@
 
       NstSvcUserFactory.get(this.getUser().getId()).then(function (user) {
         service.setUser(user);
+        $cookies.put('user', JSON.stringify({
+          id : user.id,
+          name : user.fullName,
+          avatar : user.picture.thumbnails.x64.url.view
+        }));
         service.setState(NST_AUTH_STATE.AUTHORIZED);
 
         service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, { detail: { user: service.getUser() } }));
@@ -114,6 +114,7 @@
           this.setLastSessionSecret(null);
           $cookies.remove('nss');
           $cookies.remove('nsk');
+          $cookies.remove('user');
           qUnauth.resolve(reason);
           break;
 
@@ -122,6 +123,7 @@
           this.setLastSessionSecret(null);
           $cookies.remove('nss');
           $cookies.remove('nsk');
+          $cookies.remove('user');
           NstSvcServer.request('session/close').then(function () {
             NstSvcServer.unauthorize();
             qUnauth.resolve(reason);
