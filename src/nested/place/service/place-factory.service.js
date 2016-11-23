@@ -632,7 +632,7 @@
           member_id: query.data.userId,
           role: query.data.role
         }).then(function(result) {
-          deferred.resolve(user);
+          deferred.resolve(result.invite_id ? result.invite_id.$oid : null);
         }).catch(function(error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });

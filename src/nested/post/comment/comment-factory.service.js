@@ -229,7 +229,7 @@
       var comment = new NstComment();
 
       var defer = $q.defer();
-      
+
       if (!data || !data._id) {
         defer.resolve(comment);
       } else {

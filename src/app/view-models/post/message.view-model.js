@@ -90,7 +90,7 @@
       return {
         name: sender.fullName,
         username: sender.id,
-        avatar: sender.getPicture().getThumbnail(32).getUrl().view
+        avatar: sender.picture.id ? sender.picture.thumbnails.x32.url.view : null
       };
     }
 

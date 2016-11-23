@@ -102,7 +102,7 @@
     };
 
     TinyPlace.prototype.isGrandPlace = function () {
-      return this.id === this.grandParentId && !this.parentId;
+      return !this.parentId;
     }
 
     TinyPlace.prototype.hasParent = function () {

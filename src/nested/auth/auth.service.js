@@ -7,9 +7,9 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $q, $log,
-                      NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
-                      NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory,
-                      NstObservableObject) {
+    NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory, NstSvcStore,
+    NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT, NST_STORE_ROUTE,
+    NstObservableObject) {
     function Auth(userData) {
       var service = this;
       var user = NstSvcUserFactory.parseUser(userData);
@@ -73,6 +73,11 @@
 
       NstSvcUserFactory.get(this.getUser().getId()).then(function (user) {
         service.setUser(user);
+        $cookies.put('user', JSON.stringify({
+          id : user.id,
+          name : user.fullName,
+          avatar : user.picture.thumbnails.x64.url.view
+        }));
         service.setState(NST_AUTH_STATE.AUTHORIZED);
 
         service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, { detail: { user: service.getUser() } }));
@@ -109,6 +114,7 @@
           this.setLastSessionSecret(null);
           $cookies.remove('nss');
           $cookies.remove('nsk');
+          $cookies.remove('user');
           qUnauth.resolve(reason);
           break;
 
@@ -117,6 +123,7 @@
           this.setLastSessionSecret(null);
           $cookies.remove('nss');
           $cookies.remove('nsk');
+          $cookies.remove('user');
           NstSvcServer.request('session/close').then(function () {
             NstSvcServer.unauthorize();
             qUnauth.resolve(reason);
