@@ -4,40 +4,40 @@
   </svg>
 </div>
 <div id="create-place"
-     ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode && !ctlCreate.isPersonalPlace; ctlCreate.step2 = !ctlCreate.step1">
-  <div class="_difv" ng-if="ctlCreate.step1">
-    <h2 class="_df">Create a Place</h2>
-    <p class="input-lab">Choose a Place Type:</p>
-    <div class="select-box _difh" ng-click="ctlCreate.setPlaceClosed();"
-         ng-class="{ selected : ctlCreate.isClosedPlace }">
-      <div class="icn">
-        <svg>
-          <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
-        </svg>
-      </div>
-      <div class="desc">
-        <h3>Closed Place</h3>
-        <p>Only Members can view Place contents.</p>
-        <span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>
-      </div>
-    </div>
-    <div class="select-box _difh" ng-click="ctlCreate.setPlaceOpen();" ng-class="{ selected : ctlCreate.isOpenPlace }">
-      <div class="icn">
-        <svg>
-          <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
-        </svg>
-      </div>
-      <div class="desc">
-        <h3>Open Place</h3>
-        <p ng-if="ctlCreate.isPersonalPlace">Only you can view the contents of this Place.</p>
-        <p ng-if="!ctlCreate.isPersonalPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can view Place contents.</p>
-        <span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>
-      </div>
-    </div>
-    <button class="submit" ng-click="ctlCreate.step1 = false ;ctlCreate.step2 = true ;"
-            ng-disabled="!ctlCreate.isOpenPlace && !ctlCreate.isClosedPlace">Next
-    </button>
-  </div>
+     ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode && !ctlCreate.isPersonalPlace; ctlCreate.step2 = ctlCreate.step1">
+  <!--<div class="_difv" ng-if="ctlCreate.step1">-->
+    <!--<h2 class="_df">Create a Place</h2>-->
+    <!--<p class="input-lab">Choose a Place Type:</p>-->
+    <!--<div class="select-box _difh" ng-click="ctlCreate.setPlaceClosed();"-->
+         <!--ng-class="{ selected : ctlCreate.isClosedPlace }">-->
+      <!--<div class="icn">-->
+        <!--<svg>-->
+          <!--<use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>-->
+        <!--</svg>-->
+      <!--</div>-->
+      <!--<div class="desc">-->
+        <!--<h3>Closed Place</h3>-->
+        <!--<p>Only Members can view Place contents.</p>-->
+        <!--<span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="select-box _difh" ng-click="ctlCreate.setPlaceOpen();" ng-class="{ selected : ctlCreate.isOpenPlace }">-->
+      <!--<div class="icn">-->
+        <!--<svg>-->
+          <!--<use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>-->
+        <!--</svg>-->
+      <!--</div>-->
+      <!--<div class="desc">-->
+        <!--<h3>Open Place</h3>-->
+        <!--<p ng-if="ctlCreate.isPersonalPlace">Only you can view the contents of this Place.</p>-->
+        <!--<p ng-if="!ctlCreate.isPersonalPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can view Place contents.</p>-->
+        <!--<span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<button class="submit" ng-click="ctlCreate.step1 = false ;ctlCreate.step2 = true ;"-->
+            <!--ng-disabled="!ctlCreate.isOpenPlace && !ctlCreate.isClosedPlace">Next-->
+    <!--</button>-->
+  <!--</div>-->
   <div class="_difv" ng-if="ctlCreate.step2">
 
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate>
@@ -51,6 +51,31 @@
         ctlCreate.isPersonalPlace ? 'Only you can view the contents of this Place.' :
         ('All "' + ctlCreate.grandPlace.name + '" Members can view Place contents.')}}
       </p>
+      <div class="select-box _difh selected" ng-click="ctlCreate.setPlaceClosed();" ng-if="ctlCreate.isClosedPlace">
+        <div class="icn">
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
+          </svg>
+        </div>
+        <div class="desc">
+          <h3>Closed Place</h3>
+          <p>Only Members can view Place contents.</p>
+          <span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>
+        </div>
+      </div>
+      <div class="select-box _difh selected" ng-click="ctlCreate.setPlaceOpen();" ng-if="ctlCreate.isOpenPlace">
+        <div class="icn">
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
+          </svg>
+        </div>
+        <div class="desc">
+          <h3>Open Place</h3>
+          <p ng-if="ctlCreate.isPersonalPlace">Only you can view the contents of this Place.</p>
+          <p ng-if="!ctlCreate.isPersonalPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can view Place contents.</p>
+          <span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>
+        </div>
+      </div>
       <div class="form-group" ng-class="{ 'has-error' : placeForm.placeName.$invalid && ctlCreate.submitted}">
         <label class="input-lab" ng-if="placeForm.placeName.$valid || !ctlCreate.submitted">Place name</label>
         <label class="error-message" ng-if="placeForm.placeName.$error.required && ctlCreate.submitted">Place name is

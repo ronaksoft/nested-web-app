@@ -55,6 +55,13 @@
 
     vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
 
+    if($stateParams.isOpenPlace){
+      setPlaceOpen();
+    }else {
+      setPlaceClosed();
+    }
+
+
 
     (function () {
       if (stateParamIsProvided($stateParams.placeId)) {
