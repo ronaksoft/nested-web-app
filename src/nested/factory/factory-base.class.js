@@ -14,7 +14,6 @@
 
       self.hold = function(key, callback) {
         if (requests[key]) {
-          NstSvcLogger.debug('NstBaseFactory | has request :' ,key, requests[key]);
           return requests[key];
         }
 

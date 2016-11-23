@@ -54,7 +54,7 @@
           });
         }).catch(function(error) {
           if (error instanceof NstPlaceOneCreatorLeftError){
-            toastr.error(NstUtility.string.format('User "{0}" is the only creator in the place!', vm.member.name));
+            toastr.error(NstUtility.string.format('User "{0}" is the only manager in the place!', vm.member.name));
           } else if (error instanceof NstPlaceCreatorOfParentError) {
             toastr.error(NstUtility.string.format('You are not allowed to remove "{0}", because he/she is creator of the top-level place ({1}).', vm.member.name, vm.place.parent.name));
           }
