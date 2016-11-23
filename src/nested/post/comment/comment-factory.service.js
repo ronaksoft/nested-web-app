@@ -230,7 +230,7 @@
 
       var defer = $q.defer();
 
-      if (!data) {
+      if (!data || !data._id) {
         defer.resolve(comment);
       } else {
 

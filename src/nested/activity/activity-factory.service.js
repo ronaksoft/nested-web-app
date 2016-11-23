@@ -288,8 +288,7 @@
         }).then(function(data) {
 
           var activities = _.map(data.events, parseActivity);
-
-          $q.all(activities).then(function(values) {
+          $q.all(activities).then(function (values) {
             deferred.resolve(values);
           }).catch(deferred.reject);
 
@@ -297,7 +296,6 @@
 
         return deferred.promise;
       }, 'getActivities', settings.placeId);
-
     }
 
     function get(settings) {

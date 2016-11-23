@@ -440,6 +440,7 @@
 
         vm.countryIsValid = false;
       }
+
       validatePhone();
     });
 

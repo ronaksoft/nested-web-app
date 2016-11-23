@@ -25,7 +25,7 @@
 
         switch (tlData.action) {
           case NST_EVENT_ACTION.MEMBER_INVITE:
-            factory.get(tlData.invite_id.$oid).then(function (invitation) {
+            factory.get(tlData.invite_id).then(function (invitation) {
               factory.dispatchEvent(new CustomEvent(
                 NST_INVITATION_FACTORY_EVENT.ADD,
                 { detail: { id: invitation.getId(), invitation: invitation } }

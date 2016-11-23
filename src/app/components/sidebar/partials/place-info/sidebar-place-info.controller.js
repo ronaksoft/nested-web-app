@@ -145,7 +145,17 @@
       });
     }
 
-
+    function clearPlace(placeId) {
+      if (placeId) {
+        if (_.has(vm.placesNotifCountObject, placeId)) {
+          delete vm.placesNotifCountObject[placeId];
+        }
+        if (_.has(vm.placesBookmarkObject, placeId)) {
+          delete vm.placesBookmarkObject[placeId];
+        }
+        NstSvcPlaceFactory.removePlaceFromTree(vm.children, placeId);
+      }
+    }
     /*****************************
      *****  Event Listeners   ****
      *****************************/
@@ -162,14 +172,6 @@
 
       Initializing();
     });
-
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-      //TODO:: change children without Initializing()
-      // NstSvcPlaceFactory.removePlaceInTree(vm.children, mapPlace(event.detail.place));
-      Initializing();
-    });
-
 
 
     NstSvcPlaceFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
@@ -194,6 +196,10 @@
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
       NstSvcLogger.debug('Retrieving sub-places count right after reconnecting.');
       getPlaceUnreadCounts();
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
+      clearPlace(event.detail);
     });
   }
 })();
