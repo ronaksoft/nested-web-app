@@ -1,8 +1,27 @@
 <div>
-  <div class="hovercolor">
-   <a href="{{ctlPostCard.urls.reply_all}}" class="spansetting">Reply all</a>
-  </div>
-  <div class="hovercolor">
-    <a href="{{ctlPostCard.urls.reply_sender}}" class="spansetting">Reply sender</a>
-  </div>
+  <a class="_df list-items _aic">
+    <div>
+      <svg class="setting-icon-nav">
+        <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
+      </svg>
+    </div>
+    <span>Delete</span>
+  </a>
+  <a class="_df list-items _aic">
+    <div class="add-icon"></div>
+    <span>{{ctlFullNavbar.isGrandPlace ? 'Invite' : 'Add '}} Retract</span>
+  </a>
+  <a class="_df list-items _aic" href="{{ctlPostCard.urls.reply_sender}}">
+    <div>
+      <svg class="setting-icon-nav">
+        <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
+      </svg>
+    </div>
+    <span>Reply sender</span>
+  </a>
+  <a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })">
+    <div class="add-icon"></div>
+    <span>Mark as read</span>
+  </a>
+
 </div>
