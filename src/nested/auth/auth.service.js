@@ -73,14 +73,15 @@
 
       NstSvcUserFactory.get(this.getUser().getId()).then(function (user) {
         service.setUser(user);
-        var expireDate = new Date();
+        var CookieDate = new Date;
+        CookieDate.setFullYear(CookieDate.getFullYear() +1);
         $cookies.put('user', JSON.stringify({
           id : user.id,
           name : user.fullName,
           avatar : user.picture.thumbnails.x64.url.view
         }), {
-          domian : 'nested.me',
-          expires : expireDate.setFullYear(expireDate.getFullYear() + 1)
+          domain : '.nested.me',
+          expires : CookieDate.toGMTString()
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);
 
