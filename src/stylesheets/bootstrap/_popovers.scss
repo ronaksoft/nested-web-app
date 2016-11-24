@@ -73,7 +73,7 @@
     border-color: $color-fillbox;
     margin: 8px 0;
   }
-  a {
+  a,label {
     color: $color-storm;
     font-weight: 400;
     @extend .nst-font-medium;
@@ -83,9 +83,6 @@
     div {
       flex: none;
       margin-right: 8px;
-    }
-    span {
-      transition: all $animation-dur;
     }
   }
 }

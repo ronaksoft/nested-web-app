@@ -80,7 +80,7 @@
   }
 }
 
-.popover-white-nst-filter + .popover {
+.popover-white-nst-filter {
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
@@ -92,7 +92,7 @@
   width: 210px;
 }
 
-.popover-white-nst-msg + .popover {
+.popover-white-nst-msg {
   max-width: 320px;
   min-width: 319px;
   max-height: 150px;
@@ -114,7 +114,7 @@
   }
 }
 
-.popover-white-nst-setting + .popover {
+.popover-white-nst-setting {
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
@@ -126,7 +126,7 @@
   width: 210px;
 }
 
-.popover-white-nst-sort + .popover{
+.popover-white-nst-sort {
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;

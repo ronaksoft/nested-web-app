@@ -30,7 +30,7 @@
   </div>
   <span>Create a Closed place</span>
 </a>
-<hr>
+<hr ng-if="ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToRemovePlace">
 <a class="_df  list-items _aic" ng-if="ctlFullNavbar.isPersonal()" ng-click="ctlFullNavbar.confirmToLeave()">
   <div class="option-leave-icon"></div>
   <span>Leave</span>
