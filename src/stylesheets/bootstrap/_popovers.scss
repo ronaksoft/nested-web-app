@@ -39,11 +39,52 @@
 }
 
 .popover-content {
-  white-space: nowrap;
-  word-break: keep-all;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0;
+  @extend ._txe;
+  padding: 8px 0;
+  flex-direction: column;
+  display: inline-flex;
+  width: 100%;
+  h3 {
+    padding: 8px 24px;
+    margin: 0;
+    color: $color-wind;
+    font-size: 22px;
+    line-height: 26px;
+    font-weight: 300;
+    border-bottom: 1px solid $color-fillbox;;
+  }
+  h6 {
+    color: $color-wind;
+    @extend .nst-font-xsmall;
+    line-height: 13px;
+    font-weight: 400;
+    padding: 0 12px;
+  }
+  p {
+    color: $color-hurricane;
+    text-align: right;
+    @extend .nst-font-medium;
+    font-weight: 600;
+    padding: 8px 40px;
+    top: 0;
+    right: 0;
+  }
+  hr {
+    border-color: $color-fillbox;
+    margin: 8px 0;
+  }
+  a,label {
+    color: $color-storm;
+    font-weight: 400;
+    @extend .nst-font-medium;
+    line-height: 17px;
+    display: inline-flex;
+    flex-direction: row;
+    div {
+      flex: none;
+      margin-right: 8px;
+    }
+  }
 }
 
 // Arrows

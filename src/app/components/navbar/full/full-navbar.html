@@ -124,7 +124,7 @@
 
       </div>
       <div class="nav-access" affixer parent=".content" after-content="577" first-imp="true" ng-if="ctlFullNavbar.hasPlace()">
-        <div class="cursor-pointer margin-r_5 icon-rp _df popover-white-nst-activity-places"
+        <div class="cursor-pointer margin-r_5 icon-rp _df" popover-class="popover-white-nst-activity-places"
              popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"
              popover-popup-close-delay="100" popover-trigger="focus" popover-placement="auto bottom-right"
              data-uib-tooltip="More options" data-tooltip-append-to-body="false"
@@ -150,7 +150,7 @@
         </div>
       </div>
     </div>
-    <div class="content-plus" ng-show="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode"></div>
+    <div class="content-plus" ng-show="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode && !ctlFullNavbar.page.isActivity"></div>
   </div>
 </div>
 <scroll-roller roll-upward="ctlFullNavbar.rollToTop"></scroll-roller>

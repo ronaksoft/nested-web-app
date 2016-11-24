@@ -1,24 +1,16 @@
 <div id="setting" class="popup-panel">
-  <div>
-   <span class="spansetting"> View setting</span>
+  <h6>View setting</h6>
+  <div class="list-items">
+    <input class="_fr" type="checkbox" id="content" name="content" ng-click="ctl.toggleContentPreview()" ng-checked="ctl.viewSetting.content"/>
+    <label class="_fw setting" for="content"> Content Preview</label>
   </div>
-  <div>
-    <div class="list-items">
-      <input class="_fr" type="checkbox" id="content" name="content" ng-click="ctl.toggleContentPreview()" ng-checked="ctl.viewSetting.content"/>
-      <label class="_fw setting" for="content"> Content Preview</label>
-    </div>
+  <div class="list-items">
+    <input class="_fr" type="checkbox" id="attachments" name="attachments" ng-click="ctl.toggleAttachmentsPreview()" ng-checked="ctl.viewSetting.attachments"/>
+    <label class="_fw setting" for="attachments">Attachments</label>
   </div>
-  <div>
-    <div class="list-items">
-      <input class="_fr" type="checkbox" id="attachments" name="attachments" ng-click="ctl.toggleAttachmentsPreview()" ng-checked="ctl.viewSetting.attachments"/>
-      <label class="_fw setting" for="attachments">Attachments</label>
-    </div>
-  </div>
-  <div>
-    <div class="list-items">
-      <input class="_fr" type="checkbox" id="comments" name="comments" ng-click="ctl.toggleCommentsPreview()" ng-checked="ctl.viewSetting.comments"/>
-      <label class="_fw setting" for="comments">Comments</label>
-    </div>
+  <div class="list-items">
+    <input class="_fr" type="checkbox" id="comments" name="comments" ng-click="ctl.toggleCommentsPreview()" ng-checked="ctl.viewSetting.comments"/>
+    <label class="_fw setting" for="comments">Comments</label>
   </div>
   <!--<div ng-if="ctl.currentPlaceId">-->
     <!--<div class="list-items">-->

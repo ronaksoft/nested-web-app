@@ -29,7 +29,7 @@
       }
     }
     button {
-      width: 100%!important;
+      width: 100%;
       transition: .2s all ease;
       margin: 24px 0;
       line-height: 30px;
@@ -41,6 +41,9 @@
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
         filter: alpha(opacity=50);
       }
+    }
+    button.submit {
+      width: 100%!important;
     }
     input {
       width: 100%;
@@ -142,6 +145,7 @@
   .create-place-checkbox:checked + label {
     background-position: 0 -16px;
   }
+
 }
 
 .close-modal {

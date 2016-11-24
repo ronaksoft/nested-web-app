@@ -160,15 +160,24 @@ hr {
   height: 30px;
   padding: 5px 10px;
   width: 100%;
-  color: $color-hurricane;
-  &.active {
+  color: $color-storm;
+  transition: all $animation-dur;
+  &:hover{
     background-color: $color-sense-5;
-    color: $color-solid;
+    color: $color-hurricane;
     border-bottom-left-radius: 5px;
+    span,label,a {
+      transition: all $animation-dur;
+      color: $color-hurricane;
+    }
   }
-  &:hover {
+  &.active{
     background-color: $color-sense-5;
-    color: $color-solid;
+    color: $color-hurricane;
     border-bottom-left-radius: 5px;
+    span,label,a {
+      transition: all $animation-dur;
+      color: $color-hurricane;
+    }
   }
 }

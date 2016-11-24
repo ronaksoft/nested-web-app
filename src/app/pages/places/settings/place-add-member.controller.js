@@ -15,6 +15,7 @@
     var defaultSearchResultCount = 9;
 
     vm.isTeammateMode = true;
+    checkUserLimitPlace();
 
 
     if (currentPlace.id.split('.').length > 1){
@@ -57,6 +58,11 @@
 
     function calculateSearchLimit() {
       return defaultSearchResultCount + vm.selectedUsers.length;
+    }
+
+    function checkUserLimitPlace() {
+      var previusUsers = currentPlace.counters.creators + currentPlace.counters.key_holders;
+      vm.limit = 255 - previusUsers;
     }
   }
 })();

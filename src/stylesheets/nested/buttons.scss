@@ -22,54 +22,49 @@
 .butn-green{
   background-color: $color-sense;
   border: 1px solid $color-sense-wire;
-  border-radius: 5px;
+  border-radius: $border-radius-butn;
   flex: none;
   text-decoration: none;
   color: $color-white;
   text-align: center;
+  transition: all $animation-dur;
+  a,span {
+    //margin: 4px 0;
+    color: $color-white;
+    white-space: nowrap;
+    font-size: $font-size-large;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  &:hover {
+    background-color: $color-sense-wire;
+    text-decoration: none;
+    color: $color-white;
+    a,span{
+      color: $color-white;
+      text-decoration: none;
+    }
+  }
+  &:focus {
+    background-color: $color-sense;
+  }
 }
 
-.butn-green-nav{
-  background-color: $color-sense;
-  border: 1px solid $color-sense-wire;
-  border-radius: 3px;
-  margin: 5px;
-  height: 32px;
-  flex: none;
-  display: inline-block;
-  line-height: 22px;
-  font-size: $font-size-medium;
-  font-weight: 600;
-  text-align: center;
-  color: $color-white;
-  padding: 5px 16px 5px 16px;
-  text-decoration: none;
-}
-
-.butn-green:hover {
-  background-color: $color-sense-wire;
-  text-decoration: none;
-}
-.butn-green:focus {
-  background-color: $color-sense;
-  text-decoration: none;
-}
 .butn-green:disabled{
   opacity: .5;
   cursor: not-allowed;
   text-decoration: none;
 }
-.butn-green a{
-  margin: 4px 0;
-  color: $color-white;
-  white-space: nowrap;
-  font-size: $font-size-large;
-  font-weight: 500;
-  text-decoration: none;
-}
-.butn-green:hover a{
-  color: $color-white;
-  text-decoration: none;
+
+.butn-green-nav{
+  margin: 5px;
+  height: 32px;
+  display: inline-block;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  padding: 5px 16px 5px 16px;
+  //width: 128px;
+  @extend .butn-green;
 }
 
 /**
@@ -81,36 +76,35 @@
 .butn-red{
   background-color: $color-force;
   border: 1px solid $color-force-wire;
-  border-radius: 3px;
+  border-radius: $border-radius-butn;
   margin: 0 5px;
-  width: 128px;
+  //width: 128px;
   flex: none;
   text-decoration: none;
+  transition: all $animation-dur;
+  a,span{
+    //margin: 4px 0;
+    color: $color-white;
+    white-space: nowrap;
+    font-size: $font-size-large;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  &:hover {
+    background-color: $color-force-wire;
+    a,span{
+      color: $color-white;
+      text-decoration: none;
+    }
+  }
+  &:focus{
+    background-color: $color-force;
+  }
 }
+
 .butn-red:disabled{
   opacity: .5;
   cursor: not-allowed;
-  text-decoration: none;
-}
-.butn-red:hover:enabled{
-  background-color: $color-force-wire;
-  text-decoration: none;
-}
-.butn-red:focus{
-  background-color: $color-force;
-  text-decoration: none;
-}
-.butn-red a{
-  margin: 4px 0;
-  color: $color-white;
-  white-space: nowrap;
-  font-size: $font-size-large;
-  font-weight: 500;
-  text-decoration: none;
-}
-.butn-red:hover a{
-  color: $color-white;
-  white-space: nowrap;
   text-decoration: none;
 }
 
@@ -123,42 +117,33 @@
 .butn-white{
   border: 1px solid $color-breeze;
   background-color: $color-white;
-  border-radius: 3px;
+  border-radius: $border-radius-butn;
+  color: $color-storm;
   margin: 0 5px;
-  width: 128px;
   flex: none;
   text-decoration: none;
-}
-.butn-white-nav{
-  border: 1px solid $color-breeze;
-  background-color: $color-white;
-  border-radius: 3px;
-  margin: 5px;
-  height: 32px;
-  flex: none;
-  display: inline-block;
-  line-height: 22px;
-  font-size: $font-size-medium;
-  font-weight: 600;
-  text-align: center;
-  padding: 5px 16px 5px 16px;
-  text-decoration: none;
-}
-.butn-white:hover{
-  background-color: $color-calm;
-}
-.butn-white:focus{
-  background-color: $color-breeze;
-}
-.butn-white a{
-  margin: 4px 0;
-  color: $color-storm;
-  white-space: nowrap;
-  font-size: $font-size-large;
-  font-weight: 500;
-}
-.butn-white:hover a{
-  color: $color-storm;
+  transition: all $animation-dur;
+  a,span{
+    transition: color $animation-dur;
+    //margin: 4px 0;
+    color: $color-storm;
+    white-space: nowrap;
+    font-size: $font-size-large;
+    font-weight: 500;
+  }
+  &:hover{
+    background-color: $color-calm;
+    a,span{
+      color: $color-storm;
+    }
+  }
+  &:focus{
+    background-color: $color-breeze;
+    color: $color-white;
+    a,span {
+      color: $color-white;
+    }
+  }
 }
 .butn-white:disabled {
   opacity: .5;
@@ -166,6 +151,18 @@
   cursor: not-allowed;
 }
 
+.butn-white-nav{
+  margin: 5px;
+  height: 32px;
+  display: inline-block;
+  line-height: 22px;
+  font-size: $font-size-medium;
+  font-weight: 600;
+  text-align: center;
+  padding: 5px 16px 5px 16px;
+  //width: 128px;
+  @extend .butn-white;
+}
 /**
   *********************************
   *      Other btn classes        *
@@ -180,74 +177,36 @@
 .butn-login {
   width: 100%;
   margin: 0;
+  @extend .butn-green;
 }
 
-.butn-white-nav-ps {
-  position: absolute;
-  left:10px;
-  bottom: 0;
 
-}
-
-.butn {
-  border: 1px $color-breeze solid;
-  background-color: $color-white;
-  font-size: $font-size-medium;
-  height: 32px;
-}
-
-.butn-sense {
-  @extend .butn;
-  background-color: $color-sense;
-  color: $color-white;
-}
-
-.butn-force {
-  @extend .butn;
-  background-color: $color-force;
-  color: $color-white;
-}
-
-.butn-send-compose{
-  width: 48px;
-  height: 24px;
-  background-color: $color-sense;
-  border: 1px solid $color-sense-wire;
-  padding-top: 2px;
-  color: $color-white;
-  display: inline-block;
-  border-radius: 5px;
-  font-size: $font-size-medium;
-  font-weight: 600;
-  margin: 8px 0;
-  line-height: 22px;
-  text-align: center;
-}
-.butn-send-compose:disabled{
-  opacity: .5;
-  cursor: not-allowed;
-}
-.butn-send-compose:hover {
-  color: $color-white;
-}
-
-.butn-back-compose {
-  border: 1px solid $color-breeze;
-  color: $color-storm;
-  width: 64px;
-  height: 24px;
-  padding-top: 2px;
-  display: inline-block;
-  border-radius: 5px;
-  line-height: 22px;
-  font-size: $font-size-medium;
-  font-weight: 600;
-  margin: 8px 0;
-  text-align: center;
-}
-.butn-back-compose:hover {
-  color: $color-storm;
-}
+//.butn-send-compose{
+//  width: 48px;
+//  height: 24px;
+//  padding-top: 2px;
+//  display: inline-block;
+//  border-radius: 5px;
+//  font-size: $font-size-medium;
+//  font-weight: 600;
+//  margin: 8px 0;
+//  line-height: 22px;
+//  text-align: center;
+//  @extend .butn-green;
+//}
+//
+//.butn-back-compose {
+//  width: 64px;
+//  height: 24px;
+//  padding-top: 2px;
+//  display: inline-block;
+//  line-height: 22px;
+//  font-size: $font-size-medium;
+//  font-weight: 600;
+//  margin: 8px 0;
+//  text-align: center;
+//  @extend .butn-white;
+//}
 /**
   *********************************
   *          switches          *
