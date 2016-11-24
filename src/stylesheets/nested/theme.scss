@@ -161,14 +161,14 @@ hr {
   padding: 5px 10px;
   width: 100%;
   color: $color-hurricane;
-  &.active {
+  transition: all $animation-dur;
+  &.active,
+  &:hover{
     background-color: $color-sense-5;
     color: $color-solid;
     border-bottom-left-radius: 5px;
-  }
-  &:hover {
-    background-color: $color-sense-5;
-    color: $color-solid;
-    border-bottom-left-radius: 5px;
+    span {
+      color: $color-solid;
+    }
   }
 }

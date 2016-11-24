@@ -151,7 +151,7 @@
   .post-footer{
     height: 40px;
     align-items: center;
-    a{
+    > a{
       font-size: $font-size-small;
       color: $color-solid-30;
       div span {
