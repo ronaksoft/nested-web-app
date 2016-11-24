@@ -251,9 +251,9 @@
     }
 
     function getComposeState() {
-      if ($state.current.params && $state.current.params.placeId) {
-        return 'app.place-compose';
-      }
+      // if ($state.current.params && $state.current.params.placeId) {
+      //   return 'app.place-compose';
+      // }
 
       return 'app.compose';
     }
