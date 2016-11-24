@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmMessage', NstVmMessage);
 
-  function NstVmMessage(NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth) {
+  function NstVmMessage(NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth, NstUtility) {
 
     function VmMessage(post, firstPlaceId, myPlaceIds) {
 
@@ -24,6 +24,7 @@
 
       this.firstPlace = null;
       this.isRead = null;
+      this.wipeAccess = null;
 
       this.getAllPlacesCount = function () {
         return this.allPlaces.length;
@@ -37,8 +38,9 @@
         return this.commentsCount > 0;
       }
 
-      this.getFirstPlace = function () {
-        return _.head(this.allPlaces);
+      this.dropPlace = function (placeId) {
+        NstUtility.collection.dropById(this.allPlaces, placeId);
+        this.firstPlace = _.head(this.allPlaces);
       }
 
 
@@ -57,6 +59,7 @@
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
         this.allPlaces = _.map(post.places, mapPlace);
         this.isRead = post.isRead;
+        this.wipeAccess = post.wipeAccess;
 
         // Sort places with the priorities listed here:
         // 1. The place with the given Id (My personal place or any from my places list)
@@ -76,6 +79,8 @@
             this.allPlaces.unshift(removedItems[0]);
           }
         }
+
+        this.firstPlace = _.head(this.allPlaces);
       }
     }
 
