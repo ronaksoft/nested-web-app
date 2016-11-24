@@ -190,6 +190,8 @@
       if (!vm.phone) {
         vm.phoneIsEmpty = true;
         vm.phoneIsWrong = false;
+      }else if (!vm.countryCode){
+        vm.phoneIsEmpty = true;
       } else if (!getPhoneIsValid(vm.countryId, vm.phone)) {
         vm.phoneIsWrong = true;
         vm.phoneIsEmpty = false;
