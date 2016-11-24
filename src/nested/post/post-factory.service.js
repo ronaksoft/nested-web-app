@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcPostFactory($q, $log,
                              _,
-                             NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData,
+                             NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
                              NstFactoryError, NstFactoryQuery, NstPost, NstTinyPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NstBaseFactory,
                              NST_MESSAGES_SORT_OPTION, NST_POST_FACTORY_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION) {
 
@@ -244,27 +244,21 @@
 
       return $q(function (resolve, reject) {
         NstSvcServer.request('post/remove', {
-          post_id: this.query.id,
-          place_id: this.query.data.placeId
+          post_id: query.id,
+          place_id: query.data.placeId
         }).then(function (data) { //remove the object from storage and return the id
-          //TODO : First remove the place from post's places
-          //TODO : If the place was the last one, remove the post object
-          var post = NstSvcPostStorage.get(this.query.id);
-          removePlaceFromPost(post, this.query.data.placeId);
+          var post = NstSvcPostStorage.get(query.id);
+          NstUtility.collection.dropById(post.places, query.data.placeId);
           if (post.places.length === 0) { //the last place was removed
-            NstSvcPostStorage.remove(this.query.id);
+            NstSvcPostStorage.remove(query.id);
+          } else {
+            NstSvcPostStorage.set(query.id, post);
           }
           resolve(post);
-        }.bind({
-          query: this.query
-        })).catch(function (error) {
+        }).catch(function (error) {
           reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        }.bind({
-          query: this.query
-        }));
-      }.bind({
-        query: query
-      }));
+        });
+      });
     }
 
     function retract(id) {
@@ -313,15 +307,6 @@
       }).catch(defer.reject);
 
       return defer.promise;
-    }
-
-    function removePlaceFromPost(post, placeId) {
-      var index = _.indexOf(post.places, {
-        'id': placeId
-      });
-      post.places.splice(index, 1);
-
-      return post;
     }
 
     function createPostModel(model) {

@@ -35,6 +35,10 @@
       }
     }
 
+    TinyPost.prototype.hasSubject = function () {
+      return _.isString(this.subject) && this.subject.length > 0;
+    }
+
     return TinyPost;
   }
 })();
