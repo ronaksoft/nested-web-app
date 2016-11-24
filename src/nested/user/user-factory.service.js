@@ -124,7 +124,7 @@
       var query = new NstFactoryQuery(user.getId(), params);
 
       NstSvcServer.request('account/update', params).then(function (result) {
-        factory.set(user);
+        NstSvcUserStorage.set("me", user);
         factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
         deferred.resolve(user);
       }).catch(function (error) {
