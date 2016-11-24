@@ -138,6 +138,11 @@ module.exports = function () {
     clearInput.clear();
   });
 
+  this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClick){
+    var postModal = element(By.css('div[ng-click="' + ngClick + '"]'));
+    postModal.click();
+  });
+
   this.Given(/^I clear input by name "([^"]*)"$/, function (clearing) {
     var clearInput = element(By.css('input[name="' + clearing + '"]'));
     clearInput.clear();
