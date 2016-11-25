@@ -77,10 +77,10 @@
         vm.isOpenPlace = true;
         vm.isClosedPlace = false;
         setPlaceOpen();
-      }else {
+      }
+      else {
         vm.isOpenPlace = false;
         vm.isClosedPlace = true;
-        setPlaceClosed();
       }
 
       if (vm.isClosedPlace){
