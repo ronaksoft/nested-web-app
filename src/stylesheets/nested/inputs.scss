@@ -22,7 +22,7 @@ input {
 }
 
 input:placeholder-shown{
-  color: $color-grey
+  //color: $color-grey
 }
 
 
@@ -34,7 +34,9 @@ input[type="submit"] {
 input[type="checkbox"] {
   max-width: 1px;
 }
-
+.ui-select-search {
+  width: auto!important;
+}
 .input {
   border: none;
   background-color: $color-white;
