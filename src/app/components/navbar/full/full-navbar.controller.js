@@ -41,9 +41,13 @@
     vm.confirmToLeave = confirmToLeave;
 
 
-    function openCreateSubplaceModal ($event) {
+    function openCreateSubplaceModal ($event,style) {
+      if ( style == 'open') {
+        $state.go('app.place-create', { placeId : getPlaceId(),isOpenPlace: true } , { notify : false });
+      } else {
+        $state.go('app.place-create', { placeId : getPlaceId(),isClosePlace: true } , { notify : false });
+      }
       $event.preventDefault();
-      $state.go('app.place-create', { placeId : getPlaceId() } , { notify : false });
     };
 
     function openAddMemberModal($event) {

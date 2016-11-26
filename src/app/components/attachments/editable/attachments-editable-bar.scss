@@ -223,8 +223,12 @@
           }
         }
         .attach-ext {
+          width: 100%;
+          justify-content: center;
+          overflow: hidden;
+          text-overflow: ellipsis;
           color: $color-sense;
-          @extend .nst-font-large;
+          @extend .nst-font-xsmall;
           line-height: 12px;
           height: 12px;
           white-space: nowrap;

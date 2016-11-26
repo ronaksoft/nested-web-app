@@ -121,7 +121,9 @@
       .state('app.place-create', {
         url: '/places/:placeId/create',
         params: {
-          placeId: NST_DEFAULT.STATE_PARAM
+          placeId: NST_DEFAULT.STATE_PARAM,
+          isOpenPlace: null,
+          isClosePlace: null
         },
         options : {
           group : 'settings'
@@ -133,6 +135,7 @@
             templateUrl: 'app/place/create/place-create.html',
             controller: 'PlaceCreateController',
             controllerAs: 'ctlCreate'
+
           }).result.catch(function() {
             $rootScope.goToLastState();
           });

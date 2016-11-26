@@ -1,15 +1,9 @@
 <div id="setting" class="popup-panel">
-  <div>
-   <span class="spansetting"> View setting</span>
-  </div>
-  <div>
-    <div class="list-items ng-class:{ 'active': ctlActivity.expanded == false }" ng-click="ctlActivity.toggleViewMode();">
-      <a class="">Collapsed View</a>
-    </div>
-  </div>
-  <div>
-    <div class="list-items ng-class:{ 'active': ctlActivity.expanded == true }" ng-click="ctlActivity.toggleViewMode();">
-      <a class="">Expanded View</a>
-    </div>
+  <h6> View setting</h6>
+  <a class="list-items ng-class:{ 'active': ctlActivity.expanded == false }" ng-click="ctlActivity.toggleViewMode();">
+    Collapsed View
+  </a>
+  <div class="list-items ng-class:{ 'active': ctlActivity.expanded == true }" ng-click="ctlActivity.toggleViewMode();">
+    Expanded View
   </div>
 </div>

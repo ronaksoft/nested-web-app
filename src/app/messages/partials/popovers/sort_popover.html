@@ -1,5 +1,5 @@
-<div class="popup-panel">
-  <span class="spansetting nst-font-small">Sort by</span>
-  <a class="_db list-items" href="{{ctlMessages.urls.latestMessages}}">Latest Messages</a>
-  <a class="_db list-items" href="{{ctlMessages.urls.latestActivity}}">Latest Activity</a>
+<div id="setting" class="popup-panel">
+  <h6>Sort by</h6>
+  <a class="list-items ng-class:{ 'active': ctlMessages.messagesSetting.sort == 'latest-messages' }" href="{{ctlMessages.urls.latestMessages}}">Latest Messages</a>
+  <a class="list-items ng-class:{ 'active': !(ctlMessages.messagesSetting.sort == 'latest-messages') }" href="{{ctlMessages.urls.latestActivity}}">Latest Activity</a>
 </div>

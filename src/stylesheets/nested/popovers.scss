@@ -65,8 +65,7 @@
   border-bottom-color: $color-white;
   left: 0;
 }
-.popover-white-nst-activity-places + .popover,
-.popover-white-nst-activity-places + div + .popover {
+.popover-white-nst-activity-places{
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
@@ -76,11 +75,12 @@
   //max-height: 200px;
   //overflow-y: auto;
   .popover-content {
-    padding: 8px 0;
+
+
   }
 }
 
-.popover-white-nst-filter + .popover {
+.popover-white-nst-filter {
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
@@ -92,7 +92,7 @@
   width: 210px;
 }
 
-.popover-white-nst-msg + .popover {
+.popover-white-nst-msg {
   max-width: 320px;
   min-width: 319px;
   max-height: 150px;
@@ -114,7 +114,7 @@
   }
 }
 
-.popover-white-nst-setting + .popover {
+.popover-white-nst-setting {
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
@@ -126,7 +126,7 @@
   width: 210px;
 }
 
-.popover-white-nst-sort + .popover{
+.popover-white-nst-sort {
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
@@ -182,10 +182,8 @@ input[type="checkbox"]:checked + label.setting {
 
 .popup-panel {
   margin-top: 24px;
-  span {
-    color: $color-breeze;
-    font-size: $font-size-xxsmall;
-  }
+  flex-direction: column;
+  display: inline-flex;
 }
 #popup-msg-badge {
   overflow-y: auto;

@@ -1,0 +1,28 @@
+(function () {
+  'use strict';
+
+  angular
+    .module('ronak.nested.web.common')
+    .factory('NstVmPlaceBadge', NstVmPlaceBadge);
+
+  function NstVmPlaceBadge(NstTinyPlace, NstPlace) {
+
+    function VmPlaceBadge(model, thumbnailSize) {
+      this.id = null;
+      this.name = null;
+      this.picture = null;
+
+      if (model instanceof NstPlace || model instanceof NstTinyPlace) {
+        this.id = model.id;
+        this.name = model.name;
+        this.picture = model.picture.id
+          ? model.getPicture().getThumbnail(thumbnailSize || 32).getUrl().view
+          : '/assets/icons/absents_place.svg';
+      } else {
+        throw Error("Could not create a NstVmPlaceBadge from an unsupported type.");
+      }
+    }
+
+    return VmPlaceBadge;
+  }
+})();

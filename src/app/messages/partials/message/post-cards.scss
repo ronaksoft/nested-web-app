@@ -19,7 +19,7 @@
   position: relative;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
   //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
-  z-index: 20;
+  //z-index: 20;
   background-color: $color-white;
   overflow: visible;
   transition: all $animation-dur;
@@ -151,17 +151,39 @@
   .post-footer{
     height: 40px;
     align-items: center;
-    a{
+    > a{
       font-size: $font-size-small;
       color: $color-solid-30;
+      div span {
+        color: $color-solid;
+      }
+    }
+    .svg-scale {
+      transform: scale(.8,.8);
+      fill: $color-storm;
     }
     .post-icons{
       justify-content: flex-end;
-      padding: 0 8px;
+      //padding: 0 8px;
+      height: 100%;
     }
     .icon {
+      width: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       transition: opacity $animation-dur;
-      margin: 0 4px;
+      //margin: 0 4px;
+      >div {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+          background-color: rgba(40,60,210,.1);
+        }
+      }
       .re,
       .fw {
         opacity: 0;
@@ -208,7 +230,7 @@ h3 {
     margin: 8px 0;
     font-size: 24px;
     line-height: 29px;
-    word-break: break-all;
+    //word-break: break-all;
     width: 100%;
     &:hover{
       cursor: pointer;

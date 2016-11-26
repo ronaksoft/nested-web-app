@@ -36,8 +36,11 @@
     margin-bottom: 8px;
   }
   input,select {
-    margin-bottom: 12px;
+    //margin: 12px 0;
     height: 40px;
+  }
+  .butn-green {
+    margin-top: 8px;
   }
   input:disabled {
     background-color: $color-calm;
@@ -81,7 +84,7 @@
 }
 
 .inner-panel input[type=submit]{
-  margin-top: -10px;
+  //margin-top: -10px;
 }
 .upload-photo:hover .remove-photo-hover {
   display: flex;

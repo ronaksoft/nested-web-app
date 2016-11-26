@@ -9,7 +9,7 @@
   function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
                           _, toastr, moment,
                           NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS, NST_SRV_EVENT,
-                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal, NstSvcServer,
+                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal, NstSvcServer, NstSvcPostInteraction,
                           NstTinyComment, NstVmUser, selectedPostId) {
     var vm = this;
 
@@ -194,140 +194,30 @@
      * @param  {NstPost} post current post
      */
     function removePost(post) {
-      if (vm.placesWithRemoveAccess.length > 1) { //for multiple choices:
-        previewPlaces(vm.placesWithRemoveAccess).then(function(place) {
-          performDelete(post, place);
-        }).catch(function(reason) {
 
-        });
-      } else { // only one place
-        performDelete(post, _.last(vm.placesWithRemoveAccess));
-      }
-    }
-    /**
-     * previewPlaces - preview the places that have delete access and let the user to choose one
-     *
-     * @param  {type} places list of places to be shown
-     */
-    function previewPlaces(places) {
+      NstSvcPostInteraction.remove(post, vm.placesWithRemoveAccess).then(function (place) {
+        NstUtility.collection.dropById(vm.placesWithRemoveAccess, place.id);
+        post.dropPlace(place.id);
 
-      var modal = $uibModal.open({
-        animation: false,
-        templateUrl: 'app/pages/places/list/place.list.modal.html',
-        controller: 'placeListController',
-        controllerAs: 'vm',
-        keyboard: true,
-        size: 'sm',
-        resolve: {
-          model: function() {
-            return {
-              places: places
-            };
+        NstSvcPlaceFactory.filterPlacesByReadPostAccess(post.allPlaces).then(function (placesWithReadPostAccess) {
+          if (placesWithReadPostAccess.length === 0){
+            $uibModalInstance.dismiss();
           }
-        }
-      });
-
-      return modal.result;
-    }
-
-    /**
-     * deletePostFromPlace - confirm and delete the post from the chosen place
-     *
-     * @param  {NstPost}   post    current post
-     * @param  {NstPlace}  place   the chosen place
-     * @return {Promise}              the result of deletion
-     */
-    function deletePostFromPlace(post, place) {
-      var defer = $q.defer();
-
-      confirmOnDelete(post, place).then(function() {
-        NstSvcPostFactory.remove(post.id, place.id).then(function(res) {
-
-          NstUtility.collection.dropById(post.allPlaces, place.id);
-          NstUtility.collection.dropById(vm.placesWithRemoveAccess, place.id);
-
-          NstSvcPlaceFactory.filterPlacesByReadPostAccess(post.allPlaces).then(function (places) {
-            if (_.isArray(places) && places.length === 0) {
-              $uibModalInstance.dismiss();
-            }
-
-          }).catch(function (error) {
-            $log.debug(error);
-          });
-
-          toastr.success(NstUtility.string.format('The post has been removed from {0}.', place.name));
-
-          $rootScope.$broadcast('post-removed', {
-            postId : post.id,
-            placeId : place.id
-          });
-
-        }).catch(function(res) {
-          if (res.err_code === 1) {
-            $log.debug('You are not allowed to remove the post!');
-          }
-          defer.reject(res);
         });
-      }).catch(function(reason) {
-        $log.debug('The delete confirmation was rejected')
+
+        toastr.success(NstUtility.string.format("The post has been removed from Place {0}.", place.name));
+      }).catch(function () {
+        toastr.error(NstUtility.string.format("An error occured while trying to remove the message."));
       });
-
-      return defer.promise;
     }
 
-    function performDelete(post, place) {
-      deletePostFromPlace(post, place).then(function(res) {
-        $log.debug(res);
-      }).catch(function(error) {
-        $log.debug(error);
-      })
-    }
 
     function retractPost(post) {
-      var confirmMessage = "Are you sure you want to retract this message? Once you do this, the message will be deleted from all recipient Places. This action cannot be undone.";
-      if (post.wipeAccess) {
-        NstSvcModal.confirm("Confirm", confirmMessage).then(function() {
-            NstSvcPostFactory.retract(post.id).then(function(result) {
-              $rootScope.$broadcast('post-removed', {
-                postId : post.id,
-              });
-              $uibModalInstance.dismiss();
-              toastr.success("The message has been retracted successfully.");
-            }).catch(function(error) {
-              toastr.error("An error occured while retracting the message.");
-            });
-          });
-      } else {
-        toastr.info('Sorry, But it is too late to retract the message.');
-      }
-    }
-
-    /**
-     * confirmOnDelete - warn the user about removing the post from the chosen place
-     *
-     * @param  {NstPost}     post    current post
-     * @param  {NstPlace}    place   the chosen place
-     * @return {Promise}        the     result of confirmation
-     */
-    function confirmOnDelete(post, place) {
-      var modal = $uibModal.open({
-        animation: false,
-        templateUrl: 'app/messages/post/post.delete.html',
-        controller: 'postDeleteController',
-        controllerAs: 'vm',
-        size: 'sm',
-        keyboard: true,
-        resolve: {
-          model: function() {
-            return {
-              post: post,
-              place: place
-            };
-          }
+      NstSvcPostInteraction.retract(post).then(function (done) {
+        if (done) {
+          $uibModalInstance.dismiss();
         }
       });
-
-      return modal.result;
     }
 
     function forward($event) {
@@ -421,17 +311,14 @@
     }
 
     function markPostAsRead(id) {
-      var deferred = $q.defer();
-
       vm.status.markAsReadProgress = true;
-      NstSvcPostFactory.read([id]).then(function (result) {
+      NstSvcPostInteraction.markAsRead(id).then(function () {
         vm.status.postIsRed = true;
-        deferred.resolve(true);
-      }).catch(deferred.reject).finally(function () {
+      }).catch(function () {
+        vm.status.postIsRed = false;
+      }).finally(function () {
         vm.status.markAsReadProgress = false;
       });
-
-      return deferred.promise;
     }
 
     function isPostRead(post) {
