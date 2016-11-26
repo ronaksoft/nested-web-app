@@ -153,6 +153,16 @@ module.exports = function () {
     input.sendKeys(value);
   });
 
+  this.Given(/^I Click input by value "([^"]*)"$/, function (value) {
+    var input = element(By.css('input[value="' + value + '"]'));
+    input.click();
+  });
+
+  this.Given(/^I Click icon by tooltip "([^"]*)"$/, function (text) {
+    var icon = element(By.css('a[data-uib-tooltip="' + text + '"]'));
+    icon.click();
+  });
+
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
     return browser.getTitle().then(function (title) {
       assert.equal(title, expectedPageTitle, ' title is "' + title + '" but should be "' + expectedPageTitle);

@@ -18,7 +18,6 @@
 #  Scenario: Activity 1
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Activity"
-#    When I Wait till line loader hide
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
 #
@@ -113,7 +112,6 @@
 #    When I wait 5s
 #    Given I Click by ngClick "openPostModal(post)"
 #    When I wait 5s
-#    When I wait 5s
 #    Given I Click Link by Partial Text "Forward"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Discard"
@@ -129,7 +127,6 @@
 #    When I wait 5s
 #    When I wait 5s
 #    Given I Click by ngClick "openPostModal(post)"
-#    When I wait 5s
 #    When I wait 5s
 #    Given I Click id "reply-modal-post"
 #    When I wait 5s
