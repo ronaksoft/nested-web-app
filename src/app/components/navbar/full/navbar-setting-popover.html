@@ -1,6 +1,6 @@
 <a class="_df list-items _aic"
    ui-sref="app.place-settings({ placeId : ctlFullNavbar.getPlaceId() })"
-   ng-if="ctlFullNavbar.isPersonal()"
+   ng-if="!ctlFullNavbar.isPersonal()"
    ng-click="ctlFullNavbar.openSettingsModal($event)">
   <div>
     <svg class="setting-icon-nav">
@@ -13,8 +13,8 @@
   <div class="add-icon"></div>
   <span>{{ctlFullNavbar.isGrandPlace ? 'Invite' : 'Add '}} Members</span>
 </a>
-<hr>
-<a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'open')" ng-if="ctlFullNavbar.allowedToAddPlace">
+<hr ng-if="ctlFullNavbar.allowedToAddPlace && !ctlFullNavbar.isPersonal()">
+<a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'open')" ng-if="!ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToAddPlace">
   <div>
     <svg class="setting-icon-nav">
       <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
@@ -22,7 +22,7 @@
   </div>
   <span>Create an Open place</span>
 </a>
-<a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'close')" ng-if="ctlFullNavbar.allowedToAddPlace">
+<a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'close')" ng-if="!ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToAddPlace">
   <div>
     <svg class="setting-icon-nav">
       <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
@@ -30,12 +30,20 @@
   </div>
   <span>Create a Closed place</span>
 </a>
-<hr ng-if="ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToRemovePlace">
-<a class="_df  list-items _aic" ng-if="ctlFullNavbar.isPersonal()" ng-click="ctlFullNavbar.confirmToLeave()">
+<a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'close')" ng-if="ctlFullNavbar.isPersonal()">
+  <div>
+    <svg class="setting-icon-nav">
+      <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
+    </svg>
+  </div>
+  <span>Create a Personal place</span>
+</a>
+<hr ng-if="!ctlFullNavbar.isPersonal()">
+<a class="_df  list-items _aic" ng-if="!ctlFullNavbar.isPersonal()" ng-click="ctlFullNavbar.confirmToLeave()">
   <div class="option-leave-icon"></div>
   <span>Leave</span>
 </a>
-<a class="_df  list-items _aic" ng-if="ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToRemovePlace" ng-click="ctlFullNavbar.confirmToRemove()">
+<a class="_df  list-items _aic" ng-if="!ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToRemovePlace" ng-click="ctlFullNavbar.confirmToRemove()">
   <div class="option-delete-icon"></div>
   <span>Leave and Delete</span>
 </a>
