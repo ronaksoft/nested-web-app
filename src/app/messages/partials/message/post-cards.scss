@@ -28,15 +28,14 @@
     .icon svg {
       fill: black;
     }
-    .icon svg.fw {
+    .icon .fw svg {
       fill: $color-forward;
     }
-    .icon svg.re {
+    .icon .re svg {
       fill: $color-reply;
     }
     .post-footer .icon {
-
-      svg {
+      .re,.fw {
         opacity: 1;
       }
     }
@@ -175,13 +174,21 @@
       transition: opacity $animation-dur;
       //margin: 0 4px;
       >div {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
+        border-radius: 4px;
         display: flex;
         justify-content: center;
         align-items: center;
-        &:hover {
+        &.fw:hover {
           background-color: rgba(40,60,210,.1);
+
+        }
+        &.re:hover {
+          background-color: rgba(30,220,150,.1);
+        }
+        &.more:hover {
+          background-color: rgba(0,0,0,.1);
         }
       }
       .re,

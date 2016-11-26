@@ -327,7 +327,7 @@
     }
 
     function isPersonal() {
-      return NstSvcAuth.user.id !== vm.getPlaceId()
+      return NstSvcAuth.user.id == vm.getPlaceId()
     }
 
     function leave() {

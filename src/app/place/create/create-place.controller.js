@@ -53,13 +53,9 @@
     vm.save = save;
     vm.changeId = changeId;
 
-    vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
 
-    if($stateParams.isOpenPlace){
-      setPlaceOpen();
-    }else {
-      setPlaceClosed();
-    }
+
+    vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
 
 
 
@@ -76,6 +72,16 @@
       }
       vm.isCreateGrandPlaceMode = !vm.hasParentPlace;
       vm.receivingMode = 'everyone';
+
+      if($stateParams.isOpenPlace){
+        vm.isOpenPlace = true;
+        vm.isClosedPlace = false;
+        setPlaceOpen();
+      }
+      else {
+        vm.isOpenPlace = false;
+        vm.isClosedPlace = true;
+      }
 
       if (vm.isClosedPlace){
         vm.isCreateGrandPlaceMode = false;
