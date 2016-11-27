@@ -11,7 +11,7 @@
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstUtility, NstSvcAuth,
                               NstSvcMessagesSettingStorage,
-                              NstSvcPostMap, NstSvcPlaceAccess) {
+                              NstSvcPostMap, NstSvcPlaceAccess, NstSvcModal) {
 
     var vm = this;
 
@@ -89,7 +89,9 @@
               $log.debug(error);
             });
           } else {
-            NstSvcModal.error("The place does not exist or you are not allowed to be there.");
+            NstSvcModal.error("Error", "The place does not exist or you are not allowed to be there.").finally(function () {
+              $state.go(NST_DEFAULT.STATE);
+            });
           }
         }).catch(function (error) {
           vm.errorInInitialLoading = true;

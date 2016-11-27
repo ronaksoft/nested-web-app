@@ -30,7 +30,7 @@
             }
           });
         } else {
-          deferred.reject(null);
+          deferred.resolve(null);
         }
       }).catch(deferred.reject);
 

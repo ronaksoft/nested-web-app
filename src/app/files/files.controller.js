@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q,
-    NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory,
+    NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal,
     NstVmFile, NstVmFileViewerItem,
     NST_DEFAULT) {
     var vm = this;
@@ -77,35 +77,24 @@
 
       vm.currentPlaceId = $stateParams.placeId;
 
-      setPlace(vm.currentPlaceId).then(function (place) {
+      NstSvcPlaceAccess.getIfhasAccessToRead(vm.currentPlaceId).then(function (place) {
+        if (place) {
+          vm.currentPlace = place;
+          vm.currentPlaceLoaded = true;
+          vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
 
-        load();
+          load();
+        } else {
+          NstSvcModal.error("Error", "The place does not exist or you are not allowed to be there.").finally(function () {
+            $state.go(NST_DEFAULT.STATE);
+          });
+        }
       }).catch(function (error) {
+        console.log(error);
         toastr.error('Sorry, an error happened while getting the place.');
       });
 
     })();
-
-    function setPlace(id) {
-      var defer = $q.defer();
-      vm.currentPlace = null;
-      if (!id) {
-        defer.reject(new Error('Could not find a place without Id.'));
-      } else {
-        NstSvcPlaceFactory.get(id).then(function (place) {
-          if (place && place.id) {
-            vm.currentPlace = place;
-            vm.currentPlaceLoaded = true;
-            vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
-          }
-          defer.resolve(vm.currentPlace);
-        }).catch(function (error) {
-          defer.reject(error);
-        });
-      }
-
-      return defer.promise;
-    }
 
     function search(keyword) {
       vm.settings.keyword = keyword;

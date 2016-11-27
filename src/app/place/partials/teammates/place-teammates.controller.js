@@ -55,8 +55,8 @@
             NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
             NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
           ]).then(function(values) {
-            vm.hasAddMembersAccess = values[1];
-            vm.hasSeeMembersAccess = values[2];
+            vm.hasAddMembersAccess = values[0];
+            vm.hasSeeMembersAccess = values[1];
 
             if (vm.mode = 'collapsed') {
               collapse();
