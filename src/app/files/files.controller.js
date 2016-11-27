@@ -90,7 +90,6 @@
           });
         }
       }).catch(function (error) {
-        console.log(error);
         toastr.error('Sorry, an error happened while getting the place.');
       });
 

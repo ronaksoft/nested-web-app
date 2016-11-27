@@ -85,7 +85,7 @@
             vm.currentPlaceLoaded = true;
             vm.showPlaceId = !_.includes(['off', 'internal'], vm.currentPlace.privacy.receptive);
 
-            return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess()])).catch(function (error) {
+            return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess(), loadRemovePostAccess()])).catch(function (error) {
               $log.debug(error);
             });
           } else {
@@ -319,6 +319,25 @@
 
         return deferred.promise;
       });
+    }
+
+    function loadRemovePostAccess() {
+      var deferred = $q.defer();
+
+      if (vm.currentPlaceId) {
+        NstSvcPlaceFactory.hasAccess(vm.currentPlaceId, NST_PLACE_ACCESS.REMOVE_POST).then(function (has) {
+          vm.placeRemoveAccess = has;
+          deferred.resolve(vm.placeRemoveAccess);
+        }).catch(function (error) {
+          vm.placeRemoveAccess = false;
+          deferred.reject(error);
+        });
+      } else {
+        vm.placeRemoveAccess = false;
+        deferred.resolve(vm.placeRemoveAccess);
+      }
+
+      return deferred.promise;
     }
 
 

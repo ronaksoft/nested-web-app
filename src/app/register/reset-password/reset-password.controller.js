@@ -137,7 +137,6 @@
     }
 
     vm.resetPass = function(isValid) {
-      console.log('lolo');
       vm.submitted = true;
       if (!isValid) {
         return;
