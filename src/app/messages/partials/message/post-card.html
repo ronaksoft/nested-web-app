@@ -11,16 +11,20 @@
     <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
       <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isForwarded" class="icon" href="{{ctlPostCard.urls.chain}}">
-        <svg  class="svg-hover fw">
-          <use xlink:href="/assets/icons/nst-icn20.svg#fwd"></use>
-          <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
-        </svg>
+        <div class="fw">
+          <svg  class="svg-hover">
+            <use xlink:href="/assets/icons/nst-icn20.svg#fwd"></use>
+            <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
+          </svg>
+        </div>
       </a>
       <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isReplyed" class="icon" href="{{ctlPostCard.urls.chain}}">
-        <svg  class="svg-hover re">
-          <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
-          <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
-        </svg>
+        <div class="re">
+          <svg  class="svg-hover">
+            <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
+            <use xlink:href="/assets/icons/nst-icn20.svg#Wre"></use>
+          </svg>
+        </div>
       </a>
     </div>
     <div class="img _df">
