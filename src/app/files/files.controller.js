@@ -42,12 +42,12 @@
     vm.search = _.debounce(search, 512);
     vm.filter = filter;
     vm.preview = preview;
-    vm.nextPage = nextPage;
-    vm.previousPage = previousPage;
+    vm.loadMore = loadMore;
     vm.onSelect = onSelect;
     vm.compose = composeWithAttachments;
 
     vm.selectedFiles = [];
+    vm.files = [];
     vm.hasPreviousPage = false;
     vm.hasNextPage = false;
     vm.currentPlaceId = null;
@@ -97,6 +97,7 @@
 
     function search(keyword) {
       vm.settings.keyword = keyword;
+      vm.settings.skip = 0;
 
       load();
     }
@@ -126,16 +127,24 @@
 
     function load() {
       vm.filesLoadProgress = true;
+      vm.loadFilesError = false;
+
       NstSvcFileFactory.get(vm.currentPlaceId,
         vm.settings.filter,
         vm.settings.keyword,
         vm.settings.skip,
         vm.settings.limit).then(function (files) {
-          vm.files = mapFiles(files);
-          vm.hasNextPage = vm.files.length >= vm.settings.limit;
-          vm.hasPreviousPage = vm.settings.skip >= vm.settings.limit;
+          var fileItems = mapFiles(files);
+          var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
+
+          vm.hasNextPage = fileItems.length === vm.settings.limit;
+          vm.settings.skip += newFileItems.length;
+
+          vm.files.push.apply(vm.files, newFileItems);
+          vm.loadFilesError = false;
       }).catch(function (error) {
-        toastr.error('An error happened while retreiving files.')
+        toastr.error('An error happened while retreiving files.');
+        vm.loadFilesError = true;
       }).finally(function () {
         vm.filesLoadProgress = false;
       });
@@ -181,20 +190,10 @@
 
     }
 
-    function nextPage() {
-      vm.settings.skip += vm.settings.limit;
-
-      load();
-    }
-
-    function previousPage() {
-      if (vm.settings.skip >= vm.settings.limit) {
-        vm.settings.skip -= vm.settings.limit;
-      } else {
-        vm.settings.skip = 0;
+    function loadMore() {
+      if (vm.hasNextPage) {
+        load();
       }
-
-      load();
     }
 
     function onSelect(fileIds, el) {
