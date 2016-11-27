@@ -72,16 +72,20 @@
     function deletePostFromPlace(post, place) {
       var deferred = $q.defer();
 
-      confirmOnDelete(post, place).then(function() {
-        NstSvcPostFactory.remove(post.id, place.id).then(function(res) {
+      confirmOnDelete(post, place).then(function(yes) {
+        if (yes) {
+          NstSvcPostFactory.remove(post.id, place.id).then(function(res) {
 
-          $rootScope.$broadcast('post-removed', {
-            postId: post.id,
-            placeId: place.id
-          });
+            $rootScope.$broadcast('post-removed', {
+              postId: post.id,
+              placeId: place.id
+            });
 
-          deferred.resolve(place);
-        }).catch(deferred.reject);
+            deferred.resolve(place);
+          }).catch(deferred.reject);
+        } else {
+          deferred.resolve(null);
+        }
       }).catch(function() {
         deferred.resolve(null);
       });
@@ -90,11 +94,19 @@
     }
 
     function confirmOnDelete(post, place) {
+      var deferred = $q.defer();
+
       var message = post.hasSubject ?
         NstUtility.string.format(REMOVE_CONFIRM_MESSAGE, post.subject, place.name) :
         NstUtility.string.format(REMOVE_CONFIRM_MESSAGE_NO_SUBJECT, place.name);
 
-      return NstSvcModal.confirm(REMOVE_CONFIRM_TITLE, message);
+      NstSvcModal.confirm(REMOVE_CONFIRM_TITLE, message).then(function() {
+        deferred.resolve(true);
+      }).catch(function() {
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
     }
 
     function retract(post) {

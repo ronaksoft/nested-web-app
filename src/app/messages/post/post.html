@@ -26,7 +26,7 @@
         </div>
       </div>
       <ul class="list-inline _df _fn">
-        <li ng-if="ctlPost.hasRemoveAccess">
+        <li ng-if="ctlPost.hasRemoveAccess || ctlPost.post.wipeAccess">
           <!--  -->
           <a href="" class="cursor-pointer" uib-popover-template="'app/messages/post/delete.html'"
              ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places">

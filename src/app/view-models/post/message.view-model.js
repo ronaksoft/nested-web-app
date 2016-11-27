@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmMessage', NstVmMessage);
 
-  function NstVmMessage(NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth, NstUtility) {
+  function NstVmMessage(moment, NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth, NstUtility) {
 
     function VmMessage(post, firstPlaceId, myPlaceIds) {
 
@@ -59,7 +59,12 @@
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
         this.allPlaces = _.map(post.places, mapPlace);
         this.isRead = post.isRead;
-        this.wipeAccess = post.wipeAccess;
+        if (post.wipeAccess !== null && post.wipeAccess !== undefined) {
+          this.wipeAccess = post.wipeAccess;
+        } else {
+          this.wipeAccess = post.sender.id === NstSvcAuth.user.id && moment(post.date).isAfter(moment().subtract(24, 'hours'));
+        }
+
 
         // Sort places with the priorities listed here:
         // 1. The place with the given Id (My personal place or any from my places list)
@@ -107,5 +112,6 @@
         picture: place.picture.id ? place.picture.thumbnails.x64.url.view : '/assets/icons/absents_place.svg'
       };
     }
+
   }
 })();

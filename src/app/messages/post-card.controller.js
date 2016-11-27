@@ -156,9 +156,11 @@
     }
 
     function remove() {
-      NstSvcPostInteraction.remove(vm.post, vm.post.allPlaces).then(function (place) {
-        vm.post.dropPlace(place.id);
-        toastr.success(NstUtility.string.format("The post has been removed from Place {0}.", place.name));
+      NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, { id : vm.thisPlace })).then(function (place) {
+        if (place) {
+          vm.post.dropPlace(place.id);
+          toastr.success(NstUtility.string.format("The post has been removed from Place {0}.", place.name));
+        }
       }).catch(function (error) {
         toastr.error(NstUtility.string.format("An error occured while trying to remove the message from the selected Place."));
       });

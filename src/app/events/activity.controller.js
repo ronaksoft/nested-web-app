@@ -9,9 +9,9 @@
   function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state, $timeout,
     toastr, _, moment,
     NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
-    NstSvcActivityMap,
+    NstSvcActivityMap, NstSvcModal,
     NstSvcActivitySettingStorage,
-    NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer, NstUtility,
+    NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess,
     NstActivity, NstPlace, NstInvitation) {
 
     var vm = this;
@@ -86,9 +86,16 @@
       generateUrls();
 
       if (vm.activitySettings.placeId) {
-        setPlace(vm.activitySettings.placeId).then(function (place) {
+        NstSvcPlaceAccess.getIfhasAccessToRead(vm.activitySettings.placeId).then(function (place) {
           if (place) {
+            vm.currentPlace = place;
+            vm.currentPlaceLoaded = true;
+            vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
             return loadActivities();
+          } else {
+            NstSvcModal.error("Error", "The place does not exist or you are not allowed to be there.").finally(function () {
+              $state.go("app.activity");
+            });
           }
         }).catch(function (error) {
           $log.debug(error);
@@ -175,25 +182,6 @@
      ** Helper Functions **
      **********************/
 
-    function setPlace(id) {
-      var defer = $q.defer();
-      if (!id) {
-        defer.resolve(null);
-      } else {
-        NstSvcPlaceFactory.get(id).then(function (place) {
-          if (place && place.id) {
-            vm.currentPlace = place;
-            vm.currentPlaceLoaded = true;
-            vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
-          } else {
-            vm.currentPlace = null;
-          }
-          defer.resolve(vm.currentPlace);
-        }).catch(defer.reject);
-      }
-
-      return defer.promise;
-    }
 
     function mapActivities(activities) {
       return NstSvcActivityMap.toActivityItems(activities);
