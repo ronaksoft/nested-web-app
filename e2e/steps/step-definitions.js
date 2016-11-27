@@ -139,8 +139,24 @@ module.exports = function () {
   });
 
   this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClick){
-    var postModal = element(By.css('div[ng-click="' + ngClick + '"]'));
-    postModal.click();
+    var ClickableElement = element(By.css('div[ng-click="' + ngClick + '"]'));
+    ClickableElement.click();
+  });
+
+  this.Given(/^I Click by dataNgClick "([^"]*)"$/, function (dataNgClick){
+    var box = element(By.css('div[data-ng-click="' + dataNgClick + '"]'));
+    box.click();
+  });
+
+  this.Given(/^I Invite by dataNgClick "([^"]*)"$/, function (dataNgClick){
+    var invite = element(By.css('div[data-ng-click="' + dataNgClick + '"]'));
+    invite.click();
+  });
+
+
+  this.Given(/^I Click icon by ngIf "([^"]*)"$/, function (ngIf){
+    var menu = element(By.css('svg[ng-if="' + ngIf + '"]'));
+    menu.click();
   });
 
   this.Given(/^I clear input by name "([^"]*)"$/, function (clearing) {

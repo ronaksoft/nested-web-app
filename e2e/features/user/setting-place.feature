@@ -17,11 +17,6 @@
 #  Scenario: Create a place from sidebar 1
 #
 #    Given I Click on plus of "create" in sidebar
-#    When I Wait till line loader hide
-#    When I wait 5s
-#    Given I Click id "close-create-place"
-#    When I wait 5s
-#    Given I Click on plus of "create" in sidebar
 #    When I wait 5s
 #    Given I fill "Marketing Development" with "test-create-place14"
 #    When I wait 5s
@@ -32,6 +27,8 @@
 #    Given I fill id "change-place-id" with "create14"
 #    When I wait 5s
 #    Given I Click id "change-save"
+#    When I wait 5s
+#    Given I Click by ngClick "ctlCreate.setReceivingOff();"
 #    When I wait 5s
 #    Given I Click label by for "notification"
 #    When I wait 5s
@@ -55,21 +52,23 @@
 #    When I wait 5s
 #    Given I Attach Steve
 #    When I wait 5s
-#    Given I Click id "post-access-box"
+#    Given I Click by ngClick "ctlSettings.setReceivingOff();"
 #    When I wait 5s
-#    Given I Click Option by value "managers"
+#    Given I Click Option by value "creators"
 #    When I wait 5s
-#    Given I Click id "setting-invite"
+#    Given I Click by dataNgClick "ctlSettings.addMember()"
 #    When I wait 5s
 #    Given I fill "Name, email or phone number  ..." with "shayestehn"
 #    When I wait 5s
 #    Given I press enter
 #    When I wait 5s
-#    Given I Click id "invite"
+#    Given I Invite by dataNgClick "addMemberCtrl.add()"
 #    When I wait 5s
-#    Given I Click id "active-test"
+#    Given I Click icon by ngIf "memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess"
 #    When I wait 5s
-#
-#
-#
-#
+#    Given I Click by ngClick "memberCtrl.remove();"
+#    When I wait 5s
+
+
+
+
