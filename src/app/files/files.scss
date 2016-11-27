@@ -175,21 +175,21 @@ li.file-list-container {
 
 .files-types-images {
   margin: 0 0 0 7px;
-  //.img-container {
-  //  &:after {
-  //    position: absolute;
-  //    width: 48px;
-  //    height: 48px;
-  //    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
-  //    pointer-events: none;
-  //    content: "";
-  //    //transform: translateY(-50%);
-  //    pointer-events: none;
-  //    left: 7px;
-  //    -webkit-transform:translateY(-100%);
-  //    -ms-transform:translateY(0);
-  //  }
-  //}
+  .img-container {
+    &:after {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+      pointer-events: none;
+      content: "";
+      pointer-events: none;
+      left: 7px;
+      border-radius: 2px;
+      -webkit-transform:translateY(-100%);
+      -moz-transform:translateY(0);
+    }
+  }
 }
 
 .file-badge, .file-thumbnail {
@@ -218,7 +218,6 @@ li.file-list-container {
   width: 48px;
   height: 48px;
   border: none;
-  border: 1px solid $color-solid-30;
 }
 
 .file-badge-pdf {
