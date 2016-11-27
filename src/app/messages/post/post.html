@@ -29,7 +29,7 @@
         <li ng-if="ctlPost.hasRemoveAccess">
           <!--  -->
           <a href="" class="cursor-pointer" uib-popover-template="'app/messages/post/delete.html'"
-             ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="popover-white-nst-activity-places">
+             ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places">
             <span class="nst-mood-solid _dib">Delete</span>
             <span class="action-button-post-delete _dib"></span>
           </a>
@@ -43,20 +43,21 @@
 
         <li>
           <div class="cursor-pointer" uib-popover-template="'app/messages/post/reply.html'"
-               ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="popover-white-nst-activity-places">
+               ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places">
             <span class="nst-mood-solid _dib">Reply</span>
             <span class="action-button-post- _dib"></span>
           </div>
         </li>
 
-        <li>
-          <div class="comment-input-toggle cursor-pointer" ng-init="commentInput = true" ng-click="commentInput =! commentInput">
-            <span class="nst-mood-solid _dib">Send comment</span>
-            <span class="action-button-post- _dib"></span>
-          </div>
-        </li>
+          <li>
+            <div class="comment-input-toggle cursor-pointer" ng-init="commentInput = true" ng-click="commentInput =! commentInput">
+              <span class="nst-mood-solid _dib">Send comment</span>
+              <span class="action-button-post- _dib"></span>
+            </div>
+          </li>
 
-      </ul>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="_difh _fh" id="PostBody">
