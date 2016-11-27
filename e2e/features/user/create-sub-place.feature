@@ -26,7 +26,7 @@
 #    Then should the title of the place be "test mapping"
 #
 #
-#  Scenario: Setting page mapping: create a sub-place 1
+#  Scenario: Setting page mapping: create a sub-place in personal place
 #    When I wait 5s
 #    Given I Click id "navbar-popover"
 #    When I wait 5s
@@ -56,7 +56,4 @@
 #    When I wait 5s
 #    Given I Click id "close-create-place"
 #
-#  Scenario: Delete a sub-place
-#
-#
-#
+#  Scenario: Delete a sub-place of personal place
