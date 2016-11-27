@@ -118,6 +118,11 @@ module.exports = function () {
     option.click();
   });
 
+  this.Given(/^I Click Option by value "([^"]*)"$/, function (value) {
+    var option = element(By.css('option[value="' + value + '"]'));
+    option.click();
+  });
+
   this.Given(/^I Click label by for "([^"]*)"$/, function (itsFor) {
     var checkbox = element(By.css('label[for="' + itsFor + '"]'));
     checkbox.click();
@@ -133,6 +138,11 @@ module.exports = function () {
     clearInput.clear();
   });
 
+  this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClick){
+    var postModal = element(By.css('div[ng-click="' + ngClick + '"]'));
+    postModal.click();
+  });
+
   this.Given(/^I clear input by name "([^"]*)"$/, function (clearing) {
     var clearInput = element(By.css('input[name="' + clearing + '"]'));
     clearInput.clear();
@@ -141,6 +151,16 @@ module.exports = function () {
   this.Given(/^I fill input by name "([^"]*)" with "([^"]*)"$/, function (name, value) {
     var input = element(By.css('input[name="' + name + '"]'));
     input.sendKeys(value);
+  });
+
+  this.Given(/^I Click input by value "([^"]*)"$/, function (value) {
+    var input = element(By.css('input[value="' + value + '"]'));
+    input.click();
+  });
+
+  this.Given(/^I Click icon by tooltip "([^"]*)"$/, function (text) {
+    var icon = element(By.css('a[data-uib-tooltip="' + text + '"]'));
+    icon.click();
   });
 
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
