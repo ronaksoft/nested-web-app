@@ -1187,7 +1187,7 @@
         });
 
         return deferred.promise;
-      }, "getPlacesUnreadPostsCount");
+      }, "getPlacesUnreadPostsCount", subs);
     };
 
     PlaceFactory.prototype.flush = function() {
