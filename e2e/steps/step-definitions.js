@@ -58,6 +58,11 @@ module.exports = function () {
     input.sendKeys(value);
   });
 
+  this.Given(/^I fill input by ngModel "([^"]*)" with "([^"]*)"$/, function (filling, value) {
+    var fillInput1 = element(By.css('input[ng-model="' + filling + '"]'));
+    fillInput1.sendKeys(value);
+  });
+
   this.Given(/^I fill textarea by "([^"]*)" with "([^"]*)"$/, function (placeholder, value) {
     var textarea = element(By.css('textarea[placeholder="' + placeholder + '"]'));
     textarea.sendKeys(value);
@@ -76,6 +81,11 @@ module.exports = function () {
   this.Given(/^I Press "([^"]*)"$/, function (value) {
     var button = element(By.css('input[value="' + value + '"]'));
     button.click();
+  });
+
+  this.Given(/^I Press "([^"]*)"$/, function (type) {
+    var button1 = element(By.css('button[type="' + type + '"]'));
+    button1.click();
   });
 
   this.Given(/^I Click id "([^"]*)"$/, function (id) {
@@ -138,9 +148,19 @@ module.exports = function () {
     clearInput.clear();
   });
 
+  this.Given(/^I clear input by ngModel "([^"]*)"$/, function (clearing) {
+    var clearInput1 = element(By.css('input[ng-model="' + ngModel + '"]'));
+    clearInput1.clear();
+  });
+
   this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClick){
     var ClickableElement = element(By.css('div[ng-click="' + ngClick + '"]'));
     ClickableElement.click();
+  });
+
+  this.Given(/^I Click list by ngClick "([^"]*)"$/, function (ngClick){
+    var list = element(By.css('li[ng-click="' + ngClick + '"]'));
+    list.click();
   });
 
   this.Given(/^I Click by dataNgClick "([^"]*)"$/, function (dataNgClick){
@@ -157,6 +177,11 @@ module.exports = function () {
   this.Given(/^I Click icon by ngIf "([^"]*)"$/, function (ngIf){
     var menu = element(By.css('svg[ng-if="' + ngIf + '"]'));
     menu.click();
+  });
+
+  this.Given(/^I Click by dataNgModel "([^"]*)"$/, function (dataNgModel){
+    var select = element(By.css('select[data-ng-model="' + dataNgModel + '"]'));
+    select.click();
   });
 
   this.Given(/^I clear input by name "([^"]*)"$/, function (clearing) {

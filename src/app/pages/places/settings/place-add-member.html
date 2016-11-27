@@ -19,8 +19,8 @@
             </div>
           </ui-select-choices>
         </ui-select>
-        <div class="butn-green" data-ng-if="addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();">Invite</div>
-        <div class="butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();">Add</div>
+        <div class="butn-green" data-ng-if="addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="invite">Invite</div>
+        <div class="butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="add">Add</div>
       </div>
     <div class="modal-body">
       <p data-ng-if="addMemberCtrl.users < 1 && !addMemberCtrl.isTeammateMode" class="_fw">Import Contacts:</p>

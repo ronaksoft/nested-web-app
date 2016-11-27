@@ -53,7 +53,9 @@
         <li class="file-list-container _df" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
           <div class="files-types-images">
             <a href ng-click="ctlFiles.preview(item);">
+              <div class="img-container" ng-if="item.thumbnail">
               <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}" class="file-thumbnail"/>
+              </div>
               <div ng-if="!item.thumbnail" class="file-badge {{'file-badge-' + item.type }}">
                 {{item.extension}}
               </div>

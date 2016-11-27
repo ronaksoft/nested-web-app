@@ -150,8 +150,8 @@
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_place"
               data-ng-change="ctlSettings.updateAddPlacePolicy()">
-        <option value="creators">Managers of {{ctlSettings.place.name}}</option>
-        <option value="everyone">Members of {{ctlSettings.place.name}}</option>
+        <option value="creators" id="manager-sub-place-access">Managers of {{ctlSettings.place.name}}</option>
+        <option value="everyone" id="member-sub-place-access">Members of {{ctlSettings.place.name}}</option>
       </select>
       <p ng-if="!ctlSettings.accesses.hasControlAccess">
         {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_place]}}
@@ -164,8 +164,8 @@
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_member"
               data-ng-change="ctlSettings.updateAddMemberPolicy()">
-        <option value="creators">Managers of {{ctlSettings.place.name}}</option>
-        <option value="everyone">Members of {{ctlSettings.place.name}}</option>
+        <option value="creators" id="manager-invite-access">Managers of {{ctlSettings.place.name}}</option>
+        <option value="everyone" id="member-invite-access">Members of {{ctlSettings.place.name}}</option>
       </select>
       <p ng-if="!ctlSettings.accesses.hasControlAccess">
         {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_member]}}
