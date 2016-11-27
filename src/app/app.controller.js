@@ -74,16 +74,21 @@
     }
 
 
-    checkToBeAuthenticated($state.current, $stateParams);
-
+    toggleSidebar($state.params);
+    
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      if (toParams && toParams.placeId) {
+      toggleSidebar(toParams);
+    });
+
+    function toggleSidebar(stateParams) {
+      if (stateParams && stateParams.placeId) {
         vm.viewSettings.sidebar.collapsed = false;
       } else {
         vm.viewSettings.sidebar.collapsed = true;
       }
-    });
+    }
 
+    checkToBeAuthenticated($state.current, $stateParams);
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       checkToBeAuthenticated(toState, toParams, event);
     });
