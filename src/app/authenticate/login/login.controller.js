@@ -25,6 +25,13 @@
     };
     vm.progress = false;
 
+    (function () {
+      if (NstSvcAuth.isInAuthorization()) {
+        $state.go(NST_DEFAULT.STATE);
+        return;
+      }
+    })();
+
     /*****************************
      ***** Controller Methods ****
      *****************************/
