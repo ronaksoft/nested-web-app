@@ -1,5 +1,5 @@
 <div>
-  <div>
+  <div ng-if="ctlPost.hasRemoveAccess">
     <a href ng-click="ctlPost.removePost(ctlPost.post);" class="spansetting">Delete</a>
   </div>
   <div ng-if="ctlPost.post.wipeAccess">

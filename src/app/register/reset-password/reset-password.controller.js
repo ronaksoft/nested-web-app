@@ -14,7 +14,7 @@
     vm.validatePhone = validatePhone;
 
     (function() {
-      vm.step = 1;
+      vm.step = 3;
 
     })();
 
@@ -136,7 +136,11 @@
       return deferred.promise;
     }
 
-    vm.resetPass = function() {
+    vm.resetPass = function(isValid) {
+      vm.submitted = true;
+      if (!isValid) {
+        return;
+      }
 
       sendNewPassword(vm.verificationId, vm.phone, md5.createHash(vm.password)).then(function(result) {
         toastr.success("Your password changed successfully.");
