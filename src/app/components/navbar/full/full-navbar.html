@@ -48,13 +48,13 @@
         <!--<p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>-->
         <div class="navigation" affixer parent=".content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">
           <nav>
-            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isMessages ? 'active' : ''}}">
+            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
               Messages
             </a>
-            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isFiles ? 'active' : ''}}">
+            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover" active-group="file">
               Files
             </a>
-            <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover {{ctlFullNavbar.page.isActivity ? 'active' : ''}}">
+            <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode" class="menu-links-butn _df li-hover" active-group="activity">
               Activity
             </a>
           </nav>
@@ -80,8 +80,7 @@
                  <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
                  <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
                </a>
-              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm"
-                  href="{{ctlFullNavbar.page.state.previous.url}}" data-ng-click="control.fn($event)">
+              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm" data-ng-click="control.fn($event)">
                  <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
                  <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
                </a>
@@ -103,8 +102,7 @@
                  <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
                  <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
                </a>
-              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm"
-                 href="{{ctlFullNavbar.page.state.previous.url}}" data-ng-click="control.fn()">
+              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm" data-ng-click="control.fn()">
                  <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
                  <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
                </a>
@@ -150,7 +148,7 @@
         </div>
       </div>
     </div>
-    <div class="content-plus" ng-show="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode && !ctlFullNavbar.page.isActivity"></div>
+    <div class="content-plus" ng-show="!ctlFullNavbar.page.isActivity"></div>
   </div>
 </div>
 <scroll-roller roll-upward="ctlFullNavbar.rollToTop"></scroll-roller>

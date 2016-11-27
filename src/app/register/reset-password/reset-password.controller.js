@@ -15,7 +15,6 @@
 
     (function() {
       vm.step = 1;
-
     })();
 
     function nextStep() {
@@ -136,7 +135,11 @@
       return deferred.promise;
     }
 
-    vm.resetPass = function() {
+    vm.resetPass = function(isValid) {
+      vm.submitted = true;
+      if (!isValid) {
+        return;
+      }
 
       sendNewPassword(vm.verificationId, vm.phone, md5.createHash(vm.password)).then(function(result) {
         toastr.success("Your password changed successfully.");

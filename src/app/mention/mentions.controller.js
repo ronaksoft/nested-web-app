@@ -17,6 +17,8 @@
     vm.markAllSeen = markAllSeen;
     vm.loadMore = loadMore;
     vm.viewPost = viewPost;
+    vm.error = null;
+
 
     (function() {
       loadMentions(0, pageItemsCount);
@@ -41,13 +43,19 @@
 
     function loadMentions(skip, limit) {
       var deferred = $q.defer();
+      vm.error = false;
       vm.loading = true;
       NstSvcMentionFactory.getMentions(skip, limit).then(function(mentions) {
         vm.mentions = _.concat(vm.mentions, _.map(mentions, mapMention));
-        deferred.resolve(vm.mentions);
+        if (mentions.length < limit){
+          vm.reached = true;
+        }
         vm.loading = false;
+        deferred.resolve(vm.mentions);
       }).catch(function(error) {
         $log.error(error);
+        vm.error = true;
+        vm.loading = false;
         deferred.reject(error);
       });
 

@@ -1,33 +1,3 @@
-.mentions-container {
-  list-style: none;
-  .mention-item {
-    display: flex;
-    border-bottom: 1px solid $color-breeze;
-    padding: 8px 4px 4px 4px;
-    cursor: pointer;
-    &:hover {
-      background-color: #E7FBF0;
-    }
-    .sender {
-      flex-grow: 1;
-      flex-shrink: 0;
-      max-width: 96px;
-      padding: 4px;
-    }
-    .written {
-      flex-grow: 4;
-      padding: 4px;
-      flex-shrink: 1;
-    }
-    .time {
-      flex-grow: 1;
-      flex-shrink: 0;
-      padding: 4px;
-      max-width: 62px;
-      word-wrap: break-word;
-    }
-  }
-}
 .mention-wrp {
   display: inline-flex;
   flex-direction: column;

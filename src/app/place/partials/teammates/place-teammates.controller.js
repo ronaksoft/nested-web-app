@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr,
-    NstSvcPlaceFactory, NstUtility,NstSvcAuth,
+    NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
     var vm = this;
@@ -48,30 +48,32 @@
       }
       vm.loading = true;
 
-      $q.all([
-        NstSvcPlaceFactory.get(vm.placeId),
-        NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-        NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
-      ]).then(function(values) {
+      NstSvcPlaceAccess.getIfhasAccessToRead(vm.placeId).then(function (place) {
+        if (place) {
+          vm.place = place;
+          $q.all([
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
+          ]).then(function(values) {
+            vm.hasAddMembersAccess = values[0];
+            vm.hasSeeMembersAccess = values[1];
 
-        vm.place = values[0];
+            if (vm.mode = 'collapsed') {
+              collapse();
+            }
 
-        vm.hasAddMembersAccess = values[1];
-        vm.hasSeeMembersAccess = values[2];
+            vm.showTeammate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
 
-        if (vm.mode = 'collapsed') {
-          collapse();
+            findMembers();
+          }).catch(function(error) {
+            NstSvcLogger.error(error);
+          }).finally(function () {
+            vm.loading = false;
+          });
         }
+      }).catch(function (error) {
 
-        vm.showTeammate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
-
-        findMembers();
-      }).catch(function(error) {
-        NstSvcLogger.error(error);
-      }).finally(function () {
-        vm.loading = false;
       });
-
     };
 
 
