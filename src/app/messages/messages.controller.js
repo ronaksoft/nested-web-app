@@ -11,7 +11,7 @@
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstUtility, NstSvcAuth,
                               NstSvcMessagesSettingStorage,
-                              NstSvcPostMap) {
+                              NstSvcPostMap, NstSvcPlaceAccess) {
 
     var vm = this;
 
@@ -79,11 +79,17 @@
       generateUrls();
 
       if (vm.currentPlaceId) {
-        setPlace(vm.currentPlaceId).then(function (place) {
+        NstSvcPlaceAccess.getIfhasAccessToRead(vm.currentPlaceId).then(function (place) {
           if (place) {
+            vm.currentPlace = place;
+            vm.currentPlaceLoaded = true;
+            vm.showPlaceId = !_.includes(['off', 'internal'], vm.currentPlace.privacy.receptive);
+
             return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess()])).catch(function (error) {
               $log.debug(error);
             });
+          } else {
+            NstSvcModal.error("The place does not exist or you are not allowed to be there.");
           }
         }).catch(function (error) {
           vm.errorInInitialLoading = true;
@@ -362,27 +368,6 @@
     function toggleQuickMessagePreview() {
       vm.viewSetting.quickMessage = !vm.viewSetting.quickMessage;
       setSettingItem(NST_MESSAGES_VIEW_SETTING.QUICK_MESSAGE, vm.viewSetting.quickMessage);
-    }
-
-    function setPlace(id) {
-      var defer = $q.defer();
-      vm.currentPlace = null;
-      if (!id) {
-        defer.reject(new Error('Could not find a place without Id.'));
-      } else {
-        NstSvcPlaceFactory.get(id).then(function (place) {
-          if (place && place.id) {
-            vm.currentPlace = place;
-            vm.currentPlaceLoaded = true;
-            vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
-          }
-          defer.resolve(vm.currentPlace);
-        }).catch(function (error) {
-          defer.reject(error);
-        });
-      }
-
-      return defer.promise;
     }
 
     function generateUrls() {

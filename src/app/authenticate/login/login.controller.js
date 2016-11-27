@@ -6,7 +6,7 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($q, $window, $rootScope, $timeout, $state, md5,
+  function LoginController($q, $window, $rootScope, $timeout, $state, $stateParams, md5,
                            NST_DEFAULT, NST_SRV_ERROR,
                            NstSvcLoader, NstSvcAuth) {
     var vm = this;
@@ -44,8 +44,8 @@
             name: NST_DEFAULT.STATE
           };
 
-          if ($state.params.back) {
-            var desState = angular.fromJson($window.decodeURIComponent($state.params.back));
+          if ($stateParams.back) {
+            var desState = angular.fromJson($window.decodeURIComponent($stateParams.back));
             if (desState.name && $state.get(desState.name)) {
               state.name = desState.name;
               state.params = desState.params || undefined;
