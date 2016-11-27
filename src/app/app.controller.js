@@ -125,7 +125,11 @@
         $state.go(previous.state.name, previous.params);
       }
 
-    }
+    };
 
+
+    NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
+      $state.go('public.signin');
+    });
   }
 })();
