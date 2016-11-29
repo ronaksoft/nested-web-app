@@ -23,17 +23,26 @@
   left: 0;
   z-index: $zindex-modal;
   -webkit-overflow-scrolling: touch;
+  transform: scale(0,0);
+  transform-origin: 50% 50%;
+  transition-property: transform;
+
 
   // Prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
 
   // When fading in the modal, animate it to slide down
-  &.fade .modal-dialog {
-    @include translate(0, -25%);
-    @include transition-transform(0.3s ease-out);
+  &.fade {
+    //@include translate(0, -25%);
+    //@include transition-transform(0.3s ease-out);
+    //animation: modal-dialog .38s cubic-bezier(0.1,0.8,0.6,1) .38s forwards normal;
   }
-  &.in .modal-dialog { @include translate(0, 0) }
+  &.in {
+    transform: scale(0,0);
+    animation: modal-dialog .38s cubic-bezier(0.1,0.8,0.6,1) .12s forwards normal;
+    //@include translate(0, 0)
+  }
 }
 .modal-open .modal {
   overflow-x: hidden;
@@ -77,9 +86,10 @@
   left: 0;
   z-index: $zindex-modal-background;
   background-color: $color-white;
+  animation: appearence-2 .38s cubic-bezier(0.1,0.8,0.6,1) forwards normal;
   // Fade for backdrop
-  &.fade { @include opacity(0); }
-  &.in { @include opacity($modal-backdrop-opacity); }
+  //&.fade { @include opacity(0); }
+  //&.in { @include opacity($modal-backdrop-opacity); }
 }
 
 // Modal header

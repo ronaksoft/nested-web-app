@@ -46,30 +46,16 @@
 
         modified = modified || model.subject.trim().length > 0;
         modified = modified || model.body.trim().length > 0;
-        modified = modified || model.recipients.length > 0;
         modified = modified || model.attachments.length > 0;
 
         return modified;
       })(vm.model);
 
-      $log.debug('Compose | Model Modified? ', vm.model.modified);
+      $log.debug('quick message | Model Modified? ', vm.model.modified);
 
       return vm.model.modified;
     };
 
-
-    vm.model.isModified = function () {
-      vm.model.modified = (function (model) {
-        var modified = false;
-
-        modified = modified || model.subject.trim().length > 0;
-        modified = modified || model.body.trim().length > 0;
-
-        return modified;
-      })(vm.model);
-
-      return vm.model.modified;
-    };
 
     vm.model.check = function () {
       vm.model.isModified();
@@ -121,7 +107,7 @@
     vm.model.submit = function () {
       applyMove();
 
-      //TODO Clone element and play another scen to main element
+      //TODO Clone element and play another scene to main element
       var element = angular.element(vm.textarea);
 
       var elementFirstChild = angular.element(vm.textarea.firstChild);

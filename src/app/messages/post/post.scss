@@ -4,12 +4,11 @@
   **********************************************************
 */
 #PostView {
-  overflow: hidden;
   border: 1px solid $color-breeze;
   border-radius: $border-radius-large;
-  background-color: $color-white;
+  //background-color: $color-white;
   padding: 0;
-  animation: appearence $animation-dur ease-out;
+  animation: post-view .2s cubic-bezier(0.1,0.8,0.6,1) .50s forwards normal;
   #PostHeader {
     border-bottom: 1px solid $color-breeze;
     padding: 0;
@@ -107,6 +106,7 @@
     font-size: $font-size-xlarge;
     text-overflow: ellipsis;
     line-height: 40px;
+    min-height: 40px;
     padding-bottom: 5px;
   }
   .time {
