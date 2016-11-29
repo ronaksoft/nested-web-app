@@ -3,7 +3,7 @@
   width: 100%;
   padding:0;
   margin-left:0;
-  margin-top: 28px;
+  margin-top: 26px;
   flex-grow: 1;
   align-items: baseline;
 
@@ -32,7 +32,7 @@
   .file-list-header {
     height: 36px;
     display: flex;
-    margin-top: 25px;
+    //margin-top: 25px;
     border-bottom: 1px solid #f0f0f0;
 
     svg {
@@ -153,10 +153,10 @@ div.files-input {
 }
 
 li.j-selected {
-  background-color: rgba($color-sense, .2);
+  background-color:#E8FBF0;
   border-bottom: none;
   &:hover{
-    background-color: rgba($color-sense, .2)!important;
+    background-color:#E8FBF0!important;
   }
 }
 
@@ -185,7 +185,6 @@ li.file-list-container {
       content: "";
       pointer-events: none;
       left: 7px;
-      border-radius: 2px;
       -webkit-transform:translateY(-100%);
       -moz-transform:translateY(0);
     }
@@ -218,6 +217,7 @@ li.file-list-container {
   width: 48px;
   height: 48px;
   border: none;
+  border-radius: 0;
 }
 
 .file-badge-pdf {
