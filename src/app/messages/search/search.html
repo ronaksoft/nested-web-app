@@ -20,11 +20,11 @@
     <!-- <input type="input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
     <button type="button" ng-click="ctlSearch.search(ctlSearch.queryString);">Search</button> -->
     <div class="top-section">
-      <button class="search-clear" type="button" ng-click="ctlSearch.backToPlace();">×</button>
+      <button class="search-clear" type="button" ng-click="ctlSearch.backToPlace();" id="clear-button">×</button>
       <div class="search-input-group">
         <input  type="text" nst-mention class="search-input" ng-model="ctlSearch.queryString"
-               ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
-        <button type="button" class="search-button" ng-click="ctlSearch.search(ctlSearch.queryString);">
+               ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);" id="clear"/>
+        <button type="button" class="search-button" ng-click="ctlSearch.search(ctlSearch.queryString);" id="button-search">
           <div class="icon-search-rotated-white"></div>
         </button>
       </div>
@@ -38,7 +38,7 @@
     <div class="nst-margin-24 text-center"
          ng-if="ctlSearch.reachedTheEnd || ctlSearch.loadMessageError || ctlSearch.loading || ctlSearch.noResult">
       <p class="nst-mood-storm" ng-if="ctlSearch.noResult">
-        Could not find any result!
+        No results found!
       </p>
       <p class="nst-mood-storm" ng-if="ctlSearch.reachedTheEnd">
         There are no more messages!

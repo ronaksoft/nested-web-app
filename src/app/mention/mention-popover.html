@@ -1,0 +1,31 @@
+<div class="mention-wrp" ng-controller="MentionsController as ctlMentions">
+  <div class="subject">
+    <a>Mentions</a>
+  </div>
+  <div class="_fw _jcc _df" ng-if="ctlMentions.mentions.length === 0 ">
+    <div class="nst-loading nst-loading-size-4 _fl"></div>
+    <span>&nbsp;</span>
+    <div class="nst-font-xsmall _fr nst-marginbtm-4">Loading...</div>
+  </div>
+  <ul nst-scrollbar>
+    <li ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.postId })" ng-click="ctlMentions.viewPost(mention, $event);">
+      <div class="item-inner ng-class:{'seen' : mention.isSeen}">
+        <div class="user-avatar-24">
+          <img ng-src="{{mention.avatar}}">
+        </div>
+        <div class="mention">
+          <p>
+            <a>{{ ::mention.name }}:</a>
+            <span auto-dir="{{::mention.commentBody}}">{{mention.commentBody | truncate}}</span>
+          </p>
+          <div class="ment-date">
+            {{mention.date | passed}}
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div class="more-mentions" ng-click="ctlMentions.markAllSeen()">
+    Mark All as Read
+  </div>
+</div>

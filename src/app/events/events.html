@@ -1,4 +1,4 @@
-<nst-navbar data-ng-model="navbar" place-id="{{::ctlActivity.currentPlace.id}}" nav-title="{{ctlActivity.currentPlace.id?ctlActivity.currentPlace.name:'All Places'}}" nav-picture-url="{{ctlActivity.currentPlace.id ? ctlActivity.currentPlace.picture.thumbnails.x64.url.view : '' }}" nav-picture-class="{{ !ctlActivity.currentPlace.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlActivity.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
+<nst-navbar data-ng-model="navbar" place-id="{{ctlActivity.currentPlace.id}}" nav-title="{{ctlActivity.currentPlace.id?ctlActivity.currentPlace.name:'All Places'}}"  show-place-id="ctlActivity.showPlaceId" nav-picture-url="{{ctlActivity.currentPlace.id ? ctlActivity.currentPlace.picture.thumbnails.x64.url.view : '' }}" nav-picture-class="{{ !ctlActivity.currentPlace.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlActivity.currentPlaceLoaded" page="ctlApp.page" place-description="{{ctlActivity.currentPlace.description}}"></nst-navbar>
 <!-- ctlActivity.currentPlace -->
 <div class="nst-content _tr _bgwhite" id="content-wrapper">
   <scroll-change-handler reached-bottom="ctlActivity.loadMore"></scroll-change-handler>
@@ -11,14 +11,14 @@
            data-popover-placement="bottom-center"
            popover-trigger="outsideClick" popover-is-open="filterPopoverShow">
         <span class="nst-mood-storm _df">{{::ctlActivity.filterDictionary[ctlActivity.activitySettings.filter]}}</span>
-        <div class="icon icon-viewicon-filter _df"></div>
+        <div class="icon icon-viewicon-filter _df" id="test-select-filter"></div>
       </div>
       <div class="iconsblock popover-white-nst-setting"
            ng-mouseenter="filterPopoverShow = false;popoverSettingShow = true"
            uib-popover-template="'app/events/partials/popovers/setting_popover.html'"
            data-popover-placement="bottom-center"
            popover-trigger="outsideClick" popover-is-open="popoverSettingShow">
-        <div class="icon icon-viewicon- _pa"></div>
+        <div class="icon icon-viewicon- _pa" id="test-setting-filter"></div>
       </div>
     </div>
 
@@ -40,7 +40,7 @@
         <p class="nst-mood-storm" ng-if="ctlActivity.reachedTheEnd">
           You reached the end of activities!
         </p>
-        <p class="nst-mood-storm" ng-if="ctlActivity.noActivity">
+        <p class="nst-mood-storm" ng-if="ctlActivity.noActivity || (ctlActivity.activities.length == 0 && !ctlActivity.loading)">
           There is not any activity here!
         </p>
         <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlActivity.loading">

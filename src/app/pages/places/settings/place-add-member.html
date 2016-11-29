@@ -1,13 +1,13 @@
 <div id="add-view">
   <div class="_difv _fw">
       <div class="_difh modal-add">
-        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isTeamateMode">Add a Teammate</h5>
-        <h5 class="_df _fw" data-ng-if="!addMemberCtrl.isTeamateMode">Invite a Member</h5>
+        <h5 class="_df _fw" data-ng-if="!addMemberCtrl.isGrandPlace">Add Members</h5>
+        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isGrandPlace">Invite Members</h5>
         <div class="_df" ng-click="$dismiss();"><img src="../assets/icons/close.svg" class="closebut"></div>
       </div>
       <div class="_difh _fw modal-add">
         <ui-select multiple class="modal-add-input nst-mood-simple _df" data-ng-model="addMemberCtrl.selectedUsers" autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
-          <ui-select-match placeholder="Invite people to your team" class=" _fw">
+          <ui-select-match placeholder="{{addMemberCtrl.isGrandPlace ? 'Name, email or phone number' : 'Name or ID'}}  ..." class=" _fw">
             <span>{{$item.fullName}} &lt;{{$item.id}}&gt;</span>
           </ui-select-match>
           <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
@@ -19,16 +19,63 @@
             </div>
           </ui-select-choices>
         </ui-select>
-        <div class="butn-send-compose _df _jcc" data-ng-if="!addMemberCtrl.isTeamateMode" data-ng-click="addMemberCtrl.add();">Invite</div>
-        <div class="butn-send-compose _df _jcc" data-ng-if="addMemberCtrl.isTeamateMode" data-ng-click="addMemberCtrl.add();">Add</div>
+        <div class="butn-green-nav" data-ng-if="addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();">Invite</div>
+        <div class="butn-green-nav" data-ng-if="!addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();">Add</div>
       </div>
-    <div class="_difh _fw">
+    <div class="modal-body">
+      <p data-ng-if="addMemberCtrl.users < 1 && !addMemberCtrl.isTeammateMode" class="_fw">Import Contacts:</p>
+      <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw">You can use a collective method for add members:</p>
       <div class="_fw suggests">
-
+        <!--<a class="_difh item add" data-ng-if="addMemberCtrl.users < 1">-->
+          <!--<div class="item-logo">-->
+            <!--<img src="/assets/icons/teammates.svg">-->
+          <!--</div>-->
+          <!--<div class="_difv det">-->
+            <!--<p>Add all Teammates</p>-->
+            <!--<span><strong>Ronak Software Group</strong>18 teammates</span>-->
+          <!--</div>-->
+        <!--</a>-->
+        <!--<div class="devider" data-ng-if="addMemberCtrl.users < 1"></div>-->
+        <!--<a class="_difh item add" data-ng-if="addMemberCtrl.users < 1">-->
+          <!--<div>-->
+            <!--<div class="item-logo">-->
+              <!--<img src="/assets/icons/parent-members.svg">-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="_difv det">-->
+            <!--<p>Add all Parent Place Members</p>-->
+            <!--<span><strong>Design</strong> m3 members</span>-->
+          <!--</div>-->
+        <!--</a>-->
+        <!--<a class="_difh item invite" data-ng-if="addMemberCtrl.users < 1">-->
+          <!--<div class="item-logo">-->
+            <!--<img src="/assets/icons/gmail.png">-->
+          <!--</div>-->
+          <!--<div class="_difv det">-->
+            <!--<p>Google</p>-->
+            <!--<span>Import contacts from a Google account.</span>-->
+          <!--</div>-->
+        <!--</a>-->
+        <div class="devider" data-ng-if="addMemberCtrl.users < 1"></div>
+        <!--<a class="_difh item invite" data-ng-if="addMemberCtrl.users < 1">-->
+          <!--<div>-->
+            <!--<div class="item-logo">-->
+              <!--<img src="/assets/icons/gmail.png">-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="_difv det">-->
+            <!--<p>Google</p>-->
+            <!--<span>Import contacts from a Google account.</span>-->
+          <!--</div>-->
+        <!--</a>-->
       </div>
     </div>
-      <div data-ng-if="addMemberCtrl.isTeamateMode" class="nst-modal-footer _df _fw">
-          <p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place ,<a class="nst-mood-cheerful">invite them as a member</a>.</p>
+      <div data-ng-if="!addMemberCtrl.isGrandPlace" class="nst-modal-footer _df _fw">
+          <!--<p>People who you add to this place, will be added automatically in root place. if you want to add people just to this place ,<a class="nst-mood-cheerful">invite them as a member</a>.</p>-->
+        <p>Add people by searching their name or entering their {{addMemberCtrl.isGrandPlace ? 'name, ID, email or phone number' : 'name or ID'}}.</p>
+      </div>
+      <div data-ng-if="addMemberCtrl.isGrandPlace" class="nst-modal-footer _df _fw">
+          <p>Invite people by searching their name or entering their email or phone number.</p>
       </div>
   </div>
 </div>

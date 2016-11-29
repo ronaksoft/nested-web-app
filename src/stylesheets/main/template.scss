@@ -1,23 +1,16 @@
 /**
   ******************************
-  *     inject mixins          *
-  ******************************
-*/
-
-
-
-/**
-  ******************************
   *           fonts            *
   ******************************
 */
 
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, eot ttf woff woff2);
 @include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, eot ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Semibold", bold, null, eot ttf woff woff2);
-@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", 900, null, eot ttf woff woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNested-Regular", null, null, eot ttf woff woff2);
-@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNested-Bold", bold, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", bold, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNestedWeb-Light", 300, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular", 400, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold", bold, null, eot ttf woff woff2);
+
 
 /**
   ******************************
@@ -27,7 +20,9 @@
 
 body,
 html {
-  min-height: 100vh;
+  -webkit-overflow-scrolling: touch;
+  //height: 100%;
+  min-width: 240px;
 }
 
 body {
@@ -50,6 +45,10 @@ body {
   }
 }
 
+*::selection {
+  color: rgba(255,255,255,1);
+  background: rgba(0,0,0,1);
+}
 
 a,a:focus{
   outline-width:0;

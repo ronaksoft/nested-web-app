@@ -147,13 +147,14 @@
       return defer.promise;
     }
 
-    function load(id, post) {
+    function load(ids) {
       var defer = $q.defer();
 
-      NstSvcServer.request('attachment/get_info', {
-        attachment_id: id
+      NstSvcServer.request('store/get_file_info', {
+        universal_ids: _.join(ids, ',')
       }).then(function(response) {
-        parseAttachment(response.attachment, post).then(defer.resolve).reject(defer.reject);
+        var promises = _.map(response.info, parseAttachment);
+        $q.all(promises).then(defer.resolve).catch(defer.reject);
       }).catch(function(error) {
         var query = new NstFactoryQuery(id);
         defer.reject(new NstFactoryError(query, error.message, error.code));

@@ -38,7 +38,7 @@
   z-index: 35;
   background: $color-white;
 }
-.popover-green + .popover {
+.popover-green + .popover, .popover-green + div + .popover{
   background: $color-sense-5;
   border-color: $color-sense-50;
   li {
@@ -65,7 +65,8 @@
   border-bottom-color: $color-white;
   left: 0;
 }
-.popover-white-nst-activity-places + .popover {
+.popover-white-nst-activity-places + .popover,
+.popover-white-nst-activity-places + div + .popover {
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
@@ -83,9 +84,9 @@
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
-  top: 1px !important;
+  top: 8px !important;
   left: auto !important;
-  right: 50px;
+  right: 72px;
   z-index: 36;
   padding: 0;
   width: 210px;
@@ -97,9 +98,9 @@
   max-height: 150px;
   overflow-y: auto;
   position: absolute;
-  top:-11px!important;
-  left:auto!important;
-  right:-1px;
+  top: -1px!important;
+  left: auto!important;
+  right: -1px;
   z-index: 35;
   background: $color-white;
   .popover-inner {
@@ -117,7 +118,7 @@
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
-  top: 1px !important;
+  top: 8px !important;
   left: auto !important;
   right: 0;
   z-index: 37;
@@ -129,9 +130,9 @@
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
-  top: 1px !important;
+  top: 8px !important;
   left: auto !important;
-  right: 50px;
+  right: 88px;
   z-index: 36;
   width: 210px;
 }
@@ -187,7 +188,58 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 #popup-msg-badge {
-   //margin-top: 20px;
-   max-height: 150px;
-   overflow-y: auto;
+  overflow-y: auto;
+  height: 100%;
+  max-height: 190px;
  }
+
+
+.popover-green + .popover, .popover-green + div + .popover{
+  background: $color-sense-5;
+  border-color: $color-sense-50;
+  li {
+    padding: 8px;
+  }
+  li:hover {
+    background-color: $color-sense-50;
+  }
+}
+
+
+//mention popover
+.mentions {
+  width: 286px;
+  max-height: 480px;
+  transition: height $animation-dur;
+  height: auto;
+  z-index: 1029;
+  top: auto!important;
+  bottom: 80px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  //position: absolute;
+  //z-index: 35;
+  background-color: $color-white;
+  border: 1px solid #CED9D3;
+  border-radius: 4px;
+  .popover-content,.popover-inner {
+    height: 100%;
+  }
+  > .arrow {
+    width: 16px!important;
+    height: 16px!important;
+    border-style: solid;
+    border-color: #CED9D3;
+    background-color: $color-white;
+    margin: 0!important;
+    display: flex!important;
+    top: 50%;
+    transform: translateY(-50%) rotateZ(-45deg);
+    left: -6px!important;
+    border-width: 1px 0 0 1px!important;
+    z-index: 0;
+  }
+  > .popover-inner {
+    z-index: 2;
+    max-height: 480px;
+  }
+}

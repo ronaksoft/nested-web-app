@@ -5,11 +5,10 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout,
-                              _,
-                              NST_POST_EVENT, NST_COMMENT_EVENT,
-                              NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
-
+  function PostCardController($state, $log, $timeout, $rootScope,
+    _, moment,
+    NST_POST_EVENT, NST_COMMENT_EVENT,
+    NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility) {
     var vm = this;
     var commentBoardMin = 3;
     var commentBoardMax = 99;
@@ -20,7 +19,6 @@
 
     vm.newCommentsCount = 0;
     vm.myAlreadyCountedIds = [];
-    vm.reply = reply;
     vm.sendComment = sendComment;
 
     vm.hasOlderComments = true;
@@ -33,10 +31,6 @@
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
 
 
-    function reply() {
-      $debug.log('Is not implemented yet!')
-    }
-
     /**
      * send - add the comment to the list of the post comments
      *
@@ -48,7 +42,7 @@
       if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-      
+
       var body = extractCommentBody(e);
       if (body.length === 0) {
         return;
@@ -56,25 +50,27 @@
 
       vm.isSendingComment = true;
 
-      NstSvcPostFactory.get(vm.post.id).then(function(post) {
-        NstSvcCommentFactory.addComment(post, body).then(function (comment) {
-          if (!_.some(vm.post.comments, { id : comment.id })) {
-            vm.commentBoardLimit++;
-            vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
-          }
+      NstSvcCommentFactory.addComment(vm.post.id, body).then(function (comment) {
+        if (!_.some(vm.post.comments, { id : comment.id })) {
+          vm.commentBoardLimit++;
+          vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
+        }
 
-          e.currentTarget.value = '';
-          vm.isSendingComment = false;
-          $timeout(function () {
-            e.currentTarget.focus();
-          },10)
-        }).catch(function (error) {
-          $log.debug(error);
-        });
-      }).catch(function (error) {
+        e.currentTarget.value = '';
         vm.isSendingComment = false;
+        $timeout(function () {
+          e.currentTarget.focus();
+        },10)
+      }).catch(function (error) {
         $log.debug(error);
       });
+
+      if(!vm.post.postIsRed)
+        NstSvcPostFactory.read([vm.post.id]).then(function (result) {
+          vm.post.postIsRed = true;
+        }).catch(function (err) {
+          $log.debug('MARK AS READ :' + err);
+        });
       return false;
     }
 
@@ -108,7 +104,6 @@
       vm.commentBoardIsRolled = false;
     }
 
-
     function findOldestComment(post) {
       return _.first(_.orderBy(post.comments, 'date'));
     }
@@ -122,7 +117,7 @@
         date = post.date;
       }
 
-      return moment(date).subtract(1, 'ms').valueOf();
+      return NstUtility.date.toUnix(moment(date).subtract(1, 'ms'));
     }
 
     function showOlderComments() {
@@ -144,11 +139,9 @@
     function loadMoreComments() {
       var date = getDateOfOldestComment(vm.post);
 
-      NstSvcPostFactory.get(vm.post.id).then(function (post) {
-        return NstSvcCommentFactory.retrieveComments(post, {
+      NstSvcCommentFactory.retrieveComments(vm.post.id, {
           date : date,
           limit : commentsSettings.limit
-        });
       }).then(function (comments) {
         vm.hasOlderComments = comments.length >= commentsSettings.limit;
         var commentItems = _.orderBy(_.map(comments, NstSvcCommentMap.toMessageComment), 'date', 'asc');
@@ -169,9 +162,17 @@
       if (e.detail.postId === vm.post.id) {
         vm.post.commentsCount += vm.newCommentsCount;
         vm.newCommentsCount = 0;
-        if (e.detail.comments && e.detail.comments.length > 0) {
-          vm.post.comments = e.detail.comments;
+      }
+    });
+
+    $rootScope.$on('post-modal-closed', function (event, data) {
+      if (data.postId === vm.post.id) {
+        event.preventDefault();
+        if (data.comments && data.comments.length > 0) {
+          vm.post.comments = data.comments;
         }
+        vm.post.commentsCount = data.totalCommentsCount;
+        vm.newCommentsCount = 0;
       }
     });
 
@@ -203,19 +204,33 @@
 
     // initializing
     (function () {
-      vm.hasOlderComments = vm.post.commentsCount > vm.post.comments.length;
 
-      vm.urls = {
-        reply_all: $state.href('compose-reply-all', {
-          postId: vm.post.id
-        }),
-        reply_sender: $state.href('compose-reply-sender', {
-          postId: vm.post.id
-        }),
-        forward: $state.href('compose-forward', {
-          postId: vm.post.id
-        })
-      };
+      vm.hasOlderComments = vm.post.commentsCount && vm.post.comments  ? vm.post.commentsCount > vm.post.comments.length : false;
+
+      vm.urls = {};
+      vm.urls['reply_all'] = $state.href('app.compose-reply-all', {
+        postId: vm.post.id
+      });
+
+      vm.urls['reply_sender'] = $state.href('app.compose-reply-sender', {
+        postId: vm.post.id
+      });
+
+      vm.urls['forward'] = $state.href('app.compose-forward', {
+        postId: vm.post.id
+      });
+
+      if (vm.thisPlace) {
+        vm.urls['chain'] = $state.href('app.place-message-chain', {
+          placeId : vm.thisPlace,
+          postId : vm.post.id
+        });
+      } else {
+        vm.urls['chain'] = $state.href('app.message-chain', {
+          postId : vm.post.id
+        });
+      }
+
     })();
 
   }

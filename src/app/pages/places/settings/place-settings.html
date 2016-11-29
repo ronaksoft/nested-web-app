@@ -6,7 +6,7 @@
   <section class="content _bgwhite _fh" id="place-settings">
     <div class="navbarillu"></div>
     <div class="place-actions _difh _jcc" ng-if="ctlSettings.hasAnyControlOverHere()">
-      <a ui-sref="place-add({ placeId : ctlSettings.placeId })" class="_difh _fw" ng-if="ctlSettings.allowedToAddSubPlace()"><div class="option-add-icon"></div>Add a sub-place</a>
+      <a ui-sref="app.place-add({ placeId : ctlSettings.placeId })" class="_difh _fw" ng-if="ctlSettings.allowedToAddSubPlace()"><div class="option-add-icon"></div>Add a sub-place</a>
       <a class="_fw" ng-if="!ctlSettings.allowedToAddSubPlace()"></a>
       <a href="" class="_difh _fn delete-button" ng-if="ctlSettings.allowedToDelete()" ng-click="ctlSettings.confirmToRemove()">Delete<div class="option-leave-icon"></div></a>
       <a href="" class="_difh _fn" ng-if="ctlSettings.allowedToLeave();" ng-click="ctlSettings.confirmToLeave();">Leave<div class="option-delete-icon"></div></a>
@@ -90,19 +90,22 @@
         <hr>
 
         <div class="_difc _fw optionrow">
-          <div class="_df"><label for="sw-receptive"><i class="nst-place-icon-print _df"></i></label></div>
-          <div class="_df _fw"><label for="sw-receptive"><h5>Receiving</h5></label></div>
-          <div class="_df switch">
-            <input type="checkbox" data-ng-disabled="!ctlSettings.hasControlAccess" id="sw-receptive" class="inpsw"
-                   name="receptive" data-ng-model="ctlSettings.place.privacy.receptive"
-                   ng-change="ctlSettings.updatePrivacy()"/>
-            <label for="sw-receptive" data-ng-click="ctlSettings.place.privacy.receptive && $event.preventDefault();">
-              <div class="labtxt _fw">ON</div>
+          <div class="_df"><label ><i class="nst-place-icon-print _df"></i></label></div>
+          <div class="_df _fw"><label ><h5>Receiving</h5></label></div>
+          <form class="_df switch">
+            <input id="off" type="radio" name="Receiving" data-ng-checked="!ctlSettings.place.privacy || ctlSettings.place.privacy.receptive === 'off'">
+            <label for="off" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','off') && $event.preventDefault();">
+              <div class="labtxt _fw">Off</div>
             </label>
-            <label for="sw-receptive" data-ng-click="!ctlSettings.place.privacy.receptive && $event.preventDefault();">
-              <div class="labtxt _fw">OFF</div>
+            <input id="internal" type="radio" name="Receiving" data-ng-checked="ctlSettings.place.privacy.receptive === 'internal'">
+            <label for="internal" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive','internal') && $event.preventDefault();">
+              <div class="labtxt _fw">Team</div>
             </label>
-          </div>
+            <input id="external" type="radio" name="Receiving" data-ng-checked="ctlSettings.place.privacy.receptive === 'external'">
+            <label for="external" data-ng-click="ctlSettings.place.privacy.receptive && ctlSettings.updatePrivacy('receptive', 'external')  && $event.preventDefault();">
+              <div class="labtxt _fw">All</div>
+            </label>
+          </form>
         </div>
         <!--<div class="nst-description _df _fw">
           <div class="nst-description" ng-if="ctlSettings.place.privacy.receptive">Place is open for receiving messages
@@ -116,9 +119,8 @@
           <div class="_df _fw"><label for="sw-search"><h5>Searchable</h5></label></div>
           <div class="_df switch">
             <input type="checkbox"
-                   data-ng-disabled="!ctlSettings.place.privacy.receptive || !ctlSettings.hasControlAccess "
-                   id="sw-search" class="inpsw" name="search" data-ng-model="ctlSettings.place.privacy.search"
-                   ng-change="ctlSettings.updatePrivacy()"/>
+                   data-ng-disabled="ctlSettings.place.privacy.receptive === 'off' || !ctlSettings.hasControlAccess "
+                   id="sw-search" class="inpsw" name="search" Add place/>
             <label for="sw-search" data-ng-click="ctlSettings.place.privacy.search && $event.preventDefault();">
               <div class="labtxt _fw">ON</div>
             </label>
@@ -139,21 +141,68 @@
         </div>-->
 
         <div class="_difc _fw optionrow">
-          <div class="_df"><label for="sw-email"><i class="nst-place-icon-email _df"></i></label></div>
-          <div class="_df _fw"><label for="sw-email"><h5>Email</h5></label></div>
+          <div class="_df"><label for="sw-addMember">
+            <!--TODO:// Add Member icon-->
+            ??
+            </label>
+          </div>
+          <div class="_df _fw"><label for="sw-addMember"><h5>Add Member</h5></label></div>
           <div class="_df switch">
             <input type="checkbox"
-                   data-ng-disabled="!ctlSettings.place.privacy.receptive || !ctlSettings.hasControlAccess"
-                   id="sw-email" class="inpsw" name="email" data-ng-model="ctlSettings.place.privacy.email"
-                   ng-change="ctlSettings.updatePrivacy()"/>
-            <label for="sw-email" data-ng-click="ctlSettings.place.privacy.email && $event.preventDefault();">
-              <div class="labtxt _fw">ON</div>
+                   data-ng-disabled="!ctlSettings.hasControlAccess"
+                   id="sw-addMember" class="inpsw" name="addMember"
+                   data-ng-checked="ctlSettings.place.policy.add_member === 'creators'"
+                   value="creators"/>
+            <label data-ng-click="ctlSettings.updatePolicy('add_member' ,'creators') && $event.preventDefault();">
+              <div class="labtxt _fw">masters</div>
             </label>
-            <label for="sw-email" data-ng-click="!ctlSettings.place.privacy.email && $event.preventDefault();">
-              <div class="labtxt _fw">OFF</div>
+            <label data-ng-click="ctlSettings.updatePolicy('add_member' ,'everyone') && $event.preventDefault();">
+              <div class="labtxt _fw">everyone</div>
             </label>
           </div>
         </div>
+
+        <div class="_difc _fw optionrow">
+          <div class="_df"><label for="sw-addPlace">
+            <!--TODO:// Add place icon-->
+            ??
+          </label>
+          </div>
+          <div class="_df _fw"><label for="sw-addPlace"><h5>Add place</h5></label></div>
+          <div class="_df switch">
+            <input type="checkbox"
+                   data-ng-disabled="!ctlSettings.hasControlAccess"
+                   id="sw-addPlace" class="inpsw" name="addPlace"
+                   data-ng-checked="ctlSettings.place.policy.add_place === 'creators'"/>
+            <label  data-ng-click="ctlSettings.updatePolicy('add_place' ,'creators') &&  $event.preventDefault();">
+              <div class="labtxt _fw">masters</div>
+            </label>
+            <label  data-ng-click="ctlSettings.updatePolicy('add_place' ,'everyone') && $event.preventDefault();">
+              <div class="labtxt _fw">everyone</div>
+            </label>
+          </div>
+        </div>
+        <div class="nst-teammates _dib" ng-if="ctlSettings.hasSeeMembersAccess">
+          <h5 class="tittle-option _di">Members</h5>
+          <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di  _fr" data-ng-click="ctlSettings.addMember()">
+            <span ng-if="ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Invite Member</span>
+            <span ng-if="!ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Add from Members</span>
+            <div class="add-icon _dib"></div>
+          </div>
+          <hr>
+          <h5 ng-if="!ctlSettings.hasAnyTeammate()" class="nst-mood-storm">
+            There are no teammates here yet.
+          </h5>
+          <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user"
+                                 data-ng-repeat="member in ctlSettings.teammates"
+                                 member="member" place="ctlSettings.place"
+                                 has-remove-access="ctlSettings.hasRemoveAccess"
+                                 has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember"
+                                 role="member.state"/>
+        </div><!--/nst-teammates-->
+
+
+
         <!--<div class="nst-description _df _fw">
           <div class="nst-description" ng-if="!ctlSettings.place.privacy.receptive">Disabled until "Receiving" is Off.
             <a href="javascript:void(0);" class="nst-mood-cheerful">Learn more</a></div>
@@ -166,47 +215,31 @@
           <div>
           </div>
         </div>-->
+        <!--<nst-teammate></nst-teammate>-->
+        <!--<div class="place-option-members _dib" ng-if="ctlSettings.hasSeeMembersAccess">-->
+          <!--<h5 class="title-option _di">Participants</h5>-->
+          <!--<div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di _fr"-->
+               <!--data-ng-click="ctlSettings.inviteParticipant()">-->
+            <!--<span class="nst-mood-simple _dib _vat">Invite participants</span>-->
+            <!--<div class="add-icon _dib"></div>-->
+          <!--</div>-->
+          <!--<hr>-->
+          <!--<h5 ng-if="!ctlSettings.hasAnyParticipant()" class="nst-mood-storm">-->
+            <!--There are no participants here yet.-->
+          <!--</h5>-->
+          <!--<nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6"-->
+                                 <!--data-ng-repeat="member in ctlSettings.participants"-->
+                                 <!--member="member" place="ctlSettings.place"-->
+                                 <!--has-remove-access="ctlSettings.hasRemoveAccess"-->
+                                 <!--has-control-access="ctlSettings.hasControlAccess" role="member.state"/>-->
 
-        <div class="nst-teammates _dib" ng-if="ctlSettings.hasSeeMembersAccess">
-          <h5 class="tittle-option _di">Teammates</h5>
-          <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di  _fr" data-ng-click="ctlSettings.addMember()">
-            <span ng-if="ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Add Teammate</span>
-            <span ng-if="!ctlSettings.isGrandPlace" class="nst-mood-simple _dib _vat">Add from Teammates</span>
-            <div class="add-icon _dib"></div>
-          </div>
-          <hr>
-          <h5 ng-if="!ctlSettings.hasAnyTeamate()" class="nst-mood-storm">
-            There are no teamates here yet.
-          </h5>
-          <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-lg-6 col-xs-6 user"
-                                 data-ng-repeat="member in ctlSettings.teamates"
-                                 member="member" place="ctlSettings.place"
-                                 has-remove-access="ctlSettings.hasRemoveAccess"
-                                 has-control-access="ctlSettings.hasControlAccess" on-remove="ctlSettings.removeMember"
-                                 role="member.state"/>
-        </div><!--/nst-teammates-->
 
-        <div class="place-option-members _dib" ng-if="ctlSettings.hasSeeMembersAccess">
-          <h5 class="title-option _di">Participants</h5>
-          <div data-ng-if="ctlSettings.hasAddMembersAccess" class="_di _fr"
-               data-ng-click="ctlSettings.inviteParticipant()">
-            <span class="nst-mood-simple _dib _vat">Invite participants</span>
-            <div class="add-icon _dib"></div>
-          </div>
-          <hr>
-          <h5 ng-if="!ctlSettings.hasAnyParticipant()" class="nst-mood-storm">
-            There are no participants here yet.
-          </h5>
-          <nst-place-member-item data-ng-if="ctlSettings.hasSeeMembersAccess" class="col-xs-6 col-lg-6"
-                                 data-ng-repeat="member in ctlSettings.participants"
-                                 member="member" place="ctlSettings.place"
-                                 has-remove-access="ctlSettings.hasRemoveAccess"
-                                 has-control-access="ctlSettings.hasControlAccess" role="member.state"/>
-
-        </div> <!-- /place-option-members-->
+        <!--</div> &lt;!&ndash; /place-option-members&ndash;&gt;-->
         <div class="restplace _df _fh"></div>
       </div>
-    </div>
+
+
+      </div>
   </section>
 
   <div class="content-plus">

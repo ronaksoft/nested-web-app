@@ -8,7 +8,7 @@
   /** @ngInject */
   function MiniNavbarController($q, $state, $stateParams, $uibModal, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
-                                NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                                NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                                 NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
     // $scope.$watch('place', function (newValue, oldValue) {
@@ -111,6 +111,7 @@
       vm.user = mapUser(resolvedSet[0]);
       vm.places = mapPlaces(resolvedSet[1]);
       vm.invitations = mapInvitations(resolvedSet[2]);
+      fixUrls();
     });
 
     /*****************************
@@ -118,29 +119,34 @@
      *****************************/
 
     function getUnfilteredState() {
-      var state = 'messages';
+      var state = 'app.messages';
       switch ($state.current.name) {
-        case 'activity':
-        case 'activity-bookmarks':
-        case 'activity-bookmarks-filtered':
-        case 'activity-filtered':
-        case 'place-activity':
-        case 'place-activity-filtered':
-          state = 'activity';
+        case 'app.activity':
+        case 'app.activity-favorites':
+        case 'app.activity-favorites-filtered':
+        case 'app.activity-filtered':
+        case 'app.place-activity':
+        case 'app.place-activity-filtered':
+          state = 'app.activity';
           break;
       }
 
       return state;
     }
 
+    function openCreatePlaceModal($event) {
+      $event.preventDefault();
+      $state.go('app.place-create', {  } , { notify : false });
+    }
+
     function getComposeState() {
-      var state = 'compose';
+      var state = 'app.compose';
       switch ($state.current.name) {
-        case 'place-activity':
-        case 'place-activity-sorted':
-        case 'place-messages':
-        case 'place-messages-filtered':
-          state = 'place-compose';
+        case 'app.place-activity':
+        case 'app.place-activity-sorted':
+        case 'app.place-messages':
+        case 'app.place-messages-filtered':
+          state = 'app.place-compose';
           break;
       }
 
@@ -148,15 +154,15 @@
     }
 
     function getBookmarksState() {
-      var state = 'messages-bookmarks';
+      var state = 'app.messages-favorites';
       switch ($state.current.name) {
-        case 'activity':
-        case 'activity-bookmarks':
-        case 'activity-bookmarks-filtered':
-        case 'activity-filtered':
-        case 'place-activity':
-        case 'place-activity-filtered':
-          state = 'activity-bookmarks';
+        case 'app.activity':
+        case 'app.activity-favorites':
+        case 'app.activity-favorites-filtered':
+        case 'app.activity-filtered':
+        case 'app.place-activity':
+        case 'app.place-activity-filtered':
+          state = 'app.activity-favorites';
           break;
       }
 
@@ -164,13 +170,13 @@
     }
 
     function getSentState() {
-      var state = 'messages-sent';
+      var state = 'app.messages-sent';
       switch ($state.current.name) {
-        case 'messages-sorted':
-        case 'messages-sent-sorted':
-        case 'messages-bookmarks-sorted':
-        case 'place-messages-sorted':
-          state = 'messages-sent-sorted';
+        case 'app.messages-sorted':
+        case 'app.messages-sent-sorted':
+        case 'app.messages-favorites-sorted':
+        case 'app.place-messages-sorted':
+          state = 'app.messages-sent-sorted';
           break;
       }
 
@@ -178,7 +184,7 @@
     }
 
     function getPlaceAddState() {
-      return 'place-add';
+      return 'app.place-add';
     }
 
     /*****************************
@@ -243,6 +249,64 @@
 
     function mapInvitations(invitationModels) {
       return invitationModels.map(mapInvitation);
+    }
+
+
+
+    /*****************************
+     *****    Change urls   ****
+     *****************************/
+
+    $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      if (toState.options && toState.options.primary) {
+        fixUrls();
+      }
+    });
+
+
+    function fixUrls() {
+
+      vm.urls = {
+        unfiltered: $state.href(getUnfilteredState()),
+        compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
+        bookmarks: $state.href(getBookmarksState()),
+        sent: $state.href(getSentState()),
+        subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
+      };
+
+      mapPlacesUrl(vm.places);
+    }
+
+    function mapPlacesUrl(places) {
+
+      places.map(function (place) {
+
+        if ($state.current.params && $state.current.params.placeId) {
+          place.href = $state.href($state.current.name, Object.assign({}, $stateParams, {placeId: place.id}));
+        } else {
+          switch ($state.current.options.group) {
+            case 'file':
+              place.href = $state.href('app.place-files', {placeId: place.id});
+              break;
+            case 'activity':
+              place.href = $state.href('app.place-activity', {placeId: place.id});
+              break;
+            case 'settings':
+              place.href = $state.href('app.place-settings', {placeId: place.id});
+              break;
+            case 'compose':
+              place.href = $state.href('app.place-compose', {placeId: place.id});
+              break;
+            default:
+              place.href = $state.href('app.place-messages', {placeId: place.id});
+              break;
+          }
+        }
+
+        if (place.children) mapPlacesUrl(place.children);
+
+        return place;
+      })
     }
 
     /*****************************

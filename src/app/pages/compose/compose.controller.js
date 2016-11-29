@@ -7,9 +7,9 @@
 
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
-                             _, toastr,PreviousState,
+                             _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
-                             NstSvcLoader, NstSvcTry, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap,
+                             NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
     var vm = this;
 
@@ -36,6 +36,20 @@
       saved: false
     };
 
+    (function () {
+      if ($stateParams.attachments && $stateParams.attachments.length > 0) {
+        NstSvcAttachmentFactory.load($stateParams.attachments).then(function (attachments) {
+          vm.model.attachments = attachments;
+          vm.attachments.viewModels = _.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
+          vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
+          vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
+        }).catch(function (error) {
+          toastr.error('An error happened while trying to attach with files.');
+        });
+
+      }
+    })();
+
     vm.search = {
       results: [],
     };
@@ -54,7 +68,11 @@
 
     vm.controls = {
       left: [
-        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK)
+        new NstVmNavbarControl('Discard', NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
+          // TODO: Fix navigating to previous state
+          $event.preventDefault();
+          $rootScope.goToLastState();
+        })
       ],
       right: [
         new NstVmNavbarControl('Attach', NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attachments.elementId })
@@ -71,6 +89,19 @@
         browser_spellcheck: true,
         selector: 'textarea',
         height : 200,
+        //content_css : "../styles/tinymce.css",
+        content_style : "@font-face {font-family: 'OpenSans';" +
+        "src: url('../assets/fonts/OpenSans/OpenSans-Regular.woff2') format('woff2')," +
+        "url('../assets/fonts/OpenSans/OpenSans-Regular.woff') format('woff')," +
+        "url('../assets/fonts/OpenSans/OpenSans-Regular.ttf')  format('truetype')," +
+        "url('../assets/fonts/OpenSans/OpenSans-Regular.svg#svgFontName') format('svg');}" +
+        "@font-face {font-family: 'YekanBakh';" +
+        "src: url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2') format('woff2')," +
+        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff')," +
+        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype')," +
+        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
+        "br{opacity:0}" +
+        "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 12pt!important;}",
         plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,
@@ -92,6 +123,8 @@
     /*****************************
      ***** Controller Methods ****
      *****************************/
+
+    NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
     vm.configs.tinymce.onChange = function (event) {
       // Put logic here for keypress and cut/paste changes
@@ -175,31 +208,8 @@
       }
       event.currentTarget.value = "";
     };
-    $scope.interface = {};
 
-    // Listen for when the interface has been configured.
-    $scope.$on('$dropletReady', function whenDropletReady() {
-      vm.model.attachfiles.allowedExtensions([/.+/]);
-      vm.model.attachfiles.useArray(false);
 
-    });
-    $scope.$on('$dropletFileAdded', function startupload() {
-
-      var files = vm.model.attachfiles.getFiles(vm.model.attachfiles.FILE_TYPES.VALID);
-      for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i].file).then(function (request) {});
-        files[i].deleteFile();
-      }
-    });
-
-    //Todo : not injected in project and is out of game :D
-    vm.attachments.fileDropped = function (event) {
-      var files = event.currentTarget.files;
-      for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {});
-      }
-      event.currentTarget.value = "";
-    };
 
     vm.attachments.attach = function (file) {
       var deferred = $q.defer();
@@ -308,15 +318,13 @@
             }
             break;
         }
-
-        vm.model.attachments = vm.model.attachments.filter(function (v) { return id != v.id; });
-        vm.attachments.viewModels = vm.attachments.viewModels.filter(function (v) { return id != v.id; });
-        vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
-        vm.attachments.size.total -= attachment.getSize();
-      }else{
-        vm.model.attachments = [];
       }
-    };
+
+      NstUtility.collection.dropById(vm.model.attachments, id);
+      NstUtility.collection.dropById(vm.attachments.viewModels, id);
+      vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
+      vm.attachments.size.total -= attachment.getSize();
+    }
 
     vm.model.isModified = function () {
       vm.model.modified = (function (model) {
@@ -462,15 +470,7 @@
           toastr.warning(text, 'Message doesn\'t Sent');
         }
 
-        if (PreviousState.Name === "") {
-          if ($stateParams.placeId) {
-            $state.go('place-messages', {placeId: $stateParams.placeId});
-          } else {
-            $state.go(NST_DEFAULT.STATE);
-          }
-        } else {
-          $state.go(PreviousState.Name, PreviousState.Params);
-        }
+        $rootScope.goToLastState();
 
         return $q(function (res) {
           res(response);
@@ -522,10 +522,10 @@
      *****************************/
 
     switch ($state.current.name) {
-      case 'place-compose':
+      case 'app.place-compose':
         if ($stateParams.placeId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.placeId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPlace($stateParams.placeId).then(function (place) {
               // FIXME: Push Compose Recipient View Model Instead
@@ -540,10 +540,10 @@
         }
         break;
 
-      case 'compose-forward':
+      case 'app.compose-forward':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
@@ -560,10 +560,10 @@
         }
         break;
 
-      case 'compose-reply-all':
+      case 'app.compose-reply-all':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
@@ -582,10 +582,10 @@
         }
         break;
 
-      case 'compose-reply-sender':
+      case 'app.compose-reply-sender':
         if ($stateParams.postId) {
           if (NST_DEFAULT.STATE_PARAM == $stateParams.postId) {
-            $state.go('compose');
+            $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
@@ -631,6 +631,31 @@
         break;
     }
 
+    function addRecipients(placeId) {
+      var deferred = $q.defer();
+
+      var tag = _.find(vm.model.recipients, function (item) {
+        return item.id === placeId;
+      });
+
+      if (tag) {
+        deferred.resolve(tag);
+      } else {
+        getPlace(placeId).then(function (place) {
+          var tag = new NstVmSelectTag({
+            id: place.getId(),
+            name: place.getName(),
+            data: place
+          });
+
+          vm.model.recipients.push(tag);
+          deferred.resolve(tag);
+        }).catch(deferred.reject);
+      }
+
+      return deferred.promise;
+    }
+
     NstSvcLoader.finished().then(function () {
     });
 
@@ -665,7 +690,7 @@
     }
 
     function getPost(id) {
-      return NstSvcLoader.inject(NstSvcTry.do(function () { return NstSvcPostFactory.get(id); }));
+      return NstSvcLoader.inject(NstSvcPostFactory.get(id));
     }
 
     /*****************************
@@ -696,5 +721,36 @@
         });
       });
     };
+
+    function onPlaceSelected(place) {
+      // addRecipients(placeId);
+      if (!_.some(vm.model.recipients, { id : place.id })) {
+        vm.model.recipients.push(new NstVmSelectTag({
+          id : place.id,
+          name : place.name,
+          data : new NstTinyPlace(place)
+        }));
+      }
+    }
+    // Listen for when the dnd has been configured.
+    vm.attachfiles = {};
+
+    $scope.$on('$dropletReady', function whenDropletReady() {
+      vm.attachfiles.allowedExtensions([/.+/]);
+      vm.attachfiles.useArray(false);
+
+    });
+    $scope.$on('$dropletFileAdded', function startupload() {
+
+      var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
+      for (var i = 0; i < files.length; i++) {
+        vm.attachments.attach(files[i].file).then(function (request) {});
+        files[i].deleteFile();
+      }
+    });
+
+    $scope.$on('$destroy', function () {
+      NstSvcSidebar.removeOnItemClick();
+    });
   }
 })();

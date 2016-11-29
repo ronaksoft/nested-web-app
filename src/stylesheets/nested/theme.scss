@@ -6,15 +6,6 @@
   z-index: 10;
   height: 100%;
 }
-.body {
-  //border-right: 1px solid $color-calm;
-  //border-left: 1px solid $color-calm;
-  //max-width: 1920px;
-  //min-width: 990px;
-  //height: 100%;
-  width: 100%;
-  z-index: -100;
-}
 .maincontainer {
   display: flex;
   flex-direction: row;
@@ -22,9 +13,11 @@
 }
 .nst-container {
   background-color: $color-bg-nested;
-  transition: $animation-dur;
+  transition-property: width,margin-left;
+  transition-duration: $animation-dur;
   display: inline-flex;
   flex-direction: column;
+  position: relative;
   width: 100%;
   //overflow-y: auto;
   //  overflow-y: initial;
@@ -33,12 +26,7 @@
 }
 
 .nst-container:after {
-  content: "";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-  flex-direction: row;
+
 }
 
 .nst-content {
@@ -50,6 +38,8 @@
   //margin-right: auto;
   //margin-left: auto;
   width: 100%;
+  overflow-y: auto;
+  overflow-y: initial;
 }
 
 .content {
@@ -84,6 +74,7 @@
   .content {
     width: 100%;
     @include center-block();
+    display: flex;
     max-width: 1058px;
     min-height: 100%;
   }
@@ -123,9 +114,40 @@ a {
 hr {
   margin-top: .7em;
   margin-bottom: .7em;
+  width: 100%;
 }
 .first-child {
   margin-top: 20px;
+}
+
+.svg-hover {
+  transition: all .2s;
+  fill: $color-wind;
+  use:first-child{
+    display: flex;
+  }
+  use:last-child{
+    display: none;
+  }
+  //&:hover,
+  &.morphed{
+    fill: $color-sense ;
+    use:first-child{
+      display: none;
+    }
+    use:last-child{
+      display: flex;
+    }
+  }
+  /*&.morphed:hover{
+    fill: $color-wind;
+    use:first-child{
+      display: flex;
+    }
+    use:last-child{
+      display: none;
+    }
+  }*/
 }
 
 /**

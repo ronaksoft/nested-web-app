@@ -25,7 +25,7 @@
 
         switch (tlData.action) {
           case NST_EVENT_ACTION.MEMBER_INVITE:
-            factory.get(tlData.invite_id.$oid).then(function (invitation) {
+            factory.get(tlData.invite_id).then(function (invitation) {
               factory.dispatchEvent(new CustomEvent(
                 NST_INVITATION_FACTORY_EVENT.ADD,
                 { detail: { id: invitation.getId(), invitation: invitation } }
@@ -203,7 +203,7 @@
       if (!data){
         defer.resolve(invitation);
       } else {
-        invitation.setId(data._id.$oid);
+        invitation.setId(data._id);
         invitation.setRole(data.role);
 
         var invitee = NstSvcUserFactory.parseTinyUser();
@@ -266,42 +266,26 @@
       return defer.promise;
     }
 
-    InvitationFactory.prototype.getPlacePendingInvitations = function (placeId) {
+    InvitationFactory.prototype.getPlacePendingInvitations = function (placeId, limit, skip) {
       var factory = this;
 
       if (!this.requests.getPendings[placeId]) {
         var defer = $q.defer();
         var query = new NstFactoryQuery(placeId);
 
-        // TODO: Ask server to merge these 2 request
-        $q.all([
           NstSvcServer.request('place/get_pending_invitations', {
             place_id: placeId,
-            member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER
-          }),
-          NstSvcServer.request('place/get_pending_invitations', {
-            place_id: placeId,
-            member_type : NST_PLACE_MEMBER_TYPE.KNOWN_GUEST
-          })
-        ]).then(function (result) {
-
-          var keyHolders = _.map(result[0].invitations, function (invitation) {
+            member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER,
+            limit : limit,
+            skip : skip
+          }).then(function (result) {
+          var keyHolders = _.map(result.invitations, function (invitation) {
             return factory.parseInvitation(invitation);
           });
 
-          var knownGuests = _.map(result[1].invitations, function (invitation) {
-            return factory.parseInvitation(invitation);
-          });
-
-          var data = {};
           $q.all(keyHolders).then(function (keyholderInvitations) {
-            data.pendingKeyHolders = keyholderInvitations;
 
-            return $q.all(knownGuests);
-          }).then(function (knownGuestInvitations) {
-            data.pendingKnownGuests = knownGuestInvitations;
-
-            defer.resolve(data);
+            defer.resolve(keyholderInvitations);
           }).catch(defer.reject);
 
 

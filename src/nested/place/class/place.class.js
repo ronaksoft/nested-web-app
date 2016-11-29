@@ -6,7 +6,7 @@
     .factory('NstPlace', NstPlace);
 
   /** @ngInject */
-  function NstPlace(NST_OBJECT_EVENT, NstTinyPlace, NstPlacePrivacy) {
+  function NstPlace(NST_OBJECT_EVENT, NstTinyPlace, NstPlacePrivacy, NstPlacePolicy) {
     /**
      * Creates an instance of NstPlace. Do not use this directly, use NstSvcPlaceFactory.get(data) instead
      *
@@ -22,12 +22,20 @@
        */
       this.description = undefined;
 
+
       /**
        * Place's privacy
        *
        * @type {NstPlacePrivacy}
        */
       this.privacy = new NstPlacePrivacy();
+
+      /**
+       * Place's policy
+       *
+       * @type {NstPlacePolicy}
+       */
+      this.policy = new NstPlacePolicy();
 
       /**
        * Place's users
@@ -37,6 +45,22 @@
       this.users = {
         length: 0
       };
+
+      /**
+       * Place's parent
+       *
+       * @type {undefined|NstPlace}
+       */
+      this.parent = undefined;
+
+      /**
+       * Place's grand place
+       *
+       * @type {undefined|NstPlace}
+       */
+      this.grandParent = undefined;
+
+      this.counters = {};
 
       NstTinyPlace.call(this, data);
 
@@ -89,6 +113,21 @@
 
       return this;
     };
+
+    Place.prototype.setPolicy = function (data) {
+      for (var k in data) {
+        this.policy.set(k, data[k]);
+      }
+      return this;
+    };
+
+    Place.prototype.getTeammatesCount = function () {
+      if (!this.counters) {
+        return 0;
+      }
+
+      return this.counters.key_holders + this.counters.creators;
+    }
 
     return Place;
   }

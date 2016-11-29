@@ -6,306 +6,192 @@
     .controller('AttachmentViewController', AttachmentViewController);
 
   function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
-                                    hotkeys,
-									NST_FILE_TYPE,
-                                    NstSvcLoader, NstSvcTry, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap,
+                                    hotkeys, toastr,
+                                    NST_FILE_TYPE, NST_STORE_ROUTE,
+                                    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore,
                                     NstHttp,
-                                    postId, vmAttachment, vmAttachments) {
+                                    fileId, fileViewerItem, fileIds, fileViewerItems) {
     var vm = this;
 
-    hotkeys.add({
-      combo: 'right',
-      description: 'compose state',
-      callback: function() {
-        vm.goNext();
-      }
-    });
-    hotkeys.add({
-      combo: 'left',
-      description: 'compose state',
-      callback: function() {
-        vm.goPrevious();
-      }
-    });
-
-    /*****************************
-     *** Controller Properties ***
-     *****************************/
-
-    vm.status = {
-      postLoadProgress: false,
-      tokenLoadProgress: false,
-      attachmentLoadProgress: false
-    };
-
-    vm.post = undefined;
-    vm.postModel = undefined;
-
     vm.attachments = {
-      collection: vmAttachments,
-      current: vmAttachment,
+      collection: [],
+      current: null,
       tokenUpdater: undefined,
       downloader: {
         http: undefined,
         request: undefined
       }
     };
+    vm.status = {
+      postLoadProgress: false,
+      tokenLoadProgress: false,
+      attachmentLoadProgress: false
+    };
 
-    /*****************************
-     ***** Controller Methods ****
-     *****************************/
+    vm.goNext = goNext;
+    vm.goPrevious = goPrevious;
+    vm.goTo = goTo;
 
-    vm.goNext = function () {
+    (function () {
+
+      var selectedItemId = fileViewerItem ? fileViewerItem.id : fileId;
+      if (_.isArray(fileViewerItems) && fileViewerItems.length > 0) {
+
+        if (!_.some(fileViewerItems, { id : selectedItemId })) {
+
+          loadFile(selectedItemId).then(function (file) {
+
+            vm.attachments.collection = _.concat(mapToFileViewerItem(file), fileViewerItems);
+            vm.attachments.current = vm.attachments.collection[0];
+
+            goTo(vm.attachments.current);
+          });
+
+        } else {
+
+          vm.attachments.collection = fileViewerItems;
+          vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId }) || fileViewerItem;
+
+          goTo(vm.attachments.current);
+        }
+
+      } else if (_.isArray(fileIds) && fileIds.length > 0) {
+
+        if (!_.some(fileIds, fileId)) {
+          fileIds.unshift(fileId);
+        }
+
+        loadAllFiles(fileIds).then(function (files) {
+          vm.attachments.collection = mapToFileViewerItems(files);
+          vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId }) || fileViewerItem;
+
+          goTo(vm.attachments.current);
+        });
+      }
+    })();
+
+    hotkeys.add({
+      combo: 'right',
+      description: 'compose state',
+      callback: function() {
+        goNext();
+      }
+    });
+    hotkeys.add({
+      combo: 'left',
+      description: 'compose state',
+      callback: function() {
+        goPrevious();
+      }
+    });
+
+    function goNext() {
       var currentKey = Number(_.findKey(vm.attachments.collection, { id: vm.attachments.current.id }));
       var nextKey = (currentKey + 1) % vm.attachments.collection.length;
 
-      return vm.goTo(vm.attachments.collection[nextKey]);
+      goTo(vm.attachments.collection[nextKey]).then(function (item) {
+        vm.attachments.current = item;
+      }).catch(function (error) {
+        toastr.error('Sorry, an error happened while retrieving the next file.');
+      });
     };
 
-    vm.goPrevious = function () {
-      var currentKey = Number(_.findKey(vm.attachments.collection, { id: vm.attachments.current.id }));
-      var nextKey = (vm.attachments.collection.length + currentKey - 1) % vm.attachments.collection.length;
-
-      return vm.goTo(vm.attachments.collection[nextKey]);
-    };
-
-    vm.goTo = function (vmAttachment) {
-      var deferred = $q.defer();
-      vmAttachment = _.find(vm.attachments.collection, { id: vmAttachment.id });
-
-      if (!vmAttachment) {
-        deferred.reject();
-      }
-
-      if (vmAttachment.id == vm.attachments.current.id) {
-        deferred.resolve(vm.attachments.current);
-      }
-
-      vm.attachments.current = vmAttachment;
-      // Written in $timeout Just to update view
+    function goPrevious() {
+      var currentId = vm.attachments.current.id;
+      vm.attachments.current = { downloadUrl : '' };
       $timeout(function () {
-        if (vm.attachments.current.hasThumbnail) {
-          if (!vm.attachments.current.isDownloaded) {
-            vm.attachments.current.url = vm.attachments.current.thumbnail;
-          }
-        }
+        var currentKey = Number(_.findKey(vm.attachments.collection, { id: currentId }));
+        var nextKey = (vm.attachments.collection.length + currentKey - 1) % vm.attachments.collection.length;
+
+        goTo(vm.attachments.collection[nextKey]).then(function (item) {
+          vm.attachments.current = item;
+        }).catch(function (error) {
+          toastr.error('Sorry, an error happened while retrieving the previous file.');
+        });
       });
+    };
 
-      var promises = [
-        loadToken(vm.attachments.current)
-      ];
+    function goTo(file) {
+      var deferred = $q.defer();
 
-      if (!vm.postModel) {
-        promises.push(loadPost());
+      var item = _.find(vm.attachments.collection, { id : file.id });
+
+      if (!item) {
+        deferred.resolve(vm.attachments.current);
+      } else {
+
+        vm.attachments.current = item;
+        // if (NST_FILE_TYPE.IMAGE == vm.attachments.current.type) {
+        //   EXIF.getData({ src: base64data }, function () {
+        //     if (this.exifdata || this.iptcdata) {
+        //       vm.attachments.current.meta.exif = this.exifdata || {};
+        //       vm.attachments.current.meta.iptc = this.iptcdata || {};
+        //
+        //       var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
+        //       vm.attachments.collection[key] = vm.attachments.current;
+        //     }
+        //   });
+        // }
+
+        getToken(file.id).then(function (token) {
+          $timeout(function () {
+            vm.attachments.current.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, file.id, token);
+            vm.attachments.current.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, file.id, token);
+          });
+          deferred.resolve(item);
+        }).catch(deferred.reject);
       }
-
-      $q.all(promises).then(function (resolvedSet) {
-        var token = resolvedSet[0];
-        updateToken(token).then(function () {
-          registerToken(token);
-          deferred.resolve(vm.attachments.current);
-        }).catch(deferred.reject());
-      });
 
       return deferred.promise;
     };
 
-    /*****************************
-     *****  Controller Logic  ****
-     *****************************/
-
-    vm.goTo(vm.attachments.current);
-
-    $uibModalInstance.result.catch(function () {
-      return $q(function (res) {
-        res(false);
-      });
-    }).then(function () {
-      unregisterTokenUpdater();
-    });
-
-    /*****************************
-     *****   Request Methods  ****
-     *****************************/
-
-    function reqGetPost(id) {
-      vm.status.postLoadProgress = true;
-
-      return NstSvcLoader.inject(NstSvcPostFactory.get(id)).then(function (post) {
-        vm.status.postLoadProgress = false;
-
-        return $q(function (res) {
-          res(post);
-        });
-      }).catch(function (error) {
-        vm.status.postLoadProgress = false;
-
-        return $q(function (res, rej) {
-          rej(error);
-        });
-      });
-    }
-
-    function reqDownloadToken(id, postId) {
+    function getToken(id) {
+      var deferred = $q.defer();
       vm.status.tokenLoadProgress = true;
 
-      return NstSvcLoader.inject(NstSvcAttachmentFactory.getDownloadToken(postId, id)).then(function (token) {
+      NstSvcFileFactory.getDownloadToken(id).then(deferred.resolve).catch(deferred.reject).finally(function () {
         vm.status.tokenLoadProgress = false;
-
-        return $q(function (res) {
-          res(token);
-        });
-      }).catch(function (error) {
-        vm.status.tokenLoadProgress = false;
-
-        return $q(function (res, rej) {
-          rej(error);
-        });
       });
-    }
-
-    /*****************************
-     *****     Map Methods    ****
-     *****************************/
-
-    function mapPost(postModel) {
-      return NstSvcPostMap.toMessage(postModel);
-    }
-
-    function mapAttachment(attachmentModel) {
-      return NstSvcAttachmentMap.toAttachmentItem(attachmentModel);
-    }
-
-    /*****************************
-     *****    Push Methods    ****
-     *****************************/
-
-    /*****************************
-     *****  Event Listeners   ****
-     *****************************/
-
-    /*****************************
-     *****   Other Methods    ****
-     *****************************/
-
-    function unregisterTokenUpdater() {
-      if (vm.attachments.tokenUpdater) {
-        $timeout.cancel(vm.attachments.tokenUpdater);
-        vm.attachments.tokenUpdater = undefined;
-      }
-    }
-
-    function registerToken(token) {
-      unregisterTokenUpdater();
-
-      vm.attachments.tokenUpdater = $timeout(function () {
-        updateToken().then(function (attachment) {
-          registerToken(attachment.getResource().getToken());
-        });
-      }, token.getExpiration().valueOf() - Date.now());
-    }
-
-    function updateToken(token) {
-      var qToken = $q.defer();
-      var deferred = $q.defer();
-
-      if (token) {
-        qToken.resolve(token);
-      } else {
-        loadToken(vm.attachments.current).then(qToken.resolve);
-      }
-
-      NstSvcLoader.inject(qToken.promise.then(function (token) {
-        var deferred = $q.defer();
-        var attachment = _.find(vm.postModel.attachments, { id: vm.attachments.current.id });
-
-        if (!attachment) {
-          deferred.reject();
-        } else {
-          if (vm.attachments.downloader.request && vm.attachments.downloader.http) {
-            vm.attachments.downloader.http.cancelDownload(vm.attachments.downloader.request);
-          }
-
-          attachment.getResource().setToken(token);
-          $timeout(function () {
-            vm.attachments.current.urls.view = attachment.getResource().getUrl().view;
-            vm.attachments.current.urls.download = attachment.getResource().getUrl().download;
-            vm.attachments.current.urls.stream = attachment.getResource().getUrl().stream;
-          });
-          deferred.resolve(attachment);
-        }
-
-        return deferred.promise;
-      }).then(function (attachment) {
-        var deferred = $q.defer();
-
-        vm.attachments.downloader.http = new NstHttp(attachment.getResource().getUrl().view + '/' + attachment.getFilename());
-        vm.attachments.downloader.request = vm.attachments.downloader.http.downloadWithProgress(function (event) {
-          if (event.lengthComputable) {
-            vm.attachments.current.downloadedSize = event.loaded;
-            vm.attachments.current.downloadedRatio = Number(event.loaded / event.total).toFixed(4);
-          }
-        });
-
-        vm.attachments.downloader.request.finished().then(function () {
-          vm.attachments.downloader.request = undefined;
-          vm.attachments.downloader.http = undefined;
-        });
-
-        vm.attachments.downloader.request.getPromise().then(function (response) {
-          var reader = new FileReader();
-          var blob = new Blob([response.getData()], { type: attachment.getMimeType() });
-          reader.onloadend = function(event) {
-            var base64data = event.target.result;
-
-            // Written in $timeout Just to update view
-            $timeout(function () {
-              // vm.attachments.current = mapAttachment(attachment);
-              vm.attachments.current.downloadedSize = attachment.getSize();
-              vm.attachments.current.downloadedRatio = 1;
-              vm.attachments.current.isDownloaded = true;
-              vm.attachments.current.url = base64data;
-
-              if (NST_FILE_TYPE.IMAGE == vm.attachments.current.type) {
-                EXIF.getData({ src: base64data }, function () {
-                  if (this.exifdata || this.iptcdata) {
-                    vm.attachments.current.meta.exif = this.exifdata || {};
-                    vm.attachments.current.meta.iptc = this.iptcdata || {};
-
-                    var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
-                    vm.attachments.collection[key] = vm.attachments.current;
-                  }
-                });
-              }
-
-              var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
-              vm.attachments.collection[key] = vm.attachments.current;
-            });
-          };
-          reader.readAsDataURL(blob);
-
-          deferred.resolve(attachment);
-        }).catch(deferred.reject);
-
-        return deferred.promise;
-      }).then(deferred.resolve).catch(function (error) {
-        $log.debug('Attachment View | Download Error: ', error);
-
-        deferred.reject(error);
-      }));
 
       return deferred.promise;
     }
 
-    function loadToken(vmAttachment) {
-      return reqDownloadToken(vmAttachment.id, postId);
+    function mapToFileViewerItem(file) {
+      return new NstVmFileViewerItem(file);
     }
 
-    function loadPost() {
-      return reqGetPost(postId).then(function (post) {
-        vm.postModel = post;
-        vm.post = mapPost(vm.postModel);
+    function mapToFileViewerItems(files) {
+      return _.map(files, mapToFileViewerItem);
+    }
+
+    function loadAllFiles(ids) {
+      var deferred = $q.defer();
+
+      vm.filesLoadProgress = true;
+      NstSvcFileFactory.get(ids).then(function (files) {
+        deferred.resolve(files);
+      }).catch(function (error) {
+        toastr.error('Sorry, an error happened while preparing to view the files.');
+      }).finally(function () {
+        vm.filesLoadProgress = false;
       });
+
+      return deferred.promise;
+    }
+
+    function loadFile(id) {
+      var deferred = $q.defer();
+
+      vm.fileLoadProgress = true;
+      NstSvcFileFactory.get([id]).then(function (files) {
+        deferred.resolve(files[0]);
+      }).catch(function (error) {
+        toastr.error('Sorry, an error happened while preparing to view the files.');
+      }).finally(function () {
+        vm.fileLoadProgress = false;
+      });
+
+      return deferred.promise;
     }
   }
 })();

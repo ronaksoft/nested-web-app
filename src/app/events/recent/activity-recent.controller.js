@@ -7,13 +7,18 @@
 
   /** @ngInject */
   function RecentActivityController($q, $scope,
-                                    NstSvcLoader, NstSvcActivityFactory, NstSvcActivityMap,
-                                    NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstFactoryError, NST_SRV_ERROR) {
+    NstSvcLoader, NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger,
+    NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstFactoryError, NST_SRV_ERROR, NST_SRV_EVENT) {
     var vm = this;
     vm.activities = [];
     vm.status = {
       loadInProgress: true
     };
+    vm.settings = {
+      limit: vm.count || 10,
+      placeId: null
+    };
+
 
     NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
       if (activityBelongsToPlace(e.detail)){
@@ -21,25 +26,26 @@
       }
     });
 
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
+      NstSvcLoader.inject(getRecentActivity(vm.settings));
+    });
+
+
     (function () {
 
-      var settings = {
-        limit: vm.count || 10,
-        placeId: null
-      };
-
       if (vm.placeId || vm.place) {
-        settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
+        vm.settings.placeId = vm.placeId || (vm.place ? vm.place.id : null);
       }
 
-      if (settings.placeId) {
-        return NstSvcLoader.inject(NstSvcPlaceFactory.hasAccess(settings.placeId, NST_PLACE_ACCESS.READ)).then(function (has) {
+      if (vm.settings.placeId) {
+        return NstSvcLoader.inject(NstSvcPlaceFactory.hasAccess(vm.settings.placeId, NST_PLACE_ACCESS.READ)).then(function (has) {
           if (has) {
-            return NstSvcLoader.inject(getRecentActivity(settings));
+            return NstSvcLoader.inject(getRecentActivity(vm.settings));
           }
         });
       } else {
-        return NstSvcLoader.inject(getRecentActivity(settings));
+        return NstSvcLoader.inject(getRecentActivity(vm.settings));
       }
 
     })();

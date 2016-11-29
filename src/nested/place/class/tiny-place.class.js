@@ -40,19 +40,15 @@
        *****      Ancestors     ****
        *****************************/
 
-      /**
-       * Place's parent
-       *
-       * @type {undefined|NstPlace}
-       */
-      this.parent = undefined;
+       this.unreadPosts = undefined;
 
-      /**
-       * Place's grand place
-       *
-       * @type {undefined|NstPlace}
-       */
-      this.grandParent = undefined;
+       this.totalPosts = undefined;
+
+       this.teammatesCount = undefined;
+
+       this.parentId = undefined;
+
+       this.grandParentId = undefined;
 
       /*****************************
        *****      Descendant    ****
@@ -104,6 +100,18 @@
       });
       this.dispatchEvent(event);
     };
+
+    TinyPlace.prototype.isGrandPlace = function () {
+      return !this.parentId;
+    }
+
+    TinyPlace.prototype.hasParent = function () {
+      return !!this.parentId;
+    }
+
+    TinyPlace.prototype.hasGrandParent = function () {
+      return this.grandParentId && this.grandParentId !== this.id;
+    }
 
     return TinyPlace;
   }

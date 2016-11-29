@@ -6,6 +6,9 @@
   <meta name="description" content="">
   <meta name="viewport"
         content="width=device-width,maximum-scale=1.2,initial-scale=1.0,minimum-scale=1.0,user-scalable=yes,shrink-to-fit=no">
+
+  <!-- Js Error On IE : Objects that don't supp dispatch e -->
+  <!--<meta http-equiv="X-UA-Compatible" content="IE=11" />-->
   <base href="/">
   <meta name="apple-itunes-app" content="app-id=1121544622">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -91,10 +94,8 @@
     }
   </style>
 </head>
-<body dir="ltr"  ng-controller="AppController as ctlApp">
-  <scroll-change-observer />
-<div class="body">
-
+<body dir="ltr">
+<nst-unseen-activity></nst-unseen-activity>
   <!--Initial loading part-->
   <div nst-show-effect data-show="{{ctlApp.showLoadingScreen}}" jq-options="{type:'fade', duration:400, delay:500}"
        data-show="ctlApp.showLoadingScreen"
@@ -132,21 +133,14 @@
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
   <![endif]-->
-  <div ng-if="ctlApp.loginView" ui-view class="nst-mood-sense-5 _fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen}"></div>
-  <div ng-if="!ctlApp.loginView" class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': topNavOpen,'show-mob-app': !userAppNoticed}">
-    <div
-      class="maincontainer _fw"
-      ng-class="{'navtiny' : navView,'sidetiny' : ctlApp.viewSettings.sidebar.collapsed}">
-      <nst-sidebar
-        collapsed="ctlApp.viewSettings.sidebar.collapsed"
-        class="_fn _fh ng-animate-disabled">
-      </nst-sidebar>
-      <div class="nst-container" ui-view></div>
-    </div>
-  </div>
 
-  <disconnect-message data-disconnect="ctlApp.disconected" ></disconnect-message>
-  <!-- build:js(src) scripts/vendor.js -->
+  <!--if js disabled on browser-->
+  <noscript>Sorry! Your browser does not support JavaScript, or it has been disabled!</noscript>
+
+    <div ui-view id="view"></div>
+
+    <disconnect-message data-disconnect="ctlApp.disconnected" ></disconnect-message>
+    <!-- build:js(src) scripts/vendor.js -->
   <!-- bower:js -->
   <!-- run `gulp inject` to automatically populate bower script dependencies -->
   <!-- endbower -->
@@ -161,6 +155,17 @@
   <!-- angular templates will be automatically converted in js and inserted here -->
   <!-- endinject -->
   <!-- endbuild -->
-</div>
+  <script>
+    var nested = {
+      version : '__version__',
+      build : {
+        c : '__git_commits__',
+        h : '__git_hash__',
+        t : '__git_time__'
+      },
+      Url : 'https://webapp.nested.me'
+    };
+
+  </script>
 </body>
 </html>

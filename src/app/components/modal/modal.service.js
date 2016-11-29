@@ -6,7 +6,7 @@
     .service('NstSvcModal', NstSvcModal);
 
   /** @ngInject */
-  function NstSvcModal($uibModal) {
+  function NstSvcModal($uibModal, $q) {
     function Modal() {
     }
 
@@ -32,6 +32,33 @@
 
       return modal.result;
     };
+
+    Modal.prototype.confirm = function (title, message, buttons) {
+      var deferred = $q.defer();
+
+      var modal = $uibModal.open({
+        animation : false,
+        templateUrl : 'app/components/modal/modal-confirm.html',
+        controller : 'ModalConfirmController',
+        controllerAs : 'ctlConfirm',
+        size : 'sm',
+        resolve : {
+          title : function () {
+            return title || 'Error';
+          },
+          message : function () {
+            return message;
+          },
+          buttons : function () {
+            return buttons || {};
+          }
+        }
+      });
+
+      modal.result.then(deferred.resolve).catch(deferred.reject);
+
+      return deferred.promise;
+    }
 
     return new Modal();
   }

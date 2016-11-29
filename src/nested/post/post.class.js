@@ -66,6 +66,8 @@
       // TODO: add this in all parse functions
       this.wipeAccess = false;
 
+      this.isRead = null;
+
       NstTinyPost.call(this, model);
 
       if (model && model.id) {
@@ -155,7 +157,9 @@
       });
     };
 
-
+    Post.prototype.addToCommentsCount = function (count) {
+      this.counters.comments += count || 0;
+    }
 
     return Post;
   }

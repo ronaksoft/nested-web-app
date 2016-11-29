@@ -7,12 +7,12 @@
 
   /** @ngInject */
   function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state, $timeout,
-                              toastr, _, moment,
-                              NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
-                              NstSvcActivityMap,
-                              NstSvcActivitySettingStorage,
-                              NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory,
-                              NstActivity, NstPlace, NstInvitation) {
+    toastr, _, moment,
+    NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
+    NstSvcActivityMap,
+    NstSvcActivitySettingStorage,
+    NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer, NstUtility,
+    NstActivity, NstPlace, NstInvitation) {
 
     var vm = this;
 
@@ -127,12 +127,12 @@
 
     function applyFilter(filter) {
       if (vm.activitySettings.placeId) {
-        $state.go('place-activity-filtered', {
+        $state.go('app.place-activity-filtered', {
           placeId: vm.activitySettings.placeId,
           filter: filter
         }, { notify : false });
       } else {
-        $state.go('activity-filtered', {
+        $state.go('app.activity-filtered', {
           filter: filter
         }, { notify : false });
       }
@@ -151,6 +151,26 @@
       });
     }
 
+    function loadAfter(date) {
+      vm.loading = true;
+      vm.tryAgainToLoadMore = false;
+
+      NstSvcActivityFactory.getAfter({
+        placeId : vm.activitySettings.placeId,
+        date : date,
+        limit : vm.activitySettings.limit
+      }).then(function(activities) {
+        putInActivities(activities);
+        vm.loading = false;
+        vm.tryAgainToLoadMore = false;
+
+      }).catch(function(error) {
+        vm.loading = false;
+        vm.tryAgainToLoadMore = true;
+        $log.debug(error);
+      });
+    }
+
     /**********************
      ** Helper Functions **
      **********************/
@@ -164,6 +184,7 @@
           if (place && place.id) {
             vm.currentPlace = place;
             vm.currentPlaceLoaded = true;
+            vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
           } else {
             vm.currentPlace = null;
           }
@@ -185,7 +206,6 @@
 
       vm.loading = true;
       vm.tryAgainToLoadMore = false;
-
       NstSvcActivityFactory.get(vm.activitySettings).then(function(activities) {
         if (activities.length === 0 && !vm.activities.length === 0) {
           vm.reachedTheEnd = false;
@@ -195,7 +215,7 @@
         } else {
           vm.reachedTheEnd = false;
           setLastActivityDate(activities);
-          mergeWithOtherActivities(activities);
+          mergeWithActivities(activities);
         }
         vm.loading = false;
         vm.tryAgainToLoadMore = false;
@@ -208,7 +228,7 @@
 
     }
 
-    function mergeWithOtherActivities(activities) {
+    function mergeWithActivities(activities) {
       var activityGroups = mapActivities(activities);
       _.forEach(activityGroups, function (targetGroup) {
         var sourceGroup = _.find(vm.activities, { date : targetGroup.date });
@@ -220,15 +240,27 @@
       });
     }
 
+    function putInActivities(activities) {
+      var activityGroups = mapActivities(activities);
+      _.forEachRight(activityGroups, function (targetGroup) {
+        var sourceGroup = _.find(vm.activities, { date : targetGroup.date });
+        if (sourceGroup) { // merge
+          _.forEach(targetGroup.items, function (item) {
+            if (!_.some(sourceGroup.items, { id : item.id })) {
+              sourceGroup.items.unshift(item);
+            }
+          });
+        } else { // add
+          vm.activities.unshift(targetGroup);
+        }
+      });
+    }
+
     function setLastActivityDate(activities) {
       var last = _.last(activities);
-      if (!last) {
-        vm.activitySettings.date = moment().valueOf();
-      } else if (moment.isMoment(last.date)) {
-        vm.activitySettings.date = last.date.valueOf();
-      } else {
-        vm.activitySettings.date = last.date.getTime();
-      }
+      var lastDate = !!last ? last.date : moment();
+
+      vm.activitySettings.date = NstUtility.date.toUnix(lastDate);
     }
 
     function loadInvitations() {
@@ -253,17 +285,17 @@
     function generateUrls() {
       if (vm.activitySettings.placeId) {
         vm.urls.filters = {
-          all: $state.href('place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.ALL }),
-          messages: $state.href('place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.MESSAGES }),
-          comments: $state.href('place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.COMMENTS }),
-          logs: $state.href('place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.LOGS })
+          all: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.ALL }),
+          messages: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.MESSAGES }),
+          comments: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.COMMENTS }),
+          logs: $state.href('app.place-activity-filtered', {placeId: vm.activitySettings.placeId, filter: NST_ACTIVITY_FILTER.LOGS })
         };
       } else {
         vm.urls.filters = {
-          all: $state.href('activity-filtered', {filter: NST_ACTIVITY_FILTER.ALL }),
-          messages: $state.href('activity-filtered', {filter: NST_ACTIVITY_FILTER.MESSAGES }),
-          comments: $state.href('activity-filtered', {filter: NST_ACTIVITY_FILTER.COMMENTS }),
-          logs: $state.href('activity-filtered', {filter: NST_ACTIVITY_FILTER.LOGS })
+          all: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.ALL }),
+          messages: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.MESSAGES }),
+          comments: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.COMMENTS }),
+          logs: $state.href('app.activity-filtered', {filter: NST_ACTIVITY_FILTER.LOGS })
         };
       }
     }
@@ -275,6 +307,23 @@
         addNewActivity(activityItem);
       }
     });
+
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      loadAfter(getRecentActivityTime());
+    });
+
+    function getRecentActivityTime() {
+      var date = moment().subtract(10, 'minute');
+
+      if (vm.activities.length > 0) {
+        var latestActivity = _.head(vm.activities[0].items);
+        if (latestActivity) {
+          date = latestActivity.date;
+        }
+      }
+
+      return NstUtility.date.toUnix(date);
+    }
 
     function activityBelongsToPlace(activity) {
       if (!vm.activitySettings.placeId) {
@@ -301,7 +350,9 @@
         vm.activities.unshift(today);
       }
 
-      today.items.unshift(activity);
+      if (!_.some(today.items, { id : activity.id })) {
+        today.items.unshift(activity);
+      }
     }
 
   }

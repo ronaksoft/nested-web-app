@@ -9,27 +9,42 @@
     return {
       restrict: 'A',
       scope: {
-        orientation: '@'
+        orientation: '@',
+        source : "@",
+        attachment : "="
       },
       link: function (scope ,element) {
-        scope.$watch('orientation', function () {
-          if (scope.orientation > 0){
-            $timeout(function () {
-              update(scope,element);
+        scope.$watch('source', function (newValue, oldValue) {
+          if (newValue) {
+            var jelement = $(element);
+            jelement.load(function () {
+              EXIF.getData(jelement[0], function() {
+                console.log(EXIF.pretty(this));
+                // console.log(this);
+                // if (this.exifdata || this.iptcdata) {
+                //   scope.attachment.meta.exif = this.exifdata || {};
+                //   scope.attachment.meta.iptc = this.iptcdata || {};
+                // }
+                // $timeout(function () {
+                //   update(scope,element);
+                // });
+              });
             });
           }
-          $timeout(function () {
-            element.animate({
-              'opacity': 1
-            }, 700);
-          },11);
+
+          // $timeout(function () {
+          //   element.animate({
+          //     'opacity': 1
+          //   }, 700);
+          // },11);
+
         });
       }
     };
 
     function update(scope,element) {
       element.removeAttr("style");
-      var ori = scope.orientation;
+      var ori = scope.attachment.meta.exif.Orientation;
       var eleH = element[0].parentElement.scrollHeight;
       var eleW = element[0].parentElement.scrollWidth;
       switch (ori){

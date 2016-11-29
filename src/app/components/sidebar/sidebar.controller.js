@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,23 +6,25 @@
     .controller('SidebarController', SidebarController);
 
   /** @ngInject */
-  function SidebarController($q,$scope, $state, $stateParams, $uibModal, $log,
+  function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT,
-                             NstSvcLoader, NstSvcTry, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
+                             NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger,
+                             NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
-    $log.debug(vm.stat);
 
     /*****************************
      *** Controller Properties ***
      *****************************/
 
-
     vm.stateParams = $stateParams;
     vm.invitation = {};
     vm.places = [];
-
+    vm.onPlaceClick = onPlaceClick;
+    vm.togglePlace = togglePlace;
+    vm.isOpen = false;
+    vm.openCreatePlaceModal = openCreatePlaceModal;
 
     /*****************************
      ***** Controller Methods ****
@@ -68,7 +70,7 @@
 
           if (result) { // Accept the Invitation
             return vm.invitation.accept(id).then(function (invitation) {
-              var vmPlace = _.find(vm.places, { id: invitation.getPlace().getId() });
+              var vmPlace = _.find(vm.places, {id: invitation.getPlace().getId()});
 
               if (!vmPlace) {
                 vmPlace = mapPlace(invitation.getPlace());
@@ -76,7 +78,7 @@
                 vm.places.push(vmPlace);
               }
 
-              $state.go(getPlaceFilteredState(), { placeId: vmPlace.id });
+              $state.go(getPlaceFilteredState(), {placeId: vmPlace.id});
             });
           } else { // Decline the Invitation
             return vm.invitation.decline(id);
@@ -84,6 +86,23 @@
         });
       });
     };
+
+    function onPlaceClick(event, place) {
+      if (NstSvcSidebar.onItemClick) {
+        event.preventDefault();
+        NstSvcSidebar.onItemClick({
+          id: place.id,
+          name: place.name
+        });
+      } else {
+        vm.selectedGrandPlace = place;
+      }
+    }
+
+    function openCreatePlaceModal($event) {
+      $event.preventDefault();
+      $state.go('app.place-create', {}, {notify: false});
+    }
 
     /*****************************
      *****  Controller Logic  ****
@@ -97,49 +116,97 @@
 
     $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
       vm.user = mapUser(resolvedSet[0]);
+
       vm.places = mapPlaces(resolvedSet[1]);
+      fillPlacesNotifCountObject(vm.places);
+
       vm.invitations = mapInvitations(resolvedSet[2]);
-      fixPlaceUrl();
+
+      if (NstSvcAuth.user.unreadMentionsCount) {
+        vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
+      } else {
+        getMentionsCount();
+      }
+
+      if ($stateParams.placeId) {
+        vm.selectedGrandPlace = _.find(vm.places, function (place) {
+          return place.id === $stateParams.placeId.split('.')[0];
+        });
+      }
+
+      fixUrls();
     });
 
+    $rootScope.$on('$stateChangeSuccess', function () {
+      if ($stateParams.placeId) {
+        if (vm.selectedGrandPlace && $stateParams.placeId.split('.')[0] !== vm.selectedGrandPlace.id) {
+          vm.selectedGrandPlace = _.find(vm.places, function (place) {
+            return place.id === $stateParams.placeId.split('.')[0];
+          });
+        } else {
+          vm.selectedGrandPlace = _.find(vm.places, function (place) {
+            return place.id === $stateParams.placeId.split('.')[0];
+          });
+        }
+      } else {
+        if (vm.selectedGrandPlace) {
+          vm.selectedGrandPlace = null;
+        }
+      }
+    });
+
+    function togglePlace(status) {
+      vm.showPlaces = status;
+    };
 
     /*****************************
      *****    Change urls   ****
      *****************************/
 
-    $scope.$watch(function () {
-      return $state.current.name;
-    },function () {
-      fixPlaceUrl();
-    });
-
-
     $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      fixPlaceUrl();
+      if (toState.options && toState.options.primary) {
+        fixUrls();
+      }
     });
 
 
-    function fixPlaceUrl() {
+    function fixUrls() {
 
       vm.urls = {
         unfiltered: $state.href(getUnfilteredState()),
-        compose: $state.href(getComposeState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM }),
+        compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
         bookmarks: $state.href(getBookmarksState()),
         sent: $state.href(getSentState()),
-        placeAdd: $state.href(getPlaceAddState(), { placeId: NST_DEFAULT.STATE_PARAM }),
-        subplaceAdd: $state.href(getPlaceAddState(), { placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM })
+        subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
       };
+
       mapPlacesUrl(vm.places);
     };
 
     function mapPlacesUrl(places) {
-      var currentPlace = $state.current;
+
       places.map(function (place) {
 
         if ($state.current.params && $state.current.params.placeId) {
-          place.href = $state.href(currentPlace.name, Object.assign({}, $stateParams, {placeId: place.id}));
-        }else{
-          place.href = place.url;
+          place.href = $state.href($state.current.name, Object.assign({}, $stateParams, {placeId: place.id}));
+        } else {
+          switch ($state.current.options.group) {
+            case 'file':
+              place.href = $state.href('app.place-files', {placeId: place.id});
+              break;
+            case 'activity':
+              place.href = $state.href('app.place-activity', {placeId: place.id});
+              break;
+            case 'settings':
+              place.href = $state.href('app.place-settings', {placeId: place.id});
+              break;
+            case 'compose':
+              place.href = $state.href('app.place-compose', {placeId: place.id});
+              break;
+            default:
+              place.href = $state.href('app.place-messages', {placeId: place.id});
+              break;
+          }
         }
 
         if (place.children) mapPlacesUrl(place.children);
@@ -155,15 +222,10 @@
     // TODO: Move these to Common Service
 
     function getUnfilteredState() {
-      var state = 'messages';
-      switch ($state.current.name) {
+      var state = 'app.messages';
+      switch ($state.current.options.group) {
         case 'activity':
-        case 'activity-bookmarks':
-        case 'activity-bookmarks-filtered':
-        case 'activity-filtered':
-        case 'place-activity':
-        case 'place-activity-filtered':
-          state = 'activity';
+          state = 'app.activity';
           break;
       }
 
@@ -171,43 +233,38 @@
     }
 
     function getPlaceFilteredState() {
-      var state = 'place-messages';
+      var state = 'app.place-messages';
 
-      if ($state.current.name.indexOf('activity') > -1) {
-        state = 'place-activity';
-      } else if ($state.current.name.indexOf('compose') > -1) {
-        state = 'place-compose';
-      } else if ($state.current.name.indexOf('settings') > -1) {
-        state = 'place-settings';
-      }
-
-      return state;
-    }
-
-    function getComposeState() {
-      var state = 'compose';
-      switch ($state.current.name) {
-        case 'place-activity':
-        case 'place-activity-sorted':
-        case 'place-messages':
-        case 'place-messages-filtered':
-          state = 'place-compose';
+      switch ($state.current.options.group) {
+        case 'activity':
+          state = 'app.place-activity';
+          break;
+        case 'settings':
+          state = 'app.place-settings';
+          break;
+        case 'compose':
+          state = 'app.place-compose';
           break;
       }
 
       return state;
     }
 
+    function getComposeState() {
+      if ($state.current.params && $state.current.params.placeId) {
+        return 'app.place-compose';
+      }
+
+      return 'app.compose';
+    }
+
     function getBookmarksState() {
-      var state = 'messages-bookmarks';
-      switch ($state.current.name) {
+      var state = 'app.messages-favorites';
+
+      switch ($state.current.options.group) {
         case 'activity':
-        case 'activity-bookmarks':
-        case 'activity-bookmarks-filtered':
-        case 'activity-filtered':
-        case 'place-activity':
-        case 'place-activity-filtered':
-          state = 'activity-bookmarks';
+          //todo: favorite activities ( if someday API created ) should start from here ...
+          state = 'app.messages-favorites';
           break;
       }
 
@@ -215,22 +272,13 @@
     }
 
     function getSentState() {
-      var state = 'messages-sent';
-      switch ($state.current.name) {
-        case 'messages-sorted':
-        case 'messages-sent-sorted':
-        case 'messages-bookmarks-sorted':
-        case 'place-messages-sorted':
-          state = 'messages-sent-sorted';
-          break;
-      }
-
-      return state;
+      return 'app.messages-sent';
     }
 
     function getPlaceAddState() {
-      return 'place-add';
+      return 'app.place-add';
     }
+
 
     /*****************************
      *****    Fetch Methods   ****
@@ -260,6 +308,12 @@
       return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
     }
 
+    function getMentionsCount() {
+      NstSvcLoader.inject(NstSvcMentionFactory.getMentionsCount()).then(function (count) {
+        vm.mentionsCount = count;
+      })
+    }
+
     /*****************************
      *****     Map Methods    ****
      *****************************/
@@ -279,9 +333,16 @@
     function mapPlaces(placeModels, depth) {
       depth = depth || 0;
 
-      return Object.keys(placeModels).filter(function (k) { return 'length' !== k; }).map(function (k, i, arr) {
+      return Object.keys(placeModels).filter(function (k) {
+        return 'length' !== k;
+      }).map(function (k, i, arr) {
         var placeModel = placeModels[k];
         var place = mapPlace(placeModel, depth);
+
+        if (vm.getSideItemLink) {
+          place.href = vm.getSideItemLink(place.id);
+        }
+
         place.isCollapsed = true;
         place.isActive = false;
         if (vm.stateParams.placeIdSplitted) {
@@ -299,6 +360,40 @@
     function mapInvitations(invitationModels) {
       return invitationModels.map(mapInvitation);
     }
+
+    function mapMentions(mentions) {
+      var currentUserId = NstSvcAuth.user.id;
+      return _.map(mentions, function (item) {
+        return new NstVmMention(item, currentUserId);
+      });
+    }
+
+    /*****************************
+     *****   Notifs Counters  ****
+     *****************************/
+    vm.placesNotifCountObject = {};
+
+    function fillPlacesNotifCountObject(places) {
+      _.each(places, function (place) {
+        if (place)
+          vm.placesNotifCountObject[place.id] = place.unreadPosts;
+      });
+    }
+
+    function getGrandPlaceUnreadCounts() {
+      var placeIds = _.keys(vm.placesNotifCountObject);
+      if (placeIds.length > 0)
+        NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds, true)
+          .then(function (places) {
+            var totalUnread = 0;
+            _.each(places, function (value, placeId) {
+              vm.placesNotifCountObject[placeId] = value;
+              totalUnread += value;
+            });
+            $rootScope.$emit('unseen-activity-notify', totalUnread);
+          });
+    }
+
 
     /*****************************
      *****    Push Methods    ****
@@ -328,7 +423,13 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ROOT_ADD, function (event) {
-      NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(event.detail.place));
+      var place = mapPlace(event.detail.place);
+      if (place.id === $stateParams.placeId) {
+        vm.selectedGrandPlace = mapPlace(event.detail.place);
+      }
+      vm.places.push(place);
+      vm.placesNotifCountObject[place.id] = 0;
+
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.SUB_ADD, function (event) {
@@ -337,6 +438,10 @@
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
       NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
+      var place = mapPlace(event.detail.place);
+      if (place.id === $stateParams.placeId) {
+        vm.selectedGrandPlace = mapPlace(event.detail.place);
+      }
     });
 
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
@@ -346,7 +451,7 @@
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
       vm.user.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
 
-      var place = _.find(vm.places, { id : NstSvcAuth.user.id });
+      var place = _.find(vm.places, {id: NstSvcAuth.user.id});
       if (place) {
         place.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
       }
@@ -357,8 +462,39 @@
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-      NstSvcPlaceFactory.removePlaceFromTree(vm.places, event.detail, null);
+      NstSvcPlaceFactory.removePlaceFromTree(vm.places, event.detail);
     });
+
+
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
+      getGrandPlaceUnreadCounts();
+    });
+
+
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
+      getGrandPlaceUnreadCounts();
+    });
+
+    NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.UPDATE, function (event) {
+      vm.mentionsCount = event.detail;
+    });
+
+    NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.NEW_MENTION, function (event) {
+      vm.mentionsCount += 1;
+    });
+
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      NstSvcLogger.debug('Retrieving mentions count right after reconnecting.');
+      getMentionsCount();
+      NstSvcLogger.debug('Retrieving the grand place unreads count right after reconnecting.');
+      getGrandPlaceUnreadCounts();
+      NstSvcLogger.debug('Retrieving invitations right after reconnecting.');
+      getInvitations().then(function (result) {
+        vm.invitations = mapInvitations(result);
+      });
+
+    });
+
 
   }
 })();

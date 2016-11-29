@@ -1,0 +1,418 @@
+.new-comments-count {
+  cursor: pointer;
+  padding: 2px 3px;
+  color: $color-white !important;
+  background: $color-wind !important;
+  font-size: $font-size-xsmall;
+  font-weight: bold;
+  border-radius: 2px;
+  margin: 0 4px;
+  &:hover {
+    background: $color-sense-wire !important;
+    color: $color-white !important;
+  }
+}
+.post-card {
+  //margin-top: 32px;
+  border: 1px solid $color-border;
+  border-radius: 2px;
+  position: relative;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
+  z-index: 20;
+  background-color: $color-white;
+  overflow: visible;
+  transition: all $animation-dur;
+  &:hover {
+    //box-shadow: 0 8px 16px rgba(0,0,0,0.2)
+    .icon svg {
+      fill: black;
+    }
+    .icon svg.fw {
+      fill: $color-forward;
+    }
+    .icon svg.re {
+      fill: $color-reply;
+    }
+    .post-footer .icon {
+
+      svg {
+        opacity: 1;
+      }
+    }
+  }
+  ul{
+    margin-left: 8px;
+  }
+  section {
+    display: inline-flex;
+    width: 100%;
+    padding: 0 12px;
+  }
+  .icon {
+    fill: black;
+  }
+  .post-head {
+    height: 50px;
+    align-items: center;
+    flex: none;
+    padding-left: 0;
+    .icon {
+      fill: black;
+      position: relative;
+      left: 5px;
+      svg {
+        width: 16px;
+        height: 16px;
+        use {
+          transform: scale(.8,.8);
+        }
+      }
+    }
+    .img{
+      width: 42px;
+      justify-content: flex-start;
+      margin-left: 10px;
+      margin-right: 4px;
+    }
+    h4 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 400;
+      @include text-hover()
+    }
+    span{
+      font-size: $font-size-xsmall;
+      @include text-hover()
+    }
+  }
+
+  .post-body{
+    font-size: 13px;
+    color: #808080;
+    //word-spacing: .3em;
+    font-weight: 400;
+    margin: 0;
+    padding-top: 4px;
+    line-height: 125%;
+    span {
+      color: #808080;
+      margin-left: 0;
+    }
+
+    .unread-badge-holder {
+      display: none;
+      margin: 0 4px 0 0;
+      //todo:: don't use !important
+      color: #14D769;
+      font-size: 18px;
+    }
+  }
+  hr {
+    width: calc(100% - 20px);
+    border-color: $color-calm;
+    margin: 12px auto 0 auto;
+  }
+  .post-card-badge {
+    background-color: transparent;
+    justify-content: flex-end;
+    position: absolute;
+    z-index: 34;
+    height: 20px;
+    top: -1px;
+    & > a{
+      cursor: pointer;
+      color: $color-white;
+      font-size: $font-size-small;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      margin-left: 5px;
+      padding: 2px 8px 5px 8px;
+      background-color: $color-wind;
+      z-index: 36;
+      max-width: 96px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    & > a:first-child{
+      z-index: 32;
+      //background-color: rgb(134, 157, 145);
+    }
+    & > a:last-child{
+      position: relative;
+      //background-color: rgb(20, 215, 105);
+    }
+  }
+  .post-card-time{
+    position: relative;
+    top: 12px;
+  }
+  .post-footer{
+    height: 40px;
+    align-items: center;
+    a{
+      font-size: $font-size-small;
+      color: $color-solid-30;
+    }
+    .post-icons{
+      justify-content: flex-end;
+      padding: 0 8px;
+    }
+    .icon {
+      transition: opacity $animation-dur;
+      margin: 0 4px;
+      .re,
+      .fw {
+        opacity: 0;
+      }
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+post-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &:last-child {
+    .post-card-wire {
+      display: none
+    }
+  }
+}
+
+.more-place-row {
+  padding: 4px 8px;
+  &:last-child {
+    margin-bottom: 8px;
+  }
+}
+h3 {
+  font-weight: 100;
+}
+.post-card .post-subject{
+  .unread-badge-holder {
+    visibility: hidden;
+    margin: 8px 4px 8px 0;
+    width: 12px;
+    //todo:: Use variable
+    color: #14D769 ;
+    line-height: 29px;
+    font-size: 18px;
+  }
+  h3 {
+    margin: 8px 0;
+    font-size: 24px;
+    line-height: 29px;
+    word-break: break-all;
+    width: 100%;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}
+.post-card .post-attachments{
+  //height: 66px;
+  background-color: $color-white;
+  align-items: center;
+  ul {
+    list-style: none;
+  }
+}
+.post-card.unread{
+  .post-subject h3, .post-body {
+    font-weight: bold;
+  }
+
+  .post-subject {
+    .unread-badge-holder {
+      visibility: visible;
+    }
+  }
+
+  .post-body {
+    .unread-badge-holder {
+      display: block;
+    }
+  }
+}
+.post-card-comment{
+  width: calc(100% - 32px);
+  position: relative;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: $color-calm;
+  border: solid 1px $color-border;
+  border-top-width: 0;
+  z-index: 10;
+  border-radius: 0 0 4px 4px;
+  transition-duration: $animation-dur;
+  overflow: hidden;
+  > *:first-child {
+    margin-top: 8px;
+  }
+}
+
+.post-card-comments {
+  align-items: flex-start;
+  padding: 8px 8px 0 8px;
+  transition: 500ms;
+  &:hover {
+    background-color: $color-hover-comment;
+  }
+  .text{
+    padding-top: 4px;
+    max-width: calc(100% - 108px);
+  }
+  strong{
+    font-weight: 600;
+    position: relative;
+    font-size: $font-size-small;
+    word-wrap: break-word;
+    line-break: strict;
+    white-space: nowrap;
+    height: 100%;
+  }
+  p{
+    font-size: $font-size-small;
+    font-weight: 400;
+    color: $color-hurricane;
+    height: 100%;
+    position: relative;
+  }
+  span{
+    padding-top: 4px;
+    font-size: $font-size-small;
+    font-weight: 300;
+    color: $color-wind;
+    margin: 0 4px;
+  }
+}
+.comments-load {
+  height: 32px;
+  align-items: center;
+  a {
+    margin-left: 32px;
+    color: $color-sense-wire;
+    &:hover {
+      color: $color-solid;
+    }
+  }
+}
+.post-card-comment-input {
+  height: 48px;
+  align-items: center;
+  padding: 0 6px;
+  input{
+    height: 32px;
+    align-items: center;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: $font-size-small;
+    border: solid 1px rgba(0,0,0,.2);
+    &:focus {
+      border: solid 1px rgba(0,0,0,.2);
+    }
+  }
+}
+.chain-view .post-card-wire {
+  width: 1px;
+  height: 48px;
+  border-left: 1px solid $color-border;
+  box-sizing: border-box;
+  display: flex;
+}
+.post-card-wire {
+  width: 1px;
+  height: 48px;
+  border-left: 0 solid $color-border;
+  box-sizing: border-box;
+  display: flex;
+}
+.no-permission {
+  background-color: #D2D2D2;
+  width: 114px;
+  font-weight: 400;
+  color: #FFFFFF;
+  @extend .nst-font-small;
+  border-radius: 24px;
+  height: 24px;
+  text-align: center;
+  position: relative;
+  transition: background-color $animation-dur;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background-color: $color-force;
+  }
+  .forbidden-icon{
+    width: 23px;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    div:last-child {
+      transform: translate3d(-50%,-50%,0);
+      left: 50%;
+      top: 50%;
+      border:2px solid #FFFFFF;
+      border-radius: 50%;
+      width: 12px;
+      position: absolute;
+      height: 12px;
+      display: flex;
+    }
+    div:first-child {
+      left: 31%;
+      top: 45%;
+      border-style: solid;
+      transform: rotateZ(45deg) translate3d(-50%,-50%,0);
+      border-color: #FFFFFF;
+      width: 2px;
+      position: absolute;
+      height: 10px;
+      border-width: 0px 0px 0px 2px;
+    }
+
+  }
+}
+
+.chain {
+  top: 0;
+  left: 0;
+  width: 4px;
+  position: absolute;
+  height: 100%;
+  border: none;
+  background-color: $color-calm;
+  border-radius: 1px 0 0 1px;
+  transition: background-color $animation-dur;
+  display: none;
+}
+.post-card.forward-card {
+  .chain {
+    display: block;
+  }
+  &:hover {
+    .chain {
+      background-color: $color-forward;
+    }
+  }
+}
+.post-card.reply-card {
+  .chain {
+    display: block;
+  }
+  &:hover {
+    .chain {
+      background-color: $color-reply;
+    }
+  }
+}

@@ -5,74 +5,76 @@
   angular
     .module('ronak.nested.web.main')
     .constant('NST_DEFAULT', {
-      STATE: 'messages',
+      STATE: 'app.messages',
       STATE_PARAM: '_'
     })
     .constant('NST_PUBLIC_STATE', [
-      'signin',
-      'signin-back',
-      'intro',
-      'register',
-      'register-with-phone',
-      'recover'
+      'public.signin',
+      'public.signin-back',
+      'public.intro',
+      'public.register',
+      'public.register-with-phone',
+      'public.recover'
     ])
     .constant('NST_PAGE', {
-      'INTRO': [
-        'intro'
-      ],
       'REGISTER': [
-        'register',
-        'register-with-phone'
+        'app.register',
+        'app.register-with-phone'
       ],
       'RECOVER': [
-        'recover'
+        'app.recover'
       ],
       'SIGNIN': [
-        'signin',
-        'signin-back'
+        'app.signin',
+        'app.signin-back'
       ],
       'SIGNOUT': [
-        'signout'
+        'app.signout'
       ],
       'PROFILE': [
-        'profile'
+        'app.profile'
       ],
       'COMPOSE': [
-        'compose',
-        'place-compose',
-        'compose-forward',
-        'compose-reply-all',
-        'compose-reply-sender'
+        'app.compose',
+        'app.place-compose',
+        'app.compose-forward',
+        'app.compose-reply-all',
+        'app.compose-reply-sender'
       ],
       'PLACE_SETTINGS': [
-        'place-settings'
+        'app.place-settings'
       ],
       'PLACE_ADD': [
-        'place-add'
+        'app.place-add'
       ],
       'POST': [
-        'post'
+        'app.post'
       ],
       'ACTIVITY': [
-        'activity',
-        'activity-bookmarks',
-        'activity-bookmarks-filtered',
-        'activity-filtered',
-        'place-activity',
-        'place-activity-filtered'
+        'app.activity',
+        'app.activity-favorites',
+        'app.activity-favorites-filtered',
+        'app.activity-filtered',
+        'app.place-activity',
+        'app.place-activity-filtered'
       ],
       'MESSAGES': [
-        'messages',
-        'messages-bookmarks',
-        'messages-bookmarks-sorted',
-        'messages-sent',
-        'messages-sent-sorted',
-        'messages-sorted',
-        'place-messages',
-        'place-messages-sorted'
+        'app.messages',
+        'app.messages-favorites',
+        'app.messages-favorites-sorted',
+        'app.messages-sent',
+        'app.messages-sent-sorted',
+        'app.messages-sorted',
+        'app.place-messages',
+        'app.place-messages-sorted',
+        'app.place-message-chain',
+        'app.message-chain'
+      ],
+      'FILES': [
+        'app.place-files'
       ],
       'SEARCH': [
-        'search'
+        'app.search'
       ]
     })
     .constant('NST_PATTERN', {

@@ -2,7 +2,7 @@
   .modal {
     min-height: 350px;
     min-width: 1px!important;
-    padding: 50px 0!important;
+    padding: 0!important;
     display: flex!important;
     justify-content: center;
     align-items: center;
@@ -10,52 +10,6 @@
     //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
     span.nst-mood-solid:first-of-type {
       display: none;
-    }
-    #PostView {
-      .post-nav-top{
-        align-items: center;
-        flex-direction: column-reverse;
-        .closebut {
-          align-self: flex-end;
-        }
-        .time {
-          align-self: center;
-          position: absolute;
-          top: 10px;
-          left: 10px;
-        }
-      }
-      .post-nav-bot{
-        align-items: center;
-        flex-direction: column;
-        .badges {
-          max-width: 100%;
-        }
-        .comment-input-toggle {
-          display: flex;
-        }
-      }
-      #PostBody {
-        position: relative;
-      }
-      #Comments {
-        .mCustomScrollbar {
-          margin-bottom: 0;
-        }
-      }
-      .comment-input {
-        height: 100%;
-        max-height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 10px;
-        flex-direction: column;
-        align-items: center;
-        background-color: #f7faf9;
-        textarea {
-          height: 100%;
-        }
-      }
     }
   }
 }

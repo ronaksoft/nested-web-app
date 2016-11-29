@@ -3,73 +3,15 @@
   *    Drag drop compose
   **********************************************************
  */
-.droplet {
-  position: absolute;
-  right: 0;
-  left: 0;
-  margin: auto;
-  //height: 100%;
-  //width: 100%;
-  z-index: -10;
-}
-
-.event-dragover .droplet {
-  background-color: rgba(71,97,82,.1);
-  opacity: .87;
-  z-index: 123;
-  width: 100%;
-  height: 100%;
-  top:0;
-  left: 0;
-  position: fixed;
-}
-
-.event-dragover .droplet:after {
-  content: "Drop files ...";
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  display: inline-block;
-  position: relative;
-  z-index: 556;
-  color: $color-hurricane;
-  text-decoration: none;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 400px;
-  text-align: center;
-  border: 10px dashed $color-hurricane;
-  box-sizing: border-box;
-}
-.event-dragleave .droplet {
-  background-color: #E7ECE9;
-  opacity: .5;
-  z-index: 20;
-  height: 100%;
-  animation: fadeoutcom .5s;
-  animation-fill-mode: forwards;
-  animation-delay: 1s;
-  width: calc(100% - 416px);
-  max-width: 1504px;
-  min-width: 404px;
-}
-.event-dragenter .droplet {
-  background-color: #E7ECE9;
-  opacity: .5;
-  z-index: 20;
-  height: 100%;
-  width: calc(100% - 416px);
-  max-width: 1504px;
-  min-width: 404px;
-}
-.event-drop .droplet {
-  background-color: #E7ECE9;
-  opacity: .5;
-  z-index: -10;
-  height: 100%;
-  width: calc(100% - 416px);
-  max-width: 1504px;
-  min-width: 404px;
+@keyframes dragDrop {
+  from {
+    opacity: .87;
+    visibility: visible;
+  }
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
 }
 
 /**
@@ -77,11 +19,11 @@
   *    Tiny mce Overrides
   **********************************************************
 */
-
 .mce-panel {
   border: none!important;
   background-color: transparent!important;
 }
+
 .mce-widget {
   border: none!important;
   background-color: $color-white!important;
@@ -100,11 +42,7 @@
   background-color: $color-sense!important;
 }
 
-.ui-select-multiple.ui-select-bootstrap {
-  width: 100%;
-  border: none;
-  box-shadow: none;
-}
+
 
 .butn-toolbar > .butn-group {
   padding: 5px;
@@ -121,9 +59,6 @@
     }
   }
 }
-.form-control {
-  box-shadow: none;
-}
 
 .butn-default.active {
   background-color: $color-sense;
@@ -139,8 +74,8 @@
  */
 
 .content iframe {
-  height: calc(100vh - 390px)!important;
-  min-height: 100px;
+  height: calc(100vh - 336px)!important;
+  min-height: 100px
 }
 
 .compose-input {
@@ -186,9 +121,6 @@
   margin: 0 8px;
 
 }
-.nomargin {
-  margin-bottom: 0;
-}
 
 .compose-message-input {
   height: 100px;
@@ -208,7 +140,11 @@
   padding: 0 16px;
 }
 
-.ui-select-bootstrap > .ui-select-choices {
-  padding: 0;
-  max-height: 50vh
+// .ui-select-bootstrap > .ui-select-choices {
+//   padding: 0;
+//   max-height: 50vh
+// }
+
+#mceu_24-body {
+  white-space: normal;
 }

@@ -1,0 +1,186 @@
+.modal-lg-white {
+  display: flex;
+  position: absolute;
+  background-color: $color-bg;
+  //opacity: 0.98;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: none!important;
+  transition: opacity $animation-dur;
+  //overflow-y: auto;
+  margin: 0;
+  .modal-content {
+    position: relative;
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+    h2 {
+      color: #000000;
+      letter-spacing: -1px;
+      line-height: 38px;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 24px 0;
+      span {
+        font-size: 24px;
+        font-weight: 400;
+      }
+    }
+    button {
+      width: 100%!important;
+      transition: .2s all ease;
+      margin: 24px 0;
+      line-height: 30px;
+      font-size: 18px;
+      font-weight: 700;
+      @extend .butn-green;
+      &:disabled {
+        opacity: 0.5;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+        filter: alpha(opacity=50);
+      }
+    }
+    input {
+      width: 100%;
+      min-height: 28px;
+      color: $color-solid;
+      @extend .nst-font-large;
+      font-weight: 400;
+      padding: 6px;
+      transition: all .2s;
+      margin-bottom: 10px;
+    }
+    aside{
+      width: 100%;
+      line-height: 16px;
+      color: #476152;
+      font-size: 13px;
+      font-weight: 400;
+      padding: 8px 12px;
+    }
+    #PlaceID {
+      color: #869D91;
+      @extend .nst-font-large;
+      font-weight: 400;
+      min-height: 28px;
+      width: 100%;
+      padding: 10px;
+    }
+    .field{
+      position: relative;
+      width: 100%;
+      span {
+        line-height: 28px;
+        color: #A6B9AF;
+        @extend .nst-font-large;
+        font-weight: 400;
+      }
+      input {
+        background-color: transparent;
+        border-color: transparent;
+        border-width: 2px;
+      }
+      input:hover {
+        background-color: $color-white;
+        border-color: $color-border;
+      }
+
+      input:focus {
+        background-color: $color-white;
+        border-color: $color-solid;
+      }
+    }
+
+    select {
+      line-height: 40px;
+      color: $color-solid;
+      @extend .nst-font-large;
+      width: 100%;
+      height: 40px;
+      font-weight: 400;
+      padding: 0 22px 0 8px;
+    }
+
+  }
+
+}
+#create-place {
+  max-width: 490px;
+  width: 100%;
+  padding: 0 5px;
+  margin: 80px auto;
+  height: auto;
+  position: relative;
+  form .placeID {
+    background-color: $color-calm;
+    margin-bottom: 32px;
+  }
+  .option-row {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 16px;
+    select {
+      flex: none;
+    }
+  }
+  .create-place-checkbox + label {
+    display: inline-block;
+    background: url('../assets/icons/controls.svg') no-repeat;
+    height: 16px;
+    min-width: 17px;
+    padding: 0 0 0 17px;
+    color: $color-storm;
+    font-weight: 400;
+    margin: 0;
+    @extend .nst-font-medium;
+    line-height: 20px;
+  }
+  .create-place-checkbox:checked + label {
+    background-position: 0 -16px;
+  }
+}
+
+.close-modal {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 56px;
+  right: 56px;
+  border-radius: 24px;
+  transition: all $animation-dur;
+  z-index: 2;
+  svg {
+    width: 32px;
+    height: 32px;
+    transform: rotateZ(45deg);
+  }
+  &:hover {
+    box-shadow : 0 10px 10px rgba(0,0,0,.15);
+    background-color: $color-white;
+  }
+}
+
+.input-lab{
+  line-height: 13px;
+  color: $color-storm;
+  font-size: 13px;
+  font-weight: 700;
+  padding-top: 16px;
+  margin-bottom: 8px;
+}
+.option-des {
+  line-height: 19px;
+  @extend .nst-font-large;
+  font-weight: 400;
+  display: flex;
+  flex: 1;
+  color: $color-solid;
+  margin-bottom: 0;
+}

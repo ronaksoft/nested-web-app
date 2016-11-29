@@ -1,15 +1,12 @@
 body.modal-open {
   .modal {
-    height: auto;
+    height: 100%;
     min-height: 100vh;
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
     bottom: 0;
-    overflow: auto;
-    min-width: 600px;
-    padding: 80px 0;
     display: flex!important;
     justify-content: center;
     align-items: center;
@@ -21,23 +18,34 @@ body.modal-open {
 }
 #add-view {
   border: 1px solid $color-breeze;
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: $color-white;
   padding: 10px;
   width: 800px;
   height: auto;
+  max-width: 100%;
 }
 
 #delete-view {
   border: 1px solid $color-breeze;
-  border-radius: 8px;
+  border-radius: 6px;
   background-color: $color-white;
   padding: 15px;
   width: 510px;
+  max-width: 100%;
+  height: auto;
+}
+#change-view {
+  border: 1px solid $color-breeze;
+  border-radius: 8px;
+  background-color: $color-white;
+  padding: 15px;
+  max-width: 100%;
   height: auto;
 }
 
 .modal-content {
+  width: 100%;
   background-color: rgba(0, 0, 0, 0);
   border: none;
   box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
@@ -70,32 +78,40 @@ body.modal-open {
 
 .modal-dialog {
   height: 100%;
+  margin: 0;
+  overflow-y: visible;
+  height: 100%;
+  .modal-content {
+    //padding: 80px 0;
+  }
 }
 
 .modal.in .modal-dialog{
   border-radius: $border-radius-large;
 }
 
-.modal-dialog .modal-content {
-  height: 100%;
-}
-
-.modal-xlg, .modal-mlg {
-  width: auto;
-}
 
 .modal-xlg {
   margin: 0 1%;
 }
 
 .modal-mlg {
-  width: 100%;
-  max-width: 1200px;
+  width: calc(100% - 160px);
+  height: calc(100% - 160px);
+  margin:  80px;
+  max-width: 1600px;
+  max-height: 1200px;
+  display: flex;
+  align-items: center;
+  .modal-content {
+    height: 100%
+  }
 }
 
 .modal-sm {
   width: auto!important;
   height: auto!important;
+  max-width: 100%;
   vertical-align: middle;
   max-height: 100%;
 }
@@ -118,6 +134,11 @@ body.modal-open {
 .modal-add {
   border-bottom: 1px solid $color-calm;
   margin: 10px 0;
+  .butn-green-nav {
+    margin: 0;
+    position: relative;
+    right: 20px;
+  }
 }
 .ui-select-choices-row > img {
   width: 40px;
@@ -125,9 +146,115 @@ body.modal-open {
   border-radius: 100%;
   margin-right: 8px;
 }
+.modal-body {
+  padding: 0;
+  width: 100%;
+  flex-direction: column;
+  display: inline-flex;
+  > p {
+    @extend .nst-font-large;
+    line-height: 19px;
+    color: $color-grey;
+    font-weight: 400;
+  }
+}
 .suggests {
-  height: 170px;
+  height: 180px;
   overflow: hidden;
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .item {
+    width: 48%;
+    height: 50px;
+    transition: all .3s;
+    cursor: pointer;
+    .item-logo {
+      width: 64px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: none;
+      img {
+        width: 48px;
+        height: auto;
+      }
+    }
+    .det {
+      flex: 1;
+      justify-content: center;
+      p {
+        @extend .nst-font-large;
+        line-height: 19px;
+        color: #143C82;
+        font-weight: 400;
+        margin: 0;
+      }
+      span {
+        font-size: 13px;
+        line-height: 16px;
+        color: $color-grey-text;
+        font-weight: 400;
+        strong {
+          color: $color-solid;
+        }
+      }
+    }
+    &:hover {
+      background-color: #E8FBF0;
+      border-radius: 2px;
+      .det p {
+        text-decoration: underline;
+      }
+    }
+  }
+  .item.invite {
+    .item-logo {
+      width: 48px;
+      img {
+        width: 32px;
+        height: auto;
+      }
+    }
+    .det {
+      p {
+        @extend .nst-font-large;
+        line-height: 19px;
+        color: #143C82;
+        font-weight: 400;
+        margin: 0;
+      }
+    }
+    &:hover {
+      background-color: $color-bg-pending-hover;
+    }
+  }
+  .item.add {
+    height: 72px;
+    .item-logo {
+      width: 64px;
+      img {
+        width: 48px;
+        height: auto;
+      }
+    }
+    .det {
+      p {
+        line-height: 19px;
+        @extend .nst-font-large;
+        color: $color-sense-wire;
+        font-weight: 400;
+      }
+    }
+    &:hover {
+      background-color: #E8FBF0;
+    }
+  }
+  .devider {
+    width: 4%;
+    height: 50px;
+  }
 }
 .modal-add .ui-select-container ul {
   width: calc(100% + 50px)!important;
@@ -151,24 +278,37 @@ body.modal-open {
   background-color: $color-sense-5;
   cursor: pointer;
 }
-.modal-add  .dropdown-menu {
-  border: none;
-  box-shadow: none;
+.modal-add  {
+  .dropdown-menu {
+    border: none;
+    box-shadow: none;
+    background-color: $color-white;
+    top: calc(100% + 30px);
+
+  }
+  input {
+    padding-left: 0;
+  }
 }
 .modal-add .ui-select-choices-row.active > a,
 .modal-add .ui-select-choices-row.active > a:hover{
-  background-color: $color-sense-5 ;
+  background-color: transparent!important;
   color: $color-solid;
   border-radius: 10px;
 }
 .modal-add h5 {
-  font-size: $font-size-xlarge;
+  margin-top: 0;
+  @extend .nst-font-xlarge;
+  line-height: 26px;
+  letter-spacing: -1px;
+  font-weight: 700;
 }
 
 .modal-add input {
   border: none;
   padding: 5px 0;
+  min-height: 32px;
 }
-.modal-content {
+.modal-sm {
   background-color: $color-white!important;
 }

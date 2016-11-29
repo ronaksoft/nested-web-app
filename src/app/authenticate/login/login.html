@@ -1,0 +1,42 @@
+<div class="_fhw">
+  <div class="nst-vc">
+    <div id="panel-signin" class="panel">
+      <div class="panel-heading">
+        <div class="row nst-vb">
+          <p class="nst-font-xlarge _hf">Sign in</p>
+          <p class="text-right nst-mood-calm nst-font-small" style="width: 60%">or <a ui-sref="public.register">Create an account</a></p>
+        </div>
+      </div>
+      <div  class="panel-body">
+        <form accept-charset="UTF-8" role="form" data-ng-submit="ctlLogin.auth()">
+          <fieldset>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Username" name="username"
+                     data-ng-model="ctlLogin.username"/>
+            </div>
+
+            <div class="form-group has-feedback" data-ng-model="show">
+              <input class="form-control ng-pristine ng-untouched ng-valid" data-ng-model="ctlLogin.password" placeholder="Password" name="password" data-ng-init="show = true" type="{{show ? 'password' : 'text'}}"/>
+              <i class="nst-ico-eye-slash form-control-feedback {{show ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" data-ng-click="show = !show"></i>
+            </div>
+
+            <div class="form-group">
+              <input data-ng-disabled="ctlLogin.progress" class="butn-green butn-lg butn-login" value="Sign in" type="submit"/>
+            </div>
+
+            <div class="row nst-vb">
+              <div class="text-left _hf">
+                <input type="checkbox" id="remember" name="remember" value="remember"
+                       data-ng-model="ctlLogin.remember"/>
+                <label for="remember">Stay signed in</label>
+              </div>
+              <a class="_hf text-right nst-mood-cheerful " href="#/recover">Forgot Password?</a>
+            </div>
+          </fieldset>
+        </form>
+
+        <div data-ng-if="ctlLogin.message.fill" class="{{ctlLogin.message.class}} _fw _tac testing_err" data-ng-bind="ctlLogin.message.text"></div>
+      </div>
+    </div>
+  </div>
+</div>

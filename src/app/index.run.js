@@ -6,7 +6,7 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $uibModal, $timeout,$interval,
+  function runBlock($rootScope, $uibModal, $timeout,$interval, $state,
                     ngProgressFactory,
                     NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
                     NstSvcAuth, NstSvcLoader) {
@@ -28,6 +28,7 @@
         }
       }
     };
+
     $rootScope.progress.bar.setHeight('5px');
     // $rootScope.progress.bar.setColor('#14D766');
 
@@ -86,6 +87,17 @@
     //   $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
     // }
 
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      if (!$rootScope.stateHistory) {
+        $rootScope.stateHistory = [];
+      }
+
+      $rootScope.stateHistory.push({
+        state : toState,
+        params : toParams
+      });
+
+    });
 
   }
 })();

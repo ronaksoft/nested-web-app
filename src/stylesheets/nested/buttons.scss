@@ -26,6 +26,7 @@
   flex: none;
   text-decoration: none;
   color: $color-white;
+  text-align: center;
 }
 
 .butn-green-nav{
@@ -159,6 +160,11 @@
 .butn-white:hover a{
   color: $color-storm;
 }
+.butn-white:disabled {
+  opacity: .5;
+  background-color: $color-calm;
+  cursor: not-allowed;
+}
 
 /**
   *********************************
@@ -215,6 +221,7 @@
   font-weight: 600;
   margin: 8px 0;
   line-height: 22px;
+  text-align: center;
 }
 .butn-send-compose:disabled{
   opacity: .5;
@@ -255,6 +262,7 @@
 .switch {
   min-width: 128px;
   display: inline-flex;
+  position: relative;
 }
 
 .switch label{
@@ -357,31 +365,223 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
   *********************************
 */
 
-input[type="radio"] {
-  opacity: 0;
-  height: 16px;
-  width: 16px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
+.switch {
+  input[type="radio"] {
+    opacity: 0;
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    visibility:hidden;
+    & + label {
+      background: none;
+      position: relative;
+      padding: 0;
+    }
+  }
 }
 
-input[type="radio"] + label {
-  background: url('../assets/icons/controls.svg') no-repeat;
-  height: 16px;
-  width: 16px;
-  background-position: 0px -48px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  padding-left: 22px;
+.switch {
+  min-width: 128px;
+  display: inline-flex;
+  flex-direction: row;
+  position: relative;
+  label{
+    width: 100%;
+    display: flex;
+    height: 24px;
+    font-size: $font-size-small;
+    cursor: pointer;
+    text-align: center;
+    border-width:1px;
+    border-style:solid;
+    border-right-width: 0;
+    border-left-width: 0;
+    border-color: $color-breeze;
+    padding: 0 0;
+    color : $color-wind;
+    background: none;
+    box-sizing: border-box;
+    border-radius: 0;
+    // On: Value = 0;
+    &:first-of-type {
+      border-left-width: 1px;
+      border-bottom-left-radius: 20px;
+      border-top-left-radius: 20px;
+    }
+    // Off: Value = 0;
+    &:last-of-type {
+      border-right-width: 1px;
+      border-bottom-right-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+  }
+
+
+  input[type="radio"] + label  {
+    box-sizing: border-box;
+    border-color: $color-breeze;
+    background: none;
+    color : $color-wind;
+  }
+
+  input[type="radio"]:checked + label {
+    background-color: $color-sense;
+    border-color: $color-sense;
+    color: $color-white;
+    box-sizing: border-box;
+  }
+
+  //disabled radio button
+  input[type="radio"]:disabled + label  {
+    color: $color-breeze;
+  }
+  input[type="radio"][disabled]:checked  + label  {
+    background-color: $color-breeze;
+    border-color: $color-breeze;;
+    color: $color-wind;
+  }
 }
 
-input[type="radio"]:checked + label {
-  background: url('../assets/icons/controls.svg') no-repeat;
-  background-position: 0px -64px;
-  height: 16px;
-  width: 17px;
+
+.place-switch {
+  width: 80px;
+  height: 32px;
+  border-radius: 16px;
+  //background-color: $color-sense;
+  display: inline-flex;
+  flex-direction: row;
+  position: relative;
+  cursor: grab;
+  // OFF
+  input + label,
+  input + label + label{
+    background-color: $color-white;
+    display: flex;
+    height: 100%;
+    margin: 0;
+    width: 50%;
+    align-items: center;
+    transition: all $animation-dur;
+    border: 1px solid #F0F0F0;
+    b {
+      color: $color-solid-30;
+      font-weight: 400;
+      transition: all $animation-dur/2;
+    }
+  }
+  input + label {
+    justify-content: flex-end;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-right-width: 0;
+    b {
+      opacity: 0;
+    }
+    .circle {
+      position: absolute;
+      top: 4px;
+      width: 24px;
+      height: 24px;
+      background: rgba(0,0,0,.1);
+      border-radius: 50px;
+      display: flex;
+      transition: all $animation-dur cubic-bezier(.25,.8,.25,1);
+      left: 0;
+      transform: translateX(4px);
+      &:hover {
+        box-shadow: 0 4px 8px #CCCCCC;
+      }
+    }
+  }
+  input + label + label {
+    justify-content: flex-start;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-left-width: 0;
+    b {
+      opacity: 1;
+      color: rgba(0,0,0,.5);
+    }
+  }
+
+  // ON
+  input[type="checkbox"]:checked + label  {
+    .circle {
+      background-color: #F0F0F0;
+      //left: 52px;
+      transform: translateX(52px);
+    }
+  }
+
+  input[type="checkbox"]:checked + label,
+  input[type="checkbox"]:checked + label + label {
+    background-color: $color-sense;
+    border: 1px solid $color-sense-wire;
+  }
+  input[type="checkbox"]:checked + label {
+    border-right-width: 0;
+    b {
+      opacity: 1;
+      color: rgba(255,255,255,1);
+    }
+  }
+  input[type="checkbox"]:checked  + label + label {
+    border-left-width: 0;
+    color: rgba(20,215,105,0);
+    b {
+      opacity: 0;
+    }
+  }
+
+  //disabled
+  // OFF
+  input[disabled] + label,
+  input[disabled]:checked + label,
+  input[disabled]:checked + label + label,
+  input[disabled] + label + label{
+    background-color: #E6E6E6;
+    border-color: rgba(120,120,120,.2);
+    b {
+      color: rgba(0,0,0,.2);
+    }
+    .circle {
+      background-color: #FAFAFA;
+      box-shadow: none;
+    }
+  }
+
 }
+
+.change-button {
+  color: $color-sense-wire;
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: underline;
+  transition: color $animation-dur;
+  &:hover {
+    color: $color-sense-wire;
+  }
+}
+
+
+.green-radio + label {
+    display: inline-block;
+    background: url('../assets/icons/controls.svg') no-repeat;
+    background-position: 0 -48px;
+    height: 16px;
+    min-width: 17px;
+    padding: 0 0 0 17px;
+    color: $color-storm;
+    font-weight: 400;
+    @extend .nst-font-medium;
+    line-height: 17px;
+  }
+  .green-radio:checked + label {
+    background-position: 0 -64px;
+  }
+  .green-radio {
+    display: none;
+  }

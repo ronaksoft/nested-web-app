@@ -9,7 +9,9 @@
     UNINITIALIZE: '__uninitialize',
     ERROR: '__error',
     TIMELINE: '__timeline',
+    MENTION : 'mention',
     DISCONNECT: 'DISCONNECT',
-    CONNECT: 'CONNECT'
+    CONNECT: 'CONNECT',
+    RECONNECT: 'RECONNECT'
   });
 })();

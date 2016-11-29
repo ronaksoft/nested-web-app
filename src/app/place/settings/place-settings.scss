@@ -1,0 +1,187 @@
+#place-settings {
+  max-width: 490px;
+  padding: 0 5px;
+  width: 100%;
+  margin: 80px auto;
+  height: auto;
+  position: relative;
+  flex-direction: column;
+  .place-name {
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+    .pic {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      flex: none;
+      @include avatar(80px,80px,0);
+    }
+    .det {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding-left: 16px;
+      h3 {
+        font-size: 32px;
+        color: $color-solid;
+        letter-spacing: -1px;
+        font-weight: 700;
+        margin: 8px 0;
+        a {
+          transition: opacity $animation-dur;
+          opacity: 0;
+        }
+        &:hover {
+          a {
+            opacity: 1;
+          }
+        }
+      }
+      h5 {
+        line-height: 19px;
+        color: $color-solid;
+        @extend .nst-font-large;
+        margin: 0;
+      }
+    }
+  }
+  .place-des {
+    display: flex;
+    width: 100%;
+    p {
+      color: #869D91;
+      @extend .nst-font-medium;
+      font-weight: 400;
+      line-height: 18px;
+    }
+  }
+  .recive-set {
+    width: 100%;
+    display: inline-flex;
+    flex-direction: column;
+    p {
+      padding-bottom: 8px;
+      span {
+        @extend .nst-font-medium;
+        font-weight: 400;
+        line-height: 17px;
+      }
+    }
+    a{
+      opacity: 0;
+    }
+    &:hover {
+      a {
+        opacity: 1;
+      }
+    }
+    .src-res {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      p {
+        display: flex;
+        flex: 1;
+        color: #000000;
+        font-weight: 400;
+        margin: 0;
+      }
+    }
+  }
+  .recive-set.preview {
+    &.select-box2.selected{
+      background: none;
+      border:none
+    }
+
+  }
+  .user-item {
+    height: 56px;
+    width: 100%;
+    transition: all $animation-dur;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    &:hover {
+      box-shadow:0 2px 8px rgba(0,0,0,0.15);
+      background-color: $color-white;
+    }
+    .logo {
+      display: flex;
+      flex: none;
+      @include avatar(48px,48px,500px)
+    }
+    .name {
+      display: inline-flex;
+      flex-direction: column;
+      flex: 1;
+      padding-left: 8px;
+      p {
+        @extend .nst-font-large;
+        color: $color-solid;
+        margin: 0;
+        font-weight: 400;
+      }
+      span {
+        color: #00B45A;
+        @extend .nst-font-medium;
+        font-weight: 400;
+      }
+    }
+    .role {
+      display: flex;
+      align-items: center;
+      flex: none;
+      color:$color-wind;
+      svg {
+        width: 24px;
+        height: 24px;
+        fill: $color-solid;
+      }
+    }
+    .invited {
+      .name {
+        p {
+          color: $color-bg-pending;
+        }
+      }
+      .role {
+        color:$color-bg-pending;
+      }
+    }
+  }
+  .option-row {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    p {
+      line-height: 19px;
+      @extend .nst-font-large;
+      font-weight: 400;
+      display: flex;
+      flex: 1;
+      color: $color-solid;
+    }
+    select {
+      flex: none;
+    }
+    input[type="checkbox"] + label {
+      display: inline-block;
+      background: url('../assets/icons/controls.svg') no-repeat;
+      height: 16px;
+      min-width: 17px;
+      padding: 0 0 0 17px;
+      color: $color-storm;
+      font-weight: 400;
+      @extend .nst-font-medium;
+      line-height: 17px;
+    }
+    input[type="checkbox"]:checked + label {
+      background-position: 0 -16px;
+    }
+  }
+}

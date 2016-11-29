@@ -1,25 +1,30 @@
 // avatars border
 
-@mixin avatar($boxWidth,$avatarWidth) {
+@mixin avatar($boxWidth,$avatarWidth,$avatarRad) {
   width: $boxWidth;
   display: flex;
   justify-content: center;
   position: relative;
   flex: none;
-  height: 100%;
-  flex: none;
+  border-radius: $avatarRad;
+  height: $avatarWidth;
   &::after {
     left: ($boxWidth - $avatarWidth) / 2;
     position: absolute;
     width: $avatarWidth;
     height: $avatarWidth;
-    border-radius: 1000px;
+    border-radius: $avatarRad;
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
     pointer-events: none;
     content: "";
+    top: 50%;
+    transform: translateY(-50%);
   }
   img {
+    width: $avatarWidth;
+    height: $avatarWidth;
     margin: 0!important;
+    border-radius: $avatarRad;
     display: flex;
   }
 }

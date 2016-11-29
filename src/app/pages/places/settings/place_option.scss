@@ -216,6 +216,7 @@
   background-image: url('../assets/icons/actionbuttons_place_24.png');
   background-position: 0 -96px;
   background-repeat: no-repeat;
+  margin-top: -4px;
 }
 
 .menuicon-remove {
@@ -324,4 +325,10 @@
 }
 .optionrow div:first-child {
   min-width: 24px;
+}
+
+
+.ui-select-highlight {
+  background-color: #AEECC9;
+  color: $color-hurricane;
 }

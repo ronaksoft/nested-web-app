@@ -1,0 +1,14 @@
+<div id="change-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw">Change place ID</p>
+      <div class="_df closebut" ng-click="$dismiss()"><img src="../assets/icons/close.svg"></div>
+    </div>
+    <div class="_difv _fw">
+      <input class="form-control"
+             type="text" ng-change="ctlCreate.checkIdAvailability(ctlCreate.place.tempId);"
+             data-ng-model="ctlCreate.place.tempId" id="change-place-id"/>
+      <div class="butn-green" ng-click="$close('ok')" style="width: 100%;margin-top: 10px" id="change-save">Save</div>
+    </div>
+  </div>
+</div>

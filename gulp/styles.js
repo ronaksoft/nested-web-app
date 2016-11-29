@@ -17,6 +17,7 @@ gulp.task('styles-reload', ['styles'], function() {
 });
 
 gulp.task('styles', function() {
+  buildTinyMceStyle();
   return buildStyles();
 });
 
@@ -51,5 +52,11 @@ var buildStyles = function() {
     .pipe($.sass(sassOptions)).on('error', conf.errorHandler('Sass'))
     .pipe($.autoprefixer()).on('error', conf.errorHandler('Autoprefixer'))
     .pipe($.sourcemaps.write())
+    .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app/')));
+};
+var buildTinyMceStyle = function() {
+
+  return gulp.src((['src/stylesheets/partials/tinymce.css']))
+    .pipe($.autoprefixer()).on('error', conf.errorHandler('Autoprefixer'))
     .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve/app/')));
 };

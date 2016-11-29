@@ -19,6 +19,7 @@
           display: flex;
         }
         .attach-name {
+          color: $color-solid;
           padding-top: 17px;
           font-size: 8px;
           text-align: center;
@@ -102,6 +103,174 @@
     }
     .attach-thumbnail-video {
       background-position: 0 -96px;
+    }
+  }
+  ul.badge-bar {
+    li {
+      margin-right: 8px;
+      margin-bottom: 4px;
+    }
+    a.attach-badge-default {
+      .badge-extension {
+        display: inline-block;
+        line-height: 24px;
+        font-size: $font-size-xxsmall;
+        font-weight: bold;
+        border-radius: $border-radius-large 0 0 $border-radius-large;
+        color: $color-white;
+        background-color: $color-storm;
+        padding: 0 4px;
+        min-width: 16px;
+        max-width: 48px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .badge-name {
+        display: inline-block;
+        line-height: 24px;
+        font-size: $font-size-xsmall;
+        min-width: 16px;
+        max-width: 172px;
+        border-radius: 0 6px 6px 0;
+        background-color: $color-breeze-50;
+        color: $color-solid;
+        padding: 0 6px;
+        margin-left: -3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    a.attach-badge-default:hover {
+      color: $color-white;
+      text-decoration: none;
+    }
+    .attach-badge-image {
+      .badge-extension {
+        background-color: #3CC882 !important;
+      }
+    }
+    .attach-badge-archive {
+      .badge-extension {
+        background-color: #5A28BE !important;
+      }
+    }
+    .attach-badge-document {
+      .badge-extension {
+        background-color: #148CF0 !important;
+      }
+    }
+    .attach-badge-audio {
+      .badge-extension {
+        background-color: #3CC882 !important;
+      }
+    }
+    .attach-badge-video {
+      .badge-extension {
+        background-color: #3CC882 !important;
+      }
+    }
+    .attach-badge-pdf {
+      .badge-extension {
+        background-color: #FA0032 !important;
+      }
+    }
+    .attach-badge-other {
+    }
+  }
+}
+.qm-mode .attachments-editable-bar {
+  ul {
+    li {
+      .atttach-detail {
+        position: absolute;
+        z-index: 55;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        //background-color: rgba(255,255,255,.2);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        .attach-name {
+          display: none
+        }
+        .uploadprogress {
+          height: 20px;
+          min-width: 20px;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          & > div {
+            position: absolute;
+            display: flex;
+            width: 20px;
+            height: 20px;
+            top: 0;
+            right: 0;
+          }
+          .del {
+            width: 20px;
+            height: 20px;
+            img {
+              position: absolute;
+              width: 20px;
+              height: 20px;
+              left: 0;
+              top: 0;
+            }
+          }
+        }
+        .attach-ext {
+          color: $color-sense;
+          @extend .nst-font-large;
+          line-height: 12px;
+          height: 12px;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+  ul.thumbnail-bar {
+    li {
+      margin-right: 8px;
+      margin-bottom: 4px;
+      vertical-align: middle;
+      position: relative;
+    }
+    .attach-thumbnail {
+      height: 32px;
+      width: 32px;
+      display: inline-block;
+      position: relative;
+    }
+    .attach-thumbnail-default {
+      height: 32px;
+      width: 24px;
+      background: url('../assets/icons/attachment_card.svg') no-repeat;
+      background-position: 0px (-288px/3);
+      background-size: cover;
+      padding: 8px 4px 2px 4px;
+      word-wrap: break-word;
+      font-size: $font-size-xsmall;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .attach-thumbnail-archive {
+      background-position: 0px (-384px/3);
+    }
+    .attach-thumbnail-document {
+      background-position: 0px 0px;
+    }
+    .attach-thumbnail-pdf {
+      background-position: 0 (-192px/3);
+    }
+    .attach-thumbnail-audio {
+      background-position: 0 (-96px/3);
+    }
+    .attach-thumbnail-video {
+      background-position: 0 (-96px/3);
     }
   }
   ul.badge-bar {

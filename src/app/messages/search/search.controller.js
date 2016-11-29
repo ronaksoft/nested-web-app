@@ -76,14 +76,14 @@
     function search(queryString) {
       vm.messages.length = 0;
       var query = new NstSearchQuery(queryString);
-      $state.go('search', { query : NstSearchQuery.encode(queryString) } , { notify : false }).then(function (newState) {
+      $state.go('app.search', { search : NstSearchQuery.encode(queryString) }).then(function (newState) {
         skip = 0;
         searchMessages(query.toString());
       });
     }
 
     function getUriQuery() {
-      return new NstSearchQuery(_.trimStart($stateParams.query, '_'));
+      return new NstSearchQuery(_.trimStart($stateParams.search, '_'));
     }
 
     function searchMessages(queryString) {
@@ -92,6 +92,7 @@
       vm.reachedTheEnd = false;
 
       NstSvcPostFactory.search(queryString, limit, skip).then(function (posts) {
+
         var olderMessages = _.map(posts, NstSvcPostMap.toSearchMessageItem);
         _.forEach(olderMessages, function (message) {
           if (!_.some(vm.messages, { id : message.id })){
@@ -118,7 +119,7 @@
 
     function backToPlace() {
       if (vm.refererPlaceId){
-        $state.go('place-messages', { placeId : vm.refererPlaceId});
+        $state.go('app.place-messages', { placeId : vm.refererPlaceId});
       } else {
         $state.go(NST_DEFAULT.STATE);
       }

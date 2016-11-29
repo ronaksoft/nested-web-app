@@ -7,8 +7,8 @@
       </div>
     <div class="_difv _fw">
       <div ng-if="!nextStep" class="_fw _df">
-        <img data-ng-if="removeCtrl.place.picture.thumbnails.x64.url.download" class="account-initials-64" src="{{removeCtrl.place.picture.thumbnails.x64.url.download}}"/>
-        <div data-ng-if="!removeCtrl.place.picture.thumbnails.x64.url.download" class="account-initials-64 _dib room-pic">{{removeCtrl.place.name | initials:2}}</div>
+        <img data-ng-if="removeCtrl.place.picture.thumbnails.x64.url.download" class="account-initials-64" ng-src="{{removeCtrl.place.picture.thumbnails.x64.url.download}}"/>
+        <div data-ng-if="!removeCtrl.place.picture.thumbnails.x64.url.download" class="account-initials-64 _dib">{{removeCtrl.place.name | initials:2}}</div>
         <div class="_dib">
           <h4>{{removeCtrl.place.name || 'empty'}}</h4>
           <h5 class="nst-mood-storm">{{removeCtrl.place.id + '@nested.me'}}</h5>
@@ -17,7 +17,7 @@
       <p ng-if="!nextStep" class="_df nst-mood-storm modal-detail">By deleting place, all place data & messages will be erased permanently. Are you really sure?</p>
       <div ng-if="nextStep" class="_fw _difv _jcc nst-mood-storm modal-detail">
         <span class="df nst-mood-storm small">Enter your place id</span>
-        <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place Name" focus-me>
+        <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place ID" focus-me>
         </input>
         <span class="_df">To confirm and delete the place, please type the place ID:</span><a class="_df">{{removeCtrl.place.id}}</a>
       </div>
@@ -25,7 +25,7 @@
         <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
           <div class="butn-white _jcc _df" ng-click="$dismiss();"><a class="_df">Cancel</a></div>
           <div ng-hide="nextStep" class="butn-red _jcc _df" ng-click="nextStep =! nextStep; focusInput=true"><a class="_df">Delete Place</a></div>
-         <div ng-if="nextStep" data-ng-disabled="!removeCtrl.validateInput()" class="butn-red _jcc _df" ng-click="$close();"><a class="_df">DELETE</a></div>
+         <button ng-if="nextStep" data-ng-disabled="!removeCtrl.validateInput()" class="butn-red _jcc _df" ng-click="$close();"><a class="_df">DELETE</a></button>
         </div>
       </div>
 

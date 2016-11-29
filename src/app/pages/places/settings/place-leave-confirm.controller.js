@@ -9,6 +9,6 @@
   function PlaceLeaveConfirmController(selectedPlace) {
     var vm = this;
 
-    vm.place = selectedPlace;
+    vm.placeTitle = selectedPlace;
   }
 })();

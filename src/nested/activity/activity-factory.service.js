@@ -6,10 +6,10 @@
 
   /** @ngInject */
   function NstSvcActivityFactory($q, $log,
-    _, moment,
+    _,
     NST_ACTIVITY_FILTER, NST_SRV_EVENT, NST_ACTIVITY_FACTORY_EVENT,
-    NstSvcServer, NstSvcActivityStorage, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory,
-    NstObservableObject, NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstPlace, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstAttachment, NstFactoryEventData) {
+    NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory,
+    NstBaseFactory, NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstFactoryEventData) {
 
     function ActivityFactory() {
       var that = this;
@@ -26,15 +26,17 @@
       });
     }
 
-    ActivityFactory.prototype = new NstObservableObject();
+    ActivityFactory.prototype = new NstBaseFactory();
     ActivityFactory.prototype.constructor = ActivityFactory;
 
     ActivityFactory.prototype.get = get;
+    ActivityFactory.prototype.getAfter  = getAfter;
     ActivityFactory.prototype.getRecent = getRecent;
     ActivityFactory.prototype.parseActivity  = parseActivity;
     ActivityFactory.prototype.parseActivityEvent  = parseActivityEvent;
 
-    return new ActivityFactory();
+    var factory = new ActivityFactory();
+    return factory;
 
     function parseActivity(data) {
       var defer = $q.defer();
@@ -177,7 +179,7 @@
         } else {
           defer.resolve({
             id: data.member_id,
-            fullName: data.invitee_name,
+            fullName: data.member_name || data.invitee_name,
             type: data.member_type
           });
         }
@@ -191,7 +193,6 @@
         var defer = $q.defer();
 
         var activity = new NstActivity();
-        $log.debug('recieved activity is :', data);
 
         activity.id = data._id.$oid;
         activity.type = data.action;
@@ -273,74 +274,55 @@
         }
     }
 
-    function get(settings) {
-      var defaultSettings = {
-        limit: 32,
-        placeId: null,
-        date: null,
-        filter: 'all'
-      };
-      settings = _.defaults(settings, defaultSettings);
-      if (settings.placeId) {
-        return getByPlace(settings);
-      } else {
-        return getAll(settings);
-      }
+    function getActivities(settings) {
+      return factory.sentinel.watch(function() {
+
+        var deferred = $q.defer();
+
+        NstSvcServer.request('timeline/get_events', {
+          limit: settings.limit || 32,
+          before: settings.before,
+          after: settings.after,
+          filter: settings.filter || 'all',
+          place_id: settings.placeId
+        }).then(function(data) {
+
+          var activities = _.map(data.events, parseActivity);
+          $q.all(activities).then(function (values) {
+            deferred.resolve(values);
+          }).catch(deferred.reject);
+
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, 'getActivities', settings.placeId);
     }
 
-    function getAll(settings) {
-      var defer = $q.defer();
+    function get(settings) {
+      return getActivities({
+        limit : settings.limit,
+        placeId : settings.placeId,
+        before : settings.date,
+        filter : settings.filter
+      });
+    }
 
-      NstSvcServer.request('timeline/get_events', {
-        limit: settings.limit,
-        before: settings.date,
-        filter: settings.filter
-      }).then(function(data) {
-
-        var activities = _.map(data.events, parseActivity);
-
-        $q.all(activities).then(function(values) {
-          defer.resolve(values);
-        }).catch(defer.reject);
-
-      }).catch(defer.reject);
-
-      return defer.promise;
+    function getAfter(settings) {
+      return getActivities({
+        limit : settings.limit,
+        placeId : settings.placeId,
+        after : settings.date,
+        filter : settings.filter
+      });
     }
 
     function getRecent(settings) {
-      var mandatorySettings = {
+      return getActivities({
         filter: NST_ACTIVITY_FILTER.ALL,
-        limit: 10,
-        placeId : null
-      };
-      settings = _.defaults(settings, mandatorySettings);
-      return get(settings);
+        limit: settings.limit || 10,
+        placeId : settings.placeId
+      });
     }
 
-    function getByPlace(settings) {
-
-      if (!settings.placeId) {
-        throw 'Could not find the place id.';
-      }
-
-      var defer = $q.defer();
-
-      NstSvcServer.request('timeline/get_events', {
-        limit: settings.limit,
-        before: settings.date,
-        place_id: settings.placeId,
-        filter: settings.filter
-      }).then(function(data) {
-        var activities = _.map(data.events, parseActivity);
-
-        $q.all(activities).then(function(values) {
-          defer.resolve(values);
-        }).catch(defer.reject);
-
-      }).catch(defer.reject);
-
-      return defer.promise;
-    }
   }
 })();
