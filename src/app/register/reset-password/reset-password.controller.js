@@ -14,8 +14,7 @@
     vm.validatePhone = validatePhone;
 
     (function() {
-      vm.step = 3;
-
+      vm.step = 1;
     })();
 
     function nextStep() {
