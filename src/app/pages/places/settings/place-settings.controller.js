@@ -32,7 +32,7 @@
       hasSeeMembersAccess : null
     };
     vm.teammates = [];
-    var defaultTeammatesLimit = 10;
+    var defaultTeammatesLimit = 16;
     vm.teammatesSettings = {
       skip : 0,
       limit : defaultTeammatesLimit,

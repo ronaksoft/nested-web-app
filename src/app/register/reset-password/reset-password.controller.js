@@ -18,11 +18,13 @@
     })();
 
     function nextStep() {
+      vm.submitted = false;
       vm.step++;
     }
 
     function previousStep() {
       if (vm.step > 1) {
+        vm.submitted = false;
         vm.step--;
       }
     }
@@ -190,7 +192,7 @@
 
     function getPhoneNumber() {
       if (vm.countryCode && vm.phone) {
-        return vm.countryCode.toString() + vm.phone.toString();
+        return vm.countryCode.toString() + _.trimStart(vm.phone.toString(), "0");
       }
        return "";
     }
