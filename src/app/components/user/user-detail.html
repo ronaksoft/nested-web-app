@@ -1,0 +1,28 @@
+<div>
+
+  <div class="user-avatar-bg">
+    <div class="blur-image">
+      <div style="background-image: url('{{user.avatar}}')"></div>
+    </div>
+    <div class="user-avatar-72">
+      <img initials="user.name" data-url="user.avatar" data-width="72"
+           data-height="72"
+           data-radius="40" class="account-initials-72 _df" data-word-count="2" data-font-size="16"/>
+    </div>
+  </div>
+  <div class="user-data">
+    <h4>{{user.name}}</h4>
+    <span>@{{user.username}}</span>
+    <div class="_fw">
+      <div class="butn-white">
+        <i class="icon cursor-pointer icon-search-rotated"></i>
+      </div>
+      <div class="butn-green">
+        <svg>
+          <use xlink:href="/assets/icons/nst-icn32.svg#Wcompose"></use>
+        </svg>Message
+      </div>
+    </div>
+  </div>
+
+</div>
