@@ -53,7 +53,28 @@
 
 
     NstSvcI18n.addLocale("en-US", {
-      "foo" : "فو"
+      "Messages" : "پیام ها",
+      "Activity" : "فعالیت ها",
+      "Files" : "فایل ها",
+      "Latest Messages" : "پیام های اخیر",
+      "Latest Activity" : "فعالیت های اخیر",
+      "All Places Feed" : "گروه ها",
+      "All Places" : "همه گروه ها",
+      "Favorite Places Feed" : "گروه های مورد علاقه",
+      "Sent Messages" : "‍پیام های ارسال شده",
+      "Profile & Settings" : "تنظیمات من",
+      "Log out" : "خروج",
+      "Compose" : "ارسال",
+      "Mention" : "مرتبط با من",
+      "Search" : "جستجو",
+      "Recent Activity" : "فعالیت های اخیر",
+      "Sent" : "ارسال شده",
+      "Sort by" : "ترتیب بر اساس",
+      "View setting" : "تنظیمات نمایش",
+      "Content Preview" : "نمایش متن",
+      "Attachments" : "نمایش ضمیمه ها",
+      "Comments" : "دیدگاه ها",
+      "Foo" : "فو",
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

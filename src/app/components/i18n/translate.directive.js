@@ -5,12 +5,12 @@
     .module('ronak.nested.web.components.i18n')
     .directive('translate', ['NstSvcTranslation', function (NstSvcTranslation) {
       return {
-        restrict: 'AE',
-        // scope: true,
-        link: function (scope, element, attrs) {
-          console.log('haha');
+        restrict: 'E',
+        replace : true,
+        template : function (element, attrs) {
           var text = element[0].innerText;
-          element[0].innerText = NstSvcTranslation.get(text);
+          var value = NstSvcTranslation.get(text);
+          return "<span>" + value + "</span>";
         }
       };
     }]);
