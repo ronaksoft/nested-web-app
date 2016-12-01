@@ -241,7 +241,7 @@
 
     function getPhoneNumber() {
       if (vm.countryCode && vm.phone) {
-        return vm.countryCode.toString() + vm.phone.toString();
+        return vm.countryCode.toString() + _.trimStart(vm.phone.toString(), "0");
       }
        return "";
     }
