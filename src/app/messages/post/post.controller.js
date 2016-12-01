@@ -196,6 +196,9 @@
     function removePost(post) {
 
       NstSvcPostInteraction.remove(post, vm.placesWithRemoveAccess).then(function (place) {
+        if (!place) {
+          return;
+        }
         NstUtility.collection.dropById(vm.placesWithRemoveAccess, place.id);
         post.dropPlace(place.id);
 
