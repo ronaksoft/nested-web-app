@@ -1,7 +1,9 @@
 {
   "name": "ronak.nested.web",
   "version": "3.1.0-beta",
-  "dependencies": {},
+  "dependencies": {
+    "protractor-cucumber-framework": "^0.6.0"
+  },
   "scripts": {
     "test": "gulp test"
   },

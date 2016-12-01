@@ -18,14 +18,78 @@
     vm.requiredFirstname = false;
     vm.requiredLastname = false;
 
+    vm.userPattern = false;
+    vm.sequenceDashes = false;
+    vm.startAlphabet = false;
+    vm.noEndDash = false;
+
 
     vm.patterns = {
-      // password : NST_PATTERN.PASSWORD,
 
       username : {
         general : NST_PATTERN.USERNAME
       }
     };
+
+    vm.usernameConditions = function (val) {
+
+      if(val == undefined) {
+        vm.userPattern = false;
+        vm.minCharacter = false;
+        vm.startAlphabet = false;
+        vm.noEndDash = false;
+        vm.sequenceDashes = false;
+        return;
+      }
+
+
+      if (val.match(NST_PATTERN.USERNAME)) {
+        vm.userPattern = true;
+      }
+      else {
+        vm.userPattern = false;
+      }
+
+      if (val.length>0){
+
+        if (val.length<5 && val.length>0) {
+          vm.minCharacter = true;
+        }
+        else {
+          vm.minCharacter = false;
+        }
+
+        if (val && /^[a-zA-Z]/.test(val)) {
+          vm.startAlphabet = false;
+        }
+        else {
+          vm.startAlphabet = true;
+        }
+
+        if (/--/.test(val)) {
+          vm.sequenceDashes = true;
+        }
+        else {
+          vm.sequenceDashes = false;
+        }
+
+        if (/[0-9a-zA-Z]$/.test(val)) {
+          vm.noEndDash = false;
+        }
+        else {
+          vm.noEndDash = true;
+        }
+      }
+      else {
+        vm.userPattern = false;
+        vm.minCharacter = false;
+        vm.startAlphabet = false;
+        vm.noEndDash = false;
+        vm.sequenceDashes = false;
+      }
+
+    }
+
 
     vm.tooltipPasswordAlert = {
       letters : /(?=.*[A-Z])(?=.*[a-z])/,
@@ -66,13 +130,13 @@
       }
     };
 
-    vm.clearUserError = function (val) {
+    vm.clearUserError = function () {
+      var val = vm.username
       if (val && val.length > 0) {
         vm.requiredUser = false;
       }
       else {
         vm.requiredUser = true;
-        return;
       }
     };
 
@@ -310,12 +374,6 @@
     vm.register = function(event) {
 
       //TODO: clean my validations
-        if(vm.username === undefined){
-          vm.requiredUser = true;
-        }else{
-          vm.requiredUser= false;
-        }
-
         if(vm.password === undefined){
           vm.requiredPassword = true;
         }else{
