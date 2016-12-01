@@ -18,11 +18,13 @@
     })();
 
     function nextStep() {
+      vm.submitted = false;
       vm.step++;
     }
 
     function previousStep() {
       if (vm.step > 1) {
+        vm.submitted = false;
         vm.step--;
       }
     }
