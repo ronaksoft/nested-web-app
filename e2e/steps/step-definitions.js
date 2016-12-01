@@ -180,6 +180,11 @@ module.exports = function () {
     menu.click();
   });
 
+  this.Given(/^I Click by ngModel "([^"]*)"$/, function (ngModel){
+    var select = element(By.css('select[ng-model="' + ngModel + '"]'));
+    select.click();
+  });
+
   this.Given(/^I Click by dataNgModel "([^"]*)"$/, function (dataNgModel){
     var select = element(By.css('select[data-ng-model="' + dataNgModel + '"]'));
     select.click();

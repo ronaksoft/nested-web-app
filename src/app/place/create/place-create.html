@@ -177,8 +177,8 @@
           </p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.policy.addMember">
-              <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-              <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="creators" id="manager-add-access">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="everyone" id="member-add-access">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
             </select>
           </div>
         </div>
@@ -188,8 +188,8 @@
           </p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.policy.addPlace">
-              <option value="creators">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-              <option value="everyone">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="creators" id="manager-create-sub-place-access">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="everyone" id="member-create-sub-place-access">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
             </select>
           </div>
         </div>

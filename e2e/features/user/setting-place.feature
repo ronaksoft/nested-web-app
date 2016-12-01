@@ -88,6 +88,8 @@
 #    When I wait 5s
 #    Given I Click id "member-sub-place-access"
 #    When I wait 5s
+#    Given I Click by dataNgModel "ctlSettings.place.policy.add_member"
+#    When I wait 5s
 #    Given I Click id "member-invite-access"
 #    When I wait 5s
 #    Given I Click by dataNgClick "ctlSettings.addMember()"
@@ -102,8 +104,23 @@
 #    When I wait 5s
 #    Given I Click list by ngClick "memberCtrl.remove();"
 #    When I wait 5s
+#    When I wait 5s
 #    Given I Click by ngClick "$dismiss()"
+#    When I wait 5s
+#    Then should the title of the place be "test12"
 #
-#
+#  Scenario: Delete created Place
+#    When I wait 5s
+#    Given I Click id "navbar-popover"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Leave and Delete"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Delete Place"
+#    When I wait 5s
+#    Given I fill "Place ID" with "create14"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "DELETE"
+#    When I wait 5s
+#    Then should the title of the place be "All Places"
 #
 #
