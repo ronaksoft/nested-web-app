@@ -26,10 +26,6 @@ module.exports = function () {
     return browser.wait(EC.invisibilityOf(element(By.css('.loading-container'))), 50000);
   });
 
-  this.When(/^I Wait till line loader hide$/, function () {
-    element(By.css('div[style="width: 0%;"]'));
-    return;
-  });
 
   this.When(/^Wait for Upload to be finished$/, function () {
     browser.ignoreSynchronization = true;
@@ -83,9 +79,14 @@ module.exports = function () {
     button.click();
   });
 
-  this.Given(/^I Press "([^"]*)"$/, function (type) {
+  this.Given(/^I Press button "([^"]*)"$/, function (type) {
     var button1 = element(By.css('button[type="' + type + '"]'));
     button1.click();
+  });
+
+  this.Given(/^I Press button by ngClick "([^"]*)"$/, function (ngClick){
+    var ClickButton = element(By.css('button[ng-click="' + ngClick + '"]'));
+    ClickButton.click();
   });
 
   this.Given(/^I Click id "([^"]*)"$/, function (id) {
@@ -148,7 +149,7 @@ module.exports = function () {
     clearInput.clear();
   });
 
-  this.Given(/^I clear input by ngModel "([^"]*)"$/, function (clearing) {
+  this.Given(/^I clear input by ngModel "([^"]*)"$/, function (ngModel) {
     var clearInput1 = element(By.css('input[ng-model="' + ngModel + '"]'));
     clearInput1.clear();
   });
@@ -202,6 +203,11 @@ module.exports = function () {
   this.Given(/^I Click icon by tooltip "([^"]*)"$/, function (text) {
     var icon = element(By.css('a[data-uib-tooltip="' + text + '"]'));
     icon.click();
+  });
+
+  this.Given(/^I Click text by tooltip "([^"]*)"$/, function (text) {
+    var text = element(By.css('p[data-uib-tooltip="' + text + '"]'));
+    text.click();
   });
 
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
