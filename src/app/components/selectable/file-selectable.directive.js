@@ -33,10 +33,18 @@
                 scope.onSelect(selectedArray);
               }
             },
+            unselect: function (event, ui) {
+              selectedArray = [];
+              seletableElement.selectonic("getSelected").each(function (i, e) {
+                selectedArray.push($(e).attr(scope.selectAttr))
+              });
+              if (scope.onSelect) {
+                scope.onSelect(selectedArray);
+              }
+            }
           });
         }
       }
     })
 
 })();
-

@@ -28,6 +28,7 @@
         }
       }
     };
+
     $rootScope.progress.bar.setHeight('5px');
     // $rootScope.progress.bar.setColor('#14D766');
 
@@ -51,43 +52,20 @@
     }
 
 
-    // var timers = [];
-    // $rootScope.scrolling = function(e) {
-    //   if (e.currentTarget.scrollY + e.currentTarget.screen.availHeight > document.body.scrollHeight) {
-    //     console.log("scrolled")
-    //   }
-    //
-    //   timers.forEach(function(promises) {
-    //     $timeout.cancel(promises);
-    //   });
-    //   var $sidebar = $("#content-plus"),
-    //     topPadding = 150;
-    //
-    //   var timer = $timeout(
-    //     function() {
-    //       if (150 > e.currentTarget.scrollY > 0) {
-    //         $sidebar.stop().css({
-    //           marginTop: e.currentTarget.scrollY
-    //         });
-    //       } else if (e.currentTarget.scrollY > topPadding) {
-    //         $sidebar.stop().css({
-    //           marginTop: e.currentTarget.scrollY - 51
-    //         });
-    //       } else if (e.currentTarget.scrollY == 0){
-    //         $sidebar.stop().css({
-    //           marginTop: 0
-    //         });
-    //       }
-    //     },
-    //     50
-    //   );
-    //   timers.push(timer);
-    //   timer;
-    //   $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
-    // }
-    console.log('dodo');
     NstSvcI18n.addLocale("en-US", {
       "foo" : "فو"
+    });
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+      if (!$rootScope.stateHistory) {
+        $rootScope.stateHistory = [];
+      }
+
+      $rootScope.stateHistory.push({
+        state : toState,
+        params : toParams
+      });
+
     });
 
   }

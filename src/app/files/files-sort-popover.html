@@ -1,0 +1,5 @@
+<div>
+  <a class="_df list-items _aic cursor-pointer" ng-repeat="fileType in ctlFiles.fileTypes" ui-sref="app.place-files({ placeId : ctlFiles.currentPlaceId, filter : fileType.label })">
+    <span class="capitalize">{{fileType.label}}</span>
+  </a>
+</div>

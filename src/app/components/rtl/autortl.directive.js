@@ -116,6 +116,8 @@
               '\ud83d[\ude80-\udeff]'  // U+1F680 to U+1F6FF
             ];
             str = str.replace(new RegExp(emojiRanges.join('|'), 'g'), '');
+            //detect mentions :
+            str = str.replace(/(^|\s)@(\w+)/g,'');
             str = str.trim();
             str = str.substring(0, 1);
             if (persianRex.rtl.test(str)) {

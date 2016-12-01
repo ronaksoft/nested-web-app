@@ -22,129 +22,66 @@
 
       .state('app.compose', {
         url: '/compose',
+        params : {
+          attachments : []
+        },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose',
-        resolve: {
-          PreviousState: [
-            "$state",
-            function ($state) {
-              var currentStateData = {
-                Name: $state.current.name,
-                Params: $state.params,
-                URL: $state.href($state.current.name, $state.params)
-              };
-              return currentStateData;
-            }
-          ]
-        },
         options : {
           group : 'compose',
-          primary : true
         }
       })
       .state('app.place-compose', {
         url: '/compose/:placeId',
         params: {
-          placeId: NST_DEFAULT.STATE_PARAM
+          placeId: NST_DEFAULT.STATE_PARAM,
+          attachments : []
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose',
-        resolve: {
-          PreviousState: [
-            "$state",
-            function ($state) {
-              var currentStateData = {
-                Name: $state.current.name,
-                Params: $state.params,
-                URL: $state.href($state.current.name, $state.params)
-              };
-              return currentStateData;
-            }
-          ]
-        },
         options : {
           group : 'compose',
-          primary : true
         }
       })
       .state('app.compose-forward', {
         url: '/forward/:postId',
         params: {
-          postId: NST_DEFAULT.STATE_PARAM
+          postId: NST_DEFAULT.STATE_PARAM,
+          attachments : []
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose',
-        resolve: {
-          PreviousState: [
-            "$state",
-            function ($state) {
-              var currentStateData = {
-                Name: $state.current.name,
-                Params: $state.params,
-                URL: $state.href($state.current.name, $state.params)
-              };
-              return currentStateData;
-            }
-          ]
-        },
         options : {
           group : 'compose',
-          primary : true
         }
       })
       .state('app.compose-reply-all', {
         url: '/reply/:postId',
         params: {
-          postId: NST_DEFAULT.STATE_PARAM
+          postId: NST_DEFAULT.STATE_PARAM,
+          attachments : []
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose',
-        resolve: {
-          PreviousState: [
-            "$state",
-            function ($state) {
-              var currentStateData = {
-                Name: $state.current.name,
-                Params: $state.params,
-                URL: $state.href($state.current.name, $state.params)
-              };
-              return currentStateData;
-            }
-          ]
-        },
         options : {
           group : 'compose',
-          primary : true
         }
       })
       .state('app.compose-reply-sender', {
         url: '/reply/:postId/sender',
         params: {
-          postId: NST_DEFAULT.STATE_PARAM
+          postId: NST_DEFAULT.STATE_PARAM,
+          attachments : []
         },
         templateUrl: 'app/pages/compose/main.html',
         controller: 'ComposeController',
         controllerAs: 'ctlCompose',
-        resolve: {
-          PreviousState: [
-            "$state",
-            function ($state) {
-              var currentStateData = {
-                Name: $state.current.name,
-                Params: $state.params,
-                URL: $state.href($state.current.name, $state.params)
-              };
-              return currentStateData;
-            }
-          ]
-        },
         options : {
           group : 'compose',
-          primary : true
         }
       })
 
@@ -155,13 +92,12 @@
       .state('app.place-settings', {
         url: '/places/:placeId/settings',
         params: {
-          placeId: NST_DEFAULT.STATE_PARAM,
+          placeId: NST_DEFAULT.STATE_PARAM
         },
         options : {
-          primary : true,
           group : 'settings'
         },
-        onEnter: ['$stateParams', '$state', '$uibModal', 'previousState', function($stateParams, $state, $uibModal, previousState) {
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
           var modal = $uibModal.open({
             animation: false,
             size: 'lg-white',
@@ -169,73 +105,46 @@
             controller: 'PlaceSettingsController',
             controllerAs: 'ctlSettings'
           }).result.catch(function() {
-            if (previousState.name && previousState.name !== 'app.place-create') {
-              $state.go(previousState.name, previousState.params, { notify : false });
-            } else {
-              $state.go('app.place-messages', { placeId : $stateParams.placeId });
-            }
+            $rootScope.goToLastState(true, {
+              state : $state.get('app.place-messages'),
+              params : { placeId : $stateParams.placeId },
+              default : true
+            });
           });
         }],
         onExit: function($uibModalStack) {
           if ($uibModalStack) {
             $uibModalStack.dismissAll();
           }
-        },
-        resolve: {
-          previousState : [
-            "$state",
-            function ($state) {
-              var current = {
-                name : $state.current.name,
-                params : $state.params,
-                url : $state.href($state.current.name, $state.params)
-              };
-              return current;
-            }
-          ]
-        },
+        }
       })
       .state('app.place-create', {
         url: '/places/:placeId/create',
         params: {
-          placeId: NST_DEFAULT.STATE_PARAM
+          placeId: NST_DEFAULT.STATE_PARAM,
+          isOpenPlace: null,
+          isClosePlace: null
         },
         options : {
           group : 'settings'
         },
-        onEnter: ['$stateParams', '$state', '$uibModal', 'previousState', function($stateParams, $state, $uibModal, previousState) {
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
           var modal = $uibModal.open({
             animation: false,
             size: 'lg-white',
             templateUrl: 'app/place/create/place-create.html',
             controller: 'PlaceCreateController',
             controllerAs: 'ctlCreate'
+
           }).result.catch(function() {
-            if (previousState.name) {
-              $state.go(previousState.name, previousState.params, { notify : false });
-            } else {
-              $state.go(NST_DEFAULT.STATE)
-            }
+            $rootScope.goToLastState();
           });
         }],
-        onExit: function($uibModalStack) {
+        onExit: function($uibModalStack,$stateParams ,$state) {
           if ($uibModalStack) {
             $uibModalStack.dismissAll();
           }
-        },
-        resolve: {
-          previousState : [
-            "$state",
-            function ($state) {
-              var current = {
-                name : $state.current.name,
-                params : $state.params,
-                url : $state.href($state.current.name, $state.params)
-              };
-              return current;
-            }
-          ]
-        },
+        }
       })
 
       /*****************************
@@ -252,8 +161,8 @@
           group : 'activity'
         }
       })
-      .state('app.activity-bookmarks', {
-        url: '/activity/bookmarks',
+      .state('app.activity-favorites', {
+        url: '/activity/favorites',
         templateUrl: 'app/events/events.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity',
@@ -262,8 +171,8 @@
           group : 'activity'
         }
       })
-      .state('app.activity-bookmarks-filtered', {
-        url: '/activity/bookmarks/:filter',
+      .state('app.activity-favorites-filtered', {
+        url: '/activity/favorites/:filter',
         params: {
           filter: NST_DEFAULT.STATE_PARAM
         },
@@ -316,44 +225,23 @@
         }
       })
 
-      /*****************************
-       *****   Files Routes    ****
-       *****************************/
-
-      .state('files', {
-        url: '/files',
-        params: {
-          placeId: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/pages/places/files/place-files.html',
-        controller: 'PlaceFilesController',
-        controllerAs: 'ctlFiles'
-      })
-
-      .state('place-files', {
-        url: '/places/:placeId/files',
-        params: {
-          placeId: NST_DEFAULT.STATE_PARAM
-        },
-        templateUrl: 'app/pages/places/files/place-files.html',
-        controller: 'PlaceFilesController',
-        controllerAs: 'ctlFiles'
-      })
 
       /*****************************
        *****   Search Routes    ****
        *****************************/
 
       .state('app.search', {
-        url: '/search/:query',
+        url: '/search/:search',
         params: {
-          query: NST_DEFAULT.STATE_PARAM
+          search: NST_DEFAULT.STATE_PARAM
         },
+        reloadOnSearch : false,
         templateUrl: 'app/messages/search/search.html',
         controller: 'SearchController',
         controllerAs: 'ctlSearch',
         options : {
-          group : 'message'
+          group : 'message',
+          primary : true
         }
       });
 

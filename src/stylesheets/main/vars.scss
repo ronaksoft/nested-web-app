@@ -60,6 +60,7 @@ $font-family-per-bold: 'YekanBakh';
 $border-radius-base:        4px !default;
 $border-radius-large:       6px !default;
 $border-radius-small:       3px !default;
+$border-radius-butn:       4px !default;
 
 $animation-dur: .3s;
 $navbar-height: 160px;
@@ -87,6 +88,10 @@ $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
   from {opacity: 0;}
   to {opacity: 1;}
 }
+@keyframes appearence-2 {
+  from {opacity: 0;}
+  to {opacity: .8;}
+}
 @keyframes svgadd {
   from {
     opacity: 0;
@@ -95,6 +100,22 @@ $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
   to {
     opacity: 1;
     //transform: rotateZ(45deg);
+  }
+}
+@keyframes modal-dialog {
+  0% {
+    transform: scale(0,0);
+  }
+  100% {
+    transform: scale(1,1);
+  }
+}
+@keyframes post-view {
+  0% {
+    background-color: rgba(255,255,255,0);
+  }
+  100% {
+    background-color: rgba(255,255,255,1);
   }
 }
 @keyframes side-anim-detail {

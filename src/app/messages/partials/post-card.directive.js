@@ -18,7 +18,8 @@
         post: '=post',
         viewSetting: '=settings',
         thisPlace: '=postinplace',
-        hideComments: '=hideComments'
+        hideComments: '=hideComments',
+        hasRemoveAccess:'=hasRemoveAccess'
       }
     };
   }

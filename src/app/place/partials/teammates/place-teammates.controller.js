@@ -6,10 +6,10 @@
     .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
-  function placeTeammatesController($scope, $q, $uibModal, toastr,
-    NstSvcPlaceFactory, NstUtility,NstSvcAuth,
+  function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr,
+    NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess,
     NstVmMemberItem, NST_SRV_ERROR,
-    NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE) {
+    NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
     var vm = this;
 
     vm.mode = 'collapsed';
@@ -20,6 +20,7 @@
     vm.showTemmate = true;
     vm.teammates = [];
 
+    vm.placeId = $stateParams.placeId;
 
     initialize();
 
@@ -31,42 +32,48 @@
     vm.toggleMode = toggleMode;
 
     $scope.$watch(function() {
-      return vm.grandPlace;
+      return $stateParams.placeId;
     }, function(newValue, oldValue) {
       if (newValue) {
+        vm.placeId = $stateParams.placeId;
         initialize();
       }else{
-        vm.showTemmate = false;
+        vm.showTeammate = false;
       }
     });
 
     function initialize() {
-      if (!vm.grandPlace) {
+      if (!vm.placeId) {
         return;
       }
       vm.loading = true;
 
-      $q.all([
-        NstSvcPlaceFactory.hasAccess(vm.grandPlace.id, NST_PLACE_ACCESS.ADD_MEMBERS),
-        NstSvcPlaceFactory.hasAccess(vm.grandPlace.id, NST_PLACE_ACCESS.SEE_MEMBERS),
-      ]).then(function(values) {
+      NstSvcPlaceAccess.getIfhasAccessToRead(vm.placeId).then(function (place) {
+        if (place) {
+          vm.place = place;
+          $q.all([
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
+            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
+          ]).then(function(values) {
+            vm.hasAddMembersAccess = values[0];
+            vm.hasSeeMembersAccess = values[1];
 
-        vm.hasAddMembersAccess = values[0];
-        vm.hasSeeMembersAccess = values[1];
+            if (vm.mode = 'collapsed') {
+              collapse();
+            }
 
-        if (vm.mode = 'collapsed') {
-          collapse();
+            vm.showTeammate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
+
+            findMembers();
+          }).catch(function(error) {
+            NstSvcLogger.error(error);
+          }).finally(function () {
+            vm.loading = false;
+          });
         }
+      }).catch(function (error) {
 
-        vm.showTemmate = (vm.grandPlace.id !== NstSvcAuth.user.id);
-
-        findMembers();
-      }).catch(function(error) {
-        NstSvcLogger.error(error);
-      }).finally(function () {
-        vm.loading = false;
       });
-
     };
 
 
@@ -98,7 +105,7 @@
             return role;
           },
           currentPlace: function() {
-            return vm.grandPlace;
+            return vm.place;
           }
         }
       });
@@ -107,36 +114,63 @@
         $q.all(_.map(selectedUsers, function(user) {
 
           return $q(function(resolve, reject) {
-            NstSvcPlaceFactory.inviteUser(vm.grandPlace, role, user).then(function(invitationId) {
-              toastr.success(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.grandPlace.id));
-              NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.grandPlace.id));
-              resolve({
-                user: user,
-                role: role,
-                invitationId: invitationId
-              });
-            }).catch(function(error) {
-              // FIXME: Why cannot catch the error!
-              if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.grandPlace.id));
-                NstSvcLogger.error(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.grandPlace.id));
+            if (vm.placeId.split('.').length === 1) {
+              NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
+                toastr.success(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.placeId));
+                NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.placeId));
                 resolve({
                   user: user,
                   role: role,
-                  invitationId: null,
-                  duplicate: true
+                  invitationId: invitationId
                 });
-              } else {
-                reject(error);
-              }
-            });
+              }).catch(function (error) {
+                // FIXME: Why cannot catch the error!
+                if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
+                  toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.placeId));
+                  NstSvcLogger.error(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.placeId));
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: null,
+                    duplicate: true
+                  });
+                } else {
+                  reject(error);
+                }
+              });
+            }else{
+              NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (addId) {
+                toastr.success(NstUtility.string.format('User "{0}" has been added to Place "{1}" successfully.', user.id, vm.placeId));
+                NstSvcLogger.info(NstUtility.string.format('User "{0}" has been added to Place "{1}" successfully.', user.id, vm.placeId));
+                resolve({
+                  user: user,
+                  role: role,
+                  invitationId: addId
+                });
+              }).catch(function (error) {
+                // FIXME: Why cannot catch the error!
+                if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
+                  toastr.warning(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.placeId));
+                  NstSvcLogger.error(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.placeId));
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: null,
+                    duplicate: true
+                  });
+                } else {
+                  reject(error);
+                }
+              });
+            }
           });
 
         })).then(function(values) {
           _.forEach(values, function(result) {
             if (!result.duplicate) {
               if (result.role === NST_PLACE_MEMBER_TYPE.KEY_HOLDER) {
-                // vm.teammates.push(new NstVmMemberItem(result.user, 'pending_' + result.role));
+                if (vm.placeId.split('.').length > 1)
+                  vm.teammates.push(new NstVmMemberItem(result.user, result.role));
               }
             }
           });
@@ -163,7 +197,7 @@
     function findMembers() {
       if (vm.hasSeeMembersAccess) {
         vm.loading = true;
-        NstSvcPlaceFactory.getMembers(vm.grandPlace.id, vm.limit).then(function(members) {
+        NstSvcPlaceFactory.getMembers(vm.placeId, vm.limit).then(function(members) {
           vm.teammates = _.concat(_.map(members.creators, function(member) {
             return new NstVmMemberItem(member, 'creator');
           }), _.map(members.keyHolders, function(member) {

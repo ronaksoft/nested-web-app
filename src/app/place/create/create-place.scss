@@ -2,7 +2,7 @@
   display: flex;
   position: absolute;
   background-color: $color-bg;
-  opacity: 0.98;
+  //opacity: 0.98;
   top: 0;
   left: 0;
   width: 100%;
@@ -22,49 +22,38 @@
       line-height: 38px;
       font-size: 32px;
       font-weight: 700;
-      margin: 32px 0;
+      margin: 24px 0;
       span {
         font-size: 24px;
         font-weight: 400;
       }
     }
-    p,& > label {
-      line-height: 13px;
-      color: #869D91;
-      font-size: 13px;
-      font-weight: 700;
-      margin: 16px 0;
-    }
     button {
       width: 100%;
       transition: .2s all ease;
-      border: 1px solid $color-sense-wire;
-      background-color: $color-sense;
-      border-radius: 4px;
-      margin: 32px 0;
+      margin: 24px 0;
       line-height: 30px;
-      color: $color-white;
       font-size: 18px;
       font-weight: 700;
+      @extend .butn-green;
       &:disabled {
         opacity: 0.5;
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
         filter: alpha(opacity=50);
       }
     }
+    button.submit {
+      width: 100%!important;
+    }
     input {
       width: 100%;
       min-height: 28px;
-      color: $color-grey;
-      font-size: 16px;
+      color: $color-solid;
+      @extend .nst-font-large;
       font-weight: 400;
       padding: 6px;
       transition: all .2s;
       margin-bottom: 10px;
-      &:focus {
-        border: 2px solid $color-solid;
-        color: $color-solid;
-      }
     }
     aside{
       width: 100%;
@@ -72,16 +61,15 @@
       color: #476152;
       font-size: 13px;
       font-weight: 400;
-      padding: 0 10px;
-      margin-top: 8px;
+      padding: 8px 12px;
     }
     #PlaceID {
       color: #869D91;
-      font-size: 16px;
+      @extend .nst-font-large;
       font-weight: 400;
       min-height: 28px;
       width: 100%;
-      margin-bottom: 10px;
+      padding: 10px;
     }
     .field{
       position: relative;
@@ -89,7 +77,7 @@
       span {
         line-height: 28px;
         color: #A6B9AF;
-        font-size: 16px;
+        @extend .nst-font-large;
         font-weight: 400;
       }
       input {
@@ -107,11 +95,12 @@
         border-color: $color-solid;
       }
     }
+
     select {
       line-height: 40px;
       color: $color-solid;
-      font-size: 16px;
-      width: 204px;
+      @extend .nst-font-large;
+      width: 100%;
       height: 40px;
       font-weight: 400;
       padding: 0 22px 0 8px;
@@ -121,182 +110,42 @@
 
 }
 #create-place {
-  width: 480px;
+  max-width: 490px;
+  width: 100%;
+  padding: 0 5px;
   margin: 80px auto;
   height: auto;
   position: relative;
   form .placeID {
     background-color: $color-calm;
-    margin-bottom: 16px;
-  }
-  .select-box {
-    width: 100%;
     margin-bottom: 32px;
-    box-sizing: border-box;
-    border: solid 2px transparent;
-    border-radius: 10px;
-    padding-bottom: 12px;
-    transition: all .2s ease;
-    cursor: pointer;
-    .desc {
-      h3 {
-        letter-spacing: -1px;
-        line-height: 24px;
-        font-size: 20px;
-        font-weight: 700;
-      }
-      p {
-        color: $color-solid;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-      }
-      aside {
-        color: #869D91;
-        font-size: 14px;
-        line-height: 17px;
-        word-wrap: break-word;
-      }
-    }
-    .icn {
-      width: 120px;
-      height: 100%;
-      display: flex;
-      flex: none;
-      justify-content: center;
-      align-items: center;
-      img {
-        width: 120px;
-        height: auto;
-      }
-    }
-    &:hover {
-      background-color: $color-white;
-      box-shadow:0 2px 8px rgba(0,0,0,0.15);
-    }
-    &.selected {
-      box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
-      border: solid 2px $color-sense;
-      background-color: $color-white;
-    }
   }
   .option-row {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
-    p {
-      line-height: 19px;
-      font-size: 16px;
-      font-weight: 400;
-      display: flex;
-      flex: 1;
-      color: $color-solid;
-    }
+    margin-bottom: 16px;
     select {
       flex: none;
     }
-
-    input[type="checkbox"] + label {
-      display: inline-block;
-      background: url('../assets/icons/controls.svg') no-repeat;
-      height: 16px;
-      min-width: 17px;
-      padding: 0 0 0 17px;
-      color: $color-storm;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 17px;
-    }
-    input[type="checkbox"]:checked + label {
-      background-position: 0 -16px;
-    }
-
-    input[type="radio"] + label {
-      display: inline-block;
-      background: url('../assets/icons/controls.svg') no-repeat;
-      background-position: 0 -48px;
-      height: 16px;
-      min-width: 17px;
-      padding: 0 0 0 17px;
-      color: $color-storm;
-      font-weight: 400;
-      font-size: 14px;
-      line-height: 17px;
-    }
-    input[type="radio"]:checked + label {
-      background-position: 0 -64px;
-    }
-    input[type="radio"] {
-      display: none;
-    }
   }
-}
-
-.select-box-step2 {
-  width: 100%;
-  margin-bottom: 12px;
-  box-sizing: border-box;
-  border: dashed 2px $color-wind;
-  padding: 0 12px;
-  background-color: $color-white;
-  border-radius: 10px;
-  transition: all .2s ease;
-  color: $color-solid;
-  h3 {
-    font-size: 20px;
-    line-height: 24px;
-    letter-spacing: -1px;
-    font-weight: 700;
-    color: $color-solid;
-    margin: 12px 0;
-    i {
-      font-size: 16px;
-      color: #808080;
-      font-weight: 400;
-      line-height: 19px;
-      font-style: normal;
-    }
-  }
-  p {
-    line-height: 19px;
-    font-size: 16px;
+  .create-place-checkbox + label {
+    display: inline-block;
+    background: url('../assets/icons/controls.svg') no-repeat;
+    height: 16px;
+    min-width: 17px;
+    padding: 0 0 0 17px;
+    color: $color-storm;
     font-weight: 400;
-    color: $color-solid;
-    opacity: .5;
+    margin: 0;
+    @extend .nst-font-medium;
+    line-height: 20px;
   }
-  aside {
-    color: #869D91;
-    font-size: 14px;
-    line-height: 17px;
-    word-wrap: break-word;
-    flex-direction: row;
-    padding: 0;
-    align-items: center;
-    display: none;
-    p {
-      flex: 1;
-      display: flex;
-      font-size: 14px;
-      font-weight: 400;
-    }
+  .create-place-checkbox:checked + label {
+    background-position: 0 -16px;
   }
-  &:hover {
-    box-shadow:0 2px 8px rgba(0,0,0,0.15);
-    border-color: transparent;
-    p {
-      opacity: 1;
-    }
-  }
-  &.selected {
-    border: solid 2px $color-sense;
-    p {
-      opacity: 1;
-    }
-    aside {
-      display: inline-flex;
-    }
-  }
+
 }
 
 .close-modal {
@@ -310,6 +159,7 @@
   right: 56px;
   border-radius: 24px;
   transition: all $animation-dur;
+  z-index: 2;
   svg {
     width: 32px;
     height: 32px;
@@ -319,4 +169,22 @@
     box-shadow : 0 10px 10px rgba(0,0,0,.15);
     background-color: $color-white;
   }
+}
+
+.input-lab{
+  line-height: 13px;
+  color: $color-storm;
+  font-size: 13px;
+  font-weight: 700;
+  padding-top: 16px;
+  margin-bottom: 8px;
+}
+.option-des {
+  line-height: 19px;
+  @extend .nst-font-large;
+  font-weight: 400;
+  display: flex;
+  flex: 1;
+  color: $color-solid;
+  margin-bottom: 0;
 }

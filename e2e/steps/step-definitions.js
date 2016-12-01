@@ -31,6 +31,12 @@ module.exports = function () {
     return;
   });
 
+  this.When(/^Wait for Upload to be finished$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.invisibilityOf(element(By.css('div[progressbar-mode="circle"]'))), 50000);
+  });
+
   this.setDefaultTimeout(600 * 1000);
 
   this.Given(/^I go to the page "([^"]*)"$/, function (url) {
@@ -50,6 +56,11 @@ module.exports = function () {
   this.Given(/^I fill "([^"]*)" with "([^"]*)"$/, function (placeholder, value) {
     var input = element(By.css('input[placeholder="' + placeholder + '"]'));
     input.sendKeys(value);
+  });
+
+  this.Given(/^I fill input by ngModel "([^"]*)" with "([^"]*)"$/, function (filling, value) {
+    var fillInput1 = element(By.css('input[ng-model="' + filling + '"]'));
+    fillInput1.sendKeys(value);
   });
 
   this.Given(/^I fill textarea by "([^"]*)" with "([^"]*)"$/, function (placeholder, value) {
@@ -72,6 +83,11 @@ module.exports = function () {
     button.click();
   });
 
+  this.Given(/^I Press "([^"]*)"$/, function (type) {
+    var button1 = element(By.css('button[type="' + type + '"]'));
+    button1.click();
+  });
+
   this.Given(/^I Click id "([^"]*)"$/, function (id) {
     var radiob = element(By.css('#' + id));
     radiob.click();
@@ -82,8 +98,38 @@ module.exports = function () {
     dropdown.click();
   });
 
+  this.Given(/^I Click on sidebar "([^"]*)"$/, function (destination) {
+    var pS = element(By.css('a[href="#/'+ destination +'"]'));
+    pS.click();
+  });
+
+  this.Given(/^I Click on "([^"]*)" in sidebar$/, function (destination) {
+    var pS = element(By.css('a[href="#/messages/'+ destination +'"]'));
+    pS.click();
+  });
+
+  this.Given(/^I Click on plus of "([^"]*)" in sidebar$/, function (destination) {
+    var pS = element(By.css('a[href="#/places/_/'+ destination +'"]'));
+    pS.click();
+  });
+
+  this.Given(/^I Click on "([^"]*)" place$/, function (destination) {
+    var pS = element(By.css('a[href="#/places/'+ destination +'/messages"]'));
+    pS.click();
+  });
+
+  this.Given(/^I Click on sidebar by id "([^"]*)"$/, function (sidebarId) {
+    var sId = element(By.css('#yum'));
+    sId.click();
+  });
+
   this.Given(/^I Click Option by Label "([^"]*)"$/, function (label) {
     var option = element(By.css('option[label="' + label + '"]'));
+    option.click();
+  });
+
+  this.Given(/^I Click Option by value "([^"]*)"$/, function (value) {
+    var option = element(By.css('option[value="' + value + '"]'));
     option.click();
   });
 
@@ -102,6 +148,42 @@ module.exports = function () {
     clearInput.clear();
   });
 
+  this.Given(/^I clear input by ngModel "([^"]*)"$/, function (clearing) {
+    var clearInput1 = element(By.css('input[ng-model="' + ngModel + '"]'));
+    clearInput1.clear();
+  });
+
+  this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClick){
+    var ClickableElement = element(By.css('div[ng-click="' + ngClick + '"]'));
+    ClickableElement.click();
+  });
+
+  this.Given(/^I Click list by ngClick "([^"]*)"$/, function (ngClick){
+    var list = element(By.css('li[ng-click="' + ngClick + '"]'));
+    list.click();
+  });
+
+  this.Given(/^I Click by dataNgClick "([^"]*)"$/, function (dataNgClick){
+    var box = element(By.css('div[data-ng-click="' + dataNgClick + '"]'));
+    box.click();
+  });
+
+  this.Given(/^I Invite by dataNgClick "([^"]*)"$/, function (dataNgClick){
+    var invite = element(By.css('div[data-ng-click="' + dataNgClick + '"]'));
+    invite.click();
+  });
+
+
+  this.Given(/^I Click icon by ngIf "([^"]*)"$/, function (ngIf){
+    var menu = element(By.css('svg[ng-if="' + ngIf + '"]'));
+    menu.click();
+  });
+
+  this.Given(/^I Click by dataNgModel "([^"]*)"$/, function (dataNgModel){
+    var select = element(By.css('select[data-ng-model="' + dataNgModel + '"]'));
+    select.click();
+  });
+
   this.Given(/^I clear input by name "([^"]*)"$/, function (clearing) {
     var clearInput = element(By.css('input[name="' + clearing + '"]'));
     clearInput.clear();
@@ -112,6 +194,16 @@ module.exports = function () {
     input.sendKeys(value);
   });
 
+  this.Given(/^I Click input by value "([^"]*)"$/, function (value) {
+    var input = element(By.css('input[value="' + value + '"]'));
+    input.click();
+  });
+
+  this.Given(/^I Click icon by tooltip "([^"]*)"$/, function (text) {
+    var icon = element(By.css('a[data-uib-tooltip="' + text + '"]'));
+    icon.click();
+  });
+
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
     return browser.getTitle().then(function (title) {
       assert.equal(title, expectedPageTitle, ' title is "' + title + '" but should be "' + expectedPageTitle);
@@ -120,7 +212,7 @@ module.exports = function () {
 
 
   this.Then(/^should the title of the place be "([^"]*)"$/, function (expectedPlaceTitle) {
-    element(By.css(".navbar-top .name")).getText().then(function (title) {
+    element(By.css('cite[class="ng-binding"]')).getText().then(function (title) {
       assert.equal(title.trim(), expectedPlaceTitle, ' title is "' + title + '" but should be "' + expectedPlaceTitle);
     });
   });
@@ -143,6 +235,7 @@ module.exports = function () {
       assert.equal(title.trim(), expectedRegTitle, ' title is "' + title + '" but should be "' + expectedRegTitle);
     });
   });
+
 
   this.Then(/^should the reg2-title be "([^"]*)"$/, function (expectedReg2Title) {
     element(by.css('.testing-registration-step3')).getText().then(function (title) {
@@ -174,25 +267,21 @@ module.exports = function () {
     return browser.wait(EC.visibilityOf(element(By.css('.toast-success'))), 50000);
   });
 
-//------------url selectors----------------//
-  this.Then(/^should the current url be "([^"]*)"$/, function (expectedUrl) {
-    var checkUrl = function (expectedUrl) {
-      return browser.getLocationAbsUrl()
-        .then(function(url){
-          if(url.indexOf(expectedUrl) > 0){
-            throw(url)
-          } else {
-            return url
-          }
-        })
-        .catch(function (url) {
-          return url
-        });
-    };
-    return browser.wait(checkUrl(expectedUrl), 15000).then(function (wrongUrl) {
-      assert.equal(wrongUrl.trim(), expectedUrl, ' title is "' + wrongUrl + '" but should be "' + expectedUrl);
+  this.Then(/^should see "([^"]*)"$/, function (text) {
+    element(by.css('.nst-font-xlarge _hf')).getText().then(function (title) {
+      assert.equal(title.trim(), text, ' title is "' + title + '" but should be "' + text);
     });
   });
+
+//------------url selectors----------------//
+
+  this.Then(/^Url Should Contains$/, function (urlc) {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.urlContains('messages'), 50000);
+    urlc(null, 'pending');
+  });
+
 //-------------------------------------------//
 
   this.Then(/^the message have to be "([^"]*)"$/, function (expectedMessage) {

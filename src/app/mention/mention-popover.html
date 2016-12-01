@@ -2,16 +2,11 @@
   <div class="subject">
     <a>Mentions</a>
   </div>
-  <div class="_fw _jcc _df" ng-if="ctlMentions.mentions.length === 0 ">
-    <div class="nst-loading nst-loading-size-4 _fl"></div>
-    <span>&nbsp;</span>
-    <div class="nst-font-xsmall _fr nst-marginbtm-4">Loading...</div>
-  </div>
   <ul nst-scrollbar>
     <li ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.postId })" ng-click="ctlMentions.viewPost(mention, $event);">
       <div class="item-inner ng-class:{'seen' : mention.isSeen}">
         <div class="user-avatar-24">
-          <img src="{{mention.avatar}}">
+          <img ng-src="{{mention.avatar}}">
         </div>
         <div class="mention">
           <p>
@@ -23,6 +18,15 @@
           </div>
         </div>
       </div>
+    </li>
+    <li>
+      <div class="_fw _jcc _df margin-top-10" ng-if="ctlMentions.loading && !ctlMentions.error">
+        <div class="nst-loading nst-loading-size-4 _fl"></div>
+        <span>&nbsp;</span>
+        <div class="nst-font-xsmall _fr nst-marginbtm-4">Loading...</div>
+      </div>
+      <div class="text-center margin-top-10 nst-font-xsmall" ng-show="!ctlMentions.loading && !ctlMentions.reached"
+         ng-click="ctlMentions.loadMore()">{{!ctlMentions.error ? 'Show more' : 'Try again'}}</div>
     </li>
   </ul>
   <div class="more-mentions" ng-click="ctlMentions.markAllSeen()">

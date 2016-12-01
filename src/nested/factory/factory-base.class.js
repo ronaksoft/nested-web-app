@@ -5,50 +5,52 @@
     .module('ronak.nested.web.common')
     .factory('NstBaseFactory', NstBaseFactory);
 
-  function NstBaseFactory(NstObservableObject, $q) {
+  function NstBaseFactory(NstObservableObject, $q, NstSvcLogger) {
     function BaseFactory() {
-      BaseFactory.requests = {};
+
+
+      var self = this;
+      var requests = {};
+
+      self.hold = function(key, callback) {
+        if (requests[key]) {
+          return requests[key];
+        }
+
+        requests[key] = $q(function(resolve, reject) {
+          callback().then(resolve).catch(reject).finally(function() {
+            self.release(key);
+          });
+        });
+
+        return requests[key];
+      };
+
+      self.release = function(key) {
+        if (_.isObject(requests[key])) {
+          if (!_.isUndefined(requests[key])) {
+            delete requests[key];
+          }
+        }
+      }
+
+      self.watch = function(callback, name, id) {
+        if (!_.isFunction(callback)) {
+          throw 'The provided callback is not a function';
+        }
+
+        var key = generateRequestKey(name, id);
+
+        return self.hold(key, callback);
+      }
+
+      this.sentinel = {
+        watch: self.watch
+      }
+
     }
 
     BaseFactory.prototype = new NstObservableObject();
-
-    BaseFactory.prototype.constructor = BaseFactory;
-
-    BaseFactory.prototype.sentinel = {
-      watch : watch
-    };
-
-    function hold(key, callback) {
-      if (BaseFactory.requests[key]) {
-        return BaseFactory.requests[key];
-      }
-
-      BaseFactory.requests[key] = $q(function (resolve, reject) {
-        callback().then(resolve).catch(reject).finally(function () {
-          release(key);
-        });
-      });
-
-      return BaseFactory.requests[key];
-    }
-
-    function release(key) {
-      if (_.isObject(BaseFactory.requests[key])) {
-        if (!_.isUndefined(BaseFactory.requests[key])) {
-          delete BaseFactory.requests[key];
-        }
-      }
-    }
-
-    function watch(callback, name, id) {
-      if (!_.isFunction(callback)) {
-        throw 'The provided callback is not a function';
-      }
-
-      var key = generateRequestKey(name, id);
-
-      return hold(key, callback);
-    }
 
     return BaseFactory;
   }

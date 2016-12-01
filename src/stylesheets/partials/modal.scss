@@ -23,14 +23,51 @@ body.modal-open {
   padding: 10px;
   width: 800px;
   height: auto;
+  max-width: 100%;
+  .butn-green {
+    padding: 5px 16px;
+    margin: 0;
+    position: relative;
+    right: 20px;
+    width: auto;
+    line-height: 25px;
+    height: 32px;
+  }
+  input.ui-select-search {
+    max-width: 715px;
+    width: auto!important;
+  }
 }
 
 #delete-view {
   border: 1px solid $color-breeze;
+  border-radius: 6px;
+  background-color: $color-white;
+  padding: 24px;
+  width: 510px;
+  max-width: 100%;
+  height: auto;
+  .butn-white {
+    width: 125px;
+    height: 32px;
+    align-items: center;
+  }
+  .butn-red{
+    align-items: center;
+    width: 128px;
+  }
+  .closebut {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+}
+#change-view {
+  border: 1px solid $color-breeze;
   border-radius: 8px;
   background-color: $color-white;
   padding: 15px;
-  width: 510px;
+  max-width: 100%;
   height: auto;
 }
 
@@ -81,18 +118,16 @@ body.modal-open {
 }
 
 
-.modal-xlg, .modal-mlg {
-  width: auto;
-}
-
 .modal-xlg {
   margin: 0 1%;
 }
 
 .modal-mlg {
-  width: 100%;
+  width: calc(100% - 160px);
+  height: calc(100% - 160px);
   margin:  80px;
-  max-width: 1200px;
+  max-width: 1600px;
+  max-height: 1200px;
   display: flex;
   align-items: center;
   .modal-content {
@@ -103,6 +138,7 @@ body.modal-open {
 .modal-sm {
   width: auto!important;
   height: auto!important;
+  max-width: 100%;
   vertical-align: middle;
   max-height: 100%;
 }
@@ -143,7 +179,7 @@ body.modal-open {
   flex-direction: column;
   display: inline-flex;
   > p {
-    font-size: 16px;
+    @extend .nst-font-large;
     line-height: 19px;
     color: $color-grey;
     font-weight: 400;
@@ -176,7 +212,7 @@ body.modal-open {
       flex: 1;
       justify-content: center;
       p {
-        font-size: 16px;
+        @extend .nst-font-large;
         line-height: 19px;
         color: #143C82;
         font-weight: 400;
@@ -210,7 +246,7 @@ body.modal-open {
     }
     .det {
       p {
-        font-size: 16px;
+        @extend .nst-font-large;
         line-height: 19px;
         color: #143C82;
         font-weight: 400;
@@ -233,7 +269,7 @@ body.modal-open {
     .det {
       p {
         line-height: 19px;
-        font-size: 16px;
+        @extend .nst-font-large;
         color: $color-sense-wire;
         font-weight: 400;
       }
@@ -274,7 +310,7 @@ body.modal-open {
     border: none;
     box-shadow: none;
     background-color: $color-white;
-    top: 70px;
+    top: calc(100% + 30px);
 
   }
   input {
@@ -289,8 +325,7 @@ body.modal-open {
 }
 .modal-add h5 {
   margin-top: 0;
-  font-size: $font-size-xlarge;
-  font-size: 22px;
+  @extend .nst-font-xlarge;
   line-height: 26px;
   letter-spacing: -1px;
   font-weight: 700;

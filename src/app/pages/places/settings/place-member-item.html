@@ -3,11 +3,13 @@
        data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
 </div>
 <div class="name">
-  <p>{{memberCtrl.member.name}}</p>
-  <span>@{{memberCtrl.member.id}}</span>
+  <p ng-class="{ 'nst-mood-pending': memberCtrl.member.role === 'pending_key_holder'}">{{memberCtrl.member.name}}</p>
+  <span ng-class="{ 'nst-mood-pending': memberCtrl.member.role === 'pending_key_holder'}">@{{memberCtrl.member.id}}</span>
 </div>
 <div class="role">
-  Keyholder <span ng-if="memberCtrl.member.role === 'creator'">(Master)</span>
+  <span ng-if="memberCtrl.member.role === 'creator'">Manager</span>
+  <span ng-if="memberCtrl.member.role === 'key_holder'">Member</span>
+  <span class="nst-mood-pending" ng-if="memberCtrl.member.role === 'pending_key_holder'">Pending ...</span>
   <div data-ng-switch="memberCtrl.member.role" class="_fn">
     <div data-ng-switch-when="creator" class="role-icons-crown role-icon"></div>
     <div data-ng-switch-when="key_holder" class="role-icons-key role-icon"></div>
@@ -15,10 +17,10 @@
     <div data-ng-switch-when="pending_known_guest" class="role-icons-avatar-wait role-icon"></div>
     <div data-ng-switch-default class="role-icons-avatar role-icon"></div>
   </div>
-  <div class="svg-hover morphed popover-green cursor-pointer margin-r_5 icon-rp _df" data-popover-placement="auto bottom-right" id="active-test" uib-popover-template="'app/pages/places/settings/place-member-item-options.html'" popover-append-to-body="false"  popover-trigger="focus">
-  <svg ng-if="memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess">
-    <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
-    <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
-  </svg>
+  <div class="svg-hover morphed popover-green cursor-pointer margin-r_5 icon-rp _df" data-popover-placement="auto bottom-right"  uib-popover-template="'app/pages/places/settings/place-member-item-options.html'" popover-append-to-body="false"  popover-trigger="focus">
+    <svg ng-if="memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess">
+      <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+      <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
+    </svg>
   </div>
 </div>

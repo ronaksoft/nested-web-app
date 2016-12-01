@@ -22,9 +22,6 @@
   background-image: url("../assets/icons/bookmarks.svg");
 }
 
-.icon-sent {
-  background-image: url("../assets/icons/3.svg");
-}
 
 .icon-add {
   background-image: url("../assets/icons/actionbuttons_place.svg");
@@ -38,6 +35,14 @@
   flex: none;
   width: 48px;
   height: 48px;
+}
+.icon-top {
+  fill: white;
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  background-image: url("../assets/icons/smallscreenhandlers.svg");
+  background-repeat: no-repeat;
 }
 .icon-top-action {
   background-image: url("../assets/icons/sidebaricon.svg");
@@ -57,15 +62,6 @@
 .icon-top-sent {
   background-position: 0 -96px;
 }
-.icon-top {
-  fill: white;
-  width: 24px;
-  height: 24px;
-  background-size: cover;
-  background-image: url("../assets/icons/smallscreenhandlers.svg");
-  background-repeat: no-repeat;
-}
-
 .hamburger-icon {
   background-position: 0 0;
 }
@@ -199,7 +195,8 @@
   cursor: pointer;
   box-sizing: border-box;
   border: 1px solid transparent;
-  min-width: 32px;
+  min-width: 74px;
+  justify-content: flex-end;
   margin-right: 8px;
 
 }
@@ -390,4 +387,22 @@
 .profile-menu-signout {
   background: url('../assets/icons/1.svg') no-repeat;
   background-position: 0 0;
+}
+
+
+.tick {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  fill : $color-white;
+  border-radius: 8px;
+  border: 1px solid $color-border;
+  background-color: $color-white;
+  box-sizing: content-box;
+  margin-right: 8px;
+}
+.selected .tick {
+  fill: $color-white;
+  background-color: $color-sense-wire;
+  border-color: $color-sense-wire;
 }

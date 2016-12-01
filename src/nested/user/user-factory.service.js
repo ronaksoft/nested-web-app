@@ -9,18 +9,12 @@
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
                              NST_USER_SEARCH_AREA,
                              NST_USER_FACTORY_EVENT,
-                             NstObservableObject, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
+                             NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
     function UserFactory() {
-      this.requests = {
-        get: {},
-        getTiny: {},
-        remove: {},
-        removePicture : {},
-        updatePicture : {}
-      };
+
     }
 
-    UserFactory.prototype = new NstObservableObject();
+    UserFactory.prototype = new NstBaseFactory();
     UserFactory.prototype.constructor = UserFactory;
 
     UserFactory.prototype.has = function (id) {
@@ -42,11 +36,10 @@
       var factory = this;
       id = id || 'me';
 
-      if (!this.requests.get[id]) {
+      return factory.sentinel.watch(function () {
         var query = new NstFactoryQuery(id);
 
-        // FIXME: Check whether if request should be removed on resolve/reject
-        this.requests.get[id] = $q(function (resolve, reject) {
+        return $q(function (resolve, reject) {
           var user = NstSvcUserStorage.get(query.id);
           if (user && !force) {
             resolve(user);
@@ -64,24 +57,9 @@
             });
           }
         });
-      }
+      }, "get", id);
 
-      return this.requests.get[id].then(function () {
-        var args = arguments;
-        delete factory.requests.get[id];
-
-        return $q(function (res) {
-          res.apply(null, args);
-        });
-      }).catch(function () {
-        var args = arguments;
-        delete factory.requests.get[id];
-
-        return $q(function (res, rej) {
-          rej.apply(null, args);
-        });
-      });
-    };
+    }
 
     /**
      * Retrieves a user by id and store in the related cache storage
@@ -90,14 +68,12 @@
      *
      * @returns {Promise}
      */
-    UserFactory.prototype.getTiny = function (id) {
+    UserFactory.prototype.getTiny = function(id) {
       var factory = this;
-
-      if (!this.requests.getTiny[id]) {
+      return factory.sentinel.watch(function() {
         var query = new NstFactoryQuery(id);
 
-        // FIXME: Check whether if request should be removed on resolve/reject
-        this.requests.getTiny[id] = $q(function (resolve, reject) {
+        return $q(function(resolve, reject) {
           var user = NstSvcUserStorage.get(query.id) || NstSvcTinyUserStorage.get(query.id);
           if (user) {
             if (!(user instanceof NstTinyUser)) {
@@ -106,31 +82,15 @@
 
             resolve(user);
           } else {
-            factory.get(query.id).then(function (user) {
+            factory.get(query.id).then(function(user) {
               user = new NstTinyUser(user);
               NstSvcTinyUserStorage.set(query.id, user);
               resolve(user);
             }).catch(reject);
           }
         });
-      }
-
-      return this.requests.getTiny[id].then(function () {
-        var args = arguments;
-        delete factory.requests.getTiny[id];
-
-        return $q(function (res) {
-          res.apply(null, args);
-        });
-      }).catch(function () {
-        var args = arguments;
-        delete factory.requests.getTiny[id];
-
-        return $q(function (res, rej) {
-          rej.apply(null, args);
-        });
-      });
-    };
+      }, "getTiny", id);
+    }
 
     UserFactory.prototype.set = function (user) {
       if (user instanceof NstUser) {
@@ -164,7 +124,7 @@
       var query = new NstFactoryQuery(user.getId(), params);
 
       NstSvcServer.request('account/update', params).then(function (result) {
-        factory.set(user);
+        NstSvcUserStorage.set("me", user);
         factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
         deferred.resolve(user);
       }).catch(function (error) {
@@ -175,8 +135,8 @@
     }
 
     UserFactory.prototype.changePassword = function (oldPassword, newPassword) {
-      var deferred = $q.defer();
       var factory = this;
+      var deferred = $q.defer();
 
       var query = new NstFactoryQuery(null, {
         oldPassword : oldPassword,
@@ -195,133 +155,44 @@
       return deferred.promise;
     }
 
-    UserFactory.prototype.save = function (user) {
+    UserFactory.prototype.updatePicture = function(uid) {
       var factory = this;
 
-      // TODO: Enqueue requests
-
-      if (user.isNew()) {
-        var params = {
-          account_id: user.getId()
-        };
-
-        var query = new NstFactoryQuery(user.getId(), params);
-
-        return NstSvcServer.request('account/add', params).then(function (data) {
-          var newUser = factory.parseUser(data.account);
-
-          return $q(function (res) {
-            res(NstSvcUserFactory.set(newUser).get(newUser.getId()).save());
-          });
-        }).catch(function (error) {
-          return $q(function (res, rej) {
-            rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-          });
-        });
-      } else {
+      return factory.sentinel.watch(function() {
         var deferred = $q.defer();
 
-        // TODO: Add Phone Number, Country
-        var params = {
-          fname: user.getFirstName(),
-          lname: user.getLastName(),
-          dob : user.getDateOfBirth(),
-          gender : user.getGender()
-        };
-
-        var query = new NstFactoryQuery(user.getId(), params);
-
-        var promises = [
-          NstSvcServer.request('account/update', params)
-        ];
-
-        if (user.getPicture().getId()) {
-          promises.push(factory.updatePicture(user.getPicture().getId()));
-        } else {
-          promises.push(factory.removePicture());
-        }
-
-        // TODO: Set account picture
-        $q.all(promises).then(function () {
-          // TODO: Dispatch event
-          user.save();
-          factory.set(user);
-
-          deferred.resolve(user);
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        NstSvcServer.request('account/set_picture', {
+          universal_id: uid
+        }).then(function(result) {
+          factory.get(null, true).then(function(user) {
+            factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
+            deferred.resolve(uid);
+          }).catch(deferred.reject);
+        }).catch(function(error) {
+          deferred.reject(error);
         });
 
         return deferred.promise;
-      }
-    };
-
-    UserFactory.prototype.updatePicture = function (uid) {
-      var deferred = $q.defer();
-      var factory = this;
-
-      NstSvcServer.request('account/set_picture', { universal_id : uid }).then(function (result) {
-        factory.get(null, true).then(function (user) {
-          factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
-          deferred.resolve(uid);
-        }).catch(deferred.reject);
-      }).catch(function (error) {
-        deferred.reject(error);
-      });
-
-      return deferred.promise;
-    };
+      }, "updatePicture");
+    }
 
     UserFactory.prototype.removePicture = function () {
-      var deferred = $q.defer();
       var factory = this;
-      NstSvcServer.request('account/remove_picture').then(function (result) {
-        factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, new NstFactoryEventData()));
-        deferred.resolve();
-      }).catch(function (error) {
-        deferred.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
-      });
-      return deferred.promise;
-    };
 
-    UserFactory.prototype.remove = function (id) {
-      if (!this.requests.remove[id]) {
-        var query = new NstFactoryQuery(id);
+      return factory.sentinel.watch(function () {
 
-        this.requests.remove[id] = $q(function(resolve, reject) {
-          // if (!NstSvcAuth.haveAccess(query.id, [NST_USER_ACCESS.REMOVE])) {
-          //   reject(new NstFactoryError(query, 'Access Denied', NST_SRV_ERROR.ACCESS_DENIED));
-          // }
+        var deferred = $q.defer();
 
-          NstSvcServer.request('account/remove', {
-            account_id: query.id
-          }).then(function () {
-            NstSvcUserStorage.remove(query.id);
-            NstSvcTinyUserStorage.remove(query.id);
-          }).catch(function (error) {
-            return $q(function (res, rej) {
-              rej(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-            });
-          });
+        NstSvcServer.request('account/remove_picture').then(function (result) {
+          factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, new NstFactoryEventData()));
+          deferred.resolve();
+        }).catch(function (error) {
+          deferred.reject(new NstFactoryError(new NstFactoryQuery(), error.getMessage(), error.getCode(), error));
         });
-      }
 
-      return this.requests.remove[id].then(function () {
-        var args = arguments;
-        delete factory.requests.remove[id];
-
-        return $q(function (res) {
-          res.apply(null, args);
-        });
-      }).catch(function () {
-        var args = arguments;
-        delete factory.requests.remove[id];
-
-        return $q(function (res, rej) {
-          rej.apply(null, args);
-        });
-      });
-    };
+        return deferred.promise;
+      }, "removePicture");
+    }
 
     UserFactory.prototype.parseTinyUser = function (userData) {
       var user = new NstTinyUser();
@@ -416,10 +287,14 @@
         limit: settings.limit
       };
 
-      if(area === NST_USER_SEARCH_AREA.ADD){
+      if(area === NST_USER_SEARCH_AREA.ADD ||
+        area === NST_USER_SEARCH_AREA.INVITE){
         if (!settings.placeId){
-          throw "Define place id for search in teammate users";
+          throw "Define place id for search in users";
         }
+      }
+
+      if(settings.placeId){
         params.place_id = settings.placeId;
       }
 

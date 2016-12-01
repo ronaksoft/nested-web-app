@@ -1,4 +1,4 @@
-<nst-navbar controls="ctlProfileEdit.controls" nav-title="Profile" page="ctlApp.page" ready-to-show="true" class="second-view"></nst-navbar>
+<nst-navbar controls="ctlProfileEdit.controls" nav-title="Profile" ready-to-show="true" class="second-view"></nst-navbar>
 
 <div class="nst-content second-view" id="content-wrapper" page-change="ctlProfileEdit.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
   <section class="content _bgwhite">
@@ -26,7 +26,7 @@
         <div class="text-center">
           <a class="_tac nst-marginbtm-32 changePassLink" ui-sref="app.change-password">Change Password</a>
         </div>
-        <form ng-submit="ctlProfileEdit.save(profileForm.$valid);" name="profileForm" novalidate>
+        <form ng-submit="ctlProfileEdit.saveAndExit(profileForm.$valid);" name="profileForm" novalidate>
           <div class="form-group" ng-class="{ 'has-error' : profileForm.firstName.$invalid && ctlProfileEdit.submitted}">
             <label for="firstName" ng-if="profileForm.firstName.$valid || !ctlProfileEdit.submitted">First name</label>
             <label class="error-message" ng-if="profileForm.firstName.$error.required && ctlProfileEdit.submitted">First name is required</label>
@@ -43,13 +43,13 @@
           </div>
           <div class="form-group">
             <label for="gender">Gender</label>
-            <select name="gender" ng-model="ctlProfileEdit.model.gender" ng-options="gender.key as gender.title for gender in ctlProfileEdit.genders" class="form-control" disabled/>
+            <select name="gender" ng-model="ctlProfileEdit.model.gender" ng-options="gender.key as gender.title for gender in ctlProfileEdit.genders" class="form-control"></select>
           </div>
           <div class="form-group">
             <label for="dateOfBirth">Date of Birth</label>
-            <input name="dateOfBirth" class="select-birthday" ng-model="ctlProfileEdit.model.dateOfBirth" rsmdatedropdowns/>
+            <input name="dateOfBirth" class="nst-marginbtm-24 select-birthday" ng-model="ctlProfileEdit.model.dateOfBirth" rsmdatedropdowns/>
           </div>
-          <div class="form-action">
+          <div class="form-action nst-marginbtm-24">
             <input type="submit" class="butn-green _fw" value="Save & Exit"/>
           </div>
         </form>

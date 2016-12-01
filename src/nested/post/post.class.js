@@ -64,7 +64,7 @@
 
       // The user is allowed to retract the post (remove from all places)
       // TODO: add this in all parse functions
-      this.wipeAccess = false;
+      this.wipeAccess = null;
 
       this.isRead = null;
 
@@ -157,7 +157,9 @@
       });
     };
 
-
+    Post.prototype.addToCommentsCount = function (count) {
+      this.counters.comments += count || 0;
+    }
 
     return Post;
   }

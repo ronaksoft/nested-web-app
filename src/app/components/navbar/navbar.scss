@@ -39,8 +39,7 @@
   right: 0;
   left: 0;
   bottom: 0;
-  //top: $topnav-height;
-  top: 0;
+  top: $topnav-height;
   height: calc(100vh - 56px);
   background-color: $color-breeze-50;
   padding: 8px 0;
@@ -64,7 +63,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      div {
+      svg {
+        width: 24px;
+        height: 24px;
+        transform: scale(2,2);
         flex: none;
       }
     }
@@ -113,41 +115,62 @@ a {
 
 nst-navbar {
   height: $navbar-height;
-  transition: all $animation-dur;
+  //transition: all $animation-dur;
   align-self: flex-start;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
+  left: 0;
   z-index: 55;
-  width: calc(100% - 272px);
+  //width: calc(100% - 272px);
+  //width: 100%;
   will-change: height;
   transform-origin: top;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transform: matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,0,1,1);
-  * {
-    transform-origin: top;
+  //transform-style: preserve-3d;
+  //backface-visibility: hidden;
+  //transform: matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,0,1,1);
+  .bg {
+    background-color: $color-white;
+    border-bottom: 1px solid $color-calm;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateZ(0);
+  }
+  .shadow-top {
+    background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,1));
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 50px;
+    z-index: 1;
   }
 }
 
 .nst-navbar {
-  background-color: $color-white;
-  border-bottom: 1px solid $color-calm;
   height: 100%;
   justify-content: center;
   z-index: 50;
   width: 100%;
-  transition: all $animation-dur;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  //transition: all $animation-dur;
   display: flex;
+  position: relative;
+  .nst-content {
+    z-index: 2;
+  }
   .content {
     flex-direction: row;
     padding-top: 16px;
+    position: relative;
   }
   .place-logo {
     height: calc(100% - 16px);
-    top : 0;
-    position: absolute;
+    //top : 16px;
+    position: relative;
     justify-content: center;
     @include avatar(72px,56px,6px);
     img {
@@ -159,44 +182,90 @@ nst-navbar {
     }
   }
   .icon-logo {
-    height: 100%;
-    position: relative;
+    height: auto;
+    position: absolute;
     flex: none;
     width: 72px;
+    left: 0;
+    top: 16px;
     justify-content: center;
+    display: flex;
+    svg {
+      display: flex;
+      width: 24px;
+      height: 24px;
+      transform: scale(1.5,1.5) translateY(6px);
+    }
   }
   .place-info {
     display: inline-flex;
     flex: 1;
-    width: 100%;
+    //width: 100%;
     overflow: hidden;
-    position: relative;
+    position: absolute;
     right: 0;
+    top: 0;
+    bottom: 0;
+    left: 72px;
     flex-direction: column;
     > * {
       display: flex;
       flex: none;
       width: 100%;
+      position: absolute;
+    }
+    #filler {
+      background-color: $color-white;
+      width: 100%;
+      height: 16px!important;
+      position: absolute;
+      z-index: 4;
     }
     cite {
       color: $color-solid;
+      display: block;
       letter-spacing: -1px;
       line-height: 29px;
+      min-height: 29px;
       font-size: 24px;
       font-weight: 700;
       font-style: normal;
       background-color: $color-white;
-      z-index: 2;
+      z-index: 3;
+      top: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    h3 {
-      color: $color-solid;
-      line-height: 16px;
-      font-size: 13px;
-      font-weight: 400;
-      margin: 0;
+    #place-address {
       background: linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,1));
       background: -webkit-linear-gradient(bottom, rgba(255,255,250,0) 0%,rgba(255,255,255,1) 100%);
       z-index: 2;
+      top: 42px;
+      height: 16px;
+    }
+    h3 {
+      color: $color-solid;
+      line-height: 20px;
+      font-size: 13px;
+      font-weight: 400;
+      margin: 0;
+      top: 64px;
+      padding-top: 8px;
+      height: 20px!important;
+      fill: $color-hurricane;
+      svg {
+        width: 20px;
+        margin: 0 4px 0 0;
+        height: 20px;
+        display: flex;
+        flex: none;
+      }
+      span {
+        line-height: 20px;
+        font-size: 13px;
+        font-weight: 400;
+      }
     }
     p {
       color: #869D91;
@@ -206,6 +275,7 @@ nst-navbar {
       margin: 16px 0 48px 0;
       position: absolute;
       bottom: 0;
+      top: 64px;
     }
     .navigation {
       position: absolute;
@@ -226,8 +296,7 @@ nst-navbar {
         align-items: center;
         display: flex;
         input {
-          color: #C8C8C8;
-          font-size: 12px;
+          @extend .nst-font-small;
           font-weight: 400;
           background-color: $color-white;
           border-radius: 4px;
@@ -237,9 +306,8 @@ nst-navbar {
           transition: width $animation-dur;
           &:focus {
             border-color: $color-border;
-            box-shadow: none;
             width: 250px;
-            color: $color-solid;
+            box-shadow: none;
           }
         }
         i {
@@ -264,12 +332,15 @@ nst-navbar {
     display: inline-flex;
     flex-direction: row-reverse;
     z-index: 12;
+    .tooltip {
+      white-space: nowrap;
+    }
     svg {
       display: flex;
       height: 32px;
       width: 32px;
       margin-left: 6px;
-      fill: $color-wind;
+      //fill: $color-wind;
       transition: all .3s;
       //&.active {
       //  use:first-of-type {
@@ -281,10 +352,7 @@ nst-navbar {
       //    display: none;
       //  }
       //}
-      &.morphed,
-      &:hover {
-        fill: $color-sense !important;
-      }
+
     }
   }
 }
@@ -315,8 +383,12 @@ nst-navbar {
   justify-content: center;
   font-size: 18px;
   font-weight: 400;
+  transition: color $animation-dur;
   &.active {
     border-bottom: 3px solid $color-sense ;
+    color: $color-sense-wire;
+  }
+  &:hover {
     color: $color-sense-wire;
   }
 }

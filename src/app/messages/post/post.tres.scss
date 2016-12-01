@@ -1,0 +1,110 @@
+@media screen and (max-width: $screen-sm) {
+  #PostView {
+    .post-nav-top{
+      flex-direction: column-reverse;
+      .closebut {
+        align-self: flex-end;
+      }
+      .time {
+        align-self: center;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: none;
+      }
+    }
+    .post-nav-bot{
+      flex-direction: row;
+      .actor-name {
+        flex: 1;
+        display: block;
+      }
+      .actor-name + span {
+        display: none;
+      }
+      .badges {
+        max-width: 100%;
+        display: none;
+      }
+      .comment-input-toggle {
+        display: flex;
+      }
+    }
+    #PostBody {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      flex: 1;
+      overflow-y: auto;
+    }
+    #Content {
+      width: 100%;
+      max-width: 100%;
+      min-width: 100%;
+      height: auto;
+      display: flex;
+      flex: none;
+      min-height: calc(100vh - 230px);
+    }
+    #Comments {
+      width: 100%;
+      max-width: 100%;
+    }
+    .comment-input {
+      width: 100%;
+      margin: 0;
+      padding: 10px;
+      flex-direction: row;
+      align-items: center;
+      background-color: #f7faf9;
+      textarea {
+        height: 100%;
+      }
+    }
+    .nst-mood-solid {
+      display: none;
+    }
+    .comment-input-toggle {
+      display: flex;
+    }
+  }
+}
+@media screen and (min-width: $screen-sm) {
+  #PostView {
+    .post-nav-top{
+      flex-direction: row;
+      .closebut {
+        align-self: flex-start;
+      }
+      .time {
+        align-self: flex-start;
+      }
+    }
+    .post-nav-bot{
+      .actor-name {
+      }
+      .badges {
+        max-width: calc(100% - 250px);
+      }
+      .comment-input-toggle {
+        display: none;
+      }
+    }
+    #Content {
+      min-height: calc(100vh - 400px);
+      min-width: calc(100% - 640px);
+      width: 70%;
+    }
+    #Comments {
+      max-width: 640px;
+      width: 30%;
+    }
+    .comment-input {
+      padding: 0 5px;
+      margin: 10px 0;
+      textarea {
+        height: 60px;
+      }
+    }
+  }
+}

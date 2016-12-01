@@ -9,7 +9,6 @@
   function QuickMessage() {
     return {
       restrict: 'E',
-      scope: {},
       templateUrl: 'app/messages/partials/quick-message/main.html',
       controller: 'QuickMessageController',
       controllerAs: 'ctlQuickMessage',

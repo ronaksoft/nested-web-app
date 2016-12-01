@@ -17,7 +17,7 @@
         options: {
           group: 'message'
         },
-        onEnter: ['$stateParams', '$state', '$uibModal', 'previousState', function($stateParams, $state, $uibModal, previousState) {
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
           var modal = $uibModal.open({
             animation: false,
             templateUrl: 'app/messages/post/post.html',
@@ -33,30 +33,13 @@
               }
             }
           }).result.catch(function() {
-            if (previousState.name) {
-              $state.go(previousState.name, previousState.params, { notify : false });
-            } else {
-              $state.go(NST_DEFAULT.STATE);
-            }
+            $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack) {
+        onExit: function($uibModalStack, $state) {
           if ($uibModalStack) {
             $uibModalStack.dismissAll();
           }
-        },
-        resolve: {
-          previousState : [
-            "$state",
-            function ($state) {
-              var current = {
-                name : $state.current.name,
-                params : $state.params,
-                url : $state.href($state.current.name, $state.params)
-              };
-              return current;
-            }
-          ]
         },
       })
       .state('app.message-chain', {
@@ -93,8 +76,8 @@
           group: 'message'
         }
       })
-      .state('app.messages-bookmarks', {
-        url: '/messages/bookmarks',
+      .state('app.messages-favorites', {
+        url: '/messages/favorites',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
@@ -103,8 +86,8 @@
           group: 'message'
         }
       })
-      .state('app.messages-bookmarks-sorted', {
-        url: '/messages/bookmarks/:sort',
+      .state('app.messages-favorites-sorted', {
+        url: '/messages/favorites/:sort',
         params: {
           sort: NST_DEFAULT.STATE_PARAM
         },

@@ -1,0 +1,17 @@
+<a ng-click="$event.stopPropagation()" class="_df list-items _aic _fw" href="{{ctlPostCard.urls.reply_sender}}">
+  <div>
+    <svg class="setting-icon-nav svg-scale">
+      <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
+    </svg>
+  </div>
+  <span>Reply to sender</span>
+</a>
+<a ng-if="ctlPostCard.hasRemoveAccess" ng-click="$event.stopPropagation(); ctlPostCard.remove();" class="_df list-items _aic _fw">
+  <div class="option-delete-icon"></div>
+  <span>Delete</span>
+</a>
+<a ng-if="ctlPostCard.post.wipeAccess" ng-click="$event.stopPropagation(); ctlPostCard.retract();" class="_df list-items _aic _fw">
+  <div class="option-delete-icon"></div>
+  <span>Retract</span>
+</a>
+

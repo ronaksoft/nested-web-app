@@ -6,11 +6,11 @@
     .controller('PostCardController', PostCardController)
 
   function PostCardController($state, $log, $timeout, $rootScope,
-                              _, moment,
-                              NST_POST_EVENT, NST_COMMENT_EVENT,
-                              NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth) {
-
+    _, moment, toastr,
+    NST_POST_EVENT, NST_COMMENT_EVENT,
+    NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction) {
     var vm = this;
+
     var commentBoardMin = 3;
     var commentBoardMax = 99;
     var commentsSettings = {
@@ -30,6 +30,8 @@
     vm.limitCommentBoard = limitCommentBoard;
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
+    vm.remove = remove;
+    vm.retract = retract;
 
 
     /**
@@ -66,6 +68,12 @@
         $log.debug(error);
       });
 
+      if(!vm.post.postIsRed)
+        NstSvcPostFactory.read([vm.post.id]).then(function (result) {
+          vm.post.postIsRed = true;
+        }).catch(function (err) {
+          $log.debug('MARK AS READ :' + err);
+        });
       return false;
     }
 
@@ -112,7 +120,7 @@
         date = post.date;
       }
 
-      return moment(date).subtract(1, 'ms').valueOf();
+      return NstUtility.date.toUnix(moment(date).subtract(1, 'ms'));
     }
 
     function showOlderComments() {
@@ -147,6 +155,23 @@
       });
     }
 
+    function remove() {
+      NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, { id : vm.thisPlace })).then(function (place) {
+        if (place) {
+          vm.post.dropPlace(place.id);
+          toastr.success(NstUtility.string.format("The post has been removed from Place {0}.", place.name));
+        }
+      }).catch(function (error) {
+        toastr.error(NstUtility.string.format("An error occured while trying to remove the message from the selected Place."));
+      });
+    }
+
+    function retract() {
+      vm.retractProgress = true;
+      NstSvcPostInteraction.retract(vm.post).finally(function () {
+        vm.retractProgress = false;
+      });
+    }
 
     /**
      * anonymous function - Reset newCommentsCount when the post has been seen
@@ -164,7 +189,7 @@
       if (data.postId === vm.post.id) {
         event.preventDefault();
         if (data.comments && data.comments.length > 0) {
-          vm.post.comments = _.clone(data.comments);
+          vm.post.comments = data.comments;
         }
         vm.post.commentsCount = data.totalCommentsCount;
         vm.newCommentsCount = 0;

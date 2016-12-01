@@ -78,6 +78,10 @@
   min-width: 50%;
 }
 
+hr.nomargin {
+  margin-bottom: 0;
+}
+
 .visibility-hidden {visibility: hidden;}
 
 ._dn { display: none }
@@ -85,18 +89,23 @@
 .border-none {
   border: none;
 }
+.fill-b {
+  fill: black!important;
+}
 
 .nst-font-10 {
   font-size: $font-size-xxsmall;
 }
 
+.nst-font-xxsmall {
+  font-size: $font-size-xxsmall;
+}
 .nst-font-xsmall {
   font-size: $font-size-xsmall;
 }
 .nst-font-small {
   font-size: $font-size-small;
 }
-
 .nst-font-medium {
   font-size: $font-size-medium;
 }
@@ -175,4 +184,22 @@
 }
 .no-fade-in , .no-fade-in *{
   animation: none;
+}
+.f1 {
+  flex: 1;
+}
+.f2 {
+  flex: 2;
+}
+.f3 {
+  flex: 3;
+}
+.f4 {
+  flex: 4;
+}
+.f5 {
+  flex: 5;
+}
+.f6 {
+  flex: 6;
 }

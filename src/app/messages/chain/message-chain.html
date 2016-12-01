@@ -3,7 +3,7 @@
             nav-title="{{ctlChain.currentPlace.id?ctlChain.currentPlace.name: ctlChain.navTitle}}"
             nav-picture-url="{{ctlChain.currentPlace.id ? ctlChain.currentPlace.picture.thumbnails.x64.url.view : '' }}"
             nav-picture-class="{{ !ctlChain.currentPlace.id? ctlChain.navIconClass : '' }}"
-            ready-to-show="ctlChain.currentPlaceLoaded" page="ctlApp.page"></nst-navbar>
+            ready-to-show="ctlChain.currentPlaceLoaded"></nst-navbar>
 
 <div class="nst-content _tr" id="content-wrapper">
   <section class="content nst-marginbtm-28">
@@ -28,11 +28,11 @@
 
   </section>
   <div class="content-plus"></div>
-  <div class="content-plus" id="content-plus">
-    <div id="cp1" nst-scrollbar>
-      <!--FIXME:: use only one of place/place-id -->
-      <nst-recent-activity place="ctlChain.currentPlaceId" place-id="ctlChain.currentPlaceId"  count="10"/>
-    </div>
+  <!--<div class="content-plus" id="content-plus">-->
+    <!--<div id="cp1" nst-scrollbar>-->
+      <!--&lt;!&ndash;FIXME:: use only one of place/place-id &ndash;&gt;-->
+      <!--<nst-recent-activity place="ctlChain.currentPlaceId" place-id="ctlChain.currentPlaceId"  count="10"/>-->
+    <!--</div>-->
 
-  </div>
+  <!--</div>-->
 </div>

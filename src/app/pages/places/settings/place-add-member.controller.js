@@ -15,13 +15,12 @@
     var defaultSearchResultCount = 9;
 
     vm.isTeammateMode = true;
-    vm.isGrandPlace = false;
+    checkUserLimitPlace();
 
-    if (chosenRole === NST_PLACE_MEMBER_TYPE.KNOWN_GUEST) {
-      vm.isTeammateMode = false;
-    }
 
-    if (!currentPlace.parent || !currentPlace.parent.id){
+    if (currentPlace.id.split('.').length > 1){
+      vm.isGrandPlace = false;
+    }else{
       vm.isGrandPlace = true;
     }
 
@@ -44,7 +43,7 @@
         return;
       }
 
-      NstSvcUserFactory.search(settings, vm.isGrandPlace ?  NST_USER_SEARCH_AREA.ACCOUNTS :  NST_USER_SEARCH_AREA.ADD)
+      NstSvcUserFactory.search(settings, vm.isGrandPlace ?  NST_USER_SEARCH_AREA.INVITE :  NST_USER_SEARCH_AREA.ADD)
         .then(function (users) {
           vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
         })
@@ -59,6 +58,11 @@
 
     function calculateSearchLimit() {
       return defaultSearchResultCount + vm.selectedUsers.length;
+    }
+
+    function checkUserLimitPlace() {
+      var previusUsers = currentPlace.counters.creators + currentPlace.counters.key_holders;
+      vm.limit = 255 - previusUsers;
     }
   }
 })();

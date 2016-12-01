@@ -25,30 +25,29 @@
           </a>
         </div>
       </div>
-      <div class="panel-action _fn">
-        <ul class="list-inline _df">
-          <li ng-if="ctlPost.hasRemoveAccess">
-            <!--  -->
-            <a href="" class="popover-white-nst-activity-places cursor-pointer" uib-popover-template="'app/messages/post/delete.html'"
-                 ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" popover-trigger="outsideClick">
-              <span class="nst-mood-solid _dib">Delete</span>
-              <span class="action-button-post-delete _dib"></span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ctlPost.urls.forward}}" ng-click="ctlPost.forward($event);">
-              <span class="nst-mood-solid _dib">Forward</span>
-              <span class="action-button-post-forward  _dib"></span>
-            </a>
-          </li>
+      <ul class="list-inline _df _fn">
+        <li ng-if="ctlPost.hasRemoveAccess || ctlPost.post.wipeAccess">
+          <!--  -->
+          <a href="" class="cursor-pointer" uib-popover-template="'app/messages/post/delete.html'"
+             ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places">
+            <span class="nst-mood-solid _dib">Delete</span>
+            <span class="action-button-post-delete _dib"></span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ctlPost.urls.forward}}" ng-click="ctlPost.forward($event);">
+            <span class="nst-mood-solid _dib">Forward</span>
+            <span class="action-button-post-forward  _dib"></span>
+          </a>
+        </li>
 
-          <li>
-            <div class="popover-white-nst-activity-places cursor-pointer" uib-popover-template="'app/messages/post/reply.html'"
-                 ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" popover-trigger="outsideClick">
-              <span class="nst-mood-solid _dib">Reply</span>
-              <span class="action-button-post- _dib"></span>
-            </div>
-          </li>
+        <li>
+          <div class="cursor-pointer" uib-popover-template="'app/messages/post/reply.html'"
+               ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places">
+            <span class="nst-mood-solid _dib">Reply</span>
+            <span class="action-button-post- _dib"></span>
+          </div>
+        </li>
 
           <li>
             <div class="comment-input-toggle cursor-pointer" ng-init="commentInput = true" ng-click="commentInput =! commentInput">
@@ -60,7 +59,7 @@
         </ul>
       </div>
     </div>
-  </div>
+
   <div class="_difh _fh" id="PostBody">
     <div nst-scrollbar id="Content" class="_difv _fw">
       <div class="_df _fw _fn">
@@ -87,7 +86,7 @@
         </div>
       </div>
       <!-- @FIXME : Use a proper animation to go downward -->
-      <div class="comment-msg _difv _fw" nst-scrollbar scroll-animate="false" go-downward="ctlPost.revealNewComment">
+      <div class="comment-msg _difv _fw" nst-scrollbar suppressScrollX="true" scroll-animate="false" go-downward="ctlPost.revealNewComment">
         <div data-ng-if="ctlPost.hasMoreComments && !ctlPost.status.commentLoadProgress" class="_fw text-center">
           <a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
         </div>
@@ -123,14 +122,6 @@
                 class="nst-mood-simple _df _ma" data-ng-bind="512 - ctlPost.nextComment.length"></span>
         </div>
         <div class="_difv _fw _fh">
-          <!--<div class="_difh sendcomment">
-            <button class="butn-send-comment df" da
-            ta-ng-click="ctlPost.sendComment($event)">Send</button>
-          </div>-->
-          <!--<div contenteditable role="textbox" aria-multiline="false" placeholder="Write your comment..."-->
-               <!--ng-keydown="ctlPost.sendComment($event)" data-ng-disabled="ctlPost.status.commentSendInProgress"-->
-               <!--ng-model="ctlPost.nextComment" auto-dir="{{ctlPost.nextComment}}" max-length="5"-->
-               <!--aria-expanded="false" class="_fw comment-box _wrb"><p></p></div>-->
           <textarea type="text" nst-mention class="_df _fw" cols="32"
                     post-id="{{ctlPost.post.id}}"
                     data-ng-disabled="ctlPost.status.commentSendInProgress"

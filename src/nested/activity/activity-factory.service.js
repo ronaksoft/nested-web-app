@@ -30,6 +30,7 @@
     ActivityFactory.prototype.constructor = ActivityFactory;
 
     ActivityFactory.prototype.get = get;
+    ActivityFactory.prototype.getAfter  = getAfter;
     ActivityFactory.prototype.getRecent = getRecent;
     ActivityFactory.prototype.parseActivity  = parseActivity;
     ActivityFactory.prototype.parseActivityEvent  = parseActivityEvent;
@@ -273,79 +274,55 @@
         }
     }
 
-    function get(settings) {
-      var defaultSettings = {
-        limit: 32,
-        placeId: null,
-        date: null,
-        filter: 'all'
-      };
-      settings = _.defaults(settings, defaultSettings);
-      if (settings.placeId) {
-        return getByPlace(settings);
-      } else {
-        return getAll(settings);
-      }
-    }
-
-    function getAll(settings) {
+    function getActivities(settings) {
       return factory.sentinel.watch(function() {
 
         var deferred = $q.defer();
 
         NstSvcServer.request('timeline/get_events', {
-          limit: settings.limit,
-          before: settings.date,
-          filter: settings.filter
+          limit: settings.limit || 32,
+          before: settings.before,
+          after: settings.after,
+          filter: settings.filter || 'all',
+          place_id: settings.placeId
         }).then(function(data) {
 
           var activities = _.map(data.events, parseActivity);
-
-          $q.all(activities).then(function(values) {
+          $q.all(activities).then(function (values) {
             deferred.resolve(values);
           }).catch(deferred.reject);
 
         }).catch(deferred.reject);
 
         return deferred.promise;
-      }, 'getAll');
+      }, 'getActivities', settings.placeId);
+    }
+
+    function get(settings) {
+      return getActivities({
+        limit : settings.limit,
+        placeId : settings.placeId,
+        before : settings.date,
+        filter : settings.filter
+      });
+    }
+
+    function getAfter(settings) {
+      return getActivities({
+        limit : settings.limit,
+        placeId : settings.placeId,
+        after : settings.date,
+        filter : settings.filter
+      });
     }
 
     function getRecent(settings) {
-      var mandatorySettings = {
+      return getActivities({
         filter: NST_ACTIVITY_FILTER.ALL,
-        limit: 10,
-        placeId : null
-      };
-      settings = _.defaults(settings, mandatorySettings);
-      return get(settings);
+        limit: settings.limit || 10,
+        placeId : settings.placeId
+      });
     }
 
-    function getByPlace(settings) {
-      return factory.sentinel.watch(function() {
-        var defer = $q.defer();
-
-        if (!settings.placeId) {
-          defer.reject(new Error('Could not find the place id.'));
-        } else {
-
-          NstSvcServer.request('timeline/get_events', {
-            limit: settings.limit,
-            before: settings.date,
-            place_id: settings.placeId,
-            filter: settings.filter
-          }).then(function(data) {
-            var activities = _.map(data.events, parseActivity);
-
-            $q.all(activities).then(function(values) {
-              defer.resolve(values);
-            }).catch(defer.reject);
-
-          }).catch(defer.reject);
-        }
-
-        return defer.promise;
-      }, 'getByPlace', settings.placeId);
-    }
   }
 })();

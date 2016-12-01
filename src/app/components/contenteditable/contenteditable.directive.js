@@ -3,13 +3,38 @@
 
   angular
     .module('ronak.nested.web.components.text')
-    .directive('contenteditable', function() {
+    .directive('contentedit', function() {
     var obj = {
       restrict:'A',
       replace:false,
       scope:false,
       require:'?ngModel',
       link:function(scope,element,attrs,ngModel){
+        new Medium({
+          element: angular.element(element)[0],
+          autofocus: false,
+          autoHR: true,
+          mode: Medium.richMode,
+          maxLength: -1,
+          tags: null,
+          pasteAsText: true,
+          beforeInvokeElement: function () {
+          },
+          beforeInsertHtml: function () {
+            //this = Medium.Html
+          },
+          beforeAddTag: function (tag, shouldFocus, isEditable, afterElement) {
+          },
+          keyContext: null,
+          pasteEventHandler: function(e) {
+            /*default paste event handler*/
+          }
+
+        });
+        return;
+
+
+        //old one
         var oldVal;
         //Let's have spellcheck disabled by default
         !('spellcheck' in attrs) && attrs.$set('spellcheck','false');
@@ -34,7 +59,7 @@
           if(e.keyCode === 13){ //Enter Key
             e.preventDefault();
             read();
-            $(element).blur();
+            //$(element).blur();
           }
 
           if(e.keyCode === 27){ //Esc key
@@ -113,4 +138,4 @@
       }
     }
     return obj;
-  })})();
+})})();

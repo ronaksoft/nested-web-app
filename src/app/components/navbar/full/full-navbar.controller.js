@@ -18,12 +18,13 @@
      *****************************/
 
     isBookMark();
+    isSent();
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
     vm.getMessagesUrl = getMessagesUrl;
     vm.getActivityUrl = getActivityUrl;
-    // vm.getFilesUrl = getFilesUrl;
+    vm.getFilesUrl = getFilesUrl;
     vm.getSettingsUrl = getSettingsUrl;
     vm.search = search;
     vm.rollUpward = rollUpward;
@@ -35,13 +36,18 @@
     vm.openAddMemberModal = openAddMemberModal;
     vm.openSettingsModal = openSettingsModal;
     vm.confirmToRemove = confirmToRemove;
-    vm.leaveAccess = leaveAccess;
+    vm.isPersonal = isPersonal;
 
     vm.confirmToLeave = confirmToLeave;
 
-    function openCreateSubplaceModal ($event) {
+
+    function openCreateSubplaceModal ($event,style) {
+      if ( style == 'open') {
+        $state.go('app.place-create', { placeId : getPlaceId(),isOpenPlace: true } , { notify : false });
+      } else {
+        $state.go('app.place-create', { placeId : getPlaceId(),isClosePlace: true } , { notify : false });
+      }
       $event.preventDefault();
-      $state.go('app.place-create', { placeId : getPlaceId() } , { notify : false });
     };
 
     function openAddMemberModal($event) {
@@ -67,31 +73,60 @@
 
         modal.result.then(function(selectedUsers) {
           $q.all(_.map(selectedUsers, function(user) {
-
             return $q(function(resolve, reject) {
-              NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
-                toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
-                NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
-                resolve({
-                  user: user,
-                  role: role,
-                  invitationId: invitationId
-                });
-              }).catch(function(error) {
-                // FIXME: Why cannot catch the error!
-                if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
-                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+
+              if (vm.isGrandPlace) {
+
+                NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
+                  toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
                   resolve({
                     user: user,
                     role: role,
-                    invitationId: null,
-                    duplicate: true
+                    invitationId: invitationId
                   });
-                } else {
-                  reject(error);
-                }
-              });
+                }).catch(function (error) {
+                  // FIXME: Why cannot catch the error!
+                  if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
+                    toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                    resolve({
+                      user: user,
+                      role: role,
+                      invitationId: null,
+                      duplicate: true
+                    });
+                  } else {
+                    reject(error);
+                  }
+                });
+
+              }else{
+                NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
+                  toastr.success(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
+
+                  resolve({
+                    user: user,
+                    role: role,
+                    invitationId: invitationId
+                  });
+                }).catch(function(error) {
+                  // FIXME: Why cannot catch the error!
+                  if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
+                    toastr.warning(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.place.id));
+                    resolve({
+                      user: user,
+                      role: role,
+                      invitationId: null,
+                      duplicate: true
+                    });
+                  } else {
+                    reject(error);
+                  }
+                });
+              }
             });
 
           })).then(function(values) {
@@ -112,6 +147,14 @@
 
     }
 
+    function joinUser(place, role, user) {
+      if (place.isGrandPlace()) {
+        return NstSvcPlaceFactory.inviteUser(place, role, user);
+      } else {
+        return NstSvcPlaceFactory.addUser(place, role, user);
+      }
+    }
+
     function getPlaceId() {
       return vm.placeId;
     }
@@ -123,18 +166,20 @@
 
     function getMessagesUrl() {
       if (hasPlace()) {
-        return $state.href('app.place-messages', { placeId : vm.getPlaceId() });
+        return $state.href('app.place-messages', {placeId: vm.getPlaceId()});
       } else {
         return $state.href('app.messages');
       }
     }
-    // function getFilesUrl() {
-    //   if (hasPlace()) {
-    //     return $state.href('place-Files', { placeId : vm.getPlaceId() });
-    //   } else {
-    //     return '';
-    //   }
-    // }
+
+    function getFilesUrl() {
+      if (hasPlace()) {
+        return $state.href('app.place-files', { placeId : vm.getPlaceId() });
+      } else {
+        return '';
+      }
+    }
+
     function getActivityUrl() {
       if (hasPlace()) {
         return $state.href('app.place-activity', { placeId : vm.getPlaceId() });
@@ -155,9 +200,18 @@
       }
     }
     function isBookMark() {
-      if ($state.current.name == 'app.messages-bookmarks' ||
-        $state.current.name == 'app.messages-bookmarks-sorted'){
+      if ($state.current.name == 'app.messages-favorites' ||
+        $state.current.name == 'app.messages-favorites-sorted'){
         vm.isBookmarkMode = true;
+        return true;
+      }
+      return false;
+    }
+
+    function isSent() {
+      if ($state.current.name == 'app.messages-sent' ||
+        $state.current.name == 'app.messages-sent-sorted') {
+        vm.isSentMode = true;
         return true;
       }
       return false;
@@ -203,7 +257,7 @@
         searchQury.addPlace(getPlaceId());
       }
 
-      $state.go('app.search', { query : NstSearchQuery.encode(searchQury.toString()) });
+      $state.go('app.search', { search : NstSearchQuery.encode(searchQury.toString()) });
     }
 
 
@@ -212,6 +266,7 @@
         return vm.placeId
       },function () {
         if (vm.placeId) {
+          vm.isGrandPlace = vm.placeId.split('.').length === 1;
           NstSvcPlaceFactory.getBookmarkedPlaces()
             .then(function (bookmaks) {
               if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
@@ -221,6 +276,19 @@
             .then(function (status) {
               vm.notificationStatus = status;
             });
+
+
+
+          if(vm.hasPlace && !vm.place) {
+            NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
+              vm.place = place;
+            });
+          }
+          if(vm.hasPlace) {
+            NstSvcPlaceFactory.get(vm.placeId.split('.')[0]).then(function (place) {
+              vm.grandPlace = place;
+            });
+          }
 
           $q.all([
             NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
@@ -258,19 +326,18 @@
       });
     }
 
-    function leaveAccess() {
-      return NstSvcAuth.user.id !== vm.getPlaceId()
+    function isPersonal() {
+      return NstSvcAuth.user.id == vm.getPlaceId()
     }
 
     function leave() {
       NstSvcPlaceFactory.removeMember(vm.getPlaceId(), NstSvcAuth.user.id, true).then(function(result) {
         $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
-        console.log(error);
         if (error instanceof NstPlaceOneCreatorLeftError){
           toastr.error('You are the only one left!');
         } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are creator of the top-level place ({0}).', vm.place.parent.name));
+          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are the creator of the top-level place ({0}).', vm.place.parent.name));
         }
         NstSvcLogger.error(error);
       });
@@ -313,10 +380,17 @@
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
         toastr.success(NstUtility.string.format("Place {0} was removed successfully.", vm.place.name));
-        $state.go(NST_DEFAULT.STATE);
+        if (vm.place.parentId) {
+          $state.go('app.place-messages', { placeId : vm.place.parentId });
+        } else {
+          $state.go(NST_DEFAULT.STATE);
+        }
       }).catch(function(error) {
-        toastr.error(NstUtility.string.format("An error happened while removing the place.", vm.place.name));
-        NstSvcLogger.error(error);
+        if (error.code === 1 && error.message[0] === "place has child") {
+          toastr.warning("You have to remove all children before removing the place.");
+        } else {
+          toastr.error(NstUtility.string.format("An error happened while removing the place.", vm.place.name));
+        }
       });
     }
 

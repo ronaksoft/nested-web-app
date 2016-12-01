@@ -52,16 +52,16 @@
       ],
       'ACTIVITY': [
         'app.activity',
-        'app.activity-bookmarks',
-        'app.activity-bookmarks-filtered',
+        'app.activity-favorites',
+        'app.activity-favorites-filtered',
         'app.activity-filtered',
         'app.place-activity',
         'app.place-activity-filtered'
       ],
       'MESSAGES': [
         'app.messages',
-        'app.messages-bookmarks',
-        'app.messages-bookmarks-sorted',
+        'app.messages-favorites',
+        'app.messages-favorites-sorted',
         'app.messages-sent',
         'app.messages-sent-sorted',
         'app.messages-sorted',
@@ -69,6 +69,9 @@
         'app.place-messages-sorted',
         'app.place-message-chain',
         'app.message-chain'
+      ],
+      'FILES': [
+        'app.place-files'
       ],
       'SEARCH': [
         'app.search'

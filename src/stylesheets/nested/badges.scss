@@ -9,13 +9,13 @@ a.normal-badge {
   align-items: center;
   display: flex;
   color: $color-hurricane;
-  padding: 0px 8px 0 8px;
+  padding: 0 8px 0 8px;
   font-size: $font-size-xsmall;
   margin: 0 8px;
   white-space: nowrap;
   height: 16px;
   line-height: 16px;
-  white-space: nowrap;
+  transition: all $animation-dur;
   &:hover {
     background-color: $color-hurricane;
     color: $color-white;
@@ -57,7 +57,7 @@ a.normal-badge {
 }
 
 #new-post {
-  position: fixed;
+  position: absolute;
   z-index: 555;
   right: auto;
   left: 50%;
@@ -72,7 +72,7 @@ a.normal-badge {
   align-items: center;
   align-self: center;
   @include opacity(.85);
-  transition: $animation-dur;
+  //transition: $animation-dur;
   a {
     color: $color-white;
     font-size: $font-size-medium;
@@ -102,9 +102,10 @@ a.normal-badge {
   line-height: 16px;
   flex : none;
   color: $color-hurricane;
-  padding: 0px 8px 2px 8px;
+  padding: 0 8px 2px 8px;
   font-size: $font-size-xsmall;
   align-self: center;
+  transition: all $animation-dur;
   &:hover {
     color: $color-white;
     background-color: $color-hurricane;

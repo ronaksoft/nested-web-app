@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function SidebarPlaceInfoController($q, $scope, $state, $stateParams, NstSvcLogger, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap,
-                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace) {
+                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT) {
     var vm = this;
     vm.loading = false;
     vm.currentPlaceId = $stateParams.placeId;
@@ -28,6 +28,15 @@
       vm.children = [];
 
       var grandPlaceId = vm.grandPlace.id;
+
+      NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
+        if (list.filter(function (obj) {
+            return obj === vm.grandPlace.id
+          }).length === 1) {
+          vm.placesBookmarkObject[vm.grandPlace.id] = true;
+        }
+      });
+
       getGrandPlaceChildren(grandPlaceId).then(function (places) {
         vm.children = places;
       }).catch(function (error) {
@@ -136,7 +145,17 @@
       });
     }
 
-
+    function clearPlace(placeId) {
+      if (placeId) {
+        if (_.has(vm.placesNotifCountObject, placeId)) {
+          delete vm.placesNotifCountObject[placeId];
+        }
+        if (_.has(vm.placesBookmarkObject, placeId)) {
+          delete vm.placesBookmarkObject[placeId];
+        }
+        NstSvcPlaceFactory.removePlaceFromTree(vm.children, placeId);
+      }
+    }
     /*****************************
      *****  Event Listeners   ****
      *****************************/
@@ -153,14 +172,6 @@
 
       Initializing();
     });
-
-
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
-      //TODO:: change children without Initializing()
-      // NstSvcPlaceFactory.removePlaceInTree(vm.children, mapPlace(event.detail.place));
-      Initializing();
-    });
-
 
 
     NstSvcPlaceFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
@@ -182,5 +193,13 @@
       getPlaceUnreadCounts();
     });
 
+    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+      NstSvcLogger.debug('Retrieving sub-places count right after reconnecting.');
+      getPlaceUnreadCounts();
+    });
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
+      clearPlace(event.detail);
+    });
   }
 })();

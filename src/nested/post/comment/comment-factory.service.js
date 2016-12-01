@@ -8,7 +8,7 @@
   function NstSvcCommentFactory($q, $log,
     _,
     NST_COMMENT_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore,
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstUtility,
     NstFactoryEventData, NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
@@ -139,7 +139,7 @@
         }
 
         return deferred.promise;
-      }, "addComment", new Date().valueOf());
+      }, "addComment", NstUtility.date.toUnix(new Date()));
     }
 
     /**
@@ -230,7 +230,7 @@
 
       var defer = $q.defer();
 
-      if (!data) {
+      if (!data || !data._id) {
         defer.resolve(comment);
       } else {
 

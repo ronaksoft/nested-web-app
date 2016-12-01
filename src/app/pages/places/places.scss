@@ -91,24 +91,25 @@ ul.top-nav-places {
 
 [class*=role-icons-]  {
   background: url('../assets/icons/roleicons.svg') no-repeat;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
+  background-size: cover;
 }
 
 .role-icons-key {
-  background-position: 0 -16px;
+  background-position: 0 -20px;
 }
 
 .role-icons-avatar {
-  background-position: 0 -32px;
+  background-position: 0 -40px;
 }
 
 .role-icons-key-wait {
-  background-position: 0 -48px;
+  background-position: 0 -60px;
 }
 
 .role-icons-avatar-wait {
-  background-position: 0 -64px;
+  background-position: 0 -80px;
 }
 
 

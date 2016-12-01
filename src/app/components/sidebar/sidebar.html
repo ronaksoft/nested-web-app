@@ -58,7 +58,10 @@
       <div class="places" nst-scrollbar suppress-scroll-x="true">
         <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 ">
           <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
-            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)" class="side-place-invite-item-inner active detailed">
+            <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
+               class="side-place-invite-item-inner active detailed" data-uib-tooltip="{{invitaion.place.name}}"
+               data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
+               data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
               <div class="side-place-item-image">
                 <img class="" ng-src="{{invitaion.place.avatar}}"/>
               </div>
@@ -166,13 +169,7 @@
         </div>
       </div>
     </div>
-    <div class="side-stats">
-      <div class="totalmsg">
-        <a class="_fw _df">Total Messages</a><span class="_fn _df">{{ctlSidebar.selectedGrandPlace.totalPosts || 0}}</span>
-      </div>
-    </div>
     <div class="places" ng-show="ctlSidebar.showPlaces">
-      <h4>Places</h4>
       <div nst-scrollbar suppress-scroll-x="true"  class="places-list">
         <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace"></nst-sidebar-place-info>
       </div>

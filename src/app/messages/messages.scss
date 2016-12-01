@@ -1,11 +1,8 @@
 .post-area {
   justify-content: center;
+  z-index: 20;
 }
-.quick-message {
-  height: 86px;
-  z-index: 10;
-  border: 1px solid $color-border;
-}
+
 .filter-bar {
   height: 50px;
   display: inline-flex;
@@ -14,6 +11,8 @@
   align-items: center;
   flex: none;
   position: relative;
+  width: 250px;
+  align-self: flex-end;
 }
 hr.hot-message-separator {
   border: 0;

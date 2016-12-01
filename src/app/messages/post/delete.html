@@ -1,8 +1,8 @@
 <div>
-  <div>
+  <div ng-if="ctlPost.hasRemoveAccess">
     <a href ng-click="ctlPost.removePost(ctlPost.post);" class="spansetting">Delete</a>
   </div>
-  <div>
+  <div ng-if="ctlPost.post.wipeAccess">
     <a href ng-click="ctlPost.retractPost(ctlPost.post);" class="spansetting">Retract</a>
   </div>
 </div>

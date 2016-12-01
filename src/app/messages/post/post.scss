@@ -4,12 +4,11 @@
   **********************************************************
 */
 #PostView {
-  overflow: hidden;
   border: 1px solid $color-breeze;
   border-radius: $border-radius-large;
-  background-color: $color-white;
+  //background-color: $color-white;
   padding: 0;
-  animation: appearence $animation-dur ease-out;
+  animation: post-view .2s cubic-bezier(0.1,0.8,0.6,1) .50s forwards normal;
   #PostHeader {
     border-bottom: 1px solid $color-breeze;
     padding: 0;
@@ -18,7 +17,7 @@
   }
   #PostBody {
     border: none;
-    overflow: auto;
+    overflow-y: auto;
   }
   #PostTime {
     top: 0;
@@ -40,16 +39,11 @@
   }
   #Content {
     vertical-align: top;
-    min-height: calc(100vh - 400px);
-    min-width: calc(100% - 320px);
-    width: 70%;
     padding: 20px 20px;
     font-size: $post-font-size;
   }
   #Comments {
     padding: 5px;
-    max-width: 320px;
-    width: 30%;
     flex:none;
     background-color: rgb(247, 250, 249);
     border-radius: $border-radius-large;
@@ -111,16 +105,14 @@
     word-break: break-all;
     font-size: $font-size-xlarge;
     text-overflow: ellipsis;
-    line-height: 30px;
+    line-height: 40px;
+    min-height: 40px;
     padding-bottom: 5px;
   }
   .time {
     margin: 0 4px;
-    align-self: flex-start;
   }
   .closebut{
-    align-self: flex-start;
-
     &:hover{
       cursor: pointer;
     }
@@ -145,7 +137,6 @@
   .badges {
     margin:0 15px;
     flex-wrap: wrap;
-    max-width: calc(100% - 250px);
     min-width: 100px;
     div div {
       display: inline-flex;
@@ -191,11 +182,8 @@
 }
 
 .comment-input {
-  bottom: 0;
   height: 65px;
   width: 100%;
-  padding: 0 5px;
-  margin: 10px 0;
   flex: none;
   span {
     position: relative;
@@ -212,7 +200,6 @@
     padding: 6px;
     padding-right: 8px;
     margin-bottom: 5px;
-    height: 60px;
     resize: none;
     border-radius: $border-radius-large;
   }

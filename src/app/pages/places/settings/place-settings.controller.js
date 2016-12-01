@@ -17,8 +17,8 @@
      *** Controller Properties ***
      *****************************/
      vm.memberOptions = {
-       'creators' : 'Master Keyholders Only',
-       'everyone' : 'All Keyholders'
+       'creators' : 'Manager Only',
+       'everyone' : 'All members'
      };
     vm.options = {
       notification: null,
@@ -65,6 +65,15 @@
       vm.placeId = $stateParams.placeId;
       vm.user = NstSvcAuth.user;
 
+      if (vm.user.id === vm.placeId){
+        vm.isPersonalPlace = true;
+      }
+
+
+      if (vm.user.id === vm.placeId.split('.')[0]){
+        vm.isSubPersonalPlace = true;
+      }
+
       loadPlace(vm.placeId).then(function (result) {
         vm.place = result.place;
         vm.accesses = result.accesses;
@@ -75,7 +84,7 @@
           vm.accesses.hasControlAccess && vm.placeId !== NstSvcAuth.user.id);
       }).then(function (teammates) {
         vm.teammates = teammates;
-        vm.hasMoreTeammates = teammates.length >= vm.teammatesSettings.limit;
+        vm.hasMoreTeammates = vm.teammates.length === teammates.length;
       }).catch(function(error) {
         NstSvcLogger.error(error);
       }).finally(function () {
@@ -123,6 +132,7 @@
         result.place = place;
         NstSvcLogger.info(NstUtility.string.format('Place {0} was found.', result.place.id));
         initializeStates(place);
+        setGrandPlace(place);
 
         return $q.all([
           NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
@@ -249,8 +259,8 @@
     function loadMoreTeammates() {
       vm.teammatesLoadProgress = true;
       return loadTeammates(vm.placeId, vm.accesses.hasSeeMembersAccess, vm.accesses.hasControlAccess).then(function (teammates) {
-        vm.hasMoreTeammates = teammates.length === 0;
         vm.teammates.push.apply(vm.teammates, teammates);
+        vm.hasMoreTeammates = teammates.length === defaultTeammatesLimit;
       }).catch(function (error) {
         NstSvcLogger.error(error);
       }).finally(function () {
@@ -447,6 +457,16 @@
     function updateDescription(value) {
       vm.place.description = value;
       update({ 'place_desc' : vm.place.description });
+    }
+
+    function setGrandPlace(place) {
+      NstSvcPlaceFactory.get(place.grandParentId).then(function (grand) {
+        vm.grandPlace = grand;
+      })
+    }
+
+    function getPlaceMembersCount(place) {
+      return place.counters.key_holders + place.counters.creators;
     }
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {

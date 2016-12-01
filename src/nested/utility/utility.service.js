@@ -6,7 +6,7 @@
     .service('NstUtility', NstUtility);
 
   /** @ngInject */
-  function NstUtility(NstUtilString, NstUtilCollection) {
+  function NstUtility(NstUtilString, NstUtilCollection, NstUtilDate) {
     function Utility() {
 
     }
@@ -16,6 +16,8 @@
 
     Utility.prototype.string = NstUtilString;
     Utility.prototype.collection = NstUtilCollection;
+    Utility.prototype.date = NstUtilDate;
+
 
     return new Utility();
   }

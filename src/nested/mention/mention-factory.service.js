@@ -52,7 +52,7 @@
           show_data: true
         }).then(function(data) {
           var mentionPromises = _.map(data.mentions, parseMention);
-          $q.all(mentionPromises).then(defer.resolve).catch(defer.catch);
+          $q.all(mentionPromises).then(defer.resolve).catch(defer.reject);
         }).catch(defer.reject);
 
         return defer.promise;
