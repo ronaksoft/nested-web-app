@@ -149,10 +149,12 @@
 
     function nextStep() {
       vm.step++;
+      vm.submitted = false;
     }
 
     function previousStep() {
       if (vm.step > 1) {
+        vm.submitted = false;
         vm.step--;
       }
     }
