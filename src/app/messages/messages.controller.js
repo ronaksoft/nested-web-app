@@ -135,11 +135,12 @@
           return;
         }
 
-
-        if (!vm.currentPlaceId || _.includes(newMessage.places, vm.currentPlaceId)) {
-          if (!_.some(vm.messages, {id: newMessage.id})) {
-            vm.hotMessageStorage.unshift(newMessage);
-            vm.hasNewMessages = true;
+        if(!isSent()) {
+          if (!vm.currentPlaceId || _.includes(newMessage.places, vm.currentPlaceId)) {
+            if (!_.some(vm.messages, {id: newMessage.id})) {
+              vm.hotMessageStorage.unshift(newMessage);
+              vm.hasNewMessages = true;
+            }
           }
         }
 
