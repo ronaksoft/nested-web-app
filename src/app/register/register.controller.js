@@ -354,7 +354,7 @@
         var postData  = new FormData();
         postData.append('f', 'register');
         postData.append('vid', vm.verificationId);
-        postData.append('phone', vm.phone);
+        postData.append('phone', getPhoneNumber());
         postData.append('country', vm.country);
         postData.append('uid', credentials.username);
         postData.append('pass', credentials.password);
