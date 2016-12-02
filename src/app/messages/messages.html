@@ -13,7 +13,7 @@
   <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
-    <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
+    <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = true">
       <div ng-show="!ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
