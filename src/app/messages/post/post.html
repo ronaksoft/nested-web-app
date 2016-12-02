@@ -58,7 +58,8 @@
 
         </ul>
       </div>
-  </div>
+    </div>
+
   <div class="_difh _fh" id="PostBody">
     <div nst-scrollbar id="Content" class="_difv _fw">
       <div class="_df _fw _fn">
@@ -121,14 +122,6 @@
                 class="nst-mood-simple _df _ma" data-ng-bind="512 - ctlPost.nextComment.length"></span>
         </div>
         <div class="_difv _fw _fh">
-          <!--<div class="_difh sendcomment">
-            <button class="butn-send-comment df" da
-            ta-ng-click="ctlPost.sendComment($event)">Send</button>
-          </div>-->
-          <!--<div contenteditable role="textbox" aria-multiline="false" placeholder="Write your comment..."-->
-               <!--ng-keydown="ctlPost.sendComment($event)" data-ng-disabled="ctlPost.status.commentSendInProgress"-->
-               <!--ng-model="ctlPost.nextComment" auto-dir="{{ctlPost.nextComment}}" max-length="5"-->
-               <!--aria-expanded="false" class="_fw comment-box _wrb"><p></p></div>-->
           <textarea type="text" nst-mention class="_df _fw" cols="32"
                     post-id="{{ctlPost.post.id}}"
                     data-ng-disabled="ctlPost.status.commentSendInProgress"
