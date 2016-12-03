@@ -35,7 +35,7 @@ input[type="checkbox"] {
   max-width: 1px;
 }
 .ui-select-search {
-  width: auto!important;
+  //width: auto!important;
 }
 .input {
   border: none;
@@ -76,7 +76,22 @@ a .ui-select-choises-row-inner {
   width: 100%;
   border: none;
   box-shadow: none;
+  > div {
+    display: inline-flex;
+    flex-direction: row;
+    flex: none;
+    flex-wrap: wrap;
+    input {
+      display: flex;
+      flex: 1;
+      width: auto;
+    }
+  }
   .ui-select-match {
+    display: flex;
+    flex: none;
+    flex-wrap: wrap;
+    max-width: 100%;
     .close {
       padding-top: 4px;
       color: $color-solid;
