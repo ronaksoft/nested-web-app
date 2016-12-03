@@ -219,7 +219,7 @@
       "Country": "کشور",
       "Select your country": "کشور خود را انتخاب کنید",
       "Phone number": "شماره ی تلفن",
-      "Enter your phone number": "",
+      "Enter your phone number": "شماره ی خود را وارد نمایید.",
       "The provided phone number is not valid": "شماره ی تلفن ارائه شده معتبر نمی باشد",
       "Phone Verification": "تأیید تلفن",
       "We've sent a verification code via SMS to": "ما کد تأیید را از طریق پیامک خواهیم فرستاد",
@@ -248,6 +248,24 @@
       "4-digits verification code": "کد تأیید 4 عددی",
       "That's not me!": "او من نیستم",
       "Phone verification": "تأیید تلفن",
+      "or": "یا",
+      "only number,alphabet and dash (-)": "فقط عدد حروف و دش (-)",
+      "at least 5 character": "حداقل 5 کاراکتر",
+     "No number or dash for start": "برای شروع دش و عدد استفاده نشود.",
+      "Sequence dashes (--) not allowed": "دش های متوالی جایز نمی باشد",
+      "Not allowed to end with dash": "مجاز به استفاده از دش در پایان نمی باشید.",
+      "Do you want to leave": "آیا می خواهید ترک کنید؟  ",
+      "place?": "گروه را",
+      "Leaving": "ترک کردن",
+      "Are you sure you want to delete this place?": "آیا اطمینان دارید که می خواهید این گروه را حذف کنید؟",
+      "To confirm and delete the place, please type the place ID:": "برای تأیید و حذف گروه لطفاً شناسه ی گروه را وارد نمایید.",
+      "DELETE":"حذف کردن",
+      "Delete Place": "حذف گروه",
+      "By deleting place, all place data & messages will be erased permanently. Are you really sure?": "با حذف گروه تمام اطلاعات و پیام های گروه به طور دائمی پاک خواهد گشت. آیا واقعاً اطمینان دارید؟",
+      "Confirm to Delete Place": "تأیید حذف گروه",
+      "Cancel": "لغو",
+      "Enter your place id": "شناسه ی گروه را وارد کنید.",
+
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

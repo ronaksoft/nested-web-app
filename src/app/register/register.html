@@ -4,8 +4,7 @@
       <form novalidate ng-if="ctlRegister.step === 1" class="use-ng-animate register-step" ng-submit="ctlRegister.submitPhoneNumber(ctlRegister.phoneIsValid && ctlRegister.countryIsValid);">
         <div class="nst-vb no-gutter2 nst-marginbtm-48">
           <p class="col-xs-9 nst-font-xlarge"><translate>Create an account</translate></p>
-          <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful"><translate>Sign
-            in</translate></a></p>
+          <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right"><translate>or</translate> <a href="#/signin" class="nst-mood-cheerful"><translate>Sign in</translate></a></p>
         </div>
         <p class="nst-font-medium nst-marginbtm-48">
           <translate>To creating a Nested account, please enter your phone number.</translate>
@@ -28,7 +27,7 @@
           </div>
         </div>
         <div class="form-action">
-          <input type="submit" value="{{ctlRegister.phoneSubmitProgress ? 'Submitting...' : 'Next'}}" class="butn-green butn-lg butn-login nstbtn" ng-disabled="ctlRegister.phoneSubmitProgress">
+          <input type="submit" value="{{ctlRegister.phoneSubmitProgress ? 'Submitting...' : 'Next'}}" translate-attrs="value" class="butn-green butn-lg butn-login nstbtn" ng-disabled="ctlRegister.phoneSubmitProgress">
         </div>
 
       </form>
@@ -162,7 +161,7 @@
         <div class="_db nst-marginbtm-16 agreement-text ">
           <translate>By proceeding to create a Nested account, you are agreeing to our </translate><a href="https://help.nested.me/terms/index.html" class="nst-mood-cheerful"><translate>Terms and Conditions</translate></a>.
         </div>
-        <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="{{ ctlRegister.registerProgress ? 'Submitting...' : 'Finish' }}" ng-disabled="ctlRegister.registerProgress" />
+        <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="{{ ctlRegister.registerProgress ? 'Submitting...' : 'Finish' }}" translate-attrs="value" ng-disabled="ctlRegister.registerProgress" />
       </form>
     </div>
   </div>
