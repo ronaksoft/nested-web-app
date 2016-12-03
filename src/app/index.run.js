@@ -211,36 +211,43 @@
       "Invite": "دعوت",
       "Add": "افزودن",
       "Invite people by searching their name or entering their email or phone number.": "افراد را به وسیله ی جستجوی اسم شان یا ایمیل شان یا شماره ی تلفن شان دعوت کنید.",
-      "Create an account": "",
-      "To creating a Nested account, please enter your phone number.": "",
-      "Sign in": "",
-      "Recover your account": "",
-      "Enter your phone number to help you sign back in to Nested.": "",
-      "Country": "",
-      "Select your country": "",
-      "Phone number": "",
+      "Create an account": "ساخت یک حساب کاربری",
+      "To creating a Nested account, please enter your phone number.": "برای ساخت یک حساب کاریری نستد لطفاً شماره ی خود را وارد کنید.",
+      "Sign in": "ورود",
+      "Recover your account": "بازیابی رمز عبور شما",
+      "Enter your phone number to help you sign back in to Nested.": "وارد کردن شماره ی تلفن به شما کمک می کند به نستد بازگردید.",
+      "Country": "کشور",
+      "Select your country": "کشور خود را انتخاب کنید",
+      "Phone number": "شماره ی تلفن",
       "Enter your phone number": "",
-      "The provided phone number is not valid": "",
-      "Phone Verification": "",
-      "We've sent a verification code via SMS to": "",
-      "It's not me!": "",
-      "6 letter and digits verification code" : "",
-      "Wrong Code": "",
-      "Reset Password" : "",
-      "To continue to your account you should enter new password.": "",
-      "Enter new password": "",
-      "Confirm new password": "",
-      "The confirmation should matches your password": "",
-      
-
-
-
-
-
-
-
-
-
+      "The provided phone number is not valid": "شماره ی تلفن ارائه شده معتبر نمی باشد",
+      "Phone Verification": "تأیید تلفن",
+      "We've sent a verification code via SMS to": "ما کد تأیید را از طریق پیامک خواهیم فرستاد",
+      "It's not me!": "این من نیستم!",
+      "6 letter and digits verification code" : "6 حرف و عدد کد تأیید",
+      "Wrong Code": "کد اشتباه",
+      "Reset Password" : "تنظیم مجدد رمز عبور",
+      "To continue to your account you should enter new password.": "برای ادامه تا رسیدن به حساب کاربری خود باید رمز عبور جدید وارد کنید.",
+      "Enter new password": "رمز عبور جدید را وارد کنید.",
+      "Confirm new password": "تأیید رمز عبور جدید",
+      "The confirmation should matches your password": "تایید باید منطبق با رمز عبور شما باشد",
+      "Terms and Conditions": "شرایط و ضوابط",
+      "By proceeding to create a Nested account, you are agreeing to our ": "توسط اقدام به ایجاد یک حساب کاربری نستد، شما موافقید با ما",
+      "Email is not valid": "ایمیل معتبر نمی باشد",
+      "Email": "ایمیل",
+      "Last name is required": "نام خانوادگی ضروری است",
+      "Last name": "نام خانوادگی",
+      "First name is required": "نا ضروری است",
+      "Password required" : "رمز عبور ضروری است",
+      "Set a password" : "یک رمز عبور اتخاذ کنید",
+      "Available": "موجود",
+      "Not available": "ناموجود",
+      "Username is required": "نام کاربری ضروری است",
+      "Choose your username :": "نام کاربری خود را انتخاب کنید:",
+      "Create a profile": "یک نمایه بسازید",
+      "4-digits verification code": "کد تأیید 4 عددی",
+      "That's not me!": "او من نیستم",
+      "Phone verification": "تأیید تلفن",
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

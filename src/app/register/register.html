@@ -130,10 +130,10 @@
           <div class="_dtr">
             <div class="_dtc register-name-cell-left">
               <div class="nst-marginbtm-8 _fw"
-                   ng-if="!ctlRegister.requiredFirstname">First name
+                   ng-if="!ctlRegister.requiredFirstname"><translate>First name</translate>
               </div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                   ng-if="ctlRegister.requiredFirstname">First name is required
+                   ng-if="ctlRegister.requiredFirstname"><translate>First name is required</translate>
               </div>
               <input id="fname"
                      ng-class="ctlRegister.requiredFirstname ? 'form-control-error' : 'form-control'"
@@ -141,10 +141,10 @@
             </div>
             <div class="_dtc register-name-cell-right">
               <div class="nst-marginbtm-8 _fw"
-                   ng-if="!ctlRegister.requiredLastname">Last name
+                   ng-if="!ctlRegister.requiredLastname"><translate>Last name</translate>
               </div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                   ng-if="ctlRegister.requiredLastname">Last name is required
+                   ng-if="ctlRegister.requiredLastname"><translate>Last name is required</translate>
               </div>
               <input id="lname"
                      ng-class="ctlRegister.requiredLastname ? 'form-control-error': 'form-control'"
@@ -155,12 +155,12 @@
 
         <div class="form-group nst-marginbtm-16">
           <div class="nst-marginbtm-8" ng-if="!registrationForm.nested_email.$invalid">Email</div>
-          <div class="nst-marginbtm-8 nst-mood-lively" ng-if="registrationForm.nested_email.$invalid">Email is not valid</div>
+          <div class="nst-marginbtm-8 nst-mood-lively" ng-if="registrationForm.nested_email.$invalid"><translate>Email is not valid</translate></div>
           <input id="email" type="email" ng-class="{ 'form-control-error' : registrationForm.nested_email.$invalid,  'form-control' : !registrationForm.nested_email.$invalid }" name="nested_email" type="text" class="form-control" ng-model="ctlRegister.email" tabindex="5"/>
         </div>
 
         <div class="_db nst-marginbtm-16 agreement-text ">
-          By proceeding to create a Nested account, you are agreeing to our <a href="https://help.nested.me/terms/index.html" class="nst-mood-cheerful">Terms and Conditions</a>.
+          <translate>By proceeding to create a Nested account, you are agreeing to our </translate><a href="https://help.nested.me/terms/index.html" class="nst-mood-cheerful"><translate>Terms and Conditions</translate></a>.
         </div>
         <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="{{ ctlRegister.registerProgress ? 'Submitting...' : 'Finish' }}" ng-disabled="ctlRegister.registerProgress" />
       </form>
