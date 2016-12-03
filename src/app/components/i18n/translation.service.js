@@ -15,10 +15,15 @@
     Translation.prototype.get = function (text, locale) {
       if (locale || !this.currentLocale) {
         this.currentLocale = NstSvcI18n.getLocale(locale || this.defaultLocale);
-        console.log('Translation : currentLocale', this.currentLocale);
       }
-      console.log(text);
-      return this.currentLocale[text] || text;
+      var value = this.currentLocale[text];
+      if (!value) {
+        NstSvcLogger.debug("NstSvcTranslation : KEY NOT FOUND : " +  text);
+
+        return text;
+      }
+
+      return value;
     };
 
     return new Translation();
