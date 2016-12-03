@@ -167,6 +167,25 @@
       "Leave": "ترک کردن",
       "Leave and Delete": "ترک و حذف کردن",
       "Create a Personal place": "ساخت یک گروه شخصی",
+      "Older comments...": "دیدگاه های قدیمی...",
+      "Roll up": "جمع شدن",
+      "write your comment ...": "دیدگاه خود را بنویسید ...",
+      "No Permission": "دسترسی موجود نیست",
+      "No comment": "دیدگاهی موجود نیست",
+      "One comment": "یک دیدگاه",
+      "comments": "دیدگاه ها",
+      "Forward": "فرستادن",
+      "Reply to all": "پاسخ به همه",
+      "More Options": "انتخاب های دیگر",
+      "to": "به",
+      "Reply": "پاسخ",
+      "Reply all": "پاسخ به همه",
+      "Reply sender": "پاسخ ارسال کننده",
+      "Delete": "حذف",
+      "Retract": "ریترکت",
+      "Reply to sender": "پاسخ ارسال کننده",
+      "write your comment...": "دیدگاه خود را بنویسید...",
+
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

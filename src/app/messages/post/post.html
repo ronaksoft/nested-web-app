@@ -17,7 +17,7 @@
            data-radius="12" class="account-initials-24 _df" data-word-count="2" data-font-size="11"/>
       </div>
       <span class="actor-name nst-mood-cheerful _df">{{ctlPost.post.sender.name}}</span>
-      <span class="margin-l-5 nst-mood-storm">to</span>
+      <span class="margin-l-5 nst-mood-storm"><translate>to</translate></span>
       <div class="badges _df _fw">
         <div class="large-badge _df" data-ng-repeat="place in ctlPost.post.allPlaces">
           <a class="_di _fl" href="/#/places/{{place.id}}/messages">
@@ -30,13 +30,13 @@
           <!--  -->
           <a href="" class="cursor-pointer" uib-popover-template="'app/messages/post/delete.html'"
              ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places">
-            <span class="nst-mood-solid _dib">Delete</span>
+            <span class="nst-mood-solid _dib"><translate>Delete</translate></span>
             <span class="action-button-post-delete _dib"></span>
           </a>
         </li>
         <li>
           <a href="{{ctlPost.urls.forward}}" ng-click="ctlPost.forward($event);">
-            <span class="nst-mood-solid _dib">Forward</span>
+            <span class="nst-mood-solid _dib"><translate>Forward</translate></span>
             <span class="action-button-post-forward  _dib"></span>
           </a>
         </li>
@@ -44,7 +44,7 @@
         <li>
           <div class="cursor-pointer" uib-popover-template="'app/messages/post/reply.html'"
                ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places" id="reply-post-view">
-            <span class="nst-mood-solid _dib">Reply</span>
+            <span class="nst-mood-solid _dib"><translate>Reply</translate></span>
             <span class="action-button-post- _dib"></span>
           </div>
         </li>
@@ -128,7 +128,7 @@
                     data-ng-model="ctlPost.nextComment"
                     ng-keyup="ctlPost.sendComment($event)"
                     placeholder="write your comment..."
-                    auto-dir="{{ctlPost.nextComment}}"></textarea>
+                    auto-dir="{{ctlPost.nextComment}}"  translate-attrs="placeholder"></textarea>
           </textarea>
         </div>
       </div>
