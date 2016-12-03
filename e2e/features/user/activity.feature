@@ -63,11 +63,8 @@
 #    Given I Click id "test-setting-filter"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Expanded View"
-#
-#  Scenario: Activity 2
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Activity"
-#    When I Wait till line loader hide
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
 #
@@ -83,9 +80,9 @@
 #    Then should the title of the place be "Ronak Software Group"
 #
 #  Scenario: Activity 4
+#    Given I Click on sidebar "messages"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "3"
-#    When I Wait till line loader hide
 #    When I wait 5s
 #    Given I Click on "ronaksoft" place
 #    When I wait 5s
@@ -128,7 +125,7 @@
 #    When I wait 5s
 #    Given I Click by ngClick "openPostModal(post)"
 #    When I wait 5s
-#    Given I Click id "reply-modal-post"
+#    Given I Click id "reply-post-view"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Reply all"
 #    When I wait 5s
@@ -143,11 +140,9 @@
 #    When I wait 5s
 #    Given I Click id "comments"
 #    When I wait 5s
-#    When I wait 5s
 #    Given I Click by ngClick "openPostModal(post)"
 #    When I wait 5s
-#    When I wait 5s
-#    Given I Click id "reply-modal-post"
+#    Given I Click id "reply-post-view"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Reply sender"
 #    When I wait 5s
@@ -163,9 +158,7 @@
 #    When I wait 5s
 #    Given I Click id "comments"
 #    When I wait 5s
-#    When I wait 5s
 #    Given I Click by ngClick "openPostModal(post)"
-#    When I wait 5s
 #    When I wait 5s
 #    Given I Click by ngClick "$dismiss()"
 #    When I wait 5s
@@ -178,13 +171,11 @@
 #    When I wait 5s
 #    Given I Click id "comments"
 #    When I wait 5s
-#    When I wait 5s
 #    Given I Click by ngClick "openPostModal(post)"
 #    When I wait 5s
 #    Given I fill textarea by "write your comment..." with "test"
 #    When I wait 5s
 #    Given I press enter
-#    When I wait 5s
 #    When I wait 5s
 #    Given I Click Link by Partial Text "delete"
 #    When I wait 5s

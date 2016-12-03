@@ -114,6 +114,19 @@
       "Loading..." : "درحال بارگذاری...",
       "There are no posts here yet..." : "هنوز هیچ ‍یامی ارسال نشده است...",
       "Open Place" : "گروه باز",
+      "Expanded View": "نمایش بسیط",
+      "Collapsed View": "نمایش فشرده",
+      "All": "همه",
+      "Logs": "ثبت وقایع",
+      "Select filter": "انتخاب نوع فیلتر",
+      "commented": "دیدگاه گذاشت",
+      "created":"را ساخت",
+      "removed": "را حذف کرد",
+      "joined": "به ملحق شد",
+      "from": "از",
+      "left": "را ترک کرد",
+      "commented on": "دیدگاه گذاشت روی",
+      "Loading": "در حال بارگیری",
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

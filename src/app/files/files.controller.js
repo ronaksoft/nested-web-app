@@ -106,6 +106,7 @@
     function filter(filter) {
       vm.selectedFileType = filter;
       vm.settings.filter = filter.id;
+      vm.files = [];
       load();
     }
 
