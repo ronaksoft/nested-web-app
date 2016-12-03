@@ -7,7 +7,7 @@
       </div>
       <div class="_difh _fw modal-add">
         <ui-select multiple class="modal-add-input nst-mood-simple _df" data-ng-model="addMemberCtrl.selectedUsers" limit="{{addMemberCtrl.limit}}" autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
-          <ui-select-match placeholder="{{addMemberCtrl.isGrandPlace ? 'Name, email or phone number' : 'Name or ID'}}  ..." class=" _fw">
+          <ui-select-match placeholder="{{addMemberCtrl.isGrandPlace ? 'Name, email or phone number' : 'Name or ID'}}  ...">
             <span>{{$item.fullName}} &lt;{{$item.id}}&gt;</span>
           </ui-select-match>
           <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
