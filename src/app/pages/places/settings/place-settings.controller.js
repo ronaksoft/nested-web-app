@@ -9,7 +9,7 @@
   function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr,
     NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT,
     NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcLogger,
-    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError,
+    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstSvcTranslation,
     NstVmMemberItem) {
     var vm = this;
 
@@ -17,8 +17,8 @@
      *** Controller Properties ***
      *****************************/
      vm.memberOptions = {
-       'creators' : 'Manager Only',
-       'everyone' : 'All members'
+       'creators' : NstSvcTranslation.get("Manager Only"),
+       'everyone' : NstSvcTranslation.get("All members")
      };
     vm.options = {
       notification: null,
