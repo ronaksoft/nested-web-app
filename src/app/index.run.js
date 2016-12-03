@@ -127,6 +127,7 @@
       "left": "را ترک کرد",
       "commented on": "دیدگاه گذاشت روی",
       "Loading": "در حال بارگیری",
+      "All {{ ctlCreate.grandPlace.name }}Members can view Place contents." : "تمام اعضای {{ ctlCreate.grandPlace.name }} می توانند محتوای گروه را ببینند.",
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
