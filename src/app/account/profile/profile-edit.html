@@ -24,33 +24,33 @@
         <div class="_tac profile-name">{{ctlProfileEdit.model.fullName}}</div>
         <div class="_tac nst-mood-storm profile-id">@{{ctlProfileEdit.model.id}}</div>
         <div class="text-center">
-          <a class="_tac nst-marginbtm-32 changePassLink" ui-sref="app.change-password">Change Password</a>
+          <a class="_tac nst-marginbtm-32 changePassLink" ui-sref="app.change-password"><translate>Change Password</translate></a>
         </div>
         <form ng-submit="ctlProfileEdit.saveAndExit(profileForm.$valid);" name="profileForm" novalidate>
           <div class="form-group" ng-class="{ 'has-error' : profileForm.firstName.$invalid && ctlProfileEdit.submitted}">
-            <label for="firstName" ng-if="profileForm.firstName.$valid || !ctlProfileEdit.submitted">First name</label>
-            <label class="error-message" ng-if="profileForm.firstName.$error.required && ctlProfileEdit.submitted">First name is required</label>
+            <label for="firstName" ng-if="profileForm.firstName.$valid || !ctlProfileEdit.submitted"><translate>First name</translate></label>
+            <label class="error-message" ng-if="profileForm.firstName.$error.required && ctlProfileEdit.submitted"><translate>First name is required</translate></translate></label>
             <input name="firstName" class="form-control" type="text" data-ng-model="ctlProfileEdit.model.firstName" required/>
           </div>
           <div class="form-group" ng-class="{ 'has-error' : profileForm.lastName.$invalid && ctlProfileEdit.submitted}">
-            <label for="lastName" ng-if="profileForm.lastName.$valid || !ctlProfileEdit.submitted">Last Name</label>
-            <label for="lastName" ng-if="profileForm.lastName.$error.required && ctlProfileEdit.submitted">Last name is required</label>
+            <label for="lastName" ng-if="profileForm.lastName.$valid || !ctlProfileEdit.submitted"><translate>Last Name</translate></label>
+            <label for="lastName" ng-if="profileForm.lastName.$error.required && ctlProfileEdit.submitted"><translate>Last name is required<translate></label>
             <input name="lastName" class="form-control" type="text" data-ng-model="ctlProfileEdit.model.lastName" required/>
           </div>
           <div class="form-group">
-            <label for="phone">Mobile phone</label>
+            <label for="phone"><translate>Mobile phone</translate></label>
             <input class=" _fw" name="phone" international-phone-number default-country="IR" country="ctlProfileEdit.model.country" data-ng-model="ctlProfileEdit.model.phone" disabled/>
           </div>
           <div class="form-group">
-            <label for="gender">Gender</label>
+            <label for="gender"><translate>Gender</translate></label>
             <select name="gender" ng-model="ctlProfileEdit.model.gender" ng-options="gender.key as gender.title for gender in ctlProfileEdit.genders" class="form-control"></select>
           </div>
           <div class="form-group">
-            <label for="dateOfBirth">Date of Birth</label>
+            <label for="dateOfBirth"><translate>Date of Birth</translate></label>
             <input name="dateOfBirth" class="nst-marginbtm-24 select-birthday" ng-model="ctlProfileEdit.model.dateOfBirth" rsmdatedropdowns/>
           </div>
           <div class="form-action nst-marginbtm-24">
-            <input type="submit" class="butn-green _fw" value="Save & Exit"/>
+            <input type="submit" class="butn-green _fw" value="Save & Exit" translate-attrs="value"/>
           </div>
         </form>
 

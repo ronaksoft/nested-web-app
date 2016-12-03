@@ -128,6 +128,21 @@
       "commented on": "دیدگاه گذاشت روی",
       "Loading": "در حال بارگیری",
       "All {{ ctlCreate.grandPlace.name }}Members can view Place contents." : "تمام اعضای {{ ctlCreate.grandPlace.name }} می توانند محتوای گروه را ببینند.",
+      "First name": "نام",
+      "Last Name": "نام خانوادگی",
+      "Mobile phone": "تلفن همراه",
+      "Gender": "جنسیت",
+      "Date of Birth": "تاریخ تولد",
+      "Change Password": "تغییر رمز عبور",
+      "Save & Exit": "ذخیره و خروج",
+      "Male": "مذکر",
+      "Female": "مؤنث",
+      "Other":"غیره",
+      "Old Password": "رمز عبور قدیمی",
+      "New Password": "رمز عبور جدید",
+      "New Password Confirm": "تأیید رمز عبور جدید",
+      "Change": "تغییر",
+      "Profile": "نمایه",
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
