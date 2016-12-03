@@ -5,43 +5,10 @@
 </div>
 <div id="create-place"
      ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode; ctlCreate.step2 = ctlCreate.step1">
-  <!--<div class="_difv" ng-if="ctlCreate.step1">-->
-    <!--<h2 class="_df">Create a Place</h2>-->
-    <!--<p class="input-lab">Choose a Place Type:</p>-->
-    <!--<div class="select-box _difh" ng-click="ctlCreate.setPlaceClosed();"-->
-         <!--ng-class="{ selected : ctlCreate.isClosedPlace }">-->
-      <!--<div class="icn">-->
-        <!--<svg>-->
-          <!--<use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>-->
-        <!--</svg>-->
-      <!--</div>-->
-      <!--<div class="desc">-->
-        <!--<h3>Closed Place</h3>-->
-        <!--<p>Only Members can view Place contents.</p>-->
-        <!--<span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="select-box _difh" ng-click="ctlCreate.setPlaceOpen();" ng-class="{ selected : ctlCreate.isOpenPlace }">-->
-      <!--<div class="icn">-->
-        <!--<svg>-->
-          <!--<use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>-->
-        <!--</svg>-->
-      <!--</div>-->
-      <!--<div class="desc">-->
-        <!--<h3>Open Place</h3>-->
-        <!--<p ng-if="ctlCreate.isPersonalPlace">Only you can view the contents of this Place.</p>-->
-        <!--<p ng-if="!ctlCreate.isPersonalPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can view Place contents.</p>-->
-        <!--<span>You can add members from <b>{{ ctlCreate.grandPlace.name }}</b> after creating the place.</span>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<button class="submit" ng-click="ctlCreate.step1 = false ;ctlCreate.step2 = true ;"-->
-            <!--ng-disabled="!ctlCreate.isOpenPlace && !ctlCreate.isClosedPlace">Next-->
-    <!--</button>-->
-  <!--</div>-->
   <div class="_difv" ng-if="ctlCreate.step2">
 
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate>
-      <h2 class="_df">Create a Place</h2>
+      <h2 class="_df"><translate>Create a Place</translate></h2>
       <div class="select-box disabled _difh" ng-if="ctlCreate.isClosedPlace">
         <div class="icn">
           <svg>
@@ -49,7 +16,7 @@
           </svg>
         </div>
         <div class="desc">
-          <h3>Closed Place</h3>
+          <h3><translate>Closed Place</translate></h3>
           <p ng-if="!ctlCreate.isPersonalPlace">Only Members can view Place contents.</p>
           <p ng-if="ctlCreate.isPersonalPlace">Only you can view the contents of this Place.</p>
         </div>
