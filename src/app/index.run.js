@@ -152,13 +152,21 @@
       "Place description": "توصیف گروه",
       "Who can invite Members?": "چه کسی می تواند اعضا را دعوت کند؟",
       "Which members can post messages to this Place?": "کدام یک از اعضا می توانند در این گروه بنویسند؟",
-      "Only Managers can post messages in this place.": "فقط مدیرام می تواندد در این گروه بنویسند.",
+      "Only Managers can post messages in this place.": "فقط مدیران می تواندد در این گروه بنویسند.",
       "Yes": "بله",
       "No": "خیر",
       "Remove": "حذف کردن",
       "Demote": "تنزل دادن",
       "Promote": "ترفیع دادن",
       "change": "تغییر",
+      "Favorite Places": "گروه های مورد علاقه",
+      "Place Settings": "تنظیمات گروه",
+      "Invite Members": "دعوت اعضا",
+      "Create an Open Place": "ساخت یک گروه باز",
+      "Create a Closed Place": "ساخت یک گروه بسته",
+      "Leave": "ترک کردن",
+      "Leave and Delete": "ترک و حذف کردن",
+      "Create a Personal place": "ساخت یک گروه شخصی",
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

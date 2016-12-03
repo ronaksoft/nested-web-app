@@ -7,11 +7,11 @@
       <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
     </svg>
   </div>
-  <span>Place Settings</span>
+  <span><translate>Place Settings</translate></span>
 </a>
 <a class="_df list-items _aic" ng-click="ctlFullNavbar.openAddMemberModal($event);" ng-if="ctlFullNavbar.allowedToAddMember">
   <div class="add-icon"></div>
-  <span>{{ctlFullNavbar.isGrandPlace ? 'Invite' : 'Add '}} Members</span>
+  <span><translate>{{ctlFullNavbar.isGrandPlace ? 'Invite' : 'Add '}} Members</translate></span>
 </a>
 <hr ng-if="ctlFullNavbar.allowedToAddPlace && !ctlFullNavbar.isPersonal()">
 <a ng-if="ctlFullNavbar.isGrandPlace" class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'open')" ng-if="!ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToAddPlace">
@@ -20,7 +20,7 @@
       <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
     </svg>
   </div>
-  <span>Create an Open Place</span>
+  <span><translate>Create an Open Place</translate></span>
 </a>
 <a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'close')" ng-if="!ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToAddPlace">
   <div>
@@ -28,7 +28,7 @@
       <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
     </svg>
   </div>
-  <span>Create a Closed Place</span>
+  <span><translate>Create a Closed Place</translate></span>
 </a>
 <a class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'close')" ng-if="ctlFullNavbar.isPersonal()">
   <div>
@@ -36,14 +36,14 @@
       <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
     </svg>
   </div>
-  <span>Create a Personal place</span>
+  <span><translate>Create a Personal place</translate></span>
 </a>
 <hr ng-if="!ctlFullNavbar.isPersonal()">
 <a class="_df  list-items _aic" ng-if="!ctlFullNavbar.isPersonal()" ng-click="ctlFullNavbar.confirmToLeave()">
   <div class="option-leave-icon"></div>
-  <span>Leave</span>
+  <span><translate>Leave</translate></span>
 </a>
 <a class="_df  list-items _aic" ng-if="!ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToRemovePlace" ng-click="ctlFullNavbar.confirmToRemove()">
   <div class="option-delete-icon"></div>
-  <span>Leave and Delete</span>
+  <span><translate>Leave and Delete</translate></span>
 </a>

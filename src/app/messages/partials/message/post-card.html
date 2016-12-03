@@ -56,7 +56,7 @@
   </section>
   <section class="post-body" ng-if="ctlPostCard.post.body.length < 1 && ctlPostCard.ViewSetting.content"
            post="ctlPostCard.post">
-    <i>Empty post</i>
+    <i><translate>Empty post</translate></i>
   </section>
   <!-- <section class="post-attachments" data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments">
     <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'"
@@ -68,9 +68,9 @@
   <hr>
   <section class="post-footer _difh">
     <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
-      <span ng-if="!ctlPostCard.post.hasAnyComment()">No comment</span>
-      <span ng-if="ctlPostCard.post.commentsCount == 1">One comment</span>
-      <span ng-if="ctlPostCard.post.commentsCount > 1">{{ctlPostCard.post.commentsCount}} comments</span>
+      <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comment</translate></span>
+      <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
+      <span ng-if="ctlPostCard.post.commentsCount > 1">{{ctlPostCard.post.commentsCount}}<translate> comments</translate></span>
     </a>
     <a ng-if="ctlPostCard.newCommentsCount > 0 " class="new-comments-count"
              auto-dir="{{::ctlPostCard.post.subject}}">
@@ -120,6 +120,6 @@
   </div>
 </section>
 <div class="no-permission" ng-if="ctlPostCard.post.forbidden">
-  <div class="forbidden-icon"><div></div><div></div></div> No Permission
+  <div class="forbidden-icon"><div></div><div></div></div> <translate>No Permission</translate>
 </div>
 <div class="post-card-wire"></div>
