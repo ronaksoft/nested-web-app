@@ -1,7 +1,7 @@
 <div class="_fhw">
   <div class="nst-vc nst-mood-sense-5 ng-scope _fh">
     <div class="panel no-animation" id="panel-register">
-      <form novalidate ng-if="ctlRegister.step === 1" class="use-ng-animate register-step">
+      <form novalidate ng-if="ctlRegister.step === 1" class="use-ng-animate register-step" ng-submit="ctlRegister.submitPhoneNumber(ctlRegister.phoneIsValid && ctlRegister.countryIsValid);">
         <div class="nst-vb no-gutter2 nst-marginbtm-48">
           <p class="col-xs-9 nst-font-xlarge">Create an account</p>
           <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="form-action">
-          <input type="submit" value="{{ctlRegister.phoneSubmitProgress ? 'Submitting...' : 'Next'}}" class="butn-green butn-lg butn-login nstbtn" ng-click="ctlRegister.submitPhoneNumber(ctlRegister.phoneIsValid && ctlRegister.countryIsValid);" ng-disabled="ctlRegister.phoneSubmitProgress">
+          <input type="submit" value="{{ctlRegister.phoneSubmitProgress ? 'Submitting...' : 'Next'}}" class="butn-green butn-lg butn-login nstbtn" ng-disabled="ctlRegister.phoneSubmitProgress">
         </div>
 
       </form>
