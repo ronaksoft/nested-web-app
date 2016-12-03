@@ -1,6 +1,6 @@
 <div class="mention-wrp" ng-controller="MentionsController as ctlMentions">
   <div class="subject">
-    <a>Mentions</a>
+    <a><translate>Mentions</translate></a>
   </div>
   <ul nst-scrollbar>
     <li ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.postId })" ng-click="ctlMentions.viewPost(mention, $event);">
@@ -23,13 +23,13 @@
       <div class="_fw _jcc _df margin-top-10" ng-if="ctlMentions.loading && !ctlMentions.error">
         <div class="nst-loading nst-loading-size-4 _fl"></div>
         <span>&nbsp;</span>
-        <div class="nst-font-xsmall _fr nst-marginbtm-4">Loading...</div>
+        <div class="nst-font-xsmall _fr nst-marginbtm-4"><translate>Loading...</translate></div>
       </div>
       <div class="text-center margin-top-10 nst-font-xsmall" ng-show="!ctlMentions.loading && !ctlMentions.reached"
          ng-click="ctlMentions.loadMore()">{{!ctlMentions.error ? 'Show more' : 'Try again'}}</div>
     </li>
   </ul>
   <div class="more-mentions" ng-click="ctlMentions.markAllSeen()">
-    Mark All as Read
+    <translate>Mark All as Read</translate>
   </div>
 </div>
