@@ -1,10 +1,15 @@
 <div ng-repeat="comment in ctlComments.comments | limitTo : ctlComments.limit * -1">
-  <div class="post-card-comments _difh _fw _wrb">
+  <div class="post-card-comments _difh _fw _wrb" ng-mouseleave="openPop = false">
     <div class="user-avatar-24">
     <img initials="comment.sender.name" data-url="comment.sender.avatar" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
     </div>
     <div class="text _df _fw">
-      <p class="_fw"><strong>{{comment.sender.name}}:</strong>&nbsp;<emoji auto-dir="{{comment.body}}"><mark marked="comment.body"></mark></emoji></p>
+      <p class="_fw">
+        <strong ng-mouseenter="openPop = true" data-popover-class="white-pop popover-userdetail" ng-init="user = comment.sender"
+                             uib-popover-template="'app/components/user/user-detail.html'" data-popover-append-to-body="false" data-popover-placement="top-center"
+                             data-popover-is-open="openPop">{{comment.sender.name}}:</strong>&nbsp;
+        <emoji auto-dir="{{comment.body}}"><mark marked="comment.body"></mark></emoji>
+      </p>
     </div>
     <span class="_df _fn">{{comment.date | passed }}</span>
   </div>

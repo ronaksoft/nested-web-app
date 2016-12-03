@@ -167,7 +167,8 @@ hr {
     color: $color-hurricane;
     border-bottom-left-radius: 5px;
     span,label,a {
-      transition: all $animation-dur;
+      transition-duration: $animation-dur;
+      transition-property: background-color,color;
       color: $color-hurricane;
     }
   }

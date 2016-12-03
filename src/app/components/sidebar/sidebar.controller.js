@@ -24,6 +24,7 @@
     vm.onPlaceClick = onPlaceClick;
     vm.togglePlace = togglePlace;
     vm.isOpen = false;
+    vm.mentionOpen = false;
     vm.openCreatePlaceModal = openCreatePlaceModal;
 
     /*****************************
@@ -103,6 +104,10 @@
       $event.preventDefault();
       $state.go('app.place-create', {}, {notify: false});
     }
+
+    $scope.$on('close-mention',function () {
+      vm.mentionOpen = false;
+    });
 
     /*****************************
      *****  Controller Logic  ****
