@@ -5,7 +5,7 @@
     .module('ronak.nested.web.mention')
     .controller('MentionsController', MentionsController);
 
-  function MentionsController($q, $state, $stateParams, $log, NstSvcMentionFactory, NstVmMention, NstSvcAuth, NstSvcLogger) {
+  function MentionsController($q, $state, $scope, $stateParams, $log, NstSvcMentionFactory, NstVmMention, NstSvcAuth, NstSvcLogger) {
     var vm = this;
     var pageItemsCount = 12;
     vm.mentions = [];
@@ -23,6 +23,10 @@
     (function() {
       loadMentions(0, pageItemsCount);
     })();
+
+    vm.closeMention = function () {
+      $scope.$emit('close-mention');
+    };
 
     function markAllSeen() {
       var deferred = $q.defer();
