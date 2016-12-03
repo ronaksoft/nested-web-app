@@ -58,7 +58,7 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When I wait 5s
-#    Then should the title of the place be "test-mapping"
+#    Then should the title of the place be "test mapping"
 #
 #  Scenario: Edit my profile mapping
 #    When I wait 5s
@@ -87,9 +87,9 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "comment"
 #    When I wait 5s
-#    Given I Click icon by tooltip "Reply"
-#    When  I wait 5s
-#    Given I Click Link by Partial Text "Reply all"
+#    Given I Click by ngClick "$dismiss()"
+#    When I wait 5s
+#    Given I Click icon by tooltip "Reply to all"
 #    When  I wait 5s
 #    Then should the title of the place be "Compose"
 #
@@ -102,9 +102,7 @@
 #
 #  Scenario: Postcard Reply Sender mapping
 #    When I wait 5s
-#    Given I Click icon by tooltip "Reply"
-#    When  I wait 5s
-#    Given I Click Link by Partial Text "Reply sender"
+#    Given I Click icon by tooltip "Forward"
 #    When  I wait 5s
 #    Then should the title of the place be "Compose"
 #
@@ -116,7 +114,9 @@
 #
 #  Scenario: Postcard forward
 #    When  I wait 5s
-#    Given I Click icon by tooltip "Forward"
+#    Given I Click by ngClick "$event.stopPropagation()"
+#    When I wait 5s
+#    Given I Click Link by Partial Text "Reply to sender"
 #    When I wait 5s
 #    Then should the title of the place be "Compose"
 #
@@ -132,7 +132,7 @@
 #    When  I wait 5s
 #    Given I Click on sidebar "messages"
 #    When  I wait 5s
-#    Given I Click Link by Partial Text "2"
+#    Given I Click Link by Partial Text "+2"
 #    When  I wait 5s
 #    Given I Click Link by Partial Text "ronaksoft"
 #    When I wait 5s
@@ -144,7 +144,7 @@
 #    When I wait 5s
 #    Given I Click by ngClick "openPostModal(post)"
 #    When I wait 5s
-#    Given I Click id "reply-modal-post"
+#    Given I Click id "reply-post-view"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Reply all"
 #    When I wait 5s
@@ -160,7 +160,7 @@
 #    When  I wait 5s
 #    Given I Click by ngClick "openPostModal(post)"
 #    When I wait 5s
-#    Given I Click id "reply-modal-post"
+#    Given I Click id "reply-post-view"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Reply sender"
 #    When I wait 5s
@@ -200,9 +200,9 @@
 #    When I wait 5s
 #    Given I Click by ngClick "openPostModal(post)"
 #    When I wait 5s
-#    Given I Click id "test-post-badge"
+#    Given I Click Link by Partial Text "Ronak Software Group"
 #    When I wait 5s
-#    Given I Click Link by Partial Text "All Places"
+#    Given I Click on sidebar "messages"
 #    When  I wait 5s
 #    Given  I Click by ngClick "openPostModal(post)"
 #    When I wait 5s

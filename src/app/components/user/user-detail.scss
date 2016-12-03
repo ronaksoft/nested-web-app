@@ -1,5 +1,5 @@
 .popover-userdetail {
-  transition-delay:1s;
+  transition-delay: 1s;
   width: 208px;
   height: 208px;
   display: inline-flex;
@@ -82,6 +82,7 @@
         align-items: center;
         display: flex;
         flex: 1;
+        line-height: 32px;
       }
       .butn-white {
         display: flex;
