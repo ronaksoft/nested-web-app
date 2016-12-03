@@ -21,7 +21,7 @@
           </div>
         </div>
         <div>
-          <span>Compose</span>
+          <span><translate>Compose</translate></span>
         </div>
       </a>
       <div class="side-menu">
@@ -33,7 +33,7 @@
               <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
             </svg>
           </span>
-          <span>Favorite Places Feed</span>
+          <span><translate>Favorite Places Feed</translate></span>
         </a>
         <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip="All Places" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
           <span>
@@ -41,15 +41,15 @@
               <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
             </svg>
           </span>
-          <span>All Places Feed</span>
+          <span><translate>All Places Feed</translate></span>
         </a>
-        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.sent}}">
+        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" translate-attrs="data-uib-tooltip" data-uib-tooltip="Sent Messages" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.sent}}">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
             </svg>
           </span>
-          <span>Sent</span>
+          <span><translate>Sent</translate></span>
         </a>
       </div>
     </div>
@@ -85,7 +85,7 @@
           </svg>
         </span>
         <span>
-          Create New Place
+          <translate>Create New Place</translate>
         </span>
       </a>
     </div>
@@ -109,7 +109,7 @@
           <div class="notif" ng-if="ctlSidebar.mentionsCount">{{ctlSidebar.mentionsCount}}</div>
         </div>
         <div>
-          Mention
+          <translate>Mention</translate>
         </div>
       </a>
       <a class="detailed" href="#/profile" nst-sidebar-toggle-agent
@@ -121,7 +121,7 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
           </svg>
         </div>
-        <div>Profile & Settings</div>
+        <div><translate>Profile & Settings</translate></div>
       </a>
       <a class="detailed" href="#/signout"  data-uib-tooltip="Log out"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
@@ -131,7 +131,7 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>
           </svg>
         </div>
-        <div>Log out</div>
+        <div><translate>Log out</translate></div>
       </a>
       <!--<a class="_fw">
         <div class="_difh _fw" ng-click="profileMenu =! profileMenu">

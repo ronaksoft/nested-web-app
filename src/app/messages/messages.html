@@ -17,7 +17,8 @@
       <div ng-show="!ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
-        <span class="nst-mood-storm _df">{{ctlMessages.messagesSetting.sort == 'latest-messages' ? 'Latest Messages' : 'Latest Activity'}}</span>
+        <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Latest Messages</translate></span>
+        <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort != 'latest-messages'"><translate>Latest Activity</translate></span>
         <div class="icon icon-viewicon-sort _df" ></div>
       </div>
       <div ng-mouseenter="popoverSetShow = true;popoverSortShow = false"  class="iconsblock" data-popover-class="white-pop popover-white-nst-setting"
@@ -30,8 +31,8 @@
     <div class="post-area">
       <div id="new-post"  ng-show="ctlMessages.hasNewMessages" affixer parent=".content" offset-top="74" after-content="340">
         <i ng-click="ctlMessages.dismissNewMessage();"></i>
-        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}} New Messages</a>
-        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2">One New Message</a>
+        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}} <translate> New Message</translate></a>
+        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2"><translate>One New Message</translate></a>
       </div>
       <div class="quick-message-wrp _fw" ng-if="ctlMessages.quickMessageAccess">
         <nst-quick-message class="quick-message _fw _bgwhite" place-id="ctlMessages.currentPlace.id"></nst-quick-message>
@@ -45,31 +46,30 @@
                  settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode" has-remove-access="ctlMessages.placeRemoveAccess"></post-card>
     </div>
     <div class="text-center nst-margin-24" ng-if="ctlMessages.tryAgainToLoadMore">
-      <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore()">
-        {{ctlMessages.cache.length === 0 ? "Click here to load messages!" : "Load More..."}}
-      </a>
+      <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore()" ng-if="ctlMessages.cache.length == 0"><translate>Click here to load messages!</translate></a>
+      <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore()" ng-if="ctlMessages.cache.length != 0"><translate>Load More...</translate></a>
     </div>
 
     <div class="nst-margin-24"
          ng-if="ctlMessages.reachedTheEnd || ctlMessages.noMessages || ctlMessages.loadMessageError">
       <p class="text-center nst-mood-storm" ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd">
-        There are no more messages!
+        <translate>There are no more messages!</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && !ctlMessages.isUnreadMode">
         <span ng-if="!ctlMessages.isBookMark">
-          There are no posts here yet...
+          <translate>There are no posts here yet...</translate>
         </span>
         <span ng-if="ctlMessages.isBookMark">
-          You haven't favorited any Places yet...
+          <translate>You haven't favorited any Places yet...</translate>
         </span>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && ctlMessages.isUnreadMode">
-        You don't have any unread messages.
+        <translate>You don't have any unread messages.</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.loadMessageError">
-        An error has occurred. Please
+        <translate>An error has occurred. Please</translate>
         <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore(true)">
-          try again...
+          <translate>try again...</translate>
         </a>
       </p>
     </div>
@@ -77,7 +77,7 @@
       <div class="col-xs-6">
         <div class="nst-loading nst-loading-size-16  _fr"></div>
       </div>
-      <div class="col-xs-6 nst-marginbtm-4">Loading...</div>
+      <div class="col-xs-6 nst-marginbtm-4"><translate>Loading...</translate></div>
     </div>
     <div class="nst-marginbtm-32"></div>
   </section>

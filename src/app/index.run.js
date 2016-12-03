@@ -9,7 +9,7 @@
   function runBlock($rootScope, $uibModal, $timeout,$interval, $state,
                     ngProgressFactory,
                     NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
-                    NstSvcAuth, NstSvcLoader) {
+                    NstSvcAuth, NstSvcLoader, NstSvcI18n) {
 
     $rootScope.progress = {
       bar: ngProgressFactory.createInstance(),
@@ -52,40 +52,38 @@
     }
 
 
-    // var timers = [];
-    // $rootScope.scrolling = function(e) {
-    //   if (e.currentTarget.scrollY + e.currentTarget.screen.availHeight > document.body.scrollHeight) {
-    //     console.log("scrolled")
-    //   }
-    //
-    //   timers.forEach(function(promises) {
-    //     $timeout.cancel(promises);
-    //   });
-    //   var $sidebar = $("#content-plus"),
-    //     topPadding = 150;
-    //
-    //   var timer = $timeout(
-    //     function() {
-    //       if (150 > e.currentTarget.scrollY > 0) {
-    //         $sidebar.stop().css({
-    //           marginTop: e.currentTarget.scrollY
-    //         });
-    //       } else if (e.currentTarget.scrollY > topPadding) {
-    //         $sidebar.stop().css({
-    //           marginTop: e.currentTarget.scrollY - 51
-    //         });
-    //       } else if (e.currentTarget.scrollY == 0){
-    //         $sidebar.stop().css({
-    //           marginTop: 0
-    //         });
-    //       }
-    //     },
-    //     50
-    //   );
-    //   timers.push(timer);
-    //   timer;
-    //   $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
-    // }
+    NstSvcI18n.addLocale("en-US", {
+      "Messages" : "پیام ها",
+      "Activity" : "فعالیت ها",
+      "Files" : "فایل ها",
+      "Latest Messages" : "پیام های اخیر",
+      "Latest Activity" : "فعالیت های اخیر",
+      "All Places Feed" : "گروه ها",
+      "All Places" : "همه گروه ها",
+      "Favorite Places Feed" : "گروه های مورد علاقه",
+      "Sent Messages" : "‍پیام های ارسال شده",
+      "Profile & Settings" : "تنظیمات من",
+      "Log out" : "خروج",
+      "Compose" : "ارسال",
+      "Mention" : "مرتبط با من",
+      "Search" : "جستجو",
+      "Recent Activity" : "فعالیت های اخیر",
+      "Sent" : "ارسال شده",
+      "Sort by" : "ترتیب بر اساس",
+      "View setting" : "تنظیمات نمایش",
+      "Content Preview" : "نمایش متن",
+      "Attachments" : "نمایش ضمیمه ها",
+      "Comments" : "دیدگاه ها",
+      "Foo" : "فو",
+      "Expanded View": "نمایش بسیط",
+      "Collapsed View": "نمایش فشرده",
+      "All": "همه",
+      "Logs": "ثبت وقایع",
+      "Select filter": "انتخاب نوع فیلتر",
+      "commented": "دیدگاه گذاشته شده",
+      "created":"",
+
+    });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       if (!$rootScope.stateHistory) {
