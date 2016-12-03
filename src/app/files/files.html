@@ -17,7 +17,7 @@
         <li>
           <p ng-show="ctlFiles.selectedFiles.length  == 0" class="capitalize">{{ctlFiles.selectedFileType.label}}</p>
           <!--//TODO:Add size filter// -->
-          <p ng-show="ctlFiles.selectedFiles.length  > 0">{{ctlFiles.selectedFiles.length }}<span> Files</span><span
+          <p ng-show="ctlFiles.selectedFiles.length  > 0">{{ctlFiles.selectedFiles.length }}<span>&nbsp;<translate>Files</translate></span><span
             class="total-files-size">{{ctlFiles.totalSelectedFileSize | bytes}}</span></p>
         </li>
         <li>
@@ -29,12 +29,12 @@
                  data-tooltip-placement="right-bottom" popover-enable="showFilters" ng-click="showFilters = true;"></label></span></li>
       </ul>
       <div class="_df _fn">
-        <input type="text" class="files-input" placeholder="Find files in this place" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);"/>
+        <input type="text" class="files-input" placeholder="Find files in this place" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);" translate-attrs="placeholder"/>
       </div>
     </section>
     <div class="file-list" ng-if="ctlFiles.files.length > 0">
       <div class="file-list-header">
-        <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0"><span>File Name</span></div>
+        <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0"><translate>File Name</translate></div>
         <!-- <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-download"><span
           class="_dib"></span><span>Download</span></div> -->
         <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-send-to">
@@ -42,10 +42,10 @@
             <svg>
               <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
             </svg>
-          </span><span class="send" ng-click="ctlFiles.compose();">Send to</span>
+          </span><span class="send" ng-click="ctlFiles.compose();"><translate>Send to</translate></span>
         </div>
-        <div class="header-size" ng-show="ctlFiles.selectedFiles.length == 0"><span>Size</span></div>
-        <div class="header-date" ng-show="ctlFiles.selectedFiles.length == 0"><strong>Received Date</strong></div>
+        <div class="header-size" ng-show="ctlFiles.selectedFiles.length == 0"><translate>Size</translate></div>
+        <div class="header-date" ng-show="ctlFiles.selectedFiles.length == 0"><translate>Received Date</translate></div>
       </div>
       <ul class="files-types" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
           selector="li.file-list-container">
@@ -73,22 +73,22 @@
       </ul>
     </div>
     <div class="text-center margin-top-10 nst-mood-storm" ng-if="ctlFiles.files.length == 0 && !ctlFiles.filesLoadProgress">
-      There are no files here yet...
+      <translate>There are no files here yet...</translate>
     </div>
     <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlFiles.filesLoadProgress">
       <div class="col-xs-6">
         <div class="nst-loading nst-loading-size-16  _fr"></div>
       </div>
-      <div class="col-xs-6 nst-marginbtm-4">Loading...</div>
+      <div class="col-xs-6 nst-marginbtm-4"><translate>Loading...</translate></div>
     </div>
     <div class="nst-margin-24" ng-if="ctlFiles.hasNextPage || loadFilesError">
       <p class="text-center nst-mood-storm" ng-if="!ctlFiles.hasNextPage && !ctlFiles.filesLoadProgress">
-        There are no more files!
+        <translate>There are no more files!</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlFiles.loadFilesError && !ctlFiles.filesLoadProgress">
-        An error has occurred. Please
+        <translate>An error has occurred. Please</translate>
         <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlFiles.loadMore()">
-          try again...
+          <translate>try again...</translate>
         </a>
       </p>
     </div>

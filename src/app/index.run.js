@@ -75,6 +75,17 @@
       "Attachments" : "نمایش ضمیمه ها",
       "Comments" : "دیدگاه ها",
       "Foo" : "فو",
+      "File Name" : "نام فایل",
+      "Send to" : "ارسال",
+      "Size" : "حجم",
+      "Received Date" : "تاریخ دریافت",
+      "Find files in this place" : "جستجوی فایل های این گروه",
+      "all" : "همه",
+      "documents" : "اسناد",
+      "images" : "تصاویر",
+      "audios" : "صوتی",
+      "videos" : "تصویری",
+      "others" : "دیگر",
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
