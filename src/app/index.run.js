@@ -205,6 +205,41 @@
       "There are no files here yet...": "هیچ فایلی هنوز موجود نیست...",
       "You reached the end of activities!": "شما به انتهای فعالیت ها رسیدید!",
       "There is not any activity here!": "هیچ فعالیتی در اینجا وجود ندارد!",
+      "Add Members": "افزودن اعضا",
+      "Import Contacts:": "وارد کردن ",
+      "You can use a collective method for add members:": "شما می توانید از یک روش جمعی برای افزودن اعضا استفاده کنید:",
+      "Invite": "دعوت",
+      "Add": "افزودن",
+      "Invite people by searching their name or entering their email or phone number.": "افراد را به وسیله ی جستجوی اسم شان یا ایمیل شان یا شماره ی تلفن شان دعوت کنید.",
+      "Create an account": "",
+      "To creating a Nested account, please enter your phone number.": "",
+      "Sign in": "",
+      "Recover your account": "",
+      "Enter your phone number to help you sign back in to Nested.": "",
+      "Country": "",
+      "Select your country": "",
+      "Phone number": "",
+      "Enter your phone number": "",
+      "The provided phone number is not valid": "",
+      "Phone Verification": "",
+      "We've sent a verification code via SMS to": "",
+      "It's not me!": "",
+      "6 letter and digits verification code" : "",
+      "Wrong Code": "",
+      "Reset Password" : "",
+      "To continue to your account you should enter new password.": "",
+      "Enter new password": "",
+      "Confirm new password": "",
+      "The confirmation should matches your password": "",
+      
+
+
+
+
+
+
+
+
 
     });
 
