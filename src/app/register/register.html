@@ -1,7 +1,7 @@
 <div class="_fhw">
   <div class="nst-vc nst-mood-sense-5 ng-scope _fh">
     <div class="panel no-animation" id="panel-register">
-      <form novalidate ng-if="!ctlRegister.step === 1" class="use-ng-animate register-step">
+      <form novalidate ng-if="ctlRegister.step === 1" class="use-ng-animate register-step">
         <div class="nst-vb no-gutter2 nst-marginbtm-48">
           <p class="col-xs-9 nst-font-xlarge">Create an account</p>
           <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">or <a href="#/signin" class="nst-mood-cheerful">Sign
@@ -33,7 +33,7 @@
 
       </form>
 
-      <form ng-if="!ctlRegister.step === 2" name="phoneVerifyForm" ng-submit="ctlRegister.verify(phoneVerifyForm.$valid);" novalidate class="use-ng-animate register-step">
+      <form ng-if="ctlRegister.step === 2" name="phoneVerifyForm" ng-submit="ctlRegister.verify(phoneVerifyForm.$valid);" novalidate class="use-ng-animate register-step">
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-xs-9 nst-font-xlarge testing-registration-step2">Phone verification</p>
         </div>
@@ -73,7 +73,7 @@
         </div>
       </form>
 
-      <form novalidate name="registrationForm" ng-submit="ctlRegister.register()" class="use-ng-animate register-step">
+      <form ng-if="ctlRegister.step === 3" novalidate name="registrationForm" ng-submit="ctlRegister.register()" class="use-ng-animate register-step">
         <div class="nst-vb no-gutter2 nst-marginbtm-16">
           <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge testing-registration-step3">Create a profile</p>
           <a href="#" class="col-xs-3 text-right">
