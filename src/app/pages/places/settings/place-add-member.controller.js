@@ -15,7 +15,13 @@
     var defaultSearchResultCount = 9;
 
     vm.isTeammateMode = true;
+    vm.selectedUsers = [];
+    vm.users = [];
+    vm.search = _.debounce(search, 512);
+    vm.add = add;
+    vm.query = '';
     checkUserLimitPlace();
+    search();
 
 
     if (currentPlace.id.split('.').length > 1){
@@ -25,27 +31,21 @@
     }
 
 
-    vm.selectedUsers = [];
-    vm.users = [];
-    vm.search = _.debounce(search, 512);
-    vm.add = add;
+
 
     function search(query) {
       var settings = {
-        query : query,
+        query : query || vm.query,
         role : chosenRole,
         placeId : currentPlace.id,
         limit : calculateSearchLimit()
       };
 
-      if(!query){
-        vm.users = [];
-        return;
-      }
 
       NstSvcUserFactory.search(settings, vm.isGrandPlace ?  NST_USER_SEARCH_AREA.INVITE :  NST_USER_SEARCH_AREA.ADD)
         .then(function (users) {
           vm.users = _.differenceBy(users, vm.selectedUsers, 'id');
+          vm.query = query;
         })
         .catch(function (error) {
           $log.debug(error);

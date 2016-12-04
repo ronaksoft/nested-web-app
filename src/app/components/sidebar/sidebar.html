@@ -97,18 +97,20 @@
          data-popover-placement="right auto"
          data-popover-class="mentions"
          data-popover-append-to-body="false"
-         data-popover-trigger="click"
+         data-popover-is-open="ctlSidebar.mentionOpen"
+         data-popover-trigger="none"
+         data-popover-popup-close-delay="1000"
          data-uib-tooltip="Mentions"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
          data-tooltip-append-to-body="true"
          data-tooltip-placement="right-top auto">
-        <div>
+        <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#W_"></use>
           </svg>
           <div class="notif" ng-if="ctlSidebar.mentionsCount">{{ctlSidebar.mentionsCount}}</div>
         </div>
-        <div>
+        <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           Mention
         </div>
       </a>
@@ -169,8 +171,8 @@
         </div>
       </div>
     </div>
-    <div class="places" ng-show="ctlSidebar.showPlaces">
-      <div nst-scrollbar suppress-scroll-x="true"  class="places-list">
+    <div nst-scrollbar suppress-scroll-x="true" class="places" ng-show="ctlSidebar.showPlaces">
+      <div class="places-list">
         <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace"></nst-sidebar-place-info>
       </div>
     </div>

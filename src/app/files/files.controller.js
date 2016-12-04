@@ -98,13 +98,15 @@
     function search(keyword) {
       vm.settings.keyword = keyword;
       vm.settings.skip = 0;
-
+      vm.files = [];
+      
       load();
     }
 
     function filter(filter) {
       vm.selectedFileType = filter;
       vm.settings.filter = filter.id;
+      vm.files = [];
       load();
     }
 

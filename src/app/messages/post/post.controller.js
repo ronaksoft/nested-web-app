@@ -196,6 +196,9 @@
     function removePost(post) {
 
       NstSvcPostInteraction.remove(post, vm.placesWithRemoveAccess).then(function (place) {
+        if (!place) {
+          return;
+        }
         NstUtility.collection.dropById(vm.placesWithRemoveAccess, place.id);
         post.dropPlace(place.id);
 
@@ -207,7 +210,8 @@
 
         toastr.success(NstUtility.string.format("The post has been removed from Place {0}.", place.name));
       }).catch(function () {
-        toastr.error(NstUtility.string.format("An error occured while trying to remove the message."));
+        //FIXME: catch error
+        // toastr.error(NstUtility.string.format("An error occured while trying to remove the message."));
       });
     }
 

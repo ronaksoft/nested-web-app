@@ -213,10 +213,12 @@
 
     function nextStep() {
       vm.step++;
+      vm.submitted = false;
     }
 
     function previousStep() {
       if (vm.step > 1) {
+        vm.submitted = false;
         vm.step--;
       }
     }
@@ -305,7 +307,7 @@
 
     function getPhoneNumber() {
       if (vm.countryCode && vm.phone) {
-        return vm.countryCode.toString() + vm.phone.toString();
+        return vm.countryCode.toString() + _.trimStart(vm.phone.toString(), "0");
       }
        return "";
     }
@@ -412,7 +414,7 @@
         var postData  = new FormData();
         postData.append('f', 'register');
         postData.append('vid', vm.verificationId);
-        postData.append('phone', vm.phone);
+        postData.append('phone', getPhoneNumber());
         postData.append('country', vm.country);
         postData.append('uid', credentials.username);
         postData.append('pass', credentials.password);
