@@ -246,7 +246,6 @@
     }
 
     function search(query, event) {
-      console.log(query)
 
       var element = angular.element(event.target);
       if (!sendKeyIsPressed(event) || !query || element.attr("mention") === "true") {
