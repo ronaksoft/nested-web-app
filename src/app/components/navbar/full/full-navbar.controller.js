@@ -37,6 +37,7 @@
     vm.openSettingsModal = openSettingsModal;
     vm.confirmToRemove = confirmToRemove;
     vm.isPersonal = isPersonal;
+    vm.isSubPersonal = isSubPersonal;
 
     vm.confirmToLeave = confirmToLeave;
 
@@ -328,6 +329,9 @@
 
     function isPersonal() {
       return NstSvcAuth.user.id == vm.getPlaceId()
+    }
+    function isSubPersonal() {
+      return NstSvcAuth.user.id == vm.getPlaceId().split('.')[0];
     }
 
     function leave() {
