@@ -265,7 +265,17 @@
       "Confirm to Delete Place": "تأیید حذف گروه",
       "Cancel": "لغو",
       "Enter your place id": "شناسه ی گروه را وارد کنید.",
-
+      "Forgot Password?": "رمز عبور را فراموش کرده اید؟",
+      "Stay signed in": "داخل باقی بمانید",
+      "Password": "رمز عبور",
+      "Username": "نام کاربری",
+      "No access": "دسترسی نیست",
+      "You don't have access to reach this place !": "شما به این گروه دسترسی ندارید!",
+      "OK": "بله",
+      "Joined": "ملحق شد",
+      "invited": "دعوت کرد",
+      "{{ctlPostCard.post.commentsCount}} comments": "دیدگاه {{ctlPostCard.post.commentsCount}}",
+      "{{ctlTeammates.place.getTeammatesCount() }} Members": "عضو {{ctlTeammates.place.getTeammatesCount() }} ",
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
