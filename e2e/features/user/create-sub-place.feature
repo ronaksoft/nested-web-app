@@ -22,19 +22,13 @@
 #    Then should the title of the place be "test mapping"
 #
 #
-#  Scenario: Setting page mapping: create an Open sub-place in personal place
+#  Scenario: Setting page mapping: create a sub-place in personal place
 #    When I wait 5s
 #    Given I Click id "navbar-popover"
 #    When I wait 5s
-#    Given I Click Link by Partial Text "Create an Open Place"
+#    Given I Click Link by Partial Text "Create a Personal place"
 #    When I wait 5s
-#    Given I Click by ngClick "$dismiss()"
-#    When I wait 5s
-#    Given I Click id "navbar-popover"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Create an Open Place"
-#    When I wait 5s
-#    Given I fill "Marketing Development" with "test-personal-open-sub-place"
+#    Given I fill "Marketing Development" with "test-personal-sub-place"
 #    When I wait 5s
 #    Given I Click by ngClick "ctlCreate.changeId(ctlCreate.place.id)"
 #    When I wait 5s
@@ -52,10 +46,15 @@
 #    When I wait 5s
 #    Given I Click by ngClick "$dismiss()"
 #    When I wait 5s
-#    Then should the title of the place be "test mapping"
+#    Then should the title of the place be "test-personal-sub-place"
+#
 #
 #  Scenario: Delete a sub-place of personal place
 #
+#    Given I Click on "test-mapping" place
+#    When I wait 5s
+#    Given I Click on "test-mapping" place
+#    When I wait 5s
 #    Given I Click on "test-mapping.test23" place
 #    When I wait 5s
 #    Given I Click id "navbar-popover"
