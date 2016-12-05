@@ -9,7 +9,7 @@
   </div>
   <span>Place Settings</span>
 </a>
-<a class="_df list-items _aic" ng-click="ctlFullNavbar.openAddMemberModal($event);" ng-if="ctlFullNavbar.allowedToAddMember">
+<a class="_df list-items _aic" ng-click="ctlFullNavbar.openAddMemberModal($event);" ng-if="ctlFullNavbar.allowedToAddMember && !ctlFullNavbar.isSubPersonal()">
   <div class="add-icon"></div>
   <span>{{ctlFullNavbar.isGrandPlace ? 'Invite' : 'Add '}} Members</span>
 </a>
@@ -39,11 +39,15 @@
   <span>Create a Personal place</span>
 </a>
 <hr ng-if="!ctlFullNavbar.isPersonal()">
-<a class="_df  list-items _aic" ng-if="!ctlFullNavbar.isPersonal()" ng-click="ctlFullNavbar.confirmToLeave()">
+<a class="_df  list-items _aic" ng-if="!ctlFullNavbar.isPersonal() && !ctlFullNavbar.isSubPersonal()" ng-click="ctlFullNavbar.confirmToLeave()">
   <div class="option-leave-icon"></div>
   <span>Leave</span>
 </a>
-<a class="_df  list-items _aic" ng-if="!ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToRemovePlace" ng-click="ctlFullNavbar.confirmToRemove()">
+<a class="_df  list-items _aic" ng-if="!ctlFullNavbar.isSubPersonal() && !ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToRemovePlace" ng-click="ctlFullNavbar.confirmToRemove()">
   <div class="option-delete-icon"></div>
   <span>Leave and Delete</span>
+</a>
+<a class="_df  list-items _aic" ng-if="ctlFullNavbar.isSubPersonal() && ctlFullNavbar.allowedToRemovePlace" ng-click="ctlFullNavbar.confirmToRemove()">
+  <div class="option-delete-icon"></div>
+  <span>Delete</span>
 </a>

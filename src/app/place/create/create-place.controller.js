@@ -198,9 +198,10 @@
       var deferred = deferred || $q.defer();
 
       vm.placeIdChecking = true;
-      NstSvcPlaceFactory.isIdAvailable(id).then(function (available) {
+      vm.placeIdChecking = true;
+      NstSvcPlaceFactory.isIdAvailable(vm.place.parentId + '.' + id).then(function (available) {
         if (available) {
-          vm.place.id = id;
+          vm.place.id =  id;
           vm.placeIdIsAvailable = true;
         } else {
           checkIdAvailability(generateUinqueId(id), deferred);
