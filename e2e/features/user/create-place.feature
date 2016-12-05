@@ -169,4 +169,4 @@
 #    Given I Click Link by Partial Text "DELETE"
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
-#
+
