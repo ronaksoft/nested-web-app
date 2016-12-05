@@ -450,3 +450,12 @@ nst-navbar {
 }
 
 
+.place-switch .circle .svg-hover {
+
+  margin: 3px 4px;
+
+  use:last-child {
+    display: flex;
+  }
+}
+
