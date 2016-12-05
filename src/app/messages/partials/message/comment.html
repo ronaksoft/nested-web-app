@@ -5,9 +5,7 @@
     </div>
     <div class="text _df _fw">
       <p class="_fw">
-        <strong ng-mouseenter="openPop = true" data-popover-class="white-pop popover-userdetail" ng-init="user = comment.sender"
-                             uib-popover-template="'app/components/user/user-detail.html'" data-popover-append-to-body="false" data-popover-placement="top-center"
-                             data-popover-is-open="openPop">{{comment.sender.name}}:</strong>&nbsp;
+        <strong user-detail="" user="{{comment.sender}}">{{comment.sender.name}}:</strong>&nbsp;
         <emoji auto-dir="{{comment.body}}"><mark marked="comment.body"></mark></emoji>
       </p>
     </div>
