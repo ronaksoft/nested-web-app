@@ -30,14 +30,13 @@
 #    When I wait 2s
 #    Given I Press "Sign in"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: change Password sc1
 #    When I wait 5s
 #    Given I Click on sidebar "profile"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Change Password"
-#    When I Wait till line loader hide
 #    When I wait 2s
 #    Then should the title of the place be "Change Password"
 #
@@ -56,7 +55,6 @@
 #     Given I Attach Steve
 #     When I wait 5s
 #     Given I Attach Bill
-#     When I Wait till line loader hide
 #     Given I clear input by name "firstName"
 #     When I wait 2s
 #     Given I fill input by name "firstName" with "test2"
@@ -77,10 +75,10 @@
 #     When I wait 5s
 #     Given I Press "Save & Exit"
 #     When I wait 5s
-#     Then should the title of the place be "All Places"
+#     Then should the title of the place be "Feed"
 #
 #   Scenario: sign out
 #     When I wait 5s
 #     Given I Click on sidebar "signout"
-#     When I wait 5s
+#     When I wait 5
 #     Then should see "Sign in"
