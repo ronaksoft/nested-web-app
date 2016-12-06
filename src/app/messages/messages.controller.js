@@ -185,12 +185,12 @@
     })();
 
     function setNavbarProperties() {
-      vm.navTitle = 'All Places';
+      vm.navTitle = 'Feed';
       vm.navIconClass = 'all-places';
 
 
       if (isBookMark()) {
-        vm.navTitle = 'Favorite Places';
+        vm.navTitle = 'Favorite Feed';
         vm.navIconClass = 'bookmarks';
       }
 

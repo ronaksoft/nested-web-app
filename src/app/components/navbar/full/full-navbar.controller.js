@@ -38,9 +38,18 @@
     vm.confirmToRemove = confirmToRemove;
     vm.isPersonal = isPersonal;
     vm.isSubPersonal = isSubPersonal;
-
     vm.confirmToLeave = confirmToLeave;
+    vm.toggleFeed = toggleFeed;
+    vm.isFeed = $state.current.options.feed;
+    vm.isFavPlaces = $state.current.options.favoritePlace;
 
+    function toggleFeed(isFavPlaces) {
+      if(isFavPlaces){
+        $state.go('app.messages-favorites');
+      }else{
+        $state.go('app.messages');
+      }
+    }
 
     function openCreateSubplaceModal ($event,style) {
       if ( style == 'open') {

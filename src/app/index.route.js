@@ -158,7 +158,8 @@
         controllerAs: 'ctlActivity',
         options : {
           primary : true,
-          group : 'activity'
+          group : 'activity',
+          feed : true
         }
       })
       .state('app.activity-favorites', {
@@ -168,7 +169,8 @@
         controllerAs: 'ctlActivity',
         options : {
           primary : true,
-          group : 'activity'
+          group : 'activity',
+          feed : true
         }
       })
       .state('app.activity-favorites-filtered', {
@@ -181,7 +183,8 @@
         controllerAs: 'ctlActivity',
         options : {
           primary : true,
-          group : 'activity'
+          group : 'activity',
+          feed : true
         }
       })
       .state('app.activity-filtered', {
@@ -194,7 +197,8 @@
         controllerAs: 'ctlActivity',
         options : {
           primary : true,
-          group : 'activity'
+          group : 'activity',
+          feed : true
         }
       })
       .state('app.place-activity', {

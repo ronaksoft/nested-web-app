@@ -73,7 +73,8 @@
         controllerAs: 'ctlMessages',
         options: {
           primary: true,
-          group: 'message'
+          group: 'message',
+          feed : true
         }
       })
       .state('app.messages-favorites', {
@@ -83,7 +84,9 @@
         controllerAs: 'ctlMessages',
         options: {
           primary: true,
-          group: 'message'
+          group: 'message',
+          feed : true,
+          favoritePlace : true
         }
       })
       .state('app.messages-favorites-sorted', {
@@ -96,7 +99,8 @@
         controllerAs: 'ctlMessages',
         options: {
           primary: true,
-          group: 'message'
+          group: 'message',
+          feed : true
         },
       })
       .state('app.messages-sent', {
@@ -132,7 +136,8 @@
         controllerAs: 'ctlMessages',
         options: {
           primary: true,
-          group: 'message'
+          group: 'message',
+          feed: true
         }
       })
       .state('app.place-messages', {
