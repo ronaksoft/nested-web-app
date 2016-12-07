@@ -1,7 +1,7 @@
 <div contentedit tabindex="0" id="input" ng-keyup="ctlQuickMessage.writeMsg($event)"
      placeholder="Write your message or drag your files here..."
      class="_fw _fh" ng-model="ctlQuickMessage.message"
-     aria-expanded="false" role="textbox" auto-dir="{{ctlQuickMessage.model.subject}}"></div>
+     aria-expanded="false" role="textbox" auto-dir="ctlQuickMessage.model.subject"></div>
 <div class="_difh _fw _fn">
   <nst-attachments-editable-bar class="qm-mode _df _fw" mode="thumbnail" items="ctlQuickMessage.attachments.viewModels" on-item-delete="ctlQuickMessage.attachments.detach"></nst-attachments-editable-bar>
   <div class="quick-icons">

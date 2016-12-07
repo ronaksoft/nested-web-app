@@ -43,14 +43,14 @@
     </div>
   </section>
   <section ng-if="ctlPostCard.post.subject.length > 0" class="post-subject"
-           auto-dir="{{::ctlPostCard.post.subject}}">
+           auto-dir="ctlPostCard.post.subject">
            <div class="unread-badge-holder">●</div>
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject | emoji">
     </h3>
   </section>
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
            ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.viewSetting.content"
-           auto-dir="{{::ctlPostCard.post.body}}">
+           auto-dir="ctlPostCard.post.body">
     <span ng-if="!ctlPostCard.post.subject" class="unread-badge-holder">●</span>
     <span ng-bind-html="ctlPostCard.post.body | removeHTMLTags | truncate | emoji"></span>
   </section>
@@ -73,7 +73,7 @@
       <span ng-if="ctlPostCard.post.commentsCount > 1">{{ctlPostCard.post.commentsCount}} comments</span>
     </a>
     <a ng-if="ctlPostCard.newCommentsCount > 0 " class="new-comments-count"
-             auto-dir="{{::ctlPostCard.post.subject}}">
+             auto-dir="ctlPostCard.post.subject">
       <span>+{{ctlPostCard.newCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
@@ -114,7 +114,7 @@
   </div>
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"></comments-board>
   <div class="post-card-comment-input _df">
-    <input type="text" nst-mention post-id="{{ctlPostCard.post.id}}" data-ng-model="ctlPostCard.post.newComment"  auto-dir="{{ctlPostCard.post.newComment}}"
+    <input type="text" nst-mention post-id="{{ctlPostCard.post.id}}" data-ng-model="ctlPostCard.post.newComment"  auto-dir="ctlPostCard.post.newComment"
            class="_fw" placeholder="write your comment ..." ng-keyup="ctlPostCard.sendComment($event)"
            ng-disabled="ctlPostCard.isSendingComment" max-length="1024"/>
   </div>
