@@ -58,10 +58,10 @@
           </div>
         </div>
 
-        <div class="_difh nst-marginbtm-16">
-          <div class="text-center _df react-btn lftbtn" nst-disable-for-btn min="2" sec="0" id="call" class="btn" click="ctlRegister.callMe()" value="Call">
+        <div class="_difh nst-marginbtm-16 text-center">
+          <div class="_df react-btn lftbtn" nst-disable-for-btn min="2" sec="0" id="call" class="btn" click="ctlRegister.callMe()" value="Call">
           </div>
-          <div class="text-center _df react-btn" nst-disable-for-btn id="resend" min="0" sec="45" click="ctlRegister.resend()" value="Resend">
+          <div class="_df react-btn" nst-disable-for-btn id="resend" min="0" sec="45" click="ctlRegister.resend()" value="Resend">
           </div>
         </div>
 
@@ -84,24 +84,21 @@
              ng-if="ctlRegister.requiredUser"><translate>Username is required</translate>
         </div>
         <div class="nst-mood-sense nst-loading nst-marginbtm-8 _fr" ng-if="ctlRegister.checkWithServer"></div>
+        <div ng-if="ctlRegister.minCharacter" class="nst-mood-lively nst-marginbtm-8 _dib"> Not available</div>
         <div class="nst-mood-lively nst-marginbtm-8 _dib"
-             ng-if="!ctlRegister.avaiablity && !registrationForm.nested_username.$error.required && !ctlRegister.checkWithServer && !registrationForm.nested_username.$error.pattern && !registrationForm.nested_username.$error.minlength">
+             ng-if="ctlRegister.userPattern && (!ctlRegister.avaiablity && !registrationForm.nested_username.$error.required && !ctlRegister.checkWithServer && !registrationForm.nested_username.$error.pattern && !registrationForm.nested_username.$error.minlength)">
           <translate>Not available</translate>
         </div>
         <div class="nst-mood-cheerful nst-marginbtm-8 _dib"
-             ng-if="ctlRegister.avaiablity && !registrationForm.nested_username.$error.required && !ctlRegister.checkWithServer && !registrationForm.nested_username.$error.pattern && !registrationForm.nested_username.$error.minlength">
+             ng-if="ctlRegister.userPattern && (ctlRegister.avaiablity && !registrationForm.nested_username.$error.required && !ctlRegister.checkWithServer && !registrationForm.nested_username.$error.pattern && !registrationForm.nested_username.$error.minlength)">
           <translate>Available</translate>
         </div>
-        <div class="nst-marginbtm-16">
-          <input id="uid" aria-invalid="false"
-                 ng-class="{'form-control': !ctlRegister.requiredUser || !registrationForm.nested_username.$error.required || !registrationForm.nested_username.$touched,'form-control-error': ctlRegister.requiredUser || (registrationForm.nested_username.$error.pattern && registrationForm.nested_username.$touched)}"
-                 ng-pattern="ctlRegister.patterns.username.general" uib-tooltip-class="tooltip" tooltip-trigger="none"
-                 tooltip-is-open="registrationForm.nested_username.$error.pattern && registrationForm.nested_username.$touched"
-                 uib-tooltip-template="'app/register/tip_username.html'" ngMinlength="5" ngMaxlength="32"
-                 ng-minlength="5" ng-maxlength="32"
+        <div class="nst-marginbtm-16" data-tooltip-trigger="none" data-tooltip-is-open="(ctlRegister.startAlphabet) || (ctlRegister.sequenceDashes) || (ctlRegister.noEndDash)" uib-tooltip-class="tooltip" uib-tooltip-template="'app/register/tip_username.html'" data-tooltip-placement="bottom">
+          <input id="uid" aria-invalid="false" ng-click="$event.preventDefault();$event.stopPropagation()"
+                 ng-class="{'form-control': !ctlRegister.requiredUser || !registrationForm.nested_username.$error.required || !registrationForm.nested_username.$touched,'form-control-error': ctlRegister.requiredUser && registrationForm.nested_username.$touched}"
                  name="nested_username" type="text" ng-model="ctlRegister.username" tabindex="1"
-                 ng-change="ctlRegister.checkUser(ctlRegister.username);ctlRegister.clearUserError(ctlRegister.username)"
-                 data-tooltip-placement="bottom" required autofocus/>
+                 ng-change="ctlRegister.checkUser(ctlRegister.username);ctlRegister.clearUserError();ctlRegister.usernameConditions(ctlRegister.username)"
+                 required autofocus/>
         </div>
 
 

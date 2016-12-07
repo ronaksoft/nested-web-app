@@ -99,7 +99,7 @@
       vm.settings.keyword = keyword;
       vm.settings.skip = 0;
       vm.files = [];
-
+      
       load();
     }
 

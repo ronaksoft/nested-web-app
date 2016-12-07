@@ -1,7 +1,6 @@
 <div>
-    <div><translate>only number,alphabet and dash (-)</translate></div>
-    <div><translate>at least 5 character</translate></div>
-    <div class="nst-mood-lively"><translate>No number or dash for start</translate></div>
-    <div class="nst-mood-lively"><translate>Sequence dashes (--) not allowed</translate></div>
-    <div class="nst-mood-lively"><translate>Not allowed to end with dash</translate></div>
+    <div><translate>alphanumeric and dash (-) only<translate></div>
+    <div ng-if="ctlRegister.startAlphabet" class="nst-mood-lively"><translate>No number or dash for start<translate></div>
+    <div ng-if="ctlRegister.sequenceDashes" class="nst-mood-lively"><translate>Sequence dashes (--) not allowed<translate></div>
+    <div ng-if="ctlRegister.noEndDash" class="nst-mood-lively"><translate>Not allowed to end with dash<translate></div>
 </div>

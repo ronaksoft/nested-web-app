@@ -34,8 +34,8 @@
          data-radius="30" class="account-initials-38 _df" data-word-count="2" data-font-size="16"/>
       </div>
     </div>
-    <div class="_fw _difc">
-      <div class="_difv _fw">
+    <div class="_fw _difc" ng-mouseleave="openPop = false">
+      <div class="_difv _fw" user-detail="" user="{{::ctlPostCard.post.sender}}">
         <h4 class="_df">{{::ctlPostCard.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{::ctlPostCard.post.sender.username}}</span>
       </div>
       <span class="_df _fn post-card-time" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"

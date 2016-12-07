@@ -118,6 +118,25 @@
          </div>
 
       </div>
+      <div class="nav-access" affixer parent=".content" after-content="577" first-imp="true" ng-if="ctlFullNavbar.isFeed">
+        <div class="place-switch">
+          <input type="checkbox" name="checkbox_id" id="receiving-members-search"
+                 value="value"
+                 data-ng-model="ctlFullNavbar.isFavPlaces"
+                 ng-change="ctlFullNavbar.toggleFeed(ctlFullNavbar.isFavPlaces)">
+          <label for="receiving-members-search">
+            <b></b>
+            <div class="circle"  switch-drag>
+              <svg class="svg-hover">
+                <use xlink:href="/assets/icons/nst-icn16.svg#star"></use>
+              </svg>
+            </div>
+          </label>
+          <label for="receiving-members-search">
+            <b></b>
+          </label>
+        </div>
+      </div>
       <div class="nav-access" affixer parent=".content" after-content="577" first-imp="true" ng-if="ctlFullNavbar.hasPlace()">
         <div class="cursor-pointer margin-r_5 icon-rp _df" data-popover-class="white-pop popover-white-nst-activity-places"
              data-popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"

@@ -84,6 +84,11 @@
       font-size: $font-size-xsmall;
       @include text-hover()
     }
+    .popover-userdetail {
+      top: 0!important;
+      left: 0!important;
+      transform: translateY(-90%);
+    }
   }
 
   .post-body{
@@ -117,9 +122,11 @@
     justify-content: flex-end;
     position: absolute;
     z-index: 34;
-    height: 20px;
+    height: 2px;
+    overflow-y: visible;
     top: -1px;
     & > a{
+      height: 20px;
       cursor: pointer;
       color: $color-white;
       font-size: $font-size-small;
@@ -281,7 +288,7 @@ h3 {
   z-index: 10;
   border-radius: 0 0 4px 4px;
   transition-duration: $animation-dur;
-  overflow: hidden;
+  //overflow: hidden;
   > *:first-child {
     margin-top: 8px;
   }
@@ -298,7 +305,7 @@ h3 {
     padding-top: 4px;
     max-width: calc(100% - 108px);
   }
-  strong{
+  strong,strong span{
     font-weight: 600;
     position: relative;
     font-size: $font-size-small;
@@ -306,6 +313,9 @@ h3 {
     line-break: strict;
     white-space: nowrap;
     height: 100%;
+    color: $color-hurricane;
+    padding: 0;
+    margin: 0;
   }
   p{
     font-size: $font-size-small;

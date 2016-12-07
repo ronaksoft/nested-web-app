@@ -146,7 +146,7 @@ nst-navbar {
     left: 0;
     top: 0;
     right: 0;
-    height: 50px;
+    height: 88px;
     z-index: 1;
   }
 }
@@ -449,4 +449,13 @@ nst-navbar {
   left:0;
 }
 
+
+.place-switch .circle .svg-hover {
+
+  margin: 3px 4px;
+
+  use:last-child {
+    display: flex;
+  }
+}
 

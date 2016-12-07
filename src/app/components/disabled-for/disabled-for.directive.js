@@ -7,7 +7,8 @@
       return {
         restrict: 'AE',
         replace : true,
-        template: '<button id="call" data-ng-disabled="disabled" ng-click="onClick()" class="btn" >{{text}}</button>',
+        //template: '<button id="call" data-ng-disabled="disabled" ng-click="onClick()" class="btn" >{{text}}</button>',
+        template: '<input type="button" id="call" data-ng-disabled="disabled" ng-click="onClick()" class="btn" value="{{text}}">',
         scope: {
           min: '=',
           sec: '=',

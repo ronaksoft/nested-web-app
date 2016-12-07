@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $q, $log,
-    NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory, NstSvcStore,
+    NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory, NstSvcStore, NstSvcUserStorage,
     NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT, NST_STORE_ROUTE,
     NstObservableObject) {
     function Auth(userData) {
@@ -124,6 +124,8 @@
           break;
 
         default:
+          NstSvcAuthStorage.cache.flush();
+          NstSvcUserStorage.cache.flush();
           this.setLastSessionKey(null);
           this.setLastSessionSecret(null);
           $cookies.remove('nss');

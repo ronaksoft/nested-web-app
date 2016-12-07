@@ -180,7 +180,7 @@
     function getKeyholders(placeId, limit, skip, hasAccess) {
       var deferred = $q.defer();
 
-      if (hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
+      if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
         NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function(keyHolders) {
           var keyHolderItems = _.map(keyHolders, function(item) {
             return new NstVmMemberItem(item, 'key_holder');
@@ -197,7 +197,7 @@
 
     function getPendings(placeId, limit, skip, access) {
       var deferred = $q.defer();
-      if (access) {
+      if (limit > 0 && access) {
         NstSvcInvitationFactory.getPlacePendingInvitations(placeId, limit, skip).then(function (invitations) {
           var pendings = _.map(invitations, function (item) {
             return new NstVmMemberItem(item, 'pending_key_holder');
@@ -237,7 +237,7 @@
       }).then(function(keyHolders) {
 
         pageCounts.keyHolders = keyHolders.length;
-        vm.teammatesSettings.limit = defaultTeammatesLimit - pageCounts.keyHolders;
+        vm.teammatesSettings.limit = defaultTeammatesLimit - pageCounts.keyHolders - pageCounts.creators;
         vm.teammatesSettings.keyHoldersCount += keyHolders.length;
         vm.teammatesSettings.skip = vm.teammatesSettings.pendingsCount;
 

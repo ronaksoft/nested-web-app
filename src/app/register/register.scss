@@ -22,7 +22,6 @@
 }
 
 .select-birthday {
-  //background-color: #eaffea;
   width: 100%;
   height: 38px;
   option:hover {
@@ -31,20 +30,20 @@
 }
 #panel-register .tooltip-inner {
   width: 240px;
-  height: 96px;
+  //height: 96px;
   border-radius: 4px;
   text-align: left;
-  padding-left: 16px;
-  padding-top: 16px;
+  padding: 8px;
   font-size: $font-size-xsmall;
   position: relative;
   top: 2.99px;
 }
 #panel-register .tooltip-arrow {
   transform: scale(2.4);
-  margin-top: -5px;
+  margin-top: -0.5px;
 }
-#panel-register .tooltip-inner {
+#panel-register .tooltip-inner,
+#panel-register .tooltip-arrow {
   opacity: 0.95;
 }
 .input-mob{
@@ -120,12 +119,6 @@
   width: 24px;
   top : 2px;
 }
-#panel-register .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-  padding-left: 52px;
-}
-#panel-register .intl-tel-input .flag-dropdown:hover .selected-flag {
-  background-color: inherit;
-}
 .select-birthday option {
   color: $color-solid;
   height: 40px;
@@ -147,14 +140,6 @@
   width: 100%;
   font-size: $font-size-medium;
   border: none;
-}
-.intl-tel-input .country-list {
-  background-color: $color-sense-5;
-  width : 318px;
-}
-.intl-tel-input .country-list .country.highlight {
-  background-color: $color-sense-50;
-  font-weight: bold;
 }
 .form-control-feedback-register {
   color: $color-solid-30;
@@ -215,7 +200,7 @@
   color: $color-force !important;
   background-color: $input-bg;
   background-image: none;
-  border: 1px solid $color-force !important;
+  border-color:$color-force !important;
   border-radius: $input-border-radius;
 }
 .form-control-valid {
@@ -228,7 +213,7 @@
   color: $color-sense-wire !important;
   background-color: $input-bg;
   background-image: none;
-  border: 1px solid $color-sense !important;
+  border-color: $color-sense !important;
   border-radius: $input-border-radius;
 }
 
