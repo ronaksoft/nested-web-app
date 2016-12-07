@@ -10,8 +10,7 @@
         </div>
       </a>
       <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}"
-         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
-         data-tooltip-placement="right auto"
+         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-placement="right auto"
          nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.compose}}">
         <div>
           <div class="compose">
@@ -27,7 +26,7 @@
       <div class="side-menu">
         <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed"
            data-uib-tooltip="Feed" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-           data-tooltip-append-to-body="true" data-tooltip-placement="right auto"
+           data-tooltip-placement="right auto"
            nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"
            toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
           <span>
@@ -38,7 +37,7 @@
           <span>Feed</span>
         </a>
         <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages"
-           data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
+           data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
            data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"
            toggle-agent-url="{{ctlSidebar.urls.sent}}">
           <span>
@@ -57,8 +56,7 @@
           <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
                class="side-place-invite-item-inner active detailed" data-uib-tooltip="{{invitaion.place.name}}"
-               data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-               data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+               data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-placement="right auto">
               <div class="side-place-item-image">
                 <img class="" ng-src="{{invitaion.place.avatar}}"/>
               </div>
@@ -99,7 +97,6 @@
          data-popover-popup-close-delay="1000"
          data-uib-tooltip="Mentions"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-append-to-body="true"
          data-tooltip-placement="right-top auto">
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           <svg id="mentions">
@@ -113,8 +110,7 @@
       </a>
       <a class="detailed" href="#/profile" nst-sidebar-toggle-agent
          toggle-agent-switch="ctlSidebar.isInDetailMode" data-uib-tooltip="Profile & Settings"
-         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-placement="right auto">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
@@ -123,8 +119,7 @@
         <div>Profile & Settings</div>
       </a>
       <a class="detailed" href="#/signout"  data-uib-tooltip="Log out"
-         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-placement="right auto">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>

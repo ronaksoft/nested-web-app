@@ -9,6 +9,9 @@
   transition: width .3s;
   z-index: 56;
   transform: translateZ(0);
+  .tooltip {
+    white-space: nowrap;
+  }
   > div {
     transition: $animation-dur;
   }
@@ -197,11 +200,14 @@
   display: inline-flex;
   flex-direction: column;
   flex: none;
-  overflow-x: hidden;
+  //overflow-x: hidden;
   //background: linear-gradient(to bottom, rgb(255,255,255), $color-calm);
   width: 100%;
   transition: $animation-dur;
   border-bottom: 1px solid rgba(255,255,255,.05);
+  a {
+    overflow-x: hidden;
+  }
 }
 .nested-logo {
   z-index: 7;
