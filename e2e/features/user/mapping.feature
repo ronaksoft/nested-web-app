@@ -1,18 +1,18 @@
-#Feature: User: mapping
-#  As a user of Nested
-#  I should be able to click on any clickable icons and go to the related page
-#
-#  Scenario: Sign in Mapping
-#    When I wait 5s
-#    Given I go to the page "/login"
-#    When I wait 5s
-#    Given I fill "Username" with "test-mapping"
-#    When I wait 5s
-#    Given I fill "Password" with "123456"
-#    When I wait 5s
-#    Given I Press "Sign in"
-#    When I wait 5s
-#    Then should the title of the place be "All Places"
+Feature: User: mapping
+  As a user of Nested
+  I should be able to click on any clickable icons and go to the related page
+
+  Scenario: Sign in Mapping
+    When I wait 5s
+    Given I go to the page "/login"
+    When I wait 5s
+    Given I fill "Username" with "test-mapping"
+    When I wait 5s
+    Given I fill "Password" with "123456"
+    When I wait 5s
+    Given I Press "Sign in"
+    When I wait 5s
+    Then should the title of the place be "Feed"
 #
 #  Scenario: Activity page mapping
 #    When I wait 5s
@@ -218,31 +218,29 @@
 #    Then should the title of the place be "All Places"
 #
 #
-#  Scenario: test filter bar
-#    When  I wait 5s
-#    Given I Click id "test-filter-sort"
-#    When I wait 5s
-#    Given I Click id "test-filter-sort"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Latest Messages"
-#    When I wait 5s
-#    Given I Click id "test-filter-sort"
-#    When I wait 5s
-#    Given I Click id "test-filter-sort"
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Latest Activity"
-#    When I wait 5s
-#    Given I Click id "test-filter-setting"
-#    When I wait 5s
-#    Given I Click id "test-filter-setting"
-#    When I wait 5s
-#    Given I Click label by for "content"
-#    When I wait 5s
-#    Given I Click label by for "attachments"
-#    When I wait 5s
-#    Given I Click label by for "comments"
-#    When I wait 5s
-#    Then should the title of the place be "All Places"
+  Scenario: test filter bar
+    When  I wait 5s
+    Given I move mouse on hidden popover "popoverSortShow"
+    When I wait 5s
+    Given I Click Link by Partial Text "Latest Messages"
+    When I wait 5s
+    Given I Click id "test-filter-sort"
+    When I wait 5s
+    Given I Click id "test-filter-sort"
+    When I wait 5s
+    Given I Click Link by Partial Text "Latest Activity"
+    When I wait 5s
+    Given I Click id "test-filter-setting"
+    When I wait 5s
+    Given I Click id "test-filter-setting"
+    When I wait 5s
+    Given I Click label by for "content"
+    When I wait 5s
+    Given I Click label by for "attachments"
+    When I wait 5s
+    Given I Click label by for "comments"
+    When I wait 5s
+    Then should the title of the place be "Feed"
 
 
 

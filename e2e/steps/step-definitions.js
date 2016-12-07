@@ -215,6 +215,11 @@ module.exports = function () {
     text.click();
   });
 
+  this.Given(/^I move mouse on hidden popover "([^"]*)"$/, function (dataPopover) {
+    var popover = element(By.css('div[data-popover-is-open="' + dataPopover + '"]'));
+    popover.mouseEnter().perform();
+  });
+
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {
     return browser.getTitle().then(function (title) {
       assert.equal(title, expectedPageTitle, ' title is "' + title + '" but should be "' + expectedPageTitle);
