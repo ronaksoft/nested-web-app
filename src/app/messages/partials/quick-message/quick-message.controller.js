@@ -109,6 +109,7 @@
 
       //TODO Clone element and play another scene to main element
       var element = angular.element(vm.textarea);
+      var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
       var elementFirstChild = angular.element(vm.textarea.firstChild);
 
@@ -125,7 +126,6 @@
 
         var str = element[0].innerHTML;
         findBreak(str);
-        vm.model.body = str;
 
       }
 
@@ -153,9 +153,15 @@
       }
 
       function findBreak(str) {
-        str = str.replace(/<br\s*[\/]?>/gi, "\n");
-        str = str.replace(/<div\s*[\/]?>/gi, "\n");
-        str = str.replace(/<\/div>/gi, "");
+        if(isFirefox){
+          str = str.replace(/<br>/, "");
+          vm.model.body = str;
+        } else {
+          vm.model.body = str;
+        }
+        // str = str.replace(/<br\s*[\/]?>/gi, "\n");
+        // str = str.replace(/<div\s*[\/]?>/gi, "\n");
+        // str = str.replace(/<\/div>/gi, "");
       }
 
       vm.send().then(function () {
