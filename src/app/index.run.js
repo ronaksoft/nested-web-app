@@ -279,8 +279,12 @@
       "Please confirm to leave the page": "لطفابرای ترکً تأیید کنید",
       "You will lose your draft. Are you sure you want to leave?": "شما درفت خود را از دست می دهید. آیا اطمینان دارید که می خواهید ترک کنید؟",
       "You'll lose any changes that you made by leaving": "شما با ترک هر تغییری که داده اید را از دست می دهید.",
-
-
+      "Feed": "خبرمایه",
+      "Favorite Feed": "خبرمایه محبوب",
+      "__version__": "نسخه",
+      "There are no more messages!": "پیامی موجود نمی باشد!",
+      "{{ctlFullNavbar.isGrandPlace ? 'Invite' : 'Add '}} Members": "{{ctlFullNavbar.isGrandPlace ? 'دعوت' : 'افزودن '}} اعضا",
+      "{{ctlSettings.isGrandPlace ? 'Invite Members' : 'Add Members'}}": "{{ctlSettings.isGrandPlace ? 'دعوت اعضا' : 'افزودن اعضا'}}",
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

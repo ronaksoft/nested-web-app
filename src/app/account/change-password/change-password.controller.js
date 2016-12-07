@@ -9,12 +9,12 @@
   function ChangePasswordController($scope, $log, $state,
     toastr,
     NstSvcUserFactory, NstSvcLoader, NstVmNavbarControl,
-    NST_SRV_ERROR, NST_NAVBAR_CONTROL_TYPE) {
+    NST_SRV_ERROR, NST_NAVBAR_CONTROL_TYPE, NstSvcTranslation) {
     var vm = this;
 
     vm.controls = {
       left: [
-        new NstVmNavbarControl('Back to Profile', NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('app.profile'))
+        new NstVmNavbarControl(NstSvcTranslation.get('Back to Profile'), NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('app.profile'))
       ],
       right: []
     };
