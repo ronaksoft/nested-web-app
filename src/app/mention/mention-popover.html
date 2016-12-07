@@ -11,7 +11,7 @@
         <div class="mention">
           <p>
             <a>{{ ::mention.name }}:</a>
-            <span auto-dir="{{::mention.commentBody}}">{{mention.commentBody | truncate}}</span>
+            <span auto-dir="mention.commentBody">{{mention.commentBody | truncate}}</span>
           </p>
           <div class="ment-date">
             {{mention.date | passed}}

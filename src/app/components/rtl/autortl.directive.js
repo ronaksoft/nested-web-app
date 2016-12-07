@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.text')
     .directive('autoDir', autoDirDetector);
 
-  function autoDirDetector() {
+  function autoDirDetector($parse) {
     return {
       restrict: 'A',
       link: function (scope ,element, attrs) {
@@ -83,31 +83,7 @@
             return element.attr("dir","ltr");
           }
 
-          function findFw(str) {
-            str = str.replace(/Fwd: /i, "");
-            if (str.search("Fwd:") > -1) {
-              return findFw(str)
-            }
-            if (str.search("Re:") > -1){
-              return findRe(str)
-            }
-            decideRtl(str)
-          }
-
-          function findRe(str) {
-            str = str.replace(/Re: /i, "");
-            if (str.search("Re:") > -1) {
-              return findRe(str);
-            }
-            decideRtl(str)
-          }
-          if (str.search("Fwd:") > -1){
-            findFw(str);
-          }else if(str.search("Re:") > -1) {
-            findRe(str);
-          }else {
-            decideRtl(str);
-          }
+          decideRtl(str);
 
           function decideRtl(str) {
             var emojiRanges = [
@@ -126,10 +102,10 @@
           }
         }
 
-        scope.$watch(function(){
-          return attrs.autoDir;
-        },function () {
-          direction(attrs.autoDir);
+        scope.$watch(function () {
+          return $parse(attrs.autoDir)(scope);
+        }, function () {
+          direction($parse(attrs.autoDir)(scope));
         });
 
 
