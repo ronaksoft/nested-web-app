@@ -51,6 +51,12 @@
       tinyMCE.baseURL = NST_CONFIG.TINY_MCE_ASSETS_PATH;
     }
 
+    // $.get('/assets/locales/en-US.json', function (data) {
+    //   setTimeout(function () {
+    //     NstSvcI18n.addLocale("en-US", data);
+    //   }, 3000);
+    // });
+
 
     NstSvcI18n.addLocale("en-US", {
       "Messages" : "پیام ها",

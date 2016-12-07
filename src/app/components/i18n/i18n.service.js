@@ -19,7 +19,6 @@
       } else {
         _.merge(this.locales[key], dictionary)
       }
-      console.log(this.locales);
     };
 
     I18n.prototype.getLocale = function (name) {
@@ -42,5 +41,6 @@
     };
 
     return new I18n();
+
   }
 })();
