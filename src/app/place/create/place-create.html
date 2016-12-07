@@ -67,10 +67,8 @@
           </svg><translate>Only Members of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}"</translate>
         </h3>
 
-        <p ng-if="!ctlCreate.isClosedPlace"><translate>Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>"
-          Members can view Place contents.</translate></p>
-        <p ng-if="ctlCreate.isClosedPlace"><translate>Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} can post message to
-          "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" place.</translate></p>
+        <p ng-if="!ctlCreate.isClosedPlace"><translate>Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Members can view Place contents.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace"><translate>Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} can post message to "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" place.</translate></p>
         <aside>
           <p class="f4"><translate>Which kind of members can be contribute in the place?</translate></p>
           <div class="_df f1">
@@ -95,10 +93,8 @@
             <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
           </svg><translate>"{{ ctlCreate.grandPlace.name }} Members</translate>
         </h3>
-        <p ng-if="!ctlCreate.isClosedPlace"><translate>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to the
-          place.</translate></p>
-        <p ng-if="ctlCreate.isClosedPlace"><translate>Only "{{ ctlCreate.grandPlace.name }}" Members can post messages to "<b>{{ctlCreate.place.name }}</b>"
-          Place.</translate></p>
+        <p ng-if="!ctlCreate.isClosedPlace"><translate>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to the place.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace"><translate>Only "{{ ctlCreate.grandPlace.name }}" Members can post messages to "<b>{{ ctlCreate.place.name }}</b>" Place.</translate></p>
         <aside>
           <p><translate>Show in the search results?</translate></p>
           <div class="place-switch">
@@ -172,14 +168,12 @@
             <li ng-if="ctlCreate.hasParentPlace && ctlCreate.parentPlace.getTeammatesCount() > 1">
               <input class="green-radio " type="radio" id="fill-members-parent" name="fillMembers" value="parent"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-parent"><translate>All <b>{{::ctlCreate.parentPlace.name}}</b> Members
-                ({{::ctlCreate.parentPlace.getTeammatesCount()}})</translate></label>
+              <label for="fill-members-parent"><translate>All <b>{{::ctlCreate.parentPlace.name}}</b> Members ({{::ctlCreate.parentPlace.getTeammatesCount()}})</translate></label>
             </li>
             <li ng-if="ctlCreate.hasGrandParent">
               <input class="green-radio " type="radio" id="fill-members-grand" name="fillMembers" value="grand"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members
-                ({{::ctlCreate.grandPlace.getTeammatesCount()}})</translate></label>
+              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members ({{::ctlCreate.grandPlace.getTeammatesCount()}})</translate></label>
             </li>
           </ul>
 
