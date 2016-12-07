@@ -8,13 +8,12 @@
   /** @ngInject */
   function NstSvcTranslation(NstSvcI18n, NstSvcLogger) {
     function Translation() {
-      this.defaultLocale = "en-US";
       this.currentLocale = null;
     }
 
     Translation.prototype.get = function (text, locale) {
       if (locale || !this.currentLocale) {
-        this.currentLocale = NstSvcI18n.getLocale(locale || this.defaultLocale);
+        this.currentLocale = NstSvcI18n.getLocale(locale);
       }
       var value = this.currentLocale[text];
       if (!value) {

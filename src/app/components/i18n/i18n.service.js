@@ -6,10 +6,12 @@
     .service('NstSvcI18n', NstSvcI18n);
 
   /** @ngInject */
-  function NstSvcI18n(_) {
+  function NstSvcI18n(_, NstSvcI18nStorage) {
     function I18n() {
       this.locales = {};
-      this.selectedLocale = 'en-US';
+
+      this.selectedLocale = NstSvcI18nStorage.get('locale') || "en-US";
+      console.log('selectedLocale', this.selectedLocale);
     }
 
     I18n.prototype.addLocale = function (key, dictionary) {
@@ -23,7 +25,6 @@
 
     I18n.prototype.getLocale = function (name) {
       var key = name || this.selectedLocale;
-      console.log('i18n : key :', key);
       if (_.has(this.locales, key)) {
         return this.locales[key];
       } else {
