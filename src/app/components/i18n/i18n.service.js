@@ -11,7 +11,6 @@
       this.locales = {};
 
       this.selectedLocale = NstSvcI18nStorage.get('locale') || "en-US";
-      console.log('selectedLocale', this.selectedLocale);
     }
 
     I18n.prototype.addLocale = function (key, dictionary) {

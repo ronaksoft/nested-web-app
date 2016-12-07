@@ -15,7 +15,7 @@
             <ui-select page-change-element minimum-input-length="4" multiple limit="10"  class="address-input _dib"
                        id="input-compose-to"
                        data-ng-model="ctlCompose.model.recipients">
-              <ui-select-match placeholder="Type place name or email address..." translate-attrs="placeholder">
+              <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}">
                 <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
               </ui-select-match>
               <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
