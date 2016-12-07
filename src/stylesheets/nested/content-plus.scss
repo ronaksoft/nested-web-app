@@ -35,6 +35,15 @@
       flex-shrink: inherit;
       padding-left: 8px;
       padding-top: 8px;
+      position: relative;
+      .user-detail {
+        position: absolute;
+        width: 130px;
+        height: 30px;
+        left: 0;
+        top: 0;
+        z-index: 1;
+      }
       .colomn {
         display: inline-flex;
         flex-direction: column;
