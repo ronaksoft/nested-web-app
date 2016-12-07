@@ -51,6 +51,12 @@
       tinyMCE.baseURL = NST_CONFIG.TINY_MCE_ASSETS_PATH;
     }
 
+    // $.get('/assets/locales/en-US.json', function (data) {
+    //   setTimeout(function () {
+    //     NstSvcI18n.addLocale("en-US", data);
+    //   }, 3000);
+    // });
+
 
     NstSvcI18n.addLocale("en-US", {
       "Messages" : "پیام ها",
@@ -279,8 +285,6 @@
       "Please confirm to leave the page": "لطفابرای ترکً تأیید کنید",
       "You will lose your draft. Are you sure you want to leave?": "شما درفت خود را از دست می دهید. آیا اطمینان دارید که می خواهید ترک کنید؟",
       "You'll lose any changes that you made by leaving": "شما با ترک هر تغییری که داده اید را از دست می دهید.",
-
-
     });
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {

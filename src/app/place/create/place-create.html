@@ -59,18 +59,18 @@
         <h3 ng-if="ctlCreate.isClosedPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
-          </svg>Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}" Members
+          </svg><translate>Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}" Members</translate>
         </h3>
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
-          </svg><translate>Only Members of</translate>&nbsp;"{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}"
+          </svg><translate>Only Members of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}"</translate>
         </h3>
 
-        <p ng-if="!ctlCreate.isClosedPlace">Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>"
-          Members can view Place contents.</p>
-        <p ng-if="ctlCreate.isClosedPlace">Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} can post message to
-          "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" place.</p>
+        <p ng-if="!ctlCreate.isClosedPlace"><translate>Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>"
+          Members can view Place contents.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace"><translate>Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} can post message to
+          "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" place.</translate></p>
         <aside>
           <p class="f4"><translate>Which kind of members can be contribute in the place?</translate></p>
           <div class="_df f1">
@@ -88,17 +88,17 @@
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
-          </svg>"{{ ctlCreate.grandPlace.name }}"&nbsp;<translate>Members</translate>
+          </svg><translate>"{{ ctlCreate.grandPlace.name }}" Members</translate>
         </h3>
         <h3 ng-if="ctlCreate.isClosedPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
-          </svg>"{{ ctlCreate.grandPlace.name }}"&nbsp;<translate>Members</translate>
+          </svg><translate>"{{ ctlCreate.grandPlace.name }} Members</translate>
         </h3>
-        <p ng-if="!ctlCreate.isClosedPlace">All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to the
-          place.</p>
-        <p ng-if="ctlCreate.isClosedPlace">Only "{{ ctlCreate.grandPlace.name }}" Members can post messages to "<b>{{ctlCreate.place.name }}</b>"
-          Place.</p>
+        <p ng-if="!ctlCreate.isClosedPlace"><translate>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to the
+          place.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace"><translate>Only "{{ ctlCreate.grandPlace.name }}" Members can post messages to "<b>{{ctlCreate.place.name }}</b>"
+          Place.</translate></p>
         <aside>
           <p><translate>Show in the search results?</translate></p>
           <div class="place-switch">
@@ -117,10 +117,10 @@
         <h3>
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
-          </svg><translate>Everyone</translate><i><translate>(including email)</translate></i>
+          </svg><translate>Everyone <i>(including email)</i></translate>
         </h3>
-        <p>Everyone can send their messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name  : '...'}}</b>" Place.
-          This includes messages sent from email platforms to your Nested address ({{ ctlCreate.place.id }}@nested.me).
+        <p><translate>Everyone can send their messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name  : '...'}}</b>" Place.
+          This includes messages sent from email platforms to your Nested address ({{ ctlCreate.place.id }}@nested.me).</translate>
         </p>
         <aside>
           <p><translate>Show in the search results?</translate></p>
@@ -142,8 +142,8 @@
           </p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.policy.addMember">
-              <option value="creators" id="manager-add-access">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-              <option value="everyone" id="member-add-access">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="creators" id="manager-add-access"><translate>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
+              <option value="everyone" id="member-add-access"><translate>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
             </select>
           </div>
         </div>
@@ -172,14 +172,14 @@
             <li ng-if="ctlCreate.hasParentPlace && ctlCreate.parentPlace.getTeammatesCount() > 1">
               <input class="green-radio " type="radio" id="fill-members-parent" name="fillMembers" value="parent"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-parent">All <b>{{::ctlCreate.parentPlace.name}}</b> Members
-                ({{::ctlCreate.parentPlace.getTeammatesCount()}})</label>
+              <label for="fill-members-parent"><translate>All <b>{{::ctlCreate.parentPlace.name}}</b> Members
+                ({{::ctlCreate.parentPlace.getTeammatesCount()}})</translate></label>
             </li>
             <li ng-if="ctlCreate.hasGrandParent">
               <input class="green-radio " type="radio" id="fill-members-grand" name="fillMembers" value="grand"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-grand">All <b>{{ctlCreate.grandPlace.name}}</b> Members
-                ({{::ctlCreate.grandPlace.getTeammatesCount()}})</label>
+              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members
+                ({{::ctlCreate.grandPlace.getTeammatesCount()}})</translate></label>
             </li>
           </ul>
 
