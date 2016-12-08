@@ -7,7 +7,7 @@
       return {
         template: function(element) {
           var tag = element[0].nodeName;
-          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" class="on-avatar" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto"></' + tag +'>';
+          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="available()" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="$event.stopPropagation()"></' + tag +'>';
         },
         restrict: 'EA',
         replace: true,
@@ -19,6 +19,10 @@
         //   user: '@'
         // },
         link: function ($scope, $element, $attrs) {
+          $scope.available = function () {
+
+            return true
+          };
 
           $scope.user = JSON.parse($attrs.user);
           $scope.avatar = $scope.user.avatar;
@@ -34,7 +38,13 @@
             return false
           };
 
-          if(NstSvcAuth.user.id == $scope.username) return;
+          if(NstSvcAuth.user.id == $scope.username) {
+            $scope.available = function () {
+
+              return false
+            };
+            return $scope.available;
+          }
 
           $element.addClass('on-avatar');
 
