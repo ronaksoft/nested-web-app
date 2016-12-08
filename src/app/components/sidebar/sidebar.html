@@ -13,7 +13,7 @@
         <translate>Compose</translate>
       </script>
       <a class="detailed" id="compoese" data-uib-tooltip-template="'compose-uib-tooltip.html'"  href="{{ctlSidebar.urls.compose}}"
-         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
+         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
          data-tooltip-placement="right auto"
          nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.compose}}">
         <div>
@@ -33,7 +33,7 @@
         </script>
         <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}"
            data-uib-tooltip-template="'favorite-uib-tooltip.html'" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-           data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.bookmarks}}">
+           data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.bookmarks}}">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
@@ -56,7 +56,7 @@
           <translate>Sent Messages</translate>
         </script>
         <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" uib-tooltip-template="'sent-uib-tooltip.html'"
-           data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
+           data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
            data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"
            toggle-agent-url="{{ctlSidebar.urls.sent}}">
           <span>
@@ -75,8 +75,7 @@
           <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
                class="side-place-invite-item-inner active detailed" data-uib-tooltip="{{invitaion.place.name}}"
-               data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-               data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+               data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-placement="right auto">
               <div class="side-place-item-image">
                 <img class="" ng-src="{{invitaion.place.avatar}}"/>
               </div>
@@ -121,7 +120,6 @@
          data-popover-popup-close-delay="1000"
          data-uib-tooltip-template="'mention-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-append-to-body="true"
          data-tooltip-placement="right-top auto">
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           <svg id="mentions">
@@ -139,7 +137,7 @@
       <a class="detailed" href="#/profile" nst-sidebar-toggle-agent
          toggle-agent-switch="ctlSidebar.isInDetailMode" data-uib-tooltip-template="'profile-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+         data-tooltip-placement="right auto">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
@@ -152,7 +150,7 @@
       </script>
       <a class="detailed" href="#/signout"  data-uib-tooltip-template="'logout-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+         data-tooltip-placement="right auto">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>

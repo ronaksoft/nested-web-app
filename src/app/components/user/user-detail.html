@@ -1,25 +1,30 @@
 <div>
-<!--{{ctlUserDetail.name}}<br>-->
-<!--{{ctlUserDetail.username}}<br>-->
-<!--{{ctlUserDetail.avatar}}-->
+<!--{{name}}<br>-->
+<!--{{username}}<br>-->
+<!--{{avatar}}-->
   <div class="user-avatar-bg">
-    <div class="blur-image" ng-if="ctlUserDetail.avatar.length > 2">
-      <div style="background-image: url('{{ctlUserDetail.avatar}}')"></div>
+    <div class="blur-image" ng-if="avatar.length > 2">
+      <div style="background-image: url('{{avatar}}')"></div>
+    </div>
+    <div class="blur-image" ng-if="!avatar">
+      <img initials="name" data-url="avatar" data-width="208"
+           data-height="208"
+           data-radius="0" class="_df" data-word-count="0" data-font-size="1"/>
     </div>
     <div class="user-avatar-72">
-      <img initials="ctlUserDetail.name" data-url="ctlUserDetail.avatar" data-width="72"
+      <img initials="name" data-url="avatar" data-width="72"
            data-height="72"
            data-radius="40" class="account-initials-72 _df" data-word-count="2" data-font-size="16"/>
     </div>
   </div>
   <div class="user-data">
-    <h4>{{ctlUserDetail.name}}</h4>
-    <span>@{{ctlUserDetail.username}}</span>
+    <h4>{{name}}</h4>
+    <span>@{{username}}</span>
     <div class="_fw">
-      <div class="butn-white" ng-click="ctlUserDetail.searchUser()">
+      <div class="butn-white" ng-click="searchUser()">
         <i class="icon cursor-pointer icon-search-rotated"></i>
       </div>
-      <div class="butn-green"  ng-click="ctlUserDetail.messageUser()">
+      <div class="butn-green"  ng-click="messageUser()">
         <svg>
           <use xlink:href="/assets/icons/nst-icn32.svg#Wcompose"></use>
         </svg>Message
