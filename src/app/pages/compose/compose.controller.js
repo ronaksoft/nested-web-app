@@ -44,7 +44,7 @@
           vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
           vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
         }).catch(function (error) {
-          toastr.error('An error happened while trying to attach with files.');
+          toastr.error(NstSvcTranslation.get('An error happened while trying to attach with files.'));
         });
 
       }
@@ -464,11 +464,11 @@
 
         // TODO: Check if one or more places failed
 
-        toastr.success('Your message has been successfully sent.', 'Message Sent');
+        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
 
         if(response.noPermitPlaces.length > 0){
-          var text = NstUtility.string.format('Your message hasn\'t been successfully sent to {0}', response.noPermitPlaces.join(','));
-          toastr.warning(text, 'Message doesn\'t Sent');
+          var text = NstUtility.string.format(NstSvcTranslation.get('Your message hasn\'t been successfully sent to {0}'), response.noPermitPlaces.join(','));
+          toastr.warning(text, NstSvcTranslation.get('Message doesn\'t Sent'));
         }
 
         $rootScope.goToLastState();

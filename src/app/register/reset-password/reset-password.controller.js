@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function ResetPasswordController($scope, $state, $q, md5, toastr,
-    NST_DEFAULT, NstSvcAuth, NstHttp) {
+    NST_DEFAULT, NstSvcAuth, NstHttp, NstSvcTranslation) {
     var vm = this;
 
     vm.getPhoneNumber = getPhoneNumber;
@@ -68,9 +68,9 @@
         nextStep();
       }).catch(function(reason) {
         if (reason === 'notfound') {
-          toastr.error('Could not find your phone number.');
+          toastr.error(NstSvcTranslation.get('Could not find your phone number.'));
         } else {
-          toastr.error('Sorry, an error happened while trying to recover your password. Please contact us.');
+          toastr.error(NstSvcTranslation.get('Sorry, an error happened while trying to recover your password. Please contact us.'));
         }
       });
     };
@@ -104,9 +104,9 @@
         nextStep();
       }).catch(function(reason) {
         if (reason === 'wrong') {
-          toastr.error('The provided code is wrong!');
+          toastr.error(NstSvcTranslation.get('The provided code is wrong!'));
         } else {
-          toastr.error('Sorry, and error happend while verifing the code.');
+          toastr.error(NstSvcTranslation.get('Sorry, and error happend while verifing the code.'));
         }
       });
     };
@@ -144,10 +144,10 @@
       }
 
       sendNewPassword(vm.verificationId, vm.phone, md5.createHash(vm.password)).then(function(result) {
-        toastr.success("Your password changed successfully.");
+        toastr.success(NstSvcTranslation.get("Your password changed successfully."));
         $state.go('public.signin');
       }).catch(function(reason) {
-        toastr.error('Sorry, an error happened while reseting your password.');
+        toastr.error(NstSvcTranslation.get('Sorry, an error happened while reseting your password.'));
       });
 
     }

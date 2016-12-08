@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q) {
+  function RegisterController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
     var vm = this;
 
 
@@ -203,9 +203,9 @@
         nextStep();
       }).catch(function (error) {
         if (error === 'phone_number_exists') {
-          toastr.error("We found an account with your phone number. If you forgot your password, try to recover it or contact us for any help.");
+          toastr.error(NstSvcTranslation.get("We found an account with your phone number. If you forgot your password, try to recover it or contact us for any help."));
         } else {
-          toastr.error("Sorry, an unknown error happened.");
+          toastr.error(NstSvcTranslation.get("Sorry, an unknown error happened."));
         }
       });
 
@@ -299,9 +299,9 @@
 
     vm.resend = function(){
       resendVerificationCode(vm.verificationId, getPhoneNumber()).then(function () {
-        toastr.success("Varification code has been sent again.");
+        toastr.success(NstSvcTranslation.get("Varification code has been sent again."));
       }).catch(function (error) {
-        toastr.error("An error happened while sending a new verification code.");
+        toastr.error(NstSvcTranslation.get("An error happened while sending a new verification code."));
       });
     }
 
@@ -335,9 +335,9 @@
 
     vm.callMe = function (){
       callForVerification(vm.verificationId, getPhoneNumber()).then(function () {
-        toastr.success("We call you now.");
+        toastr.success(NstSvcTranslation.get("We call you now."));
       }).catch(function () {
-        toastr.error("An error happened while trying to call you.");
+        toastr.error(NstSvcTranslation.get("An error happened while trying to call you."));
       });
     }
 
@@ -369,7 +369,7 @@
       verifyCode(vm.verificationId, vm.verificationCode).then(function() {
         nextStep();
       }).catch(function(error) {
-        toastr.error('Sorry, an error happened while verifing the code.');
+        toastr.error(NstSvcTranslation.get('Sorry, an error happened while verifing the code.'));
       });
     }
 
@@ -434,9 +434,9 @@
             });
           } else if (data.data.status === "err") {
             if (data.data.err_code === 5 && data.data.items[0] === 'uid') {
-              toastr.warning("The username is already taken. Please try another one.")
+              toastr.warning(NstSvcTranslation.get("The username is already taken. Please try another one."));
             } else {
-              toastr.error("Sorry, an error happened while creating your account, Please contact us.");
+              toastr.error(NstSvcTranslation.get("Sorry, an error happened while creating your account, Please contact us."));
             }
           }
         })

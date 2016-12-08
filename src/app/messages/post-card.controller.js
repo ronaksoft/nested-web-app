@@ -8,7 +8,7 @@
   function PostCardController($state, $log, $timeout, $rootScope,
     _, moment, toastr,
     NST_POST_EVENT, NST_COMMENT_EVENT,
-    NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction) {
+    NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
     var vm = this;
 
     var commentBoardMin = 3;
@@ -159,10 +159,10 @@
       NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, { id : vm.thisPlace })).then(function (place) {
         if (place) {
           vm.post.dropPlace(place.id);
-          toastr.success(NstUtility.string.format("The post has been removed from Place {0}.", place.name));
+          toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
         }
       }).catch(function (error) {
-        toastr.error(NstUtility.string.format("An error occured while trying to remove the message from the selected Place."));
+        toastr.error(NstSvcTranslation.get("An error occured while trying to remove the message from the selected Place."));
       });
     }
 
