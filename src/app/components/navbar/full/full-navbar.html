@@ -138,25 +138,34 @@
         </div>
       </div>
       <div class="nav-access" affixer parent=".content" after-content="577" first-imp="true" ng-if="ctlFullNavbar.hasPlace()">
+        <script type="text/ng-template" id="more-uib-tooltip.html">
+          <translate>More options</translate>
+        </script>
         <div class="cursor-pointer margin-r_5 icon-rp _df" data-popover-class="white-pop popover-white-nst-activity-places"
              data-popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"
              data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto bottom-right"
-             data-uib-tooltip="More options" data-tooltip-append-to-body="false"
-             data-tooltip-placement="bottom-right auto" id="navbar-popover" translate-attrs="data-uib-tooltip">
+             data-uib-tooltip-template="'more-uib-tooltip.html'" data-tooltip-append-to-body="false"
+             data-tooltip-placement="bottom-right auto" id="navbar-popover">
           <svg class="svg-hover fill-b">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
           </svg>
         </div>
-        <div data-uib-tooltip="{{!ctlFullNavbar.isBookmarked ? 'Add to' : 'Remove from'}} favorite places" data-tooltip-append-to-body="false"
-             data-tooltip-placement="bottom-right auto" translate-attrs="data-uib-tooltip">
+        <script type="text/ng-template" id="add-uib-tooltip.html">
+          <translate>{{!ctlFullNavbar.isBookmarked ? 'Add to' : 'Remove from'}} favorite places</translate>
+        </script>
+        <div data-uib-tooltip-template="'add-uib-tooltip.html'" data-tooltip-append-to-body="false"
+             data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleBookmark()" ng-class="{morphed : ctlFullNavbar.isBookmarked}">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wfav"></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
           </svg>
         </div>
-        <div data-uib-tooltip="Turn notification {{!ctlFullNavbar.notificationStatus ? 'on' : 'off'}}" data-tooltip-append-to-body="false"
-          data-tooltip-placement="bottom-right auto" translate-attrs="data-uib-tooltip">
+        <script type="text/ng-template" id="notification-uib-tooltip.html">
+          <translate>Turn notification {{!ctlFullNavbar.notificationStatus ? 'on' : 'off'}}</translate>
+        </script>
+        <div data-uib-tooltip-template="'notification-uib-tooltip.html'" data-tooltip-append-to-body="false"
+          data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{morphed : ctlFullNavbar.notificationStatus}">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff" ></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifon"></use>
