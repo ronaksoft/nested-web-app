@@ -8,14 +8,14 @@
       <section class="first-child">
         <div class="_difc _fw">
           <div class="_df">
-            <span class="sto">To:</span>
+            <span class="sto"><translate>To</translate>:</span>
           </div>
 
           <div class="_df _fw input-select-match">
             <ui-select page-change-element minimum-input-length="4" multiple limit="10"  class="address-input _dib"
                        id="input-compose-to"
                        data-ng-model="ctlCompose.model.recipients">
-              <ui-select-match placeholder="Type place name or email address...">
+              <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}">
                 <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
               </ui-select-match>
               <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
@@ -36,7 +36,7 @@
       <hr/>
       <section class="_difc _fw">
         <div class="_df _fw input-select-match">
-          <input class="compose-input _fw"  focus-me page-change-element  name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject">
+          <input class="compose-input _fw"  focus-me page-change-element  name="subject" placeholder="Add a Subject ..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder">
         </div>
       </section>
       <hr data-ng-show="attachshow"/>
@@ -64,7 +64,7 @@
       <section class="nst-compose-message">
         <div>
           <textarea  nst-mention="#" page-change-element ui-tinymce="ctlCompose.configs.tinymce"
-                     placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"></textarea>
+                     placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>
         </div>
       </section>
     </div>

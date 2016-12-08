@@ -16,6 +16,7 @@
       'ronak.nested.web.components.mention',
       // 'ronak.nested.web.components.dragndrop',
       'ronak.nested.web.components.utility',
-      'ronak.nested.web.components.file'
+      'ronak.nested.web.components.file',
+      'ronak.nested.web.components.i18n'
     ]);
 })();

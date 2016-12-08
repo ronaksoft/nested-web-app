@@ -9,13 +9,12 @@
   function ProfileEditController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
     toastr, moment,
     NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
-    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility) {
+    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation) {
     var vm = this;
 
     /*****************************
      *** Controller Properties ***
      *****************************/
-
     vm.saveAndExit = saveAndExit;
     vm.removeImage = removeImage;
     vm.setImage = setImage;
@@ -31,9 +30,9 @@
     };
 
     vm.genders = [
-      {key : 'm', title : 'Male'},
-      {key : 'f', title : 'Female'},
-      {key : 'o', title : 'Other'}
+      {key : 'm', title : NstSvcTranslation.get("Male")},
+      {key : 'f', title : NstSvcTranslation.get("Female")},
+      {key : 'o', title : NstSvcTranslation.get("Other")}
     ];
 
     vm.model = {
