@@ -9,7 +9,7 @@
   function ProfileEditController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
     toastr, moment,
     NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
-    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation) {
+    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation, NstSvcI18n) {
     var vm = this;
 
     /*****************************
@@ -19,6 +19,7 @@
     vm.removeImage = removeImage;
     vm.setImage = setImage;
     vm.changePassword = changePassword;
+    vm.setLanguage = setLanguage;
 
     vm.status = {
       saveInProgress: false
@@ -58,6 +59,8 @@
       saving: false,
       saved: false
     };
+
+    vm.lang = NstSvcI18n.selectedLocale;
 
     /*****************************
      ***** Controller Methods ****
@@ -232,6 +235,7 @@
 
     function saveAndExit(isValid) {
       save(isValid).then(function (result) {
+        setLanguage(vm.lang);
         toastr.success("Your profile has been updated successfully.");
         $rootScope.goToLastState();
       }).catch(function (error) {
@@ -241,6 +245,10 @@
 
     function changePassword() {
       $state.go('app.change-password');
+    }
+
+    function setLanguage(lang) {
+      NstSvcI18n.setLocale(lang);
     }
   }
 })();
