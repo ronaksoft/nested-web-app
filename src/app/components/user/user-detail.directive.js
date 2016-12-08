@@ -7,17 +7,20 @@
       return {
         template: function(element) {
           var tag = element[0].nodeName;
-          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto"></' + tag +'>';
+          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" class="on-avatar" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto"></' + tag +'>';
         },
         restrict: 'EA',
         replace: true,
         transclude: true,
+        scope: {},
         //controller: 'UserDetailCtrl',
         //controllerAs: 'ctlUserDetail',
         // bindToController: {
         //   user: '@'
         // },
         link: function ($scope, $element, $attrs) {
+
+          $element.addClass('on-avatar');
 
 
 
