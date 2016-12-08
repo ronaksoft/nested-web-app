@@ -8,6 +8,7 @@
        data-popover-trigger="outsideClick">+{{ctlPostCard.post.getAllPlacesCount()-1}}</a>
   </section>
   <section class="post-head _difh">
+    <div class="user-detail" user-detail user="{{::ctlPostCard.post.sender}}"></div>
     <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
       <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isForwarded" class="icon" href="{{ctlPostCard.urls.chain}}">
@@ -34,8 +35,8 @@
          data-radius="30" class="account-initials-38 _df" data-word-count="2" data-font-size="16"/>
       </div>
     </div>
-    <div class="_fw _difc" ng-mouseleave="openPop = false">
-      <div class="_difv _fw" user-detail="" user="{{::ctlPostCard.post.sender}}">
+    <div class="_fw _difc">
+      <div class="_difv _fw">
         <h4 class="_df">{{::ctlPostCard.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{::ctlPostCard.post.sender.username}}</span>
       </div>
       <span class="_df _fn post-card-time" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"

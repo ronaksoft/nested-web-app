@@ -6,9 +6,9 @@
 #PostView {
   border: 1px solid $color-breeze;
   border-radius: $border-radius-large;
-  background-color: $color-white;
+  //background-color: $color-white;
   padding: 0;
-  animation: post-view .2s cubic-bezier(0.1,0.8,0.6,1) .50s forwards normal;
+  animation: post-view .5s ease-out .12s forwards normal;
   #PostHeader {
     border-bottom: 1px solid $color-breeze;
     padding: 0;
