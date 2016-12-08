@@ -12,9 +12,7 @@
     }
 
     Translation.prototype.get = function (text, locale) {
-      if (locale || !this.currentLocale) {
-        this.currentLocale = NstSvcI18n.getLocale(locale);
-      }
+      this.currentLocale = NstSvcI18n.getLocale(locale);
       var value = this.currentLocale[text];
       if (!value) {
         NstSvcLogger.debug("NstSvcTranslation : KEY NOT FOUND : " +  text);

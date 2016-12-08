@@ -15,7 +15,6 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-
     vm.saveAndExit = saveAndExit;
     vm.removeImage = removeImage;
     vm.setImage = setImage;

@@ -32,11 +32,11 @@
     };
 
     I18n.prototype.setLocale = function(key) {
-      var key = name || this.selectedLocale;
-      if (_.has(this.locale, key)) {
-        this.selectedLocale = key;
+      var name = key || this.selectedLocale;
+      if (_.has(this.locales, name)) {
+        this.selectedLocale = name;
       } else {
-        throw Error('Locale "' + key + '" does not exist.');
+        throw Error('Locale "' + name + '" does not exist.');
       }
     };
 
