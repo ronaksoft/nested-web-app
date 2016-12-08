@@ -14,6 +14,7 @@
 
         $(window).scroll(function(e){
           dissappear($element.find('.tooltip'));
+          dissappear($element.find('.tooltip'));
 
 
         });
