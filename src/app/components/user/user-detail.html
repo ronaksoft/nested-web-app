@@ -4,7 +4,12 @@
 <!--{{avatar}}-->
   <div class="user-avatar-bg">
     <div class="blur-image" ng-if="avatar.length > 2">
-      <div style="background-image: url('{{avatar}}')" initials="name" data-url="avatar"></div>
+      <div style="background-image: url('{{avatar}}')"></div>
+    </div>
+    <div class="blur-image" ng-if="!avatar">
+      <img initials="name" data-url="avatar" data-width="208"
+           data-height="208"
+           data-radius="0" class="_df" data-word-count="0" data-font-size="1"/>
     </div>
     <div class="user-avatar-72">
       <img initials="name" data-url="avatar" data-width="72"

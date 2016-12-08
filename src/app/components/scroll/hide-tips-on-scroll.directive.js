@@ -6,21 +6,29 @@
     .directive('hideTips', hideTips);
 
   /** @ngInject */
-  function hideTips($timeout) {
+  function hideTips($timeout,$interval) {
     return {
-      scope: {
-        onscroll: '&'
-      },
-      link: function (scope, element) {
-        function scrollHandler(event) {
-          scope.onScroll({'event': event});
+      link: function ($scope, $element) {
+
+        var sss;
+
+        // $(window).scroll(function(e){
+        //   sss = true;
+        //
+        //   //$interval(callAtInterval, 100);
+        //
+        //   if(sss){
+        //     dissappear($element.find('.tooltip'));
+        //   }
+        //
+        //
+        // });
+
+        function dissappear(el) {
+          el.first().remove();
+          // el.style.opacity = '0'
         }
 
-        element.on("scroll", scrollHandler);
-
-        scope.$on('$destroy', function () {
-          element.off('scroll', scrollHandler);
-        });
       }
     };
   }
