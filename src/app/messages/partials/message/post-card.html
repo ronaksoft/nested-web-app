@@ -8,6 +8,7 @@
        data-popover-trigger="outsideClick">+{{ctlPostCard.post.getAllPlacesCount()-1}}</a>
   </section>
   <section class="post-head _difh">
+    <div class="user-detail" user-detail user="{{::ctlPostCard.post.sender}}"></div>
     <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
       <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isForwarded" class="icon" href="{{ctlPostCard.urls.chain}}">
@@ -34,8 +35,8 @@
          data-radius="30" class="account-initials-38 _df" data-word-count="2" data-font-size="16"/>
       </div>
     </div>
-    <div class="_fw _difc" ng-mouseleave="openPop = false">
-      <div class="_difv _fw" user-detail="" user="{{::ctlPostCard.post.sender}}">
+    <div class="_fw _difc">
+      <div class="_difv _fw">
         <h4 class="_df">{{::ctlPostCard.post.sender.name}}</h4><span class="nst-mood-storm _df">@{{::ctlPostCard.post.sender.username}}</span>
       </div>
       <span class="_df _fn post-card-time" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
@@ -56,7 +57,7 @@
   </section>
   <section class="post-body" ng-if="ctlPostCard.post.body.length < 1 && ctlPostCard.ViewSetting.content"
            post="ctlPostCard.post">
-    <i>Empty post</i>
+    <i><translate>Empty post</translate></i>
   </section>
   <!-- <section class="post-attachments" data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments">
     <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'"
@@ -68,16 +69,16 @@
   <hr>
   <section class="post-footer _difh">
     <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
-      <span ng-if="!ctlPostCard.post.hasAnyComment()">No comment</span>
-      <span ng-if="ctlPostCard.post.commentsCount == 1">One comment</span>
-      <span ng-if="ctlPostCard.post.commentsCount > 1">{{ctlPostCard.post.commentsCount}} comments</span>
+      <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comment</translate></span>
+      <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
+      <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>{{ctlPostCard.post.commentsCount}} comments</translate></span>
     </a>
     <a ng-if="ctlPostCard.newCommentsCount > 0 " class="new-comments-count"
              auto-dir="ctlPostCard.post.subject">
       <span>+{{ctlPostCard.newCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
-      <a id="test-forward" href="{{::ctlPostCard.urls.forward}}" ng-click="$event.stopPropagation()" class="icon _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+      <a id="test-forward" href="{{::ctlPostCard.urls.forward}}" ng-click="$event.stopPropagation()" class="icon _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip">
         <div class="fw">
           <svg  class="svg-hover">
           <use xlink:href="/assets/icons/nst-icn20.svg#fwd"></use>
@@ -85,7 +86,7 @@
           </svg>
         </div>
       </a>
-      <a id="test-reply" class="icon _df" href="{{ctlPostCard.urls.reply_all}}" ng-click="$event.stopPropagation()" data-uib-tooltip="Reply to all" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
+      <a id="test-reply" class="icon _df" href="{{ctlPostCard.urls.reply_all}}" ng-click="$event.stopPropagation()" data-uib-tooltip="Reply to all" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip">
         <div class="re">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
@@ -95,7 +96,7 @@
       </a>
       <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df" popover-class="white-pop popover-white-nst-activity-places"
            data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"  data-popover-append-to-body="false"
-           data-popover-placement="auto bottom-right" data-uib-tooltip="More Options" data-tooltip-append-to-body="true" data-tooltip-placement="top">
+           data-popover-placement="auto bottom-right" data-uib-tooltip="More Options" data-tooltip-append-to-body="true" data-tooltip-placement="top" translate-attrs="data-uib-tooltip">
         <div class="more">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
@@ -109,17 +110,17 @@
 </div>
 <section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments && !ctlPostCard.hideComments && !ctlPostCard.post.forbidden">
   <div class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
-    <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()">Older comments...</a>
-    <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()">Roll up</a>
+    <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()"><translate>Older comments...</translate></a>
+    <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()"><translate>Roll up</translate></a>
   </div>
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"></comments-board>
   <div class="post-card-comment-input _df">
     <input type="text" nst-mention post-id="{{ctlPostCard.post.id}}" data-ng-model="ctlPostCard.post.newComment"  auto-dir="ctlPostCard.post.newComment"
            class="_fw" placeholder="write your comment ..." ng-keyup="ctlPostCard.sendComment($event)"
-           ng-disabled="ctlPostCard.isSendingComment" max-length="1024"/>
+           ng-disabled="ctlPostCard.isSendingComment" max-length="1024"  translate-attrs="placeholder"/>
   </div>
 </section>
 <div class="no-permission" ng-if="ctlPostCard.post.forbidden">
-  <div class="forbidden-icon"><div></div><div></div></div> No Permission
+  <div class="forbidden-icon"><div></div><div></div></div> <translate>No Permission</translate>
 </div>
 <div class="post-card-wire"></div>

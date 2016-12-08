@@ -1,5 +1,4 @@
 .popover-userdetail {
-  transition-delay: 1s;
   width: 208px;
   height: 208px;
   display: inline-flex;
@@ -20,6 +19,7 @@
     flex: none;
     position: relative;
     background-color: cadetblue;
+    border-radius: 4px 4px 0 0;
     .blur-image {
       position: absolute;
       width: 100%;
@@ -27,6 +27,7 @@
       overflow: hidden;
       top: 0;
       left: 0;
+      border-radius: 4px 4px 0 0;
       &:after {
         content: "";
         top: 0;
@@ -88,11 +89,14 @@
         display: flex;
         flex: none;
         margin: 0 4px 0 0;
+        i {
+          transform: scale(.625,.625);
+        }
       }
       svg {
         width: 32px;
         height: 32px;
-        transform: scale(.625,.625);
+        transform: scale(.85,.85);
         fill: $color-white;
       }
     }

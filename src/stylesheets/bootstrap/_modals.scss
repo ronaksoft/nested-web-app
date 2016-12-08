@@ -23,9 +23,10 @@
   left: 0;
   z-index: $zindex-modal;
   -webkit-overflow-scrolling: touch;
-  transform: scale(0,0);
+  //transform: scale(0,0);
   transform-origin: 50% 50%;
   transition-property: transform;
+  opacity: 0;
 
 
   // Prevent Chrome on Windows from adding a focus outline. For details, see
@@ -39,8 +40,10 @@
     //animation: modal-dialog .38s cubic-bezier(0.1,0.8,0.6,1) .38s forwards normal;
   }
   &.in {
-    transform: scale(0,0);
-    animation: modal-dialog .38s cubic-bezier(0.1,0.8,0.6,1) .12s forwards normal;
+    opacity: 1;
+    transition: opacity .38s cubic-bezier(0.1,0.8,0.6,1) .12s;
+    //transform: scale(0,0);
+    //animation: modal-dialog .38s cubic-bezier(0.1,0.8,0.6,1) .12s forwards normal;
     //@include translate(0, 0)
   }
 }

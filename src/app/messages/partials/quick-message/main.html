@@ -1,12 +1,12 @@
 <div contentedit tabindex="0" id="input" ng-keyup="ctlQuickMessage.writeMsg($event)"
-     placeholder="Write your message or drag your files here..."
+     placeholder="Write your message or drag your files here..." translate-attrs="placeholder"
      class="_fw _fh" ng-model="ctlQuickMessage.message"
      aria-expanded="false" role="textbox" auto-dir="ctlQuickMessage.model.subject"></div>
 <div class="_difh _fw _fn">
   <nst-attachments-editable-bar class="qm-mode _df _fw" mode="thumbnail" items="ctlQuickMessage.attachments.viewModels" on-item-delete="ctlQuickMessage.attachments.detach"></nst-attachments-editable-bar>
   <div class="quick-icons">
-    <label tabindex="0" class="butn-white" for="attach">Attach</label>
-    <div tabindex="0"  class="butn-green" ng-click="ctlQuickMessage.model.submit()">Send</div>
+    <label tabindex="0" class="butn-white" for="attach"><translate>Attach</translate></label>
+    <div tabindex="0"  class="butn-green" ng-click="ctlQuickMessage.model.submit()"><translate>Send</translate></div>
 </div>
 </div>
 <input id="attach" type="file" multiple onchange="angular.element(this).scope().ctlQuickMessage.attachments.fileSelected(event)"/>

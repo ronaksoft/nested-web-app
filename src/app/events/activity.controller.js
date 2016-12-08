@@ -12,7 +12,7 @@
     NstSvcActivityMap, NstSvcModal,
     NstSvcActivitySettingStorage,
     NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess,
-    NstActivity, NstPlace, NstInvitation) {
+    NstActivity, NstPlace, NstInvitation, NstSvcTranslation) {
 
     var vm = this;
 
@@ -58,10 +58,10 @@
      ******************/
 
     (function () {
-      vm.filterDictionary[NST_ACTIVITY_FILTER.ALL] = 'All';
-      vm.filterDictionary[NST_ACTIVITY_FILTER.MESSAGES] = 'Messages';
-      vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = 'Comments';
-      vm.filterDictionary[NST_ACTIVITY_FILTER.LOGS] = 'Logs';
+      vm.filterDictionary[NST_ACTIVITY_FILTER.ALL] = NstSvcTranslation.get("All");
+      vm.filterDictionary[NST_ACTIVITY_FILTER.MESSAGES] = NstSvcTranslation.get("Messages");
+      vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = NstSvcTranslation.get("Comments");
+      vm.filterDictionary[NST_ACTIVITY_FILTER.LOGS] = NstSvcTranslation.get("Logs");
 
       if (placeIdParamIsValid($stateParams.placeId)) {
         vm.activitySettings.placeId = $stateParams.placeId;
