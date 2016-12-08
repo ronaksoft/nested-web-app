@@ -10,7 +10,7 @@
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstVmPlaceBadge) {
     var vm = this;
 
     /*****************************
@@ -132,35 +132,25 @@
     };
 
     vm.search.fn = function (query) {
+      var deferred = $q.defer();
+      // vm.search.results = [];
+      NstSvcPlaceFactory.search(query).then(function (places) {
+        var items = _.differenceBy(places, vm.model.recipients, 'id');
+        if (!_.some(items, { 'id' : query })) {
+          items.push(new NstTinyPlace({
+            id : query,
+            name : query,
+          }));
+        }
 
-      var initPlace = NstSvcPlaceFactory.parseTinyPlace({
-        _id: query,
-        name: query
-      });
-
-      if(query.length)
-        vm.search.results = [new NstVmPlace(initPlace)];
-
-
-      return NstSvcPlaceFactory.search(query).then(function (places) {
-        vm.search.results = [];
-        places.map(function (place) {
-          if (place && vm.model.recipients.filter(function (obj) {
-              return ( obj.id === place.id);
-            }).length === 0) {
-            if (place.id === query) {
-              initPlace = new NstVmPlace(place);
-            } else {
-              vm.search.results.push(new NstVmPlace(place));
-            }
-          }
+        vm.search.results = _.map(items, function (item) {
+          return new NstVmPlaceBadge(item)
         });
 
-        if (initPlace.id)
-          vm.search.results.unshift(initPlace);
+        deferred.resolve(vm.search.results);
+      }).catch(deferred.reject);
 
-      });
-
+      return deferred.promise;
     };
 
     vm.search.tagger = function (text) {
