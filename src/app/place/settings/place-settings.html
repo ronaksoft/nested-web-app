@@ -128,7 +128,7 @@
       <p>Everyone can send their messages to "<b>{{ctlSettings.place.name ? ctlSettings.place.name  : '...'}}</b>" Place.
         This includes messages sent from email platforms to your Nested address ({{ ctlSettings.place.id }}@nested.me).</p>
       <aside>
-        <p>Show in the search results?</p>{{ctlSettings.place.privacy.search}}
+        <p>Show in the search results?</p>
         <div class="place-switch">
           <input type="checkbox" name="checkbox_id" id="receiving-everyone-search" ng-disabled="!ctlSettings.accesses.hasControlAccess"
                  data-ng-model="ctlSettings.place.privacy.search"
