@@ -57,8 +57,8 @@
     //   }, 3000);
     // });
 
-
-    NstSvcI18n.addLocale("en-US", {
+    NstSvcI18n.addLocale("en-US", {});
+    NstSvcI18n.addLocale("fa-IR", {
       "\n          {{ctlSettings.place.policy.add_post === &apos;creators&apos; ? &quot;Only Managers&quot; : &quot;All Members&quot;}} can post messages in this place.": " {{ctlSettings.place.policy.add_post === 'creators' ? \"فقط مدیران\" : \"همه ی اعضا\"}} می توانند به این گروه پیام دهند.",
       " New Message": "پیام جدید",
       " from": "از",
