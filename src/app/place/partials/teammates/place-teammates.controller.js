@@ -76,7 +76,6 @@
       });
     };
 
-
     function expand() {
       vm.limit = 64;
       vm.onCollapse(false);
