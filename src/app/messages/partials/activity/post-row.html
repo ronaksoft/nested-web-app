@@ -6,9 +6,10 @@
 </div>
 <div class="colomn" nst-post-modal post="act.post">
   <div class="_difh top">
-    <div class="sender _fw _df">
-      <a user-detail user="{{act.actor}}">{{::act.actor.name}}</a> <span user-detail user="{{act.actor}}">&nbsp;@{{::act.actor.id}}</span>
+    <div class="sender _df _fn" user-detail user="{{act.actor}}">
+      <a class="on-avatar">{{::act.actor.name}}</a> <span class="on-avatar">&nbsp;@{{::act.actor.id}}</span>
     </div>
+    <div class="_df _fw"></div>
     <div class="_df _fn">
       <span>{{act.date | passed }}</span>
     </div>

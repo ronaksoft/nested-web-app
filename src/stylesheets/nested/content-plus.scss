@@ -60,7 +60,7 @@
             align-items: center;
             overflow: hidden;
             max-width: 100%;
-            a {
+            a,a>span {
               color: $color-hurricane;
               font-weight: 600;
               font-size: $font-size-xsmall;
