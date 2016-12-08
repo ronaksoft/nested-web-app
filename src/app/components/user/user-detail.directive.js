@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('userDetail', function($timeout,$state,NstSearchQuery) {
+    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
@@ -20,7 +20,12 @@
         // },
         link: function ($scope, $element, $attrs) {
 
-          $element.addClass('on-avatar');
+          $scope.user = JSON.parse($attrs.user);
+          $scope.avatar = $scope.user.avatar;
+          $scope.username = $scope.user.username || $scope.user.id;
+          $scope.name = $scope.user.name;
+
+
 
 
 
@@ -28,6 +33,11 @@
           $scope.openOver = function () {
             return false
           };
+
+          if(NstSvcAuth.user.id == $scope.username) return;
+
+          $element.addClass('on-avatar');
+
 
           $scope.openOverEnable = function () {
 
@@ -84,13 +94,6 @@
             },1000);
 
           };
-
-
-
-          $scope.user = JSON.parse($attrs.user);
-          $scope.avatar = $scope.user.avatar;
-          $scope.username = $scope.user.username;
-          $scope.name = $scope.user.name;
 
           $scope.getUserName = function () {
             return $scope.username
