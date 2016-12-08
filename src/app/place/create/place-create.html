@@ -49,7 +49,7 @@
             <div ng-if="ctlCreate.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
           </div>
         </div>
-        <aside><translate>The Place will be identified by this unique address. You <b>can't</b> change the Place ID after creating the Place, so choose wisely!<translate></aside>
+        <aside><translate>The Place will be identified by this unique address. You <b>can't</b> change the Place ID after creating the Place, so choose wisely!</translate></aside>
       </div>
       <p class="input-lab" ng-if="ctlCreate.isClosedPlace"><translate>Who can post messages to this Place?</translate></p>
       <!--off-->
@@ -73,8 +73,8 @@
           <p class="f4"><translate>Which kind of members can be contribute in the place?</translate></p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.privacy.addPost">
-              <option value="creators"><translate>Managers of</translate>&nbsp;{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-              <option value="everyone"><translate>Members of</translate>&nbsp;{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="creators"><translate>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
+              <option value="everyone"><translate>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
             </select>
           </div>
         </aside>
@@ -149,8 +149,8 @@
           </p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.policy.addPlace">
-              <option value="creators" id="manager-create-sub-place-access">Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-              <option value="everyone" id="member-create-sub-place-access">Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="creators" id="manager-create-sub-place-access"><translate>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
+              <option value="everyone" id="member-create-sub-place-access"><translate>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
             </select>
           </div>
         </div>
