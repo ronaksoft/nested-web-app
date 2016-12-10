@@ -15,7 +15,7 @@
         extended: '=extended',
         place: '=place'
       },
-      link: function (scope, elem, attrs) {
+      link: function (scope, element, attrs) {
 
         // TODO: Do not modify the view-model here!!
         if (scope.place){
@@ -59,6 +59,13 @@
             scope.tplUrl = 'app/activity/partials/activity-default.html';
             break;
         }
+        var jelement = $(element);
+        jelement.mouseenter(function () {
+          var hotItem = jelement.children('div.hot');
+          if (hotItem.length > 0) {
+            hotItem.removeClass('hot');
+          }
+        });
       },
       template: '<div class="evrow _fw _fn use-ng-animate" ng-class="{ hot : activity.isHot }" data-ng-include="tplUrl" data-ng-init="act = activity;extended = extended"></div>'
     };
