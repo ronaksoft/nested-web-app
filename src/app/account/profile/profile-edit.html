@@ -49,6 +49,13 @@
             <label for="dateOfBirth"><translate>Date of Birth</translate></label>
             <input name="dateOfBirth" class="nst-marginbtm-24 select-birthday" ng-model="ctlProfileEdit.model.dateOfBirth" rsmdatedropdowns/>
           </div>
+          <div class="form-group">
+            <label for="lang"><translate>Language</translate></label>
+            <select name="lang" class="form-control nst-marginbtm-24" ng-model="ctlProfileEdit.lang">
+              <option value="fa-IR">Farsi (فارسی)</option>
+              <option value="en-US">English</option>
+            </select>
+          </div>
           <div class="form-action nst-marginbtm-24">
             <input type="submit" class="butn-green _fw" value="Save & Exit" translate-attrs="value"/>
           </div>

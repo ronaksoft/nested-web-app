@@ -153,7 +153,7 @@
 
       .state('app.activity', {
         url: '/activity',
-        templateUrl: 'app/events/events.html',
+        templateUrl: 'app/activity/activity.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity',
         options : {
@@ -164,7 +164,7 @@
       })
       .state('app.activity-favorites', {
         url: '/activity/favorites',
-        templateUrl: 'app/events/events.html',
+        templateUrl: 'app/activity/activity.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity',
         options : {
@@ -178,7 +178,7 @@
         params: {
           filter: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/events/events.html',
+        templateUrl: 'app/activity/activity.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity',
         options : {
@@ -192,7 +192,7 @@
         params: {
           filter: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/events/events.html',
+        templateUrl: 'app/activity/activity.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity',
         options : {
@@ -206,7 +206,7 @@
         params: {
           placeId: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/events/events.html',
+        templateUrl: 'app/activity/activity.html',
         controller: 'ActivityController',
         controllerAs: 'ctlActivity',
         options : {
@@ -220,7 +220,7 @@
           placeId: NST_DEFAULT.STATE_PARAM,
           filter: NST_DEFAULT.STATE_PARAM
         },
-        templateUrl: 'app/events/events.html',
+        templateUrl: 'app/activity/activity.html',
         controller: 'ActivityController',
 	      controllerAs: 'ctlActivity',
         options : {

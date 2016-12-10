@@ -9,7 +9,7 @@
   function FullNavbarController($scope, $rootScope, $uibModal, $state, $q,
     toastr, NstUtility,
     NstSvcAuth, NstSvcLogger,
-    NstSearchQuery, NstSvcPlaceFactory,
+    NstSearchQuery, NstSvcPlaceFactory, NstSvcTranslation,
     NST_DEFAULT, NST_PLACE_FACTORY_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_SRV_ERROR,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError) {
     var vm = this;
@@ -88,8 +88,8 @@
               if (vm.isGrandPlace) {
 
                 NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
-                  toastr.success(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
-                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
+                  toastr.success(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was invited to Place "{1}" successfully.'), user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was invited to Place "{1}" successfully.'), user.id, vm.place.id));
                   resolve({
                     user: user,
                     role: role,
@@ -98,8 +98,8 @@
                 }).catch(function (error) {
                   // FIXME: Why cannot catch the error!
                   if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                    toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
-                    NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                    toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously invited to Place "{1}".'), user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously invited to Place "{1}".'), user.id, vm.place.id));
                     resolve({
                       user: user,
                       role: role,
@@ -113,8 +113,8 @@
 
               }else{
                 NstSvcPlaceFactory.addUser(vm.place, role, user).then(function(invitationId) {
-                  toastr.success(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
-                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was added to Place "{1}" successfully.', user.id, vm.place.id));
+                  toastr.success(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was added to Place "{1}" successfully.'), user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was added to Place "{1}" successfully.'), user.id, vm.place.id));
 
                   resolve({
                     user: user,
@@ -124,8 +124,8 @@
                 }).catch(function(error) {
                   // FIXME: Why cannot catch the error!
                   if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                    toastr.warning(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.place.id));
-                    NstSvcLogger.info(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.place.id));
+                    toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously added to Place "{1}".'), user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously added to Place "{1}".'), user.id, vm.place.id));
                     resolve({
                       user: user,
                       role: role,
@@ -348,9 +348,9 @@
         $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
         if (error instanceof NstPlaceOneCreatorLeftError){
-          toastr.error('You are the only one left!');
+          toastr.error(NstSvcTranslation.get('You are the only one left!'));
         } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format('You are not allowed to leave here, because you are the creator of the top-level place ({0}).', vm.place.parent.name));
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave here, because you are the creator of the top-level place ({0}).'), vm.place.parent.name));
         }
         NstSvcLogger.error(error);
       });
@@ -392,7 +392,7 @@
 
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
-        toastr.success(NstUtility.string.format("Place {0} was removed successfully.", vm.place.name));
+        toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
         if (vm.place.parentId) {
           $state.go('app.place-messages', { placeId : vm.place.parentId });
         } else {
@@ -400,9 +400,9 @@
         }
       }).catch(function(error) {
         if (error.code === 1 && error.message[0] === "place has child") {
-          toastr.warning("You have to remove all children before removing the place.");
+          toastr.warning(NstSvcTranslation.get("You have to remove all children before removing the place."));
         } else {
-          toastr.error(NstUtility.string.format("An error happened while removing the place.", vm.place.name));
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get("An error happened while removing the place."), vm.place.name));
         }
       });
     }

@@ -35,6 +35,7 @@
       var name = key || this.selectedLocale;
       if (_.has(this.locales, name)) {
         this.selectedLocale = name;
+        NstSvcI18nStorage.set('locale', name);
       } else {
         throw Error('Locale "' + name + '" does not exist.');
       }
