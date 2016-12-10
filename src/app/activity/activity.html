@@ -7,14 +7,14 @@
     <div class="filter-bar _fw" ng-mouseleave="filterPopoverShow = false;popoverSettingShow = false">
       <div class="iconsblock" data-popover-class="white-pop popover-white-nst-filter"
            ng-mouseenter="filterPopoverShow = true;popoverSettingShow = false"
-           uib-popover-template="'app/events/partials/popovers/filter_popover.html'"
+           uib-popover-template="'app/activity/partials/popovers/filter_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="filterPopoverShow">
         <span class="nst-mood-storm _df">{{::ctlActivity.filterDictionary[ctlActivity.activitySettings.filter]}}</span>
         <div class="icon icon-viewicon-filter _df" id="test-select-filter"></div>
       </div>
       <div class="iconsblock" data-popover-class="white-pop popover-white-nst-setting"
            ng-mouseenter="filterPopoverShow = false;popoverSettingShow = true"
-           uib-popover-template="'app/events/partials/popovers/setting_popover.html'"
+           uib-popover-template="'app/activity/partials/popovers/setting_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSettingShow">
         <div class="icon icon-viewicon- _pa" id="test-setting-filter"></div>
       </div>

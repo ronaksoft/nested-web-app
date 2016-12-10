@@ -24,39 +24,39 @@
 
         switch (scope.activity.type) {
           case NST_EVENT_ACTION.MEMBER_ADD:
-            scope.tplUrl = 'app/events/partials/activity-member-add.html';
+            scope.tplUrl = 'app/activity/partials/activity-member-add.html';
             break;
 
           case NST_EVENT_ACTION.MEMBER_REMOVE:
-            scope.tplUrl = 'app/events/partials/activity-member-remove.html';
+            scope.tplUrl = 'app/activity/partials/activity-member-remove.html';
             break;
 
           case NST_EVENT_ACTION.MEMBER_INVITE:
-            scope.tplUrl = 'app/events/partials/activity-member-invite.html';
+            scope.tplUrl = 'app/activity/partials/activity-member-invite.html';
             break;
 
           case NST_EVENT_ACTION.MEMBER_JOIN:
-            scope.tplUrl = 'app/events/partials/activity-member-join.html';
+            scope.tplUrl = 'app/activity/partials/activity-member-join.html';
             break;
 
           case NST_EVENT_ACTION.PLACE_ADD:
-            scope.tplUrl = 'app/events/partials/activity-place-add.html';
+            scope.tplUrl = 'app/activity/partials/activity-place-add.html';
             break;
 
           case NST_EVENT_ACTION.PLACE_REMOVE:
-            scope.tplUrl = 'app/events/partials/activity-place-remove.html';
+            scope.tplUrl = 'app/activity/partials/activity-place-remove.html';
             break;
 
           case NST_EVENT_ACTION.POST_ADD:
-            scope.tplUrl = 'app/events/partials/activity-post-add.html';
+            scope.tplUrl = 'app/activity/partials/activity-post-add.html';
             break;
 
           case NST_EVENT_ACTION.COMMENT_ADD:
-            scope.tplUrl = 'app/events/partials/activity-comment-add.html';
+            scope.tplUrl = 'app/activity/partials/activity-comment-add.html';
             break;
 
           default:
-            scope.tplUrl = 'app/events/partials/activity-default.html';
+            scope.tplUrl = 'app/activity/partials/activity-default.html';
             break;
         }
       },

@@ -54,18 +54,18 @@
       }
 
       var templates = {};
-      templates[EVENT_ACTIONS.MEMBER_ADD] = { path: 'app/events/partials/event/member/add.html' };
-      templates[EVENT_ACTIONS.MEMBER_REMOVE] = { path: 'app/events/partials/event/member/remove.html' };
-      templates[EVENT_ACTIONS.MEMBER_INVITE] = { path: 'app/events/partials/event/member/invite.html' };
-      templates[EVENT_ACTIONS.MEMBER_JOIN] = { path: 'app/events/partials/event/member/join.html' };
+      templates[EVENT_ACTIONS.MEMBER_ADD] = { path: 'app/activity/partials/event/member/add.html' };
+      templates[EVENT_ACTIONS.MEMBER_REMOVE] = { path: 'app/activity/partials/event/member/remove.html' };
+      templates[EVENT_ACTIONS.MEMBER_INVITE] = { path: 'app/activity/partials/event/member/invite.html' };
+      templates[EVENT_ACTIONS.MEMBER_JOIN] = { path: 'app/activity/partials/event/member/join.html' };
 
-      templates[EVENT_ACTIONS.PLACE_ADD] = { path: 'app/events/partials/event/place/add.html' };
-      templates[EVENT_ACTIONS.PLACE_REMOVE] = { path: 'app/events/partials/event/place/remove.html' };
-      templates[EVENT_ACTIONS.PLACE_PICTURE] = { path: 'app/events/partials/event/place/picture.html' };
+      templates[EVENT_ACTIONS.PLACE_ADD] = { path: 'app/activity/partials/event/place/add.html' };
+      templates[EVENT_ACTIONS.PLACE_REMOVE] = { path: 'app/activity/partials/event/place/remove.html' };
+      templates[EVENT_ACTIONS.PLACE_PICTURE] = { path: 'app/activity/partials/event/place/picture.html' };
 
-      templates[EVENT_ACTIONS.POST_ADD] = { path: 'app/events/partials/event/post/add.html' };
+      templates[EVENT_ACTIONS.POST_ADD] = { path: 'app/activity/partials/event/post/add.html' };
 
-      templates[EVENT_ACTIONS.COMMENT_ADD] = { path: 'app/events/partials/event/comment/add.html' };
+      templates[EVENT_ACTIONS.COMMENT_ADD] = { path: 'app/activity/partials/event/comment/add.html' };
 
       Event.prototype = {
         setData: function(data) {
