@@ -32,10 +32,18 @@ a.normal-badge {
   border-radius: 9px;
   color: $color-solid;
   font-size: $font-size-small;
+  line-height: 22px;
   white-space: nowrap;
   padding: 0 8px;
   height: 20px;
   flex: none;
+}
+.ui-select-match-item:hover {
+  background: $color-sense-50;
+}
+.ui-select-match-item.btn-primary {
+  background-color: $color-sense-wire;
+  color: $color-white;
 }
 
 .large-badge {

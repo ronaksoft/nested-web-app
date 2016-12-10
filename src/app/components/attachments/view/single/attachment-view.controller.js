@@ -8,7 +8,7 @@
   function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
-                                    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore,
+                                    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
                                     NstHttp,
                                     fileId, fileViewerItem, fileIds, fileViewerItems) {
     var vm = this;
@@ -92,7 +92,7 @@
       goTo(vm.attachments.collection[nextKey]).then(function (item) {
         vm.attachments.current = item;
       }).catch(function (error) {
-        toastr.error('Sorry, an error happened while retrieving the next file.');
+        toastr.error(NstSvcTranslation.get('Sorry, an error happened while retrieving the next file.'));
       });
     };
 
@@ -106,7 +106,7 @@
         goTo(vm.attachments.collection[nextKey]).then(function (item) {
           vm.attachments.current = item;
         }).catch(function (error) {
-          toastr.error('Sorry, an error happened while retrieving the previous file.');
+          toastr.error(NstSvcTranslation.get('Sorry, an error happened while retrieving the previous file.'));
         });
       });
     };
@@ -171,7 +171,7 @@
       NstSvcFileFactory.get(ids).then(function (files) {
         deferred.resolve(files);
       }).catch(function (error) {
-        toastr.error('Sorry, an error happened while preparing to view the files.');
+        toastr.error(NstSvcTranslation.get('Sorry, an error happened while preparing to view the files.'));
       }).finally(function () {
         vm.filesLoadProgress = false;
       });
@@ -186,7 +186,7 @@
       NstSvcFileFactory.get([id]).then(function (files) {
         deferred.resolve(files[0]);
       }).catch(function (error) {
-        toastr.error('Sorry, an error happened while preparing to view the files.');
+        toastr.error(NstSvcTranslation.get('Sorry, an error happened while preparing to view the files.'));
       }).finally(function () {
         vm.fileLoadProgress = false;
       });

@@ -9,7 +9,7 @@
   function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
                           _, toastr, moment,
                           NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS, NST_SRV_EVENT,
-                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal, NstSvcServer, NstSvcPostInteraction,
+                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal, NstSvcServer, NstSvcPostInteraction, NstSvcTranslation,
                           NstTinyComment, NstVmUser, selectedPostId) {
     var vm = this;
 
@@ -99,7 +99,7 @@
      * @param  {Event}  event   keypress event handler
      */
     function sendComment(event) {
-
+      event.preventDefault();
       //var cm = event.currentTarget.innerText;
       var cm = event.currentTarget.value;
 
@@ -208,7 +208,7 @@
           }
         });
 
-        toastr.success(NstUtility.string.format("The post has been removed from Place {0}.", place.name));
+        toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
       }).catch(function () {
         //FIXME: catch error
         // toastr.error(NstUtility.string.format("An error occured while trying to remove the message."));

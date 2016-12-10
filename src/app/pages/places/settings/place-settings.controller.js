@@ -112,7 +112,7 @@
             }
             break;
           default:
-            NstSvcLogger.error(NstUtility.string.format('Can not remove the member, Because her role is "{0}" which was not expected!', data.previousRole));
+            NstSvcLogger.error(NstUtility.string.format(NstSvcTranslation.get('Can not remove the member, Because her role is "{0}" which was not expected!'), data.previousRole));
             break;
 
         }
@@ -130,7 +130,7 @@
       vm.placeLoadProgress = true;
       NstSvcPlaceFactory.get(id).then(function(place) {
         result.place = place;
-        NstSvcLogger.info(NstUtility.string.format('Place {0} was found.', result.place.id));
+        NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('Place {0} was found.'), result.place.id));
         initializeStates(place);
         setGrandPlace(place);
 
@@ -149,7 +149,7 @@
         result.accesses.hasAddMembersAccess = resolvedSet[3];
         result.accesses.hasSeeMembersAccess = resolvedSet[4];
 
-        NstSvcLogger.info(NstUtility.string.format('Place "{0}" settings have been retrieved successfully.', result.place.id));
+        NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('Place "{0}" settings have been retrieved successfully.'), result.place.id));
         vm.placeLoadProgress = false;
 
         deferred.resolve(result);
@@ -293,18 +293,18 @@
             var command  = vm.isGrandPlace ? 'inviteUser' : 'addUser';
             NstSvcPlaceFactory[command](vm.place, role, user).then(function(invitationId) {
 
-              NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.place.id));
-              toastr.success(NstUtility.string.format('User "{0}" has been {1} to Place "{2}" successfully.', user.id, vm.isGrandPlace ? 'invited' : 'added',vm.place.id));
+              NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been invited to Place "{1}" successfully.'), user.id, vm.place.id));
+              toastr.success(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been {1} to Place "{2}" successfully.'), user.id, vm.isGrandPlace ? 'invited' : 'added',vm.place.id));
               resolve({
                 user: user,
                 role: role,
                 invitationId: vm.isGrandPlace ? invitationId : -1,
               });
             }).catch(function(error) {
-              toastr.error(NstUtility.string.format('User "{0}" has not been {1} to Place "{2}".', user.id, vm.isGrandPlace ? 'invited' : 'added',vm.place.id));
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has not been {1} to Place "{2}".'), user.id, vm.isGrandPlace ? 'invited' : 'added',vm.place.id));
               // FIXME: Why cannot catch the error!
               if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                NstSvcLogger.warn(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.place.id));
+                NstSvcLogger.warn(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously invited to Place "{1}".'), user.id, vm.place.id));
                 resolve({
                   user: user,
                   role: role,
@@ -339,7 +339,7 @@
     function update(model) {
       if (model) {
         NstSvcPlaceFactory.update(vm.place.id, model).then(function(result) {
-          NstSvcLogger.info(NstUtility.string.format('Place {0} information updated successfully.', vm.place.id));
+          NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('Place {0} information updated successfully.'), vm.place.id));
         }).catch(function(error) {
           NstSvcLogger.error(error);
         });
@@ -367,11 +367,11 @@
             vm.place.getPicture().setThumbnail(64, vm.place.getPicture().getOrg());
             vm.place.getPicture().setThumbnail(128, vm.place.getPicture().getOrg());
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function(result) {
-              NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
-              toastr.success("The place picture has been set successfully.");
+              NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('Place {0} picture updated successfully.'), vm.place.id));
+              toastr.success(NstSvcTranslation.get("The place picture has been set successfully."));
             }).catch(function(error) {
               NstSvcLogger.error(error);
-              toastr.error("An error happened while updating the place picture.")
+              toastr.error(NstSvcTranslation.get("An error happened while updating the place picture."));
             })
           });
         };
