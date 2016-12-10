@@ -15,6 +15,7 @@
     NstActivity, NstPlace, NstInvitation, NstSvcTranslation) {
 
     var vm = this;
+    var activityFilterGroups = {};
 
     vm.activities = [];
     vm.currentPlace = null;
@@ -58,6 +59,30 @@
      ******************/
 
     (function () {
+      activityFilterGroups[NST_ACTIVITY_FILTER.MESSAGES] = [
+        NST_EVENT_ACTION.POST_ADD,
+        NST_EVENT_ACTION.POST_REMOVE,
+        NST_EVENT_ACTION.POST_UPDATE
+      ];
+      activityFilterGroups[NST_ACTIVITY_FILTER.COMMENTS] = [
+        NST_EVENT_ACTION.COMMENT_ADD,
+        NST_EVENT_ACTION.COMMENT_REMOVE
+      ];
+
+      activityFilterGroups[NST_ACTIVITY_FILTER.LOGS] = [
+        NST_EVENT_ACTION.MEMBER_ADD,
+        NST_EVENT_ACTION.MEMBER_REMOVE,
+        NST_EVENT_ACTION.MEMBER_INVITE,
+        NST_EVENT_ACTION.MEMBER_JOIN,
+        NST_EVENT_ACTION.PLACE_ADD,
+        NST_EVENT_ACTION.PLACE_REMOVE,
+        NST_EVENT_ACTION.PLACE_PRIVACY,
+        NST_EVENT_ACTION.PLACE_PICTURE,
+        NST_EVENT_ACTION.ACCOUNT_REGISTER,
+        NST_EVENT_ACTION.ACCOUNT_LOGIN,
+        NST_EVENT_ACTION.ACCOUNT_PICTURE,
+      ];
+
       vm.filterDictionary[NST_ACTIVITY_FILTER.ALL] = NstSvcTranslation.get("All");
       vm.filterDictionary[NST_ACTIVITY_FILTER.MESSAGES] = NstSvcTranslation.get("Messages");
       vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = NstSvcTranslation.get("Comments");
@@ -289,7 +314,7 @@
     }
 
     NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
-      if (activityBelongsToPlace(e.detail)){
+      if (activityBelongsToPlace(e.detail) && activityPassesFilter(e.detail)){
         var activityItem = NstSvcActivityMap.toActivityItem(e.detail);
         activityItem.isHot = true;
         addNewActivity(activityItem);
@@ -343,5 +368,12 @@
       }
     }
 
+    function activityPassesFilter(activity) {
+      if (vm.activitySettings.filter === NST_ACTIVITY_FILTER.ALL) {
+        return true;
+      } else {
+        return _.includes(activityFilterGroups[vm.activitySettings.filter], activity.type);
+      }
+    }
   }
 })();
