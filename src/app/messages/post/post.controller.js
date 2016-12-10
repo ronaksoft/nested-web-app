@@ -99,7 +99,7 @@
      * @param  {Event}  event   keypress event handler
      */
     function sendComment(event) {
-
+      event.preventDefault();
       //var cm = event.currentTarget.innerText;
       var cm = event.currentTarget.value;
 

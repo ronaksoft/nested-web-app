@@ -191,6 +191,8 @@
         event.preventDefault();
         vm.post.commentsCount += vm.unreadCommentsCount;
         vm.unreadCommentsCount = 0;
+
+        vm.post.comments = data.comments;
       }
     });
 
