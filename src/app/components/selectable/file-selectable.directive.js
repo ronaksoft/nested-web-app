@@ -24,6 +24,7 @@
             keyboard: true,
             textSelection: true,
             keyboardMode: "select",
+            selectionBlur : true,
             select: function (event, ui) {
               selectedArray = [];
               seletableElement.selectonic("getSelected").each(function (i, e) {
@@ -43,6 +44,8 @@
               }
             }
           });
+
+
         }
       }
     })
