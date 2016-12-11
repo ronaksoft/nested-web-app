@@ -6,5 +6,5 @@ dev:
       - ".:/usr/src/app-dev"
     ports:
       - "3000:3000"
-    command: bin/run.sh
+    command: bin/run.dev.sh
 
