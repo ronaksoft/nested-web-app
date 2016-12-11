@@ -59,7 +59,7 @@
         <h3 ng-if="ctlCreate.isClosedPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
-          </svg><translate>Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}" Members</translate>
+          </svg><translate>Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} of "{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}"</translate>
         </h3>
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">
@@ -81,7 +81,7 @@
       </div>
 
       <!--internal-->
-      <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingMembers();"
+      <div class="select-box2" ng-if="ctlCreate.isClosedPlace && ctlCreate.grandPlace.name" ng-click="ctlCreate.setReceivingMembers();"
            ng-class="{ selected : ctlCreate.receivingMode == 'members'}">
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">

@@ -9,7 +9,11 @@
   function dragxaxis($timeout) {
     return {
       restrict: 'A',
-      link: function ($scope, $element, $attrs) {
+      scope: {
+        model : '=switchDrag'
+      },
+      link: function (scope, $element, $attrs) {
+
 
         var parent = $element.parent().parent();
         var parentWidth = parent.width();
@@ -33,6 +37,11 @@
               },
               onDragEnd:function() {
                 $element.css({transform: ''});
+                if (Draggable.get($element).x > 32) {
+                  scope.model = true;
+                } else {
+                  scope.model = false;
+                }
               }
             });
             $element.css({transform: ''});

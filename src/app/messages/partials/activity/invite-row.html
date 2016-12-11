@@ -1,12 +1,14 @@
-<div class="user-detail" user-detail user="{{act.actor}}"></div>
 <div class="_df">
-  <img initials="act.actor.fullname" data-url="act.actor.avatar" data-width="16" data-height="16" data-radius="16" class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
+  <div user-detail user="{{act.actor}}">
+    <img initials="act.actor.fullname" data-url="act.actor.avatar" data-width="16" data-height="16" data-radius="16" class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
+  </div>
 </div>
 <div class="colomn">
   <div class="_difh top">
-    <div class="sender _fw _df">
-      <a>{{::act.actor.name}}</a> <span>&nbsp;@{{::act.actor.id}}</span>
+    <div class="sender _df _fn" user-detail user="{{act.actor}}">
+      <a class="on-avatar">{{::act.actor.name}}</a> <span class="on-avatar">&nbsp;@{{::act.actor.id}}</span>
     </div>
+    <div class="_df _fw"></div>
     <div class="_df _fn">
       <span>{{act.date | passed }}</span>
     </div>

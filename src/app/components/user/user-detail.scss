@@ -102,3 +102,14 @@
     }
   }
 }
+
+.on-avatar {
+  //text-decoration: none;
+}
+.on-avatar:hover {
+  cursor: pointer;
+  text-decoration: underline!important;
+  span,a,h4{
+    text-decoration: underline!important;
+  }
+}

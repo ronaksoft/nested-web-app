@@ -3,21 +3,33 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('userDetail', function($timeout,$state,NstSearchQuery) {
+    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
-          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto"></' + tag +'>';
+          return '<' + tag +' ng-transclude ng-mouseenter="openOverEnable()" ng-mouseleave="openOverdisable()" data-popover-is-open="openOver()" data-popover-enable="available()" data-popover-class="white-pop popover-userdetail" uib-popover-template="\'app/components/user/user-detail.html\'" data-popover-append-to-body="true" data-popover-placement="top-center auto" ng-click="$event.stopPropagation()"></' + tag +'>';
         },
         restrict: 'EA',
         replace: true,
         transclude: true,
+        scope: {},
         //controller: 'UserDetailCtrl',
         //controllerAs: 'ctlUserDetail',
         // bindToController: {
         //   user: '@'
         // },
         link: function ($scope, $element, $attrs) {
+          $scope.available = function () {
+
+            return true
+          };
+
+          $scope.user = JSON.parse($attrs.user);
+          $scope.avatar = $scope.user.avatar;
+          $scope.username = $scope.user.username || $scope.user.id;
+          $scope.name = $scope.user.name;
+
+
 
 
 
@@ -25,6 +37,17 @@
           $scope.openOver = function () {
             return false
           };
+
+          if(NstSvcAuth.user.id == $scope.username) {
+            $scope.available = function () {
+
+              return false
+            };
+            return $scope.available;
+          }
+
+          $element.addClass('on-avatar');
+
 
           $scope.openOverEnable = function () {
 
@@ -81,13 +104,6 @@
             },1000);
 
           };
-
-
-
-          $scope.user = JSON.parse($attrs.user);
-          $scope.avatar = $scope.user.avatar;
-          $scope.username = $scope.user.username;
-          $scope.name = $scope.user.name;
 
           $scope.getUserName = function () {
             return $scope.username
