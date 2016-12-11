@@ -131,26 +131,29 @@
       // Put logic here for keypress and cut/paste changes
     };
 
-    vm.search.fn = function (query) {
-      var deferred = $q.defer();
-      // vm.search.results = [];
-      NstSvcPlaceFactory.search(query).then(function (places) {
-        var items = _.differenceBy(places, vm.model.recipients, 'id');
-        if (!_.some(items, { 'id' : query })) {
-          items.push(new NstTinyPlace({
-            id : query,
-            name : query,
-          }));
-        }
-
-        vm.search.results = _.map(items, function (item) {
-          return new NstVmPlaceBadge(item)
+    vm.search.fn = function(query) {
+      var initPlace = NstSvcPlaceFactory.parseTinyPlace({
+        _id: query,
+        name: query
+      });
+      // if (query.length)
+      //   vm.search.results = [new NstVmPlace(initPlace)];
+      return NstSvcPlaceFactory.search(query).then(function(places) {
+        vm.search.results = [];
+        places.map(function(place) {
+          if (place && vm.model.recipients.filter(function(obj) {
+              return (obj.id === place.id);
+            }).length === 0) {
+            if (place.id === query) {
+              initPlace = new NstVmPlace(place);
+            } else {
+              vm.search.results.push(new NstVmPlace(place));
+            }
+          }
         });
-
-        deferred.resolve(vm.search.results);
-      }).catch(deferred.reject);
-
-      return deferred.promise;
+        if (initPlace.id)
+          vm.search.results.push(initPlace);
+      });
     };
 
     vm.search.tagger = function (text) {
