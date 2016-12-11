@@ -36,14 +36,6 @@
       padding-left: 8px;
       padding-top: 8px;
       position: relative;
-      .user-detail {
-        position: absolute;
-        width: 130px;
-        height: 30px;
-        left: 0;
-        top: 0;
-        z-index: 1;
-      }
       .colomn {
         display: inline-flex;
         flex-direction: column;
@@ -68,7 +60,7 @@
             align-items: center;
             overflow: hidden;
             max-width: 100%;
-            a {
+            a,a>span {
               color: $color-hurricane;
               font-weight: 600;
               font-size: $font-size-xsmall;

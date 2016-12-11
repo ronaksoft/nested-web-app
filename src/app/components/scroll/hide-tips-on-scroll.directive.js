@@ -12,17 +12,12 @@
 
         var sss;
 
-        // $(window).scroll(function(e){
-        //   sss = true;
-        //
-        //   //$interval(callAtInterval, 100);
-        //
-        //   if(sss){
-        //     dissappear($element.find('.tooltip'));
-        //   }
-        //
-        //
-        // });
+        $(window).scroll(function(e){
+          dissappear($element.find('.tooltip'));
+          dissappear($element.find('.popover-userdetail'));
+
+
+        });
 
         function dissappear(el) {
           el.first().remove();

@@ -105,10 +105,10 @@
         <div class="place-switch">
           <input type="checkbox" name="checkbox_id" id="receiving-members-search" value="value" ng-disabled="!ctlSettings.accesses.hasControlAccess"
                  data-ng-model="ctlSettings.place.privacy.search"
-                 ng-change="ctlSettings.upd ateSearchPrivacy()">
+                 ng-change="ctlSettings.updateSearchPrivacy()">
           <label for="receiving-members-search">
             <b><translate>Yes</translate></b>
-            <div class="circle"  switch-drag></div>
+            <div class="circle" switch-drag="ctlSettings.place.privacy.search"></div>
           </label>
           <label for="receiving-members-search">
             <b><translate>No</translate></b>
@@ -134,7 +134,7 @@
                  ng-change="ctlSettings.updateSearchPrivacy()">
           <label for="receiving-everyone-search">
             <b><translate>Yes</translate></b>
-            <div class="circle"  switch-drag></div>
+            <div class="circle" switch-drag="ctlSettings.place.privacy.search"></div>
           </label>
           <label for="receiving-everyone-search">
             <b><translate>NO</translate></b>
