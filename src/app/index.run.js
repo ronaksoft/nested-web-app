@@ -6,10 +6,10 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $uibModal, $timeout,$interval, $state,
+  function runBlock($rootScope, $uibModal, $timeout, $interval, $state,
                     ngProgressFactory,
-                    NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT,
-                    NstSvcAuth, NstSvcLoader) {
+                    NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT, NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
+                    NstSvcAuth, NstSvcLoader, NstSvcI18n) {
 
     $rootScope.progress = {
       bar: ngProgressFactory.createInstance(),
@@ -51,41 +51,14 @@
       tinyMCE.baseURL = NST_CONFIG.TINY_MCE_ASSETS_PATH;
     }
 
+    // $.get('/assets/locales/en-US.json', function (data) {
+    //   setTimeout(function () {
+    //     NstSvcI18n.addLocale("en-US", data);
+    //   }, 3000);
+    // });
 
-    // var timers = [];
-    // $rootScope.scrolling = function(e) {
-    //   if (e.currentTarget.scrollY + e.currentTarget.screen.availHeight > document.body.scrollHeight) {
-    //     console.log("scrolled")
-    //   }
-    //
-    //   timers.forEach(function(promises) {
-    //     $timeout.cancel(promises);
-    //   });
-    //   var $sidebar = $("#content-plus"),
-    //     topPadding = 150;
-    //
-    //   var timer = $timeout(
-    //     function() {
-    //       if (150 > e.currentTarget.scrollY > 0) {
-    //         $sidebar.stop().css({
-    //           marginTop: e.currentTarget.scrollY
-    //         });
-    //       } else if (e.currentTarget.scrollY > topPadding) {
-    //         $sidebar.stop().css({
-    //           marginTop: e.currentTarget.scrollY - 51
-    //         });
-    //       } else if (e.currentTarget.scrollY == 0){
-    //         $sidebar.stop().css({
-    //           marginTop: 0
-    //         });
-    //       }
-    //     },
-    //     50
-    //   );
-    //   timers.push(timer);
-    //   timer;
-    //   $('.nst-navbar').toggleClass('tiny', e.currentTarget.scrollY > 55);
-    // }
+    NstSvcI18n.addLocale("en-US", NST_LOCALE_EN_US);
+    NstSvcI18n.addLocale("fa-IR", NST_LOCALE_FA_IR);
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       if (!$rootScope.stateHistory) {
@@ -93,8 +66,8 @@
       }
 
       $rootScope.stateHistory.push({
-        state : toState,
-        params : toParams
+        state: toState,
+        params: toParams
       });
 
     });

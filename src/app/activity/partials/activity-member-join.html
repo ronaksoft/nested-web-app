@@ -2,17 +2,17 @@
   <div class="ico">
     <div class="ei-member-join"></div>
   </div>
-  <div class="sender" data-ng-include="'app/events/partials/activity-common-actor.html'"
+  <div class="sender" data-ng-include="'app/activity/partials/activity-common-actor.html'"
        data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
   <div class="msg">
-    <span class="nst-mood-simple">joined</span>
+    <span class="nst-mood-simple"><translate>joined</translate></span>
     <a class="place" ng-if="!act.inSpecificPlace" ui-sref="app.place-activity({placeId: act.place.id})">
       {{::act.place.name}}
     </a>
     </a>
   </div>
   <div class="places"></div>
-  <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
+  <div class="time no-animation" data-ng-include="'app/activity/partials/activity-common-date.html'"></div>
 </div>

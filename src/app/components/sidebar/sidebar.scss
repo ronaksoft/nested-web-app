@@ -9,6 +9,9 @@
   transition: width .3s;
   z-index: 56;
   transform: translateZ(0);
+  .tooltip {
+    white-space: nowrap;
+  }
   > div {
     transition: $animation-dur;
   }
@@ -86,7 +89,7 @@
       @extend .nst-font-medium;
       font-weight: 400;
       align-items: center;
-      display: flex;
+      display: none;
       padding-left: 8px;
       a,span {
         display: flex;
@@ -175,7 +178,12 @@
 
 .sidebar.expanded {
   .sidebar-wrapper {
-    width: $sidebar-width
+    width: $sidebar-width;
+    .detailed {
+      > *:last-child {
+        display: flex!important;
+      }
+    }
   }
 }
 .sidebar-border {
@@ -197,11 +205,14 @@
   display: inline-flex;
   flex-direction: column;
   flex: none;
-  overflow-x: hidden;
+  //overflow-x: hidden;
   //background: linear-gradient(to bottom, rgb(255,255,255), $color-calm);
   width: 100%;
   transition: $animation-dur;
   border-bottom: 1px solid rgba(255,255,255,.05);
+  a {
+    overflow-x: hidden;
+  }
 }
 .nested-logo {
   z-index: 7;
@@ -334,7 +345,7 @@
   z-index: 1;
   left: 0;
   flex: 1;
-  max-height: calc(100vh - 431px);
+  max-height: calc(100vh - 379px);
   position: relative;
   display: flex;
   justify-content: center;

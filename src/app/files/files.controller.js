@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q,
-    NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal,
+    NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation,
     NstVmFile, NstVmFileViewerItem,
     NST_DEFAULT) {
     var vm = this;
@@ -15,27 +15,27 @@
     vm.fileTypes = [
       {
         id : 'ALL',
-        label : 'all'
+        label : NstSvcTranslation.get('all')
       },
       {
         id : 'DOC',
-        label : 'documents'
+        label : NstSvcTranslation.get('documents')
       },
       {
         id : 'IMG',
-        label : 'images'
+        label : NstSvcTranslation.get('images')
       },
       {
         id : 'AUD',
-        label : 'audios'
+        label : NstSvcTranslation.get('audios')
       },
       {
         id : 'VID',
-        label : 'videos'
+        label : NstSvcTranslation.get('videos')
       },
       {
         id : 'OTH',
-        label : 'others'
+        label : NstSvcTranslation.get('others')
       }
     ];
 
@@ -85,12 +85,12 @@
 
           load();
         } else {
-          NstSvcModal.error("Error", "The place does not exist or you are not allowed to be there.").finally(function () {
+          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("The place does not exist or you are not allowed to be there.")).finally(function () {
             $state.go(NST_DEFAULT.STATE);
           });
         }
       }).catch(function (error) {
-        toastr.error('Sorry, an error happened while getting the place.');
+        toastr.error(NstSvcTranslation.get('Sorry, an error happened while getting the place.'));
       });
 
     })();
@@ -99,7 +99,7 @@
       vm.settings.keyword = keyword;
       vm.settings.skip = 0;
       vm.files = [];
-      
+
       load();
     }
 
@@ -145,7 +145,7 @@
           vm.files.push.apply(vm.files, newFileItems);
           vm.loadFilesError = false;
       }).catch(function (error) {
-        toastr.error('An error happened while retreiving files.');
+        toastr.error(NstSvcTranslation.get('An error happened while retreiving files.'));
         vm.loadFilesError = true;
       }).finally(function () {
         vm.filesLoadProgress = false;

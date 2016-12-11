@@ -7,16 +7,16 @@
   /** @ngInject */
   function NstSvcPostInteraction($q, $uibModal, $rootScope,
     toastr,
-    NstUtility, NstSvcModal, NstSvcPostFactory) {
+    NstUtility, NstSvcModal, NstSvcPostFactory, NstSvcTranslation) {
 
-    var RETRACT_CONFIRM_TITLE = "Confirm",
-      RETRACT_CONFIRM_MESSAGE = "Are you sure you want to retract this message? Once you do this, the message will be deleted from all recipient Places. This action cannot be undone.",
-      RETRACT_SUCCESS_MESSAGE = "The message has been retracted successfully.",
-      RETRACT_FAILURE_MESSAGE = "An error occured while retracting the message.",
-      RETRACT_LATE_MESSAGE = "Sorry, But it is too late to retract the message.",
-      REMOVE_CONFIRM_TITLE = "Confirm",
-      REMOVE_CONFIRM_MESSAGE = "Are you sure you want to delete post {0} from Place {1}?",
-      REMOVE_CONFIRM_MESSAGE_NO_SUBJECT = "Are you sure you want to delete the post from Place {0}?";
+    var RETRACT_CONFIRM_TITLE = NstSvcTranslation.get("Confirm"),
+      RETRACT_CONFIRM_MESSAGE = NstSvcTranslation.get("Are you sure you want to retract this message? Once you do this, the message will be deleted from all recipient Places. This action cannot be undone."),
+      RETRACT_SUCCESS_MESSAGE = NstSvcTranslation.get("The message has been retracted successfully."),
+      RETRACT_FAILURE_MESSAGE = NstSvcTranslation.get("An error occured while retracting the message."),
+      RETRACT_LATE_MESSAGE = NstSvcTranslation.get("Sorry, But it is too late to retract the message."),
+      REMOVE_CONFIRM_TITLE = NstSvcTranslation.get("Confirm"),
+      REMOVE_CONFIRM_MESSAGE = NstSvcTranslation.get("Are you sure you want to delete post {0} from Place {1}?"),
+      REMOVE_CONFIRM_MESSAGE_NO_SUBJECT = NstSvcTranslation.get("Are you sure you want to delete the post from Place {0}?");
 
     var service = {
       remove: remove,

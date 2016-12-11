@@ -6,11 +6,14 @@
           <div id="Logo-white"></div>
         </div>
         <div ui-sref="app.messages()">
-          <div id="Logo-type-white"></div><i>__version__</i>
+          <div id="Logo-type-white"></div><i><translate>__version__</translate></i>
         </div>
       </a>
-      <a class="detailed" id="compoese" data-uib-tooltip="Compose"  href="{{ctlSidebar.urls.compose}}"
-         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
+      <script type="text/ng-template" id="compose-uib-tooltip.html">
+        <translate>Compose</translate>
+      </script>
+      <a class="detailed" id="compoese" data-uib-tooltip-template="'compose-uib-tooltip.html'"  href="{{ctlSidebar.urls.compose}}"
+         data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
          data-tooltip-placement="right auto"
          nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.compose}}">
         <div>
@@ -21,24 +24,39 @@
           </div>
         </div>
         <div>
-          <span>Compose</span>
+          <translate>Compose</translate>
         </div>
       </a>
       <div class="side-menu">
-        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed"
-           data-uib-tooltip="Feed" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-           data-tooltip-append-to-body="true" data-tooltip-placement="right auto"
-           nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"
-           toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
+        <script type="text/ng-template" id="favorite-uib-tooltip.html">
+          <translate>Favorite Places Feed</translate>
+        </script>
+        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}"
+           data-uib-tooltip-template="'favorite-uib-tooltip.html'" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
+           data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.bookmarks}}">
+          <span>
+            <svg>
+              <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
+            </svg>
+          </span>
+          <translate>Favorite Places Feed</translate>
+        </a>
+        <script type="text/ng-template" id="feed-uib-tooltip.html">
+          <translate>Feed</translate>
+        </script>
+        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip-template="'feed-uib-tooltip.html'" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
             </svg>
           </span>
-          <span>Feed</span>
+          <translate>Feed</translate>
         </a>
-        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" data-uib-tooltip="Sent Messages"
-           data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
+        <script type="text/ng-template" id="sent-uib-tooltip.html">
+          <translate>Sent Messages</translate>
+        </script>
+        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" uib-tooltip-template="'sent-uib-tooltip.html'"
+           data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
            data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"
            toggle-agent-url="{{ctlSidebar.urls.sent}}">
           <span>
@@ -46,7 +64,7 @@
               <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
             </svg>
           </span>
-          <span>Sent</span>
+          <translate>Sent</translate>
         </a>
       </div>
     </div>
@@ -57,13 +75,12 @@
           <li class="side-place-item" data-ng-repeat="invitaion in ctlSidebar.invitations">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
                class="side-place-invite-item-inner active detailed" data-uib-tooltip="{{invitaion.place.name}}"
-               data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-               data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+               data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-placement="right auto">
               <div class="side-place-item-image">
                 <img class="" ng-src="{{invitaion.place.avatar}}"/>
               </div>
               <div class="_difv">
-                <p class="_fw nst-font-small nst-mood-pending-fill" data-ellipsis="place.name">You've been invited to</p>
+                <p class="_fw nst-font-small nst-mood-pending-fill" data-ellipsis="place.name"><translate>You've been invited to</translate></p>
                 <span data-ellipsis="invitaion.place.name" class="invitation-name _txe _fw" data-ng-bind="::invitaion.place.name"></span>
               </div>
             </a>
@@ -74,21 +91,25 @@
               data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
 
       </ul>
-      <a class="create-place _fw detailed" ui-sref="app.place-create" ng-click="ctlSidebar.openCreatePlaceModal($event);" data-uib-tooltip="Create New Place" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+      <script type="text/ng-template" id="create-uib-tooltip.html">
+        <translate>Create New Place</translate>
+      </script>
+      <a class="create-place _fw detailed" ui-sref="app.place-create" ng-click="ctlSidebar.openCreatePlaceModal($event);" data-uib-tooltip-template="'create-uib-tooltip.html'" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <span>
           <svg id="addIcon" morph-svg first-id="sq40dashed" second-id="sq40">
             <use xlink:href="/assets/icons/nst-add40.svg#sq40"></use>
             <use xlink:href="/assets/icons/nst-add40.svg#sq40dashed"></use>
           </svg>
         </span>
-        <span>
-          Create New Place
-        </span>
+        <translate>Create New Place</translate>
       </a>
     </div>
     <div class="shadow-bot"></div>
     </div>
     <div class="side-access">
+      <script type="text/ng-template" id="mention-uib-tooltip.html">
+        <translate>Mention</translate>
+      </script>
       <a class="detailed popover-mentions"
          data-uib-popover-template="'app/mention/mention-popover.html'"
          data-popover-placement="right auto"
@@ -97,9 +118,8 @@
          data-popover-is-open="ctlSidebar.mentionOpen"
          data-popover-trigger="none"
          data-popover-popup-close-delay="1000"
-         data-uib-tooltip="Mentions"
+         data-uib-tooltip-template="'mention-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-append-to-body="true"
          data-tooltip-placement="right-top auto">
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           <svg id="mentions">
@@ -108,29 +128,35 @@
           <div class="notif" ng-if="ctlSidebar.mentionsCount">{{ctlSidebar.mentionsCount}}</div>
         </div>
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
-          Mention
+          <translate>Mention</translate>
         </div>
       </a>
+      <script type="text/ng-template" id="profile-uib-tooltip.html">
+        <translate>Profile & Settings</translate>
+      </script>
       <a class="detailed" href="#/profile" nst-sidebar-toggle-agent
-         toggle-agent-switch="ctlSidebar.isInDetailMode" data-uib-tooltip="Profile & Settings"
+         toggle-agent-switch="ctlSidebar.isInDetailMode" data-uib-tooltip-template="'profile-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+         data-tooltip-placement="right auto">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
           </svg>
         </div>
-        <div>Profile & Settings</div>
+        <translate>Profile & Settings</translate>
       </a>
-      <a class="detailed" href="#/signout"  data-uib-tooltip="Log out"
+      <script type="text/ng-template" id="logout-uib-tooltip.html">
+        <translate>Log out</translate>
+      </script>
+      <a class="detailed" href="#/signout"  data-uib-tooltip-template="'logout-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+         data-tooltip-placement="right auto">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>
           </svg>
         </div>
-        <div>Log out</div>
+        <translate>Log out</translate>
       </a>
       <!--<a class="_fw">
         <div class="_difh _fw" ng-click="profileMenu =! profileMenu">
@@ -163,7 +189,7 @@
       </div>
       <div class="side-stats">
         <div class="unread">
-          <a class="_fw _df" ui-sref="app.place-messages-unread({placeId: ctlSidebar.selectedGrandPlace.id})">Unread</a>
+          <a class="_fw _df" ui-sref="app.place-messages-unread({placeId: ctlSidebar.selectedGrandPlace.id})"><translate>Unread</translate></a>
           <span class="_fn _df">{{ctlSidebar.placesNotifCountObject[ctlSidebar.selectedGrandPlace.id] || 0}}</span>
         </div>
       </div>

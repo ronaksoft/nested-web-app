@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr,
-    NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess,
+    NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
     var vm = this;
@@ -76,7 +76,6 @@
       });
     };
 
-
     function expand() {
       vm.limit = 64;
       vm.onCollapse(false);
@@ -116,8 +115,7 @@
           return $q(function(resolve, reject) {
             if (vm.placeId.split('.').length === 1) {
               NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
-                toastr.success(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.placeId));
-                NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.placeId));
+                toastr.success(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been invited to Place "{1}" successfully.'), user.id, vm.placeId));
                 resolve({
                   user: user,
                   role: role,
@@ -126,8 +124,7 @@
               }).catch(function (error) {
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  toastr.warning(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.placeId));
-                  NstSvcLogger.error(NstUtility.string.format('User "{0}" was previously invited to Place "{1}".', user.id, vm.placeId));
+                  toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously invited to Place "{1}".'), user.id, vm.placeId));
                   resolve({
                     user: user,
                     role: role,
@@ -140,8 +137,7 @@
               });
             }else{
               NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (addId) {
-                toastr.success(NstUtility.string.format('User "{0}" has been added to Place "{1}" successfully.', user.id, vm.placeId));
-                NstSvcLogger.info(NstUtility.string.format('User "{0}" has been added to Place "{1}" successfully.', user.id, vm.placeId));
+                toastr.success(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been added to Place "{1}" successfully.'), user.id, vm.placeId));
                 resolve({
                   user: user,
                   role: role,
@@ -150,8 +146,7 @@
               }).catch(function (error) {
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  toastr.warning(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.placeId));
-                  NstSvcLogger.error(NstUtility.string.format('User "{0}" was previously added to Place "{1}".', user.id, vm.placeId));
+                  toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously added to Place "{1}".'), user.id, vm.placeId));
                   resolve({
                     user: user,
                     role: role,

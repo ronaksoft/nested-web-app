@@ -8,7 +8,7 @@
   /** @ngInject */
   function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NST_SRV_ERROR,
                                  NstSvcAuth, NstSvcPlaceFactory,
-                                 NstUtility, $uibModal, $uibModalInstance, NST_PLACE_ACCESS, NstSvcLogger) {
+                                 NstUtility, $uibModal, $uibModalInstance, NST_PLACE_ACCESS, NstSvcLogger, NstSvcTranslation) {
 
     var vm = this;
 
@@ -64,7 +64,7 @@
         vm.hasParentPlace = true;
         vm.place.parentId = $stateParams.placeId;
         loadParentPlace($stateParams.placeId.split('.')[0]).catch(function (error) {
-          toastr.error("An error happened while getting information of the parent place.");
+          toastr.error(NstSvcTranslation.get("An error happened while getting information of the parent place."));
         });
       } else {
         vm.hasParentPlace = false;
@@ -261,11 +261,11 @@
         NstSvcLogger.error(error);
 
         if (error.message[0] === "place_id"){
-          toastr.error("You can not use this 'Place ID'.");
+          toastr.error(NstSvcTranslation.get("You can not use this 'Place ID'."));
         }
 
         if (error.code === NST_SRV_ERROR.LIMIT_REACHED){
-          toastr.error("You cannot create any more Places.");
+          toastr.error(NstSvcTranslation.get("You cannot create any more Places."));
         }
       });
     }

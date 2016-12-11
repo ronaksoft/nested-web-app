@@ -72,11 +72,13 @@
     }
 
     function addNewActivity(activity) {
-      if (vm.activities.length >= vm.count){
-        vm.activities.pop();
+      if (!_.some(vm.activities, { id : activity.id })) {
+        if (vm.activities.length >= vm.count){
+          vm.activities.pop();
+        }
+        activity.isHot = true;
+        vm.activities.unshift(activity);
       }
-      activity.isHot = true;
-      vm.activities.unshift(activity);
     }
 
     function activityBelongsToPlace(activity) {

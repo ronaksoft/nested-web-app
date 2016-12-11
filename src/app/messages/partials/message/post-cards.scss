@@ -56,6 +56,7 @@
     align-items: center;
     flex: none;
     padding-left: 0;
+    position: relative;
     .icon {
       fill: black;
       position: relative;
@@ -298,6 +299,7 @@ h3 {
   align-items: flex-start;
   padding: 8px 8px 0 8px;
   transition: 500ms;
+  position: relative;
   &:hover {
     background-color: $color-hover-comment;
   }

@@ -6,7 +6,7 @@
     .controller('QuickMessageController', QuickMessageController);
 
   function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,
-    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap) {
+    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
     var vm = this;
 
     /*****************************
@@ -109,6 +109,7 @@
 
       //TODO Clone element and play another scene to main element
       var element = angular.element(vm.textarea);
+      var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
       var elementFirstChild = angular.element(vm.textarea.firstChild);
 
@@ -125,7 +126,6 @@
 
         var str = element[0].innerHTML;
         findBreak(str);
-        vm.model.body = str;
 
       }
 
@@ -153,9 +153,15 @@
       }
 
       function findBreak(str) {
-        str = str.replace(/<br\s*[\/]?>/gi, "\n");
-        str = str.replace(/<div\s*[\/]?>/gi, "\n");
-        str = str.replace(/<\/div>/gi, "");
+        if(isFirefox){
+          str = str.replace(/<br>/, "");
+          vm.model.body = str;
+        } else {
+          vm.model.body = str;
+        }
+        // str = str.replace(/<br\s*[\/]?>/gi, "\n");
+        // str = str.replace(/<div\s*[\/]?>/gi, "\n");
+        // str = str.replace(/<\/div>/gi, "");
       }
 
       vm.send().then(function () {
@@ -209,11 +215,11 @@
         })
 
         if(response.noPermitPlaces.length > 0){
-          var text = NstUtility.string.format('Your message hasn\'t been successfully sent to {0}', response.noPermitPlaces.join(','));
-          toastr.warning(text, 'Message doesn\'t Sent');
+          var text = NstUtility.string.format(NstSvcTranslation.get('Your message hasn\'t been successfully sent to {0}'), response.noPermitPlaces.join(','));
+          toastr.warning(text, NstSvcTranslation.get('Message doesn\'t Sent'));
         }
 
-        toastr.success('Your message has been successfully sent.', 'Message Sent');
+        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
 
         return $q(function (res) {
           res(response);

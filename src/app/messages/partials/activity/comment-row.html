@@ -1,18 +1,21 @@
 <div class="_df" nst-post-modal post="act.post">
-  <img initials="act.actor.fullname" data-url="act.actor.avatar" data-width="16" data-height="16" data-radius="16"
-       class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
+  <div user-detail user="{{act.actor}}">
+    <img initials="act.actor.fullname" data-url="act.actor.avatar" data-width="16" data-height="16" data-radius="16"
+         class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
+  </div>
 </div>
 <div class="colomn" nst-post-modal post="act.post">
   <div class="_difh top">
-    <div class="sender _fw _df">
-      <a>{{::act.actor.name}}</a> <span>&nbsp;@{{::act.actor.id}}</span>
+    <div class="sender _df _fn" user-detail user="{{act.actor}}">
+      <a class="on-avatar">{{::act.actor.name}}</a> <span class="on-avatar">&nbsp;@{{::act.actor.id}}</span>
     </div>
+    <div class="_df _fw"></div>
     <div class="_df _fn">
       <span>{{act.date | passed }}</span>
     </div>
     <div class="ei-comment-add _df _fn"></div>
   </div>
   <div class="_df">
-    <p><span>commented:</span>&nbsp;<emoji auto-dir="act.comment.body"><mark marked="act.comment.body"></mark></emoji></p>
+    <p><span><translate>commented:</translate></span>&nbsp;<emoji auto-dir="act.comment.body"><mark marked="act.comment.body"></mark></emoji></p>
   </div>
 </div>

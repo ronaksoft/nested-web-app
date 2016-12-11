@@ -16,6 +16,7 @@ body.modal-open {
     }
   }
 }
+
 #add-view {
   border: 1px solid $color-breeze;
   border-radius: 6px;
@@ -81,22 +82,19 @@ body.modal-open {
 .modal-detail {
   margin: 20px 0;
   font-size: $font-size-large;
-}
-
-.modal-detail a{
-  font-weight: bold;
-  color: $color-solid;
-}
-
-.modal-detail .small{
-  font-weight: 100;
-  font-size: $font-size-small;
-}
-
-.modal-detail input{
-  min-height: 40px;
-  margin-bottom: 10px;
-  margin-top: 6px;
+  a{
+    font-weight: bold;
+    color: $color-solid;
+  }
+  .small{
+    font-weight: 100;
+    font-size: $font-size-small;
+  }
+  input{
+    min-height: 40px;
+    margin-bottom: 10px;
+    margin-top: 6px;
+  }
 }
 
 .modal-attachment {
@@ -116,7 +114,6 @@ body.modal-open {
 .modal.in .modal-dialog{
   border-radius: $border-radius-large;
 }
-
 
 .modal-xlg {
   margin: 0 1%;
@@ -158,15 +155,6 @@ body.modal-open {
   padding: 5px;
 }
 
-.modal-add {
-  border-bottom: 1px solid $color-calm;
-  margin: 10px 0;
-  .butn-green-nav {
-    margin: 0;
-    position: relative;
-    right: 20px;
-  }
-}
 .ui-select-choices-row > img {
   width: 40px;
   height: 40px;
@@ -185,6 +173,7 @@ body.modal-open {
     font-weight: 400;
   }
 }
+
 .suggests {
   height: 180px;
   overflow: hidden;
@@ -283,29 +272,49 @@ body.modal-open {
     height: 50px;
   }
 }
-.modal-add .ui-select-container ul {
-  width: calc(100% + 50px)!important;
-  max-height: 170px!important;
-  overflow: hidden;
-}
-.modal-add .ui-select-choices-row{
-  display: inline-flex;
-  flex-direction: row;
-  height: 50px;
-  width: 33.3%;
-  margin-top: 5px;
-}
-.modal-add .ui-select-choices-row a{
-  display: inline-flex!important;
-  flex-direction: row;
-  height: 50px;
-  width: 100%;
-}
-.modal-add .ui-select-choices-row:hover{
-  background-color: $color-sense-5;
-  cursor: pointer;
-}
-.modal-add  {
+
+.modal-add {
+  border-bottom: 1px solid $color-calm;
+  margin: 10px 0;
+  .butn-green-nav {
+    margin: 0;
+    position: relative;
+    right: 20px;
+  }
+  h5 {
+    margin-top: 0;
+    @extend .nst-font-xlarge;
+    line-height: 26px;
+    letter-spacing: -1px;
+    font-weight: 700;
+  }
+  input {
+    border: none;
+    padding: 5px 0;
+    min-height: 32px;
+  }
+  .ui-select-container ul {
+    width: calc(100% + 50px)!important;
+    max-height: 170px!important;
+    overflow: hidden;
+  }
+  .ui-select-choices-row{
+    display: inline-flex;
+    flex-direction: row;
+    height: 50px;
+    width: 33.3%;
+    margin-top: 5px;
+    a{
+      display: inline-flex!important;
+      flex-direction: row;
+      height: 50px;
+      width: 100%;
+    }
+    &:hover{
+      background-color: $color-sense-5;
+      cursor: pointer;
+    }
+  }
   .dropdown-menu {
     border: none;
     box-shadow: none;
@@ -316,26 +325,160 @@ body.modal-open {
   input {
     padding-left: 0;
   }
+  a.ui-select-choices-row-inner {
+    max-width: 100%;
+    div {
+      max-width: calc(100% - 48px);
+    }
+    span,small {
+      width: 100%;
+      @extend ._txe;
+    }
+  }
 }
+
 .modal-add .ui-select-choices-row.active > a,
 .modal-add .ui-select-choices-row.active > a:hover{
   background-color: transparent!important;
   color: $color-solid;
   border-radius: 10px;
 }
-.modal-add h5 {
-  margin-top: 0;
-  @extend .nst-font-xlarge;
-  line-height: 26px;
-  letter-spacing: -1px;
-  font-weight: 700;
-}
 
-.modal-add input {
-  border: none;
-  padding: 5px 0;
-  min-height: 32px;
-}
 .modal-sm {
   background-color: $color-white!important;
+}
+
+.modal-lg-white {
+  display: flex;
+  position: absolute;
+  background-color: $color-bg;
+  //opacity: 0.98;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: none!important;
+  transition: opacity $animation-dur;
+  //overflow-y: auto;
+  margin: 0;
+  .modal-content {
+    position: relative;
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+    h2 {
+      color: #000000;
+      letter-spacing: -1px;
+      line-height: 38px;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 24px 0;
+      span {
+        font-size: 24px;
+        font-weight: 400;
+      }
+    }
+    button {
+      width: 100%;
+      transition: .2s all ease;
+      margin: 24px 0;
+      line-height: 30px;
+      font-size: 18px;
+      font-weight: 700;
+      @extend .butn-green;
+      &:disabled {
+        opacity: 0.5;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+        filter: alpha(opacity=50);
+      }
+    }
+    button.submit {
+      width: 100%!important;
+    }
+    input {
+      width: 100%;
+      min-height: 28px;
+      color: $color-solid;
+      @extend .nst-font-large;
+      font-weight: 400;
+      padding: 6px;
+      transition: all .2s;
+      margin-bottom: 10px;
+    }
+    aside{
+      width: 100%;
+      line-height: 16px;
+      color: #476152;
+      font-size: 13px;
+      font-weight: 400;
+      padding: 8px 12px;
+    }
+    #PlaceID {
+      color: #869D91;
+      @extend .nst-font-large;
+      font-weight: 400;
+      min-height: 28px;
+      width: 100%;
+      padding: 10px;
+    }
+    .field{
+      position: relative;
+      width: 100%;
+      span {
+        line-height: 28px;
+        color: #A6B9AF;
+        @extend .nst-font-large;
+        font-weight: 400;
+      }
+      input {
+        background-color: transparent;
+        border-color: transparent;
+        border-width: 2px;
+      }
+      input:hover {
+        background-color: $color-white;
+        border-color: $color-border;
+      }
+
+      input:focus {
+        background-color: $color-white;
+        border-color: $color-solid;
+      }
+    }
+
+    select {
+      line-height: 40px;
+      color: $color-solid;
+      @extend .nst-font-large;
+      width: 100%;
+      height: 40px;
+      font-weight: 400;
+      padding: 0 22px 0 8px;
+    }
+
+  }
+
+}
+
+.close-modal {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 56px;
+  right: 56px;
+  border-radius: 24px;
+  transition: all $animation-dur;
+  z-index: 2;
+  svg {
+    width: 32px;
+    height: 32px;
+    transform: rotateZ(45deg);
+  }
+  &:hover {
+    box-shadow : 0 10px 10px rgba(0,0,0,.15);
+    background-color: $color-white;
+  }
 }

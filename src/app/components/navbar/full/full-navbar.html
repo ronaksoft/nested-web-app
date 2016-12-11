@@ -20,7 +20,7 @@
       </div>
       <div class="place-info _difv" >
         <div id="filler" affixer first-imp="true" parent=".content" after-content="72"></div>
-        <cite affixer first-imp="true" top="16" parent=".content" after-content="72" fit-text>{{ctlFullNavbar.title}}</cite>
+        <cite affixer first-imp="true" top="16" parent=".content" after-content="72" fit-text>{{ctlFullNavbar.title  | translate }}</cite>
         <h3 id="place-address" affixer first-imp="true" parent=".content" after-content="72">
           <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && !ctlFullNavbar.place.privacy.locked">
             <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
@@ -46,13 +46,13 @@
         <div class="navigation" affixer parent=".content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
-              Messages
+              <translate>Messages</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover" active-group="file">
-              Files
+              <translate>Files</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode" class="menu-links-butn _df li-hover" active-group="activity">
-              Activity
+              <translate>Activity</translate>
             </a>
           </nav>
           <div class="search">
@@ -60,12 +60,12 @@
                    place-id="{{ctlFullNavbar.placeId}}"
                    placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery"/>
+                   ng-model="ctlFullNavbar.searchQuery" translate-attrs="placeholder"/>
             <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
                    place-id="{{ctlFullNavbar.placeId}}"
                    placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" id="search2"/>
+                   ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
            </div>
          </div>
@@ -121,12 +121,10 @@
       <div class="nav-access" affixer parent=".content" after-content="577" first-imp="true" ng-if="ctlFullNavbar.isFeed">
         <div class="place-switch">
           <input type="checkbox" name="checkbox_id" id="receiving-members-search"
-                 value="value"
-                 data-ng-model="ctlFullNavbar.isFavPlaces"
-                 ng-change="ctlFullNavbar.toggleFeed(ctlFullNavbar.isFavPlaces)">
+                 value="value" data-ng-model="ctlFullNavbar.isFavPlaces">
           <label for="receiving-members-search">
             <b></b>
-            <div class="circle"  switch-drag>
+            <div class="circle"  switch-drag="ctlFullNavbar.isFavPlaces">
               <svg class="svg-hover">
                 <use xlink:href="/assets/icons/nst-icn16.svg#star"></use>
               </svg>
@@ -138,24 +136,33 @@
         </div>
       </div>
       <div class="nav-access" affixer parent=".content" after-content="577" first-imp="true" ng-if="ctlFullNavbar.hasPlace()">
+        <script type="text/ng-template" id="more-uib-tooltip.html">
+          <translate>More options</translate>
+        </script>
         <div class="cursor-pointer margin-r_5 icon-rp _df" data-popover-class="white-pop popover-white-nst-activity-places"
              data-popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"
              data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto bottom-right"
-             data-uib-tooltip="More options" data-tooltip-append-to-body="false"
+             data-uib-tooltip-template="'more-uib-tooltip.html'" data-tooltip-append-to-body="false"
              data-tooltip-placement="bottom-right auto" id="navbar-popover">
           <svg class="svg-hover fill-b">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
           </svg>
         </div>
-        <div data-uib-tooltip="{{!ctlFullNavbar.isBookmarked ? 'Add to' : 'Remove from'}} favorite places" data-tooltip-append-to-body="false"
+        <script type="text/ng-template" id="add-uib-tooltip.html">
+          <translate>{{!ctlFullNavbar.isBookmarked ? 'Add to' : 'Remove from'}} favorite places</translate>
+        </script>
+        <div data-uib-tooltip-template="'add-uib-tooltip.html'" data-tooltip-append-to-body="false"
              data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleBookmark()" ng-class="{morphed : ctlFullNavbar.isBookmarked}">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wfav"></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
           </svg>
         </div>
-        <div data-uib-tooltip="Turn notification {{!ctlFullNavbar.notificationStatus ? 'on' : 'off'}}" data-tooltip-append-to-body="false"
+        <script type="text/ng-template" id="notification-uib-tooltip.html">
+          <translate>Turn notification {{!ctlFullNavbar.notificationStatus ? 'on' : 'off'}}</translate>
+        </script>
+        <div data-uib-tooltip-template="'notification-uib-tooltip.html'" data-tooltip-append-to-body="false"
           data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{morphed : ctlFullNavbar.notificationStatus}">
             <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff" ></use>

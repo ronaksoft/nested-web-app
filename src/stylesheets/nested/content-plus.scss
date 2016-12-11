@@ -35,6 +35,7 @@
       flex-shrink: inherit;
       padding-left: 8px;
       padding-top: 8px;
+      position: relative;
       .colomn {
         display: inline-flex;
         flex-direction: column;
@@ -59,7 +60,7 @@
             align-items: center;
             overflow: hidden;
             max-width: 100%;
-            a {
+            a,a>span {
               color: $color-hurricane;
               font-weight: 600;
               font-size: $font-size-xsmall;
