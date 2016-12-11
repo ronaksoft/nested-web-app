@@ -65,7 +65,7 @@
          data-ng-init="thePost = ctlPostCard.post"></div>
   </section> -->
   <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments">
-    <nst-attachments-view post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments" preview-mode="'thumbnail'" ng-click="$event.stopPropagation()"></nst-attachments-view>
+    <nst-attachments-view post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>
   </section>
   <hr>
   <section class="post-footer _difh">

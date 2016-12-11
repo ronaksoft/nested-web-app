@@ -89,7 +89,7 @@
       @extend .nst-font-medium;
       font-weight: 400;
       align-items: center;
-      display: none;
+      display: flex;
       padding-left: 8px;
       a,span {
         display: flex;
@@ -205,7 +205,7 @@
   display: inline-flex;
   flex-direction: column;
   flex: none;
-  //overflow-x: hidden;
+  overflow-x: hidden;
   //background: linear-gradient(to bottom, rgb(255,255,255), $color-calm);
   width: 100%;
   transition: $animation-dur;
@@ -576,6 +576,7 @@
   position: relative;
   width: 100%;
   flex: none;
+  z-index: 2;
   //background-color: #e7ece9;
   //height: 180px;
   //padding-left: 15px;
