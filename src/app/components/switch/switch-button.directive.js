@@ -37,10 +37,18 @@
               },
               onDragEnd:function() {
                 $element.css({transform: ''});
-                if (Draggable.get($element).x > 32) {
-                  scope.model = true;
-                } else {
-                  scope.model = false;
+                if (typeof scope.model === 'function'){
+                  if (Draggable.get($element).x > 32) {
+                    scope.model(true);
+                  } else {
+                    scope.model(false);
+                  }
+                }else{
+                  if (Draggable.get($element).x > 32) {
+                    scope.model = true;
+                  } else {
+                    scope.model = false;
+                  }
                 }
               }
             });
