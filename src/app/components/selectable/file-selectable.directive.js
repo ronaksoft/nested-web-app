@@ -24,7 +24,6 @@
             keyboard: true,
             textSelection: true,
             keyboardMode: "select",
-            selectionBlur : true,
             select: function (event, ui) {
               selectedArray = [];
               seletableElement.selectonic("getSelected").each(function (i, e) {
@@ -45,7 +44,13 @@
             }
           });
 
-
+          $(document).click(function (event) {
+            if (seletableElement.selectonic() && seletableElement.selectonic("getSelected").length > 0) {
+              if (!(event.target.closest("section.content") || event.target.closest(".content-plus"))) {
+                seletableElement.selectonic("unselect");
+              }
+            }
+          })
         }
       }
     })
