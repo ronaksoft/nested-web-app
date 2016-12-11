@@ -57,14 +57,6 @@
     flex: none;
     padding-left: 0;
     position: relative;
-    .user-detail {
-      position: absolute;
-      width: 180px;
-      height: 100%;
-      left: 0;
-      top: 0;
-      z-index: 1;
-    }
     .icon {
       fill: black;
       position: relative;
@@ -308,14 +300,6 @@ h3 {
   padding: 8px 8px 0 8px;
   transition: 500ms;
   position: relative;
-  .user-detail {
-    position: absolute;
-    width: 130px;
-    height: 30px;
-    left: 0;
-    top: 0;
-    z-index: 1;
-  }
   &:hover {
     background-color: $color-hover-comment;
   }

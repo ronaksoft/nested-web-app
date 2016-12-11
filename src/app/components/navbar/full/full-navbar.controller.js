@@ -314,8 +314,10 @@
       }
     );
 
-    $scope.$watch('topNavOpen',function (newValue,oldValue) {
-      $rootScope.topNavOpen = newValue;
+    $scope.$watch(function () {
+      return vm.isFavPlaces
+    },function (newValue,oldValue) {
+      vm.toggleFeed(newValue)
     });
 
 
