@@ -4,13 +4,13 @@
     <div initials class="placeactsico account-initials-16" data-ng-if="!act.place.picture"
          data-ng-bind="act.place.name | initials:2"></div>
   </div>
-  <div class="sender" data-ng-include="'app/events/partials/activity-common-actor.html'"
+  <div class="sender" data-ng-include="'app/activity/partials/activity-common-actor.html'"
        data-ng-init="actor = act.actor"></div>
 </div>
 <div class="actcon">
   <div class='msg'>
     <div class="subject">
-      <span class="nst-mood-simple">created&nbsp;</span>
+      <span class="nst-mood-simple"><translate>created</translate>&nbsp;</span>
       <a class="place" ui-sref="app.place-activity({placeId: act.place.id})">
         {{::act.place.name}}
       </a>
@@ -21,5 +21,5 @@
     </div>
   </div>
   <div class='places'></div>
-  <div class="time no-animation" data-ng-include="'app/events/partials/activity-common-date.html'"></div>
+  <div class="time no-animation" data-ng-include="'app/activity/partials/activity-common-date.html'"></div>
 </div>

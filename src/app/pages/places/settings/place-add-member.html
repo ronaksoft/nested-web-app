@@ -1,13 +1,13 @@
 <div id="add-view">
   <div class="_difv _fw">
       <div class="_difh modal-add">
-        <h5 class="_df _fw" data-ng-if="!addMemberCtrl.isGrandPlace">Add Members</h5>
-        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isGrandPlace">Invite Members</h5>
+        <h5 class="_df _fw" data-ng-if="!addMemberCtrl.isGrandPlace"><translate>Add Members</translate></h5>
+        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isGrandPlace"><translate>Invite Members</translate></h5>
         <div class="_df" ng-click="$dismiss();"><img src="../assets/icons/close.svg" class="closebut"></div>
       </div>
       <div class="_difh _fw modal-add">
         <ui-select multiple class="modal-add-input nst-mood-simple _df" data-ng-model="addMemberCtrl.selectedUsers" limit="{{addMemberCtrl.limit}}" autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
-          <ui-select-match placeholder="{{addMemberCtrl.isGrandPlace ? 'Name, email or phone number' : 'Name or ID'}}  ...">
+          <ui-select-match placeholder="{{addMemberCtrl.isGrandPlace ? 'Name, email or phone number' : 'Name or ID'}}  ..." class=" _fw">
             <span>{{$item.fullName}} &lt;{{$item.id}}&gt;</span>
           </ui-select-match>
           <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
@@ -20,12 +20,12 @@
             </div>
           </ui-select-choices>
         </ui-select>
-        <div class="butn-green" data-ng-if="addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="invite">Invite</div>
-        <div class="butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="add">Add</div>
+        <div class="butn-green" data-ng-if="addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="invite"><translate>Invite</translate></div>
+        <div class="butn-green" data-ng-if="!addMemberCtrl.isGrandPlace" data-ng-click="addMemberCtrl.add();" id="add"><translate>Add</translate></div>
       </div>
     <div class="modal-body">
-      <p data-ng-if="addMemberCtrl.users < 1 && !addMemberCtrl.isTeammateMode" class="_fw">Import Contacts:</p>
-      <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw">You can use a collective method for add members:</p>
+      <p data-ng-if="addMemberCtrl.users < 1 && !addMemberCtrl.isTeammateMode" class="_fw"><ranslate>Import Contacts:</ranslate></p>
+      <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw"><translate>You can use a collective method for add members:</translate></p>
       <div class="_fw suggests">
         <!--<a class="_difh item add" data-ng-if="addMemberCtrl.users < 1">-->
           <!--<div class="item-logo">-->
@@ -76,7 +76,7 @@
         <p>Add people by searching their name or entering their {{addMemberCtrl.isGrandPlace ? 'name, ID, email or phone number' : 'name or ID'}}.</p>
       </div>
       <div data-ng-if="addMemberCtrl.isGrandPlace" class="nst-modal-footer _df _fw">
-          <p>Invite people by searching their name or entering their email or phone number.</p>
+          <p><translate>Invite people by searching their name or entering their email or phone number.</translate></p>
       </div>
   </div>
 </div>
