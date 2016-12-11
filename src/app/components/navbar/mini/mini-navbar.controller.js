@@ -274,7 +274,8 @@
         subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
       };
 
-      mapPlacesUrl(vm.places);
+      if (vm.places)
+        mapPlacesUrl(vm.places);
     }
 
     function mapPlacesUrl(places) {

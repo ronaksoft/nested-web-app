@@ -74,9 +74,9 @@
       <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
       <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>{{ctlPostCard.post.commentsCount}} comments</translate></span>
     </a>
-    <a ng-if="ctlPostCard.newCommentsCount > 0 " class="new-comments-count"
+    <a ng-if="ctlPostCard.unreadCommentsCount > 0 " class="new-comments-count"
              auto-dir="ctlPostCard.post.subject">
-      <span>+{{ctlPostCard.newCommentsCount}}</span>
+      <span>+{{ctlPostCard.unreadCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
       <a id="test-forward" href="{{::ctlPostCard.urls.forward}}" ng-click="$event.stopPropagation()" class="icon _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip">

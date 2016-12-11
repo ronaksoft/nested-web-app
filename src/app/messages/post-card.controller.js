@@ -8,18 +8,18 @@
   function PostCardController($state, $log, $timeout, $rootScope,
     _, moment, toastr,
     NST_POST_EVENT, NST_COMMENT_EVENT,
-    NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction) {
+    NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
     var vm = this;
 
-    var commentBoardMin = 3;
-    var commentBoardMax = 99;
-    var commentsSettings = {
-      limit : 8,
-      date : null
-    };
+    var commentBoardMin = 3,
+        commentBoardMax = 99,
+        commentsSettings = {
+          limit : 8,
+          date : null
+        },
+        newCommentIds = [],
+        unreadCommentIds = [];
 
-    vm.newCommentsCount = 0;
-    vm.myAlreadyCountedIds = [];
     vm.sendComment = sendComment;
 
     vm.hasOlderComments = true;
@@ -30,6 +30,7 @@
     vm.limitCommentBoard = limitCommentBoard;
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
+    vm.unreadCommentsCount = 0;
     vm.remove = remove;
     vm.retract = retract;
 
@@ -159,10 +160,10 @@
       NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, { id : vm.thisPlace })).then(function (place) {
         if (place) {
           vm.post.dropPlace(place.id);
-          toastr.success(NstUtility.string.format("The post has been removed from Place {0}.", place.name));
+          toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
         }
       }).catch(function (error) {
-        toastr.error(NstUtility.string.format("An error occured while trying to remove the message from the selected Place."));
+        toastr.error(NstSvcTranslation.get("An error occured while trying to remove the message from the selected Place."));
       });
     }
 
@@ -180,44 +181,35 @@
      */
     NstSvcPostFactory.addEventListener(NST_POST_EVENT.VIEWED, function (e) {
       if (e.detail.postId === vm.post.id) {
-        vm.post.commentsCount += vm.newCommentsCount;
-        vm.newCommentsCount = 0;
+        vm.post.commentsCount += vm.unreadCommentsCount;
+        vm.unreadCommentsCount = 0;
       }
     });
 
     $rootScope.$on('post-modal-closed', function (event, data) {
       if (data.postId === vm.post.id) {
         event.preventDefault();
-        if (data.comments && data.comments.length > 0) {
-          vm.post.comments = data.comments;
-        }
-        vm.post.commentsCount = data.totalCommentsCount;
-        vm.newCommentsCount = 0;
+        vm.post.commentsCount += vm.unreadCommentsCount;
+        vm.unreadCommentsCount = 0;
+
+        vm.post.comments = data.comments;
       }
     });
 
     NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function(e) {
-      if (vm.post.id === e.detail.postId){
-        // If me sending comment from another device, then add number to badge
-        var meSent = NstSvcAuth.getUser().getId() == e.detail.comment.sender.id;
-        var fromPostCard = vm.isSendingComment;
-        var isAppEvent = e.detail.internal;
-        if (meSent) {
-          if (vm.myAlreadyCountedIds.indexOf(e.detail.id) > -1) {
-            vm.myAlreadyCountedIds = _.filter(vm.myAlreadyCountedIds, function (v) { return e.detail.id != v; });
-          } else {
-            if (fromPostCard) {
-              vm.post.commentsCount++;
-            } else {
-              // From Post View or Other Devices: Add to badge
-              vm.newCommentsCount++;
-            }
-
-            vm.myAlreadyCountedIds.push(e.detail.id);
-          }
-        } else {
-          // Add to badge
-          vm.newCommentsCount++;
+      if (vm.post.id !== e.detail.postId) {
+        return;
+      }
+      var senderIsCurrentUser = NstSvcAuth.getUser().getId() == e.detail.comment.sender.id;
+      if (senderIsCurrentUser) {
+        if (!_.includes(newCommentIds, e.detail.id)) {
+          newCommentIds.push(e.detail.id);
+          vm.post.commentsCount++;
+        }
+      } else {
+        if (!_.includes(unreadCommentIds, e.detail.id)) {
+          unreadCommentIds.push(e.detail.id);
+          vm.unreadCommentsCount++;
         }
       }
     });
