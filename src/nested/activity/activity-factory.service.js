@@ -317,11 +317,25 @@
     }
 
     function getRecent(settings) {
-      return getActivities({
-        filter: NST_ACTIVITY_FILTER.ALL,
-        limit: settings.limit || 10,
-        placeId : settings.placeId
-      });
+      return factory.sentinel.watch(function() {
+
+        var deferred = $q.defer();
+
+        NstSvcServer.request('timeline/get_events', {
+          filter: NST_ACTIVITY_FILTER.ALL,
+          limit: settings.limit || 10,
+          placeId : settings.placeId
+        }).then(function(data) {
+
+          var activities = _.map(data.events, parseActivity);
+          $q.all(activities).then(function (values) {
+            deferred.resolve(values);
+          }).catch(deferred.reject);
+
+        }).catch(deferred.reject);
+
+        return deferred.promise;
+      }, 'getRecentActivities', settings.placeId);
     }
 
   }
