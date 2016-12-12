@@ -44,9 +44,9 @@
     vm.isFavPlaces = $state.current.options.favoritePlace;
 
     function toggleFeed(isFavPlaces) {
-      if(isFavPlaces){
-        $state.go('app.messages-favorites');
-      }else{
+      if (isFavPlaces) {
+        $state.go('app.messages-favorites');                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+      } else {
         $state.go('app.messages');
       }
     }
@@ -274,7 +274,8 @@
     $scope.$watch(
       function () {
         return vm.placeId
-      },function () {
+      },
+      function () {
         if (vm.placeId) {
           vm.isGrandPlace = vm.placeId.split('.').length === 1;
           NstSvcPlaceFactory.getBookmarkedPlaces()
@@ -314,11 +315,6 @@
       }
     );
 
-    $scope.$watch(function () {
-      return vm.isFavPlaces
-    },function (newValue,oldValue) {
-      vm.toggleFeed(newValue)
-    });
 
 
     function confirmToLeave() {

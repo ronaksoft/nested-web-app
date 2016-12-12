@@ -14,7 +14,7 @@
       </script>
       <a class="detailed" id="compoese" data-uib-tooltip-template="'compose-uib-tooltip.html'"  href="{{ctlSidebar.urls.compose}}"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-placement="right auto"
+         data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
          nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.compose}}">
         <div>
           <div class="compose">
@@ -28,19 +28,6 @@
         </div>
       </a>
       <div class="side-menu">
-        <script type="text/ng-template" id="favorite-uib-tooltip.html">
-          <translate>Favorite Places Feed</translate>
-        </script>
-        <a class="side-menu-item detailed" href="{{ctlSidebar.urls.bookmarks}}"
-           data-uib-tooltip-template="'favorite-uib-tooltip.html'" data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-           data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.bookmarks}}">
-          <span>
-            <svg>
-              <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
-            </svg>
-          </span>
-          <translate>Favorite Places Feed</translate>
-        </a>
         <script type="text/ng-template" id="feed-uib-tooltip.html">
           <translate>Feed</translate>
         </script>
@@ -56,7 +43,7 @@
           <translate>Sent Messages</translate>
         </script>
         <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" uib-tooltip-template="'sent-uib-tooltip.html'"
-           data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
+           data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}" data-tooltip-append-to-body="true"
            data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"
            toggle-agent-url="{{ctlSidebar.urls.sent}}">
           <span>
@@ -118,6 +105,7 @@
          data-popover-is-open="ctlSidebar.mentionOpen"
          data-popover-trigger="none"
          data-popover-popup-close-delay="1000"
+         data-tooltip-append-to-body="true"
          data-uib-tooltip-template="'mention-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
          data-tooltip-placement="right-top auto">
@@ -137,7 +125,7 @@
       <a class="detailed" href="#/profile" nst-sidebar-toggle-agent
          toggle-agent-switch="ctlSidebar.isInDetailMode" data-uib-tooltip-template="'profile-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-placement="right auto">
+         data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
@@ -150,7 +138,7 @@
       </script>
       <a class="detailed" href="#/signout"  data-uib-tooltip-template="'logout-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
-         data-tooltip-placement="right auto">
+         data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
         <div>
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>
