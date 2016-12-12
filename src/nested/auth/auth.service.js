@@ -126,6 +126,7 @@
         default:
           NstSvcAuthStorage.cache.flush();
           NstSvcUserStorage.cache.flush();
+          localStorage.clear();
           this.setLastSessionKey(null);
           this.setLastSessionSecret(null);
           $cookies.remove('nss');

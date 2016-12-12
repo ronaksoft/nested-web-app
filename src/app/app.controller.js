@@ -60,10 +60,10 @@
 
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
 
-      if (-1 == NST_PAGE.SIGNIN.indexOf($state.current.name)) {
-        var validState = getValidState($state.current, $state.params);
-        $state.go(validState.name, validState.params);
-      }
+      // if (-1 == NST_PAGE.SIGNIN.indexOf($state.current.name)) {
+      //   var validState = getValidState($state.current, $state.params);
+      //   $state.go(validState.name, validState.params);
+      // }
 
     });
 
@@ -75,7 +75,7 @@
 
 
     toggleSidebar($state.params);
-    
+
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       toggleSidebar(toParams);
     });
