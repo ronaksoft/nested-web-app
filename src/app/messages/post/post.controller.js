@@ -492,7 +492,7 @@
     $uibModalInstance.result.finally(function () {
       $rootScope.$broadcast('post-modal-closed', {
         postId: vm.post.id,
-        comments: _.tail(vm.comments, vm.comments.length - 3),
+        comments: vm.comments.length <= 3 ? vm.comments : _.tail(vm.comments, vm.comments.length - 3),
         totalCommentsCount: vm.postModel.counters.comments
       });
     });

@@ -51,14 +51,7 @@
 
           $scope.openOverEnable = function () {
 
-            //close previous popover
-            if($('.popover-userdetail').length > 1){
-
-              for(var i=0; i < $('.popover-userdetail').length - 1;i++) {
-                $('.popover-userdetail')[i].parentNode.removeChild($('.popover-userdetail')[i]);
-              }
-
-            }
+            $scope.deletePopovers();
 
             //makes popover on mouse back
             //timer = leaving timer on element out
@@ -109,13 +102,36 @@
             return $scope.username
           };
 
+          $scope.deletePopovers = function () {
+            //close previous popover
+            if($('.popover-userdetail').length > 1){
+
+              for(var i=0; i < $('.popover-userdetail').length - 1;i++) {
+                $('.popover-userdetail')[i].parentNode.removeChild($('.popover-userdetail')[i]);
+              }
+
+            }
+          };
+
+          $scope.deletePopoversAll = function () {
+            //close all popover
+            if($('.popover-userdetail').length > 0){
+
+              for(var i=0; i < $('.popover-userdetail').length;i++) {
+                $('.popover-userdetail')[i].parentNode.removeChild($('.popover-userdetail')[i]);
+              }
+
+            }
+          };
           $scope.searchUser = function () {
+            $scope.deletePopoversAll();
             var query =  '@' + $scope.username;
             var searchQury = new NstSearchQuery(query);
             $state.go('app.search', { search : NstSearchQuery.encode(searchQury.toString()) });
           };
 
           $scope.messageUser = function () {
+            $scope.deletePopoversAll();
             $state.go('app.place-compose', {placeId: $scope.username});
           }
 

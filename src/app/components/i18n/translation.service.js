@@ -15,7 +15,7 @@
       this.currentLocale = NstSvcI18n.getLocale(locale);
       var value = this.currentLocale[text];
       if (!value) {
-        NstSvcLogger.debug("NstSvcTranslation : KEY NOT FOUND : " +  text);
+        // NstSvcLogger.debug("NstSvcTranslation : KEY NOT FOUND : " +  text);
 
         return text;
       }
