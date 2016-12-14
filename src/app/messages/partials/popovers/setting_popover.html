@@ -8,7 +8,7 @@
     <input class="_fr" type="checkbox" id="attachments" name="attachments" ng-click="ctl.toggleAttachmentsPreview()" ng-checked="ctl.viewSetting.attachments"/>
     <label class="_fw setting" for="attachments"><translate>Attachments</translate></label>
   </div>
-  <div class="list-items">
+  <div class="list-items" ng-if="!ctlMessages.isSentMode">
     <input class="_fr" type="checkbox" id="comments" name="comments" ng-click="ctl.toggleCommentsPreview()" ng-checked="ctl.viewSetting.comments"/>
     <label class="_fw setting" for="comments"><translate>Comments</translate></label>
   </div>
