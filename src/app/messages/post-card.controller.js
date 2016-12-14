@@ -192,6 +192,7 @@
         vm.post.commentsCount += vm.unreadCommentsCount;
         vm.unreadCommentsCount = 0;
 
+        vm.post.commentsCount -= data.removedCommentsCount || 0;
         vm.post.comments = data.comments;
       }
     });
