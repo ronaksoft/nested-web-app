@@ -231,7 +231,6 @@
       "You&apos;ll lose any changes that you made by leaving": "شما با ترک کردن این گروه تمام تغییرات را از دست خواهید داد.",
       "Your message goes here...": "پیام شما اینجا ارسال می شود...",
       "Your new password is not long enough": "کلمه ی عبور جدید شما به اندازه ی کافی بلند نمی باشد.",
-      "__version__": "نسخه",
       "all": "همه",
       "alphanumeric and dash (-) only": "فقط حروف الفبا و اعداد و خط فاصله",
       "audios": "صوتی",
