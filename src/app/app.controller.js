@@ -75,7 +75,7 @@
 
 
     toggleSidebar($state.params);
-    
+
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
       toggleSidebar(toParams);
     });
