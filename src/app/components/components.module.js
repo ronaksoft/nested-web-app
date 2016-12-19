@@ -17,6 +17,7 @@
       // 'ronak.nested.web.components.dragndrop',
       'ronak.nested.web.components.utility',
       'ronak.nested.web.components.file',
+      'ng.deviceDetector',
       'ronak.nested.web.components.i18n'
     ]);
 })();
