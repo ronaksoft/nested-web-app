@@ -28,6 +28,7 @@
       vm.children = [];
 
       var grandPlaceId = vm.grandPlace.id;
+      console.log(grandPlaceId)
 
       NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
         if (list.filter(function (obj) {

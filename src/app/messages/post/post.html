@@ -20,7 +20,7 @@
       <span class="margin-l-5 nst-mood-storm"><translate>to</translate></span>
       <div class="badges _df _fw">
         <div class="large-badge _df" data-ng-repeat="place in ctlPost.post.allPlaces">
-          <a class="_di _fl" href="/#/places/{{place.id}}/messages">
+          <a class="_di _fl" ui-sref="app.place-messages({placeId:place.id})">
             {{place.name}}
           </a>
         </div>

@@ -183,11 +183,15 @@ ul.top-nav-places {
   flex-direction: column;
   width: 100%;
   flex: 1 0 auto;
+  li {
+    background-color: $color-white;
+  }
   & > li {
     margin-bottom: 12px;
     > .placerow {
       box-shadow: 0 2px 4px rgba(0,0,0,0.16);
       z-index: 1;
+      height: 56px;
     }
   }
   ul {
@@ -197,27 +201,20 @@ ul.top-nav-places {
     flex: 1 0 auto;
     list-style: none;
     li {
-      height: 48px;
-      animation: appearence .1s ease-in;
       .logo {
         @include avatar(48px,32px,10%);
       }
       h5 {
         font-weight: 400;
       }
-      .buttons {
-        max-height: 48px;
-      }
-    }
-    .placerow {
-      padding-left: 16px;
     }
   }
   .des {
     border-bottom: 1px solid #F0F5F2;
+    align-items: center;
   }
   .logo {
-    margin: 8px 8px;
+    margin: 4px 8px;
     flex: none;
     justify-content: center;
     align-items: center;
@@ -254,23 +251,24 @@ ul.top-nav-places {
   .buttons {
     flex: none;
     width: 40px;
-    height: 100%;
-    max-height: 63px;
+    max-height: 40px;
     svg {
-      width: 24px;
-      height: 24px;
+      min-width: 24px;
+      max-width: 24px;
+      min-height: 24px;
+      max-height: 24px;
       display: block;
       transition: transform $animation-dur ease;
     }
     svg:first-child {
-      transform: translateY(10px);
+      transform: translateY(-2px);
     }
     svg:first-child + svg {
-      transform: translateY(0);
+      transform: translateY(-16px);
       opacity: 1;
     }
     svg:last-child {
-      transform: translateY(-10px);
+      transform: translateY(-30px);
     }
   }
   .buttons.open {
@@ -280,22 +278,32 @@ ul.top-nav-places {
     svg {
       width: 24px;
       height: 24px;
-      transform: translateY(0);
     }
     svg:first-child + svg {
       opacity: 0;
     }
     svg:first-child {
-      transform: translateY(24px);
+      transform: translateY(12px);
     }
     svg:last-child {
-      transform: translateY(-24px);
+      transform: translateY(-42px);
     }
   }
 
 }
-
-//
+ul ul li {
+  padding-left: 16px;
+}
+ul ul {
+  max-height: 0;
+  animation: down-slip .4s ease-in forwards;
+}
+ul ul .placerow {
+  height: 48px;
+}
+* {
+  transition: all 1s;
+}
 //ul.top-nav-places li div div:only-of-type{
 //  animation: appearence .4s ease-in;
 //}
@@ -307,8 +315,8 @@ ul.top-nav-places {
 //}
 
 .placerow {
-  background-color: $color-white;
   position: relative;
+  z-index: 100;
 }
 .create-place-nav {
   border: 1px dashed $color-hurricane;
