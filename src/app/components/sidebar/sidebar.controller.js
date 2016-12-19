@@ -336,6 +336,7 @@
     }
 
     function mapPlaces(placeModels, depth) {
+      console.log('111',placeModels);
       depth = depth || 0;
 
       return Object.keys(placeModels).filter(function (k) {

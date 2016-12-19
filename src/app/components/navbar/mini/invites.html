@@ -1,16 +1,14 @@
-<li class="_difc _fw placerow">
-  <div class="logo _df">
-    <a href="{{invite.place.url}}">
-      <img class="account-initials-40" src="{{invite.place.avatar}}" />
-    </a>
-  </div>
-  <a class="name _df _fw">
-    <div class="name _df _fw">
-      <div class="_difh">
-        <div class="_difv _fw">
-          <h5 class="_df nst-mood-pending">{{invite.place.name}} (Pending Invitation)</h5>
-        </div>
-      </div>
-    </div>
+<div class="logo _df">
+  <a href="{{invite.place.url}}">
+    <img class="account-initials-40" src="{{invite.place.avatar}}" />
   </a>
-</li>
+</div>
+<div class="name _difv">
+  <span class="_df nst-mood-pending-fill">{{invite.inviter.name}} invited you to</span>
+  <h5 class="_df nst-mood-pending">{{invite.place.name}}</h5>
+  <p>{{invite.place.description}}256 character limited place describtion 256 character limited</p>
+</div>
+<div class="buttons _difh">
+  <a>Decline</a>
+  <a>Accept</a>
+</div>
