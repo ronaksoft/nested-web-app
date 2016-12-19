@@ -2,7 +2,7 @@
 <a href="{{place.href}}" class="side-place-item-inner detailed" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"
    ng-class="{ isSelected : ctlSidebar.selectedGrandPlace.id == place.id }"
    data-uib-tooltip="{{place.name}}"
-   data-tooltip-enable="{{!ctlSidebar.isInDetailMode ? true : false}}"
+   data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
    data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
   <div ng-if="place.avatar" class="side-place-item-image">
     <img class="" ng-src="{{place.avatar}}"/>
