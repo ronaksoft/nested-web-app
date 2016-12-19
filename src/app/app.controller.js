@@ -13,8 +13,6 @@
                          NstObject) {
     var vm = this;
 
-    $rootScope.deviceDetector = deviceDetector;
-    console.log('deviceDetector',$rootScope.deviceDetector.isTablet());
 
     vm.loginView = true;
     vm.showLoadingScreen = true;

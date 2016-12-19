@@ -1,0 +1,31 @@
+<div class="_fw _difh placerow">
+    <div class="logo _df">
+      <a ng-if="place.avatar" href="{{place.href}}">
+        <img class="account-initials-40" ng-src="{{place.avatar}}" />
+      </a>
+      <div class="notif" ng-if="ctlMiniNavbar.placesNotifCountObject[place.id] > 0">{{ctlMiniNavbar.placesNotifCountObject[place.id]}}</div>
+    </div>
+    <div class="des _df _fw" href="{{place.href}}">
+      <a class="name _difv f1">
+        <div class="_difh _fw">
+          <i class="role-icon-green"></i><h5 class="_df">{{place.name}}</h5>
+        </div>
+        <span class="_df">{{place.teammatesCount}}Members</span>
+      </a>
+      <div class="_difv buttons ng-class:{'open' : !place.isCollapsed}" data-ng-init="place.isCollapsed = true" data-ng-click="place.isCollapsed =! place.isCollapsed" role="button" tabindex="0">
+        <svg>
+          <use xlink:href="/assets/icons/nst-icn24.svg#arrow-up"></use>
+        </svg>
+        <svg>
+          <use xlink:href="/assets/icons/nst-icn24.svg#circle"></use>
+        </svg>
+        <svg>
+          <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
+        </svg>
+      </div>
+    </div>
+</div>
+<ul class="_fw _difh" data-ng-show="!place.isCollapsed">
+    <nst-navbar-place-info data-ng-repeat="place in place.children" grand-place="place"
+        data-ng-include="'app/components/navbar/mini/sub-place.html'" onload="place = place"></nst-navbar-place-info>
+</ul>

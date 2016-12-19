@@ -123,6 +123,7 @@
       vm.user = mapUser(resolvedSet[0]);
 
       vm.places = mapPlaces(resolvedSet[1]);
+      console.log(vm.places);
       fillPlacesNotifCountObject(vm.places);
 
       vm.invitations = mapInvitations(resolvedSet[2]);

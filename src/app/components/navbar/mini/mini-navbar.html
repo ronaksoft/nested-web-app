@@ -38,11 +38,11 @@
     <hr>
     <ul class="top-nav-invitations _difh _fw" data-ng-if="ctlMiniNavbar.invitations.length > 0">
       <li data-ng-repeat="invite in ctlMiniNavbar.invitations"
-          data-ng-include="'app/components/navbar/mini/invites.html'" data-ng-init="invite = invite"  ng-click="ctlMiniNavbar.invitation.showModal(invite.id)"></li>
+          data-ng-include="'app/components/navbar/mini/partials/invites.html'" data-ng-init="invite = invite"  ng-click="ctlMiniNavbar.invitation.showModal(invite.id)"></li>
     </ul>
     <ul class="top-nav-places _difh _fw">
       <li data-ng-repeat="place in ctlMiniNavbar.places" class="_difv _fw"
-          data-ng-include="'app/components/navbar/mini/place.html'" data-ng-init="place = place"></li>
+          data-ng-include="'app/components/navbar/mini/partials/place.html'" data-ng-init="place = place"></li>
       <li class="_df _fw create-place-nav">
         <a class="_difc _jcc _fw" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" >
             <i>+</i><span>Create new Grand place</span>
