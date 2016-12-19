@@ -113,6 +113,7 @@
     border: solid 2px $color-bg-pending-fill;
     border-radius: 6px;
     display: inline-flex;
+    flex-direction: column;
     background-color: $color-white;
     min-height: 56px;
     align-items: center;
@@ -123,25 +124,25 @@
     flex: none;
     justify-content: center;
     align-items: center;
-    align-self: flex-start;
     @include avatar(48px,48px,10%);
   }
   .name {
-    width: 100%;
     span {
       font-size: 14px;
       line-height: 17px;
-      padding-top: 12px;
+      //padding-top: 12px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       width: 100%;
+      justify-content: center;
     }
     h5 {
       line-height: 24px;
       font-size: 16px;
       font-weight: 700;
       margin: 0;
+      justify-content: center;
     }
     p {
       color: $color-storm;
@@ -150,23 +151,28 @@
       font-weight: 400;
       font-style: italic;
       margin: 0;
+      justify-content: center;
+      margin-bottom: 8px;
     }
   }
   .buttons {
     flex: none;
-    width: 140px;
     line-height: 19px;
     font-size: 16px;
     font-weight: 700;
-    align-self: flex-end;
-    margin-bottom: 8px;
+    margin-top: 8px;
+    width: 100%;
     a:last-child {
       color: $color-sense;
-      margin-left: 8px;
+      display: flex;
+      flex: 1;
+      justify-content: center;
     }
     a:first-child {
       color: $color-wind;
-      margin-right: 8px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
     }
   }
 }
