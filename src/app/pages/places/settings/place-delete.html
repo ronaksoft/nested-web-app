@@ -2,7 +2,7 @@
   <div class="_difv _fw">
       <div class="_difh modal-head">
         <p ng-if="!nextStep" class="_df _fw force"><translate>Are you sure you want to delete this place?</translate></p>
-        <p ng-if="nextStep" class="_df _fw force"><translate>Confirm to Delete Place</translate></p>
+        <p ng-if="nextStep" class="_df _fw force"><translate>Confirm to delete this Place</translate></p>
         <div class="_df closebut" ng-click="$dismiss();"><img src="../assets/icons/close.svg"></div>
       </div>
     <div class="_difv _fw">
@@ -19,7 +19,7 @@
         <span class="df nst-mood-storm small"><translate>Enter your place id</translate></span>
         <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place ID" translate-attrs="placeholder" focus-me>
         </input>
-        <span class="_df"><translate>To confirm and delete the place, please type the place ID:</translate></span><a class="_df">{{removeCtrl.place.id}}</a>
+        <span class="_df"><translate>To confirm and proceed with deleting this Place, please type below the Place ID:</translate></span><a class="_df">{{removeCtrl.place.id}}</a>
       </div>
       <div class="_difh _jcc">
         <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">

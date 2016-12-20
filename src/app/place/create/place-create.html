@@ -70,7 +70,7 @@
         <p ng-if="!ctlCreate.isClosedPlace"><translate>Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Members can view Place contents.</translate></p>
         <p ng-if="ctlCreate.isClosedPlace"><translate>Only {{ ctlCreate.place.privacy.addPost === 'creators'  ?  "Managers" : "Members" }} can post message to "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" place.</translate></p>
         <aside>
-          <p class="f4"><translate>Which kind of members can be contribute in the place?</translate></p>
+          <p class="f4"><translate>Which Members can contribute to this Place?</translate></p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.privacy.addPost">
               <option value="creators"><translate>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
@@ -93,16 +93,16 @@
             <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
           </svg><translate>"{{ ctlCreate.grandPlace.name }} Members</translate>
         </h3>
-        <p ng-if="!ctlCreate.isClosedPlace"><translate>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to the place.</translate></p>
+        <p ng-if="!ctlCreate.isClosedPlace"><translate>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to this Place.</translate></p>
         <p ng-if="ctlCreate.isClosedPlace"><translate>Only "{{ ctlCreate.grandPlace.name }}" Members can post messages to "<b>{{ ctlCreate.place.name }}</b>" Place.</translate></p>
         <aside>
           <p><translate>Show in the search results?</translate></p>
           <div class="place-switch">
             <input type="checkbox" name="checkbox_id" id="pub-res" value="value">
-            <label for="pub-res"><b><translate>ON</translate></b>
+            <label for="pub-res"><b><translate>On</translate></b>
               <div class="circle" switch-drag></div>
             </label>
-            <label for="pub-res"><b><translate>OFF</translate></b></label>
+            <label for="pub-res"><b><translate>Off</translate></b></label>
           </div>
         </aside>
       </div>
@@ -122,10 +122,10 @@
           <p><translate>Show in the search results?</translate></p>
           <div class="place-switch">
             <input type="checkbox" name="checkbox_id" id="res" value="value">
-            <label for="res"><b>ON</b>
+            <label for="res"><b>On</b>
               <div class="circle" switch-drag></div>
             </label>
-            <label for="res"><b>OFF</b></label>
+            <label for="res"><b>Off</b></label>
           </div>
         </aside>
       </div>
@@ -134,7 +134,7 @@
         <p class="input-lab"><translate>Place Privacy</translate></p>
         <div class="option-row">
           <p class="f4 _fw _df option-des">
-            <translate>Who can add Members?</translate>
+            <translate>Who can add Members to this Place?</translate>
           </p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.policy.addMember">
@@ -157,7 +157,7 @@
         <div class="_difv nst-marginbtm-8"
              ng-if="(ctlCreate.hasGrandParent || ctlCreate.hasParentPlace) && !ctlCreate.parentLoadProgress">
           <p class="create-label">
-            <translate>Select group of members to be added to the place:</translate>
+            <translate>Select a group of Members you would wish to be added to this Place</translate>
           </p>
           <ul class="list-unstyled">
             <li>
@@ -182,13 +182,13 @@
       </div>
       <div class="option-row">
         <input class="create-place-checkbox" type="checkbox" id="favo" ng-model="ctlCreate.place.favorite">
-        <label for="favo"><translate>Add to my favored places.</translate></label>
+        <label for="favo"><translate>Add to my Favorites</translate></label>
       </div>
       <div class="option-row">
         <input class="create-place-checkbox" type="checkbox" id="notification" ng-model="ctlCreate.place.notification">
-        <label for="notification"><translate>Turn on notification for this place.</translate></label>
+        <label for="notification"><translate>Turn Notifications on for this Place.</translate></label>
       </div>
-      <button class="submit" type="submit" id="submit-place"><translate>Create Place</translate></button>
+      <button class="submit" type="submit" id="submit-place"><translate>Create a Place</translate></button>
     </form>
   </div>
 </div>

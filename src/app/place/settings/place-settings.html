@@ -67,7 +67,7 @@
 
       <p></p>
       <aside ng-if="!ctlSettings.isSubPersonalPlace">
-        <p class="_df f4"><translate>Which members can post messages to this Place?</translate></p>
+        <p class="_df f4"><translate>Which Members can post messages to this Place?</translate></p>
         <div class="_df f1">
           <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">
             <option value="creators"><translate>Managers of {{ctlSettings.place.name}}</translate></option>
@@ -91,17 +91,17 @@
       <h3 ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">
         <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
-        </svg><translate>Only Nested Users</translate></h3>
+        </svg><translate>Only for Nested users</translate></h3>
       <h3 ng-if="!ctlSettings.isGrandPlace">
         <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
         </svg><translate>{{ ctlSettings.grandPlace.name }}Members</translate></h3>
-      <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace"><translate>All <b>{{ ctlSettings.grandPlace.name }}</b> Members can post messages to the place.</translate></p>
+      <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace"><translate>All <b>{{ ctlSettings.grandPlace.name }}</b> Members can post messages to this Place.</translate></p>
       <p ng-if="!ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace"><translate>Only you can view the contents of this Place.</translate></p>
       <p ng-if="ctlSettings.isGrandPlace"><translate>Only Nested users can post messages to this Place.</translate></p>
       <aside>
         <p ng-if="ctlSettings.isGrandPlace"><translate>Show in the search results?</translate></p>
-        <p ng-if="!ctlSettings.isGrandPlace"><translate>Show in the {{ ctlSettings.grandPlace.name }} Members search results?</translate></p>
+        <p ng-if="!ctlSettings.isGrandPlace"><translate>Show in the search result of Members from {{ ctlSettings.grandPlace.name }}?</translate></p>
         <div class="place-switch">
           <input type="checkbox" name="checkbox_id" id="receiving-members-search" value="value" ng-disabled="!ctlSettings.accesses.hasControlAccess"
                  data-ng-model="ctlSettings.place.privacy.search"
@@ -137,7 +137,7 @@
             <div class="circle" switch-drag="ctlSettings.place.privacy.search"></div>
           </label>
           <label for="receiving-everyone-search">
-            <b><translate>NO</translate></b>
+            <b><translate>No</translate></b>
           </label>
         </div>
       </aside>
@@ -158,8 +158,8 @@
     </div>
     <div class="f1"></div>
     <div class="f4 _fw _difv">
-      <p class="input-lab" ng-if="ctlSettings.isGrandPlace" ><translate>Who can invite Members?</translate> </p>
-      <p class="input-lab" ng-if="!ctlSettings.isGrandPlace"><translate>Who can add Members?</translate></p>
+      <p class="input-lab" ng-if="ctlSettings.isGrandPlace" ><translate>Who can invite new Members?</translate> </p>
+      <p class="input-lab" ng-if="!ctlSettings.isGrandPlace"><translate>Who can add Members to this Place?</translate></p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_member"
               data-ng-change="ctlSettings.updateAddMemberPolicy()">
@@ -189,7 +189,7 @@
                          has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
                          role="member.state" ></nst-place-member-item>
   <div class="_fw _tac margin-b-15"  data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">
-    <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();"><translate>Load more</translate></a>
+    <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();"><translate>Load more...</translate></a>
     <span class="nst-mood-cheerful" ng-if="ctlSettings.teammatesLoadProgress"><translate>Loading...</translate></span>
   </div>
 </div>

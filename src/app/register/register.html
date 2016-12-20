@@ -4,10 +4,10 @@
       <form novalidate ng-if="ctlRegister.step === 1" class="use-ng-animate register-step" ng-submit="ctlRegister.submitPhoneNumber(ctlRegister.phoneIsValid && ctlRegister.countryIsValid);">
         <div class="nst-vb no-gutter2 nst-marginbtm-48">
           <p class="col-xs-9 nst-font-xlarge"><translate>Create an account</translate></p>
-          <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right"><translate>or</translate> <a href="#/signin" class="nst-mood-cheerful"><translate>Sign in</translate></a></p>
+          <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right"><translate>or</translate> <a href="#/signin" class="nst-mood-cheerful"><translate>Sign-in</translate></a></p>
         </div>
         <p class="nst-font-medium nst-marginbtm-48">
-          <translate>To creating a Nested account, please enter your phone number.</translate>
+          <translate>To create an account with Nested, please enter your phone number.</translate>
         </p>
 
         <div class="form-group" ng-class="{ 'has-error' : !ctlRegister.countryIsValid && ctlRegister.submitted}">
@@ -18,7 +18,7 @@
         <div class="form-group nst-marginbtm-60" ng-class="{ 'has-error' : !ctlRegister.phoneIsValid && ctlRegister.submitted}">
           <label class="nst-mood-storm nst-font-small" ng-if="ctlRegister.phoneIsValid || !ctlRegister.submitted"><translate>Phone number</translate></label>
           <label class="error-message" ng-if="ctlRegister.phoneIsEmpty && ctlRegister.submitted"><translate>Enter your phone number</translate></label>
-          <label class="error-message" ng-if="ctlRegister.phoneIsWrong && ctlRegister.submitted"><translate>The provided phone number is not valid</translate></label>
+          <label class="error-message" ng-if="ctlRegister.phoneIsWrong && ctlRegister.submitted"><translate>Provided phone number is not valid</translate></label>
           <div class="nst-marginbtm-16 _difh _fw _pr margin-t-5 border-number">
             <i class="plus">+</i>
             <i class="sep">|</i>
@@ -46,10 +46,10 @@
           <a href ng-click="ctlRegister.step = 1;"><translate>That's not me!</translate></a>
         </div>
         <div class="nst-mood-storm nst-font-medium nst-margin-8">
-          <translate>4-digits verification code</translate>
+          <translate>4-digit verification code</translate>
         </div>
         <p class="nst-mood-lively" data-ng-if="ctlRegister.verificationWrongCode">
-          <translate>Wrong Code</translate>
+          <translate>You've entered a wrong code</translate>
         </p>
 
         <div class="nst-marginbtm-16">
@@ -79,7 +79,7 @@
             <img src="assets/icons/NestedLogo.svg" width="32" height="32">
           </a>
         </div>
-        <div class="nst-marginbtm-8 _dib" ng-if="!ctlRegister.requiredUser"><translate>Choose your username :</translate></div>
+        <div class="nst-marginbtm-8 _dib" ng-if="!ctlRegister.requiredUser"><translate>Choose your username:</translate></div>
         <div class="nst-mood-lively nst-marginbtm-8 _dib"
              ng-if="ctlRegister.requiredUser"><translate>Username is required</translate>
         </div>
@@ -137,10 +137,11 @@
             </div>
             <div class="_dtc register-name-cell-right">
               <div class="nst-marginbtm-8 _fw"
-                   ng-if="!ctlRegister.requiredLastname"><translate>Last name</translate>
+                   ng-if="!ctlRegister.requiredLastname"><translate>Surname</translate>
               </div>
               <div class="nst-mood-lively nst-marginbtm-8 _fw"
-                   ng-if="ctlRegister.requiredLastname"><translate>Last name is required</translate>
+                   ng-if="ctlRegister.requiredLastname"><translate>Surname is required</translate>
+
               </div>
               <input id="lname"
                      ng-class="ctlRegister.requiredLastname ? 'form-control-error': 'form-control'"

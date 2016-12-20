@@ -48,7 +48,7 @@
         });
 
       }
-      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Type place name or email address...");
+      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter Place's name or Nested address...");
     })();
 
     vm.search = {
@@ -76,7 +76,7 @@
         })
       ],
       right: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Attach'), NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attachments.elementId })
+        new NstVmNavbarControl(NstSvcTranslation.get('Attach files'), NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attachments.elementId })
       ]
     };
 

@@ -70,7 +70,7 @@
   <hr>
   <section class="post-footer _difh">
     <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
-      <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comment</translate></span>
+      <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comments</translate></span>
       <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
       <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>{{ctlPostCard.post.commentsCount}} comments</translate></span>
     </a>
@@ -111,13 +111,13 @@
 </div>
 <section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments && !ctlPostCard.hideComments && !ctlPostCard.post.forbidden">
   <div class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
-    <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()"><translate>Older comments...</translate></a>
+    <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()"><translate>View older comments...</translate></a>
     <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()"><translate>Roll up</translate></a>
   </div>
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"></comments-board>
   <div class="post-card-comment-input _df">
     <input type="text" nst-mention post-id="{{ctlPostCard.post.id}}" data-ng-model="ctlPostCard.post.newComment"  auto-dir="ctlPostCard.post.newComment"
-           class="_fw" placeholder="write your comment ..." ng-keyup="ctlPostCard.sendComment($event)"
+           class="_fw" placeholder="write your comment..." ng-keyup="ctlPostCard.sendComment($event)"
            ng-disabled="ctlPostCard.isSendingComment" max-length="1024"  translate-attrs="placeholder"/>
   </div>
 </section>

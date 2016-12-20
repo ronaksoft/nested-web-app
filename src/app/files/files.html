@@ -34,7 +34,7 @@
     </section>
     <div class="file-list" ng-if="ctlFiles.files.length > 0">
       <div class="file-list-header">
-        <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0"><translate>File Name</translate></div>
+        <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0"><translate>File name</translate></div>
         <!-- <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-download"><span
           class="_dib"></span><span>Download</span></div> -->
         <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-send-to">
@@ -83,12 +83,12 @@
     </div>
     <div class="nst-margin-24" ng-if="ctlFiles.hasNextPage || loadFilesError">
       <p class="text-center nst-mood-storm" ng-if="!ctlFiles.hasNextPage && !ctlFiles.filesLoadProgress">
-        <translate>There are no more files!</translate>
+        <translate>No more files here!</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlFiles.loadFilesError && !ctlFiles.filesLoadProgress">
        An error has occurred. Please
         <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlFiles.loadMore()">
-          <translate>try again...</translate>
+          <translate>Try again!</translate>
         </a>
       </p>
     </div>
