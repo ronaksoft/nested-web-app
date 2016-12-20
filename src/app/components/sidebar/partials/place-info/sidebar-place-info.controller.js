@@ -28,6 +28,7 @@
       vm.children = [];
 
       var grandPlaceId = vm.grandPlace.id;
+      console.log(grandPlaceId)
 
       NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
         if (list.filter(function (obj) {
@@ -84,7 +85,6 @@
       return deferred.promise;
 
     }
-
     function getGrandPlaceChildren(grandPlaceId) {
       var deferred = $q.defer();
       NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {

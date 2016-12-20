@@ -15,24 +15,25 @@
   > div {
     transition: $animation-dur;
   }
-  .notif {
-    height: 20px;
-    color: $color-white;
-    background-color: rgb(255, 0, 20);
-    border-radius: 10px;
-    display: flex;
-    position: absolute;
-    align-items: center;
-    border-color: #800000;
-    line-height: 20px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    top: 6px;
-    transform: translateY(-40%);
-    right: 6px;
-    padding: 0 8px;
-  }
+
+}
+.notif {
+  height: 20px;
+  color: $color-white;
+  background-color: rgb(255, 0, 20);
+  border-radius: 10px;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  border-color: #800000;
+  line-height: 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  top: 6px;
+  transform: translateY(-40%);
+  right: 6px;
+  padding: 0 8px;
 }
 .sidebar-wrapper {
   z-index: 4;
