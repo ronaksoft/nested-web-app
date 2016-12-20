@@ -243,7 +243,6 @@
           for (var k in promises) {
             places[promises[k].getId()] = promises[k];
           }
-
           deferred.resolve(places);
         });
 
@@ -252,10 +251,9 @@
 
       function createMap(placeData) {
         var place = factory.parseTinyPlace(placeData);
-
         var map = {
           id: place.getId(),
-          children: []
+          children: place.getChildren()
         };
 
         factory.set(place);
@@ -910,10 +908,9 @@
       place.setGrandParentId(placeData.grand_parent_id || null);
 
       if (angular.isArray(placeData.children)) {
-        var children = {
-          length: 0
-        };
+        var children = [];
         for (var k in placeData.children) {
+
           var child = NstSvcTinyPlaceStorage.get(placeData.children[k]._id) || NstSvcPlaceStorage.get(placeData.children[k]._id);
           if (!child) {
             child = this.parseTinyPlace(placeData.children[k]);
@@ -923,11 +920,9 @@
           child.setGrandParentId(place.getGrandParentId());
           // TODO: Push into factory
 
-          children[child.getId()] = child;
-          children.length++;
+          children.push(child);
+          place.children = children;
         }
-
-        place.setChildren(children);
       }
       return place;
     };
