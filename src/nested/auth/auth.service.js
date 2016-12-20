@@ -130,7 +130,7 @@
           this.setLastSessionSecret(null);
           $cookies.remove('nss');
           $cookies.remove('nsk');
-          $cookies.remove('user');
+          $cookies.remove('user', { domain : '.nested.me'});
           NstSvcServer.request('session/close').then(function () {
             NstSvcServer.unauthorize();
             qUnauth.resolve(reason);

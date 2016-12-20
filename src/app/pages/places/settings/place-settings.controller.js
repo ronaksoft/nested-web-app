@@ -17,8 +17,8 @@
      *** Controller Properties ***
      *****************************/
      vm.memberOptions = {
-       'creators' : NstSvcTranslation.get("Manager Only"),
-       'everyone' : NstSvcTranslation.get("All members")
+       'creators' : NstSvcTranslation.get("Manager(s) only"),
+       'everyone' : NstSvcTranslation.get("All Members")
      };
     vm.options = {
       notification: null,

@@ -2,7 +2,7 @@
   <div class="_difv _fw">
       <div class="_difh modal-add">
         <h5 class="_df _fw" data-ng-if="!addMemberCtrl.isGrandPlace"><translate>Add Members</translate></h5>
-        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isGrandPlace"><translate>Invite Members</translate></h5>
+        <h5 class="_df _fw" data-ng-if="addMemberCtrl.isGrandPlace"><translate>Invite new Members</translate></h5>
         <div class="_df" ng-click="$dismiss();"><img src="../assets/icons/close.svg" class="closebut"></div>
       </div>
       <div class="_difh _fw modal-add">
@@ -25,7 +25,7 @@
       </div>
     <div class="modal-body">
       <p data-ng-if="addMemberCtrl.users < 1 && !addMemberCtrl.isTeammateMode" class="_fw"><ranslate>Import Contacts:</ranslate></p>
-      <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw"><translate>You can use a collective method for add members:</translate></p>
+      <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw"><translate>You can add multiple Members at the same time</translate></p>
       <div class="_fw suggests">
         <!--<a class="_difh item add" data-ng-if="addMemberCtrl.users < 1">-->
           <!--<div class="item-logo">-->
@@ -76,7 +76,7 @@
         <p>Add people by searching their name or entering their {{addMemberCtrl.isGrandPlace ? 'name, ID, email or phone number' : 'name or ID'}}.</p>
       </div>
       <div data-ng-if="addMemberCtrl.isGrandPlace" class="nst-modal-footer _df _fw">
-          <p><translate>Invite people by searching their name or entering their email or phone number.</translate></p>
+          <p><translate>Invite new people by searching their name, entering their email, or phone number.</translate></p>
       </div>
   </div>
 </div>
