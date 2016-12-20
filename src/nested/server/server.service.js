@@ -6,11 +6,11 @@
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer($websocket, $q, $timeout, $interval,
+  function NstSvcServer($q, $timeout, $interval,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS,  NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE, NST_SRV_PING_PONG,
-                        NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcPingPong,
+                        NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcPingPong, NstSvcWS,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
@@ -30,7 +30,7 @@
       this.queue = {};
 
 
-      this.stream = $websocket(url);
+      this.stream = new NstSvcWS(url);
       this.stream.maxTimeout = this.configs.streamTimeout;
       this.stream.reconnectIfNotNormalClose = true;
 
