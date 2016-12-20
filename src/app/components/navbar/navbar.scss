@@ -300,25 +300,27 @@ ul.top-nav-places {
   }
 
 }
-ul ul li {
-  padding-left: 16px;
-}
-ul ul{
-  max-height: 0;
-  overflow: hidden;
-  transition-property: opacity,max-height;
-  transition-duration: $animation-dur;
-  transition-timing-function: ease-in-out;
-  opacity: 0;
-  display: flex;
-  //animation: down-slip 20s ease-in forwards;
-}
-ul ul.open {
-  max-height: 2200px;
-  opacity: 1;
-}
-ul ul .placerow {
-  height: 48px;
+#top-nav-container {
+  ul ul li {
+    padding-left: 16px;
+  }
+  ul ul{
+    max-height: 0;
+    overflow: hidden;
+    transition-property: opacity,max-height;
+    transition-duration: $animation-dur;
+    transition-timing-function: ease-in-out;
+    opacity: 0;
+    display: flex;
+    //animation: down-slip 20s ease-in forwards;
+  }
+  ul ul.open {
+    max-height: 2200px;
+    opacity: 1;
+  }
+  ul ul .placerow {
+    height: 48px;
+  }
 }
 
 //ul.top-nav-places li div div:only-of-type{
