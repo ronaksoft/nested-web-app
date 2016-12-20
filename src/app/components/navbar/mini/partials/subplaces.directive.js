@@ -14,12 +14,12 @@
       bindToController : true,
       link: link,
       scope: {
-        grandPlace : '='
+        grandPlace : '=',
+        isOpen : '='
       }
     };
 
     function link($scope, $element, $attrs) {
-
     }
 
     return directive;

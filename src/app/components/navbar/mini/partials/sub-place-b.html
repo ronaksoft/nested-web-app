@@ -25,6 +25,6 @@
       </div>
     </div>
   </div>
-  <ul class="_fw _difh" data-ng-include="'app/components/navbar/mini/partials/sub-place-b.html'" onload="place = place" ng-if="place.children.length > 0 && !place.isCollapsed"></ul>
+  <ul class="_fw _difh ng-class:{'open' : !place.isCollapsed}" data-ng-include="'app/components/navbar/mini/partials/sub-place-b.html'" onload="place = place" ng-if="place.children.length > 0"></ul>
 
 </li>

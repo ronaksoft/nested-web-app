@@ -25,4 +25,4 @@
       </div>
     </div>
 </div>
-<nst-navbar-place-info grand-place="place" data-ng-if="!place.isCollapsed"></nst-navbar-place-info>
+<nst-navbar-place-info grand-place="place" data-ng-if="place.children.length > 0" is-open="!place.isCollapsed"></nst-navbar-place-info>
