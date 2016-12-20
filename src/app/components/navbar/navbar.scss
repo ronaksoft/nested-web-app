@@ -217,6 +217,7 @@ ul.top-nav-places {
   .des {
     border-bottom: 1px solid #F0F5F2;
     align-items: center;
+    overflow: hidden;
   }
   .logo {
     margin: 4px 8px;
@@ -232,6 +233,7 @@ ul.top-nav-places {
   }
   .name {
     padding-top: 8px;
+    overflow: hidden;
     span {
       font-size: 14px;
       min-height: 14px;
@@ -248,6 +250,8 @@ ul.top-nav-places {
       font-weight: 700;
       color: $color-solid;
       margin: 0;
+      @extend ._txe;
+      display: block;
     }
     i {
        transform: scale(.625,.625);

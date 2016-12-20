@@ -16,6 +16,7 @@
 
     vm.loginView = true;
     vm.showLoadingScreen = true;
+    $rootScope.topNavOpen = false;
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;

@@ -1,21 +1,21 @@
-<div class="nst-topnav _difh ng-class:{ 'bg-hur': topNavOpen }">
+<div class="nst-topnav _difh ng-class:{ 'bg-hur': $root.topNavOpen }">
   <div class="hamb-cont">
-    <div class="_fw _df" hm-tap="topNavOpen = !topNavOpen">
-      <div ng-class="topNavOpen ? '_pr icon icon-top close-icon' : '_pr icon icon-top hamburger-icon'">
-        <i ng-if="ctlMiniNavbar.invitations.length > 0 && !topNavOpen" class="badge-invite">{{ctlMiniNavbar.invitations.length}}</i>
+    <div class="_fw _df" hm-tap="$root.topNavOpen = !$root.topNavOpen">
+      <div ng-class="$root.topNavOpen ? '_pr icon icon-top close-icon' : '_pr icon icon-top hamburger-icon'">
+        <i ng-if="ctlMiniNavbar.invitations.length > 0 && !$root.topNavOpen" class="badge-invite">{{ctlMiniNavbar.invitations.length}}</i>
       </div>
     </div>
     <div class="_fw _jcc _df">
       <a ui-sref="app.messages()"><div id="Logo-white"></div></a>
     </div>
     <div class="_fw _df">
-      <a ng-show="!topNavOpen" href="{{ctlMiniNavbar.urls.compose}}"><div class="icon icon-top comp-icon _df"></div></a>
-      <a ng-show="topNavOpen" href="#/profile"><div class="icon icon-top profile-icon _df"></div></a>
-      <a ng-show="topNavOpen" href="#/signout"><div class="icon icon-top signout-icon _df"></div></a>
+      <a ng-show="!$root.topNavOpen" href="{{ctlMiniNavbar.urls.compose}}"><div class="icon icon-top comp-icon _df"></div></a>
+      <a ng-show="$root.topNavOpen" href="#/profile"><div class="icon icon-top profile-icon _df"></div></a>
+      <a ng-show="$root.topNavOpen" href="#/signout"><div class="icon icon-top signout-icon _df"></div></a>
     </div>
   </div>
 </div>
-<div id="top-nav-container" ng-show="topNavOpen">
+<div id="top-nav-container" ng-show="$root.topNavOpen">
   <div class="hamb-cont _difv">
     <div class="top-nav-actions _difv _fw">
       <a href="{{ctlMiniNavbar.urls.unfiltered}}">
