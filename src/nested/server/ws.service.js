@@ -39,12 +39,18 @@
     };
 
     WS.prototype.send = function (data) {
-      this.socket.send(data);
+      if (this.getState() === 1) {
+        this.socket.send(data);
+      }
     };
 
     WS.prototype.close = function () {
       this.socket.close();
     };
+
+    WS.prototype.getState = function () {
+      return this.socket.readyState;
+    }
 
     WS.prototype.reconnect = function () {
       if (this.socket.readyState === 0 || this.socket.readyState === 1) { // Connecting or Open
