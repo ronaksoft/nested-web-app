@@ -5,7 +5,7 @@
     .factory('NstSvcWS', NstSvcWS);
 
   /**@Inject */
-  function NstSvcWS(NstSvcLogger) {
+  function NstSvcWS(NstSvcLogger, NstUtility) {
 
     function WS(url, protocol) {
 
@@ -56,20 +56,26 @@
     WS.prototype.initialize = function(url, protocol) {
       var that = this;
 
+
       this.socket = new WebSocket(url, protocol);
+      NstSvcLogger.debug(NstUtility.string.format("Establishing a new connection to {0}", url));
+
       this.socket.onopen = function (event) {
+        NstSvcLogger.debug("The socket connection has been established successfully.");
         _.forEach(that.onOpenQueue, function (action) {
           action(event);
         });
       };
 
       this.socket.onclose = function (event) {
+        NstSvcLogger.debug(NstUtility.string.format("The connection has been closed (code : {0}).", event.code));
         _.forEach(that.onCloseQueue, function (action) {
           action(event);
         });
       };
 
       this.socket.onerror = function (event) {
+        NstSvcLogger.debug(NstUtility.string.format("An error occured in socket connection ({0}).", event.message), event.error);
         _.forEach(that.onErrorQueue, function (action) {
           action(event);
         });
