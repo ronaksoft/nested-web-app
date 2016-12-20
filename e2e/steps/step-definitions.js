@@ -74,11 +74,6 @@ module.exports = function () {
     tab.perform();
   });
 
-  this.Given(/^I type Hello$/, function () {
-
-    var Hello = browser.actions().sendKeys(protractor.Key.H);
-    Hello.perform();
-  });
 
   this.Given(/^I fill id "([^"]*)" with "([^"]*)"$/, function (id,value) {
     var input = element(By.css('#'+ id));
