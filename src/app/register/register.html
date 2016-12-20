@@ -152,7 +152,7 @@
 
         <div class="form-group nst-marginbtm-16">
           <div class="nst-marginbtm-8" ng-if="!registrationForm.nested_email.$invalid">Email</div>
-          <div class="nst-marginbtm-8 nst-mood-lively" ng-if="registrationForm.nested_email.$invalid"><translate>Email is not valid</translate></div>
+          <div class="nst-marginbtm-8 nst-mood-lively" ng-if="registrationForm.nested_email.$invalid"><translate>The provided email is not valid</translate></div>
           <input id="email" type="email" ng-class="{ 'form-control-error' : registrationForm.nested_email.$invalid,  'form-control' : !registrationForm.nested_email.$invalid }" name="nested_email" type="text" class="form-control" ng-model="ctlRegister.email" tabindex="5"/>
         </div>
 

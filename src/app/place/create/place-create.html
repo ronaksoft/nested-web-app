@@ -17,7 +17,7 @@
         </div>
         <div class="desc">
           <h3><translate>Closed Place</translate></h3>
-          <p ng-if="!ctlCreate.isPersonalPlace"><translate>Only Members can view Place contents.</translate></p>
+          <p ng-if="!ctlCreate.isPersonalPlace"><translate>Only Members can view the contents of this Place</translate></p>
           <p ng-if="ctlCreate.isPersonalPlace"><translate>Only you can view the contents of this Place.</translate></p>
         </div>
       </div>
@@ -131,7 +131,7 @@
       </div>
 
       <div ng-if="!ctlCreate.isPersonalPlace">
-        <p class="input-lab"><translate>Place Privacy</translate></p>
+        <p class="input-lab"><translate>Privacy</translate></p>
         <div class="option-row">
           <p class="f4 _fw _df option-des">
             <translate>Who can add Members to this Place?</translate>
@@ -145,7 +145,7 @@
         </div>
         <div class="option-row" ng-if="ctlCreate.isClosedPlace">
           <p class="f4 _fw _df option-des">
-            <translate>Who can create a sub-place?</translate>
+            <translate>Who can create a sub-Place?</translate>
           </p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.policy.addPlace">
