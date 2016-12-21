@@ -243,7 +243,6 @@
           for (var k in promises) {
             places[promises[k].getId()] = promises[k];
           }
-
           deferred.resolve(places);
         });
 
@@ -252,10 +251,9 @@
 
       function createMap(placeData) {
         var place = factory.parseTinyPlace(placeData);
-
         var map = {
           id: place.getId(),
-          children: []
+          children: place.getChildren()
         };
 
         factory.set(place);
@@ -909,27 +907,23 @@
       place.setParentId(placeData.parent_id || null);
       place.setGrandParentId(placeData.grand_parent_id || null);
 
-      if (angular.isArray(placeData.childs)) {
-        var children = {
-          length: 0
-        };
-        for (var k in placeData.childs) {
-          var child = NstSvcTinyPlaceStorage.get(placeData.childs[k]._id) || NstSvcPlaceStorage.get(placeData.childs[k]._id);
+      if (angular.isArray(placeData.children)) {
+        var children = [];
+        for (var k in placeData.children) {
+
+          var child = NstSvcTinyPlaceStorage.get(placeData.children[k]._id) || NstSvcPlaceStorage.get(placeData.children[k]._id);
           if (!child) {
-            child = this.parseTinyPlace(placeData.childs[k]);
+            child = this.parseTinyPlace(placeData.children[k]);
           }
 
-          child.setParent(place);
-          child.setGrandParent(place.getGrandParent());
+          child.setParentId(place);
+          child.setGrandParentId(place.getGrandParentId());
           // TODO: Push into factory
 
-          children[child.getId()] = child;
-          children.length++;
+          children.push(child);
+          place.children = children;
         }
-
-        place.setChildren(children);
       }
-
       return place;
     };
 

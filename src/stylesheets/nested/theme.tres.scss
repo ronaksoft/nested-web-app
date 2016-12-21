@@ -84,11 +84,8 @@
       //width: calc(100% - 72px);
     }
   }
-  .nst-topnav{
-    display: none;
-  }
-  #top-nav-container {
-    display: none;
+  .nst-topnav,#top-nav-container{
+    display: none!important;
   }
 }
 

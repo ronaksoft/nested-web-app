@@ -324,7 +324,7 @@
         NstSvcServer.request('timeline/get_events', {
           filter: NST_ACTIVITY_FILTER.ALL,
           limit: settings.limit || 10,
-          placeId : settings.placeId
+          place_id : settings.placeId
         }).then(function(data) {
 
           var activities = _.map(data.events, parseActivity);

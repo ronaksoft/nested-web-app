@@ -12,6 +12,7 @@
                           NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal, NstSvcServer, NstSvcPostInteraction, NstSvcTranslation,
                           NstTinyComment, NstVmUser, selectedPostId) {
     var vm = this;
+    var removedCommentsCount = 0;
 
     /*****************************
      *** Controller Properties ***
@@ -182,6 +183,7 @@
       }
       reqRemoveComment(vm.postModel, comment).then(function(post) {
         NstUtility.collection.dropById(vm.comments, comment.id);
+        removedCommentsCount ++;
       }).catch(function(error) {
         // TODO: decide && show toastr
       });
@@ -492,8 +494,9 @@
     $uibModalInstance.result.finally(function () {
       $rootScope.$broadcast('post-modal-closed', {
         postId: vm.post.id,
-        comments: vm.comments.length <= 3 ? vm.comments : _.tail(vm.comments, vm.comments.length - 3),
-        totalCommentsCount: vm.postModel.counters.comments
+        comments: _.tail(vm.comments, vm.comments.length - 3),
+        totalCommentsCount: vm.postModel.counters.comments,
+        removedCommentsCount : removedCommentsCount
       });
     });
   }

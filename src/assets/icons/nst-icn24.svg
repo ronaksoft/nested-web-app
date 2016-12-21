@@ -37,4 +37,20 @@
     <rect id="empty24-7" data-name="empty24" width="24" height="24" style="fill: none"/>
     <path d="M12,20.71,2.54,11.25,12,1.79V8.14c4,.22,9.9,3.12,9.9,10.38h0v1.25h-1V18.52C20.9,14.67,15,14.06,12,14Z"/>
   </g>
+  <g id="arrow-down">
+    <rect id="space" width="24" height="24" style="fill: none"/>
+    <g id="path">
+      <polygon points="12 16.41 6.29 10.71 7.71 9.29 12 13.59 16.29 9.29 17.71 10.71 12 16.41"/>
+    </g>
+  </g>
+  <g id="arrow-up">
+    <rect id="space-2" data-name="space" width="24" height="24" transform="translate(24 24) rotate(-180)" style="fill: none"/>
+    <g id="path-2" data-name="path">
+      <polygon points="16.29 14.71 12 10.41 7.71 14.71 6.29 13.29 12 7.59 17.71 13.29 16.29 14.71"/>
+    </g>
+  </g>
+  <g id="circle">
+    <rect id="space-3" data-name="space" width="24" height="24" transform="translate(24 24) rotate(-180)" style="fill: none"/>
+    <circle cx="12" cy="12" r="4" style="fill: #ff0014"/>
+  </g>
 </svg>

@@ -265,3 +265,8 @@ $sidebar-place-move: $sidebar-delay - $sidebar-scroll-move;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+@keyframes down-slip {
+  0% { max-height: 0;}
+  100% { opacity: 1;
+    max-height: 2500px;}
+}
