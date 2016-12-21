@@ -67,11 +67,14 @@
       }
       div,label {
         height: 32px;
-        width: 54px;
+        padding: 0 8px;
         justify-content: center;
         align-items: center;
         display: flex;
         @extend .nst-font-small;
+        span {
+          @extend .nst-font-small;
+        }
       }
     }
     input {
