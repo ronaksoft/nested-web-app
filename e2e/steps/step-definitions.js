@@ -289,6 +289,13 @@ module.exports = function () {
       assert.equal(title.trim(), text, ' title is "' + title + '" but should be "' + text);
     });
   });
+//---------modal selector-------//
+
+  this.Then(/^the modal message have to be "([^"]*)"$/, function (expectedModal) {
+    element(By.css(".force")).getText().then(function (no) {
+      assert.equal(no.trim(), expectedModal, ' title is "' + no + '" but should be "' + expectedModal);
+    });
+  });
 
 //------------url selectors----------------//
 
