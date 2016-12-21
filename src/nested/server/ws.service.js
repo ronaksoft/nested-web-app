@@ -11,7 +11,8 @@
 
       this.url = url;
       this.protocol = protocol;
-
+      // We allocated an array for every event
+      // to be able to register multiple handlers
       this.onOpenQueue = [];
       this.onCloseQueue = [];
       this.onErrorQueue = [];

@@ -8,12 +8,12 @@
   function NstSvcConnectionMonitor($timeout, NstSvcLogger, NstUtility, NstSvcWS, NstSvcPingPong, NST_WEBSOCKET_STATE) {
 
     function ConnectionMonitor() {
-      var that = this;
-
       this.ws = null;
       this.isConnected = false;
       this.onReadyHandler = null;
       this.onBreakHandler = null;
+      // TODO : Reset retry time after connecting again
+      this.nextRetryTime = 1000;
     }
 
     ConnectionMonitor.prototype.constructor = ConnectionMonitor;
@@ -21,17 +21,20 @@
     ConnectionMonitor.prototype.start = function (url, protocol) {
       var that = this;
 
+      // Open a new WebSocket
       this.ws = new NstSvcWS(url, protocol);
-
-      this.nextRetryTime = 1000;
 
       this.ws.onOpen(function (event) {
         that.isConnected = true;
+        this.nextRetryTime = 1000;
+
         if (_.isFunction(that.onReadyHandler)) {
           that.onReadyHandler(event);
         }
       });
 
+      // To figure out a connection is no longer alive, We have to consider both
+      // WebSocket close event and PingPong service disconnect event.
       this.ws.onClose(function (event) {
         that.isConnected = false;
 
@@ -42,6 +45,7 @@
         that.reconnect();
       });
 
+      // Create a PingPong service to keep the connection alive
       this.pingPong = new NstSvcPingPong(this.ws);
 
       this.pingPong.start();
@@ -70,21 +74,22 @@
     }
 
     ConnectionMonitor.prototype.onReady = function (action) {
-      var that = this;
-      that.onReadyHandler = action;
+      this.onReadyHandler = action;
     }
 
     ConnectionMonitor.prototype.onBreak = function (action) {
-      var that = this;
-      that.onBreakHandler = action;
+      this.onBreakHandler = action;
     }
 
     ConnectionMonitor.prototype.reconnect = function () {
       var that = this;
+
       this.nextRetryTime = this.nextRetryTime * 2;
       $timeout(function () {
+
         NstSvcLogger.debug(NstUtility.string.format("Preparing to reconnect after {0} sec.", that.nextRetryTime / 1000));
         that.ws.reconnect();
+
       }, this.nextRetryTime);
     }
 
