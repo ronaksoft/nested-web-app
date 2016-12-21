@@ -41,8 +41,3 @@
     height: $navbar-height + $topnav-height;
   }
 }
-@media screen and (min-width: $screen-md){
-  .nst-topnav,#top-nav-container{
-    display: none;
-  }
-}

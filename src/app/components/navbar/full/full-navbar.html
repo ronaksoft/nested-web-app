@@ -1,4 +1,4 @@
-<nst-mini-navbar></nst-mini-navbar>
+<nst-mini-navbar ng-if="$root.deviceDetector == 'tablet'"></nst-mini-navbar>
 <div class="nst-navbar _tr">
   <div class="bg" affixer offset-top="72" parent="nst-navbar" dont-set-width="true"></div>
   <div class="shadow-top" affixer parent="nst-navbar" dont-set-width="true" first-imp="true"></div>
@@ -52,7 +52,7 @@
               <translate>Files</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode" class="menu-links-butn _df li-hover" active-group="activity">
-              <translate>Activity</translate>
+              <translate>Activities</translate>
             </a>
           </nav>
           <div class="search">

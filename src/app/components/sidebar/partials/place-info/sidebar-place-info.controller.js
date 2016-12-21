@@ -84,7 +84,6 @@
       return deferred.promise;
 
     }
-
     function getGrandPlaceChildren(grandPlaceId) {
       var deferred = $q.defer();
       NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
