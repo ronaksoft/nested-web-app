@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -11,6 +11,7 @@
     var vm = this;
     vm.loading = false;
     vm.currentPlaceId = $stateParams.placeId;
+    vm.hasNotUnreadPostInChildren = hasNotUnreadPostInChildren;
 
     vm.range = function (num) {
       var seq = [];
@@ -49,7 +50,7 @@
 
     $scope.$watch(function () {
       return $stateParams.placeId;
-    },function () {
+    }, function () {
       vm.currentPlaceId = $stateParams.placeId;
     });
 
@@ -57,10 +58,10 @@
     $scope.$watch(function () {
       if (vm.grandPlace) {
         return vm.grandPlace.id;
-      }else{
+      } else {
         return false
       }
-    },function () {
+    }, function () {
       if (vm.grandPlace) {
         Initializing();
       }
@@ -74,7 +75,7 @@
       return !!parameter && parameter !== NST_DEFAULT.STATE_PARAM;
     }
 
-    function getSubplaceInfo(grandPlaceId){
+    function getSubplaceInfo(grandPlaceId) {
       var deferred = $q.defer();
 
       NstSvcPlaceFactory.get(grandPlaceId).then(function (place) {
@@ -84,14 +85,15 @@
       return deferred.promise;
 
     }
+
     function getGrandPlaceChildren(grandPlaceId) {
       var deferred = $q.defer();
       NstSvcPlaceFactory.getGrandPlaceChildren(grandPlaceId).then(function (places) {
 
-        var placesList =_.map(places, function (place) {
+        var placesList = _.map(places, function (place) {
           var model = new NstVmPlace(place);
           model.isStarred = place.isStarred;
-          model.href = $state.href('app.place-messages', { placeId : place.id });
+          model.href = $state.href('app.place-messages', {placeId: place.id});
           return model;
         });
 
@@ -124,11 +126,22 @@
       var placeIds = _.keys(vm.placesNotifCountObject);
       if (placeIds.length > 0)
         NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds)
-          .then(function(places){
+          .then(function (places) {
             _.each(places, function (value, placeId) {
               vm.placesNotifCountObject[placeId] = value;
-            })
+            });
           });
+    }
+
+    function hasNotUnreadPostInChildren(placeId) {
+      var hasUnread = false;
+      if(vm.placesNotifCountObject)
+        for (var key in vm.placesNotifCountObject) {
+          if (key.indexOf(placeId + '.') === 0 && vm.placesNotifCountObject[key] > 0) {
+            hasUnread = true;
+          }
+        }
+      return !hasUnread;
     }
 
 
@@ -155,6 +168,7 @@
         NstSvcPlaceFactory.removePlaceFromTree(vm.children, placeId);
       }
     }
+
     /*****************************
      *****  Event Listeners   ****
      *****************************/
@@ -187,7 +201,6 @@
     });
 
 
-
     NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
       getPlaceUnreadCounts();
     });
@@ -200,5 +213,6 @@
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.REMOVE, function (event) {
       clearPlace(event.detail);
     });
+
   }
 })();
