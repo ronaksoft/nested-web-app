@@ -159,6 +159,11 @@ module.exports = function () {
     ClickableElement.click();
   });
 
+  this.Given(/^I Click on switchDrag "([^"]*)" on navbar$/, function (switchDrag){
+    var SwitchElement = element(By.css('div[switch-drag="' + switchDrag + '"]'));
+    SwitchElement.click();
+  });
+
   this.Given(/^I Click list by ngClick "([^"]*)"$/, function (ngClick){
     var list = element(By.css('li[ng-click="' + ngClick + '"]'));
     list.click();
