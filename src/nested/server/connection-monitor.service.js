@@ -5,19 +5,58 @@
     .service('NstSvcConnectionMonitor', NstSvcConnectionMonitor);
 
   /**@Inject */
-  function NstSvcConnectionMonitor(NstSvcLogger, NstUtility, NstSvcWS, NST_WEBSOCKET_STATE) {
+  function NstSvcConnectionMonitor($timeout, NstSvcLogger, NstUtility, NstSvcWS, NstSvcPingPong, NST_WEBSOCKET_STATE) {
 
     function ConnectionMonitor() {
       var that = this;
 
       this.ws = null;
       this.isConnected = false;
+      this.onReadyHandler = null;
+      this.onBreakHandler = null;
     }
 
     ConnectionMonitor.prototype.constructor = ConnectionMonitor;
 
     ConnectionMonitor.prototype.start = function (url, protocol) {
+      var that = this;
+
       this.ws = new NstSvcWS(url, protocol);
+
+      this.nextRetryTime = 1000;
+
+      this.ws.onOpen(function (event) {
+        that.isConnected = true;
+        if (_.isFunction(that.onReadyHandler)) {
+          that.onReadyHandler(event);
+        }
+      });
+
+      this.ws.onClose(function (event) {
+        that.isConnected = false;
+
+        if (_.isFunction(that.onBreakHandler)) {
+          that.onBreakHandler(event);
+        }
+
+        that.reconnect();
+      });
+
+      this.pingPong = new NstSvcPingPong(this.ws);
+
+      this.pingPong.start();
+
+      this.pingPong.onDisconnected(function () {
+        if (that.isConnected) {
+
+          that.isConnected = false;
+          if (_.isFunction(that.onBreakHandler)) {
+            that.onBreakHandler(event);
+          }
+
+          that.reconnect();
+        }
+      });
 
       return this.ws;
     }
@@ -32,19 +71,21 @@
 
     ConnectionMonitor.prototype.onReady = function (action) {
       var that = this;
-      this.ws.onOpen(function (event) {
-        that.isConnected = true;
-        action(event);
-      });
+      that.onReadyHandler = action;
     }
 
-    ConnectionMonitor.prototype.onLost = function (action) {
+    ConnectionMonitor.prototype.onBreak = function (action) {
       var that = this;
-      this.ws.onClose(function (event) {
-        that.isConnected = false;
-        action(event);
+      that.onBreakHandler = action;
+    }
+
+    ConnectionMonitor.prototype.reconnect = function () {
+      var that = this;
+      this.nextRetryTime = this.nextRetryTime * 2;
+      $timeout(function () {
+        NstSvcLogger.debug(NstUtility.string.format("Preparing to reconnect after {0} sec.", that.nextRetryTime / 1000));
         that.ws.reconnect();
-      });
+      }, this.nextRetryTime);
     }
 
     return new ConnectionMonitor();
