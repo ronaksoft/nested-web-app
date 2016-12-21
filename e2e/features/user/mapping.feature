@@ -10,27 +10,27 @@
 #    When I wait 5s
 #    Given I fill "Password" with "123456"
 #    When I wait 5s
-#    Given I Press "Sign in"
+#    Given I Press "Sign-in"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Activity page mapping
 #    When I wait 5s
-#    Given I Click Link by Partial Text "Activity"
+#    Given I Click Link by Partial Text "Activities"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
+#
+#  Scenario: Favorite Feed page mapping
+#    When I wait 5s
+#    Given I Click on switchDrag "ctlFullNavbar.toggleFeed" on navbar
+#    When I wait 2s
+#    Then should the title of the place be "Favorite Feed"
 #
 #  Scenario: Sent page mapping
 #    When I wait 5s
 #    Given I Click on "sent" in sidebar
 #    When I wait 5s
 #    Then should the title of the place be "Sent"
-#
-#  Scenario: Bookmark page mapping
-#    When I wait 5s
-#    Given I Click on "favorites" in sidebar
-#    When I wait 2s
-#    Then should the title of the place be "Favorite Places"
 #
 #  Scenario: Change page mapping
 #    When I wait 5s
@@ -50,7 +50,7 @@
 #
 #  Scenario: Compose mapping
 #    When I wait 5s
-#    Given I Click Link by Partial Text "Compose"
+#    Given I Click on sidebar "compose"
 #    When I wait 5s
 #    Then should the title of the place be "Compose"
 #
@@ -70,7 +70,7 @@
 #
 #  Scenario: Change password mapping
 #    When I wait 5s
-#    Given I Click Link by Partial Text "Change Password"
+#    Given I Click Link by Partial Text "Change your password"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Back to Profile"
 #    When I wait 5s
@@ -97,7 +97,7 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When  I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #
 #  Scenario: Postcard Reply Sender mapping
@@ -110,7 +110,7 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When  I wait 2s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Postcard forward
 #    When  I wait 5s
@@ -124,7 +124,7 @@
 #    When  I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When  I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Postcard
 #    When I wait 5s
@@ -154,7 +154,7 @@
 #    When  I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When  I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Post view Reply sender
 #    When  I wait 5s
@@ -170,7 +170,7 @@
 #    When  I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When  I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Close Post-view
 #    When  I wait 5s
@@ -178,7 +178,7 @@
 #    When  I wait 5s
 #    Given I Click by ngClick "$dismiss()"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Post view forward
 #    When  I wait 5s
@@ -192,7 +192,7 @@
 #    When  I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When  I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Post view
 #    When  I wait 5s
@@ -215,14 +215,12 @@
 #    When I wait 5s
 #    Given I Click by ngClick "$dismiss()"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #
 #  Scenario: test filter bar
 #    When  I wait 5s
-#    Given I Click id "test-filter-sort"
-#    When I wait 5s
-#    Given I Click id "test-filter-sort"
+#    Given I move mouse on hidden popover "popoverSortShow"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Latest Messages"
 #    When I wait 5s
@@ -242,13 +240,13 @@
 #    When I wait 5s
 #    Given I Click label by for "comments"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
-
-
-
-
-
-
-
-
-
+#    Then should the title of the place be "Feed"
+#
+#
+#
+#
+#
+#
+#
+#
+#
