@@ -161,6 +161,10 @@ body[dir="rtl"] {
     right: auto;
     left: 16px;
   }
+  #top-nav-container ul ul li {
+    padding-left: 0;
+    padding-right: 16px;
+  }
 
 }
 @media screen and (max-width: $screen-md){
