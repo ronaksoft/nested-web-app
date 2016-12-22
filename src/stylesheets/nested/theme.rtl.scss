@@ -138,4 +138,31 @@ body[dir="rtl"] {
     left: auto ;
     right: 5px;
   }
+  .badge-invite {
+    right: auto;
+    left: -15px;
+  }
+  .nst-navbar .nav-access {
+    right: auto;
+    left: 0;
+  }
+  .nst-navbar .place-info {
+    left: 0;
+    right: 72px;
+  }
+  .icon-logo {
+    left: auto;
+    right: 0;
+  }
+  .place-info {
+    left: 0;
+  }
+
+}
+@media screen and (max-width: $screen-md){
+  body[dir="rtl"] .nst-container{
+    margin-right: 0;
+    width: 100%;
+  }
+
 }
