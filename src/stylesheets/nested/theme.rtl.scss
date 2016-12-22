@@ -157,6 +157,10 @@ body[dir="rtl"] {
   .place-info {
     left: 0;
   }
+  #delete-view .closebut {
+    right: auto;
+    left: 16px;
+  }
 
 }
 @media screen and (max-width: $screen-md){

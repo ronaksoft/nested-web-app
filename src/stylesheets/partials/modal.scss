@@ -52,10 +52,15 @@ body.modal-open {
     width: 125px;
     height: 32px;
     align-items: center;
+    line-height: 32px;
   }
   .butn-red{
     align-items: center;
     width: 128px;
+    line-height: 32px;
+  }
+  .butn-green{
+    line-height: 32px;
   }
   .closebut {
     position: absolute;
