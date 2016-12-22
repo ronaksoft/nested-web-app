@@ -53,7 +53,7 @@
       </div>
       <p class="input-lab" ng-if="ctlCreate.isClosedPlace"><translate>Who can post messages to this Place?</translate></p>
       <!--off-->
-      <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();"
+      <div class="select-box2 _wrb" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();"
            ng-class="{ selected : ctlCreate.receivingMode == 'off'}">
 
         <h3 ng-if="ctlCreate.isClosedPlace">
@@ -81,7 +81,7 @@
       </div>
 
       <!--internal-->
-      <div class="select-box2" ng-if="ctlCreate.isClosedPlace && ctlCreate.grandPlace.name" ng-click="ctlCreate.setReceivingMembers();"
+      <div class="select-box2 _wrb" ng-if="ctlCreate.isClosedPlace && ctlCreate.grandPlace.name" ng-click="ctlCreate.setReceivingMembers();"
            ng-class="{ selected : ctlCreate.receivingMode == 'members'}">
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">
@@ -108,7 +108,7 @@
       </div>
 
       <!--external-->
-      <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingEveryone();"
+      <div class="select-box2 _wrb" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingEveryone();"
            ng-class="{ selected : ctlCreate.receivingMode == 'everyone'}">
         <h3>
           <svg class="tick">
