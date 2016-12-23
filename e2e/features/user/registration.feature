@@ -18,7 +18,7 @@
 #    Then should the reg2-title be "Create a profile"
 #
 #  Scenario: register step 3
-#    Given I fill id "uid" with "kayvan-test2"
+#    Given I fill id "uid" with "kayvan-test3"
 #    Given I fill id "pass" with "123456"
 #    Given I fill id "fname" with "test"
 #    Given I fill id "lname" with "test"

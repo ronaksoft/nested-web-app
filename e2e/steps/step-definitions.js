@@ -1,3 +1,7 @@
+
+  var number = 15
+
+
 var assert = require('assert'),
   tmpResult;
 
