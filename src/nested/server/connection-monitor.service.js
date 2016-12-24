@@ -89,9 +89,6 @@
     ConnectionMonitor.prototype.reconnect = function () {
       this.nextRetryTime = 0;
       prepareToConnect.bind(this)();
-      this.nextRetryTime = 30;
-
-      return this.nextRetryTime;
     }
 
     function unplugConnector(connector) {
@@ -101,7 +98,6 @@
     function prepareToConnect() {
       var that = this;
 
-      that.nextRetryTime = getNextRetryTime(that.nextRetryTime);
       unplugConnector(that.connectorPlug);
 
 
@@ -117,6 +113,7 @@
           time : that.nextRetryTime
         });
       }
+      that.nextRetryTime = getNextRetryTime(that.nextRetryTime);
     }
 
     function getNextRetryTime(current) {
