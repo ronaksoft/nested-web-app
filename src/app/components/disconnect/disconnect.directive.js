@@ -3,21 +3,16 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('disconnectMessage', function ($compile, $templateRequest, emoji) {
+    .directive('disconnectMessage', function () {
       return {
         restrict: 'E',
         replace: true,
-        template: "<div ng-if='disconnect'" +
-          " class='disconnect-message' >" +
-            "<div class='reconnecting'>Disconnected from Nested server.<br />Connecting </div>" +
-          "</div>",
+        templateUrl: 'app/components/disconnect/disconnect.html',
+        controller: 'DisconnectController',
+        controllerAs: 'ctrl',
+        bindToController : true,
         scope: {
-          disconnect: '='
-        },
-        link: function (scope, tElem, tAttrs) {
-          return {
-            post: function (scope, element, Attr) {}
-          }
+          isDisconnected : '=disconnect'
         }
       };
     });

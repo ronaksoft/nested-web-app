@@ -10,14 +10,14 @@
   padding : 10px;
   margin : 5px;
   border-radius: 5px;
-  &:after {
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: bottom;
-    animation: ellipsis steps(4,end) 1400ms infinite;
-    content: "\2026"; /* ascii code for the ellipsis character */
-    width: 0;
-  }
+  // &:after {
+  //   overflow: hidden;
+  //   display: inline-block;
+  //   vertical-align: bottom;
+  //   animation: ellipsis steps(4,end) 1400ms infinite;
+  //   content: "\2026"; /* ascii code for the ellipsis character */
+  //   width: 0;
+  // }
 
   .reconnecting{
     display: inline;
