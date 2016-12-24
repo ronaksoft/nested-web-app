@@ -178,6 +178,7 @@ li.file-list-container {
 
 .files-types-images {
   margin: 0 0 0 7px;
+  position: relative;
   .img-container {
     &:after {
       position: absolute;
@@ -187,7 +188,7 @@ li.file-list-container {
       pointer-events: none;
       content: "";
       pointer-events: none;
-      left: 7px;
+      //left: 7px;
       -webkit-transform:translateY(-100%);
       -moz-transform:translateY(0);
     }

@@ -1,18 +1,14 @@
-<div id="popup-msg-badge" class="_fw" nst-scrollbar>
+<div id="popup-msg-badge" nst-scrollbar class="_fw">
   <div  data-ng-repeat="place in act.post.allPlaces" class="_fw _df hovercolor">
-    <a class="more-place-row" href="#/places/{{place.id}}/messages">
-      <div class="_dtc">
+    <a class="more-place-row _difh" href="#/places/{{place.id}}/messages">
+      <div class="_df _fn">
         <img ng-src="{{place.picture}}" class="account-initials-32"/>
       </div>
-      <div class="_dtc">
-        <div class="_dtr">
-          <ul class="list-unstyled text-center">
-            <li>
-              <span class="_dtc teammate-name nst-mood-solid text-left">{{place.name}}</span>
-            </li>
-          </ul>
+      <div class="_difv _fw">
+        <div class="_df _fw">
+          <span class="_dtc teammate-name nst-mood-solid">{{place.name}}</span>
         </div>
-        <div class="_dtr">
+        <div class="_df _fw">
           <div class="_dtc nst-mood-storm nst-font-small">{{place.id}}</div>
         </div>
       </div>
