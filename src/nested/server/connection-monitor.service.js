@@ -7,13 +7,16 @@
   /**@Inject */
   function NstSvcConnectionMonitor($timeout, NstSvcLogger, NstUtility, NstSvcWS, NstSvcPingPong, NST_WEBSOCKET_STATE) {
 
+    var defaultRetryStartTime = 0;
+
     function ConnectionMonitor() {
       this.ws = null;
       this.isConnected = false;
       this.onReadyHandler = null;
       this.onBreakHandler = null;
-      // TODO : Reset retry time after connecting again
-      this.nextRetryTime = 1000;
+      this.nextRetryTime = defaultRetryStartTime;
+      this.connectorPlug = null;
+      this.onReconnecting = null;
     }
 
     ConnectionMonitor.prototype.constructor = ConnectionMonitor;
@@ -26,7 +29,9 @@
 
       this.ws.onOpen(function (event) {
         that.isConnected = true;
-        this.nextRetryTime = 1000;
+
+        unplugConnector(that.connectorPlug);
+        that.nextRetryTime = defaultRetryStartTime;
 
         if (_.isFunction(that.onReadyHandler)) {
           that.onReadyHandler(event);
@@ -42,7 +47,7 @@
           that.onBreakHandler(event);
         }
 
-        that.reconnect();
+        prepareToConnect.bind(that)();
       });
 
       // Create a PingPong service to keep the connection alive
@@ -58,7 +63,7 @@
             that.onBreakHandler(event);
           }
 
-          that.reconnect();
+          prepareToConnect.bind(that)();
         }
       });
 
@@ -67,7 +72,7 @@
 
     ConnectionMonitor.prototype.isReady = function () {
       if (!this.ws) {
-        throw Error("The service has not been started!");
+        throw Error("The service has not been started yet!");
       }
 
       return this.ws.getState() === NST_WEBSOCKET_STATE.OPEN && this.isConnected;
@@ -82,15 +87,44 @@
     }
 
     ConnectionMonitor.prototype.reconnect = function () {
+      this.nextRetryTime = 0;
+      prepareToConnect.bind(this)();
+      this.nextRetryTime = 30;
+
+      return this.nextRetryTime;
+    }
+
+    function unplugConnector(connector) {
+      $timeout.cancel(connector);
+    }
+
+    function prepareToConnect() {
       var that = this;
 
-      this.nextRetryTime = this.nextRetryTime * 2;
-      $timeout(function () {
+      that.nextRetryTime = getNextRetryTime(that.nextRetryTime);
+      unplugConnector(that.connectorPlug);
+
+
+      that.connectorPlug = $timeout(function () {
 
         NstSvcLogger.debug(NstUtility.string.format("Preparing to reconnect after {0} sec.", that.nextRetryTime / 1000));
         that.ws.reconnect();
 
-      }, this.nextRetryTime);
+      }, that.nextRetryTime);
+
+      if (_.isFunction(that.onReconnecting)) {
+        that.onReconnecting({
+          time : that.nextRetryTime
+        });
+      }
+    }
+
+    function getNextRetryTime(current) {
+      if (current < 90000) { // 4 min
+        return current + 2000;
+      } else {
+        return 90000;
+      }
     }
 
     return new ConnectionMonitor();
