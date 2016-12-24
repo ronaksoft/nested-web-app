@@ -253,6 +253,7 @@
         setLanguage(vm.lang);
         toastr.success(NstSvcTranslation.get("Your profile has been updated successfully."));
         $rootScope.goToLastState();
+        window.location.reload(true);
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Sorry, an error occured while updating your profile."));
       });
