@@ -145,7 +145,7 @@
   </div>
   <div class="_difh _fw margin-b-16" ng-if="!ctlSettings.isSubPersonalPlace">
     <div class="f4 _fw _difv" ng-if="ctlSettings.isClosedPlace">
-      <p class="input-lab"><translate>Who can create a sub-Place?</translate><br> &nbsp; </p>
+      <p class="input-lab"><translate>Who can create a sub-Place?</translate></p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_place"
               data-ng-change="ctlSettings.updateAddPlacePolicy()">
@@ -158,7 +158,7 @@
     </div>
     <div class="f1"></div>
     <div class="f4 _fw _difv">
-      <p class="input-lab" ng-if="ctlSettings.isGrandPlace" ><translate>Who can invite new Members?</translate> </p>
+      <p class="input-lab" ng-if="ctlSettings.isGrandPlace" ><translate>Who can invite new Members?</translate></p>
       <p class="input-lab" ng-if="!ctlSettings.isGrandPlace"><translate>Who can add Members to this Place?</translate></p>
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_member"
