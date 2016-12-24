@@ -10,7 +10,7 @@
 #    When I wait 2s
 #    Given I fill "Password" with "111111"
 #    When I wait 2s
-#    Given I Press "Sign in"
+#    Given I Press "Sign-in"
 #    When I wait 5s
 #    Then should the title of the place be "All Places"
 #

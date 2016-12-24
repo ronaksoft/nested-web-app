@@ -105,18 +105,18 @@ module.exports = function () {
   });
 
   this.Given(/^I Click on "([^"]*)" in sidebar$/, function (destination) {
-    var pS = element(By.css('a[href="#/messages/'+ destination +'"]'));
-    pS.click();
+    var pS1 = element(By.css('a[href="#/messages/'+ destination +'"]'));
+    pS1.click();
   });
 
   this.Given(/^I Click on plus of "([^"]*)" in sidebar$/, function (destination) {
-    var pS = element(By.css('a[href="#/places/_/'+ destination +'"]'));
-    pS.click();
+    var pS2 = element(By.css('a[href="#/places/_/'+ destination +'"]'));
+    pS2.click();
   });
 
   this.Given(/^I Click on "([^"]*)" place$/, function (destination) {
-    var pS = element(By.css('a[href="#/places/'+ destination +'/messages"]'));
-    pS.click();
+    var pS3 = element(By.css('a[href="#/places/'+ destination +'/messages"]'));
+    pS3.click();
   });
 
   this.Given(/^I Click on sidebar by id "([^"]*)"$/, function (sidebarId) {
@@ -157,6 +157,11 @@ module.exports = function () {
   this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClick){
     var ClickableElement = element(By.css('div[ng-click="' + ngClick + '"]'));
     ClickableElement.click();
+  });
+
+  this.Given(/^I Click on switchDrag "([^"]*)" on navbar$/, function (switchDrag){
+    var SwitchElement = element(By.css('div[switch-drag="' + switchDrag + '"]'));
+    SwitchElement.click();
   });
 
   this.Given(/^I Click list by ngClick "([^"]*)"$/, function (ngClick){
@@ -213,6 +218,11 @@ module.exports = function () {
   this.Given(/^I Click text by tooltip "([^"]*)"$/, function (text) {
     var text = element(By.css('p[data-uib-tooltip="' + text + '"]'));
     text.click();
+  });
+
+  this.Given(/^I move mouse on hidden popover "([^"]*)"$/, function (dataPopover) {
+    var popover = element(By.css('div[data-popover-is-open="' + dataPopover + '"]'));
+    popover.mouseEnter().perform();
   });
 
   this.Then(/^should the title of the page be "([^"]*)"$/, function (expectedPageTitle) {

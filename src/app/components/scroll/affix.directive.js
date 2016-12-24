@@ -10,11 +10,22 @@
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
+
         var win = angular.element($window);
         var topOffset = 0;
         var afterContent = 0;
         var applierTrigger = false;
+
         var containerLeft = $('body').offset().left || 0;
+
+        var isRTL = $("body").attr("dir");
+
+        applier();
+
+        win.on("resize", function () {
+          applier();
+        });
+
         function applier() {
           removeFix();
 
@@ -25,8 +36,9 @@
           var width = $element.outerWidth();
           var dontSetWidth = $attrs.dontSetWidth || false;
 
-          var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-          var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+          var actualWidth = Math.min(width, win.outerWidth());
+
+          var fixed = false;
 
 
           if (!!$attrs.offsetTop ) {
@@ -48,10 +60,22 @@
           if (!!$attrs.fixedTop ) {
             top = parseInt($attrs.top);
           }
+          if (!!$attrs.clearRight ) {
+            var clearRight = true;
+          }
 
-          //for create a fixed element we need a left parameter so we get it from hisself
+          affixElement();
+
+          //for create a fixed element we need a left parameter so we read it from itself
           function findLeftOffset () {
-            offLeft = parseInt(containerLeft) + parseInt(afterContent);
+            if (isRTL == 'rtl') {
+              if (parseInt(afterContent) > 0) {
+                offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
+              }
+            } else {
+              offLeft = parseInt(containerLeft) + parseInt(afterContent);
+            }
+
             // if (isChrome || isFirefox) {
             //   offLeft = parseInt($(container).offset().left) + parseInt(afterContent) - parseInt($('.sidebar').offset().left);
             // }else if (!(isChrome || isFirefox )){
@@ -66,14 +90,13 @@
             $element.css('height', '');
           }
 
-          var fixed = false;
 
           function affixElement() {
             if ($window.pageYOffset > topOffset && !fixed) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
               $element.css('left', offLeft + 'px');
-              if(!dontSetWidth) $element.css('width', width + 'px');
+              if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               fixed = true;
             } else if ($window.pageYOffset < topOffset && fixed) {
@@ -82,8 +105,6 @@
             }
           }
 
-          affixElement();
-
           function firstFixes() {
             if (!!$attrs.firstImp ) {
               $element.css('position', 'fixed');
@@ -91,6 +112,9 @@
               $element.css('left', offLeft + 'px');
               $element.css('width', width + 'px');
               $element.css('height', height + 'px');
+              if(clearRight) {
+                $element.css('right', 'auto');
+              }
               return win.unbind('scroll', affixElement);
             }
           }
@@ -101,29 +125,25 @@
           firstFixes();
 
         }
-        applier();
+
+        // $scope.$watch(function () {
+        //
+        //   //bugfix for left of undiefiend on log out
+        //   if (!$('.content') || !$(".content").offset() || !$(".content").offset().left){
+        //       return false;
+        //   }else{
+        //       return $('.content').offset().left
+        //   }
+        // },function (newVal,oldVal) {
+        //   if(newVal)
+        //     applier();
+        // });
 
         //keep track user and change parameters
-        $scope.$on('$routeChangeStart', function() {
-          applier();
-        });
+        // $scope.$on('$routeChangeStart', function() {
+        //   applier();
+        // });
 
-        win.on("resize", function () {
-          applier();
-        });
-
-        $scope.$watch(function () {
-
-          //bugfix for left of undiefiend on log out
-          if (!$('.content') || !$(".content").offset() || !$(".content").offset().left){
-              return false;
-          }else{
-              return $('.content').offset().left
-          }
-        },function (newVal,oldVal) {
-          if(newVal)
-            applier();
-        });
       }
     };
   }

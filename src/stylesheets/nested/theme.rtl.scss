@@ -1,0 +1,176 @@
+body[dir="rtl"] {
+  .sidebar {
+    left: auto;
+    right: 0;
+    .sidebar-wrapper .detailed.isSelected:after {
+      right: auto;
+      left: -8px;
+      transform: translateY(-50%) rotateZ(180deg);
+    }
+    .sidebar-plus-wrapper {
+      left: 0;
+      right: auto;
+      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.5);
+      .places{
+        ul li ul .place-item-inner a {
+          right: -16px;
+          left: 0;
+        }
+        .place-item-inner {
+          .icon {
+
+            left: auto;
+            right: -16px;
+          }
+          a {
+            margin-right: 0;
+            margin-left: -16px;
+          }
+          span {
+            right: auto;
+            left: 0;
+            .nst-arrow {
+              padding-right: 8px;
+              padding-left: 0;
+            }
+          }
+
+        }
+        .places-list {
+          padding-right: 0;
+          padding-left: 8px;
+          >ul {
+            padding-left: 0;
+            padding-right: 16px;
+          }
+        }
+      }
+    }
+  }
+  .nst-container {
+    margin-left: 0;
+    margin-right: 272px;
+  }
+  .tick {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  .place-switch input + label {
+    border-top-left-radius: 0;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 16px;
+    border-left-width: 0;
+    border-right-width: 1px;
+  }
+  .place-switch input + label + label {
+    border-top-right-radius: 0;
+    border-top-left-radius: 16px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 16px;
+    border-left-width: 1px;
+    border-right-width: 0;
+  }
+  .place-switch input[type="checkbox"]:checked + label {
+    border-right-width: 1px;
+    border-left-width: 0;
+  }
+  .place-switch input[type="checkbox"]:checked + label + label {
+    border-right-width: 0;
+    border-left-width: 1px;
+  }
+  .place-switch input + label .circle {
+    right: 0;
+    transform: translateX(-4px);
+  }
+  .place-switch input[type="checkbox"]:checked + label .circle {
+    transform: translateX(-52px);
+  }
+  #create-place .create-place-checkbox:checked + label {
+    background-position: 100% -16px;
+  }
+  #create-place .create-place-checkbox + label {
+    background-position: 100% 0;
+    padding: 0 17px 0 0;
+  }
+  .green-radio + label {
+    background-position: 100% -48px;
+    padding: 0 17px 0 0;
+  }
+  .green-radio:checked + label {
+    background-position: 100% -64px;
+  }
+  #place-settings .user-item .name {
+    padding-left: 0;
+    padding-right: 8px;
+  }
+  .dropdown-menu {
+    right: 0;
+    left: auto;
+  }
+  #add-view .butn-green{
+    left: 20px;
+    right: auto;
+  }
+  .content-plus {
+    margin-left: 0;
+    margin-right: 16px;
+  }
+  select {
+    background : url('../assets/icons/inputform.svg') no-repeat 2% -124px, linear-gradient(to bottom, #FFFFFF, whitesmoke 100%);
+  }
+  .post-card .post-head {
+    padding-right: 0;
+    padding-left: 12px;
+  }
+  .compose-input {
+    padding-left: 0;
+    padding-right: 16px;
+    direction: rtl;
+  }
+  .nst-navbar .place-info .navigation .search {
+    i {
+      left: 4px;
+      right: auto;
+    }
+  }
+  .post-card .post-head .icon {
+    left: auto ;
+    right: 5px;
+  }
+  .badge-invite {
+    right: auto;
+    left: -15px;
+  }
+  .nst-navbar .nav-access {
+    right: auto;
+    left: 0;
+  }
+  .nst-navbar .place-info {
+    left: 0;
+    right: 72px;
+  }
+  .icon-logo {
+    left: auto;
+    right: 0;
+  }
+  .place-info {
+    left: 0;
+  }
+  #delete-view .closebut {
+    right: auto;
+    left: 16px;
+  }
+  #top-nav-container ul ul li {
+    padding-left: 0;
+    padding-right: 16px;
+  }
+
+}
+@media screen and (max-width: $screen-md){
+  body[dir="rtl"] .nst-container{
+    margin-right: 0;
+    width: 100%;
+  }
+
+}
