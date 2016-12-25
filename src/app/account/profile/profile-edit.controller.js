@@ -251,11 +251,11 @@
     function saveAndExit(isValid) {
       save(isValid).then(function (result) {
         setLanguage(vm.lang);
-        toastr.success(NstSvcTranslation.get("Your profile has been updated successfully."));
+        toastr.success(NstSvcTranslation.get("Your profile has been updated."));
         $rootScope.goToLastState();
         window.location.reload(true);
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Sorry, an error occured while updating your profile."));
+        toastr.error(NstSvcTranslation.get("Sorry, an error has occurred while updating your profile."));
       });
     }
 

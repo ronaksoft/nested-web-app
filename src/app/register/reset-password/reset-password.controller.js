@@ -68,9 +68,9 @@
         nextStep();
       }).catch(function(reason) {
         if (reason === 'notfound') {
-          toastr.error(NstSvcTranslation.get('Could not find your phone number.'));
+          toastr.error(NstSvcTranslation.get('We can\'t seem to find your phone number!'));
         } else {
-          toastr.error(NstSvcTranslation.get('Sorry, an error happened while trying to recover your password. Please contact us.'));
+          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred while trying to recover your password. Please contact us.'));
         }
       });
     };
@@ -106,7 +106,7 @@
         if (reason === 'wrong') {
           toastr.error(NstSvcTranslation.get('The provided code is wrong!'));
         } else {
-          toastr.error(NstSvcTranslation.get('Sorry, and error happend while verifing the code.'));
+          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in verifying the code.'));
         }
       });
     };
@@ -144,10 +144,10 @@
       }
 
       sendNewPassword(vm.verificationId, vm.phone, md5.createHash(vm.password)).then(function(result) {
-        toastr.success(NstSvcTranslation.get("Your password changed successfully."));
+        toastr.success(NstSvcTranslation.get("You've changed your password successfully."));
         $state.go('public.signin');
       }).catch(function(reason) {
-        toastr.error(NstSvcTranslation.get('Sorry, an error happened while reseting your password.'));
+        toastr.error(NstSvcTranslation.get('Sorry, an error has occurred in reseting your password.'));
       });
 
     }

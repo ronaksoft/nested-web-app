@@ -10,10 +10,10 @@
     NstUtility, NstSvcModal, NstSvcPostFactory, NstSvcTranslation) {
 
     var RETRACT_CONFIRM_TITLE = NstSvcTranslation.get("Confirm"),
-      RETRACT_CONFIRM_MESSAGE = NstSvcTranslation.get("Are you sure you want to retract this message? Once you do this, the message will be deleted from all recipient Places. This action cannot be undone."),
+      RETRACT_CONFIRM_MESSAGE = NstSvcTranslation.get("Are you sure you want to retract this message? This action will delete the message from all the recipients and cannot be undone."),
       RETRACT_SUCCESS_MESSAGE = NstSvcTranslation.get("The message has been retracted successfully."),
-      RETRACT_FAILURE_MESSAGE = NstSvcTranslation.get("An error occured while retracting the message."),
-      RETRACT_LATE_MESSAGE = NstSvcTranslation.get("Sorry, But it is too late to retract the message."),
+      RETRACT_FAILURE_MESSAGE = NstSvcTranslation.get("An error has occurred in the retraction of the message."),
+      RETRACT_LATE_MESSAGE = NstSvcTranslation.get("Sorry, but your 24-hour retraction time has come to its end."),
       REMOVE_CONFIRM_TITLE = NstSvcTranslation.get("Confirm"),
       REMOVE_CONFIRM_MESSAGE = NstSvcTranslation.get("Are you sure you want to delete post {0} from Place {1}?"),
       REMOVE_CONFIRM_MESSAGE_NO_SUBJECT = NstSvcTranslation.get("Are you sure you want to delete the post from Place {0}?");

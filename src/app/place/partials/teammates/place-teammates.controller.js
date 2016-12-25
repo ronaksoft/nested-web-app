@@ -124,7 +124,7 @@
               }).catch(function (error) {
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously invited to Place "{1}".'), user.id, vm.placeId));
+                  toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been previously invited to Place "{1}".'), user.id, vm.placeId));
                   resolve({
                     user: user,
                     role: role,
@@ -146,7 +146,7 @@
               }).catch(function (error) {
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously added to Place "{1}".'), user.id, vm.placeId));
+                  toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been previously added to Place "{1}".'), user.id, vm.placeId));
                   resolve({
                     user: user,
                     role: role,

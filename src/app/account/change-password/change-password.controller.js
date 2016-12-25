@@ -14,7 +14,7 @@
 
     vm.controls = {
       left: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Back to Profile'), NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('app.profile'))
+        new NstVmNavbarControl(NstSvcTranslation.get('Return to Profile'), NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('app.profile'))
       ],
       right: []
     };
@@ -37,13 +37,13 @@
         var changePasswordPromise = NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword);
         NstSvcLoader.inject(changePasswordPromise);
         changePasswordPromise.then(function(result) {
-          toastr.success(NstSvcTranslation.get('Your password changed successfully.'));
+          toastr.success(NstSvcTranslation.get('You've changed your password successfully.'));
           $state.go('app.profile');
         }).catch(function(error) {
           if (error.code === NST_SRV_ERROR.INVALID) {
             var message = _.first(error.message);
             if (message === 'old_pass') {
-              toastr.error(NstSvcTranslation.get('Your old password is wrong!'));
+              toastr.error(NstSvcTranslation.get('The old password you've entered is incorrect'));
             }
           }
 
