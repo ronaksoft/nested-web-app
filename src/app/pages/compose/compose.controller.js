@@ -153,6 +153,10 @@
         });
         if (initPlace.id)
           vm.search.results.push(initPlace);
+      }).catch(function () {
+        vm.search.results = [];
+        if (initPlace.id)
+          vm.search.results.push(initPlace);
       });
     };
 
