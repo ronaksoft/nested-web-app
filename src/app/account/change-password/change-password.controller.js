@@ -37,13 +37,13 @@
         var changePasswordPromise = NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword);
         NstSvcLoader.inject(changePasswordPromise);
         changePasswordPromise.then(function(result) {
-          toastr.success(NstSvcTranslation.get('You've changed your password successfully.'));
+          toastr.success(NstSvcTranslation.get('You\'ve changed your password successfully.'));
           $state.go('app.profile');
         }).catch(function(error) {
           if (error.code === NST_SRV_ERROR.INVALID) {
             var message = _.first(error.message);
             if (message === 'old_pass') {
-              toastr.error(NstSvcTranslation.get('The old password you've entered is incorrect'));
+              toastr.error(NstSvcTranslation.get('The old password you\'ve entered is incorrect'));
             }
           }
 
