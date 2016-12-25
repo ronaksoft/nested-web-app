@@ -119,19 +119,15 @@
       }
     }
 
-    $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
-      vm.user = mapUser(resolvedSet[0]);
-
-      vm.places = mapPlaces(resolvedSet[1]);
+    getUser().then(function (user) {
+      vm.user = mapUser(user);
+    }).catch(function () {
+      throw 'SIDEBAR | user can not parse'
+    });
+    getMyPlaces().then(function (places) {
+      vm.places = mapPlaces(places);
       fillPlacesNotifCountObject(vm.places);
-
-      vm.invitations = mapInvitations(resolvedSet[2]);
-
-      if (NstSvcAuth.user.unreadMentionsCount) {
-        vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
-      } else {
-        getMentionsCount();
-      }
+      fixUrls();
 
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
@@ -139,8 +135,23 @@
         });
       }
 
-      fixUrls();
+    }).catch(function (error) {
+      throw 'SIDEBAR | places can not init'
     });
+
+    getInvitations().then(function (invitation) {
+      vm.invitations = mapInvitations(invitation);
+    }).catch(function (error) {
+      throw 'SIDEBAR | invitation can not init'
+    });
+
+
+    if (NstSvcAuth.user.unreadMentionsCount) {
+      vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
+    } else {
+      getMentionsCount();
+    }
+
 
     $rootScope.$on('$stateChangeSuccess', function () {
       if ($stateParams.placeId) {
@@ -352,7 +363,6 @@
         place.isActive = false;
         if (vm.stateParams.placeId) {
           if (vm.stateParams.placeId.indexOf(place.id + '.') === 0)
-            console.log(vm.stateParams.placeId, place.id, vm.stateParams.placeId.indexOf(place.id + '.') === 0);
           place.isCollapsed = vm.stateParams.placeId.indexOf(place.id + '.') !== 0;
           place.isActive = vm.stateParams.placeId == place.id;
         }

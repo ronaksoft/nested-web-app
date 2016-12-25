@@ -221,7 +221,7 @@
 
         vm.model.fullName = user.getFullName();
 
-        if (vm.model.picture.uploadedFile) {
+        if (vm.uploadedImage) {
           storePicture(vm.model.picture.uploadedFile, vm.model).then(function (storeId) {
 
             return NstSvcUserFactory.updatePicture(storeId);

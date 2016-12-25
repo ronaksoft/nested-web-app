@@ -43,7 +43,7 @@
 
       var activity = new NstActivity();
 
-      activity.id = data._id.$oid;
+      activity.id = data.id;
       activity.type = data.action;
       activity.date = new Date(data.timestamp);
       activity.lastUpdate = new Date(data.last_update);
@@ -102,7 +102,7 @@
 
           $q.all(attachmentPromises).then(function (values) {
             var tinyPost = new NstPost({
-              id: data.post_id.$oid,
+              id: data.post.id,
               subject: data.post_subject,
               body: data.post_body,
               senderId: data.actor,
@@ -129,7 +129,7 @@
           defer.resolve(null);
         } else {
           defer.resolve(new NstTinyComment({
-            id: data.comment_id.$oid,
+            id: data.comment.id,
             body: data.comment_body,
             postId: data.post_id.$oid
           }));
@@ -194,7 +194,7 @@
 
         var activity = new NstActivity();
 
-        activity.id = data._id.$oid;
+        activity.id = data.id;
         activity.type = data.action;
         activity.date = new Date(data.timestamp);
         activity.lastUpdate = new Date(data.last_update);
