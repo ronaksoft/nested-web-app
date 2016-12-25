@@ -15,9 +15,9 @@
   margin-top: -6px;
   direction: ltr;
 }
-.places .popover {
-  direction: ltr;
-}
+//.places .popover {
+//  direction: ltr;
+//}
 
 #menu.popover-content {
   padding: 0;
@@ -239,5 +239,31 @@ input[type="checkbox"]:checked + label.setting {
   > .popover-inner {
     z-index: 2;
     max-height: 480px;
+  }
+}
+
+body[dir="rtl"] {
+  .popover-white-nst-msg {
+    left: -1px!important;
+    right: auto;
+  }
+  .popover-white-nst-setting {
+    left: 0!important;
+    right: auto;
+  }
+  .popover-white-nst-filter {
+    left: 72px!important;
+    right: 0;
+  }
+  .popover-white-nst-sort {
+    left: 80px!important;
+    right: auto;
+  }
+  .white-pop .popover-content a div, .white-pop .popover-content label div {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  .popover-userdetail .user-data div .butn-white, .popover-userdetail .user-data div .butn-white-nav {
+    margin: 0 0 0 4px;
   }
 }

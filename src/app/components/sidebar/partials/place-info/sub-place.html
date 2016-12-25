@@ -14,18 +14,19 @@
   <svg class="icon" ng-if="ctlPlaceInfo.placesBookmarkObject[place.id]">
     <use xlink:href="/assets/icons/nst-icn16.svg#favplace"></use>
   </svg>
-  <a dbl-click="{{place.children.length > 0}}" href="{{place.href}}" ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == place.id }" ng-dblclick="place.collapse =! place.collapse">
+  <a dbl-click="{{place.children.length > 0}}" href="{{place.href}}"
+     ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == place.id }">
     {{ place.name }}
-    <b ng-if="ctlPlaceInfo.placesNotifCountObject[place.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[place.id]}}</b></a>
+    <b
+      ng-if="ctlPlaceInfo.placesNotifCountObject[place.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[place.id]}}</b></a>
   <span ng-if="place.children.length > 0" class="e2-arrow _df">
     <label class="arrow-holder-nav {{!place.collapse ? 'nst-arrow' : 'nst-arrow-rotated'}}"
            data-ng-click="place.collapse =! place.collapse">
     </label>
   </span>
 </div>
-<ul ng-if="place.children.length > 0 && place.collapse" >
+<ul ng-if="place.children.length > 0 && place.collapse">
   <li class="side-place-item" ng-repeat="child in place.children"
-      data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'" onload="place = child"
-      ng-init="currentPlaceId = currentPlaceId">
+      data-ng-include="'app/components/sidebar/partials/place-info/sub-place.html'" onload="place = child">
   </li>
 </ul>

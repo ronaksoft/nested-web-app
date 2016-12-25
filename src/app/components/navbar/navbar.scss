@@ -308,13 +308,13 @@ ul.top-nav-places {
     max-height: 0;
     overflow: hidden;
     transition-property: opacity,max-height;
-    transition-duration: $animation-dur;
     transition-timing-function: ease-in-out;
+    transition-duration: $animation-dur;
     opacity: 0;
     display: flex;
     //animation: down-slip 20s ease-in forwards;
   }
-  ul ul.open {
+  ul ul.extend {
     max-height: 2200px;
     opacity: 1;
   }
@@ -554,7 +554,8 @@ nst-navbar {
       background-color: $color-white;
       display: inline-flex;
       flex-direction: row;
-      right: 0;
+      //right: 0;
+      width: 100%;
       left: 0;
       bottom: 0;
       height: 42px;
@@ -567,6 +568,7 @@ nst-navbar {
         flex: none;
         align-items: center;
         display: flex;
+        position: relative;
         input {
           @extend .nst-font-small;
           font-weight: 400;
@@ -730,4 +732,3 @@ nst-navbar {
     display: flex;
   }
 }
-

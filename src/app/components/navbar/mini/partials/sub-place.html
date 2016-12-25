@@ -1,12 +1,12 @@
-<ul class="_fw _difh ng-class:{'open' : place.isOpen}">
-  <li data-ng-repeat="place in place.children">
+<ul class="_fw _difh ng-class:{'extend' : NavbarSubCtrl.children.length > 0}">
+  <li data-ng-repeat="place in NavbarSubCtrl.children">
     <div class="_fw _difh placerow">
       <div class="logo _df">
         <a ng-if="place.avatar" ui-sref="app.place-messages({placeId:place.id})">
           <img class="account-initials-40" ng-src="{{place.avatar}}"/>
         </a>
-        <div class="notif" ng-if="ctlMiniNavbar.placesNotifCountObject[place.id] > 0">
-          {{ctlMiniNavbar.placesNotifCountObject[place.id]}}
+        <div class="notif" ng-if="NavbarSubCtrl.placesNotifCountObject[place.id] > 0">
+          {{NavbarSubCtrl.placesNotifCountObject[place.id]}}
         </div>
       </div>
       <div class="des _df _fw" href="{{place.href}}">
@@ -15,13 +15,13 @@
             <i class="role-icon-green"></i><h5 class="_df">{{place.name}}</h5>
           </div>
         </a>
-        <div class="_difv buttons ng-class:{'open' : !place.isCollapsed}" ng-if="place.children.length > 0"
-             data-ng-init="place.isCollapsed = true" data-ng-click="place.isCollapsed =! place.isCollapsed"
+        <div class="_difv buttons ng-class:{'open' : place.collapse}" ng-if="place.children.length > 0"
+             data-ng-click="place.collapse =! place.collapse"
              role="button" tabindex="0">
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#arrow-up"></use>
           </svg>
-          <svg>
+          <svg ng-class="{'visibility-hidden': NavbarSubCtrl.hasNotUnreadPostInChildren(place.id)}">
             <use xlink:href="/assets/icons/nst-icn24.svg#circle"></use>
           </svg>
           <svg>
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <ul class="_fw _difh ng-class:{'open' : !place.isCollapsed}"
+    <ul class="_fw _difh ng-class:{'extend' : place.collapse}"
         data-ng-include="'app/components/navbar/mini/partials/sub-place-b.html'" onload="place = place"
         ng-if="place.children.length > 0"></ul>
 

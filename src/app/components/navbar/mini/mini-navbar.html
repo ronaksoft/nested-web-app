@@ -2,16 +2,25 @@
   <div class="hamb-cont">
     <div class="_fw _df" hm-tap="$root.topNavOpen = !$root.topNavOpen">
       <div ng-class="$root.topNavOpen ? '_pr icon icon-top close-icon' : '_pr icon icon-top hamburger-icon'">
-        <i ng-if="ctlMiniNavbar.invitations.length > 0 && !$root.topNavOpen" class="badge-invite">{{ctlMiniNavbar.invitations.length}}</i>
+        <i ng-if="ctlMiniNavbar.totalUnreadPosts + ctlMiniNavbar.invitations.length > 0 && !$root.topNavOpen"
+           class="badge-invite">{{(ctlMiniNavbar.invitations.length ) + (ctlMiniNavbar.totalUnreadPosts || 0)}}</i>
       </div>
     </div>
     <div class="_fw _jcc _df">
-      <a ui-sref="app.messages()"><div id="Logo-white"></div></a>
+      <a ui-sref="app.messages()">
+        <div id="Logo-white"></div>
+      </a>
     </div>
     <div class="_fw _df">
-      <a ng-show="!$root.topNavOpen" href="{{ctlMiniNavbar.urls.compose}}"><div class="icon icon-top comp-icon _df"></div></a>
-      <a ng-show="$root.topNavOpen" href="#/profile"><div class="icon icon-top profile-icon _df"></div></a>
-      <a ng-show="$root.topNavOpen" href="#/signout"><div class="icon icon-top signout-icon _df"></div></a>
+      <a ng-show="!$root.topNavOpen" href="{{ctlMiniNavbar.urls.compose}}">
+        <div class="icon icon-top comp-icon _df"></div>
+      </a>
+      <a ng-show="$root.topNavOpen" href="#/profile">
+        <div class="icon icon-top profile-icon _df"></div>
+      </a>
+      <a ng-show="$root.topNavOpen" href="#/signout">
+        <div class="icon icon-top signout-icon _df"></div>
+      </a>
     </div>
   </div>
 </div>
@@ -38,14 +47,15 @@
     <hr>
     <ul class="top-nav-invitations _difh _fw" data-ng-if="ctlMiniNavbar.invitations.length > 0">
       <li data-ng-repeat="invite in ctlMiniNavbar.invitations"
-          data-ng-include="'app/components/navbar/mini/partials/invites.html'" data-ng-init="invite = invite"  ng-click="ctlMiniNavbar.invitation.showModal(invite.id)"></li>
+          data-ng-include="'app/components/navbar/mini/partials/invites.html'" data-ng-init="invite = invite"
+          ng-click="ctlMiniNavbar.invitation.showModal(invite.id)"></li>
     </ul>
     <ul class="top-nav-places _difh _fw">
       <li data-ng-repeat="place in ctlMiniNavbar.places" class="_difv _fw"
           data-ng-include="'app/components/navbar/mini/partials/place.html'" data-ng-init="place = place"></li>
       <li class="_df _fw create-place-nav">
-        <a class="_difc _jcc _fw" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })" >
-            <i>+</i><span>Create new Grand place</span>
+        <a class="_difc _jcc _fw" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })">
+          <i>+</i><span>Create new Grand place</span>
         </a>
       </li>
     </ul>

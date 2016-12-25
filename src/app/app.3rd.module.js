@@ -8,7 +8,6 @@
       'ui.select',
       'ngSanitize',
       'angular-unsaved-changes',
-      'ngWebSocket',
       'LocalStorageModule',
       'ngMd5',
       'ui.router',
