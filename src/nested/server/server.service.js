@@ -6,11 +6,11 @@
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer($websocket, $q, $timeout, $interval,
+  function NstSvcServer($q, $timeout, $interval,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS,  NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE, NST_SRV_PING_PONG,
-                        NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcPingPong,
+                        NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
@@ -30,20 +30,17 @@
       this.queue = {};
 
 
-      this.stream = $websocket(url);
+      this.stream = NstSvcConnectionMonitor.start(url);
       this.stream.maxTimeout = this.configs.streamTimeout;
       this.stream.reconnectIfNotNormalClose = true;
 
       NstObservableObject.call(this);
 
-      this.pingPong = new NstSvcPingPong(this.stream, this);
-
-      this.stream.onOpen(function (event) {
-        NstSvcLogger.debug2('WS | Opened:', event, this);
-
-        // TODO:: Uncomment me after ping handled by server
-        this.pingPong.start();
-      }.bind(this));
+      // NstSvcConnectionMonitor.onReady(function (event) {
+      //   NstSvcLogger.debug2('WS | Opened:', event, this);
+      //
+      //   // TODO:: Uncomment me after ping handled by server
+      // }.bind(this));
 
       // Orphan Router
       this.stream.onMessage(function(ws) {
@@ -53,12 +50,14 @@
           return;
         }
 
-
-        // Checking for pong message
-        if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
-          this.pingPong.getPong(ws.data);
-          return false;
+        if (_.startsWith(ws.data, "PONG!")) {
+          return;
         }
+        // // Checking for pong message
+        // if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
+        //   this.pingPong.getPong(ws.data);
+        //   return false;
+        // }
 
         var data = angular.fromJson(ws.data);
         NstSvcLogger.debug2('WS | Message:', data);
@@ -99,12 +98,14 @@
         }
 
 
-        //Checking for pong message
-        if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
-          this.pingPong.getPong(ws.data);
-          return false;
+        // //Checking for pong message
+        // if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
+        //   this.pingPong.getPong(ws.data);
+        //   return false;
+        // }
+        if (_.startsWith(ws.data, "PONG!")) {
+          return;
         }
-
 
         var data = angular.fromJson(ws.data);
 
@@ -147,14 +148,14 @@
         }
       }.bind(this));
 
-      this.stream.onClose(function(event) {
+      NstSvcConnectionMonitor.onBreak(function(event) {
         NstSvcLogger.debug2('WS | Closed:', event, this);
 
         this.authorized = false;
         this.initialized = false;
 
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.UNINITIALIZE));
-        this.stream.reconnect();
+        // this.stream.reconnect();
       }.bind(this));
 
       this.stream.onError(function (event) {
