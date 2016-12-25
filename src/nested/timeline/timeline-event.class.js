@@ -69,7 +69,7 @@
 
       Event.prototype = {
         setData: function(data) {
-          this.id = data._id.$oid;
+          this.id = data.id;
           this.type = data.action;
           var q = {};
 
@@ -114,7 +114,7 @@
             for (var k in q) {
               if (undefined == q[k]) {
                 $log.debug('Requesting To Get Post Because', '`' + k + '`', 'was undefined:', data);
-                q = q._id.$oid;
+                q = q.id;
                 break;
               }
             }
@@ -136,7 +136,7 @@
             for (var k in q) {
               if (undefined == q[k]) {
                 $log.debug('Requesting To Get Comment Because', '`' + k + '`', 'was undefined:', data);
-                q = q._id.$oid;
+                q = q.id;
                 break;
               }
             }

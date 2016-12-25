@@ -61,7 +61,6 @@
 
         var data = angular.fromJson(ws.data);
         NstSvcLogger.debug2('WS | Message:', data);
-
         switch (data.type) {
           case NST_SRV_MESSAGE_TYPE.RESPONSE:
             switch (data.data.status) {
@@ -85,6 +84,8 @@
                 this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.TIMELINE, { detail: data.data }));
                 break;
             }
+          default :
+            throw "SERVER | Undefined response WS type";
             break;
         }
       }.bind(this));
@@ -177,7 +178,7 @@
         NstSvcLogger.debug2('WS | Dispatching Auth Event', event.detail);
         this.setAuthorized(true);
         this.setSesSecret(event.detail.response.getData()._ss);
-        this.setSesKey(event.detail.response.getData()._sk.$oid);
+        this.setSesKey(event.detail.response.getData()._sk);
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.AUTHORIZE));
       });
 

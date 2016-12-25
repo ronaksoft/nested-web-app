@@ -63,7 +63,7 @@
         options['expires'] = expires;
       }
 
-      this.setLastSessionKey(data._sk.$oid);
+      this.setLastSessionKey(data._sk);
       this.setLastSessionSecret(data._ss);
       $cookies.put('nsk', this.lastSessionKey, options);
       $cookies.put('nss', this.lastSessionSecret, options);
@@ -80,7 +80,7 @@
           name : user.fullName,
           avatar : user.picture.thumbnails.x64.url.view
         }), {
-          domain : '.nested.me',
+          domain : '.' + location.hostname,
           expires : CookieDate.toGMTString()
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);

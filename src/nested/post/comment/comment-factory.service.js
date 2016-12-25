@@ -234,7 +234,7 @@
         defer.resolve(comment);
       } else {
 
-        comment.id = data._id.$oid;
+        comment.id = data.id;
         comment.attach = data.attach;
         comment.postId = postId;
         comment.sender = new NstTinyUser({

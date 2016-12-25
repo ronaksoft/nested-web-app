@@ -322,7 +322,7 @@
       } else {
         var promises = [];
 
-        post.setId(data._id.$oid);
+        post.setId(data.id);
         post.setSubject(data.subject);
         post.setContentType(data.content_type);
         post.setBody(data.body);
@@ -477,7 +477,7 @@
       } else {
         var promises = [];
 
-        message.setId(data._id.$oid);
+        message.setId(data.id);
         message.setSubject(data.subject);
         // A message body is trivial
         message.setBodyIsTrivial(true);
@@ -592,7 +592,7 @@
       }
 
       NstSvcServer.request('account/get_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
