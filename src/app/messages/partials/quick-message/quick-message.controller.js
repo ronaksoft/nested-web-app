@@ -216,10 +216,10 @@
 
         if(response.noPermitPlaces.length > 0){
           var text = NstUtility.string.format(NstSvcTranslation.get('Your message hasn\'t been successfully sent to {0}'), response.noPermitPlaces.join(','));
-          toastr.warning(text, NstSvcTranslation.get('Message doesn\'t Sent'));
+          toastr.warning(text, NstSvcTranslation.get('Message didn\'t send'));
         }
 
-        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
+        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message sent'));
 
         return $q(function (res) {
           res(response);

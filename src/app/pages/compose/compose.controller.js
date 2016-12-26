@@ -44,11 +44,11 @@
           vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
           vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
         }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get('An error happened while trying to attach with files.'));
+          toastr.error(NstSvcTranslation.get('An error has occurred in trying to attach files.'));
         });
 
       }
-      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter Place's name or Nested address...");
+      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
     })();
 
     vm.search = {
@@ -465,7 +465,7 @@
 
         if(response.noPermitPlaces.length > 0){
           var text = NstUtility.string.format(NstSvcTranslation.get('Your message hasn\'t been successfully sent to {0}'), response.noPermitPlaces.join(','));
-          toastr.warning(text, NstSvcTranslation.get('Message doesn\'t Sent'));
+          toastr.warning(text, NstSvcTranslation.get('Message didn\'t send'));
         }
 
         $rootScope.goToLastState();

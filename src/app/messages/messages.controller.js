@@ -91,7 +91,7 @@
               $log.debug(error);
             });
           } else {
-            NstSvcModal.error("Error", "The place does not exist or you are not allowed to be there.").finally(function () {
+            NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
               $state.go(NST_DEFAULT.STATE);
             });
           }

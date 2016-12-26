@@ -163,7 +163,7 @@
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
         }
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("An error occured while trying to remove the message from the selected Place."));
+        toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
       });
     }
 
