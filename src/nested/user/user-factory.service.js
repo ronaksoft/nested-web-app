@@ -48,7 +48,7 @@
             if (id !== 'me') {
               requestData.account_id = query.id;
             }
-            NstSvcServer.request('account/get_info', requestData).then(function (userData) {
+            NstSvcServer.request('account/get', requestData).then(function (userData) {
               var user = factory.parseUser(userData.info);
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
