@@ -271,7 +271,7 @@
     }
 
     function hasAccessToAdd(grandPlaceId) {
-      return NstSvcPlaceFactory.hasAccess(grandPlaceId, NST_PLACE_ACCESS.ADD_PLACE);
+      return $q.resolve(vm.grandPlace.hasAccess(NST_PLACE_ACCESS.ADD_PLACE));
     }
 
     function continueToPlaceSettings(placeId) {

@@ -131,23 +131,15 @@
       NstSvcPlaceFactory.get(id).then(function(place) {
         result.place = place;
         NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('Place {0} was found.'), result.place.id));
+
+        result.accesses.hasRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_PLACE);
+        result.accesses.hasAddPlaceAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
+        result.accesses.hasControlAccess = place.hasAccess(NST_PLACE_ACCESS.CONTROL);
+        result.accesses.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
+        result.accesses.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
+
         initializeStates(place);
         setGrandPlace(place);
-
-        return $q.all([
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE),
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.CONTROL),
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-          NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
-        ]);
-      }).then(function(resolvedSet) {
-
-        result.accesses.hasRemoveAccess = resolvedSet[0];
-        result.accesses.hasAddPlaceAccess = resolvedSet[1];
-        result.accesses.hasControlAccess = resolvedSet[2];
-        result.accesses.hasAddMembersAccess = resolvedSet[3];
-        result.accesses.hasSeeMembersAccess = resolvedSet[4];
 
         NstSvcLogger.info(NstUtility.string.format('The settings of Place "{0}" have been retrieved successfully.', result.place.id));
         vm.placeLoadProgress = false;

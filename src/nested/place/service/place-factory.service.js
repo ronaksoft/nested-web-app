@@ -924,6 +924,9 @@
           place.children = children;
         }
       }
+
+      place.accesses = placeData.place_access || [];
+
       return place;
     };
 
@@ -1002,6 +1005,9 @@
       if (placeData.role) {
         this.setRoleOnPlace(place.getId(), placeData.role);
       }
+
+      place.accesses = placeData.place_access || [];
+      
       return place;
     };
 

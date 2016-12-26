@@ -48,33 +48,28 @@
       }
       vm.loading = true;
 
-      NstSvcPlaceAccess.getIfhasAccessToRead(vm.placeId).then(function (place) {
+      NstSvcPlaceAccess.getIfhasAccessToRead(vm.placeId).then(function(place) {
         if (place) {
           vm.place = place;
-          $q.all([
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
-          ]).then(function(values) {
-            vm.hasAddMembersAccess = values[0];
-            vm.hasSeeMembersAccess = values[1];
 
-            if (vm.mode = 'collapsed') {
-              collapse();
-            }
+          vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
+          vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
 
-            vm.showTeammate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
+          if (vm.mode = 'collapsed') {
+            collapse();
+          }
 
-            findMembers();
-          }).catch(function(error) {
-            NstSvcLogger.error(error);
-          }).finally(function () {
-            vm.loading = false;
-          });
+          vm.showTeammate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
+
+          findMembers();
+
         }
-      }).catch(function (error) {
-
+      }).catch(function(error) {
+        NstSvcLogger.error(error);
+      }).finally(function() {
+        vm.loading = false;
       });
-    };
+    }
 
     function expand() {
       vm.limit = 64;

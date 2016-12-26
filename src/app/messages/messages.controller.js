@@ -248,21 +248,8 @@
       var defer = $q.defer();
       vm.tryAgainToLoadMore = false;
       vm.loading = true;
-
-      if (vm.currentPlaceId) {
-        return NstSvcPlaceFactory.hasAccess(vm.currentPlaceId, NST_PLACE_ACCESS.READ).then(function (has) {
-          if (has) {
-            return getAccessableMessages();
-          } else {
-            vm.noMessages = true;
-            return defer.resolve(vm.messages);
-          }
-        })
-      } else {
-        return getAccessableMessages();
-      }
-
-      return defer.promise;
+      
+      return getAccessableMessages();
     }
 
     function getAccessableMessages() {
@@ -325,22 +312,9 @@
     }
 
     function loadRemovePostAccess() {
-      var deferred = $q.defer();
+      vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
 
-      if (vm.currentPlaceId) {
-        NstSvcPlaceFactory.hasAccess(vm.currentPlaceId, NST_PLACE_ACCESS.REMOVE_POST).then(function (has) {
-          vm.placeRemoveAccess = has;
-          deferred.resolve(vm.placeRemoveAccess);
-        }).catch(function (error) {
-          vm.placeRemoveAccess = false;
-          deferred.reject(error);
-        });
-      } else {
-        vm.placeRemoveAccess = false;
-        deferred.resolve(vm.placeRemoveAccess);
-      }
-
-      return deferred.promise;
+      return $q.resolve(vm.placeRemoveAccess);
     }
 
 
@@ -516,19 +490,11 @@
       if (!vm.currentPlace.id || vm.isSentMode || vm.isUnreadMode) {
         vm.quickMessageAccess = false;
         defer.resolve(false);
+      } else {
+        vm.quickMessageAccess = vm.place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
       }
 
-      NstSvcPlaceFactory.hasAccess(vm.currentPlace.id, NST_PLACE_ACCESS.WRITE_POST)
-        .then(function (has) {
-          vm.quickMessageAccess = has;
-
-
-          defer.resolve(has);
-        }).catch(function (){
-          defer.resolve(false);
-        });
-
-      return defer.promise;
+      return $q.resolve(vm.quickMessageAccess);
     }
 
     $scope.$on('$dropletReady', function whenDropletReady() {

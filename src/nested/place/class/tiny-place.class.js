@@ -63,6 +63,8 @@
         length: 0
       };
 
+      this.accesses = undefined;
+
       NstModel.call(this);
 
       if (data) {
@@ -111,6 +113,10 @@
 
     TinyPlace.prototype.hasGrandParent = function () {
       return this.grandParentId && this.grandParentId !== this.id;
+    }
+
+    TinyPlace.prototype.hasAccess = function (access) {
+      return _.includes(this.accesses, access);
     }
 
     return TinyPlace;
