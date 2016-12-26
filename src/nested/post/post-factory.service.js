@@ -477,7 +477,7 @@
       } else {
         var promises = [];
 
-        message.setId(data.id);
+        message.setId(data._id);
         message.setSubject(data.subject);
         // A message body is trivial
         message.setBodyIsTrivial(true);
