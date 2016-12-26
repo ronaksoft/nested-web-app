@@ -106,7 +106,7 @@
             post_id: query.id,
             mark_read : markAsRead ? markAsRead : false
           }).then(function (data) {
-            parsePost(data.post).then(function (post) {
+            parsePost(data).then(function (post) {
               NstSvcPostStorage.set(query.id, post);
               defer.resolve(post);
             }).catch(function (error) {
@@ -318,152 +318,158 @@
       var post = createPostModel();
 
       if (!data) {
-        defer.resolve(post);
-      } else {
-        var promises = [];
-
-        post.setId(data.id);
-        post.setSubject(data.subject);
-        post.setContentType(data.content_type);
-        post.setBody(data.body);
-
-        post.setInternal(data.internal);
-
-        post.setDate(new Date(data['timestamp']));
-
-        if (data['last_update']) {
-          post.setUpdatedDate(new Date(data['last_update']));
-        } else {
-          post.setUpdatedDate(post.getDate());
-        }
-
-        post.setMonitored(data.monitored);
-        post.setSpam(data.spam);
-
-        post.setCounters(data.counters || post.counters);
-        post.setMoreComments(false);
-        if (post.counters) {
-          post.setMoreComments(post.counters.comments > -1 ? post.counters.comments > post.comments.length : true);
-        }
-
-        if (data.sender) {
-          var parsedSender = NstSvcUserFactory.parseTinyUser(data.sender);
-          var imperfect = !NstSvcUserFactory.set(parsedSender);
-          promises.push(NstSvcUserFactory.getTiny(data.sender._id).catch(function (error) {
-            return $q(function (res) {
-              res(parsedSender);
-            });
-          }).then(function (tinyUser) {
-            post.setSender(tinyUser);
-
-            return $q(function (res) {
-              res(tinyUser);
-            });
-          }));
-        }
-
-        if (data.post_places) {
-          for (var k in data.post_places) {
-            promises.push((function (index) {
-              var deferred = $q.defer();
-              var id = data.post_places[index]._id;
-
-              var parsedPlace = NstSvcPlaceFactory.parseTinyPlace({
-                _id: id,
-                name: data.post_places[index].name,
-                picture: data.post_places[index].picture
-              });
-              var imperfect = !NstSvcPlaceFactory.set(parsedPlace);
-
-              // TODO: Put it to retry structure
-              NstSvcPlaceFactory.getTiny(id).catch(function (error) {
-                return $q(function (res) {
-                  res(parsedPlace);
-                });
-              }).then(function (tinyPlace) {
-                // TODO: Use NstPost.addPlace()
-                post.places[index] = tinyPlace;
-
-                deferred.resolve(tinyPlace);
-              });
-
-              return deferred.promise;
-            })(k));
-          }
-        }
-
-        if (data.place_access) {
-          _.forEach(data.post_places, function (place) {
-            var accesses = _.find(data.place_access, {
-              '_id': place._id
-            }).access;
-
-            NstSvcPlaceFactory.setAccessOnPlace(place._id, accesses);
-          });
-        }
-
-        if (data.post_attachments) {
-          _.forEach(data.post_attachments, function (data) {
-            promises.push(NstSvcAttachmentFactory.parseAttachment(data, post).then(function (attachment) {
-              post.addAttachment(attachment);
-
-              return $q(function (res) {
-                res(attachment);
-              });
-            }));
-          });
-        }
-
-        if (data.recipients) {
-          for (var k in data.recipients) {
-            post.recipients[k] = new NstRecipient({
-              id: data.recipients[k],
-              name: data.recipients[k],
-              email: data.recipients[k]
-            });
-          }
-        }
-
-        // TODO: Use ReplyToId instead
-        if (data.reply_to) {
-          promises.push(get(data.reply_to.$oid).catch(function (error) {
-            return parsePost({
-              _id: {
-                $oid: data.reply_to.$oid
-              }
-            });
-          }).then(function (relPost) {
-            post.setReplyTo(relPost);
-
-            return $q(function (res) {
-              res(relPost);
-            });
-          }));
-        }
-
-        // TODO: Use ForwardFromId instead
-        if (data.forward_from) {
-          promises.push(get(data.forward_from.$oid).catch(function (error) {
-            return parsePost({
-              _id: {
-                $oid: data.forward_from.$oid
-              }
-            });
-          }).then(function (relPost) {
-            post.setForwardFrom(relPost);
-
-            return $q(function (res) {
-              res(relPost);
-            });
-          }));
-        }
-
-        post.setWipeAccess(data.wipe_access);
-
-        $q.all(promises).then(function () {
-          defer.resolve(post);
-        }).catch(defer.reject);
+        defer.reject(Error("The post data is not provided"))
+        return defer.promise;
       }
+
+      if (!data._id) {
+        defer.reject(Error("The post data does not contain _id property"))
+        return defer.promise;
+      }
+
+      var promises = [];
+
+      post.setId(data._id);
+      post.setSubject(data.subject);
+      post.setContentType(data.content_type);
+      post.setBody(data.body);
+
+      post.setInternal(data.internal);
+
+      post.setDate(new Date(data['timestamp']));
+
+      if (data['last_update']) {
+        post.setUpdatedDate(new Date(data['last_update']));
+      } else {
+        post.setUpdatedDate(post.getDate());
+      }
+
+      post.setMonitored(data.monitored);
+      post.setSpam(data.spam);
+
+      post.setCounters(data.counters || post.counters);
+      post.setMoreComments(false);
+      if (post.counters) {
+        post.setMoreComments(post.counters.comments > -1 ? post.counters.comments > post.comments.length : true);
+      }
+
+      if (data.sender) {
+        var parsedSender = NstSvcUserFactory.parseTinyUser(data.sender);
+        var imperfect = !NstSvcUserFactory.set(parsedSender);
+        promises.push(NstSvcUserFactory.getTiny(data.sender._id).catch(function (error) {
+          return $q(function (res) {
+            res(parsedSender);
+          });
+        }).then(function (tinyUser) {
+          post.setSender(tinyUser);
+
+          return $q(function (res) {
+            res(tinyUser);
+          });
+        }));
+      }
+
+      if (data.post_places) {
+        for (var k in data.post_places) {
+          promises.push((function (index) {
+            var deferred = $q.defer();
+            var id = data.post_places[index]._id;
+
+            var parsedPlace = NstSvcPlaceFactory.parseTinyPlace({
+              _id: id,
+              name: data.post_places[index].name,
+              picture: data.post_places[index].picture
+            });
+            var imperfect = !NstSvcPlaceFactory.set(parsedPlace);
+
+            // TODO: Put it to retry structure
+            NstSvcPlaceFactory.getTiny(id).catch(function (error) {
+              return $q(function (res) {
+                res(parsedPlace);
+              });
+            }).then(function (tinyPlace) {
+              // TODO: Use NstPost.addPlace()
+              post.places[index] = tinyPlace;
+
+              deferred.resolve(tinyPlace);
+            });
+
+            return deferred.promise;
+          })(k));
+        }
+      }
+
+      if (data.place_access) {
+        _.forEach(data.post_places, function (place) {
+          var accesses = _.find(data.place_access, {
+            '_id': place._id
+          }).access;
+
+          NstSvcPlaceFactory.setAccessOnPlace(place._id, accesses);
+        });
+      }
+
+      if (data.post_attachments) {
+        _.forEach(data.post_attachments, function (data) {
+          promises.push(NstSvcAttachmentFactory.parseAttachment(data, post).then(function (attachment) {
+            post.addAttachment(attachment);
+
+            return $q(function (res) {
+              res(attachment);
+            });
+          }));
+        });
+      }
+
+      if (data.recipients) {
+        for (var k in data.recipients) {
+          post.recipients[k] = new NstRecipient({
+            id: data.recipients[k],
+            name: data.recipients[k],
+            email: data.recipients[k]
+          });
+        }
+      }
+
+      // TODO: Use ReplyToId instead
+      if (data.reply_to) {
+        promises.push(get(data.reply_to.$oid).catch(function (error) {
+          return parsePost({
+            _id: {
+              $oid: data.reply_to.$oid
+            }
+          });
+        }).then(function (relPost) {
+          post.setReplyTo(relPost);
+
+          return $q(function (res) {
+            res(relPost);
+          });
+        }));
+      }
+
+      // TODO: Use ForwardFromId instead
+      if (data.forward_from) {
+        promises.push(get(data.forward_from.$oid).catch(function (error) {
+          return parsePost({
+            _id: {
+              $oid: data.forward_from.$oid
+            }
+          });
+        }).then(function (relPost) {
+          post.setForwardFrom(relPost);
+
+          return $q(function (res) {
+            res(relPost);
+          });
+        }));
+      }
+
+      post.setWipeAccess(data.wipe_access);
+
+      $q.all(promises).then(function () {
+        defer.resolve(post);
+      }).catch(defer.reject);
 
       return defer.promise;
     }
@@ -477,7 +483,7 @@
       } else {
         var promises = [];
 
-        message.setId(data.id);
+        message.setId(data._id);
         message.setSubject(data.subject);
         // A message body is trivial
         message.setBodyIsTrivial(true);
@@ -568,8 +574,8 @@
           promises.push(allComments);
         }
 
-        message.setReplyToId(data.reply_to ? data.reply_to.$oid : null);
-        message.setForwardFromId(data.forward_from ? data.forward_from.$oid : null);
+        message.setReplyToId(data.reply_to ? data.reply_to._id : null);
+        message.setForwardFromId(data.forward_from ? data.forward_from._id : null);
 
         $q.all(promises).then(function () {
           defer.resolve(message);
