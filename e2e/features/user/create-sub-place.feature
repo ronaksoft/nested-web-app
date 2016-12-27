@@ -26,7 +26,7 @@
 #    When I wait 5s
 #    Given I Click id "navbar-popover"
 #    When I wait 5s
-#    Given I Click Link by Partial Text "Create a Personal place"
+#    Given I Click Link by Partial Text "Create a personal Place"
 #    When I wait 5s
 #    Given I fill "Marketing Development" with "test-personal-sub-place"
 #    When I wait 5s

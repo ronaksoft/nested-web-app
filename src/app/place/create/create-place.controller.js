@@ -64,7 +64,7 @@
         vm.hasParentPlace = true;
         vm.place.parentId = $stateParams.placeId;
         loadParentPlace($stateParams.placeId.split('.')[0]).catch(function (error) {
-          toastr.error(NstSvcTranslation.get("An error happened while getting information of the parent place."));
+          toastr.error(NstSvcTranslation.get("There seems to be an error in reaching information from the highest-ranking Place."));
         });
       } else {
         vm.hasParentPlace = false;
@@ -265,7 +265,7 @@
         }
 
         if (error.code === NST_SRV_ERROR.LIMIT_REACHED){
-          toastr.error(NstSvcTranslation.get("You cannot create any more Places."));
+          toastr.error(NstSvcTranslation.get("You can't create any additional Places."));
         }
       });
     }

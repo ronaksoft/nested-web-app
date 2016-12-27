@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $q, $log,
-    NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory, NstSvcStore, NstSvcUserStorage,
+    NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory, NstSvcStore, NstSvcUserStorage, NstSvcI18n,
     NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT, NST_STORE_ROUTE,
     NstObservableObject) {
     function Auth(userData) {
@@ -222,6 +222,7 @@
 
     Auth.prototype.logout = function () {
       NstSvcPlaceFactory.flush();
+      NstSvcI18n.clearSavedLocale();
       return this.unregister(NST_UNREGISTER_REASON.LOGOUT);
     };
 

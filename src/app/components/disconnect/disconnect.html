@@ -1,7 +1,7 @@
 <div ng-show="ctrl.isDisconnected && ctrl.nextRetryTime > 0" class="disconnect-message">
   <div>
-      <translate>Disconnected from the server,</translate><br/>
-      <translate>retrying in {{ctrl.nextRetryTime}} second(s).</translate>
+      <translate>You're disconnected from the server,</translate><br/>
+      <translate>we'll retry in {{ctrl.nextRetryTime}} second(s).</translate>
       <a ng-click="ctrl.retry()"><translate>try now</translate></a>
   </div>
 </div>

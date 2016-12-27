@@ -41,6 +41,10 @@
       }
     };
 
+    I18n.prototype.clearSavedLocale = function () {
+      NstSvcI18nStorage.remove('locale');
+    }
+
     return new I18n();
 
   }

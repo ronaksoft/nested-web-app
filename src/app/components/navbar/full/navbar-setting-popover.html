@@ -12,7 +12,8 @@
 <a class="_df list-items _aic" ng-click="ctlFullNavbar.openAddMemberModal($event);"
    ng-if="ctlFullNavbar.allowedToAddMember && !ctlFullNavbar.isSubPersonal()">
   <div class="add-icon"></div>
-  <span><translate>{{ctlFullNavbar.isGrandPlace ? 'Invite' : 'Add '}} Members</translate></span>
+  <translate ng-if="ctlFullNavbar.isGrandPlace">Invite Members</translate>
+  <translate ng-if="!ctlFullNavbar.isGrandPlace">Add Members</translate>
 </a>
 <hr ng-if="ctlFullNavbar.allowedToAddPlace && !ctlFullNavbar.isPersonal()">
 <a ng-if="ctlFullNavbar.isGrandPlace && !ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToAddPlace"
@@ -42,7 +43,7 @@
       <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
     </svg>
   </div>
-  <span><translate>Create a Personal Place</translate></span>
+  <span><translate>Create a personal Place</translate></span>
 </a>
 <hr ng-if="!ctlFullNavbar.isPersonal()">
 <a class="_df  list-items _aic"
