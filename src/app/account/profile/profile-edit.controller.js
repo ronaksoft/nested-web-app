@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,9 +7,9 @@
 
   /** @ngInject */
   function ProfileEditController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
-    toastr, moment,
-    NST_STORE_UPLOAD_TYPE, NST_DEFAULT,  NST_NAVBAR_CONTROL_TYPE, NstPicture,
-    NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation, NstSvcI18n) {
+                                 toastr, moment,
+                                 NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture,
+                                 NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation, NstSvcI18n) {
     var vm = this;
 
     /*****************************
@@ -31,9 +31,9 @@
     };
 
     vm.genders = [
-      {key : 'm', title : NstSvcTranslation.get("Male")},
-      {key : 'f', title : NstSvcTranslation.get("Female")},
-      {key : 'o', title : NstSvcTranslation.get("Other")}
+      {key: 'm', title: NstSvcTranslation.get("Male")},
+      {key: 'f', title: NstSvcTranslation.get("Female")},
+      {key: 'o', title: NstSvcTranslation.get("Other")}
     ];
 
     vm.model = {
@@ -42,13 +42,13 @@
       lastName: '',
       phone: '',
       gender: 'm',
-      dateOfBirth : null,
-      country : null,
+      dateOfBirth: null,
+      country: null,
       picture: {
         id: '',
         file: null,
         url: '',
-        remove : false,
+        remove: false,
         isUploading: false,
         uploadedSize: 0,
         uploadedRatio: 0
@@ -70,36 +70,51 @@
     function setImage(event) {
       vm.uploadedImage = true;
       // var element = event.currentTarget;
-      var reader = new FileReader();
+
 
       vm.model.picture.id = '';
       vm.model.picture.uploadedFile = event.currentTarget.files[0];
       // vm.model.picture.uploadedFileName = element.files[0].name;
       vm.model.picture.remove = false;
 
-      reader.onload = function(event) {
-        $timeout(function() {
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        $timeout(function () {
           vm.model.picture.uploaded = event.target.result;
+
         });
       };
       reader.readAsDataURL(vm.model.picture.uploadedFile);
     }
 
-    // $scope.$watch(function(){
-    //   return vm.model.picture.url;
-    // },function () {
-    //   urltoFile(vm.model.picture.url, vm.model.picture.uploadedFileName, 'image/jpg')
-    //     .then(function(file){
-    //       vm.model.picture.file = file
-    //     })
-    // });
-    //
-    // function urltoFile(url, filename, mimeType){
-    //   return (fetch(url)
-    //       .then(function(res){return res.arrayBuffer();})
-    //       .then(function(buf){return new File([buf], filename, {type:mimeType});})
-    //   );
-    // }
+    $scope.$watch(function () {
+      return vm.model.picture.url;
+    }, function () {
+      if (vm.model.picture.url) {
+        var file = dataURItoFile(vm.model.picture.url,'profile_image');
+        vm.model.picture.uploadedFile = file;
+      }
+    });
+
+    function dataURItoFile(dataURI, filename) {
+      // convert base64/URLEncoded data component to raw binary data held in a string
+      var byteString;
+      if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+      else
+        byteString = decodeURI(dataURI.split(',')[1]);
+
+      // separate out the mime component
+      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+      // write the bytes of the string to a typed array
+      var ia = new Uint8Array(byteString.length);
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+
+      return new File([ia], filename + '.' +  mimeString.split('/')[1], {type: mimeString});
+    }
 
     function removeImage() {
       if (vm.model.picture.request) {
@@ -112,11 +127,11 @@
       vm.model.picture.remove = true;
     }
 
-    (function() {
+    (function () {
       var userPromise = NstSvcUserFactory.get();
       NstSvcLoader.inject(userPromise);
 
-      userPromise.then(function(user) {
+      userPromise.then(function (user) {
 
         vm.model.id = user.getId();
         vm.model.firstName = user.getFirstName();
@@ -131,7 +146,7 @@
           vm.model.picture.id = user.getPicture().getId();
           vm.model.picture.url = user.getPicture().thumbnails.x128.url.view;
         }
-      }).catch(function(error) {
+      }).catch(function (error) {
         $log.debug(error);
       });
 
@@ -141,22 +156,22 @@
     function storePicture(file, viewModel) {
       var deferred = $q.defer();
 
-      var request = NstSvcStore.uploadWithProgress(file, function(event) {
+      var request = NstSvcStore.uploadWithProgress(file, function (event) {
         if (event.lengthComputable) {
           viewModel.picture.uploadedSize = event.loaded;
           viewModel.picture.uploadedRatio = Number(event.loaded / event.total).toFixed(4);
         }
       }, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
 
-      request.sent().then(function() {
+      request.sent().then(function () {
         viewModel.picture.isUploading = true;
       });
 
-      request.finished().then(function() {
+      request.finished().then(function () {
         viewModel.picture.isUploading = false;
       });
 
-      request.getPromise().then(function(response) {
+      request.getPromise().then(function (response) {
         var id = response.data.universal_id;
         deferred.resolve(id);
       }).catch(deferred.reject);
@@ -174,7 +189,7 @@
 
     function updateModel(viewModel) {
       var deferred = $q.defer();
-      NstSvcUserFactory.get(viewModel.id).then(function(user) {
+      NstSvcUserFactory.get(viewModel.id).then(function (user) {
 
         user.firstName = viewModel.firstName;
         user.lastName = viewModel.lastName;
@@ -184,7 +199,7 @@
         user.country = viewModel.country;
 
         return NstSvcUserFactory.updateProfile(user);
-      }).then(function(user) {
+      }).then(function (user) {
         deferred.resolve(user);
       }).catch(deferred.reject);
 
@@ -202,12 +217,12 @@
 
       NstSvcLoader.inject(deferred.promise);
 
-      updateModel(vm.model).then(function(user) {
+      updateModel(vm.model).then(function (user) {
 
         vm.model.fullName = user.getFullName();
 
         if (vm.model.picture.uploadedFile) {
-          storePicture(vm.model.picture.uploadedFile, vm.model).then(function(storeId) {
+          storePicture(vm.model.picture.uploadedFile, vm.model).then(function (storeId) {
 
             return NstSvcUserFactory.updatePicture(storeId);
           }).then(function (pictureId) {

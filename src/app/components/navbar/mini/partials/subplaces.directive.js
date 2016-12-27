@@ -10,7 +10,7 @@
       replace: true,
       templateUrl : 'app/components/navbar/mini/partials/sub-place.html',
       controller : 'SidebarPlaceInfoController',
-      controllerAs : 'place',
+      controllerAs : 'NavbarSubCtrl',
       bindToController : true,
       link: link,
       scope: {

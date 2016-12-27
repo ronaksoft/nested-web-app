@@ -11,10 +11,13 @@
                           NstSvcLogger,
                           NstObservableObject) {
 
-    function PingPong(stream, server) {
+    function PingPong(stream) {
+
+      var service = this;
 
       this.stream = stream;
-      this.server = server;
+      this.onConnectedHandler = null;
+      this.onDisconnectedHandler = null;
 
       this.pingStack = [];
       this.pongStack = [];
@@ -25,7 +28,6 @@
 
       NstObservableObject.call(this);
 
-      var service = this;
       $interval(function () {
 
         if (Date.now() - service.lastObserve > NST_SRV_PING_PONG.INTERVAL_TIME) {
@@ -35,8 +37,7 @@
         }
         service.lastObserve = Date.now();
 
-      }, 2000)
-
+      }, 2000);
 
     }
 
@@ -46,7 +47,7 @@
     PingPong.prototype.start = function () {
       if (this.getPingPongStatus() && this.getPingPongInterval()) return;
 
-      this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.CONNECT));
+      callConected.bind(this)();
       this.setPingPongStatus(true);
       var service = this;
 
@@ -70,6 +71,12 @@
 
       this.setPingPongInterval(interval);
 
+      this.stream.onMessage(function (message) {
+        if (_.startsWith(message.data, "PONG!")) {
+          service.getPong(message.data);
+        }
+      });
+
     };
 
 
@@ -87,10 +94,11 @@
 
       NstSvcLogger.debug2("WS PINGPONG | delay : " + (Date.now() - parseInt(pong.split("/")[1])));
 
-      this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.CONNECT));
+      callConected.bind(this)();
       if (!this.pingPongStatus) {
-        this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.RECONNECT));
+        // callDisconnected.bind(this)();
       }
+
       this.setPingPongStatus(true);
       this.pingStack = [];
       this.checkStatus();
@@ -100,12 +108,32 @@
       if ((this.pingStack.length >= NST_SRV_PING_PONG.MAX_FAILED_PING) || force) {
         console.log("disconnect")
         this.pingPongStatus= false;
-        this.server.dispatchEvent(new CustomEvent(NST_SRV_EVENT.DISCONNECT));
+        callDisconnected.bind(this)();
         return false;
       }
     };
 
+    PingPong.prototype.onConnected = function (action) {
+      this.onConnectedHandler = action;
+    }
+
+    PingPong.prototype.onDisconnected = function (action) {
+      this.onDisconnectedHandler = action;
+    }
+
     return PingPong;
+
+    function callConected() {
+      if (_.isFunction(this.onConnectedHandler)) {
+        this.onConnectedHandler();
+      }
+    }
+
+    function callDisconnected() {
+      if (_.isFunction(this.onDisconnectedHandler)) {
+        this.onDisconnectedHandler();
+      }
+    }
 
   }
 })();

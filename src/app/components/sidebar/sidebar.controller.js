@@ -105,7 +105,7 @@
       $state.go('app.place-create', {}, {notify: false});
     }
 
-    $scope.$on('close-mention',function () {
+    $scope.$on('close-mention', function () {
       vm.mentionOpen = false;
     });
 
@@ -350,8 +350,10 @@
 
         place.isCollapsed = true;
         place.isActive = false;
-        if (vm.stateParams.placeIdSplitted) {
-          place.isCollapsed = place.id != vm.stateParams.placeIdSplitted.slice(0, place.id.split('.').length).join('.');
+        if (vm.stateParams.placeId) {
+          if (vm.stateParams.placeId.indexOf(place.id + '.') === 0)
+            console.log(vm.stateParams.placeId, place.id, vm.stateParams.placeId.indexOf(place.id + '.') === 0);
+          place.isCollapsed = vm.stateParams.placeId.indexOf(place.id + '.') !== 0;
           place.isActive = vm.stateParams.placeId == place.id;
         }
 
@@ -379,10 +381,15 @@
     vm.placesNotifCountObject = {};
 
     function fillPlacesNotifCountObject(places) {
+      var totalUnread = 0;
       _.each(places, function (place) {
-        if (place)
+        if (place) {
           vm.placesNotifCountObject[place.id] = place.unreadPosts;
+          totalUnread += place.unreadPosts;
+        }
       });
+      vm.totalUnreadPosts = totalUnread;
+      $rootScope.$emit('unseen-activity-notify', totalUnread);
     }
 
     function getGrandPlaceUnreadCounts() {
@@ -395,6 +402,7 @@
               vm.placesNotifCountObject[placeId] = value;
               totalUnread += value;
             });
+            vm.totalUnreadPosts = totalUnread;
             $rootScope.$emit('unseen-activity-notify', totalUnread);
           });
     }

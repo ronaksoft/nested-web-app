@@ -71,7 +71,7 @@
         vm.place.parentId = null;
       }
       vm.isCreateGrandPlaceMode = !vm.hasParentPlace;
-      vm.receivingMode = 'everyone';
+      setReceivingEveryone();
 
       if($stateParams.isOpenPlace){
         vm.isOpenPlace = true;
