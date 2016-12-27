@@ -48,8 +48,11 @@
             if (id !== 'me') {
               requestData.account_id = query.id;
             }
+            console.log(111111111666,id,force,requestData)
             NstSvcServer.request('account/get', requestData).then(function (userData) {
-              var user = factory.parseUser(userData.info);
+              console.log(111111111,userData)
+              var user = factory.parseUser(userData);
+              console.log(11111111133,user)
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
             }).catch(function(error) {
@@ -220,6 +223,7 @@
         return user;
       }
 
+      console.log(11111,4,userData);
       user.setNew(false);
       user.setId(userData._id);
       user.setFirstName(userData.fname);
@@ -237,6 +241,7 @@
       if (angular.isObject(userData.picture)) {
         user.setPicture(userData.picture);
       }
+      console.log(11111,4,user);
 
       return user;
     };

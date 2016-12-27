@@ -6,7 +6,7 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q,
-    NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_PLACE_POLICY,
+    NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_PLACE_ADD_TYPES,
     NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
     NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap,
     NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
@@ -137,7 +137,7 @@
             resolve(place);
           } else {
 
-            NstSvcServer.request('place/get_info', {
+            NstSvcServer.request('place/get', {
               place_id: query.id
             }).then(function(placeData) {
               var place = factory.parsePlace(placeData.info);
@@ -299,10 +299,14 @@
       return deferred.promise;
     };
 
-    PlaceFactory.prototype.create = function(model) {
+    PlaceFactory.prototype.create = function(model, placeType) {
+      var deferred = $q.defer();
       var factory = this;
 
-      var deferred = $q.defer();
+      if (!placeType){
+        throw 'PLACE-FACTORY | Place Type is not defined.'
+      }
+
       var fillMembers = {
         none: 'none',
         parent: '_parent',
@@ -312,7 +316,6 @@
       var params = {
         'place_id': model.id,
         'place_name': model.name,
-        'parent_id': model.parentId,
         'privacy.email': model.privacy.email,
         'privacy.locked': model.privacy.locked,
         'privacy.receptive': model.privacy.receptive,
@@ -324,8 +327,8 @@
       };
 
 
-      NstSvcServer.request('place/add', params).then(function(data) {
-        factory.get(data.place._id).then(function(place) {
+      NstSvcServer.request('place/' + placeType, params).then(function (data) {
+        factory.get(data.place._id).then(function (place) {
 
           if (place.parentId) {
             factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.SUB_ADD, {
@@ -499,7 +502,7 @@
         var deferred = $q.defer();
         var query = new NstFactoryQuery(bookmarkId);
 
-        NstSvcServer.request('bookmark/get_places', {
+        NstSvcServer.request('account/get_favorite_places', {
           bookmark_id: bookmarkId
         }).then(function(data) {
           // TODO: Why a plain array of place objects has been resolved?
@@ -537,7 +540,7 @@
 
       return factory.sentinel.watch(function() {
         var requestCommad;
-        value ? requestCommad = 'bookmark/add_place' : requestCommad = 'bookmark/remove_place'
+        value ? requestCommad = 'place/add_favorite' : requestCommad = 'place/remove_favorite'
 
         var deferred = $q.defer();
         var query = new NstFactoryQuery(id);
@@ -1007,7 +1010,7 @@
       }
 
       place.accesses = placeData.place_access || [];
-      
+
       return place;
     };
 
@@ -1141,9 +1144,7 @@
             places = data.places;
           }
 
-          return NstSvcServer.request('bookmark/get_places', {
-            bookmark_id: '_starred'
-          });
+          return NstSvcServer.request('account/get_favorite_places', {});
         }).then(function(data) {
           starredPlaces = data.places;
           deferred.resolve(_.map(places, function(place) {

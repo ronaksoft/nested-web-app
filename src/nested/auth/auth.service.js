@@ -78,7 +78,7 @@
         $cookies.put('user', JSON.stringify({
           id : user.id,
           name : user.fullName,
-          avatar : user.picture.thumbnails.x64.url.view
+          // avatar : user.picture.thumbnails.x64.url.view
         }), {
           domain : '.' + location.hostname,
           expires : CookieDate.toGMTString()
