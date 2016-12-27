@@ -147,14 +147,22 @@
             if (place.id === query) {
               initPlace = new NstVmPlace(place);
             } else {
+
               vm.search.results.push(new NstVmPlace(place));
             }
           }
         });
-        if (initPlace.id)
+        if (initPlace.id) {
+          if (initPlace.id.indexOf('@') > -1){
+            initPlace.isEmail = true;
+            initPlace.isEmailValid = NST_PATTERN.EMAIL.test(initPlace.id)
+          }
           vm.search.results.push(initPlace);
+        }
       });
     };
+    
+    
 
     vm.search.tagger = function (text) {
       // TODO: To use new class and also check for hidden places
