@@ -248,7 +248,7 @@
       var defer = $q.defer();
       vm.tryAgainToLoadMore = false;
       vm.loading = true;
-      
+
       return getAccessableMessages();
     }
 
@@ -312,8 +312,7 @@
     }
 
     function loadRemovePostAccess() {
-      vm.placeRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
-
+      vm.placeRemoveAccess = vm.currentPlace.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
       return $q.resolve(vm.placeRemoveAccess);
     }
 
@@ -491,7 +490,7 @@
         vm.quickMessageAccess = false;
         defer.resolve(false);
       } else {
-        vm.quickMessageAccess = vm.place.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
+        vm.quickMessageAccess = vm.currentPlace.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
       }
 
       return $q.resolve(vm.quickMessageAccess);
