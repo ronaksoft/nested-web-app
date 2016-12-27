@@ -46,7 +46,7 @@
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
-        NstSvcServer.request('account/get_mentions', {
+        NstSvcServer.request('mention/get_all', {
           skip: skip || 0,
           limit: limit || 12,
           show_data: true
@@ -64,7 +64,7 @@
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
-        NstSvcServer.request('account/get_mentions', {
+        NstSvcServer.request('mention/get_all', {
           limit : 1,
           skip : 1,
         }).then(function(data) {

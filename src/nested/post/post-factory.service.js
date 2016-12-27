@@ -626,7 +626,7 @@
       }
 
       NstSvcServer.request('account/get_sent_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -656,7 +656,7 @@
       }
 
       NstSvcServer.request('place/get_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -688,7 +688,7 @@
       }
 
       NstSvcServer.request('bookmark/get_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -719,8 +719,8 @@
           options.by_update = true;
         }
 
-        NstSvcServer.request('bookmark/get_posts', options).then(function (data) {
-          var messagePromises = _.map(data.posts.posts, parseMessage);
+        NstSvcServer.request('account/get_favorite_posts', options).then(function (data) {
+          var messagePromises = _.map(data.posts, parseMessage);
           $q.all(messagePromises).then(function (messages) {
             _.forEach(messages, function (item) {
               NstSvcPostStorage.set(item.id, item);
@@ -755,7 +755,7 @@
       }
 
       NstSvcServer.request('place/get_unread_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts.posts, parseMessage);
+        var messagePromises = _.map(data.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {
             NstSvcPostStorage.set(item.id, item);
@@ -798,7 +798,7 @@
         limit: limit || 8,
         skip: skip || 0,
       }).then(function (result) {
-        var postPromises = _.map(result.posts.posts, parseMessage);
+        var postPromises = _.map(result.posts, parseMessage);
         $q.all(postPromises).then(defer.resolve).catch(defer.reject);
       }).catch(function (error) {
         defer.reject(new NstFactoryError(query, '', error.getCode(), error));
