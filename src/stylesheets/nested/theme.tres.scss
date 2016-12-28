@@ -1,104 +1,105 @@
-@media screen and (max-width: $screen-sm) {
-  .content {
-    width: 100%;
-  }
-  .menu-links-butn {
-    font-size: $font-size-large;
-  }
-  .nst-content {
-    padding: 0 10px;
-  }
-  .modal .modal-mlg {
-    margin: 8px;
-    height: calc(100% - 16px);
-    width: calc(100% - 16px);
-  }
-  .close-modal {
-    position: absolute;
-  }
-}
-//max-width: 990px
-
-@media screen and (max-width: $screen-md){
-  .modal-mlg {
-    margin: 16px;
-    height: calc(100% - 32px);
-    width: calc(100% - 32px);
-  }
-  #new-post {
-    top: $navbar-height;
-  }
-  .maincontainer {
-    //height: 100%;
-    //min-height: 100%;
-    //overflow: visible;
-    //padding-top: 67px;
-  }
-  #content-wrapper {
-    max-height : 100%!important;
-    //overflow: visible;
-  }
-  #content-wrapper .content {
-    //overflow: visible;
-  }
-  .content {
-    //width: 600px;
-    //min-width: 600px;
-    //height: 100%;
-  }
-  .popover-white + .popover {
-    left:280px!important;
-  }
-  .sidebar{
-    display: none!important;
-  }
-  .sidebar-border {
-    display: none;
-  }
-}
-
-//min-width: 990px
-
+//@media screen and (max-width: $screen-sm) {
+//  .content {
+//    width: 100%;
+//  }
+//  .menu-links-butn {
+//    font-size: $font-size-large;
+//  }
+//  .nst-content {
+//    padding: 0 10px;
+//  }
+//  .modal .modal-mlg {
+//    margin: 8px;
+//    height: calc(100% - 16px);
+//    width: calc(100% - 16px);
+//  }
+//  .close-modal {
+//    position: absolute;
+//  }
+//}
+//
+//@media screen and (max-width: $screen-md){
+//  .modal-mlg {
+//    margin: 16px;
+//    height: calc(100% - 32px);
+//    width: calc(100% - 32px);
+//  }
+//  #new-post {
+//    top: $navbar-height;
+//  }
+//  .maincontainer {
+//    //height: 100%;
+//    //min-height: 100%;
+//    //overflow: visible;
+//    //padding-top: 67px;
+//  }
+//  #content-wrapper {
+//    max-height : 100%!important;
+//    //overflow: visible;
+//  }
+//  #content-wrapper .content {
+//    //overflow: visible;
+//  }
+//  .content {
+//    //width: 600px;
+//    //min-width: 600px;
+//    //height: 100%;
+//  }
+//  .popover-white + .popover {
+//    left:280px!important;
+//  }
+//  .sidebar{
+//    display: none!important;
+//  }
+//  .sidebar-border {
+//    display: none;
+//  }
+//}
+//
+//@media screen and (min-width: $screen-md){
+//  body {
+//    //overflow: hidden;
+//  }
+//  .modal-mlg {
+//    //margin: 80px;
+//    width: calc(100% - 160px);
+//    height: calc(100% - 160px);
+//  }
+//  .nst-container{
+//    margin-left: 272px;
+//    width: calc(100% - 272px);
+//  }
+//  nst-navbar {
+//    //width: calc(100% - 272px);
+//  }
+//  .maincontainer.sidetiny {
+//    .nst-container{
+//      margin-left: $sidebar-width-tiny;
+//      width: calc(100% - 72px);
+//    }
+//    nst-navbar {
+//      //width: calc(100% - 72px);
+//    }
+//  }
+//  .nst-topnav,#top-nav-container{
+//    display: none!important;
+//  }
+//}
 @media screen and (min-width: $screen-md){
-  body {
-    //overflow: hidden;
-  }
-  .modal-mlg {
-    //margin: 80px;
-    width: calc(100% - 160px);
-    height: calc(100% - 160px);
-  }
   .nst-container{
     margin-left: 272px;
     width: calc(100% - 272px);
   }
-  nst-navbar {
-    //width: calc(100% - 272px);
-  }
-  .maincontainer.sidetiny {
-    .nst-container{
-      margin-left: $sidebar-width-tiny;
-      width: calc(100% - 72px);
-    }
-    nst-navbar {
-      //width: calc(100% - 72px);
-    }
-  }
-  .nst-topnav,#top-nav-container{
-    display: none!important;
-  }
 }
-
-
-@media screen and (max-width: $screen-lg){
-  .content-plus{
-    display: none;
-    height: 0!important;
-  }
-  .modal-lg-white {
-
-  }
-}
+//
+//@media screen and (max-width: $screen-lg){
+//  .content-plus{
+//    display: none;
+//    height: 0!important;
+//  }
+//  .modal-lg-white {
+//  }
+//}
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){
   .maincontainer.sidetiny{
     #new-post {
@@ -106,15 +107,4 @@
     }
   }
 
-}
-@media screen and (min-width: $screen-lg){
-  .maincontainer.sidetiny{
-    #content-plus {
-    }
-    #new-post {
-    }
-  }
-  #new-post {
-    //margin-left: 138px;
-  }
 }

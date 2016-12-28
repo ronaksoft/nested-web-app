@@ -1,4 +1,4 @@
-<nst-mini-navbar ng-if="$root.deviceDetector == 'tablet'"></nst-mini-navbar>
+<nst-mini-navbar ng-if="$root.deviceDetector.isTablet() || $root.deviceDetector.isMobile()"></nst-mini-navbar>
 <div class="nst-navbar _tr">
   <div class="bg" affixer offset-top="72" parent="nst-navbar" dont-set-width="true"></div>
   <div class="shadow-top" affixer parent="nst-navbar" dont-set-width="true" first-imp="true" clear-right="true"></div>
