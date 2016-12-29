@@ -67,6 +67,7 @@
         NstSvcServer.request('mention/get_all', {
           limit : 1,
           skip : 1,
+          only_unread : false
         }).then(function(data) {
           var count = data.unread_mentions || 0;
           that.count = parseInt(count);

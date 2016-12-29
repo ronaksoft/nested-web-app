@@ -96,6 +96,7 @@
     }
 
     UserFactory.prototype.set = function (user) {
+      console.log(user);
       if (user instanceof NstUser) {
         if (this.has(user.getId())) {
           NstSvcUserStorage.merge(user.getId(), user);

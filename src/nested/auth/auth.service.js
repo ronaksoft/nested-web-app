@@ -67,8 +67,9 @@
       this.setLastSessionSecret(data._ss);
       $cookies.put('nsk', this.lastSessionKey, options);
       $cookies.put('nss', this.lastSessionSecret, options);
+      console.log('data', data);
 
-      this.setUser(NstSvcUserFactory.parseUser(data.info));
+      this.setUser(NstSvcUserFactory.parseUser(data.account));
       NstSvcUserFactory.set(this.getUser());
 
       NstSvcUserFactory.get(this.getUser().getId()).then(function (user) {
