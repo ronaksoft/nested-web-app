@@ -91,7 +91,7 @@
           ids = "all";
         }
 
-        NstSvcServer.request('account/update_mention_read_status', {
+        NstSvcServer.request('mention/mark_as_read', {
           mention_id : ids
         }).then(function(data) {
           factory.getMentionsCount().then(function (count) {
