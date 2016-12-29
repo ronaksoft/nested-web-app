@@ -35,7 +35,7 @@
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2"><translate>One New Message</translate></a>
       </div>
       <div class="quick-message-wrp _fw" ng-if="ctlMessages.quickMessageAccess">
-        <nst-quick-message class="quick-message _fw _bgwhite" place-id="ctlMessages.currentPlace.id"></nst-quick-message>
+        <nst-quick-message class="quick-message-inner _fw" place-id="ctlMessages.currentPlace.id"></nst-quick-message>
         <div class="post-card-wire"></div>
       </div>
       <post-card ng-if="ctlMessages.hotMessages.length > 0" class="hot" data-ng-repeat="msg in ctlMessages.hotMessages track by msg.id" post="msg"
@@ -81,7 +81,7 @@
     <div class="nst-marginbtm-32"></div>
   </section>
   <div class="content-plus illu">
-    <div id="cp1" nst-scrollbar suppress-scroll-x="true"  ng-show="!ctlMessages.isBookmarkMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode" affixer parent=".content-plus" after-content="0" offset-top="74" top="0" fixed-top="true">
+    <div id="cp1" nst-scrollbar suppress-scroll-x="true" ng-show="!ctlMessages.isBookmarkMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode" affixer parent=".content-plus" after-content="0" offset-top="74" top="0" fixed-top="true">
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
     </div>

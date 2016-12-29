@@ -10,6 +10,7 @@
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
+        return
 
         var win = angular.element($window);
         var topOffset = 0;
