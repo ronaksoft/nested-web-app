@@ -687,7 +687,7 @@
         options.by_update = true;
       }
 
-      NstSvcServer.request('bookmark/get_posts', options).then(function (data) {
+      NstSvcServer.request('account/get_favorite_posts', options).then(function (data) {
         var messagePromises = _.map(data.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {

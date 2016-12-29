@@ -457,7 +457,7 @@
         var deferred = $q.defer();
         var query = new NstFactoryQuery(id);
 
-        NstSvcServer.request('notification/get_place_notification', {
+        NstSvcServer.request('place/get_notification', {
           place_id: id
         }).then(function(data) {
           deferred.resolve(data.state);
@@ -476,7 +476,7 @@
         var deferred = $q.defer();
         var query = new NstFactoryQuery(id);
 
-        NstSvcServer.request('notification/set_place_notification', {
+        NstSvcServer.request('place/set_notification', {
           place_id: id,
           state: !!value
         }).then(function() {
@@ -570,7 +570,7 @@
         var deferred = $q.defer();
         var query = new NstFactoryQuery(keyword);
 
-        NstSvcServer.request('search/places', {
+        NstSvcServer.request('search/places_for_compose', {
           keyword: keyword
         }).then(function(response) {
           var places = [];
