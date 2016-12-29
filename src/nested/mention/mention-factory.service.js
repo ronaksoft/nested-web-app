@@ -109,6 +109,7 @@
      *****************/
 
     function parseMention(data) {
+      console.log(data);
       var mention = new NstMention();
       if (!data._id) {
         throw 'Could not find _id in the mention raw object.';
@@ -119,8 +120,8 @@
       mention.isSeen = data.read;
       mention.date = new Date(data.timestamp);
 
-      mention.commentId = data.comment_id.$oid;
-      mention.postId = data.post_id.$oid;
+      mention.commentId = data.comment_id;
+      mention.postId = data.post_id;
       mention.senderId = data.sender_id;
       mention.mentionedId = data.mentioned_id;
 

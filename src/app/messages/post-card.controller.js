@@ -71,7 +71,7 @@
 
       // NOTE: By commenting on a post, it will be marked as read automatically.
       // The the below lines are not required anymore
-      // 
+      //
       // if(!vm.post.postIsRed)
       //   NstSvcPostFactory.read([vm.post.id]).then(function (result) {
       //     vm.post.postIsRed = true;
@@ -204,6 +204,7 @@
       if (vm.post.id !== e.detail.postId) {
         return;
       }
+      console.log(e.detail);
       var senderIsCurrentUser = NstSvcAuth.getUser().getId() == e.detail.comment.sender.id;
       if (senderIsCurrentUser) {
         if (!_.includes(newCommentIds, e.detail.id)) {

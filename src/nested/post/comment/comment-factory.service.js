@@ -19,8 +19,8 @@
 
         switch (tlData.action) {
           case NST_EVENT_ACTION.COMMENT_ADD:
-            var postId = tlData.post_id.$oid;
-            var commentId = tlData.comment_id.$oid;
+            var postId = tlData.post_id;
+            var commentId = tlData.comment_id;
 
             factory.getComment(commentId, postId).then(function(comment) {
               factory.dispatchEvent(new CustomEvent(
@@ -37,8 +37,8 @@
             break;
 
           case NST_EVENT_ACTION.COMMENT_REMOVE:
-            var postId = tlData.post_id.$oid;
-            var commentId = tlData.comment_id.$oid;
+            var postId = tlData.post_id;
+            var commentId = tlData.comment_id;
 
             factory.dispatchEvent(new CustomEvent(
               NST_COMMENT_EVENT.REMOVE, {
@@ -119,6 +119,7 @@
             post_id: postId,
             txt: content
           }).then(function(data) {
+            console.log("data", data);
             var commentId = data.comment_id;
             return getComment(commentId, postId);
           }).then(function(comment) {
@@ -258,7 +259,7 @@
       if (!data) {
         defer.resolve(comment);
       } else {
-        comment.id = data.comment_id.$oid;
+        comment.id = data.comment_id;
         comment.body = data.text;
         comment.date = new Date(data.timestamp);
         comment.removed = data._removed;

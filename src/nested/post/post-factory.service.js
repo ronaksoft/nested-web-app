@@ -21,7 +21,7 @@
             if (e.detail.timeline_data.actor !== NstSvcAuth.user.id) {
 
               var post = new NstTinyPost();
-              post.setId(e.detail.timeline_data.post_id.$oid);
+              post.setId(e.detail.timeline_data.post_id);
               post.setPlaces(e.detail.timeline_data.place_id);
 
               factory.dispatchEvent(new CustomEvent(
@@ -43,7 +43,7 @@
             break;
 
           case NST_EVENT_ACTION.POST_REMOVE:
-            var postId = e.detail.timeline_data.post_id.$oid;
+            var postId = e.detail.timeline_data.post_id;
             factory.dispatchEvent(new CustomEvent(
               NST_POST_FACTORY_EVENT.REMOVE,
               new NstFactoryEventData(postId)
@@ -221,7 +221,7 @@
       }
 
       NstSvcServer.request('post/add', params).then(function (response) {
-        post.setId(response.post_id.$oid);
+        post.setId(response.post_id);
 
         deferred.resolve({post: post, noPermitPlaces: response.no_permit_places}, response.no_permit_places);
       }).catch(deferred.reject);
@@ -562,8 +562,8 @@
           });
         }
 
-        if (data['last-comments']) {
-          var commentPromises = _.map(data['last-comments'], function (comment) {
+        if (data['recent_comments']) {
+          var commentPromises = _.map(data['recent_comments'], function (comment) {
             return NstSvcCommentFactory.parseMessageComment(comment)
           });
 
