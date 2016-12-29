@@ -100,6 +100,16 @@
 //  .modal-lg-white {
 //  }
 //}
+@media screen and (max-width: 1024px){
+  //.nst-navbar .content {
+  //  width: 588px!important;
+  //  min-width: initial!important;
+  //}
+  //.content-plus > div{
+  //  right:0;
+  //  left: auto!important;
+  //}
+}
 @media screen and (max-width: $screen-lg) and (min-width: $screen-md){
   .maincontainer.sidetiny{
     #new-post {

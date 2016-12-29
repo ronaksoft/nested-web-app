@@ -7,7 +7,6 @@
             ready-to-show="ctlMessages.currentPlaceLoaded"
             ready-to-anime="true"
             place-description="{{ctlMessages.currentPlace.description}}"></nst-navbar>
-
 <div class="nst-content _tr" id="content-wrapper" data-droplet ng-model="ctlMessages.attachfiles">
   <div class="droplet" ng-show="ctlMessages.quickMessageAccess"></div>
   <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
@@ -81,7 +80,7 @@
     <div class="nst-marginbtm-32"></div>
   </section>
   <div class="content-plus illu">
-    <div id="cp1" nst-scrollbar suppress-scroll-x="true" ng-show="!ctlMessages.isBookmarkMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode" affixer parent=".content-plus" after-content="0" offset-top="74" top="0" fixed-top="true">
+    <div id="cp1" nst-scrollbar suppress-scroll-x="true" ng-show="!ctlMessages.isBookmarkMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode" affixer parent=".content-plus.illu" after-content="" offset-top="74" top="0" fixed-top="true">
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
     </div>

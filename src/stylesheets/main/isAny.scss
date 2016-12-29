@@ -25,6 +25,8 @@
   //  overflow-y: initial;
   scroll-behavior: smooth;
   z-index: 1;
+  margin-left: 272px;
+  width: calc(100% - 272px);
 }
 
 .nst-content {

@@ -58,7 +58,7 @@
 
         <h3 ng-if="ctlCreate.isClosedPlace">
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
           <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && ctlCreate.place.name">Only Managers of "{{ctlCreate.place.name}}"</translate>
           <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && !ctlCreate.place.name">Only Managers of "..."</translate>
@@ -67,7 +67,7 @@
         </h3>
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
           <translate ng-if="ctlCreate.place.name">Only Members of "{{ctlCreate.place.name}}"</translate>
           <translate ng-if="!ctlCreate.place.name">Only Members of "..."</translate>
@@ -92,12 +92,12 @@
            ng-class="{ selected : ctlCreate.receivingMode == 'members'}">
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg><translate>"{{ctlCreate.grandPlace.name}}" Members</translate>
         </h3>
         <h3 ng-if="ctlCreate.isClosedPlace">
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg><translate>"{{ctlCreate.grandPlace.name}}" Members</translate>
         </h3>
         <p ng-if="!ctlCreate.isClosedPlace"><translate>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to this Place.</translate></p>
@@ -121,7 +121,7 @@
            ng-class="{ selected : ctlCreate.receivingMode == 'everyone'}">
         <h3>
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg><translate>Everyone <i>(including email)</i></translate>
         </h3>
         <p>

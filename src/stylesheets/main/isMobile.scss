@@ -1,6 +1,11 @@
 body.isMobile {
+  .nst-container {
+    width: 100%;
+    margin-left: 0;
+  }
   .content {
     width: 100%;
+    min-width: initial;
   }
   .menu-links-butn {
     font-size: $font-size-large;
