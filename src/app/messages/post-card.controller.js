@@ -69,12 +69,15 @@
         $log.debug(error);
       });
 
-      if(!vm.post.postIsRed)
-        NstSvcPostFactory.read([vm.post.id]).then(function (result) {
-          vm.post.postIsRed = true;
-        }).catch(function (err) {
-          $log.debug('MARK AS READ :' + err);
-        });
+      // NOTE: By commenting on a post, it will be marked as read automatically.
+      // The the below lines are not required anymore
+      // 
+      // if(!vm.post.postIsRed)
+      //   NstSvcPostFactory.read([vm.post.id]).then(function (result) {
+      //     vm.post.postIsRed = true;
+      //   }).catch(function (err) {
+      //     $log.debug('MARK AS READ :' + err);
+      //   });
       return false;
     }
 

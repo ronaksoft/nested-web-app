@@ -119,10 +119,9 @@
             post_id: postId,
             txt: content
           }).then(function(data) {
-            var commentId = data.comment_id.$oid;
+            var commentId = data.comment_id;
             return getComment(commentId, postId);
           }).then(function(comment) {
-            // post.addComment(comment);
             deferred.resolve(comment);
 
             factory.dispatchEvent(new CustomEvent(
