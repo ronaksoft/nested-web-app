@@ -35,6 +35,13 @@
     vm.retract = retract;
 
 
+    // function lcm_two_numbers(x, y) {
+    //   if ((typeof x !== 'number') || (typeof y !== 'number'))
+    //     return false;
+    //   return (!x || !y) ? 0 : Math.abs((x * y) / gcd_two_numbers(x, y));
+    // }
+
+
     /**
      * send - add the comment to the list of the post comments
      *
@@ -163,7 +170,7 @@
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
         }
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("An error occured while trying to remove the message from the selected Place."));
+        toastr.error(NstSvcTranslation.get("An error has occurred in trying to remove this message from the selected Place."));
       });
     }
 

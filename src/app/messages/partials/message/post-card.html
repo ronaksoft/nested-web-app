@@ -1,6 +1,6 @@
 <div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isRead }" nst-post-modal post="ctlPostCard.post" ng-if="!ctlPostCard.post.forbidden">
   <!-- ng-if="!ctlPostCard.thisPlace" -->
-  <section class="post-card-badge">
+  <section class="post-card-badge visibility-hidden">
     <a class="margin-r-5" data-ng-if="ctlPostCard.post.firstPlace" href="#/places/{{ctlPostCard.post.firstPlace.id}}/messages" ng-click="$event.stopPropagation()" id="test-post-card-badge">{{ctlPostCard.post.firstPlace.name}}</a>
     <a ng-if="ctlPostCard.post.getAllPlacesCount() > 1" data-popover-class="popover-white-nst-msg" ng-click="$event.stopPropagation()"
        data-uib-popover-template="'app/messages/partials/popovers/more_places.html'"
@@ -67,6 +67,9 @@
   <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments">
     <nst-attachments-view post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>
   </section>
+  <section class="post-places">
+    <a href="#/places/{{place.id}}/messages" ng-if="ctlPostCard.post.getAllPlacesCount() > 0" data-ng-repeat="place in ctlPostCard.post.allPlaces" ng-click="$event.stopPropagation()">#{{place.name}}</a>
+  </section>
   <hr>
   <section class="post-footer _difh">
     <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
@@ -122,6 +125,6 @@
   </div>
 </section>
 <div class="no-permission" ng-if="ctlPostCard.post.forbidden">
-  <div class="forbidden-icon"><div></div><div></div></div> <translate>No permission</translate>
+  <div class="forbidden-icon"><div></div><div></div></div> <translate>Unavailable</translate>
 </div>
 <div class="post-card-wire"></div>

@@ -1,3 +1,32 @@
+.svg-hover {
+  transition: all .2s;
+  fill: $color-wind;
+  use:first-child{
+    display: flex;
+  }
+  use:last-child{
+    display: none;
+  }
+  //&:hover,
+  &.morphed{
+    fill: $color-sense ;
+    use:first-child{
+      display: none;
+    }
+    use:last-child{
+      display: flex;
+    }
+  }
+  /*&.morphed:hover{
+    fill: $color-wind;
+    use:first-child{
+      display: flex;
+    }
+    use:last-child{
+      display: none;
+    }
+  }*/
+}
 
 .icon {
   color: $color-breeze;

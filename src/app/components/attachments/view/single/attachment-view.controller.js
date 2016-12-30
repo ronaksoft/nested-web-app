@@ -92,7 +92,7 @@
       goTo(vm.attachments.collection[nextKey]).then(function (item) {
         vm.attachments.current = item;
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('Sorry, an error happened while retrieving the next file.'));
+        toastr.error(NstSvcTranslation.get('Sorry, an error has occurred while loading the next file.'));
       });
     };
 
@@ -106,7 +106,7 @@
         goTo(vm.attachments.collection[nextKey]).then(function (item) {
           vm.attachments.current = item;
         }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get('Sorry, an error happened while retrieving the previous file.'));
+          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred while loading the previous file.'));
         });
       });
     };
@@ -171,7 +171,7 @@
       NstSvcFileFactory.get(ids).then(function (files) {
         deferred.resolve(files);
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('Sorry, an error happened while preparing to view the files.'));
+        toastr.error(NstSvcTranslation.get('Sorry, an error occurred in viewing the files.'));
       }).finally(function () {
         vm.filesLoadProgress = false;
       });
@@ -186,7 +186,7 @@
       NstSvcFileFactory.get([id]).then(function (files) {
         deferred.resolve(files[0]);
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('Sorry, an error happened while preparing to view the files.'));
+        toastr.error(NstSvcTranslation.get('Sorry, an error occurred in viewing the files.'));
       }).finally(function () {
         vm.fileLoadProgress = false;
       });

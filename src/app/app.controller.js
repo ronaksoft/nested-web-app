@@ -17,6 +17,8 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
     $rootScope.topNavOpen = false;
+    $rootScope.deviceDetector = deviceDetector;
+    console.log($rootScope.deviceDetector.isDesktop(),$rootScope.deviceDetector.isTablet(),$rootScope.deviceDetector.isMobile());
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;

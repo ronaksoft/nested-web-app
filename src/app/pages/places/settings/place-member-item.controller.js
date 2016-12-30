@@ -54,9 +54,9 @@
           });
         }).catch(function(error) {
           if (error instanceof NstPlaceOneCreatorLeftError){
-            toastr.error(NstUtility.string.format(NstSvcTranslation.get('User "{0}" is the only manager in the place!'), vm.member.name));
+            toastr.error(NstUtility.string.format(NstSvcTranslation.get('User "{0}" is the only Manager of this Place!'), vm.member.name));
           } else if (error instanceof NstPlaceCreatorOfParentError) {
-            toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to remove "{0}", because he/she is creator of the top-level place ({1}).'), vm.member.name, vm.place.parent.name));
+            toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to remove "{0}", because he/she is the creator of its highest-ranking Place ({1}).'), vm.member.name, vm.place.parent.name));
           }
           $log.debug(error);
         });

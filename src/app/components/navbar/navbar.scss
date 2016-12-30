@@ -438,6 +438,9 @@ nst-navbar {
     flex-direction: row;
     padding-top: 16px;
     position: relative;
+    width: 620px + 276px + 16px;
+    max-width: 100%;
+    min-width: 460px + 276px + 16px;
   }
   .place-logo {
     height: calc(100% - 16px);
@@ -504,7 +507,7 @@ nst-navbar {
       font-style: normal;
       background-color: $color-white;
       z-index: 3;
-      top: 0;
+      top: 16px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -692,6 +695,7 @@ nst-navbar {
 .nst-navbar .content-plus{
   justify-content: center;
   height: auto;
+  display: none;
 }
 .menu-links-search .icon-close {
   z-index: 2;

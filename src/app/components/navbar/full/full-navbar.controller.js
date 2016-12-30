@@ -89,7 +89,7 @@
 
                 NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
                   toastr.success(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was invited to Place "{1}" successfully.'), user.id, vm.place.id));
-                  NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was invited to Place "{1}" successfully.'), user.id, vm.place.id));
+                  NstSvcLogger.info(NstUtility.string.format('User "{0}" was invited to Place "{1}" successfully.', user.id, vm.place.id));
                   resolve({
                     user: user,
                     role: role,
@@ -98,8 +98,8 @@
                 }).catch(function (error) {
                   // FIXME: Why cannot catch the error!
                   if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                    toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously invited to Place "{1}".'), user.id, vm.place.id));
-                    NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously invited to Place "{1}".'), user.id, vm.place.id));
+                    toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been previously invited to Place "{1}".'), user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format('User "{0}" has been previously invited to Place "{1}".', user.id, vm.place.id));
                     resolve({
                       user: user,
                       role: role,
@@ -124,8 +124,8 @@
                 }).catch(function(error) {
                   // FIXME: Why cannot catch the error!
                   if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                    toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously added to Place "{1}".'), user.id, vm.place.id));
-                    NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('User "{0}" was previously added to Place "{1}".'), user.id, vm.place.id));
+                    toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been previously added to Place "{1}".'), user.id, vm.place.id));
+                    NstSvcLogger.info(NstUtility.string.format('User "{0}" has been previously added to Place "{1}".', user.id, vm.place.id));
                     resolve({
                       user: user,
                       role: role,
@@ -348,7 +348,7 @@
         if (error instanceof NstPlaceOneCreatorLeftError){
           toastr.error(NstSvcTranslation.get('You are the only one left!'));
         } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave here, because you are the creator of the top-level place ({0}).'), vm.place.parent.name));
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to leave the Place because you are the creator of its highest-ranking Place ({0}).'), vm.place.parent.name));
         }
         NstSvcLogger.error(error);
       });
@@ -398,9 +398,9 @@
         }
       }).catch(function(error) {
         if (error.code === 1 && error.message[0] === "place has child") {
-          toastr.warning(NstSvcTranslation.get("You have to remove all children before removing the place."));
+          toastr.warning(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
         } else {
-          toastr.error(NstUtility.string.format(NstSvcTranslation.get("An error happened while removing the place."), vm.place.name));
+          toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
         }
       });
     }

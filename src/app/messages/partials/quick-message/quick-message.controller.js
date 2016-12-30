@@ -6,7 +6,7 @@
     .controller('QuickMessageController', QuickMessageController);
 
   function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,
-    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
+    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation, NstSvcAuth) {
     var vm = this;
 
     /*****************************
@@ -35,6 +35,9 @@
         total: 0
       }
     };
+
+    vm.userImg = NstSvcAuth.user.picture.org.getUrl().view;
+    vm.showCtrls = false;
 
     /*****************************
      ***** Controller Methods ****
@@ -216,10 +219,10 @@
 
         if(response.noPermitPlaces.length > 0){
           var text = NstUtility.string.format(NstSvcTranslation.get('Your message hasn\'t been successfully sent to {0}'), response.noPermitPlaces.join(','));
-          toastr.warning(text, NstSvcTranslation.get('Message doesn\'t Sent'));
+          toastr.warning(text, NstSvcTranslation.get('Message didn\'t send'));
         }
 
-        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
+        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message sent'));
 
         return $q(function (res) {
           res(response);

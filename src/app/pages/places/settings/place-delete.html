@@ -14,7 +14,7 @@
           <h5 class="nst-mood-storm">{{removeCtrl.place.id + '@nested.me'}}</h5>
         </div>
       </div>
-      <p ng-if="!nextStep" class="_df nst-mood-storm modal-detail"><translate>By deleting place, all place data & messages will be erased permanently. Are you really sure?</translate></p>
+      <p ng-if="!nextStep" class="_df nst-mood-storm modal-detail"><translate>By deleting place, you are agreeing to erase all Place data permanently. Are you sure you want to do this?</translate></p>
       <div ng-if="nextStep" class="_fw _difv _jcc nst-mood-storm modal-detail">
         <span class="df nst-mood-storm small"><translate>Enter your place ID</translate></span>
         <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place ID" translate-attrs="placeholder" focus-me>

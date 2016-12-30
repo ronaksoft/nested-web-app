@@ -16,7 +16,11 @@
                        id="input-compose-to"
                        data-ng-model="ctlCompose.model.recipients" search-enabled="false">
               <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}">
-                <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
+                <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isEmailValid}">
+                  <span class="place-img" ng-if="!$item.isEmail"><img ng-src="{{::$item.avatar}}"/></span>
+                  <!--<span class="place-img" ng-if="$item.isEmail && !$item.isEmailValid"><svg></svg></span>-->
+                  <span class="place-name">{{$item.name}}</span>
+                </div>
               </ui-select-match>
               <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
                                  refresh-delay="400"

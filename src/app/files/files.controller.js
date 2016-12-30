@@ -85,12 +85,12 @@
 
           load();
         } else {
-          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("The place does not exist or you are not allowed to be there.")).finally(function () {
+          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
             $state.go(NST_DEFAULT.STATE);
           });
         }
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('Sorry, an error happened while getting the place.'));
+        toastr.error(NstSvcTranslation.get('Sorry, an error has occurred while loading the Place.'));
       });
 
     })();
@@ -145,7 +145,7 @@
           vm.files.push.apply(vm.files, newFileItems);
           vm.loadFilesError = false;
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('An error happened while retreiving files.'));
+        toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
       }).finally(function () {
         vm.filesLoadProgress = false;

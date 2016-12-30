@@ -158,3 +158,143 @@ select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
 }
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
+  background-color: transparent;
+  border-radius: 0;
+  color: $color-solid;
+  padding: 0;
+  height: 30px;
+  margin: 0!important;
+  border-width: 0;
+  span {
+    line-height: 28px!important;
+    padding: 0;
+    height: 28px;
+    font-size: 14px;
+    white-space: nowrap;
+    @extend ._txe;
+  }
+  .close {
+    line-height: 30px;
+    width: 20px;
+    justify-content: center;
+    transition: opacity $animation-dur;
+    position: absolute;
+    right: 8px;
+    top: 2px;
+    padding: 0;
+  }
+  div.selected-innter {
+    background: linear-gradient(to bottom,$color-bg-nested ,$sidebar-place-bg-hover-color 100%);
+    border-style: solid;
+    border-width: 1px;
+    border-color: #E6E6E6;
+    border-radius: 4px;
+    height: 30px;
+    max-width: 216px;
+    transition-property: border-color,background;
+    transition-duration: $animation-dur;
+    .place-img {
+      display: inline-block;
+      font-size: $font-size-xxsmall;
+      border-radius: $border-radius-large 0 0 $border-radius-large;
+      color: $color-white;
+      width: 28px;
+      padding: 1px;
+      height: 28px;
+      img {
+        width: 26px;
+        height: 26px;
+      }
+    }
+    .place-name {
+      display: inline-block;
+      line-height: 24px;
+      font-size: $font-size-medium;
+      min-width: 16px;
+      max-width: calc(100% - 24px);
+      border-radius: 0 6px 6px 0;
+      color: $color-solid;
+      padding: 0 28px 0 4px;
+      margin-left: -3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    &.isEmail {
+      border-radius: 20px;
+      border-color: #B9D7FF;
+      max-width: 256px;
+      .place-name {
+        max-width: calc(100% + 4px);
+        padding-left: 12px;
+      }
+    }
+    &.isEmail.error {
+      border-color: #FF0014;
+      background: #FFC8C8;
+      .place-name {
+        color: #FF0014;
+        font-weight: 700;
+      }
+    }
+    &.isEmail:hover {
+      border-color: #9BB9E1;
+      border-radius: 20px;
+    }
+  }
+  &:hover,&:active,&:focus {
+    outline-offset: 0!important;
+    outline-width: 0!important;
+    .close {
+      opacity: 1;
+      text-shadow: none;
+    }
+  }
+  &:hover {
+    div.selected-innter{
+      height: 30px;
+      border-color: #C0C0C0;
+      background: linear-gradient(to bottom,$color-bg-nested ,$sidebar-place-bg-hover-color 100%);
+    }
+    div.selected-innter.isEmail{
+      height: 30px;
+      border-color: #9BB9E1;
+      background: linear-gradient(to bottom,$color-bg-nested ,$sidebar-place-bg-hover-color 100%);
+    }
+    div.selected-innter.isEmail.error{
+      border-color: #FF0014;
+      background: #FFC8C8;
+    }
+  }
+  &:active,&:focus{
+    div.selected-innter {
+      border-color: $color-sense;
+      background: linear-gradient(to bottom, #8AEBB4, #8AEBB4 100%);
+      outline-offset: 0!important;
+      outline-width: 0!important;
+    }
+    div.selected-innter.isEmail{
+      border-color: #379BFF;
+      background: #9BCDFF;
+    }
+    div.selected-innter.isEmail.error{
+      border-color: $color-force-wire;
+      background: $color-force-wire;
+      .place-name {
+        color: $color-white;
+      }
+    }
+
+  }
+}
+
+.ui-select-match > span {
+  margin: 4px 2px;
+  display: inline-flex;
+}
+.btn-primary:active,.btn-primary:focus {
+  //border-color: $color-sense!important;
+  //background: linear-gradient(to bottom, #8AEBB4, #8AEBB4 100%)!important;
+}
