@@ -29,7 +29,7 @@
       return factory.sentinel.watch(function() {
         var deferred = $q.defer();
 
-        NstSvcServer.request('store/get_files', {
+        NstSvcServer.request('place/get_files', {
           place_id: placeId,
           filter: filter || null,
           filename: keyword || '',
@@ -82,7 +82,7 @@
       if (token) {
         deferred.resolve(token);
       } else {
-        NstSvcServer.request('store/get_download_token', {
+        NstSvcServer.request('file/get_download_token', {
           universal_id : fileId
         }).then(function(data) {
           storeToken(fileId, data.token);

@@ -131,7 +131,7 @@
     function requestNewDownloadToken(postId, attachmentId) {
       var defer = $q.defer();
 
-      NstSvcServer.request('store/get_download_token', {
+      NstSvcServer.request('file/get_download_token', {
         post_id: postId,
         universal_id: attachmentId
       }).then(function(data) {
