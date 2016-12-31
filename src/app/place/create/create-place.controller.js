@@ -69,8 +69,7 @@
         vm.place.parentId = null;
       }
       vm.isCreateGrandPlaceMode = !vm.hasParentPlace;
-      console.log(111111,vm.hasParentPlace,vm.isCreateGrandPlaceMode)
-      // setReceivingEveryone();
+      setReceivingEveryone();
 
       if ($stateParams.isOpenPlace) {
         vm.isOpenPlace = true;

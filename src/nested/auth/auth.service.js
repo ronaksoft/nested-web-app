@@ -207,7 +207,7 @@
 
             default:
               // Try to reconnect
-              service.reconnect().then(deferred.resolve).catch(deferred.reject);
+              // service.reconnect().then(deferred.resolve).catch(deferred.reject);
               break;
           }
         });

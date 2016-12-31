@@ -140,7 +140,7 @@
             NstSvcServer.request('place/get', {
               place_id: query.id
             }).then(function(placeData) {
-              console.log(placeData);
+              console.log('placeData',placeData);
               // TODO: The response should contains "data" property
               var place = factory.parsePlace(placeData);
               NstSvcPlaceStorage.set(query.id, place);
@@ -329,8 +329,9 @@
       };
 
 
+      //TODO :// fix response data
       NstSvcServer.request('place/' + placeType, params).then(function (data) {
-        factory.get(data.place._id).then(function (place) {
+        factory.get(data._id).then(function (place) {
 
           if (place.parentId) {
             factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.SUB_ADD, {
@@ -1012,7 +1013,7 @@
         this.setRoleOnPlace(place.getId(), placeData.role);
       }
 
-      place.accesses = placeData.place_access || [];
+      place.accesses = placeData.access || [];
 
       return place;
     };
