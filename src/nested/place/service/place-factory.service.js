@@ -140,7 +140,9 @@
             NstSvcServer.request('place/get', {
               place_id: query.id
             }).then(function(placeData) {
-              var place = factory.parsePlace(placeData.info);
+              console.log(placeData);
+              // TODO: The response should contains "data" property
+              var place = factory.parsePlace(placeData);
               NstSvcPlaceStorage.set(query.id, place);
               resolve(place);
             }).catch(function(error) {
@@ -934,6 +936,7 @@
     };
 
     PlaceFactory.prototype.parsePlace = function(placeData) {
+      console.log("placeData", placeData);
       var place = this.createPlaceModel();
 
       if (!angular.isObject(placeData)) {

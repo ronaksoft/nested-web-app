@@ -63,6 +63,7 @@
 
       vm.place = null;
       vm.placeId = $stateParams.placeId;
+      console.log("$stateParams", $stateParams);
       vm.user = NstSvcAuth.user;
 
       if (vm.user.id === vm.placeId){
@@ -128,7 +129,9 @@
           };
 
       vm.placeLoadProgress = true;
+      console.log("place-id", id);
       NstSvcPlaceFactory.get(id).then(function(place) {
+        console.log("place", place);
         result.place = place;
         NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('Place {0} was found.'), result.place.id));
 
