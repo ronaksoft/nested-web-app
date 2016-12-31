@@ -683,34 +683,6 @@
       }, "removeMember", id);
     };
 
-    PlaceFactory.prototype.getMembers = function(id, limit, skip) {
-      var factory = this;
-
-      return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-        var query = new NstFactoryQuery(id, {
-          limit: limit || 64,
-          skip: skip
-        });
-
-        NstSvcServer.request('place/get_members', {
-          place_id: id,
-          limit: limit,
-          skip: skip,
-        }).then(function(data) {
-          deferred.resolve({
-            creators: _.map(data.creators, NstSvcUserFactory.parseTinyUser),
-            keyHolders: _.map(data.key_holders, NstSvcUserFactory.parseTinyUser),
-          });
-
-        }).catch(function(error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
-
-        return deferred.promise;
-      });
-    }
-
     PlaceFactory.prototype.getCreators = function(id, limit, skip) {
       var deferred = $q.defer();
       var query = new NstFactoryQuery(id, {
@@ -1008,11 +980,12 @@
         this.setAccessOnPlace(place.getId(), placeData.access);
       }
 
+
       if (placeData.role) {
         this.setRoleOnPlace(place.getId(), placeData.role);
       }
 
-      place.accesses = placeData.place_access || [];
+      place.accesses = placeData.access;
 
       return place;
     };
