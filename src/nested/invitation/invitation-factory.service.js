@@ -141,9 +141,9 @@
         var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
-          NstSvcServer.request('account/update_invitation', {
+          NstSvcServer.request('account/respond_invite', {
             invite_id: id,
-            state: 'accepted'
+            response: 'accept'
           }).then(function (response) {
             // TODO: parse the response and return an object
             defer.resolve(invitation);
@@ -170,9 +170,9 @@
         var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
-          NstSvcServer.request('account/update_invitation', {
+          NstSvcServer.request('account/respond_invite', {
             invite_id: id,
-            state: 'ignored'
+            response: 'ignore'
           }).then(function (response) {
             // TODO: parse the response and return an object
             defer.resolve(invitation);
