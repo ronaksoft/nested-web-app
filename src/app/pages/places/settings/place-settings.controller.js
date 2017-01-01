@@ -75,7 +75,6 @@
       }
 
       loadPlace(vm.placeId).then(function (result) {
-        console.log('result', result)
         vm.place = result.place;
         vm.accesses = result.accesses;
 
@@ -87,7 +86,6 @@
         vm.hasMoreTeammates = vm.teammates.length === teammates.length;
         vm.teammates = teammates;
 
-        console.log('teammates', teammates, vm.teammates);
 
       }).catch(function (error) {
         NstSvcLogger.error(error);

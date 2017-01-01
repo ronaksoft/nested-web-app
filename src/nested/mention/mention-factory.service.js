@@ -110,7 +110,6 @@
      *****************/
 
     function parseMention(data) {
-      console.log(data);
       var mention = new NstMention();
       if (!data._id) {
         throw 'Could not find _id in the mention raw object.';

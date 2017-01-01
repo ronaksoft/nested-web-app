@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,19 +6,19 @@
     .controller('PostCardController', PostCardController)
 
   function PostCardController($state, $log, $timeout, $rootScope,
-    _, moment, toastr,
-    NST_POST_EVENT, NST_COMMENT_EVENT,
-    NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
+                              _, moment, toastr,
+                              NST_POST_EVENT, NST_COMMENT_EVENT,
+                              NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
     var vm = this;
 
     var commentBoardMin = 3,
-        commentBoardMax = 99,
-        commentsSettings = {
-          limit : 8,
-          date : null
-        },
-        newCommentIds = [],
-        unreadCommentIds = [];
+      commentBoardMax = 99,
+      commentsSettings = {
+        limit: 8,
+        date: null
+      },
+      newCommentIds = [],
+      unreadCommentIds = [];
 
     vm.sendComment = sendComment;
 
@@ -55,7 +55,7 @@
       vm.isSendingComment = true;
 
       NstSvcCommentFactory.addComment(vm.post.id, body).then(function (comment) {
-        if (!_.some(vm.post.comments, { id : comment.id })) {
+        if (!_.some(vm.post.comments, {id: comment.id})) {
           vm.commentBoardLimit++;
           vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
         }
@@ -64,7 +64,7 @@
         vm.isSendingComment = false;
         $timeout(function () {
           e.currentTarget.focus();
-        },10)
+        }, 10)
       }).catch(function (error) {
         $log.debug(error);
       });
@@ -104,6 +104,7 @@
     function limitCommentBoard() {
       vm.commentBoardLimit = commentBoardMin;
       vm.commentBoardIsRolled = true;
+      vm.hasOlderComments = true;
     }
 
     function clearCommentBoardLimit() {
@@ -147,8 +148,8 @@
       var date = getDateOfOldestComment(vm.post);
 
       NstSvcCommentFactory.retrieveComments(vm.post.id, {
-          date : date,
-          limit : commentsSettings.limit
+        date: date,
+        limit: commentsSettings.limit
       }).then(function (comments) {
         vm.hasOlderComments = comments.length >= commentsSettings.limit;
         var commentItems = _.orderBy(_.map(comments, NstSvcCommentMap.toMessageComment), 'date', 'asc');
@@ -160,7 +161,7 @@
     }
 
     function remove() {
-      NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, { id : vm.thisPlace })).then(function (place) {
+      NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, {id: vm.thisPlace})).then(function (place) {
         if (place) {
           vm.post.dropPlace(place.id);
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
@@ -200,11 +201,10 @@
       }
     });
 
-    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function(e) {
+    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function (e) {
       if (vm.post.id !== e.detail.postId) {
         return;
       }
-      console.log(e.detail);
       var senderIsCurrentUser = NstSvcAuth.getUser().getId() == e.detail.comment.sender.id;
       if (senderIsCurrentUser) {
         if (!_.includes(newCommentIds, e.detail.id)) {
@@ -222,7 +222,7 @@
     // initializing
     (function () {
 
-      vm.hasOlderComments = vm.post.commentsCount && vm.post.comments  ? vm.post.commentsCount > vm.post.comments.length : false;
+      vm.hasOlderComments = vm.post.commentsCount && vm.post.comments ? vm.post.commentsCount > vm.post.comments.length : false;
 
       vm.urls = {};
       vm.urls['reply_all'] = $state.href('app.compose-reply-all', {
@@ -239,12 +239,12 @@
 
       if (vm.thisPlace) {
         vm.urls['chain'] = $state.href('app.place-message-chain', {
-          placeId : vm.thisPlace,
-          postId : vm.post.id
+          placeId: vm.thisPlace,
+          postId: vm.post.id
         });
       } else {
         vm.urls['chain'] = $state.href('app.message-chain', {
-          postId : vm.post.id
+          postId: vm.post.id
         });
       }
 

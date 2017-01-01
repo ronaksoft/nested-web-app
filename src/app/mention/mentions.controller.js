@@ -50,7 +50,6 @@
       vm.error = false;
       vm.loading = true;
       NstSvcMentionFactory.getMentions(skip, limit).then(function(mentions) {
-        console.log('got mentions', mentions);
         vm.mentions = _.concat(vm.mentions, _.map(mentions, mapMention));
         if (mentions.length < limit){
           vm.reached = true;

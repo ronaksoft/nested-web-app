@@ -14,7 +14,6 @@
     TinyUserStorage.prototype.constructor = TinyUserStorage;
 
     TinyUserStorage.prototype.isValidObject = function (object) {
-      console.log("object", object);
 
       var q = {
         id: object.id,
@@ -24,7 +23,6 @@
       };
       for (var k in q) {
         if (undefined == q[k]) {
-          console.log("q", q);
           $log.debug('Unable to store TinyUser because ', '`' + k + '`', 'was undefined:', object);
 
           return false;
