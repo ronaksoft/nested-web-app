@@ -6,7 +6,7 @@
     .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
-  function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr,
+  function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr, _,
     NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
@@ -63,7 +63,6 @@
           vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
           vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
           defaultCollapseLimit = vm.hasAddMembersAccess ? 4 : 5;
-          console.log(place);
 
           if (vm.mode = 'collapsed') {
             collapse();
@@ -246,7 +245,9 @@
 
         loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function(teammates) {
           vm.teammates.push.apply(vm.teammates, teammates);
-
+          vm.teammates = _.uniqBy(data, function (e) {
+            return e.id;
+          });
           vm.showTemmate = true;
         }).finally(function () {
           vm.loading = false;
@@ -258,9 +259,8 @@
     }
 
     function getCreators(placeId, limit, skip, hasAccess) {
-      console.log('getting creators');
       var deferred = $q.defer();
-      console.log('hasAccess', hasAccess);
+
       if (hasAccess && vm.teammatesSettings.creatorsCount < vm.place.counters.creators) {
 
         NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function(creators) {
@@ -279,7 +279,6 @@
     }
 
     function getKeyholders(placeId, limit, skip, hasAccess) {
-      console.log('getting keyHolders');
       var deferred = $q.defer();
 
       if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {

@@ -232,15 +232,12 @@
 
           xhr.onload = function (event) {
             if (200 == event.target.status) {
-              console.log("event.target", event.target);
               var httpData = JSON.parse(event.target.response);
               var data = httpData.data;
-              console.log('data', data);
               var response = new NstResponse(NST_RES_STATUS.SUCCESS, data);
 
               switch (httpData.status) {
                 case "ok":
-                console.log('haha');
                   response.setStatus(NST_RES_STATUS.SUCCESS);
                   deferred.resolve(response);
                   break;

@@ -140,7 +140,6 @@
             NstSvcServer.request('place/get', {
               place_id: query.id
             }).then(function(placeData) {
-              console.log(placeData);
               // TODO: The response should contains "data" property
               var place = factory.parsePlace(placeData);
               NstSvcPlaceStorage.set(query.id, place);
@@ -329,8 +328,9 @@
       };
 
 
+      //TODO :// fix response data
       NstSvcServer.request('place/' + placeType, params).then(function (data) {
-        factory.get(data.place._id).then(function (place) {
+        factory.get(data._id).then(function (place) {
 
           if (place.parentId) {
             factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.SUB_ADD, {
@@ -908,7 +908,6 @@
     };
 
     PlaceFactory.prototype.parsePlace = function(placeData) {
-      console.log("placeData", placeData);
       var place = this.createPlaceModel();
 
       if (!angular.isObject(placeData)) {
@@ -979,7 +978,6 @@
       if (placeData.access) {
         this.setAccessOnPlace(place.getId(), placeData.access);
       }
-
 
       if (placeData.role) {
         this.setRoleOnPlace(place.getId(), placeData.role);

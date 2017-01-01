@@ -88,7 +88,7 @@
             comment_id: query.id,
             post_id: query.data.postId
           }).then(function(data) {
-            return parseComment(data.comment);
+            return parseComment(data);
           }).then(function(comment) {
             deferred.resolve(comment);
           }).catch(function(error) {
@@ -119,7 +119,6 @@
             post_id: postId,
             txt: content
           }).then(function(data) {
-            console.log("data", data);
             var commentId = data.comment_id;
             return getComment(commentId, postId);
           }).then(function(comment) {
@@ -171,11 +170,7 @@
             });
 
             $q.all(allCommnets).then(function(commentItems) {
-              var comments = _.filter(commentItems, {
-                'removed': false
-              });
-              // post.addComments(comments);
-              deferred.resolve(comments);
+              deferred.resolve(commentItems);
             });
           }).catch(function(error) {
             deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -229,19 +224,18 @@
       var comment = new NstComment();
 
       var defer = $q.defer();
-
       if (!data || !data._id) {
         defer.resolve(comment);
       } else {
 
-        comment.id = data.id;
-        comment.attach = data.attach;
+
+        comment.id = data._id;
         comment.postId = postId;
         comment.sender = new NstTinyUser({
-          id: data.sender_id,
-          firstName: data.sender_fname,
-          lastName: data.sender_lname,
-          picture: data.sender_picture
+          id: data.sender._id,
+          firstName: data.sender.fname,
+          lastName: data.sender.lname,
+          picture: data.sender.picture
         });
         comment.body = data.text;
         comment.date = new Date(data['timestamp']);
@@ -259,14 +253,14 @@
       if (!data) {
         defer.resolve(comment);
       } else {
-        comment.id = data.comment_id;
+
+        comment.id = data._id;
         comment.body = data.text;
         comment.date = new Date(data.timestamp);
         comment.removed = data._removed;
 
         NstSvcUserFactory.get(data.sender_id).then(function(sender) {
           comment.sender = sender;
-
           defer.resolve(comment);
         }).catch(defer.reject);
       }

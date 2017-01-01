@@ -147,7 +147,6 @@
       _.forEach(newComments, function(comment) {
         this.addComment(comment);
       }.bind(this));
-
       return this;
     };
 
