@@ -10,6 +10,15 @@
                     ngProgressFactory,
                     NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT, NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
                     NstSvcAuth, NstSvcLoader, NstSvcI18n) {
+    window.nestedLogs = [];
+    window.onerror = function(messageOrEvent, source, lineno, colno, error) {
+      console.log('oops');
+      console.log(messageOrEvent);
+      console.log(source);
+      console.log(lineno);
+      console.log(colno);
+      console.log(error);
+    }
 
     $rootScope.progress = {
       bar: ngProgressFactory.createInstance(),
