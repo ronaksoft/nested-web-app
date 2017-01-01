@@ -7,7 +7,6 @@
 
     $provide.decorator("$exceptionHandler", function($delegate, $injector) {
       return function(exception, cause) {
-        console.log(window);
         var $state = $injector.get('$state');
         var NstSvcServer = $injector.get('NstSvcServer');
         var browser = getBrowserDetail();
