@@ -51,8 +51,10 @@
       for (var k in replace) {
         pattern = pattern.replace('{{' + k + '}}', replace[k]);
       }
-
-      return pattern;
+      // TODO: Public and private resources must have different url patterns,
+      // because the public one does not require a token
+      // here, the trailing / will be removed for public resources
+      return _.trimEnd(pattern, "/");
     };
 
     Store.prototype.upload = function(file, type) {
