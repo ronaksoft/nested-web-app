@@ -14,32 +14,31 @@
     function CommentFactory() {
       var factory = this;
 
-      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(event) {
-        var tlData = event.detail.timeline_data;
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function(event) {
+        var tlData = event.detail;
 
-        switch (tlData.action) {
-          case NST_EVENT_ACTION.COMMENT_ADD:
-            var postId = tlData.post_id;
+        var postId = tlData.post_id;
+        var commentId = tlData.comment_id;
+
+        factory.getComment(commentId, postId).then(function (comment) {
+          factory.dispatchEvent(new CustomEvent(
+            NST_COMMENT_EVENT.ADD, {
+              detail: {
+                id: commentId,
+                postId: postId,
+                comment: comment,
+                internal: false
+              }
+            }
+          ));
+        });
+
+      })
+
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.COMMENT_REMOVE, function(event) {
+        var tlData = event.detail;
+        var postId = tlData.post_id;
             var commentId = tlData.comment_id;
-
-            factory.getComment(commentId, postId).then(function(comment) {
-              factory.dispatchEvent(new CustomEvent(
-                NST_COMMENT_EVENT.ADD, {
-                  detail: {
-                    id: commentId,
-                    postId: postId,
-                    comment: comment,
-                    internal: false
-                  }
-                }
-              ));
-            });
-            break;
-
-          case NST_EVENT_ACTION.COMMENT_REMOVE:
-            var postId = tlData.post_id;
-            var commentId = tlData.comment_id;
-
             factory.dispatchEvent(new CustomEvent(
               NST_COMMENT_EVENT.REMOVE, {
                 detail: {
@@ -49,8 +48,6 @@
                 }
               }
             ));
-            break;
-        }
       });
     }
 

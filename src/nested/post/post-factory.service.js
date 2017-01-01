@@ -15,42 +15,33 @@
 
       var factory = this;
 
-      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (e) {
-        switch (e.detail.timeline_data.action) {
-          case NST_EVENT_ACTION.POST_ADD:
-            if (e.detail.timeline_data.actor !== NstSvcAuth.user.id) {
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.POST_ADD, function(event) {
+        var tlData = event.detail;
 
-              var post = new NstTinyPost();
-              post.setId(e.detail.timeline_data.post_id);
-              post.setPlaces(e.detail.timeline_data.place_id);
+        if (tlData.actor !== NstSvcAuth.user.id) {
 
-              factory.dispatchEvent(new CustomEvent(
-                NST_POST_FACTORY_EVENT.ADD,
-                new NstFactoryEventData(post)
-              ));
-            }
+          var post = new NstTinyPost();
+          post.setId(tlData.post_id);
+          post.setPlaces(tlData.place_id);
 
-            // getMessage(postId).then(function (post) {
-            //   if (post.sender.id !== NstSvcAuth.user.id) {
-            //     factory.dispatchEvent(new CustomEvent(
-            //       NST_POST_FACTORY_EVENT.ADD,
-            //       new NstFactoryEventData(post)
-            //     ));
-            //   }
-            // }).catch(function (error) {
-            //   $log.debug(error);
-            // });
-            break;
-
-          case NST_EVENT_ACTION.POST_REMOVE:
-            var postId = e.detail.timeline_data.post_id;
-            factory.dispatchEvent(new CustomEvent(
-              NST_POST_FACTORY_EVENT.REMOVE,
-              new NstFactoryEventData(postId)
-            ));
-            break;
+          factory.dispatchEvent(new CustomEvent(
+            NST_POST_FACTORY_EVENT.ADD,
+            new NstFactoryEventData(post)
+          ));
         }
       });
+
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.POST_REMOVE, function(event) {
+        var tlData = event.detail;
+
+        var postId = tlData.post_id;
+        factory.dispatchEvent(new CustomEvent(
+          NST_POST_FACTORY_EVENT.REMOVE,
+          new NstFactoryEventData(postId)
+        ));
+
+      });
+
     }
 
     PostFactory.prototype = new NstBaseFactory();
