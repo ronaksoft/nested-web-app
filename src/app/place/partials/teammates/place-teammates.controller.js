@@ -10,6 +10,7 @@
     NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
+      console.log('twice');
     var vm = this;
 
     var defaultCollapseLimit = 4;
@@ -42,8 +43,9 @@
     $scope.$watch(function() {
       return $stateParams.placeId;
     }, function(newValue, oldValue) {
+      console.log("newValue", newValue);
       if (newValue) {
-        vm.placeId = $stateParams.placeId;
+        vm.placeId = newValue;
         initialize();
       }else{
         vm.showTeammate = false;
@@ -56,7 +58,7 @@
       }
       vm.loading = true;
 
-      NstSvcPlaceAccess.getIfhasAccessToRead(vm.placeId).then(function(place) {
+      NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         if (place) {
           vm.place = place;
 
@@ -192,6 +194,7 @@
 
 
     function loadTeammates(placeId, hasSeeMembersAccess) {
+      console.log('loading teammates');
       var deferred = $q.defer();
 
       var teammates = [];
@@ -240,14 +243,19 @@
     }
 
     function load() {
+      console.log('calling', vm.hasSeeMembersAccess);
+      vm.teammatesSettings = {
+        skip : 0,
+        limit : defaultCollapseLimit,
+        creatorsCount : 0,
+        keyHoldersCount : 0,
+        pendingsCount : 0
+      };
       if (vm.hasSeeMembersAccess) {
         vm.loading = true;
 
         loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function(teammates) {
-          vm.teammates.push.apply(vm.teammates, teammates);
-          vm.teammates = _.uniqBy(data, function (e) {
-            return e.id;
-          });
+          vm.teammates = teammates;
           vm.showTemmate = true;
         }).finally(function () {
           vm.loading = false;

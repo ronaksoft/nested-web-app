@@ -237,19 +237,15 @@
         vm.teammatesSettings.skip = vm.teammatesSettings.pendingsCount;
 
         teammates.push.apply(teammates, keyHolders);
+        return getPendings(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeePendings);
+      }).then(function(pendings) {
+        vm.teammatesSettings.pendingsCount += pendings.length;
+        pageCounts.pendings = pendings.length;
+
+        teammates.push.apply(teammates, pendings);
+
         deferred.resolve(teammates);
-        return teammates
-        // return getPendings(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeePendings);
-      })
-      // .then(function(pendings) {
-      //   vm.teammatesSettings.pendingsCount += pendings.length;
-      //   pageCounts.pendings = pendings.length;
-      //
-      //   teammates.push.apply(teammates, pendings);
-      //
-      //   deferred.resolve(teammates);
-      // })
-        .catch(deferred.reject);
+      }).catch(deferred.reject);
 
       return deferred.promise;
     }

@@ -710,7 +710,7 @@
         skip: skip
       });
       console.log(33333333333333333333, id)
-      NstSvcServer.request('place/get_keyholders', {
+      NstSvcServer.request('place/get_key_holders', {
         place_id: id,
         limit: limit,
         skip: skip,

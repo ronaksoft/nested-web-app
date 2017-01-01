@@ -273,7 +273,7 @@
         var defer = $q.defer();
         var query = new NstFactoryQuery(placeId);
 
-          NstSvcServer.request('place/get_pending_invitations', {
+          NstSvcServer.request('place/get_invitations', {
             place_id: placeId,
             member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER,
             limit : limit,
