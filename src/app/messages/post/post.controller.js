@@ -487,6 +487,9 @@
     }
 
     function allowToRemoveComment(comment) {
+
+      if (vm.hasRemoveAccess) return true;
+
       if (comment && comment.id && vm.user && vm.user.id) {
         var now = Date.now();
         return comment.sender.username === vm.user.id
