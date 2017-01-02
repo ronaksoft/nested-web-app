@@ -93,7 +93,7 @@
 
     vm.getPlacePicture = function () {
       if (vm.hasPlace()){
-        return $scope.place.picture.thumbnails.x64.url.view;
+        return $scope.place.picture.thumbnails.x128.url.view;
       } else {
         return '';
       }

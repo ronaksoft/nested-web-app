@@ -6,9 +6,9 @@
 <div id="place-settings">
   <div class="place-name">
     <label for="logo" class="pic">
-      <img data-ng-if="ctlSettings.logoFile || ctlSettings.place.picture.thumbnails.x64.url.download"
-           ng-src="{{ctlSettings.logoUrl || ctlSettings.place.picture.thumbnails.x64.url.download}}"/>
-      <img data-ng-if="!ctlSettings.place.picture.thumbnails.x64.url.download && !ctlSettings.logoFile"
+      <img data-ng-if="ctlSettings.logoFile || ctlSettings.place.picture.thumbnails.x128.url.download"
+           ng-src="{{ctlSettings.logoUrl || ctlSettings.place.picture.thumbnails.x128.url.download}}"/>
+      <img data-ng-if="!ctlSettings.place.picture.thumbnails.x128.url.download && !ctlSettings.logoFile"
            src="/assets/icons/absents_place.svg"/>
     </label>
     <input id="logo" data-ng-disabled="!ctlSettings.accesses.hasControlAccess" type="file" name="logo" accept="image/*"
