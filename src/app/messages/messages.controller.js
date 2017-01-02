@@ -126,6 +126,8 @@
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
         var newMessage = e.detail;
 
+        if (newMessage.sender.getId() === NstSvcAuth.user.id) return;
+
         if (isBookMark()) {
           if (!_.some(vm.messages, {id: newMessage.id}) &&
             _.intersectionWith(vm.bookmarkedPlaces, newMessage.places, function (a, b) {
