@@ -789,7 +789,7 @@
         skip: skip
       });
 
-      NstSvcServer.request('post/search', {
+      NstSvcServer.request('search/posts', {
         keywords: queryString,
         limit: limit || 8,
         skip: skip || 0,
