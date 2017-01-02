@@ -315,7 +315,7 @@
       };
 
       var params = {
-        'place_id': model.id,
+        'place_id': model.parentId ? model.parentId + '.' + model.id : model.id,
         'place_name': model.name,
         'privacy.email': model.privacy.email,
         'privacy.locked': model.privacy.locked,
@@ -508,7 +508,10 @@
           bookmark_id: bookmarkId
         }).then(function (data) {
           // TODO: Why a plain array of place objects has been resolved?
-          deferred.resolve(data.places);
+          var flatArray = data.places.map(function (place) {
+            return place._id
+          });
+          deferred.resolve(flatArray);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
@@ -605,7 +608,7 @@
 
         NstSvcServer.request('place/add_member', {
           place_id: query.data.placeId,
-          member_id: query.data.userId,
+          account_id: query.data.userId,
           role: query.data.role
         }).then(function (result) {
           deferred.resolve(user);
@@ -616,7 +619,7 @@
         return deferred.promise;
       }, "addUser", id);
 
-    }
+    };
 
     PlaceFactory.prototype.inviteUser = function (place, role, user) {
       var factory = this;
@@ -657,7 +660,7 @@
 
         NstSvcServer.request('place/remove_member', {
           place_id: query.data.placeId,
-          member_id: query.data.memberId
+          account_id: query.data.memberId
         }).then(function (result) {
           if (currentUser) { // current user wants to leave the place
             factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(placeId)));
@@ -709,7 +712,7 @@
         limit: limit,
         skip: skip
       });
-      console.log(33333333333333333333, id)
+
       NstSvcServer.request('place/get_key_holders', {
         place_id: id,
         limit: limit,
@@ -1281,10 +1284,10 @@
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
 
-        NstSvcServer.request('place/exists', {
+        NstSvcServer.request('place/available', {
           place_id: id
         }).then(function (data) {
-          deferred.resolve(!data.exists);
+          deferred.resolve(true);
         }).catch(deferred.reject);
 
         return deferred.promise;
