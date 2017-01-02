@@ -6,10 +6,10 @@
     .service('NstSvcInvitationFactory', NstSvcInvitationFactory);
 
   /** @ngInject */
-  function NstSvcInvitationFactory($q, $log,
-                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE,
+  function NstSvcInvitationFactory($q, $log, _,
+                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE,NST_STORAGE_TYPE,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory,
-                                   NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation) {
+                                   NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation, NstStorage) {
     function InvitationFactory() {
       var factory = this;
 
@@ -312,6 +312,24 @@
           rej.apply(null, args);
         });
       });
+    };
+
+    InvitationFactory.prototype.storeDisplayedInvitations = function (invitationId) {
+      var storage = new NstStorage(NST_STORAGE_TYPE.LOCAL, 'DisplayedInvitations');
+      var displayed = storage.get('ids');
+      var displayedArray = [];
+      if (displayed){
+        displayedArray = displayed;
+      }
+
+      if(!_.includes(displayedArray,invitationId)){
+        displayedArray.push(invitationId)
+        storage.set('ids', displayedArray);
+        return true;
+      }else{
+        return false;
+      }
+
     };
 
     return new InvitationFactory();

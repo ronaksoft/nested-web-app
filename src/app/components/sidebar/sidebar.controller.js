@@ -8,7 +8,7 @@
   /** @ngInject */
   function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
                              NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger,
                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
@@ -51,6 +51,8 @@
     vm.invitation.showModal = function (id) {
       NstSvcInvitationFactory.get(id).then(function (invitation) {
         // Show User the invitation Decide Modal
+
+
         $uibModal.open({
           animation: false,
           size: 'sm',
@@ -140,7 +142,17 @@
     });
 
     getInvitations().then(function (invitation) {
-      vm.invitations = mapInvitations(invitation);
+      if (invitation.length > 0) {
+        vm.invitations = mapInvitations(invitation);
+
+        var checkDisplayInvitationModal = true;
+        vm.invitations.map(function (invite) {
+          if(checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)){
+            checkDisplayInvitationModal = false;
+            vm.invitation.showModal(vm.invitations[1].id);
+          }
+        });
+      }
     }).catch(function (error) {
       throw 'SIDEBAR | invitation can not init'
     });
@@ -505,6 +517,15 @@
     NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.NEW_MENTION, function (event) {
       vm.mentionsCount += 1;
     });
+
+    NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_INVITE, function (event) {
+      getInvitations().then(function (invitation) {
+        vm.invitations = mapInvitations(invitation);
+      }).catch(function (error) {
+        throw 'SIDEBAR | invitation can not init'
+      });
+    });
+
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
       NstSvcLogger.debug('Retrieving mentions count right after reconnecting.');
