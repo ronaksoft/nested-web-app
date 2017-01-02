@@ -24,10 +24,15 @@
           post.setId(tlData.post_id);
           post.setPlaces(tlData.place_id);
 
-          factory.dispatchEvent(new CustomEvent(
-            NST_POST_FACTORY_EVENT.ADD,
-            new NstFactoryEventData(post)
-          ));
+          factory.get(post.getId(),false)
+            .then(function (postData) {
+              factory.dispatchEvent(new CustomEvent(
+                NST_POST_FACTORY_EVENT.ADD,
+                new NstFactoryEventData(postData)
+              ));
+            });
+
+
         }
       });
 

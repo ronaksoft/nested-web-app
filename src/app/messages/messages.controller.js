@@ -138,7 +138,7 @@
         }
 
         if(!isSent()) {
-          if (!vm.currentPlaceId || _.includes(newMessage.places, vm.currentPlaceId)) {
+          if (!vm.currentPlaceId || _.some(newMessage.places, {id: vm.currentPlaceId})) {
             if (!_.some(vm.messages, {id: newMessage.id})) {
               vm.hotMessageStorage.unshift(newMessage);
               vm.hasNewMessages = true;
