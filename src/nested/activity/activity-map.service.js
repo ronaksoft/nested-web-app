@@ -150,7 +150,7 @@
       return {
         id: activity.comment.id,
         body: activity.comment.body,
-        postId: activity.post.id
+        postId: activity.comment.getPostId()
       };
     }
 
