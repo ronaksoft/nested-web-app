@@ -104,11 +104,11 @@
     };
 
     TinyPlace.prototype.isGrandPlace = function () {
-      return !this.parentId;
+      return this.grandParentId !== this.id;
     }
 
     TinyPlace.prototype.hasParent = function () {
-      return !!this.parentId;
+      return this.id && this.id.split('.').length > 0;
     }
 
     TinyPlace.prototype.hasGrandParent = function () {
