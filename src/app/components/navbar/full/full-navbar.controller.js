@@ -385,8 +385,8 @@
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
-        if (vm.place.parentId) {
-          $state.go('app.place-messages', { placeId : vm.place.parentId });
+        if (vm.place.grandParentId) {
+          $state.go('app.place-messages', { placeId : vm.place.grandParentId });
         } else {
           $state.go(NST_DEFAULT.STATE);
         }

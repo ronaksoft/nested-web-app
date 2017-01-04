@@ -106,7 +106,7 @@
         } else {
           vm.parentPlace = place;
           vm.hasParentPlace = true;
-          NstSvcPlaceFactory.getTiny(vm.parentId.split('.')[0]).then(function (grandPlace) {
+          NstSvcPlaceFactory.getTiny(parentId.split('.')[0]).then(function (grandPlace) {
             vm.hasGrandParent = true;
             vm.grandPlace = grandPlace;
             deferred.resolve(true);

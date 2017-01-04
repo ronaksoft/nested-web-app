@@ -332,7 +332,7 @@
       NstSvcServer.request('place/' + placeType, params).then(function (data) {
         factory.get(data._id).then(function (place) {
 
-          if (place.parentId) {
+          if (place.hasParent()) {
             factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.SUB_ADD, {
               detail: {
                 id: place.id,
