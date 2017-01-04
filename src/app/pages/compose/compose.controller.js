@@ -548,6 +548,7 @@
               vm.model.body = post.getBody();
               vm.model.attachments = post.getAttachments();
               for (var k in vm.model.attachments) {
+                vm.model.attachments[k].setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
                 vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(vm.model.attachments[k]));
                 vm.attachments.size.total += vm.model.attachments[k].getSize();
                 vm.attachments.size.uploaded += vm.model.attachments[k].getSize();
