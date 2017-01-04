@@ -6,13 +6,13 @@
     <div class="content _pr">
       <div class="icon-logo" affixe first-imp="true" parent=".content" clear-right="true" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
         <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'all-places'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
+          <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
         </svg>
           <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'bookmarks'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
+          <use xlink:href="/assets/icons/nst-icn24.svg#star"></use>
         </svg>
           <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'sent'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
+          <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
         </svg>
       </div>
       <div class="place-logo" affixe first-imp="true" parent=".content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureUrl">
@@ -38,7 +38,7 @@
             <use xlink:href="/assets/icons/nst-icn20.svg#team"></use>
           </svg>
           <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#everyone"></use>
+            <use xlink:href="/assets/icons/nst-icn20.svg#earth"></use>
           </svg>
           {{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@nested.me</span>
         </h3>
@@ -144,8 +144,7 @@
              data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto bottom-right"
              data-uib-tooltip-template="'more-uib-tooltip.html'" data-tooltip-append-to-body="false"
              data-tooltip-placement="bottom-right auto" id="navbar-popover">
-          <svg class="svg-hover fill-b">
-            <use xlink:href="/assets/icons/nst-icn24.svg#Wmore"></use>
+          <svg class=" fill-b">
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
           </svg>
         </div>
@@ -155,8 +154,8 @@
         <div data-uib-tooltip-template="'add-uib-tooltip.html'" data-tooltip-append-to-body="false"
              data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleBookmark()" ng-class="{morphed : ctlFullNavbar.isBookmarked}">
-            <use xlink:href="/assets/icons/nst-icn24.svg#Wfav"></use>
-            <use xlink:href="/assets/icons/nst-icn24.svg#fav"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#star-wire"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#star"></use>
           </svg>
         </div>
         <script type="text/ng-template" id="notification-uib-tooltip.html">
@@ -165,8 +164,8 @@
         <div data-uib-tooltip-template="'notification-uib-tooltip.html'" data-tooltip-append-to-body="false"
           data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{morphed : ctlFullNavbar.notificationStatus}">
-            <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifoff" ></use>
-            <use xlink:href="/assets/icons/nst-icn24.svg#Wnotifon"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#bell-muted" ></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#bell-ringed"></use>
           </svg>
         </div>
       </div>

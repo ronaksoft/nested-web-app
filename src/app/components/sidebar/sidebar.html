@@ -19,7 +19,7 @@
         <div>
           <div class="compose">
             <svg>
-              <use xlink:href="/assets/icons/nst-icn32.svg#Wcompose"></use>
+              <use xlink:href="/assets/icons/nst-icn32.svg#compose"></use>
             </svg>
           </div>
         </div>
@@ -34,7 +34,7 @@
         <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip-template="'feed-uib-tooltip.html'" data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
           <span>
             <svg>
-              <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
+              <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
             </svg>
           </span>
           <translate>Feed</translate>
@@ -48,7 +48,7 @@
            toggle-agent-url="{{ctlSidebar.urls.sent}}">
           <span>
             <svg>
-              <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
+              <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
             </svg>
           </span>
           <translate>Sent</translate>
@@ -111,7 +111,7 @@
          data-tooltip-placement="right-top auto">
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           <svg id="mentions">
-            <use xlink:href="/assets/icons/nst-icn32.svg#W_"></use>
+            <use xlink:href="/assets/icons/nst-icn32.svg#atsign"></use>
           </svg>
           <div class="notif" ng-if="ctlSidebar.mentionsCount">{{ctlSidebar.mentionsCount}}</div>
         </div>
@@ -128,7 +128,7 @@
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
         <div>
           <svg>
-            <use xlink:href="/assets/icons/nst-icn24.svg#Wsetting"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#gear"></use>
           </svg>
         </div>
         <translate>Profile</translate>
@@ -141,7 +141,7 @@
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
         <div>
           <svg>
-            <use xlink:href="/assets/icons/nst-icn24.svg#Wlogout"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#exit"></use>
           </svg>
         </div>
         <translate>Log out</translate>
