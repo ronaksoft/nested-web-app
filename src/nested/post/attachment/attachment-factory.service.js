@@ -7,9 +7,8 @@
   /** @ngInject */
   function NstSvcAttachmentFactory($q, $log,
                                    _,
-                                   NST_FILE_TYPE,
-                                   NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcFileType, NstSvcDownloadTokenStorage,
-                                   NstAttachment, NstPicture, NstStoreResource, NstStoreToken, NstFactoryError, NstFactoryQuery) {
+                                   NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcDownloadTokenStorage,
+                                   NstAttachment, NstPicture, NstStoreToken, NstFactoryError, NstFactoryQuery) {
 
     var uploadTokenKey = 'default-upload-token';
 
@@ -28,74 +27,32 @@
     return service;
 
 
-    function parseAttachment(data, post) {
+    function parseAttachment(data) {
+      if (!data._id) {
+        return $q.reject(new Error("Could not create a NstAttachment model without _id"));
+      }
+      
+      if (!data.mimetype) {
+        return $q.reject(new Error("Could not create a NstAttachment model without mimetype"));
+      }
+
+      if (!data.filename) {
+        return $q.reject(new Error("Could not create a NstAttachment model without filename"));
+      }
+
       var defer = $q.defer(),
-          attachment = createAttachmentModel();
+      attachment = new NstAttachment();
 
-      if (!data || !data._id) {
-        defer.resolve(attachment);
-      } else {
-        attachment.setId(data._id);
-        attachment.setPost(post);
-        attachment.setResource(new NstStoreResource(data._id));
-        attachment.setDownloads(data.downloads);
-        attachment.setFilename(data.filename);
-        attachment.setMimeType(data.mimetype);
-        attachment.setSize(data.size);
-        attachment.setStatus(data.status);
-        attachment.setStoreId(data.store_id);
-        attachment.setUploadTime(new Date(data.upload_time));
+      attachment.id = data._id;
+      attachment.filename = data.filename;
+      attachment.mimetype = data.mimetype;
 
-        var promises = [];
+      attachment.height = data.height || 0;
+      attachment.width = data.width || 0;
+      attachment.size = data.size || 0;
 
-        // TODO: Use UploaderId instead
-        if (data.uploader) {
-          promises.push(NstSvcUserFactory.getTiny(data.uploader).catch(function (error) {
-
-          }).then(function (user) {
-            attachment.setUploader(user);
-          }));
-        }
-
-        // TODO: Use OwnerIds instead
-        if (data.owners) {
-          for (var k in data.owners) {
-            promises.push((function(index) {
-              var deferred = $q.defer();
-              var id = data.owners[index];
-
-              // TODO: Put it to retry structure
-              NstSvcPlaceFactory.getTiny(id).catch(function (error) {
-                return $q(function (res) {
-                  res(NstSvcPlaceFactory.parseTinyPlace({
-                    _id: id
-                  }));
-                });
-              }).then(function(tinyPlace) {
-                attachment.addPlace(tinyPlace);
-
-                deferred.resolve(tinyPlace);
-              });
-
-              return deferred.promise;
-            })(k));
-          }
-        }
-
-        if (data.thumbs) {
-          var picture = new NstPicture(undefined, data.thumbs);
-          if (NST_FILE_TYPE.IMAGE == NstSvcFileType.getType(attachment.getMimeType())) {
-            picture.setId(attachment.getId());
-          } else if (picture.getLargestThumbnail()) {
-            picture.setId(picture.getLargestThumbnail().getId());
-          }
-
-          attachment.setPicture(picture);
-        }
-
-        $q.all(promises).then(function () {
-          defer.resolve(attachment);
-        });
+      if (data.thumbs) {
+        attachment.picture = new NstPicture(data.thumbs);
       }
 
       return defer.promise;

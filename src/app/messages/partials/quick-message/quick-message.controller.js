@@ -309,13 +309,12 @@
       var attachment = NstSvcAttachmentFactory.createAttachmentModel();
       attachment.setSize(file.size);
       attachment.setFilename(file.name);
-      attachment.setMimeType(file.type);
-      attachment.setUploadTime(file.lastModified);
+      attachment.setMimetype(file.type);
 
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
-      var type = NstSvcFileType.getType(attachment.getMimeType());
+      var type = NstSvcFileType.getType(attachment.getMimetype());
 
       // Read Attachment
       var reader = new FileReader();

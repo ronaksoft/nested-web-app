@@ -100,7 +100,7 @@
       return {
         name: sender.fullName,
         username: sender.id,
-        avatar: sender.picture.id ? sender.picture.thumbnails.x32.url.view : null
+        avatar: sender.hasPicture() ? sender.picture.getUrl("x64") : ''
       };
     }
 
@@ -109,7 +109,7 @@
       return {
         id: place.id,
         name: place.name,
-        picture: place.picture.id ? place.picture.thumbnails.x128.url.view : '/assets/icons/absents_place.svg'
+        picture: place.hasPicture() ? place.picture.getUrl("x128") : '/assets/icons/absents_place.svg'
       };
     }
 

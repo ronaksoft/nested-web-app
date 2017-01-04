@@ -12,12 +12,7 @@
                     NstSvcAuth, NstSvcLoader, NstSvcI18n) {
     window.nestedLogs = [];
     window.onerror = function(messageOrEvent, source, lineno, colno, error) {
-      console.log('oops');
-      console.log(messageOrEvent);
-      console.log(source);
-      console.log(lineno);
-      console.log(colno);
-      console.log(error);
+      
     }
 
     $rootScope.progress = {

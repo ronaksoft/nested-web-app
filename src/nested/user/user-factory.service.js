@@ -206,8 +206,8 @@
       user.setFirstName(userData.fname);
       user.setLastName(userData.lname);
 
-      if (angular.isObject(userData.picture)) {
-        user.setPicture(userData.picture);
+      if (userData.picture && userData.picture.org) {
+        user.setPicture(new NstPicture(userData.picture));
       }
 
       return user;
@@ -234,8 +234,8 @@
         user.setUnreadMentionsCount(userData.counters.unread_mentions);
       }
 
-      if (angular.isObject(userData.picture)) {
-        user.setPicture(userData.picture);
+      if (userData.picture && userData.picture.org) {
+        user.picture = new NstPicture(userData.picture);
       }
 
       return user;
@@ -247,15 +247,17 @@
         fname: user.getFirstName(),
         lname: user.getLastName(),
         phone: user.getPhone(),
-        country: user.getCountry(),
-        picture: {
-          org: user.getPicture().getOrg().getId()
-        }
+        country: user.getCountry()
       };
 
-      var thumbs = user.getPicture().getThumbnails();
-      for (var size in thumbs) {
-        userData.picture[size] = thumbs[size].getId();
+      if (user.hasPicture()) {
+        userData.picture = {
+          org: user.picture.original,
+          x32 : user.picture.x32,
+          x64 : user.picture.x64,
+          x128 : user.picture.x128,
+          pre : user.picture.preview
+        };
       }
 
       return userData;

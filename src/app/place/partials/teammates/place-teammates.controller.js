@@ -10,7 +10,6 @@
     NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
-      console.log('twice');
     var vm = this;
 
     var defaultCollapseLimit = 4;
@@ -43,7 +42,6 @@
     $scope.$watch(function() {
       return $stateParams.placeId;
     }, function(newValue, oldValue) {
-      console.log("newValue", newValue);
       if (newValue) {
         vm.placeId = newValue;
         initialize();
@@ -194,7 +192,6 @@
 
 
     function loadTeammates(placeId, hasSeeMembersAccess) {
-      console.log('loading teammates');
       var deferred = $q.defer();
 
       var teammates = [];
@@ -243,7 +240,6 @@
     }
 
     function load() {
-      console.log('calling', vm.hasSeeMembersAccess);
       vm.teammatesSettings = {
         skip : 0,
         limit : defaultCollapseLimit,

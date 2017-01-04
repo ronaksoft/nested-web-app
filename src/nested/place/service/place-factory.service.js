@@ -8,7 +8,7 @@
   function NstSvcPlaceFactory($q,
                               NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_PLACE_ADD_TYPES,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
-                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap,
+                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
     function PlaceFactory() {
       var factory = this;
@@ -880,11 +880,10 @@
 
       place.setName(placeData.name);
 
-      if (angular.isObject(placeData.picture)) {
-        place.setPicture(placeData.picture);
+      if (placeData.picture && placeData.picture.org) {
+        place.setPicture(new NstPicture(placeData.picture));
       }
 
-      place.setParentId(placeData.parent_id || null);
       place.setGrandParentId(placeData.grand_parent_id || null);
 
       if (angular.isArray(placeData.children)) {
@@ -924,11 +923,10 @@
       place.setDescription(placeData.description);
 
 
-      if (angular.isObject(placeData.picture)) {
-        place.setPicture(placeData.picture);
+      if (placeData.picture && placeData.picture.org) {
+        place.setPicture(new NstPicture(placeData.picture));
       }
 
-      place.setParentId(placeData.parent_id || null);
       place.setGrandParentId(placeData.grand_parent_id || null);
 
       if (angular.isArray(placeData.childs)) {

@@ -9,7 +9,7 @@
   function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
-                             NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger,
+                             NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcStore,
                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
@@ -484,11 +484,11 @@
     });
 
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
-      vm.user.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
-
       var place = _.find(vm.places, {id: NstSvcAuth.user.id});
-      if (place) {
-        place.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
+      if (event.detail.hasPicture()) {
+        vm.user.avatar = place.avatar = event.detail.picture.getUrl("x64");
+      } else {
+        vm.user.avatar = place.avatar = '';
       }
     });
 

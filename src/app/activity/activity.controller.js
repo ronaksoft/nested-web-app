@@ -229,6 +229,7 @@
           vm.reachedTheEnd = false;
           setLastActivityDate(activities);
           mergeWithActivities(activities);
+          console.log(vm.activities);
         }
         vm.loading = false;
         vm.tryAgainToLoadMore = false;

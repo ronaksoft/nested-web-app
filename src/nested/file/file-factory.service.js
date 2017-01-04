@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcFileFactory($q, _,
     NstSvcAuth, NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage, NstSvcFileTokenStorage,
-    NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken, NstStoreResource,
+    NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken,
     NST_FILE_TYPE) {
 
     function FileFactory() {
@@ -23,6 +23,7 @@
     FileFactory.prototype.getOne = getOne;
 
     var factory = new FileFactory();
+
     return factory;
 
     function get(placeId, filter, keyword, skip, limit) {
@@ -59,15 +60,8 @@
       file.setUploadTime(data.upload_time);
       file.setResource(new NstStoreResource(data._id));
 
-      if (data.thumbs) {
-        var picture = new NstPicture(undefined, data.thumbs);
-        if (NST_FILE_TYPE.IMAGE == NstSvcFileType.getType(file.getMimeType())) {
-          picture.setId(file.getId());
-        } else if (picture.getLargestThumbnail()) {
-          picture.setId(picture.getLargestThumbnail().getId());
-        }
-
-        file.setPicture(picture);
+      if (data.thumbs && data.thumbs.org) {
+        file.setPicture(new NstPicture(data.thumbs));
       }
 
       return file;

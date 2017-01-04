@@ -2,7 +2,7 @@
             place-id="{{ctlFiles.currentPlace.id}}"
             show-place-id="ctlFiles.showPlaceId"
             nav-title="{{ctlFiles.currentPlace.id?ctlFiles.currentPlace.name: ctlFiles.navTitle}}"
-            nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.thumbnails.x128.url.view : '' }}"
+            nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.getUrl('x128') : '' }}"
             nav-picture-class="{{ !ctlFiles.currentPlace.id? ctlFiles.navIconClass : '' }}"
             ready-to-show="ctlFiles.currentPlaceLoaded"
             ready-to-anime="true"

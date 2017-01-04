@@ -57,6 +57,20 @@
       return _.trimEnd(pattern, "/");
     };
 
+    Store.prototype.getViewUrl = function (universalId) {
+      if (!universalId) {
+        throw Error('universalId is not provided');
+      }
+
+      var viewUrl = NST_STORE_ROUTE_PATTERN.VIEW
+        .replace("{{BASE_URL}}", this.url)
+        .replace("{{SESSION_KEY}}", NstSvcServer.getSessionKey())
+        .replace("{{UNIVERSAL_ID}}", universalId)
+        .replace("{{TOKEN}}", "");
+
+      return _.trimEnd(viewUrl, '/');
+    }
+
     Store.prototype.upload = function(file, type) {
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
 
