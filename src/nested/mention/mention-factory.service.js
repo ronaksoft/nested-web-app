@@ -8,7 +8,7 @@
   function NstSvcMentionFactory($q,
     NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
     NstBaseFactory, NstMention, NstFactoryEventData,
-    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT) {
+    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT, NST_EVENT_ACTION) {
     function MentionFactory() {
       var that = this;
       that.count = 0;
@@ -23,7 +23,7 @@
         }
       });
 
-      NstSvcServer.addEventListener(NST_SRV_EVENT.MENTION, function () {
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.MENTION_ADD, function () {
         that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.NEW_MENTION, new NstFactoryEventData(that.count)));
       });
 
