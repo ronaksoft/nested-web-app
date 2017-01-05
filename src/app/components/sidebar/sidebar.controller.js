@@ -86,6 +86,14 @@
           } else { // Decline the Invitation
             return vm.invitation.decline(id);
           }
+        }).catch(function () {
+          var checkDisplayInvitationModal = true;
+          vm.invitations.map(function (invite) {
+            if(checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)){
+              checkDisplayInvitationModal = false;
+              vm.invitation.showModal(invite.id);
+            }
+          });
         });
       });
     };
@@ -144,14 +152,14 @@
     getInvitations().then(function (invitation) {
       if (invitation.length > 0) {
         vm.invitations = mapInvitations(invitation);
-
         var checkDisplayInvitationModal = true;
         vm.invitations.map(function (invite) {
           if(checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)){
             checkDisplayInvitationModal = false;
-            vm.invitation.showModal(vm.invitations[1].id);
+            vm.invitation.showModal(invite.id);
           }
         });
+
       }
     }).catch(function (error) {
       throw 'SIDEBAR | invitation can not init'

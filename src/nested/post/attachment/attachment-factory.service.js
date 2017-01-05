@@ -31,7 +31,7 @@
       if (!data._id) {
         return $q.reject(new Error("Could not create a NstAttachment model without _id"));
       }
-      
+
       if (!data.mimetype) {
         return $q.reject(new Error("Could not create a NstAttachment model without mimetype"));
       }
@@ -107,13 +107,13 @@
     function load(ids) {
       var defer = $q.defer();
 
-      NstSvcServer.request('store/get_file_info', {
+      NstSvcServer.request('file/get', {
         universal_ids: _.join(ids, ',')
       }).then(function(response) {
         var promises = _.map(response.info, parseAttachment);
         $q.all(promises).then(defer.resolve).catch(defer.reject);
       }).catch(function(error) {
-        var query = new NstFactoryQuery(id);
+        var query = new NstFactoryQuery(ids);
         defer.reject(new NstFactoryError(query, error.message, error.code));
       });
 
