@@ -194,20 +194,31 @@
       }, "removePicture");
     }
 
-    UserFactory.prototype.parseTinyUser = function (userData) {
-      var user = new NstTinyUser();
-
-      if (!angular.isObject(userData)) {
-        return user;
+    UserFactory.prototype.parseTinyUser = function (data) {
+      if (!_.isObject(data)) {
+        throw Error("Could not create a user model with an invalid data");
       }
 
-      user.setNew(false);
-      user.setId(userData._id);
-      user.setFirstName(userData.fname);
-      user.setLastName(userData.lname);
+      if (!data._id) {
+        throw Error("Could not parse user data without _id");
+      }
 
-      if (userData.picture && userData.picture.org) {
-        user.setPicture(new NstPicture(userData.picture));
+      if (!data.fname) {
+        throw Error("Could not parse user data without fname");
+      }
+
+      if (!data.lname) {
+        throw Error("Could not parse user data without lname");
+      }
+
+      var user = new NstTinyUser();
+
+      user.setId(data._id);
+      user.setFirstName(data.fname);
+      user.setLastName(data.lname);
+
+      if (data.picture && data.picture.org) {
+        user.setPicture(new NstPicture(data.picture));
       }
 
       return user;

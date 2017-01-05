@@ -20,6 +20,12 @@
 
       this.mimetype = null;
 
+      this.upload_time = null;
+
+      this.width = null;
+
+      this.height = null;
+
       NstModel.call(this);
 
       if (data) {

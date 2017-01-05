@@ -19,7 +19,6 @@
         id: object.id,
         firstName: object.firstName,
         lastName: object.lastName,
-        picture: object.picture
       };
       for (var k in q) {
         if (undefined == q[k]) {

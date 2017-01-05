@@ -17,7 +17,6 @@
       var q = {
         id: object.id,
         name: object.name,
-        // picture: object.picture
       };
       for (var k in q) {
         if (undefined == q[k]) {

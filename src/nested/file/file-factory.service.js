@@ -56,9 +56,10 @@
       file.setId(data._id);
       file.setFilename(data.filename);
       file.setSize(data.size);
-      file.setMimeType(data.mimetype);
+      file.setMimetype(data.mimetype);
       file.setUploadTime(data.upload_time);
-      file.setResource(new NstStoreResource(data._id));
+      file.setWidth(data.width);
+      file.setHeight(data.height);
 
       if (data.thumbs && data.thumbs.org) {
         file.setPicture(new NstPicture(data.thumbs));

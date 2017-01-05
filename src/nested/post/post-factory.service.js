@@ -471,112 +471,65 @@
     }
 
     function parseMessage(data) {
-      var defer = $q.defer();
-
-      var message = createPostModel();
-      if (!data) {
-        defer.resolve(message);
-      } else {
-        var promises = [];
-
-        message.setId(data._id);
-        message.setSubject(data.subject);
-        // A message body is trivial
-        message.setBodyIsTrivial(true);
-        message.setBody(data.body);
-        message.setContentType(data.content_type);
-        message.removed = data._removed;
-        message.setCounters(data.counters || message.counters);
-        message.setInternal(data.internal);
-        message.setDate(new Date(data.timestamp));
-
-        message.setIsRead(_.isUndefined(data.post_read) ? true : data.post_read);
-
-        if (data.last_update) {
-          message.setUpdatedDate(new Date(data.last_update));
-        } else {
-          message.setUpdatedDate(message.getDate());
-        }
-
-        // TODO: What about Counters and More Comments?
-
-        if (data.sender) {
-          var parsedSender = NstSvcUserFactory.parseTinyUser(data.sender);
-          var imperfect = !NstSvcUserFactory.set(parsedSender);
-          promises.push(NstSvcUserFactory.getTiny(data.sender._id).catch(function (error) {
-            return $q(function (res) {
-              res(parsedSender);
-            });
-          }).then(function (tinyUser) {
-            message.setSender(tinyUser);
-
-            return $q(function (res) {
-              res(tinyUser);
-            });
-          }));
-        }
-
-        if (data.post_places) {
-          for (var k in data.post_places) {
-            promises.push((function (index) {
-              var deferred = $q.defer();
-              var id = data.post_places[index]._id;
-
-              var parsedPlace = NstSvcPlaceFactory.parseTinyPlace({
-                _id: id,
-                name: data.post_places[index].name,
-                picture: data.post_places[index].picture
-              });
-              var imperfect = !NstSvcPlaceFactory.set(parsedPlace);
-
-              // TODO: Put it to retry structure
-              NstSvcPlaceFactory.getTiny(id).catch(function (error) {
-                return $q(function (res) {
-                  res(parsedPlace);
-                });
-              }).then(function (tinyPlace) {
-                // TODO: Use NstPost.addPlace()
-                message.places[index] = tinyPlace;
-
-                deferred.resolve(tinyPlace);
-              });
-
-              return deferred.promise;
-            })(k));
-          }
-        }
-
-        if (data.post_attachments) {
-          _.forEach(data.post_attachments, function (data) {
-            promises.push(NstSvcAttachmentFactory.parseAttachment(data, message).then(function (attachment) {
-              message.addAttachment(attachment);
-
-              return $q(function (res) {
-                res(attachment);
-              });
-            }));
-          });
-        }
-
-        if (data['recent_comments']) {
-          var commentPromises = _.map(data['recent_comments'], function (comment) {
-            return NstSvcCommentFactory.parseMessageComment(comment)
-          });
-
-          var allComments = $q.all(commentPromises).then(function (comments) {
-            message.addComments(comments);
-          });
-
-          promises.push(allComments);
-        }
-
-        message.setReplyToId(data.reply_to ? data.reply_to._id : null);
-        message.setForwardFromId(data.forward_from ? data.forward_from._id : null);
-
-        $q.all(promises).then(function () {
-          defer.resolve(message);
-        }).catch(defer.reject);
+      if (!_.isObject(data)) {
+        throw Error("Could not create a NstPost model with invalid data");
       }
+
+      if (!data._id) {
+        throw Error("Could not create a NstPost model without _id");
+      }
+      var defer = $q.defer(),
+          promises = [],
+          message = new NstPost();
+
+      message.setId(data._id);
+      message.setSubject(data.subject);
+      // A message body is trivial
+      message.setBodyIsTrivial(true);
+      message.setBody(data.body);
+      message.setContentType(data.content_type);
+      message.setCounters(data.counters || message.counters);
+      message.setInternal(data.internal);
+      message.setDate(new Date(data.timestamp));
+      message.setIsRead(_.isUndefined(data.post_read) ? true : data.post_read);
+      message.setReplyToId(data.reply_to || null);
+      message.setForwardFromId(data.forward_from || null);
+
+      if (data.last_update) {
+        message.setUpdatedDate(new Date(data.last_update));
+      } else {
+        message.setUpdatedDate(message.getDate());
+      }
+
+      var sender = NstSvcUserFactory.parseTinyUser(data.sender);
+      NstSvcUserFactory.set(sender);
+      message.setSender(sender);
+
+      var places = _.map(data.post_places, function (data) {
+        return NstSvcPlaceFactory.parseMicroPlace(data);
+      });
+      message.setPlaces(places);
+
+      var attachments = _.map(data.post_attachments, function (data) {
+        return NstSvcAttachmentFactory.parseAttachment(data);
+      });
+      message.setAttachments(attachments);
+
+      var commentPromises = _.map(data.recent_comments, function (comment) {
+        return NstSvcCommentFactory.parseMessageComment(comment)
+      });
+
+      var allComments = $q.all(commentPromises).then(function (comments) {
+        message.setComments(comments);
+      });
+
+      promises.push(allComments);
+
+
+      $q.all(promises).then(function () {
+        defer.resolve(message);
+      }).catch(defer.reject);
+
 
       return defer.promise;
     }

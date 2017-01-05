@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcAttachmentFactory($q, $log,
                                    _,
-                                   NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcDownloadTokenStorage,
+                                   NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcDownloadTokenStorage, NstSvcFileStorage,
                                    NstAttachment, NstPicture, NstStoreToken, NstFactoryError, NstFactoryQuery) {
 
     var uploadTokenKey = 'default-upload-token';
@@ -40,8 +40,7 @@
         return $q.reject(new Error("Could not create a NstAttachment model without filename"));
       }
 
-      var defer = $q.defer(),
-      attachment = new NstAttachment();
+      var attachment = new NstAttachment();
 
       attachment.id = data._id;
       attachment.filename = data.filename;
@@ -55,7 +54,9 @@
         attachment.picture = new NstPicture(data.thumbs);
       }
 
-      return defer.promise;
+      NstSvcFileStorage.set(attachment.id, attachment);
+
+      return attachment;
     }
 
     function createToken(rawToken) {

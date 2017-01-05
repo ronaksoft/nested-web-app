@@ -7,8 +7,8 @@
 
   function NstSvcPlaceFactory($q,
                               NST_SRV_ERROR, NST_SRV_EVENT, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_PLACE_ADD_TYPES,
-                              NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
-                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture,
+                              NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger, NstSvcMicroPlaceStorage,
+                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture, NstMicroPlace,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
     function PlaceFactory() {
       var factory = this;
@@ -862,6 +862,29 @@
 
       return this;
     };
+
+    PlaceFactory.prototype.parseMicroPlace = function (data) {
+      if (!data._id) {
+        return $q.reject(new Error("Could not create a NstMicroPlace model without _id"));
+      }
+
+      if (!data.name) {
+        return $q.reject(new Error("Could not create a NstMicroPlace model without mimetype"));
+      }
+
+      var place = new NstMicroPlace();
+
+      place.setId(data._id);
+      place.setName(data.name);
+
+      if (data.picture) {
+        place.setPicture(new NstPicture(data.picture));
+      }
+
+      NstSvcMicroPlaceStorage.set(place.id, place);
+
+      return place;
+    }
 
     PlaceFactory.prototype.parseTinyPlace = function (placeData) {
       var place = new NstTinyPlace();

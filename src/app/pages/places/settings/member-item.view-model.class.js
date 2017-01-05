@@ -33,7 +33,7 @@
         this.id = model.getId();
         this.name = model.getFullName();
         if (model.hasPicture()) {
-          this.avatar = model.picture.getUrl("x32");
+          this.avatar = model.picture.getUrl("x64");
         }
       } else if (model instanceof NstInvitation) {
 
@@ -42,7 +42,7 @@
         this.InvitationId = model.id;
 
         if (model.invitee.hasPicture()) {
-          this.avatar = model.invitee.picture.getUrl("x32");
+          this.avatar = model.invitee.picture.getUrl("x64");
         }
       }
     }
