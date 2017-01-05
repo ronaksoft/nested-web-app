@@ -164,6 +164,7 @@
         NstSvcServer.request('account/set_picture', {
           universal_id: uid
         }).then(function(result) {
+          console.log('response', result);
           factory.get(null, true).then(function(user) {
             factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
@@ -201,14 +202,6 @@
 
       if (!data._id) {
         throw Error("Could not parse user data without _id");
-      }
-
-      if (!data.fname) {
-        throw Error("Could not parse user data without fname");
-      }
-
-      if (!data.lname) {
-        throw Error("Could not parse user data without lname");
       }
 
       var user = new NstTinyUser();

@@ -9,7 +9,7 @@
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
                          hotkeys, deviceDetector,
                          NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
-                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal,
+                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal, NstSvcI18n,
                          NstObject) {
     var vm = this;
 
@@ -17,6 +17,7 @@
     vm.loginView = true;
     vm.showLoadingScreen = true;
     $rootScope.topNavOpen = false;
+    $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;

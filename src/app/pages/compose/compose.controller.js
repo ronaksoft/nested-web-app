@@ -10,7 +10,7 @@
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstVmPlaceBadge) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstVmPlaceBadge, NstPicture) {
     var vm = this;
 
     /*****************************
@@ -231,16 +231,19 @@
       var qRead = $q.defer();
 
       reader.onload = function (event) {
+        console.log("event", event);
         var uri = event.target.result;
         var resource = new NstLocalResource(uri);
-        attachment.setResource(resource);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
-          attachment.getPicture().setOrg(resource);
-          attachment.getPicture().setThumbnail(32, resource);
-          attachment.getPicture().setThumbnail(64, resource);
-          attachment.getPicture().setThumbnail(128, resource);
+          attachment.setPicture(new NstPicture({
+            org : uri,
+            pre : uri,
+            x32 : uri,
+            x64 : uri,
+            x128: uri
+          }));
         }
 
         qRead.resolve(uri);

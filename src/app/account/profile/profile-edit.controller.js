@@ -219,18 +219,14 @@
       updateModel(vm.model).then(function (user) {
 
         vm.model.fullName = user.getFullName();
-
+        var uploadedPicture = null;
         if (vm.uploadedImage) {
-          storePicture(vm.model.picture.uploadedFile, vm.model).then(function () {
-
-            return NstSvcUserFactory.updatePicture(storeId);
+          storePicture(vm.model.picture.uploadedFile, vm.model).then(function (picture) {
+            uploadedPicture = picture;
+            return NstSvcUserFactory.updatePicture(picture.original);
           }).then(function (pictureId) {
-            vm.model.picture.id = pictureId;
-            user.getPicture().setId(pictureId);
-            user.getPicture().setThumbnail(32, user.getPicture().getOrg());
-            user.getPicture().setThumbnail(64, user.getPicture().getOrg());
-            user.getPicture().setThumbnail(128, user.getPicture().getOrg());
 
+            vm.model.picture = uploadedPicture;
             deferred.resolve(user);
           }).catch(deferred.reject);
         } else if (vm.model.picture.remove) {
