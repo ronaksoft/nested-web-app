@@ -231,15 +231,14 @@
       var qRead = $q.defer();
 
       reader.onload = function (event) {
-        console.log("event", event);
         var uri = event.target.result;
         var resource = new NstLocalResource(uri);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
           attachment.setPicture(new NstPicture({
-            org : uri,
-            pre : uri,
+            original : uri,
+            preview : uri,
             x32 : uri,
             x64 : uri,
             x128: uri
@@ -267,7 +266,7 @@
         vm.attachments.requests[attachment.getId()] = request;
 
         request.sent().then(function () {
-          attachment.setStatus(NST_ATTACHMENT_STATUS.UPLOADING);
+          attachment.status = NST_ATTACHMENT_STATUS.UPLOADING;
           vm.attachments.viewModels.push(vmAttachment);
         });
 
@@ -280,7 +279,7 @@
           var deferred = $q.defer();
 
           attachment.setId(response.data.universal_id);
-          attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
+          attachment.status = NST_ATTACHMENT_STATUS.ATTACHED;
 
           vmAttachment.id = attachment.getId();
           vmAttachment.isUploaded = true;
@@ -310,7 +309,7 @@
       $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment && attachment.length !== 0) {
-        switch (attachment.getStatus()) {
+        switch (attachment.status) {
           case NST_ATTACHMENT_STATUS.UPLOADING:
             var request = vm.attachments.requests[attachment.getId()];
             if (request) {
@@ -387,7 +386,7 @@
         }
 
         for (var k in model.attachments) {
-          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].getStatus()) {
+          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].status) {
             errors.push({
               name: 'attachments',
               message: 'Attachment uploading has not been finished yet'

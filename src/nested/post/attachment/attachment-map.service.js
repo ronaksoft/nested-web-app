@@ -21,8 +21,7 @@
       if (!attachment) {
         return {};
       }
-
-      var isAttached = NST_ATTACHMENT_STATUS.ATTACHED == attachment.getStatus();
+      var isAttached = NST_ATTACHMENT_STATUS.ATTACHED == attachment.status;
       id = id || attachment.id || NstSvcRandomize.genUniqId();
 
       var model = {
@@ -32,10 +31,10 @@
         uploadedSize: isAttached ? attachment.getSize() : 0,
         uploadedRatio: isAttached ? 1 : 0,
         size: attachment.getSize(),
-        url: attachment.getResource().getUrl().view,
-        type: NstSvcFileType.getType(attachment.getMimeType()),
+        url: attachment.hasThumbnail() ? attachment.picture.original : null,
+        type: NstSvcFileType.getType(attachment.getMimetype()),
         extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
-        thumbnail: attachment.hasThumbnail() ? attachment.getPicture().getLargestThumbnail().getUrl().view : null,
+        thumbnail: attachment.hasThumbnail() ? attachment.picture.x128 : null,
         hasThumbnail: attachment.hasThumbnail()
       };
 
