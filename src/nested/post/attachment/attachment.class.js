@@ -26,6 +26,8 @@
 
       this.height = null;
 
+      this.post = null;
+
       NstModel.call(this);
 
       if (data) {

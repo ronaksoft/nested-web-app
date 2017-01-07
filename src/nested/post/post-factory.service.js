@@ -406,14 +406,9 @@
       }
 
       if (data.post_attachments) {
-        _.forEach(data.post_attachments, function (data) {
-          promises.push(NstSvcAttachmentFactory.parseAttachment(data, post).then(function (attachment) {
-            post.addAttachment(attachment);
-
-            return $q(function (res) {
-              res(attachment);
-            });
-          }));
+        _.forEach(data.post_attachments, function (postAttachment) {
+            if(postAttachment._id && postAttachment._id !== '')
+              post.addAttachment(NstSvcAttachmentFactory.parseAttachment(postAttachment));
         });
       }
 
@@ -511,7 +506,8 @@
       message.setPlaces(places);
 
       var attachments = _.map(data.post_attachments, function (data) {
-        return NstSvcAttachmentFactory.parseAttachment(data);
+        if (data._id)
+          return NstSvcAttachmentFactory.parseAttachment(data);
       });
       message.setAttachments(attachments);
 

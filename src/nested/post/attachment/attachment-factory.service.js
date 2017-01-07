@@ -29,15 +29,15 @@
 
     function parseAttachment(data) {
       if (!data._id) {
-        return $q.reject(new Error("Could not create a NstAttachment model without _id"));
+        throw (new Error("Could not create a NstAttachment model without _id"));
       }
 
       if (!data.mimetype) {
-        return $q.reject(new Error("Could not create a NstAttachment model without mimetype"));
+        throw (new Error("Could not create a NstAttachment model without mimetype"));
       }
 
       if (!data.filename) {
-        return $q.reject(new Error("Could not create a NstAttachment model without filename"));
+        throw (new Error("Could not create a NstAttachment model without filename"));
       }
 
       var attachment = new NstAttachment();
