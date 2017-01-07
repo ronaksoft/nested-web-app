@@ -196,6 +196,7 @@
     }
 
     UserFactory.prototype.parseTinyUser = function (data) {
+      console.log(data);
       if (!_.isObject(data)) {
         throw Error("Could not create a user model with an invalid data");
       }
