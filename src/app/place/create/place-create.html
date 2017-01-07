@@ -4,8 +4,8 @@
   </svg>
 </div>
 <div id="create-place"
-     ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode; ctlCreate.step2 = ctlCreate.step1">
-  <div class="_difv" ng-if="ctlCreate.step2">
+     ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode">
+  <div class="_difv">
 
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate>
       <h2 class="_df"><translate>Create a Place</translate></h2>

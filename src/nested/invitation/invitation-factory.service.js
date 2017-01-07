@@ -6,10 +6,10 @@
     .service('NstSvcInvitationFactory', NstSvcInvitationFactory);
 
   /** @ngInject */
-  function NstSvcInvitationFactory($q, $log,
-                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE,
+  function NstSvcInvitationFactory($q, $log, _,
+                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE,NST_STORAGE_TYPE,
                                    NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory,
-                                   NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation) {
+                                   NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation, NstStorage) {
     function InvitationFactory() {
       var factory = this;
 
@@ -141,9 +141,9 @@
         var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
-          NstSvcServer.request('account/update_invitation', {
+          NstSvcServer.request('account/respond_invite', {
             invite_id: id,
-            state: 'accepted'
+            response: 'accept'
           }).then(function (response) {
             // TODO: parse the response and return an object
             defer.resolve(invitation);
@@ -170,9 +170,9 @@
         var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
-          NstSvcServer.request('account/update_invitation', {
+          NstSvcServer.request('account/respond_invite', {
             invite_id: id,
-            state: 'ignored'
+            response: 'ignore'
           }).then(function (response) {
             // TODO: parse the response and return an object
             defer.resolve(invitation);
@@ -273,7 +273,7 @@
         var defer = $q.defer();
         var query = new NstFactoryQuery(placeId);
 
-          NstSvcServer.request('place/get_pending_invitations', {
+          NstSvcServer.request('place/get_invitations', {
             place_id: placeId,
             member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER,
             limit : limit,
@@ -312,6 +312,24 @@
           rej.apply(null, args);
         });
       });
+    };
+
+    InvitationFactory.prototype.storeDisplayedInvitations = function (invitationId) {
+      var storage = new NstStorage(NST_STORAGE_TYPE.LOCAL, 'DisplayedInvitations');
+      var displayed = storage.get('ids');
+      var displayedArray = [];
+      if (displayed){
+        displayedArray = displayed;
+      }
+
+      if(!_.includes(displayedArray,invitationId)){
+        displayedArray.push(invitationId)
+        storage.set('ids', displayedArray);
+        return true;
+      }else{
+        return false;
+      }
+
     };
 
     return new InvitationFactory();

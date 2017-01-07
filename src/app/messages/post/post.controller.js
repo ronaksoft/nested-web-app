@@ -72,13 +72,18 @@
 
         return loadComments(result.post.id, vm.commentSettings);
       }).then(function (result) {
+
         vm.comments = mapComments(result.comments);
         vm.hasMoreComments = vm.hasMoreComments || result.maybeMoreComments;
+
+        $timeout(function () {
+          vm.revealNewComment = true;
+        },0)
 
         return isPostRead(vm.post) ? $q.resolve(true) : markPostAsRead(vm.postId);
       }).then(function (result) {
         vm.status.ready = true;
-        vm.revealNewComment = true;
+
 
         NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
           detail: {
@@ -482,6 +487,9 @@
     }
 
     function allowToRemoveComment(comment) {
+
+      if (vm.hasRemoveAccess) return true;
+
       if (comment && comment.id && vm.user && vm.user.id) {
         var now = Date.now();
         return comment.sender.username === vm.user.id

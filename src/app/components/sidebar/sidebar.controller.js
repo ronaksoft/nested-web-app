@@ -8,8 +8,8 @@
   /** @ngInject */
   function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DELIMITERS, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
-                             NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
+                             NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcStore,
                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
@@ -51,6 +51,8 @@
     vm.invitation.showModal = function (id) {
       NstSvcInvitationFactory.get(id).then(function (invitation) {
         // Show User the invitation Decide Modal
+
+
         $uibModal.open({
           animation: false,
           size: 'sm',
@@ -84,6 +86,14 @@
           } else { // Decline the Invitation
             return vm.invitation.decline(id);
           }
+        }).catch(function () {
+          var checkDisplayInvitationModal = true;
+          vm.invitations.map(function (invite) {
+            if(checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)){
+              checkDisplayInvitationModal = false;
+              vm.invitation.showModal(invite.id);
+            }
+          });
         });
       });
     };
@@ -119,19 +129,15 @@
       }
     }
 
-    $q.all([getUser(), getMyPlaces(), getInvitations()]).then(function (resolvedSet) {
-      vm.user = mapUser(resolvedSet[0]);
-
-      vm.places = mapPlaces(resolvedSet[1]);
+    getUser().then(function (user) {
+      vm.user = mapUser(user);
+    }).catch(function () {
+      throw 'SIDEBAR | user can not parse'
+    });
+    getMyPlaces().then(function (places) {
+      vm.places = mapPlaces(places);
       fillPlacesNotifCountObject(vm.places);
-
-      vm.invitations = mapInvitations(resolvedSet[2]);
-
-      if (NstSvcAuth.user.unreadMentionsCount) {
-        vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
-      } else {
-        getMentionsCount();
-      }
+      fixUrls();
 
       if ($stateParams.placeId) {
         vm.selectedGrandPlace = _.find(vm.places, function (place) {
@@ -139,8 +145,33 @@
         });
       }
 
-      fixUrls();
+    }).catch(function (error) {
+      throw 'SIDEBAR | places can not init'
     });
+
+    getInvitations().then(function (invitation) {
+      if (invitation.length > 0) {
+        vm.invitations = mapInvitations(invitation);
+        var checkDisplayInvitationModal = true;
+        vm.invitations.map(function (invite) {
+          if(checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)){
+            checkDisplayInvitationModal = false;
+            vm.invitation.showModal(invite.id);
+          }
+        });
+
+      }
+    }).catch(function (error) {
+      throw 'SIDEBAR | invitation can not init'
+    });
+
+
+    if (NstSvcAuth.user.unreadMentionsCount) {
+      vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
+    } else {
+      getMentionsCount();
+    }
+
 
     $rootScope.$on('$stateChangeSuccess', function () {
       if ($stateParams.placeId) {
@@ -352,7 +383,6 @@
         place.isActive = false;
         if (vm.stateParams.placeId) {
           if (vm.stateParams.placeId.indexOf(place.id + '.') === 0)
-            console.log(vm.stateParams.placeId, place.id, vm.stateParams.placeId.indexOf(place.id + '.') === 0);
           place.isCollapsed = vm.stateParams.placeId.indexOf(place.id + '.') !== 0;
           place.isActive = vm.stateParams.placeId == place.id;
         }
@@ -462,11 +492,11 @@
     });
 
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, function (event) {
-      vm.user.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
-
       var place = _.find(vm.places, {id: NstSvcAuth.user.id});
-      if (place) {
-        place.avatar = event.detail.getPicture().getThumbnail(64).getUrl().view;
+      if (event.detail.hasPicture()) {
+        vm.user.avatar = place.avatar = event.detail.picture.getUrl("x64");
+      } else {
+        vm.user.avatar = place.avatar = '';
       }
     });
 
@@ -495,6 +525,15 @@
     NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.NEW_MENTION, function (event) {
       vm.mentionsCount += 1;
     });
+
+    NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_INVITE, function (event) {
+      getInvitations().then(function (invitation) {
+        vm.invitations = mapInvitations(invitation);
+      }).catch(function (error) {
+        throw 'SIDEBAR | invitation can not init'
+      });
+    });
+
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
       NstSvcLogger.debug('Retrieving mentions count right after reconnecting.');

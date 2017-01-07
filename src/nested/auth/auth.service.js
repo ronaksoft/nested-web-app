@@ -63,12 +63,12 @@
         options['expires'] = expires;
       }
 
-      this.setLastSessionKey(data._sk.$oid);
+      this.setLastSessionKey(data._sk);
       this.setLastSessionSecret(data._ss);
       $cookies.put('nsk', this.lastSessionKey, options);
       $cookies.put('nss', this.lastSessionSecret, options);
 
-      this.setUser(NstSvcUserFactory.parseUser(data.info));
+      this.setUser(NstSvcUserFactory.parseUser(data.account));
       NstSvcUserFactory.set(this.getUser());
 
       NstSvcUserFactory.get(this.getUser().getId()).then(function (user) {
@@ -78,9 +78,9 @@
         $cookies.put('user', JSON.stringify({
           id : user.id,
           name : user.fullName,
-          avatar : user.picture.thumbnails.x64.url.view
+          // avatar : user.picture.thumbnails.x128.url.view
         }), {
-          domain : '.nested.me',
+          domain : '.' + location.hostname,
           expires : CookieDate.toGMTString()
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);
@@ -206,7 +206,7 @@
 
             default:
               // Try to reconnect
-              service.reconnect().then(deferred.resolve).catch(deferred.reject);
+              // service.reconnect().then(deferred.resolve).catch(deferred.reject);
               break;
           }
         });

@@ -48,8 +48,8 @@
             if (id !== 'me') {
               requestData.account_id = query.id;
             }
-            NstSvcServer.request('account/get_info', requestData).then(function (userData) {
-              var user = factory.parseUser(userData.info);
+            NstSvcServer.request('account/get', requestData).then(function (userData) {
+              var user = factory.parseUser(userData);
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
             }).catch(function(error) {
@@ -164,6 +164,7 @@
         NstSvcServer.request('account/set_picture', {
           universal_id: uid
         }).then(function(result) {
+          console.log('response', result);
           factory.get(null, true).then(function(user) {
             factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
@@ -194,20 +195,23 @@
       }, "removePicture");
     }
 
-    UserFactory.prototype.parseTinyUser = function (userData) {
-      var user = new NstTinyUser();
-
-      if (!angular.isObject(userData)) {
-        return user;
+    UserFactory.prototype.parseTinyUser = function (data) {
+      if (!_.isObject(data)) {
+        throw Error("Could not create a user model with an invalid data");
       }
 
-      user.setNew(false);
-      user.setId(userData._id);
-      user.setFirstName(userData.fname);
-      user.setLastName(userData.lname);
+      if (!data._id) {
+        throw Error("Could not parse user data without _id");
+      }
 
-      if (angular.isObject(userData.picture)) {
-        user.setPicture(userData.picture);
+      var user = new NstTinyUser();
+
+      user.setId(data._id);
+      user.setFirstName(data.fname);
+      user.setLastName(data.lname);
+
+      if (data.picture && data.picture.org) {
+        user.setPicture(new NstPicture(data.picture));
       }
 
       return user;
@@ -234,8 +238,8 @@
         user.setUnreadMentionsCount(userData.counters.unread_mentions);
       }
 
-      if (angular.isObject(userData.picture)) {
-        user.setPicture(userData.picture);
+      if (userData.picture && userData.picture.org) {
+        user.picture = new NstPicture(userData.picture);
       }
 
       return user;
@@ -247,15 +251,17 @@
         fname: user.getFirstName(),
         lname: user.getLastName(),
         phone: user.getPhone(),
-        country: user.getCountry(),
-        picture: {
-          org: user.getPicture().getOrg().getId()
-        }
+        country: user.getCountry()
       };
 
-      var thumbs = user.getPicture().getThumbnails();
-      for (var size in thumbs) {
-        userData.picture[size] = thumbs[size].getId();
+      if (user.hasPicture()) {
+        userData.picture = {
+          org: user.picture.original,
+          x32 : user.picture.x32,
+          x64 : user.picture.x64,
+          x128 : user.picture.x128,
+          pre : user.picture.preview
+        };
       }
 
       return userData;

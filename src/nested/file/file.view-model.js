@@ -26,7 +26,7 @@
         this.extension = NstSvcFileType.getSuffix(model.filename);
         this.date = moment(model.uploadTime);
         this.hasThumbnail = model.hasThumbnail();
-        this.thumbnail = model.hasThumbnail() ? model.picture.getThumbnail(128).url.view : '';
+        this.thumbnail = model.hasThumbnail() ? model.picture.getUrl("x128") : '';
         this.mimeType = model.mimeType;
       }
 

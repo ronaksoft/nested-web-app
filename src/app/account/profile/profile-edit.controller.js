@@ -142,9 +142,9 @@
         vm.model.gender = user.getGender();
         vm.model.country = user.getCountry();
 
-        if (user.getPicture().getId()) {
-          vm.model.picture.id = user.getPicture().getId();
-          vm.model.picture.url = user.getPicture().thumbnails.x128.url.view;
+        if (user.hasPicture()) {
+          vm.model.picture.id = user.picture.original;
+          vm.model.picture.url = user.picture.getUrl("x128");
         }
       }).catch(function (error) {
         $log.debug(error);
@@ -172,8 +172,7 @@
       });
 
       request.getPromise().then(function (response) {
-        var id = response.data.universal_id;
-        deferred.resolve(id);
+        deferred.resolve(new NstPicture(response.data.thumbs));
       }).catch(deferred.reject);
 
       return deferred.promise;
@@ -220,18 +219,14 @@
       updateModel(vm.model).then(function (user) {
 
         vm.model.fullName = user.getFullName();
-
-        if (vm.model.picture.uploadedFile) {
-          storePicture(vm.model.picture.uploadedFile, vm.model).then(function (storeId) {
-
-            return NstSvcUserFactory.updatePicture(storeId);
+        var uploadedPicture = null;
+        if (vm.uploadedImage) {
+          storePicture(vm.model.picture.uploadedFile, vm.model).then(function (picture) {
+            uploadedPicture = picture;
+            return NstSvcUserFactory.updatePicture(picture.original);
           }).then(function (pictureId) {
-            vm.model.picture.id = pictureId;
-            user.getPicture().setId(pictureId);
-            user.getPicture().setThumbnail(32, user.getPicture().getOrg());
-            user.getPicture().setThumbnail(64, user.getPicture().getOrg());
-            user.getPicture().setThumbnail(128, user.getPicture().getOrg());
 
+            vm.model.picture = uploadedPicture;
             deferred.resolve(user);
           }).catch(deferred.reject);
         } else if (vm.model.picture.remove) {

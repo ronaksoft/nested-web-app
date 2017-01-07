@@ -6,12 +6,13 @@
     .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
-  function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr,
+  function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr, _,
     NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation,
     NstVmMemberItem, NST_SRV_ERROR,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
     var vm = this;
 
+    var defaultCollapseLimit = 4;
     vm.mode = 'collapsed';
     vm.limit = 0;
     vm.hasAddMembersAccess = false;
@@ -21,6 +22,13 @@
     vm.teammates = [];
 
     vm.placeId = $stateParams.placeId;
+    vm.teammatesSettings = {
+      skip : 0,
+      limit : defaultCollapseLimit,
+      creatorsCount : 0,
+      keyHoldersCount : 0,
+      pendingsCount : 0
+    };
 
     initialize();
 
@@ -35,7 +43,7 @@
       return $stateParams.placeId;
     }, function(newValue, oldValue) {
       if (newValue) {
-        vm.placeId = $stateParams.placeId;
+        vm.placeId = newValue;
         initialize();
       }else{
         vm.showTeammate = false;
@@ -48,47 +56,40 @@
       }
       vm.loading = true;
 
-      NstSvcPlaceAccess.getIfhasAccessToRead(vm.placeId).then(function (place) {
+      NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
         if (place) {
           vm.place = place;
-          $q.all([
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.SEE_MEMBERS),
-          ]).then(function(values) {
-            vm.hasAddMembersAccess = values[0];
-            vm.hasSeeMembersAccess = values[1];
 
-            if (vm.mode = 'collapsed') {
-              collapse();
-            }
+          vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
+          vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
+          defaultCollapseLimit = vm.hasAddMembersAccess ? 4 : 5;
 
-            vm.showTeammate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
+          if (vm.mode = 'collapsed') {
+            collapse();
+          }
 
-            findMembers();
-          }).catch(function(error) {
-            NstSvcLogger.error(error);
-          }).finally(function () {
-            vm.loading = false;
-          });
+          vm.showTeammate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
+
+          load();
+
         }
-      }).catch(function (error) {
-
+      }).catch(function(error) {
+        NstSvcLogger.error(error);
+      }).finally(function() {
+        vm.loading = false;
       });
-    };
+    }
 
     function expand() {
       vm.limit = 64;
+      vm.skip = 0;
       vm.onCollapse(false);
-      findMembers();
+      load();
     }
 
     function collapse() {
       vm.onCollapse(true);
-      if (vm.hasAddMembersAccess) {
-        vm.limit = 4;
-      } else {
-        vm.limit = 5;
-      }
+      vm.limit = defaultCollapseLimit;
     }
 
     function showAddModal(role) {
@@ -189,15 +190,68 @@
       }
     }
 
-    function findMembers() {
+
+    function loadTeammates(placeId, hasSeeMembersAccess) {
+      var deferred = $q.defer();
+
+      var teammates = [];
+      var pageCounts = {
+        creators : 0,
+        keyHolders : 0,
+        pendings : 0
+      };
+      vm.teammatesSettings.limit = defaultCollapseLimit;
+      vm.teammatesSettings.skip = vm.teammatesSettings.creatorsCount;
+
+      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function(creators) {
+
+        pageCounts.creators = creators.length;
+        vm.teammatesSettings.limit = defaultCollapseLimit - pageCounts.creators;
+        vm.teammatesSettings.creatorsCount += creators.length;
+        vm.teammatesSettings.skip = vm.teammatesSettings.keyHoldersCount;
+
+        teammates.push.apply(teammates, creators);
+
+        return getKeyholders(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess);
+      }).then(function(keyHolders) {
+
+        pageCounts.keyHolders = keyHolders.length;
+        vm.teammatesSettings.limit = defaultCollapseLimit - pageCounts.keyHolders - pageCounts.creators;
+        vm.teammatesSettings.keyHoldersCount += keyHolders.length;
+
+        teammates.push.apply(teammates, keyHolders);
+
+        deferred.resolve(teammates);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    function loadMore() {
+      vm.teammatesLoadProgress = true;
+      return loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function (teammates) {
+        vm.teammates.push.apply(vm.teammates, teammates);
+        vm.hasMoreTeammates = teammates.length === defaultCollapseLimit;
+      }).catch(function (error) {
+        NstSvcLogger.error(error);
+      }).finally(function () {
+        vm.loading = false;
+      });
+    }
+
+    function load() {
+      vm.teammatesSettings = {
+        skip : 0,
+        limit : defaultCollapseLimit,
+        creatorsCount : 0,
+        keyHoldersCount : 0,
+        pendingsCount : 0
+      };
       if (vm.hasSeeMembersAccess) {
         vm.loading = true;
-        NstSvcPlaceFactory.getMembers(vm.placeId, vm.limit).then(function(members) {
-          vm.teammates = _.concat(_.map(members.creators, function(member) {
-            return new NstVmMemberItem(member, 'creator');
-          }), _.map(members.keyHolders, function(member) {
-            return new NstVmMemberItem(member, 'key_holder');
-          }));
+
+        loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function(teammates) {
+          vm.teammates = teammates;
           vm.showTemmate = true;
         }).finally(function () {
           vm.loading = false;
@@ -207,6 +261,45 @@
         vm.teammates = [];
       }
     }
+
+    function getCreators(placeId, limit, skip, hasAccess) {
+      var deferred = $q.defer();
+
+      if (hasAccess && vm.teammatesSettings.creatorsCount < vm.place.counters.creators) {
+
+        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function(creators) {
+          var creatorItems = _.map(creators, function(item) {
+            return new NstVmMemberItem(item, 'creator');
+          });
+
+          deferred.resolve(creatorItems);
+        }).catch(deferred.reject);
+
+      } else {
+        deferred.resolve([]);
+      }
+
+      return deferred.promise;
+    }
+
+    function getKeyholders(placeId, limit, skip, hasAccess) {
+      var deferred = $q.defer();
+
+      if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
+        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function(keyHolders) {
+          var keyHolderItems = _.map(keyHolders, function(item) {
+            return new NstVmMemberItem(item, 'key_holder');
+          });
+
+          deferred.resolve(keyHolderItems);
+        }).catch(deferred.reject);
+      } else {
+        deferred.resolve([]);
+      }
+
+      return deferred.promise;
+    }
+
 
   }
 })();

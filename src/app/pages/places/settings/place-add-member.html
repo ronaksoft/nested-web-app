@@ -12,7 +12,7 @@
           </ui-select-match>
           <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
                              repeat="user in (addMemberCtrl.users | filter: $select.search) track by user.id" >
-            <img initials="user.fullName" data-url="user.picture.thumbnails.x64.url.download" data-width="40" data-height="40" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
+            <img initials="user.fullName" data-url="user.picture.thumbnails.x128.url.download" data-width="40" data-height="40" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
             <div class="_difv">
               <!--todo:: | highlight: $select.search in persian name-->
               <span auto-dir="user.fullName"><span class="_df _fw" data-ng-bind-html="user.fullName"></span></span>

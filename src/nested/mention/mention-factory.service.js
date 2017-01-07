@@ -8,7 +8,7 @@
   function NstSvcMentionFactory($q,
     NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
     NstBaseFactory, NstMention, NstFactoryEventData,
-    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT) {
+    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT, NST_EVENT_ACTION) {
     function MentionFactory() {
       var that = this;
       that.count = 0;
@@ -23,7 +23,7 @@
         }
       });
 
-      NstSvcServer.addEventListener(NST_SRV_EVENT.MENTION, function () {
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.MENTION_ADD, function () {
         that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.NEW_MENTION, new NstFactoryEventData(that.count)));
       });
 
@@ -46,7 +46,7 @@
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
-        NstSvcServer.request('account/get_mentions', {
+        NstSvcServer.request('mention/get_all', {
           skip: skip || 0,
           limit: limit || 12,
           show_data: true
@@ -64,9 +64,10 @@
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
-        NstSvcServer.request('account/get_mentions', {
+        NstSvcServer.request('mention/get_all', {
           limit : 1,
           skip : 1,
+          only_unread : false
         }).then(function(data) {
           var count = data.unread_mentions || 0;
           that.count = parseInt(count);
@@ -91,7 +92,7 @@
           ids = "all";
         }
 
-        NstSvcServer.request('account/update_mention_read_status', {
+        NstSvcServer.request('mention/mark_as_read', {
           mention_id : ids
         }).then(function(data) {
           factory.getMentionsCount().then(function (count) {
@@ -119,8 +120,8 @@
       mention.isSeen = data.read;
       mention.date = new Date(data.timestamp);
 
-      mention.commentId = data.comment_id.$oid;
-      mention.postId = data.post_id.$oid;
+      mention.commentId = data.comment_id;
+      mention.postId = data.post_id;
       mention.senderId = data.sender_id;
       mention.mentionedId = data.mentioned_id;
 

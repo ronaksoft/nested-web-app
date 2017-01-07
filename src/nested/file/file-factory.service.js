@@ -7,7 +7,7 @@
   /** @ngInject */
   function NstSvcFileFactory($q, _,
     NstSvcAuth, NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage, NstSvcFileTokenStorage,
-    NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken, NstStoreResource,
+    NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken,
     NST_FILE_TYPE) {
 
     function FileFactory() {
@@ -23,13 +23,14 @@
     FileFactory.prototype.getOne = getOne;
 
     var factory = new FileFactory();
+
     return factory;
 
     function get(placeId, filter, keyword, skip, limit) {
       return factory.sentinel.watch(function() {
         var deferred = $q.defer();
 
-        NstSvcServer.request('store/get_files', {
+        NstSvcServer.request('place/get_files', {
           place_id: placeId,
           filter: filter || null,
           filename: keyword || '',
@@ -55,19 +56,13 @@
       file.setId(data._id);
       file.setFilename(data.filename);
       file.setSize(data.size);
-      file.setMimeType(data.mimetype);
+      file.setMimetype(data.mimetype);
       file.setUploadTime(data.upload_time);
-      file.setResource(new NstStoreResource(data._id));
+      file.setWidth(data.width);
+      file.setHeight(data.height);
 
-      if (data.thumbs) {
-        var picture = new NstPicture(undefined, data.thumbs);
-        if (NST_FILE_TYPE.IMAGE == NstSvcFileType.getType(file.getMimeType())) {
-          picture.setId(file.getId());
-        } else if (picture.getLargestThumbnail()) {
-          picture.setId(picture.getLargestThumbnail().getId());
-        }
-
-        file.setPicture(picture);
+      if (data.thumbs && data.thumbs.org) {
+        file.setPicture(new NstPicture(data.thumbs));
       }
 
       return file;
@@ -82,7 +77,7 @@
       if (token) {
         deferred.resolve(token);
       } else {
-        NstSvcServer.request('store/get_download_token', {
+        NstSvcServer.request('file/get_download_token', {
           universal_id : fileId
         }).then(function(data) {
           storeToken(fileId, data.token);

@@ -6,7 +6,7 @@
     .factory('NstTinyPlace', NstTinyPlace);
 
   /** @ngInject */
-  function NstTinyPlace(NST_OBJECT_EVENT, NstModel, NstPicture, NstStoreResource) {
+  function NstTinyPlace(NST_OBJECT_EVENT, NstModel) {
     /**
      * Creates an instance of NstTinyPlace. Do not use this directly, use NstSvcPlaceFactory.getTiny(data) instead
      *
@@ -34,7 +34,7 @@
        *
        * @type {undefined|NstPicture}
        */
-      this.picture = new NstPicture();
+      this.picture = undefined;
 
       /*****************************
        *****      Ancestors     ****
@@ -63,6 +63,8 @@
         length: 0
       };
 
+      this.accesses = undefined;
+
       NstModel.call(this);
 
       if (data) {
@@ -73,44 +75,24 @@
     TinyPlace.prototype = new NstModel();
     TinyPlace.prototype.constructor = TinyPlace;
 
-    TinyPlace.prototype.setPicture = function (picture) {
-      var oldValue = this.picture;
-
-      if (picture instanceof NstPicture) {
-        this.picture = picture;
-      } else if (angular.isObject(picture)) {
-        this.picture.setId(picture.org);
-        var pictureClone = angular.copy(picture);
-        delete pictureClone.org;
-
-        for (var size in pictureClone) {
-          this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
-        }
-      } else {
-        return;
-      }
-
-      var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {
-        detail: {
-          name: 'picture',
-          newValue: this.picture,
-          oldValue: oldValue,
-          target: this
-        }
-      });
-      this.dispatchEvent(event);
-    };
-
     TinyPlace.prototype.isGrandPlace = function () {
-      return !this.parentId;
+      return this.grandParentId !== this.id;
     }
 
     TinyPlace.prototype.hasParent = function () {
-      return !!this.parentId;
+      return this.id && this.id.split('.').length > 0;
     }
 
     TinyPlace.prototype.hasGrandParent = function () {
       return this.grandParentId && this.grandParentId !== this.id;
+    }
+
+    TinyPlace.prototype.hasAccess = function (access) {
+      return _.includes(this.accesses, access);
+    }
+
+    TinyPlace.prototype.hasPicture = function () {
+      return this.picture && this.picture.original;
     }
 
     return TinyPlace;

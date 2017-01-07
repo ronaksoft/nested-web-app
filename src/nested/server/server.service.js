@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcServer($q, $timeout, $interval,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
-                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS,  NST_SRV_ERROR,
+                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE, NST_SRV_PING_PONG,
                         NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
@@ -16,7 +16,7 @@
       this.defaultConfigs = {
         streamTimeout: 500,
         requestTimeout: 1000,
-        maxRetries : 16,
+        maxRetries: 16,
         meta: {}
       };
 
@@ -43,7 +43,7 @@
       // }.bind(this));
 
       // Orphan Router
-      this.stream.onMessage(function(ws) {
+      this.stream.onMessage(function (ws) {
         if (!ws.data) {
           NstSvcLogger.debug2('WS | Empty Orphan Message:', ws);
 
@@ -59,15 +59,14 @@
         //   return false;
         // }
 
-        var data = angular.fromJson(ws.data);
-        NstSvcLogger.debug2('WS | Message:', data);
-
-        switch (data.type) {
+        var message = angular.fromJson(ws.data);
+        NstSvcLogger.debug2('WS | Message:', message);
+        switch (message.type) {
           case NST_SRV_MESSAGE_TYPE.RESPONSE:
-            switch (data.data.status) {
+            switch (message.data.status) {
               case NST_SRV_RESPONSE_STATUS.SUCCESS:
-                if (data.data.hasOwnProperty('msg')) {
-                  this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MESSAGE, { detail: data.data.msg }));
+                if (message.data.hasOwnProperty('msg')) {
+                  this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MESSAGE, {detail: message.data.msg}));
                 }
                 break;
 
@@ -77,20 +76,16 @@
             break;
 
           case NST_SRV_MESSAGE_TYPE.PUSH:
-            switch (data.data.type) {
-              case NST_SRV_PUSH_TYPE.MENTION:
-                this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MENTION, { detail: data.data }));
-                break;
-              case NST_SRV_PUSH_TYPE.TIMELINE_EVENT:
-                this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.TIMELINE, { detail: data.data }));
-                break;
-            }
+            this.dispatchEvent(new CustomEvent(message.data.action, {detail: message.data}));
+            break;
+          default :
+            throw "SERVER | Undefined response WS type";
             break;
         }
       }.bind(this));
 
       // Response Router
-      this.stream.onMessage(function(ws) {
+      this.stream.onMessage(function (ws) {
         if (!ws.data) {
           NstSvcLogger.debug2('WS | Empty Will Be Routed Message:', ws);
 
@@ -148,7 +143,7 @@
         }
       }.bind(this));
 
-      NstSvcConnectionMonitor.onBreak(function(event) {
+      NstSvcConnectionMonitor.onBreak(function (event) {
         NstSvcLogger.debug2('WS | Closed:', event, this);
 
         this.authorized = false;
@@ -177,7 +172,7 @@
         NstSvcLogger.debug2('WS | Dispatching Auth Event', event.detail);
         this.setAuthorized(true);
         this.setSesSecret(event.detail.response.getData()._ss);
-        this.setSesKey(event.detail.response.getData()._sk.$oid);
+        this.setSesKey(event.detail.response.getData()._sk);
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.AUTHORIZE));
       });
 
@@ -250,10 +245,14 @@
           if (this.isInitialized()) {
             service.sendQueueItem(reqId, timeout);
           } else {
-            qItem.listenerId = this.addEventListener(NST_SRV_EVENT.INITIALIZE, function () { service.sendQueueItem(reqId, timeout); }, true);
+            qItem.listenerId = this.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
+              service.sendQueueItem(reqId, timeout);
+            }, true);
           }
         } else {
-          qItem.listenerId = this.addEventListener(NST_SRV_EVENT.AUTHORIZE, function () { service.sendQueueItem(reqId, timeout); }, true);
+          qItem.listenerId = this.addEventListener(NST_SRV_EVENT.AUTHORIZE, function () {
+            service.sendQueueItem(reqId, timeout);
+          }, true);
         }
 
         return qItem.request;
@@ -361,7 +360,7 @@
 
     return new Server(NST_CONFIG.WEBSOCKET.URL, {
       requestTimeout: NST_CONFIG.WEBSOCKET.TIMEOUT,
-      maxRetries : NST_CONFIG.WEBSOCKET.REQUEST_MAX_RETRY_TIMES,
+      maxRetries: NST_CONFIG.WEBSOCKET.REQUEST_MAX_RETRY_TIMES,
       meta: {
         app_id: NST_CONFIG.APP_ID
       }

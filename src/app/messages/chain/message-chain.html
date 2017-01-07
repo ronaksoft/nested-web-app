@@ -1,7 +1,7 @@
 <nst-navbar data-ng-model="navbar"
             place-id="{{::ctlChain.currentPlace.id}}"
             nav-title="{{ctlChain.currentPlace.id?ctlChain.currentPlace.name: ctlChain.navTitle}}"
-            nav-picture-url="{{ctlChain.currentPlace.id ? ctlChain.currentPlace.picture.thumbnails.x64.url.view : '' }}"
+            nav-picture-url="{{ctlChain.currentPlace.id ? ctlChain.currentPlace.picture.thumbnails.x128.url.view : '' }}"
             nav-picture-class="{{ !ctlChain.currentPlace.id? ctlChain.navIconClass : '' }}"
             ready-to-show="ctlChain.currentPlaceLoaded"></nst-navbar>
 

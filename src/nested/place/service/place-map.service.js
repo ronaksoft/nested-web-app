@@ -71,7 +71,7 @@
     }
 
     function toPlaceBadge(model, thumbnailSize) {
-      return new NstVmPlaceBadge(model, 64);
+      return new NstVmPlaceBadge(model, "x64");
     }
   }
 

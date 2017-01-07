@@ -10,7 +10,7 @@
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstVmPlaceBadge) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstVmPlaceBadge, NstPicture) {
     var vm = this;
 
     /*****************************
@@ -147,7 +147,6 @@
             if (place.id === query) {
               initPlace = new NstVmPlace(place);
             } else {
-
               vm.search.results.push(new NstVmPlace(place));
             }
           }
@@ -158,7 +157,10 @@
             initPlace.isEmailValid = NST_PATTERN.EMAIL.test(initPlace.id)
           }
           vm.search.results.push(initPlace);
-        }
+      }).catch(function () {
+        vm.search.results = [];
+        if (initPlace.id)
+          vm.search.results.push(initPlace);
       });
     };
     
@@ -223,29 +225,31 @@
       var attachment = NstSvcAttachmentFactory.createAttachmentModel();
       attachment.setSize(file.size);
       attachment.setFilename(file.name);
-      attachment.setMimeType(file.type);
-      attachment.setUploadTime(file.lastModified);
+      attachment.setMimetype(file.type);
 
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
-      var type = NstSvcFileType.getType(attachment.getMimeType());
+      var type = NstSvcFileType.getType(attachment.getMimetype());
 
       // Read Attachment
       var reader = new FileReader();
       var qRead = $q.defer();
 
       reader.onload = function (event) {
+        console.log("event", event);
         var uri = event.target.result;
         var resource = new NstLocalResource(uri);
-        attachment.setResource(resource);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
-          attachment.getPicture().setOrg(resource);
-          attachment.getPicture().setThumbnail(32, resource);
-          attachment.getPicture().setThumbnail(64, resource);
-          attachment.getPicture().setThumbnail(128, resource);
+          attachment.setPicture(new NstPicture({
+            org : uri,
+            pre : uri,
+            x32 : uri,
+            x64 : uri,
+            x128: uri
+          }));
         }
 
         qRead.resolve(uri);
@@ -552,6 +556,7 @@
               vm.model.body = post.getBody();
               vm.model.attachments = post.getAttachments();
               for (var k in vm.model.attachments) {
+                vm.model.attachments[k].setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
                 vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(vm.model.attachments[k]));
                 vm.attachments.size.total += vm.model.attachments[k].getSize();
                 vm.attachments.size.uploaded += vm.model.attachments[k].getSize();
