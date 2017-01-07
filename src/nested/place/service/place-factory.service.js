@@ -698,7 +698,9 @@
         limit: limit,
         skip: skip,
       }).then(function (data) {
-        deferred.resolve(_.map(data.creators, NstSvcUserFactory.parseTinyUser));
+        deferred.resolve(_.map(data.creators, function (creator) {
+          return NstSvcUserFactory.parseTinyUser(creator);
+        }));
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
@@ -718,7 +720,9 @@
         limit: limit,
         skip: skip,
       }).then(function (data) {
-        deferred.resolve(_.map(data.key_holders, NstSvcUserFactory.parseTinyUser));
+        deferred.resolve(_.map(data.key_holders, function (keyHolder) {
+          return NstSvcUserFactory.parseTinyUser(keyHolder);
+        }));
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
