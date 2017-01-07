@@ -166,17 +166,12 @@
             NstUtility.collection.dropById(message.allPlaces, data.placeId);
 
             // remove the post if the user has not access to see it any more
-            NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces).then(function (places) {
-              if (_.isArray(places)) {
-                if (places.length === 0 || (vm.currentPlaceId && data.placeId == vm.currentPlaceId)) {
-                  NstUtility.collection.dropById(vm.messages, data.postId);
-                  return;
-                }
-              }
+            var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces);
+            if ((_.isArray(places) && places.length === 0) || (vm.currentPlaceId && data.placeId == vm.currentPlaceId)) {
+              NstUtility.collection.dropById(vm.messages, data.postId);
+              return;
+            }
 
-            }).catch(function (error) {
-              $log.debug(error);
-            });
           } else { //retract it
             NstUtility.collection.dropById(vm.messages, message.id);
           }

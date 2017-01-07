@@ -881,6 +881,8 @@
         place.setPicture(new NstPicture(data.picture));
       }
 
+      place.setAccesses(data.access || []);
+
       NstSvcMicroPlaceStorage.set(place.id, place);
 
       return place;
@@ -1080,24 +1082,9 @@
     };
 
     PlaceFactory.prototype.filterPlacesByAccessCode = function (places, code) {
-      var defer = $q.defer();
-      var factory = this;
-
-      var accessPromises = _.map(places, function (place) {
-        return $q(function (resolve, reject) {
-          factory.hasAccess(place.id, code).then(function (hasAccess) {
-            resolve(hasAccess ? place : null);
-          }).catch(reject);
-        });
+      return _.filter(places, function (place) {
+        return _.includes(place.accesses, code);
       });
-
-      $q.all(accessPromises).then(function (places) {
-        defer.resolve(_.filter(places, function (place) {
-          return !_.isNull(place);
-        }));
-      }).catch(defer.reject);
-
-      return defer.promise;
     }
 
     PlaceFactory.prototype.addPlaceToTree = function (tree, place) {

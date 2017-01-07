@@ -196,7 +196,6 @@
     }
 
     UserFactory.prototype.parseTinyUser = function (data) {
-      console.log(data);
       if (!_.isObject(data)) {
         throw Error("Could not create a user model with an invalid data");
       }
@@ -214,6 +213,8 @@
       if (data.picture && data.picture.org) {
         user.setPicture(new NstPicture(data.picture));
       }
+
+      this.set(user);
 
       return user;
     };
