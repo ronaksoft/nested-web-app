@@ -45,7 +45,7 @@
     };
 
     Attachment.prototype.hasPreview = function () {
-      return !!this.picture.preview;
+      return this.picture && this.picture.preview;
     };
 
     return Attachment;
