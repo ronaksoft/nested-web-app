@@ -157,14 +157,14 @@
             initPlace.isEmailValid = NST_PATTERN.EMAIL.test(initPlace.id)
           }
           vm.search.results.push(initPlace);
-      }).catch(function () {
+      }}).catch(function () {
         vm.search.results = [];
         if (initPlace.id)
           vm.search.results.push(initPlace);
       });
     };
-    
-    
+
+
 
     vm.search.tagger = function (text) {
       // TODO: To use new class and also check for hidden places
