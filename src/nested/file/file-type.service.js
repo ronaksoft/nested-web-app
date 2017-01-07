@@ -57,13 +57,13 @@
 
     return service;
 
-    function getType(mimeType) {
-      if (!mimeType) {
+    function getType(mimetype) {
+      if (!mimetype) {
         return '';
       }
 
-      var type = _.findKey(fileGroups, function(mimeTypeList) {
-        return _.includes(mimeTypeList, mimeType);
+      var type = _.findKey(fileGroups, function(mimetypeList) {
+        return _.includes(mimetypeList, mimetype);
       });
 
       return type || NST_FILE_TYPE.OTHER;

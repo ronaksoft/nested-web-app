@@ -15,19 +15,23 @@
       this.date = null;
       this.hasThumbnail = null;
       this.thumbnail = null;
+      this.hasPreview = null;
+      this.preview = null;
       this.extension = null;
-      this.mimeType = null;
+      this.mimetype = null;
 
       if (model instanceof NstAttachment) {
         this.id = model.id;
         this.size = model.size;
         this.name = model.filename;
-        this.type = NstSvcFileType.getType(model.mimeType);
+        this.type = NstSvcFileType.getType(model.mimetype);
         this.extension = NstSvcFileType.getSuffix(model.filename);
         this.date = moment(model.uploadTime);
         this.hasThumbnail = model.hasThumbnail();
         this.thumbnail = model.hasThumbnail() ? model.picture.getUrl("x128") : '';
-        this.mimeType = model.mimeType;
+        this.hasPreview = model.hasPreview();
+        this.preview = model.hasPreview() ? model.picture.getUrl("preview") : '';
+        this.mimetype = model.mimetype;
       }
 
     }

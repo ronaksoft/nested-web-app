@@ -1,2 +1,7 @@
-<img id="preview-thumb" ng-if="attachment.thumbnail" ng-src="{{attachment.thumbnail}}" class="img-thumb-view"/>
-<img ng-if="attachment.downloadUrl" ng-src="{{attachment.downloadUrl}}" preview-on-load thumbnail-id="preview-thumb"/>
+<div id="preview-thumb" ng-if="attachment.preview">
+  <div class="col-xs-6">
+    <div class="nst-loading nst-loading-size-16  _fr"></div>
+  </div>
+  <div class="col-xs-6 nst-marginbtm-4"><translate>Loading...</translate></div>
+</div>
+<img ng-if="attachment.preview" ng-src="{{attachment.preview}}" preview-on-load thumbnail-id="preview-thumb"/>
