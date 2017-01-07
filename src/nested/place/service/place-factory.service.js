@@ -608,7 +608,7 @@
 
         NstSvcServer.request('place/add_member', {
           place_id: query.data.placeId,
-          account_id: query.data.userId,
+          member_id: query.data.userId,
           role: query.data.role
         }).then(function (result) {
           deferred.resolve(user);

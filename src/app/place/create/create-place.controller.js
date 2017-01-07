@@ -61,7 +61,8 @@
       if (stateParamIsProvided($stateParams.placeId)) {
         vm.hasParentPlace = true;
         vm.place.parentId = $stateParams.placeId;
-        loadParentPlace($stateParams.placeId.split('.')[0]).catch(function (error) {
+        vm.placesParts = $stateParams.placeId.split('.');
+        loadParentPlace(vm.placesParts).catch(function (error) {
           toastr.error(NstSvcTranslation.get("There seems to be an error in reaching information from the highest-ranking Place."));
         });
       } else {
@@ -94,19 +95,19 @@
 
     })();
 
-    function loadParentPlace(parentId) {
+    function loadParentPlace(parentIds) {
       var deferred = $q.defer();
 
       vm.parentLoadProgress = true;
-      NstSvcPlaceFactory.getTiny(parentId).then(function (place) {
-        if (place.isGrandPlace()) {
+      NstSvcPlaceFactory.get(parentIds.join('.')).then(function (place) {
+        if (parentIds.length === 1) {
           vm.hasGrandParent = true;
           vm.grandPlace = place;
           deferred.resolve(true);
         } else {
           vm.parentPlace = place;
           vm.hasParentPlace = true;
-          NstSvcPlaceFactory.getTiny(parentId.split('.')[0]).then(function (grandPlace) {
+          NstSvcPlaceFactory.get(parentIds[0]).then(function (grandPlace) {
             vm.hasGrandParent = true;
             vm.grandPlace = grandPlace;
             deferred.resolve(true);
