@@ -36,21 +36,6 @@
       saved: false
     };
 
-    (function () {
-      if ($stateParams.attachments && $stateParams.attachments.length > 0) {
-        NstSvcAttachmentFactory.load($stateParams.attachments).then(function (attachments) {
-          vm.model.attachments = attachments;
-          vm.attachments.viewModels = _.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
-          vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
-          vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
-        }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get('An error has occurred in trying to attach files.'));
-        });
-
-      }
-      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
-    })();
-
     vm.search = {
       results: [],
     };
@@ -121,6 +106,19 @@
       }
     };
 
+    (function () {
+      if ($stateParams.attachments && $stateParams.attachments.length > 0) {
+        console.log('$stateParams.attachments', $stateParams.attachments);
+        vm.model.attachments = _.map($stateParams.attachments, function (item) {
+          item.status = NST_ATTACHMENT_STATUS.ATTACHED;
+          return item;
+        });
+        vm.attachments.viewModels = _.map($stateParams.attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
+        vm.attachments.size.total += _.sum(_.map($stateParams.attachments, 'size'));
+        vm.attachments.size.uploaded += _.sum(_.map($stateParams.attachments, 'size'));
+      }
+      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
+    })();
     /*****************************
      ***** Controller Methods ****
      *****************************/
