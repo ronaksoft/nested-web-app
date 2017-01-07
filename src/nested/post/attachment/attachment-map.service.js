@@ -35,7 +35,7 @@
           url: attachment.hasThumbnail() ? attachment.picture.original : null,
           type: NstSvcFileType.getType(attachment.getMimetype()),
           extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
-          thumbnail: attachment.hasThumbnail() ? attachment.picture.x128 : null,
+          thumbnail: attachment.hasThumbnail() ? attachment.picture.getUrl("x128") : null,
           hasThumbnail: attachment.hasThumbnail()
         };
       } else if (attachment instanceof NstVmFile){
