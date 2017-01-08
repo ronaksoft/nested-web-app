@@ -8,8 +8,9 @@
   /** @ngInject */
   function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
-                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
-                             NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcStore,
+                             NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT,
+                             NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
+                             NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
@@ -89,7 +90,7 @@
         }).catch(function () {
           var checkDisplayInvitationModal = true;
           vm.invitations.map(function (invite) {
-            if(checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)){
+            if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
               checkDisplayInvitationModal = false;
               vm.invitation.showModal(invite.id);
             }
@@ -154,7 +155,7 @@
         vm.invitations = mapInvitations(invitation);
         var checkDisplayInvitationModal = true;
         vm.invitations.map(function (invite) {
-          if(checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)){
+          if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
             checkDisplayInvitationModal = false;
             vm.invitation.showModal(invite.id);
           }
@@ -383,7 +384,7 @@
         place.isActive = false;
         if (vm.stateParams.placeId) {
           if (vm.stateParams.placeId.indexOf(place.id + '.') === 0)
-          place.isCollapsed = vm.stateParams.placeId.indexOf(place.id + '.') !== 0;
+            place.isCollapsed = vm.stateParams.placeId.indexOf(place.id + '.') !== 0;
           place.isActive = vm.stateParams.placeId == place.id;
         }
 
@@ -527,10 +528,23 @@
     });
 
     NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_INVITE, function (event) {
-      getInvitations().then(function (invitation) {
-        vm.invitations = mapInvitations(invitation);
+      getInvitations().then(function (invitations) {
+        vm.invitations = mapInvitations(invitations);
+        var lastInvitation = _.find(invitations, function (inv) {
+          console.log(inv, event.detail.invite_id)
+          return inv.id === event.detail.invite_id
+        });
+
+        NstSvcNotification.push(
+          NstUtility.string.format(
+            NstSvcTranslation.get("Invitation to {0} by {1}."),
+            lastInvitation.place.name,
+            lastInvitation.inviter.fullName),
+          function () {
+            vm.invitation.showModal(lastInvitation.id)
+          })
       }).catch(function (error) {
-        throw 'SIDEBAR | invitation can not init'
+        throw 'SIDEBAR | invitation push can not init'
       });
     });
 
