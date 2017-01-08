@@ -314,7 +314,9 @@
 
       settings = _.defaults(settings, defaultSettings);
       NstSvcServer.request('search/accounts' + area, params).then(function (data) {
-        var users = _.map(data.accounts, factory.parseTinyUser);
+        var users = _.map(data.accounts, function (account) {
+          return factory.parseTinyUser(account);
+        });
         defer.resolve(users);
       }).catch(defer.reject);
 
