@@ -44,8 +44,6 @@
             return NstSvcLoader.inject(getRecentActivity(vm.settings));
           }
         });
-      } else {
-        return NstSvcLoader.inject(getRecentActivity(vm.settings));
       }
 
     })();
