@@ -198,6 +198,7 @@
 
             case NST_SRV_ERROR.ACCESS_DENIED:
             case NST_SRV_ERROR.INVALID:
+            case NST_SRV_ERROR.UNAUTHORIZED:
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
                 deferred.reject(error);
                 service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: error } }));
