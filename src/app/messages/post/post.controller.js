@@ -307,12 +307,8 @@
       NstSvcPostFactory.get(id).then(function (post) {
         result.post = post;
         result.hasMoreComments = post.counters.comments > vm.commentSettings.limit;
-
-        return NstSvcPlaceFactory.filterPlacesByRemovePostAccess(post.places);
-      }).then(function (placesWithRemoveAccess) {
-        result.placesWithRemoveAccess = placesWithRemoveAccess;
-        result.hasRemoveAccess = placesWithRemoveAccess && placesWithRemoveAccess.length > 0;
-
+        result.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(post.places);
+        result.hasRemoveAccess = _.isArray(result.placesWithRemoveAccess) && result.placesWithRemoveAccess.length > 0;
         deferred.resolve(result);
       }).catch(deferred.reject).finally(function () {
         vm.status.postLoadProgress = false;

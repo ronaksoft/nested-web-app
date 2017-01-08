@@ -53,7 +53,6 @@
 
         var newMentions = _.concat(vm.mentions, _.map(mentions, mapMention));
         vm.mentions = _.uniqBy(newMentions,'id');
-        console.log('vm.mentions',vm.mentions)
 
         if (mentions.length < limit){
           vm.reached = true;

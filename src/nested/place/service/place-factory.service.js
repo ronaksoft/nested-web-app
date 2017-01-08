@@ -698,7 +698,9 @@
         limit: limit,
         skip: skip,
       }).then(function (data) {
-        deferred.resolve(_.map(data.creators, NstSvcUserFactory.parseTinyUser));
+        deferred.resolve(_.map(data.creators, function (creator) {
+          return NstSvcUserFactory.parseTinyUser(creator);
+        }));
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
@@ -718,7 +720,9 @@
         limit: limit,
         skip: skip,
       }).then(function (data) {
-        deferred.resolve(_.map(data.key_holders, NstSvcUserFactory.parseTinyUser));
+        deferred.resolve(_.map(data.key_holders, function (keyHolder) {
+          return NstSvcUserFactory.parseTinyUser(keyHolder);
+        }));
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
@@ -880,6 +884,8 @@
       if (data.picture) {
         place.setPicture(new NstPicture(data.picture));
       }
+
+      place.setAccesses(data.access || []);
 
       NstSvcMicroPlaceStorage.set(place.id, place);
 
@@ -1080,24 +1086,9 @@
     };
 
     PlaceFactory.prototype.filterPlacesByAccessCode = function (places, code) {
-      var defer = $q.defer();
-      var factory = this;
-
-      var accessPromises = _.map(places, function (place) {
-        return $q(function (resolve, reject) {
-          factory.hasAccess(place.id, code).then(function (hasAccess) {
-            resolve(hasAccess ? place : null);
-          }).catch(reject);
-        });
+      return _.filter(places, function (place) {
+        return _.includes(place.accesses, code);
       });
-
-      $q.all(accessPromises).then(function (places) {
-        defer.resolve(_.filter(places, function (place) {
-          return !_.isNull(place);
-        }));
-      }).catch(defer.reject);
-
-      return defer.promise;
     }
 
     PlaceFactory.prototype.addPlaceToTree = function (tree, place) {

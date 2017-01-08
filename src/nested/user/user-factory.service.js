@@ -164,7 +164,6 @@
         NstSvcServer.request('account/set_picture', {
           universal_id: uid
         }).then(function(result) {
-          console.log('response', result);
           factory.get(null, true).then(function(user) {
             factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
@@ -196,7 +195,6 @@
     }
 
     UserFactory.prototype.parseTinyUser = function (data) {
-      console.log(data);
       if (!_.isObject(data)) {
         throw Error("Could not create a user model with an invalid data");
       }
@@ -214,6 +212,8 @@
       if (data.picture && data.picture.org) {
         user.setPicture(new NstPicture(data.picture));
       }
+
+      this.set(user);
 
       return user;
     };

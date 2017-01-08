@@ -102,12 +102,9 @@
             post_id: query.id,
             mark_read : markAsRead ? markAsRead : false
           }).then(function (data) {
-            parsePost(data).then(function (post) {
-              NstSvcPostStorage.set(query.id, post);
-              defer.resolve(post);
-            }).catch(function (error) {
-              defer.reject(new NstFactoryError(query, undefined, undefined, error));
-            });
+            var post = parsePost(data);
+            NstSvcPostStorage.set(post.id, post);
+            defer.resolve(post);
           }).catch(function (error) {
             defer.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
@@ -323,8 +320,6 @@
         return defer.promise;
       }
 
-      var promises = [];
-
       post.setId(data._id);
       post.setSubject(data.subject);
       post.setContentType(data.content_type);
@@ -332,86 +327,24 @@
 
       post.setInternal(data.internal);
 
-      post.setDate(new Date(data['timestamp']));
-
-      if (data['last_update']) {
-        post.setUpdatedDate(new Date(data['last_update']));
-      } else {
-        post.setUpdatedDate(post.getDate());
-      }
-
-      post.setMonitored(data.monitored);
-      post.setSpam(data.spam);
+      post.setDate(new Date(data.timestamp));
+      post.setUpdatedDate(new Date(data.last_update));
 
       post.setCounters(data.counters || post.counters);
-      post.setMoreComments(false);
-      if (post.counters) {
-        post.setMoreComments(post.counters.comments > -1 ? post.counters.comments > post.comments.length : true);
-      }
+      post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
 
-      if (data.sender) {
-        var parsedSender = NstSvcUserFactory.parseTinyUser(data.sender);
-        var imperfect = !NstSvcUserFactory.set(parsedSender);
-        promises.push(NstSvcUserFactory.getTiny(data.sender._id).catch(function (error) {
-          return $q(function (res) {
-            res(parsedSender);
-          });
-        }).then(function (tinyUser) {
-          post.setSender(tinyUser);
+      var places = _.map(data.post_places, function (place) {
+        return NstSvcPlaceFactory.parseMicroPlace(place);
+      });
+      post.setPlaces(places);
 
-          return $q(function (res) {
-            res(tinyUser);
-          });
-        }));
-      }
+      var attachments = _.map(data.post_attachments, function (attachment) {
+        if(data._id)
+          return NstSvcAttachmentFactory.parseAttachment(attachment);
+      });
+      post.setAttachments(attachments);
 
-      if (data.post_places) {
-        for (var k in data.post_places) {
-          promises.push((function (index) {
-            var deferred = $q.defer();
-            var id = data.post_places[index]._id;
-
-            var parsedPlace = NstSvcPlaceFactory.parseTinyPlace({
-              _id: id,
-              name: data.post_places[index].name,
-              picture: data.post_places[index].picture
-            });
-            var imperfect = !NstSvcPlaceFactory.set(parsedPlace);
-
-            // TODO: Put it to retry structure
-            NstSvcPlaceFactory.getTiny(id).catch(function (error) {
-              return $q(function (res) {
-                res(parsedPlace);
-              });
-            }).then(function (tinyPlace) {
-              // TODO: Use NstPost.addPlace()
-              post.places[index] = tinyPlace;
-
-              deferred.resolve(tinyPlace);
-            });
-
-            return deferred.promise;
-          })(k));
-        }
-      }
-
-      if (data.place_access) {
-        _.forEach(data.post_places, function (place) {
-          var accesses = _.find(data.place_access, {
-            '_id': place._id
-          }).access;
-
-          NstSvcPlaceFactory.setAccessOnPlace(place._id, accesses);
-        });
-      }
-
-      if (data.post_attachments) {
-        _.forEach(data.post_attachments, function (postAttachment) {
-            if(postAttachment._id && postAttachment._id !== '')
-              post.addAttachment(NstSvcAttachmentFactory.parseAttachment(postAttachment));
-        });
-      }
-
+      // TODO: Fix parsing recipients
       if (data.recipients) {
         for (var k in data.recipients) {
           post.recipients[k] = new NstRecipient({
@@ -422,47 +355,11 @@
         }
       }
 
-      // TODO: Use ReplyToId instead
-      if (data.reply_to) {
-        promises.push(get(data.reply_to.$oid).catch(function (error) {
-          return parsePost({
-            _id: {
-              $oid: data.reply_to.$oid
-            }
-          });
-        }).then(function (relPost) {
-          post.setReplyTo(relPost);
-
-          return $q(function (res) {
-            res(relPost);
-          });
-        }));
-      }
-
-      // TODO: Use ForwardFromId instead
-      if (data.forward_from) {
-        promises.push(get(data.forward_from.$oid).catch(function (error) {
-          return parsePost({
-            _id: {
-              $oid: data.forward_from.$oid
-            }
-          });
-        }).then(function (relPost) {
-          post.setForwardFrom(relPost);
-
-          return $q(function (res) {
-            res(relPost);
-          });
-        }));
-      }
-
+      post.setReplyToId(data.reply_to);
+      post.setForwardFromId(data.forward_from);
       post.setWipeAccess(data.wipe_access);
 
-      $q.all(promises).then(function () {
-        defer.resolve(post);
-      }).catch(defer.reject);
-
-      return defer.promise;
+      return post;
     }
 
     function parseMessage(data) {
@@ -506,7 +403,7 @@
       message.setPlaces(places);
 
       var attachments = _.map(data.post_attachments, function (data) {
-        if (data._id)
+        if(data._id)
           return NstSvcAttachmentFactory.parseAttachment(data);
       });
       message.setAttachments(attachments);

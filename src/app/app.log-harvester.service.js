@@ -4,7 +4,7 @@
     var buffer = {};
 
     function start(url, period, entriesBucketKey) {
-        console.log('Log Harvester | started');
+        // console.log('Log Harvester | started');
         setInterval(function() {
             if (!isArray(window[entriesBucketKey])) {
                 console.log('Log Harvester | field is not defined');

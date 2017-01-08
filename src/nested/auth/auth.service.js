@@ -180,7 +180,7 @@
       if (this.getLastSessionKey() && this.getLastSessionSecret()) {
         // TODO: Use Try Service
         this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
-          service.user = NstSvcUserFactory.parseUser(response.info);
+          service.user = NstSvcUserFactory.parseUser(response.account);
           service.authorize(response).then(deferred.resolve);
         }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);

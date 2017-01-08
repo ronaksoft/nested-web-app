@@ -206,7 +206,7 @@
     };
 
     function composeWithAttachments() {
-      $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : _.map(vm.selectedFiles, 'id') });
+      $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : vm.selectedFiles });
     }
 
   }

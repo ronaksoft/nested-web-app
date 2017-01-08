@@ -92,7 +92,8 @@
             .then(function (post) {
 
               var attachmentPromises = _.map(post.post_attachments, function (attachment) {
-                return NstSvcAttachmentFactory.parseAttachment(attachment);
+                if(attachment._id)
+                  return NstSvcAttachmentFactory.parseAttachment(attachment);
               });
 
               $q.all(attachmentPromises).then(function (values) {

@@ -1,11 +1,11 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
+  function AttachmentViewController($q, $timeout, $log, $uibModalInstance, $sce,
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
                                     NstVmFileViewerItem,
@@ -40,17 +40,17 @@
       var selectedItemId = fileViewerItem ? fileViewerItem.id : fileId;
       if (_.isArray(fileViewerItems) && fileViewerItems.length > 0) {
 
-        if (!_.some(fileViewerItems, { id : selectedItemId })) {
+        if (!_.some(fileViewerItems, {id: selectedItemId})) {
 
           loadFile(selectedItemId).then(function (file) {
 
             vm.attachments.collection = _.concat(mapToFileViewerItem(file), fileViewerItems);
-            vm.attachments.current = vm.attachments.collection[0];
+            goTo(0)
           });
 
         } else {
           vm.attachments.collection = fileViewerItems;
-          vm.attachments.current = _.find(vm.attachments.collection, { id : selectedItemId });
+          goTo(_.findIndex(vm.attachments.collection, {id: selectedItemId}));
         }
 
       } else if (_.isArray(fileIds) && fileIds.length > 0) {
@@ -61,7 +61,7 @@
 
         loadAllFiles(fileIds).then(function (files) {
           vm.attachments.collection = mapToFileViewerItems(files);
-          vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId }) || fileViewerItem;
+          goTo(_.findIndex(fileViewerItems, {id: selectedItemId}));
         });
       }
     })();
@@ -69,20 +69,20 @@
     hotkeys.add({
       combo: 'right',
       description: 'compose state',
-      callback: function() {
+      callback: function () {
         goNext();
       }
     });
     hotkeys.add({
       combo: 'left',
       description: 'compose state',
-      callback: function() {
+      callback: function () {
         goPrevious();
       }
     });
 
     function goNext() {
-      var currentIndex = _.findIndex(vm.attachments.collection, { id : vm.attachments.current.id });
+      var currentIndex = _.findIndex(vm.attachments.collection, {id: vm.attachments.current.id});
       var next = currentIndex + 1;
       if (vm.attachments.collection.length > 0 && next < vm.attachments.collection.length) {
         goTo(next);
@@ -90,7 +90,7 @@
     };
 
     function goPrevious() {
-      var currentIndex = _.findIndex(vm.attachments.collection, { id : vm.attachments.current.id });
+      var currentIndex = _.findIndex(vm.attachments.collection, {id: vm.attachments.current.id});
       var previous = currentIndex - 1;
       if (vm.attachments.collection.length > 0 && previous >= 0) {
         goTo(previous);
@@ -99,6 +99,20 @@
 
     function goTo(index) {
       vm.attachments.current = vm.attachments.collection[index];
+      if (vm.attachments.current.type === NST_FILE_TYPE.PDF ||
+        vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {
+        $timeout(function () {
+          vm.attachments.current.width = angular.element('.nst-preview-pic-mode').width() - 20;
+          vm.attachments.current.height = angular.element('.nst-preview-pic-mode').height() - 20;
+        },1000);
+        getToken(vm.attachments.current.id).then(function (token) {
+          vm.attachments.current.downloadUrl = $sce.trustAsResourceUrl('//view.officeapps.live.com/op/embed.aspx?src=' +
+            encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token)));
+
+        }).catch(function (error) {
+          toastr.error('Sorry, An error has occured while trying to load the file');
+        });
+      }
     };
 
     function getToken(id) {
