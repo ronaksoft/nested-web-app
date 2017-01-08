@@ -28,23 +28,26 @@
       vm.loading = true;
       vm.children = [];
 
-      var grandPlaceId = vm.grandPlace.id;
+      if (vm.grandPlace) {
+        var grandPlaceId = vm.grandPlace.id;
 
-      NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
-        if (list.filter(function (obj) {
+        NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
+          if (list.filter(function (obj) {
             return obj === vm.grandPlace.id
           }).length === 1) {
-          vm.placesBookmarkObject[vm.grandPlace.id] = true;
-        }
-      });
+            vm.placesBookmarkObject[vm.grandPlace.id] = true;
+          }
+        });
 
-      getGrandPlaceChildren(grandPlaceId).then(function (places) {
-        vm.children = places;
-      }).catch(function (error) {
-        NstSvcLogger.error(error);
-      }).finally(function () {
-        vm.loading = false;
-      });
+        getGrandPlaceChildren(grandPlaceId).then(function (places) {
+          vm.children = places;
+        }).catch(function (error) {
+          NstSvcLogger.error(error);
+        }).finally(function () {
+          vm.loading = false;
+        });
+      }
+
     }
 
 
