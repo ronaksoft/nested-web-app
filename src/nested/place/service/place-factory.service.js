@@ -611,6 +611,7 @@
           member_id: query.data.userId,
           role: query.data.role
         }).then(function (result) {
+          factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.ADD_MEMBER, new NstFactoryEventData({ placeId : place.id , member : user })));
           deferred.resolve(user);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));

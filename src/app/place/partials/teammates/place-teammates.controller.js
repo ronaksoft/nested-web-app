@@ -8,9 +8,11 @@
   /** @ngInject */
   function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr, _,
     NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation,
-    NstVmMemberItem, NST_SRV_ERROR,
+    NstVmMemberItem, NST_SRV_ERROR, NST_PLACE_FACTORY_EVENT,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
     var vm = this;
+    // to keep track of added users
+    var addedMemberIds = [];
 
     var defaultCollapseLimit = 4;
     vm.mode = 'collapsed';
@@ -77,6 +79,13 @@
         NstSvcLogger.error(error);
       }).finally(function() {
         vm.loading = false;
+      });
+
+      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ADD_MEMBER, function (event) {
+        if (event.detail.placeId === vm.place.id && !_.includes(addedMemberIds, event.detail.member.id)) {
+          vm.place.counters.key_holders ++;
+          addedMemberIds.push(event.detail.member.id);
+        }
       });
     }
 
