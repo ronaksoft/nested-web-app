@@ -259,11 +259,11 @@
 
     function getUnfilteredState() {
       var state = 'app.messages';
-      switch ($state.current.options.group) {
-        case 'activity':
-          state = 'app.activity';
-          break;
-      }
+      // switch ($state.current.options.group) {
+      //   case 'activity':
+      //     state = 'app.activity';
+      //     break;
+      // }
 
       return state;
     }
