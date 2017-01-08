@@ -60,7 +60,6 @@
     PostFactory.prototype.remove = remove;
     PostFactory.prototype.retract = retract;
     PostFactory.prototype.createPostModel = createPostModel;
-    PostFactory.prototype.getWithComments = getWithComments;
     PostFactory.prototype.getSentMessages = getSentMessages;
     PostFactory.prototype.getMessages = getMessages;
     PostFactory.prototype.getPlaceMessages = getPlaceMessages;
@@ -279,27 +278,6 @@
 
         return deferred.promise;
       }, "retract", id);
-    }
-
-    /**
-     * getWithComments - Retrieves a post with its comments
-     *
-     * @param  {String}   postId          The post id
-     * @param  {Object}   commentSettings Some settings like skip and limit
-     * @return {Promise}                  A promise that resolves a NstPost
-     */
-    function getWithComments(postId, commentSettings) {
-      var defer = $q.defer();
-
-      get(postId).then(function (post) {
-        if (post && post.id) {
-          NstSvcCommentFactory.retrieveComments(post, commentSettings).then(defer.resolve).catch(defer.reject);
-        } else {
-          defer.reject('could not find a post with provided id.');
-        }
-      }).catch(defer.reject);
-
-      return defer.promise;
     }
 
     function createPostModel(model) {
