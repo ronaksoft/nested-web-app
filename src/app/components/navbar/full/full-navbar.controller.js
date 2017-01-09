@@ -336,7 +336,7 @@
     }
 
     function leave() {
-      NstSvcPlaceFactory.removeMember(vm.getPlaceId(), NstSvcAuth.user.id, true).then(function(result) {
+      NstSvcPlaceFactory.leave(vm.getPlaceId()).then(function(result) {
         $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
         if (error instanceof NstPlaceOneCreatorLeftError){
@@ -385,7 +385,7 @@
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
-        if (vm.place.grandParentId) {
+        if (_.indexOf(vm.place.id, '.') > -1) {
           $state.go('app.place-messages', { placeId : vm.place.grandParentId });
         } else {
           $state.go(NST_DEFAULT.STATE);
