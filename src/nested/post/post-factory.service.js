@@ -312,7 +312,7 @@
       post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
 
       var places = _.map(data.post_places, function (place) {
-        return NstSvcPlaceFactory.parseMicroPlace(place);
+        return NstSvcPlaceFactory.parseTinyPlace(place);
       });
       post.setPlaces(places);
 
@@ -376,7 +376,7 @@
       message.setSender(sender);
 
       var places = _.map(data.post_places, function (data) {
-        return NstSvcPlaceFactory.parseMicroPlace(data);
+        return NstSvcPlaceFactory.parseTinyPlace(data);
       });
       message.setPlaces(places);
 
