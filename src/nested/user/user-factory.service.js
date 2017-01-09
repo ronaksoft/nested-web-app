@@ -164,7 +164,6 @@
         NstSvcServer.request('account/set_picture', {
           universal_id: uid
         }).then(function(result) {
-          console.log('response', result);
           factory.get(null, true).then(function(user) {
             factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
@@ -315,7 +314,9 @@
 
       settings = _.defaults(settings, defaultSettings);
       NstSvcServer.request('search/accounts' + area, params).then(function (data) {
-        var users = _.map(data.accounts, factory.parseTinyUser);
+        var users = _.map(data.accounts, function (account) {
+          return factory.parseTinyUser(account);
+        });
         defer.resolve(users);
       }).catch(defer.reject);
 

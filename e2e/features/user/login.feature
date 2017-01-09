@@ -37,7 +37,6 @@
 #    Given I Click on sidebar "profile"
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Change Password"
-#    When I Wait till line loader hide
 #    When I wait 2s
 #    Then should the title of the place be "Change Password"
 #
@@ -56,7 +55,6 @@
 #     Given I Attach Steve
 #     When I wait 5s
 #     Given I Attach Bill
-#     When I Wait till line loader hide
 #     Given I clear input by name "firstName"
 #     When I wait 2s
 #     Given I fill input by name "firstName" with "test2"

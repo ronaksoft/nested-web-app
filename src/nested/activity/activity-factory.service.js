@@ -7,15 +7,16 @@
   /** @ngInject */
   function NstSvcActivityFactory($q, $log,
                                  _,
-                                 NST_ACTIVITY_FILTER, NST_SRV_EVENT, NST_ACTIVITY_FACTORY_EVENT,
+                                 NST_ACTIVITY_FILTER, NST_EVENT_ACTION, NST_ACTIVITY_FACTORY_EVENT,
                                  NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory,
                                  NstBaseFactory, NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstFactoryEventData) {
 
     function ActivityFactory() {
       var that = this;
 
-      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function (event) {
-        parseActivityEvent(event.detail.timeline_data).then(function (activity) {
+      function checkPushEvent(event) {
+
+        parseActivityEvent(event.detail).then(function (activity) {
           that.dispatchEvent(new CustomEvent(
             NST_ACTIVITY_FACTORY_EVENT.ADD,
             new NstFactoryEventData(activity)
@@ -23,6 +24,28 @@
         }).catch(function (error) {
           $log.debug(error);
         });
+      }
+
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_ADD, function (event) {
+        checkPushEvent(event);
+      });
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_JOIN, function (event) {
+        checkPushEvent(event);
+      });
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_REMOVE, function (event) {
+        checkPushEvent(event);
+      });
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_ADD, function (event) {
+        checkPushEvent(event);
+      });
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_REMOVE, function (event) {
+        checkPushEvent(event);
+      });
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.POST_ADD, function (event) {
+        checkPushEvent(event);
+      });
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (event) {
+        checkPushEvent(event);
       });
     }
 
@@ -92,7 +115,8 @@
             .then(function (post) {
 
               var attachmentPromises = _.map(post.post_attachments, function (attachment) {
-                return NstSvcAttachmentFactory.parseAttachment(attachment);
+                if(attachment._id)
+                  return NstSvcAttachmentFactory.parseAttachment(attachment);
               });
 
               $q.all(attachmentPromises).then(function (values) {
@@ -188,11 +212,10 @@
 
       var activity = new NstActivity();
 
-      activity.id = data._id;
+      activity.id = Date.now();
       activity.type = data.action;
       activity.date = new Date(data.timestamp);
       activity.lastUpdate = new Date(data.last_update);
-      activity.memberType = data.memberType;
 
       $q.all([
         extractActor(data),
@@ -215,8 +238,8 @@
       return defer.promise;
 
       function extractActor(data) {
-        if (data.actor) {
-          return NstSvcUserFactory.getTiny(data.actor);
+        if (data.actor_id) {
+          return NstSvcUserFactory.getTiny(data.actor_id);
         } else if (data.by) {
           return NstSvcUserFactory.getTiny(data.by);
         } else {
@@ -227,8 +250,8 @@
       }
 
       function extractPost(data) {
-        if (data.post_id && data.post_id.$oid) {
-          return NstSvcPostFactory.get(data.post_id.$oid);
+        if (data.post_id && data.post_id) {
+          return NstSvcPostFactory.get(data.post_id);
         } else {
           return $q(function (resolve) {
             resolve(null);
@@ -237,8 +260,8 @@
       }
 
       function extractComment(data) {
-        if (data.comment_id && data.comment_id.$oid) {
-          return NstSvcCommentFactory.getComment(data.comment_id.$oid, data.post_id.$oid);
+        if (data.comment_id && data.comment_id) {
+          return NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
         } else {
           return $q(function (resolve) {
             resolve(null);

@@ -51,8 +51,15 @@
           limit: limit || 12,
           show_data: true
         }).then(function(data) {
+
           var mentionPromises = _.map(data.mentions, parseMention);
-          $q.all(mentionPromises).then(defer.resolve).catch(defer.reject);
+          $q.all(mentionPromises)
+            .then(function(mentions){
+              defer.resolve(mentions)
+            })
+            .catch(function(err){
+              defer.reject(err)
+            });
         }).catch(defer.reject);
 
         return defer.promise;
@@ -137,7 +144,10 @@
         mention.post = values[3];
 
         deferred.resolve(mention);
-      }).catch(deferred.reject);
+      }).catch(function(err){
+
+        deferred.reject()
+      });
 
       return deferred.promise;
     }

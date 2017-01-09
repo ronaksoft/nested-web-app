@@ -1,6 +1,6 @@
-<div>
-    <div><translate>alphanumeric and dash (-) only</translate></div>
-    <div ng-if="ctlRegister.startAlphabet" class="nst-mood-lively"><translate>Don't start your username with a number (1-9) or a dash (-)</translate></div>
-    <div ng-if="ctlRegister.sequenceDashes" class="nst-mood-lively"><translate>Sequence dashes (--) are not allowed</translate></div>
-    <div ng-if="ctlRegister.noEndDash" class="nst-mood-lively"><translate>Don't end your username with a dash (-)</translate></div>
-</div>
+<ul class="tip-ulist">
+    <li class="tip-uname-line"><translate>alphanumeric and dash (-) only</translate></li>
+    <li ng-if="ctlRegister.startAlphabet" class="tip-uname-line nst-mood-lively"><translate>Don't start your username with a number (1-9) or a dash (-)</translate></li>
+    <li ng-if="ctlRegister.sequenceDashes" class="tip-uname-line nst-mood-lively"><translate>Sequence dashes (--) are not allowed</translate></li>
+    <li ng-if="ctlRegister.noEndDash" class="tip-uname-line nst-mood-lively"><translate>Don't end your username with a dash (-)</translate></li>
+</ul>

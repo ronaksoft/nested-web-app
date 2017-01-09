@@ -611,6 +611,7 @@
           member_id: query.data.userId,
           role: query.data.role
         }).then(function (result) {
+          factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.ADD_MEMBER, new NstFactoryEventData({ placeId : place.id , member : user })));
           deferred.resolve(user);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -647,7 +648,7 @@
       }, "inviteUser", id);
     }
 
-    PlaceFactory.prototype.removeMember = function (placeId, memberId, currentUser) {
+    PlaceFactory.prototype.removeMember = function (placeId, memberId) {
       var factory = this;
       var id = placeId + "-" + memberId;
 
@@ -660,14 +661,9 @@
 
         NstSvcServer.request('place/remove_member', {
           place_id: query.data.placeId,
-          account_id: query.data.memberId
+          member_id: query.data.memberId
         }).then(function (result) {
-          if (currentUser) { // current user wants to leave the place
-            factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(placeId)));
-            NstSvcLogger.debug(NstUtility.string.format('User "{0}" leaved place "{1}".', memberId, placeId));
-          } else {
-            NstSvcLogger.debug(NstUtility.string.format('User "{0}" was removed from place "{1}".', memberId, placeId));
-          }
+          NstSvcLogger.debug(NstUtility.string.format('User "{0}" was removed from place "{1}".', memberId, placeId));
           deferred.resolve();
         }).catch(function (error) {
           if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
@@ -684,6 +680,35 @@
 
         return deferred.promise;
       }, "removeMember", id);
+    };
+
+    PlaceFactory.prototype.leave = function (placeId) {
+      var factory = this;
+
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+        var query = new NstFactoryQuery(placeId);
+
+        NstSvcServer.request('place/leave', {
+          place_id: placeId
+        }).then(function (result) {
+          factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(placeId)));
+          deferred.resolve();
+        }).catch(function (error) {
+          if (error.getCode() === NST_SRV_ERROR.ACCESS_DENIED) {
+            if (error.previous.items[0] === 'last_creator') {
+              deferred.reject(new NstPlaceOneCreatorLeftError(error));
+            } else if (error.previous.items[0] === 'parent_creator') {
+              deferred.reject(new NstPlaceCreatorOfParentError(error));
+            }
+
+          } else {
+            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          }
+        });
+
+        return deferred.promise;
+      }, "leave", placeId);
     };
 
     PlaceFactory.prototype.getCreators = function (id, limit, skip) {
@@ -954,6 +979,8 @@
 
       if (placeData.picture && placeData.picture.org) {
         place.setPicture(new NstPicture(placeData.picture));
+      }else{
+        place.setPicture(new NstPicture());
       }
 
       place.setGrandParentId(placeData.grand_parent_id || null);

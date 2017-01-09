@@ -360,17 +360,22 @@
           var request = NstSvcStore.uploadWithProgress(vm.logoFile, logoUploadProgress, NST_STORE_UPLOAD_TYPE.PLACE_PICTURE);
 
           request.getPromise().then(function (result) {
-            vm.place.getPicture().setId(result.data.universal_id);
-            vm.place.getPicture().setThumbnail(32, vm.place.getPicture().getOrg());
-            vm.place.getPicture().setThumbnail(64, vm.place.getPicture().getOrg());
-            vm.place.getPicture().setThumbnail(128, vm.place.getPicture().getOrg());
+
             NstSvcPlaceFactory.updatePicture(vm.place.id, result.data.universal_id).then(function (result) {
               NstSvcLogger.info(NstUtility.string.format('Place {0} picture updated successfully.', vm.place.id));
               toastr.success(NstSvcTranslation.get("The Place photo has been set successfully."));
             }).catch(function (error) {
               NstSvcLogger.error(error);
               toastr.error(NstSvcTranslation.get("An error has occurred in updating the Place photo."));
-            })
+            });
+
+
+            vm.place.getPicture().setX32(result.data.thumbs.x32);
+            vm.place.getPicture().setX64(result.data.thumbs.x64);
+            vm.place.getPicture().setX128(result.data.thumbs.x128);
+            vm.place.getPicture().setPreview(result.data.thumbs.pre);
+            vm.place.getPicture().setOriginal(result.data.thumbs.org);
+
           });
         };
 

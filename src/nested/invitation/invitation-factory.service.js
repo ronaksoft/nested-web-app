@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcInvitationFactory($q, $log, _,
                                    NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE,NST_STORAGE_TYPE,
-                                   NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory,
+                                   NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
                                    NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation, NstStorage) {
     function InvitationFactory() {
       var factory = this;
@@ -26,6 +26,7 @@
         switch (tlData.action) {
           case NST_EVENT_ACTION.MEMBER_INVITE:
             factory.get(tlData.invite_id).then(function (invitation) {
+              NstSvcNotification.push(tlData.invite_id);
               factory.dispatchEvent(new CustomEvent(
                 NST_INVITATION_FACTORY_EVENT.ADD,
                 { detail: { id: invitation.getId(), invitation: invitation } }

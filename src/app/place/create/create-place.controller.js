@@ -54,10 +54,11 @@
     vm.changeId = changeId;
 
 
-    vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
 
 
     (function () {
+      vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
+
       if (stateParamIsProvided($stateParams.placeId)) {
         vm.hasParentPlace = true;
         vm.place.parentId = $stateParams.placeId;
@@ -257,23 +258,30 @@
 
       if (vm.isCreateGrandPlaceMode) {
         placetype = NST_PLACE_ADD_TYPES.ADD_GRAND_PLACE
-      } else if (vm.isPersonalPlace) {
-        placetype = NST_PLACE_ADD_TYPES.ADD_PERSONAL_PLACE
+      } else if (vm.isOpenPlace) {
+        placetype = NST_PLACE_ADD_TYPES.ADD_UNLOCKED_PLACE
       } else {
-        placetype = NST_PLACE_ADD_TYPES.ADD_PLACE
+        placetype = NST_PLACE_ADD_TYPES.ADD_LOCKED_PLACE
       }
 
       NstSvcPlaceFactory.create(model, placetype).then(function (place) {
-        continueToPlaceSettings(place.id);
+        setFavorite(place.id, vm.place.favorite).then(function (result) {
+
+          return setNotification(place.id, vm.place.notification);
+        }).then(function (result) {
+          continueToPlaceMessages(place.id);
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get('Sorry, An error has occured while configuring the place.'));
+        });
       }).catch(function (error) {
         NstSvcLogger.error(error);
 
         if (error.message[0] === "place_id") {
           toastr.error(NstSvcTranslation.get("You can not use this 'Place ID'."));
-        }
-
-        if (error.code === NST_SRV_ERROR.LIMIT_REACHED) {
+        } else if (error.code === NST_SRV_ERROR.LIMIT_REACHED) {
           toastr.error(NstSvcTranslation.get("You can't create any additional Places."));
+        } else {
+          toastr.error(NstSvcTranslation.get('Sorry, An error has occured while creating the place.'));
         }
       });
     }
@@ -282,12 +290,26 @@
       return $q.resolve(vm.grandPlace.hasAccess(NST_PLACE_ACCESS.ADD_PLACE));
     }
 
-    function continueToPlaceSettings(placeId) {
+    function continueToPlaceMessages(placeId) {
       $uibModalInstance.close();
-      $state.go('app.place-settings', {placeId: placeId});
+      $state.go('app.place-messages', {placeId: placeId});
     }
 
-    a = vm
+    function setFavorite(placeId, favorite) {
+      if (favorite) {
+        return NstSvcPlaceFactory.setBookmarkOption(placeId, null, true);
+      } else {
+        return $q.resolve(favorite);
+      }
+    }
+
+    function setNotification(placeId, notification) {
+      if (notification) {
+        return NstSvcPlaceFactory.setNotificationOption(placeId, true);
+      } else {
+        return $q.resolve(notification);
+      }
+    }
+
   }
 })();
-var a = {};
