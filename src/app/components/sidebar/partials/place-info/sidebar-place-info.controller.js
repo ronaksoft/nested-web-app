@@ -130,8 +130,8 @@
       if (placeIds.length > 0)
         NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds)
           .then(function (places) {
-            _.each(places, function (value, placeId) {
-              vm.placesNotifCountObject[placeId] = value;
+            _.each(places, function (obj) {
+              vm.placesNotifCountObject[obj.place_id] = obj.count;
             });
           });
     }

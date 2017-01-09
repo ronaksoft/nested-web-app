@@ -440,9 +440,9 @@
         NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds, true)
           .then(function (places) {
             var totalUnread = 0;
-            _.each(places, function (value, placeId) {
-              vm.placesNotifCountObject[placeId] = value;
-              totalUnread += value;
+            _.each(places, function (obj) {
+              vm.placesNotifCountObject[obj.place_id] = obj.count;
+              totalUnread += obj.count;
             });
             vm.totalUnreadPosts = totalUnread;
             $rootScope.$emit('unseen-activity-notify', totalUnread);
