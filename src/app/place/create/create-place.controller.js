@@ -258,10 +258,10 @@
 
       if (vm.isCreateGrandPlaceMode) {
         placetype = NST_PLACE_ADD_TYPES.ADD_GRAND_PLACE
-      } else if (vm.isPersonalPlace) {
-        placetype = NST_PLACE_ADD_TYPES.ADD_PERSONAL_PLACE
+      } else if (vm.isOpenPlace) {
+        placetype = NST_PLACE_ADD_TYPES.ADD_UNLOCKED_PLACE
       } else {
-        placetype = NST_PLACE_ADD_TYPES.ADD_PLACE
+        placetype = NST_PLACE_ADD_TYPES.ADD_LOCKED_PLACE
       }
 
       NstSvcPlaceFactory.create(model, placetype).then(function (place) {
@@ -269,7 +269,7 @@
 
           return setNotification(place.id, vm.place.notification);
         }).then(function (result) {
-          continueToPlaceSettings(place.id);
+          continueToPlaceMessages(place.id);
         }).catch(function (error) {
           toastr.error(NstSvcTranslation.get('Sorry, An error has occured while configuring the place.'));
         });
@@ -290,9 +290,9 @@
       return $q.resolve(vm.grandPlace.hasAccess(NST_PLACE_ACCESS.ADD_PLACE));
     }
 
-    function continueToPlaceSettings(placeId) {
+    function continueToPlaceMessages(placeId) {
       $uibModalInstance.close();
-      $state.go('app.place-settings', {placeId: placeId});
+      $state.go('app.place-messages', {placeId: placeId});
     }
 
     function setFavorite(placeId, favorite) {
