@@ -15,6 +15,8 @@
 
       this.picture = undefined;
 
+      this.accesses = undefined;
+
       NstModel.call(this);
 
       if (data) {

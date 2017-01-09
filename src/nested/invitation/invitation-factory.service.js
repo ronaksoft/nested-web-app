@@ -206,7 +206,7 @@
         invitation.setId(data._id);
         invitation.setRole(data.role);
 
-        var invitee = NstSvcUserFactory.parseTinyUser();
+        var invitee = null;
         if (angular.isObject(data.invitee)) {
           invitee = NstSvcUserFactory.parseTinyUser(data.invitee);
           NstSvcUserFactory.set(invitee);
@@ -214,7 +214,7 @@
           invitee.setId(data.invitee_id);
         }
 
-        var inviter = NstSvcUserFactory.parseTinyUser();
+        var inviter = null;
         if (angular.isObject(data.inviter)) {
           inviter = NstSvcUserFactory.parseTinyUser(data.inviter);
           NstSvcUserFactory.set(inviter);
@@ -222,7 +222,7 @@
           inviter.setId(data.inviter_id);
         }
 
-        var place = NstSvcPlaceFactory.parseTinyPlace();
+        var place = null;
         if (angular.isObject(data.place)) {
           place = NstSvcPlaceFactory.parseTinyPlace(data.place);
           NstSvcPlaceFactory.set(place);

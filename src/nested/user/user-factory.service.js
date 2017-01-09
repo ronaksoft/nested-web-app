@@ -214,6 +214,8 @@
         user.setPicture(new NstPicture(data.picture));
       }
 
+      this.set(user);
+
       return user;
     };
 
