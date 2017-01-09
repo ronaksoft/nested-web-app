@@ -1,7 +1,7 @@
 #!/bin/sh
 
 npm install
-bower install  --allow-root
+bower --allow-root install
 npm rebuild node-sass
 
 gulp serve
