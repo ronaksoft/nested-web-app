@@ -8,7 +8,7 @@
   function NstSvcCommentFactory($q, $log,
     _,
     NST_COMMENT_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstUtility,
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstPicture, NstUtility,
     NstFactoryEventData, NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
@@ -232,7 +232,7 @@
           id: data.sender._id,
           firstName: data.sender.fname,
           lastName: data.sender.lname,
-          picture: data.sender.picture
+          picture: new NstPicture(data.sender.picture)
         });
         comment.body = data.text;
         comment.date = new Date(data['timestamp']);

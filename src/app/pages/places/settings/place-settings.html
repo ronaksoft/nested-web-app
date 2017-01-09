@@ -1,4 +1,4 @@
-<nst-navbar data-ng-model="navbar" place-id="{{::ctlSettings.place.id}}" nav-title="{{ctlSettings.place.id?ctlSettings.place.name:'All Places'}}" nav-picture-url="{{ctlSettings.place.id ? ctlSettings.place.picture.thumbnails.x128.url.view : '' }}" nav-picture-class="{{ !ctlSettings.place.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlSettings.placeLoaded"></nst-navbar>
+<nst-navbar data-ng-model="navbar" place-id="{{::ctlSettings.place.id}}" nav-title="{{ctlSettings.place.id?ctlSettings.place.name:'All Places'}}" nav-picture-url="{{ctlSettings.place.id ? ctlSettings.place.picture.x128 : '' }}" nav-picture-class="{{ !ctlSettings.place.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlSettings.placeLoaded"></nst-navbar>
 
 <div class="nst-content _tr" id="content-wrapper">
 
@@ -14,10 +14,10 @@
     <hr ng-if="ctlSettings.hasAnyControlOverHere();">
     <div class="room-name">
       <label for="logo" class="_di">
-        <img data-ng-if="ctlSettings.logoFile || ctlSettings.place.picture.thumbnails.x128.url.download"
+        <img data-ng-if="ctlSettings.logoFile || ctlSettings.place.picture.x32"
              class="account-initials-64 room-pic"
-             ng-src="{{ctlSettings.logoUrl || ctlSettings.place.picture.thumbnails.x128.url.download}}"/>
-        <img data-ng-if="!ctlSettings.place.picture.thumbnails.x128.url.download && !ctlSettings.logoFile"
+             ng-src="{{ctlSettings.logoUrl || ctlSettings.place.picture.x128}}"/>
+        <img data-ng-if="!ctlSettings.place.picture.x128 && !ctlSettings.logoFile"
              class="account-initials-64 _dib room-pic" src="/assets/icons/absents_place.svg"/>
       </label>
       <input id="logo" data-ng-disabled="!ctlSettings.hasControlAccess" type="file" name="logo" accept="image/*"

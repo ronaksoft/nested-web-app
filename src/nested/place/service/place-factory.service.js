@@ -661,7 +661,7 @@
 
         NstSvcServer.request('place/remove_member', {
           place_id: query.data.placeId,
-          account_id: query.data.memberId
+          member_id: query.data.memberId
         }).then(function (result) {
           NstSvcLogger.debug(NstUtility.string.format('User "{0}" was removed from place "{1}".', memberId, placeId));
           deferred.resolve();
@@ -979,6 +979,8 @@
 
       if (placeData.picture && placeData.picture.org) {
         place.setPicture(new NstPicture(placeData.picture));
+      }else{
+        place.setPicture(new NstPicture());
       }
 
       place.setGrandParentId(placeData.grand_parent_id || null);
