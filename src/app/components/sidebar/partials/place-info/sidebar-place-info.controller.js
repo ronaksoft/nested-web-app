@@ -41,7 +41,6 @@
 
         getGrandPlaceChildren(grandPlaceId).then(function (places) {
           vm.children = places;
-          console.log("vm.children", vm.children);
         }).catch(function (error) {
           NstSvcLogger.error(error);
         }).finally(function () {

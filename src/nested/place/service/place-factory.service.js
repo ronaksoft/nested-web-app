@@ -89,6 +89,7 @@
       });
 
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PICTURE, function (event) {
+        console.log('picture changed');
         var tlData = event.detail;
         this.getTiny(tlData.place_id).then(function (place) {
           factory.dispatchEvent(new CustomEvent(
@@ -332,7 +333,7 @@
       NstSvcServer.request('place/' + placeType, params).then(function (data) {
         factory.get(data._id).then(function (place) {
 
-          if (place.hasParent()) {
+          if (NstUtility.place.hasParent(place.id)) {
             factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.SUB_ADD, {
               detail: {
                 id: place.id,
@@ -1299,7 +1300,6 @@
 
       // parentId is null for the first time.
       parentId = parentId || NstUtility.place.getGrandId(originalId);
-      console.log("parentId", parentId);
       var parent = _.find(places, {
         id: parentId
       });
