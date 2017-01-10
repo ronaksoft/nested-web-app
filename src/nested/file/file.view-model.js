@@ -32,6 +32,11 @@
         this.hasPreview = model.hasPreview();
         this.preview = model.hasPreview() ? model.picture.getUrl("preview") : '';
         this.mimetype = model.mimetype;
+        this.width = model.width;
+        this.height = model.height;
+        if (this.width && this.height){
+          this.ratio = this.width / this.height
+        }
       }
 
     }
