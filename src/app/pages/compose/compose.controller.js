@@ -108,7 +108,6 @@
 
     (function () {
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
-        console.log('$stateParams.attachments', $stateParams.attachments);
         vm.model.attachments = _.map($stateParams.attachments, function (item) {
           item.status = NST_ATTACHMENT_STATUS.ATTACHED;
           return item;
