@@ -2,7 +2,8 @@
   <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
     <li ng-repeat="item in items" data-tooltip-placement="bottom" data-uib-tooltip="{{item.name}}">
       <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
-        <img ng-if="item.hasThumbnail" class="attach-thumbnail" alt="" style="background: url({{item.thumbnail}});background-size: cover;"/>
+        <img ng-if="item.hasThumbnail" class="attach-thumbnail" alt=""
+             style="background: url({{item.thumbnail}});background-size: cover; height: 96px; width: {{ (item.ratio * 96) }}px"/>
         <div ng-if="!item.hasThumbnail" class="attach-thumbnail-default {{'attach-thumbnail-' + item.type}}">
           {{item.name}}
         </div>
