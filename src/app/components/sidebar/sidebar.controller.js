@@ -148,6 +148,7 @@
     });
     getMyPlaces().then(function (places) {
       vm.places = mapPlaces(places);
+      console.log("vm.places", vm.places);
       fillPlacesNotifCountObject(vm.places);
       fixUrls();
 

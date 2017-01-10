@@ -22,7 +22,7 @@
       if (userModel instanceof NstTinyUser || userModel instanceof NstUser) {
         this.id = userModel.getId();
         this.name = userModel.getFullName();
-        if (userModel.picture) {
+        if (userModel.hasPicture()) {
           var size = thumbnailSize || "x32";
           this.avatar = userModel.hasPicture() ? userModel.picture.getUrl(size) : '';
         }

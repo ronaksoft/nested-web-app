@@ -1095,8 +1095,8 @@
       }, id);
     };
 
-    PlaceFactory.prototype.removePlaceFromTree = function (tree, placeId) {
-      removePlace(tree, placeId);
+    PlaceFactory.prototype.removePlaceFromTree = function (tree, placeId, parentId) {
+      removePlace(tree, placeId, parentId);
     }
 
     PlaceFactory.prototype.filterPlacesByRemovePostAccess = function (places) {
@@ -1289,32 +1289,32 @@
     }
 
     function removePlace(places, originalId, parentId) {
-      if (!_.isArray(places) || places.length === 0 || !originalId) {
+      if (!(_.isArray(places) && places.length > 0)) {
         return false;
       }
-
-      var removed = NstUtility.collection.dropById(places, originalId);
-      if (removed) {
+      if (_.some(places, { id : originalId })) {
+        NstUtility.collection.dropById(places, originalId);
         return true;
       }
 
       // parentId is null for the first time.
-      parentId = parentId || _.first(_.split(originalId, '.'));
+      parentId = parentId || NstUtility.place.getGrandId(originalId);
+      console.log("parentId", parentId);
       var parent = _.find(places, {
         id: parentId
       });
-      var childId = getChildId(originalId, parentId);
+      var childId = getNextChild(originalId, parentId);
       removePlace(parent.children, originalId, childId);
     }
 
     /**
-     * getChildId - Finds the next childId by matching the parentId and originalId
+     * getNextChild - Finds the next childId by matching the parentId and originalId
      *
      * @param  {String} originalId Id of the place that should be removed
      * @param  {String} parentId   Id of the place parent
      * @return {String}            The next child that might be the parent of the place
      */
-    function getChildId(originalId, parentId) {
+    function getNextChild(originalId, parentId) {
       var withoutParent = originalId.substring(parentId.length + 1);
       return parentId + '.' + _.first(_.split(withoutParent, '.'));
     }
