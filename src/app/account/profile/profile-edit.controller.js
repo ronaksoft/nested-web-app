@@ -245,10 +245,15 @@
 
     function saveAndExit(isValid) {
       save(isValid).then(function (result) {
-        setLanguage(vm.lang);
-        toastr.success(NstSvcTranslation.get("Your profile has been updated."));
+
         $rootScope.goToLastState();
-        window.location.reload(true);
+        if (isSelectedLocale(vm.lang)) {
+          toastr.success(NstSvcTranslation.get("Your profile has been updated."));
+        } else {
+          setLanguage(vm.lang);
+          window.location.reload(true);
+        }
+
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Sorry, an error has occurred while updating your profile."));
       });
@@ -260,6 +265,10 @@
 
     function setLanguage(lang) {
       NstSvcI18n.setLocale(lang);
+    }
+
+    function isSelectedLocale(locale) {
+      return NstSvcI18n.selectedLocale === locale;
     }
   }
 })();
