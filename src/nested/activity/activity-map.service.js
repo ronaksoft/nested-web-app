@@ -175,7 +175,7 @@
     function mapActivityActor(activity) {
       return {
         id: activity.actor.id,
-        avatar: activity.actor.picture ? activity.actor.picture.getUrl("x32") : '',
+        avatar: activity.actor.picture && activity.actor.picture.original ? activity.actor.picture.getUrl("x32") : '',
         name: activity.actor.fullName
       };
     }

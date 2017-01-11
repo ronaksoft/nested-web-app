@@ -6,7 +6,7 @@
     .controller('SidebarPlaceInfoController', SidebarPlaceInfoController);
 
   /** @ngInject */
-  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, NstSvcLogger, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap,
+  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, NstSvcLogger, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility,
                                       NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT) {
     var vm = this;
     vm.loading = false;
@@ -168,7 +168,8 @@
         if (_.has(vm.placesBookmarkObject, placeId)) {
           delete vm.placesBookmarkObject[placeId];
         }
-        NstSvcPlaceFactory.removePlaceFromTree(vm.children, placeId);
+        var grandSonId = NstUtility.place.getGrandParentId(placeId, 2);
+        NstSvcPlaceFactory.removePlaceFromTree(vm.children, placeId, grandSonId);
       }
     }
 

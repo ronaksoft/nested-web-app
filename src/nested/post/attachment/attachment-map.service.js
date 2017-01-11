@@ -24,19 +24,38 @@
       var isAttached = NST_ATTACHMENT_STATUS.ATTACHED == attachment.status;
       id = id || attachment.id || NstSvcRandomize.genUniqId();
 
-      var model = {
-        id : id,
-        name: NstSvcFileType.removeSuffix(attachment.getFilename()),
-        isUploaded: isAttached,
-        uploadedSize: isAttached ? attachment.getSize() : 0,
-        uploadedRatio: isAttached ? 1 : 0,
-        size: attachment.getSize(),
-        url: attachment.hasThumbnail() ? attachment.picture.original : null,
-        type: NstSvcFileType.getType(attachment.getMimetype()),
-        extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
-        thumbnail: attachment.hasThumbnail() ? attachment.picture.x128 : null,
-        hasThumbnail: attachment.hasThumbnail()
-      };
+      var model = null;
+
+      if (attachment instanceof NstVmFile) {
+
+        model = {
+          id : id,
+          name: NstSvcFileType.removeSuffix(attachment.name),
+          isUploaded: isAttached,
+          uploadedSize: isAttached ? attachment.size : 0,
+          uploadedRatio: isAttached ? 1 : 0,
+          size: attachment.size,
+          url: attachment.hasThumbnail ? attachment.thumbnail : null,
+          type: attachment.type,
+          extension: attachment.extension,
+          thumbnail: attachment.hasThumbnail ? attachment.thumbnail : null,
+          hasThumbnail: attachment.hasThumbnail
+        };
+      } else {
+        model = {
+          id : id,
+          name: NstSvcFileType.removeSuffix(attachment.getFilename()),
+          isUploaded: isAttached,
+          uploadedSize: isAttached ? attachment.getSize() : 0,
+          uploadedRatio: isAttached ? 1 : 0,
+          size: attachment.getSize(),
+          url: attachment.hasThumbnail() ? attachment.picture.original : null,
+          type: NstSvcFileType.getType(attachment.getMimetype()),
+          extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
+          thumbnail: attachment.hasThumbnail() ? attachment.picture.x128 : null,
+          hasThumbnail: attachment.hasThumbnail()
+        };
+      }
 
       return model;
     }
