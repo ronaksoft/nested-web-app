@@ -99,7 +99,7 @@
       </script>
       <a class="detailed popover-mentions"
          data-uib-popover-template="'app/mention/mention-popover.html'"
-         data-popover-placement="right auto"
+         data-popover-placement="right-top auto"
          data-popover-class="mentions"
          data-popover-append-to-body="false"
          data-popover-is-open="ctlSidebar.mentionOpen"
@@ -108,7 +108,7 @@
          data-tooltip-append-to-body="true"
          data-uib-tooltip-template="'mention-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
-         data-tooltip-placement="right-top auto">
+         data-tooltip-placement="right auto">
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#atsign"></use>

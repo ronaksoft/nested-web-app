@@ -12,18 +12,23 @@
   <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
-    <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
-      <div ng-show="!ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock"
+    <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
+      <p class="_df _fw">136 posts</p>
+      <div ng-show="!ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
         <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
         <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort != 'latest-messages'"><translate>Latest Activity</translate></span>
-        <div class="icon icon-viewicon-sort _df" ></div>
+        <svg class="icon-filter _df">
+          <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
+        </svg>
       </div>
       <div ng-mouseenter="popoverSetShow = true;popoverSortShow = false"  class="iconsblock" data-popover-class="white-pop popover-white-nst-setting"
            uib-popover-template="'app/messages/partials/popovers/setting_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSetShow" ng-init="ctl = ctlMessages" id="test-filter-setting">
-        <div class="icon icon-viewicon- "></div>
+        <svg class="icon-filter _df">
+          <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+        </svg>
       </div>
     </div>
 
@@ -34,7 +39,7 @@
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2"><translate>One New Message</translate></a>
       </div>
       <div class="quick-message-wrp _fw" ng-if="ctlMessages.quickMessageAccess">
-        <nst-quick-message class="quick-message _fw _bgwhite" place-id="ctlMessages.currentPlace.id"></nst-quick-message>
+        <nst-quick-message class="quick-message-inner _fw _bgwhite" place-id="ctlMessages.currentPlace.id"></nst-quick-message>
         <div class="post-card-wire"></div>
       </div>
       <post-card ng-if="ctlMessages.hotMessages.length > 0" class="hot" data-ng-repeat="msg in ctlMessages.hotMessages track by msg.id" post="msg"

@@ -4,54 +4,69 @@
   <div class="shadow-top" affixe parent="nst-navbar" dont-set-width="true" first-imp="true" clear-right="true"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
-      <div class="icon-logo" affixe first-imp="true" parent=".content" clear-right="true" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
-        <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'all-places'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
-        </svg>
+      <div class="top-nav">
+        <div class="icon-logo" affixe first-imp="true" parent=".content" clear-right="true" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureClass">
+          <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'all-places'">
+            <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
+          </svg>
           <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'bookmarks'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#star"></use>
-        </svg>
+            <use xlink:href="/assets/icons/nst-icn24.svg#star"></use>
+          </svg>
           <svg class="fill-b" ng-if="ctlFullNavbar.pictureClass == 'sent'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
-        </svg>
-      </div>
-      <div class="place-logo" affixe first-imp="true" parent=".content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureUrl">
+            <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
+          </svg>
+        </div>
+        <div class="place-logo" affixe first-imp="true" parent=".content" after-content="0" ng-if="(ctlFullNavbar.pictureUrl || ctlFullNavbar.pictureClass) && ctlFullNavbar.pictureUrl">
           <img class="_tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
+        </div>
+        <div class="place-info _difv" >
+          <!--<div id="filler" affixe first-imp="true" parent=".content" after-content="72"></div>-->
+          <cite affixe first-imp="true" top="16" parent=".content" after-content="72" fit-text>{{ctlFullNavbar.title  | translate }}</cite>
+          <h3 id="place-address" affixe first-imp="true" parent=".content" after-content="72">
+            <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && !ctlFullNavbar.place.privacy.locked">
+              <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
+            </svg>
+            <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && ctlFullNavbar.place.privacy.locked">
+              <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
+            </svg>
+            <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' &&  ctlFullNavbar.place.policy.add_post == 'creators'">
+              <use xlink:href="/assets/icons/nst-icn20.svg#manager"></use>
+            </svg>
+            <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' && ctlFullNavbar.place.policy.add_post == 'everyone'">
+              <use xlink:href="/assets/icons/nst-icn20.svg#manager_member"></use>
+            </svg>
+            <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'internal'">
+              <use xlink:href="/assets/icons/nst-icn20.svg#team"></use>
+            </svg>
+            <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">
+              <use xlink:href="/assets/icons/nst-icn20.svg#earth"></use>
+            </svg>
+            {{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@nested.me</span>
+          </h3>
+          <p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>
+
+        </div>
+
       </div>
-      <div class="place-info _difv" >
-        <div id="filler" affixe first-imp="true" parent=".content" after-content="72"></div>
-        <cite affixe first-imp="true" top="16" parent=".content" after-content="72" fit-text>{{ctlFullNavbar.title  | translate }}</cite>
-        <h3 id="place-address" affixe first-imp="true" parent=".content" after-content="72">
-          <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && !ctlFullNavbar.place.privacy.locked">
-            <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && ctlFullNavbar.place.privacy.locked">
-            <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' &&  ctlFullNavbar.place.policy.add_post == 'creators'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#manager"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' && ctlFullNavbar.place.policy.add_post == 'everyone'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#manager_member"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'internal'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#team"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#earth"></use>
-          </svg>
-          {{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@nested.me</span>
-        </h3>
-        <p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>
+      <div class="bot-nav">
         <div class="navigation" affixe parent=".content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn32.svg#messages"></use>
+              </svg>
               <translate>Messages</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover" active-group="file">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn32.svg#messages"></use>
+              </svg>
               <translate>Files</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isFeed" class="menu-links-butn _df li-hover" active-group="activity">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn32.svg#messages"></use>
+              </svg>
               <translate>Activities</translate>
             </a>
           </nav>
@@ -67,56 +82,55 @@
                    type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
                    ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
-           </div>
-         </div>
+          </div>
+        </div>
         <div class="navigation" affixe parent=".content" offset-top="72" after-content="72" ng-if="ctlFullNavbar.controls">
           <nav>
             <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
               <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
                  href="{{control.url}}" data-ng-click="control.fn()">
-                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-               </a>
+                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+              </a>
               <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm" data-ng-click="control.fn($event)">
-                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-               </a>
+                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+              </a>
               <label data-ng-switch-when="button-label" class="butn-white-nav nst-mood-storm"
                      data-ng-click="control.fn()" for="{{control.data.id}}">
-                     <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                     <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
               </label>
               <a data-ng-switch-when="button-success" class="butn-green-nav"
                  href="{{control.url}}" data-ng-click="control.fn()">
-                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-               </a>
+                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+              </a>
             </div>
 
             <div class="_df _fn" data-ng-repeat="control in ctlFullNavbar.controls.right" data-ng-switch="control.type">
               <a data-ng-switch-when="button" class="_fr butn-white-nav nst-mood-storm"
                  href="{{control.url}}" data-ng-click="control.fn()">
-                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-               </a>
+                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+              </a>
               <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm" data-ng-click="control.fn()">
-                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-               </a>
+                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+              </a>
               <label data-ng-switch-when="button-label" class="_fr butn-white-nav nst-mood-storm"
                      data-ng-click="control.fn()" for="{{control.data.id}}">
-                     <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                     <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
               </label>
               <a data-ng-switch-when="button-success" class="_fr butn-green-nav"
                  href="{{control.url}}" data-ng-click="control.fn()">
-                 <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                 <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-               </a>
+                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
+                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
+              </a>
             </div>
           </nav>
-         </div>
-
+        </div>
       </div>
       <div class="nav-access" affixe parent=".content" after-content="577" first-imp="true" ng-if="ctlFullNavbar.isFeed">
         <div class="place-switch">
