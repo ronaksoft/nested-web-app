@@ -119,6 +119,10 @@
       font-size: 18px;
     }
   }
+  .attachments-card {
+    position: relative;
+    min-height: 96px;
+  }
   hr {
     width: calc(100% - 20px);
     border-color: $color-calm;
