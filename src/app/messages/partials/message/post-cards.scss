@@ -28,11 +28,17 @@
     .icon svg {
       fill: black;
     }
-    .icon .fw svg {
-      fill: $color-forward;
+    .icon .fw {
+      color: $color-forward;
+      svg {
+        fill: $color-forward;
+      }
     }
-    .icon .re svg {
-      fill: $color-reply;
+    .icon .re {
+      color: $color-reply;
+      svg {
+        fill: $color-reply;
+      }
     }
     .post-footer .icon {
       .re,.fw {
@@ -167,8 +173,15 @@
     > a{
       font-size: $font-size-small;
       color: $color-solid-30;
+      align-items: center;
       div span {
         color: $color-solid;
+      }
+      svg {
+        width: 24px;
+        height: 24px;
+        fill: $color-border;
+        transform: scale(.8,.8)
       }
     }
     .svg-scale {
@@ -181,14 +194,15 @@
       height: 100%;
     }
     .icon {
-      width: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
       transition: opacity $animation-dur;
       //margin: 0 4px;
       >div {
-        width: 28px;
+        width: auto;
+        padding: 0 8px;
+        margin-right: 12px;
         height: 28px;
         border-radius: 4px;
         display: flex;

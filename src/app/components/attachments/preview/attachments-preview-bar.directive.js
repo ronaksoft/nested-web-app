@@ -25,12 +25,21 @@
 
         if (scope.internalMode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO){
           if (_.some(scope.items, 'hasThumbnail')) {
+
             scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL;
           } else {
             scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE;
           }
         }
 
+        if ( scope.items.length < 1 && scope.items[0].extension ==  "jpg" ) {
+          scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
+        }
+
+        if ( scope.items.length < 2 && scope.items[0].extension ==  "jpg" && scope.items[1].extension ==  "jpg" ) {
+          scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
+        }
+        console.log(scope.internalMode);
         scope.onClick = function (item) {
           if (scope.onItemClick) {
             scope.onItemClick(item, scope.items);

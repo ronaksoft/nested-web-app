@@ -456,7 +456,8 @@ nst-navbar {
         display: inline-flex;
         flex-direction: row;
         //right: 0;
-        width: 100%;
+        margin-right: 308px;
+        width: calc(100% - 308px);
         padding-left: 8px;
         height: 100%;
         svg {
