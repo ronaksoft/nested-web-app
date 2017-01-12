@@ -14,7 +14,7 @@
         items: '=',
         mode: '='
       },
-      link: function (scope) {
+      link: function (scope,ele) {
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
 
         scope.items = setOrder(scope.items, NST_ATTACHMENTS_PREVIEW_BAR_ORDER.order);
@@ -32,14 +32,33 @@
           }
         }
 
-        if ( scope.items.length < 1 && scope.items[0].extension ==  "jpg" ) {
+        if ( scope.items.length == 1 && scope.items[0].extension ==  "jpg" ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
+
+          var wrpWidth = ele.parent().parent().width() - scope.flexDiv - 54;
+
+
+          var imgOneRatio = scope.items[0].width / scope.items[0].height;
+
+          var scale = wrpWidth / scope.items[0].width;
+          scope.width = wrpWidth ;
+          scope.height = wrpWidth * imgOneRatio
         }
 
-        if ( scope.items.length < 2 && scope.items[0].extension ==  "jpg" && scope.items[1].extension ==  "jpg" ) {
+        if ( scope.items.length == 2 && scope.items[0].extension ==  "jpg" && scope.items[1].extension ==  "jpg" ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
+
+          scope.flexDiv = 16;
+          var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
+          var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
+          var imgOneRatio = scope.items[0].width / scope.items[0].height;
+          var imgTwoRatio = scope.items[1].width / scope.items[1].height;
+          var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
+
+          scope.imgHeight = scale * unkHeight;
+          scope.flexOneWidth = scale * (unkHeight * imgOneRatio);
+          scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);
         }
-        console.log(scope.internalMode);
         scope.onClick = function (item) {
           if (scope.onItemClick) {
             scope.onItemClick(item, scope.items);

@@ -19,4 +19,19 @@
       </a>
     </li>
   </ul>
+  <div ng-if="internalMode == 'onlyimg'" class="only-img">
+    <img style="width: {{width}}px;height:  {{height}}px" ng-click="onClick(item)">
+      <img width="100%" height="100%" ng-src="{{items[0].preview}}"/>
+    </img>
+  </div>
+  <ul ng-if="internalMode == 'twoimg'" class="two-img">
+    <li style="width: {{flexOneWidth}}px;height:  {{imgHeight}}px" ng-click="onClick(item)">
+      <img width="100%" height="100%" ng-src="{{items[0].preview}}"/>
+    </li>
+    <li style="width: {{flexDiv}}px">
+    </li>
+    <li style="width: {{flexTwoWidth}}px;height:  {{imgHeight}}px" ng-click="onClick(item)">
+      <img width="100%"  height="100%" ng-src="{{items[1].preview}}"/>
+    </li>
+  </ul>
 </div>

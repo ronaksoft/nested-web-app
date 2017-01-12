@@ -117,4 +117,17 @@
     .attach-badge-other {
     }
   }
+  ul.two-img {
+    display: inline-flex;
+    flex-direction: row;
+    height: 96px;
+    li {
+      flex: none;
+      height: 100%;
+      display: flex;
+    }
+  }
+  div.only-img {
+    display: flex;
+  }
 }
