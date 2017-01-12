@@ -18,7 +18,11 @@
               <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}">
                 <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isEmailValid}">
                   <span class="place-img" ng-if="!$item.isEmail"><img ng-src="{{::$item.avatar}}"/></span>
-                  <!--<span class="place-img" ng-if="$item.isEmail && !$item.isEmailValid"><svg></svg></span>-->
+                  <span class="place-img" ng-if="$item.isEmail && !$item.isEmailValid">
+                    <svg>
+                      <use xlink:href="/assets/icons/nst-icn16.svg#exclamation-mark"></use>
+                    </svg>
+                  </span>
                   <span class="place-name">{{$item.name}}</span>
                 </div>
               </ui-select-match>

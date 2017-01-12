@@ -207,6 +207,11 @@ select:-moz-focusring {
         width: 26px;
         height: 26px;
       }
+      svg {
+        width: 16px;
+        fill: #FF0014;
+        height: 16px;
+      }
     }
     .place-name {
       display: inline-block;
@@ -284,6 +289,9 @@ select:-moz-focusring {
       background: $color-force-wire;
       .place-name {
         color: $color-white;
+      }
+      svg {
+        fill: $color-white;
       }
     }
 
