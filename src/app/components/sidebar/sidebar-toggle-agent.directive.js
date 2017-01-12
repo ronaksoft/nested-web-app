@@ -6,7 +6,7 @@
     .directive('nstSidebarToggleAgent', SidebarToggleAgent);
 
   /** @ngInject */
-  function SidebarToggleAgent($location, $timeout, $rootScope) {
+  function SidebarToggleAgent($location, $rootScope) {
     return {
       restrict: 'A',
       scope: {
@@ -15,7 +15,7 @@
       link: function($scope, $element, $attrs) {
         var jElement = $($element[0]);
 
-        $scope.$watch(function () {
+        var hrefWatcherCleaner = $scope.$watch(function () {
           return $attrs.href;
         }, function (newValue, oldValue) {
           if (newValue) {
@@ -49,7 +49,12 @@
             // }
           }
         }
+
+        $scope.$on('$destroy', function () {
+          hrefWatcherCleaner();
+        });
       }
+
     };
 
     function isCurrentViewLink(url) {

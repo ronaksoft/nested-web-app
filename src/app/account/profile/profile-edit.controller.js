@@ -11,6 +11,7 @@
                                  NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture,
                                  NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation, NstSvcI18n) {
     var vm = this;
+    var imageLoadTimeout = null;
 
     /*****************************
      *** Controller Properties ***
@@ -79,7 +80,7 @@
 
       var reader = new FileReader();
       reader.onload = function (event) {
-        $timeout(function () {
+        imageLoadTimeout = $timeout(function () {
           vm.model.picture.uploaded = event.target.result;
 
         });
@@ -270,5 +271,9 @@
     function isSelectedLocale(locale) {
       return NstSvcI18n.selectedLocale === locale;
     }
+
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(imageLoadTimeout);
+    });
   }
 })();

@@ -13,6 +13,7 @@
                           NstTinyComment, NstVmUser, selectedPostId) {
     var vm = this;
     var removedCommentsCount = 0;
+    var revealNewCommentsTimeout = null;
 
     /*****************************
      *** Controller Properties ***
@@ -76,7 +77,7 @@
         vm.comments = mapComments(result.comments);
         vm.hasMoreComments = vm.hasMoreComments || result.maybeMoreComments;
 
-        $timeout(function () {
+        revealNewCommentsTimeout = $timeout(function () {
           vm.revealNewComment = true;
         },0)
 
@@ -502,6 +503,10 @@
         totalCommentsCount: vm.postModel.counters.comments,
         removedCommentsCount : removedCommentsCount
       });
+    });
+
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(revealNewCommentsTimeout);
     });
   }
 })();

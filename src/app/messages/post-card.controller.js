@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout, $rootScope,
+  function PostCardController($state, $log, $timeout, $rootScope, $scope,
                               _, moment, toastr,
                               NST_POST_EVENT, NST_COMMENT_EVENT,
                               NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
@@ -18,7 +18,8 @@
         date: null
       },
       newCommentIds = [],
-      unreadCommentIds = [];
+      unreadCommentIds = [],
+      focusOnSentTimeout = null;
 
     vm.sendComment = sendComment;
 
@@ -62,7 +63,11 @@
 
         e.currentTarget.value = '';
         vm.isSendingComment = false;
-        $timeout(function () {
+        if (focusOnSentTimeout) {
+          $timout.cancel(focusOnSentTimeout);
+        }
+
+        focusOnSentTimeout = $timeout(function () {
           e.currentTarget.focus();
         }, 10)
       }).catch(function (error) {
@@ -250,6 +255,11 @@
 
     })();
 
+    $scope.$on('$destroy', function () {
+      if (focusOnSentTimeout) {
+        $timeout.cancel(focusOnSentTimeout);
+      }
+    });
   }
 
 })();

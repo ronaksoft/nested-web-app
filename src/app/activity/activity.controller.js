@@ -6,13 +6,12 @@
     .controller('ActivityController', ActivityController);
 
   /** @ngInject */
-  function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state, $timeout,
+  function ActivityController($q, $stateParams, $log, $state,
     toastr, _, moment,
-    NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
+    NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
     NstSvcActivityMap, NstSvcModal,
     NstSvcActivitySettingStorage,
-    NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess,
-    NstActivity, NstPlace, NstInvitation, NstSvcTranslation) {
+    NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess, NstSvcTranslation) {
 
     var vm = this;
     var activityFilterGroups = {};
