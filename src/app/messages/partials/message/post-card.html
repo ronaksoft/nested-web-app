@@ -69,6 +69,15 @@
   </section>
   <hr>
   <section class="post-footer _difh">
+    <script type="text/ng-template" id="more-uib-tooltip.html">
+      <translate>More options</translate>
+    </script>
+    <script type="text/ng-template" id="reply-to-all-uib-tooltip.html">
+      <translate>Reply to all</translate>
+    </script>
+    <script type="text/ng-template" id="forward-uib-tooltip.html">
+      <translate>Forward</translate>
+    </script>
     <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
       <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comments</translate></span>
       <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
@@ -79,7 +88,7 @@
       <span>+{{ctlPostCard.unreadCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
-      <a id="test-forward" href="{{::ctlPostCard.urls.forward}}" ng-click="$event.stopPropagation()" class="icon _df" data-uib-tooltip="Forward" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip">
+      <a id="test-forward" href="{{::ctlPostCard.urls.forward}}" ng-click="$event.stopPropagation()" class="icon _df" data-uib-tooltip-template="'forward-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
         <div class="fw">
           <svg  class="svg-hover">
           <use xlink:href="/assets/icons/nst-icn20.svg#fwd"></use>
@@ -87,7 +96,7 @@
           </svg>
         </div>
       </a>
-      <a id="test-reply" class="icon _df" href="{{ctlPostCard.urls.reply_all}}" ng-click="$event.stopPropagation()" data-uib-tooltip="Reply to all" data-tooltip-append-to-body="true" data-tooltip-placement="auto top" translate-attrs="data-uib-tooltip">
+      <a id="test-reply" class="icon _df" href="{{ctlPostCard.urls.reply_all}}" ng-click="$event.stopPropagation()" data-uib-tooltip-template="'reply-to-all-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="auto top">
         <div class="re">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
@@ -97,7 +106,7 @@
       </a>
       <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df" popover-class="white-pop popover-white-nst-activity-places"
            data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"  data-popover-append-to-body="false"
-           data-popover-placement="auto bottom-center" data-uib-tooltip="More Options" data-tooltip-append-to-body="true" data-tooltip-placement="top" translate-attrs="data-uib-tooltip">
+           data-popover-placement="auto bottom-center" data-uib-tooltip-template="'more-uib-tooltip.html'" data-tooltip-append-to-body="true" data-tooltip-placement="top">
         <div class="more">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#Wmore"></use>
