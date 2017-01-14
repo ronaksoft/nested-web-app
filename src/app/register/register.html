@@ -27,7 +27,8 @@
           </div>
         </div>
         <div class="form-action">
-          <input type="submit" value="{{ctlRegister.phoneSubmitProgress ? 'Submitting...' : 'Next'}}" translate-attrs="value" class="butn-green butn-lg butn-login nstbtn" ng-disabled="ctlRegister.phoneSubmitProgress">
+          <input type="submit" ng-if="!ctlRegister.phoneSubmitProgress" value="Next" translate-attrs="value" class="butn-green butn-lg butn-login nstbtn">
+          <input type="submit" ng-if="ctlRegister.phoneSubmitProgress" value="Submitting..." translate-attrs="value" class="butn-green butn-lg butn-login nstbtn" disabled="disabled">
         </div>
 
       </form>
@@ -159,7 +160,8 @@
         <div class="_db nst-marginbtm-16 agreement-text ">
           <translate>By proceeding to create a Nested account, you are agreeing to our <a href="https://help.nested.me/terms/index.html" class="nst-mood-cheerful">Terms and Conditions</a>.</translate>
         </div>
-        <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" value="{{ ctlRegister.registerProgress ? 'Submitting...' : 'Finish' }}" translate-attrs="value" ng-disabled="ctlRegister.registerProgress" />
+        <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" ng-if="ctlRegister.registerProgress" value="Submitting..." translate-attrs="value" disabled="disabled" />
+        <input class="btn-sense _fw butn-green butn-lg butn-login" type="submit" ng-if="!ctlRegister.registerProgress" value="Finish" translate-attrs="value" />
       </form>
     </div>
   </div>

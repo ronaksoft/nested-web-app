@@ -6,7 +6,7 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr,
+  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr, $rootScope,
                                    NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT,
                                    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcLogger,
                                    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstSvcTranslation,
@@ -103,7 +103,7 @@
           data.member.role = NST_PLACE_MEMBER_TYPE.KEY_HOLDER;
         }
       });
-      $scope.$on('member-removed', function (event, data) {
+      $rootScope.$on('member-removed', function (event, data) {
         switch (data.member.role) {
           case NST_PLACE_MEMBER_TYPE.CREATOR:
           case NST_PLACE_MEMBER_TYPE.KEY_HOLDER:

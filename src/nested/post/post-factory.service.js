@@ -207,7 +207,7 @@
       if (post.getAttachments()) {
         params.attaches = post.getAttachments().map(
           function (attachment) {
-            return attachment.getId();
+            return attachment.id;
           }
         ).join(',');
       }

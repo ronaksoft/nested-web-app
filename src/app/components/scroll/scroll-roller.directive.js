@@ -3,7 +3,7 @@
   var app = angular.module('ronak.nested.web.components.scroll');
   app.directive('scrollRoller', scrollRoller);
 
-  function scrollRoller($timeout) {
+  function scrollRoller() {
     var defaultSettings = {
       animated : true,
       speed : 1000,
@@ -38,7 +38,7 @@
 
       var container = $($attrs.container || 'html, body');
 
-      $scope.$watch('rollUpward', function (newValue, oldValue) {
+      var rollUpwardCleaner = $scope.$watch('rollUpward', function (newValue, oldValue) {
         if (newValue) {
           if (settings.animated) {
             container.animate({
@@ -52,7 +52,7 @@
         }
       });
 
-      $scope.$watch('rollDownward', function (newValue, oldValue) {
+      var rollDownwardCleaner = $scope.$watch('rollDownward', function (newValue, oldValue) {
         if (newValue) {
           var height = container.prop('scrollHeight');
           if (settings.animated) {
@@ -68,6 +68,10 @@
         }
       });
 
+      $scope.$on('$destroy', function () {
+        rollDownwardCleaner();
+        rollUpwardCleaner();
+      });
     }
   }
 

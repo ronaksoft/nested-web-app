@@ -6,7 +6,7 @@
     .controller('SearchController', SearchController);
 
   /** @ngInject */
-  function SearchController($rootScope, $log, $stateParams, $state, $timeout,
+  function SearchController($rootScope, $log, $stateParams, $state,
                             NST_DEFAULT, NstSvcPostFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
                             NstSearchQuery) {
     var vm = this;

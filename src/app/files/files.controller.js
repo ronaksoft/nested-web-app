@@ -6,11 +6,12 @@
     .controller('FilesController', FilesController);
 
   /** @ngInject */
-  function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q,
+  function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
     NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation,
     NstVmFile, NstVmFileViewerItem,
     NST_DEFAULT) {
     var vm = this;
+    var onSelectTimeout = null;
 
     vm.fileTypes = [
       {
@@ -195,7 +196,11 @@
     }
 
     function onSelect(fileIds, el) {
-      $timeout(function () {
+      if (onSelectTimeout) {
+        $timeout.cancel(onSelectTimeout);
+      }
+
+      onSelectTimeout = $timeout(function () {
         vm.selectedFiles = _.filter(vm.files, function (file) {
           return _.includes(fileIds, file.id);
         });
@@ -208,6 +213,12 @@
     function composeWithAttachments() {
       $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : vm.selectedFiles });
     }
+
+    $scope.$on('$destroy', function () {
+      if (onSelectTimeout) {
+        $timeout.cancel(onSelectTimeout);
+      }
+    });
 
   }
 })();

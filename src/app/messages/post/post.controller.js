@@ -13,6 +13,7 @@
                           NstTinyComment, NstVmUser, selectedPostId) {
     var vm = this;
     var removedCommentsCount = 0;
+    var revealNewCommentsTimeout = null;
 
     /*****************************
      *** Controller Properties ***
@@ -76,7 +77,7 @@
         vm.comments = mapComments(result.comments);
         vm.hasMoreComments = vm.hasMoreComments || result.maybeMoreComments;
 
-        $timeout(function () {
+        revealNewCommentsTimeout = $timeout(function () {
           vm.revealNewComment = true;
         },0)
 
@@ -498,10 +499,14 @@
     $uibModalInstance.result.finally(function () {
       $rootScope.$broadcast('post-modal-closed', {
         postId: vm.post.id,
-        comments: _.tail(vm.comments, vm.comments.length - 3),
+        comments: _.takeRight(vm.comments, 3),
         totalCommentsCount: vm.postModel.counters.comments,
         removedCommentsCount : removedCommentsCount
       });
+    });
+
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(revealNewCommentsTimeout);
     });
   }
 })();

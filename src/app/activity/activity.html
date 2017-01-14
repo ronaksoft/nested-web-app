@@ -20,7 +20,7 @@
             {{::group.date}}
           </p>
           <activity-item place="ctlActivity.currentPlace"
-                         data-ng-repeat="activity in group.items track by activity.id" model="activity"
+                         ng-repeat="activity in group.items track by activity.id" model="activity"
                          extended="ctlActivity.expanded"></activity-item>
 
         </div>
