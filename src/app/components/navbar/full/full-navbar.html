@@ -50,33 +50,6 @@
       </div>
       <div class="bot-nav">
         <div class="navigation" affixe parent=".content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">
-      </div>
-      <div class="place-info _difv" >
-        <div id="filler" affixer first-imp="true" parent=".content" after-content="72"></div>
-        <cite affixer first-imp="true" top="16" parent=".content" after-content="72" fit-text>{{ctlFullNavbar.title}}</cite>
-        <h3 id="place-address" affixer first-imp="true" parent=".content" after-content="72">
-          <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && !ctlFullNavbar.place.privacy.locked">
-            <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && ctlFullNavbar.place.privacy.locked">
-            <use xlink:href="/assets/icons/nst-icn20.svg#closedplace"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' &&  ctlFullNavbar.place.policy.add_post == 'creators'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#manager"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'off' && ctlFullNavbar.place.policy.add_post == 'everyone'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#manager_member"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'internal'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#team"></use>
-          </svg>
-          <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">
-            <use xlink:href="/assets/icons/nst-icn20.svg#everyone"></use>
-          </svg>
-          {{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@nested.me</span>
-        </h3>
-        <p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>
-        <div class="navigation" affixer parent=".content" offset-top="72" after-content="72" ng-if="!ctlFullNavbar.controls">
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
               <svg class="icon-filter _df">
@@ -201,11 +174,11 @@
           </svg>
         </div>
         <script type="text/ng-template" id="notification-uib-tooltip.html">
-          <translate ng-if="ctlFullNavbar.notificationStatus">Turn notification on</translate>
-          <translate ng-if="!ctlFullNavbar.notificationStatus">Turn notification off</translate>
+          <translate ng-if="!ctlFullNavbar.notificationStatus" >Turn notification on</translate>
+          <translate ng-if="ctlFullNavbar.notificationStatus">Turn notification off</translate>
         </script>
         <div data-uib-tooltip-template="'notification-uib-tooltip.html'" data-tooltip-append-to-body="false"
-          data-tooltip-placement="bottom-right auto">
+             data-tooltip-placement="bottom-right auto">
           <svg class="svg-hover" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{morphed : ctlFullNavbar.notificationStatus}">
             <use xlink:href="/assets/icons/nst-icn24.svg#bell-muted" ></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#bell-ringed"></use>
