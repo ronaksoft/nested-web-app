@@ -161,8 +161,8 @@
           </svg>
         </div>
         <script type="text/ng-template" id="notification-uib-tooltip.html">
-          <translate ng-if="!ctlFullNavbar.notificationStatus === 'on'">Turn notification on</translate>
-          <translate ng-if="!ctlFullNavbar.notificationStatus !== 'on'">Turn notification off</translate>
+          <translate ng-if="ctlFullNavbar.notificationStatus">Turn notification on</translate>
+          <translate ng-if="!ctlFullNavbar.notificationStatus">Turn notification off</translate>
         </script>
         <div data-uib-tooltip-template="'notification-uib-tooltip.html'" data-tooltip-append-to-body="false"
           data-tooltip-placement="bottom-right auto">
