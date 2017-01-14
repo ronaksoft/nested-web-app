@@ -14,4 +14,11 @@
   -khtml-user-select: text;
   -webkit-user-select: text;
   -o-user-select: text;
+  transition: opacity $animation-dur;
+}
+[contenteditable]:focus,
+[contenteditable]:active {
+ &:before {
+   opacity: 0!important;
+ }
 }

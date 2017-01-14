@@ -28,20 +28,23 @@
     .icon svg {
       fill: black;
     }
-    .icon .fw svg {
-      fill: $color-forward;
+    .icon .fw {
+      color: $color-forward;
+      svg {
+        fill: $color-forward;
+      }
     }
-    .icon .re svg {
-      fill: $color-reply;
+    .icon .re {
+      color: $color-reply;
+      svg {
+        fill: $color-reply;
+      }
     }
     .post-footer .icon {
       .re,.fw {
         opacity: 1;
       }
     }
-  }
-  ul{
-    margin-left: 8px;
   }
   section {
     display: inline-flex;
@@ -100,6 +103,9 @@
     margin: 0;
     padding-top: 4px;
     line-height: 125%;
+    ul{
+      margin-left: 8px;
+    }
     span {
       color: #808080;
       margin-left: 0;
@@ -112,6 +118,10 @@
       color: #14D769;
       font-size: 18px;
     }
+  }
+  .attachments-card {
+    position: relative;
+    min-height: 96px;
   }
   hr {
     width: calc(100% - 20px);
@@ -153,7 +163,13 @@
   }
   .post-card-time{
     position: relative;
-    top: 12px;
+    //top: 12px;
+  }
+  .post-places {
+    margin-top: 16px;
+    a {
+      margin-right: 16px;
+    }
   }
   .post-footer{
     height: 40px;
@@ -161,8 +177,15 @@
     > a{
       font-size: $font-size-small;
       color: $color-solid-30;
+      align-items: center;
       div span {
         color: $color-solid;
+      }
+      svg {
+        width: 24px;
+        height: 24px;
+        fill: $color-border;
+        transform: scale(.8,.8)
       }
     }
     .svg-scale {
@@ -175,14 +198,15 @@
       height: 100%;
     }
     .icon {
-      width: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
       transition: opacity $animation-dur;
       //margin: 0 4px;
       >div {
-        width: 28px;
+        width: auto;
+        padding: 0 8px;
+        margin-right: 12px;
         height: 28px;
         border-radius: 4px;
         display: flex;

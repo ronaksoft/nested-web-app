@@ -1,6 +1,6 @@
 <div class="nst-topnav _difh ng-class:{ 'bg-hur': $root.topNavOpen }">
   <div class="hamb-cont">
-    <div class="_fw _df" hm-tap="$root.topNavOpen = !$root.topNavOpen">
+    <div class="_fw _df" ng-click="$root.topNavOpen = !$root.topNavOpen">
       <div ng-class="$root.topNavOpen ? '_pr icon icon-top close-icon' : '_pr icon icon-top hamburger-icon'">
         <i ng-if="ctlMiniNavbar.totalUnreadPosts + ctlMiniNavbar.invitations.length > 0 && !$root.topNavOpen"
            class="badge-invite">{{(ctlMiniNavbar.invitations.length ) + (ctlMiniNavbar.totalUnreadPosts || 0)}}</i>

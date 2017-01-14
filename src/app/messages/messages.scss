@@ -1,18 +1,37 @@
 .post-area {
   justify-content: center;
   z-index: 20;
+  > * {
+    margin: 0 16px;
+    &._fw {
+      width: calc(100% - 32px);
+    }
+  }
 }
 
 .filter-bar {
-  height: 50px;
+  border-bottom: 1px solid $color-border;
+  height: 42px;
   display: inline-flex;
   flex-direction: row;
-  justify-content: flex-end;
   align-items: center;
   flex: none;
   position: relative;
-  width: 250px;
+  margin: 16px;
   align-self: flex-end;
+  width: calc(100% - 32px);
+  p {
+    color: $color-wind;
+    margin: 0;
+  }
+  .icon-filter {
+    line-height: 24px;
+    position: relative;
+    z-index: 37;
+    height: 24px;
+    width: 24px;
+    fill: $color-wind;
+  }
 }
 hr.hot-message-separator {
   border: 0;

@@ -5,6 +5,9 @@
   margin: 80px auto;
   height: auto;
   position: relative;
+  >div {
+    max-width: 100%;
+  }
   form .placeID {
     background-color: $color-calm;
     margin-bottom: 32px;

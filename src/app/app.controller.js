@@ -19,6 +19,7 @@
     vm.showLoadingScreen = true;
     $rootScope.topNavOpen = false;
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
+    $rootScope.deviceDetector = deviceDetector;
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;

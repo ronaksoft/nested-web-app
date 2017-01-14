@@ -53,12 +53,12 @@
       </div>
       <p class="input-lab" ng-if="ctlCreate.isClosedPlace"><translate>Who can post messages to this Place?</translate></p>
       <!--off-->
-      <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();"
+      <div class="select-box2 _wrb" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();"
            ng-class="{ selected : ctlCreate.receivingMode == 'off'}">
 
         <h3 ng-if="ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace">
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
           <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && ctlCreate.place.name">Only Managers of "{{ctlCreate.place.name}}"</translate>
           <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && !ctlCreate.place.name">Only Managers of "..."</translate>
@@ -67,7 +67,7 @@
         </h3>
         <h3 ng-if="!ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace">
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
           <translate ng-if="ctlCreate.place.name">Only Members of "{{ctlCreate.place.name}}"</translate>
           <translate ng-if="!ctlCreate.place.name">Only Members of "..."</translate>
@@ -94,16 +94,16 @@
       </div>
 
       <!--internal-->
-      <div class="select-box2" ng-if="ctlCreate.isClosedPlace && ctlCreate.grandPlace.name && !ctlCreate.isPersonalPlace" ng-click="ctlCreate.setReceivingMembers();"
+      <div class="select-box2 _wrb" ng-if="ctlCreate.isClosedPlace && ctlCreate.grandPlace.name && !ctlCreate.isPersonalPlace" ng-click="ctlCreate.setReceivingMembers();"
            ng-class="{ selected : ctlCreate.receivingMode == 'members'}">
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg><translate>"{{ctlCreate.grandPlace.name}}" Members</translate>
         </h3>
         <h3 ng-if="ctlCreate.isClosedPlace">
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg><translate>"{{ctlCreate.grandPlace.name}}" Members</translate>
         </h3>
         <p ng-if="!ctlCreate.isClosedPlace"><translate>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to this Place.</translate></p>
@@ -123,11 +123,11 @@
       </div>
 
       <!--external-->
-      <div class="select-box2" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingEveryone();"
+      <div class="select-box2 _wrb" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingEveryone();"
            ng-class="{ selected : ctlCreate.receivingMode == 'everyone'}">
         <h3>
           <svg class="tick">
-            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg><translate>Everyone <i>(including email)</i></translate>
         </h3>
         <p>
