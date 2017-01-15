@@ -6,9 +6,9 @@
     .controller('RecentActivityController', RecentActivityController);
 
   /** @ngInject */
-  function RecentActivityController($q, $scope,
+  function RecentActivityController($q,_,
     NstSvcLoader, NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger,
-    NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstFactoryError, NST_SRV_ERROR, NST_SRV_EVENT) {
+    NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstSvcSync, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
     vm.activities = [];
     vm.status = {
@@ -20,10 +20,10 @@
     };
 
 
-    NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
-      if (activityBelongsToPlace(e.detail)){
+    _.map(NST_EVENT_ACTION,function (val) {
+      NstSvcSync.addEventListener(val, function (e) {
         addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail));
-      }
+      });
     });
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {

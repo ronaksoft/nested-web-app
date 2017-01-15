@@ -85,7 +85,7 @@
      * @param chanelId
      */
     SyncService.prototype.closeChannel = function (chanelId) {
-      NstSvcLogger.debug2('Sync Service | Close channel:', placeId);
+      NstSvcLogger.debug2('Sync Service | Close channel:', chanelId);
       this.openChannelsStack.splice(this.openChannelsStack.indexOf(chanelId), 1);
     };
 
@@ -160,7 +160,7 @@
         });
 
         // check data length and try to get more new activity
-        if (data.length === 20) {
+        if (data.length === 32) {
           dispatchActivityPushEvents(event)
         }
 

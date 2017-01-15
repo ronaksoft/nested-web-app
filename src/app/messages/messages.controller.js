@@ -66,10 +66,10 @@
       vm.isSentMode = 'messages-sent' === $state.current.name;
 
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
-        NstSvcSync.openAllChannel();
+        vm.syncId = NstSvcSync.openAllChannel();
         vm.currentPlaceId = null;
       } else {
-        NstSvcSync.openChannel($stateParams.placeId);
+        vm.syncId = NstSvcSync.openChannel($stateParams.placeId);
         vm.currentPlaceId = $stateParams.placeId;
       }
 
@@ -509,7 +509,7 @@
     });
 
     $scope.$on('$destroy', function () {
-      NstSvcSync.openAllChannel();
+      NstSvcSync.closeChannel(vm.syncId);
     });
 
   }

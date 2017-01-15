@@ -11,10 +11,8 @@
                                  NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory,
                                  NstBaseFactory, NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstFactoryEventData) {
 
-    var latestActivityTimestamp = Date.now();
 
-    function ActivityFactory() {
-    }
+    function ActivityFactory() {}
 
     ActivityFactory.prototype = new NstBaseFactory();
     ActivityFactory.prototype.constructor = ActivityFactory;

@@ -6,10 +6,10 @@
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer($q, $timeout, $interval,
+  function NstSvcServer($q, $timeout,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
-                        NST_SRV_EVENT, NST_SRV_MESSAGE, NST_SRV_PING_PONG,
+                        NST_SRV_EVENT, NST_SRV_MESSAGE,
                         NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
