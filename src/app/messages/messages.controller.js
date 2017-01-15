@@ -9,7 +9,7 @@
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $interval, $scope,
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstUtility, NstSvcAuth, NstSvcActivityFactory,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstUtility, NstSvcAuth, NstSvcSync,
                               NstSvcMessagesSettingStorage, NstSvcTranslation,
                               NstSvcPostMap, NstSvcPlaceAccess, NstSvcModal) {
 
@@ -66,8 +66,10 @@
       vm.isSentMode = 'messages-sent' === $state.current.name;
 
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
+        NstSvcSync.openAllChannel();
         vm.currentPlaceId = null;
       } else {
+        NstSvcSync.openChannel($stateParams.placeId);
         vm.currentPlaceId = $stateParams.placeId;
       }
 
@@ -123,7 +125,7 @@
         }
       });
 
-      NstSvcActivityFactory.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
+      NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
         var newMessage = e.detail.post;
 
         if (isBookMark()) {
@@ -320,7 +322,7 @@
       data.isRead = true;
       vm.messages.unshift(data);
     });
-    
+
     function getLastMessageTime() {
 
       var last = _.last(vm.cache);
@@ -504,6 +506,10 @@
 
       var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
       $scope.$broadcast('droppedAttach', files);
+    });
+
+    $scope.$on('$destroy', function () {
+      NstSvcSync.openAllChannel();
     });
 
   }

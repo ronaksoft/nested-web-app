@@ -14,10 +14,6 @@
     var latestActivityTimestamp = Date.now();
 
     function ActivityFactory() {
-      var self = this;
-      NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_ACTIVITY, function (event) {
-        self.dispatchActivityPushEvents(event);
-      });
     }
 
     ActivityFactory.prototype = new NstBaseFactory();
@@ -26,7 +22,6 @@
     ActivityFactory.prototype.get = get;
     ActivityFactory.prototype.getAfter = getAfter;
     ActivityFactory.prototype.getRecent = getRecent;
-    ActivityFactory.prototype.dispatchActivityPushEvents = dispatchActivityPushEvents;
     ActivityFactory.prototype.parseActivity = parseActivity;
     ActivityFactory.prototype.parseActivityEvent = parseActivityEvent;
 
@@ -327,33 +322,7 @@
       }, 'getRecentActivities', settings.placeId);
     }
 
-    function dispatchActivityPushEvents(event, activityStack) {
-      var self = this;
-      var newActivities = activityStack || [];
-      getAfter({date: latestActivityTimestamp, placeId: event.detail.place_id}).then(function (data) {
 
-        var newActs = _.filter(data, function (act) {
-          return act.date.getTime() > latestActivityTimestamp;
-        });
-
-        newActivities = _.concat(newActivities, newActs);
-        if (data.length === 1) {
-          dispatchActivityPushEvents(event, newActivities)
-        } else {
-          _.map(newActivities, function (act) {
-            self.dispatchEvent(new CustomEvent(
-              act.type,
-              new NstFactoryEventData(act)
-            ));
-
-          })
-        }
-
-        var latestActivity = _.first(data);
-        latestActivityTimestamp = latestActivity.date.getTime();
-
-      });
-    }
 
   }
 })();
