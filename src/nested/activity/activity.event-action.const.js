@@ -6,8 +6,8 @@
     .constant('NST_EVENT_ACTION', {
       MEMBER_ADD: 1,
       MEMBER_REMOVE: 2,
-      MEMBER_INVITE: 3,
-      MEMBER_JOIN: 4,
+      MEMBER_INVITE: 4,
+      MEMBER_JOIN: 8,
 
       PLACE_ADD: 16,
       PLACE_REMOVE: 32,
