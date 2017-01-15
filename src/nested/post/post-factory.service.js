@@ -8,44 +8,24 @@
   function NstSvcPostFactory($q, $log,
                              _,
                              NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
-                             NstFactoryError, NstFactoryQuery, NstPost, NstTinyPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstPicture, NstBaseFactory,
-                             NST_MESSAGES_SORT_OPTION, NST_POST_FACTORY_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION) {
+                             NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory, NST_POST_FACTORY_EVENT,
+                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_EVENT_ACTION) {
 
     function PostFactory() {
 
       var factory = this;
 
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.POST_ADD, function(event) {
-        var tlData = event.detail;
 
-        if (tlData.actor !== NstSvcAuth.user.id) {
-
-          var post = new NstTinyPost();
-          post.setId(tlData.post_id);
-          post.setPlaces(tlData.place_id);
-
-          factory.get(post.getId(),false)
-            .then(function (postData) {
-              factory.dispatchEvent(new CustomEvent(
-                NST_POST_FACTORY_EVENT.ADD,
-                new NstFactoryEventData(postData)
-              ));
-            });
-
-
-        }
-      });
-
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.POST_REMOVE, function(event) {
-        var tlData = event.detail;
-
-        var postId = tlData.post_id;
-        factory.dispatchEvent(new CustomEvent(
-          NST_POST_FACTORY_EVENT.REMOVE,
-          new NstFactoryEventData(postId)
-        ));
-
-      });
+      // NstSvcServer.addEventListener(NST_EVENT_ACTION.POST_REMOVE, function(event) {
+      //   var tlData = event.detail;
+      //
+      //   var postId = tlData.post_id;
+      //   factory.dispatchEvent(new CustomEvent(
+      //     NST_POST_FACTORY_EVENT.REMOVE,
+      //     new NstFactoryEventData(postId)
+      //   ));
+      //
+      // });
 
     }
 
@@ -64,7 +44,7 @@
     PostFactory.prototype.getMessages = getMessages;
     PostFactory.prototype.getPlaceMessages = getPlaceMessages;
     PostFactory.prototype.getBookmarksMessages = getBookmarksMessages;
-    PostFactory.prototype.getUnreadMessages = getUnreadMessages ;
+    PostFactory.prototype.getUnreadMessages = getUnreadMessages;
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.parseMessage = parseMessage;
     PostFactory.prototype.getMessage = getMessage;
@@ -99,7 +79,7 @@
         } else {
           NstSvcServer.request('post/get', {
             post_id: query.id,
-            mark_read : markAsRead ? markAsRead : false
+            mark_read: markAsRead ? markAsRead : false
           }).then(function (data) {
             var post = parsePost(data);
             NstSvcPostStorage.set(post.id, post);
@@ -131,12 +111,12 @@
 
       if (!id) {
         throw "Post id is not define!";
-      }else{
+      } else {
         ids = id;
       }
       if (_.isArray(id) && id.length === 0) {
         throw "Post id is not define!";
-      }else {
+      } else {
         ids = id.join(",")
       }
 
@@ -148,10 +128,10 @@
           post_id: ids,
         }).then(function (data) {
 
-            factory.dispatchEvent(new CustomEvent(
-              NST_POST_FACTORY_EVENT.READ,
-              new NstFactoryEventData(id)
-            ));
+          factory.dispatchEvent(new CustomEvent(
+            NST_POST_FACTORY_EVENT.READ,
+            new NstFactoryEventData(id)
+          ));
 
           defer.resolve(true);
 
@@ -262,7 +242,7 @@
           if (post.wipeAccess) {
 
             NstSvcServer.request('post/wipe', {
-              post_id : id
+              post_id: id
             }).then(function (data) {
               NstSvcPostStorage.remove(id);
               deferred.resolve(true);
@@ -317,7 +297,7 @@
       post.setPlaces(places);
 
       var attachments = _.map(data.post_attachments, function (attachment) {
-        if(data._id)
+        if (data._id)
           return NstSvcAttachmentFactory.parseAttachment(attachment);
       });
       post.setAttachments(attachments);
@@ -349,8 +329,8 @@
         throw Error("Could not create a NstPost model without _id");
       }
       var defer = $q.defer(),
-          promises = [],
-          message = new NstPost();
+        promises = [],
+        message = new NstPost();
 
       message.setId(data._id);
       message.setSubject(data.subject);
@@ -381,7 +361,7 @@
       message.setPlaces(places);
 
       var attachments = _.map(data.post_attachments, function (data) {
-        if(data._id)
+        if (data._id)
           return NstSvcAttachmentFactory.parseAttachment(data);
       });
       message.setAttachments(attachments);
@@ -525,35 +505,35 @@
 
     function getBookmarksMessages(setting, bookmarkId) {
 
-        var defer = $q.defer();
+      var defer = $q.defer();
 
-        bookmarkId = bookmarkId || "_starred";
+      bookmarkId = bookmarkId || "_starred";
 
-        var options = {
-          limit: setting.limit,
-          before: setting.date,
-          bookmark_id: bookmarkId
-        };
+      var options = {
+        limit: setting.limit,
+        before: setting.date,
+        bookmark_id: bookmarkId
+      };
 
-        if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
-          options.by_update = true;
-        }
-
-        NstSvcServer.request('account/get_favorite_posts', options).then(function (data) {
-          var messagePromises = _.map(data.posts, parseMessage);
-          $q.all(messagePromises).then(function (messages) {
-            _.forEach(messages, function (item) {
-              NstSvcPostStorage.set(item.id, item);
-            });
-            defer.resolve(messages);
-          });
-        }).catch(function (error) {
-          // TODO: format the error and throw it
-          defer.reject(error);
-        });
-
-        return defer.promise;
+      if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
+        options.by_update = true;
       }
+
+      NstSvcServer.request('account/get_favorite_posts', options).then(function (data) {
+        var messagePromises = _.map(data.posts, parseMessage);
+        $q.all(messagePromises).then(function (messages) {
+          _.forEach(messages, function (item) {
+            NstSvcPostStorage.set(item.id, item);
+          });
+          defer.resolve(messages);
+        });
+      }).catch(function (error) {
+        // TODO: format the error and throw it
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
 
 
     function getUnreadMessages(setting, places, subs) {
@@ -567,7 +547,7 @@
         limit: setting.limit,
         before: setting.date,
         place_id: places.join(","),
-        subs : subs ? subs : false
+        subs: subs ? subs : false
       };
 
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {

@@ -7,45 +7,16 @@
   /** @ngInject */
   function NstSvcActivityFactory($q, $log,
                                  _,
-                                 NST_ACTIVITY_FILTER, NST_EVENT_ACTION, NST_ACTIVITY_FACTORY_EVENT,
+                                 NST_ACTIVITY_FILTER, NST_EVENT_ACTION, NST_ACTIVITY_FACTORY_EVENT, NST_SRV_PUSH_CMD,
                                  NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory,
                                  NstBaseFactory, NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstFactoryEventData) {
 
+    var latestActivityTimestamp = Date.now();
+
     function ActivityFactory() {
-      var that = this;
-
-      function checkPushEvent(event) {
-
-        parseActivityEvent(event.detail).then(function (activity) {
-          that.dispatchEvent(new CustomEvent(
-            NST_ACTIVITY_FACTORY_EVENT.ADD,
-            new NstFactoryEventData(activity)
-          ));
-        }).catch(function (error) {
-          $log.debug(error);
-        });
-      }
-
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_ADD, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_JOIN, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_REMOVE, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_ADD, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_REMOVE, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.POST_ADD, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (event) {
-        checkPushEvent(event);
+      var self = this;
+      NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_ACTIVITY, function (event) {
+        self.dispatchActivityPushEvents(event);
       });
     }
 
@@ -55,6 +26,7 @@
     ActivityFactory.prototype.get = get;
     ActivityFactory.prototype.getAfter = getAfter;
     ActivityFactory.prototype.getRecent = getRecent;
+    ActivityFactory.prototype.dispatchActivityPushEvents = dispatchActivityPushEvents;
     ActivityFactory.prototype.parseActivity = parseActivity;
     ActivityFactory.prototype.parseActivityEvent = parseActivityEvent;
 
@@ -115,7 +87,7 @@
             .then(function (post) {
 
               var attachmentPromises = _.map(post.post_attachments, function (attachment) {
-                if(attachment._id)
+                if (attachment._id)
                   return NstSvcAttachmentFactory.parseAttachment(attachment);
               });
 
@@ -149,8 +121,8 @@
           NstSvcCommentFactory
             .getComment(data.comment_id, data.post_id)
             .then(function (comment) {
-            defer.resolve(comment);
-          })
+              defer.resolve(comment);
+            })
         }
 
         return defer.promise;
@@ -353,6 +325,34 @@
 
         return deferred.promise;
       }, 'getRecentActivities', settings.placeId);
+    }
+
+    function dispatchActivityPushEvents(event, activityStack) {
+      var self = this;
+      var newActivities = activityStack || [];
+      getAfter({date: latestActivityTimestamp, placeId: event.detail.place_id}).then(function (data) {
+
+        var newActs = _.filter(data, function (act) {
+          return act.date.getTime() > latestActivityTimestamp;
+        });
+
+        newActivities = _.concat(newActivities, newActs);
+        if (data.length === 1) {
+          dispatchActivityPushEvents(event, newActivities)
+        } else {
+          _.map(newActivities, function (act) {
+            self.dispatchEvent(new CustomEvent(
+              act.type,
+              new NstFactoryEventData(act)
+            ));
+
+          })
+        }
+
+        var latestActivity = _.first(data);
+        latestActivityTimestamp = latestActivity.date.getTime();
+
+      });
     }
 
   }

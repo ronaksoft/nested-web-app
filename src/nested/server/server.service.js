@@ -8,7 +8,7 @@
   /** @ngInject */
   function NstSvcServer($q, $timeout, $interval,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
-                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
+                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE, NST_SRV_PING_PONG,
                         NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
@@ -76,7 +76,7 @@
             break;
 
           case NST_SRV_MESSAGE_TYPE.PUSH:
-            this.dispatchEvent(new CustomEvent(message.data.action, {detail: message.data}));
+            this.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_ACTIVITY, {detail: message.data}));
             break;
           default :
             throw "SERVER | Undefined response WS type";

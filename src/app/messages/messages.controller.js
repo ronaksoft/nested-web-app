@@ -9,7 +9,7 @@
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $interval, $scope,
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstUtility, NstSvcAuth,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstUtility, NstSvcAuth, NstSvcActivityFactory,
                               NstSvcMessagesSettingStorage, NstSvcTranslation,
                               NstSvcPostMap, NstSvcPlaceAccess, NstSvcModal) {
 
@@ -118,15 +118,13 @@
         var message = _.find(vm.messages, {
           id: e.detail[0]
         });
-        if (message){
+        if (message) {
           message.isRead = true;
         }
       });
 
-      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
-        var newMessage = e.detail;
-
-        if (newMessage.sender.getId() === NstSvcAuth.user.id) return;
+      NstSvcActivityFactory.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
+        var newMessage = e.detail.post;
 
         if (isBookMark()) {
           if (!_.some(vm.messages, {id: newMessage.id}) &&
@@ -139,7 +137,7 @@
           return;
         }
 
-        if(!isSent()) {
+        if (!isSent()) {
           if (!vm.currentPlaceId || _.some(newMessage.places, {id: vm.currentPlaceId})) {
             if (!_.some(vm.messages, {id: newMessage.id})) {
               vm.hotMessageStorage.unshift(newMessage);
@@ -251,7 +249,9 @@
 
     function getAccessableMessages() {
       var defer = $q.defer();
+
       vm.messagesSetting.date = getLastMessageTime();
+
 
       getMessages().then(function (messages) {
         vm.cache = _.concat(vm.cache, messages);
@@ -267,7 +267,6 @@
 
         if (messages.length > 0) {
           var lastMessageVersion = vm.messages.slice();
-
           for (var i = 0; i < messages.length; i++) {
             var hasData = lastMessageVersion.filter(function (obj) {
               return (obj.id === messages[i].id);
@@ -282,9 +281,11 @@
             }
           }
         }
+
         vm.tryAgainToLoadMore = false;
         vm.loading = false;
         defer.resolve(vm.messages);
+
       })
         .catch(function (error) {
           vm.loading = false;
@@ -308,6 +309,7 @@
       });
     }
 
+
     function loadRemovePostAccess() {
       vm.placeRemoveAccess = vm.currentPlace.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
       return $q.resolve(vm.placeRemoveAccess);
@@ -318,7 +320,7 @@
       data.isRead = true;
       vm.messages.unshift(data);
     });
-
+    
     function getLastMessageTime() {
 
       var last = _.last(vm.cache);
@@ -326,7 +328,6 @@
       if (!last) {
         return moment().format('x');
       }
-
       var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.updatedDate : last.date;
       if (moment.isMoment(lastDate)) {
         return lastDate.format('x');
@@ -502,7 +503,7 @@
     $scope.$on('$dropletFileAdded', function startupload() {
 
       var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
-      $scope.$broadcast('droppedAttach',files);
+      $scope.$broadcast('droppedAttach', files);
     });
 
   }

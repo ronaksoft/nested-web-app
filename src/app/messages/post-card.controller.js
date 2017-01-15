@@ -7,8 +7,8 @@
 
   function PostCardController($state, $log, $timeout, $rootScope, $scope,
                               _, moment, toastr,
-                              NST_POST_EVENT, NST_COMMENT_EVENT,
-                              NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
+                              NST_POST_EVENT, NST_EVENT_ACTION,
+                              NstSvcActivityFactory, NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
     var vm = this;
 
     var commentBoardMin = 3,
@@ -206,10 +206,12 @@
       }
     });
 
-    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function (e) {
-      if (vm.post.id !== e.detail.postId) {
+    NstSvcActivityFactory.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (e) {
+
+      if (vm.post.id !== e.detail.post.id) {
         return;
       }
+
       var senderIsCurrentUser = NstSvcAuth.getUser().getId() == e.detail.comment.sender.id;
       if (senderIsCurrentUser) {
         if (!_.includes(newCommentIds, e.detail.id)) {
