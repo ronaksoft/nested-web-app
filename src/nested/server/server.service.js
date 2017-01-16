@@ -182,19 +182,14 @@
     Server.prototype = new NstObservableObject();
     Server.prototype.constructor = Server;
 
-    Server.prototype.request = function () {
-      var service = this;
-    };
-
     Server.prototype.request = function (action, data, timeout) {
       var service = this;
-      var payload = angular.extend(data || {}, {
-        cmd: action
-      });
+      var payload = angular.extend(data || {}, {});
       var retryablePromise = NstSvcTry.do(function () {
 
         var reqId = service.genQueueId(action, data);
         var rawData = {
+          cmd: action,
           type: 'q',
           _reqid: reqId,
           data: payload
@@ -321,8 +316,9 @@
 
       if (this.isAuthorized()) {
         var data = request.getData();
-        data.data['_sk'] = this.getSessionKey();
-        data.data['_ss'] = this.getSessionSecret();
+        data['cmd'] = request.method;
+        data['_sk'] = this.getSessionKey();
+        data['_ss'] = this.getSessionSecret();
         data.data = angular.extend(data.data, this.configs.meta);
         request.setData(data);
       }
