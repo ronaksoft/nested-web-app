@@ -4,7 +4,7 @@
   </svg>
 </i>
 <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
-  <li ng-repeat="item in items" data-tooltip-placement="bottom" data-uib-tooltip="{{item.name}}">
+  <li ng-repeat="item in items">
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
       <img ng-if="items.length > 1 && item.hasThumbnail" class="attach-thumbnail" alt=""
            style="background: url({{item.thumbnail}});background-size: cover; height: 96px; width: {{ (item.ratio * 96) }}px"/>
@@ -12,6 +12,11 @@
       <div ng-if="!item.hasThumbnail" class="attach-thumbnail-default {{'attach-thumbnail-' + item.type}}">
         {{item.name}}
       </div>
+    </a>
+    <a href="javascript:void(0);" ng-click="dlClick(item);$event.stopPropagation()" class="attdl">
+      <svg>
+        <use xlink:href="/assets/icons/nst-icn20.svg#downloads"></use>
+      </svg>
     </a>
   </li>
 </ul>
@@ -21,6 +26,7 @@
       <div class="badge-extension">{{item.extension ? item.extension : '&nbsp'}}</div>
       <div class="badge-name">{{item.name ? item.name : '&nbsp'}}</div>
     </a>
+
   </li>
 </ul>
 <div ng-if="internalMode == 'onlyimg'" class="only-img">
