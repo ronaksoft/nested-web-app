@@ -6,8 +6,10 @@
     .controller('SidebarPlaceInfoController', SidebarPlaceInfoController);
 
   /** @ngInject */
-  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, NstSvcLogger, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility,
-                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT) {
+  function SidebarPlaceInfoController($q, $scope, $state, $stateParams,
+                                      NstSvcLogger,
+                                      NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility, NstSvcSync,
+                                      NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
     vm.loading = false;
     vm.currentPlaceId = $stateParams.placeId;
@@ -33,8 +35,8 @@
 
         NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
           if (list.filter(function (obj) {
-            return obj === vm.grandPlace.id
-          }).length === 1) {
+              return obj === vm.grandPlace.id
+            }).length === 1) {
             vm.placesBookmarkObject[vm.grandPlace.id] = true;
           }
         });
@@ -138,7 +140,7 @@
 
     function hasNotUnreadPostInChildren(placeId) {
       var hasUnread = false;
-      if(vm.placesNotifCountObject)
+      if (vm.placesNotifCountObject)
         for (var key in vm.placesNotifCountObject) {
           if (key.indexOf(placeId + '.') === 0 && vm.placesNotifCountObject[key] > 0) {
             hasUnread = true;
@@ -191,7 +193,11 @@
     });
 
 
-    NstSvcPlaceFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
+    NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
+      getPlaceUnreadCounts();
+    });
+
+    NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_REMOVE, function (e) {
       getPlaceUnreadCounts();
     });
 
