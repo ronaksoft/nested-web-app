@@ -11,7 +11,7 @@
   </div>
   <ul class="recent-container" data-ng-if="!recentCtrl.status.loadInProgress">
     <li class="recent-item use-ng-animate" ng-class="{ hot : activity.isHot }" ng-repeat="activity in recentCtrl.activities">
-      <recent-activity-item place="recentCtrl.place" model="activity"/>
+      <recent-activity-item place="recentCtrl.place" model="activity" current-place-id="settings.placeId"/>
     </li>
   </ul>
 </div>

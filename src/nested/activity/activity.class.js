@@ -3,15 +3,9 @@
 
   angular.module('ronak.nested.web.activity').factory('NstActivity', NstActivity);
 
-  function NstActivity(NstModel) {
-    /**
-     * Activity - creates an instance of NstActivity
-     *
-     * @param  {Object}   model   a raw object
-     */
-    function Activity(model) {
+  function NstActivity() {
 
-      NstModel.call(this);
+    function Activity() {
 
       this.id = null;
       this.type = null;
@@ -26,12 +20,10 @@
       this.member = null;
       this.memberType = null;
 
-      this.fill(model);
-
       return this;
     }
 
-    Activity.prototype = new NstModel();
+    Activity.prototype = {};
     Activity.prototype.constructor = Activity;
 
     return Activity;

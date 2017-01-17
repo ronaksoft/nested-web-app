@@ -6,10 +6,11 @@
     .controller('RecentActivityController', RecentActivityController);
 
   /** @ngInject */
-  function RecentActivityController($q,_,
+  function RecentActivityController($q, _, $scope,
     NstSvcLoader, NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger,
     NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstSvcSync, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
+    var eventListeners = [];
     vm.activities = [];
     vm.status = {
       loadInProgress: true
@@ -18,19 +19,6 @@
       limit: vm.count || 10,
       placeId: null
     };
-
-
-    _.map(NST_EVENT_ACTION,function (val) {
-      NstSvcSync.addEventListener(val, function (e) {
-        addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail));
-      });
-    });
-
-    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
-      NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
-      NstSvcLoader.inject(getRecentActivity(vm.settings));
-    });
-
 
     (function () {
 
@@ -46,6 +34,17 @@
         });
       }
 
+      eventListeners = _.map(NST_EVENT_ACTION,function (val) {
+        return NstSvcSync.addEventListener(val, function (e) {
+          addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail));
+        });
+      });
+
+      NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+        NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
+        NstSvcLoader.inject(getRecentActivity(vm.settings));
+      });
+
     })();
 
 
@@ -54,7 +53,8 @@
       var defer = $q.defer();
 
       NstSvcActivityFactory.getRecent(settings).then(function (activities) {
-        vm.activities = mapActivities(activities);
+        // vm.activities = mapActivities(activities);
+        vm.activities = activities;
         vm.status.loadInProgress = false;
 
         defer.resolve(vm.activities);
@@ -65,9 +65,9 @@
       return defer.promise;
     }
 
-    function mapActivities(activities) {
-      return _.map(activities, NstSvcActivityMap.toRecentActivity);
-    }
+    // function mapActivities(activities) {
+    //   return _.map(activities, NstSvcActivityMap.toRecentActivity);
+    // }
 
     function addNewActivity(activity) {
       if (!_.some(vm.activities, { id : activity.id })) {
@@ -92,6 +92,12 @@
 
       return false;
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventListeners, function (eventId) {
+        NstSvcSync.removeEventListener(eventId);
+      });
+    });
 
   }
 })();
