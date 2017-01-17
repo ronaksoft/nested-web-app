@@ -6,7 +6,7 @@
     .controller('placeTeammatesController', placeTeammatesController);
 
   /** @ngInject */
-  function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr, _,
+  function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr, _, $rootScope,
     NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation,
     NstVmMemberItem, NST_SRV_ERROR, NST_PLACE_FACTORY_EVENT,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
@@ -31,6 +31,15 @@
       keyHoldersCount : 0,
       pendingsCount : 0
     };
+
+    $rootScope.$on('member-removed', function (event, data) {
+      NstUtility.collection.dropById(vm.teammates, data.member.id);
+      if (data.member.role === 'creator') {
+        vm.place.counters.creators --;
+      } else {
+        vm.place.counters.key_holders --;
+      }
+    });
 
     initialize();
 

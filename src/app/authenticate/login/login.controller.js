@@ -6,7 +6,7 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($q, $window, $rootScope, $timeout, $state, $stateParams, md5,
+  function LoginController($q, $window, $rootScope, $state, $stateParams, md5,
                            NST_DEFAULT, NST_SRV_ERROR,
                            NstSvcLoader, NstSvcAuth) {
     var vm = this;

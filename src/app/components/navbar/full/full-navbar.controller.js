@@ -337,7 +337,11 @@
 
     function leave() {
       NstSvcPlaceFactory.leave(vm.getPlaceId()).then(function(result) {
-        $state.go(NST_DEFAULT.STATE);
+        if (_.indexOf(vm.place.id, '.') > -1) {
+          $state.go('app.place-messages', { placeId : vm.place.grandParentId });
+        } else {
+          $state.go(NST_DEFAULT.STATE);
+        }
       }).catch(function(error) {
         if (error instanceof NstPlaceOneCreatorLeftError){
           toastr.error(NstSvcTranslation.get('You are the only one left!'));

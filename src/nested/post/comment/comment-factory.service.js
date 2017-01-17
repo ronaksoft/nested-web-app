@@ -5,50 +5,13 @@
     .service('NstSvcCommentFactory', NstSvcCommentFactory);
 
   /** @ngInject */
-  function NstSvcCommentFactory($q, $log,
+  function NstSvcCommentFactory($q,
     _,
-    NST_COMMENT_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstPicture, NstUtility,
-    NstFactoryEventData, NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstBaseFactory) {
+    NST_COMMENT_EVENT,
+    NstSvcServer, NstSvcUserFactory, NstPicture, NstUtility,
+    NstFactoryError, NstFactoryQuery, NstComment, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
-      var factory = this;
-
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function(event) {
-        var tlData = event.detail;
-
-        var postId = tlData.post_id;
-        var commentId = tlData.comment_id;
-
-        factory.getComment(commentId, postId).then(function (comment) {
-          factory.dispatchEvent(new CustomEvent(
-            NST_COMMENT_EVENT.ADD, {
-              detail: {
-                id: commentId,
-                postId: postId,
-                comment: comment,
-                internal: false
-              }
-            }
-          ));
-        });
-
-      })
-
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.COMMENT_REMOVE, function(event) {
-        var tlData = event.detail;
-        var postId = tlData.post_id;
-            var commentId = tlData.comment_id;
-            factory.dispatchEvent(new CustomEvent(
-              NST_COMMENT_EVENT.REMOVE, {
-                detail: {
-                  id: commentId,
-                  postId: postId,
-                  internal: false
-                }
-              }
-            ));
-      });
     }
 
     CommentFactory.prototype = new NstBaseFactory();

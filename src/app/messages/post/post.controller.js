@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,13 +6,15 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $rootScope, $stateParams, $uibModal, $log, $state, $uibModalInstance, $timeout,
+  function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance, $timeout,
                           _, toastr, moment,
-                          NST_COMMENT_EVENT, NST_POST_EVENT, NST_COMMENT_SEND_STATUS, NST_SRV_EVENT,
-                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcModal, NstSvcServer, NstSvcPostInteraction, NstSvcTranslation,
+                          NST_POST_EVENT, NST_COMMENT_SEND_STATUS, NST_SRV_EVENT,NST_EVENT_ACTION,
+                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcServer, NstSvcPostInteraction, NstSvcTranslation,
+                          NstSvcSync,
                           NstTinyComment, NstVmUser, selectedPostId) {
     var vm = this;
     var removedCommentsCount = 0;
+    var revealNewCommentsTimeout = null;
 
     /*****************************
      *** Controller Properties ***
@@ -35,15 +37,16 @@
       postLoadProgress: null,
       commentRemoveProgress: null,
       commentLoadProgress: null,
-      markAsReadProgress : null,
-      postIsRed : null,
+      markAsReadProgress: null,
+      postIsRed: null,
       ready: null
     };
     vm.urls = {
-      reply_all: $state.href('app.compose-reply-all', { postId: vm.postId }),
-      reply_sender: $state.href('app.compose-reply-sender', { postId: vm.postId }),
-      forward: $state.href('app.compose-forward', { postId: vm.postId })
+      reply_all: $state.href('app.compose-reply-all', {postId: vm.postId}),
+      reply_sender: $state.href('app.compose-reply-sender', {postId: vm.postId}),
+      forward: $state.href('app.compose-forward', {postId: vm.postId})
     };
+
 
 
     /*****************************
@@ -70,15 +73,17 @@
         vm.placesWithRemoveAccess = result.placesWithRemoveAccess;
         vm.hasMoreComments = result.hasMoreComments;
 
+        vm.syncId = NstSvcSync.openChannel(vm.post.allPlaces[0].id);
+
         return loadComments(result.post.id, vm.commentSettings);
       }).then(function (result) {
 
         vm.comments = mapComments(result.comments);
         vm.hasMoreComments = vm.hasMoreComments || result.maybeMoreComments;
 
-        $timeout(function () {
+        revealNewCommentsTimeout = $timeout(function () {
           vm.revealNewComment = true;
-        },0)
+        }, 0)
 
         return isPostRead(vm.post) ? $q.resolve(true) : markPostAsRead(vm.postId);
       }).then(function (result) {
@@ -87,8 +92,8 @@
 
         NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
           detail: {
-            postId : vm.post.id,
-            comments : vm.comments
+            postId: vm.post.id,
+            comments: vm.comments
           }
         }));
       }).catch(function (error) {
@@ -96,7 +101,6 @@
       });
 
     })();
-
 
 
     /**
@@ -128,11 +132,11 @@
 
 
       vm.nextComment = "";
-      addComment(vm.post.id, body).then(function(comment) {
+      addComment(vm.post.id, body).then(function (comment) {
         // TODO: notify
         markCommentSent(temp.id, comment);
         vm.revealNewComment = true;
-      }).catch(function(error) {
+      }).catch(function (error) {
         markCommentFailed(temp.id);
         // TODO: decide && show toastr
       });
@@ -142,15 +146,15 @@
 
     function createCommentModel(body) {
       return new NstTinyComment({
-        id : _.uniqueId('temp_'),
-        body : body,
-        date : moment(),
-        sender : NstSvcAuth.user,
+        id: _.uniqueId('temp_'),
+        body: body,
+        date: moment(),
+        sender: NstSvcAuth.user,
       });
     }
 
     function markCommentSent(tempCommentId, comment) {
-      var temp = _.find(vm.comments, { id : tempCommentId });
+      var temp = _.find(vm.comments, {id: tempCommentId});
       if (temp) {
         temp.isTemp = false;
         temp.status = NST_COMMENT_SEND_STATUS.SUCCESS;
@@ -161,7 +165,7 @@
     }
 
     function moveToHead(comment) {
-      var index = _.findIndex(vm.comments, { id : comment.id });
+      var index = _.findIndex(vm.comments, {id: comment.id});
       if (index > 0) {
         var item = vm.comments[index];
         vm.comments.splice(index, 1);
@@ -170,7 +174,7 @@
     }
 
     function markCommentFailed(tempCommentId) {
-      var temp = _.find(vm.comments, { id : tempCommentId });
+      var temp = _.find(vm.comments, {id: tempCommentId});
       if (temp) {
         temp.status = NST_COMMENT_SEND_STATUS.FAIL;
       }
@@ -186,10 +190,10 @@
       if (vm.status.commentRemoveProgress) {
         return;
       }
-      reqRemoveComment(vm.postModel, comment).then(function(post) {
+      reqRemoveComment(vm.postModel, comment).then(function (post) {
         NstUtility.collection.dropById(vm.comments, comment.id);
-        removedCommentsCount ++;
-      }).catch(function(error) {
+        removedCommentsCount++;
+      }).catch(function (error) {
         // TODO: decide && show toastr
       });
     }
@@ -210,7 +214,7 @@
         post.dropPlace(place.id);
 
         NstSvcPlaceFactory.filterPlacesByReadPostAccess(post.allPlaces).then(function (placesWithReadPostAccess) {
-          if (placesWithReadPostAccess.length === 0){
+          if (placesWithReadPostAccess.length === 0) {
             $uibModalInstance.dismiss();
           }
         });
@@ -234,19 +238,19 @@
     function forward($event) {
       $event.preventDefault();
       $uibModalInstance.close();
-      $state.go('app.compose-forward', { postId: vm.postId });
+      $state.go('app.compose-forward', {postId: vm.postId});
     }
 
     function replyAll($event) {
       $event.preventDefault();
       $uibModalInstance.close();
-      $state.go('app.compose-reply-all', { postId: vm.postId });
+      $state.go('app.compose-reply-all', {postId: vm.postId});
     }
 
     function replySender($event) {
       $event.preventDefault();
       $uibModalInstance.close();
-      $state.go('app.compose-reply-sender', { postId: vm.postId });
+      $state.go('app.compose-reply-sender', {postId: vm.postId});
     }
 
     /*****************************
@@ -254,7 +258,7 @@
      *****************************/
 
     $scope.unscrolled = true;
-    vm.checkScroll = function(event) {
+    vm.checkScroll = function (event) {
       var element = event.target;
 
       $scope.unscrolled = element.scrollTop === (element.scrollHeight - element.offsetHeight);
@@ -268,7 +272,7 @@
       var deferred = $q.defer();
 
       NstSvcLoader.inject(NstSvcCommentFactory.addComment(post, text)).then(function (comment) {
-          deferred.resolve(comment);
+        deferred.resolve(comment);
       }).catch(function (error) {
         deferred.reject(error);
       });
@@ -297,10 +301,10 @@
     function loadPost(id) {
       var deferred = $q.defer();
       var result = {
-        post : null,
-        placesWithRemoveAccess : [],
-        hasRemoveAccess : null,
-        hasMoreComments : null
+        post: null,
+        placesWithRemoveAccess: [],
+        hasRemoveAccess: null,
+        hasMoreComments: null
       };
       vm.status.postLoadProgress = true;
 
@@ -335,8 +339,8 @@
     function loadComments(postId, settings) {
       var deferred = $q.defer();
       var result = {
-        comments : [],
-        maybeMoreComments : null
+        comments: [],
+        maybeMoreComments: null
       };
       vm.status.commentLoadProgress = true;
       NstSvcCommentFactory.retrieveComments(postId, settings).then(function (comments) {
@@ -365,12 +369,12 @@
     function resend(model) {
       model.status = NST_COMMENT_SEND_STATUS.PROGRESS;
       model.isTemp = true;
-      addComment(vm.post, model.body).then(function(comment) {
+      addComment(vm.post, model.body).then(function (comment) {
         vm.postModel.addToCommentsCount(1);
         markCommentSent(model.id, comment);
         event.currentTarget.value = '';
         vm.revealNewComment = true;
-      }).catch(function(error) {
+      }).catch(function (error) {
         markCommentFailed(model.id);
         // TODO: decide && show toastr
       });
@@ -401,7 +405,7 @@
      *****************************/
 
     function pushComment(model) {
-      var alreadyPushed = _.some(vm.comments, { id: model.id });
+      var alreadyPushed = _.some(vm.comments, {id: model.id});
 
       if (!alreadyPushed) {
         vm.comments.push(model);
@@ -416,9 +420,9 @@
      *****  Event Listeners   ****
      *****************************/
 
-    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function (event) {
-      if (vm.postId == event.detail.postId) {
-        if (NstSvcAuth.user.id === event.detail.comment.sender.id && _.some(vm.comments, { body : event.detail.comment.body })) {
+    NstSvcSync.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (event) {
+      if (vm.postId == event.detail.post.id) {
+        if (NstSvcAuth.user.id === event.detail.comment.sender.id && _.some(vm.comments, {body: event.detail.comment.body})) {
           return false;
         } else {
           pushComment(mapComment(event.detail.comment));
@@ -427,7 +431,7 @@
       }
     });
 
-    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.REMOVE, function (event) {
+    NstSvcSync.addEventListener(NST_EVENT_ACTION.COMMENT_REMOVE, function (event) {
       if (vm.postId == event.detail.postId) {
 
       }
@@ -489,7 +493,7 @@
       if (comment && comment.id && vm.user && vm.user.id) {
         var now = Date.now();
         return comment.sender.username === vm.user.id
-        && ((now - comment.date) < 24 * 60  * 60 * 1e3);
+          && ((now - comment.date) < 24 * 60 * 60 * 1e3);
       }
 
       return false;
@@ -498,10 +502,15 @@
     $uibModalInstance.result.finally(function () {
       $rootScope.$broadcast('post-modal-closed', {
         postId: vm.post.id,
-        comments: _.tail(vm.comments, vm.comments.length - 3),
+        comments: _.takeRight(vm.comments, 3),
         totalCommentsCount: vm.postModel.counters.comments,
-        removedCommentsCount : removedCommentsCount
+        removedCommentsCount: removedCommentsCount
       });
+    });
+
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(revealNewCommentsTimeout);
+      NstSvcSync.closeChannel(vm.syncId);
     });
   }
 })();

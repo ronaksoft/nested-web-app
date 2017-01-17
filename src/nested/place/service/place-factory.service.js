@@ -89,7 +89,6 @@
       });
 
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PICTURE, function (event) {
-        console.log('picture changed');
         var tlData = event.detail;
         this.getTiny(tlData.place_id).then(function (place) {
           factory.dispatchEvent(new CustomEvent(

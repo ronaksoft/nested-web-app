@@ -11,7 +11,7 @@
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT,
                              NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
                              NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
-                             NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
+                             NstSvcPostFactory, NstSvcSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
 
@@ -49,7 +49,7 @@
       return NstSvcLoader.inject(NstSvcInvitationFactory.decline(id));
     };
 
-    vm.invitation.showModal = function (id,openOtherInvitations) {
+    vm.invitation.showModal = function (id, openOtherInvitations) {
       NstSvcInvitationFactory.get(id).then(function (invitation) {
         // Show User the invitation Decide Modal
 
@@ -87,7 +87,7 @@
           } else { // Decline the Invitation
             return vm.invitation.decline(id);
           }
-          if(openOtherInvitations) {
+          if (openOtherInvitations) {
             var checkDisplayInvitationModal = true;
             vm.invitations.map(function (invite) {
               if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
@@ -97,7 +97,7 @@
             });
           }
         }).catch(function () {
-          if(openOtherInvitations) {
+          if (openOtherInvitations) {
             var checkDisplayInvitationModal = true;
             vm.invitations.map(function (invite) {
               if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
@@ -168,7 +168,7 @@
         vm.invitations.map(function (invite) {
           if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
             checkDisplayInvitationModal = false;
-            vm.invitation.showModal(invite.id,true);
+            vm.invitation.showModal(invite.id, true);
           }
         });
 
@@ -521,7 +521,11 @@
     });
 
 
-    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
+    NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
+      getGrandPlaceUnreadCounts();
+    });
+
+    NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_REMOVE, function (e) {
       getGrandPlaceUnreadCounts();
     });
 

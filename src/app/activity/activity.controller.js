@@ -6,13 +6,12 @@
     .controller('ActivityController', ActivityController);
 
   /** @ngInject */
-  function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state, $timeout,
-    toastr, _, moment,
-    NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
+  function ActivityController($q, $stateParams, $log, $state,$scope,
+    _, moment,
+    NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
     NstSvcActivityMap, NstSvcModal,
     NstSvcActivitySettingStorage,
-    NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess,
-    NstActivity, NstPlace, NstInvitation, NstSvcTranslation) {
+    NstSvcActivityFactory, NstSvcSync, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess, NstSvcTranslation) {
 
     var vm = this;
     var activityFilterGroups = {};
@@ -86,6 +85,8 @@
       vm.filterDictionary[NST_ACTIVITY_FILTER.MESSAGES] = NstSvcTranslation.get("Messages");
       vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = NstSvcTranslation.get("Comments");
       vm.filterDictionary[NST_ACTIVITY_FILTER.LOGS] = NstSvcTranslation.get("Logs");
+
+      NstSvcSync.openChannel($stateParams.placeId);
 
       if (placeIdParamIsValid($stateParams.placeId)) {
         vm.activitySettings.placeId = $stateParams.placeId;
@@ -304,12 +305,12 @@
       }
     }
 
-    NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
-      if (activityBelongsToPlace(e.detail) && activityPassesFilter(e.detail)){
-        var activityItem = NstSvcActivityMap.toActivityItem(e.detail);
-        activityItem.isHot = true;
-        addNewActivity(activityItem);
-      }
+
+
+    _.map(NST_EVENT_ACTION,function (val) {
+      NstSvcSync.addEventListener(val, function (e) {
+        addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail));
+      });
     });
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
@@ -366,5 +367,10 @@
         return _.includes(activityFilterGroups[vm.activitySettings.filter], activity.type);
       }
     }
+
+    $scope.$on('$destroy', function () {
+      NstSvcSync.closeChannel(vm.syncId);
+    });
+
   }
 })();

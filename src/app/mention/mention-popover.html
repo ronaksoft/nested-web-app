@@ -27,7 +27,10 @@
         <div class="nst-font-xsmall _fr nst-marginbtm-4"><translate>Loading...</translate></div>
       </div>
       <div class="text-center margin-top-10 nst-font-xsmall" ng-show="!ctlMentions.loading && !ctlMentions.reached"
-         ng-click="ctlMentions.loadMore()">{{!ctlMentions.error ? 'Show more' : 'Try again'}}</div>
+         ng-click="ctlMentions.loadMore()">
+         <translate ng-if="!ctlMentions.error">Load more...</translate>
+         <translate ng-if="ctlMentions.error">Try again...</translate>
+       </div>
     </li>
   </ul>
   <div class="more-mentions" ng-click="ctlMentions.markAllSeen()">

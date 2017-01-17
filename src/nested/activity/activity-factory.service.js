@@ -7,47 +7,12 @@
   /** @ngInject */
   function NstSvcActivityFactory($q, $log,
                                  _,
-                                 NST_ACTIVITY_FILTER, NST_EVENT_ACTION, NST_ACTIVITY_FACTORY_EVENT,
-                                 NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory,
+                                 NST_ACTIVITY_FILTER, NST_EVENT_ACTION, NST_ACTIVITY_FACTORY_EVENT, NST_SRV_PUSH_CMD,
+                                 NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory, NstUtility,
                                  NstBaseFactory, NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstFactoryEventData) {
 
-    function ActivityFactory() {
-      var that = this;
 
-      function checkPushEvent(event) {
-
-        parseActivityEvent(event.detail).then(function (activity) {
-          that.dispatchEvent(new CustomEvent(
-            NST_ACTIVITY_FACTORY_EVENT.ADD,
-            new NstFactoryEventData(activity)
-          ));
-        }).catch(function (error) {
-          $log.debug(error);
-        });
-      }
-
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_ADD, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_JOIN, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_REMOVE, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_ADD, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_REMOVE, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.POST_ADD, function (event) {
-        checkPushEvent(event);
-      });
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (event) {
-        checkPushEvent(event);
-      });
-    }
+    function ActivityFactory() {}
 
     ActivityFactory.prototype = new NstBaseFactory();
     ActivityFactory.prototype.constructor = ActivityFactory;
@@ -56,7 +21,6 @@
     ActivityFactory.prototype.getAfter = getAfter;
     ActivityFactory.prototype.getRecent = getRecent;
     ActivityFactory.prototype.parseActivity = parseActivity;
-    ActivityFactory.prototype.parseActivityEvent = parseActivityEvent;
 
     var factory = new ActivityFactory();
     return factory;
@@ -115,7 +79,7 @@
             .then(function (post) {
 
               var attachmentPromises = _.map(post.post_attachments, function (attachment) {
-                if(attachment._id)
+                if (attachment._id)
                   return NstSvcAttachmentFactory.parseAttachment(attachment);
               });
 
@@ -149,8 +113,8 @@
           NstSvcCommentFactory
             .getComment(data.comment_id, data.post_id)
             .then(function (comment) {
-            defer.resolve(comment);
-          })
+              defer.resolve(comment);
+            })
         }
 
         return defer.promise;
@@ -207,88 +171,189 @@
 
     }
 
-    function parseActivityEvent(data) {
-      var defer = $q.defer();
+    function parseActivityIntelligently(data) {
+      if (!data) {
+        return null;
+      }
 
+      if (!data._id) {
+        return null;
+      }
+
+      switch (data.action) {
+        case NST_EVENT_ACTION.MEMBER_REMOVE:
+          return parseMemberRemoveActivity(data);
+        case NST_EVENT_ACTION.MEMBER_INVITE:
+          return parseMemberInviteActivity(data);
+        case NST_EVENT_ACTION.MEMBER_JOIN:
+          return parseMemberJoinActivity(data);
+        case NST_EVENT_ACTION.PLACE_ADD:
+          return parsePlaceAddActivity(data);
+        case NST_EVENT_ACTION.POST_ADD:
+          return parseAddPostActivity(data);
+        case NST_EVENT_ACTION.COMMENT_ADD:
+          return parseAddCommentActivity(data);
+        default:
+          throw Error('The provided activity type is not supported.');
+      }
+    }
+
+    function parseAddPostActivity(data) {
+
+      if (data.action !== NST_EVENT_ACTION.POST_ADD) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.POST_ADD));
+      }
+
+      var deferred = $q.defer();
       var activity = new NstActivity();
 
-      activity.id = Date.now();
+      activity.id = data._id;
       activity.type = data.action;
       activity.date = new Date(data.timestamp);
-      activity.lastUpdate = new Date(data.last_update);
 
-      $q.all([
-        extractActor(data),
-        extractPost(data),
-        extractPlace(data),
-        extractComment(data),
-        extractMember(data)
-      ]).then(function (values) {
+      var postPromise = NstSvcPostFactory.get(data.post_id);
+      // TODO: Not required anymore, because the actor and comment sender are the same
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      $q.all([postPromise, actorPromise]).then(function (resultSet) {
+        activity.post = resultSet[0];
+        activity.actor = resultSet[1];
 
-        activity.actor = values[0];
-        activity.post = values[1];
-        activity.place = values[2];
-        activity.comment = values[3];
-        activity.member = values[4];
+        deferred.resolve(activity);
+      }).catch(deferred.reject);
 
-        defer.resolve(activity);
+      return deferred.promise;
+    }
 
-      }).catch(defer.reject);
-
-      return defer.promise;
-
-      function extractActor(data) {
-        if (data.actor_id) {
-          return NstSvcUserFactory.getTiny(data.actor_id);
-        } else if (data.by) {
-          return NstSvcUserFactory.getTiny(data.by);
-        } else {
-          return $q(function (resolve) {
-            resolve(null);
-          });
-        }
+    function parseAddCommentActivity(data) {
+      if (data.action !== NST_EVENT_ACTION.COMMENT_ADD) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.COMMENT_ADD));
       }
 
-      function extractPost(data) {
-        if (data.post_id && data.post_id) {
-          return NstSvcPostFactory.get(data.post_id);
-        } else {
-          return $q(function (resolve) {
-            resolve(null);
-          });
-        }
+      var deferred = $q.defer();
+      var activity = new NstActivity();
+
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = new Date(data.timestamp);
+
+      var postPromise = NstSvcPostFactory.get(data.post_id);
+      var commentPromise = NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
+      // TODO: Not required anymore, because the actor and comment sender are the same
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+
+      $q.all([postPromise, commentPromise, actorPromise]).then(function (resultSet) {
+        activity.post = resultSet[0];
+        activity.comment = resultSet[1];
+        activity.actor = resultSet[2];
+
+        deferred.resolve(activity);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    function parseMemberRemoveActivity(data) {
+      if (data.action !== NST_EVENT_ACTION.MEMBER_REMOVE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_REMOVE));
       }
 
-      function extractComment(data) {
-        if (data.comment_id && data.comment_id) {
-          return NstSvcCommentFactory.getComment(data.comment_id, data.post_id);
-        } else {
-          return $q(function (resolve) {
-            resolve(null);
-          });
-        }
+      var deferred = $q.defer();
+      var activity = new NstActivity();
+
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = new Date(data.timestamp);
+
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var inviteePromise = NstSvcUserFactory.getTiny(data.member_id);
+      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+
+      $q.all([actorPromise, inviteePromise, placePromise]).then(function (resultSet) {
+        activity.actor = resultSet[0];
+        activity.member = resultSet[1];
+        activity.place = resultSet[2];
+
+        deferred.resolve(activity);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    function parseMemberJoinActivity(data) {
+      if (data.action !== NST_EVENT_ACTION.MEMBER_JOIN) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_JOIN));
       }
 
-      function extractPlace(data) {
-        if (data.place_id && !_.isArray(data.place_id)) {
-          return NstSvcPlaceFactory.getTiny(data.place_id);
-        } else {
-          return $q(function (resolve) {
-            resolve(null);
-          });
-        }
+      var deferred = $q.defer();
+      var activity = new NstActivity();
+
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = new Date(data.timestamp);
+
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+
+      $q.all([actorPromise, placePromise]).then(function (resultSet) {
+        activity.actor = resultSet[0];
+        activity.place = resultSet[1];
+
+        deferred.resolve(activity);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    function parseMemberInviteActivity(data) {
+      if (data.action !== NST_EVENT_ACTION.MEMBER_INVITE) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.MEMBER_INVITE));
       }
 
-      function extractMember(data) {
-        if (data.member_id) {
-          return NstSvcUserFactory.getTiny(data.member_id);
-        } else {
-          return $q(function (resolve) {
-            resolve(null);
-          });
-        }
+      var deferred = $q.defer();
+      var activity = new NstActivity();
 
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = new Date(data.timestamp);
+
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+      var inviteePromise = NstSvcUserFactory.getTiny(data.invitee_id);
+      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+
+      $q.all([actorPromise, inviteePromise, placePromise]).then(function (resultSet) {
+        activity.actor = resultSet[0];
+        activity.member = resultSet[1];
+        activity.place = resultSet[2];
+
+        deferred.resolve(activity);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+    function parsePlaceAddActivity(data) {
+      if (data.action !== NST_EVENT_ACTION.PLACE_ADD) {
+        throw Error(NstUtility.string.format('The provided activity is not of {0} type.', NST_EVENT_ACTION.PLACE_ADD));
       }
+
+      var deferred = $q.defer();
+      var activity = new NstActivity();
+
+      activity.id = data._id;
+      activity.type = data.action;
+      activity.date = new Date(data.timestamp);
+
+      var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
+      var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
+
+      $q.all([placePromise, actorPromise]).then(function (resultSet) {
+        activity.place = resultSet[0];
+        activity.actor = resultSet[1];
+
+        deferred.resolve(activity);
+      }).catch(deferred.reject);
+
+      return deferred.promise;
     }
 
     function getActivities(settings) {
@@ -303,8 +368,9 @@
           filter: settings.filter || 'all',
           place_id: settings.placeId
         }).then(function (response) {
+          console.log('activites reponse', response);
 
-          var activities = _.map(response.activities, parseActivity);
+          var activities = _.map(response.activities, parseActivityIntelligently);
           $q.all(activities).then(function (values) {
             deferred.resolve(values);
           }).catch(deferred.reject);
@@ -354,6 +420,8 @@
         return deferred.promise;
       }, 'getRecentActivities', settings.placeId);
     }
+
+
 
   }
 })();

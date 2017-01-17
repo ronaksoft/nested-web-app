@@ -3,7 +3,7 @@
     <div class="maincontainer _fw" ng-class="{'navtiny' : navView,'sideNotiny' : ctlApp.viewSettings.sidebar.collapsed}">
       <nst-sidebar  ng-if="$root.deviceDetector.isDesktop()"
         collapsed="ctlApp.viewSettings.sidebar.collapsed"
-        class="_fn _fh ng-animate-disabled">{{$root |json}}
+        class="_fn _fh ng-animate-disabled">
       </nst-sidebar>
       <scroll-change-observer></scroll-change-observer>
       <div class="nst-container _tr" ui-view></div>

@@ -6,10 +6,10 @@
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer($q, $timeout, $interval,
+  function NstSvcServer($q, $timeout,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
-                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
-                        NST_SRV_EVENT, NST_SRV_MESSAGE, NST_SRV_PING_PONG,
+                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
+                        NST_SRV_EVENT, NST_SRV_MESSAGE,
                         NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
@@ -76,7 +76,7 @@
             break;
 
           case NST_SRV_MESSAGE_TYPE.PUSH:
-            this.dispatchEvent(new CustomEvent(message.data.action, {detail: message.data}));
+            this.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_ACTIVITY, {detail: message.data}));
             break;
           default :
             throw "SERVER | Undefined response WS type";
@@ -182,19 +182,14 @@
     Server.prototype = new NstObservableObject();
     Server.prototype.constructor = Server;
 
-    Server.prototype.request = function () {
-      var service = this;
-    };
-
     Server.prototype.request = function (action, data, timeout) {
       var service = this;
-      var payload = angular.extend(data || {}, {
-        cmd: action
-      });
+      var payload = angular.extend(data || {}, {});
       var retryablePromise = NstSvcTry.do(function () {
 
         var reqId = service.genQueueId(action, data);
         var rawData = {
+          cmd: action,
           type: 'q',
           _reqid: reqId,
           data: payload
@@ -321,8 +316,9 @@
 
       if (this.isAuthorized()) {
         var data = request.getData();
-        data.data['_sk'] = this.getSessionKey();
-        data.data['_ss'] = this.getSessionSecret();
+        data['cmd'] = request.method;
+        data['_sk'] = this.getSessionKey();
+        data['_ss'] = this.getSessionSecret();
         data.data = angular.extend(data.data, this.configs.meta);
         request.setData(data);
       }

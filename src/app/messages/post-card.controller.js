@@ -5,10 +5,10 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout, $rootScope,
+  function PostCardController($state, $log, $timeout, $rootScope, $scope,
                               _, moment, toastr,
-                              NST_POST_EVENT, NST_COMMENT_EVENT,
-                              NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
+                              NST_POST_EVENT, NST_EVENT_ACTION,
+                              NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcCommentMap, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
     var vm = this;
 
     var commentBoardMin = 3,
@@ -18,7 +18,8 @@
         date: null
       },
       newCommentIds = [],
-      unreadCommentIds = [];
+      unreadCommentIds = [],
+      focusOnSentTimeout = null;
 
     vm.sendComment = sendComment;
 
@@ -62,7 +63,11 @@
 
         e.currentTarget.value = '';
         vm.isSendingComment = false;
-        $timeout(function () {
+        if (focusOnSentTimeout) {
+          $timout.cancel(focusOnSentTimeout);
+        }
+
+        focusOnSentTimeout = $timeout(function () {
           e.currentTarget.focus();
         }, 10)
       }).catch(function (error) {
@@ -201,10 +206,12 @@
       }
     });
 
-    NstSvcCommentFactory.addEventListener(NST_COMMENT_EVENT.ADD, function (e) {
-      if (vm.post.id !== e.detail.postId) {
+    NstSvcSync.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function (e) {
+
+      if (vm.post.id !== e.detail.post.id) {
         return;
       }
+
       var senderIsCurrentUser = NstSvcAuth.getUser().getId() == e.detail.comment.sender.id;
       if (senderIsCurrentUser) {
         if (!_.includes(newCommentIds, e.detail.id)) {
@@ -250,6 +257,11 @@
 
     })();
 
+    $scope.$on('$destroy', function () {
+      if (focusOnSentTimeout) {
+        $timeout.cancel(focusOnSentTimeout);
+      }
+    });
   }
 
 })();
