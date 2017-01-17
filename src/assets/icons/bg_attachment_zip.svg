@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-432 805 172 108">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #3296ff;
+        opacity: 0;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-4 {
+        fill: url(#linear-gradient-2);
+      }
+
+      .cls-5 {
+        filter: url(#Path_774);
+      }
+    </style>
+    <filter id="Path_774" x="-432" y="805" width="172" height="108" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-color="#502d96" flood-opacity="0.322"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#502d96" stop-opacity="0.502"/>
+      <stop offset="1" stop-color="#502d96" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#502d96" stop-opacity="0"/>
+      <stop offset="1" stop-color="#502d96"/>
+    </linearGradient>
+  </defs>
+  <g id="bg_attachment_zip" transform="translate(478 -403)">
+    <rect id="Rectangle_929" data-name="Rectangle 929" class="cls-1" width="172" height="108" transform="translate(-910 1208)"/>
+    <g class="cls-5" transform="matrix(1, 0, 0, 1, -478, 403)">
+      <path id="Path_774-2" data-name="Path 774" class="cls-2" d="M160,96H0V0H144l16,16Z" transform="translate(-426 809)"/>
+    </g>
+    <path id="Path_775" data-name="Path 775" class="cls-3" d="M172,10.8v12l-12-12h-4v-16Z" transform="translate(-916 1217.2)"/>
+    <path id="Path_776" data-name="Path 776" class="cls-4" d="M172,10.8H156v-16Z" transform="translate(-916 1217.2)"/>
+  </g>
+</svg>

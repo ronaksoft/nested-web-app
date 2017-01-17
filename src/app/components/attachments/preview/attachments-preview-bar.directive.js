@@ -18,6 +18,7 @@
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
         scope.overFlowLeft = scope.overFlowRight = false;
         scope.items = setOrder(scope.items, NST_ATTACHMENTS_PREVIEW_BAR_ORDER.order);
+        scope.flexDiv = 16;
 
         if (modeIsValid(scope.mode)) {
           scope.internalMode = scope.mode;
@@ -48,7 +49,7 @@
         if ( scope.items.length == 2 && scope.items[0].extension ==  "jpg" && scope.items[1].extension ==  "jpg" ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
 
-          scope.flexDiv = 16;
+
           var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
           var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
           var imgOneRatio = scope.items[0].width / scope.items[0].height;
