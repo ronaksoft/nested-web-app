@@ -20,40 +20,38 @@
         scope.items = setOrder(scope.items, NST_ATTACHMENTS_PREVIEW_BAR_ORDER.order);
         scope.flexDiv = 16;
 
-        if (modeIsValid(scope.mode)) {
-          scope.internalMode = scope.mode;
-        }
+        // if (modeIsValid(scope.mode)) {
+        //   scope.internalMode = scope.mode;
+        // }
 
         if (scope.internalMode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO){
           if (_.some(scope.items, 'hasThumbnail')) {
-
             scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL;
           } else {
             scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE;
           }
         }
+        if ( scope.items.length == 1 && scope.items[0].hasPreview.length > 0 ) {
 
-        if ( scope.items.length == 1 && scope.items[0].extension ==  "jpg" ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
 
-          var wrpWidth = ele.parent().parent().width() - scope.flexDiv - 54;
+          var wrpWidth = ele.parent().parent().width();
 
 
-          var imgOneRatio = scope.items[0].width / scope.items[0].height;
+          var imgOneRatio = scope.items[0].ratio;
 
-          var scale = wrpWidth / scope.items[0].width;
           scope.width = wrpWidth ;
           scope.height = wrpWidth * imgOneRatio
         }
 
-        if ( scope.items.length == 2 && scope.items[0].extension ==  "jpg" && scope.items[1].extension ==  "jpg" ) {
+        if ( scope.items.length == 2 && scope.items[0].hasPreview.length > 0 && scope.items[1].hasPreview.length > 0 ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
 
 
           var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
           var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
-          var imgOneRatio = scope.items[0].width / scope.items[0].height;
-          var imgTwoRatio = scope.items[1].width / scope.items[1].height;
+          var imgOneRatio = scope.items[0].ratio;
+          var imgTwoRatio = scope.items[1].ratio;
           var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
 
           scope.imgHeight = scale * unkHeight;
