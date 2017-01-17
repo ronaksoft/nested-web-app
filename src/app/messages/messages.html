@@ -39,7 +39,7 @@
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2"><translate>One New Message</translate></a>
       </div>
       <div class="quick-message-wrp _fw" ng-if="ctlMessages.quickMessageAccess">
-        <nst-quick-message class="quick-message-inner _fw _bgwhite" place-id="ctlMessages.currentPlace.id"></nst-quick-message>
+        <nst-quick-message class="quick-message-inner _fw" place-id="ctlMessages.currentPlace.id"></nst-quick-message>
         <div class="post-card-wire"></div>
       </div>
       <post-card class="_fw" data-ng-repeat="msg in ctlMessages.messages track by msg.id" post="msg"

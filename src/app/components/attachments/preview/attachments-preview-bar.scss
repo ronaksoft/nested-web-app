@@ -61,6 +61,10 @@ nst-attachments-preview-bar {
       }
     }
   }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  overflow: hidden;
   ul.thumbnail-bar {
     position: absolute;
     width: 100%;
@@ -68,7 +72,9 @@ nst-attachments-preview-bar {
     left: 0;
     top: 0;
     display: inline-flex;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: auto;
+    overflow: -moz-scrollbars-none;
     li {
       margin: 4px;
       vertical-align: middle;
