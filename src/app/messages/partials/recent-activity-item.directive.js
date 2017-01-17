@@ -14,13 +14,9 @@
       replace: true,
       scope:{
         activity: '=model',
-        place : '=place'
+        currentPlaceId: '='
       },
       link: function(scope) {
-
-        if (scope.place){
-          scope.activity.inSpecificPlace = true;
-        }
 
         switch (scope.activity.type) {
           case NST_EVENT_ACTION.MEMBER_ADD:

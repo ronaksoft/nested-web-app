@@ -368,7 +368,6 @@
           filter: settings.filter || 'all',
           place_id: settings.placeId
         }).then(function (response) {
-          console.log('activites reponse', response);
 
           var activities = _.map(response.activities, parseActivityIntelligently);
           $q.all(activities).then(function (values) {
@@ -410,7 +409,7 @@
           place_id: settings.placeId
         }).then(function (response) {
 
-          var activities = _.map(response.activities, parseActivity);
+          var activities = _.map(response.activities, parseActivityIntelligently);
           $q.all(activities).then(function (values) {
             deferred.resolve(values);
           }).catch(deferred.reject);
@@ -420,8 +419,6 @@
         return deferred.promise;
       }, 'getRecentActivities', settings.placeId);
     }
-
-
 
   }
 })();

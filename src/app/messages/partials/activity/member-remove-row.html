@@ -1,13 +1,13 @@
 <div class="_df">
   <div user-detail user="{{act.actor}}">
-    <img initials="act.actor.fullname" data-url="act.actor.avatar" data-width="16" data-height="16" data-radius="16"
+    <img initial-avatar="{{act.actor.fullName}}" picture="{{act.actor | avatar}}" data-width="16" data-height="16" data-radius="16"
          class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
   </div>
 </div>
 <div class="colomn">
   <div class="_difh top">
     <div class="sender _df _fn" user-detail user="{{act.actor}}">
-      <a class="on-avatar">{{::act.actor.name}}</a> <span class="on-avatar">&nbsp;@{{::act.actor.id}}</span>
+      <a class="on-avatar">{{::act.actor.firstName}}</a> <span class="on-avatar">&nbsp;@{{::act.actor.id}}</span>
     </div>
     <div class="_df _fw"></div>
     <div class="_df _fn">
@@ -16,14 +16,13 @@
     <div class="ei-member-leave _df _fn"></div>
   </div>
   <div class="_df">
-    <p data-ng-if="!(act.member.id == act.actor.id)">
-      <span class="nst-mood-simple"><translate>Removed</translate>
-        @{{::act.member.id}}</span><span class="nst-mood-simple"><translate> from</translate>
-          {{::act.inSpecificPlace ? "here" : act.place.name}}</span>
+    <p data-ng-if="!(act.member.id == act.actor.id)" class="nst-mood-simple">
+        <translate ng-if="currentPlaceId">removed @{{::act.member.id}} from here</translate>
+        <translate ng-if="!currentPlaceId">removed @{{::act.member.id}} from {{::act.place.name}}</translate>
     </p>
-    <p data-ng-if="act.member.id == act.actor.id">
-      <span class="nst-mood-simple">Left
-      {{::act.inSpecificPlace ? "here" : act.place.name}}</span>
+    <p data-ng-if="act.member.id == act.actor.id" class="nst-mood-simple">
+      <translate ng-if="currentPlaceId">left here</translate>
+      <translate ng-if="!currentPlaceId">left {{::act.place.name}}</translate>
     </p>
   </div>
 </div>
