@@ -19,7 +19,7 @@
           <p class="nst-mood-simple">
             {{::group.date}}
           </p>
-          <activity-item place="ctlActivity.currentPlace"
+          <activity-item current-place-id="ctlActivity.activitySettings.placeId"
                          ng-repeat="activity in group.items track by activity.id" model="activity"
                          extended="ctlActivity.expanded"></activity-item>
 

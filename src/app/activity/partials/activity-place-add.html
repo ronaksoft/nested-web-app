@@ -10,14 +10,21 @@
 <div class="actcon">
   <div class='msg'>
     <div class="subject">
-      <span class="nst-mood-simple"><translate>created</translate>&nbsp;</span>
-      <a class="place" ui-sref="app.place-activity({placeId: act.place.id})">
-        {{::act.place.name}}
-      </a>
+      <div class="nst-mood-simple">
+        <translate ng-if="currentPlaceId">created here</translate>
+        <translate ng-if="!currentPlaceId">created
+          <a class="place" ui-sref="app.place-activity({placeId: act.place.id})">
+            {{::act.place.name}}
+          </a>
+        </translate>
+
+      </div>
+      <!-- <span class="nst-mood-simple"><translate>created</translate>&nbsp;</span>
+
       <span data-ng-if="act.place.hasParent">
         <span class="nst-mood-simple">&nbsp;in</span>
         <a ui-sref="app.place-messages({placeId: act.place.parent.id})">{{::act.inSpecificPlace ? "here" : act.place.parent.name}}</a>
-      </span>
+      </span> -->
     </div>
   </div>
   <div class='places'></div>

@@ -7,11 +7,14 @@
 </div>
 <div class="actcon">
   <div class="msg">
-    <span class="nst-mood-simple"><translate>joined</translate></span>
-    <a class="place" ng-if="!act.inSpecificPlace" ui-sref="app.place-activity({placeId: act.place.id})">
-      {{::act.place.name}}
-    </a>
-    </a>
+    <div class="subject">
+      <div class="nst-mood-simple">
+        <translate ng-if="currentPlaceId">joined here</translate>
+        <a class="place" ng-if="!currentPlaceId" ui-sref="app.place-activity({placeId: act.place.id})">
+          <translate>joined {{::act.place.name}}</translate>
+        </a>
+      </div>
+    </div>
   </div>
   <div class="places"></div>
   <div class="time no-animation" data-ng-include="'app/activity/partials/activity-common-date.html'"></div>

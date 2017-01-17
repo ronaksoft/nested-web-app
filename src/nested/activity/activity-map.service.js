@@ -8,95 +8,10 @@
   function NstSvcActivityMap(NstSvcAttachmentMap, moment, NstSvcStore) {
 
     var service = {
-      toRecentActivity: toRecentActivity,
       toActivityItems: toActivityItems,
-      toActivityItem : toActivityItem
     };
 
     return service;
-
-    function toRecentActivity(activity) {
-      return {
-        id: activity.id,
-        actor: mapActivityActor(activity),
-        member: mapActivityMember(activity),
-        comment: mapActivityComment(activity),
-        post: mapActivityPost(activity),
-        date: activity.date,
-        type: activity.type,
-        place: mapActivityPlace(activity.place)
-      };
-
-      function mapActivityMember(activity) {
-        if (!activity.member) {
-          return {};
-        }
-        return {
-          id: activity.member.id,
-          name: activity.member.fullName,
-          type: activity.member.type
-        };
-      }
-
-      function mapActivityComment(activity) {
-        if (!activity.comment) {
-          return {};
-        }
-
-        return {
-          id: activity.comment.id,
-          body: activity.comment.body
-        };
-      }
-
-      function mapActivityPost(activity) {
-        if (!activity.post) {
-          return {};
-        }
-        return {
-          id: activity.post.id,
-          subject: activity.post.subject,
-          body: activity.post.body
-        };
-      }
-
-      function mapActivityActor(activity) {
-        return {
-          id: activity.actor.id,
-          avatar: activity.actor.hasPicture() ? activity.actor.picture.getUrl("x32") : '',
-          fullname: activity.actor.getFullName(),
-          name: activity.actor.firstName
-        };
-      }
-
-      function mapActivityPlace(place) {
-        if (!activity.place || !activity.place.id) {
-          return {};
-        }
-
-        return {
-          id: activity.place.id,
-          name: activity.place.name,
-          hasParent: !!activity.place.parent,
-          parent: mapParentPlace(activity)
-        };
-      }
-
-      function mapParentPlace(activity) {
-        if (!activity.place || !activity.place.parent) {
-          return {};
-        }
-
-        var parentPlace = {
-          id: activity.place.getParent().getId(),
-          name: activity.place.getParent().getName(),
-        };
-
-        return parentPlace;
-      }
-
-    }
-
 
     /**
      * mapActivities - map a list of activities to a hierarchal form by date
@@ -126,120 +41,11 @@
       }).map(function (activities, date) {
         return {
           date : date,
-          items : _.map(activities, toActivityItem)
+          items : activities
         };
       }).value();
     }
 
-    function mapActivityMember(activity) {
-      if (!activity.member || !activity.member.id) {
-        return {};
-      }
-      return {
-        id: activity.member.id,
-        name: activity.member.fullName,
-        type: activity.member.type
-      };
-    }
-
-    function mapActivityComment(activity) {
-      if (!activity.comment || !activity.comment.id) {
-        return {};
-      }
-
-      return {
-        id: activity.comment.id,
-        body: activity.comment.body,
-        postId: activity.comment.getPostId()
-      };
-    }
-
-    function mapActivityPost(activity) {
-      if (!activity.post || !activity.post.id) {
-        return {};
-      }
-      var firstPlace = _.first(activity.post.places);
-      return {
-        id: activity.post.id,
-        subject: activity.post.subject,
-        body: activity.post.body,
-        attachments: _.map(activity.post.attachments, NstSvcAttachmentMap.toAttachmentItem),
-        hasAnyAttachment: activity.post.attachments ? activity.post.attachments.length > 0 : false,
-        firstPlace: mapPostPlace(firstPlace),
-        allPlaces: _.map(activity.post.places, mapPostPlace),
-        otherPlacesCount: activity.post.places.length - 1,
-        allPlacesCount: activity.post.places.length
-      };
-    }
-
-    function mapActivityActor(activity) {
-      return {
-        id: activity.actor.id,
-        avatar: activity.actor.picture && activity.actor.picture.original ? activity.actor.picture.getUrl("x32") : '',
-        name: activity.actor.fullName
-      };
-    }
-
-    function mapPostPlace(place) {
-      if (!place || !place.id) {
-        return {};
-      }
-
-      return {
-        id: place.id,
-        name: place.name
-        //picture : place.picture.thumbnails.x128.url.download
-      };
-    }
-
-    function mapActivityPlace(activity) {
-      if (!activity.place || !activity.place.id) {
-        return {};
-      }
-
-      return {
-        id: activity.place.id,
-        name: activity.place.name,
-        picture: activity.place.picture.id ? activity.place.picture.getUrl("x128") : '',
-        hasParent: !!activity.place.parent,
-        parent: mapParentPlace(activity)
-      };
-    }
-
-    function mapParentPlace(activity) {
-      if (!activity.place || !activity.place.parent) {
-        return {};
-      }
-
-      var parentPlace = {
-        id: activity.place.getParent().getId(),
-        name: activity.place.getParent().getName(),
-        picture: '/assets/icons/absents_place.svg'
-      };
-
-      if (activity.place.picture) {
-        parentPlace.picture = activity.place.picture.getUrl("x64");
-      }
-
-      return parentPlace;
-    }
-
-    function sortActivities(activities) {
-      return _.orderBy(activities, 'date', 'desc');
-    }
-
-    function toActivityItem(activity) {
-      return {
-        id: activity.id,
-        actor: mapActivityActor(activity),
-        member: mapActivityMember(activity),
-        comment: mapActivityComment(activity),
-        place: mapActivityPlace(activity),
-        post: mapActivityPost(activity),
-        date: moment(activity.date),
-        type: activity.type
-      };
-    }
   }
 
 })();
