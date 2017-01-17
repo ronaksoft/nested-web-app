@@ -7,7 +7,7 @@
       return {
         scope: { trigger: '@focusMe' },
         link: function(scope, element) {
-          var triggerWatcher = null,
+          var triggerWatcherCleaner = null,
               focusTimeout = null;
           triggerWatcherCleaner = scope.$watch('trigger', function() {
               focusTimeout = $timeout(function() {

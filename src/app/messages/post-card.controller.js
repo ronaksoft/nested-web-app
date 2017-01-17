@@ -19,7 +19,8 @@
       },
       newCommentIds = [],
       unreadCommentIds = [],
-      focusOnSentTimeout = null;
+      focusOnSentTimeout = null,
+      collapseHandler = null;
 
     vm.sendComment = sendComment;
 
@@ -34,6 +35,9 @@
     vm.unreadCommentsCount = 0;
     vm.remove = remove;
     vm.retract = retract;
+    vm.expand = expand;
+    vm.collapse = collapse;
+    vm.body = null;
 
 
     /**
@@ -183,6 +187,21 @@
       });
     }
 
+    function expand() {
+      NstSvcPostFactory.get(vm.post.id).then(function (post) {
+        vm.isExpanded = true;
+        vm.body = post.body;
+        $rootScope.$emit('post-card-collapse-all', { postId : post.id });
+        $scope.$emit('scroll-to-view', { id : post.id });
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
+      });
+    }
+
+    function collapse() {
+      vm.isExpanded = false;
+      vm.body = vm.post.body;
+    }
     /**
      * anonymous function - Reset newCommentsCount when the post has been seen
      *
@@ -230,6 +249,14 @@
     (function () {
 
       vm.hasOlderComments = vm.post.commentsCount && vm.post.comments ? vm.post.commentsCount > vm.post.comments.length : false;
+      vm.body = vm.post.body;
+
+      collapseHandler = $rootScope.$on('post-card-collapse-all', function (event, data) {
+        if (vm.isExpanded && vm.post.id !== data.postId) {
+          collapse();
+          event.stopPropagination();
+        }
+      });
 
       vm.urls = {};
       vm.urls['reply_all'] = $state.href('app.compose-reply-all', {
@@ -260,6 +287,11 @@
     $scope.$on('$destroy', function () {
       if (focusOnSentTimeout) {
         $timeout.cancel(focusOnSentTimeout);
+      }
+
+      if (collapseHandler) {
+        collapseHandler();
+        collapseHandler = null;
       }
     });
   }
