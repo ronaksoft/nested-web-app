@@ -164,10 +164,6 @@
 
     function preview(file) {
 
-      // NstSvcFileFactory.getDownloadToken(file.id).then(function (token) {
-      //   console.log(token);
-      // });
-
       $uibModal.open({
         animation: false,
         templateUrl: 'app/components/attachments/view/single/main.html',
@@ -210,7 +206,7 @@
     };
 
     function composeWithAttachments() {
-      $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : _.map(vm.selectedFiles, 'id') });
+      $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : vm.selectedFiles });
     }
 
   }

@@ -21,7 +21,7 @@
       if (model instanceof NstMention) {
         this.id = model.id;
         this.name = model.sender.fullName;
-        this.avatar = model.sender.picture.thumbnails.x32.url.view;
+        this.avatar = model.sender.hasPicture() ? model.sender.picture.getUrl("x32") : '';
         this.date = moment(model.date);
         this.isSeen = model.isSeen;
         this.commentId = model.comment.id;

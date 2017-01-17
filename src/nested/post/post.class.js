@@ -41,8 +41,6 @@
        */
       this.recipients = [];
 
-      this.spam = 0;
-      this.monitored = false;
       this.internal = false;
 
       // TODO: Use ReplyToId instead
@@ -147,7 +145,6 @@
       _.forEach(newComments, function(comment) {
         this.addComment(comment);
       }.bind(this));
-
       return this;
     };
 

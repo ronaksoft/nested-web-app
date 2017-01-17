@@ -63,12 +63,12 @@
         options['expires'] = expires;
       }
 
-      this.setLastSessionKey(data._sk.$oid);
+      this.setLastSessionKey(data._sk);
       this.setLastSessionSecret(data._ss);
       $cookies.put('nsk', this.lastSessionKey, options);
       $cookies.put('nss', this.lastSessionSecret, options);
 
-      this.setUser(NstSvcUserFactory.parseUser(data.info));
+      this.setUser(NstSvcUserFactory.parseUser(data.account));
       NstSvcUserFactory.set(this.getUser());
 
       NstSvcUserFactory.get(this.getUser().getId()).then(function (user) {
@@ -78,9 +78,9 @@
         $cookies.put('user', JSON.stringify({
           id : user.id,
           name : user.fullName,
-          avatar : user.picture.thumbnails.x64.url.view
+          // avatar : user.picture.thumbnails.x128.url.view
         }), {
-          domain : '.nested.me',
+          domain : '.' + location.hostname,
           expires : CookieDate.toGMTString()
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);
@@ -180,7 +180,7 @@
       if (this.getLastSessionKey() && this.getLastSessionSecret()) {
         // TODO: Use Try Service
         this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
-          service.user = NstSvcUserFactory.parseUser(response.info);
+          service.user = NstSvcUserFactory.parseUser(response.account);
           service.authorize(response).then(deferred.resolve);
         }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);
@@ -198,6 +198,7 @@
 
             case NST_SRV_ERROR.ACCESS_DENIED:
             case NST_SRV_ERROR.INVALID:
+            case NST_SRV_ERROR.UNAUTHORIZED:
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
                 deferred.reject(error);
                 service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: error } }));
@@ -206,7 +207,7 @@
 
             default:
               // Try to reconnect
-              service.reconnect().then(deferred.resolve).catch(deferred.reject);
+              // service.reconnect().then(deferred.resolve).catch(deferred.reject);
               break;
           }
         });

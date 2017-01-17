@@ -126,6 +126,8 @@
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.ADD, function (e) {
         var newMessage = e.detail;
 
+        if (newMessage.sender.getId() === NstSvcAuth.user.id) return;
+
         if (isBookMark()) {
           if (!_.some(vm.messages, {id: newMessage.id}) &&
             _.intersectionWith(vm.bookmarkedPlaces, newMessage.places, function (a, b) {
@@ -138,7 +140,7 @@
         }
 
         if(!isSent()) {
-          if (!vm.currentPlaceId || _.includes(newMessage.places, vm.currentPlaceId)) {
+          if (!vm.currentPlaceId || _.some(newMessage.places, {id: vm.currentPlaceId})) {
             if (!_.some(vm.messages, {id: newMessage.id})) {
               vm.hotMessageStorage.unshift(newMessage);
               vm.hasNewMessages = true;
@@ -164,17 +166,12 @@
             NstUtility.collection.dropById(message.allPlaces, data.placeId);
 
             // remove the post if the user has not access to see it any more
-            NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces).then(function (places) {
-              if (_.isArray(places)) {
-                if (places.length === 0 || (vm.currentPlaceId && data.placeId == vm.currentPlaceId)) {
-                  NstUtility.collection.dropById(vm.messages, data.postId);
-                  return;
-                }
-              }
+            var places = NstSvcPlaceFactory.filterPlacesByReadPostAccess(message.allPlaces);
+            if ((_.isArray(places) && places.length === 0) || (vm.currentPlaceId && data.placeId == vm.currentPlaceId)) {
+              NstUtility.collection.dropById(vm.messages, data.postId);
+              return;
+            }
 
-            }).catch(function (error) {
-              $log.debug(error);
-            });
           } else { //retract it
             NstUtility.collection.dropById(vm.messages, message.id);
           }
@@ -249,20 +246,7 @@
       vm.tryAgainToLoadMore = false;
       vm.loading = true;
 
-      if (vm.currentPlaceId) {
-        return NstSvcPlaceFactory.hasAccess(vm.currentPlaceId, NST_PLACE_ACCESS.READ).then(function (has) {
-          if (has) {
-            return getAccessableMessages();
-          } else {
-            vm.noMessages = true;
-            return defer.resolve(vm.messages);
-          }
-        })
-      } else {
-        return getAccessableMessages();
-      }
-
-      return defer.promise;
+      return getAccessableMessages();
     }
 
     function getAccessableMessages() {
@@ -325,22 +309,8 @@
     }
 
     function loadRemovePostAccess() {
-      var deferred = $q.defer();
-
-      if (vm.currentPlaceId) {
-        NstSvcPlaceFactory.hasAccess(vm.currentPlaceId, NST_PLACE_ACCESS.REMOVE_POST).then(function (has) {
-          vm.placeRemoveAccess = has;
-          deferred.resolve(vm.placeRemoveAccess);
-        }).catch(function (error) {
-          vm.placeRemoveAccess = false;
-          deferred.reject(error);
-        });
-      } else {
-        vm.placeRemoveAccess = false;
-        deferred.resolve(vm.placeRemoveAccess);
-      }
-
-      return deferred.promise;
+      vm.placeRemoveAccess = vm.currentPlace.hasAccess(NST_PLACE_ACCESS.REMOVE_POST);
+      return $q.resolve(vm.placeRemoveAccess);
     }
 
 
@@ -516,19 +486,11 @@
       if (!vm.currentPlace.id || vm.isSentMode || vm.isUnreadMode) {
         vm.quickMessageAccess = false;
         defer.resolve(false);
+      } else {
+        vm.quickMessageAccess = vm.currentPlace.hasAccess(NST_PLACE_ACCESS.WRITE_POST);
       }
 
-      NstSvcPlaceFactory.hasAccess(vm.currentPlace.id, NST_PLACE_ACCESS.WRITE_POST)
-        .then(function (has) {
-          vm.quickMessageAccess = has;
-
-
-          defer.resolve(has);
-        }).catch(function (){
-          defer.resolve(false);
-        });
-
-      return defer.promise;
+      return $q.resolve(vm.quickMessageAccess);
     }
 
     $scope.$on('$dropletReady', function whenDropletReady() {

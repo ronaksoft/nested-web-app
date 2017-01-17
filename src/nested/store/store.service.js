@@ -51,9 +51,25 @@
       for (var k in replace) {
         pattern = pattern.replace('{{' + k + '}}', replace[k]);
       }
-
-      return pattern;
+      // TODO: Public and private resources must have different url patterns,
+      // because the public one does not require a token
+      // here, the trailing / will be removed for public resources
+      return _.trimEnd(pattern, "/");
     };
+
+    Store.prototype.getViewUrl = function (universalId) {
+      if (!universalId) {
+        throw Error('universalId is not provided');
+      }
+
+      var viewUrl = NST_STORE_ROUTE_PATTERN.VIEW
+        .replace("{{BASE_URL}}", this.url)
+        .replace("{{SESSION_KEY}}", NstSvcServer.getSessionKey())
+        .replace("{{UNIVERSAL_ID}}", universalId)
+        .replace("{{TOKEN}}", "");
+
+      return _.trimEnd(viewUrl, '/');
+    }
 
     Store.prototype.upload = function(file, type) {
       type = type || NST_STORE_UPLOAD_TYPE.FILE;
@@ -97,16 +113,22 @@
         return deferred.promise;
       }).then(function (token) {
         var formData = new FormData();
-        formData.append('cmd', type);
-        formData.append('_sk', NstSvcServer.getSessionKey());
-        formData.append('token', token.getString());
-        formData.append('fn', 'attachment');
+
+        formData.append('request', JSON.stringify({
+          type: 'q',
+          cmd: type,
+          _sk: NstSvcServer.getSessionKey(),
+          data: {
+            token: token.getString(),
+            fn: 'attachment'
+          }
+        }));
+
         formData.append('attachment', file);
-        formData.append('_reqid', reqId);
 
         var ajax = $http({
           method: 'POST',
-          url: service.getUrl(),
+          url: service.getUrl() + "/upload",
           data: formData,
           headers: {
             'Content-Type': undefined
@@ -186,19 +208,25 @@
         return deferred.promise;
       }).then(function (token) {
         var formData = new FormData();
-        formData.append('cmd', type);
-        formData.append('_sk', NstSvcServer.getSessionKey());
-        formData.append('token', token.getString());
-        formData.append('fn', 'attachment');
+
+        formData.append('request', JSON.stringify({
+          type: 'q',
+          cmd: type,
+          _sk: NstSvcServer.getSessionKey(),
+          data: {
+            token: token.getString(),
+            fn: 'attachment'
+          }
+        }));
+
         formData.append('attachment', file);
-        formData.append('_reqid', reqId);
 
         var deferred = $q.defer();
 
         var xhr = NstHttp.createCORSRequest('POST');
 
         if (xhr) {
-          xhr.open('POST', service.getUrl(), true);
+          xhr.open('POST', service.getUrl() + "/upload", true);
 
           xhr.setRequestHeader("Cache-Control", "no-cache");
           xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
@@ -222,10 +250,10 @@
             if (200 == event.target.status) {
               var httpData = JSON.parse(event.target.response);
               var data = httpData.data;
-              var response = new NstResponse(NST_RES_STATUS.UNKNOWN, data);
+              var response = new NstResponse(NST_RES_STATUS.SUCCESS, data);
 
-              switch (data.status) {
-                case NST_SRV_RESPONSE_STATUS.SUCCESS:
+              switch (httpData.status) {
+                case "ok":
                   response.setStatus(NST_RES_STATUS.SUCCESS);
                   deferred.resolve(response);
                   break;
@@ -287,7 +315,7 @@
     function requestNewUploadToken(storageKey) {
       var deferred = $q.defer();
 
-      NstSvcServer.request('store/get_upload_token').then(function(data) {
+      NstSvcServer.request('file/get_upload_token').then(function(data) {
         var token = createToken(data.token);
         NstSvcDownloadTokenStorage.set(storageKey, token);
         deferred.resolve(token);

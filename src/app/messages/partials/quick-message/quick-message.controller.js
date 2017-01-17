@@ -5,8 +5,8 @@
     .module('ronak.nested.web.message')
     .controller('QuickMessageController', QuickMessageController);
 
-  function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,
-    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation, NstSvcAuth) {
+  function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,NstPicture ,
+    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
     var vm = this;
 
     /*****************************
@@ -35,9 +35,6 @@
         total: 0
       }
     };
-
-    vm.userImg = NstSvcAuth.user.picture.org.getUrl().view;
-    vm.showCtrls = false;
 
     /*****************************
      ***** Controller Methods ****
@@ -276,7 +273,7 @@
 
 
         for (var k in model.attachments) {
-          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].getStatus()) {
+          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].status) {
             errors.push({
               name: 'attachments',
               message: 'Attachment uploading has not been finished yet'
@@ -312,13 +309,12 @@
       var attachment = NstSvcAttachmentFactory.createAttachmentModel();
       attachment.setSize(file.size);
       attachment.setFilename(file.name);
-      attachment.setMimeType(file.type);
-      attachment.setUploadTime(file.lastModified);
+      attachment.setMimetype(file.type);
 
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
-      var type = NstSvcFileType.getType(attachment.getMimeType());
+      var type = NstSvcFileType.getType(attachment.getMimetype());
 
       // Read Attachment
       var reader = new FileReader();
@@ -327,14 +323,16 @@
       reader.onload = function (event) {
         var uri = event.target.result;
         var resource = new NstLocalResource(uri);
-        attachment.setResource(resource);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
-          attachment.getPicture().setOrg(resource);
-          attachment.getPicture().setThumbnail(32, resource);
-          attachment.getPicture().setThumbnail(64, resource);
-          attachment.getPicture().setThumbnail(128, resource);
+          attachment.setPicture(new NstPicture({
+            original : uri,
+            preview : uri,
+            x32 : uri,
+            x64 : uri,
+            x128: uri
+          }));
         }
 
         qRead.resolve(uri);
@@ -358,7 +356,7 @@
         vm.attachments.requests[attachment.getId()] = request;
 
         request.sent().then(function () {
-          attachment.setStatus(NST_ATTACHMENT_STATUS.UPLOADING);
+          attachment.status = NST_ATTACHMENT_STATUS.UPLOADING;
           vm.attachments.viewModels.push(vmAttachment);
         });
 
@@ -371,7 +369,7 @@
           var deferred = $q.defer();
 
           attachment.setId(response.data.universal_id);
-          attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
+          attachment.status = NST_ATTACHMENT_STATUS.ATTACHED;
 
           vmAttachment.id = attachment.getId();
           vmAttachment.isUploaded = true;
@@ -401,7 +399,7 @@
       $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment && attachment.length !== 0) {
-        switch (attachment.getStatus()) {
+        switch (attachment.status) {
           case NST_ATTACHMENT_STATUS.UPLOADING:
             var request = vm.attachments.requests[attachment.getId()];
             if (request) {

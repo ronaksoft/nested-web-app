@@ -293,24 +293,18 @@
           if(vm.hasPlace && !vm.place) {
             NstSvcPlaceFactory.get(vm.placeId).then(function (place) {
               vm.place = place;
+
+              vm.allowedToAddMember = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
+              vm.allowedToAddPlace = place.hasAccess(NST_PLACE_ACCESS.ADD_PLACE);
+              vm.allowedToRemovePlace = place.hasAccess(NST_PLACE_ACCESS.REMOVE_PLACE);
             });
           }
+
           if(vm.hasPlace) {
             NstSvcPlaceFactory.get(vm.placeId.split('.')[0]).then(function (place) {
               vm.grandPlace = place;
             });
           }
-
-          $q.all([
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_MEMBERS),
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.ADD_PLACE),
-            NstSvcPlaceFactory.hasAccess(vm.placeId, NST_PLACE_ACCESS.REMOVE_PLACE)]).then(function (resultSet) {
-              vm.allowedToAddMember = resultSet[0];
-              vm.allowedToAddPlace = resultSet[1];
-              vm.allowedToRemovePlace = resultSet[2];
-            }).catch(function (error) {
-              NstSvcLogger.error(error);
-            });
         }
       }
     );
@@ -342,7 +336,7 @@
     }
 
     function leave() {
-      NstSvcPlaceFactory.removeMember(vm.getPlaceId(), NstSvcAuth.user.id, true).then(function(result) {
+      NstSvcPlaceFactory.leave(vm.getPlaceId()).then(function(result) {
         $state.go(NST_DEFAULT.STATE);
       }).catch(function(error) {
         if (error instanceof NstPlaceOneCreatorLeftError){
@@ -391,8 +385,8 @@
     function remove() {
       NstSvcPlaceFactory.remove(vm.place.id).then(function(removeResult) {
         toastr.success(NstUtility.string.format(NstSvcTranslation.get("Place {0} was removed successfully."), vm.place.name));
-        if (vm.place.parentId) {
-          $state.go('app.place-messages', { placeId : vm.place.parentId });
+        if (_.indexOf(vm.place.id, '.') > -1) {
+          $state.go('app.place-messages', { placeId : vm.place.grandParentId });
         } else {
           $state.go(NST_DEFAULT.STATE);
         }

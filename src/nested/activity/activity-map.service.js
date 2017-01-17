@@ -5,7 +5,7 @@
     .service('NstSvcActivityMap', NstSvcActivityMap);
 
   /** @ngInject */
-  function NstSvcActivityMap(NstSvcAttachmentMap, moment) {
+  function NstSvcActivityMap(NstSvcAttachmentMap, moment, NstSvcStore) {
 
     var service = {
       toRecentActivity: toRecentActivity,
@@ -63,7 +63,7 @@
       function mapActivityActor(activity) {
         return {
           id: activity.actor.id,
-          avatar: activity.actor.picture.id ? activity.actor.picture.thumbnails.x32.url.download : null,
+          avatar: activity.actor.hasPicture() ? activity.actor.picture.getUrl("x32") : '',
           fullname: activity.actor.getFullName(),
           name: activity.actor.firstName
         };
@@ -150,7 +150,7 @@
       return {
         id: activity.comment.id,
         body: activity.comment.body,
-        postId: activity.post.id
+        postId: activity.comment.getPostId()
       };
     }
 
@@ -175,7 +175,7 @@
     function mapActivityActor(activity) {
       return {
         id: activity.actor.id,
-        avatar: activity.actor.picture.thumbnails.x32.url.download,
+        avatar: activity.actor.picture && activity.actor.picture.original ? activity.actor.picture.getUrl("x32") : '',
         name: activity.actor.fullName
       };
     }
@@ -188,7 +188,7 @@
       return {
         id: place.id,
         name: place.name
-        //picture : place.picture.thumbnails.x64.url.download
+        //picture : place.picture.thumbnails.x128.url.download
       };
     }
 
@@ -200,7 +200,7 @@
       return {
         id: activity.place.id,
         name: activity.place.name,
-        picture: activity.place.picture.id ? activity.place.picture.thumbnails.x64.url.download : '',
+        picture: activity.place.picture.id ? activity.place.picture.getUrl("x128") : '',
         hasParent: !!activity.place.parent,
         parent: mapParentPlace(activity)
       };
@@ -217,12 +217,8 @@
         picture: '/assets/icons/absents_place.svg'
       };
 
-      if (activity.place.getParent().getPicture().getThumbnail(64)) {
-        parentPlace.picture = activity.place.getParent().getPicture().getThumbnail(64).getUrl().view;
-      } else if (activity.place.getParent().getPicture().getLargestThumbnail()) {
-        parentPlace.picture = activity.place.getParent().getPicture().getLargestThumbnail().getUrl().view;
-      } else if (activity.place.getParent().getPicture().getId()) {
-        parentPlace.picture = activity.place.getParent().getPicture().getOrg().getUrl().view;
+      if (activity.place.picture) {
+        parentPlace.picture = activity.place.picture.getUrl("x64");
       }
 
       return parentPlace;

@@ -6,10 +6,10 @@
     .service('NstSvcInvitationFactory', NstSvcInvitationFactory);
 
   /** @ngInject */
-  function NstSvcInvitationFactory($q, $log,
-                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE,
-                                   NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory,
-                                   NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation) {
+  function NstSvcInvitationFactory($q, $log, _,
+                                   NST_SRV_ERROR, NST_SRV_EVENT, NST_INVITATION_FACTORY_EVENT, NST_EVENT_ACTION, NST_PLACE_MEMBER_TYPE,NST_STORAGE_TYPE,
+                                   NstSvcInvitationStorage, NstSvcServer, NstSvcUserFactory, NstSvcPlaceFactory, NstSvcNotification,
+                                   NstObservableObject, NstFactoryError, NstFactoryQuery, NstInvitation, NstStorage) {
     function InvitationFactory() {
       var factory = this;
 
@@ -26,6 +26,7 @@
         switch (tlData.action) {
           case NST_EVENT_ACTION.MEMBER_INVITE:
             factory.get(tlData.invite_id).then(function (invitation) {
+              NstSvcNotification.push(tlData.invite_id);
               factory.dispatchEvent(new CustomEvent(
                 NST_INVITATION_FACTORY_EVENT.ADD,
                 { detail: { id: invitation.getId(), invitation: invitation } }
@@ -141,9 +142,9 @@
         var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
-          NstSvcServer.request('account/update_invitation', {
+          NstSvcServer.request('account/respond_invite', {
             invite_id: id,
-            state: 'accepted'
+            response: 'accept'
           }).then(function (response) {
             // TODO: parse the response and return an object
             defer.resolve(invitation);
@@ -170,9 +171,9 @@
         var query = new NstFactoryQuery(id);
 
         this.get(id).then(function (invitation) {
-          NstSvcServer.request('account/update_invitation', {
+          NstSvcServer.request('account/respond_invite', {
             invite_id: id,
-            state: 'ignored'
+            response: 'ignore'
           }).then(function (response) {
             // TODO: parse the response and return an object
             defer.resolve(invitation);
@@ -206,7 +207,7 @@
         invitation.setId(data._id);
         invitation.setRole(data.role);
 
-        var invitee = NstSvcUserFactory.parseTinyUser();
+        var invitee = null;
         if (angular.isObject(data.invitee)) {
           invitee = NstSvcUserFactory.parseTinyUser(data.invitee);
           NstSvcUserFactory.set(invitee);
@@ -214,7 +215,7 @@
           invitee.setId(data.invitee_id);
         }
 
-        var inviter = NstSvcUserFactory.parseTinyUser();
+        var inviter = null;
         if (angular.isObject(data.inviter)) {
           inviter = NstSvcUserFactory.parseTinyUser(data.inviter);
           NstSvcUserFactory.set(inviter);
@@ -222,7 +223,7 @@
           inviter.setId(data.inviter_id);
         }
 
-        var place = NstSvcPlaceFactory.parseTinyPlace();
+        var place = null;
         if (angular.isObject(data.place)) {
           place = NstSvcPlaceFactory.parseTinyPlace(data.place);
           NstSvcPlaceFactory.set(place);
@@ -273,7 +274,7 @@
         var defer = $q.defer();
         var query = new NstFactoryQuery(placeId);
 
-          NstSvcServer.request('place/get_pending_invitations', {
+          NstSvcServer.request('place/get_invitations', {
             place_id: placeId,
             member_type : NST_PLACE_MEMBER_TYPE.KEY_HOLDER,
             limit : limit,
@@ -312,6 +313,24 @@
           rej.apply(null, args);
         });
       });
+    };
+
+    InvitationFactory.prototype.storeDisplayedInvitations = function (invitationId) {
+      var storage = new NstStorage(NST_STORAGE_TYPE.LOCAL, 'DisplayedInvitations');
+      var displayed = storage.get('ids');
+      var displayedArray = [];
+      if (displayed){
+        displayedArray = displayed;
+      }
+
+      if(!_.includes(displayedArray,invitationId)){
+        displayedArray.push(invitationId)
+        storage.set('ids', displayedArray);
+        return true;
+      }else{
+        return false;
+      }
+
     };
 
     return new InvitationFactory();

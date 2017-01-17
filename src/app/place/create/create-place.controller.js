@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,7 +6,7 @@
     .controller('PlaceCreateController', PlaceCreateController);
 
   /** @ngInject */
-  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NST_SRV_ERROR,
+  function PlaceCreateController($scope, $q, $stateParams, $state, toastr, NST_DEFAULT, NST_SRV_ERROR, NST_PLACE_ADD_TYPES,
                                  NstSvcAuth, NstSvcPlaceFactory,
                                  NstUtility, $uibModal, $uibModalInstance, NST_PLACE_ACCESS, NstSvcLogger, NstSvcTranslation) {
 
@@ -17,8 +17,8 @@
     vm.hasParentPlace = null;
     vm.hasGrandParent = null;
     vm.memberOptions = [
-      { key : 'creators', name : 'Managers Only' },
-      { key : 'everyone', name : 'All Members' }
+      {key: 'creators', name: 'Managers Only'},
+      {key: 'everyone', name: 'All Members'}
     ];
     vm.place = {
       id: null,
@@ -35,9 +35,9 @@
         addMember: vm.memberOptions[0].key,
         addPlace: vm.memberOptions[0].key,
       },
-      favorite : true,
+      favorite: true,
       notification: true,
-      fillMembers : 'none'
+      fillMembers: 'none'
     };
     vm.placeIdIsAvailable = null;
     vm.hasRandomId = null;
@@ -55,15 +55,15 @@
 
 
 
-    vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
-
-
 
     (function () {
+      vm.isPersonalPlace = $stateParams.placeId.split('.')[0] === NstSvcAuth.user.id;
+
       if (stateParamIsProvided($stateParams.placeId)) {
         vm.hasParentPlace = true;
         vm.place.parentId = $stateParams.placeId;
-        loadParentPlace($stateParams.placeId.split('.')[0]).catch(function (error) {
+        vm.placesParts = $stateParams.placeId.split('.');
+        loadParentPlace(vm.placesParts).catch(function (error) {
           toastr.error(NstSvcTranslation.get("There seems to be an error in reaching information from the highest-ranking Place."));
         });
       } else {
@@ -73,23 +73,22 @@
       vm.isCreateGrandPlaceMode = !vm.hasParentPlace;
       setReceivingEveryone();
 
-      if($stateParams.isOpenPlace){
+      if ($stateParams.isOpenPlace) {
         vm.isOpenPlace = true;
         vm.isClosedPlace = false;
         setPlaceOpen();
-      }
-      else {
+      } else {
         vm.isOpenPlace = false;
         vm.isClosedPlace = true;
       }
 
-      if (vm.isClosedPlace){
-        vm.isCreateGrandPlaceMode = false;
+      if (vm.isClosedPlace) {
+
         vm.place.privacy.locked = true;
         vm.isClosedPlace = true;
         vm.isOpenPlace = false;
       }
-      if (vm.isSubPersonalPlace){
+      if (vm.isSubPersonalPlace) {
         vm.isOpenPlace = false;
         vm.isClosedPlace = true;
       }
@@ -97,19 +96,19 @@
 
     })();
 
-    function loadParentPlace(parentId) {
+    function loadParentPlace(parentIds) {
       var deferred = $q.defer();
 
       vm.parentLoadProgress = true;
-      NstSvcPlaceFactory.getTiny(parentId).then(function (place) {
-        if (place.isGrandPlace()) {
+      NstSvcPlaceFactory.get(parentIds.join('.')).then(function (place) {
+        if (parentIds.length === 1) {
           vm.hasGrandParent = true;
           vm.grandPlace = place;
           deferred.resolve(true);
         } else {
           vm.parentPlace = place;
           vm.hasParentPlace = true;
-          NstSvcPlaceFactory.getTiny(vm.parentId.split('.')[0]).then(function (grandPlace) {
+          NstSvcPlaceFactory.get(parentIds[0]).then(function (grandPlace) {
             vm.hasGrandParent = true;
             vm.grandPlace = grandPlace;
             deferred.resolve(true);
@@ -131,7 +130,7 @@
         templateUrl: 'app/place/create/change-id.html',
         scope: $scope
       }).result.then(function (result) {
-        if(result == 'ok')
+        if (result == 'ok')
           vm.place.id = vm.place.tempId;
       }).catch(function (reason) {
         NstSvcLogger.error(reason)
@@ -201,7 +200,7 @@
       vm.placeIdChecking = true;
       NstSvcPlaceFactory.isIdAvailable(vm.place.parentId + '.' + id).then(function (available) {
         if (available) {
-          vm.place.id =  id;
+          vm.place.id = id;
           vm.placeIdIsAvailable = true;
         } else {
           checkIdAvailability(generateUinqueId(id), deferred);
@@ -223,7 +222,7 @@
       // only accepts en numbers and alphabets
       if (placeIdRegex.test(camelCaseName)) {
         vm.hasRandomId = false;
-        return _.kebabCase(name.substr(0,36));
+        return _.kebabCase(name.substr(0, 36));
       } else if (!vm.hasRandomId) {
         vm.hasRandomId = true;
         return generateUinqueId("place");
@@ -233,7 +232,7 @@
     }
 
     function generateUinqueId(id) {
-      return NstUtility.string.format("{0}-{1}", id, _.padStart(_.random(99,9999), 4, "0"));
+      return NstUtility.string.format("{0}-{1}", id, _.padStart(_.random(99, 9999), 4, "0"));
     }
 
     function save(isValid) {
@@ -255,28 +254,62 @@
     }
 
     function createPlace(model) {
-      NstSvcPlaceFactory.create(model).then(function (place) {
-        continueToPlaceSettings(place.id);
+      var placetype = undefined;
+
+      if (vm.isCreateGrandPlaceMode) {
+        placetype = NST_PLACE_ADD_TYPES.ADD_GRAND_PLACE
+      } else if (vm.isOpenPlace) {
+        placetype = NST_PLACE_ADD_TYPES.ADD_UNLOCKED_PLACE
+      } else {
+        placetype = NST_PLACE_ADD_TYPES.ADD_LOCKED_PLACE
+      }
+
+      NstSvcPlaceFactory.create(model, placetype).then(function (place) {
+        setFavorite(place.id, vm.place.favorite).then(function (result) {
+
+          return setNotification(place.id, vm.place.notification);
+        }).then(function (result) {
+          continueToPlaceMessages(place.id);
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get('Sorry, An error has occured while configuring the place.'));
+        });
       }).catch(function (error) {
         NstSvcLogger.error(error);
 
-        if (error.message[0] === "place_id"){
+        if (error.message[0] === "place_id") {
           toastr.error(NstSvcTranslation.get("You can not use this 'Place ID'."));
-        }
-
-        if (error.code === NST_SRV_ERROR.LIMIT_REACHED){
+        } else if (error.code === NST_SRV_ERROR.LIMIT_REACHED) {
           toastr.error(NstSvcTranslation.get("You can't create any additional Places."));
+        } else {
+          toastr.error(NstSvcTranslation.get('Sorry, An error has occured while creating the place.'));
         }
       });
     }
 
     function hasAccessToAdd(grandPlaceId) {
-      return NstSvcPlaceFactory.hasAccess(grandPlaceId, NST_PLACE_ACCESS.ADD_PLACE);
+      return $q.resolve(vm.grandPlace.hasAccess(NST_PLACE_ACCESS.ADD_PLACE));
     }
 
-    function continueToPlaceSettings(placeId) {
+    function continueToPlaceMessages(placeId) {
       $uibModalInstance.close();
-      $state.go('app.place-settings', { placeId : placeId });
+      $state.go('app.place-messages', {placeId: placeId});
     }
+
+    function setFavorite(placeId, favorite) {
+      if (favorite) {
+        return NstSvcPlaceFactory.setBookmarkOption(placeId, null, true);
+      } else {
+        return $q.resolve(favorite);
+      }
+    }
+
+    function setNotification(placeId, notification) {
+      if (notification) {
+        return NstSvcPlaceFactory.setNotificationOption(placeId, true);
+      } else {
+        return $q.resolve(notification);
+      }
+    }
+
   }
 })();

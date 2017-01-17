@@ -2,7 +2,7 @@
             place-id="{{ctlFiles.currentPlace.id}}"
             show-place-id="ctlFiles.showPlaceId"
             nav-title="{{ctlFiles.currentPlace.id?ctlFiles.currentPlace.name: ctlFiles.navTitle}}"
-            nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.thumbnails.x64.url.view : '' }}"
+            nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.getUrl('x128') : '' }}"
             nav-picture-class="{{ !ctlFiles.currentPlace.id? ctlFiles.navIconClass : '' }}"
             ready-to-show="ctlFiles.currentPlaceLoaded"
             ready-to-anime="true"
@@ -40,7 +40,7 @@
         <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-send-to">
           <span class="_dib">
             <svg>
-              <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
+              <use xlink:href="/assets/icons/nst-icn20.svg#forward"></use>
             </svg>
           </span><span class="send" ng-click="ctlFiles.compose();"><translate>Send to</translate></span>
         </div>

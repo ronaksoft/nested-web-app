@@ -6,7 +6,7 @@
     .factory('NstPlace', NstPlace);
 
   /** @ngInject */
-  function NstPlace(NST_OBJECT_EVENT, NstTinyPlace, NstPlacePrivacy, NstPlacePolicy) {
+  function NstPlace(NST_OBJECT_EVENT, NstTinyPlace, NstPlacePrivacy, NstPlacePolicy, NstPicture) {
     /**
      * Creates an instance of NstPlace. Do not use this directly, use NstSvcPlaceFactory.get(data) instead
      *
@@ -29,6 +29,14 @@
        * @type {NstPlacePrivacy}
        */
       this.privacy = new NstPlacePrivacy();
+
+      /**
+       * Picture's policy
+       *
+       * @type {NstPicture}
+       */
+      this.picture = new NstPicture();
+
 
       /**
        * Place's policy

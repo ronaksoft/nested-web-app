@@ -4,8 +4,8 @@
   </svg>
 </div>
 <div id="create-place"
-     ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode; ctlCreate.step2 = ctlCreate.step1">
-  <div class="_difv" ng-if="ctlCreate.step2">
+     ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode">
+  <div class="_difv">
 
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate>
       <h2 class="_df"><translate>Create a Place</translate></h2>
@@ -56,7 +56,7 @@
       <div class="select-box2 _wrb" ng-if="ctlCreate.isClosedPlace" ng-click="ctlCreate.setReceivingOff();"
            ng-class="{ selected : ctlCreate.receivingMode == 'off'}">
 
-        <h3 ng-if="ctlCreate.isClosedPlace">
+        <h3 ng-if="ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
@@ -65,18 +65,24 @@
           <translate ng-if="ctlCreate.place.privacy.addPost != 'creators' && ctlCreate.place.name">Only Members of "{{ctlCreate.place.name}}"</translate>
           <translate ng-if="ctlCreate.place.privacy.addPost != 'creators' && !ctlCreate.place.name">Only Members of "..."</translate>
         </h3>
-        <h3 ng-if="!ctlCreate.isClosedPlace">
+        <h3 ng-if="!ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
           <translate ng-if="ctlCreate.place.name">Only Members of "{{ctlCreate.place.name}}"</translate>
           <translate ng-if="!ctlCreate.place.name">Only Members of "..."</translate>
         </h3>
+        <h3 ng-if="ctlCreate.isPersonalPlace" >
+          <svg class="tick">
+            <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
+          </svg><translate>Only you</translate>
+        </h3>
 
-        <p ng-if="!ctlCreate.isClosedPlace"><translate>Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Members can view the contents of this Place.</translate></p>
-        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost == 'creators'"><translate>Only Managers can post messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Place.</translate></p>
-        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost != 'creators'"><translate>Only Members can post messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Place.</translate></p>
-        <aside>
+        <p ng-if="!ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace"><translate>Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Members can view the contents of this Place.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost == 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Managers can post messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Place.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost != 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Members can post messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Place.</translate></p>
+        <p ng-if="ctlCreate.isPersonalPlace">Only you can post messages to this Place.</p>
+        <aside ng-if="!ctlCreate.isPersonalPlace">
           <p class="f4"><translate>Which Members can contribute to this Place?</translate></p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.privacy.addPost">
@@ -88,7 +94,7 @@
       </div>
 
       <!--internal-->
-      <div class="select-box2 _wrb" ng-if="ctlCreate.isClosedPlace && ctlCreate.grandPlace.name" ng-click="ctlCreate.setReceivingMembers();"
+      <div class="select-box2 _wrb" ng-if="ctlCreate.isClosedPlace && ctlCreate.grandPlace.name && !ctlCreate.isPersonalPlace" ng-click="ctlCreate.setReceivingMembers();"
            ng-class="{ selected : ctlCreate.receivingMode == 'members'}">
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">
@@ -179,12 +185,12 @@
             <li ng-if="ctlCreate.hasParentPlace && ctlCreate.parentPlace.getTeammatesCount() > 1">
               <input class="green-radio " type="radio" id="fill-members-parent" name="fillMembers" value="parent"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-parent"><translate>All <b>{{::ctlCreate.parentPlace.name}}</b> Members ({{::ctlCreate.parentPlace.getTeammatesCount()}})</translate></label>
+              <label for="fill-members-parent"><translate>All <b>{{ctlCreate.parentPlace.name}}</b> Members ({{ctlCreate.parentPlace.getTeammatesCount()}})</translate></label>
             </li>
             <li ng-if="ctlCreate.hasGrandParent">
               <input class="green-radio " type="radio" id="fill-members-grand" name="fillMembers" value="grand"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members ({{::ctlCreate.grandPlace.getTeammatesCount()}})</translate></label>
+              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members ({{ctlCreate.grandPlace.getTeammatesCount()}})</translate></label>
             </li>
           </ul>
 

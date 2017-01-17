@@ -26,7 +26,6 @@
     vm.declineInvitation = declineInvitation;
     vm.applyFilter = applyFilter;
     vm.toggleViewMode = toggleViewMode;
-    vm.viewPost = viewPost;
 
     vm.expanded = true;
 
@@ -173,14 +172,6 @@
     function toggleViewMode() {
       vm.expanded = !vm.expanded;
       NstSvcActivitySettingStorage.set('collapsed', !vm.expanded);
-    }
-
-    function viewPost(postId) {
-      NstSvcPostFactory.getWithComments(postId).then(function (post) {
-        // TODO: open a modal and show the post
-      }).catch(function (error) {
-
-      });
     }
 
     function loadAfter(date) {

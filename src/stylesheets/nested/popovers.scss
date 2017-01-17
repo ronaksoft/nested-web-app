@@ -132,7 +132,7 @@
   position: absolute;
   top: 8px !important;
   left: auto !important;
-  right: 88px;
+  right: 42px;
   z-index: 36;
   width: 210px;
 }
@@ -222,7 +222,7 @@ input[type="checkbox"]:checked + label.setting {
   .popover-content,.popover-inner {
     height: 100%;
   }
-  > .arrow {
+  .arrow {
     width: 16px!important;
     height: 16px!important;
     border-style: solid;

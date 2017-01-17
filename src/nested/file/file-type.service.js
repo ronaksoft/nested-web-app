@@ -16,7 +16,12 @@
     fileGroups[NST_FILE_TYPE.DOCUMENT] = [
       'text/plain',
       'application/msword',
-      'application/vnd.ms-excel'
+      'application/vnd.ms-excel',
+      'application/octet-stream',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
     ];
 
     fileGroups[NST_FILE_TYPE.IMAGE] = [
@@ -57,13 +62,13 @@
 
     return service;
 
-    function getType(mimeType) {
-      if (!mimeType) {
+    function getType(mimetype) {
+      if (!mimetype) {
         return '';
       }
 
-      var type = _.findKey(fileGroups, function(mimeTypeList) {
-        return _.includes(mimeTypeList, mimeType);
+      var type = _.findKey(fileGroups, function(mimetypeList) {
+        return _.includes(mimetypeList, mimetype);
       });
 
       return type || NST_FILE_TYPE.OTHER;

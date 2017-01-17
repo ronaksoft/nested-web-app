@@ -39,13 +39,11 @@
       }
 
       if (vm.settings.placeId) {
-        return NstSvcLoader.inject(NstSvcPlaceFactory.hasAccess(vm.settings.placeId, NST_PLACE_ACCESS.READ)).then(function (has) {
-          if (has) {
+        return NstSvcLoader.inject(NstSvcPlaceFactory.get(vm.settings.placeId)).then(function (place) {
+          if (place.hasAccess(NST_PLACE_ACCESS.READ)) {
             return NstSvcLoader.inject(getRecentActivity(vm.settings));
           }
         });
-      } else {
-        return NstSvcLoader.inject(getRecentActivity(vm.settings));
       }
 
     })();

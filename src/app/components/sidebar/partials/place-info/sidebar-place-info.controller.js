@@ -6,7 +6,7 @@
     .controller('SidebarPlaceInfoController', SidebarPlaceInfoController);
 
   /** @ngInject */
-  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, NstSvcLogger, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap,
+  function SidebarPlaceInfoController($q, $scope, $state, $stateParams, NstSvcLogger, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcPlaceMap, NstUtility,
                                       NST_POST_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT, NST_DEFAULT, NstVmPlace, NstSvcServer, NST_SRV_EVENT) {
     var vm = this;
     vm.loading = false;
@@ -28,23 +28,26 @@
       vm.loading = true;
       vm.children = [];
 
-      var grandPlaceId = vm.grandPlace.id;
+      if (vm.grandPlace) {
+        var grandPlaceId = vm.grandPlace.id;
 
-      NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
-        if (list.filter(function (obj) {
+        NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
+          if (list.filter(function (obj) {
             return obj === vm.grandPlace.id
           }).length === 1) {
-          vm.placesBookmarkObject[vm.grandPlace.id] = true;
-        }
-      });
+            vm.placesBookmarkObject[vm.grandPlace.id] = true;
+          }
+        });
 
-      getGrandPlaceChildren(grandPlaceId).then(function (places) {
-        vm.children = places;
-      }).catch(function (error) {
-        NstSvcLogger.error(error);
-      }).finally(function () {
-        vm.loading = false;
-      });
+        getGrandPlaceChildren(grandPlaceId).then(function (places) {
+          vm.children = places;
+        }).catch(function (error) {
+          NstSvcLogger.error(error);
+        }).finally(function () {
+          vm.loading = false;
+        });
+      }
+
     }
 
 
@@ -127,8 +130,8 @@
       if (placeIds.length > 0)
         NstSvcPlaceFactory.getPlacesUnreadPostsCount(placeIds)
           .then(function (places) {
-            _.each(places, function (value, placeId) {
-              vm.placesNotifCountObject[placeId] = value;
+            _.each(places, function (obj) {
+              vm.placesNotifCountObject[obj.place_id] = obj.count;
             });
           });
     }
@@ -165,7 +168,8 @@
         if (_.has(vm.placesBookmarkObject, placeId)) {
           delete vm.placesBookmarkObject[placeId];
         }
-        NstSvcPlaceFactory.removePlaceFromTree(vm.children, placeId);
+        var grandSonId = NstUtility.place.getGrandParentId(placeId, 2);
+        NstSvcPlaceFactory.removePlaceFromTree(vm.children, placeId, grandSonId);
       }
     }
 

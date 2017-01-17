@@ -10,7 +10,7 @@
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstVmPlaceBadge) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstVmPlaceBadge, NstPicture) {
     var vm = this;
 
     /*****************************
@@ -35,21 +35,6 @@
       saving: false,
       saved: false
     };
-
-    (function () {
-      if ($stateParams.attachments && $stateParams.attachments.length > 0) {
-        NstSvcAttachmentFactory.load($stateParams.attachments).then(function (attachments) {
-          vm.model.attachments = attachments;
-          vm.attachments.viewModels = _.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
-          vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
-          vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
-        }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get('An error has occurred in trying to attach files.'));
-        });
-
-      }
-      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
-    })();
 
     vm.search = {
       results: [],
@@ -121,6 +106,18 @@
       }
     };
 
+    (function () {
+      if ($stateParams.attachments && $stateParams.attachments.length > 0) {
+        vm.model.attachments = _.map($stateParams.attachments, function (item) {
+          item.status = NST_ATTACHMENT_STATUS.ATTACHED;
+          return item;
+        });
+        vm.attachments.viewModels = _.map($stateParams.attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
+        vm.attachments.size.total += _.sum(_.map($stateParams.attachments, 'size'));
+        vm.attachments.size.uploaded += _.sum(_.map($stateParams.attachments, 'size'));
+      }
+      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
+    })();
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -147,7 +144,6 @@
             if (place.id === query) {
               initPlace = new NstVmPlace(place);
             } else {
-
               vm.search.results.push(new NstVmPlace(place));
             }
           }
@@ -158,11 +154,14 @@
             initPlace.isEmailValid = NST_PATTERN.EMAIL.test(initPlace.id)
           }
           vm.search.results.push(initPlace);
-        }
+      }}).catch(function () {
+        vm.search.results = [];
+        if (initPlace.id)
+          vm.search.results.push(initPlace);
       });
     };
-    
-    
+
+
 
     vm.search.tagger = function (text) {
       // TODO: To use new class and also check for hidden places
@@ -223,13 +222,12 @@
       var attachment = NstSvcAttachmentFactory.createAttachmentModel();
       attachment.setSize(file.size);
       attachment.setFilename(file.name);
-      attachment.setMimeType(file.type);
-      attachment.setUploadTime(file.lastModified);
+      attachment.setMimetype(file.type);
 
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
-      var type = NstSvcFileType.getType(attachment.getMimeType());
+      var type = NstSvcFileType.getType(attachment.getMimetype());
 
       // Read Attachment
       var reader = new FileReader();
@@ -238,14 +236,16 @@
       reader.onload = function (event) {
         var uri = event.target.result;
         var resource = new NstLocalResource(uri);
-        attachment.setResource(resource);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
-          attachment.getPicture().setOrg(resource);
-          attachment.getPicture().setThumbnail(32, resource);
-          attachment.getPicture().setThumbnail(64, resource);
-          attachment.getPicture().setThumbnail(128, resource);
+          attachment.setPicture(new NstPicture({
+            original : uri,
+            preview : uri,
+            x32 : uri,
+            x64 : uri,
+            x128: uri
+          }));
         }
 
         qRead.resolve(uri);
@@ -269,7 +269,7 @@
         vm.attachments.requests[attachment.getId()] = request;
 
         request.sent().then(function () {
-          attachment.setStatus(NST_ATTACHMENT_STATUS.UPLOADING);
+          attachment.status = NST_ATTACHMENT_STATUS.UPLOADING;
           vm.attachments.viewModels.push(vmAttachment);
         });
 
@@ -282,7 +282,7 @@
           var deferred = $q.defer();
 
           attachment.setId(response.data.universal_id);
-          attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
+          attachment.status = NST_ATTACHMENT_STATUS.ATTACHED;
 
           vmAttachment.id = attachment.getId();
           vmAttachment.isUploaded = true;
@@ -312,7 +312,7 @@
       $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment && attachment.length !== 0) {
-        switch (attachment.getStatus()) {
+        switch (attachment.status) {
           case NST_ATTACHMENT_STATUS.UPLOADING:
             var request = vm.attachments.requests[attachment.getId()];
             if (request) {
@@ -389,7 +389,7 @@
         }
 
         for (var k in model.attachments) {
-          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].getStatus()) {
+          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].status) {
             errors.push({
               name: 'attachments',
               message: 'Attachment uploading has not been finished yet'
@@ -552,6 +552,7 @@
               vm.model.body = post.getBody();
               vm.model.attachments = post.getAttachments();
               for (var k in vm.model.attachments) {
+                vm.model.attachments[k].status = NST_ATTACHMENT_STATUS.ATTACHED;
                 vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(vm.model.attachments[k]));
                 vm.attachments.size.total += vm.model.attachments[k].getSize();
                 vm.attachments.size.uploaded += vm.model.attachments[k].getSize();

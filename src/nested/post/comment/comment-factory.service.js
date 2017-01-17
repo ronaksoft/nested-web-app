@@ -8,38 +8,37 @@
   function NstSvcCommentFactory($q, $log,
     _,
     NST_COMMENT_EVENT, NST_SRV_EVENT, NST_EVENT_ACTION,
-    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstUtility,
+    NstSvcPostStorage, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstPicture, NstUtility,
     NstFactoryEventData, NstFactoryError, NstFactoryQuery, NstPost, NstComment, NstTinyComment, NstUser, NstTinyUser, NstBaseFactory) {
 
     function CommentFactory() {
       var factory = this;
 
-      NstSvcServer.addEventListener(NST_SRV_EVENT.TIMELINE, function(event) {
-        var tlData = event.detail.timeline_data;
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.COMMENT_ADD, function(event) {
+        var tlData = event.detail;
 
-        switch (tlData.action) {
-          case NST_EVENT_ACTION.COMMENT_ADD:
-            var postId = tlData.post_id.$oid;
-            var commentId = tlData.comment_id.$oid;
+        var postId = tlData.post_id;
+        var commentId = tlData.comment_id;
 
-            factory.getComment(commentId, postId).then(function(comment) {
-              factory.dispatchEvent(new CustomEvent(
-                NST_COMMENT_EVENT.ADD, {
-                  detail: {
-                    id: commentId,
-                    postId: postId,
-                    comment: comment,
-                    internal: false
-                  }
-                }
-              ));
-            });
-            break;
+        factory.getComment(commentId, postId).then(function (comment) {
+          factory.dispatchEvent(new CustomEvent(
+            NST_COMMENT_EVENT.ADD, {
+              detail: {
+                id: commentId,
+                postId: postId,
+                comment: comment,
+                internal: false
+              }
+            }
+          ));
+        });
 
-          case NST_EVENT_ACTION.COMMENT_REMOVE:
-            var postId = tlData.post_id.$oid;
-            var commentId = tlData.comment_id.$oid;
+      })
 
+      NstSvcServer.addEventListener(NST_EVENT_ACTION.COMMENT_REMOVE, function(event) {
+        var tlData = event.detail;
+        var postId = tlData.post_id;
+            var commentId = tlData.comment_id;
             factory.dispatchEvent(new CustomEvent(
               NST_COMMENT_EVENT.REMOVE, {
                 detail: {
@@ -49,8 +48,6 @@
                 }
               }
             ));
-            break;
-        }
       });
     }
 
@@ -88,7 +85,7 @@
             comment_id: query.id,
             post_id: query.data.postId
           }).then(function(data) {
-            return parseComment(data.comment);
+            return parseComment(data);
           }).then(function(comment) {
             deferred.resolve(comment);
           }).catch(function(error) {
@@ -119,10 +116,9 @@
             post_id: postId,
             txt: content
           }).then(function(data) {
-            var commentId = data.comment_id.$oid;
+            var commentId = data.comment_id;
             return getComment(commentId, postId);
           }).then(function(comment) {
-            // post.addComment(comment);
             deferred.resolve(comment);
 
             factory.dispatchEvent(new CustomEvent(
@@ -171,11 +167,7 @@
             });
 
             $q.all(allCommnets).then(function(commentItems) {
-              var comments = _.filter(commentItems, {
-                'removed': false
-              });
-              // post.addComments(comments);
-              deferred.resolve(comments);
+              deferred.resolve(commentItems);
             });
           }).catch(function(error) {
             deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -229,19 +221,18 @@
       var comment = new NstComment();
 
       var defer = $q.defer();
-
       if (!data || !data._id) {
         defer.resolve(comment);
       } else {
 
-        comment.id = data._id.$oid;
-        comment.attach = data.attach;
+
+        comment.id = data._id;
         comment.postId = postId;
         comment.sender = new NstTinyUser({
-          id: data.sender_id,
-          firstName: data.sender_fname,
-          lastName: data.sender_lname,
-          picture: data.sender_picture
+          id: data.sender._id,
+          firstName: data.sender.fname,
+          lastName: data.sender.lname,
+          picture: new NstPicture(data.sender.picture)
         });
         comment.body = data.text;
         comment.date = new Date(data['timestamp']);
@@ -259,14 +250,14 @@
       if (!data) {
         defer.resolve(comment);
       } else {
-        comment.id = data.comment_id.$oid;
+
+        comment.id = data._id;
         comment.body = data.text;
         comment.date = new Date(data.timestamp);
         comment.removed = data._removed;
 
         NstSvcUserFactory.get(data.sender_id).then(function(sender) {
           comment.sender = sender;
-
           defer.resolve(comment);
         }).catch(defer.reject);
       }

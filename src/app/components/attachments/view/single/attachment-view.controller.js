@@ -1,13 +1,14 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $timeout, $log, $uibModalInstance,
+  function AttachmentViewController($q, $timeout, $log, $uibModalInstance, $sce,
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
+                                    NstVmFileViewerItem,
                                     NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
                                     NstHttp,
                                     fileId, fileViewerItem, fileIds, fileViewerItems) {
@@ -31,28 +32,25 @@
     vm.goNext = goNext;
     vm.goPrevious = goPrevious;
     vm.goTo = goTo;
+    vm.download = download;
+    vm.openInNewWindow = openInNewWindow;
 
     (function () {
 
       var selectedItemId = fileViewerItem ? fileViewerItem.id : fileId;
       if (_.isArray(fileViewerItems) && fileViewerItems.length > 0) {
 
-        if (!_.some(fileViewerItems, { id : selectedItemId })) {
+        if (!_.some(fileViewerItems, {id: selectedItemId})) {
 
           loadFile(selectedItemId).then(function (file) {
 
             vm.attachments.collection = _.concat(mapToFileViewerItem(file), fileViewerItems);
-            vm.attachments.current = vm.attachments.collection[0];
-
-            goTo(vm.attachments.current);
+            goTo(0)
           });
 
         } else {
-
           vm.attachments.collection = fileViewerItems;
-          vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId }) || fileViewerItem;
-
-          goTo(vm.attachments.current);
+          goTo(_.findIndex(vm.attachments.collection, {id: selectedItemId}));
         }
 
       } else if (_.isArray(fileIds) && fileIds.length > 0) {
@@ -63,9 +61,7 @@
 
         loadAllFiles(fileIds).then(function (files) {
           vm.attachments.collection = mapToFileViewerItems(files);
-          vm.attachments.current = _.find(fileViewerItems, { id : selectedItemId }) || fileViewerItem;
-
-          goTo(vm.attachments.current);
+          goTo(_.findIndex(fileViewerItems, {id: selectedItemId}));
         });
       }
     })();
@@ -73,76 +69,51 @@
     hotkeys.add({
       combo: 'right',
       description: 'compose state',
-      callback: function() {
+      callback: function () {
         goNext();
       }
     });
     hotkeys.add({
       combo: 'left',
       description: 'compose state',
-      callback: function() {
+      callback: function () {
         goPrevious();
       }
     });
 
     function goNext() {
-      var currentKey = Number(_.findKey(vm.attachments.collection, { id: vm.attachments.current.id }));
-      var nextKey = (currentKey + 1) % vm.attachments.collection.length;
-
-      goTo(vm.attachments.collection[nextKey]).then(function (item) {
-        vm.attachments.current = item;
-      }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('Sorry, an error has occurred while loading the next file.'));
-      });
+      var currentIndex = _.findIndex(vm.attachments.collection, {id: vm.attachments.current.id});
+      var next = currentIndex + 1;
+      if (vm.attachments.collection.length > 0 && next < vm.attachments.collection.length) {
+        goTo(next);
+      }
     };
 
     function goPrevious() {
-      var currentId = vm.attachments.current.id;
-      vm.attachments.current = { downloadUrl : '' };
-      $timeout(function () {
-        var currentKey = Number(_.findKey(vm.attachments.collection, { id: currentId }));
-        var nextKey = (vm.attachments.collection.length + currentKey - 1) % vm.attachments.collection.length;
-
-        goTo(vm.attachments.collection[nextKey]).then(function (item) {
-          vm.attachments.current = item;
-        }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get('Sorry, an error has occurred while loading the previous file.'));
-        });
-      });
+      var currentIndex = _.findIndex(vm.attachments.collection, {id: vm.attachments.current.id});
+      var previous = currentIndex - 1;
+      if (vm.attachments.collection.length > 0 && previous >= 0) {
+        goTo(previous);
+      }
     };
 
-    function goTo(file) {
-      var deferred = $q.defer();
+    function goTo(index) {
+      vm.attachments.current = vm.attachments.collection[index];
+      if (vm.attachments.current.type === NST_FILE_TYPE.PDF ||
+        vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {
+        //TODO::Create a directive
+        $timeout(function () {
+          vm.attachments.current.width = angular.element('.nst-preview-pic-mode').width() - 20;
+          vm.attachments.current.height = angular.element('.nst-preview-pic-mode').height() - 20;
+        },1000);
+        getToken(vm.attachments.current.id).then(function (token) {
+          vm.attachments.current.viewUrl = $sce.trustAsResourceUrl('//docs.google.com/viewer?embedded=true&url=' +
+            encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token)));
 
-      var item = _.find(vm.attachments.collection, { id : file.id });
-
-      if (!item) {
-        deferred.resolve(vm.attachments.current);
-      } else {
-
-        vm.attachments.current = item;
-        // if (NST_FILE_TYPE.IMAGE == vm.attachments.current.type) {
-        //   EXIF.getData({ src: base64data }, function () {
-        //     if (this.exifdata || this.iptcdata) {
-        //       vm.attachments.current.meta.exif = this.exifdata || {};
-        //       vm.attachments.current.meta.iptc = this.iptcdata || {};
-        //
-        //       var key = _.findKey(vm.attachments.collection, { id: vm.attachments.current.id });
-        //       vm.attachments.collection[key] = vm.attachments.current;
-        //     }
-        //   });
-        // }
-
-        getToken(file.id).then(function (token) {
-          $timeout(function () {
-            vm.attachments.current.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, file.id, token);
-            vm.attachments.current.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, file.id, token);
-          });
-          deferred.resolve(item);
-        }).catch(deferred.reject);
+        }).catch(function (error) {
+          toastr.error('Sorry, An error has occured while trying to load the file');
+        });
       }
-
-      return deferred.promise;
     };
 
     function getToken(id) {
@@ -192,6 +163,38 @@
       });
 
       return deferred.promise;
+    }
+
+    function download(item) {
+      if (item.downloadUrl) {
+        location.href = item.downloadUrl;
+        return;
+      }
+
+      getToken(item.id).then(function (token) {
+        item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token);
+        item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
+
+        location.href = item.downloadUrl;
+      }).catch(function (error) {
+        toastr.error('Sorry, An error has occured while trying to load the file');
+      });
+    }
+
+    function openInNewWindow(item) {
+      if (item.viewUrl) {
+        window.open(item.viewUrl, '_target');
+        return;
+      }
+
+      getToken(item.id).then(function (token) {
+        item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token);
+        item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
+
+        window.open(item.viewUrl, '_target');
+      }).catch(function (error) {
+        toastr.error('Sorry, An error has occured while trying to load the file');
+      });
     }
   }
 })();

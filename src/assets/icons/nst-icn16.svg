@@ -1,22 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16">
+<svg id="icn16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16">
   <defs>
     <linearGradient id="linear-gradient" x1="8" y1="10" x2="8" y2="5" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#fff"/>
       <stop offset="1" stop-color="#d9d9d9"/>
     </linearGradient>
   </defs>
-  <title>Nested Web Icon Resource</title>
-  <g id="favedplace" data-name="favedplace">
+  <title>nst</title>
+  <g id="favedplace">
     <path d="M7,1.33,5.83,5H2a1,1,0,0,0-.59,1.81L4.5,9.08,3.31,12.74a1,1,0,0,0,1.54,1.12L8,11.6l3.12,2.27a1,1,0,0,0,1.54-1.12L11.44,9.08l3.09-2.25A1,1,0,0,0,14,5H10.12L8.92,1.33A1,1,0,0,0,7,1.33Z" style="fill: #fff"/>
     <rect id="space" width="16" height="16" style="fill: none"/>
     <polygon points="10.26 8.69 11.68 13.05 7.97 10.36 4.26 13.05 5.68 8.69 1.97 6 6.56 6 7.97 1.64 9.39 6 13.97 6 10.26 8.69" style="fill: #00b45a"/>
   </g>
   <g id="openplace">
+    <rect id="_Path_" data-name="&lt;Path&gt;" x="4" y="4" width="8" height="7" rx="1" ry="1" style="fill: #fff"/>
     <rect id="space-2" data-name="space" width="16" height="16" style="fill: none"/>
     <path d="M4,5v5a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V5a1,1,0,0,0-1-1H5A1,1,0,0,0,4,5ZM5,5h6v5H5ZM7.09,9.09l-.18-.18,3-3,.18.18Z" style="fill: #d9d9d9"/>
     <rect x="5" y="5" width="6" height="5" style="opacity: 0.2;fill: url(#linear-gradient)"/>
   </g>
   <g id="closedplace">
+    <rect id="_Path_2" data-name="&lt;Path&gt;" x="4" y="4" width="8" height="7" rx="1" ry="1" style="fill: #fff"/>
     <rect id="space-3" data-name="space" width="16" height="16" style="fill: none"/>
     <path id="_Compound_Path_" data-name="&lt;Compound Path&gt;" d="M4,5v5a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V5a1,1,0,0,0-1-1H5A1,1,0,0,0,4,5ZM5,5H8V7H5Zm1,5H5V8H6Zm5,0H7V8h4Zm0-3H9V5h2Z" style="fill: #d9d9d9"/>
   </g>
@@ -37,8 +39,28 @@
     <rect width="16" height="16" style="fill: none"/>
     <polygon points="6 12.41 2.29 8.71 3.71 7.29 6 9.59 11.29 4.29 12.71 5.71 6 12.41"/>
   </g>
+  <g id="exclamation-mark">
+    <rect id="space-8" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M10,11H6V1h4Zm0,1H6v3h4Z" style="fill-rule: evenodd"/>
+  </g>
+  <g id="menu">
+    <rect id="space-9" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M14,9H2V8H14Zm0-4H2V6H14Zm0,6H2v1H14Z"/>
+  </g>
   <g id="star">
-    <rect id="space" width="16" height="16" style="fill: none"/>
-    <polygon id="_Path_" data-name="&lt;Path&gt;" points="10.26 9.19 13.97 6.5 9.39 6.5 7.97 2.14 6.56 6.5 1.97 6.5 5.68 9.19 4.26 13.55 7.97 10.86 11.68 13.55 10.26 9.19"/>
+    <rect id="space-10" data-name="space" width="16" height="16" style="fill: none"/>
+    <polygon id="_Path_3" data-name="&lt;Path&gt;" points="10.26 8.69 13.97 6 9.39 6 7.97 1.64 6.56 6 1.97 6 5.68 8.69 4.26 13.05 7.97 10.36 11.68 13.05 10.26 8.69"/>
+  </g>
+  <g id="search">
+    <rect id="space-11" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M7,11.5A4.5,4.5,0,1,1,11.5,7,4.51,4.51,0,0,1,7,11.5ZM7,4a3,3,0,1,0,3,3A3,3,0,0,0,7,4Zm7.53,9.47-3-3-1.06,1.06,3,3Z"/>
+  </g>
+  <g id="downloads">
+    <rect width="16" height="16" style="fill: none"/>
+    <path d="M13,14H3V12H13ZM8,11.41,3.29,6.71,4.71,5.29,7,7.59V2H9V7.59l2.29-2.29,1.41,1.41Z"/>
+  </g>
+  <g id="filter">
+    <rect width="16" height="16" style="fill: none"/>
+    <polygon points="7 14 6 14 6 8.71 1.15 3.85 1.5 3 14.5 3 14.85 3.85 10 8.71 10 12 9 12 9 8.29 13.29 4 2.71 4 7 8.29 7 14"/>
   </g>
 </svg>

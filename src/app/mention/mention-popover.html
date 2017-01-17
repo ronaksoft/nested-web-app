@@ -1,9 +1,10 @@
-<div class="mention-wrp" ng-controller="MentionsController as ctlMentions" ng-click="ctlMentions.closeMention()">
+<div class="mention-wrp" ng-controller="MentionsController as ctlMentions" >
   <div class="subject">
     <a><translate>Mentions</translate></a>
   </div>
   <ul nst-scrollbar>
-    <li ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.postId })" ng-click="ctlMentions.viewPost(mention, $event);">
+    <li ng-repeat="mention in ctlMentions.mentions track by mention.id" ui-sref="app.message({ postId : mention.postId })"
+        ng-click="ctlMentions.viewPost(mention, $event);ctlMentions.closeMention()">
       <div class="item-inner ng-class:{'seen' : mention.isSeen}">
         <div class="user-avatar-24">
           <img ng-src="{{mention.avatar}}">

@@ -5,33 +5,36 @@ angular
 /** @ngInject */
 function NstSvcNotification($q, $window, _,
                             NST_PERMISSION_NOTIFICATION,
-                            NstObservableObject, NstSvcLogger) {
+                            NstObservableObject, NstSvcLogger, NstModel) {
   function MyNotification() {
     this.permission = Notification.permission;
     this.stack = {};
     this.options = {};
+    NstModel.call(this);
   }
 
-  MyNotification.prototype = {};
+
   MyNotification.prototype = new NstObservableObject();
   MyNotification.prototype.constructor = MyNotification;
 
 
   MyNotification.prototype.requestPermission = function () {
+    if (!("Notification" in $window)) {
+      NstSvcLogger.info(" Notification | This browser does not support desktop notification");
+      return;
+    }
+
     var service = this;
 
     function startNotification(result) {
       service.setPermission(result);
-      if (result == NST_PERMISSION_NOTIFICATION.GRANTED) {
-
-      }
     }
 
     if (NST_PERMISSION_NOTIFICATION.GRANTED !== this.permission)
       $window.Notification.requestPermission(startNotification)
   };
 
-  MyNotification.prototype.push = function (title, options) {
+  MyNotification.prototype.push = function (title, callback, options) {
     if (!("Notification" in $window)) {
       NstSvcLogger.info(" Notification | This browser does not support desktop notification");
       return;
@@ -41,27 +44,33 @@ function NstSvcNotification($q, $window, _,
     if (!opt.tag)
       opt.tag = 'n_' + Date.now();
 
+    opt.icon = '/assets/images/nested-logo-256.png';
     var defer = $q.defer();
 
     var notificationObject = {
       title: title,
       options: opt,
+      onclick: callback,
       defer: defer
     };
 
-    this.stack[opt.tag] =  notificationObject;
+    this.stack[opt.tag] = notificationObject;
     this.show(opt.tag);
-    return  notificationObject.defer.promise;
+    return notificationObject.defer.promise;
   };
 
   MyNotification.prototype.show = function (notificationTag) {
     var notifObject = this.stack[notificationTag];
     var notif = new $window.Notification(notifObject.title, notifObject.options);
     notif.onclick = function () {
+      window.focus();
+      if (notifObject.onclick) notifObject.onclick();
+      notif.close()
       notifObject.defer.resolve();
     }
 
   };
+
 
   return new MyNotification();
 }
