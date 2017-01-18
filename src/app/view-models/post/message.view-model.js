@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmMessage', NstVmMessage);
 
-  function NstVmMessage(moment, NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth, NstUtility) {
+  function NstVmMessage(moment, NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth, NstUtility, NST_PLACE_ACCESS) {
 
     function VmMessage(post, firstPlaceId, myPlaceIds) {
 
@@ -109,7 +109,8 @@
       return {
         id: place.id,
         name: place.name,
-        picture: place.hasPicture() ? place.picture.getUrl("x128") : '/assets/icons/absents_place.svg'
+        picture: place.hasPicture() ? place.picture.getUrl("x128") : '/assets/icons/absents_place.svg',
+        hasDeleteAccess: _.includes(place.accesses, NST_PLACE_ACCESS.REMOVE_POST)
       };
     }
 
