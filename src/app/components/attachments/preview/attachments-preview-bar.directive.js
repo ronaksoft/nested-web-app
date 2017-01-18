@@ -127,7 +127,7 @@
           var el = scope.scrollWrp[0];
           ++count;
           if( count < scope.scrollDis  ) { $timeout (function () {
-            el.scrollLeft -= 5;
+            el.scrollLeft -= 2;
             scrollLeft(count);
           },1)
           } else {
@@ -138,7 +138,7 @@
           var el = scope.scrollWrp[0];
           ++count;
           if( count < scope.scrollDis ) { $timeout (function () {
-            el.scrollLeft += 5;
+            el.scrollLeft += 2;
             scrollRight(count);
           },1)
           } else {
@@ -149,12 +149,15 @@
           if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
             scope.overFlowRight = true;
             scope.overFlowLeft = false;
+            return 'atFirst'
           } else if(el.clientWidth + el.scrollLeft > el.scrollWidth - 5 && el.clientWidth < el.scrollWidth) {
             scope.overFlowRight = false;
             scope.overFlowLeft = true;
+            return 'atEnd'
           } else if ( el.clientWidth < el.scrollWidth ) {
             scope.overFlowRight = true;
             scope.overFlowLeft = true;
+            return 'atMiddle'
           }
         }
 
@@ -167,7 +170,7 @@
             else {
               interval = $interval(scope.goLeft, 20);
             }
-          },500)
+          },50)
         }
         function stopScrollPower() {
           $timeout.cancel(pwTimeout);

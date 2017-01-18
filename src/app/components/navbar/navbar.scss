@@ -439,7 +439,7 @@ nst-navbar {
     .top-nav {
       width: 100%;
       flex-direction: row;
-      height: 118px;
+      height: 92px;
       position: relative;
       padding-top: 16px;
     }
@@ -447,6 +447,7 @@ nst-navbar {
       width: 100%;
       flex-direction: row;
       height: 42px;
+      position: absolute;
       .navigation {
         background-color: $color-white;
         display: inline-flex;
@@ -507,6 +508,7 @@ nst-navbar {
     //top : 16px;
     position: relative;
     justify-content: center;
+    float: left;
     @include avatar(72px,56px,6px);
     img {
       filter: alpha(opacity=10);
@@ -537,12 +539,10 @@ nst-navbar {
     flex: 1;
     //width: 100%;
     overflow: hidden;
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    left: 72px;
+    position: relative;
     flex-direction: column;
+    height: 100%;
+    float: left;
     > * {
       display: flex;
       flex: none;
@@ -672,7 +672,8 @@ nst-navbar {
   right: 0;
   left: 272px;
   transition: transform $animation-dur;
-  transform: translateY(-100%);
+  transform: translateY(-100%) translateZ(0);
+  will-change: transform;
   .bot-nav {
     height: 100%!important;
   }
@@ -682,7 +683,7 @@ nst-navbar {
 }
 body.scrolled {
   .nst-navbar-f {
-    transform: translateY(0);
+    transform: translateY(0) translateZ(0);
     .bot-nav {
       position: absolute;
     }

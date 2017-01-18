@@ -7,7 +7,7 @@
   <li ng-repeat="item in items">
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
       <img ng-if="item.hasThumbnail" class="attach-thumbnail-img" alt=""
-           style="background: url({{item.thumbnail}});background-size: cover; height: 108px; width: {{ (item.ratio * 108) }}px"/>
+           style="background: url({{item.thumbnail}}); height: 108px; width: {{ (item.ratio * 108) }}px"/>
       <div ng-if="!item.hasThumbnail" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
         <p>{{item.name}}</p>
         <div class="detail">
