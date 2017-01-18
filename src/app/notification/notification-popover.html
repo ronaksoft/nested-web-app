@@ -4,6 +4,13 @@
       <translate>Notifications</translate>
     </a>
   </div>
+  <div class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
+    <div class="nst-loading nst-loading-size-4 _fl"></div>
+    <span>&nbsp;</span>
+    <div class="nst-font-xsmall _fr nst-marginbtm-4">
+      <translate>Loading...</translate>
+    </div>
+  </div>
   <ul nst-scrollbar>
     <li ng-repeat="notif in ctlNotifications.notifications "
         ui-sref="app.message({ postId : notif.id })"
@@ -15,28 +22,35 @@
            ng-init="notification = notif">
       </div>
 
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.COMMENT"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/comment.html'"
+           ng-init="notification = notif">
+      </div>
+
+
       <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE"
            class="item-inner ng-class:{'seen' : notif.isSeen}"
            ng-include="'/app/notification/partials/invite.html'"
            ng-init="notification = notif">
       </div>
 
-      <!--<div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE_RESPOND"-->
-           <!--class="item-inner ng-class:{'seen' : notif.isSeen}"-->
-           <!--ng-include="'/app/notification/partials/invite-response.html'"-->
-           <!--ng-init="notification = notif">-->
-      <!--</div>-->
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE_RESPOND"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/invite-response.html'"
+           ng-init="notification = notif">
+      </div>
 
     </li>
     <li>
-      <div class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loading && !ctlNotifications.error">
+      <div class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingBefore && !ctlNotifications.error">
         <div class="nst-loading nst-loading-size-4 _fl"></div>
         <span>&nbsp;</span>
         <div class="nst-font-xsmall _fr nst-marginbtm-4">
           <translate>Loading...</translate>
         </div>
       </div>
-      <div class="text-center margin-top-10 nst-font-xsmall" ng-show="!ctlNotifications.loading && !ctlNotifications.reached"
+      <div class="text-center margin-top-10 nst-font-xsmall" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached"
            ng-click="ctlNotifications.loadMore()">
         <translate ng-if="!ctlMentions.error">Load more...</translate>
         <translate ng-if="ctlMentions.error">Try again...</translate>

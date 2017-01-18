@@ -31,6 +31,8 @@
     NotificationFactory.prototype.getNotifications = getNotifications;
     NotificationFactory.prototype.getNotificationsCount = getNotificationsCount;
     NotificationFactory.prototype.getAfter = getAfter;
+    NotificationFactory.prototype.storeLoadedNotification = storeLoadedNotification;
+    NotificationFactory.prototype.getLoadedNotification = getLoadedNotification;
     NotificationFactory.prototype.markAsSeen = markAsSeen;
 
 
@@ -66,8 +68,10 @@
               case NST_NOTIFICATION_TYPE.INVITE_RESPOND:
                 if (notif.invite_id !== undefined)
                   return parseInvitationResponse(notif);
-              // case NST_NOTIFICATION_TYPE.COMMENT:
-              //   return parseComment(notif);
+
+              case NST_NOTIFICATION_TYPE.COMMENT:
+
+                return parseComment(notif);
             }
           });
           $q.all(notificationPromises)
@@ -134,6 +138,18 @@
 
         return defer.promise;
       }, "markAsSeen");
+    }
+
+    /*****************
+     **   STORE     **
+     *****************/
+
+    function storeLoadedNotification(notifications) {
+      this.loadedNotifications = notifications;
+    }
+
+    function getLoadedNotification() {
+      return this.loadedNotifications;
     }
 
     /*****************
@@ -210,33 +226,41 @@
     function parseComment(notif) {
       var defer = $q.defer();
 
-      var commentProm = NstSvcCommentFactory.get(notif.comment_id);
+      var commentProm = NstSvcCommentFactory.getComment(notif.comment_id, notif.post_id);
+      var postProm = NstSvcPostFactory.get(notif.post_id);
 
       if (notif.data && notif.data.others) {
-        var users = $.all(_.map(notif.data.others, function (user) {
+        var users = $q.all(_.map(notif.data.others, function (user) {
           return NstSvcUserFactory.getTiny(user)
         }));
-        $.all([commentProm, users])
+        $q.all([postProm, commentProm, users])
           .then(function (value) {
             defer.resolve({
-              comment: value[0],
-              users: value[1],
+              post: value[0],
+              comment: value[1],
+              users: value[2],
               type: notif.type
             });
           })
+          .catch(function (err) {
+            console.log(err)
+          })
       } else {
-        commentProm.then(function (comment) {
-          defer.resolve({
-            comment: comment,
-            type: notif.type
+        $q.all([postProm, commentProm])
+          .then(function (value) {
+            defer.resolve({
+              post: value[0],
+              comment: value[1],
+              type: notif.type
+            });
+          })
+          .catch(function (err) {
+            console.log(err)
           });
-        });
-
-        return commentProm
       }
 
 
-      return defer;
+      return defer.promise;
     }
   }
 })();

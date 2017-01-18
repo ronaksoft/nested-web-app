@@ -11,7 +11,7 @@
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
-    vm.notifications = [];
+    vm.notifications = NstSvcNotificationFactory.getLoadedNotification() || [];
     vm.controls = {
       left: [],
       right: []
@@ -24,7 +24,11 @@
     vm.error = null;
 
     (function () {
-      loadNotification(Date.now());
+      if (vm.notifications.length === 0) {
+        loadBefor();
+      } else {
+        loadAfter();
+      }
     })();
 
     vm.closeMention = function () {
@@ -60,34 +64,40 @@
           limit: limit
         }).then(function (notifications) {
 
+        if (notifications)
+          vm.notifications = _.concat(vm.notifications, _.uniqBy(notifications, 'id'));
 
-        vm.notifications = _.concat(vm.notifications, _.uniqBy(notifications, 'id'));
+        console.log(11111,vm.notifications )
+        NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
 
         if (notifications.length < limit) {
           vm.reached = true;
         }
+        vm.loadingBefore = false;
+        vm.loadingAfter = false;
 
-        vm.loading = false;
         deferred.resolve(vm.notifications);
       }).catch(function (error) {
         $log.error(error);
         vm.error = true;
-        vm.loading = false;
+        vm.loadingBefore = false;
+        vm.loadingAfter = false;
         deferred.reject(error);
       });
 
       return deferred.promise;
     }
 
-
     function loadBefor() {
+      vm.loadingBefore = true;
       var lastItem = _.last(vm.notifications);
       return loadNotification(lastItem ? lastItem.date.getTime() : Date.now());
     }
 
     function loadAfter() {
+      vm.loadingAfter = true;
       var firstItem = _.first(vm.notifications);
-      return loadNotification(firstItem.date.getTime());
+      return loadNotification(null ,firstItem.date.getTime());
     }
 
     function viewPost(mention, $event) {
