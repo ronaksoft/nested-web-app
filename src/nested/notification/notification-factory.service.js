@@ -23,6 +23,12 @@
         }
       });
 
+      NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_NOTIFICATION, function (event) {
+        that.getNotificationsCount().then(function (count) {
+          that.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
+        });
+      });
+
     }
 
     NotificationFactory.prototype = new NstBaseFactory();
@@ -60,7 +66,6 @@
                 return parseMention(notif);
 
               case NST_NOTIFICATION_TYPE.INVITE:
-
                 if (notif.invite_id !== undefined) {
                   return parseInvitation(notif);
                 }
@@ -225,7 +230,6 @@
 
     function parseComment(notif) {
       var defer = $q.defer();
-
       var commentProm = NstSvcCommentFactory.getComment(notif.comment_id, notif.post_id);
       var postProm = NstSvcPostFactory.get(notif.post_id);
 
@@ -236,6 +240,10 @@
         $q.all([postProm, commentProm, users])
           .then(function (value) {
             defer.resolve({
+              id: notif._id,
+              isSeen: notif.read,
+              date: new Date(notif.timestamp),
+              lastUpdate: new Date(notif.last_update),
               post: value[0],
               comment: value[1],
               users: value[2],
@@ -249,6 +257,10 @@
         $q.all([postProm, commentProm])
           .then(function (value) {
             defer.resolve({
+              id: notif._id,
+              isSeen: notif.read,
+              date: new Date(notif.timestamp),
+              lastUpdate: new Date(notif.last_update),
               post: value[0],
               comment: value[1],
               type: notif.type

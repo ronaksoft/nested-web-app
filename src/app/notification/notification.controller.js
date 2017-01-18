@@ -18,18 +18,17 @@
     };
 
     vm.markAllSeen = markAllSeen;
-    vm.loadMore = loadBefor;
+    vm.loadMore = loadBefore;
     vm.loadNew = loadAfter;
     vm.viewPost = viewPost;
     vm.error = null;
 
-    (function () {
-      if (vm.notifications.length === 0) {
-        loadBefor();
-      } else {
-        loadAfter();
-      }
-    })();
+
+    if (vm.notifications.length === 0) {
+      loadBefore();
+    } else {
+      loadAfter();
+    }
 
     vm.closeMention = function () {
       $scope.$emit('close-mention');
@@ -64,10 +63,17 @@
           limit: limit
         }).then(function (notifications) {
 
-        if (notifications)
-          vm.notifications = _.concat(vm.notifications, _.uniqBy(notifications, 'id'));
+        if (notifications) {
+          var notifs = _.concat(notifications,vm.notifications);
+          vm.notifications = _.orderBy(_.uniqBy(notifs, 'id'), [function (notif) {
+            if (notif.type === NST_NOTIFICATION_TYPE.COMMENT)
+              return notif.lastUpdate.getTime();
 
-        console.log(11111,vm.notifications )
+            return notif.date.getTime();
+          }], ['desc']);
+        }
+        console.log(vm.notifications)
+
         NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
 
         if (notifications.length < limit) {
@@ -88,16 +94,18 @@
       return deferred.promise;
     }
 
-    function loadBefor() {
+    function loadBefore() {
       vm.loadingBefore = true;
       var lastItem = _.last(vm.notifications);
-      return loadNotification(lastItem ? lastItem.date.getTime() : Date.now());
+      return loadNotification(lastItem ? lastItem.lastUpdate ? lastItem.lastUpdate.getTime() : lastItem.date.getTime() : Date.now());
+
+
     }
 
     function loadAfter() {
       vm.loadingAfter = true;
       var firstItem = _.first(vm.notifications);
-      return loadNotification(null ,firstItem.date.getTime());
+      return loadNotification(null, firstItem.date.getTime());
     }
 
     function viewPost(mention, $event) {

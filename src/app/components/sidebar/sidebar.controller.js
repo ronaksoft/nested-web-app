@@ -546,7 +546,6 @@
     NstSvcNotificationSync.addEventListener(NST_NOTIFICATION_TYPE.INVITE, function (event) {
       getInvitations().then(function (invitations) {
         vm.invitations = mapInvitations(invitations);
-        console.log(1111111111111111111,invitations, event.detail.invite_id)
         var lastInvitation = _.find(invitations, function (inv) {
           return inv.id === event.detail.invite_id
         });
