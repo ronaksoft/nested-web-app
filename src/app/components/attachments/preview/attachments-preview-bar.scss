@@ -91,6 +91,7 @@ nst-attachments-preview-bar {
     overflow-y: hidden;
     overflow-x: auto;
     overflow: -moz-scrollbars-none;
+    user-select: none;
     li {
       margin: 0 4px;
       vertical-align: middle;
