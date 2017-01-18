@@ -543,6 +543,11 @@
       vm.notificationsCount += 1;
     });
 
+
+    NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.OPEN_INVITATION_MODAL, function (event) {
+      vm.invitation.showModal(event.detail.id)
+    });
+
     NstSvcNotificationSync.addEventListener(NST_NOTIFICATION_TYPE.INVITE, function (event) {
       getInvitations().then(function (invitations) {
         vm.invitations = mapInvitations(invitations);

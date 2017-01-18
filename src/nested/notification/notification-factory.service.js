@@ -133,7 +133,7 @@
         }
 
         NstSvcServer.request('notification/mark_as_read', {
-          mention_id: ids
+          notification_id: ids
         }).then(function (data) {
           factory.getNotificationsCount().then(function (count) {
             factory.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));

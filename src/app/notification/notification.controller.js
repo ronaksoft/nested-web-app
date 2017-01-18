@@ -6,8 +6,8 @@
     .controller('NotificationsController', NotificationsController);
 
   function NotificationsController(_, $q, $state, $scope, $log,
-                                   NST_NOTIFICATION_TYPE,
-                                   NstSvcNotificationFactory, NstSvcAuth, NstSvcLogger) {
+                                   NST_NOTIFICATION_TYPE, NST_NOTIFICATION_FACTORY_EVENT,
+                                   NstFactoryEventData, NstSvcNotificationFactory) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
@@ -20,7 +20,7 @@
     vm.markAllSeen = markAllSeen;
     vm.loadMore = loadBefore;
     vm.loadNew = loadAfter;
-    vm.viewPost = viewPost;
+    vm.onClickMention = onClickMention;
     vm.error = null;
 
 
@@ -30,9 +30,20 @@
       loadAfter();
     }
 
-    vm.closeMention = function () {
+    var closePopover = function () {
       $scope.$emit('close-mention');
     };
+
+    function markAsSeen(notification) {
+      var deferred = $q.defer();
+
+      markAllItemsAsSeen([notification]);
+      NstSvcNotificationFactory.markAsSeen(notification.id).then(function () {
+        deferred.resolve();
+      }).catch(deferred.reject);
+
+      return deferred.promise;
+    }
 
     function markAllSeen() {
       var deferred = $q.defer();
@@ -64,7 +75,7 @@
         }).then(function (notifications) {
 
         if (notifications) {
-          var notifs = _.concat(notifications,vm.notifications);
+          var notifs = _.concat(notifications, vm.notifications);
           vm.notifications = _.orderBy(_.uniqBy(notifs, 'id'), [function (notif) {
             if (notif.type === NST_NOTIFICATION_TYPE.COMMENT)
               return notif.lastUpdate.getTime();
@@ -72,7 +83,6 @@
             return notif.date.getTime();
           }], ['desc']);
         }
-        console.log(vm.notifications)
 
         NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
 
@@ -108,21 +118,33 @@
       return loadNotification(null, firstItem.date.getTime());
     }
 
-    function viewPost(mention, $event) {
+    function onClickMention(notification, $event) {
+
       $event.preventDefault();
+      markAsSeen(notification);
 
-      if (!mention.isSeen) {
-        NstSvcMentionFactory.markAsSeen(mention.id).then(function () {
-          markAllItemsAsSeen([mention]);
-        }).catch(function (error) {
-          NstSvcLogger.error(error);
-        }).finally(function () {
-          $state.go('app.message', {postId: mention.postId}, {notify: false});
-        });
-      } else {
-        $state.go('app.message', {postId: mention.postId}, {notify: false});
+      switch (notification.type) {
+        case NST_NOTIFICATION_TYPE.INVITE :
+          closePopover();
+          return showInvitationModal(notification);
+        case NST_NOTIFICATION_TYPE.COMMENT:
+        case NST_NOTIFICATION_TYPE.MENTION:
+          closePopover();
+          return viewPost(notification);
       }
+    }
 
+
+    function showInvitationModal(notification) {
+
+      NstSvcNotificationFactory.dispatchEvent(
+        new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.OPEN_INVITATION_MODAL, new NstFactoryEventData(notification.invitation))
+      )
+    }
+
+
+    function viewPost(notification) {
+      $state.go('app.message', {postId: notification.mention.post.id}, {notify: false});
     };
 
   }
