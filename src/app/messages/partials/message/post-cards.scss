@@ -167,8 +167,10 @@
   }
   .post-places {
     margin-top: 16px;
+    flex-wrap: wrap;
     a {
       margin-right: 16px;
+      white-space: nowrap;
     }
   }
   .post-footer{
