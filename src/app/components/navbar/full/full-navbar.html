@@ -53,7 +53,7 @@
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
               <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#message"></use>
+                <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
               </svg>
               <translate>Messages</translate>
             </a>
@@ -83,6 +83,7 @@
                    ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
+          <div class="cp-illu"></div>
         </div>
         <div class="navigation" ng-if="ctlFullNavbar.controls">
           <nav>
@@ -179,12 +180,21 @@
               </svg>
             </a>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#file"></use>
+              </svg>
               <translate>Feed</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
+              </svg>
               <translate>Bookmarked</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
+              </svg>
               <translate>Shared by me</translate>
             </a>
           </nav>
@@ -201,6 +211,7 @@
                    ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
+          <div class="cp-illu"></div>
         </div>
       </div>
       <!--<div class="nav-access" ng-if="ctlFullNavbar.isFeed">-->
@@ -234,19 +245,19 @@
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
               <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#message"></use>
+                <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
               </svg>
               <translate>Messages</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover" active-group="file">
               <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#sssss"></use>
+                <use xlink:href="/assets/icons/nst-icn24.svg#file"></use>
               </svg>
               <translate>Files</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isFeed" class="menu-links-butn _df li-hover" active-group="activity">
               <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
+                <use xlink:href="/assets/icons/nst-icn24.svg#log"></use>
               </svg>
               <translate>Activities</translate>
             </a>
@@ -264,6 +275,8 @@
                    ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
+          <div class="cp-illu"></div>
+
         </div>
         <div class="navigation" ng-if="ctlFullNavbar.controls">
           <nav>
@@ -320,19 +333,25 @@
           <nav>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover">
               <svg class="icon-filter _df">
-                <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
+                <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
               </svg>
             </a>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#file"></use>
+              </svg>
               <translate>Feed</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover">
-              <translate>Unseen</translate>
-            </a>
-            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
+              </svg>
               <translate>Bookmarked</translate>
             </a>
             <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#log"></use>
+              </svg>
               <translate>Shared by me</translate>
             </a>
           </nav>
@@ -349,6 +368,7 @@
                    ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
+          <div class="cp-illu"></div>
         </div>
       </div>
       <!--<div class="nav-access" ng-if="ctlFullNavbar.isFeed">-->

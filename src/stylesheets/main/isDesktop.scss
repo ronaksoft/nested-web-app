@@ -8,4 +8,26 @@ body.isDesktop {
     margin-left: 272px;
     width: calc(100% - 272px);
   }
+  .menu-links-butn {
+    min-width: 90px;
+  }
+  .nst-navbar.feed {
+    .menu-links-butn {
+      svg { display: none;}
+      &:first-of-type {
+        svg { display: flex;}
+      }
+    }
+  }
+  .nst-navbar-f.feed {
+    .menu-links-butn {
+      svg { display: none;}
+      &:first-of-type {
+        svg { display: flex;}
+      }
+    }
+  }
+  .navbarillu {
+    display: none;
+  }
 }

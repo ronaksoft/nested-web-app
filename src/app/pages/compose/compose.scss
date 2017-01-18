@@ -134,7 +134,7 @@
 }
 
 .input-select-match {
-  width: 94%;
+  width: calc(100% - 50px);
   flex: none;
   min-height: 42px;
 }

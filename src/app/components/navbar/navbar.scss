@@ -427,9 +427,6 @@ nst-navbar {
     display: flex;
 
   }
-  .menu-links-butn {
-    min-width: 90px;
-  }
   .nst-content {
     z-index: 2;
   }
@@ -455,8 +452,7 @@ nst-navbar {
         display: inline-flex;
         flex-direction: row;
         //right: 0;
-        margin-right: 308px;
-        width: calc(100% - 308px);
+        width: 100%;
         padding-left: 8px;
         height: 100%;
         svg {
@@ -498,6 +494,10 @@ nst-navbar {
             top: 50%;
             transform: translateY(-50%);
           }
+        }
+        .cp-illu {
+          width: 308px;
+          display: flex;
         }
       }
     }
@@ -676,6 +676,9 @@ nst-navbar {
   .bot-nav {
     height: 100%!important;
   }
+  .content {
+    min-width: 0;
+  }
 }
 body.scrolled {
   .nst-navbar-f {
@@ -687,7 +690,7 @@ body.scrolled {
 }
 .navbarillu {
   width: 100%;
-  height: $navbar-height;
+  height: $topnav-height;
   flex: none
 }
 .setting-icon-nav{
@@ -702,8 +705,8 @@ body.scrolled {
 }
 
 .menu-links-butn {
-  min-width: 90px;
-  color: $color-storm;
+  color: $color-breeze;
+  fill: $color-breeze;
   line-height: 22px;
   text-align: center;
   cursor: pointer;
@@ -712,13 +715,19 @@ body.scrolled {
   justify-content: center;
   font-size: 18px;
   font-weight: 400;
-  transition: color $animation-dur;
-  &.active {
-    border-bottom: 3px solid $color-sense ;
-    color: $color-sense-wire;
-  }
+  transition: color,fill $animation-dur;
   &:hover {
+    color: $color-solid;
+    fill: $color-solid;
+  }
+  &.active {
+    border-bottom: 3px solid $color-sense;
     color: $color-sense-wire;
+    fill: $color-sense-wire;
+    &:hover {
+      color: $color-sense-wire;
+      fill: $color-sense-wire;
+    }
   }
 }
 
