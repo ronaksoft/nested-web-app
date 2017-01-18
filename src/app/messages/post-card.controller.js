@@ -19,9 +19,7 @@
       },
       newCommentIds = [],
       unreadCommentIds = [],
-      focusOnSentTimeout = null,
-      collapseHandler = null,
-      expandTimeoutCleanner = null;
+      focusOnSentTimeout = null;
 
     vm.sendComment = sendComment;
 
@@ -190,12 +188,8 @@
 
     function expand() {
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
-        $rootScope.$emit('post-card-collapse-all', { postId : post.id });
         vm.body = post.body;
         vm.isExpanded = true;
-        expandTimeoutCleanner = $timeout(function () {
-          $scope.$emit('scroll-to-view', { id : post.id });
-        }, 1);
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       });
@@ -256,13 +250,6 @@
       // Later on, ask server whether to expand or not
       vm.isExpandable = vm.body.length > 250;
 
-      collapseHandler = $rootScope.$on('post-card-collapse-all', function (event, data) {
-        if (vm.isExpanded && vm.post.id !== data.postId) {
-          collapse();
-          // event.stopPropagination();
-        }
-      });
-
       vm.urls = {};
       vm.urls['reply_all'] = $state.href('app.compose-reply-all', {
         postId: vm.post.id
@@ -292,15 +279,6 @@
     $scope.$on('$destroy', function () {
       if (focusOnSentTimeout) {
         $timeout.cancel(focusOnSentTimeout);
-      }
-
-      if (collapseHandler) {
-        collapseHandler();
-        collapseHandler = null;
-      }
-
-      if (expandTimeoutCleanner) {
-        $timeout.cancel(expandTimeoutCleanner);
       }
     });
   }
