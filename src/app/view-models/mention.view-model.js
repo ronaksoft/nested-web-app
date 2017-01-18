@@ -3,9 +3,9 @@
 
   angular
     .module('ronak.nested.web.common')
-    .factory('NstVmMention', NstVmMention);
+    .factory('NstVmNotification', NstVmNotification);
 
-  function NstVmMention(NstMention, moment, _) {
+  function NstVmNotification(NstMention, moment, _) {
     function VmMention(model, currentUserId) {
       this.id = null;
       this.name = null;

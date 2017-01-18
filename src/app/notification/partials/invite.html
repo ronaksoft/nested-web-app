@@ -1,0 +1,13 @@
+<div class="user-avatar-24">
+  <img initial-avatar="{{::notification.invitation.inviter.fullName}}"
+       picture="{{::notification.invitation.inviter | avatar}}"
+       data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="12"/>
+</div>
+<div class="mention">
+  <p>
+    <b>{{ ::notification.invitation.invitee.fullName }}</b> accept your invitation to <b>{{notification.invitation.place.name}} (#{{notification.invitation.place.id}})</b>
+  </p>
+  <div class="ment-date">
+    {{notification.date | passed}}
+  </div>
+</div>

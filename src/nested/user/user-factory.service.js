@@ -235,8 +235,8 @@
       user.setGender(userData.gender);
 
       if (_.isObject(userData.counters)) {
-        user.setTotalMentionsCount(userData.counters.total_mentions);
-        user.setUnreadMentionsCount(userData.counters.unread_mentions);
+        user.setTotalNotificationsCount(userData.counters.total_mentions);
+        user.setUnreadNotificationsCount(userData.counters.unread_mentions);
       }
 
       if (userData.picture && userData.picture.org) {

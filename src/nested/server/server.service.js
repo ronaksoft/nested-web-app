@@ -76,8 +76,16 @@
             break;
 
           case NST_SRV_MESSAGE_TYPE.PUSH:
-            this.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_ACTIVITY, {detail: message.data}));
+            switch (message.cmd ){
+              case NST_SRV_PUSH_CMD.SYNC_ACTIVITY:
+                this.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_ACTIVITY, {detail: message.data}));
+                break;
+              case NST_SRV_PUSH_CMD.SYNC_NOTIFICATION:
+                this.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_NOTIFICATION, {detail: message.data}));
+                break;
+            }
             break;
+
           default :
             throw "SERVER | Undefined response WS type";
             break;

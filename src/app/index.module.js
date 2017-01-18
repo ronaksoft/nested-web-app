@@ -9,7 +9,7 @@
       'ronak.nested.web.authenticate',
       'ronak.nested.web.message',
       'ronak.nested.web.comment',
-      'ronak.nested.web.mention',
+      'ronak.nested.web.notification',
       'ronak.nested.web.components',
       'ronak.nested.web.activity',
       'ronak.nested.web.user',
