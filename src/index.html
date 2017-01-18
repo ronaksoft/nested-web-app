@@ -94,7 +94,7 @@
     }
   </style>
 </head>
-<body hide-tips ng-class="{'_oh':$root.topNavOpen,'isDesktop':$root.deviceDetector.isDesktop(),'isMobile':$root.deviceDetector.isTablet() || $root.deviceDetector.isMobile()}" dir="{{_direction}}">
+<body scroll-dispatch ng-class="{'_oh':$root.topNavOpen,'isDesktop':$root.deviceDetector.isDesktop(),'isMobile':$root.deviceDetector.isTablet() || $root.deviceDetector.isMobile()}" dir="{{_direction}}">
 <nst-unseen-activity></nst-unseen-activity>
   <!--Initial loading part-->
   <div nst-show-effect data-show="{{ctlApp.showLoadingScreen}}" jq-options="{type:'fade', duration:400, delay:500}"

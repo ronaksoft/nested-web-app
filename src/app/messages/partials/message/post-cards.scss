@@ -78,14 +78,14 @@
       margin-left: 10px;
       margin-right: 4px;
     }
-    h4 {
+    span{
+      font-size: $font-size-xsmall;
+      @include text-hover()
+    }
+    h4 span{
       margin: 0;
       font-size: 13px;
       font-weight: 400;
-      @include text-hover()
-    }
-    span{
-      font-size: $font-size-xsmall;
       @include text-hover()
     }
     .popover-userdetail {
@@ -121,7 +121,7 @@
   }
   .attachments-card {
     position: relative;
-    min-height: 96px;
+    min-height: 108px;
   }
   hr {
     width: calc(100% - 20px);
@@ -458,26 +458,30 @@ h3 {
   border: none;
   background-color: $color-calm;
   border-radius: 1px 0 0 1px;
-  transition: background-color $animation-dur;
+  transition: opacity $animation-dur;
   display: none;
 }
 .post-card.forward-card {
   .chain {
     display: block;
+    background-color: $color-forward;
+    opacity: .08;
   }
   &:hover {
     .chain {
-      background-color: $color-forward;
+      opacity: 1;
     }
   }
 }
 .post-card.reply-card {
   .chain {
     display: block;
+    background-color: $color-reply;
+    opacity: .08;
   }
   &:hover {
     .chain {
-      background-color: $color-reply;
+      opacity: 1;
     }
   }
 }

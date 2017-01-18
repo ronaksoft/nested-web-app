@@ -3,18 +3,30 @@
 
   angular
     .module('ronak.nested.web.components.scroll')
-    .directive('hideTips', hideTips);
+    .directive('scrollDispatch', hideTips);
 
   /** @ngInject */
-  function hideTips($timeout,$interval) {
+  function hideTips() {
     return {
       link: function ($scope, $element) {
 
-        var sss;
-
+        var scrollPos = 0;
         $(window).scroll(function(e){
+          var scrollOff = 220;
+
+
+          //hide tips
           dissappear($element.find('.tooltip'));
           dissappear($element.find('.popover-userdetail'));
+
+          if(e.currentTarget.pageYOffset > scrollOff && e.currentTarget.pageYOffset < scrollPos){
+            $('body').addClass('scrolled')
+          } else if (e.currentTarget.pageYOffset < scrollOff || ( e.currentTarget.pageYOffset > scrollOff && $('body').hasClass('scrolled') ) ) {
+            $('body').removeClass('scrolled')
+          }
+
+          scrollPos = e.currentTarget.pageYOffset;
+
 
 
         });
