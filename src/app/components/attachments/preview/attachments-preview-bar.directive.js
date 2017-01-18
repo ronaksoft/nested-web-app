@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
-  function AttachmentsPreviewBar(NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER,$timeout) {
+  function AttachmentsPreviewBar(NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER,$timeout,$interval) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/preview/main.html',
@@ -19,6 +19,8 @@
         scope.overFlowLeft = scope.overFlowRight = false;
         scope.items = setOrder(scope.items, NST_ATTACHMENTS_PREVIEW_BAR_ORDER.order);
         scope.flexDiv = 16;
+        scope.scrollDis = 70;
+        var interval,pwTimeout;
 
         // if (modeIsValid(scope.mode)) {
         //   scope.internalMode = scope.mode;
@@ -59,23 +61,95 @@
           scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);
         }
 
+
+
+
+
+
+        $timeout( function () {
+          scope.scrollWrp = ele.children().next();
+          var leftArrow = ele.children().first();
+          var rightArrow = ele.children().next().next();
+
+          checkScroll(scope.scrollWrp[0]);
+
+          scope.scrollWrp.scroll(function(){
+            checkScroll(scope.scrollWrp[0]);
+          });
+
+          rightArrow.mousedown(function(){
+            scrollPower('right');
+          });
+          rightArrow.mouseup(function(){
+            stopScrollPower();
+          });
+
+          leftArrow.mousedown(function(){
+            scrollPower('left');
+          });
+          leftArrow.mouseup(function(){
+            stopScrollPower();
+          });
+          leftArrow.mouseout(function(){
+            stopScrollPower();
+          });
+
+        },1000 );
+
+
+
+
+        // interaction functions
         scope.onClick = function (item) {
           if (scope.onItemClick) {
             scope.onItemClick(item, scope.items);
           }
         };
+        scope.dlClick = function (item) {
+          //Download it
+        };
 
+        scope.goLeft = function () {
+          var k = makeid();
+          var count =  {};
+          count[k] = 0;
+          scrollLeft(count[k]);
+        };
 
-        $timeout( function () {
-          checkScroll(ele[0].children[1]);
-        },1000 );
+        scope.goRight = function () {
+          var k = makeid();
+          var count =  {};
+          count[k] = 0;
+          scrollRight(count[k]);
+        };
 
+        function scrollLeft(count) {
+          var el = scope.scrollWrp[0];
+          ++count;
+          if( count < scope.scrollDis  ) { $timeout (function () {
+            el.scrollLeft -= 5;
+            scrollLeft(count);
+          },1)
+          } else {
+            checkScroll(el)
+          }
+        }
+        function scrollRight(count) {
+          var el = scope.scrollWrp[0];
+          ++count;
+          if( count < scope.scrollDis ) { $timeout (function () {
+            el.scrollLeft += 5;
+            scrollRight(count);
+          },1)
+          } else {
+            checkScroll(el)
+          }
+        }
         function checkScroll(el) {
-          scope.scrollWrp = el;
           if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
             scope.overFlowRight = true;
             scope.overFlowLeft = false;
-          } else if(el.clientWidth + el.scrollLeft == el.scrollWidth && el.clientWidth < el.scrollWidth) {
+          } else if(el.clientWidth + el.scrollLeft > el.scrollWidth - 5 && el.clientWidth < el.scrollWidth) {
             scope.overFlowRight = false;
             scope.overFlowLeft = true;
           } else if ( el.clientWidth < el.scrollWidth ) {
@@ -84,43 +158,22 @@
           }
         }
 
-
-        scope.goLeft = function (e) {
-          e.stopPropagation();
-          var k = makeid();
-          var count =  {};
-          count[k] = 0;
-          scrollLeft(count[k]);
-        };
-        function scrollLeft(count) {
-          var el = scope.scrollWrp;
-          ++count;
-          if( count < 70 ) { $timeout (function () {
-            el.scrollLeft -= 1;
-            scrollLeft(count);
-          },1)
-          } else {
-            checkScroll(el)
-          }
+        function scrollPower(dir) {
+          stopScrollPower();
+          pwTimeout = $timeout(function () {
+            console.log('start',dir);
+            if ( dir == 'right' ) {
+              interval = $interval(scope.goRight, 20);
+            }
+            else {
+              interval = $interval(scope.goLeft, 20);
+            }
+          },500)
         }
-
-        scope.goRight = function (e) {
-          e.stopPropagation();
-          var k = makeid();
-          var count =  {};
-          count[k] = 0;
-          scrollRight(count[k]);
-        };
-        function scrollRight(count) {
-          var el = scope.scrollWrp;
-          ++count;
-          if( count < 70 ) { $timeout (function () {
-            el.scrollLeft += 1;
-            scrollRight(count);
-          },1)
-          } else {
-            checkScroll(el)
-          }
+        function stopScrollPower() {
+          console.log('stop');
+          $timeout.cancel(pwTimeout);
+          $interval.cancel(interval);
         }
 
       }

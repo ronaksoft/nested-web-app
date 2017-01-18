@@ -78,14 +78,14 @@
       margin-left: 10px;
       margin-right: 4px;
     }
-    h4 {
+    span{
+      font-size: $font-size-xsmall;
+      @include text-hover()
+    }
+    h4 span{
       margin: 0;
       font-size: 13px;
       font-weight: 400;
-      @include text-hover()
-    }
-    span{
-      font-size: $font-size-xsmall;
       @include text-hover()
     }
     .popover-userdetail {

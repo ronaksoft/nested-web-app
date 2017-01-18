@@ -716,6 +716,9 @@ body.scrolled {
   font-size: 18px;
   font-weight: 400;
   transition: color,fill $animation-dur;
+  span {
+    transition: color $animation-dur;
+  }
   &:hover {
     color: $color-solid;
     fill: $color-solid;

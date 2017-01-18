@@ -1,4 +1,4 @@
-<i ng-click="goLeft($event)" ng-class="{'_opz' : !overFlowLeft}">
+<i ng-click="goLeft();$event.stopPropagation()" ng-class="{'_opz' : !overFlowLeft}">
   <svg>
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow-up"></use>
   </svg>
@@ -47,7 +47,7 @@
     <img width="100%"  height="100%" ng-src="{{items[1].preview}}"/>
   </li>
 </ul>
-<i ng-click="goRight($event)" ng-class="{'_opz' : !overFlowRight}">
+<i ng-click="goRight();$event.stopPropagation()" ng-class="{'_opz' : !overFlowRight}">
   <svg>
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
   </svg>
