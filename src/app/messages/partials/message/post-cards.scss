@@ -49,7 +49,7 @@
   section {
     display: inline-flex;
     width: 100%;
-    padding: 0 12px;
+    padding: 0 24px;
   }
   .icon {
     fill: black;
@@ -94,7 +94,10 @@
       transform: translateY(-90%);
     }
   }
-
+  .unread-badge-holder {
+    display: none;
+    font-size: 18px;
+  }
   .post-body{
     font-size: 13px;
     color: #808080;
@@ -111,20 +114,14 @@
       margin-left: 0;
     }
 
-    .unread-badge-holder {
-      display: none;
-      margin: 0 4px 0 0;
-      //todo:: don't use !important
-      color: #14D769;
-      font-size: 18px;
-    }
+
   }
   .attachments-card {
     position: relative;
     min-height: 108px;
   }
   hr {
-    width: calc(100% - 20px);
+    width: calc(100% - 48px);
     border-color: $color-calm;
     margin: 12px auto 0 auto;
   }
@@ -163,6 +160,7 @@
   }
   .post-card-time{
     position: relative;
+    line-height: 14px;
     //top: 12px;
   }
   .post-places {
@@ -258,15 +256,6 @@ h3 {
   font-weight: 100;
 }
 .post-card .post-subject{
-  .unread-badge-holder {
-    visibility: hidden;
-    margin: 8px 4px 8px 0;
-    width: 12px;
-    //todo:: Use variable
-    color: #14D769 ;
-    line-height: 29px;
-    font-size: 18px;
-  }
   h3 {
     margin: 8px 0;
     font-size: 24px;
@@ -290,17 +279,11 @@ h3 {
   .post-subject h3, .post-body {
     font-weight: bold;
   }
-
-  .post-subject {
-    .unread-badge-holder {
-      visibility: visible;
-    }
+  .post-card-time {
+   color: $color-bg-pending;
   }
-
-  .post-body {
-    .unread-badge-holder {
-      display: block;
-    }
+  .unread-badge-holder {
+    display: block;
   }
 }
 .post-card-comment{
