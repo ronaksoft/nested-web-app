@@ -21,6 +21,7 @@
         scope.flexDiv = 16;
         scope.scrollDis = 70;
         var interval,pwTimeout;
+        var moves = [];
 
         // if (modeIsValid(scope.mode)) {
         //   scope.internalMode = scope.mode;
@@ -90,9 +91,6 @@
           leftArrow.mouseup(function(){
             stopScrollPower();
           });
-          leftArrow.mouseout(function(){
-            stopScrollPower();
-          });
 
         },1000 );
 
@@ -120,58 +118,70 @@
           var k = makeid();
           var count =  {};
           count[k] = 0;
-          scrollRight(count[k]);
+          scrollRight(count,k);
         };
 
         function scrollLeft(count) {
           var el = scope.scrollWrp[0];
-          ++count;
-          if( count < scope.scrollDis  ) { $timeout (function () {
-            el.scrollLeft -= 5;
-            scrollLeft(count);
-          },1)
-          } else {
-            checkScroll(el)
-          }
+          var i = $interval(function () {
+            count++;
+            if ( count < scope.scrollDis) {
+              el.scrollLeft -= 2;
+            } else {
+              $interval.cancel(i);
+            }
+          },1);
+          moves.push(i);
         }
-        function scrollRight(count) {
+        function scrollRight(count,k) {
           var el = scope.scrollWrp[0];
-          ++count;
-          if( count < scope.scrollDis ) { $timeout (function () {
-            el.scrollLeft += 5;
-            scrollRight(count);
-          },1)
-          } else {
-            checkScroll(el)
-          }
+          var i = $interval(function () {
+            count[k]++;
+            if ( count[k] < scope.scrollDis) {
+              el.scrollLeft += 2;
+            } else {
+              $interval.cancel(i);
+            }
+          },1);
+          moves.push(i);
+
         }
         function checkScroll(el) {
           if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
             scope.overFlowRight = true;
             scope.overFlowLeft = false;
-          } else if(el.clientWidth + el.scrollLeft > el.scrollWidth - 5 && el.clientWidth < el.scrollWidth) {
+            return stopScrollPower()
+          } else if(el.clientWidth + el.scrollLeft >= el.scrollWidth && el.clientWidth < el.scrollWidth) {
             scope.overFlowRight = false;
             scope.overFlowLeft = true;
+            return stopScrollPower()
           } else if ( el.clientWidth < el.scrollWidth ) {
             scope.overFlowRight = true;
             scope.overFlowLeft = true;
+            return 'atMiddle'
           }
         }
 
         function scrollPower(dir) {
-          stopScrollPower();
           pwTimeout = $timeout(function () {
             if ( dir == 'right' ) {
-              interval = $interval(scope.goRight, 20);
+              interval = $interval(function () {
+                scope.goRight()
+              },100);
             }
             else {
-              interval = $interval(scope.goLeft, 20);
+              interval = $interval(scope.goLeft, 100);
             }
-          },500)
+          },50)
         }
         function stopScrollPower() {
           $timeout.cancel(pwTimeout);
           $interval.cancel(interval);
+
+          for(var i=0; i < moves.length; i++) {
+            $interval.cancel(moves[i]);
+          }
+          moves = []
         }
 
       }
