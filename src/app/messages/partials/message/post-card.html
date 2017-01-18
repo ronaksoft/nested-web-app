@@ -63,7 +63,7 @@
     <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'"
          data-ng-init="thePost = ctlPostCard.post"></div>
   </section> -->
-  <section >
+  <section ng-if="ctlPostCard.isExpandable">
     <!-- <a ng-click="$event.stopPropagation();ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Collapse</a> -->
     <a ng-click="$event.stopPropagation();ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">Expand</a>
   </section>

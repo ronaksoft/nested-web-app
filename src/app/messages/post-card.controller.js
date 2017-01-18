@@ -250,6 +250,8 @@
 
       vm.hasOlderComments = vm.post.commentsCount && vm.post.comments ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = vm.post.body;
+      // Later on, ask server whether to expand or not
+      vm.isExpandable = vm.body.length > 250;
 
       collapseHandler = $rootScope.$on('post-card-collapse-all', function (event, data) {
         if (vm.isExpanded && vm.post.id !== data.postId) {
