@@ -98,7 +98,7 @@
         <translate>Mention</translate>
       </script>
       <a class="detailed popover-mentions"
-         data-uib-popover-template="'app/mention/mention-popover.html'"
+         data-uib-popover-template="'app/notification/notification-popover.html'"
          data-popover-placement="right-top auto"
          data-popover-class="mentions"
          data-popover-append-to-body="false"
@@ -113,7 +113,7 @@
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#atsign"></use>
           </svg>
-          <div class="notif" ng-if="ctlSidebar.mentionsCount">{{ctlSidebar.mentionsCount}}</div>
+          <div class="notif" ng-if="ctlSidebar.notificationsCount">{{ctlSidebar.notificationsCount}}</div>
         </div>
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           <translate>Notifications</translate>

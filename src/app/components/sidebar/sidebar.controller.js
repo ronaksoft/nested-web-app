@@ -9,9 +9,10 @@
   function SidebarController($q, $scope, $state, $stateParams, $uibModal, $log, $rootScope,
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT,
-                             NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT,
+                             NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE,
                              NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
-                             NstSvcPostFactory, NstSvcSync, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcMentionFactory,
+                             NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
+                             NstSvcNotificationSync, NstSvcSync,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
 
@@ -178,10 +179,10 @@
     });
 
 
-    if (NstSvcAuth.user.unreadMentionsCount) {
-      vm.mentionsCount = NstSvcAuth.user.unreadMentionsCount;
+    if (NstSvcAuth.user.unreadNotificationsCount) {
+      vm.notificationsCount = NstSvcAuth.user.unreadNotificationsCount;
     } else {
-      getMentionsCount();
+      getNotificationsCount();
     }
 
 
@@ -356,9 +357,9 @@
       return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
     }
 
-    function getMentionsCount() {
-      NstSvcLoader.inject(NstSvcMentionFactory.getMentionsCount()).then(function (count) {
-        vm.mentionsCount = count;
+    function getNotificationsCount() {
+      NstSvcLoader.inject(NstSvcNotificationFactory.getNotificationsCount()).then(function (count) {
+        vm.notificationsCount = count;
       })
     }
 
@@ -426,7 +427,7 @@
       var totalUnread = 0;
       _.each(places, function (place) {
         if (place) {
-          vm.placesNotifCountObject[place.id] = place.unreadPosts;
+          // vm.placesNotifCountObject[place.id] = place.unreadPosts;
           totalUnread += place.unreadPosts;
         }
       });
@@ -534,19 +535,19 @@
       getGrandPlaceUnreadCounts();
     });
 
-    NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.UPDATE, function (event) {
-      vm.mentionsCount = event.detail;
+    NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, function (event) {
+      vm.notificationsCount = event.detail;
     });
 
-    NstSvcMentionFactory.addEventListener(NST_MENTION_FACTORY_EVENT.NEW_MENTION, function (event) {
-      vm.mentionsCount += 1;
+    NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.NEW_NOTIFICATION, function (event) {
+      vm.notificationsCount += 1;
     });
 
-    NstSvcServer.addEventListener(NST_EVENT_ACTION.MEMBER_INVITE, function (event) {
+    NstSvcNotificationSync.addEventListener(NST_NOTIFICATION_TYPE.INVITE, function (event) {
       getInvitations().then(function (invitations) {
         vm.invitations = mapInvitations(invitations);
+        console.log(1111111111111111111,invitations, event.detail.invite_id)
         var lastInvitation = _.find(invitations, function (inv) {
-          console.log(inv, event.detail.invite_id)
           return inv.id === event.detail.invite_id
         });
 
@@ -566,7 +567,7 @@
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
       NstSvcLogger.debug('Retrieving mentions count right after reconnecting.');
-      getMentionsCount();
+      getNotificationsCount();
       NstSvcLogger.debug('Retrieving the grand place unreads count right after reconnecting.');
       getGrandPlaceUnreadCounts();
       NstSvcLogger.debug('Retrieving invitations right after reconnecting.');

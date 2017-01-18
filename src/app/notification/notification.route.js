@@ -10,9 +10,9 @@
     $stateProvider
       .state('app.mentions', {
         url: '/mentions',
-        templateUrl: 'app/mention/mentions.html',
-        controller: 'MentionsController',
-        controllerAs: 'ctlMentions',
+        templateUrl: 'app/notification/notification.html',
+        controller: 'NotificationsController',
+        controllerAs: 'ctlNotifications',
         // params : {
         //   mentions : {
         //     array : true,

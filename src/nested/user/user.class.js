@@ -67,14 +67,14 @@
        * Number of times the user was mentioned
        * @type {undefined|Number}
        */
-      this.totalMentionsCount = undefined;
+      this.totalNotificationsCount = undefined;
 
 
       /**
        * Number of unread mentions
        * @type {undefined|Number}
        */
-      this.unreadMentionsCount = undefined;
+      this.unreadNotificationsCount = undefined;
 
       NstTinyUser.call(this);
 

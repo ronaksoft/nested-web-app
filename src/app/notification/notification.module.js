@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.mention', [
+    .module('ronak.nested.web.notification', [
       'ronak.nested.web.models',
       'ronak.nested.web.comment',
       'ronak.nested.web.user',
