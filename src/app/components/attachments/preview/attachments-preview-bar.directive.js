@@ -161,7 +161,6 @@
         function scrollPower(dir) {
           stopScrollPower();
           pwTimeout = $timeout(function () {
-            console.log('start',dir);
             if ( dir == 'right' ) {
               interval = $interval(scope.goRight, 20);
             }
@@ -171,7 +170,6 @@
           },500)
         }
         function stopScrollPower() {
-          console.log('stop');
           $timeout.cancel(pwTimeout);
           $interval.cancel(interval);
         }
