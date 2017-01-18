@@ -65,7 +65,7 @@
   </section> -->
   <section ng-if="ctlPostCard.isExpandable">
     <!-- <a ng-click="$event.stopPropagation();ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Collapse</a> -->
-    <a ng-click="$event.stopPropagation();ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">Expand</a>
+    <a ng-click="$event.stopPropagation();ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded"><translate>Show more...</translate></a>
   </section>
   <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments" class="attachments-card">
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments"></nst-attachments-view>

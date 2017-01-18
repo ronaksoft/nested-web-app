@@ -20,7 +20,8 @@
       newCommentIds = [],
       unreadCommentIds = [],
       focusOnSentTimeout = null,
-      collapseHandler = null;
+      collapseHandler = null,
+      expandTimeoutCleanner = null;
 
     vm.sendComment = sendComment;
 
@@ -189,10 +190,12 @@
 
     function expand() {
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
-        vm.isExpanded = true;
-        vm.body = post.body;
         $rootScope.$emit('post-card-collapse-all', { postId : post.id });
-        $scope.$emit('scroll-to-view', { id : post.id });
+        vm.body = post.body;
+        vm.isExpanded = true;
+        expandTimeoutCleanner = $timeout(function () {
+          $scope.$emit('scroll-to-view', { id : post.id });
+        }, 1);
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
       });
@@ -256,7 +259,7 @@
       collapseHandler = $rootScope.$on('post-card-collapse-all', function (event, data) {
         if (vm.isExpanded && vm.post.id !== data.postId) {
           collapse();
-          event.stopPropagination();
+          // event.stopPropagination();
         }
       });
 
@@ -294,6 +297,10 @@
       if (collapseHandler) {
         collapseHandler();
         collapseHandler = null;
+      }
+
+      if (expandTimeoutCleanner) {
+        $timeout.cancel(expandTimeoutCleanner);
       }
     });
   }
