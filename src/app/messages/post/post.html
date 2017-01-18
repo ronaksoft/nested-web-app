@@ -2,7 +2,7 @@
   <div class="_difv _fw" id="PostHeader">
     <div class="post-nav-top _difh _fw">
       <p class="_df _fw"
-         data-ng-bind-html="ctlPost.post.subject | emoji"></p>
+         data-ng-bind-html="ctlPost.post.subject"></p>
       <p class="_df _fw" ng-if="false">
         <i>No Subject</i>
       </p>
@@ -70,7 +70,7 @@
       <div class="_df _fw _di">
         <div class="_fw _wrb"
              auto-dir="ctlPost.post.body"
-             data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow | emoji ">
+             data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow ">
         </div>
       </div>
     </div>
@@ -105,7 +105,7 @@
                    data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
             </div>
             <div class="_fw _wrb cmt-post-view" auto-dir="comment.body">
-              <span ng-bind-html="comment.body | emoji" ng-class="{ 'sending' : comment.status == 'progress', 'failed' : comment.status == 'fail' }"></span>&nbsp;&nbsp;
+              <span ng-bind-html="comment.body" ng-class="{ 'sending' : comment.status == 'progress', 'failed' : comment.status == 'fail' }"></span>&nbsp;&nbsp;
               <a href data-ng-if="!comment.isTemp && ctlPost.allowToRemoveComment(comment)" ng-click="ctlPost.removeComment(comment);" class="nst-mood-storm nst-font-small" >delete</a>
               <!-- <a href data-ng-if="comment.isTemp && comment.status == 'fail'" ng-click="ctlPost.resend(comment);" class="nst-mood-storm nst-font-small retry-link" >retry</a> -->
             </div>

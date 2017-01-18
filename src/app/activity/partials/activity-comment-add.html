@@ -8,10 +8,10 @@
   <div class="msg" nst-post-modal post="act.post">
     <div class="subject">
       <span class="nst-mood-simple"><translate>commented on:</translate></span>&nbsp;
-      <span class="nst-mood-solid post" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)" data-ng-bind-html="act.post.subject || '<i>No Subject</i>' | emoji"></span>
+      <span class="nst-mood-solid post" ng-click="$event.preventDefault(); postView(event.post, '/post/' + event.post.id, $event)" data-ng-bind-html="act.post.subject || '<i>No Subject</i>'"></span>
     </div>
 
-    <div data-ng-show="extended" class=" _wrb bod" data-ng-bind-html="act.comment.body | emoji"></div>
+    <div data-ng-show="extended" class=" _wrb bod" data-ng-bind-html="act.comment.body"></div>
   </div>
   <div class="places _dif">
     <a data-ng-if="act.post.places.length > 1" class="_df _pr more-tag" id="popover-badge" data-popover-class="white-pop popover-white-nst-activity-places" data-uib-popover-template="'app/activity/partials/popovers/more_places.html'" data-popover-placement="auto bottom-right" popover-trigger="outsideClick">
