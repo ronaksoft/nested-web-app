@@ -82,8 +82,10 @@
                 // TODO: Highlight Newly Added Place
                 vm.places.push(vmPlace);
               }
+              setTimeout(function () {
+                $state.go(getPlaceFilteredState(), {placeId: vmPlace.id});
+              },100)
 
-              $state.go(getPlaceFilteredState(), {placeId: vmPlace.id});
             });
           } else { // Decline the Invitation
             return vm.invitation.decline(id);
@@ -543,19 +545,33 @@
       vm.notificationsCount += 1;
     });
 
+
+    NstSvcNotificationFactory.addEventListener(NST_NOTIFICATION_FACTORY_EVENT.OPEN_INVITATION_MODAL, function (event) {
+      vm.invitation.showModal(event.detail.id)
+    });
+
     NstSvcNotificationSync.addEventListener(NST_NOTIFICATION_TYPE.INVITE, function (event) {
       getInvitations().then(function (invitations) {
-        vm.invitations = mapInvitations(invitations);
-        console.log(1111111111111111111,invitations, event.detail.invite_id)
-        var lastInvitation = _.find(invitations, function (inv) {
-          return inv.id === event.detail.invite_id
-        });
+        //FIXME:: Check last invitation
+
+        var invitations = mapInvitations(invitations);
+        var lastInvitation = _.pullAllBy(invitations,vm.invitation,'id')[0];
+
+
+        if (!lastInvitation) return;
+
+        vm.invitations =  invitations;
+
+
+        // var lastInvitation = _.find(invitations, function (inv) {
+        //   return inv.id === event.detail.invite_id
+        // });
 
         NstSvcNotification.push(
           NstUtility.string.format(
             NstSvcTranslation.get("Invitation to {0} by {1}."),
             lastInvitation.place.name,
-            lastInvitation.inviter.fullName),
+            lastInvitation.inviter.name),
           function () {
             vm.invitation.showModal(lastInvitation.id)
           })

@@ -1,14 +1,20 @@
-<div class="user-avatar-24">
-  <img initial-avatar="{{::notification.mention.comment.sender.fullName}}"
-       picture="{{::notification.mention.comment.sender | avatar}}"
-       data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="12"/>
-</div>
 <div class="mention">
+  <div>
+    <div class="user-avatar-24">
+      <img ng-if="notification.users" ng-repeat="user in notification.users" initial-avatar="{{::user.fullName}}"
+           picture="{{::user | avatar}}"
+           data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2"
+           data-font-size="12"/>
+    </div>
+  </div>
   <p>
-    <a>{{ ::notification.mention.comment.sender.fullName }} <small>on</small> {{notification.mention.post.subject}}:</a><br>
-    <span auto-dir="notif.commentBody">{{::notification.mention.comment.body | truncate}}</span>
+    <a>{{ ::notification.comment.sender.fullName }}
+      <small>on</small>
+      {{notification.post.subject}}:</a><br>
+    <span auto-dir="notif.commentBody">{{::notification.comment.body | truncate}}</span>
   </p>
   <div class="ment-date">
-    {{mention.date | passed}}
+    {{notification.date | passed}}
   </div>
 </div>
+

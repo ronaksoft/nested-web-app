@@ -31,7 +31,11 @@
 
       var self = this;
       NstSvcServer.addEventListener(NST_SRV_PUSH_CMD.SYNC_NOTIFICATION, function (event) {
-        dispatchNotificationPushEvents.apply(self, [event]);
+        //FIXME
+        self.dispatchEvent(new CustomEvent(
+          event.detail.type
+        ));
+        // dispatchNotificationPushEvents.apply(self, [event]);
       });
 
     }
