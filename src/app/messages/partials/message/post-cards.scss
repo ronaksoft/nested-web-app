@@ -327,6 +327,9 @@ h3 {
     color: $color-hurricane;
     padding: 0;
     margin: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   p{
     font-size: $font-size-small;

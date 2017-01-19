@@ -6,16 +6,15 @@
 </div>
 <div class="colomn" nst-post-modal post="act.post">
   <div class="_difh top">
-    <div class="sender _df _fn" user-detail user="{{act.actor}}">
-      <a class="on-avatar">{{::act.post.sender.firstName}}</a> <span class="on-avatar">&nbsp;@{{::act.post.sender.id}}</span>
+    <div class="sender _df" user-detail user="{{act.actor}}">
+      <a class="on-avatar">{{::act.post.sender.firstName}}</a>
     </div>
-    <div class="_df _fw"></div>
     <div class="_df _fn">
       <span>{{act.date | passed }}</span>
     </div>
     <div class="ei-mail-unread _df _fn"></div>
   </div>
   <div class="_df">
-    <p><span>Sent</span>&nbsp;<mark data-ng-bind-html="act.post.subject | emoji"></mark></p>
+    <p><mark data-ng-bind-html="act.post.subject | emoji"></mark></p>
   </div>
 </div>

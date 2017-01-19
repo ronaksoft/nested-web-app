@@ -13,8 +13,7 @@
       controllerAs : 'ctlTeammates',
       bindToController : true,
       scope: {
-        grandPlace : '=',
-        onCollapse : "="
+        grandPlace : '='
       }
     };
 

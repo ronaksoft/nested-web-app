@@ -411,21 +411,39 @@ nst-navbar {
     height: 100%;
     transform: translateZ(0);
   }
-  .shadow-top {
-    background: linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,1));
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 20px;
-    z-index: 1;
-  }
-  .nst-navbar,.nst-navbar-f {
+  .nst-navbar-f {
+    height: 48px!important;
     justify-content: center;
     z-index: 50;
     width: 100%;
     display: flex;
-
+    .menu-links-butn {
+      min-width: 0;
+      font-size: 16px;
+      font-weight: 300;
+    }
+    .content {
+      .bot-nav {
+        height: 100%;
+      }
+    }
+  }
+  .nst-navbar,.nst-navbar-f {
+    height: 100px;
+    justify-content: center;
+    z-index: 50;
+    width: 100%;
+    display: flex;
+    .menu-links-butn {
+      min-width: 0;
+      font-size: 16px;
+      font-weight: 300;
+    }
+    .content {
+      .bot-nav {
+        height: 100%;
+      }
+    }
   }
   .nst-content {
     z-index: 2;
@@ -477,13 +495,13 @@ nst-navbar {
             font-weight: 400;
             background-color: $color-white;
             border-radius: 4px;
-            width: 189px;
+            width: 128px;
             height: 30px;
             padding: 2px 20px 2px 8px;
             transition: width $animation-dur;
             &:focus {
               border-color: $color-border;
-              width: 250px;
+              width: 189px;
               box-shadow: none;
             }
           }
@@ -635,25 +653,30 @@ nst-navbar {
 
     }
   }
-  .nst-navbar.feed {
-    height: 100px;
-    .menu-links-butn {
-      min-width: 0;
-      margin-right: 16px;
-      font-size: 14px;
-    }
+  vr {
+    width: 1px;
+    height: 40px;
+    background-color: $color-breeze;
+    align-self: center;
+    display: flex;
+    flex: none;
+  }
+  .nst-navbar.nfeed {
+    height: 134px!important;
     .content {
+      .top-nav {
+      }
       .bot-nav {
-        height: 100%;
+        height: 42px;
+      }
+    }
+    .menu-links-butn {
+      span {
+        margin-left: 8px;
       }
     }
   }
-  .nst-navbar-f.feed {
-    .menu-links-butn {
-      min-width: 0;
-      margin: 0 8px;
-      font-size: 14px;
-    }
+  .nst-navbar-f.nfeed {
     .content {
       .bot-nav {
         height: 100%;
@@ -673,6 +696,7 @@ nst-navbar {
   top: 0;
   right: 0;
   left: 272px;
+  width: auto!important;
   transition: transform $animation-dur;
   transform: translateY(-100%) translateZ(0);
   will-change: transform;
@@ -718,9 +742,17 @@ body.scrolled {
   justify-content: center;
   font-size: 18px;
   font-weight: 400;
+  margin: 0 20px;
   transition: color,fill $animation-dur;
   span {
     transition: color $animation-dur;
+  }
+  svg {
+    display: none;
+  }
+  &:first-of-type {
+    margin: 0 8px;
+    svg { display: flex;}
   }
   &:hover {
     color: $color-solid;

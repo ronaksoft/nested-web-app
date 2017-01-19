@@ -42,9 +42,13 @@ body.isMobile {
   .cp-illu {
     display: none!important;
   }
-  .nst-navbar {
+  .nst-navbar,.nst-navbar-f {
     .menu-links-butn {
+      min-width: 0;
       span { display: none;}
+      svg {
+        display: flex;
+      }
     }
   }
   .nst-navbar-f {

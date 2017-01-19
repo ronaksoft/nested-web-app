@@ -21,7 +21,6 @@
     margin-top: 24px;
     padding: 12px 0;
     z-index: 15;
-    background-color: $color-white;
     border: 1px solid $color-border;
     position: relative;
     justify-content: space-between;
@@ -59,6 +58,7 @@
           .sender {
             align-items: center;
             overflow: hidden;
+            flex: 1;
             max-width: 100%;
             a,a>span {
               color: $color-hurricane;
@@ -100,12 +100,59 @@
     }
   }
   .name {
-    color: $color-breeze;
+    color: $color-hurricane;
     font-size: $font-size-xsmall;
     line-height: 15px;
     font-weight: 400;
     margin-bottom: 12px;
     padding: 0 8px;
+  }
+  .teammates {
+    //border-top: 1px solid $color-breeze;
+    min-height: 94px;
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    //background-color: #fff;
+    z-index: 4;
+    .avatars.expanded{
+      max-height: calc(100vh - 273px);
+    }
+    .avatars {
+      display: flex;
+      flex-direction: row;
+      margin: 10px;
+      flex: none;
+      flex-wrap: wrap;
+      div.user-avatar-28 {
+        margin: 2px;
+      }
+      img {
+        width: 28px;
+        height: 28px;
+        border-radius: 28px;
+      }
+      label {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .sidebar-add-member {
+      width: 28px;
+      height: 28px;
+      border-radius: 14px;
+      border: 1px solid $color-sense;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2px 0;
+      svg {
+        display: flex;
+        width: 20px;
+        height: 20px;
+        fill: $color-sense;
+      }
+    }
   }
 }
 #content-plus {
