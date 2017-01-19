@@ -29,7 +29,7 @@
         vm.submitPhoneNumber();
         vm.step = 2;
       } else {
-        vm.step = 3;
+        vm.step = 1;
       }
 
     })();
