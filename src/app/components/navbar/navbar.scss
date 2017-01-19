@@ -573,7 +573,7 @@ nst-navbar {
       color: $color-solid;
       display: block;
       letter-spacing: -1px;
-      line-height: 42px;
+      line-height: 26px;
       font-size: 24px;
       font-weight: 700;
       font-style: normal;
@@ -591,14 +591,14 @@ nst-navbar {
       height: 16px;
     }
     h3 {
-      color: $color-solid;
+      color: $color-breeze;
+      fill: $color-breeze;
       line-height: 20px;
       font-size: 13px;
       font-weight: 400;
       margin: 0;
       padding-top: 8px;
       height: 20px!important;
-      fill: $color-hurricane;
       svg {
         width: 20px;
         margin: 0 4px 0 0;

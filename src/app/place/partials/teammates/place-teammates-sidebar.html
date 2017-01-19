@@ -1,7 +1,7 @@
 <div class="teammates">
   <div class="name"><translate>{{ctlTeammates.place.getTeammatesCount()}} Members</translate></div>
-  <div class="recent-container _fw _df _jcc _fn">
-    <div class="avatars" ng-class="{'expanded' : ctlTeammates.mode === 'expanded'}" nst-scrollbar suppress-scroll-x="true">
+  <div class="recent-container _fw _df _fn _bgwhite">
+    <div class="avatars">
       <div class="user-avatar-28" ng-repeat="teammate in ctlTeammates.teammates | limitTo : ctlTeammates.limit track by $index" user-detail="" user="{{teammate}}">
         <img initials="teammate.name" data-url="teammate.avatar" data-width="28" data-height="28"
              data-radius="14" class="account-initials-28 _df" data-word-count="2" data-font-size="11"/>

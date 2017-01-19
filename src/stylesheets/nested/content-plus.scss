@@ -11,15 +11,17 @@
   //transition: all 0.2s;
   backface-visibility: hidden;
   //transform: translateZ(0) scale(1.0, 1.0);
+  #cp1 {
+    height: 480px;
+  }
   & > div {
     display: inline-flex;
     flex-direction: column;
     width: 276px;
-    height: 480px;
     flex: none;
     overflow-y: auto;
     margin-top: 24px;
-    padding: 12px 0;
+    padding: 12px 0 0 0;
     z-index: 15;
     border: 1px solid $color-border;
     position: relative;
@@ -109,7 +111,6 @@
   }
   .teammates {
     //border-top: 1px solid $color-breeze;
-    min-height: 94px;
     display: flex;
     flex-direction: column;
     flex: none;
@@ -124,6 +125,7 @@
       margin: 10px;
       flex: none;
       flex-wrap: wrap;
+      width: calc(100% - 16px);
       div.user-avatar-28 {
         margin: 2px;
       }
