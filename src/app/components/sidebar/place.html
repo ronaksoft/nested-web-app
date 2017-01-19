@@ -6,10 +6,9 @@
    data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
   <div ng-if="place.avatar" class="side-place-item-image">
     <div class="unreadPlace" ng-if="place.unreadPosts > 0">
-      ●
-      <!--<svg>-->
-        <!--<use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>-->
-      <!--</svg>-->
+      <svg>
+        <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
+      </svg>
     </div>
     <img class="" ng-src="{{place.avatar}}"/>
     <!--<div class="notif" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">{{ctlSidebar.placesNotifCountObject[place.id]}}</div>-->
