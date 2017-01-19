@@ -277,21 +277,13 @@
     function usernameExists(username, id) {
       var deferred = $q.defer();
 
-      // NstHttp('/register/', { f: 'account_exists', uid: id }).get().then(function(data){
-      //   if (data.status === 'ok') {
-      //     deferred.resolve(true);
-      //   } else {
-      //     deferred.resolve(false);
-      //   }
-      // }).catch(deferred.reject);
-
-        $timeout(function () {
-          if (username === 'sorousht' || username === 'kuttlass') {
-            deferred.resolve(true);
-          } else {
-            deferred.resolve(false);
-          }
-        }, 2000)
+      NstHttp('/register/', { f: 'account_exists', uid: id }).get().then(function(data){
+        if (data.status === 'ok') {
+          deferred.resolve(true);
+        } else {
+          deferred.resolve(false);
+        }
+      }).catch(deferred.reject);
 
       return deferred.promise;
     }
