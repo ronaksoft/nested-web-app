@@ -23,9 +23,9 @@
         var interval,pwTimeout;
         var moves = [];
 
-        // if (modeIsValid(scope.mode)) {
-        //   scope.internalMode = scope.mode;
-        // }
+        if (modeIsValid(scope.mode)) {
+          scope.internalMode = scope.mode;
+        }
 
         if (scope.internalMode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO){
           if (_.some(scope.items, 'hasThumbnail')) {
@@ -34,6 +34,7 @@
             scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE;
           }
         }
+
         if ( scope.items.length == 1 && scope.items[0].hasPreview.length > 0 ) {
 
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;

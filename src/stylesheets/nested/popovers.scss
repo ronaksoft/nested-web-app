@@ -206,7 +206,8 @@ input[type="checkbox"]:checked + label.setting {
 
 //mention popover
 .mentions {
-  width: 286px;
+  width: 360px;
+  max-width: 360px;
   max-height: 480px;
   transition: height $animation-dur;
   height: auto;

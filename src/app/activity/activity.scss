@@ -5,6 +5,9 @@
  */
 .eventsbody {
   min-height: 100%;
+  nst-attachments-preview-bar ul.thumbnail-bar {
+    position: relative;
+  }
 }
 
 .actdate {
@@ -20,6 +23,7 @@
   padding: 6px 5px;
   //min-width:400px;
   width: 100%;
+  max-width: calc(100% - 200px);
   float: left;
   display: inline-flex;
   animation: app-tr .5s ease-out;
@@ -99,6 +103,7 @@
     overflow: hidden;
     flex-direction: column;
     padding-left: 10px;
+    position: relative;
     .subject {
       display: flex;
       font-weight: bold;
@@ -119,6 +124,7 @@
     }
     .bod {
       color: gray;
+      position: relative;
     }
     .nst-mood-simple {
       white-space: nowrap

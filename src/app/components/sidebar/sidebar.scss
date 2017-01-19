@@ -100,6 +100,7 @@
       }
     }
   }
+
   .side-place-item-inner.detailed {
     > *:last-child {
       display: inline-flex;
@@ -118,6 +119,7 @@
       }
     }
   }
+
   .side-menu-item.detailed {
     > *:last-child {
       line-height: 19px;
@@ -125,23 +127,10 @@
       font-weight: 700;
     }
   }
-  //sidebar animation on hovering sidebar
-  //&:hover {
-  //  animation: side-anim-detail $sidebar-app-dur linear $sidebar-delay forwards;
-  //  .side-place-wrapper {
-  //    //animation: side-anim-places $sidebar-place-move linear $sidebar-scroll-move forwards;
-  //  }
-  //  .detailed {
-  //    > *:last-child {
-  //      //animation: appearence $sidebar-app-dur linear 1.3s forwards;
-  //    }
-  //  }
-  //  .side-access {
-  //    animation: side-anim-detail $sidebar-app-dur linear $sidebar-delay forwards;
-  //  }
-  //}
+
   .side-menu-item.detailed,
   .side-access .detailed,
+  #compoese,
   .side-place-invite-item-inner.detailed,
   .create-place.detailed,
   .side-place-item-inner.detailed{
@@ -163,6 +152,7 @@
       }
     }
   }
+
   .detailed#compoese{
     color: rgba(255,255,255,.5);
     a, span {
@@ -173,6 +163,19 @@
       a, span {
         color: rgba(255,255,255,1);
       }
+    }
+  }
+  .unreadPlace {
+    position: absolute;
+    left: -6px;
+    font-size: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-force;
+    fill: $color-force;
+    svg {
+      width: 24px;
+      height: 24px;
     }
   }
 }
@@ -248,7 +251,6 @@
     width: 32px;
     height: 32px;
     display: flex;
-    fill: $color-white;
   }
 }
 

@@ -257,48 +257,6 @@ ul.top-nav-places {
        transform: scale(.625,.625);
      }
   }
-  .buttons {
-    flex: none;
-    width: 40px;
-    max-height: 40px;
-    svg {
-      min-width: 24px;
-      max-width: 24px;
-      min-height: 24px;
-      max-height: 24px;
-      display: block;
-      transition: transform $animation-dur ease;
-    }
-    svg:first-child {
-      transform: translateY(-2px);
-    }
-    svg:first-child + svg {
-      transform: translateY(-16px);
-      opacity: 1;
-    }
-    svg:last-child {
-      transform: translateY(-30px);
-    }
-  }
-  .buttons.open {
-    flex: none;
-    width: 40px;
-    height: 100%;
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-    svg:first-child + svg {
-      opacity: 0;
-    }
-    svg:first-child {
-      transform: translateY(12px);
-    }
-    svg:last-child {
-      transform: translateY(-42px);
-    }
-  }
-
 }
 #top-nav-container {
   ul ul li {
