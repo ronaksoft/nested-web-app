@@ -2,38 +2,22 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.mention')
+    .module('ronak.nested.web.notification')
     .service('NstSvcMentionFactory', NstSvcMentionFactory);
 
   function NstSvcMentionFactory($q,
     NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
     NstBaseFactory, NstMention, NstFactoryEventData,
-    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT, NST_EVENT_ACTION) {
+    NST_AUTH_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_EVENT_ACTION) {
     function MentionFactory() {
       var that = this;
       that.count = 0;
-
-      NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-        if (NstSvcAuth.user.unreadMentionsCount){
-          that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(NstSvcAuth.user.unreadMentionsCount)));
-        }else{
-          that.getMentionsCount().then(function (count) {
-            that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
-          });
-        }
-      });
-
-      NstSvcServer.addEventListener(NST_EVENT_ACTION.MENTION_ADD, function () {
-        that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.NEW_MENTION, new NstFactoryEventData(that.count)));
-      });
-
     }
 
     MentionFactory.prototype = new NstBaseFactory();
     MentionFactory.prototype.constructor = MentionFactory;
 
-    MentionFactory.prototype.getMentions = getMentions;
-    MentionFactory.prototype.getMentionsCount = getMentionsCount;
+    MentionFactory.prototype.parseMention = parseMention;
     MentionFactory.prototype.markAsSeen = markAsSeen;
 
     return new MentionFactory();
@@ -66,7 +50,7 @@
       }, "getMentions");
     }
 
-    function getMentionsCount() {
+    function getNotificationsCount() {
       var that = this;
       return this.sentinel.watch(function () {
         var defer = $q.defer();
@@ -82,7 +66,7 @@
         }).catch(defer.reject);
 
         return defer.promise;
-      }, "getMentionsCount");
+      }, "getNotificationsCount");
     }
 
     function markAsSeen(mentionsIds) {
@@ -102,8 +86,8 @@
         NstSvcServer.request('mention/mark_as_read', {
           mention_id : ids
         }).then(function(data) {
-          factory.getMentionsCount().then(function (count) {
-            factory.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
+          factory.getNotificationsCount().then(function (count) {
+            factory.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
           }).catch(defer.reject);
           defer.resolve();
         }).catch(defer.reject);

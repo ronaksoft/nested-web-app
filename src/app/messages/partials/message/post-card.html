@@ -1,4 +1,4 @@
-<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isRead }" nst-post-modal post="ctlPostCard.post" ng-if="!ctlPostCard.post.forbidden">
+<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isRead }" nst-posdal post="ctlPostCard.post" ng-if="!ctlPostCard.post.forbidden">
   <!-- ng-if="!ctlPostCard.thisPlace" -->
   <section class="post-card-badge visibility-hidden">
     <a class="margin-r-5" data-ng-if="ctlPostCard.post.firstPlace" href="#/places/{{ctlPostCard.post.firstPlace.id}}/messages" ng-click="$event.stopPropagation()" id="test-post-card-badge">{{ctlPostCard.post.firstPlace.name}}</a>
@@ -39,12 +39,11 @@
       <div class="_df _fw">
       </div>
       <span class="_df _fn post-card-time" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
-      data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{::ctlPostCard.post.date | date : 'short'}}</span>
+      data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{::ctlPostCard.post.date | date : 'short'}}<div class="unread-badge-holder">●</div></span>
     </div>
   </section>
   <section ng-if="ctlPostCard.post.subject.length > 0" class="post-subject"
            auto-dir="ctlPostCard.post.subject">
-           <div class="unread-badge-holder">●</div>
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject">
     </h3>
   </section>
@@ -86,7 +85,7 @@
     </script>
     <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
       <svg>
-        <use xlink:href="/assets/icons/nst-icn24.svg#comments"></use>
+        <use xlink:href="/assets/icons/nst-icn24.svg#comment-2"></use>
       </svg>
       <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comments</translate></span>
       <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>

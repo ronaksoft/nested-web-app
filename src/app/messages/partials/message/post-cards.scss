@@ -49,7 +49,7 @@
   section {
     display: inline-flex;
     width: 100%;
-    padding: 0 12px;
+    padding: 0 24px;
   }
   .icon {
     fill: black;
@@ -78,14 +78,14 @@
       margin-left: 10px;
       margin-right: 4px;
     }
-    h4 {
+    span{
+      font-size: $font-size-xsmall;
+      @include text-hover()
+    }
+    h4 span{
       margin: 0;
       font-size: 13px;
       font-weight: 400;
-      @include text-hover()
-    }
-    span{
-      font-size: $font-size-xsmall;
       @include text-hover()
     }
     .popover-userdetail {
@@ -94,7 +94,10 @@
       transform: translateY(-90%);
     }
   }
-
+  .unread-badge-holder {
+    display: none;
+    font-size: 18px;
+  }
   .post-body{
     font-size: 13px;
     color: #808080;
@@ -111,20 +114,14 @@
       margin-left: 0;
     }
 
-    .unread-badge-holder {
-      display: none;
-      margin: 0 4px 0 0;
-      //todo:: don't use !important
-      color: #14D769;
-      font-size: 18px;
-    }
+
   }
   .attachments-card {
     position: relative;
-    min-height: 96px;
+    min-height: 108px;
   }
   hr {
-    width: calc(100% - 20px);
+    width: calc(100% - 48px);
     border-color: $color-calm;
     margin: 12px auto 0 auto;
   }
@@ -163,12 +160,15 @@
   }
   .post-card-time{
     position: relative;
+    line-height: 14px;
     //top: 12px;
   }
   .post-places {
     margin-top: 16px;
+    flex-wrap: wrap;
     a {
       margin-right: 16px;
+      white-space: nowrap;
     }
   }
   .post-footer{
@@ -256,15 +256,6 @@ h3 {
   font-weight: 100;
 }
 .post-card .post-subject{
-  .unread-badge-holder {
-    visibility: hidden;
-    margin: 8px 4px 8px 0;
-    width: 12px;
-    //todo:: Use variable
-    color: #14D769 ;
-    line-height: 29px;
-    font-size: 18px;
-  }
   h3 {
     margin: 8px 0;
     font-size: 24px;
@@ -288,17 +279,11 @@ h3 {
   .post-subject h3, .post-body {
     font-weight: bold;
   }
-
-  .post-subject {
-    .unread-badge-holder {
-      visibility: visible;
-    }
+  .post-card-time {
+   color: $color-bg-pending;
   }
-
-  .post-body {
-    .unread-badge-holder {
-      display: block;
-    }
+  .unread-badge-holder {
+    display: block;
   }
 }
 .post-card-comment{
@@ -458,26 +443,30 @@ h3 {
   border: none;
   background-color: $color-calm;
   border-radius: 1px 0 0 1px;
-  transition: background-color $animation-dur;
+  transition: opacity $animation-dur;
   display: none;
 }
 .post-card.forward-card {
   .chain {
     display: block;
+    background-color: $color-forward;
+    opacity: .08;
   }
   &:hover {
     .chain {
-      background-color: $color-forward;
+      opacity: 1;
     }
   }
 }
 .post-card.reply-card {
   .chain {
     display: block;
+    background-color: $color-reply;
+    opacity: .08;
   }
   &:hover {
     .chain {
-      background-color: $color-reply;
+      opacity: 1;
     }
   }
 }

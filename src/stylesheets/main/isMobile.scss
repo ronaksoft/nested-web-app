@@ -39,4 +39,38 @@ body.isMobile {
     display: none;
     height: 0!important;
   }
+  .cp-illu {
+    display: none!important;
+  }
+  .nst-navbar {
+    .menu-links-butn {
+      span { display: none;}
+    }
+  }
+  .nst-navbar-f {
+    top: 56px;
+    left: 0;
+    .menu-links-butn {
+      span { display: none;}
+    }
+  }
+  .nst-navbar {
+    .menu-links-butn {
+      span { display: none;}
+    }
+  }
+  .nst-navbar-f {
+    top: 56px;
+    left: 0;
+    .menu-links-butn {
+      span { display: none;}
+    }
+  }
+  .droplet {
+    left: 0;
+  }
+  nst-navbar .nav-access {
+    flex-direction: column-reverse;
+    top : 21px
+  }
 }

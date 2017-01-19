@@ -34,24 +34,24 @@
         <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip-template="'feed-uib-tooltip.html'" data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
           <span>
             <svg>
-              <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
+              <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
             </svg>
           </span>
-          <translate>Feed</translate>
+          <translate>Home</translate>
         </a>
-        <script type="text/ng-template" id="sent-uib-tooltip.html">
-          <translate>Sent Messages</translate>
-        </script>
-        <a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" uib-tooltip-template="'sent-uib-tooltip.html'"
-           data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true"
-           data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"
-           toggle-agent-url="{{ctlSidebar.urls.sent}}">
-          <span>
-            <svg>
-              <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
-            </svg>
-          </span>
-          <translate>Sent</translate>
+        <!--<script type="text/ng-template" id="sent-uib-tooltip.html">-->
+          <!--<translate>Sent Messages</translate>-->
+        <!--</script>-->
+        <!--<a href="{{ctlSidebar.urls.sent}}" class="side-menu-item detailed" uib-tooltip-template="'sent-uib-tooltip.html'"-->
+           <!--data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true"-->
+           <!--data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"-->
+           <!--toggle-agent-url="{{ctlSidebar.urls.sent}}">-->
+          <!--<span>-->
+            <!--<svg>-->
+              <!--<use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>-->
+            <!--</svg>-->
+          <!--</span>-->
+          <!--<translate>Sent</translate>-->
         </a>
       </div>
     </div>
@@ -98,7 +98,7 @@
         <translate>Mention</translate>
       </script>
       <a class="detailed popover-mentions"
-         data-uib-popover-template="'app/mention/mention-popover.html'"
+         data-uib-popover-template="'app/notification/notification-popover.html'"
          data-popover-placement="right-top auto"
          data-popover-class="mentions"
          data-popover-append-to-body="false"
@@ -113,10 +113,10 @@
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#atsign"></use>
           </svg>
-          <div class="notif" ng-if="ctlSidebar.mentionsCount">{{ctlSidebar.mentionsCount}}</div>
+          <div class="notif" ng-if="ctlSidebar.notificationsCount">{{ctlSidebar.notificationsCount}}</div>
         </div>
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
-          <translate>Mention</translate>
+          <translate>Notifications</translate>
         </div>
       </a>
       <script type="text/ng-template" id="profile-uib-tooltip.html">

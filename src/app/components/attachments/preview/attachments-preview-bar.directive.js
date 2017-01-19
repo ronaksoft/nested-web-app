@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
-  function AttachmentsPreviewBar(NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER,$timeout) {
+  function AttachmentsPreviewBar(NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER,$timeout,$interval) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/preview/main.html',
@@ -18,41 +18,43 @@
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
         scope.overFlowLeft = scope.overFlowRight = false;
         scope.items = setOrder(scope.items, NST_ATTACHMENTS_PREVIEW_BAR_ORDER.order);
+        scope.flexDiv = 16;
+        scope.scrollDis = 70;
+        var interval,pwTimeout;
+        var moves = [];
 
-        if (modeIsValid(scope.mode)) {
-          scope.internalMode = scope.mode;
-        }
+        // if (modeIsValid(scope.mode)) {
+        //   scope.internalMode = scope.mode;
+        // }
 
         if (scope.internalMode === NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO){
           if (_.some(scope.items, 'hasThumbnail')) {
-
             scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL;
           } else {
             scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE;
           }
         }
+        if ( scope.items.length == 1 && scope.items[0].hasPreview.length > 0 ) {
 
-        if ( scope.items.length == 1 && scope.items[0].extension ==  "jpg" ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
 
-          var wrpWidth = ele.parent().parent().width() - scope.flexDiv - 54;
+          var wrpWidth = ele.parent().parent().width();
 
 
-          var imgOneRatio = scope.items[0].width / scope.items[0].height;
+          var imgOneRatio = scope.items[0].ratio;
 
-          var scale = wrpWidth / scope.items[0].width;
           scope.width = wrpWidth ;
           scope.height = wrpWidth * imgOneRatio
         }
 
-        if ( scope.items.length == 2 && scope.items[0].extension ==  "jpg" && scope.items[1].extension ==  "jpg" ) {
+        if ( scope.items.length == 2 && scope.items[0].hasPreview.length > 0 && scope.items[1].hasPreview.length > 0 ) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
 
-          scope.flexDiv = 16;
+
           var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
           var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
-          var imgOneRatio = scope.items[0].width / scope.items[0].height;
-          var imgTwoRatio = scope.items[1].width / scope.items[1].height;
+          var imgOneRatio = scope.items[0].ratio;
+          var imgTwoRatio = scope.items[1].ratio;
           var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
 
           scope.imgHeight = scale * unkHeight;
@@ -60,68 +62,126 @@
           scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);
         }
 
+
+
+
+
+
+        $timeout( function () {
+          scope.scrollWrp = ele.children().next();
+          var leftArrow = ele.children().first();
+          var rightArrow = ele.children().next().next();
+
+          checkScroll(scope.scrollWrp[0]);
+
+          scope.scrollWrp.scroll(function(){
+            checkScroll(scope.scrollWrp[0]);
+          });
+
+          rightArrow.mousedown(function(){
+            scrollPower('right');
+          });
+          rightArrow.mouseup(function(){
+            stopScrollPower();
+          });
+
+          leftArrow.mousedown(function(){
+            scrollPower('left');
+          });
+          leftArrow.mouseup(function(){
+            stopScrollPower();
+          });
+
+        },1000 );
+
+
+
+
+        // interaction functions
         scope.onClick = function (item) {
           if (scope.onItemClick) {
             scope.onItemClick(item, scope.items);
           }
         };
+        scope.dlClick = function (item) {
+          //Download it
+        };
 
-
-        $timeout( function () {
-          checkScroll(ele[0].children[1]);
-        },1000 );
-
-        function checkScroll(el) {
-          scope.scrollWrp = el;
-          if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
-            scope.overFlowRight = true;
-            scope.overFlowLeft = false;
-          } else if(el.clientWidth + el.scrollLeft == el.scrollWidth && el.clientWidth < el.scrollWidth) {
-            scope.overFlowRight = false;
-            scope.overFlowLeft = true;
-          } else if ( el.clientWidth < el.scrollWidth ) {
-            scope.overFlowRight = true;
-            scope.overFlowLeft = true;
-          }
-        }
-
-
-        scope.goLeft = function (e) {
-          e.stopPropagation();
+        scope.goLeft = function () {
           var k = makeid();
           var count =  {};
           count[k] = 0;
           scrollLeft(count[k]);
         };
-        function scrollLeft(count) {
-          var el = scope.scrollWrp;
-          ++count;
-          if( count < 70 ) { $timeout (function () {
-            el.scrollLeft -= 1;
-            scrollLeft(count);
-          },1)
-          } else {
-            checkScroll(el)
-          }
-        }
 
-        scope.goRight = function (e) {
-          e.stopPropagation();
+        scope.goRight = function () {
           var k = makeid();
           var count =  {};
           count[k] = 0;
-          scrollRight(count[k]);
+          scrollRight(count,k);
         };
-        function scrollRight(count) {
-          var el = scope.scrollWrp;
-          ++count;
-          if( count < 70 ) { $timeout (function () {
-            el.scrollLeft += 1;
-            scrollRight(count);
-          },1)
-          } else {
-            checkScroll(el)
+
+        function scrollLeft(count) {
+          var el = scope.scrollWrp[0];
+          var i = $interval(function () {
+            count++;
+            if ( count < scope.scrollDis) {
+              el.scrollLeft -= 2;
+            } else {
+              $interval.cancel(i);
+            }
+          },1);
+          moves.push(i);
+        }
+        function scrollRight(count,k) {
+          var el = scope.scrollWrp[0];
+          var i = $interval(function () {
+            count[k]++;
+            if ( count[k] < scope.scrollDis) {
+              el.scrollLeft += 2;
+            } else {
+              $interval.cancel(i);
+            }
+          },1);
+          moves.push(i);
+
+        }
+        function checkScroll(el) {
+          if (el.clientWidth < el.scrollWidth && el.scrollLeft == 0) {
+            scope.overFlowRight = true;
+            scope.overFlowLeft = false;
+            return stopScrollPower()
+          } else if(el.clientWidth + el.scrollLeft >= el.scrollWidth && el.clientWidth < el.scrollWidth) {
+            scope.overFlowRight = false;
+            scope.overFlowLeft = true;
+            return stopScrollPower()
+          } else if ( el.clientWidth < el.scrollWidth ) {
+            scope.overFlowRight = true;
+            scope.overFlowLeft = true;
+            return 'atMiddle'
           }
+        }
+
+        function scrollPower(dir) {
+          pwTimeout = $timeout(function () {
+            if ( dir == 'right' ) {
+              interval = $interval(function () {
+                scope.goRight()
+              },100);
+            }
+            else {
+              interval = $interval(scope.goLeft, 100);
+            }
+          },50)
+        }
+        function stopScrollPower() {
+          $timeout.cancel(pwTimeout);
+          $interval.cancel(interval);
+
+          for(var i=0; i < moves.length; i++) {
+            $interval.cancel(moves[i]);
+          }
+          moves = []
         }
 
       }
