@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .filter('picture', function(moment) {
+    .filter('picture', function() {
 
       return function(model, size) {
         size = size || "x32";

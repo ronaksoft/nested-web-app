@@ -35,6 +35,7 @@ body.modal-open {
     height: 32px;
   }
   input.ui-select-search {
+    margin-bottom: 6px;
     max-width: 715px;
     //width: auto!important;
   }
@@ -280,7 +281,7 @@ body.modal-open {
 
 .modal-add {
   border-bottom: 1px solid $color-calm;
-  margin: 10px 0;
+  margin-bottom: 10px;
   .butn-green-nav {
     margin: 0;
     position: relative;
@@ -302,6 +303,7 @@ body.modal-open {
     width: calc(100% + 50px)!important;
     max-height: 170px!important;
     overflow: hidden;
+    margin-top: -25px;
   }
   .ui-select-choices-row{
     display: inline-flex;
