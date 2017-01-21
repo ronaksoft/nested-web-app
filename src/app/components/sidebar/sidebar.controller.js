@@ -429,7 +429,7 @@
       var totalUnread = 0;
       _.each(places, function (place) {
         if (place) {
-          // vm.placesNotifCountObject[place.id] = place.unreadPosts;
+          vm.placesNotifCountObject[place.id] = place.unreadPosts;
           totalUnread += place.unreadPosts;
         }
       });
