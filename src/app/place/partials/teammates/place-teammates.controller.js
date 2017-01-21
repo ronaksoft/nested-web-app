@@ -14,7 +14,7 @@
     // to keep track of added users
     var addedMemberIds = [];
 
-    var defaultCollapseLimit = 4;
+    var defaultCollapseLimit = 24;
     vm.mode = 'collapsed';
     vm.limit = 0;
     vm.hasAddMembersAccess = false;
@@ -31,7 +31,6 @@
       keyHoldersCount : 0,
       pendingsCount : 0
     };
-
     $rootScope.$on('member-removed', function (event, data) {
       NstUtility.collection.dropById(vm.teammates, data.member.id);
       if (data.member.role === 'creator') {
@@ -73,7 +72,7 @@
 
           vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
           vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
-          defaultCollapseLimit = vm.hasAddMembersAccess ? 4 : 5;
+          defaultCollapseLimit = vm.hasAddMembersAccess ? defaultCollapseLimit : defaultCollapseLimit + 1;
 
           if (vm.mode = 'collapsed') {
             collapse();
@@ -101,12 +100,12 @@
     function expand() {
       vm.limit = 64;
       vm.skip = 0;
-      vm.onCollapse(false);
+      // vm.onCollapse(false);
       load();
     }
 
     function collapse() {
-      vm.onCollapse(true);
+      // vm.onCollapse(true);
       vm.limit = defaultCollapseLimit;
     }
 

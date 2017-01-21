@@ -99,7 +99,7 @@
       </script>
       <a class="detailed popover-mentions"
          data-uib-popover-template="'app/notification/notification-popover.html'"
-         data-popover-placement="right-top auto"
+         data-popover-placement="right-bottom auto"
          data-popover-class="mentions"
          data-popover-append-to-body="false"
          data-popover-is-open="ctlSidebar.mentionOpen"
@@ -182,11 +182,10 @@
         </div>
       </div>
     </div>
-    <div nst-scrollbar suppress-scroll-x="true" class="places" ng-show="ctlSidebar.showPlaces">
+    <div nst-scrollbar suppress-scroll-x="true" class="places">
       <div class="places-list">
         <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace"></nst-sidebar-place-info>
       </div>
     </div>
-    <nst-place-teammates-sidebar grand-place="ctlSidebar.selectedGrandPlace" on-collapse="ctlSidebar.togglePlace"></nst-place-teammates-sidebar>
   </div>
 </div>

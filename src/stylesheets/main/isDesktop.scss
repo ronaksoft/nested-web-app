@@ -11,20 +11,15 @@ body.isDesktop {
   .menu-links-butn {
     min-width: 90px;
   }
-  .nst-navbar.feed {
+  .nst-navbar.nfeed {
     .menu-links-butn {
-      svg { display: none;}
-      &:first-of-type {
-        svg { display: flex;}
-      }
+      min-width: 90px;
+      svg { display: flex;}
     }
   }
-  .nst-navbar-f.feed {
+  .nst-navbar-f.nfeed {
     .menu-links-butn {
-      svg { display: none;}
-      &:first-of-type {
-        svg { display: flex;}
-      }
+      svg { display: flex;}
     }
   }
   .navbarillu {

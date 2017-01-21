@@ -6,16 +6,15 @@
 </div>
 <div class="colomn" nst-post-modal post="act.post">
   <div class="_difh top">
-    <div class="sender _df _fn" user-detail user="{{act.comment.sender}}">
-      <a class="on-avatar">{{::act.comment.sender.firstName}}</a> <span class="on-avatar">&nbsp;@{{::act.comment.sender.id}}</span>
+    <div class="sender _df" user-detail user="{{act.comment.sender}}">
+      <a class="on-avatar">{{::act.comment.sender.firstName}}</a>
     </div>
-    <div class="_df _fw"></div>
     <div class="_df _fn">
       <span>{{act.date | passed }}</span>
     </div>
     <div class="ei-comment-add _df _fn"></div>
   </div>
   <div class="_df">
-    <p><span><translate>commented:</translate></span>&nbsp;<emoji auto-dir="act.comment.body"><mark marked="act.comment.body"></mark></emoji></p>
+    <p><emoji auto-dir="act.comment.body"><mark marked="act.comment.body"></mark></emoji></p>
   </div>
 </div>

@@ -1,6 +1,7 @@
 .activity-recent {
   .recent-container {
     list-style: none;
+    background-color: $color-white;
     .recent-item.hot {
       overflow-y: hidden;
     }

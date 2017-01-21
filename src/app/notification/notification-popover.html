@@ -1,8 +1,11 @@
 <div class="mention-wrp" ng-controller="NotificationsController as ctlNotifications">
   <div class="subject">
-    <a>
+    <a class="_df _fw">
       <translate>Notifications</translate>
     </a>
+    <svg class="_df _fn">
+      <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
+    </svg>
   </div>
   <div class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
     <div class="nst-loading nst-loading-size-4 _fl"></div>
@@ -58,7 +61,7 @@
       </div>
     </li>
   </ul>
-  <div class="more-mentions" ng-click="ctlNotifications.markAllSeen()">
-    <translate>Mark all as read</translate>
-  </div>
+  <!--<div class="more-mentions" ng-click="ctlNotifications.markAllSeen()">-->
+    <!--<translate>Mark all as read</translate>-->
+  <!--</div>-->
 </div>

@@ -19,10 +19,14 @@
     {{ place.name }}
     <b
       ng-if="ctlPlaceInfo.placesNotifCountObject[place.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[place.id]}}</b></a>
-  <span ng-if="place.children.length > 0" class="e2-arrow _df">
-    <label class="arrow-holder-nav {{!place.collapse ? 'nst-arrow' : 'nst-arrow-rotated'}}"
-           data-ng-click="place.collapse =! place.collapse">
-    </label>
+  <span ng-if="place.children.length > 0" class="e2-arrow tw-svg _difv ng-class:{'open' : place.isCollapsed}"
+        data-ng-click="place.isCollapsed =! place.isCollapsed" data-ng-model="colp" role="button" tabindex="0">
+      <svg>
+        <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
+      </svg>
+      <svg>
+        <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
+      </svg>
   </span>
 </div>
 <ul ng-if="place.children.length > 0 && place.collapse">

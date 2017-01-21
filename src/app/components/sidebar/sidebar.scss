@@ -100,6 +100,7 @@
       }
     }
   }
+
   .side-place-item-inner.detailed {
     > *:last-child {
       display: inline-flex;
@@ -118,6 +119,7 @@
       }
     }
   }
+
   .side-menu-item.detailed {
     > *:last-child {
       line-height: 19px;
@@ -125,23 +127,10 @@
       font-weight: 700;
     }
   }
-  //sidebar animation on hovering sidebar
-  //&:hover {
-  //  animation: side-anim-detail $sidebar-app-dur linear $sidebar-delay forwards;
-  //  .side-place-wrapper {
-  //    //animation: side-anim-places $sidebar-place-move linear $sidebar-scroll-move forwards;
-  //  }
-  //  .detailed {
-  //    > *:last-child {
-  //      //animation: appearence $sidebar-app-dur linear 1.3s forwards;
-  //    }
-  //  }
-  //  .side-access {
-  //    animation: side-anim-detail $sidebar-app-dur linear $sidebar-delay forwards;
-  //  }
-  //}
+
   .side-menu-item.detailed,
   .side-access .detailed,
+  #compoese,
   .side-place-invite-item-inner.detailed,
   .create-place.detailed,
   .side-place-item-inner.detailed{
@@ -163,6 +152,7 @@
       }
     }
   }
+
   .detailed#compoese{
     color: rgba(255,255,255,.5);
     a, span {
@@ -173,6 +163,19 @@
       a, span {
         color: rgba(255,255,255,1);
       }
+    }
+  }
+  .unreadPlace {
+    position: absolute;
+    left: -12px;
+    font-size: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $color-force;
+    fill: $color-force;
+    svg {
+      width: 24px;
+      height: 24px;
     }
   }
 }
@@ -248,7 +251,6 @@
     width: 32px;
     height: 32px;
     display: flex;
-    fill: $color-white;
   }
 }
 
@@ -1015,52 +1017,5 @@ ul ul > li:last-child > .place-item-inner{
       }
     }
 
-  }
-  .teammates {
-    border-top: 1px solid $color-breeze;
-    min-height: 94px;
-    display: flex;
-    flex-direction: column;
-    flex: none;
-    //background-color: #fff;
-    z-index: 4;
-    .avatars.expanded{
-      max-height: calc(100vh - 273px);
-    }
-    .avatars {
-      display: flex;
-      flex-direction: row;
-      margin: 10px;
-      flex: none;
-      flex-wrap: wrap;
-      div.user-avatar-28 {
-        margin: 2px;
-      }
-      img {
-        width: 28px;
-        height: 28px;
-        border-radius: 28px;
-      }
-      label {
-        width: 24px;
-        height: 24px;
-      }
-    }
-    .sidebar-add-member {
-      width: 28px;
-      height: 28px;
-      border-radius: 14px;
-      border: 1px solid $color-sense;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 2px 0;
-      svg {
-        display: flex;
-        width: 20px;
-        height: 20px;
-        fill: $color-sense;
-      }
-    }
   }
 }

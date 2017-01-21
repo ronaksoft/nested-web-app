@@ -14,7 +14,6 @@
       bindToController : true,
       scope: {
         grandPlace : '=',
-        onCollapse : "="
       }
     };
 
