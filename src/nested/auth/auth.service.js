@@ -134,8 +134,8 @@
           $cookies.remove('user', { domain : '.nested.me'});
           NstSvcServer.request('session/close').then(function () {
             NstSvcServer.unauthorize();
-            qUnauth.resolve(reason);
           }).catch(qUnauth.reject);
+          qUnauth.resolve(reason);
           break;
       }
 
