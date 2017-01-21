@@ -1,24 +1,7 @@
 <div class="nst-content _tr" id="content-wrapper">
   <section class="content nst-marginbtm-28">
+    <scroll-change-handler reached-bottom="ctlSearch.loadMore"></scroll-change-handler>
 
-    <!-- <ui-select multiple tagging class="" data-ng-model="ctlSearch.queryItems" on-select="ctlSearch.selectSuggestedItem();">
-      <ui-select-header>
-        <span>header</span>
-      </ui-select-header>
-      <ui-select-choices group-by="'type'" refresh="ctlSearch.searchPeople($select.search)" refresh-delay="0"
-                         repeat="item in ctlSearch.suggestedItems" >
-                         <span>{{item.name}}</span>
-      </ui-select-choices>
-      <ui-select-match placeholder="Search..." class=" _fw">
-        <span>{{$item.name}}</span>
-      </ui-select-match>
-      <ui-select-footer>
-        <span>footer</span>
-      </ui-select-footer>
-    </ui-select> -->
-
-    <!-- <input type="input" ng-model="ctlSearch.queryString" ng-keyup="ctlSearch.searchOnEnterKeyPressed($event, ctlSearch.queryString);"/>
-    <button type="button" ng-click="ctlSearch.search(ctlSearch.queryString);">Search</button> -->
     <div class="top-section">
       <button class="search-clear" type="button" ng-click="ctlSearch.backToPlace();" id="clear-button">×</button>
       <div class="search-input-group">

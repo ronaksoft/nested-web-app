@@ -36,7 +36,7 @@
 
       eventListeners = _.map(NST_EVENT_ACTION,function (val) {
         return NstSvcSync.addEventListener(val, function (e) {
-          addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail));
+          addNewActivity(e.detail);
         });
       });
 
@@ -64,10 +64,6 @@
 
       return defer.promise;
     }
-
-    // function mapActivities(activities) {
-    //   return _.map(activities, NstSvcActivityMap.toRecentActivity);
-    // }
 
     function addNewActivity(activity) {
       if (!_.some(vm.activities, { id : activity.id })) {

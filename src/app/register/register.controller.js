@@ -10,101 +10,15 @@
     var vm = this;
 
 
-    vm.hasNotBirth = false;
-    vm.hasNotGender = false;
-    vm.acceptAgreement = true;
-    vm.requiredUser = false;
-    vm.requiredPassword = false;
-    vm.requiredFirstname = false;
-    vm.requiredLastname = false;
-
-    vm.userPattern = false;
-    vm.sequenceDashes = false;
-    vm.startAlphabet = false;
-    vm.noEndDash = false;
-
-
-    vm.patterns = {
-
-      username : {
-        general : NST_PATTERN.USERNAME
-      }
-    };
-
-    vm.usernameConditions = function (val) {
-
-      if(val == undefined) {
-        vm.userPattern = false;
-        vm.minCharacter = false;
-        vm.startAlphabet = false;
-        vm.noEndDash = false;
-        vm.sequenceDashes = false;
-        return;
-      }
-
-
-      if (val.match(NST_PATTERN.USERNAME)) {
-        vm.userPattern = true;
-      }
-      else {
-        vm.userPattern = false;
-      }
-
-      if (val.length>0){
-
-        if (val.length<5 && val.length>0) {
-          vm.minCharacter = true;
-        }
-        else {
-          vm.minCharacter = false;
-        }
-
-        if (val && /^[a-zA-Z]/.test(val)) {
-          vm.startAlphabet = false;
-        }
-        else {
-          vm.startAlphabet = true;
-        }
-
-        if (/--/.test(val)) {
-          vm.sequenceDashes = true;
-        }
-        else {
-          vm.sequenceDashes = false;
-        }
-
-        if (/[0-9a-zA-Z]$/.test(val)) {
-          vm.noEndDash = false;
-        }
-        else {
-          vm.noEndDash = true;
-        }
-      }
-      else {
-        vm.userPattern = false;
-        vm.minCharacter = false;
-        vm.startAlphabet = false;
-        vm.noEndDash = false;
-        vm.sequenceDashes = false;
-      }
-
-    }
-
-
-    vm.tooltipPasswordAlert = {
-      letters : /(?=.*[A-Z])(?=.*[a-z])/,
-      symbolOrNumber: /(?=.*[\d~!@#\$%\^&\*\(\)\-_=\+\|\{\}\[\]\?\.])/
-    };
-
-
-
-    vm.checkWithServer = false;
-
     vm.avaiablity = false;
     vm.validatePhone = validatePhone;
     vm.nextStep = nextStep;
     vm.previousStep = previousStep;
     vm.getPhoneNumber = getPhoneNumber;
+    vm.usernameErrors = [];
+    vm.emailPattern = NST_PATTERN.EMAIL;
+    vm.validateUsername = validateUsername;
+    vm.usernameValidationStatus = 'none';
 
     (function() {
       var phone = $stateParams.phone || getParameterByName('phone');
@@ -119,76 +33,6 @@
       }
 
     })();
-
-    vm.clearPassError = function (val) {
-      if (val && val.length > 0) {
-        vm.requiredPassword = false;
-      }
-      else {
-        vm.requiredPassword = true;
-        return;
-      }
-    };
-
-    vm.clearUserError = function () {
-      var val = vm.username
-      if (val && val.length > 0) {
-        vm.requiredUser = false;
-      }
-      else {
-        vm.requiredUser = true;
-      }
-    };
-
-    vm.clearFnameError = function (val) {
-      if (val && val.length > 0) {
-        vm.requiredFirstname = false;
-      }
-      else {
-        vm.requiredFirstname = true;
-        return;
-      }
-    };
-
-    vm.clearLnameError = function (val) {
-      if (val && val.length > 0) {
-        vm.requiredLastname = false;
-      }
-      else {
-        vm.requiredLastname = true;
-        return;
-      }
-    };
-
-    vm.clearGenderError = function (val) {
-      if (val && val.length > 0) {
-        vm.hasNotGender = false;
-      }
-      else {
-        vm.hasNotGender = true;
-        return;
-      }
-    };
-
-    vm.clearBdayError = function (val) {
-      if (val) {
-        vm.hasNotBirth = false;
-      }
-      else {
-        vm.hasNotBirth = true;
-        return;
-      }
-    };
-
-    vm.clearAgreementError = function (val) {
-      if (val && val.length > 0) {
-        vm.acceptAgreement = false;
-      }
-      else {
-        vm.acceptAgreement = true;
-        return;
-      }
-    };
 
     vm.submitPhoneNumber = function (isValid) {
       vm.submitted = true;
@@ -373,45 +217,21 @@
       });
     }
 
-    vm.register = function(event) {
+    vm.register = function(formIsValid) {
 
-      //TODO: clean my validations
-        if(vm.password === undefined){
-          vm.requiredPassword = true;
-        }else{
-          vm.requiredPassword= false;
+      vm.submitted = true;
+
+      validateUsername(vm.username, true).then(function (errors) {
+        if (errors.length > 0 || !formIsValid) {
+          return;
         }
-
-        if(vm.fname === undefined){
-          vm.requiredFirstname = true;
-        }else{
-          vm.requiredFirstname= false;
-        }
-
-      if(vm.lname === undefined){
-        vm.requiredLastname = true;
-      }else{
-        vm.requiredLastname= false;
-      }
-
-      if (vm.hasNotGender ||
-          !vm.password ||
-          !vm.username ||
-          vm.requiredLastname ||
-          vm.requiredFirstname) return false;
-
-        function pad(d) {
-          return (d < 10) ? '0' + d.toString() : d.toString();
-        } //convert 1 digit numbers to 2 digits
-
-        var dob = new Date(vm.birth);
 
         var credentials = {
           username: vm.username.toLowerCase(),
           password: md5.createHash(vm.password)
         };
 
-        var postData  = new FormData();
+        var postData = new FormData();
         postData.append('f', 'register');
         postData.append('vid', vm.verificationId);
         postData.append('phone', getPhoneNumber());
@@ -446,39 +266,95 @@
           vm.registerProgress = false;
         });
 
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get('Sorry, an error has occured while checking your username.'))
+      });
+
     };
 
     var timers = [];
-    vm.checkUser = function (val) {
-      if (val && val.length > 4) {
-        timers.forEach(function (promises) {
-          $timeout.cancel(promises);
-        });
 
-        var timer = $timeout(function () {
-          vm.checkWithServer = true;
-          var ajax = new NstHttp('/register/',{
-              f: 'account_exists',
-              uid: val
-          });
-          ajax.get()
-          .then(function(data){
-            vm.checkWithServer = false;
-              $timeout(function () {
-                if (data.status == "ok") {
-                  vm.avaiablity = true;
-                } else {
-                  vm.avaiablity = false;
+    function usernameExists(username, id) {
+      var deferred = $q.defer();
 
-                }
-              });
-            });
+      NstHttp('/register/', { f: 'account_exists', uid: id }).get().then(function(data){
+        if (data.status === 'ok') {
+          deferred.resolve(true);
+        } else {
+          deferred.resolve(false);
+        }
+      }).catch(deferred.reject);
 
-        },550);
-        timers.push(timer);
-        timer;
+      return deferred.promise;
+    }
+
+    function validateUsername(username, check) {
+      if (!check || !username) {
+        return $q.resolve(vm.usernameErrors);
       }
-    };
+
+      vm.usernameErrors.length = 0;
+
+      var VALID_CHAR_REGEX = /^[a-zA-Z0-9-.]+$/,
+          DOT_REGEX = /\./,
+          SEQUENCE_DASHES_REGEX = /--/,
+          START_WITH_DASH_AND_NUMBER_REGEX = /^(-|[0-9])/,
+          END_WITH_DASH_REGEX = /-$/;
+
+      if (!VALID_CHAR_REGEX.test(username)) {
+        vm.usernameErrors.push(NstSvcTranslation.get('alphanumeric and dash(-) only'));
+        return $q.resolve(vm.usernameErrors);
+      }
+
+      if (DOT_REGEX.test(username)) {
+        vm.usernameErrors.push(NstSvcTranslation.get('dot(.) is not allowed'));
+        return $q.resolve(vm.usernameErrors);
+      }
+
+      if (SEQUENCE_DASHES_REGEX.test(username)) {
+        vm.usernameErrors.push(NstSvcTranslation.get('Sequence dashes (--) are not allowed'));
+      }
+
+      if (START_WITH_DASH_AND_NUMBER_REGEX.test(username)) {
+        vm.usernameErrors.push(NstSvcTranslation.get('Don\'t start your username with a number (0-9) or a dash (-)'));
+      }
+
+      if (END_WITH_DASH_REGEX.test(username)) {
+        vm.usernameErrors.push(NstSvcTranslation.get('Don\'t end your username with a dash (-)'));
+      }
+
+      if (vm.usernameErrors.length > 0) {
+        return $q.resolve(vm.usernameErrors);
+      }
+
+      if (_.size(username) < 4) {
+        vm.usernameErrors.push(NstSvcTranslation.get('The username is too short'));
+      }
+
+      if (_.size(username) > 32) {
+        vm.usernameErrors.push(NstSvcTranslation.get('The username is too long'));
+      }
+
+      if (vm.usernameErrors.length > 0) {
+        return $q.resolve(vm.usernameErrors);
+      }
+
+      vm.usernameValidationStatus = 'checking';
+      return $q(function (resolve, reject) {
+        usernameExists(username, vm.verificationId).then(function (exists) {
+          if (exists) {
+            vm.usernameValidationStatus = 'exists';
+          } else {
+            vm.usernameValidationStatus = 'available';
+          }
+          resolve(vm.usernameErrors);
+        }).catch(function (error) {
+          vm.usernameValidationStatus = 'error';
+          reject(error);
+        });
+      });
+
+    }
 
     //Parse url and get params from url
     function getParameterByName(name) {

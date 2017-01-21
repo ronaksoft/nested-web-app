@@ -18,7 +18,7 @@
 
   /** @ngInject */
   function NstSvcSync(_,
-                      NST_SRV_PUSH_CMD,
+                      NST_SRV_PUSH_CMD, NST_EVENT_ACTION,
                       NstFactoryEventData, NstObservableObject,
                       NstSvcServer, NstSvcActivityFactory, NstSvcLogger) {
 
@@ -116,7 +116,7 @@
       var self = this;
 
       // check open event's place_id has channel
-      if (!hasOpenChannel.apply(this, [event.detail.place_id])) return;
+      if (!hasOpenChannel.apply(this, [event.detail.place_id]) && event.detail.action !== NST_EVENT_ACTION.POST_ADD) return;
 
       NstSvcLogger.debug2('Sync Service | Get activity for channel :', event.detail.place_id);
 
@@ -149,7 +149,7 @@
           if (self.recivedActivityStack.indexOf(act.id) < 0) {
             self.recivedActivityStack.push(act.id);
 
-            NstSvcLogger.debug2('Sync Service | Dispatch ' ,act.type, act);
+            NstSvcLogger.debug2('Sync Service | Dispatch ', act.type, act);
 
             self.dispatchEvent(new CustomEvent(
               act.type,

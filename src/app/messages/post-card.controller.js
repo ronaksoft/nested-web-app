@@ -34,8 +34,10 @@
     vm.unreadCommentsCount = 0;
     vm.remove = remove;
     vm.retract = retract;
+    vm.expand = expand;
+    vm.collapse = collapse;
+    vm.body = null;
     vm.markAsRead = markAsRead;
-
 
     /**
      * send - add the comment to the list of the post comments
@@ -186,6 +188,19 @@
       });
     }
 
+    function expand() {
+      NstSvcPostFactory.get(vm.post.id).then(function (post) {
+        vm.body = post.body;
+        vm.isExpanded = true;
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
+      });
+    }
+
+    function collapse() {
+      vm.isExpanded = false;
+      vm.body = vm.post.body;
+    }
     /**
      * anonymous function - Reset newCommentsCount when the post has been seen
      *
@@ -233,6 +248,9 @@
     (function () {
 
       vm.hasOlderComments = vm.post.commentsCount && vm.post.comments ? vm.post.commentsCount > vm.post.comments.length : false;
+      vm.body = vm.post.body;
+      // Later on, ask server whether to expand or not
+      vm.isExpandable = vm.body.length > 250;
 
       vm.urls = {};
       vm.urls['reply_all'] = $state.href('app.compose-reply-all', {

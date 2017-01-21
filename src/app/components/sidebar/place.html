@@ -5,7 +5,7 @@
    data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
    data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
   <div ng-if="place.avatar" class="side-place-item-image">
-    <div class="unreadPlace" ng-if="place.unreadPosts > 0">
+    <div class="unreadPlace" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">
       <svg>
         <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
       </svg>
