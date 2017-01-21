@@ -39,7 +39,10 @@
       <div class="_df _fw">
       </div>
       <span class="_df _fn post-card-time" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
-      data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{::ctlPostCard.post.date | date : 'short'}}<div class="unread-badge-holder">●</div></span>
+        data-tooltip-append-to-body="true" data-tooltip-placement="auto left" ng-click="ctlPostCard.markAsRead()">
+        {{::ctlPostCard.post.date | date : 'short'}}
+        <div class="unread-badge-holder">●</div>
+      </span>
     </div>
   </section>
   <section ng-if="ctlPostCard.post.subject.length > 0" class="post-subject"

@@ -34,6 +34,7 @@
     vm.unreadCommentsCount = 0;
     vm.remove = remove;
     vm.retract = retract;
+    vm.markAsRead = markAsRead;
 
 
     /**
@@ -74,16 +75,18 @@
         $log.debug(error);
       });
 
-      // NOTE: By commenting on a post, it will be marked as read automatically.
-      // The the below lines are not required anymore
-      //
-      // if(!vm.post.postIsRed)
-      //   NstSvcPostFactory.read([vm.post.id]).then(function (result) {
-      //     vm.post.postIsRed = true;
-      //   }).catch(function (err) {
-      //     $log.debug('MARK AS READ :' + err);
-      //   });
+      markAsRead();
       return false;
+    }
+
+
+    function markAsRead() {
+      if(!vm.post.postIsRed)
+        NstSvcPostFactory.read([vm.post.id]).then(function (result) {
+          vm.post.postIsRed = true;
+        }).catch(function (err) {
+          $log.debug('MARK AS READ :' + err);
+        });
     }
 
     /**
