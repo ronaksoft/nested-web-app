@@ -57,10 +57,6 @@
            post="ctlPostCard.post">
     <i><translate>Empty post</translate></i>
   </section>
-  <!-- <section class="post-attachments" data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments">
-    <div class="attachments _fw _df" data-ng-include="'app/components/attachments/attachments.html'"
-         data-ng-init="thePost = ctlPostCard.post"></div>
-  </section> -->
   <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments" class="attachments-card">
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>

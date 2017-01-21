@@ -23,11 +23,12 @@
     </a>
   </li>
 </ul>
+
 <ul ng-if="internalMode == 'badge'" class="badge-bar">
   <li ng-repeat="item in items | orderBy:['order', 'name']">
     <a href="javascript:void(0);" ng-click="onClick(item)" class="attach-badge-default {{'attach-badge-' + item.type}}">
-      <div class="badge-extension">{{item.extension ? item.extension : '&nbsp'}}</div>
-      <div class="badge-name">{{item.name ? item.name : '&nbsp'}}</div>
+      <div class="badge-extension">{{item.extension ? item.extension : item.filename.split('.')[item.filename.split('.').length -1 ] | uppercase}}</div>
+      <div class="badge-name">{{item.filename ? item.filename : '&nbsp'}}</div>
     </a>
 
   </li>

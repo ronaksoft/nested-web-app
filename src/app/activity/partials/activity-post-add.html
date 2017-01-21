@@ -15,7 +15,8 @@
     </div>
     <div data-ng-show="extended" class="_wrb bod"
          data-ng-bind-html="(act.post.body | preview | truncate | emoji) || '<i>Empty Message</i>'"></div>
-    <nst-attachments-preview-bar data-ng-show="extended && act.post.attachments.length > 0" mode="auto" items="act.post.attachments" on-item-click=""/>
+    <nst-attachments-preview-bar badge="true" data-ng-show="extended && act.post.attachments.length > 0" mode="auto"
+                                 items="act.post.attachments" on-item-click=""/>
   </div>
   <div class="places _dif">
     <a class="small-badge _df _pr" ui-sref="app.place-activity({placeId : act.post.places[0].id})">{{::act.post.places[0].name}}</a>
