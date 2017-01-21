@@ -11,12 +11,12 @@
       <div ng-if="!item.hasThumbnail" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
         <p>{{item.name}}</p>
         <div class="detail">
-          <p>{{item.extension}}</p>
-          <span class="attsize">{{item.size}}</span>
+          <p>{{item.extension | uppercase}}</p>
+          <span class="attsize">{{item.size | bytes:2}}</span>
         </div>
       </div>
     </a>
-    <a href="javascript:void(0);" ng-click="dlClick(item);$event.stopPropagation()" class="attdl">
+    <a href="javascript:void(0);" ng-click="download(item);$event.stopPropagation()" class="attdl">
       <svg>
         <use xlink:href="/assets/icons/nst-icn20.svg#downloads"></use>
       </svg>
@@ -33,8 +33,10 @@
   </li>
 </ul>
 <div ng-if="internalMode == 'onlyimg'" class="only-img">
-  <div style="width: {{width}}px;height:  {{height}}px" ng-click="onClick(items[0]);$event.stopPropagation()">
-  <img width="100%" height="100%" ng-src="{{items[0].preview}}"/>
+  <div style="width: {{wrpWidth}}px; height: {{wrpHeight}}px; overflow: hidden" ng-click="onClick(items[0]);$event.stopPropagation()">
+  <img style="
+    height: {{height}}px;
+    width: {{width}}px" ng-src="{{items[0].preview}}"/>
   </div>
 </div>
 <ul ng-if="internalMode == 'twoimg'" class="two-img">
