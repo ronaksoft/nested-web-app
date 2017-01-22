@@ -442,7 +442,8 @@
     }
 
     function isSubPersonal() {
-      return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
+      if (vm.currentPlaceId)
+        return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
     }
 
     function isSent() {
