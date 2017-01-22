@@ -18,6 +18,11 @@
   #PostBody {
     border: none;
     overflow-y: auto;
+
+    .attachments-card {
+      position: relative;
+      min-height: 108px;
+    }
   }
   #PostTime {
     top: 0;
