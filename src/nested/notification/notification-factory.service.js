@@ -40,6 +40,7 @@
     NotificationFactory.prototype.storeLoadedNotification = storeLoadedNotification;
     NotificationFactory.prototype.getLoadedNotification = getLoadedNotification;
     NotificationFactory.prototype.markAsSeen = markAsSeen;
+    NotificationFactory.prototype.resetCounter = resetCounter;
 
 
     var factory = new NotificationFactory();
@@ -143,6 +144,20 @@
 
         return defer.promise;
       }, "markAsSeen");
+    }
+
+    function resetCounter() {
+      var factory = this;
+      return this.sentinel.watch(function () {
+        var defer = $q.defer();
+
+        NstSvcServer.request('notification/reset_counter', {}).then(function () {
+          factory.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(0)));
+          defer.resolve();
+        }).catch(defer.reject);
+
+        return defer.promise;
+      }, "resetCounter");
     }
 
     /*****************

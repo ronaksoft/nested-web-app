@@ -100,7 +100,7 @@
           <svg id="mentions">
             <use xlink:href="/assets/icons/nst-icn32.svg#atsign"></use>
           </svg>
-          <div class="notif" ng-if="ctlSidebar.notificationsCount">{{ctlSidebar.notificationsCount}}</div>
+          <div class="notif" ng-if="ctlSidebar.notificationsCount > 0">{{ctlSidebar.notificationsCount}}</div>
         </div>
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           <translate>Notifications</translate>
