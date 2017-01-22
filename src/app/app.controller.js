@@ -48,14 +48,6 @@
       NstSvcLogger.info('AppController calls $digest to update passed times every 1 min.');
     }, 60 * 1000);
 
-    hotkeys.add({
-      combo: 'c',
-      description: 'compose state',
-      callback: function () {
-        $state.go('app.place-compose');
-      }
-    });
-
     vm.viewSettings = {
       sidebar: {collapsed: true},
       navbar: {collapsed: false}

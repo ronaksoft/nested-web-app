@@ -1,3 +1,4 @@
+nst-attachments-editable-bar,
 nst-attachments-preview-bar {
   //overflow-y: visible;
   //overflow-x: auto;
@@ -161,6 +162,7 @@ nst-attachments-preview-bar {
       }
     }
     .attach-thumbnail-default ,
+    .attach-thumbnail-other ,
     .attach-thumbnail-image {
       background: url('../assets/icons/bg_attachment_other.svg') no-repeat;
       color: #282828;

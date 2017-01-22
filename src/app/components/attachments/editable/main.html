@@ -1,40 +1,33 @@
-<div class="attachments-editable-bar">
-  <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
-    <li ng-repeat="item in items" ng-class="item.isUploaded ? '' : 'uploading'" ng-mouseenter="mouseover = true;" ng-mouseleave="mouseover = false;">
-        <div class="_pr" ng-if="item.hasThumbnail">
-          <div class="atttach-detail">
-            <div class="attach-name"></div>
-            <div class="uploadprogress">
-              <div ng-if="!item.isUploaded" ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="circle"></div>
-              <div ng-if="!item.isUploaded || mouseover" class="del">
-                <img ng-click="onDelete(item)" src="../assets/icons/close.svg"/>
-              </div>
-            </div>
-            <div class="attach-ext"></div>
-          </div>
-          <img class="attach-thumbnail" alt="" style="background: url({{item.thumbnail}});background-size: cover;"/>
+<i ng-click="goLeft();$event.stopPropagation()" ng-class="{'_opz' : !overFlowLeft}">
+  <svg>
+    <use xlink:href="/assets/icons/nst-icn24.svg#arrow-up"></use>
+  </svg>
+</i>
+
+<ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
+  <li ng-repeat="item in items" ng-class="item.isUploaded ? '' : 'uploading'">
+    <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
+      <img ng-if="item.hasThumbnail" class="attach-thumbnail-img" alt=""
+           style="background: url({{item.thumbnail}});background-size: cover; height: 108px; width: {{ (item.ratio * 108) }}px"/>
+      <div ng-if="!item.hasThumbnail" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
+        <p>{{item.name}}</p>
+        <div class="detail">
+          <p>{{item.extension | uppercase}}</p>
+          <span class="attsize">{{item.size | bytes:2}}</span>
         </div>
-        <div ng-if="!item.hasThumbnail">
-          <div class="attach-thumbnail-default {{'attach-thumbnail-' + item.type}}"></div>
-          <div class="atttach-detail">
-            <div class="attach-name">{{item.name}}</div>
-            <div class="uploadprogress">
-              <div ng-if="!item.isUploaded" ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="circle"></div>
-              <div class="del" ng-if="!item.isUploaded || mouseover">
-                <img ng-click="onDelete(item)" src="../assets/icons/close.svg"/>
-              </div>
-            </div>
-            <div class="attach-ext">{{item.extension || 'Failed!'}}</div>
-          </div>
-        </div>
-    </li>
-  </ul>
-  <ul ng-if="internalMode == 'badge'" class="badge-bar">
-    <li ng-repeat="item in items">
-      <a href="javascript:void(0);" ng-click="onClick(item)" class="attach-badge-normal">
-        <div class="badge-extension">{{item.extension ? item.extension : '&nbsp'}}</div>
-        <div class="badge-name">{{item.name ? item.name : '&nbsp'}}</div>
-      </a>
-    </li>
-  </ul>
-</div>
+      </div>
+    </a>
+    <a href="javascript:void(0);" ng-click="onDelete(item);$event.stopPropagation()" class="attdl">
+      <svg>
+        <use xlink:href="/assets/icons/nst-icn24.svg#delete"></use>
+      </svg>
+    </a>
+  </li>
+</ul>
+
+<i ng-click="goRight();$event.stopPropagation()" ng-class="{'_opz' : !overFlowRight}">
+  <svg>
+    <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
+  </svg>
+</i>
+
