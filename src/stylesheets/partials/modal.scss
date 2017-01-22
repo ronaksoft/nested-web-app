@@ -147,7 +147,6 @@ body.modal-open {
     padding: 0 16px;
 
     position: relative;
-    overflow: scroll;
 
   }
   .modal-head {
@@ -167,6 +166,8 @@ body.modal-open {
   .modal-bo {
     margin-top: 48px;
     height: calc(100% - 96px);
+    overflow-y: scroll;
+    overflow-x: hidden;
     >p {
       color: $color-sense;
     }

@@ -67,7 +67,8 @@
 
     $scope.editorOptions = {
       language: 'en',
-      extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton',
+      extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow',
+      autoGrow_minHeight: 100,
       sharedSpaces: {
         top: 'editor-btn',
         bottom: 'editor-txt'
