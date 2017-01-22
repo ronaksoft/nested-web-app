@@ -135,6 +135,7 @@ body.modal-open {
   background-color: $color-white;
   .modal-content {
     height: 100%;
+    overflow: hidden;
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
       padding: 0;
@@ -418,7 +419,7 @@ body.modal-open {
 
 .modal-lg-white {
   display: flex;
-  position: absolute;
+  position: fixed;
   background-color: $color-bg;
   //opacity: 0.98;
   top: 0;
@@ -433,6 +434,7 @@ body.modal-open {
     position: relative;
     box-shadow: none;
     border: none;
+    overflow-y: auto;
     background-color: transparent;
     h2 {
       color: #000000;
