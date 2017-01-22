@@ -24,6 +24,8 @@
     vm.error = null;
 
 
+    //initialize
+    NstSvcNotificationFactory.resetCounter();
     if (vm.notifications.length === 0) {
       loadBefore();
     } else {
