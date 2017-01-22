@@ -75,7 +75,7 @@
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PRIVACY, function (event) {
         var tlData = event.detail;
 
-        this.get(tlData.place_id).then(function (place) {
+        factory.get(tlData.place_id).then(function (place) {
           factory.dispatchEvent(new CustomEvent(
             NST_PLACE_FACTORY_EVENT.PRIVACY_CHANGED, {
               detail: {
@@ -90,7 +90,7 @@
 
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PICTURE, function (event) {
         var tlData = event.detail;
-        this.getTiny(tlData.place_id).then(function (place) {
+        factory.getTiny(tlData.place_id).then(function (place) {
           factory.dispatchEvent(new CustomEvent(
             NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, {
               detail: {
@@ -371,13 +371,17 @@
         NstSvcPlaceStorage.remove(placeId);
         NstSvcTinyPlaceStorage.remove(placeId);
 
-        factory.dispatchEvent(new CustomEvent(
-          NST_PLACE_FACTORY_EVENT.UPDATE, {
-            detail: {
-              id: placeId
+
+        factory.getTiny(placeId).then(function (place) {
+          factory.dispatchEvent(new CustomEvent(
+            NST_PLACE_FACTORY_EVENT.UPDATE, {
+              detail: {
+                id: place.getId(),
+                place: place
+              }
             }
-          }
-        ));
+          ));
+        });
 
       }).catch(deferred.reject);
 
@@ -402,6 +406,18 @@
             place_id: id,
             universal_id: uid
           }).then(function (response) {
+
+            factory.getTiny(id).then(function (place) {
+              factory.dispatchEvent(new CustomEvent(
+                NST_PLACE_FACTORY_EVENT.PICTURE_CHANGE, {
+                  detail: {
+                    id: place.id,
+                    place: place
+                  }
+                }
+              ));
+            });
+
             deferred.resolve(response);
           }).catch(function (error) {
             deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -611,7 +627,10 @@
           member_id: query.data.userId,
           role: query.data.role
         }).then(function (result) {
-          factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.ADD_MEMBER, new NstFactoryEventData({ placeId : place.id , member : user })));
+          factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.ADD_MEMBER, new NstFactoryEventData({
+            placeId: place.id,
+            member: user
+          })));
           deferred.resolve(user);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -979,7 +998,7 @@
 
       if (placeData.picture && placeData.picture.org) {
         place.setPicture(new NstPicture(placeData.picture));
-      }else{
+      } else {
         place.setPicture(new NstPicture());
       }
 
@@ -1292,7 +1311,7 @@
       if (!(_.isArray(places) && places.length > 0)) {
         return false;
       }
-      if (_.some(places, { id : originalId })) {
+      if (_.some(places, {id: originalId})) {
         NstUtility.collection.dropById(places, originalId);
         return true;
       }

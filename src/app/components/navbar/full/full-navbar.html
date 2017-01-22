@@ -5,7 +5,7 @@
     <div class="content _pr">
       <div class="top-nav" ng-if="ctlFullNavbar.hasPlace()">
         <div class="place-logo">
-          <img class="_tr" ng-src="{{ctlFullNavbar.pictureUrl}}"/>
+          <img src="{{::ctlFullNavbar.place | picture:'x128'}}"/>
         </div>
         <div class="place-info _difv" >
           <!--<div id="filler" affixers first-imp="true" parent=".content" after-content="72"></div>-->
