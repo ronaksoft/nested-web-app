@@ -56,6 +56,7 @@
     vm.toggleCommentsPreview = toggleCommentsPreview;
     vm.toggleQuickMessagePreview = toggleQuickMessagePreview;
     vm.isBookMark = isBookMark();
+    vm.isSubPersonal = isSubPersonal;
 
     vm.quickMessageAccess = false;
     // Listen for when the dnd has been configured.
@@ -438,6 +439,10 @@
         return true;
       }
       return false;
+    }
+
+    function isSubPersonal() {
+      return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
     }
 
     function isSent() {
