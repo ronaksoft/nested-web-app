@@ -12,9 +12,9 @@
       <script type="text/ng-template" id="compose-uib-tooltip.html">
         <translate>Compose</translate>
       </script>
-      <a class="detailed" id="compoese" data-uib-tooltip-template="'compose-uib-tooltip.html'"  href="{{ctlSidebar.urls.compose}}"
+      <a class="detailed" id="compoese" data-uib-tooltip-template="'compose-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
-         data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
+         data-tooltip-placement="right auto" data-tooltip-append-to-body="true" ng-click="ctlSidebar.compose()"
          nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.compose}}">
         <div>
           <div class="compose">
