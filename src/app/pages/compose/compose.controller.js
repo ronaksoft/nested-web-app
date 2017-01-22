@@ -67,7 +67,8 @@
 
     $scope.editorOptions = {
       language: 'en',
-      extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton',
+      extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow',
+      autoGrow_minHeight: 100,
       sharedSpaces: {
         top: 'editor-btn',
         bottom: 'editor-txt'
@@ -124,6 +125,8 @@
         }
       }
     };
+
+
 
     (function () {
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
@@ -345,7 +348,7 @@
       NstUtility.collection.dropById(vm.attachments.viewModels, id);
       vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
       vm.attachments.size.total -= attachment.getSize();
-    }
+    };
 
     vm.model.isModified = function () {
       vm.model.modified = (function (model) {
@@ -423,6 +426,10 @@
       vm.model.ready = 0 == vm.model.errors.length;
 
       return vm.model.ready;
+    };
+
+    vm.fullCompose = function () {
+      $('body').toggleClass('fullCompose');
     };
 
     vm.send = function () {
