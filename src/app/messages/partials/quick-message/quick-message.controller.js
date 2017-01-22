@@ -46,8 +46,8 @@
       vm.model.modified = (function (model) {
         var modified = false;
 
-        modified = modified || model.subject.trim().length > 0;
-        modified = modified || model.body.trim().length > 0;
+        console.error(angular.element(vm.textarea).text().trim().length,model.attachments.length);
+        modified = modified || angular.element(vm.textarea).text().trim().length > 0;
         modified = modified || model.attachments.length > 0;
 
         return modified;
@@ -83,9 +83,12 @@
     };
 
     vm.writeMsg = function(e) {
+      vm.model.isModified();
+
       if (!e.currentTarget.firstChild) return;
 
       vm.textarea = e.currentTarget;
+
 
       analyseInIt();
 
@@ -161,6 +164,7 @@
         } else {
           vm.model.body = str;
         }
+        vm.model.isModified();
         // str = str.replace(/<br\s*[\/]?>/gi, "\n");
         // str = str.replace(/<div\s*[\/]?>/gi, "\n");
         // str = str.replace(/<\/div>/gi, "");
@@ -302,6 +306,7 @@
     };
 
     vm.attachments.attach = function (file) {
+      vm.model.modified = true;
       var deferred = $q.defer();
       var readyPromises = [];
 
@@ -417,6 +422,7 @@
       }else{
         vm.model.attachments = [];
       }
+      vm.model.isModified();
     };
 
     $scope.deleteAttachment = function (attachment) {
