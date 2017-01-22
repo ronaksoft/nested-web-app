@@ -125,6 +125,67 @@ body.modal-open {
   margin: 0 1%;
 }
 
+.modal .modal-compose {
+  width: 600px;
+  max-width: 100%;
+  height: 480px;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  background-color: $color-white;
+  .modal-content {
+    height: 100%;
+    .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
+    .ui-select-multiple.ui-select-bootstrap {
+      padding: 0;
+    }
+  }
+  .compose-wrp {
+    width: 100%;
+    height: 100%;
+    padding: 0 16px;
+
+    position: relative;
+    overflow: scroll;
+
+  }
+  .modal-head {
+    height: 48px;
+    width: 100%;
+    display: flex;
+    left: 0;
+    top: 0;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  .modal-bo {
+    margin-top: 48px;
+    height: calc(100% - 96px);
+    >p {
+      color: $color-sense;
+    }
+  }
+  .modal-ft {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+    .butn-green {
+      width: 80px;
+      height: 32px;
+    }
+  }
+
+}
+
 .modal-mlg {
   width: calc(100% - 160px);
   height: calc(100% - 160px);

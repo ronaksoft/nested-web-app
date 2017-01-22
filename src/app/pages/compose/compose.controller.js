@@ -65,6 +65,25 @@
       ]
     };
 
+    $scope.editorOptions = {
+      language: 'en',
+      extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton',
+      sharedSpaces: {
+        top: 'editor-btn',
+        bottom: 'editor-txt'
+      },
+      toolbar: [
+        ["FontSize","Font"],
+        ["Bold","Italic","Underline"],
+        ["JustifyLeft","JustifyRight","TextColor","BidiLtr","BidiRtl"]
+      ],
+      fontSize_sizes: '12/12px;14/14px;18/18px;',
+      colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
+      // Remove the redundant buttons from toolbar groups defined above.
+      //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
+      removePlugins: 'resize,elementspath'
+    };
+
     vm.configs = {
       tinymce: {
         inline: false,

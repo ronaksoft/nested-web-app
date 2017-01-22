@@ -19,6 +19,7 @@
       'ronak.nested.web.data',
       'ronak.nested.web.config',
       'ronak.nested.web.3rd',
-      'ng.deviceDetector'
+      'ng.deviceDetector',
+      'ckeditor'
     ]);
 })();

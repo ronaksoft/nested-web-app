@@ -42,6 +42,19 @@
       return seq;
     };
 
+    vm.compose = function () {$uibModal.open({
+      animation: false,
+      size: 'compose',
+      templateUrl: 'app/pages/compose/main.html',
+      controller: 'ComposeController',
+      controllerAs: 'ctlCompose'
+    }).result.then(function (result) {
+
+    }).catch(function () {
+
+      });
+    };
+
     vm.invitation.accept = function (id) {
       return NstSvcLoader.inject(NstSvcInvitationFactory.accept(id));
     };
