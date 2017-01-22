@@ -75,9 +75,9 @@
       toolbar: [
         ["FontSize","Font"],
         ["Bold","Italic","Underline"],
-        ["JustifyLeft","TextColor","BidiRtl","BidiLtr"]
+        ["JustifyLeft","JustifyRight","TextColor","BidiLtr","BidiRtl"]
       ],
-      fontSize_sizes: '16/16px;24/24px;48/48px;',
+      fontSize_sizes: '12/12px;14/14px;18/18px;',
       colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
       // Remove the redundant buttons from toolbar groups defined above.
       //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',

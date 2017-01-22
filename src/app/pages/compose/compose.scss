@@ -123,6 +123,10 @@
   margin: 0 8px;
 
 }
+.nst-attach {
+  flex: none;
+  height: 108px;
+}
 
 .compose-message-input {
   height: 100px;
@@ -140,11 +144,15 @@
   p {
     padding: 10px;
   }
+  .cke_reset {
+    height: 100%!important;
+  }
 }
 
 .input-select-match {
   flex: none;
   min-height: 42px;
+  margin-bottom: 24px;
 }
 .sto {
   padding: 0 16px;
@@ -152,7 +160,7 @@
 
 #input-compose-to  .ui-select-choices {
    padding: 0;
-   max-height: 50vh
+   max-height: 250px;
  }
 
 #mceu_24-body {

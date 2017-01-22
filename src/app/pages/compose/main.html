@@ -36,10 +36,8 @@
           </ui-select-choices>
         </ui-select>
       </div>
-      <section class="_difc _fw">
-        <div class="_df _fw input-select-match">
-          <input class="compose-input _fw"  focus-me page-change-element  name="subject" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder">
-        </div>
+      <section class="_difc _fw _fn">
+        <input class="compose-input _fw"  focus-me page-change-element  name="subject" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder">
       </section>
       <form name="attachmentForm">
         <input page-change-element type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
@@ -54,11 +52,11 @@
       </section>
 
       <div class="nst-attach _dif _fw" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
-        <div class="_fw">
+        <div class="_fw _pr">
           <nst-attachments-editable-bar mode="thumbnail" items="ctlCompose.attachments.viewModels" on-item-delete="ctlCompose.attachments.detach"></nst-attachments-editable-bar>
         </div>
         <div class="attach _df">
-          <input id="{{ctlCompose.attachments.elementId}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
+          <input id="attach" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
         </div>
         <div class="nst-attach-con _fh" ng-if="showUploadProgress">
           <div class="progress">
@@ -70,6 +68,11 @@
       </div>
     </div>
     <div class="modal-ft _difh">
+      <label class="_df _fn butn-white" for="attach">
+        <svg>
+          <use xlink:href="/assets/icons/nst-icn24.svg#arrow-up"></use>
+        </svg>
+      </label>
       <div class="_df f1" id="editor-btn"></div>
       <input type="button" class="butn-green" value="Share">
     </div>
