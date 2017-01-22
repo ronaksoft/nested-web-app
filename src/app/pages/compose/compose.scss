@@ -136,16 +136,17 @@
 }
 
 .nst-compose-message {
-  display: flex;
+  display: table;
   height: 100%;
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: auto;
+  >div ,>div>div {
+    display: table;
+    height: auto;
+  }
   p {
     padding: 10px;
-  }
-  .cke_reset {
-    height: 100%!important;
   }
 }
 
