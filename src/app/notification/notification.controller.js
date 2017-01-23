@@ -130,9 +130,11 @@
           closePopover();
           return showInvitationModal(notification);
         case NST_NOTIFICATION_TYPE.COMMENT:
+          closePopover();
+          return viewPost(notification.post);
         case NST_NOTIFICATION_TYPE.MENTION:
           closePopover();
-          return viewPost(notification);
+          return viewPost(notification.mention.post);
       }
     }
 
@@ -145,8 +147,8 @@
     }
 
 
-    function viewPost(notification) {
-      $state.go('app.message', {postId: notification.post.id}, {notify: false});
+    function viewPost(post) {
+      $state.go('app.message', {postId: post.id}, {notify: false});
     };
 
   }
