@@ -6,11 +6,11 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
+  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstVmPlaceBadge, NstPicture) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstSvcPostMap, NstPicture) {
     var vm = this;
 
     /*****************************
@@ -61,7 +61,7 @@
         })
       ],
       right: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Attach files'), NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attachments.elementId })
+        new NstVmNavbarControl(NstSvcTranslation.get('Attach files'), NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, {id: vm.attachments.elementId})
       ]
     };
 
@@ -74,9 +74,9 @@
         bottom: 'editor-txt'
       },
       toolbar: [
-        ["FontSize","Font"],
-        ["Bold","Italic","Underline"],
-        ["JustifyLeft","JustifyRight","TextColor","BidiLtr","BidiRtl"]
+        ["FontSize", "Font"],
+        ["Bold", "Italic", "Underline"],
+        ["JustifyLeft", "JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
       ],
       fontSize_sizes: '12/12px;14/14px;18/18px;',
       colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
@@ -94,9 +94,9 @@
         menubar: false,
         browser_spellcheck: true,
         selector: 'textarea',
-        height : 200,
+        height: 200,
         //content_css : "../styles/tinymce.css",
-        content_style : "@font-face {font-family: 'OpenSans';" +
+        content_style: "@font-face {font-family: 'OpenSans';" +
         "src: url('../assets/fonts/OpenSans/OpenSans-Regular.woff2') format('woff2')," +
         "url('../assets/fonts/OpenSans/OpenSans-Regular.woff') format('woff')," +
         "url('../assets/fonts/OpenSans/OpenSans-Regular.ttf')  format('truetype')," +
@@ -108,18 +108,18 @@
         "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
         "br{opacity:0}" +
         "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 12pt!important;}",
-        plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
+        plugins: 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
         // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
         // contextmenu_never_use_native: true,
         toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
         skin: 'lightgray',
-        theme : 'modern',
+        theme: 'modern',
         setup: function (editor) {
           editor.on('init', function (e) {
             $scope.activeEditorElement = e.target.contentDocument.activeElement;
           });
-          editor.on('keydown', function(e) {
-            if(e.keyCode == 13 && $(editor.contentDocument.activeElement).atwho('isSelecting'))
+          editor.on('keydown', function (e) {
+            if (e.keyCode == 13 && $(editor.contentDocument.activeElement).atwho('isSelecting'))
               return false
           })
         }
@@ -150,17 +150,17 @@
       // Put logic here for keypress and cut/paste changes
     };
 
-    vm.search.fn = function(query) {
+    vm.search.fn = function (query) {
       var initPlace = NstSvcPlaceFactory.parseTinyPlace({
         _id: query,
         name: query
       });
       // if (query.length)
       //   vm.search.results = [new NstVmPlace(initPlace)];
-      return NstSvcPlaceFactory.search(query).then(function(places) {
+      return NstSvcPlaceFactory.search(query).then(function (places) {
         vm.search.results = [];
-        places.map(function(place) {
-          if (place && vm.model.recipients.filter(function(obj) {
+        places.map(function (place) {
+          if (place && vm.model.recipients.filter(function (obj) {
               return (obj.id === place.id);
             }).length === 0) {
             if (place.id === query) {
@@ -171,12 +171,13 @@
           }
         });
         if (initPlace.id) {
-          if (initPlace.id.indexOf('@') > -1){
+          if (initPlace.id.indexOf('@') > -1) {
             initPlace.isEmail = true;
             initPlace.isEmailValid = NST_PATTERN.EMAIL.test(initPlace.id)
           }
           vm.search.results.push(initPlace);
-      }}).catch(function () {
+        }
+      }).catch(function () {
         vm.search.results = [];
         if (initPlace.id)
           vm.search.results.push(initPlace);
@@ -184,12 +185,11 @@
     };
 
 
-
     vm.search.tagger = function (text) {
       // TODO: To use new class and also check for hidden places
       var isPlaceId = 0 == text.split('.').filter(function (v, i) {
           return !(0 == i ? NST_PATTERN.GRAND_PLACE_ID.test(v) : NST_PATTERN.SUB_PLACE_ID.test(v));
-      }).length;
+        }).length;
       var isEmail = NST_PATTERN.EMAIL.test(text);
 
       if (isPlaceId) {
@@ -198,13 +198,13 @@
           name: text,
           data: NstSvcPlaceFactory.getTiny(text).then(function (place) {
             // $timeout(function () {
-              tag.name = place.getName();
-              tag.data = place;
+            tag.name = place.getName();
+            tag.data = place;
             // });
           }).catch(function () {
             // $timeout(function () {
-              tag.isTag = false;
-              tag.data = NstSvcPlaceFactory.parseTinyPlace({ _id: text });
+            tag.isTag = false;
+            tag.data = NstSvcPlaceFactory.parseTinyPlace({_id: text});
             // });
           })
         });
@@ -221,17 +221,17 @@
         });
         return tag;
       }
-      return {isTag : false, name: text};
+      return {isTag: false, name: text};
     };
 
     vm.attachments.fileSelected = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {});
+        vm.attachments.attach(files[i]).then(function (request) {
+        });
       }
       event.currentTarget.value = "";
     };
-
 
 
     vm.attachments.attach = function (file) {
@@ -262,10 +262,10 @@
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
           attachment.setPicture(new NstPicture({
-            original : uri,
-            preview : uri,
-            x32 : uri,
-            x64 : uri,
+            original: uri,
+            preview: uri,
+            x32: uri,
+            x64: uri,
             x128: uri
           }));
         }
@@ -330,7 +330,7 @@
 
     vm.attachments.detach = function (vmAttachment) {
       var id = vmAttachment.id;
-      var attachment = _.find(vm.model.attachments, { id: id });
+      var attachment = _.find(vm.model.attachments, {id: id});
       $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment && attachment.length !== 0) {
@@ -478,7 +478,9 @@
 
             NstSvcPostFactory.send(post).then(function (response) {
               deferred.resolve(response);
-            }).catch(function (error) { deferred.reject([error]); });
+            }).catch(function (error) {
+              deferred.reject([error]);
+            });
           } else {
             deferred.reject(vm.model.errors);
           }
@@ -491,14 +493,20 @@
 
         // TODO: Check if one or more places failed
 
+
+        NstSvcPostFactory.get(response.post.id).then(function (res) {
+          var msg = NstSvcPostMap.toMessage(res);
+          $rootScope.$emit('post-quick', msg);
+        });
+        $uibModalStack.dismissAll();
+
         toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
 
-        if(response.noPermitPlaces.length > 0){
+        if (response.noPermitPlaces.length > 0) {
           var text = NstUtility.string.format(NstSvcTranslation.get('Your message hasn\'t been successfully sent to {0}'), response.noPermitPlaces.join(','));
           toastr.warning(text, NstSvcTranslation.get('Message didn\'t send'));
         }
 
-        $rootScope.goToLastState();
 
         return $q(function (res) {
           res(response);
@@ -506,9 +514,13 @@
       }).catch(function (errors) {
         vm.model.saving = false;
         toastr.error(errors.filter(
-          function (v) { return !!v.message; }
+          function (v) {
+            return !!v.message;
+          }
         ).map(
-          function (v, i) { return String(Number(i) + 1) + '. ' + v.message; }
+          function (v, i) {
+            return String(Number(i) + 1) + '. ' + v.message;
+          }
         ).join("<br/>"), 'Compose Error');
 
         $log.debug('Compose | Error Occurred: ', errors);
@@ -522,26 +534,24 @@
     vm.controls.right.push(new NstVmNavbarControl(NstSvcTranslation.get('Send'), NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-     $log.debug('Compose | Leaving Page');
+      $log.debug('Compose | Leaving Page');
       if (vm.model.saved || !vm.model.isModified()) {
         cancel.$destroy();
         $state.go(toState.name, toParams);
       } else {
 //        if (!$rootScope.modals['leave-confirm']) {
-          $rootScope.modals['leave-confirm'] = $uibModal.open({
-            animation: false,
-            templateUrl: 'app/modals/leave-confirm/main.html',
-            controller: 'LeaveConfirmController',
-            controllerAs: 'ctlLeaveConfirm',
-            size: 'sm',
-            resolve: {
-
-            }
-          });
-          $rootScope.modals['leave-confirm'].result.then(function () {
-            cancel.$destroy();
-            $state.go(toState.name, toParams);
-          });
+        $rootScope.modals['leave-confirm'] = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/modals/leave-confirm/main.html',
+          controller: 'LeaveConfirmController',
+          controllerAs: 'ctlLeaveConfirm',
+          size: 'sm',
+          resolve: {}
+        });
+        $rootScope.modals['leave-confirm'].result.then(function () {
+          cancel.$destroy();
+          $state.go(toState.name, toParams);
+        });
 //        }
       }
     };
@@ -698,7 +708,7 @@
 
     function getPlace(id) {
       return NstSvcLoader.inject(
-         NstSvcPlaceFactory.get(id).catch(function (error) {
+        NstSvcPlaceFactory.get(id).catch(function (error) {
           var deferred = $q.defer();
 
           switch (error.getPrevious().getCode()) {
@@ -709,7 +719,7 @@
 
             default:
               // Do not retry anymore
-              deferred.resolve(NstSvcPlaceFactory.parseTinyPlace({ _id: id }));
+              deferred.resolve(NstSvcPlaceFactory.parseTinyPlace({_id: id}));
               break;
           }
 
@@ -753,14 +763,15 @@
 
     function onPlaceSelected(place) {
       // addRecipients(placeId);
-      if (!_.some(vm.model.recipients, { id : place.id })) {
+      if (!_.some(vm.model.recipients, {id: place.id})) {
         vm.model.recipients.push(new NstVmSelectTag({
-          id : place.id,
-          name : place.name,
-          data : new NstTinyPlace(place)
+          id: place.id,
+          name: place.name,
+          data: new NstTinyPlace(place)
         }));
       }
     }
+
     // Listen for when the dnd has been configured.
     vm.attachfiles = {};
 
@@ -773,7 +784,8 @@
 
       var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i].file).then(function (request) {});
+        vm.attachments.attach(files[i].file).then(function (request) {
+        });
         files[i].deleteFile();
       }
     });

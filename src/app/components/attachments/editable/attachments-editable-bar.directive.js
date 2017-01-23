@@ -1,11 +1,11 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsEditableBar', AttachmentsEditableBar);
 
-  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE,$timeout,$interval) {
+  function AttachmentsEditableBar(NST_ATTACHMENTS_EDITABLE_BAR_MODE, $timeout, $interval) {
     return {
       restrict: 'E',
       templateUrl: 'app/components/attachments/editable/main.html',
@@ -18,13 +18,22 @@
       link: function (scope, ele, attributes) {
         scope.overFlowLeft = scope.overFlowRight = false;
         scope.internalMode = NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO;
-        var pwTimeout,interval;
+        scope.scrollWrp = ele.children().next();
+        var pwTimeout, interval;
         var moves = [];
         scope.scrollDis = 70;
 
         if (modeIsValid(attributes.mode)) {
           scope.internalMode = attributes.mode;
         }
+
+        scope.$watch(function () {
+          return scope.items.length;
+        },function () {
+          $timeout(function () {
+            checkScroll(scope.scrollWrp[0]);
+          },1000);
+        });
 
         $timeout(function () {
           scope.scrollWrp = ele.children().next();
@@ -53,7 +62,7 @@
 
         }, 1000);
 
-        if (scope.internalMode === NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO){
+        if (scope.internalMode === NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO) {
           if (_.some(scope.items, 'hasThumbnail')) {
             scope.internalMode = NST_ATTACHMENTS_EDITABLE_BAR_MODE.THUMBNAIL;
           } else {
@@ -65,6 +74,9 @@
           if (scope.onItemClick) {
             scope.onItemClick(item);
           }
+          $timeout(function () {
+            checkScroll(scope.scrollWrp[0]);
+          }, 500);
         };
 
         scope.onDelete = function (item) {
