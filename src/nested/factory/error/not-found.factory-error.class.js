@@ -5,7 +5,7 @@
     .factory('NstFactoryErrorNotFound', NstFactoryErrorNotFound);
 
   /** @ngInject */
-  function NstFactoryErrorNotFound(NstFactoryError) {
+  function NstFactoryErrorNotFound(NstError) {
     /**
      * Creates an instance of NstFactoryError
      *

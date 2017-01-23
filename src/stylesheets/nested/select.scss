@@ -129,7 +129,7 @@
       fill: #00B45A;
     }
   }
-  &:hover {
+  &.selectable:hover {
     box-shadow:0 2px 8px rgba(0,0,0,0.15);
     border-color: transparent;
     background-color: $color-white;

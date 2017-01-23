@@ -6,7 +6,7 @@
     .factory('NstTinyPlace', NstTinyPlace);
 
   /** @ngInject */
-  function NstTinyPlace(NST_OBJECT_EVENT, NstModel) {
+  function NstTinyPlace(_, NstModel) {
     /**
      * Creates an instance of NstTinyPlace. Do not use this directly, use NstSvcPlaceFactory.getTiny(data) instead
      *
@@ -40,15 +40,15 @@
        *****      Ancestors     ****
        *****************************/
 
-       this.unreadPosts = undefined;
+      this.unreadPosts = undefined;
 
-       this.totalPosts = undefined;
+      this.totalPosts = undefined;
 
-       this.teammatesCount = undefined;
+      this.teammatesCount = undefined;
 
-       this.parentId = undefined;
+      this.parentId = undefined;
 
-       this.grandParentId = undefined;
+      this.grandParentId = undefined;
 
       /*****************************
        *****      Descendant    ****

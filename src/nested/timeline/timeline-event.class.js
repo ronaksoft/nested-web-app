@@ -111,9 +111,9 @@
               post_places: data.post_places, // TODO: Please be `places`
               timestamp: data.timestamp // TODO: Please be `time`
             };
-            for (var k in q) {
-              if (undefined == q[k]) {
-                $log.debug('Requesting To Get Post Because', '`' + k + '`', 'was undefined:', data);
+            for (var i in q) {
+              if (undefined == q[i]) {
+                $log.debug('Requesting To Get Post Because', '`' + i + '`', 'was undefined:', data);
                 q = q.id;
                 break;
               }
@@ -159,8 +159,8 @@
             ) : undefined;
 
             this.places = [];
-            for (var k in place_ids) {
-              this.places.push(new NestedPlace(place_ids[k]), parent);
+            for (var j in place_ids) {
+              this.places.push(new NestedPlace(place_ids[j]), parent);
             }
 
             this.place = this.places[0];

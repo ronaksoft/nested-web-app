@@ -5,7 +5,7 @@
     .service('NstSvcAttachmentMap', NstSvcAttachmentMap);
 
   /** @ngInject */
-  function NstSvcAttachmentMap(NST_ATTACHMENT_STATUS, NstVmFile, NstSvcRandomize, NstSvcFileType, NstSvcAttachmentFactory) {
+  function NstSvcAttachmentMap(_, NST_ATTACHMENT_STATUS, NstVmFile, NstSvcRandomize, NstSvcFileType) {
     var service = {
       toAttachmentItem : toAttachmentItem,
       toEditableAttachmentItem: toEditableAttachmentItem
