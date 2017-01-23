@@ -63,7 +63,8 @@
         NstSvcLogger.debug2('WS | Message:', message);
         switch (message.type) {
           case NST_SRV_MESSAGE_TYPE.RESPONSE:
-            switch (message.data.status) {
+            var status = message.status || message.data.status;
+            switch (status) {
               case NST_SRV_RESPONSE_STATUS.SUCCESS:
                 if (message.data.hasOwnProperty('msg')) {
                   this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MESSAGE, {detail: message.data.msg}));
@@ -100,11 +101,6 @@
         }
 
 
-        // //Checking for pong message
-        // if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
-        //   this.pingPong.getPong(ws.data);
-        //   return false;
-        // }
         if (_.startsWith(ws.data, "PONG!")) {
           return;
         }
@@ -123,7 +119,8 @@
           switch (data.type) {
             case NST_SRV_MESSAGE_TYPE.RESPONSE:
               var response = new NstResponse(NST_RES_STATUS.UNKNOWN, data.data);
-              switch (data.data.status) {
+              var status = data.status || data.data.status;
+              switch (status) {
                 case NST_SRV_RESPONSE_STATUS.SUCCESS:
                   response.setStatus(NST_RES_STATUS.SUCCESS);
                   qItem.request.finish(response);
