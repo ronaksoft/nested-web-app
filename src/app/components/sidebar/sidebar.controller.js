@@ -164,6 +164,7 @@
     getMyPlaces().then(function (places) {
       vm.places = mapPlaces(places);
       fillPlacesNotifCountObject(vm.places);
+      getGrandPlaceUnreadCounts();
       fixUrls();
 
       if ($stateParams.placeId) {
