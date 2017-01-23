@@ -3,7 +3,7 @@
   "version": "3.1.0-beta",
   "dependencies": {
     "jquery": "~2.2.4",
-    "angular": "~1.5.7",
+    "angular": "1.5.7",
     "angular-cookies": "~1.5.6",
     "angular-sanitize": "~1.5.6",
     "angular-ui-router": "~0.2.18",
@@ -77,5 +77,8 @@
         "fonts/fontawesome-webfont.woff2"
       ]
     }
-  }
+  },
+"resolutions": {
+  "angular": "1.5.7"
+}
 }

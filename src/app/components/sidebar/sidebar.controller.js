@@ -507,14 +507,6 @@
       NstSvcPlaceFactory.addPlaceToTree(vm.places, mapPlace(event.detail.place));
     });
 
-    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
-      NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
-      var place = mapPlace(event.detail.place);
-      if (place.id === $stateParams.placeId) {
-        vm.selectedGrandPlace = mapPlace(event.detail.place);
-      }
-    });
-
     NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
       vm.user = mapUser(event.detail);
     });
@@ -525,6 +517,15 @@
         vm.user.avatar = place.avatar = event.detail.picture.getUrl("x64");
       } else {
         vm.user.avatar = place.avatar = '';
+      }
+    });
+
+
+    NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.UPDATE, function (event) {
+      NstSvcPlaceFactory.updatePlaceInTree(vm.places, mapPlace(event.detail.place));
+      var place = mapPlace(event.detail.place);
+      if (place.id === $stateParams.placeId) {
+        vm.selectedGrandPlace = mapPlace(event.detail.place);
       }
     });
 
