@@ -284,4 +284,15 @@
   justify-content: center;
   display: flex;
   align-items: flex-end;
+  position: relative;
+  .chain-tail {
+    position: absolute;
+    width: 23px;
+    height: 32px;
+    left: 0;
+    bottom: -2px;
+    border-left: 1px solid $color-border ;
+    transform: translateX(-100%);
+    fill : #DBDBDB;
+  }
 }

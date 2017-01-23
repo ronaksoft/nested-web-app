@@ -125,21 +125,22 @@
   <vr class="chain"></vr>
 
   <div class="chain-forward" ng-if="ctlPostCard.chainView && !ctlPostCard.chainCollapse" ng-click="$event.stopPropagation()">
-    <div>
+    <a href="{{ctlPostCard.urls.reply_all}}">
       <svg>
         <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
       </svg>
-    </div>
-    <div>
+    </a>
+    <a href="{{::ctlPostCard.urls.forward}}">
       <svg>
         <use xlink:href="/assets/icons/nst-icn20.svg#forward"></use>
       </svg>
-    </div>
-    <div>
-      <svg>
+    </a>
+    <a popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="bottom-left auto"
+    data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'" data-popover-append-to-body="false" translate-attrs="data-uib-popover">
+      <svg >
         <use xlink:href="/assets/icons/nst-icn20.svg#more"></use>
       </svg>
-    </div>
+    </a>
   </div>
   <div class="chain-stats" ng-if="ctlPostCard.chainView" ng-click="$event.stopPropagation()">
     <div>
