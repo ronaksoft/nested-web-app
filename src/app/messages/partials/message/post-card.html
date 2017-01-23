@@ -140,13 +140,13 @@
       </svg>
     </a>
   </div>
-  <div class="chain-stats ng-class:{'last' : !ctlPostCard.chainCollapse}" ng-if="ctlPostCard.chainView" ng-click="$event.stopPropagation()">
-    <div>
-      <div class="circ blue"></div>
+  <div class="chain-stats" ng-if="ctlPostCard.chainView" ng-click="$event.stopPropagation()">
+    <div ng-if="ctlPostCard.post.isReplyed || ctlPostCard.post.isForwarded">
+      <div class="circ ng-class:{'blue' : ctlPostCard.post.isReplyed, 'green' : ctlPostCard.post.isForwarded}"></div>
     </div>
-    <div ng-if="!ctlPostCard.isRibbon">
+    <div ng-if="!ctlPostCard.isRibbon && !(ctlPostCard.post.isReplyed || ctlPostCard.post.isForwarded)" class="isNotRF">
       <svg>
-        <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
+        <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
       </svg>
     </div>
 
@@ -154,8 +154,8 @@
       <div class="squ"></div><span>shared in 6 places</span>
     </div>
     <div ng-if="!ctlPostCard.isRibbon">
-      <svg>
-        <use xlink:href="/assets/icons/nst-icn20.svg#more"></use>
+      <svg class="chain-ico">
+        <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
       </svg>
       <span>no comments</span>
     </div>

@@ -294,8 +294,8 @@
     }
     svg {
       transform: translateX(50%);
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
       flex: none;
     }
     .circ {
@@ -318,9 +318,8 @@
       width: 12px;
       height: 12px;
       background-color: #DBDBDB;
-    }
-    &.last {
-      max-height: 104px;
+      border: 1px solid #fafafa;
+      border-radius: 1px;
     }
   }
   .collapse-view {
@@ -343,6 +342,9 @@ post-card {
   &:last-child {
     .post-card-wire {
       display: none
+    }
+    .chain-stats {
+      max-height: 88px;
     }
   }
 }
@@ -573,4 +575,7 @@ h3 {
       opacity: 1;
     }
   }
+}
+.isNotRF {
+  height: 40px!important;
 }
