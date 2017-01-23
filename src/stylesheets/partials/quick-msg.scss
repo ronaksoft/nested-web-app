@@ -22,7 +22,7 @@
       padding: 8px 12px 2px 12px;
       display: inline-flex;
       flex-direction: column;
-      [contenteditable] {
+      div[contenteditable] {
         font-weight: 100;
         font-size: 24px;
         line-height: 30px;
@@ -66,29 +66,33 @@
       //    opacity: 1;
       //  }
       //}
-      [contenteditable] + div {
+      div[contenteditable] + div {
         right: 10px;
         bottom: 0;
+        max-height: 0;
+        .quick-icons {
+          opacity: 0;
+        }
       }
       textarea {
         border: none
       }
-      [contenteditable]:empty {
-        + div {
-          max-height: 0;
-          .quick-icons {
-            opacity: 0;
-          }
-        }
-      }
-      &:focus,&:active {
+      &:focus,&:active{
         .quick-controls {
-          max-height: 500px;
+          max-height: 500px !important;
           .quick-icons {
             opacity: 1;
           }
         }
       }
+
+      .quick-controls.modified  {
+        max-height: 500px !important;
+        .quick-icons {
+          opacity: 1;
+        }
+      }
+
       .quick-controls {
         flex: none;
         width: 100%;

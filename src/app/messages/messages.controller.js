@@ -319,9 +319,11 @@
     }
 
 
-    $scope.$on('post-quick', function (event, data) {
-      data.isRead = true;
-      vm.messages.unshift(data);
+    $rootScope.$on('post-quick', function (event, data) {
+      if (_.find(data.allPlaces,{id : vm.currentPlaceId})) {
+        data.isRead = true;
+        vm.messages.unshift(data);
+      }
     });
 
     function getLastMessageTime() {
@@ -443,7 +445,7 @@
 
     function isSubPersonal() {
       if (vm.currentPlaceId)
-        return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
+      return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
     }
 
     function isSent() {

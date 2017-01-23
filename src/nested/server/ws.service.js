@@ -5,7 +5,7 @@
     .factory('NstSvcWS', NstSvcWS);
 
   /**@Inject */
-  function NstSvcWS(NstSvcLogger, NstUtility, NST_WEBSOCKET_STATE, moment) {
+  function NstSvcWS(_, NstSvcLogger, NstUtility, NST_WEBSOCKET_STATE, moment) {
 
     function WS(url, protocol) {
 
@@ -99,7 +99,7 @@
         });
       };
 
-      this.socket.onerror = function (event, error) {
+      this.socket.onerror = function (event) {
         NstSvcLogger.debug("An error occured in socket connection.", event.error);
         _.forEach(that.onErrorQueue, function (action) {
           action(event);

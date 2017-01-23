@@ -46,8 +46,7 @@
       vm.model.modified = (function (model) {
         var modified = false;
 
-        modified = modified || model.subject.trim().length > 0;
-        modified = modified || model.body.trim().length > 0;
+        modified = modified || angular.element(vm.textarea).text().trim().length > 0;
         modified = modified || model.attachments.length > 0;
 
         return modified;
@@ -83,9 +82,12 @@
     };
 
     vm.writeMsg = function(e) {
+      vm.model.isModified();
+
       if (!e.currentTarget.firstChild) return;
 
       vm.textarea = e.currentTarget;
+
 
       analyseInIt();
 
@@ -161,6 +163,7 @@
         } else {
           vm.model.body = str;
         }
+        vm.model.isModified();
         // str = str.replace(/<br\s*[\/]?>/gi, "\n");
         // str = str.replace(/<div\s*[\/]?>/gi, "\n");
         // str = str.replace(/<\/div>/gi, "");
@@ -214,7 +217,7 @@
         NstSvcPostFactory.get(response.post.id).then(function(res){
           var msg = NstSvcPostMap.toMessage(res);
           vm.addMessage(msg);
-        })
+        });
 
         if(response.noPermitPlaces.length > 0){
           var text = NstUtility.string.format(NstSvcTranslation.get('Your message hasn\'t been successfully sent to {0}'), response.noPermitPlaces.join(','));
@@ -255,7 +258,7 @@
     });
 
     vm.addMessage = function (msg) {
-      $scope.$emit('post-quick',msg);
+      $rootScope.$emit('post-quick',msg);
     };
 
     vm.model.check = function () {
@@ -302,6 +305,7 @@
     };
 
     vm.attachments.attach = function (file) {
+      vm.model.modified = true;
       var deferred = $q.defer();
       var readyPromises = [];
 
@@ -417,6 +421,7 @@
       }else{
         vm.model.attachments = [];
       }
+      vm.model.isModified();
     };
 
     $scope.deleteAttachment = function (attachment) {

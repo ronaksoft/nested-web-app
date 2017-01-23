@@ -6,7 +6,7 @@
     .service('NstUtilCollection', NstUtilCollection);
 
   /** @ngInject */
-  function NstUtilCollection() {
+  function NstUtilCollection(_) {
     function CollectionUtility() {
 
     }

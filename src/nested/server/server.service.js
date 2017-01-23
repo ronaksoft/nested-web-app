@@ -6,7 +6,7 @@
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer($q, $timeout,
+  function NstSvcServer(_, $q, $timeout,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
                         NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
                         NST_SRV_EVENT, NST_SRV_MESSAGE,
@@ -88,7 +88,6 @@
 
           default :
             throw "SERVER | Undefined response WS type";
-            break;
         }
       }.bind(this));
 
@@ -284,7 +283,6 @@
           case NST_REQ_STATUS.CANCELLED:
           case NST_REQ_STATUS.RESPONDED:
             return false;
-            break;
         }
 
         NstSvcLogger.debug2('WS | Cancelled: ', reqId, qItem.request);
@@ -334,7 +332,7 @@
       return this.stream.send(angular.toJson(request.getData()));
     };
 
-    Server.prototype.genQueueId = function (action, data) {
+    Server.prototype.genQueueId = function (action) {
       return 'REQ/' + action.toUpperCase() + '/' + NstSvcRandomize.genUniqId();
     };
 

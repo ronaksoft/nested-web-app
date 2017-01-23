@@ -6,7 +6,7 @@
     .factory('NstSessionStorage', NstSessionStorage);
 
   /** @ngInject */
-  function NstSessionStorage($window, storageKeySeparator) {
+  function NstSessionStorage($window, $log, storageKeySeparator){
     function SessionStorage(name) {
       if (!name) {
         throw 'A SessionStorage must have a unique name.';
@@ -46,7 +46,7 @@
     function deserialize() {
       var obj = null;
       try {
-        var obj = JSON.parse(content);
+        obj = JSON.parse(content);
       } catch (error) {
         if (error instanceof SyntaxError) {
           $log.debug('An error occured in parsing JSON', error);

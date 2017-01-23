@@ -38,7 +38,7 @@
     <div class="select-box2"
          ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off')"
          ng-click="ctlSettings.setReceivingOff();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', disabled : !ctlSettings.accesses.hasControlAccess }">
+         ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', selectable : ctlSettings.accesses.hasControlAccess }">
       <h3 ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace" >
         <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
@@ -87,7 +87,7 @@
     <div class="select-box2"
          ng-if="!ctlSettings.isGrandPlace  && !ctlSettings.isSubPersonalPlace && (ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal')"
          ng-click="ctlSettings.setReceivingMembers();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', disabled : !ctlSettings.accesses.hasControlAccess}">
+         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', selectable : ctlSettings.accesses.hasControlAccess}">
       <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">
         <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
@@ -124,7 +124,7 @@
     <div class="select-box2"
          ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external')"
          ng-click="ctlSettings.setReceivingEveryone();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', disabled : !ctlSettings.accesses.hasControlAccess}">
+         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', selectable : ctlSettings.accesses.hasControlAccess}">
       <h3>
         <svg class="tick"><use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use></svg>
         <translate>Everyone <i>(including email)</i></translate>

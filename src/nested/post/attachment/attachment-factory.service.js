@@ -5,12 +5,9 @@
     .service('NstSvcAttachmentFactory', NstSvcAttachmentFactory);
 
   /** @ngInject */
-  function NstSvcAttachmentFactory($q, $log,
-                                   _,
-                                   NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcDownloadTokenStorage, NstSvcFileStorage,
+  function NstSvcAttachmentFactory($q, $log, _,
+                                   NstSvcServer, NstSvcDownloadTokenStorage, NstSvcFileStorage,
                                    NstAttachment, NstPicture, NstStoreToken, NstFactoryError, NstFactoryQuery) {
-
-    var uploadTokenKey = 'default-upload-token';
 
     /**
      * PostFactory - all operations related to post, comment

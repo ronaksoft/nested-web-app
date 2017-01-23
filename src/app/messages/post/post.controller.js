@@ -66,16 +66,11 @@
 
     (function () {
 
-      loadPost(vm.postId).then(function (result) {
-        vm.postModel = result.post;
-        vm.post = mapPost(result.post);
-        vm.hasRemoveAccess = result.hasRemoveAccess;
-        vm.placesWithRemoveAccess = result.placesWithRemoveAccess;
-        vm.hasMoreComments = result.hasMoreComments;
+      loadChainMessages(vm.postId).then(function (done) {
+        // TODO: uncomment and fix
+        // vm.syncId = NstSvcSync.openChannel(_.head(vm.post.allPlaces).id);
 
-        vm.syncId = NstSvcSync.openChannel(vm.post.allPlaces[0].id);
-
-        return loadComments(result.post.id, vm.commentSettings);
+        return loadComments(vm.postId, vm.commentSettings);
       }).then(function (result) {
 
         vm.comments = mapComments(result.comments);
@@ -89,6 +84,7 @@
       }).then(function (result) {
         vm.status.ready = true;
 
+        console.log('ready', vm);
 
         NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
           detail: {
@@ -102,6 +98,27 @@
 
     })();
 
+    function mapMessage(post) {
+      var firstId = vm.placeId ? vm.placeId : NstSvcAuth.user.id;
+      return NstSvcPostMap.toMessage(post, firstId, vm.myPlaceIds);
+    }
+
+    function loadChainMessages(postId) {
+      return $q(function (resolve, reject) {
+        NstSvcPostFactory.getChainMessages(postId).then(function(messages) {
+          vm.messages = _.map(messages, function (message) {
+            return mapMessage(message);
+          });
+          vm.post = _.tail(vm.messages);
+
+          vm.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(vm.post.places);
+          vm.hasRemoveAccess = _.isArray(vm.placesWithRemoveAccess) && vm.placesWithRemoveAccess.length > 0;
+          console.log("vm.post", vm.post);
+          vm.hasMoreComments = vm.post.commentsCount > vm.commentSettings.limit;
+          resolve(true);
+        }).catch(reject);
+      });
+    }
 
     /**
      * sendComment - add the comment to the list of the post comments
@@ -296,29 +313,6 @@
           rej(error);
         });
       });
-    }
-
-    function loadPost(id) {
-      var deferred = $q.defer();
-      var result = {
-        post: null,
-        placesWithRemoveAccess: [],
-        hasRemoveAccess: null,
-        hasMoreComments: null
-      };
-      vm.status.postLoadProgress = true;
-
-      NstSvcPostFactory.get(id).then(function (post) {
-        result.post = post;
-        result.hasMoreComments = post.counters.comments > vm.commentSettings.limit;
-        result.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(post.places);
-        result.hasRemoveAccess = _.isArray(result.placesWithRemoveAccess) && result.placesWithRemoveAccess.length > 0;
-        deferred.resolve(result);
-      }).catch(deferred.reject).finally(function () {
-        vm.status.postLoadProgress = false;
-      });
-
-      return deferred.promise;
     }
 
     function markPostAsRead(id) {

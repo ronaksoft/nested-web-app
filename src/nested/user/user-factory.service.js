@@ -5,7 +5,7 @@
     .module('ronak.nested.web.user')
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
-  function NstSvcUserFactory($q, md5,
+  function NstSvcUserFactory($q, md5,_ ,
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
                              NST_USER_SEARCH_AREA,
                              NST_USER_FACTORY_EVENT,
@@ -123,7 +123,7 @@
 
       var query = new NstFactoryQuery(user.getId(), params);
 
-      NstSvcServer.request('account/update', params).then(function (result) {
+      NstSvcServer.request('account/update', params).then(function () {
         NstSvcUserStorage.set("me", user);
         factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
         deferred.resolve(user);
@@ -135,7 +135,7 @@
     }
 
     UserFactory.prototype.changePassword = function (oldPassword, newPassword) {
-      var factory = this;
+
       var deferred = $q.defer();
 
       var query = new NstFactoryQuery(null, {
@@ -146,7 +146,7 @@
       NstSvcServer.request('account/set_password', {
         old_pass : md5.createHash(oldPassword),
         new_pass : md5.createHash(newPassword)
-      }).then(function (result) {
+      }).then(function () {
         deferred.resolve();
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -163,7 +163,7 @@
 
         NstSvcServer.request('account/set_picture', {
           universal_id: uid
-        }).then(function(result) {
+        }).then(function() {
           factory.get(null, true).then(function(user) {
             factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
@@ -183,7 +183,7 @@
 
         var deferred = $q.defer();
 
-        NstSvcServer.request('account/remove_picture').then(function (result) {
+        NstSvcServer.request('account/remove_picture').then(function () {
           factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_REMOVED, new NstFactoryEventData()));
           deferred.resolve();
         }).catch(function (error) {

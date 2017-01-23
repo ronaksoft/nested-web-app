@@ -11,7 +11,7 @@ describe('NstSessionStorage', function() {
   }));
 
   beforeEach(function() {
-    sandbox = sinon.sandbox.create();
+    var sandbox = sinon.sandbox.create();
   });
 
   describe('set(key, value[, serializer])', function() {
