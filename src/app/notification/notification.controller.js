@@ -146,7 +146,7 @@
 
 
     function viewPost(notification) {
-      $state.go('app.message', {postId: notification.mention.post.id}, {notify: false});
+      $state.go('app.message', {postId: notification.post.id}, {notify: false});
     };
 
   }
