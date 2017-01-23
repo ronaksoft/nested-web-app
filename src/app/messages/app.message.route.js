@@ -42,30 +42,30 @@
           }
         },
       })
-      .state('app.message-chain', {
-        url: '/message/:postId/chain',
-        params: {
-          postId: NST_DEFAULT.STATE_PARAM,
-        },
-        templateUrl: 'app/messages/chain/message-chain.html',
-        controller: 'MessageChainController',
-        controllerAs: 'ctlChain',
-        options: {
-          group: 'message'
-        }
-      })
-      .state('app.place-message-chain', {
-        url: '/place/:placeId/message/:postId/chain',
-        params: {
-          postId: NST_DEFAULT.STATE_PARAM,
-        },
-        templateUrl: 'app/messages/chain/message-chain.html',
-        controller: 'MessageChainController',
-        controllerAs: 'ctlChain',
-        options: {
-          group: 'message'
-        }
-      })
+      // .state('app.message-chain', {
+      //   url: '/message/:postId/chain',
+      //   params: {
+      //     postId: NST_DEFAULT.STATE_PARAM,
+      //   },
+      //   templateUrl: 'app/messages/chain/message-chain.html',
+      //   controller: 'MessageChainController',
+      //   controllerAs: 'ctlChain',
+      //   options: {
+      //     group: 'message'
+      //   }
+      // })
+      // .state('app.place-message-chain', {
+      //   url: '/place/:placeId/message/:postId/chain',
+      //   params: {
+      //     postId: NST_DEFAULT.STATE_PARAM,
+      //   },
+      //   templateUrl: 'app/messages/chain/message-chain.html',
+      //   controller: 'MessageChainController',
+      //   controllerAs: 'ctlChain',
+      //   options: {
+      //     group: 'message'
+      //   }
+      // })
       .state('app.messages', {
         url: '/messages',
         templateUrl: 'app/messages/messages.html',
