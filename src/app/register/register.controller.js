@@ -70,11 +70,13 @@
     function sendPhoneNumber(phone) {
       var deferred = $q.defer();
       vm.phoneSubmitProgress = true;
-      var request = new NstHttp('/register/', {
-        f: 'verify_phone',
-        phone: phone
+      var request = new NstHttp('', {
+        cmd : 'auth/get_verification',
+        data : {
+          phone: phone
+        }
       });
-      request.get().then(function (data) {
+      request.post().then(function (data) {
         if (data.status === 'ok') {
           deferred.resolve({
             verificationId : data.vid
@@ -124,13 +126,14 @@
       var deferred = $q.defer();
 
       vm.resendVerificationCodeProgress = true;
-      var request = new NstHttp('/register/', {
-        f: 'send_code_txt',
-        vid: verificationId,
-        phone: phoneNumber
+      var request = new NstHttp('', {
+        cmd : 'auth/send_text',
+        data : {
+          'vid' : verificationId,
+        }
       });
 
-      request.get().then(function (response) {
+      request.post().then(function (response) {
         deferred.resolve(true);
       }).catch(function (error) {
         deferred.reject('unknown');
@@ -160,13 +163,14 @@
       var deferred = $q.defer();
 
       vm.callForVerificationProgress = true;
-      var request = new NstHttp('/register/', {
-        f: 'send_code_call',
-        vid: verificationId,
-        phone: phoneNumber
+      var request = new NstHttp('', {
+        cmd : 'auth/call_phone',
+        data : {
+          vid: verificationId,
+        }
       });
 
-      request.get().then(function (response) {
+      request.post().then(function (response) {
         deferred.resolve(true);
       }).catch(function (error) {
         deferred.reject('unknown');
@@ -187,14 +191,16 @@
 
     function verifyCode(verificationId, code) {
       var deferred = $q.defer();
-      var request = new NstHttp('/register/', {
-        f: 'verify_phone_code',
-        vid: verificationId,
-        code: code
+      var request = new NstHttp('', {
+        cmd : 'auth/verify_code',
+        data : {
+          vid: verificationId,
+          code: code
+        }
       });
 
       vm.callForVerificationProgress = true;
-      request.get().then(function(response) {
+      request.post().then(function(response) {
         if (response.status === 'ok') {
           deferred.resolve(true);
         } else {
@@ -232,18 +238,23 @@
         };
 
         var postData = new FormData();
-        postData.append('f', 'register');
-        postData.append('vid', vm.verificationId);
-        postData.append('phone', getPhoneNumber());
-        postData.append('country', vm.country);
-        postData.append('uid', credentials.username);
-        postData.append('pass', credentials.password);
-        postData.append('fname', vm.fname);
-        postData.append('lname', vm.lname);
-        postData.append('email', vm.email);
+
 
         vm.registerProgress = true;
-        var ajax = new NstHttp('/register/',postData);
+        var ajax = new NstHttp('',
+        {
+          cmd : 'account/register',
+          data : {
+            'vid' : vm.verificationId,
+            'phone' : getPhoneNumber(),
+            'country' : vm.country,
+            'uid' : credentials.username,
+            'pass' : credentials.password,
+            'fname' : vm.fname,
+            'lname' : vm.lname,
+            'email' : vm.email
+          }
+        });
 
         ajax.post().then(function (data) {
           if (data.data.status === "ok") {
@@ -276,7 +287,7 @@
 
     function usernameExists(username, id) {
       var deferred = $q.defer();
-
+      // TODO: use a valid API address
       NstHttp('/register/', { f: 'account_exists', uid: id }).get().then(function(data){
         if (data.status === 'ok') {
           deferred.resolve(true);
