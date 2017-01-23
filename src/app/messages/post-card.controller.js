@@ -38,6 +38,16 @@
     vm.collapse = collapse;
     vm.body = null;
     vm.markAsRead = markAsRead;
+    vm.chainView = false;
+
+    //TODO Read from real val
+    vm.chainCollapse = false;
+
+    if (vm.mood == 'chain') {
+      vm.chainView = true;
+    }
+
+
 
     /**
      * send - add the comment to the list of the post comments
@@ -250,7 +260,7 @@
       vm.hasOlderComments = vm.post.commentsCount && vm.post.comments ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = vm.post.body;
       // Later on, ask server whether to expand or not
-      vm.isExpandable = vm.body.length > 250;
+      //vm.isExpandable = vm.body.length > 250;
 
       vm.urls = {};
       vm.urls['reply_all'] = $state.href('app.compose-reply-all', {
