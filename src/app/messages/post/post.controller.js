@@ -47,6 +47,7 @@
       forward: $state.href('app.compose-forward', {postId: vm.postId})
     };
 
+    vm.extendedId = null;
 
 
     /*****************************
@@ -84,8 +85,6 @@
       }).then(function (result) {
         vm.status.ready = true;
 
-        console.log('ready', vm);
-
         NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
           detail: {
             postId: vm.post.id,
@@ -94,6 +93,13 @@
         }));
       }).catch(function (error) {
         NstSvcLogger.error(error);
+      });
+
+      // listens to post-robbons to switch them to post-card mode
+      $scope.$on('post-chain-expand-me', function (event, data) {
+        if (data.postId) {
+          vm.extendedId = data.postId;
+        }
       });
 
     })();
@@ -109,11 +115,13 @@
           vm.messages = _.map(messages, function (message) {
             return mapMessage(message);
           });
-          vm.post = _.tail(vm.messages);
+
+          // the last post (which is the target) should always be extended
+          vm.post = _.head(_.takeRight(vm.messages));
+          vm.extendedId = vm.post.id;
 
           vm.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(vm.post.places);
           vm.hasRemoveAccess = _.isArray(vm.placesWithRemoveAccess) && vm.placesWithRemoveAccess.length > 0;
-          console.log("vm.post", vm.post);
           vm.hasMoreComments = vm.post.commentsCount > vm.commentSettings.limit;
           resolve(true);
         }).catch(reject);

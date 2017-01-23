@@ -20,7 +20,8 @@
         viewSetting: '=settings',
         thisPlace: '=postinplace',
         hideComments: '=hideComments',
-        hasRemoveAccess:'=hasRemoveAccess'
+        hasRemoveAccess:'=hasRemoveAccess',
+        isRibbon : '='
       }
     };
   }

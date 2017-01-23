@@ -10,7 +10,7 @@
         load older chain
       </div>
       <div class="_fw">
-        <post-card class="_fw" data-ng-repeat="msg in ctlPost.messages track by msg.id" post="msg" id="{{::msg.id}}" mood="chain"></post-card>
+        <post-card class="_fw" data-ng-repeat="msg in ctlPost.messages track by msg.id" post="msg" id="{{::msg.id}}" mood="chain" is-ribbon="ctlPost.extendedId != msg.id"></post-card>
       </div>
     </div>
   </section>
@@ -153,7 +153,7 @@
   <!--</div>-->
 </div>
 <div class="post-navbar">
-  <div id="Logo"></div>
+  <!--<div id="Logo"></div>-->
   <div class="closebut" ng-click="$dismiss()">
     <img src="../assets/icons/close.svg"/>
   </div>
