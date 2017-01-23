@@ -87,3 +87,7 @@ iframe {
 [ng-click],[data-ng-click],[onclick]{
   cursor: pointer;
 }
+vr {
+  width: 1px;
+  background-color: $color-border;
+}

@@ -271,4 +271,17 @@
   border-bottom: 1px solid $color-border;
   display: flex;
   align-items: center;
+  flex-direction: row;
+  div,#Logo {
+    margin: 0 24px;
+  }
+  vr {
+    height: 48px;
+  }
+}
+.chain-sub {
+  height: 88px;
+  justify-content: center;
+  display: flex;
+  align-items: flex-end;
 }

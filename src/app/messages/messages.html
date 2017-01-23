@@ -33,7 +33,6 @@
     </div>
 
     <div class="post-area">
-      <div summernote></div>
       <div id="new-post"  ng-show="ctlMessages.hasNewMessages" affixer parent=".content" offset-top="74" after-content="340">
         <i ng-click="ctlMessages.dismissNewMessage();"></i>
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}}&nbsp;<translate>New message</translate></a>
