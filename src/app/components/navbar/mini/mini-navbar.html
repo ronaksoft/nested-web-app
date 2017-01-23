@@ -12,13 +12,13 @@
       </a>
     </div>
     <div class="_fw _df">
-      <a ng-show="!$root.topNavOpen" href="{{ctlMiniNavbar.urls.compose}}">
+      <a ng-show="!$root.topNavOpen" ng-click="$root.topNavOpen = !$root.topNavOpen" href="{{ctlMiniNavbar.urls.compose}}">
         <div class="icon icon-top comp-icon _df"></div>
       </a>
-      <a ng-show="$root.topNavOpen" href="#/profile">
+      <a ng-show="$root.topNavOpen" ng-click="$root.topNavOpen = !$root.topNavOpen" href="#/profile">
         <div class="icon icon-top profile-icon _df"></div>
       </a>
-      <a ng-show="$root.topNavOpen" href="#/signout">
+      <a ng-show="$root.topNavOpen" ng-click="$root.topNavOpen = !$root.topNavOpen" href="#/signout">
         <div class="icon icon-top signout-icon _df"></div>
       </a>
     </div>
