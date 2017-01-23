@@ -23,7 +23,7 @@
     },
     "REGISTER" : {
       "AJAX" : {
-        "URL" : "http://api.nested.ronaksoftware.com"
+        "URL" : "http://cyrus.nested.ronaksoftware.com:8080"
       }
     }
   }
