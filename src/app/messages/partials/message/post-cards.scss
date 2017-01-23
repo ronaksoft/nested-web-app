@@ -318,6 +318,9 @@
       height: 12px;
       background-color: #DBDBDB;
     }
+    &.last {
+      max-height: 60px;
+    }
   }
   .collapse-view {
     height: 32px;

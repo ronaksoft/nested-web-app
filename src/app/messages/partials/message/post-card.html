@@ -142,7 +142,7 @@
       </svg>
     </a>
   </div>
-  <div class="chain-stats" ng-if="ctlPostCard.chainView" ng-click="$event.stopPropagation()">
+  <div class="chain-stats ng-class:{'last' : !ctlPostCard.chainCollapse}" ng-if="ctlPostCard.chainView" ng-click="$event.stopPropagation()">
     <div>
       <div class="circ blue"></div>
     </div>
@@ -157,7 +157,7 @@
     </div>
     <div ng-if="!ctlPostCard.chainCollapse">
       <svg>
-        <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
+        <use xlink:href="/assets/icons/nst-icn20.svg#more"></use>
       </svg>
       <span>no comments</span>
     </div>

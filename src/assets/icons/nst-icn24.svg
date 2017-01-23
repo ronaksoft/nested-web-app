@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-  <title>ZZ</title>
+  <title>WebIconExporter</title>
   <g id="icn24">
     <g id="bell-ringed">
       <rect width="24" height="24" style="fill: none"/>
@@ -26,20 +26,16 @@
       <rect id="space-4" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M14,12a2,2,0,1,1-2-2A2,2,0,0,1,14,12ZM12,4a2,2,0,1,0,2,2A2,2,0,0,0,12,4Zm0,12a2,2,0,1,0,2,2A2,2,0,0,0,12,16Z"/>
     </g>
-    <g id="bell">
-      <rect id="space-5" data-name="space" width="24" height="24" style="fill: none"/>
-      <path d="M19,16v1H5V16l2-2V9A5,5,0,0,1,17,9v5Zm-7,4a2,2,0,0,0,2-2H10A2,2,0,0,0,12,20Z"/>
-    </g>
     <g id="forward">
-      <rect id="space-6" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-5" data-name="space" width="24" height="24" style="fill: none"/>
       <polygon id="_Path_2" data-name="&lt;Path&gt;" points="5 10 12.5 2.5 20 10 15 10 12.5 21 10 10 5 10"/>
     </g>
     <g id="reply">
-      <rect id="space-7" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-6" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M21,19A13.36,13.36,0,0,0,10,8V4L2.5,11.5,10,19V14C14.55,14,18.73,15.11,21,19Z"/>
     </g>
     <g id="forwarded">
-      <g id="space-8" data-name="space">
+      <g id="space-7" data-name="space">
         <rect width="24" height="24" style="fill: none"/>
       </g>
       <path d="M12.5,20.5A1.5,1.5,0,0,1,11,19V9.12L8.06,12.06A1.5,1.5,0,0,1,5.94,9.94l5.5-5.5a1.5,1.5,0,0,1,2.12,0l5.5,5.5a1.5,1.5,0,0,1-2.12,2.12L14,9.12V19A1.5,1.5,0,0,1,12.5,20.5Z"/>
@@ -49,7 +45,7 @@
       <path d="M18.58,19.55C16.5,15,13.38,13,8.18,13h0l2.92,2.92a1.5,1.5,0,0,1-2.12,2.12l-5.5-5.5a1.5,1.5,0,0,1,0-2.12l5.5-5.5a1.5,1.5,0,0,1,2.12,2.12l-3,3h.07c6.38,0,10.55,2.65,13.13,8.29A1.5,1.5,0,0,1,18.58,19.55Z"/>
     </g>
     <g id="gear">
-      <g id="space-9" data-name="space">
+      <g id="space-8" data-name="space">
         <rect width="24" height="24" style="fill: none"/>
       </g>
       <g id="_Group_" data-name="&lt;Group&gt;">
@@ -57,13 +53,13 @@
       </g>
     </g>
     <g id="exit">
-      <g id="space-10" data-name="space">
+      <g id="space-9" data-name="space">
         <rect width="24" height="24" style="fill: none"/>
       </g>
       <path d="M11,21H5.5A2.5,2.5,0,0,1,3,18.5V6.5A2.5,2.5,0,0,1,5.5,4H11V7H6V18h5Zm4.56-.44-2.12-2.12L17.88,14H9V11h8.88L13.44,6.56l2.12-2.12,7,7a1.5,1.5,0,0,1,0,2.12Z"/>
     </g>
     <g id="sent-message">
-      <rect id="space-11" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-10" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M24,8v9a2,2,0,0,1-2,2H9a2,2,0,0,1-2-2V16H4V14H7V12H0V10H7V8H2V6H22A2,2,0,0,1,24,8ZM22,9.37l-6.5,3L9,9.37v2.21l6.5,3,6.5-3Z" style="fill-rule: evenodd"/>
     </g>
     <g id="arrow-down">
@@ -75,31 +71,31 @@
       <polygon points="12 7.59 17.71 13.29 16.29 14.71 12 10.41 7.71 14.71 6.29 13.29 12 7.59"/>
     </g>
     <g id="cross">
-      <rect id="space-12" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-11" data-name="space" width="24" height="24" style="fill: none"/>
       <polygon points="13 5 11 5 11 11 5 11 5 13 11 13 11 19 13 19 13 13 19 13 19 11 13 11 13 5"/>
     </g>
     <g id="unread-circle">
-      <rect id="space-13" data-name="space" width="24" height="24" style="fill: none"/>
-      <circle cx="12" cy="12" r="4" style="fill: #ff0014"/>
+      <rect id="space-12" data-name="space" width="24" height="24" style="fill: none"/>
+      <circle cx="12" cy="12" r="4" style="fill: #ff6464"/>
     </g>
     <g id="messages">
-      <rect id="space-14" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-13" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M15,8H2a2,2,0,0,0-2,2v9a2,2,0,0,0,2,2H15a2,2,0,0,0,2-2V10A2,2,0,0,0,15,8ZM2,13.57l6.5,3,6.5-3V11.37l-6.5,3-6.5-3ZM24,6v9a2,2,0,0,1-2,2H18V12.18l4-1.87V8.1L18,10a3,3,0,0,0-3-3H7V6A2,2,0,0,1,9,4H22A2,2,0,0,1,24,6Z" style="fill-rule: evenodd"/>
     </g>
     <g id="delete">
-      <rect id="space-15" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-14" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M15,4H9V3a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1Zm4,2V7H18V19a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2V7H5V6A1,1,0,0,1,6,5H18A1,1,0,0,1,19,6ZM10.5,9h-1v9h1Zm4,0h-1v9h1Z"/>
     </g>
     <g id="comments">
-      <rect id="space-16" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-15" data-name="space" width="24" height="24" style="fill: none"/>
       <path id="comment" d="M4,3H15a2,2,0,0,1,2,2v9H6L2,18V5A2,2,0,0,1,4,3ZM20,8H19v8H7v1a2,2,0,0,0,2,2h9l4,4V10A2,2,0,0,0,20,8Z" style="fill-rule: evenodd"/>
     </g>
     <g id="comment-2" data-name="comment">
-      <rect id="space-17" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-16" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M4,4H20a2,2,0,0,1,2,2V16a2,2,0,0,1-2,2H6L2,22V6A2,2,0,0,1,4,4Z" style="fill-rule: evenodd"/>
     </g>
     <g id="search">
-      <rect id="space-18" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-17" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M10,16.5A6.5,6.5,0,1,1,16.5,10,6.51,6.51,0,0,1,10,16.5Zm0-11A4.5,4.5,0,1,0,14.5,10,4.5,4.5,0,0,0,10,5.5ZM19.41,21,21,19.41,16.58,15,15,16.58Z"/>
     </g>
     <g id="download">
@@ -107,7 +103,7 @@
       <path d="M19,21H4V18H19Zm-7.5-3.38L3.44,9.56,5.56,7.44,10,11.88V3h3v8.88l4.44-4.44,2.12,2.12Z"/>
     </g>
     <g id="menu">
-      <rect id="space-19" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-18" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M21,13H3V11H21Zm0-7H3V8H21Zm0,10H3v2H21Z"/>
     </g>
     <g id="filter">
@@ -119,20 +115,24 @@
       <path d="M12.32,22.64c-.4,0-.82,0-1.23-.06C4.75,22,.87,17.4,1.42,11.08a10.39,10.39,0,0,1,11.5-9.66c7.17.63,10,5.3,9.61,9.65-.34,3.86-3.06,6.66-6.2,6.38a3.06,3.06,0,0,1-2.17-1.25,2.86,2.86,0,0,1-.17-.29A5.69,5.69,0,0,1,9.36,17a4.26,4.26,0,0,1-3.42-3.09A6,6,0,0,1,7.61,8c1.2-1.13,3.95-2.75,8.87-1a1.25,1.25,0,0,1,.79,1.45c-.14.62-.28,1.23-.4,1.81l-.23,1.09-.07.29c-.22,1-.36,1.74-.36,1.74a2,2,0,0,0,0,1.36.59.59,0,0,0,.41.19c1.84.16,3.21-2,3.41-4.12.27-3-1.52-6.43-7.34-6.94A7.86,7.86,0,0,0,3.92,11.3a8.15,8.15,0,0,0,1.66,6.1,8.19,8.19,0,0,0,5.73,2.69,8.73,8.73,0,0,0,4.79-.8l1.12-.56L18.34,21l-1.12.56A10.77,10.77,0,0,1,12.32,22.64Zm.07-13.9A4.32,4.32,0,0,0,9.33,9.81a3.4,3.4,0,0,0-1,3.35A1.8,1.8,0,0,0,9.8,14.5c3.07.54,4.09-2.39,4.35-3.41l.28-1.32,0-.13.13-.6A8.55,8.55,0,0,0,12.38,8.73Z"/>
     </g>
     <g id="home">
-      <rect id="space-20" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-19" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M12,3,2.16,7.6A2,2,0,0,0,1,9.41V19a2,2,0,0,0,2,2H21a2,2,0,0,0,2-2V9.41A2,2,0,0,0,21.84,7.6Zm0,2.21,9,4.19v1L12,14.6,3,10.41v-1Z"/>
     </g>
     <g id="file">
-      <rect id="space-21" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-20" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M18,22H6a2,2,0,0,1-2-2V4A2,2,0,0,1,6,2h8l6,6V20A2,2,0,0,1,18,22ZM13,3V9h6Zm3,9H8v2h8Zm0,4H8v2h8Z"/>
     </g>
     <g id="log">
-      <rect id="space-22" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-21" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M20,22l-2-2-2,2-2-2-2,2-2-2L8,22,6,20,4,22V2L6,4,8,2l2,2,2-2,2,2,2-2,2,2,2-2Zm-3-5H7V15H17Zm0-4H7V11H17Zm0-4H7V7H17Z" style="fill-rule: evenodd"/>
     </g>
-    <g id="bell-2" data-name="bell">
+    <g id="attach">
+      <rect id="space-22" data-name="space" width="24" height="24" style="fill: none"/>
+      <path d="M9,22.36A7.36,7.36,0,0,1,3.79,9.79l6.5-6.5a5.24,5.24,0,0,1,7.41,7.41l-6.5,6.5a3.2,3.2,0,0,1-4.41,0,3.13,3.13,0,0,1,0-4.41l6.5-6.5a1,1,0,0,1,1.41,1.41l-6.5,6.5a1.12,1.12,0,0,0,1.59,1.59l6.5-6.5a3.24,3.24,0,0,0-4.59-4.59l-6.5,6.5a5.36,5.36,0,0,0,7.59,7.59l7.5-7.5a1,1,0,0,1,1.41,1.41l-7.5,7.5A7.34,7.34,0,0,1,9,22.36Z"/>
+    </g>
+    <g id="list-check">
       <rect id="space-23" data-name="space" width="24" height="24" style="fill: none"/>
-      <path d="M19,16v1H5V16l2-2V9A5,5,0,0,1,17,9v5Zm-7,4a2,2,0,0,0,2-2H10A2,2,0,0,0,12,20Z"/>
+      <path d="M5,19.41.29,14.71l1.41-1.41L5,16.59,16.29,5.29l1.41,1.41ZM10,19h6V17H10Zm4-4h6V13H14Zm4-6v2h6V9Z"/>
     </g>
   </g>
 </svg>
