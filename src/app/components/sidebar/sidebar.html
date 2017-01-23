@@ -14,8 +14,8 @@
       </script>
       <a class="detailed" id="compoese" data-uib-tooltip-template="'compose-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
-         data-tooltip-placement="right auto" data-tooltip-append-to-body="true" ng-click="ctlSidebar.compose()"
-         nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.compose}}">
+         data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
+         ng-click="ctlSidebar.compose($event);">
         <div>
           <div class="compose">
             <svg>
@@ -31,7 +31,11 @@
         <script type="text/ng-template" id="feed-uib-tooltip.html">
           <translate>Feed</translate>
         </script>
-        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed" data-uib-tooltip-template="'feed-uib-tooltip.html'" data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode" toggle-agent-url="{{ctlSidebar.urls.unfiltered}}" >
+        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed"
+           data-uib-tooltip-template="'feed-uib-tooltip.html'"
+           data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
+           data-tooltip-append-to-body="true" data-tooltip-placement="right auto"
+           href="{{ctlSidebar.urls.unfiltered}}" >
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
@@ -68,7 +72,11 @@
       <script type="text/ng-template" id="create-uib-tooltip.html">
         <translate>Create a new Place</translate>
       </script>
-      <a class="create-place _fw detailed" ui-sref="app.place-create" ng-click="ctlSidebar.openCreatePlaceModal($event);" data-uib-tooltip-template="'create-uib-tooltip.html'" data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}" data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
+      <a class="create-place _fw detailed" ui-sref="app.place-create"
+         ng-click="ctlSidebar.openCreatePlaceModal($event);"
+         data-uib-tooltip-template="'create-uib-tooltip.html'"
+         data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
+         data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
         <span>
           <svg id="addIcon" morph-svg first-id="sq40dashed" second-id="sq40">
             <use xlink:href="/assets/icons/nst-add40.svg#sq40"></use>
@@ -82,7 +90,7 @@
     </div>
     <div class="side-access">
       <script type="text/ng-template" id="mention-uib-tooltip.html">
-        <translate>Mention</translate>
+        <translate>Notification</translate>
       </script>
       <a class="detailed popover-mentions"
          data-uib-popover-template="'app/notification/notification-popover.html'"
@@ -115,8 +123,7 @@
          data-popover-class="pop-white"
          data-popover-append-to-body="false"
          data-popover-popup-close-delay="1000"
-         nst-sidebar-toggle-agent
-         toggle-agent-switch="ctlSidebar.isInDetailMode" data-uib-tooltip-template="'profile-uib-tooltip.html'"
+         data-uib-tooltip-template="'profile-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
         <div>
