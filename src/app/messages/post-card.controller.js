@@ -39,9 +39,7 @@
     vm.body = null;
     vm.markAsRead = markAsRead;
     vm.chainView = false;
-
-    //TODO Read from real val
-    vm.chainCollapse = false;
+    vm.switchToPostCard = switchToPostCard;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
@@ -293,6 +291,11 @@
         $timeout.cancel(focusOnSentTimeout);
       }
     });
+
+    function switchToPostCard() {
+      // tells the parent scope to open me
+      $scope.$emit('post-chain-expand-me', { postId : vm.post.id });
+    }
   }
 
 })();

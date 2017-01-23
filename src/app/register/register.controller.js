@@ -29,7 +29,7 @@
         vm.submitPhoneNumber();
         vm.step = 2;
       } else {
-        vm.step = 1;
+        vm.step = 3;
       }
 
     })();
@@ -243,7 +243,7 @@
         vm.registerProgress = true;
         var ajax = new NstHttp('',
         {
-          cmd : 'account/register',
+          cmd : 'account/register_user',
           data : {
             'vid' : vm.verificationId,
             'phone' : getPhoneNumber(),
@@ -285,10 +285,15 @@
 
     var timers = [];
 
-    function usernameExists(username, id) {
+    function usernameAvailable(username) {
       var deferred = $q.defer();
-      // TODO: use a valid API address
-      NstHttp('/register/', { f: 'account_exists', uid: id }).get().then(function(data){
+      new NstHttp('',
+      {
+        cmd: 'account/available',
+        data: {
+          'account_id': username
+        }
+      }).post().then(function(data){
         if (data.status === 'ok') {
           deferred.resolve(true);
         } else {
@@ -352,11 +357,11 @@
 
       vm.usernameValidationStatus = 'checking';
       return $q(function (resolve, reject) {
-        usernameExists(username, vm.verificationId).then(function (exists) {
-          if (exists) {
-            vm.usernameValidationStatus = 'exists';
-          } else {
+        usernameAvailable(username, vm.verificationId).then(function (available) {
+          if (available) {
             vm.usernameValidationStatus = 'available';
+          } else {
+            vm.usernameValidationStatus = 'exists';
           }
           resolve(vm.usernameErrors);
         }).catch(function (error) {
