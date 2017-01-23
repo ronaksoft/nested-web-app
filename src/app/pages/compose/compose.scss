@@ -137,10 +137,8 @@
 
 .nst-compose-message {
   display: table;
-  height: 100%;
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: auto;
+  height: calc(100% - 160px);
+  width: 100%;
   >div ,>div>div {
     display: table;
     height: auto;

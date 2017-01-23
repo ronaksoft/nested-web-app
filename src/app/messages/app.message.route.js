@@ -23,7 +23,7 @@
             templateUrl: 'app/messages/post/post.html',
             controller: 'PostController',
             controllerAs: 'ctlPost',
-            size: 'mlg',
+            size: 'post-view',
             resolve: {
               selectedPostId: function () {
                 return $stateParams.postId;

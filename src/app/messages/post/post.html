@@ -1,137 +1,151 @@
-<div id="PostView" class="_difv _fw _fh">
-  <div class="_difv _fw" id="PostHeader">
-    <div class="post-nav-top _difh _fw">
-      <p class="_df _fw"
-         data-ng-bind-html="ctlPost.post.subject"></p>
-      <p class="_df _fw" ng-if="false">
-        <i>No Subject</i>
-      </p>
-      <div class="time nst-mood-storm _fn">{{ctlPost.post.date | date : 'long'}}</div>
-      <div class="closebut" ng-click="$dismiss()">
-        <img src="../assets/icons/close.svg"/>
+<div id="PostView" class="_difh _fw _fh nst-content _jcc">
+  <section class="content">
+    <div class="post-area">
+      <div class="_fw">
+        <post-card class="_fw" data-ng-repeat="msg in ctlPost.messages track by msg.id" post="msg" scroll-to-view id="{{::msg.id}}"></post-card>
       </div>
     </div>
-    <div class="post-nav-bot _difh">
-      <div class="user-avatar-24">
-      <img initials="ctlPost.post.sender.name" data-url="ctlPost.post.sender.avatar" data-width="24" data-height="24"
-           data-radius="12" class="account-initials-24 _df" data-word-count="2" data-font-size="11"/>
-      </div>
-      <span class="actor-name nst-mood-cheerful _df">{{ctlPost.post.sender.name}}</span>
-      <span class="margin-l-5 nst-mood-storm"><translate>to</translate></span>
-      <div class="badges _df _fw">
-        <div class="large-badge _df" data-ng-repeat="place in ctlPost.post.allPlaces">
-          <a class="_di _fl" ui-sref="app.place-messages({placeId:place.id})">
-            {{place.name}}
-          </a>
-        </div>
-      </div>
-      <ul class="list-inline _df _fn">
-        <li ng-if="ctlPost.hasRemoveAccess || ctlPost.post.wipeAccess">
-          <!--  -->
-          <a href="" class="cursor-pointer" uib-popover-template="'app/messages/post/delete.html'"
-             ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places">
-            <span class="nst-mood-solid _dib"><translate>Delete</translate></span>
-            <span class="action-button-post-delete _dib"></span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ctlPost.urls.forward}}" ng-click="ctlPost.forward($event);">
-            <span class="nst-mood-solid _dib"><translate>Forward</translate></span>
-            <span class="action-button-post-forward  _dib"></span>
-          </a>
-        </li>
+  </section>
 
-        <li>
-          <div class="cursor-pointer" uib-popover-template="'app/messages/post/reply.html'"
-               ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places" id="reply-post-view">
-            <span class="nst-mood-solid _dib"><translate>Reply</translate></span>
-            <span class="action-button-post- _dib"></span>
-          </div>
-        </li>
 
-          <li>
-            <div class="comment-input-toggle cursor-pointer" ng-init="commentInput = true" ng-click="commentInput =! commentInput">
-              <span class="nst-mood-solid _dib">Send comment</span>
-              <span class="action-button-post- _dib"></span>
-            </div>
-          </li>
+  <!--<div class="_difv _fw" id="PostHeader">-->
+    <!--<div class="post-nav-top _difh _fw">-->
+      <!--<p class="_df _fw"-->
+         <!--data-ng-bind-html="ctlPost.post.subject"></p>-->
+      <!--<p class="_df _fw" ng-if="false">-->
+        <!--<i>No Subject</i>-->
+      <!--</p>-->
+      <!--<div class="time nst-mood-storm _fn">{{ctlPost.post.date | date : 'long'}}</div>-->
+      <!--<div class="closebut" ng-click="$dismiss()">-->
+        <!--<img src="../assets/icons/close.svg"/>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="post-nav-bot _difh">-->
+      <!--<div class="user-avatar-24">-->
+      <!--<img initials="ctlPost.post.sender.name" data-url="ctlPost.post.sender.avatar" data-width="24" data-height="24"-->
+           <!--data-radius="12" class="account-initials-24 _df" data-word-count="2" data-font-size="11"/>-->
+      <!--</div>-->
+      <!--<span class="actor-name nst-mood-cheerful _df">{{ctlPost.post.sender.name}}</span>-->
+      <!--<span class="margin-l-5 nst-mood-storm"><translate>to</translate></span>-->
+      <!--<div class="badges _df _fw">-->
+        <!--<div class="large-badge _df" data-ng-repeat="place in ctlPost.post.allPlaces">-->
+          <!--<a class="_di _fl" ui-sref="app.place-messages({placeId:place.id})">-->
+            <!--{{place.name}}-->
+          <!--</a>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<ul class="list-inline _df _fn">-->
+        <!--<li ng-if="ctlPost.hasRemoveAccess || ctlPost.post.wipeAccess">-->
+          <!--&lt;!&ndash;  &ndash;&gt;-->
+          <!--<a href="" class="cursor-pointer" uib-popover-template="'app/messages/post/delete.html'"-->
+             <!--ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places">-->
+            <!--<span class="nst-mood-solid _dib"><translate>Delete</translate></span>-->
+            <!--<span class="action-button-post-delete _dib"></span>-->
+          <!--</a>-->
+        <!--</li>-->
+        <!--<li>-->
+          <!--<a href="{{ctlPost.urls.forward}}" ng-click="ctlPost.forward($event);">-->
+            <!--<span class="nst-mood-solid _dib"><translate>Forward</translate></span>-->
+            <!--<span class="action-button-post-forward  _dib"></span>-->
+          <!--</a>-->
+        <!--</li>-->
 
-        </ul>
-      </div>
-    </div>
+        <!--<li>-->
+          <!--<div class="cursor-pointer" uib-popover-template="'app/messages/post/reply.html'"-->
+               <!--ng-init="ctlPost = ctlPost" data-popover-placement="bottom-right auto" data-popover-class="white-pop popover-white-nst-activity-places" id="reply-post-view">-->
+            <!--<span class="nst-mood-solid _dib"><translate>Reply</translate></span>-->
+            <!--<span class="action-button-post- _dib"></span>-->
+          <!--</div>-->
+        <!--</li>-->
 
-  <div class="_difh _fh" id="PostBody">
-    <div nst-scrollbar id="Content" class="_difv _fw">
-      <div class="_df _fw _fn attachments-card">
-        <div class="attachments _fw _df" data-ng-if="ctlPost.post.hasAnyAttachment">
-          <nst-attachments-view post-id="ctlPost.post.id" attachments="ctlPost.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>
-        </div>
-      </div>
-      <div class="_df _fw _di">
-        <div class="_fw _wrb"
-             auto-dir="ctlPost.post.body"
-             data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow ">
-        </div>
-      </div>
-    </div>
+          <!--<li>-->
+            <!--<div class="comment-input-toggle cursor-pointer" ng-init="commentInput = true" ng-click="commentInput =! commentInput">-->
+              <!--<span class="nst-mood-solid _dib">Send comment</span>-->
+              <!--<span class="action-button-post- _dib"></span>-->
+            <!--</div>-->
+          <!--</li>-->
 
-    <div id="Comments" class="_df _vat">
-      <div class="recent-container _fw _df _jcc _fn" ng-if="ctlPost.status.commentLoadProgress">
-        <div class="nst-mood-cheerful no-gutter nst-margin-24">
-          <div class="_fw">
-            <div class="nst-loading nst-loading-size-4 _fl"></div>
-            <span>&nbsp;</span>
-            <div class="nst-font-xsmall _fr nst-marginbtm-4">Loading...</div>
-          </div>
-        </div>
-      </div>
-      <!-- @FIXME : Use a proper animation to go downward -->
-      <div class="comment-msg _difv _fw" nst-scrollbar suppressScrollX="true" scroll-animate="false" go-downward="ctlPost.revealNewComment">
-        <div data-ng-if="ctlPost.hasMoreComments && !ctlPost.status.commentLoadProgress" class="_fw text-center">
-          <a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>
-        </div>
-        <div data-ng-repeat="comment in ctlPost.comments" class="_fw _difh NewComment">
-          <div class="_df profile-post-view">
-            <div class="user-avatar-24" user-detail user="{{::comment.sender}}">
-              <img initials="comment.sender.name" data-url="comment.sender.avatar" data-width="24" data-height="24"
-                   data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>
-            </div>
-          </div>
-          <div class="_difv _fw">
-            <div class="_difh">
-              <h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.name" user-detail user="{{::comment.sender}}"></h5>
-              <div class="_df time-post-view nst-mood-storm"
-                   data-uib-tooltip="{{comment.date | date : 'full'}}"
-                   data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>
-            </div>
-            <div class="_fw _wrb cmt-post-view" auto-dir="comment.body">
-              <span ng-bind-html="comment.body" ng-class="{ 'sending' : comment.status == 'progress', 'failed' : comment.status == 'fail' }"></span>&nbsp;&nbsp;
-              <a href data-ng-if="!comment.isTemp && ctlPost.allowToRemoveComment(comment)" ng-click="ctlPost.removeComment(comment);" class="nst-mood-storm nst-font-small" >delete</a>
-              <!-- <a href data-ng-if="comment.isTemp && comment.status == 'fail'" ng-click="ctlPost.resend(comment);" class="nst-mood-storm nst-font-small retry-link" >retry</a> -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="comment-input _difh" ng-show="commentInput">
-        <div class="_difv _pr _fn">
-          <div class="user-avatar-32">
-          <img initials="ctlPost.user.name" data-url="ctlPost.user.avatar" data-width="32" data-height="32"
-               data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>
-          </div>
-          <span data-ng-show="512 - ctlPost.nextComment.length < 30"
-                class="nst-mood-simple _df _ma" data-ng-bind="512 - ctlPost.nextComment.length"></span>
-        </div>
-        <div class="_difv _fw _fh">
-          <textarea type="text" nst-mention class="_df _fw" cols="32"
-                    post-id="{{ctlPost.post.id}}"
-                    data-ng-disabled="ctlPost.status.commentSendInProgress"
-                    data-ng-model="ctlPost.nextComment"
-                    ng-keyup="ctlPost.sendComment($event)"
-                    placeholder="write your comment..."
-                    auto-dir="ctlPost.nextComment" translate-attrs="placeholder"></textarea>
-          </textarea>
-        </div>
-      </div>
-    </div>
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</div>-->
+
+  <!--<div class="_difh _fh" id="PostBody">-->
+    <!--<div nst-scrollbar id="Content" class="_difv _fw">-->
+      <!--<div class="_df _fw _fn attachments-card">-->
+        <!--<div class="attachments _fw _df" data-ng-if="ctlPost.post.hasAnyAttachment">-->
+          <!--<nst-attachments-view post-id="ctlPost.post.id" attachments="ctlPost.post.attachments" preview-mode="'thumbnail'"></nst-attachments-view>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="_df _fw _di">-->
+        <!--<div class="_fw _wrb"-->
+             <!--auto-dir="ctlPost.post.body"-->
+             <!--data-ng-bind-html="ctlPost.post.body | openLinkInNewWindow ">-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div id="Comments" class="_df _vat">-->
+      <!--<div class="recent-container _fw _df _jcc _fn" ng-if="ctlPost.status.commentLoadProgress">-->
+        <!--<div class="nst-mood-cheerful no-gutter nst-margin-24">-->
+          <!--<div class="_fw">-->
+            <!--<div class="nst-loading nst-loading-size-4 _fl"></div>-->
+            <!--<span>&nbsp;</span>-->
+            <!--<div class="nst-font-xsmall _fr nst-marginbtm-4">Loading...</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash; @FIXME : Use a proper animation to go downward &ndash;&gt;-->
+      <!--<div class="comment-msg _difv _fw" nst-scrollbar suppressScrollX="true" scroll-animate="false" go-downward="ctlPost.revealNewComment">-->
+        <!--<div data-ng-if="ctlPost.hasMoreComments && !ctlPost.status.commentLoadProgress" class="_fw text-center">-->
+          <!--<a class="nst-mood-cheerful" data-ng-click="ctlPost.loadMoreComments()">Load More...</a>-->
+        <!--</div>-->
+        <!--<div data-ng-repeat="comment in ctlPost.comments" class="_fw _difh NewComment">-->
+          <!--<div class="_df profile-post-view">-->
+            <!--<div class="user-avatar-24" user-detail user="{{::comment.sender}}">-->
+              <!--<img initials="comment.sender.name" data-url="comment.sender.avatar" data-width="24" data-height="24"-->
+                   <!--data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="11"/>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="_difv _fw">-->
+            <!--<div class="_difh">-->
+              <!--<h5 class="nst-mood-cheerful _df _fw" data-ng-bind="comment.sender.name" user-detail user="{{::comment.sender}}"></h5>-->
+              <!--<div class="_df time-post-view nst-mood-storm"-->
+                   <!--data-uib-tooltip="{{comment.date | date : 'full'}}"-->
+                   <!--data-tooltip-append-to-body="true" data-tooltip-placement="auto left">{{comment.date | date : 'short'}}</div>-->
+            <!--</div>-->
+            <!--<div class="_fw _wrb cmt-post-view" auto-dir="comment.body">-->
+              <!--<span ng-bind-html="comment.body" ng-class="{ 'sending' : comment.status == 'progress', 'failed' : comment.status == 'fail' }"></span>&nbsp;&nbsp;-->
+              <!--<a href data-ng-if="!comment.isTemp && ctlPost.allowToRemoveComment(comment)" ng-click="ctlPost.removeComment(comment);" class="nst-mood-storm nst-font-small" >delete</a>-->
+              <!--&lt;!&ndash; <a href data-ng-if="comment.isTemp && comment.status == 'fail'" ng-click="ctlPost.resend(comment);" class="nst-mood-storm nst-font-small retry-link" >retry</a> &ndash;&gt;-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="comment-input _difh" ng-show="commentInput">-->
+        <!--<div class="_difv _pr _fn">-->
+          <!--<div class="user-avatar-32">-->
+          <!--<img initials="ctlPost.user.name" data-url="ctlPost.user.avatar" data-width="32" data-height="32"-->
+               <!--data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="16"/>-->
+          <!--</div>-->
+          <!--<span data-ng-show="512 - ctlPost.nextComment.length < 30"-->
+                <!--class="nst-mood-simple _df _ma" data-ng-bind="512 - ctlPost.nextComment.length"></span>-->
+        <!--</div>-->
+        <!--<div class="_difv _fw _fh">-->
+          <!--<textarea type="text" nst-mention class="_df _fw" cols="32"-->
+                    <!--post-id="{{ctlPost.post.id}}"-->
+                    <!--data-ng-disabled="ctlPost.status.commentSendInProgress"-->
+                    <!--data-ng-model="ctlPost.nextComment"-->
+                    <!--ng-keyup="ctlPost.sendComment($event)"-->
+                    <!--placeholder="write your comment..."-->
+                    <!--auto-dir="ctlPost.nextComment" translate-attrs="placeholder"></textarea>-->
+          <!--</textarea>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+</div>
+<div class="post-navbar">
+  <div class="closebut" ng-click="$dismiss()">
+    <img src="../assets/icons/close.svg"/>
   </div>
 </div>
