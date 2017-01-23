@@ -18,7 +18,7 @@
       var q = {
         id: object.id,
         firstName: object.firstName,
-        lastName: object.lastName,
+        lastName: object.lastName
       };
       for (var k in q) {
         if (undefined == q[k]) {

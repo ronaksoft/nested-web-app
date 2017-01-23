@@ -1,7 +1,7 @@
 describe('NstMemoryStorage', function () {
   var fooCache,
-      memoryStorage,
-      sandbox = null;
+      memoryStorage;
+  var sandbox = null;
   beforeEach(module('ronak.nested.web.common.cache'));
   beforeEach(inject(function (_$cacheFactory_, _NstMemoryStorage_) {
     fooCache = _$cacheFactory_('foo');

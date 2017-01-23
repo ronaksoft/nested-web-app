@@ -6,7 +6,7 @@
     .service('NstUtilPlace', NstUtilPlace);
 
   /** @ngInject */
-  function NstUtilPlace(moment) {
+  function NstUtilPlace(_) {
     function PlaceUtility() {
 
     }

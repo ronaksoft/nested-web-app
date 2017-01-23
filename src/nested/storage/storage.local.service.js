@@ -6,7 +6,7 @@
     .factory('NstLocalStorage', NstLocalStorage);
 
   /** @ngInject */
-  function NstLocalStorage($window, storageKeySeparator) {
+  function NstLocalStorage($window, $log, storageKeySeparator) {
     function LocalStorage(name) {
       if (!name) {
         throw 'A LocalStorage must have a unique name.';
@@ -45,7 +45,7 @@
     function deserialize() {
       var obj = null;
       try {
-        var obj = JSON.parse(content);
+        obj = JSON.parse(content);
       } catch (error) {
         if (error instanceof SyntaxError) {
           $log.debug('An error occured in parsing JSON', error);
