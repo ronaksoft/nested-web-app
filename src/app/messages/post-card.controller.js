@@ -273,6 +273,8 @@
         postId: vm.post.id
       });
 
+      vm.urls['full'] = $state.href('app.message', { postId : vm.post.id, model : vm.post }, { notify : false});
+
       if (vm.thisPlace) {
         vm.urls['chain'] = $state.href('app.place-message-chain', {
           placeId: vm.thisPlace,

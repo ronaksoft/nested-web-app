@@ -140,7 +140,7 @@
       </svg>
     </a>
   </div>
-  <div class="chain-stats" ng-if="ctlPostCard.chainView" ng-click="$event.stopPropagation()">
+  <div class="chain-stats" ng-if="ctlPostCard.chainView">
     <div ng-if="ctlPostCard.post.isReplyed || ctlPostCard.post.isForwarded">
       <div class="circ ng-class:{'blue' : ctlPostCard.post.isReplyed, 'green' : ctlPostCard.post.isForwarded}"></div>
     </div>
@@ -151,17 +151,19 @@
     </div>
 
     <div ng-if="!ctlPostCard.isRibbon">
-      <div class="squ"></div><span>shared in 6 places</span>
+      <div class="squ"></div><span>shared in {{ctlPostCard.post.getAllPlacesCount()}} places</span>
     </div>
     <div ng-if="!ctlPostCard.isRibbon">
       <svg class="chain-ico">
         <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
       </svg>
-      <span>no comments</span>
+      <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comments</translate></span>
+      <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
+      <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>{{ctlPostCard.post.commentsCount}} comments</translate></span>
     </div>
   </div>
 </div>
-<section class="post-card-comment" data-ng-if="ctlPostCard.viewSetting.comments && !ctlPostCard.hideComments && !ctlPostCard.post.forbidden && !ctlPostCard.isRibbon">
+<section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.forbidden && !ctlPostCard.isRibbon">
   <div class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
     <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()"><translate>View older comments...</translate></a>
     <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()"><translate>Roll up</translate></a>
