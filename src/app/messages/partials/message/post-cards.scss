@@ -409,7 +409,7 @@ h3 {
   }
   .text{
     padding-top: 4px;
-    max-width: calc(100% - 108px);
+    max-width: calc(100% - 98px);
   }
   strong,strong span{
     font-weight: 600;
@@ -434,7 +434,7 @@ h3 {
     position: relative;
   }
   span{
-    padding-top: 4px;
+    //padding-top: 4px;
     font-size: $font-size-small;
     font-weight: 300;
     color: $color-wind;

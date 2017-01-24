@@ -15,6 +15,7 @@
     <div class="ei-mail-unread _df _fn"></div>
   </div>
   <div class="_df">
-    <p><mark data-ng-bind-html="act.post.subject"></mark></p>
+    <p ng-click="act.post.subject > 0"><mark data-ng-bind-html="act.post.subject"></mark></p>
+    <p ng-click="!act.post.subject > 0"><mark data-ng-bind-html="act.post.body | truncate | removeHt"></mark></p>
   </div>
 </div>
