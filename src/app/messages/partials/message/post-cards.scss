@@ -440,6 +440,37 @@ h3 {
     color: $color-wind;
     margin: 0 4px;
   }
+  .delete-comment {
+    position: relative;
+    width: 1px;
+    overflow: visible;
+    top: 4px;
+    transform: translateX(12px);
+    svg {
+      fill: rgba(0,0,0,.08);
+      transition: fill $animation-dur;
+      &:hover {
+        fill: rgba(0,0,0,.4);
+      }
+    }
+  }
+  &.sticky {
+    padding-top: 0;
+    .text {
+      padding-top: 0;
+      margin-left: 40px;
+      max-width: calc(100% - 59px);
+      p {
+        margin: 0;
+      }
+    }
+    strong {
+      display: none;
+    }
+    .user-avatar-24 {
+      display: none;
+    }
+  }
 }
 .comments-load {
   height: 32px;
