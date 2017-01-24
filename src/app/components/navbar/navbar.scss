@@ -352,6 +352,7 @@ nst-navbar {
   left: 0;
   width: 100%;
   z-index: 55;
+  @include user-select(none);
   //width: calc(100% - 272px);
   //width: 100%;
   //will-change: height;

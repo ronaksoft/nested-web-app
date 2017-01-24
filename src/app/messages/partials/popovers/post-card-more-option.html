@@ -13,8 +13,8 @@
   </div>
   <span><translate>Reply to sender</translate></span>
 </a>
+<div class="line-popover"></div>
 <a ng-if="ctlPostCard.hasRemoveAccess" ng-click="$event.stopPropagation(); ctlPostCard.remove();" class="_df list-items _aic _fw">
-  <div class="option-delete-icon"></div>
   <div>
     <svg class="setting-icon-nav svg-scale _r45">
       <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
@@ -23,7 +23,11 @@
   <span><translate>Delete</translate></span>
 </a>
 <a ng-if="ctlPostCard.post.wipeAccess" ng-click="$event.stopPropagation(); ctlPostCard.retract();" class="_df list-items _aic _fw">
-  <div class="option-delete-icon"></div>
+  <div>
+    <svg class="setting-icon-nav svg-scale _r45">
+      <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
+    </svg>
+  </div>
   <span><translate>Retract</translate></span>
 </a>
 

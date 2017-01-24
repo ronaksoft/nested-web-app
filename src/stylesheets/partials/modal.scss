@@ -49,6 +49,7 @@ body.modal-open {
   width: 510px;
   max-width: 100%;
   height: auto;
+  @include user-select(none);
   .butn-white {
     width: 125px;
     height: 32px;

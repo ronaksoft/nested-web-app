@@ -8,25 +8,20 @@
   height: 30px;
   padding: 5px 10px;
   width: 100%;
-  color: $color-storm;
-  transition: all $animation-dur;
+  //color: $color-storm;
+  color: $color-solid;
+  transition: background-color $animation-dur;
+  span {color: $color-solid;fill: $color-solid}
+  span,label,a {
+    transition-duration: $animation-dur;
+    transition-property: background-color,color;
+  }
   &:hover{
     background-color: $color-sense-5;
-    color: $color-hurricane;
     border-bottom-left-radius: 5px;
-    span,label,a {
-      transition-duration: $animation-dur;
-      transition-property: background-color,color;
-      color: $color-hurricane;
-    }
   }
   &.active{
     background-color: $color-sense-5;
-    color: $color-hurricane;
     border-bottom-left-radius: 5px;
-    span,label,a {
-      transition: all $animation-dur;
-      color: $color-hurricane;
-    }
   }
 }
