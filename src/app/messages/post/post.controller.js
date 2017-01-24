@@ -15,6 +15,7 @@
     var vm = this;
     var removedCommentsCount = 0;
     var revealNewCommentsTimeout = null;
+    var defaultLimit = 8;
 
     /*****************************
      *** Controller Properties ***
@@ -47,8 +48,7 @@
       forward: $state.href('app.compose-forward', {postId: vm.postId})
     };
 
-    vm.extendedId = null;
-
+    vm.loadProgress = false;
 
     /*****************************
      ***** Controller Methods ****
@@ -64,10 +64,11 @@
     vm.forward = forward;
     vm.replyAll = replyAll;
     vm.replySender = replySender;
+    vm.loadMore = loadMore;
 
     (function () {
 
-      loadChainMessages(vm.postId).then(function (done) {
+      load(vm.postId).then(function (done) {
         // TODO: uncomment and fix
         // vm.syncId = NstSvcSync.openChannel(_.head(vm.post.allPlaces).id);
 
@@ -109,22 +110,48 @@
       return NstSvcPostMap.toMessage(post, firstId, vm.myPlaceIds);
     }
 
-    function loadChainMessages(postId) {
+    function loadChainMessages(postId, limit) {
+      var max = limit + 1;
+      vm.loadProgress = true;
       return $q(function (resolve, reject) {
-        NstSvcPostFactory.getChainMessages(postId).then(function(messages) {
-          vm.messages = _.chain(messages).sortBy('date').map(function (message) {
+        NstSvcPostFactory.getChainMessages(postId, max).then(function(messages) {
+          vm.hasOlder = _.size(messages) >= limit;
+          var items = _.chain(messages).take(limit).sortBy('date').map(function (message) {
             return mapMessage(message);
           }).value();
+          resolve(items);
+        }).catch(reject).finally(function () {
+            vm.loadProgress = false;
+        });
+      });
+    }
 
-          // the last post (which is the target) should always be extended
-          vm.post = _.head(_.takeRight(vm.messages));
-          vm.extendedId = vm.post.id;
-
+    function load() {
+      return $q(function (resolve, reject) {
+        loadChainMessages(vm.postId, defaultLimit).then(function (messages) {
+          vm.messages = messages;
+          vm.post = _.last(vm.messages);
           vm.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(vm.post.places);
           vm.hasRemoveAccess = _.isArray(vm.placesWithRemoveAccess) && vm.placesWithRemoveAccess.length > 0;
           vm.hasMoreComments = vm.post.commentsCount > vm.commentSettings.limit;
+
           resolve(true);
         }).catch(reject);
+      });
+    }
+
+    function loadMore() {
+      var oldest = _.head(vm.messages);
+
+      if (!oldest) {
+        throw Error('Could not find the oldest message of chain');
+      }
+
+      loadChainMessages(oldest.id, defaultLimit).then(function (messages) {
+        NstUtility.collection.dropById(messages, oldest.id);
+        vm.messages.unshift.apply(vm.messages, messages);
+      }).catch(function (error) {
+        toastr.error(NstSvcTranslation.get('Sorry, An error has occured while loading the older posts'));
       });
     }
 
@@ -514,5 +541,6 @@
       $timeout.cancel(revealNewCommentsTimeout);
       NstSvcSync.closeChannel(vm.syncId);
     });
+
   }
 })();
