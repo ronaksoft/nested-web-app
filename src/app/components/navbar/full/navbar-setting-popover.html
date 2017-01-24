@@ -1,4 +1,12 @@
 <a class="_df list-items _aic"
+   href="#/profile"
+   ng-if="ctlFullNavbar.isPersonal()">
+  <div class="top-user-avatar-24">
+    <img initial-avatar="{{ctlFullNavbar.user.fullName}}" picture="{{ctlFullNavbar.user | avatar}}" data-width="24" data-height="24" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="12"/>
+  </div>
+  <span><translate>Profile Settings</translate></span>
+</a>
+<a class="_df list-items _aic"
    ui-sref="app.place-settings({ placeId : ctlFullNavbar.getPlaceId() })"
    ng-if="!ctlFullNavbar.isPersonal()"
    ng-click="ctlFullNavbar.openSettingsModal($event)">
@@ -19,7 +27,7 @@
   <translate ng-if="ctlFullNavbar.isGrandPlace">Invite Members</translate>
   <translate ng-if="!ctlFullNavbar.isGrandPlace">Add Members</translate>
 </a>
-<hr ng-if="ctlFullNavbar.allowedToAddPlace && !ctlFullNavbar.isPersonal()">
+<hr ng-if="ctlFullNavbar.allowedToAddPlace">
 <a ng-if="ctlFullNavbar.isGrandPlace && !ctlFullNavbar.isPersonal() && ctlFullNavbar.allowedToAddPlace"
    class="_df list-items _aic" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })"
    ng-click="ctlFullNavbar.openCreateSubplaceModal($event,'open')">
