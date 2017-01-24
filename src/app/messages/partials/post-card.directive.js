@@ -22,7 +22,8 @@
         hasRemoveAccess:'=hasRemoveAccess',
         isRibbon: '=',
         addOn: '=',
-        commentBoard: '='
+        commentBoard: '=',
+        ribbonEnabled : '='
       }
     };
   }

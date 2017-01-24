@@ -1,5 +1,5 @@
 <div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isRead }" ng-if="!ctlPostCard.post.forbidden">
-  <section ng-if="ctlPostCard.isRibbon" class="collapse-view" ng-click="ctlPostCard.switchToPostCard();">
+  <section ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled" class="collapse-view" ng-click="ctlPostCard.switchToPostCard();">
     <div class="user-avatar-24" user-detail user="{{::ctlPostCard.post.sender}}">
       <img initials="ctlPostCard.post.sender.name" data-url="ctlPostCard.post.sender.avatar" data-width="24"
            data-height="24"
@@ -7,7 +7,7 @@
     </div>
     <p ng-bind-html="ctlPostCard.body | removeHTMLTags | truncate"></p>
   </section>
-  <section class="post-head _difh" ng-if="!ctlPostCard.isRibbon">
+  <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
       <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isForwarded" class="icon" href="{{ctlPostCard.urls.chain}}">
@@ -45,30 +45,30 @@
       </span>
     </div>
   </section>
-  <section ng-if="ctlPostCard.post.subject.length > 0 && !ctlPostCard.isRibbon" class="post-subject"
+  <section ng-if="ctlPostCard.post.subject.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="post-subject"
            auto-dir="ctlPostCard.post.subject">
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject">
     </h3>
   </section>
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
-           ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.viewSetting.content && !ctlPostCard.isRibbon"
+           ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.viewSetting.content && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
            auto-dir="ctlPostCard.post.body">
     <span ng-if="!ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.body | removeHTMLTags | truncate"></span>
     <span ng-if="ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.body"></span>
   </section>
 
-  <section ng-if="ctlPostCard.isExpandable && !ctlPostCard.isRibbon">
+  <section ng-if="ctlPostCard.isExpandable && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <a ng-click="$event.stopPropagation();ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Show less</a>
     <a ng-click="$event.stopPropagation();ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded"><translate>Show more...</translate></a>
   </section>
-  <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments && !ctlPostCard.isRibbon" class="attachments-card">
+  <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="attachments-card">
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
-  <section class="post-places" ng-if="!ctlPostCard.isRibbon">
+  <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <a href="#/places/{{place.id}}/messages" ng-if="ctlPostCard.post.getAllPlacesCount() > 0" data-ng-repeat="place in ctlPostCard.post.allPlaces" ng-click="$event.stopPropagation()">#{{place.name}}</a>
   </section>
-  <hr ng-if="!ctlPostCard.isRibbon">
-  <section class="post-footer _difh" ng-if="!ctlPostCard.isRibbon && !ctlPostCard.chainView">
+  <hr ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+  <section class="post-footer _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.chainView">
     <script type="text/ng-template" id="more-uib-tooltip.html">
       <translate>More options</translate>
     </script>
@@ -122,7 +122,7 @@
   </section>
   <vr class="chain"></vr>
 
-  <div class="chain-forward" ng-if="ctlPostCard.chainView && !ctlPostCard.isRibbon" ng-click="$event.stopPropagation()">
+  <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" ng-click="$event.stopPropagation()">
     <a href="{{ctlPostCard.urls.reply_all}}">
       <svg>
         <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
@@ -144,16 +144,16 @@
     <div ng-if="ctlPostCard.post.isReplyed || ctlPostCard.post.isForwarded">
       <div class="circ ng-class:{'blue' : ctlPostCard.post.isReplyed, 'green' : ctlPostCard.post.isForwarded}"></div>
     </div>
-    <div ng-if="!ctlPostCard.isRibbon && !(ctlPostCard.post.isReplyed || ctlPostCard.post.isForwarded)" class="isNotRF">
+    <div ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !(ctlPostCard.post.isReplyed || ctlPostCard.post.isForwarded)" class="isNotRF">
       <svg>
         <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
       </svg>
     </div>
 
-    <div ng-if="!ctlPostCard.isRibbon">
+    <div ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
       <div class="squ"></div><span>shared in {{ctlPostCard.post.getAllPlacesCount()}} places</span>
     </div>
-    <div ng-if="!ctlPostCard.isRibbon">
+    <div ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
       <svg class="chain-ico">
         <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
       </svg>
@@ -163,7 +163,7 @@
     </div>
   </div>
 </div>
-<section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.forbidden && !ctlPostCard.isRibbon">
+<section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.forbidden && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <div class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
     <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()"><translate>View older comments...</translate></a>
     <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()"><translate>Roll up</translate></a>
