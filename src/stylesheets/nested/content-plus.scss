@@ -12,7 +12,7 @@
   backface-visibility: hidden;
   //transform: translateZ(0) scale(1.0, 1.0);
   #cp1 {
-    height: 480px;
+    max-height: 480px;
   }
   & > div {
     display: inline-flex;

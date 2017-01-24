@@ -592,7 +592,7 @@ nst-navbar {
     .tooltip {
       white-space: nowrap;
     }
-    svg {
+    >div > svg {
       display: flex;
       height: 32px;
       width: 32px;

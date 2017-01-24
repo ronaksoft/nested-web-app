@@ -12,235 +12,21 @@
     color: $color-white !important;
   }
 }
-.post-card {
-  //margin-top: 32px;
-  border: 1px solid $color-border;
-  border-radius: 2px;
+
+post-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-  //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
-  z-index: 11;
-  background-color: $color-white;
-  overflow: visible;
-  transition: all $animation-dur;
-  &:hover {
-    //box-shadow: 0 8px 16px rgba(0,0,0,0.2)
-    .icon svg {
-      fill: black;
+  &:last-child {
+    .post-card-wire {
+      display: none
     }
-    .icon .fw {
-      color: $color-forward;
-      svg {
-        fill: $color-forward;
-      }
-    }
-    .icon .re {
-      color: $color-reply;
-      svg {
-        fill: $color-reply;
-      }
-    }
-    .post-footer .icon {
-      .re,.fw {
-        opacity: 1;
-      }
+    .chain-stats {
+      max-height: 88px;
     }
   }
-  section {
-    display: inline-flex;
-    width: 100%;
-    padding: 0 24px;
-  }
-  .icon {
-    fill: black;
-  }
-  .post-head {
-    height: 50px;
-    align-items: center;
-    flex: none;
-    padding-left: 0;
-    position: relative;
-    .icon {
-      fill: black;
-      position: relative;
-      left: 5px;
-      svg {
-        width: 16px;
-        height: 16px;
-        use {
-          transform: scale(.8,.8);
-        }
-      }
-    }
-    .img{
-      width: 42px;
-      justify-content: flex-start;
-      margin-left: 10px;
-      margin-right: 4px;
-    }
-    span{
-      font-size: $font-size-xsmall;
-      @include text-hover()
-    }
-    h4 span{
-      margin: 0;
-      font-size: 13px;
-      font-weight: 400;
-      @include text-hover()
-    }
-    .popover-userdetail {
-      top: 0!important;
-      left: 0!important;
-      transform: translateY(-90%);
-    }
-  }
-  .unread-badge-holder {
-    display: none;
-    font-size: 18px;
-  }
-  .post-body{
-    font-size: 13px;
-    color: #808080;
-    //word-spacing: .3em;
-    font-weight: 400;
-    margin: 0;
-    padding-top: 4px;
-    line-height: 125%;
-    ul{
-      margin-left: 8px;
-    }
-    span {
-      color: #808080;
-      margin-left: 0;
-    }
 
-
-  }
-  .attachments-card {
-    position: relative;
-    min-height: 108px;
-  }
-  hr {
-    width: calc(100% - 48px);
-    border-color: $color-calm;
-    margin: 12px auto 0 auto;
-  }
-  .post-subject {
-    h3 {
-      margin: 8px 0;
-      font-size: 24px;
-      line-height: 29px;
-      //word-break: break-all;
-      width: 100%;
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-  .post-card-badge {
-    background-color: transparent;
-    justify-content: flex-end;
-    position: absolute;
-    z-index: 34;
-    height: 2px;
-    overflow-y: visible;
-    top: -1px;
-    & > a{
-      height: 20px;
-      cursor: pointer;
-      color: $color-white;
-      font-size: $font-size-small;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-      margin-left: 5px;
-      padding: 2px 8px 5px 8px;
-      background-color: $color-wind;
-      z-index: 36;
-      max-width: 96px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    & > a:first-child{
-      z-index: 32;
-      //background-color: rgb(134, 157, 145);
-    }
-    & > a:last-child{
-      position: relative;
-      //background-color: rgb(20, 215, 105);
-    }
-  }
-  .post-card-time{
-    position: relative;
-    line-height: 14px;
-    //top: 12px;
-  }
-  .post-places {
-    margin-top: 16px;
-    flex-wrap: wrap;
-    a {
-      margin-right: 16px;
-      white-space: nowrap;
-    }
-  }
-  .post-footer{
-    height: 40px;
-    align-items: center;
-    > a{
-      font-size: $font-size-small;
-      color: $color-solid-30;
-      align-items: center;
-      div span {
-        color: $color-solid;
-      }
-      svg {
-        width: 24px;
-        height: 24px;
-        fill: $color-border;
-        transform: scale(.8,.8)
-      }
-    }
-    .post-icons{
-      justify-content: flex-end;
-      //padding: 0 8px;
-      height: 100%;
-    }
-    .icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: opacity $animation-dur;
-      //margin: 0 4px;
-      >div {
-        width: auto;
-        padding: 0 8px;
-        margin-right: 12px;
-        height: 28px;
-        border-radius: 4px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        &.fw:hover {
-          background-color: rgba(40,60,210,.1);
-
-        }
-        &.re:hover {
-          background-color: rgba(30,220,150,.1);
-        }
-        &.more:hover {
-          background-color: rgba(0,0,0,.1);
-        }
-      }
-      .re,
-      .fw {
-        opacity: 0;
-      }
-      svg {
-        width: 20px;
-        height: 20px;
-      }
-    }
-  }
   .chain-forward {
     width: 48px;
     padding: 0 8px;
@@ -325,6 +111,230 @@
       border-radius: 1px;
     }
   }
+}
+
+.post-card {
+  //margin-top: 32px;
+  border: 1px solid $color-border;
+  //border-radius: 2px;
+  position: relative;
+  box-shadow: 0 5px 12px 2px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0 10px 6px -6px rgba(119,123,121,.4);
+  z-index: 11;
+  background-color: $color-white;
+  overflow: visible;
+  transition: all $animation-dur;
+  &:hover {
+    //box-shadow: 0 8px 16px rgba(0,0,0,0.2)
+    .icon svg {
+      fill: black;
+    }
+    .icon .fw {
+      color: $color-forward;
+      svg {
+        fill: $color-forward;
+      }
+    }
+    .icon .re {
+      color: $color-reply;
+      svg {
+        fill: $color-reply;
+      }
+    }
+    .post-footer .icon {
+      .re,.fw {
+        opacity: 1;
+      }
+    }
+  }
+  section {
+    display: inline-flex;
+    width: 100%;
+    padding: 0 24px;
+  }
+  .icon {
+    fill: black;
+  }
+  .post-head {
+    height: 50px;
+    align-items: center;
+    flex: none;
+    padding-left: 0;
+    position: relative;
+    .icon {
+      fill: black;
+      position: relative;
+      left: 5px;
+      svg {
+        width: 16px;
+        height: 16px;
+        use {
+          transform: scale(.8,.8);
+        }
+      }
+    }
+    .img{
+      width: 42px;
+      justify-content: flex-start;
+      margin-left: 10px;
+      margin-right: 4px;
+    }
+    span{
+      font-size: $font-size-xsmall;
+      @include text-hover()
+    }
+    h4 span{
+      margin: 0;
+      font-size: 16px;
+      font-weight: 400;
+      color: $color-solid;
+      max-width: 450px;
+      @extend ._txe;
+    }
+    .popover-userdetail {
+      top: 0!important;
+      left: 0!important;
+      transform: translateY(-90%);
+    }
+  }
+  .unread-badge-holder {
+    display: none;
+    font-size: 18px;
+  }
+  .post-body{
+    font-size: 13px;
+    color: #808080;
+    //word-spacing: .3em;
+    font-weight: 400;
+    margin: 0 0 16px 0;
+    line-height: 125%;
+    ul{
+      margin-left: 8px;
+    }
+    span {
+      color: #808080;
+      margin-left: 0;
+    }
+
+
+  }
+  .attachments-card {
+    position: relative;
+    min-height: 108px;
+    margin-bottom: 16px;
+  }
+  hr {
+    width: calc(100% - 48px);
+    border-color: $color-calm;
+    margin: 12px auto 0 auto;
+  }
+  .post-subject {
+    h3 {
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      line-height: 29px;
+      //word-break: break-all;
+      font-weight: bold;
+      width: 100%;
+    }
+  }
+  .post-card-badge {
+    background-color: transparent;
+    justify-content: flex-end;
+    position: absolute;
+    z-index: 34;
+    height: 2px;
+    overflow-y: visible;
+    top: -1px;
+    & > a{
+      height: 20px;
+      cursor: pointer;
+      color: $color-white;
+      font-size: $font-size-small;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      margin-left: 5px;
+      padding: 2px 8px 5px 8px;
+      background-color: $color-wind;
+      z-index: 36;
+      max-width: 96px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    & > a:first-child{
+      z-index: 32;
+      //background-color: rgb(134, 157, 145);
+    }
+    & > a:last-child{
+      position: relative;
+      //background-color: rgb(20, 215, 105);
+    }
+  }
+  .post-card-time{
+    position: relative;
+    line-height: 14px;
+    //top: 12px;
+  }
+  .post-places {
+    margin: 8px 0;
+    flex-wrap: wrap;
+    a {
+      margin-right: 16px;
+      white-space: nowrap;
+    }
+  }
+  .post-footer{
+    height: 40px;
+    align-items: center;
+    > a{
+      font-size: $font-size-small;
+      color: $color-solid-30;
+      align-items: center;
+      div span {
+        color: $color-solid;
+      }
+      svg {
+        fill: $color-border;
+      }
+    }
+    .post-icons{
+      justify-content: flex-end;
+      //padding: 0 8px;
+      height: 100%;
+    }
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity $animation-dur;
+      //margin: 0 4px;
+      >div {
+        width: auto;
+        padding: 0 8px;
+        margin-right: 12px;
+        height: 28px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.fw:hover {
+          background-color: rgba(40,60,210,.1);
+
+        }
+        &.re:hover {
+          background-color: rgba(30,220,150,.1);
+        }
+        &.more:hover {
+          background-color: rgba(0,0,0,.1);
+        }
+      }
+      .re,
+      .fw {
+        opacity: 0;
+      }
+    }
+  }
   .collapse-view {
     height: 32px;
     display: inline-flex;
@@ -333,25 +343,13 @@
     background-color: #F5F5F5;
     p {
       margin: 0;
+      font-size: 13px;
+      color: rgba(0,0,0,.4);
       @extend ._txe;
     }
   }
   &.ribbon {
     margin-bottom: -3px;
-  }
-}
-
-post-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  &:last-child {
-    .post-card-wire {
-      display: none
-    }
-    .chain-stats {
-      max-height: 88px;
-    }
   }
 }
 
