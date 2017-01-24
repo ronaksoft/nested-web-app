@@ -112,9 +112,9 @@
     function loadChainMessages(postId) {
       return $q(function (resolve, reject) {
         NstSvcPostFactory.getChainMessages(postId).then(function(messages) {
-          vm.messages = _.map(messages, function (message) {
+          vm.messages = _.chain(messages).sortBy('date').map(function (message) {
             return mapMessage(message);
-          });
+          }).value();
 
           // the last post (which is the target) should always be extended
           vm.post = _.head(_.takeRight(vm.messages));
