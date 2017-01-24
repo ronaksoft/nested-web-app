@@ -79,6 +79,13 @@
   min-width: 50%;
 }
 
+._r45 {
+  transform: rotateZ(45deg);
+}
+._r90 {
+  transform: rotateZ(90deg);
+}
+
 hr.nomargin {
   margin-bottom: 0;
 }

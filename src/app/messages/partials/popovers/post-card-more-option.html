@@ -1,13 +1,25 @@
-<a ng-click="$event.stopPropagation()" class="_df list-items _aic _fw" href="{{ctlPostCard.urls.reply_sender}}">
+<a class="_df list-items _aic _fw" href="{{ctlPostCard.urls.full}}" ng-if="!ctlPostCard.chainView">
   <div>
     <svg class="setting-icon-nav svg-scale">
-      <use xlink:href="/assets/icons/nst-icn20.svg#re"></use>
+      <use xlink:href="/assets/icons/nst-icn20.svg#filter"></use>
+    </svg>
+  </div>
+  <span><translate>Full view</translate></span>
+</a><a class="_df list-items _aic _fw" href="{{ctlPostCard.urls.reply_sender}}">
+  <div>
+    <svg class="setting-icon-nav svg-scale">
+      <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
     </svg>
   </div>
   <span><translate>Reply to sender</translate></span>
 </a>
 <a ng-if="ctlPostCard.hasRemoveAccess" ng-click="$event.stopPropagation(); ctlPostCard.remove();" class="_df list-items _aic _fw">
   <div class="option-delete-icon"></div>
+  <div>
+    <svg class="setting-icon-nav svg-scale _r45">
+      <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
+    </svg>
+  </div>
   <span><translate>Delete</translate></span>
 </a>
 <a ng-if="ctlPostCard.post.wipeAccess" ng-click="$event.stopPropagation(); ctlPostCard.retract();" class="_df list-items _aic _fw">
