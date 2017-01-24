@@ -81,9 +81,11 @@
 
 ._r45 {
   transform: rotateZ(45deg);
+  transform-origin: 50% 50%;
 }
 ._r90 {
   transform: rotateZ(90deg);
+  transform-origin: 50% 50%;
 }
 
 hr.nomargin {

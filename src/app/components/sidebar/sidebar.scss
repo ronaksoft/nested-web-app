@@ -9,6 +9,7 @@
   transition: width .3s;
   z-index: 56;
   transform: translateZ(0);
+  @include user-select(none);
   .tooltip {
     white-space: nowrap;
   }

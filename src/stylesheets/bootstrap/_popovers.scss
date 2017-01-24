@@ -83,6 +83,12 @@
     div {
       flex: none;
       margin-right: 8px;
+      display: flex;
+      align-items: center;
+      svg {
+        width: 16px;
+        height: 16px;
+      }
     }
   }
 }
