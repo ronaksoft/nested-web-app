@@ -35,7 +35,7 @@
         self.dispatchEvent(new CustomEvent(
           event.detail.type,{}
         ));
-        // dispatchNotificationPushEvents.apply(self, [event]);
+        dispatchNotificationPushEvents.apply(self, [event]);
       });
 
     }

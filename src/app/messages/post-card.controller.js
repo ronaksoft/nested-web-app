@@ -251,6 +251,11 @@
         }
       }
     });
+    
+    vm.fullView = function (e) {
+      e.preventDefault;
+      $state.go('app.message', { postId : vm.post.id, model : vm.post }, { notify : false});
+    };
 
     // initializing
     (function () {

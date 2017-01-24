@@ -44,7 +44,7 @@
         <div class="post-card-wire"></div>
       </div>
       <post-card class="_fw" data-ng-repeat="msg in ctlMessages.messages track by msg.id" post="msg" scroll-to-view id="{{::msg.id}}"
-                 settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode" has-remove-access="ctlMessages.placeRemoveAccess"></post-card>
+                 settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" has-remove-access="ctlMessages.placeRemoveAccess" add-on="false" comment-board="!ctlMessages.isSentMode"></post-card>
     </div>
     <div class="text-center nst-margin-24" ng-if="ctlMessages.tryAgainToLoadMore">
       <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore()" ng-if="ctlMessages.cache.length == 0"><translate>Click here to load more messages</translate></a>

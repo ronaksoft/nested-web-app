@@ -320,7 +320,7 @@
 
 
     $rootScope.$on('post-quick', function (event, data) {
-      if (_.find(data.allPlaces,{id : vm.currentPlaceId})) {
+      if (_.find(data.allPlaces,{id : vm.currentPlaceId}) || !vm.currentPlaceId) {
         data.isRead = true;
         vm.messages.unshift(data);
       }

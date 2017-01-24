@@ -22,27 +22,54 @@
 
       .state('app.compose', {
         url: '/compose',
-        params : {
+        params: {
           attachments : []
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
+        options: {
           group : 'compose',
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) {
+          if ($uibModalStack) {
+            $uibModalStack.dismissAll();
+          }
         }
       })
+
       .state('app.place-compose', {
         url: '/compose/:placeId',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM,
           attachments : []
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
+        options: {
           group : 'compose',
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) {
+          if ($uibModalStack) {
+            $uibModalStack.dismissAll();
+          }
         }
       })
       .state('app.compose-forward', {
@@ -51,11 +78,24 @@
           postId: NST_DEFAULT.STATE_PARAM,
           attachments : []
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
+        options: {
           group : 'compose',
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) {
+          if ($uibModalStack) {
+            $uibModalStack.dismissAll();
+          }
         }
       })
       .state('app.compose-reply-all', {
@@ -64,11 +104,24 @@
           postId: NST_DEFAULT.STATE_PARAM,
           attachments : []
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
+        options: {
           group : 'compose',
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) {
+          if ($uibModalStack) {
+            $uibModalStack.dismissAll();
+          }
         }
       })
       .state('app.compose-reply-sender', {
@@ -77,11 +130,24 @@
           postId: NST_DEFAULT.STATE_PARAM,
           attachments : []
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
+        options: {
           group : 'compose',
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) {
+          if ($uibModalStack) {
+            $uibModalStack.dismissAll();
+          }
         }
       })
 
@@ -137,7 +203,7 @@
             controllerAs: 'ctlCreate'
 
           }).result.catch(function() {
-            $rootScope.goToLastState();
+            $rootScope.goToLastState(true);
           });
         }],
         onExit: function($uibModalStack,$stateParams ,$state) {

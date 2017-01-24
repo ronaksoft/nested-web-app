@@ -8,6 +8,7 @@
   function NstVmMessage(moment, NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth, NstUtility, NST_PLACE_ACCESS) {
 
     function VmMessage(post, firstPlaceId, myPlaceIds) {
+      var that = this;
 
       this.id = null;
       this.sender = null;
@@ -53,7 +54,22 @@
         this.contentType = post.contentType;
         this.date = post.date;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
-        this.comments = _.map(post.comments, NstSvcCommentMap.toMessageComment);
+
+        _.forEach(post.comments, function (comment, index, foo) {
+          var model = NstSvcCommentMap.toMessageComment(comment);
+          var previousIndex = index - 1;
+          if (previousIndex >= 0) {
+
+            var previousComment = post.comments[previousIndex];
+            if (previousComment.sender.id === model.sender.username) {
+              model.stickedToPrevious = true;
+            }
+          }
+
+          that.comments.push(model);
+        });
+
+        // this.comments = _.map(post.comments, NstSvcCommentMap.toMessageComment);
         this.isReplyed = !!post.replyToId;
         this.isForwarded = !!post.forwardFromId;
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;

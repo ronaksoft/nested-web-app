@@ -42,16 +42,9 @@
       return seq;
     };
 
-    vm.compose = function () {
-      $uibModal.open({
-        animation: false,
-        size: 'compose',
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose'
-      }).result.then(function (result) {
-      }).catch(function (result) {
-      });
+    vm.compose = function ($event) {
+      $event.preventDefault();
+      $state.go('app.compose', {}, {notify: false});
     };
 
     vm.invitation.accept = function (id) {
@@ -161,6 +154,7 @@
     }).catch(function () {
       throw 'SIDEBAR | user can not parse'
     });
+
     getMyPlaces().then(function (places) {
       vm.places = mapPlaces(places);
       fillPlacesNotifCountObject(vm.places);

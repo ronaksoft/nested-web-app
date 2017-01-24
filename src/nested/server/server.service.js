@@ -14,8 +14,8 @@
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
-        streamTimeout: 500,
-        requestTimeout: 1000,
+        streamTimeout: 5000,
+        requestTimeout: 30000,
         maxRetries: 16,
         meta: {}
       };
