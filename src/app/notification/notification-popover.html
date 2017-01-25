@@ -19,7 +19,7 @@
         ng-click="ctlNotifications.onClickMention(notif, $event);">
 
       <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.MENTION"
-           ui-sref="app.message({ postId : notif.mention.post.id }, { notify : false})"
+           ui-sref="app.message({ postId : notif.mention.post.id },{ notify : false})"
            class="item-inner ng-class:{'seen' : notif.isSeen}"
            ng-include="'/app/notification/partials/mention.html'"
            ng-init="notification = notif">

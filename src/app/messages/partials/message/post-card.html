@@ -1,17 +1,22 @@
-<div class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isRead, 'ribbon' : ctlPostCard.isRibbon }" ng-if="!ctlPostCard.post.forbidden">
-  <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled" ng-click="ctlPostCard.switchToPostCard();">
+<div
+  class="post-card _fw ng-class:{'forward-card': ctlPostCard.post.isForwarded ,'reply-card': ctlPostCard.post.isReplyed, 'unread' : !ctlPostCard.post.isRead, 'ribbon' : ctlPostCard.isRibbon }"
+  ng-if="!ctlPostCard.post.forbidden">
+  <section class="collapse-view" ng-if="ctlPostCard.isRibbon && ctlPostCard.ribbonEnabled"
+           ng-click="ctlPostCard.switchToPostCard();">
     <div class="user-avatar-24" user-detail user="{{::ctlPostCard.post.sender}}">
       <img initials="ctlPostCard.post.sender.name" data-url="ctlPostCard.post.sender.avatar" data-width="24"
            data-height="24"
            data-radius="30" class="account-initials-24 _df" data-word-count="2" data-font-size="12"/>
     </div>
     <p ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject"></p>
-    <p ng-if="!ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.body | removeHTMLTags | truncate"></p>
+    <p ng-if="!ctlPostCard.post.subject.length > 0"
+       ng-bind-html="ctlPostCard.post.body | removeHTMLTags | truncate"></p>
   </section>
   <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
-      <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isForwarded" class="icon" href="{{ctlPostCard.urls.chain}}">
+      <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isForwarded" class="icon"
+         href="{{ctlPostCard.urls.full}}">
         <div class="fw">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#forwarded"></use>
@@ -19,7 +24,8 @@
           </svg>
         </div>
       </a>
-      <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isReplyed" class="icon" href="{{ctlPostCard.urls.chain}}">
+      <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isReplyed" class="icon"
+         href="{{ctlPostCard.urls.full}}">
         <div class="re">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#replied"></use>
@@ -31,8 +37,8 @@
     <div class="img _df">
       <div class="user-avatar-38" user-detail user="{{::ctlPostCard.post.sender}}">
         <img initials="ctlPostCard.post.sender.name" data-url="ctlPostCard.post.sender.avatar" data-width="38"
-         data-height="38"
-         data-radius="30" class="account-initials-38 _df" data-word-count="2" data-font-size="16"/>
+             data-height="38"
+             data-radius="30" class="account-initials-38 _df" data-word-count="2" data-font-size="16"/>
       </div>
     </div>
     <div class="_fw _difc">
@@ -40,13 +46,14 @@
       <div class="_df _fw">
       </div>
       <span class="_df _fn post-card-time" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
-        data-tooltip-append-to-body="true" data-tooltip-placement="auto left" ng-click="ctlPostCard.markAsRead()">
+            data-tooltip-append-to-body="true" data-tooltip-placement="auto left" ng-click="ctlPostCard.markAsRead()">
         {{::ctlPostCard.post.date | date : 'short'}}
         <div class="unread-badge-holder">●</div>
       </span>
     </div>
   </section>
-  <section ng-if="ctlPostCard.post.subject.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="post-subject"
+  <section ng-if="ctlPostCard.post.subject.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
+           class="post-subject"
            auto-dir="ctlPostCard.post.subject">
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject">
     </h3>
@@ -58,26 +65,35 @@
     <span ng-if="ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.body"></span>
   </section>
 
-  <section ng-if="ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+  <section  ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <a ng-click="$event.stopPropagation();ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Show less</a>
-    <a ng-click="$event.stopPropagation();ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded"><translate>Show more...</translate></a>
+    <a ng-click="$event.stopPropagation();ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">
+      <translate>Show more...</translate>
+    </a>
   </section>
-  <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="attachments-card">
-    <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
+
+  <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlPostCard.expandProgress">
+    <div class="col-xs-6">
+      <div class="nst-loading nst-loading-size-16  _fr"></div>
+    </div>
+    <div class="col-xs-6 nst-marginbtm-4">
+      <translate>Loading...</translate>
+    </div>
+  </div>
+
+  <section
+    data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
+    class="attachments-card">
+    <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id"
+                          attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <a href="#/places/{{place.id}}/messages" ng-if="ctlPostCard.post.getAllPlacesCount() > 0"
-       data-ng-repeat="place in ctlPostCard.post.allPlaces" class="ng-class:{'del-access' : place.hasDeleteAccess}">#{{place.name}}
-      <svg class="_16svg red" ng-click="$event.stopPropagation();ctlPostCard.remove(place.id);">
-        <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
-      </svg>
-    </a>
-    <a ng-if="ctlPostCard.post.recipients.length > 0"
-       data-ng-repeat="recipient in ctlPostCard.post.recipients">{{recipient.id}}
-    </a>
+       data-ng-repeat="place in ctlPostCard.post.allPlaces" ng-click="$event.stopPropagation()">#{{place.name}}</a>
   </section>
   <hr ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-  <section class="post-footer _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.chainView">
+  <section class="post-footer _difh"
+           ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.chainView">
     <script type="text/ng-template" id="more-uib-tooltip.html">
       <translate>More options</translate>
     </script>
@@ -96,7 +112,7 @@
       <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>{{ctlPostCard.post.commentsCount}} comments</translate></span>
     </a>
     <a ng-if="ctlPostCard.unreadCommentsCount > 0 " class="new-comments-count"
-             auto-dir="ctlPostCard.post.subject">
+       auto-dir="ctlPostCard.post.subject">
       <span>+{{ctlPostCard.unreadCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
@@ -106,6 +122,7 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
           </svg>
+          Forward
         </div>
       </a>
       <a id="test-reply" class="icon _df" href="{{ctlPostCard.urls.reply_all}}">
@@ -114,10 +131,14 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
             <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
           </svg>
+          Reply
         </div>
       </a>
-      <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
-           data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"  data-popover-append-to-body="false" translate-attrs="data-uib-tooltip">
+      <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df"
+           popover-class="white-pop popover-white-nst-activity-places"
+           data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
+           data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"
+           data-popover-append-to-body="false" translate-attrs="data-uib-tooltip">
         <div class="more">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
@@ -129,8 +150,11 @@
   </section>
   <vr class="chain"></vr>
 </div>
-<section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.forbidden && ctlPostCard.commentBoard">
-  <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" post-id="ctlPostCard.post.id" total-comments-count="ctlPostCard.post.commentsCount" on-comment-sent="ctlPostCard.onAddComment"></comments-board>
+<section class="post-card-comment"
+         data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.forbidden && ctlPostCard.commentBoard">
+  <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"
+                  post-id="ctlPostCard.post.id" total-comments-count="ctlPostCard.post.commentsCount"
+                  on-comment-sent="ctlPostCard.onAddComment"></comments-board>
 </section>
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <a href="{{ctlPostCard.urls.reply_all}}">
@@ -143,8 +167,10 @@
       <use xlink:href="/assets/icons/nst-icn20.svg#forward"></use>
     </svg>
   </a>
-  <a ng-if="ctlPostCard.addOn" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="bottom-left auto"
-     data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'" data-popover-append-to-body="true" translate-attrs="data-uib-popover">
+  <a ng-if="ctlPostCard.addOn" popover-class="white-pop popover-white-nst-activity-places"
+     data-popover-placement="bottom-left auto"
+     data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"
+     data-popover-append-to-body="true" translate-attrs="data-uib-popover">
     <svg class="_r90">
       <use xlink:href="/assets/icons/nst-icn20.svg#more"></use>
     </svg>
@@ -161,7 +187,8 @@
   </div>
 
   <div ng-if="ctlPostCard.addOn">
-    <div class="squ"></div><span>shared in {{ctlPostCard.post.getAllPlacesCount()}} places</span>
+    <div class="squ"></div>
+    <span>shared in {{ctlPostCard.post.getAllPlacesCount()}} places</span>
   </div>
   <div ng-if="ctlPostCard.addOn">
     <svg class="chain-ico">
@@ -173,6 +200,10 @@
   </div>
 </div>
 <div class="no-permission" ng-if="ctlPostCard.post.forbidden">
-  <div class="forbidden-icon"><div></div><div></div></div> <translate>Unavailable</translate>
+  <div class="forbidden-icon">
+    <div></div>
+    <div></div>
+  </div>
+  <translate>Unavailable</translate>
 </div>
-<div class="post-card-wire" ng-if="!ctlPostCard.chainView" ></div>
+<div class="post-card-wire" ng-if="!ctlPostCard.chainView"></div>
