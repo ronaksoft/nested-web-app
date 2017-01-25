@@ -26,6 +26,7 @@
       this.firstPlace = null;
       this.isRead = null;
       this.wipeAccess = null;
+      this.ellipsis = null;
 
       this.getAllPlacesCount = function () {
         return this.allPlaces.length;
@@ -54,8 +55,10 @@
         this.contentType = post.contentType;
         this.date = post.date;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
+        this.recipients = post.recipients;
+        this.ellipsis = post.ellipsis;
 
-        _.forEach(post.comments, function (comment, index, foo) {
+        _.forEach(post.comments, function (comment, index) {
           var model = NstSvcCommentMap.toMessageComment(comment);
           var previousIndex = index - 1;
           if (previousIndex >= 0) {

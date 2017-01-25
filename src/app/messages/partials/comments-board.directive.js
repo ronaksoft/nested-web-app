@@ -19,7 +19,10 @@
       controllerAs: 'ctlComments',
       bindToController: {
         comments: '=comments',
-        limit: '=limit'
+        limit: '=limit',
+        postId: '=',
+        totalCommentsCount : '=',
+        onCommentSent : '='
       }
     };
   }

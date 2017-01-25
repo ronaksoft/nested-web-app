@@ -66,6 +66,8 @@
 
       this.isRead = null;
 
+      this.ellipsis = null;
+
       NstTinyPost.call(this, model);
 
       if (model && model.id) {
