@@ -140,7 +140,6 @@
 
 
     function showInvitationModal(notification) {
-
       NstSvcNotificationFactory.dispatchEvent(
         new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.OPEN_INVITATION_MODAL, new NstFactoryEventData(notification.invitation))
       )
@@ -149,7 +148,7 @@
 
     function viewPost(post) {
       $state.go('app.message', {postId: post.id}, {notify: false});
-    };
+    }
 
   }
 

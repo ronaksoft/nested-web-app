@@ -7,9 +7,9 @@
   /** @ngInject */
   function NstSvcActivityFactory($q, $log,
                                  _,
-                                 NST_ACTIVITY_FILTER, NST_EVENT_ACTION, NST_ACTIVITY_FACTORY_EVENT, NST_SRV_PUSH_CMD,
+                                 NST_ACTIVITY_FILTER, NST_EVENT_ACTION,
                                  NstSvcServer, NstSvcPostFactory, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcCommentFactory, NstUtility,
-                                 NstBaseFactory, NstFactoryError, NstFactoryQuery, NstActivity, NstUser, NstTinyComment, NstPost, NstTinyPlace, NstPicture, NstFactoryEventData) {
+                                 NstBaseFactory, NstSvcLogger, NstActivity, NstPost, NstTinyPlace, NstPicture) {
 
 
     function ActivityFactory() {}
@@ -219,7 +219,10 @@
         activity.actor = resultSet[1];
 
         deferred.resolve(activity);
-      }).catch(deferred.reject);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
 
       return deferred.promise;
     }
@@ -247,7 +250,10 @@
         activity.actor = resultSet[2];
 
         deferred.resolve(activity);
-      }).catch(deferred.reject);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
 
       return deferred.promise;
     }
@@ -274,7 +280,10 @@
         activity.place = resultSet[2];
 
         deferred.resolve(activity);
-      }).catch(deferred.reject);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
 
       return deferred.promise;
     }
@@ -299,7 +308,10 @@
         activity.place = resultSet[1];
 
         deferred.resolve(activity);
-      }).catch(deferred.reject);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
 
       return deferred.promise;
     }
@@ -326,7 +338,10 @@
         activity.place = resultSet[2];
 
         deferred.resolve(activity);
-      }).catch(deferred.reject);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
 
       return deferred.promise;
     }
@@ -351,7 +366,10 @@
         activity.actor = resultSet[1];
 
         deferred.resolve(activity);
-      }).catch(deferred.reject);
+      }).catch(function (error) {
+        deferred.resolve(null);
+        NstSvcLogger.error("Activity Factory GET:" , error)
+      });
 
       return deferred.promise;
     }
@@ -371,7 +389,9 @@
 
           var activities = _.map(response.activities, parseActivityIntelligently);
           $q.all(activities).then(function (values) {
-            deferred.resolve(values);
+            deferred.resolve(values.filter(function (obj) {
+              return obj !== null;
+            }));
           }).catch(deferred.reject);
 
         }).catch(deferred.reject);

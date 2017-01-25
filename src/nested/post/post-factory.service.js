@@ -43,7 +43,7 @@
     PostFactory.prototype.getSentMessages = getSentMessages;
     PostFactory.prototype.getMessages = getMessages;
     PostFactory.prototype.getPlaceMessages = getPlaceMessages;
-    PostFactory.prototype.getBookmarksMessages = getBookmarksMessages;
+    PostFactory.prototype.getFavoriteMessages = getFavoriteMessages;
     PostFactory.prototype.getUnreadMessages = getUnreadMessages;
     PostFactory.prototype.parsePost = parsePost;
     PostFactory.prototype.parseMessage = parseMessage;
@@ -485,7 +485,7 @@
       return defer.promise;
     }
 
-    function getBookmarksMessages(setting, bookmarkId) {
+    function getFavoriteMessages(setting, bookmarkId) {
 
       var defer = $q.defer();
 
@@ -517,7 +517,7 @@
       return defer.promise;
     }
 
-    function getBookmarksMessages(setting, bookmarkId) {
+    function getFavoriteMessages(setting, bookmarkId) {
 
       var defer = $q.defer();
 
@@ -583,7 +583,6 @@
 
       return defer.promise;
     }
-
 
     function getMessage(id) {
       var defer = $q.defer();

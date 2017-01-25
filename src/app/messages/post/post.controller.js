@@ -89,7 +89,6 @@
       return $q(function (resolve, reject) {
         loadChainMessages(vm.postId, defaultLimit).then(function (messages) {
           vm.messages = messages;
-          log
           vm.post = _.last(vm.messages);
 
           vm.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(vm.post.places);

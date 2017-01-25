@@ -14,8 +14,8 @@
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
-        streamTimeout: 5000,
-        requestTimeout: 30000,
+        streamTimeout: 500000,
+        requestTimeout: 300000,
         maxRetries: 16,
         meta: {}
       };
@@ -322,6 +322,8 @@
         data['cmd'] = request.method;
         data['_sk'] = this.getSessionKey();
         data['_ss'] = this.getSessionSecret();
+        data['ci']= '';
+        data['ci']= 13;
         data.data = angular.extend(data.data, this.configs.meta);
         request.setData(data);
       }
