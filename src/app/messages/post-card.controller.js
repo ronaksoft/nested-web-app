@@ -21,17 +21,6 @@
       unreadCommentIds = [],
       focusOnSentTimeout = null;
 
-    vm.sendComment = sendComment;
-
-    vm.hasOlderComments = true;
-    vm.commentBoardIsRolled = null;
-    vm.isSendingComment = false;
-    vm.commentBoardLimit = commentBoardMin;
-    vm.showOlderComments = showOlderComments;
-    vm.limitCommentBoard = limitCommentBoard;
-    vm.canShowOlderComments = canShowOlderComments;
-    vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
-    vm.unreadCommentsCount = 0;
     vm.remove = remove;
     vm.retract = retract;
     vm.expand = expand;
@@ -40,54 +29,13 @@
     vm.markAsRead = markAsRead;
     vm.chainView = false;
     vm.switchToPostCard = switchToPostCard;
+    vm.onAddComment = onAddComment;
+    vm.expandProgress = false;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
     }
 
-
-
-    /**
-     * send - add the comment to the list of the post comments
-     *
-     * @param  {Event}  e   keypress event handler
-     */
-    function sendComment(e) {
-
-      var element = angular.element(e.target);
-      if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
-        return;
-      }
-
-      var body = extractCommentBody(e);
-      if (body.length === 0) {
-        return;
-      }
-
-      vm.isSendingComment = true;
-
-      NstSvcCommentFactory.addComment(vm.post.id, body).then(function (comment) {
-        if (!_.some(vm.post.comments, {id: comment.id})) {
-          vm.commentBoardLimit++;
-          vm.post.comments.push(NstSvcCommentMap.toMessageComment(comment));
-        }
-
-        e.currentTarget.value = '';
-        vm.isSendingComment = false;
-        if (focusOnSentTimeout) {
-          $timout.cancel(focusOnSentTimeout);
-        }
-
-        focusOnSentTimeout = $timeout(function () {
-          e.currentTarget.focus();
-        }, 10)
-      }).catch(function (error) {
-        $log.debug(error);
-      });
-
-      markAsRead();
-      return false;
-    }
 
 
     function markAsRead() {
@@ -99,87 +47,9 @@
         });
     }
 
-    /**
-     * sendKeyIsPressed - check whether the pressed key is Enter or not
-     *
-     * @param  {Event} event keypress event handler
-     * @return {bool}        true if the pressed key is Enter
-     */
-    function sendKeyIsPressed(event) {
-      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
-    }
-
-    /**
-     * extractCommentBody - extract and refine the comment
-     *
-     * @param  {Event}    e   event handler
-     * @return {string}       refined comment
-     */
-    function extractCommentBody(e) {
-      return e.currentTarget.value.trim();
-    }
-
-    function limitCommentBoard() {
-      vm.commentBoardLimit = commentBoardMin;
-      vm.commentBoardIsRolled = true;
-      vm.hasOlderComments = true;
-    }
-
-    function clearCommentBoardLimit() {
-      vm.commentBoardLimit = commentBoardMax;
-      vm.commentBoardIsRolled = false;
-    }
-
-    function findOldestComment(post) {
-      return _.first(_.orderBy(post.comments, 'date'));
-    }
-
-    function getDateOfOldestComment(post) {
-      var oldest = findOldestComment(post);
-      var date = null;
-      if (oldest) {
-        date = oldest.date;
-      } else {
-        date = post.date;
-      }
-
-      return NstUtility.date.toUnix(moment(date).subtract(1, 'ms'));
-    }
-
-    function showOlderComments() {
-      if (vm.commentBoardIsRolled) {
-        clearCommentBoardLimit();
-      } else {
-        loadMoreComments();
-      }
-    }
-
-    function canShowOlderComments() {
-      return vm.hasOlderComments || vm.commentBoardIsRolled === true;
-    }
-
-    function commentBoardNeedsRolling() {
-      return vm.commentBoardIsRolled === false;
-    }
-
-    function loadMoreComments() {
-      var date = getDateOfOldestComment(vm.post);
-
-      NstSvcCommentFactory.retrieveComments(vm.post.id, {
-        date: date,
-        limit: commentsSettings.limit
-      }).then(function (comments) {
-        vm.hasOlderComments = comments.length >= commentsSettings.limit;
-        var commentItems = _.orderBy(_.map(comments, NstSvcCommentMap.toMessageComment), 'date', 'asc');
-        vm.post.comments = _.concat(commentItems, vm.post.comments);
-        clearCommentBoardLimit();
-      }).catch(function (error) {
-        $log.debug(error);
-      });
-    }
-
-    function remove() {
-      NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, {id: vm.thisPlace})).then(function (place) {
+    function remove(placeId) {
+      var targetPlaceId = placeId || vm.thisPlace;
+      NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, {id: targetPlaceId })).then(function (place) {
         if (place) {
           vm.post.dropPlace(place.id);
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));
@@ -197,11 +67,14 @@
     }
 
     function expand() {
+      vm.expandProgress = true;
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
         vm.body = post.body;
         vm.isExpanded = true;
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
+      }).finally(function () {
+        vm.expandProgress = false;
       });
     }
 
@@ -209,6 +82,7 @@
       vm.isExpanded = false;
       vm.body = vm.post.body;
     }
+
     /**
      * anonymous function - Reset newCommentsCount when the post has been seen
      *
@@ -251,7 +125,7 @@
         }
       }
     });
-    
+
     vm.fullView = function (e) {
       e.preventDefault;
       $state.go('app.message', { postId : vm.post.id, model : vm.post }, { notify : false});
@@ -263,7 +137,6 @@
       vm.hasOlderComments = vm.post.commentsCount && vm.post.comments ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = vm.post.body;
       // Later on, ask server whether to expand or not
-      //vm.isExpandable = vm.body.length > 250;
 
       vm.urls = {};
       vm.urls['reply_all'] = $state.href('app.compose-reply-all', {
@@ -302,6 +175,10 @@
     function switchToPostCard() {
       // tells the parent scope to open me
       $scope.$emit('post-chain-expand-me', { postId : vm.post.id });
+    }
+
+    function onAddComment(comment) {
+      markAsRead();
     }
   }
 
