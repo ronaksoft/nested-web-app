@@ -137,7 +137,7 @@
       align-items: center;
       flex: none;
       color:$color-wind;
-      svg {
+      >div > svg {
         width: 24px;
         height: 24px;
         fill: $color-solid;

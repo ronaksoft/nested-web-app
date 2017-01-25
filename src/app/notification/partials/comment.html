@@ -1,7 +1,7 @@
 <div class="mention">
   <div>
     <div class="user-avatar-32">
-      <img ng-if="notification.users" initial-avatar="{{::notification.users[0].fullName}}"
+      <img ng-if="notification.users[0]" initial-avatar="{{::notification.users[0].fullName}}"
            picture="{{::notification.users[0] | avatar}}"
            data-width="32" data-height="32" data-radius="32" class="account-initials-32" data-word-count="2"
            data-font-size="12"/>

@@ -607,21 +607,16 @@
       return defer.promise;
     }
 
-    function getChainMessages(id) {
+    function getChainMessages(id, limit) {
       var query = new NstFactoryQuery(id);
       var deferred = $q.defer();
 
       NstSvcServer.request('post/get_chain', {
-        post_id: id
+        post_id: id,
+        limit: limit || 8
       }).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
-          if (_.isObject(post) && post._id) {
             return parseMessage(post);
-          } else if (_.isString(post) && post === "NO ACCESS TO POST") {
-            return $q.resolve({
-              id: null,
-            });
-          }
         });
         $q.all(messagePromises).then(function (messages) {
           deferred.resolve(messages);
