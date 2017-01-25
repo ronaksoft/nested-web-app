@@ -37,12 +37,8 @@
         </ui-select>
       </div>
       <section class="_difc _fw _fn">
-        <input class="compose-input _fw"  focus-me page-change-element  name="subject" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder">
+        <input class="compose-input _fw" page-change-element name="subject" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder">
       </section>
-      <form name="attachmentForm">
-        <input page-change-element type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
-      </form>
-
 
       <section class="nst-compose-message" id="editor-txt">
         <textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body"></textarea>
@@ -50,6 +46,10 @@
         <!--<textarea  nst-mention="#" page-change-element ui-tinymce="ctlCompose.configs.tinymce"-->
                    <!--placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>-->
       </section>
+
+      <form name="attachmentForm">
+        <input page-change-element type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
+      </form>
 
       <div class="nst-attach _dif _fw" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
         <div class="_fw _pr">

@@ -6,7 +6,7 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack,
+  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack, $window,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
@@ -70,9 +70,9 @@
       contentsCss : 'body {overflow:visible;}',
       placeholder : 'Write something...',
       height: 230,
+      startupFocus : false,
       extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea',
       autoGrow_minHeight: 230,
-      autoGrow_maxHeight: 5555,
       sharedSpaces: {
         top: 'editor-btn',
         bottom: 'editor-txt'
@@ -110,6 +110,12 @@
      *****************************/
 
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
+
+    vm.subjectKeyDown = function (e) {
+      if(e.which == 13) {
+        $window.CKEDITOR.instances.editor1.focus();
+      }
+    };
 
 
     vm.search.fn = function (query) {
