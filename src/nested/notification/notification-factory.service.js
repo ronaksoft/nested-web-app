@@ -84,12 +84,11 @@
             .then(function (notifs) {
               var notifications = notifs.filter(function (obj) {
                 var hasData = obj.data !== null;
-                if (!hasData){
+                if (!hasData) {
                   removeNotification(obj.id);
                 }
                 return hasData;
               });
-              console.log(notifications);
               defer.resolve(notifications)
             })
             .catch(function (err) {
@@ -101,7 +100,7 @@
       }, "getNotifications");
     }
 
-    function removeNotification(id){
+    function removeNotification(id) {
       var defer = $q.defer();
       NstSvcServer.request('notification/remove', {
         notification_id: id
@@ -276,7 +275,9 @@
       var postProm = NstSvcPostFactory.get(notif.post_id);
 
       if (notif.data && notif.data.others) {
-        var users = $q.all(_.map(notif.data.others, function (user) {
+        var countOfMappeedUsers = 1;
+        var users = $q.all(_.map(notif.data.others.splice(1,4), function (user) {
+          countOfMappeedUsers++;
           return NstSvcUserFactory.getTiny(user)
         }));
         $q.all([postProm, commentProm, users])
@@ -289,6 +290,7 @@
               post: value[0],
               comment: value[1],
               users: value[2],
+              otherUsersCount: notif.data.others.length - countOfMappeedUsers < 1 ? 0 : notif.data.others.length - countOfMappeedUsers,
               type: notif.type
             });
           })
@@ -305,6 +307,8 @@
               lastUpdate: new Date(notif.last_update),
               post: value[0],
               comment: value[1],
+              users: [],
+              otherUsersCount: 0,
               type: notif.type
             });
           })

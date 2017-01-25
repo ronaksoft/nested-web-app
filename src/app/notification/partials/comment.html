@@ -1,8 +1,8 @@
 <div class="mention">
   <div class="_fn">
     <div class="user-avatar-32">
-      <img ng-if="notification.users[0]" initial-avatar="{{::notification.users[0].fullName}}"
-           picture="{{::notification.users[0] | avatar}}"
+      <img ng-if="notification.comment.sender" initial-avatar="{{::notification.comment.sender.fullName}}"
+           picture="{{::notification.comment.sender | avatar}}"
            data-width="32" data-height="32" data-radius="32" class="account-initials-32" data-word-count="2"
            data-font-size="12"/>
     </div>
@@ -14,13 +14,13 @@
            data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2"
            data-font-size="12"/>
     </div>
-    <!--<div class="more-actors">-->
-      <!--+4-->
-    <!--</div>-->
+    <div class="more-actors" ng-if="notification.otherUsersCount">
+      +{{ notification.otherUsersCount }}
+    </div>
     <p>
       {{ ::notification.comment.sender.fullName }}
-      <!--<small>commented on your post</small>-->
-      <!--{{notification.post.subject}}:<br>-->
+      <small>commented on your post</small>
+      {{notification.post.subject}}:<br>
     </p>
     <p auto-dir="notif.commentBody">
       {{::notification.comment.body | truncate}}
