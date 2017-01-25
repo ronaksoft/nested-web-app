@@ -67,8 +67,12 @@
 
     $scope.editorOptions = {
       language: 'en',
-      extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow',
-      autoGrow_minHeight: 100,
+      contentsCss : 'body {overflow:visible;}',
+      placeholder : 'Write something...',
+      height: 230,
+      extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper',
+      autoGrow_minHeight: 230,
+      autoGrow_maxHeight: 5555,
       sharedSpaces: {
         top: 'editor-btn',
         bottom: 'editor-txt'
@@ -85,46 +89,7 @@
       removePlugins: 'resize,elementspath'
     };
 
-    vm.configs = {
-      tinymce: {
-        inline: false,
-        // fixed_toolbar_container: '.nst-compose-message',
-        statusbar: false,
-        trusted: true,
-        menubar: false,
-        browser_spellcheck: true,
-        selector: 'textarea',
-        height: 200,
-        //content_css : "../styles/tinymce.css",
-        content_style: "@font-face {font-family: 'OpenSans';" +
-        "src: url('../assets/fonts/OpenSans/OpenSans-Regular.woff2') format('woff2')," +
-        "url('../assets/fonts/OpenSans/OpenSans-Regular.woff') format('woff')," +
-        "url('../assets/fonts/OpenSans/OpenSans-Regular.ttf')  format('truetype')," +
-        "url('../assets/fonts/OpenSans/OpenSans-Regular.svg#svgFontName') format('svg');}" +
-        "@font-face {font-family: 'YekanBakh';" +
-        "src: url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2') format('woff2')," +
-        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff')," +
-        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype')," +
-        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
-        "br{opacity:0}" +
-        "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 12pt!important;}",
-        plugins: 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
-        // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
-        // contextmenu_never_use_native: true,
-        toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
-        skin: 'lightgray',
-        theme: 'modern',
-        setup: function (editor) {
-          editor.on('init', function (e) {
-            $scope.activeEditorElement = e.target.contentDocument.activeElement;
-          });
-          editor.on('keydown', function (e) {
-            if (e.keyCode == 13 && $(editor.contentDocument.activeElement).atwho('isSelecting'))
-              return false
-          })
-        }
-      }
-    };
+
 
 
 
@@ -146,9 +111,6 @@
 
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
-    vm.configs.tinymce.onChange = function (event) {
-      // Put logic here for keypress and cut/paste changes
-    };
 
     vm.search.fn = function (query) {
       var initPlace = NstSvcPlaceFactory.parseTinyPlace({
