@@ -351,6 +351,7 @@
         });
       });
       message.setRecipients(recipients);
+      message.setEllipsis(data.ellipsis);
 
       // TODO: Fix parsing recipients
       if (data.post_recipients) {

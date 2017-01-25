@@ -30,6 +30,7 @@
     vm.chainView = false;
     vm.switchToPostCard = switchToPostCard;
     vm.onAddComment = onAddComment;
+    vm.expandProgress = false;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
@@ -66,11 +67,14 @@
     }
 
     function expand() {
+      vm.expandProgress = true;
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
         vm.body = post.body;
         vm.isExpanded = true;
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
+      }).finally(function () {
+        vm.expandProgress = false;
       });
     }
 
@@ -133,7 +137,6 @@
       vm.hasOlderComments = vm.post.commentsCount && vm.post.comments ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = vm.post.body;
       // Later on, ask server whether to expand or not
-      //vm.isExpandable = vm.body.length > 250;
 
       vm.urls = {};
       vm.urls['reply_all'] = $state.href('app.compose-reply-all', {

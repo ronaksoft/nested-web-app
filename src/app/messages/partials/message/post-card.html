@@ -58,7 +58,7 @@
     <span ng-if="ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.body"></span>
   </section>
 
-  <section ng-if="ctlPostCard.isExpandable && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+  <section ng-if="ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <a ng-click="$event.stopPropagation();ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Show less</a>
     <a ng-click="$event.stopPropagation();ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded"><translate>Show more...</translate></a>
   </section>
