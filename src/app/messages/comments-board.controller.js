@@ -6,8 +6,8 @@
     .controller('CommentsBoardController', CommentsBoardController);
 
   function CommentsBoardController($timeout,
-    NstSvcAuth, NstSvcCommentFactory, NstSvcCommentMap, NstUtility, NstSvcTranslation,
-    moment, toastr, _) {
+                                   NstSvcAuth, NstSvcCommentFactory, NstSvcCommentMap, NstUtility, NstSvcTranslation,
+                                   moment, toastr, _) {
     var vm = this;
 
     var commentBoardMin = 3,
@@ -80,7 +80,14 @@
             id: comment.id
           })) {
           vm.commentBoardLimit++;
-          vm.comments.push(NstSvcCommentMap.toMessageComment(comment));
+          var commentItem = NstSvcCommentMap.toMessageComment(comment);
+          var lastComment = _.last(vm.comments);
+
+
+          if (lastComment && lastComment.sender.username === commentItem.sender.username) {
+            commentItem.stickedToPrevious = true;
+          }
+          vm.comments.push(commentItem);
         }
 
         e.currentTarget.value = '';
@@ -163,8 +170,22 @@
         limit: commentsSettings.limit
       }).then(function(comments) {
         vm.hasOlderComments = comments.length >= commentsSettings.limit;
-        var commentItems = _.orderBy(_.map(comments, NstSvcCommentMap.toMessageComment), 'date', 'asc');
-        vm.comments = _.concat(commentItems, vm.comments);
+        var orderedItems = _.orderBy(comments, 'date', 'asc');
+
+        _.forEach(orderedItems, function (comment, index) {
+          var model = NstSvcCommentMap.toMessageComment(comment);
+          var previousIndex = index - 1;
+          if (previousIndex >= 0) {
+
+            var previousComment = orderedItems[previousIndex];
+            if (previousComment.sender.id === model.sender.username) {
+              model.stickedToPrevious = true;
+            }
+          }
+
+          vm.comments.splice(index, 0, model);
+        });
+
         clearCommentBoardLimit();
       }).catch(function(error) {
         console.log(error);
