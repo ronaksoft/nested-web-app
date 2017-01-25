@@ -200,7 +200,7 @@
           if (placeIds) {
             resolveMap(placeIds).then(resolve);
           } else {
-            NstSvcServer.request('account/get_my_places').then(function (data) {
+            NstSvcServer.request('account/get_all_places').then(function (data) {
               var placeIds = data.places.map(createMap);
               NstSvcMyPlaceIdStorage.set('tiny', placeIds);
               resolveMap(placeIds).then(resolve);
@@ -1148,7 +1148,7 @@
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
 
-        NstSvcServer.request('account/get_my_places', {}).then(function (data) {
+        NstSvcServer.request('account/get_all_places', {}).then(function (data) {
           if (data && _.isArray(data.places) && !_.isEmpty(data.places)) {
             deferred.resolve(_.map(data.places, function (place) {
               return new NstTinyPlace(place);
@@ -1341,7 +1341,13 @@
           place_id: id
         }).then(function () {
           deferred.resolve(true);
-        }).catch(deferred.reject);
+        }).catch(function(reason){
+          if (reason === NST_SRV_ERROR.UNAVAILABLE){
+            deferred.resolve(true);
+          } else {
+            deferred.reject(reason)
+          }
+        });
 
         return deferred.promise;
       }, "isIdAvailable", id);

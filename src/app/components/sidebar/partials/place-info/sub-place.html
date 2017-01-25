@@ -21,7 +21,7 @@
       ng-if="ctlPlaceInfo.placesNotifCountObject[place.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[place.id]}}</b></a>
   <span ng-if="place.children.length > 0" class="e2-arrow tw-svg _difv ng-class:{'open' : place.collapse}"
         data-ng-click="place.collapse =! place.collapse" data-ng-model="colp" role="button" tabindex="0">
-      <svg>
+      <svg ng-class="{'visibility-hidden': ctlPlaceInfo.hasNotUnreadPostInChildren(place.id)}">
         <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
       </svg>
       <svg>

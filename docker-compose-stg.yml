@@ -5,6 +5,6 @@ dev:
     volumes:
       - ".:/usr/src/app-dev"
     ports:
-      - "3000:3000"
+      - "3002:3002"
     command: bin/run.staging.sh
 
