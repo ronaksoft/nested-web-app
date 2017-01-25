@@ -67,13 +67,13 @@
   </section>
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <a href="#/places/{{place.id}}/messages" ng-if="ctlPostCard.post.getAllPlacesCount() > 0"
-       data-ng-repeat="place in ctlPostCard.post.allPlaces" class="ng-class:{'del-access' : place.removeAccess}">#{{place.name}}
+       data-ng-repeat="place in ctlPostCard.post.allPlaces" class="ng-class:{'del-access' : place.hasDeleteAccess}">#{{place.name}}
       <svg class="_16svg red" ng-click="$event.stopPropagation();ctlPostCard.remove(place.id);">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
       </svg>
     </a>
-    <a ng-if="ctlPostCard.post.getAllRecipientsCount() > 0"
-       data-ng-repeat="recipient in ctlPostCard.post.allRecipients">#{{recipient}}
+    <a ng-if="ctlPostCard.post.recipients.length > 0"
+       data-ng-repeat="recipient in ctlPostCard.post.recipients">{{recipient.id}}
     </a>
   </section>
   <hr ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
