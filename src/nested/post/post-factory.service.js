@@ -8,8 +8,8 @@
   function NstSvcPostFactory($q, $log,
                              _,
                              NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
-                             NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory, NST_POST_FACTORY_EVENT,
-                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_EVENT_ACTION) {
+                             NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory, NstRecipient,
+                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT) {
 
     function PostFactory() {
 
@@ -344,7 +344,19 @@
       message.setIsRead(_.isUndefined(data.post_read) ? true : data.post_read);
       message.setReplyToId(data.reply_to || null);
       message.setForwardFromId(data.forward_from || null);
-      message.setRecipients(data.recipients);
+      var recipients = _.map(data.post_recipients, function (item) {
+        return new NstRecipient({
+          id: item,
+          email: item
+        });
+      });
+      message.setRecipients(recipients);
+
+      // TODO: Fix parsing recipients
+      if (data.post_recipients) {
+        for (var k in data.post_recipients) {
+        }
+      }
 
       if (data.last_update) {
         message.setUpdatedDate(new Date(data.last_update));
