@@ -145,10 +145,14 @@
     height: auto;
   }
   p {
-    padding: 10px;
+    padding: 0;
+    margin: 0;
   }
   .cke_contents.cke_reset {
     min-height: 230px;
+  }
+  .cke_wysiwyg_div {
+    padding: 0;
   }
 }
 
