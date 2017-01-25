@@ -31,11 +31,34 @@
     vm.switchToPostCard = switchToPostCard;
     vm.onAddComment = onAddComment;
     vm.expandProgress = false;
+    vm.replyAll = replyAll;
+    vm.forward = forward;
+    vm.replyToSender = replyToSender;
+    vm.viewFull = viewFull;
 
     if (vm.mood == 'chain') {
       vm.chainView = true;
     }
 
+    function replyAll($event) {
+      $event.preventDefault();
+      $state.go('app.compose-reply-all', { postId: vm.post.id }, { notify : false });
+    }
+
+    function forward($event) {
+      $event.preventDefault();
+      $state.go('app.compose-forward', { postId: vm.post.id }, { notify : false });
+    }
+
+    function replyToSender($event) {
+      $event.preventDefault();
+      $state.go('app.compose-reply-sender', { postId: vm.post.id }, { notify : false });
+    }
+
+    function viewFull($event) {
+      $event.preventDefault();
+      $state.go('app.message', { postId : vm.post.id, model : vm.post }, { notify : false });
+    };
 
 
     function markAsRead() {
@@ -126,43 +149,12 @@
       }
     });
 
-    vm.fullView = function (e) {
-      e.preventDefault;
-      $state.go('app.message', { postId : vm.post.id, model : vm.post }, { notify : false});
-    };
 
     // initializing
     (function () {
 
-      vm.hasOlderComments = vm.post.commentsCount && vm.post.comments ? vm.post.commentsCount > vm.post.comments.length : false;
+      vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = vm.post.body;
-      // Later on, ask server whether to expand or not
-
-      vm.urls = {};
-      vm.urls['reply_all'] = $state.href('app.compose-reply-all', {
-        postId: vm.post.id
-      });
-
-      vm.urls['reply_sender'] = $state.href('app.compose-reply-sender', {
-        postId: vm.post.id
-      });
-
-      vm.urls['forward'] = $state.href('app.compose-forward', {
-        postId: vm.post.id
-      });
-
-      vm.urls['full'] = $state.href('app.message', { postId : vm.post.id, model : vm.post }, { notify : false});
-
-      if (vm.thisPlace) {
-        vm.urls['chain'] = $state.href('app.place-message-chain', {
-          placeId: vm.thisPlace,
-          postId: vm.post.id
-        });
-      } else {
-        vm.urls['chain'] = $state.href('app.message-chain', {
-          postId: vm.post.id
-        });
-      }
 
     })();
 

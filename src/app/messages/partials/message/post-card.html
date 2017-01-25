@@ -11,7 +11,7 @@
   <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
-      <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isForwarded" class="icon" href="{{ctlPostCard.urls.chain}}">
+      <a ng-click="ctlPostCard.viewFull($event);" ng-if="ctlPostCard.post.isForwarded" class="icon" ui-sref="app.message({ postId : ctlPostCard.post.id })">
         <div class="fw">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#forwarded"></use>
@@ -19,7 +19,7 @@
           </svg>
         </div>
       </a>
-      <a ng-click="$event.stopPropagation()" ng-if="ctlPostCard.post.isReplyed" class="icon" href="{{ctlPostCard.urls.chain}}">
+      <a ng-click="ctlPostCard.viewFull($event);" ng-if="ctlPostCard.post.isReplyed" class="icon" ui-sref="app.message({ postId : ctlPostCard.post.id })">
         <div class="re">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#replied"></use>
@@ -100,7 +100,7 @@
       <span>+{{ctlPostCard.unreadCommentsCount}}</span>
     </a>
     <div class="post-icons _fw _df">
-      <a id="test-forward" href="{{::ctlPostCard.urls.forward}}" ng-click="$event.stopPropagation()" class="icon _df">
+      <a id="test-forward" ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);" class="icon _df">
         <div class="fw">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
@@ -108,7 +108,7 @@
           </svg>
         </div>
       </a>
-      <a id="test-reply" class="icon _df" href="{{ctlPostCard.urls.reply_all}}">
+      <a id="test-reply" class="icon _df" ng-click="ctlPostCard.replyAll($event)" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
         <div class="re">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
@@ -133,12 +133,12 @@
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" post-id="ctlPostCard.post.id" total-comments-count="ctlPostCard.post.commentsCount" on-comment-sent="ctlPostCard.onAddComment"></comments-board>
 </section>
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-  <a href="{{ctlPostCard.urls.reply_all}}">
+  <a ng-click="ctlPostCard.replyAll($event)" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
     <svg>
       <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
     </svg>
   </a>
-  <a href="{{::ctlPostCard.urls.forward}}">
+  <a ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);">
     <svg>
       <use xlink:href="/assets/icons/nst-icn20.svg#forward"></use>
     </svg>

@@ -1,4 +1,4 @@
-<a class="_df list-items _aic _fw" href="{{ctlPostCard.urls.full}}" ng-click="ctlPostCard.fullView($event)" ng-if="!ctlPostCard.chainView">
+<a class="_df list-items _aic _fw" ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.viewFull($event)" ng-if="!ctlPostCard.chainView">
   <div class="_aic _df">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#filter"></use>
@@ -6,7 +6,7 @@
   </div>
   <span><translate>Full view</translate></span>
 </a>
-<a class="_df list-items _aic _fw" href="{{ctlPostCard.urls.reply_sender}}">
+<a class="_df list-items _aic _fw" ng-click="ctlPostCard.replyToSender($event);" ui-sref="app.compose-reply-sender({ postId: ctlPostCard.post.id })">
   <div class="_aic _df">
     <svg class="_16svg">
       <use xlink:href="/assets/icons/nst-icn16.svg#reply"></use>
@@ -39,4 +39,3 @@
   </div>
   <span><translate>Retract</translate></span>
 </a>
-
