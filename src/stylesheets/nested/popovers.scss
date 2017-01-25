@@ -237,6 +237,23 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 
+.pop-profile {
+  width: 224px;
+  span {
+    width: 100%;
+  }
+  small {
+    color: $color-black04;
+    font-size: 12px;
+  }
+  svg {
+    width: 16px!important;
+    height: 16px!important;
+    fill: $color-force!important;
+    margin-right: 8px;
+  }
+}
+
 body[dir="rtl"] {
   .popover-white-nst-msg {
     left: -1px!important;

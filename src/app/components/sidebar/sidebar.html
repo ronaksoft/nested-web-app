@@ -117,13 +117,13 @@
       <script type="text/ng-template" id="profile-uib-tooltip.html">
         <translate>Profile</translate>
       </script>
-      <a class="detailed" href="#/profile"
-         data-uib-popover-template="'app/account/menu.html'"
+      <a class="detailed"
+         data-uib-popover-template="'app/account/profile/profile-popover.html'"
          data-popover-placement="right-bottom auto"
-         data-popover-class="pop-white"
+         data-popover-class="pop-white pop-profile"
          data-popover-append-to-body="false"
          data-popover-popup-close-delay="1000"
-         data-uib-tooltip-template="'profile-uib-tooltip.html'"
+         data-uib-tooltip="Edit profile"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
         <div>
