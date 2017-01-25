@@ -251,6 +251,11 @@
         }
       }
     });
+    
+    vm.fullView = function (e) {
+      e.preventDefault;
+      $state.go('app.message', { postId : vm.post.id, model : vm.post }, { notify : false});
+    };
 
     // initializing
     (function () {
@@ -272,6 +277,8 @@
       vm.urls['forward'] = $state.href('app.compose-forward', {
         postId: vm.post.id
       });
+
+      vm.urls['full'] = $state.href('app.message', { postId : vm.post.id, model : vm.post }, { notify : false});
 
       if (vm.thisPlace) {
         vm.urls['chain'] = $state.href('app.place-message-chain', {

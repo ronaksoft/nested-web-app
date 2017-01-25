@@ -1,11 +1,25 @@
-<ul class="list-unstyled">
-  <li ng-if="memberCtrl.hasRemoveAccess" ng-click="memberCtrl.remove();" class="_df list-items _aic">
-    <i class="menuicon-remove _dib"></i><span class="_dib nst-mood-simple _vat"><translate>Remove</translate></span>
-  </li>
-  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'key_holder'" ng-click="memberCtrl.promote();" class="_df list-items _aic">
-    <i class="_dib menuicon-create"></i><span class="_dib nst-mood-simple _vat"><translate>Promote</translate></span>
-  </li>
-  <li ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'creator'" ng-click="memberCtrl.demote();" class="_df list-items _aic">
-    <i class="_dib menuicon-create-transform"></i><span class="_dib nst-mood-simple _vat"><translate>Demote</translate></span>
-  </li>
-</ul>
+<a ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'key_holder'" ng-click="memberCtrl.promote();" class="_df list-items _aic">
+  <div>
+    <svg class="_16svg crown">
+      <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
+    </svg>
+  </div>
+  <span class="_dib nst-mood-simple _vat"><translate>Promote</translate></span>
+</a>
+<a ng-if="memberCtrl.hasControlAccess && memberCtrl.member.role == 'creator'" ng-click="memberCtrl.demote();" class="_df list-items _aic">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+    </svg>
+  </div>
+  <span class="_dib nst-mood-simple _vat"><translate>Demote</translate></span>
+</a>
+<hr ng-if="!ctlFullNavbar.isPersonal()">
+<a ng-if="memberCtrl.hasRemoveAccess" ng-click="memberCtrl.remove();" class="_df list-items _aic red">
+  <div>
+    <svg class="_16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+    </svg>
+  </div>
+  <span class="_dib nst-mood-simple _vat"><translate>Remove</translate></span>
+</a>

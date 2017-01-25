@@ -1,14 +1,19 @@
 <div ng-repeat="comment in ctlComments.comments | limitTo : ctlComments.limit * -1">
-  <div class="post-card-comments _difh _fw _wrb">
+  <div class="post-card-comments _difh _fw _wrb ng-class:{'sticky' : comment.stickedToPrevious}">
     <div class="user-avatar-24" user-detail user="{{comment.sender}}">
       <img initials="comment.sender.name" data-url="comment.sender.avatar" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
     </div>
     <div class="text _df _fw">
       <p class="_fw">
-        <strong user-detail user="{{comment.sender}}">{{comment.sender.name}}:</strong>&nbsp;
+        <strong user-detail user="{{comment.sender}}">{{comment.sender.name}}:&nbsp;</strong>
         <mark marked="comment.body"></mark>
       </p>
     </div>
     <span class="_df _fn">{{comment.date | passed }}</span>
+    <div class="delete-comment" data-ng-if="ctlPostCard.allowToRemoveComment(comment)" ng-click="ctlPostCard.removeComment(comment);" >
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+      </svg>
+    </div>
   </div>
 </div>

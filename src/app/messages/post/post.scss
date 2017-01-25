@@ -286,11 +286,13 @@
   display: flex;
   align-items: flex-end;
   position: relative;
+  font-size: 13px;
+  color: rgba(0,0,0,.4);
   .chain-tail {
     position: absolute;
     width: 23px;
     height: 32px;
-    left: 0;
+    left: -1px;
     bottom: -2px;
     border-left: 1px solid $color-border ;
     transform: translateX(-100%);

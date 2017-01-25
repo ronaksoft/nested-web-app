@@ -1,5 +1,5 @@
 .butn {
-  user-select: none;
+  @include user-select(none);
   background-color: $color-sense;
   font-size: $font-size-medium;
   font-weight: bold;
@@ -29,7 +29,7 @@
   color: $color-white;
   text-align: center;
   transition: all $animation-dur;
-  user-select: none;
+  @include user-select(none);
   a,span {
     //margin: 4px 0;
     color: $color-white;
@@ -84,7 +84,7 @@
   flex: none;
   text-decoration: none;
   transition: all $animation-dur;
-  user-select: none;
+  @include user-select(none);
   a,span{
     //margin: 4px 0;
     color: $color-white;
@@ -126,7 +126,7 @@
   flex: none;
   text-decoration: none;
   transition: all $animation-dur;
-  user-select: none;
+  @include user-select(none);
   a,span{
     transition: color $animation-dur;
     //margin: 4px 0;

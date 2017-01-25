@@ -38,7 +38,7 @@ body {
 * {
   box-sizing: inherit;
   vertical-align: inherit;
-  &:focus {
+    &:focus {
     outline: none;
   }
   &:visited, &:link ,&:active, &:hover {
