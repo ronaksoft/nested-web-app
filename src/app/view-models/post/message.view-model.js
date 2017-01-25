@@ -54,7 +54,8 @@
         this.contentType = post.contentType;
         this.date = post.date;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
-
+        this.recipients = post.recipients;
+        
         _.forEach(post.comments, function (comment, index) {
           var model = NstSvcCommentMap.toMessageComment(comment);
           var previousIndex = index - 1;

@@ -46,8 +46,9 @@
         });
     }
 
-    function remove() {
-      NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, {id: vm.thisPlace})).then(function (place) {
+    function remove(placeId) {
+      var targetPlaceId = placeId || vm.thisPlace;
+      NstSvcPostInteraction.remove(vm.post, _.filter(vm.post.allPlaces, {id: targetPlaceId })).then(function (place) {
         if (place) {
           vm.post.dropPlace(place.id);
           toastr.success(NstUtility.string.format(NstSvcTranslation.get("The post has been removed from Place {0}."), place.name));

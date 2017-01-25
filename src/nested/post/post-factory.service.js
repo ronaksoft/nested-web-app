@@ -344,6 +344,7 @@
       message.setIsRead(_.isUndefined(data.post_read) ? true : data.post_read);
       message.setReplyToId(data.reply_to || null);
       message.setForwardFromId(data.forward_from || null);
+      message.setRecipients(data.recipients);
 
       if (data.last_update) {
         message.setUpdatedDate(new Date(data.last_update));

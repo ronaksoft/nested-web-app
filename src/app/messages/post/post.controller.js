@@ -39,7 +39,6 @@
     vm.loadMore = loadMore;
 
     (function () {
-
       load(vm.postId).then(function (done) {
         // TODO: uncomment and fix
         // vm.syncId = NstSvcSync.openChannel(_.head(vm.post.allPlaces).id);
@@ -90,7 +89,9 @@
       return $q(function (resolve, reject) {
         loadChainMessages(vm.postId, defaultLimit).then(function (messages) {
           vm.messages = messages;
+          log
           vm.post = _.last(vm.messages);
+
           vm.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(vm.post.places);
           vm.hasRemoveAccess = _.isArray(vm.placesWithRemoveAccess) && vm.placesWithRemoveAccess.length > 0;
 
