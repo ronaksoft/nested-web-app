@@ -1,4 +1,8 @@
-<div ng-repeat="comment in ctlComments.comments | limitTo : ctlComments.limit * -1">
+<div class="_df _fw comments-load" ng-if="ctlComments.canShowOlderComments() || ctlComments.commentBoardNeedsRolling()">
+  <a ng-if="ctlComments.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlComments.showOlderComments()"><translate>View older comments...</translate></a>
+  <a ng-if="ctlComments.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlComments.limitCommentBoard()"><translate>Roll up</translate></a>
+</div>
+<div ng-repeat="comment in ctlComments.comments | limitTo : ctlComments.commentBoardLimit * -1">
   <div class="post-card-comments _difh _fw _wrb ng-class:{'sticky' : comment.stickedToPrevious}">
     <div class="user-avatar-24" user-detail user="{{comment.sender}}">
       <img initials="comment.sender.name" data-url="comment.sender.avatar" data-width="24" data-height="24" data-radius="13" class="account-initials-24 _df" data-word-count="2" data-font-size="8"/>
@@ -10,10 +14,15 @@
       </p>
     </div>
     <span class="_df _fn">{{comment.date | passed }}</span>
-    <div class="delete-comment" data-ng-if="ctlPostCard.allowToRemoveComment(comment)" ng-click="ctlPostCard.removeComment(comment);" >
+    <div class="delete-comment" data-ng-if="ctlComments.allowToRemoveComment(comment)" ng-click="ctlComments.removeComment(comment);" >
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
       </svg>
     </div>
   </div>
+</div>
+<div class="post-card-comment-input _df">
+  <input type="text" nst-mention post-id="{{ctlComments.post.id}}" data-ng-model="ctlComments.post.newComment"  auto-dir="ctlComments.post.newComment"
+         class="_fw" placeholder="write your comment..." ng-keyup="ctlComments.sendComment($event)"
+         ng-disabled="ctlComments.isSendingComment" max-length="1024"  translate-attrs="placeholder"/>
 </div>

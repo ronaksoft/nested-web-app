@@ -46,8 +46,6 @@
 
         return vm.post.isRead ? $q.resolve(true) : markPostAsRead(vm.postId);
       }).then(function (result) {
-        vm.status.ready = true;
-
         NstSvcPostFactory.dispatchEvent(new CustomEvent(NST_POST_EVENT.VIEWED, {
           detail: {
             postId: vm.post.id,
@@ -95,7 +93,6 @@
           vm.post = _.last(vm.messages);
           vm.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(vm.post.places);
           vm.hasRemoveAccess = _.isArray(vm.placesWithRemoveAccess) && vm.placesWithRemoveAccess.length > 0;
-          vm.hasMoreComments = vm.post.commentsCount > vm.commentSettings.limit;
 
           resolve(true);
         }).catch(reject);
@@ -139,8 +136,8 @@
     });
 
     $scope.$on('$destroy', function () {
-      $timeout.cancel(revealNewCommentsTimeout);
-      NstSvcSync.closeChannel(vm.syncId);
+      // $timeout.cancel(revealNewCommentsTimeout);
+      // NstSvcSync.closeChannel(vm.syncId);
     });
 
   }

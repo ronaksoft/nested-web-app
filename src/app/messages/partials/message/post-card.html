@@ -124,16 +124,7 @@
   <vr class="chain"></vr>
 </div>
 <section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.forbidden && ctlPostCard.commentBoard">
-  <div class="_df _fw comments-load" ng-if="ctlPostCard.canShowOlderComments() || ctlPostCard.commentBoardNeedsRolling()">
-    <a ng-if="ctlPostCard.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlPostCard.showOlderComments()"><translate>View older comments...</translate></a>
-    <a ng-if="ctlPostCard.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlPostCard.limitCommentBoard()"><translate>Roll up</translate></a>
-  </div>
-  <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit"></comments-board>
-  <div class="post-card-comment-input _df">
-    <input type="text" nst-mention post-id="{{ctlPostCard.post.id}}" data-ng-model="ctlPostCard.post.newComment"  auto-dir="ctlPostCard.post.newComment"
-           class="_fw" placeholder="write your comment..." ng-keyup="ctlPostCard.sendComment($event)"
-           ng-disabled="ctlPostCard.isSendingComment" max-length="1024"  translate-attrs="placeholder"/>
-  </div>
+  <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" post-id="ctlPostCard.post.id" total-comments-count="ctlPostCard.post.commentsCount" on-comment-sent="ctlPostCard.onAddComment"></comments-board>
 </section>
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <a href="{{ctlPostCard.urls.reply_all}}">

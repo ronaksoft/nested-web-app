@@ -149,24 +149,24 @@
      *
      * @return {Promise}        the removed comment
      */
-    function removeComment(post, comment) {
+    function removeComment(postId, comment) {
       return factory.sentinel.watch(function() {
         var deferred = $q.defer();
 
-        if (!(post && post.id)) {
-          deferred.reject(new Error('post is not provided'));
+        if (!postId) {
+          deferred.reject(new Error('postId is not provided'));
         } else if (!(comment && comment.id)) {
           deferred.reject(new Error('comment is not provided'));
         } else {
           var query = new NstFactoryQuery(comment.id, {
-            postId: post.id
+            postId: postId
           });
           NstSvcServer.request('post/remove_comment', {
-            post_id: post.id,
+            post_id: postId,
             comment_id: query.id
           }).then(function(data) {
-            post.removeComment(comment);
-            deferred.resolve(post);
+            // post.removeComment(comment);
+            deferred.resolve(comment);
           }).catch(function(error) {
             deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
           });
