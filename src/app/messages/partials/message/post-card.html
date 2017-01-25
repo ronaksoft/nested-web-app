@@ -66,7 +66,12 @@
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-    <a href="#/places/{{place.id}}/messages" ng-if="ctlPostCard.post.getAllPlacesCount() > 0" data-ng-repeat="place in ctlPostCard.post.allPlaces" ng-click="$event.stopPropagation()">#{{place.name}}</a>
+    <a href="#/places/{{place.id}}/messages" ng-if="ctlPostCard.post.getAllPlacesCount() > 0" class="ng-class:{'del-access' : false}"
+       data-ng-repeat="place in ctlPostCard.post.allPlaces">#{{place.name}}
+      <svg class="_16svg red" ng-click="$event.stopPropagation()">
+        <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
+      </svg>
+    </a>
   </section>
   <hr ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <section class="post-footer _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.chainView">
@@ -98,7 +103,6 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
             <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
           </svg>
-          Forward
         </div>
       </a>
       <a id="test-reply" class="icon _df" href="{{ctlPostCard.urls.reply_all}}">
@@ -107,7 +111,6 @@
             <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
             <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
           </svg>
-          Reply
         </div>
       </a>
       <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
