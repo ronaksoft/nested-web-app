@@ -30,6 +30,9 @@
 .user-avatar-32 {
   @include avatar(40px,32px,1010px);
 }
+.profile-user-avatar-32 {
+  @include avatar(32px,32px,1010px);
+}
 .user-avatar-38 {
   @include avatar(40px,38px,1010px);
 }
@@ -44,4 +47,16 @@
 }
 .user-avatar-72 {
   @include avatar(80px,72px,1010px);
+}
+
+.user-wrp {
+  padding-top: 12px!important;
+  height: auto!important;
+  align-items: center;
+  .idname {
+    justify-content: center;
+    height: 40px;
+    width: calc(100% - 32px);
+    padding-left: 4px;
+  }
 }

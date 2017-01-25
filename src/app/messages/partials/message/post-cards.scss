@@ -280,8 +280,29 @@ post-card {
     margin: 8px 0;
     flex-wrap: wrap;
     a {
+      display: flex;
+      flex: none;
+      align-items: center;
       margin-right: 16px;
+      line-height: 24px;
       white-space: nowrap;
+      padding-left: 4px;
+      border-radius: 4px;
+      svg {
+        display: none;
+        margin-right: 4px;
+        fill: $color-force;
+      }
+      &.del-access {
+        line-height: 32px;
+        &:hover {
+          font-size: 14px;
+          box-shadow: 0 0 28px -4px rgba(0,0,0,0.75);
+          svg {
+            display: block;
+          }
+        }
+      }
     }
   }
   .post-footer{
