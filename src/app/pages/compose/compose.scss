@@ -136,15 +136,23 @@
 }
 
 .nst-compose-message {
-  display: table;
-  height: calc(100% - 160px);
+  display: flex;
+  flex-shrink: 0;
   width: 100%;
+  flex-grow: 1;
   >div ,>div>div {
-    display: table;
+    display: flex;
     height: auto;
   }
   p {
-    padding: 10px;
+    padding: 0;
+    margin: 0;
+  }
+  .cke_contents.cke_reset {
+    min-height: 230px;
+  }
+  .cke_wysiwyg_div {
+    padding: 0;
   }
 }
 
@@ -180,6 +188,7 @@
   }
 }
 .cke_1_contents {
+  height: 100%;
   body {
     margin: 0;
   }

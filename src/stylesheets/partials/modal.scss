@@ -127,16 +127,25 @@ body.modal-open {
 }
 
 .modal .modal-compose {
-  width: 600px;
-  max-width: 100%;
-  height: 480px;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  min-width: 1024px;
+  overflow-x: scroll;
   display: flex;
-  align-items: center;
-  background-color: $color-white;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 0!important;
+  margin: 0;
   .modal-content {
-    height: 100%;
+    position: relative;
+    top: 150px;
+    background-color: $color-white;
+    width: 600px;
+    min-height: 480px;
+    max-height: calc(100vh - 160px);
     overflow: hidden;
+    border-radius: 4px;
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
       padding: 0;
@@ -156,21 +165,19 @@ body.modal-open {
     display: flex;
     left: 0;
     top: 0;
+    padding-right: 8px;
     align-items: center;
     justify-content: flex-end;
     position: absolute;
-    svg {
-      width: 32px;
-      height: 32px;
-    }
   }
   .modal-bo {
     margin-top: 48px;
     height: calc(100% - 96px);
+    max-height: calc(100vh - 255px);
     //overflow-y: scroll;
     //overflow-x: hidden;
     >p {
-      color: $color-sense;
+      color: $color-sense-wire;
     }
   }
   .modal-ft {
@@ -187,9 +194,13 @@ body.modal-open {
     }
   }
 
+  & + div{
+    background-color: transparent;
+  }
+
 }
 
-.fullCompose .modal .modal-compose {
+.fullCompose .modal .modal-compose  .modal-content{
   width: 100%;
   height: 100%;
   border-radius: 0;
@@ -212,7 +223,7 @@ body.modal-open {
   height: 100%;
   margin: 0;
   .modal-content {
-    height: calc(100% - 56px);
+    min-height: calc(100% - 56px);
     margin-top: 56px;
     background-color: #FAFAFA;
     display: inline-flex;

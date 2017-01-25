@@ -31,6 +31,7 @@
         onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
           $uibModal.open({
             animation: false,
+            backdropClass : 'comdrop',
             size: 'compose',
             templateUrl: 'app/pages/compose/main.html',
             controller: 'ComposeController',

@@ -19,7 +19,7 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
-
+    vm.user = NstSvcAuth.getUser();
     vm.stateParams = $stateParams;
     vm.invitation = {};
     vm.places = [];

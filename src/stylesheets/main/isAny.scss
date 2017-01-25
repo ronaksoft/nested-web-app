@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: row;
   z-index: -99;
+  min-height: 100vh;
 }
 
 .nst-container {
@@ -55,8 +56,8 @@
 
 #content-wrapper {
   //margin-top: 182px;
-  //min-height: calc(100% - 183px);
-  min-height: 100vh;
+  min-height: calc(100% - 134px);
+  //min-height: 100vh;
   //height: 100%;
   clear: both;
   justify-content: center;

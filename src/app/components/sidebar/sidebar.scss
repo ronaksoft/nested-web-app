@@ -568,24 +568,25 @@
   flex-direction: column;
   align-items: center;
   //border-top: 1px $color-breeze solid;
-  a {
+  > a {
     align-items: center;
     justify-content: center;
     height: 40px;
     overflow-x: hidden;
+    svg {
+      fill: $color-white;
+      width: 24px;
+      height: 24px;
+    }
     & > img {
       //margin-left: 22px;
       transition: $animation-dur;
     }
-    &:first-child {
+    &:first-of-type {
       height: 48px;
     }
   }
-  svg {
-    fill: $color-white;
-    width: 24px;
-    height: 24px;
-  }
+
   svg#mentions {
     width: 32px;
     height: 32px;

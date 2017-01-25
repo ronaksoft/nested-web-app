@@ -1,5 +1,5 @@
 <div class="mention">
-  <div>
+  <div class="_fn">
     <div class="user-avatar-32">
       <img ng-if="notification.users[0]" initial-avatar="{{::notification.users[0].fullName}}"
            picture="{{::notification.users[0] | avatar}}"
@@ -14,21 +14,23 @@
            data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2"
            data-font-size="12"/>
     </div>
-    <div class="more-actors">
-      +4
-    </div>
+    <!--<div class="more-actors">-->
+      <!--+4-->
+    <!--</div>-->
     <p>
-      <a>{{ ::notification.comment.sender.fullName }}
-        <small>on</small>
-        {{notification.post.subject}}:</a><br>
-      <span auto-dir="notif.commentBody">{{::notification.comment.body | truncate}}</span>
+      {{ ::notification.comment.sender.fullName }}
+      <!--<small>commented on your post</small>-->
+      <!--{{notification.post.subject}}:<br>-->
+    </p>
+    <p auto-dir="notif.commentBody">
+      {{::notification.comment.body | truncate}}
     </p>
   </div>
-  <div class="ment-date">
+  <div class="ment-date _fn">
     {{notification.date | passed}}
   </div>
-  <svg class="_df _fn">
-    <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
+  <svg class="_df _fn cm-color _16svg">
+    <use xlink:href="/assets/icons/nst-icn16.svg#comments"></use>
   </svg>
 </div>
 

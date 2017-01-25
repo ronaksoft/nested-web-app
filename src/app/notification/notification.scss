@@ -12,10 +12,10 @@
     align-items: center;
     padding: 0 20px;
     flex: none;
-    a {
+    span {
       display: flex;
       flex: 1;
-      color: $color-storm;
+      color: $color-black04;
       @extend .nst-font-medium;
       font-weight: 400;
       font-style: normal;
@@ -65,13 +65,20 @@
         border-bottom: 1px solid $color-border;
         padding-top: 8px;
         p {
-          margin-top: 8px;
           white-space: normal;
           line-height: 16px;
           color: $color-solid;;
           font-size: 13px;
           font-weight: 400;
-          a {
+          margin: 0;
+          &:first-child {
+            margin-top: 4px;
+
+          }
+          &:last-child {
+            margin-bottom: 8px;
+          }
+          span {
             line-height: 16px;
             color: $color-solid;
             font-size: 13px;
@@ -80,13 +87,14 @@
         }
         .ment-date {
           line-height: 21px;
-          color: #c8c8c8;
+          color: $color-black04;
           text-align: right;
           font-weight: 400;
           transition: all $animation-dur;
           font-size: 11px;
           white-space: nowrap;
           flex-direction: row;
+          padding: 0 4px;
         }
         .more-actors {
           width: 32px;

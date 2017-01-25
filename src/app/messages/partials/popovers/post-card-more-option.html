@@ -14,15 +14,15 @@
   </div>
   <span><translate>Reply to sender</translate></span>
 </a>
-<a class="_df list-items _aic _fw">
-  <div class="_aic _df">
-    <svg class="_16svg">
-      <use xlink:href="/assets/icons/nst-icn16.svg#printer"></use>
-    </svg>
-  </div>
-  <span><translate>Print</translate></span>
-</a>
-<div class="line-popover"></div>
+<!--<a class="_df list-items _aic _fw">-->
+  <!--<div class="_aic _df">-->
+    <!--<svg class="_16svg">-->
+      <!--<use xlink:href="/assets/icons/nst-icn16.svg#printer"></use>-->
+    <!--</svg>-->
+  <!--</div>-->
+  <!--<span><translate>Print</translate></span>-->
+<!--</a>-->
+<div ng-if="ctlPostCard.hasRemoveAccess || ctlPostCard.post.wipeAccess" class="line-popover"></div>
 <a ng-if="ctlPostCard.hasRemoveAccess" ng-click="$event.stopPropagation(); ctlPostCard.remove();" class="_df list-items _aic _fw red">
   <div class="_aic _df">
     <svg class="_r45 _16svg">
