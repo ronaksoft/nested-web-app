@@ -196,6 +196,11 @@ post-card {
       left: 0!important;
       transform: translateY(-90%);
     }
+    .pin-post {
+      position: absolute;
+      top: 0;
+      right: 4px;
+    }
   }
   .unread-badge-holder {
     display: none;
