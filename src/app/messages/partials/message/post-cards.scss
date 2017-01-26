@@ -196,6 +196,11 @@ post-card {
       left: 0!important;
       transform: translateY(-90%);
     }
+    .pin-post {
+      position: absolute;
+      top: 0;
+      right: 4px;
+    }
   }
   .unread-badge-holder {
     display: none;
@@ -413,7 +418,6 @@ h3 {
   border-top-width: 0;
   z-index: 10;
   border-radius: 0 0 4px 4px;
-  transition-duration: $animation-dur;
   //overflow: hidden;
   > *:first-child {
     margin-top: 8px;
@@ -423,7 +427,6 @@ h3 {
 .post-card-comments {
   align-items: flex-start;
   padding: 8px 8px 0 8px;
-  transition: 500ms;
   position: relative;
   &:hover {
     background-color: $color-hover-comment;
