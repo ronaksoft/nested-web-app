@@ -130,9 +130,9 @@
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
-  top: 8px !important;
+  top: 7px !important;
   left: auto !important;
-  right: 42px;
+  right: 0px;
   z-index: 36;
   width: 210px;
 }
@@ -271,7 +271,7 @@ body[dir="rtl"] {
     right: 0;
   }
   .popover-white-nst-sort {
-    left: 80px!important;
+    left: 0px!important;
     right: auto;
   }
   .white-pop .popover-content a div, .white-pop .popover-content label div {

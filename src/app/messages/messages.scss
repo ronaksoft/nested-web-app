@@ -20,6 +20,9 @@
   margin: 16px;
   align-self: flex-end;
   width: calc(100% - 32px);
+  span {
+    font-size: 11px;
+  }
   p {
     color: $color-wind;
     margin: 0;
@@ -28,8 +31,8 @@
     line-height: 24px;
     position: relative;
     z-index: 37;
-    height: 24px;
-    width: 24px;
+    height: 16px;
+    width: 16px;
     fill: $color-wind;
   }
 }
