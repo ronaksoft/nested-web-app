@@ -30,7 +30,7 @@
 
 .file-list {
   .file-list-header {
-    height: 36px;
+    height: 48px;
     display: flex;
     //margin-top: 25px;
     border-bottom: 1px solid #f0f0f0;
@@ -38,28 +38,67 @@
     svg {
       width: 23px;
       height: 20px;
-      fill: $color-sense-wire;
+      fill: #C8C8C8;
     }
     &:hover {
       color: $color-solid;
+    }
+    .files-srch {
+      width: 55px;
+      height: 100%;
+      display: flex;
+      position: relative;
+      flex: none;
+      align-items: center;
+      justify-content: center;
+      input {
+        position: absolute;
+        left: 40px;
+        top:50%;
+        transform: translateY(-50%);
+        width: 300px;
+        opacity: 0;
+        transition: opacity $animation-dur;
+      }
+      svg {
+        use:last-of-type {
+          display: none;
+        }
+      }
+      &.srch {
+        svg {
+          use:first-of-type {
+            display: none;
+          }
+          use:last-of-type {
+            display: block;
+          }
+        }
+        input {
+          opacity: 1;
+        }
+      }
     }
     .header-name {
       flex-grow: 1;
       color: #C8C8C8;
       font-size: 13px;
       font-weight: 200;
-      margin: 0 0 10px 16px;
+      align-items: center;
+      display: flex;
+      margin-left: 16px;
       cursor: default;
       &:hover {
         color: $color-solid;
       }
     }
     .header-date {
-      width: 144px;
+      width: 128px;
       color: #C8C8C8;
       font-size: 13px;
-      font-weight: 200;
-      margin-bottom: 10px;
+      align-items: center;
+      display: flex;
+      font-weight: bold;
       cursor: default;
       &:hover {
         color: $color-solid;
@@ -70,7 +109,8 @@
       color: #C8C8C8;
       font-size: 13px;
       font-weight: 200;
-      margin-bottom: 10px;
+      align-items: center;
+      display: flex;
       cursor: default;
       &:hover {
         color: $color-solid;
@@ -159,13 +199,6 @@
   }
 }
 
-.files-input {
-  width: 173px!important;
-  height: 26px!important;
-  margin: 28px 50px 0 0;
-  padding-right: 8px;
-  padding-left: 8px;
-}
 div.files-input {
   flex-grow:4;
 }
