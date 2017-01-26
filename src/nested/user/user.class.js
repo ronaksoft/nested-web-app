@@ -62,6 +62,8 @@
        */
       this.gender = undefined;
 
+      this.searchable = undefined;
+
 
       /**
        * Number of times the user was mentioned

@@ -9,7 +9,7 @@
   function ProfileEditController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
                                  NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture,
-                                 NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation, NstSvcI18n) {
+                                 NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation, NstSvcI18n, NstSvcPlaceFactory) {
     var vm = this;
     var imageLoadTimeout = null;
 
@@ -45,6 +45,7 @@
       gender: 'm',
       dateOfBirth: null,
       country: null,
+      searchable: null,
       picture: {
         id: '',
         file: null,
@@ -129,10 +130,7 @@
     }
 
     (function () {
-      var userPromise = NstSvcUserFactory.get();
-      NstSvcLoader.inject(userPromise);
-
-      userPromise.then(function (user) {
+      NstSvcUserFactory.get().then(function (user) {
 
         vm.model.id = user.getId();
         vm.model.firstName = user.getFirstName();
@@ -147,6 +145,11 @@
           vm.model.picture.id = user.picture.original;
           vm.model.picture.url = user.picture.getUrl("x128");
         }
+
+        return NstSvcPlaceFactory.get(user.id);
+      }).then(function (place) {
+        console.log(place);
+        vm.model.searchable = place.privacy.search;
       }).catch(function (error) {
         $log.debug(error);
       });
@@ -195,12 +198,15 @@
         user.lastName = viewModel.lastName;
         user.phone = viewModel.phone;
         user.gender = viewModel.gender;
-        user.dateOfBirth = moment(viewModel.dateOfBirth).startOf('date').format('YYYY-MM-DD');
+        user.dateOfBirth = viewModel.dateOfBirth;
         user.country = viewModel.country;
 
-        return NstSvcUserFactory.updateProfile(user);
-      }).then(function (user) {
-        deferred.resolve(user);
+        return $q.all([
+          NstSvcUserFactory.updateProfile(user),
+          NstSvcPlaceFactory.update(user.id, { 'privacy.search' : viewModel.searchable })
+        ]);
+      }).then(function (resultSet) {
+        deferred.resolve(resultSet[0]);
       }).catch(deferred.reject);
 
       return deferred.promise;

@@ -118,7 +118,8 @@
         fname: user.getFirstName(),
         lname: user.getLastName(),
         dob : user.getDateOfBirth(),
-        gender : user.getGender()
+        gender : user.getGender(),
+        searchable : user.getSearchable()
       };
 
       var query = new NstFactoryQuery(user.getId(), params);
