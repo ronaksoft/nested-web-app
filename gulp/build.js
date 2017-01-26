@@ -44,7 +44,6 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(jsFilter) // Begin - Javascript Files
     .pipe($.sourcemaps.init())
     .pipe($.ngAnnotate())
-    .pipe($.replace('./../bower_components/emojione/assets/sprites/emojione.sprites.svg', '../assets/fonts/emojione.sprites.svg')) //replace emoji svg path
     .pipe($.uglify({mangle: true, preserveComments: $.uglifySaveLicense})).on('error', conf.errorHandler('Uglify'))
     // TODO: The Obfuscator
     .pipe($.minify())
@@ -61,6 +60,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.rev()) // Rename Files
     .pipe(notIndexFilter.restore) // End Exclude index.html
     .pipe(htmlFilter) // Begin - HTML Files
+    .pipe($.replace('<!-- ckeditor -->', '<script src="/scripts/ckeditor/ckeditor.js"></script>'))
     .pipe($.htmlmin({
       collapseWhitespace: true,
       // Options for html-minify
@@ -84,9 +84,9 @@ gulp.task('fonts', function () {
     .pipe(gulp.dest(path.join(conf.paths.relDist, '/assets/fonts/')));
 });
 
-gulp.task('tinymce', function () {
-  return gulp.src(['src/stylesheets/partials/tinymce.css'])
-  .pipe(gulp.dest(conf.paths.relDist + '/styles/'));
+gulp.task('ckeditor', function () {
+  return gulp.src(['bower_components/ckeditor/**/*.*'])
+  .pipe(gulp.dest(conf.paths.relDist + '/scripts/ckeditor/'));
 });
 
 gulp.task('other', function () {
@@ -106,4 +106,4 @@ gulp.task('clean', function () {
   return $.del([path.join(conf.paths.dist, '/*'), path.join(conf.paths.tmp, '/')]);
 });
 
-gulp.task('build', ['git','html', 'fonts', 'other', 'tinymce']);
+gulp.task('build', ['git','html', 'fonts', 'other', 'ckeditor']);
