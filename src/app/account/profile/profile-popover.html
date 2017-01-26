@@ -1,6 +1,6 @@
 <a class="_difh list-items _fn user-wrp">
   <div class="profile-user-avatar-32">
-    <img initial-avatar="{{ctlSidebar.user.fullName}}" picture="{{ctlSidebar.user | avatar}}" data-width="32" data-height="32"
+    <img initial-avatar="{{ctlSidebar.user.name}}" ng-src="{{ctlSidebar.user.avatar}}" data-width="32" data-height="32"
          data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="12"/>
   </div>
   <div class="idname _difv _fn _txe">
@@ -9,20 +9,20 @@
   </div>
 
 </a>
-<a class="_df list-items _aic" href="#/profile">
+<a class="_df list-items _aic" href="#/profile" ng-click="ctlSidebar.closeProfile()">
   <translate>Profile Settings</translate>
 </a>
 <hr class="line-popover">
 <a class="_df list-items _aic">
   <translate>Install apps</translate>
 </a>
-<a class="_df list-items _aic" href="https://help.nested.me">
+<a class="_df list-items _aic" ng-click="ctlSidebar.closeProfile()" target="_blank" href="https://help.nested.me">
   <translate>Help center</translate>
 </a>
-<a class="_df list-items _aic">
+<a class="_df list-items _aic" ng-click="ctlSidebar.closeProfile()" ui-sref="app.place-compose({ placeId: 'robzizo' })">
   <translate>Report a problem</translate>
 </a>
-<a class="_df list-items _aic" href="https://nested.me/feedback/index.html">
+<a class="_df list-items _aic" target="_blank" ng-click="ctlSidebar.closeProfile()" href="https://nested.me/feedback/index.html">
   <translate>Send a feedback</translate>
 </a>
 <hr class="line-popover">

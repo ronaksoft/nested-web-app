@@ -655,6 +655,13 @@ ul ul > li:last-child > .place-item-inner{
     }
   }
 }
+.side-place > li > ul > li > ul > li > ul > li > ul > li > ul > li:last-child > ul{
+  li .lines:first-of-type + .lines + .lines + .lines + .lines{
+    div {
+      border: none;
+    }
+  }
+}
 .lines:last-of-type {
   .box1 {
     //border-bottom: solid;
