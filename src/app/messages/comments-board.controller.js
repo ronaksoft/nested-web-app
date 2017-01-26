@@ -6,8 +6,8 @@
     .controller('CommentsBoardController', CommentsBoardController);
 
   function CommentsBoardController($timeout,
-    NstSvcAuth, NstSvcCommentFactory, NstSvcCommentMap, NstUtility, NstSvcTranslation,
-    moment, toastr, _) {
+                                   NstSvcAuth, NstSvcCommentFactory, NstSvcCommentMap, NstUtility, NstSvcTranslation,
+                                   moment, toastr, _) {
     var vm = this;
 
     var commentBoardMin = 3,

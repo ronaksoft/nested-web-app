@@ -71,18 +71,25 @@
                   return parseInvitation(notif);
                 }
 
+
               case NST_NOTIFICATION_TYPE.INVITE_RESPOND:
                 if (notif.invite_id !== undefined)
                   return parseInvitationResponse(notif);
 
               case NST_NOTIFICATION_TYPE.COMMENT:
-
                 return parseComment(notif);
             }
           });
           $q.all(notificationPromises)
             .then(function (notifs) {
-              defer.resolve(notifs)
+              var notifications = notifs.filter(function (obj) {
+                var hasData = obj.data !== null;
+                if (!hasData) {
+                  removeNotification(obj.id);
+                }
+                return hasData;
+              });
+              defer.resolve(notifications)
             })
             .catch(function (err) {
               defer.reject(err)
@@ -93,10 +100,20 @@
       }, "getNotifications");
     }
 
+    function removeNotification(id) {
+      var defer = $q.defer();
+      NstSvcServer.request('notification/remove', {
+        notification_id: id
+      }).then(function () {
+        defer.resolve();
+      }).catch(defer.reject);
+      return defer;
+    }
+
     function getAfter(settings) {
       return factory.getNotifications({
         limit: settings.limit,
-        after: settings.date,
+        after: settings.date
       });
     }
 
@@ -135,7 +152,7 @@
 
         NstSvcServer.request('notification/mark_as_read', {
           notification_id: ids
-        }).then(function (data) {
+        }).then(function () {
           factory.getNotificationsCount().then(function (count) {
             factory.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
           }).catch(defer.reject);
@@ -207,40 +224,49 @@
             mention: mention,
             type: data.type
           });
-      }).catch(function (err) {
-
-        deferred.reject()
+      }).catch(function () {
+        deferred.resolve({id: data._id, data: null});
       });
 
       return deferred.promise;
     }
 
     function parseInvitation(data) {
-      return NstSvcInvitationFactory.get(data.invite_id)
+      var deferred = $q.defer();
+
+      NstSvcInvitationFactory.get(data.invite_id)
         .then(function (invite) {
-          return {
+          deferred.resolve({
             id: data._id,
             isSeen: data.read,
             date: new Date(data.timestamp),
             invitation: invite,
             type: data.type
-          }
-
-        })
+          })
+        }).catch(function () {
+        deferred.resolve({id: data._id, data: null});
+      });
+      return deferred.promise;
     }
 
     function parseInvitationResponse(data) {
-      return NstSvcInvitationFactory.get(data.invite_id)
+      var deferred = $q.defer();
+
+      NstSvcInvitationFactory.get(data.invite_id)
         .then(function (invite) {
-          return {
+          deferred.resolve({
             id: data._id,
             isSeen: data.read,
             date: new Date(data.timestamp),
             invitation: invite,
             type: data.type
-          }
-
+          })
         })
+        .catch(function () {
+          deferred.resolve({id: data._id, data: null});
+        });
+
+      return deferred.promise;
     }
 
     function parseComment(notif) {
@@ -249,7 +275,9 @@
       var postProm = NstSvcPostFactory.get(notif.post_id);
 
       if (notif.data && notif.data.others) {
-        var users = $q.all(_.map(notif.data.others, function (user) {
+        var countOfMappeedUsers = 1;
+        var users = $q.all(_.map(notif.data.others.splice(1,4), function (user) {
+          countOfMappeedUsers++;
           return NstSvcUserFactory.getTiny(user)
         }));
         $q.all([postProm, commentProm, users])
@@ -262,11 +290,12 @@
               post: value[0],
               comment: value[1],
               users: value[2],
+              otherUsersCount: notif.data.others.length - countOfMappeedUsers < 1 ? 0 : notif.data.others.length - countOfMappeedUsers,
               type: notif.type
             });
           })
-          .catch(function (err) {
-            console.log(err)
+          .catch(function () {
+            defer.resolve({id: data._id, data: null});
           })
       } else {
         $q.all([postProm, commentProm])
@@ -278,11 +307,13 @@
               lastUpdate: new Date(notif.last_update),
               post: value[0],
               comment: value[1],
+              users: [],
+              otherUsersCount: 0,
               type: notif.type
             });
           })
-          .catch(function (err) {
-            console.log(err)
+          .catch(function () {
+            defer.resolve({id: data._id, data: null})
           });
       }
 

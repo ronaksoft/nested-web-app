@@ -213,7 +213,7 @@
 
         case 'app.messages-favorites':
         case 'app.messages-favorites-sorted':
-          return NstSvcPostFactory.getBookmarksMessages(vm.messagesSetting);
+          return NstSvcPostFactory.getFavoriteMessages(vm.messagesSetting);
 
         case 'app.place-messages-unread':
         case 'app.place-messages-unread':
