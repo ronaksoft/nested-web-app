@@ -692,7 +692,6 @@ body.scrolled {
 
 .menu-links-butn {
   color: $color-breeze;
-  fill: $color-breeze;
   line-height: 22px;
   text-align: center;
   cursor: pointer;
@@ -702,11 +701,13 @@ body.scrolled {
   font-size: 18px;
   font-weight: 400;
   margin: 0 20px;
-  transition: color,fill $animation-dur;
+  //transition: color $animation-dur;
   span {
-    transition: color $animation-dur;
+    //transition: color $animation-dur;
   }
   svg {
+    //transition: fill $animation-dur;
+    fill: $color-breeze;
     display: none;
   }
   &:first-of-type {
@@ -715,12 +716,16 @@ body.scrolled {
   }
   &:hover {
     color: $color-solid;
-    fill: $color-solid;
+    svg {
+      fill: $color-solid;
+    }
   }
   &.active {
     border-bottom: 3px solid $color-sense;
     color: $color-sense-wire;
-    fill: $color-sense-wire;
+    svg {
+      fill: $color-sense-wire;
+    }
     &:hover {
       color: $color-sense-wire;
       fill: $color-sense-wire;
