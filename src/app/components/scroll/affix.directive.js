@@ -86,6 +86,7 @@
             $element.css('position', '');
             $element.css('top', '');
             $element.css('left', '');
+            $element.css('right', '');
             $element.css('width', '');
             $element.css('height', '');
           }
@@ -95,7 +96,8 @@
             if ($window.pageYOffset > topOffset && !fixed) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-              $element.css('left', offLeft + 'px');
+              if(!isRTL)$element.css('left', offLeft + 'px');
+              if(isRTL)$element.css('right', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               fixed = true;

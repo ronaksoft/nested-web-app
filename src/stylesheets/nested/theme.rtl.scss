@@ -48,7 +48,7 @@ body[dir="rtl"] {
     }
   }
   .nst-container {
-    margin-left: 0;
+    margin-left: 0!important;
     margin-right: 272px;
   }
   .tick {
@@ -147,8 +147,7 @@ body[dir="rtl"] {
     left: 0;
   }
   .nst-navbar .place-info {
-    left: 0;
-    right: 72px;
+    float: right;
   }
   .icon-logo {
     left: auto;
@@ -164,6 +163,45 @@ body[dir="rtl"] {
   #top-nav-container ul ul li {
     padding-left: 0;
     padding-right: 16px;
+  }
+  .sidebar-wrapper .unreadPlace {
+    right: -12px;
+    left: auto;
+  }
+  .nst-navbar-f {
+    left: 0;
+    right: 272px;
+  }
+  .post-card-comments.sticky .text {
+    margin-left: auto;
+    margin-right: 40px;
+  }
+  nst-navbar .nst-navbar.nfeed .menu-links-butn span {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+  nst-navbar .place-logo {
+    float: right;
+  }
+
+  .ui-select-multiple.ui-select-bootstrap .ui-select-match-item div.selected-innter .place-name {
+    padding: 0 4px 0 28px;
+    margin-right: -3px;
+  }
+  .ui-select-multiple.ui-select-bootstrap .ui-select-match-item .close {
+    right: auto;
+    left: 8px;
+  }
+  * [class*="account-initials-"] {
+    margin-left: 8px;
+    margin-right: 0;
+  }
+  .ui-select-bootstrap .ui-select-choices-row>a {
+    text-align: right;
+  }
+  .margin-l-50 {
+    margin-right: 50px;
+    margin-left: 0;
   }
 
 }
