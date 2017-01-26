@@ -15,10 +15,13 @@
            onchange="angular.element(this).scope().ctlSettings.loadImage(event)"/>
 
     <div class="det">
-      <h3 id="place-name" data-ng-if="ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true"
-          editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.updateName($data);" translate-attrs="data-uib-tooltip">
+      <script type="text/ng-template" id="place-name-tooltip.html">
+        <translate>Place Name</translate>
+      </script>
+      <h3 id="place-name" data-ng-if="ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip-template="'place-name-tooltip.html" data-tooltip-append-to-body="true"
+          editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.updateName($data);">
         {{ctlSettings.place.name || 'empty'}}<a class="change-button"><translate>change</translate></a></h3>
-      <h3 data-ng-if="!ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip="Place Name" data-tooltip-append-to-body="true" translate-attrs="data-uib-tooltip">
+      <h3 data-ng-if="!ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip-template="'place-name-tooltip.html" data-tooltip-append-to-body="true">
         {{ctlSettings.place.name || 'empty'}}</h3>
 
       <h5 class="nst-mood-storm" ng-if="ctlSettings.place.privacy.receptive == 'external'">{{ctlSettings.place.id
@@ -26,11 +29,14 @@
     </div>
   </div>
   <div class="place-des">
+    <script type="text/ng-template" id="place-description-tooltip.html">
+      <translate>Place description</translate>
+    </script>
     <p data-ng-if="ctlSettings.accesses.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto" data-tooltip-append-to-body="true"
-       data-uib-tooltip="Place description" editable-text="ctlSettings.place.description"
-       onbeforesave="ctlSettings.updateDescription($data);" translate-attrs="data-uib-tooltip">{{ctlSettings.place.description || 'empty'}}</p>
-    <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip="Place description" data-tooltip-append-to-body="true"
-       data-ng-if="!ctlSettings.accesses.hasControlAccess" translate-attrs="data-uib-tooltip">{{ctlSettings.place.description || 'empty'}}</p>
+       data-uib-tooltip-template="'place-description-tooltip.html'" editable-text="ctlSettings.place.description"
+       onbeforesave="ctlSettings.updateDescription($data);">{{ctlSettings.place.description || 'empty'}}</p>
+    <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip-template="'place-description-tooltip.html'" data-tooltip-append-to-body="true"
+       data-ng-if="!ctlSettings.accesses.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</p>
   </div>
   <p class="input-lab" ng-if="ctlSettings.isClosedPlace"><translate>Who can post messages to this Place?</translate></p>
   <div ng-if="ctlSettings.isClosedPlace" class="recive-set" ng-class="{'preview' : !ctlSettings.changeReceptiveMode}">
@@ -49,7 +55,9 @@
       <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace" >
         <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-        </svg>{{ ctlSettings.place.policy.add_post === 'creators' ? 'Managers' : 'Members'}}
+        </svg>
+        <translate ng-if="ctlSettings.place.policy.add_post == 'creators'">Managers</translate>
+        <translate ng-if="ctlSettings.place.policy.add_post != 'creators'">Members</translate>
       </h3>
       <h3 ng-if="ctlSettings.isSubPersonalPlace" >
         <svg class="tick">
@@ -64,8 +72,9 @@
           <translate ng-if="!ctlSettings.place.policy.add_post">All Members can post messages to this Place.</translate>
         </p>
         <p ng-if="ctlSettings.isSubPersonalPlace">Only you can post messages to this Place.</p>
-        <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace"><tranlate>
-          Only <b>{{ctlSettings.place.name }}</b> {{ctlSettings.place.policy.add_post === 'creators' ? "Managers" : "Members"}} can view Place contents.</tranlate>
+        <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">
+          <tranlate ng-if="ctlSettings.place.policy.add_post == 'creators'">Only <b>{{ctlSettings.place.name}}</b> Managers can view Place contents.</tranlate>
+          <tranlate ng-if="ctlSettings.place.policy.add_post != 'creators'">Only <b>{{ctlSettings.place.name}}</b> Members can view Place contents.</tranlate>
         </p>
       </div>
 
@@ -99,7 +108,7 @@
       <h3 ng-if="!ctlSettings.isGrandPlace">
         <svg class="tick">
           <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-        </svg><translate>{{ ctlSettings.grandPlace.name }}Members</translate></h3>
+        </svg><translate>{{ctlSettings.grandPlace.name}} Members</translate></h3>
       <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace"><translate>All <b>{{ ctlSettings.grandPlace.name }}</b> Members can post messages to this Place.</translate></p>
       <p ng-if="!ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace"><translate>Only you can view the contents of this Place.</translate></p>
       <p ng-if="ctlSettings.isGrandPlace"><translate>Only Nested users can post messages to this Place.</translate></p>
