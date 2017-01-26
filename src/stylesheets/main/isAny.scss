@@ -29,7 +29,9 @@
   margin-left: 272px;
   width: calc(100% - 272px);
 }
-
+.nst-content.second-view {
+  height: 100%;
+}
 .nst-content {
   display: inline-flex;
   justify-content: center;
