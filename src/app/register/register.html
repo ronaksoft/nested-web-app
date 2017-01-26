@@ -47,7 +47,7 @@
           <a href ng-click="ctlRegister.step = 1;"><translate>That's not me!</translate></a>
         </div>
         <div class="nst-mood-storm nst-font-medium nst-margin-8">
-          <translate>4-digit verification code</translate>
+          <translate>6-digit verification code</translate>
         </div>
         <p class="nst-mood-lively" data-ng-if="ctlRegister.verificationWrongCode">
           <translate>You've entered a wrong code</translate>
@@ -55,7 +55,7 @@
 
         <div class="nst-marginbtm-16">
           <div class="form-group">
-            <input id="verification_code" maxlength="4" minlength="4" name="verification_code" class="form-control" ng-model="ctlRegister.verificationCode" required autofocus/>
+            <input id="verification_code" maxlength="6" minlength="6" name="verification_code" class="form-control" ng-model="ctlRegister.verificationCode" required autofocus/>
           </div>
         </div>
 
@@ -82,9 +82,9 @@
         </div>
         <div class="form-group" ng-class="{ 'has-error' : (registrationForm.nested_username.$invalid || ctlRegister.usernameErrors.length > 0) && registrationForm.nested_username.$touched }">
           <label ng-if="!registrationForm.nested_username.$error.required && ctlRegister.usernameErrors.length == 0 || !registrationForm.nested_username.$touched"><translate>Choose your username:</translate>&nbsp;</label>
-          <div ng-if="ctlRegister.usernameValidationStatus == 'checking' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-storm" style="display: inline">checking...</div>
-          <div ng-if="ctlRegister.usernameValidationStatus == 'available' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-cheerful" style="display: inline">available</div>
-          <div ng-if="ctlRegister.usernameValidationStatus == 'exists' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-lively" style="display: inline">unavailable</div>
+          <div ng-if="ctlRegister.usernameValidationStatus == 'checking' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-storm" style="display: inline"><translate>checking...</translate></div>
+          <div ng-if="ctlRegister.usernameValidationStatus == 'available' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-cheerful" style="display: inline"><translate>available</translate></div>
+          <div ng-if="ctlRegister.usernameValidationStatus == 'exists' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-lively" style="display: inline"><translate>unavailable</translate></div>
           <label class="error-message" ng-if="registrationForm.nested_username.$error.required && ctlRegister.usernameErrors.length == 0 && registrationForm.nested_username.$touched"><translate>Username is required</translate></label>
           <label class="error-message" ng-if="!registrationForm.nested_username.$error.required && ctlRegister.usernameErrors.length > 0 && registrationForm.nested_username.$touched"><translate>Username is not valid</translate></label>
           <input id="uid" aria-invalid="false" class="form-control" name="nested_username" type="text" ng-model="ctlRegister.username" tabindex="1"

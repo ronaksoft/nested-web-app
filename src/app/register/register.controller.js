@@ -29,7 +29,7 @@
         vm.submitPhoneNumber();
         vm.step = 2;
       } else {
-        vm.step = 3;
+        vm.step = 1;
       }
 
     })();
@@ -79,7 +79,7 @@
       request.post().then(function (data) {
         if (data.status === 'ok') {
           deferred.resolve({
-            verificationId : data.vid
+            verificationId : data.data.vid
           });
         } else if (data.status === 'err') {
           if (data.err_code === 5) {
@@ -194,8 +194,8 @@
       var request = new NstHttp('', {
         cmd : 'auth/verify_code',
         data : {
-          vid: verificationId,
-          code: code
+          vid : verificationId,
+          code : code,
         }
       });
 
@@ -257,15 +257,17 @@
         });
 
         ajax.post().then(function (data) {
-          if (data.data.status === "ok") {
+          if (data.status === "ok") {
             NstSvcAuth.login(credentials, true).then(function () {
               return $state.go(NST_DEFAULT.STATE);
             }).catch(function () {
               return $state.go("signin");
             });
-          } else if (data.data.status === "err") {
+          } else if (data.status === "err") {
             if (data.data.err_code === 5 && data.data.items[0] === 'uid') {
               toastr.warning(NstSvcTranslation.get("This username is already taken."));
+            } else if (data.data.err_code === 5 && data.data.items[0] === 'phone') {
+              toastr.warning(NstSvcTranslation.get("This phonenumber is already used."));
             } else {
               toastr.error(NstSvcTranslation.get("Sorry, an error has occurred in creating your account. Please contact us."));
             }
