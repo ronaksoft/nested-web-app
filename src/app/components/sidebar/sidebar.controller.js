@@ -26,7 +26,7 @@
     vm.onPlaceClick = onPlaceClick;
     vm.togglePlace = togglePlace;
     vm.isOpen = false;
-    vm.mentionOpen = false;
+    vm.mentionOpen = vm.profileOpen = false;
     vm.openCreatePlaceModal = openCreatePlaceModal;
 
     /*****************************
@@ -138,6 +138,10 @@
     $scope.$on('close-mention', function () {
       vm.mentionOpen = false;
     });
+
+    vm.closeProfile = function () {
+      vm.profileOpen = false;
+    };
 
     /*****************************
      *****  Controller Logic  ****

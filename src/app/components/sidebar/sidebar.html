@@ -121,17 +121,18 @@
          data-uib-popover-template="'app/account/profile/profile-popover.html'"
          data-popover-placement="right-bottom auto"
          data-popover-class="pop-white pop-profile"
+         data-popover-is-open="ctlSidebar.profileOpen"
          data-popover-append-to-body="false"
-         data-popover-popup-close-delay="1000"
+         data-popover-trigger="none"
          data-uib-tooltip="Edit profile"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
-        <div>
+        <div ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;$event.preventDefault();$event.stopPropagation()">
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#gear"></use>
           </svg>
         </div>
-        <translate>Profile</translate>
+        <translate ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;$event.preventDefault();$event.stopPropagation()">Profile</translate>
       </a>
       <script type="text/ng-template" id="logout-uib-tooltip.html">
         <translate>Log out</translate>
