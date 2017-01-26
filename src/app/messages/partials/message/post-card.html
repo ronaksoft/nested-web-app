@@ -8,6 +8,7 @@
     <p ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject"></p>
     <p ng-if="!ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.body | removeHTMLTags | truncate"></p>
   </section>
+
   <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
@@ -45,12 +46,19 @@
         <div class="unread-badge-holder">●</div>
       </span>
     </div>
+    <div class="pin-post">
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
+      </svg>
+    </div>
   </section>
+
   <section ng-if="ctlPostCard.post.subject.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="post-subject"
            auto-dir="ctlPostCard.post.subject">
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject">
     </h3>
   </section>
+
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
            ng-if="ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
            auto-dir="ctlPostCard.post.body">
@@ -77,6 +85,7 @@
   <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && ctlPostCard.viewSetting.attachments && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="attachments-card">
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
   </section>
+
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <a href="#/places/{{place.id}}/messages" ng-if="ctlPostCard.post.getAllPlacesCount() > 0"
        data-ng-repeat="place in ctlPostCard.post.allPlaces" class="ng-class:{'del-access' : place.hasDeleteAccess}">#{{place.name}}
@@ -88,7 +97,9 @@
        data-ng-repeat="recipient in ctlPostCard.post.recipients">{{recipient.id}}
     </a>
   </section>
+
   <hr ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+
   <section class="post-footer _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.chainView">
     <script type="text/ng-template" id="more-uib-tooltip.html">
       <translate>More options</translate>
@@ -139,11 +150,14 @@
       </div>
     </div>
   </section>
+
   <vr class="chain"></vr>
 </div>
+
 <section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.forbidden && ctlPostCard.commentBoard">
   <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" post-id="ctlPostCard.post.id" total-comments-count="ctlPostCard.post.commentsCount" on-comment-sent="ctlPostCard.onAddComment"></comments-board>
 </section>
+
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <a ng-click="ctlPostCard.replyAll($event)" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
     <svg>
@@ -184,7 +198,5 @@
     <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>{{ctlPostCard.post.commentsCount}} comments</translate></span>
   </div>
 </div>
-<div class="no-permission" ng-if="ctlPostCard.post.forbidden">
-  <div class="forbidden-icon"><div></div><div></div></div> <translate>Unavailable</translate>
-</div>
+
 <div class="post-card-wire" ng-if="!ctlPostCard.chainView" ></div>
