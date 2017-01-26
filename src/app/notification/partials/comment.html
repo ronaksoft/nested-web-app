@@ -7,30 +7,37 @@
            data-font-size="12"/>
     </div>
   </div>
-  <div class="_difv">
-    <div class="user-avatar-24" ng-if="notification.users.length > 1" ng-repeat="user in notification.users">
-      <img initial-avatar="{{::user.fullName}}"
-           picture="{{::user | avatar}}"
-           data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2"
-           data-font-size="12"/>
+  <div class="_difh f1 _fn bottom-border">
+    <div class="_difv f1">
+      <div class="_difh _fn">
+        <div class="top-user-avatar-24" ng-if="notification.users.length > 1" ng-repeat="user in notification.users">
+          <img initial-avatar="{{::user.fullName}}"
+               picture="{{::user | avatar}}"
+               data-width="24" data-height="24" data-radius="24" class="account-initials-24" data-word-count="2"
+               data-font-size="12"/>
+        </div>
+        <div class="more-actors" ng-if="notification.otherUsersCount">
+          +{{ notification.otherUsersCount }}
+        </div>
+      </div>
+      <p>
+        <span>{{ ::notification.comment.sender.fullName }} </span>
+        <span ng-if="notification.users[0]">and {{ ::notification.users[0].fullName }} </span>
+        <span ng-if="notification.users[1]">and {{ ::notification.users[1].fullName }} </span>
+        <span ng-if="notification.users[2]">and {{ ::notification.users[2].fullName }} </span>
+        <small ng-if="notification.users[0]">commented on your post</small>
+        <!--{{notification.post.subject}}:<br>-->
+      </p>
+      <p auto-dir="notif.commentBody"  ng-if="notification.users.length < 1">
+        {{::notification.comment.body | truncate}}
+      </p>
     </div>
-    <div class="more-actors" ng-if="notification.otherUsersCount">
-      +{{ notification.otherUsersCount }}
+    <div class="ment-date _fn">
+      {{notification.date | passed}}
     </div>
-    <p>
-      {{ ::notification.comment.sender.fullName }}
-      <small>commented on your post</small>
-      {{notification.post.subject}}:<br>
-    </p>
-    <p auto-dir="notif.commentBody">
-      {{::notification.comment.body | truncate}}
-    </p>
+    <svg class="_df _fn cm-color _16svg">
+      <use xlink:href="/assets/icons/nst-icn16.svg#comments"></use>
+    </svg>
   </div>
-  <div class="ment-date _fn">
-    {{notification.date | passed}}
-  </div>
-  <svg class="_df _fn cm-color _16svg">
-    <use xlink:href="/assets/icons/nst-icn16.svg#comments"></use>
-  </svg>
 </div>
 
