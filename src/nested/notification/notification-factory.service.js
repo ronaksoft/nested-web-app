@@ -295,7 +295,7 @@
             });
           })
           .catch(function () {
-            defer.resolve({id: data._id, data: null});
+            defer.resolve({id: notif._id, data: null});
           })
       } else {
         $q.all([postProm, commentProm])
@@ -313,7 +313,7 @@
             });
           })
           .catch(function () {
-            defer.resolve({id: data._id, data: null})
+            defer.resolve({id: notif._id, data: null})
           });
       }
 
