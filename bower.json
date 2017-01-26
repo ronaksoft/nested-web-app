@@ -34,12 +34,11 @@
     "perfect-scrollbar": "^0.6.12",
     "At.js": "jquery.atwho#^1.5.1",
     "selectonic": "^0.6.3",
-    "gsap": "^1.19.0",
-    "scrollmagic": "^2.0.5",
     "libphonenumber": "^0.9.4",
     "Medium.js": "medium#^1.0.1",
     "ng-device-detector": "^3.0.1",
-    "angular-ckeditor": "^1.0.3"
+    "angular-ckeditor": "^1.0.3",
+    "ckeditor": "^4.6.2"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"
