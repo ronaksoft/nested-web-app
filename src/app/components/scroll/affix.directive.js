@@ -96,8 +96,8 @@
             if ($window.pageYOffset > topOffset && !fixed) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-              if(!isRTL)$element.css('left', offLeft + 'px');
-              if(isRTL)$element.css('right', offLeft + 'px');
+              if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
+              if (isRTL == 'rtl')$element.css('right', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               fixed = true;
