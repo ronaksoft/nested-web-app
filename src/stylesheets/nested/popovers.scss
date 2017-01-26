@@ -239,6 +239,9 @@ input[type="checkbox"]:checked + label.setting {
 
 .pop-profile {
   width: 224px;
+  .popover-content {
+    padding: 12px 0;
+  }
   span {
     width: 100%;
   }
