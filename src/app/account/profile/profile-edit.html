@@ -1,5 +1,3 @@
-<nst-navbar controls="ctlProfileEdit.controls" nav-title="Profile" ready-to-show="true" class="second-view"></nst-navbar>
-
 <div class="nst-content second-view" id="content-wrapper" page-change="ctlProfileEdit.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
   <section class="content _bgwhite">
     <div class="navbarillu"></div>
@@ -57,11 +55,11 @@
             </select>
           </div>
           <div class="form-group">
-            <label><translate>Searchable</translate></label>
+            <label><translate>Do you want to be searched by other Nested users?</translate></label>
             <div class="place-switch">
             <input type="checkbox" name="checkbox_id" id="Searchable"
-                   data-ng-model="ctlProfileEdit.searchable"
-                   ng-change="ctlSettings.updateSearchPrivacy()">
+                   data-ng-model="ctlProfileEdit.model.searchable"
+                   ng-change="ctlProfileEdit.updateSearchPrivacy()">
             <label for="Searchable">
               <b><translate>Yes</translate></b>
               <div class="circle" switch-drag="Searchhable"></div>

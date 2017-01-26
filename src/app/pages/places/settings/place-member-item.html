@@ -7,9 +7,9 @@
   <span ng-class="{ 'nst-mood-pending': memberCtrl.member.role === 'pending_key_holder'}">@{{memberCtrl.member.id}}</span>
 </div>
 <div class="role">
-  <span ng-if="memberCtrl.member.role === 'creator'">Manager</span>
-  <span ng-if="memberCtrl.member.role === 'key_holder'">Member</span>
-  <span class="nst-mood-pending" ng-if="memberCtrl.member.role === 'pending_key_holder'">Pending ...</span>
+  <translate ng-if="memberCtrl.member.role === 'creator'">Manager</translate>
+  <translate ng-if="memberCtrl.member.role === 'key_holder'">Member</translate>
+  <translate class="nst-mood-pending" ng-if="memberCtrl.member.role === 'pending_key_holder'">Pending ...</translate>
   <div data-ng-switch="memberCtrl.member.role" class="_fn">
     <div data-ng-switch-when="creator" class="role-icons-crown role-icon"></div>
     <div data-ng-switch-when="key_holder" class="role-icons-key role-icon"></div>

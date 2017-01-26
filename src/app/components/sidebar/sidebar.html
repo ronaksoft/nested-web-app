@@ -90,7 +90,7 @@
     </div>
     <div class="side-access">
       <script type="text/ng-template" id="mention-uib-tooltip.html">
-        <translate>Notification</translate>
+        <translate>Notifications</translate>
       </script>
       <a class="detailed popover-mentions"
          data-uib-popover-template="'app/notification/notification-popover.html'"
@@ -105,8 +105,8 @@
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto">
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
-          <svg id="mentions">
-            <use xlink:href="/assets/icons/nst-icn32.svg#atsign"></use>
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn24.svg#bell-muted"></use>
           </svg>
           <div class="notif" ng-if="ctlSidebar.notificationsCount > 0">{{ctlSidebar.notificationsCount}}</div>
         </div>
@@ -115,23 +115,24 @@
         </div>
       </a>
       <script type="text/ng-template" id="profile-uib-tooltip.html">
-        <translate>Profile</translate>
+        <translate>Edit profile</translate>
       </script>
       <a class="detailed"
          data-uib-popover-template="'app/account/profile/profile-popover.html'"
          data-popover-placement="right-bottom auto"
          data-popover-class="pop-white pop-profile"
+         data-popover-is-open="ctlSidebar.profileOpen"
          data-popover-append-to-body="false"
-         data-popover-popup-close-delay="1000"
-         data-uib-tooltip="Edit profile"
+         data-uib-tooltip-template="'profile-uib-tooltip.html'"
+         data-popover-trigger="none"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
-        <div>
+        <div ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;$event.preventDefault();$event.stopPropagation()">
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#gear"></use>
           </svg>
         </div>
-        <translate>Profile</translate>
+        <translate ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;$event.preventDefault();$event.stopPropagation()">Profile</translate>
       </a>
       <script type="text/ng-template" id="logout-uib-tooltip.html">
         <translate>Log out</translate>
