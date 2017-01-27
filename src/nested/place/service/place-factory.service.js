@@ -370,8 +370,8 @@
         NstSvcPlaceStorage.remove(placeId);
         NstSvcTinyPlaceStorage.remove(placeId);
 
-
         factory.getTiny(placeId).then(function (place) {
+          deferred.resolve(place);
           factory.dispatchEvent(new CustomEvent(
             NST_PLACE_FACTORY_EVENT.UPDATE, {
               detail: {
