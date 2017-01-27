@@ -204,6 +204,10 @@ body[dir="rtl"] {
     right: -6px !important;
     left: auto!important;
   }
+  .file-list .file-list-header .files-srch input {
+    left: auto;
+    right: 42px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
