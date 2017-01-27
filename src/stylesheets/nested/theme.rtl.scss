@@ -208,6 +208,10 @@ body[dir="rtl"] {
     left: auto;
     right: 42px;
   }
+  .close-modal {
+    right: auto;
+    left: 56px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
