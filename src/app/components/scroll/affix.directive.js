@@ -111,7 +111,8 @@
             if (!!$attrs.firstImp ) {
               $element.css('position', 'fixed');
               $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-              $element.css('left', offLeft + 'px');
+              if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
+              if (isRTL == 'rtl')$element.css('right', offLeft + 'px');
               $element.css('width', width + 'px');
               $element.css('height', height + 'px');
               if(clearRight) {
