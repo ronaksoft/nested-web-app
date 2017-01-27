@@ -211,6 +211,14 @@ body.modal-open {
     height: calc(100% - 96px);
     max-height: calc(100vh - 96px);
   }
+  #compose-full {
+    use:first-child {
+      display: none;
+    }
+    use:last-child {
+      display: block;
+    }
+  }
 }
 
 .modal-mlg {
