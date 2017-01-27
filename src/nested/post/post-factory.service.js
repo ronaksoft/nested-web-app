@@ -260,6 +260,29 @@
       }, "retract", id);
     }
 
+    function bookmarkPpost(id) {
+      var query = new NstFactoryQuery(id, {
+        id: id
+      });
+
+      return $q(function (resolve, reject) {
+        NstSvcServer.request('post/pin', {
+          post_id: query.id,
+        }).then(function (data) { //remove the object from storage and return the id
+          var post = NstSvcPostStorage.get(query.id);
+          NstUtility.collection.dropById(post.places, query.data.placeId);
+          if (post.places.length === 0) { //the last place was removed
+            NstSvcPostStorage.remove(query.id);
+          } else {
+            NstSvcPostStorage.set(query.id, post);
+          }
+          resolve(post);
+        }).catch(function (error) {
+          reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+      });
+    }
+
     function createPostModel(model) {
       return new NstPost(model);
     }
@@ -289,7 +312,13 @@
       post.setUpdatedDate(new Date(data.last_update));
 
       post.setCounters(data.counters || post.counters);
-      post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
+
+      if (data.sender){
+        post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
+      }else if(data.email_sender){
+        post.setEmailSender(NstSvcUserFactory.parseTinyUser(data.email_sender));
+      }
+
 
       var places = _.map(data.post_places, function (place) {
         return NstSvcPlaceFactory.parseTinyPlace(place);
@@ -365,9 +394,15 @@
         message.setUpdatedDate(message.getDate());
       }
 
-      var sender = NstSvcUserFactory.parseTinyUser(data.sender);
-      NstSvcUserFactory.set(sender);
-      message.setSender(sender);
+      if (data.sender) {
+        var sender = NstSvcUserFactory.parseTinyUser(data.sender);
+        NstSvcUserFactory.set(sender);
+        message.setSender(sender);
+      }else if (data.email_sender){
+        var sender = NstSvcUserFactory.parseTinyUser(data.email_sender);
+        NstSvcUserFactory.set(sender);
+        message.setEmailSender(sender);
+      }
 
       var places = _.map(data.post_places, function (data) {
         return NstSvcPlaceFactory.parseTinyPlace(data);

@@ -24,6 +24,8 @@
        */
       this.sender = null;
 
+      this.emailSender = null;
+
       this.date = null;
       this.updatedDate = null;
 
@@ -42,6 +44,8 @@
       this.recipients = [];
 
       this.internal = false;
+
+      this.bookmarked = false;
 
       // TODO: Use ReplyToId instead
       this.replyTo = null;

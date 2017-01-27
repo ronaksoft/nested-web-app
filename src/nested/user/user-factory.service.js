@@ -1,11 +1,11 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('ronak.nested.web.user')
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
-  function NstSvcUserFactory($q, md5,_ ,
+  function NstSvcUserFactory($q, md5, _,
                              NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
                              NST_USER_SEARCH_AREA,
                              NST_USER_FACTORY_EVENT,
@@ -52,7 +52,7 @@
               var user = factory.parseUser(userData);
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
-            }).catch(function(error) {
+            }).catch(function (error) {
               reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
             });
           }
@@ -68,12 +68,12 @@
      *
      * @returns {Promise}
      */
-    UserFactory.prototype.getTiny = function(id) {
+    UserFactory.prototype.getTiny = function (id) {
       var factory = this;
-      return factory.sentinel.watch(function() {
+      return factory.sentinel.watch(function () {
         var query = new NstFactoryQuery(id);
 
-        return $q(function(resolve, reject) {
+        return $q(function (resolve, reject) {
           var user = NstSvcUserStorage.get(query.id) || NstSvcTinyUserStorage.get(query.id);
           if (user) {
             if (!(user instanceof NstTinyUser)) {
@@ -82,7 +82,7 @@
 
             resolve(user);
           } else {
-            factory.get(query.id).then(function(user) {
+            factory.get(query.id).then(function (user) {
               user = new NstTinyUser(user);
               NstSvcTinyUserStorage.set(query.id, user);
               resolve(user);
@@ -117,9 +117,9 @@
       var params = {
         fname: user.getFirstName(),
         lname: user.getLastName(),
-        dob : user.getDateOfBirth(),
-        gender : user.getGender(),
-        searchable : user.getSearchable()
+        dob: user.getDateOfBirth(),
+        gender: user.getGender(),
+        searchable: user.getSearchable()
       };
 
       var query = new NstFactoryQuery(user.getId(), params);
@@ -140,13 +140,13 @@
       var deferred = $q.defer();
 
       var query = new NstFactoryQuery(null, {
-        oldPassword : oldPassword,
-        newPassword : newPassword
+        oldPassword: oldPassword,
+        newPassword: newPassword
       });
 
       NstSvcServer.request('account/set_password', {
-        old_pass : md5.createHash(oldPassword),
-        new_pass : md5.createHash(newPassword)
+        old_pass: md5.createHash(oldPassword),
+        new_pass: md5.createHash(newPassword)
       }).then(function () {
         deferred.resolve();
       }).catch(function (error) {
@@ -156,20 +156,20 @@
       return deferred.promise;
     }
 
-    UserFactory.prototype.updatePicture = function(uid) {
+    UserFactory.prototype.updatePicture = function (uid) {
       var factory = this;
 
-      return factory.sentinel.watch(function() {
+      return factory.sentinel.watch(function () {
         var deferred = $q.defer();
 
         NstSvcServer.request('account/set_picture', {
           universal_id: uid
-        }).then(function() {
-          factory.get(null, true).then(function(user) {
+        }).then(function () {
+          factory.get(null, true).then(function (user) {
             factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
           }).catch(deferred.reject);
-        }).catch(function(error) {
+        }).catch(function (error) {
           deferred.reject(error);
         });
 
@@ -207,8 +207,8 @@
       var user = new NstTinyUser();
 
       user.setId(data._id);
-      user.setFirstName(data.fname);
-      user.setLastName(data.lname);
+      user.setFirstName(data.fname ? data.fname : data.name ? data.name : data._id);
+      user.setLastName(data.lname || '');
 
       if (data.picture && data.picture.org) {
         user.setPicture(new NstPicture(data.picture));
@@ -228,8 +228,8 @@
 
       user.setNew(false);
       user.setId(userData._id);
-      user.setFirstName(userData.fname);
-      user.setLastName(userData.lname);
+      user.setFirstName(userData.fname ? userData.fname : userData.name ? userData.name : userData._id);
+      user.setLastName(userData.lname || '');
       user.setPhone(userData.phone);
       user.setCountry(userData.country);
       user.setDateOfBirth(userData.dob);
@@ -259,10 +259,10 @@
       if (user.hasPicture()) {
         userData.picture = {
           org: user.picture.original,
-          x32 : user.picture.x32,
-          x64 : user.picture.x64,
-          x128 : user.picture.x128,
-          pre : user.picture.preview
+          x32: user.picture.x32,
+          x64: user.picture.x64,
+          x128: user.picture.x128,
+          pre: user.picture.preview
         };
       }
 
@@ -275,7 +275,7 @@
 
     UserFactory.prototype.search = function (settings, area) {
 
-      if (area === undefined){
+      if (area === undefined) {
         throw "Define search area";
       }
 
@@ -283,10 +283,10 @@
       var defer = $q.defer();
 
       var defaultSettings = {
-        query : '' ,
-        placeId : null,
-        limit : 10,
-        role : null
+        query: '',
+        placeId: null,
+        limit: 10,
+        role: null
       };
 
       var params = {
@@ -295,19 +295,19 @@
         limit: settings.limit
       };
 
-      if(area === NST_USER_SEARCH_AREA.ADD ||
-        area === NST_USER_SEARCH_AREA.INVITE){
-        if (!settings.placeId){
+      if (area === NST_USER_SEARCH_AREA.ADD ||
+        area === NST_USER_SEARCH_AREA.INVITE) {
+        if (!settings.placeId) {
           throw "Define place id for search in users";
         }
       }
 
-      if(settings.placeId){
+      if (settings.placeId) {
         params.place_id = settings.placeId;
       }
 
-      if(area === NST_USER_SEARCH_AREA.MENTION){
-        if (!settings.postId){
+      if (area === NST_USER_SEARCH_AREA.MENTION) {
+        if (!settings.postId) {
           throw "Define post id for search in post users";
         }
         params.post_id = settings.postId;
