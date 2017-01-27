@@ -18,6 +18,7 @@
         var parent = $element.parent().parent();
         var parentWidth = parent.width();
         var checkbox = $element.parent().parent().find('input');
+        var isRTL = $("body").attr("dir");
 
 
 
