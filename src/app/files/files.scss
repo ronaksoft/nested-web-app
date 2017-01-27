@@ -229,6 +229,7 @@ li.file-list-container {
   position: relative;
   .img-container {
     &:after {
+      left: 0;
       position: absolute;
       width: 48px;
       height: 48px;
