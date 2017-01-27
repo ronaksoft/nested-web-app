@@ -52,6 +52,8 @@
 
     vm.place = undefined;
 
+    var isRTL = $rootScope._direction;
+
     vm.controls = {
       left: [
         new NstVmNavbarControl(NstSvcTranslation.get('Discard'), NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
@@ -67,6 +69,7 @@
 
     $scope.editorOptions = {
       language: 'en',
+      contentsLangDirection: isRTL,
       contentsCss : 'body {overflow:visible;}',
       placeholder : 'Write something...',
       height: 230,
@@ -112,6 +115,7 @@
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
     vm.subjectKeyDown = function (e) {
+      console.log('s');
       if(e.which == 13) {
         $window.CKEDITOR.instances.editor1.focus();
       }

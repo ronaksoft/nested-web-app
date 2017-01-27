@@ -33,6 +33,7 @@
     "ng-img-crop": "ngImgCrop#^0.3.2",
     "perfect-scrollbar": "^0.6.12",
     "At.js": "jquery.atwho#^1.5.1",
+    "gsap": "^1.19.0",
     "selectonic": "^0.6.3",
     "libphonenumber": "^0.9.4",
     "Medium.js": "medium#^1.0.1",
