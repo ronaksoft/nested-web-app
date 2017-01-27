@@ -112,6 +112,7 @@
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
     vm.subjectKeyDown = function (e) {
+      console.log('s');
       if(e.which == 13) {
         $window.CKEDITOR.instances.editor1.focus();
       }
