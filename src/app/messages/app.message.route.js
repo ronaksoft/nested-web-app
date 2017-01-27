@@ -110,7 +110,7 @@
         controllerAs: 'ctlMessages',
         options: {
           primary: true,
-          group: 'message'
+          group: 'sent'
         }
       })
       .state('app.messages-sent-sorted', {

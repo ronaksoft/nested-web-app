@@ -498,10 +498,10 @@
     transform-origin: center center;
   }
   svg:first-child {
-    transform: translateY(-2px);
+    transform: translateY(-6px);
   }
   svg:last-child {
-    transform: translateY(-16px);
+    transform: translateY(-22px);
   }
 }
 .tw-svg.open {
@@ -509,6 +509,6 @@
     opacity: 0;
   }
   svg:last-child {
-    transform: translateY(-16px) rotateZ(180deg);
+    transform: translateY(-24px) rotateZ(180deg);
   }
 }
