@@ -53,6 +53,7 @@
     vm.place = undefined;
 
     var isRTL = $rootScope._direction;
+    var lang = isRTL == 'rtl' ? 'fa' : 'en';
 
     vm.controls = {
       left: [
@@ -68,7 +69,7 @@
     };
 
     $scope.editorOptions = {
-      language: 'en',
+      language: lang,
       contentsLangDirection: isRTL,
       contentsCss: 'body {overflow:visible;}',
       placeholder: 'Write something...',

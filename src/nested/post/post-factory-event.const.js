@@ -6,6 +6,8 @@
     .constant('NST_POST_FACTORY_EVENT', {
       ADD: 'add',
       REMOVE: 'remove',
-      READ: 'read'
+      READ: 'read',
+      BOOKMARKED : 'bookmarked',
+      UNBOOKMARKED : 'unbookmarked'
     });
 })();

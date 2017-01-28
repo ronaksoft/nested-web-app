@@ -9,7 +9,7 @@
      ng-mouseleave="ctlQuickMessage.showCtrls = false">
   <div contentedit tabindex="0" id="input" ng-keyup="ctlQuickMessage.writeMsg($event)"
        placeholder="Write your message or drag your files here..." translate-attrs="placeholder"
-       class="_fw _fh"
+       class="_fw _fh ng-class:{'_rtl' : $root._direction == 'rtl'}"
        ng-model="ctlQuickMessage.message"
        aria-expanded="false" role="textbox" auto-dir="ctlQuickMessage.model.subject"></div>
   <div class="quick-controls" ng-class="{'modified' : ctlQuickMessage.model.modified }">

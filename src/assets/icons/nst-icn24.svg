@@ -1,5 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-  <title>WebIconExporter</title>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
+  <defs>
+    <radialGradient id="radial-gradient" cx="12" cy="-89.94" r="11.42" gradientTransform="translate(22.5 -44.54) rotate(180) scale(0.88 0.66)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00c869"/>
+      <stop offset="0.01" stop-color="#00c869" stop-opacity="0.99"/>
+      <stop offset="0.28" stop-color="#00c869" stop-opacity="0.64"/>
+      <stop offset="0.52" stop-color="#00c869" stop-opacity="0.37"/>
+      <stop offset="0.73" stop-color="#00c869" stop-opacity="0.17"/>
+      <stop offset="0.9" stop-color="#00c869" stop-opacity="0.04"/>
+      <stop offset="1" stop-color="#00c869" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <title>Icons</title>
   <g id="icn24">
     <g id="bell-ringed">
       <rect width="24" height="24" style="fill: none"/>
@@ -38,7 +49,7 @@
       <g id="space-7" data-name="space">
         <rect width="24" height="24" style="fill: none"/>
       </g>
-      <path d="M12.5,20.5A1.5,1.5,0,0,1,11,19V9.12L8.06,12.06A1.5,1.5,0,0,1,5.94,9.94l5.5-5.5a1.5,1.5,0,0,1,2.12,0l5.5,5.5a1.5,1.5,0,0,1-2.12,2.12L14,9.12V19A1.5,1.5,0,0,1,12.5,20.5Z"/>
+      <path d="M12.5,20.5A1.5,1.5,0,0,1,11,19V9.12L8.06,12.06A1.5,1.5,0,1,1,5.94,9.94l5.5-5.5a1.5,1.5,0,0,1,2.12,0l5.5,5.5a1.5,1.5,0,0,1-2.12,2.12L14,9.12V19A1.5,1.5,0,0,1,12.5,20.5Z"/>
     </g>
     <g id="replied">
       <rect width="24" height="24" style="fill: none"/>
@@ -114,25 +125,60 @@
       <rect width="24" height="24" style="fill: none"/>
       <path d="M12.32,22.64c-.4,0-.82,0-1.23-.06C4.75,22,.87,17.4,1.42,11.08a10.39,10.39,0,0,1,11.5-9.66c7.17.63,10,5.3,9.61,9.65-.34,3.86-3.06,6.66-6.2,6.38a3.06,3.06,0,0,1-2.17-1.25,2.86,2.86,0,0,1-.17-.29A5.69,5.69,0,0,1,9.36,17a4.26,4.26,0,0,1-3.42-3.09A6,6,0,0,1,7.61,8c1.2-1.13,3.95-2.75,8.87-1a1.25,1.25,0,0,1,.79,1.45c-.14.62-.28,1.23-.4,1.81l-.23,1.09-.07.29c-.22,1-.36,1.74-.36,1.74a2,2,0,0,0,0,1.36.59.59,0,0,0,.41.19c1.84.16,3.21-2,3.41-4.12.27-3-1.52-6.43-7.34-6.94A7.86,7.86,0,0,0,3.92,11.3a8.15,8.15,0,0,0,1.66,6.1,8.19,8.19,0,0,0,5.73,2.69,8.73,8.73,0,0,0,4.79-.8l1.12-.56L18.34,21l-1.12.56A10.77,10.77,0,0,1,12.32,22.64Zm.07-13.9A4.32,4.32,0,0,0,9.33,9.81a3.4,3.4,0,0,0-1,3.35A1.8,1.8,0,0,0,9.8,14.5c3.07.54,4.09-2.39,4.35-3.41l.28-1.32,0-.13.13-.6A8.55,8.55,0,0,0,12.38,8.73Z"/>
     </g>
-    <g id="home">
-      <rect id="space-19" data-name="space" width="24" height="24" style="fill: none"/>
-      <path d="M12,3,2.16,7.6A2,2,0,0,0,1,9.41V19a2,2,0,0,0,2,2H21a2,2,0,0,0,2-2V9.41A2,2,0,0,0,21.84,7.6Zm0,2.21,9,4.19v1L12,14.6,3,10.41v-1Z"/>
-    </g>
     <g id="file">
-      <rect id="space-20" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-19" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M18,22H6a2,2,0,0,1-2-2V4A2,2,0,0,1,6,2h8l6,6V20A2,2,0,0,1,18,22ZM13,3V9h6Zm3,9H8v2h8Zm0,4H8v2h8Z"/>
     </g>
     <g id="log">
-      <rect id="space-21" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-20" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M20,22l-2-2-2,2-2-2-2,2-2-2L8,22,6,20,4,22V2L6,4,8,2l2,2,2-2,2,2,2-2,2,2,2-2Zm-3-5H7V15H17Zm0-4H7V11H17Zm0-4H7V7H17Z" style="fill-rule: evenodd"/>
     </g>
     <g id="attach">
-      <rect id="space-22" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-21" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M9,22.36A7.36,7.36,0,0,1,3.79,9.79l6.5-6.5a5.24,5.24,0,0,1,7.41,7.41l-6.5,6.5a3.2,3.2,0,0,1-4.41,0,3.13,3.13,0,0,1,0-4.41l6.5-6.5a1,1,0,0,1,1.41,1.41l-6.5,6.5a1.12,1.12,0,0,0,1.59,1.59l6.5-6.5a3.24,3.24,0,0,0-4.59-4.59l-6.5,6.5a5.36,5.36,0,0,0,7.59,7.59l7.5-7.5a1,1,0,0,1,1.41,1.41l-7.5,7.5A7.34,7.34,0,0,1,9,22.36Z"/>
     </g>
     <g id="list-check">
-      <rect id="space-23" data-name="space" width="24" height="24" style="fill: none"/>
+      <rect id="space-22" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M5,19.41.29,14.71l1.41-1.41L5,16.59,16.29,5.29l1.41,1.41ZM10,19h6V17H10Zm4-4h6V13H14Zm4-6v2h6V9Z"/>
+    </g>
+    <g id="bell">
+      <rect id="space-23" data-name="space" width="24" height="24" style="fill: none"/>
+      <path d="M12,22.67a2.5,2.5,0,0,0,2.5-2.5h-5A2.5,2.5,0,0,0,12,22.67ZM21,17v2H3V17l3-3V8a6,6,0,0,1,6-6h0a6,6,0,0,1,6,6v6Z"/>
+    </g>
+    <g id="home">
+      <rect id="space-24" data-name="space" width="24" height="24" style="fill: none"/>
+      <path d="M15,15v6h6a2,2,0,0,0,2-2V9.41A2,2,0,0,0,21.84,7.6L12,3,2.16,7.6A2,2,0,0,0,1,9.41V19a2,2,0,0,0,2,2H9V15a3,3,0,0,1,3-3h0A3,3,0,0,1,15,15Z"/>
+    </g>
+    <g id="nested3d">
+      <g>
+        <path d="M22,14.44V9.7a3.33,3.33,0,0,0-1.67-2.89L12,2,3.67,6.81A3.33,3.33,0,0,0,2,9.7v4.74C2,24.5,22,24.5,22,14.44Zm-10,.07L3.67,9.7A1.67,1.67,0,0,1,4.5,8.25L12,3.92l7.5,4.33a1.67,1.67,0,0,1,.83,1.44Z" style="fill: #14d769"/>
+        <path d="M12,14.51l9.88-5.7A3.32,3.32,0,0,1,22,9.7v4.74c0,5-5,7.56-10,7.56Z" style="fill: url(#radial-gradient)"/>
+      </g>
+      <rect id="space-25" data-name="space" width="24" height="24" style="fill: none"/>
+    </g>
+    <g id="expand">
+      <rect id="space-26" data-name="space" width="24" height="24" style="fill: none"/>
+      <path d="M20,5v6H18V7.41L14.41,11,13,9.59,16.59,6H13V4h6A1,1,0,0,1,20,5ZM9.59,13,6,16.59V13H4v6a1,1,0,0,0,1,1h6V18H7.41L11,14.41Z"/>
+    </g>
+    <g id="collapse">
+      <rect id="space-27" data-name="space" width="24" height="24" style="fill: none"/>
+      <path d="M11,14v6H9V16.41L5.41,20,4,18.59,7.59,15H4V13h6A1,1,0,0,1,11,14Zm9-8.59L18.59,4,15,7.59V4H13v6a1,1,0,0,0,1,1h6V9H16.41Z"/>
+    </g>
+    <g id="bookmark">
+      <rect id="space-28" data-name="space" width="24" height="24" style="fill: none"/>
+      <polygon points="20 23 12 15 4 23 4 0 20 0 20 23"/>
+    </g>
+    <g id="bookmark-wire">
+      <rect id="space-29" data-name="space" width="24" height="24" style="fill: none"/>
+      <polygon points="20 0 20 0 20 23 12 15 4 23 4 0 5 0 5 20.59 12 13.59 19 20.59 19 0 20 0"/>
+    </g>
+    <g id="open-message">
+      <rect id="space-30" data-name="space" width="24" height="24" style="fill: none"/>
+      <path d="M3.15,6.86,12,2.73l8.85,4.12A2,2,0,0,1,22,8.67V18a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V8.67A2,2,0,0,1,3.15,6.86ZM20,8.67v2.2L12,14.6,4,10.87V8.67l8-3.73Z" style="fill-rule: evenodd"/>
+    </g>
+    <g id="unread-message">
+      <rect id="space-31" data-name="space" width="24" height="24" style="fill: none"/>
+      <path d="M22,11.58V19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V7A2,2,0,0,1,4,5H15.42A5,5,0,0,0,22,11.58ZM15.07,12,12,13.4,4,9.67v2.2l8,3.73,4.95-2.31A7,7,0,0,1,15.07,12ZM20,4a3,3,0,1,0,3,3A3,3,0,0,0,20,4Z"/>
     </g>
   </g>
 </svg>

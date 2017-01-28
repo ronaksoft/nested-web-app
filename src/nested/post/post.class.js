@@ -45,8 +45,6 @@
 
       this.internal = false;
 
-      this.bookmarked = false;
-
       // TODO: Use ReplyToId instead
       this.replyTo = null;
       this.replyToId = null;
@@ -71,6 +69,8 @@
       this.isRead = null;
 
       this.ellipsis = null;
+
+      this.bookmarked = null;
 
       NstTinyPost.call(this, model);
 

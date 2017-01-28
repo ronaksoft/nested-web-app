@@ -41,6 +41,7 @@
     PostFactory.prototype.retract = retract;
     PostFactory.prototype.createPostModel = createPostModel;
     PostFactory.prototype.getSentMessages = getSentMessages;
+    PostFactory.prototype.getBookmarkedMessages = getBookmarkedMessages;
     PostFactory.prototype.getMessages = getMessages;
     PostFactory.prototype.getPlaceMessages = getPlaceMessages;
     PostFactory.prototype.getFavoriteMessages = getFavoriteMessages;
@@ -49,6 +50,8 @@
     PostFactory.prototype.parseMessage = parseMessage;
     PostFactory.prototype.getMessage = getMessage;
     PostFactory.prototype.search = search;
+    PostFactory.prototype.bookmarkPost = bookmarkPost;
+    PostFactory.prototype.unBookmarkPost = unBookmarkPost;
     PostFactory.prototype.getChainMessages = getChainMessages;
 
     var factory = new PostFactory();
@@ -260,7 +263,7 @@
       }, "retract", id);
     }
 
-    function bookmarkPpost(id) {
+    function bookmarkPost(id) {
       var query = new NstFactoryQuery(id, {
         id: id
       });
@@ -268,14 +271,41 @@
       return $q(function (resolve, reject) {
         NstSvcServer.request('post/pin', {
           post_id: query.id,
-        }).then(function (data) { //remove the object from storage and return the id
+        }).then(function () { //remove the object from storage and return the id
           var post = NstSvcPostStorage.get(query.id);
-          NstUtility.collection.dropById(post.places, query.data.placeId);
-          if (post.places.length === 0) { //the last place was removed
-            NstSvcPostStorage.remove(query.id);
-          } else {
-            NstSvcPostStorage.set(query.id, post);
-          }
+          post.setBookmarked(true);
+          NstSvcPostStorage.set(query.id, post);
+
+          factory.dispatchEvent(new CustomEvent(
+            NST_POST_FACTORY_EVENT.BOOKMARKED,
+            new NstFactoryEventData(id)
+          ));
+
+          resolve(post);
+        }).catch(function (error) {
+          reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+      });
+    }
+
+    function unBookmarkPost(id) {
+      var query = new NstFactoryQuery(id, {
+        id: id
+      });
+
+      return $q(function (resolve, reject) {
+        NstSvcServer.request('post/unpin', {
+          post_id: query.id
+        }).then(function () { //remove the object from storage and return the id
+          var post = NstSvcPostStorage.get(query.id);
+          post.setBookmarked(false);
+          NstSvcPostStorage.set(query.id, post);
+
+          factory.dispatchEvent(new CustomEvent(
+            NST_POST_FACTORY_EVENT.UNBOOKMARKED,
+            new NstFactoryEventData(id)
+          ));
+
           resolve(post);
         }).catch(function (error) {
           reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
@@ -305,6 +335,9 @@
       post.setSubject(data.subject);
       post.setContentType(data.content_type);
       post.setBody(data.body);
+
+      post.setBookmarked(data.pinned);
+      console.log(1111111111,data);
 
       post.setInternal(data.internal);
 
@@ -381,6 +414,7 @@
       });
       message.setRecipients(recipients);
       message.setEllipsis(data.ellipsis);
+      message.setBookmarked(data.pinned);
 
       // TODO: Fix parsing recipients
       if (data.post_recipients) {
@@ -427,6 +461,7 @@
 
 
       $q.all(promises).then(function () {
+        console.log(message)
         defer.resolve(message);
       }).catch(defer.reject);
 
@@ -454,6 +489,34 @@
           });
           defer.resolve(messages);
         }).catch(defer.reject);
+      }).catch(function (error) {
+        // TODO: format the error and throw it
+        defer.reject(error);
+      });
+
+      return defer.promise;
+    }
+
+    function getBookmarkedMessages(setting) {
+      var defer = $q.defer();
+
+      var options = {
+        limit: setting.limit,
+        before: setting.date
+      };
+
+      if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
+        options.by_update = true;
+      }
+
+      NstSvcServer.request('account/get_pinned_posts', options).then(function (data) {
+        var messagePromises = _.map(data.posts, parseMessage);
+        $q.all(messagePromises).then(function (messages) {
+          _.forEach(messages, function (item) {
+            NstSvcPostStorage.set(item.id, item);
+          });
+          defer.resolve(messages);
+        });
       }).catch(function (error) {
         // TODO: format the error and throw it
         defer.reject(error);
@@ -505,38 +568,6 @@
       }
 
       NstSvcServer.request('place/get_posts', options).then(function (data) {
-        var messagePromises = _.map(data.posts, parseMessage);
-        $q.all(messagePromises).then(function (messages) {
-          _.forEach(messages, function (item) {
-            NstSvcPostStorage.set(item.id, item);
-          });
-          defer.resolve(messages);
-        });
-      }).catch(function (error) {
-        // TODO: format the error and throw it
-        defer.reject(error);
-      });
-
-      return defer.promise;
-    }
-
-    function getFavoriteMessages(setting, bookmarkId) {
-
-      var defer = $q.defer();
-
-      bookmarkId = bookmarkId || "_starred";
-
-      var options = {
-        limit: setting.limit,
-        before: setting.date,
-        bookmark_id: bookmarkId
-      };
-
-      if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
-        options.by_update = true;
-      }
-
-      NstSvcServer.request('account/get_favorite_posts', options).then(function (data) {
         var messagePromises = _.map(data.posts, parseMessage);
         $q.all(messagePromises).then(function (messages) {
           _.forEach(messages, function (item) {

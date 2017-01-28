@@ -66,6 +66,11 @@
   box-shadow: none;
 
 }
+#compose-full {
+  use:last-child {
+    display: none;
+  }
+}
 
 /**
   **********************************************************

@@ -42,30 +42,7 @@
           }
         },
       })
-      // .state('app.message-chain', {
-      //   url: '/message/:postId/chain',
-      //   params: {
-      //     postId: NST_DEFAULT.STATE_PARAM,
-      //   },
-      //   templateUrl: 'app/messages/chain/message-chain.html',
-      //   controller: 'MessageChainController',
-      //   controllerAs: 'ctlChain',
-      //   options: {
-      //     group: 'message'
-      //   }
-      // })
-      // .state('app.place-message-chain', {
-      //   url: '/place/:placeId/message/:postId/chain',
-      //   params: {
-      //     postId: NST_DEFAULT.STATE_PARAM,
-      //   },
-      //   templateUrl: 'app/messages/chain/message-chain.html',
-      //   controller: 'MessageChainController',
-      //   controllerAs: 'ctlChain',
-      //   options: {
-      //     group: 'message'
-      //   }
-      // })
+
       .state('app.messages', {
         url: '/messages',
         templateUrl: 'app/messages/messages.html',
@@ -74,6 +51,28 @@
         options: {
           primary: true,
           group: 'message',
+          feed : true
+        }
+      })
+      .state('app.messages-bookmarked', {
+        url: '/bookmarked',
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages',
+        options: {
+          primary: true,
+          group: 'bookmarked',
+          feed : true
+        }
+      })
+      .state('app.messages-bookmarked-sort', {
+        url: '/bookmarked/:sort',
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages',
+        options: {
+          primary: true,
+          group: 'bookmarked',
           feed : true
         }
       })

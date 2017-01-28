@@ -8,8 +8,17 @@
       <stop offset="0" stop-color="#fff"/>
       <stop offset="1"/>
     </linearGradient>
+    <radialGradient id="radial-gradient" cx="8" cy="9.74" r="6.99" gradientTransform="translate(16 17.05) rotate(180) scale(1 0.75)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00c869"/>
+      <stop offset="0.01" stop-color="#00c869" stop-opacity="0.99"/>
+      <stop offset="0.28" stop-color="#00c869" stop-opacity="0.64"/>
+      <stop offset="0.52" stop-color="#00c869" stop-opacity="0.37"/>
+      <stop offset="0.73" stop-color="#00c869" stop-opacity="0.17"/>
+      <stop offset="0.9" stop-color="#00c869" stop-opacity="0.04"/>
+      <stop offset="1" stop-color="#00c869" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <title>WebIconExporter</title>
+  <title>Icons</title>
   <g id="favedplace">
     <path d="M7,1.33,5.83,5H2a1,1,0,0,0-.59,1.81L4.5,9.08,3.31,12.74a1,1,0,0,0,1.54,1.12L8,11.6l3.12,2.27a1,1,0,0,0,1.54-1.12L11.44,9.08l3.09-2.25A1,1,0,0,0,14,5H10.12L8.92,1.33A1,1,0,0,0,7,1.33Z" style="fill: #fff"/>
     <rect id="space" width="16" height="16" style="fill: none"/>
@@ -173,5 +182,41 @@
     <path d="M4,12H0v1.5A1.5,1.5,0,0,0,1.5,15h0A2.5,2.5,0,0,0,4,12.5Z" style="fill: #669bb3"/>
     <path d="M12,4h4V2.5A1.5,1.5,0,0,0,14.5,1h0A2.5,2.5,0,0,0,12,3.5Z" style="fill: #669bb3"/>
     <rect width="16" height="16" style="fill: none"/>
+  </g>
+  <g>
+    <rect id="space-34" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M14,11v1H2V11L4,9V5A4,4,0,0,1,8,1H8a4,4,0,0,1,4,4V9ZM6.25,13a1.75,1.75,0,0,0,3.5,0Z"/>
+  </g>
+  <g id="nested3d">
+    <g>
+      <path d="M15,9.71V6.39a2.33,2.33,0,0,0-1.17-2L8,1,2.17,4.37A2.33,2.33,0,0,0,1,6.39V9.71C1,16.75,15,16.75,15,9.71Zm-7,0L2.17,6.39a1.17,1.17,0,0,1,.58-1L8,2.35l5.25,3a1.17,1.17,0,0,1,.58,1Z" style="fill: #14d769"/>
+      <path d="M8,9.76l6.91-4a2.32,2.32,0,0,1,.09.62V9.71C15,13.19,11.47,15,8,15Z" style="fill: url(#radial-gradient)"/>
+    </g>
+    <rect id="space-35" data-name="space" width="16" height="16" style="fill: none"/>
+  </g>
+  <g id="expand">
+    <rect id="space-36" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M14,2.75V7H12.5V4.56L10.06,7,9,5.94,11.44,3.5H9V2h4.25A.75.75,0,0,1,14,2.75ZM2,13.25V9H3.5v2.44L5.94,9,7,10.06,4.56,12.5H7V14H2.75A.75.75,0,0,1,2,13.25Z"/>
+  </g>
+  <g id="collapse">
+    <rect id="space-37" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M9,6.25V2h1.5V4.44L12.94,2,14,3.06,11.56,5.5H14V7H9.75A.75.75,0,0,1,9,6.25ZM7,9.75V14H5.5V11.56L3.06,14,2,12.94,4.44,10.5H2V9H6.25A.75.75,0,0,1,7,9.75Z"/>
+  </g>
+  <g id="bookmark">
+    <rect id="space-38" data-name="space" width="16" height="16" style="fill: none"/>
+    <polygon points="13 15 8 10 3 15 3 0 13 0 13 15"/>
+  </g>
+  <g id="bookmark-wire">
+    <rect id="space-39" data-name="space" width="16" height="16" style="fill: none"/>
+    <polygon points="13 0 13 0 13 15 8 10 3 15 3 0 4 0 4 12.59 8 8.59 12 12.59 12 0 13 0"/>
+  </g>
+  <g id="open-message">
+    <rect id="space-40" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M1.87,4.75,8,1.89l6.13,2.86A1.5,1.5,0,0,1,15,6.11V12.5A1.5,1.5,0,0,1,13.5,14H2.5A1.5,1.5,0,0,1,1,12.5V6.11A1.5,1.5,0,0,1,1.87,4.75ZM2.5,6.11,8,3.55l5.5,2.56V7.76L8,10.33,2.5,7.76Z" style="fill-rule: evenodd"/>
+  </g>
+  <g id="unread-message">
+    <rect id="space-41" data-name="space" width="16" height="16" style="fill: none"/>
+    <path d="M15,8.2v4.3A1.5,1.5,0,0,1,13.5,14H2.5A1.5,1.5,0,0,1,1,12.5v-8A1.5,1.5,0,0,1,2.5,3H9.8A4,4,0,0,0,15,8.2ZM9.31,8.06,8,8.67,2.5,6.11V7.76L8,10.33l2.55-1.19A5.52,5.52,0,0,1,9.31,8.06Z" style="fill: #3296ff;opacity: 0.72"/>
+    <circle cx="13.5" cy="4.5" r="2.5" style="fill: #3296ff"/>
   </g>
 </svg>

@@ -20,6 +20,7 @@
       this.date = null;
       this.attachments = [];
       this.comments = [];
+      this.bookmarked = null;
       this.isReplyed  = null;
       this.isForwarded = null;
       this.commentsCount = 0;
@@ -57,6 +58,7 @@
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
         this.recipients = post.recipients;
         this.ellipsis = post.ellipsis;
+        this.bookmarked = post.bookmarked;
 
         _.forEach(post.comments, function (comment, index) {
           var model = NstSvcCommentMap.toMessageComment(comment);
