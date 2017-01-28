@@ -18,12 +18,16 @@
       this.name = '';
       this.data = {};
       this.isTag = false;
+      this.isEmail = false;
+      this.isEmailValid = false;
 
       if (data) {
         this.isTag = data.isTag || true;
         this.id = data.id;
         this.name = data.name;
         this.data = data.data;
+        this.isEmail = data.isEmail;
+        this.isEmailValid = data.isEmailValid;
       }
     }
 

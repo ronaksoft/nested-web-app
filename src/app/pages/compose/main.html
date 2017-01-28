@@ -17,7 +17,10 @@
                    data-ng-model="ctlCompose.model.recipients" search-enabled="false">
           <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}">
             <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isEmailValid}">
-              <span class="place-img" ng-if="!$item.isEmail"><img ng-src="{{::$item.avatar}}"/></span>
+              <span class="place-img" ng-if="!$item.isEmail">
+                <img ng-if="$item.avatar" ng-src="{{::$item.avatar }}"/>
+                <img ng-if="$item.data" ng-src="{{::$item.data | picture }}"/>
+              </span>
                 <span class="place-img" ng-if="$item.isEmail && !$item.isEmailValid">
                   <svg>
                     <use xlink:href="/assets/icons/nst-icn16.svg#exclamation-mark"></use>
@@ -25,6 +28,7 @@
                 </span>
               <span class="place-name">{{$item.name}}</span>
             </div>
+
           </ui-select-match>
           <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
                              refresh-delay="400"

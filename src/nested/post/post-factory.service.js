@@ -313,10 +313,10 @@
 
       post.setCounters(data.counters || post.counters);
 
-      if (data.sender){
+      if (data.internal){
         post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
-      }else if(data.email_sender){
-        post.setEmailSender(NstSvcUserFactory.parseTinyUser(data.email_sender));
+      }else{
+        post.setEmailSender(NstSvcUserFactory.parseTinyUser(data.sender));
       }
 
 
@@ -331,14 +331,14 @@
       });
       post.setAttachments(attachments);
 
-      // TODO: Fix parsing recipients
-      if (data.recipients) {
-        for (var k in data.recipients) {
-          post.recipients[k] = new NstRecipient({
-            id: data.recipients[k],
-            name: data.recipients[k],
-            email: data.recipients[k]
-          });
+
+      if (data.post_recipients) {
+        for (var k in data.post_recipients) {
+          post.recipients.push( new NstRecipient({
+            id: data.post_recipients[k],
+            name: data.post_recipients[k],
+            email: data.post_recipients[k]
+          }));
         }
       }
 

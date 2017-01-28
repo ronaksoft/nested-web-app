@@ -130,9 +130,10 @@
             $state.go('app.search', { search : NstSearchQuery.encode(searchQury.toString()) });
           };
 
-          $scope.messageUser = function () {
+          $scope.messageUser = function ($event) {
             $scope.deletePopoversAll();
-            $state.go('app.place-compose', {placeId: $scope.username});
+            $event.preventDefault();
+            $state.go('app.place-compose', {placeId: $scope.username}, {notify : false});
           }
 
         }
