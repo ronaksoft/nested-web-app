@@ -316,7 +316,7 @@
       if (data.internal){
         post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
       }else{
-        post.setEmailSender(NstSvcUserFactory.parseTinyUser(data.sender));
+        post.setEmailSender(NstSvcUserFactory.parseTinyUser(data.email_sender));
       }
 
 
