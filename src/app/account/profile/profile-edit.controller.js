@@ -148,7 +148,6 @@
 
         return NstSvcPlaceFactory.get(user.id);
       }).then(function (place) {
-        console.log(place);
         vm.model.searchable = place.privacy.search;
       }).catch(function (error) {
         $log.debug(error);

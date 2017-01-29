@@ -23,13 +23,6 @@
     vm.placesWithRemoveAccess = [];
     vm.post = null;
     vm.postId = selectedPostId || $stateParams.postId;
-
-    vm.urls = {
-      reply_all: $state.href('app.compose-reply-all', {postId: vm.postId}),
-      reply_sender: $state.href('app.compose-reply-sender', {postId: vm.postId}),
-      forward: $state.href('app.compose-forward', {postId: vm.postId})
-    };
-
     vm.loadProgress = false;
 
     /*****************************
@@ -62,6 +55,10 @@
         }
       });
 
+      $scope.$on('post-view-target-changed', function (event, data) {
+        vm.postId = data.postId;
+        load(data.postId);
+      });
     })();
 
     function mapMessage(post) {
@@ -85,9 +82,9 @@
       });
     }
 
-    function load() {
+    function load(postId) {
       return $q(function (resolve, reject) {
-        loadChainMessages(vm.postId, defaultLimit).then(function (messages) {
+        loadChainMessages(postId, defaultLimit).then(function (messages) {
           vm.messages = messages;
           vm.post = _.last(vm.messages);
 

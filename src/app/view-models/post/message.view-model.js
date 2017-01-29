@@ -60,12 +60,13 @@
         this.ellipsis = post.ellipsis;
         this.bookmarked = post.bookmarked;
 
-        _.forEach(post.comments, function (comment, index) {
+        var comments = _.takeRight(post.comments, 3);
+        _.forEach(comments, function (comment, index) {
           var model = NstSvcCommentMap.toMessageComment(comment);
           var previousIndex = index - 1;
           if (previousIndex >= 0) {
 
-            var previousComment = post.comments[previousIndex];
+            var previousComment = comments[previousIndex];
             if (previousComment.sender.id === model.sender.username) {
               model.stickedToPrevious = true;
             }
