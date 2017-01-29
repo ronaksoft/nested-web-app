@@ -16,7 +16,6 @@
         mode: '='
       },
       link: function (scope, ele, attributes) {
-
         scope.overFlowLeft = scope.overFlowRight = false;
         scope.internalMode = NST_ATTACHMENTS_EDITABLE_BAR_MODE.AUTO;
         scope.scrollWrp = ele.children().next();
