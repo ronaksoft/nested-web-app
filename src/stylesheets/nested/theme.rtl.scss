@@ -212,6 +212,9 @@ body[dir="rtl"] {
     right: auto;
     left: 56px;
   }
+  .post-card-comments .delete-comment {
+    transform: translateX(-12px);
+  }
 }
 @media screen and (max-width: $screen-md){
 
