@@ -218,6 +218,10 @@ body[dir="rtl"] {
   .post-card-comments strong{
     float: right;
   }
+  .file-list .file-list-header #header-send-to {
+    margin-right: 0;
+    margin-left: 20px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
