@@ -222,6 +222,18 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 20px;
   }
+  .post-card .post-head .pin-post {
+    left: 4px;
+    right: auto;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar .attach-thumbnail .detail, nst-attachments-preview-bar ul.thumbnail-bar .attach-thumbnail .detail {
+    padding-right: 0;
+    padding-left: 48px;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar li:last-child .attdl, nst-attachments-preview-bar ul.thumbnail-bar li:last-child .attdl {
+    right: auto;
+    left: 10px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
