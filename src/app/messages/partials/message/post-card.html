@@ -46,12 +46,12 @@
         <div class="unread-badge-holder">●</div>
       </span>
     </div>
-    <div class="pin-post" ng-click="ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked)">
-      <svg class="_16svg" data-ng-if="ctlPostCard.post.bookmarked">
-        <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
+    <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}" ng-click="ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked)">
+      <svg class="_24svg" data-ng-if="ctlPostCard.post.bookmarked">
+        <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
       </svg>
-      <svg class="_16svg" data-ng-if="!ctlPostCard.post.bookmarked">
-        <use xlink:href="/assets/icons/nst-icn24.svg#star-wire"></use>
+      <svg class="_24svg" data-ng-if="!ctlPostCard.post.bookmarked">
+        <use xlink:href="/assets/icons/nst-icn24.svg#bookmark-wire"></use>
       </svg>
     </div>
   </section>

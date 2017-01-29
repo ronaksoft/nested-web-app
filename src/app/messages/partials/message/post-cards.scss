@@ -185,6 +185,10 @@ post-card {
       position: absolute;
       top: 0;
       right: 4px;
+      fill: $color-border;
+      &.pinned {
+        fill: $color-force;
+      }
     }
   }
   .unread-badge-holder {

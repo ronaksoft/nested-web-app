@@ -74,6 +74,8 @@
       contentsCss: 'body {overflow:visible;}',
       placeholder: 'Write something...',
       height: 230,
+      enableTabKeyTools: true,
+      tabSpaces: 4,
       startupFocus: false,
       extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea',
       autoGrow_minHeight: 230,
@@ -90,7 +92,7 @@
       colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
       // Remove the redundant buttons from toolbar groups defined above.
       //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-      removePlugins: 'resize,elementspath,wysiwygarea'
+      removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,liststyle,tabletools'
     };
 
 

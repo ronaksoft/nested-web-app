@@ -66,6 +66,9 @@
   word-wrap: break-word;
   word-break: break-word;
 }
+._nwrp {
+  white-space: nowrap;
+}
 ._txe {
   overflow: hidden;
   text-overflow: ellipsis;

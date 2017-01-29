@@ -6,7 +6,7 @@
     .directive('affixer', onScroll);
 
   /** @ngInject */
-  function onScroll($window) {
+  function onScroll($window,$rootScope,$timeout) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -18,9 +18,12 @@
 
         var containerLeft = $('body').offset().left || 0;
 
-        var isRTL = $("body").attr("dir");
+        var isRTL = $rootScope._direction;
 
-        applier();
+
+        $timeout(function () {
+          applier();
+        },10);
 
         win.on("resize", function () {
           applier();
@@ -46,7 +49,7 @@
           }
 
           if (!!$attrs.parent && $($attrs.parent).offset() ) {
-            containerLeft = $($attrs.parent).offset().left;
+            containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
           if (!!$attrs.top ) {
@@ -69,11 +72,9 @@
           //for create a fixed element we need a left parameter so we read it from itself
           function findLeftOffset () {
             if (isRTL == 'rtl') {
-              if (parseInt(afterContent) > 0) {
-                offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
-              }
+              offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
             } else {
-              offLeft = parseInt(containerLeft) + parseInt(afterContent);
+              offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
             }
 
             // if (isChrome || isFirefox) {
