@@ -1,80 +1,69 @@
-(function () {
+(function() {
   'use strict';
 
   angular
     .module('ronak.nested.web.components')
-    .directive('nstDisableForBtn', function () {
+    .directive('nstDisableForBtn', function($interval, NstUtility) {
       return {
-        restrict: 'AE',
-        replace : true,
-        //template: '<button id="call" data-ng-disabled="disabled" ng-click="onClick()" class="btn" >{{text}}</button>',
-        template: '<input type="button" id="call" data-ng-disabled="disabled" ng-click="onClick()" class="btn" value="{{text}}">',
+        restrict: 'A',
+        replace: true,
         scope: {
-          min: '=',
-          sec: '=',
-          click : '&',
-          orginalText: '@value'
+          seconds: '=',
+          click: '&',
+          originalText: '@value'
         },
-        controller: 'nstDisableForBtnCrtl',
-      };
-    })
-    .controller('nstDisableForBtnCrtl', function($scope, $interval){
+        link: function($scope, $element, $attrs) {
+          var timer = null;
 
-      var vm = $scope;
-
-      vm.min = parseInt($scope.min);
-      vm.sec = parseInt($scope.sec);
-      vm.orginalText = $scope.orginalText;
-      vm.click = $scope.click;
-
-
-        var i = [],
-        play = [];
-
-        function start(){
-          var inSeconds = vm.min * 60 + vm.sec;
-
-          vm.disabled = true;
-
-          play = $interval(function() {
-            if(inSeconds > 60){
-              inSeconds = inSeconds - 1;
-              var minutes = Math.floor(inSeconds / 60);
-              var seconds = inSeconds % 60;
-              if(minutes >= 1){
-                if(seconds.toString().length > 1){
-                  vm.text = "Call " + "( Wait " + minutes + ":" + seconds + ")";
-                }else{
-                  vm.text = "Call " + "( Wait " + minutes + ":" + "0" + seconds + ")";
-                }
-              }else{
-                vm.text = "Call " + "( Wait " + seconds + ")";
-              }
-            }else{
-              if(inSeconds > 1){
-                inSeconds = inSeconds - 1;
-                if(inSeconds.toString().length > 1){
-                 vm.text = "Resend " + "( Wait " + inSeconds + ")";
-                }else{
-                  vm.text = "Resend " + "( Wait " + "0" + inSeconds + ")";
-                }
-              }else{
-                vm.disabled = false;
-
-                $interval.cancel(play);
-                vm.text = vm.orginalText;
-
+          var seconds = $scope.seconds || 0;
+          var jelement = $($element);
+          jelement.val($scope.originalText);
+          $element.bind('click', function(e) {
+            if (timer) {
+              $interval.cancel(timer);
+            }
+            if ($scope.click) {
+              $scope.click();
+              if (seconds > 0) {
+                jelement.prop('disabled', true);
+                timer = disable(jelement, seconds, $scope.originalText);
               }
             }
-          }, 1000);
+          });
+
+          $scope.$on('$destroy', function() {
+            if (timer) {
+              $interval.cancel(timer);
+            }
+          });
+
         }
+      };
 
-        vm.onClick = function(){
-          vm.click();
-          start();
-        }
-        start();
+      function disable(element, seconds, originalText) {
+        var timer = null;
 
+        timer = $interval(function() {
+          seconds--;
+          if (seconds > 0) {
+            element.val(NstUtility.string.format("{0} {1}", originalText, formatTime(seconds)));
+          } else {
+            element.val(originalText);
+            element.prop('disabled', false);
 
+            if (timer) {
+              $interval.cancel(timer);
+            }
+          }
+
+        }, 1000);
+
+        return timer;
+      }
+
+      function formatTime(seconds) {
+        return NstUtility.string.format("{0}:{1}", _.padStart(Math.round(seconds / 60), 2, "0"), _.padStart(seconds % 60, 2, "0"));
+      }
     });
+
 })();

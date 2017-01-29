@@ -120,7 +120,7 @@
       var params = {
         fname: user.getFirstName(),
         lname: user.getLastName(),
-        dob: user.getDateOfBirth(),
+        dob: user.getDateOfBirth().valueOf(),
         gender: user.getGender(),
         searchable: user.getSearchable()
       };
@@ -128,7 +128,7 @@
       var query = new NstFactoryQuery(user.getId(), params);
 
       NstSvcServer.request('account/update', params).then(function () {
-        NstSvcUserStorage.set(NstSvcAuth.user.id, user);
+        NstSvcUserStorage.set(user.id, user);
         factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
         deferred.resolve(user);
       }).catch(function (error) {

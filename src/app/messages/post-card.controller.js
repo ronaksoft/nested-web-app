@@ -12,16 +12,16 @@
       var vm = this;
 
       var commentBoardMin = 3,
-        commentBoardMax = 99,
-        commentsSettings = {
-          limit: 8,
-          date: null
-        },
-        newCommentIds = [],
-        unreadCommentIds = [],
-        focusOnSentTimeout = null,
-        targetChangedUnsubscriber = null,
-        expandMeUnsubscriber = null;
+          commentBoardMax = 99,
+          commentsSettings = {
+            limit: 8,
+            date: null
+          },
+          newCommentIds = [],
+          unreadCommentIds = [],
+          focusOnSentTimeout = null,
+          targetChangedUnsubscriber = null,
+          expandMeUnsubscriber = null;
 
       vm.remove = remove;
       vm.retract = retract;
