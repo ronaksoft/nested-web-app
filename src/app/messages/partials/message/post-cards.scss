@@ -60,6 +60,7 @@ post-card {
       align-items: center;
       transform: translateX(-100%);
       > * {
+        direction: ltr;
         display: inline-table;
       }
     }
@@ -268,6 +269,7 @@ post-card {
   .post-card-time {
     position: relative;
     line-height: 14px;
+    padding-right: 8px;
     //top: 12px;
   }
   .post-places {
@@ -309,15 +311,7 @@ post-card {
         padding: 0 3px;
       }
     }
-    .new-comments-count {
-      color: #009CFA !important;
-      &:hover {
-        cursor: pointer;
-      }
-      svg {
-        fill: #009CFA !important;
-      }
-    }
+
 
     > a {
       font-size: $font-size-small;
@@ -642,13 +636,16 @@ h3 {
   }
 }
 
+.new-comments-count {
+  color: #009CFA !important;
+  &:hover {
+    cursor: pointer;
+  }
+  svg {
+    fill: #009CFA !important;
+  }
+}
+
 .isNotRF {
   margin-top: 24px;
 }
-
-//fixme : Ali
-//.post-card{
-  ul.thumbnail-bar{
-    width: 100%;
-  }
-//}
