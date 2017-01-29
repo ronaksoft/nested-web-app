@@ -210,9 +210,7 @@
     function parseMessageComment(data) {
       var defer = $q.defer();
       var comment = createCommentModel();
-      if (!data) {
-        defer.resolve(comment);
-      } else {
+      if (data && data._id && data.sender_id) {
 
         comment.id = data._id;
         comment.body = data.text;
@@ -223,6 +221,9 @@
           comment.sender = sender;
           defer.resolve(comment);
         }).catch(defer.reject);
+
+      } else {
+        defer.resolve(comment);
       }
 
       return defer.promise;

@@ -337,7 +337,6 @@
       post.setBody(data.body);
 
       post.setBookmarked(data.pinned);
-      console.log(1111111111,data);
 
       post.setInternal(data.internal);
 
@@ -454,14 +453,16 @@
       });
 
       var allComments = $q.all(commentPromises).then(function (comments) {
-        message.setComments(comments);
+        var validComments = _.filter(comments, function (comment) {
+          return comment.id && comment.sender.id;
+        });
+        message.setComments(validComments);
       });
 
       promises.push(allComments);
 
 
       $q.all(promises).then(function () {
-        console.log(message)
         defer.resolve(message);
       }).catch(defer.reject);
 

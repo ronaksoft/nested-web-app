@@ -33,8 +33,10 @@
      * @returns {Promise}
      */
     UserFactory.prototype.get = function (id, force) {
+      if (!id) {
+        throw Error('Id is not provided');
+      }
       var factory = this;
-      id = id || 'me';
 
       return factory.sentinel.watch(function () {
         var query = new NstFactoryQuery(id);
@@ -44,11 +46,9 @@
           if (user && !force) {
             resolve(user);
           } else {
-            var requestData = {};
-            if (id !== 'me') {
-              requestData.account_id = query.id;
-            }
-            NstSvcServer.request('account/get', requestData).then(function (userData) {
+            NstSvcServer.request('account/get', {
+              'account_id' : query.id
+            }).then(function (userData) {
               var user = factory.parseUser(userData);
               NstSvcUserStorage.set(query.id, user);
               resolve(user);
@@ -69,6 +69,9 @@
      * @returns {Promise}
      */
     UserFactory.prototype.getTiny = function (id) {
+      if (!id) {
+        throw Error('Id is not provided');
+      }
       var factory = this;
       return factory.sentinel.watch(function () {
         var query = new NstFactoryQuery(id);
@@ -125,7 +128,7 @@
       var query = new NstFactoryQuery(user.getId(), params);
 
       NstSvcServer.request('account/update', params).then(function () {
-        NstSvcUserStorage.set("me", user);
+        NstSvcUserStorage.set(NstSvcAuth.user.id, user);
         factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
         deferred.resolve(user);
       }).catch(function (error) {

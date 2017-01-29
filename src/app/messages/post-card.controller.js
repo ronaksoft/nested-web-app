@@ -19,7 +19,9 @@
         },
         newCommentIds = [],
         unreadCommentIds = [],
-        focusOnSentTimeout = null;
+        focusOnSentTimeout = null,
+        targetChangedUnsubscriber = null,
+        expandMeUnsubscriber = null;
 
       vm.remove = remove;
       vm.retract = retract;
@@ -58,7 +60,11 @@
 
       function viewFull($event) {
         $event.preventDefault();
-        $state.go('app.message', {postId: vm.post.id, model: vm.post}, {notify: false});
+        if ($state.current.name !== 'app.message') {
+            $state.go('app.message', {postId: vm.post.id}, {notify: false});
+        } else {
+            targetChangedUnsubscriber = $scope.$emit('post-view-target-changed', { postId : vm.post.id });
+        }
       };
 
 
@@ -188,11 +194,19 @@
         if (focusOnSentTimeout) {
           $timeout.cancel(focusOnSentTimeout);
         }
+
+        if (expandMeUnsubscriber) {
+            expandMeUnsubscriber();
+        }
+
+        if (targetChangedUnsubscriber) {
+            targetChangedUnsubscriber();
+        }
       });
 
       function switchToPostCard() {
         // tells the parent scope to open me
-        $scope.$emit('post-chain-expand-me', {postId: vm.post.id});
+        expandMeUnsubscriber = $scope.$emit('post-chain-expand-me', {postId: vm.post.id});
       }
 
       function onAddComment(comment) {
