@@ -60,16 +60,13 @@
         </div>
 
         <div class="_difh nst-marginbtm-16 text-center">
-          <div class="_df react-btn lftbtn" nst-disable-for-btn min="2" sec="0" id="call" class="btn" click="ctlRegister.callMe()" value="Call">
-          </div>
-          <div class="_df react-btn" nst-disable-for-btn id="resend" min="0" sec="45" click="ctlRegister.resend()" value="Resend">
-          </div>
+          <input type="button" class="_df react-btn lftbtn" nst-disable-for-btn seconds="90" class="btn" click="ctlRegister.callMe()" value="Call" translate-attrs="value">
+          <input type="button" class="_df react-btn" nst-disable-for-btn id="resend" seconds="10" click="ctlRegister.resend()" value="Resend" translate-attrs="value">
         </div>
 
         <div class="text-center">
-          <input type="submit" value="{{ctlRegister.callForVerificationProgress ? 'Verifing...' : 'Verify'}}"
-                 ng-disabled="ctlRegister.callForVerificationProgress || phoneVerifyForm.verification_code.$invalid"
-                 class="butn-green butn-lg butn-login nstbtn">
+          <input type="submit" value="Verifing..." ng-if="ctlRegister.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn" translate-attrs="value">
+          <input type="submit" value="Verify" ng-if="!ctlRegister.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn" translate-attrs="value">
         </div>
       </form>
 

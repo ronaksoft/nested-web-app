@@ -199,7 +199,7 @@
         }
       });
 
-      vm.callForVerificationProgress = true;
+      vm.verificationProgress = true;
       request.post().then(function(response) {
         if (response.status === 'ok') {
           deferred.resolve(true);
@@ -209,7 +209,7 @@
       }).catch(function(error) {
         deferred.reject('unknown');
       }).finally(function() {
-        vm.callForVerificationProgress = false;
+        vm.verificationProgress = false;
       });
 
       return deferred.promise;
