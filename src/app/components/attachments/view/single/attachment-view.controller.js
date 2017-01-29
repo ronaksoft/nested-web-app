@@ -99,6 +99,7 @@
 
     function goTo(index) {
       vm.attachments.current = vm.attachments.collection[index];
+      download(vm.attachments.current);
       if (vm.attachments.current.type === NST_FILE_TYPE.PDF ||
         vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {
         //TODO::Create a directive
@@ -167,15 +168,15 @@
 
     function download(item) {
       if (item.downloadUrl) {
-        location.href = item.downloadUrl;
-        return;
+     //   location.href = item.downloadUrl;
+       // return;
       }
 
       getToken(item.id).then(function (token) {
-        item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token);
+        item.downloadUrl = $sce.trustAsResourceUrl(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token));
         item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
 
-        location.href = item.downloadUrl;
+        //location.href = item.downloadUrl;
       }).catch(function (error) {
         toastr.error('Sorry, An error has occured while trying to load the file');
       });
