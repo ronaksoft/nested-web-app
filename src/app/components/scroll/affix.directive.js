@@ -19,7 +19,6 @@
         var containerLeft = $('body').offset().left || 0;
 
         var isRTL = $rootScope._direction;
-        console.log(isRTL);
 
 
         $timeout(function () {
