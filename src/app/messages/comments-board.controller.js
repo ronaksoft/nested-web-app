@@ -43,7 +43,6 @@
       NstSvcCommentFactory.removeComment(vm.postId, comment).then(function(post) {
         NstUtility.collection.dropById(vm.comments, comment.id);
       }).catch(function(error) {
-        console.log(error);
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured while removing your comment'));
       }).finally(function() {
         vm.commentRemoveProgress = false;
@@ -188,7 +187,6 @@
 
         clearCommentBoardLimit();
       }).catch(function(error) {
-        console.log(error);
         toastr.error('Sorry, an error has occured while loading older comments');
       });
     }

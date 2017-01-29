@@ -337,7 +337,6 @@
       post.setBody(data.body);
 
       post.setBookmarked(data.pinned);
-      console.log(1111111111,data);
 
       post.setInternal(data.internal);
 
@@ -464,7 +463,6 @@
 
 
       $q.all(promises).then(function () {
-        console.log(message)
         defer.resolve(message);
       }).catch(defer.reject);
 
