@@ -12,14 +12,14 @@
 #    When I wait 2s
 #    Given I Press "Sign in"
 #    When I wait 2s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #
 #  Scenario: Activity 1
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Activity"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #
 #  Scenario: select filter bar
@@ -48,7 +48,7 @@
 #    When I wait 5s
 #    Given I Click id "logs"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: setting filter bar
 #    When  I wait 5s
@@ -66,7 +66,7 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Activity"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Activity 3
 #    Given I Click id "test-select-filter"
@@ -91,13 +91,13 @@
 #  Scenario: back to All places
 #    Given I Click on sidebar "messages"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: back to Activity
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Activity"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #
 #  Scenario: Activity 5
@@ -113,7 +113,7 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Activity 6
 #    Given I Click id "test-select-filter"
@@ -131,7 +131,7 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Activity 7
 #    Given I Click id "test-select-filter"
@@ -148,7 +148,7 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "Discard"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #
 #  Scenario: Activity 8
@@ -162,7 +162,7 @@
 #    When I wait 5s
 #    Given I Click by ngClick "$dismiss()"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Activity 9
 #    Given I Click id "test-select-filter"
@@ -181,7 +181,7 @@
 #    When I wait 5s
 #    Given I Click by ngClick "$dismiss()"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #
 #  Scenario: Activity 8
