@@ -15,7 +15,7 @@
     <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
       <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 0">{{ ctlMessages.currentPlace.counters.posts }} posts</p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
-      <div ng-show="!ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
+      <div ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
         <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
