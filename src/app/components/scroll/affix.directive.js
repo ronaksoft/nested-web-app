@@ -19,6 +19,7 @@
         var containerLeft = $('body').offset().left || 0;
 
         var isRTL = $rootScope._direction;
+        console.log(isRTL);
 
 
         $timeout(function () {
@@ -74,7 +75,7 @@
             if (isRTL == 'rtl') {
               offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
             } else {
-              offLeft = parseInt(containerLeft) + parseInt(afterContent);
+              offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
             }
 
             // if (isChrome || isFirefox) {
