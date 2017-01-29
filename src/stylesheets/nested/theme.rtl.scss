@@ -253,6 +253,10 @@ body[dir="rtl"] {
     right: auto;
     left: 12px;
   }
+  .comments-load a {
+    margin-left : 0;
+    margin-right: 32px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
