@@ -309,7 +309,7 @@
 
     _.map(NST_EVENT_ACTION,function (val) {
       NstSvcSync.addEventListener(val, function (e) {
-        addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail));
+        addNewActivity(e.detail);
       });
     });
 

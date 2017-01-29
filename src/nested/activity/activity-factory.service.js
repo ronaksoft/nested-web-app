@@ -21,6 +21,7 @@
     ActivityFactory.prototype.getAfter = getAfter;
     ActivityFactory.prototype.getRecent = getRecent;
     ActivityFactory.prototype.parseActivity = parseActivity;
+    ActivityFactory.prototype.parseActivityIntelligently = parseActivityIntelligently;
 
     var factory = new ActivityFactory();
     return factory;

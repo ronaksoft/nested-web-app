@@ -146,8 +146,8 @@
         _.map(newActs, function (act) {
 
           //check dispatched activities Id for duplication
-          if (self.recivedActivityStack.indexOf(act.id) < 0) {
-            self.recivedActivityStack.push(act.id);
+          // if (self.recivedActivityStack.indexOf(act.id) < 0) {
+          //   self.recivedActivityStack.push(act.id);
 
             NstSvcLogger.debug2('Sync Service | Dispatch ', act.type, act);
 
@@ -156,7 +156,7 @@
               new NstFactoryEventData(act)
             ));
 
-          }
+          // }
         });
 
         // check data length and try to get more new activity

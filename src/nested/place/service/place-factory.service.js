@@ -512,47 +512,25 @@
       }, "setNotificationOption", id);
     }
 
-    PlaceFactory.prototype.getBookmarkedPlaces = function (bookmarkId) {
+    PlaceFactory.prototype.getFavoritesPlaces = function () {
       var factory = this;
 
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
-        var query = new NstFactoryQuery(bookmarkId);
+        var query = new NstFactoryQuery();
 
-        NstSvcServer.request('account/get_favorite_places', {
-          bookmark_id: bookmarkId
-        }).then(function (data) {
-          // TODO: Why a plain array of place objects has been resolved?
-          var flatArray = data.places.map(function (place) {
-            return place._id
-          });
-          deferred.resolve(flatArray);
-        }).catch(function (error) {
+        NstSvcServer.request('account/get_favorite_places', {})
+          .then(function (data) {
+            var flatArray = data.places.map(function (place) {
+              return place._id
+            });
+            deferred.resolve(flatArray);
+          }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
         });
 
         return deferred.promise;
-      }, "getBookmarkedPlaces", bookmarkId);
-    };
-
-    PlaceFactory.prototype.getBookmarkOption = function (id, bookmarkId) {
-      var factory = this;
-
-      return factory.sentinel.watch(function () {
-        var deferred = $q.defer();
-        var query = new NstFactoryQuery(id);
-
-        NstSvcServer.request('bookmark/exists', {
-          place_id: id,
-          bookmark_id: bookmarkId
-        }).then(function (data) {
-          deferred.resolve(data.exists);
-        }).catch(function (error) {
-          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
-        });
-
-        return deferred.promise;
-      }, "getBookmarkOption", id);
+      }, "getFavoritesPlaces");
     };
 
     PlaceFactory.prototype.setBookmarkOption = function (id, bookmarkId, value) {
@@ -566,8 +544,7 @@
         var query = new NstFactoryQuery(id);
 
         NstSvcServer.request(requestCommad, {
-          place_id: id,
-          bookmark_id: bookmarkId
+          place_id: id
         }).then(function () {
           factory.dispatchEvent(new CustomEvent(
             value ? NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD : NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE,
@@ -749,7 +726,7 @@
       });
 
       return deferred.promise;
-    }
+    };
 
     PlaceFactory.prototype.getKeyholders = function (id, limit, skip) {
       var deferred = $q.defer();
