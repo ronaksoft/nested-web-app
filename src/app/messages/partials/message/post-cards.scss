@@ -60,6 +60,7 @@ post-card {
       align-items: center;
       transform: translateX(-100%);
       > * {
+        direction: ltr;
         display: inline-table;
       }
     }
@@ -268,6 +269,7 @@ post-card {
   .post-card-time {
     position: relative;
     line-height: 14px;
+    padding-right: 8px;
     //top: 12px;
   }
   .post-places {
@@ -645,10 +647,3 @@ h3 {
 .isNotRF {
   margin-top: 24px;
 }
-
-//fixme : Ali
-//.post-card{
-  ul.thumbnail-bar{
-    width: 100%;
-  }
-//}

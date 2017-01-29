@@ -65,6 +65,7 @@
     (function () {
       isUnread();
       vm.isSentMode = 'messages-sent' === $state.current.name;
+      vm.isbookmarkedsMode = 'app.messages-bookmarked' === $state.current.name;
 
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
         vm.syncId = NstSvcSync.openAllChannel();
