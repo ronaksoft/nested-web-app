@@ -39,6 +39,7 @@
       vm.viewFull = viewFull;
       vm.setBookmark = setBookmark;
       vm.unreadCommentsCount = 0;
+      vm.loadNewComments = loadNewComments;
 
       if (vm.mood == 'chain') {
         vm.chainView = true;
@@ -127,6 +128,10 @@
         vm.body = vm.post.body;
       }
 
+      function loadNewComments() {
+
+      }
+
       /**
        * anonymous function - Reset newCommentsCount when the post has been seen
        *
@@ -210,7 +215,7 @@
         expandMeUnsubscriber = $scope.$emit('post-chain-expand-me', {postId: vm.post.id});
       }
 
-      function onAddComment(comment) {
+      function onAddComment() {
         markAsRead();
       }
     }

@@ -196,14 +196,22 @@
   <div ng-if="ctlPostCard.addOn">
     <div class="squ"></div><span>shared in {{ctlPostCard.post.getAllPlacesCount()}} places</span>
   </div>
-  <div ng-if="ctlPostCard.addOn">
+  <div ng-if="ctlPostCard.addOn" >
     <svg class="chain-ico">
       <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
     </svg>
-    <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comments</translate></span>
-    <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
-    <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>{{ctlPostCard.post.commentsCount}} comments</translate></span>
+    <span ng-if="ctlPostCard.unreadCommentsCount === 0">
+      <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comments</translate></span>
+      <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
+      <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>comments {{ctlPostCard.post.commentsCount}}</translate></span>
+    </span>
+    <a class="_df _fn comments-count new-comments-count" ng-if="ctlPostCard.unreadCommentsCount > 0"
+       ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.loadNewComments($event)" >
+      <span ng-if="ctlPostCard.unreadCommentsCount == 1"><translate>1 new comment</translate></span>
+      <span ng-if="ctlPostCard.unreadCommentsCount > 1"><translate>new comments {{ctlPostCard.unreadCommentsCount}}</translate></span>
+    </a>
   </div>
+
 </div>
 
 <div class="post-card-wire" ng-if="!ctlPostCard.chainView" ></div>
