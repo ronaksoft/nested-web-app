@@ -234,6 +234,9 @@ body[dir="rtl"] {
     right: auto;
     left: 10px;
   }
+  post-card .chain-stats > div > * {
+    direction: rtl;
+  }
 }
 @media screen and (max-width: $screen-md){
 

@@ -74,6 +74,7 @@ post-card {
       align-items: center;
       transform: translateX(-100%);
       >* {
+        direction: ltr;
         display: inline-table;
       }
     }
