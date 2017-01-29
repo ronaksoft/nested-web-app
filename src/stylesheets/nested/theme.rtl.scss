@@ -248,6 +248,11 @@ body[dir="rtl"] {
   #Logo-type-white {
     background: url("../assets/icons/Nested_PersianTypeNegative.svg") no-repeat;
   }
+  .toast-top-right {
+    top: 12px;
+    right: auto;
+    left: 12px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
