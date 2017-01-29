@@ -454,7 +454,10 @@
       });
 
       var allComments = $q.all(commentPromises).then(function (comments) {
-        message.setComments(comments);
+        var validComments = _.filter(comments, function (comment) {
+          return comment.id && comment.sender.id;
+        });
+        message.setComments(validComments);
       });
 
       promises.push(allComments);
