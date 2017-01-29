@@ -59,9 +59,7 @@
 //          height: 24px;
 //        }
 //      }
-//      &.uploading {
-//        opacity: .5;
-//      }
+//
 //    }
 //  }
 //  ul.thumbnail-bar {
@@ -196,32 +194,6 @@
         .attach-name {
           display: none
         }
-        .uploadprogress {
-          height: 20px;
-          min-width: 20px;
-          justify-content: center;
-          align-items: center;
-          position: relative;
-          & > div {
-            position: absolute;
-            display: flex;
-            width: 20px;
-            height: 20px;
-            top: 0;
-            right: 0;
-          }
-          .del {
-            width: 20px;
-            height: 20px;
-            img {
-              position: absolute;
-              width: 20px;
-              height: 20px;
-              left: 0;
-              top: 0;
-            }
-          }
-        }
         .attach-ext {
           width: 100%;
           justify-content: center;
@@ -242,6 +214,21 @@
       margin-bottom: 4px;
       vertical-align: middle;
       position: relative;
+
+    }
+    .uploadprogress {
+      height: 20px;
+      min-width: 20px;
+      justify-content: center;
+      align-items: center;
+      & > div {
+        position: absolute;
+        display: flex;
+        width: 20px;
+        height: 20px;
+        top: 0;
+        right: 0;
+      }
     }
     .attach-thumbnail {
       height: 32px;

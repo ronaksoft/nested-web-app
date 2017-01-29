@@ -6,12 +6,11 @@
     .controller('PostController', PostController);
 
   /** @ngInject */
-  function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance, $timeout,
-                          _, toastr, moment,
-                          NST_POST_EVENT, NST_COMMENT_SEND_STATUS, NST_SRV_EVENT,NST_EVENT_ACTION,
-                          NstSvcAuth, NstSvcLoader, NstSvcPostFactory, NstSvcCommentFactory, NstSvcPostMap, NstSvcCommentMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger, NstSvcServer, NstSvcPostInteraction, NstSvcTranslation,
-                          NstSvcSync,
-                          NstTinyComment, NstVmUser, selectedPostId) {
+  function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance,
+                          _, toastr,
+                          NST_POST_EVENT,
+                          NstSvcAuth, NstSvcPostFactory, NstSvcPostMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger,NstSvcPostInteraction, NstSvcTranslation,
+                          selectedPostId) {
     var vm = this;
     var defaultLimit = 8;
 
@@ -122,15 +121,15 @@
       });
     }
 
-    $uibModalInstance.result.finally(function () {
-      // TODO: decide what to do for this
-      $rootScope.$broadcast('post-modal-closed', {
-        postId: vm.post.id,
-        comments: _.takeRight(vm.post.comments, 3),
-        totalCommentsCount: vm.post.counters.comments,
-        removedCommentsCount: removedCommentsCount
-      });
-    });
+    // $uibModalInstance.result.finally(function () {
+    //   // TODO: decide what to do for this
+    //   $rootScope.$broadcast('post-modal-closed', {
+    //     postId: vm.post.id,
+    //     comments: _.takeRight(vm.post.comments, 3),
+    //     totalCommentsCount: vm.post.counters.comments,
+    //     removedCommentsCount: removedCommentsCount
+    //   });
+    // });
 
     $scope.$on('$destroy', function () {
       // $timeout.cancel(revealNewCommentsTimeout);

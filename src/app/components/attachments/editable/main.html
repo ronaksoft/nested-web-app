@@ -11,7 +11,7 @@
       <div ng-if="!item.hasThumbnail" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
         <p>{{item.name}}</p>
         <div class="detail">
-          <p>{{item.extension | uppercase}}</p>
+          <p class="_nwrp">{{item.extension | uppercase}}</p>
           <span class="attsize">{{item.size | bytes:2}}</span>
         </div>
       </div>
@@ -21,6 +21,9 @@
         <use xlink:href="/assets/icons/nst-icn24.svg#delete"></use>
       </svg>
     </a>
+    <div class="uploadprogress" ng-if="!item.isUploaded">
+      <div ng-progressbar="{{item.uploadedRatio}}" progressbar-mode="circle"></div>
+    </div>
   </li>
 </ul>
 

@@ -1,7 +1,4 @@
  <div>
-<!--{{name}}<br>-->
-<!--{{username}}<br>-->
-<!--{{avatar}}-->
   <div class="user-avatar-bg">
     <div class="blur-image" ng-if="avatar.length > 2">
       <div style="background-image: url('{{avatar}}')"></div>
@@ -19,7 +16,7 @@
   </div>
   <div class="user-data">
     <h4>{{name}}</h4>
-    <span>@{{username}}</span>
+    <span ng-if="!isEmail">@{{username}}</span>
     <div class="_fw">
       <div class="butn-white" ng-click="searchUser()">
         <i class="icon cursor-pointer icon-search-rotated"></i>

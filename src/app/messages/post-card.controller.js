@@ -38,6 +38,7 @@
       vm.replyToSender = replyToSender;
       vm.viewFull = viewFull;
       vm.setBookmark = setBookmark;
+      vm.unreadCommentsCount = 0;
 
       if (vm.mood == 'chain') {
         vm.chainView = true;
@@ -175,8 +176,8 @@
           }
         } else {
           if (!_.includes(unreadCommentIds, e.detail.id)) {
-            unreadCommentIds.push(e.detail.id);
             vm.unreadCommentsCount++;
+            unreadCommentIds.push(e.detail.id);
           }
         }
       });

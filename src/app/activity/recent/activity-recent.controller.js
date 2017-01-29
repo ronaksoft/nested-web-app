@@ -34,18 +34,21 @@
         });
       }
 
-      eventListeners = _.map(NST_EVENT_ACTION,function (val) {
-        return NstSvcSync.addEventListener(val, function (e) {
-          addNewActivity(e.detail);
-        });
-      });
-
       NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
         NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
         NstSvcLoader.inject(getRecentActivity(vm.settings));
       });
 
     })();
+
+
+
+    eventListeners = _.map(NST_EVENT_ACTION,function (val) {
+
+      return NstSvcSync.addEventListener(val, function (e) {
+        addNewActivity(e.detail);
+      });
+    });
 
 
     function getRecentActivity(settings) {

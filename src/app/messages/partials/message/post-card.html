@@ -46,12 +46,12 @@
         <div class="unread-badge-holder">●</div>
       </span>
     </div>
-    <div class="pin-post" ng-click="ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked)">
-      <svg class="_16svg" data-ng-if="ctlPostCard.post.bookmarked">
-        <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
+    <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}" ng-click="ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked)">
+      <svg class="_24svg" data-ng-if="ctlPostCard.post.bookmarked">
+        <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
       </svg>
-      <svg class="_16svg" data-ng-if="!ctlPostCard.post.bookmarked">
-        <use xlink:href="/assets/icons/nst-icn24.svg#star-wire"></use>
+      <svg class="_24svg" data-ng-if="!ctlPostCard.post.bookmarked">
+        <use xlink:href="/assets/icons/nst-icn24.svg#bookmark-wire"></use>
       </svg>
     </div>
   </section>
@@ -113,18 +113,22 @@
     <script type="text/ng-template" id="forward-uib-tooltip.html">
       <translate>Forward</translate>
     </script>
-    <a class="_df _fn" ng-if="!ctlPostCard.hideComments">
+    <a class="_df _fn comments-count" ng-if="ctlPostCard.unreadCommentsCount == 0 ">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
       </svg>
-      <span ng-if="!ctlPostCard.post.hasAnyComment()"><translate>No comments</translate></span>
-      <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
-      <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>{{ctlPostCard.post.commentsCount}} comments</translate></span>
+      <span>{{ctlPostCard.post.commentsCount}}</span>
     </a>
-    <a ng-if="ctlPostCard.unreadCommentsCount > 0 " class="new-comments-count"
-       auto-dir="ctlPostCard.post.subject">
-      <span>+{{ctlPostCard.unreadCommentsCount}}</span>
+    <a class="_df _fn comments-count new-comments-count" ng-if="ctlPostCard.unreadCommentsCount > 0 "
+       ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.viewFull($event)" >
+      <!--fixme :: set blue icon-->
+      <svg class="_16svg">
+        <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
+      </svg>
+      <span ng-if="ctlPostCard.unreadCommentsCount == 1"><translate>1 new comment</translate></span>
+      <span ng-if="ctlPostCard.unreadCommentsCount > 1"><translate>{{ctlPostCard.unreadCommentsCount}} new comments</translate></span>
     </a>
+
     <div class="post-icons _fw _df">
       <a id="test-forward" ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);" class="icon _df">
         <div class="fw">
@@ -143,7 +147,7 @@
         </div>
       </a>
       <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
-           data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"  data-popover-append-to-body="false" translate-attrs="data-uib-tooltip">
+             data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"  data-popover-append-to-body="false" translate-attrs="data-uib-tooltip">
         <div class="more">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>

@@ -29,8 +29,8 @@
     Picture.prototype.constructor = Picture;
 
     Picture.prototype.getUrl = function (size) {
-      return this.original ? NstSvcStore.getViewUrl(this[size]) : '';
-    }
+      return (this.original && this[size]) ? NstSvcStore.getViewUrl(this[size]) : '';
+    };
 
     return Picture;
   }

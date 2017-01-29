@@ -12,10 +12,12 @@
        class="_fw _fh ng-class:{'_rtl' : $root._direction == 'rtl'}"
        ng-model="ctlQuickMessage.message"
        aria-expanded="false" role="textbox" auto-dir="ctlQuickMessage.model.subject"></div>
-  <div class="quick-controls" ng-class="{'modified' : ctlQuickMessage.model.modified }">
+  <div class="quick-atach" ng-show="ctlQuickMessage.attachments.viewModels.length > 0">
     <nst-attachments-editable-bar class="qm-mode _df _fw" mode="thumbnail"
                                   items="ctlQuickMessage.attachments.viewModels"
                                   on-item-delete="ctlQuickMessage.attachments.detach"></nst-attachments-editable-bar>
+  </div>
+  <div class="quick-controls" ng-class="{'modified' : ctlQuickMessage.model.modified }">
     <div class="quick-icons">
       <label tabindex="0" class="butn-white" for="attach">
         <translate>Attach files</translate>
