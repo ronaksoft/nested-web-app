@@ -121,7 +121,7 @@ body[dir="rtl"] {
   }
   .post-card .post-head {
     padding-right: 0;
-    padding-left: 12px;
+    padding-left: 24px;
   }
   .compose-input {
     padding-left: 0;
@@ -233,6 +233,17 @@ body[dir="rtl"] {
   nst-attachments-editable-bar ul.thumbnail-bar li:last-child .attdl, nst-attachments-preview-bar ul.thumbnail-bar li:last-child .attdl {
     right: auto;
     left: 10px;
+  }
+  post-card .chain-stats > div > * {
+    direction: rtl;
+  }
+  .post-card .post-card-time {
+    padding-left: 8px;
+    padding-right: 0;
+  }
+  .user-avatar-64 {
+    margin-right: 0;
+    margin-left: 8px;
   }
 }
 @media screen and (max-width: $screen-md){

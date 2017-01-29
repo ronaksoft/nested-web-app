@@ -130,8 +130,8 @@
     }
 
     (function () {
-      NstSvcUserFactory.get().then(function (user) {
-
+      NstSvcUserFactory.get(NstSvcAuth.user.id, true).then(function (user) {
+        console.log("user", user);
         vm.model.id = user.getId();
         vm.model.firstName = user.getFirstName();
         vm.model.lastName = user.getLastName();
