@@ -7,36 +7,36 @@
 
   /** @ngInject */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
-    NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation,
-    NstVmFile, NstVmFileViewerItem,
-    NST_DEFAULT) {
+                           NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation,
+                           NstVmFile, NstVmFileViewerItem,
+                           NST_DEFAULT) {
     var vm = this;
     var onSelectTimeout = null;
 
     vm.fileTypes = [
       {
-        id : 'ALL',
-        label : NstSvcTranslation.get('all')
+        id: 'ALL',
+        label: NstSvcTranslation.get('all')
       },
       {
-        id : 'DOC',
-        label : NstSvcTranslation.get('documents')
+        id: 'DOC',
+        label: NstSvcTranslation.get('documents')
       },
       {
-        id : 'IMG',
-        label : NstSvcTranslation.get('images')
+        id: 'IMG',
+        label: NstSvcTranslation.get('images')
       },
       {
-        id : 'AUD',
-        label : NstSvcTranslation.get('audios')
+        id: 'AUD',
+        label: NstSvcTranslation.get('audios')
       },
       {
-        id : 'VID',
-        label : NstSvcTranslation.get('videos')
+        id: 'VID',
+        label: NstSvcTranslation.get('videos')
       },
       {
-        id : 'OTH',
-        label : NstSvcTranslation.get('others')
+        id: 'OTH',
+        label: NstSvcTranslation.get('others')
       }
     ];
 
@@ -54,11 +54,11 @@
     vm.currentPlaceId = null;
 
     var defaultSettings = {
-          filter : 'ALL',
-          keyword : '',
-          skip : 0,
-          limit : 12
-        };
+      filter: 'ALL',
+      keyword: '',
+      skip: 0,
+      limit: 12
+    };
 
     vm.settings = {};
 
@@ -66,10 +66,10 @@
       vm.currentPlaceId = $stateParams.placeId;
       vm.selectedFileType = getSelectedFilter();
       vm.settings = {
-        filter : vm.selectedFileType.id,
-        search : getSearchParameter() || defaultSettings.search,
-        skip : defaultSettings.skip,
-        limit : defaultSettings.limit
+        filter: vm.selectedFileType.id,
+        search: getSearchParameter() || defaultSettings.search,
+        skip: defaultSettings.skip,
+        limit: defaultSettings.limit
       };
 
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
@@ -115,8 +115,8 @@
       var value = _.toLower($stateParams.filter);
 
       return _.find(vm.fileTypes, function (fileType) {
-        return _.toLower(fileType.label) === value;
-      }) || vm.fileTypes[0];
+          return _.toLower(fileType.label) === value;
+        }) || vm.fileTypes[0];
     }
 
     function getSearchParameter() {
@@ -137,14 +137,14 @@
         vm.settings.keyword,
         vm.settings.skip,
         vm.settings.limit).then(function (files) {
-          var fileItems = mapFiles(files);
-          var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
+        var fileItems = mapFiles(files);
+        var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
 
-          vm.hasNextPage = fileItems.length === vm.settings.limit;
-          vm.settings.skip += newFileItems.length;
+        vm.hasNextPage = fileItems.length === vm.settings.limit;
+        vm.settings.skip += newFileItems.length;
 
-          vm.files.push.apply(vm.files, newFileItems);
-          vm.loadFilesError = false;
+        vm.files.push.apply(vm.files, newFileItems);
+        vm.loadFilesError = false;
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
@@ -172,16 +172,16 @@
         controllerAs: 'ctlAttachmentView',
         size: 'mlg',
         resolve: {
-          fileViewerItem : function () {
+          fileViewerItem: function () {
             return mapToFileViewerItem(file);
           },
-          fileViewerItems : function () {
+          fileViewerItems: function () {
             return _.map(vm.files, mapToFileViewerItem);
           },
-          fileId : function () {
+          fileId: function () {
             return null;
           },
-          fileIds : function () {
+          fileIds: function () {
             return null;
           }
         }
@@ -211,7 +211,7 @@
     };
 
     function composeWithAttachments() {
-      $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : vm.selectedFiles });
+      $state.go('app.place-compose', {placeId: $stateParams.placeId, attachments: vm.selectedFiles}, {notify: false});
     }
 
     $scope.$on('$destroy', function () {

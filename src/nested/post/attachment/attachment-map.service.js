@@ -26,6 +26,7 @@
 
       var model = null;
 
+
       if (attachment instanceof NstVmFile) {
 
         model = {
@@ -52,7 +53,7 @@
           url: attachment.hasThumbnail() ? attachment.picture.original : null,
           type: NstSvcFileType.getType(attachment.getMimetype()),
           extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
-          thumbnail: attachment.hasThumbnail() ? attachment.picture.x128 : null,
+          thumbnail: attachment.hasThumbnail() ? attachment.picture.x128.indexOf('data:') == 0  ? attachment.picture.x128 : attachment.picture.getUrl('x128') : null,
           hasThumbnail: attachment.hasThumbnail()
         };
       }

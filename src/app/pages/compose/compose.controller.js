@@ -37,7 +37,7 @@
     };
 
     vm.search = {
-      results: [],
+      results: []
     };
 
     vm.attachments = {
@@ -71,10 +71,10 @@
     $scope.editorOptions = {
       language: lang,
       contentsLangDirection: isRTL,
-      contentsCss : 'body {overflow:visible;}',
-      placeholder : 'Write something...',
+      contentsCss: 'body {overflow:visible;}',
+      placeholder: 'Write something...',
       height: 230,
-      startupFocus : false,
+      startupFocus: false,
       extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea',
       autoGrow_minHeight: 230,
       sharedSpaces: {
@@ -92,9 +92,6 @@
       //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
       removePlugins: 'resize,elementspath,wysiwygarea'
     };
-
-
-
 
 
     (function () {
@@ -116,8 +113,7 @@
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
     vm.subjectKeyDown = function (e) {
-      console.log('s');
-      if(e.which == 13) {
+      if (e.which == 13) {
         $window.CKEDITOR.instances.editor1.focus();
       }
     };
@@ -538,15 +534,30 @@
           if (NST_DEFAULT.STATE_PARAM == $stateParams.placeId) {
             $state.go('app.compose');
           } else {
-            getPlace($stateParams.placeId).then(function (place) {
-              // FIXME: Push Compose Recipient View Model Instead
-              vm.model.recipients.push(new NstVmSelectTag({
-                id: place.getId(),
-                name: place.getName(),
-                data: place
-              }));
-              vm.place = place;
-            });
+            if (NST_PATTERN.EMAIL.test($stateParams.placeId)) {
+              var tag = new NstVmSelectTag({
+                id: $stateParams.placeId,
+                name: $stateParams.placeId,
+                isEmail: true,
+                isEmailValid: true,
+                data: new NstRecipient({
+                  id: $stateParams.placeId,
+                  email: $stateParams.placeId,
+                  name: $stateParams.placeId
+                })
+              });
+              vm.model.recipients.push(tag);
+            } else {
+              getPlace($stateParams.placeId).then(function (place) {
+                // FIXME: Push Compose Recipient View Model Instead
+                vm.model.recipients.push(new NstVmSelectTag({
+                  id: place.id,
+                  name: place.name,
+                  data: place
+                }));
+                vm.place = place;
+              });
+            }
           }
         }
         break;
@@ -589,6 +600,39 @@
                   data: place
                 }));
               }
+
+              var recipients = post.recipients;
+              for (var j in recipients) {
+                vm.model.recipients.push(new NstVmSelectTag({
+                  id: recipients[j].id,
+                  name: recipients[j].name,
+                  isEmail: true,
+                  isEmailValid: true,
+                  data: new NstRecipient({
+                    id: recipients[j].id,
+                    email: recipients[j].email,
+                    name: recipients[j].name
+                  })
+                }));
+              }
+
+
+              var email = post.getEmailSender();
+              if (email) {
+                var tag = new NstVmSelectTag({
+                  id: email.id,
+                  name: email.name || email.id,
+                  isEmail: true,
+                  isEmailValid: true,
+                  data: new NstRecipient({
+                    id: email.id,
+                    email: email.id,
+                    name: email.name || email.id
+                  })
+                });
+                vm.model.recipients.push(tag);
+              }
+
             });
           }
         }
@@ -606,37 +650,55 @@
               // TODO: First search in post places to find a match then try to get from factory
               var postPlaces = post.getPlaces();
               var place = undefined;
-              for (var k in postPlaces) {
-                if (post.getSender().getId() == postPlaces[k].getId()) {
-                  place = postPlaces[k];
-                  break;
+              if (post.internal) {
+                for (var k in postPlaces) {
+                  if (post.getSender().getId() == postPlaces[k].getId()) {
+                    place = postPlaces[k];
+                    break;
+                  }
                 }
-              }
 
-              var deferred = $q.defer();
 
-              if (place) {
-                deferred.resolve(place);
-              } else {
-                getPlace(post.getSender().getId()).then(function (place) {
-                  deferred.resolve(place);
-                });
-              }
-
-              return deferred.promise.then(function (place) {
                 var deferred = $q.defer();
 
-                vm.place = place;
-                vm.model.recipients.push(new NstVmSelectTag({
-                  id: place.getId(),
-                  name: place.getName(),
-                  data: place
-                }));
+                if (place) {
+                  deferred.resolve(place);
+                } else {
+                  getPlace(post.getSender().getId()).then(function (place) {
+                    deferred.resolve(place);
+                  });
+                }
 
-                deferred.resolve(post);
+                return deferred.promise.then(function (place) {
+                  var deferred = $q.defer();
 
-                return deferred.promise;
-              });
+                  vm.place = place;
+                  vm.model.recipients.push(new NstVmSelectTag({
+                    id: place.getId(),
+                    name: place.getName(),
+                    data: place
+                  }));
+
+                  deferred.resolve(post);
+
+                  return deferred.promise;
+                });
+              } else {
+                var email = post.getEmailSender();
+
+                var tag = new NstVmSelectTag({
+                  id: email.id,
+                  name: email.name || email.id,
+                  isEmail: true,
+                  isEmailValid: true,
+                  data: new NstRecipient({
+                    id: email.id,
+                    email: email.id,
+                    name: email.name || email.id
+                  })
+                });
+                vm.model.recipients.push(tag);
+              }
             })
           }
         }
@@ -702,7 +764,7 @@
     }
 
     function getPost(id) {
-      return NstSvcLoader.inject(NstSvcPostFactory.get(id));
+      return NstSvcLoader.inject(NstSvcPostFactory.get(id,true));
     }
 
     /*****************************

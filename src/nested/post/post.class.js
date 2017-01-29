@@ -24,6 +24,8 @@
        */
       this.sender = null;
 
+      this.emailSender = null;
+
       this.date = null;
       this.updatedDate = null;
 
@@ -67,6 +69,8 @@
       this.isRead = null;
 
       this.ellipsis = null;
+
+      this.bookmarked = null;
 
       NstTinyPost.call(this, model);
 

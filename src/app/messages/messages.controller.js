@@ -155,6 +155,20 @@
         //TODO:: Handel me
       });
 
+
+      NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.UNBOOKMARKED, function (e) {
+        if ($state.current.name === 'app.messages-bookmarked' ||
+          $state.current.name === 'app.messages-bookmarked-sorted') {
+          var message = _.find(vm.messages, {
+            id: e.detail
+          });
+
+          if (message) {
+              NstUtility.collection.dropById(vm.messages, message.id);
+          }
+        }
+      });
+
       $rootScope.$on('post-removed', function (event, data) {
         var message = _.find(vm.messages, {
           id: data.postId
@@ -205,7 +219,12 @@
       switch ($state.current.name) {
         case 'app.place-messages':
         case 'app.place-messages-sorted':
-          return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlaceId);
+          // return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlaceId);
+          return NstSvcPostFactory.getFavoriteMessages(vm.messagesSetting);
+
+        case 'app.messages-bookmarked':
+        case 'app.messages-bookmarked-sorted':
+          return NstSvcPostFactory.getBookmarkedMessages(vm.messagesSetting);
 
         case 'app.messages-sent':
         case 'app.messages-sent-sorted':
@@ -320,7 +339,7 @@
 
 
     $rootScope.$on('post-quick', function (event, data) {
-      if (_.find(data.allPlaces,{id : vm.currentPlaceId}) || !vm.currentPlaceId) {
+      if (_.find(data.allPlaces, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
         data.isRead = true;
         vm.messages.unshift(data);
       }
@@ -445,7 +464,7 @@
 
     function isSubPersonal() {
       if (vm.currentPlaceId)
-      return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
+        return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
     }
 
     function isSent() {

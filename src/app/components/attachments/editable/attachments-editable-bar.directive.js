@@ -30,6 +30,7 @@
         scope.$watch(function () {
           return scope.items.length;
         },function () {
+          checkImageRatio(scope.items);
           $timeout(function () {
             checkScroll(scope.scrollWrp[0]);
           },1000);
@@ -163,10 +164,18 @@
             scope.overFlowLeft = true;
             return 'atMiddle'
           }
+          checkImageRatio();
         }
-
       }
     };
+
+    function checkImageRatio() {
+      var imageElement = angular.element(".thumbnail-bar img");
+      for (var i = 0 ; i < imageElement.length; i++){
+        angular.element(imageElement[i]).parents('li').width(angular.element(imageElement[i]).width());
+      }
+
+    }
 
     function modeIsValid(mode) {
       return _.values(NST_ATTACHMENTS_EDITABLE_BAR_MODE).indexOf(mode) > -1;

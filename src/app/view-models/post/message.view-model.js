@@ -12,6 +12,7 @@
 
       this.id = null;
       this.sender = null;
+      this.emailSender = null;
       this.subject = null;
       this.body = null;
       this.isExternal = null;
@@ -19,6 +20,7 @@
       this.date = null;
       this.attachments = [];
       this.comments = [];
+      this.bookmarked = null;
       this.isReplyed  = null;
       this.isForwarded = null;
       this.commentsCount = 0;
@@ -45,10 +47,9 @@
         this.firstPlace = _.head(this.allPlaces);
       }
 
-
       if (post instanceof NstPost) {
         this.id = post.id;
-        this.sender = mapSender(post.sender);
+        this.sender = post.sender ?  mapSender(post.sender) :  mapSender(post.emailSender);
         this.subject = post.subject;
         this.body = post.body;
         this.isExternal = !post.internal;
@@ -57,6 +58,7 @@
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
         this.recipients = post.recipients;
         this.ellipsis = post.ellipsis;
+        this.bookmarked = post.bookmarked;
 
         _.forEach(post.comments, function (comment, index) {
           var model = NstSvcCommentMap.toMessageComment(comment);
@@ -81,7 +83,7 @@
         if (post.wipeAccess !== null && post.wipeAccess !== undefined) {
           this.wipeAccess = post.wipeAccess;
         } else {
-          this.wipeAccess = post.sender.id === NstSvcAuth.user.id && moment(post.date).isAfter(moment().subtract(24, 'hours'));
+          this.wipeAccess = post.sender ? post.sender.id === NstSvcAuth.user.id && moment(post.date).isAfter(moment().subtract(24, 'hours')) : false;
         }
 
 
@@ -112,12 +114,13 @@
 
     // TODO: Use NstVmUser instead
     function mapSender(sender) {
+
       if (!sender) {
         return {};
       }
 
       return {
-        name: sender.fullName,
+        name: sender.fullName ? sender.fullName  : sender.id,
         username: sender.id,
         avatar: sender.hasPicture() ? sender.picture.getUrl("x64") : ''
       };
