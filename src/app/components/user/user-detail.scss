@@ -67,6 +67,8 @@
       line-height: 17px;
       margin: 0;
       font-weight: 700;
+      white-space: normal;
+      @extend ._wrb;
     }
     span {
       color: #00B45A;

@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth) {
+    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
@@ -23,11 +23,15 @@
 
             return true
           };
+          var vm = this;
 
           $scope.user = JSON.parse($attrs.user);
           $scope.avatar = $scope.user.avatar;
           $scope.username = $scope.user.username || $scope.user.id;
           $scope.name = $scope.user.name;
+
+
+          $scope.isEmail = NST_PATTERN.EMAIL.test($scope.username);
 
 
 
@@ -123,6 +127,7 @@
 
             }
           };
+
           $scope.searchUser = function () {
             $scope.deletePopoversAll();
             var query =  '@' + $scope.username;
