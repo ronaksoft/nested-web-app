@@ -90,7 +90,7 @@
       colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
       // Remove the redundant buttons from toolbar groups defined above.
       //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-      removePlugins: 'resize,elementspath,wysiwygarea'
+      removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,liststyle,tabletools'
     };
 
 
