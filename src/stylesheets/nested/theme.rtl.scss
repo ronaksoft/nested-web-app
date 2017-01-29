@@ -215,6 +215,9 @@ body[dir="rtl"] {
   .post-card-comments .delete-comment {
     transform: translateX(-12px);
   }
+  .post-card-comments strong{
+    float: right;
+  }
 }
 @media screen and (max-width: $screen-md){
 
