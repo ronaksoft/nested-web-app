@@ -237,6 +237,10 @@ body[dir="rtl"] {
   post-card .chain-stats > div > * {
     direction: rtl;
   }
+  .post-card.unread .post-card-time {
+    padding-left: 8px;
+    padding-right: 0;
+  }
 }
 @media screen and (max-width: $screen-md){
 
