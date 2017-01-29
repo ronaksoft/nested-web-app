@@ -33,13 +33,14 @@
       if (vm.grandPlace) {
         var grandPlaceId = vm.grandPlace.id;
 
-        NstSvcPlaceFactory.getBookmarkedPlaces('_starred').then(function (list) {
-          if (list.filter(function (obj) {
-              return obj === vm.grandPlace.id
-            }).length === 1) {
-            vm.placesBookmarkObject[vm.grandPlace.id] = true;
-          }
-        });
+        NstSvcPlaceFactory.getFavoritesPlaces()
+          .then(function (list) {
+            if (list.filter(function (obj) {
+                return obj === vm.grandPlace.id
+              }).length === 1) {
+              vm.placesFavoritesObject[vm.grandPlace.id] = true;
+            }
+          });
 
         getGrandPlaceChildren(grandPlaceId).then(function (places) {
           vm.children = places;
@@ -102,7 +103,7 @@
           return model;
         });
 
-        fillPlacesBookmarkObject(placesList);
+        fillplacesFavoritesObject(placesList);
         fillPlacesNotifCountObject(placesList);
         getPlaceUnreadCounts();
 
@@ -153,12 +154,12 @@
     /*****************************
      *****   Handel Bookmark  ****
      *****************************/
-    vm.placesBookmarkObject = {};
+    vm.placesFavoritesObject = {};
 
-    function fillPlacesBookmarkObject(places) {
+    function fillplacesFavoritesObject(places) {
       _.each(places, function (place) {
         if (place)
-          vm.placesBookmarkObject[place.id] = place.isStarred || false;
+          vm.placesFavoritesObject[place.id] = place.isStarred || false;
       });
     }
 
@@ -167,8 +168,8 @@
         if (_.has(vm.placesNotifCountObject, placeId)) {
           delete vm.placesNotifCountObject[placeId];
         }
-        if (_.has(vm.placesBookmarkObject, placeId)) {
-          delete vm.placesBookmarkObject[placeId];
+        if (_.has(vm.placesFavoritesObject, placeId)) {
+          delete vm.placesFavoritesObject[placeId];
         }
         var grandSonId = NstUtility.place.getGrandParentId(placeId, 2);
         NstSvcPlaceFactory.removePlaceFromTree(vm.children, placeId, grandSonId);
@@ -203,11 +204,11 @@
 
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
-      vm.placesBookmarkObject[e.detail.id] = true;
+      vm.placesFavoritesObject[e.detail.id] = true;
     });
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_REMOVE, function (e) {
-      vm.placesBookmarkObject[e.detail.id] = false;
+      vm.placesFavoritesObject[e.detail.id] = false;
     });
 
 

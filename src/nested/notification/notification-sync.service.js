@@ -71,8 +71,8 @@
 
           //check and update near notification timestamp
           if (notif.date.getTime() > nearNotifTime) nearNotifTime = notif.date.getTime();
-          // return notif.date.getTime() > self.latestNotifTimestamp;
-          return true;
+          return notif.date.getTime() > self.latestNotifTimestamp;
+          // return true;
         });
 
         newNotifs = _.sortBy(newNotifs, ['date']);
