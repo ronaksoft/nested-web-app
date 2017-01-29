@@ -245,6 +245,9 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 8px;
   }
+  #Logo-type-white {
+    background: url("../assets/icons/Nested_PersianTypeNegative.svg") no-repeat;
+  }
 }
 @media screen and (max-width: $screen-md){
 
