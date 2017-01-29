@@ -21,8 +21,15 @@
 
     // Markdown Configs
     markedProvider.setOptions({
-      sanitize: true
+      gfm: false,
+      tables: false,
+      breaks: false,
+      pedantic: false,
+      sanitize: false,
+      smartLists: false,
+      smartypants: false
     });
+
     markedProvider.setRenderer({
       link: function(href, title, text) {
         return "<a href='" + href + "'" + (title ? " title='" + title + "'" : '') + " target='_blank'>" + text + "</a>";

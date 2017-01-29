@@ -112,7 +112,7 @@
 
       if (isBookMark()) {
 
-        NstSvcPlaceFactory.getBookmarkedPlaces('_starred')
+        NstSvcPlaceFactory.getFavoritesPlaces()
           .then(function (data) {
             vm.bookmarkedPlaces = data;
           });
@@ -220,8 +220,7 @@
       switch ($state.current.name) {
         case 'app.place-messages':
         case 'app.place-messages-sorted':
-          // return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlaceId);
-          return NstSvcPostFactory.getFavoriteMessages(vm.messagesSetting);
+          return NstSvcPostFactory.getPlaceMessages(vm.messagesSetting, vm.currentPlaceId);
 
         case 'app.messages-bookmarked':
         case 'app.messages-bookmarked-sorted':

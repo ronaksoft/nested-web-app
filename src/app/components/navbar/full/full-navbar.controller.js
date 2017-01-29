@@ -278,7 +278,7 @@
       function () {
         if (vm.placeId) {
           vm.isGrandPlace = vm.placeId.split('.').length === 1;
-          NstSvcPlaceFactory.getBookmarkedPlaces()
+          NstSvcPlaceFactory.getFavoritesPlaces()
             .then(function (bookmaks) {
               if (bookmaks.indexOf(vm.placeId) >= 0) vm.isBookmarked = true;
             });
