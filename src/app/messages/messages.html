@@ -27,8 +27,8 @@
     </div>
 
     <div class="post-area">
-      <div id="new-post"  ng-show="ctlMessages.hasNewMessages" affixer parent=".content" offset-top="74" after-content="340">
-        <i ng-click="ctlMessages.dismissNewMessage();"></i>
+      <div id="new-post"  ng-show="ctlMessages.hasNewMessages" affixer parent=".content" after-content="340" offset-top="0" top="134" first-imp="true">
+        <i ng-click="ctlMessages.dismissNewMessage();">x</i>
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}}&nbsp;<translate>New message</translate></a>
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2"><translate>One New Message</translate></a>
       </div>
