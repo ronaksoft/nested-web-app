@@ -262,6 +262,12 @@ body[dir="rtl"] {
     right: 0;
     transform: translateX(100%);
   }
+  .files-types-images {
+    margin: 0 7px 0 0;
+  }
+  .file-list ul .file-list-item {
+    padding: 20px 16px 20px 0;
+  }
 }
 @media screen and (max-width: $screen-md){
 
