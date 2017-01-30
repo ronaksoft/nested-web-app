@@ -82,11 +82,11 @@
           <div ng-if="ctlRegister.usernameValidationStatus == 'checking' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-storm" style="display: inline"><translate>checking...</translate></div>
           <div ng-if="ctlRegister.usernameValidationStatus == 'available' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-cheerful" style="display: inline"><translate>available</translate></div>
           <div ng-if="ctlRegister.usernameValidationStatus == 'exists' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-lively" style="display: inline"><translate>unavailable</translate></div>
-          <label class="error-message" ng-if="registrationForm.nested_username.$error.required && ctlRegister.usernameErrors.length == 0 && registrationForm.nested_username.$touched"><translate>Username is required</translate></label>
+          <label class="error-message" ng-if="registrationForm.nested_username.$error.required && registrationForm.nested_username.$touched"><translate>Username is required</translate></label>
           <label class="error-message" ng-if="!registrationForm.nested_username.$error.required && ctlRegister.usernameErrors.length > 0 && registrationForm.nested_username.$touched"><translate>Username is not valid</translate></label>
           <input id="uid" aria-invalid="false" class="form-control" name="nested_username" type="text" ng-model="ctlRegister.username" tabindex="1"
                  ng-change="ctlRegister.validateUsername(ctlRegister.username, registrationForm.nested_username.$touched);" ng-blur="ctlRegister.validateUsername(ctlRegister.username, !registrationForm.nested_username.$touched);" required autofocus autocomplete="off" maxlength="64" ng-model-options='{ debounce: 512 }'/>
-          <ul ng-if="ctlRegister.usernameErrors.length > 0" class="use-ng-animate username-errors-list nst-mood-lively">
+          <ul ng-if="!registrationForm.nested_username.$error.required && ctlRegister.usernameErrors.length > 0" class="use-ng-animate username-errors-list nst-mood-lively">
             <li ng-repeat="error in ctlRegister.usernameErrors" ng-bind-html="error"></li>
           </ul>
         </div>
