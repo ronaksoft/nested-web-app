@@ -5,6 +5,7 @@ body.isMobile {
   }
   .content {
     width: 100%;
+    overflow-x: hidden;
     min-width: initial;
   }
   .menu-links-butn {

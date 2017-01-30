@@ -80,7 +80,7 @@
         }
         function direction(str) {
           if (!str || !_.isString(str)) {
-            return element.attr("dir","ltr");
+            return
           }
 
           decideRtl(str);
@@ -96,16 +96,19 @@
             str = str.replace(/(^|\s)@(\w+)/g,'');
             str = str.trim();
             str = str.substring(0, 1);
+            console.log('vvv',str);
             if (persianRex.rtl.test(str)) {
-              return element.attr("dir","rtl");
+              return element.css("direction", "rtl");
+            } else {
+              return element.css("direction", "ltr");
             }
           }
         }
 
         scope.$watch(function () {
-          return $parse(attrs.autoDir)(scope);
-        }, function () {
-          direction($parse(attrs.autoDir)(scope));
+          return attrs.autoDir;
+        }, function (newVal,oldVal) {
+          direction(newVal);
         });
 
 
