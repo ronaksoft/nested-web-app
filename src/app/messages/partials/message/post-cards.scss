@@ -322,15 +322,7 @@ post-card {
         padding: 0 3px;
       }
     }
-    .new-comments-count {
-      color: #009CFA !important;
-      &:hover {
-        cursor: pointer;
-      }
-      svg {
-        fill: #009CFA !important;
-      }
-    }
+
 
     > a {
       font-size: $font-size-small;
@@ -652,6 +644,16 @@ h3 {
     .chain {
       opacity: 1;
     }
+  }
+}
+
+.new-comments-count {
+  color: #009CFA !important;
+  &:hover {
+    cursor: pointer;
+  }
+  svg {
+    fill: #009CFA !important;
   }
 }
 

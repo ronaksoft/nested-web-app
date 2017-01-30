@@ -17,7 +17,6 @@
       'text/plain',
       'application/msword',
       'application/vnd.ms-excel',
-      'application/octet-stream',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'application/vnd.ms-powerpoint',
       'application/vnd.openxmlformats-officedocument.presentationml.presentation',
@@ -39,13 +38,15 @@
       'audio/aac',
       'audio/mp4',
       'audio/wma',
+      'audio/wav',
+      'audio/webm',
       'audio/ogg'
     ];
     fileGroups[NST_FILE_TYPE.VIDEO] = [
       'video/mp4',
       'video/3gp',
       'video/ogg',
-      'video/webm',
+      'application/octet-stream',
       'video/quicktime',
       'video/webm'
     ];

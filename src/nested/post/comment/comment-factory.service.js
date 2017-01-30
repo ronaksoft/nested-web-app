@@ -24,6 +24,7 @@
     CommentFactory.prototype.createCommentModel = createCommentModel;
     CommentFactory.prototype.parseComment = parseComment;
     CommentFactory.prototype.parseMessageComment = parseMessageComment;
+    CommentFactory.prototype.getCommentsAfter = getCommentsAfter;
 
     var factory = new CommentFactory();
     return factory;
@@ -123,6 +124,38 @@
           NstSvcServer.request('post/get_comments', {
             post_id: query.id,
             before: settings.date,
+            limit: settings.limit
+          }).then(function(data) {
+            var allCommnets = _.map(data.comments, function(comment) {
+              return parseComment(comment, postId);
+            });
+
+            $q.all(allCommnets).then(function(commentItems) {
+              deferred.resolve(commentItems);
+            });
+          }).catch(function(error) {
+            deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+          });
+        }
+
+        return deferred.promise;
+      }, 'retrieveComments', postId);
+    }
+
+    function getCommentsAfter(postId, settings) {
+      return factory.sentinel.watch(function() {
+        var deferred = $q.defer();
+        if (!postId) {
+          deferred.reject(new Error('post is not provided'));
+        } else {
+          var query = new NstFactoryQuery(postId, {
+            date: settings.date,
+            limit: settings.limit
+          });
+
+          NstSvcServer.request('post/get_comments', {
+            post_id: query.id,
+            after: settings.date,
             limit: settings.limit
           }).then(function(data) {
             var allCommnets = _.map(data.comments, function(comment) {

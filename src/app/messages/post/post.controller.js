@@ -9,7 +9,7 @@
   function PostController($q, $scope, $rootScope, $stateParams, $state, $uibModalInstance,
                           _, toastr,
                           NST_POST_EVENT,
-                          NstSvcAuth, NstSvcPostFactory, NstSvcPostMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger,NstSvcPostInteraction, NstSvcTranslation,
+                          NstSvcAuth, NstSvcPostFactory, NstSvcPostMap, NstSvcPlaceFactory, NstUtility, NstSvcLogger,NstSvcPostInteraction, NstSvcTranslation, NstSvcSync,
                           selectedPostId) {
     var vm = this;
     var defaultLimit = 8;
@@ -33,7 +33,7 @@
     (function () {
       load(vm.postId).then(function (done) {
         // TODO: uncomment and fix
-        // vm.syncId = NstSvcSync.openChannel(_.head(vm.post.allPlaces).id);
+        vm.syncId = NstSvcSync.openChannel(_.head(vm.post.allPlaces).id);
 
         return vm.post.isRead ? $q.resolve(true) : markPostAsRead(vm.postId);
       }).then(function (result) {
@@ -121,19 +121,17 @@
       });
     }
 
-    // $uibModalInstance.result.finally(function () {
-    //   // TODO: decide what to do for this
-    //   $rootScope.$broadcast('post-modal-closed', {
-    //     postId: vm.post.id,
-    //     comments: _.takeRight(vm.post.comments, 3),
-    //     totalCommentsCount: vm.post.counters.comments,
-    //     removedCommentsCount: removedCommentsCount
-    //   });
-    // });
+    $uibModalInstance.result.finally(function () {
+      $rootScope.$broadcast('post-modal-closed', {
+        postId: vm.post.id,
+        comments: _.takeRight(vm.post.comments, 3),
+        totalCommentsCount: vm.post.commentsCount,
+        // removedCommentsCount: removedCommentsCount
+      });
+    });
 
     $scope.$on('$destroy', function () {
-      // $timeout.cancel(revealNewCommentsTimeout);
-      // NstSvcSync.closeChannel(vm.syncId);
+      NstSvcSync.closeChannel(vm.syncId);
     });
 
   }

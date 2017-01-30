@@ -197,8 +197,7 @@
       var deferred = deferred || $q.defer();
 
       vm.placeIdChecking = true;
-      vm.placeIdChecking = true;
-      NstSvcPlaceFactory.isIdAvailable(vm.place.parentId + '.' + id).then(function (available) {
+      NstSvcPlaceFactory.isIdAvailable(vm.place.parentId ? vm.place.parentId + '.' + id : id).then(function (available) {
         if (available) {
           vm.place.id = id;
           vm.placeIdIsAvailable = true;

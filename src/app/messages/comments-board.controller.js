@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('CommentsBoardController', CommentsBoardController);
 
-  function CommentsBoardController($timeout,
+  function CommentsBoardController($timeout, $scope, $q,
                                    NstSvcAuth, NstSvcCommentFactory, NstSvcCommentMap, NstUtility, NstSvcTranslation,
                                    moment, toastr, _) {
     var vm = this;
@@ -18,7 +18,8 @@
       },
       newCommentIds = [],
       unreadCommentIds = [],
-      focusOnSentTimeout = null;
+      focusOnSentTimeout = null,
+      pageEventKeys = [];
 
     vm.removeComment = removeComment;
     vm.allowToRemoveComment = allowToRemoveComment;
@@ -34,7 +35,90 @@
     vm.unreadCommentsCount = 0;
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
+      var key = $scope.$on('post-load-new-comments', function (event, data) {
+        if (data.postId === vm.postId) {
+          loadRecentComments();
+        }
+      });
+      pageEventKeys.push(key);
     })();
+
+    function findLastComment(comments) {
+      return _.last(_.orderBy(comments, 'date'));
+    }
+
+    function getLastCommentDate(comments) {
+      var oldest = findLastComment(comments);
+      var date = null;
+      if (oldest) {
+        date = oldest.date;
+      } else {
+        date = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
+      }
+      return NstUtility.date.toUnix(date);
+    }
+
+    function getRecentComments(postId, settings) {
+      var deferred = $q.defer();
+      var result = {
+        comments : [],
+        maybeMoreComments : null
+      };
+      vm.commentLoadProgress = true;
+      NstSvcCommentFactory.getCommentsAfter(postId, settings).then(function (comments) {
+        result.comments = comments;
+        result.maybeMoreComments = (comments.length === settings.limit);
+        deferred.resolve(result);
+      }).catch(deferred.reject).finally(function () {
+        vm.commentLoadProgress = false;
+      });
+      return deferred.promise;
+    }
+
+    function loadRecentComments() {
+      var settings = {
+        date : getLastCommentDate(vm.comments),
+        limit : 30,
+      };
+
+      getRecentComments(vm.postId, settings).then(function (result) {
+        var newComments = mapComments(result.comments);
+        _.forEach(newComments, function (comment) {
+          if (!_.some(vm.comments, { id : comment.id })) {
+            vm.comments.push(comment);
+          }
+        });
+        // vm.hasMoreComments = result.maybeMoreComments;
+      }).catch(function (error) {
+        NstSvcLogger.error(error);
+      });
+    }
+
+    function mapComment(commentModel) {
+      return NstSvcCommentMap.toPostComment(commentModel);
+    }
+    function mapComments(commentModels) {
+      return reorderComments(_.map(commentModels, mapComment));
+      // var comments = reorderComments(_.map(commentModels, mapComment));
+
+      // return _.map(comments, function (comment, index) {
+      //   var previousIndex = index - 1;
+      //   if (previousIndex >= 0) {
+      //
+      //     var previousComment = comments[previousIndex];
+      //     if (previousComment.sender.id === comment.sender.id) {
+      //       comment.stickedToPrevious = true;
+      //     }
+      //   }
+      //
+      //   return comment;
+      // });
+    }
+    function reorderComments(comments) {
+      return _.orderBy(comments, 'date', 'asc');
+    }
+
+
     function removeComment(comment) {
       if (vm.commentRemoveProgress) {
         return;
@@ -42,6 +126,8 @@
       vm.commentRemoveProgress = true;
       NstSvcCommentFactory.removeComment(vm.postId, comment).then(function(post) {
         NstUtility.collection.dropById(vm.comments, comment.id);
+        var canceler = $scope.$emit('comment-removed', { postId : vm.postId, commentId : comment.id });
+        pageEventKeys.push(canceler);
       }).catch(function(error) {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured while removing your comment'));
       }).finally(function() {
@@ -80,12 +166,12 @@
           })) {
           vm.commentBoardLimit++;
           var commentItem = NstSvcCommentMap.toMessageComment(comment);
-          var lastComment = _.last(vm.comments);
+          // var lastComment = _.last(vm.comments);
 
 
-          if (lastComment && lastComment.sender.username === commentItem.sender.username) {
-            commentItem.stickedToPrevious = true;
-          }
+          // if (lastComment && lastComment.sender.username === commentItem.sender.username) {
+          //   commentItem.stickedToPrevious = true;
+          // }
           vm.comments.push(commentItem);
         }
 
@@ -190,6 +276,14 @@
         toastr.error('Sorry, an error has occured while loading older comments');
       });
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(pageEventKeys, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
+    });
   }
 
 })();
