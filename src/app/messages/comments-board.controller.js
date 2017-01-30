@@ -19,7 +19,7 @@
       newCommentIds = [],
       unreadCommentIds = [],
       focusOnSentTimeout = null,
-      newCommentSubscriber = null;
+      pageEventKeys = [];
 
     vm.removeComment = removeComment;
     vm.allowToRemoveComment = allowToRemoveComment;
@@ -35,11 +35,12 @@
     vm.unreadCommentsCount = 0;
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
-      newCommentSubscriber = $scope.$on('post-load-new-comments', function (event, data) {
+      var key = $scope.$on('post-load-new-comments', function (event, data) {
         if (data.postId === vm.postId) {
           loadRecentComments();
         }
       });
+      pageEventKeys.push(key);
     })();
 
     function findLastComment(comments) {
@@ -97,20 +98,21 @@
       return NstSvcCommentMap.toPostComment(commentModel);
     }
     function mapComments(commentModels) {
-      var comments = reorderComments(_.map(commentModels, mapComment));
+      return reorderComments(_.map(commentModels, mapComment));
+      // var comments = reorderComments(_.map(commentModels, mapComment));
 
-      return _.map(comments, function (comment, index) {
-        var previousIndex = index - 1;
-        if (previousIndex >= 0) {
-
-          var previousComment = comments[previousIndex];
-          if (previousComment.sender.id === comment.sender.id) {
-            comment.stickedToPrevious = true;
-          }
-        }
-
-        return comment;
-      });
+      // return _.map(comments, function (comment, index) {
+      //   var previousIndex = index - 1;
+      //   if (previousIndex >= 0) {
+      //
+      //     var previousComment = comments[previousIndex];
+      //     if (previousComment.sender.id === comment.sender.id) {
+      //       comment.stickedToPrevious = true;
+      //     }
+      //   }
+      //
+      //   return comment;
+      // });
     }
     function reorderComments(comments) {
       return _.orderBy(comments, 'date', 'asc');
@@ -124,6 +126,8 @@
       vm.commentRemoveProgress = true;
       NstSvcCommentFactory.removeComment(vm.postId, comment).then(function(post) {
         NstUtility.collection.dropById(vm.comments, comment.id);
+        var canceler = $scope.$emit('comment-removed', { postId : vm.postId, commentId : comment.id });
+        pageEventKeys.push(canceler);
       }).catch(function(error) {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured while removing your comment'));
       }).finally(function() {
@@ -162,12 +166,12 @@
           })) {
           vm.commentBoardLimit++;
           var commentItem = NstSvcCommentMap.toMessageComment(comment);
-          var lastComment = _.last(vm.comments);
+          // var lastComment = _.last(vm.comments);
 
 
-          if (lastComment && lastComment.sender.username === commentItem.sender.username) {
-            commentItem.stickedToPrevious = true;
-          }
+          // if (lastComment && lastComment.sender.username === commentItem.sender.username) {
+          //   commentItem.stickedToPrevious = true;
+          // }
           vm.comments.push(commentItem);
         }
 
@@ -274,9 +278,11 @@
     }
 
     $scope.$on('$destroy', function () {
-      if (newCommentSubscriber) {
-        newCommentSubscriber();
-      }
+      _.forEach(pageEventKeys, function (canceler) {
+        if (_.isFunction(canceler)) {
+          canceler();
+        }
+      });
     });
   }
 
