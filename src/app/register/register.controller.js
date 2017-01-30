@@ -19,6 +19,7 @@
     vm.emailPattern = NST_PATTERN.EMAIL;
     vm.validateUsername = validateUsername;
     vm.usernameValidationStatus = 'none';
+    vm.phoneAvailableStatus = 'none';
 
     (function() {
       var phone = $stateParams.phone || getParameterByName('phone');
@@ -36,21 +37,27 @@
 
     vm.submitPhoneNumber = function (isValid) {
       vm.submitted = true;
-
       if (!isValid) {
-        validatePhone();
         return;
       }
-
-      sendPhoneNumber(getPhoneNumber()).then(function (result) {
-        vm.verificationId = result.verificationId;
-        nextStep();
-      }).catch(function (error) {
-        if (error === 'phone_number_exists') {
-          toastr.error(NstSvcTranslation.get("We've found an account already registered with your phone number. If you've forgotten your password, try to recover it or contact us for help."));
+      var alreadyRegisteredMessage = NstSvcTranslation.get("We've found an account already registered with your phone number. If you've forgotten your password, try to recover it or contact us for help.");
+      validatePhone().then(function (available) {
+        if (available) {
+          sendPhoneNumber(getPhoneNumber()).then(function (result) {
+            vm.verificationId = result.verificationId;
+            nextStep();
+          }).catch(function (error) {
+            if (error === 'phone_number_exists') {
+              toastr.error(alreadyRegisteredMessage);
+            } else {
+              toastr.error(NstSvcTranslation.get("Sorry, an unknown error has occurred."));
+            }
+          });
         } else {
-          toastr.error(NstSvcTranslation.get("Sorry, an unknown error has occurred."));
+          toastr.error(alreadyRegisteredMessage);
         }
+      }).catch(function () {
+        toastr.error('An error has occured while validating your phone number');
       });
 
     };
@@ -99,6 +106,8 @@
     }
 
     function validatePhone() {
+      var deferred = $q.defer();
+
       if (!vm.phone) {
         vm.phoneIsEmpty = true;
         vm.phoneIsWrong = false;
@@ -112,6 +121,22 @@
         vm.phoneIsEmpty = false;
       }
       vm.phoneIsValid = !vm.phoneIsWrong && !vm.phoneIsEmpty;
+
+      if (vm.phoneIsValid) {
+        vm.phoneAvailableStatus = 'checking';
+        phoneAvailable(getPhoneNumber()).then(function (available) {
+          vm.phoneAvailableStatus = available ? 'available' : 'used';
+          deferred.resolve(vm.phoneAvailableStatus === 'available');
+        }).catch(function (error) {
+          vm.phoneAvailableStatus = 'error';
+          deferred.resolve(false);
+        });
+      } else {
+        deferred.resolve(false);
+      }
+
+
+      return deferred.promise;
     }
 
     function getPhoneIsValid(countryId, phone) {
@@ -372,6 +397,25 @@
         });
       });
 
+    }
+
+    function phoneAvailable(phone) {
+      var deferred = $q.defer();
+      new NstHttp('',
+      {
+        cmd: 'auth/phone_available',
+        data: {
+          'phone': phone
+        }
+      }).post().then(function(data){
+        if (data.status === 'ok') {
+          deferred.resolve(true);
+        } else {
+          deferred.resolve(false);
+        }
+      }).catch(deferred.reject);
+
+      return deferred.promise;
     }
 
     //Parse url and get params from url
