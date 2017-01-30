@@ -279,6 +279,20 @@ body[dir="rtl"] {
     left: auto;
     right: 0;
   }
+  nst-attachments-editable-bar ul.thumbnail-bar li:first-child, nst-attachments-preview-bar ul.thumbnail-bar li:first-child {
+    margin-right: 16px;
+    margin-left: 4px;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar li:last-child, nst-attachments-preview-bar ul.thumbnail-bar li:last-child {
+    padding-right: 0;
+    padding-left: 16px;
+  }
+  .post-card .post-places a {
+    margin-right: 0;
+    margin-left: 16px;
+    padding-left: 0;
+    padding-right: 4px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
