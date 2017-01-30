@@ -125,18 +125,18 @@ post-card {
     .icon svg {
       fill: black;
     }
-    .icon .fw {
-      color: $color-forward;
-      svg {
-        fill: $color-forward;
-      }
-    }
-    .icon .re {
-      color: $color-reply;
-      svg {
-        fill: $color-reply;
-      }
-    }
+    //.icon .fw {
+    //  color: $color-forward;
+    //  svg {
+    //    fill: $color-forward;
+    //  }
+    //}
+    //.icon .re {
+    //  color: $color-reply;
+    //  svg {
+    //    fill: $color-reply;
+    //  }
+    //}
     .post-footer .icon {
       .re, .fw {
         opacity: 1;
@@ -357,9 +357,14 @@ post-card {
         align-items: center;
         &.fw:hover {
           background-color: rgba(40, 60, 210, .1);
-
+          svg {
+            fill: $color-forward;
+          }
         }
         &.re:hover {
+          svg {
+            fill: $color-reply;
+          }
           background-color: rgba(30, 220, 150, .1);
         }
         &.more:hover {
@@ -368,6 +373,7 @@ post-card {
       }
       .re,
       .fw {
+        fill: #a6b9af;
         opacity: 0;
       }
     }
