@@ -275,6 +275,10 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 8px;
   }
+  .chain {
+    left: auto;
+    right: 0;
+  }
 }
 @media screen and (max-width: $screen-md){
 
