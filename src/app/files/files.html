@@ -100,10 +100,14 @@
     <div class="nst-marginbtm-32"></div>
   </section>
   <div class="content-plus illu">
-    <div id="cp1" nst-scrollbar ng-if="!ctlFiles.isBookmarkMode" affixer parent=".content-plus.illu" after-content="" offset-top="74" top="0" fixed-top="true">
+  </div>
+  <div class="content-plus" id="content-plus" affixer parent=".content-plus" after-content="0" offset-top="0" top="134" fixed-top="true" first-imp="true" >
+    <div id="members" nst-scrollbar suppress-scroll-x="true">
+      <nst-place-teammates-sidebar grand-place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"></nst-place-teammates-sidebar>
+    </div>
+    <div id="cp1" nst-scrollbar suppress-scroll-x="true"  ng-show="!ctlMessages.isBookmarkMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
       <!--FIXME:: use only one of place/place-id -->
-      <nst-recent-activity place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"  count="10"/>
+      <nst-recent-activity place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"  count="30"/>
     </div>
   </div>
-  <div class="content-plus" id="content-plus" >
 </div>
