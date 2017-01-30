@@ -7,13 +7,24 @@
 
   /** @ngInject */
   function config($logProvider, $locationProvider,  toastrConfig, markedProvider, localStorageServiceProvider,
-                  $animateProvider) {
+                  $animateProvider, $sceDelegateProvider) {
 
     localStorageServiceProvider
       .setPrefix('ronak.nested.web');
 
     // Enable log
     $logProvider.debugEnabled(true);
+
+    $sceDelegateProvider.resourceUrlWhitelist([
+
+      // Allow same origin resource loads.
+      'self',
+
+      // Allow loading from our assets domain.  Notice the difference between * and **.
+      'http://xerxes.nested.ronaksoftware.com/download/**',
+      'https://xerxes.nested.me/**',
+
+    ]);
 
     // Omit # from routes
     // $locationProvider.html5Mode(true);

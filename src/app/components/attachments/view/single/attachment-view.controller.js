@@ -87,7 +87,7 @@
       if (vm.attachments.collection.length > 0 && next < vm.attachments.collection.length) {
         goTo(next);
       }
-    }
+    };
 
     function goPrevious() {
       var currentIndex = _.findIndex(vm.attachments.collection, {id: vm.attachments.current.id});
@@ -95,7 +95,7 @@
       if (vm.attachments.collection.length > 0 && previous >= 0) {
         goTo(previous);
       }
-    }
+    };
 
     function goTo(index) {
       vm.attachments.current = vm.attachments.collection[index];
@@ -109,16 +109,6 @@
         getToken(vm.attachments.current.id).then(function (token) {
           vm.attachments.current.viewUrl = $sce.trustAsResourceUrl('//docs.google.com/viewer?embedded=true&url=' +
             encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token)));
-
-        }).catch(function (error) {
-          toastr.error('Sorry, An error has occured while trying to load the file');
-        });
-      }else if(vm.attachments.current.type === NST_FILE_TYPE.VIDEO || vm.attachments.current.type === NST_FILE_TYPE.AUDIO){
-        getToken(vm.attachments.current.id).then(function (token) {
-          var url = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token);
-          vm.attachments.current.viewUrl = $sce.trustAsResourceUrl(url);
-
-          console.error(1111,url,vm.attachments.current)
 
         }).catch(function (error) {
           toastr.error('Sorry, An error has occured while trying to load the file');
@@ -177,12 +167,12 @@
 
     function download(item) {
       if (item.downloadUrl) {
-       location.href = item.downloadUrl;
-       return;
+        location.href = item.downloadUrl;
+        return;
       }
 
       getToken(item.id).then(function (token) {
-        item.downloadUrl = $sce.trustAsResourceUrl(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token));
+        item.downloadUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, item.id, token);
         item.viewUrl = NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, item.id, token);
 
         location.href = item.downloadUrl;
