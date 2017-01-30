@@ -175,7 +175,7 @@ post-card {
       margin-left: 10px;
       margin-right: 4px;
     }
-    span {
+    span,.post-card-time {
       font-size: $font-size-xsmall;
       @include text-hover()
     }
@@ -280,6 +280,7 @@ post-card {
     position: relative;
     line-height: 14px;
     padding-right: 8px;
+    cursor: pointer;
     //top: 12px;
   }
   .post-places {
