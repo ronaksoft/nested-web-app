@@ -9,6 +9,7 @@
   function config($logProvider, $locationProvider,  toastrConfig, markedProvider, localStorageServiceProvider,
                   $animateProvider, $sceDelegateProvider) {
 
+
     localStorageServiceProvider
       .setPrefix('ronak.nested.web');
 

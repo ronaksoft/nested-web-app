@@ -59,21 +59,21 @@
         this.recipients = post.recipients;
         this.ellipsis = post.ellipsis;
         this.bookmarked = post.bookmarked;
-
-        var comments = _.takeRight(post.comments, 3);
-        _.forEach(comments, function (comment, index) {
-          var model = NstSvcCommentMap.toMessageComment(comment);
-          var previousIndex = index - 1;
-          if (previousIndex >= 0) {
-
-            var previousComment = comments[previousIndex];
-            if (previousComment.sender.id === model.sender.username) {
-              model.stickedToPrevious = true;
-            }
-          }
-
-          that.comments.push(model);
-        });
+        this.comments = _.chain(post.comments).takeRight(3).map(NstSvcCommentMap.toMessageComment).value();
+        // var comments = _.takeRight(post.comments, 3);
+        // _.forEach(comments, function (comment, index) {
+        //   var model = NstSvcCommentMap.toMessageComment(comment);
+        //   var previousIndex = index - 1;
+        //   if (previousIndex >= 0) {
+        //
+        //     var previousComment = comments[previousIndex];
+        //     if (previousComment.sender.id === model.sender.username) {
+        //       model.stickedToPrevious = true;
+        //     }
+        //   }
+        //
+        //   that.comments.push(model);
+        // });
 
         // this.comments = _.map(post.comments, NstSvcCommentMap.toMessageComment);
         this.isReplyed = !!post.replyToId;

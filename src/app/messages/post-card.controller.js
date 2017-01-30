@@ -20,9 +20,7 @@
           newCommentIds = [],
           unreadCommentIds = [],
           focusOnSentTimeout = null,
-          targetChangedUnsubscriber = null,
-          expandMeUnsubscriber = null,
-          newCommentBroadcaster = null;
+          pageEventReferences = [];
 
       vm.remove = remove;
       vm.retract = retract;
@@ -66,7 +64,8 @@
         if ($state.current.name !== 'app.message') {
             $state.go('app.message', {postId: vm.post.id}, {notify: false});
         } else {
-            targetChangedUnsubscriber = $scope.$emit('post-view-target-changed', { postId : vm.post.id });
+            var reference = $scope.$emit('post-view-target-changed', { postId : vm.post.id });
+            pageEventReferences.push(reference);
         }
       };
 
@@ -131,7 +130,10 @@
 
       function loadNewComments($event) {
           $event.preventDefault();
-          $scope.$broadcast('post-load-new-comments', { postId : vm.post.id });
+          var reference = $scope.$broadcast('post-load-new-comments', { postId : vm.post.id });
+          pageEventReferences.push(reference);
+
+          vm.post.commentsCount += vm.unreadCommentsCount;
           vm.unreadCommentsCount = 0;
       }
 
@@ -162,10 +164,12 @@
       $rootScope.$on('post-modal-closed', function (event, data) {
         if (data.postId === vm.post.id) {
           event.preventDefault();
+          vm.post.commentsCount = data.totalCommentsCount;
+
           vm.post.commentsCount += vm.unreadCommentsCount;
           vm.unreadCommentsCount = 0;
 
-          vm.post.commentsCount -= data.removedCommentsCount || 0;
+        //   vm.post.commentsCount -= data.removedCommentsCount || 0;
           vm.post.comments = data.comments;
         }
       });
@@ -197,6 +201,13 @@
         vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
         vm.body = vm.post.body;
 
+        var reference = $scope.$on('comment-removed', function (event, data) {
+            if (vm.post.id === data.postId) {
+                vm.post.commentsCount --;
+            }
+        });
+        pageEventReferences.push(reference);
+
       })();
 
       $scope.$on('$destroy', function () {
@@ -204,18 +215,17 @@
           $timeout.cancel(focusOnSentTimeout);
         }
 
-        if (expandMeUnsubscriber) {
-            expandMeUnsubscriber();
-        }
-
-        if (targetChangedUnsubscriber) {
-            targetChangedUnsubscriber();
-        }
+        _.forEach(pageEventReferences, function (cenceler) {
+            if (_.isFunction(cenceler)) {
+                cenceler();
+            }
+        });
       });
 
       function switchToPostCard() {
         // tells the parent scope to open me
-        expandMeUnsubscriber = $scope.$emit('post-chain-expand-me', {postId: vm.post.id});
+        var reference = $scope.$emit('post-chain-expand-me', {postId: vm.post.id});
+        pageEventReferences.push(reference);
       }
 
       function onAddComment() {
