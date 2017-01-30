@@ -399,6 +399,8 @@ post-card {
 
 .more-place-row {
   padding: 4px 8px;
+  width: 100%;
+  overflow: hidden;
   &:last-child {
     margin-bottom: 8px;
   }
