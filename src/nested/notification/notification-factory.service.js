@@ -122,15 +122,12 @@
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
-        NstSvcServer.request('notification/get_all', {
-          limit: 1,
-          skip: 1,
-          only_unread: false
-        }).then(function (data) {
-          var count = data.unread_notifications || 0;
-          that.count = parseInt(count);
-          defer.resolve(count);
-        }).catch(defer.reject);
+        NstSvcServer.request('notification/get_counter', {})
+          .then(function (data) {
+            var count = data.unread_notifications || 0;
+            that.count = parseInt(count);
+            defer.resolve(count);
+          }).catch(defer.reject);
 
         return defer.promise;
       }, "getNotificationsCount");
