@@ -257,6 +257,11 @@ body[dir="rtl"] {
     margin-left : 0;
     margin-right: 32px;
   }
+  post-card .card-control {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+  }
 }
 @media screen and (max-width: $screen-md){
 

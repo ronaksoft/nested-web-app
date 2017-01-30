@@ -40,10 +40,10 @@
       <h4 class="_df _fn" user-detail user="{{::ctlPostCard.post.sender}}">{{::ctlPostCard.post.sender.name}}</h4>
       <div class="_df _fw">
       </div>
-      <span class="_df _fn post-card-time" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
-            data-tooltip-append-to-body="true" data-tooltip-placement="auto left" ng-click="ctlPostCard.markAsRead()">
+      <span class="_df _fn post-card-time" ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.viewFull($event)" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
+            data-tooltip-append-to-body="true" data-tooltip-placement="auto left">
         {{::ctlPostCard.post.date | date : 'short'}}
-        <div class="unread-badge-holder">●</div>
+        <!--<div class="unread-badge-holder">●</div>-->
       </span>
     </div>
     <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}" ng-click="ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked)">
@@ -70,8 +70,8 @@
   </section>
 
   <section  ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-    <a ng-click="$event.stopPropagation();ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Show less</a>
-    <a ng-click="$event.stopPropagation();ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">
+    <a ng-click="ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Show less</a>
+    <a ng-click="ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">
       <translate>Show more...</translate>
     </a>
   </section>
@@ -204,6 +204,17 @@
     <span ng-if="ctlPostCard.post.commentsCount == 1"><translate>One comment</translate></span>
     <span ng-if="ctlPostCard.post.commentsCount > 1"><translate>{{ctlPostCard.post.commentsCount}} comments</translate></span>
   </div>
+</div>
+<div class="card-control" ng-if="!ctlPostCard.chainView">
+  <svg class="_16svg" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.post.isRead">
+    <use xlink:href="/assets/icons/nst-icn16.svg#unread-message"></use>
+  </svg>
+  <svg class="_16svg nst-icn-gry" ng-if="ctlPostCard.post.isRead && !ctlPostCard.isExpanded" ng-click="ctlPostCard.expand();">
+    <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
+  </svg>
+  <svg class="_16svg nst-icn-gry" ng-if="ctlPostCard.post.isRead && ctlPostCard.isExpanded" ng-click="ctlPostCard.collapse();">
+    <use xlink:href="/assets/icons/nst-icn16.svg#open-message"></use>
+  </svg>
 </div>
 
 <div class="post-card-wire" ng-if="!ctlPostCard.chainView" ></div>

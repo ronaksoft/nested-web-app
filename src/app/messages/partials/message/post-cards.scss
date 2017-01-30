@@ -98,6 +98,16 @@ post-card {
       border-radius: 1px;
     }
   }
+  .card-control {
+    position: absolute;
+    width: 32px;
+    left: 0;
+    top: 24px;
+    transform: translateX(-100%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
 }
 
 .post-card {
