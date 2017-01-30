@@ -2,9 +2,9 @@
   justify-content: center;
   z-index: 20;
   > * {
-    margin: 0 16px;
+    margin: 0 24px;
     &._fw {
-      width: calc(100% - 32px);
+      width: calc(100% - 48px);
     }
   }
 }
