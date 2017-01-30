@@ -21,7 +21,8 @@
           unreadCommentIds = [],
           focusOnSentTimeout = null,
           targetChangedUnsubscriber = null,
-          expandMeUnsubscriber = null;
+          expandMeUnsubscriber = null,
+          newCommentBroadcaster = null;
 
       vm.remove = remove;
       vm.retract = retract;
@@ -128,8 +129,10 @@
         vm.body = vm.post.body;
       }
 
-      function loadNewComments() {
-
+      function loadNewComments($event) {
+          $event.preventDefault();
+          $scope.$broadcast('post-load-new-comments', { postId : vm.post.id });
+          vm.unreadCommentsCount = 0;
       }
 
       /**
