@@ -19,6 +19,11 @@
           <label class="nst-mood-storm nst-font-small" ng-if="ctlRegister.phoneIsValid || !ctlRegister.submitted"><translate>Phone number</translate></label>
           <label class="error-message" ng-if="ctlRegister.phoneIsEmpty && ctlRegister.submitted"><translate>Enter your phone number</translate></label>
           <label class="error-message" ng-if="ctlRegister.phoneIsWrong && ctlRegister.submitted"><translate>Provided phone number is not valid</translate></label>
+
+          <div ng-if="ctlRegister.phoneAvailableStatus == 'checking' && ctlRegister.phoneIsValid && ctlRegister.submitted" class="nst-mood-storm" style="display: inline"><translate>checking...</translate></div>
+          <div ng-if="ctlRegister.phoneAvailableStatus == 'available' && ctlRegister.phoneIsValid && ctlRegister.submitted" class="nst-mood-cheerful" style="display: inline"><translate>available</translate></div>
+          <div ng-if="ctlRegister.phoneAvailableStatus == 'used' && ctlRegister.phoneIsValid && ctlRegister.submitted" class="nst-mood-lively" style="display: inline"><translate>used</translate></div>
+
           <div class="nst-marginbtm-16 _difh _fw _pr margin-t-5 border-number">
             <i class="plus">+</i>
             <i class="sep">|</i>
@@ -84,7 +89,7 @@
           <div ng-if="ctlRegister.usernameValidationStatus == 'exists' && ctlRegister.usernameErrors.length == 0 && !registrationForm.nested_username.$invalid" class="nst-mood-lively" style="display: inline"><translate>unavailable</translate></div>
           <label class="error-message" ng-if="registrationForm.nested_username.$error.required && registrationForm.nested_username.$touched"><translate>Username is required</translate></label>
           <label class="error-message" ng-if="!registrationForm.nested_username.$error.required && ctlRegister.usernameErrors.length > 0 && registrationForm.nested_username.$touched"><translate>Username is not valid</translate></label>
-          <input id="uid" aria-invalid="false" class="form-control" name="nested_username" type="text" ng-model="ctlRegister.username" tabindex="1"
+          <input id="uid" aria-invalid="false" class="form-control" name="nested_username" type="text" ng-model="ctlRegister.username" tabindex="1" placeholder="john-doe" translate-attrs="placeholder"
                  ng-change="ctlRegister.validateUsername(ctlRegister.username, registrationForm.nested_username.$touched);" ng-blur="ctlRegister.validateUsername(ctlRegister.username, !registrationForm.nested_username.$touched);" required autofocus autocomplete="off" maxlength="64" ng-model-options='{ debounce: 512 }'/>
           <ul ng-if="!registrationForm.nested_username.$error.required && ctlRegister.usernameErrors.length > 0" class="use-ng-animate username-errors-list nst-mood-lively">
             <li ng-repeat="error in ctlRegister.usernameErrors" ng-bind-html="error"></li>
@@ -103,21 +108,21 @@
             <div class="form-group" ng-class="{ 'has-error' : registrationForm.nested_firstname.$invalid && registrationForm.nested_firstname.$touched}">
               <label ng-if="!registrationForm.nested_firstname.$error.required || !registrationForm.nested_firstname.$touched"><translate>First name</translate></label>
               <label ng-if="registrationForm.nested_firstname.$error.required && registrationForm.nested_firstname.$touched"><translate>First name is required</translate></label>
-              <input name="nested_firstname" type="text" ng-model="ctlRegister.fname" tabindex="3" required maxlength="35"/>
+              <input name="nested_firstname" type="text" ng-model="ctlRegister.fname" tabindex="3" required maxlength="35" placeholder="John" translate-attrs="placeholder"/>
             </div>
           </div>
           <div class="_dtc register-name-cell-right">
             <div class="form-group" ng-class="{ 'has-error' : registrationForm.nested_lastname.$invalid && registrationForm.nested_lastname.$touched}">
               <label ng-if="!registrationForm.nested_lastname.$error.required || !registrationForm.nested_lastname.$touched"><translate>Surname</translate></label>
               <label ng-if="registrationForm.nested_lastname.$error.required && registrationForm.nested_lastname.$touched"><translate>Surname is required</translate></label>
-              <input name="nested_lastname" type="text" ng-model="ctlRegister.lname" tabindex="4" required maxlength="35"/>
+              <input name="nested_lastname" type="text" ng-model="ctlRegister.lname" tabindex="4" required maxlength="35" placeholder="John" translate-attrs="placeholder"/>
             </div>
         </div>
       </div>
       <div class="form-group nst-marginbtm-16" ng-class="{ 'has-error' : registrationForm.nested_email.$invalid && registrationForm.nested_email.$touched}">
         <label ng-if="registrationForm.nested_email.$valid || !registrationForm.nested_email.$touched"><translate>Email</translate></label>
         <label ng-if="registrationForm.nested_email.$invalid && registrationForm.nested_email.$touched"><translate>The provided email is not valid</translate></label>
-        <input class="form-control" name="nested_email" type="text" ng-model="ctlRegister.email" tabindex="5" ng-pattern="ctlRegister.emailPattern" maxlength="254"/>
+        <input class="form-control" name="nested_email" type="text" ng-model="ctlRegister.email" tabindex="5" ng-pattern="ctlRegister.emailPattern" maxlength="254" placeholder="john.doe@comapny.com" translate-attrs="placeholder"/>
       </div>
 
       <div class="_db nst-marginbtm-16 agreement-text ">
