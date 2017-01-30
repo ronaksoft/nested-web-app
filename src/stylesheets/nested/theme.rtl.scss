@@ -231,8 +231,8 @@ body[dir="rtl"] {
     padding-left: 48px;
   }
   nst-attachments-editable-bar ul.thumbnail-bar li:last-child .attdl, nst-attachments-preview-bar ul.thumbnail-bar li:last-child .attdl {
-    right: auto;
-    left: 10px;
+    //right: auto;
+    //left: 10px;
   }
   post-card .chain-stats > div > * {
     direction: rtl;
@@ -292,6 +292,17 @@ body[dir="rtl"] {
     margin-left: 16px;
     padding-left: 0;
     padding-right: 4px;
+  }
+  nst-attachments-preview-bar ul.badge-bar a.attach-badge-default {
+    .badge-name {
+      margin-left: 0;
+      margin-right: -3px;
+      border-radius: 6px 0 0 6px;
+    }
+    .badge-extension {
+      border-radius: 0 3px 3px 0;
+    }
+
   }
 }
 @media screen and (max-width: $screen-md){
