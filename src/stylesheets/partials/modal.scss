@@ -1,4 +1,5 @@
 body.modal-open {
+  min-width: auto;
   .modal {
     height: 100%;
     min-height: 100vh;
@@ -10,6 +11,7 @@ body.modal-open {
     display: flex!important;
     justify-content: center;
     align-items: center;
+    overflow-x: auto;
     //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
     .butn-green {
       width: 128px;
@@ -237,10 +239,12 @@ body.modal-open {
 .modal-post-view {
   width: 100%;
   height: 100%;
+  overflow-x: auto;
   margin: 0;
   .modal-content {
     min-height: calc(100% - 56px);
     margin-top: 56px;
+    min-width: 1024px;
     background-color: #FAFAFA;
     display: inline-flex;
     flex-direction: column;
