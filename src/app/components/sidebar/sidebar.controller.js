@@ -22,6 +22,7 @@
     vm.user = NstSvcAuth.getUser();
     vm.stateParams = $stateParams;
     vm.invitation = {};
+    vm.isUnread();
     vm.places = [];
     vm.onPlaceClick = onPlaceClick;
     vm.togglePlace = togglePlace;
@@ -45,6 +46,10 @@
     vm.compose = function ($event) {
       $event.preventDefault();
       $state.go('app.compose', {}, {notify: false});
+    };
+
+    vm.isUnread = function () {
+      vm.isUnreadMode = $state.current.name == 'app.place-messages-unread';
     };
 
     vm.invitation.accept = function (id) {
@@ -229,6 +234,7 @@
       if (toState.options && toState.options.primary) {
         fixUrls();
       }
+      vm.isUnread();
     });
 
 
