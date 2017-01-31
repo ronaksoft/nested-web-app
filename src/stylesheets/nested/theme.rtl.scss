@@ -245,6 +245,54 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 8px;
   }
+  #Logo-type-white {
+    background: url("../assets/icons/Nested_PersianTypeNegative.svg") no-repeat;
+  }
+  .toast-top-right {
+    top: 12px;
+    right: auto;
+    left: 12px;
+  }
+  .comments-load a {
+    margin-left : 0;
+    margin-right: 32px;
+  }
+  post-card .card-control {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+  }
+  .files-types-images {
+    margin: 0 7px 0 0;
+  }
+  .file-list ul .file-list-item {
+    padding: 20px 16px 20px 0;
+  }
+  input {
+    direction: rtl;
+  }
+  .pop-profile svg {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  .chain {
+    left: auto;
+    right: 0;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar li:first-child, nst-attachments-preview-bar ul.thumbnail-bar li:first-child {
+    margin-right: 16px;
+    margin-left: 4px;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar li:last-child, nst-attachments-preview-bar ul.thumbnail-bar li:last-child {
+    padding-right: 0;
+    padding-left: 16px;
+  }
+  .post-card .post-places a {
+    margin-right: 0;
+    margin-left: 16px;
+    padding-left: 0;
+    padding-right: 4px;
+  }
 }
 @media screen and (max-width: $screen-md){
 

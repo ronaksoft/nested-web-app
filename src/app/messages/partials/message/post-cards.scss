@@ -98,6 +98,16 @@ post-card {
       border-radius: 1px;
     }
   }
+  .card-control {
+    position: absolute;
+    width: 24px;
+    left: 0;
+    top: 24px;
+    transform: translateX(-100%);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
 }
 
 .post-card {
@@ -115,18 +125,18 @@ post-card {
     .icon svg {
       fill: black;
     }
-    .icon .fw {
-      color: $color-forward;
-      svg {
-        fill: $color-forward;
-      }
-    }
-    .icon .re {
-      color: $color-reply;
-      svg {
-        fill: $color-reply;
-      }
-    }
+    //.icon .fw {
+    //  color: $color-forward;
+    //  svg {
+    //    fill: $color-forward;
+    //  }
+    //}
+    //.icon .re {
+    //  color: $color-reply;
+    //  svg {
+    //    fill: $color-reply;
+    //  }
+    //}
     .post-footer .icon {
       .re, .fw {
         opacity: 1;
@@ -165,7 +175,7 @@ post-card {
       margin-left: 10px;
       margin-right: 4px;
     }
-    span {
+    span,.post-card-time {
       font-size: $font-size-xsmall;
       @include text-hover()
     }
@@ -270,6 +280,7 @@ post-card {
     position: relative;
     line-height: 14px;
     padding-right: 8px;
+    cursor: pointer;
     //top: 12px;
   }
   .post-places {
@@ -346,9 +357,14 @@ post-card {
         align-items: center;
         &.fw:hover {
           background-color: rgba(40, 60, 210, .1);
-
+          svg {
+            fill: $color-forward;
+          }
         }
         &.re:hover {
+          svg {
+            fill: $color-reply;
+          }
           background-color: rgba(30, 220, 150, .1);
         }
         &.more:hover {
@@ -357,6 +373,7 @@ post-card {
       }
       .re,
       .fw {
+        fill: #a6b9af;
         opacity: 0;
       }
     }
@@ -382,6 +399,8 @@ post-card {
 
 .more-place-row {
   padding: 4px 8px;
+  width: 100%;
+  overflow: hidden;
   &:last-child {
     margin-bottom: 8px;
   }
@@ -418,7 +437,7 @@ h3 {
   margin: auto;
   display: flex;
   flex-direction: column;
-  background-color: $color-calm;
+  background-color: #F5F5F5;
   border: solid 1px $color-border;
   border-top-width: 0;
   z-index: 10;

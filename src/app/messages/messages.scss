@@ -2,9 +2,9 @@
   justify-content: center;
   z-index: 20;
   > * {
-    margin: 0 16px;
+    margin: 0 24px;
     &._fw {
-      width: calc(100% - 32px);
+      width: calc(100% - 48px);
     }
   }
 }
@@ -30,7 +30,7 @@
   .icon-filter {
     line-height: 24px;
     position: relative;
-    z-index: 37;
+    z-index: 9999;
     height: 16px;
     width: 16px;
     fill: $color-wind;

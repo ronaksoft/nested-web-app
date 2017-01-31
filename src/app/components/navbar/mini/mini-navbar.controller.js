@@ -43,6 +43,10 @@
 
       return seq;
     };
+    vm.compose = function ($event) {
+      $event.preventDefault();
+      $state.go('app.compose', {}, {notify: false});
+    };
 
     vm.invitation.accept = function (id) {
       return NstSvcInvitationFactory.accept(id);

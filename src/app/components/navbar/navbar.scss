@@ -388,7 +388,7 @@ nst-navbar {
     }
   }
   .nst-navbar,.nst-navbar-f {
-    height: 100px;
+    height: 80px;
     justify-content: center;
     z-index: 50;
     width: 100%;
@@ -436,8 +436,8 @@ nst-navbar {
         padding-left: 8px;
         height: 100%;
         svg {
-          width: 32px;
-          height: 32px;
+          width: 24px;
+          height: 24px;
         }
         nav {
           display: inline-flex;

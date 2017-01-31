@@ -5,9 +5,9 @@
 </i>
 
 <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
-  <li ng-repeat="item in items" ng-class="item.isUploaded ? '' : 'uploading'">
-    <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
-      <img ng-if="item.hasThumbnail" class="attach-thumbnail-img" alt="" ng-src="{{item.thumbnail}}" style="height: 100%;min-width: 0;float: left;"/>
+  <li ng-repeat="item in items" ng-class="item.isUploaded ? '_df' : '_df uploading'">
+    <a class="_dib" href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
+      <img ng-if="item.hasThumbnail" class="attach-thumbnail-img" alt="" ng-src="{{item.thumbnail}}" height="100%" style="max-height: 100%;width:auto"/>
       <div ng-if="!item.hasThumbnail" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
         <p>{{item.name}}</p>
         <div class="detail">

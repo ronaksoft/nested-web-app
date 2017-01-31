@@ -40,13 +40,13 @@
       <h4 class="_df _fn" user-detail user="{{::ctlPostCard.post.sender}}">{{::ctlPostCard.post.sender.name}}</h4>
       <div class="_df _fw">
       </div>
-      <span class="_df _fn post-card-time" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
-            data-tooltip-append-to-body="true" data-tooltip-placement="auto left" ng-click="ctlPostCard.markAsRead()">
+      <a class="_df _fn post-card-time" ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.viewFull($event)" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
+            data-tooltip-append-to-body="true" data-tooltip-placement="auto left">
         {{::ctlPostCard.post.date | date : 'short'}}
-        <div class="unread-badge-holder">●</div>
-      </span>
+        <!--<div class="unread-badge-holder">●</div>-->
+      </a>
     </div>
-    <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}" ng-click="ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked)">
+    <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}" ng-click="ctlPostCard.markAsRead();ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked)">
       <svg class="_24svg" data-ng-if="ctlPostCard.post.bookmarked">
         <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
       </svg>
@@ -65,25 +65,26 @@
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
            ng-if="ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
            auto-dir="ctlPostCard.post.body">
-    <span ng-if="!ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.body | removeHTMLTags | truncate"></span>
-    <span ng-if="ctlPostCard.isExpanded" ng-bind-html="ctlPostCard.body"></span>
+    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | removeHTMLTags | truncate"></span>
+    <span ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
+    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
   </section>
 
-  <section  ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-    <a ng-click="$event.stopPropagation();ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Show less</a>
-    <a ng-click="$event.stopPropagation();ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">
+  <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+    <a ng-click="ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Show less</a>
+    <a ng-click="ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">
       <translate>Show more...</translate>
     </a>
   </section>
 
-  <div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlPostCard.expandProgress">
-    <div class="col-xs-6">
-      <div class="nst-loading nst-loading-size-16  _fr"></div>
-    </div>
-    <div class="col-xs-6 nst-marginbtm-4">
-      <translate>Loading...</translate>
-    </div>
-  </div>
+  <!--<div class="_difh nst-mood-cheerful no-gutter" ng-if="ctlPostCard.expandProgress">-->
+    <!--<div class="col-xs-6">-->
+      <!--<div class="nst-loading nst-loading-size-16  _fr"></div>-->
+    <!--</div>-->
+    <!--<div class="col-xs-6 nst-marginbtm-4">-->
+      <!--<translate>Loading...</translate>-->
+    <!--</div>-->
+  <!--</div>-->
 
   <section data-ng-if="ctlPostCard.post.hasAnyAttachment() && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)" class="attachments-card">
     <nst-attachments-view class="_fw" post-id="ctlPostCard.post.id" attachments="ctlPostCard.post.attachments"></nst-attachments-view>
@@ -212,6 +213,20 @@
     </a>
   </div>
 
+</div>
+<div class="card-control" affix-post   ng-if="!ctlPostCard.chainView">
+  <svg class="_16svg" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.expandProgress && !ctlPostCard.post.isRead">
+    <use xlink:href="/assets/icons/nst-icn16.svg#unread-message"></use>
+  </svg>
+  <svg class="_16svg nst-icn-gry" ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.isRead && !ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-click="ctlPostCard.expand();">
+    <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
+  </svg>
+  <svg class="_16svg nst-icn-gry" ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.isRead && ctlPostCard.isExpanded) || (!ctlPostCard.post.ellipsis && ctlPostCard.post.isRead )" ng-click="ctlPostCard.collapse();">
+    <use xlink:href="/assets/icons/nst-icn16.svg#open-message"></use>
+  </svg>
+  <div class="_16svg" ng-show="ctlPostCard.expandProgress && ctlPostCard.post.ellipsis">
+    <div class="nst-loading nst-loading-size-16  _fr"></div>
+  </div>
 </div>
 
 <div class="post-card-wire" ng-if="!ctlPostCard.chainView" ></div>
