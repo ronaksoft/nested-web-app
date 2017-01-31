@@ -871,7 +871,7 @@ ul ul > li:last-child > .place-item-inner{
     }
     .unread {
       z-index: 4;
-      border-top: 1px solid transparent;
+      border: 1px solid transparent;
       border-radius: 4px;
       transition: background-color;
       &:hover,&.active {
