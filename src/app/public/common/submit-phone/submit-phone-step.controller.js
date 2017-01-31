@@ -142,19 +142,24 @@
 
     function phoneAvailable(phone) {
       var deferred = $q.defer();
-      new NstHttp('',
-      {
-        cmd: 'auth/phone_available',
-        data: {
-          'phone': phone
-        }
-      }).post().then(function(data){
-        if (data.status === 'ok') {
-          deferred.resolve(true);
-        } else {
-          deferred.resolve(false);
-        }
-      }).catch(deferred.reject);
+
+      if (!vm.checkPhoneAvailable) {
+        deferred.resolve(true);
+      } else {
+        new NstHttp('',
+        {
+          cmd: 'auth/phone_available',
+          data: {
+            'phone': phone
+          }
+        }).post().then(function(data){
+          if (data.status === 'ok') {
+            deferred.resolve(true);
+          } else {
+            deferred.resolve(false);
+          }
+        }).catch(deferred.reject);
+      }
 
       return deferred.promise;
     }

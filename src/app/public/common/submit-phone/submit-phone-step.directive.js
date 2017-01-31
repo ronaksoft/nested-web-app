@@ -13,7 +13,8 @@
         scope: {
           phone : '=',
           country : '=',
-          onCompleted : '@'
+          onCompleted : '@',
+          checkPhoneAvailable : '@'
         },
       };
     });

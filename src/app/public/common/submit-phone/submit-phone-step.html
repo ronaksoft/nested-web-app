@@ -24,13 +24,13 @@
     <label class="error-message" ng-if="ctrl.phoneIsEmpty && ctrl.submitted"><translate>Enter your phone number</translate></label>
     <label class="error-message" ng-if="ctrl.phoneIsWrong && ctrl.submitted"><translate>Provided phone number is not valid</translate></label>
 
-    <div ng-if="ctrl.phoneAvailableStatus == 'checking' && ctrl.phoneIsValid && ctrl.submitted" class="nst-mood-storm" style="display: inline">
+    <div ng-if="ctrl.phoneAvailableStatus == 'checking' && ctrl.phoneIsValid && ctrl.submitted && ctrl.checkPhoneAvailable" class="nst-mood-storm" style="display: inline">
       <translate>checking...</translate>
     </div>
-    <div ng-if="ctrl.phoneAvailableStatus == 'available' && ctrl.phoneIsValid && ctrl.submitted" class="nst-mood-cheerful" style="display: inline">
+    <div ng-if="ctrl.phoneAvailableStatus == 'available' && ctrl.phoneIsValid && ctrl.submitted && ctrl.checkPhoneAvailable" class="nst-mood-cheerful" style="display: inline">
       <translate>available</translate>
     </div>
-    <div ng-if="ctrl.phoneAvailableStatus == 'used' && ctrl.phoneIsValid && ctrl.submitted" class="nst-mood-lively" style="display: inline">
+    <div ng-if="ctrl.phoneAvailableStatus == 'used' && ctrl.phoneIsValid && ctrl.submitted && ctrl.checkPhoneAvailable" class="nst-mood-lively" style="display: inline">
       <translate>used</translate>
     </div>
 
