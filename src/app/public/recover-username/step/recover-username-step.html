@@ -1,0 +1,21 @@
+<div>
+  <!-- <div class="nst-vb no-gutter2">
+    <h3 class="col-xs-9 nst-font-xlarge testing-title1"><translate></translate></h3>
+    <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right"><translate>or</translate><a href="#/signin" class="nst-mood-cheerful"><translate>Sign in</translate></a></p>
+  </div> -->
+  <div class="panel-body">
+    <p class="nst-font-medium" ng-if="!ctrl.recoverUsernameProgress">
+      <translate>Your username is:</translate>
+    </p>
+    <p class="nst-font-medium" ng-if="ctrl.recoverUsernameProgress">
+      <translate>Please wait...</translate>
+    </p>
+    <p ng-if="!ctrl.recoverUsernameProgress">
+      <b>{{ctrl.username}}</b>
+    </p>
+    <p>
+      Use your username and password to <a ui-sref="public.signin">sing-in</a> or if you do not remember your password, try to <a ui-sref="public.recover-password">recover</a> it.
+    </p>
+
+  </div>
+</div>

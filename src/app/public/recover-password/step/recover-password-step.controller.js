@@ -27,7 +27,7 @@
         data: {
           'vid': verificationId,
           'phone': phone,
-          'pass': password,
+          'new_pass': password,
         }
       }).post().then(function(result) {
         if (result.data.status === "ok") {
