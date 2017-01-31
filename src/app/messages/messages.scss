@@ -36,6 +36,18 @@
     fill: $color-wind;
   }
 }
+.tool-bar {
+  height: 42px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  flex: none;
+  position: relative;
+  margin: 16px;
+  align-self: flex-end;
+  width: calc(100% - 32px);
+}
+
 hr.hot-message-separator {
   border: 0;
   width: 92%;

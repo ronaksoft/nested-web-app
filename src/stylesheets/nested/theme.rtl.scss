@@ -304,6 +304,11 @@ body[dir="rtl"] {
     }
 
   }
+  #EventList .ico {
+    float: right;
+    padding-left: 0;
+    padding-right: 8px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
