@@ -141,7 +141,7 @@
       </a>
       <a id="test-reply" class="icon _df" ng-click="ctlPostCard.replyAll($event)" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
         <div class="re">
-          <svg class="svg-hover _24svg">
+          <svg class="svg-hover _24svg mirror">
             <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
             <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
           </svg>
@@ -168,7 +168,7 @@
 
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <a ng-click="ctlPostCard.replyAll($event)" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
-    <svg>
+    <svg class="mirror">
       <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
     </svg>
   </a>
