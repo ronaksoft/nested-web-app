@@ -13,13 +13,19 @@
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode">
-      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 0">{{ ctlMessages.currentPlace.counters.posts }} posts</p>
+      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 0"><translate>{{ ctlMessages.currentPlace.counters.posts }} posts</translate><a class="nst-mood-pending"> &nbsp; (55 Unseen)</a></p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
+      <p class="_df _fn mark-read disable">
+        <translate>Mark all as Seen</translate>
+        <svg class="_16svg _df">
+          <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
+        </svg>
+      </p>
       <div ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
-        <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
-        <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort != 'latest-messages'"><translate>Latest Activity</translate></span>
+        <span class="_df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
+        <span class="_df" ng-if="ctlMessages.messagesSetting.sort != 'latest-messages'"><translate>Latest Activity</translate></span>
         <svg class="icon-filter _df">
           <use xlink:href="/assets/icons/nst-icn16.svg#sort"></use>
         </svg>
