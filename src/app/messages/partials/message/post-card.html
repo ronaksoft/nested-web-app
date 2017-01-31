@@ -169,12 +169,17 @@
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <a ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead();" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
     <svg class="mirror">
-      <use xlink:href="/assets/icons/nst-icn20.svg#reply"></use>
+      <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
     </svg>
   </a>
   <a ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);ctlPostCard.markAsRead();">
     <svg>
-      <use xlink:href="/assets/icons/nst-icn20.svg#forward"></use>
+      <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
+    </svg>
+  </a>
+  <a ng-if="!ctlPostCard.addOn" ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.viewFull($event)">
+    <svg>
+      <use xlink:href="/assets/icons/nst-icn24.svg#expand"></use>
     </svg>
   </a>
   <a ng-if="ctlPostCard.addOn" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="bottom-left auto"
