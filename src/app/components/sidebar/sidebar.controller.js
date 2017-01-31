@@ -22,7 +22,6 @@
     vm.user = NstSvcAuth.getUser();
     vm.stateParams = $stateParams;
     vm.invitation = {};
-    vm.isUnread();
     vm.places = [];
     vm.onPlaceClick = onPlaceClick;
     vm.togglePlace = togglePlace;
@@ -51,6 +50,8 @@
     vm.isUnread = function () {
       vm.isUnreadMode = $state.current.name == 'app.place-messages-unread';
     };
+
+    vm.isUnread();
 
     vm.invitation.accept = function (id) {
       return NstSvcLoader.inject(NstSvcInvitationFactory.accept(id));
