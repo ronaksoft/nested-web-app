@@ -217,6 +217,7 @@
     }
 
     function getMessages() {
+      vm.messagesSetting.skip = null;
       switch ($state.current.name) {
         case 'app.place-messages':
         case 'app.place-messages-sorted':
@@ -224,6 +225,7 @@
 
         case 'app.messages-bookmarked':
         case 'app.messages-bookmarked-sorted':
+          vm.messagesSetting.skip = _.size(vm.messages);
           return NstSvcPostFactory.getBookmarkedMessages(vm.messagesSetting);
 
         case 'app.messages-sent':
