@@ -12,10 +12,10 @@
   <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
-    <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isBookMark && !ctlMessages.isSentMode">
+    <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode">
       <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 0">{{ ctlMessages.currentPlace.counters.posts }} posts</p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
-      <div ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
+      <div ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
         <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
@@ -26,7 +26,7 @@
       </div>
     </div>
 
-    <div class="tool-bar"  ng-if="ctlMessages.isBookMark || ctlMessages.isSentMode">
+    <div class="tool-bar"  ng-if="ctlMessages.isbookmarkedsMode || ctlMessages.isSentMode">
 
     </div>
     <div class="post-area">
@@ -53,13 +53,11 @@
         <translate>No more messages here!</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && !ctlMessages.isUnreadMode">
-        <span ng-if="!ctlMessages.isBookMark">
+        <span ng-if="!ctlMessages.isbookmarkedsMode">
           <translate>You haven't favorited any Places yet...</translate>
         </span>
-        <span ng-if="ctlMessages.isBookMark">
-          <translate><b>You haven't bookmarked anything yet!</b>
-            <br>There's a bookmark icon on the upper-right corner of each post.
-            <br>Click on it to save the post to be viewed later.</translate>
+        <span ng-if="ctlMessages.isbookmarkedsMode">
+          <translate><p><b>You haven't bookmarked anything yet!</b><br>There's a bookmark icon on the upper-right corner of each post.<br>Click on it to save the post to be viewed later.</p></translate>
         </span>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && ctlMessages.isUnreadMode">
@@ -83,10 +81,10 @@
   </div>
   <div class="content-plus" id="content-plus" affixer parent=".content-plus" after-content="0" offset-top="0" top="134" fixed-top="true" first-imp="true" >
     <div id="members" nst-scrollbar suppress-scroll-x="true"
-         ng-if="!ctlMessages.isSubPersonal() && !ctlMessages.isBookmarkMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
+         ng-if="!ctlMessages.isSubPersonal() && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
       <nst-place-teammates-sidebar grand-place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"></nst-place-teammates-sidebar>
     </div>
-    <div id="cp1" nst-scrollbar suppress-scroll-x="true"  ng-show="!ctlMessages.isBookmarkMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
+    <div id="cp1" nst-scrollbar suppress-scroll-x="true"  ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
       <!--FIXME:: use only one of place/place-id -->
       <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="30"/>
     </div>
