@@ -395,7 +395,7 @@
           $state.go(NST_DEFAULT.STATE);
         }
       }).catch(function(error) {
-        if (error.code === 1 && error.message[0] === "place has child") {
+        if (error.code === 1 && error.message[0] === "remove_children_first") {
           toastr.warning(NstSvcTranslation.get("You have to delete all the sub-Places within, before removing this Place."));
         } else {
           toastr.error(NstSvcTranslation.get("An error has occurred in removing this Place."));
