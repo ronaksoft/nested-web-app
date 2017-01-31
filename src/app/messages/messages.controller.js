@@ -143,6 +143,7 @@
 
         if (!isSent()) {
           if (!vm.currentPlaceId || _.some(newMessage.places, {id: vm.currentPlaceId})) {
+            vm.currentPlace.counters.posts ++;
             if (!_.some(vm.messages, {id: newMessage.id})) {
               vm.hotMessageStorage.unshift(newMessage);
               vm.hasNewMessages = true;
