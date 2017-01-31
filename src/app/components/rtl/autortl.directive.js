@@ -96,7 +96,6 @@
             str = str.replace(/(^|\s)@(\w+)/g,'');
             str = str.trim();
             str = str.substring(0, 1);
-            console.log('vvv',str);
             if (persianRex.rtl.test(str)) {
               return element.css("direction", "rtl");
             } else {

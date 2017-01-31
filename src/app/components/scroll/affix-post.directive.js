@@ -12,9 +12,6 @@
       link: function ($scope, $element, $attrs) {
         var win = angular.element($window);
         var isRTL = $rootScope._direction == 'rtl';
-
-        console.log(isRTL);
-
         win.bind('scroll', affixElement);
 
         //TODO handle win resize event
