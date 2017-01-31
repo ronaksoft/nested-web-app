@@ -309,6 +309,14 @@ body[dir="rtl"] {
     padding-left: 0;
     padding-right: 8px;
   }
+  .mirror {
+    transform: scaleX(-1);
+    filter: FlipH;
+  }
+  .quick-message-wrp .quick-message-inner .quick-sender > div {
+    left: auto;
+    right: -4px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
