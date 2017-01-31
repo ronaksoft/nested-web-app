@@ -14,36 +14,6 @@
   }
 }
 
-/**
-  **********************************************************
-  *    Tiny mce Overrides
-  **********************************************************
-*/
-.mce-panel {
-  border: none!important;
-  background-color: transparent!important;
-}
-
-.mce-widget {
-  border: none!important;
-  background-color: $color-white!important;
-}
-.mce-container, .mce-container{
-  background: white!important;
-}
-
-.mce-primary {
-  @extend .butn-green;
-  color: $color-white!important;
-  background-color: $color-sense!important;
-}
-
-.mce-menu-item:hover{
-  background-color: $color-sense!important;
-}
-
-
-
 .butn-toolbar > .butn-group {
   padding: 5px;
 }
@@ -197,4 +167,7 @@
   body {
     margin: 0;
   }
+}
+.cke_wysiwyg_div {
+  overflow: hidden;
 }
