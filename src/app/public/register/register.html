@@ -1,0 +1,9 @@
+<div class="_fhw">
+  <div class="nst-vc nst-mood-sense-5 ng-scope _fh">
+    <div class="panel" id="panel-register">
+      <submit-phone-step ng-if="ctrl.step == 1" phone="ctrl.phone" country="ctrl.country" on-completed="{{::ctrl.phoneSubmittedEventKey}}"></submit-phone-step>
+      <verify-code-step ng-if="ctrl.step == 2" verification-id="ctrl.verificationId" phone="ctrl.phone" on-completed="{{::ctrl.codeVerifiedEventKey}}" on-previous="{{::ctrl.previousStepEventKey}}"></verify-code-step>
+      <register-step ng-if="ctrl.step == 3" verification-id="ctrl.verificationId" phone="ctrl.phone" on-completed="{{::ctrl.completedEventKey}}"></register-step>
+    </div>
+  </div>
+</div>
