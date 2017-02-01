@@ -231,8 +231,8 @@ body[dir="rtl"] {
     padding-left: 48px;
   }
   nst-attachments-editable-bar ul.thumbnail-bar li:last-child .attdl, nst-attachments-preview-bar ul.thumbnail-bar li:last-child .attdl {
-    right: auto;
-    left: 10px;
+    //right: auto;
+    //left: 10px;
   }
   post-card .chain-stats > div > * {
     direction: rtl;
@@ -292,6 +292,46 @@ body[dir="rtl"] {
     margin-left: 16px;
     padding-left: 0;
     padding-right: 4px;
+  }
+  nst-attachments-preview-bar ul.badge-bar a.attach-badge-default {
+    .badge-name {
+      margin-left: 0;
+      margin-right: -3px;
+      border-radius: 6px 0 0 6px;
+    }
+    .badge-extension {
+      border-radius: 0 3px 3px 0;
+    }
+
+  }
+  #EventList .ico {
+    float: right;
+    padding-left: 0;
+    padding-right: 8px;
+  }
+  .mirror {
+    transform: scaleX(-1);
+    filter: FlipH;
+  }
+  .quick-message-wrp .quick-message-inner .quick-sender > div {
+    left: auto;
+    right: -4px;
+  }
+  .text-left {
+    text-align: right;
+  }
+  .text-right {
+    text-align: left;
+  }
+  #panel-signin input[type="checkbox"]:checked + label,
+  #panel-register input[type="checkbox"]:checked + label {
+    background-position: 100% -16px;
+    padding: 0 17px 0 0;
+  }
+  #panel-signin input[type="checkbox"] + label,
+  #panel-register input[type="checkbox"] + label {
+    background-position: 100% 0;
+    padding: 0 17px 0 0;
   }
 }
 @media screen and (max-width: $screen-md){

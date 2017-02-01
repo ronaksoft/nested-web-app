@@ -6,12 +6,12 @@
     .directive('affixPost', onScroll);
 
   /** @ngInject */
-  function onScroll($window,$rootScope,$timeout) {
+  function onScroll($window,$rootScope,$timeout,NstSvcTranslation) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
         var win = angular.element($window);
-
+        var isRTL = $rootScope._direction == 'rtl';
         win.bind('scroll', affixElement);
 
         //TODO handle win resize event
@@ -20,11 +20,13 @@
           if ($window.pageYOffset > $element.parent().offset().top && $window.pageYOffset < $element.parent().children().first().height() + $element.parent().offset().top - 50) {
             $element.css('position', 'fixed');
             $element.css('top', 24 + 'px');
-            $element.css('left', $element.parent().offset().left + 'px');
+            if (!isRTL) $element.css('left', $element.parent().offset().left + 'px');
+            if (isRTL) $element.css('right', $element.parent().offset().left - 20 + 'px');
           } else {
             $element.css('position', '');
             $element.css('top', '');
             $element.css('left', '');
+            $element.css('right', '');
           }
 
         }

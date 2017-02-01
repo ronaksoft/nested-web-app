@@ -150,15 +150,15 @@
              data-width="size" data-height="size" data-radius="20" data-word-count="2" data-font-size="16"/>
       </div>
       <div class="side-stats">
-        <div class="unread">
-          <a class="_fw _df" ui-sref="app.place-messages-unread({placeId: ctlSidebar.selectedGrandPlace.id})"><translate>Unread</translate></a>
+        <div class="unread ng-class:{'active' : ctlSidebar.isUnreadMode}">
+          <a class="_fn _df" ui-sref="app.place-messages-unread({placeId: ctlSidebar.selectedGrandPlace.id})"><translate>Total unseen posts&nbsp; </translate></a>
           <span class="_fn _df">{{ctlSidebar.placesNotifCountObject[ctlSidebar.selectedGrandPlace.id] || 0}}</span>
         </div>
       </div>
     </div>
     <div nst-scrollbar suppress-scroll-x="true" class="places">
       <div class="places-list">
-        <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace"></nst-sidebar-place-info>
+        <nst-sidebar-place-info grand-place="ctlSidebar.selectedGrandPlace" unread-mode="ctlSidebar.isUnreadMode"></nst-sidebar-place-info>
       </div>
     </div>
   </div>

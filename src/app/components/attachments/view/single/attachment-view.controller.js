@@ -86,6 +86,8 @@
       var next = currentIndex + 1;
       if (vm.attachments.collection.length > 0 && next < vm.attachments.collection.length) {
         goTo(next);
+      } else {
+        goTo(0)
       }
     };
 
@@ -94,6 +96,8 @@
       var previous = currentIndex - 1;
       if (vm.attachments.collection.length > 0 && previous >= 0) {
         goTo(previous);
+      } else {
+        goTo(vm.attachments.collection.length - 1)
       }
     };
 

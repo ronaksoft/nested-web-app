@@ -19,7 +19,7 @@
 <a class="_df list-items _aic" ng-click="ctlSidebar.closeProfile()" target="_blank" href="https://help.nested.me">
   <translate>Help center</translate>
 </a>
-<a class="_df list-items _aic" ng-click="ctlSidebar.closeProfile()" ui-sref="app.place-compose({ placeId: 'robzizo' })">
+<a class="_df list-items _aic" ng-click="ctlSidebar.closeProfile()" ui-sref="app.place-compose({ placeId: 'robzizo'})" ui-sref-opts="{notify: false}" >
   <translate>Report a problem</translate>
 </a>
 <a class="_df list-items _aic" target="_blank" ng-click="ctlSidebar.closeProfile()" href="https://nested.me/feedback/index.html">
@@ -27,8 +27,8 @@
 </a>
 <hr class="line-popover">
 <a class="_df red list-items _aic red" href="#/signout">
-  <div>
-    <svg class="_16svg">
+  <div class="_df">
+    <svg class="_16svg mirror">
       <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
     </svg>
   </div>
