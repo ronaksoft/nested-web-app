@@ -14,7 +14,7 @@
         var isMobile = deviceDetector.isMobile() || deviceDetector.isTablet();
         var isRTL = $rootScope._direction == 'rtl';
         var MobTopOff = isMobile ? 56 : 0;
-        win.bind('scroll', affixElement);
+        // win.bind('scroll', affixElement);
 
         //TODO handle win resize event
         function affixElement() {
