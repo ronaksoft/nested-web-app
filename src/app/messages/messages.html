@@ -63,9 +63,9 @@
         <span ng-if="!ctlMessages.isbookmarkedsMode">
           <translate>You haven't favorited any Places yet...</translate>
         </span>
-        <span ng-if="ctlMessages.isbookmarkedsMode">
-          <translate><p class="nst-mood-storm"><b>You haven't bookmarked anything yet!</b><br>There's a bookmark icon on the upper-right corner of each post.<br>Click on it to save the post to be viewed later.</p></translate>
-        </span>
+        <p class="nst-mood-storm" ng-if="ctlMessages.isbookmarkedsMode">
+          <b>You haven't bookmarked anything yet!</b><br>There's a bookmark icon on the upper-right corner of each post.<br>Click on it to save the post to be viewed later.
+        </p>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && ctlMessages.isUnreadMode">
         <translate>You don't have any unread messages.</translate>
