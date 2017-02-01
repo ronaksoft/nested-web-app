@@ -170,7 +170,7 @@
           $timeout(function () {
             var imageElement = angular.element(ele.find('ul')).children();
             for (var i = 0 ; i < imageElement.length; i++){
-              angular.element(imageElement[i]).children().children().css('height', '99%');
+              angular.element(imageElement[i]).children().first().children().css('height', '99%');
             }
           });
         }
