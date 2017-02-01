@@ -159,7 +159,7 @@
       return deferred.promise;
     }
 
-    UserFactory.prototype.updatePicture = function (uid) {
+    UserFactory.prototype.updatePicture = function (uid, userId) {
       var factory = this;
 
       return factory.sentinel.watch(function () {
@@ -168,7 +168,7 @@
         NstSvcServer.request('account/set_picture', {
           universal_id: uid
         }).then(function () {
-          factory.get(null, true).then(function (user) {
+          factory.get(userId, true).then(function (user) {
             factory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PICTURE_UPDATED, new NstFactoryEventData(user)));
             deferred.resolve(uid);
           }).catch(deferred.reject);

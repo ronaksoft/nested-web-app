@@ -503,7 +503,7 @@
 
       var options = {
         limit: setting.limit,
-        before: setting.date
+        skip: setting.skip
       };
 
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
