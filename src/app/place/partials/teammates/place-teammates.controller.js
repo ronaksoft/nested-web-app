@@ -128,21 +128,27 @@
       });
 
       modal.result.then(function(selectedUsers) {
+
+        var successRes = [];
+        var failedRes = [];
+
         $q.all(_.map(selectedUsers, function(user) {
 
           return $q(function(resolve, reject) {
             if (vm.placeId.split('.').length === 1) {
               NstSvcPlaceFactory.inviteUser(vm.place, role, user).then(function (invitationId) {
-                toastr.success(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been invited to Place "{1}" successfully.'), user.id, vm.placeId));
+                successRes.push(user.id);
+
                 resolve({
                   user: user,
                   role: role,
                   invitationId: invitationId
                 });
               }).catch(function (error) {
+
+                failedRes.push(user.id);
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been previously invited to Place "{1}".'), user.id, vm.placeId));
                   resolve({
                     user: user,
                     role: role,
@@ -155,7 +161,9 @@
               });
             }else{
               NstSvcPlaceFactory.addUser(vm.place, role, user).then(function (addId) {
-                toastr.success(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been added to Place "{1}" successfully.'), user.id, vm.placeId));
+
+                successRes.push(user.id);
+
                 resolve({
                   user: user,
                   role: role,
@@ -164,7 +172,9 @@
               }).catch(function (error) {
                 // FIXME: Why cannot catch the error!
                 if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
-                  toastr.warning(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been previously added to Place "{1}".'), user.id, vm.placeId));
+
+                  failedRes.push(user.id);
+
                   resolve({
                     user: user,
                     role: role,
@@ -187,6 +197,18 @@
               }
             }
           });
+
+          if (successRes.length > 0) {
+            toastr.success(NstUtility.string.format(NstSvcTranslation.get('{0} user/s has been {1} to Place "{2}" successfully.'), successRes.length, vm.placeId.split('.').length === 1 ? 'invited' : 'added', vm.place.id));
+          }
+          if (failedRes > 0) {
+            if (vm.placeId.split('.').length === 1) {
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} user/s has not been invited to Place "{1}".'), failedRes.length, vm.place.id));
+            } else {
+              toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} user/s has not been added to Place "{1}". ' + failedRes.join(',')), failedRes.length, user.id, vm.place.id));
+            }
+          }
+
         }).catch(function(error) {
           NstSvcLogger.error(error);
         });

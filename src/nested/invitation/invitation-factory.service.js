@@ -147,7 +147,10 @@
             response: 'accept'
           }).then(function (response) {
             // TODO: parse the response and return an object
-            defer.resolve(invitation);
+            NstSvcPlaceFactory.get(invitation.place.id, true).then(function () {
+              defer.resolve(invitation);
+            });
+
             factory.dispatchEvent(new CustomEvent(
               NST_INVITATION_FACTORY_EVENT.ACCEPT,
               { detail: { id: id, invitation: invitation } }

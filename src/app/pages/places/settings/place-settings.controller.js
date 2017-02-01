@@ -238,7 +238,7 @@
 
         teammates.push.apply(teammates, keyHolders);
         return getPendings(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeePendings);
-      }).then(function(pendings) {
+      }).then(function (pendings) {
         vm.teammatesSettings.pendingsCount += pendings.length;
         pageCounts.pendings = pendings.length;
 
@@ -281,25 +281,27 @@
       });
 
       modal.result.then(function (selectedUsers) {
+
+        var successRes = [];
+        var failedRes = [];
+
         $q.all(_.map(selectedUsers, function (user) {
+
 
           return $q(function (resolve, reject) {
             var command = vm.isGrandPlace ? 'inviteUser' : 'addUser';
             NstSvcPlaceFactory[command](vm.place, role, user).then(function (invitationId) {
-
+              successRes.push(user.id);
               NstSvcLogger.info(NstUtility.string.format('User "{0}" has been invited to Place "{1}" successfully.', user.id, vm.place.id));
-              toastr.success(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has been {1} to Place "{2}" successfully.'), user.id, vm.isGrandPlace ? 'invited' : 'added', vm.place.id));
+
               resolve({
                 user: user,
                 role: role,
                 invitationId: vm.isGrandPlace ? invitationId : -1,
               });
             }).catch(function (error) {
-              if (vm.isGrandPlace) {
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has not been invited to Place "{1}".'), user.id, vm.place.id));
-              } else {
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('User "{0}" has not been added to Place "{1}".'), user.id, vm.place.id));
-              }
+              failedRes.push(user.id);
+
               // FIXME: Why cannot catch the error!
               if (error.getCode() === NST_SRV_ERROR.DUPLICATE) {
                 NstSvcLogger.warn(NstUtility.string.format('User "{0}" has been previously invited to Place "{1}".', user.id, vm.place.id));
@@ -323,6 +325,19 @@
                 vm.teammates.push(new NstVmMemberItem(result.user, rolePrefix + result.role));
               }
             }
+
+            if (successRes.length > 0) {
+              toastr.success(NstUtility.string.format(NstSvcTranslation.get('{0} user has been {1} to Place "{2}" successfully.'), successRes.length, vm.isGrandPlace ? 'invited' : 'added', vm.place.id));
+            }
+            if (failedRes > 0) {
+              if (vm.isGrandPlace) {
+                toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} User has not been invited to Place "{1}".'), failedRes.length, vm.place.id));
+              } else {
+                toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} User has not been added to Place "{1}". ' + failedRes.join(',')), failedRes.length, user.id, vm.place.id));
+              }
+            }
+
+
           });
         }).catch(function (error) {
           NstSvcLogger.error(error);
