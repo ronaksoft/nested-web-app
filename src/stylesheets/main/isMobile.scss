@@ -78,4 +78,12 @@ body.isMobile {
     flex-direction: column-reverse;
     top : 21px
   }
+  &[dir="rtl"] {
+    .nst-container {
+      margin-right: 0;
+    }
+    .nst-navbar-f {
+      right: 0;
+    }
+  }
 }
