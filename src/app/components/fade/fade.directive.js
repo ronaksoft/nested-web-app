@@ -16,9 +16,7 @@
     .directive('nstShowEffect', function($timeout) {
       return {
         restrict: 'A',
-        scope :{
-          show : "@"
-        },
+        scope: {},
         link: function(scope, element, attrs) {
           // configure options
           var passedOptions = scope.$eval(attrs.jqOptions);
@@ -45,9 +43,10 @@
           var jqElm = $(element);
 
           scope.$watch(function () {
-            return scope.show;
+            console.log('scope fade ',attrs.show);
+            return attrs.show;
           }, function() {
-            var value = eval(scope.show);
+            var value = eval(attrs.show);
             if (hideImmediately && !value) {
               jqElm.hide(0, callback);
             } else {
