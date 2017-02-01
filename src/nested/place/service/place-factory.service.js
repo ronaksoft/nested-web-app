@@ -962,7 +962,7 @@
         }
       }
 
-      place.accesses = placeData.place_access || [];
+      place.accesses = placeData.access || [];
 
       return place;
     };
@@ -1120,7 +1120,7 @@
       return _.filter(places, function (place) {
         return _.includes(place.accesses, code);
       });
-    }
+    };
 
     PlaceFactory.prototype.addPlaceToTree = function (tree, place) {
       addPlace(tree, place);

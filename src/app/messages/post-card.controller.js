@@ -7,7 +7,7 @@
 
     function PostCardController($state, $log, $timeout, $rootScope, $scope,
                                 _, moment, toastr,
-                                NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, $uibModalStack,
+                                NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                                 NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
       var vm = this;
 
@@ -23,6 +23,7 @@
           pageEventReferences = [];
 
       vm.remove = remove;
+      vm.hasDeleteAccess = hasDeleteAccess;
       vm.retract = retract;
       vm.expand = expand;
       vm.collapse = collapse;
@@ -110,6 +111,21 @@
           vm.retractProgress = false;
         });
       }
+
+      function getMessage() {
+        NstSvcPostFactory.get(vm.post.id).then(function (post) {
+          vm.mainPost = post;
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
+        }).finally(function () {
+          vm.expandProgress = false;
+        });
+      }
+
+      function hasDeleteAccess(place) {
+        return place.hasAccess(NST_PLACE_ACCESS.REMOVE_POST)
+      }
+
 
       function expand() {
         vm.expandProgress = true;
@@ -203,6 +219,10 @@
 
         vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
         vm.body = vm.post.body;
+
+        if (vm.addOn) {
+          getMessage();
+        }
 
         var reference = $scope.$on('comment-removed', function (event, data) {
             if (vm.post.id === data.postId) {
