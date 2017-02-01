@@ -317,6 +317,22 @@ body[dir="rtl"] {
     left: auto;
     right: -4px;
   }
+  .text-left {
+    text-align: right;
+  }
+  .text-right {
+    text-align: left;
+  }
+  #panel-signin input[type="checkbox"]:checked + label,
+  #panel-register input[type="checkbox"]:checked + label {
+    background-position: 100% -16px;
+    padding: 0 17px 0 0;
+  }
+  #panel-signin input[type="checkbox"] + label,
+  #panel-register input[type="checkbox"] + label {
+    background-position: 100% 0;
+    padding: 0 17px 0 0;
+  }
 }
 @media screen and (max-width: $screen-md){
 
