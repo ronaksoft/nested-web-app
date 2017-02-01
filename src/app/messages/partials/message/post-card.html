@@ -199,8 +199,10 @@
     </svg>
   </div>
 
-  <div ng-if="ctlPostCard.addOn">
-    <div class="squ"></div><span>shared in {{ctlPostCard.post.getAllPlacesCount()}} places</span>
+  <div ng-if="ctlPostCard.addOn" ng-init="cnt = ctlPostCard.post.getAllPlacesCount()">
+    <div class="squ"></div>
+    <span ng-if="!(cnt == 1)">shared in {{cnt}} places</span>
+    <span ng-if="cnt == 1">shared in One place</span>
   </div>
   <div ng-if="ctlPostCard.addOn" >
     <svg class="chain-ico">
