@@ -268,8 +268,9 @@ body[dir="rtl"] {
   .file-list ul .file-list-item {
     padding: 20px 16px 20px 0;
   }
-  input {
+  input[type="text"], input[type="password"] {
     direction: rtl;
+    padding: 3px 10px 3px 3px;
   }
   .pop-profile svg {
     margin-right: 0;
@@ -332,6 +333,14 @@ body[dir="rtl"] {
   #panel-register input[type="checkbox"] + label {
     background-position: 100% 0;
     padding: 0 17px 0 0;
+  }
+  .has-feedback .form-control {
+    padding-left: 42px;
+    padding-right: 10px;
+  }
+  .form-control-feedback {
+    right: auto;
+    left: 0;
   }
 }
 @media screen and (max-width: $screen-md){

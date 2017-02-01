@@ -26,6 +26,7 @@
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.CONNECT, function (msg) {
       vm.disconnected = false;
+      vm.showLoadingScreen = false;
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
       vm.disconnected = true;
@@ -33,13 +34,12 @@
     NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
       // Hide and remove initial loading
       // this is placed here to make sure the WS has been connected
-      $timeout(function () {
-        vm.showLoadingScreen = false;
-      }, 2000);
-
-
       vm.disconnected = false;
 
+    });
+
+    $scope.$on('show-loading', function () {
+      vm.showLoadingScreen = true;
     });
 
 
