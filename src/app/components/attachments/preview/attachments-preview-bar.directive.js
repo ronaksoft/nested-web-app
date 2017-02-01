@@ -6,7 +6,7 @@
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
   function AttachmentsPreviewBar($timeout, $interval, toastr, $q,
-                                 NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER, NST_STORE_ROUTE,
+                                 NST_FILE_TYPE, NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER, NST_STORE_ROUTE,
                                  NstSvcStore, NstSvcFileFactory) {
     return {
       restrict: 'E',
@@ -23,6 +23,7 @@
         scope.items = setOrder(scope.items, NST_ATTACHMENTS_PREVIEW_BAR_ORDER.order);
         scope.flexDiv = 16;
         scope.scrollDis = 70;
+        scope.NST_FILE_TYPE = NST_FILE_TYPE;
         scope.cardWidth = angular.element('.attachments-card').width();
         var interval, pwTimeout;
         var moves = [];
@@ -36,8 +37,8 @@
           scope.internalMode = scope.badge ? NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE : NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL;
         }
 
-        if (scope.items.length == 1 && scope.items[0].hasPreview.length > 0) {
 
+        if (scope.items.length == 1 && scope.items[0].type === NST_FILE_TYPE.IMAGE &&  scope.items[0].hasPreview.length > 0) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
 
           var wrpWidth = ele.parent().parent().width();
@@ -53,12 +54,15 @@
           if (scope.height < 96) {
             scope.height = 96;
             scope.width = scope.height * imgOneRatio;
+          }else if (scope.height  > 1024){
+            scope.height = 1024;
+            scope.width = scope.height * imgOneRatio;
           }
 
-          scope.wrpHeight = scope.height;
+          scope.wrpHeight = scope.height > 1024 ? 1024 : scope.height;
         }
 
-        if (scope.items.length == 2 && scope.items[0].hasPreview.length > 0 && scope.items[1].hasPreview.length > 0) {
+        if (scope.items.length == 2 && scope.items[0].type === NST_FILE_TYPE.IMAGE &&  scope.items[1].type === NST_FILE_TYPE.IMAGE  && scope.items[0].hasPreview.length > 0 && scope.items[1].hasPreview.length > 0) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
 
 

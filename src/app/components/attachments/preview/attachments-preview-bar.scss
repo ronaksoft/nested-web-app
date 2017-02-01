@@ -9,7 +9,7 @@ nst-attachments-preview-bar {
     align-items: center;
     border-radius: 24px;
     background-color: $color-white;
-    box-shadow : 0 3px 6px rgba(0,0,0,.24);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .24);
     z-index: 4;
     width: 36px;
     height: 36px;
@@ -28,7 +28,7 @@ nst-attachments-preview-bar {
     svg {
       width: 24px;
       height: 24px;
-      transform:  scale(1.2,1.2);
+      transform: scale(1.2, 1.2);
     }
   }
   ul {
@@ -57,7 +57,7 @@ nst-attachments-preview-bar {
         opacity: 0;
         justify-content: center;
         align-items: center;
-        transition: opacity,background-color $animation-dur;
+        transition: opacity, background-color $animation-dur;
         &:hover {
           background-color: $color-solid;
         }
@@ -70,7 +70,7 @@ nst-attachments-preview-bar {
           opacity: 1;
         }
         .attsize {
-          opacity: .4!important;
+          opacity: .4 !important;
         }
 
       }
@@ -116,7 +116,7 @@ nst-attachments-preview-bar {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
       & > div {
         position: absolute;
         display: flex;
@@ -183,8 +183,8 @@ nst-attachments-preview-bar {
         }
       }
     }
-    .attach-thumbnail-default ,
-    .attach-thumbnail-other ,
+    .attach-thumbnail-default,
+    .attach-thumbnail-other,
     .attach-thumbnail-image {
       background: url('../assets/icons/bg_attachment_other.svg') no-repeat;
       color: #282828;
@@ -294,8 +294,8 @@ nst-attachments-preview-bar {
   }
   div.only-img {
     display: flex;
-    img {
-      max-height: 1024px;
-    }
+    max-height: 1024px;
+    overflow-y: hidden;
+
   }
 }
