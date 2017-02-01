@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('previewOnLoad', function($timeout) {
+    .directive('previewOnLoad', function() {
       return {
         restrict: 'A',
         link: function($scope, $element, $attrs) {
@@ -16,6 +16,11 @@
               jthumb.hide();
             }
           });
+          $scope.$watch(function(){
+            return $attrs.src;
+          }, function () {
+            $element.hide();
+          })
         }
       }
     });
