@@ -135,6 +135,9 @@
         case NST_NOTIFICATION_TYPE.MENTION:
           closePopover();
           return viewPost(notification.mention.post);
+        case NST_NOTIFICATION_TYPE.YOU_JOINED:
+          closePopover();
+          $state.go('app.place-messages',{placeId : notification.place.id});
       }
     }
 

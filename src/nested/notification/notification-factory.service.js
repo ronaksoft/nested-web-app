@@ -7,7 +7,7 @@
 
   function NstSvcNotificationFactory(_, $q,
                                      NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
-                                     NstBaseFactory, NstMention, NstFactoryEventData, NstSvcInvitationFactory,
+                                     NstBaseFactory, NstMention, NstFactoryEventData, NstSvcInvitationFactory, NstSvcPlaceFactory,
                                      NST_AUTH_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_NOTIFICATION_TYPE, NST_SRV_PUSH_CMD) {
     function NotificationFactory() {
       var that = this;
@@ -67,10 +67,8 @@
                 return parseMention(notif);
 
               case NST_NOTIFICATION_TYPE.INVITE:
-                if (notif.invite_id !== undefined) {
+                if (notif.invite_id !== undefined)
                   return parseInvitation(notif);
-                }
-
 
               case NST_NOTIFICATION_TYPE.INVITE_RESPOND:
                 if (notif.invite_id !== undefined)
@@ -78,13 +76,17 @@
 
               case NST_NOTIFICATION_TYPE.COMMENT:
                 return parseComment(notif);
+
+              case NST_NOTIFICATION_TYPE.YOU_JOINED:
+                return parseYouJoined(notif);
             }
           });
           $q.all(notificationPromises)
             .then(function (notifs) {
               var notifications = notifs.filter(function (obj) {
-                var hasData = obj.data !== null;
+                var hasData = obj && (obj.data !== null);
                 if (!hasData) {
+                  if (obj)
                   removeNotification(obj.id);
                 }
                 return hasData;
@@ -191,28 +193,27 @@
      *****************/
 
     function parseMention(data) {
+      var deferred = $q.defer();
+
       var mention = new NstMention();
       if (!data._id) {
         throw 'Could not find _id in the notification raw object.';
       }
-      var deferred = $q.defer();
 
+
+      mention.id = data._id;
       mention.commentId = data.comment_id;
       mention.postId = data.post_id;
-      mention.senderId = data.sender_id;
-      mention.mentionedId = data.mentioned_id;
+      mention.senderId = data.actor_id;
 
       var senderPromise = NstSvcUserFactory.get(mention.senderId);
-      var mentionedPromise = NstSvcUserFactory.get(mention.mentionedId);
       var commentPromise = NstSvcCommentFactory.getComment(mention.commentId, mention.postId);
       var postPromise = NstSvcPostFactory.get(mention.postId);
 
-      $q.all([senderPromise, mentionedPromise, commentPromise, postPromise]).then(function (values) {
+      $q.all([senderPromise, commentPromise, postPromise]).then(function (values) {
         mention.sender = values[0];
-        mention.mentioned = values[1];
-        mention.comment = values[2];
-        mention.post = values[3];
-
+        mention.comment = values[1];
+        mention.post = values[2];
         deferred.resolve(
           {
             id: data._id,
@@ -266,6 +267,31 @@
       return deferred.promise;
     }
 
+
+    function parseYouJoined(data) {
+      var deferred = $q.defer();
+
+      var placeProm = NstSvcPlaceFactory.get(data.place_id);
+      var adderProm = NstSvcUserFactory.get(data.actor_id);
+
+      $q.all([placeProm, adderProm])
+        .then(function (values) {
+          deferred.resolve({
+            id: data._id,
+            isSeen: data.read,
+            date: new Date(data.timestamp),
+            place: values[0],
+            adder: values[1],
+            type: data.type
+          });
+        }).catch(function (error) {
+        deferred.resolve({id: data._id, data: null});
+      });
+
+
+      return deferred.promise;
+    }
+
     function parseComment(notif) {
       var defer = $q.defer();
       var commentProm = NstSvcCommentFactory.getComment(notif.comment_id, notif.post_id);
@@ -273,7 +299,7 @@
 
       if (notif.data && notif.data.others) {
         var countOfMappeedUsers = 1;
-        var users = $q.all(_.map(notif.data.others.splice(1,4), function (user) {
+        var users = $q.all(_.map(notif.data.others.splice(1, 4), function (user) {
           countOfMappeedUsers++;
           return NstSvcUserFactory.getTiny(user)
         }));
