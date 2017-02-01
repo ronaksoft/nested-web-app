@@ -16,12 +16,12 @@
       <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts == 1"><translate>One post<translate></p>
       <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 1"><translate>{{ctlMessages.currentPlace.counters.posts}} posts</translate><a class="nst-mood-pending"> &nbsp; (55 Unseen)</a></p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
-      <p class="_df _fn mark-read disable">
-        <translate>Mark all as Seen</translate>
-        <svg class="_16svg _df">
-          <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
-        </svg>
-      </p>
+      <!--<p class="_df _fn mark-read disable">-->
+        <!--<translate>Mark all as Seen</translate>-->
+        <!--<svg class="_16svg _df">-->
+          <!--<use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>-->
+        <!--</svg>-->
+      <!--</p>-->
       <div ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
