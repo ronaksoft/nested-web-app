@@ -342,6 +342,24 @@ body[dir="rtl"] {
     right: auto;
     left: 0;
   }
+  .no-gutter [class*="col-"]:first-child {
+    padding-left: 2.5px;
+    padding-right: 25px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .no-gutter [class*="col-"]:last-child {
+    padding-right: 2.5px;
+    padding-left: 15px;
+  }
+  .nst-preview-footer {
+    padding-right: 10px;
+    padding-left: 0;
+  }
+  .user-wrp .idname {
+    padding-right: 4px;
+    padding-left: 0;
+  }
 }
 @media screen and (max-width: $screen-md){
 

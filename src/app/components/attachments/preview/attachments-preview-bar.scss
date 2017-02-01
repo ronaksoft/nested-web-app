@@ -294,5 +294,8 @@ nst-attachments-preview-bar {
   }
   div.only-img {
     display: flex;
+    img {
+      max-height: 1024px;
+    }
   }
 }
