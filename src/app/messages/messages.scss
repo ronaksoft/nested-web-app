@@ -23,6 +23,7 @@
   span {
     color: $color-black04;
     font-size: 11px;
+    white-space: nowrap;
   }
   a span {
     color: $color-solid
@@ -30,13 +31,14 @@
   p {
     margin: 0;
     a {
+      white-space: nowrap;
       font-size: 12px;
     }
   }
   .icon-filter {
     line-height: 24px;
     position: relative;
-    z-index: 9999;
+    z-index: 54;
     height: 16px;
     width: 16px;
     fill: $color-black04;

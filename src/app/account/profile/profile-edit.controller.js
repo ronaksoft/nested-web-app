@@ -131,7 +131,6 @@
 
     (function () {
       NstSvcUserFactory.get(NstSvcAuth.user.id, true).then(function (user) {
-        console.log("user", user);
         vm.model.id = user.getId();
         vm.model.firstName = user.getFirstName();
         vm.model.lastName = user.getLastName();
@@ -256,6 +255,7 @@
         if (isSelectedLocale(vm.lang)) {
           toastr.success(NstSvcTranslation.get("Your profile has been updated."));
         } else {
+          $scope.$emit('show-loading', {});
           setLanguage(vm.lang);
           window.location.reload(true);
         }

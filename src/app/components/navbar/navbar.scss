@@ -521,6 +521,7 @@ nst-navbar {
     position: relative;
     flex-direction: column;
     height: 100%;
+    width: calc(100% - 100px);
     float: left;
     > * {
       display: flex;

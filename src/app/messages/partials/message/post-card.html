@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="_fw _difc">
-      <h4 class="_df _fn" user-detail user="{{::ctlPostCard.post.sender}}">{{::ctlPostCard.post.sender.name}}</h4>
+      <h4 class="_df _fn _fw" user-detail user="{{::ctlPostCard.post.sender}}">{{::ctlPostCard.post.sender.name}}</h4>
       <div class="_df _fw">
       </div>
       <a class="_df _fn post-card-time" ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.viewFull($event)" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"

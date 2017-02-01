@@ -22,12 +22,12 @@
         <a class="nst-mood-pending" ng-if="ctlMessages.unreadCount > 0"> (<translate>{{ctlMessages.unreadCount}} Unseen</translate>)</a>
       </p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
-      <p class="_df _fn mark-read disable">
-        <translate>Mark all as Seen</translate>
-        <svg class="_16svg _df">
-          <use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>
-        </svg>
-      </p>
+      <!--<p class="_df _fn mark-read disable">-->
+        <!--<translate>Mark all as Seen</translate>-->
+        <!--<svg class="_16svg _df">-->
+          <!--<use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>-->
+        <!--</svg>-->
+      <!--</p>-->
       <div ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
@@ -69,9 +69,9 @@
         <span ng-if="!ctlMessages.isbookmarkedsMode">
           <translate>You haven't favorited any Places yet...</translate>
         </span>
-        <span ng-if="ctlMessages.isbookmarkedsMode">
-          <translate><p class="nst-mood-storm"><b>You haven't bookmarked anything yet!</b><br>There's a bookmark icon on the upper-right corner of each post.<br>Click on it to save the post to be viewed later.</p></translate>
-        </span>
+        <p class="nst-mood-storm" ng-if="ctlMessages.isbookmarkedsMode">
+          <b>You haven't bookmarked anything yet!</b><br>There's a bookmark icon on the upper-right corner of each post.<br>Click on it to save the post to be viewed later.
+        </p>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && ctlMessages.isUnreadMode">
         <translate>You don't have any unread messages.</translate>
