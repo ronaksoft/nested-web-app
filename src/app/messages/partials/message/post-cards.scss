@@ -182,7 +182,7 @@ post-card {
       margin-left: 10px;
       margin-right: 4px;
       & + div {
-        width: calc(100% - 70px);
+        //width: calc(100% - 108px);
       }
     }
     span,.post-card-time {
@@ -194,7 +194,7 @@ post-card {
       font-size: 16px;
       font-weight: 400;
       color: $color-solid;
-      max-width: 450px;
+      max-width: 350px;
       @extend ._txe;
     }
     .popover-userdetail {
@@ -237,8 +237,6 @@ post-card {
     position: relative;
     min-height: 108px;
     margin-bottom: 16px;
-    max-height: 1024px;
-    overflow-x: hidden;
   }
   hr {
     width: calc(100% - 48px);
