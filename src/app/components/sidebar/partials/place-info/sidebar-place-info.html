@@ -6,7 +6,7 @@
         <use xlink:href="/assets/icons/nst-icn16.svg#favedplace"></use>
       </svg>
       <a href="{{ctlPlaceInfo.grandPlace.href}}"
-         ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == ctlPlaceInfo.grandPlace.id }">
+         ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == ctlPlaceInfo.grandPlace.id && !ctlPlaceInfo.unreadMode }">
         {{ctlPlaceInfo.grandPlace.name}}
         <b ng-if="ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id]}}</b></a>
     </div>

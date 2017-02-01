@@ -47,6 +47,12 @@
       $state.go('app.compose', {}, {notify: false});
     };
 
+    vm.isUnread = function () {
+      vm.isUnreadMode = $state.current.name == 'app.place-messages-unread';
+    };
+
+    vm.isUnread();
+
     vm.invitation.accept = function (id) {
       return NstSvcLoader.inject(NstSvcInvitationFactory.accept(id));
     };
@@ -229,6 +235,7 @@
       if (toState.options && toState.options.primary) {
         fixUrls();
       }
+      vm.isUnread();
     });
 
 

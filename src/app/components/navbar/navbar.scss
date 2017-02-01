@@ -665,6 +665,9 @@ nst-navbar {
   .content {
     min-width: 0;
   }
+  .icon-filter + span {
+    margin-left: 8px;
+  }
 }
 body.scrolled {
   .nst-navbar-f {

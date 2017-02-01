@@ -853,7 +853,8 @@ ul ul > li:last-child > .place-item-inner{
   .side-stats {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100% - 16px);
+    margin: 0 8px;
     justify-content: center;
     //height: 100px;
     z-index: 4;
@@ -869,22 +870,24 @@ ul ul > li:last-child > .place-item-inner{
       }
     }
     .unread {
-      font-size: 24px;
-      line-height: 53px;
-      font-weight: 300;
       z-index: 4;
-      border-top: 1px solid transparent;
-      &:hover {
-        border-top: 1px solid $color-breeze;
-        box-shadow: 0 0 20px 4px rgba(0,0,0,.1);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      transition: background-color;
+      &:hover,&.active {
+        border: 1px solid $color-breeze;
+        background-color: #F0F0F0;
+        //box-shadow: 0 0 20px 4px rgba(0,0,0,.1);
       }
       span {
-        color: $color-solid;
-        font-size: 24px;
-        font-weight: 900;
+        color: rgba(0,0,0,.72);;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 40px;
+        height: 40px;
       }
-      a{
-        color: $color-solid;
+      a span{
+        color: rgba(0,0,0,1);
       }
     }
     .totalmsg {
@@ -908,7 +911,7 @@ ul ul > li:last-child > .place-item-inner{
     }
   }
   .places {
-    border-top: 1px solid $color-breeze;
+    //border-top: 1px solid $color-breeze;
     //min-height: calc(100vh - 304px);
     z-index: 3;
     position: relative;

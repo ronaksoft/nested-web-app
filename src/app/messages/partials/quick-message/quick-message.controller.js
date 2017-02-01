@@ -110,12 +110,11 @@
 
     vm.model.submit = function () {
       applyMove();
-
       //TODO Clone element and play another scene to main element
       var element = angular.element(vm.textarea);
       var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
-      var elementFirstChild = angular.element(vm.textarea.firstChild);
+      var elementFirstChild = angular.element(element.firstChild);
 
       vm.model.subject = elementFirstChild.text();
       elementFirstChild.remove();

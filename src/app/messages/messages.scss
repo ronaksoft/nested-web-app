@@ -21,11 +21,17 @@
   align-self: flex-end;
   width: calc(100% - 32px);
   span {
+    color: $color-black04;
     font-size: 11px;
   }
+  a span {
+    color: $color-solid
+  }
   p {
-    color: $color-wind;
     margin: 0;
+    a {
+      font-size: 12px;
+    }
   }
   .icon-filter {
     line-height: 24px;
@@ -33,9 +39,31 @@
     z-index: 9999;
     height: 16px;
     width: 16px;
-    fill: $color-wind;
+    fill: $color-black04;
+  }
+  .disable {
+    opacity: .08;
+  }
+  .mark-read {
+    margin-right: 28px;
+    svg {
+      fill: $color-black04;
+      margin-left: 4px;
+    }
   }
 }
+.tool-bar {
+  height: 42px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  flex: none;
+  position: relative;
+  margin: 16px;
+  align-self: flex-end;
+  width: calc(100% - 32px);
+}
+
 hr.hot-message-separator {
   border: 0;
   width: 92%;
