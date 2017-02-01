@@ -13,8 +13,14 @@
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode">
-      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts == 1"><translate>One post<translate></p>
-      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 1"><translate>{{ctlMessages.currentPlace.counters.posts}} posts</translate><a class="nst-mood-pending"> &nbsp; (55 Unseen)</a></p>
+      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts == 1">
+        <translate>One post</translate>
+        <a class="nst-mood-pending" ng-if="ctlMessages.unreadCount > 0"> (<translate>one Unseen</translate>)</a>
+      </p>
+      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 1">
+        <translate>{{ctlMessages.currentPlace.counters.posts}} posts</translate>
+        <a class="nst-mood-pending" ng-if="ctlMessages.unreadCount > 0"> (<translate>{{ctlMessages.unreadCount}} Unseen</translate>)</a>
+      </p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
       <p class="_df _fn mark-read disable">
         <translate>Mark all as Seen</translate>
