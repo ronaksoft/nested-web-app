@@ -143,6 +143,7 @@
 
         if (!isSent()) {
           if (!vm.currentPlaceId || _.some(newMessage.places, {id: vm.currentPlaceId})) {
+            vm.currentPlace.counters.posts ++;
             if (!_.some(vm.messages, {id: newMessage.id})) {
               vm.hotMessageStorage.unshift(newMessage);
               vm.hasNewMessages = true;
@@ -217,6 +218,7 @@
     }
 
     function getMessages() {
+      vm.messagesSetting.skip = null;
       switch ($state.current.name) {
         case 'app.place-messages':
         case 'app.place-messages-sorted':
@@ -224,6 +226,7 @@
 
         case 'app.messages-bookmarked':
         case 'app.messages-bookmarked-sorted':
+          vm.messagesSetting.skip = _.size(vm.messages);
           return NstSvcPostFactory.getBookmarkedMessages(vm.messagesSetting);
 
         case 'app.messages-sent':

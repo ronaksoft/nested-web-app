@@ -829,6 +829,11 @@
 
     $scope.$on('$destroy', function () {
       NstSvcSidebar.removeOnItemClick();
+      _.forEach($window.CKEDITOR.instances, function (instance) {
+        console.log('yes');
+        instance.removeAllListeners();
+        $window.CKEDITOR.remove(instance);
+      })
     });
   }
 })();

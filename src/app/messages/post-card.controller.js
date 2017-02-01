@@ -7,7 +7,7 @@
 
     function PostCardController($state, $log, $timeout, $rootScope, $scope,
                                 _, moment, toastr,
-                                NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT,
+                                NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, $uibModalStack,
                                 NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
       var vm = this;
 
@@ -116,6 +116,9 @@
         NstSvcPostFactory.get(vm.post.id).then(function (post) {
           vm.body = post.body;
           vm.isExpanded = true;
+          if (!post.isRead) {
+              markAsRead();
+          }
         }).catch(function (error) {
           toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
         }).finally(function () {
