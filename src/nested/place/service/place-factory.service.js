@@ -1294,6 +1294,10 @@
       var parent = _.find(places, {
         id: parentId
       });
+      if (!parent) {
+        return false;
+      }
+      
       var childId = getNextChild(originalId, parentId);
       removePlace(parent.children, originalId, childId);
     }

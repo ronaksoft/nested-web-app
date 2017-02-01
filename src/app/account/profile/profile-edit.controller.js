@@ -229,7 +229,7 @@
         if (vm.uploadedImage) {
           storePicture(vm.model.picture.uploadedFile, vm.model).then(function (picture) {
             uploadedPicture = picture;
-            return NstSvcUserFactory.updatePicture(picture.original);
+            return NstSvcUserFactory.updatePicture(picture.original, user.id);
           }).then(function (pictureId) {
 
             vm.model.picture = uploadedPicture;

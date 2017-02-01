@@ -40,11 +40,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack, $state) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        onExit: function($uibModalStack, $state) { }
       })
 
       .state('app.place-compose', {
@@ -67,11 +63,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack, $state) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        onExit: function($uibModalStack, $state) { }
       })
       .state('app.compose-forward', {
         url: '/forward/:postId',
@@ -93,11 +85,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack, $state) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        onExit: function($uibModalStack, $state) { }
       })
       .state('app.compose-reply-all', {
         url: '/reply/:postId',
@@ -119,11 +107,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack, $state) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        onExit: function($uibModalStack, $state) { }
       })
       .state('app.compose-reply-sender', {
         url: '/reply/:postId/sender',
@@ -145,11 +129,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack, $state) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        onExit: function($uibModalStack, $state) { }
       })
 
       /*****************************
@@ -179,11 +159,7 @@
             });
           });
         }],
-        onExit: function($uibModalStack) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        onExit: function($uibModalStack) { }
       })
       .state('app.place-create', {
         url: '/places/:placeId/create',
@@ -207,11 +183,7 @@
             $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack,$stateParams ,$state) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        onExit: function($uibModalStack,$stateParams ,$state) { }
       })
 
       /*****************************

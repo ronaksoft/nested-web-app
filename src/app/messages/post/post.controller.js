@@ -111,13 +111,13 @@
     }
 
     function markPostAsRead(id) {
-      vm.status.markAsReadProgress = true;
+      vm.markAsReadProgress = true;
       NstSvcPostInteraction.markAsRead(id).then(function () {
-        vm.status.postIsRed = true;
+        vm.post.isRead = true;
       }).catch(function () {
-        vm.status.postIsRed = false;
+        vm.post.isRead = false;
       }).finally(function () {
-        vm.status.markAsReadProgress = false;
+        vm.markAsReadProgress = false;
       });
     }
 
