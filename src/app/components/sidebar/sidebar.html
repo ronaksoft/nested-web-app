@@ -1,11 +1,11 @@
 <div class="sidebar _df" ng-class="{ 'expanded' : ctlSidebar.isInDetailMode }" nst-sidebar-revert-mouse-leave="ctlSidebar.isInDetailMode" leave-delay="1000">
   <div class="sidebar-wrapper">
     <div class="side-top">
-      <a class="nested-logo detailed" ui-sref="app.messages()">
+      <a class="nested-logo detailed" ui-sref="app.messages-favorites()">
         <div>
           <div id="Logo-white"></div>
         </div>
-        <div ui-sref="app.messages()">
+        <div ui-sref="app.messages-favorites()">
           <div id="Logo-type-white"></div><i>__version__</i>
         </div>
       </a>
@@ -31,11 +31,10 @@
         <script type="text/ng-template" id="feed-uib-tooltip.html">
           <translate>Home</translate>
         </script>
-        <a href="{{ctlSidebar.urls.unfiltered}}" class="side-menu-item detailed"
+        <a ui-sref="app.messages-favorites()" class="side-menu-item detailed"
            data-uib-tooltip-template="'feed-uib-tooltip.html'"
            data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
-           data-tooltip-append-to-body="true" data-tooltip-placement="right auto"
-           href="{{ctlSidebar.urls.unfiltered}}" >
+           data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
           <span>
             <svg>
               <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
