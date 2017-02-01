@@ -84,6 +84,21 @@ body.isMobile {
       overflow: visible;
     }
   }
+  .modal .modal-compose {
+    .modal-content {
+      top: 0;
+      max-height: 100%;
+      height: 100%;
+    }
+    .modal-bo {
+      margin-top: 48px;
+      height: calc(100% - 96px);
+      max-height: calc(100vh - 144px)!important;
+    }
+  }
+  #compose-full {
+    display: none;
+  }
   &[dir="rtl"] {
     .nst-container {
       margin-right: 0;
