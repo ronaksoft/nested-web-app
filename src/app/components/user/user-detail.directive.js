@@ -28,7 +28,7 @@
           $scope.user = JSON.parse($attrs.user);
           $scope.avatar = $scope.user.avatar;
           $scope.username = $scope.user.username || $scope.user.id;
-          $scope.name = $scope.user.name;
+          $scope.name = $scope.user.name || $scope.user.firstName;
 
 
           $scope.isEmail = NST_PATTERN.EMAIL.test($scope.username);
