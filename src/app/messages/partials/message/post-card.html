@@ -13,7 +13,7 @@
     <div class="_difc">
       <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
       <a ng-click="ctlPostCard.viewFull($event);" ng-if="ctlPostCard.post.isForwarded" class="icon" ui-sref="app.message({ postId : ctlPostCard.post.id })">
-        <div class="fw">
+        <div class="fwed">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#forwarded"></use>
             <use xlink:href="/assets/icons/nst-icn20.svg#forwarded"></use>
@@ -21,7 +21,7 @@
         </div>
       </a>
       <a ng-click="ctlPostCard.viewFull($event);" ng-if="ctlPostCard.post.isReplyed" class="icon" ui-sref="app.message({ postId : ctlPostCard.post.id })">
-        <div class="re">
+        <div class="reed">
           <svg class="svg-hover mirror">
             <use xlink:href="/assets/icons/nst-icn20.svg#replied"></use>
             <use xlink:href="/assets/icons/nst-icn20.svg#replied"></use>

@@ -120,23 +120,30 @@ post-card {
   background-color: $color-white;
   overflow: visible;
   transition: all $animation-dur;
+  .icon .fw,
+  .icon .more,
+  .icon .re,
+  .icon .reed,
+  .icon .fwed {
+    svg {
+      fill: #a6b9af;
+    }
+  }
   &:hover {
     //box-shadow: 0 8px 16px rgba(0,0,0,0.2)
-    .icon svg {
+    .icon .more svg {
       fill: black;
     }
-    //.icon .fw {
-    //  color: $color-forward;
-    //  svg {
-    //    fill: $color-forward;
-    //  }
-    //}
-    //.icon .re {
-    //  color: $color-reply;
-    //  svg {
-    //    fill: $color-reply;
-    //  }
-    //}
+    .icon .fwed{
+      svg {
+        fill: $color-forward;
+      }
+    }
+    .icon .reed {
+      svg {
+        fill: $color-reply;
+      }
+    }
     .post-footer .icon {
       .re, .fw {
         opacity: 1;
@@ -378,7 +385,6 @@ post-card {
       }
       .re,
       .fw {
-        fill: #a6b9af;
         opacity: 0;
       }
     }
