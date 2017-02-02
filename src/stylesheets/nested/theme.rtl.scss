@@ -363,6 +363,10 @@ body[dir="rtl"] {
   .post-card .post-places svg {
     margin: -4px -4px -3px 4px;
   }
+  .nst-navbar-f .icon-filter + span {
+    margin-left: 0;
+    margin-right: 8px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
