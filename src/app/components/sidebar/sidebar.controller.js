@@ -166,7 +166,10 @@
     });
 
     getMyPlaces().then(function (places) {
-      vm.places = mapPlaces(places);
+      //fixme :: use a better solution to filter grand places
+      vm.places = mapPlaces(places).filter(function (obj) {
+        return obj.id.split('.').length === 1;
+      });
       fillPlacesNotifCountObject(vm.places);
       getGrandPlaceUnreadCounts();
       fixUrls();
