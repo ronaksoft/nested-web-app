@@ -131,24 +131,24 @@
       NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
         var newMessage = e.detail.post;
 
-        if (isBookMark()) {
-          if (!_.some(vm.messages, {id: newMessage.id}) &&
-            _.intersectionWith(vm.bookmarkedPlaces, newMessage.places, function (a, b) {
-              return a == b
-            }).length > 0) {
-            vm.hotMessageStorage.unshift(newMessage);
-            vm.hasNewMessages = true;
-          }
+        if (isSent() || vm.isbookmarkedsMode) return;
+
+        if (!_.some(vm.messages, {id: newMessage.id}) &&
+          _.intersectionWith(vm.bookmarkedPlaces, newMessage.places, function (a, b) {
+            return a == b
+          }).length > 0) {
+          vm.hotMessageStorage.unshift(newMessage);
+          vm.hasNewMessages = true;
           return;
         }
 
         if (!isSent()) {
           if (!vm.currentPlaceId || _.some(newMessage.places, {id: vm.currentPlaceId})) {
-            vm.currentPlace.counters.posts ++;
             if (!_.some(vm.messages, {id: newMessage.id})) {
               vm.hotMessageStorage.unshift(newMessage);
               vm.hasNewMessages = true;
             }
+            if (vm.currentPlace && vm.currentPlace.counters) vm.currentPlace.counters.posts++;
           }
         }
 
@@ -167,7 +167,7 @@
           });
 
           if (message) {
-              NstUtility.collection.dropById(vm.messages, message.id);
+            NstUtility.collection.dropById(vm.messages, message.id);
           }
         }
       });
@@ -200,7 +200,7 @@
       setNavbarProperties();
 
     })();
-;
+    ;
     function getUnreadsCount() {
       return $q(function (resolve) {
         NstSvcPlaceFactory.getPlacesUnreadPostsCount([vm.currentPlaceId])

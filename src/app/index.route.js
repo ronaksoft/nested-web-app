@@ -286,6 +286,31 @@
           group : 'message',
           primary : true
         }
+      })
+
+      .state('app.conversation', {
+        url: '/conversation/:userId',
+        reloadOnSearch : false,
+        templateUrl: 'app/messages/conversation/conversation.html',
+        controller: 'conversationController',
+        controllerAs: 'ctlConversation',
+        options : {
+          group : 'message',
+          primary : true
+        }
+      })
+
+
+      .state('app.conversation-keyword', {
+        url: '/conversation/:userId/:keywords',
+        reloadOnSearch: false,
+        templateUrl: 'app/messages/conversation/conversation.html',
+        controller: 'conversationController',
+        controllerAs: 'ctlConversation',
+        options: {
+          group: 'message',
+          primary: true
+        }
       });
 
     $urlRouterProvider.otherwise('/messages/favorites');
