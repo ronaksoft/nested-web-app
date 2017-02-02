@@ -138,10 +138,6 @@ body[dir="rtl"] {
     left: auto ;
     right: 5px;
   }
-  .badge-invite {
-    right: auto;
-    left: -15px;
-  }
   .nst-navbar .nav-access {
     right: auto;
     left: 0;
@@ -366,6 +362,10 @@ body[dir="rtl"] {
   .nst-navbar-f .icon-filter + span {
     margin-left: 0;
     margin-right: 8px;
+  }
+  .badge-invite {
+    left: auto;
+    right: 24px;
   }
 }
 @media screen and (max-width: $screen-md){
