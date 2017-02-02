@@ -647,8 +647,8 @@ nst-navbar {
 
 .nst-navbar {
   height: $navbar-height;
-  position: relative;
-
+  position: absolute;
+  top: 0;
 }
 .nst-navbar-f {
   height: 48px;
@@ -681,6 +681,11 @@ body.scrolled {
 .navbarillu {
   width: 100%;
   height: $topnav-height;
+  flex: none
+}
+.navbar-illu {
+  width: 100%;
+  height: 134px;
   flex: none
 }
 .setting-icon-nav{

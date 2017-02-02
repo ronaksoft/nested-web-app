@@ -7,7 +7,7 @@
 
     function PostCardController($state, $log, $timeout, $rootScope, $scope,
                                 _, moment, toastr,
-                                NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, $uibModalStack,
+                                NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, $uibModalStack, SvcCardCtrlAffix,
                                 NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
       var vm = this;
 
@@ -119,6 +119,7 @@
           if (!post.isRead) {
               markAsRead();
           }
+          SvcCardCtrlAffix.change();
         }).catch(function (error) {
           toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
         }).finally(function () {
@@ -129,6 +130,7 @@
       function collapse() {
         vm.isExpanded = false;
         vm.body = vm.post.body;
+        SvcCardCtrlAffix.change();
       }
 
       function loadNewComments($event) {
