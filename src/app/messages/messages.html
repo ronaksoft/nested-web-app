@@ -7,7 +7,7 @@
             ready-to-show="ctlMessages.currentPlaceLoaded"
             ready-to-anime="true"
             place-description="{{ctlMessages.currentPlace.description}}"></nst-navbar>
-<div class="navbar-illu"></div>
+<div class="navbar-illu ng-class:{'feed' : !ctlMessages.currentPlace}"></div>
 <div class="nst-content _tr" id="content-wrapper" data-droplet ng-model="ctlMessages.attachfiles">
   <div class="droplet" ng-show="ctlMessages.quickMessageAccess"></div>
   <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
@@ -29,7 +29,7 @@
           <!--<use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>-->
         <!--</svg>-->
       <!--</p>-->
-      <div ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
+      <div ng-show="!ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
         <span class="_df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
