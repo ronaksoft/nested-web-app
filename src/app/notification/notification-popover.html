@@ -45,6 +45,13 @@
            ng-init="notification = notif">
       </div>
 
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.YOU_JOINED"
+           ui-sref="app.place-messages({ placeId : notif.place.id })"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/you-joined.html'"
+           ng-init="notification = notif">
+      </div>
+
     </li>
     <li>
       <div class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingBefore && !ctlNotifications.error">

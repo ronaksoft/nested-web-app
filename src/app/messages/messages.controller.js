@@ -83,6 +83,7 @@
       }
 
       generateUrls();
+      getUnreadsCount();
 
       if (vm.currentPlaceId) {
         NstSvcPlaceAccess.getIfhasAccessToRead(vm.currentPlaceId).then(function (place) {
@@ -199,6 +200,18 @@
       setNavbarProperties();
 
     })();
+;
+    function getUnreadsCount() {
+      return $q(function (resolve) {
+        NstSvcPlaceFactory.getPlacesUnreadPostsCount([vm.currentPlaceId])
+          .then(function (places) {
+            _.each(places, function (obj) {
+              vm.unreadCount = obj.count;
+            });
+            resolve();
+          });
+      });
+    }
 
     function setNavbarProperties() {
       vm.navTitle = 'Feed';

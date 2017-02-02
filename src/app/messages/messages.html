@@ -14,8 +14,14 @@
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode">
-      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts == 1"><translate>One post<translate></p>
-      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 1"><translate>{{ctlMessages.currentPlace.counters.posts}} posts</translate><a class="nst-mood-pending"> &nbsp; (55 Unseen)</a></p>
+      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts == 1">
+        <translate>One post</translate>
+        <a class="nst-mood-pending" ng-if="ctlMessages.unreadCount > 0"> (<translate>one Unseen</translate>)</a>
+      </p>
+      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 1">
+        <translate>{{ctlMessages.currentPlace.counters.posts}} posts</translate>
+        <a class="nst-mood-pending" ng-if="ctlMessages.unreadCount > 0"> (<translate>{{ctlMessages.unreadCount}} Unseen</translate>)</a>
+      </p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
       <!--<p class="_df _fn mark-read disable">-->
         <!--<translate>Mark all as Seen</translate>-->
@@ -57,14 +63,15 @@
 
     <div class="nst-margin-24"
          ng-if="ctlMessages.reachedTheEnd || ctlMessages.noMessages || ctlMessages.loadMessageError">
-      <p class="text-center nst-mood-storm" ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd">
-        <translate>No more messages here!</translate>
+      <p class="text-center nst-mood-storm"
+         ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd && ctlMessages.messages.length !== 0 ">
+         <translate>No more messages here!</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && !ctlMessages.isUnreadMode">
         <span ng-if="!ctlMessages.isbookmarkedsMode">
           <translate>You haven't favorited any Places yet...</translate>
         </span>
-        <p class="nst-mood-storm" ng-if="ctlMessages.isbookmarkedsMode">
+        <p class="nst-mood-storm text-center" ng-if="ctlMessages.isbookmarkedsMode && ctlMessages.messages.length == 0 ">
           <b>You haven't bookmarked anything yet!</b><br>There's a bookmark icon on the upper-right corner of each post.<br>Click on it to save the post to be viewed later.
         </p>
       </p>
@@ -77,7 +84,7 @@
         </a>
       </p>
     </div>
-    <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlMessages.loading || true">
+    <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlMessages.loading ">
       <div class="col-xs-6">
         <div class="nst-loading nst-loading-size-16  _fr"></div>
       </div>

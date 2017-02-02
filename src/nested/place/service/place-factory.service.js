@@ -200,7 +200,9 @@
           if (placeIds) {
             resolveMap(placeIds).then(resolve);
           } else {
-            NstSvcServer.request('account/get_all_places').then(function (data) {
+            NstSvcServer.request('account/get_all_places',{
+              with_children : true
+            }).then(function (data) {
               var placeIds = data.places.map(createMap);
               NstSvcMyPlaceIdStorage.set('tiny', placeIds);
               resolveMap(placeIds).then(resolve);
@@ -222,8 +224,13 @@
 
               var deferred = $q.defer();
 
-              if (placeId.children.length > 0) {
-                resolveMap(placeId.children).then(function (places) {
+              placeClone.children = placeIds.filter(function (obj) {
+                return obj.id.indexOf(placeId.id + '.') === 0;
+              });
+
+
+              if (placeClone.children.length > 0) {
+                resolveMap(placeClone.children).then(function (places) {
                   placeClone.setChildren(places);
 
                   deferred.resolve(placeClone);
@@ -955,7 +962,7 @@
         }
       }
 
-      place.accesses = placeData.place_access || [];
+      place.accesses = placeData.access || [];
 
       return place;
     };
@@ -1113,7 +1120,7 @@
       return _.filter(places, function (place) {
         return _.includes(place.accesses, code);
       });
-    }
+    };
 
     PlaceFactory.prototype.addPlaceToTree = function (tree, place) {
       addPlace(tree, place);

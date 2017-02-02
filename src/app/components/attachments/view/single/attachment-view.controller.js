@@ -109,7 +109,7 @@
         $timeout(function () {
           vm.attachments.current.width = angular.element('.nst-preview-pic-mode').width() - 20;
           vm.attachments.current.height = angular.element('.nst-preview-pic-mode').height() - 20;
-        },1000);
+        }, 1);
         getToken(vm.attachments.current.id).then(function (token) {
           vm.attachments.current.viewUrl = $sce.trustAsResourceUrl('//docs.google.com/viewer?embedded=true&url=' +
             encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token)));
@@ -117,8 +117,13 @@
         }).catch(function (error) {
           toastr.error('Sorry, An error has occured while trying to load the file');
         });
+      } else if (vm.attachments.current.extension === 'gif'){
+        getToken(vm.attachments.current.id).then(function (token) {
+          vm.attachments.current.preview = encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token));
+        });
       }
-    };
+    }
+
 
     function getToken(id) {
       var deferred = $q.defer();
