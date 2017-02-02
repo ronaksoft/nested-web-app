@@ -23,7 +23,7 @@
 
         $timeout(function () {
           applier();
-        },10);
+        },1000);
 
         win.on("resize", function () {
           applier();
@@ -31,6 +31,9 @@
 
         function applier() {
           removeFix();
+
+          var membrsH = 0;
+          if ($element.parent().children().first().is("#members")) membrsH = parseInt($element.parent().children().first().height()) + 38;
 
           var top = $element.offset().top || 0;
           var offLeft = $element.offset().left || 0;
@@ -45,7 +48,8 @@
 
 
           if (!!$attrs.offsetTop ) {
-            topOffset = $attrs.offsetTop;
+            topOffset = parseInt($attrs.offsetTop) + membrsH;
+            console.log('topOffset',topOffset,$element.parent().children().first().height(),membrsH)
           }
 
           if (!!$attrs.parent && $($attrs.parent).offset() ) {
@@ -53,7 +57,7 @@
           }
 
           if (!!$attrs.top ) {
-            top = top + parseInt($attrs.top);
+            top = parseInt($attrs.top);
           }
 
           if (!!$attrs.afterContent ) {
@@ -96,9 +100,9 @@
           function affixElement() {
             if ($window.pageYOffset > topOffset && !fixed) {
               $element.css('position', 'fixed');
-              $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
+              $element.css('top', parseInt(top) + 'px');
               if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
-              if (isRTL == 'rtl')$element.css('right', offLeft + 'px');
+              if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               fixed = true;
