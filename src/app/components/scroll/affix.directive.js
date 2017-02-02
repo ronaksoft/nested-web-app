@@ -49,7 +49,6 @@
 
           if (!!$attrs.offsetTop ) {
             topOffset = parseInt($attrs.offsetTop) + membrsH;
-            console.log('topOffset',topOffset,$element.parent().children().first().height(),membrsH)
           }
 
           if (!!$attrs.parent && $($attrs.parent).offset() ) {
