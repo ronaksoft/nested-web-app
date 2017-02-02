@@ -288,7 +288,7 @@
         }
       });
 
-    $urlRouterProvider.otherwise('/messages');
+    $urlRouterProvider.otherwise('/messages/favorites');
   }
 
 })();
