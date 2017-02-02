@@ -53,6 +53,7 @@
     PostFactory.prototype.bookmarkPost = bookmarkPost;
     PostFactory.prototype.unBookmarkPost = unBookmarkPost;
     PostFactory.prototype.getChainMessages = getChainMessages;
+    PostFactory.prototype.conversation = conversation;
 
     var factory = new PostFactory();
     return factory;
@@ -674,6 +675,30 @@
       });
 
       NstSvcServer.request('search/posts', {
+        keywords: queryString,
+        limit: limit || 8,
+        skip: skip || 0,
+      }).then(function (result) {
+        var postPromises = _.map(result.posts, parseMessage);
+        $q.all(postPromises).then(defer.resolve).catch(defer.reject);
+      }).catch(function (error) {
+        defer.reject(new NstFactoryError(query, '', error.getCode(), error));
+      });
+
+      return defer.promise;
+    }
+
+    function conversation(accountId, queryString, limit, skip) {
+      var defer = $q.defer();
+      var query = new NstFactoryQuery(null, {
+        account_id: accountId,
+        query: queryString,
+        limit: limit,
+        skip: skip
+      });
+
+      NstSvcServer.request('search/posts_conversation', {
+        account_id: accountId,
         keywords: queryString,
         limit: limit || 8,
         skip: skip || 0,
