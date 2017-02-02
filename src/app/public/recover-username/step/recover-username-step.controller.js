@@ -28,7 +28,9 @@
           'vid': verificationId,
         }
       }).post().then(function(result) {
-        if (result.data.status === "ok") {
+        console.log(result)
+        if (result.status === "ok") {
+          vm.username = result.data.uid;
           deferred.resolve(result.data);
         } else {
           deferred.reject('unknown');
