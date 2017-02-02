@@ -115,6 +115,7 @@
       function getMessage() {
         NstSvcPostFactory.get(vm.post.id).then(function (post) {
           vm.mainPost = post;
+          vm.places = post.places;
         }).catch(function (error) {
           toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
         }).finally(function () {
@@ -219,7 +220,7 @@
 
         vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
         vm.body = vm.post.body;
-
+        vm.places = vm.post.allPlaces;
         if (vm.addOn) {
           getMessage();
         }
