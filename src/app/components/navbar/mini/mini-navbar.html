@@ -1,10 +1,12 @@
 <div class="nst-topnav _difh ng-class:{ 'bg-hur': $root.topNavOpen }">
   <div class="hamb-cont">
-    <div class="_fw _df" ng-click="$root.topNavOpen = !$root.topNavOpen">
-      <div ng-class="$root.topNavOpen ? '_pr icon icon-top close-icon' : '_pr icon icon-top hamburger-icon'">
-        <i ng-if="ctlMiniNavbar.totalUnreadPosts + ctlMiniNavbar.invitations.length > 0 && !$root.topNavOpen"
-           class="badge-invite">{{(ctlMiniNavbar.invitations.length ) + (ctlMiniNavbar.totalUnreadPosts || 0)}}</i>
-      </div>
+    <div class="_fw _df _pr" ng-click="$root.topNavOpen = !$root.topNavOpen">
+      <svg class="_32svg _df svg-hover" ng-class="$root.topNavOpen ? 'morphed' : ''">
+        <use xlink:href="/assets/icons/nst-icn32.svg#menu"></use>
+        <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
+      </svg>
+      <i ng-if="ctlMiniNavbar.totalUnreadPosts + ctlMiniNavbar.invitations.length > 0 && !$root.topNavOpen"
+         class="badge-invite">{{(ctlMiniNavbar.invitations.length ) + (ctlMiniNavbar.totalUnreadPosts || 0)}}</i>
     </div>
     <div class="_fw _jcc _df">
       <a ui-sref="app.messages()">
@@ -13,13 +15,19 @@
     </div>
     <div class="_fw _df">
       <a ng-show="!$root.topNavOpen" ng-click="ctlMiniNavbar.compose($event);">
-        <div class="icon icon-top comp-icon _df"></div>
+        <svg class="_32svg _df">
+          <use xlink:href="/assets/icons/nst-icn32.svg#compose"></use>
+        </svg>
       </a>
       <a ng-show="$root.topNavOpen" ng-click="$root.topNavOpen = !$root.topNavOpen" href="#/profile">
-        <div class="icon icon-top profile-icon _df"></div>
+        <svg class="_16svg _df">
+          <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+        </svg>
       </a>
       <a ng-show="$root.topNavOpen" ng-click="$root.topNavOpen = !$root.topNavOpen" href="#/signout">
-        <div class="icon icon-top signout-icon _df"></div>
+        <svg class="_16svg _df mirror">
+          <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
+        </svg>
       </a>
     </div>
   </div>

@@ -1,7 +1,7 @@
 .content-plus {
   display: inline-flex;
   flex-direction: column;
-  min-width: 276px;
+  width: 276px;
   z-index: 10;
   top: 0;
   max-height: 600px;
@@ -27,6 +27,7 @@
     position: relative;
     justify-content: space-between;
     overflow-y: auto;
+    //height: 100%;
     .row {
       display: inline-flex;
       flex-direction: row;
@@ -178,8 +179,8 @@
 #content-plus {
   position: absolute;
   //margin-left: 356px;
-  top: 0;
-  left: 0;
+  top: 284px;
+  left: calc(50% + 164px);
   //transform: translateY($navbar-height + 10px);
   //Left: 50%;
   will-change: transform;
