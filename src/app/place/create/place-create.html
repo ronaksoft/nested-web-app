@@ -40,7 +40,7 @@
       </div>
 
       <label class="input-lab" for="PlaceID"><translate>Place ID</translate></label>
-      <div class="placeID">
+      <div class="placeID ng-class:{'not-val' : !ctlCreate.placeIdIsFullAvailable}">
         <div class="field">
           <div id="PlaceID" tabindex="2" ng-click="ctlCreate.changeId(ctlCreate.place.id)">
             <span ng-if="ctlCreate.hasParentPlace">{{ctlCreate.place.parentId}}.</span>

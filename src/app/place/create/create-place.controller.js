@@ -16,6 +16,7 @@
 
     vm.hasParentPlace = null;
     vm.hasGrandParent = null;
+    vm.placeIdIsFullAvailable = true;
     vm.memberOptions = [
       {key: 'creators', name: 'Managers Only'},
       {key: 'everyone', name: 'All Members'}
@@ -197,15 +198,17 @@
       var deferred = deferred || $q.defer();
 
       vm.placeIdChecking = true;
+      vm.placeIdIsFullAvailable = true;
       NstSvcPlaceFactory.isIdAvailable(vm.place.parentId ? vm.place.parentId + '.' + id : id).then(function (available) {
         if (available) {
           vm.place.id = id;
           vm.placeIdIsAvailable = true;
+          vm.placeIdIsFullAvailable = true;
         } else {
           checkIdAvailability(generateUinqueId(id), deferred);
         }
       }).catch(function (error) {
-
+        vm.placeIdIsFullAvailable = false;
         NstSvcLogger.error(error);
       }).finally(function () {
         vm.placeIdIsAvailable = false;
