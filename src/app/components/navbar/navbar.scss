@@ -769,6 +769,9 @@ body.scrolled {
   &.feed {
     height: 80px;
   }
+  &.conv {
+    height: 160px;
+  }
 }
 .setting-icon-nav{
   display: flex;
