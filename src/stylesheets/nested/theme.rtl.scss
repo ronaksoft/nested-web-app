@@ -228,9 +228,13 @@ body[dir="rtl"] {
     padding-right: 0;
     padding-left: 48px;
   }
+  nst-attachments-editable-bar ul li .attdl, nst-attachments-preview-bar ul li .attdl{
+    right: auto;
+    left: 10px;
+  }
   nst-attachments-editable-bar ul.thumbnail-bar li:last-child .attdl, nst-attachments-preview-bar ul.thumbnail-bar li:last-child .attdl {
-    //right: auto;
-    //left: 10px;
+    right: auto;
+    left: 24px;
   }
   post-card .chain-stats > div > * {
     direction: rtl;
