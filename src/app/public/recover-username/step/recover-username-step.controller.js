@@ -28,7 +28,6 @@
           'vid': verificationId,
         }
       }).post().then(function(result) {
-        console.log(result)
         if (result.status === "ok") {
           vm.username = result.data.uid;
           deferred.resolve(result.data);

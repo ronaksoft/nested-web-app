@@ -140,7 +140,7 @@
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
               </svg>
-              <translate>Bookmarks</translate>
+              <translate>Bookmarked</translate>
             </a>
             <!-- TODO set url in other ways -->
             <a ui-sref="app.messages-sent()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="sent">
@@ -313,7 +313,7 @@
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
               </svg>
-              <translate>Bookmarks</translate>
+              <translate>Bookmarked</translate>
             </a>
             <!-- TODO set url in other ways -->
             <a ng-href="/#/messages/sent" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="sent">
@@ -353,23 +353,23 @@
     </div>
     <div class="content _pr conv-nav" ng-if="ctlFullNavbar.isConvMode">
       <div class="top-nav">
-        <svg class="_24svg _r90">
+        <svg class="_24svg _r90" ng-click=" window.history.back();">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
         <div class="conv-logos">
           <div class="user-avatar-32">
-            <img initials="" data-width="32" data-height="32" data-radius="30" data-word-count="2" data-font-size="12" ng-src="{{ctlFullNavbar.place | picture:'x64'}}"/>
+            <img initials="" data-width="32" data-height="32" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user" ng-src="{{ctlFullNavbar.user | picture:'x64'}}"/>
           </div>
           <div class="user-avatar-40">
-            <img initials="" data-width="40" data-height="40" data-radius="30" data-word-count="2" data-font-size="12" ng-src="{{ctlFullNavbar.place | picture:'x64'}}"/>
+            <img initials="" data-width="40" data-height="40" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account" ng-src="{{ctlFullNavbar.account | picture:'x64'}}"/>
           </div>
         </div>
-        <h2 class="_df"><b>Conversation with:</b>s</h2>
+        <h2 class="_df"><b>Conversation with:</b>&nbsp;{{ctlFullNavbar.account.fullName}}</h2>
 
 
       </div>
       <div class="bot-nav">
-        <input type="text" placeholder="Search..." class="_fw">
+        <input type="text" placeholder="Search..." ng-model="ctlFullNavbar.query" class="_fw">
         <div class="cp-illu _fn"></div>
       </div>
     </div>
