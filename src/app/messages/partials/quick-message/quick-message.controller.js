@@ -8,6 +8,7 @@
   function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,NstPicture ,
                                   NstSvcAuth, NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
     var vm = this;
+    vm.text = '';
 
     /*****************************
      *** Controller Properties ***
@@ -88,6 +89,7 @@
 
       vm.textarea = e.currentTarget;
 
+      vm.text = angular.element(vm.textarea).text();
 
       analyseInIt();
 
