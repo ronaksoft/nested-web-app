@@ -1,5 +1,5 @@
 <nst-mini-navbar ng-if="$root.deviceDetector.isTablet() || $root.deviceDetector.isMobile()"></nst-mini-navbar>
-<div class="nst-navbar _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }">
+<div class="nst-navbar _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
@@ -205,7 +205,7 @@
     </div>
   </div>
 </div>
-<div class="nst-navbar-f _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }">
+<div class="nst-navbar-f _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
@@ -339,6 +339,17 @@
           <div class="cp-illu"></div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<div class="nst-navbar-fff _tr">
+  <div class="bg"></div>
+  <div class="nst-content _tr">
+    <div class="content _pr unread-nav" ng-if="ctlFullNavbar.isUnreadMode">
+      <div class="place-logo">
+        <img ng-src="{{ctlFullNavbar.place | picture:'x128'}}"/>
+      </div>
+      <h2>Art center total unseen posts</h2>
     </div>
   </div>
 </div>
