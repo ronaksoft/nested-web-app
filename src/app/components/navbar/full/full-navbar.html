@@ -349,11 +349,11 @@
       <div class="place-logo">
         <img ng-src="{{ctlFullNavbar.place | picture:'x128'}}"/>
       </div>
-      <h2>Art center total unseen posts</h2>
+      <h2><translate>{{ctlFullNavbar.place.name}} total unseen posts</translate></h2>
     </div>
     <div class="content _pr conv-nav" ng-if="ctlFullNavbar.isConvMode">
       <div class="top-nav">
-        <svg class="_24svg _r90">
+        <svg class="_24svg _r90 mirror">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
         <div class="conv-logos">
@@ -364,7 +364,7 @@
             <img initials="" data-width="40" data-height="40" data-radius="30" data-word-count="2" data-font-size="12" ng-src="{{ctlFullNavbar.place | picture:'x64'}}"/>
           </div>
         </div>
-        <h2 class="_df"><b>Conversation with:</b>s</h2>
+        <h2 class="_df"><b><translate>Conversation with:</translate></b>s</h2>
 
 
       </div>

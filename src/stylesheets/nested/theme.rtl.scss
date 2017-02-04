@@ -372,6 +372,14 @@ body[dir="rtl"] {
     left: auto;
     right: 24px;
   }
+  nst-navbar .conv-nav .conv-logos .user-avatar-32 {
+    left: auto;
+    right: 0;
+  }
+  nst-navbar .conv-nav .conv-logos .user-avatar-40 {
+    right: auto;
+    left: 0;
+  }
 }
 @media screen and (max-width: $screen-md){
 
