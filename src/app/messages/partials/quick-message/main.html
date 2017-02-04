@@ -11,7 +11,7 @@
        placeholder="Write your message or drag your files here..." translate-attrs="placeholder"
        class="_fw _fh ng-class:{'_rtl' : $root._direction == 'rtl'}"
        ng-model="ctlQuickMessage.message"
-       aria-expanded="false" role="textbox" auto-dir="ctlQuickMessage.model.subject"></div>
+       aria-expanded="false" role="textbox" auto-dir="{{ctlQuickMessage.text}}"></div>
   <div class="quick-atach" ng-show="ctlQuickMessage.attachments.viewModels.length > 0">
     <nst-attachments-editable-bar class="qm-mode _df _fw" mode="thumbnail"
                                   items="ctlQuickMessage.attachments.viewModels"

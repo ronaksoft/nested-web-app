@@ -659,6 +659,16 @@ nst-navbar {
       margin: 0;
     }
   }
+  .srch-nav {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    .bot-nav {
+      align-items: center;
+      display: flex;
+      position: relative;
+    }
+  }
   .conv-nav {
     height: 160px;
     .top-nav {
@@ -673,7 +683,7 @@ nst-navbar {
       height: 56px;
       margin: 0 8px;
       position: relative;
-      .user-avatar-32:first-of-type {
+      .user-avatar-32{
         width: 32px;
         height: 32px;
         position: absolute;
@@ -684,7 +694,7 @@ nst-navbar {
           left: 0;
         }
       }
-      .user-avatar-40:last-of-type {
+      .user-avatar-40{
         width: 40px;
         height: 40px;
         position: absolute;
@@ -703,12 +713,7 @@ nst-navbar {
       align-items: center;
       display: flex;
     }
-    input {
-      height: 40px;
-      border-radius: 4px;
-      background-color: rgba(0,0,0,.02);
-      border-color: rgba(0,0,0,.14);
-    }
+
   }
 }
 
@@ -752,9 +757,20 @@ body.scrolled {
   left: 272px;
   width: auto!important;
   h2 {
-    font-size: 24px;
-    font-weight: 400;
     margin: 0;
+    span{
+      font-size: 24px;
+      font-weight: 400;
+    }
+    b span  {
+      font-weight: 600;
+    }
+  }
+  input {
+    height: 40px;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.02);
+    border-color: rgba(0,0,0,.14);
   }
 }
 .navbarillu {

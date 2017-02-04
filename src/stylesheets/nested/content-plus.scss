@@ -63,6 +63,10 @@
             overflow: hidden;
             flex: 1;
             max-width: 100%;
+            >div {
+              max-width: 100%;
+              @extend ._txe;
+            }
             a,a>span {
               color: $color-hurricane;
               font-weight: 600;

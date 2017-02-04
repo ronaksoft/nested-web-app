@@ -228,9 +228,13 @@ body[dir="rtl"] {
     padding-right: 0;
     padding-left: 48px;
   }
+  nst-attachments-editable-bar ul li .attdl, nst-attachments-preview-bar ul li .attdl{
+    right: auto;
+    left: 10px;
+  }
   nst-attachments-editable-bar ul.thumbnail-bar li:last-child .attdl, nst-attachments-preview-bar ul.thumbnail-bar li:last-child .attdl {
-    //right: auto;
-    //left: 10px;
+    right: auto;
+    left: 24px;
   }
   post-card .chain-stats > div > * {
     direction: rtl;
@@ -311,6 +315,9 @@ body[dir="rtl"] {
   .mirror {
     transform: scaleX(-1);
     filter: FlipH;
+    &._r90 {
+      transform: scaleX(-1) rotateZ(90deg);
+    }
   }
   .quick-message-wrp .quick-message-inner .quick-sender > div {
     left: auto;
@@ -368,6 +375,18 @@ body[dir="rtl"] {
   .badge-invite {
     left: auto;
     right: 24px;
+  }
+  nst-navbar .conv-nav .conv-logos .user-avatar-32 {
+    left: auto;
+    right: 0;
+  }
+  nst-navbar .conv-nav .conv-logos .user-avatar-40 {
+    right: auto;
+    left: 0;
+  }
+  .lftbtn {
+    margin-right: 0;
+    margin-left: 16px;
   }
 }
 @media screen and (max-width: $screen-md){

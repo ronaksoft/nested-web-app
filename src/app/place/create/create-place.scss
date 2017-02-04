@@ -11,6 +11,9 @@
   form .placeID {
     background-color: $color-calm;
     margin-bottom: 32px;
+    &.not-val {
+      border: 1px solid $color-force;
+    }
   }
   .option-row {
     display: inline-flex;

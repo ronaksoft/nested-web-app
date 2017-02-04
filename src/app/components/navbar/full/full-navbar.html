@@ -1,5 +1,5 @@
 <nst-mini-navbar ng-if="$root.deviceDetector.isTablet() || $root.deviceDetector.isMobile()"></nst-mini-navbar>
-<div class="nst-navbar _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isConvMode">
+<div class="nst-navbar _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
@@ -29,7 +29,7 @@
             <svg ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">
               <use xlink:href="/assets/icons/nst-icn20.svg#earth"></use>
             </svg>
-            {{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@nested.me</span>
+            <span class="_ltr">{{ctlFullNavbar.getPlaceId()}}<span ng-show="ctlFullNavbar.hasPlace() && ctlFullNavbar.place.privacy.receptive == 'external'">@nested.me</span></span>
           </h3>
           <!--<p class="nst-mood-storm margin-t-5">{{ctlFullNavbar.placeDescription | truncate}}</p>-->
 
@@ -140,7 +140,7 @@
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
               </svg>
-              <translate>Bookmarked</translate>
+              <translate>Bookmarks</translate>
             </a>
             <!-- TODO set url in other ways -->
             <a ui-sref="app.messages-sent()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="sent">
@@ -342,18 +342,18 @@
     </div>
   </div>
 </div>
-<div class="nst-navbar-fff _tr" ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode">
+<div class="nst-navbar-fff _tr" ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr unread-nav" ng-if="ctlFullNavbar.isUnreadMode">
       <div class="place-logo">
         <img ng-src="{{ctlFullNavbar.place | picture:'x128'}}"/>
       </div>
-      <h2>Art center total unseen posts</h2>
+      <h2><translate>{{ctlFullNavbar.place.name}} total unseen posts</translate></h2>
     </div>
     <div class="content _pr conv-nav" ng-if="ctlFullNavbar.isConvMode">
       <div class="top-nav">
-        <svg class="_24svg _r90" ng-click=" window.history.back();">
+        <svg class="_24svg _r90 mirror">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
         <div class="conv-logos">
@@ -364,12 +364,21 @@
             <img initials="" data-width="40" data-height="40" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account" ng-src="{{ctlFullNavbar.account | picture:'x64'}}"/>
           </div>
         </div>
-        <h2 class="_df"><b>Conversation with:</b>&nbsp;{{ctlFullNavbar.account.fullName}}</h2>
+        <h2 class="_df"><b><translate>Conversation with:</translate></b>s</h2>
 
 
       </div>
       <div class="bot-nav">
-        <input type="text" placeholder="Search..." ng-model="ctlFullNavbar.query" class="_fw">
+        <input type="text" placeholder="Search..." class="_fw">
+        <div class="cp-illu _fn"></div>
+      </div>
+    </div>
+    <div class="content _pr srch-nav" ng-if="ctlFullNavbar.isSearchMode">
+      <div class="bot-nav">
+        <svg class="_24svg _r90 _df _fn mirror">
+          <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
+        </svg>
+        <input type="text" placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" >
         <div class="cp-illu _fn"></div>
       </div>
     </div>
