@@ -129,6 +129,7 @@ input.number {
   display: flex;
   flex: 1;
   height: 34px;
+  direction: ltr!important;
   padding-left: 16px;
   @extend .nst-font-large;
   font-weight: 500;

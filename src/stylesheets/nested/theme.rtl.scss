@@ -380,6 +380,10 @@ body[dir="rtl"] {
     right: auto;
     left: 0;
   }
+  .lftbtn {
+    margin-right: 0;
+    margin-left: 16px;
+  }
 }
 @media screen and (max-width: $screen-md){
 
