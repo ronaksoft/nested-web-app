@@ -1,3 +1,8 @@
+<nst-navbar data-ng-model="navbar"
+            place-id="{{ctlConversation.currentPlace.id}}"
+            ready-to-show="ctlConversation.currentPlaceLoaded"
+            ready-to-anime="true"></nst-navbar>
+<div class="navbar-illu"></div>
 <div class="nst-content _tr" id="content-wrapper">
   <section class="content nst-marginbtm-28">
     <scroll-change-handler reached-bottom="ctlConversation.loadMore"></scroll-change-handler>
