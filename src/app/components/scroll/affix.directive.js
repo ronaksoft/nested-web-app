@@ -23,7 +23,7 @@
 
         $timeout(function () {
           applier();
-        },1000);
+        },3000);
 
         win.on("resize", function () {
           applier();
