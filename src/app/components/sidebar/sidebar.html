@@ -47,8 +47,8 @@
     </div>
     <div class="side-place-wrapper _fw">
       <div class="shadow-top"></div>
-      <div class="places" nst-scrollbar suppress-scroll-x="true">
-        <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 ">
+      <div class="places _ltr" nst-scrollbar suppress-scroll-x="true">
+        <ul class="side-place" dir="{{$root._direction}}" data-ng-if="ctlSidebar.invitations.length > 0 ">
           <li class="side-place-item" ng-repeat="invitaion in ctlSidebar.invitations">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
                class="side-place-invite-item-inner active detailed" data-uib-tooltip="{{invitaion.place.name}}"
