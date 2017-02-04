@@ -20,6 +20,7 @@
     isBookMark();
     isSent();
     isUnread();
+    isConversation();
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
@@ -58,6 +59,14 @@
         return vm.isUnreadMode = true;
       }
     return vm.isUnreadMode = false;
+    }
+
+    function isConversation() {
+      if ($state.current.name == 'app.conversation' ||
+        $state.current.name == 'app.conversation-keyword' ) {
+        return vm.isConvMode = true;
+      }
+    return vm.isConvMode = false;
     }
 
     function openCreateSubplaceModal ($event,style) {

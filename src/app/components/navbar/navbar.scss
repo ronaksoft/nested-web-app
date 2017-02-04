@@ -481,10 +481,11 @@ nst-navbar {
             transform: translateY(-50%);
           }
         }
-        .cp-illu {
-          width: 308px;
-          display: flex;
-        }
+
+      }
+      .cp-illu {
+        width: 308px;
+        display: flex;
       }
     }
   }
@@ -658,6 +659,57 @@ nst-navbar {
       margin: 0;
     }
   }
+  .conv-nav {
+    height: 160px;
+    .top-nav {
+      display: flex;
+      align-items: center;
+    }
+    .conv-logos {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 56px;
+      height: 56px;
+      margin: 0 8px;
+      position: relative;
+      .user-avatar-32:first-of-type {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        &:after {
+          left: 0;
+        }
+      }
+      .user-avatar-40:last-of-type {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 2;
+      }
+    }
+    .top-nav {
+      height: 80px;
+      align-items: center;
+      display: flex;
+    }
+    .bot-nav {
+      height: 80px;
+      align-items: center;
+      display: flex;
+    }
+    input {
+      height: 40px;
+      border-radius: 4px;
+      background-color: rgba(0,0,0,.02);
+      border-color: rgba(0,0,0,.14);
+    }
+  }
 }
 
 .nst-navbar {
@@ -699,6 +751,11 @@ body.scrolled {
   right: 0;
   left: 272px;
   width: auto!important;
+  h2 {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 0;
+  }
 }
 .navbarillu {
   width: 100%;
