@@ -353,15 +353,15 @@
     </div>
     <div class="content _pr conv-nav" ng-if="ctlFullNavbar.isConvMode">
       <div class="top-nav">
-        <svg class="_24svg _r90 mirror">
+        <svg class="_24svg _r90 mirror" onclick="window.history.back();">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
         <div class="conv-logos">
           <div class="user-avatar-32">
-            <img initials="" data-width="32" data-height="32" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user" ng-src="{{ctlFullNavbar.user | picture:'x64'}}"/>
+            <img initial-avatar="ctlFullNavbar.user.fullName" data-width="32" data-height="32" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.user" ng-src="{{ctlFullNavbar.user | picture:'x64'}}"/>
           </div>
           <div class="user-avatar-40">
-            <img initials="" data-width="40" data-height="40" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account" ng-src="{{ctlFullNavbar.account | picture:'x64'}}"/>
+            <img initial-avatar="ctlFullNavbar.account.fullName" data-width="40" data-height="40" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account" ng-src="{{ctlFullNavbar.account | picture:'x64'}}"/>
           </div>
         </div>
         <h2 class="_df"><b><translate>Conversation with:</translate></b>s</h2>

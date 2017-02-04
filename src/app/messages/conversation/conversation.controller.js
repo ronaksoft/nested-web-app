@@ -59,9 +59,7 @@
 
     function search(queryString) {
       vm.messages.length = 0;
-      var query = new NstSearchQuery(queryString);
-      skip = 0;
-      searchMessages(query.toString());
+      searchMessages(queryString);
     }
 
     var searchLazily = _.debounce(search, 640);
