@@ -15,6 +15,7 @@ body[dir="rtl"] {
         ul li ul .place-item-inner a {
           right: -16px;
           left: 0;
+          display: flex;
         }
         .place-item-inner {
           .icon {
@@ -25,6 +26,7 @@ body[dir="rtl"] {
           a {
             margin-right: 0;
             margin-left: -16px;
+            display: flex;
           }
           span {
             right: auto;
@@ -164,7 +166,7 @@ body[dir="rtl"] {
     right: -12px;
     left: auto;
   }
-  .nst-navbar-f {
+  .nst-navbar-f,.nst-navbar-fff {
     left: 0;
     right: 272px;
   }

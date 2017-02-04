@@ -19,6 +19,8 @@
 
     isBookMark();
     isSent();
+    isUnread();
+    isConversation();
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
@@ -49,6 +51,22 @@
       } else {
         $state.go('app.messages');
       }
+    }
+
+    function isUnread() {
+      if ($state.current.name == 'app.place-messages-unread' ||
+        $state.current.name == 'app.place-messages-unread-sorted') {
+        return vm.isUnreadMode = true;
+      }
+    return vm.isUnreadMode = false;
+    }
+
+    function isConversation() {
+      if ($state.current.name == 'app.conversation' ||
+        $state.current.name == 'app.conversation-keyword' ) {
+        return vm.isConvMode = true;
+      }
+    return vm.isConvMode = false;
     }
 
     function openCreateSubplaceModal ($event,style) {

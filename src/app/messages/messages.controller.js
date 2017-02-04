@@ -16,6 +16,7 @@
     var vm = this;
 
     $rootScope.topNavOpen = false;
+    isConversation();
 
     var DEFAULT_MESSAGES_COUNT = 8,
       defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
@@ -499,6 +500,13 @@
         return true;
       }
       return false;
+    }
+    function isConversation() {
+      if ($state.current.name == 'app.conversation' ||
+        $state.current.name == 'app.conversation-keyword' ) {
+        return vm.isConvMode = true;
+      }
+      return vm.isConvMode = false;
     }
 
     function fillPlaceIds(container, list) {
