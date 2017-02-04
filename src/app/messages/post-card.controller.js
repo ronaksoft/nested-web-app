@@ -145,10 +145,26 @@
         });
       }
 
-      function collapse() {
-        vm.isExpanded = false;
-        vm.body = vm.post.body;
-        SvcCardCtrlAffix.change();
+      function collapse(e) {
+        if(vm.post.ellipsis) {
+          var el = angular.element(e.currentTarget);
+          var postCardOffTOp = el.parents('post-card')[0].offsetTop;
+          $('html, body').animate({
+            scrollTop : postCardOffTOp
+          }, 300, 'swing', function () {
+            SvcCardCtrlAffix.change();
+          });
+          $timeout(function () {
+            vm.isExpanded = false;
+            vm.body = vm.post.body;
+          },200)
+        } else {
+          vm.body = vm.post.body;
+          vm.isExpanded = false;
+          SvcCardCtrlAffix.change();
+        }
+
+
       }
 
       function loadNewComments($event) {

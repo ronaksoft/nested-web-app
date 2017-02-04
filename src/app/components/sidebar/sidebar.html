@@ -48,7 +48,7 @@
     <div class="side-place-wrapper _fw">
       <div class="shadow-top"></div>
       <div class="places _ltr" nst-scrollbar suppress-scroll-x="true">
-        <ul class="side-place" dir="{{$root._direction}}" data-ng-if="ctlSidebar.invitations.length > 0 ">
+        <ul class="side-place" data-ng-if="ctlSidebar.invitations.length > 0 " dir="{{_direction}}">
           <li class="side-place-item" ng-repeat="invitaion in ctlSidebar.invitations">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
                class="side-place-invite-item-inner active detailed" data-uib-tooltip="{{invitaion.place.name}}"
@@ -63,7 +63,7 @@
             </a>
           </li>
         </ul>
-        <ul class="side-place">
+        <ul class="side-place" dir="{{_direction}}">
           <li class="side-place-item" ng-repeat="place in ctlSidebar.places"
               data-ng-include="'app/components/sidebar/place.html'" onload="place = place"></li>
 
@@ -72,7 +72,7 @@
         <translate>Create a new Place</translate>
       </script>
       <a class="create-place _fw detailed" ui-sref="app.place-create"
-         ng-click="ctlSidebar.openCreatePlaceModal($event);"
+         ng-click="ctlSidebar.openCreatePlaceModal($event);" dir="{{_direction}}"
          data-uib-tooltip-template="'create-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-append-to-body="true" data-tooltip-placement="right auto">

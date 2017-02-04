@@ -79,7 +79,6 @@
           suppressScrollY : settings.suppressScrollY,
           scrollXMarginOffset : settings.scrollXMarginOffset,
           scrollYMarginOffset : settings.scrollYMarginOffset,
-          useBothWheelAxes: true,
         });
       }
 
