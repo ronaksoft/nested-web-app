@@ -311,6 +311,9 @@ body[dir="rtl"] {
   .mirror {
     transform: scaleX(-1);
     filter: FlipH;
+    &._r90 {
+      transform: scaleX(-1) rotateZ(90deg);
+    }
   }
   .quick-message-wrp .quick-message-inner .quick-sender > div {
     left: auto;

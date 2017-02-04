@@ -21,6 +21,7 @@
     isSent();
     isUnread();
     isConversation();
+    isSearch();
     vm.user = NstSvcAuth.getUser();
     vm.hasPlace = hasPlace;
     vm.getPlaceId = getPlaceId;
@@ -67,6 +68,12 @@
         return vm.isConvMode = true;
       }
     return vm.isConvMode = false;
+    }
+    function isSearch() {
+      if ($state.current.name == 'app.search') {
+        return vm.isSearchMode = true;
+      }
+    return vm.isSearchMode = false;
     }
 
     function openCreateSubplaceModal ($event,style) {

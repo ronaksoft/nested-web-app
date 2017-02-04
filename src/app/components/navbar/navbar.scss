@@ -659,6 +659,13 @@ nst-navbar {
       margin: 0;
     }
   }
+  .srch-nav {
+    height: 71px;
+    .bot-nav {
+      align-items: center;
+      display: flex;
+    }
+  }
   .conv-nav {
     height: 160px;
     .top-nav {
@@ -703,12 +710,7 @@ nst-navbar {
       align-items: center;
       display: flex;
     }
-    input {
-      height: 40px;
-      border-radius: 4px;
-      background-color: rgba(0,0,0,.02);
-      border-color: rgba(0,0,0,.14);
-    }
+
   }
 }
 
@@ -755,6 +757,12 @@ body.scrolled {
     font-size: 24px;
     font-weight: 400;
     margin: 0;
+  }
+  input {
+    height: 40px;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.02);
+    border-color: rgba(0,0,0,.14);
   }
 }
 .navbarillu {

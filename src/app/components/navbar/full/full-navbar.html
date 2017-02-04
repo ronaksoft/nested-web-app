@@ -1,5 +1,5 @@
 <nst-mini-navbar ng-if="$root.deviceDetector.isTablet() || $root.deviceDetector.isMobile()"></nst-mini-navbar>
-<div class="nst-navbar _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isConvMode">
+<div class="nst-navbar _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
@@ -205,7 +205,7 @@
     </div>
   </div>
 </div>
-<div class="nst-navbar-f _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isConvMode">
+<div class="nst-navbar-f _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
@@ -342,7 +342,7 @@
     </div>
   </div>
 </div>
-<div class="nst-navbar-fff _tr" ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode">
+<div class="nst-navbar-fff _tr" ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr unread-nav" ng-if="ctlFullNavbar.isUnreadMode">
@@ -370,6 +370,15 @@
       </div>
       <div class="bot-nav">
         <input type="text" placeholder="Search..." class="_fw">
+        <div class="cp-illu _fn"></div>
+      </div>
+    </div>
+    <div class="content _pr srch-nav" ng-if="ctlFullNavbar.isSearchMode">
+      <div class="bot-nav">
+        <svg class="_24svg _r90 _df _fn mirror">
+          <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
+        </svg>
+        <input type="text" placeholder="Search..." class="_df _fw">
         <div class="cp-illu _fn"></div>
       </div>
     </div>
