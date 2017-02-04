@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
-                           NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation,
+                           NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation, NstSvcAuth,
                            NstVmFile, NstVmFileViewerItem,
                            NST_DEFAULT) {
     var vm = this;
@@ -46,6 +46,7 @@
     vm.loadMore = loadMore;
     vm.onSelect = onSelect;
     vm.compose = composeWithAttachments;
+    vm.isSubPersonal = isSubPersonal;
 
     vm.selectedFiles = [];
     vm.files = [];
@@ -95,6 +96,11 @@
       });
 
     })();
+
+    function isSubPersonal() {
+      if (vm.currentPlaceId)
+        return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
+    }
 
     function search(keyword) {
       vm.settings.keyword = keyword;
