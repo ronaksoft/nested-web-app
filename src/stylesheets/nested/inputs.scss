@@ -153,3 +153,7 @@ i.sep{
     font-style: normal;
     color: $color-border;
 }
+.form-group.has-error input.number, .form-group.has-error input.number:focus ,
+.form-group.has-error input.pre-number, .form-group.has-error input.pre-number:focus {
+  border: 2px solid transparent!important;
+}
