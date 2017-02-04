@@ -144,11 +144,6 @@ post-card {
         fill: $color-reply;
       }
     }
-    .post-footer .icon {
-      .re, .fw {
-        opacity: 1;
-      }
-    }
   }
   section {
     display: inline-flex;
@@ -379,10 +374,6 @@ post-card {
         &.more:hover {
           background-color: rgba(0, 0, 0, .1);
         }
-      }
-      .re,
-      .fw {
-        opacity: 0;
       }
     }
   }
