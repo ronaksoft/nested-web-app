@@ -132,9 +132,12 @@
   position: absolute;
   top: 7px !important;
   left: auto !important;
-  right: 0px;
+  right: 0;
   z-index: 36;
   width: 210px;
+  a span {
+    line-height: 19px;
+  }
 }
 
 
