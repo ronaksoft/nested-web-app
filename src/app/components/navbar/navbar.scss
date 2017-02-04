@@ -660,10 +660,13 @@ nst-navbar {
     }
   }
   .srch-nav {
-    height: 71px;
+    height: 80px;
+    display: flex;
+    align-items: center;
     .bot-nav {
       align-items: center;
       display: flex;
+      position: relative;
     }
   }
   .conv-nav {
