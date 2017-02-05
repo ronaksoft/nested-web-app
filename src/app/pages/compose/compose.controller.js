@@ -16,6 +16,8 @@
     vm.focus = false;
     vm.mouseIn = false;
 
+    //FixME set Recive place with vm.placeID
+
     if (vm.mode == 'quick'){
       vm.quickMode = true;
     }
@@ -25,7 +27,7 @@
       SvcCardCtrlAffix.change();
     }
 
-    vm.changeAffixesDebounce = _.debounce(changeAffixes, 2000);
+    vm.changeAffixesDebounce = _.debounce(changeAffixes, 1000);
 
     /*****************************
      *** Controller Properties ***
@@ -177,6 +179,8 @@
       vm.mouseIn = true;
       vm.changeAffixesDebounce();
       if (e.which == 13) {
+
+        //FixME focus on correct and exists editor
         $window.CKEDITOR.instances.editor1.focus();
       }
     };

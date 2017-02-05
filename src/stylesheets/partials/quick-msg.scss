@@ -137,7 +137,7 @@
         max-height: 0;
         transition: max-height $animation-dur;
         &.focussed {
-          max-height: 500px;
+          max-height: 2500px;
         }
       }
       input[type='button'] {
