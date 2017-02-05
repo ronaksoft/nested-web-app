@@ -9,6 +9,7 @@
                                   NstSvcAuth, NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
     var vm = this;
     vm.text = '';
+    vm.mode = 'quick';
 
     /*****************************
      *** Controller Properties ***
@@ -118,11 +119,12 @@
 
       var elementFirstChild = angular.element(element.firstChild);
 
-      vm.model.subject = elementFirstChild.text();
+      vm.model.subject = elementFirstChild.text() || element.text();
+      console.log(element,element.firstChild,element.children()[0]);
       elementFirstChild.remove();
 
 
-      if ( element.children().length == 0 || ( element.children().length == 1 && element.children()[0].length == 0)) {
+      if ( element.children().length == 0 || ( element.children().length == 1 && element.children()[0].length == 0) || vm.model.body.length == 0) {
 
         vm.model.body = vm.model.subject;
         vm.model.subject = "";
@@ -268,7 +270,7 @@
       vm.model.errors = (function (model) {
         var errors = [];
 
-        var atleastOne = model.subject.trim().length + model.body.trim().length + model.attachments.length > 0;
+        var atleastOne = vm.text.trim().length + model.attachments.length > 0;
 
         if (!atleastOne) {
           errors.push({

@@ -1,7 +1,7 @@
 <div class="_fh" data-droplet ng-model="ctlCompose.attachfiles" page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
   <div class="droplet"></div>
   <div class="compose-wrp">
-    <div class="modal-head">
+    <div class="modal-head" ng-if="!ctlCompose.quickMode">
       <svg class="_20svg" id="compose-full" ng-click="ctlCompose.fullCompose()">
         <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
         <use xlink:href="/assets/icons/nst-icn16.svg#collapse"></use>
@@ -11,8 +11,8 @@
       </svg>
     </div>
     <div class="modal-bo _difv _fw" nst-scrollbar suppress-scroll-x="true">
-      <p class="_df _fn">Share With</p>
-      <div class="_df _fw input-select-match">
+      <p class="_df _fn" ng-if="!ctlCompose.quickMode">Share With</p>
+      <div ng-if="!ctlCompose.quickMode" class="_df _fw input-select-match">
         <ui-select page-change-element minimum-input-length="4" multiple limit="10"  class="address-input _dib"
                    id="input-compose-to"
                    data-ng-model="ctlCompose.model.recipients" search-enabled="false">
@@ -72,9 +72,9 @@
         </div>
       </div>
     </div>
-    <div class="modal-ft _difh">
-      <label class="_df _fn" for="attach">
-        <svg>
+    <div class="modal-ft _difh _fw _aic">
+      <label class="_df _fn _24svg" for="attach">
+        <svg class="_24svg">
           <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
         </svg>
       </label>
