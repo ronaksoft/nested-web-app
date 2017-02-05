@@ -364,7 +364,11 @@
             <img initial-avatar="ctlFullNavbar.account.fullName" data-width="40" data-height="40" data-radius="30" data-word-count="2" data-font-size="12" ng-if="ctlFullNavbar.account" ng-src="{{ctlFullNavbar.account | picture:'x64'}}"/>
           </div>
         </div>
-        <h2 class="_df"><b><translate>Conversation with:</translate></b>s</h2>
+        <h2 class="_df">
+          <translate>Conversation with:</translate>
+          &nbsp;
+          <b>{{ctlFullNavbar.account.fullName}}</b>
+        </h2>
 
 
       </div>
