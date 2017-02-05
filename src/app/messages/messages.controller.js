@@ -125,7 +125,10 @@
       });
 
       NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
+
         var newMessage = e.detail.post;
+
+        if (newMessage.sender.id === NstSvcAuth.user.id) return;
 
         if (isSent() || vm.isbookmarkedsMode) return;
 
@@ -289,18 +292,19 @@
         vm.messagesSetting.after = getFirstMessageTime();
       } else {
         vm.messagesSetting.date = getLastMessageTime();
+        vm.messagesSetting.after = null;
       }
 
 
       getMessages().then(function (messages) {
         vm.cache = _.concat(vm.cache, messages);
 
-        if (0 == vm.cache.length) {
+        if (0 == vm.cache.length && !after) {
           vm.noMessages = true;
         }
 
-        if (messages.length < vm.messagesSetting.limit) {
-          $log.debug('Messages | Reached the end because of less results: ', messages);
+        if (messages.length < vm.messagesSetting.limit && !after) {
+          $log.debug('Messages | Reached the end because of less results: ', messages , after);
           vm.reachedTheEnd = true;
         }
 
@@ -312,11 +316,12 @@
             });
 
             if (hasData.length === 0) {
-              vm.messages.push(mapMessage(messages[i]));
-            } else {
-              // Todo :: remove this line after fixed by server
-              $log.debug('Messages | Reached the end because of duplication: ', hasData);
-              vm.reachedTheEnd = true;
+              if (after){
+                vm.messages.unshift(mapMessage(messages[i]));
+              }else{
+                vm.messages.push(mapMessage(messages[i]));
+              }
+
             }
           }
         }
@@ -356,14 +361,14 @@
 
 
     $rootScope.$on('post-quick', function (event, data) {
-      if (_.find(data.allPlaces, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
+      // if (_.find(data.allPlaces, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
         loadMessages(true, true);
-      }
+      // }
     });
 
     function getFirstMessageTime() {
 
-      var fists = _.first(vm.cache);
+      var fists = _.first(vm.messages);
 
       if (!fists) {
         return moment().format('x');
@@ -379,7 +384,7 @@
 
     function getLastMessageTime() {
 
-      var last = _.last(vm.cache);
+      var last = _.last(vm.messages);
 
       if (!last) {
         return moment().format('x');

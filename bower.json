@@ -72,6 +72,12 @@
         "fonts/fontawesome-webfont.woff",
         "fonts/fontawesome-webfont.woff2"
       ]
+    },
+    "moment" : {
+      "main" : [
+        "min/moment.min.js",
+        "locale/fa.js"
+      ]
     }
   },
   "resolutions": {
