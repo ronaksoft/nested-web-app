@@ -133,7 +133,7 @@
       NstSvcPlaceFactory.get(id).then(function (place) {
 
         result.place = place;
-        NstSvcLogger.info(NstUtility.string.format(NstSvcTranslation.get('Place {0} was found.'), result.place.id));
+        NstSvcLogger.info(NstUtility.string.format('Place {0} was found.', result.place.id));
 
         result.accesses.hasRemoveAccess = place.hasAccess(NST_PLACE_ACCESS.REMOVE_PLACE);
         result.accesses.hasAddPlaceAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_PLACE);

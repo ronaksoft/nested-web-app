@@ -6,11 +6,12 @@
     .service('NstSvcI18n', NstSvcI18n);
 
   /** @ngInject */
-  function NstSvcI18n(_, NstSvcI18nStorage) {
+  function NstSvcI18n(_, NstSvcI18nStorage, moment) {
     function I18n() {
       this.locales = {};
 
       this.selectedLocale = NstSvcI18nStorage.get('locale') || "en-US";
+      moment.locale(this.selectedLocale);
     }
 
     I18n.prototype.addLocale = function (key, dictionary) {
@@ -36,6 +37,7 @@
       if (_.has(this.locales, name)) {
         this.selectedLocale = name;
         NstSvcI18nStorage.set('locale', name);
+        moment.locale(key);
       } else {
         throw Error('Locale "' + name + '" does not exist.');
       }
