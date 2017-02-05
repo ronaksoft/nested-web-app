@@ -1,6 +1,6 @@
 <div class="_fh" data-droplet ng-model="ctlCompose.attachfiles" page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
   <div class="droplet"></div>
-  <div class="compose-wrp">
+  <div class="compose-wrp" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
     <div class="modal-head" ng-if="!ctlCompose.quickMode">
       <svg class="_20svg" id="compose-full" ng-click="ctlCompose.fullCompose()">
         <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
@@ -42,11 +42,11 @@
         </ui-select>
       </div>
       <section class="_difc _fw _fn">
-        <input class="compose-input _fw" page-change-element name="subject" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="{{ctlCompose.model.subject}}" translate-attrs="placeholder">
+        <input class="compose-input _fw" page-change-element name="subject" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="{{ctlCompose.model.subject}}" translate-attrs="placeholder">
       </section>
 
-      <section class="nst-compose-message" id="editor-txt">
-        <textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body"></textarea>
+      <section class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus}" id="editor-txt">
+        <textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()"></textarea>
         <!--<summernote focus ng-model="ctlCompose.model.body"></summernote>-->
         <!--<textarea  nst-mention="#" page-change-element ui-tinymce="ctlCompose.configs.tinymce"-->
                    <!--placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>-->
@@ -72,13 +72,14 @@
         </div>
       </div>
     </div>
-    <div class="modal-ft _difh _fw _aic">
+    <div class="modal-ft _difh _fw _aic ng-class:{'focussed' : ctlCompose.focus}">
       <label class="_df _fn _24svg" for="attach">
         <svg class="_24svg">
           <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
         </svg>
       </label>
       <div class="_df f1" id="editor-btn"></div>
+      <input type="button" ng-click="" class="butn-white" value="Discard" ng-if="ctlCompose.quickMode">
       <input type="button" ng-click="ctlCompose.send()" class="butn-green" value="Share">
     </div>
 

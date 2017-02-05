@@ -8,15 +8,24 @@
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack, $window,
                              _, toastr,
-                             NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
+                             NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstSvcPostMap, NstPicture) {
     var vm = this;
     vm.quickMode = false;
+    vm.focus = false;
+    vm.mouseIn = false;
 
     if (vm.mode == 'quick'){
       vm.quickMode = true;
     }
+
+    function changeAffixes() {
+      console.log('change');
+      SvcCardCtrlAffix.change();
+    }
+
+    vm.changeAffixesDebounce = _.debounce(changeAffixes, 2000);
 
     /*****************************
      *** Controller Properties ***
@@ -54,6 +63,21 @@
         total: 0
       }
     };
+    $scope.$watch(function () {
+      return vm.model.body
+    },function () {
+      return vm.changeAffixesDebounce();
+    });
+
+    vm.focusBox = function () {
+      vm.focus = true;
+    };
+
+    vm.blurBox = function () {
+      if ( vm.model.subject.length == 0 && vm.model.attachments.length == 0 && vm.model.body.length == 0 && !vm.mouseIn) {
+        vm.focus = false;
+      }
+    };
 
     vm.place = undefined;
 
@@ -73,32 +97,61 @@
       ]
     };
 
-    $scope.editorOptions = {
-      language: lang,
-      contentsLangDirection: isRTL,
-      contentsCss: 'body {overflow:visible;}',
-      placeholder: 'Write something...',
-      height: 230,
-      enableTabKeyTools: true,
-      tabSpaces: 4,
-      startupFocus: false,
-      extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea',
-      autoGrow_minHeight: 230,
-      sharedSpaces: {
-        top: 'editor-btn',
-        bottom: 'editor-txt'
-      },
-      toolbar: [
-        ["FontSize"],
-        ["Bold", "Italic", "Underline"],
-        ["JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
-      ],
-      fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
-      colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
-      // Remove the redundant buttons from toolbar groups defined above.
-      //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-      removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,liststyle,tabletools'
-    };
+    if (vm.quickMode) {
+      $scope.editorOptions = {
+        language: lang,
+        contentsLangDirection: isRTL,
+        contentsCss: 'body {overflow:visible;}',
+        enableTabKeyTools: true,
+        tabSpaces: 4,
+        startupFocus: false,
+        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea',
+        autoGrow_minHeight: 230,
+        sharedSpaces: {
+          top: 'editor-btn',
+          bottom: 'editor-txt'
+        },
+        toolbar: [
+          ["FontSize"],
+          ["Bold"],
+          ["JustifyRight", "BidiLtr", "BidiRtl"]
+        ],
+        fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
+        colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
+        // Remove the redundant buttons from toolbar groups defined above.
+        //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
+        removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,liststyle,tabletools'
+      };
+
+    }else {
+      $scope.editorOptions = {
+        language: lang,
+        contentsLangDirection: isRTL,
+        contentsCss: 'body {overflow:visible;}',
+        placeholder: 'Write something...',
+        height: 230,
+        enableTabKeyTools: true,
+        tabSpaces: 4,
+        startupFocus: false,
+        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea',
+        autoGrow_minHeight: 230,
+        sharedSpaces: {
+          top: 'editor-btn',
+          bottom: 'editor-txt'
+        },
+        toolbar: [
+          ["FontSize"],
+          ["Bold", "Italic", "Underline"],
+          ["JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
+        ],
+        fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
+        colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
+        // Remove the redundant buttons from toolbar groups defined above.
+        //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
+        removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,liststyle,tabletools'
+      };
+
+    }
 
 
     (function () {
@@ -119,7 +172,10 @@
 
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
+
     vm.subjectKeyDown = function (e) {
+      vm.mouseIn = true;
+      vm.changeAffixesDebounce();
       if (e.which == 13) {
         $window.CKEDITOR.instances.editor1.focus();
       }
