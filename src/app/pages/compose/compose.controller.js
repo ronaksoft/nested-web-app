@@ -23,7 +23,6 @@
     }
 
     function changeAffixes() {
-      console.log('change');
       SvcCardCtrlAffix.change();
     }
 
@@ -181,6 +180,7 @@
       if (e.which == 13) {
 
         //FixME focus on correct and exists editor
+        //FixME backspace on editor to subject
         $window.CKEDITOR.instances.editor1.focus();
       }
     };
