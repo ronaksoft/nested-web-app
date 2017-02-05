@@ -93,10 +93,20 @@
                 // TODO: Highlight Newly Added Place
                 vm.places.push(vmPlace);
               }
-              setTimeout(function () {
-                $state.go(getPlaceFilteredState(), {placeId: vmPlace.id});
-              },100)
+              if (openOtherInvitations) {
+                var checkDisplayInvitationModal = true;
+                vm.invitations.map(function (invite) {
+                  if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
+                    checkDisplayInvitationModal = false;
+                    vm.invitation.showModal(invite.id, true);
+                  } else {
+                    setTimeout(function () {
+                      $state.go(getPlaceFilteredState(), {placeId: vmPlace.id});
+                    }, 100)
+                  }
+                });
 
+              }
             });
           } else { // Decline the Invitation
             return vm.invitation.decline(id);
@@ -106,7 +116,7 @@
             vm.invitations.map(function (invite) {
               if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
                 checkDisplayInvitationModal = false;
-                vm.invitation.showModal(invite.id);
+                vm.invitation.showModal(invite.id, true);
               }
             });
           }
@@ -116,7 +126,7 @@
             vm.invitations.map(function (invite) {
               if (checkDisplayInvitationModal && NstSvcInvitationFactory.storeDisplayedInvitations(invite.id)) {
                 checkDisplayInvitationModal = false;
-                vm.invitation.showModal(invite.id);
+                vm.invitation.showModal(invite.id, true);
               }
             });
           }
@@ -577,12 +587,12 @@
         //FIXME:: Check last invitation
 
         var invitations = mapInvitations(invitations);
-        var lastInvitation = _.pullAllBy(invitations,vm.invitation,'id')[0];
+        var lastInvitation = _.pullAllBy(invitations, vm.invitation, 'id')[0];
 
 
         if (!lastInvitation) return;
 
-        vm.invitations =  invitations;
+        vm.invitations = invitations;
 
 
         // var lastInvitation = _.find(invitations, function (inv) {

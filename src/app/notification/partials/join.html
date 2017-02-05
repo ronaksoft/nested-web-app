@@ -11,8 +11,8 @@
     <div class="_difv f1">
       <p>
         <!--<a>{{ ::notification.mention.comment.sender.fullName }} </a> mentioned you on <b>{{notification.mention.post.subject}}</b>:<br>-->
-        <a>{{ ::notification.joined.sender.fullName }}</a><br>
-        <small>is now on nested</small>
+        <translate><a>{{ ::notification.joined.sender.fullName }}</a><br>
+          <small>is now on nested</small></translate>
       </p>
       <p auto-dir="notif.commentBody">
         {{::notification.join.body | truncate}}

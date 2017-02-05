@@ -15,7 +15,6 @@
     "videogular-controls": "^1.4.3",
     "videogular-buffering": "^1.4.4",
     "videogular-poster": "^1.4.3",
-    "angular-date-dropdowns": "https://github.com/kayvannm/angular-date-dropdowns.git#v0.2.1",
     "ui-select": "angular-ui-select#^0.16.1",
     "angular-marked": "^1.2.0",
     "angular-xeditable": "^0.1.12",

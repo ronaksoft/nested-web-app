@@ -525,7 +525,6 @@
 
         // TODO: Check if one or more places failed
 
-
         NstSvcPostFactory.get(response.post.id).then(function (res) {
           var msg = NstSvcPostMap.toMessage(res);
           $rootScope.$emit('post-quick', msg);
@@ -891,7 +890,6 @@
     $scope.$on('$destroy', function () {
       NstSvcSidebar.removeOnItemClick();
       _.forEach($window.CKEDITOR.instances, function (instance) {
-        console.log('yes');
         instance.removeAllListeners();
         $window.CKEDITOR.remove(instance);
       })

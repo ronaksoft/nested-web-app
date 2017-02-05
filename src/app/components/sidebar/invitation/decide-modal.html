@@ -20,9 +20,18 @@
         <a class="nst-mood-solid post">{{ctrlInvitation.invitation.inviter.name}}&nbsp;<span class="nst-mood-smooth">@{{ctrlInvitation.invitation.inviter.id}}</span></a>
       </div>
       <div class="_difh _jcc">
-        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
+        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false"
+             ng-if="ctrlInvitation.invitation.state === ctrlInvitation.NST_INVITATION_FACTORY_STATE.PENDING">
           <div class="butn-white _jcc _df" ng-click="ctrlInvitation.decline()"><a class="_df">Decline</a></div>
           <div class="butn-green _jcc _df" ng-click="ctrlInvitation.accept()"><a class="_df">Accept</a></div>
+        </div>
+        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false"
+             ng-if="ctrlInvitation.invitation.state === ctrlInvitation.NST_INVITATION_FACTORY_STATE.ACCEPTED">
+          <translate>You accepted this invitation.</translate>
+        </div>
+        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false"
+             ng-if="ctrlInvitation.invitation.state === ctrlInvitation.NST_INVITATION_FACTORY_STATE.DECLINED">
+          <translate>You declined this invitation.</translate>
         </div>
       </div>
     </div>

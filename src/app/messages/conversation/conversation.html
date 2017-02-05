@@ -1,5 +1,7 @@
-<nst-navbar data-ng-model="navbar"
-            place-id="{{ctlConversation.currentPlace.id}}"
+<nst-navbar ng-if="ctlConversation.account"
+            data-ng-model="navbar"
+            account="ctlConversation.account"
+            query="ctlConversation.queryString"
             ready-to-show="ctlConversation.currentPlaceLoaded"
             ready-to-anime="true"></nst-navbar>
 <div class="navbar-illu"></div>
@@ -8,14 +10,7 @@
     <scroll-change-handler reached-bottom="ctlConversation.loadMore"></scroll-change-handler>
 
     <div class="top-section">
-      <button class="search-clear" type="button" ng-click="ctlConversation.backToConversation();" id="clear-button">×</button>
-      <div class="search-input-group">
-        <input  type="text" nst-mention class="search-input" ng-model="ctlConversation.queryString"
-               ng-keyup="ctlConversation.searchOnEnterKeyPressed($event, ctlConversation.queryString);" id="clear"/>
-        <button type="button" class="search-button" ng-click="ctlConversation.search(ctlConversation.queryString);" id="button-search">
-          <div class="icon-search-rotated-white"></div>
-        </button>
-      </div>
+
     </div>
 
     <div class="post-area">

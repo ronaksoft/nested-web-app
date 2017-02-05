@@ -22,10 +22,10 @@
       </div>
       <p>
         <span>{{ ::notification.comment.sender.fullName }} </span>
-        <span ng-if="notification.users[0]">and {{ ::notification.users[0].fullName }} </span>
-        <span ng-if="notification.users[1]">and {{ ::notification.users[1].fullName }} </span>
-        <span ng-if="notification.users[2]">and {{ ::notification.users[2].fullName }} </span>
-        <small ng-if="notification.users[0]">commented on your post</small>
+        <span ng-if="notification.users[0]"><translate>and</translate> {{ ::notification.users[0].fullName }} </span>
+        <span ng-if="notification.users[1]"><translate>and</translate> {{ ::notification.users[1].fullName }} </span>
+        <span ng-if="notification.users[2]"><translate>and</translate> {{ ::notification.users[2].fullName }} </span>
+        <small ng-if="notification.users[0]"><translate>commented on your post</translate></small>
         <!--{{notification.post.subject}}:<br>-->
       </p>
       <p auto-dir="notif.commentBody"  ng-if="notification.users.length < 1">

@@ -43,7 +43,6 @@
           var jqElm = $(element);
 
           scope.$watch(function () {
-            console.log('scope fade ',attrs.show);
             return attrs.show;
           }, function() {
             var value = eval(attrs.show);

@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components.date')
-    .filter('passed', function(moment) {
+    .filter('passed', function(moment, NstSvcTranslation) {
 
       var dateFilter = function(date) {
         if (!moment.isMoment(date)) {
@@ -11,11 +11,227 @@
         }
 
         // 'true' just removes the trailing 'ago'
-        return date.fromNow(false);
+
+        var passedDate = date.fromNow(false);
+
+        passedDate = passedDate.replace('a few seconds ago', NstSvcTranslation.get("a few seconds ago"));
+        passedDate = passedDate.replace('in a few seconds', NstSvcTranslation.get("in a few seconds"));
+        passedDate = passedDate.replace('a minute ago', NstSvcTranslation.get("a minute ago"));
+        passedDate = passedDate.replace('minutes ago', NstSvcTranslation.get("minutes ago"));
+        passedDate = passedDate.replace('an hour ago', NstSvcTranslation.get("an hour ago"));
+        passedDate = passedDate.replace('hours ago', NstSvcTranslation.get("hours ago"));
+        passedDate = passedDate.replace('one day ago', NstSvcTranslation.get("one day ago"));
+        passedDate = passedDate.replace('days ago', NstSvcTranslation.get("days ago"));
+        passedDate = passedDate.replace('a month ago', NstSvcTranslation.get("a month ago"));
+        passedDate = passedDate.replace('months ago', NstSvcTranslation.get("months ago"));
+        passedDate = passedDate.replace('a year ago', NstSvcTranslation.get("a year ago"));
+        passedDate = passedDate.replace('years ago', NstSvcTranslation.get("years ago"));
+
+        return passedDate;
       }
 
       dateFilter.$stateful = true;
 
       return dateFilter;
-    });
+    })
+
+    //FIXME :: move bellow service and directive to another file
+
+    .service('rsmdateutils', function () {
+      function RsmDate() {
+        this.dayRange = [1, 31];
+        this.months = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December'
+        ];
+      }
+
+      function changeDate(date) {
+        if (date.day > 28) {
+          date.day--;
+          return date;
+        } else if (date.month > 11) {
+          date.day = 31;
+          date.month--;
+          return date;
+        }
+      }
+
+      RsmDate.prototype = {
+        checkDate: function (date) {
+          var d;
+          if (!date.day || date.month === null || date.month === undefined || !date.year) return false;
+
+          d = new Date(Date.UTC(date.year, date.month, date.day));
+
+          if (d && (d.getMonth() === date.month && d.getDate() === Number(date.day))) {
+            return d;
+          }
+
+          return this.checkDate(changeDate(date));
+        },
+        checkMonth: function (date) {
+          if (!angular.isNumber(date.month)) {
+            return false;
+          }
+
+          this.dayRange[1] = (new Date(date.year || (new Date()).getYear(), date.month + 1, 0)).getDate();
+        },
+        getDays: function () {
+          var days = [],
+            start = this.dayRange[0];
+          while (start <= this.dayRange[1]) {
+            days.push(start++);
+          }
+          return days;
+        },
+        getMonths: function () {
+          var lst = [],
+            mLen = this.months.length;
+
+          for (var i = 0; i < mLen; i++) {
+            lst.push({
+              value: i,
+              name: this.months[i]
+            });
+          }
+          return lst;
+        }
+      };
+
+      return new RsmDate();
+    })
+
+    .directive('rsmdatedropdowns', ['rsmdateutils', 'NstSvcTranslation', function (rsmdateutils, NstSvcTranslation) {
+      return {
+        restrict: 'A',
+        replace: true,
+        require: 'ngModel',
+        scope: {
+          model: '=ngModel'
+        },
+        controller: ['$scope', 'rsmdateutils', function ($scope, rsmDateUtils) {
+
+          $scope.days = rsmDateUtils.getDays();
+          $scope.months = rsmDateUtils.getMonths();
+
+          $scope.dateFields = {};
+
+          $scope.dateFields.day = new Date($scope.model).getUTCDate();
+          $scope.dateFields.month = new Date($scope.model).getUTCMonth();
+          $scope.dateFields.year = new Date($scope.model).getUTCFullYear();
+
+          // Initialize with current date (if set)
+          $scope.$watch('model', function (newDate) {
+            if (newDate) {
+              $scope.dateFields.day = new Date(newDate).getUTCDate();
+              $scope.dateFields.month = new Date(newDate).getUTCMonth();
+              $scope.dateFields.year = new Date(newDate).getUTCFullYear();
+            }
+          });
+
+          $scope.checkDate = function () {
+            var date = rsmDateUtils.checkDate($scope.dateFields);
+            if (date) {
+              $scope.model = date;
+            }
+          };
+
+          $scope.checkMonth = function () {
+            rsmDateUtils.checkMonth($scope.dateFields);
+            $scope.days = rsmDateUtils.getDays();
+          };
+        }],
+        template: '<div class="_dtr">' +
+        '  <div class="_dtc select-month">' +
+        '   <select name="dateFields.month" data-ng-model="dateFields.month" placeholder="Month" class="form-control" ng-options="month.value as month.name for month in months" value="{{ dateField.month }}" ng-change="checkDate(); checkMonth()" ng-disabled="disableFields">' +
+        '     <option value="" disabled selected>-{{monthsTrans}}-</option>' +
+        '   </select>' +
+        '  </div>' +
+        '  <div class="_dtc select-day">' +
+        '     <select name="dateFields.day" data-ng-model="dateFields.day" placeholder="Day" class="form-control" ng-options="day for day in days" ng-change="checkDate()" ng-disabled="disableFields">' +
+        '       <option value="" disabled selected>-{{daysTrans}}-</option>' +
+        '     </select>' +
+        '  </div>' +
+        '  <div class="_dtc select-year">' +
+        '    <select ng-show="!yearText" name="dateFields.year" data-ng-model="dateFields.year" placeholder="Year" class="form-control" ng-options="year for year in years" ng-change="checkDate(); checkMonth()" ng-disabled="disableFields">' +
+        '     <option value="" disabled selected>-{{yearsTrans}}-</option>' +
+        '    </select>' +
+        '    <input ng-show="yearText" type="text" name="dateFields.year" data-ng-model="dateFields.year" placeholder="Year" class="form-control" ng-disabled="disableFields">' +
+        '  </div>' +
+        '</div>',
+        link: function (scope, element, attrs, ctrl) {
+          var currentYear = parseInt(attrs.startingYear, 10) || new Date().getFullYear(),
+            numYears = parseInt(attrs.numYears, 10) || 100,
+            oldestYear = currentYear - numYears,
+            overridable = [
+              'dayDivClass',
+              'dayClass',
+              'monthDivClass',
+              'monthClass',
+              'yearDivClass',
+              'yearClass'
+            ],
+            required;
+
+          scope.yearsTrans = NstSvcTranslation.get('year');
+          scope.monthsTrans = NstSvcTranslation.get('month');
+          scope.daysTrans = NstSvcTranslation.get('day');
+
+          scope.years = [];
+          scope.yearText = attrs.yearText ? true : false;
+
+          if (attrs.ngDisabled) {
+            scope.$parent.$watch(attrs.ngDisabled, function (newVal) {
+              scope.disableFields = newVal;
+            });
+          }
+
+          if (attrs.required) {
+            required = attrs.required.split(' ');
+
+            ctrl.$parsers.push(function (value) {
+              angular.forEach(required, function (elem) {
+                if (!angular.isNumber(elem)) {
+                  ctrl.$setValidity('required', false);
+                }
+              });
+              ctrl.$setValidity('required', true);
+            });
+          }
+
+          for (var i = currentYear; i >= oldestYear; i--) {
+            scope.years.push(i);
+          }
+
+          (function () {
+            var oLen = overridable.length,
+              oCurrent,
+              childEle;
+            while (oLen--) {
+              oCurrent = overridable[oLen];
+              childEle = element[0].children[Math.floor(oLen / 2)];
+
+              if (oLen % 2 && oLen != 2) {
+                childEle = childEle.children[0];
+              }
+
+              if (attrs[oCurrent]) {
+                angular.element(childEle).attr('class', attrs[oCurrent]);
+              }
+            }
+          }());
+        }
+      };
+    }]);
 })();

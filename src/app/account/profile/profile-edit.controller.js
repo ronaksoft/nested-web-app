@@ -196,7 +196,7 @@
         user.lastName = viewModel.lastName;
         user.phone = viewModel.phone;
         user.gender = viewModel.gender;
-        user.dateOfBirth = viewModel.dateOfBirth;
+        user.dateOfBirth = viewModel.dateOfBirth.toISOString().slice(0,10);
         user.country = viewModel.country;
 
         return $q.all([

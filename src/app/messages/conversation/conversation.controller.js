@@ -6,7 +6,7 @@
     .controller('conversationController', conversationController);
 
   /** @ngInject */
-  function conversationController($log, $stateParams, $state,
+  function conversationController(_, $log, $stateParams, $state, $scope,
                             NST_DEFAULT, NstSvcPostFactory, NstSvcUserFactory, NstSvcPostMap, NstSvcServer, NstSvcAuth,
                             NstSearchQuery) {
     var vm = this;
@@ -38,63 +38,38 @@
 
     vm.search = search;
     vm.loadMore = loadMore;
-    vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
     vm.backToConversation = backToConversation;
 
     (function () {
+
+      $scope.$watch(function () {
+        return vm.queryString;
+      },function () {
+        searchLazily(vm.queryString);
+      });
+
       NstSvcUserFactory.get($stateParams.userId)
         .then(function (user) {
+
           vm.account = user;
-          var query = getUriQuery();
-          vm.queryString = query.toString();
-          var searchObj = new NstSearchQuery(vm.queryString);
-          vm.refererPlaceId = searchObj.getDefaultPlaceId();
-          searchMessages(vm.queryString);
+          searchLazily();
         });
     })();
 
-    /**
-     * sendKeyIsPressed - check whether the pressed key is Enter or not
-     *
-     * @param  {Event} event keypress event handler
-     * @return {bool}        true if the pressed key is Enter
-     */
-    function sendKeyIsPressed(event) {
-      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
-    }
-
-    function searchOnEnterKeyPressed(e, queryString) {
-
-      var element = angular.element(event.target);
-      if (!queryString || !sendKeyIsPressed(event) || element.attr("mention") === "true") {
-        return;
-      }
-      // if (!sendKeyIsPressed(e) || !queryString) {
-      //   return;
-      // }
-
-      search(queryString);
-    }
 
     function search(queryString) {
       vm.messages.length = 0;
-      var query = new NstSearchQuery(queryString);
-      $state.go('app.conversation-keyword', { userId: $stateParams.userId, keywords : NstSearchQuery.encode(queryString) }).then(function (newState) {
-        skip = 0;
-        searchMessages(query.toString());
-      });
+      searchMessages(queryString);
     }
 
-    function getUriQuery() {
-      return $stateParams.keywords || '';
-    }
+    var searchLazily = _.debounce(search, 640);
 
     function searchMessages(queryString) {
       vm.loading = true;
       vm.loadMessageError = false;
       vm.reachedTheEnd = false;
 
-      NstSvcPostFactory.conversation(vm.account.id, queryString, limit, skip).then(function (posts) {
+      NstSvcPostFactory.conversation($stateParams.userId, queryString, limit, skip).then(function (posts) {
 
         var olderMessages = _.map(posts, NstSvcPostMap.toSearchMessageItem);
         _.forEach(olderMessages, function (message) {
