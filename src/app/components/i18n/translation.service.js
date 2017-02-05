@@ -8,11 +8,10 @@
   /** @ngInject */
   function NstSvcTranslation(NstSvcI18n, NstSvcLogger) {
     function Translation() {
-      this.currentLocale = null;
+      this.currentLocale = NstSvcI18n.getLocale();
     }
 
-    Translation.prototype.get = function (text, locale) {
-      this.currentLocale = NstSvcI18n.getLocale(locale);
+    Translation.prototype.get = function (text) {
       var value = this.currentLocale[text];
       if (!value) {
         NstSvcLogger.debug("NstSvcTranslation : KEY NOT FOUND : " +  text);

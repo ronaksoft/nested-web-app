@@ -331,9 +331,9 @@
             }
             if (failedRes > 0) {
               if (vm.isGrandPlace) {
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} User has not been invited to Place "{1}".'), failedRes.length, vm.place.id));
+                toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} User(s) has not been invited to Place {1}.'), failedRes.length, vm.place.id));
               } else {
-                toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} User has not been added to Place "{1}". ' + failedRes.join(',')), failedRes.length, user.id, vm.place.id));
+                toastr.error(NstUtility.string.format(NstSvcTranslation.get('{0} User(s) has not been added to Place {1}.'), failedRes.length, user.id, vm.place.id) + " " + failedRes.join(','));
               }
             }
 
