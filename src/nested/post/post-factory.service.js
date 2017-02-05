@@ -346,9 +346,9 @@
 
       post.setCounters(data.counters || post.counters);
 
-      if (data.internal){
+      if (data.internal) {
         post.setSender(NstSvcUserFactory.parseTinyUser(data.sender));
-      }else{
+      } else {
         post.setEmailSender(NstSvcUserFactory.parseTinyUser(data.email_sender));
       }
 
@@ -367,7 +367,7 @@
 
       if (data.post_recipients) {
         for (var k in data.post_recipients) {
-          post.recipients.push( new NstRecipient({
+          post.recipients.push(new NstRecipient({
             id: data.post_recipients[k],
             name: data.post_recipients[k],
             email: data.post_recipients[k]
@@ -432,7 +432,7 @@
         var sender = NstSvcUserFactory.parseTinyUser(data.sender);
         NstSvcUserFactory.set(sender);
         message.setSender(sender);
-      }else if (data.email_sender){
+      } else if (data.email_sender) {
         var sender = NstSvcUserFactory.parseTinyUser(data.email_sender);
         NstSvcUserFactory.set(sender);
         message.setEmailSender(sender);
@@ -561,9 +561,13 @@
 
       var options = {
         limit: setting.limit,
-        before: setting.date,
+        before: setting.after ? null : setting.date,
         place_id: placeId
       };
+
+      if (setting.after) {
+        options.after = setting.after;
+      }
 
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {
         options.by_update = true;
@@ -721,7 +725,7 @@
         limit: limit || 8
       }).then(function (data) {
         var messagePromises = _.map(data.posts, function (post) {
-            return parseMessage(post);
+          return parseMessage(post);
         });
         $q.all(messagePromises).then(function (messages) {
           deferred.resolve(messages);

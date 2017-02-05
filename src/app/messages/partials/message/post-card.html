@@ -42,7 +42,6 @@
       <a class="_df _fn post-card-time" ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.viewFull($event)" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
             data-tooltip-append-to-body="true" data-tooltip-placement="auto left">
         {{::ctlPostCard.post.date | date : 'short'}}
-        <!--<div class="unread-badge-holder">●</div>-->
       </a>
     </div>
     <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}" ng-click="ctlPostCard.markAsRead();ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked)">
@@ -70,7 +69,7 @@
   </section>
 
   <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-    <a ng-click="ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Show less</a>
+    <a ng-click="ctlPostCard.collapse($event);" ng-if="ctlPostCard.isExpanded">Show less</a>
     <a ng-click="ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">
       <translate>Show more...</translate>
     </a>
@@ -155,7 +154,7 @@
         </div>
       </a>
       <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df"
-           data-uib-tooltip-template="'more-uib-tooltip.html'"
+           data-uib-tooltip-template="'reply-to-all-uib-tooltip.html'"
            data-tooltip-append-to-body="true" data-tooltip-placement="auto top" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
              data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"  data-popover-append-to-body="false" translate-attrs="data-uib-tooltip">
         <div class="more">
@@ -237,7 +236,7 @@
   <svg class="_16svg nst-icn-gry" ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.isRead && !ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-click="ctlPostCard.expand();">
     <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
   </svg>
-  <svg class="_16svg nst-icn-gry" ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.isRead && ctlPostCard.isExpanded) || (!ctlPostCard.post.ellipsis && ctlPostCard.post.isRead )" ng-click="ctlPostCard.collapse();">
+  <svg class="_16svg nst-icn-gry" ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.isRead && ctlPostCard.isExpanded) || (!ctlPostCard.post.ellipsis && ctlPostCard.post.isRead )" ng-click="ctlPostCard.collapse($event);">
     <use xlink:href="/assets/icons/nst-icn16.svg#open-message"></use>
   </svg>
   <div class="_16svg" ng-show="ctlPostCard.expandProgress && ctlPostCard.post.ellipsis">

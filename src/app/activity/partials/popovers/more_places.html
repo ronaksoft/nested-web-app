@@ -1,5 +1,5 @@
-<div id="popup-msg-badge" nst-scrollbar class="_fw">
-  <div  data-ng-repeat="place in act.post.places" class="_fw _df hovercolor">
+<div id="popup-msg-badge" nst-scrollbar suppress-scroll-x="true" class="_ltr _fw">
+  <div data-ng-repeat="place in act.post.places" class="_fw _df hovercolor ng-class:{'_rtl': $root._direction == 'rtl'}">
     <a class="more-place-row _difh" href="#/places/{{place.id}}/messages">
       <div class="_df _fn">
         <img src="{{place | picture}}" class="account-initials-32"/>
