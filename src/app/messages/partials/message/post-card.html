@@ -69,7 +69,7 @@
   </section>
 
   <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-    <a ng-click="ctlPostCard.collapse();" ng-if="ctlPostCard.isExpanded">Show less</a>
+    <a ng-click="ctlPostCard.collapse($event);" ng-if="ctlPostCard.isExpanded">Show less</a>
     <a ng-click="ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">
       <translate>Show more...</translate>
     </a>
@@ -236,7 +236,7 @@
   <svg class="_16svg nst-icn-gry" ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.isRead && !ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-click="ctlPostCard.expand();">
     <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
   </svg>
-  <svg class="_16svg nst-icn-gry" ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.isRead && ctlPostCard.isExpanded) || (!ctlPostCard.post.ellipsis && ctlPostCard.post.isRead )" ng-click="ctlPostCard.collapse();">
+  <svg class="_16svg nst-icn-gry" ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.isRead && ctlPostCard.isExpanded) || (!ctlPostCard.post.ellipsis && ctlPostCard.post.isRead )" ng-click="ctlPostCard.collapse($event);">
     <use xlink:href="/assets/icons/nst-icn16.svg#open-message"></use>
   </svg>
   <div class="_16svg" ng-show="ctlPostCard.expandProgress && ctlPostCard.post.ellipsis">

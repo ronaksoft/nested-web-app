@@ -134,13 +134,16 @@
           }
         }
       }
-      input {
-        opacity: 0;
-        width: 1px;
-        height: 1px;
-        position: absolute;
-        z-index: -22
+      .nst-compose-message .cke_contents.cke_reset {
+        min-height: 0;
       }
+      //input {
+      //  opacity: 0;
+      //  width: 1px;
+      //  height: 1px;
+      //  position: absolute;
+      //  z-index: -22
+      //}
     }
   }
 

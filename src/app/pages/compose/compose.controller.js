@@ -12,6 +12,11 @@
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstSvcPostMap, NstPicture) {
     var vm = this;
+    vm.quickMode = false;
+
+    if (vm.mode == 'quick'){
+      vm.quickMode = true;
+    }
 
     /*****************************
      *** Controller Properties ***
@@ -84,9 +89,9 @@
         bottom: 'editor-txt'
       },
       toolbar: [
-        ["FontSize", "Font"],
+        ["FontSize"],
         ["Bold", "Italic", "Underline"],
-        ["JustifyLeft", "JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
+        ["JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
       ],
       fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
       colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
