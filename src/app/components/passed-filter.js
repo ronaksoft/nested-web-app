@@ -12,22 +12,7 @@
 
         // 'true' just removes the trailing 'ago'
 
-        var passedDate = date.fromNow(false);
-
-        passedDate = passedDate.replace('a few seconds ago', NstSvcTranslation.get("a few seconds ago"));
-        passedDate = passedDate.replace('in a few seconds', NstSvcTranslation.get("in a few seconds"));
-        passedDate = passedDate.replace('a minute ago', NstSvcTranslation.get("a minute ago"));
-        passedDate = passedDate.replace('minutes ago', NstSvcTranslation.get("minutes ago"));
-        passedDate = passedDate.replace('an hour ago', NstSvcTranslation.get("an hour ago"));
-        passedDate = passedDate.replace('hours ago', NstSvcTranslation.get("hours ago"));
-        passedDate = passedDate.replace('one day ago', NstSvcTranslation.get("one day ago"));
-        passedDate = passedDate.replace('days ago', NstSvcTranslation.get("days ago"));
-        passedDate = passedDate.replace('a month ago', NstSvcTranslation.get("a month ago"));
-        passedDate = passedDate.replace('months ago', NstSvcTranslation.get("months ago"));
-        passedDate = passedDate.replace('a year ago', NstSvcTranslation.get("a year ago"));
-        passedDate = passedDate.replace('years ago', NstSvcTranslation.get("years ago"));
-
-        return passedDate;
+        return date.fromNow(false);
       }
 
       dateFilter.$stateful = true;
