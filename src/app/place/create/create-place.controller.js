@@ -29,10 +29,10 @@
         email: true,
         locked: null,
         receptive: null,
-        search: false,
-        addPost: vm.memberOptions[0].key
+        search: false
       },
       policy: {
+        addPost: vm.memberOptions[0].key,
         addMember: vm.memberOptions[0].key,
         addPlace: vm.memberOptions[0].key,
       },
@@ -161,14 +161,14 @@
       vm.receivingMode = 'members';
 
       vm.place.privacy.receptive = 'internal';
-      vm.place.privacy.addPost = 'everyone';
+      vm.place.policy.addPost = 'everyone';
     }
 
     function setReceivingEveryone() {
       vm.receivingMode = 'everyone';
 
-      vm.place.privacy.receptive = 'external';
-      vm.place.privacy.addPost = 'everyone';
+      vm.place.policy.receptive = 'external';
+      vm.place.policy.addPost = 'everyone';
     }
 
     function setPolicyAddMember(value) {
