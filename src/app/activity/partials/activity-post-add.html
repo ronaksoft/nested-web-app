@@ -9,12 +9,11 @@
   <div class="msg" nst-post-modal post="act.post">
     <div class="subject">
       <span data-ng-if="event.post.attachments.length > 0" class="headlineicon _vam margin-top-5 _tac _dib"></span>
-      <span class="nst-mood-solid post"
-         data-ng-bind-html="act.post.subject || '<i>No Subject</i>'">
-      </span>
+      <span ng-if="act.post.subject" class="nst-mood-solid post" data-ng-bind-html="act.post.subject"></span>
+      <span ng-if="!act.post.subject" class="nst-mood-solid post"><i><translate>No Subject</translate></i></span>
     </div>
-    <div data-ng-show="extended" class="_wrb bod"
-         data-ng-bind-html="(act.post.body | preview | truncate) || '<i>Empty Message</i>'"></div>
+    <div data-ng-show="extended" class="_wrb bod" ng-if="act.post.body" data-ng-bind-html="act.post.body | preview | truncate"></div>
+    <div data-ng-show="extended" class="_wrb bod" ng-if="!act.post.body"><i><translate>Empty Message</translate></i></div>
     <nst-attachments-preview-bar badge="true" data-ng-show="extended && act.post.attachments.length > 0" mode="auto" items="act.post.attachments" on-item-click=""/>
   </div>
   <div class="places _dif">
