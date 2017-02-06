@@ -12,10 +12,6 @@
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
     vm.notifications = NstSvcNotificationFactory.getLoadedNotification() || [];
-    vm.controls = {
-      left: [],
-      right: []
-    };
 
     vm.markAllSeen = markAllSeen;
     vm.loadMore = loadBefore;

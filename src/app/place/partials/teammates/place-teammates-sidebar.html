@@ -11,8 +11,11 @@
           </svg>
         </i>
       </div>
+      <script type="text/ng-template" id="add-member-uib-tooltip.html">
+        <translate>Add</translate>
+      </script>
       <div class="sidebar-add-member" ng-if="ctlTeammates.hasAddMembersAccess" ng-click="ctlTeammates.addMember()"
-           data-tooltip-placement="top" data-uib-tooltip="Add">
+           data-tooltip-placement="top" data-uib-tooltip-template="'add-member-uib-tooltip.html'">
         <svg>
           <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
         </svg>

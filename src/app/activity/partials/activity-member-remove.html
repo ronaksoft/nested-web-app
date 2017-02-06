@@ -10,10 +10,10 @@
       <span data-ng-if="act.member.id == act.actor.id && currentPlaceId" class="nst-mood-simple"><translate>left here</translate></span>
       <span data-ng-if="act.member.id == act.actor.id && !currentPlaceId" class="nst-mood-simple"><translate>left <a class="place" ui-sref="app.place-activity({placeId : act.place.id})">{{act.place.name}}</a></translate></span>
       <span data-ng-if="act.member.id != act.actor.id && currentPlaceId" class="nst-mood-simple">
-        <translate> removed {{::act.member.fullName}} from here</translate>
+        <translate>removed {{::act.member.fullName}} from here</translate>
       </span>
       <span data-ng-if="act.member.id != act.actor.id && !currentPlaceId" class="nst-mood-simple">
-        <translate> removed {{::act.member.fullName}} from <a class="place" ui-sref="app.place-activity({placeId : act.place.id})">{{act.place.name}}</a></translate>
+        <translate>removed {{::act.member.fullName}} from <a class="place" ui-sref="app.place-activity({placeId : act.place.id})">{{act.place.name}}</a></translate>
       </span>
     </div>
   </div>

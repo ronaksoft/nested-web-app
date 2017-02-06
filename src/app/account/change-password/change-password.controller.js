@@ -12,13 +12,6 @@
     NST_SRV_ERROR, NST_NAVBAR_CONTROL_TYPE, NstSvcTranslation) {
     var vm = this;
 
-    vm.controls = {
-      left: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Return to Profile'), NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('app.profile'))
-      ],
-      right: []
-    };
-
     vm.model = {
       oldPassword: '',
       newPassword: '',

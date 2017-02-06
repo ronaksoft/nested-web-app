@@ -17,7 +17,7 @@
       <p ng-if="!nextStep" class="_df nst-mood-storm modal-detail"><translate>By deleting place, you are agreeing to erase all Place data permanently. Are you sure you want to do this?</translate></p>
       <div ng-if="nextStep" class="_fw _difv _jcc nst-mood-storm modal-detail">
         <span class="df nst-mood-storm small"><translate>Enter your place ID</translate></span>
-        <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place ID" translate-attrs="placeholder" focus-me>
+        <input class="_df form-control" name="placeIdInput" ng-model="removeCtrl.placeIdInput" ng-change="removeCtrl.validateInput()" placeholder="Place ID" translate-attrs="placeholder" focus-me enter-press="removeCtrl.remove();">
         </input>
         <span class="_df"><translate>To confirm and proceed with deleting this Place, please type below the Place ID:</translate></span><a class="_df">{{removeCtrl.place.id}}</a>
       </div>
@@ -25,7 +25,7 @@
         <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
           <div class="butn-white _jcc _df" ng-click="$dismiss();"><a class="_df"><translate>Cancel</translate></a></div>
           <div ng-hide="nextStep" class="butn-red _jcc _df" ng-click="nextStep =! nextStep; focusInput=true"><a class="_df"><translate>Delete</translate></a></div>
-         <input type="button" ng-if="nextStep" data-ng-disabled="!removeCtrl.validateInput()" class="butn-red _jcc _df" ng-click="$close();" value="Delete">
+         <input type="button" ng-if="nextStep" data-ng-disabled="!removeCtrl.validateInput()" class="butn-red _jcc _df" ng-click="$close();" value="Delete" ng->
         </div>
       </div>
 
