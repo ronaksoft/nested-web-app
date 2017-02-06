@@ -117,6 +117,13 @@
         line-height: 16px;
         font-size: 13px;
         opacity: 0.25;
+        max-width: 100%;
+        display: block;
+        @extend ._txe;
+      }
+      p span {
+        display: block;
+        @extend ._txe;
       }
     }
   }
