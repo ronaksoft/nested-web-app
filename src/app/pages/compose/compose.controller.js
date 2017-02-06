@@ -86,19 +86,6 @@
     var isRTL = $rootScope._direction;
     var lang = isRTL == 'rtl' ? 'fa' : 'en';
 
-    vm.controls = {
-      left: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Discard'), NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
-          // TODO: Fix navigating to previous state
-          $event.preventDefault();
-          $rootScope.goToLastState();
-        })
-      ],
-      right: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Attach files'), NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, {id: vm.attachments.elementId})
-      ]
-    };
-
     if (vm.quickMode) {
       $scope.editorOptions = {
         language: lang,
@@ -580,30 +567,7 @@
 
       }));
     };
-    vm.controls.right.push(new NstVmNavbarControl(NstSvcTranslation.get('Send'), NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
-
-//     vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-//       $log.debug('Compose | Leaving Page');
-//       if (vm.model.saved || !vm.model.isModified()) {
-//         cancel.$destroy();
-//         $state.go(toState.name, toParams);
-//       } else {
-// //        if (!$rootScope.modals['leave-confirm']) {
-//         $rootScope.modals['leave-confirm'] = $uibModal.open({
-//           animation: false,
-//           templateUrl: 'app/modals/leave-confirm/main.html',
-//           controller: 'LeaveConfirmController',
-//           controllerAs: 'ctlLeaveConfirm',
-//           size: 'sm',
-//           resolve: {}
-//         });
-//         $rootScope.modals['leave-confirm'].result.then(function () {
-//           cancel.$destroy();
-//           $state.go(toState.name, toParams);
-//         });
-// //        }
-//       }
-//     };
+    
     /*****************************
      *****  Controller Logic  ****
      *****************************/
