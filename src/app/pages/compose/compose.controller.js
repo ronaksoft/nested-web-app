@@ -6,11 +6,14 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack, $window, $uibModalInstance,
+  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack, $window, $injector,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstSvcPostMap, NstPicture) {
+    // var foo = $injector.get('$uibModalInstance');
+    console.log($injector);
+
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
@@ -567,7 +570,7 @@
 
       }));
     };
-    
+
     /*****************************
      *****  Controller Logic  ****
      *****************************/
