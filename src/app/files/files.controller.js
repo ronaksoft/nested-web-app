@@ -217,7 +217,7 @@
     };
 
     function composeWithAttachments() {
-      $state.go('app.place-compose', { attachments: vm.selectedFiles }, { notify: false });
+      $state.go('app.compose', { attachments: vm.selectedFiles }, { notify: false });
     }
 
     $scope.$on('$destroy', function () {
