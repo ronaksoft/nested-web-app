@@ -59,16 +59,9 @@
             </a>
           </nav>
           <div class="search">
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" translate-attrs="placeholder"/>
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
+            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
           <div class="cp-illu"></div>
@@ -151,16 +144,9 @@
             </a>
           </nav>
           <div class="search">
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" translate-attrs="placeholder"/>
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
+            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
           <div class="cp-illu"></div>
@@ -232,16 +218,9 @@
             </a>
           </nav>
           <div class="search">
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" translate-attrs="placeholder"/>
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
+            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
           <div class="cp-illu"></div>
@@ -324,16 +303,9 @@
             </a>
           </nav>
           <div class="search">
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" translate-attrs="placeholder"/>
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
+            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
           <div class="cp-illu"></div>
