@@ -83,8 +83,8 @@
         <p class="_df f4"><translate>Which Members can post messages to this Place?</translate></p>
         <div class="_df f1">
           <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">
-            <option value="creators"><translate>Managers of {{ctlSettings.place.name}}</translate></option>
-            <option value="everyone"><translate>Members of {{ctlSettings.place.name}}</translate></option>
+            <option value="creators" translate-inner>Managers of {{ctlSettings.place.name}}</option>
+            <option value="everyone" translate-inner>Members of {{ctlSettings.place.name}}</option>
           </select>
         </div>
         <p ng-if="!ctlSettings.accesses.hasControlAccess">
@@ -165,8 +165,8 @@
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_place"
               data-ng-change="ctlSettings.updateAddPlacePolicy()">
-        <option value="creators" id="manager-sub-place-access"><translate>Managers of {{ctlSettings.place.name}}</translate></option>
-        <option value="everyone" id="member-sub-place-access"><translate>Members of {{ctlSettings.place.name}}</translate></option>
+        <option value="creators" id="manager-sub-place-access" translate-inner>Managers of {{ctlSettings.place.name}}</option>
+        <option value="everyone" id="member-sub-place-access" translate-inner>Members of {{ctlSettings.place.name}}</option>
       </select>
       <p ng-if="!ctlSettings.accesses.hasControlAccess">
         {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_place]}}
@@ -179,8 +179,8 @@
       <select ng-if="ctlSettings.accesses.hasControlAccess"
               data-ng-model="ctlSettings.place.policy.add_member"
               data-ng-change="ctlSettings.updateAddMemberPolicy()">
-        <option value="creators" id="manager-invite-access"><translate>Managers of {{ctlSettings.place.name}}</translate></option>
-        <option value="everyone" id="member-invite-access"><translate>Members of {{ctlSettings.place.name}}</translate></option>
+        <option value="creators" id="manager-invite-access" translate-inner>Managers of {{ctlSettings.place.name}}</option>
+        <option value="everyone" id="member-invite-access" translate-inner>Members of {{ctlSettings.place.name}}</option>
       </select>
       <p ng-if="!ctlSettings.accesses.hasControlAccess">
         {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_member]}}

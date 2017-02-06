@@ -7,10 +7,11 @@
       return {
         restrict: 'E',
         replace : true,
-        template : function (element, attrs) {
+        template : function (element) {
+
           var jelement = $(element)[0];
           var text = jelement.innerHTML || jelement.innerText;
-          
+
           var value = NstSvcTranslation.get(text);
           return "<span>" + value + "</span>";
         }
