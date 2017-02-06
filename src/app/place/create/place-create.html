@@ -146,9 +146,8 @@
       <div ng-if="!ctlCreate.isPersonalPlace">
         <p class="input-lab"><translate>Privacy</translate></p>
         <div class="option-row">
-          <p class="f4 _fw _df option-des">
-            <translate>Who can add Members to this Place?</translate>
-          </p>
+          <p class="f4 _fw _df option-des" translate-inner ng-if="ctlCreate.hasParentPlace">Who can add Members to this Place?</p>
+          <p class="f4 _fw _df option-des" translate-inner ng-if="!ctlCreate.hasParentPlace">Who can invite Members to this Place?</p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.policy.addMember">
               <option value="creators" id="manager-add-access" translate-inner>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
