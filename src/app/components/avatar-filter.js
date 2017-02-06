@@ -8,7 +8,7 @@
       return function(model, size) {
 
         size = size || "x32";
-        if (model && model.hasPicture()) {
+        if (model && model.hasPicture() && _.isFunction(model.picture.getUrl)) {
           return model.picture.getUrl(size);
         }
 

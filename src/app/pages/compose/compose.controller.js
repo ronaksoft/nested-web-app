@@ -6,15 +6,16 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack, $window,
+  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack, $window, $injector, $uibModalInstance,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
-                             NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
+                             NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstSvcPostMap, NstPicture) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
     vm.mouseIn = false;
+    var eventReferences = [];
 
     //FixME set Recive place with vm.placeID
 
@@ -85,19 +86,6 @@
     var isRTL = $rootScope._direction;
     var lang = isRTL == 'rtl' ? 'fa' : 'en';
 
-    vm.controls = {
-      left: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Discard'), NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
-          // TODO: Fix navigating to previous state
-          $event.preventDefault();
-          $rootScope.goToLastState();
-        })
-      ],
-      right: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Attach files'), NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, {id: vm.attachments.elementId})
-      ]
-    };
-
     if (vm.quickMode) {
       $scope.editorOptions = {
         language: lang,
@@ -166,6 +154,19 @@
         vm.attachments.size.uploaded += _.sum(_.map($stateParams.attachments, 'size'));
       }
       vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
+
+      eventReferences.push($scope.$on('modal.closing', function (event) {
+
+        var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
+        if (confirm && !vm.finish) {
+          event.preventDefault();
+          NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
+            vm.finish = true;
+            $uibModalInstance.dismiss();
+          });
+        }
+      }));
+
     })();
     /*****************************
      ***** Controller Methods ****
@@ -566,30 +567,7 @@
 
       }));
     };
-    vm.controls.right.push(new NstVmNavbarControl(NstSvcTranslation.get('Send'), NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
-    vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-      $log.debug('Compose | Leaving Page');
-      if (vm.model.saved || !vm.model.isModified()) {
-        cancel.$destroy();
-        $state.go(toState.name, toParams);
-      } else {
-//        if (!$rootScope.modals['leave-confirm']) {
-        $rootScope.modals['leave-confirm'] = $uibModal.open({
-          animation: false,
-          templateUrl: 'app/modals/leave-confirm/main.html',
-          controller: 'LeaveConfirmController',
-          controllerAs: 'ctlLeaveConfirm',
-          size: 'sm',
-          resolve: {}
-        });
-        $rootScope.modals['leave-confirm'].result.then(function () {
-          cancel.$destroy();
-          $state.go(toState.name, toParams);
-        });
-//        }
-      }
-    };
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -896,7 +874,14 @@
       _.forEach($window.CKEDITOR.instances, function (instance) {
         instance.removeAllListeners();
         $window.CKEDITOR.remove(instance);
-      })
+      });
+
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+
     });
   }
 })();
