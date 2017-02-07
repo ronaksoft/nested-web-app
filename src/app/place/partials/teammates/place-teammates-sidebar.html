@@ -1,5 +1,5 @@
 <div class="teammates">
-  <div class="name"><translate>{{ctlTeammates.place.getTeammatesCount()}} Members</translate></div>
+  <div class="name"><translate>{{ctlTeammates.place.getTeammatesCount() | localize }} Members</translate></div>
   <div class="recent-container _fw _df _fn _bgwhite">
     <div class="avatars">
       <div class="user-avatar-28" ng-repeat="teammate in ctlTeammates.teammates | limitTo : ctlTeammates.limit track by $index" user-detail="" user="{{teammate}}">
