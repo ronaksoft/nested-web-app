@@ -534,6 +534,7 @@
           var msg = NstSvcPostMap.toMessage(res);
           $rootScope.$emit('post-quick', msg);
         });
+        vm.finish = true;
         $uibModalStack.dismissAll();
 
         toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
