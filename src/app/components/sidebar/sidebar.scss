@@ -984,11 +984,12 @@ ul ul > li:last-child > .place-item-inner{
         font-weight: 400;
         @extend .nst-font-medium;
         line-height: 32px;
-        padding: 0 8px;
+        padding-left: 8px;
+        padding-right: 21px;
         display: block;
         margin-top: 4px;
         margin-bottom: 4px;
-        margin-right: -1px;
+        margin-right: -16px;
         width: 100%;
         b {
           color: $color-hurricane;
