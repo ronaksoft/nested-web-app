@@ -138,6 +138,9 @@
   right: 0;
   z-index: 36;
   width: 210px;
+  .popover-content span {
+    line-height: 19px;
+  }
   a span {
     line-height: 19px;
   }
