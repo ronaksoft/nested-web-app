@@ -9,7 +9,7 @@
         </div>
         <div class="place-info _difv" >
           <!--<div id="filler" affixers first-imp="true" parent=".content" after-content="72"></div>-->
-          <cite fit-text>{{ctlFullNavbar.title  | translate }}</cite>
+          <cite fit-text>{{ctlFullNavbar.title}}</cite>
           <h3 id="place-address">
             <svg ng-show="ctlFullNavbar.hasPlace() && !ctlFullNavbar.isGrandPlace && !ctlFullNavbar.place.privacy.locked">
               <use xlink:href="/assets/icons/nst-icn20.svg#openplace"></use>
@@ -59,66 +59,12 @@
             </a>
           </nav>
           <div class="search">
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" translate-attrs="placeholder"/>
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
+            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
           <div class="cp-illu"></div>
-        </div>
-        <div class="navigation" ng-if="ctlFullNavbar.controls">
-          <nav>
-            <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
-              <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
-                 href="{{control.url}}" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm" data-ng-click="control.fn($event)">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-              <label data-ng-switch-when="button-label" class="butn-white-nav nst-mood-storm"
-                     data-ng-click="control.fn()" for="{{control.data.id}}">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </label>
-              <a data-ng-switch-when="button-success" class="butn-green-nav"
-                 href="{{control.url}}" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-            </div>
-
-            <div class="_df _fn" data-ng-repeat="control in ctlFullNavbar.controls.right" data-ng-switch="control.type">
-              <a data-ng-switch-when="button" class="_fr butn-white-nav nst-mood-storm"
-                 href="{{control.url}}" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-              <label data-ng-switch-when="button-label" class="_fr butn-white-nav nst-mood-storm"
-                     data-ng-click="control.fn()" for="{{control.data.id}}">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </label>
-              <a data-ng-switch-when="button-success" class="_fr butn-green-nav"
-                 href="{{control.url}}" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-            </div>
-          </nav>
         </div>
       </div>
       <div class="bot-nav" ng-if="ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
@@ -151,16 +97,9 @@
             </a>
           </nav>
           <div class="search">
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" translate-attrs="placeholder"/>
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
+            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
           <div class="cp-illu"></div>
@@ -232,66 +171,12 @@
             </a>
           </nav>
           <div class="search">
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" translate-attrs="placeholder"/>
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
+            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
           <div class="cp-illu"></div>
-        </div>
-        <div class="navigation" ng-if="ctlFullNavbar.controls">
-          <nav>
-            <div class="_df _fw" data-ng-repeat="control in ctlFullNavbar.controls.left" data-ng-switch="control.type">
-              <a data-ng-switch-when="button" class="butn-white-nav nst-mood-storm"
-                 href="{{control.url}}" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm" data-ng-click="control.fn($event)">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-              <label data-ng-switch-when="button-label" class="butn-white-nav nst-mood-storm"
-                     data-ng-click="control.fn()" for="{{control.data.id}}">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </label>
-              <a data-ng-switch-when="button-success" class="butn-green-nav"
-                 href="{{control.url}}" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-            </div>
-
-            <div class="_df _fn" data-ng-repeat="control in ctlFullNavbar.controls.right" data-ng-switch="control.type">
-              <a data-ng-switch-when="button" class="_fr butn-white-nav nst-mood-storm"
-                 href="{{control.url}}" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-              <a data-ng-switch-when="button-back" class="butn-white-nav nst-mood-storm" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-              <label data-ng-switch-when="button-label" class="_fr butn-white-nav nst-mood-storm"
-                     data-ng-click="control.fn()" for="{{control.data.id}}">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </label>
-              <a data-ng-switch-when="button-success" class="_fr butn-green-nav"
-                 href="{{control.url}}" data-ng-click="control.fn()">
-                <span class="_dib _vat" ng-if="control.caption">{{control.caption}}</span>
-                <div class="_dib {{control.data.icon}}" ng-if="control.data.icon"></div>
-              </a>
-            </div>
-          </nav>
         </div>
       </div>
       <div class="bot-nav" ng-if="ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
@@ -324,16 +209,9 @@
             </a>
           </nav>
           <div class="search">
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? ('in ' + ctlFullNavbar.title) : ''}}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" translate-attrs="placeholder"/>
-            <input type="text" nst-mention class="form-control" ng-focus="focussed = true" ng-blur="focussed = false" ng-if="!ctlFullNavbar.hasPlace()"
-                   place-id="{{ctlFullNavbar.placeId}}"
-                   placeholder="Search {{focussed ? 'Places, users and messages...' : '' }}"
-                   type="text" ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);"
-                   ng-model="ctlFullNavbar.searchQuery" id="search2" translate-attrs="placeholder"/>
+            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
             <i class="icon cursor-pointer icon-search-rotated"></i>
           </div>
           <div class="cp-illu"></div>

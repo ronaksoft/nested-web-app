@@ -8,7 +8,7 @@
   /** @ngInject */
   function PlaceAddMemberController($scope, $log,
                                     NST_USER_SEARCH_AREA,
-                                    NstSvcUserFactory,
+                                    NstSvcUserFactory, NstSvcTranslation,
                                     NST_PLACE_MEMBER_TYPE,
                                     chosenRole, currentPlace) {
     var vm = this;
@@ -30,8 +30,11 @@
       vm.isGrandPlace = true;
     }
 
-
-
+    if (vm.isGrandPlace) {
+      vm.searchPlaceholder = NstSvcTranslation.get("Name, email or phone number...");
+    } else {
+      vm.searchPlaceholder = NstSvcTranslation.get("Name or ID...");
+    }
 
     function search(query) {
       var settings = {
