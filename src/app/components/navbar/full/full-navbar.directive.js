@@ -23,7 +23,8 @@
         readyToShow : '=',
         placeDescription: '@',
         account: '=',
-        query: '='
+        query: '=',
+        searchOnKeypress : '='
       },
       link: function ($scope, $element, $attrs) {
       }

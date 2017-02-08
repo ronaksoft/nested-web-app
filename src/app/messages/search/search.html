@@ -1,13 +1,14 @@
 <nst-navbar data-ng-model="navbar"
-            query="ctlSearch.query"
             ready-to-show="ctlSearch.currentPlaceLoaded"
-            ready-to-anime="true"></nst-navbar>
+            ready-to-anime="true"
+            query="ctlSearch.queryString"
+            search-on-keypress="ctlSearch.searchOnEnterKeyPressed"></nst-navbar>
 <div class="navbar-illu"></div>
 <div class="nst-content _tr" id="content-wrapper">
   <section class="content nst-marginbtm-28">
     <scroll-change-handler reached-bottom="ctlSearch.loadMore"></scroll-change-handler>
 
-    <div class="top-section">
+    <!-- <div class="top-section">
       <button class="search-clear" type="button" ng-click="ctlSearch.backToPlace();" id="clear-button">×</button>
       <div class="search-input-group">
         <input  type="text" nst-mention class="search-input" ng-model="ctlSearch.queryString"
@@ -16,7 +17,7 @@
           <div class="icon-search-rotated-white"></div>
         </button>
       </div>
-    </div>
+    </div> -->
 
     <div class="post-area">
       <post-card class="_fw" data-ng-repeat="msg in ctlSearch.messages track by msg.id" post="msg"
