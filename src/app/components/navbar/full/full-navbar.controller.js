@@ -336,7 +336,6 @@
     );
 
     function searchKeyPressed($event, text) {
-      console.log('navbar:you pressed a key');
       if (vm.searchOnKeypress) {
         vm.searchOnKeypress($event, text);
       }
