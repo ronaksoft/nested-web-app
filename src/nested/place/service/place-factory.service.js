@@ -328,7 +328,7 @@
         'privacy.locked': model.privacy.locked,
         'privacy.receptive': model.privacy.receptive,
         'privacy.search': model.privacy.search,
-        'privacy.add_post': model.privacy.addPost,
+        'policy.add_post': model.policy.addPost,
         'policy.add_member': model.policy.addMember,
         'policy.add_place': model.policy.addPlace,
         'with_members': fillMembers[model.fillMembers]

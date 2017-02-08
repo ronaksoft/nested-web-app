@@ -104,5 +104,13 @@
     }
     i.plus{
       color: $color-force;
-    }
   }
+}
+#panel-register .panel-body {
+  padding: 0;
+}
+#panel-register {
+  p.nst-font-xlarge {
+    white-space: nowrap;
+  }
+}
