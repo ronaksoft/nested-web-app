@@ -35,11 +35,9 @@
 
         NstSvcPlaceFactory.getFavoritesPlaces()
           .then(function (list) {
-            if (list.filter(function (obj) {
-                return obj === vm.grandPlace.id
-              }).length === 1) {
-              vm.placesFavoritesObject[vm.grandPlace.id] = true;
-            }
+            list.map(function (obj) {
+              vm.placesFavoritesObject[obj] = true;
+            })
           });
 
         getGrandPlaceChildren(grandPlaceId).then(function (places) {
@@ -103,7 +101,7 @@
           return model;
         });
 
-        fillplacesFavoritesObject(placesList);
+
         fillPlacesNotifCountObject(placesList);
         getPlaceUnreadCounts();
 
@@ -156,12 +154,6 @@
      *****************************/
     vm.placesFavoritesObject = {};
 
-    function fillplacesFavoritesObject(places) {
-      _.each(places, function (place) {
-        if (place)
-          vm.placesFavoritesObject[place.id] = place.isStarred || false;
-      });
-    }
 
     function clearPlace(placeId) {
       if (placeId) {
