@@ -74,7 +74,14 @@
           vm.activities.pop();
         }
         activity.isHot = true;
-        vm.activities.unshift(activity);
+
+        if (activity.type == NST_EVENT_ACTION.POST_ADD){
+          if(activityBelongsToPlace(activity)){
+            vm.activities.unshift(activity);
+          }
+        }else{
+          vm.activities.unshift(activity);
+        }
       }
     }
 

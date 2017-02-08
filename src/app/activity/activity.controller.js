@@ -354,11 +354,24 @@
           items : []
         };
 
-        vm.activities.unshift(today);
+        if (activity.type = NST_EVENT_ACTION.POST_ADD){
+          if(activityBelongsToPlace(activity)){
+            vm.activities.unshift(today);
+          }
+        }else{
+          vm.activities.unshift(today);
+        }
+
       }
 
       if (!_.some(today.items, { id : activity.id })) {
-        today.items.unshift(activity);
+        if (activity.type == NST_EVENT_ACTION.POST_ADD){
+          if(activityBelongsToPlace(activity)){
+            today.items.unshift(activity);
+          }
+        }else{
+          today.items.unshift(activity);
+        }
       }
     }
 
