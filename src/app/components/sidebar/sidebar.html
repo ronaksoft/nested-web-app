@@ -106,7 +106,7 @@
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#bell"></use>
           </svg>
-          <div class="notif" ng-if="ctlSidebar.notificationsCount > 0">{{ctlSidebar.notificationsCount}}</div>
+          <div class="notif" ng-if="ctlSidebar.notificationsCount > 0">{{ctlSidebar.notificationsCount | localize}}</div>
         </div>
         <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
           <translate>Notifications</translate>
@@ -151,8 +151,8 @@
       </div>
       <div class="side-stats">
         <div class="unread ng-class:{'active' : ctlSidebar.isUnreadMode}">
-          <a class="_fn _df" ui-sref="app.place-messages-unread({placeId: ctlSidebar.selectedGrandPlace.id})"><translate>Total unseen posts&nbsp; </translate></a>
-          <span class="_fn _df">{{ctlSidebar.placesNotifCountObject[ctlSidebar.selectedGrandPlace.id] || 0}}</span>
+          <a class="_fn _df" ui-sref="app.place-messages-unread({placeId: ctlSidebar.selectedGrandPlace.id})"><translate>Total unseen posts</translate>&nbsp;</a>
+          <span class="_fn _df">{{(ctlSidebar.placesNotifCountObject[ctlSidebar.selectedGrandPlace.id] || 0) | localize}}</span>
         </div>
       </div>
     </div>

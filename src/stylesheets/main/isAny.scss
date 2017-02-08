@@ -47,7 +47,8 @@
 }
 
 .content {
-  width: 620px;
+  max-width: 620px;
+  width: calc(100% - 292px);
   display: inline-flex;
   flex: none;
   flex-direction: column;

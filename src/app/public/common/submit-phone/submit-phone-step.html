@@ -1,19 +1,4 @@
 <form novalidate class="use-ng-animate register-step" ng-submit="ctrl.submitPhoneNumber(ctrl.phoneIsValid && ctrl.countryIsValid);">
-  <div class="nst-vb no-gutter2 nst-marginbtm-48">
-    <p class="col-xs-9 nst-font-xlarge">
-      <translate>Create an account</translate>
-    </p>
-    <p class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right">
-      <translate>or</translate>
-      <a href="#/signin" class="nst-mood-cheerful">
-        <translate>Sign in</translate>
-      </a>
-    </p>
-  </div>
-  <p class="nst-font-medium nst-marginbtm-48">
-    <translate>To create an account with Nested, please enter your phone number.</translate>
-  </p>
-
   <div class="form-group" ng-class="{ 'has-error' : !ctrl.countryIsValid && ctrl.submitted}">
     <label ng-if="ctrl.countryIsValid || !ctrl.submitted" class="nst-mood-storm nst-font-small"><translate>Country</translate></label>
     <label class="error-message" ng-if="!ctrl.countryIsValid && ctrl.submitted"><translate>Select your country</translate></label>

@@ -29,7 +29,7 @@
         </div>
         <div class="desc">
           <h3><translate>Open Place</translate></h3>
-          <p><translate>All<b>&nbsp;{{ ctlCreate.grandPlace.name }}</b>Members can view Place contents.</translate></p>
+          <p><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members can view Place contents.</translate></p>
         </div>
       </div>
       <div class="form-group" ng-class="{ 'has-error' : placeForm.placeName.$invalid && ctlCreate.submitted}">
@@ -60,17 +60,17 @@
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
-          <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && ctlCreate.place.name">Only Managers of "{{ctlCreate.place.name}}"</translate>
-          <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && !ctlCreate.place.name">Only Managers of "..."</translate>
-          <translate ng-if="ctlCreate.place.privacy.addPost != 'creators' && ctlCreate.place.name">Only Members of "{{ctlCreate.place.name}}"</translate>
-          <translate ng-if="ctlCreate.place.privacy.addPost != 'creators' && !ctlCreate.place.name">Only Members of "..."</translate>
+          <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && ctlCreate.place.name">Only Managers of {{ctlCreate.place.name}}</translate>
+          <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && !ctlCreate.place.name">Only Managers of ...</translate>
+          <translate ng-if="ctlCreate.place.privacy.addPost != 'creators' && ctlCreate.place.name">Only Members of {{ctlCreate.place.name}}</translate>
+          <translate ng-if="ctlCreate.place.privacy.addPost != 'creators' && !ctlCreate.place.name">Only Members of ...</translate>
         </h3>
         <h3 ng-if="!ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
-          <translate ng-if="ctlCreate.place.name">Only Members of "{{ctlCreate.place.name}}"</translate>
-          <translate ng-if="!ctlCreate.place.name">Only Members of "..."</translate>
+          <translate ng-if="ctlCreate.place.name">Only Members of {{ctlCreate.place.name}}</translate>
+          <translate ng-if="!ctlCreate.place.name">Only Members of ...</translate>
         </h3>
         <h3 ng-if="ctlCreate.isPersonalPlace" >
           <svg class="tick">
@@ -78,16 +78,16 @@
           </svg><translate>Only you</translate>
         </h3>
 
-        <p ng-if="!ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace"><translate>Only "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Members can view the contents of this Place.</translate></p>
-        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost == 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Managers can post messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Place.</translate></p>
-        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost != 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Members can post messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Place.</translate></p>
+        <p ng-if="!ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace"><translate>Only <b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b> Members can view the contents of this Place.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost == 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Managers can post messages to <b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b> Place.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost != 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Members can post messages to <b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b> Place.</translate></p>
         <p ng-if="ctlCreate.isPersonalPlace">Only you can post messages to this Place.</p>
         <aside ng-if="!ctlCreate.isPersonalPlace">
           <p class="f4"><translate>Which Members can contribute to this Place?</translate></p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.privacy.addPost">
-              <option value="creators"><translate>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
-              <option value="everyone"><translate>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
+              <option value="creators" translate-inner>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="everyone" translate-inner>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
             </select>
           </div>
         </aside>
@@ -99,21 +99,20 @@
         <h3 ng-if="!ctlCreate.isClosedPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-          </svg><translate>"{{ctlCreate.grandPlace.name}}" Members</translate>
+          </svg><translate>{{ctlCreate.grandPlace.name}} Members</translate>
         </h3>
         <h3 ng-if="ctlCreate.isClosedPlace">
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-          </svg><translate>"{{ctlCreate.grandPlace.name}}" Members</translate>
+          </svg><translate>{{ctlCreate.grandPlace.name}} Members</translate>
         </h3>
         <p ng-if="!ctlCreate.isClosedPlace"><translate>All <b>{{ ctlCreate.grandPlace.name }}</b> Members can post messages to this Place.</translate></p>
-        <p ng-if="ctlCreate.isClosedPlace"><translate>Only "{{ ctlCreate.grandPlace.name }}" Members can post messages to "<b>{{ ctlCreate.place.name }}</b>" Place.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace"><translate>Only {{ ctlCreate.grandPlace.name }} Members can post messages to <b>{{ ctlCreate.place.name }}</b> Place.</translate></p>
         <aside>
           <p><translate>Show in the search results?</translate></p>
           <div class="place-switch">
             <input type="checkbox" name="checkbox_id" id="pub-res" value="value"
                    data-ng-model="ctlCreate.place.privacy.search">
-            >
             <label for="pub-res"><b><translate>On</translate></b>
               <div class="circle" switch-drag></div>
             </label>
@@ -131,18 +130,17 @@
           </svg><translate>Everyone <i>(including email)</i></translate>
         </h3>
         <p>
-          <translate>Everyone can send their messages to "<b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b>" Place. This includes messages sent from different email platforms to your Nested address ({{ ctlCreate.place.id }}@nested.me).</translate>
+          <translate ng-if="ctlCreate.place.name">Everyone can send their messages to <b>{{ctlCreate.place.name}}</b> Place. This includes messages sent from different email platforms to your Nested address ({{ctlCreate.place.id}}@nested.me).</translate>
+          <translate ng-if="!ctlCreate.place.name">Everyone can send their messages to <b>...</b> Place. This includes messages sent from different email platforms to your Nested address ({{ctlCreate.place.id}}@nested.me).</translate>
         </p>
         <aside>
           <p><translate>Show in the search results?</translate></p>
           <div class="place-switch">
-            <input type="checkbox" name="checkbox_id" id="res" value="value"
-                   data-ng-model="ctlCreate.place.privacy.search"
-            >
-            <label for="res"><b>On</b>
+            <input type="checkbox" name="checkbox_id" id="res" value="value" data-ng-model="ctlCreate.place.privacy.search">
+            <label for="res"><b><translate>Yes</translate></b>
               <div class="circle" switch-drag></div>
             </label>
-            <label for="res"><b>Off</b></label>
+            <label for="res"><b><translate>No</translate></b></label>
           </div>
         </aside>
       </div>
@@ -150,13 +148,12 @@
       <div ng-if="!ctlCreate.isPersonalPlace">
         <p class="input-lab"><translate>Privacy</translate></p>
         <div class="option-row">
-          <p class="f4 _fw _df option-des">
-            <translate>Who can add Members to this Place?</translate>
-          </p>
+          <p class="f4 _fw _df option-des" translate-inner ng-if="ctlCreate.hasParentPlace">Who can add Members to this Place?</p>
+          <p class="f4 _fw _df option-des" translate-inner ng-if="!ctlCreate.hasParentPlace">Who can invite Members to this Place?</p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.policy.addMember">
-              <option value="creators" id="manager-add-access"><translate>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
-              <option value="everyone" id="member-add-access"><translate>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
+              <option value="creators" id="manager-add-access" translate-inner>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="everyone" id="member-add-access" translate-inner>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
             </select>
           </div>
         </div>
@@ -166,8 +163,8 @@
           </p>
           <div class="_df f1">
             <select ng-model="ctlCreate.place.policy.addPlace">
-              <option value="creators" id="manager-create-sub-place-access"><translate>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
-              <option value="everyone" id="member-create-sub-place-access"><translate>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</translate></option>
+              <option value="creators" id="manager-create-sub-place-access" translate-inner>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
+              <option value="everyone" id="member-create-sub-place-access" translate-inner>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
             </select>
           </div>
         </div>
@@ -185,12 +182,12 @@
             <li ng-if="ctlCreate.hasParentPlace && ctlCreate.parentPlace.getTeammatesCount() > 1">
               <input class="green-radio " type="radio" id="fill-members-parent" name="fillMembers" value="parent"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-parent"><translate>All <b>{{ctlCreate.parentPlace.name}}</b> Members ({{ctlCreate.parentPlace.getTeammatesCount()}})</translate></label>
+              <label for="fill-members-parent"><translate>All <b>{{ctlCreate.parentPlace.name}}</b> Members ({{ctlCreate.parentPlace.getTeammatesCount() | localize}})</translate></label>
             </li>
             <li ng-if="ctlCreate.hasGrandParent">
               <input class="green-radio " type="radio" id="fill-members-grand" name="fillMembers" value="grand"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members ({{ctlCreate.grandPlace.getTeammatesCount()}})</translate></label>
+              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members ({{ctlCreate.grandPlace.getTeammatesCount() | localize}})</translate></label>
             </li>
           </ul>
 

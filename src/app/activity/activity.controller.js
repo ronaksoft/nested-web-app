@@ -345,10 +345,12 @@
     }
 
     function addNewActivity(activity) {
-      var today = _.find(vm.activities, { date : 'Today' });
+      var todayGroupLabel = NstSvcTranslation.get("Today");
+
+      var today = _.find(vm.activities, { date : todayGroupLabel });
       if (!today) {
         today = {
-          date : 'Today',
+          date : todayGroupLabel,
           items : []
         };
 

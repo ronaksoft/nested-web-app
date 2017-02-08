@@ -259,14 +259,14 @@
 
         _.forEach(orderedItems, function (comment, index) {
           var model = NstSvcCommentMap.toMessageComment(comment);
-          var previousIndex = index - 1;
-          if (previousIndex >= 0) {
-
-            var previousComment = orderedItems[previousIndex];
-            if (previousComment.sender.id === model.sender.username) {
-              model.stickedToPrevious = true;
-            }
-          }
+          // var previousIndex = index - 1;
+          // if (previousIndex >= 0) {
+          //
+          //   var previousComment = orderedItems[previousIndex];
+          //   if (previousComment.sender.id === model.sender.username) {
+          //     model.stickedToPrevious = true;
+          //   }
+          // }
 
           vm.comments.splice(index, 0, model);
         });

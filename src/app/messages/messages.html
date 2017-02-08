@@ -19,8 +19,8 @@
         <a ng-if="ctlMessages.unreadCount > 0">&nbsp;(<translate class="nst-mood-pending">one Unseen</translate>)</a>
       </p>
       <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 1">
-        <translate>{{ctlMessages.currentPlace.counters.posts}} posts</translate>
-        <a class="nst-mood-pending" ng-if="ctlMessages.unreadCount > 0">&nbsp;(<translate class="nst-mood-pending">{{ctlMessages.unreadCount}} Unseen</translate>)</a>
+        <translate>{{ctlMessages.currentPlace.counters.posts | localize}} posts</translate>
+        <a class="nst-mood-pending" ng-if="ctlMessages.unreadCount > 0">&nbsp;(<translate class="nst-mood-pending">{{ctlMessages.unreadCount | localize}} Unseen</translate>)</a>
       </p>
       <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
       <!--<p class="_df _fn mark-read disable">-->

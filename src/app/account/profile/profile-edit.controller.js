@@ -26,11 +26,6 @@
       saveInProgress: false
     };
 
-    vm.controls = {
-      left: [],
-      right: []
-    };
-
     vm.genders = [
       {key: 'm', title: NstSvcTranslation.get("Male")},
       {key: 'f', title: NstSvcTranslation.get("Female")},
