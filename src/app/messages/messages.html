@@ -10,7 +10,7 @@
 <div class="navbar-illu ng-class:{'feed' : !ctlMessages.currentPlace || ctlMessages.isUnreadMode,'conv' : ctlMessages.isConvMode}"></div>
 <div class="nst-content _tr" id="content-wrapper" data-droplet ng-model="ctlMessages.attachfiles">
   <div class="droplet" ng-show="ctlMessages.quickMessageAccess"></div>
-  <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
+  <scroll-change-handler reached-bottom="ctlMessages.loadMore" disabled="ctlMessages.reachedTheEnd"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
     <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode">
