@@ -8,37 +8,61 @@
   /** @ngInject */
   function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr, _, $rootScope,
     NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation,
-    NstVmMemberItem, NST_SRV_ERROR, NST_PLACE_FACTORY_EVENT,
+    NstVmMemberItem, NST_SRV_ERROR, NST_PLACE_FACTORY_EVENT, NstEntityTracker,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
     var vm = this;
     // to keep track of added users
-    var addedMemberIds = [];
+    var removedMembersTracker = new NstEntityTracker(),
+        addedMembersTracker = new NstEntityTracker(),
+        eventReferences = [],
+        addMemberListenerKey = null;
 
-    var defaultCollapseLimit = 24;
-    vm.mode = 'collapsed';
-    vm.limit = 0;
     vm.hasAddMembersAccess = false;
     vm.hasSeeMembersAccess = false;
     vm.loading = false;
-    vm.showTemmate = true;
     vm.teammates = [];
 
     vm.placeId = $stateParams.placeId;
     vm.teammatesSettings = {
       skip : 0,
-      limit : defaultCollapseLimit,
+      limit : 24,
       creatorsCount : 0,
       keyHoldersCount : 0,
       pendingsCount : 0
     };
-    $rootScope.$on('member-removed', function (event, data) {
-      NstUtility.collection.dropById(vm.teammates, data.member.id);
-      if (data.member.role === 'creator') {
-        vm.place.counters.creators --;
-      } else {
-        vm.place.counters.key_holders --;
+
+    eventReferences.push($rootScope.$on('member-removed', function (event, data) {
+      if (vm.placeId === data.placeId) {
+
+        if (removedMembersTracker.isTracked(data.member.id)) {
+          return;
+        }
+
+        NstUtility.collection.dropById(vm.teammates, data.member.id);
+        NstSvcPlaceFactory.get(vm.place.id).then(function (place) {
+          vm.place = place;
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get("An error has occured"));
+        });
+
+        removedMembersTracker.track(data.member.id);
       }
-    });
+    }));
+
+    eventReferences.push($rootScope.$on('member-added', function (event, data) {
+      if (vm.placeId === data.placeId) {
+        if (addedMembersTracker.isTracked(data.member.id)) {
+          return;
+        }
+
+        NstSvcPlaceFactory.get(vm.place.id).then(function (place) {
+          vm.place = place;
+        }).catch(function (error) {
+          toastr.error(NstSvcTranslation.get("An error has occured"));
+        });
+        addedMembersTracker.track(data.member.id);
+      }
+    }));
 
     initialize();
 
@@ -47,7 +71,6 @@
      *****************************/
 
     vm.addMember = addMember;
-    vm.toggleMode = toggleMode;
 
     $scope.$watch(function() {
       return $stateParams.placeId;
@@ -72,41 +95,14 @@
 
           vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
           vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
-          defaultCollapseLimit = vm.hasAddMembersAccess ? defaultCollapseLimit : defaultCollapseLimit + 1;
-
-          if (vm.mode = 'collapsed') {
-            collapse();
-          }
-
-          vm.showTeammate = (vm.placeId.split('.')[0] !== NstSvcAuth.user.id);
 
           load();
-
         }
       }).catch(function(error) {
         NstSvcLogger.error(error);
       }).finally(function() {
         vm.loading = false;
       });
-
-      NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.ADD_MEMBER, function (event) {
-        if (event.detail.placeId === vm.place.id && !_.includes(addedMemberIds, event.detail.member.id)) {
-          vm.place.counters.key_holders ++;
-          addedMemberIds.push(event.detail.member.id);
-        }
-      });
-    }
-
-    function expand() {
-      vm.limit = 64;
-      vm.skip = 0;
-      // vm.onCollapse(false);
-      load();
-    }
-
-    function collapse() {
-      // vm.onCollapse(true);
-      vm.limit = defaultCollapseLimit;
     }
 
     function showAddModal(role) {
@@ -219,44 +215,16 @@
       showAddModal(NST_PLACE_MEMBER_TYPE.KEY_HOLDER);
     }
 
-    function toggleMode() {
-      if (vm.mode === 'collapsed') {
-        expand();
-        vm.mode = 'expanded';
-      } else {
-        collapse();
-        vm.mode = 'collapsed';
-      }
-    }
-
-
     function loadTeammates(placeId, hasSeeMembersAccess) {
       var deferred = $q.defer();
 
       var teammates = [];
-      var pageCounts = {
-        creators : 0,
-        keyHolders : 0,
-        pendings : 0
-      };
-      vm.teammatesSettings.limit = defaultCollapseLimit;
-      vm.teammatesSettings.skip = vm.teammatesSettings.creatorsCount;
-
       getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function(creators) {
-
-        pageCounts.creators = creators.length;
-        vm.teammatesSettings.limit = defaultCollapseLimit - pageCounts.creators;
-        vm.teammatesSettings.creatorsCount += creators.length;
-        vm.teammatesSettings.skip = vm.teammatesSettings.keyHoldersCount;
 
         teammates.push.apply(teammates, creators);
 
         return getKeyholders(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess);
       }).then(function(keyHolders) {
-
-        pageCounts.keyHolders = keyHolders.length;
-        vm.teammatesSettings.limit = defaultCollapseLimit - pageCounts.keyHolders - pageCounts.creators;
-        vm.teammatesSettings.keyHoldersCount += keyHolders.length;
 
         teammates.push.apply(teammates, keyHolders);
 
@@ -266,37 +234,17 @@
       return deferred.promise;
     }
 
-    function loadMore() {
-      vm.teammatesLoadProgress = true;
-      return loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function (teammates) {
-        vm.teammates.push.apply(vm.teammates, teammates);
-        vm.hasMoreTeammates = teammates.length === defaultCollapseLimit;
-      }).catch(function (error) {
-        NstSvcLogger.error(error);
-      }).finally(function () {
-        vm.loading = false;
-      });
-    }
-
     function load() {
-      vm.teammatesSettings = {
-        skip : 0,
-        limit : defaultCollapseLimit,
-        creatorsCount : 0,
-        keyHoldersCount : 0,
-        pendingsCount : 0
-      };
+
       if (vm.hasSeeMembersAccess) {
         vm.loading = true;
 
         loadTeammates(vm.placeId, vm.hasSeeMembersAccess).then(function(teammates) {
           vm.teammates = teammates;
-          vm.showTemmate = true;
         }).finally(function () {
           vm.loading = false;
         });
       } else {
-        vm.showTemmate = false;
         vm.teammates = [];
       }
     }
@@ -339,6 +287,18 @@
       return deferred.promise;
     }
 
+
+    $scope.$on('$destroy', function() {
+      if (addMemberListenerKey) {
+        NstSvcPlaceFactory.removeEventListener(addMemberListenerKey);
+      }
+
+      _.forEach(eventReferences, function(cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+    });
 
   }
 })();
