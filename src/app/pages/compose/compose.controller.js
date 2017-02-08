@@ -9,7 +9,7 @@
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack, $window, $injector,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
-                             NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal,
+                             NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstSvcPostMap, NstPicture) {
     var vm = this;
     vm.quickMode = false;
@@ -156,7 +156,6 @@
       vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
 
       eventReferences.push($scope.$on('modal.closing', function (event) {
-
         var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
         if (confirm && !vm.finish) {
           event.preventDefault();
@@ -311,7 +310,7 @@
       };
       reader.readAsDataURL(file);
 
-      NstSvcLoader.inject(qRead.promise.then(function (uri) {
+      qRead.promise.then(function (uri) {
         var deferred = $q.defer();
 
         // Upload Attachment
@@ -360,7 +359,7 @@
         });
 
         return deferred.promise;
-      })).then(deferred.resolve);
+      }).then(deferred.resolve);
 
       return deferred.promise;
     };
@@ -470,7 +469,7 @@
     };
 
     vm.send = function () {
-      return NstSvcLoader.inject((function () {
+      return (function () {
         var deferred = $q.defer();
 
         if (vm.model.saving) {
@@ -566,7 +565,7 @@
           rej(errors);
         });
 
-      }));
+      });
     };
 
     /*****************************
@@ -775,9 +774,6 @@
       return deferred.promise;
     }
 
-    NstSvcLoader.finished().then(function () {
-    });
-
     /*****************************
      *****    State Methods   ****
      *****************************/
@@ -787,29 +783,27 @@
      *****************************/
 
     function getPlace(id) {
-      return NstSvcLoader.inject(
-        NstSvcPlaceFactory.get(id).catch(function (error) {
-          var deferred = $q.defer();
+      return NstSvcPlaceFactory.get(id).catch(function (error) {
+        var deferred = $q.defer();
 
-          switch (error.getPrevious().getCode()) {
-            case NST_SRV_ERROR.TIMEOUT:
-              // Keep Retrying
-              deferred.reject.apply(null, arguments);
-              break;
+        switch (error.getPrevious().getCode()) {
+          case NST_SRV_ERROR.TIMEOUT:
+            // Keep Retrying
+            deferred.reject.apply(null, arguments);
+            break;
 
-            default:
-              // Do not retry anymore
-              deferred.resolve(NstSvcPlaceFactory.parseTinyPlace({_id: id}));
-              break;
-          }
+          default:
+            // Do not retry anymore
+            deferred.resolve(NstSvcPlaceFactory.parseTinyPlace({_id: id}));
+            break;
+        }
 
-          return deferred.promise;
-        })
-      );
+        return deferred.promise;
+      });
     }
 
     function getPost(id) {
-      return NstSvcLoader.inject(NstSvcPostFactory.get(id,true));
+      return NstSvcPostFactory.get(id,true);
     }
 
     /*****************************

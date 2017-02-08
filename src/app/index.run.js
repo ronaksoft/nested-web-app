@@ -8,11 +8,11 @@
   /** @ngInject */
   function runBlock($rootScope, $uibModal, $timeout, $interval, $state,
                     ngProgressFactory,
-                    NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOADER_EVENT, NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
-                    NstSvcAuth, NstSvcLoader, NstSvcI18n) {
+                    NST_CONFIG, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_LOCALE_EN_US, NST_LOCALE_FA_IR,
+                    NstSvcAuth, NstSvcI18n) {
     window.nestedLogs = [];
     window.onerror = function(messageOrEvent, source, lineno, colno, error) {
-      
+
     }
 
     $rootScope.progress = {
@@ -35,18 +35,6 @@
 
     $rootScope.progress.bar.setHeight('5px');
     // $rootScope.progress.bar.setColor('#14D766');
-
-    NstSvcLoader.addEventListener(NST_LOADER_EVENT.INJECTED, function () {
-      $rootScope.progress.fn.start();
-    });
-
-    NstSvcLoader.addEventListener(NST_LOADER_EVENT.FINISHED, function (event) {
-      if (event.detail.rejected > 0) {
-        $rootScope.progress.fn.reset();
-      } else {
-        $rootScope.progress.fn.complete();
-      }
-    });
 
     $rootScope.modals = {};
 

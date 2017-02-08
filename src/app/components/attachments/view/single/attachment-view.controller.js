@@ -9,7 +9,7 @@
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
                                     NstVmFileViewerItem,
-                                    NstSvcLoader, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
+                                    NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
                                     NstHttp,
                                     fileId, fileViewerItem, fileIds, fileViewerItems) {
     var vm = this;

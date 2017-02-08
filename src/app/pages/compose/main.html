@@ -1,4 +1,4 @@
-<div class="_fh" data-droplet ng-model="ctlCompose.attachfiles" page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+<div class="_fh" data-droplet ng-model="ctlCompose.attachfiles">
   <div class="droplet"></div>
   <div class="compose-wrp" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
     <div class="modal-head" ng-if="!ctlCompose.quickMode">
@@ -13,7 +13,7 @@
     <div class="modal-bo _difv _fw" nst-scrollbar suppress-scroll-x="true">
       <p class="_df _fn" ng-if="!ctlCompose.quickMode"><translate>Share With</translate></p>
       <div ng-if="!ctlCompose.quickMode" class="_df _fw input-select-match">
-        <ui-select page-change-element minimum-input-length="4" multiple limit="10"  class="address-input _dib"
+        <ui-select minimum-input-length="4" multiple limit="10"  class="address-input _dib"
                    id="input-compose-to"
                    data-ng-model="ctlCompose.model.recipients" search-enabled="false">
           <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}">
@@ -42,18 +42,18 @@
         </ui-select>
       </div>
       <section class="_difc _fw _fn">
-        <input class="compose-input _fw" page-change-element name="subject" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="{{ctlCompose.model.subject}}" translate-attrs="placeholder">
+        <input class="compose-input _fw" name="subject" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="{{ctlCompose.model.subject}}" translate-attrs="placeholder">
       </section>
 
       <section class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus}" id="editor-txt">
         <textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()"></textarea>
         <!--<summernote focus ng-model="ctlCompose.model.body"></summernote>-->
-        <!--<textarea  nst-mention="#" page-change-element ui-tinymce="ctlCompose.configs.tinymce"-->
+        <!--<textarea  nst-mention="#" ui-tinymce="ctlCompose.configs.tinymce"-->
                    <!--placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>-->
       </section>
 
       <form name="attachmentForm">
-        <input page-change-element type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
+        <input type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
       </form>
 
       <div class="nst-attach _dif" data-ng-show="ctlCompose.attachments.viewModels.length > 0">

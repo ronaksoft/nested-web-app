@@ -7,7 +7,6 @@
       'hmTouchEvents',
       'ui.select',
       'ngSanitize',
-      'angular-unsaved-changes',
       'LocalStorageModule',
       'ngMd5',
       'ui.router',

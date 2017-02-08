@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function RecentActivityController($q, _, $scope,
-    NstSvcLoader, NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger,
+    NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger,
     NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstSvcSync, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
     var eventListeners = [];
@@ -27,16 +27,16 @@
       }
 
       if (vm.settings.placeId) {
-        return NstSvcLoader.inject(NstSvcPlaceFactory.get(vm.settings.placeId)).then(function (place) {
+        NstSvcPlaceFactory.get(vm.settings.placeId).then(function (place) {
           if (place.hasAccess(NST_PLACE_ACCESS.READ)) {
-            return NstSvcLoader.inject(getRecentActivity(vm.settings));
+            getRecentActivity(vm.settings);
           }
         });
       }
 
       NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
         NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
-        NstSvcLoader.inject(getRecentActivity(vm.settings));
+        getRecentActivity(vm.settings);
       });
 
     })();
