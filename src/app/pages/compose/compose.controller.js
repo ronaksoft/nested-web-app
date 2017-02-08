@@ -555,7 +555,8 @@
         vm.model.saved = true;
 
         // TODO: Check if one or more places failed
-
+        vm.finish = true;
+        
         NstSvcPostFactory.get(response.post.id).then(function (res) {
           var msg = NstSvcPostMap.toMessage(res);
           $rootScope.$emit('post-quick', msg);
