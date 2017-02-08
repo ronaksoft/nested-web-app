@@ -44,6 +44,12 @@
       vm.showLoadingScreen = true;
     });
 
+    $scope.$watch(function () {
+      return vm.viewSettings.sidebar.collapsed
+    },function () {
+      $('body').find('.tooltip').first().remove()
+    });
+
 
     // calls $digest every 1 sec to update elapsed times.
     $interval(function () {
