@@ -33,7 +33,10 @@
             if (isCurrentViewLink($attrs.href)) {
               jElement.on('click', function(event) {
                 $scope.$apply(function () {
-                  $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
+
+                  //FIXME What is toggleAgentSwitch ?!
+                  // $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
+                  $scope.$emit('collapse-sidebar');
                 });
               });
             }
