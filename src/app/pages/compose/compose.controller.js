@@ -156,10 +156,8 @@
       vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
 
       eventReferences.push($scope.$on('modal.closing', function (event) {
-        console.log('lala');
         var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
         if (confirm && !vm.finish) {
-          console.log('oops');
           event.preventDefault();
           NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
             vm.finish = true;
