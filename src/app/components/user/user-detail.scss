@@ -86,7 +86,10 @@
         align-items: center;
         display: flex;
         flex: 1;
-        line-height: 32px;
+        span {
+          color: $color-white;
+          line-height: 32px;
+        }
       }
       .butn-white {
         display: flex;
