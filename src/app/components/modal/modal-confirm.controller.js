@@ -6,7 +6,7 @@
     .controller('ModalConfirmController', ModalConfirmController);
 
   /** @ngInject */
-  function ModalConfirmController($scope, title, message, buttons) {
+  function ModalConfirmController($scope, title, message, buttons, NstSvcTranslation) {
     var vm = this;
 
     vm.title = title || NstSvcTranslation.get("Confirm");

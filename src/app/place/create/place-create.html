@@ -182,12 +182,12 @@
             <li ng-if="ctlCreate.hasParentPlace && ctlCreate.parentPlace.getTeammatesCount() > 1">
               <input class="green-radio " type="radio" id="fill-members-parent" name="fillMembers" value="parent"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-parent"><translate>All <b>{{ctlCreate.parentPlace.name}}</b> Members ({{ctlCreate.parentPlace.getTeammatesCount()}})</translate></label>
+              <label for="fill-members-parent"><translate>All <b>{{ctlCreate.parentPlace.name}}</b> Members ({{ctlCreate.parentPlace.getTeammatesCount() | localize}})</translate></label>
             </li>
             <li ng-if="ctlCreate.hasGrandParent">
               <input class="green-radio " type="radio" id="fill-members-grand" name="fillMembers" value="grand"
                      ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members ({{ctlCreate.grandPlace.getTeammatesCount()}})</translate></label>
+              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members ({{ctlCreate.grandPlace.getTeammatesCount() | localize}})</translate></label>
             </li>
           </ul>
 
