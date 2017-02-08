@@ -18,7 +18,7 @@
     $rootScope.topNavOpen = false;
     isConversation();
 
-    var DEFAULT_MESSAGES_COUNT = 3,
+    var DEFAULT_MESSAGES_COUNT = 8,
       defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
       defaultViewSetting = {
         content: true,

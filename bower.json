@@ -16,7 +16,6 @@
     "videogular-buffering": "^1.4.4",
     "videogular-poster": "^1.4.3",
     "ui-select": "angular-ui-select#^0.16.1",
-    "angular-marked": "^1.2.0",
     "angular-xeditable": "^0.1.12",
     "initial.js": "https://github.com/pouyanh/initial.js.git#v0.5.0",
     "lodash": "^4.13.1",

@@ -8,7 +8,7 @@
   /** @ngInject */
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout, $uibModalStack, $window, $injector,
                              _, toastr,
-                             NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
+                             NST_SRV_ERROR, NST_PATTERN, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
                              NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal,
                              NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstSvcPostMap, NstPicture) {
     var vm = this;
@@ -17,9 +17,7 @@
     vm.mouseIn = false;
     var eventReferences = [];
 
-    //FixME set Recive place with vm.placeID
-
-    if (vm.mode == 'quick'){
+    if (vm.mode == 'quick') {
       vm.quickMode = true;
     }
 
@@ -67,7 +65,7 @@
     };
     $scope.$watch(function () {
       return vm.model.body
-    },function () {
+    }, function () {
       return vm.changeAffixesDebounce();
     });
 
@@ -76,7 +74,7 @@
     };
 
     vm.blurBox = function () {
-      if ( vm.model.subject.length == 0 && vm.model.attachments.length == 0 && vm.model.body.length == 0 && !vm.mouseIn) {
+      if (vm.model.subject.length == 0 && vm.model.attachments.length == 0 && vm.model.body.length == 0 && !vm.mouseIn) {
         vm.focus = false;
       }
     };
@@ -86,6 +84,19 @@
     var isRTL = $rootScope._direction;
     var lang = isRTL == 'rtl' ? 'fa' : 'en';
 
+    vm.controls = {
+      left: [
+        new NstVmNavbarControl(NstSvcTranslation.get('Discard'), NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
+          // TODO: Fix navigating to previous state
+          $event.preventDefault();
+          $rootScope.goToLastState();
+        })
+      ],
+      right: [
+        new NstVmNavbarControl(NstSvcTranslation.get('Attach files'), NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, {id: vm.attachments.elementId})
+      ]
+    };
+
     if (vm.quickMode) {
       $scope.editorOptions = {
         language: lang,
@@ -94,14 +105,14 @@
         enableTabKeyTools: true,
         tabSpaces: 4,
         startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea',
+        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,divarea',
         autoGrow_minHeight: 230,
         sharedSpaces: {
           top: 'editor-btn',
           bottom: 'editor-txt'
         },
         toolbar: [
-          ["FontSize"],
+          ["Link","FontSize"],
           ["Bold"],
           ["JustifyRight", "BidiLtr", "BidiRtl"]
         ],
@@ -109,10 +120,10 @@
         colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
         // Remove the redundant buttons from toolbar groups defined above.
         //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,liststyle,tabletools'
+        removePlugins: 'resize,elementspath,contextmenu,liststyle,tabletools'
       };
 
-    }else {
+    } else {
       $scope.editorOptions = {
         language: lang,
         contentsLangDirection: isRTL,
@@ -122,14 +133,14 @@
         enableTabKeyTools: true,
         tabSpaces: 4,
         startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea',
+        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea,autolink',
         autoGrow_minHeight: 230,
         sharedSpaces: {
           top: 'editor-btn',
           bottom: 'editor-txt'
         },
         toolbar: [
-          ["FontSize"],
+          ["Link", "FontSize"],
           ["Bold", "Italic", "Underline"],
           ["JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
         ],
@@ -142,6 +153,9 @@
 
     }
 
+    // setTimeout(function () {
+    //   vm.editor = $("textarea").controller('ckeditor').instance;
+    // },1000);
 
     (function () {
       if ($stateParams.attachments && $stateParams.attachments.length > 0) {
@@ -154,6 +168,10 @@
         vm.attachments.size.uploaded += _.sum(_.map($stateParams.attachments, 'size'));
       }
       vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
+
+      if (vm.quickMode) {
+        addRecipients($stateParams.placeId);
+      }
 
       eventReferences.push($scope.$on('modal.closing', function (event) {
 
@@ -186,6 +204,15 @@
       }
     };
 
+
+    vm.editorKeyDown = function (e) {
+      if (e.which == 8) {
+
+        if (vm.quickMode){
+          $('.quick-message-wrp [name="subject"]').focus();
+        }
+      }
+    };
 
     vm.search.fn = function (query) {
       var initPlace = NstSvcPlaceFactory.parseTinyPlace({
@@ -534,8 +561,10 @@
           var msg = NstSvcPostMap.toMessage(res);
           $rootScope.$emit('post-quick', msg);
         });
-        vm.finish = true;
         $uibModalStack.dismissAll();
+        vm.model.subject = "";
+        vm.model.body = "";
+        vm.model.attachments = [];
 
         toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
 
@@ -568,7 +597,30 @@
 
       }));
     };
+    vm.controls.right.push(new NstVmNavbarControl(NstSvcTranslation.get('Send'), NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
+    vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
+      $log.debug('Compose | Leaving Page');
+      if (vm.model.saved || !vm.model.isModified()) {
+        cancel.$destroy();
+        $state.go(toState.name, toParams);
+      } else {
+//        if (!$rootScope.modals['leave-confirm']) {
+        $rootScope.modals['leave-confirm'] = $uibModal.open({
+          animation: false,
+          templateUrl: 'app/modals/leave-confirm/main.html',
+          controller: 'LeaveConfirmController',
+          controllerAs: 'ctlLeaveConfirm',
+          size: 'sm',
+          resolve: {}
+        });
+        $rootScope.modals['leave-confirm'].result.then(function () {
+          cancel.$destroy();
+          $state.go(toState.name, toParams);
+        });
+//        }
+      }
+    };
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -613,7 +665,7 @@
             $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
-              vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
+              vm.model.subject = post.getSubject();
               vm.model.body = post.getBody();
               vm.model.attachments = post.getAttachments();
               for (var k in vm.model.attachments) {
@@ -635,7 +687,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
-              vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
+              vm.model.subject = post.getSubject();
               var places = post.getPlaces();
               for (var k in places) {
                 var place = places[k];
@@ -690,7 +742,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
-              vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
+              vm.model.subject = post.getSubject();
 
               // TODO: First search in post places to find a match then try to get from factory
               var postPlaces = post.getPlaces();
@@ -809,7 +861,7 @@
     }
 
     function getPost(id) {
-      return NstSvcLoader.inject(NstSvcPostFactory.get(id,true));
+      return NstSvcLoader.inject(NstSvcPostFactory.get(id, true));
     }
 
     /*****************************
@@ -851,6 +903,7 @@
         }));
       }
     }
+
 
     // Listen for when the dnd has been configured.
     vm.attachfiles = {};

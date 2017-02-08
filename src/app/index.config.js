@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, $locationProvider,  toastrConfig, markedProvider, localStorageServiceProvider,
+  function config($logProvider, $locationProvider,  toastrConfig, localStorageServiceProvider,
                   $animateProvider, $sceDelegateProvider) {
 
 
@@ -30,29 +30,6 @@
     // Omit # from routes
     // $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('');
-
-    // Markdown Configs
-    markedProvider.setOptions({
-      gfm: false,
-      tables: false,
-      breaks: false,
-      pedantic: false,
-      sanitize: false,
-      smartLists: false,
-      smartypants: false
-    });
-
-    markedProvider.setRenderer({
-      link: function(href, title, text) {
-        return "<a href='" + href + "'" + (title ? " title='" + title + "'" : '') + " target='_blank'>" + text + "</a>";
-      },
-      heading: function (text) {
-        return '<strong>' + text + '</strong>';
-      },
-      paragraph: function (text) {
-        return text;
-      }
-    });
 
     // Set options third-party lib
     toastrConfig.allowHtml = true;

@@ -22,7 +22,7 @@
                 <img ng-if="$item.avatar" ng-src="{{::$item.avatar }}"/>
                 <img ng-if="$item.data" ng-src="{{::$item.data | picture }}"/>
               </span>
-                <span class="place-img" ng-if="$item.isEmail && !$item.isEmailValid">
+              <span class="place-img" ng-if="$item.isEmail && !$item.isEmailValid">
                   <svg>
                     <use xlink:href="/assets/icons/nst-icn16.svg#exclamation-mark"></use>
                   </svg>
@@ -49,7 +49,7 @@
         <textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()"></textarea>
         <!--<summernote focus ng-model="ctlCompose.model.body"></summernote>-->
         <!--<textarea  nst-mention="#" page-change-element ui-tinymce="ctlCompose.configs.tinymce"-->
-                   <!--placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>-->
+        <!--placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>-->
       </section>
 
       <form name="attachmentForm">

@@ -6,7 +6,7 @@
            data-radius="30" class="account-initials-24 _df" data-word-count="2" data-font-size="12"/>
     </div>
     <p ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject"></p>
-    <p ng-if="!ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.body | removeHTMLTags | truncate"></p>
+    <p ng-if="!ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.body | removeHTMLTags | truncate | link"></p>
   </section>
   <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
@@ -63,9 +63,9 @@
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
            ng-if="ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
            auto-dir="ctlPostCard.post.body">
-    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | removeHTMLTags | truncate"></span>
-    <span ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
-    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
+    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | removeHTMLTags | truncate | link"></span>
+    <span ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | link"></span>
+    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | link"></span>
   </section>
 
   <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
