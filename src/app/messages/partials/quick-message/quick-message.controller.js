@@ -6,7 +6,7 @@
     .controller('QuickMessageController', QuickMessageController);
 
   function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,NstPicture ,
-                                  NstSvcAuth, NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
+                                  NstSvcAuth, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
     var vm = this;
     vm.text = '';
     vm.mode = 'quick';
@@ -186,7 +186,7 @@
     };
 
     vm.send = function () {
-      return NstSvcLoader.inject((function () {
+      return (function () {
         var deferred = $q.defer();
 
         if (vm.model.saving) {
@@ -245,7 +245,7 @@
         return $q(function (res, rej) {
           rej(errors);
         });
-      }));
+      });
     };
 
 
@@ -348,7 +348,7 @@
       };
       reader.readAsDataURL(file);
 
-      NstSvcLoader.inject(qRead.promise.then(function (uri) {
+      qRead.promise.then(function (uri) {
         var deferred = $q.defer();
 
         // Upload Attachment
@@ -397,7 +397,7 @@
         });
 
         return deferred.promise;
-      })).then(deferred.resolve);
+      }).then(deferred.resolve);
 
       return deferred.promise;
     };

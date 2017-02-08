@@ -8,7 +8,7 @@
   /** @ngInject */
   function MiniNavbarController($q, $state, $stateParams, $uibModal, $scope,
                                 NST_AUTH_EVENT, NST_DEFAULT,
-                                NstSvcLoader, NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
+                                NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                                 NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
     // $scope.$watch('place', function (newValue, oldValue) {
@@ -196,7 +196,7 @@
      *****************************/
 
     function getUser() {
-      return NstSvcLoader.inject($q(function (res) {
+      return $q(function (res) {
         if (NstSvcAuth.isAuthorized()) {
           res(NstSvcAuth.getUser());
         } else {
@@ -205,15 +205,15 @@
           });
         }
 
-      }));
+      });
     }
 
     function getMyPlaces() {
-      return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
+      return NstSvcPlaceFactory.getMyTinyPlaces();
     }
 
     function getInvitations() {
-      return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
+      return NstSvcInvitationFactory.getAll();
     }
 
     /*****************************
