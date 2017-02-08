@@ -144,7 +144,7 @@
     </div>
   </div>
 </div>
-<div class="nst-navbar-f _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isConvMode">
+<div class="nst-navbar-f _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
@@ -260,7 +260,7 @@
         <svg class="_24svg _r90 _df _fn mirror">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
-        <input type="text" placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder">
+        <input type="text" placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
         <div class="cp-illu _fn"></div>
       </div>
     </div>

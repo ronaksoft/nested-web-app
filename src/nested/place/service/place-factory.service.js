@@ -5,7 +5,7 @@
     .module('ronak.nested.web.place')
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
-  function NstSvcPlaceFactory($q,_,
+  function NstSvcPlaceFactory($q,_, $rootScope,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger, NstSvcMicroPlaceStorage,
                               NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture, NstMicroPlace,
@@ -610,10 +610,12 @@
           member_id: query.data.userId,
           role: query.data.role
         }).then(function () {
-          factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.ADD_MEMBER, new NstFactoryEventData({
+          place.counters.key_holders ++;
+          factory.set(place);
+          $rootScope.$emit('member-added', {
             placeId: place.id,
             member: user
-          })));
+          });
           deferred.resolve(user);
         }).catch(function (error) {
           deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
