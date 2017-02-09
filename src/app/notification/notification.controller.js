@@ -84,7 +84,7 @@
 
         NstSvcNotificationFactory.storeLoadedNotification(vm.notifications);
 
-        if (notifications.length < limit && !vm.loadingBefore) {
+        if (notifications.length < limit && !vm.loadingAfter) {
           vm.reached = true;
         }
         vm.loadingBefore = false;
