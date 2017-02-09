@@ -18,6 +18,7 @@
       this.isExternal = null;
       this.contentType = null;
       this.date = null;
+      this.updatedDate = null;
       this.attachments = [];
       this.comments = [];
       this.bookmarked = null;
@@ -55,6 +56,7 @@
         this.isExternal = !post.internal;
         this.contentType = post.contentType;
         this.date = post.date;
+        this.updatedDate = post.updatedDate;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
         this.recipients = post.recipients;
         this.ellipsis = post.ellipsis;
