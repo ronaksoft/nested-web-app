@@ -26,6 +26,8 @@
         validateAndSend(getPhoneNumber());
       }
 
+      vm.ready = true;
+
     })();
 
     vm.submitPhoneNumber = function (isValid) {

@@ -23,7 +23,7 @@
       <i class="plus">+</i>
       <i class="sep">|</i>
       <input type="text" name="country_code" class="pre-number" maxlength="4" minlength="1" ng-model="ctrl.countryCode" allow-only-number ng-change="ctrl.validatePhone();">
-      <input type="text" name="phone_number" class="number _fw" maxlength="15" minlength="1" ng-model="ctrl.phone" allow-only-number ng-change="ctrl.validatePhone();" autofocus>
+      <input type="text" name="phone_number" class="number _fw" maxlength="15" minlength="1" ng-model="ctrl.phone" allow-only-number ng-change="ctrl.validatePhone();" focus-me="ctrl.ready">
     </div>
   </div>
   <div class="form-action">

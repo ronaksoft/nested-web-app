@@ -19,6 +19,8 @@
     vm.code = null;
     vm.step = 1;
 
+    vm.ready = true;
+
     var eventReferences = [];
 
     eventReferences.push($scope.$on(vm.phoneSubmittedEventKey, function(event, data) {
