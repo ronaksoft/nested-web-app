@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function PlaceMemberItemController($scope, $log, toastr,
-    NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcTranslation,
+    NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcTranslation, NstSvcLogger,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError) {
     var vm = this;
 
