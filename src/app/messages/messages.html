@@ -13,7 +13,7 @@
   <scroll-change-handler reached-bottom="ctlMessages.loadMore" disabled="ctlMessages.reachedTheEnd"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
-    <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode">
+    <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode">
       <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts == 1">
         <translate>One post</translate>
         <a ng-if="ctlMessages.unreadCount > 0">&nbsp;(<translate class="nst-mood-pending">one Unseen</translate>)</a>
@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <div class="tool-bar"  ng-if="ctlMessages.isbookmarkedsMode || ctlMessages.isSentMode">
+    <div class="tool-bar"  ng-if="ctlMessages.isbookmarkedsMode || ctlMessages.isSentMode || ctlMessages.isUnreadMode">
 
     </div>
     <div class="post-area">
