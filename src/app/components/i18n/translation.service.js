@@ -22,6 +22,19 @@
       return value;
     };
 
+    Translation.prototype.localizeNumbers = function (text) {
+      var service = this;
+      if (!_.isString(text)) {
+        return text;
+      }
+
+      return text.replace(/\d+/g, function (match) {
+        return _.join(_.map(_.toString(match), function (char) {
+          return service.get(char) || char;
+        }),"");
+      });
+    };
+
     return new Translation();
   }
 })();
