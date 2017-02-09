@@ -11,7 +11,7 @@
     </div>
   </a>
   <div class="_fw side-place-name fade-animation" ng-show="!ctlSidebar.collapsed">
-    <a href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis="place.name">{{place.name}}</a>
+    <a href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis>{{place.name}}</a>
 
     <span data-ng-if="place.children.length > 0 && !ctlSidebar.collapsed" data-ng-click="place.isCollapsed =! place.isCollapsed" class="e2-arrow _df">
       <label class="arrow-holder-nav {{place.isCollapsed ? 'nst-arrow' : 'nst-arrow-rotated'}}">

@@ -43,6 +43,21 @@
     $scope.$on('show-loading', function () {
       vm.showLoadingScreen = true;
     });
+    $scope.$on('collapse-sidebar', function () {
+      vm.viewSettings.sidebar.collapsed =! vm.viewSettings.sidebar.collapsed
+    });
+
+    $scope.$watch(function () {
+      return vm.viewSettings.sidebar.collapsed
+    },function () {
+      var tooltip  = $('body').find('.tooltip');
+      if ( tooltip.is(":visible")){
+        tooltip.first().hide()
+      } else  {
+        tooltip.first().show()
+
+      }
+    });
 
 
     // calls $digest every 1 sec to update elapsed times.

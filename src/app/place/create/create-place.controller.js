@@ -167,7 +167,7 @@
     function setReceivingEveryone() {
       vm.receivingMode = 'everyone';
 
-      vm.place.policy.receptive = 'external';
+      vm.place.privacy.receptive = 'external';
       vm.place.policy.addPost = 'everyone';
     }
 
