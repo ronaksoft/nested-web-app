@@ -14,9 +14,9 @@
     vm.codeVerifiedEventKey = 'recover-password-code-verified';
     vm.completedEventKey = 'recover-password-completed';
     vm.previousStepEventKey = 'recover-password-change-phone';
-    vm.phone = null;
     vm.verificationId = null;
-    vm.country = null;
+    vm.phone = null;
+    vm.code = null;
     vm.step = 1;
 
     var eventReferences = [];
@@ -37,7 +37,7 @@
 
     eventReferences.push($scope.$on(vm.completedEventKey, function(event, data) {
       if (data.done) {
-        return $state.go("signin");
+        $state.go("public.signin");
       }
     }));
 

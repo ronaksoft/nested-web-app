@@ -9,6 +9,7 @@
   function RecoverPasswordStepController($scope, $state, $q, md5, toastr,
     NST_DEFAULT, NstSvcAuth, NstHttp, NstSvcTranslation) {
     var vm = this;
+    var eventReferences = [];
 
     vm.resetPassword = resetPassword;
 
@@ -30,7 +31,7 @@
           'new_pass': password,
         }
       }).post().then(function(result) {
-        if (result.data.status === "ok") {
+        if (result.status === "ok") {
           deferred.resolve(true);
         } else {
           deferred.reject('unknown');
