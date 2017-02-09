@@ -9,7 +9,7 @@
   function ProfileEditController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
                                  NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture,
-                                 NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation, NstSvcI18n, NstSvcPlaceFactory) {
+                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation, NstSvcI18n, NstSvcPlaceFactory) {
     var vm = this;
     var imageLoadTimeout = null;
 
@@ -213,8 +213,6 @@
       }
 
       var deferred = $q.defer();
-
-      NstSvcLoader.inject(deferred.promise);
 
       updateModel(vm.model).then(function (user) {
 

@@ -9,7 +9,7 @@
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $interval, $scope,
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstSvcLoader, NstUtility, NstSvcAuth, NstSvcSync,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync,
                               NstSvcMessagesSettingStorage, NstSvcTranslation,
                               NstSvcPostMap, NstSvcPlaceAccess, NstSvcModal) {
 
@@ -18,7 +18,7 @@
     $rootScope.topNavOpen = false;
     isConversation();
 
-    var DEFAULT_MESSAGES_COUNT = 3,
+    var DEFAULT_MESSAGES_COUNT = 8,
       defaultSortOption = NST_MESSAGES_SORT_OPTION.LATEST_MESSAGES,
       defaultViewSetting = {
         content: true,
@@ -93,7 +93,7 @@
             vm.currentPlaceLoaded = true;
             vm.showPlaceId = !_.includes(['off', 'internal'], vm.currentPlace.privacy.receptive);
 
-            return NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess(), loadRemovePostAccess()])).catch(function (error) {
+            $q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess(), loadRemovePostAccess()]).catch(function (error) {
               $log.debug(error);
             });
           } else {
@@ -107,7 +107,7 @@
         });
       } else {
         vm.currentPlaceLoaded = true;
-        NstSvcLoader.inject($q.all([loadViewSetting(), loadMessages(), loadMyPlaces()])).catch(function (error) {
+        $q.all([loadViewSetting(), loadMessages(), loadMyPlaces()]).catch(function (error) {
           $log.debug(error);
         });
       }
@@ -343,7 +343,7 @@
     function loadMore(force) {
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
 
-      return NstSvcLoader.inject(loadMessages(force)).catch(function (error) {
+      return loadMessages(force).catch(function (error) {
         var deferred = $q.defer();
 
         $log.debug('Messages | Load More Error: ', error);

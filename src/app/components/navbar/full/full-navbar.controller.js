@@ -45,6 +45,7 @@
     vm.toggleFeed = toggleFeed;
     vm.isFeed = $state.current.options.feed;
     vm.isFavPlaces = $state.current.options.favoritePlace;
+    vm.searchKeyPressed = searchKeyPressed;
 
     function toggleFeed(isFavPlaces) {
       if (isFavPlaces) {
@@ -334,7 +335,11 @@
       }
     );
 
-
+    function searchKeyPressed($event, text) {
+      if (vm.searchOnKeypress) {
+        vm.searchOnKeypress($event, text);
+      }
+    }
 
     function confirmToLeave() {
       $uibModal.open({

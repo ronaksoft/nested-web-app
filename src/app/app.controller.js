@@ -150,5 +150,27 @@
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
       $state.go('public.signin');
     });
+
+    //Handle all mailto links
+    $(window).on('click', function(event) {
+      if(!$(event.target).is('a[href^="mailto"]')) {
+        return;
+      }
+
+      var addr = $(event.target).attr('href').substr(7);
+      //TODO:: check domain base on config
+      if (
+        addr.split('@')[1] &&
+        (addr.split('@')[1] === 'nested.me' || addr.split('@')[1] == 'nested.ronaksoftware.com')){
+        addr = addr.split('@')[0];
+      }
+
+      $state.go('app.place-compose',{placeId : addr}, {notify : false});
+      // Both are needed to avoid triggering other event handlers
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+
   }
 })();

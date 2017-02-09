@@ -10,7 +10,7 @@
                              _,
                              NST_DEFAULT, NST_AUTH_EVENT, NST_INVITATION_FACTORY_EVENT, NST_PLACE_FACTORY_EVENT,
                              NST_EVENT_ACTION, NST_USER_FACTORY_EVENT, NST_POST_FACTORY_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_SRV_EVENT, NST_NOTIFICATION_TYPE,
-                             NstSvcLoader, NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
+                             NstSvcAuth, NstSvcServer, NstSvcLogger, NstSvcNotification, NstSvcTranslation,
                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstUtility, NstSvcUserFactory, NstSvcSidebar, NstSvcNotificationFactory,
                              NstSvcNotificationSync, NstSvcSync,
                              NstVmUser, NstVmPlace, NstVmInvitation) {
@@ -54,11 +54,11 @@
     vm.isUnread();
 
     vm.invitation.accept = function (id) {
-      return NstSvcLoader.inject(NstSvcInvitationFactory.accept(id));
+      return NstSvcInvitationFactory.accept(id);
     };
 
     vm.invitation.decline = function (id) {
-      return NstSvcLoader.inject(NstSvcInvitationFactory.decline(id));
+      return NstSvcInvitationFactory.decline(id);
     };
 
     vm.invitation.showModal = function (id, openOtherInvitations) {
@@ -367,7 +367,7 @@
      *****************************/
 
     function getUser() {
-      return NstSvcLoader.inject($q(function (res) {
+      return $q(function (res) {
         if (NstSvcAuth.isAuthorized()) {
           res(NstSvcAuth.getUser());
         } else {
@@ -375,25 +375,25 @@
             res(NstSvcAuth.getUser());
           });
         }
-      }));
+      });
     }
 
     function getMyPlaces() {
-      return NstSvcLoader.inject(NstSvcPlaceFactory.getMyTinyPlaces());
+      return NstSvcPlaceFactory.getMyTinyPlaces();
     }
 
     function getInvitation(id) {
-      return NstSvcLoader.inject(NstSvcInvitationFactory.get(id));
+      return NstSvcInvitationFactory.get(id);
     }
 
     function getInvitations() {
-      return NstSvcLoader.inject(NstSvcInvitationFactory.getAll());
+      return NstSvcInvitationFactory.getAll();
     }
 
     function getNotificationsCount() {
-      NstSvcLoader.inject(NstSvcNotificationFactory.getNotificationsCount()).then(function (count) {
+      NstSvcNotificationFactory.getNotificationsCount().then(function (count) {
         vm.notificationsCount = count;
-      })
+      });
     }
 
     /*****************************

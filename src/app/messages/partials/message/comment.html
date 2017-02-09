@@ -10,7 +10,7 @@
     <div class="text _df _fw">
       <p class="_fw">
         <strong user-detail user="{{comment.sender}}">{{comment.sender.name}}:&nbsp;</strong>
-        <mark marked="comment.body"></mark>
+        <span ng-bind-html="comment.body | link"></span>
       </p>
     </div>
     <span class="_df _fn">{{comment.date | passed }}</span>
