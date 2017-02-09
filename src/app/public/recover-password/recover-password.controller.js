@@ -17,7 +17,7 @@
     vm.phone = null;
     vm.verificationId = null;
     vm.country = null;
-    vm.step = 3;
+    vm.step = 1;
 
     var eventReferences = [];
 

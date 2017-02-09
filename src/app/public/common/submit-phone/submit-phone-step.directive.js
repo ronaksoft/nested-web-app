@@ -12,9 +12,10 @@
         bindToController : true,
         scope: {
           phone : '=',
-          country : '=',
+          countryCode : '=',
           onCompleted : '@',
-          checkPhoneAvailable : '@'
+          checkPhoneAvailable : '@',
+          instantSubmit : '='
         },
       };
     });

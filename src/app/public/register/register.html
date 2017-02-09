@@ -15,7 +15,7 @@
       <p class="nst-font-medium nst-marginbtm-48" ng-if="ctrl.step == 1">
         <translate>To create an account with Nested, please enter your phone number.</translate>
       </p>
-      <submit-phone-step ng-if="ctrl.step == 1" phone="ctrl.phone" country="ctrl.country" on-completed="{{::ctrl.phoneSubmittedEventKey}}" check-phone-available="true"></submit-phone-step>
+      <submit-phone-step ng-if="ctrl.step == 1" phone="ctrl.phone" country="ctrl.code" on-completed="{{::ctrl.phoneSubmittedEventKey}}" check-phone-available="true" instant-submit="ctrl.autoSubmit" phone="ctrl.phone" country-code="ctrl.code"></submit-phone-step>
       <verify-code-step ng-if="ctrl.step == 2" verification-id="ctrl.verificationId" phone="ctrl.phone" on-completed="{{::ctrl.codeVerifiedEventKey}}" on-previous="{{::ctrl.previousStepEventKey}}"></verify-code-step>
       <register-step ng-if="ctrl.step == 3" verification-id="ctrl.verificationId" phone="ctrl.phone" on-completed="{{::ctrl.completedEventKey}}"></register-step>
     </div>
