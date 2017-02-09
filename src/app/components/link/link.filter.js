@@ -4,7 +4,7 @@
     .filter('link', ['$state','$sanitize', function($state,$sanitize) {
 
       var LINKY_URL_REGEXP =
-          /((ftp|https?):\/\/|(www\.)|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>"\u201d\u2019]/i,
+          /((ftps?|https?):\/\/|(www\.)|(mailto:)?[A-Za-z0-9._%+-]+@)\S*[^\s.;,(){}<>"\u201d\u2019]/i,
         MAILTO_REGEXP = /^mailto:/i;
 
       var linkyMinErr = angular.$$minErr('linky');

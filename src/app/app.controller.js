@@ -146,7 +146,7 @@
       //TODO:: check domain base on config
       if (
         addr.split('@')[1] &&
-        (addr.split('@')[1] === 'nested.me' || addr.split('@')[1] == 'nested.ronaksoftware.com')){
+        (addr.split('@')[1] === 'nested.me' || addr.split('@')[1] === 'nested.ronaksoftware.com')){
         addr = addr.split('@')[0];
       }
 

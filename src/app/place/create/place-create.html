@@ -130,8 +130,8 @@
           </svg><translate>Everyone <i>(including email)</i></translate>
         </h3>
         <p>
-          <translate ng-if="ctlCreate.place.name">Everyone can send their messages to <b>{{ctlCreate.place.name}}</b> Place. This includes messages sent from different email platforms to your Nested address ({{ctlCreate.place.id}}@nested.me).</translate>
-          <translate ng-if="!ctlCreate.place.name">Everyone can send their messages to <b>...</b> Place. This includes messages sent from different email platforms to your Nested address ({{ctlCreate.place.id}}@nested.me).</translate>
+          <translate ng-if="ctlCreate.place.name">Everyone can send their messages to <b>{{ctlCreate.place.name}}</b> Place. This includes messages sent from different email platforms to your Nested address ({{(ctlCreate.placesParts ? ctlCreate.placesParts.join('.') + '.' : '') + (ctlCreate.place.id || '')}}@nested.me).</translate>
+          <translate ng-if="!ctlCreate.place.name">Everyone can send their messages to <b>...</b> Place. This includes messages sent from different email platforms to your Nested address ({{(ctlCreate.placesParts ? ctlCreate.placesParts.join('.') + '.' : '') + (ctlCreate.place.id || '')}}@nested.me).</translate>
         </p>
         <aside>
           <p><translate>Show in the search results?</translate></p>
