@@ -16,6 +16,7 @@
     vm.focus = false;
     vm.mouseIn = false;
     var eventReferences = [];
+    vm.makeChangeForWatchers = 0;
 
     if (vm.mode == 'quick') {
       vm.quickMode = true;
@@ -493,6 +494,9 @@
 
     vm.fullCompose = function () {
       $('body').toggleClass('fullCompose');
+      if ( $('body').hasClass('fullCompose')) {
+        vm.makeChangeForWatchers++;
+      }
     };
 
     vm.send = function () {
