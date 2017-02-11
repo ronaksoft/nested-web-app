@@ -473,7 +473,7 @@ h3 {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  p {
+  p,p span {
     font-size: $font-size-small;
     font-weight: 400;
     color: $color-hurricane;
@@ -486,6 +486,7 @@ h3 {
     font-weight: 300;
     color: $color-wind;
     margin: 0 4px;
+    padding-top: 4px;
   }
   .delete-comment {
     position: relative;
