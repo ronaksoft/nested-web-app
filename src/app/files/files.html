@@ -15,7 +15,7 @@
     <section class="list-inline _df">
       <ul class="list-inline _df post-nav-top _difh _fw">
         <li>
-          <p ng-show="ctlFiles.selectedFiles.length  == 0" class="capitalize">{{ctlFiles.selectedFileType.label}}</p>
+          <p ng-show="ctlFiles.selectedFiles.length  == 0" class="capitalize">{{::ctlFiles.selectedFileType.label}}</p>
           <!--//TODO:Add size filter// -->
           <p ng-show="ctlFiles.selectedFiles.length  > 0">{{ctlFiles.selectedFiles.length }}<span>&nbsp;<translate>Files</translate></span><span
             class="total-files-size">{{ctlFiles.totalSelectedFileSize | bytes}}</span></p>
@@ -55,21 +55,21 @@
       </div>
       <ul class="files-types" nst-selectable  ng-if="ctlFiles.files.length > 0" on-select="ctlFiles.onSelect" select-attr="fid"
           selector="li.file-list-container">
-        <li class="file-list-container _df" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
+        <li class="file-list-container _df" fid="{{::item.id}}" data-ng-repeat="item in ctlFiles.files">
           <div class="files-types-images">
             <a href ng-click="ctlFiles.preview(item);">
               <div class="img-container" ng-if="item.thumbnail">
-              <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}" class="file-thumbnail"/>
+              <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{::item.name}}" class="file-thumbnail"/>
               </div>
               <div ng-if="!item.thumbnail" class="file-badge {{'file-badge-' + item.type }}">
-                {{item.extension}}
+                {{::item.extension}}
               </div>
             </a>
           </div>
           <div class="file-list-item">
             <div class="item-name">
               <a href ng-click="ctlFiles.preview(item);">
-                {{item.name}}
+                {{::item.name}}
               </a>
             </div>
             <div class="item-size">{{item.size | bytes}} </div>
@@ -91,12 +91,7 @@
       <p class="text-center nst-mood-storm" ng-if="!ctlFiles.hasNextPage && !ctlFiles.filesLoadProgress">
         <translate>No more files here!</translate>
       </p>
-      <p class="text-center nst-mood-storm" ng-if="ctlFiles.loadFilesError && !ctlFiles.filesLoadProgress">
-       An error has occurred. Please
-        <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlFiles.loadMore()">
-          <translate>Try again!</translate>
-        </a>
-      </p>
+      <p class="text-center nst-mood-storm" ng-if="ctlFiles.loadFilesError && !ctlFiles.filesLoadProgress" translate-inner>An error has occurred. Please <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlFiles.loadMore()">Try again!</a></p>
     </div>
     <div class="nst-marginbtm-32"></div>
   </section>
