@@ -74,7 +74,6 @@
           scope.scaleOne = (ratio / (1 + ratio)) * 100;
           scope.scaleTwo = 100 - scope.scaleOne;
           // var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
-          console.log(imgOneRatio,imgTwoRatio,ratio,scope.scaleOne,scope.scaleTwo);
 
           // scope.imgHeight = scale * unkHeight;
           // scope.flexOneWidth = scale * (unkHeight * imgOneRatio);
