@@ -472,6 +472,7 @@ h3 {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    float: left;
   }
   p,p span,p span a {
     font-size: $font-size-small;
