@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN) {
+    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN, NstSvcStore) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
@@ -24,9 +24,8 @@
             return true
           };
           var vm = this;
-
           $scope.user = JSON.parse($attrs.user);
-          $scope.avatar = $scope.user.avatar;
+          $scope.avatar = $scope.user.avatar128 || ($scope.user.picture && $scope.user.picture.x128 ? NstSvcStore.getViewUrl($scope.user.picture.x128) : '');
           $scope.username = $scope.user.username || $scope.user.id;
           $scope.name = $scope.user.name || $scope.user.firstName;
 

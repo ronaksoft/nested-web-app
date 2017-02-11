@@ -125,7 +125,8 @@
       return {
         name: sender.fullName ? sender.fullName  : sender.id,
         username: sender.id,
-        avatar: sender.hasPicture() ? sender.picture.getUrl("x64") : ''
+        avatar: sender.hasPicture() ? sender.picture.getUrl("x64") : '',
+        avatar128: sender.hasPicture() ? sender.picture.getUrl("x128") : ''
       };
     }
 
