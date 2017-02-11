@@ -58,15 +58,15 @@
   height: 60px;
   border: none;
   font-size: $font-size-xlarge;
-  line-height: 60px;
+  line-height: 42px;
   &::-webkit-input-placeholder {
-    line-height: 60px;
+    line-height: 42px;
   }
   &::-moz-placeholder {
-    line-height: 60px;
+    line-height: 42px;
   }
   &:-ms-input-placeholder {
-    line-height: 60px;
+    line-height: 42px;
   }
 }
 
