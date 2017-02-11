@@ -34,6 +34,7 @@
         this.name = model.getFullName();
         if (model.hasPicture()) {
           this.avatar = model.picture.getUrl("x64");
+          this.avatar128 = model.picture.getUrl("x128");
         }
       } else if (model instanceof NstInvitation) {
 
@@ -43,6 +44,7 @@
 
         if (model.invitee.hasPicture()) {
           this.avatar = model.invitee.picture.getUrl("x64");
+          this.avatar128 = model.invitee.picture.getUrl("x128");
         }
       }
     }
