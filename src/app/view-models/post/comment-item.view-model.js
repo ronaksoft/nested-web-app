@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmCommentItem', NstVmCommentItem);
 
-  function NstVmCommentItem(moment, NstTinyUser, NstVmCommentSender) {
+  function NstVmCommentItem(moment, NstTinyUser) {
 
     function VmCommentItem(model, noMoment) {
       this.id = model.id;
@@ -15,18 +15,14 @@
       // NOTE: sorousht: moment is a kind of rich date type and is better for sort, manipulate, query and etc
       //       We need these features right in controller not html view
       // NOTE : @sina: You are right, I fix all the usages ASAP
+
       if (moment.isMoment(model.date) || noMoment) {
         this.date = model.date;
       } else {
         this.date = moment(model.date);
       }
 
-      if (model.sender instanceof NstTinyUser) {
-        // TODO: Use NstVmUser instead
-        this.sender = new NstVmCommentSender(model.sender);
-      } else {
-        throw new Exception('The comment sender must be of NstTinyUser type.');
-      }
+      this.sender = model.sender;
     }
 
     return VmCommentItem;
