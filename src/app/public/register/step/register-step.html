@@ -46,7 +46,7 @@
       <div class="form-group" ng-class="{ 'has-error' : registrationForm.nested_lastname.$invalid && registrationForm.nested_lastname.$touched}">
         <label ng-if="!registrationForm.nested_lastname.$error.required || !registrationForm.nested_lastname.$touched"><translate>Surname</translate></label>
         <label ng-if="registrationForm.nested_lastname.$error.required && registrationForm.nested_lastname.$touched"><translate>Surname is required</translate></label>
-        <input name="nested_lastname" type="text" ng-model="ctrl.lname" tabindex="4" required maxlength="35" placeholder="John" translate-attrs="placeholder" />
+        <input name="nested_lastname" type="text" ng-model="ctrl.lname" tabindex="4" required maxlength="35" placeholder="Doe" translate-attrs="placeholder" />
       </div>
     </div>
   </div>

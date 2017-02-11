@@ -2,7 +2,7 @@
   <div class="form-group" ng-class="{ 'has-error' : !ctrl.countryIsValid && ctrl.submitted}">
     <label ng-if="ctrl.countryIsValid || !ctrl.submitted" class="nst-mood-storm nst-font-small"><translate>Country</translate></label>
     <label class="error-message" ng-if="!ctrl.countryIsValid && ctrl.submitted"><translate>Select your country</translate></label>
-    <country-select placeholder="Select a country" auto-locate selected-country-code="ctrl.countryCode" class="margin-t-5 _db"></country-select>
+    <country-select placeholder="Select a country" auto-locate="ctrl.autoLocateEnabled" selected-country-code="ctrl.countryCode" class="margin-t-5 _db"></country-select>
   </div>
   <div class="form-group nst-marginbtm-60" ng-class="{ 'has-error' : !ctrl.phoneIsValid && ctrl.submitted}">
     <label class="nst-mood-storm nst-font-small" ng-if="ctrl.phoneIsValid || !ctrl.submitted"><translate>Phone number</translate></label>
@@ -23,7 +23,7 @@
       <i class="plus">+</i>
       <i class="sep">|</i>
       <input type="text" name="country_code" class="pre-number" maxlength="4" minlength="1" ng-model="ctrl.countryCode" allow-only-number ng-change="ctrl.validatePhone();">
-      <input type="text" name="phone_number" class="number _fw" maxlength="15" minlength="1" ng-model="ctrl.phone" allow-only-number ng-change="ctrl.validatePhone();" autofocus>
+      <input type="text" name="phone_number" class="number _fw" maxlength="15" minlength="1" ng-model="ctrl.phone" allow-only-number ng-change="ctrl.validatePhone();" focus-me="ctrl.ready">
     </div>
   </div>
   <div class="form-action">

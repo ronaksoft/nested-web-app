@@ -117,6 +117,7 @@
         NstSvcPlaceFactory.getFavoritesPlaces()
           .then(function (data) {
             vm.bookmarkedPlaces = data;
+
           });
       }
 
@@ -125,7 +126,6 @@
       });
 
       NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
-
         var newMessage = e.detail.post;
 
         if (newMessage.sender.id === NstSvcAuth.user.id) return;
@@ -134,7 +134,7 @@
 
         if (!_.some(vm.messages, {id: newMessage.id}) &&
           _.intersectionWith(vm.bookmarkedPlaces, newMessage.places, function (a, b) {
-            return a == b
+            return a == b.id;
           }).length > 0) {
           vm.hotMessageStorage.unshift(newMessage);
           vm.hasNewMessages = true;

@@ -9,23 +9,24 @@
   function SubmitPhoneStepController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
     var vm = this;
 
+    var dummyPhone = "123456789";
 
     vm.validatePhone = validatePhone;
     vm.nextStep = nextStep;
     vm.getPhoneNumber = getPhoneNumber;
     vm.phoneAvailableStatus = 'none';
+    vm.autoLocateEnabled = true;
 
     (function() {
-      var phone = $stateParams.phone || getParameterByName('phone');
-      var code = $stateParams.code || getParameterByName('code');
-      if (phone && code) {
-        vm.phone = phone;
-        vm.countryCode = code;
-        vm.submitPhoneNumber();
-        vm.step = 2;
-      } else {
-        vm.step = 1;
+      if (vm.countryCode) {
+        vm.autoLocateEnabled = false;
       }
+
+      if (vm.phone && vm.countryCode && vm.instantSubmit) {
+        validateAndSend(getPhoneNumber());
+      }
+
+      vm.ready = true;
 
     })();
 
@@ -35,11 +36,15 @@
         return;
       }
 
+      validateAndSend(getPhoneNumber());
+    };
+
+    function validateAndSend(phoneNumber) {
       var alreadyRegisteredMessage = NstSvcTranslation.get("We've found an account already registered with your phone number. If you've forgotten your password, try to recover it or contact us for help.");
       validatePhone().then(function (available) {
         if (available) {
-          sendPhoneNumber(getPhoneNumber()).then(function (result) {
-            nextStep(result.verificationId, getPhoneNumber());
+          sendPhoneNumber(phoneNumber).then(function (result) {
+            nextStep(result.verificationId, phoneNumber);
           }).catch(function (error) {
             if (error === 'phone_number_exists') {
               toastr.error(alreadyRegisteredMessage);
@@ -53,8 +58,7 @@
       }).catch(function () {
         toastr.error('An error has occured while validating your phone number');
       });
-
-    };
+    }
 
     function nextStep(verificationId, phone) {
       $scope.$emit(vm.onCompleted, { verificationId : verificationId, phone : phone });
@@ -126,6 +130,9 @@
     }
 
     function getPhoneIsValid(countryId, phone) {
+      if (phone === dummyPhone) {
+        return true;
+      }
       try {
         return phoneUtils.isValidNumber(phone.toString(), countryId);
       } catch (e) {

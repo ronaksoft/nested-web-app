@@ -6,7 +6,7 @@
     .controller('RegisterController', RegisterController);
 
   /** @ngInject */
-  function RegisterController($scope, $state, NST_DEFAULT, NstSvcAuth) {
+  function RegisterController($scope, $state, NST_DEFAULT, NstSvcAuth, $stateParams) {
     var vm = this;
     vm.phoneSubmittedEventKey = 'register-phone-submitted';
     vm.codeVerifiedEventKey = 'register-code-verified';
@@ -18,6 +18,24 @@
     vm.step = 1;
 
     var eventReferences = [];
+
+    (function () {
+      var phone = $stateParams.phone || getParameterByName('phone');
+      var code = $stateParams.code || getParameterByName('code');
+
+      if (phone) {
+        vm.phone = phone;
+      }
+
+      if (code) {
+        vm.code = code;
+      }
+
+      if (vm.phone && vm.code) {
+        vm.autoSubmit = true;
+      }
+      
+    })();
 
     eventReferences.push($scope.$on(vm.phoneSubmittedEventKey, function(event, data) {
       if (data.verificationId && data.phone) {
@@ -44,6 +62,7 @@
     }));
 
     eventReferences.push($scope.$on(vm.previousStepEventKey, function (event, data) {
+      vm.autoSubmit = false;
       vm.step--;
     }));
 
@@ -54,6 +73,16 @@
         }
       });
     });
+
+    function getParameterByName(name) {
+      var url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
   }
 })();

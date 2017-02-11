@@ -132,11 +132,11 @@
       }
 
       if (START_WITH_DASH_AND_NUMBER_REGEX.test(username)) {
-        vm.usernameErrors.push(NstSvcTranslation.get('Don\'t start your username with a number (0-9) or a dash (-)'));
+        vm.usernameErrors.push(NstSvcTranslation.get('Do not start your username with a number (0-9) or a dash (-)'));
       }
 
       if (END_WITH_DASH_REGEX.test(username)) {
-        vm.usernameErrors.push(NstSvcTranslation.get('Don\'t end your username with a dash (-)'));
+        vm.usernameErrors.push(NstSvcTranslation.get('Do not end your username with a dash (-)'));
       }
 
       if (vm.usernameErrors.length > 0) {

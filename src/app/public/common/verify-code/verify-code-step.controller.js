@@ -16,7 +16,7 @@
     var eventReferences = [];
 
     (function() {
-
+      vm.ready = true;
     })();
 
     function nextStep() {

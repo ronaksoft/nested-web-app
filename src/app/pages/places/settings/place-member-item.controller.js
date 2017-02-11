@@ -58,9 +58,9 @@
 
       }).catch(function (error) {
         if (error instanceof NstPlaceOneCreatorLeftError){
-          toastr.error(NstUtility.string.format(NstSvcTranslation.get('User "{0}" is the only Manager of this Place!'), vm.member.name));
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('User {0} is the only Manager of this Place!'), vm.member.name));
         } else if (error instanceof NstPlaceCreatorOfParentError) {
-          toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to remove "{0}", because he/she is the creator of its highest-ranking Place ({1}).'), vm.member.name, vm.place.parent.name));
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('You are not allowed to remove {0}, because he/she is the creator of its highest-ranking Place ({1}).'), vm.member.name, vm.place.parent.name));
         } else {
           toastr.error(NstUtility.string.format(NstSvcTranslation.get('An error has occured while trying to remove the member')));
         }

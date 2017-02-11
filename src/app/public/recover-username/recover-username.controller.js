@@ -16,7 +16,7 @@
     vm.previousStepEventKey = 'recover-username-change-phone';
     vm.phone = null;
     vm.verificationId = null;
-    vm.country = null;
+    vm.code = null;
     vm.step = 1;
 
     var eventReferences = [];
