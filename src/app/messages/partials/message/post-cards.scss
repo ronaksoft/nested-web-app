@@ -473,7 +473,7 @@ h3 {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  p,p span {
+  p,p span,p span a {
     font-size: $font-size-small;
     font-weight: 400;
     color: $color-hurricane;
