@@ -9,6 +9,7 @@
   function UserDetailCtrl($q, $scope, $state, $stateParams, $uibModal, NstSearchQuery, $rootScope) {
     var vm = this;
     vm.user = JSON.parse(vm.user);
+    console.log(vm.user);
     vm.avatar = vm.user.avatar;
     vm.username = vm.user.username;
     vm.name = vm.user.name;
