@@ -25,13 +25,16 @@
 ._difc { display: inline-flex;align-items: center}
 ._jcc { justify-content: center}
 ._aic { align-items: center;}
-
+._asc { align-self: center}
 ._jce { justify-content: flex-end; }
 ._di { display: inline; }
 ._dt { display: table; table-layout: fixed; }
 ._dtr { display: table-row; }
 ._dtc { display: table-cell; vertical-align: middle; }
 ._fn {flex: none}
+.nmarg {
+  margin: 0;
+}
 
 ._pa { position: absolute;}
 ._pr { position: relative;}
