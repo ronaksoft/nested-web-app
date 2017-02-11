@@ -190,10 +190,10 @@
       getPlaceUnreadCounts();
     });
 
-    NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_REMOVE, function (e) {
+
+    NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.READ, function (e) {
       getPlaceUnreadCounts();
     });
-
 
     NstSvcPlaceFactory.addEventListener(NST_PLACE_FACTORY_EVENT.BOOKMARK_ADD, function (e) {
       vm.placesFavoritesObject[e.detail.id] = true;
