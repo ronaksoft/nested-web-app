@@ -40,16 +40,19 @@
     width: {{width}}px" ng-src="{{items[0].preview}}"/>
   </div>
 </div>
-<ul ng-if="internalMode == 'twoimg'" class="two-img">
-  <li style="width: {{flexOneWidth}}px;height:  {{imgHeight}}px" ng-click="onClick(items[0]);$event.stopPropagation()">
-    <img width="100%" height="100%" ng-src="{{items[0].preview}}"/>
-  </li>
-  <li style="width: {{flexDiv}}px">
-  </li>
-  <li style="width: {{flexTwoWidth}}px;height:  {{imgHeight}}px" ng-click="onClick(items[1]);$event.stopPropagation()">
-    <img width="100%"  height="100%" ng-src="{{items[1].preview}}"/>
-  </li>
-</ul>
+<div ng-if="internalMode == 'twoimg'" class="two-img">
+  <img style="width: calc({{scaleOne}}% - 8px)" ng-src="{{items[0].preview}}" ng-click="onClick(items[0]);$event.stopPropagation()"/>
+  <div style="width: {{flexDiv}}px"></div>
+  <img style="width: calc({{scaleTwo}}% - 8px)" ng-src="{{items[1].preview}}" ng-click="onClick(items[1]);$event.stopPropagation()"/>
+
+
+  <!--<li style="width: {{scaleOne}}%">-->
+  <!--</li>-->
+  <!--<li style="width: {{flexDiv}}px">-->
+  <!--</li>-->
+  <!--<li style="width: {{scaleTwo}}%">-->
+  <!--</li>-->
+</div>
 <i ng-click="goRight();$event.stopPropagation()" ng-class="{'_opz' : !overFlowRight}">
   <svg>
     <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>

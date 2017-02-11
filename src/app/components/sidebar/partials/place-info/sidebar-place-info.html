@@ -7,7 +7,7 @@
       </svg>
       <a href="{{ctlPlaceInfo.grandPlace.href}}"
          ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == ctlPlaceInfo.grandPlace.id && !ctlPlaceInfo.unreadMode }">
-        {{ctlPlaceInfo.grandPlace.name}}
+        <span class="_txe _fl">{{ctlPlaceInfo.grandPlace.name}}</span>
         <b ng-if="ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] | localize}}</b></a>
     </div>
     <ul>
