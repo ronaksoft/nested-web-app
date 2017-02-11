@@ -6,13 +6,24 @@
           <div id="Logo-white"></div>
         </div>
         <div ui-sref="app.messages-favorites()">
-          <div id="Logo-type-white"></div><i>__version__</i>
+          <script type="text/ng-template" id="nested-uib-tooltip.html">
+            <span>
+              <translate>Nested &copy; 2017</translate>
+              <br>
+              v 3.4.3-rc9
+            </span>
+          </script>
+          <div id="Logo-type-white"
+               data-uib-tooltip-template="'nested-uib-tooltip.html'"
+               data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
+          ></div>
         </div>
       </a>
       <script type="text/ng-template" id="compose-uib-tooltip.html">
         <translate>Compose</translate>
       </script>
-      <a class="detailed" id="compoese" data-uib-tooltip-template="'compose-uib-tooltip.html'"
+      <a class="detailed" id="compoese"
+         data-uib-tooltip-template="'compose-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true"
          ng-click="ctlSidebar.compose($event);">

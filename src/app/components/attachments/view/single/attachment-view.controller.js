@@ -109,7 +109,8 @@
         $timeout(function () {
           vm.attachments.current.width = angular.element('.nst-preview-pic-mode').width() - 20;
           vm.attachments.current.height = angular.element('.nst-preview-pic-mode').height() - 20;
-        }, 1);
+          vm.attachments.current.show = true;
+        }, 1000);
         getToken(vm.attachments.current.id).then(function (token) {
           vm.attachments.current.viewUrl = $sce.trustAsResourceUrl('//docs.google.com/viewer?embedded=true&url=' +
             encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token)));

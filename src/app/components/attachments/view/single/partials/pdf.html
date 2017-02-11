@@ -1,4 +1,11 @@
+<div id="preview-thumb" ng-if="!attachment.show">
+  <div class="col-xs-6">
+    <div class="nst-loading nst-loading-size-16  _fr"></div>
+  </div>
+  <div class="col-xs-6 nst-marginbtm-4"><translate>Loading...</translate></div>
+</div>
 <iframe
+  ng-if="attachment.show"
   ng-src="{{attachment.viewUrl}}"
   width="{{attachment.width}}" height="{{attachment.height}}" frameborder='0'>This is an embedded <a target='_blank'
                                                                                                      href='https://office.com'>Microsoft
