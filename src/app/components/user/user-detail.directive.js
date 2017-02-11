@@ -25,7 +25,6 @@
           };
           var vm = this;
           $scope.user = JSON.parse($attrs.user);
-          console.log($scope.user);
           $scope.avatar = $scope.user.avatar128 || ($scope.user.picture && $scope.user.picture.x128 ? NstSvcStore.getViewUrl($scope.user.picture.x128) : '');
           $scope.username = $scope.user.username || $scope.user.id;
           $scope.name = $scope.user.name || $scope.user.firstName;
