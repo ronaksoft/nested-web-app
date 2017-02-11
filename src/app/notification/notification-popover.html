@@ -61,14 +61,15 @@
           <translate>Loading...</translate>
         </div>
       </div>
-      <div class="text-center margin-top-10 nst-font-xsmall" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached"
-           ng-click="ctlNotifications.loadMore()">
-        <translate ng-if="!ctlMentions.error">Load more...</translate>
-        <translate ng-if="ctlMentions.error">Try again...</translate>
-      </div>
+      <!--<div class="text-center margin-top-10 nst-font-xsmall" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached"-->
+           <!--ng-click="ctlNotifications.loadMore()">-->
+        <!--<translate ng-if="!ctlMentions.error">Load more...</translate>-->
+        <!--<translate ng-if="ctlMentions.error">Try again...</translate>-->
+      <!--</div>-->
     </li>
   </ul>
-  <!--<div class="more-mentions" ng-click="ctlNotifications.markAllSeen()">-->
-    <!--<translate>Mark all as read</translate>-->
-  <!--</div>-->
+  <div class="more-mentions" ng-click="ctlNotifications.loadMore()">
+    <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Load more...</translate>
+    <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Try again...</translate>
+  </div>
 </div>
