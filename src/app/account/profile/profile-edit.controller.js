@@ -65,53 +65,44 @@
     vm.uploadedImage = false;
 
     function setImage(event) {
-      vm.uploadedImage = true;
-      // var element = event.currentTarget;
 
-
-      vm.model.picture.id = '';
       vm.model.picture.uploadedFile = event.currentTarget.files[0];
-      // vm.model.picture.uploadedFileName = element.files[0].name;
+      vm.uploadedImage = true;
+      vm.model.picture.id = '';
       vm.model.picture.remove = false;
 
-      var reader = new FileReader();
-      reader.onload = function (event) {
-        imageLoadTimeout = $timeout(function () {
-          vm.model.picture.uploaded = event.target.result;
+      $uibModal.open({
+        animation: false,
+        size: 'sm crop',
+        templateUrl: 'app/account/crop/change-pic.modal.html',
+        controller: 'CropController',
+        resolve: {
+          argv: {
+            file: vm.model.picture.uploadedFile
+          }
+        },
+        controllerAs: 'ctlCrop'
+      }).result.then(function (croppedFile) {
+        vm.model.picture.uploadedFile = croppedFile;
+        vm.uploadedImage = true;
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          imageLoadTimeout = $timeout(function () {
+            vm.model.picture.url = event.target.result;
+          });
+        };
+        reader.readAsDataURL(croppedFile);
+      }).catch(function() {
+        vm.uploadedImage = false;
+        vm.model.picture.uploadedFile = '';
+        event.target.value = '';
+      });
 
-        });
-      };
-      reader.readAsDataURL(vm.model.picture.uploadedFile);
+
+
+
     }
 
-    $scope.$watch(function () {
-      return vm.model.picture.url;
-    }, function () {
-      if (vm.model.picture.url) {
-        var file = dataURItoFile(vm.model.picture.url,'profile_image');
-        vm.model.picture.uploadedFile = file;
-      }
-    });
-
-    function dataURItoFile(dataURI, filename) {
-      // convert base64/URLEncoded data component to raw binary data held in a string
-      var byteString;
-      if (dataURI.split(',')[0].indexOf('base64') >= 0)
-        byteString = atob(dataURI.split(',')[1]);
-      else
-        byteString = decodeURI(dataURI.split(',')[1]);
-
-      // separate out the mime component
-      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-      // write the bytes of the string to a typed array
-      var ia = new Uint8Array(byteString.length);
-      for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-
-      return new File([ia], filename + '.' +  mimeString.split('/')[1], {type: mimeString});
-    }
 
     function removeImage() {
       if (vm.model.picture.request) {

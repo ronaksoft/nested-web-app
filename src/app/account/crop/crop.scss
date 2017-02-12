@@ -1,0 +1,12 @@
+img-crop {
+  max-width: 80vw;
+  max-height: 80vh
+}
+.crop {
+  position: relative;
+  input {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}
