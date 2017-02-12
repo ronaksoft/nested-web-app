@@ -94,6 +94,8 @@
         reader.readAsDataURL(croppedFile);
       }).catch(function() {
         vm.uploadedImage = false;
+        vm.model.picture.uploadedFile = '';
+        event.target.value = '';
       });
 
 
