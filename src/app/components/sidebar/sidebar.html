@@ -63,7 +63,7 @@
           <li class="side-place-item" ng-repeat="invitaion in ctlSidebar.invitations">
             <a href="javascript:void(0);" ng-click="ctlSidebar.invitation.showModal(invitaion.id)"
                class="side-place-invite-item-inner active detailed" data-uib-tooltip="{{invitaion.place.name}}"
-               data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed  || place.forceTooltip ? true : false}}" data-tooltip-placement="right auto">
+               data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed  || forceTooltip ? true : false}}" data-tooltip-placement="right auto">
               <div class="side-place-item-image">
                 <img class="" ng-src="{{invitaion.place.avatar}}"/>
               </div>

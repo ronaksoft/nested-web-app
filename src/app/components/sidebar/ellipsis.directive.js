@@ -25,11 +25,11 @@
        *
        * @param  {type} places list of places to be shown
        */
-      scope.$parent.place.forceTooltip = false;
+      scope.$parent.forceTooltip = false;
 
       $timeout(function () {
         if (element[0].clientWidth < element[0].scrollWidth) {
-          scope.$parent.place.forceTooltip = true;
+          scope.$parent.forceTooltip = true;
         }
       },100);
     }
