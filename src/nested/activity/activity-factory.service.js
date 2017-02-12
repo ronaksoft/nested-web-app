@@ -195,7 +195,9 @@
         case NST_EVENT_ACTION.COMMENT_ADD:
           return parseAddCommentActivity(data);
         default:
-          throw Error('The provided activity type is not supported.');
+          console.error('The provided activity type is not supported:' + data.action);
+          return null;
+          // throw Error('The provided activity type is not supported.');
       }
     }
 
@@ -330,18 +332,17 @@
       activity.date = new Date(data.timestamp);
 
       var actorPromise = NstSvcUserFactory.getTiny(data.actor_id);
-      var inviteePromise = NstSvcUserFactory.getTiny(data.invitee_id);
+      var inviteePromise = NstSvcUserFactory.getTiny(data.member_id);
       var placePromise = NstSvcPlaceFactory.getTiny(data.place_id);
 
       $q.all([actorPromise, inviteePromise, placePromise]).then(function (resultSet) {
         activity.actor = resultSet[0];
         activity.member = resultSet[1];
         activity.place = resultSet[2];
-
         deferred.resolve(activity);
       }).catch(function (error) {
         deferred.resolve(null);
-        NstSvcLogger.error("Activity Factory GET:" , error)
+        NstSvcLogger.error("Activity Factory GET:" , data, error)
       });
 
       return deferred.promise;
@@ -431,6 +432,7 @@
         }).then(function (response) {
 
           var activities = _.map(response.activities, parseActivityIntelligently);
+
           $q.all(activities).then(function (values) {
             deferred.resolve(values.filter(function (obj) {
               return obj !== null;
