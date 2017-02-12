@@ -331,6 +331,16 @@ body[dir="rtl"] {
   .text-right {
     text-align: left;
   }
+  input[type="checkbox"]:checked + label.setting,
+  input[type="checkbox"]:checked + label.setting {
+    background-position: 0 -16px;
+    padding: 0 0 0 17px!important;
+  }
+  input[type="checkbox"] + label.setting,
+  input[type="checkbox"] + label.setting {
+    background-position: 0 0;
+    padding: 0 0 0 17px!important;
+  }
   #panel-signin input[type="checkbox"]:checked + label,
   #panel-register input[type="checkbox"]:checked + label {
     background-position: 100% -16px;
