@@ -11,6 +11,7 @@
        *****************************/
 
       vm.uploadedImage = argv.file;
+      vm.type = argv.type || 'circle';
       vm.uploadedImageURL = '';
       vm.cropedImage = '';
       vm.ready = false;

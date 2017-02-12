@@ -362,8 +362,21 @@
     function loadImage(event) {
       var file = event.currentTarget.files[0];
 
-      if (file) {
-        vm.logoFile = file;
+
+      $uibModal.open({
+        animation: false,
+        size: 'sm crop',
+        templateUrl: 'app/account/crop/change-pic.modal.html',
+        controller: 'CropController',
+        resolve: {
+          argv: {
+            file: file,
+            type: 'square'
+          }
+        },
+        controllerAs: 'ctlCrop'
+      }).result.then(function (croppedFile) {
+        vm.logoFile = croppedFile;
         vm.logoUrl = '';
 
         var reader = new FileReader();
@@ -395,7 +408,10 @@
         };
 
         reader.readAsDataURL(vm.logoFile);
-      }
+      }).catch(function() {
+        event.target.value = '';
+      });
+
     }
 
     function logoUploadProgress(event) {
