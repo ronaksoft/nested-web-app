@@ -70,7 +70,8 @@
      */
     UserFactory.prototype.getTiny = function (id) {
       if (!id) {
-        throw Error('Id is not provided');
+        return $q.reject(Error('Id is not provided'));
+        // throw Error('Id is not provided');
       }
       var factory = this;
       return factory.sentinel.watch(function () {
