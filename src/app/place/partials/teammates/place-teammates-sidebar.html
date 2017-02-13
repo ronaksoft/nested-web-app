@@ -1,7 +1,7 @@
 <div class="teammates">
   <div class="name"><translate>{{ctlTeammates.place.getTeammatesCount() | localize }} Members</translate></div>
   <div class="recent-container _fw _df _fn _bgwhite">
-    <div class="avatars">
+    <div class="avatars" ng-if="!ctlTeammates.loading">
       <div class="user-avatar-28" ng-repeat="teammate in ctlTeammates.teammates | limitTo : ctlTeammates.limit track by $index" user-detail="" user="{{teammate}}">
         <img initials="teammate.name" data-url="teammate.avatar" data-width="28" data-height="28"
              data-radius="40" class="account-initials-28 _df" data-word-count="2" data-font-size="14"/>
@@ -19,6 +19,15 @@
         <svg>
           <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
         </svg>
+      </div>
+    </div>
+    <div class="recent-container _fw _df _jcc _fn" ng-if="ctlTeammates.loading">
+      <div class="nst-mood-cheerful no-gutter nst-margin-24">
+        <div class="_fw">
+          <div class="nst-loading nst-loading-size-4 _fl"></div>
+          <span>&nbsp;</span>
+          <div class="nst-font-xsmall _fr nst-marginbtm-4"><translate>Loading...</translate></div>
+        </div>
       </div>
     </div>
 </div>
