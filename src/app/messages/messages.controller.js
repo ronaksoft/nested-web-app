@@ -62,7 +62,7 @@
     vm.quickMessageAccess = false;
     // Listen for when the dnd has been configured.
     vm.attachfiles = {};
-
+    var eventReferences = [];
     (function () {
       isUnread();
       vm.isSentMode = 'messages-sent' === $state.current.name;
@@ -96,7 +96,7 @@
             $q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess(), loadRemovePostAccess()]).catch(function (error) {
               $log.debug(error);
             }).finally(function () {
-              NstSvcWait.emit('messages-done');
+              eventReferences.push(NstSvcWait.emit('messages-done'));
             });
           } else {
             NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
@@ -112,7 +112,7 @@
         $q.all([loadViewSetting(), loadMessages(), loadMyPlaces()]).catch(function (error) {
           $log.debug(error);
         }).finally(function () {
-          NstSvcWait.emit('messages-done');
+          eventReferences.push(NstSvcWait.emit('messages-done'));
         });
       }
 
@@ -586,6 +586,12 @@
 
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);
+
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
     });
 
   }

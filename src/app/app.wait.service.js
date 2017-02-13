@@ -35,25 +35,16 @@
             return;
           }
 
-          // cancel the event listener
-          listeners[key]();
-
           happend.push(key);
           // all events happened once
           if (_.size(happend) === _.size(events)) {
             // exectute the callback
             action();
-            cancelListeners(listeners);
           }
-        });
-      });
-    }
 
-    function cancelListeners(listeners) {
-      _.forIn(listeners, function (value, key) {
-        if (_.isFunction(value)) {
-          value();
-        }
+          // cancel the event listener
+          listeners[key]();
+        });
       });
     }
 
