@@ -68,6 +68,26 @@
     border-color: $color-breeze;
     margin: 0 0 9px;
   }
+  ul ul li {
+    padding-left: 16px;
+  }
+  ul ul{
+    max-height: 0;
+    overflow: hidden;
+    transition-property: opacity,max-height;
+    transition-timing-function: ease-in-out;
+    transition-duration: $animation-dur;
+    opacity: 0;
+    display: flex;
+    //animation: down-slip 20s ease-in forwards;
+  }
+  ul ul.extend {
+    max-height: 2200px;
+    opacity: 1;
+  }
+  ul ul .placerow {
+    height: 48px;
+  }
 }
 
 .top-nav-actions {
@@ -264,28 +284,6 @@ ul.top-nav-places {
      }
   }
 }
-#top-nav-container {
-  ul ul li {
-    padding-left: 16px;
-  }
-  ul ul{
-    max-height: 0;
-    overflow: hidden;
-    transition-property: opacity,max-height;
-    transition-timing-function: ease-in-out;
-    transition-duration: $animation-dur;
-    opacity: 0;
-    display: flex;
-    //animation: down-slip 20s ease-in forwards;
-  }
-  ul ul.extend {
-    max-height: 2200px;
-    opacity: 1;
-  }
-  ul ul .placerow {
-    height: 48px;
-  }
-}
 
 //ul.top-nav-places li div div:only-of-type{
 //  animation: appearence .4s ease-in;
@@ -393,7 +391,7 @@ nst-navbar {
       }
     }
   }
-  .nst-navbar,.nst-navbar-f {
+  .nst-navbar,.nst-navbar-f{
     height: 80px;
     justify-content: center;
     z-index: 50;
@@ -766,11 +764,22 @@ body.scrolled {
       font-weight: 600;
     }
   }
+  a.menu-links-butn {
+    min-width: 0;
+    font-size: 16px;
+    font-weight: 300;
+  }
   input {
     height: 40px;
     border-radius: 4px;
     background-color: rgba(0,0,0,.02);
     border-color: rgba(0,0,0,.14);
+  }
+  .content {
+    .bot-nav {
+      height: 80px;
+      position: relative;
+    }
   }
 }
 .navbarillu {
