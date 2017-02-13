@@ -66,20 +66,20 @@
 
     obj.check = function (Ypos) {
       $rootScope.cardCtrls.forEach(function (e) {
-        if (Ypos + MobTopOff > e.topOff - 32 && Ypos < e.cardH + e.topOff - 88 && !e.fixed) {
+        if (Ypos + MobTopOff > e.topOff - 64 && Ypos < e.cardH + e.topOff - 120 && !e.fixed) {
           e.fixed = true;
           e.el.css('position', 'fixed');
-          e.el.css('top', 56 + MobTopOff + 'px');
+          e.el.css('top', 88 + MobTopOff + 'px');
           if (!isRTL) e.el.css('left', e.leftOff + 'px');
           if (isRTL && !isMobile) e.el.css('right', e.leftOff - 20 + 'px');
           if (isRTL && isMobile) e.el.css('right', e.leftOff + 'px');
-        } else if (Ypos + MobTopOff < e.topOff - 32 && e.fixed) {
+        } else if (Ypos + MobTopOff < e.topOff - 64 && e.fixed) {
           e.fixed = false;
           e.el.css('position', '');
           e.el.css('top', '');
           e.el.css('left', '');
           e.el.css('right', '');
-        } else if(Ypos > e.cardH + e.topOff - 88 && e.fixed ) {
+        } else if(Ypos > e.cardH + e.topOff - 120 && e.fixed ) {
           e.fixed = false;
           e.el.css('position', 'absolute');
           e.el.css('top', e.cardH - 32 + 'px');

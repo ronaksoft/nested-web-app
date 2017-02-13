@@ -40,10 +40,10 @@
     width: {{width}}px" ng-src="{{items[0].preview}}"/>
   </div>
 </div>
-<div ng-if="internalMode == 'twoimg'" class="two-img">
-  <img style="width: calc({{scaleOne}}% - 8px)" ng-src="{{items[0].preview}}" ng-click="onClick(items[0]);$event.stopPropagation()"/>
+<div ng-if="internalMode == 'twoimg'" class="two-img ng-class:{'deform' : deform}">
+  <img style="width: calc({{scaleOne}}% - 8px);height: {{constHeight}}px" ng-src="{{items[0].preview}}" ng-click="onClick(items[0]);$event.stopPropagation()"/>
   <div style="width: {{flexDiv}}px"></div>
-  <img style="width: calc({{scaleTwo}}% - 8px)" ng-src="{{items[1].preview}}" ng-click="onClick(items[1]);$event.stopPropagation()"/>
+  <img style="width: calc({{scaleTwo}}% - 8px);height: {{constHeight}}px" ng-src="{{items[1].preview}}" ng-click="onClick(items[1]);$event.stopPropagation()"/>
 
 
   <!--<li style="width: {{scaleOne}}%">-->

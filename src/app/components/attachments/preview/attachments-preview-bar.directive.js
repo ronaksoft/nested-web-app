@@ -64,17 +64,24 @@
 
         if (scope.items.length == 2 && scope.items[0].type === NST_FILE_TYPE.IMAGE &&  scope.items[1].type === NST_FILE_TYPE.IMAGE  && scope.items[0].hasPreview.length > 0 && scope.items[1].hasPreview.length > 0) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
+          scope.deform = false;
 
 
-          // var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
-          // var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
+          var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
           var imgOneRatio = scope.items[0].ratio;
           var imgTwoRatio = scope.items[1].ratio;
           var ratio = imgOneRatio / imgTwoRatio;
           scope.scaleOne = (ratio / (1 + ratio)) * 100;
           scope.scaleTwo = 100 - scope.scaleOne;
-          // var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
+          scope.constHeight = (scope.scaleOne * wrpWidth) / ( imgOneRatio * 100 );
+          
+          if(ratio < .1 || ratio > 100) {
+            scope.deform = true;
+          }
 
+
+          // var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
+          // var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
           // scope.imgHeight = scale * unkHeight;
           // scope.flexOneWidth = scale * (unkHeight * imgOneRatio);
           // scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);

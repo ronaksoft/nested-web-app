@@ -88,7 +88,7 @@
   bottom: 0;
   left: 0;
   z-index: $zindex-modal-background;
-  background-color: $color-white;
+  background-color: $color-modal-bg;
   animation: appearence-2 .38s cubic-bezier(0.1,0.8,0.6,1) forwards normal;
   &.comdrop {
     background-color: $color-modal-bg;
