@@ -146,9 +146,6 @@
    max-height: 250px;
  }
 
-#mceu_24-body {
-  white-space: normal;
-}
 .cke_reset {
   width: 100%!important;
   border: none!important;
@@ -171,4 +168,8 @@
 }
 .cke_wysiwyg_div {
   overflow: hidden!important;
+}
+
+#cke_123 {
+  display: none;
 }

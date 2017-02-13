@@ -85,6 +85,7 @@
           color: #808080;
           font-size: $font-size-xsmall;
           @extend ._wrb;
+          max-width: 100%;
           //line-height: 13px;
           //font-weight: 400;
           span {

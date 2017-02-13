@@ -1,12 +1,12 @@
 <nst-mini-navbar ng-if="$root.deviceDetector.isTablet() || $root.deviceDetector.isMobile()"></nst-mini-navbar>
 <div class="nst-navbar _tr" data-ng-include="'app/components/navbar/full/navbar-static.html'"
-     ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !( !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode)">
+     ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode">
 </div>
 <div class="nst-navbar _tr nfeed"
      ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode" data-ng-include="'app/components/navbar/full/navbar-static.html'">
 
 </div>
-<div class="nst-navbar-f _tr ng-class:{ 'nfeed' : !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode }" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode">
+<div class="nst-navbar-f _tr nfeed" ng-if="!ctlFullNavbar.isUnreadMode && !ctlFullNavbar.isSearchMode && !ctlFullNavbar.isConvMode && !ctlFullNavbar.isFeed && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isBookmarkMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr">
@@ -82,7 +82,7 @@
     </div>
   </div>
 </div>
-<div class="nst-navbar-fff _tr" ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode">
+<div class="nst-navbar-fff _tr" ng-if="ctlFullNavbar.isUnreadMode || ctlFullNavbar.isConvMode || ctlFullNavbar.isSearchMode || ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
   <div class="bg"></div>
   <div class="nst-content _tr">
     <div class="content _pr unread-nav" ng-if="ctlFullNavbar.isUnreadMode">
@@ -124,6 +124,46 @@
         </svg>
         <input type="text" placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
         <div class="cp-illu _fn"></div>
+      </div>
+    </div>
+    <div class="content _pr" ng-if="ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
+      <div class="bot-nav">
+        <div class="navigation">
+          <nav>
+            <a ui-sref="app.messages-favorites()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover home-svg" active-group="message">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
+              </svg>
+            </a>
+            <vr></vr>
+            <a ui-sref="app.messages-favorites()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
+              </svg>
+              <translate>Feed</translate>
+            </a>
+            <a ui-sref="app.messages-bookmarked()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="bookmarked">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
+              </svg>
+              <translate>Bookmarks</translate>
+            </a>
+            <!-- TODO set url in other ways -->
+            <a ui-sref="app.messages-sent()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="sent">
+              <svg class="icon-filter _df">
+                <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
+              </svg>
+              <translate>Shared by me</translate>
+            </a>
+          </nav>
+          <div class="search">
+            <input type="text" nst-mention class="form-control" place-id="{{ctlFullNavbar.placeId}}"
+                   ng-keyup="ctlFullNavbar.search(ctlFullNavbar.searchQuery, $event);" ng-model="ctlFullNavbar.searchQuery"
+                   search-placeholder-setter has-place="ctlFullNavbar.hasPlace()" place-name="ctlFullNavbar.title"/>
+            <i class="icon cursor-pointer icon-search-rotated"></i>
+          </div>
+          <div class="cp-illu"></div>
+        </div>
       </div>
     </div>
   </div>

@@ -62,10 +62,10 @@
 
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
            ng-if="ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
-           auto-dir="ctlPostCard.post.body">
-    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | removeHTMLTags | truncate | link"></span>
+           auto-dir="{{ctlPostCard.post.body}}">
+    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" class="prewrp" ng-bind-html="ctlPostCard.body | removeHTMLTags | truncate | link"></span>
     <span ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | link"></span>
-    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | link"></span>
+    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" class="prewrp" ng-bind-html="ctlPostCard.body | link"></span>
   </section>
 
   <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
