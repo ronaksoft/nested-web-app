@@ -56,21 +56,22 @@
 
 
     function searchOnEnterKeyPressed(e, queryString) {
-      console.log(queryString);
       var element = angular.element(event.target);
-      if (!queryString || !sendKeyIsPressed(event) || element.attr("mention") === "true") {
+      if (!sendKeyIsPressed(event) || element.attr("mention") === "true") {
         return;
       }
       // if (!sendKeyIsPressed(e) || !queryString) {
       //   return;
       // }
-
+      vm.messages = [] ;
+      vm.loading = true;
+      vm.loadMessageError = false;
+      vm.reachedTheEnd = false;
       searchLazily(queryString);
     }
 
 
     function search(queryString) {
-      vm.messages.length = 0;
       searchMessages(queryString);
     }
 
