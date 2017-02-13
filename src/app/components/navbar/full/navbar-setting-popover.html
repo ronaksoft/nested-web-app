@@ -1,3 +1,13 @@
+<a class="list-items _difh" ng-click="ctlFullNavbar.toggleBookmark()">
+  <div>
+    <svg class="_16svg _df _fn">
+      <use xlink:href="/assets/icons/nst-icn16.svg#messages"></use>
+    </svg>
+  </div>
+  <input class="_fr" type="checkbox" id="comments" name="comments" ng-checked="ctlFullNavbar.isBookmarked"/>
+  <label class="_fw setting _asc" for="comments"><translate>Show in Feed</translate></label>
+</a>
+<hr>
 <a class="_df list-items _aic"
    href="#/profile"
    ng-if="ctlFullNavbar.isPersonal()">

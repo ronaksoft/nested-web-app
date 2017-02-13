@@ -507,6 +507,7 @@
 .side-place-item a {
   //color: $color-hurricane;
   font-weight: $font-wight-regular;
+  width: 100%;
 }
 .side-place-item-inner > a:first-child {
   flex-direction: row;
@@ -988,11 +989,18 @@ ul ul > li:last-child > .place-item-inner{
         line-height: 32px;
         padding-left: 8px;
         padding-right: 21px;
-        display: block;
+        display: flex;
         margin-top: 4px;
         margin-bottom: 4px;
         margin-right: -16px;
         width: 100%;
+        div {
+          max-width: 100%;
+        }
+        span {
+          width: auto;
+          max-width: 100% ;
+        }
         b {
           color: $color-hurricane;
           font-weight: 700;
@@ -1006,7 +1014,7 @@ ul ul > li:last-child > .place-item-inner{
           color: $color-solid;
         }
       }
-      span {
+      i {
         display: flex;
         padding-right: 2px;
         position: absolute;

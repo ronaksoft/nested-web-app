@@ -16,6 +16,8 @@ body[dir="rtl"] {
           right: -16px;
           left: 0;
           display: flex;
+          padding-right: 8px;
+          padding-left: 21px;
         }
         .place-item-inner {
           .icon {
@@ -28,7 +30,7 @@ body[dir="rtl"] {
             margin-left: -16px;
             display: flex;
           }
-          span {
+          i {
             right: auto;
             left: 0;
             .nst-arrow {
@@ -328,6 +330,16 @@ body[dir="rtl"] {
   }
   .text-right {
     text-align: left;
+  }
+  input[type="checkbox"]:checked + label.setting,
+  input[type="checkbox"]:checked + label.setting {
+    background-position: 0 -16px;
+    padding: 0 0 0 17px!important;
+  }
+  input[type="checkbox"] + label.setting,
+  input[type="checkbox"] + label.setting {
+    background-position: 0 0;
+    padding: 0 0 0 17px!important;
   }
   #panel-signin input[type="checkbox"]:checked + label,
   #panel-register input[type="checkbox"]:checked + label {

@@ -66,15 +66,18 @@
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
 
 
-          var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
-          var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
+          // var wrpWidth = ele.parent().parent().width() - scope.flexDiv;
+          // var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
           var imgOneRatio = scope.items[0].ratio;
           var imgTwoRatio = scope.items[1].ratio;
-          var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
+          var ratio = imgOneRatio / imgTwoRatio;
+          scope.scaleOne = (ratio / (1 + ratio)) * 100;
+          scope.scaleTwo = 100 - scope.scaleOne;
+          // var scale = wrpWidth / ( unkHeight * imgOneRatio + unkHeight * imgTwoRatio );
 
-          scope.imgHeight = scale * unkHeight;
-          scope.flexOneWidth = scale * (unkHeight * imgOneRatio);
-          scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);
+          // scope.imgHeight = scale * unkHeight;
+          // scope.flexOneWidth = scale * (unkHeight * imgOneRatio);
+          // scope.flexTwoWidth = scale * (unkHeight * imgTwoRatio);
         }
 
 

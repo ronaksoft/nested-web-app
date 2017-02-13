@@ -23,6 +23,7 @@
       attachments: true,
       comments: false,
     };
+    vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
 
 
     vm.suggestedItems = [{
@@ -41,13 +42,6 @@
     vm.backToConversation = backToConversation;
 
     (function () {
-
-      $scope.$watch(function () {
-        return vm.queryString;
-      },function () {
-        searchLazily(vm.queryString);
-      });
-
       NstSvcUserFactory.get($stateParams.userId)
         .then(function (user) {
 
@@ -55,6 +49,24 @@
           searchLazily();
         });
     })();
+
+    function sendKeyIsPressed(event) {
+      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
+    }
+
+
+    function searchOnEnterKeyPressed(e, queryString) {
+      console.log(queryString);
+      var element = angular.element(event.target);
+      if (!queryString || !sendKeyIsPressed(event) || element.attr("mention") === "true") {
+        return;
+      }
+      // if (!sendKeyIsPressed(e) || !queryString) {
+      //   return;
+      // }
+
+      searchLazily(queryString);
+    }
 
 
     function search(queryString) {

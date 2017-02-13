@@ -452,13 +452,13 @@ h3 {
   padding: 8px 8px 0 8px;
   position: relative;
   &:hover {
-    background-color: $color-hover-comment;
+    //background-color: $color-hover-comment;
   }
   .text {
     padding-top: 4px;
     max-width: calc(100% - 98px);
   }
-  strong, strong span {
+  p strong, p strong span {
     font-weight: 600;
     position: relative;
     font-size: $font-size-small;
@@ -472,8 +472,9 @@ h3 {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+    float: left;
   }
-  p {
+  p,p span,p span a {
     font-size: $font-size-small;
     font-weight: 400;
     color: $color-hurricane;
@@ -486,6 +487,7 @@ h3 {
     font-weight: 300;
     color: $color-wind;
     margin: 0 4px;
+    padding-top: 4px;
   }
   .delete-comment {
     position: relative;
