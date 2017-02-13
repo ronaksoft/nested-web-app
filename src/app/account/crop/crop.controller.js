@@ -22,10 +22,6 @@
       reader.onload = function (event) {
         imageLoadTimeout = $timeout(function () {
           vm.uploadedImage = event.target.result;
-          var img = new Image();
-          img.src = vm.uploadedImage;
-          vm.width = img.width;
-          vm.height = img.height;
           vm.ready = true;
         });
       };
@@ -35,9 +31,15 @@
         return vm.ready;
       }, function () {
         if (vm.ready) {
-          vm.uploadedImageURL = vm.uploadedImage
+          vm.uploadedImageURL = vm.uploadedImage;
         }
       });
+      vm.calc = function () {
+        var img = new Image();
+        img.src = vm.uploadedImageURL;
+        vm.width = img.width;
+        vm.height = img.height;
+      };
 
       $scope.$watch(function () {
         return vm.cropedImage;

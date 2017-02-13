@@ -1,5 +1,6 @@
 <div ng-if="ctlCrop.ready">
-  <img-crop style="height: {{ctlCrop.width}}px;width: {{ctlCrop.width}}px" image="ctlCrop.uploadedImageURL" result-image="ctlCrop.cropedImage" result-image-quality="1" area-type="{{ctlCrop.type}}"></img-crop>
+  <img-crop style="height: {{ctlCrop.width}}px;width: {{ctlCrop.width}}px" image="ctlCrop.uploadedImageURL" result-image="ctlCrop.cropedImage"
+            result-image-quality="1" area-type="{{ctlCrop.type}}" on-load-done="ctlCrop.calc();"></img-crop>
   <input type="button" ng-click="ctlCrop.accept()" value="Done" class="butn-green">
   <div class="attach-close" ng-click="ctlCrop.close()">
     <svg class="_32svg _df _r45">
