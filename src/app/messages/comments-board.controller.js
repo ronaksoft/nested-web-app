@@ -6,7 +6,7 @@
     .controller('CommentsBoardController', CommentsBoardController);
 
   function CommentsBoardController($timeout, $scope, $q,
-                                   NstSvcAuth, NstSvcCommentFactory, NstSvcCommentMap, NstUtility, NstSvcTranslation,
+                                   NstSvcAuth, NstSvcCommentFactory, NstUtility, NstSvcTranslation,
                                    moment, toastr, _) {
     var vm = this;
 
@@ -82,7 +82,7 @@
       };
 
       getRecentComments(vm.postId, settings).then(function (result) {
-        var newComments = mapComments(result.comments);
+        var newComments = reorderComments(result.comments);
         _.forEach(newComments, function (comment) {
           if (!_.some(vm.comments, { id : comment.id })) {
             vm.comments.push(comment);
@@ -94,26 +94,6 @@
       });
     }
 
-    function mapComment(commentModel) {
-      return NstSvcCommentMap.toPostComment(commentModel);
-    }
-    function mapComments(commentModels) {
-      return reorderComments(_.map(commentModels, mapComment));
-      // var comments = reorderComments(_.map(commentModels, mapComment));
-
-      // return _.map(comments, function (comment, index) {
-      //   var previousIndex = index - 1;
-      //   if (previousIndex >= 0) {
-      //
-      //     var previousComment = comments[previousIndex];
-      //     if (previousComment.sender.id === comment.sender.id) {
-      //       comment.stickedToPrevious = true;
-      //     }
-      //   }
-      //
-      //   return comment;
-      // });
-    }
     function reorderComments(comments) {
       return _.orderBy(comments, 'date', 'asc');
     }
@@ -165,14 +145,7 @@
             id: comment.id
           })) {
           vm.commentBoardLimit++;
-          var commentItem = NstSvcCommentMap.toMessageComment(comment);
-          // var lastComment = _.last(vm.comments);
-
-
-          // if (lastComment && lastComment.sender.username === commentItem.sender.username) {
-          //   commentItem.stickedToPrevious = true;
-          // }
-          vm.comments.push(commentItem);
+          vm.comments.push(comment);
         }
 
         e.currentTarget.value = '';
@@ -258,17 +231,7 @@
         var orderedItems = _.orderBy(comments, 'date', 'asc');
 
         _.forEach(orderedItems, function (comment, index) {
-          var model = NstSvcCommentMap.toMessageComment(comment);
-          // var previousIndex = index - 1;
-          // if (previousIndex >= 0) {
-          //
-          //   var previousComment = orderedItems[previousIndex];
-          //   if (previousComment.sender.id === model.sender.username) {
-          //     model.stickedToPrevious = true;
-          //   }
-          // }
-
-          vm.comments.splice(index, 0, model);
+          vm.comments.splice(index, 0, comment);
         });
 
         clearCommentBoardLimit();

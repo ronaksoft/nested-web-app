@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmMessageSearchItem', NstVmMessageSearchItem);
 
-  function NstVmMessageSearchItem(NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth) {
+  function NstVmMessageSearchItem(NstPost, NstSvcAttachmentMap, NstSvcAuth) {
 
     function VmMessageSearchItem(post) {
 
