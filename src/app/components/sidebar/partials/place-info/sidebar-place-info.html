@@ -8,7 +8,7 @@
       <a href="{{ctlPlaceInfo.grandPlace.href}}"
          ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == ctlPlaceInfo.grandPlace.id && !ctlPlaceInfo.unreadMode }">
         <span class="_txe _fl">{{ctlPlaceInfo.grandPlace.name}}</span>
-        <b ng-if="ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] | localize}}</b></a>
+        <b ng-if="ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] > 0">&nbsp;{{ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] | localize}}</b></a>
     </div>
     <ul>
       <li class="side-place-item" ng-repeat="place in ctlPlaceInfo.children"

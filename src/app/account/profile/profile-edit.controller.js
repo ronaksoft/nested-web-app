@@ -73,7 +73,7 @@
 
       $uibModal.open({
         animation: false,
-        size: 'sm crop',
+        size: 'no-miss crop',
         templateUrl: 'app/account/crop/change-pic.modal.html',
         controller: 'CropController',
         resolve: {

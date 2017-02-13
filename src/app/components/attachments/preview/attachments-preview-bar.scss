@@ -287,13 +287,21 @@ nst-attachments-preview-bar {
     display: inline-table;
     //flex-direction: row;
     img {
-      object-fit: contain;
+      //object-fit: contain;
       float: left;
+      min-width: 80px;
+      min-height: 96px;
+      max-width: calc(100% - 96px);
     }
     div {
       float: left;
       height: 100%;
       min-height: 1px
+    }
+    &.deform {
+      img {
+        object-fit: cover;
+      }
     }
     //li {
     //  flex: none;
