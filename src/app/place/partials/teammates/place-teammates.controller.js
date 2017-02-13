@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function placeTeammatesController($scope, $q, $stateParams, $uibModal, toastr, _, $rootScope,
-    NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation,
+    NstSvcPlaceFactory, NstUtility,NstSvcAuth, NstSvcPlaceAccess, NstSvcTranslation, NstSvcWait,
     NstVmMemberItem, NST_SRV_ERROR, NST_PLACE_FACTORY_EVENT, NstEntityTracker,
     NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NstSvcLogger) {
     var vm = this;
@@ -87,21 +87,24 @@
       if (!vm.placeId) {
         return;
       }
+
       vm.loading = true;
 
-      NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
-        if (place) {
-          vm.place = place;
+      NstSvcWait.all(['messages-done'], function () {
+        NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
+          if (place) {
+            vm.place = place;
 
-          vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
-          vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
+            vm.hasAddMembersAccess = place.hasAccess(NST_PLACE_ACCESS.ADD_MEMBERS);
+            vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
 
-          load();
-        }
-      }).catch(function(error) {
-        NstSvcLogger.error(error);
-      }).finally(function() {
-        vm.loading = false;
+            load();
+          }
+        }).catch(function(error) {
+          NstSvcLogger.error(error);
+        }).finally(function() {
+          vm.loading = false;
+        });
       });
     }
 

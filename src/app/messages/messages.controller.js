@@ -9,7 +9,7 @@
   function MessagesController($rootScope, $q, $stateParams, $log, $state, $interval, $scope,
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
-                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync,
+                              NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait,
                               NstSvcMessagesSettingStorage, NstSvcTranslation,
                               NstSvcPostMap, NstSvcPlaceAccess, NstSvcModal) {
 
@@ -95,6 +95,8 @@
 
             $q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess(), loadRemovePostAccess()]).catch(function (error) {
               $log.debug(error);
+            }).finally(function () {
+              NstSvcWait.emit('messages-done');
             });
           } else {
             NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
@@ -109,6 +111,8 @@
         vm.currentPlaceLoaded = true;
         $q.all([loadViewSetting(), loadMessages(), loadMyPlaces()]).catch(function (error) {
           $log.debug(error);
+        }).finally(function () {
+          NstSvcWait.emit('messages-done');
         });
       }
 
