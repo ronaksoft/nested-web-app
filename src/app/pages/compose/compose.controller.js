@@ -299,6 +299,7 @@
 
 
     vm.attachments.attach = function (file) {
+      console.log('ready drag drop')
       var deferred = $q.defer();
       var readyPromises = [];
 

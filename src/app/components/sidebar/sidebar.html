@@ -113,13 +113,13 @@
          data-uib-tooltip-template="'mention-uib-tooltip.html'"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto">
-        <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
+        <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;ctlSidebar.profileOpen = false;$event.preventDefault();$event.stopPropagation()">
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#bell"></use>
           </svg>
           <div class="notif" ng-if="ctlSidebar.notificationsCount > 0">{{ctlSidebar.notificationsCount | localize}}</div>
         </div>
-        <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;$event.preventDefault();$event.stopPropagation()">
+        <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;ctlSidebar.profileOpen = false;$event.preventDefault();$event.stopPropagation()">
           <translate>Notifications</translate>
         </div>
       </a>
@@ -136,12 +136,12 @@
          data-popover-trigger="none"
          data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
          data-tooltip-placement="right auto" data-tooltip-append-to-body="true">
-        <div ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;$event.preventDefault();$event.stopPropagation()">
+        <div ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;ctlSidebar.mentionOpen = false;$event.preventDefault();$event.stopPropagation()">
           <svg>
             <use xlink:href="/assets/icons/nst-icn24.svg#gear"></use>
           </svg>
         </div>
-        <translate ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;$event.preventDefault();$event.stopPropagation()">Profile</translate>
+        <translate ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;ctlSidebar.mentionOpen = false;$event.preventDefault();$event.stopPropagation()">Profile</translate>
       </a>
       <script type="text/ng-template" id="logout-uib-tooltip.html">
         <translate>Log out</translate>
