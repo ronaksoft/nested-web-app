@@ -121,7 +121,6 @@
         NstSvcPlaceFactory.getFavoritesPlaces()
           .then(function (data) {
             vm.bookmarkedPlaces = data;
-
           });
       }
 
@@ -129,34 +128,57 @@
         getUnreadsCount();
       });
 
+      function postMustBeShown(post) {
+        if (post.sender.id !== NstSvcAuth.user.id) {
+          return false;
+        }
+
+        // Is in sent page
+        if (isSent()) {
+          return true;
+        }
+
+        // The message was sent to the current place
+        if (post.belongsToPlace(vm.currentPlaceId)) {
+          return true;
+        }
+
+        // The message
+        if (!vm.currentPlaceId && _.intersection(_.map(post.places, 'id'), vm.bookmarkedPlaces).length > 0) {
+          return true;
+        }
+
+        return false;
+      }
+
+      function mustBeAddedToHotPosts(post) {
+        if (post.sender.id === NstSvcAuth.user.id) {
+          return false;
+        }
+
+        // The message was sent to the current place
+        if (post.belongsToPlace(vm.currentPlaceId)) {
+          return true;
+        }
+
+        // The message
+        if (!vm.currentPlaceId && _.intersection(_.map(post.places, 'id'), vm.bookmarkedPlaces).length > 0) {
+          return true;
+        }
+
+        return false;
+      }
+
       NstSvcSync.addEventListener(NST_EVENT_ACTION.POST_ADD, function (e) {
-        var newMessage = e.detail.post;
+        if (postMustBeShown(e.detail.post)) {
+          // The current user is the sender
+          vm.messages.unshift(mapMessage(e.detail.post));
 
-        if (newMessage.sender.id === NstSvcAuth.user.id) return;
-
-        if (isSent() || vm.isbookmarkedsMode) return;
-
-        if (!_.some(vm.messages, {id: newMessage.id}) &&
-          _.intersectionWith(vm.bookmarkedPlaces, newMessage.places, function (a, b) {
-            return a == b.id;
-          }).length > 0) {
-          vm.hotMessageStorage.unshift(newMessage);
+        } else if (mustBeAddedToHotPosts(e.detail.post)) {
+          // someone else sent the post
+          vm.hotMessageStorage.unshift(e.detail.post);
           vm.hasNewMessages = true;
-          return;
         }
-
-        if (!isSent()) {
-          if (!vm.currentPlaceId || _.some(newMessage.places, {id: vm.currentPlaceId})) {
-            if (!_.some(vm.messages, {id: newMessage.id}) &&
-              !_.some(vm.hotMessageStorage, {id: newMessage.id})) {
-              vm.hotMessageStorage.unshift(newMessage);
-              vm.hasNewMessages = true;
-              if (vm.currentPlace && vm.currentPlace.counters) vm.currentPlace.counters.posts++;
-              if (vm.currentPlace && vm.unreadCount) vm.unreadCount++;
-            }
-          }
-        }
-
       });
 
       NstSvcPostFactory.addEventListener(NST_POST_FACTORY_EVENT.REMOVE, function (e) {
@@ -364,11 +386,11 @@
     }
 
 
-    $rootScope.$on('post-quick', function (event, data) {
-      // if (_.find(data.allPlaces, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
-        loadMessages(true, true);
-      // }
-    });
+    // $rootScope.$on('post-quick', function (event, data) {
+    //   // if (_.find(data.allPlaces, {id: vm.currentPlaceId}) || !vm.currentPlaceId) {
+    //     loadMessages(true, true);
+    //   // }
+    // });
 
     function getFirstMessageTime() {
 
