@@ -253,13 +253,6 @@
      ***** Controller Methods ****
      *****************************/
 
-    $scope.$on('droppedAttach', function (event,files) {
-      for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i].file).then(function (request) {});
-        files[i].deleteFile();
-      }
-    });
-
     vm.addMessage = function (msg) {
       $rootScope.$emit('post-quick',msg);
     };
