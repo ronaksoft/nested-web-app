@@ -113,7 +113,12 @@
 
       </div>
       <div class="bot-nav">
-        <input type="text" placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
+        <div class="_df _fw _pr">
+          <input class="_fw" type="text" placeholder="Search..." ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
+          <svg class="_16svg close-inp" ng-click="ctlFullNavbar.query = ''">
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+          </svg>
+        </div>
         <div class="cp-illu _fn"></div>
       </div>
     </div>

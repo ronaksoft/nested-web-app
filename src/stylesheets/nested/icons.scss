@@ -53,7 +53,12 @@
   background-size: cover;
   flex: none;
 }
-
+.close-inp {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%)
+}
 .icon-side {
   background-repeat: no-repeat;
   margin: 0 5px;
