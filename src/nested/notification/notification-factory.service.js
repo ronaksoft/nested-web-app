@@ -79,6 +79,13 @@
 
               case NST_NOTIFICATION_TYPE.YOU_JOINED:
                 return parseYouJoined(notif);
+
+              case NST_NOTIFICATION_TYPE.PROMOTED:
+              case NST_NOTIFICATION_TYPE.DEMOTED:
+                return parsePromote(notif);
+
+              case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
+                return parsePlaceSettingsChanged(notif);
             }
           });
           $q.all(notificationPromises)
@@ -87,7 +94,7 @@
                 var hasData = obj && (obj.data !== null);
                 if (!hasData) {
                   if (obj)
-                  removeNotification(obj.id);
+                    removeNotification(obj.id);
                 }
                 return hasData;
               });
@@ -189,7 +196,7 @@
     }
 
     /*****************
-     **    Parse    **
+     **    Parsers    **
      *****************/
 
     function parseMention(data) {
@@ -220,6 +227,57 @@
             isSeen: data.read,
             date: new Date(data.timestamp),
             mention: mention,
+            type: data.type
+          });
+      }).catch(function () {
+        deferred.resolve({id: data._id, data: null});
+      });
+
+      return deferred.promise;
+    }
+
+    function parsePromote(data) {
+      var deferred = $q.defer();
+
+
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var accountPromise = NstSvcUserFactory.get(data.account_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
+
+      $q.all([actorPromise, accountPromise, placePromise]).then(function (values) {
+        deferred.resolve(
+          {
+            id: data._id,
+            isSeen: data.read,
+            date: new Date(data.timestamp),
+            actor: values[0],
+            member: values[1],
+            place: values[2],
+            type: data.type
+          });
+      }).catch(function () {
+        deferred.resolve({id: data._id, data: null});
+      });
+
+      return deferred.promise;
+    }
+
+
+    function parsePlaceSettingsChanged(data) {
+      var deferred = $q.defer();
+
+
+      var actorPromise = NstSvcUserFactory.get(data.actor_id);
+      var placePromise = NstSvcPlaceFactory.get(data.place_id);
+
+      $q.all([actorPromise, placePromise]).then(function (values) {
+        deferred.resolve(
+          {
+            id: data._id,
+            isSeen: data.read,
+            date: new Date(data.timestamp),
+            actor: values[0],
+            place: values[1],
             type: data.type
           });
       }).catch(function () {
@@ -343,5 +401,7 @@
 
       return defer.promise;
     }
+
+
   }
 })();

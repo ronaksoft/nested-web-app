@@ -231,7 +231,6 @@
       vm.teammatesSettings.skip = vm.teammatesSettings.creatorsCount;
 
       getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeeMembers).then(function (result) {
-        console.log(result);
         pageCounts.creators = result.creators.length;
         vm.teammatesSettings.limit = defaultTeammatesLimit - pageCounts.creators;
         vm.teammatesSettings.creatorsCount += result.creators.length;

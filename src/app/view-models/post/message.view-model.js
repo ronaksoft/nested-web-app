@@ -46,9 +46,10 @@
       this.dropPlace = function (placeId) {
         NstUtility.collection.dropById(this.allPlaces, placeId);
         this.firstPlace = _.head(this.allPlaces);
-      }
+      };
 
       if (post instanceof NstPost) {
+
         this.id = post.id;
         this.sender = post.sender ?  mapSender(post.sender) :  mapSender(post.emailSender);
         this.subject = post.subject;

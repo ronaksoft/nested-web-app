@@ -132,8 +132,12 @@
           closePopover();
           return viewPost(notification.mention.post);
         case NST_NOTIFICATION_TYPE.YOU_JOINED:
+        case NST_NOTIFICATION_TYPE.PROMOTED:
+        case NST_NOTIFICATION_TYPE.DEMOTED:
+        case NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED:
           closePopover();
           $state.go('app.place-messages',{placeId : notification.place.id});
+
       }
     }
 
