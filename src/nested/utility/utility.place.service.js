@@ -15,7 +15,7 @@
     PlaceUtility.prototype.constructor = PlaceUtility;
 
     PlaceUtility.prototype.isGrand = function (placeId) {
-      return _.indexOf(placeId, PLACE_ID_SEPARATOR);
+      return _.indexOf(placeId, PLACE_ID_SEPARATOR) === -1;
     }
 
     PlaceUtility.prototype.getGrandId = function (placeId) {
