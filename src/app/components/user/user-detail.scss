@@ -96,13 +96,14 @@
         display: flex;
         flex: none;
         margin: 0 4px 0 0;
-        i {
-          transform: scale(.625,.625);
+        width: 40px;
+        align-items: center;
+        justify-content: center;
+        svg {
+          fill : $color-breeze
         }
       }
-      svg {
-        width: 32px;
-        height: 32px;
+      svg.umsg {
         transform: scale(.85,.85);
         fill: $color-white;
       }
