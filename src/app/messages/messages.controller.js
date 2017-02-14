@@ -415,7 +415,7 @@
       if (!last) {
         return moment().format('x');
       }
-      var lastDate = NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.updatedDate : last.date;
+      var lastDate = !isSent() && NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY == vm.messagesSetting.sort ? last.updatedDate : last.date;
       if (moment.isMoment(lastDate)) {
         return lastDate.format('x');
       }
