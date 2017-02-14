@@ -32,6 +32,23 @@
            ng-init="notification = notif">
       </div>
 
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PROMOTED"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/promote.html'"
+           ng-init="notification = notif">
+      </div>
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/place-settings-changed.html'"
+           ng-init="notification = notif">
+      </div>
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.DEMOTED"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/demote.html'"
+           ng-init="notification = notif">
+      </div>
 
       <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE"
            class="item-inner ng-class:{'seen' : notif.isSeen}"

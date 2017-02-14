@@ -109,7 +109,6 @@ function NstSvcNotification($q, $window, _, $state,
           }
         };
       case NST_NOTIFICATION_TYPE.INVITE :
-        alert(86);
         return {
           title: NstUtility.string.format(
             NstSvcTranslation.get("Invitation to {0}"),

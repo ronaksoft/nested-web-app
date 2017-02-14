@@ -105,7 +105,7 @@
         }
 
         scope.$watch(function () {
-          return attrs.autoDir;
+          return $parse(attrs.autoDir)(scope);
         }, function (newVal,oldVal) {
           direction(newVal);
         });

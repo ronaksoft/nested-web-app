@@ -63,7 +63,7 @@
           $state.go(state.name, state.params);
         });
       }).catch(function (error) {
-        vm.username = vm.password = '';
+        vm.password = '';
         vm.progress = false;
 
         vm.message.fill = true;
