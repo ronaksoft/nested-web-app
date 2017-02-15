@@ -79,6 +79,9 @@
           if (ratio < .1 || ratio > 100) {
             scope.deform = true;
           }
+          if( ( imgOneRatio < .1 && scope.items[0].height > 1024) || (imgTwoRatio < .1 && scope.items[1].height > 1024)) {
+            scope.deform = true;
+          }
 
 
           // var unkHeight = Math.min(scope.items[0].height, scope.items[1].height);
