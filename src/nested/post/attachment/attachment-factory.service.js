@@ -165,7 +165,7 @@
         $log.debug('Could not find a download token in the attachment :', attachment);
         $log.debug('A new token should be retrieved from server.');
 
-        getDownloadToken(attachment.id, attachment.post.id).then(function (token) {
+        getDownloadToken(attachment.id, null, attachment.post.id).then(function (token) {
           attachment.token = token;
           defer.resolve(attachment.url.download);
         }).catch(defer.reject);
@@ -176,7 +176,7 @@
         if (attachment.file.token.isExpired()) {
           $log.debug('The token is expired and a new token should be retrieved from server.');
 
-          getDownloadToken(attachment.id, attachment.post.id).then(function (token) {
+          getDownloadToken(attachment.id, null, attachment.post.id).then(function (token) {
             attachment.token = token;
             defer.resolve(attachment.url.download);
           }).catch(defer.reject);

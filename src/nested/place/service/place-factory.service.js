@@ -6,7 +6,7 @@
     .service('NstSvcPlaceFactory', NstSvcPlaceFactory);
 
   function NstSvcPlaceFactory($q,_, $rootScope,
-                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT,
+                              NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_USER_FACTORY_EVENT,
                               NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger, NstSvcMicroPlaceStorage,
                               NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture, NstMicroPlace,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
@@ -61,6 +61,7 @@
           ));
         });
 
+
         factory.dispatchEvent(new CustomEvent(
           NST_PLACE_FACTORY_EVENT.UPDATE, {
             detail: {
@@ -70,6 +71,11 @@
           }
         ));
 
+      });
+
+
+      NstSvcUserFactory.addEventListener(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, function (event) {
+        factory.get(event.detail.id,true);
       });
 
       NstSvcServer.addEventListener(NST_EVENT_ACTION.PLACE_PRIVACY, function (event) {
@@ -732,7 +738,7 @@
         var creators = _.map(data.creators, function (creator) {
           return NstSvcUserFactory.parseTinyUser(creator);
         });
-        
+
         deferred.resolve({
           creators : creators,
           total : data.total
