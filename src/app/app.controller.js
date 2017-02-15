@@ -105,7 +105,12 @@
     checkToBeAuthenticated($state.current, $stateParams);
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       checkToBeAuthenticated(toState, toParams, event);
+      scrollTopBody();
     });
+
+    function scrollTopBody() {
+      $window.scrollTo(0, 0);
+    }
 
     function checkToBeAuthenticated(state, stateParams, event) {
       if (!NstSvcAuth.isInAuthorization() && _.startsWith(state.name, "app.")) {
