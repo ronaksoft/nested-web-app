@@ -279,7 +279,7 @@
 
         case 'app.place-messages-unread':
         case 'app.place-messages-unread':
-          return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlaceId.split(".")[0]], true);
+          return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlaceId], false);
 
 
         default:
@@ -599,7 +599,7 @@
       vm.attachfiles.useArray(false);
 
     });
-    
+
     $scope.$on('$dropletFileAdded', function startupload() {
 
       var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
