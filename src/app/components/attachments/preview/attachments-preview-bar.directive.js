@@ -5,7 +5,7 @@
     .module('ronak.nested.web.components.attachment')
     .directive('nstAttachmentsPreviewBar', AttachmentsPreviewBar);
 
-  function AttachmentsPreviewBar($timeout, $interval, toastr, $q,
+  function AttachmentsPreviewBar($timeout, $interval, toastr, $q, $stateParams,
                                  NST_FILE_TYPE, NST_ATTACHMENTS_PREVIEW_BAR_MODE, NST_ATTACHMENTS_PREVIEW_BAR_ORDER, NST_STORE_ROUTE,
                                  NstSvcStore, NstSvcFileFactory) {
     return {
@@ -15,7 +15,8 @@
         onItemClick: '=',
         items: '=',
         mode: '=',
-        badge: '='
+        badge: '=',
+        postId: '='
       },
       link: function (scope, ele) {
         scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.AUTO;
@@ -38,7 +39,7 @@
         }
 
 
-        if (scope.items.length == 1 && scope.items[0].type === NST_FILE_TYPE.IMAGE &&  scope.items[0].hasPreview.length > 0) {
+        if (scope.items.length == 1 && scope.items[0].type === NST_FILE_TYPE.IMAGE && scope.items[0].hasPreview.length > 0) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
 
           var wrpWidth = ele.parent().parent().width();
@@ -54,7 +55,7 @@
           if (scope.height < 96) {
             scope.height = 96;
             scope.width = scope.height * imgOneRatio;
-          }else if (scope.height  > 1024){
+          } else if (scope.height > 1024) {
             scope.height = 1024;
             scope.width = scope.height * imgOneRatio;
           }
@@ -62,7 +63,7 @@
           scope.wrpHeight = scope.height > 1024 ? 1024 : scope.height;
         }
 
-        if (scope.items.length == 2 && scope.items[0].type === NST_FILE_TYPE.IMAGE &&  scope.items[1].type === NST_FILE_TYPE.IMAGE  && scope.items[0].hasPreview.length > 0 && scope.items[1].hasPreview.length > 0) {
+        if (scope.items.length == 2 && scope.items[0].type === NST_FILE_TYPE.IMAGE && scope.items[1].type === NST_FILE_TYPE.IMAGE && scope.items[0].hasPreview.length > 0 && scope.items[1].hasPreview.length > 0) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
           scope.deform = false;
 
@@ -74,8 +75,8 @@
           scope.scaleOne = (ratio / (1 + ratio)) * 100;
           scope.scaleTwo = 100 - scope.scaleOne;
           scope.constHeight = (scope.scaleOne * wrpWidth) / ( imgOneRatio * 100 );
-          
-          if(ratio < .1 || ratio > 100) {
+
+          if (ratio < .1 || ratio > 100) {
             scope.deform = true;
           }
 
@@ -142,8 +143,7 @@
 
         function getToken(id) {
           var deferred = $q.defer();
-
-          NstSvcFileFactory.getDownloadToken(id).then(deferred.resolve).catch(deferred.reject).finally(function () {
+            NstSvcFileFactory.getDownloadToken(id, $stateParams.placeId, scope.postId).then(deferred.resolve).catch(deferred.reject).finally(function () {
           });
 
           return deferred.promise;

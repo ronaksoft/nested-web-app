@@ -5,12 +5,11 @@
     .module('ronak.nested.web.components.attachment')
     .controller('AttachmentViewController', AttachmentViewController);
 
-  function AttachmentViewController($q, $timeout, $log, $uibModalInstance, $sce,
+  function AttachmentViewController($q, $timeout, $sce, $stateParams,
                                     hotkeys, toastr,
                                     NST_FILE_TYPE, NST_STORE_ROUTE,
                                     NstVmFileViewerItem,
-                                    NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcPostMap, NstSvcAttachmentMap, NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
-                                    NstHttp,
+                                    NstSvcFileFactory, NstSvcStore, NstSvcTranslation,
                                     fileId, fileViewerItem, fileIds, fileViewerItems) {
     var vm = this;
 
@@ -130,7 +129,7 @@
       var deferred = $q.defer();
       vm.status.tokenLoadProgress = true;
 
-      NstSvcFileFactory.getDownloadToken(id).then(deferred.resolve).catch(deferred.reject).finally(function () {
+      NstSvcFileFactory.getDownloadToken(id, $stateParams.placeId).then(deferred.resolve).catch(deferred.reject).finally(function () {
         vm.status.tokenLoadProgress = false;
       });
 

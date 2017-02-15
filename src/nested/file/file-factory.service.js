@@ -68,7 +68,7 @@
       return file;
     }
 
-    function getDownloadToken(fileId) {
+    function getDownloadToken(fileId,placeId, postId) {
 
       var deferred = $q.defer();
 
@@ -78,7 +78,9 @@
         deferred.resolve(token);
       } else {
         NstSvcServer.request('file/get_download_token', {
-          universal_id : fileId
+          universal_id : fileId,
+          place_id: placeId,
+          post_id: postId
         }).then(function(data) {
           storeToken(fileId, data.token);
           deferred.resolve(createToken(data.token));
