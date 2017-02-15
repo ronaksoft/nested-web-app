@@ -370,6 +370,7 @@
               lastUpdate: new Date(notif.last_update),
               post: value[0],
               comment: value[1],
+              actor: value[2][0],
               users: value[2],
               otherUsersCount: notif.data.others.length - countOfMappeedUsers < 1 ? 0 : notif.data.others.length - countOfMappeedUsers,
               type: notif.type
@@ -388,6 +389,7 @@
               lastUpdate: new Date(notif.last_update),
               post: value[0],
               comment: value[1],
+              actor: value[1].sender,
               users: [],
               otherUsersCount: 0,
               type: notif.type
