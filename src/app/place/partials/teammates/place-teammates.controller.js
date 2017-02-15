@@ -225,7 +225,6 @@
 
       var teammates = [];
       getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess).then(function(creators) {
-
         teammates.push.apply(teammates, creators);
 
         return getKeyholders(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, hasSeeMembersAccess);
@@ -259,8 +258,8 @@
 
       if (hasAccess && vm.teammatesSettings.creatorsCount < vm.place.counters.creators) {
 
-        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function(creators) {
-          var creatorItems = _.map(creators, function(item) {
+        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function(data) {
+          var creatorItems = _.map(data.creators, function(item) {
             return new NstVmMemberItem(item, 'creator');
           });
 
@@ -278,8 +277,8 @@
       var deferred = $q.defer();
 
       if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
-        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function(keyHolders) {
-          var keyHolderItems = _.map(keyHolders, function(item) {
+        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function(data) {
+          var keyHolderItems = _.map(data.keyHolders, function(item) {
             return new NstVmMemberItem(item, 'key_holder');
           });
 
