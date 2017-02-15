@@ -9,10 +9,7 @@
   function LogoutController($state, NstSvcAuth, NST_CONFIG) {
 
     if (NstSvcAuth.isAuthorized()) {
-      NstSvcAuth.logout().then(function () {
-        $state.go('public.signin');
-      });
-    } else {
+      NstSvcAuth.logout();
       $state.go('public.signin');
     }
   }
