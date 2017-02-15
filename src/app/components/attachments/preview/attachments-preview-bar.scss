@@ -64,6 +64,10 @@ nst-attachments-preview-bar {
         svg {
           fill: $color-white;
         }
+        &.del {
+          background-color: $color-force;
+          border-color: $color-force-wire;
+        }
       }
       &:hover {
         .attdl {

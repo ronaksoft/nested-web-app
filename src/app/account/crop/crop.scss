@@ -4,11 +4,43 @@ img-crop {
   max-height: 80vh;
   min-height: 20vh
 }
-.crop {
+.modal .crop {
   position: relative;
-  input {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+  flex-direction: column;
+  display: flex;
+  .modal-content {
+    width: 588px;
+    max-width: 100%;
+    height: 480px;
+    padding: 0 16px;
+  }
+  .crp-head {
+    height: 56px;
+    width: 100%;
+    display: flex;
+    flex: none;
+    justify-content: flex-start;
+    align-items: center;
+    span {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+  .crp-body {
+    display: flex;
+    height: calc(100% - 104px);
+    padding: 4px 32px;
+  }
+  .crp-foot {
+    height: 48px;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+    input {
+      width: 80px;
+      height: 32px;
+      text-align: center;
+    }
   }
 }
