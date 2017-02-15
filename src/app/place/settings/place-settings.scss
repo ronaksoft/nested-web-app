@@ -138,9 +138,8 @@
       flex: none;
       color:$color-wind;
       >div > svg {
-        width: 24px;
-        height: 24px;
-        fill: $color-solid;
+        margin-left: 8px;
+        fill: $color-wind;
       }
     }
     .invited {

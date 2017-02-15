@@ -101,7 +101,8 @@
 .nst-attach {
   flex: none;
   height: 108px;
-  width: 100%;
+  width: calc(100% - 40px);
+  align-self: center;
 }
 
 .compose-message-input {

@@ -309,7 +309,6 @@
       attachment.setSize(file.size);
       attachment.setFilename(file.name);
       attachment.setMimetype(file.type);
-
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
@@ -903,6 +902,14 @@
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i].file).then(function (request) {
         });
+        files[i].deleteFile();
+      }
+    });
+
+
+    $scope.$on('droppedAttach', function (event,files) {
+      for (var i = 0; i < files.length; i++) {
+        vm.attachments.attach(files[i].file).then(function (request) {});
         files[i].deleteFile();
       }
     });

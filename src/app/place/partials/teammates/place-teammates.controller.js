@@ -72,6 +72,8 @@
 
     vm.addMember = addMember;
 
+    vm.isGrand = !NstUtility.place.hasParent(vm.placeId);
+
     $scope.$watch(function() {
       return $stateParams.placeId;
     }, function(newValue, oldValue) {
