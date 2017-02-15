@@ -729,9 +729,14 @@
         limit: limit,
         skip: skip
       }).then(function (data) {
-        deferred.resolve(_.map(data.creators, function (creator) {
+        var creators = _.map(data.creators, function (creator) {
           return NstSvcUserFactory.parseTinyUser(creator);
-        }));
+        });
+        
+        deferred.resolve({
+          creators : creators,
+          total : data.total
+        });
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });
@@ -751,9 +756,14 @@
         limit: limit,
         skip: skip
       }).then(function (data) {
-        deferred.resolve(_.map(data.key_holders, function (keyHolder) {
+        var keyHolders = _.map(data.key_holders, function (keyHolder) {
           return NstSvcUserFactory.parseTinyUser(keyHolder);
-        }));
+        });
+
+        deferred.resolve({
+          keyHolders : keyHolders,
+          total : data.total
+        });
       }).catch(function (error) {
         deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
       });

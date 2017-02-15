@@ -60,10 +60,10 @@
           <svg class="tick">
             <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
           </svg>
-          <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && ctlCreate.place.name">Only Managers of {{ctlCreate.place.name}}</translate>
-          <translate ng-if="ctlCreate.place.privacy.addPost == 'creators' && !ctlCreate.place.name">Only Managers of ...</translate>
-          <translate ng-if="ctlCreate.place.privacy.addPost != 'creators' && ctlCreate.place.name">Only Members of {{ctlCreate.place.name}}</translate>
-          <translate ng-if="ctlCreate.place.privacy.addPost != 'creators' && !ctlCreate.place.name">Only Members of ...</translate>
+          <translate ng-if="ctlCreate.place.policy.addPost == 'creators' && ctlCreate.place.name">Only Managers of {{ctlCreate.place.name}}</translate>
+          <translate ng-if="ctlCreate.place.policy.addPost == 'creators' && !ctlCreate.place.name">Only Managers of ...</translate>
+          <translate ng-if="ctlCreate.place.policy.addPost != 'creators' && ctlCreate.place.name">Only Members of {{ctlCreate.place.name}}</translate>
+          <translate ng-if="ctlCreate.place.policy.addPost != 'creators' && !ctlCreate.place.name">Only Members of ...</translate>
         </h3>
         <h3 ng-if="!ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace">
           <svg class="tick">
@@ -77,15 +77,15 @@
             <use xlink:href="/assets/icons/nst-icn16.svg#tick"></use>
           </svg><translate>Only you</translate>
         </h3>
-
+        
         <p ng-if="!ctlCreate.isClosedPlace && !ctlCreate.isPersonalPlace"><translate>Only <b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b> Members can view the contents of this Place.</translate></p>
-        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost == 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Managers can post messages to <b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b> Place.</translate></p>
-        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.privacy.addPost != 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Members can post messages to <b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b> Place.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.policy.addPost == 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Managers can post messages to <b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b> Place.</translate></p>
+        <p ng-if="ctlCreate.isClosedPlace && ctlCreate.place.policy.addPost != 'creators' && !ctlCreate.isPersonalPlace"><translate>Only Members can post messages to <b>{{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</b> Place.</translate></p>
         <p ng-if="ctlCreate.isPersonalPlace">Only you can post messages to this Place.</p>
         <aside ng-if="!ctlCreate.isPersonalPlace">
           <p class="f4"><translate>Which Members can contribute to this Place?</translate></p>
           <div class="_df f1">
-            <select ng-model="ctlCreate.place.privacy.addPost">
+            <select ng-model="ctlCreate.place.policy.addPost">
               <option value="creators" translate-inner>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
               <option value="everyone" translate-inner>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
             </select>
