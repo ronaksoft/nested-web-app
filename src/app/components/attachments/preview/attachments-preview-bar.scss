@@ -291,6 +291,7 @@ nst-attachments-preview-bar {
       float: left;
       min-width: 80px;
       min-height: 96px;
+      max-height: 1024px;
       max-width: calc(100% - 96px);
     }
     div {

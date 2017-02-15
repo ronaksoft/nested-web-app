@@ -11,16 +11,15 @@
   <translate ng-if="memberCtrl.member.role === 'key_holder' && false">Member</translate>
   <translate class="nst-mood-pending" ng-if="memberCtrl.member.role === 'pending_key_holder'">Pending ...</translate>
   <div data-ng-switch="memberCtrl.member.role" class="_fn">
-    <svg class="_16svg _df _20svg crown" data-ng-switch-when="creator">
+    <svg class="_16svg _df _16svg crown" data-ng-switch-when="creator">
       <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
     </svg>
-    <svg class="_16svg _df _20svg" data-ng-switch-when="key_holder" ng-if="false">
+    <svg class="_16svg _df _16svg" data-ng-switch-when="key_holder" ng-if="false">
       <use xlink:href="/assets/icons/nst-icn16.svg#member"></use>
     </svg>
-    <div data-ng-switch-when="" class="role-icons-key role-icon"></div>
-    <div data-ng-switch-when="pending_key_holder" class="role-icons-key-wait role-icon"></div>
-    <div data-ng-switch-when="pending_known_guest" class="role-icons-avatar-wait role-icon"></div>
-    <div data-ng-switch-default class="role-icons-avatar role-icon"></div>
+    <svg class="_16svg _df _16svg" data-ng-switch-when="pending_key_holder || pending_known_guest" ng-if="false">
+      <use xlink:href="/assets/icons/nst-icn16.svg#hourglass"></use>
+    </svg>
   </div>
   <div ng-if="!(memberCtrl.member.role === 'creator' && memberCtrl.place.counters.creators === 1)" class="cursor-pointer margin-r_5 icon-rp _df"
        popover-class="white-pop" data-popover-placement="auto bottom-right"  uib-popover-template="'app/pages/places/settings/place-member-item-options.html'" popover-append-to-body="false" popover-trigger="focus">
