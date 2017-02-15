@@ -400,6 +400,10 @@ body[dir="rtl"] {
     margin-right: 0;
     margin-left: 16px;
   }
+  .close-inp {
+    right: auto;
+    left: 0;
+  }
 }
 @media screen and (max-width: $screen-md){
 

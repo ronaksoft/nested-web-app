@@ -19,10 +19,12 @@
     <span ng-if="!isEmail">@{{username}}</span>
     <div class="_fw">
       <a class="butn-white" ui-sref="app.conversation({userId:username})">
-        <i class="icon cursor-pointer icon-search-rotated"></i>
+        <svg class="_24svg _df">
+          <use xlink:href="/assets/icons/nst-icn24.svg#message-baloon"></use>
+        </svg>
       </a>
       <div class="butn-green"  ng-click="messageUser($event)">
-        <svg>
+        <svg class="_32svg umsg">
           <use xlink:href="/assets/icons/nst-icn32.svg#compose"></use>
         </svg><translate>Compose</translate>
       </div>

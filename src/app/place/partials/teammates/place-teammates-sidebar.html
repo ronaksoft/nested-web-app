@@ -12,7 +12,8 @@
         </i>
       </div>
       <script type="text/ng-template" id="add-member-uib-tooltip.html">
-        <translate>Add</translate>
+        <translate ng-if="!ctlTeammates.isGrand">add</translate>
+        <translate ng-if="ctlTeammates.isGrand">invite</translate>
       </script>
       <div class="sidebar-add-member" ng-if="ctlTeammates.hasAddMembersAccess" ng-click="ctlTeammates.addMember()"
            data-tooltip-placement="top" data-uib-tooltip-template="'add-member-uib-tooltip.html'">

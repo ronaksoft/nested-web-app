@@ -599,7 +599,7 @@
       vm.attachfiles.useArray(false);
 
     });
-
+    
     $scope.$on('$dropletFileAdded', function startupload() {
 
       var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
