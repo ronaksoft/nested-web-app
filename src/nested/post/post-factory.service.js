@@ -632,8 +632,7 @@
       var options = {
         limit: setting.limit,
         before: setting.date,
-        place_id: places.join(","),
-        subs: subs ? subs : false
+        place_id: places.join(",")
       };
 
       if (setting.sort === NST_MESSAGES_SORT_OPTION.LATEST_ACTIVITY) {

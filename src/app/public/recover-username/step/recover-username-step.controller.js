@@ -12,7 +12,6 @@
 
     (function () {
       recoverUsername(vm.verificationId).then(function (data) {
-        console.log(data);
       }).catch(function (reason) {
 
       });
