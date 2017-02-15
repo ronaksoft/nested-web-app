@@ -74,8 +74,11 @@
           scope.scaleOne = (ratio / (1 + ratio)) * 100;
           scope.scaleTwo = 100 - scope.scaleOne;
           scope.constHeight = (scope.scaleOne * wrpWidth) / ( imgOneRatio * 100 );
-          
+
           if(ratio < .1 || ratio > 100) {
+            scope.deform = true;
+          }
+          if( ( imgOneRatio < .1 && scope.items[0].height > 1024) || (imgTwoRatio < .1 && scope.items[1].height > 1024)) {
             scope.deform = true;
           }
 
