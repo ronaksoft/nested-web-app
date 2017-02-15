@@ -11,8 +11,13 @@
   <translate ng-if="memberCtrl.member.role === 'key_holder'">Member</translate>
   <translate class="nst-mood-pending" ng-if="memberCtrl.member.role === 'pending_key_holder'">Pending ...</translate>
   <div data-ng-switch="memberCtrl.member.role" class="_fn">
-    <div data-ng-switch-when="creator" class="role-icons-crown role-icon"></div>
-    <div data-ng-switch-when="key_holder" class="role-icons-key role-icon"></div>
+    <svg class="_16svg _df _20svg crown" data-ng-switch-when="creator">
+      <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
+    </svg>
+    <svg class="_16svg _df _20svg" data-ng-switch-when="key_holder">
+      <use xlink:href="/assets/icons/nst-icn16.svg#member"></use>
+    </svg>
+    <div data-ng-switch-when="" class="role-icons-key role-icon"></div>
     <div data-ng-switch-when="pending_key_holder" class="role-icons-key-wait role-icon"></div>
     <div data-ng-switch-when="pending_known_guest" class="role-icons-avatar-wait role-icon"></div>
     <div data-ng-switch-default class="role-icons-avatar role-icon"></div>
