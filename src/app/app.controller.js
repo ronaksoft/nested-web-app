@@ -109,7 +109,6 @@
     });
 
     function scrollTopBody() {
-      console.log('scrolltop')
       $window.scrollTo(0, 0);
     }
 
