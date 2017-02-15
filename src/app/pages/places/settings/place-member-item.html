@@ -14,10 +14,13 @@
     <svg class="_16svg _df _16svg crown" data-ng-switch-when="creator">
       <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
     </svg>
-    <svg class="_16svg _df _16svg" data-ng-switch-when="key_holder" ng-if="false">
+    <svg class="_16svg _df" data-ng-switch-when="key_holder" ng-if="false">
       <use xlink:href="/assets/icons/nst-icn16.svg#member"></use>
     </svg>
-    <svg class="_16svg _df _16svg" data-ng-switch-when="pending_key_holder || pending_known_guest" ng-if="false">
+    <svg class="_16svg _df pendfill" data-ng-switch-when="pending_key_holder">
+      <use xlink:href="/assets/icons/nst-icn16.svg#hourglass"></use>
+    </svg>
+    <svg class="_16svg _df" data-ng-switch-when="pending_known_guest">
       <use xlink:href="/assets/icons/nst-icn16.svg#hourglass"></use>
     </svg>
   </div>
