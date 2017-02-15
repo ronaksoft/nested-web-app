@@ -42,7 +42,7 @@
         </ui-select>
       </div>
       <section class="_difc _fw _fn">
-        <input class="compose-input _fw" name="subject" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="{{ctlCompose.model.subject}}" translate-attrs="placeholder">
+        <input class="compose-input _fw" name="subject" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder">
       </section>
 
       <section class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus}" id="editor-txt">
