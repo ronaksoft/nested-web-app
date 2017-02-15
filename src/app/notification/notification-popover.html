@@ -84,9 +84,10 @@
         <!--<translate ng-if="ctlMentions.error">Try again...</translate>-->
       <!--</div>-->
     </li>
+    <li class="more-mentions" ng-click="ctlNotifications.loadMore()">
+      <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Load more...</translate>
+      <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Try again...</translate>
+    </li>
   </ul>
-  <div class="more-mentions" ng-click="ctlNotifications.loadMore()">
-    <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Load more...</translate>
-    <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Try again...</translate>
-  </div>
+
 </div>
