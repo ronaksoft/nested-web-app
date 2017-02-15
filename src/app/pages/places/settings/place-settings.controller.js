@@ -83,7 +83,7 @@
           vm.accesses.hasSeeMembersAccess && vm.placeId !== NstSvcAuth.user.id,
           vm.accesses.hasControlAccess && vm.placeId !== NstSvcAuth.user.id);
       }).then(function (teammates) {
-        vm.hasMoreTeammates = vm.teammates.length === teammates.length;
+        vm.hasMoreTeammates = teammates.length === defaultTeammatesLimit;
         vm.teammates = teammates;
 
 
@@ -157,17 +157,22 @@
       var deferred = $q.defer();
       if (hasAccess && vm.teammatesSettings.creatorsCount < vm.place.counters.creators) {
 
-        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function (creators) {
+        NstSvcPlaceFactory.getCreators(placeId, limit, skip).then(function (result) {
 
-          var creatorItems = _.map(creators, function (item) {
+          var creatorItems = _.map(result.creators, function (item) {
             return new NstVmMemberItem(item, 'creator');
           });
 
-          deferred.resolve(creatorItems);
+          deferred.resolve({
+            creators : creatorItems,
+            total : result.total
+          });
         }).catch(deferred.reject);
 
       } else {
-        deferred.resolve([]);
+        deferred.resolve({
+          creators : []
+        });
       }
 
       return deferred.promise;
@@ -177,15 +182,20 @@
       var deferred = $q.defer();
 
       if (limit > 0 && hasAccess && vm.teammatesSettings.keyHoldersCount < vm.place.counters.key_holders) {
-        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function (keyHolders) {
-          var keyHolderItems = _.map(keyHolders, function (item) {
+        NstSvcPlaceFactory.getKeyholders(placeId, limit, skip).then(function (result) {
+          var keyHolderItems = _.map(result.keyHolders, function (item) {
             return new NstVmMemberItem(item, 'key_holder');
           });
 
-          deferred.resolve(keyHolderItems);
+          deferred.resolve({
+            keyHolders : keyHolderItems,
+            total : result.total
+          });
         }).catch(deferred.reject);
       } else {
-        deferred.resolve([]);
+        deferred.resolve({
+          keyHolders : []
+        });
       }
 
       return deferred.promise;
@@ -220,23 +230,22 @@
       vm.teammatesSettings.limit = defaultTeammatesLimit;
       vm.teammatesSettings.skip = vm.teammatesSettings.creatorsCount;
 
-      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeeMembers).then(function (creators) {
-
-        pageCounts.creators = creators.length;
+      getCreators(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeeMembers).then(function (result) {
+        pageCounts.creators = result.creators.length;
         vm.teammatesSettings.limit = defaultTeammatesLimit - pageCounts.creators;
-        vm.teammatesSettings.creatorsCount += creators.length;
+        vm.teammatesSettings.creatorsCount += result.creators.length;
         vm.teammatesSettings.skip = vm.teammatesSettings.keyHoldersCount;
-        teammates.push.apply(teammates, creators);
+        teammates.push.apply(teammates, result.creators);
 
         return getKeyholders(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeeMembers);
-      }).then(function (keyHolders) {
+      }).then(function (result) {
 
-        pageCounts.keyHolders = keyHolders.length;
+        pageCounts.keyHolders = result.keyHolders.length;
         vm.teammatesSettings.limit = defaultTeammatesLimit - pageCounts.keyHolders - pageCounts.creators;
-        vm.teammatesSettings.keyHoldersCount += keyHolders.length;
+        vm.teammatesSettings.keyHoldersCount += result.keyHolders.length;
         vm.teammatesSettings.skip = vm.teammatesSettings.pendingsCount;
 
-        teammates.push.apply(teammates, keyHolders);
+        teammates.push.apply(teammates, result.keyHolders);
         return getPendings(placeId, vm.teammatesSettings.limit, vm.teammatesSettings.skip, accessToSeePendings);
       }).then(function (pendings) {
         vm.teammatesSettings.pendingsCount += pendings.length;

@@ -556,26 +556,33 @@
       })().then(function (response) {
         vm.model.saving = false;
         vm.model.saved = true;
-
-        // TODO: Check if one or more places failed
         vm.finish = true;
 
-        NstSvcPostFactory.get(response.post.id).then(function (res) {
-          var msg = NstSvcPostMap.toMessage(res);
-          $rootScope.$emit('post-quick', msg);
-        });
-        $uibModalStack.dismissAll();
-        vm.model.subject = "";
-        vm.model.body = "";
-        vm.attachments.viewModels = [];
+        // All target places have received the message
+        if (response.noPermitPlaces.length === 0) {
+          toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'));
+          NstSvcPostFactory.get(response.post.id).then(function (res) {
+            var msg = NstSvcPostMap.toMessage(res);
+            $rootScope.$emit('post-quick', msg);
+          });
+          $uibModalStack.dismissAll();
+          vm.model.subject = "";
+          vm.model.body = "";
+          vm.attachments.viewModels = [];
 
-        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
-
-        if (response.noPermitPlaces.length > 0) {
-          var text = NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(','));
-          toastr.warning(text, NstSvcTranslation.get('Message didn\'t send'));
+        } else if (response.post.places.length === response.noPermitPlaces.length) {
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(',')));
+        } else {
+          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('Your message was sent, but {0} did not received that!'), response.noPermitPlaces.join(',')));
+          NstSvcPostFactory.get(response.post.id).then(function (res) {
+            var msg = NstSvcPostMap.toMessage(res);
+            $rootScope.$emit('post-quick', msg);
+          });
+          $uibModalStack.dismissAll();
+          vm.model.subject = "";
+          vm.model.body = "";
+          vm.attachments.viewModels = [];
         }
-
 
         return $q(function (res) {
           res(response);
