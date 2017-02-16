@@ -21,5 +21,8 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
     </svg>
   </div>
-  <span class="_dib nst-mood-simple _vat"><translate>Remove</translate></span>
+  <span class="_dib nst-mood-simple _vat">
+    <translate ng-if="!memberCtrl.isCurrent">Remove</translate>
+    <translate ng-if="memberCtrl.isCurrent">Leave</translate>
+  </span>
 </a>
