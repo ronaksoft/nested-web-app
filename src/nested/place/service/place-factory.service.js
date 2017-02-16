@@ -574,13 +574,38 @@
       }, "setBookmarkOption", id);
     }
 
-    PlaceFactory.prototype.search = function (keyword) {
+    PlaceFactory.prototype.searchForCompose = function (keyword) {
       var factory = this;
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         var query = new NstFactoryQuery(keyword);
 
         NstSvcServer.request('search/places_for_compose', {
+          keyword: keyword
+        }).then(function (response) {
+          var places = [];
+          for (var k in response.places) {
+            var place = factory.parseTinyPlace(response.places[k]);
+            factory.set(place);
+            places.push(place);
+          }
+
+          deferred.resolve(places);
+        }).catch(function (error) {
+          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+
+        return deferred.promise;
+      }, "search", keyword);
+    };
+
+    PlaceFactory.prototype.search = function (keyword) {
+      var factory = this;
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+        var query = new NstFactoryQuery(keyword);
+
+        NstSvcServer.request('search/places_for_search', {
           keyword: keyword
         }).then(function (response) {
           var places = [];
