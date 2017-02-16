@@ -1,4 +1,4 @@
-<div class="_fh {{ ctlCompose.quickMode ? '_pr' : '_pa'}} _fw">
+<div class="_fh _pr _fw">
   <!--<div class="droplet"></div>-->
   <div class="compose-wrp" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
     <div class="modal-head" ng-if="!ctlCompose.quickMode">
@@ -74,15 +74,20 @@
         </div>
       </div>
     </div>
-    <div class="modal-ft _difh _fw _aic ng-class:{'focussed' : ctlCompose.focus}">
-      <label class="_df _fn _24svg" for="attach">
-        <svg class="_24svg">
-          <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
-        </svg>
-      </label>
-      <div class="_df f1" id="editor-btn"></div>
-      <input type="button" ng-click="ctlCompose.clear()" class="butn-white" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
-      <input type="button" ng-click="ctlCompose.send()" class="butn-green" value="Share" translate-attrs="value">
+    <div class="modal-ft _fw _aic ng-class:{'focussed' : ctlCompose.focus}">
+      <div class="compose-btns">
+        <label class="_df _fn _24svg" for="attach">
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
+          </svg>
+        </label>
+        <div class="_df f1" id="editor-btn"></div>
+      </div>
+      <div class="quick-btns">
+        <input type="button" ng-click="" class="butn-white" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
+        <input type="button" ng-click="ctlCompose.send()" class="butn-green" value="Share" translate-attrs="value">
+      </div>
+
     </div>
 
   </div>

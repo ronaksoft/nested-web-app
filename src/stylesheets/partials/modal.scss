@@ -176,6 +176,9 @@ body.modal-open {
     max-height: calc(100vh - 160px);
     overflow: hidden;
     border-radius: 4px;
+    >div {
+      min-height: 480px;
+    }
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
       padding: 0;
@@ -199,7 +202,7 @@ body.modal-open {
     position: absolute;
   }
   .modal-bo {
-    margin-top: 48px;
+    margin: 48px 0;
     padding: 0 16px;
     height: calc(100% - 96px);
     max-height: calc(100vh - 255px);
@@ -214,6 +217,7 @@ body.modal-open {
     height: 48px;
     display: flex;
     align-items: center;
+    flex-direction: column;
     position: absolute;
     left: 0;
     bottom: 0;
