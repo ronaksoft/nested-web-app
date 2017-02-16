@@ -133,6 +133,7 @@
       "You have to delete all the sub-Places within, before removing this Place.": "You have to delete all the embedded sub-Places before being able to delete this Place.",
       "Your message has been successfully sent.": "Your post has been successfully shared.",
       "Your message has not been successfully sent to {0}": "Your post has not been successfully shared with {0}",
+      "Your message was sent, but {0} did not received that!": "Your message was sent, but {0} did not receive that",
       "alphanumeric and dash(-) only": "alphanumeric and dash (-) only",
       "change": "Change",
       "checking...": "Checking...",
