@@ -176,6 +176,9 @@ body.modal-open {
     max-height: calc(100vh - 160px);
     overflow: hidden;
     border-radius: 4px;
+    >div {
+      height: 480px;
+    }
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
       padding: 0;
@@ -201,7 +204,7 @@ body.modal-open {
   .modal-bo {
     margin-top: 48px;
     padding: 0 16px;
-    height: calc(100% - 96px);
+    height: calc(100% - 48px);
     max-height: calc(100vh - 255px);
     //overflow-y: scroll;
     //overflow-x: hidden;
