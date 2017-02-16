@@ -891,20 +891,20 @@
     // Listen for when the dnd has been configured.
     vm.attachfiles = {};
 
-    $scope.$on('$dropletReady', function whenDropletReady() {
-      vm.attachfiles.allowedExtensions([/.+/]);
-      vm.attachfiles.useArray(false);
-
-    });
-    $scope.$on('$dropletFileAdded', function startupload() {
-
-      var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
-      for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i].file).then(function (request) {
-        });
-        files[i].deleteFile();
-      }
-    });
+    // $scope.$on('$dropletReady', function whenDropletReady() {
+    //   vm.attachfiles.allowedExtensions([/.+/]);
+    //   vm.attachfiles.useArray(false);
+    //
+    // });
+    // $scope.$on('$dropletFileAdded', function startupload() {
+    //
+    //   var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
+    //   for (var i = 0; i < files.length; i++) {
+    //     vm.attachments.attach(files[i].file).then(function (request) {
+    //     });
+    //     files[i].deleteFile();
+    //   }
+    // });
 
 
     $scope.$on('droppedAttach', function (event,files) {
