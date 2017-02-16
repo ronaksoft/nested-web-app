@@ -70,7 +70,10 @@
       </div>
 
     </li>
-    <li>
+
+    <li class="more-mentions" ng-click="ctlNotifications.loadMore()" ng-if="!ctlNotifications.reached">
+      <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Load more...</translate>
+      <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Try again...</translate>
       <div class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingBefore && !ctlNotifications.error">
         <div class="nst-loading nst-loading-size-4 _fl"></div>
         <span>&nbsp;</span>
@@ -78,15 +81,6 @@
           <translate>Loading...</translate>
         </div>
       </div>
-      <!--<div class="text-center margin-top-10 nst-font-xsmall" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached"-->
-           <!--ng-click="ctlNotifications.loadMore()">-->
-        <!--<translate ng-if="!ctlMentions.error">Load more...</translate>-->
-        <!--<translate ng-if="ctlMentions.error">Try again...</translate>-->
-      <!--</div>-->
-    </li>
-    <li class="more-mentions" ng-click="ctlNotifications.loadMore()">
-      <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Load more...</translate>
-      <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Try again...</translate>
     </li>
   </ul>
 
