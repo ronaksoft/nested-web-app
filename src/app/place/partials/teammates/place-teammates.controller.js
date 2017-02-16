@@ -81,7 +81,7 @@
 
       vm.loading = true;
 
-      NstSvcWait.all(['messages-done'], function () {
+      NstSvcWait.all(['main-done'], function () {
         NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
           if (place) {
             vm.place = place;

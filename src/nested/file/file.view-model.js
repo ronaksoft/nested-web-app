@@ -21,6 +21,7 @@
       this.mimetype = null;
 
       if (model instanceof NstAttachment) {
+        
         this.id = model.id;
         this.size = model.size;
         this.name = model.filename;
@@ -28,7 +29,7 @@
         this.extension = NstSvcFileType.getSuffix(model.filename);
         this.date = model.uploadTime;
         this.hasThumbnail = model.hasThumbnail();
-        this.thumbnail = model.hasThumbnail() ? model.picture.getUrl("x128") : '';
+        this.thumbnail = model.hasThumbnail("") ? model.picture.getUrl("x128") : '';
         this.hasPreview = model.hasPreview();
         this.preview = model.hasPreview() ? model.picture.getUrl("preview") : '';
         this.mimetype = model.mimetype;

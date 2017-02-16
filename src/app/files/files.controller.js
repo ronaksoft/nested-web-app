@@ -7,11 +7,12 @@
 
   /** @ngInject */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
-                           NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation, NstSvcAuth,
+                           NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation, NstSvcAuth, NstSvcWait,
                            NstVmFile, NstVmFileViewerItem,
                            NST_DEFAULT) {
     var vm = this;
     var onSelectTimeout = null;
+    var eventReferences = [];
 
     vm.fileTypes = [
       {
@@ -85,7 +86,9 @@
           vm.currentPlaceLoaded = true;
           vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
 
-          load();
+          load().then(function () {
+            eventReferences.push(NstSvcWait.emit('main-done'));
+          });
         } else {
           NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
             $state.go(NST_DEFAULT.STATE);
@@ -138,6 +141,8 @@
       vm.filesLoadProgress = true;
       vm.loadFilesError = false;
 
+      var deferred = $q.defer();
+
       NstSvcFileFactory.get(vm.currentPlaceId,
         vm.settings.filter,
         vm.settings.keyword,
@@ -151,12 +156,16 @@
 
         vm.files.push.apply(vm.files, newFileItems);
         vm.loadFilesError = false;
+        deferred.resolve();
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
+        deferred.reject();
       }).finally(function () {
         vm.filesLoadProgress = false;
       });
+
+      return deferred.promise;
     }
 
     function mapFiles(files) {
@@ -224,6 +233,13 @@
       if (onSelectTimeout) {
         $timeout.cancel(onSelectTimeout);
       }
+
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+
     });
 
   }

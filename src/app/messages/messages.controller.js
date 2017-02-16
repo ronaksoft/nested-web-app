@@ -96,7 +96,7 @@
             $q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess(), loadRemovePostAccess()]).catch(function (error) {
               $log.debug(error);
             }).finally(function () {
-              eventReferences.push(NstSvcWait.emit('messages-done'));
+              eventReferences.push(NstSvcWait.emit('main-done'));
             });
           } else {
             NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
@@ -112,7 +112,7 @@
         $q.all([loadViewSetting(), loadMessages(), loadMyPlaces()]).catch(function (error) {
           $log.debug(error);
         }).finally(function () {
-          eventReferences.push(NstSvcWait.emit('messages-done'));
+          eventReferences.push(NstSvcWait.emit('main-done'));
         });
       }
 

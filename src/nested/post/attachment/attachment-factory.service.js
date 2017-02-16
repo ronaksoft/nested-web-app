@@ -47,7 +47,7 @@
       attachment.width = data.width || 0;
       attachment.size = data.size || 0;
 
-      if (data.thumbs) {
+      if (data.thumbs && data.thumbs.pre) {
         attachment.picture = new NstPicture(data.thumbs);
       }
 
