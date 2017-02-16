@@ -8,7 +8,6 @@ function NstSvcNotification($q, $window, _, $state,
                             NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation,
                             NstUtility) {
   function MyNotification() {
-    this.permission = Notification.permission;
     this.stack = {};
     this.options = {};
     NstModel.call(this);
@@ -26,6 +25,7 @@ function NstSvcNotification($q, $window, _, $state,
     }
 
     var service = this;
+    this.permission = $window.Notification.permission;
 
     function startNotification(result) {
       service.push('Nested Now on your desktop!', null, {body: 'Stay connected to what happen in your Nested.'});
@@ -84,6 +84,11 @@ function NstSvcNotification($q, $window, _, $state,
 
 
   MyNotification.prototype.show = function (notificationTag) {
+    if (!("Notification" in $window)) {
+      NstSvcLogger.info(" Notification | This browser does not support desktop notification");
+      return;
+    }
+
     var notifObject = this.stack[notificationTag];
     var notif = new $window.Notification(notifObject.title, notifObject.options);
     notif.onclick = function () {
