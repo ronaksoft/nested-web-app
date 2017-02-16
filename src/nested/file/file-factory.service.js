@@ -61,7 +61,7 @@
       file.setWidth(data.width);
       file.setHeight(data.height);
 
-      if (data.thumbs && data.thumbs.org) {
+      if (data.thumbs && data.thumbs.pre) {
         file.setPicture(new NstPicture(data.thumbs));
       }
 

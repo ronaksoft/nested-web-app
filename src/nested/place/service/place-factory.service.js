@@ -7,8 +7,8 @@
 
   function NstSvcPlaceFactory($q,_, $rootScope,
                               NST_SRV_ERROR, NST_PLACE_ACCESS, NST_EVENT_ACTION, NST_PLACE_FACTORY_EVENT, NST_USER_FACTORY_EVENT,
-                              NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger, NstSvcMicroPlaceStorage,
-                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture, NstMicroPlace,
+                              NstSvcServer, NstSvcPlaceStorage, NstSvcTinyPlaceStorage, NstSvcMyPlaceIdStorage, NstSvcUserFactory, NstSvcPlaceRoleStorage, NstSvcPlaceAccessStorage, NstSvcLogger,
+                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstUtility, NstTinyPlace, NstPlace, NstFactoryEventData, NstSvcPlaceMap, NstPicture,
                               NstPlaceCreatorOfParentError, NstPlaceOneCreatorLeftError) {
     function PlaceFactory() {
       var factory = this;
@@ -574,13 +574,38 @@
       }, "setBookmarkOption", id);
     }
 
-    PlaceFactory.prototype.search = function (keyword) {
+    PlaceFactory.prototype.searchForCompose = function (keyword) {
       var factory = this;
       return factory.sentinel.watch(function () {
         var deferred = $q.defer();
         var query = new NstFactoryQuery(keyword);
 
         NstSvcServer.request('search/places_for_compose', {
+          keyword: keyword
+        }).then(function (response) {
+          var places = [];
+          for (var k in response.places) {
+            var place = factory.parseTinyPlace(response.places[k]);
+            factory.set(place);
+            places.push(place);
+          }
+
+          deferred.resolve(places);
+        }).catch(function (error) {
+          deferred.reject(new NstFactoryError(query, error.getMessage(), error.getCode(), error));
+        });
+
+        return deferred.promise;
+      }, "search", keyword);
+    };
+
+    PlaceFactory.prototype.search = function (keyword) {
+      var factory = this;
+      return factory.sentinel.watch(function () {
+        var deferred = $q.defer();
+        var query = new NstFactoryQuery(keyword);
+
+        NstSvcServer.request('search/places_for_search', {
           keyword: keyword
         }).then(function (response) {
           var places = [];
@@ -914,31 +939,6 @@
       return this;
     };
 
-    PlaceFactory.prototype.parseMicroPlace = function (data) {
-      if (!data._id) {
-        return $q.reject(new Error("Could not create a NstMicroPlace model without _id"));
-      }
-
-      if (!data.name) {
-        return $q.reject(new Error("Could not create a NstMicroPlace model without mimetype"));
-      }
-
-      var place = new NstMicroPlace();
-
-      place.setId(data._id);
-      place.setName(data.name);
-
-      if (data.picture) {
-        place.setPicture(new NstPicture(data.picture));
-      }
-
-      place.setAccesses(data.access || []);
-
-      NstSvcMicroPlaceStorage.set(place.id, place);
-
-      return place;
-    };
-
     PlaceFactory.prototype.parseTinyPlace = function (placeData) {
       var place = new NstTinyPlace();
 
@@ -1205,7 +1205,6 @@
      */
     PlaceFactory.prototype.getPlacesUnreadPostsCount = function (placesId, subs) {
       var separatedIds = placesId.join(",");
-
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
 
@@ -1223,7 +1222,7 @@
         });
 
         return deferred.promise;
-      }, "getPlacesUnreadPostsCount", subs);
+      }, "getPlacesUnreadPostsCount" + separatedIds , subs);
     };
 
     PlaceFactory.prototype.flush = function () {

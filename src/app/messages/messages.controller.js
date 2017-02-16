@@ -96,7 +96,7 @@
             $q.all([loadViewSetting(), loadMessages(), loadMyPlaces(), getQuickMessageAccess(), loadRemovePostAccess()]).catch(function (error) {
               $log.debug(error);
             }).finally(function () {
-              eventReferences.push(NstSvcWait.emit('messages-done'));
+              eventReferences.push(NstSvcWait.emit('main-done'));
             });
           } else {
             NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
@@ -112,7 +112,7 @@
         $q.all([loadViewSetting(), loadMessages(), loadMyPlaces()]).catch(function (error) {
           $log.debug(error);
         }).finally(function () {
-          eventReferences.push(NstSvcWait.emit('messages-done'));
+          eventReferences.push(NstSvcWait.emit('main-done'));
         });
       }
 
@@ -279,7 +279,7 @@
 
         case 'app.place-messages-unread':
         case 'app.place-messages-unread':
-          return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlaceId.split(".")[0]], true);
+          return NstSvcPostFactory.getUnreadMessages(vm.messagesSetting, [vm.currentPlaceId], false);
 
 
         default:
@@ -599,7 +599,7 @@
       vm.attachfiles.useArray(false);
 
     });
-    
+
     $scope.$on('$dropletFileAdded', function startupload() {
 
       var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);

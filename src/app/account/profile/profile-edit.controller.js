@@ -92,13 +92,11 @@
           });
         };
         reader.readAsDataURL(croppedFile);
-      }).catch(function() {
+      }).catch(function () {
         vm.uploadedImage = false;
         vm.model.picture.uploadedFile = '';
         event.target.value = '';
       });
-
-
 
 
     }
@@ -182,12 +180,12 @@
         user.lastName = viewModel.lastName;
         user.phone = viewModel.phone;
         user.gender = viewModel.gender;
-        user.dateOfBirth = viewModel.dateOfBirth.toISOString().slice(0,10);
+        user.dateOfBirth = viewModel.dateOfBirth.toISOString().slice(0, 10);
         user.country = viewModel.country;
 
         return $q.all([
           NstSvcUserFactory.updateProfile(user),
-          NstSvcPlaceFactory.update(user.id, { 'privacy.search' : viewModel.searchable })
+          NstSvcPlaceFactory.update(user.id, {'privacy.search': viewModel.searchable})
         ]);
       }).then(function (resultSet) {
         deferred.resolve(resultSet[0]);
@@ -234,15 +232,20 @@
 
     function saveAndExit(isValid) {
       save(isValid).then(function (result) {
+        NstSvcPlaceFactory.get(vm.model.id, true).then(function () {
+          NstSvcUserFactory.get(vm.model.id, true).then(function (newUserObj) {
+            NstSvcAuth.setUser(newUserObj);
+            $rootScope.goToLastState();
 
-        $rootScope.goToLastState();
-        if (isSelectedLocale(vm.lang)) {
-          toastr.success(NstSvcTranslation.get("Your profile has been updated."));
-        } else {
-          $scope.$emit('show-loading', {});
-          setLanguage(vm.lang);
-          window.location.reload(true);
-        }
+            if (isSelectedLocale(vm.lang)) {
+              toastr.success(NstSvcTranslation.get("Your profile has been updated."));
+            } else {
+              $scope.$emit('show-loading', {});
+              setLanguage(vm.lang);
+              window.location.reload(true);
+            }
+          })
+        })
 
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Sorry, an error has occurred while updating your profile."));

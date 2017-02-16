@@ -74,17 +74,6 @@
 
     vm.isGrand = !NstUtility.place.hasParent(vm.placeId);
 
-    $scope.$watch(function() {
-      return $stateParams.placeId;
-    }, function(newValue, oldValue) {
-      if (newValue) {
-        vm.placeId = newValue;
-        initialize();
-      }else{
-        vm.showTeammate = false;
-      }
-    });
-
     function initialize() {
       if (!vm.placeId) {
         return;
@@ -92,7 +81,7 @@
 
       vm.loading = true;
 
-      NstSvcWait.all(['messages-done'], function () {
+      NstSvcWait.all(['main-done'], function () {
         NstSvcPlaceFactory.get(vm.placeId).then(function(place) {
           if (place) {
             vm.place = place;

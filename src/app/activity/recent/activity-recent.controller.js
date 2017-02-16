@@ -28,7 +28,7 @@
 
       if (vm.settings.placeId) {
 
-        NstSvcWait.all(['messages-done'], function () {
+        NstSvcWait.all(['main-done'], function () {
 
           NstSvcPlaceFactory.get(vm.settings.placeId).then(function (place) {
             if (place.hasAccess(NST_PLACE_ACCESS.READ)) {
