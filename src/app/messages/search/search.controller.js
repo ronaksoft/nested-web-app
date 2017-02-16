@@ -44,7 +44,6 @@
     (function () {
 
       var query = getUriQuery();
-      console.log(query.toString());
       vm.queryString = query.toString();
       var searchObj = new NstSearchQuery(vm.queryString);
       vm.refererPlaceId = searchObj.getDefaultPlaceId();

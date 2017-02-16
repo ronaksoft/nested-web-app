@@ -62,7 +62,7 @@
 
     // calls $digest every 1 sec to update elapsed times.
     $interval(function () {
-      NstSvcLogger.info('AppController calls $digest to update passed times every 1 min.');
+      NstSvcLogger.debug('AppController calls $digest to update passed times every 1 min.');
     }, 60 * 1000);
 
     vm.viewSettings = {
