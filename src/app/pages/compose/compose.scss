@@ -174,3 +174,22 @@
 #cke_123 {
   display: none;
 }
+.compose-btns {
+  display: inline-flex;
+  flex-direction: row;
+  flex: 1;
+}
+.quick-btns {
+  display: inline-flex;
+  flex-direction: row;
+  flex: none;
+}
+body.isMobile {
+  .modal-ft {
+    display: inline-flex;
+    flex-direction: column;
+    >div {
+      width: 100%;
+    }
+  }
+}
