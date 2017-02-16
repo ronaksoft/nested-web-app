@@ -1205,7 +1205,6 @@
      */
     PlaceFactory.prototype.getPlacesUnreadPostsCount = function (placesId, subs) {
       var separatedIds = placesId.join(",");
-
       return this.sentinel.watch(function () {
         var deferred = $q.defer();
 
@@ -1223,7 +1222,7 @@
         });
 
         return deferred.promise;
-      }, "getPlacesUnreadPostsCount", subs);
+      }, "getPlacesUnreadPostsCount" + separatedIds , subs);
     };
 
     PlaceFactory.prototype.flush = function () {

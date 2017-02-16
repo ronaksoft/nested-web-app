@@ -116,9 +116,10 @@
     /*****************************
      *****   Notifs Counters  ****
      *****************************/
-    vm.placesNotifCountObject = {};
+
 
     function fillPlacesNotifCountObject(places) {
+      vm.placesNotifCountObject = {};
       _.each(places, function (place) {
         if (place)
           vm.placesNotifCountObject[place.id] = place.unreadPosts || 0;
