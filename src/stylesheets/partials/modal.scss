@@ -177,7 +177,7 @@ body.modal-open {
     overflow: hidden;
     border-radius: 4px;
     >div {
-      height: 480px;
+      min-height: 480px;
     }
     .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
     .ui-select-multiple.ui-select-bootstrap {
@@ -202,7 +202,7 @@ body.modal-open {
     position: absolute;
   }
   .modal-bo {
-    margin-top: 48px;
+    margin: 48px 0;
     padding: 0 16px;
     height: calc(100% - 96px);
     max-height: calc(100vh - 255px);
