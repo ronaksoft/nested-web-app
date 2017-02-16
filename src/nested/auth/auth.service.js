@@ -242,6 +242,10 @@
       return NST_AUTH_STATE.UNAUTHORIZED == this.getState();
     };
 
+    Auth.prototype.setUser = function (user) {
+      this.user = user
+    };
+
     // Cache Implementation
     var user = NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.USER);
     var service = new Auth(user);
