@@ -50,7 +50,7 @@
           uploadedSize: isAttached ? attachment.getSize() : 0,
           uploadedRatio: isAttached ? 1 : 0,
           size: attachment.getSize(),
-          url: attachment.hasThumbnail() ? attachment.picture.original : null,
+          url: attachment.hasThumbnail() ? attachment.picture.preview : null,
           type: NstSvcFileType.getType(attachment.getMimetype()),
           extension: formatExtension(NstSvcFileType.getSuffix(attachment.getFilename())),
           thumbnail: attachment.hasThumbnail() ? attachment.picture.x128.indexOf('data:') == 0  ? attachment.picture.x128 : attachment.picture.getUrl('x128') : null,

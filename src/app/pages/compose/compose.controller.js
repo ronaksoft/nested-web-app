@@ -16,7 +16,9 @@
     vm.focus = false;
     vm.mouseIn = false;
     var eventReferences = [];
+    var discardCanceler = null;
     vm.makeChangeForWatchers = 0;
+    vm.clear = clear;
 
     if (vm.mode == 'quick') {
       vm.quickMode = true;
@@ -171,19 +173,35 @@
       vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
 
       if (vm.quickMode) {
-        addRecipients($stateParams.placeId);
-      }
 
-      eventReferences.push($scope.$on('modal.closing', function (event) {
-        var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
-        if (confirm && !vm.finish) {
-          event.preventDefault();
-          NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
-            vm.finish = true;
-            $uibModalStack.dismissAll();
-          });
-        }
-      }));
+        addRecipients($stateParams.placeId);
+        eventReferences.push($scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+          var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
+          if (confirm && !vm.finish) {
+            event.preventDefault();
+
+            NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
+              vm.finish = true;
+              $state.go(toState.name, toParams);
+            });
+          }
+        }));
+
+      } else {
+
+        eventReferences.push($scope.$on('modal.closing', function (event) {
+          var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
+          if (confirm && !vm.finish) {
+            event.preventDefault();
+
+            NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
+              vm.finish = true;
+              $uibModalStack.dismissAll();
+            });
+          }
+        }));
+
+      }
 
     })();
     /*****************************
@@ -197,10 +215,8 @@
       vm.mouseIn = true;
       vm.changeAffixesDebounce();
       if (e.which == 13) {
-
-        //FixME focus on correct and exists editor
-        //FixME backspace on editor to subject
-        $window.CKEDITOR.instances.editor1.focus();
+        e.preventDefault();
+        $window.CKEDITOR.instances.composeEditor.focus();
       }
     };
 
@@ -906,20 +922,34 @@
       }
     });
 
+    function clear() {
+      vm.model.recipients = [];
+      vm.model.attachments = [];
+      vm.model.attachfiles = {};
+      vm.model.subject = '';
+      vm.model.body = '';
+      vm.model.forwardedFrom = null;
+      vm.model.replyTo = null;
+      discardCanceler = $timeout(function () {
+        vm.focus = false;
+      }, 512);
+    }
 
     $scope.$on('droppedAttach', function (event,files) {
       for (var i = 0; i < files.length; i++) {
         vm.attachments.attach(files[i].file).then(function (request) {});
         files[i].deleteFile();
       }
+      vm.focus = true;
     });
 
     $scope.$on('$destroy', function () {
       NstSvcSidebar.removeOnItemClick();
-      _.forEach($window.CKEDITOR.instances, function (instance) {
-        instance.removeAllListeners();
-        $window.CKEDITOR.remove(instance);
-      });
+      // console.log('removing instance', $window.CKEDITOR.instances);
+      // _.forEach($window.CKEDITOR.instances, function (instance) {
+      //   instance.removeAllListeners();
+      //   $window.CKEDITOR.remove(instance);
+      // });
 
       _.forEach(eventReferences, function (cenceler) {
         if (_.isFunction(cenceler)) {
