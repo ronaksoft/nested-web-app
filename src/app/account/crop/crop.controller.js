@@ -77,7 +77,7 @@
         }
 
 
-        return new Blob([ia], {type: mimeString});
+        return new File([ia], {type: mimeString});
       }
 
     })

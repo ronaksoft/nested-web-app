@@ -257,7 +257,7 @@
       "Share": "اشتراک‌گذاری",
       "Share With": "اشتراک گذاری با",
       "Shared by me": "اشتراک‌گذاشته‌های من",
-      "Show in Feed": "خوراک",
+      "Show in Feed": "افزودن به خوراک",
       "Show in the search result of Members from {{ctlSettings.grandPlace.name}}?": "نمایش نتایج جستجوبرای اعضای {{ctlSettings.grandPlace.name}}?",
       "Show in the search results?": "نمایش در جستجو ",
       "Show less": "نمایش کمتر",

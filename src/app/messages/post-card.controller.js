@@ -61,6 +61,7 @@
       }
 
       function viewFull($event) {
+        markAsRead();
         $event.preventDefault();
         if ($state.current.name !== 'app.message') {
             $state.go('app.message', {postId: vm.post.id}, {notify: false});
@@ -68,7 +69,7 @@
             var reference = $scope.$emit('post-view-target-changed', { postId : vm.post.id });
             pageEventReferences.push(reference);
         }
-      };
+      }
 
 
       function markAsRead() {
