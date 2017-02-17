@@ -76,8 +76,7 @@
           ia[i] = byteString.charCodeAt(i);
         }
 
-
-        return new Blob([ia], {type: mimeString});
+        return new File([ia], filename + '.' +  mimeString.split('/')[1], {type: mimeString});
       }
 
     })
