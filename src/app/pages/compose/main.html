@@ -46,7 +46,7 @@
       </section>
 
       <section class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus}" id="editor-txt">
-        <textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()"></textarea>
+        <textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()" id="composeEditor"></textarea>
         <!--<summernote focus ng-model="ctlCompose.model.body"></summernote>-->
         <!--<textarea  nst-mention="#" ui-tinymce="ctlCompose.configs.tinymce"-->
                    <!--placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>-->

@@ -92,7 +92,7 @@
     }
 
     TinyPlace.prototype.hasPicture = function () {
-      return this.picture && this.picture.original;
+      return this.picture && this.picture.preview;
     }
 
     return TinyPlace;

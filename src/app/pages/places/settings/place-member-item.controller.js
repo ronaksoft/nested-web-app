@@ -7,13 +7,14 @@
 
   /** @ngInject */
   function PlaceMemberItemController($scope, $log, toastr,
-    NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcTranslation, NstSvcLogger,
+    NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcTranslation, NstSvcLogger, NstSvcAuth,
     NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError) {
     var vm = this;
 
     vm.promote = promote;
     vm.demote = demote;
     vm.remove = remove;
+    vm.isCurrent = NstSvcAuth.user.id === vm.member.id;
 
     function promote() {
       NstSvcPlaceFactory.promoteMember(vm.place.id, vm.member.id).then(function (result) {
