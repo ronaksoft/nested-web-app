@@ -184,12 +184,28 @@
   flex-direction: row;
   flex: none;
 }
-body.isMobile {
+body.isMobile .modal .modal-compose{
   .modal-ft {
     display: inline-flex;
     flex-direction: column;
+    height: 100px;
     >div {
       width: 100%;
     }
+    .quick-btns {
+      justify-content: flex-end;
+    }
+  }
+}
+body.isMobile .quick-message-wrp .quick-message-inner .quick-message .modal-ft {
+  .modal-ft {
+    display: inline-flex;
+    flex-direction: column;
+    height: 100px;
+  }
+}
+body.isMobile {
+  .modal-ft {
+    flex-direction: column;
   }
 }
