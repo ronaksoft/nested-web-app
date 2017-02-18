@@ -11,6 +11,8 @@
                                 NstSvcAuth, NstSvcPlaceFactory, NstSvcInvitationFactory,
                                 NstVmUser, NstVmPlace, NstVmInvitation) {
     var vm = this;
+    vm.mentionOpen = false;
+
     // $scope.$watch('place', function (newValue, oldValue) {
     //   // if (oldValue !== newValue) {
     //   //   vm.place = newValue;
