@@ -45,7 +45,7 @@
         <input class="compose-input _fw" name="subject" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder">
       </section>
 
-      <section class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus}" id="editor-txt">
+      <section class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus,'empty' : ctlCompose.model.body.length == 0}" id="editor-txt">
         <textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()" id="composeEditor"></textarea>
         <!--<summernote focus ng-model="ctlCompose.model.body"></summernote>-->
         <!--<textarea  nst-mention="#" ui-tinymce="ctlCompose.configs.tinymce"-->

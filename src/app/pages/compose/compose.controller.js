@@ -131,12 +131,11 @@
         language: lang,
         contentsLangDirection: isRTL,
         contentsCss: 'body {overflow:visible;}',
-        placeholder: 'Write something...',
         height: 230,
         enableTabKeyTools: true,
         tabSpaces: 4,
         startupFocus: false,
-        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,confighelper,divarea,autolink',
+        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,divarea,autolink',
         autoGrow_minHeight: 230,
         sharedSpaces: {
           top: 'editor-btn',
