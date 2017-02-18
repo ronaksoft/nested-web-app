@@ -2,7 +2,7 @@
   "NST_CONFIG": {
     "APP_ID": "web-{{BUILD}}",
     "LOG": {
-      "LEVEL": 3,
+      "LEVEL": 1,
       "GATEWAY": {
         "TYPE": "console",
         "OPTIONS": {}
