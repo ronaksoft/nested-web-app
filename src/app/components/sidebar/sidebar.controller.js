@@ -257,7 +257,7 @@
       vm.urls = {
         unfiltered: $state.href(getUnfilteredState()),
         compose: $state.href(getComposeState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM}),
-        bookmarks: $state.href(getBookmarksState()),
+        // bookmarks: $state.href(getBookmarksState()),
         sent: $state.href(getSentState()),
         subplaceAdd: $state.href(getPlaceAddState(), {placeId: vm.stateParams.placeId || NST_DEFAULT.STATE_PARAM})
       };
