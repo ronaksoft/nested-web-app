@@ -6,8 +6,7 @@
     .controller('RecoverPasswordController', RecoverPasswordController);
 
   /** @ngInject */
-  function RecoverPasswordController($scope, $state, $q, md5, toastr,
-    NST_DEFAULT, NstSvcAuth, NstHttp, NstSvcTranslation) {
+  function RecoverPasswordController($scope, $state) {
     var vm = this;
 
     vm.phoneSubmittedEventKey = 'recover-password-phone-submitted';

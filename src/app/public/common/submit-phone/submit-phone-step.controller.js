@@ -6,7 +6,7 @@
     .controller('SubmitPhoneStepController', SubmitPhoneStepController);
 
   /** @ngInject */
-  function SubmitPhoneStepController($scope, $state, $timeout, $stateParams, md5, toastr, NST_DEFAULT, NST_PATTERN, NstSvcAuth, NstHttp, $q, NstSvcTranslation) {
+  function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation) {
     var vm = this;
 
     var dummyPhone = "123456789";
@@ -17,7 +17,7 @@
     vm.phoneAvailableStatus = 'none';
     vm.autoLocateEnabled = true;
 
-    (function() {
+    (function () {
       if (vm.countryCode) {
         vm.autoLocateEnabled = false;
       }
@@ -61,22 +61,22 @@
     }
 
     function nextStep(verificationId, phone) {
-      $scope.$emit(vm.onCompleted, { verificationId : verificationId, phone : phone });
+      $scope.$emit(vm.onCompleted, {verificationId: verificationId, phone: phone});
     }
 
     function sendPhoneNumber(phone) {
       var deferred = $q.defer();
       vm.phoneSubmitProgress = true;
       var request = new NstHttp('', {
-        cmd : 'auth/get_verification',
-        data : {
+        cmd: 'auth/get_verification',
+        data: {
           phone: phone
         }
       });
       request.post().then(function (data) {
         if (data.status === 'ok') {
           deferred.resolve({
-            verificationId : data.data.vid
+            verificationId: data.data.vid
           });
         } else if (data.status === 'err') {
           if (data.err_code === 5) {
@@ -86,9 +86,9 @@
           }
         }
       })
-      .catch(function (error) {
-        deferred.reject(error);
-      }).finally(function () {
+        .catch(function (error) {
+          deferred.reject(error);
+        }).finally(function () {
         vm.phoneSubmitProgress = false;
       });
 
@@ -101,7 +101,7 @@
       if (!vm.phone) {
         vm.phoneIsEmpty = true;
         vm.phoneIsWrong = false;
-      }else if (!vm.countryCode){
+      } else if (!vm.countryCode) {
         vm.phoneIsEmpty = true;
       } else if (!getPhoneIsValid(vm.countryId, vm.phone)) {
         vm.phoneIsWrong = true;
@@ -144,7 +144,7 @@
       if (vm.countryCode && vm.phone) {
         return vm.countryCode.toString() + _.trimStart(vm.phone.toString(), "0");
       }
-       return "";
+      return "";
     }
 
     function phoneAvailable(phone) {
@@ -154,12 +154,12 @@
         deferred.resolve(true);
       } else {
         new NstHttp('',
-        {
-          cmd: 'auth/phone_available',
-          data: {
-            'phone': phone
-          }
-        }).post().then(function(data){
+          {
+            cmd: 'auth/phone_available',
+            data: {
+              'phone': phone
+            }
+          }).post().then(function (data) {
           if (data.status === 'ok') {
             deferred.resolve(true);
           } else {
