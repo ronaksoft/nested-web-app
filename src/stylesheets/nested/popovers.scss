@@ -198,10 +198,9 @@ input[type="checkbox"]:checked + label.setting {
 }
 #popup-msg-badge {
   overflow-y: auto;
-  height: 100%;
+  height: auto;
   max-height: 145px;
  }
-
 
 .popover-green + .popover, .popover-green + div + .popover{
   background: $color-sense-5;
@@ -213,7 +212,6 @@ input[type="checkbox"]:checked + label.setting {
     background-color: $color-sense-50;
   }
 }
-
 
 //mention popover
 .mentions {

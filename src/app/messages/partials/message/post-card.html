@@ -10,7 +10,6 @@
   </section>
   <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
-      <div ng-if="ctlPostCard.post.hasAnyAttachment()" class="icon icon-post-head icon-attached"></div>
       <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead();" ng-if="ctlPostCard.post.isForwarded" class="icon" ui-sref="app.message({ postId : ctlPostCard.post.id })">
         <div class="fwed">
           <svg class="svg-hover">

@@ -99,6 +99,16 @@ body.isMobile {
   #compose-full {
     display: none;
   }
+  .menu-links-butn svg {
+    display: flex;
+  }
+  vr + a.menu-links-butn {
+    display: none;
+  }
+  vr + a.menu-links-butn + a ,
+  vr + a.menu-links-butn + a + a {
+    margin: 0 8px;
+  }
   &[dir="rtl"] {
     .nst-container {
       margin-right: 0;

@@ -115,7 +115,7 @@
       <div class="bot-nav">
         <div class="_df _fw _pr">
           <input class="_fw" type="text" placeholder="Search..." ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
-          <svg class="_16svg close-inp" ng-click="ctlFullNavbar.query = ''">
+          <svg class="_16svg close-inp" ng-if="ctlFullNavbar.query.length > 0" ng-click="ctlFullNavbar.query = ''">
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
         </div>
