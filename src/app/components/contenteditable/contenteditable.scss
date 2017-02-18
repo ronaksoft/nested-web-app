@@ -1,7 +1,4 @@
-[contenteditable] p:empty {
-  padding-top: 20px;
-}
-[contenteditable]:empty:before{
+[contenteditable]:before{
   content: attr(placeholder);
   display: block;
   color: $color-wind;
