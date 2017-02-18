@@ -116,7 +116,7 @@
     }
 
     function allowToRemoveComment(comment) {
-      return comment.sender.username === NstSvcAuth.user.id &&
+      return comment.sender.id === NstSvcAuth.user.id &&
         (Date.now() - comment.date) < 24 * 60 * 60 * 1e3;
 
     }
