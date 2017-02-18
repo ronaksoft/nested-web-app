@@ -336,6 +336,7 @@
       post.setSubject(data.subject);
       post.setContentType(data.content_type);
       post.setBody(data.body);
+      post.setIsRead(data.post_read);
 
       post.setBookmarked(data.pinned);
 
