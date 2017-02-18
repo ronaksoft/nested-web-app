@@ -281,11 +281,12 @@ body.modal-open {
     margin-top: 56px;
     min-width: 1024px;
     background-color: #FAFAFA;
-    display: inline-flex;
+    display: block;
     flex-direction: column;
     position: relative;
     width: 100%;
     border: none;
+    border-radius: 0;
   }
 }
 
