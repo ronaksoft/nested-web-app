@@ -78,9 +78,9 @@
         $cookies.put('user', JSON.stringify({
           id : user.id,
           name : user.fullName,
-          // avatar : user.picture.thumbnails.x128.url.view
+          avatar : user.picture.getUrl('x64')
         }), {
-          domain : '.' + location.hostname,
+          domain : 'nested.me', //FIXME:: set domain form location
           expires : CookieDate.toGMTString()
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);

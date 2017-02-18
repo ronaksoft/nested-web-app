@@ -6,11 +6,10 @@
     .controller('LogoutController', LogoutController);
 
   /** @ngInject */
-  function LogoutController($state, NstSvcAuth, NST_CONFIG) {
-
+  function LogoutController($state, NstSvcAuth) {
+    $state.go('public.signin');
     if (NstSvcAuth.isAuthorized()) {
       NstSvcAuth.logout();
-      $state.go('public.signin');
     }
   }
 })();

@@ -38,11 +38,6 @@
 
     $rootScope.modals = {};
 
-    //Config Tiny-MCE base url
-    if (NST_CONFIG.TINY_MCE_ASSETS_PATH) {
-      tinyMCE.baseURL = NST_CONFIG.TINY_MCE_ASSETS_PATH;
-    }
-
     // $.get('/assets/locales/en-US.json', function (data) {
     //   setTimeout(function () {
     //     NstSvcI18n.addLocale("en-US", data);

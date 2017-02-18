@@ -323,12 +323,12 @@
       var post = createPostModel();
 
       if (!data) {
-        defer.reject(Error("The post data is not provided"));
+        defer.reject(Error("The post data is not provided"))
         return defer.promise;
       }
 
       if (!data._id) {
-        defer.reject(Error("The post data does not contain _id property"));
+        defer.reject(Error("The post data does not contain _id property"))
         return defer.promise;
       }
 
@@ -337,6 +337,7 @@
       post.setContentType(data.content_type);
       post.setBody(data.body);
       post.setIsRead(data.post_read);
+
       post.setBookmarked(data.pinned);
 
       post.setInternal(data.internal);
