@@ -202,7 +202,6 @@ input[type="checkbox"]:checked + label.setting {
   max-height: 145px;
  }
 
-
 .popover-green + .popover, .popover-green + div + .popover{
   background: $color-sense-5;
   border-color: $color-sense-50;
@@ -213,7 +212,6 @@ input[type="checkbox"]:checked + label.setting {
     background-color: $color-sense-50;
   }
 }
-
 
 //mention popover
 .mentions {
