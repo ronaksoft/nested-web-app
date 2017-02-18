@@ -13,6 +13,20 @@
     var vm = this;
     var onSelectTimeout = null;
     var eventReferences = [];
+    vm.countClick = 1;
+    vm.searchVar = false;
+    vm.searchTrigg = 0;
+
+    vm.searchFunc = function () {
+
+      vm.searchVar =! vm.searchVar;
+
+      ++vm.countClick;
+      if ( vm.countClick % 2 === 0 ) {
+        ++vm.searchTrigg;
+      }
+
+    };
 
     vm.fileTypes = [
       {
