@@ -1,4 +1,4 @@
-.empty [contenteditable]:before{
+.empty div[contenteditable]:before{
   content: 'Write some thing';
   display: block;
   color: rgba(0,0,0.72);
