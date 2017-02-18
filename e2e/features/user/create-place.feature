@@ -12,7 +12,7 @@
 #    When I wait 2s
 #    Given I Press "Sign in"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Create a place from sidebar; state 1
 #
@@ -64,7 +64,7 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "DELETE"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Create a place from sidebar; state 2
 #
@@ -116,7 +116,7 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "DELETE"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
 #  Scenario: Create a place from sidebar; state 3
 #
@@ -168,5 +168,5 @@
 #    When I wait 5s
 #    Given I Click Link by Partial Text "DELETE"
 #    When I wait 5s
-#    Then should the title of the place be "All Places"
+#    Then should the title of the place be "Feed"
 #
