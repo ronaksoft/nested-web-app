@@ -525,6 +525,7 @@
           }]);
         } else {
           if (vm.model.check()) {
+            vm.focus = false;
             vm.model.saving = true;
 
             var post = NstSvcPostFactory.createPostModel();
