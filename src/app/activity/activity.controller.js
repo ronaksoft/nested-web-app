@@ -86,10 +86,10 @@
       vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = NstSvcTranslation.get("Comments");
       vm.filterDictionary[NST_ACTIVITY_FILTER.LOGS] = NstSvcTranslation.get("Logs");
 
-      NstSvcSync.openChannel($stateParams.placeId);
 
       if (placeIdParamIsValid($stateParams.placeId)) {
         vm.activitySettings.placeId = $stateParams.placeId;
+        NstSvcSync.openChannel($stateParams.placeId);
       } else {
         vm.activitySettings.placeId = null;
       }
@@ -110,25 +110,20 @@
 
       generateUrls();
 
-      if (vm.activitySettings.placeId) {
-        NstSvcPlaceAccess.getIfhasAccessToRead(vm.activitySettings.placeId).then(function (place) {
-          if (place) {
-            vm.currentPlace = place;
-            vm.currentPlaceLoaded = true;
-            vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
-            return loadActivities();
-          } else {
-            NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
-              $state.go("app.activity");
-            });
-          }
-        }).catch(function (error) {
-          $log.debug(error);
-        });
-      } else {
-        vm.currentPlaceLoaded = true;
-        loadActivities();
-      }
+      NstSvcPlaceAccess.getIfhasAccessToRead($stateParams.placeId).then(function (place) {
+        if (place) {
+          vm.currentPlace = place;
+          vm.currentPlaceLoaded = true;
+          vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
+          return loadActivities();
+        } else {
+          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
+            $state.go(NST_DEFAULT.STATE);
+          });
+        }
+      }).catch(function (error) {
+        $log.debug(error);
+      });
 
     })();
 
