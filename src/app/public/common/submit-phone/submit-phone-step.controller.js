@@ -6,7 +6,7 @@
     .controller('SubmitPhoneStepController', SubmitPhoneStepController);
 
   /** @ngInject */
-  function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation) {
+  function SubmitPhoneStepController($scope, NstHttp, $q, NstSvcTranslation, toastr) {
     var vm = this;
 
     var dummyPhone = "123456789";

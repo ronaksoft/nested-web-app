@@ -272,6 +272,7 @@
         if ($state.current.params && $state.current.params.placeId) {
           place.href = $state.href($state.current.name, Object.assign({}, $stateParams, {placeId: place.id}));
         } else {
+          var group = $state.current.options && $state.current.options.group ? $state.current.options.group : null;
           switch ($state.current.options.group) {
             case 'file':
               place.href = $state.href('app.place-files', {placeId: place.id});
