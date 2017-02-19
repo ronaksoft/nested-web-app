@@ -6,7 +6,7 @@
 
   /** @ngInject */
   function NstSvcFileFactory($q, _,
-    NstSvcAuth, NstSvcServer, NstSvcFileType, NstSvcDownloadTokenStorage, NstSvcFileStorage, NstSvcFileTokenStorage,
+    NstSvcAuth, NstSvcServer, NST_CONFIG, NstSvcDownloadTokenStorage, NstSvcFileStorage, NstSvcFileTokenStorage,
     NstBaseFactory, NstPicture, NstAttachment, NstFactoryError, NstFactoryQuery, NstStoreToken,
     NST_FILE_TYPE) {
 
