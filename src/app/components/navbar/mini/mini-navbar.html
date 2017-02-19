@@ -14,6 +14,17 @@
       </a>
     </div>
     <div class="_fw _df">
+      <a class="popover-mentions"
+         data-uib-popover-template="'app/notification/notification-popover.html'"
+         data-popover-placement="bottom-right auto"
+         data-popover-class="mentions navnot"
+         data-popover-append-to-body="true"
+         data-popover-is-open="ctlMiniNavbar.mentionOpen"
+         data-popover-trigger="none" ng-click="ctlMiniNavbar.mentionOpen =! ctlMiniNavbar.mentionOpen">
+        <svg class="_24svg">
+          <use xlink:href="/assets/icons/nst-icn24.svg#bell"></use>
+        </svg>
+      </a>
       <a ng-show="!$root.topNavOpen" ng-click="ctlMiniNavbar.compose($event);">
         <svg class="_32svg _df">
           <use xlink:href="/assets/icons/nst-icn32.svg#compose"></use>
