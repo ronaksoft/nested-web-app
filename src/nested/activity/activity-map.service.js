@@ -20,30 +20,27 @@
      * @return {Object}              a hierarchal form of activities
      */
     function toActivityItems(acts) {
-      var todayStart = moment().startOf('day');
-      var thisMonthStart = moment().startOf('month');
-      var thisYearStart =  moment().startOf('year');
 
       return _.chain(acts).groupBy(function (activity) {
-        if (!moment.isMoment(activity.date)){
-          activity.date = moment(activity.date);
+        var date = moment(activity.date.valueOf());
+
+        var thisMonthStart = moment().startOf('month');
+        if (date.isSameOrAfter(thisMonthStart)) {
+          return date.clone().startOf('day').unix();
         }
 
-        if (activity.date.isAfter(todayStart)) {
-          return "Today";
-        } else if (activity.date.isAfter(thisMonthStart)) {
-          return activity.date.clone().startOf('day').format("DD MMM");
-        } else if (activity.date.isAfter(thisYearStart)) {
-          return activity.date.clone().startOf('month').format("MMM YYYY");
-        } else {
-          return activity.date.clone().startOf('year').format("YYYY");
+        var thisYearStart =  moment().startOf('year');
+        if (date.isSameOrAfter(thisYearStart)) {
+          return date.clone().startOf('month').unix();
         }
+
+        return date.clone().startOf('year').unix();
       }).map(function (activities, date) {
         return {
           date : date,
           items : activities
         };
-      }).value();
+      }).orderBy('date', 'desc').value();
     }
 
   }

@@ -217,6 +217,7 @@
           setLastActivityDate(activities);
           mergeWithActivities(activities);
         }
+
         vm.loading = false;
         vm.tryAgainToLoadMore = false;
 
