@@ -95,7 +95,7 @@
     }
   </style>
 </head>
-<body scroll-dispatch dir="{{_direction}}"
+<body scroll-dispatch dir="{{_direction}}" ng-controller="indexController as index"
       ng-class="{'_oh':$root.topNavOpen,'isDesktop':$root.deviceDetector.isDesktop(),'isMobile':$root.deviceDetector.isTablet() || $root.deviceDetector.isMobile()}">
 <nst-unseen-activity></nst-unseen-activity>
   <!--Initial loading part-->
@@ -147,8 +147,7 @@
 
   <!--if js disabled on browser-->
   <noscript>Sorry! Your browser does not support JavaScript, or it has been disabled!</noscript>
-
-    <div ui-view id="view"></div>
+  <div ui-view id="view" data-droplet ng-model="index.attachfiles"></div>
 
   <!-- ckeditor -->
 
