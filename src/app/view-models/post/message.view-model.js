@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmMessage', NstVmMessage);
 
-  function NstVmMessage(moment, NstPost, NstSvcAttachmentMap, NstSvcAuth, NstUtility, NST_PLACE_ACCESS) {
+  function NstVmMessage($filter, moment, NstPost, NstSvcAttachmentMap, NstSvcAuth, NstUtility, NST_PLACE_ACCESS) {
 
     function VmMessage(post, firstPlaceId, myPlaceIds) {
       var that = this;
@@ -53,7 +53,7 @@
         this.id = post.id;
         this.sender = post.sender ?  mapSender(post.sender) :  mapSender(post.emailSender);
         this.subject = post.subject;
-        this.body = post.body;
+        this.body = $filter('linky')(post.body);
         this.isExternal = !post.internal;
         this.contentType = post.contentType;
         this.date = post.date;
