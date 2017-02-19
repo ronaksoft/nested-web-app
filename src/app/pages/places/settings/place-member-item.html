@@ -24,7 +24,7 @@
       <use xlink:href="/assets/icons/nst-icn16.svg#hourglass"></use>
     </svg>
   </div>
-  <div ng-if="!(memberCtrl.member.role === 'creator' && memberCtrl.place.counters.creators === 1)" class="cursor-pointer margin-r_5 icon-rp _df"
+  <div ng-if="!(memberCtrl.member.role === 'creator' && memberCtrl.place.counters.creators === 1) && !memberCtrl.isCurrent" class="cursor-pointer margin-r_5 icon-rp _df"
        popover-class="white-pop" data-popover-placement="auto bottom-right"  uib-popover-template="'app/pages/places/settings/place-member-item-options.html'" popover-append-to-body="false" popover-trigger="focus">
     <svg class="_24svg" ng-if="memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess">
       <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
