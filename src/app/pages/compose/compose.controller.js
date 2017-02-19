@@ -623,7 +623,14 @@
 
       });
     };
-    vm.controls.right.push(new NstVmNavbarControl(NstSvcTranslation.get('Send'), NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
+
+    vm.discard = function () {
+      vm.model.attachments = [];
+      vm.model.subject = '';
+      vm.model.body = '';
+      vm.focus = false
+
+    };
 
     /*****************************
      *****  Controller Logic  ****

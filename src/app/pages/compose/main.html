@@ -76,15 +76,15 @@
     </div>
     <div class="modal-ft _fw _aic ng-class:{'focussed' : ctlCompose.focus}">
       <div class="compose-btns">
-        <label class="_df _fn _24svg" for="attach">
-          <svg class="_24svg">
+        <label class="_df _fn" for="attach">
+          <svg class="_24svg _asc">
             <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
           </svg>
         </label>
         <div class="_df f1" id="editor-btn"></div>
       </div>
       <div class="quick-btns">
-        <input type="button" ng-click="" class="butn-white" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
+        <input type="button" ng-click="ctlCompose.discard()" class="butn-white" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
         <input type="button" ng-click="ctlCompose.send()" class="butn-green" value="Share" translate-attrs="value">
       </div>
 
