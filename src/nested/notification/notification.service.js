@@ -29,7 +29,7 @@ function NstSvcNotification($q, $window, _, $state,
 
     function startNotification(result) {
       service.push('Nested Now on your desktop!', null, {body: 'Stay connected to what happen in your Nested.'});
-      service.setPermission(result);
+      // service.setPermission(result);
     }
 
     if (NST_PERMISSION_NOTIFICATION.GRANTED !== this.permission)
