@@ -525,6 +525,7 @@
           }]);
         } else {
           if (vm.model.check()) {
+            vm.focus = false;
             vm.model.saving = true;
 
             var post = NstSvcPostFactory.createPostModel();
@@ -622,7 +623,14 @@
 
       });
     };
-    vm.controls.right.push(new NstVmNavbarControl(NstSvcTranslation.get('Send'), NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
+
+    vm.discard = function () {
+      vm.model.attachments = [];
+      vm.model.subject = '';
+      vm.model.body = '';
+      vm.focus = false
+
+    };
 
     /*****************************
      *****  Controller Logic  ****
@@ -904,17 +912,17 @@
 
 
     // Listen for when the dnd has been configured.
-    vm.attachfiles = {};
+    // vm.attachfiles = {};
 
-    $scope.$on('$dropletFileAdded', function startupload() {
-
-      var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
-      for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i].file).then(function (request) {
-        });
-        files[i].deleteFile();
-      }
-    });
+    // $scope.$on('$dropletFileAdded', function startupload() {
+    //
+    //   var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
+    //   for (var i = 0; i < files.length; i++) {
+    //     vm.attachments.attach(files[i].file).then(function (request) {
+    //     });
+    //     files[i].deleteFile();
+    //   }
+    // });
 
     function clear() {
       vm.model.recipients = [];
@@ -929,13 +937,18 @@
       }, 512);
     }
 
-    $scope.$on('droppedAttach', function (event,files) {
+    vm.dodrop = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var dt = event.dataTransfer;
+      var files = dt.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i].file).then(function (request) {});
-        files[i].deleteFile();
+        vm.attachments.attach(files[i]).then(function (request) {});
       }
-      vm.focus = true;
-    });
+
+    };
+
+
 
     $scope.$on('$destroy', function () {
       NstSvcSidebar.removeOnItemClick();

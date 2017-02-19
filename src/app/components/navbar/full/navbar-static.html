@@ -76,7 +76,7 @@
            data-popover-append-to-body="false" uib-popover-template="'app/components/navbar/full/navbar-setting-popover.html'"
            data-popover-popup-close-delay="100" data-popover-trigger="focus" data-popover-placement="auto bottom-right"
            data-uib-tooltip-template="'more-uib-tooltip.html'" data-tooltip-append-to-body="false"
-           data-tooltip-placement="bottom-right auto" id="navbar-popover">
+           data-tooltip-placement="{{ $root._direction == 'rtl' ? 'left-top' : 'right-top'}} auto" id="navbar-popover">
         <svg class=" fill-b">
           <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
         </svg>
@@ -97,7 +97,7 @@
         <translate ng-if="ctlFullNavbar.notificationStatus">Turn notification off</translate>
       </script>
       <div data-uib-tooltip-template="'notification-uib-tooltip.html'" data-tooltip-append-to-body="false"
-           data-tooltip-placement="bottom-right auto">
+           data-tooltip-placement="{{ $root._direction == 'rtl' ? 'right-top' : 'left-top'}} auto">
         <svg class="svg-hover" ng-click="ctlFullNavbar.toggleNotification()"  ng-class="{morphed : ctlFullNavbar.notificationStatus}">
           <use xlink:href="/assets/icons/nst-icn24.svg#bell-muted" ></use>
           <use xlink:href="/assets/icons/nst-icn24.svg#bell-ringed"></use>
