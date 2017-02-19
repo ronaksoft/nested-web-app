@@ -15,6 +15,7 @@
     var placeIdRegex = /^[A-Za-z][A-Za-z0-9-]*$/;
 
     vm.hasParentPlace = null;
+    vm.step = 1;
     vm.hasGrandParent = null;
     vm.placeIdIsFullAvailable = true;
     vm.memberOptions = [

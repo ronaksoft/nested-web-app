@@ -511,8 +511,8 @@ body.modal-open {
 .modal-lg-white {
   display: flex;
   position: fixed;
-  background-color: $color-bg;
-  //opacity: 0.98;
+  //background-color: $color-bg;
+  opacity: 0.98;
   top: 0;
   left: 0;
   width: 100%;
@@ -573,7 +573,7 @@ body.modal-open {
       color: #476152;
       font-size: 13px;
       font-weight: 400;
-      padding: 8px 12px;
+      padding: 16px 0;
     }
     #PlaceID {
       color: #869D91;
@@ -581,7 +581,8 @@ body.modal-open {
       font-weight: 400;
       min-height: 28px;
       width: 100%;
-      padding: 10px;
+      border-bottom: 1px solid $color-border;
+      padding-bottom: 12px;
     }
     .field{
       position: relative;
