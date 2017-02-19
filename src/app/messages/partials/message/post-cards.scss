@@ -177,7 +177,10 @@ post-card {
       margin-left: 10px;
       margin-right: 4px;
       & + div {
-        //width: calc(100% - 108px);
+        max-width: calc(100% - 56px);
+        h4 {
+          max-width: calc(100% - 64px);
+        }
       }
     }
     span,.post-card-time {
