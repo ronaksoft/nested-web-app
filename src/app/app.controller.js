@@ -12,6 +12,7 @@
                          NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal, NstSvcI18n, NstSvcNotification,
                          NstObject) {
     var vm = this;
+    
 
     NstSvcNotification.requestPermission();
 
@@ -176,7 +177,7 @@
       event.preventDefault();
     });
 
-    
+
 
 
 

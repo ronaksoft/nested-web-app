@@ -904,7 +904,7 @@
 
 
     // Listen for when the dnd has been configured.
-    vm.attachfiles = {};
+    // vm.attachfiles = {};
 
     // $scope.$on('$dropletFileAdded', function startupload() {
     //
@@ -929,13 +929,18 @@
       }, 512);
     }
 
-    $scope.$on('droppedAttach', function (event,files) {
+    vm.dodrop = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var dt = event.dataTransfer;
+      var files = dt.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i].file).then(function (request) {});
-        files[i].deleteFile();
+        vm.attachments.attach(files[i]).then(function (request) {});
       }
-      vm.focus = true;
-    });
+
+    };
+
+
 
     $scope.$on('$destroy', function () {
       NstSvcSidebar.removeOnItemClick();

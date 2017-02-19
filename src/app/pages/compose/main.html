@@ -1,4 +1,5 @@
-<div class="_fh _pr _fw">
+<div class="_fh _pr _fw" id="compose-box"
+     ondrop="angular.element(document.getElementById('compose-box')).scope().ctlCompose.dodrop(event);">
   <div class="compose-wrp" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
     <div class="modal-head" ng-if="!ctlCompose.quickMode">
       <svg class="_20svg" id="compose-full" ng-click="ctlCompose.fullCompose()">

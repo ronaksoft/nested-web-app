@@ -12,22 +12,28 @@
                          NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal, NstSvcI18n, NstSvcNotification,
                          NstObject) {
     var vm = this;
-
-    vm.attachfiles = {};
-
-    $scope.$on('$dropletReady', function whenDropletReady() {
-      vm.attachfiles.allowedExtensions([/.+/]);
-      vm.attachfiles.useArray(false);
-
-    });
-
-    $scope.$on('$dropletFileAdded', function startupload() {
-
-      var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
-      $scope.$broadcast('droppedAttach', files);
-    });
+    vm.removeClass = _.debounce(removeClass, 512);
 
 
+    $window.addEventListener("dragover",function(e){
+      e = e || event;
+      e.preventDefault();
+      $('body').addClass('drag-enter');
+      vm.removeClass();
+
+    },false);
+
+    $window.addEventListener("drop",function(e){
+      e = e || event;
+      e.preventDefault();
+      removeClass()
+    },false);
+
+
+    function removeClass() {
+      $('body').removeClass('drag-enter');
+
+    }
 
   }
 })();
