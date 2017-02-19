@@ -6,9 +6,9 @@
 <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
   <li ng-repeat="item in items">
     <a href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
-      <img ng-if="item.type === NST_FILE_TYPE.IMAGE" class="attach-thumbnail-img" alt=""
+      <img ng-if="item.type === NST_FILE_TYPE.IMAGE && !(item.extension == 'svg') " class="attach-thumbnail-img" alt=""
            style="background: url({{item.thumbnail}});background-size: cover; height: 96px;position: relative;top: 4px; width: {{ (item.ratio * 96) }}px"/>
-      <div ng-if="item.type !== NST_FILE_TYPE.IMAGE" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
+      <div ng-if="item.type !== NST_FILE_TYPE.IMAGE || item.extension == 'svg'" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
         <p>{{item.name}}</p>
         <div class="detail">
           <p>{{item.extension | uppercase}}</p>

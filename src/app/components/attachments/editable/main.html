@@ -6,8 +6,8 @@
 
 <ul ng-if="internalMode == 'thumbnail'" class="thumbnail-bar">
   <li ng-repeat="item in items" ng-class="item.isUploaded ? '_df' : '_df uploading'">
-    <a class="_dib" href="javascript:void(0);" ng-click="onClick(item);$event.stopPropagation()">
-      <img ng-if="item.hasThumbnail && item.type === 'image'" class="attach-thumbnail-img" alt="" ng-src="{{item.thumbnail}}" height="100%" style="max-height: 100%;width:auto"/>
+    <a class="_dib" href="javascript:void(0);" ng-click="onClick(item)" style="width: {{item.widthResized}}px">
+      <img ng-if="item.hasThumbnail && item.type === 'image'" class="attach-thumbnail-img" alt="" ng-src="{{item.thumbnail}}" height="96" width="item.widthResized" ng-show="item.widthResized > 0" />
       <div ng-if="!item.hasThumbnail || item.type !== 'image'" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
         <p>{{item.name}}</p>
         <div class="detail">
@@ -16,7 +16,7 @@
         </div>
       </div>
     </a>
-    <a href="javascript:void(0);" ng-click="onDelete(item);$event.stopPropagation()" class="attdl del">
+    <a href="javascript:void(0);" ng-click="onDelete(item)" class="attdl del">
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
       </svg>
