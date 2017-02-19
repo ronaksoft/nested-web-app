@@ -20,7 +20,7 @@
       <div class="_fw eventsbody _bgwhite" id="EventList" set-seen-on-visible>
         <div class="actdate" ng-repeat="group in ctlActivity.activities track by group.date">
           <p class="nst-mood-simple">
-            {{::group.date}}
+            {{group.date | activityGroupDate}}
           </p>
           <activity-item current-place-id="ctlActivity.activitySettings.placeId"
                          ng-repeat="activity in group.items track by activity.id" model="activity"

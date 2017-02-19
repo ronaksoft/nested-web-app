@@ -13,7 +13,6 @@
       'ui.bootstrap',
       'toastr',
       'xeditable',
-      'ngProgress',
       'lodash',
       'momentjs',
       'cfp.hotkeys',
