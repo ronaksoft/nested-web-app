@@ -8,18 +8,20 @@
         "OPTIONS": {}
       }
     },
-    "SIGN_OUT_TARGET": "https://nested.me",
+    "SIGN_OUT_TARGET": "https://localhost:3000",
     "WEBSOCKET": {
-      "URL": "wss://cyrus.nested.me:443",
+      "URL": "ws://cyrus.nested.ronaksoftware.com",
       "TIMEOUT": 60000,
       "REQUEST_MAX_RETRY_TIMES": 16
     },
     "STORE": {
-      "URL": "https://xerxes.nested.me",
+      "URL": "http://xerxes.nested.ronaksoftware.com",
       "TOKEN_EXPMS": 3550000
     },
-    "PIONEER_INVITATION": {
-      "URL": "https://x.nested.me/send_invite.php"
+    "REGISTER": {
+      "AJAX": {
+        "URL": "http://cyrus.nested.ronaksoftware.com:8080"
+      }
     }
   }
 }
