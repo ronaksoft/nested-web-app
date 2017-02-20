@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,9 +7,12 @@
 
   /** @ngInject */
   function NstSvcAuth($cookies, $q, $log,
-    NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory, NstSvcLogger, NstSvcUserStorage, NstSvcI18n,
-    NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
-    NstObservableObject) {
+                      NstSvcServer, NstSvcUserFactory, NstSvcAuthStorage, NstSvcPlaceFactory, NstSvcLogger, NstSvcUserStorage, NstSvcI18n,
+                      NST_SRV_EVENT, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR, NST_UNREGISTER_REASON, NST_AUTH_EVENT, NST_AUTH_STATE, NST_AUTH_STORAGE_KEY, NST_OBJECT_EVENT,
+                      NstObservableObject) {
+
+    var USER_STATUS_STORAGE_NAME = 'nested.user_status';
+
     function Auth(userData) {
       var service = this;
       var user = NstSvcUserFactory.parseUser(userData);
@@ -46,6 +49,18 @@
             break;
         }
       });
+
+
+      //Config local storage events
+      if (window.addEventListener)
+        addEventListener('storage', storage_event, false);
+      else if (window.attachEvent)
+        attachEvent('onstorage', storage_event, false);
+      function storage_event(e) {
+        if (e.key === USER_STATUS_STORAGE_NAME) {
+          location.reload();
+        }
+      }
     }
 
     Auth.prototype = new NstObservableObject();
@@ -57,11 +72,11 @@
       NstSvcLogger.debug2('Auth | Authorization', data);
 
       var options = {};
-      if (this.remember) {
-        var expires = new Date();
-        expires.setFullYear(expires.getFullYear() + 1);
-        options['expires'] = expires;
-      }
+      var expires = new Date();
+      // if (this.remember) {
+      expires.setFullYear(expires.getFullYear() + 1);
+      // }
+      options['expires'] = expires;
 
       this.setLastSessionKey(data._sk);
       this.setLastSessionSecret(data._ss);
@@ -73,19 +88,20 @@
 
       NstSvcUserFactory.get(this.getUser().getId()).then(function (user) {
         service.setUser(user);
+
         var CookieDate = new Date;
-        CookieDate.setFullYear(CookieDate.getFullYear() +1);
+        CookieDate.setFullYear(CookieDate.getFullYear() + 1);
         $cookies.put('user', JSON.stringify({
-          id : user.id,
-          name : user.fullName,
-          avatar : user.picture ? user.picture.getUrl('x64') : ""
+          id: user.id,
+          name: user.fullName,
+          avatar: user.picture ? user.picture.getUrl('x64') : ""
         }), {
-          domain : 'nested.me', //FIXME:: set domain form location
-          expires : CookieDate.toGMTString()
+          domain: 'nested.me', //FIXME:: set domain form location
+          expires: CookieDate.toGMTString()
         });
         service.setState(NST_AUTH_STATE.AUTHORIZED);
 
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, { detail: { user: service.getUser() } }));
+        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE, {detail: {user: service.getUser()}}));
         deferred.resolve(service.getUser());
       }).catch(deferred.reject);
 
@@ -95,13 +111,13 @@
     Auth.prototype.register = function (username, password) {
       this.setState(NST_AUTH_STATE.AUTHORIZING);
 
-      return NstSvcServer.request('session/register', { uid: username, pass: password });
+      return NstSvcServer.request('session/register', {uid: username, pass: password});
     };
 
     Auth.prototype.recall = function (sessionKey, sessionSecret) {
       this.setState(NST_AUTH_STATE.AUTHORIZING);
 
-      return NstSvcServer.request('session/recall', { _sk: sessionKey, _ss: sessionSecret });
+      return NstSvcServer.request('session/recall', {_sk: sessionKey, _ss: sessionSecret});
     };
 
     Auth.prototype.unregister = function (reason) {
@@ -127,6 +143,10 @@
           NstSvcAuthStorage.cache.flush();
           NstSvcUserStorage.cache.flush();
           localStorage.clear();
+
+          if (localStorage.getItem(USER_STATUS_STORAGE_NAME) !== NST_AUTH_STATE.UNAUTHORIZED)
+            localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.UNAUTHORIZED);
+
           this.setLastSessionKey(null);
           this.setLastSessionSecret(null);
           $cookies.remove('nss');
@@ -141,7 +161,7 @@
 
       qUnauth.promise.then(function (response) {
         service.setState(NST_AUTH_STATE.UNAUTHORIZED);
-        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.UNAUTHORIZE, { detail: { reason: reason } }));
+        service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.UNAUTHORIZE, {detail: {reason: reason}}));
         deferred.resolve(response);
       }).catch(deferred.reject);
 
@@ -154,11 +174,12 @@
       this.setRemember(remember);
 
       this.register(credentials.username, credentials.password).then(function (response) {
+        localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
         service.authorize(response).then(deferred.resolve);
       }).catch(function (error) {
         service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
           deferred.reject(error);
-          service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: error } }));
+          service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
         });
       });
 
@@ -181,6 +202,10 @@
         // TODO: Use Try Service
         this.recall(this.getLastSessionKey(), this.getLastSessionSecret()).then(function (response) {
           service.user = NstSvcUserFactory.parseUser(response.account);
+
+          if (localStorage.getItem(USER_STATUS_STORAGE_NAME) !== NST_AUTH_STATE.AUTHORIZED)
+            localStorage.setItem(USER_STATUS_STORAGE_NAME, NST_AUTH_STATE.AUTHORIZED);
+
           service.authorize(response).then(deferred.resolve);
         }).catch(function (error) {
           $log.debug('Auth | Recall Error: ', error);
@@ -189,7 +214,7 @@
               service.authorize({
                 status: NST_SRV_RESPONSE_STATUS.SUCCESS,
                 info: service.getUser(),
-                _sk : {
+                _sk: {
                   $oid: service.getLastSessionKey()
                 },
                 _ss: service.getLastSessionSecret()
@@ -201,7 +226,7 @@
             case NST_SRV_ERROR.UNAUTHORIZED:
               service.unregister(NST_UNREGISTER_REASON.AUTH_FAIL).then(function () {
                 deferred.reject(error);
-                service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, { detail: { reason: error } }));
+                service.dispatchEvent(new CustomEvent(NST_AUTH_EVENT.AUTHORIZE_FAIL, {detail: {reason: error}}));
               }).catch(deferred.reject);
               break;
 
