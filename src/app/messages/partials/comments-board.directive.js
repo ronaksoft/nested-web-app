@@ -22,7 +22,8 @@
         limit: '=limit',
         postId: '=',
         totalCommentsCount : '=',
-        onCommentSent : '='
+        onCommentSent : '=',
+        hasCommentRemoveAccess : '='
       }
     };
   }

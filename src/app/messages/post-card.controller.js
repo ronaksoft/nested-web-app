@@ -241,6 +241,7 @@
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = vm.post.body;
       vm.places = vm.post.allPlaces;
+
       if (vm.addOn) {
         getMessage();
       }
