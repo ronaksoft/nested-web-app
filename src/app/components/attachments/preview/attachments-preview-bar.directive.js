@@ -38,8 +38,8 @@
           scope.internalMode = scope.badge ? NST_ATTACHMENTS_PREVIEW_BAR_MODE.BADGE : NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL;
         }
 
-
-        if (scope.items.length == 1 && scope.items[0].type === NST_FILE_TYPE.IMAGE && scope.items[0].hasPreview.length > 0) {
+        if (scope.items.length == 1 && scope.items[0].type === NST_FILE_TYPE.IMAGE && scope.items[0].hasPreview) {
+          console.log(scope.items[0]);
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
 
           var wrpWidth = ele.parent().parent().width();
@@ -63,7 +63,7 @@
           scope.wrpHeight = scope.height > 1024 ? 1024 : scope.height;
         }
 
-        if (scope.items.length == 2 && scope.items[0].type === NST_FILE_TYPE.IMAGE && scope.items[1].type === NST_FILE_TYPE.IMAGE && scope.items[0].hasPreview.length > 0 && scope.items[1].hasPreview.length > 0) {
+        if (scope.items.length == 2 && scope.items[0].type === NST_FILE_TYPE.IMAGE && scope.items[1].type === NST_FILE_TYPE.IMAGE && scope.items[0].hasPreview && scope.items[1].hasPreview) {
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_TWO_IMAGE;
           scope.deform = false;
 

@@ -53,7 +53,7 @@
         this.id = post.id;
         this.sender = post.sender ?  mapSender(post.sender) :  mapSender(post.emailSender);
         this.subject = post.subject;
-        this.body = $filter('linky')(post.body);
+        this.body = post.body;
         this.isExternal = !post.internal;
         this.contentType = post.contentType;
         this.date = post.date;

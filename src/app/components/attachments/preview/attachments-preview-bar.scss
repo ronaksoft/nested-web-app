@@ -136,9 +136,11 @@ nst-attachments-preview-bar {
       background-size: cover;
       min-width: 80px;
       max-width: 400px;
+      width: 100%;
       height: 100%;
       float: left;
       object-fit: cover;
+      border: 1px solid $color-border;
     }
     .attach-thumbnail {
       height: 108px;

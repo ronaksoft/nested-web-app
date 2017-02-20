@@ -167,12 +167,15 @@
           checkImageRatio();
         }
         function checkImageRatio() {
-          $timeout(function () {
-            var imageElement = angular.element(ele.find('ul')).children();
-            for (var i = 0 ; i < imageElement.length; i++){
-              angular.element(imageElement[i]).children().first().children().css('height', '99%');
-            }
-          });
+
+          for (var i = 0; i<scope.items.length; i++){
+            var elem = document.createElement("img");
+            elem.src = scope.items[i].thumbnail;
+            scope.items[i].width = elem.width;
+            scope.items[i].height = elem.height;
+            var ratio = elem.width/elem.height;
+            scope.items[i].widthResized = 96 * ratio
+          }
         }
       }
     };

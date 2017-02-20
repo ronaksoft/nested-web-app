@@ -404,6 +404,9 @@ body[dir="rtl"] {
     right: auto;
     left: 0;
   }
+  .empty div[contenteditable]:before{
+    content: 'اینجا متن را بنویسید...';
+  }
 }
 @media screen and (max-width: $screen-md){
 

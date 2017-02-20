@@ -78,7 +78,7 @@
         $cookies.put('user', JSON.stringify({
           id : user.id,
           name : user.fullName,
-          avatar : user.picture.getUrl('x64')
+          avatar : user.picture ? user.picture.getUrl('x64') : ""
         }), {
           domain : 'nested.me', //FIXME:: set domain form location
           expires : CookieDate.toGMTString()

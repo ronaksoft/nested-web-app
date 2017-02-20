@@ -59,12 +59,20 @@
     </h3>
   </section>
 
-  <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
+  <section ng-if="ctlPostCard.post.contentType === 'text/html'" class="post-body _wrb"
            ng-if="ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
            auto-dir="ctlPostCard.post.body">
-    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body "></span>
+    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | truncate | removeHTMLTags"></span>
     <span ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body "></span>
-    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body "></span>
+    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | truncate | removeHTMLTags"></span>
+  </section>
+
+  <section ng-if="ctlPostCard.post.contentType === 'text/plain'" class="post-body _wrb pre"
+           ng-if="ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
+           auto-dir="ctlPostCard.post.body">
+    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind="ctlPostCard.body | truncate | linky"></span>
+    <span ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind="ctlPostCard.body | linky" linky></span>
+    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind="ctlPostCard.body | truncate | linky"></span>
   </section>
 
   <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">

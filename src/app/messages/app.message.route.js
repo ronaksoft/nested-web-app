@@ -149,7 +149,7 @@
         controllerAs: 'ctlMessages',
         options: {
           primary: true,
-          group: 'message'
+          group: 'posts'
         }
       })
       .state('app.place-messages-unread', {
