@@ -156,7 +156,8 @@
 
         focusOnSentTimeout = $timeout(function() {
           e.currentTarget.focus();
-        }, 10)
+        }, 10);
+        vm.onCommentSent(comment);
       }).catch(function(error) {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
       });

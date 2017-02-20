@@ -245,12 +245,16 @@
         getMessage();
       }
 
-      var reference = $scope.$on('comment-removed', function (event, data) {
+      pageEventReferences.push($scope.$on('comment-removed', function (event, data) {
         if (vm.post.id === data.postId) {
           vm.post.commentsCount--;
         }
-      });
-      pageEventReferences.push(reference);
+      }));
+      pageEventReferences.push($scope.$on('post-attachment-viewed', function (event, data) {
+        if (vm.post.id === data.postId && !vm.post.isRead) {
+          markAsRead();
+        }
+      }));
 
 
       //FIXME:: fix this item
@@ -280,7 +284,9 @@
     }
 
     function onAddComment() {
-      markAsRead();
+      if (!vm.post.isRead) {
+        markAsRead();
+      }
     }
   }
 
