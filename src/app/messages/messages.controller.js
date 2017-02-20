@@ -89,6 +89,7 @@
         NstSvcPlaceAccess.getIfhasAccessToRead(vm.currentPlaceId).then(function (place) {
           if (place) {
             vm.currentPlace = place;
+            vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
             vm.currentPlaceLoaded = true;
             vm.showPlaceId = !_.includes(['off', 'internal'], vm.currentPlace.privacy.receptive);
 

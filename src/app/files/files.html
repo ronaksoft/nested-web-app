@@ -97,7 +97,7 @@
   </section>
   <div class="content-plus illu">
     <div id="members" nst-scrollbar suppress-scroll-x="true"
-         ng-if="!ctlFiles.isSubPersonal()">
+         ng-if="!ctlFiles.isSubPersonal() && ctlFiles.hasSeeMembersAccess">
       <nst-place-teammates-sidebar grand-place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"></nst-place-teammates-sidebar>
     </div>
     <div id="cp1" nst-scrollbar suppress-scroll-x="true"
