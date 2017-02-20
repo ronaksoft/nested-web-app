@@ -727,6 +727,8 @@
         NstSvcServer.request('place/leave', {
           place_id: placeId
         }).then(function () {
+          NstSvcPlaceStorage.remove(query.id);
+          NstSvcTinyPlaceStorage.remove(query.id);
           factory.dispatchEvent(new CustomEvent(NST_PLACE_FACTORY_EVENT.REMOVE, new NstFactoryEventData(placeId)));
           factory.get(placeId,true).then(function () {
             deferred.resolve();
