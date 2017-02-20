@@ -121,7 +121,8 @@
         id: place.id,
         name: place.name,
         picture: place.hasPicture() ? place.picture.getUrl("x128") : '/assets/icons/absents_place.svg',
-        hasDeleteAccess: _.includes(place.accesses, NST_PLACE_ACCESS.REMOVE_POST)
+        hasDeleteAccess: _.includes(place.accesses, NST_PLACE_ACCESS.REMOVE_POST),
+        hasControlAccess: _.includes(place.accesses, NST_PLACE_ACCESS.CONTROL)
       };
     }
 

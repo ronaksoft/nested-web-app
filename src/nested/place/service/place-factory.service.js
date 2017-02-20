@@ -1131,6 +1131,10 @@
       return this.filterPlacesByAccessCode(places, NST_PLACE_ACCESS.READ);
     }
 
+    PlaceFactory.prototype.filterPlacesByControlAccess = function (places) {
+      return this.filterPlacesByAccessCode(places, NST_PLACE_ACCESS.CONTROL);
+    }
+
     PlaceFactory.prototype.getChildTree = function (grandPlace, children) {
       var mapper = new NstSvcPlaceMap();
       mapper.toTree(grandPlace, children);

@@ -170,7 +170,7 @@
 </div>
 
 <section class="post-card-comment" data-ng-if="!ctlPostCard.hideComments && !ctlPostCard.post.forbidden && ctlPostCard.commentBoard">
-  <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" post-id="ctlPostCard.post.id" total-comments-count="ctlPostCard.post.commentsCount" on-comment-sent="ctlPostCard.onAddComment"></comments-board>
+  <comments-board comments="ctlPostCard.post.comments" limit="ctlPostCard.commentBoardLimit" post-id="ctlPostCard.post.id" total-comments-count="ctlPostCard.post.commentsCount" on-comment-sent="ctlPostCard.onAddComment" has-comment-remove-access="ctlPostCard.hasControlAccess"></comments-board>
 </section>
 
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">

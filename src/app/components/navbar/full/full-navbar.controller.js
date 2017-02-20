@@ -42,18 +42,9 @@
     vm.isPersonal = isPersonal;
     vm.isSubPersonal = isSubPersonal;
     vm.confirmToLeave = confirmToLeave;
-    vm.toggleFeed = toggleFeed;
     vm.isFeed = $state.current.options.feed;
     vm.isFavPlaces = $state.current.options.favoritePlace;
     vm.searchKeyPressed = searchKeyPressed;
-
-    function toggleFeed(isFavPlaces) {
-      if (isFavPlaces) {
-        $state.go('app.messages-favorites');
-      } else {
-        $state.go('app.messages');
-      }
-    }
 
     function isUnread() {
       if ($state.current.name == 'app.place-messages-unread' ||
@@ -204,7 +195,7 @@
       if (hasPlace()) {
         return $state.href('app.place-messages', {placeId: vm.getPlaceId()});
       } else {
-        return $state.href('app.messages');
+        return $state.href('app.messages-favorites');
       }
     }
 

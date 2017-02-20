@@ -8,7 +8,7 @@
   /** @ngInject */
   function ChangePasswordController($scope, $log, $state,
     toastr,
-    NstSvcUserFactory, NstVmNavbarControl,
+    NstSvcUserFactory,
     NST_SRV_ERROR, NST_NAVBAR_CONTROL_TYPE, NstSvcTranslation) {
     var vm = this;
 

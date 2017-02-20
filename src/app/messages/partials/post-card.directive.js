@@ -20,6 +20,7 @@
         viewSetting: '=settings',
         thisPlace: '=postinplace',
         hasRemoveAccess:'=hasRemoveAccess',
+        hasControlAccess: '=',
         isRibbon: '=',
         addOn: '=',
         commentBoard: '=',
