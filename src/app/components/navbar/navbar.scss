@@ -918,6 +918,8 @@ body.scrolled {
     display: flex;
   }
 }
-.home-svg.active {
-  border-bottom: none!important;
+.home-svg {
+  svg {
+    fill: $color-sense-wire!important;
+  }
 }
