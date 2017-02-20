@@ -7,6 +7,7 @@
 
   /** @ngInject */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
+                           NST_PLACE_ACCESS,
                            NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation, NstSvcAuth, NstSvcWait,
                            NstVmFile, NstVmFileViewerItem,
                            NST_DEFAULT) {
@@ -98,6 +99,8 @@
         if (place) {
           vm.currentPlace = place;
           vm.currentPlaceLoaded = true;
+
+          vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
           vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
 
           load().then(function () {

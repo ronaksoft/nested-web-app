@@ -96,7 +96,7 @@
   </section>
   <div class="content-plus illu">
     <div id="members" nst-scrollbar suppress-scroll-x="true"
-         ng-if="!ctlMessages.isSubPersonal() && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
+         ng-if="ctlMessages.hasSeeMembersAccess && !ctlMessages.isSubPersonal() && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
       <nst-place-teammates-sidebar grand-place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"></nst-place-teammates-sidebar>
     </div>
     <div id="cp1" nst-scrollbar suppress-scroll-x="true" ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId"

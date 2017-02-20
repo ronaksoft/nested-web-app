@@ -55,7 +55,7 @@
         }
       })
       .state('app.messages-bookmarked', {
-        url: '/bookmarked',
+        url: '/bookmarks',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
@@ -66,7 +66,7 @@
         }
       })
       .state('app.messages-bookmarked-sort', {
-        url: '/bookmarked/:sort',
+        url: '/bookmarks/:sort',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
@@ -77,7 +77,7 @@
         }
       })
       .state('app.messages-favorites', {
-        url: '/messages/favorites',
+        url: '/feed',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
@@ -89,7 +89,7 @@
         }
       })
       .state('app.messages-favorites-sorted', {
-        url: '/messages/favorites/:sort',
+        url: '/feed/:sort',
         params: {
           sort: NST_DEFAULT.STATE_PARAM
         },
@@ -103,7 +103,7 @@
         },
       })
       .state('app.messages-sent', {
-        url: '/messages/sent',
+        url: '/shared',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
@@ -113,7 +113,7 @@
         }
       })
       .state('app.messages-sent-sorted', {
-        url: '/messages/sent/:sort',
+        url: '/shared/:sort',
         params: {
           sort: NST_DEFAULT.STATE_PARAM
         },

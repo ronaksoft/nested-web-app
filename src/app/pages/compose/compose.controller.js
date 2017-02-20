@@ -698,7 +698,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
-              vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
+              vm.model.subject = post.getSubject();
               var places = post.getPlaces();
               for (var k in places) {
                 var place = places[k];
