@@ -15,7 +15,6 @@
     "initial.js": "https://github.com/pouyanh/initial.js.git#v0.5.0",
     "lodash": "^4.13.1",
     "angular-local-storage": "^0.2.7",
-    "ng-droplet": "^0.5.16",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0",
     "angular-hammer": "monospaced/angular-hammer#^1.2.4",
     "angular-animate": "^1.5.8",
@@ -25,7 +24,6 @@
     "gsap": "^1.19.0",
     "selectonic": "^0.6.3",
     "libphonenumber": "^0.9.4",
-    "Medium.js": "medium#^1.0.1",
     "ng-device-detector": "^3.0.1",
     "angular-ckeditor": "^1.0.3",
     "ckeditor": "^4.6.2"
@@ -34,33 +32,10 @@
     "angular-mocks": "~1.5.6"
   },
   "overrides": {
-    "Medium.js": {
-      "main": [
-        "medium.js",
-        "medium.css"
-      ]
-    },
     "gsap": {
       "main": [
         "src/minified/TweenMax.min.js",
         "src/minified/utils/Draggable.min.js"
-      ]
-    },
-    "scrollmagic": {
-      "main": [
-        "scrollmagic/uncompressed/ScrollMagic.js",
-        "scrollmagic/uncompressed/plugins/animation.gsap.js"
-      ]
-    },
-    "font-awesome": {
-      "main": [
-        "less/font-awesome.less",
-        "scss/font-awesome.scss",
-        "fonts/fontawesome-webfont.eot",
-        "fonts/fontawesome-webfont.svg",
-        "fonts/fontawesome-webfont.ttf",
-        "fonts/fontawesome-webfont.woff",
-        "fonts/fontawesome-webfont.woff2"
       ]
     },
     "moment": {
