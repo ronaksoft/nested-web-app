@@ -1,12 +1,12 @@
 
 <div id="create-place"
      ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode">
-  <div class="_difv" ng-if="ctlCreate.step == 1">
+  <div class="_difv _fw" ng-if="ctlCreate.step == 1">
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate>
       <h2 class="_df">
         <svg class="_32svg _r45" ng-click="$dismiss()">
           <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
-        </svg><translate>Create a Place Step 1/2</translate>
+        </svg><translate>Create a Place<span>Step 1/2</span></translate>
       </h2>
       <div class="_fw _jcc _df">
         <label for="logo" class="pic">
@@ -27,72 +27,171 @@
           <div id="PlaceID" tabindex="2" ng-click="ctlCreate.changeId(ctlCreate.place.id)">
             <span ng-if="ctlCreate.hasParentPlace">{{ctlCreate.place.parentId}}.</span>
             {{ctlCreate.place.id.length > 0 ? ctlCreate.place.id : 'marketing-development'}}
-            <span>@nested.me</span>
             <div ng-if="ctlCreate.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
           </div>
         </div>
         <aside><translate>The Place will be identified by this unique address. You <b>can't</b> change the Place ID after creating the Place, so choose wisely!</translate></aside>
       </div>
-      <p class="input-lab" ng-if="ctlCreate.isClosedPlace"><translate>Who can post messages to this Place?</translate></p>
 
-      <label class="input-lab input-form" for="PlaceDes"><translate>Place ID</translate></label>
-      <div class="placeID ng-class:{'not-val' : !ctlCreate.placeIdIsFullAvailable}">
-        <div class="field">
-          <input id="PlaceDes" type="text" placeholder="Place description">
-        </div>
-      </div>
-
-      <div ng-if="!ctlCreate.isPersonalPlace">
-        <p class="input-lab"><translate>Privacy</translate></p>
-        <div class="option-row">
-          <p class="f4 _fw _df option-des" translate-inner ng-if="ctlCreate.hasParentPlace">Who can add Members to this Place?</p>
-          <p class="f4 _fw _df option-des" translate-inner ng-if="!ctlCreate.hasParentPlace">Who can invite Members to this Place?</p>
-          <div class="_df f1">
-            <select ng-model="ctlCreate.place.policy.addMember">
-              <option value="creators" id="manager-add-access" translate-inner>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-              <option value="everyone" id="member-add-access" translate-inner>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="option-row" ng-if="ctlCreate.isClosedPlace">
-          <p class="f4 _fw _df option-des">
-            <translate>Who can create a sub-Place?</translate>
-          </p>
-          <div class="_df f1">
-            <select ng-model="ctlCreate.place.policy.addPlace">
-              <option value="creators" id="manager-create-sub-place-access" translate-inner>Managers of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-              <option value="everyone" id="member-create-sub-place-access" translate-inner>Members of {{ctlCreate.place.name ? ctlCreate.place.name : '...'}}</option>
-            </select>
-          </div>
-        </div>
-        <div class="_difv nst-marginbtm-8"
-             ng-if="(ctlCreate.hasGrandParent || ctlCreate.hasParentPlace) && !ctlCreate.parentLoadProgress">
-          <p class="create-label">
-            <translate>Select a group of Members you would wish to be added to this Place</translate>
-          </p>
-          <ul class="list-unstyled">
-            <li>
-              <input class="green-radio " type="radio" id="fill-members-none" name="fillMembers" value="none"
-                     ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-none"><translate>No-one</translate></label>
-            </li>
-            <li ng-if="ctlCreate.hasParentPlace && ctlCreate.parentPlace.getTeammatesCount() > 1">
-              <input class="green-radio " type="radio" id="fill-members-parent" name="fillMembers" value="parent"
-                     ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-parent"><translate>All <b>{{ctlCreate.parentPlace.name}}</b> Members ({{ctlCreate.parentPlace.getTeammatesCount() | localize}})</translate></label>
-            </li>
-            <li ng-if="ctlCreate.hasGrandParent">
-              <input class="green-radio " type="radio" id="fill-members-grand" name="fillMembers" value="grand"
-                     ng-model="ctlCreate.place.fillMembers">
-              <label for="fill-members-grand"><translate>All <b>{{ctlCreate.grandPlace.name}}</b> Members ({{ctlCreate.grandPlace.getTeammatesCount() | localize}})</translate></label>
-            </li>
-          </ul>
+      <label class="input-lab input-form" for="PlaceDes"><translate>Place Description <span>Optional</span></translate></label>
+      <input id="PlaceDes" type="text">
 
 
-        </div>
-      </div>
       <button class="submit" type="button" ng-click="ctlCreate.step = 2"><translate>Next</translate></button>
       <!--<button class="submit" type="submit" id="submit-place"><translate>Create a Place</translate></button>-->
+    </form>
+  </div>
+  <div class="_difv _fw" ng-if="ctlCreate.step == 2">
+    <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate class="_fw">
+      <h2 class="_df">
+        <svg class="_32svg _r90" ng-click="ctlCreate.step = 1">
+          <use xlink:href="/assets/icons/nst-icn32.svg#arrow"></use>
+        </svg><translate>Create a Private Place<span>Step 2/2</span></translate>
+      </h2>
+      <p>Who can share posts with this Place?</p>
+
+      <div class="_difh _fw _aic recive-opt {{ctlCreate.reciveLevel}}">
+        <svg ng-click="ctlCreate.reciveLevel = 'l1'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#member"></use>
+        </svg>
+        <hr>
+        <svg ng-click="ctlCreate.reciveLevel = 'l2'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
+        </svg>
+        <hr>
+        <svg ng-click="ctlCreate.reciveLevel = 'l3'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#team"></use>
+        </svg>
+        <hr>
+        <svg ng-click="ctlCreate.reciveLevel = 'l4'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#earth"></use>
+        </svg>
+        <div class="active-border"></div>
+        <div class="recive-arrow"></div>
+      </div>
+      <div class="_fw recive-det">
+        <h4 class="_fw _tac">“Art Center” Members</h4>
+        <div class="_difh _fw">
+          <p class="_df _fw">Show in their search results?</p>
+          <div class="_df _fn">
+            <div class="place-switch">
+              <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="ctlCreate.searchable">
+              <label for="Searchable">
+                <b><translate>Yes</translate></b>
+                <div class="circle" switch-drag="Searchhable"></div>
+              </label>
+              <label for="Searchable">
+                <b><translate>No</translate></b>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p>Members (1)</p>
+
+      <div class="select-box2 _difh"
+           data-ng-click="">
+        <div class="add">
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
+          </svg>
+        </div>
+        <h4>
+          <translate ng-if="ctlCreate.isGrandPlace">Invite Members</translate>
+          <translate ng-if="!ctlCreate.isGrandPlace">Add Members</translate>
+        </h4>
+      </div>
+      <nst-place-member-item class="user-item"
+                             data-ng-repeat="member in ctlCreate.teammates"
+                             member="member" place="ctlSettings.place"
+                             has-remove-access="true"
+                             has-control-access="true" on-remove="ctlCreate.removeMember"
+                             role="member.state" ></nst-place-member-item>
+
+
+      <button class="submit" type="button" ng-click="ctlCreate.step = 3"><translate>Create Place</translate></button>
+      <!--<button class="submit" type="submit" id="submit-place"><translate>Create a Place</translate></button>-->
+    </form>
+  </div>
+  <div class="_difv _fw {{'step' + ctlCreate.step}}" ng-if="ctlCreate.step == 3">
+    <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate class="_fw _df">
+      <div class="place-head">
+        <div class="place-filter">
+          <img src="/assets/icons/absents_place.svg" alt="">
+        </div>
+        <img src="/assets/icons/absents_place.svg" alt="">
+
+      </div>
+      <h3>"Op Art"</h3>
+      <h3>successfully created</h3>
+
+      <svg class="_48svg _df _asc">
+      </svg>
+      <span>Private Place</span>
+      <p class="cr8">Its mean just ”Op Art” members can access to posts within this place.</p>
+
+      <svg class="_48svg _df _asc">
+      </svg>
+      <span>Everyone can share posts with this place.</span>
+      <p class="cr8">Evreyones can shared posts with this place. Emails recievd as post.</p>
+
+
+      <svg class="_24svg _df _asc">
+        <use xlink:href="/assets/icons/nst-icn20.svg#search"></use>
+      </svg>
+      <p class="cr8">This place is shown on other users search results. </p>
+
+
+      <div class="butn-white _fw _df"><translate>Done</translate></div>
+
+      <a ng-click="ctlCreate.step = 4">More Privacy Settings</a>
+      <!--<button class="submit" type="submit" id="submit-place"><translate>Create a Place</translate></button>-->
+    </form>
+  </div>
+  <div class="_difv _fw {{'step' + ctlCreate.step}}" ng-if="ctlCreate.step == 4">
+    <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate class="_fw _df">
+      <div class="place-head">
+        <div class="place-filter">
+          <img src="/assets/icons/absents_place.svg" alt="">
+        </div>
+        <img src="/assets/icons/absents_place.svg" alt="">
+      </div>
+      <h3>"Op Art"</h3>
+      <p>Who can add members?</p>
+      <div class="member-option recive-opt _difh _fw _aic _asc {{ctlCreate.memberLevel}}">
+        <svg ng-click="ctlCreate.memberLevel = 'l1'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#member"></use>
+        </svg>
+        <hr>
+        <svg ng-click="ctlCreate.memberLevel = 'l2'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
+        </svg>
+        <div class="active-border"></div>
+        <div class="recive-arrow"></div>
+      </div>
+      <div class="_fw recive-det">
+        <h4 class="_fw _tac">“Op Art” Managers & Members</h4>
+      </div>
+      <p>Who can create subplace?</p>
+      <div class="member-option recive-opt _difh _fw _aic _asc {{ctlCreate.createLevel}}">
+        <svg ng-click="ctlCreate.createLevel = 'l1'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#member"></use>
+        </svg>
+        <hr>
+        <svg ng-click="ctlCreate.createLevel = 'l2'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
+        </svg>
+        <div class="active-border"></div>
+        <div class="recive-arrow"></div>
+      </div>
+      <div class="_fw recive-det">
+        <h4 class="_fw _tac">“Op Art” Managers Only</h4>
+      </div>
+
+
+      <div class="butn-white _fw _df"><translate>Done</translate></div>
+
     </form>
   </div>
 </div>

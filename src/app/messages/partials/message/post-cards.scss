@@ -668,7 +668,12 @@ h3 {
     fill: #009CFA !important;
   }
 }
-
+.show-more {
+  span {
+    color: #00b45a;
+    font-size: 14px
+  }
+}
 .isNotRF {
   margin-top: 24px;
 }

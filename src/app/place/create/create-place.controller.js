@@ -16,6 +16,9 @@
 
     vm.hasParentPlace = null;
     vm.step = 1;
+    vm.reciveLevel = 'l1';
+    vm.memberLevel = 'l1';
+    vm.createLevel = 'l1';
     vm.hasGrandParent = null;
     vm.placeIdIsFullAvailable = true;
     vm.memberOptions = [

@@ -536,14 +536,29 @@ body.modal-open {
       font-weight: 700;
       margin: 24px 0;
       span {
+        margin-left: 16px;
         font-size: 24px;
         font-weight: 400;
+        span {
+          margin-left: 8px;
+          color: $color-black04;
+          font-size: 14px;
+        }
+      }
+    }
+    .pic {
+      width: 96px;
+      height: 96px;
+      box-shadow: 0 4px 16px $color-black16;
+      img {
+        width: 100%;
+        height: 100%;
       }
     }
     button {
       width: 100%;
       transition: .2s all ease;
-      margin: 24px 0;
+      margin: 54px 0 24px;
       line-height: 30px;
       font-size: 18px;
       font-weight: 700;
@@ -570,26 +585,29 @@ body.modal-open {
     aside{
       width: 100%;
       line-height: 16px;
-      color: #476152;
+      color: $color-black16;
       font-size: 13px;
       font-weight: 400;
       padding: 16px 0;
     }
     #PlaceID {
-      color: #869D91;
+      color: $color-sense-wire;
       @extend .nst-font-large;
       font-weight: 400;
       min-height: 28px;
       width: 100%;
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid $color-black004;
       padding-bottom: 12px;
+      &.not-set {
+        color: $color-black004;
+      }
     }
     .field{
       position: relative;
       width: 100%;
       span {
         line-height: 28px;
-        color: #A6B9AF;
+        color: $color-black16;
         @extend .nst-font-large;
         font-weight: 400;
       }
@@ -608,7 +626,12 @@ body.modal-open {
         border-color: $color-solid;
       }
     }
-
+    .butn-white {
+      height: 40px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+    }
     select {
       line-height: 40px;
       color: $color-solid;
