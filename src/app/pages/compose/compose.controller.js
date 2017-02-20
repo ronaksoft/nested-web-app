@@ -582,9 +582,9 @@
             $rootScope.$emit('post-quick', msg);
           });
           $uibModalStack.dismissAll();
-          vm.model.subject = "";
-          vm.model.body = "";
-          vm.attachments.viewModels = [];
+          if (vm.quickMode) {
+            clear();
+          }
 
         } else if (response.post.places.length === response.noPermitPlaces.length) {
           toastr.error(NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(',')));
@@ -595,9 +595,10 @@
             $rootScope.$emit('post-quick', msg);
           });
           $uibModalStack.dismissAll();
-          vm.model.subject = "";
-          vm.model.body = "";
-          vm.attachments.viewModels = [];
+          if (vm.quickMode) {
+            clear();
+          }
+
         }
 
         return $q(function (res) {
@@ -622,14 +623,6 @@
         });
 
       });
-    };
-
-    vm.discard = function () {
-      vm.model.attachments = [];
-      vm.model.subject = '';
-      vm.model.body = '';
-      vm.focus = false
-
     };
 
     /*****************************
@@ -925,7 +918,7 @@
     // });
 
     function clear() {
-      vm.model.recipients = [];
+      vm.attachments.viewModels = [];
       vm.model.attachments = [];
       vm.model.attachfiles = {};
       vm.model.subject = '';
