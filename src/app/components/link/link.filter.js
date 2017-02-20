@@ -11,7 +11,9 @@
           return ""
         });
         var linked = $filter('linky')(newString);
-        return linked;
+        var dom = new DOMParser();
+        var parser = dom.parseFromString(linked,'text/html');
+        return parser.body.innerHTML;
       };
     }]);
 })();
