@@ -1,0 +1,26 @@
+<div class="place-head ng-class:{'setting-head' : settings}">
+  <div class="place-filter">
+    <img ng-src="" alt="">
+  </div>
+  <div ng-if="settings" class="setting-headline _aic">
+    <svg class="_24svg _df _r45 _fn">
+      <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
+    </svg>
+    <h3 class="_df _fw">Place Settings</h3>
+
+  </div>
+  <div class="logo-holder">
+    <img ng-src="{{pic}}" height="100%" alt="">
+    <i ng-if="settings">
+      <svg class="_16svg _df" ng-if="true">
+        <use xlink:href="/assets/icons/nst-icn16.svg#openplace"></use>
+      </svg>
+      <svg class="_16svg _df" ng-if="false">
+        <use xlink:href="/assets/icons/nst-icn16.svg#closedplace"></use>
+      </svg>
+    </i>
+    <span ng-if="settings">art-center.impressionism</span>
+    <a ng-if="settings">Closed Place</a>
+  </div>
+
+</div>

@@ -1,9 +1,10 @@
 #place-settings {
-  max-width: 490px;
-  padding: 0 5px;
+  max-width: 480px;
+  background-color: $color-white;
   width: 100%;
-  margin: 80px auto;
-  height: auto;
+  padding: 0 32px;
+  height: 100%;
+  margin: 0 auto;
   position: relative;
   flex-direction: column;
   .place-name {

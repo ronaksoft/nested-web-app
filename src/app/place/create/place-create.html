@@ -1,7 +1,7 @@
 
 <div id="create-place"
      ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode">
-  <div class="_difv _fw" ng-if="ctlCreate.step == 1">
+  <div class="_fw" ng-if="ctlCreate.step == 1">
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate>
       <h2 class="_df">
         <svg class="_32svg _r45" ng-click="$dismiss()">
@@ -49,44 +49,8 @@
         </svg><translate>Create a Private Place<span>Step 2/2</span></translate>
       </h2>
       <p>Who can share posts with this Place?</p>
+      <recieve-from level="ctlCreate.reciveLevel" env="'full'"></recieve-from>
 
-      <div class="_difh _fw _aic recive-opt {{ctlCreate.reciveLevel}}">
-        <svg ng-click="ctlCreate.reciveLevel = 'l1'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#member"></use>
-        </svg>
-        <hr>
-        <svg ng-click="ctlCreate.reciveLevel = 'l2'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
-        </svg>
-        <hr>
-        <svg ng-click="ctlCreate.reciveLevel = 'l3'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#team"></use>
-        </svg>
-        <hr>
-        <svg ng-click="ctlCreate.reciveLevel = 'l4'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#earth"></use>
-        </svg>
-        <div class="active-border"></div>
-        <div class="recive-arrow"></div>
-      </div>
-      <div class="_fw recive-det">
-        <h4 class="_fw _tac">“Art Center” Members</h4>
-        <div class="_difh _fw">
-          <p class="_df _fw">Show in their search results?</p>
-          <div class="_df _fn">
-            <div class="place-switch">
-              <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="ctlCreate.searchable">
-              <label for="Searchable">
-                <b><translate>Yes</translate></b>
-                <div class="circle" switch-drag="Searchhable"></div>
-              </label>
-              <label for="Searchable">
-                <b><translate>No</translate></b>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <p>Members (1)</p>
 
@@ -116,13 +80,8 @@
   </div>
   <div class="_difv _fw {{'step' + ctlCreate.step}}" ng-if="ctlCreate.step == 3">
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate class="_fw _df">
-      <div class="place-head">
-        <div class="place-filter">
-          <img src="/assets/icons/absents_place.svg" alt="">
-        </div>
-        <img src="/assets/icons/absents_place.svg" alt="">
+      <place-head env="'create'" pict="'/assets/icons/absents_place.svg'"></place-head>
 
-      </div>
       <h3>"Op Art"</h3>
       <h3>successfully created</h3>
 
@@ -151,43 +110,15 @@
   </div>
   <div class="_difv _fw {{'step' + ctlCreate.step}}" ng-if="ctlCreate.step == 4">
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate class="_fw _df">
-      <div class="place-head">
-        <div class="place-filter">
-          <img src="/assets/icons/absents_place.svg" alt="">
-        </div>
-        <img src="/assets/icons/absents_place.svg" alt="">
-      </div>
+      <place-head env="'create'" pict="'/assets/icons/absents_place.svg'"></place-head>
+
       <h3>"Op Art"</h3>
+
       <p>Who can add members?</p>
-      <div class="member-option recive-opt _difh _fw _aic _asc {{ctlCreate.memberLevel}}">
-        <svg ng-click="ctlCreate.memberLevel = 'l1'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#member"></use>
-        </svg>
-        <hr>
-        <svg ng-click="ctlCreate.memberLevel = 'l2'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
-        </svg>
-        <div class="active-border"></div>
-        <div class="recive-arrow"></div>
-      </div>
-      <div class="_fw recive-det">
-        <h4 class="_fw _tac">“Op Art” Managers & Members</h4>
-      </div>
+      <recieve-from level="ctlCreate.memberLevel" env="'semi'"></recieve-from>
+
       <p>Who can create subplace?</p>
-      <div class="member-option recive-opt _difh _fw _aic _asc {{ctlCreate.createLevel}}">
-        <svg ng-click="ctlCreate.createLevel = 'l1'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#member"></use>
-        </svg>
-        <hr>
-        <svg ng-click="ctlCreate.createLevel = 'l2'">
-          <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
-        </svg>
-        <div class="active-border"></div>
-        <div class="recive-arrow"></div>
-      </div>
-      <div class="_fw recive-det">
-        <h4 class="_fw _tac">“Op Art” Managers Only</h4>
-      </div>
+      <recieve-from level="ctlCreate.createLevel" env="'semi'"></recieve-from>
 
 
       <div class="butn-white _fw _df"><translate>Done</translate></div>
