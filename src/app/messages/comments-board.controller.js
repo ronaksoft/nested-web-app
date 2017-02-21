@@ -33,6 +33,7 @@
     vm.canShowOlderComments = canShowOlderComments;
     vm.commentBoardNeedsRolling = commentBoardNeedsRolling;
     vm.unreadCommentsCount = 0;
+
     (function () {
       vm.hasOlderComments = vm.totalCommentsCount > vm.comments.length;
       var key = $scope.$on('post-load-new-comments', function (event, data) {
@@ -82,20 +83,17 @@
       };
 
       getRecentComments(vm.postId, settings).then(function (result) {
-        var newComments = reorderComments(result.comments);
-        _.forEach(newComments, function (comment) {
-          if (!_.some(vm.comments, { id : comment.id })) {
-            vm.comments.push(comment);
-          }
-        });
-        // vm.hasMoreComments = result.maybeMoreComments;
+        vm.comments = reorderComments(result.comments);
+        vm.commentBoardLimit = 30;
       }).catch(function (error) {
         NstSvcLogger.error(error);
       });
     }
 
     function reorderComments(comments) {
-      return _.orderBy(comments, 'date', 'asc');
+      return _.chain(comments).filter(function (comment) {
+        return !comment.removedById;
+      }).orderBy('date', 'asc').value();
     }
 
 
@@ -228,12 +226,10 @@
         date: date,
         limit: commentsSettings.limit
       }).then(function(comments) {
-        vm.hasOlderComments = comments.length >= commentsSettings.limit;
-        var orderedItems = _.orderBy(comments, 'date', 'asc');
 
-        _.forEach(orderedItems, function (comment, index) {
-          vm.comments.splice(index, 0, comment);
-        });
+        vm.hasOlderComments = comments.length >= commentsSettings.limit;
+        var orderedItems = reorderComments(comments);
+        vm.comments.unshift.apply(vm.comments, orderedItems);
 
         clearCommentBoardLimit();
       }).catch(function(error) {
