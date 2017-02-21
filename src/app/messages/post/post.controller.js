@@ -90,6 +90,9 @@
           vm.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(vm.post.places);
           vm.hasRemoveAccess = _.isArray(vm.placesWithRemoveAccess) && vm.placesWithRemoveAccess.length > 0;
 
+          // TODO: Optimize (get accessses instead of a place object which has more cost)
+          checkHasManagerAccess(_.map(vm.post.allPlaces, 'id'));
+
           resolve(true);
         }).catch(reject);
       });
@@ -133,6 +136,15 @@
     $scope.$on('$destroy', function () {
       NstSvcSync.closeChannel(vm.syncId);
     });
+
+    function checkHasManagerAccess(placeIds) {
+      $q.all(_.map(placeIds, function (placeId) {
+        return NstSvcPlaceFactory.get(placeId);
+      })).then(function (places) {
+        var placesWithControlAccess = NstSvcPlaceFactory.filterPlacesByControlAccess(places);
+        vm.hasPlaceWithControlAccess = _.size(placesWithControlAccess) > 0;
+      });
+    }
 
   }
 })();

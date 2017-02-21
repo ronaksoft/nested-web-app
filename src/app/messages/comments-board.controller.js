@@ -116,8 +116,8 @@
     }
 
     function allowToRemoveComment(comment) {
-      return comment.sender.id === NstSvcAuth.user.id &&
-        (Date.now() - comment.date) < 24 * 60 * 60 * 1e3;
+      return vm.hasCommentRemoveAccess || (comment.sender.id === NstSvcAuth.user.id &&
+        (Date.now() - comment.date) < 24 * 60 * 60 * 1e3);
 
     }
 
@@ -156,7 +156,8 @@
 
         focusOnSentTimeout = $timeout(function() {
           e.currentTarget.focus();
-        }, 10)
+        }, 10);
+        vm.onCommentSent(comment);
       }).catch(function(error) {
         toastr.error(NstSvcTranslation.get('Sorry, an error has occured in sending your comment'));
       });

@@ -10,7 +10,7 @@
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
                              NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstSvcPostMap, NstPicture) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstLocalResource, NstSvcPostMap, NstPicture) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
@@ -86,19 +86,6 @@
 
     var isRTL = $rootScope._direction;
     var lang = isRTL == 'rtl' ? 'fa' : 'en';
-
-    vm.controls = {
-      left: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Discard'), NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
-          // TODO: Fix navigating to previous state
-          $event.preventDefault();
-          $rootScope.goToLastState();
-        })
-      ],
-      right: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Attach files'), NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, {id: vm.attachments.elementId})
-      ]
-    };
 
     if (vm.quickMode) {
       $scope.editorOptions = {
@@ -582,9 +569,9 @@
             $rootScope.$emit('post-quick', msg);
           });
           $uibModalStack.dismissAll();
-          vm.model.subject = "";
-          vm.model.body = "";
-          vm.attachments.viewModels = [];
+          if (vm.quickMode) {
+            clear();
+          }
 
         } else if (response.post.places.length === response.noPermitPlaces.length) {
           toastr.error(NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(',')));
@@ -595,9 +582,10 @@
             $rootScope.$emit('post-quick', msg);
           });
           $uibModalStack.dismissAll();
-          vm.model.subject = "";
-          vm.model.body = "";
-          vm.attachments.viewModels = [];
+          if (vm.quickMode) {
+            clear();
+          }
+
         }
 
         return $q(function (res) {
@@ -622,14 +610,6 @@
         });
 
       });
-    };
-
-    vm.discard = function () {
-      vm.model.attachments = [];
-      vm.model.subject = '';
-      vm.model.body = '';
-      vm.focus = false
-
     };
 
     /*****************************
@@ -925,7 +905,7 @@
     // });
 
     function clear() {
-      vm.model.recipients = [];
+      vm.attachments.viewModels = [];
       vm.model.attachments = [];
       vm.model.attachfiles = {};
       vm.model.subject = '';

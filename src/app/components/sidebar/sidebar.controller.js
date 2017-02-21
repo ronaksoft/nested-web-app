@@ -305,7 +305,7 @@
     // TODO: Move these to Common Service
 
     function getUnfilteredState() {
-      var state = 'app.messages';
+      var state = 'app.messages-favorites';
       // switch ($state.current.options.group) {
       //   case 'activity':
       //     state = 'app.activity';

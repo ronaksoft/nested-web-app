@@ -126,7 +126,7 @@
      *****************************/
 
     function getUnfilteredState() {
-      var state = 'app.messages';
+      var state = 'app.messages-favorites';
       switch ($state.current.name) {
         case 'app.activity':
         case 'app.activity-favorites':
