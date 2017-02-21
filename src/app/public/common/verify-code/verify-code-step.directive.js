@@ -14,7 +14,8 @@
           verificationId : '=',
           phone : '=',
           onCompleted : '@',
-          onPrevious : '@'
+          onPrevious : '@',
+          countryCode : '='
         },
       };
     });

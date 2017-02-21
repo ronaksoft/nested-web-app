@@ -34,13 +34,12 @@
       if (vm.phone && vm.code) {
         vm.autoSubmit = true;
       }
-      
+
     })();
 
     eventReferences.push($scope.$on(vm.phoneSubmittedEventKey, function(event, data) {
       if (data.verificationId && data.phone) {
         vm.verificationId = data.verificationId;
-        vm.phone = data.phone;
         vm.step++;
       }
     }));
