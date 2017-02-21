@@ -124,7 +124,7 @@
     </div>
     <div class="content _pr srch-nav" ng-if="ctlFullNavbar.isSearchMode">
       <div class="bot-nav">
-        <svg class="_24svg _r90 _df _fn mirror">
+        <svg class="_24svg _r90 _df _fn mirror" onclick="window.history.back();">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
         <input type="text" placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
