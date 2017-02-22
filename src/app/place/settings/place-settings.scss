@@ -50,6 +50,31 @@
       margin-top: 16px;
     }
   }
+  .member-head {
+    height: 60px;
+    border-bottom: 1px solid $color-black008;
+    margin-bottom: 12px;
+    .selected-user {
+      >div {
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        display: flex;
+        >span {
+          font-size: 24px;
+          color: $color-solid;
+        }
+        svg {
+          margin: 5px 0;
+        }
+        a span {
+          font-size: 13px;
+          color: $color-solid;
+        }
+      }
+    }
+  }
   .recive-set {
     width: 100%;
     display: inline-flex;

@@ -18,7 +18,8 @@
       remove: remove,
       getDownloadUrl : getDownloadUrl,
       getDownloadToken: getDownloadToken,
-      createAttachmentModel : createAttachmentModel
+      createAttachmentModel : createAttachmentModel,
+      getOne : getOne
     };
 
     return service;
@@ -188,6 +189,21 @@
       }
 
       return defer.promise;
+    }
+
+    function getOne(id) {
+      var deferred = $q.defer();
+
+      NstSvcServer.request('file/get', {
+        universal_id: id
+      }).then(function(file) {
+        deferred.resolve(parseAttachment(file));
+      }).catch(function(error) {
+        var query = new NstFactoryQuery(id);
+        deferred.reject(new NstFactoryError(query, error.message, error.code));
+      });
+
+      return deferred.promise;
     }
   }
 })();

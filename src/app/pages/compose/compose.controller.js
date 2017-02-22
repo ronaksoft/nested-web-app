@@ -9,8 +9,8 @@
   function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, $window,
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
-                             NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstLocalResource, NstSvcPostMap, NstPicture) {
+                             NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft, NstSvcUserFactory,
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstLocalResource, NstSvcPostMap, NstPicture, NstPostDraft) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
@@ -176,23 +176,109 @@
       } else {
 
         eventReferences.push($scope.$on('modal.closing', function (event) {
-          var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
-          if (confirm && !vm.finish) {
+          if (shouldSaveDraft() && !vm.finish) {
             event.preventDefault();
 
-            NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
-              vm.finish = true;
-              $uibModalStack.dismissAll();
-            });
+            if ($state.current.options && $state.current.options.supportDraft) {
+
+              NstSvcModal.confirm(
+                NstSvcTranslation.get("Confirm"),
+                NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?"),
+                {
+                  yes : NstSvcTranslation.get("Discard"),
+                  no : NstSvcTranslation.get("Draft")
+                }
+              ).then(function (confirmed) {
+                if (confirmed) {
+                  discardDraft();
+                } else {
+                  saveDraft();
+                }
+
+                vm.finish = true;
+                $uibModalStack.dismissAll();
+              });
+
+            } else {
+              NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
+                vm.finish = true;
+                $uibModalStack.dismissAll();
+              });
+            }
+
           }
         }));
 
       }
 
+      openDraft();
+
     })();
+
+    function saveDraft() {
+      var draft = new NstPostDraft();
+      draft.subject = vm.model.subject;
+      draft.body = vm.model.body;
+      draft.attachments = _.map(vm.model.attachments, 'id');
+      draft.recipients = _.map(vm.model.recipients, 'id');
+      NstSvcPostDraft.save(draft);
+    }
+
+    function discardDraft() {
+      NstSvcPostDraft.discard();
+    }
+
+    function shouldSaveDraft() {
+      return _.size(_.trim(vm.model.subject)) > 0 ||
+             _.size(_.trim(vm.model.body)) ||
+             _.size(vm.model.attachments) > 0 ||
+             _.size(vm.model.recipients) > 0;
+    }
+
     /*****************************
      ***** Controller Methods ****
      *****************************/
+
+     function openDraft() {
+       if (!NstSvcPostDraft.has()) {
+         return;
+       }
+
+       if ($state.current.options && $state.current.options.supportDraft) {
+        loadDraft();
+       }
+     }
+
+     function loadDraft() {
+       var deferred = $q.defer();
+
+       var draft = NstSvcPostDraft.get();
+       vm.model.subject = draft.subject;
+       vm.model.body = draft.body;
+       $q.all(_.map(draft.attachments, function (attachmentId) {
+         return NstSvcAttachmentFactory.getOne(attachmentId)
+       })).then(function (attachments) {
+         vm.model.attachments = _.map(attachments, function (item) {
+           item.status = NST_ATTACHMENT_STATUS.ATTACHED;
+           return item;
+         });
+         vm.attachments.viewModels = _.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
+         vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
+         vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
+       }).catch(deferred.reject);
+
+       $q.all(_.map(draft.recipients, function (recipientId) {
+           return NstSvcPlaceFactory.getTiny(recipientId);
+       })).then(function (recipients) {
+         vm.model.recipients = _.map(recipients, function (recipient) {
+           return new NstVmPlace(recipient);
+         });
+         console.log("recipients", vm.model.recipients);
+         deferred.resolve(draft);
+       }).catch(deferred.reject);
+
+       return deferred.promise;
+     }
 
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
@@ -571,6 +657,8 @@
           $uibModalStack.dismissAll();
           if (vm.quickMode) {
             clear();
+          } else {
+            discardDraft();
           }
 
         } else if (response.post.places.length === response.noPermitPlaces.length) {
@@ -584,6 +672,8 @@
           $uibModalStack.dismissAll();
           if (vm.quickMode) {
             clear();
+          } else {
+            discardDraft();
           }
 
         }
@@ -891,19 +981,6 @@
     }
 
 
-    // Listen for when the dnd has been configured.
-    // vm.attachfiles = {};
-
-    // $scope.$on('$dropletFileAdded', function startupload() {
-    //
-    //   var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
-    //   for (var i = 0; i < files.length; i++) {
-    //     vm.attachments.attach(files[i].file).then(function (request) {
-    //     });
-    //     files[i].deleteFile();
-    //   }
-    // });
-
     function clear() {
       vm.attachments.viewModels = [];
       vm.model.attachments = [];
@@ -932,11 +1009,6 @@
 
     $scope.$on('$destroy', function () {
       NstSvcSidebar.removeOnItemClick();
-      // console.log('removing instance', $window.CKEDITOR.instances);
-      // _.forEach($window.CKEDITOR.instances, function (instance) {
-      //   instance.removeAllListeners();
-      //   $window.CKEDITOR.remove(instance);
-      // });
 
       _.forEach(eventReferences, function (cenceler) {
         if (_.isFunction(cenceler)) {

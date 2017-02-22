@@ -91,8 +91,11 @@
         background-color: $color-white;
         border-top-left-radius: 9px;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        svg {
+          position: absolute;
+          left: 6px;
+          top: 6px;
+        }
       }
     }
     h3 {

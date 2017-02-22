@@ -67,7 +67,7 @@
     <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body | truncate"></span>
   </section>
 
-  <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
+  <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn">
     <a ng-click="ctlPostCard.collapse($event);" ng-if="ctlPostCard.isExpanded" class="show-more"><translate>Show less</translate></a>
     <a ng-click="ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded" class="show-more">
       <translate>-Show more...</translate>
@@ -88,18 +88,17 @@
   </section>
 
   <section class="post-places" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-    <span data-ng-repeat="place in ctlPostCard.places"
-          class="ng-class:{'del-access' :  ctlPostCard.mainPost && ctlPostCard.hasDeleteAccess(place)}"
-          ng-if="ctlPostCard.post.getAllPlacesCount() > 0">
-        <a href="#/places/{{place.id}}/messages">
-          #{{place.name}}
+    <span data-ng-repeat="place in ctlPostCard.post.allPlaces"
+          class="ng-class:{'del-access' :  ctlPostCard.hasDeleteAccess(place)}">
+        <a ui-sref="app.place-messages({ placeId : place.id })">
+          #{{::place.name}}
         </a>
         <svg class="_16svg red" ng-click="ctlPostCard.remove(place.id);$event.stopPropagation();">
           <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
         </svg>
     </span>
     <a ng-if="ctlPostCard.post.recipients.length > 0"
-       data-ng-repeat="recipient in ctlPostCard.post.recipients">{{recipient.id}}
+       data-ng-repeat="recipient in ctlPostCard.post.recipients">{{::recipient.id}}
     </a>
   </section>
 

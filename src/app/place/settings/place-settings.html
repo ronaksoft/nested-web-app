@@ -190,6 +190,45 @@
     <!--<p class="input-lab" data-ng-if="ctlSettings.accesses.hasSeeMembersAccess"><translate>Members</translate></p>-->
   </div>
   <div ng-show="ctlSettings.tab == 'members'">
+    <div class="member-head _df _fw">
+      <div class="selected-user _fw _df">
+        <div>
+          <span>4</span>
+          <a><translate>selected</translate></a>
+        </div>
+        <div>
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#crown"></use>
+          </svg>
+          <a><translate>Promote(3)</translate></a>
+        </div>
+        <div>
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#person"></use>
+          </svg>
+          <a><translate>Demote(1)</translate></a>
+        </div>
+        <div>
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#bin"></use>
+          </svg>
+          <a><translate>Remove(4)</translate></a>
+        </div>
+      </div>
+      <div class="unselected-user _fw _dn">
+
+      </div>
+    </div>
+    <nst-place-member-item data-ng-if="ctlSettings.accesses.hasSeeMembersAccess" class="user-item"
+                           data-ng-repeat="member in ctlSettings.teammates"
+                           member="member" place="ctlSettings.place"
+                           has-remove-access="ctlSettings.accesses.hasRemoveAccess"
+                           has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
+                           role="member.state" ></nst-place-member-item>
+    <div class="_fw _tac margin-b-15"  data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">
+      <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();"><translate>Load more...</translate></a>
+      <span class="nst-mood-cheerful" ng-if="ctlSettings.teammatesLoadProgress" translate-inner>Loading...</span>
+    </div>
     <div class="select-box2 _difh"
          data-ng-if="ctlSettings.accesses.hasAddMembersAccess"
          data-ng-click="ctlSettings.addMember()">
@@ -202,16 +241,6 @@
         <translate ng-if="ctlSettings.isGrandPlace">Invite Members</translate>
         <translate ng-if="!ctlSettings.isGrandPlace">Add Members</translate>
       </h4>
-    </div>
-    <nst-place-member-item data-ng-if="ctlSettings.accesses.hasSeeMembersAccess" class="user-item"
-                           data-ng-repeat="member in ctlSettings.teammates"
-                           member="member" place="ctlSettings.place"
-                           has-remove-access="ctlSettings.accesses.hasRemoveAccess"
-                           has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
-                           role="member.state" ></nst-place-member-item>
-    <div class="_fw _tac margin-b-15"  data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">
-      <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();"><translate>Load more...</translate></a>
-      <span class="nst-mood-cheerful" ng-if="ctlSettings.teammatesLoadProgress" translate-inner>Loading...</span>
     </div>
   </div>
 
