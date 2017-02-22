@@ -11,6 +11,18 @@
   >div {
     max-width: 100%;
   }
+  #PlaceID {
+    color: $color-sense-wire;
+    @extend .nst-font-large;
+    font-weight: 400;
+    min-height: 28px;
+    width: 100%;
+    padding-bottom: 12px;
+    display: flex;
+    &.not-set {
+      color: $color-black004;
+    }
+  }
   form .placeID {
     //background-color: $color-calm;
     margin-bottom: 16px;
@@ -21,6 +33,10 @@
   p {
     font-size: 16px;
     font-weight: 500;
+  }
+  p.cr8 {
+    font-size: 14px;
+    font-weight: 400;
   }
   .recive-det {
     p {
@@ -91,7 +107,17 @@
     display: flex;
     flex: none;
     z-index: 2;
-    fill: $color-black16
+    fill: $color-black16;
+    transition: fill $animation-dur ease-in 150ms;
+    &:first-of-type {
+      transition-delay: 0ms;
+    }
+    &:first-of-type + hr + hr + hr + svg {
+      transition-delay: 50ms;
+    }
+    &:first-of-type + hr + hr + hr + svg + hr + hr + hr + svg {
+      transition-delay: 100ms;
+    }
   }
   hr.margin {
     width: 18px;
@@ -116,18 +142,43 @@
     left: 0;
     top: 0;
     transition: width $animation-dur ease-in-out;
+    background-color: transparent;
+    box-shadow: 0 2px 16px rgba(41, 41, 41,.08);
   }
-  &.l1 .active-border {
-    width: 48px;
+  &.l1 {
+    .active-border {
+      width: 48px;
+    }
+    svg:first-of-type {
+      fill: $color-sense-wire;
+    }
   }
-  &.l2 .active-border {
-    width: 41%;;
+  &.l2 {
+    .active-border {
+      width: 41%;;
+    }
+    svg:first-of-type,
+    svg:first-of-type + hr + hr + hr + svg {
+      fill: $color-sense-wire;
+    }
   }
-  &.l3 .active-border {
-    width: 71%;
+  &.l3{
+    .active-border {
+      width: 71%;
+    }
+    svg:first-of-type,
+    svg:first-of-type + hr + hr + hr + svg,
+    svg:first-of-type + hr + hr + hr + svg + hr + hr + hr + svg {
+      fill: $color-sense-wire;
+    }
   }
-  &.l4 .active-border {
-    width: 100%;
+  &.l4 {
+    .active-border {
+      width: 100%;
+    }
+    svg{
+      fill: $color-sense-wire;
+    }
   }
   .recive-arrow {
     width: 12px;
@@ -174,8 +225,14 @@
 .step3,.step4 {
   form {
     flex-direction: column;
-    > svg {
-      margin-top: 40px;
+    min-height: 100%;
+    > svg._48svg {
+      margin-top: 64px;
+      width: 24px;
+      height: 24px;
+    }
+    > svg._24svg {
+      margin-top: 20px;
     }
   }
   h3 {
@@ -189,6 +246,7 @@
     font-size: 16px;
     color: $color-solid;
     text-align: center;
+    margin: 4px 0;
   }
   a {
     margin-top: 16px;
@@ -210,7 +268,6 @@
 }
 
 p.cr8 {
-  font-size: 14px;
   color: $color-black04;
   align-self: center;
   max-width: 256px;

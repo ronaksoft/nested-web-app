@@ -9,7 +9,10 @@
     return {
       restrict: 'E',
       scope: {
-        pict : '=',
+        pict : '@',
+        name : '=',
+        id : '@',
+        private: '@',
         env : '='
       },
       replace: true,

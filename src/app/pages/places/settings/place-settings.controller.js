@@ -16,6 +16,8 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
+    vm.tab = 'settings';
+    vm.reciveLevel = vm.memberLevel = vm.createLevel = 'l1';
     vm.memberOptions = {
       'creators': NstSvcTranslation.get("Manager(s) only"),
       'everyone': NstSvcTranslation.get("All Members")

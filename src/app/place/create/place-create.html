@@ -1,4 +1,3 @@
-
 <div id="create-place"
      ng-init="ctlCreate.step1 = !ctlCreate.isCreateGrandPlaceMode">
   <div class="_fw" ng-if="ctlCreate.step == 1">
@@ -10,7 +9,7 @@
       </h2>
       <div class="_fw _jcc _df">
         <label for="logo" class="pic">
-          <img src="/assets/icons/absents_place.svg"/>
+          <img src="/assets/icons/ph_photo.png"/>
         </label>
         <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlCreate.loadImage(event)"/>
       </div>
@@ -24,11 +23,14 @@
       <label class="input-lab" for="PlaceID"><translate>Place ID</translate></label>
       <div class="placeID ng-class:{'not-val' : !ctlCreate.placeIdIsFullAvailable}">
         <div class="field">
-          <div id="PlaceID" tabindex="2" ng-click="ctlCreate.changeId(ctlCreate.place.id)">
+          <div id="PlaceID" tabindex="2">
             <span ng-if="ctlCreate.hasParentPlace">{{ctlCreate.place.parentId}}.</span>
             {{ctlCreate.place.id.length > 0 ? ctlCreate.place.id : 'marketing-development'}}
             <div ng-if="ctlCreate.placeIdChecking" class="nst-loading nst-loading-size-16 _dib"></div>
           </div>
+          <svg class="_24svg _df _fn edit-icon" ng-click="ctlCreate.changeId(ctlCreate.place.id)">
+            <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+          </svg>
         </div>
         <aside><translate>The Place will be identified by this unique address. You <b>can't</b> change the Place ID after creating the Place, so choose wisely!</translate></aside>
       </div>
@@ -80,17 +82,19 @@
   </div>
   <div class="_difv _fw {{'step' + ctlCreate.step}}" ng-if="ctlCreate.step == 3">
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate class="_fw _df">
-      <place-head env="'create'" pict="'/assets/icons/absents_place.svg'"></place-head>
+      <place-head env="'create'" pict="http://localhost:3000/assets/icons/absents_place.svg"></place-head>
 
       <h3>"Op Art"</h3>
       <h3>successfully created</h3>
 
-      <svg class="_48svg _df _asc">
+      <svg class="_48svg _df _asc _scl2">
+        <use xlink:href="/assets/icons/nst-icn24.svg#brick-wall"></use>
       </svg>
       <span>Private Place</span>
       <p class="cr8">Its mean just ”Op Art” members can access to posts within this place.</p>
 
-      <svg class="_48svg _df _asc">
+      <svg class="_48svg _df _asc _scl2">
+        <use xlink:href="/assets/icons/nst-icn24.svg#earth"></use>
       </svg>
       <span>Everyone can share posts with this place.</span>
       <p class="cr8">Evreyones can shared posts with this place. Emails recievd as post.</p>
@@ -110,7 +114,7 @@
   </div>
   <div class="_difv _fw {{'step' + ctlCreate.step}}" ng-if="ctlCreate.step == 4">
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate class="_fw _df">
-      <place-head env="'create'" pict="'/assets/icons/absents_place.svg'"></place-head>
+      <place-head env="'create'" pict="http://localhost:3000/assets/icons/absents_place.svg"></place-head>
 
       <h3>"Op Art"</h3>
 

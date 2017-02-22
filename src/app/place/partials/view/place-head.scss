@@ -48,9 +48,9 @@
     img {
       width: 128px;
       height: 128px;
-      transform: scale(3.75,3.75);
+      transform: scale(7.5,7.5);
       transform-origin: center center;
-      filter: blur(16px) brightness(24%);
+      filter: blur(16px) brightness(76%);
       z-index: 1;
     }
   }
@@ -64,8 +64,11 @@
     display: flex;
     flex-direction: row;
     padding: 0 32px;
+    z-index: 1;
+
   }
   &.setting-head {
+    margin-bottom: 64px;
     .logo-holder {
       width: 96px;
       height: 96px;
@@ -73,8 +76,11 @@
       left: 32px;
       top: 32px;
       overflow: visible;
+      border-radius: 9px;
       img {
-        width: 96px;
+        width: 88px;
+        height: 88px;
+        border-radius: 4px;
       }
       i {
         width: 24px;
@@ -90,7 +96,9 @@
       }
     }
     h3 {
-      font-size:24px
+      font-size: 24px;
+      line-height: 32px;
+      margin: 0;
     }
   }
 }

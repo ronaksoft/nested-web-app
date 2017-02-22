@@ -82,7 +82,9 @@
     @extend ._txe
   }
 }
-
+._scl2 {
+  transform: scale(2,2) translateY(-5px);
+}
 ._hf{
   min-width: 50%;
 }
