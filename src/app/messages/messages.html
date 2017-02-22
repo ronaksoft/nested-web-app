@@ -2,48 +2,58 @@
             place-id="{{ctlMessages.currentPlace.id}}"
             show-place-id="ctlMessages.showPlaceId"
             nav-title="{{ctlMessages.currentPlace.id?ctlMessages.currentPlace.name: ctlMessages.navTitle}}"
-            nav-picture-url="{{ctlMessages.currentPlace.id ? ctlMessages.currentPlace.picture.thumbnails.x64.url.view : '' }}"
+            nav-picture-url="{{ctlMessages.currentPlace.id ? ctlMessages.currentPlace.picture.getUrl('x128') : '' }}"
             nav-picture-class="{{ !ctlMessages.currentPlace.id? ctlMessages.navIconClass : '' }}"
             ready-to-show="ctlMessages.currentPlaceLoaded"
             ready-to-anime="true"
             place-description="{{ctlMessages.currentPlace.description}}"></nst-navbar>
-
-<div class="nst-content _tr" id="content-wrapper" data-droplet ng-model="ctlMessages.attachfiles">
-  <div class="droplet" ng-show="ctlMessages.quickMessageAccess"></div>
-  <scroll-change-handler reached-bottom="ctlMessages.loadMore"></scroll-change-handler>
+<div class="navbar-illu ng-class:{'feed' : !ctlMessages.currentPlace || ctlMessages.isUnreadMode,'conv' : ctlMessages.isConvMode}"></div>
+<div class="nst-content _tr" id="content-wrapper">
+  <scroll-change-handler reached-bottom="ctlMessages.loadMore" disabled="ctlMessages.reachedTheEnd"></scroll-change-handler>
   <section class="content nst-marginbtm-28">
     <div class="navbarillu"></div>
-    <div class="filter-bar _fw" ng-mouseleave="popoverSortShow = false;popoverSetShow = false">
-      <div ng-show="!ctlMessages.isBookmarkMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock"
+    <div class="filter-bar" ng-mouseleave="popoverSortShow = false;popoverSetShow = false" ng-if="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode">
+      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts == 1">
+        <translate>One post</translate>
+        <a ng-if="ctlMessages.unreadCount > 0"  ui-sref="app.place-messages-unread({placeId: ctlMessages.currentPlace.id})">&nbsp;(<translate class="nst-mood-pending">one Unseen</translate>)</a>
+      </p>
+      <p class="_df _fw" ng-if="ctlMessages.currentPlace.counters.posts > 1">
+        <translate>{{ctlMessages.currentPlace.counters.posts | localize}} posts</translate>
+        <a class="nst-mood-pending" ui-sref="app.place-messages-unread({placeId: ctlMessages.currentPlace.id})" ng-if="ctlMessages.unreadCount > 0">&nbsp;(<translate class="nst-mood-pending">{{ctlMessages.unreadCount | localize}} Unseen</translate>)</a>
+      </p>
+      <p class="_df _fw" ng-if="!ctlMessages.currentPlace.counters.posts"></p>
+      <!--<p class="_df _fn mark-read disable">-->
+        <!--<translate>Mark all as Seen</translate>-->
+        <!--<svg class="_16svg _df">-->
+          <!--<use xlink:href="/assets/icons/nst-icn16.svg#eye-open"></use>-->
+        <!--</svg>-->
+      <!--</p>-->
+      <div ng-show="!ctlMessages.isSentMode && !ctlMessages.isbookmarkedsMode" ng-mouseenter="popoverSortShow = true;popoverSetShow = false" class="iconsblock _fn"
            data-popover-class="white-pop popover-white-nst-sort" uib-popover-template="'app/messages/partials/popovers/sort_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSortShow" id="test-filter-sort">
-        <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
-        <span class="nst-mood-storm _df" ng-if="ctlMessages.messagesSetting.sort != 'latest-messages'"><translate>Latest Activity</translate></span>
-        <div class="icon icon-viewicon-sort _df" ></div>
-      </div>
-      <div ng-mouseenter="popoverSetShow = true;popoverSortShow = false"  class="iconsblock" data-popover-class="white-pop popover-white-nst-setting"
-           uib-popover-template="'app/messages/partials/popovers/setting_popover.html'"
-           data-popover-placement="bottom-center" data-popover-is-open="popoverSetShow" ng-init="ctl = ctlMessages" id="test-filter-setting">
-        <div class="icon icon-viewicon- "></div>
+        <span class="_df" ng-if="ctlMessages.messagesSetting.sort == 'latest-messages'"><translate>Recent Messages</translate></span>
+        <span class="_df" ng-if="ctlMessages.messagesSetting.sort != 'latest-messages'"><translate>Latest Activity</translate></span>
+        <svg class="icon-filter _df">
+          <use xlink:href="/assets/icons/nst-icn16.svg#sort"></use>
+        </svg>
       </div>
     </div>
 
+    <div class="tool-bar"  ng-if="ctlMessages.isbookmarkedsMode || ctlMessages.isSentMode || ctlMessages.isUnreadMode">
+
+    </div>
     <div class="post-area">
-      <div id="new-post"  ng-show="ctlMessages.hasNewMessages" affixer parent=".content" offset-top="74" after-content="340">
-        <i ng-click="ctlMessages.dismissNewMessage();"></i>
-        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}} <translate> New Message</translate></a>
+      <div id="new-post"  ng-show="ctlMessages.hasNewMessages" affixer parent=".content" after-content="340" offset-top="0" top="134" first-imp="true">
+        <i ng-click="ctlMessages.dismissNewMessage();">x</i>
+        <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length > 1">{{ctlMessages.hotMessageStorage.length}}&nbsp;<translate>New message</translate></a>
         <a ng-click="ctlMessages.showNewMessages();" ng-if="ctlMessages.hotMessageStorage.length < 2"><translate>One New Message</translate></a>
       </div>
       <div class="quick-message-wrp _fw" ng-if="ctlMessages.quickMessageAccess">
-        <nst-quick-message class="quick-message _fw _bgwhite" place-id="ctlMessages.currentPlace.id"></nst-quick-message>
+        <nst-quick-message class="quick-message-inner _fw" place-id="ctlMessages.currentPlace.id"></nst-quick-message>
         <div class="post-card-wire"></div>
       </div>
-      <post-card ng-if="ctlMessages.hotMessages.length > 0" class="hot" data-ng-repeat="msg in ctlMessages.hotMessages track by msg.id" post="msg"
-                 settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode"></post-card>
-      <hr ng-if="ctlMessages.hotMessages.length > 0" class="hot-message-separator">
-
-      <post-card class="_fw" data-ng-repeat="msg in ctlMessages.messages track by msg.id" post="msg"
-                 settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" hide-comments="ctlMessages.isSentMode" has-remove-access="ctlMessages.placeRemoveAccess"></post-card>
+      <post-card class="_fw" data-ng-repeat="msg in ctlMessages.messages track by msg.id" post="msg" scroll-to-view id="{{::msg.id}}"
+                 settings="ctlMessages.viewSetting" postinplace="ctlMessages.currentPlaceId" has-remove-access="ctlMessages.placeRemoveAccess" add-on="false" comment-board="!ctlMessages.isSentMode"></post-card>
     </div>
     <div class="text-center nst-margin-24" ng-if="ctlMessages.tryAgainToLoadMore">
       <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlMessages.loadMore()" ng-if="ctlMessages.cache.length == 0"><translate>Click here to load more messages</translate></a>
@@ -52,16 +62,20 @@
 
     <div class="nst-margin-24"
          ng-if="ctlMessages.reachedTheEnd || ctlMessages.noMessages || ctlMessages.loadMessageError">
-      <p class="text-center nst-mood-storm" ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd">
-        <translate>No more messages here!</translate>
+      <p class="text-center nst-mood-storm"
+         ng-if="!ctlMessages.noMessages && ctlMessages.reachedTheEnd && ctlMessages.messages.length !== 0 ">
+         <translate>No more messages here!</translate>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && !ctlMessages.isUnreadMode">
-        <span ng-if="!ctlMessages.isBookMark">
-          <translate>There are no posts here yet...</translate>
-        </span>
-        <span ng-if="ctlMessages.isBookMark">
+        <!-- <span ng-if="ctlMessages.isbookmarkedsMode">
           <translate>You haven't favorited any Places yet...</translate>
+        </span> -->
+        <span ng-if="!ctlMessages.isbookmarkedsMode">
+          <translate>You don't have any messages.</translate>
         </span>
+        <p class="nst-mood-storm text-center" ng-if="ctlMessages.isbookmarkedsMode && ctlMessages.messages.length == 0 ">
+      <translate><b>You haven't bookmarked anything yet!</b><br>There's a bookmark icon on the upper-right corner of each post.<br>Click on it to save the post to be viewed later.</translate>
+        </p>
       </p>
       <p class="text-center nst-mood-storm" ng-if="ctlMessages.noMessages && ctlMessages.isUnreadMode">
         <translate>You don't have any unread messages.</translate>
@@ -72,7 +86,7 @@
         </a>
       </p>
     </div>
-    <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlMessages.loading">
+    <div class="_difh nst-mood-cheerful no-gutter nst-margin-24" ng-if="ctlMessages.loading ">
       <div class="col-xs-6">
         <div class="nst-loading nst-loading-size-16  _fr"></div>
       </div>
@@ -81,11 +95,18 @@
     <div class="nst-marginbtm-32"></div>
   </section>
   <div class="content-plus illu">
-    <div id="cp1" nst-scrollbar suppress-scroll-x="true"  ng-show="!ctlMessages.isBookmarkMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode" affixer parent=".content-plus" after-content="0" offset-top="74" top="0" fixed-top="true">
+    <div id="members" nst-scrollbar suppress-scroll-x="true"
+         ng-if="ctlMessages.hasSeeMembersAccess && !ctlMessages.isSubPersonal() && !ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId">
+      <nst-place-teammates-sidebar grand-place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"></nst-place-teammates-sidebar>
+    </div>
+    <div id="cp1" nst-scrollbar suppress-scroll-x="true" ng-show="!ctlMessages.isbookmarkedsMode && !ctlMessages.isSentMode && !ctlMessages.isUnreadMode && ctlMessages.currentPlaceId"
+         affixer parent=".content-plus" after-content="0" offset-top="86" top="48" fixed-top="true">
       <!--FIXME:: use only one of place/place-id -->
-      <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="10"/>
+      <nst-recent-activity place="ctlMessages.currentPlaceId" place-id="ctlMessages.currentPlaceId"  count="16"/>
     </div>
   </div>
-  <div class="content-plus" id="content-plus"></div>
+  <!--<div class="content-plus" id="content-plus" >-->
+
+  <!--</div>-->
 </div>
 <scroll-roller roll-upward="ctlMessages.revealHotMessage"></scroll-roller>

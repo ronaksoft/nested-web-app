@@ -17,7 +17,6 @@
 #  Scenario: Create a place from sidebar
 #
 #    Given I Click on plus of "create" in sidebar
-#    When I Wait till line loader hide
 #    When I wait 5s
 #    Given I Click id "close-create-place"
 #    When I wait 5s

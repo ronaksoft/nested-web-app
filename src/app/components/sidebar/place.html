@@ -2,16 +2,20 @@
 <a href="{{place.href}}" class="side-place-item-inner detailed" nst-sidebar-toggle-agent toggle-agent-switch="ctlSidebar.isInDetailMode"
    ng-class="{ isSelected : ctlSidebar.selectedGrandPlace.id == place.id }"
    data-uib-tooltip="{{place.name}}"
-   data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed ? true : false}}"
+   data-tooltip-enable="{{!ctlApp.viewSettings.sidebar.collapsed || forceTooltip ? true : false}}"
    data-tooltip-append-to-body="true" data-tooltip-placement="right auto">
   <div ng-if="place.avatar" class="side-place-item-image">
+    <div class="unreadPlace" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">
+      <svg>
+        <use xlink:href="/assets/icons/nst-icn24.svg#unread-circle"></use>
+      </svg>
+    </div>
     <img class="" ng-src="{{place.avatar}}"/>
-    <div class="notif" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">{{ctlSidebar.placesNotifCountObject[place.id]}}</div>
+    <!--<div class="notif" ng-if="ctlSidebar.placesNotifCountObject[place.id] > 0">{{ctlSidebar.placesNotifCountObject[place.id]}}</div>-->
   </div>
   <div>
-    <p href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis="place.name">
+    <p href="{{place.href}}" ng-click="ctlSidebar.onPlaceClick($event,place);" class="_fw" data-ellipsis>
       {{place.name}}
     </p>
-    <span>{{::place.id}}@nested.me</span>
   </div>
 </a>

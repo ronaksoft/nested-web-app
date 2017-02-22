@@ -1,0 +1,93 @@
+/**
+  ******************************
+  *           fonts            *
+  ******************************
+*/
+
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Light", 300, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Regular", 400, null, eot ttf woff woff2);
+@include font-face(OpenSans, "../assets/fonts/OpenSans/OpenSans-Bold", bold, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNestedWeb-Light", 300, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular", 400, null, eot ttf woff woff2);
+@include font-face(YekanBakh,"../assets/fonts/YekanBakh/YekanBakhNestedWeb-Bold", bold, null, eot ttf woff woff2);
+
+
+/**
+  ******************************
+  *          reset             *
+  ******************************
+*/
+
+body,
+html {
+  -webkit-overflow-scrolling: touch;
+  //height: 100%;
+  min-width: 240px;
+}
+
+body {
+  background-color: $color-bg;
+  font-family: $font-family-per-reg, $font-family-eng-reg;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+
+* {
+  box-sizing: inherit;
+  vertical-align: inherit;
+    &:focus {
+    outline: none;
+  }
+  &:visited, &:link ,&:active, &:hover {
+    text-decoration: none !important;
+  }
+}
+
+*::selection {
+  color: rgba(255,255,255,1);
+  background: rgba(0,0,0,1);
+}
+
+a,a:focus{
+  outline-width:0;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+mark {
+  background-color: inherit;
+  color: inherit;
+  @extend ._wrb
+}
+
+div, ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+select {
+  color: $color-solid;
+  color: rgba(0,0,0,0);
+  text-shadow: 0 0 0 $color-solid;
+}
+
+iframe {
+  border: none;
+}
+[ng-click],[data-ng-click],[onclick]{
+  cursor: pointer;
+}
+vr {
+  width: 1px;
+  background-color: $color-border;
+}

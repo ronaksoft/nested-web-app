@@ -8,16 +8,9 @@
   /** @ngInject */
   function ChangePasswordController($scope, $log, $state,
     toastr,
-    NstSvcUserFactory, NstSvcLoader, NstVmNavbarControl,
+    NstSvcUserFactory,
     NST_SRV_ERROR, NST_NAVBAR_CONTROL_TYPE, NstSvcTranslation) {
     var vm = this;
-
-    vm.controls = {
-      left: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Back to Profile'), NST_NAVBAR_CONTROL_TYPE.BUTTON, $state.href('app.profile'))
-      ],
-      right: []
-    };
 
     vm.model = {
       oldPassword: '',
@@ -34,16 +27,14 @@
           toastr.error(NstSvcTranslation.get('Your new password must be between 6 and 26 characters.'));
           return;
         }
-        var changePasswordPromise = NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword);
-        NstSvcLoader.inject(changePasswordPromise);
-        changePasswordPromise.then(function(result) {
-          toastr.success(NstSvcTranslation.get('Your password changed successfully.'));
+        NstSvcUserFactory.changePassword(vm.model.oldPassword, vm.model.newPassword).then(function(result) {
+          toastr.success(NstSvcTranslation.get('You have changed your password successfully.'));
           $state.go('app.profile');
         }).catch(function(error) {
           if (error.code === NST_SRV_ERROR.INVALID) {
             var message = _.first(error.message);
             if (message === 'old_pass') {
-              toastr.error(NstSvcTranslation.get('Your old password is wrong!'));
+              toastr.error(NstSvcTranslation.get('The old password you have entered is incorrect'));
             }
           }
 

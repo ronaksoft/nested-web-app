@@ -6,13 +6,12 @@
     .controller('ActivityController', ActivityController);
 
   /** @ngInject */
-  function ActivityController($location, $scope, $q, $rootScope, $stateParams, $log, $uibModal, $state, $timeout,
-    toastr, _, moment,
-    NST_SRV_EVENT, NST_EVENT_ACTION, NST_SRV_ERROR, NST_STORAGE_TYPE, NST_ACTIVITY_FILTER, NST_DEFAULT, NST_ACTIVITY_FACTORY_EVENT,
+  function ActivityController($q, $stateParams, $log, $state,$scope,
+    _, moment,
+    NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
     NstSvcActivityMap, NstSvcModal,
     NstSvcActivitySettingStorage,
-    NstSvcAuth, NstSvcLoader, NstSvcActivityFactory, NstSvcPlaceFactory, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess,
-    NstActivity, NstPlace, NstInvitation, NstSvcTranslation) {
+    NstSvcActivityFactory, NstSvcSync, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess, NstSvcTranslation) {
 
     var vm = this;
     var activityFilterGroups = {};
@@ -26,7 +25,6 @@
     vm.declineInvitation = declineInvitation;
     vm.applyFilter = applyFilter;
     vm.toggleViewMode = toggleViewMode;
-    vm.viewPost = viewPost;
 
     vm.expanded = true;
 
@@ -88,8 +86,10 @@
       vm.filterDictionary[NST_ACTIVITY_FILTER.COMMENTS] = NstSvcTranslation.get("Comments");
       vm.filterDictionary[NST_ACTIVITY_FILTER.LOGS] = NstSvcTranslation.get("Logs");
 
+
       if (placeIdParamIsValid($stateParams.placeId)) {
         vm.activitySettings.placeId = $stateParams.placeId;
+        NstSvcSync.openChannel($stateParams.placeId);
       } else {
         vm.activitySettings.placeId = null;
       }
@@ -110,25 +110,20 @@
 
       generateUrls();
 
-      if (vm.activitySettings.placeId) {
-        NstSvcPlaceAccess.getIfhasAccessToRead(vm.activitySettings.placeId).then(function (place) {
-          if (place) {
-            vm.currentPlace = place;
-            vm.currentPlaceLoaded = true;
-            vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
-            return loadActivities();
-          } else {
-            NstSvcModal.error("Error", "The place does not exist or you are not allowed to be there.").finally(function () {
-              $state.go("app.activity");
-            });
-          }
-        }).catch(function (error) {
-          $log.debug(error);
-        });
-      } else {
-        vm.currentPlaceLoaded = true;
-        loadActivities();
-      }
+      NstSvcPlaceAccess.getIfhasAccessToRead($stateParams.placeId).then(function (place) {
+        if (place) {
+          vm.currentPlace = place;
+          vm.currentPlaceLoaded = true;
+          vm.showPlaceId = !_.includes([ 'off', 'internal' ], place.privacy.receptive);
+          return loadActivities();
+        } else {
+          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
+            $state.go(NST_DEFAULT.STATE);
+          });
+        }
+      }).catch(function (error) {
+        $log.debug(error);
+      });
 
     })();
 
@@ -173,14 +168,6 @@
     function toggleViewMode() {
       vm.expanded = !vm.expanded;
       NstSvcActivitySettingStorage.set('collapsed', !vm.expanded);
-    }
-
-    function viewPost(postId) {
-      NstSvcPostFactory.getWithComments(postId).then(function (post) {
-        // TODO: open a modal and show the post
-      }).catch(function (error) {
-
-      });
     }
 
     function loadAfter(date) {
@@ -230,6 +217,7 @@
           setLastActivityDate(activities);
           mergeWithActivities(activities);
         }
+
         vm.loading = false;
         vm.tryAgainToLoadMore = false;
 
@@ -313,12 +301,12 @@
       }
     }
 
-    NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
-      if (activityBelongsToPlace(e.detail) && activityPassesFilter(e.detail)){
-        var activityItem = NstSvcActivityMap.toActivityItem(e.detail);
-        activityItem.isHot = true;
-        addNewActivity(activityItem);
-      }
+
+
+    _.map(NST_EVENT_ACTION,function (val) {
+      NstSvcSync.addEventListener(val, function (e) {
+        addNewActivity(e.detail);
+      });
     });
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
@@ -353,18 +341,33 @@
     }
 
     function addNewActivity(activity) {
-      var today = _.find(vm.activities, { date : 'Today' });
+      var todayGroupLabel = NstSvcTranslation.get("Today");
+
+      var today = _.find(vm.activities, { date : todayGroupLabel });
       if (!today) {
         today = {
-          date : 'Today',
+          date : todayGroupLabel,
           items : []
         };
 
-        vm.activities.unshift(today);
+        if (activity.type = NST_EVENT_ACTION.POST_ADD){
+          if(activityBelongsToPlace(activity)){
+            vm.activities.unshift(today);
+          }
+        }else{
+          vm.activities.unshift(today);
+        }
+
       }
 
       if (!_.some(today.items, { id : activity.id })) {
-        today.items.unshift(activity);
+        if (activity.type == NST_EVENT_ACTION.POST_ADD){
+          if(activityBelongsToPlace(activity)){
+            today.items.unshift(activity);
+          }
+        }else{
+          today.items.unshift(activity);
+        }
       }
     }
 
@@ -375,5 +378,10 @@
         return _.includes(activityFilterGroups[vm.activitySettings.filter], activity.type);
       }
     }
+
+    $scope.$on('$destroy', function () {
+      NstSvcSync.closeChannel(vm.syncId);
+    });
+
   }
 })();

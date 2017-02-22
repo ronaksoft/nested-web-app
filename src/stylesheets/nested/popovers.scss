@@ -18,7 +18,9 @@
 //.places .popover {
 //  direction: ltr;
 //}
-
+.files-popover {
+  width: 112px;
+}
 #menu.popover-content {
   padding: 0;
 }
@@ -69,9 +71,12 @@
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
-  z-index: 35;
+  //z-index: 35;
   padding: 0;
   width: 320px;
+  label {
+    margin: 0;
+  }
   //max-height: 200px;
   //overflow-y: auto;
   .popover-content {
@@ -124,17 +129,29 @@
   z-index: 37;
   padding: 0;
   width: 210px;
+  .popover-content span {
+    line-height: 19px;
+  }
+  a span {
+    line-height: 19px;
+  }
 }
 
 .popover-white-nst-sort {
   background: $color-white;
   border-color: $color-breeze;
   position: absolute;
-  top: 8px !important;
+  top: 7px !important;
   left: auto !important;
-  right: 88px;
+  right: 0;
   z-index: 36;
   width: 210px;
+  .popover-content span {
+    line-height: 19px;
+  }
+  a span {
+    line-height: 19px;
+  }
 }
 
 
@@ -154,12 +171,6 @@
   color: $color-solid;
 }
 
-.line-f {
-  height: 1px;
-  background-color: $color-breeze-50;
-  width: 100%;
-  position: absolute;
-}
 .line-popover {
   height: 1px;
   background-color: $color-breeze-50;
@@ -187,10 +198,9 @@ input[type="checkbox"]:checked + label.setting {
 }
 #popup-msg-badge {
   overflow-y: auto;
-  height: 100%;
+  height: auto;
   max-height: 145px;
  }
-
 
 .popover-green + .popover, .popover-green + div + .popover{
   background: $color-sense-5;
@@ -203,26 +213,51 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 
-
 //mention popover
 .mentions {
-  width: 286px;
+  min-width: 360px;
+  max-width: 360px;
   max-height: 480px;
   transition: height $animation-dur;
   height: auto;
   z-index: 1029;
   top: auto!important;
-  bottom: 80px;
+  bottom: 40px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   //position: absolute;
   //z-index: 35;
   background-color: $color-white;
   border: 1px solid #CED9D3;
   border-radius: 4px;
+  &.navnot {
+    top: 56px!important;
+    bottom: 0;
+    right: 8px!important;
+    left: 8px!important;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    max-height: none;
+    .popover-inner {
+      max-height: none;
+      .mention-wrp {
+        max-height: 100%;
+        ul {
+          max-height: calc(100vh - 108px);
+        }
+      }
+    }
+    .arrow {
+      z-index: -2;
+      right: 56px!important;
+      left: auto!important;
+      transform: translateY(10%) rotateZ(45deg);
+    }
+  }
   .popover-content,.popover-inner {
     height: 100%;
   }
-  > .arrow {
+  .arrow {
     width: 16px!important;
     height: 16px!important;
     border-style: solid;
@@ -242,6 +277,26 @@ input[type="checkbox"]:checked + label.setting {
   }
 }
 
+.pop-profile {
+  width: 224px;
+  .popover-content {
+    padding: 12px 0;
+  }
+  span {
+    width: 100%;
+  }
+  small {
+    color: $color-black04;
+    font-size: 12px;
+  }
+  svg {
+    width: 16px!important;
+    height: 16px!important;
+    fill: $color-force!important;
+    margin-right: 8px;
+  }
+}
+
 body[dir="rtl"] {
   .popover-white-nst-msg {
     left: -1px!important;
@@ -256,7 +311,7 @@ body[dir="rtl"] {
     right: 0;
   }
   .popover-white-nst-sort {
-    left: 80px!important;
+    left: 0px!important;
     right: auto;
   }
   .white-pop .popover-content a div, .white-pop .popover-content label div {

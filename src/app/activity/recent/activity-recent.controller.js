@@ -6,10 +6,11 @@
     .controller('RecentActivityController', RecentActivityController);
 
   /** @ngInject */
-  function RecentActivityController($q, $scope,
-    NstSvcLoader, NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger,
-    NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstFactoryError, NST_SRV_ERROR, NST_SRV_EVENT) {
+  function RecentActivityController($q, _, $scope,
+    NstSvcActivityFactory, NstSvcActivityMap, NstSvcServer, NstSvcLogger, NstSvcWait,
+    NstSvcPlaceFactory, NST_ACTIVITY_FACTORY_EVENT, NST_PLACE_ACCESS, NstSvcSync, NST_SRV_EVENT, NST_EVENT_ACTION) {
     var vm = this;
+    var eventListeners = [];
     vm.activities = [];
     vm.status = {
       loadInProgress: true
@@ -19,19 +20,6 @@
       placeId: null
     };
 
-
-    NstSvcActivityFactory.addEventListener(NST_ACTIVITY_FACTORY_EVENT.ADD, function (e) {
-      if (activityBelongsToPlace(e.detail)){
-        addNewActivity(NstSvcActivityMap.toRecentActivity(e.detail));
-      }
-    });
-
-    NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
-      NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
-      NstSvcLoader.inject(getRecentActivity(vm.settings));
-    });
-
-
     (function () {
 
       if (vm.placeId || vm.place) {
@@ -39,16 +27,35 @@
       }
 
       if (vm.settings.placeId) {
-        return NstSvcLoader.inject(NstSvcPlaceFactory.hasAccess(vm.settings.placeId, NST_PLACE_ACCESS.READ)).then(function (has) {
-          if (has) {
-            return NstSvcLoader.inject(getRecentActivity(vm.settings));
-          }
+
+        NstSvcWait.all(['main-done'], function () {
+
+          NstSvcPlaceFactory.get(vm.settings.placeId).then(function (place) {
+            if (place.hasAccess(NST_PLACE_ACCESS.READ)) {
+              getRecentActivity(vm.settings);
+            }
+          });
+
+          NstSvcServer.addEventListener(NST_SRV_EVENT.RECONNECT, function () {
+            NstSvcLogger.debug('Retrieving recent activities right after reconnecting.');
+            getRecentActivity(vm.settings);
+          });
+
         });
-      } else {
-        return NstSvcLoader.inject(getRecentActivity(vm.settings));
+
       }
 
+
     })();
+
+
+
+    eventListeners = _.map(NST_EVENT_ACTION,function (val) {
+
+      return NstSvcSync.addEventListener(val, function (e) {
+        addNewActivity(e.detail);
+      });
+    });
 
 
     function getRecentActivity(settings) {
@@ -56,7 +63,8 @@
       var defer = $q.defer();
 
       NstSvcActivityFactory.getRecent(settings).then(function (activities) {
-        vm.activities = mapActivities(activities);
+        // vm.activities = mapActivities(activities);
+        vm.activities = activities;
         vm.status.loadInProgress = false;
 
         defer.resolve(vm.activities);
@@ -67,17 +75,20 @@
       return defer.promise;
     }
 
-    function mapActivities(activities) {
-      return _.map(activities, NstSvcActivityMap.toRecentActivity);
-    }
-
     function addNewActivity(activity) {
       if (!_.some(vm.activities, { id : activity.id })) {
         if (vm.activities.length >= vm.count){
           vm.activities.pop();
         }
         activity.isHot = true;
-        vm.activities.unshift(activity);
+
+        if (activity.type == NST_EVENT_ACTION.POST_ADD){
+          if(activityBelongsToPlace(activity)){
+            vm.activities.unshift(activity);
+          }
+        }else{
+          vm.activities.unshift(activity);
+        }
       }
     }
 
@@ -94,6 +105,12 @@
 
       return false;
     }
+
+    $scope.$on('$destroy', function () {
+      _.forEach(eventListeners, function (eventId) {
+        NstSvcSync.removeEventListener(eventId);
+      });
+    });
 
   }
 })();

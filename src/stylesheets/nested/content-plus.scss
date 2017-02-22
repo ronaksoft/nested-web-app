@@ -11,21 +11,23 @@
   //transition: all 0.2s;
   backface-visibility: hidden;
   //transform: translateZ(0) scale(1.0, 1.0);
+  #cp1 {
+    height: 480px;
+  }
   & > div {
     display: inline-flex;
     flex-direction: column;
     width: 276px;
-    height: 480px;
     flex: none;
     overflow-y: auto;
-    margin-top: 190px;
-    padding: 12px 0;
+    margin-top: 24px;
+    padding: 12px 0 0 0;
     z-index: 15;
-    background-color: $color-white;
     border: 1px solid $color-border;
     position: relative;
     justify-content: space-between;
     overflow-y: auto;
+    //height: 100%;
     .row {
       display: inline-flex;
       flex-direction: row;
@@ -59,7 +61,12 @@
           .sender {
             align-items: center;
             overflow: hidden;
+            flex: 1;
             max-width: 100%;
+            >div {
+              max-width: 100%;
+              @extend ._txe;
+            }
             a,a>span {
               color: $color-hurricane;
               font-weight: 600;
@@ -78,9 +85,11 @@
           color: #808080;
           font-size: $font-size-xsmall;
           @extend ._wrb;
+          max-width: 100%;
           //line-height: 13px;
           //font-weight: 400;
           span {
+            color: #808080;
             font-style: italic;
             white-space: normal;
             font-size: $font-size-xsmall;
@@ -100,19 +109,84 @@
     }
   }
   .name {
-    color: $color-breeze;
+    color: $color-hurricane;
     font-size: $font-size-xsmall;
     line-height: 15px;
     font-weight: 400;
     margin-bottom: 12px;
     padding: 0 8px;
   }
+  .teammates {
+    //border-top: 1px solid $color-breeze;
+    display: flex;
+    flex-direction: column;
+    flex: none;
+    //background-color: #fff;
+    z-index: 4;
+    .avatars.expanded{
+      max-height: calc(100vh - 273px);
+    }
+    .avatars {
+      display: flex;
+      flex-direction: row;
+      margin: 10px;
+      flex: none;
+      flex-wrap: wrap;
+      width: calc(100% - 16px);
+      div.user-avatar-28 {
+        margin: 2px;
+        position: relative;
+        i {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 16px;
+          height: 16px;
+          border-radius: 20px;
+          border: 2px solid $color-solid;
+          background-color: $color-white;
+          top: -4px;
+          right: 0;
+          svg {
+            flex: none;
+            transform: scale(.5,.5);
+          }
+        }
+      }
+      img {
+        width: 28px;
+        height: 28px;
+        border-radius: 28px;
+      }
+      label {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    .sidebar-add-member {
+      width: 28px;
+      height: 28px;
+      border-radius: 14px;
+      border: 1px solid $color-sense;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2px;
+      svg {
+        display: flex;
+        width: 20px;
+        height: 20px;
+        fill: $color-sense;
+      }
+    }
+  }
 }
 #content-plus {
   position: absolute;
   //margin-left: 356px;
-  top: 0;
-  left: 0;
+  top: 284px;
+  left: calc(50% + 164px);
   //transform: translateY($navbar-height + 10px);
   //Left: 50%;
   will-change: transform;

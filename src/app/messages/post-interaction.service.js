@@ -10,10 +10,10 @@
     NstUtility, NstSvcModal, NstSvcPostFactory, NstSvcTranslation) {
 
     var RETRACT_CONFIRM_TITLE = NstSvcTranslation.get("Confirm"),
-      RETRACT_CONFIRM_MESSAGE = NstSvcTranslation.get("Are you sure you want to retract this message? Once you do this, the message will be deleted from all recipient Places. This action cannot be undone."),
+      RETRACT_CONFIRM_MESSAGE = NstSvcTranslation.get("Are you sure you want to retract this message? This action will delete the message from all the recipients and cannot be undone."),
       RETRACT_SUCCESS_MESSAGE = NstSvcTranslation.get("The message has been retracted successfully."),
-      RETRACT_FAILURE_MESSAGE = NstSvcTranslation.get("An error occured while retracting the message."),
-      RETRACT_LATE_MESSAGE = NstSvcTranslation.get("Sorry, But it is too late to retract the message."),
+      RETRACT_FAILURE_MESSAGE = NstSvcTranslation.get("An error has occurred in the retraction of the message."),
+      RETRACT_LATE_MESSAGE = NstSvcTranslation.get("Sorry, but your 24-hour retraction time has come to its end."),
       REMOVE_CONFIRM_TITLE = NstSvcTranslation.get("Confirm"),
       REMOVE_CONFIRM_MESSAGE = NstSvcTranslation.get("Are you sure you want to delete post {0} from Place {1}?"),
       REMOVE_CONFIRM_MESSAGE_NO_SUBJECT = NstSvcTranslation.get("Are you sure you want to delete the post from Place {0}?");
@@ -100,8 +100,8 @@
         NstUtility.string.format(REMOVE_CONFIRM_MESSAGE, post.subject, place.name) :
         NstUtility.string.format(REMOVE_CONFIRM_MESSAGE_NO_SUBJECT, place.name);
 
-      NstSvcModal.confirm(REMOVE_CONFIRM_TITLE, message).then(function() {
-        deferred.resolve(true);
+      NstSvcModal.confirm(REMOVE_CONFIRM_TITLE, message).then(function(confirmed) {
+        deferred.resolve(confirmed);
       }).catch(function() {
         deferred.resolve(false);
       });
@@ -116,17 +116,19 @@
         toastr.info(RETRACT_LATE_MESSAGE);
         deferred.resolve(false);
       } else {
-        NstSvcModal.confirm(RETRACT_CONFIRM_TITLE, RETRACT_CONFIRM_MESSAGE).then(function() {
-          NstSvcPostFactory.retract(post.id).then(function(result) {
-            $rootScope.$broadcast('post-removed', {
-              postId: post.id,
+        NstSvcModal.confirm(RETRACT_CONFIRM_TITLE, RETRACT_CONFIRM_MESSAGE).then(function(confirmed) {
+          if (confirmed) {
+            NstSvcPostFactory.retract(post.id).then(function(result) {
+              $rootScope.$broadcast('post-removed', {
+                postId: post.id,
+              });
+              toastr.success(RETRACT_SUCCESS_MESSAGE);
+              deferred.resolve(true);
+            }).catch(function(error) {
+              toastr.error(RETRACT_FAILURE_MESSAGE);
+              deferred.reject(error);
             });
-            toastr.success(RETRACT_SUCCESS_MESSAGE);
-            deferred.resolve(true);
-          }).catch(function(error) {
-            toastr.error(RETRACT_FAILURE_MESSAGE);
-            deferred.reject(error);
-          });
+          }
         }).catch(function() {
           deferred.resolve(false);
         });

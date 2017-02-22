@@ -6,11 +6,23 @@
     .service('NstSvcI18n', NstSvcI18n);
 
   /** @ngInject */
-  function NstSvcI18n(_, NstSvcI18nStorage) {
+  function NstSvcI18n(_, NstSvcI18nStorage, moment, $location) {
     function I18n() {
       this.locales = {};
 
-      this.selectedLocale = NstSvcI18nStorage.get('locale') || "en-US";
+      var languages = {
+        "fa" : "fa-IR",
+        "fa-IR" : "fa-IR",
+        "persian" : "fa-IR",
+        "en" : "en-US",
+        "english" : "en-US",
+        "en-US" : "en-US"
+      };
+
+      var defaultLocale = "en-US";
+      var routedLocale = languages[findLanguage("lang")];
+      this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
+      moment.locale(this.selectedLocale);
     }
 
     I18n.prototype.addLocale = function (key, dictionary) {
@@ -36,10 +48,21 @@
       if (_.has(this.locales, name)) {
         this.selectedLocale = name;
         NstSvcI18nStorage.set('locale', name);
+        moment.locale(key);
       } else {
         throw Error('Locale "' + name + '" does not exist.');
       }
     };
+
+    I18n.prototype.clearSavedLocale = function () {
+      NstSvcI18nStorage.remove('locale');
+    }
+
+    function findLanguage(key) {
+      var queryParameters = $location.search();
+
+      return queryParameters[key] || "";
+    }
 
     return new I18n();
 

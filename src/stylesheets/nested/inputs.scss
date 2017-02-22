@@ -129,6 +129,7 @@ input.number {
   display: flex;
   flex: 1;
   height: 34px;
+  direction: ltr!important;
   padding-left: 16px;
   @extend .nst-font-large;
   font-weight: 500;
@@ -151,4 +152,8 @@ i.sep{
     top: 4px;
     font-style: normal;
     color: $color-border;
+}
+.form-group.has-error input.number, .form-group.has-error input.number:focus ,
+.form-group.has-error input.pre-number, .form-group.has-error input.pre-number:focus {
+  border: 2px solid transparent!important;
 }

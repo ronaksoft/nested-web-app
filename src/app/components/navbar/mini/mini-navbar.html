@@ -1,25 +1,44 @@
 <div class="nst-topnav _difh ng-class:{ 'bg-hur': $root.topNavOpen }">
   <div class="hamb-cont">
-    <div class="_fw _df" hm-tap="$root.topNavOpen = !$root.topNavOpen">
-      <div ng-class="$root.topNavOpen ? '_pr icon icon-top close-icon' : '_pr icon icon-top hamburger-icon'">
-        <i ng-if="ctlMiniNavbar.totalUnreadPosts + ctlMiniNavbar.invitations.length > 0 && !$root.topNavOpen"
-           class="badge-invite">{{(ctlMiniNavbar.invitations.length ) + (ctlMiniNavbar.totalUnreadPosts || 0)}}</i>
-      </div>
+    <div class="_fw _df _pr" ng-click="$root.topNavOpen = !$root.topNavOpen">
+      <svg class="_32svg _df svg-hover" ng-class="$root.topNavOpen ? 'morphed' : ''">
+        <use xlink:href="/assets/icons/nst-icn32.svg#menu"></use>
+        <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
+      </svg>
+      <i ng-if="ctlMiniNavbar.totalUnreadPosts + ctlMiniNavbar.invitations.length > 0 && !$root.topNavOpen"
+         class="badge-invite">{{(ctlMiniNavbar.invitations.length ) + (ctlMiniNavbar.totalUnreadPosts || 0)}}</i>
     </div>
     <div class="_fw _jcc _df">
-      <a ui-sref="app.messages()">
+      <a ui-sref="app.messages-favorites()">
         <div id="Logo-white"></div>
       </a>
     </div>
     <div class="_fw _df">
-      <a ng-show="!$root.topNavOpen" href="{{ctlMiniNavbar.urls.compose}}">
-        <div class="icon icon-top comp-icon _df"></div>
+      <a class="popover-mentions"
+         data-uib-popover-template="'app/notification/notification-popover.html'"
+         data-popover-placement="bottom-right auto"
+         data-popover-class="mentions navnot"
+         data-popover-append-to-body="true"
+         data-popover-is-open="ctlMiniNavbar.mentionOpen"
+         data-popover-trigger="none" ng-click="ctlMiniNavbar.mentionOpen =! ctlMiniNavbar.mentionOpen">
+        <svg class="_24svg">
+          <use xlink:href="/assets/icons/nst-icn24.svg#bell"></use>
+        </svg>
       </a>
-      <a ng-show="$root.topNavOpen" href="#/profile">
-        <div class="icon icon-top profile-icon _df"></div>
+      <a ng-show="!$root.topNavOpen" ng-click="ctlMiniNavbar.compose($event);">
+        <svg class="_32svg _df">
+          <use xlink:href="/assets/icons/nst-icn32.svg#compose"></use>
+        </svg>
       </a>
-      <a ng-show="$root.topNavOpen" href="#/signout">
-        <div class="icon icon-top signout-icon _df"></div>
+      <a ng-show="$root.topNavOpen" ng-click="$root.topNavOpen = !$root.topNavOpen" href="#/profile">
+        <svg class="_16svg _df">
+          <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+        </svg>
+      </a>
+      <a ng-show="$root.topNavOpen" ng-click="$root.topNavOpen = !$root.topNavOpen" href="#/signout">
+        <svg class="_16svg _df mirror">
+          <use xlink:href="/assets/icons/nst-icn16.svg#exit"></use>
+        </svg>
       </a>
     </div>
   </div>
@@ -27,21 +46,29 @@
 <div id="top-nav-container" ng-show="$root.topNavOpen">
   <div class="hamb-cont _difv">
     <div class="top-nav-actions _difv _fw">
-      <a href="{{ctlMiniNavbar.urls.unfiltered}}">
+      <a ui-sref="app.messages-favorites()">
         <div class="top-nav-action-icon">
           <svg>
-            <use xlink:href="/assets/icons/nst-icn24.svg#allmsg"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
           </svg>
         </div>
-        <span class="_df">Feed</span>
+        <span class="_df"><translate>Feed</translate></span>
       </a>
-      <a href="{{ctlMiniNavbar.urls.sent}}">
+      <a ui-sref="app.messages-bookmarked()">
         <div class="top-nav-action-icon">
           <svg>
-            <use xlink:href="/assets/icons/nst-icn24.svg#sent"></use>
+            <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
           </svg>
         </div>
-        <span class="_df">Sent</span>
+        <span class="_df"><translate>Bookmarked</translate></span>
+      </a>
+      <a ui-sref="app.messages-sent()">
+        <div class="top-nav-action-icon">
+          <svg>
+            <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
+          </svg>
+        </div>
+        <span class="_df"><translate>Shared by me</translate></span>
       </a>
     </div>
     <hr>
@@ -54,8 +81,8 @@
       <li data-ng-repeat="place in ctlMiniNavbar.places" class="_difv _fw"
           data-ng-include="'app/components/navbar/mini/partials/place.html'" data-ng-init="place = place"></li>
       <li class="_df _fw create-place-nav">
-        <a class="_difc _jcc _fw" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })">
-          <i>+</i><span>Create new Grand place</span>
+        <a class="_difc _jcc _fw" ui-sref-opts="{notify: false}" ui-sref="app.place-create({ placeId : ctlFullNavbar.getPlaceId() })">
+          <i>+</i><span><translate>Create new Grand place</translate></span>
         </a>
       </li>
     </ul>

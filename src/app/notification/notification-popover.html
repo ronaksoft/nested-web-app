@@ -1,0 +1,88 @@
+<div class="mention-wrp" ng-controller="NotificationsController as ctlNotifications">
+  <div class="subject">
+    <a class="_df _fw">
+      <translate>Notifications</translate>
+    </a>
+    <svg class="_df _fn" ng-click="ctlNotifications.markAllSeen()">
+      <use xlink:href="/assets/icons/nst-icn24.svg#list-check"></use>
+    </svg>
+  </div>
+  <div class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingAfter">
+    <div class="nst-loading nst-loading-size-4 _fl"></div>
+    <span>&nbsp;</span>
+    <div class="nst-font-xsmall _fr nst-marginbtm-4">
+      <translate>Loading...</translate>
+    </div>
+  </div>
+  <ul nst-scrollbar suppress-scroll-x="true">
+    <li class="_tac" ng-if="ctlNotifications.notifications.length == 0 && !ctlNotifications.loadingBefore"><translate>No Notifications</translate></li>
+    <li ng-repeat="notif in ctlNotifications.notifications track by $index"
+        ng-click="ctlNotifications.onClickMention(notif, $event);">
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.MENTION"
+           ui-sref="app.message({ postId : notif.mention.post.id })"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/mention.html'"
+           ng-init="notification = notif">
+      </div>
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.COMMENT"
+           ui-sref="app.message({ postId : notif.post.id })"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/comment.html'"
+           ng-init="notification = notif">
+      </div>
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PROMOTED"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/promote.html'"
+           ng-init="notification = notif">
+      </div>
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.PLACE_SETTINGS_CHANGED"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/place-settings-changed.html'"
+           ng-init="notification = notif">
+      </div>
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.DEMOTED"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/demote.html'"
+           ng-init="notification = notif">
+      </div>
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/invite.html'"
+           ng-init="notification = notif">
+      </div>
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.INVITE_RESPOND"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/invite-response.html'"
+           ng-init="notification = notif">
+      </div>
+
+      <div ng-if="notif.type === ctlNotifications.NST_NOTIFICATION_TYPE.YOU_JOINED"
+           ui-sref="app.place-messages({ placeId : notif.place.id })"
+           class="item-inner ng-class:{'seen' : notif.isSeen}"
+           ng-include="'/app/notification/partials/you-joined.html'"
+           ng-init="notification = notif">
+      </div>
+
+    </li>
+
+    <li class="more-mentions" ng-click="ctlNotifications.loadMore()" ng-if="!ctlNotifications.reached">
+      <translate ng-if="!ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Load more...</translate>
+      <translate ng-if="ctlMentions.error" ng-show="!ctlNotifications.loadingBefore && !ctlNotifications.reached">Try again...</translate>
+      <div class="_fw _jcc _df margin-top-10" ng-if="ctlNotifications.loadingBefore && !ctlNotifications.error">
+        <div class="nst-loading nst-loading-size-4 _fl"></div>
+        <span>&nbsp;</span>
+        <div class="nst-font-xsmall _fr nst-marginbtm-4">
+          <translate>Loading...</translate>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+</div>

@@ -13,14 +13,9 @@
       scope: {
         activity: '=model',
         extended: '=extended',
-        place: '=place'
+        currentPlaceId: '='
       },
       link: function (scope, element, attrs) {
-
-        // TODO: Do not modify the view-model here!!
-        if (scope.place){
-          scope.activity.inSpecificPlace = true;
-        }
 
         switch (scope.activity.type) {
           case NST_EVENT_ACTION.MEMBER_ADD:

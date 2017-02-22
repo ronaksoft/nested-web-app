@@ -6,7 +6,7 @@
     .controller('UserDetailCtrl', UserDetailCtrl);
 
   /** @ngInject */
-  function UserDetailCtrl($q, $scope, $state, $stateParams, $uibModal, NstSearchQuery, $rootScope) {
+  function UserDetailCtrl($state, NstSearchQuery) {
     var vm = this;
     vm.user = JSON.parse(vm.user);
     vm.avatar = vm.user.avatar;

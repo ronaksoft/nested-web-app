@@ -1,30 +1,98 @@
-(function (angular) {
-  "use strict";
-  angular.module("ronak.nested.web.components")
-    .constant("VIEW", {
-      MOBILE: "mobile",
-      TABLET: "tablet",
-      DESKTOP: "desktop"
-    })
-    .factory("deviceDetector", function ($window, VIEW, $rootScope) {
-        var deviceInfo,win=angular.element($window);
+(function() {
+  'use strict';
+  angular
+    .module('ronak.nested.web.message')
+    .service('SvcCardCtrlAffix', SvcCardCtrlAffix);
 
-        function checkVIEW() {
-          if ($window.innerWidth  > 990 ) {
+  /** @ngInject */
+  function SvcCardCtrlAffix($rootScope,$window,deviceDetector,$timeout) {
+    var obj = {};
 
-            $rootScope.deviceDetector = VIEW.DESKTOP
-          } else {
-            $rootScope.deviceDetector = VIEW.TABLET
-          }
+    var win = angular.element($window);
+    var isMobile = deviceDetector.isMobile() || deviceDetector.isTablet();
+    var isRTL = $rootScope._direction == 'rtl';
+    var MobTopOff = isMobile ? 56 : 0;
+
+    win.bind('scroll', affixElement);
+
+    //TODO handle win resize event
+    function affixElement() {
+      obj.check($window.pageYOffset);
+      if( $window.pageYOffset < 1200 ) {
+        $rootScope.staticNav = true
+      } else  {
+        $rootScope.staticNav = false
+      }
+      // if (
+      //   $window.pageYOffset + MobTopOff > $element.parent().offset().top &&
+      //   $window.pageYOffset < $element.parent().children().first().height() + $element.parent().offset().top - 50
+      // ) {
+      //   $element.css('position', 'fixed');
+      //   $element.css('top', 24 + MobTopOff + 'px');
+      //   if (!isRTL) $element.css('left', $element.parent().offset().left + 'px');
+      //   if (isRTL && !isMobile) $element.css('right', $element.parent().offset().left - 20 + 'px');
+      //   if (isRTL && isMobile) $element.css('right', $element.parent().offset().left + 'px');
+      // } else {
+      //   $element.css('position', '');
+      //   $element.css('top', '');
+      //   $element.css('left', '');
+      //   $element.css('right', '');
+      // }
+
+    }
+
+    obj.add = function (el) {
+      $rootScope.cardCtrls.push(el)
+    };
+
+    obj.change = function () {
+      var buff = $rootScope.cardCtrls;
+      $rootScope.cardCtrls = [];
+
+      $timeout(function () {
+        for( var i=0; i<buff.length;i++) {
+          var el = {
+            el : buff[i].el,
+            topOff : buff[i].el.parent().offset().top,
+            cardH : buff[i].el.parent().children().first().height(),
+            leftOff : buff[i].el.parent().offset().left,
+            fixed : false
+          };
+          obj.add(el)
+        }
+      },1000);
+
+    };
+
+    obj.check = function (Ypos) {
+      $rootScope.cardCtrls.forEach(function (e) {
+        if (Ypos + MobTopOff > e.topOff - 64 && Ypos < e.cardH + e.topOff - 120 && !e.fixed) {
+          e.fixed = true;
+          e.el.css('position', 'fixed');
+          e.el.css('top', 88 + MobTopOff + 'px');
+          if (!isRTL) e.el.css('left', e.leftOff + 'px');
+          if (isRTL && !isMobile) e.el.css('right', e.leftOff - 20 + 'px');
+          if (isRTL && isMobile) e.el.css('right', e.leftOff + 'px');
+        } else if (Ypos + MobTopOff < e.topOff - 64 && e.fixed) {
+          e.fixed = false;
+          e.el.css('position', '');
+          e.el.css('top', '');
+          e.el.css('left', '');
+          e.el.css('right', '');
+        } else if(Ypos > e.cardH + e.topOff - 120 && e.fixed ) {
+          e.fixed = false;
+          e.el.css('position', 'absolute');
+          e.el.css('top', e.cardH - 32 + 'px');
+          e.el.css('left', '');
+          e.el.css('right', '');
+
         }
 
-        checkVIEW();
 
-        win.on("resize", function () {
-          checkVIEW();
-        });
+      })
 
-        return $rootScope.deviceDetector;
-      }
-    )
-})(angular);
+    };
+
+    return obj;
+  }
+})();

@@ -6,12 +6,29 @@
     .controller('ComposeController', ComposeController);
 
   /** @ngInject */
-  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $uibModal, $timeout,
+  function ComposeController($q, $rootScope, $state, $stateParams, $scope, $log, $timeout, $uibModalStack, $window,
                              _, toastr,
-                             NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE,
-                             NstSvcLoader, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstVmNavbarControl, NstLocalResource, NstVmPlaceBadge) {
+                             NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
+                             NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft, NstSvcUserFactory,
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstLocalResource, NstSvcPostMap, NstPicture, NstPostDraft) {
     var vm = this;
+    vm.quickMode = false;
+    vm.focus = false;
+    vm.mouseIn = false;
+    var eventReferences = [];
+    var discardCanceler = null;
+    vm.makeChangeForWatchers = 0;
+    vm.clear = clear;
+
+    if (vm.mode == 'quick') {
+      vm.quickMode = true;
+    }
+
+    function changeAffixes() {
+      SvcCardCtrlAffix.change();
+    }
+
+    vm.changeAffixesDebounce = _.debounce(changeAffixes, 1000);
 
     /*****************************
      *** Controller Properties ***
@@ -36,23 +53,8 @@
       saved: false
     };
 
-    (function () {
-      if ($stateParams.attachments && $stateParams.attachments.length > 0) {
-        NstSvcAttachmentFactory.load($stateParams.attachments).then(function (attachments) {
-          vm.model.attachments = attachments;
-          vm.attachments.viewModels = _.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
-          vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
-          vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
-        }).catch(function (error) {
-          toastr.error(NstSvcTranslation.get('An error happened while trying to attach with files.'));
-        });
-
-      }
-      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter Place's name or Nested address...");
-    })();
-
     vm.search = {
-      results: [],
+      results: []
     };
 
     vm.attachments = {
@@ -64,84 +66,253 @@
         total: 0
       }
     };
+    $scope.$watch(function () {
+      return vm.model.body
+    }, function () {
+      return vm.changeAffixesDebounce();
+    });
+
+    vm.focusBox = function () {
+      vm.focus = true;
+    };
+
+    vm.blurBox = function () {
+      if (vm.model.subject.length == 0 && vm.model.attachments.length == 0 && vm.model.body.length == 0 && !vm.mouseIn) {
+        vm.focus = false;
+      }
+    };
 
     vm.place = undefined;
 
-    vm.controls = {
-      left: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Discard'), NST_NAVBAR_CONTROL_TYPE.BUTTON_BACK, null, function ($event) {
-          // TODO: Fix navigating to previous state
-          $event.preventDefault();
-          $rootScope.goToLastState();
-        })
-      ],
-      right: [
-        new NstVmNavbarControl(NstSvcTranslation.get('Attach files'), NST_NAVBAR_CONTROL_TYPE.BUTTON_INPUT_LABEL, undefined, undefined, { id: vm.attachments.elementId })
-      ]
-    };
+    var isRTL = $rootScope._direction;
+    var lang = isRTL == 'rtl' ? 'fa' : 'en';
 
-    vm.configs = {
-      tinymce: {
-        inline: false,
-        // fixed_toolbar_container: '.nst-compose-message',
-        statusbar: false,
-        trusted: true,
-        menubar: false,
-        browser_spellcheck: true,
-        selector: 'textarea',
-        height : 200,
-        //content_css : "../styles/tinymce.css",
-        content_style : "@font-face {font-family: 'OpenSans';" +
-        "src: url('../assets/fonts/OpenSans/OpenSans-Regular.woff2') format('woff2')," +
-        "url('../assets/fonts/OpenSans/OpenSans-Regular.woff') format('woff')," +
-        "url('../assets/fonts/OpenSans/OpenSans-Regular.ttf')  format('truetype')," +
-        "url('../assets/fonts/OpenSans/OpenSans-Regular.svg#svgFontName') format('svg');}" +
-        "@font-face {font-family: 'YekanBakh';" +
-        "src: url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff2') format('woff2')," +
-        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.woff') format('woff')," +
-        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.ttf')  format('truetype')," +
-        "url('../assets/fonts/YekanBakh/YekanBakhNestedWeb-Regular.svg#svgFontName') format('svg');}" +
-        "br{opacity:0}" +
-        "body{font-family: 'YekanBakh','OpenSans'!important;font-size: 12pt!important;}",
-        plugins : 'autolink link image lists charmap directionality textcolor colorpicker emoticons paste',
-        // contextmenu: "copy | paste inserttable | link inserttable | cell row column deletetable",
-        // contextmenu_never_use_native: true,
-        toolbar: 'bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect fontselect fontsizeselect forecolor backcolor| ltr rtl | bullist numlist | outdent indent | link',
-        skin: 'lightgray',
-        theme : 'modern',
-        setup: function (editor) {
-          editor.on('init', function (e) {
-            $scope.activeEditorElement = e.target.contentDocument.activeElement;
-          });
-          editor.on('keydown', function(e) {
-            if(e.keyCode == 13 && $(editor.contentDocument.activeElement).atwho('isSelecting'))
-              return false
-          })
-        }
+    if (vm.quickMode) {
+      $scope.editorOptions = {
+        language: lang,
+        contentsLangDirection: isRTL,
+        contentsCss: 'body {overflow:visible;}',
+        enableTabKeyTools: true,
+        tabSpaces: 4,
+        startupFocus: false,
+        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,divarea',
+        autoGrow_minHeight: 230,
+        sharedSpaces: {
+          top: 'editor-btn',
+          bottom: 'editor-txt'
+        },
+        toolbar: [
+          ["Link","FontSize"],
+          ["Bold"],
+          ["JustifyRight", "BidiLtr", "BidiRtl"]
+        ],
+        fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
+        colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
+        // Remove the redundant buttons from toolbar groups defined above.
+        //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
+        removePlugins: 'resize,elementspath,contextmenu,liststyle,tabletools'
+      };
+
+    } else {
+      $scope.editorOptions = {
+        language: lang,
+        contentsLangDirection: isRTL,
+        contentsCss: 'body {overflow:visible;}',
+        height: 230,
+        enableTabKeyTools: true,
+        tabSpaces: 4,
+        startupFocus: false,
+        extraPlugins: 'sharedspace,font,language,bidi,justify,colorbutton,autogrow,divarea,autolink',
+        autoGrow_minHeight: 230,
+        sharedSpaces: {
+          top: 'editor-btn',
+          bottom: 'editor-txt'
+        },
+        toolbar: [
+          ["Link", "FontSize"],
+          ["Bold", "Italic", "Underline"],
+          ["JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
+        ],
+        fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
+        colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
+        // Remove the redundant buttons from toolbar groups defined above.
+        //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
+        removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,liststyle,tabletools'
+      };
+
+    }
+
+    // setTimeout(function () {
+    //   vm.editor = $("textarea").controller('ckeditor').instance;
+    // },1000);
+
+    (function () {
+      if ($stateParams.attachments && $stateParams.attachments.length > 0) {
+        vm.model.attachments = _.map($stateParams.attachments, function (item) {
+          item.status = NST_ATTACHMENT_STATUS.ATTACHED;
+          return item;
+        });
+        vm.attachments.viewModels = _.map($stateParams.attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
+        vm.attachments.size.total += _.sum(_.map($stateParams.attachments, 'size'));
+        vm.attachments.size.uploaded += _.sum(_.map($stateParams.attachments, 'size'));
       }
-    };
+      vm.inputPlaceHolderLabel = NstSvcTranslation.get("Enter a Place name or a Nested address...");
+
+      if (vm.quickMode) {
+
+        addRecipients($stateParams.placeId);
+        eventReferences.push($scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+          var confirm = _.size(_.trim(vm.model.subject)) > 0 || _.size(_.trim(vm.model.body)) || _.size(vm.model.attachments) > 0;
+          if (confirm && !vm.finish) {
+            event.preventDefault();
+
+            NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
+              vm.finish = true;
+              $state.go(toState.name, toParams);
+            });
+          }
+        }));
+
+      } else {
+
+        eventReferences.push($scope.$on('modal.closing', function (event) {
+          if (shouldSaveDraft() && !vm.finish) {
+            event.preventDefault();
+
+            if ($state.current.options && $state.current.options.supportDraft) {
+
+              NstSvcModal.confirm(
+                NstSvcTranslation.get("Confirm"),
+                NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?"),
+                {
+                  yes : NstSvcTranslation.get("Discard"),
+                  no : NstSvcTranslation.get("Draft")
+                }
+              ).then(function (confirmed) {
+                if (confirmed) {
+                  discardDraft();
+                } else {
+                  saveDraft();
+                }
+
+                vm.finish = true;
+                $uibModalStack.dismissAll();
+              });
+
+            } else {
+              NstSvcModal.confirm(NstSvcTranslation.get("Confirm"), NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?")).then(function () {
+                vm.finish = true;
+                $uibModalStack.dismissAll();
+              });
+            }
+
+          }
+        }));
+
+      }
+
+      openDraft();
+
+    })();
+
+    function saveDraft() {
+      var draft = new NstPostDraft();
+      draft.subject = vm.model.subject;
+      draft.body = vm.model.body;
+      draft.attachments = _.map(vm.model.attachments, 'id');
+      draft.recipients = _.map(vm.model.recipients, 'id');
+      NstSvcPostDraft.save(draft);
+    }
+
+    function discardDraft() {
+      NstSvcPostDraft.discard();
+    }
+
+    function shouldSaveDraft() {
+      return _.size(_.trim(vm.model.subject)) > 0 ||
+             _.size(_.trim(vm.model.body)) ||
+             _.size(vm.model.attachments) > 0 ||
+             _.size(vm.model.recipients) > 0;
+    }
 
     /*****************************
      ***** Controller Methods ****
      *****************************/
 
+     function openDraft() {
+       if (!NstSvcPostDraft.has()) {
+         return;
+       }
+
+       if ($state.current.options && $state.current.options.supportDraft) {
+        loadDraft();
+       }
+     }
+
+     function loadDraft() {
+       var deferred = $q.defer();
+
+       var draft = NstSvcPostDraft.get();
+       vm.model.subject = draft.subject;
+       vm.model.body = draft.body;
+       $q.all(_.map(draft.attachments, function (attachmentId) {
+         return NstSvcAttachmentFactory.getOne(attachmentId)
+       })).then(function (attachments) {
+         vm.model.attachments = _.map(attachments, function (item) {
+           item.status = NST_ATTACHMENT_STATUS.ATTACHED;
+           return item;
+         });
+         vm.attachments.viewModels = _.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
+         vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
+         vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
+       }).catch(deferred.reject);
+
+       $q.all(_.map(draft.recipients, function (recipientId) {
+           return NstSvcPlaceFactory.getTiny(recipientId);
+       })).then(function (recipients) {
+         vm.model.recipients = _.map(recipients, function (recipient) {
+           return new NstVmPlace(recipient);
+         });
+         console.log("recipients", vm.model.recipients);
+         deferred.resolve(draft);
+       }).catch(deferred.reject);
+
+       return deferred.promise;
+     }
+
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
-    vm.configs.tinymce.onChange = function (event) {
-      // Put logic here for keypress and cut/paste changes
+
+    vm.subjectKeyDown = function (e) {
+      vm.mouseIn = true;
+      vm.changeAffixesDebounce();
+      if (e.which == 13) {
+        e.preventDefault();
+        $window.CKEDITOR.instances.composeEditor.focus();
+      }
     };
 
-    vm.search.fn = function(query) {
+
+    vm.editorKeyDown = function (e) {
+      if (e.which == 8) {
+
+        if (vm.quickMode){
+          $('.quick-message-wrp [name="subject"]').focus();
+        }
+      }
+    };
+
+    vm.search.fn = function (query) {
       var initPlace = NstSvcPlaceFactory.parseTinyPlace({
         _id: query,
         name: query
       });
       // if (query.length)
       //   vm.search.results = [new NstVmPlace(initPlace)];
-      return NstSvcPlaceFactory.search(query).then(function(places) {
+      return NstSvcPlaceFactory.searchForCompose(query).then(function (places) {
         vm.search.results = [];
-        places.map(function(place) {
-          if (place && vm.model.recipients.filter(function(obj) {
+        places.map(function (place) {
+          if (place && vm.model.recipients.filter(function (obj) {
               return (obj.id === place.id);
             }).length === 0) {
             if (place.id === query) {
@@ -151,16 +322,26 @@
             }
           }
         });
+        if (initPlace.id) {
+          if (initPlace.id.indexOf('@') > -1) {
+            initPlace.isEmail = true;
+            initPlace.isEmailValid = NST_PATTERN.EMAIL.test(initPlace.id)
+          }
+          vm.search.results.push(initPlace);
+        }
+      }).catch(function () {
+        vm.search.results = [];
         if (initPlace.id)
           vm.search.results.push(initPlace);
       });
     };
 
+
     vm.search.tagger = function (text) {
       // TODO: To use new class and also check for hidden places
       var isPlaceId = 0 == text.split('.').filter(function (v, i) {
           return !(0 == i ? NST_PATTERN.GRAND_PLACE_ID.test(v) : NST_PATTERN.SUB_PLACE_ID.test(v));
-      }).length;
+        }).length;
       var isEmail = NST_PATTERN.EMAIL.test(text);
 
       if (isPlaceId) {
@@ -169,13 +350,13 @@
           name: text,
           data: NstSvcPlaceFactory.getTiny(text).then(function (place) {
             // $timeout(function () {
-              tag.name = place.getName();
-              tag.data = place;
+            tag.name = place.getName();
+            tag.data = place;
             // });
           }).catch(function () {
             // $timeout(function () {
-              tag.isTag = false;
-              tag.data = NstSvcPlaceFactory.parseTinyPlace({ _id: text });
+            tag.isTag = false;
+            tag.data = NstSvcPlaceFactory.parseTinyPlace({_id: text});
             // });
           })
         });
@@ -192,17 +373,17 @@
         });
         return tag;
       }
-      return {isTag : false, name: text};
+      return {isTag: false, name: text};
     };
 
     vm.attachments.fileSelected = function (event) {
       var files = event.currentTarget.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {});
+        vm.attachments.attach(files[i]).then(function (request) {
+        });
       }
       event.currentTarget.value = "";
     };
-
 
 
     vm.attachments.attach = function (file) {
@@ -215,13 +396,11 @@
       var attachment = NstSvcAttachmentFactory.createAttachmentModel();
       attachment.setSize(file.size);
       attachment.setFilename(file.name);
-      attachment.setMimeType(file.type);
-      attachment.setUploadTime(file.lastModified);
-
+      attachment.setMimetype(file.type);
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
-      var type = NstSvcFileType.getType(attachment.getMimeType());
+      var type = NstSvcFileType.getType(attachment.getMimetype());
 
       // Read Attachment
       var reader = new FileReader();
@@ -230,21 +409,23 @@
       reader.onload = function (event) {
         var uri = event.target.result;
         var resource = new NstLocalResource(uri);
-        attachment.setResource(resource);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
-          attachment.getPicture().setOrg(resource);
-          attachment.getPicture().setThumbnail(32, resource);
-          attachment.getPicture().setThumbnail(64, resource);
-          attachment.getPicture().setThumbnail(128, resource);
+          attachment.setPicture(new NstPicture({
+            original: uri,
+            preview: uri,
+            x32: uri,
+            x64: uri,
+            x128: uri
+          }));
         }
 
         qRead.resolve(uri);
       };
       reader.readAsDataURL(file);
 
-      NstSvcLoader.inject(qRead.promise.then(function (uri) {
+      qRead.promise.then(function (uri) {
         var deferred = $q.defer();
 
         // Upload Attachment
@@ -261,7 +442,7 @@
         vm.attachments.requests[attachment.getId()] = request;
 
         request.sent().then(function () {
-          attachment.setStatus(NST_ATTACHMENT_STATUS.UPLOADING);
+          attachment.status = NST_ATTACHMENT_STATUS.UPLOADING;
           vm.attachments.viewModels.push(vmAttachment);
         });
 
@@ -274,7 +455,7 @@
           var deferred = $q.defer();
 
           attachment.setId(response.data.universal_id);
-          attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
+          attachment.status = NST_ATTACHMENT_STATUS.ATTACHED;
 
           vmAttachment.id = attachment.getId();
           vmAttachment.isUploaded = true;
@@ -293,18 +474,18 @@
         });
 
         return deferred.promise;
-      })).then(deferred.resolve);
+      }).then(deferred.resolve);
 
       return deferred.promise;
     };
 
     vm.attachments.detach = function (vmAttachment) {
       var id = vmAttachment.id;
-      var attachment = _.find(vm.model.attachments, { id: id });
+      var attachment = _.find(vm.model.attachments, {id: id});
       $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment && attachment.length !== 0) {
-        switch (attachment.getStatus()) {
+        switch (attachment.status) {
           case NST_ATTACHMENT_STATUS.UPLOADING:
             var request = vm.attachments.requests[attachment.getId()];
             if (request) {
@@ -318,7 +499,7 @@
       NstUtility.collection.dropById(vm.attachments.viewModels, id);
       vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
       vm.attachments.size.total -= attachment.getSize();
-    }
+    };
 
     vm.model.isModified = function () {
       vm.model.modified = (function (model) {
@@ -381,7 +562,7 @@
         }
 
         for (var k in model.attachments) {
-          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].getStatus()) {
+          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].status) {
             errors.push({
               name: 'attachments',
               message: 'Attachment uploading has not been finished yet'
@@ -398,8 +579,15 @@
       return vm.model.ready;
     };
 
+    vm.fullCompose = function () {
+      $('body').toggleClass('fullCompose');
+      if ( $('body').hasClass('fullCompose')) {
+        vm.makeChangeForWatchers++;
+      }
+    };
+
     vm.send = function () {
-      return NstSvcLoader.inject((function () {
+      return (function () {
         var deferred = $q.defer();
 
         if (vm.model.saving) {
@@ -410,6 +598,7 @@
           }]);
         } else {
           if (vm.model.check()) {
+            vm.focus = false;
             vm.model.saving = true;
 
             var post = NstSvcPostFactory.createPostModel();
@@ -444,7 +633,9 @@
 
             NstSvcPostFactory.send(post).then(function (response) {
               deferred.resolve(response);
-            }).catch(function (error) { deferred.reject([error]); });
+            }).catch(function (error) {
+              deferred.reject([error]);
+            });
           } else {
             deferred.reject(vm.model.errors);
           }
@@ -454,17 +645,38 @@
       })().then(function (response) {
         vm.model.saving = false;
         vm.model.saved = true;
+        vm.finish = true;
 
-        // TODO: Check if one or more places failed
+        // All target places have received the message
+        if (response.noPermitPlaces.length === 0) {
+          toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'));
+          NstSvcPostFactory.get(response.post.id).then(function (res) {
+            var msg = NstSvcPostMap.toMessage(res);
+            $rootScope.$emit('post-quick', msg);
+          });
+          $uibModalStack.dismissAll();
+          if (vm.quickMode) {
+            clear();
+          } else {
+            discardDraft();
+          }
 
-        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
+        } else if (response.post.places.length === response.noPermitPlaces.length) {
+          toastr.error(NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(',')));
+        } else {
+          toastr.warning(NstUtility.string.format(NstSvcTranslation.get('Your message was sent, but {0} did not received that!'), response.noPermitPlaces.join(',')));
+          NstSvcPostFactory.get(response.post.id).then(function (res) {
+            var msg = NstSvcPostMap.toMessage(res);
+            $rootScope.$emit('post-quick', msg);
+          });
+          $uibModalStack.dismissAll();
+          if (vm.quickMode) {
+            clear();
+          } else {
+            discardDraft();
+          }
 
-        if(response.noPermitPlaces.length > 0){
-          var text = NstUtility.string.format(NstSvcTranslation.get('Your message hasn\'t been successfully sent to {0}'), response.noPermitPlaces.join(','));
-          toastr.warning(text, NstSvcTranslation.get('Message doesn\'t Sent'));
         }
-
-        $rootScope.goToLastState();
 
         return $q(function (res) {
           res(response);
@@ -472,9 +684,13 @@
       }).catch(function (errors) {
         vm.model.saving = false;
         toastr.error(errors.filter(
-          function (v) { return !!v.message; }
+          function (v) {
+            return !!v.message;
+          }
         ).map(
-          function (v, i) { return String(Number(i) + 1) + '. ' + v.message; }
+          function (v, i) {
+            return String(Number(i) + 1) + '. ' + v.message;
+          }
         ).join("<br/>"), 'Compose Error');
 
         $log.debug('Compose | Error Occurred: ', errors);
@@ -483,34 +699,9 @@
           rej(errors);
         });
 
-      }));
+      });
     };
-    vm.controls.right.push(new NstVmNavbarControl(NstSvcTranslation.get('Send'), NST_NAVBAR_CONTROL_TYPE.BUTTON_SUCCESS, undefined, vm.send));
 
-    vm.changeState = function (event, toState, toParams, fromState, fromParams, cancel) {
-     $log.debug('Compose | Leaving Page');
-      if (vm.model.saved || !vm.model.isModified()) {
-        cancel.$destroy();
-        $state.go(toState.name, toParams);
-      } else {
-//        if (!$rootScope.modals['leave-confirm']) {
-          $rootScope.modals['leave-confirm'] = $uibModal.open({
-            animation: false,
-            templateUrl: 'app/modals/leave-confirm/main.html',
-            controller: 'LeaveConfirmController',
-            controllerAs: 'ctlLeaveConfirm',
-            size: 'sm',
-            resolve: {
-
-            }
-          });
-          $rootScope.modals['leave-confirm'].result.then(function () {
-            cancel.$destroy();
-            $state.go(toState.name, toParams);
-          });
-//        }
-      }
-    };
     /*****************************
      *****  Controller Logic  ****
      *****************************/
@@ -521,15 +712,30 @@
           if (NST_DEFAULT.STATE_PARAM == $stateParams.placeId) {
             $state.go('app.compose');
           } else {
-            getPlace($stateParams.placeId).then(function (place) {
-              // FIXME: Push Compose Recipient View Model Instead
-              vm.model.recipients.push(new NstVmSelectTag({
-                id: place.getId(),
-                name: place.getName(),
-                data: place
-              }));
-              vm.place = place;
-            });
+            if (NST_PATTERN.EMAIL.test($stateParams.placeId)) {
+              var tag = new NstVmSelectTag({
+                id: $stateParams.placeId,
+                name: $stateParams.placeId,
+                isEmail: true,
+                isEmailValid: true,
+                data: new NstRecipient({
+                  id: $stateParams.placeId,
+                  email: $stateParams.placeId,
+                  name: $stateParams.placeId
+                })
+              });
+              vm.model.recipients.push(tag);
+            } else {
+              getPlace($stateParams.placeId).then(function (place) {
+                // FIXME: Push Compose Recipient View Model Instead
+                vm.model.recipients.push(new NstVmSelectTag({
+                  id: place.id,
+                  name: place.name,
+                  data: place
+                }));
+                vm.place = place;
+              });
+            }
           }
         }
         break;
@@ -540,10 +746,11 @@
             $state.go('app.compose');
           } else {
             getPost($stateParams.postId).then(function (post) {
-              vm.model.subject = NST_TERM_COMPOSE_PREFIX.FORWARD + post.getSubject();
+              vm.model.subject = post.getSubject();
               vm.model.body = post.getBody();
               vm.model.attachments = post.getAttachments();
               for (var k in vm.model.attachments) {
+                vm.model.attachments[k].status = NST_ATTACHMENT_STATUS.ATTACHED;
                 vm.attachments.viewModels.push(NstSvcAttachmentMap.toEditableAttachmentItem(vm.model.attachments[k]));
                 vm.attachments.size.total += vm.model.attachments[k].getSize();
                 vm.attachments.size.uploaded += vm.model.attachments[k].getSize();
@@ -561,7 +768,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
-              vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
+              vm.model.subject = post.getSubject();
               var places = post.getPlaces();
               for (var k in places) {
                 var place = places[k];
@@ -571,6 +778,39 @@
                   data: place
                 }));
               }
+
+              var recipients = post.recipients;
+              for (var j in recipients) {
+                vm.model.recipients.push(new NstVmSelectTag({
+                  id: recipients[j].id,
+                  name: recipients[j].name,
+                  isEmail: true,
+                  isEmailValid: true,
+                  data: new NstRecipient({
+                    id: recipients[j].id,
+                    email: recipients[j].email,
+                    name: recipients[j].name
+                  })
+                }));
+              }
+
+
+              var email = post.getEmailSender();
+              if (email) {
+                var tag = new NstVmSelectTag({
+                  id: email.id,
+                  name: email.name || email.id,
+                  isEmail: true,
+                  isEmailValid: true,
+                  data: new NstRecipient({
+                    id: email.id,
+                    email: email.id,
+                    name: email.name || email.id
+                  })
+                });
+                vm.model.recipients.push(tag);
+              }
+
             });
           }
         }
@@ -583,42 +823,60 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
-              vm.model.subject = NST_TERM_COMPOSE_PREFIX.REPLY + post.getSubject();
+              vm.model.subject = post.getSubject();
 
               // TODO: First search in post places to find a match then try to get from factory
               var postPlaces = post.getPlaces();
               var place = undefined;
-              for (var k in postPlaces) {
-                if (post.getSender().getId() == postPlaces[k].getId()) {
-                  place = postPlaces[k];
-                  break;
+              if (post.internal) {
+                for (var k in postPlaces) {
+                  if (post.getSender().getId() == postPlaces[k].getId()) {
+                    place = postPlaces[k];
+                    break;
+                  }
                 }
-              }
 
-              var deferred = $q.defer();
 
-              if (place) {
-                deferred.resolve(place);
-              } else {
-                getPlace(post.getSender().getId()).then(function (place) {
-                  deferred.resolve(place);
-                });
-              }
-
-              return deferred.promise.then(function (place) {
                 var deferred = $q.defer();
 
-                vm.place = place;
-                vm.model.recipients.push(new NstVmSelectTag({
-                  id: place.getId(),
-                  name: place.getName(),
-                  data: place
-                }));
+                if (place) {
+                  deferred.resolve(place);
+                } else {
+                  getPlace(post.getSender().getId()).then(function (place) {
+                    deferred.resolve(place);
+                  });
+                }
 
-                deferred.resolve(post);
+                return deferred.promise.then(function (place) {
+                  var deferred = $q.defer();
 
-                return deferred.promise;
-              });
+                  vm.place = place;
+                  vm.model.recipients.push(new NstVmSelectTag({
+                    id: place.getId(),
+                    name: place.getName(),
+                    data: place
+                  }));
+
+                  deferred.resolve(post);
+
+                  return deferred.promise;
+                });
+              } else {
+                var email = post.getEmailSender();
+
+                var tag = new NstVmSelectTag({
+                  id: email.id,
+                  name: email.name || email.id,
+                  isEmail: true,
+                  isEmailValid: true,
+                  data: new NstRecipient({
+                    id: email.id,
+                    email: email.id,
+                    name: email.name || email.id
+                  })
+                });
+                vm.model.recipients.push(tag);
+              }
             })
           }
         }
@@ -650,9 +908,6 @@
       return deferred.promise;
     }
 
-    NstSvcLoader.finished().then(function () {
-    });
-
     /*****************************
      *****    State Methods   ****
      *****************************/
@@ -662,29 +917,27 @@
      *****************************/
 
     function getPlace(id) {
-      return NstSvcLoader.inject(
-         NstSvcPlaceFactory.get(id).catch(function (error) {
-          var deferred = $q.defer();
+      return NstSvcPlaceFactory.get(id).catch(function (error) {
+        var deferred = $q.defer();
 
-          switch (error.getPrevious().getCode()) {
-            case NST_SRV_ERROR.TIMEOUT:
-              // Keep Retrying
-              deferred.reject.apply(null, arguments);
-              break;
+        switch (error.getPrevious().getCode()) {
+          case NST_SRV_ERROR.TIMEOUT:
+            // Keep Retrying
+            deferred.reject.apply(null, arguments);
+            break;
 
-            default:
-              // Do not retry anymore
-              deferred.resolve(NstSvcPlaceFactory.parseTinyPlace({ _id: id }));
-              break;
-          }
+          default:
+            // Do not retry anymore
+            deferred.resolve(NstSvcPlaceFactory.parseTinyPlace({_id: id}));
+            break;
+        }
 
-          return deferred.promise;
-        })
-      );
+        return deferred.promise;
+      });
     }
 
     function getPost(id) {
-      return NstSvcLoader.inject(NstSvcPostFactory.get(id));
+      return NstSvcPostFactory.get(id,true);
     }
 
     /*****************************
@@ -718,33 +971,51 @@
 
     function onPlaceSelected(place) {
       // addRecipients(placeId);
-      if (!_.some(vm.model.recipients, { id : place.id })) {
+      if (!_.some(vm.model.recipients, {id: place.id})) {
         vm.model.recipients.push(new NstVmSelectTag({
-          id : place.id,
-          name : place.name,
-          data : new NstTinyPlace(place)
+          id: place.id,
+          name: place.name,
+          data: new NstTinyPlace(place)
         }));
       }
     }
-    // Listen for when the dnd has been configured.
-    vm.attachfiles = {};
 
-    $scope.$on('$dropletReady', function whenDropletReady() {
-      vm.attachfiles.allowedExtensions([/.+/]);
-      vm.attachfiles.useArray(false);
 
-    });
-    $scope.$on('$dropletFileAdded', function startupload() {
+    function clear() {
+      vm.attachments.viewModels = [];
+      vm.model.attachments = [];
+      vm.model.attachfiles = {};
+      vm.model.subject = '';
+      vm.model.body = '';
+      vm.model.forwardedFrom = null;
+      vm.model.replyTo = null;
+      discardCanceler = $timeout(function () {
+        vm.focus = false;
+      }, 512);
+    }
 
-      var files = vm.attachfiles.getFiles(vm.attachfiles.FILE_TYPES.VALID);
+    vm.dodrop = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var dt = event.dataTransfer;
+      var files = dt.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i].file).then(function (request) {});
-        files[i].deleteFile();
+        vm.attachments.attach(files[i]).then(function (request) {});
       }
-    });
+
+    };
+
+
 
     $scope.$on('$destroy', function () {
       NstSvcSidebar.removeOnItemClick();
+
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+
     });
   }
 })();

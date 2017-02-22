@@ -30,7 +30,7 @@
 #    When I wait 2s
 #    Given I Press "Sign in"
 #    When I wait 5s
-#    Then should the title of the place be "Feed"
+#    Then should the title of the place be "All Places"
 #
 #  Scenario: change Password sc1
 #    When I wait 5s
@@ -75,10 +75,10 @@
 #     When I wait 5s
 #     Given I Press "Save & Exit"
 #     When I wait 5s
-#     Then should the title of the place be "Feed"
+#     Then should the title of the place be "All Places"
 #
 #   Scenario: sign out
 #     When I wait 5s
 #     Given I Click on sidebar "signout"
-#     When I wait 5
+#     When I wait 5s
 #     Then should see "Sign in"

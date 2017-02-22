@@ -2,12 +2,12 @@
             place-id="{{ctlFiles.currentPlace.id}}"
             show-place-id="ctlFiles.showPlaceId"
             nav-title="{{ctlFiles.currentPlace.id?ctlFiles.currentPlace.name: ctlFiles.navTitle}}"
-            nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.thumbnails.x64.url.view : '' }}"
+            nav-picture-url="{{ctlFiles.currentPlace.id ? ctlFiles.currentPlace.picture.getUrl('x128') : '' }}"
             nav-picture-class="{{ !ctlFiles.currentPlace.id? ctlFiles.navIconClass : '' }}"
             ready-to-show="ctlFiles.currentPlaceLoaded"
             ready-to-anime="true"
             place-description="{{ctlFiles.currentPlace.description}}"></nst-navbar>
-
+<div class="navbar-illu"></div>
 <div class="nst-content _tr" id="content-wrapper" ng-init="showFilters = true;">
 <scroll-change-handler reached-bottom="ctlFiles.loadMore"></scroll-change-handler>
   <section class="content nst-marginbtm-28 _bgwhite">
@@ -15,7 +15,7 @@
     <section class="list-inline _df">
       <ul class="list-inline _df post-nav-top _difh _fw">
         <li>
-          <p ng-show="ctlFiles.selectedFiles.length  == 0" class="capitalize">{{ctlFiles.selectedFileType.label}}</p>
+          <p ng-show="ctlFiles.selectedFiles.length  == 0" class="capitalize">{{::ctlFiles.selectedFileType.label}}</p>
           <!--//TODO:Add size filter// -->
           <p ng-show="ctlFiles.selectedFiles.length  > 0">{{ctlFiles.selectedFiles.length }}<span>&nbsp;<translate>Files</translate></span><span
             class="total-files-size">{{ctlFiles.totalSelectedFileSize | bytes}}</span></p>
@@ -24,46 +24,52 @@
           <span ng-show="ctlFiles.selectedFiles.length  == 0" class="files-input-group _fw">
           <label class="icon files-arrow" role="button-left" class="cursor-pointer margin-r_5 icon-rp _df popover-files"
                  popover-append-to-body="false" uib-popover-template="'app/files/files-sort-popover.html'"
-                 popover-trigger="click" popover-placement="auto bottom"
+                 popover-trigger="click" popover-placement="auto bottom" data-popover-class="files-popover"
                  data-uib-tooltip="Files Filter" data-tooltip-append-to-body="false"
                  data-tooltip-placement="right-bottom" popover-enable="showFilters" ng-click="showFilters = true;"></label></span></li>
       </ul>
-      <div class="_df _fn">
-        <input type="text" class="files-input" placeholder="Find files in this place" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);" translate-attrs="placeholder"/>
-      </div>
     </section>
-    <div class="file-list" ng-if="ctlFiles.files.length > 0">
+    <div class="file-list">
       <div class="file-list-header">
+        <div class="files-srch _df {{ctlFiles.searchVar ? 'srch' : ''}}">
+          <svg class="_16svg" ng-click="ctlFiles.searchFunc()">
+            <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
+            <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
+          </svg>
+          <input type="text" placeholder="Find files in this place" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);" translate-attrs="placeholder" focus-me="{{ctlFiles.searchTrigg}}"/>
+        </div>
         <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0"><translate>File name</translate></div>
+        <div class="header-name" ng-show="ctlFiles.selectedFiles.length > 0"></div>
         <!-- <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-download"><span
           class="_dib"></span><span>Download</span></div> -->
         <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-send-to">
           <span class="_dib">
             <svg>
-              <use xlink:href="/assets/icons/nst-icn20.svg#Wfwd"></use>
+              <use xlink:href="/assets/icons/nst-icn20.svg#forward"></use>
             </svg>
-          </span><span class="send" ng-click="ctlFiles.compose();"><translate>Send to</translate></span>
+          </span>
+          <span class="send" ng-click="ctlFiles.compose();"><translate>Send to</translate></span>
         </div>
         <div class="header-size" ng-show="ctlFiles.selectedFiles.length == 0"><translate>Size</translate></div>
         <div class="header-date" ng-show="ctlFiles.selectedFiles.length == 0"><translate>Received Date</translate></div>
       </div>
-      <ul class="files-types" nst-selectable on-select="ctlFiles.onSelect" select-attr="fid"
+      <ul class="files-types" nst-selectable  ng-if="ctlFiles.files.length > 0" on-select="ctlFiles.onSelect" select-attr="fid"
           selector="li.file-list-container">
-        <li class="file-list-container _df" fid="{{item.id}}" data-ng-repeat="item in ctlFiles.files">
+        <li class="file-list-container _df" fid="{{::item.id}}" data-ng-repeat="item in ctlFiles.files">
           <div class="files-types-images">
             <a href ng-click="ctlFiles.preview(item);">
               <div class="img-container" ng-if="item.thumbnail">
-              <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{item.name}}" class="file-thumbnail"/>
+              <img ng-if="item.thumbnail" ng-src="{{item.thumbnail}}" alt="{{::item.name}}" class="file-thumbnail"/>
               </div>
               <div ng-if="!item.thumbnail" class="file-badge {{'file-badge-' + item.type }}">
-                {{item.extension}}
+                {{::item.extension}}
               </div>
             </a>
           </div>
           <div class="file-list-item">
-            <div class="item-name _txe">
+            <div class="item-name">
               <a href ng-click="ctlFiles.preview(item);">
-                {{item.name}}
+                {{::item.name}}
               </a>
             </div>
             <div class="item-size">{{item.size | bytes}} </div>
@@ -85,20 +91,19 @@
       <p class="text-center nst-mood-storm" ng-if="!ctlFiles.hasNextPage && !ctlFiles.filesLoadProgress">
         <translate>No more files here!</translate>
       </p>
-      <p class="text-center nst-mood-storm" ng-if="ctlFiles.loadFilesError && !ctlFiles.filesLoadProgress">
-       An error has occurred. Please
-        <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlFiles.loadMore()">
-          <translate>Try again!</translate>
-        </a>
-      </p>
+      <p class="text-center nst-mood-storm" ng-if="ctlFiles.loadFilesError && !ctlFiles.filesLoadProgress" translate-inner>An error has occurred. Please <a href="javascript:void(0);" class="nst-mood-cheerful" data-ng-click="ctlFiles.loadMore()">Try again!</a></p>
     </div>
     <div class="nst-marginbtm-32"></div>
   </section>
   <div class="content-plus illu">
-    <div id="cp1" nst-scrollbar ng-if="!ctlFiles.isBookmarkMode" affixer parent=".content-plus" offset-top="74" top="0" fixed-top="true">
+    <div id="members" nst-scrollbar suppress-scroll-x="true"
+         ng-if="!ctlFiles.isSubPersonal() && ctlFiles.hasSeeMembersAccess">
+      <nst-place-teammates-sidebar grand-place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"></nst-place-teammates-sidebar>
+    </div>
+    <div id="cp1" nst-scrollbar suppress-scroll-x="true"
+         affixer parent=".content-plus" after-content="0" offset-top="86" top="48" fixed-top="true">
       <!--FIXME:: use only one of place/place-id -->
-      <nst-recent-activity place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"  count="10"/>
+      <nst-recent-activity place="ctlFiles.currentPlaceId" place-id="ctlFiles.currentPlaceId"  count="16"/>
     </div>
   </div>
-  <div class="content-plus" id="content-plus" >
 </div>

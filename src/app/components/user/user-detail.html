@@ -1,7 +1,4 @@
-<div>
-<!--{{name}}<br>-->
-<!--{{username}}<br>-->
-<!--{{avatar}}-->
+ <div>
   <div class="user-avatar-bg">
     <div class="blur-image" ng-if="avatar.length > 2">
       <div style="background-image: url('{{avatar}}')"></div>
@@ -19,15 +16,17 @@
   </div>
   <div class="user-data">
     <h4>{{name}}</h4>
-    <span>@{{username}}</span>
+    <span ng-if="!isEmail">@{{username}}</span>
     <div class="_fw">
-      <div class="butn-white" ng-click="searchUser()">
-        <i class="icon cursor-pointer icon-search-rotated"></i>
-      </div>
-      <div class="butn-green"  ng-click="messageUser()">
-        <svg>
-          <use xlink:href="/assets/icons/nst-icn32.svg#Wcompose"></use>
-        </svg>Message
+      <a class="butn-white" ui-sref="app.conversation({userId:username})">
+        <svg class="_24svg _df">
+          <use xlink:href="/assets/icons/nst-icn24.svg#message-baloon"></use>
+        </svg>
+      </a>
+      <div class="butn-green"  ng-click="messageUser($event)">
+        <svg class="_32svg umsg">
+          <use xlink:href="/assets/icons/nst-icn32.svg#compose"></use>
+        </svg><translate>Compose</translate>
       </div>
     </div>
   </div>

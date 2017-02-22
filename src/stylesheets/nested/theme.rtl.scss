@@ -15,6 +15,9 @@ body[dir="rtl"] {
         ul li ul .place-item-inner a {
           right: -16px;
           left: 0;
+          display: flex;
+          padding-right: 8px;
+          padding-left: 21px;
         }
         .place-item-inner {
           .icon {
@@ -25,8 +28,9 @@ body[dir="rtl"] {
           a {
             margin-right: 0;
             margin-left: -16px;
+            display: flex;
           }
-          span {
+          i {
             right: auto;
             left: 0;
             .nst-arrow {
@@ -48,7 +52,7 @@ body[dir="rtl"] {
     }
   }
   .nst-container {
-    margin-left: 0;
+    margin-left: 0!important;
     margin-right: 272px;
   }
   .tick {
@@ -121,7 +125,7 @@ body[dir="rtl"] {
   }
   .post-card .post-head {
     padding-right: 0;
-    padding-left: 12px;
+    padding-left: 24px;
   }
   .compose-input {
     padding-left: 0;
@@ -138,17 +142,12 @@ body[dir="rtl"] {
     left: auto ;
     right: 5px;
   }
-  .badge-invite {
-    right: auto;
-    left: -15px;
-  }
   .nst-navbar .nav-access {
     right: auto;
     left: 0;
   }
   .nst-navbar .place-info {
-    left: 0;
-    right: 72px;
+    float: right;
   }
   .icon-logo {
     left: auto;
@@ -165,12 +164,251 @@ body[dir="rtl"] {
     padding-left: 0;
     padding-right: 16px;
   }
+  .sidebar-wrapper .unreadPlace {
+    right: -12px;
+    left: auto;
+  }
+  .nst-navbar-f,.nst-navbar-fff {
+    left: 0;
+    right: 272px;
+  }
+  .post-card-comments.sticky .text {
+    margin-left: auto;
+    margin-right: 40px;
+  }
+  nst-navbar .nst-navbar.nfeed .menu-links-butn span {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+  nst-navbar .place-logo {
+    float: right;
+  }
 
+  .ui-select-multiple.ui-select-bootstrap .ui-select-match-item div.selected-innter .place-name {
+    padding: 0 4px 0 28px;
+    margin-right: -3px;
+  }
+  .ui-select-multiple.ui-select-bootstrap .ui-select-match-item .close {
+    right: auto;
+    left: 8px;
+  }
+  .ui-select-bootstrap .ui-select-choices-row>a {
+    text-align: right;
+  }
+  .margin-l-50 {
+    margin-right: 50px;
+    margin-left: 0;
+  }
+  .mentions .arrow {
+    border-width: 0 1px 1px 0!important;
+    right: -6px !important;
+    left: auto!important;
+  }
+  .file-list .file-list-header .files-srch input {
+    left: auto;
+    right: 42px;
+  }
+  .close-modal {
+    right: auto;
+    right: 56px;
+  }
+  .post-card-comments .delete-comment {
+    transform: translateX(-12px);
+  }
+  .post-card-comments strong{
+    float: right;
+  }
+  .file-list .file-list-header #header-send-to {
+    margin-right: 0;
+    margin-left: 20px;
+  }
+  .post-card .post-head .pin-post {
+    left: 4px;
+    right: auto;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar .attach-thumbnail .detail, nst-attachments-preview-bar ul.thumbnail-bar .attach-thumbnail .detail {
+    padding-right: 0;
+    padding-left: 48px;
+  }
+  nst-attachments-editable-bar ul li .attdl, nst-attachments-preview-bar ul li .attdl{
+    right: auto;
+    left: 10px;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar li:last-child .attdl, nst-attachments-preview-bar ul.thumbnail-bar li:last-child .attdl {
+    right: auto;
+    left: 24px;
+  }
+  post-card .chain-stats > div > * {
+    direction: rtl;
+  }
+  .post-card .post-card-time {
+    padding-left: 8px;
+    padding-right: 0;
+  }
+  .user-avatar-64 {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  #Logo-type-white {
+    background: url("../assets/icons/Nested_PersianTypeNegative.svg") no-repeat;
+  }
+  .toast-top-right {
+    top: 12px;
+    right: auto;
+    left: 12px;
+  }
+  .comments-load a {
+    margin-left : 0;
+    margin-right: 32px;
+  }
+  post-card .card-control {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+  }
+  .files-types-images {
+    margin: 0 7px 0 0;
+  }
+  .file-list ul .file-list-item {
+    padding: 20px 16px 20px 0;
+  }
+  input[type="text"], input[type="password"] {
+    direction: rtl;
+    padding: 3px 10px 3px 3px;
+  }
+  .pop-profile svg {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  .chain {
+    left: auto;
+    right: 0;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar li:first-child, nst-attachments-preview-bar ul.thumbnail-bar li:first-child {
+    margin-right: 16px;
+    margin-left: 4px;
+  }
+  nst-attachments-editable-bar ul.thumbnail-bar li:last-child, nst-attachments-preview-bar ul.thumbnail-bar li:last-child {
+    padding-right: 0;
+    padding-left: 16px;
+  }
+  .post-card .post-places a {
+    margin-right: 0;
+    margin-left: 16px;
+    padding-left: 0;
+    padding-right: 4px;
+  }
+  nst-attachments-preview-bar ul.badge-bar a.attach-badge-default {
+    .badge-name {
+      margin-left: 0;
+      margin-right: -3px;
+      border-radius: 6px 0 0 6px;
+    }
+    .badge-extension {
+      border-radius: 0 3px 3px 0;
+    }
+
+  }
+  #EventList .ico {
+    float: right;
+    padding-left: 0;
+    padding-right: 8px;
+  }
+  .mirror {
+    transform: scaleX(-1);
+    filter: FlipH;
+    &._r90 {
+      transform: scaleX(-1) rotateZ(90deg);
+    }
+  }
+  .quick-message-wrp .quick-message-inner .quick-sender > div {
+    left: auto;
+    right: -4px;
+  }
+  .text-left {
+    text-align: right;
+  }
+  .text-right {
+    text-align: left;
+  }
+  input[type="checkbox"]:checked + label.setting,
+  input[type="checkbox"]:checked + label.setting {
+    background-position: 0 -16px;
+    padding: 0 0 0 17px!important;
+  }
+  input[type="checkbox"] + label.setting,
+  input[type="checkbox"] + label.setting {
+    background-position: 0 0;
+    padding: 0 0 0 17px!important;
+  }
+  #panel-signin input[type="checkbox"]:checked + label,
+  #panel-register input[type="checkbox"]:checked + label {
+    background-position: 100% -16px;
+    padding: 0 17px 0 0;
+  }
+  #panel-signin input[type="checkbox"] + label,
+  #panel-register input[type="checkbox"] + label {
+    background-position: 100% 0;
+    padding: 0 17px 0 0;
+  }
+  .has-feedback .form-control {
+    padding-left: 42px;
+    padding-right: 10px;
+  }
+  .form-control-feedback {
+    right: auto;
+    left: 0;
+  }
+  .no-gutter [class*="col-"]:first-child {
+    padding-left: 2.5px;
+    padding-right: 25px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .no-gutter [class*="col-"]:last-child {
+    padding-right: 2.5px;
+    padding-left: 15px;
+  }
+  .nst-preview-footer {
+    padding-right: 10px;
+    padding-left: 0;
+  }
+  .user-wrp .idname {
+    padding-right: 4px;
+    padding-left: 0;
+  }
+  .post-card .post-places svg {
+    margin: -4px -4px -3px 4px;
+  }
+  .nst-navbar-f .icon-filter + span {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+  .badge-invite {
+    left: auto;
+    right: 24px;
+  }
+  nst-navbar .conv-nav .conv-logos .user-avatar-32 {
+    left: auto;
+    right: 0;
+  }
+  nst-navbar .conv-nav .conv-logos .user-avatar-40 {
+    right: auto;
+    left: 0;
+  }
+  .lftbtn {
+    margin-right: 0;
+    margin-left: 16px;
+  }
+  .close-inp {
+    right: auto;
+    left: 0;
+  }
+  .empty div[contenteditable]:before{
+    content: 'اینجا متن را بنویسید...';
+  }
 }
 @media screen and (max-width: $screen-md){
-  body[dir="rtl"] .nst-container{
-    margin-right: 0;
-    width: 100%;
-  }
+
 
 }

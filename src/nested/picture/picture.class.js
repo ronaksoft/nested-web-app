@@ -6,93 +6,30 @@
     .factory('NstPicture', NstPicture);
 
   /** @ngInject */
-  function NstPicture(NST_OBJECT_EVENT, NstObservableObject, NstStoreResource) {
-    /**
-     * Creates an instance of NstPicture
-     *
-     * @param {string}  universalId Main Picture Universal Identifier
-     * @param {Object}  thumbnails  Thumbnail Pictures' Universal Identifiers: {<size>: <uid>}
-     *
-     * @constructor
-     */
-    function Picture(universalId, thumbnails) {
-      /**
-       * Main Picture Identifier
-       *
-       * @type {undefined|String}
-       */
-      this.id = undefined;
+  function NstPicture(NstObject, NstSvcStore) {
+    function Picture(data) {
+      this.original = null;
+      this.preview = null;
+      this.x128 = null;
+      this.x64 = null;
+      this.x32 = null;
 
-      /**
-       * Main Picture Resource
-       *
-       * @type {NstStoreResource}
-       */
-      this.org = new NstStoreResource();
-
-      /**
-       * Picture Thumbnails' Resources
-       *
-       * @type {size: NstStoreResource}
-       */
-      this.thumbnails = {};
-
-      NstObservableObject.call(this);
-
-      this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
-        switch (event.detail.name) {
-          case 'id':
-            this.org.setId(this.id);
-            break;
-        }
-      });
-
-      this.setId(universalId);
-      for (var k in thumbnails) {
-        if (thumbnails[k]) {
-          // Export numbers from key: x32 -> 32, 32x -> 32
-          var size = Number(String(k).replace(/[a-zA-Z]*/g, ''));
-          this.setThumbnail(size, new NstStoreResource(thumbnails[k]));
-        }
+      if (data) {
+        this.original = data.org;
+        this.preview = data.pre;
+        this.x128 = data.x128;
+        this.x64 = data.x64;
+        this.x32 = data.x32;
       }
+
+      NstObject.call(this);
     }
 
-    Picture.prototype = new NstObservableObject();
+    Picture.prototype = new NstObject();
     Picture.prototype.constructor = Picture;
 
-    /**
-     * Sets thumbnail of a specific size
-     *
-     * @param {Number}      size      Thumbnail size
-     * @param {NstStoreResource} resource  Thumbnail resource
-     *
-     * @returns {Picture}
-     */
-    Picture.prototype.setThumbnail = function (size, resource) {
-      size = Number(String(size).replace(/[a-zA-Z]*/g, ''));
-      var thumbnails = this.thumbnails;
-      thumbnails['x' + size] = resource;
-
-      return this.setThumbnails(thumbnails);
-    };
-
-    /**
-     * Retrieves thumbnail of a specific size
-     *
-     * @param {Number} size
-     *
-     * @returns {NstStoreResource}
-     */
-    Picture.prototype.getThumbnail = function (size) {
-      size = Number(String(size).replace(/[a-zA-Z]*/g, ''));
-
-      return this.thumbnails['x' + size];
-    };
-
-    Picture.prototype.getLargestThumbnail = function () {
-      var lgSize = Math.max.apply(null, Object.keys(this.getThumbnails()).map(function (v) { return Number(String(v).replace(/[a-zA-Z]*/g, '')); }));
-
-      return Number.isFinite(lgSize) ? this.getThumbnail(lgSize) : this.getOrg();
+    Picture.prototype.getUrl = function (size) {
+      return (this.preview && this[size]) ? NstSvcStore.getViewUrl(this[size]) : '';
     };
 
     return Picture;

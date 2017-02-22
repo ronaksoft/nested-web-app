@@ -1,0 +1,28 @@
+body.isDesktop {
+  min-width: 1024px;
+  .modal-mlg {
+    width: calc(100% - 160px);
+    height: calc(100% - 160px);
+  }
+  .nst-container{
+    margin-left: 272px;
+    width: calc(100% - 272px);
+  }
+  .menu-links-butn {
+    min-width: 90px;
+  }
+  .nst-navbar.nfeed {
+    .menu-links-butn {
+      min-width: 90px;
+      svg { display: flex;}
+    }
+  }
+  .nst-navbar-f.nfeed {
+    .menu-links-butn {
+      svg { display: flex;}
+    }
+  }
+  .navbarillu {
+    display: none;
+  }
+}

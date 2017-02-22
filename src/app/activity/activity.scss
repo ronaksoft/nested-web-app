@@ -5,12 +5,15 @@
  */
 .eventsbody {
   min-height: 100%;
+  nst-attachments-preview-bar ul.thumbnail-bar {
+    position: relative;
+  }
 }
 
 .actdate {
   min-height: 25px;
   p {
-    padding-left: 8px;
+    padding: 0 8px;
   }
   width: 100%;
 }
@@ -20,6 +23,7 @@
   padding: 6px 5px;
   //min-width:400px;
   width: 100%;
+  max-width: calc(100% - 200px);
   float: left;
   display: inline-flex;
   animation: app-tr .5s ease-out;
@@ -99,6 +103,7 @@
     overflow: hidden;
     flex-direction: column;
     padding-left: 10px;
+    position: relative;
     .subject {
       display: flex;
       font-weight: bold;
@@ -119,6 +124,7 @@
     }
     .bod {
       color: gray;
+      position: relative;
     }
     .nst-mood-simple {
       white-space: nowrap
@@ -130,7 +136,6 @@
     max-width: 100%;
     margin-left: 3px;
     height: 16px;
-    direction: rtl;
     font-size: $font-size-xsmall;
     justify-content: flex-start;
     align-items: center;

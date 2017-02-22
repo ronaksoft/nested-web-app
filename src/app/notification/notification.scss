@@ -1,0 +1,151 @@
+.mention-wrp {
+  display: block;
+  flex-direction: column;
+  width: 100%;
+  max-height: 476px;
+  background-color: #fff;
+
+  .subject {
+    height: 48px;
+    width: 100%;
+    background: linear-gradient(to bottom,$color-fillbox ,$color-white 100%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 20px;
+    flex: none;
+    span {
+      display: flex;
+      flex: 1;
+      color: $color-black04;
+      @extend .nst-font-medium;
+      font-weight: 400;
+      font-style: normal;
+      justify-content: flex-start;
+    }
+    div {
+      display: flex;
+      flex: none;
+    }
+    svg {
+      fill: $color-storm;
+      width: 24px;
+      height: 24px;
+    }
+  }
+  ul {
+    display: block;
+    max-height: 476px - 48px;
+    flex-direction: column;
+    list-style: none;
+    flex: 1;
+    transition: height $animation-dur;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    //min-height: 476px - 88px;
+    li {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      flex-shrink: 0;
+    }
+    .item-inner {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      transition: all $animation-dur;
+      min-height: 48px;
+      .top-user-avatar-24 {
+        height: 32px;
+        margin-right: 8px;
+        align-items: center;
+      }
+      .mention {
+        flex: 1;
+        display: flex;
+        position: relative;
+        width: 100%;
+        padding: 12px 12px 0 12px;
+        p {
+          white-space: normal;
+          line-height: 16px;
+          color: $color-solid;;
+          font-size: 13px;
+          font-weight: 400;
+          margin: 0;
+          small {
+            font-size: 13px;
+            font-weight: 400;
+          }
+          &:last-of-type{
+            margin-bottom: 20px;
+          }
+          span {
+            line-height: 16px;
+            color: $color-solid;
+            font-size: 13px;
+            font-weight: 700;
+          }
+        }
+        .ment-date {
+          line-height: 21px;
+          color: $color-black04;
+          text-align: right;
+          font-weight: 400;
+          transition: all $animation-dur;
+          font-size: 11px;
+          white-space: nowrap;
+          flex-direction: row;
+          padding: 0 4px;
+        }
+        .more-actors {
+          width: 32px;
+          height: 24px;
+          border-radius: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: $color-border;
+          border: 1px solid $color-border;
+        }
+        .bottom-border {
+          border-bottom: 1px solid $color-border;
+          max-width: calc(100% - 40px);
+        }
+      }
+      &:hover {
+        background-color: $color-hover-comment;
+      }
+      &.seen {
+        background-color: #f5f5f5;
+      }
+      &.seen:hover {
+        background-color: $color-bg;
+        div,p {
+          opacity: 1;
+        }
+        .ment-date {
+          background-color: $color-bg;
+        }
+      }
+
+    }
+  }
+  .more-mentions {
+    background: linear-gradient(to bottom,$color-white ,$color-calm 100%);
+    height: 40px;
+    width: 100%;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid $color-breeze;
+    position: relative;
+    transition: all $animation-dur;
+
+  }
+}
+.popover-mentions {
+  cursor: pointer;
+}

@@ -1,53 +1,69 @@
-<nst-navbar controls="ctlCompose.controls" nav-title="Compose" ready-to-show="true" class="second-view"></nst-navbar>
+<div class="_fh _pr _fw" id="compose-box"
+     ondrop="angular.element(document.getElementById('compose-box')).scope().ctlCompose.dodrop(event);">
+  <div class="compose-wrp" ng-mouseleave="ctlCompose.mouseIn = false" ng-mouseenter="ctlCompose.mouseIn = true">
+    <div class="modal-head" ng-if="!ctlCompose.quickMode">
+      <svg class="_20svg" id="compose-full" ng-click="ctlCompose.fullCompose()">
+        <use xlink:href="/assets/icons/nst-icn16.svg#expand"></use>
+        <use xlink:href="/assets/icons/nst-icn16.svg#collapse"></use>
+      </svg>
+      <svg class="_20svg _r45" ng-click="$dismiss()">
+        <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+      </svg>
+    </div>
+    <div class="modal-bo _difv _fw" nst-scrollbar suppress-scroll-x="true" go-upward="ctlCompose.makeChangeForWatchers">
+      <p class="_df _fn" ng-if="!ctlCompose.quickMode"><translate>Share With</translate></p>
+      <div ng-if="!ctlCompose.quickMode" class="_df _fw input-select-match">
+        <ui-select minimum-input-length="4" multiple limit="10"  class="address-input _dib"
+                   id="input-compose-to"
+                   data-ng-model="ctlCompose.model.recipients" search-enabled="false">
+          <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}">
+            <div class="selected-innter " ng-class="{'isEmail' : $item.isEmail,'error' : !$item.isEmailValid}">
+              <span class="place-img" ng-if="!$item.isEmail">
+                <img ng-if="$item.avatar" ng-src="{{::$item.avatar }}"/>
+                <img ng-if="$item.data" ng-src="{{::$item.data | picture }}"/>
+              </span>
+              <span class="place-img" ng-if="$item.isEmail && !$item.isEmailValid">
+                  <svg>
+                    <use xlink:href="/assets/icons/nst-icn16.svg#exclamation-mark"></use>
+                  </svg>
+                </span>
+              <span class="place-name">{{$item.name}}</span>
+            </div>
 
-<div class="nst-content _tr second-view" id="content-wrapper"  data-droplet ng-model="ctlCompose.attachfiles" page-change="ctlCompose.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
-  <div class="droplet"></div>
-  <section class="content _bgwhite">
-    <div class="navbarillu"></div>
-    <div class="_fw">
-      <section class="first-child">
-        <div class="_difc _fw">
-          <div class="_df">
-            <span class="sto"><translate>To</translate>:</span>
-          </div>
-
-          <div class="_df _fw input-select-match">
-            <ui-select page-change-element minimum-input-length="4" multiple limit="10"  class="address-input _dib"
-                       id="input-compose-to"
-                       data-ng-model="ctlCompose.model.recipients" search-enabled="false">
-              <ui-select-match placeholder="{{::ctlCompose.inputPlaceHolderLabel}}">
-                <span>{{$item.name}} &lt;{{$item.id}}&gt;</span>
-              </ui-select-match>
-              <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
-                                 refresh-delay="400"
-                                 repeat="place as place in (ctlCompose.search.results | filter: $select.search ) track by place.id">
-                <img class="account-initials-32" ng-src="{{::place.avatar}}"/>
-                <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
-                <br/>
-                <span class="nst-font-10 _vat margin-l-50">{{::place.id}}</span>
-              </ui-select-choices>
-            </ui-select>
-          </div>
-
-        </div>
+          </ui-select-match>
+          <ui-select-choices refresh="ctlCompose.search.fn($select.search)"
+                             refresh-delay="400"
+                             repeat="place as place in (ctlCompose.search.results | filter: $select.search ) track by place.id">
+            <img class="account-initials-32" ng-src="{{::place.avatar}}"/>
+            <span class="" data-ng-bind-html="place.name | highlight: $select.search"></span>
+            <br/>
+            <span class="nst-font-10 _vat margin-l-50">{{::place.id}}</span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <section class="_difc _fw _fn">
+        <input class="compose-input _fw" name="subject" ng-focus="ctlCompose.focusBox()" ng-blur="ctlCompose.blurBox()" ng-keydown="ctlCompose.subjectKeyDown($event)" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder">
       </section>
-      <hr/>
-      <section class="_difc _fw">
-        <div class="_df _fw input-select-match">
-          <input class="compose-input _fw"  focus-me page-change-element  name="subject" placeholder="Add a subject line..." data-ng-model="ctlCompose.model.subject" auto-dir="ctlCompose.model.subject" translate-attrs="placeholder">
-        </div>
+
+      <section class="nst-compose-message ng-class:{'focussed' : ctlCompose.focus,'empty' : ctlCompose.model.body.length == 0}" id="editor-txt">
+        <textarea  ckeditor="editorOptions" ng-model="ctlCompose.model.body" ng-blur="ctlCompose.blurBox()" id="composeEditor"></textarea>
+        <!--<summernote focus ng-model="ctlCompose.model.body"></summernote>-->
+        <!--<textarea  nst-mention="#" ui-tinymce="ctlCompose.configs.tinymce"-->
+                   <!--placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>-->
+        <!--<textarea  nst-mention="#" page-change-element ui-tinymce="ctlCompose.configs.tinymce"-->
+        <!--placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>-->
       </section>
-      <hr data-ng-show="attachshow"/>
+
       <form name="attachmentForm">
-        <input page-change-element type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
+        <input type="hidden" name="attLength" data-ng-model="ctlCompose.model.attachments.length"/>
       </form>
 
-      <div class="nst-attach _dif _fw" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
-        <div class="_fw">
+      <div class="nst-attach _dif" data-ng-show="ctlCompose.attachments.viewModels.length > 0">
+        <div class="_fw _pr">
           <nst-attachments-editable-bar mode="thumbnail" items="ctlCompose.attachments.viewModels" on-item-delete="ctlCompose.attachments.detach"></nst-attachments-editable-bar>
         </div>
         <div class="attach _df">
-          <input id="{{ctlCompose.attachments.elementId}}" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
+          <input id="attach" type="file" multiple onchange="angular.element(this).scope().ctlCompose.attachments.fileSelected(event)"/>
         </div>
         <div class="nst-attach-con _fh" ng-if="showUploadProgress">
           <div class="progress">
@@ -57,14 +73,22 @@
           </div>
         </div>
       </div>
-      <hr class="nomargin"/>
-
-      <section class="nst-compose-message">
-        <div>
-          <textarea  nst-mention="#" page-change-element ui-tinymce="ctlCompose.configs.tinymce"
-                     placeholder="Your message goes here..." data-ng-model="ctlCompose.model.body"  translate-attrs="placeholder"></textarea>
-        </div>
-      </section>
     </div>
-  </section>
+    <div class="modal-ft _fw _aic ng-class:{'focussed' : ctlCompose.focus}">
+      <div class="compose-btns">
+        <label class="_df _fn" for="attach">
+          <svg class="_24svg _asc">
+            <use xlink:href="/assets/icons/nst-icn24.svg#attach"></use>
+          </svg>
+        </label>
+        <div class="_df f1" id="editor-btn"></div>
+      </div>
+      <div class="quick-btns">
+        <input type="button" ng-click="ctlCompose.clear()" class="butn-white" value="Discard" ng-if="ctlCompose.quickMode" translate-attrs="value">
+        <input type="button" ng-click="ctlCompose.send()" class="butn-green" value="Share" translate-attrs="value">
+      </div>
+
+    </div>
+
+  </div>
 </div>

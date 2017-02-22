@@ -19,9 +19,11 @@
       this.place = null;
       this.inviter = null;
       this.invitee = null;
+      this.state = null;
 
       if (invitationModel instanceof NstInvitation) {
         this.id = invitationModel.getId();
+        this.state = invitationModel.getState();
         this.place = new NstVmPlace(invitationModel.getPlace());
         this.inviter = new NstVmUser(invitationModel.getInviter());
         this.invitee = new NstVmUser(invitationModel.getInvitee());

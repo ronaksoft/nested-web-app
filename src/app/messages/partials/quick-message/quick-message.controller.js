@@ -5,9 +5,11 @@
     .module('ronak.nested.web.message')
     .controller('QuickMessageController', QuickMessageController);
 
-  function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,
-    NstSvcLoader, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
+  function QuickMessageController($q, $log, $scope, toastr, $state, $rootScope, $uibModal,NstPicture ,
+                                  NstSvcAuth, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcAttachmentFactory, NstSvcFileType, NstLocalResource, NST_FILE_TYPE, NstSvcAttachmentMap, NstSvcStore, NST_ATTACHMENT_STATUS, NstSvcPostMap, NstSvcTranslation) {
     var vm = this;
+    vm.text = '';
+    vm.mode = 'quick';
 
     /*****************************
      *** Controller Properties ***
@@ -36,6 +38,8 @@
       }
     };
 
+    vm.user = NstSvcAuth.user;
+
     /*****************************
      ***** Controller Methods ****
      *****************************/
@@ -44,8 +48,7 @@
       vm.model.modified = (function (model) {
         var modified = false;
 
-        modified = modified || model.subject.trim().length > 0;
-        modified = modified || model.body.trim().length > 0;
+        modified = modified || angular.element(vm.textarea).text().trim().length > 0;
         modified = modified || model.attachments.length > 0;
 
         return modified;
@@ -81,9 +84,13 @@
     };
 
     vm.writeMsg = function(e) {
+      vm.model.isModified();
+
       if (!e.currentTarget.firstChild) return;
 
       vm.textarea = e.currentTarget;
+
+      vm.text = angular.element(vm.textarea).text();
 
       analyseInIt();
 
@@ -106,18 +113,18 @@
 
     vm.model.submit = function () {
       applyMove();
-
       //TODO Clone element and play another scene to main element
       var element = angular.element(vm.textarea);
       var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
-      var elementFirstChild = angular.element(vm.textarea.firstChild);
+      var elementFirstChild = angular.element(element.firstChild);
 
-      vm.model.subject = elementFirstChild.text();
+      vm.model.subject = elementFirstChild.text() || element.text();
+      console.log(element,element.firstChild,element.children()[0]);
       elementFirstChild.remove();
 
 
-      if ( element.children().length == 0 || ( element.children().length == 1 && element.children()[0].length == 0)) {
+      if ( element.children().length == 0 || ( element.children().length == 1 && element.children()[0].length == 0) || vm.model.body.length == 0) {
 
         vm.model.body = vm.model.subject;
         vm.model.subject = "";
@@ -159,6 +166,7 @@
         } else {
           vm.model.body = str;
         }
+        vm.model.isModified();
         // str = str.replace(/<br\s*[\/]?>/gi, "\n");
         // str = str.replace(/<div\s*[\/]?>/gi, "\n");
         // str = str.replace(/<\/div>/gi, "");
@@ -178,7 +186,7 @@
     };
 
     vm.send = function () {
-      return NstSvcLoader.inject((function () {
+      return (function () {
         var deferred = $q.defer();
 
         if (vm.model.saving) {
@@ -212,14 +220,14 @@
         NstSvcPostFactory.get(response.post.id).then(function(res){
           var msg = NstSvcPostMap.toMessage(res);
           vm.addMessage(msg);
-        })
+        });
 
         if(response.noPermitPlaces.length > 0){
-          var text = NstUtility.string.format(NstSvcTranslation.get('Your message hasn\'t been successfully sent to {0}'), response.noPermitPlaces.join(','));
-          toastr.warning(text, NstSvcTranslation.get('Message doesn\'t Sent'));
+          var text = NstUtility.string.format(NstSvcTranslation.get('Your message has not been successfully sent to {0}'), response.noPermitPlaces.join(','));
+          toastr.warning(text, NstSvcTranslation.get('Message didn\'t send'));
         }
 
-        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message Sent'));
+        toastr.success(NstSvcTranslation.get('Your message has been successfully sent.'), NstSvcTranslation.get('Message sent'));
 
         return $q(function (res) {
           res(response);
@@ -237,7 +245,7 @@
         return $q(function (res, rej) {
           rej(errors);
         });
-      }));
+      });
     };
 
 
@@ -245,15 +253,8 @@
      ***** Controller Methods ****
      *****************************/
 
-    $scope.$on('droppedAttach', function (event,files) {
-      for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i].file).then(function (request) {});
-        files[i].deleteFile();
-      }
-    });
-
     vm.addMessage = function (msg) {
-      $scope.$emit('post-quick',msg);
+      $rootScope.$emit('post-quick',msg);
     };
 
     vm.model.check = function () {
@@ -262,7 +263,7 @@
       vm.model.errors = (function (model) {
         var errors = [];
 
-        var atleastOne = model.subject.trim().length + model.body.trim().length + model.attachments.length > 0;
+        var atleastOne = vm.text.trim().length + model.attachments.length > 0;
 
         if (!atleastOne) {
           errors.push({
@@ -273,7 +274,7 @@
 
 
         for (var k in model.attachments) {
-          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].getStatus()) {
+          if (NST_ATTACHMENT_STATUS.ATTACHED != model.attachments[k].status) {
             errors.push({
               name: 'attachments',
               message: 'Attachment uploading has not been finished yet'
@@ -300,6 +301,7 @@
     };
 
     vm.attachments.attach = function (file) {
+      vm.model.modified = true;
       var deferred = $q.defer();
       var readyPromises = [];
 
@@ -309,13 +311,12 @@
       var attachment = NstSvcAttachmentFactory.createAttachmentModel();
       attachment.setSize(file.size);
       attachment.setFilename(file.name);
-      attachment.setMimeType(file.type);
-      attachment.setUploadTime(file.lastModified);
+      attachment.setMimetype(file.type);
 
       // Add Attachment to Model
       vm.attachments.size.total += file.size;
       vm.model.attachments.push(attachment);
-      var type = NstSvcFileType.getType(attachment.getMimeType());
+      var type = NstSvcFileType.getType(attachment.getMimetype());
 
       // Read Attachment
       var reader = new FileReader();
@@ -324,21 +325,23 @@
       reader.onload = function (event) {
         var uri = event.target.result;
         var resource = new NstLocalResource(uri);
-        attachment.setResource(resource);
 
         // Load and Show Thumbnail
         if (NST_FILE_TYPE.IMAGE == type) {
-          attachment.getPicture().setOrg(resource);
-          attachment.getPicture().setThumbnail(32, resource);
-          attachment.getPicture().setThumbnail(64, resource);
-          attachment.getPicture().setThumbnail(128, resource);
+          attachment.setPicture(new NstPicture({
+            original : uri,
+            preview : uri,
+            x32 : uri,
+            x64 : uri,
+            x128: uri
+          }));
         }
 
         qRead.resolve(uri);
       };
       reader.readAsDataURL(file);
 
-      NstSvcLoader.inject(qRead.promise.then(function (uri) {
+      qRead.promise.then(function (uri) {
         var deferred = $q.defer();
 
         // Upload Attachment
@@ -355,7 +358,7 @@
         vm.attachments.requests[attachment.getId()] = request;
 
         request.sent().then(function () {
-          attachment.setStatus(NST_ATTACHMENT_STATUS.UPLOADING);
+          attachment.status = NST_ATTACHMENT_STATUS.UPLOADING;
           vm.attachments.viewModels.push(vmAttachment);
         });
 
@@ -368,7 +371,7 @@
           var deferred = $q.defer();
 
           attachment.setId(response.data.universal_id);
-          attachment.setStatus(NST_ATTACHMENT_STATUS.ATTACHED);
+          attachment.status = NST_ATTACHMENT_STATUS.ATTACHED;
 
           vmAttachment.id = attachment.getId();
           vmAttachment.isUploaded = true;
@@ -387,7 +390,7 @@
         });
 
         return deferred.promise;
-      })).then(deferred.resolve);
+      }).then(deferred.resolve);
 
       return deferred.promise;
     };
@@ -398,7 +401,7 @@
       $log.debug('Compose | Attachment Delete: ', id, attachment);
 
       if (attachment && attachment.length !== 0) {
-        switch (attachment.getStatus()) {
+        switch (attachment.status) {
           case NST_ATTACHMENT_STATUS.UPLOADING:
             var request = vm.attachments.requests[attachment.getId()];
             if (request) {
@@ -414,6 +417,7 @@
       }else{
         vm.model.attachments = [];
       }
+      vm.model.isModified();
     };
 
     $scope.deleteAttachment = function (attachment) {

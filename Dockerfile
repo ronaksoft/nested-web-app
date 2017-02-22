@@ -5,6 +5,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get install -y python2.7 && apt-get install -y python-pip
+RUN apt-get install -y git
 
 # Install app dependencies
 RUN npm install -g gulp bower && npm i node-sass &&  npm rebuild node-sass

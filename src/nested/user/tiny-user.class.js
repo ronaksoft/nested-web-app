@@ -5,7 +5,7 @@
     .module('ronak.nested.web.models')
     .factory('NstTinyUser', NstTinyUser);
 
-  function NstTinyUser(NST_OBJECT_EVENT, NstModel, NstStoreResource, NstPicture) {
+  function NstTinyUser(NST_OBJECT_EVENT, NstModel) {
     /**
      * Creates an instance of NstTinyUser. Do not use this directly, use NstSvcUserFactory.getTiny(data) instead
      *
@@ -47,7 +47,7 @@
        *
        * @type {undefined|NstPicture}
        */
-      this.picture = new NstPicture();
+      this.picture = undefined;
 
       NstModel.call(this);
 
@@ -68,41 +68,9 @@
     TinyUser.prototype = new NstModel();
     TinyUser.prototype.constructor = TinyUser;
 
-    TinyUser.prototype.setFname = function (fname) {
-      return this.setFirstName(fname);
-    };
-
-    TinyUser.prototype.setLname = function (lname) {
-      return this.setLastName(lname);
-    };
-
-    TinyUser.prototype.setPicture = function (picture) {
-      var oldValue = this.picture;
-
-      if (picture instanceof NstPicture) {
-        this.picture = picture;
-      } else if (angular.isObject(picture)) {
-        this.picture.setId(picture.org);
-        var pictureClone = angular.copy(picture);
-        delete pictureClone.org;
-
-        for (var size in pictureClone) {
-          this.picture.setThumbnail(size, new NstStoreResource(pictureClone[size]));
-        }
-      } else {
-        return;
-      }
-
-      var event = new CustomEvent(NST_OBJECT_EVENT.CHANGE, {
-        detail: {
-          name: 'picture',
-          newValue: this.picture,
-          oldValue: oldValue,
-          target: this
-        }
-      });
-      this.dispatchEvent(event);
-    };
+    TinyUser.prototype.hasPicture = function () {
+      return this.picture && this.picture.preview;
+    }
 
     return TinyUser;
   }

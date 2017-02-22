@@ -22,28 +22,49 @@
 
       .state('app.compose', {
         url: '/compose',
-        params : {
-          attachments : []
+        params: {
+          attachments : [],
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
-          group : 'compose',
-        }
+        options: {
+          group: 'compose',
+          supportDraft: true
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            backdropClass : 'comdrop',
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) { }
       })
+
       .state('app.place-compose', {
         url: '/compose/:placeId',
         params: {
           placeId: NST_DEFAULT.STATE_PARAM,
           attachments : []
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
+        options: {
           group : 'compose',
-        }
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) { }
       })
       .state('app.compose-forward', {
         url: '/forward/:postId',
@@ -51,12 +72,21 @@
           postId: NST_DEFAULT.STATE_PARAM,
           attachments : []
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
+        options: {
           group : 'compose',
-        }
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) { }
       })
       .state('app.compose-reply-all', {
         url: '/reply/:postId',
@@ -64,12 +94,21 @@
           postId: NST_DEFAULT.STATE_PARAM,
           attachments : []
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
+        options: {
           group : 'compose',
-        }
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) { }
       })
       .state('app.compose-reply-sender', {
         url: '/reply/:postId/sender',
@@ -77,12 +116,21 @@
           postId: NST_DEFAULT.STATE_PARAM,
           attachments : []
         },
-        templateUrl: 'app/pages/compose/main.html',
-        controller: 'ComposeController',
-        controllerAs: 'ctlCompose',
-        options : {
+        options: {
           group : 'compose',
-        }
+        },
+        onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
+          $uibModal.open({
+            animation: false,
+            size: 'compose',
+            templateUrl: 'app/pages/compose/main.html',
+            controller: 'ComposeController',
+            controllerAs: 'ctlCompose'
+          }).result.catch(function() {
+            $rootScope.goToLastState(true);
+          });
+        }],
+        onExit: function($uibModalStack, $state) { }
       })
 
       /*****************************
@@ -112,11 +160,7 @@
             });
           });
         }],
-        onExit: function($uibModalStack) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        onExit: function($uibModalStack) { }
       })
       .state('app.place-create', {
         url: '/places/:placeId/create',
@@ -137,31 +181,27 @@
             controllerAs: 'ctlCreate'
 
           }).result.catch(function() {
-            $rootScope.goToLastState();
+            $rootScope.goToLastState(true);
           });
         }],
-        onExit: function($uibModalStack,$stateParams ,$state) {
-          if ($uibModalStack) {
-            $uibModalStack.dismissAll();
-          }
-        }
+        onExit: function($uibModalStack,$stateParams ,$state) { }
       })
 
       /*****************************
        *****  Activity Routes   ****
        *****************************/
 
-      .state('app.activity', {
-        url: '/activity',
-        templateUrl: 'app/activity/activity.html',
-        controller: 'ActivityController',
-        controllerAs: 'ctlActivity',
-        options : {
-          primary : true,
-          group : 'activity',
-          feed : true
-        }
-      })
+      // .state('app.activity', {
+      //   url: '/activity',
+      //   templateUrl: 'app/activity/activity.html',
+      //   controller: 'ActivityController',
+      //   controllerAs: 'ctlActivity',
+      //   options : {
+      //     primary : true,
+      //     group : 'activity',
+      //     feed : true
+      //   }
+      // })
       .state('app.activity-favorites', {
         url: '/activity/favorites',
         templateUrl: 'app/activity/activity.html',
@@ -247,9 +287,21 @@
           group : 'message',
           primary : true
         }
+      })
+
+      .state('app.conversation', {
+        url: '/conversation/:userId',
+        reloadOnSearch : false,
+        templateUrl: 'app/messages/conversation/conversation.html',
+        controller: 'conversationController',
+        controllerAs: 'ctlConversation',
+        options : {
+          group : 'message',
+          primary : true
+        }
       });
 
-    $urlRouterProvider.otherwise('/messages');
+    $urlRouterProvider.otherwise('/messages/favorites');
   }
 
 })();

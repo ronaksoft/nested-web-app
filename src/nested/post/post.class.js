@@ -24,6 +24,8 @@
        */
       this.sender = null;
 
+      this.emailSender = null;
+
       this.date = null;
       this.updatedDate = null;
 
@@ -41,8 +43,6 @@
        */
       this.recipients = [];
 
-      this.spam = 0;
-      this.monitored = false;
       this.internal = false;
 
       // TODO: Use ReplyToId instead
@@ -67,6 +67,10 @@
       this.wipeAccess = null;
 
       this.isRead = null;
+
+      this.ellipsis = null;
+
+      this.bookmarked = null;
 
       NstTinyPost.call(this, model);
 
@@ -147,7 +151,6 @@
       _.forEach(newComments, function(comment) {
         this.addComment(comment);
       }.bind(this));
-
       return this;
     };
 

@@ -7,12 +7,19 @@
       </div>
       <div class="_difh _fw modal-add">
         <ui-select multiple class="modal-add-input nst-mood-simple _df" data-ng-model="addMemberCtrl.selectedUsers" limit="{{addMemberCtrl.limit}}" autofocus="true" always-show-list on-select="addMemberCtrl.search('')">
-          <ui-select-match placeholder="{{addMemberCtrl.isGrandPlace ? 'Name, email or phone number' : 'Name or ID'}}  ...">
-            <span>{{$item.fullName}} &lt;{{$item.id}}&gt;</span>
+          <ui-select-match placeholder="{{::addMemberCtrl.searchPlaceholder}}">
+            <div class="selected-innter">
+              <span class="place-img">
+                <img initial-avatar="{{$item.fullName}}" picture="{{$item | avatar}}"
+                     data-width="24" data-height="24" data-radius="2"
+                     data-word-count="2" data-font-size="12"/>
+              </span>
+              <span class="place-name">{{$item.fullName}}</span>
+            </div>
           </ui-select-match>
           <ui-select-choices refresh="addMemberCtrl.search($select.search)" refresh-delay="0"
                              repeat="user in (addMemberCtrl.users | filter: $select.search) track by user.id" >
-            <img initials="user.fullName" data-url="user.picture.thumbnails.x64.url.download" data-width="40" data-height="40" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
+            <img initial-avatar="{{user.fullName}}" picture="{{user| avatar:'x64'}}" data-width="40" data-height="40" data-radius="24" class="account-initials-40 _df" data-word-count="2" data-font-size="16"/>
             <div class="_difv">
               <!--todo:: | highlight: $select.search in persian name-->
               <span auto-dir="user.fullName"><span class="_df _fw" data-ng-bind-html="user.fullName"></span></span>
@@ -25,7 +32,7 @@
       </div>
     <div class="modal-body">
       <p data-ng-if="addMemberCtrl.users < 1 && !addMemberCtrl.isTeammateMode" class="_fw"><ranslate>Import Contacts:</ranslate></p>
-      <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw"><translate>You can add multiple Members at the same time</translate></p>
+      <p data-ng-if="addMemberCtrl.users < 1 && addMemberCtrl.isTeammateMode" class="_fw"><translate>You can add multiple Members simultaneously</translate></p>
       <div class="_fw suggests">
         <!--<a class="_difh item add" data-ng-if="addMemberCtrl.users < 1">-->
           <!--<div class="item-logo">-->

@@ -15,9 +15,8 @@
       if (model instanceof NstPlace || model instanceof NstTinyPlace) {
         this.id = model.id;
         this.name = model.name;
-        this.picture = model.picture.id
-          ? model.getPicture().getThumbnail(thumbnailSize || 32).getUrl().view
-          : '/assets/icons/absents_place.svg';
+        this.picture = model.hasPicture() ? model.picture.getUrl(thumbnailSize || "x32") : '/assets/icons/absents_place.svg';
+
       } else {
         throw Error("Could not create a NstVmPlaceBadge from an unsupported type.");
       }

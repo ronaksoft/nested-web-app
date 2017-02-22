@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.user')
-    .controller('InvitationController', function ($state, $scope, $uibModalInstance, NstVmInvitation, argv){
+    .controller('InvitationController', function ($state, $scope, $uibModalInstance, NstVmInvitation, argv, NST_INVITATION_FACTORY_STATE){
       var vm = this;
 
       /*****************************
@@ -14,6 +14,7 @@
         place: $state.href(getPlaceState(), { placeId: argv.invitation.getPlace().getId() })
       };
       vm.invitation = mapInvitation(argv.invitation);
+      vm.NST_INVITATION_FACTORY_STATE = NST_INVITATION_FACTORY_STATE;
 
       /*****************************
        ***** Controller Methods ****

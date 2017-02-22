@@ -1,4 +1,4 @@
-@media screen and (max-width: $screen-md){
+body.isMobile {
   .nst-navbar {
     top: 56px;
   }
@@ -36,8 +36,5 @@
   nst-navbar{
     //top: $topnav-height;
     width: 100%;
-  }
-  .navbarillu {
-    height: $navbar-height + $topnav-height;
   }
 }

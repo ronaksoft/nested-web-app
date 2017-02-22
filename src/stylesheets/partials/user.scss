@@ -21,11 +21,17 @@
     vertical-align: top;
   }
 }
+.top-user-avatar-24 {
+  @include avatar(24px,24px,1010px);
+}
 .user-avatar-24 {
   @include avatar(40px,24px,1010px);
 }
 .user-avatar-32 {
   @include avatar(40px,32px,1010px);
+}
+.profile-user-avatar-32 {
+  @include avatar(32px,32px,1010px);
 }
 .user-avatar-38 {
   @include avatar(40px,38px,1010px);
@@ -35,4 +41,28 @@
 }
 .user-avatar-28 {
   @include avatar(32px,28px,1010px);
+}
+.user-avatar-40 {
+  @include avatar(40px,40px,1010px);
+}
+.user-avatar-26 {
+  @include avatar(32px,26px,1010px);
+}
+.user-avatar-64 {
+  margin-right: 8px;
+  @include avatar(64px,64px,1010px);
+}
+.user-avatar-72 {
+  @include avatar(80px,72px,1010px);
+}
+
+.user-wrp {
+  height: auto!important;
+  align-items: center;
+  .idname {
+    justify-content: center;
+    height: 40px;
+    width: calc(100% - 32px);
+    padding-left: 4px;
+  }
 }

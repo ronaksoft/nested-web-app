@@ -1,0 +1,40 @@
+<form name="phoneVerifyForm" ng-submit="ctrl.verify(phoneVerifyForm.$valid);" novalidate class="use-ng-animate register-step">
+  <div class="nst-vb no-gutter2 nst-marginbtm-16">
+    <p class="col-xs-9 nst-font-xlarge testing-registration-step2">
+      <translate>Phone verification</translate>
+    </p>
+  </div>
+  <div class="text-center nst-font-medium nst-marginbtm-52">
+    <translate>We've sent a verification code via SMS to</translate>
+  </div>
+  <div class="nst-mood-cheerful text-center nst-font-medium nst-margin-20">
+    +{{ctrl.countryCode}}{{ctrl.phone}}
+  </div>
+  <div class="text-center nst-font-medium nst-margin-20">
+    <a href ng-click="ctrl.previousStep()">
+      <translate>That's not me!</translate>
+    </a>
+  </div>
+  <div class="nst-mood-storm nst-font-medium nst-margin-8">
+    <translate>6-digit verification code</translate>
+  </div>
+  <p class="nst-mood-lively" data-ng-if="ctrl.verificationWrongCode">
+    <translate>You've entered a wrong code</translate>
+  </p>
+
+  <div class="nst-marginbtm-16">
+    <div class="form-group">
+      <input id="verification_code" maxlength="6" minlength="6" name="verification_code" class="form-control" ng-model="ctrl.verificationCode" required focus-me="ctrl.ready"/>
+    </div>
+  </div>
+
+  <div class="_difh nst-marginbtm-16 text-center">
+    <input type="button" class="_df react-btn lftbtn _jcc" nst-disable-for-btn seconds="90" class="btn" click="ctrl.callMe()" value="Call" translate-attrs="value">
+    <input type="button" class="_df react-btn _jcc" nst-disable-for-btn id="resend" seconds="10" click="ctrl.resend()" value="Resend" translate-attrs="value">
+  </div>
+
+  <div class="text-center">
+    <input type="submit" value="Verifing..." ng-if="ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn" translate-attrs="value">
+    <input type="submit" value="Verify" ng-if="!ctrl.verificationProgress" ng-disabled="phoneVerifyForm.verification_code.$invalid" class="butn-green butn-lg butn-login nstbtn" translate-attrs="value">
+  </div>
+</form>

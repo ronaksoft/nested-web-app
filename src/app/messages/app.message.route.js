@@ -23,7 +23,7 @@
             templateUrl: 'app/messages/post/post.html',
             controller: 'PostController',
             controllerAs: 'ctlPost',
-            size: 'mlg',
+            size: 'post-view',
             resolve: {
               selectedPostId: function () {
                 return $stateParams.postId;
@@ -42,30 +42,7 @@
           }
         },
       })
-      .state('app.message-chain', {
-        url: '/message/:postId/chain',
-        params: {
-          postId: NST_DEFAULT.STATE_PARAM,
-        },
-        templateUrl: 'app/messages/chain/message-chain.html',
-        controller: 'MessageChainController',
-        controllerAs: 'ctlChain',
-        options: {
-          group: 'message'
-        }
-      })
-      .state('app.place-message-chain', {
-        url: '/place/:placeId/message/:postId/chain',
-        params: {
-          postId: NST_DEFAULT.STATE_PARAM,
-        },
-        templateUrl: 'app/messages/chain/message-chain.html',
-        controller: 'MessageChainController',
-        controllerAs: 'ctlChain',
-        options: {
-          group: 'message'
-        }
-      })
+
       .state('app.messages', {
         url: '/messages',
         templateUrl: 'app/messages/messages.html',
@@ -77,8 +54,30 @@
           feed : true
         }
       })
+      .state('app.messages-bookmarked', {
+        url: '/bookmarks',
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages',
+        options: {
+          primary: true,
+          group: 'bookmarked',
+          feed : true
+        }
+      })
+      .state('app.messages-bookmarked-sort', {
+        url: '/bookmarks/:sort',
+        templateUrl: 'app/messages/messages.html',
+        controller: 'MessagesController',
+        controllerAs: 'ctlMessages',
+        options: {
+          primary: true,
+          group: 'bookmarked',
+          feed : true
+        }
+      })
       .state('app.messages-favorites', {
-        url: '/messages/favorites',
+        url: '/feed',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
@@ -90,7 +89,7 @@
         }
       })
       .state('app.messages-favorites-sorted', {
-        url: '/messages/favorites/:sort',
+        url: '/feed/:sort',
         params: {
           sort: NST_DEFAULT.STATE_PARAM
         },
@@ -104,17 +103,17 @@
         },
       })
       .state('app.messages-sent', {
-        url: '/messages/sent',
+        url: '/shared',
         templateUrl: 'app/messages/messages.html',
         controller: 'MessagesController',
         controllerAs: 'ctlMessages',
         options: {
           primary: true,
-          group: 'message'
+          group: 'sent'
         }
       })
       .state('app.messages-sent-sorted', {
-        url: '/messages/sent/:sort',
+        url: '/shared/:sort',
         params: {
           sort: NST_DEFAULT.STATE_PARAM
         },
@@ -150,7 +149,7 @@
         controllerAs: 'ctlMessages',
         options: {
           primary: true,
-          group: 'message'
+          group: 'posts'
         }
       })
       .state('app.place-messages-unread', {

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,17 +6,17 @@
     .service('NstSvcServer', NstSvcServer);
 
   /** @ngInject */
-  function NstSvcServer($q, $timeout, $interval,
+  function NstSvcServer(_, $q, $timeout,
                         NST_CONFIG, NST_AUTH_COMMAND, NST_REQ_STATUS, NST_RES_STATUS,
-                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_TYPE, NST_SRV_RESPONSE_STATUS,  NST_SRV_ERROR,
-                        NST_SRV_EVENT, NST_SRV_MESSAGE, NST_SRV_PING_PONG,
+                        NST_SRV_MESSAGE_TYPE, NST_SRV_PUSH_CMD, NST_SRV_RESPONSE_STATUS, NST_SRV_ERROR,
+                        NST_SRV_EVENT, NST_SRV_MESSAGE,
                         NstSvcRandomize, NstSvcLogger, NstSvcTry, NstSvcConnectionMonitor,
                         NstObservableObject, NstServerError, NstServerQuery, NstRequest, NstResponse) {
     function Server(url, configs) {
       this.defaultConfigs = {
-        streamTimeout: 500,
-        requestTimeout: 1000,
-        maxRetries : 16,
+        streamTimeout: 500000,
+        requestTimeout: 300000,
+        maxRetries: 16,
         meta: {}
       };
 
@@ -43,7 +43,7 @@
       // }.bind(this));
 
       // Orphan Router
-      this.stream.onMessage(function(ws) {
+      this.stream.onMessage(function (ws) {
         if (!ws.data) {
           NstSvcLogger.debug2('WS | Empty Orphan Message:', ws);
 
@@ -59,15 +59,15 @@
         //   return false;
         // }
 
-        var data = angular.fromJson(ws.data);
-        NstSvcLogger.debug2('WS | Message:', data);
-
-        switch (data.type) {
+        var message = angular.fromJson(ws.data);
+        NstSvcLogger.debug2('WS | Message:', message);
+        switch (message.type) {
           case NST_SRV_MESSAGE_TYPE.RESPONSE:
-            switch (data.data.status) {
+            var status = message.status || (message.data ? message.data.status : '');
+            switch (status) {
               case NST_SRV_RESPONSE_STATUS.SUCCESS:
-                if (data.data.hasOwnProperty('msg')) {
-                  this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MESSAGE, { detail: data.data.msg }));
+                if (message.data && message.data.hasOwnProperty('msg')) {
+                  this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MESSAGE, {detail: message.data.msg}));
                 }
                 break;
 
@@ -77,20 +77,23 @@
             break;
 
           case NST_SRV_MESSAGE_TYPE.PUSH:
-            switch (data.data.type) {
-              case NST_SRV_PUSH_TYPE.MENTION:
-                this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MENTION, { detail: data.data }));
+            switch (message.cmd ){
+              case NST_SRV_PUSH_CMD.SYNC_ACTIVITY:
+                this.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_ACTIVITY, {detail: message.data}));
                 break;
-              case NST_SRV_PUSH_TYPE.TIMELINE_EVENT:
-                this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.TIMELINE, { detail: data.data }));
+              case NST_SRV_PUSH_CMD.SYNC_NOTIFICATION:
+                this.dispatchEvent(new CustomEvent(NST_SRV_PUSH_CMD.SYNC_NOTIFICATION, {detail: message.data}));
                 break;
             }
             break;
+
+          default :
+            throw "SERVER | Undefined response WS type";
         }
       }.bind(this));
 
       // Response Router
-      this.stream.onMessage(function(ws) {
+      this.stream.onMessage(function (ws) {
         if (!ws.data) {
           NstSvcLogger.debug2('WS | Empty Will Be Routed Message:', ws);
 
@@ -98,11 +101,6 @@
         }
 
 
-        // //Checking for pong message
-        // if (ws.data.indexOf(NST_SRV_PING_PONG.RESPONSE) === 0){
-        //   this.pingPong.getPong(ws.data);
-        //   return false;
-        // }
         if (_.startsWith(ws.data, "PONG!")) {
           return;
         }
@@ -121,7 +119,8 @@
           switch (data.type) {
             case NST_SRV_MESSAGE_TYPE.RESPONSE:
               var response = new NstResponse(NST_RES_STATUS.UNKNOWN, data.data);
-              switch (data.data.status) {
+              var status = data.status || data.data.status;
+              switch (status) {
                 case NST_SRV_RESPONSE_STATUS.SUCCESS:
                   response.setStatus(NST_RES_STATUS.SUCCESS);
                   qItem.request.finish(response);
@@ -148,7 +147,7 @@
         }
       }.bind(this));
 
-      NstSvcConnectionMonitor.onBreak(function(event) {
+      NstSvcConnectionMonitor.onBreak(function (event) {
         NstSvcLogger.debug2('WS | Closed:', event, this);
 
         this.authorized = false;
@@ -177,7 +176,7 @@
         NstSvcLogger.debug2('WS | Dispatching Auth Event', event.detail);
         this.setAuthorized(true);
         this.setSesSecret(event.detail.response.getData()._ss);
-        this.setSesKey(event.detail.response.getData()._sk.$oid);
+        this.setSesKey(event.detail.response.getData()._sk);
         this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.AUTHORIZE));
       });
 
@@ -187,19 +186,14 @@
     Server.prototype = new NstObservableObject();
     Server.prototype.constructor = Server;
 
-    Server.prototype.request = function () {
-      var service = this;
-    };
-
     Server.prototype.request = function (action, data, timeout) {
       var service = this;
-      var payload = angular.extend(data || {}, {
-        cmd: action
-      });
+      var payload = angular.extend(data || {}, {});
       var retryablePromise = NstSvcTry.do(function () {
 
         var reqId = service.genQueueId(action, data);
         var rawData = {
+          cmd: action,
           type: 'q',
           _reqid: reqId,
           data: payload
@@ -250,10 +244,14 @@
           if (this.isInitialized()) {
             service.sendQueueItem(reqId, timeout);
           } else {
-            qItem.listenerId = this.addEventListener(NST_SRV_EVENT.INITIALIZE, function () { service.sendQueueItem(reqId, timeout); }, true);
+            qItem.listenerId = this.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
+              service.sendQueueItem(reqId, timeout);
+            }, true);
           }
         } else {
-          qItem.listenerId = this.addEventListener(NST_SRV_EVENT.AUTHORIZE, function () { service.sendQueueItem(reqId, timeout); }, true);
+          qItem.listenerId = this.addEventListener(NST_SRV_EVENT.AUTHORIZE, function () {
+            service.sendQueueItem(reqId, timeout);
+          }, true);
         }
 
         return qItem.request;
@@ -282,7 +280,6 @@
           case NST_REQ_STATUS.CANCELLED:
           case NST_REQ_STATUS.RESPONDED:
             return false;
-            break;
         }
 
         NstSvcLogger.debug2('WS | Cancelled: ', reqId, qItem.request);
@@ -322,8 +319,11 @@
 
       if (this.isAuthorized()) {
         var data = request.getData();
-        data.data['_sk'] = this.getSessionKey();
-        data.data['_ss'] = this.getSessionSecret();
+        data['cmd'] = request.method;
+        data['_sk'] = this.getSessionKey();
+        data['_ss'] = this.getSessionSecret();
+        data['ci']= '';
+        data['ci']= 13;
         data.data = angular.extend(data.data, this.configs.meta);
         request.setData(data);
       }
@@ -331,7 +331,7 @@
       return this.stream.send(angular.toJson(request.getData()));
     };
 
-    Server.prototype.genQueueId = function (action, data) {
+    Server.prototype.genQueueId = function (action) {
       return 'REQ/' + action.toUpperCase() + '/' + NstSvcRandomize.genUniqId();
     };
 
@@ -361,7 +361,7 @@
 
     return new Server(NST_CONFIG.WEBSOCKET.URL, {
       requestTimeout: NST_CONFIG.WEBSOCKET.TIMEOUT,
-      maxRetries : NST_CONFIG.WEBSOCKET.REQUEST_MAX_RETRY_TIMES,
+      maxRetries: NST_CONFIG.WEBSOCKET.REQUEST_MAX_RETRY_TIMES,
       meta: {
         app_id: NST_CONFIG.APP_ID
       }

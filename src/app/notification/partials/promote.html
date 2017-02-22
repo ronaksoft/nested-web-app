@@ -1,0 +1,24 @@
+<div class="mention">
+  <div class="_fn">
+    <div class="user-avatar-32">
+      <img initial-avatar="{{::notification.actor.fullName}}"
+           picture="{{::notification.actor | avatar}}"
+           data-width="32" data-height="32" data-radius="32" class="account-initials-32" data-word-count="2"
+           data-font-size="12"/>
+    </div>
+  </div>
+  <div class="_difh f1 _fn bottom-border">
+    <div class="_difv f1">
+      <p>
+        <translate><b>{{ ::notification.actor.fullName }}</b> promoted you to be a Manager <b>{{notification.place.name}} (#{{notification.place.id}})</b></translate>
+      </p>
+    </div>
+    <div class="ment-date _fn">
+      {{notification.date | passed}}
+    </div>
+    <svg class="_df _fn _16svg crown">
+      <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
+    </svg>
+  </div>
+</div>
+

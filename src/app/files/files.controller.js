@@ -6,36 +6,53 @@
     .controller('FilesController', FilesController);
 
   /** @ngInject */
-  function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q,
-    NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation,
-    NstVmFile, NstVmFileViewerItem,
-    NST_DEFAULT) {
+  function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
+                           NST_PLACE_ACCESS,
+                           NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation, NstSvcAuth, NstSvcWait,
+                           NstVmFile, NstVmFileViewerItem,
+                           NST_DEFAULT) {
     var vm = this;
+    var onSelectTimeout = null;
+    var eventReferences = [];
+    vm.countClick = 1;
+    vm.searchVar = false;
+    vm.searchTrigg = 0;
+
+    vm.searchFunc = function () {
+
+      vm.searchVar =! vm.searchVar;
+
+      ++vm.countClick;
+      if ( vm.countClick % 2 === 0 ) {
+        ++vm.searchTrigg;
+      }
+
+    };
 
     vm.fileTypes = [
       {
-        id : 'ALL',
-        label : NstSvcTranslation.get('all')
+        id: 'ALL',
+        label: NstSvcTranslation.get('all')
       },
       {
-        id : 'DOC',
-        label : NstSvcTranslation.get('documents')
+        id: 'DOC',
+        label: NstSvcTranslation.get('documents')
       },
       {
-        id : 'IMG',
-        label : NstSvcTranslation.get('images')
+        id: 'IMG',
+        label: NstSvcTranslation.get('images')
       },
       {
-        id : 'AUD',
-        label : NstSvcTranslation.get('audios')
+        id: 'AUD',
+        label: NstSvcTranslation.get('audios')
       },
       {
-        id : 'VID',
-        label : NstSvcTranslation.get('videos')
+        id: 'VID',
+        label: NstSvcTranslation.get('videos')
       },
       {
-        id : 'OTH',
-        label : NstSvcTranslation.get('others')
+        id: 'OTH',
+        label: NstSvcTranslation.get('others')
       }
     ];
 
@@ -45,6 +62,7 @@
     vm.loadMore = loadMore;
     vm.onSelect = onSelect;
     vm.compose = composeWithAttachments;
+    vm.isSubPersonal = isSubPersonal;
 
     vm.selectedFiles = [];
     vm.files = [];
@@ -53,11 +71,11 @@
     vm.currentPlaceId = null;
 
     var defaultSettings = {
-          filter : 'ALL',
-          keyword : '',
-          skip : 0,
-          limit : 12
-        };
+      filter: 'ALL',
+      keyword: '',
+      skip: 0,
+      limit: 12
+    };
 
     vm.settings = {};
 
@@ -65,10 +83,10 @@
       vm.currentPlaceId = $stateParams.placeId;
       vm.selectedFileType = getSelectedFilter();
       vm.settings = {
-        filter : vm.selectedFileType.id,
-        search : getSearchParameter() || defaultSettings.search,
-        skip : defaultSettings.skip,
-        limit : defaultSettings.limit
+        filter: vm.selectedFileType.id,
+        search: getSearchParameter() || defaultSettings.search,
+        skip: defaultSettings.skip,
+        limit: defaultSettings.limit
       };
 
       if (!$stateParams.placeId || $stateParams.placeId === NST_DEFAULT.STATE_PARAM) {
@@ -81,19 +99,28 @@
         if (place) {
           vm.currentPlace = place;
           vm.currentPlaceLoaded = true;
+
+          vm.hasSeeMembersAccess = place.hasAccess(NST_PLACE_ACCESS.SEE_MEMBERS);
           vm.showPlaceId = !_.includes(['off', 'internal'], place.privacy.receptive);
 
-          load();
+          load().then(function () {
+            eventReferences.push(NstSvcWait.emit('main-done'));
+          });
         } else {
-          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("The place does not exist or you are not allowed to be there.")).finally(function () {
+          NstSvcModal.error(NstSvcTranslation.get("Error"), NstSvcTranslation.get("Either this Place doesn't exist, or you don't have the permit to enter the Place.")).finally(function () {
             $state.go(NST_DEFAULT.STATE);
           });
         }
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('Sorry, an error happened while getting the place.'));
+        toastr.error(NstSvcTranslation.get('Sorry, an error has occurred while loading the Place.'));
       });
 
     })();
+
+    function isSubPersonal() {
+      if (vm.currentPlaceId)
+        return NstSvcAuth.user.id == vm.currentPlaceId.split('.')[0];
+    }
 
     function search(keyword) {
       vm.settings.keyword = keyword;
@@ -114,8 +141,8 @@
       var value = _.toLower($stateParams.filter);
 
       return _.find(vm.fileTypes, function (fileType) {
-        return _.toLower(fileType.label) === value;
-      }) || vm.fileTypes[0];
+          return _.toLower(fileType.label) === value;
+        }) || vm.fileTypes[0];
     }
 
     function getSearchParameter() {
@@ -131,25 +158,31 @@
       vm.filesLoadProgress = true;
       vm.loadFilesError = false;
 
+      var deferred = $q.defer();
+
       NstSvcFileFactory.get(vm.currentPlaceId,
         vm.settings.filter,
         vm.settings.keyword,
         vm.settings.skip,
         vm.settings.limit).then(function (files) {
-          var fileItems = mapFiles(files);
-          var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
+        var fileItems = mapFiles(files);
+        var newFileItems = _.differenceBy(fileItems, vm.files, 'id');
 
-          vm.hasNextPage = fileItems.length === vm.settings.limit;
-          vm.settings.skip += newFileItems.length;
+        vm.hasNextPage = fileItems.length === vm.settings.limit;
+        vm.settings.skip += newFileItems.length;
 
-          vm.files.push.apply(vm.files, newFileItems);
-          vm.loadFilesError = false;
+        vm.files.push.apply(vm.files, newFileItems);
+        vm.loadFilesError = false;
+        deferred.resolve();
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get('An error happened while retreiving files.'));
+        toastr.error(NstSvcTranslation.get('An error has occurred while retrieving files.'));
         vm.loadFilesError = true;
+        deferred.reject();
       }).finally(function () {
         vm.filesLoadProgress = false;
       });
+
+      return deferred.promise;
     }
 
     function mapFiles(files) {
@@ -164,10 +197,6 @@
 
     function preview(file) {
 
-      // NstSvcFileFactory.getDownloadToken(file.id).then(function (token) {
-      //   console.log(token);
-      // });
-
       $uibModal.open({
         animation: false,
         templateUrl: 'app/components/attachments/view/single/main.html',
@@ -175,16 +204,16 @@
         controllerAs: 'ctlAttachmentView',
         size: 'mlg',
         resolve: {
-          fileViewerItem : function () {
+          fileViewerItem: function () {
             return mapToFileViewerItem(file);
           },
-          fileViewerItems : function () {
+          fileViewerItems: function () {
             return _.map(vm.files, mapToFileViewerItem);
           },
-          fileId : function () {
+          fileId: function () {
             return null;
           },
-          fileIds : function () {
+          fileIds: function () {
             return null;
           }
         }
@@ -199,7 +228,11 @@
     }
 
     function onSelect(fileIds, el) {
-      $timeout(function () {
+      if (onSelectTimeout) {
+        $timeout.cancel(onSelectTimeout);
+      }
+
+      onSelectTimeout = $timeout(function () {
         vm.selectedFiles = _.filter(vm.files, function (file) {
           return _.includes(fileIds, file.id);
         });
@@ -210,8 +243,21 @@
     };
 
     function composeWithAttachments() {
-      $state.go('app.place-compose', { placeId : $stateParams.placeId, attachments : _.map(vm.selectedFiles, 'id') });
+      $state.go('app.compose', { attachments: vm.selectedFiles }, { notify: false });
     }
+
+    $scope.$on('$destroy', function () {
+      if (onSelectTimeout) {
+        $timeout.cancel(onSelectTimeout);
+      }
+
+      _.forEach(eventReferences, function (cenceler) {
+        if (_.isFunction(cenceler)) {
+          cenceler();
+        }
+      });
+
+    });
 
   }
 })();

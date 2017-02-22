@@ -2,38 +2,22 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.mention')
+    .module('ronak.nested.web.notification')
     .service('NstSvcMentionFactory', NstSvcMentionFactory);
 
   function NstSvcMentionFactory($q,
     NstSvcServer, NstSvcUserFactory, NstSvcPostFactory, NstSvcCommentFactory, NstSvcAuth,
     NstBaseFactory, NstMention, NstFactoryEventData,
-    NST_AUTH_EVENT, NST_MENTION_FACTORY_EVENT, NST_SRV_EVENT) {
+    NST_AUTH_EVENT, NST_NOTIFICATION_FACTORY_EVENT, NST_EVENT_ACTION) {
     function MentionFactory() {
       var that = this;
       that.count = 0;
-
-      NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
-        if (NstSvcAuth.user.unreadMentionsCount){
-          that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(NstSvcAuth.user.unreadMentionsCount)));
-        }else{
-          that.getMentionsCount().then(function (count) {
-            that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
-          });
-        }
-      });
-
-      NstSvcServer.addEventListener(NST_SRV_EVENT.MENTION, function () {
-        that.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.NEW_MENTION, new NstFactoryEventData(that.count)));
-      });
-
     }
 
     MentionFactory.prototype = new NstBaseFactory();
     MentionFactory.prototype.constructor = MentionFactory;
 
-    MentionFactory.prototype.getMentions = getMentions;
-    MentionFactory.prototype.getMentionsCount = getMentionsCount;
+    MentionFactory.prototype.parseMention = parseMention;
     MentionFactory.prototype.markAsSeen = markAsSeen;
 
     return new MentionFactory();
@@ -46,27 +30,35 @@
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
-        NstSvcServer.request('account/get_mentions', {
+        NstSvcServer.request('mention/get_all', {
           skip: skip || 0,
           limit: limit || 12,
           show_data: true
         }).then(function(data) {
+
           var mentionPromises = _.map(data.mentions, parseMention);
-          $q.all(mentionPromises).then(defer.resolve).catch(defer.reject);
+          $q.all(mentionPromises)
+            .then(function(mentions){
+              defer.resolve(mentions)
+            })
+            .catch(function(err){
+              defer.reject(err)
+            });
         }).catch(defer.reject);
 
         return defer.promise;
       }, "getMentions");
     }
 
-    function getMentionsCount() {
+    function getNotificationsCount() {
       var that = this;
       return this.sentinel.watch(function () {
         var defer = $q.defer();
 
-        NstSvcServer.request('account/get_mentions', {
+        NstSvcServer.request('mention/get_all', {
           limit : 1,
           skip : 1,
+          only_unread : false
         }).then(function(data) {
           var count = data.unread_mentions || 0;
           that.count = parseInt(count);
@@ -74,7 +66,7 @@
         }).catch(defer.reject);
 
         return defer.promise;
-      }, "getMentionsCount");
+      }, "getNotificationsCount");
     }
 
     function markAsSeen(mentionsIds) {
@@ -91,11 +83,11 @@
           ids = "all";
         }
 
-        NstSvcServer.request('account/update_mention_read_status', {
+        NstSvcServer.request('mention/mark_as_read', {
           mention_id : ids
         }).then(function(data) {
-          factory.getMentionsCount().then(function (count) {
-            factory.dispatchEvent(new CustomEvent(NST_MENTION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
+          factory.getNotificationsCount().then(function (count) {
+            factory.dispatchEvent(new CustomEvent(NST_NOTIFICATION_FACTORY_EVENT.UPDATE, new NstFactoryEventData(count)));
           }).catch(defer.reject);
           defer.resolve();
         }).catch(defer.reject);
@@ -119,8 +111,8 @@
       mention.isSeen = data.read;
       mention.date = new Date(data.timestamp);
 
-      mention.commentId = data.comment_id.$oid;
-      mention.postId = data.post_id.$oid;
+      mention.commentId = data.comment_id;
+      mention.postId = data.post_id;
       mention.senderId = data.sender_id;
       mention.mentionedId = data.mentioned_id;
 
@@ -136,7 +128,10 @@
         mention.post = values[3];
 
         deferred.resolve(mention);
-      }).catch(deferred.reject);
+      }).catch(function(err){
+
+        deferred.reject()
+      });
 
       return deferred.promise;
     }

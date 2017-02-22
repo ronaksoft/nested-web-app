@@ -6,7 +6,7 @@
     .directive('nstSidebarToggleAgent', SidebarToggleAgent);
 
   /** @ngInject */
-  function SidebarToggleAgent($location, $timeout, $rootScope) {
+  function SidebarToggleAgent($location, $rootScope) {
     return {
       restrict: 'A',
       scope: {
@@ -15,7 +15,7 @@
       link: function($scope, $element, $attrs) {
         var jElement = $($element[0]);
 
-        $scope.$watch(function () {
+        var hrefWatcherCleaner = $scope.$watch(function () {
           return $attrs.href;
         }, function (newValue, oldValue) {
           if (newValue) {
@@ -33,7 +33,10 @@
             if (isCurrentViewLink($attrs.href)) {
               jElement.on('click', function(event) {
                 $scope.$apply(function () {
-                  $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
+
+                  //FIXME What is toggleAgentSwitch ?!
+                  // $scope.toggleAgentSwitch = !$scope.toggleAgentSwitch;
+                  $scope.$emit('collapse-sidebar');
                 });
               });
             }
@@ -49,7 +52,12 @@
             // }
           }
         }
+
+        $scope.$on('$destroy', function () {
+          hrefWatcherCleaner();
+        });
       }
+
     };
 
     function isCurrentViewLink(url) {

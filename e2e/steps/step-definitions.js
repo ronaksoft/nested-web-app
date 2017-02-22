@@ -298,6 +298,24 @@ module.exports = function () {
     return browser.wait(EC.visibilityOf(element(By.css('.toast-success'))), 50000);
   });
 
+  this.When(/^Wait to see error-msg$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.toast-error'))), 50000);
+  });
+
+  this.When(/^Wait to see warn-msg$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.toast-warning'))), 50000);
+  });
+
+  this.When(/^Wait to see leave-modal$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('#delete-view'))), 50000);
+  });
+
   this.Then(/^should see "([^"]*)"$/, function (text) {
     element(by.css('.nst-font-xlarge _hf')).getText().then(function (title) {
       assert.equal(title.trim(), text, ' title is "' + title + '" but should be "' + text);

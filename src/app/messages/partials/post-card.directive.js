@@ -16,10 +16,15 @@
       controllerAs: 'ctlPostCard',
       bindToController: {
         post: '=post',
+        mood: '@mood',
         viewSetting: '=settings',
         thisPlace: '=postinplace',
-        hideComments: '=hideComments',
-        hasRemoveAccess:'=hasRemoveAccess'
+        hasRemoveAccess:'=hasRemoveAccess',
+        hasControlAccess: '=',
+        isRibbon: '=',
+        addOn: '=',
+        commentBoard: '=',
+        ribbonEnabled : '='
       }
     };
   }

@@ -1,46 +1,218 @@
-.attachments-preview-bar {
-  ul {
-    list-style: none;
-    li {
-      display: inline-block;
+nst-attachments-editable-bar,
+nst-attachments-preview-bar {
+  //overflow-y: visible;
+  //overflow-x: auto;
+  i {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 24px;
+    background-color: $color-white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .24);
+    z-index: 4;
+    width: 36px;
+    height: 36px;
+    transition: opacity $animation-dur;
+    opacity: 1;
+    &:first-of-type {
+      left: -16px;
+      top: 50%;
+      transform: rotateZ(-90deg) translateX(50%);
+    }
+    &:last-of-type {
+      right: -16px;
+      top: 50%;
+      transform: rotateZ(-90deg) translateX(50%);
+    }
+    svg {
+      width: 24px;
+      height: 24px;
+      transform: scale(1.2, 1.2);
     }
   }
-  ul.thumbnail-bar {
+  ul {
+    list-style: none;
+    position: relative;
+    display: inline-block;
     li {
-      margin : 4px;
+      position: relative;
+      display: inline-block;
+      .attsize {
+        opacity: 0;
+        font-size: 13px;
+        font-family: open-sans, sans-serif;
+        font-weight: 400
+      }
+      .attdl {
+        position: absolute;
+        width: 46px;
+        height: 26px;
+        border-radius: $border-radius-small;
+        background-color: $color-hurricane;
+        border: 1px solid $color-solid;
+        bottom: 10px;
+        right: 10px;
+        display: flex;
+        opacity: 0;
+        justify-content: center;
+        align-items: center;
+        transition: opacity, background-color $animation-dur;
+        &:hover {
+          background-color: $color-solid;
+        }
+        svg {
+          fill: $color-white;
+        }
+        &.del {
+          background-color: $color-force;
+          border-color: $color-force-wire;
+        }
+      }
+      &:hover {
+        .attdl {
+          opacity: 1;
+        }
+        .attsize {
+          opacity: .4 !important;
+        }
+
+      }
+    }
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  overflow: hidden;
+  ul.thumbnail-bar {
+    position: absolute;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: inline-flex;
+    overflow-y: hidden;
+    overflow-x: auto;
+    overflow: -moz-scrollbars-none;
+    width: 100%;
+    @include user-select(none);
+    li {
+      margin: 0 4px;
       vertical-align: middle;
+      flex-shrink: 0;
+      &.uploading {
+        opacity: .5;
+      }
+      &:first-child {
+        margin-left: 16px;
+      }
+      &:last-child {
+        padding-right: 16px;
+        .attdl {
+          right: 24px;
+        }
+      }
+    }
+    .uploadprogress {
+      height: 48px;
+      min-width: 48px;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      & > div {
+        position: absolute;
+        display: flex;
+        width: 48px;
+        height: 48px;
+        top: 0;
+        right: 0;
+      }
+    }
+    .attach-thumbnail-img {
+      display: flex;
+      padding: 0;
+      background-size: cover;
+      min-width: 80px;
+      max-width: 400px;
+      width: 100%;
+      height: 100%;
+      float: left;
+      object-fit: cover;
+      border: 1px solid $color-border;
     }
     .attach-thumbnail {
-      height: 96px;
-      width: 96px;
-      display: inline-block;
-    }
-    .attach-thumbnail-default {
-      height: 96px;
-      width: 72px;
-      background: url('../assets/icons/attachment_card.svg') no-repeat;
-      background-position: 0px -288px;
-      background-size: cover;
-      padding: 20px 8px 6px 8px;
+      height: 108px;
+      width: 172px;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 12px 6px 12px;
       word-wrap: break-word;
       font-size: $font-size-xsmall;
       text-overflow: ellipsis;
       overflow: hidden;
+      background-size: cover;
+      > p {
+        display: flex;
+        flex: 1;
+        margin: 0;
+        align-items: center;
+        font-size: 13px;
+        color: $color-solid;
+        height: 48px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .detail {
+        display: flex;
+        width: 100%;
+        height: 32px;
+        margin-bottom: 2px;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+        padding-right: 48px;
+        font-size: 16px;
+        P {
+          display: flex;
+          flex: 1;
+          align-items: center;
+          margin: 0;
+          font-weight: 700;
+        }
+        span {
+          opacity: 0;
+          flex: none;
+          display: flex;
+          color: $color-solid;
+        }
+      }
+    }
+    .attach-thumbnail-default,
+    .attach-thumbnail-other,
+    .attach-thumbnail-image {
+      background: url('../assets/icons/bg_attachment_other.svg') no-repeat;
+      color: #282828;
     }
     .attach-thumbnail-archive {
-      background-position: 0px -384px;
+      background: url('../assets/icons/bg_attachment_zip.svg') no-repeat;
+      color: #502D96;
     }
     .attach-thumbnail-document {
-      background-position: 0px 0px;
+      background: url('../assets/icons/bg_attachment_document.svg') no-repeat;
+      color: #2878CD;
     }
     .attach-thumbnail-pdf {
-      background-position: 0 -192px;
+      background: url('../assets/icons/bg_attachment_pdf.svg') no-repeat;
+      color: #CD2828;
     }
     .attach-thumbnail-audio {
-      background-position: 0 -96px;
+      background: url('../assets/icons/bg_attachment_audio.svg') no-repeat;
+      color: #28CD96;
     }
     .attach-thumbnail-video {
-      background-position: 0 -96px;
+      background: url('../assets/icons/bg_attachment_other.svg') no-repeat;
     }
   }
   ul.badge-bar {
@@ -54,7 +226,7 @@
         line-height: 24px;
         font-size: $font-size-xxsmall;
         font-weight: bold;
-        border-radius: $border-radius-large 0 0 $border-radius-large;
+        border-radius: $border-radius-small 0 0 $border-radius-small;
         color: $color-white;
         background-color: $color-storm;
         padding: 0 4px;
@@ -116,5 +288,41 @@
     }
     .attach-badge-other {
     }
+  }
+  div.two-img {
+    display: inline-table;
+    //flex-direction: row;
+    img {
+      //object-fit: contain;
+      float: left;
+      min-width: 80px;
+      min-height: 96px;
+      max-height: 1024px;
+      max-width: calc(100% - 96px);
+    }
+    div {
+      float: left;
+      height: 100%;
+      min-height: 1px
+    }
+    &.deform {
+      img {
+        object-fit: cover;
+      }
+    }
+    //li {
+    //  flex: none;
+    //  height: 100%;
+    //  display: flex;
+    //  img {
+    //    object-fit: contain;
+    //  }
+    //}
+  }
+  div.only-img {
+    display: flex;
+    max-height: 1024px;
+    overflow-y: hidden;
+
   }
 }

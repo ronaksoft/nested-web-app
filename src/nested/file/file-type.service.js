@@ -16,7 +16,11 @@
     fileGroups[NST_FILE_TYPE.DOCUMENT] = [
       'text/plain',
       'application/msword',
-      'application/vnd.ms-excel'
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
     ];
 
     fileGroups[NST_FILE_TYPE.IMAGE] = [
@@ -34,13 +38,15 @@
       'audio/aac',
       'audio/mp4',
       'audio/wma',
+      'audio/wav',
+      'audio/webm',
       'audio/ogg'
     ];
     fileGroups[NST_FILE_TYPE.VIDEO] = [
       'video/mp4',
       'video/3gp',
       'video/ogg',
-      'video/webm',
+      'application/octet-stream',
       'video/quicktime',
       'video/webm'
     ];
@@ -57,13 +63,13 @@
 
     return service;
 
-    function getType(mimeType) {
-      if (!mimeType) {
+    function getType(mimetype) {
+      if (!mimetype) {
         return '';
       }
 
-      var type = _.findKey(fileGroups, function(mimeTypeList) {
-        return _.includes(mimeTypeList, mimeType);
+      var type = _.findKey(fileGroups, function(mimetypeList) {
+        return _.includes(mimetypeList, mimetype);
       });
 
       return type || NST_FILE_TYPE.OTHER;

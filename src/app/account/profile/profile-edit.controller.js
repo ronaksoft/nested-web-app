@@ -9,8 +9,9 @@
   function ProfileEditController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
                                  NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture,
-                                 NstSvcLoader, NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstVmNavbarControl, NstUtility, NstSvcTranslation, NstSvcI18n) {
+                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstSvcPlaceFactory) {
     var vm = this;
+    var imageLoadTimeout = null;
 
     /*****************************
      *** Controller Properties ***
@@ -23,11 +24,6 @@
 
     vm.status = {
       saveInProgress: false
-    };
-
-    vm.controls = {
-      left: [],
-      right: []
     };
 
     vm.genders = [
@@ -44,6 +40,7 @@
       gender: 'm',
       dateOfBirth: null,
       country: null,
+      searchable: null,
       picture: {
         id: '',
         file: null,
@@ -68,53 +65,42 @@
     vm.uploadedImage = false;
 
     function setImage(event) {
-      vm.uploadedImage = true;
-      // var element = event.currentTarget;
 
-
-      vm.model.picture.id = '';
       vm.model.picture.uploadedFile = event.currentTarget.files[0];
-      // vm.model.picture.uploadedFileName = element.files[0].name;
+      vm.uploadedImage = true;
+      vm.model.picture.id = '';
       vm.model.picture.remove = false;
 
-      var reader = new FileReader();
-      reader.onload = function (event) {
-        $timeout(function () {
-          vm.model.picture.uploaded = event.target.result;
+      $uibModal.open({
+        animation: false,
+        size: 'no-miss crop',
+        templateUrl: 'app/account/crop/change-pic.modal.html',
+        controller: 'CropController',
+        resolve: {
+          argv: {
+            file: vm.model.picture.uploadedFile
+          }
+        },
+        controllerAs: 'ctlCrop'
+      }).result.then(function (croppedFile) {
+        vm.model.picture.uploadedFile = croppedFile;
+        vm.uploadedImage = true;
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          imageLoadTimeout = $timeout(function () {
+            vm.model.picture.url = event.target.result;
+          });
+        };
+        reader.readAsDataURL(croppedFile);
+      }).catch(function () {
+        vm.uploadedImage = false;
+        vm.model.picture.uploadedFile = '';
+        event.target.value = '';
+      });
 
-        });
-      };
-      reader.readAsDataURL(vm.model.picture.uploadedFile);
+
     }
 
-    $scope.$watch(function () {
-      return vm.model.picture.url;
-    }, function () {
-      if (vm.model.picture.url) {
-        var file = dataURItoFile(vm.model.picture.url,'profile_image');
-        vm.model.picture.uploadedFile = file;
-      }
-    });
-
-    function dataURItoFile(dataURI, filename) {
-      // convert base64/URLEncoded data component to raw binary data held in a string
-      var byteString;
-      if (dataURI.split(',')[0].indexOf('base64') >= 0)
-        byteString = atob(dataURI.split(',')[1]);
-      else
-        byteString = decodeURI(dataURI.split(',')[1]);
-
-      // separate out the mime component
-      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-      // write the bytes of the string to a typed array
-      var ia = new Uint8Array(byteString.length);
-      for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-
-      return new File([ia], filename + '.' +  mimeString.split('/')[1], {type: mimeString});
-    }
 
     function removeImage() {
       if (vm.model.picture.request) {
@@ -128,11 +114,7 @@
     }
 
     (function () {
-      var userPromise = NstSvcUserFactory.get();
-      NstSvcLoader.inject(userPromise);
-
-      userPromise.then(function (user) {
-
+      NstSvcUserFactory.get(NstSvcAuth.user.id, true).then(function (user) {
         vm.model.id = user.getId();
         vm.model.firstName = user.getFirstName();
         vm.model.lastName = user.getLastName();
@@ -142,10 +124,14 @@
         vm.model.gender = user.getGender();
         vm.model.country = user.getCountry();
 
-        if (user.getPicture().getId()) {
-          vm.model.picture.id = user.getPicture().getId();
-          vm.model.picture.url = user.getPicture().thumbnails.x128.url.view;
+        if (user.hasPicture()) {
+          vm.model.picture.id = user.picture.original;
+          vm.model.picture.url = user.picture.getUrl("x128");
         }
+
+        return NstSvcPlaceFactory.get(user.id);
+      }).then(function (place) {
+        vm.model.searchable = place.privacy.search;
       }).catch(function (error) {
         $log.debug(error);
       });
@@ -172,8 +158,7 @@
       });
 
       request.getPromise().then(function (response) {
-        var id = response.data.universal_id;
-        deferred.resolve(id);
+        deferred.resolve(new NstPicture(response.data.thumbs));
       }).catch(deferred.reject);
 
       return deferred.promise;
@@ -195,12 +180,15 @@
         user.lastName = viewModel.lastName;
         user.phone = viewModel.phone;
         user.gender = viewModel.gender;
-        user.dateOfBirth = moment(viewModel.dateOfBirth).startOf('date').format('YYYY-MM-DD');
+        user.dateOfBirth = viewModel.dateOfBirth.toISOString().slice(0, 10);
         user.country = viewModel.country;
 
-        return NstSvcUserFactory.updateProfile(user);
-      }).then(function (user) {
-        deferred.resolve(user);
+        return $q.all([
+          NstSvcUserFactory.updateProfile(user),
+          NstSvcPlaceFactory.update(user.id, {'privacy.search': viewModel.searchable})
+        ]);
+      }).then(function (resultSet) {
+        deferred.resolve(resultSet[0]);
       }).catch(deferred.reject);
 
       return deferred.promise;
@@ -215,23 +203,17 @@
 
       var deferred = $q.defer();
 
-      NstSvcLoader.inject(deferred.promise);
-
       updateModel(vm.model).then(function (user) {
 
         vm.model.fullName = user.getFullName();
-
-        if (vm.model.picture.uploadedFile) {
-          storePicture(vm.model.picture.uploadedFile, vm.model).then(function (storeId) {
-
-            return NstSvcUserFactory.updatePicture(storeId);
+        var uploadedPicture = null;
+        if (vm.uploadedImage) {
+          storePicture(vm.model.picture.uploadedFile, vm.model).then(function (picture) {
+            uploadedPicture = picture;
+            return NstSvcUserFactory.updatePicture(picture.original, user.id);
           }).then(function (pictureId) {
-            vm.model.picture.id = pictureId;
-            user.getPicture().setId(pictureId);
-            user.getPicture().setThumbnail(32, user.getPicture().getOrg());
-            user.getPicture().setThumbnail(64, user.getPicture().getOrg());
-            user.getPicture().setThumbnail(128, user.getPicture().getOrg());
 
+            vm.model.picture = uploadedPicture;
             deferred.resolve(user);
           }).catch(deferred.reject);
         } else if (vm.model.picture.remove) {
@@ -250,11 +232,23 @@
 
     function saveAndExit(isValid) {
       save(isValid).then(function (result) {
-        setLanguage(vm.lang);
-        toastr.success(NstSvcTranslation.get("Your profile has been updated successfully."));
-        $rootScope.goToLastState();
+        NstSvcPlaceFactory.get(vm.model.id, true).then(function () {
+          NstSvcUserFactory.get(vm.model.id, true).then(function (newUserObj) {
+            NstSvcAuth.setUser(newUserObj);
+            $rootScope.goToLastState();
+
+            if (isSelectedLocale(vm.lang)) {
+              toastr.success(NstSvcTranslation.get("Your profile has been updated."));
+            } else {
+              $scope.$emit('show-loading', {});
+              setLanguage(vm.lang);
+              window.location.reload(true);
+            }
+          })
+        })
+
       }).catch(function (error) {
-        toastr.error(NstSvcTranslation.get("Sorry, an error occured while updating your profile."));
+        toastr.error(NstSvcTranslation.get("Sorry, an error has occurred while updating your profile."));
       });
     }
 
@@ -265,5 +259,13 @@
     function setLanguage(lang) {
       NstSvcI18n.setLocale(lang);
     }
+
+    function isSelectedLocale(locale) {
+      return NstSvcI18n.selectedLocale === locale;
+    }
+
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(imageLoadTimeout);
+    });
   }
 })();

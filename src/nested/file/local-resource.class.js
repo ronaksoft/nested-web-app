@@ -7,64 +7,32 @@
 
   /** @ngInject */
   function NstLocalResource(NST_STORE_ROUTE, NST_OBJECT_EVENT, NstSvcStore, NstObservableObject) {
-    /**
-     * Creates an instance of NstStoreResource
-     *
-     * @param {String}  uri Resource URI
-     *
-     * @constructor
-     */
     function LocalResource(uri) {
-      /**
-       * Resource Identifier
-       *
-       * @type {undefined|String}
-       */
-      this.id = undefined;
+      this.id = null;
 
-      /**
-       * Resource URI
-       *
-       * @type {undefined|String}
-       */
-      this.uri = undefined;
+      this.uri = null;
 
-      /**
-       * Resource urls
-       *
-       * @type {Object}
-       */
-      this.url = {
-        download: "",
-        view: "",
-        stream: ""
-      };
+      this.picture = null;
 
       NstObservableObject.call(this);
-
-      this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
-        switch (event.detail.name) {
-          case 'id':
-            this.setUri(event.detail.newValue);
-            break;
-
-          case 'uri':
-            this.refreshUrls();
-            break;
-        }
-      });
-
-      this.setId(uri);
-      this.setUri(uri);
     }
 
     LocalResource.prototype = new NstObservableObject();
     LocalResource.prototype.constructor = LocalResource;
 
-    LocalResource.prototype.refreshUrls = function () {
-      this.url.download = this.getUri();
-      this.url.view = this.getUri();
-      this.url.stream = this.getUri();
+    LocalResource.prototype.hasThumbnail = function (size) {
+      if (size) {
+        return this.picture && this.picture[size];
+      } else {
+        return this.picture
+          && this.picture.x32
+          && this.picture.x64
+          && this.picture.x128;
+      }
+    };
+
+    LocalResource.prototype.hasPreview = function () {
+      return !!this.picture.preview;
     };
 
     return LocalResource;

@@ -2,13 +2,13 @@
   <li class="side-place-item">
     <div class="place-item-inner">
 
-      <svg class="icon" ng-if="ctlPlaceInfo.placesBookmarkObject[ctlPlaceInfo.grandPlace.id]">
-        <use xlink:href="/assets/icons/nst-icn16.svg#favplace"></use>
+      <svg class="icon" ng-if="ctlPlaceInfo.placesFavoritesObject[ctlPlaceInfo.grandPlace.id]">
+        <use xlink:href="/assets/icons/nst-icn16.svg#favedplace"></use>
       </svg>
       <a href="{{ctlPlaceInfo.grandPlace.href}}"
-         ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == ctlPlaceInfo.grandPlace.id }">
-        {{ctlPlaceInfo.grandPlace.name}}
-        <b ng-if="ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] > 0">{{ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id]}}</b></a>
+         ng-class="{ isSelected : ctlPlaceInfo.currentPlaceId == ctlPlaceInfo.grandPlace.id && !ctlPlaceInfo.unreadMode }">
+        <span class="_txe _fl">{{ctlPlaceInfo.grandPlace.name}}</span>
+        <b ng-if="ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] > 0">&nbsp;{{ctlPlaceInfo.placesNotifCountObject[ctlPlaceInfo.grandPlace.id] | localize}}</b></a>
     </div>
     <ul>
       <li class="side-place-item" ng-repeat="place in ctlPlaceInfo.children"

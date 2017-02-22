@@ -2,5 +2,5 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.authenticate', []);
+    .module('ronak.nested.web.authenticate', ['ui.router']);
 })();

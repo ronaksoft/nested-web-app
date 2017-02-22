@@ -6,7 +6,7 @@
     .directive('onScroll', onScroll);
 
   /** @ngInject */
-  function onScroll($timeout) {
+  function onScroll() {
     return {
       scope: {
         onScroll: '&'

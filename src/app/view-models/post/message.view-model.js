@@ -5,19 +5,23 @@
     .module('ronak.nested.web.common')
     .factory('NstVmMessage', NstVmMessage);
 
-  function NstVmMessage(moment, NstPost, NstSvcAttachmentMap, NstSvcCommentMap, NstSvcAuth, NstUtility) {
+  function NstVmMessage($filter, moment, NstPost, NstSvcAttachmentMap, NstSvcAuth, NstUtility, NST_PLACE_ACCESS) {
 
     function VmMessage(post, firstPlaceId, myPlaceIds) {
+      var that = this;
 
       this.id = null;
       this.sender = null;
+      this.emailSender = null;
       this.subject = null;
       this.body = null;
       this.isExternal = null;
       this.contentType = null;
       this.date = null;
+      this.updatedDate = null;
       this.attachments = [];
       this.comments = [];
+      this.bookmarked = null;
       this.isReplyed  = null;
       this.isForwarded = null;
       this.commentsCount = 0;
@@ -25,6 +29,7 @@
       this.firstPlace = null;
       this.isRead = null;
       this.wipeAccess = null;
+      this.ellipsis = null;
 
       this.getAllPlacesCount = function () {
         return this.allPlaces.length;
@@ -41,19 +46,23 @@
       this.dropPlace = function (placeId) {
         NstUtility.collection.dropById(this.allPlaces, placeId);
         this.firstPlace = _.head(this.allPlaces);
-      }
-
+      };
 
       if (post instanceof NstPost) {
+
         this.id = post.id;
-        this.sender = mapSender(post.sender);
+        this.sender = post.sender ?  mapSender(post.sender) :  mapSender(post.emailSender);
         this.subject = post.subject;
         this.body = post.body;
         this.isExternal = !post.internal;
         this.contentType = post.contentType;
         this.date = post.date;
+        this.updatedDate = post.updatedDate;
         this.attachments = _.map(post.attachments, NstSvcAttachmentMap.toAttachmentItem);
-        this.comments = _.map(post.comments, NstSvcCommentMap.toMessageComment);
+        this.recipients = post.recipients;
+        this.ellipsis = post.ellipsis;
+        this.bookmarked = post.bookmarked;
+        this.comments = _.takeRight(post.comments, 3);
         this.isReplyed = !!post.replyToId;
         this.isForwarded = !!post.forwardFromId;
         this.commentsCount = post.counters.comments > -1 ? post.counters.comments : 0;
@@ -62,7 +71,7 @@
         if (post.wipeAccess !== null && post.wipeAccess !== undefined) {
           this.wipeAccess = post.wipeAccess;
         } else {
-          this.wipeAccess = post.sender.id === NstSvcAuth.user.id && moment(post.date).isAfter(moment().subtract(24, 'hours'));
+          this.wipeAccess = post.sender ? post.sender.id === NstSvcAuth.user.id && moment(post.date).isAfter(moment().subtract(24, 'hours')) : false;
         }
 
 
@@ -93,14 +102,16 @@
 
     // TODO: Use NstVmUser instead
     function mapSender(sender) {
+
       if (!sender) {
         return {};
       }
 
       return {
-        name: sender.fullName,
+        name: sender.fullName ? sender.fullName  : sender.id,
         username: sender.id,
-        avatar: sender.picture.id ? sender.picture.thumbnails.x32.url.view : null
+        avatar: sender.hasPicture() ? sender.picture.getUrl("x64") : '',
+        avatar128: sender.hasPicture() ? sender.picture.getUrl("x128") : ''
       };
     }
 
@@ -109,7 +120,9 @@
       return {
         id: place.id,
         name: place.name,
-        picture: place.picture.id ? place.picture.thumbnails.x64.url.view : '/assets/icons/absents_place.svg'
+        picture: place.hasPicture() ? place.picture.getUrl("x128") : '/assets/icons/absents_place.svg',
+        hasDeleteAccess: _.includes(place.accesses, NST_PLACE_ACCESS.REMOVE_POST),
+        hasControlAccess: _.includes(place.accesses, NST_PLACE_ACCESS.CONTROL)
       };
     }
 

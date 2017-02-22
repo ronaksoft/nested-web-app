@@ -1,0 +1,12 @@
+<div class="crp-head">
+  <translate>Fit Your Image</translate>
+</div>
+<!-- style="height: {{ctlCrop.width}}px;width: {{ctlCrop.width}}px"-->
+<div class="crp-body" ng-if="ctlCrop.ready">
+  <img-crop image="ctlCrop.uploadedImageURL" result-image="ctlCrop.cropedImage"
+            result-image-quality="1" area-type="{{ctlCrop.type}}" on-load-done="ctlCrop.calc();"></img-crop>
+</div>
+<div class="crp-foot">
+  <input type="button"  ng-click="ctlCrop.close()" value="Discard" class="butn-white" translate-attrs="value">
+  <input type="button" ng-click="ctlCrop.accept()" value="Done" class="butn-green" translate-attrs="value">
+</div>

@@ -1,4 +1,9 @@
 <div class="_pa image-box-preview _fh">
+  <div class="attach-close" ng-click="$dismiss()">
+    <svg class="_32svg _df _r45">
+      <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
+    </svg>
+  </div>
   <div class="image-preview _df _fh">
     <nst-attachment-view attachment="ctlAttachmentView.attachments.current"></nst-attachment-view>
   </div>
@@ -13,8 +18,8 @@
       <p class="nst-font-small nst-mood-storm">{{ctlAttachmentView.attachments.current.size | bytes:0}}</p>
     </div>
       <div class="_difh attachcontrols _fn">
-        <div class="_df nst-nav-butn-breeze"><a href="{{ctlAttachmentView.attachments.current.viewUrl}}" target="_blank" class="nst-mood-storm">Open in Browser</a></div>
-        <div class="_df nst-nav-butn-breeze"><a href="{{ctlAttachmentView.attachments.current.downloadUrl}}" target="_blank" class="nst-mood-storm">Download</a></div>
+        <div class="_df nst-nav-butn-breeze"><a ng-click="ctlAttachmentView.openInNewWindow(ctlAttachmentView.attachments.current);" class="nst-mood-storm"><translate>Open in Browser</translate></a></div>
+        <div class="_df nst-nav-butn-breeze"><a ng-click="ctlAttachmentView.download(ctlAttachmentView.attachments.current);" class="nst-mood-storm"><translate>Download</translate></a></div>
         <div class="_difh nst-nav-butn-breeze _jcc" data-ng-if="ctlAttachmentView.attachments.collection.length > 1">
           <div data-ng-click="ctlAttachmentView.goPrevious()" class="_df nst-arrow-rotated-90"></div>
           <div data-ng-click="ctlAttachmentView.goNext()" class="_df nst-arrow-rotated-270"></div>

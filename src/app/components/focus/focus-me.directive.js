@@ -7,10 +7,17 @@
       return {
         scope: { trigger: '@focusMe' },
         link: function(scope, element) {
-          scope.$watch('trigger', function() {
-              $timeout(function() {
+          var triggerWatcherCleaner = null,
+              focusTimeout = null;
+          triggerWatcherCleaner = scope.$watch('trigger', function() {
+              focusTimeout = $timeout(function() {
                 element[0].focus();
               });
+          });
+
+          scope.$on('$destroy', function () {
+            $timeout.cancel(focusTimeout);
+            triggerWatcherCleaner();
           });
         }
       };

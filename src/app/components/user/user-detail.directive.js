@@ -3,7 +3,7 @@
 
   angular
     .module('ronak.nested.web.components')
-    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth) {
+    .directive('userDetail', function($timeout,$state,NstSearchQuery,NstSvcAuth,NST_PATTERN, NstSvcStore) {
       return {
         template: function(element) {
           var tag = element[0].nodeName;
@@ -23,11 +23,14 @@
 
             return true
           };
-
+          var vm = this;
           $scope.user = JSON.parse($attrs.user);
-          $scope.avatar = $scope.user.avatar;
+          $scope.avatar = $scope.user.avatar128 || ($scope.user.picture && $scope.user.picture.x128 ? NstSvcStore.getViewUrl($scope.user.picture.x128) : '');
           $scope.username = $scope.user.username || $scope.user.id;
-          $scope.name = $scope.user.name;
+          $scope.name = $scope.user.name || $scope.user.firstName;
+
+
+          $scope.isEmail = NST_PATTERN.EMAIL.test($scope.username);
 
 
 
@@ -123,6 +126,7 @@
 
             }
           };
+
           $scope.searchUser = function () {
             $scope.deletePopoversAll();
             var query =  '@' + $scope.username;
@@ -130,9 +134,10 @@
             $state.go('app.search', { search : NstSearchQuery.encode(searchQury.toString()) });
           };
 
-          $scope.messageUser = function () {
+          $scope.messageUser = function ($event) {
             $scope.deletePopoversAll();
-            $state.go('app.place-compose', {placeId: $scope.username});
+            $event.preventDefault();
+            $state.go('app.place-compose', {placeId: $scope.username}, {notify : false});
           }
 
         }

@@ -6,9 +6,9 @@
     .controller('LoginController', LoginController);
 
   /** @ngInject */
-  function LoginController($q, $window, $rootScope, $timeout, $state, $stateParams, md5,
+  function LoginController($q, $window, $rootScope, $state, $stateParams, md5,
                            NST_DEFAULT, NST_SRV_ERROR,
-                           NstSvcLoader, NstSvcAuth) {
+                           NstSvcAuth) {
     var vm = this;
 
     /*****************************
@@ -45,7 +45,7 @@
         password: md5.createHash(vm.password)
       };
 
-      NstSvcLoader.inject(NstSvcAuth.login(credentials, vm.remember)).then(function () {
+      NstSvcAuth.login(credentials, vm.remember).then(function () {
         return $q(function (res) {
           var state = {
             name: NST_DEFAULT.STATE
@@ -63,7 +63,7 @@
           $state.go(state.name, state.params);
         });
       }).catch(function (error) {
-        vm.username = vm.password = '';
+        vm.password = '';
         vm.progress = false;
 
         vm.message.fill = true;

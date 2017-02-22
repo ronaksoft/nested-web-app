@@ -1,10 +1,64 @@
+#Logo {
+  background: url("../assets/icons/NestedLogo.svg") no-repeat;
+  background-size: contain;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
+#Logo-white {
+  background: url("../assets/icons/Nested_LogoNegative.svg") no-repeat;
+  background-size: contain;
+  height: 32px;
+  width: 32px;
+  margin: auto;
+}
+#Logo-type-white {
+  background: url("../assets/icons/Nested_EnglishTypeNegative.svg") no-repeat;
+  background-size: contain;
+  height: 40px;
+  width: 90px;
+}
+.svg-hover {
+  transition: all .2s;
+  fill: $color-wind;
+  use:first-child{
+    display: flex;
+  }
+  use:last-child{
+    display: none;
+  }
+  //&:hover,
+  &.morphed{
+    fill: $color-sense ;
+    use:first-child{
+      display: none;
+    }
+    use:last-child{
+      display: flex;
+    }
+  }
+  /*&.morphed:hover{
+    fill: $color-wind;
+    use:first-child{
+      display: flex;
+    }
+    use:last-child{
+      display: none;
+    }
+  }*/
+}
 
 .icon {
   color: $color-breeze;
   background-size: cover;
   flex: none;
 }
-
+.close-inp {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%)
+}
 .icon-side {
   background-repeat: no-repeat;
   margin: 0 5px;
@@ -129,9 +183,6 @@
   width: 20px;
   height: 20px;
 }
-.icon-rp {
-  background-position: 0 0;
-}
 .icon-fw {
   background-position: 0 -40px;
 }
@@ -166,21 +217,8 @@
   background-position: 0 -60px
 }
 
-[class*='icon-viewicon-']{
-  background: url('../assets/icons/viewicon.svg');
-  height: 24px;
-  width: 32px;
-  background-position: 0 0;
-  //top: 20px;
-  line-height: 24px;
-  position: relative;
-  z-index: 38;
-}
 
-.icon-viewicon-sort {
-  background-position: 0 -48px;
-  z-index: 37;
-}
+
 
 .icon-viewicon-filter {
   background-position: 0 -24px;
@@ -195,9 +233,8 @@
   cursor: pointer;
   box-sizing: border-box;
   border: 1px solid transparent;
-  min-width: 74px;
-  justify-content: flex-end;
-  margin-right: 8px;
+  min-width: 42px;
+  justify-content: center;
 
 }
 .iconsblock-right {
@@ -405,4 +442,75 @@
   fill: $color-white;
   background-color: $color-sense-wire;
   border-color: $color-sense-wire;
+}
+
+.thi-svg {
+  flex: none;
+  width: 40px;
+  max-height: 40px;
+  svg {
+    min-width: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    max-height: 24px;
+    display: block;
+    transition: transform $animation-dur ease;
+  }
+  svg:first-child {
+    transform: translateY(-2px);
+  }
+  svg:first-child + svg {
+    transform: translateY(-16px);
+    opacity: 1;
+  }
+  svg:last-child {
+    transform: translateY(-30px);
+  }
+}
+.thi-svg.open {
+  flex: none;
+  width: 40px;
+  height: 100%;
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+  svg:first-child + svg {
+    opacity: 0;
+  }
+  svg:first-child {
+    transform: translateY(12px);
+  }
+  svg:last-child {
+    transform: translateY(-42px);
+  }
+}
+
+.tw-svg {
+  flex: none;
+  width: 24px;
+  max-height: 40px;
+  svg {
+    min-width: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    max-height: 24px;
+    display: block;
+    transition: all $animation-dur ease;
+    transform-origin: center center;
+  }
+  svg:first-child {
+    transform: translateY(-10px);
+  }
+  svg:last-child {
+    transform: translateY(-25px);
+  }
+}
+.tw-svg.open {
+  svg:first-child {
+    opacity: 0;
+  }
+  svg:last-child {
+    transform: translateY(-24px) rotateZ(180deg);
+  }
 }

@@ -9,20 +9,27 @@
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
                          hotkeys, deviceDetector,
                          NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
-                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal,
+                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal, NstSvcI18n, NstSvcNotification,
                          NstObject) {
     var vm = this;
+    
 
+    NstSvcNotification.requestPermission();
 
     vm.loginView = true;
+    $rootScope.cardCtrls = [];
+    $rootScope.staticNav = true;
     vm.showLoadingScreen = true;
     $rootScope.topNavOpen = false;
+    $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
+    $rootScope.deviceDetector = deviceDetector;
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.CONNECT, function (msg) {
       vm.disconnected = false;
+      vm.showLoadingScreen = false;
     });
     NstSvcServer.addEventListener(NST_SRV_EVENT.UNINITIALIZE, function (msg) {
       vm.disconnected = true;
@@ -30,28 +37,34 @@
     NstSvcServer.addEventListener(NST_SRV_EVENT.INITIALIZE, function () {
       // Hide and remove initial loading
       // this is placed here to make sure the WS has been connected
-      $timeout(function () {
-        vm.showLoadingScreen = false;
-      }, 2000);
-
-
       vm.disconnected = false;
 
+    });
+
+    $scope.$on('show-loading', function () {
+      vm.showLoadingScreen = true;
+    });
+    $scope.$on('collapse-sidebar', function () {
+      vm.viewSettings.sidebar.collapsed =! vm.viewSettings.sidebar.collapsed
+    });
+
+    $scope.$watch(function () {
+      return vm.viewSettings.sidebar.collapsed
+    },function () {
+      var tooltip  = $('body').find('.tooltip');
+      if ( tooltip.is(":visible")){
+        tooltip.first().hide()
+      } else  {
+        tooltip.first().show()
+
+      }
     });
 
 
     // calls $digest every 1 sec to update elapsed times.
     $interval(function () {
-      NstSvcLogger.info('AppController calls $digest to update passed times every 1 min.');
+      NstSvcLogger.debug('AppController calls $digest to update passed times every 1 min.');
     }, 60 * 1000);
-
-    hotkeys.add({
-      combo: 'c',
-      description: 'compose state',
-      callback: function () {
-        $state.go('app.place-compose');
-      }
-    });
 
     vm.viewSettings = {
       sidebar: {collapsed: true},
@@ -93,7 +106,12 @@
     checkToBeAuthenticated($state.current, $stateParams);
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       checkToBeAuthenticated(toState, toParams, event);
+      scrollTopBody();
     });
+
+    function scrollTopBody() {
+      $window.scrollTo(0, 0);
+    }
 
     function checkToBeAuthenticated(state, stateParams, event) {
       if (!NstSvcAuth.isInAuthorization() && _.startsWith(state.name, "app.")) {
@@ -138,5 +156,30 @@
     NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE_FAIL, function () {
       $state.go('public.signin');
     });
+
+    //Handle all mailto links
+    $(window).on('click', function(event) {
+      if(!$(event.target).is('a[href^="mailto"]')) {
+        return;
+      }
+
+      var addr = $(event.target).attr('href').substr(7);
+      //TODO:: check domain base on config
+      if (
+        addr.split('@')[1] &&
+        (addr.split('@')[1] === 'nested.me' || addr.split('@')[1] === 'nested.ronaksoftware.com')){
+        addr = addr.split('@')[0];
+      }
+
+      $state.go('app.place-compose',{placeId : addr}, {notify : false});
+      // Both are needed to avoid triggering other event handlers
+      event.stopPropagation();
+      event.preventDefault();
+    });
+
+
+
+
+
   }
 })();

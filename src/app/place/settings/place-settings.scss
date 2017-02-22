@@ -137,10 +137,9 @@
       align-items: center;
       flex: none;
       color:$color-wind;
-      svg {
-        width: 24px;
-        height: 24px;
-        fill: $color-solid;
+      >div > svg {
+        margin-left: 4px;
+        fill: $color-wind;
       }
     }
     .invited {

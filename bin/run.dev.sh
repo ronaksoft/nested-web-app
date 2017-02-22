@@ -1,6 +1,6 @@
 #!/bin/sh
 
-npm install &
-bower install
+npm install
+bower install --allow-root
 
 gulp serve

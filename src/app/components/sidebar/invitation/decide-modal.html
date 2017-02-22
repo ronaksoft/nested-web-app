@@ -1,25 +1,37 @@
 <div id="delete-view">
   <div class="_difv _fw">
     <div class="_difh modal-head">
-      <p class="_df _fw">Place Invitation</p>
+      <p class="_df _fw"><translate>Place Invitation</translate></p>
       <div class="_df closebut" ng-click="ctrlInvitation.close()"><img src="../assets/icons/close.svg"></div>
     </div>
     <div class="_difv _fw">
       <div class="_fw _df">
-        <img class="account-initials-64" ng-src="{{ctrlInvitation.invitation.place.avatar}}"/>
+        <div class="user-avatar-64">
+          <img class="account-initials-64" ng-src="{{ctrlInvitation.invitation.place.avatar}}"/>
+        </div>
+
         <div class="_dib">
           <h4 href="{{ctrlInvitation.urls.place}}">{{ctrlInvitation.invitation.place.name || 'empty'}}</h4>
           <h5 class="nst-mood-storm">{{ctrlInvitation.invitation.place.id + '@nested.me'}}</h5>
         </div>
       </div>
       <div class="_fw _difv _jcc nst-mood-storm modal-detail">
-        <p class="_df">You are invited to this place by:</p>
+        <p class="_df"><translate>You are invited to this place by:</translate></p>
         <a class="nst-mood-solid post">{{ctrlInvitation.invitation.inviter.name}}&nbsp;<span class="nst-mood-smooth">@{{ctrlInvitation.invitation.inviter.id}}</span></a>
       </div>
       <div class="_difh _jcc">
-        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false">
-          <div class="butn-white _jcc _df" ng-click="ctrlInvitation.decline()"><a class="_df">Decline</a></div>
-          <div class="butn-green _jcc _df" ng-click="ctrlInvitation.accept()"><a class="_df">Accept</a></div>
+        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false"
+             ng-if="ctrlInvitation.invitation.state === ctrlInvitation.NST_INVITATION_FACTORY_STATE.PENDING">
+          <div class="butn-white _jcc _df" ng-click="ctrlInvitation.decline()"><a class="_df"><translate>Decline</translate></a></div>
+          <div class="butn-green _jcc _df" ng-click="ctrlInvitation.accept()"><a class="_df"><translate>Accept</translate></a></div>
+        </div>
+        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false"
+             ng-if="ctrlInvitation.invitation.state === ctrlInvitation.NST_INVITATION_FACTORY_STATE.ACCEPTED">
+          <translate>You accepted this invitation.</translate>
+        </div>
+        <div class="_difh _fw modal-buttons" data-ng-init="lockmodal = false"
+             ng-if="ctrlInvitation.invitation.state === ctrlInvitation.NST_INVITATION_FACTORY_STATE.DECLINED">
+          <translate>You declined this invitation.</translate>
         </div>
       </div>
     </div>

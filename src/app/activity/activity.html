@@ -1,22 +1,18 @@
-<nst-navbar data-ng-model="navbar" place-id="{{ctlActivity.currentPlace.id}}" nav-title="{{ctlActivity.currentPlace.id?ctlActivity.currentPlace.name:'Feed'}}"  show-place-id="ctlActivity.showPlaceId" nav-picture-url="{{ctlActivity.currentPlace.id ? ctlActivity.currentPlace.picture.thumbnails.x64.url.view : '' }}" nav-picture-class="{{ !ctlActivity.currentPlace.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlActivity.currentPlaceLoaded" place-description="{{ctlActivity.currentPlace.description}}"></nst-navbar>
+<nst-navbar data-ng-model="navbar" place-id="{{ctlActivity.currentPlace.id}}" nav-title="{{ctlActivity.currentPlace.id?ctlActivity.currentPlace.name:'Feed'}}"  show-place-id="ctlActivity.showPlaceId" nav-picture-url="{{ctlActivity.currentPlace.id ? ctlActivity.currentPlace.picture.getUrl('x128') : '' }}" nav-picture-class="{{ !ctlActivity.currentPlace.id? 'icon-nav icon-all-place' : '' }}" ready-to-show="ctlActivity.currentPlaceLoaded" place-description="{{ctlActivity.currentPlace.description}}"></nst-navbar>
 <!-- ctlActivity.currentPlace -->
+<div class="navbar-illu"></div>
 <div class="nst-content _tr _bgwhite" id="content-wrapper">
-  <scroll-change-handler reached-bottom="ctlActivity.loadMore"></scroll-change-handler>
+  <scroll-change-handler reached-bottom="ctlActivity.loadMore" disabled="ctlActivity.reachedTheEnd"></scroll-change-handler>
   <section class="_fw nst-content-body">
     <div class="navbarillu"></div>
-    <div class="filter-bar _fw" ng-mouseleave="filterPopoverShow = false;popoverSettingShow = false">
-      <div class="iconsblock" data-popover-class="white-pop popover-white-nst-filter"
-           ng-mouseenter="filterPopoverShow = true;popoverSettingShow = false"
-           uib-popover-template="'app/activity/partials/popovers/filter_popover.html'"
-           data-popover-placement="bottom-center" data-popover-is-open="filterPopoverShow">
-        <span class="nst-mood-storm _df">{{::ctlActivity.filterDictionary[ctlActivity.activitySettings.filter]}}</span>
-        <div class="icon icon-viewicon-filter _df" id="test-select-filter"></div>
-      </div>
+    <div class="filter-bar _fw" ng-mouseleave="filterPopoverShow = false;popoverSettingShow = false" style="justify-content: flex-end;">
       <div class="iconsblock" data-popover-class="white-pop popover-white-nst-setting"
            ng-mouseenter="filterPopoverShow = false;popoverSettingShow = true"
            uib-popover-template="'app/activity/partials/popovers/setting_popover.html'"
            data-popover-placement="bottom-center" data-popover-is-open="popoverSettingShow">
-        <div class="icon icon-viewicon- _pa" id="test-setting-filter"></div>
+        <svg class="icon-filter _df" id="test-setting-filter">
+          <use xlink:href="/assets/icons/nst-icn16.svg#filter"></use>
+        </svg>
       </div>
     </div>
 
@@ -24,10 +20,10 @@
       <div class="_fw eventsbody _bgwhite" id="EventList" set-seen-on-visible>
         <div class="actdate" ng-repeat="group in ctlActivity.activities track by group.date">
           <p class="nst-mood-simple">
-            {{::group.date}}
+            {{group.date | activityGroupDate}}
           </p>
-          <activity-item place="ctlActivity.currentPlace"
-                         data-ng-repeat="activity in group.items track by activity.id" model="activity"
+          <activity-item current-place-id="ctlActivity.activitySettings.placeId"
+                         ng-repeat="activity in group.items track by activity.id" model="activity"
                          extended="ctlActivity.expanded"></activity-item>
 
         </div>

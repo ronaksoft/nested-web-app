@@ -1,20 +1,25 @@
 <div class="_df">
   <div user-detail user="{{act.actor}}">
-    <img initials="act.actor.fullname" data-url="act.actor.avatar" data-width="16" data-height="16" data-radius="16" class="account-initials-24 _df _fn" data-word-count="2" data-font-size="8"/>
+
+    <img initial-avatar="{{act.actor.fullName}}" picture="{{act.actor | avatar}}"
+         data-width="16" data-height="16" data-radius="16"
+         data-word-count="2" data-font-size="8"
+         class="account-initials-24 _df _fn"/>
   </div>
 </div>
 <div class="colomn">
   <div class="_difh top">
-    <div class="sender _df _fn" user-detail user="{{act.actor}}">
-      <a class="on-avatar">{{::act.actor.name}}</a> <span class="on-avatar">&nbsp;@{{::act.actor.id}}</span>
+    <div class="sender _df">
+      <div user-detail user="{{act.actor}}">
+        <a class="on-avatar">{{::act.actor.fullName}}</a>
+      </div>
     </div>
-    <div class="_df _fw"></div>
     <div class="_df _fn">
       <span>{{act.date | passed }}</span>
     </div>
     <div class="ei-member-invite _df _fn"></div>
   </div>
   <div class="_df">
-    <p><span>Invited</span> {{::act.member.name}}</p>
+    <p><translate>Invited</translate>&nbsp; {{::act.member.fullName}}</p>
   </div>
 </div>

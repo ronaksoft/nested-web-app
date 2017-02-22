@@ -1,6 +1,6 @@
 <div class="nst-preview-pic-mode" ng-if="attachment.isDownloaded">
   <videogular class="">
-    <vg-media vg-src="attachment.url" vg-native-controls="true" vg-preload="none"></vg-media>
+    <vg-media ng-src="{{attachment.url}}" vg-native-controls="true" vg-preload="none"></vg-media>
     <vg-buffering></vg-buffering>
   </videogular>
 </div>

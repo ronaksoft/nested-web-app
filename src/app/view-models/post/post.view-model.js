@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmPost', NstVmPost);
 
-  function NstVmPost(NstPost, NstVmUser, NstSvcAttachmentMap, NstUtility, NstSvcPlaceMap, NstSvcCommentMap) {
+  function NstVmPost(NstPost, NstVmUser, NstSvcAttachmentMap, NstUtility, NstSvcPlaceMap) {
 
     function VmPost(model) {
       this.id = null;
@@ -57,7 +57,7 @@
         this.date = model.date;
         this.attachments = _.map(model.attachments, NstSvcAttachmentMap.toAttachmentItem);
         this.hasAnyAttachment = model.attachments.length > 0;
-        this.comments = _.map(model.comments, NstSvcCommentMap.toPostComment);
+        this.comments = model.comments;
         this.hasAnyComment = model.comments.length > 0;
         this.commentsCount = model.counters.comments > -1 ? model.counters.comments : 0;
         this.isReplyed = !!model.replyToId;

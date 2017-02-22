@@ -1,4 +1,5 @@
 body.modal-open {
+  min-width: auto;
   .modal {
     height: 100%;
     min-height: 100vh;
@@ -10,6 +11,7 @@ body.modal-open {
     display: flex!important;
     justify-content: center;
     align-items: center;
+    overflow-x: auto;
     //box-shadow: 0px 0px 16px 0px rgba(71, 97, 82, 0.15);
     .butn-green {
       width: 128px;
@@ -29,12 +31,13 @@ body.modal-open {
     padding: 0 16px;
     margin: 0;
     position: relative;
-    right: 20px;
+    //right: 20px;
     width: auto;
     line-height: 32px;
     height: 32px;
   }
   input.ui-select-search {
+    margin-bottom: 6px;
     max-width: 715px;
     //width: auto!important;
   }
@@ -48,6 +51,7 @@ body.modal-open {
   width: 510px;
   max-width: 100%;
   height: auto;
+  @include user-select(none);
   .butn-white {
     width: 125px;
     height: 32px;
@@ -58,6 +62,8 @@ body.modal-open {
     align-items: center;
     width: 128px;
     line-height: 32px;
+    padding: 0;
+    color: $color-white;
   }
   .butn-green{
     line-height: 32px;
@@ -124,6 +130,135 @@ body.modal-open {
   margin: 0 1%;
 }
 
+.modal .modal-no-miss {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  overflow-x: scroll;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 0!important;
+  margin: 0;
+  .modal-content {
+    position: relative;
+    background-color: $color-white;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  & + div{
+    background-color: transparent;
+  }
+
+}
+
+.modal .modal-compose {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  overflow-x: scroll;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 0!important;
+  margin: 0;
+  .modal-content {
+    position: relative;
+    top: 150px;
+    background-color: $color-white;
+    width: 600px;
+    min-height: 480px;
+    max-height: calc(100vh - 160px);
+    overflow: hidden;
+    border-radius: 4px;
+    >div {
+      min-height: 480px;
+    }
+    .ui-select-multiple.ui-select-bootstrap input.ui-select-search ,
+    .ui-select-multiple.ui-select-bootstrap {
+      padding: 0;
+    }
+  }
+  .compose-wrp {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+  }
+  .modal-head {
+    height: 48px;
+    width: 100%;
+    display: flex;
+    left: 0;
+    top: 0;
+    padding-right: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+  }
+  .modal-bo {
+    margin: 48px 0;
+    padding: 0 16px;
+    height: calc(100% - 96px);
+    max-height: calc(100vh - 255px);
+    //overflow-y: scroll;
+    //overflow-x: hidden;
+    >p {
+      color: $color-sense-wire;
+    }
+  }
+  .modal-ft {
+    padding: 0 16px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+    .butn-green {
+      width: 80px;
+      height: 32px;
+    }
+  }
+
+  & + div{
+    background-color: transparent;
+  }
+
+}
+
+.fullCompose .modal .modal-compose  .modal-content{
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  top: 0;
+  max-height: 100vh;
+  .modal-bo {
+    margin-top: 48px;
+    height: calc(100% - 96px);
+    max-height: calc(100vh - 96px);
+  }
+  #compose-full {
+    use:first-child {
+      display: none;
+    }
+    use:last-child {
+      display: block;
+    }
+  }
+}
+
 .modal-mlg {
   width: calc(100% - 160px);
   height: calc(100% - 160px);
@@ -136,6 +271,25 @@ body.modal-open {
     height: 100%
   }
 }
+.modal-post-view {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  margin: 0!important;
+  .modal-content {
+    min-height: calc(100% - 56px);
+    margin-top: 56px;
+    min-width: 1024px;
+    background-color: #FAFAFA;
+    display: block;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+  }
+}
+
 
 .modal-sm {
   width: auto!important;
@@ -280,7 +434,7 @@ body.modal-open {
 
 .modal-add {
   border-bottom: 1px solid $color-calm;
-  margin: 10px 0;
+  margin-bottom: 10px;
   .butn-green-nav {
     margin: 0;
     position: relative;
@@ -299,9 +453,10 @@ body.modal-open {
     min-height: 32px;
   }
   .ui-select-container ul {
-    width: calc(100% + 50px)!important;
+    width: calc(100% + 80px)!important;
     max-height: 170px!important;
     overflow: hidden;
+    margin-top: -25px;
   }
   .ui-select-choices-row{
     display: inline-flex;
@@ -355,7 +510,7 @@ body.modal-open {
 
 .modal-lg-white {
   display: flex;
-  position: absolute;
+  position: fixed;
   background-color: $color-bg;
   //opacity: 0.98;
   top: 0;
@@ -366,10 +521,12 @@ body.modal-open {
   transition: opacity $animation-dur;
   //overflow-y: auto;
   margin: 0;
+  border-radius: 0!important;
   .modal-content {
     position: relative;
     box-shadow: none;
     border: none;
+    overflow-y: auto;
     background-color: transparent;
     h2 {
       color: #000000;
@@ -473,7 +630,7 @@ body.modal-open {
   justify-content: center;
   align-items: center;
   top: 56px;
-  right: 56px;
+  left: 56px;
   border-radius: 24px;
   transition: all $animation-dur;
   z-index: 2;

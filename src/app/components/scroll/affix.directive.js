@@ -6,7 +6,7 @@
     .directive('affixer', onScroll);
 
   /** @ngInject */
-  function onScroll($window) {
+  function onScroll($window,$rootScope,$timeout) {
     return {
       restrict: 'A',
       link: function ($scope, $element, $attrs) {
@@ -18,9 +18,12 @@
 
         var containerLeft = $('body').offset().left || 0;
 
-        var isRTL = $("body").attr("dir");
+        var isRTL = $rootScope._direction;
 
-        applier();
+
+        $timeout(function () {
+          applier();
+        },3000);
 
         win.on("resize", function () {
           applier();
@@ -28,6 +31,9 @@
 
         function applier() {
           removeFix();
+
+          var membrsH = 0;
+          if ($element.parent().children().first().is("#members")) membrsH = parseInt($element.parent().children().first().height()) + 38;
 
           var top = $element.offset().top || 0;
           var offLeft = $element.offset().left || 0;
@@ -42,15 +48,15 @@
 
 
           if (!!$attrs.offsetTop ) {
-            topOffset = $attrs.offsetTop;
+            topOffset = parseInt($attrs.offsetTop) + membrsH;
           }
 
           if (!!$attrs.parent && $($attrs.parent).offset() ) {
-            containerLeft = $($attrs.parent).offset().left;
+            containerLeft = $($attrs.parent)[0].offsetLeft;
           }
 
           if (!!$attrs.top ) {
-            top = top + parseInt($attrs.top);
+            top = parseInt($attrs.top);
           }
 
           if (!!$attrs.afterContent ) {
@@ -69,11 +75,9 @@
           //for create a fixed element we need a left parameter so we read it from itself
           function findLeftOffset () {
             if (isRTL == 'rtl') {
-              if (parseInt(afterContent) > 0) {
-                offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
-              }
+              offLeft = parseInt(containerLeft)  +  $($attrs.parent).width()  - parseInt(afterContent) - width;
             } else {
-              offLeft = parseInt(containerLeft) + parseInt(afterContent);
+              offLeft = parseInt(containerLeft) + parseInt(afterContent) + 272;
             }
 
             // if (isChrome || isFirefox) {
@@ -86,6 +90,7 @@
             $element.css('position', '');
             $element.css('top', '');
             $element.css('left', '');
+            $element.css('right', '');
             $element.css('width', '');
             $element.css('height', '');
           }
@@ -94,8 +99,9 @@
           function affixElement() {
             if ($window.pageYOffset > topOffset && !fixed) {
               $element.css('position', 'fixed');
-              $element.css('top', parseInt(top) - parseInt(topOffset) + 'px');
-              $element.css('left', offLeft + 'px');
+              $element.css('top', parseInt(top) + 'px');
+              if (isRTL == 'ltr')$element.css('left', offLeft + 'px');
+              if (isRTL == 'rtl')$element.css('left', offLeft + 'px');
               if(!dontSetWidth) $element.css('width', actualWidth + 'px');
               $element.css('height', height + 'px');
               fixed = true;

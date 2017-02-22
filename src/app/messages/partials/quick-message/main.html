@@ -1,12 +1,11 @@
-<div contentedit tabindex="0" id="input" ng-keyup="ctlQuickMessage.writeMsg($event)"
-     placeholder="Write your message or drag your files here..." translate-attrs="placeholder"
-     class="_fw _fh" ng-model="ctlQuickMessage.message"
-     aria-expanded="false" role="textbox" auto-dir="ctlQuickMessage.model.subject"></div>
-<div class="_difh _fw _fn">
-  <nst-attachments-editable-bar class="qm-mode _df _fw" mode="thumbnail" items="ctlQuickMessage.attachments.viewModels" on-item-delete="ctlQuickMessage.attachments.detach"></nst-attachments-editable-bar>
-  <div class="quick-icons">
-    <label tabindex="0" class="butn-white" for="attach"><translate>Attach files</translate></label>
-    <div tabindex="0"  class="butn-green" ng-click="ctlQuickMessage.model.submit()"><translate>Send</translate></div>
+<div class="quick-sender">
+  <div class="user-avatar-32 _df _fn">
+    <img initials="ctlQuickMessage.post.sender.name" data-url="ctlQuickMessage.user.picture.getUrl('x64')" data-width="32"
+         data-height="32"
+         data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="12"/>
+  </div>
 </div>
+<div class="_difv quick-message _fw _bgwhite" ng-click="ctlQuickMessage.showCtrls = true"
+     ng-mouseleave="ctlQuickMessage.showCtrls = false">
+  <nst-quick-compose place-id="ctlQuickMessage.placeID" data-mode="ctlQuickMessage.mode"></nst-quick-compose>
 </div>
-<input id="attach" type="file" multiple onchange="angular.element(this).scope().ctlQuickMessage.attachments.fileSelected(event)"/>
