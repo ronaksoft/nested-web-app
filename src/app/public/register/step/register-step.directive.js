@@ -10,7 +10,8 @@
         scope: {
           verificationId : '=',
           phone : '=',
-          onCompleted : '@'
+          onCompleted : '@',
+          countryCode : '='
         },
         controller : 'RegisterStepController',
         controllerAs : 'ctrl',

@@ -16,6 +16,7 @@
     vm.getPhoneNumber = getPhoneNumber;
     vm.phoneAvailableStatus = 'none';
     vm.autoLocateEnabled = true;
+    var autoSubmitReferece = null;
 
     (function () {
       if (vm.countryCode) {
@@ -23,7 +24,24 @@
       }
 
       if (vm.phone && vm.countryCode && vm.instantSubmit) {
-        validateAndSend(getPhoneNumber());
+        // wait for country select component to bind vm.countryId to be able to validate the provided phone number
+        autoSubmitReferece = $scope.$watchGroup([function () {
+          return vm.phone;
+        },
+        function () {
+          return vm.countryCode;
+        },
+        function () {
+          return vm.countryId;
+        }], function(newValues, oldValues, scope) {
+          if (_.every(newValues)) {
+            if (autoSubmitReferece) {
+              autoSubmitReferece();
+            }
+            vm.submitted = true;
+            validateAndSend(getPhoneNumber());
+          }
+        });
       }
 
       vm.ready = true;
@@ -52,8 +70,6 @@
               toastr.error(NstSvcTranslation.get("Sorry, an unknown error has occurred."));
             }
           });
-        } else {
-          toastr.error(alreadyRegisteredMessage);
         }
       }).catch(function () {
         toastr.error('An error has occured while validating your phone number');
