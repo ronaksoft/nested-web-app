@@ -1,7 +1,3 @@
-
-  var number = 15
-
-
 var assert = require('assert'),
   tmpResult;
 
@@ -21,6 +17,12 @@ module.exports = function () {
   this.When(/^I wait 2s$/, function () {
     browser.ignoreSynchronization = true;
     return browser.sleep(2000);
+
+  });
+
+  this.When(/^I wait 1s$/, function () {
+    browser.ignoreSynchronization = true;
+    return browser.sleep(1000);
 
   });
 
@@ -58,6 +60,11 @@ module.exports = function () {
     input.sendKeys(value);
   });
 
+  this.Given(/^I fill recipient with "([^"]*)"$/, function (value) {
+    var input = element(By.css('.ui-select-search'));
+    input.sendKeys(value);
+  });
+
   this.Given(/^I fill input by ngModel "([^"]*)" with "([^"]*)"$/, function (filling, value) {
     var fillInput1 = element(By.css('input[ng-model="' + filling + '"]'));
     fillInput1.sendKeys(value);
@@ -78,6 +85,11 @@ module.exports = function () {
     tab.perform();
   });
 
+  this.Given(/^I type Hello$/, function () {
+
+    var Hello = browser.actions().sendKeys(protractor.Key.H);
+    Hello.perform();
+  });
 
   this.Given(/^I fill id "([^"]*)" with "([^"]*)"$/, function (id,value) {
     var input = element(By.css('#'+ id));
@@ -117,11 +129,6 @@ module.exports = function () {
   this.Given(/^I Click on "([^"]*)" in sidebar$/, function (destination) {
     var pS1 = element(By.css('a[href="#/messages/'+ destination +'"]'));
     pS1.click();
-  });
-
-  this.Given(/^I Click on plus of "([^"]*)" in sidebar$/, function (destination) {
-    var pS2 = element(By.css('a[href="#/places/_/'+ destination +'"]'));
-    pS2.click();
   });
 
   this.Given(/^I Click on "([^"]*)" place$/, function (destination) {
@@ -164,8 +171,8 @@ module.exports = function () {
     clearInput1.clear();
   });
 
-  this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClick){
-    var ClickableElement = element(By.css('div[ng-click="' + ngClick + '"]'));
+  this.Given(/^I Click by ngClick "([^"]*)"$/, function (ngClickA){
+    var ClickableElement = element(By.css('*[ng-click="' + ngClickA + '"]'));
     ClickableElement.click();
   });
 
@@ -248,29 +255,9 @@ module.exports = function () {
     });
   });
 
-  this.Then(/^should the title be "([^"]*)"$/, function (expectedTitle) {
-    element(by.css('.testing-title')).getText().then(function (title) {
+  this.Then(/^should the panel title be "([^"]*)"$/, function (expectedTitle) {
+    element(by.css('.col-xs-9')).getText().then(function (title) {
       assert.equal(title.trim(), expectedTitle, ' title is "' + title + '" but should be "' + expectedTitle);
-    });
-  });
-
-
-  this.Then(/^should the title1 be "([^"]*)"$/, function (expectedTitle1) {
-    element(by.css('.testing-title1')).getText().then(function (title) {
-      assert.equal(title.trim(), expectedTitle1, ' title is "' + title + '" but should be "' + expectedTitle1);
-    });
-  });
-
-  this.Then(/^should the reg-title be "([^"]*)"$/, function (expectedRegTitle) {
-    element(by.css('.testing-registration-step2')).getText().then(function (title) {
-      assert.equal(title.trim(), expectedRegTitle, ' title is "' + title + '" but should be "' + expectedRegTitle);
-    });
-  });
-
-
-  this.Then(/^should the reg2-title be "([^"]*)"$/, function (expectedReg2Title) {
-    element(by.css('.testing-registration-step3')).getText().then(function (title) {
-      assert.equal(title.trim(), expectedReg2Title, ' title is "' + title + '" but should be "' + expectedReg2Title);
     });
   });
 
@@ -292,13 +279,23 @@ module.exports = function () {
     });
   });
 
+  this.Then(/^current tab must be "([^"]*)"$/, function (expectedTab) {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.active'))), 50000).then(function () {
+        element(By.css('.active')).getText().then(function (currentTab) {
+        assert.equal(currentTab.trim(), expectedTab, ' current tab is "' + currentTab + '" but should be "' + expectedTab);
+      });
+    });
+  });
+
   this.When(/^Wait to see success-msg$/, function () {
     browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-success'))), 50000);
   });
 
-  this.When(/^Wait to see error-msg$/, function () {
+  this.Then(/^Wait to see error-msg$/, function () {
     browser.ignoreSynchronization = true;
     var EC = protractor.ExpectedConditions;
     return browser.wait(EC.visibilityOf(element(By.css('.toast-error'))), 50000);
@@ -316,16 +313,15 @@ module.exports = function () {
     return browser.wait(EC.visibilityOf(element(By.css('#delete-view'))), 50000);
   });
 
+  this.When(/^Wait to see compose-modal$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.modal-bo'))), 50000);
+  });
+
   this.Then(/^should see "([^"]*)"$/, function (text) {
     element(by.css('.nst-font-xlarge _hf')).getText().then(function (title) {
       assert.equal(title.trim(), text, ' title is "' + title + '" but should be "' + text);
-    });
-  });
-//---------modal selector-------//
-
-  this.Then(/^the modal message have to be "([^"]*)"$/, function (expectedModal) {
-    element(By.css(".force")).getText().then(function (no) {
-      assert.equal(no.trim(), expectedModal, ' title is "' + no + '" but should be "' + expectedModal);
     });
   });
 
@@ -392,3 +388,4 @@ module.exports = function () {
 //------------------------------------------------------------------//
 
 };
+
