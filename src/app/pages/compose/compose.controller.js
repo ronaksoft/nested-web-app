@@ -91,6 +91,7 @@
       $scope.editorOptions = {
         language: lang,
         contentsLangDirection: isRTL,
+        allowedContent: true,
         contentsCss: 'body {overflow:visible;}',
         enableTabKeyTools: true,
         tabSpaces: 4,
@@ -116,6 +117,7 @@
     } else {
       $scope.editorOptions = {
         language: lang,
+        allowedContent: true,
         contentsLangDirection: isRTL,
         contentsCss: 'body {overflow:visible;}',
         height: 230,
