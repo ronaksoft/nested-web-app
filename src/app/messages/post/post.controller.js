@@ -82,19 +82,17 @@
     }
 
     function load(postId) {
-      return $q(function (resolve, reject) {
-        loadChainMessages(postId, defaultLimit).then(function (messages) {
-          vm.messages = messages;
-          vm.post = _.last(vm.messages);
+      return $q.all([loadChainMessages(postId, defaultLimit), NstSvcPostFactory.get(postId)]).then(function (resolvedSet) {
+        vm.messages = resolvedSet[0];
+        vm.post = _.last(resolvedSet[0]);
+        vm.post.body = resolvedSet[1].body;
 
-          vm.placesWithRemoveAccess = NstSvcPlaceFactory.filterPlacesByRemovePostAccess(vm.post.places);
-          vm.hasRemoveAccess = _.isArray(vm.placesWithRemoveAccess) && vm.placesWithRemoveAccess.length > 0;
+        vm.post.placesWithRemoveAccess = _.map(NstSvcPlaceFactory.filterPlacesByRemovePostAccess(resolvedSet[1].places), 'id');
+        vm.hasRemoveAccess = _.size(vm.placesWithRemoveAccess) > 0;
 
-          // TODO: Optimize (get accessses instead of a place object which has more cost)
-          checkHasManagerAccess(_.map(vm.post.allPlaces, 'id'));
-
-          resolve(true);
-        }).catch(reject);
+        // TODO: Optimize (get accessses instead of a place object which has more cost)
+        checkHasManagerAccess(_.map(vm.post.allPlaces, 'id'));
+        vm.messages.splice(vm.messages.length - 1 ,1 ,vm.post);
       });
     }
 
