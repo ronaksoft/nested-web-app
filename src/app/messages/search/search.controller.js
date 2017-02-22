@@ -25,17 +25,6 @@
     };
 
 
-    vm.suggestedItems = [{
-      type : 'user',
-      name : 'Foo',
-      id : 'foo'
-    },
-    {
-      type : 'account',
-      name : 'Bar',
-      id : 'bar'
-    }];
-
     vm.search = search;
     vm.loadMore = loadMore;
     vm.searchOnEnterKeyPressed = searchOnEnterKeyPressed;
@@ -56,19 +45,16 @@
      * @param  {Event} event keypress event handler
      * @return {bool}        true if the pressed key is Enter
      */
-    function sendKeyIsPressed(event) {
-      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
+    function sendKeyIsPressed(e) {
+      return 13 === e.keyCode && !(e.shiftKey || e.ctrlKey);
     }
 
     function searchOnEnterKeyPressed(e, queryString) {
 
-      var element = angular.element(event.target);
-      if (!queryString || !sendKeyIsPressed(event) || element.attr("mention") === "true") {
+      var element = angular.element(e.target);
+      if (!queryString || !sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-      // if (!sendKeyIsPressed(e) || !queryString) {
-      //   return;
-      // }
 
       search(queryString);
     }
@@ -125,8 +111,8 @@
       }
     }
 
-    $(window).scroll(function (event) {
-      var element = event.currentTarget;
+    $(window).scroll(function (e) {
+      var element = e.currentTarget;
       if (element.pageYOffset + element.innerHeight === $('body').height()) {
         $log.debug("load more");
         vm.loadMore();

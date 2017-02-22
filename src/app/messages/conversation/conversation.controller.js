@@ -50,19 +50,16 @@
         });
     })();
 
-    function sendKeyIsPressed(event) {
-      return 13 === event.keyCode && !(event.shiftKey || event.ctrlKey);
+    function sendKeyIsPressed(e) {
+      return 13 === e.keyCode && !(e.shiftKey || e.ctrlKey);
     }
 
 
     function searchOnEnterKeyPressed(e, queryString) {
-      var element = angular.element(event.target);
-      if (!sendKeyIsPressed(event) || element.attr("mention") === "true") {
+      var element = angular.element(e.target);
+      if (!sendKeyIsPressed(e) || element.attr("mention") === "true") {
         return;
       }
-      // if (!sendKeyIsPressed(e) || !queryString) {
-      //   return;
-      // }
       vm.messages = [] ;
       vm.loading = true;
       vm.loadMessageError = false;
@@ -113,8 +110,8 @@
       $state.go('app.conversation', { userId : vm.account.id});
     }
 
-    $(window).scroll(function (event) {
-      var element = event.currentTarget;
+    $(window).scroll(function (e) {
+      var element = e.currentTarget;
       if (element.pageYOffset + element.innerHeight === $('body').height()) {
         $log.debug("load more");
         vm.loadMore();

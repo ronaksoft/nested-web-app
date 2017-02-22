@@ -221,6 +221,7 @@
         defer.resolve(comment);
       } else {
 
+        var promises = [];
 
         comment.id = data._id;
         comment.postId = postId;
@@ -230,10 +231,24 @@
           lastName: data.sender.lname,
           picture: new NstPicture(data.sender.picture)
         });
+
         comment.body = data.text;
         comment.date = new Date(data['timestamp']);
-        comment.removed = data._removed;
-        defer.resolve(comment);
+        comment.removedById = data.removed_by;
+
+        if (comment.removedById) {
+          promises.push(NstSvcUserFactory.getTiny(comment.removedById));
+        }
+
+        if (_.size(promises) === 0) {
+          defer.resolve(comment);
+        } else {
+          $q.all(promises).then(function (resolvedSet) {
+            comment.removedBy = resolvedSet[0];
+
+            defer.resolve(comment);
+          }).catch(defer.reject);
+        }
 
       }
 
