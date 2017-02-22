@@ -23,10 +23,11 @@
       .state('app.compose', {
         url: '/compose',
         params: {
-          attachments : []
+          attachments : [],
         },
         options: {
-          group : 'compose',
+          group: 'compose',
+          supportDraft: true
         },
         onEnter: ['$rootScope', '$stateParams', '$state', '$uibModal', function($rootScope, $stateParams, $state, $uibModal) {
           $uibModal.open({

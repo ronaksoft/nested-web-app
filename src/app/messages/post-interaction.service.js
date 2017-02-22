@@ -100,8 +100,8 @@
         NstUtility.string.format(REMOVE_CONFIRM_MESSAGE, post.subject, place.name) :
         NstUtility.string.format(REMOVE_CONFIRM_MESSAGE_NO_SUBJECT, place.name);
 
-      NstSvcModal.confirm(REMOVE_CONFIRM_TITLE, message).then(function() {
-        deferred.resolve(true);
+      NstSvcModal.confirm(REMOVE_CONFIRM_TITLE, message).then(function(confirmed) {
+        deferred.resolve(confirmed);
       }).catch(function() {
         deferred.resolve(false);
       });
@@ -116,17 +116,19 @@
         toastr.info(RETRACT_LATE_MESSAGE);
         deferred.resolve(false);
       } else {
-        NstSvcModal.confirm(RETRACT_CONFIRM_TITLE, RETRACT_CONFIRM_MESSAGE).then(function() {
-          NstSvcPostFactory.retract(post.id).then(function(result) {
-            $rootScope.$broadcast('post-removed', {
-              postId: post.id,
+        NstSvcModal.confirm(RETRACT_CONFIRM_TITLE, RETRACT_CONFIRM_MESSAGE).then(function(confirmed) {
+          if (confirmed) {
+            NstSvcPostFactory.retract(post.id).then(function(result) {
+              $rootScope.$broadcast('post-removed', {
+                postId: post.id,
+              });
+              toastr.success(RETRACT_SUCCESS_MESSAGE);
+              deferred.resolve(true);
+            }).catch(function(error) {
+              toastr.error(RETRACT_FAILURE_MESSAGE);
+              deferred.reject(error);
             });
-            toastr.success(RETRACT_SUCCESS_MESSAGE);
-            deferred.resolve(true);
-          }).catch(function(error) {
-            toastr.error(RETRACT_FAILURE_MESSAGE);
-            deferred.reject(error);
-          });
+          }
         }).catch(function() {
           deferred.resolve(false);
         });

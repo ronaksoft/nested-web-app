@@ -63,10 +63,10 @@
         NstSvcLogger.debug2('WS | Message:', message);
         switch (message.type) {
           case NST_SRV_MESSAGE_TYPE.RESPONSE:
-            var status = message.status || message.data.status;
+            var status = message.status || (message.data ? message.data.status : '');
             switch (status) {
               case NST_SRV_RESPONSE_STATUS.SUCCESS:
-                if (message.data.hasOwnProperty('msg')) {
+                if (message.data && message.data.hasOwnProperty('msg')) {
                   this.dispatchEvent(new CustomEvent(NST_SRV_EVENT.MESSAGE, {detail: message.data.msg}));
                 }
                 break;
