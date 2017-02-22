@@ -55,7 +55,7 @@
         NstSvcAuth.login(data.credentials, true).then(function() {
           return $state.go(NST_DEFAULT.STATE);
         }).catch(function() {
-          return $state.go("signin");
+          return $state.go("public.signin");
         });
       }
     }));
