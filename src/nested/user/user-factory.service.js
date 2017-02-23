@@ -96,6 +96,17 @@
       }, "getTiny", id);
     }
 
+    UserFactory.prototype.getTinySafe = function (id) {
+      var service = this;
+      return $q(function (resolve, reject) {
+        service.getTiny(id).then(function (place) {
+          resolve(place);
+        }).catch(function (error) {
+          resolve({ id : id });
+        });
+      });
+    };
+
     UserFactory.prototype.set = function (user) {
       if (user instanceof NstUser) {
         if (this.has(user.getId())) {

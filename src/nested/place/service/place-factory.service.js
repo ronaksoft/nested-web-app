@@ -192,6 +192,17 @@
 
     }
 
+    PlaceFactory.prototype.getTinySafe = function (id) {
+      var service = this;
+      return $q(function (resolve, reject) {
+        service.getTiny(id).then(function (place) {
+          resolve(place);
+        }).catch(function (error) {
+          resolve({ id : id });
+        });
+      });
+    };
+
     /**
      *
      * @returns {Promise}
