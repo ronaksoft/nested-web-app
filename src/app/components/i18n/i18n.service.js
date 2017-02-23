@@ -11,16 +11,19 @@
       this.locales = {};
 
       var languages = {
-        "fa" : "fa-IR",
-        "fa-IR" : "fa-IR",
-        "persian" : "fa-IR",
-        "en" : "en-US",
-        "english" : "en-US",
-        "en-US" : "en-US"
+        "fa": "fa-IR",
+        "fa-IR": "fa-IR",
+        "persian": "fa-IR",
+        "en": "en-US",
+        "english": "en-US",
+        "en-US": "en-US"
       };
 
       var defaultLocale = "en-US";
       var routedLocale = languages[findLanguage("lang")];
+      if (!NstSvcI18nStorage.get('locale') && routedLocale) {
+        NstSvcI18nStorage.set('locale', routedLocale)
+      }
       this.selectedLocale = NstSvcI18nStorage.get('locale') || routedLocale || defaultLocale;
       moment.locale(this.selectedLocale);
     }
@@ -43,7 +46,7 @@
 
     };
 
-    I18n.prototype.setLocale = function(key) {
+    I18n.prototype.setLocale = function (key) {
       var name = key || this.selectedLocale;
       if (_.has(this.locales, name)) {
         this.selectedLocale = name;
