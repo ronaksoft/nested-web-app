@@ -15,6 +15,9 @@
     vm.removeClass = _.debounce(removeClass, 512);
 
 
+    NstSvcNotification.requestPermission();
+
+
     $window.addEventListener("dragover",function(e){
       e = e || event;
       e.preventDefault();
