@@ -10,7 +10,7 @@
                              _, toastr,
                              NST_SRV_ERROR, NST_PATTERN, NST_TERM_COMPOSE_PREFIX, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NST_ATTACHMENT_STATUS, NST_FILE_TYPE, SvcCardCtrlAffix,
                              NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPostFactory, NstSvcStore, NstSvcFileType, NstSvcAttachmentMap, NstSvcSidebar, NstUtility, NstSvcTranslation, NstSvcModal, NstSvcPostDraft, NstSvcUserFactory,
-                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstLocalResource, NstSvcPostMap, NstPicture, NstPostDraft) {
+                             NstTinyPlace, NstVmPlace, NstVmSelectTag, NstRecipient, NstLocalResource, NstSvcPostMap, NstPicture, NstPostDraft, NstTinyUser, NstVmUser) {
     var vm = this;
     vm.quickMode = false;
     vm.focus = false;
@@ -91,6 +91,8 @@
       $scope.editorOptions = {
         language: lang,
         contentsLangDirection: isRTL,
+        allowedContent: 'a[class,href,id,style,target];b[class,id,style];br[class,id,style];div[align,class,dir,id,style];font[class,color,face,id,size,style];h1[align,class,dir,id,style];h2[align,class,dir,id,style];h3[align,class,dir,id,style];h4[align,class,dir,id,style];h5[align,class,dir,id,style];h6[align,class,dir,id,style];head[dir,lang];hr[align,size,width];img[align,border,class,height,hspace,id,src,style,usemap,vspace,width];label[class,id,style];li[class,dir,id,style,type];ol[class,dir,id,style,type];p[align,class,dir,id,style];span[class,id,style];strong[class,id,style];table[align,bgcolor,border,cellpadding,cellspacing,class,dir,frame,id,rules,style,width];td[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];th[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];tr[align,bgcolor,class,dir,id,style,valign];u[class,id,style];ul[class,dir,id,style];',
+        // allowedContent: true,
         contentsCss: 'body {overflow:visible;}',
         enableTabKeyTools: true,
         tabSpaces: 4,
@@ -116,6 +118,8 @@
     } else {
       $scope.editorOptions = {
         language: lang,
+        allowedContent: 'a[class,href,id,style,target];b[class,id,style];br[class,id,style];div[align,class,dir,id,style];font[class,color,face,id,size,style];h1[align,class,dir,id,style];h2[align,class,dir,id,style];h3[align,class,dir,id,style];h4[align,class,dir,id,style];h5[align,class,dir,id,style];h6[align,class,dir,id,style];head[dir,lang];hr[align,size,width];img[align,border,class,height,hspace,id,src,style,usemap,vspace,width];label[class,id,style];li[class,dir,id,style,type];ol[class,dir,id,style,type];p[align,class,dir,id,style];span[class,id,style];strong[class,id,style];table[align,bgcolor,border,cellpadding,cellspacing,class,dir,frame,id,rules,style,width];td[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];th[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];tr[align,bgcolor,class,dir,id,style,valign];u[class,id,style];ul[class,dir,id,style];',
+        // allowedContent: true,
         contentsLangDirection: isRTL,
         contentsCss: 'body {overflow:visible;}',
         height: 230,
@@ -262,18 +266,46 @@
            item.status = NST_ATTACHMENT_STATUS.ATTACHED;
            return item;
          });
-         vm.attachments.viewModels = _.map(attachments, NstSvcAttachmentMap.toEditableAttachmentItem);
+         vm.attachments.viewModels = _.map(attachments, function (attachment) {
+           return NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
+         });
          vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
          vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
        }).catch(deferred.reject);
 
        $q.all(_.map(draft.recipients, function (recipientId) {
-           return NstSvcPlaceFactory.getTiny(recipientId);
+         if (recipientId.indexOf('@') > -1) {
+           return NstSvcUserFactory.getTinySafe(recipientId);
+         } else {
+           return NstSvcPlaceFactory.getTinySafe(recipientId);
+         }
        })).then(function (recipients) {
          vm.model.recipients = _.map(recipients, function (recipient) {
-           return new NstVmPlace(recipient);
+           if (recipient instanceof NstTinyPlace) {
+             return new NstVmPlace(recipient);
+           } else if (recipient instanceof NstTinyUser) {
+
+             var user = new NstVmUser(recipient);
+             if (recipient.id.indexOf('@') > -1) {
+               user.isEmail = true;
+               user.isEmailValid = NST_PATTERN.EMAIL.test(user.id);
+             }
+
+             return user;
+
+           } else {
+
+             return new NstVmSelectTag({
+               id: recipient.id,
+               name: recipient.id,
+               data: new NstRecipient({
+                 id: recipient.id,
+                 email: recipient.id,
+                 name: recipient.id
+               })
+             });
+           }
          });
-         console.log("recipients", vm.model.recipients);
          deferred.resolve(draft);
        }).catch(deferred.reject);
 
@@ -493,12 +525,13 @@
             }
             break;
         }
+
+        vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
+        vm.attachments.size.total -= attachment.getSize();
+        NstUtility.collection.dropById(vm.model.attachments, id);
+        NstUtility.collection.dropById(vm.attachments.viewModels, id);
       }
 
-      NstUtility.collection.dropById(vm.model.attachments, id);
-      NstUtility.collection.dropById(vm.attachments.viewModels, id);
-      vm.attachments.size.uploaded -= vmAttachment.uploadedSize;
-      vm.attachments.size.total -= attachment.getSize();
     };
 
     vm.model.isModified = function () {
