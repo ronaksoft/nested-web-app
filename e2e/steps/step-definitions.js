@@ -121,7 +121,7 @@ module.exports = function () {
     dropdown.click();
   });
 
-  this.Given(/^I Click on sidebar "([^"]*)"$/, function (destination) {
+  this.Given(/^I Click on href "([^"]*)"$/, function (destination) {
     var pS = element(By.css('a[href="#/'+ destination +'"]'));
     pS.click();
   });
@@ -319,11 +319,42 @@ module.exports = function () {
     return browser.wait(EC.visibilityOf(element(By.css('.modal-bo'))), 50000);
   });
 
-  this.Then(/^should see "([^"]*)"$/, function (text) {
-    element(by.css('.nst-font-xlarge _hf')).getText().then(function (title) {
+  this.When(/^Wait to see first step$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.register-step'))), 50000);
+  });
+
+  this.Then(/^Must see second step$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('.nst-mood-cheerful'))), 50000);
+  });
+
+  this.Then(/^Must see third step of recovering password$/, function () {
+    browser.ignoreSynchronization = true;
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('input[value="Reset"]'))), 50000);
+  });
+
+  this.When(/^should see "([^"]*)"$/, function (text) {
+    element(by.css('.col-xs-9 nst-font-xlarge')).getText().then(function (title) {
       assert.equal(title.trim(), text, ' title is "' + title + '" but should be "' + text);
     });
   });
+
+  this.When(/^Wait see object with id "([^"]*)"$/, function (objectId) {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('#' + objectId))), 50000);
+  });
+
+  this.Then(/^Must see object with id "([^"]*)"$/, function (tObjectId) {
+    var EC = protractor.ExpectedConditions;
+    return browser.wait(EC.visibilityOf(element(By.css('#' + tObjectId))), 50000);
+  });
+
+
+
 
 //------------url selectors----------------//
 

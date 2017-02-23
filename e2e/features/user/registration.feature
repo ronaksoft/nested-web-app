@@ -4,26 +4,29 @@
 #
 #  Scenario: register step 1
 #    Given I go to the page "/register"
-#    When I wait 10s
-#    Given I fill input by name "phone_number" with "9308429812"
+#    When Wait to loading hide
+#    When Wait see object with id "panel-register"
+#    When Wait to see first step
+#    Given I fill input by name "phone_number" with "123456789"
+#    When I wait 2s
 #    Given I Press "Next"
-#    When I wait 10s
-#    Then should the reg-title be "Phone verification"
+#    When I wait 2s
+#    Then Must see second step
 #
 #  Scenario: register step 2
-#    When I wait 10s
-#    When I wait 10s
+#    When I wait 2s
+#    Given I fill input by name "verification_code" with "123456"
 #    Given I Press "Verify"
-#    When I wait 10s
-#    Then should the reg2-title be "Create a profile"
+#    Then Wait see object with id "uid"
 #
 #  Scenario: register step 3
 #    Given I fill id "uid" with "kayvan-test3"
-#    Given I fill id "pass" with "123456"
-#    Given I fill id "fname" with "test"
-#    Given I fill id "lname" with "test"
-#    Given I fill id "email" with "kayvannm@gmail.com"
+#    Given I fill input by name "nested_password" with "123456"
+#    Given I fill input by name "nested_firstname" with "test"
+#    Given I fill input by name "nested_lastname" with "test"
+#    Given I fill input by name "nested_email" with "kayvannm@gmail.com"
+#    When I wait 5s
 #    Given I Press "Finish"
-#    When I wait 10s
-#    Then should the title of the place be "Feed"
+#    When I wait 5s
+#    Then Must see object with id "panel-signin"
 #
