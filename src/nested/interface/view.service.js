@@ -15,14 +15,19 @@
 
     win.bind('scroll', affixElement);
 
+    win.bind('resize', obj.change);
+
     //TODO handle win resize event
     function affixElement() {
       obj.check($window.pageYOffset);
+
+
       if( $window.pageYOffset < 1200 ) {
         $rootScope.staticNav = true
       } else  {
         $rootScope.staticNav = false
       }
+
       // if (
       //   $window.pageYOffset + MobTopOff > $element.parent().offset().top &&
       //   $window.pageYOffset < $element.parent().children().first().height() + $element.parent().offset().top - 50
@@ -64,9 +69,16 @@
 
     };
 
+    var winH = win.height();
+    $timeout(function () {
+      console.log(winH)
+
+    },5000)
+
     obj.check = function (Ypos) {
       $rootScope.cardCtrls.forEach(function (e) {
-        if (Ypos + MobTopOff > e.topOff - 64 && Ypos < e.cardH + e.topOff - 120 && !e.fixed) {
+
+        if (!e.fixed && e.cardH > winH && Ypos + MobTopOff > e.topOff - 64 && Ypos < e.cardH + e.topOff - 120) {
           e.fixed = true;
           e.el.css('position', 'fixed');
           e.el.css('top', 88 + MobTopOff + 'px');
