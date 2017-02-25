@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter,
+  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window,
                               _, moment, toastr,
                               NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, SvcCardCtrlAffix,
                               NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
@@ -138,20 +138,25 @@
     function collapse(e) {
       if (vm.post.ellipsis) {
         var el = angular.element(e.currentTarget);
-        var postCardOffTOp = el.parents('post-card')[0].offsetTop;
-        $('html, body').animate({
-          scrollTop: postCardOffTOp
-        }, 300, 'swing', function () {
-          SvcCardCtrlAffix.change();
-        });
+        var elParent = el.parents('post-card')[0];
+        var elParentH = el.parents('post-card').height();
+        var postCardOffTOp = elParent.offsetTop;
+        var scrollOnCollapseCase = document.documentElement.clientHeight < elParentH;
+        var postCollaspeTimeout = scrollOnCollapseCase ? 300 : 0 ;
+        if(scrollOnCollapseCase) {
+          $('html, body').animate({
+            scrollTop: postCardOffTOp
+          }, 300, 'swing', function () {
+            SvcCardCtrlAffix.change();
+          });
+        }
         $timeout(function () {
           vm.isExpanded = false;
           vm.body = vm.post.body;
-        }, 200)
+        }, postCollaspeTimeout)
       } else {
         vm.body = vm.post.body;
         vm.isExpanded = false;
-        SvcCardCtrlAffix.change();
       }
 
 

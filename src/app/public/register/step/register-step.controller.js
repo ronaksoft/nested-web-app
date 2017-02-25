@@ -18,7 +18,6 @@
     var eventReferences = [];
 
     (function() {
-
     })();
 
     function nextStep(credentials) {
@@ -48,7 +47,7 @@
           cmd : 'account/register_user',
           data : {
             'vid' : vm.verificationId,
-            'phone' : vm.phone,
+            'phone' : getPhoneNumber(),
             'country' : vm.country,
             'uid' : credentials.username,
             'pass' : credentials.password,
@@ -84,6 +83,14 @@
     };
 
     var timers = [];
+
+    function getPhoneNumber() {
+      if (vm.countryCode && vm.phone) {
+        return vm.countryCode.toString() + _.trimStart(vm.phone.toString(), "0");
+      }
+      return "";
+    }
+
 
     function usernameAvailable(username) {
       var deferred = $q.defer();

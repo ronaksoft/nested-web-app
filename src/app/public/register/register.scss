@@ -84,10 +84,17 @@
   height: 30px;
 }
 .register-name-cell-left {
-  padding-right: 2px;
+  padding-right: 8px;
 }
 .register-name-cell-right {
-  padding-left: 2px;
+  padding-left: 8px;
+}
+.register-name-cell-left,
+.register-name-cell-right {
+  max-width: 162px;
+  input {
+    width: 100%;
+  }
 }
 
 #panel-register .arrow {

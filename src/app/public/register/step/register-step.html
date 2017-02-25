@@ -26,7 +26,7 @@
       <li ng-repeat="error in ctrl.usernameErrors" ng-bind-html="error"></li>
     </ul>
   </div>
-  <div class="form-group" ng-class="{ 'has-error' : registrationForm.nested_password.$invalid && registrationForm.nested_password.$touched}">
+  <div class="form-group has-feedback" ng-class="{ 'has-error' : registrationForm.nested_password.$invalid && registrationForm.nested_password.$touched}">
     <label ng-if="registrationForm.nested_password.$valid || !registrationForm.nested_password.$touched"><translate>Password</translate></label>
     <label class="error-message" ng-if="registrationForm.nested_password.$error.required && registrationForm.nested_password.$touched"><translate>Password is required</translate></label>
     <label class="error-message" ng-if="registrationForm.nested_password.$error.minlength && registrationForm.nested_password.$touched"><translate>Password must be at least 6 character</translate></label>
@@ -34,20 +34,16 @@
     <i class="cursor-pointer nst-ico-eye-slash form-control-feedback {{ctrl.showPassword ? 'nst-ico-eye-slash' : 'nst-ico-eye'}}" ng-click="ctrl.showPassword = !ctrl.showPassword"></i>
   </div>
 
-  <div class="_dt register-name-table">
-    <div class="_dtc register-name-cell-left">
-      <div class="form-group" ng-class="{ 'has-error' : registrationForm.nested_firstname.$invalid && registrationForm.nested_firstname.$touched}">
-        <label ng-if="!registrationForm.nested_firstname.$error.required || !registrationForm.nested_firstname.$touched"><translate>First name</translate></label>
-        <label ng-if="registrationForm.nested_firstname.$error.required && registrationForm.nested_firstname.$touched"><translate>First name is required</translate></label>
-        <input name="nested_firstname" type="text" ng-model="ctrl.fname" tabindex="3" required maxlength="35" placeholder="John" translate-attrs="placeholder" />
-      </div>
+  <div class="_dt register-name-table form-group">
+    <div class="_dtc register-name-cell-left" ng-class="{ 'has-error' : registrationForm.nested_firstname.$invalid && registrationForm.nested_firstname.$touched}">
+      <label ng-if="!registrationForm.nested_firstname.$error.required || !registrationForm.nested_firstname.$touched"><translate>First name</translate></label>
+      <label ng-if="registrationForm.nested_firstname.$error.required && registrationForm.nested_firstname.$touched"><translate>First name is required</translate></label>
+      <input name="nested_firstname" type="text" ng-model="ctrl.fname" tabindex="3" required maxlength="35" placeholder="John" translate-attrs="placeholder" />
     </div>
-    <div class="_dtc register-name-cell-right">
-      <div class="form-group" ng-class="{ 'has-error' : registrationForm.nested_lastname.$invalid && registrationForm.nested_lastname.$touched}">
-        <label ng-if="!registrationForm.nested_lastname.$error.required || !registrationForm.nested_lastname.$touched"><translate>Surname</translate></label>
-        <label ng-if="registrationForm.nested_lastname.$error.required && registrationForm.nested_lastname.$touched"><translate>Surname is required</translate></label>
-        <input name="nested_lastname" type="text" ng-model="ctrl.lname" tabindex="4" required maxlength="35" placeholder="Doe" translate-attrs="placeholder" />
-      </div>
+    <div class="_dtc register-name-cell-right" ng-class="{ 'has-error' : registrationForm.nested_lastname.$invalid && registrationForm.nested_lastname.$touched}">
+      <label ng-if="!registrationForm.nested_lastname.$error.required || !registrationForm.nested_lastname.$touched"><translate>Surname</translate></label>
+      <label ng-if="registrationForm.nested_lastname.$error.required && registrationForm.nested_lastname.$touched"><translate>Surname is required</translate></label>
+      <input name="nested_lastname" type="text" ng-model="ctrl.lname" tabindex="4" required maxlength="35" placeholder="Doe" translate-attrs="placeholder" />
     </div>
   </div>
   <div class="form-group nst-marginbtm-16" ng-class="{ 'has-error' : registrationForm.nested_email.$invalid && registrationForm.nested_email.$touched}">
