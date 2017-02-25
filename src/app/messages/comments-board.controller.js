@@ -92,7 +92,7 @@
 
     function reorderComments(comments) {
       return _.chain(comments).filter(function (comment) {
-        return !comment.removedById;
+        return !comment.removedById && !_.some(vm.comments, { id : comment.id });
       }).orderBy('date', 'asc').value();
     }
 
