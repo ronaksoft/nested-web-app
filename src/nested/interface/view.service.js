@@ -70,10 +70,6 @@
     };
 
     var winH = win.height();
-    $timeout(function () {
-      console.log(winH)
-
-    },5000)
 
     obj.check = function (Ypos) {
       $rootScope.cardCtrls.forEach(function (e) {
