@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter,
+  function PostCardController($state, $log, $timeout, $rootScope, $scope, $sce,
                               _, moment, toastr,
                               NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, SvcCardCtrlAffix,
                               NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
@@ -124,7 +124,7 @@
       vm.expandProgress = true;
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
         vm.orginalPost = post;
-        vm.body = post.body;
+        vm.body = $sce.trustAsHtml(post.body);
         vm.resources = post.resources;
         vm.isExpanded = true;
         if (!post.isRead) {
@@ -167,9 +167,9 @@
 
     function showTrustedBody() {
       if (vm.orginalPost) {
-        vm.body = vm.orginalPost.getTrustedBody();
+        vm.body = $sce.trustAsHtml(vm.orginalPost.getTrustedBody());
       }else{
-        vm.body = vm.post.getTrustedBody();
+        vm.body = $sce.trustAsHtml(vm.post.getTrustedBody());
       }
       vm.post.trusted = true;
     }
@@ -245,7 +245,7 @@
     (function () {
 
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
-      vm.body = vm.post.body;
+      vm.body = $sce.trustAsHtml(vm.post.body);
       if (vm.post.trusted){
         showTrustedBody();
       }

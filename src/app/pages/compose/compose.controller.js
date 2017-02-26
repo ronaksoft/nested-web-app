@@ -88,39 +88,39 @@
     var lang = isRTL == 'rtl' ? 'fa' : 'en';
 
     var allowedContent =
-      'a[class,href,id,style,target];' +
-      'b[class,id,style];' +
-      'br[class,id,style];' +
-      'div[align,class,dir,id,style];' +
-      'font[class,color,face,id,size,style];' +
-      'h1[align,class,dir,id,style];' +
-      'h2[align,class,dir,id,style];' +
-      'h3[align,class,dir,id,style];' +
-      'h4[align,class,dir,id,style];' +
-      'h5[align,class,dir,id,style];' +
-      'h6[align,class,dir,id,style];' +
-      'head[dir,lang,style];' +
-      'hr[align,size,width,style];' +
-      'img[align,border,class,height,hspace,id,src,style,usemap,vspace,width];' +
-      'label[class,id,style];' +
-      'li[class,dir,id,style,type];' +
-      'ol[class,dir,id,style,type];' +
-      'p[align,class,dir,id,style];' +
-      'span[class,id,style];' +
-      'strong[class,id,style];' +
-      'table[align,bgcolor,border,cellpadding,cellspacing,class,dir,frame,id,rules,style,width];' +
-      'td[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];' +
-      'th[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];' +
-      'tr[align,bgcolor,class,dir,id,style,valign]' +
-      ';u[class,id,style];' +
-      'ul[class,dir,id,style];';
+      'a[class,href,id,style,target]{*};' +
+      'b[class,id,style]{*};' +
+      'br[class,id,style]{*};' +
+      'div[align,class,dir,id,style]{*};' +
+      'font[class,color,face,id,size,style]{*};' +
+      'h1[align,class,dir,id,style]{*};' +
+      'h2[align,class,dir,id,style]{*};' +
+      'h3[align,class,dir,id,style]{*};' +
+      'h4[align,class,dir,id,style]{*};' +
+      'h5[align,class,dir,id,style]{*};' +
+      'h6[align,class,dir,id,style]{*};' +
+      'head[dir,lang,style]{*};' +
+      'hr[align,size,width,style]{*};' +
+      'img[align,border,class,height,hspace,id,src,style,usemap,vspace,width]{*};' +
+      'label[class,id,style]{*};' +
+      'li[class,dir,id,style,type]{*};' +
+      'ol[class,dir,id,style,type]{*};' +
+      'p[align,class,dir,id,style]{*};' +
+      'span[class,id,style]{*};' +
+      'strong[class,id,style]{*};' +
+      'table[align,bgcolor,border,cellpadding,cellspacing,class,dir,frame,id,rules,style,width]{*};' +
+      'td[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width]{*};' +
+      'th[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width]{*};' +
+      'tr[align,bgcolor,class,dir,id,style,valign]{*}' +
+      ';u[class,id,style]{*};' +
+      'ul[class,dir,id,style]{*};';
 
     if (vm.quickMode) {
       $scope.editorOptions = {
         language: lang,
         contentsLangDirection: isRTL,
-        // allowedContent: allowedContent,
-        allowedContent: true,
+        allowedContent: allowedContent,
+        // allowedContent: true,
         contentsCss: 'body {overflow:visible;}',
         enableTabKeyTools: true,
         tabSpaces: 4,
@@ -140,14 +140,14 @@
         colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
         // Remove the redundant buttons from toolbar groups defined above.
         //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,contextmenu,liststyle,tabletools'
+        removePlugins: 'resize,elementspath,contextmenu,magicline,tabletools'
       };
 
     } else {
       $scope.editorOptions = {
         language: lang,
-        // allowedContent: allowedContent,
-        allowedContent: true,
+        allowedContent: allowedContent,
+        // allowedContent: true,
         contentsLangDirection: isRTL,
         contentsCss: 'body {overflow:visible;}',
         height: 230,
@@ -169,7 +169,7 @@
         colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
         // Remove the redundant buttons from toolbar groups defined above.
         //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,liststyle,tabletools'
+        removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,magicline,tabletools'
       };
 
     }
