@@ -32,6 +32,11 @@
 }
 .nst-content.second-view {
   height: 100%;
+  .content {
+    max-width: 791px;
+    margin: auto;
+    flex-direction: row;
+  }
 }
 .nst-content {
   display: flex;
