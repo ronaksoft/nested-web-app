@@ -39,7 +39,6 @@
         }
 
         if (scope.items.length == 1 && scope.items[0].type === NST_FILE_TYPE.IMAGE && scope.items[0].hasPreview) {
-          console.log(scope.items[0]);
           scope.internalMode = NST_ATTACHMENTS_PREVIEW_BAR_MODE.THUMBNAIL_ONLY_IMAGE;
 
           var wrpWidth = ele.parent().parent().width();

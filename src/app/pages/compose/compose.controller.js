@@ -134,7 +134,7 @@
         },
         toolbar: [
           ["Link", "FontSize"],
-          ["Bold", "Italic", "Underline"],
+          ["Bold", "Italic", "Underline","source"],
           ["JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
         ],
         fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',

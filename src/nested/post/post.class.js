@@ -5,7 +5,7 @@
     .module('ronak.nested.web.models')
     .factory('NstPost', NstPost);
 
-  function NstPost($q, _, NST_ATTACHMENT_STATUS, NstTinyPost, NstAttachment) {
+  function NstPost(_, NST_ATTACHMENT_STATUS, NstTinyPost, NstAttachment) {
     Post.prototype = new NstTinyPost();
     Post.prototype.constructor = Post;
 
@@ -54,6 +54,8 @@
       this.forwardFrom = null;
       this.forwardFromId = null;
 
+      this.resources = {};
+
       this.counters = {
         attaches: -1,
         comments: -1,
@@ -67,6 +69,8 @@
       this.wipeAccess = null;
 
       this.isRead = null;
+
+      this.trusted = false;
 
       this.ellipsis = null;
 
@@ -163,6 +167,20 @@
     Post.prototype.addToCommentsCount = function (count) {
       this.counters.comments += count || 0;
     }
+
+
+    Post.prototype.getTrustedBody = function () {
+      var imgRegex = new RegExp('<img(.*?)source=[\'|"](.*?)[\'|"](.*?)>','g');
+      var resources = this.resources;
+      this.trusted = true;
+      var body = this.body.replace(imgRegex,function (m, p1, p2, p3, string) {
+        var src = resources[p2];
+        return "<img" +  p1 + "src=" + src + " " + p3 +"/>"
+      });
+
+      return body;
+
+    };
 
     return Post;
   }
