@@ -81,6 +81,18 @@ body.modal-open {
   padding: 15px;
   max-width: 100%;
   height: auto;
+  width: 384px;
+  .mdl-ft {
+    justify-content: flex-end;
+    >div {
+      align-items: center;
+      width: 114px;
+      height: 32px;
+      justify-content: center;
+      display: flex;
+      font-size: 16px;
+    }
+  }
 }
 
 .modal-content {

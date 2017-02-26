@@ -1,14 +1,20 @@
 <div id="change-view">
   <div class="_difv _fw">
     <div class="_difh modal-head">
-      <p class="_df _fw"><translate>Change place ID</translate></p>
+      <p class="_df _fw"><translate>modalName{{modalName}}</translate></p>
       <div class="_df closebut" ng-click="$dismiss()"><img src="../assets/icons/close.svg"></div>
     </div>
     <div class="_difv _fw">
-      <input class="form-control"
-             type="text" ng-change=""
-             data-ng-model="changeModal" id="change-place-id"/>
-      <div class="butn-green" ng-click="$close(changeModal)" style="width: 100%;margin-top: 10px" id="change-save"><translate>Save</translate></div>
+      <div class="form-group" ng-class="{ 'has-error' : ctlSettings.placeName.$invalid}">
+        <label class="input-lab"><translate>Place name</translate></label>
+        <div>
+            <input class="_df _fw" name="placeName" class="form-control" type="text" data-ng-model="changeModal" id="change-place-id" tabindex="2"/>
+        </div>
+      </div>
+      <div class="_df _fw mdl-ft">
+        <div class="butn-white" ng-click="$close('discard')"><translate>Discard</translate></div>
+        <div class="butn-green" ng-click="$close(changeModal)" id="change-save"><translate>Save</translate></div>
+      </div>
     </div>
   </div>
 </div>
