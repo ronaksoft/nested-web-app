@@ -9,7 +9,7 @@
                              _, md5,
                              NstSvcPostStorage, NstSvcAuth, NstSvcServer, NstSvcPlaceFactory, NstSvcUserFactory, NstSvcAttachmentFactory, NstSvcStore, NstSvcCommentFactory, NstFactoryEventData, NstUtility,
                              NstFactoryError, NstFactoryQuery, NstPost, NstBaseFactory, NstRecipient,
-                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT) {
+                             NST_MESSAGES_SORT_OPTION, NST_SRV_EVENT, NST_CONFIG, NST_POST_FACTORY_EVENT) {
 
     function PostFactory() {
 
@@ -384,6 +384,7 @@
       var resources = {};
       var imgRegex = new RegExp('<img(.*?)src=[\'|"](.*?)[\'|"](.*?)>','g');
       var body = data.body.replace(imgRegex,function (m, p1, p2, p3, string) {
+        if (p2.indexOf(NST_CONFIG.STORE.URL) === 0) return m;
         var hash = md5.createHash(p2);
         resources[hash] = p2;
         return "<img" +  p1 + "source='" + hash + "' " + p3 +"/>"

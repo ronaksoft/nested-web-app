@@ -808,7 +808,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.subject = post.getSubject();
-              vm.model.body = post.getBody();
+              vm.model.body = post.getTrustedBody();
               vm.model.attachments = post.getAttachments();
               for (var k in vm.model.attachments) {
                 vm.model.attachments[k].status = NST_ATTACHMENT_STATUS.ATTACHED;
@@ -829,6 +829,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
+              vm.model.replyTo.body = post.getTrustedBody();
               vm.model.subject = post.getSubject();
               var places = post.getPlaces();
               for (var k in places) {
@@ -884,6 +885,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
+              vm.model.replyTo.body = post.getTrustedBody();
               vm.model.subject = post.getSubject();
 
               // TODO: First search in post places to find a match then try to get from factory

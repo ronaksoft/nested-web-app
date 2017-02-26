@@ -131,7 +131,7 @@
           markAsRead();
         }
 
-        if (vm.post.trusted){
+        if (vm.post.trusted || Object.keys(post.resources).length == 0){
           showTrustedBody();
         }
 
