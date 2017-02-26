@@ -15,7 +15,7 @@
         <div class="_df _fw">
           <input name="placeName" class="form-control" type="text" ng-model="ctlSettings.place.name" tabindex="2"/>
         </div>
-        <svg class="_24svg _df _fn edit-icon">
+        <svg class="_24svg _df _fn edit-icon" data-change-modal="ctlSettings.place.name">
           <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
         </svg>
       </div>
@@ -26,7 +26,7 @@
         <div class="_df _fw">
           <input name="PlaceDes" class="form-control" type="text" ng-model="ctlSettings.place.description" tabindex="2"/>
         </div>
-        <svg class="_24svg _df _fn edit-icon" >
+        <svg class="_24svg _df _fn edit-icon" data-change-modal="ctlSettings.place.description">
           <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
         </svg>
       </div>
@@ -189,11 +189,11 @@
     <!--</div>-->
     <!--<p class="input-lab" data-ng-if="ctlSettings.accesses.hasSeeMembersAccess"><translate>Members</translate></p>-->
   </div>
-  <div ng-show="ctlSettings.tab == 'members'">
+  <ul ng-show="ctlSettings.tab == 'members'">
     <div class="member-head _df _fw">
-      <div class="selected-user _fw _df">
+      <div class="selected-user _fw _df" ng-show="ctlSettings.selectedMates.length > 0">
         <div>
-          <span>4</span>
+          <translate>{{ctlSettings.selectedMates.length}}</translate>
           <a><translate>selected</translate></a>
         </div>
         <div>
@@ -208,23 +208,29 @@
           </svg>
           <a><translate>Demote(1)</translate></a>
         </div>
-        <div>
+        <div class="force">
           <svg class="_24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#bin"></use>
           </svg>
           <a><translate>Remove(4)</translate></a>
         </div>
       </div>
-      <div class="unselected-user _fw _dn">
-
+      <div class="unselected-user _fw _df" ng-hide="ctlSettings.selectedMates.length > 0">
+        <div></div>
+        <div></div>
+        <div class="top-add" data-ng-click="ctlSettings.addMember()"><translate>Add Member</translate>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+          </svg>
+        </div>
       </div>
     </div>
-    <nst-place-member-item data-ng-if="ctlSettings.accesses.hasSeeMembersAccess" class="user-item"
+    <li nst-place-member-item data-ng-if="ctlSettings.accesses.hasSeeMembersAccess"
                            data-ng-repeat="member in ctlSettings.teammates"
-                           member="member" place="ctlSettings.place"
+                           member="member" place="ctlSettings.place" mid="{{member.id}}" class="user-item"
                            has-remove-access="ctlSettings.accesses.hasRemoveAccess"
                            has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
-                           role="member.state" ></nst-place-member-item>
+                           role="member.state"></li>
     <div class="_fw _tac margin-b-15"  data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">
       <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();"><translate>Load more...</translate></a>
       <span class="nst-mood-cheerful" ng-if="ctlSettings.teammatesLoadProgress" translate-inner>Loading...</span>
@@ -242,6 +248,6 @@
         <translate ng-if="!ctlSettings.isGrandPlace">Add Members</translate>
       </h4>
     </div>
-  </div>
+  </ul>
 
 </div>

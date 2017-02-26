@@ -234,6 +234,10 @@ hr.nomargin {
 }
 .force {
   color: $color-force-wire;
+  fill: $color-force-wire;
+  svg {
+    fill: $color-force-wire;
+  }
 }
 .fade-in {
   animation: fadein $animation-dur;

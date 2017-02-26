@@ -97,7 +97,7 @@
       <rect id="space-13" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M15,8H2a2,2,0,0,0-2,2v9a2,2,0,0,0,2,2H15a2,2,0,0,0,2-2V10A2,2,0,0,0,15,8ZM2,13.57l6.5,3,6.5-3V11.37l-6.5,3-6.5-3ZM24,6v9a2,2,0,0,1-2,2H18V12.18l4-1.87V8.1L18,10a3,3,0,0,0-3-3H7V6A2,2,0,0,1,9,4H22A2,2,0,0,1,24,6Z" style="fill-rule: evenodd"/>
     </g>
-    <g id="delete">
+    <g id="bin">
       <rect id="space-14" data-name="space" width="24" height="24" style="fill: none"/>
       <path d="M15,4H9V3a1,1,0,0,1,1-1h4a1,1,0,0,1,1,1Zm4,2V7H18V19a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2V7H5V6A1,1,0,0,1,6,5H18A1,1,0,0,1,19,6ZM10.5,9h-1v9h1Zm4,0h-1v9h1Z"/>
     </g>

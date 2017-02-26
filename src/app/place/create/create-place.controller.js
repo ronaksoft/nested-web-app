@@ -132,7 +132,7 @@
       $uibModal.open({
         animation: false,
         size: 'sm',
-        templateUrl: 'app/place/create/change-id.html',
+        templateUrl: 'app/components/text/change-id.html',
         scope: $scope
       }).result.then(function (result) {
         if (result == 'ok')

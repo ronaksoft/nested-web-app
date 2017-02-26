@@ -520,7 +520,7 @@ body.modal-open {
   transform: none!important;
   transition: opacity $animation-dur;
   //overflow-y: auto;
-  margin: 0;
+  margin: 0!important;
   border-radius: 0!important;
   .modal-content {
     position: relative;

@@ -65,7 +65,14 @@
     flex-direction: row;
     padding: 0 32px;
     z-index: 1;
-
+    &.dark {
+      h3 {
+        color: $color-white;
+      }
+      svg {
+        fill: $color-white;
+      }
+    }
   }
   &.setting-head {
     margin-bottom: 64px;
