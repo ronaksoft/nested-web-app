@@ -13,6 +13,7 @@
         params: {
           postId: NST_DEFAULT.STATE_PARAM,
           model : null,
+          trusted: false
         },
         options: {
           group: 'message'

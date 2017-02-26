@@ -27,6 +27,7 @@
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
+    vm.showTrustedBody = showTrustedBody;
     vm.body = null;
     vm.markAsRead = markAsRead;
     vm.chainView = false;
@@ -64,7 +65,7 @@
       markAsRead();
       $event.preventDefault();
       if ($state.current.name !== 'app.message') {
-        $state.go('app.message', {postId: vm.post.id}, {notify: false});
+        $state.go('app.message', {postId: vm.post.id, trusted: true}, {notify: false});
       } else {
         var reference = $scope.$emit('post-view-target-changed', {postId: vm.post.id});
         pageEventReferences.push(reference);
@@ -122,11 +123,18 @@
     function expand() {
       vm.expandProgress = true;
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
+        vm.orginalPost = post;
         vm.body = post.body;
+        vm.resources = post.resources;
         vm.isExpanded = true;
         if (!post.isRead) {
           markAsRead();
         }
+
+        if (vm.post.trusted){
+          showTrustedBody();
+        }
+
         SvcCardCtrlAffix.change();
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
@@ -160,6 +168,15 @@
       }
 
 
+    }
+
+    function showTrustedBody() {
+      if (vm.orginalPost) {
+        vm.body = vm.orginalPost.getTrustedBody();
+      }else{
+        vm.body = vm.post.getTrustedBody();
+      }
+      vm.post.trusted = true;
     }
 
     function loadNewComments($event) {
@@ -234,6 +251,9 @@
 
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
       vm.body = vm.post.body;
+      if (vm.post.trusted){
+        showTrustedBody();
+      }
 
       if (vm.addOn) {
         vm.isExpanded = true;

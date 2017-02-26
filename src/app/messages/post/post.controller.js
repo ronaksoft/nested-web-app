@@ -86,6 +86,8 @@
         vm.messages = resolvedSet[0];
         vm.post = _.last(resolvedSet[0]);
         vm.post.body = resolvedSet[1].body;
+        vm.post.trusted = $stateParams.trusted;
+        vm.post.resources = resolvedSet[1].resources;
 
         vm.post.placesWithRemoveAccess = _.map(NstSvcPlaceFactory.filterPlacesByRemovePostAccess(resolvedSet[1].places), 'id');
         vm.hasRemoveAccess = _.size(vm.placesWithRemoveAccess) > 0;

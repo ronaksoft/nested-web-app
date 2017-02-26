@@ -26,6 +26,7 @@
       this.isForwarded = null;
       this.commentsCount = 0;
 
+
       this.firstPlace = null;
       this.isRead = null;
       this.wipeAccess = null;
@@ -73,6 +74,7 @@
         } else {
           this.wipeAccess = post.sender ? post.sender.id === NstSvcAuth.user.id && moment(post.date).isAfter(moment().subtract(24, 'hours')) : false;
         }
+        this.getTrustedBody = post.getTrustedBody;
 
 
         // Sort places with the priorities listed here:
