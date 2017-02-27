@@ -176,6 +176,11 @@ module.exports = function () {
     ClickableElement.click();
   });
 
+  this.Given(/^I Click on profile pop-over$/, function () {
+    var profilePop = element(By.css('div[ng-click="ctlSidebar.profileOpen =! ctlSidebar.profileOpen;ctlSidebar.mentionOpen = false;$event.preventDefault();$event.stopPropagation()"]'));
+    profilePop.click();
+  });
+
   this.Given(/^I Click on switchDrag "([^"]*)" on navbar$/, function (switchDrag){
     var SwitchElement = element(By.css('div[switch-drag="' + switchDrag + '"]'));
     SwitchElement.click();

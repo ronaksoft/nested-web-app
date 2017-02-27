@@ -4,165 +4,180 @@
 #
 #  Scenario: Login user with true info
 #    Given I go to the page "/login"
-#    Given I fill "Username" with "test1"
-#    Given I fill "Password" with "111111"
+#    When Wait to loading hide
+#    Given I fill "Username" with "kayvan"
+#    Given I fill "Password" with "1234"
 #    Given I Press "Sign in"
-#    When I wait 10s
-#    Then should the title of the place be "Feed"
+#    Then current tab must be "Feed"
 #
-#  Scenario:
-#    Given I Click on sidebar "compose"
-#    Then should the title of the place be "Compose"
-#
-#  Scenario: attachments under 50
-#    When I wait 2s
-#    Given I fill "Add a Subject ..." with "testing-compose"
-#    When I wait 2s
-#    Given I fill "Type place name or email address..." with "test4"
-#    When I wait 10s
-#    Given I press enter
-#    Given I press enter
-#    Given I press enter
-#    When I wait 2s
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
+#  Scenario: compose with many attachments
+#    Given I Click by ngClick "ctlSidebar.compose($event);"
+#    When Wait to see compose-modal
+#    Given I fill "Enter a Place or a Nested address..." with "hborgeson"
 #    When I wait 5s
+#    Given I press enter
+#    When I wait 2s
+#    Given I fill input by name "subject" with "testing-compose"
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach dog-png
+#    Given I Attach cat-png
+#    When I wait 10s
+#    When I wait 10s
 #    When Wait for Upload to be finished
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Send"
+#    Given I Click by ngClick "ctlCompose.send()"
 #    When Wait to see success-msg
-#    When I wait 2s
-#    Then should the title of the place be "Feed"
-#
-#  Scenario:
-#    When I wait 2s
-#    Given I Click on sidebar "compose"
-#    Then should the title of the place be "Compose"
-#
-#  Scenario: attachments over 50
-#    When I wait 2s
-#    Given I fill "Add a Subject ..." with "testing-compose"
-#    When I wait 2s
-#    Given I fill "Type place name or email address..." with "test-mapping"
-#    When I wait 5s
-#    Given I press enter
-#    When I wait 5s
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    Given I Attach dog-png
-#    When I wait 5s
-#    When Wait for Upload to be finished
-#    When I wait 5s
-#    Given I Click Link by Partial Text "Send"
-#    Then the message have to be "1.attachments"
-#
-#  Scenario:
-#    Given I Click Link by Partial Text "Discard"
-#    Then the modal message have to be "Please confirm to leave the page"
-#
-#  Scenario:
-#    Given I Click Link by Partial Text "Cancel"
-#    Then should the title of the place be "Compose"
-#
-#  Scenario:
-#    Given I Click Link by Partial Text "Discard"
-#    Then the modal message have to be "Please confirm to leave the page"
-#
-#  Scenario:
-#    Given I Click Link by Partial Text "Discard"
-#    Then should the title of the place be "Feed"
+#    Then current tab must be "Feed"
