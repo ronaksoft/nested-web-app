@@ -1,0 +1,43 @@
+<div class="_difh _fw _aic recive-opt _asc {{level}} ng-class:{'member-option' : semi}">
+  <svg ng-click="level = 'l1'">
+    <use xlink:href="/assets/icons/nst-icn24.svg#member"></use>
+  </svg>
+  <hr class="margin">
+  <hr>
+  <hr class="margin">
+  <svg ng-click="level = 'l2'">
+    <use xlink:href="/assets/icons/nst-icn24.svg#manager-member"></use>
+  </svg>
+  <hr class="margin" ng-hide="semi">
+  <hr ng-hide="semi">
+  <hr class="margin" ng-hide="semi">
+  <svg ng-click="level = 'l3'" ng-hide="semi">
+    <use xlink:href="/assets/icons/nst-icn24.svg#team"></use>
+  </svg>
+  <hr class="margin" ng-hide="semi">
+  <hr ng-hide="semi">
+  <hr class="margin" ng-hide="semi">
+  <svg ng-click="level = 'l4'" ng-hide="semi">
+    <use xlink:href="/assets/icons/nst-icn24.svg#earth"></use>
+  </svg>
+  <div class="active-border"></div>
+  <div class="recive-arrow"></div>
+</div>
+<div class="_fw recive-det">
+  <h4 class="_fw _tac">“Art Center” Members</h4>
+  <div class="_difh _fw _aic">
+    <p class="_df _fw">Show in their search results?</p>
+    <div class="_df _fn">
+      <div class="place-switch">
+        <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="ctlCreate.searchable">
+        <label for="Searchable">
+          <b><translate>Yes</translate></b>
+          <div class="circle" switch-drag="Searchhable"></div>
+        </label>
+        <label for="Searchable">
+          <b><translate>No</translate></b>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>

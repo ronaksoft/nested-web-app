@@ -5,7 +5,7 @@
     .module('ronak.nested.web.common')
     .factory('NstVmPost', NstVmPost);
 
-  function NstVmPost(NstPost, NstVmUser, NstSvcAttachmentMap, NstUtility, NstSvcPlaceMap) {
+  function NstVmPost($sce, NstPost, NstVmUser, NstSvcAttachmentMap, NstUtility, NstSvcPlaceMap) {
 
     function VmPost(model) {
       this.id = null;
@@ -45,7 +45,7 @@
         } else {
           this.body = model.body;
         }
-
+        this.body = $sce.trustAsHtml(data.body);
         this.isExternal = !model.internal;
         this.contentType = model.contentType;
         this.allPlaces = _.map(model.places, function (place) {

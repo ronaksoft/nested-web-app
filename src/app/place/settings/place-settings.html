@@ -1,214 +1,253 @@
-<div class="close-modal" ng-click="$dismiss()" id="close-setting-place">
-  <svg>
-    <use xlink:href="/assets/icons/nst-icn32.svg#cross"></use>
-  </svg>
-</div>
 <div id="place-settings">
-  <div class="place-name">
-    <label for="logo" class="pic">
-      <img data-ng-if="ctlSettings.logoFile || ctlSettings.place.picture.getUrl('x128')"
-           ng-src="{{ctlSettings.logoUrl || ctlSettings.place.picture.getUrl('x128')}}"/>
-      <img data-ng-if="!ctlSettings.place.picture.getUrl('x128') && !ctlSettings.logoFile"
-           src="/assets/icons/absents_place.svg"/>
-    </label>
-    <input id="logo" data-ng-disabled="!ctlSettings.accesses.hasControlAccess" type="file" name="logo" accept="image/*"
-           onchange="angular.element(this).scope().ctlSettings.loadImage(event)"/>
+  <place-head env="'settings'" data-pict="{{ctlSettings.logoUrl || ctlSettings.place.picture.getUrl('x128')}}"
+  private="{{ctlSettings.isClosedPlace}}" id="{{ctlSettings.place.id}}" data-name="ctlSettings.place.name"></place-head>
 
-    <div class="det">
-      <script type="text/ng-template" id="place-name-tooltip.html">
-        <translate>Place Name</translate>
-      </script>
-      <h3 id="place-name" data-ng-if="ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip-template="'place-name-tooltip.html'" data-tooltip-append-to-body="true"
-          editable-text="ctlSettings.place.name" onbeforesave="ctlSettings.updateName($data);">
-        {{ctlSettings.place.name || 'empty'}}<a class="change-button"><translate>change</translate></a></h3>
-      <h3 data-ng-if="!ctlSettings.accesses.hasControlAccess" data-tooltip-placement="left auto" data-uib-tooltip-template="'place-name-tooltip.html'" data-tooltip-append-to-body="true">
-        {{ctlSettings.place.name || 'empty'}}</h3>
-
-      <h5 class="nst-mood-storm" ng-if="ctlSettings.place.privacy.receptive == 'external'">{{ctlSettings.place.id
-        + '@nested.me'}}</h5>
-    </div>
+  <div class="_difh settings-tab">
+    <div class="shadow"></div>
+    <a class="_df _fw _jcc _aic ng-class:{'active' : ctlSettings.tab == 'settings'}" ng-click="ctlSettings.tab = 'settings'">Settings</a>
+    <a class="_df _fw _jcc _aic ng-class:{'active' : ctlSettings.tab == 'members'}" ng-click="ctlSettings.tab = 'members'">Members(12)</a>
   </div>
-  <div class="place-des">
-    <script type="text/ng-template" id="place-description-tooltip.html">
-      <translate>Place description</translate>
-    </script>
-    <p data-ng-if="ctlSettings.accesses.hasControlAccess" class="nst-mood-storm" data-tooltip-placement="left auto" data-tooltip-append-to-body="true"
-       data-uib-tooltip-template="'place-description-tooltip.html'" editable-text="ctlSettings.place.description"
-       onbeforesave="ctlSettings.updateDescription($data);">{{ctlSettings.place.description || 'empty'}}</p>
-    <p class="no-animation" data-tooltip-placement="left auto" data-uib-tooltip-template="'place-description-tooltip.html'" data-tooltip-append-to-body="true"
-       data-ng-if="!ctlSettings.accesses.hasControlAccess">{{ctlSettings.place.description || 'empty'}}</p>
-  </div>
-  <p class="input-lab" ng-if="ctlSettings.isClosedPlace"><translate>Who can post messages to this Place?</translate></p>
-  <div ng-if="ctlSettings.isClosedPlace" class="recive-set" ng-class="{'preview' : !ctlSettings.changeReceptiveMode}">
-    <!--Off-->
-    <div class="select-box2"
-         ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off')"
-         ng-click="ctlSettings.setReceivingOff();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', selectable : ctlSettings.accesses.hasControlAccess }">
-      <h3 ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace" >
-        <svg class="tick">
-          <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
+  <div ng-show="ctlSettings.tab == 'settings'" class="settings-body">
+    <div class="form-group" ng-class="{ 'has-error' : ctlSettings.placeName.$invalid}">
+      <label class="input-lab"><translate>Place name</translate></label>
+      <label class="error-message" ng-if="ctlSettings.placeName.$invalid"><translate>Place name is required</translate></label>
+      <div class="field">
+        <div class="_df _fw">
+          <input name="placeName" class="form-control" type="text" ng-model="ctlSettings.place.name" tabindex="2"/>
+        </div>
+        <svg class="_24svg _df _fn edit-icon" data-change-modal="ctlSettings.place.name">
+          <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
         </svg>
-        <translate ng-if="ctlSettings.place.policy.add_post == 'creators'">Only {{ctlSettings.place.name}} Managers</translate>
-        <translate ng-if="ctlSettings.place.policy.add_post != 'creators'">Only {{ctlSettings.place.name}} Members</translate>
-      </h3>
-      <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace" >
-        <svg class="tick">
-          <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-        </svg>
-        <translate ng-if="ctlSettings.place.policy.add_post == 'creators'">Managers</translate>
-        <translate ng-if="ctlSettings.place.policy.add_post != 'creators'">Members</translate>
-      </h3>
-      <h3 ng-if="ctlSettings.isSubPersonalPlace" >
-        <svg class="tick">
-          <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-        </svg><translate>Only you</translate>
-      </h3>
-
-
-      <div class="_difh _fw _aic">
-        <p ng-if="ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">
-          <translate ng-if="ctlSettings.place.policy.add_post">Only Managers can post messages to this Place.</translate>
-          <translate ng-if="!ctlSettings.place.policy.add_post">All Members can post messages to this Place.</translate>
-        </p>
-        <p ng-if="ctlSettings.isSubPersonalPlace">Only you can post messages to this Place.</p>
-        <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">
-          <tranlate ng-if="ctlSettings.place.policy.add_post == 'creators'">Only <b>{{ctlSettings.place.name}}</b> Managers can view Place contents.</tranlate>
-          <tranlate ng-if="ctlSettings.place.policy.add_post != 'creators'">Only <b>{{ctlSettings.place.name}}</b> Members can view Place contents.</tranlate>
-        </p>
       </div>
+    </div>
+    <div class="form-group">
+      <label class="input-lab"><translate>Place Description</translate></label>
+      <div class="field">
+        <div class="_df _fw">
+          <input name="PlaceDes" class="form-control" type="text" ng-model="ctlSettings.place.description" tabindex="2"/>
+        </div>
+        <svg class="_24svg _df _fn edit-icon" data-change-modal="ctlSettings.place.description">
+          <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+        </svg>
+      </div>
+    </div>
+    <p>Who can share posts with this Place?</p>
+    <recieve-from level="ctlSettings.reciveLevel" env="'full'"></recieve-from>
+    <p>Who can add members?</p>
+    <recieve-from level="ctlSettings.memberLevel" env="'semi'"></recieve-from>
+    <p>Who can create subplace?</p>
+    <recieve-from level="ctlSettings.createLevel" env="'semi'"></recieve-from>
 
-      <p></p>
-      <aside ng-if="!ctlSettings.isSubPersonalPlace">
-        <p class="_df f4"><translate>Which Members can post messages to this Place?</translate></p>
-        <div class="_df f1">
-          <select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">
-            <option value="creators" translate-inner>Managers of {{ctlSettings.place.name}}</option>
-            <option value="everyone" translate-inner>Members of {{ctlSettings.place.name}}</option>
-          </select>
+    <!--<p class="input-lab" ng-if="ctlSettings.isClosedPlace"><translate>Who can post messages to this Place?</translate></p>-->
+    <!--<div ng-if="ctlSettings.isClosedPlace" class="recive-set" ng-class="{'preview' : !ctlSettings.changeReceptiveMode}">-->
+      <!--&lt;!&ndash;Off&ndash;&gt;-->
+      <!--<div class="select-box2"-->
+           <!--ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'off')"-->
+           <!--ng-click="ctlSettings.setReceivingOff();"-->
+           <!--ng-class="{ selected : ctlSettings.place.privacy.receptive === 'off', selectable : ctlSettings.accesses.hasControlAccess }">-->
+        <!--<h3 ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace" >-->
+          <!--<svg class="tick">-->
+            <!--<use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>-->
+          <!--</svg>-->
+          <!--<translate ng-if="ctlSettings.place.policy.add_post == 'creators'">Only {{ctlSettings.place.name}} Managers</translate>-->
+          <!--<translate ng-if="ctlSettings.place.policy.add_post != 'creators'">Only {{ctlSettings.place.name}} Members</translate>-->
+        <!--</h3>-->
+        <!--<h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace" >-->
+          <!--<svg class="tick">-->
+            <!--<use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>-->
+          <!--</svg>-->
+          <!--<translate ng-if="ctlSettings.place.policy.add_post == 'creators'">Managers</translate>-->
+          <!--<translate ng-if="ctlSettings.place.policy.add_post != 'creators'">Members</translate>-->
+        <!--</h3>-->
+        <!--<h3 ng-if="ctlSettings.isSubPersonalPlace" >-->
+          <!--<svg class="tick">-->
+            <!--<use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>-->
+          <!--</svg><translate>Only you</translate>-->
+        <!--</h3>-->
+
+
+        <!--<div class="_difh _fw _aic">-->
+          <!--<p ng-if="ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">-->
+            <!--<translate ng-if="ctlSettings.place.policy.add_post">Only Managers can post messages to this Place.</translate>-->
+            <!--<translate ng-if="!ctlSettings.place.policy.add_post">All Members can post messages to this Place.</translate>-->
+          <!--</p>-->
+          <!--<p ng-if="ctlSettings.isSubPersonalPlace">Only you can post messages to this Place.</p>-->
+          <!--<p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isSubPersonalPlace">-->
+            <!--<tranlate ng-if="ctlSettings.place.policy.add_post == 'creators'">Only <b>{{ctlSettings.place.name}}</b> Managers can view Place contents.</tranlate>-->
+            <!--<tranlate ng-if="ctlSettings.place.policy.add_post != 'creators'">Only <b>{{ctlSettings.place.name}}</b> Members can view Place contents.</tranlate>-->
+          <!--</p>-->
+        <!--</div>-->
+
+        <!--<p></p>-->
+        <!--<aside ng-if="!ctlSettings.isSubPersonalPlace">-->
+          <!--<p class="_df f4"><translate>Which Members can post messages to this Place?</translate></p>-->
+          <!--<div class="_df f1">-->
+            <!--<select data-ng-change="ctlSettings.updateAddPostPolicy()" ng-model="ctlSettings.place.policy.add_post" ng-if="ctlSettings.accesses.hasControlAccess">-->
+              <!--<option value="creators" translate-inner>Managers of {{ctlSettings.place.name}}</option>-->
+              <!--<option value="everyone" translate-inner>Members of {{ctlSettings.place.name}}</option>-->
+            <!--</select>-->
+          <!--</div>-->
+          <!--<p ng-if="!ctlSettings.accesses.hasControlAccess">-->
+            <!--{{::ctlSettings.memberOptions[ctlSettings.place.policy.add_post]}}-->
+          <!--</p>-->
+        <!--</aside>-->
+      <!--</div>-->
+      <!--&lt;!&ndash;Internal&ndash;&gt;-->
+      <!--<div class="select-box2"-->
+           <!--ng-if="!ctlSettings.isGrandPlace  && !ctlSettings.isSubPersonalPlace && (ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal')"-->
+           <!--ng-click="ctlSettings.setReceivingMembers();"-->
+           <!--ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', selectable : ctlSettings.accesses.hasControlAccess}">-->
+        <!--<h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">-->
+          <!--<svg class="tick">-->
+            <!--<use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>-->
+          <!--</svg><translate>Everyone</translate></h3>-->
+        <!--<h3 ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">-->
+          <!--<svg class="tick">-->
+            <!--<use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>-->
+          <!--</svg><translate>Only for Nested users</translate></h3>-->
+        <!--<h3 ng-if="!ctlSettings.isGrandPlace">-->
+          <!--<svg class="tick">-->
+            <!--<use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>-->
+          <!--</svg><translate>{{ctlSettings.grandPlace.name}} Members</translate></h3>-->
+        <!--<p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace"><translate>All <b>{{ctlSettings.grandPlace.name}}</b> Members can post messages to this Place.</translate></p>-->
+        <!--<p ng-if="!ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace"><translate>Only you can view the contents of this Place.</translate></p>-->
+        <!--<p ng-if="ctlSettings.isGrandPlace"><translate>Only Nested users can post messages to this Place.</translate></p>-->
+        <!--<aside>-->
+          <!--<p ng-if="ctlSettings.isGrandPlace"><translate>Show in the search results?</translate></p>-->
+          <!--<p ng-if="!ctlSettings.isGrandPlace"><translate>Show in the search result of Members from {{ctlSettings.grandPlace.name}}?</translate></p>-->
+          <!--<div class="place-switch">-->
+            <!--<input type="checkbox" name="checkbox_id" id="receiving-members-search" value="value" ng-disabled="!ctlSettings.accesses.hasControlAccess"-->
+                   <!--data-ng-model="ctlSettings.place.privacy.search"-->
+                   <!--ng-change="ctlSettings.updateSearchPrivacy()">-->
+            <!--<label for="receiving-members-search">-->
+              <!--<b><translate>Yes</translate></b>-->
+              <!--<div class="circle" switch-drag="ctlSettings.place.privacy.search"></div>-->
+            <!--</label>-->
+            <!--<label for="receiving-members-search">-->
+              <!--<b><translate>No</translate></b>-->
+            <!--</label>-->
+          <!--</div>-->
+        <!--</aside>-->
+      <!--</div>-->
+      <!--&lt;!&ndash;Everyone&ndash;&gt;-->
+      <!--<div class="select-box2"-->
+           <!--ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external')"-->
+           <!--ng-click="ctlSettings.setReceivingEveryone();"-->
+           <!--ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', selectable : ctlSettings.accesses.hasControlAccess}">-->
+        <!--<h3>-->
+          <!--<svg class="tick"><use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use></svg>-->
+          <!--<translate>Everyone <i>(including email)</i></translate>-->
+        <!--</h3>-->
+        <!--<p>-->
+          <!--<translate ng-if="ctlSettings.place.name">Everyone can send their messages to <b>{{ctlSettings.place.name}}</b> Place. This includes messages sent from email platforms to your Nested address ({{ctlSettings.place.id}}@nested.me).</translate>-->
+          <!--<translate ng-if="!ctlSettings.place.name">Everyone can send their messages to <b>...</b> Place. This includes messages sent from email platforms to your Nested address ({{ctlSettings.place.id}}@nested.me).</translate>-->
+        <!--</p>-->
+        <!--<aside>-->
+          <!--<p><translate>Show in the search results?</translate></p>-->
+          <!--<div class="place-switch">-->
+            <!--<input type="checkbox" name="checkbox_id" id="receiving-everyone-search" ng-disabled="!ctlSettings.accesses.hasControlAccess"-->
+                   <!--data-ng-model="ctlSettings.place.privacy.search"-->
+                   <!--ng-change="ctlSettings.updateSearchPrivacy()">-->
+            <!--<label for="receiving-everyone-search">-->
+              <!--<b><translate>Yes</translate></b>-->
+              <!--<div class="circle" switch-drag="ctlSettings.place.privacy.search"></div>-->
+            <!--</label>-->
+            <!--<label for="receiving-everyone-search">-->
+              <!--<b><translate>No</translate></b>-->
+            <!--</label>-->
+          <!--</div>-->
+        <!--</aside>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="_difh _fw margin-b-16" ng-if="!ctlSettings.isSubPersonalPlace">-->
+      <!--<div class="f4 _fw _difv" ng-if="ctlSettings.isClosedPlace">-->
+        <!--<p class="input-lab"><translate>Who can create a sub-Place?</translate></p>-->
+        <!--<select ng-if="ctlSettings.accesses.hasControlAccess"-->
+                <!--data-ng-model="ctlSettings.place.policy.add_place"-->
+                <!--data-ng-change="ctlSettings.updateAddPlacePolicy()">-->
+          <!--<option value="creators" id="manager-sub-place-access" translate-inner>Managers of {{ctlSettings.place.name}}</option>-->
+          <!--<option value="everyone" id="member-sub-place-access" translate-inner>Members of {{ctlSettings.place.name}}</option>-->
+        <!--</select>-->
+        <!--<p ng-if="!ctlSettings.accesses.hasControlAccess">-->
+          <!--{{::ctlSettings.memberOptions[ctlSettings.place.policy.add_place]}}-->
+        <!--</p>-->
+      <!--</div>-->
+      <!--<div class="f1"></div>-->
+      <!--<div class="f4 _fw _difv">-->
+        <!--<p class="input-lab" ng-if="ctlSettings.isGrandPlace" ><translate>Who can invite new Members?</translate></p>-->
+        <!--<p class="input-lab" ng-if="!ctlSettings.isGrandPlace"><translate>Who can add Members to this Place?</translate></p>-->
+        <!--<select ng-if="ctlSettings.accesses.hasControlAccess"-->
+                <!--data-ng-model="ctlSettings.place.policy.add_member"-->
+                <!--data-ng-change="ctlSettings.updateAddMemberPolicy()">-->
+          <!--<option value="creators" id="manager-invite-access" translate-inner>Managers of {{ctlSettings.place.name}}</option>-->
+          <!--<option value="everyone" id="member-invite-access" translate-inner>Members of {{ctlSettings.place.name}}</option>-->
+        <!--</select>-->
+        <!--<p ng-if="!ctlSettings.accesses.hasControlAccess">-->
+          <!--{{::ctlSettings.memberOptions[ctlSettings.place.policy.add_member]}}-->
+        <!--</p>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<p class="input-lab" data-ng-if="ctlSettings.accesses.hasSeeMembersAccess"><translate>Members</translate></p>-->
+  </div>
+  <ul ng-show="ctlSettings.tab == 'members'">
+    <div class="member-head _df _fw">
+      <div class="selected-user _fw _df" ng-show="ctlSettings.selectedMates.length > 0">
+        <div>
+          <translate>{{ctlSettings.selectedMates.length}}</translate>
+          <a><translate>selected</translate></a>
         </div>
-        <p ng-if="!ctlSettings.accesses.hasControlAccess">
-          {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_post]}}
-        </p>
-      </aside>
-    </div>
-    <!--Internal-->
-    <div class="select-box2"
-         ng-if="!ctlSettings.isGrandPlace  && !ctlSettings.isSubPersonalPlace && (ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'internal')"
-         ng-click="ctlSettings.setReceivingMembers();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'internal', selectable : ctlSettings.accesses.hasControlAccess}">
-      <h3 ng-if="ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace">
-        <svg class="tick">
-          <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-        </svg><translate>Everyone</translate></h3>
-      <h3 ng-if="ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace">
-        <svg class="tick">
-          <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-        </svg><translate>Only for Nested users</translate></h3>
-      <h3 ng-if="!ctlSettings.isGrandPlace">
-        <svg class="tick">
-          <use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use>
-        </svg><translate>{{ctlSettings.grandPlace.name}} Members</translate></h3>
-      <p ng-if="!ctlSettings.isGrandPlace && !ctlSettings.isPersonalPlace"><translate>All <b>{{ctlSettings.grandPlace.name}}</b> Members can post messages to this Place.</translate></p>
-      <p ng-if="!ctlSettings.isGrandPlace && ctlSettings.isPersonalPlace"><translate>Only you can view the contents of this Place.</translate></p>
-      <p ng-if="ctlSettings.isGrandPlace"><translate>Only Nested users can post messages to this Place.</translate></p>
-      <aside>
-        <p ng-if="ctlSettings.isGrandPlace"><translate>Show in the search results?</translate></p>
-        <p ng-if="!ctlSettings.isGrandPlace"><translate>Show in the search result of Members from {{ctlSettings.grandPlace.name}}?</translate></p>
-        <div class="place-switch">
-          <input type="checkbox" name="checkbox_id" id="receiving-members-search" value="value" ng-disabled="!ctlSettings.accesses.hasControlAccess"
-                 data-ng-model="ctlSettings.place.privacy.search"
-                 ng-change="ctlSettings.updateSearchPrivacy()">
-          <label for="receiving-members-search">
-            <b><translate>Yes</translate></b>
-            <div class="circle" switch-drag="ctlSettings.place.privacy.search"></div>
-          </label>
-          <label for="receiving-members-search">
-            <b><translate>No</translate></b>
-          </label>
+        <div>
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#crown"></use>
+          </svg>
+          <a><translate>Promote(3)</translate></a>
         </div>
-      </aside>
-    </div>
-    <!--Everyone-->
-    <div class="select-box2"
-         ng-if="(ctlSettings.accesses.hasControlAccess || ctlSettings.place.privacy.receptive == 'external')"
-         ng-click="ctlSettings.setReceivingEveryone();"
-         ng-class="{ selected : ctlSettings.place.privacy.receptive == 'external', selectable : ctlSettings.accesses.hasControlAccess}">
-      <h3>
-        <svg class="tick"><use xlink:href="/assets/icons/nst-icn16.svg#heavy-tick"></use></svg>
-        <translate>Everyone <i>(including email)</i></translate>
-      </h3>
-      <p>
-        <translate ng-if="ctlSettings.place.name">Everyone can send their messages to <b>{{ctlSettings.place.name}}</b> Place. This includes messages sent from email platforms to your Nested address ({{ctlSettings.place.id}}@nested.me).</translate>
-        <translate ng-if="!ctlSettings.place.name">Everyone can send their messages to <b>...</b> Place. This includes messages sent from email platforms to your Nested address ({{ctlSettings.place.id}}@nested.me).</translate>
-      </p>
-      <aside>
-        <p><translate>Show in the search results?</translate></p>
-        <div class="place-switch">
-          <input type="checkbox" name="checkbox_id" id="receiving-everyone-search" ng-disabled="!ctlSettings.accesses.hasControlAccess"
-                 data-ng-model="ctlSettings.place.privacy.search"
-                 ng-change="ctlSettings.updateSearchPrivacy()">
-          <label for="receiving-everyone-search">
-            <b><translate>Yes</translate></b>
-            <div class="circle" switch-drag="ctlSettings.place.privacy.search"></div>
-          </label>
-          <label for="receiving-everyone-search">
-            <b><translate>No</translate></b>
-          </label>
+        <div>
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#person"></use>
+          </svg>
+          <a><translate>Demote(1)</translate></a>
         </div>
-      </aside>
+        <div class="force">
+          <svg class="_24svg">
+            <use xlink:href="/assets/icons/nst-icn24.svg#bin"></use>
+          </svg>
+          <a><translate>Remove(4)</translate></a>
+        </div>
+      </div>
+      <div class="unselected-user _fw _df" ng-hide="ctlSettings.selectedMates.length > 0">
+        <div></div>
+        <div></div>
+        <div class="top-add" data-ng-click="ctlSettings.addMember()"><translate>Add Member</translate>
+          <svg class="_16svg">
+            <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
+          </svg>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="_difh _fw margin-b-16" ng-if="!ctlSettings.isSubPersonalPlace">
-    <div class="f4 _fw _difv" ng-if="ctlSettings.isClosedPlace">
-      <p class="input-lab"><translate>Who can create a sub-Place?</translate></p>
-      <select ng-if="ctlSettings.accesses.hasControlAccess"
-              data-ng-model="ctlSettings.place.policy.add_place"
-              data-ng-change="ctlSettings.updateAddPlacePolicy()">
-        <option value="creators" id="manager-sub-place-access" translate-inner>Managers of {{ctlSettings.place.name}}</option>
-        <option value="everyone" id="member-sub-place-access" translate-inner>Members of {{ctlSettings.place.name}}</option>
-      </select>
-      <p ng-if="!ctlSettings.accesses.hasControlAccess">
-        {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_place]}}
-      </p>
+    <li nst-place-member-item data-ng-if="ctlSettings.accesses.hasSeeMembersAccess"
+                           data-ng-repeat="member in ctlSettings.teammates"
+                           member="member" place="ctlSettings.place" mid="{{member.id}}" class="user-item"
+                           has-remove-access="ctlSettings.accesses.hasRemoveAccess"
+                           has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
+                           role="member.state"></li>
+    <div class="_fw _tac margin-b-15"  data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">
+      <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();"><translate>Load more...</translate></a>
+      <span class="nst-mood-cheerful" ng-if="ctlSettings.teammatesLoadProgress" translate-inner>Loading...</span>
     </div>
-    <div class="f1"></div>
-    <div class="f4 _fw _difv">
-      <p class="input-lab" ng-if="ctlSettings.isGrandPlace" ><translate>Who can invite new Members?</translate></p>
-      <p class="input-lab" ng-if="!ctlSettings.isGrandPlace"><translate>Who can add Members to this Place?</translate></p>
-      <select ng-if="ctlSettings.accesses.hasControlAccess"
-              data-ng-model="ctlSettings.place.policy.add_member"
-              data-ng-change="ctlSettings.updateAddMemberPolicy()">
-        <option value="creators" id="manager-invite-access" translate-inner>Managers of {{ctlSettings.place.name}}</option>
-        <option value="everyone" id="member-invite-access" translate-inner>Members of {{ctlSettings.place.name}}</option>
-      </select>
-      <p ng-if="!ctlSettings.accesses.hasControlAccess">
-        {{::ctlSettings.memberOptions[ctlSettings.place.policy.add_member]}}
-      </p>
+    <div class="select-box2 _difh"
+         data-ng-if="ctlSettings.accesses.hasAddMembersAccess"
+         data-ng-click="ctlSettings.addMember()">
+      <div class="add">
+        <svg>
+          <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
+        </svg>
+      </div>
+      <h4>
+        <translate ng-if="ctlSettings.isGrandPlace">Invite Members</translate>
+        <translate ng-if="!ctlSettings.isGrandPlace">Add Members</translate>
+      </h4>
     </div>
-  </div>
-  <p class="input-lab" data-ng-if="ctlSettings.accesses.hasSeeMembersAccess"><translate>Members</translate></p>
-  <div class="select-box2 _difh"
-       data-ng-if="ctlSettings.accesses.hasAddMembersAccess"
-       data-ng-click="ctlSettings.addMember()">
-    <div class="add">
-      <svg>
-        <use xlink:href="/assets/icons/nst-icn20.svg#cross"></use>
-      </svg>
-    </div>
-    <h4>
-      <translate ng-if="ctlSettings.isGrandPlace">Invite Members</translate>
-      <translate ng-if="!ctlSettings.isGrandPlace">Add Members</translate>
-    </h4>
-  </div>
-  <nst-place-member-item data-ng-if="ctlSettings.accesses.hasSeeMembersAccess" class="user-item"
-                         data-ng-repeat="member in ctlSettings.teammates"
-                         member="member" place="ctlSettings.place"
-                         has-remove-access="ctlSettings.accesses.hasRemoveAccess"
-                         has-control-access="ctlSettings.accesses.hasControlAccess" on-remove="ctlSettings.removeMember"
-                         role="member.state" ></nst-place-member-item>
-  <div class="_fw _tac margin-b-15"  data-ng-if="ctlSettings.accesses.hasSeeMembersAccess">
-    <a class="load-more nst-mood-cheerful" href ng-if="ctlSettings.hasMoreTeammates && !ctlSettings.teammatesLoadProgress" ng-click="ctlSettings.loadMoreTeammates();"><translate>Load more...</translate></a>
-    <span class="nst-mood-cheerful" ng-if="ctlSettings.teammatesLoadProgress" translate-inner>Loading...</span>
-  </div>
+  </ul>
+
 </div>

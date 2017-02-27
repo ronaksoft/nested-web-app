@@ -6,14 +6,11 @@
     .controller('indexController', AppController);
 
   /** @ngInject */
-  function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
-                         hotkeys, deviceDetector,
-                         NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
-                         NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal, NstSvcI18n, NstSvcNotification,
-                         NstObject) {
+  function AppController($window, $rootScope, NstSvcI18n) {
     var vm = this;
     vm.removeClass = _.debounce(removeClass, 512);
 
+    $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
 
     $window.addEventListener("dragover",function(e){
       e = e || event;
