@@ -87,11 +87,39 @@
     var isRTL = $rootScope._direction;
     var lang = isRTL == 'rtl' ? 'fa' : 'en';
 
+    var allowedContent =
+      'a[class,href,id,style,target]{*};' +
+      'b[class,id,style]{*};' +
+      'br[class,id,style]{*};' +
+      'div[align,class,dir,id,style]{*};' +
+      'font[class,color,face,id,size,style]{*};' +
+      'h1[align,class,dir,id,style]{*};' +
+      'h2[align,class,dir,id,style]{*};' +
+      'h3[align,class,dir,id,style]{*};' +
+      'h4[align,class,dir,id,style]{*};' +
+      'h5[align,class,dir,id,style]{*};' +
+      'h6[align,class,dir,id,style]{*};' +
+      'head[dir,lang,style]{*};' +
+      'hr[align,size,width,style]{*};' +
+      'img[align,border,class,height,hspace,id,src,style,usemap,vspace,width]{*};' +
+      'label[class,id,style]{*};' +
+      'li[class,dir,id,style,type]{*};' +
+      'ol[class,dir,id,style,type]{*};' +
+      'p[align,class,dir,id,style]{*};' +
+      'span[class,id,style]{*};' +
+      'strong[class,id,style]{*};' +
+      'table[align,bgcolor,border,cellpadding,cellspacing,class,dir,frame,id,rules,style,width]{*};' +
+      'td[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width]{*};' +
+      'th[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width]{*};' +
+      'tr[align,bgcolor,class,dir,id,style,valign]{*}' +
+      ';u[class,id,style]{*};' +
+      'ul[class,dir,id,style]{*};';
+
     if (vm.quickMode) {
       $scope.editorOptions = {
         language: lang,
         contentsLangDirection: isRTL,
-        allowedContent: 'a[class,href,id,style,target];b[class,id,style];br[class,id,style];div[align,class,dir,id,style];font[class,color,face,id,size,style];h1[align,class,dir,id,style];h2[align,class,dir,id,style];h3[align,class,dir,id,style];h4[align,class,dir,id,style];h5[align,class,dir,id,style];h6[align,class,dir,id,style];head[dir,lang];hr[align,size,width];img[align,border,class,height,hspace,id,src,style,usemap,vspace,width];label[class,id,style];li[class,dir,id,style,type];ol[class,dir,id,style,type];p[align,class,dir,id,style];span[class,id,style];strong[class,id,style];table[align,bgcolor,border,cellpadding,cellspacing,class,dir,frame,id,rules,style,width];td[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];th[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];tr[align,bgcolor,class,dir,id,style,valign];u[class,id,style];ul[class,dir,id,style];',
+        allowedContent: allowedContent,
         // allowedContent: true,
         contentsCss: 'body {overflow:visible;}',
         enableTabKeyTools: true,
@@ -104,7 +132,7 @@
           bottom: 'editor-txt'
         },
         toolbar: [
-          ["Link","FontSize"],
+          ["Link", "FontSize"],
           ["Bold"],
           ["JustifyRight", "BidiLtr", "BidiRtl"]
         ],
@@ -112,13 +140,13 @@
         colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
         // Remove the redundant buttons from toolbar groups defined above.
         //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,contextmenu,liststyle,tabletools'
+        removePlugins: 'resize,elementspath,contextmenu,magicline,tabletools'
       };
 
     } else {
       $scope.editorOptions = {
         language: lang,
-        allowedContent: 'a[class,href,id,style,target];b[class,id,style];br[class,id,style];div[align,class,dir,id,style];font[class,color,face,id,size,style];h1[align,class,dir,id,style];h2[align,class,dir,id,style];h3[align,class,dir,id,style];h4[align,class,dir,id,style];h5[align,class,dir,id,style];h6[align,class,dir,id,style];head[dir,lang];hr[align,size,width];img[align,border,class,height,hspace,id,src,style,usemap,vspace,width];label[class,id,style];li[class,dir,id,style,type];ol[class,dir,id,style,type];p[align,class,dir,id,style];span[class,id,style];strong[class,id,style];table[align,bgcolor,border,cellpadding,cellspacing,class,dir,frame,id,rules,style,width];td[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];th[abbr,align,bgcolor,class,colspan,dir,height,id,lang,rowspan,scope,style,valign,width];tr[align,bgcolor,class,dir,id,style,valign];u[class,id,style];ul[class,dir,id,style];',
+        allowedContent: allowedContent,
         // allowedContent: true,
         contentsLangDirection: isRTL,
         contentsCss: 'body {overflow:visible;}',
@@ -134,14 +162,14 @@
         },
         toolbar: [
           ["Link", "FontSize"],
-          ["Bold", "Italic", "Underline","source"],
+          ["Bold", "Italic", "Underline", "source"],
           ["JustifyRight", "TextColor", "BidiLtr", "BidiRtl"]
         ],
         fontSize_sizes: 'Small/12px;Normal/14px;Large/18px;',
         colorButton_colors: 'CF5D4E,454545,FFF,CCC,DDD,CCEAEE,66AB16',
         // Remove the redundant buttons from toolbar groups defined above.
         //removeButtons: 'Strike,Subscript,Superscript,Anchor,Specialchar',
-        removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,liststyle,tabletools'
+        removePlugins: 'resize,elementspath,wysiwygarea,contextmenu,magicline,tabletools'
       };
 
     }
@@ -189,8 +217,8 @@
                 NstSvcTranslation.get("Confirm"),
                 NstSvcTranslation.get("By discarding this message, you will lose your draft. Are you sure you want to discard?"),
                 {
-                  yes : NstSvcTranslation.get("Discard"),
-                  no : NstSvcTranslation.get("Draft")
+                  yes: NstSvcTranslation.get("Discard"),
+                  no: NstSvcTranslation.get("Draft")
                 }
               ).then(function (confirmed) {
                 if (confirmed) {
@@ -234,83 +262,83 @@
 
     function shouldSaveDraft() {
       return _.size(_.trim(vm.model.subject)) > 0 ||
-             _.size(_.trim(vm.model.body)) ||
-             _.size(vm.model.attachments) > 0 ||
-             _.size(vm.model.recipients) > 0;
+        _.size(_.trim(vm.model.body)) ||
+        _.size(vm.model.attachments) > 0 ||
+        _.size(vm.model.recipients) > 0;
     }
 
     /*****************************
      ***** Controller Methods ****
      *****************************/
 
-     function openDraft() {
-       if (!NstSvcPostDraft.has()) {
-         return;
-       }
+    function openDraft() {
+      if (!NstSvcPostDraft.has()) {
+        return;
+      }
 
-       if ($state.current.options && $state.current.options.supportDraft) {
+      if ($state.current.options && $state.current.options.supportDraft) {
         loadDraft();
-       }
-     }
+      }
+    }
 
-     function loadDraft() {
-       var deferred = $q.defer();
+    function loadDraft() {
+      var deferred = $q.defer();
 
-       var draft = NstSvcPostDraft.get();
-       vm.model.subject = draft.subject;
-       vm.model.body = draft.body;
-       $q.all(_.map(draft.attachments, function (attachmentId) {
-         return NstSvcAttachmentFactory.getOne(attachmentId)
-       })).then(function (attachments) {
-         vm.model.attachments = _.map(attachments, function (item) {
-           item.status = NST_ATTACHMENT_STATUS.ATTACHED;
-           return item;
-         });
-         vm.attachments.viewModels = _.map(attachments, function (attachment) {
-           return NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
-         });
-         vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
-         vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
-       }).catch(deferred.reject);
+      var draft = NstSvcPostDraft.get();
+      vm.model.subject = draft.subject;
+      vm.model.body = draft.body;
+      $q.all(_.map(draft.attachments, function (attachmentId) {
+        return NstSvcAttachmentFactory.getOne(attachmentId)
+      })).then(function (attachments) {
+        vm.model.attachments = _.map(attachments, function (item) {
+          item.status = NST_ATTACHMENT_STATUS.ATTACHED;
+          return item;
+        });
+        vm.attachments.viewModels = _.map(attachments, function (attachment) {
+          return NstSvcAttachmentMap.toEditableAttachmentItem(attachment);
+        });
+        vm.attachments.size.total += _.sum(_.map(attachments, 'size'));
+        vm.attachments.size.uploaded += _.sum(_.map(attachments, 'size'));
+      }).catch(deferred.reject);
 
-       $q.all(_.map(draft.recipients, function (recipientId) {
-         if (recipientId.indexOf('@') > -1) {
-           return NstSvcUserFactory.getTinySafe(recipientId);
-         } else {
-           return NstSvcPlaceFactory.getTinySafe(recipientId);
-         }
-       })).then(function (recipients) {
-         vm.model.recipients = _.map(recipients, function (recipient) {
-           if (recipient instanceof NstTinyPlace) {
-             return new NstVmPlace(recipient);
-           } else if (recipient instanceof NstTinyUser) {
+      $q.all(_.map(draft.recipients, function (recipientId) {
+        if (recipientId.indexOf('@') > -1) {
+          return NstSvcUserFactory.getTinySafe(recipientId);
+        } else {
+          return NstSvcPlaceFactory.getTinySafe(recipientId);
+        }
+      })).then(function (recipients) {
+        vm.model.recipients = _.map(recipients, function (recipient) {
+          if (recipient instanceof NstTinyPlace) {
+            return new NstVmPlace(recipient);
+          } else if (recipient instanceof NstTinyUser) {
 
-             var user = new NstVmUser(recipient);
-             if (recipient.id.indexOf('@') > -1) {
-               user.isEmail = true;
-               user.isEmailValid = NST_PATTERN.EMAIL.test(user.id);
-             }
+            var user = new NstVmUser(recipient);
+            if (recipient.id.indexOf('@') > -1) {
+              user.isEmail = true;
+              user.isEmailValid = NST_PATTERN.EMAIL.test(user.id);
+            }
 
-             return user;
+            return user;
 
-           } else {
+          } else {
 
-             return new NstVmSelectTag({
-               id: recipient.id,
-               name: recipient.id,
-               data: new NstRecipient({
-                 id: recipient.id,
-                 email: recipient.id,
-                 name: recipient.id
-               })
-             });
-           }
-         });
-         deferred.resolve(draft);
-       }).catch(deferred.reject);
+            return new NstVmSelectTag({
+              id: recipient.id,
+              name: recipient.id,
+              data: new NstRecipient({
+                id: recipient.id,
+                email: recipient.id,
+                name: recipient.id
+              })
+            });
+          }
+        });
+        deferred.resolve(draft);
+      }).catch(deferred.reject);
 
-       return deferred.promise;
-     }
+      return deferred.promise;
+    }
 
     NstSvcSidebar.setOnItemClick(onPlaceSelected);
 
@@ -328,7 +356,7 @@
     vm.editorKeyDown = function (e) {
       if (e.which == 8) {
 
-        if (vm.quickMode){
+        if (vm.quickMode) {
           $('.quick-message-wrp [name="subject"]').focus();
         }
       }
@@ -614,7 +642,7 @@
 
     vm.fullCompose = function () {
       $('body').toggleClass('fullCompose');
-      if ( $('body').hasClass('fullCompose')) {
+      if ($('body').hasClass('fullCompose')) {
         vm.makeChangeForWatchers++;
       }
     };
@@ -780,7 +808,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.subject = post.getSubject();
-              vm.model.body = post.getBody();
+              vm.model.body = post.getTrustedBody();
               vm.model.attachments = post.getAttachments();
               for (var k in vm.model.attachments) {
                 vm.model.attachments[k].status = NST_ATTACHMENT_STATUS.ATTACHED;
@@ -801,6 +829,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
+              vm.model.replyTo.body = post.getTrustedBody();
               vm.model.subject = post.getSubject();
               var places = post.getPlaces();
               for (var k in places) {
@@ -856,6 +885,7 @@
           } else {
             getPost($stateParams.postId).then(function (post) {
               vm.model.replyTo = post;
+              vm.model.replyTo.body = post.getTrustedBody();
               vm.model.subject = post.getSubject();
 
               // TODO: First search in post places to find a match then try to get from factory
@@ -970,7 +1000,7 @@
     }
 
     function getPost(id) {
-      return NstSvcPostFactory.get(id,true);
+      return NstSvcPostFactory.get(id, true);
     }
 
     /*****************************
@@ -1033,11 +1063,11 @@
       var dt = event.dataTransfer;
       var files = dt.files;
       for (var i = 0; i < files.length; i++) {
-        vm.attachments.attach(files[i]).then(function (request) {});
+        vm.attachments.attach(files[i]).then(function (request) {
+        });
       }
 
     };
-
 
 
     $scope.$on('$destroy', function () {
