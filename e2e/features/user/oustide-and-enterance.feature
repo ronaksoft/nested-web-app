@@ -1,4 +1,9 @@
-Feature: Registration
+Feature: this feature is about to checking
+          nested registration,recover password
+          and entrance (sign-in and sign-out)
+          functionality
+
+  #TODO errors must be added
 
   Scenario: Registration step 1
     Given I go to the page "/register"
