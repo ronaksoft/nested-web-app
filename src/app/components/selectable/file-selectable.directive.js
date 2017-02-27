@@ -8,7 +8,8 @@
         scope: {
           selector: "@",
           selectAttr: "@",
-          onSelect: "="
+          onSelect: "=",
+          mood: '@'
         },
         link: function (scope, element, attrs) {
           var seletableElement = $(element);
@@ -18,10 +19,13 @@
 
           var selectedArray = [];
 
+          var mouseMode = attrs.mood == 'settings' ? 'toggle' : 'standard';
+
           seletableElement.selectonic({
             multi: true,
-            mouseMode: "standard",
+            mouseMode: mouseMode,
             keyboard: true,
+            selectionBlur: true,
             textSelection: true,
             keyboardMode: "select",
             select: function (event, ui) {
@@ -44,13 +48,14 @@
             }
           });
 
-          $(document).click(function (event) {
-            if (seletableElement.selectonic() && seletableElement.selectonic("getSelected").length > 0) {
-              if (!(event.target.closest("section.content") || event.target.closest(".content-plus"))) {
-                seletableElement.selectonic("unselect");
-              }
-            }
-          })
+          //Event listen on document click ?! expensive
+          // $(document).click(function (event) {
+          //   if (seletableElement.selectonic() && seletableElement.selectonic("getSelected").length > 0) {
+          //     if (!(event.target.closest("section.content") || event.target.closest(".content-plus"))) {
+          //       seletableElement.selectonic("unselect");
+          //     }
+          //   }
+          // })
         }
       }
     })

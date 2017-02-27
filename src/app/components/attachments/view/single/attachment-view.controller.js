@@ -104,12 +104,8 @@
       vm.attachments.current = vm.attachments.collection[index];
       if (vm.attachments.current.type === NST_FILE_TYPE.PDF ||
         vm.attachments.current.type === NST_FILE_TYPE.DOCUMENT) {
-        //TODO::Create a directive
-        $timeout(function () {
-          vm.attachments.current.width = angular.element('.nst-preview-pic-mode').width() - 20;
-          vm.attachments.current.height = angular.element('.nst-preview-pic-mode').height() - 20;
-          vm.attachments.current.show = true;
-        }, 1000);
+        vm.attachments.current.show = false;
+
         getToken(vm.attachments.current.id).then(function (token) {
           vm.attachments.current.viewUrl = $sce.trustAsResourceUrl('//docs.google.com/viewer?embedded=true&url=' +
             encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token)));

@@ -44,7 +44,7 @@
       <div class="bot-nav" ng-if="ctlFullNavbar.isFeed || ctlFullNavbar.isSentMode || ctlFullNavbar.isBookmarkMode">
         <div class="navigation">
           <nav>
-            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover home-svg" active-group="message">
+            <a ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover home-svg">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
               </svg>
@@ -122,9 +122,10 @@
         <div class="cp-illu _fn"></div>
       </div>
     </div>
-    <div class="content _pr srch-nav" ng-if="ctlFullNavbar.isSearchMode">
+    <div class="content _pr srch-
+    nav" ng-if="ctlFullNavbar.isSearchMode">
       <div class="bot-nav">
-        <svg class="_24svg _r90 _df _fn mirror">
+        <svg class="_24svg _r90 _df _fn mirror" onclick="window.history.back();">
           <use xlink:href="/assets/icons/nst-icn24.svg#arrow-down"></use>
         </svg>
         <input type="text" placeholder="Search..." class="_df _fw" ng-model="ctlFullNavbar.query" translate-attrs="placeholder" ng-keyup="ctlFullNavbar.searchKeyPressed($event, ctlFullNavbar.query)">
@@ -135,7 +136,7 @@
       <div class="bot-nav">
         <div class="navigation">
           <nav>
-            <a ui-sref="app.messages-favorites()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover home-svg" active-group="message">
+            <a ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover home-svg">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
               </svg>

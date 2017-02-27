@@ -59,13 +59,14 @@
   width: 100%;
   margin-bottom: 16px;
   box-sizing: border-box;
-  border: dashed 1px $color-wind;
+  //border: dashed 1px $color-wind;
   padding: 0 12px;
   border-radius: 10px;
   transition: all $animation-dur ease;
   color: $color-solid;
-  min-height: 52px;
+  min-height: 64px;
   align-items: center;
+  justify-content: center;
   h3 {
     font-size: 20px;
     line-height: 24px;
@@ -83,11 +84,11 @@
   }
 
   h4 {
-    margin: 12px 0;
+    margin: 0;
     line-height: 22px;
-    font-size: 18px;
+    font-size: 16px;
     color: $color-sense-wire;
-    font-weight: 700;
+    font-weight: 400;
   }
   p {
     color: $color-solid;
@@ -305,4 +306,117 @@ select:-moz-focusring {
 .btn-primary:active,.btn-primary:focus {
   //border-color: $color-sense!important;
   //background: linear-gradient(to bottom, #8AEBB4, #8AEBB4 100%)!important;
+}
+
+.suggests {
+  height: 180px;
+  overflow: hidden;
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .item {
+    width: 48%;
+    height: 50px;
+    transition: all .3s;
+    cursor: pointer;
+    .item-logo {
+      width: 64px;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: none;
+      img {
+        width: 48px;
+        height: auto;
+      }
+    }
+    .det {
+      flex: 1;
+      justify-content: center;
+      p {
+        @extend .nst-font-large;
+        line-height: 19px;
+        color: #143C82;
+        font-weight: 400;
+        margin: 0;
+      }
+      span {
+        font-size: 13px;
+        line-height: 16px;
+        color: $color-grey-text;
+        font-weight: 400;
+        strong {
+          color: $color-solid;
+        }
+      }
+    }
+    &:hover {
+      background-color: #E8FBF0;
+      border-radius: 2px;
+      .det p {
+        text-decoration: underline;
+      }
+    }
+  }
+  .item.invite {
+    .item-logo {
+      width: 48px;
+      img {
+        width: 32px;
+        height: auto;
+      }
+    }
+    .det {
+      p {
+        @extend .nst-font-large;
+        line-height: 19px;
+        color: #143C82;
+        font-weight: 400;
+        margin: 0;
+      }
+    }
+    &:hover {
+      background-color: $color-bg-pending-hover;
+    }
+  }
+  .item.add {
+    height: 72px;
+    .item-logo {
+      width: 64px;
+      img {
+        width: 48px;
+        height: auto;
+      }
+    }
+    .det {
+      p {
+        line-height: 19px;
+        @extend .nst-font-large;
+        color: $color-sense-wire;
+        font-weight: 400;
+      }
+    }
+    &:hover {
+      background-color: #E8FBF0;
+    }
+  }
+  .devider {
+    width: 4%;
+    height: 50px;
+  }
+}
+
+.ui-select-choices-row > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  margin-right: 8px;
+}
+
+.modal-add .ui-select-choices-row.active > a,
+.modal-add .ui-select-choices-row.active > a:hover{
+  background-color: transparent!important;
+  color: $color-solid;
+  border-radius: 10px;
 }

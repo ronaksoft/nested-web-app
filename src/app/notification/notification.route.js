@@ -10,7 +10,7 @@
     $stateProvider
       .state('app.mentions', {
         url: '/mentions',
-        templateUrl: 'app/notification/notification.html',
+        templateUrl: 'app/notification/notification-popover.html',
         controller: 'NotificationsController',
         controllerAs: 'ctlNotifications',
         // params : {

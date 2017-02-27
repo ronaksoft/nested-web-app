@@ -1,0 +1,20 @@
+<div id="change-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw"><translate>{{title}}</translate></p>
+      <!--<div class="_df closebut" ng-click="$dismiss()"><img src="../assets/icons/close.svg"></div>-->
+    </div>
+    <div class="_difv _fw">
+      <div class="form-group">
+        <label class="input-lab"><translate>Gender{{option}}</translate></label>
+        <div>
+          <select name="gender" ng-model="val" ng-options="gender.key as gender.title for gender in options" class="form-control"></select>
+        </div>
+      </div>
+      <div class="_df _fw mdl-ft">
+        <div class="butn-white" ng-click="$close('discard')"><translate>Discard</translate></div>
+        <div class="butn-green" ng-click="$close(val)" id="change-save"><translate>Save</translate></div>
+      </div>
+    </div>
+  </div>
+</div>
