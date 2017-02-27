@@ -7,7 +7,7 @@
 
   /** @ngInject */
   function AppController($q, $scope, $window, $rootScope, $timeout, $state, $stateParams, $uibModalStack, $interval, $log, $injector,
-                         hotkeys, deviceDetector,
+                         hotkeys, deviceDetector, NstSvcInteractionTracker,
                          NST_CONFIG, NST_UNREGISTER_REASON, NST_PUBLIC_STATE, NST_DEFAULT, NST_PAGE, NST_SRV_ERROR, NST_AUTH_EVENT, NST_SRV_EVENT, NST_PLACE_ACCESS,
                          NstSvcServer, NstSvcAuth, NstFactoryError, NstSvcLogger, NstSvcModal, NstSvcI18n, NstSvcNotification,
                          NstObject) {
@@ -22,6 +22,8 @@
     vm.showLoadingScreen = true;
     $rootScope.topNavOpen = false;
     $rootScope.deviceDetector = deviceDetector;
+    $rootScope._track = trackBehaviour;
+
 
     NstSvcServer.addEventListener(NST_SRV_EVENT.DISCONNECT, function (msg) {
       vm.disconnected = true;
@@ -176,9 +178,9 @@
       event.preventDefault();
     });
 
-
-
-
+    function trackBehaviour(category, behaviour, value) {
+      NstSvcInteractionTracker.trackEvent(category, behaviour, value);
+    }
 
   }
 })();

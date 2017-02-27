@@ -10,7 +10,7 @@
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait,
-                              NstSvcMessagesSettingStorage, NstSvcTranslation,
+                              NstSvcMessagesSettingStorage, NstSvcTranslation, NstSvcInteractionTracker,
                               NstSvcPostMap, NstSvcPlaceAccess, NstSvcModal) {
 
     var vm = this;
@@ -33,6 +33,7 @@
     vm.cache = [];
     vm.hasNewMessages = false;
     vm.myPlaceIds = [];
+    vm.loadMoreCounter = 0;
 
     vm.loadMore = loadMore;
     vm.tryAgainToLoadMore = false;
@@ -368,6 +369,8 @@
 
     function loadMore(force) {
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
+      vm.loadMoreCounter ++;
+      NstSvcInteractionTracker.trackEvent('posts', 'load more', vm.loadMoreCounter);
 
       return loadMessages(force).catch(function (error) {
         var deferred = $q.defer();

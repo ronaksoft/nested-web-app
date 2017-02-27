@@ -13,19 +13,19 @@
       <div class="bot-nav" ng-if="ctlFullNavbar.hasPlace()">
         <div class="navigation" ng-if="!ctlFullNavbar.controls">
           <nav>
-            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
+            <a ng-href="{{ctlFullNavbar.getMessagesUrl()}}" ng-click="ctlFullNavbar.rollUpward('message'); _track('navbar', 'view posts');" class="menu-links-butn _df li-hover" active-group="message">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#messages"></use>
               </svg>
               <translate>Messages</translate>
             </a>
-            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files')" ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover" active-group="file">
+            <a ng-href="{{ctlFullNavbar.getFilesUrl()}}" ng-click="ctlFullNavbar.rollUpward('files'); _track('navbar', 'view files');" ng-if="!ctlFullNavbar.isBookmarkMode && ctlFullNavbar.hasPlace()" class="menu-links-butn _df li-hover" active-group="file">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#file"></use>
               </svg>
               <translate>Files</translate>
             </a>
-            <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity')" ng-if="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isFeed" class="menu-links-butn _df li-hover" active-group="activity">
+            <a ng-href="{{ctlFullNavbar.getActivityUrl()}}" ng-click="ctlFullNavbar.rollUpward('activity');  _track('navbar', 'view activity');" ng-if="!ctlFullNavbar.isBookmarkMode && !ctlFullNavbar.isSentMode && !ctlFullNavbar.isFeed" class="menu-links-butn _df li-hover" active-group="activity">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#log"></use>
               </svg>
@@ -135,26 +135,26 @@
       <div class="bot-nav">
         <div class="navigation">
           <nav>
-            <a ui-sref="app.messages-favorites()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover home-svg" active-group="message">
+            <a ui-sref="app.messages-favorites()" ng-click="ctlFullNavbar.rollUpward('message');  _track('navbar', 'view home');" class="menu-links-butn _df li-hover home-svg" active-group="message">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
               </svg>
             </a>
             <vr></vr>
-            <a ui-sref="app.messages-favorites()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="message">
+            <a ui-sref="app.messages-favorites()" ng-click="ctlFullNavbar.rollUpward('message'); _track('navbar', 'view feed')" class="menu-links-butn _df li-hover" active-group="message">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#home"></use>
               </svg>
               <translate>Feed</translate>
             </a>
-            <a ui-sref="app.messages-bookmarked()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="bookmarked">
+            <a ui-sref="app.messages-bookmarked()" ng-click="ctlFullNavbar.rollUpward('message');  _track('navbar', 'view bookmarks');" class="menu-links-butn _df li-hover" active-group="bookmarked">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
               </svg>
               <translate>Bookmarks</translate>
             </a>
             <!-- TODO set url in other ways -->
-            <a ui-sref="app.messages-sent()" ng-click="ctlFullNavbar.rollUpward('message')" class="menu-links-butn _df li-hover" active-group="sent">
+            <a ui-sref="app.messages-sent()" ng-click="ctlFullNavbar.rollUpward('message');  _track('navbar', 'view sent');" class="menu-links-butn _df li-hover" active-group="sent">
               <svg class="icon-filter _df">
                 <use xlink:href="/assets/icons/nst-icn24.svg#sent-message"></use>
               </svg>
