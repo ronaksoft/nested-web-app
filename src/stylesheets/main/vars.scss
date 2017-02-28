@@ -13,13 +13,14 @@ $color-solid-30: #b2b2b2;
 $color-solid-60: #666666;
 $color-force: #ff6464;
 $color-force-10: #ffefef;
-$color-force-wire: #ff0014;
+$color-force-wire: #E60000;
 $color-calm: rgba(0,0,0,.04);
 $color-breeze: rgba(0,0,0,.16);
 $color-breeze-50: rgba(0,0,0,.08);
 $color-wind: rgba(0,0,0,.32);
 $color-storm: rgba(0,0,0,.48);
 $color-hurricane: rgba(0,0,0,.72);
+$color-shine: #FFD732;
 $color-badge: #a0e8b8;
 $color-fillbox: #f0f5f2;
 $color-white: #FFFFFF;
@@ -33,16 +34,19 @@ $color-border-pics: rgba(0,0,0,.2);
 $color-border: rgb(220,220,220);
 $color-grey: rgb(192,192,192);
 $color-grey-text: #808080;
-$color-forward: #283CD2;
-$color-reply: #1EDC96;
+$color-forward: #3246A5;
+$color-reply: #6ED7B4;
 $color-hover-comment: #DAF2E4;
 $hot-bg-color: cornsilk;
-$color-black004: $color-calm;
-$color-black008: $color-breeze-50;
-$color-black04: rgba(0,0,0,.4);
-$color-black16: $color-breeze;
+
+$color-gale: rgba(0,0,0,.4);
 $color-modal-bg: rgba(153,153,153,.72);
 
+//Deprecate soon
+$color-black004: $color-calm;
+$color-black008: $color-breeze-50;
+$color-black04: $color-gale;
+$color-black16: $color-breeze;
 
 $font-size-xxsmall: 10px;
 $font-size-xsmall: 11px;

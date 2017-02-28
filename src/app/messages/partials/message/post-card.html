@@ -68,9 +68,9 @@
            ng-if="ctlPostCard.post.body.length > 0"
            auto-dir="ctlPostCard.post.body">
 
-    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
-    <span ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
-    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
+    <span mail-resizer ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
+    <span mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
+    <span mail-resizer ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
   </section>
 
 

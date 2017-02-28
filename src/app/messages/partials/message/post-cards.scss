@@ -224,13 +224,16 @@ post-card {
     line-height: 125%;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 0;
+    padding: 0 16px;
     ul {
       margin-left: 8px;
     }
-    span {
+    >span {
       color: #808080;
+      -webkit-transform-origin-x: 0px;
+      -webkit-transform-origin-y: 0px;
       margin-left: 0;
+      //max-width: 100%;
     }
 
   }
