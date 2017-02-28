@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.user')
+    .module('ronak.nested.web.settings')
     .controller('ChangePasswordController', ChangePasswordController);
 
   /** @ngInject */

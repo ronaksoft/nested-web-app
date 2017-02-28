@@ -90,16 +90,20 @@
     }
 
 
-    toggleSidebar($state.params);
+    toggleSidebar($state.current, $state.params);
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-      toggleSidebar(toParams);
+      toggleSidebar(toState, toParams);
     });
 
-    function toggleSidebar(stateParams) {
-      if (stateParams && stateParams.placeId) {
+    function toggleSidebar(state, params) {
+      if (state.options && state.options && state.options.fullscreen) {
+        vm.viewSettings.sidebar.hidden = true;
+      } else if (params && params.placeId) {
+        vm.viewSettings.sidebar.hidden = false;
         vm.viewSettings.sidebar.collapsed = false;
       } else {
+        vm.viewSettings.sidebar.hidden = false;
         vm.viewSettings.sidebar.collapsed = true;
       }
     }
