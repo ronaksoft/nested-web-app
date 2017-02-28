@@ -6,11 +6,16 @@
     .service('NstSvcInteractionTracker', NstSvcInteractionTracker);
 
   /** @ngInject */
-  function NstSvcInteractionTracker(Analytics, NST_CONFIG, $state, NstSvcAuth) {
+  function NstSvcInteractionTracker(Analytics, NST_CONFIG, $state, NstSvcAuth, NST_AUTH_EVENT) {
     function InteractionTracker() {
       if (NstSvcAuth && NstSvcAuth.user) {
         Analytics.set('&uid', NstSvcAuth.user.id);
       }
+
+      NstSvcAuth.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event, data) {
+        Analytics.set('&uid', NstSvcAuth.user.id);
+      });
+
     }
 
     InteractionTracker.prototype.trackEvent = function (category, action, value) {
