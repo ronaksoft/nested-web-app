@@ -20,8 +20,10 @@
           if( cardWidth > stndSize ){
             var ratio  = stndSize/cardWidth;
             var fontRatio = 100 / ratio;
-            console.log(ratio);
-            elem.css({'transform': 'scale(' + ratio +',' + ratio + '','font-size': fontRatio + '%','line-height': fontRatio + '%'})
+            // elem.css({'transform': 'scale(' + ratio +',' + ratio + '','font-size': fontRatio + '%','line-height': fontRatio + '%'});
+            elem.css({'transform': 'scale(' + ratio +',' + ratio + ''});
+            elem.parent().height(elem[0].getBoundingClientRect().height + 'px')
+
           }
 
         },100)

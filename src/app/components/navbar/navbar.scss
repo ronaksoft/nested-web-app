@@ -429,7 +429,9 @@ nst-navbar {
       flex-direction: row;
       height: 42px;
       position: absolute;
+      display: flex;
       bottom: 0;
+      align-items: center;
       left: 0;
       .navigation {
         background-color: $color-white;
