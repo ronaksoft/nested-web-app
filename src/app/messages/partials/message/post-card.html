@@ -10,7 +10,7 @@
   </section>
   <section class="post-head _difh" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
     <div class="_difc">
-      <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead();" ng-if="ctlPostCard.post.isForwarded" class="icon">
+      <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead(); _track('post card','open post view : click forward icon');" ng-if="ctlPostCard.post.isForwarded" class="icon">
         <div class="fwed">
           <svg class="svg-hover">
             <use xlink:href="/assets/icons/nst-icn20.svg#forwarded"></use>
@@ -18,7 +18,7 @@
           </svg>
         </div>
       </a>
-      <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead();" ng-if="ctlPostCard.post.isReplyed" class="icon">
+      <a ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead(); _track('post card','open post view : click reply icon');" ng-if="ctlPostCard.post.isReplyed" class="icon">
         <div class="reed">
           <svg class="svg-hover mirror">
             <use xlink:href="/assets/icons/nst-icn20.svg#replied"></use>
@@ -38,12 +38,12 @@
       <h4 class="_df _fn" user-detail user="{{::ctlPostCard.post.sender}}">{{::ctlPostCard.post.sender.name}}</h4>
       <div class="_df _fw">
       </div>
-      <a class="_df _fn post-card-time" ng-click="ctlPostCard.viewFull($event);ctlPostCard.markAsRead();" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
+      <a class="_df _fn post-card-time" ng-click="ctlPostCard.viewFull($event); ctlPostCard.markAsRead(); _track('post card','open post view : click date');" data-uib-tooltip="{{::ctlPostCard.post.date | date : 'full'}}"
             data-tooltip-append-to-body="true" data-tooltip-placement="auto left">
         {{::ctlPostCard.post.date | date : 'short'}}
       </a>
     </div>
-    <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}" ng-click="ctlPostCard.markAsRead();ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked)">
+    <div class="pin-post ng-class:{'pinned' : ctlPostCard.post.bookmarked}" ng-click="ctlPostCard.markAsRead();ctlPostCard.setBookmark(!ctlPostCard.post.bookmarked); _track('post card',ctlPostCard.post.bookmarked ? 'bookmark remove' : 'bookmark add');">
       <svg class="_24svg" data-ng-if="ctlPostCard.post.bookmarked">
         <use xlink:href="/assets/icons/nst-icn24.svg#bookmark"></use>
       </svg>
@@ -61,7 +61,7 @@
   <section ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <div class="_bggray nst-mood-lively _fw" ng-if="!ctlPostCard.post.trusted && ctlPostCard.isExpanded">
     <translate>This post contains blocked images.</translate>
-    <a class="nst-mood-hurricane" ng-click="ctlPostCard.showTrustedBody()"><translate>Show Images</translate></a>
+    <a class="nst-mood-hurricane" ng-click="ctlPostCard.showTrustedBody(); _track('post card','show trusted body');"><translate>Show Images</translate></a>
   </div>
   </section>
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
@@ -77,8 +77,8 @@
     <span ng-bind-html="ctlPostCard.body"></span>
   </div>
   <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn">
-    <a ng-click="ctlPostCard.collapse($event);" ng-if="ctlPostCard.isExpanded" class="show-more"><translate>Show less</translate></a>
-    <a ng-click="ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded" class="show-more">
+    <a ng-click="ctlPostCard.collapse($event); _track('post card', 'show less');" ng-if="ctlPostCard.isExpanded" class="show-more"><translate>Show less</translate></a>
+    <a ng-click="ctlPostCard.expand(); ; _track('post card', 'show more');" ng-if="!ctlPostCard.isExpanded" class="show-more">
       <translate>-Show more...</translate>
     </a>
   </section>
@@ -130,7 +130,7 @@
       <span>{{ctlPostCard.post.commentsCount | localize }}</span>
     </a>
     <a class="_df _fn comments-count new-comments-count" ng-if="ctlPostCard.unreadCommentsCount > 0 "
-       ng-click="ctlPostCard.viewFull($event);" >
+       ng-click="ctlPostCard.viewFull($event); _track('post card', 'open post view : click new comment icon');" >
       <!--fixme :: set blue icon-->
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#comment"></use>
@@ -142,7 +142,7 @@
     <div class="post-icons _fw _df">
       <a id="test-forward"
          data-uib-tooltip-template="'forward-uib-tooltip.html'"
-         data-tooltip-append-to-body="true" data-tooltip-placement="auto top" ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);ctlPostCard.markAsRead();" class="icon _df">
+         data-tooltip-append-to-body="true" data-tooltip-placement="auto top" ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event); ctlPostCard.markAsRead(); _track('post card', 'forward : toolbar');" class="icon _df">
         <div class="fw">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
@@ -152,7 +152,7 @@
       </a>
       <a id="test-reply" class="icon _df"
          data-uib-tooltip-template="'reply-to-all-uib-tooltip.html'"
-         data-tooltip-append-to-body="true" data-tooltip-placement="auto top" ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead()" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
+         data-tooltip-append-to-body="true" data-tooltip-placement="auto top" ng-click="ctlPostCard.replyAll($event); ctlPostCard.markAsRead(); _track('post card', 'reply all : toolbar');" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
         <div class="re">
           <svg class="svg-hover _24svg mirror">
             <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
@@ -163,7 +163,7 @@
       <div ng-click="$event.stopPropagation()" class="cursor-pointer margin-r_5 icon _df"
            data-uib-tooltip-template="'more-uib-tooltip.html'"
            data-tooltip-append-to-body="true" data-tooltip-placement="auto top" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="{{$root._direction == 'ltr' ? 'left auto' : 'right auto'}}"
-             data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"  data-popover-append-to-body="false" translate-attrs="data-uib-tooltip">
+             data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'"  data-popover-append-to-body="false" translate-attrs="data-uib-tooltip" ng-click="_track('post card', 'more options : toolbar');">
         <div class="more">
           <svg class="svg-hover _24svg">
             <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
@@ -182,22 +182,22 @@
 </section>
 
 <div class="chain-forward" ng-if="ctlPostCard.chainView && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
-  <a ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead();" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
+  <a ng-click="ctlPostCard.replyAll($event);ctlPostCard.markAsRead(); _track('post card', 'reply : add-on');" ui-sref="app.compose-reply-all({ postId: ctlPostCard.post.id })">
     <svg class="mirror">
       <use xlink:href="/assets/icons/nst-icn24.svg#reply"></use>
     </svg>
   </a>
-  <a ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);ctlPostCard.markAsRead();">
+  <a ui-sref="app.compose-forward({ postId: ctlPostCard.post.id })" ng-click="ctlPostCard.forward($event);ctlPostCard.markAsRead(); _track('post card', 'forward : add-on');">
     <svg>
       <use xlink:href="/assets/icons/nst-icn24.svg#forward"></use>
     </svg>
   </a>
-  <a ng-if="!ctlPostCard.addOn" ng-click="ctlPostCard.viewFull($event)">
+  <a ng-if="!ctlPostCard.addOn" ng-click="ctlPostCard.viewFull($event);">
     <svg>
       <use xlink:href="/assets/icons/nst-icn24.svg#expand"></use>
     </svg>
   </a>
-  <a ng-if="ctlPostCard.addOn" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="bottom-left auto"
+  <a ng-if="ctlPostCard.addOn" popover-class="white-pop popover-white-nst-activity-places" data-popover-placement="bottom-left auto" ng-click=" _track('post card', 'more options');"
      data-uib-popover-template="'app/messages/partials/popovers/post-card-more-option.html'" data-popover-append-to-body="true" translate-attrs="data-uib-popover">
     <svg class="_r90">
       <use xlink:href="/assets/icons/nst-icn20.svg#more"></use>
@@ -219,7 +219,7 @@
     <span ng-if="!(cnt == 1)"><translate>shared in {{cnt | localize}} places</translate></span>
     <span ng-if="cnt == 1"><translate>shared in One place</translate></span>
   </div>
-  <div ng-if="ctlPostCard.addOn" >
+  <div ng-if="ctlPostCard.addOn">
     <svg class="chain-ico">
       <use xlink:href="/assets/icons/nst-icn16.svg#more"></use>
     </svg>
@@ -240,10 +240,10 @@
   <svg class="_16svg" ng-click="ctlPostCard.markAsRead();ctlPostCard.expand();" ng-if="!ctlPostCard.expandProgress && !ctlPostCard.post.isRead">
     <use xlink:href="/assets/icons/nst-icn16.svg#unread-message"></use>
   </svg>
-  <svg class="_16svg nst-icn-gry" ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.isRead && !ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-click="ctlPostCard.expand();">
+  <svg class="_16svg nst-icn-gry" ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.isRead && !ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-click="ctlPostCard.expand();  _track('post card', 'show more : add-on');">
     <use xlink:href="/assets/icons/nst-icn16.svg#message"></use>
   </svg>
-  <svg class="_16svg nst-icn-gry" ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.isRead && ctlPostCard.isExpanded) || (!ctlPostCard.post.ellipsis && ctlPostCard.post.isRead )" ng-click="ctlPostCard.collapse($event);">
+  <svg class="_16svg nst-icn-gry" ng-if="(!ctlPostCard.expandProgress && ctlPostCard.post.isRead && ctlPostCard.isExpanded) || (!ctlPostCard.post.ellipsis && ctlPostCard.post.isRead )" ng-click="ctlPostCard.collapse($event);  _track('post card', 'show less : add-on');">
     <use xlink:href="/assets/icons/nst-icn16.svg#open-message"></use>
   </svg>
   <div class="_16svg" ng-show="ctlPostCard.expandProgress && ctlPostCard.post.ellipsis">

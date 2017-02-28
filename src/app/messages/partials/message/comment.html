@@ -1,6 +1,6 @@
 <div class="_df _fw comments-load" ng-if="ctlComments.canShowOlderComments() || ctlComments.commentBoardNeedsRolling()">
-  <a ng-if="ctlComments.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlComments.showOlderComments()"><translate>View older comments...</translate></a>
-  <a ng-if="ctlComments.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlComments.limitCommentBoard()"><translate>Roll up</translate></a>
+  <a ng-if="ctlComments.canShowOlderComments()" href="javascript:void(0);" ng-click="ctlComments.showOlderComments(); _track('post card', 'show older comments');"><translate>View older comments...</translate></a>
+  <a ng-if="ctlComments.commentBoardNeedsRolling()" href="javascript:void(0);" ng-click="ctlComments.limitCommentBoard(); _track('post card', 'roll up comments');"><translate>Roll up</translate></a>
 </div>
 <div ng-repeat="comment in ctlComments.comments | limitTo : ctlComments.commentBoardLimit * -1">
   <div class="post-card-comments _difh _fw _wrb">
@@ -17,7 +17,7 @@
       </p>
     </div>
     <span class="_df _fn">{{comment.date | passed}}</span>
-    <div class="delete-comment" data-ng-if="ctlComments.allowToRemoveComment(comment)" ng-click="ctlComments.removeComment(comment);" >
+    <div class="delete-comment" data-ng-if="ctlComments.allowToRemoveComment(comment)" ng-click="ctlComments.removeComment(comment);  _track('post card', 'remove comment');" >
       <svg class="_16svg">
         <use xlink:href="/assets/icons/nst-icn16.svg#bin"></use>
       </svg>
