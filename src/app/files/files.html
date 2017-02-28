@@ -53,7 +53,7 @@
         <div class="header-size" ng-show="ctlFiles.selectedFiles.length == 0"><translate>Size</translate></div>
         <div class="header-date" ng-show="ctlFiles.selectedFiles.length == 0"><translate>Received Date</translate></div>
       </div>
-      <ul class="files-types" nst-selectable  ng-if="ctlFiles.files.length > 0" on-select="ctlFiles.onSelect" select-attr="fid"
+      <ul class="files-types" nst-selectable ng-if="ctlFiles.files.length > 0" on-select="ctlFiles.onSelect" select-attr="fid"
           selector="li.file-list-container">
         <li class="file-list-container _df" fid="{{::item.id}}" data-ng-repeat="item in ctlFiles.files">
           <div class="files-types-images">
@@ -73,7 +73,7 @@
               </a>
             </div>
             <div class="item-size">{{item.size | bytes}} </div>
-            <div class="item-date">{{item.date | date : 'long' }}</span></div>
+            <div class="item-date">{{item.date | date : 'long' }}</div>
           </div>
         </li>
       </ul>

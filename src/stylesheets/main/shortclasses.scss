@@ -82,7 +82,9 @@
     @extend ._txe
   }
 }
-
+._scl2 {
+  transform: scale(2,2) translateY(-5px);
+}
 ._hf{
   min-width: 50%;
 }
@@ -110,6 +112,14 @@
 ._32svg {
   width: 32px;
   height: 32px;
+}
+._40svg {
+  width: 40px;
+  height: 40px;
+}
+._48svg {
+  width: 48px;
+  height: 48px;
 }
 
 hr.nomargin {
@@ -228,6 +238,10 @@ hr.nomargin {
 }
 .force {
   color: $color-force-wire;
+  fill: $color-force-wire;
+  svg {
+    fill: $color-force-wire;
+  }
 }
 .fade-in {
   animation: fadein $animation-dur;

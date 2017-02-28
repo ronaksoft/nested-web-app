@@ -1,3 +1,6 @@
+<div class="chk-box">
+  <div class="chk-ico"></div>
+</div>
 <div class="logo">
   <img initials="memberCtrl.member.name" data-url="memberCtrl.member.avatar" data-width="48" data-height="48"
        data-radius="24" class="account-initials-48" data-word-count="2" data-font-size="16"/>
@@ -7,12 +10,11 @@
   <span ng-class="{ 'nst-mood-pending': memberCtrl.member.role === 'pending_key_holder'}">@{{memberCtrl.member.id}}</span>
 </div>
 <div class="role">
-  <translate ng-if="memberCtrl.member.role === 'creator'">Manager</translate>
-  <translate ng-if="memberCtrl.member.role === 'key_holder' && false">Member</translate>
-  <translate class="nst-mood-pending" ng-if="memberCtrl.member.role === 'pending_key_holder'">Pending ...</translate>
+  <translate ng-if="memberCtrl.member.role === 'creator' && false">Manager</translate>
+  <translate class="nst-mood-pending" ng-if="memberCtrl.member.role === 'pending_key_holder' && false">Pending ...</translate>
   <div data-ng-switch="memberCtrl.member.role" class="_fn">
-    <svg class="_16svg _df _16svg crown" data-ng-switch-when="creator">
-      <use xlink:href="/assets/icons/nst-icn16.svg#crown"></use>
+    <svg class="_24svg _df _16svg crown" data-ng-switch-when="creator">
+      <use xlink:href="/assets/icons/nst-icn24.svg#crown"></use>
     </svg>
     <svg class="_16svg _df" data-ng-switch-when="key_holder" ng-if="false">
       <use xlink:href="/assets/icons/nst-icn16.svg#member"></use>
@@ -20,13 +22,13 @@
     <svg class="_16svg _df pendfill" data-ng-switch-when="pending_key_holder">
       <use xlink:href="/assets/icons/nst-icn16.svg#hourglass"></use>
     </svg>
-    <svg class="_16svg _df" data-ng-switch-when="pending_known_guest">
-      <use xlink:href="/assets/icons/nst-icn16.svg#hourglass"></use>
+    <svg class="_24svg _df" data-ng-switch-when="pending_known_guest">
+      <use xlink:href="/assets/icons/nst-icn24.svg#hourglass"></use>
     </svg>
   </div>
-  <div ng-if="!(memberCtrl.member.role === 'creator' && memberCtrl.place.counters.creators === 1) && !memberCtrl.isCurrent" class="cursor-pointer margin-r_5 icon-rp _df"
-       popover-class="white-pop" data-popover-placement="auto bottom-right"  uib-popover-template="'app/pages/places/settings/place-member-item-options.html'" popover-append-to-body="false" popover-trigger="focus">
-    <svg class="_24svg" ng-if="memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess">
+  <div class="cursor-pointer _df user-more-opt" ng-click="$event.stopPropagation()" popover-class="white-pop" data-popover-placement="auto bottom-right"  uib-popover-template="'app/pages/places/settings/place-member-item-options.html'"
+       popover-append-to-body="false" popover-trigger="focus">
+    <svg class="_24svg" ng-if="(memberCtrl.hasRemoveAccess || memberCtrl.hasControlAccess) && !(memberCtrl.member.role === 'creator' && memberCtrl.place.counters.creators === 1) && !memberCtrl.isCurrent">
       <use xlink:href="/assets/icons/nst-icn24.svg#more"></use>
     </svg>
   </div>

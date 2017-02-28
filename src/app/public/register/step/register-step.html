@@ -1,4 +1,4 @@
-<form novalidate name="registrationForm" ng-submit="ctrl.register(registrationForm.$valid)" class="use-ng-animate register-step" autocomplete="off">
+<form novalidate name="registrationForm" ng-submit="ctrl.register(registrationForm.$valid);ga('send', 'event', { eventCategory: 'register', eventAction: 'register', eventLabel: 'register'});" class="use-ng-animate register-step" autocomplete="off">
   <div class="nst-vb no-gutter2 nst-marginbtm-16">
     <p class="col-lg-9 col-sm-9 col-md-9 col-xs-9 nst-font-xlarge testing-registration-step3">
       <translate>Create a profile</translate>

@@ -11,13 +11,90 @@
     color: $color-sense-wire;
   }
 }
+.panel-profile-menu {
+  width: 256px;
+  border-radius: 4px;
+  background-color: $color-white;
+  border: 1px solid #E6E6E6;
+  margin-right: 24px;
+  flex-direction: column;
+  flex: none;
+  max-height: 280px;
+  margin-top: 24px;
+  h5 {
+    font-size: 12px;
+    color: #999999;
+    line-height: 32px;
+    width: 100%;
+    display: flex;
+    margin: 0 0 8px 0;
+    padding: 0 12px;
+    &:last-of-type {
+      margin-top: 32px;
+    }
+  }
+  a {
+    line-height: 32px;
+    width: 100%;
+    display: flex;
+    flex: none;
+    align-items: center;
+    transition: background-color $animation-dur;
+    span {
+      color: $color-black04;
+      font-size: 14px;
+      transition: color $animation-dur;
+    }
+    &.active {
+      background-color: rgba(20, 215, 105,.05);
+      svg {
+        fill: $color-solid;
+      }
+      span {
+        color: $color-solid;
+      }
+    }
+    svg {
+      transition: fill $animation-dur;
+      margin: 0 12px;
+      fill: $color-black04;
+    }
+  }
+}
+
 .panel-profile-setting {
-  padding: 50px 8px 8px 8px;
   max-width: 574px;
   width: 100%;
   text-decoration: none;
-  border: 1px $color-breeze;
-  margin: 0 auto;
+  background-color: $color-white;
+  border: 1px solid #E6E6E6;
+  border-radius: 4px;
+  margin-top: 24px;
+  padding: 0 16px;
+  .profile-section {
+    height: 48px;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    fill: $color-black04;
+    color: $color-black04;
+    border-bottom: 1px solid $color-black004;
+    span {
+      margin: 0 8px;
+    }
+  }
+  .inner-panel {
+    max-width: 352px;
+    margin-left: auto;
+    margin-right: auto;
+    .field {
+      border-bottom: 1px solid $color-black008;
+      font-size: 18px;
+    }
+    .form-group {
+      margin-bottom: 32px;
+    }
+  }
   .profile-name {
     font-weight: 300;
     color: $color-solid;
@@ -81,6 +158,10 @@
   .ng-enter {
     animation: fade-in 3s;
   }
+  .srchp {
+    font-size: 13px;
+    color: $color-black04;
+  }
 }
 
 .inner-panel input[type=submit]{
@@ -124,21 +205,30 @@
   margin-top: 4px;
 }
 .upload-photo img{
-  width: 128px;
-  height: 128px;
+  width: 96px;
+  height: 96px;
   border-radius: 100%;
 }
 .upload-photo-container {
-  height: 140px;
+  margin: 16px 0;
 }
 .upload-photo{
   vertical-align: middle;
   text-align: center;
   @include center-block();
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
+}
+.profile-popover {
+  height: 55px;
+  color: $color-sense-wire;
+  fill: $color-sense-wire;
+  font-size: 16px;
+  .user-avatar-32 {
+    margin: 0 8px;
+  }
 }
 //.mobile-phone{
 //  display: block;

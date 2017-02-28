@@ -58,14 +58,14 @@
     <h3 class="_wrb" ng-if="ctlPostCard.post.subject.length > 0" ng-bind-html="ctlPostCard.post.subject">
     </h3>
   </section>
-  <section>
+  <section ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)">
   <div class="_bggray nst-mood-lively _fw" ng-if="!ctlPostCard.post.trusted && ctlPostCard.isExpanded">
     <translate>This post contains blocked images.</translate>
     <a class="nst-mood-hurricane" ng-click="ctlPostCard.showTrustedBody()"><translate>Show Images</translate></a>
   </div>
   </section>
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
-           ng-if="ctlPostCard.post.body.length > 0 && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled)"
+           ng-if="ctlPostCard.post.body.length > 0 && c9tlPostCard.post.contentType == 'text/plain'"
            auto-dir="ctlPostCard.post.body">
 
     <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
@@ -73,10 +73,14 @@
     <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
   </section>
 
+  <div class="_df post-body _wrb" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !(ctlPostCard.post.contentType == 'text/plain')">
+    <span ng-bind-html="ctlPostCard.body"></span>
+  </div>
+
   <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn">
-    <a ng-click="ctlPostCard.collapse($event);" ng-if="ctlPostCard.isExpanded"><translate>Show less</translate></a>
-    <a ng-click="ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded">
-      <translate>Show more...</translate>
+    <a ng-click="ctlPostCard.collapse($event);" ng-if="ctlPostCard.isExpanded" class="show-more"><translate>Show less</translate></a>
+    <a ng-click="ctlPostCard.expand();" ng-if="!ctlPostCard.isExpanded" class="show-more">
+      <translate>-Show more...</translate>
     </a>
   </section>
 
