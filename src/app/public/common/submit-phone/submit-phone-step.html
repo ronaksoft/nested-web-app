@@ -1,4 +1,5 @@
-<form novalidate class="use-ng-animate register-step" ng-submit="ctrl.submitPhoneNumber(ctrl.phoneIsValid && ctrl.countryIsValid);">
+<form novalidate class="use-ng-animate register-step"
+      ng-submit="ctrl.submitPhoneNumber(ctrl.phoneIsValid && ctrl.countryIsValid);ga('send', 'event', { eventCategory: 'register', eventAction: 'submit-phone', eventLabel: 'phone'});">
   <div class="form-group" ng-class="{ 'has-error' : !ctrl.countryIsValid && ctrl.submitted}">
     <label ng-if="ctrl.countryIsValid || !ctrl.submitted" class="nst-mood-storm nst-font-small"><translate>Country</translate></label>
     <label class="error-message" ng-if="!ctrl.countryIsValid && ctrl.submitted"><translate>Select your country</translate></label>

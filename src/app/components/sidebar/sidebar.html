@@ -119,7 +119,7 @@
           </svg>
           <div class="notif" ng-if="ctlSidebar.notificationsCount > 0">{{ctlSidebar.notificationsCount | localize}}</div>
         </div>
-        <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;ctlSidebar.profileOpen = false;$event.preventDefault();$event.stopPropagation()">
+        <div ng-click="ctlSidebar.mentionOpen =! ctlSidebar.mentionOpen;ctlSidebar.profileOpen = false;$event.preventDefault();$event.stopPropagation(); _track('sidebar', 'view notifications');">
           <translate>Notifications</translate>
         </div>
       </a>
@@ -127,7 +127,7 @@
         <translate>Edit profile</translate>
       </script>
       <a class="detailed"
-         data-uib-popover-template="'app/account/profile/profile-popover.html'"
+         data-uib-popover-template="'app/settings/profile/profile-popover.html'"
          data-popover-placement="right-bottom auto"
          data-popover-class="pop-white pop-profile"
          data-popover-is-open="ctlSidebar.profileOpen"

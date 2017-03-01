@@ -1,0 +1,85 @@
+<div class="profile-section">
+  <svg class="_16svg">
+    <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
+  </svg>
+  <translate>Profile</translate>
+</div>
+<div class="_fw upload-photo-container">
+  <div class="_ma upload-photo">
+    <label for="logo">
+      <img ng-show="!ctlProfileEdit.uploadedImage && ctlProfileEdit.model.picture.url"  ng-src="{{ctlProfileEdit.model.picture.url}}">
+      <img ng-show="ctlProfileEdit.uploadedImage" ng-src="{{ctlProfileEdit.model.picture.url}}">
+      <img ng-if="!ctlProfileEdit.model.picture.url && !ctlProfileEdit.uploadedImage" initials="ctlProfileEdit.model.fullName" data-width="size" data-height="size" data-radius="64" data-word-count="2" data-font-size="16">
+    </label>
+    <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctlProfileEdit.setImage(event)">
+    <div class="probut">
+      <div ng-if="ctlProfileEdit.model.picture.url" class="remove-photo-hover" data-ng-click="ctlProfileEdit.removeImage()" role="button"></div>
+      <label for="logo" class="add-photo-hover"></label>
+    </div>
+  </div>
+</div>
+
+<div class="inner-panel _ma">
+  <div class="text-center">
+    <a class="_tac nst-marginbtm-32 changePassLink" ui-sref="app.change-password"><translate>Change your password</translate></a>
+  </div>
+  <form ng-submit="ctlProfileEdit.saveAndExit(profileForm.$valid);" name="profileForm" novalidate>
+    <div class="form-group _difv _fw">
+      <label class="input-lab _fw"><translate>Full Name</translate></label>
+      <div class="field _difh _fw">
+        <div class="_df _fw">{{ctlProfileEdit.model.fullName}}</div>
+        <svg class="_24svg _df _fn edit-icon" multi-input val-one="ctlProfileEdit.model.firstName" val-two="ctlProfileEdit.model.lastName" title="'Edit Name'">
+          <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+        </svg>
+      </div>
+    </div>
+    <div class="form-group _difv _fw">
+      <label class="input-lab _fw"><translate>User ID</translate></label>
+      <div class="field _difh _fw">
+        <div class="_df _fw">{{ctlProfileEdit.model.id}}</div>
+      </div>
+    </div>
+    <div class="form-group _difv _fw">
+      <label class="input-lab _fw"><translate>Phone Number</translate></label>
+      <div class="field _difh _fw">
+        <div class="_df _fw">+{{ctlProfileEdit.model.country}} {{ctlProfileEdit.model.phone}}</div>
+      </div>
+    </div>
+    <div class="form-group _difv _fw">
+      <label class="input-lab _fw"><translate>Date of Birth</translate></label>
+      <div class="field _difh _fw">
+        <div class="_df _fw">{{ctlProfileEdit.model.dateOfBirth || 'Not specified'}}</div>
+        <svg class="_24svg _df _fn edit-icon" data-change-modal="ctlProfileEdit.model.dateOfBirth">
+          <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+        </svg>
+      </div>
+    </div>
+    <div class="form-group _difv _fw">
+      <label class="input-lab _fw"><translate>Gender</translate></label>
+      <div class="field _difh _fw">
+        <div class="_df _fw">{{ctlProfileEdit.model.gender}}</div>
+        <svg class="_24svg _df _fn edit-icon" change-select val="ctlProfileEdit.model.dateOfBirth" title="'change gender'" options="ctlProfileEdit.genders">
+          <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
+        </svg>
+      </div>
+    </div>
+    <div class="form-group _difv _fw">
+      <label class="input-lab _fw"><translate>Searchable</translate></label>
+      <div class="field _difh _fw">
+        <div class="_df _fw srchp">Having your Search turned on, anyone can
+          reach you, even without knowing your ID.</div>
+        <div class="place-switch _fn">
+          <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="ctlProfileEdit.model.searchable">
+          <label for="Searchable">
+            <b><translate>Yes</translate></b>
+            <div class="circle" switch-drag="Searchhable"></div>
+          </label>
+          <label for="Searchable">
+            <b><translate>No</translate></b>
+          </label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
