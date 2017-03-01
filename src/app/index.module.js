@@ -12,6 +12,7 @@
       'ronak.nested.web.components',
       'ronak.nested.web.activity',
       'ronak.nested.web.user',
+      'ronak.nested.web.settings',
       'ronak.nested.web.place',
       'ronak.nested.web.file',
       'ronak.nested.web.models',

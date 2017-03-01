@@ -9,7 +9,7 @@
     <a class="_dib" href="javascript:void(0);" ng-click="onClick(item)" style="width: {{item.widthResized}}px">
       <img ng-if="item.hasThumbnail && item.type === 'image'" class="attach-thumbnail-img" alt="" ng-src="{{item.thumbnail}}" height="96" width="item.widthResized" ng-show="item.widthResized > 0" />
       <div ng-if="!item.hasThumbnail || item.type !== 'image'" class="attach-thumbnail {{'attach-thumbnail-' + item.type}}">
-        <p>{{item.name}}</p>
+        <div class="file-name"> <p>{{item.name}}</p></div>
         <div class="detail">
           <p class="_nwrp">{{item.extension | uppercase}}</p>
           <span class="attsize">{{item.size | bytes:2}}</span>

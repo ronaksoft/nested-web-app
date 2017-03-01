@@ -7,7 +7,7 @@
 
   function NotificationsController(_, $q, $state, $scope, $log,
                                    NST_NOTIFICATION_TYPE, NST_NOTIFICATION_FACTORY_EVENT,
-                                   NstFactoryEventData, NstSvcNotificationFactory) {
+                                   NstFactoryEventData, NstSvcNotificationFactory, NstSvcInteractionTracker) {
     var vm = this;
     vm.NST_NOTIFICATION_TYPE = NST_NOTIFICATION_TYPE;
     var pageItemsCount = 12;
@@ -39,6 +39,8 @@
       NstSvcNotificationFactory.markAsSeen(notification.id).then(function () {
         deferred.resolve();
       }).catch(deferred.reject);
+
+      NstSvcInteractionTracker.trackEvent('notification', 'mark all seen');
 
       return deferred.promise;
     }

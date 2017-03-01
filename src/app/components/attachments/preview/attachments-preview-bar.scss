@@ -153,16 +153,21 @@ nst-attachments-preview-bar {
       text-overflow: ellipsis;
       overflow: hidden;
       background-size: cover;
-      > p {
+      > .file-name {
         display: flex;
         flex: 1;
-        margin: 0;
         align-items: center;
-        font-size: 13px;
-        color: $color-solid;
         height: 48px;
-        line-height: 16px;
-        overflow: hidden;
+        p {
+          font-size: 13px;
+          line-height: 16px;
+          color: $color-solid;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 3;
+          max-height: 100%;
+          margin: 0;
+        }
       }
       .detail {
         display: flex;
@@ -180,6 +185,8 @@ nst-attachments-preview-bar {
           align-items: center;
           margin: 0;
           font-weight: 700;
+          overflow: hidden;
+          white-space: nowrap;
         }
         span {
           opacity: 0;

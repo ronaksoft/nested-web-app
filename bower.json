@@ -28,6 +28,7 @@
     "angular-ckeditor": "^1.0.3",
     "ckeditor": "^4.6.2",
     "progressbar.js": "^1.0.1",
+    "angular-google-analytics": "^1.1.9",
     "svg4everybody": "^2.1.4"
   },
   "devDependencies": {

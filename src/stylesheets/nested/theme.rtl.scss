@@ -407,6 +407,26 @@ body[dir="rtl"] {
   .empty div[contenteditable]:before{
     content: 'اینجا متن را بنویسید...';
   }
+  .post-card-comments p.LTR-text {
+    strong {
+      direction: rtl;
+    }
+    span {
+      float: right;
+      padding: 0;
+    }
+  }
+}
+body[dir="ltr"] {
+  .post-card-comments p.RTL-text {
+    strong {
+      direction: ltr;
+    }
+    span {
+      float: left;
+      padding: 0;
+    }
+  }
 }
 @media screen and (max-width: $screen-md){
 

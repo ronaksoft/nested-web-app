@@ -2,11 +2,11 @@
   'use strict';
 
   angular
-    .module('ronak.nested.web.user')
-    .controller('ProfileEditController', ProfileEditController);
+    .module('ronak.nested.web.settings')
+    .controller('EditProfileController', EditProfileController);
 
   /** @ngInject */
-  function ProfileEditController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
+  function EditProfileController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
                                  NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture,
                                  NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstSvcPlaceFactory) {

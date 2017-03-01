@@ -17,6 +17,7 @@
       'momentjs',
       'cfp.hotkeys',
       'ngImgCrop',
-      'ngAnimate'
+      'ngAnimate',
+      'angular-google-analytics'
     ]);
 })();
