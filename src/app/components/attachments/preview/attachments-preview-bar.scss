@@ -163,6 +163,7 @@ nst-attachments-preview-bar {
         height: 48px;
         line-height: 16px;
         overflow: hidden;
+        white-space: nowrap;
       }
       .detail {
         display: flex;
