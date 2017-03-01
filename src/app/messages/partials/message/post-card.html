@@ -65,17 +65,18 @@
   </div>
   </section>
   <section class="post-body _wrb {{ctlPostCard.post.contentType == 'text/plain' ? 'pre' : ''}}"
-           ng-if="ctlPostCard.post.body.length > 0 && ctlPostCard.post.contentType == 'text/plain'"
+           ng-if="ctlPostCard.post.body.length > 0"
            auto-dir="ctlPostCard.post.body">
 
-    <span ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
-    <span ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
-    <span ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
+    <span mail-resizer ng-if="!ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
+    <span mail-resizer ng-if="ctlPostCard.isExpanded && ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
+    <span mail-resizer ng-if="(ctlPostCard.isExpanded || !ctlPostCard.isExpanded) && !ctlPostCard.post.ellipsis" ng-bind-html="ctlPostCard.body"></span>
   </section>
 
   <div class="_df post-body _wrb" ng-if="(!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !(ctlPostCard.post.contentType == 'text/plain')">
     <span ng-bind-html="ctlPostCard.body"></span>
   </div>
+
   <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn">
     <a ng-click="ctlPostCard.collapse($event); _track('post card', 'show less');" ng-if="ctlPostCard.isExpanded" class="show-more"><translate>Show less</translate></a>
     <a ng-click="ctlPostCard.expand(); ; _track('post card', 'show more');" ng-if="!ctlPostCard.isExpanded" class="show-more">

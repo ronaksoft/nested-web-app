@@ -87,7 +87,8 @@
         });
 
         vm.noResult = vm.messages.length === 0;
-        vm.reachedTheEnd = olderMessages.length > 0 && olderMessages.length < limit;
+        // vm.reachedTheEnd = olderMessages.length > 0 && olderMessages.length < limit;
+        vm.reachedTheEnd = olderMessages.length == 0 && !(vm.messages.length === 0);
 
         vm.loading = false;
 
