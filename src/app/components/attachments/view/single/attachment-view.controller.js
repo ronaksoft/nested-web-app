@@ -117,6 +117,10 @@
         getToken(vm.attachments.current.id).then(function (token) {
           vm.attachments.current.preview = encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.DOWNLOAD, vm.attachments.current.id, token));
         });
+      } else {
+        getToken(vm.attachments.current.id).then(function (token) {
+          vm.attachments.current.viewUrl = encodeURI(NstSvcStore.resolveUrl(NST_STORE_ROUTE.VIEW, vm.attachments.current.id, token));
+        });
       }
     }
 
