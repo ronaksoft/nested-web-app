@@ -1,9 +1,9 @@
 <div id="setting" class="popup-panel">
   <h6><translate>View Settings</translate></h6>
-  <a class="list-items ng-class:{ 'active': ctlActivity.expanded == false }" ng-click="ctlActivity.toggleViewMode();">
+  <a class="list-items ng-class:{ 'active': ctlActivity.expanded == false }" ng-click="ctlActivity.toggleViewMode(); _track('activities', 'select collapsed view');">
     <translate>Collapsed View</translate>
   </a>
-  <a class="list-items ng-class:{ 'active': ctlActivity.expanded == true }" ng-click="ctlActivity.toggleViewMode();">
+  <a class="list-items ng-class:{ 'active': ctlActivity.expanded == true }" ng-click="ctlActivity.toggleViewMode(); _track('activities', 'select expanded view');">
     <translate>Expanded View</translate>
   </a>
 </div>

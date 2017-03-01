@@ -8,7 +8,7 @@
   /** @ngInject */
   function FilesController($stateParams, toastr, $uibModal, $state, $timeout, $q, $scope,
                            NST_PLACE_ACCESS,
-                           NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation, NstSvcAuth, NstSvcWait,
+                           NstSvcFileFactory, NstSvcAttachmentFactory, NstSvcPlaceFactory, NstSvcPlaceAccess, NstSvcModal, NstSvcTranslation, NstSvcAuth, NstSvcWait, NstSvcInteractionTracker,
                            NstVmFile, NstVmFileViewerItem,
                            NST_DEFAULT) {
     var vm = this;
@@ -17,6 +17,7 @@
     vm.countClick = 1;
     vm.searchVar = false;
     vm.searchTrigg = 0;
+    vm.loadMoreCounter = 0;
 
     vm.searchFunc = function () {
 
@@ -223,6 +224,8 @@
 
     function loadMore() {
       if (vm.hasNextPage) {
+        vm.loadMoreCounter ++;
+        NstSvcInteractionTracker.trackEvent('files', 'load more', vm.loadMoreCounter);
         load();
       }
     }

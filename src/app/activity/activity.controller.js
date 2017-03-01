@@ -11,7 +11,7 @@
     NST_SRV_EVENT, NST_EVENT_ACTION, NST_ACTIVITY_FILTER, NST_DEFAULT,
     NstSvcActivityMap, NstSvcModal,
     NstSvcActivitySettingStorage,
-    NstSvcActivityFactory, NstSvcSync, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess, NstSvcTranslation) {
+    NstSvcActivityFactory, NstSvcSync, NstSvcInvitationFactory, NstSvcServer, NstUtility, NstSvcPlaceAccess, NstSvcTranslation, NstSvcInteractionTracker) {
 
     var vm = this;
     var activityFilterGroups = {};
@@ -19,6 +19,7 @@
     vm.activities = [];
     vm.currentPlace = null;
     vm.noActivity = false;
+    vm.loadMoreCounter = 0;
 
     vm.loadMore = loadMore;
     vm.acceptInvitation = acceptInvitation;
@@ -133,6 +134,8 @@
      ********************/
 
     function loadMore() {
+      vm.loadMoreCounter ++;
+      NstSvcInteractionTracker.trackEvent('activities', 'load more', vm.loadMoreCounter);
       loadActivities();
     }
 

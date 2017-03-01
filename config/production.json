@@ -1,6 +1,7 @@
 {
   "NST_CONFIG": {
     "APP_ID": "web-{{BUILD}}",
+    "APP_VERSION" : "__dev__",
     "LOG": {
       "LEVEL": 1,
       "GATEWAY": {
