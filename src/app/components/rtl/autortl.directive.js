@@ -97,8 +97,10 @@
             str = str.trim();
             str = str.substring(0, 1);
             if (persianRex.rtl.test(str)) {
+              element.addClass('RTL-text');
               return element.css("direction", "rtl");
             } else {
+              element.addClass('LTR-text');
               return element.css("direction", "ltr");
             }
           }
