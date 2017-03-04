@@ -13,6 +13,7 @@
                          NstObject) {
     var vm = this;
 
+    NstSvcNotification.requestPermission();
 
     vm.loginView = true;
     $rootScope.cardCtrls = [];

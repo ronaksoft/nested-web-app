@@ -21,11 +21,7 @@
            controller : 'LoginController',
          controllerAs : 'ctlLogin',
           templateUrl : 'app/authenticate/login/login.html'
-    }).state('public.signout', {
-                  url : '/signout',
-           controller : 'LogoutController',
-         controllerAs : 'ctlLogout'
-    });
+    })
 
   }
 

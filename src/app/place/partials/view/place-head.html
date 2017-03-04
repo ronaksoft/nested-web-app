@@ -1,0 +1,27 @@
+<div class="place-head ng-class:{'setting-head' : settings}">
+  <div class="place-filter">
+    <img ng-src="{{pict}}" alt="">
+  </div>
+  <div ng-if="settings" class="setting-headline _aic"  bg-check="{{pict}}">
+    <svg class="_24svg _df _r45 _fn" ng-click="$dismiss()">
+      <use xlink:href="/assets/icons/nst-icn24.svg#cross"></use>
+    </svg>
+    <h3 class="_df _fw">Place Settings</h3>
+
+  </div>
+  <div class="logo-holder">
+    <img ng-src="{{pict}}" height="100%" alt="">
+    <i ng-if="settings">
+      <svg class="_16svg _df" ng-if="true">
+        <use xlink:href="/assets/icons/nst-icn16.svg#window"></use>
+      </svg>
+      <svg class="_16svg _df" ng-if="false">
+        <use xlink:href="/assets/icons/nst-icn16.svg#brick-wall"></use>
+      </svg>
+    </i>
+    <span ng-if="settings">{{id}}</span>
+    <a ng-if="settings && private">Private Place</a>
+    <a ng-if="settings && !private">Common Place</a>
+  </div>
+
+</div>

@@ -299,9 +299,15 @@
           group : 'message',
           primary : true
         }
+      })
+
+      .state('app.signout', {
+        url : '/signout',
+        controller : 'LogoutController',
+        controllerAs : 'ctlLogout'
       });
 
-    $urlRouterProvider.otherwise('/messages/favorites');
+    $urlRouterProvider.otherwise('/feed');
   }
 
 })();

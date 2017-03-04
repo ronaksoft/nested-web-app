@@ -6,7 +6,7 @@
     .controller('PlaceSettingsController', PlaceSettingsController);
 
   /** @ngInject */
-  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr, $rootScope,
+  function PlaceSettingsController($scope, $stateParams, $q, $uibModal, $state, toastr, $rootScope, $timeout,
                                    NST_SRV_ERROR, NST_STORE_UPLOAD_TYPE, NST_PLACE_ACCESS, NST_PLACE_MEMBER_TYPE, NST_PLACE_FACTORY_EVENT, NST_DEFAULT,
                                    NstSvcStore, NstSvcAuth, NstSvcPlaceFactory, NstUtility, NstSvcInvitationFactory, NstSvcLogger,
                                    NstPlaceOneCreatorLeftError, NstPlaceCreatorOfParentError, NstSvcTranslation,
@@ -16,6 +16,10 @@
     /*****************************
      *** Controller Properties ***
      *****************************/
+    vm.tab = 'settings';
+    vm.onMemberSelect = onSelect;
+    var onSelectTimeout = null;
+    vm.reciveLevel = vm.memberLevel = vm.createLevel = 'l1';
     vm.memberOptions = {
       'creators': NstSvcTranslation.get("Manager(s) only"),
       'everyone': NstSvcTranslation.get("All Members")
@@ -269,6 +273,19 @@
       }).finally(function () {
         vm.teammatesLoadProgress = false;
       });
+    }
+
+    function onSelect(uIds, el) {
+      if (onSelectTimeout) {
+        $timeout.cancel(onSelectTimeout);
+      }
+
+      onSelectTimeout = $timeout(function () {
+        vm.selectedMates = _.filter(vm.teammates, function (member) {
+          return _.includes(uIds, member.id);
+        });
+        //TODO you need this number and array for some actions ...
+      },10);
     }
 
     function showAddModal(role) {

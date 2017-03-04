@@ -5,7 +5,7 @@
     .module('ronak.nested.web.message')
     .controller('PostCardController', PostCardController)
 
-  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter,
+  function PostCardController($state, $log, $timeout, $rootScope, $scope, $filter, $window, $sce,
                               _, moment, toastr,
                               NST_POST_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS, SvcCardCtrlAffix,
                               NstSvcSync, NstSvcCommentFactory, NstSvcPostFactory, NstSvcAuth, NstUtility, NstSvcPostInteraction, NstSvcTranslation) {
@@ -27,6 +27,7 @@
     vm.retract = retract;
     vm.expand = expand;
     vm.collapse = collapse;
+    vm.showTrustedBody = showTrustedBody;
     vm.body = null;
     vm.markAsRead = markAsRead;
     vm.chainView = false;
@@ -64,7 +65,7 @@
       markAsRead();
       $event.preventDefault();
       if ($state.current.name !== 'app.message') {
-        $state.go('app.message', {postId: vm.post.id}, {notify: false});
+        $state.go('app.message', {postId: vm.post.id, trusted: true}, {notify: false});
       } else {
         var reference = $scope.$emit('post-view-target-changed', {postId: vm.post.id});
         pageEventReferences.push(reference);
@@ -122,11 +123,18 @@
     function expand() {
       vm.expandProgress = true;
       NstSvcPostFactory.get(vm.post.id).then(function (post) {
-        vm.body = post.body;
+        vm.orginalPost = post;
+        vm.body = $sce.trustAsHtml(post.body);
+        vm.resources = post.resources;
         vm.isExpanded = true;
         if (!post.isRead) {
           markAsRead();
         }
+
+        if (vm.post.trusted || Object.keys(post.resources).length == 0){
+          showTrustedBody();
+        }
+
         SvcCardCtrlAffix.change();
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get('An error occured while tying to show the post full body.'));
@@ -138,16 +146,22 @@
     function collapse(e) {
       if (vm.post.ellipsis) {
         var el = angular.element(e.currentTarget);
-        var postCardOffTOp = el.parents('post-card')[0].offsetTop;
-        $('html, body').animate({
-          scrollTop: postCardOffTOp
-        }, 300, 'swing', function () {
-          SvcCardCtrlAffix.change();
-        });
+        var elParent = el.parents('post-card')[0];
+        var elParentH = el.parents('post-card').height();
+        var postCardOffTOp = elParent.offsetTop;
+        var scrollOnCollapseCase = document.documentElement.clientHeight < elParentH;
+        var postCollaspeTimeout = scrollOnCollapseCase ? 300 : 0 ;
+        if(scrollOnCollapseCase) {
+          $('html, body').animate({
+            scrollTop: postCardOffTOp
+          }, 300, 'swing', function () {
+            SvcCardCtrlAffix.change();
+          });
+        }
         $timeout(function () {
           vm.isExpanded = false;
           vm.body = vm.post.body;
-        }, 200)
+        }, postCollaspeTimeout)
       } else {
         vm.body = vm.post.body;
         vm.isExpanded = false;
@@ -155,6 +169,15 @@
       }
 
 
+    }
+
+    function showTrustedBody() {
+      if (vm.orginalPost) {
+        vm.body = $sce.trustAsHtml(vm.orginalPost.getTrustedBody());
+      }else{
+        vm.body = $sce.trustAsHtml(vm.post.getTrustedBody());
+      }
+      vm.post.trusted = true;
     }
 
     function loadNewComments($event) {
@@ -228,7 +251,10 @@
     (function () {
 
       vm.hasOlderComments = (vm.post.commentsCount && vm.post.comments) ? vm.post.commentsCount > vm.post.comments.length : false;
-      vm.body = vm.post.body;
+      vm.body = $sce.trustAsHtml(vm.post.body);
+      if (vm.post.trusted){
+        showTrustedBody();
+      }
 
       if (vm.addOn) {
         vm.isExpanded = true;

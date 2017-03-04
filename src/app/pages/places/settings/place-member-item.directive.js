@@ -5,7 +5,7 @@
     .module('ronak.nested.web.place')
     .directive('nstPlaceMemberItem', function (moment) {
       return {
-        restrict: 'E',
+        restrict: 'EA',
         templateUrl : 'app/pages/places/settings/place-member-item.html',
         controller : 'PlaceMemberItemController',
         controllerAs : 'memberCtrl',

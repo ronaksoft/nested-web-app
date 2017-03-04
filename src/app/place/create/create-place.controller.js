@@ -15,6 +15,10 @@
     var placeIdRegex = /^[A-Za-z][A-Za-z0-9-]*$/;
 
     vm.hasParentPlace = null;
+    vm.step = 1;
+    vm.reciveLevel = 'l1';
+    vm.memberLevel = 'l1';
+    vm.createLevel = 'l1';
     vm.hasGrandParent = null;
     vm.placeIdIsFullAvailable = true;
     vm.memberOptions = [
@@ -128,7 +132,7 @@
       $uibModal.open({
         animation: false,
         size: 'sm',
-        templateUrl: 'app/place/create/change-id.html',
+        templateUrl: 'app/components/text/change-id.html',
         scope: $scope
       }).result.then(function (result) {
         if (result == 'ok')
