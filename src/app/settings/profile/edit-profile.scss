@@ -82,7 +82,7 @@
     color: $color-black04;
     border-bottom: 1px solid $color-black004;
     span {
-      margin: 0 8px;
+      margin: 4px 8px 0 8px;
     }
   }
   .inner-panel {
@@ -245,7 +245,8 @@ form.inner-panel {
   position: relative;
   span {
     font-size: 13px;
-    line-height: 22px;
+    line-height: 18px;
+    padding-bottom: 4px;
     color: $color-gale;
   }
   select{
