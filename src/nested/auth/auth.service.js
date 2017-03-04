@@ -271,9 +271,7 @@
       this.user = user
     };
 
-    // Cache Implementation
-    var user = NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.USER);
-    var service = new Auth(user);
+    var service = new Auth(NstSvcUserFactory.currentUser);
     service.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
       NstSvcAuthStorage.set(NST_AUTH_STORAGE_KEY.USER, NstSvcUserFactory.toUserData(event.detail.user));
     });

@@ -6,8 +6,8 @@
     .controller('ManageNotificationController', ManageNotificationController);
 
   /** @ngInject */
-  function ManageNotificationController() {
+  function ManageNotificationController(moment) {
     var vm = this;
-
+    // vm.birthDate = new moment();
   }
 })();
