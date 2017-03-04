@@ -8,6 +8,10 @@ body.isDesktop {
     margin-left: 272px;
     width: calc(100% - 272px);
   }
+  .noSide .nst-container{
+    margin-left: 0;
+    width: 100%;
+  }
   .menu-links-butn {
     min-width: 90px;
   }

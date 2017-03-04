@@ -34,8 +34,11 @@
   height: 100%;
   .content {
     max-width: 791px;
-    margin: auto;
+    margin: 0 auto;
     flex-direction: row;
+    display: inline-block;
+    height: auto;
+    min-height: 0;
   }
 }
 .nst-content {

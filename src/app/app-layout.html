@@ -1,6 +1,6 @@
 <!-- <div ui-view> -->
 <div class="_fh _fw ng-animate-disabled ng-class:{'_oh _fhv': $root.topNavOpen,'show-mob-app': !userAppNoticed}">
-    <div class="maincontainer _fw" ng-class="{'navtiny' : navView,'sideNotiny' : ctlApp.viewSettings.sidebar.collapsed}">
+    <div class="maincontainer _fw" ng-class="{'navtiny' : navView,'sideNotiny' : ctlApp.viewSettings.sidebar.collapsed,'noSide':ctlApp.viewSettings.sidebar.hidden}">
       <nst-sidebar  ng-if="$root.deviceDetector.isDesktop()"
         ng-hide="ctlApp.viewSettings.sidebar.hidden"
         collapsed="ctlApp.viewSettings.sidebar.collapsed"

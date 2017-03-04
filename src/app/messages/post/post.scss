@@ -280,6 +280,10 @@
   vr {
     height: 48px;
   }
+  .nst-content.second-view .content {
+    display: flex;
+    flex-direction: row;
+  }
 }
 .chain-sub {
   height: 88px;

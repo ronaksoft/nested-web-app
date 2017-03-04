@@ -13,6 +13,7 @@
 }
 .panel-profile-menu {
   width: 256px;
+  float: left;
   border-radius: 4px;
   background-color: $color-white;
   border: 1px solid #E6E6E6;
@@ -64,7 +65,8 @@
 
 .panel-profile-setting {
   max-width: 574px;
-  width: 100%;
+  float: left;
+  width: calc(100% - 280px);
   text-decoration: none;
   background-color: $color-white;
   border: 1px solid #E6E6E6;
@@ -228,6 +230,41 @@
   font-size: 16px;
   .user-avatar-32 {
     margin: 0 8px;
+  }
+}
+.lang-box {
+  width: 352px;
+  height: 62px;
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  margin: 40px auto;
+  position: relative;
+  span {
+    font-size: 13px;
+    line-height: 22px;
+    color: $color-gale;
+  }
+  select{
+    width: 100%;
+    padding: 0 40px;
+  }
+}
+.flg {
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  height: 16px;
+  left: 10px;
+  bottom: 10px;
+  background-repeat: no-repeat;
+  background-size: 5630px 15px;
+  background-image: url(../assets/images/flags@2x.png);
+  &.ir {
+    background-position: -2479px 0;
+  }
+  &.us {
+    background-position: -5241px 0;
   }
 }
 //.mobile-phone{
