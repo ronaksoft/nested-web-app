@@ -1,14 +1,14 @@
 importScripts('https://www.gstatic.com/firebasejs/3.6.10/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/3.6.10/firebase-messaging.js');
 
+var notifs = {};
 
 var config = {
-  apiKey: "AIzaSyAV1kvQcPvWr0umT4b_ScXxbBEHPxRF28g",
-  authDomain: "intense-fire-2497.firebaseapp.com",
-  databaseURL: "https://intense-fire-2497.firebaseio.com",
-  storageBucket: "intense-fire-2497.appspot.com",
-  messagingSenderId: "285779166680"
-
+  apiKey: "AIzaSyCkoYUKPeOpBjpQVLVg7sbRdyb0_Qk_cK4",
+  authDomain: "nested-me.firebaseapp.com",
+  databaseURL: "https://nested-me.firebaseio.com",
+  storageBucket: "nested-me.appspot.com",
+  messagingSenderId: "993735378969"
 };
 
 firebase.initializeApp(config);
@@ -16,5 +16,53 @@ firebase.initializeApp(config);
 var messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function (payload) {
-  return self.registration.showNotification('OOO','ooo');
+
+  var options = {
+    body: payload.data.msg,
+    vibrate: [200, 100, 200, 100, 200, 100, 200],
+    image: '/images/nested-log-256.png',
+    icon: '/images/nested-log-256.png',
+    onclick: function () {
+      window.focus();
+    },
+    payload: payload.data,
+    tag: Date.now()
+  };
+
+  notifs[options.tag] = options;
+
+  return self.registration.showNotification('Nested', options);
+
 });
+
+self.addEventListener("notificationclick", function (event) {
+
+  // close the notification
+  event.notification.close();
+
+  //To open the app after click notification
+  event.waitUntil(
+    clients.matchAll()
+      .then(function (clientList) {
+
+        var targetUrl = '/';
+        if (notifs[event.notification.tag].payload.post_id) {
+          targetUrl = '/#/message/' + notifs[event.notification.tag].payload.post_id;
+        }
+
+        for (var i = 0; i < clientList.length; i++) {
+          var client = clientList[i];
+          if ("focus" in client) {
+            return client.focus();
+          }
+        }
+
+        if (clientList.length === 0) {
+          if (clients.openWindow) {
+            return clients.openWindow(targetUrl);
+          }
+        }
+      })
+  );
+});
+

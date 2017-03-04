@@ -33,13 +33,13 @@ function NstSvcNotification($q, $window, _, $state,
       service.push('Nested Now on your desktop!', null, {body: 'Stay connected to what happen in your Nested.'});
     }
 
-    if (NST_PERMISSION_NOTIFICATION.GRANTED !== this.permission){
-      $window.Notification.requestPermission(startNotification)
-    }else{
+    // if (NST_PERMISSION_NOTIFICATION.GRANTED !== this.permission){
+    //   $window.Notification.requestPermission(startNotification)
+    // }else{
       this.configFCM();
       //register web worker
       // this.registerServiceWorker();
-    }
+    // }
 
   };
 
@@ -55,35 +55,35 @@ function NstSvcNotification($q, $window, _, $state,
 
   };
 
+
   MyNotification.prototype.configFCM = function () {
     var config = {
-      apiKey: "AIzaSyAV1kvQcPvWr0umT4b_ScXxbBEHPxRF28g",
-      authDomain: "intense-fire-2497.firebaseapp.com",
-      databaseURL: "https://intense-fire-2497.firebaseio.com",
-      storageBucket: "intense-fire-2497.appspot.com",
-      messagingSenderId: "285779166680"
+      apiKey: "AIzaSyCkoYUKPeOpBjpQVLVg7sbRdyb0_Qk_cK4",
+      authDomain: "nested-me.firebaseapp.com",
+      databaseURL: "https://nested-me.firebaseio.com",
+      storageBucket: "nested-me.appspot.com",
+      messagingSenderId: "993735378969"
 
     };
+
 
     firebase.initializeApp(config);
 
     var messaging = firebase.messaging();
-
     messaging.requestPermission()
       .then(function () {
-        console.log("Notification | has permission!");
+        NstSvcLogger.debug("Notification | has permission!");
         return messaging.getToken();
       })
       .then(function (token) {
-        console.log("Notification | ", token);
-        // NstSvcAuth.setDeviceToken(token);
+        NstSvcLogger.debug("Notification | ", token);
+        NstSvcAuth.setDeviceToken(token);
       }).catch(function (err) {
-        console.log("Notification | Error get token:", err);
+      NstSvcLogger.debug("Notification | Error get token:", err);
       });
 
     messaging.onMessage(function (payload) {
-      alert(22266)
-      console.log("Notification ssssssssssss | ", payload);
+      NstSvcLogger.debug("Notification  | ", payload);
     });
 
   };
@@ -146,10 +146,9 @@ function NstSvcNotification($q, $window, _, $state,
     notif.onclick = function () {
       window.focus();
       if (notifObject.onclick) notifObject.onclick();
-      notif.close()
+      notif.close();
       notifObject.defer.resolve();
     }
-
   };
 
 
