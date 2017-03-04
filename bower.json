@@ -29,7 +29,8 @@
     "ckeditor": "^4.6.2",
     "progressbar.js": "^1.0.1",
     "angular-google-analytics": "^1.1.9",
-    "svg4everybody": "^2.1.4"
+    "svg4everybody": "^2.1.4",
+    "moment-jalaali": "^0.6.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.6"

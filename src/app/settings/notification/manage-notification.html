@@ -1,14 +1,3 @@
-<div class="profile-section">
-  <svg class="_16svg">
-    <use xlink:href="/assets/icons/nst-icn16.svg#erth"></use>
-  </svg>
-  <translate>Desktop Notifications</translate>
-</div>
-<div class="lang-box">
-  <translate>Choose your language</translate>
-  <select name="lang" id="lang">
-    <option value="">English (United States)</option>
-    <option value="">Farsi (فارسی)</option>
-  </select>
-  <div class="flg us"></div>
-</div>
+Desktop Notification
+<inline-date-picker min="1991-05-18" max="2020-10-10" value="ctrl.birthDate"></inline-date-picker>
+{{ctrl.birthDate.format("dddd, MMMM Do YYYY, h:mm:ss a")}}
