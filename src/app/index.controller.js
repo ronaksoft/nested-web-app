@@ -6,11 +6,14 @@
     .controller('indexController', AppController);
 
   /** @ngInject */
-  function AppController($window, $rootScope, NstSvcI18n) {
+  function AppController($window, $rootScope, NstSvcI18n, NstSvcNotification) {
     var vm = this;
     vm.removeClass = _.debounce(removeClass, 512);
 
     $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
+
+    NstSvcNotification.requestPermission();
+
 
     $window.addEventListener("dragover",function(e){
       e = e || event;

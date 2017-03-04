@@ -5,8 +5,10 @@ angular
 /** @ngInject */
 function NstSvcNotification($q, $window, _, $state,
                             NST_PERMISSION_NOTIFICATION, NST_NOTIFICATION_TYPE,
-                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation,
+                            NstObservableObject, NstSvcLogger, NstModel, NstSvcTranslation, NstSvcAuth,
                             NstUtility) {
+
+
   function MyNotification() {
     this.stack = {};
     this.options = {};
@@ -29,11 +31,61 @@ function NstSvcNotification($q, $window, _, $state,
 
     function startNotification(result) {
       service.push('Nested Now on your desktop!', null, {body: 'Stay connected to what happen in your Nested.'});
-      // service.setPermission(result);
     }
 
-    if (NST_PERMISSION_NOTIFICATION.GRANTED !== this.permission)
-      $window.Notification.requestPermission(startNotification)
+    // if (NST_PERMISSION_NOTIFICATION.GRANTED !== this.permission){
+    //   $window.Notification.requestPermission(startNotification)
+    // }else{
+      this.configFCM();
+      //register web worker
+      // this.registerServiceWorker();
+    // }
+
+  };
+
+  MyNotification.prototype.registerServiceWorker = function () {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/firebase-messaging-sw.js')
+        .then(function (registration) {
+          NstSvcLogger.info(" Notification | Messaging service notification registered.");
+        }).catch(function (err) {
+        NstSvcLogger.info(" Notification | Messaging service notification registered.", err);
+      })
+    }
+
+  };
+
+
+  MyNotification.prototype.configFCM = function () {
+    var config = {
+      apiKey: "AIzaSyCkoYUKPeOpBjpQVLVg7sbRdyb0_Qk_cK4",
+      authDomain: "nested-me.firebaseapp.com",
+      databaseURL: "https://nested-me.firebaseio.com",
+      storageBucket: "nested-me.appspot.com",
+      messagingSenderId: "993735378969"
+
+    };
+
+
+    firebase.initializeApp(config);
+
+    var messaging = firebase.messaging();
+    messaging.requestPermission()
+      .then(function () {
+        NstSvcLogger.debug("Notification | has permission!");
+        return messaging.getToken();
+      })
+      .then(function (token) {
+        NstSvcLogger.debug("Notification | ", token);
+        NstSvcAuth.setDeviceToken(token);
+      }).catch(function (err) {
+      NstSvcLogger.debug("Notification | Error get token:", err);
+      });
+
+    messaging.onMessage(function (payload) {
+      NstSvcLogger.debug("Notification  | ", payload);
+    });
+
   };
 
   MyNotification.prototype.push = function (title, callback, options) {
@@ -94,10 +146,9 @@ function NstSvcNotification($q, $window, _, $state,
     notif.onclick = function () {
       window.focus();
       if (notifObject.onclick) notifObject.onclick();
-      notif.close()
+      notif.close();
       notifObject.defer.resolve();
     }
-
   };
 
 
