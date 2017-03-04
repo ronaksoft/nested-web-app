@@ -13,14 +13,12 @@
                          NstObject) {
     var vm = this;
 
-
-    NstSvcNotification.requestPermission();
-
     vm.loginView = true;
     $rootScope.cardCtrls = [];
     $rootScope.staticNav = true;
     vm.showLoadingScreen = true;
     $rootScope.topNavOpen = false;
+    $rootScope._direction = NstSvcI18n.getLocale()._direction || "ltr";
     $rootScope.deviceDetector = deviceDetector;
     $rootScope._track = trackBehaviour;
 

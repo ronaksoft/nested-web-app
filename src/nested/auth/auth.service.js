@@ -21,6 +21,9 @@
       this.state = NST_AUTH_STATE.UNAUTHORIZED;
       this.lastSessionKey = null;
       this.lastSessionSecret = null;
+      this.lastDeviceId = null;
+      this.lastDeviceToken = null;
+      this.lastOs = getBrowser();
       this.remember = NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.REMEMBER) || false;
 
       NstObservableObject.call(this);
@@ -61,6 +64,8 @@
           location.reload();
         }
       }
+
+
     }
 
     Auth.prototype = new NstObservableObject();
@@ -80,8 +85,15 @@
 
       this.setLastSessionKey(data._sk);
       this.setLastSessionSecret(data._ss);
+      // this.setLastDeviceId(data._ss);
+
+      // this.setLastSessionSecret(data._ss);
+
       $cookies.put('nsk', this.lastSessionKey, options);
       $cookies.put('nss', this.lastSessionSecret, options);
+      $cookies.put('nos', getBrowser(), options);
+      $cookies.put('ndid', this.lastDeviceId, options);
+      $cookies.put('ndt', this.lastDeviceToken, options);
 
       this.setUser(NstSvcUserFactory.parseUser(data.account));
       NstSvcUserFactory.set(this.getUser());
@@ -111,13 +123,45 @@
     Auth.prototype.register = function (username, password) {
       this.setState(NST_AUTH_STATE.AUTHORIZING);
 
-      return NstSvcServer.request('session/register', {uid: username, pass: password});
+      var payload = {
+        uid: username,
+        pass: password,
+        _did: this.getLastDeviceId(),
+        _dt: this.getLastDeviceToken(),
+        _os: this.getLastOs()
+      };
+
+      return NstSvcServer.request('session/register', payload);
     };
 
     Auth.prototype.recall = function (sessionKey, sessionSecret) {
       this.setState(NST_AUTH_STATE.AUTHORIZING);
 
-      return NstSvcServer.request('session/recall', {_sk: sessionKey, _ss: sessionSecret});
+
+      if ($cookies.get('ndt')) {
+        this.setLastDeviceToken($cookies.get('ndt'));
+      }
+
+      //set device id
+      if ($cookies.get('ndid')) {
+        this.setLastDeviceId($cookies.get('ndid'));
+      } else {
+        var did = generateDeviceId();
+        this.setLastDeviceId(did);
+        $cookies.put('ndid', did);
+      }
+
+
+      var payload = {
+        _sk: sessionKey,
+        _ss: sessionSecret,
+        _did: this.getLastDeviceId(),
+        _dt: this.getLastDeviceToken(),
+        _os: this.getLastOs()
+      };
+
+
+      return NstSvcServer.request('session/recall', payload);
     };
 
     Auth.prototype.unregister = function (reason) {
@@ -133,6 +177,9 @@
         case NST_UNREGISTER_REASON.AUTH_FAIL:
           this.setLastSessionKey(null);
           this.setLastSessionSecret(null);
+          $cookies.remove('ndid');
+          $cookies.remove('ndt');
+          $cookies.remove('nos');
           $cookies.remove('nss');
           $cookies.remove('nsk');
           $cookies.remove('user');
@@ -149,6 +196,9 @@
 
           this.setLastSessionKey(null);
           this.setLastSessionSecret(null);
+          $cookies.remove('ndid');
+          $cookies.remove('ndt');
+          $cookies.remove('nos');
           $cookies.remove('nss');
           $cookies.remove('nsk');
           $cookies.remove('user');
@@ -196,6 +246,20 @@
 
       if ($cookies.get('nss')) {
         this.setLastSessionSecret($cookies.get('nss'));
+      }
+
+
+      if ($cookies.get('ndt')) {
+        this.setLastDeviceToken($cookies.get('ndt'));
+      }
+
+      //set device id
+      if ($cookies.get('ndid')) {
+        this.setLastDeviceId($cookies.get('ndid'));
+      } else {
+        var did = generateDeviceId();
+        this.setLastDeviceId(did);
+        $cookies.put('ndid', did);
       }
 
       if (this.getLastSessionKey() && this.getLastSessionSecret()) {
@@ -271,7 +335,48 @@
       this.user = user
     };
 
+
+    Auth.prototype.setDeviceToken = function (token) {
+      if (token !== $cookies.get('ndt')) {
+        this.setLastDeviceToken(token);
+        $cookies.put('ndt', token);
+        this.reconnect();
+      }
+    };
+
+    function getBrowser() {
+      var ua = navigator.userAgent, tem,
+        M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+      if (/trident/i.test(M[1])) {
+        tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return 'IE ' + (tem[1] || '');
+      }
+      if (M[1] === 'Chrome') {
+        tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if (tem != null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+      }
+      M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+      if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+      return  "android"//M[0].toLowerCase();
+    }
+
+    function generateDeviceId() {
+      function guid() {
+        function s4() {
+          return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+        }
+
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+          s4() + '-' + s4() + s4() + s4();
+      }
+
+      return "web_" + Date.now() + "-" + guid() + "-" + guid();
+    }
+
     var service = new Auth(NstSvcUserFactory.currentUser);
+
     service.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
       NstSvcAuthStorage.set(NST_AUTH_STORAGE_KEY.USER, NstSvcUserFactory.toUserData(event.detail.user));
     });
