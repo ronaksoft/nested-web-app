@@ -1,4 +1,4 @@
-<div class="nst-content second-view" id="content-wrapper" page-change="ctlProfileEdit.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+<div class="nst-content second-view" id="content-wrapper">
   <section class="content">
     <div class="panel-profile-menu">
       <h5><translate>Account Settings</translate></h5>
@@ -47,11 +47,9 @@
       <div class="_df _fw"></div>
       <div class="_df _fn profile-popover _fh _aic">
         <div class="user-avatar-32">
-          <img initials="ctlProfileEdit.model.fullName" data-url="ctlProfileEdit.model.picture.url" data-width="32"
-               data-height="32"
-               data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="12"/>
+          <img initial-avatar="{{ctrl.user.fullName}}" picture="{{ctrl.user | avatar}}" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="12"/>
         </div>
-        {{ctlProfileEdit.model.fullName}}
+        {{ctrl.user.fullName}}
 
         <svg class="_16svg" data-uib-popover-template="'app/settings/profile/profile-popover.html'"
              data-popover-placement="bottom auto"
