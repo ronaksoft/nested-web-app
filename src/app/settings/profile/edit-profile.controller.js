@@ -8,7 +8,7 @@
   /** @ngInject */
   function EditProfileController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
-                                 NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture,
+                                 NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture, NST_PATTERN,
                                  NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstSvcPlaceFactory) {
     var vm = this;
 
@@ -16,19 +16,32 @@
     vm.updateGender = updateGender;
     vm.updateSearchable = updateSearchable;
     vm.updateDateOfBirth = updateDateOfBirth;
+    vm.updateEmail = updateEmail;
+    vm.updateSearchable = updateSearchable;
     vm.getGender = getGender;
+    vm.emailPattern = NST_PATTERN.EMAIL;
 
 
     vm.genders = [
-      {key: 'u', title: NstSvcTranslation.get("Undefined")},
+      {key: '', title: ''},
       {key: 'm', title: NstSvcTranslation.get("Male")},
       {key: 'f', title: NstSvcTranslation.get("Female")},
       {key: 'o', title: NstSvcTranslation.get("Other")}
     ];
 
-    (function () {
+    vm.minDateOfBirth = moment().subtract(100, "year").format("YYYY-MM-DD");
+    vm.maxDateOfBirth = moment().format("YYYY-MM-DD");
 
-      vm.model = NstSvcAuth.user;
+    (function () {
+      vm.loadProgress = true;
+      NstSvcUserFactory.get(NstSvcAuth.user.id, true).then(function (user) {
+        vm.model = user;
+        console.log(vm.model);
+      }).catch(function (error) {
+        toastr.error('An error has occured while retrieving user profile')
+      }).finally(function () {
+        vm.loadProgress = false;
+      });
 
     })();
 
@@ -49,7 +62,11 @@
       return deferred.promise;
     }
 
-    function updateName(firstName, lastName, $close, $dismiss) {
+    function updateName(isValid, firstName, lastName, $close, $dismiss) {
+      if (!isValid) {
+        return;
+      }
+
       return update({
         'firstName' : firstName,
         'lastName' : lastName
@@ -60,15 +77,37 @@
       });
     }
 
-    function updateDateOfBirth(value) {
+    function updateDateOfBirth(isValid, value, $close, $dismiss) {
+      if (!isValid) {
+        return;
+      }
+
       return update({
         'dateOfBirth' : value
       }).then(function () {
         vm.model.dateOfBirth = value;
+        $close();
       });
     }
 
-    function updateGender(value, $close) {
+    function updateEmail(isValid, value, $close, $dismiss) {
+      if (!isValid) {
+        return;
+      }
+      
+      return update({
+        'email' : value
+      }).then(function () {
+        vm.model.email = value;
+        $close();
+      });
+    }
+
+    function updateGender(isValid, value, $close) {
+      if (!isValid) {
+        return;
+      }
+
       return update({
         'gender' : value
       }).then(function () {

@@ -6,9 +6,9 @@
 </div>
 <div class="lang-box">
   <translate>Choose your language</translate>
-  <select name="lang" id="lang">
-    <option value="">English (United States)</option>
-    <option value="">Farsi (فارسی)</option>
+  <select name="lang" id="lang" ng-model="ctrl.locale" ng-change="ctrl.changeLocale(ctrl.locale)">
+    <option value="en-US">English (United States)</option>
+    <option value="fa-IR">Farsi (فارسی)</option>
   </select>
   <div class="flg us"></div>
 </div>
