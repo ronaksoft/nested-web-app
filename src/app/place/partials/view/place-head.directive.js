@@ -13,7 +13,8 @@
         name : '=',
         id : '@',
         private: '@',
-        env : '='
+        env : '=',
+        dissmiss : '='
       },
       replace: true,
       templateUrl : 'app/place/partials/view/place-head.html',

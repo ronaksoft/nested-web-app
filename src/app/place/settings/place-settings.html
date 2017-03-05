@@ -1,5 +1,5 @@
-<div id="place-settings">
-  <place-head env="'settings'" data-pict="{{ctlSettings.logoUrl || ctlSettings.place.picture.getUrl('x128')}}"
+<div id="place-settings">{{$dismiss}}
+  <place-head env="'settings'" data-pict="{{ctlSettings.logoUrl || ctlSettings.place.picture.getUrl('x128')}}" dissmiss="$dismiss"
   private="{{ctlSettings.isClosedPlace}}" id="{{ctlSettings.place.id}}" data-name="ctlSettings.place.name"></place-head>
 
   <div class="_difh settings-tab">
