@@ -35,7 +35,7 @@
             <input class="_df _fw form-control" name="lastName" type="text" ng-model="lastName" required maxlength="35" placeholder="Doe" translate-attrs="placeholder" tabindex="2"/>
           </div>
           <div class="_df _fw mdl-ft">
-            <input type="button" class="butn-white" ng-click="$dismiss('discard')" value="Discard" translate-attrs="value" tabindex="4"></input>
+            <div class="butn-white" ng-click="$dismiss('discard')" translate-attrs="value" tabindex="4"><translate>Discard</translate></div>
             <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value" tabindex="3"></input>
           </div>
         </form>
@@ -50,17 +50,17 @@
       <div class="_difh modal-head">
         <p class="_df _fw"><translate>Select Gender</translate></p>
       </div>
-      <div class="_difv _fw" ng-init="gender = ctrl.model.gender">
-        <div class="form-group">
-          <div>
-            <select name="gender" ng-model="gender" ng-options="item.key as item.title for item in ctrl.genders" class="form-control"></select>
-          </div>
+      <form name ="editGenderForm" ng-submit="submitted = true; ctrl.updateGender(editGenderForm.$valid, gender, $close, $dismiss);" novalidate autocomplete="off" ng-init="gender = ctrl.model.gender; submitted = false;">
+        <div class="form-group" ng-class="{ 'has-error' : editGenderForm.gender.$invalid && submitted}">
+          <label class="input-lab" ng-if="editGenderForm.gender.$valid || !submitted"><translate>Gender</translate></label>
+          <label class="input-lab" ng-if="editGenderForm.gender.$invalid && submitted"><translate>Gender is required</translate></label>
+          <select name="gender" ng-model="gender" ng-options="item.key as item.title for item in ctrl.genders" class="form-control" required></select>
         </div>
         <div class="_df _fw mdl-ft">
           <div class="butn-white" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
-          <div class="butn-green" ng-click="ctrl.updateGender(gender, $close, $dismiss);" id="change-save" ng-disabled="ctrl.updateProgress"><translate>Save</translate></div>
+          <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value"></input>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </script>
@@ -72,14 +72,14 @@
         <p class="_df _fw"><translate>Edit email address</translate></p>
       </div>
       <div class="_difv _fw">
-        <form name ="editEmailForm" ng-submit="submitted = true; ctrl.updateEmail(editEmailForm.$valid, email, $close, $dismiss);" ng-init="email = ctrl.model.email; submitted = false;" method="post">
+        <form name ="editEmailForm" ng-submit="submitted = true; ctrl.updateEmail(editEmailForm.$valid, email, $close, $dismiss);" ng-init="email = ctrl.model.email; submitted = false;" novalidate autocomplete="off">
           <div class="form-group" ng-class="{ 'has-error' : editEmailForm.email.$invalid && submitted}">
             <label class="input-lab" ng-if="editEmailForm.email.$valid || !submitted"><translate>Email</translate></label>
             <label class="input-lab" ng-if="editEmailForm.email.$invalid && submitted"><translate>The provided email is not valid</translate></label>
             <input class="_df _fw form-control" name="email" type="text" ng-model="email" tabindex="1" focus-me ng-pattern="ctrl.emailPattern" maxlength="254"/>
           </div>
           <div class="_df _fw mdl-ft">
-            <input type="button" class="butn-white" ng-click="$dismiss('discard')" value="Discard" translate-attrs="value"></input>
+            <div class="butn-white" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
             <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value"></input>
           </div>
         </form>
@@ -95,18 +95,17 @@
       <div class="_difh modal-head">
         <p class="_df _fw"><translate>Edit date of birth</translate></p>
       </div>
-      <div class="_difv _fw">
-        <div class="form-group" ng-init="dateOfBirth = ctrl.model.dateOfBirth;">
-          <label class="input-lab"><translate>date of birth</translate></label>
-          <div>
-            <input class="_df _fw form-control" name="dateOfBirth" type="text" ng-model="dateOfBirth" tabindex="1"/>
-          </div>
+      <form name="editDateOfBirthForm" ng-submit="submitted = true; ctrl.updateDateOfBirth(editDateOfBirthForm.$valid, dateOfBirth, $close, $dismiss);" ng-init="dateOfBirth = ctrl.model.dateOfBirth; submitted = false;" novalidate autocomplete="off">
+        <div class="form-group" ng-class="{ 'has-error' : !dateOfBirth && submitted }">
+          <label class="input-lab" ng-if="dateOfBirth || !submitted"><translate>Date of birth</translate></label>
+          <label class="input-lab" ng-if="!dateOfBirth && !submitted"><translate>Date of birth is required</translate></label>
+          <inline-date-picker min="{{::vm.minDateOfBirth}}" max="{{::maxDateOfBirth}}" selected-value="dateOfBirth"></inline-date-picker>
         </div>
         <div class="_df _fw mdl-ft">
           <div class="butn-white" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
-          <div class="butn-green" ng-click="ctrl.updatedateOfBirth(dateOfBirth, $close, $dismiss);" id="change-save" ng-disabled="ctrl.updateProgress"><translate>Save</translate></div>
+          <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value"></input>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 

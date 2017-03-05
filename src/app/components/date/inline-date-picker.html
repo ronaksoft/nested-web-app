@@ -1,9 +1,9 @@
 <div class="inline-date-picker">
-  <input type="text" name="year" ng-model="year" placeholder="Year" translate-attrs="placeholder" allow-only-number change-up-down-press>
-  <select ng-model="month" ng-options="item.value as item.name for item in months">
+  <input type="text" name="year" ng-model="year" placeholder="Year" translate-attrs="placeholder" allow-only-number change-up-down-press required>
+  <select ng-model="month" ng-options="item.value as item.name for item in months" required>
     <option value="" translate-inner>Month</option>
   </select>
-  <select ng-model="day" ng-options="number as number for (index, number) in days">
+  <select ng-model="day" ng-options="number as number for (index, number) in days" required>
     <option value="" translate-inner>Day</option>
   </select>
 </div>

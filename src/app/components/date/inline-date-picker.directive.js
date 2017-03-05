@@ -9,15 +9,18 @@
     var JALALI_CALENDAR = "jalali";
     return {
       restrict: 'E',
+      replace : true,
       templateUrl: 'app/components/date/inline-date-picker.html',
       scope : {
-        value : '=',
+        value : '=selectedValue',
       },
       link: function (scope ,element, attrs) {
-        if (scope.value) {
-          scope.year = getYear(scope.value);
-          scope.month = getMonth(scope.value);
-          scope.day = getDay(scope.value);
+
+        var momentValue = moment(scope.value, "YYYY-MM-DD");
+        if (momentValue.isValid()) {
+          scope.year = getYear(momentValue);
+          scope.month = getMonth(momentValue);
+          scope.day = getDay(momentValue);
         } else {
           scope.year = null;
           scope.month = null;
@@ -41,11 +44,10 @@
         }], _.debounce(function(newValues, oldValues) {
 
           if (_.every(newValues)) {
-            console.log("all", newValues[0], newValues[1], newValues[2]);
             setValue(newValues[0], newValues[1], newValues[2]);
           }
 
-        }, 512));
+        }, 300));
 
         var yearMonthWatcher = scope.$watchGroup([function () {
           return scope.year;
@@ -61,21 +63,19 @@
               scope.day = _.last(scope.days);
             }
           }
-        }, 512));
+        }, 300));
 
         var yearWatcher = scope.$watch('year', _.debounce(function(newValue, oldValue) {
           if (newValue) {
             scope.months = createMonthsList(newValue, scope.min, scope.max);
           }
-        }, 512));
+        }, 300));
 
 
         function setValue(year, month, day) {
           var newValue = createDate(year, month, day);
 
-          scope.$apply(function () {
-            scope.value = newValue;
-          });
+          scope.value = NstUtility.string.format("{0}-{1}-{2}", newValue.year(), newValue.month() + 1, newValue.date());
         }
 
         scope.$on('$destroy', function () {
@@ -105,7 +105,7 @@
       if (isJalali()) {
         return date.jDate();
       } else {
-        return date.day();
+        return date.date();
       }
     }
 
@@ -113,7 +113,6 @@
       if (isJalali()) {
         return moment(NstUtility.string.format("{0}-{1}-{2}", year, month, day), "jYYYY-jMM-jDD");
       } else {
-        console.log('all creating a date', year, month, day);
         return moment({
           year : year,
           month : month,
@@ -139,43 +138,44 @@
 
     function getMonths() {
 
-      var months = null;
-      if (isJalali()) {
-        months = [
-          NstSvcTranslation.get("فروردین"),
-          NstSvcTranslation.get("اردیبهشت"),
-          NstSvcTranslation.get("خرداد"),
-          NstSvcTranslation.get("تیر"),
-          NstSvcTranslation.get("مرداد"),
-          NstSvcTranslation.get("شهریور"),
-          NstSvcTranslation.get("مهر"),
-          NstSvcTranslation.get("آبان"),
-          NstSvcTranslation.get("آذر"),
-          NstSvcTranslation.get("دی"),
-          NstSvcTranslation.get("بهمن"),
-          NstSvcTranslation.get("اسفند")
-        ];
-      } else {
-        months = [
-          NstSvcTranslation.get("January"),
-          NstSvcTranslation.get("February"),
-          NstSvcTranslation.get("March"),
-          NstSvcTranslation.get("April"),
-          NstSvcTranslation.get("May"),
-          NstSvcTranslation.get("June"),
-          NstSvcTranslation.get("July"),
-          NstSvcTranslation.get("August"),
-          NstSvcTranslation.get("September"),
-          NstSvcTranslation.get("October"),
-          NstSvcTranslation.get("November"),
-          NstSvcTranslation.get("December")
-        ];
-      }
+      // var months = null;
+      // if (isJalali()) {
+      //   months = [
+      //     NstSvcTranslation.get("فروردین"),
+      //     NstSvcTranslation.get("اردیبهشت"),
+      //     NstSvcTranslation.get("خرداد"),
+      //     NstSvcTranslation.get("تیر"),
+      //     NstSvcTranslation.get("مرداد"),
+      //     NstSvcTranslation.get("شهریور"),
+      //     NstSvcTranslation.get("مهر"),
+      //     NstSvcTranslation.get("آبان"),
+      //     NstSvcTranslation.get("آذر"),
+      //     NstSvcTranslation.get("دی"),
+      //     NstSvcTranslation.get("بهمن"),
+      //     NstSvcTranslation.get("اسفند")
+      //   ];
+      // } else {
+      //   months = [
+      //     NstSvcTranslation.get("January"),
+      //     NstSvcTranslation.get("February"),
+      //     NstSvcTranslation.get("March"),
+      //     NstSvcTranslation.get("April"),
+      //     NstSvcTranslation.get("May"),
+      //     NstSvcTranslation.get("June"),
+      //     NstSvcTranslation.get("July"),
+      //     NstSvcTranslation.get("August"),
+      //     NstSvcTranslation.get("September"),
+      //     NstSvcTranslation.get("October"),
+      //     NstSvcTranslation.get("November"),
+      //     NstSvcTranslation.get("December")
+      //   ];
+      // }
 
+      var months = isJalali() ? moment.jMonths() : moment.months();
       return _.map(months, function (month, index) {
         return {
           name : month,
-          value : index + 1
+          value : index
         };
       });
     }
@@ -186,29 +186,31 @@
     }
 
     function createMonthsList(year, minDate, maxDate) {
-      if (areInSameYear(year, maxDate)) {
-
-        return _.take(getMonths(), (getMonth(maxDate) + 1));
-      } else if (areInSameYear(year, minDate)) {
-
-        return _.takeRight(getMonths(), 12 - (getMonth(minDate) -1));
-      } else {
-
-        return getMonths();
-      }
+      return getMonths();
+      // if (areInSameYear(year, maxDate)) {
+      //
+      //   return _.take(getMonths(), (getMonth(maxDate) + 1));
+      // } else if (areInSameYear(year, minDate)) {
+      //
+      //   return _.takeRight(getMonths(), 12 - (getMonth(minDate) -1));
+      // } else {
+      //
+      //   return getMonths();
+      // }
     }
 
     function createDaysList(year, month, minDate, maxDate) {
-      if (areInSameMonth(year, month, maxDate)) {
-
-        return _.take(getDays(), getDay(maxDate));
-      } else if (areInSameMonth(year, month, minDate)) {
-
-        return _.takeRight(getDays(), getDaysInMonth(year, month) - (getDay(minDate)));
-      } else {
-
-        return getDays();
-      }
+      return getDays();
+      // if (areInSameMonth(year, month, maxDate)) {
+      //
+      //   return _.take(getDays(), getDay(maxDate));
+      // } else if (areInSameMonth(year, month, minDate)) {
+      //
+      //   return _.takeRight(getDays(), getDaysInMonth(year, month) - (getDay(minDate)));
+      // } else {
+      //
+      //   return getDays();
+      // }
     }
 
     function areInSameYear(year, secondDate) {

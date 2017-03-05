@@ -23,11 +23,14 @@
 
 
     vm.genders = [
-      {key: 'u', title: NstSvcTranslation.get("Undefined")},
+      {key: '', title: ''},
       {key: 'm', title: NstSvcTranslation.get("Male")},
       {key: 'f', title: NstSvcTranslation.get("Female")},
       {key: 'o', title: NstSvcTranslation.get("Other")}
     ];
+
+    vm.minDateOfBirth = moment().subtract(100, "year").format("YYYY-MM-DD");
+    vm.maxDateOfBirth = moment().format("YYYY-MM-DD");
 
     (function () {
       vm.loadProgress = true;
@@ -74,11 +77,16 @@
       });
     }
 
-    function updateDateOfBirth(value) {
+    function updateDateOfBirth(isValid, value, $close, $dismiss) {
+      if (!isValid) {
+        return;
+      }
+
       return update({
         'dateOfBirth' : value
       }).then(function () {
         vm.model.dateOfBirth = value;
+        $close();
       });
     }
 
@@ -86,7 +94,7 @@
       if (!isValid) {
         return;
       }
-
+      
       return update({
         'email' : value
       }).then(function () {
@@ -95,7 +103,11 @@
       });
     }
 
-    function updateGender(value, $close) {
+    function updateGender(isValid, value, $close) {
+      if (!isValid) {
+        return;
+      }
+
       return update({
         'gender' : value
       }).then(function () {
