@@ -137,40 +137,6 @@
     }
 
     function getMonths() {
-
-      // var months = null;
-      // if (isJalali()) {
-      //   months = [
-      //     NstSvcTranslation.get("فروردین"),
-      //     NstSvcTranslation.get("اردیبهشت"),
-      //     NstSvcTranslation.get("خرداد"),
-      //     NstSvcTranslation.get("تیر"),
-      //     NstSvcTranslation.get("مرداد"),
-      //     NstSvcTranslation.get("شهریور"),
-      //     NstSvcTranslation.get("مهر"),
-      //     NstSvcTranslation.get("آبان"),
-      //     NstSvcTranslation.get("آذر"),
-      //     NstSvcTranslation.get("دی"),
-      //     NstSvcTranslation.get("بهمن"),
-      //     NstSvcTranslation.get("اسفند")
-      //   ];
-      // } else {
-      //   months = [
-      //     NstSvcTranslation.get("January"),
-      //     NstSvcTranslation.get("February"),
-      //     NstSvcTranslation.get("March"),
-      //     NstSvcTranslation.get("April"),
-      //     NstSvcTranslation.get("May"),
-      //     NstSvcTranslation.get("June"),
-      //     NstSvcTranslation.get("July"),
-      //     NstSvcTranslation.get("August"),
-      //     NstSvcTranslation.get("September"),
-      //     NstSvcTranslation.get("October"),
-      //     NstSvcTranslation.get("November"),
-      //     NstSvcTranslation.get("December")
-      //   ];
-      // }
-
       var months = isJalali() ? moment.jMonths() : moment.months();
       return _.map(months, function (month, index) {
         return {
