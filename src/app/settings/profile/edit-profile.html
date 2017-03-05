@@ -23,24 +23,22 @@
       <div class="_difh modal-head">
         <p class="_df _fw"><translate>Edit Name</translate></p>
       </div>
-      <div class="_difv _fw">
-        <div class="form-group" ng-init="firstName = ctrl.model.firstName; lastName = ctrl.model.lastName">
-          <label class="input-lab"><translate>First name</translate></label>
-          <div>
-            <input class="_df _fw form-control" name="firstName" type="text" ng-model="firstName" tabindex="2"/>
+        <form name="editNameForm" ng-submit="submitted = true; ctrl.updateName(editNameForm.$valid, firstName, lastName, $close, $dismiss);" ng-init="firstName = ctrl.model.firstName; lastName = ctrl.model.lastName; submitted = false;" novalidate autocomplete="off">
+          <div class="form-group" ng-class="{ 'has-error' : editNameForm.firstName.$invalid && submitted}">
+            <label class="input-lab" ng-if="!editNameForm.firstName.$error.required || !submitted"><translate>First name</translate></label>
+            <label class="input-lab" ng-if="editNameForm.firstName.$error.required && submitted"><translate>First name is required</translate></label>
+            <input class="_df _fw form-control" name="firstName" type="text" ng-model="firstName" tabindex="1" maxlength="35" placeholder="John" translate-attrs="placeholder" required focus-me/>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="input-lab"><translate>Last name</translate></label>
-          <div>
-            <input class="_df _fw form-control" name="lastName" type="text" ng-model="lastName" tabindex="2"/>
+          <div class="form-group" ng-class="{ 'has-error' : editNameForm.lastName.$invalid && submitted}">
+            <label class="input-lab" ng-if="!editNameForm.lastName.$error.required || !submitted"><translate>Surname</translate></label>
+            <label class="input-lab" ng-if="editNameForm.lastName.$error.required && submitted"><translate>Surname is required</translate></label>
+            <input class="_df _fw form-control" name="lastName" type="text" ng-model="lastName" required maxlength="35" placeholder="Doe" translate-attrs="placeholder" tabindex="2"/>
           </div>
-        </div>
-        <div class="_df _fw mdl-ft">
-          <div class="butn-white" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
-          <div class="butn-green" ng-click="ctrl.updateName(firstName, lastName, $close, $dismiss);" id="change-save" ng-disabled="ctrl.updateProgress"><translate>Save</translate></div>
-        </div>
-      </div>
+          <div class="_df _fw mdl-ft">
+            <input type="button" class="butn-white" ng-click="$dismiss('discard')" value="Discard" translate-attrs="value" tabindex="4"></input>
+            <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value" tabindex="3"></input>
+          </div>
+        </form>
     </div>
   </div>
 
@@ -67,6 +65,52 @@
   </div>
 </script>
 
+<script type="text/ng-template" id="profile-change-email-modal.html">
+  <div id="change-view">
+    <div class="_difv _fw">
+      <div class="_difh modal-head">
+        <p class="_df _fw"><translate>Edit email address</translate></p>
+      </div>
+      <div class="_difv _fw">
+        <form name ="editEmailForm" ng-submit="submitted = true; ctrl.updateEmail(editEmailForm.$valid, email, $close, $dismiss);" ng-init="email = ctrl.model.email; submitted = false;" method="post">
+          <div class="form-group" ng-class="{ 'has-error' : editEmailForm.email.$invalid && submitted}">
+            <label class="input-lab" ng-if="editEmailForm.email.$valid || !submitted"><translate>Email</translate></label>
+            <label class="input-lab" ng-if="editEmailForm.email.$invalid && submitted"><translate>The provided email is not valid</translate></label>
+            <input class="_df _fw form-control" name="email" type="text" ng-model="email" tabindex="1" focus-me ng-pattern="ctrl.emailPattern" maxlength="254"/>
+          </div>
+          <div class="_df _fw mdl-ft">
+            <input type="button" class="butn-white" ng-click="$dismiss('discard')" value="Discard" translate-attrs="value"></input>
+            <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value"></input>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</script>
+
+<script type="text/ng-template" id="profile-change-dob-modal.html">
+  <div id="change-view">
+    <div class="_difv _fw">
+      <div class="_difh modal-head">
+        <p class="_df _fw"><translate>Edit date of birth</translate></p>
+      </div>
+      <div class="_difv _fw">
+        <div class="form-group" ng-init="dateOfBirth = ctrl.model.dateOfBirth;">
+          <label class="input-lab"><translate>date of birth</translate></label>
+          <div>
+            <input class="_df _fw form-control" name="dateOfBirth" type="text" ng-model="dateOfBirth" tabindex="1"/>
+          </div>
+        </div>
+        <div class="_df _fw mdl-ft">
+          <div class="butn-white" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
+          <div class="butn-green" ng-click="ctrl.updatedateOfBirth(dateOfBirth, $close, $dismiss);" id="change-save" ng-disabled="ctrl.updateProgress"><translate>Save</translate></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</script>
 
 <div class="inner-panel _ma">
   <form ng-submit="ctrl.saveAndExit(profileForm.$valid);" name="profileForm" novalidate>
@@ -96,7 +140,7 @@
       <div class="field _difh _fw">
         <div ng-if="ctrl.model.email" class="_df _fw">{{ctrl.model.email}}</div>
         <i ng-if="!ctrl.model.email" class="_df _fw">Not specified</i>
-        <svg class="_24svg _df _fn edit-icon" data-change-modal="ctrl.model.dateOfBirth">
+        <svg class="_24svg _df _fn edit-icon" open-custom-modal="profile-change-email-modal.html">
           <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
         </svg>
       </div>
@@ -105,7 +149,7 @@
       <label class="input-lab _fw"><translate>Date of Birth</translate></label>
       <div class="field _difh _fw">
         <div class="_df _fw">{{ctrl.model.dateOfBirth || 'Not specified'}}</div>
-        <svg class="_24svg _df _fn edit-icon" data-change-modal="ctrl.model.dateOfBirth">
+        <svg class="_24svg _df _fn edit-icon" open-custom-modal="profile-change-dob-modal.html">
           <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
         </svg>
       </div>
@@ -125,7 +169,7 @@
       <div class="field _difh _fw">
         <div class="_df _fw srchp"><translate>Having your Search turned on, anyone can reach you, even without knowing your ID.</translate></div>
         <div class="place-switch _fn">
-          <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="ctrl.model.searchable">
+          <input type="checkbox" name="checkbox_id" id="Searchable" data-ng-model="ctrl.model.searchable" ng-change="ctrl.updateSearchable(ctrl.model.searchable);">
           <label for="Searchable">
             <b><translate>Yes</translate></b>
             <div class="circle" switch-drag="Searchhable"></div>
