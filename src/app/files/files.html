@@ -31,14 +31,16 @@
     </section>
     <div class="file-list">
       <div class="file-list-header">
-        <div class="files-srch _df {{ctlFiles.searchVar ? 'srch' : ''}}">
+        <div class="files-srch _df {{ctlFiles.keyword.length > 0 ? 'srch' : ''}}">
           <svg class="_16svg" ng-click="ctlFiles.searchFunc()">
             <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
-          <input type="text" placeholder="Find files in this place" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);" translate-attrs="placeholder" focus-me="{{ctlFiles.searchTrigg}}"/>
+          <!--<input type="text" placeholder="File name" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);" translate-attrs="placeholder" focus-me="{{ctlFiles.searchTrigg}}"/>-->
         </div>
-        <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0"><translate>File name</translate></div>
+        <div class="header-name" ng-show="ctlFiles.selectedFiles.length == 0">
+          <input type="text" placeholder="File name" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);" translate-attrs="placeholder" focus-me="{{ctlFiles.searchTrigg}}"/>
+        </div>
         <div class="header-name" ng-show="ctlFiles.selectedFiles.length > 0"></div>
         <!-- <div ng-show="ctlFiles.selectedFiles.length > 0" id="header-download"><span
           class="_dib"></span><span>Download</span></div> -->
