@@ -14,17 +14,16 @@
     var vm = this;
     var onSelectTimeout = null;
     var eventReferences = [];
-    vm.countClick = 1;
-    vm.searchVar = false;
     vm.searchTrigg = 0;
     vm.loadMoreCounter = 0;
+    vm.keyword = '';
 
     vm.searchFunc = function () {
 
-      vm.searchVar =! vm.searchVar;
-
-      ++vm.countClick;
-      if ( vm.countClick % 2 === 0 ) {
+      if(vm.keyword.length > 0) {
+        vm.keyword = '';
+        search(vm.keyword);
+      } else {
         ++vm.searchTrigg;
       }
 

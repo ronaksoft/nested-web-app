@@ -266,6 +266,23 @@
     left: calc(100% - 30px);
   }
 }
+.sub-place {
+  width: 250px;
+  left: 50%;
+  transform: translateX(-50%);
+  &.l2 .active-border {
+    width: calc(50% + 20px);
+  }
+  &.l2 .recive-arrow {
+    left: calc(50% - 10px);
+  }
+  &.l3 .active-border {
+    width: 100%;
+  }
+  &.l3 .recive-arrow {
+    left: calc(100% - 30px);
+  }
+}
 
 p.cr8 {
   color: $color-black04;

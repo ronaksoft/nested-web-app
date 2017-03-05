@@ -42,6 +42,9 @@
     &:hover {
       color: $color-solid;
     }
+    input {
+      border: none;
+    }
     .files-srch {
       width: 55px;
       height: 100%;

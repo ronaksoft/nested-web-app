@@ -82,7 +82,7 @@
   </div>
   <div class="_difv _fw {{'step' + ctlCreate.step}}" ng-if="ctlCreate.step == 3">
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate class="_fw _df">
-      <place-head env="'create'" pict="http://localhost:3000/assets/icons/absents_place.svg"></place-head>
+      <place-head env="'create'" dissmiss="$dismiss" pict="http://localhost:3000/assets/icons/absents_place.svg"></place-head>
 
       <h3>"Op Art"</h3>
       <h3>successfully created</h3>
@@ -114,7 +114,7 @@
   </div>
   <div class="_difv _fw {{'step' + ctlCreate.step}}" ng-if="ctlCreate.step == 4">
     <form ng-submit="ctlCreate.save(placeForm.$valid);" name="placeForm" novalidate class="_fw _df">
-      <place-head env="'create'" pict="http://localhost:3000/assets/icons/absents_place.svg"></place-head>
+      <place-head env="'create'" dissmiss="$dismiss" pict="http://localhost:3000/assets/icons/absents_place.svg"></place-head>
 
       <h3>"Op Art"</h3>
 

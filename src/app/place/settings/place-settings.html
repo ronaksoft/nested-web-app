@@ -1,5 +1,5 @@
-<div id="place-settings">
-  <place-head env="'settings'" data-pict="{{ctlSettings.logoUrl || ctlSettings.place.picture.getUrl('x128')}}"
+<div id="place-settings">{{$dismiss}}
+  <place-head env="'settings'" data-pict="{{ctlSettings.logoUrl || ctlSettings.place.picture.getUrl('x128')}}" dissmiss="$dismiss"
   private="{{ctlSettings.isClosedPlace}}" id="{{ctlSettings.place.id}}" data-name="ctlSettings.place.name"></place-head>
 
   <div class="_difh settings-tab">
@@ -33,6 +33,7 @@
     </div>
     <p>Who can share posts with this Place?</p>
     <recieve-from level="ctlSettings.reciveLevel" env="'full'"></recieve-from>
+    <recieve-from level="ctlSettings.threeExampleLevel" env="'three'"></recieve-from>
     <p>Who can add members?</p>
     <recieve-from level="ctlSettings.memberLevel" env="'semi'"></recieve-from>
     <p>Who can create subplace?</p>
