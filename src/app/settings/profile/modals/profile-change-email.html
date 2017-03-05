@@ -1,0 +1,20 @@
+<div id="change-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw"><translate>Edit email address</translate></p>
+    </div>
+    <div class="_difv _fw">
+      <form name ="editEmailForm" ng-submit="submitted = true; ctrl.updateEmail(editEmailForm.$valid, email, $close, $dismiss);" ng-init="email = ctrl.model.email; submitted = false;" novalidate autocomplete="off">
+        <div class="form-group" ng-class="{ 'has-error' : editEmailForm.email.$invalid && submitted}">
+          <label class="input-lab" ng-if="editEmailForm.email.$valid || !submitted"><translate>Email</translate></label>
+          <label class="input-lab" ng-if="editEmailForm.email.$invalid && submitted"><translate>The provided email is not valid</translate></label>
+          <input class="_df _fw form-control" name="email" type="text" ng-model="email" tabindex="1" focus-me ng-pattern="ctrl.emailPattern" maxlength="254"/>
+        </div>
+        <div class="_df _fw mdl-ft">
+          <div class="butn-white" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
+          <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value"></input>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
