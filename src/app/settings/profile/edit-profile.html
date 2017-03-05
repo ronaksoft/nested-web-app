@@ -124,21 +124,21 @@
     </div>
     <div class="form-group _difv _fw">
       <label class="input-lab _fw"><translate>User ID</translate></label>
-      <div class="field _difh _fw">
+      <div class="field _difh _fw" dir="ltr">
         <div class="_df _fw">@{{ctrl.model.id}}</div>
       </div>
     </div>
     <div class="form-group _difv _fw">
       <label class="input-lab _fw"><translate>Phone Number</translate></label>
-      <div class="field _difh _fw">
+      <div class="field _difh _fw" dir="ltr">
         <div class="_df _fw">+{{ctrl.model.phone}}</div>
       </div>
     </div>
     <div class="form-group _difv _fw">
       <label class="input-lab _fw"><translate>Email</translate></label>
       <div class="field _difh _fw">
-        <div ng-if="ctrl.model.email" class="_df _fw">{{ctrl.model.email}}</div>
-        <i ng-if="!ctrl.model.email" class="_df _fw">Not specified</i>
+        <div ng-if="ctrl.model.email" class="_df _fw" dir="ltr">{{ctrl.model.email}}</div>
+        <i ng-if="!ctrl.model.email" class="_df _fw"><translate>Not specified</translate></i>
         <svg class="_24svg _df _fn edit-icon" open-custom-modal="profile-change-email-modal.html">
           <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
         </svg>
@@ -147,7 +147,7 @@
     <div class="form-group _difv _fw">
       <label class="input-lab _fw"><translate>Date of Birth</translate></label>
       <div class="field _difh _fw">
-        <div class="_df _fw">{{ctrl.model.dateOfBirth || 'Not specified'}}</div>
+        <div class="_df _fw" dir="ltr">{{ctrl.model.dateOfBirth || 'Not specified'}}</div>
         <svg class="_24svg _df _fn edit-icon" open-custom-modal="profile-change-dob-modal.html">
           <use xlink:href="/assets/icons/nst-icn24.svg#edit"></use>
         </svg>
