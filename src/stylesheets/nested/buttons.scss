@@ -448,15 +448,15 @@ input[type="checkbox"].inpsw[disabled]:checked + label + label  {
       top: 4px;
       width: 24px;
       height: 24px;
-      background: rgba(0,0,0,.1);
+      background: linear-gradient(to top, rgba(255,255,255,1), #EBEBEB);
+      background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,#EBEBEB 100%);
       border-radius: 50px;
       display: flex;
       transition: all $animation-dur cubic-bezier(.25,.8,.25,1);
       left: 0;
       transform: translateX(4px);
-      &:hover {
-        box-shadow: 0 4px 8px #CCCCCC;
-      }
+      box-shadow: 0 2px 4px $color-breeze;
+      border: 1px solid $color-breeze-50
     }
   }
   input + label + label {
