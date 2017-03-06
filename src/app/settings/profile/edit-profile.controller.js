@@ -8,8 +8,8 @@
   /** @ngInject */
   function EditProfileController($rootScope, $scope, $stateParams, $state, $q, $uibModal, $timeout, $log, $window,
                                  toastr, moment,
-                                 NST_STORE_UPLOAD_TYPE, NST_DEFAULT, NST_NAVBAR_CONTROL_TYPE, NstPicture, NST_PATTERN,
-                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstSvcPlaceFactory) {
+                                 NST_STORE_UPLOAD_TYPE, NST_USER_FACTORY_EVENT, NST_NAVBAR_CONTROL_TYPE, NstPicture, NST_PATTERN,
+                                 NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstFactoryEventData) {
     var vm = this;
 
     vm.user = NstSvcAuth.user;
@@ -52,6 +52,10 @@
 
       vm.updateProgress = true;
       NstSvcUserFactory.update(params).then(function () {
+        NstSvcUserFactory.get(vm.user.id,true).then(function (user) {
+          NstSvcUserFactory.dispatchEvent(new CustomEvent(NST_USER_FACTORY_EVENT.PROFILE_UPDATED, new NstFactoryEventData(user)));
+        });
+
         deferred.resolve();
       }).catch(function (error) {
         toastr.error(NstSvcTranslation.get("Sorry, an error has occurred while updating your profile."));
@@ -164,10 +168,14 @@
         reader.onload = function (event) {
           imageLoadTimeout = $timeout(function () {
             vm.picture = event.target.result;
-            var request = NstSvcStore.uploadWithProgress(vm.picture, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
+            var request = NstSvcStore.uploadWithProgress(vm.uploadedFile, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
 
-            request.finished().then(function () {
-              return NstSvcUserFactory.updatePicture(x, vm.user.id);
+            request.finished().then(function (response) {
+              return NstSvcUserFactory.updatePicture(response.data.universal_id, vm.user.id);
+            }).then(function (res) {
+              NstSvcUserFactory.get(vm.user.id,true).then(function (user) {
+                vm.model = user;
+              })
             });
 
 
