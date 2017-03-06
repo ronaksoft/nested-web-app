@@ -1,0 +1,18 @@
+<div id="change-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw"><translate>Edit date of birth</translate></p>
+    </div>
+    <form name="editDateOfBirthForm" ng-submit="submitted = true; ctrl.updateDateOfBirth(editDateOfBirthForm.$valid, dateOfBirth, $close, $dismiss);" ng-init="dateOfBirth = ctrl.model.dateOfBirth; submitted = false;" novalidate autocomplete="off">
+      <div class="form-group" ng-class="{ 'has-error' : !dateOfBirth && submitted }">
+        <label class="input-lab" ng-if="dateOfBirth || !submitted"><translate>Date of birth</translate></label>
+        <label class="input-lab" ng-if="!dateOfBirth && !submitted"><translate>Date of birth is required</translate></label>
+        <inline-date-picker min="{{::vm.minDateOfBirth}}" max="{{::maxDateOfBirth}}" selected-value="dateOfBirth"></inline-date-picker>
+      </div>
+      <div class="_df _fw mdl-ft">
+        <div class="butn-white" ng-click="$dismiss('discard')"><translate>Discard</translate></div>
+        <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value"></input>
+      </div>
+    </form>
+  </div>
+</div>

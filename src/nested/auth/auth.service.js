@@ -335,6 +335,7 @@
       this.user = user
     };
 
+
     Auth.prototype.setDeviceToken = function (token) {
       if (token !== $cookies.get('ndt')) {
         this.setLastDeviceToken(token);
@@ -374,9 +375,8 @@
       return "web_" + Date.now() + "-" + guid() + "-" + guid();
     }
 
-    // Cache Implementation
-    var user = NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.USER);
-    var service = new Auth(user);
+    var service = new Auth(NstSvcUserFactory.currentUser);
+
     service.addEventListener(NST_AUTH_EVENT.AUTHORIZE, function (event) {
       NstSvcAuthStorage.set(NST_AUTH_STORAGE_KEY.USER, NstSvcUserFactory.toUserData(event.detail.user));
     });

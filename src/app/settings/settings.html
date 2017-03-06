@@ -1,43 +1,37 @@
-<div class="nst-content second-view" id="content-wrapper" page-change="ctlProfileEdit.changeState($event, $toState, $toParams, $fromState, $fromParams, $cancel)">
+<div class="nst-content second-view" id="content-wrapper">
   <section class="content">
     <div class="panel-profile-menu">
-      <h5>Account Settings</h5>
+      <h5><translate>Account Settings</translate></h5>
       <a ui-sref-active="active" ui-sref="app.settings.profile">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#person"></use>
         </svg>
-        <span>Profile</span>
+        <translate>Profile</translate>
       </a>
       <a ui-sref-active="active" ui-sref="app.settings.password">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
         </svg>
-        <span>Password</span>
+        <translate>Password</translate>
       </a>
-      <a ui-sref-active="active" ui-sref="app.settings.sessions">
-        <svg class="_16svg">
-          <use xlink:href="/assets/icons/nst-icn16.svg#lock"></use>
-        </svg>
-        <span>Sessions</span>
-      </a>
-      <h5>Account Settings</h5>
-      <a ui-sref-active="active" ui-sref="app.settings.app">
+      <!-- <a ui-sref-active="active" ui-sref="app.settings.sessions">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#device-phone"></use>
         </svg>
-        <span>WebApp Prefrences</span>
-      </a>
-      <a ui-sref-active="active" ui-sref="app.settings.notification">
+        <translate>Sessions</translate>
+      </a> -->
+      <h5><translate>WebApp Prefrences</translate></h5>
+      <!-- <a ui-sref-active="active" ui-sref="app.settings.notification">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#bell"></use>
         </svg>
-        <span>Desktop Notification</span>
-      </a>
+        <translate>Desktop Notification</translate>
+      </a> -->
       <a ui-sref-active="active" ui-sref="app.settings.language">
         <svg class="_16svg">
           <use xlink:href="/assets/icons/nst-icn16.svg#earth"></use>
         </svg>
-        <span>Language</span>
+        <translate>Language</translate>
       </a>
 
     </div>
@@ -48,20 +42,18 @@
 <div class="post-navbar">
   <div class="nst-content second-view">
     <div class="content">
-      <div class="_40svg _df _fn _asc" id="Logo">
+      <div class="_40svg _df _fn _asc" id="Logo" ui-sref="app.messages-favorites()">
       </div>
       <div class="_df _fw"></div>
       <div class="_df _fn profile-popover _fh _aic">
         <div class="user-avatar-32">
-          <img initials="ctlProfileEdit.model.fullName" data-url="ctlProfileEdit.model.picture.url" data-width="32"
-               data-height="32"
-               data-radius="30" class="account-initials-32 _df" data-word-count="2" data-font-size="12"/>
+          <img initial-avatar="{{ctrl.user.fullName}}" picture="{{ctrl.user | avatar}}" data-width="32" data-height="32" data-radius="16" class="account-initials-32" data-word-count="2" data-font-size="12"/>
         </div>
-        {{ctlProfileEdit.model.fullName}}
+        {{ctrl.user.fullName}}
 
         <svg class="_16svg" data-uib-popover-template="'app/settings/profile/profile-popover.html'"
              data-popover-placement="bottom auto"
-             data-popover-class="pop-white pop-profile"
+             data-popover-class="pop-white pop-profile edit-pop-profile"
              data-popover-append-to-body="true">
           <use xlink:href="/assets/icons/nst-icn16.svg#arrow"></use>
         </svg>

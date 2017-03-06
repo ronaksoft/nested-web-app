@@ -159,7 +159,9 @@ select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
 }
-
+select,option {
+  color: $color-solid;
+}
 .ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
   background-color: transparent;
   border-radius: 0;

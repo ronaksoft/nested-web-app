@@ -64,16 +64,6 @@
         group : 'settings',
         fullscreen : true
       }
-    })
-    .state('app.settings.app',{
-      url: '/app',
-      templateUrl: 'app/settings/app/app-preferences.html',
-      controller: 'AppPreferencesController',
-      controllerAs: 'ctrl',
-      options : {
-        group : 'settings',
-        fullscreen : true
-      }
     });
 
   }
