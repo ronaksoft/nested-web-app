@@ -13,6 +13,7 @@ body.isDesktop {
     margin-left: 0;
     margin-right: 0;
     width: 100%;
+    animation: appearence $animation-dur;
   }
   .menu-links-butn {
     min-width: 90px;
