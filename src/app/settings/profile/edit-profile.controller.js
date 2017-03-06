@@ -12,6 +12,8 @@
                                  NstSvcAuth, NstSvcStore, NstSvcUserFactory, NstUtility, NstSvcTranslation, NstSvcI18n, NstSvcPlaceFactory) {
     var vm = this;
 
+    vm.user = NstSvcAuth.user;
+
     vm.updateName = updateName;
     vm.updateGender = updateGender;
     vm.updateSearchable = updateSearchable;
@@ -36,7 +38,6 @@
       vm.loadProgress = true;
       NstSvcUserFactory.get(NstSvcAuth.user.id, true).then(function (user) {
         vm.model = user;
-        console.log(vm.model);
       }).catch(function (error) {
         toastr.error('An error has occured while retrieving user profile')
       }).finally(function () {
@@ -94,7 +95,7 @@
       if (!isValid) {
         return;
       }
-      
+
       return update({
         'email' : value
       }).then(function () {
@@ -129,5 +130,66 @@
 
       return selected ? selected.title : vm.genders[0].title;
     }
+    /*****************************
+     *** Controller Properties ***
+     *****************************/
+    vm.removeImage = removePicture;
+    vm.setImage = setImage;
+    var imageLoadTimeout = null;
+
+
+    /*****************************
+     ***** Controller Methods ****
+     *****************************/
+
+    function setImage(event) {
+
+      vm.uploadedFile = event.currentTarget.files[0];
+
+
+      $uibModal.open({
+        animation: false,
+        size: 'no-miss crop',
+        templateUrl: 'app/settings/profile/crop/change-pic.modal.html',
+        controller: 'CropController',
+        resolve: {
+          argv: {
+            file: vm.uploadedFile
+          }
+        },
+        controllerAs: 'ctlCrop'
+      }).result.then(function (croppedFile) {
+        vm.uploadedFile = croppedFile;
+        var reader = new FileReader();
+        reader.onload = function (event) {
+          imageLoadTimeout = $timeout(function () {
+            vm.picture = event.target.result;
+            var request = NstSvcStore.uploadWithProgress(vm.picture, function (event) {}, NST_STORE_UPLOAD_TYPE.PROFILE_PICTURE);
+
+            request.finished().then(function () {
+              return NstSvcUserFactory.updatePicture(x, vm.user.id);
+            });
+
+
+          });
+        };
+        reader.readAsDataURL(croppedFile);
+      }).catch(function() {
+        event.target.value = '';
+      });
+
+
+    }
+
+
+    function removePicture() {
+      var deferred = $q.defer();
+
+      NstSvcUserFactory.removePicture().then(deferred.resolve).catch(deferred.reject);
+
+      return deferred.promise;
+    }
+
+
   }
 })();

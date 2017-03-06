@@ -7,11 +7,11 @@
 <div class="_fw upload-photo-container">
   <div class="_ma upload-photo">
     <label for="logo">
-      <img initial-avatar="{{::ctlSidebar.user.name}}" ng-src="{{ctrl.model | avatar : 'x128'}}" data-width="96" data-height="96" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="12"/>
+      <img initial-avatar="{{::ctrl.user.fullName}}" ng-src="{{ctrl.model | avatar : 'x128'}}" data-width="96" data-height="96" data-radius="12" class="account-initials-24" data-word-count="2" data-font-size="12"/>
     </label>
     <input id="logo" type="file" name="logo" accept="image/*" onchange="angular.element(this).scope().ctrl.setImage(event)">
     <div class="probut">
-      <div ng-if="ctrl.model.picture.url" class="remove-photo-hover" data-ng-click="ctrl.removeImage()" role="button"></div>
+      <div ng-if="ctrl.model" class="remove-photo-hover" data-ng-click="ctrl.removeImage()" role="button"></div>
       <label for="logo" class="add-photo-hover"></label>
     </div>
   </div>
