@@ -6,7 +6,7 @@
     .controller('MessagesController', MessagesController);
 
   /** @ngInject */
-  function MessagesController($rootScope, $q, $stateParams, $log, $state, $interval, $scope,
+  function MessagesController($rootScope, $q, $stateParams, $log, $state, $window, $scope,
                               moment,
                               NST_MESSAGES_SORT_OPTION, NST_MESSAGES_VIEW_SETTING, NST_DEFAULT, NST_SRV_EVENT, NST_EVENT_ACTION, NST_POST_FACTORY_EVENT, NST_PLACE_ACCESS,
                               NstSvcPostFactory, NstSvcPlaceFactory, NstSvcServer, NstUtility, NstSvcAuth, NstSvcSync, NstSvcWait,
@@ -331,7 +331,7 @@
         }
 
         if (messages.length < vm.messagesSetting.limit && !after) {
-          $log.debug('Messages | Reached the end because of less results: ', messages , after);
+          $log.debug('Messages | Reached the end because of less results: ', messages, after);
           vm.reachedTheEnd = true;
         }
 
@@ -343,9 +343,9 @@
             });
 
             if (hasData.length === 0) {
-              if (after){
+              if (after) {
                 vm.messages.unshift(mapMessage(messages[i]));
-              }else{
+              } else {
                 vm.messages.push(mapMessage(messages[i]));
               }
 
@@ -369,7 +369,7 @@
 
     function loadMore(force) {
       vm.messagesSetting.limit = DEFAULT_MESSAGES_COUNT;
-      vm.loadMoreCounter ++;
+      vm.loadMoreCounter++;
       NstSvcInteractionTracker.trackEvent('posts', 'load more', vm.loadMoreCounter);
 
       return loadMessages(force).catch(function (error) {
@@ -607,6 +607,10 @@
         }
       });
     });
+
+    $window.onfocus = function () {
+      getUnreadsCount();
+    };
 
   }
 
