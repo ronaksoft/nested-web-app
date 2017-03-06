@@ -228,7 +228,7 @@
     <a class="_df _fn comments-count new-comments-count" ng-if="ctlPostCard.unreadCommentsCount > 0"
        ui-sref="app.message({ postId : ctlPostCard.post.id })" ng-click="ctlPostCard.loadNewComments($event)" >
       <span ng-if="ctlPostCard.unreadCommentsCount == 1"><translate>1 new comment</translate></span>
-      <span ng-if="ctlPostCard.unreadCommentsCount > 1"><translate>new comments {{ctlPostCard.unreadCommentsCount}}</translate></span>
+      <span ng-if="ctlPostCard.unreadCommentsCount > 1"><translate>new comments {{ctlPostCard.unreadCommentsCount | localize}}</translate></span>
     </a>
   </div>
 

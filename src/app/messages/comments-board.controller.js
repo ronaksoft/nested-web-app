@@ -83,7 +83,8 @@
       };
 
       getRecentComments(vm.postId, settings).then(function (result) {
-        vm.comments = reorderComments(result.comments);
+        var newComments = reorderComments(result.comments);
+        vm.comments = vm.comments.concat(newComments);
         vm.commentBoardLimit = 30;
       }).catch(function (error) {
         NstSvcLogger.error(error);
