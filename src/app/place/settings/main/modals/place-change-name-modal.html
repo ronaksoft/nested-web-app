@@ -1,0 +1,18 @@
+<div id="change-view">
+  <div class="_difv _fw">
+    <div class="_difh modal-head">
+      <p class="_df _fw"><translate>Edit Place name</translate></p>
+    </div>
+      <form name="editNameForm" ng-submit="submitted = true; ctrl.updateName(editNameForm.$valid, name, $close, $dismiss);" ng-init="name = ctrl.place.name; submitted = false;" novalidate autocomplete="off">
+        <div class="form-group" ng-class="{ 'has-error' : editNameForm.name.$invalid && submitted}">
+          <label class="input-lab" ng-if="!editNameForm.name.$error.required || !submitted"><translate>Name</translate></label>
+          <label class="input-lab" ng-if="editNameForm.name.$error.required && submitted"><translate>Name is required</translate></label>
+          <input class="_df _fw form-control" name="name" type="text" ng-model="name" tabindex="1" required focus-me/>
+        </div>
+        <div class="_df _fw mdl-ft">
+          <div class="butn-white" ng-click="$dismiss('discard')" translate-attrs="value" tabindex="4"><translate>Discard</translate></div>
+          <input type="submit" class="butn-green" id="change-save" ng-disabled="ctrl.updateProgress" value="Save" translate-attrs="value" tabindex="3"></input>
+        </div>
+      </form>
+  </div>
+</div>
