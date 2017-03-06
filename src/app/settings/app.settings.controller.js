@@ -6,8 +6,10 @@
     .controller('SettingsController', SettingsController);
 
   /** @ngInject */
-  function SettingsController() {
+  function SettingsController(NstSvcAuth) {
     var vm = this;
+
+    vm.user = NstSvcAuth.user;
 
   }
 })();

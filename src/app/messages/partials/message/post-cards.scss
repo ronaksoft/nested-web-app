@@ -185,6 +185,7 @@ post-card {
     }
     span,.post-card-time {
       font-size: $font-size-xsmall;
+      cursor: pointer!important;
       @include text-hover()
     }
     h4 span {
@@ -294,7 +295,6 @@ post-card {
     position: relative;
     line-height: 14px;
     padding-right: 8px;
-    cursor: pointer;
     //top: 12px;
   }
   .post-places {

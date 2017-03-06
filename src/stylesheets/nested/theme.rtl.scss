@@ -416,6 +416,18 @@ body[dir="rtl"] {
       padding: 0;
     }
   }
+  .flg {
+    left: auto;
+    right: 10px;
+  }
+  .panel-profile-menu {
+    float: right;
+    margin-right: 0;
+    margin-left: 24px;
+  }
+  .panel-profile-setting {
+    float: right;
+  }
 }
 body[dir="ltr"] {
   .post-card-comments p.RTL-text {

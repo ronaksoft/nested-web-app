@@ -16,6 +16,8 @@
       link: function (scope,ele,att) {
 
         scope.semi = scope.env == 'semi';
+        scope.three = scope.env == 'three';
+        scope.full = scope.env == 'full'
 
       }
     };

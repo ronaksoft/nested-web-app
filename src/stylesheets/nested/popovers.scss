@@ -279,6 +279,13 @@ input[type="checkbox"]:checked + label.setting {
 
 .pop-profile {
   width: 224px;
+  &.edit-pop-profile {
+    a:first-child ,
+    a:first-child + a ,
+    hr:first-of-type {
+      display: none;
+    }
+  }
   .popover-content {
     padding: 12px 0;
   }
