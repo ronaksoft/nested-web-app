@@ -74,9 +74,9 @@
   </section>
 
   <section ng-if="!ctlPostCard.expandProgress && ctlPostCard.post.ellipsis && (!ctlPostCard.isRibbon || !ctlPostCard.ribbonEnabled) && !ctlPostCard.addOn">
-    <a ng-click="ctlPostCard.collapse($event); _track('post card', 'show less');" ng-if="ctlPostCard.isExpanded" class="show-more"><translate>Show less</translate></a>
+    <a ng-click="ctlPostCard.collapse($event); _track('post card', 'show less');" ng-if="ctlPostCard.isExpanded" class="show-more"><span>-</span><translate>Show less</translate></a>
     <a ng-click="ctlPostCard.expand(); ; _track('post card', 'show more');" ng-if="!ctlPostCard.isExpanded" class="show-more">
-      <translate>-Show more...</translate>
+      <span>-</span><translate>Show more...</translate>
     </a>
   </section>
 
