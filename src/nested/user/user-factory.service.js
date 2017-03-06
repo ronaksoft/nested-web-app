@@ -6,12 +6,12 @@
     .service('NstSvcUserFactory', NstSvcUserFactory);
 
   function NstSvcUserFactory($q, md5, _,
-                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage,
-                             NST_USER_SEARCH_AREA,
+                             NstSvcServer, NstSvcTinyUserStorage, NstSvcUserStorage, NstSvcAuthStorage,
+                             NST_USER_SEARCH_AREA, NST_AUTH_STORAGE_KEY,
                              NST_USER_FACTORY_EVENT,
                              NstBaseFactory, NstFactoryQuery, NstFactoryError, NstTinyUser, NstUser, NstPicture, NstFactoryEventData) {
     function UserFactory() {
-
+      this.currentUser = NstSvcAuthStorage.get(NST_AUTH_STORAGE_KEY.USER);
     }
 
     UserFactory.prototype = new NstBaseFactory();
@@ -124,6 +124,32 @@
 
       return this;
     };
+
+    UserFactory.prototype.update = function (params) {
+      var service = this;
+
+      var deferred = $q.defer();
+      var propertiesMap = {
+        "firstName" : "fname",
+        "lastName" : "lname",
+        "dateOfBirth" : "dob",
+        "gender" : "gender",
+        "searchable" : "searchable"
+      };
+
+      var keyValues = _.mapKeys(params, function (value, key) {
+        return propertiesMap[key] || key;
+      });
+
+      NstSvcServer.request('account/update', keyValues).then(function () {
+        service.currentUser = _.assign(service.currentUser, params);
+        deferred.resolve();
+      }).catch(function (error) {
+        deferred.reject(new NstFactoryError(null, error.getMessage(), error.getCode(), error));
+      });
+
+      return deferred.promise;
+    }
 
     UserFactory.prototype.updateProfile = function (user) {
       var deferred = $q.defer();

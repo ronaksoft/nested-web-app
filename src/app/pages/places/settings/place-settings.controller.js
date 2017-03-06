@@ -19,7 +19,7 @@
     vm.tab = 'settings';
     vm.onMemberSelect = onSelect;
     var onSelectTimeout = null;
-    vm.reciveLevel = vm.memberLevel = vm.createLevel = 'l1';
+    vm.reciveLevel = vm.memberLevel = vm.createLevel = vm.threeExampleLevel = 'l1';
     vm.memberOptions = {
       'creators': NstSvcTranslation.get("Manager(s) only"),
       'everyone': NstSvcTranslation.get("All Members")

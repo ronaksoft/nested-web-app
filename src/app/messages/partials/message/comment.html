@@ -12,7 +12,7 @@
         <strong user-detail user="{{comment.sender}}">{{comment.sender.fullName}}:&nbsp;</strong>
         <span ng-if="!comment.removedById" ng-bind-html="comment.body | link"></span>
         <i ng-if="comment.removedById">
-          <translate>removed by <a class="comment-removed-by" href user-detail user="{{comment.removedBy}}">{{::comment.removedBy.fullName}}</a><translate>
+          <translate>removed by <a class="comment-removed-by" href user-detail user="{{comment.removedBy}}">{{::comment.removedBy.fullName}}</a></translate>
         </i>
       </p>
     </div>
