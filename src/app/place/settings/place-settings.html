@@ -217,14 +217,14 @@
         </div>
       </div>
       <div class="unselected-user _fw _df" ng-hide="ctlSettings.selectedMates.length > 0">
-        <div class="files-srch _df {{ctlFiles.keyword.length > 0 ? 'srch' : ''}}">
+        <div class="mbrs-srch _df _fn {{ctlSettings.keyword.length > 0 ? 'srch' : ''}}">
           <svg class="_16svg" ng-click="ctlFiles.searchFunc()">
             <use xlink:href="/assets/icons/nst-icn16.svg#search"></use>
             <use xlink:href="/assets/icons/nst-icn16.svg#xcross"></use>
           </svg>
           <!--<input type="text" placeholder="File name" ng-model="ctlFiles.keyword" ng-change="ctlFiles.search(ctlFiles.keyword);" translate-attrs="placeholder" focus-me="{{ctlFiles.searchTrigg}}"/>-->
         </div>
-        <input type="text" placeholder="Member Name" ng-model="ctlSettings.keyword" ng-change="ctlSettings.search(ctlSettings.keyword);" translate-attrs="placeholder"/>
+        <input class="_df _fw" type="text" placeholder="Member Name" ng-model="ctlSettings.keyword" ng-change="ctlSettings.search(ctlSettings.keyword);" translate-attrs="placeholder"/>
         <div class="top-add _fn" data-ng-click="ctlSettings.addMember()"><translate>Add Member</translate>
           <svg class="_16svg">
             <use xlink:href="/assets/icons/nst-icn16.svg#cross"></use>
