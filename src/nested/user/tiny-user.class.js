@@ -67,9 +67,15 @@
       return this.picture && this.picture.preview;
     }
 
+    TinyUser.prototype.clearPicture = function () {
+      this.picture = null;
+    }
+
     TinyUser.prototype.getFullName = function () {
       return this.firstName + " " + this.lastName;
     }
+
+
 
     return TinyUser;
   }
