@@ -28,8 +28,8 @@
 
       NstObservableObject.call(this);
 
-      if (user.getId()) {
-        NstSvcUserFactory.set(user).get(user.getId()).then(function (user) {
+      if (user.id) {
+        NstSvcUserFactory.set(user).get(user.id).then(function (user) {
           service.setUser(user);
         });
       }
@@ -98,7 +98,7 @@
       this.setUser(NstSvcUserFactory.parseUser(data.account));
       NstSvcUserFactory.set(this.getUser());
 
-      NstSvcUserFactory.get(this.getUser().getId()).then(function (user) {
+      NstSvcUserFactory.get(this.getUser().id).then(function (user) {
         service.setUser(user);
 
         var CookieDate = new Date;

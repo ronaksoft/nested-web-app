@@ -5,7 +5,7 @@
     .module('ronak.nested.web.models')
     .factory('NstTinyUser', NstTinyUser);
 
-  function NstTinyUser(NST_OBJECT_EVENT, NstModel) {
+  function NstTinyUser() {
     /**
      * Creates an instance of NstTinyUser. Do not use this directly, use NstSvcUserFactory.getTiny(data) instead
      *
@@ -49,27 +49,26 @@
        */
       this.picture = undefined;
 
-      NstModel.call(this);
-
-      this.addEventListener(NST_OBJECT_EVENT.CHANGE, function (event) {
-        switch (event.detail.name) {
-          case 'firstName':
-          case 'lastName':
-            this.setFullName(this.getFirstName() + ' ' + this.getLastName());
-            break;
-        }
-      });
-
       if (data) {
-        this.fill(data);
+        this.id = data.id;
+        this.firstName = data.firstName;
+        this.lastName = data.lastName;
+        this.fullName = _.isFunction(data, "getFullName")
+          ? data.data.getFullName()
+          : this.firstName + " " + this.lastName;
+        this.picture = data.picture;
       }
     }
 
-    TinyUser.prototype = new NstModel();
+    TinyUser.prototype = {};
     TinyUser.prototype.constructor = TinyUser;
 
     TinyUser.prototype.hasPicture = function () {
       return this.picture && this.picture.preview;
+    }
+
+    TinyUser.prototype.getFullName = function () {
+      return this.firstName + " " + this.lastName;
     }
 
     return TinyUser;
