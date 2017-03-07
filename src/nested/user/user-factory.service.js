@@ -275,6 +275,9 @@
       user.setCountry(userData.country);
       user.setDateOfBirth(userData.dob);
       user.setGender(userData.gender);
+      user.setGender(userData.gender);
+      user.setEmail(userData.email);
+      user.setSearchable(userData.searchable);
 
       if (_.isObject(userData.counters)) {
         user.setTotalNotificationsCount(userData.counters.total_mentions);
